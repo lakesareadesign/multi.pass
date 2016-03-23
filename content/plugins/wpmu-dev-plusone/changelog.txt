@@ -1,0 +1,74 @@
+Plugin Name: The Google+ Plugin
+Author: Ve Bailovity, raggedrobins, Philipp Stracker
+Contributors: Jose Jaureguiberry
+
+Change Log:
+----------------------------------------------------------------------
+
+1.4.3
+----------------------------------------------------------------------
+- Fixed wrong parameter name in shortcode docs ('id' should be 'ids').
+- Fixed _is_imported method. It was failing to check custom post type.
+- Fixed activity feed broken when 'buffering' parameter enabled.
+
+1.4.2
+----------------------------------------------------------------------
+- Updated plugin assets to reflect new Google+ buttons.
+- Updated instructions for setting up Google+ API client authentication.
+
+1.4.1
+----------------------------------------------------------------------
+- Updated dependencies check.
+
+1.4
+----------------------------------------------------------------------
+- Google API update (thanks, Hakan!)
+- Logging fixes.
+
+1.3.3
+----------------------------------------------------------------------
+- Added Contextual Help abstraction.
+- Added Google+ author profile fields settings.
+- Added logging.
+
+1.3.2
+----------------------------------------------------------------------
+- Admin SSL fix.
+- Network redirection fix.
+
+1.3.1
+----------------------------------------------------------------------
+Fix for limit attributes in widgets.
+
+1.3
+----------------------------------------------------------------------
+- Added Post Format support
+- Added BuddyPress support
+
+1.2
+----------------------------------------------------------------------
+- Google+ Pages integration
+
+1.1
+----------------------------------------------------------------------
+- Google Analytics integration
+
+1.0.5
+----------------------------------------------------------------------
+- Fixed conflict with single-line media autoembeds
+
+1.0.3
+----------------------------------------------------------------------
+- Changed Google javascript protocol to https.
+
+1.0.2
+----------------------------------------------------------------------
+- Fix for CSS inclusion.
+- Updated l10n strings and language file.
+
+1.0
+----------------------------------------------------------------------
+- Initial Lite version.
+
+
+133620-1435570159-ai

@@ -1,0 +1,34 @@
+#page .list-pricing.upfront-plain_txt h1, #page .list-pricing.upfront-plain_txt h2, #page .list-pricing.upfront-plain_txt h3, #page .list-pricing.upfront-plain_txt h4, #page .list-pricing.upfront-plain_txt h5, #page .list-pricing.upfront-plain_txt h6, #page .list-pricing.upfront-plain_txt p {
+    margin:0px;
+    padding: 0 50px 0px;
+    color: #ufc1;
+    font-size: 17px;
+    line-height: 1.7em;
+    font-family: "Quattrocento Sans";
+    font-weight: 400;
+    font-style: normal;
+    text-transform: inherit;
+    letter-spacing: -0.35px;
+    text-indent: -30px;
+}
+#page .list-pricing.upfront-plain_txt h1:before, #page .list-pricing.upfront-plain_txt h2:before, #page .list-pricing.upfront-plain_txt h3:before, #page .list-pricing.upfront-plain_txt h4:before, #page .list-pricing.upfront-plain_txt h5:before, #page .list-pricing.upfront-plain_txt h6:before, #page .list-pricing.upfront-plain_txt p:before {
+    content: " ";
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 0px;
+    background: url("UPFRONT_THEME_BASE/ui/sprites.png");
+    background-image: url("UPFRONT_THEME_BASE/ui/sprites.svg"), none;
+    position:relative;
+    top:4px;
+}
+#page .list-pricing.upfront-plain_txt h2:before, #page .list-pricing.upfront-plain_txt h4:before, #page .list-pricing.upfront-plain_txt h6:before {
+    background-position: -706px -865px;
+}
+#page .list-pricing.upfront-plain_txt h1:before, #page .list-pricing.upfront-plain_txt h3:before, #page .list-pricing.upfront-plain_txt h5:before, #page .list-pricing.upfront-plain_txt p:before {
+    background-position: -867px -65px;
+}
+
+
+/* 133620-1456900936-au */

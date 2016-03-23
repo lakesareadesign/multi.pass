@@ -1,0 +1,1 @@
+[17-Feb-2016 14:44:36 America/Chicago] PHP Fatal error:  Call to undefined function get_template_directory() in /home1/jtgrauke/public_html/demo/showcase/wp-content/themes/showcase-pro/functions.php on line 7

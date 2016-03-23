@@ -1,0 +1,9 @@
+#page .uf-menu-header div[data-style='horizontal'] ul.menu > li.menu-item > a, #page .uf-menu-header div[data-style='vertical'] ul.menu > li.menu-item > a {
+    color: #ufc5;
+}
+#page .uf-menu-header div[data-style='horizontal'] ul.menu > li.menu-item > a:after {
+    background: #ufc5;
+}
+
+
+/* 133620-1456900939-au */

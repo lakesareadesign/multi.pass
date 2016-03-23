@@ -1,0 +1,1340 @@
+/* Table of Contents
+
+	- Imports
+	- HTML5 Reset
+		- Baseline Normalize
+		- Box Sizing
+		- Float Clearing
+	- Defaults
+		- Typographical Elements
+		- Headings
+		- Objects
+		- Forms
+		- Tables
+	- Structure Structure
+		- Column Classes
+	- Common Classes
+		- WordPress
+		- Genesis
+		- Titles
+	- Widgets
+		- Featured Content
+	- Plugins
+		- Genesis eNews Extended
+		- Genesis Latest Tweets
+		- Gravity Forms
+		- Jetpack
+	- Site Header
+		- Title Area
+	- Site Navigation
+		- Header Navigation
+		- Primary Navigation
+	- Content Area
+		- Entries
+		- Pagination
+		- Comments
+	- Site Footer
+	- Media Queries
+		- max-width: 1139px
+		- max-width: 1023px
+		- max-width: 767px
+
+*/
+/*
+Imports
+---------------------------------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Icon';
+  src: url("fonts/Icon.eot");
+  src: url("fonts/Icon.eot?#iefix") format("embedded-opentype"), url("fonts/Icon.woff") format("woff"), url("fonts/Icon.ttf") format("truetype"), url("fonts/Icon.svg#Icon") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+/*
+HTML5 Reset
+---------------------------------------------------------------------------------------------------- */
+/* Baseline Normalize
+	normalize.css v2.1.2 | MIT License | git.io/normalize
+--------------------------------------------- */
+/* line 65, ../sass/wintersong.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+  display: block; }
+
+/* line 69, ../sass/wintersong.scss */
+audio, canvas, video {
+  display: inline-block; }
+
+/* line 73, ../sass/wintersong.scss */
+audio:not([controls]) {
+  display: none;
+  height: 0; }
+
+/* line 78, ../sass/wintersong.scss */
+[hidden] {
+  display: none; }
+
+/* line 82, ../sass/wintersong.scss */
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%; }
+
+/* line 88, ../sass/wintersong.scss */
+body {
+  margin: 0; }
+
+/* line 93, ../sass/wintersong.scss */
+a:focus {
+  outline: thin dotted; }
+/* line 96, ../sass/wintersong.scss */
+a:active, a:hover {
+  outline: 0; }
+
+/* line 101, ../sass/wintersong.scss */
+h1 {
+  font-size: 2em;
+  margin: .67em 0; }
+
+/* line 106, ../sass/wintersong.scss */
+abbr[title] {
+  border-bottom: 1px dotted; }
+
+/* line 110, ../sass/wintersong.scss */
+b, strong {
+  font-weight: bold; }
+
+/* line 114, ../sass/wintersong.scss */
+dfn {
+  font-style: italic; }
+
+/* line 118, ../sass/wintersong.scss */
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0; }
+
+/* line 124, ../sass/wintersong.scss */
+mark {
+  background: #ff0;
+  color: #000; }
+
+/* line 129, ../sass/wintersong.scss */
+code, kbd, pre, samp {
+  font-family: monospace,serif;
+  font-size: 1em; }
+
+/* line 134, ../sass/wintersong.scss */
+pre {
+  white-space: pre-wrap; }
+
+/* line 138, ../sass/wintersong.scss */
+q {
+  quotes: "\201C" "\201D" "\2018" "\2019"; }
+
+/* line 142, ../sass/wintersong.scss */
+small {
+  font-size: 80%; }
+
+/* line 146, ../sass/wintersong.scss */
+sub {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline; }
+
+/* line 153, ../sass/wintersong.scss */
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+  top: -0.5em; }
+
+/* line 161, ../sass/wintersong.scss */
+sub {
+  bottom: -0.25em; }
+
+/* line 165, ../sass/wintersong.scss */
+img {
+  border: 0; }
+
+/* line 169, ../sass/wintersong.scss */
+svg:not(:root) {
+  overflow: hidden; }
+
+/* line 173, ../sass/wintersong.scss */
+figure {
+  margin: 0; }
+
+/* line 177, ../sass/wintersong.scss */
+fieldset {
+  border: 1px solid silver;
+  margin: 0 2px;
+  padding: .35em .625em .75em; }
+
+/* line 183, ../sass/wintersong.scss */
+legend {
+  border: 0;
+  padding: 0; }
+
+/* line 188, ../sass/wintersong.scss */
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0; }
+
+/* line 194, ../sass/wintersong.scss */
+button, input {
+  line-height: normal; }
+
+/* line 198, ../sass/wintersong.scss */
+button, select {
+  text-transform: none; }
+
+/* line 202, ../sass/wintersong.scss */
+button, html input[type="button"] {
+  -webkit-appearance: button;
+  cursor: pointer; }
+
+/* line 208, ../sass/wintersong.scss */
+input[type="reset"], input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer; }
+
+/* line 214, ../sass/wintersong.scss */
+button[disabled], html input[disabled] {
+  cursor: default; }
+
+/* line 219, ../sass/wintersong.scss */
+input[type="checkbox"], input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0; }
+/* line 223, ../sass/wintersong.scss */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box; }
+  /* line 228, ../sass/wintersong.scss */
+  input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none; }
+
+/* line 234, ../sass/wintersong.scss */
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0; }
+
+/* line 239, ../sass/wintersong.scss */
+textarea {
+  overflow: auto;
+  vertical-align: top; }
+
+/* line 244, ../sass/wintersong.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+/* Box Sizing
+--------------------------------------------- */
+/* line 252, ../sass/wintersong.scss */
+*, input[type="search"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+/* Float Clearing
+--------------------------------------------- */
+/* line 261, ../sass/wintersong.scss */
+.clearfix:before, .entry:before, .footer-widgets:before, .nav-primary:before, .pagination:before, .site-container:before, .site-footer:before, .site-header:before, .site-inner:before, .wrap:before {
+  content: " ";
+  display: table; }
+
+/* line 266, ../sass/wintersong.scss */
+.clearfix:after, .entry:after, .footer-widgets:after, .nav-primary:after, .pagination:after, .site-container:after, .site-footer:after, .site-header:after, .site-inner:after, .wrap:after {
+  clear: both;
+  content: " ";
+  display: table; }
+
+/*
+Defaults
+---------------------------------------------------------------------------------------------------- */
+/* Typographical Elements
+--------------------------------------------- */
+/* line 279, ../sass/wintersong.scss */
+html {
+  font-size: 62.5%;
+  /* 10px browser default */ }
+
+/* line 284, ../sass/wintersong.scss */
+body {
+  color: #000;
+  font-family: 'Roboto Slab', serif;
+  font-size: 16px;
+  font-size: 1.6rem;
+  font-weight: 300;
+  line-height: 1.625; }
+
+/* line 293, ../sass/wintersong.scss */
+a, button {
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out; }
+
+/* line 302, ../sass/wintersong.scss */
+input:focus, input[type="button"], input[type="reset"], input[type="submit"] {
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out; }
+
+/* line 311, ../sass/wintersong.scss */
+textarea:focus, .button {
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out; }
+
+/* line 319, ../sass/wintersong.scss */
+::-moz-selection, ::selection {
+  background-color: #000;
+  color: #fff; }
+
+/* line 324, ../sass/wintersong.scss */
+a {
+  border-bottom: 1px dotted #000;
+  color: #000;
+  text-decoration: none; }
+  /* line 328, ../sass/wintersong.scss */
+  a img {
+    margin-bottom: -6px;
+    margin-bottom: -0.6rem; }
+  /* line 332, ../sass/wintersong.scss */
+  a:hover {
+    color: #2a8a15;
+    border-bottom: 1px dotted #2a8a15; }
+
+/* line 338, ../sass/wintersong.scss */
+p {
+  margin: 0 0 24px;
+  margin: 0 0 2.4rem;
+  padding: 0; }
+
+/* line 344, ../sass/wintersong.scss */
+a, strong {
+  font-weight: 400; }
+
+/* line 348, ../sass/wintersong.scss */
+ol, ul {
+  margin: 0;
+  padding: 0; }
+
+/* line 353, ../sass/wintersong.scss */
+blockquote {
+  color: #999;
+  margin: 40px;
+  margin: 4rem;
+  margin-right: 0; }
+  /* line 355, ../sass/wintersong.scss */
+  blockquote::before {
+    color: #999;
+    content: "\201C";
+    display: block;
+    font-size: 30px;
+    font-size: 3rem;
+    height: 0;
+    left: -20px;
+    position: relative;
+    top: -10px; }
+
+/* line 371, ../sass/wintersong.scss */
+cite {
+  font-style: normal; }
+
+/* Headings
+--------------------------------------------- */
+/* line 378, ../sass/wintersong.scss */
+h1, h2, h3, h4, h5, h6 {
+  color: #000;
+  font-family: 'Roboto Slab', serif;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 16px;
+  margin: 0 0 1.6rem; }
+
+/* line 387, ../sass/wintersong.scss */
+h1 {
+  font-size: 36px;
+  font-size: 3.6rem; }
+
+/* line 392, ../sass/wintersong.scss */
+h2 {
+  font-size: 30px;
+  font-size: 3rem; }
+
+/* line 397, ../sass/wintersong.scss */
+h3 {
+  font-size: 24px;
+  font-size: 2.4rem; }
+
+/* line 402, ../sass/wintersong.scss */
+h4 {
+  font-size: 20px;
+  font-size: 2rem; }
+
+/* line 407, ../sass/wintersong.scss */
+h5 {
+  font-size: 18px;
+  font-size: 1.8rem; }
+
+/* line 412, ../sass/wintersong.scss */
+h6 {
+  font-size: 16px;
+  font-size: 1.6rem; }
+
+/* Objects
+--------------------------------------------- */
+/* line 420, ../sass/wintersong.scss */
+embed, iframe, img, object, video, .wp-caption {
+  max-width: 100%; }
+
+/* line 424, ../sass/wintersong.scss */
+img {
+  height: auto;
+  width: auto;
+  /* IE8 */ }
+
+/* Forms
+--------------------------------------------- */
+/* line 433, ../sass/wintersong.scss */
+input, select, textarea {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: none;
+  color: #000;
+  font-family: 'Roboto Slab', serif;
+  font-size: 16px;
+  font-size: 1.6rem;
+  font-weight: 300;
+  padding: 10px;
+  padding: 1rem;
+  width: 100%; }
+
+/* line 447, ../sass/wintersong.scss */
+input:focus, textarea:focus {
+  border: 1px solid #000;
+  outline: none; }
+
+/* line 452, ../sass/wintersong.scss */
+::-moz-placeholder {
+  color: #999;
+  opacity: 1; }
+
+/* line 457, ../sass/wintersong.scss */
+::-webkit-input-placeholder {
+  color: #999; }
+
+/* line 461, ../sass/wintersong.scss */
+button {
+  background-color: #000;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 16px;
+  font-size: 1.6rem;
+  font-weight: 300;
+  padding: 15px;
+  padding: 1.5rem;
+  text-transform: uppercase;
+  width: auto; }
+
+/* line 477, ../sass/wintersong.scss */
+input[type="button"], input[type="reset"], input[type="submit"] {
+  background-color: #000;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 16px;
+  font-size: 1.6rem;
+  font-weight: 300;
+  padding: 15px;
+  padding: 1.5rem;
+  text-transform: uppercase;
+  width: auto; }
+
+/* line 493, ../sass/wintersong.scss */
+button:hover {
+  background-color: #2a8a15; }
+
+/* line 498, ../sass/wintersong.scss */
+input:hover[type="button"], input:hover[type="reset"], input:hover[type="submit"] {
+  background-color: #2a8a15; }
+
+/* line 503, ../sass/wintersong.scss */
+.entry-content .button:hover {
+  color: #fff; }
+
+/* line 508, ../sass/wintersong.scss */
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-results-button {
+  display: none; }
+
+/* Tables
+--------------------------------------------- */
+/* line 516, ../sass/wintersong.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  line-height: 2;
+  margin-bottom: 40px;
+  margin-bottom: 4rem;
+  width: 100%; }
+
+/* line 525, ../sass/wintersong.scss */
+tbody {
+  border-bottom: 1px solid #ddd; }
+
+/* line 529, ../sass/wintersong.scss */
+th, td {
+  text-align: left; }
+
+/* line 533, ../sass/wintersong.scss */
+th {
+  font-weight: 400;
+  text-transform: uppercase; }
+
+/* line 538, ../sass/wintersong.scss */
+td {
+  border-top: 1px solid #ddd;
+  padding: 6px 0;
+  padding: 0.6rem 0; }
+
+/*
+Site Structure
+---------------------------------------------------------------------------------------------------- */
+/* line 548, ../sass/wintersong.scss */
+.site-container {
+  margin: 0 auto;
+  width: 860px; }
+
+/* line 553, ../sass/wintersong.scss */
+.site-inner {
+  float: right;
+  padding: 60px 0;
+  padding: 6rem 0;
+  width: 600px; }
+
+/* line 560, ../sass/wintersong.scss */
+.wintersong-landing .site-inner {
+  width: 100%; }
+
+/* Column Classes
+	Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css
+--------------------------------------------- */
+/* line 568, ../sass/wintersong.scss */
+.five-sixths, .four-sixths, .one-fourth, .one-half, .one-sixth, .one-third, .three-fourths, .three-sixths, .two-fourths, .two-sixths, .two-thirds {
+  float: left;
+  margin-left: 2.564102564102564%; }
+
+/* line 573, ../sass/wintersong.scss */
+.one-half, .three-sixths, .two-fourths {
+  width: 48.717948717948715%; }
+
+/* line 577, ../sass/wintersong.scss */
+.one-third, .two-sixths {
+  width: 31.623931623931625%; }
+
+/* line 581, ../sass/wintersong.scss */
+.four-sixths, .two-thirds {
+  width: 65.81196581196582%; }
+
+/* line 585, ../sass/wintersong.scss */
+.one-fourth {
+  width: 23.076923076923077%; }
+
+/* line 589, ../sass/wintersong.scss */
+.three-fourths {
+  width: 74.35897435897436%; }
+
+/* line 593, ../sass/wintersong.scss */
+.one-sixth {
+  width: 14.52991452991453%; }
+
+/* line 597, ../sass/wintersong.scss */
+.five-sixths {
+  width: 82.90598290598291%; }
+
+/* line 601, ../sass/wintersong.scss */
+.first {
+  clear: both;
+  margin-left: 0; }
+
+/*
+Common Classes
+---------------------------------------------------------------------------------------------------- */
+/* WordPress
+--------------------------------------------- */
+/* line 613, ../sass/wintersong.scss */
+.avatar {
+  border-radius: 50%;
+  display: block;
+  float: left;
+  margin-right: 20px;
+  margin-right: 2rem; }
+
+/* line 622, ../sass/wintersong.scss */
+.site-header .avatar, .site-header .site-avatar img {
+  border-radius: 50%;
+  display: block;
+  float: none;
+  height: 112px;
+  margin: 0 auto 30px;
+  margin: 0 auto 3rem;
+  width: 112px; }
+
+/* line 633, ../sass/wintersong.scss */
+.alignleft .avatar {
+  margin-right: 24px;
+  margin-right: 2.4rem; }
+
+/* line 638, ../sass/wintersong.scss */
+.alignright .avatar {
+  margin-left: 24px;
+  margin-left: 2.4rem; }
+
+/* line 643, ../sass/wintersong.scss */
+.author-box .avatar {
+  height: 72px;
+  margin-right: 24px;
+  margin-right: 2.4rem;
+  width: 72px; }
+
+/* line 650, ../sass/wintersong.scss */
+.entry-comments .avatar {
+  height: 56px;
+  width: 56px; }
+
+/* line 655, ../sass/wintersong.scss */
+.search-form {
+  overflow: hidden; }
+  /* line 657, ../sass/wintersong.scss */
+  .search-form input[type="submit"] {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    position: absolute;
+    width: 1px; }
+
+/* line 670, ../sass/wintersong.scss */
+img.centered, .aligncenter {
+  display: block;
+  margin: 0 auto 24px;
+  margin: 0 auto 2.4rem; }
+
+/* line 676, ../sass/wintersong.scss */
+img.alignnone {
+  margin-bottom: 12px;
+  margin-bottom: 1.2rem; }
+
+/* line 681, ../sass/wintersong.scss */
+.alignleft {
+  float: left;
+  text-align: left; }
+
+/* line 686, ../sass/wintersong.scss */
+.alignright {
+  float: right;
+  text-align: right; }
+
+/* line 691, ../sass/wintersong.scss */
+img.alignleft, .wp-caption.alignleft {
+  margin: 0 24px 24px 0;
+  margin: 0 2.4rem 2.4rem 0; }
+
+/* line 696, ../sass/wintersong.scss */
+img.alignright, .wp-caption.alignright {
+  margin: 0 0 24px 24px;
+  margin: 0 0 2.4rem 2.4rem; }
+
+/* line 701, ../sass/wintersong.scss */
+.wp-caption-text {
+  font-size: 14px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center; }
+
+/* line 711, ../sass/wintersong.scss */
+.widget_calendar table {
+  width: 100%; }
+/* line 714, ../sass/wintersong.scss */
+.widget_calendar td, .widget_calendar th {
+  text-align: center; }
+
+/* Genesis
+--------------------------------------------- */
+/* line 722, ../sass/wintersong.scss */
+.archive-description, .author-box {
+  border-bottom: 1px solid #000; }
+
+/* line 726, ../sass/wintersong.scss */
+.breadcrumb {
+  border-bottom: 1px solid #000;
+  margin-bottom: 40px;
+  margin-bottom: 4rem;
+  padding-bottom: 20rem;
+  padding-bottom: 2rem; }
+
+/* line 734, ../sass/wintersong.scss */
+.archive-description, .author-box {
+  border-top: 1px solid #000; }
+
+/* line 738, ../sass/wintersong.scss */
+.archive-description {
+  margin-bottom: 40px;
+  margin-bottom: 4rem;
+  padding: 40px 0 16px;
+  padding: 4rem 0 1.6rem; }
+
+/* line 745, ../sass/wintersong.scss */
+.author-box {
+  margin-bottom: 60px;
+  margin-bottom: 6rem;
+  padding: 40px 0;
+  padding: 4rem 0; }
+
+/* line 752, ../sass/wintersong.scss */
+.author-box-title {
+  color: #000;
+  font-family: 'Roboto Slab', serif;
+  font-size: 16px;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 4px;
+  margin-bottom: 0.4rem; }
+
+/* line 762, ../sass/wintersong.scss */
+.author-box p {
+  margin-bottom: 0; }
+
+/* Titles
+--------------------------------------------- */
+/* line 769, ../sass/wintersong.scss */
+.entry-title {
+  font-size: 36px;
+  font-size: 3.6rem;
+  line-height: 1; }
+  /* line 773, ../sass/wintersong.scss */
+  .entry-title a {
+    border: none;
+    color: #000;
+    font-weight: 400; }
+    /* line 777, ../sass/wintersong.scss */
+    .entry-title a:hover {
+      color: #2a8a15; }
+
+/* line 783, ../sass/wintersong.scss */
+.archive-title {
+  font-size: 20px;
+  font-size: 2rem;
+  margin-bottom: 24px;
+  margin-bottom: 2.4rem; }
+
+/*
+Widgets
+---------------------------------------------------------------------------------------------------- */
+/* line 794, ../sass/wintersong.scss */
+.widget {
+  word-wrap: break-word; }
+
+/* Featured Content
+--------------------------------------------- */
+/* line 802, ../sass/wintersong.scss */
+.featured-content .entry {
+  border-bottom: 2px solid #f5f5f5;
+  margin-bottom: 20px;
+  margin-bottom: 2rem;
+  padding: 0 0 24px;
+  padding: 0 0 2.4rem; }
+/* line 809, ../sass/wintersong.scss */
+.featured-content .entry-title {
+  border: none;
+  font-size: 24px;
+  font-size: 2.4rem;
+  line-height: 1.2; }
+  /* line 814, ../sass/wintersong.scss */
+  .featured-content .entry-title a {
+    border: none; }
+
+/*
+Plugins
+---------------------------------------------------------------------------------------------------- */
+/* Genesis eNews Extended
+--------------------------------------------- */
+/* line 827, ../sass/wintersong.scss */
+.after-entry .enews-widget {
+  color: #fff; }
+  /* line 829, ../sass/wintersong.scss */
+  .after-entry .enews-widget input {
+    border: none;
+    margin-right: -4px;
+    margin-right: -0.4rem;
+    padding: 16px 24px 15px;
+    padding: 1.6rem 2.4rem 1.5rem;
+    width: 60%; }
+
+/* line 839, ../sass/wintersong.scss */
+.content .enews-widget input:focus {
+  border: none; }
+
+/* line 843, ../sass/wintersong.scss */
+.enews-widget input[type="submit"] {
+  background-color: #2a8a15;
+  color: #fff;
+  margin: 0;
+  padding: 16px 24px 15px;
+  padding: 1.6rem 2.4rem 1.5rem;
+  width: auto; }
+
+/* line 852, ../sass/wintersong.scss */
+.site-header .enews-widget input {
+  margin-bottom: 10px;
+  margin-bottom: 1rem;
+  width: 100%; }
+  /* line 856, ../sass/wintersong.scss */
+  .site-header .enews-widget input[type="submit"] {
+    margin-bottom: 10px;
+    margin-bottom: 1rem;
+    width: 100%; }
+
+/* line 863, ../sass/wintersong.scss */
+.enews-widget input:hover[type="submit"] {
+  background-color: #247612; }
+
+/* Gravity Forms
+--------------------------------------------- */
+/* line 872, ../sass/wintersong.scss */
+div.gform_wrapper input[type="email"], div.gform_wrapper input[type="text"] {
+  font-size: 16px;
+  font-size: 1.6rem;
+  padding: 16px;
+  padding: 1.6rem; }
+/* line 879, ../sass/wintersong.scss */
+div.gform_wrapper textarea {
+  font-size: 16px;
+  font-size: 1.6rem;
+  padding: 16px;
+  padding: 1.6rem; }
+/* line 885, ../sass/wintersong.scss */
+div.gform_wrapper .ginput_complex label {
+  font-size: 16px;
+  font-size: 1.6rem;
+  padding: 16px;
+  padding: 1.6rem;
+  padding: 0; }
+/* line 892, ../sass/wintersong.scss */
+div.gform_wrapper li, div.gform_wrapper form li {
+  margin: 16px 0 0;
+  margin: 1.6rem 0 0; }
+
+/* Jetpack
+--------------------------------------------- */
+/* line 901, ../sass/wintersong.scss */
+img#wpstats {
+  display: none; }
+
+/*
+Site Header
+---------------------------------------------------------------------------------------------------- */
+/* line 909, ../sass/wintersong.scss */
+.site-header {
+  float: left;
+  padding-top: 60px;
+  padding-top: 6rem;
+  position: fixed;
+  text-align: center;
+  width: 220px; }
+  /* line 916, ../sass/wintersong.scss */
+  .site-header p {
+    margin: 0; }
+  /* line 919, ../sass/wintersong.scss */
+  .site-header .site-title::after, .site-header .widget::after {
+    border-bottom: 1px solid #000;
+    content: "";
+    display: block;
+    margin: 0 auto 30px;
+    margin: 0 auto 3rem;
+    width: 25%; }
+  /* line 927, ../sass/wintersong.scss */
+  .site-header .site-title::after {
+    padding-bottom: 35px;
+    padding-bottom: 3.5rem; }
+  /* line 931, ../sass/wintersong.scss */
+  .site-header .widget::after {
+    padding-bottom: 30px;
+    padding-bottom: 3rem; }
+  /* line 935, ../sass/wintersong.scss */
+  .site-header .simple-social-icons ul li {
+    margin: 0 5px !important;
+    margin: 0 0.5rem !important; }
+    /* line 938, ../sass/wintersong.scss */
+    .site-header .simple-social-icons ul li a {
+      padding: 10px !important;
+      padding: 1rem !important; }
+  /* line 943, ../sass/wintersong.scss */
+  .site-header ul li {
+    list-style-type: none; }
+
+/* Title Area
+--------------------------------------------- */
+/* line 951, ../sass/wintersong.scss */
+.site-title {
+  font-family: 'Roboto Slab', serif;
+  font-size: 30px;
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0; }
+
+/* line 959, ../sass/wintersong.scss */
+.site-header a {
+  border: none; }
+
+/* line 963, ../sass/wintersong.scss */
+.site-title a {
+  border: none;
+  color: #000;
+  font-weight: 400;
+  text-decoration: none; }
+  /* line 965, ../sass/wintersong.scss */
+  .site-title a:hover {
+    border: none;
+    color: #000;
+    font-weight: 400;
+    text-decoration: none; }
+
+/* line 977, ../sass/wintersong.scss */
+.header-image .site-title {
+  display: block;
+  height: 0;
+  text-indent: -9999px; }
+/* line 982, ../sass/wintersong.scss */
+.header-image .site-header .site-title::after {
+  display: none; }
+
+/* line 987, ../sass/wintersong.scss */
+.site-description {
+  display: none; }
+
+/*
+Site Navigation
+---------------------------------------------------------------------------------------------------- */
+/* line 995, ../sass/wintersong.scss */
+.nav-primary {
+  background-color: #000;
+  margin-bottom: 30px;
+  margin-bottom: 3rem; }
+  /* line 999, ../sass/wintersong.scss */
+  .nav-primary .genesis-nav-menu {
+    clear: both;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 300;
+    line-height: 1.5;
+    width: 100%; }
+    /* line 1005, ../sass/wintersong.scss */
+    .nav-primary .genesis-nav-menu .menu-item {
+      display: inline-block;
+      text-align: left; }
+    /* line 1009, ../sass/wintersong.scss */
+    .nav-primary .genesis-nav-menu a {
+      border: none;
+      color: #fff;
+      display: block;
+      font-weight: 300;
+      padding: 10px 20px;
+      padding: 1rem 2rem;
+      position: relative; }
+      /* line 1017, ../sass/wintersong.scss */
+      .nav-primary .genesis-nav-menu a:hover {
+        background-color: #fff;
+        color: #000; }
+    /* line 1022, ../sass/wintersong.scss */
+    .nav-primary .genesis-nav-menu .current-menu-item > a {
+      background-color: #fff;
+      color: #000; }
+    /* line 1026, ../sass/wintersong.scss */
+    .nav-primary .genesis-nav-menu .sub-menu {
+      left: -9999px;
+      margin-left: -1px;
+      margin-left: -0.1rem;
+      opacity: 0;
+      position: absolute;
+      -webkit-transition: opacity .4s ease-in-out;
+      -moz-transition: opacity .4s ease-in-out;
+      -ms-transition: opacity .4s ease-in-out;
+      -o-transition: opacity .4s ease-in-out;
+      transition: opacity .4s ease-in-out;
+      width: 180px;
+      z-index: 99; }
+      /* line 1027, ../sass/wintersong.scss */
+      .nav-primary .genesis-nav-menu .sub-menu a, .nav-primary .genesis-nav-menu .sub-menu .current-menu-item > a:hover {
+        background-color: #fff;
+        color: #000; }
+      /* line 1031, ../sass/wintersong.scss */
+      .nav-primary .genesis-nav-menu .sub-menu a {
+        background-color: #fff;
+        border: 1px solid #eee;
+        border-top: none;
+        font-size: 14px;
+        font-size: 1.4rem;
+        padding: 10px 20px;
+        padding: 1rem 2rem;
+        position: relative;
+        width: 180px; }
+        /* line 1032, ../sass/wintersong.scss */
+        .nav-primary .genesis-nav-menu .sub-menu a:hover {
+          background-color: #000;
+          color: #fff; }
+      /* line 1058, ../sass/wintersong.scss */
+      .nav-primary .genesis-nav-menu .sub-menu .sub-menu {
+        margin: -42px 0 0 179px; }
+    /* line 1062, ../sass/wintersong.scss */
+    .nav-primary .genesis-nav-menu .menu-item:hover {
+      position: static; }
+      /* line 1064, ../sass/wintersong.scss */
+      .nav-primary .genesis-nav-menu .menu-item:hover > .sub-menu {
+        left: auto;
+        opacity: 1; }
+    /* line 1070, ../sass/wintersong.scss */
+    .nav-primary .genesis-nav-menu > .right {
+      color: #fff;
+      float: right;
+      list-style-type: none;
+      display: inline-block; }
+      /* line 1075, ../sass/wintersong.scss */
+      .nav-primary .genesis-nav-menu > .right a {
+        display: inline-block; }
+      /* line 1078, ../sass/wintersong.scss */
+      .nav-primary .genesis-nav-menu > .right > a:hover {
+        background: none;
+        color: #aaa; }
+      /* line 1082, ../sass/wintersong.scss */
+      .nav-primary .genesis-nav-menu > .right.date {
+        padding: 10px 20px;
+        padding: 1rem 2rem; }
+    /* line 1087, ../sass/wintersong.scss */
+    .nav-primary .genesis-nav-menu > .search {
+      margin-right: 20px;
+      margin-right: 2rem;
+      padding: 1px;
+      padding: 0.1rem; }
+  /* line 1095, ../sass/wintersong.scss */
+  .nav-primary .search-form {
+    width: 180px; }
+
+/* Responsive Menu
+--------------------------------------------- */
+/* line 1103, ../sass/wintersong.scss */
+.responsive-menu-icon {
+  cursor: pointer;
+  display: none; }
+  /* line 1106, ../sass/wintersong.scss */
+  .responsive-menu-icon::before {
+    -webkit-font-smoothing: antialiased;
+    color: #fff;
+    content: "\e00e";
+    font-family: 'Icon';
+    font-size: 16px;
+    font-size: 1.6rem;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    margin: 0 auto;
+    speak: none;
+    text-transform: none; }
+
+/* line 1123, ../sass/wintersong.scss */
+.site-header .responsive-menu-icon::before {
+  color: #000; }
+
+/*
+Content Area
+---------------------------------------------------------------------------------------------------- */
+/* Entries
+--------------------------------------------- */
+/* line 1134, ../sass/wintersong.scss */
+.entry {
+  border-bottom: 2px solid #000;
+  margin-bottom: 60px;
+  margin-bottom: 6rem; }
+
+/* line 1140, ../sass/wintersong.scss */
+.page .entry, .single .entry {
+  border-bottom: none; }
+
+/* line 1144, ../sass/wintersong.scss */
+.page .entry {
+  margin: 0; }
+
+/* line 1148, ../sass/wintersong.scss */
+.single .entry {
+  margin-bottom: 0; }
+
+/* line 1153, ../sass/wintersong.scss */
+.entry-content .attachment a, .entry-content .gallery a {
+  border: none; }
+/* line 1156, ../sass/wintersong.scss */
+.entry-content ol, .entry-content p, .entry-content ul {
+  margin-bottom: 26px;
+  margin-bottom: 2.6rem; }
+/* line 1160, ../sass/wintersong.scss */
+.entry-content ol, .entry-content ul {
+  margin-left: 40px;
+  margin-left: 4rem; }
+/* line 1164, ../sass/wintersong.scss */
+.entry-content ol li {
+  list-style-type: decimal; }
+/* line 1167, ../sass/wintersong.scss */
+.entry-content ul li {
+  list-style-type: disc; }
+/* line 1170, ../sass/wintersong.scss */
+.entry-content ol ol, .entry-content ul ul {
+  margin-bottom: 0; }
+/* line 1173, ../sass/wintersong.scss */
+.entry-content .search-form {
+  width: 50%; }
+
+/* line 1178, ../sass/wintersong.scss */
+.entry-meta {
+  font-family: 'Roboto Condensed', sans-serif; }
+  /* line 1180, ../sass/wintersong.scss */
+  .entry-meta a {
+    border: none;
+    font-weight: 300; }
+
+/* line 1186, ../sass/wintersong.scss */
+.entry-header .entry-meta {
+  margin-bottom: 24px;
+  margin-bottom: 2.4rem; }
+
+/* line 1191, ../sass/wintersong.scss */
+.entry-footer .entry-meta {
+  margin-bottom: 40px;
+  margin-bottom: 4rem; }
+
+/* line 1196, ../sass/wintersong.scss */
+.entry-comments-link::before {
+  content: "\2014";
+  margin: 0 6px 0 2px;
+  margin: 0 0.6rem 0 0.2rem; }
+
+/* line 1202, ../sass/wintersong.scss */
+.entry-categories, .entry-tags {
+  display: block; }
+
+/* After Entry
+--------------------------------------------- */
+/* line 1209, ../sass/wintersong.scss */
+.after-entry {
+  background-color: #000;
+  color: #fff;
+  margin-bottom: 60px;
+  margin-bottom: 6rem;
+  padding: 40px 60px 10px;
+  padding: 4rem 6rem 1rem;
+  text-align: center;
+  color: #fff; }
+  /* line 1218, ../sass/wintersong.scss */
+  .after-entry .widgettitle {
+    color: #fff;
+    font-size: 20px;
+    font-size: 2rem; }
+  /* line 1223, ../sass/wintersong.scss */
+  .after-entry .widget {
+    margin-bottom: 30px;
+    margin-bottom: 3rem; }
+  /* line 1227, ../sass/wintersong.scss */
+  .after-entry li {
+    list-style-type: none; }
+  /* line 1230, ../sass/wintersong.scss */
+  .after-entry a {
+    color: #aaa;
+    border-bottom: 1px dotted #aaa; }
+    /* line 1233, ../sass/wintersong.scss */
+    .after-entry a:hover {
+      border-bottom: 1px dotted #fff;
+      color: #fff; }
+
+/* Pagination
+--------------------------------------------- */
+/* line 1243, ../sass/wintersong.scss */
+.entry-pagination {
+  margin: 40px 0;
+  margin: 4rem 0; }
+
+/* line 1248, ../sass/wintersong.scss */
+.archive-pagination li {
+  display: inline; }
+  /* line 1250, ../sass/wintersong.scss */
+  .archive-pagination li a {
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 16px;
+    font-size: 1.6rem;
+    font-weight: 300;
+    padding: 8px 12px;
+    padding: 0.8rem 1.2rem;
+    text-transform: uppercase; }
+    /* line 1262, ../sass/wintersong.scss */
+    .archive-pagination li a:hover {
+      background-color: #2a8a15; }
+  /* line 1266, ../sass/wintersong.scss */
+  .archive-pagination li.active a {
+    background-color: #2a8a15; }
+
+/*
+Comments
+---------------------------------------------------------------------------------------------------- */
+/* line 1275, ../sass/wintersong.scss */
+p.comment-meta {
+  margin-bottom: 40px;
+  margin-bottom: 4rem; }
+
+/* line 1280, ../sass/wintersong.scss */
+.entry-comments {
+  margin-bottom: 40px;
+  margin-bottom: 4rem; }
+  /* line 1283, ../sass/wintersong.scss */
+  .entry-comments .comment, .entry-comments .comment-reply {
+    margin-bottom: 40px;
+    margin-bottom: 4rem; }
+
+/* line 1289, ../sass/wintersong.scss */
+.ping-list {
+  margin-bottom: 40px;
+  margin-bottom: 4rem; }
+
+/* line 1294, ../sass/wintersong.scss */
+.entry-comments .comment {
+  border-bottom: 1px solid #000; }
+
+/* line 1298, ../sass/wintersong.scss */
+p.form-submit {
+  margin: 0; }
+
+/* line 1303, ../sass/wintersong.scss */
+.entry-comments .children .comment, .entry-comments .comment-author {
+  margin: 0; }
+/* line 1306, ../sass/wintersong.scss */
+.entry-comments .comment {
+  clear: both; }
+/* line 1309, ../sass/wintersong.scss */
+.entry-comments .children .comment {
+  border: none; }
+
+/* line 1315, ../sass/wintersong.scss */
+.comment-respond label {
+  display: block; }
+/* line 1319, ../sass/wintersong.scss */
+.comment-respond input[type="email"], .comment-respond input[type="text"], .comment-respond input[type="url"] {
+  width: 50%; }
+
+/* line 1325, ../sass/wintersong.scss */
+.comment-list li, .ping-list li {
+  list-style-type: none; }
+
+/* line 1329, ../sass/wintersong.scss */
+ul.children {
+  margin-left: 40px;
+  margin-left: 4rem; }
+
+/* line 1334, ../sass/wintersong.scss */
+.form-allowed-tags, .ping-list .reply {
+  display: none; }
+
+/*
+Site Footer
+---------------------------------------------------------------------------------------------------- */
+/* line 1342, ../sass/wintersong.scss */
+.site-footer {
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center; }
+  /* line 1345, ../sass/wintersong.scss */
+  .site-footer a {
+    border: none;
+    font-weight: 300; }
+
+/*
+Media Queries
+---------------------------------------------------------------------------------------------------- */
+@media only screen and (max-width: 1024px) {
+  /* line 1356, ../sass/wintersong.scss */
+  .site-container {
+    width: 760px; }
+
+  /* line 1359, ../sass/wintersong.scss */
+  .site-inner {
+    width: 500px; } }
+@media only screen and (max-width: 768px) {
+  /* line 1365, ../sass/wintersong.scss */
+  .genesis-nav-menu li, .site-container, .site-header, .site-inner {
+    float: none; }
+
+  /* line 1368, ../sass/wintersong.scss */
+  .site-container, .site-header, .site-inner {
+    width: 100%; }
+
+  /* line 1371, ../sass/wintersong.scss */
+  .site-header {
+    padding: 30px 10%;
+    padding: 3rem 10%;
+    padding-bottom: 0;
+    position: relative; }
+
+  /* line 1377, ../sass/wintersong.scss */
+  .nav-primary {
+    text-align: center; }
+
+  /* line 1380, ../sass/wintersong.scss */
+  .responsive-menu {
+    display: none; }
+
+  /* line 1383, ../sass/wintersong.scss */
+  .responsive-menu-icon {
+    display: block;
+    padding: 10px 0;
+    padding: 1rem 0; }
+
+  /* line 1388, ../sass/wintersong.scss */
+  .after-entry {
+    margin-bottom: 40px;
+    margin-bottom: 4rem;
+    padding: 40px 20px 10px;
+    padding: 4rem 2rem 1rem; }
+
+  /* line 1394, ../sass/wintersong.scss */
+  .archive-pagination li a {
+    margin-bottom: 4px;
+    margin-bottom: 0.4rem; }
+
+  /* line 1398, ../sass/wintersong.scss */
+  .site-inner {
+    padding: 30px 10%;
+    padding: 3rem 10%; }
+
+  /* line 1402, ../sass/wintersong.scss */
+  .site-footer {
+    display: none; }
+
+  /* line 1405, ../sass/wintersong.scss */
+  .five-sixths, .four-sixths, .one-fourth, .one-half, .one-sixth, .one-third, .three-fourths, .three-sixths, .two-fourths, .two-sixths, .two-thirds {
+    margin: 0;
+    width: 100%; } }

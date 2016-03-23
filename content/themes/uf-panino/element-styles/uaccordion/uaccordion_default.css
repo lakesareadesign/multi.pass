@@ -1,0 +1,21 @@
+.upfront-accordion-container .upfront-accordion-wrap {
+    border-bottom: none;
+}
+.upfront-accordion-container .accordion-panel .accordion-panel-title .accordion-panel-title {
+    border: 1px solid #ufc3;
+    cursor: pointer;
+}
+.upfront-accordion .upfront-accordion-container .accordion-panel-content {
+    border: 1px solid #ufc3;
+    border-top: none;
+    color: #ufc3;
+    font-family: 'Special Elite', Arial, sans-serif;
+    font-size: 18px;
+    padding: 15px;
+}
+.accordion-panel-content p {
+    line-height: 1.9em;
+}
+
+
+/* 133620-1456900939-au */

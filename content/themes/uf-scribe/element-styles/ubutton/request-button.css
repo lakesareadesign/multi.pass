@@ -1,0 +1,11 @@
+#page .request-button.upfront-button .upfront_cta {
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid #ufc6;
+}
+#page .request-button.upfront-button .upfront_cta:hover {
+    border-top: 3px solid #ufc0;
+    border-bottom: 3px solid transparent;
+}
+
+
+/* 133620-1456900948-au */

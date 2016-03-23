@@ -1,0 +1,150 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Digital Pro\n"
+"POT-Creation-Date: 2016-01-27 01:03-0500\n"
+"PO-Revision-Date: 2016-01-27 01:02-0500\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: front-page.php:104
+msgid "Main Content"
+msgstr ""
+
+#: front-page.php:126 lib/customize.php:111
+msgid "Our Journal"
+msgstr ""
+
+#: functions.php:33 functions.php:34
+msgid "Menu"
+msgstr ""
+
+#: functions.php:65
+msgid "Header Menu"
+msgstr ""
+
+#: functions.php:65
+msgid "Footer Menu"
+msgstr ""
+
+#: functions.php:236
+msgid "Front Page 1"
+msgstr ""
+
+#: functions.php:237
+msgid "This is the 1st section on the front page."
+msgstr ""
+
+#: functions.php:241
+msgid "Front Page 2"
+msgstr ""
+
+#: functions.php:242
+msgid "This is the 2nd section on the front page."
+msgstr ""
+
+#: functions.php:246
+msgid "Front Page 3"
+msgstr ""
+
+#: functions.php:247
+msgid "This is the 3rd section on the front page."
+msgstr ""
+
+#: lib/customize.php:39
+msgid "Front Page Image"
+msgstr ""
+
+#: lib/customize.php:40
+msgid ""
+"<p>Use the default image or personalize your site by uploading your own "
+"image for the front page 1 widget background.</p><p>The default image is "
+"<strong>1600 x 1050 pixels</strong>.</p>"
+msgstr ""
+
+#: lib/customize.php:54
+msgid "Front Image Upload"
+msgstr ""
+
+#: lib/customize.php:74
+msgid ""
+"Change the default color for button hover and the footer widget background."
+msgstr ""
+
+#: lib/customize.php:75
+msgid "Accent Color"
+msgstr ""
+
+#: lib/customize.php:84
+msgid "Front Page Content Settings"
+msgstr ""
+
+#: lib/customize.php:85
+msgid ""
+"Choose if you would like to display the content section below widget "
+"sections on the front page."
+msgstr ""
+
+#: lib/customize.php:98
+msgid "Front Page Content Section Display"
+msgstr ""
+
+#: lib/customize.php:99
+msgid ""
+"Show or Hide the content section. The section will display on the front page "
+"by default."
+msgstr ""
+
+#: lib/customize.php:104
+msgid "Hide content section"
+msgstr ""
+
+#: lib/customize.php:105
+msgid "Show content section"
+msgstr ""
+
+#: lib/customize.php:119
+msgid "Journal Section Heading Text"
+msgstr ""
+
+#: lib/customize.php:120
+msgid ""
+"Choose the heading text you would like to display above posts on the front "
+"page.<br /><br />This text will show when displaying posts and using widgets "
+"on the front page."
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Digital Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/digital/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Put your words and images at the forefront in an uncluttered design that "
+"shows them at their finest."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
+msgstr ""

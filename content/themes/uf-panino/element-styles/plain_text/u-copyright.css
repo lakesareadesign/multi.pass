@@ -1,0 +1,18 @@
+#page .u-copyright.upfront-plain_txt p {
+    line-height: 1.50em;
+}
+#page .u-copyright.upfront-plain_txt p, #page .u-copyright.upfront-plain_txt a {
+    color: #ufc0;
+    font-family: 'Special Elite', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+}
+#page .u-copyright.upfront-plain_txt a {
+    text-decoration: none;
+}
+#page .u-copyright.upfront-plain_txt a:hover {
+    color: #ufc5;
+}
+
+
+/* 133620-1456900939-au */

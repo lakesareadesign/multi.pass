@@ -1,0 +1,2 @@
+<button type="submit" class="button button-grey" name="clear-cache"><?php esc_attr_e( 'Re-Check Files', 'wphb' ); ?></button>
+<button type="submit" class="button" name="submit"><?php esc_attr_e( 'Save', 'wphb' ); ?></button>

@@ -1,0 +1,1104 @@
+# Copyright (C) 2016 Shay Bocks
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Brunch Pro Theme 1.1.0\n"
+"Report-Msgid-Bugs-To: http://shaybocks.com/\n"
+"POT-Creation-Date: 2016-01-19 18:32:24+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Shay Bocks (http://shaybocks.com)\n"
+"Language-Team: Shay Bocks (http://shaybocks.com)\n"
+"X-Generator: grunt-wp-i18n 0.5.3\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_  "
+"noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1"
+",2;\n"
+"X-Textdomain-Support: yes\n"
+
+#: functions.php:84
+msgid "Full Width Slim"
+msgstr ""
+
+#: functions.php:88
+msgid "Alt Sidebar/Content"
+msgstr ""
+
+#: includes/admin/functions.php:64
+#: includes/vendor/class-tgm-plugin-activation.php:322
+msgid "Install Required Plugins"
+msgstr ""
+
+#: includes/admin/functions.php:65
+#: includes/vendor/class-tgm-plugin-activation.php:323
+msgid "Install Plugins"
+msgstr ""
+
+#: includes/admin/functions.php:66
+#: includes/vendor/class-tgm-plugin-activation.php:324
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: includes/admin/functions.php:67
+#: includes/vendor/class-tgm-plugin-activation.php:326
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: includes/admin/functions.php:68
+msgid "Brunch Pro requires the following plugin: %1$s."
+msgid_plural "Brunch Pro requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:69
+msgid "Brunch Pro recommends the following plugin: %1$s."
+msgid_plural "Brunch Pro recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:70
+msgid ""
+"Sorry, but you do not have the correct permissions to install the %s "
+"plugin. Contact the administrator of this site for help on getting the "
+"plugin installed."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to install the %s "
+"plugins. Contact the administrator of this site for help on getting the "
+"plugins installed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:71
+#: includes/vendor/class-tgm-plugin-activation.php:347
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:72
+#: includes/vendor/class-tgm-plugin-activation.php:352
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:73
+msgid ""
+"Sorry, but you do not have the correct permissions to activate the %s "
+"plugin. Contact the administrator of this site for help on getting the "
+"plugin activated."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to activate the %s "
+"plugins. Contact the administrator of this site for help on getting the "
+"plugins activated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:74
+#: includes/vendor/class-tgm-plugin-activation.php:337
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:75
+msgid ""
+"Sorry, but you do not have the correct permissions to update the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"updated."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to update the %s "
+"plugins. Contact the administrator of this site for help on getting the "
+"plugins updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:76
+msgid "Install Plugin Now"
+msgid_plural "Install Plugins Now"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:77
+msgid "Activate Plugin Now"
+msgid_plural "Activate Plugins now"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:78
+#: includes/vendor/class-tgm-plugin-activation.php:372
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: includes/admin/functions.php:79
+#: includes/vendor/class-tgm-plugin-activation.php:374
+#: includes/vendor/class-tgm-plugin-activation.php:3077
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: includes/admin/functions.php:80
+msgid "All plugins installed and activated successfully. %s"
+msgstr ""
+
+#: includes/admin/functions.php:155
+msgid ""
+"The normal editor is disabled because you&#39;re using a widgeted page "
+"template. You need to <a href=\"%s\">use widgets</a> to edit this page."
+msgstr ""
+
+#: includes/customize/helpers-colors.php:92
+msgid "Header Background Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:101
+msgid "Title Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:118
+msgid "Text Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:131
+msgid "Secondary Text Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:143
+msgid "Link Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:155
+msgid "Link Hover Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:165
+msgid "Menu Background Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:175
+msgid "Menu Link Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:184
+msgid "Menu Link Hover Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:195
+msgid "Button Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:202
+msgid "Button Hover Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:209
+msgid "Button Border Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:216
+msgid "Button Border Hover Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:223
+msgid "Button Text Color"
+msgstr ""
+
+#: includes/customize/helpers-colors.php:230
+msgid "Button Hover Text Color"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:107
+msgid "Body Font"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:115
+#: includes/customize/helpers-fonts.php:132
+msgid "Accent Font"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:144
+msgid "Heading Font"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:166
+msgid "H1 Font"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:176
+msgid "H2 Font"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:186
+msgid "H3 Font"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:196
+msgid "H4 Font"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:206
+msgid "Entry Title Font"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:223
+msgid "Widget Title Font"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:236
+msgid "Menu Font"
+msgstr ""
+
+#: includes/customize/helpers-fonts.php:244
+msgid "Button Font"
+msgstr ""
+
+#: includes/customize/settings-archives.php:31
+msgid "Archive Grid Display:"
+msgstr ""
+
+#: includes/customize/settings-archives.php:37
+#: includes/widgets/form-brunch-pro-featured-posts.php:25
+msgid "Full Width"
+msgstr ""
+
+#: includes/customize/settings-archives.php:38
+#: includes/widgets/form-brunch-pro-featured-posts.php:26
+msgid "One Half"
+msgstr ""
+
+#: includes/customize/settings-archives.php:39
+#: includes/widgets/form-brunch-pro-featured-posts.php:27
+msgid "One Third"
+msgstr ""
+
+#: includes/customize/settings-archives.php:40
+#: includes/widgets/form-brunch-pro-featured-posts.php:28
+msgid "One Fourth"
+msgstr ""
+
+#: includes/customize/settings-archives.php:41
+#: includes/widgets/form-brunch-pro-featured-posts.php:29
+msgid "One Sixth"
+msgstr ""
+
+#: includes/customize/settings-archives.php:47
+msgid "Display The Title?"
+msgstr ""
+
+#: includes/customize/settings-archives.php:56
+msgid "Display The Entry Info?"
+msgstr ""
+
+#: includes/customize/settings-archives.php:65
+msgid "Display The Content?"
+msgstr ""
+
+#: includes/customize/settings-archives.php:74
+msgid "Display The Entry Meta?"
+msgstr ""
+
+#: includes/customize/settings-archives.php:83
+msgid "Featured Image Placement:"
+msgstr ""
+
+#: includes/customize/settings-archives.php:89
+#: includes/widgets/form-brunch-pro-featured-posts.php:95
+msgid "After Title"
+msgstr ""
+
+#: includes/customize/settings-archives.php:90
+#: includes/widgets/form-brunch-pro-featured-posts.php:94
+msgid "Before Title"
+msgstr ""
+
+#: includes/customize/settings-archives.php:91
+#: includes/widgets/form-brunch-pro-featured-posts.php:96
+msgid "After Content"
+msgstr ""
+
+#: includes/customize/settings-colors.php:51
+msgid "Colors"
+msgstr ""
+
+#: includes/customize/settings-colors.php:52
+msgid ""
+"You can customize your theme colors by changing any of the options within "
+"this panel."
+msgstr ""
+
+#: includes/customize/settings-colors.php:61
+msgid "General"
+msgstr ""
+
+#: includes/customize/settings-colors.php:62
+msgid "Customize your general theme colors by changing the options below."
+msgstr ""
+
+#: includes/customize/settings-colors.php:72
+msgid "Menus"
+msgstr ""
+
+#: includes/customize/settings-colors.php:73
+msgid "Customize your menu colors by changing the options below."
+msgstr ""
+
+#: includes/customize/settings-colors.php:83
+msgid "Buttons"
+msgstr ""
+
+#: includes/customize/settings-colors.php:84
+msgid "Customize your button colors by changing the options below."
+msgstr ""
+
+#: includes/customize/settings-fonts.php:38
+msgid "Typography"
+msgstr ""
+
+#: includes/customize/settings-fonts.php:39
+msgid ""
+"You can customize your theme font styles by changing any of the options "
+"within this panel."
+msgstr ""
+
+#: includes/customize/settings-fonts.php:48
+msgid "Font Families"
+msgstr ""
+
+#: includes/customize/settings-fonts.php:49
+msgid "Customize your font families by changing the options below."
+msgstr ""
+
+#: includes/customize/settings-fonts.php:59
+msgid "Font Weights"
+msgstr ""
+
+#: includes/customize/settings-fonts.php:60
+msgid "Customize your font weights by changing the options below."
+msgstr ""
+
+#: includes/customize/settings-fonts.php:70
+msgid "Font Styles"
+msgstr ""
+
+#: includes/customize/settings-fonts.php:71
+msgid "Customize your font styles by changing the options below."
+msgstr ""
+
+#: includes/customize/settings-fonts.php:81
+msgid "Font Sizes"
+msgstr ""
+
+#: includes/customize/settings-fonts.php:82
+msgid "Customize your font sizes by changing the options below."
+msgstr ""
+
+#: includes/customize/settings-fonts.php:93
+msgid " Family"
+msgstr ""
+
+#: includes/customize/settings-fonts.php:104
+msgid " Weight"
+msgstr ""
+
+#: includes/customize/settings-fonts.php:119
+msgid " Size"
+msgstr ""
+
+#: includes/customize/settings-fonts.php:134
+msgid " Style"
+msgstr ""
+
+#: includes/template-global.php:110
+#: includes/widgets/class-brunch-pro-featured-posts.php:63
+msgid "Read More"
+msgstr ""
+
+#: includes/template-global.php:160
+msgid "Copyright"
+msgstr ""
+
+#: includes/template-global.php:161
+msgid "by"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:325
+msgid "Updating Plugin: %s"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:327
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:332
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:342
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:357
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:362
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:367
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:373
+msgid "Return to the dashboard"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:375
+#: includes/vendor/class-tgm-plugin-activation.php:2880
+msgid "The following plugin was activated successfully:"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:376
+msgid "No action taken. Plugin %1$s was already active."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:377
+msgid ""
+"Plugin not activated. A higher version of %s is needed for this theme. "
+"Please update the plugin."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:378
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:379
+msgid "Dismiss this notice"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:380
+msgid ""
+"There are one or more required or recommended plugins to install, update or "
+"activate."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:381
+msgid "Please contact the administrator of this site for help."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:500
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:501
+msgid "Update Required"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:618
+msgid "Set the parent_slug config variable instead."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:813
+#: includes/vendor/class-tgm-plugin-activation.php:3491
+msgid "Return to the Dashboard"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:920
+msgid ""
+"The remote plugin package does not contain a folder with the desired slug "
+"and renaming did not work."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:920
+#: includes/vendor/class-tgm-plugin-activation.php:923
+msgid ""
+"Please contact the plugin provider and ask them to package their plugin "
+"according to the WordPress guidelines."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:923
+msgid ""
+"The remote plugin package consists of more than one file, but the files are "
+"not packaged in a folder."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2209
+msgid "Required"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2212
+msgid "Recommended"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2228
+msgid "WordPress Repository"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2231
+msgid "External Source"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2234
+msgid "Pre-Packaged"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2251
+msgid "Not Installed"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2255
+msgid "Installed But Not Activated"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2257
+msgid "Active"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2263
+msgid "Required Update not Available"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2266
+msgid "Requires Update"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2269
+msgid "Update recommended"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2325
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2328
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2331
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2421
+msgid "Installed version:"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2429
+msgid "Minimum required version:"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2441
+msgid "Available version:"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2464
+msgid ""
+"No plugins to install, update or activate. <a href=\"%1$s\">Return to the "
+"Dashboard</a>"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2478
+msgid "Plugin"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2479
+msgid "Source"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2480
+msgid "Type"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2484
+msgid "Version"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2485
+msgid "Status"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2612
+msgid "Upgrade message from the plugin author:"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2645
+msgid "Install"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2651
+msgid "Update"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2654
+msgid "Activate"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2685
+msgid "No plugins were selected to be installed. No action taken."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2687
+msgid "No plugins were selected to be updated. No action taken."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2728
+msgid "No plugins are available to be installed at this time."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2730
+msgid "No plugins are available to be updated at this time."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2836
+msgid "No plugins were selected to be activated. No action taken."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2862
+msgid "No plugins are available to be activated at this time."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3076
+msgid "Plugin activation failed."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3415
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3417
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3418
+msgid "The installation of %1$s failed."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3422
+msgid ""
+"The installation and activation process is starting. This process may take "
+"a while on some hosts, so please be patient."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3423
+msgid "%1$s installed and activated successfully."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3423
+#: includes/vendor/class-tgm-plugin-activation.php:3429
+msgid "Show Details"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3423
+#: includes/vendor/class-tgm-plugin-activation.php:3429
+msgid "Hide Details"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3424
+msgid "All installations and activations have been completed."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3425
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3428
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3429
+msgid "%1$s installed successfully."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3430
+msgid "All installations have been completed."
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:3431
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:18
+msgid "Standard Fonts"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:20
+msgid "Google Fonts"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:125
+msgid "All"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:126
+msgid "Cyrillic"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:127
+msgid "Cyrillic Extended"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:128
+msgid "Devanagari"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:129
+msgid "Greek"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:130
+msgid "Greek Extended"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:131
+msgid "Khmer"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:132
+msgid "Latin"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:133
+msgid "Latin Extended"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:134
+msgid "Vietnamese"
+msgstr ""
+
+#: includes/widgets/class-brunch-pro-featured-posts.php:60
+msgid "By"
+msgstr ""
+
+#: includes/widgets/class-brunch-pro-featured-posts.php:65
+msgid "More Posts from this Category"
+msgstr ""
+
+#: includes/widgets/class-brunch-pro-featured-posts.php:70
+msgid "Displays featured posts with thumbnails"
+msgstr ""
+
+#: includes/widgets/class-brunch-pro-featured-posts.php:77
+msgid "Brunch Pro - Featured Posts"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:16
+#: includes/widgets/form-brunch-pro-featured-posts.php:65
+msgid "Title"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:23
+msgid "Grid Columns"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:38
+msgid "Category"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:45
+msgid "All Categories"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:52
+msgid "Number of Posts to Show"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:57
+msgid "Number of Posts to Offset"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:62
+msgid "Order By"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:64
+msgid "Date"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:66
+msgid "Parent"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:67
+msgid "ID"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:68
+msgid "Comment Count"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:69
+msgid "Random"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:74
+msgid "Sort Order"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:76
+msgid "Descending (3, 2, 1)"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:77
+msgid "Ascending (1, 2, 3)"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:83
+msgid "Exclude Previously Displayed Posts?"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:91
+msgid "Show Image"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:93
+msgid "Don't Show an Image"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:101
+msgid "Image Size"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:118
+msgid "Image Alignment"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:120
+#: includes/widgets/form-brunch-pro-featured-posts.php:184
+msgid "None"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:121
+#: includes/widgets/form-brunch-pro-featured-posts.php:185
+msgid "Left"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:122
+#: includes/widgets/form-brunch-pro-featured-posts.php:186
+msgid "Right"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:123
+msgid "Center"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:133
+msgid "Show Post Title"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:138
+msgid "Show Post Info"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:143
+msgid "Content Type"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:145
+msgid "Show Content"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:146
+msgid "Show Excerpt"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:147
+msgid "Show Content Limit"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:148
+msgid "No Content"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:151
+msgid "Limit content to"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:153
+msgid "characters"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:158
+msgid "More Text (if applicable)"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:168
+msgid "Show Author Gravatar"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:172
+msgid "Gravatar Size"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:174
+msgid "Small (45px)"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:175
+msgid "Medium (65px)"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:176
+msgid "Large (85px)"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:177
+msgid "Extra Large (125px)"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:182
+msgid "Gravatar Alignment"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:196
+msgid "Show Category Archive Link"
+msgstr ""
+
+#: includes/widgets/form-brunch-pro-featured-posts.php:200
+msgid "Link Text"
+msgstr ""
+
+#: includes/widgets-init.php:29
+msgid "Before Header"
+msgstr ""
+
+#: includes/widgets-init.php:30
+msgid "This is the section before the header."
+msgstr ""
+
+#: includes/widgets-init.php:34
+msgid "Home Top"
+msgstr ""
+
+#: includes/widgets-init.php:35
+msgid "This is the home top section."
+msgstr ""
+
+#: includes/widgets-init.php:39
+msgid "Home Middle"
+msgstr ""
+
+#: includes/widgets-init.php:40
+msgid "This is the home middle section."
+msgstr ""
+
+#: includes/widgets-init.php:44
+msgid "Home Bottom"
+msgstr ""
+
+#: includes/widgets-init.php:45
+msgid "This is the home bottom section."
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Recipe Index"
+msgstr ""
+
+#: includes/widgets-init.php:50
+msgid "This is the recipe index section."
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Brunch Pro Theme"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "This is the Brunch Pro child theme created for the Genesis Framework."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Shay Bocks"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://shaybocks.com/"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Landing"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:1107
+#: includes/vendor/class-tgm-plugin-activation.php:2876
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:1923
+msgctxt "%s = version number"
+msgid "TGMPA v%s"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2277
+msgctxt "%1$s = install status, %2$s = update status"
+msgid "%1$s, %2$s"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2322
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2413
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2533
+msgctxt "%2$s = plugin name in screen reader markup"
+msgid "Install %2$s"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2537
+msgctxt "%2$s = plugin name in screen reader markup"
+msgid "Update %2$s"
+msgstr ""
+
+#: includes/vendor/class-tgm-plugin-activation.php:2542
+msgctxt "%2$s = plugin name in screen reader markup"
+msgid "Activate %2$s"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:194
+msgctxt "font style"
+msgid "Serif"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:198
+msgctxt "font style"
+msgid "Sans Serif"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:202
+msgctxt "font style"
+msgid "Monospaced"
+msgstr ""

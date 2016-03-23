@@ -1,0 +1,596 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Blog & Users\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-15 10:25+0100\n"
+"PO-Revision-Date: 2014-04-15 10:25+0100\n"
+"Last-Translator: Ignacio <igmoweb@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../lib/class_bau_admin_form_renderer.php:20
+#: ../lib/class_bau_admin_form_renderer.php:31
+#: ../lib/class_bau_admin_form_renderer.php:42
+msgid "Yes"
+msgstr ""
+
+#: ../lib/class_bau_admin_form_renderer.php:21
+#: ../lib/class_bau_admin_form_renderer.php:32
+#: ../lib/class_bau_admin_form_renderer.php:43
+msgid "Super Admins only"
+msgstr ""
+
+#: ../lib/class_bau_admin_form_renderer.php:22
+#: ../lib/class_bau_admin_form_renderer.php:33
+#: ../lib/class_bau_admin_form_renderer.php:44
+msgid "No"
+msgstr ""
+
+#: ../lib/class_bau_admin_form_renderer.php:53
+msgid ""
+"This is where you can set up message pop-ups for certain fields in the "
+"Creator interface. You can make use of these messages to e.g. explain format "
+"restrictions to your users."
+msgstr ""
+
+#: ../lib/class_bau_admin_form_renderer.php:54
+msgid "Simply leave the message boxes empty in order not to show them."
+msgstr ""
+
+#: ../lib/class_bau_admin_form_renderer.php:56
+msgid "Username message"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:29
+msgid "Enable components"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:30
+msgid "Enable Add New Users"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:31
+msgid "Enable Add Existing Users"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:32
+msgid "Enable Blogs"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:34
+msgid "Message popups"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:35 ../lib/class_bau_admin_pages.php:39
+#: ../lib/class_bau_admin_pages.php:43
+msgid "Message title"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:36 ../lib/class_bau_admin_pages.php:40
+#: ../lib/class_bau_admin_pages.php:44
+msgid "Message body"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:38
+msgid "Password message"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:42
+msgid "Email message"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:132
+msgid "Success"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:132
+msgid "Failure"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:134
+msgid "Show users"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:183
+msgid "Username and email are required"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:184
+msgid "Invalid email"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:188
+msgid "Username already exists"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:191
+msgid "Email already exists"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:215 ../lib/class_bau_admin_pages.php:266
+#: ../lib/class_bau_admin_pages.php:361 ../lib/class_bau_admin_pages.php:365
+#: ../lib/class_bau_admin_pages.php:376
+msgid "User not added to blog"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:261
+msgid "No such user found"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:273
+#, php-format
+msgid "You have been added to blog \"%s\""
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:275
+#, php-format
+msgid ""
+"Hello %s,\n"
+"\n"
+"You have been added to blog \"%s\" as %s.\n"
+"You can visit this blog here: %s"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:320
+msgid "Blog already exists"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:331
+msgid "This username already exists"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:354
+msgid "No admin for the new blog"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:357
+msgid "Blog not created"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:385
+#, php-format
+msgid "%s, titled %s"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:394
+#, php-format
+msgid "%d New Blogs Created on [%s]"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:395
+#, php-format
+msgid "Your user %s created %d new blogs: %s"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:455
+msgid "Skipping"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:463 ../lib/class_bau_admin_pages.php:467
+msgid "user(s) successfully added"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:471
+msgid "blog(s) successfully created"
+msgstr ""
+
+#: ../lib/class_bau_admin_pages.php:478
+msgid "Something went terribly wrong"
+msgstr ""
+
+#: ../lib/forms/action_page.php:16
+msgid "Add New Users"
+msgstr ""
+
+#: ../lib/forms/action_page.php:17
+msgid "Add Existing Users"
+msgstr ""
+
+#: ../lib/forms/action_page.php:18
+msgid "Create Blogs"
+msgstr ""
+
+#: ../lib/forms/action_page.php:26
+msgid "Create Multiple Users and Add Them to This Blog"
+msgstr ""
+
+#: ../lib/forms/action_page.php:27
+msgid ""
+"Fill out the details below to easily create multiple users and add them to "
+"this blog."
+msgstr ""
+
+#: ../lib/forms/action_page.php:28
+msgid ""
+"You can create as many users as you want at one time and new users will be "
+"emailed their usernames and passwords automatically. By default, you will "
+"see fields for 5 users - if you need more, <strong>simply click the \"Add "
+"more\" button.</strong>"
+msgstr ""
+
+#: ../lib/forms/action_page.php:30
+msgid ""
+"To add users that have already been created, please use the <a href=\"#\" id="
+"\"bau_switch_to_add_existing_users\">Add Existing Users functionality here</"
+"a>."
+msgstr ""
+
+#: ../lib/forms/action_page.php:32
+msgid ""
+"To add new users, simply <strong>enter the username</strong> you'd like to "
+"give them (choose carefully as usernames cannot be changed), their email "
+"address and - should you so choose - a password for them."
+msgstr ""
+
+#: ../lib/forms/action_page.php:33
+msgid ""
+"Try to use <strong>unique usernames</strong> as this will make the process a "
+"lot quicker for you. An easy way to do this is to add numbers and letters "
+"after a regular name - for example, \"James\" at \"King Heath School\" in "
+"year 10 could be \"jameskh10\"."
+msgstr ""
+
+#: ../lib/forms/action_page.php:34
+msgid ""
+"If your users do not have email addresses you can use <a href=\"#\" class="
+"\"bau_gmail_dialog_help\">this Gmail method</a> to easily add them."
+msgstr ""
+
+#: ../lib/forms/action_page.php:35
+msgid ""
+"You may also <strong>select the level</strong> that you wish them to access "
+"to the site - you can find out more about different level of access <a href="
+"\"#\" class=\"bau_roles_dialog_help\">here</a>."
+msgstr ""
+
+#: ../lib/forms/action_page.php:36
+msgid ""
+"If you do not enter a password a <strong>random</strong> one will be "
+"generated for them."
+msgstr ""
+
+#: ../lib/forms/action_page.php:37
+msgid ""
+"All new users will receive an email containing their new username, password "
+"and login link. We recommend you use a <strong>preset password</strong> if "
+"using an educational email address in case the login email is blocked."
+msgstr ""
+
+#: ../lib/forms/action_page.php:41 ../lib/forms/action_page.php:203
+msgid "Username"
+msgstr ""
+
+#: ../lib/forms/action_page.php:41 ../lib/forms/action_page.php:42
+#: ../lib/forms/action_page.php:74 ../lib/forms/action_page.php:127
+#: ../lib/forms/action_page.php:151 ../lib/forms/action_page.php:176
+#: ../lib/forms/action_page.php:211 ../lib/forms/action_page.php:221
+msgid "Required"
+msgstr ""
+
+#: ../lib/forms/action_page.php:42 ../lib/forms/action_page.php:209
+msgid "User Email"
+msgstr ""
+
+#: ../lib/forms/action_page.php:43 ../lib/forms/action_page.php:214
+msgid "User Password"
+msgstr ""
+
+#: ../lib/forms/action_page.php:45 ../lib/forms/action_page.php:76
+msgid "User Role"
+msgstr ""
+
+#: ../lib/forms/action_page.php:51 ../lib/forms/action_page.php:82
+#: ../lib/forms/action_page.php:238
+msgid "Add more"
+msgstr ""
+
+#: ../lib/forms/action_page.php:53 ../lib/forms/action_page.php:84
+#: ../lib/forms/action_page.php:240
+msgid "This feature has been disabled by the administrator of your network."
+msgstr ""
+
+#: ../lib/forms/action_page.php:62
+msgid "Add Existing Users to This Blog"
+msgstr ""
+
+#: ../lib/forms/action_page.php:63
+msgid "This tool allows you to add existing users on this site to your blog."
+msgstr ""
+
+#: ../lib/forms/action_page.php:65
+msgid ""
+"To add new users that have not already been created, please use the <a href="
+"\"#\" id=\"bau_switch_to_add_new_users\">Add New Users funcitonality here</"
+"a>."
+msgstr ""
+
+#: ../lib/forms/action_page.php:74
+msgid "User email or username"
+msgstr ""
+
+#: ../lib/forms/action_page.php:93
+msgid "<strong>Add Multiple Blogs and Users</strong>"
+msgstr ""
+
+#: ../lib/forms/action_page.php:94
+msgid ""
+"Fill out the details below to easily create multiple users and blogs and add "
+"yourself as admin to them (if you wish)."
+msgstr ""
+
+#: ../lib/forms/action_page.php:95
+msgid ""
+"You can <strong>create as many users and blogs</strong> as you want at one "
+"time. New users will be emailed their usernames and passwords automatically. "
+"By default, you will see fields for 5 users and blogs - if you need more, "
+"simply <strong>click the \"Add more\" button.</strong>"
+msgstr ""
+
+#: ../lib/forms/action_page.php:96
+msgid ""
+"Try to use <strong>unique usernames</strong> and <strong>blog URLs</strong> "
+"as this will make the process a lot quicker for you. An easy way to do this "
+"is to add numbers and letters after a regular name - for example, \"James\" "
+"at \"King Heath School\" in year 10 could be \"jameskh10\"."
+msgstr ""
+
+#: ../lib/forms/action_page.php:97
+msgid ""
+"Choose carefully as usernames and blog URLs <strong>cannot be changed</"
+"strong> once they are created."
+msgstr ""
+
+#: ../lib/forms/action_page.php:98
+msgid ""
+"If your users do not have email addresses you can use <a href=\"#\" class="
+"\"bau_gmail_dialog_help\">this Gmail method</a> to add your users!"
+msgstr ""
+
+#: ../lib/forms/action_page.php:99
+msgid ""
+"If you leave the blog title blank and the <strong>title will be the same as "
+"the username</strong>. You can change this at any time in Settings > General"
+msgstr ""
+
+#: ../lib/forms/action_page.php:100
+msgid "Let's begin:"
+msgstr ""
+
+#: ../lib/forms/action_page.php:103
+msgid "These settings get applied to all of the blogs and users created below."
+msgstr ""
+
+#: ../lib/forms/action_page.php:109
+msgid "Step 1"
+msgstr ""
+
+#: ../lib/forms/action_page.php:110
+msgid "Choose a role for your new users on <strong>their</strong> blog"
+msgstr ""
+
+#: ../lib/forms/action_page.php:115 ../lib/forms/action_page.php:116
+msgid "New user Role on NEW blog"
+msgstr ""
+
+#: ../lib/forms/action_page.php:117
+msgid ""
+"This is where you decide what the <em>newly created users</em> will be able "
+"to do on their newly created blog."
+msgstr ""
+
+#: ../lib/forms/action_page.php:118 ../lib/forms/action_page.php:143
+#: ../lib/forms/action_page.php:167
+msgid ""
+"<a href=\"#\" class=\"bau_roles_dialog_help\">Learn more about user roles</a>"
+msgstr ""
+
+#: ../lib/forms/action_page.php:134
+msgid "Step 2"
+msgstr ""
+
+#: ../lib/forms/action_page.php:135
+msgid "Choose a role for your new user on <strong>this</strong> blog"
+msgstr ""
+
+#: ../lib/forms/action_page.php:140 ../lib/forms/action_page.php:141
+msgid "New user Role on THIS blog"
+msgstr ""
+
+#: ../lib/forms/action_page.php:142
+msgid ""
+"This is where you decide what the <em>newly created users</em> will be able "
+"to do on <strong><em>this</em></strong> blog."
+msgstr ""
+
+#: ../lib/forms/action_page.php:158
+msgid "Step 3"
+msgstr ""
+
+#: ../lib/forms/action_page.php:159
+msgid "Choose <strong>your</strong> role on the new blog"
+msgstr ""
+
+#: ../lib/forms/action_page.php:164 ../lib/forms/action_page.php:165
+msgid "My role on NEW blog"
+msgstr ""
+
+#: ../lib/forms/action_page.php:166
+msgid ""
+"This is where you decide what <em>you</em> will be able to do on the newly "
+"created blog."
+msgstr ""
+
+#: ../lib/forms/action_page.php:173
+msgid "No role"
+msgstr ""
+
+#: ../lib/forms/action_page.php:185
+#, php-format
+msgid ""
+"Upgrade and remove ads on new blog:<br /> <small>(you have %d blogs left)</"
+"small>"
+msgstr ""
+
+#: ../lib/forms/action_page.php:198
+msgid "<strong>Add</strong> your users and blogs"
+msgstr ""
+
+#: ../lib/forms/action_page.php:205
+msgid ""
+"This will be the name used to log in, try to use something that will be "
+"unique - e.g. jamesqt3."
+msgstr ""
+
+#: ../lib/forms/action_page.php:206
+msgid ""
+"For existing users, leave this form blank and just enter the user email "
+"below."
+msgstr ""
+
+#: ../lib/forms/action_page.php:211
+msgid ""
+"if a user already exists with this email address, that user will be added to "
+"the blog you're creating."
+msgstr ""
+
+#: ../lib/forms/action_page.php:216
+msgid ""
+"Leave this blank for a random password to be automaticaly generated and "
+"emailed to the user."
+msgstr ""
+
+#: ../lib/forms/action_page.php:219
+msgid "Blog URL"
+msgstr ""
+
+#: ../lib/forms/action_page.php:221
+msgid "you must fill this in for a blog to be created."
+msgstr ""
+
+#: ../lib/forms/action_page.php:222
+msgid ""
+"Try to choose something unique - e.g. myblog1aq will create http://myblog1aq."
+"domain.com."
+msgstr ""
+
+#: ../lib/forms/action_page.php:225
+msgid "Blog Title"
+msgstr ""
+
+#: ../lib/forms/action_page.php:227
+msgid ""
+"This will appear as the title and can easily be changed later on - e.g. My "
+"School Blog."
+msgstr ""
+
+#: ../lib/forms/action_page.php:231
+msgid "Add me as Admin"
+msgstr ""
+
+#: ../lib/forms/action_page.php:247
+msgid "Gmail + trick"
+msgstr ""
+
+#: ../lib/forms/action_page.php:248
+msgid ""
+"You can create as many unique email addresses as you want by simply adding "
+"&quot;+&quot; character to your email username, followed by something "
+"unique. All messages sent to this address will end up in your one Gmail "
+"inbox."
+msgstr ""
+
+#: ../lib/forms/action_page.php:249
+msgid "How to use Gmail + Trick"
+msgstr ""
+
+#: ../lib/forms/action_page.php:250
+msgid ""
+"All you need to do is create one gmail account like <code>mathiscool@gmail."
+"com</code> or <code>room16@gmail.com</code>."
+msgstr ""
+
+#: ../lib/forms/action_page.php:251
+msgid ""
+"Gmail ignores any letters and numbers you add after a + sign and sends all "
+"emails to your one gmail account while our system thinks each is unique "
+"email."
+msgstr ""
+
+#: ../lib/forms/action_page.php:252
+msgid "Example"
+msgstr ""
+
+#: ../lib/forms/action_page.php:253
+msgid ""
+"You might use <code>mathiscool+jameskh10@gmail.com</code>, <code>mathiscool"
+"+davesskh10@gmail.com</code> and so on for creating their usernames and "
+"gmail will send all emails to the one gmail account <code>mathiscool@gmail."
+"com</code>"
+msgstr ""
+
+#: ../lib/forms/action_page.php:257
+msgid "WordPress user roles"
+msgstr ""
+
+#: ../lib/forms/action_page.php:258
+msgid ""
+"There are five pre-defined Roles: Administrator, Editor, Author, Contributor "
+"and Subscriber. Each Role is allowed to perform a set of tasks called "
+"Capabilities. "
+msgstr ""
+
+#: ../lib/forms/action_page.php:259
+msgid ""
+"The Administrator Role is allowed to perform all possible Capabilities. Each "
+"of the other Roles has a decreasing number of allowed Capabilities."
+msgstr ""
+
+#: ../lib/forms/action_page.php:260
+msgid "Summary of Roles"
+msgstr ""
+
+#: ../lib/forms/action_page.php:262
+msgid ""
+"<em>Administrator</em> - Somebody who has access to all the administration "
+"features"
+msgstr ""
+
+#: ../lib/forms/action_page.php:263
+msgid ""
+"<em>Editor</em> - Somebody who can publish and manage posts and pages as "
+"well as manage other users' posts, etc."
+msgstr ""
+
+#: ../lib/forms/action_page.php:264
+msgid "<em>Author</em> - Somebody who can publish and manage their own posts"
+msgstr ""
+
+#: ../lib/forms/action_page.php:265
+msgid ""
+"<em>Contributor</em> - Somebody who can write and manage their posts but not "
+"publish them"
+msgstr ""
+
+#: ../lib/forms/action_page.php:266
+msgid "<em>Subscriber</em> - Somebody who can only manage their profile"
+msgstr ""
+
+#: ../lib/forms/action_page.php:268
+msgid ""
+"From <a target=\"_blank\" href=\"http://codex.wordpress.org/"
+"Roles_and_Capabilities\">WordPress Codex</a>"
+msgstr ""
+
+#: ../lib/forms/action_page.php:272
+msgid "Please, wait..."
+msgstr ""
+
+#: ../lib/forms/action_page.php:524
+msgid "Click here for help"
+msgstr ""

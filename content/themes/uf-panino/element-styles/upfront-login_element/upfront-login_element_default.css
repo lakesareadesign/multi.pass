@@ -1,0 +1,46 @@
+.upfront_login-form form input[type="text"], .upfront_login-form form input[type="email"], .upfront_login-form form input[type="password"] {
+    background: #ufc5;
+    border: 1px solid #ufc3;
+    color: #ufc3;
+    font-family: 'Special Elite', Arial, sans-serif;
+    font-size: 18px;
+}
+.upfront_login-form form input[type="text"]:disabled, .upfront_login-form form input[type="email"]:disabled, .upfront_login-form form input[type="password"]:disabled {
+    border-color: #ufc2;
+    color: #ufc2;
+}
+.upfront_login-form form input[type="text"]:hover, .upfront_login-form form input[type="email"]:hover, .upfront_login-form form input[type="password"]:hover {
+    color: #ufc4;
+}
+.upfront_login-form form#loginform input[type=checkbox]:before {
+    border: 2px solid #ufc0;
+    border-radius: 4px;
+}
+.upfront_login-form form#loginform input[type=checkbox]:checked:before {
+    background-image: none;
+    background-color: #ufc5;
+    content: "x";
+    color: #ufc0;
+    text-align: center;
+}
+.upfront_login-form form#loginform  input[type=submit] {
+    background-color: #ufc4;
+    border: none;
+    text-transform: uppercase;
+    -webkit-transition: background-color .2s;
+    -moz-transition: background-color .2s;
+    -ms-transition: background-color .2s;
+    transition: background-color .2s;
+}
+.upfront_login-form form#loginform  input[type=submit]:hover {
+    background-color: #ufc6;
+}
+.upfront_login-form p .login-lostpassword-link {
+    color: #ufc3;
+}
+.upfront_login-form p .login-lostpassword-link:hover {
+    color: #ufc4;
+}
+
+
+/* 133620-1456900939-au */

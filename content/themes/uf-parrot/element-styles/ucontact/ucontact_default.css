@@ -1,0 +1,48 @@
+.upfront-contact-form .ucontact-message-container {
+    margin-bottom: 0;
+}
+.upfront-contact-form .ucontact-message-container.ucontact-success-response {
+    background-color: transparent;
+    padding: 0;
+    position: relative;
+    margin: 0;
+}
+.upfront-contact-form .ucontact-message-container.ucontact-success-response:after {
+    content: "";
+    display: none;
+}
+.upfront-contact-form .ucontact-message-container.ucontact-success-response div {
+    display: block;
+}
+.upfront-contact-form .ucontact-msg {
+    border-radius: 3px;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    font-style: normal;
+    line-height: 1.6em;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+.upfront-contact-form .ucontact-msg.error {
+    background: #f2dede;
+    color: #a94442;
+}
+.upfront-contact-form .ucontact-msg.info {
+    background: #dff0d8;
+    color: #3c763d;
+}
+.upfront-contact-form .ucontact-msg.info p {
+    color: #3c763d;
+    display: block;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    font-style: normal;
+    line-height: 1.6em;
+    margin: 0;
+    text-align: left;
+}
+
+
+/* 133620-1456900944-au */

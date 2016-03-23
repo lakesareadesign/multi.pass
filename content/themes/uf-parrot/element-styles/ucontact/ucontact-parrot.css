@@ -1,0 +1,35 @@
+#page .ucontact-parrot .ucontact-input {
+	border: 1px solid #cecac7;
+	color: #666666;
+	padding: 10px;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	font-size: 14px;
+	font-family: 'Open Sans';
+	font-weight: 400;
+}
+#page .ucontact-parrot .submit-field {
+    background-color: #2a8a5e;
+    border: 1px solid #2a8a5e;
+    color: #fff;
+    border-radius: 3px;
+    padding: 0px 60px;
+    font-size: 14px;
+	font-family: 'Open Sans';
+	font-weight: 700;
+    margin-bottom:100px;
+    margin-top:0px;
+    line-height: 40px;
+    height:40px;
+}
+#page .ucontact-parrot .submit-field:hover {
+    border-color: #117145;
+    background-color: rgba(255, 255, 255, 0);
+    color: #117145;
+}
+#page .ucontact-parrot .submit-field:focus {
+    outline: 2px solid #63c9e2;
+}
+
+
+/* 133620-1456900944-au */

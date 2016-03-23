@@ -1,0 +1,21 @@
+#page .accordion-header {
+  background: #7a8080;
+  padding: 15px;
+}
+#page .accordion-header:hover {
+  background: #97d8d6;
+}
+#page .accordion-header.active {
+  background: #97d8d6;
+}
+#page .accordion-header h3 {
+   color: #FFFFFF;
+   font-size: 26px;
+}
+#page .accordion-header p {
+    color: #FFFFFF;
+    font-size: 18px;
+}
+
+
+/* 133620-1456900953-au */

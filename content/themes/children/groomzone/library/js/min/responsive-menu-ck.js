@@ -1,0 +1,1 @@
+jQuery(function(n){n("nav .genesis-nav-menu").addClass("responsive-menu").before('<div class="responsive-menu-icon"></div>'),n(".responsive-menu-icon").click(function(){n(this).next("nav .genesis-nav-menu").slideToggle()}),n(window).resize(function(){window.innerWidth>768&&n("nav .genesis-nav-menu").removeAttr("style")})});

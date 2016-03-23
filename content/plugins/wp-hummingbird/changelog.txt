@@ -1,0 +1,44 @@
+Plugin Name: WP Hummingbird
+Author: Ignacio Cruz, Ricardo Freitas
+Tested up to: 4.4.2
+
+Change Log:
+
+1.1.2 - 2016-03-18
+----------------------------------------------------------------------
+- Fixed: Performance test waiting time set back to 5 minutes
+
+1.1.1 - 2016-03-17
+----------------------------------------------------------------------
+- Fixed: Uptime not displaying chart
+- Fixed: Warning in Uptime page
+
+1.1 - 2016-03-16
+----------------------------------------------------------------------
+- New: New filetype in Caching results
+- New: wphb_add_meta_box filter
+- New: wphb_code_snippet filter
+- Enhance: Get Uptime results when the plugin is activated
+- Enhance: Start a performance test when the plugin is activated
+- Enhance: Better errors handling in Plugin API Classes
+- Enhance: Better cache clean on deactivation
+- Fixed: Minification cached resources not being loaded via https
+- Fixed: Permissions errors in multisites
+- UX Improvements
+
+1.0.1 - 2016-03-03
+----------------------------------------------------------------------
+- Enhance: Added plugins list action link
+- Enhance: If Browser Caching is already recommended or better, Enable button is now hidden
+- Enhance: Activate API log by using WP_DEBUG_LOG constant
+- Fixed: Warning when deleting cached files
+- Fixed: Empty file was appearing when all assets were sent to footer
+- Fixed: settings were reset to default when plugin was deactivated.
+- Some other minor enhancements/fixes
+
+1.0 - 2016-02-23
+----------------------------------------------------------------------
+- First release
+
+
+133620-1458371947-au

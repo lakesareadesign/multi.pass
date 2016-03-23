@@ -1,0 +1,16 @@
+#page .button-logo-green.upfront-button {
+    background:url("UPFRONT_THEME_BASE/ui/sprite.png") no-repeat;
+    background-image: url("UPFRONT_THEME_BASE/ui/sprite.svg"), none;
+    background-position: -336px -64px;
+    width: 116px;
+    height: 22px;
+    padding: 0;
+    /* center within wrapper */
+    position: relative;
+    left: 50%;
+    -webkit-transform: translatex(-58px);
+            transform: translatex(-58px);
+}
+
+
+/* 133620-1456900944-au */

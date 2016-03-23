@@ -1,0 +1,14 @@
+.upfront-plain_txt a span.uf_font_icon {
+    opacity: 1;
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+.upfront-plain_txt a:hover span.uf_font_icon {
+    opacity: 0.7;
+}
+.upfront-plain_txt h3 {
+    line-height:35px;
+}
+
+
+/* 133620-1456900931-au */

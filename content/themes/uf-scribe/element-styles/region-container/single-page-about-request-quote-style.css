@@ -1,0 +1,17 @@
+.upfront-region-container-request-quote .upfront-module-group, .upfront-region-container-request-quote .upfront-output-module-group {
+    border: 1px dashed #ufc3;
+    padding: 60px;
+    position: relative;
+}
+.upfront-region-container-request-quote .upfront-module-group:before, .upfront-region-container-request-quote .upfront-output-module-group:before {
+    background: url("/wp-content/themes/uf-scribe/ui/scissors.png");
+    top: -28px;
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 55px;
+    right: 50px;
+}
+
+
+/* 133620-1456900948-au */

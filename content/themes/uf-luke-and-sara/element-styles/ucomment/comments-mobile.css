@@ -1,0 +1,15 @@
+#page .comments-mobile .upfront-comments li * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#page .comments-mobile .upfront-comments .comment-author, #page .comments-mobile .comment-form p.form-allowed-tags {
+    display: none;
+}
+#page .comments-mobile .comment-respond .form-submit input {
+    width: 100%;
+    display: block;
+}
+
+
+/* 133620-1456900936-au */

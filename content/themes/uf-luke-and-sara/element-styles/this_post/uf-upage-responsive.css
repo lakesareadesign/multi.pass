@@ -1,0 +1,20 @@
+#page .uf-upage-responsive .upfront-postpart-contents {
+    margin-bottom: 75px;
+}
+#page .uf-upage-responsive .post_content {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+#page .uf-upage-responsive .upfront-inserted_image-wrapper.ueditor-insert-variant .ueditor-insert {
+    margin: 0;
+    width: 100%;
+}
+#page .uf-upage-responsive .uinsert-image-wrapper img {
+    margin-right: auto;
+    margin-left: auto;
+    width: auto;
+}
+
+
+/* 133620-1456900936-au */

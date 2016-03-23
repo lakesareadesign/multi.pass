@@ -1,0 +1,23 @@
+.ugallery_labels {
+    margin-bottom: 1.5em;
+    text-align: center;
+}
+.ugallery a.ugallery_label_filter {
+    color: #ufc3;
+    margin-right: 1em;
+    text-decoration: none;
+}
+.ugallery a.ugallery_label_filter.filter_selected {
+    color: #ufc1;
+}
+.ugallery .ugallery-thumb-title {
+    background: rgba(249, 214, 50, 0.7);
+    color: #ufc4;
+    font-family: 'Special Elite', Arial, sans-serif;
+    font-size: 18px;
+    line-height: 2.2em;
+    text-decoration: none;
+}
+
+
+/* 133620-1456900939-au */

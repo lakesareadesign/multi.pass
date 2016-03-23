@@ -1,0 +1,1046 @@
+# Translation of the WordPress plugin Pay With a Like 2.0.1.3 by WPMU DEV.
+# Copyright (C) 2014 WPMU DEV
+# This file is distributed under the same license as the Pay With a Like package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Pay With a Like 2.0.1.3\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/pay-with-a-like\n"
+"POT-Creation-Date: 2014-05-27 07:20-0500\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: includes/class_wd_help_tooltips.php:296
+msgid "Help"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:8
+msgid "Where to show Pay With a Like Buttons"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:10
+msgid ""
+"Pay With a Like allows protecting posts or parts of posts until the visitor "
+"clicks the action button to show the protected content. These settings "
+"provide a quick way to set Pay With a Like for your posts and pages. They "
+"can be overridden on a per post basis using the post editor metabox."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:12
+msgid ""
+"<strong>Enabled for All</strong> - When checked will include all of the "
+"selected posts when displaying the Pay With a Like buttons. If unchecked you "
+"can still enable individual posts via the Pay With a Like metabox shown on "
+"the post editor screen."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:13
+msgid ""
+"<strong>Show Metabox</strong> - When checked will display Pay With a Like "
+"metabox on the post editor screen."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:17
+msgid "Activation for post types"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:45
+msgid "Enable for all"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:49
+msgid "Show Metabox"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:69
+msgid "Default settings for Pay With a Like content protection"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:71
+msgid ""
+"This section lets you define the default content handling for all post "
+"types. You will be able to override these settings on individual posts via "
+"the editor screen if you have checked Show Metabox above for that post type."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:74
+msgid "Revealed content selection method"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:77
+msgid ""
+"<strong>Automatic Excerpt</strong> - This option will create an automatic "
+"excertp from the content to show users. You can control the excerpt length."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:78
+msgid ""
+"<strong>Manual Excerpt</strong> - This option tells the plugin to use the "
+"excerpt field from the post. Note the post type must support the Excerpt "
+"field. Some post types like Pages do not. This option will default to "
+"automatic if the post types do not support the Excerpt field."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:79
+msgid ""
+"<strong>Select Excerpt</strong> - This option allows you to manually select "
+"text within your post content for the <strong>hidden content</strong>. Using "
+"this tool you will see the button on the Visual editor toolbar. The hidden "
+"content can be anywhere within your content. You are not limited to the "
+"beginning or end of the content like with excerpts."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:85 pay-with-a-like.php:2078
+msgid "Excerpt length (words)"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:87
+msgid ""
+"Number of words of the post content that will be displayed publicly. Only "
+"effective if Automatic excerpt is selected. And if the post content length "
+"is longer than the set number of words."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:93
+msgid "Description above the buttons"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:95
+msgid ""
+"You may want to write something here that will encourage the visitor to "
+"click a button. You may customize this message on the individual post editor "
+"metabox."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:101
+msgid "Reload Content on Like"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:104
+msgid ""
+"When a user clicks the Pay With a Like buttons the content the hidden "
+"content can be revealed by full page refresh or AJAX load. For AJAX the Pay "
+"With a Like button will be removed and replaced with the new content. Note "
+"this option is still experimental and depending on the complexity of the "
+"content being shown may not work. You will be able to change this setting at "
+"the individual content level."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:107
+msgid "Page refresh"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:108 pay-with-a-like.php:2114
+msgid "AJAX"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:122
+msgid "Buttons Container Settings"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:124
+msgid ""
+"This section give you some control over the container box wrapped around the "
+"social buttons."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:127
+msgid "Width"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:129
+msgid ""
+"By default the Pay With a Like button container is added below or within the "
+"post content. The width defaults to the theme content_width variable if "
+"defined. If not it is set to 100%. If for some reason the width does not "
+"work well for your theme you can specify the alternate container width here. "
+"You may also override this on the individual posts."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:170
+msgid "Buttons Visibility Settings"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:174
+msgid "Enable on the home page"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:176
+msgid ""
+"Enables the plugin for the home page. If you are displaying latest posts or "
+"some similar category archive enabling this will show the buttons on each "
+"post. If this option is not enabled the full content will be shown. If you "
+"are instead showing a static page you will control the buttons via that page "
+"form. Some themes use excerpts here so enabling plugin for these pages may "
+"cause strange output."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:178 lib/pwal_admin_panels.php:189
+msgid "Yes, show buttons"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:179 lib/pwal_admin_panels.php:190
+msgid "No, show full content"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:185
+msgid "Enable for multiple post pages"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:187
+msgid ""
+"Enables the plugin for pages (except the home page) which contain content "
+"for more that one post/page, e.g. archive, category pages. Some themes use "
+"excerpts here so enabling plugin for these pages may cause strange output. "
+msgstr ""
+
+#: lib/pwal_admin_panels.php:196
+msgid "Admin sees full content"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:198
+msgid "You may want to select No for test purposes."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:200 lib/pwal_admin_panels.php:211
+#: lib/pwal_admin_panels.php:253 lib/pwal_admin_panels.php:273
+#: lib/pwal_admin_panels.php:291 lib/pwal_admin_panels.php:303
+#: lib/pwal_admin_panels.php:509 lib/pwal_admin_panels.php:595
+msgid "Yes"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:201 lib/pwal_admin_panels.php:212
+#: lib/pwal_admin_panels.php:254 lib/pwal_admin_panels.php:274
+#: lib/pwal_admin_panels.php:292 lib/pwal_admin_panels.php:304
+#: lib/pwal_admin_panels.php:508 lib/pwal_admin_panels.php:594
+msgid "No"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:207
+msgid "Authorized users see full content"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:209
+msgid ""
+"If Yes, authorized users will see the full content without the need to like "
+"a content. Authorization level will be revealed after you select yes. Admin "
+"setting is independent of this one."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:218
+msgid "User level where authorization starts"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:220
+msgid ""
+"If the above field is selected as yes, users having a higher level than this "
+"selection will see the full content."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:249
+msgid "Search bots see full content"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:251
+msgid ""
+"You may want to enable this for SEO purposes. Warning: Your full content may "
+"be visible in search engine results."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:261
+msgid "Cookie validity time (hours)"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:263
+msgid ""
+"Validity time of the cookie which lets visitor to be exempt from the "
+"protection after he/she liked. Tip: If you want the cookie to expire at the "
+"end of the session (when the browser is closed), enter zero here."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:269
+msgid "Use usermeta to store WordPress user likes"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:271
+msgid ""
+"WordPress authenticated users can also store their like(s) as part of the "
+"user meta information. This does not expire like a cookie and will be there "
+"no if the browser cookies are cleared or if the user uses a different "
+"browser."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:283
+msgid "Sitewide and Random Likes"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:287
+msgid "Sitewide Like"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:289
+msgid ""
+"If selected yes, when visitor likes a single content, all protected content "
+"on the website will be revealed to him/her."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:299
+msgid "Like Random Page"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:301
+msgid ""
+"If selected yes, a random published page or post on your website will be "
+"selected to be liked. This disables \"URL to be liked\" setting."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:310
+msgid "URL to be liked"
+msgstr ""
+
+#. translators: Here, %s is the home page url.
+#: lib/pwal_admin_panels.php:314
+#, php-format
+msgid ""
+"You can enter a single URL to be liked, e.g. your home page, %s. This can be "
+"any URL external to your site like your Facebook page. If left empty, the "
+"URL for the post will be used. You can also override the URL to be liked on "
+"each post."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:329
+msgid "Social Buttons to display"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:334
+msgid "Buttons to use"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:336
+msgid ""
+"Once you have set a button as Visible and save this page, you will see a new "
+"tab specific to the  button. On that tab you will be able to customize the "
+"style of the button. Drag the buttons into the order you want them displayed "
+"on the post. "
+msgstr ""
+
+#: lib/pwal_admin_panels.php:398
+msgid "Visible"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:404
+msgid "Load JS"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:412
+msgid ""
+"<strong>Visible</strong> - If checked means the social button will be "
+"displayed within the Pay With a Like box on the post"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:413
+msgid ""
+"<strong>Load JS</strong> - If checked means the plugin will load the needed "
+"JavaScript libraries from the social network in order to display the button. "
+"If you have other plugins which already use these scripts it mean there are "
+"potential issues because the JavaScript libraries will be loaded more than "
+"once. In that case uncheck related checkbox. If you are unsure and not "
+"having any issues, keep this settings checked."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:449
+msgid "Facebook Like button Display options"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:454 lib/pwal_admin_panels.php:720
+#: lib/pwal_admin_panels.php:773 lib/pwal_admin_panels.php:851
+msgid "Button Style"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:459 lib/pwal_admin_panels.php:726
+#: lib/pwal_admin_panels.php:778 lib/pwal_admin_panels.php:856
+msgid "Vertical"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:465 lib/pwal_admin_panels.php:730
+#: lib/pwal_admin_panels.php:782 lib/pwal_admin_panels.php:861
+msgid "Horizontal"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:471 lib/pwal_admin_panels.php:735
+#: lib/pwal_admin_panels.php:788 lib/pwal_admin_panels.php:868
+msgid "No Count"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:495
+msgid "Verb to display"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:498
+msgid "Like"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:499
+msgid "Recommend"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:504
+msgid "Include Share button"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:506
+msgid "User still needs to use Like button to unlock hidden content."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:525
+msgid "Facebook Comment popup"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:527
+msgid ""
+"If enabled, when the user clicks the like button Facebook will display a "
+"popup comment form. The PWAL process will wait until the user submits the "
+"form before reloading the page to show full content. If not enabled the form "
+"will submit after clicking the Facebook like button."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:528
+msgid ""
+"Wait for optional Facebook Comment popup on Facebook Like (Check for yes)"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:535 lib/pwal_admin_panels.php:540
+#: lib/pwal_admin_panels.php:744 lib/pwal_admin_panels.php:749
+#: lib/pwal_admin_panels.php:824 lib/pwal_admin_panels.php:829
+#: lib/pwal_admin_panels.php:878 lib/pwal_admin_panels.php:883
+msgid "Button Language"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:537
+msgid ""
+"In most cases the language your website is displayed in is acceptable as the "
+"language for the social buttons. But in some rare cases the social network "
+"API does not support your language. Here you can specify the alternate "
+"language to use instead of your default website language"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:544
+#, php-format
+msgid ""
+"If left blank the default language as defined in your wp-config.php (<strong>"
+"%s</strong>) will be used. Please refer to the Facebook accepted %s codes."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:544 lib/pwal_admin_panels.php:753
+#: lib/pwal_admin_panels.php:833 lib/pwal_admin_panels.php:887
+msgid "Languages"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:552
+msgid "Facebook App Setup"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:554
+msgid ""
+"You can setup a Facebook App to allow deeper integration with the Facebook "
+"API. A Facebook App is required for options like check if a user has liked a "
+"page on Facebook."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:558
+msgid "Facebook App API Key"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:564
+#, php-format
+msgid ""
+"Register this site as an application on Facebook's <a target=\"_blank\" href="
+"\"%s\">app registration page</a>."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:565
+msgid ""
+"Click the Create New App button. This will show a popup form where you will "
+"in the details of the App for your website."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:566
+msgid "The site URL should be"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:567
+msgid ""
+"Once you have registered your site as an application, you will be provided "
+"with a App ID and a App secret."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:568
+msgid "Copy and paste them to the fields on the left"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:573
+msgid "Facebook App API Secret"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:585
+msgid "Facebook Authorization Polling"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:587
+msgid ""
+"When a user arrives to your site the plugin checks if they are already "
+"logged into their Facebook account. If the user is not already logged in you "
+"can set the plugin to keep checking on a frequency interval define below. Or "
+"you can choose to only check once on the initial page load."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:591
+msgid "Enable Polling"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:600
+msgid "Polling Frequency (seconds)"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:618
+msgid "Facebook Fan Pages"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:621
+msgid ""
+"In addition to granting access when a user likes posts from this website, "
+"you can also grant access to users who may have liked your Facebook pages. "
+"Enter the Facebook page URL in the field below. Note at the moment these are "
+"treated globally. If the user viewing your website has previously liked any "
+"of the Facebook pages they are given full access to all Pay With a Like "
+"hidden content. This may change in the future."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:630
+msgid "Facebook Page Info"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:641
+msgid "Enter Facebook page URL"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:649
+msgid "or"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:654
+msgid "e.g."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:665
+msgid "X"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:676
+msgid "URL:"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:681
+msgid "Page ID:"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:698
+msgid "+"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:701
+msgid ""
+"<strong>The Facebook API Key and API Secret are required to use Facebook Fan "
+"Pages integration.</strong>"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:715
+msgid "LinkedIn Like button Display options"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:746 lib/pwal_admin_panels.php:826
+#: lib/pwal_admin_panels.php:880
+msgid ""
+"In most cases the language your website is display in is acceptable as the "
+"language for the social buttons. But on some rare cases the social network "
+"API does not support your language. Here you can specificy the alternate "
+"language to use it not your default website language."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:753
+#, php-format
+msgid ""
+"If left blank the default language as defined in your wp-config.php (<strong>"
+"%s</strong>) will be used. Please refer to the LinkedIn accepted %s codes."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:768
+msgid "Twitter Like button Display options"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:805
+msgid "Tweet Message"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:807
+msgid ""
+"Do not include the post URL here. The post URL is automatically added by "
+"Twitter."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:810
+msgid ""
+"You can use replaceable parameters in the tweet message. These will be "
+"replaced with the real content when the button is rendered."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:811
+msgid ""
+"You can also setup a filter 'pwal_twitter_message' which will allow you to "
+"filter the message dynamically."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:813
+msgid "To represent the post title"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:814
+msgid "To represent the site title"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:815
+msgid "To represent the site tagline"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:833
+#, php-format
+msgid ""
+"If left blank the default language as defined in your wp-config.php (<strong>"
+"%s</strong>) will be used. Please refer to the Twitter accepted %s codes."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:846
+msgid "Google +1 Like button Display options"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:887
+#, php-format
+msgid ""
+"If left blank the default language as defined in your wp-config.php (<strong>"
+"%s</strong>) will be used. Please refer to the Google +1 accepted %s codes."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:901
+msgid "Like Statistics"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:951
+msgid "Total likes"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:957
+msgid "likes"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:972
+msgid "Most liked posts"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:991 lib/pwal_admin_panels.php:1028
+msgid "Clear Statistics"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:991 lib/pwal_admin_panels.php:1028
+msgid "Clicking this button deletes statistics saved on the server"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:996 lib/pwal_admin_panels.php:1039
+msgid "Export Statistics"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:996 lib/pwal_admin_panels.php:1039
+msgid ""
+"If you click this button a CSV file including statistics will be saved on "
+"your PC"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1016
+msgid "Like Statistics Actions"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1046
+msgid "Are you sure to clear statistics?"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1065
+msgid "Like Statistics Chart"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1120
+msgid "Like Statistics Summary"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1142
+msgid "Social"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1143 lib/pwal_admin_panels.php:1261
+#: lib/pwal_admin_panels.php:1360
+msgid "Count"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1167 lib/pwal_admin_panels.php:1280
+#: lib/pwal_admin_panels.php:1379
+msgid "Total"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1174 lib/pwal_admin_panels.php:1287
+#: lib/pwal_admin_panels.php:1386
+msgid "No Like Statistics to report."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1216
+msgid "Top 10 Posts"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1260
+msgid "Title"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1332
+msgid "Top 10 IP Addresses"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1359
+msgid "IP Address"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1399
+msgid "Using Pay With a Like as a shortcode."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1401
+msgid ""
+"You can use Pay With a Like as a normal shortcode in WordPress. You just "
+"need to call the WordPress function do_shortcode() with the correct PWAL "
+"shortcode."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1403
+msgid "Below are the accpted shortcode parameters"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1405
+msgid ""
+"This is the unque global number for the Pay With a Like element. You can "
+"make this a very large number like 987654321 to ensure it does not match an "
+"existing post ID."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1406
+msgid ""
+"This is the description shown above the Pay With a Like Buttons. If not "
+"provided the main Pay With a Like settings are used."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1407
+msgid ""
+"Controls how the hidden content is revealed. Possible values are "
+"<strong>refresh</strong> or <strong>ajax</strong>. If not provided the main "
+"Pay With a Like settings are used."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1408
+msgid ""
+"Controls the width of the buttons container. Should be a normal value like "
+"you would user for CSS. For example 500px, 30%, etc. If not provided the "
+"main Pay With a Like settings are used."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1409
+msgid ""
+"Controls if the shotcode process is to add paragraph tags around the hidden "
+"content. Default is <strong>yes</strong>."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1412
+msgid ""
+"In the example below note we are using a shortcode format <strong>[pwal]"
+"Hidden content goes here[/pwal]</strong>."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1422
+msgid "Handling Pay With a Like via Template Function (legacy)"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1424
+msgid ""
+"While the wpmudev_pwal_html() function is still supported it is consider "
+"depricated. You should use the shortcode method described above"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1425
+msgid ""
+"For protecting html codes that you cannot add to post content, there is a "
+"template function <b>wpmudev_pwal_html</b>. This function replaces all such "
+"codes with like buttons and reveal them when payment is done. Add the "
+"following codes to the page template where you want the html codes to be "
+"displayed and modify as required. Also you need to use the bottom action "
+"function."
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1488
+msgid "Customizing the CSS"
+msgstr ""
+
+#: lib/pwal_admin_panels.php:1494
+#, php-format
+msgid ""
+"If you want to apply your own styles copy contents of front.css to your "
+"theme css file and add this code inside functions.php of your theme:"
+"<code>add_theme_support( \"pay_with_a_like_style\" )</code> OR copy and "
+"rename the default css file <b>%s</b> as <b>%s</b> and edit this latter "
+"file. Then, your edited styles will not be affected from plugin updates."
+msgstr ""
+
+#: pay-with-a-like.php:271 pay-with-a-like.php:3126
+msgid "Facebook"
+msgstr ""
+
+#: pay-with-a-like.php:272
+msgid "Linkedin"
+msgstr ""
+
+#: pay-with-a-like.php:273 pay-with-a-like.php:3128
+msgid "Twitter"
+msgstr ""
+
+#: pay-with-a-like.php:274
+msgid "Google+1"
+msgstr ""
+
+#: pay-with-a-like.php:284
+msgid ""
+"To see the full content, share this page by clicking one of the buttons below"
+msgstr ""
+
+#: pay-with-a-like.php:356 pay-with-a-like.php:2275 pay-with-a-like.php:2276
+msgid "Settings"
+msgstr ""
+
+#: pay-with-a-like.php:1645
+msgid "Something went wrong. Please refresh the page and try again. (nonce)"
+msgstr ""
+
+#: pay-with-a-like.php:1654
+msgid ""
+"Something went wrong. Please refresh the page and try again. "
+"(pwal_info_items)"
+msgstr ""
+
+#: pay-with-a-like.php:1675
+msgid "Something went wrong. Please refresh the page and try again. (post_id)"
+msgstr ""
+
+#: pay-with-a-like.php:1683
+msgid ""
+"Something went wrong. Please refresh the page and try again. (content_id)"
+msgstr ""
+
+#. #-#-#-#-#  pay-with-a-like.pot (Pay With a Like 2.0.1.3)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: pay-with-a-like.php:1972 pay-with-a-like.php:2266 pay-with-a-like.php:2267
+#: pay-with-a-like.php:3367
+msgid "Pay With a Like"
+msgstr ""
+
+#: pay-with-a-like.php:2013
+msgid "Show Like Statistics"
+msgstr ""
+
+#: pay-with-a-like.php:2020 pay-with-a-like.php:2023 pay-with-a-like.php:2046
+#: pay-with-a-like.php:2049 pay-with-a-like.php:2109 pay-with-a-like.php:2111
+msgid "Default:"
+msgstr ""
+
+#: pay-with-a-like.php:2020 pay-with-a-like.php:2029
+msgid "Enabled"
+msgstr ""
+
+#: pay-with-a-like.php:2023 pay-with-a-like.php:2030
+msgid "Disabled"
+msgstr ""
+
+#: pay-with-a-like.php:2033
+msgid "Enabled?"
+msgstr ""
+
+#: pay-with-a-like.php:2049
+msgid "Automatic"
+msgstr ""
+
+#: pay-with-a-like.php:2054
+msgid "Automatic excerpt"
+msgstr ""
+
+#: pay-with-a-like.php:2055
+msgid "Manual excerpt"
+msgstr ""
+
+#: pay-with-a-like.php:2056
+msgid "Use selection tool"
+msgstr ""
+
+#: pay-with-a-like.php:2062
+msgid "Excerpt Method"
+msgstr ""
+
+#: pay-with-a-like.php:2080 pay-with-a-like.php:2093
+msgid "Default"
+msgstr ""
+
+#: pay-with-a-like.php:2091
+msgid "Button Container Width"
+msgstr ""
+
+#: pay-with-a-like.php:2098
+msgid "Alt. URL to Like"
+msgstr ""
+
+#: pay-with-a-like.php:2100
+msgid "If blank current post URL is used"
+msgstr ""
+
+#: pay-with-a-like.php:2115
+msgid "Refresh"
+msgstr ""
+
+#: pay-with-a-like.php:2120
+msgid "Reload Content"
+msgstr ""
+
+#: pay-with-a-like.php:2134 pay-with-a-like.php:3378
+msgid "Description"
+msgstr ""
+
+#: pay-with-a-like.php:2136
+msgid "If blank global setting is used"
+msgstr ""
+
+#: pay-with-a-like.php:2294 pay-with-a-like.php:2295 pay-with-a-like.php:3125
+msgid "Social Buttons"
+msgstr ""
+
+#: pay-with-a-like.php:2303 pay-with-a-like.php:2304
+msgid "Statistics"
+msgstr ""
+
+#: pay-with-a-like.php:2312 pay-with-a-like.php:2313
+msgid "Customization"
+msgstr ""
+
+#: pay-with-a-like.php:2983
+msgid "<b>[Pay With a Like]</b> Settings saved"
+msgstr ""
+
+#: pay-with-a-like.php:2990
+msgid "<b>[Pay With a Like]</b> You are not authorised to do this."
+msgstr ""
+
+#: pay-with-a-like.php:2999
+msgid ""
+"<b>[Pay With a Like]</b> You didn't select any buttons. Plugin will not "
+"function as expected."
+msgstr ""
+
+#: pay-with-a-like.php:3024
+msgid ""
+"<b>[Pay With a Like]</b> As Social Networking scripts cannot access your "
+"local pages, plugin will not function properly in localhost."
+msgstr ""
+
+#: pay-with-a-like.php:3029
+msgid ""
+"<b>[Pay With a Like]</b> Your WPLANG setting in wp-config.php is wrong. "
+"Facebook button will not work."
+msgstr ""
+
+#: pay-with-a-like.php:3069
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: pay-with-a-like.php:3088
+msgid "Pay With a Like Settings"
+msgstr ""
+
+#: pay-with-a-like.php:3099 pay-with-a-like.php:3187
+msgid "Save Changes"
+msgstr ""
+
+#: pay-with-a-like.php:3127
+msgid "LinkedIn"
+msgstr ""
+
+#: pay-with-a-like.php:3129
+msgid "Google"
+msgstr ""
+
+#: pay-with-a-like.php:3136
+msgid "Pay With a Like Social Buttons"
+msgstr ""
+
+#: pay-with-a-like.php:3197
+msgid "Pay With a Like Statistics"
+msgstr ""
+
+#: pay-with-a-like.php:3224
+msgid "Pay With a Like Customization"
+msgstr ""
+
+#: pay-with-a-like.php:3247
+msgid "Statistics could not be deleted"
+msgstr ""
+
+#: pay-with-a-like.php:3255 pay-with-a-like.php:3273
+msgid "Nothing to download!"
+msgstr ""
+
+#: pay-with-a-like.php:3374
+msgid "Please enter a value!"
+msgstr ""
+
+#: pay-with-a-like.php:3382
+msgid "Description for this selection."
+msgstr ""
+
+#: pay-with-a-like.php:3390
+msgid "Cancel"
+msgstr ""
+
+#: pay-with-a-like.php:3394
+msgid "Insert"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://premium.wpmudev.org/project/pay-with-a-like"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Allows protecting posts/pages until visitor likes the page or parts of the "
+"page with Facebook, Linkedin, Twitter or Google +1."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WPMU DEV"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://premium.wpmudev.org/"
+msgstr ""

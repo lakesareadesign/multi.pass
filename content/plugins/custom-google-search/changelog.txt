@@ -1,0 +1,34 @@
+=== Custom Google Search===
+Plugin Page: http://premium.wpmudev.org/project/custom-google-search
+Author: WPMUDEV
+Lead developer: Maniu
+Contributors: Andrey Shipilov, Cole S
+
+== Changelog ==
+
+= 1.2.2 =
+- Added option to choose different methods of displaying search results
+- Fixed security issues
+
+= 1.2 =
+- Added option to open clicked search result in same window
+- Fixed search result page use of incorrect(WordPress Admin) URL
+
+= 1.1 =
+- CGS has been upgraded to API v2
+- Pasting API v2 embed codes now properly dtermine your unique embed id
+- Fixed IE8 and IE9 Problems With Searching
+- Custom Google Search class is now globalized for accessing internal functions
+- Added global function cgs_generate_search_box();
+
+= 1.0.2 =
+- Fixed structure of HTML on Search page;
+
+= 1.0.1 =
+- Fixed notice;
+
+= 1.0.0 =
+* Initial release;
+
+
+133620-1395458828-au

@@ -1,0 +1,22 @@
+#page .button-style-three.upfront-button .upfront_cta {
+    width: 100%;
+    padding: 10px 10px 8px;
+    background: transparent;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    line-height: 1.2em;
+}
+#page .button-style-three.upfront-button .upfront_cta:hover {
+    background: #00a384;
+}
+#page .button-style-three.upfront-button .upfront_cta:active {
+    border-color: #00a384;
+    background: #01bc9d;
+    box-shadow: inset 0 2px 1px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: inset 0 2px 1px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0 2px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+/* 133620-1456900936-au */

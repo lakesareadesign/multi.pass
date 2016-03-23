@@ -1,0 +1,52 @@
+/*
+Media Queries
+---------------------------------------------------------------------------------------------------- */
+/******************************************************************
+TABLET & MID-RANGE STYLES
+This is used for tablets like iPads and Android tablets or if 
+someone resizes their browser to a medium size. Here, we'll add
+to our already simple base styles.
+******************************************************************/
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+	only screen and (-moz-min-device-pixel-ratio: 1.5),
+	only screen and (-o-min-device-pixel-ratio: 3 / 2),
+	only screen and (min-device-pixel-ratio: 1.5) {
+  .header-image .site-header .wrap {
+    background: url(images/logo@2x.png) no-repeat left;
+    background-size: 320px 164px;
+  }
+}
+
+
+@media only screen and (max-width: 767px) {
+	
+	/* styles in max767.scss */
+	@import "max767";
+
+} /* end of media query */
+
+/******************************************************************
+DESKTOP STYLES
+This is your standard view. It's what most of your visitors will
+see and it will be on a good connection so we can really add some
+hefty styles here without worrying it will overload mobile.
+******************************************************************/
+@media only screen and (max-width: 1023px) {
+	
+	/* styles in max1023.scss */
+	@import "max1023";
+
+} /* end of media query */
+
+/******************************************************************
+SUPER LARGE MONITORS STYLES 
+This is for super wide monitors for the l33t people. If you 
+worked in a good base in the previous styles, this should work
+pretty seamlessly.
+******************************************************************/
+@media only screen and (max-width: 1139px) {
+	
+	/* styles in max1139.scss */
+	@import "max1139";
+
+} /* end of media query */

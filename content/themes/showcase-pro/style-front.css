@@ -1,0 +1,179 @@
+/* Front Page Widgets
+ * ========================================================================== */
+
+.flexible-widget-area .wrap {
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+
+.flexible-widgets .widget {
+	margin-bottom: 20px;
+}
+
+.flexible-widgets .widget:last-child {
+	margin-bottom: 0;
+}
+
+@media only screen and (min-width: 800px) {
+
+	.flexible-widget-area .wrap {
+		padding-top: 10%;
+		padding-bottom: 10%;
+	}
+
+	.flexible-widgets,
+	.featured-content.widget .widget-wrap {
+		margin-left: -20px;
+		margin-right: -20px;
+		width: calc( 100% + 40px );
+	}
+
+	.flexible-widgets .widget,
+	.featured-content.widget .entry {
+		float: left;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+	.flexible-widgets.widget-full .widget,
+	.flexible-widgets.widget-area .widget:nth-of-type(1),
+	.flexible-widgets.widget-halves.uneven .widget:last-of-type {
+		width: 100%;
+	}
+
+	.flexible-widgets.widget-fourths .widget {
+		width: 25%;
+	}
+
+	.flexible-widgets.widget-halves .widget {
+		width: 50%;
+	}
+
+	.flexible-widgets.widget-thirds .widget,
+	.featured-content.widget .entry {
+		width: 33.33%;
+	}
+
+	.flexible-widgets.widget-halves .widget:nth-child(even),
+	.flexible-widgets.widget-thirds .widget:nth-child(3n+2),
+	.flexible-widgets.widget-fourths .widget:nth-child(4n+2) {
+		clear: left;
+	}
+
+}
+
+/* Front Page 1
+ * ========================================================================== */
+
+.front-page-1 {
+	text-align: center;
+}
+
+/* Front Page 2
+ * ========================================================================== */
+
+.front-page-2 {
+	background-color: #f2f2f2;
+	overflow: hidden;
+}
+
+.front-page-2 .widget-area {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+
+	position: relative;
+}
+
+.front-page-2 .widget img.pull-left {
+    margin-left: -25%;
+}
+
+.front-page-2 .widget img.pull-right {
+    margin-right: -25%;
+}
+
+.front-page-2 .widget img.pull-right,
+.front-page-2 .widget img.pull-left {
+	max-width: 150%;
+	width: auto;
+	margin-bottom: -50%;
+	margin-top: 20px;
+}
+
+@media only screen and (min-width: 800px) {
+
+	.front-page-2 .flexible-widgets.widget-halves .widget,
+	.front-page-2 .widget {
+		width: 50%;
+		float: left;
+		align-self: center;
+	}
+
+	.front-page-2 .widget img.pull-left,
+	.front-page-2 .widget img.pull-right {
+	    margin-bottom: -30%;
+	    margin-top: -30%;
+	    pointer-events: none;
+	}
+}
+
+
+/* Front Page 3
+ * ========================================================================== */
+
+.front-page-3 {
+	text-align: center;
+}
+
+.front-page-3 a,
+.front-page-3 {
+	color: #fff;
+}
+
+.front-page-3 blockquote {
+	font-size: 25px;
+	font-weight: 300;
+	font-style: normal;
+	margin: 20px 0;
+}
+
+@media only screen and (min-width: 800px) {
+	.front-page-3 blockquote {
+		font-size: 50px;
+	}
+}
+
+/* Testimonials */
+
+.testimonial-slider .entry {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+.testimonial-source {
+	max-width: 200px;
+	margin: 40px auto;
+	text-align: left;
+}
+
+.testimonials .testimonial-source img {
+	max-width: 50px;
+	border-radius: 25px;
+	float: left;
+	margin-right: 15px;
+	margin-top: -15px;
+}
+
+
+/* Front Page 4
+ * ========================================================================== */
+
+ .front-page-4 .widget:nth-of-type(1) {
+ 	text-align: center;
+ }

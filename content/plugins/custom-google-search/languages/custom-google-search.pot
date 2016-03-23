@@ -1,0 +1,156 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Custom Google Search v1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-21 00:22+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Andrey Shipilov\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: c:\\custom-google-search\n"
+
+#: c:\custom-google-search/custom-google-search.php:59
+msgid "There was an issue determining where WPMU DEV Update Notifications is installed. Please reinstall."
+msgstr ""
+
+#: c:\custom-google-search/custom-google-search.php:103
+#: c:\custom-google-search/widget.php:28
+msgid "Custom Google Search"
+msgstr ""
+
+#: c:\custom-google-search/custom-google-search.php:133
+msgid "Changes are saved."
+msgstr ""
+
+#: c:\custom-google-search/custom-google-search.php:271
+msgid "Search Results"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:27
+msgid "Settings"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:39
+msgid "General"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:44
+msgid "Embed Code/Search ID"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:46
+msgid "(required)"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:50
+msgid "Don't have it? Get it "
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:50
+msgid "here"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:57
+msgid "Paste the Custom Search embed code or Search engine unique ID here. Note that any customized styles will be stripped out."
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:63
+msgid "Style"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:67
+msgid "Default"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:68
+msgid "Purple"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:69
+msgid "Green"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:70
+msgid "Coffee"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:71
+msgid "Silver"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:72
+msgid "Minimalist"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:76
+msgid "Color scheme for the search box."
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:82
+msgid "Hide search button"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:90
+msgid "Show sidebar on search page"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:98
+msgid "Specify your website's protocol"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:102
+msgid "HTTP"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:105
+msgid "HTTPS"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:108
+msgid "Protocol-relative URLs"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:112
+msgid "Websites that use SSL (HTTPS) should use the HTTPS version of the code. Protocol relative URLs allow the browser to use the same protocol as your website's protocol."
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:120
+msgid "Widget"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:125
+msgid "Theme for Popup"
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:144
+msgid "Note: you can use any jQuery UI theme for your widget. Just upload the theme folder to /wp-google-custom-search/style/popup_themes/ and rename the .css file from \"jquery-ui-x.x.x.custom.css\" to \"custom.css\". You can then choose theme from this dropdown."
+msgstr ""
+
+#: c:\custom-google-search/page-settings.php:153
+msgid "Save Changes"
+msgstr ""
+
+#: c:\custom-google-search/widget.php:24
+msgid "A Google Custom Search form for your site."
+msgstr ""
+
+#: c:\custom-google-search/widget.php:65
+msgid "Display Results:"
+msgstr ""
+
+#: c:\custom-google-search/widget.php:67
+msgid "in pop-up"
+msgstr ""
+
+#: c:\custom-google-search/widget.php:68
+msgid "at bottom of widget"
+msgstr ""
+
+#: c:\custom-google-search/widget.php:69
+msgid "on search page"
+msgstr ""
+

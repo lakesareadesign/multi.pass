@@ -1,0 +1,14 @@
+#page .opt-in-image .upfront-image-container {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 auto;
+}
+#page .opt-in-image.upfront-image img {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    position: relative !important;
+}
+
+
+/* 133620-1456900936-au */

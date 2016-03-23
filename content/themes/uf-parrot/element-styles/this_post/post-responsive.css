@@ -1,0 +1,16 @@
+#page .post-responsive h1, #page .post-responsive h2, #page .post-responsive h3, #page .post-responsive h4, #page .post-responsive h5, #page .post-responsive h6, #page .post-responsive p {
+    margin-left: 0;
+    margin-right: 0;
+}
+#page .post-responsive .upfront-inserted_image-wrapper.ueditor-insert-variant .ueditor-insert {
+    margin: 0;
+    width: 100%;
+}
+#page .post-responsive .uinsert-image-wrapper img {
+    margin-right: auto;
+    margin-left: auto;
+    width: auto;
+}
+
+
+/* 133620-1456900944-au */

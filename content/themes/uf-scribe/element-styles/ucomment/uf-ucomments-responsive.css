@@ -1,0 +1,11 @@
+#page .uf-ucomments-responsive .upfront-comment .comment-avatar {
+    float: none;
+    margin: 15px 0;
+    display:none;
+}
+#page .uf-ucomments-responsive input.submit {
+    width:100%;
+}
+
+
+/* 133620-1456900948-au */

@@ -1,0 +1,22 @@
+#page .uf-text-block-list-bullets.upfront-plain_txt {
+    padding-top: 0;
+}
+#page .uf-text-block-list-bullets.upfront-plain_txt p {
+    line-height: 2.8em;
+    margin: 0 0 5px;
+    padding-bottom: 0px;
+    position: relative;
+}
+#page .uf-text-block-list-bullets.upfront-plain_txt p:after {
+    border-top: 2px dotted #ufc0;
+    content: "";
+    display: block;
+    margin: 5px auto 0;
+    width: 100%;
+}
+#page .uf-text-block-list-bullets.upfront-plain_txt p:last-child:after {
+    display: none;
+}
+
+
+/* 133620-1456900948-au */

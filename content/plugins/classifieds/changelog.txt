@@ -1,0 +1,407 @@
+=== Classifieds ===
+Authors: Author: Ivan Shaovchev, Andrey Shipilov (Incsub), Arnold Bailey (Incsub)
+Plugin Page: http://premium.wpmudev.org/project/classifieds
+
+== Changelog ==
+= 2.3.6.5
+* Fix bug invalid credit amount
+* Update CustomPress to latest version
+* Fix classified not expires
+
+= 2.3.6.4 - 2014-09-30
+* Fix BuddyPress profile links redirection
+* Fix Single Classifieds template "posted by" loading gif/redir issue
+* Fix create_classifieds capability added to everyone. Checking role config
+* Hide classifieds menu in Buddpress profile when not having capability to create new classified
+
+= 2.3.6.3 - 2014-09-23
+* Fix author classifieds template showing all classifieds
+* Fix BuddyPress profile classifieds double redirection issue
+* Fix typo cf-no-imege -> cf-no-image in page templates
+* Fix wrong dimensions for default classifieds image 
+
+= 2.3.6.2 - 2014-09-03
+* Fix contact button not showing in classified
+* Fix classifieds author page template not loading
+
+= 2.3.6.1 - 2014-09-02
+* Fix warning messages "implode(): Invalid arguments passed..."
+
+= 2.3.6 - 2014-08-29
+* Fixed: unexpected EOF and inexistent variable using.
+* Changed: Merged CustomPress plugin 1.3.5.7
+
+= 2.3.5.9
+* Added: incsub partner code in paypal gateway
+
+= 2.3.5.8
+* Fixed: Removed Hard coded template part for loop-taxonomy and loop-author. Using custom_classifieds_template method.
+
+= 2.3.5.7
+* Fixed: testing field before accessing it to avoid errors in the single-classifieds template.
+* Fixed: declaring global $wp_query used in the page-my-classifieds.php
+* Fixed: Undefined index: signin_url in options array. Testing before accessing it.
+* Fixed: WPEngine issue. Registration and login form urls not the same as WP uses.
+* Changed: custom_classifieds_template method to get template hierarchy (1-theme_dir/classifieds/, 2-plugin_dir/ui-front/general/)
+* Changed: Classifieds_Core and Classifieds_Core_BuddyPress using custom_classifieds_template instead of including template file directly
+* Fixed: including buddypress templates in templates hierarchy and testing for conditions where template comes with wordpress default page.php.
+
+= 2.3.5.6 - 2014-07-06 Arnold Bailey =
+- Added category filter to the [cf_list_categories] shortcode.
+- Added switch for counts on category and sub category displays. 
+- Added affiliates add-on to Affiliates plugin. 
+
+= 2.3.5.5 Arnold Bailey =
+- Fixed problem with captcha on wp-engine hosts
+
+= 2.3.5.4 Arnold Bailey =
+- Isolated Network activate BuddyPress to the BP_ROOT_BLOG
+- Moved captcha image to a Transient instead of Session
+
+= 2.3.5.3 Arnold Bailey =
+* Fixed Attachment custom fields save that got broken in WP 3.5
+
+= 2.3.5.1 Arnold Bailey =
+- Fixed finding virtual pages where content protecting plugins like membership hides them.
+
+= 2.3.4.9 Arnold Bailey =
+- Changed Duration field to reset after updating expiration date. Also display expiration date now.
+- Changed Role dropdown to not display non-editable roles.
+- CC Sender checkbox saved wrong value.
+
+= 2.3.4.8 Arnold Bailey =
+- BOM in file causing problems
+
+= 2.3.4.7 Arnold Bailey =
+* Changed author links to only display BuddyPress author urls on BP_ROOT
+* Made contact email editable
+* Added setting to disable contact form
+* CustomPress 1.3.4.7
+
+= 2.3.4.5 Arnold Bailey =
+* CustomPress 1.3.4.5
+* Added class="term-list" div around the subcategories in the grid display so it canbe made scrollable.
+
+= 2.3.4.4 Arnold Bailey =
+* Fixed incorrect required message on Feature image on the backend;
+* Added "period" to price display for things like 4 Month => 4 Month period.
+
+= 2.3.4.3 Arnold Bailey =
+* CustomPress 1.3.4.3
+
+= 2.3.4.2 Arnold Bailey =
+* Fixed glitch where recurring only payment would hide purchase button.
+* Fixed saving of PayPal return URL
+* Stopped changing the user role on successfull purchase if the purchaser is "administrator"
+* Changes to checkbox custom field code.
+
+= 2.3.4.1 Arnold Bailey =
+* Removed PHP 4 type constructors which now cause Warnings
+* Fixed Feeds for custom types so all are sent instead of just the first one.
+
+= 2.3.4 Arnold Bailey =
+* Fixed problem with required images switch.
+* Removed explicit author setting on saving post. Sometimes set the wrong author.
+* Changed signin to better handle Buddypress registration.
+
+= 2.3.3.9 Arnold Bailey =
+* Changes cabapility for Classifieds Settings to create_users from edit_users to better handle changes in WP 3x
+
+= 2.3.3.8 Arnold Bailey =
+* CustomPress 1.3.3.8
+
+= 2.3.3.7 Arnold Bailey =
+* Fixed author overwrite
+* CustomPress 1.3.3.7
+
+= 2.3.3.6 Arnold Bailey =
+* Fixed date formatting to allow localization
+* Author slug incorrect if has_archive and rewrite sluga changed in BuddyPress
+* CustomPress 1.3.3.6
+
+= 2.3.3.5 Arnold Bailey =
+* Updated wpmu-assist.php mu Plugin
+* Spelling corrections for language file
+* Stripslashes fix
+* Blank empty fields on Checkout confirm
+
+= 2.3.3.4 Arnold Bailey =
+* CustomPress 1.3.3.4
+
+= 2.3.3.3 Arnold Bailey =
+* Fixes for BuddyPress in Theme comaptability mode.
+
+= 2.3.3.2 Arnold Bailey =
+* If credits are disabled then don't display credit oprice on duration field in My Classified renew.
+
+= 2.3.3.1 Arnold Bailey =
+* Correct problem with simple feature image upload.
+* Added parameters to PayPal ordering for line item calculation on some PayPal servers.
+* Added Purchase Ad button on One time purchase.
+
+= 2.3.3 Arnold Bailey =
+* Changed login url calculation
+
+= 2.3.2.9 Arnold Bailey =
+* Allow virtual pages to be moved to Trash
+* Fixed query loop count
+
+= 2.3.2.8 Arnold Bailey =
+* Simple upload was acting as if it's always empty when required.
+* Changed Simple Upload css
+* Fixed duration and credit calculation in Buddypress version
+
+= 2.3.2.7 Arnold Bailey =
+* Added CustomPress 1.3.2.7
+* Fixed required field notice on featured image.
+
+= 2.3.2.6 Arnold Bailey =
+* Fixed typo on delete button
+
+= 2.3.2.5 Arnold Bailey =
+* Fixed signup credits not being registered.
+* Hide delete button if user doesn't have delete rights
+
+= 2.3.2.4 Arnold Bailey =
+* Fixed problem with First page pagination link
+* Fixed datepicker java script
+
+= 2.3.2.3 Arnold Bailey =
+* Update to Custompress 1.3.2.. Fixes display problem with custom Multi select box
+
+= 2.3.2.2 Arnold Bailey =
+* Reworked contact email to handle the captcha a little better.
+* Added "Simple" image upload mode choice. Default is the Simple mode. Settings > General > Media manager to enable full media manager.
+* Added CustomPress 1.3.2.2
+
+= 2.3.2.1 Arnold Bailey =
+* Added CustomPress 1.3.2.1
+
+= 2.3.2 Arnold Bailey =
+* Version 1.3.1 of CustomPress
+* Fixed currency display.
+
+= 2.3.1.7 Arnold Bailey =
+* Fixed some translation items.
+* Reset Virtual pages to 'virtual' if user edits them.
+
+= 2.3.1.6 Arnold Bailey =
+* Fixed bread crumbs in Buddypress.
+
+= 2.3.1.5 Arnold Bailey =
+* Added breadcrumbs to the taxonomy pages.
+
+= 2.3.1.3 Arnold Bailey =
+* Update to CustomPress 1.3.0.7
+
+= 2.3.1.2 Arnold Bailey =
+* Fixed problem when sending credits to other users
+
+= 2.3.1.1 Arnold Bailey =
+* Modified image manager to work with v3,5 and Buddypress
+
+= 2.3.1 Arnold Bailey =
+* Modified image manager to work with v3,5
+
+= 2.3.0.7 Arnold Bailey =
+* Fixed some problems in the language file
+* Fixed some missing text domains.
+
+= 2.3.0.6 Arnold Bailey =
+* Fixed old data (pre 2.3) conversion problem.
+* Fixed duplicate signup emails on BuddyPress.
+
+= 2.3.0.5 Arnold Bailey =
+* Changed the class name for the pagination section to avoid clash with some sliders.
+* Hide the Add Listing link in BP profile screen if the user cannot create_listing.
+
+= 2.3.0.4 Arnold Bailey =
+* Updated Custompress.
+* Fixed cf_list_catagories shortcode.
+
+= 2.3.0.3 Arnold Bailey =
+* Updated Custompress.
+* Fixed Buddypress redirection
+
+= 2.3.0.2 Arnold Bailey =
+* Fixed improper credit of signup credits.
+
+= 2.3.0.1 Arnold Bailey =
+* Added default classifieds statuses if left blank.
+* Added 'classifieds_full_access' filter. If the filter returns true it gives the user the right to enter classifieds without further payment.
+
+= 2.3 Arnold Bailey 2012-10-27 =
+* New classifieds front end WYSIWYG entry screen.
+* Added control of the post status a member can save a classified as.
+* Expanded capabilites list
+* Added control of member roles for classifieds
+* Added Authorizenet support.
+* New checkout work flow. Users can register before purchasing.
+* Field regex validation and required fields.
+* Control post statuses so you can setup moderation
+* Weeks are now editable. You can add other options as long as they are number Weeks (8 Weeks).
+* CustomPress 1.3
+* Multisite support.
+* BuddyPress support fixes.
+* Plugin to automatically join member with the subsite they signup on in Multisite.
+* Member role and capabilities editor.
+* MU plugins to handle recurring payments on Multisite.
+* Added uninstall to remove directory custom types if plugin is deleted.
+* Added captcha to the contact form.
+* Category display in Dashboard.
+
+= 2.2.2.3 =
+* Changed BuddyPress styling for pagination
+* CustomPress 1.2.2.3 updated
+* Changed post type, taxonomy, and custom field creation so they can recreate themselves if deleted.
+* Classifieds core property custom_fields corrupted causing foreach error.
+
+= 2.2.2.2 =
+* Fixed pagination problem in BuddyPress
+
+= 2.2.2.1 =
+* New CustomPress 1.2.2.2 updated
+
+= 2.2.2 =
+* New CustomPress 1.2.2.1 updated
+* Fixed display of other taxonomy custom fields.
+
+= 2.2.1 =
+* Corrected Validation on Checkout Page
+
+= 2.2 =
+* Replaced Submodule with actual CustomPress for easier code maintenance
+* Changes default page tracking (classifieds, my-classifieds, checkout) to numeric triggers
+* Added send credits
+* Lots of Buddy press fixes
+
+= 2.1.6 =
+* Corrected CF_PLUGIN_URL & CT_SUBMODULE_URL for SSL
+* Allowed author.php to be relocated to the theme directory
+* Fixed inability to edited Saved or Ended Ads on the Front End
+* Added new Pagination features with settings in 'General'
+* Got pagination working when the Classifieds page is set as the static front page
+* Added CSS for the pagination feature
+* Fixed disappearing custom fields when ads are Quick edited
+* Added Ads per page settings
+* Added top and bottom pagination position settings
+* Range setting for the number of page links on the pagination display
+
+= 2.1.5 =
+* Fixed problem compatibility with some BP components;
+* Fixed redirection problem on Classifieds page;
+* Removed selectbox when try delete Classified;
+
+=
+ 2.1.4 =
+* Fixed problem compatibility with BBPress;
+* Fixed problem of redirection after updating values of the Post Type;
+* Added pagination for classifieds pages;
+* Ability to use WP-PageNavi plugin for pagination;
+* Added filter for replacement pagination (cf_pagination);
+
+=
+ 2.1.3 =
+* Fixed conflict with values of the "Theme Options";
+* Fixed duplication of pages as "Classifieds" and "My Classifieds";
+
+=
+ 2.1.2 =
+* Fixed problem with allow user edit/delete other users classified posts;
+
+=
+ 2.1.1 =
+* Fixed problem with loop of categories;
+
+=
+ 2.1.0 =
+* Changed template for "Contact user" email;
+* Added feature for to make field of image as not required (general tab in settings);
+* Added feature for set default image for ads without any images (general tab in settings);
+
+=
+ 2.0.9 =
+* Fixed Warning\Notice message;
+* Fixed display classifieds on 'My Classifieds' page (general);
+* Fixed "Purchase History";
+* Fixed some HTML\CSS
+* Added 'My Credits' page on front end;
+* Rewrited some logic for 'Annual' and 'One Time' payments;
+
+=
+ 2.0.8.1 =
+* Display status text after sent message to author of ad;
+* Added title of the ad in the subject of the message;
+* Added link on ad in bottom of message;
+* Added auto filling of some fields of the contact author form for logged users;
+
+=
+ 2.0.8 =
+* fixed problem of display classifieds (under the influence of other plugins).
+* added feature for create new ad with status as "draft" without any credits
+
+=
+ 2.0.7 =
+* fixed display menu credits for all user
+* fixed display page of edit classifieds
+* fixed problem with deduction credits when create new ad
+* some template changes of checkout page
+* fixed problem with adding credits of checkout (when we logged)
+* some text changes
+* fixed problem with deduction credits when create new/edit/renew ad for BP
+* fixed display count of available credits for BP
+
+=
+ 2.0.6 =
+* fixed problem with permalink structure
+* fixed header error
+* fixed page of classified tags
+* fixed link on page of classified author
+
+=
+ 2.0.5 =
+* Fixed problem of adding/editing "Post Types", "Taxonomies", "Custom Fields".
+
+=
+ 2.0.4 =
+* Fixed problem with template of the categories page for not "classifieds" categories.
+
+=
+ 2.0.3 =
+* Added feature to change title of pages as "Classifieds" and "My Classifieds".
+
+=
+ 2.0.2 =
+* fixed problem of redirect when creating new Ad
+
+=
+ 2.0.1 =
+* Add .pot file.
+* Fix bug with load_plugin_textdomain() not properly loading the .pot file.
+* Fix bug with BP admin bar drop-down ( .padder issue ).
+
+=
+ 2.0.0 =
+
+* Front-end classifieds management added.
+
+* Front-end classifieds management added for BuddyPress ( integrated with BP user profiles )
+
+* Improved Admin UI.
+
+* Internal code architecture entirely rewritten for version 2.0 all legacy code removed.
+
+* Custom database tables eliminated. Replaced by core "wp" tables.
+
+* Content Types submodule added.
+
+* Localization available ( You need to generate a PO/MO file )
+
+
+
+= 1.1.1 =
+
+* Initial release.
+
+
+133620-1435570200-ai

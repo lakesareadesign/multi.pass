@@ -1,0 +1,11 @@
+#page .uf-ucomments-responsive p.comment-form-author, #page .uf-ucomments-responsive p.comment-form-email, #page .uf-ucomments-responsive p.comment-form-url {
+    float: none;
+    margin-left: 0;
+    width: 100%;
+}
+#page .uf-ucomments-responsive input.submit {
+    width: 100%;
+}
+
+
+/* 133620-1456900953-au */

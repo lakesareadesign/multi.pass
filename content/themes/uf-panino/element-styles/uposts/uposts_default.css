@@ -1,0 +1,33 @@
+.uposts-object li:before {
+    display: none;
+}
+.uposts-object li .post_tags a {
+    background: #ufc3;
+    border-radius: 15px;
+    color: #ufc5;
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: 12px;
+    padding: 5px 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.uposts-object li .post_tags a:hover {
+    background: #ufc4;
+}
+.uposts-object li .read_more a {
+    background: #ufc6;
+    color: #ufc1;
+    display: inline-block;
+    font-family: 'Special Elite', Arial, sans-serif;
+    font-size: 18px;
+    line-height: 18px;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.uposts-object li .read_more a:hover {
+    background: #ufc3;
+}
+
+
+/* 133620-1456900939-au */

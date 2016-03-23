@@ -1,0 +1,14 @@
+#page .accordion .accordion-panel-title {
+ color: #FFF;
+ padding: 15px;
+ font: 600 26px Open Sans, Arial;
+ text-align: center;
+ margin-top: 2px;
+ border: none;
+}
+#page .accordion .upfront-accordion-wrap {
+    border-bottom: none;
+}
+
+
+/* 133620-1456900953-au */

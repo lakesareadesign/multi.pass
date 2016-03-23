@@ -1,0 +1,134 @@
+#page .archive-search.uposts-object ul {
+    overflow: hidden;
+    margin: 0 15px;
+}
+#page .archive-search.uposts-object li {
+    border-top: 1px dashed #ufc3;
+    padding: 25px 0;
+    clear: both;
+}
+#page .archive-search.uposts-object li .thumbnail {
+    float: left;
+    clear: left;
+    width: 250px;
+}
+#page .archive-search.uposts-object li .title {
+    float: left;
+    max-width: 100%;
+    margin-bottom:0px;
+}
+#page .archive-search.uposts-object li .title h3, #page .archive-search.uposts-object li .title a {
+    font-family: 'Cantata One', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 35px;
+}
+#page .archive-search.uposts-object li .title a {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #ufc0;
+    margin-bottom:0px;
+}
+#page .archive-search.uposts-object li .title h3 {
+    display: block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+#page .archive-search.uposts-object li .title h3:after {
+    position: absolute;
+    width: 60px;
+    bottom: 12px;
+    left: 17px;
+    content: "";
+    display: block;
+    border-bottom: 1px solid #ufc0;
+}
+#page .archive-search.uposts-object li .content {
+    font-size: 14px;
+    clear: left;
+    margin-bottom:-30px;
+}
+#page .archive-search.uposts-object li .date_posted {
+    font-size: 14px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #ufc3;
+}
+#page .archive-search.uposts-object li .thumbnail ~ .date_posted, #page .archive-search.uposts-object li .thumbnail ~ .title, #page .archive-search.uposts-object li .thumbnail ~ .content {
+    margin-left: 270px;
+    float: none;
+    clear: none;
+}
+#page .archive-search.uposts-object li .date_posted + .title, #page .archive-search.uposts-object li .date_posted + .content {
+    clear: left;
+}
+#page .archive-search.uposts-object li .title + .date_posted {
+    line-height: 30px;
+}
+#page .archive-search.uposts-object li .title + .date_posted:before {
+    content: "/";
+    display: block;
+    float: left;
+    color:#ufc0;
+    font-size: 30px;
+    margin: 0 10px;
+}
+#page .archive-search.uposts-object li .title + .date_posted .date {
+    display: inline-block;
+    margin-top: 2px;
+}
+#page .archive-search.uposts-object li .read_more a {
+    background: url("UPFRONT_THEME_BASE/ui/arrows.png") no-repeat -3px -5px;
+    display: inline-block;
+    height: 19px;
+    width: 94px;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom:-20px;
+}
+#page .archive-search.uposts-object li .read_more a:hover {
+    background-position: -3px -35px;
+}
+#page .archive-search.uposts-object li .post_categories {
+    font-size: 14px;
+    color: #ufc0;
+    display:none;
+}
+#page .archive-search.uposts-object li .post_categories a {
+    color: #000000;
+}
+#page .archive-search.uposts-object li .post_categories a:hover {
+    color: #ufc0;
+}
+#page .archive-search.uposts-object .uf-pagination {
+    padding: 15px;
+    margin: 0 0px;
+    font-family: "Lato",sans-serif;
+    font-size: 15px;
+    line-height: 15px;
+    text-align: right;
+}
+#page .archive-search.uposts-object .uf-pagination .page-numbers {
+    display: inline-block;
+    float: left;
+    color: #000000;
+    margin: 0 3px;
+}
+#page .archive-search.uposts-object .uf-pagination .page-numbers:hover {
+    color: #ufc0;
+}
+#page .archive-search.uposts-object .uf-pagination .page-numbers.current {
+    color: #ufc0;
+}
+#page .archive-search.uposts-object .uf-pagination .page-numbers.next, #page .archive-search.uposts-object .uf-pagination .page-numbers.prev {
+    float: none;
+}
+
+
+/* 133620-1456900948-au */

@@ -1,0 +1,409 @@
+/* Front Page
+---------------------------------------------------------------------------------------------------- */
+
+.content .textwidget a {
+	border-bottom: 1px solid #ddd;
+}
+
+.content .textwidget a:hover,
+.content .textwidget a:focus {
+	border-bottom: 1px solid #333;
+	color: #333;
+}
+
+.front-page .site-inner {
+	padding: 0;
+}
+
+.front-page h4 {
+	font-size: 16px;
+	font-size: 1.6 rem;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.front-page .icon {
+	display: block;
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+
+.front-page .seventy-two {
+	font-size: 72px;
+	font-size: 7.2rem;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.front-page .widget-title {
+	text-transform: uppercase;
+}
+
+/* Flexible Widgets
+--------------------------------------------- */
+
+.flexible-widgets .widget {
+	float: left;
+	margin-bottom: 40px;
+	padding-left: 40px;
+	padding-right: 40px;
+}
+
+.flexible-widgets.widget-full .widget,
+.flexible-widgets.widget-area .widget:nth-of-type(1),
+.flexible-widgets.widget-halves.uneven .widget:last-of-type {
+	width: 100%;
+}
+
+.flexible-widgets.widget-fourths .widget {
+	width: 25%;
+}
+
+.flexible-widgets.widget-halves .widget {
+	width: 50%;
+}
+
+.flexible-widgets.widget-thirds .widget {
+	width: 33.33%;
+}
+
+.flexible-widgets.widget-halves .widget:nth-child(even),
+.flexible-widgets.widget-thirds .widget:nth-child(3n+2),
+.flexible-widgets.widget-fourths .widget:nth-child(4n+2) {
+	clear: left;
+}
+
+/* Front Page 1
+--------------------------------------------- */
+
+.front-page-1 {
+	display: table;
+	overflow: hidden;
+	padding: 80px;
+	table-layout: fixed;
+	text-align: center;
+	width: 100%;	
+}
+
+.front-page-1 a {
+	color: #fff;
+}
+
+.content .front-page-1 a:hover,
+.content .front-page-1 a:focus {
+	color: #ddd;
+	border-bottom: 1px dotted #ddd;
+}
+
+.front-page-1 .widget {
+	margin-bottom: 40px;
+}
+
+.front-page-1 .widget:last-child {
+	margin-bottom: 0;
+}
+
+.front-page-1 .widget-area {
+	display: table-cell;
+	vertical-align: middle;
+	width: 100%;
+}
+
+.front-page-1,
+.front-page-1 p,
+.front-page-1 .widget-title {
+	color: #fff;
+}
+
+.front-page-1 .widget-title {
+	font-size: 60px;
+	font-size: 6rem;
+	font-weight: 300;
+	letter-spacing: 0;
+	margin-bottom: 10px;
+	text-transform: none;
+}
+
+.front-page-1 p {
+	font-size: 24px;
+	font-size: 2.4rem;
+}
+
+.front-page-1 p:last-child {
+	margin-bottom: 0;
+}
+
+.content .front-page-1 .widget a.button,
+.front-page-1 button,
+.front-page-1 input[type="button"],
+.front-page-1 input[type="reset"],
+.front-page-1 input[type="submit"],
+.front-page-1 .entry-content a.button,
+.front-page-1 .entry-content a.more-link {
+	border: 1px solid #fff;
+	color: #fff;
+	margin-top: 40px;
+}
+
+.content .front-page-1 .widget a.button:hover,
+.content .front-page-1 .widget a.button:focus,
+.front-page-1 button:hover,
+.front-page-1 button:focus,
+.front-page-1 input:hover[type="button"],
+.front-page-1 input:focus[type="button"],
+.front-page-1 input:hover[type="reset"],
+.front-page-1 input:focus[type="reset"],
+.front-page-1 input:hover[type="submit"],
+.front-page-1 input:focus[type="submit"],
+.front-page-1 .entry-content a.button:hover,
+.front-page-1 .entry-content a.button:focus,
+.front-page-1 .entry-content a.more-link:hover,
+.front-page-1 .entry-content a.more-link:focus {
+	border: 1px solid #fff;
+	background-color: #fff;
+	color: #333;
+}
+
+/* Front Page 2
+--------------------------------------------- */
+
+.front-page-2 {
+	border-bottom: 1px solid #eee;
+	padding: 150px 60px 80px;
+	text-align: center;
+}
+
+.front-page-2 .widget-title {
+	font-size: 24px;
+	font-size: 2.4rem;
+	letter-spacing: 1px;
+}
+
+.front-page-2 p {
+	font-size: 16px;
+	font-size: 1.6rem;
+}
+
+/* Front Page 3
+--------------------------------------------- */
+
+.front-page-3 {
+	background-color: #fff;
+	border-bottom: 1px solid #eee;
+}
+
+.front-page-3 .widget {
+	border-top: 1px solid #eee;
+	padding: 30px 60px;
+}
+
+.front-page-3 .entry-title a {
+	display: block;
+	padding-right: 24px;
+	position: relative;
+}
+.front-page-3 .entry-title a:hover:before,
+.front-page-3 .entry-title a:focus:before {
+    content: "\f1fe";
+    display: block;
+    font: normal 20px/1 'ionicons';
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+}
+
+.front-page-3 .featured-content {
+	border-width: 0;
+	padding: 0;
+}
+
+.front-page-3 .featured-content h4 {
+	font-size: 20px;
+	font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.front-page-3 .featured-content .entry {
+	border-bottom: none;
+	margin-bottom: 0;
+	overflow: hidden;
+	padding-bottom: 0;
+}
+
+.front-page-3 .featured-content .entry-content,
+.front-page-3 .featured-content .entry-header {
+	padding-left: 7.5%;
+	padding-right: 7.5%;
+}
+
+.front-page-3 .featured-content a.alignleft .entry-image,
+.front-page-3 .featured-content a.alignright .entry-image {
+	height: 640px;
+	max-width: none;
+	width: auto;
+}
+
+.front-page-3 a.alignleft .entry-image {
+	float: right;
+}
+
+.front-page-3 a.alignright .entry-image {
+	float: left;
+}
+
+.front-page-3 .featured-content a.alignleft,
+.front-page-3 .featured-content a.alignright {
+	margin: 0;
+}
+
+.front-page-3 .featured-content .entry-content,
+.front-page-3 .featured-content a.aligncenter ~ .entry-content,
+.front-page-3 .featured-content a.alignnone ~ .entry-content {
+	margin-bottom: 60px;
+}
+
+.front-page-3 .featured-content .entry-header,
+.front-page-3 .featured-content a.alignleft + .entry-content,
+.front-page-3 .featured-content a.alignright + .entry-content  {
+	padding-top: 6%;
+}
+
+.front-page-3 .featured-content a.alignleft ~ .entry-content,
+.front-page-3 .featured-content a.alignleft ~ .entry-header,
+.front-page-3 .featured-content a.alignright ~ .entry-content,
+.front-page-3 .featured-content a.alignright ~ .entry-header {
+	display: block;
+	float: left;
+	margin-bottom: 0;
+	padding-left: 7.5%;
+	padding-right: 7.5%;
+	width: 50%;
+}
+
+.front-page-3 .featured-content .entry-title a,
+.front-page-3 .featured-content .entry-title a:hover,
+.front-page-3 .featured-content .entry-title a:focus {
+	color: #333;
+}
+
+.front-page-3 .featured-content .entry-title .atmosphere-large-text {
+	display: block;
+	font-size: 72px;
+	font-size: 7.2rem;
+	font-weight: 700;
+	margin-bottom: 20px;
+}
+
+.front-page-3 .featured-content .widget-title {
+	background: #eee;
+	font-size: 24px;
+	font-size: 2.4rem;
+	letter-spacing: 1px;
+	padding: 20px;
+	margin-bottom: 0;
+	text-align: center;
+}
+
+.front-page-3 .featuredpost .entry ~ ul {
+	padding: 7.5%;
+}
+
+.front-page-3 .featuredpost .more-from-category {
+	padding-left: 7.5%;
+	padding-right: 7.5%;
+}
+
+/* Front Page 4
+--------------------------------------------- */
+
+.front-page-4 {
+	border-bottom: 1px solid #eee;
+	padding: 150px 60px 80px;
+	text-align: center;
+}
+
+.front-page-4 .widget-title {
+	font-size: 24px;
+	font-size: 2.4rem;
+	letter-spacing: 1px;
+}
+
+
+/* Media Queries
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 1024px) {
+
+	.front-page-1 {
+		padding: 80px 60px 100px;
+	}
+
+	.front-page-2 {
+		padding-top: 100px;
+	}
+
+	.flexible-widgets.widget-fourths .widget,
+	.flexible-widgets.widget-halves .widget,
+	.flexible-widgets.widget-thirds .widget {
+		float: none;
+		width: 100%;
+	}
+
+	.flexible-widgets .widget {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+}
+
+@media only screen and (max-width: 800px) {
+
+	.front-page-1 .widget-title {
+		font-size: 36px;
+		font-size: 3.6rem;
+	}
+	
+	.front-page-3 .featured-content .entry {
+		padding-left: 7.5%;
+		padding-right: 7.5%;
+		margin-bottom: 60px;
+	}
+
+	.front-page-3 .featured-content a + .entry-header {
+		padding-top: 0;
+	}
+
+	.front-page-3 .featured-content .entry-content,
+	.front-page-3 .featured-content .entry-header,
+	.front-page-3 .featured-content a.alignleft ~ .entry-content,
+	.front-page-3 .featured-content a.alignleft ~ .entry-header,
+	.front-page-3 .featured-content a.alignright ~ .entry-content,
+	.front-page-3 .featured-content a.alignright ~ .entry-header,
+	.front-page-3 .featuredpost .more-from-category {
+		float: none;
+		padding-left: 0;
+		padding-right: 0;
+		width: 100%;
+	}
+
+	.front-page-3 .featured-content a.aligncenter,
+	.front-page-3 .featured-content a.alignleft,
+	.front-page-3 .featured-content a.alignnone,
+	.front-page-3 .featured-content a.alignright {
+		display: block;
+		float: none;
+		max-width: 100%;
+		margin-bottom: 60px;
+		text-align: left;
+	}
+	
+	.front-page-3 .featured-content a.alignleft .entry-image,
+	.front-page-3 .featured-content a.alignright .entry-image {
+		height: auto;
+		float: none;
+		max-width: 100%;
+	}
+
+}

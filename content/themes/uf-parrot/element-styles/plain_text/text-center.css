@@ -1,0 +1,8 @@
+#page .text-center.upfront-plain_txt, #page .text-center h1, #page .text-center h2, #page .text-center h3, #page .text-center h4, #page .text-center h5, #page .text-center h6, #page .text-center p {
+    text-align: center!important;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+/* 133620-1456900944-au */

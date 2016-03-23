@@ -1,0 +1,56 @@
+/******************************************************************
+	Theme Name: Groom Zone
+	Description: This is the  theme created by Eric Miller for Groom Zone.
+	Author: Lakes Area Design
+	Author URI: http://www.lakesareadesign.com/
+	Version: 2.1
+ 
+	Tags: one-column, two-columns, three-columns, fixed-width, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
+ 
+	Template: genesis
+	Template Version: 2.1
+******************************************************************/
+
+/*
+Stylesheet: Main Stylesheet
+
+This file is slim and doesn't contain any styles for a reason.
+We're importing all our other files so we can keep each
+breakpoint organized and well documented. 
+*/
+
+/*********************
+IMPORTING STYLES
+*********************/
+@import "compass";
+@import "normalize";
+@import "mixins";
+
+/******************************************************************
+BASE (MOBILE) SIZE 
+This is the average viewing window. So Desktops, Laptops, and 
+in general anyone not viewing on a mobile device. Here's where
+you can add resource intensive styles.
+******************************************************************/
+
+/* styles in base.scss */
+@import "base";
+
+
+/******************************************************************
+PHONE, TABLET & MID-RANGE STYLES
+This is used for tablets like iPads and Android tablets or if 
+someone resizes their browser to a medium size. Here, we'll add
+to our already simple base styles.
+******************************************************************/
+
+/* styles in media_queries.scss */
+@import "media_queries";
+
+
+/******************************************************************
+PRINT STYLESHEET
+******************************************************************/
+@media print { * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; } a, a:visited { color: #444 !important; text-decoration: underline; } a[href]:after { content: " (" attr(href) ")"; } abbr[title]:after { content: " (" attr(title) ")"; } .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; } pre, blockquote { border: 1px solid #999; page-break-inside: avoid; } thead { display: table-header-group; } tr, img { page-break-inside: avoid; } img { max-width: 100% !important; }
+    @page { margin: 0.5cm; } p, h2, h3 { orphans: 3; widows: 3; } h2, h3{ page-break-after: avoid; }
+} /* end of print stylesheet (DO NOT DELETE) */

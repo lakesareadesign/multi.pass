@@ -1,0 +1,126 @@
+#page .blog-page-grid-responsive.uposts-object ul {
+    border-bottom: 1px solid #c09533;
+    overflow: hidden;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post {
+    float: none;
+    min-width: 270px;
+    position: relative;
+    margin-bottom: 40px;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post:first-child {
+    width: 100%;
+    float: none;
+    overflow: hidden;
+    border-bottom: 1px solid #c09533;
+    padding-bottom: 40px;
+    margin-bottom: 50px;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post:nth-child(3n+2) {
+    clear: both;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post article {
+    margin: 0 auto;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .thumbnail {
+    width: 100%;
+    height: 140px;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post:first-child .thumbnail {
+    height: auto;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .date_posted {
+    color: #636363;
+    font-weight: lighter;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post:first-child .date_posted {
+    float: left;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .title {
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .title h3, #page .blog-page-grid-responsive.uposts-object li.uf-post .title a {
+    font-family: "Cantata One", serif;
+    font-size: 24px;
+    font-weight: normal;
+    line-height: 1.25em;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .title a {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #c09533;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .title h3 {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .title h3:after {
+    content: " ";
+    display: block;
+    width: 24px;
+    height: 0;
+    border-bottom: 2px solid #1d1d1d;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-left: -12px;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .content, #page .blog-page-grid-responsive.uposts-object li.uf-post .content p {
+    font-size: 14px;
+    line-height: 25px;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .content {
+    max-height: 125px;
+    overflow: hidden;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post:first-child .content {
+    max-height: none;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .read_more {
+    float: right;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .read_more a {
+    display: block;
+    width: 100px;
+    height: 30px;
+    background: url("/wp-content/themes/uf-scribe/ui/arrows.png");
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+#page .blog-page-grid-responsive.uposts-object li.uf-post .read_more a:hover {
+    background-position: 0 -30px;
+}
+#page .blog-page-grid-responsive.uposts-object .uf-pagination {
+    padding: 15px 0;
+    margin: 0 -3px;
+    font-family: "Lato",sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+    text-align: right;
+}
+#page .blog-page-grid-responsive.uposts-object .uf-pagination .page-numbers {
+    display: inline-block;
+    float: left;
+    color: #000000;
+    margin: 0 3px;
+}
+#page .blog-page-grid-responsive.uposts-object .uf-pagination .page-numbers:hover {
+    color: #c09533;
+}
+#page .blog-page-grid-responsive.uposts-object .uf-pagination .page-numbers.current {
+    color: #c09533;
+}
+#page .blog-page-grid-responsive.uposts-object .uf-pagination .page-numbers.next, #page .blog-page-grid-responsive .uposts-object .uf-pagination .page-numbers.prev {
+    float: none;
+}
+
+
+/* 133620-1456900948-au */

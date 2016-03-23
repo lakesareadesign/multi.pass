@@ -1,0 +1,1421 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Recipe Hero\n"
+"POT-Creation-Date: 2014-12-15 00:33+0700\n"
+"PO-Revision-Date: 2014-12-15 00:33+0700\n"
+"Last-Translator: Bryce <bryce@bryce.se>\n"
+"Language-Team: Recipe Hero <info@recipehero.in>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_n;_n:1,2;_n_noop:1,2;_nx:1,2;_nx_noop:1,2;"
+"_x:1,2c\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../includes/abstracts/abstract-rh-recipe.php:275
+#: ../templates/single/rating.php:39
+#, php-format
+msgid "Rated %s out of 5"
+msgstr ""
+
+#: ../includes/abstracts/abstract-rh-recipe.php:277
+#: ../templates/single/rating.php:41
+msgid "out of 5"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-extensions.php:66
+msgid "Recipe Hero Extensions"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-extensions.php:72
+msgid ""
+"The following are some extensions you can purchase to extend Recipe Hero in "
+"awesome and exciting ways!"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-menus.php:42
+#: ../includes/admin/rh-help-tab.php:32
+msgid "Recipe Hero Settings"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-menus.php:42
+#: ../includes/admin/class-rh-admin-welcome.php:217
+#: ../includes/class-rh-install.php:167
+msgid "Settings"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-menus.php:58
+msgid "Recipe Hero Add-ons/Extensions"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-menus.php:58
+#: ../includes/admin/class-rh-admin-welcome.php:320
+msgid "Extensions"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-meta-boxes.php:50
+msgid "Recipe Gallery"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-meta-boxes.php:59
+msgid "Rating"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-meta-boxes.php:74
+#: ../templates/single-recipe-reviews.php:27
+msgid "Reviews"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-meta-boxes.php:101
+#: ../includes/admin/class-rh-admin-meta-boxes.php:113
+msgid "Delete image"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-meta-boxes.php:101
+#: ../includes/admin/class-rh-admin-meta-boxes.php:113
+msgid "Delete"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-meta-boxes.php:113
+msgid "Add Images to Recipe Gallery"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-meta-boxes.php:113
+msgid "Add to gallery"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-meta-boxes.php:113
+msgid "Add recipe gallery images"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-ordering.php:88
+msgid ""
+"To reposition a recipe, simply drag and drop the recipe's row by \"clicking "
+"and holding\" it anywhere (outside of the links and form controls) and "
+"moving it to its new position."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-ordering.php:278
+msgid "Sort by Order"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-ordering.php:303
+msgid ""
+"Order your pages and hierarchical post types using drag and drop on the "
+"built in page list. For further instructions, open the \"Help\" tab on the "
+"Pages screen."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:36
+msgid "Recipe permalink base"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:41
+msgid "Recipe cuisine base"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:50
+msgid "Recipe course base"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:63
+msgctxt "slug"
+msgid "recipe-cuisine"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:70
+msgctxt "slug"
+msgid "recipe-course"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:78
+msgid ""
+"These settings control the permalinks used for recipes. These settings only "
+"apply when <strong>not using \"default\" permalinks above</strong>."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:85
+#: ../includes/admin/class-rh-admin-permalink-settings.php:173
+msgctxt "default-slug"
+msgid "shop"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:86
+msgctxt "default-slug"
+msgid "recipe"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:97
+#: ../includes/fields/includes/CMB2_hookup.php:124
+msgid "Default"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:101
+#: ../includes/class-rh-post-types.php:159
+msgid "Recipe"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:106
+msgid "Recipes base"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:112
+msgid "Custom Base"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-permalink-settings.php:114
+msgid ""
+"Enter a custom base to use. A base <strong>must</strong> be set or WordPress "
+"will use default instead."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-settings.php:53
+msgid "Action failed. Please refresh the page and retry."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-settings.php:64
+msgid "Your settings have been saved."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-settings.php:480
+msgid ""
+"The settings of this image size have been disabled because its values are "
+"being overwritten by a filter."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-settings.php:489
+msgid "Hard Crop?"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-settings.php:516
+msgid "Select a page&hellip;"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-tweaks.php:42
+msgid "Enter Recipe Title"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-tweaks.php:60
+msgid "Recipe Completed Photo"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-tweaks.php:82
+msgid "Thanks for using Recipe Hero! Please"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-tweaks.php:84
+msgid "re-save your permalinks"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-tweaks.php:86
+msgid "to get started (this notice will disappear afterwards)."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:62
+msgid "About Recipe Hero"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:63
+msgid "Welcome to Recipe Hero"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:199
+#, php-format
+msgid "Welcome to Recipe Hero %s"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:204
+msgid "Thanks, all done!"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:206
+msgid "Thank you for updating to the latest version!"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:208
+msgid "Thanks for installing!"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:211
+#, php-format
+msgid ""
+"%s Recipe Hero %s (Gorgeous Gordon) is more powerful, stable, and beautiful "
+"than ever before."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:212
+msgid "We hope you enjoy it."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:218
+#: ../includes/class-rh-install.php:183
+msgid "Docs"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:224
+msgid ""
+"\"I cook, I create, I'm incredibly excited by what I do, I've still got a "
+"lot to achieve.\""
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:235
+msgid "What's New"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:237
+msgid "Credits"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:239
+msgid "Translations"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:257
+msgid "Improved Ingredients adding that you will"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:258
+msgid ""
+"To me, the path to building Recipe Hero 1.0 was like baking a cake. "
+"Initially, I started with the ingredients. I then began to put them all "
+"together - slowly my recipe was becoming more... real. But it wasn't quite "
+"ready. I spent months waiting for it to bake, hoping that nothing went wrong "
+"and constantly adjusting the ingredients as time passed. Now, I'm ready for "
+"you to taste it. Enjoy!"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:261
+msgid "Autocomplete Ingredient Suggestion as you Add or Edit Ingredients"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:262
+msgid ""
+"Adding ingredients to a new recipe has never been easier, thanks to the new "
+"autocomplete ingredient feature. As you type in an ingredient, it will pull "
+"past ingredients - making sure you stay consistent."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:265
+msgid "Easily See the Ingredients of a Recipe Without Opening it"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:266
+msgid ""
+"Another neat feature relating to ingredients is that you can now quickly "
+"view all of your recipes's ingredients from the Recipes admin page! Time "
+"saved = Exponential."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:271
+msgid "Freshly Baked Features... mmmm!"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:275
+msgid "Custom Image Sizes"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:276
+msgid ""
+"It's really easy to customize all of your recipe image sizes, from featured "
+"images to steps images - straight from the Recipe Hero settings."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:280
+msgid "Custom Ordering"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:281
+msgid ""
+"You now have the ability to order your recipes in a number of different "
+"ways. Simply change the order setting and voila - custom order!"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:285
+msgid "Templating Engine"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:286
+msgid ""
+"Recipe Hero comes with a complete templating engine, allowing you to easily "
+"copy the plugin's <strong>templates</strong> folder over to your theme's "
+"<strong>recipe-hero</strong> folder - customization awaits!"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:292
+msgid "Custom Permalinks"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:293
+msgid ""
+"The <code>recipes</code> URL will now automatically adjust to your custom "
+"Recipes Page's slug, allowing for a more custom experience. Courses / "
+"Cuisines slugs can also be defined."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:297
+msgid "Settings API & UI Changes"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:298
+msgid ""
+"Settings were rewritten in 1.0 to allow for a better user experience. "
+"Additionally, there's now a Recipe Hero Settings API so you can easily add "
+"new settings and customize the existing ones."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:302
+msgid "Cleans Up Before Leaving"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:303
+msgid ""
+"A new <code>uninstall.php</code> file is now included that will trigger on "
+"deletion, removing Recipe Hero settings, etc. to keep your database clean "
+"and your site yours."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:310
+msgid "Image Gallery / Lightbox"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:311
+msgid ""
+"Recipe Hero 1.0 introduces a gallery feature that pairs with the built-in "
+"lightbox, so you can add several images to one recipe, helping you show off "
+"all your delicious food!"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:315
+msgid "Better File Structuring"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:316
+msgid ""
+"Most people won't notice this but the entire plugin has been restructured to "
+"help the <strong>developers</strong> out there get the most out of Recipe "
+"Hero."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:321
+msgid ""
+"After months of work, Recipe Hero is finally ready for extensions - "
+"additional plugins (both free and premium) that add additional "
+"functionality, like <strong>Custom Labels</strong>, <strong>Recipe Videos</"
+"strong> & <strong>Front-End Recipe Submission</strong>. Rejoice!"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:328
+msgid "Go to Recipe Hero Settings"
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:343
+msgid ""
+"Recipe Hero is developed by <a href=\"http://bryce.se/\">Bryce Adams</a> and "
+"maintained by a worldwide team of passionate individuals, backed by an "
+"awesome developer community. Want to see your name here? <a href=\"https://"
+"github.com/bryceadams/Recipe-Hero/\">Contribute to Recipe Hero</a>."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:359
+msgid ""
+"Recipe Hero has been kindly translated into a couple other languages thanks "
+"to our translation team. Want to join the lingual club? <a href=\"https://"
+"www.transifex.com/projects/p/recipe-hero/\">Translate Recipe Hero</a>."
+msgstr ""
+
+#: ../includes/admin/class-rh-admin-welcome.php:383
+#, php-format
+msgid "View %s"
+msgstr ""
+
+#: ../includes/admin/rh-columns.php:31
+msgid "Recipe Title"
+msgstr ""
+
+#: ../includes/admin/rh-columns.php:32
+msgid "ID"
+msgstr ""
+
+#: ../includes/admin/rh-columns.php:33 ../includes/class-rh-post-types.php:68
+#: ../includes/rh-tax.php:46
+#: ../includes/templates-parts/rh-templates-tax-header-functions.php:39
+#: ../templates/archive/category.php:57 ../templates/single/category.php:57
+msgid "Course"
+msgstr ""
+
+#: ../includes/admin/rh-columns.php:34 ../includes/class-rh-post-types.php:103
+#: ../includes/rh-tax.php:89
+#: ../includes/templates-parts/rh-templates-tax-header-functions.php:30
+#: ../templates/archive/category.php:47 ../templates/single/category.php:47
+msgid "Cuisine"
+msgstr ""
+
+#: ../includes/admin/rh-columns.php:35 ../includes/rh-fields.php:122
+#: ../templates/single/ingredients.php:23
+msgid "Ingredients"
+msgstr ""
+
+#: ../includes/admin/rh-columns.php:36
+msgid "Photo"
+msgstr ""
+
+#: ../includes/admin/rh-columns.php:37
+msgid "Author"
+msgstr ""
+
+#: ../includes/admin/rh-columns.php:39
+msgid "Date"
+msgstr ""
+
+#: ../includes/admin/rh-columns.php:89
+msgid "No Courses"
+msgstr ""
+
+#: ../includes/admin/rh-columns.php:113
+msgid "No Cuisines"
+msgstr ""
+
+#: ../includes/admin/rh-help-tab.php:33
+msgid "New Settings"
+msgstr ""
+
+#: ../includes/admin/rh-help-tab.php:40 ../includes/admin/rh-help-tab.php:41
+msgid "Style"
+msgstr ""
+
+#: ../includes/admin/rh-help-tab.php:47 ../includes/admin/rh-help-tab.php:48
+msgid "Labels"
+msgstr ""
+
+#: ../includes/admin/rh-help-tab.php:75
+msgid "Documentation"
+msgstr ""
+
+#: ../includes/admin/rh-help-tab.php:76
+#, php-format
+msgid ""
+"You can access the documentation over at the <a href=\"%s\">Recipe Hero "
+"Documentation</a>."
+msgstr ""
+
+#: ../includes/admin/rh-help-tab.php:81 ../includes/class-rh-install.php:184
+msgid "Support"
+msgstr ""
+
+#: ../includes/admin/rh-help-tab.php:82
+#, php-format
+msgid ""
+"You can post a support thread on <a href=\"%s\">Recipe Hero Support Forum</"
+"a>."
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:30
+msgid "General"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:46
+msgid "General Options"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:49
+msgid "Recipe Page"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:50
+msgid ""
+"The page you select here will be the home of all your recipes. Additionally, "
+"the 'Recipe Archive' of your site can be found at: "
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:60
+msgid "Recipes Order"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:61
+msgid "The order to output recipes in on archive pages"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:69
+msgid "Default sorting (custom ordering + name)"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:70
+msgid "Sort by most recent"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:75
+msgid "Recipe Ratings"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:76
+msgid "Enable Ratings for recipe reviews / comments"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:79
+msgid ""
+"Checking this will allow users to give a rating for recipes when leaving a "
+"review / comment"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:90
+msgid "Recipe Images"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:92
+#, php-format
+msgid ""
+"These settings affect the display and dimensions of images in your recipes - "
+"the display on the front-end will still be affected by CSS styles. After "
+"changing these settings you will need to <a href=\"%s\">regenerate your "
+"thumbnails</a>."
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:97
+msgid "Main Recipe Image"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:98
+msgid "This size is for the main image in archives and single recipe pages"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:111
+msgid "Recipe Steps Images"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:112
+msgid ""
+"This is the size of the images attached to steps / instructions on a single "
+"recipe page"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:125
+msgid "Recipe Thumbnails"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:126
+msgid ""
+"This size is usually used for the gallery of images on a single recipe page"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:139
+msgid "Recipe Image Gallery & Steps"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:140
+msgid "Enable Lightbox for recipe gallery & steps"
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-general.php:143
+msgid ""
+"Include Recipe Hero's lightbox. Recipe gallery images will open in a "
+"lightbox, as well as steps images."
+msgstr ""
+
+#: ../includes/admin/settings/class-rh-settings-integrations.php:30
+msgid "Integration"
+msgstr ""
+
+#: ../includes/admin/views/html-admin-settings.php:30
+msgid "Save changes"
+msgstr ""
+
+#: ../includes/admin/views/html-notice-labels.php:13
+msgid ""
+"<strong>Notice:</strong> It looks like you used to have <strong>Recipe Hero "
+"Labels</strong> configured. In 1.0 they were removed, but there's a free "
+"extension that allows you to easily change the labels."
+msgstr ""
+
+#: ../includes/admin/views/html-notice-labels.php:14
+#: ../includes/fields/includes/CMB2_Types.php:798
+#: ../includes/fields/includes/CMB2_Types.php:878
+#: ../includes/fields/includes/CMB2_hookup.php:175
+msgid "Download"
+msgstr ""
+
+#: ../includes/admin/views/html-notice-labels.php:14
+msgid "Cool - Understood!"
+msgstr ""
+
+#: ../includes/admin/views/html-notice-update.php:13
+msgid ""
+"<strong>Recipe Hero Data Update Required</strong> &#8211; We just need to "
+"update your install to the latest version!"
+msgstr ""
+
+#: ../includes/admin/views/html-notice-update.php:14
+msgid "Run the updater"
+msgstr ""
+
+#: ../includes/admin/views/html-notice-update.php:18
+msgid ""
+"It is strongly recommended that you backup your database before proceeding. "
+"Are you sure you wish to run the updater now?"
+msgstr ""
+
+#: ../includes/class-rh-install.php:167
+msgid "View Recipe Hero Settings"
+msgstr ""
+
+#: ../includes/class-rh-install.php:183
+msgid "View Recipe Hero Documentation"
+msgstr ""
+
+#: ../includes/class-rh-install.php:184
+msgid "Get Support for Recipe Hero"
+msgstr ""
+
+#: ../includes/class-rh-install.php:299
+#, php-format
+msgid ""
+"You've been using <b>Recipe Hero</b> for some time now, would you please "
+"consider reviewing on wordpress.org? :) <br /><br /> <a href=\"%s\" target="
+"\"_blank\">Yes, take me there!</a> - <a href=\"%s\">I've already done this!</"
+"a>"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:52 ../includes/rh-tax.php:30
+msgctxt "taxonomy general name"
+msgid "Courses"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:53 ../includes/rh-tax.php:31
+msgctxt "taxonomy singular name"
+msgid "Course"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:54 ../includes/rh-tax.php:32
+msgctxt "Course"
+msgid "Add New Course"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:55 ../includes/rh-tax.php:33
+msgid "Add New Course"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:56 ../includes/rh-tax.php:34
+msgid "Edit Course"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:57 ../includes/rh-tax.php:35
+msgid "New Course"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:58 ../includes/rh-tax.php:36
+msgid "View Course"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:59 ../includes/rh-tax.php:37
+msgid "Search Courses"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:60 ../includes/rh-tax.php:38
+msgid "No Course found"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:61 ../includes/rh-tax.php:39
+msgid "No Course found in Trash"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:75
+msgctxt "slug"
+msgid "course"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:87 ../includes/rh-tax.php:73
+msgctxt "taxonomy general name"
+msgid "Cuisines"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:88 ../includes/rh-tax.php:74
+msgctxt "taxonomy singular name"
+msgid "Cuisine"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:89 ../includes/rh-tax.php:75
+msgctxt "Cuisine"
+msgid "Add New Cuisine"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:90 ../includes/rh-tax.php:76
+msgid "Add New Cuisine"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:91 ../includes/rh-tax.php:77
+msgid "Edit Cuisine"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:92 ../includes/rh-tax.php:78
+msgid "New Cuisine"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:93 ../includes/rh-tax.php:79
+msgid "View Cuisine"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:94 ../includes/rh-tax.php:80
+msgid "Search Cuisines"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:95 ../includes/rh-tax.php:81
+msgid "No Cuisine found"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:96 ../includes/rh-tax.php:82
+msgid "No Cuisine found in Trash"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:110
+msgctxt "slug"
+msgid "cuisine"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:135
+msgctxt "slug"
+msgid "recipe"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:138
+msgctxt "post type general name"
+msgid "Recipes"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:139
+msgctxt "post type singular name"
+msgid "Recipe"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:140
+msgid "All Recipes"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:141
+msgid "Add New"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:142
+msgid "Add New Recipe"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:143 ../templates/archive/meta.php:33
+#: ../templates/single/meta.php:34
+msgid "Edit Recipe"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:144
+msgid "New Recipe"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:145
+msgid "View Recipe"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:146
+msgid "Search Recipes"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:147
+msgid "No Recipes found"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:148
+msgid "No Recipes found in the trash"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:150
+msgid "Recipe Hero"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:186
+#, php-format
+msgid "Recipe updated. <a href=\"%s\">View recipe</a>"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:189
+msgid "Recipe updated."
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:190
+#, php-format
+msgid "Recipe restored to revision from %s"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:191
+#, php-format
+msgid "Recipe published. <a href=\"%s\">View recipe</a>"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:192
+msgid "Recipe saved."
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:193
+#, php-format
+msgid "Recipe submitted. <a target=\"_blank\" href=\"%s\">Preview recipe</a>"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:194
+#, php-format
+msgid ""
+"Recipe scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s"
+"\">Preview recipe</a>"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:194
+msgid "M j, Y @ G:i"
+msgstr ""
+
+#: ../includes/class-rh-post-types.php:195
+#, php-format
+msgid ""
+"Recipe draft updated. <a target=\"_blank\" href=\"%s\">Preview recipe</a>"
+msgstr ""
+
+#: ../includes/fields/CMB2.php:96
+msgid "Metabox configuration is required to have an ID parameter"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Ajax.php:37
+msgid "Please Try Again"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Ajax.php:133
+msgid "Remove Embed"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Ajax.php:137
+#, php-format
+msgid "No oEmbed Results Found for %s. View more info at"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Field.php:721
+msgid "Add Group"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Field.php:722
+msgid "Remove Group"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Field.php:743
+msgid "None"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Field.php:744
+msgid "All"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Types.php:288
+msgid "Add Row"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Types.php:347
+#: ../includes/fields/includes/CMB2_Types.php:798
+#: ../includes/fields/includes/CMB2_Types.php:878
+#: ../includes/fields/includes/CMB2_hookup.php:173
+msgid "Remove"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Types.php:674
+#: ../includes/fields/includes/CMB2_Types.php:722
+msgid "No terms"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Types.php:766
+#: ../includes/fields/includes/CMB2_Types.php:823
+msgid "Add or Upload File"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Types.php:787
+#: ../includes/fields/includes/CMB2_Types.php:870
+#: ../includes/fields/includes/CMB2_hookup.php:172
+msgid "Remove Image"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_Types.php:798
+#: ../includes/fields/includes/CMB2_Types.php:878
+#: ../includes/fields/includes/CMB2_hookup.php:174
+msgid "File:"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:123
+#: ../includes/fields/includes/CMB2_hookup.php:160
+msgid "Clear"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:125
+msgid "Select Color"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:126
+msgid "Current Color"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:150
+msgid "mm/dd/yy"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:151
+msgid "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:152
+msgid "Su, Mo, Tu, We, Th, Fr, Sa"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:153
+msgid "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:154
+msgid ""
+"January, February, March, April, May, June, July, August, September, "
+"October, November, December"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:155
+msgid "Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:156
+msgid "Next"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:157
+msgid "Prev"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:158
+msgid "Today"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:159
+msgid "Done"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:171
+msgid "Use this file"
+msgstr ""
+
+#: ../includes/fields/includes/CMB2_hookup.php:176
+msgid "Select / Deselect All"
+msgstr ""
+
+#: ../includes/fields/includes/helper-functions.php:226
+msgid "Save"
+msgstr ""
+
+#: ../includes/rh-fields.php:49
+msgid "Recipe Details"
+msgstr ""
+
+#: ../includes/rh-fields.php:57
+msgid "Servings"
+msgstr ""
+
+#: ../includes/rh-fields.php:58
+msgid "A number for the servings amount"
+msgstr ""
+
+#: ../includes/rh-fields.php:66
+msgid "Servings Type"
+msgstr ""
+
+#: ../includes/rh-fields.php:67
+msgid ""
+"The type of servings that relates to the Servings Amount, like how many "
+"people it will feed or how many burgers it can make, etc."
+msgstr ""
+
+#: ../includes/rh-fields.php:71
+msgid "eg. People"
+msgstr ""
+
+#: ../includes/rh-fields.php:75
+msgid "Preparation Time"
+msgstr ""
+
+#: ../includes/rh-fields.php:79 ../includes/rh-fields.php:89
+msgid "Minutes"
+msgstr ""
+
+#: ../includes/rh-fields.php:85
+msgid "Cooking Time"
+msgstr ""
+
+#: ../includes/rh-fields.php:95
+msgid "Equipment Needed"
+msgstr ""
+
+#: ../includes/rh-fields.php:96
+msgid "Any special equipment worthy of mentioning that is required."
+msgstr ""
+
+#: ../includes/rh-fields.php:105
+msgid "Nutritional Info"
+msgstr ""
+
+#: ../includes/rh-fields.php:106
+msgid "A summary of nutrition information you would like to include."
+msgstr ""
+
+#: ../includes/rh-fields.php:110
+msgid "eg. Per serving: Calories (kcal) 657.7"
+msgstr ""
+
+#: ../includes/rh-fields.php:128
+msgid "Add all of the ingredients for this recipe."
+msgstr ""
+
+#: ../includes/rh-fields.php:130
+msgid "Ingredient {#}"
+msgstr ""
+
+#: ../includes/rh-fields.php:131
+msgid "Add Another Ingredient"
+msgstr ""
+
+#: ../includes/rh-fields.php:132
+msgid "Remove Ingredient"
+msgstr ""
+
+#: ../includes/rh-fields.php:138
+msgid "Quantity"
+msgstr ""
+
+#: ../includes/rh-fields.php:146
+msgid "Amount"
+msgstr ""
+
+#: ../includes/rh-fields.php:151
+msgid "Gram (gm)"
+msgstr ""
+
+#: ../includes/rh-fields.php:152
+msgid "Ounce (oz)"
+msgstr ""
+
+#: ../includes/rh-fields.php:153
+msgid "Milliliter (ml)"
+msgstr ""
+
+#: ../includes/rh-fields.php:154
+msgid "Teaspoon"
+msgstr ""
+
+#: ../includes/rh-fields.php:155
+msgid "Tablespoon"
+msgstr ""
+
+#: ../includes/rh-fields.php:156
+msgid "Cup"
+msgstr ""
+
+#: ../includes/rh-fields.php:157
+msgid "Liter (L)"
+msgstr ""
+
+#: ../includes/rh-fields.php:158
+msgid "Pound (lb)"
+msgstr ""
+
+#: ../includes/rh-fields.php:159
+msgid "Kilogram (kg)"
+msgstr ""
+
+#: ../includes/rh-fields.php:160
+msgid "Slices"
+msgstr ""
+
+#: ../includes/rh-fields.php:161
+msgid "Pieces"
+msgstr ""
+
+#: ../includes/rh-fields.php:162
+msgid "Blank Amount"
+msgstr ""
+
+#: ../includes/rh-fields.php:163
+msgid "None (No Quantity)"
+msgstr ""
+
+#: ../includes/rh-fields.php:169
+msgid "Ingredient"
+msgstr ""
+
+#: ../includes/rh-fields.php:176
+msgid "Start typing to see used ingredients (or add a new one)"
+msgstr ""
+
+#: ../includes/rh-fields.php:190
+msgid "Steps"
+msgstr ""
+
+#: ../includes/rh-fields.php:196
+msgid "Add all of the preparation and cooking steps for this recipe."
+msgstr ""
+
+#: ../includes/rh-fields.php:198
+msgid "Step {#}"
+msgstr ""
+
+#: ../includes/rh-fields.php:199
+msgid "Add Another Step"
+msgstr ""
+
+#: ../includes/rh-fields.php:200
+msgid "Remove Step"
+msgstr ""
+
+#: ../includes/rh-fields.php:206 ../templates/single/steps.php:19
+msgid "Instructions"
+msgstr ""
+
+#: ../includes/rh-fields.php:211
+msgid "Step Photo"
+msgstr ""
+
+#: ../includes/rh-fields.php:212
+msgid "Upload an image using the media uploader (optional)"
+msgstr ""
+
+#: ../includes/shortcodes/rh-shortcodes-archive.php:77
+msgid "No recipes have been found!"
+msgstr ""
+
+#: ../includes/templates-parts/rh-templates-archive-functions.php:156
+#, php-format
+msgid "Search Results: &ldquo;%s&rdquo;"
+msgstr ""
+
+#: ../includes/templates-parts/rh-templates-archive-functions.php:159
+#, php-format
+msgid "&nbsp;&ndash; Page %s"
+msgstr ""
+
+#: ../includes/templates-parts/rh-templates-search-functions.php:30
+#, php-format
+msgid "Search Results for: %s"
+msgstr ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:242
+msgctxt "Abbreviation for hours"
+msgid "h"
+msgstr ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:243
+msgctxt "Abbreviation for minutes"
+msgid "m"
+msgstr ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:303
+#, php-format
+msgid "1 Gram"
+msgid_plural "%s Grams"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:306
+#, php-format
+msgid "1 Ounce"
+msgid_plural "%s Ounces"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:309
+#, php-format
+msgid "1 Millilitre"
+msgid_plural "%s Millilitres"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:312
+#, php-format
+msgid "1 Teaspoon"
+msgid_plural "%s Teaspoons"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:315
+#, php-format
+msgid "1 Tablespoon"
+msgid_plural "%s Tablespoons"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:318
+#, php-format
+msgid "1 Cup"
+msgid_plural "%s Cups"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:321
+#, php-format
+msgid "1 Liter"
+msgid_plural "%s Liters"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:324
+#, php-format
+msgid "1 Pound"
+msgid_plural "%s Pounds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:327
+#, php-format
+msgid "1 Kilogram"
+msgid_plural "%s Kilograms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:330
+#, php-format
+msgid "1 Slice"
+msgid_plural "%s Slices"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/templates-parts/rh-templates-single-functions.php:333
+#, php-format
+msgid "1 Piece"
+msgid_plural "%s Pieces"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../recipe-hero.php:103 ../recipe-hero.php:112
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: ../templates/archive/details.php:19
+#, php-format
+msgctxt ""
+"Abbreviations for time: Replace only h (hour) & m (minute) with appropriate "
+"appreviation"
+msgid "%dh %02dm"
+msgstr ""
+
+#: ../templates/archive/details.php:32 ../templates/single/details.php:31
+msgid "Serves"
+msgstr ""
+
+#: ../templates/archive/details.php:41 ../templates/single/details.php:40
+msgid "Equipment"
+msgstr ""
+
+#: ../templates/archive/details.php:58 ../templates/single/details.php:57
+msgid "Prep time"
+msgstr ""
+
+#: ../templates/archive/details.php:68 ../templates/single/details.php:67
+msgid "Cook Time"
+msgstr ""
+
+#: ../templates/loop/no-recipes-found.php:12
+msgid "Sorry, there are no recipes to show!"
+msgstr ""
+
+#: ../templates/loop/no-recipes-found.php:15
+msgid "Add Your First Recipe!"
+msgstr ""
+
+#: ../templates/loop/no-recipes-found.php:18
+msgid "We have some coming soon though!"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:25
+#, php-format
+msgid "%s review for %s"
+msgid_plural "%s reviews for %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../templates/single-recipe-reviews.php:49
+msgid "There are no reviews yet."
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:60
+msgid "Add a review"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:60
+msgid "Be the first to review"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:61
+#, php-format
+msgid "Leave a Reply to %s"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:65
+msgid "Name"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:67
+msgid "Email"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:70
+msgid "Submit"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:76
+msgid "Your Rating"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:77
+msgid "Rate&hellip;"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:78
+msgid "Perfect"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:79
+msgid "Good"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:80
+msgid "Average"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:81
+msgid "Not that bad"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:82
+msgid "Very Poor"
+msgstr ""
+
+#: ../templates/single-recipe-reviews.php:86
+msgid "Your Review"
+msgstr ""
+
+#: ../templates/single/nutrition.php:18
+msgid "Nutrition"
+msgstr ""
+
+#: ../templates/single/rating.php:24 ../templates/single/rating.php:36
+#, php-format
+msgid "%s Review"
+msgid_plural "%s Reviews"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../templates/single/review.php:25
+#, php-format
+msgid "Rated %d out of 5"
+msgstr ""
+
+#: ../templates/single/review.php:44
+msgid "Your comment is awaiting approval"
+msgstr ""
+
+#: ../templates/single/steps.php:39
+msgid "Step"
+msgstr ""

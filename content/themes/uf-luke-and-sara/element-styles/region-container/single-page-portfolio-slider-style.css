@@ -1,0 +1,30 @@
+.upfront-region-container-slider .upfront-default-slider-nav i {
+    display: none;
+}
+.upfront-region-container-slider .upfront-default-slider-nav-prev, .upfront-region-container-slider .upfront-default-slider-nav-next {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 100px;
+    background: url("UPFRONT_THEME_BASE/ui/sprites.png");
+    background-image: url("UPFRONT_THEME_BASE/ui/sprites.svg"), none;
+    transition: opacity 0.5s ease-in-out;
+    -moz-transition: opacity 0.5s ease-in-out;
+    -webkit-transition: opacity 0.5s ease-in-out;
+}
+.upfront-region-container-slider .upfront-default-slider-nav-prev {
+    background-position: -695px -204px;
+}
+.upfront-region-container-slider .upfront-default-slider-nav-next {
+    background-position: -695px -55px;
+}
+.upfront-region-container-slider .upfront-default-slider-nav-prev:hover, .upfront-region-container-slider .upfront-default-slider-nav-next:hover {
+    opacity: 1;
+}
+.upfront-region-container-slider .upfront-default-slider-nav-prev:before, .upfront-region-container-slider .upfront-default-slider-nav-next:before {
+    display: none;
+}
+
+
+/* 133620-1456900936-au */

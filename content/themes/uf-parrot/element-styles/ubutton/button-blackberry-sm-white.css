@@ -1,0 +1,15 @@
+#page .button-blackberry-sm-white.upfront-button {
+    background:url("UPFRONT_THEME_BASE/ui/sprite.png") no-repeat;
+    background-image: url("UPFRONT_THEME_BASE/ui/sprite.svg"), none;
+    background-position: -57px -798px;
+    width: 42px;
+    height: 42px;
+    /* center within wrapper */
+    position: relative;
+    left: 50%;
+    -webkit-transform: translatex(-21px);
+            transform: translatex(-21px);
+}
+
+
+/* 133620-1456900944-au */

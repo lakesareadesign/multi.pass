@@ -1,0 +1,46 @@
+#page .u-button-circle-mobile.upfront-button {
+    /*padding: 0;*/
+    text-align: center;
+    -webkit-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
+    width: 100%;
+}
+#page .u-button-circle-mobile.upfront-button a.upfront_cta {
+    background-color: #ufc0;
+    border-radius: 50%;
+    display: block;
+    font-weight: 300;
+    height: 240px;
+    line-height: 1.2em;
+    margin: 0 auto;
+    opacity: 0.8;
+    padding: 30% 0;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    width: 240px;
+}
+#page .u-button-circle-mobile.upfront-button a.upfront_cta:before {
+    background-color: #ufc0;
+    border-radius: 50%;
+    content: "";
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    -webkit-transition: all 0.35s ease;
+    transition: all 0.35s ease;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+    width: 100%;
+    z-index: -1;
+}
+#page .u-button-circle-mobile.upfront-button a:hover, #page .u-button-circle-mobile.upfront-button a:hover:before {
+    opacity: 1;
+    -webkit-transform: scale(0.95);
+    transform: scale(0.95);
+}
+
+
+/* 133620-1456900939-au */

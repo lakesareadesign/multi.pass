@@ -1,0 +1,77 @@
+table.plugins {
+	display: none;
+}
+table.plugins .theme-image {
+	width: 100px;
+	height: 75px;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAALElEQVQYGWO8d+/efwYkoKioiMRjYGBC4WHhUK6A8T8QIJt8//59ZC493AAAQssKpBK4F5AAAAAASUVORK5CYII=');					    		  	 	    
+	background-position: center center;
+}
+.theme-deprecation-holder {
+	color: red;
+}
+.edit-category-save-button, .add-category-button {
+	margin: 0 0 0 5px !important;
+}
+.theme-new-edit-category {
+	width: 100%;
+}
+.inline-edit-col .theme-categories-checklist {
+	height: 188px;
+}
+.inline-edit-col label {
+	clear: both;
+}
+.inline-edit-row fieldset label span.title {
+	width: 11em;
+}
+.inline-edit-row fieldset label span.input-text-wrap {
+	margin-left: 11em;
+}
+.inline-edit-row .theme_deprecate_mm {
+	  vertical-align: top;
+}
+.inline-edit-row .input-text-wrap .timestamp-wrap input {
+	width: auto;
+}
+.inline-edit-row .input-text-wrap .timestamp-wrap .theme_deprecate_on_off_holder {
+	display: inline-block;
+}
+.inline-edit-row .default-theme {
+	display: none;
+	line-height: 1.8em;
+}
+.setting-disabled {
+	cursor: default;
+}
+.setting-disabled span.title {
+	color: #999;
+}
+.setting-disabled span.input-text-wrap input, .setting-disabled textarea {
+	background: #ededed;
+}
+.inline-edit-row fieldset label textarea.theme_description {
+	height: 8.7em;
+}
+.inline-edit-row p.setup-mode-reminder {
+	text-align: right;
+	color: red;
+	clear: both;
+	padding: 0.5em .5em 0 .5em;
+	margin: .5em 0 0;
+}
+
+@media all and (max-width: 782px) {
+	#wpbody-content .wp-list-table.plugins th.column-description, #wpbody-content .wp-list-table.plugins th.column-image {
+	display: none;
+	}
+	.inline-edit-row fieldset label span.title {
+		width: auto;
+	}
+	.inline-edit-row fieldset label span.input-text-wrap {
+		margin: 0;
+	}
+}
+
+
+/* 133620-1439422436-au */

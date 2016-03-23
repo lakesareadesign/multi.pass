@@ -1,0 +1,128 @@
+<div class="wrap farreaches">
+    <h2>Farreach.es subscriptions</h2>
+    <!--
+    {{if history}}
+    	{{for history}}
+    		{{>feature_set_definition}},
+    	{{/for}}
+    {{/if}}
+    /-->
+    {{if paid_until}}
+        <p>Your subscription is active and valid until <span class="label label-success">{{:paid_until}}</span>. Thank you! You're welcome to extend it with plan of your choice.</p>
+    {{/if}}
+    {{if stripe_key_available}}
+	<div id="farreaches-subscription-list">
+		<p>We have variety of options for you to choose from. Select one
+			of the following plans. The longer is your subscription, the less you
+			pay per month.</p>
+		<ul>
+		{{for feature_set_definitions}}
+			<li>
+				<h3>{{>name}}</h3>
+				<p>{{>description}}</p>
+				{{if price > 0}}
+				<button class="button-primary farreaches-subscribe" href="#"
+									data-plan="{{>name}}" data-plan-id="{{>lookupKey}}">Subscribe
+									for ${{>price}}</button>
+				{{/if}}
+			</li>
+		{{/for}}
+		</ul>
+		<!--div class="container" style="float: left">
+			<div class="row">
+			    {{if paid}}
+			    {{else}}
+				<div class="span3">
+					<h2>Free plan</h2>
+					<ul>
+						<li>Up to 2 connections to Facebook and other social services</li>
+						<li>Email support</li>
+					</ul>
+					<p>
+						<button class="button-primary farreaches-free" href="#">Stay
+							on free plan</button>
+					</p>
+				</div>
+				{{/if}}
+				<div class="span9">
+				{{if paid}}
+                {{else}}
+					<h2>Paid plans</h2>
+					<ul>
+						<li>Up to 4 connections to Facebook and other social services
+							(per service)</li>
+						<li>Includes phone support during office hours.</li>
+					</ul>
+				{{/if}}
+					<div class="row">
+						<div class="span3">
+							<h3>1 month</h3>
+							<p>Perfect for new customers to try out the product.</p>
+							<p>
+								Only <span class="label label-warning">$15/month!</span>
+							</p>
+							<p>
+								<button class="button-primary farreaches-subscribe" href="#"
+									data-plan="1 month subscription" data-plan-id="m1">Subscribe
+									for $15</button>
+							</p>
+						</div>
+						<div class="span3">
+							<h3>3 months</h3>
+							<p>Great value for regular customers who already use the
+								service.</p>
+							<p>
+								Only <span class="label label-warning">$12.5/month!</span>
+							</p>
+							<p>
+								<button class="button-primary farreaches-subscribe" href="#"
+									data-plan="3 months subscription" data-plan-id="m3">Subscribe
+									for $37.5</button>
+							</p>
+						</div>
+						<div class="span3">
+							<h3>6 months</h3>
+							<p>Super saver plan for customers who do not want to pay too
+								often.</p>
+							<p>
+								Just <span class="label label-important">$10/month!</span>
+							</p>
+							<p>
+								<button class="button-primary farreaches-subscribe" href="#"
+									data-plan="6 months subscription" data-plan-id="m6">Subscribe
+									for $60</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div-->
+		<div id="subscription-progress" class="modal hide fade" tabindex="-1"
+			role="dialog">
+			<div class="modal-header">
+				<h3>Wait a second</h3>
+			</div>
+			<div class="modal-body">
+				<p>Sending your subscription request to Farreach.es...</p>
+			</div>
+		</div>
+		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+				<h3 id="myModalLabel">Modal header</h3>
+			</div>
+			<div class="modal-body">
+				<p>One fine body…</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+				<button class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+	{{else}}
+	   <p>Plugin experienced a problem loading data essential to handle payments. Please reload the page or contact our support team.</p>
+	{{/if}}
+</div>

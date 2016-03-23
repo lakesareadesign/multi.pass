@@ -1,0 +1,16 @@
+#page .u-button-social.upfront-button {
+    text-align: center;
+}
+#page .u-button-social .upfront_cta {
+    border-radius: 50%;
+    display: inline-block;
+    height: 75px;
+    padding: 0;
+    width: 75px;
+}
+#page .u-button-social .upfront_cta .uf_font_icon {
+    line-height: 75px;
+}
+
+
+/* 133620-1456900939-au */

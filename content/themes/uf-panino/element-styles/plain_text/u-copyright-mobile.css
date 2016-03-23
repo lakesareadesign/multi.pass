@@ -1,0 +1,19 @@
+#page .u-copyright-mobile.upfront-plain_txt p {
+    line-height: 1.79em;
+    text-align: center;
+}
+#page .u-copyright-mobile.upfront-plain_txt p, #page .u-copyright-mobile.upfront-plain_txt a {
+    color: #ufc0;
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+}
+#page .u-copyright-mobile.upfront-plain_txt a {
+    text-decoration: none;
+}
+#page .u-copyright-mobile.upfront-plain_txt a:hover {
+    color: #ufc5;
+}
+
+
+/* 133620-1456900939-au */

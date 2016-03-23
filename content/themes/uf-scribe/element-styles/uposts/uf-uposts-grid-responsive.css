@@ -1,0 +1,88 @@
+#page .uf-uposts-grid-responsive .upfront_posts-list > ul, #page .uf-uposts-grid-responsive ul.uf-posts {
+    overflow: hidden;
+}
+#page .uf-uposts-grid-responsive li.uf-post {
+    margin: 0 0 30px;
+    width: 100%;
+}
+#page .uf-uposts-grid-responsive li.uf-post, #page .uf-uposts-grid-responsive li.uf-post article {
+    overflow: hidden;
+}
+#page .uf-uposts-grid-responsive .thumbnail {
+    max-height: 200px;
+    position: relative;
+}
+#page .uf-uposts-grid-responsive .thumbnail:after {
+    background-color: #ufc0;
+    bottom: 0;
+    content: "";
+    height: 100%;
+    left: 0;
+    margin: auto;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    -webkit-transition: opacity .4s;
+    transition: opacity .4s;
+    width: 100%;
+}
+#page .uf-uposts-grid-responsive .thumbnail:hover:after {
+    opacity: .8;
+}
+#page .uf-uposts-grid-responsive .date_posted .date {
+    color: #636363;
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 30px;
+    text-transform: uppercase;
+}
+#page .uf-uposts-grid-responsive .title {
+    position: relative;
+}
+#page .uf-uposts-grid-responsive .title:after {
+    background-color: #1d1d1d;
+    content: "";
+    display: block;
+    height: 2px;
+    margin: auto;
+    width: 24px;
+}
+#page .uf-uposts-grid-responsive .title h3, #page .uf-uposts-grid-responsive .title h3 a {
+    color: #ufc0;
+    display: inline-block;
+    font-family: 'Cantata One', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 30px;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#page .uf-uposts-grid-responsive .content p {
+    font-size: 14px;
+    line-height: 25px;
+}
+#page .uf-uposts-grid-responsive .content p:last-child {
+    margin-bottom: 0;
+}
+#page .uf-uposts-grid-responsive .read_more {
+    margin-bottom: 0;
+    text-align: right;
+}
+#page .uf-uposts-grid-responsive .read_more a {
+    background: url("UPFRONT_THEME_BASE/ui/arrows.png") no-repeat -3px -5px;
+    display: inline-block;
+    height: 19px;
+    width: 94px;
+}
+#page .uf-uposts-grid-responsive .read_more a:hover {
+    background-position: -3px -35px;
+}
+
+
+/* 133620-1456900948-au */

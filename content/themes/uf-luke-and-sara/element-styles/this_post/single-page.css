@@ -1,0 +1,16 @@
+#page .single-page h1.post_title, #page .single-page h1.post_title a {
+    color: #333333;
+    font-size: 56px;
+    line-height: 1.2em;
+    font-family: "Quattrocento";
+    font-weight: normal;
+}
+#page .single-page .post_excerpt {
+    font-size: 28px;
+    line-height: 1.2em;
+    font-weight: normal;
+    text-transform: none;
+}
+
+
+/* 133620-1456900936-au */

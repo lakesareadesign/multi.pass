@@ -1,0 +1,1 @@
+<a href="<?php echo esc_url( $viewreport_link ); ?>" class="button button-grey button-with-cta"><?php _e( 'View Report', 'wphb' ); ?></a>

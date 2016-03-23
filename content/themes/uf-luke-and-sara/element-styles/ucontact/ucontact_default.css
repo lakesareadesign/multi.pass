@@ -1,0 +1,105 @@
+.ucontact-input {
+    display: block;
+    margin-bottom: 20px;
+    padding: 0 15px 0;
+    border-width:2px!important;
+    border-style: solid;
+    border-color: #ufc5!important;
+    background: #ufc5;
+    color: #ufc1;
+    font-size: 16px;
+    line-height: 45px;
+    height: 45px;
+    font-family: Quattrocento Sans;
+    font-weight: 400;
+    font-style: normal;
+    transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    border-radius: 2px;
+}
+.ucontact-input:focus {
+    border-color: #ufc2!important;
+    color: #ufc0;
+}
+.textarea-field {
+    min-height: 200px;
+    max-height: 400px;
+    height:200px;
+    margin-bottom: 20px;
+}
+.submit-field {
+    padding: 0px 60px 0px!important;
+    border: 2px solid #ufc2;
+    background: transparent !important;
+    color: #ufc2;
+    font-size: 16px;
+    line-height: 35px;
+    font-family: Quattrocento Sans;
+    font-weight: 700;
+    font-style: normal;
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    border-radius: 2px;
+    margin-bottom: 100px;
+    margin-top:0px!important;
+}
+.submit-field:hover {
+    border-color: #ufc2;
+    background: #ufc2!important;
+    color: #ffffff;
+}
+.submit-field:active {
+    border-color: #00a384;
+    background: #01bc9d !important;
+    box-shadow: inset 0 2px 1px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: inset 0 2px 1px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0 2px 1px rgba(0, 0, 0, 0.5);
+}
+.upfront-contact-form .ucontact-message-container {
+    margin-bottom: 0;
+}
+.upfront-contact-form .ucontact-message-container.ucontact-success-response {
+    background-color: transparent;
+    padding: 0;
+    position: relative;
+    margin: 0;
+}
+.upfront-contact-form .ucontact-message-container.ucontact-success-response:after {
+    content: "";
+    display: none;
+}
+.upfront-contact-form .ucontact-message-container.ucontact-success-response div {
+    display: block;
+}
+.upfront-contact-form .ucontact-msg, .upfront-contact-form .ucontact-msg.info p {
+    font-family: 'Quattrocento Sans', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 1.5em;
+}
+.upfront-contact-form .ucontact-msg {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius:2px;
+}
+.upfront-contact-form .ucontact-msg.error {
+    background: #f2dede;
+    color: #a94442;
+}
+.upfront-contact-form .ucontact-msg.info {
+    background: #dff0d8;
+    color: #3c763d;
+}
+.upfront-contact-form .ucontact-msg.info p {
+    color: #3c763d;
+    display: block;
+    margin: 0;
+    text-align: left;
+}
+
+
+/* 133620-1456900936-au */

@@ -1,0 +1,36 @@
+Plugin Name: WP Defender
+Author: Hoang Ngo, Aaron Edwards
+Tested up to: 4.2.2
+
+Change Log:
+
+1.0 - 2016-01-03
+----------------------------------------------------------------------
+- First release
+
+1.0.1 - 2016-03-03
+----------------------------------------------------------------------
+- Scanning can auto detect if user is active on scanning page to work based on ajax, or leave to enable background scan
+- Improve condition checking for Prevent Information Disclosure module
+- Improve condition checking for Prevent PHP execution module
+
+1.0.2 - 2016-15-03
+----------------------------------------------------------------------
+- Applied ajax inline updates for plugins/themes
+- One click Prevent PHP execution
+- One click Prevent Information Disclosure
+- Add detail page for core integrity issue, and automate resolution
+
+- Fix scan stability with limited memory
+- Some other minor enhancements/fixes
+
+1.0.3 - 2016-22-03
+----------------------------------------------------------------------
+- Optimize scanning
+- Preventing performance issue with some hosts
+
+- Fix false blacklist detection in local environment
+- Some other minor enhancements/fixes
+
+
+133620-1458650566-au

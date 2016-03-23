@@ -1,0 +1,14 @@
+<div class="wrap farreaches">
+    <h2>Twitter Post Preview</h2>
+    <div class="twitter-post-preview">
+        <div class="twitter-head clearfix">
+    		<div class="twitter-user-pic" {{if extServiceUserProfilePicture}}style="background-image:url('{{:extServiceUserProfilePicture}}');"{{/if}}></div>
+        	
+            <div class="twitter-user-info">
+                <div class="twitter-user-full-name">{{>extServiceUserFullName||'User Name'}}</div>
+                <div class="twitter-user-name">@{{>extServiceUsername||'username'}}</div>
+            </div>
+        </div>
+        <div class="twitter-body">{{>post_text}}&nbsp;<span class="twitter-post-url">{{:post_url}}</span></div>
+    </div>
+</div>

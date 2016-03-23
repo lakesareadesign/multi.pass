@@ -1,0 +1,1 @@
+<p><?php _e( 'We\'ve tested your website performance and have suggested improvements to increase your page speed. Have a look below and get tweaking! In addition, you can enable our Uptime monitoring service to track your response times and be notified when your website goes down.', 'wphb' ); ?></p>

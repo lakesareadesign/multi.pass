@@ -1,0 +1,1905 @@
+# Copyright (C) 2016 WP Defender
+# This file is distributed under the same license as the WP Defender package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Defender 1.0.3\n"
+"Report-Msgid-Bugs-To: http://premium.wpmudev.org/\n"
+"POT-Creation-Date: 2016-03-04 23:06:38+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+
+#: app/class-wd-component.php:533
+#, php-format
+msgid ""
+"WPMU DEV Dashboard will be required for this action. Please visit <a href="
+"\"%s\">here</a> and install the WPMU DEV Dashboard"
+msgstr ""
+
+#: app/class-wd-component.php:588
+#: app/module/hardener-module/component/class-wd-plugin-theme-version.php:148
+msgid "N/A"
+msgstr ""
+
+#: app/class-wd-utils.php:121
+msgid "Scan of {SITE_URL} complete. {ISSUES_COUNT} issue's found."
+msgstr ""
+
+#: app/class-wd-utils.php:122
+msgid ""
+"Hi {USER_NAME},\n"
+"\n"
+"WP Defender here, reporting back from the front.\n"
+"\n"
+"I've finished scanning your site for vulnerabilities and I found "
+"{ISSUES_COUNT} issues that you should take a closer look at!\n"
+"{ISSUES_LIST}\n"
+"\n"
+"<a href=\"{SCAN_PAGE_LINK}\">Follow me back to the lair and let's get you "
+"patched\n"
+"    up.</a>\n"
+"\n"
+"Stay Safe,\n"
+"WP Defender\n"
+"Official WPMU DEV Superhero"
+msgstr ""
+
+#: app/class-wd-utils.php:135
+msgid ""
+"Hi {USER_NAME},\n"
+"\n"
+"WP Defender here, reporting back from the front.\n"
+"\n"
+"I've finished scanning your site for vulnerabilities and I found nothing - "
+"well done for running such a tight ship!\n"
+"\n"
+"Keep up the good work! With regular security scans and a well-hardened "
+"installation you'll be just fine.\n"
+"\n"
+"Stay Safe,\n"
+"WP Defender\n"
+"Official WPMU DEV Superhero"
+msgstr ""
+
+#: app/class-wd-utils.php:479 app/class-wd-utils.php:559
+msgid "Guest"
+msgstr ""
+
+#: app/class-wd-utils.php:677
+#: app/module/scan-module/view/widgets/scan/scan_result.php:14
+msgid "WordPress Core Integrity"
+msgstr ""
+
+#: app/class-wd-utils.php:678
+#: app/module/scan-module/view/widgets/scan/scan_result.php:35
+msgid "Plugins & Themes vulnerability"
+msgstr ""
+
+#: app/class-wd-utils.php:679
+#: app/module/scan-module/view/widgets/scan/scan_result.php:56
+#: app/view/settings.php:96
+msgid "Suspicious Code"
+msgstr ""
+
+#: app/class-wd-view.php:158
+msgid "The view "
+msgstr ""
+
+#: app/controller/class-wd-admin-controller.php:68
+msgid "WP Defender’s settings have been updated"
+msgstr ""
+
+#: app/controller/class-wd-admin-controller.php:100
+msgid "The username can't be empty!"
+msgstr ""
+
+#: app/controller/class-wd-admin-controller.php:117
+#, php-format
+msgid "The username <strong>%s</strong> doesn't exist!"
+msgstr ""
+
+#: app/controller/class-wd-admin-controller.php:134
+msgid "You"
+msgstr ""
+
+#: app/controller/class-wd-admin-controller.php:138
+msgid "Remove"
+msgstr ""
+
+#: app/controller/class-wd-admin-controller.php:203
+#: app/view/dashboard/main.php:4
+msgid "Dashboard"
+msgstr ""
+
+#: app/controller/class-wd-admin-controller.php:216
+msgid "Defender"
+msgstr ""
+
+#: app/controller/class-wd-admin-controller.php:220 app/view/settings.php:5
+#: wp-defender.php:177
+msgid "Settings"
+msgstr ""
+
+#: app/controller/class-wd-backup-controller.php:18 app/view/backup/soon.php:4
+#: app/view/backup/soon.php:7 app/view/widgets/backup/main.php:3
+msgid "Backups"
+msgstr ""
+
+#: app/controller/class-wd-logging-controller.php:18
+#: app/view/dashboard/main.php:142 app/view/logging/soon.php:4
+msgid "Audit Logging"
+msgstr ""
+
+#: app/controller/class-wd-logging-controller.php:18
+msgid "Audit Log"
+msgstr ""
+
+#: app/module/hardener-module/class-wd-theme-upgrade-skin.php:17
+msgid "Update Theme"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:12
+msgid "Change default admin user account"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:40
+#: app/module/hardener-module/component/class-wd-security-key.php:199
+msgid "Action Required"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:113
+msgid "Your admin name has changed. You will need to <a href='"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:179
+msgid "Can't insert userdata, please try again later."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:274
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:277
+msgid "That username can't be empty!"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:285
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:288
+msgid "You can't use admin as a username again!"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:298
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:301
+msgid "That username is invalid!"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:310
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:313
+msgid "That username already exists!"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:327
+#: app/module/hardener-module/component/class-wd-db-prefix.php:343
+#: app/module/hardener-module/component/class-wd-disable-error-display.php:219
+#: app/module/hardener-module/component/class-wd-disable-ping-back.php:144
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:234
+#: app/module/hardener-module/component/class-wd-plugin-theme-version.php:316
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:504
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:602
+#: app/module/hardener-module/component/class-wd-security-key.php:255
+#: app/module/hardener-module/component/class-wd-wp-version.php:69
+msgid "Overview"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:329
+msgid ""
+"If you're using the default <strong>admin</strong> login name, you're giving "
+"away an important piece of the puzzle hackers need to hijack your website. "
+"Having a default admin user account is bad practice, but one that's easily "
+"fixed. Ensure you backup your database before choosing a new username."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:331
+#: app/module/hardener-module/component/class-wd-db-prefix.php:347
+#: app/module/hardener-module/component/class-wd-disable-error-display.php:223
+#: app/module/hardener-module/component/class-wd-disable-ping-back.php:149
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:238
+#: app/module/hardener-module/component/class-wd-plugin-theme-version.php:395
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:283
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:514
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:508
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:606
+#: app/module/hardener-module/component/class-wd-security-key.php:259
+#: app/module/hardener-module/component/class-wd-wp-version.php:96
+msgid "How To Fix"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:339
+msgid "You don’t have a user with username admin."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:343
+msgid "Please change the username from admin to something unique."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:354
+msgid "Type a new username"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-change-default_admin.php:358
+#: app/module/hardener-module/component/class-wd-db-prefix.php:380
+#: app/module/hardener-module/component/class-wd-plugin-theme-version.php:355
+#: app/module/hardener-module/component/class-wd-plugin-theme-version.php:382
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:225
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:250
+#: app/module/scan-module/view/schedule.php:96 app/view/dashboard/main.php:127
+msgid "Update"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:16
+msgid "Change default database prefix"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:141
+msgid "Your wp-config.php is not writable"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:145
+#, php-format
+msgid "This plugin will require these functions % enabled on your server"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:169
+msgid "Your prefix can't be empty!"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:181
+msgid "Table prefix can only contain numbers, letters, and underscores."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:187
+msgid "This prefix is already in use. Please choose a different prefix."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:201
+#, php-format
+msgid ""
+"Your prefix has successfully been changed to <strong>%s</strong>. If you "
+"notice any issues with user permissions you may need to flush your object "
+"cache."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:229
+#, php-format
+msgid "RENAME table %s to %s error, message :%s query:%s"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:262
+msgid ""
+"It seems the wp-config.php file is currently using by another process or "
+"isn't writeable."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:345
+msgid ""
+"When you first install WordPress on a new database, the default settings "
+"start with wp_ as the prefix to anything that gets stored in the tables. "
+"This makes it easier for hackers to perform SQL injection attacks if they "
+"find a code vulnerability. It’s good practice to come up with a unique "
+"prefix to protect yourself from this. Please backup your database before "
+"changing the prefix."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:356
+msgid ""
+"Unfortunately it's not safe to do this via a plugin for larger WordPress "
+"Multisite installs. You can ignore this step, or follow a tutorial online on "
+"how to use a scalable tool like WP-CLI."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:362
+#, php-format
+msgid "Your prefix is <strong>%s</strong> and is unique."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:365
+msgid ""
+"We recommend using a different prefix to protect your database. Ensure you "
+"backup your database before changing the prefix."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-db-prefix.php:376
+msgid "New prefix"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-error-display.php:13
+msgid "Hide error reporting"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-error-display.php:164
+#: app/module/hardener-module/component/class-wd-disable-error-display.php:209
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:185
+#: app/module/hardener-module/component/class-wd-security-key.php:75
+msgid "Your wp-config.php isn't writable"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-error-display.php:172
+msgid "All PHP errors are hidden."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-error-display.php:221
+msgid ""
+"In addition to hiding error logs, developers often use the built-in front-"
+"end PHP and scripts error debugging feature, which displays code errors on "
+"the front-end. This provides hackers yet another way to find loopholes in "
+"your site's security."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-error-display.php:230
+msgid "All PHP errors are hidden.."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-error-display.php:233
+msgid "We will add the necessary code to prevent these errors displaying."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-error-display.php:240
+msgid "DISABLE ERROR DEBUGGING"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-ping-back.php:12
+msgid "Disable trackbacks and pingbacks"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-ping-back.php:146
+msgid ""
+"Pingbacks notify a website when it has been mentioned by another website, "
+"like a form of courtesy communication. However, these notifications can be "
+"sent to any website willing to receive them, opening you up to DDoS attacks, "
+"which can take your website down in seconds and fill your posts with spam "
+"comments."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-ping-back.php:167
+msgid "Trackbacks and pingbacks are turned off."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-ping-back.php:174
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:268
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:384
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:666
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:690
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:715
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:612
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:717
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:741
+msgid "Revert"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-ping-back.php:178
+msgid ""
+"We will turn off trackbacks and pingbacks in your WordPress settings area."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-disable-ping-back.php:185
+msgid "Disable Pingbacks"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:12
+msgid "Disable the file editor"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:196
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:202
+msgid ""
+"You already have ​*DISALLOW_FILE_EDIT*​ defined as true somewhere other than "
+"your `wp-config.php` file which means the file editor can’t be disabled. "
+"Please find and remove this line of code manually and try this fix again."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:236
+msgid ""
+"WordPress comes with a file editor built into the system. This means that "
+"anyone with access to your login information can edit your plugin and theme "
+"files. We recommend disabling the editor."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:261
+msgid "The file editor is disabled."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:272
+msgid ""
+"We will disable access to the file editor for you. You can enable it again "
+"anytime."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-plugin-theme-editor.php:279
+msgid "Disable File Editor"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-plugin-theme-version.php:12
+msgid "Update plugins & themes to latest versions"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-plugin-theme-version.php:318
+msgid ""
+"Updates to plugins and themes often include critical security updates, new "
+"features and a happier life for all, so we recommend you stick to the latest "
+"versions and update regularly."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-plugin-theme-version.php:399
+msgid "All of your plugins & themes are up to date."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-plugin-theme-version.php:401
+msgid ""
+"Update each version individually and be sure to check the changelog in case "
+"of major changes. It’s safe practice to update one at a time, and check your "
+"website front end for any breakages as you go."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:10
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:7
+msgid "Prevent PHP execution"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:129
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:146
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:160
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:177
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:104
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:150
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:211
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:271
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:313
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:335
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:367
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:428
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:88
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:95
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:185
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:191
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:201
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:233
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:113
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:164
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:225
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:285
+#, php-format
+msgid "Can't write to the file %s"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:279
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:510
+msgid "OVERVIEW"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:281
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:512
+msgid ""
+"By default, a plugin/theme vulnerability could allow a PHP file to get "
+"uploaded into your site's directories and in turn execute harmful scripts "
+"that can wreak havoc on your website. Prevent this altogether by disabling "
+"direct PHP execution in directories that don't require it."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:299
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:525
+#, php-format
+msgid ""
+"Your website currently run on %s, which has not yet supported. Please "
+"contact our <a target='_blank' href=\"%s\">support for more information</a>"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:337
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:598
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:564
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:651
+msgid "For NGINX servers:"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:340
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:601
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:567
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:654
+msgid ""
+"Copy the generated code into your site specific .conf file usually located "
+"in a subdirectory under /etc/nginx/... or /usr/local/nginx/conf/..."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:343
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:604
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:570
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:657
+msgid ""
+"Add the code above inside the <strong>server</strong> section in the file, "
+"right before the php location block. Looks something like:"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:347
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:608
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:574
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:661
+msgid "Reload NGINX."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:350
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:611
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:577
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:664
+#, php-format
+msgid ""
+"Still having trouble? <a target='_blank' href=\"%s\">Open a support ticket</"
+"a>."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:370
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:630
+msgid "PHP execution is locked down."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:374
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:634
+msgid ""
+"We will place .htaccess files into each of these directories to to prevent "
+"PHP execution."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-prevent-php-exec.php:388
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:669
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:693
+#: app/module/hardener-module/component/class-wd-prevent-php-exec1.php:718
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:616
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:720
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:744
+msgid "Add .htaccess file"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:15
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:12
+msgid "Prevent Information Disclosure"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:506
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:604
+msgid ""
+"Often servers are incorrectly configured, and can allow an attacker to get "
+"access to sensitive information that can be used in attacks. WP Defender can "
+"help you prevent that disclosure."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:597
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:683
+msgid "Both directories are protected."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-protect-core-dir.php:601
+#: app/module/hardener-module/component/class-wd-protect-core-dir1.php:687
+msgid ""
+"We will place <strong>.htaccess</strong> files into each of these "
+"directories to lock down the files and folders inside."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-security-key.php:14
+msgid "Update old security keys"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-security-key.php:86
+#, php-format
+msgid ""
+"All key salts have been regenerated. You will now need to <a href=\"%s"
+"\"><strong>re-login</strong></a>.<br/>This will auto reload after 3 seconds."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-security-key.php:257
+msgid ""
+"We recommend changing your security keys every 60 days and it looks like "
+"yours are currently older than this! Simply regenerate them to prevent "
+"unwanted snooping."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-security-key.php:263
+msgid ""
+"We can regenerate your key salts instantly for you and they will be good for "
+"another 60 days. Note that this will log all users out of your site."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-security-key.php:269
+msgid "Regenerate Security Keys"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-security-key.php:273
+#, php-format
+msgid "Your salt keys are %d days old. You are fine for now."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-wp-version.php:12
+msgid "Update WordPress to latest version"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-wp-version.php:24
+msgid "An error occurred, please try again"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-wp-version.php:72
+msgid ""
+"WordPress is an extremely popular platform, and with that popularity comes "
+"hackers that increasingly want to exploit WordPress based websites. Leaving "
+"your WordPress installation out of date is an almost guaranteed way to get "
+"hacked!"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-wp-version.php:79
+msgid "Current Version"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-wp-version.php:85
+msgid "Latest Version"
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-wp-version.php:100
+msgid "You have the latest WordPress version installed."
+msgstr ""
+
+#: app/module/hardener-module/component/class-wd-wp-version.php:106
+msgid "Update WordPress"
+msgstr ""
+
+#: app/module/hardener-module/controller/class-wd-hardener-controller.php:151
+msgid "Hardener"
+msgstr ""
+
+#: app/module/hardener-module/view/layouts/hardener.php:5
+#: app/module/hardener-module/view/widgets/hardener.php:5
+msgid "Hardening"
+msgstr ""
+
+#: app/module/hardener-module/view/layouts/hardener.php:8
+msgid "Summary"
+msgstr ""
+
+#: app/module/hardener-module/view/layouts/hardener.php:14
+msgid "All Issues Resolved. Legendary!"
+msgstr ""
+
+#: app/module/hardener-module/view/layouts/hardener.php:16
+#, php-format
+msgid "You have a few security risks, %s!"
+msgstr ""
+
+#: app/module/hardener-module/view/layouts/hardener.php:27
+#: app/module/hardener-module/view/main.php:3
+msgid "Issues"
+msgstr ""
+
+#: app/module/hardener-module/view/layouts/hardener.php:35
+#: app/module/hardener-module/view/main.php:26
+msgid "Resolved"
+msgstr ""
+
+#: app/module/hardener-module/view/layouts/hardener.php:45
+msgid "Start fixing any outstanding security risks in the Issues list below."
+msgstr ""
+
+#: app/module/hardener-module/view/main.php:7
+msgid "Action Needed"
+msgstr ""
+
+#: app/module/hardener-module/view/main.php:10
+msgid ""
+"Vulnerabilities leave you easy to attack. It’s highly recommend you address "
+"these <strong>immediately</strong>."
+msgstr ""
+
+#: app/module/hardener-module/view/main.php:24
+msgid "All Issues Resolved"
+msgstr ""
+
+#: app/module/hardener-module/view/main.php:31
+#, php-format
+msgid "Nice one, %s! These security loopholes are all tightened up."
+msgstr ""
+
+#: app/module/hardener-module/view/widgets/hardener.php:7
+msgid "View List"
+msgstr ""
+
+#: app/module/hardener-module/view/widgets/hardener.php:13
+#, php-format
+msgid "You have <strong>%s issues</strong> outstanding. Get fixing, %s!"
+msgstr ""
+
+#: app/module/hardener-module/view/widgets/hardener.php:27
+msgid "Your website is well protected against hackers and bots."
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-core-integrity-scan.php:13
+#: app/module/scan-module/component/class-wd-core-integrity-scan1.php:19
+msgid "core integrity scan"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-core-integrity-scan.php:30
+#: app/module/scan-module/component/class-wd-core-integrity-scan1.php:35
+msgid "Analyzing WordPress core files…"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-core-integrity-scan.php:59
+#: app/module/scan-module/component/class-wd-suspicious-scan.php:150
+msgid ""
+"Your server resource usage is too close to your limit. Please try again in "
+"15 minutes."
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-core-integrity-scan.php:111
+#: app/module/scan-module/component/class-wd-core-integrity-scan1.php:89
+msgid ""
+"There are no available checksums for your WordPress version, the scan will "
+"skip the core integrity check."
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-core-integrity-scan.php:169
+#: app/module/scan-module/component/class-wd-core-integrity-scan1.php:171
+#, php-format
+msgid "File size %s, modified at %s"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-core-integrity-scan.php:183
+#: app/module/scan-module/component/class-wd-core-integrity-scan1.php:185
+#, php-format
+msgid "File size %s, added at %s"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-core-integrity-scan1.php:112
+#: app/module/scan-module/component/class-wd-suspicious-scan1.php:171
+msgid "Not OK"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-core-integrity-scan1.php:112
+#: app/module/scan-module/component/class-wd-suspicious-scan1.php:173
+msgid "OK"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-core-integrity-scan1.php:115
+msgid "Analyzing WordPress core files..."
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-scan-api.php:74
+#, php-format
+msgid ""
+"Automatic scans have been enabled. Expect your first report on <strong>%s</"
+"strong> to <strong>%s</strong>"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-scan-api.php:218
+msgid "A scan is already in progress"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-scan-api.php:266
+msgid ""
+"Please note the nested WP install on your site will not be scanned. Install "
+"WP Defender there to scan separately."
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-scan-api.php:558
+msgid "Daily"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-scan-api.php:559
+msgid "Weekly"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-scan-api.php:560
+msgid "Monthly"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-suspicious-scan.php:19
+#: app/module/scan-module/component/class-wd-suspicious-scan1.php:20
+msgid "Suspicious file scan"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-suspicious-scan.php:112
+#: app/module/scan-module/component/class-wd-suspicious-scan.php:121
+#: app/module/scan-module/component/class-wd-suspicious-scan.php:122
+#: app/module/scan-module/component/class-wd-suspicious-scan1.php:108
+msgid "Analyzing WordPress content files…"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-suspicious-scan1.php:187
+msgid "Analyzing wp-content files..."
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-suspicious-scan1.php:271
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:40
+msgid "Suspicious function found"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-vulndb-scan.php:12
+#: app/module/scan-module/component/class-wd-vulndb-scan1.php:16
+msgid "Vulnerability scan"
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-vulndb-scan.php:27
+#: app/module/scan-module/component/class-wd-vulndb-scan1.php:34
+msgid "Checking for any published vulnerabilities your plugins & themes..."
+msgstr ""
+
+#: app/module/scan-module/component/class-wd-vulndb-scan.php:42
+#: app/module/scan-module/component/class-wd-vulndb-scan1.php:49
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:30
+msgid "WordPress Vulnerability"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-debug-controller.php:22
+msgid "Debug"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-notification-controller.php:84
+#: app/module/scan-module/view/scan/_scan_report.php:179
+msgid "File"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-notification-controller.php:85
+#: app/module/scan-module/view/scan/_scan_report.php:62
+#: app/module/scan-module/view/scan/_scan_report.php:149
+#: app/module/scan-module/view/scan/_scan_report.php:185
+msgid "Issue"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-resolve-controller.php:41
+#: app/module/scan-module/controller/class-wd-resolve-controller.php:190
+#, php-format
+msgid "The file <strong>%s</strong> was reverted back to original state."
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-resolve-controller.php:52
+msgid "Detail Information"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-resolve-controller.php:147
+msgid "Can't not find the issue needing to be fixed."
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-resolve-controller.php:234
+#: app/module/scan-module/view/scan/_scan_report.php:209
+msgid "Undo"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-resolve-controller.php:251
+#: app/module/scan-module/controller/class-wd-resolve-controller.php:312
+#: app/module/scan-module/controller/class-wd-scan-controller.php:489
+#: app/module/scan-module/view/scan/_scan_report.php:119
+#: app/module/scan-module/view/scan/_scan_report.php:226
+msgid "Delete"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-resolve-controller.php:286
+#: app/module/scan-module/view/scan/_scan_report.php:93
+msgid "Resolve Issue"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-resolve-controller.php:292
+#: app/module/scan-module/view/scan/_scan_report.php:99
+msgid "False alarm? Ignore it"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-scan-controller.php:77
+msgid "Continuing..."
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-scan-controller.php:482
+#: app/module/scan-module/view/scan/_scanning.php:5
+msgid "Show Log"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-scan-controller.php:483
+msgid "Hide Log"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-scan-controller.php:484
+msgid ""
+"Just a reminder, by ignoring this file Defender will leave it alone and "
+"won't warn you about it again unless it changes. You can add it back to the "
+"issues list any time."
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-scan-controller.php:485
+msgid ""
+"Deleting this file will remove it from your WordPress installation. Make "
+"sure you have a backup of your website before continuing, doing this could "
+"break your website."
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-scan-controller.php:486
+msgid ""
+"Deleting this plugin will remove it from your WordPress installation. Make "
+"sure you have a backup of your website before continuing."
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-scan-controller.php:487
+msgid ""
+"Deleting this theme will remove it from your WordPress installation. Make "
+"sure you have a backup of your website before continuing."
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-scan-controller.php:488
+msgid "Cancel"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-scan-controller.php:490
+msgid "Ignore"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-scan-controller.php:506
+#: app/module/scan-module/view/layouts/scan.php:38
+#: app/module/scan-module/view/widgets/scan/no_scan.php:3
+#: app/module/scan-module/view/widgets/scan/scan-subscribe.php:3
+#: app/module/scan-module/view/widgets/scan/scan_active.php:4
+msgid "Scan"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-schedule-scan-controller.php:24
+msgid "Automated Scans"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-schedule-scan-controller.php:61
+msgid "Congratulations. Your scan schedule is saved."
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-schedule-scan-controller.php:80
+#: app/module/scan-module/view/schedule.php:11 app/view/dashboard/main.php:47
+msgid "Activate Automatic Scans"
+msgstr ""
+
+#: app/module/scan-module/controller/class-wd-schedule-scan-controller.php:82
+#: app/module/scan-module/view/schedule.php:13 app/view/dashboard/main.php:49
+msgid "Deactivate Automatic Scans"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:11
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:22
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:238
+msgid "Delete this file"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:44
+msgid "Unknown file in WordPress core"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:46
+msgid "This WordPress core file appears modified"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:91
+msgid ""
+"It appears Defender cannot delete these files, tarnation! You should try and "
+"delete them yourself via FTP, cPanel file manager or however you access your "
+"server, or ask your hosting support to do it for you."
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:116
+#, php-format
+msgid ""
+"It seems the %s file is currently using by another process or isn't "
+"writeable."
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:153
+msgid ""
+"Something fishy is going on here. This file isn’t a WordPress core file and "
+"has suspicious content. We recommend replacing or isolating it right away!"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:161
+msgid ""
+"We found this file floating around in your WordPress file list but it's not "
+"required by your current WP Version. As far as we can tell it's harmless "
+"(probably from an older WP install) so you can either delete it or ignore "
+"it, up to you! (please be sure to make a backup before you do start deleting "
+"files)."
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:173
+msgid ""
+"Don't you know Defender can automate resolving this for you, just in one "
+"click. Please note that this will\n"
+"\t\t\tupdate your file content permanently."
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:213
+#, php-format
+msgid "Please make sure the folder %s writeable"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:235
+msgid "An unexpected error happened. Please try again"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:295
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:301
+msgid "Location: "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:303
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:309
+msgid "Size: "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:311
+msgid "Date added: "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:311
+msgid "Date modified:"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:329
+msgid "Restore File"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:332
+msgid "Review changes"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:339
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:337
+msgid "Ignore File"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-core-item-model.php:346
+msgid "Delete File"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:16
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:211
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:15
+msgid "Delete this theme"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:19
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:203
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:18
+msgid "Delete this plugin"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:49
+msgid "Low"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:51
+msgid "Medium"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:53
+msgid "High"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:123
+#, php-format
+msgid ""
+"We can't remove the file %s, this might be caused by lack of permissions, "
+"please remove the file manually."
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:201
+#, php-format
+msgid ""
+"Suspicious code has been found in the file <strong>%s</strong>, which is in "
+"the plugin <a target='_blank' href=\"%s\">%s</a>. We recommend re-"
+"downloading <a target='_blank' href=\"%s\">%s</a> and replacing your "
+"existing files with a newer version, just to be on the safe side. "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:209
+#, php-format
+msgid ""
+"Suspicious code has been found in the file  <strong>%s</strong>, which "
+"inside the theme  <a target='_blank' href=\"%s\">%s</a>. We recommend re-"
+"downloading  <a target='_blank' href=\"%s\">%s</a> and replacing your "
+"existing files with a newer version, just to be on the safe side. "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:218
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:227
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:235
+msgid ""
+"This file does’nt seem to belong to any of your themes or plugins. We "
+"recommend isolating or removing it. "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:224
+#, php-format
+msgid ""
+"Suspicious code has been found in the file <strong>%s</strong>, which is in "
+"the plugin <strong>%s</strong>.  We recommend re-downloading <strong>%s</"
+"strong> and replacing your existing files with a newer version, just to be "
+"on the safe side. "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:242
+msgid ""
+"The level of suspicion here is <strong>low</strong>, so this could be a "
+"false alarm."
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:244
+#, php-format
+msgid "The level of suspicion here is <strong>%s</strong>, so act quickly!"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-file-item-model.php:317
+msgid "Date added/modified: "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-model.php:215
+msgid "Initializing..."
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-model.php:330
+msgid "WordPress Core"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-model.php:331
+msgid "Other"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-model.php:332
+msgid "Plugin"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-model.php:333
+msgid "Theme"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:79
+#, php-format
+msgid "Version: %s"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:93
+msgid "Vulnerability type"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:95
+#, php-format
+msgid "This bug has been fixed in version %s"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:208
+msgid ""
+"There’s a newer version available that fixes this issue. We recommend "
+"updating to the latest release."
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:210
+msgid "Update Now"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:232
+msgid ""
+"It seems your plugin is a premium plugin, please visit the plugin page for "
+"more information."
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:233
+msgid "Visit plugin page"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:235
+msgid "Delete plugin"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:259
+msgid ""
+"It seems your theme is a premium theme, please visit the theme page for more "
+"information."
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:262
+msgid "Visit theme page"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:264
+msgid "Delete theme"
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:343
+msgid "Plugin name: "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:345
+msgid "Theme name: "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:356
+msgid "Version: "
+msgstr ""
+
+#: app/module/scan-module/model/class-wd-scan-result-vulndb-item-model.php:364
+msgid "Vulnerability: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:5
+msgid "Debug Info"
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:15
+msgid "Cleanup"
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:25
+msgid "Scan Data"
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:36
+msgid "Progress: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:41
+msgid "Total files: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:46
+msgid "Current index: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:51
+msgid "Start time: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:56
+msgid "Last modified time: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:66
+msgid "Complete: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:72
+msgid "Total Core Files: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:77
+msgid "Total Contents Files: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:83
+msgid "Memory Info"
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:87
+msgid "CPU usage: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:95
+msgid "Memory usage: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:102
+msgid "Peak Memory usage: "
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:120
+#, php-format
+msgid "Result VulnDB (%s)"
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:132
+#, php-format
+msgid "Result Core Integrity (%s)"
+msgstr ""
+
+#: app/module/scan-module/view/debug/debug.php:144
+#, php-format
+msgid "Result Suspicious Scan (%s)"
+msgstr ""
+
+#: app/module/scan-module/view/detail/core_integrity.php:11
+msgid "File Comparison"
+msgstr ""
+
+#: app/module/scan-module/view/detail/core_integrity.php:20
+msgid ""
+"Compare your file with the original file in the WordPress repository. Pieces "
+"highlighted in red will be removed when you patch the file, and pieces "
+"highlighted in green will be added."
+msgstr ""
+
+#: app/module/scan-module/view/detail/core_integrity.php:41
+msgid "Automate Resolve"
+msgstr ""
+
+#: app/module/scan-module/view/detail/core_integrity.php:50
+#, php-format
+msgid ""
+"This will overwrite the file <strong>%s</strong> with the official WordPress "
+"<strong>%s</strong> <strong>%s</strong> file."
+msgstr ""
+
+#: app/module/scan-module/view/detail/core_integrity.php:58
+msgid "Download and Patch"
+msgstr ""
+
+#: app/module/scan-module/view/detail/file_item.php:6
+#, php-format
+msgid "View Source %s"
+msgstr ""
+
+#: app/module/scan-module/view/detail/file_item.php:42
+msgid "Navigate"
+msgstr ""
+
+#: app/module/scan-module/view/detail/file_item.php:47
+msgid "Previous"
+msgstr ""
+
+#: app/module/scan-module/view/detail/file_item.php:52
+msgid "Next"
+msgstr ""
+
+#: app/module/scan-module/view/detail/not_found.php:2
+#, php-format
+msgid "We can't find any issue item with the ID %s"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/detail.php:6
+msgid "Review Changes"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan.php:19
+msgid "Scans"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan.php:25
+msgid "Last scan:"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan.php:44
+#, php-format
+msgid "Please enable at least 1 scan type <a href='%s'>here</a> to continue"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan.php:56
+msgid "How to fix"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan_widget.php:5
+msgid "Scan Report"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan_widget.php:8
+#: app/module/scan-module/view/scan/_scan_report.php:15
+msgid "Configure"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan_widget.php:16
+#, php-format
+msgid "Your last scan was on <strong>%s</strong>"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan_widget.php:27
+msgid "daily"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan_widget.php:30
+msgid "weekly"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan_widget.php:33
+msgid "monthly"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan_widget.php:37
+#, php-format
+msgid "Automatic scans are running <strong>%s</strong>"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan_widget.php:39
+msgid "Automatic scans are <strong>disabled</strong>"
+msgstr ""
+
+#: app/module/scan-module/view/layouts/scan_widget.php:48
+msgid "Run New Scan"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_no_scan.php:3
+#: app/module/scan-module/view/scan/_scanning.php:3
+msgid "Scan Reports"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_no_scan.php:10
+#: app/module/scan-module/view/widgets/scan/no_scan.php:9
+msgid ""
+"Defender will check your websites’ core integrity in addition to looking for "
+"vulnerabilities in your plugins, themes and wp-content area. He’ll then give "
+"you ways to fix any issues with your website! This is a premium only feature "
+"– enjoy it!"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_no_scan.php:17
+msgid "SCAN MY WEBSITE"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_error.php:18
+msgid "Try again"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:13
+msgid "Reports"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:24
+msgid "Issues Found"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:27
+msgid "File Type"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:29
+msgid "All"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:56
+#: app/module/scan-module/view/scan/_scan_report.php:143
+msgid "Suspicious File"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:59
+#: app/module/scan-module/view/scan/_scan_report.php:146
+#: app/module/scan-module/view/scan/_scan_report.php:182
+msgid "Type"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:137
+msgid "Congratulations! Everything is just fine."
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:171
+msgid "Ignored Files"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:248
+msgid "Automatic Scans"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:251
+msgid ""
+"Did you know you can run these scans automatically? You can set them to run "
+"daily, weekly or monthly and have the reports emailed to you or your "
+"client’s inboxes."
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scan_report.php:253
+#: app/module/scan-module/view/schedule.php:5
+#: app/module/scan-module/view/schedule.php:8 app/view/dashboard/main.php:44
+msgid "Setup Automatic Scans"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scanning.php:16
+msgid "Running New Scan"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scanning.php:18
+msgid ""
+"This scan is running in the background and will continue to run if you "
+"navigate away or close your browser. Check back in a few minutes to see your "
+"results."
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scanning.php:35
+msgid "Cancel Scan"
+msgstr ""
+
+#: app/module/scan-module/view/scan/_scanning.php:49
+msgid "File scanned"
+msgstr ""
+
+#: app/module/scan-module/view/schedule.php:38 app/view/dashboard/main.php:74
+msgid ""
+"We recommend setting up WP Defender to automatically and regularly scan your "
+"website and email you reports. You can choose the frequency and time of day "
+"depending on your website traffic patterns."
+msgstr ""
+
+#: app/module/scan-module/view/schedule.php:51 app/view/dashboard/main.php:87
+msgid "Scan my website"
+msgstr ""
+
+#: app/module/scan-module/view/schedule.php:64
+msgid "on"
+msgstr ""
+
+#: app/module/scan-module/view/schedule.php:78
+msgid "at"
+msgstr ""
+
+#: app/module/scan-module/view/schedule.php:98 app/view/dashboard/main.php:129
+msgid "Activate"
+msgstr ""
+
+#: app/module/scan-module/view/widgets/scan/no_scan.php:16
+msgid "Scan My Website"
+msgstr ""
+
+#: app/module/scan-module/view/widgets/scan/scan-subscribe.php:12
+msgid ""
+"Defender can scan your WordPress core integrity looking for file changes and "
+"injected code. Often hackers and bots try to change WP Core without you "
+"noticing so it’s a good idea to check it!"
+msgstr ""
+
+#: app/module/scan-module/view/widgets/scan/scan-subscribe.php:16
+#: app/view/widgets/blacklist/blacklist-subscribe.php:18
+msgid "Upgrade Membership"
+msgstr ""
+
+#: app/module/scan-module/view/widgets/scan/scan-subscribe.php:22
+#: app/view/widgets/blacklist/blacklist-subscribe.php:26
+#, php-format
+msgid "Already have a membership? <a href=\"%s\">You might need to login</a>"
+msgstr ""
+
+#: app/module/scan-module/view/widgets/scan/scan-subscribe.php:24
+#: app/view/widgets/blacklist/blacklist-subscribe.php:28
+#, php-format
+msgid "Already have a membership? <a href=\"%s\">Install the Dashboard</a>"
+msgstr ""
+
+#: app/module/scan-module/view/widgets/scan/scan_active.php:7
+msgid ""
+"This scan is running in the background and you can check back any time to "
+"see its progress."
+msgstr ""
+
+#: app/module/scan-module/view/widgets/scan/scan_result.php:7
+#, php-format
+msgid "You have <strong>%s file</strong> needing urgent attention!"
+msgstr ""
+
+#: app/module/scan-module/view/widgets/scan/scan_result.php:19
+#: app/module/scan-module/view/widgets/scan/scan_result.php:40
+#: app/module/scan-module/view/widgets/scan/scan_result.php:61
+#, php-format
+msgid "%s issue"
+msgstr ""
+
+#: app/module/scan-module/view/widgets/scan/scan_result.php:26
+#: app/module/scan-module/view/widgets/scan/scan_result.php:47
+#: app/module/scan-module/view/widgets/scan/scan_result.php:68
+msgid "Fix Issue"
+msgstr ""
+
+#: app/module/scan-module/view/widgets/scan/scan_result.php:84
+msgid "No malware or harmful code detected."
+msgstr ""
+
+#: app/view/backup/soon.php:14 app/view/widgets/backup/main.php:10
+msgid "Secure Cloud Backups"
+msgstr ""
+
+#: app/view/backup/soon.php:21
+msgid ""
+"WPMU DEV will soon offer automated, full website, cloud hosted, secure "
+"backups for all active members. If you ever get hacked you can revert to a "
+"previous version via our backups – easy! For now, you can still install "
+"Snapshot and backup your website locally which we recommend you do!"
+msgstr ""
+
+#: app/view/backup/soon.php:25 app/view/widgets/backup/main.php:21
+msgid ""
+"Great, you have Snapshot installed! Make sure you're running regular backups."
+msgstr ""
+
+#: app/view/backup/soon.php:34 app/view/backup/soon.php:43
+#: app/view/widgets/backup/main.php:30 app/view/widgets/backup/main.php:39
+msgid "Install Snapshot"
+msgstr ""
+
+#: app/view/dashboard/main.php:9
+#, php-format
+msgid "Welcome, %s!"
+msgstr ""
+
+#: app/view/dashboard/main.php:18
+msgid "Oh yeah, it's about to go down!"
+msgstr ""
+
+#: app/view/dashboard/main.php:21
+#, php-format
+msgid ""
+"Congratulations, %s! You've just installed the most advanced and easy-to-use "
+"WordPress security plugin that will defend you against evil bots, hackers "
+"and bad internet-y things. With Defender you can tighten up loopholes in "
+"your WordPress security, scan for malicious code, vulnerabilities, and "
+"corrupt files as well as set up automatic scans of your site."
+msgstr ""
+
+#: app/view/dashboard/main.php:25
+#, php-format
+msgid "Get fixing %s!"
+msgstr ""
+
+#: app/view/dashboard/main.php:148 app/view/logging/soon.php:7
+#: app/view/logging/soon.php:13
+msgid "Coming Soon"
+msgstr ""
+
+#: app/view/dashboard/main.php:152 app/view/logging/soon.php:18
+msgid ""
+"We are working on an audit log feature that will track all interactions with "
+"your website and store them securely in the cloud. That way, you'll always "
+"know who did what on your site and hackers or malware can't cover their "
+"tracks. We'll keep you posted!"
+msgstr ""
+
+#: app/view/settings.php:17
+msgid "General Settings"
+msgstr ""
+
+#: app/view/settings.php:23
+msgid "Scan types"
+msgstr ""
+
+#: app/view/settings.php:26
+msgid ""
+"By default we recommend running all scans but you can turn these off if you "
+"choose"
+msgstr ""
+
+#: app/view/settings.php:35 app/view/settings.php:70 app/view/settings.php:103
+msgid "Disable This Scan"
+msgstr ""
+
+#: app/view/settings.php:35 app/view/settings.php:70 app/view/settings.php:103
+msgid "Enable This Scan"
+msgstr ""
+
+#: app/view/settings.php:38
+msgid "WP Core Integrity"
+msgstr ""
+
+#: app/view/settings.php:53
+msgid "Defender checks for any modifications or additions to WP core files."
+msgstr ""
+
+#: app/view/settings.php:63
+msgid "Plugin & Theme Vulnerabilities"
+msgstr ""
+
+#: app/view/settings.php:82
+msgid ""
+"Defender looks for published vulnerabilities in your installed plugins and "
+"themes."
+msgstr ""
+
+#: app/view/settings.php:89 app/view/settings.php:122
+msgid "WPMU DEV Dashboard is required for this scan"
+msgstr ""
+
+#: app/view/settings.php:115
+msgid ""
+"Defender looks inside all of your files for suspicious and potentially "
+"harmful code."
+msgstr ""
+
+#: app/view/settings.php:148
+msgid "Max included file size (MB)"
+msgstr ""
+
+#: app/view/settings.php:151
+msgid ""
+"Defender will skip any files larger than this size. The smaller this number "
+"is the faster Defender can scan through your system."
+msgstr ""
+
+#: app/view/settings.php:173 app/view/settings.php:312
+msgid "Save Settings"
+msgstr ""
+
+#: app/view/settings.php:182
+msgid "Email Recipients"
+msgstr ""
+
+#: app/view/settings.php:187
+msgid ""
+"Choose which of your website’s users will receive scan report results to "
+"their email inboxes."
+msgstr ""
+
+#: app/view/settings.php:194
+msgid "We did not find an admin user with this name..."
+msgstr ""
+
+#: app/view/settings.php:195
+msgid "Type an user’s name"
+msgstr ""
+
+#: app/view/settings.php:198
+msgid "Add"
+msgstr ""
+
+#: app/view/settings.php:207
+msgid "Email Templates"
+msgstr ""
+
+#: app/view/settings.php:211
+msgid ""
+"When Defender scans this website it will generate a report of any issues. "
+"You can choose to email those notifications to a particular email address "
+"and change the copy below."
+msgstr ""
+
+#: app/view/settings.php:215
+msgid "Available variables"
+msgstr ""
+
+#: app/view/settings.php:224
+msgid ""
+"We’ll grab the users first name, or display name is first name isn’t "
+"available"
+msgstr ""
+
+#: app/view/settings.php:233
+msgid "The number of issues Defender found"
+msgstr ""
+
+#: app/view/settings.php:242
+msgid "The list of issues"
+msgstr ""
+
+#: app/view/settings.php:251
+msgid "A link back to the Scans tab of this website"
+msgstr ""
+
+#: app/view/settings.php:261
+msgid "Subject"
+msgstr ""
+
+#: app/view/settings.php:273
+msgid "Issues found"
+msgstr ""
+
+#: app/view/settings.php:276
+msgid ""
+"When an issue has been found during an automated scan, Defender will send "
+"this email to your recipients."
+msgstr ""
+
+#: app/view/settings.php:290
+msgid "All OK"
+msgstr ""
+
+#: app/view/settings.php:293
+msgid ""
+"When there are no issues detected by the scan your recipients will receive "
+"this email."
+msgstr ""
+
+#: app/view/widgets/backup/main.php:17
+msgid ""
+"WPMU DEV offers automated, full website, cloud hosted, secure backups for "
+"all active members. If you ever get hacked you can revert to a previous "
+"version via our backups – easy! For now, you can still install Snapshot and "
+"backup your website locally which we recommend you do!"
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist-error.php:3
+#: app/view/widgets/blacklist/blacklist-off.php:3
+#: app/view/widgets/blacklist/blacklist-subscribe.php:3
+msgid "Blacklist"
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist-error.php:18
+msgid ""
+"We could’nt get a result from Google. This may be because your website is on "
+"a local environment. Blacklist can only work on live websites. If problems "
+"still persist please contact our support heroes."
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist-error.php:26
+msgid "Re-check"
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist-off.php:15
+msgid ""
+"Defender can check Google’s blacklist to see if your site is malware free. "
+"All you have to do is turn this on and we’ll scan your site every 6 hours "
+"automagically."
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist-off.php:22
+msgid "Activate Blacklist Monitoring"
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist-subscribe.php:14
+msgid ""
+"Defender can check Google’s blacklist to see if your site is malware free. "
+"All you have to do is turn this on and we’ll scan your site every 6 hours "
+"automatically. This is a premium only feature – get a membership today and "
+"make sure you’re safe!"
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist.php:3
+msgid "Blacklist Monitoring"
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist.php:6
+msgid "Domain Clean"
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist.php:10
+msgid "Blacklisted"
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist.php:13
+msgid "Deactivate Blacklist Monitoring"
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist.php:27
+msgid "We are monitoring blacklists for your domain every 6 hours."
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist.php:28
+msgid "Learn more about blacklisting"
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist.php:36
+msgid "Your domain is currently clean."
+msgstr ""
+
+#: app/view/widgets/blacklist/blacklist.php:42
+msgid ""
+"Your website has been blacklisted. Please refer to the article above for how "
+"to get off the blacklist."
+msgstr ""
+
+#: app/view/widgets/performance/main.php:7
+msgid "Give your website a performance boost with WP Hummingbird!"
+msgstr ""
+
+#: app/view/widgets/performance/main.php:14
+msgid "Install"
+msgstr ""
+
+#: app/widget/class-wd-blacklist-widget.php:65
+msgid "Something wrong happened, please try again."
+msgstr ""
+
+#: node_modules/grunt-pot/test/fixtures/some-file.php:3
+msgid "I'm a translatable string."
+msgstr ""
+
+#: node_modules/grunt-pot/test/fixtures/some-other-file.php:4
+msgid "Me too"
+msgstr ""
+
+#: node_modules/grunt-pot/test/fixtures/some-other-file.php:7
+#, php-format
+msgid "I have %d apple"
+msgid_plural "I have %d apples"
+msgstr[0] ""
+msgstr[1] ""
+
+#. / TRANSLATORS: This should be translated as a shorthand for YEAR-MONTH-DAY using 4, 2 and 2 digits.
+#: node_modules/grunt-pot/test/fixtures/some-other-file.php:16
+msgid "yyyy-mm-dd"
+msgstr ""
+
+#: shared-ui/plugin-ui.php:49
+msgid "Nothing found"
+msgstr ""
+
+#: shared-ui/plugin-ui.php:50
+msgid "Okay, we saved your changes!"
+msgstr ""
+
+#: shared-ui/plugin-ui.php:51
+msgid "Oops, we could not do this..."
+msgstr ""
+
+#: shared-ui/plugin-ui.php:225
+msgid "Saving"
+msgstr ""

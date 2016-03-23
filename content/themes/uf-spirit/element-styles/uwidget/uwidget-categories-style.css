@@ -1,0 +1,16 @@
+#page .uwidget-categories-style .widgettitle {
+    display: none;
+}
+#page .uwidget-categories-style .widget ul {
+    list-style-type: none;
+}
+#page .uwidget-categories-style a {
+    font: 600 14px Open Sans, Arial;
+	text-transform: uppercase;
+    color: #000000;
+    line-height: 2em;
+	text-decoration: none;
+}
+
+
+/* 133620-1456900953-au */

@@ -1,0 +1,2 @@
+Do not modify css directly.
+You must edit files in saas folder and run 'ant compass-build' to update theese.

@@ -1,0 +1,113 @@
+.uposts-object li > article {
+    border-bottom: 1px solid #d3d3d3;
+}
+.uposts-object li .title a, .uposts-object li .post_categories {
+    color: #61737b;
+    font-size: 18px;
+    line-height: 25px;
+    font-family: "Quattrocento";
+    font-weight: 700;
+    font-style: normal;
+    text-transform: uppercase;
+}
+.uposts-object li .date_posted, .uposts-object li .author {
+    color: #01bc9d;
+    text-transform: uppercase;
+}
+.uposts-object li .post_categories a {
+    font-size: 16px;
+    text-transform: capitalize;
+}
+.uposts-object li .gravatar {
+    width: 100%;
+    max-width: 68px;
+    border: 1px solid #01bc9d;
+    display:none;
+}
+.uposts-object li .gravatar, .uposts-object li .gravatar img {
+    display: block;
+    border-radius: 100px;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 100px;
+}
+.uposts-object li .gravatar img {
+    width: 100%;
+}
+/* Post Thumbnail */
+ .uf-post .thumbnail {
+    max-height: 470px;
+    width: 100%;
+}
+.uf-post .thumbnail img {
+    width: 100%;
+}
+/* Navigation */
+ .uf-pagination {
+    display: block;
+    position: relative;
+    margin-top: 30px;
+    /*margin-bottom: 115px;*/
+    text-align: center;
+}
+.uf-pagination .page-numbers {
+    margin-right: 12px;
+    padding: 0 3px;
+    border-bottom: 3px solid transparent;
+    color: #333333;
+    font-size: 16px;
+    line-height: 1.2em;
+    font-family: "Quattrocento";
+    font-weight: 400;
+    font-style: normal;
+    -webkit-transition: color 0.2s ease-in-out;
+            transition: color 0.2s ease-in-out
+}
+.uf-pagination .page-numbers:hover {
+    color: #00a384;
+}
+.uf-pagination .page-numbers:active {
+    color: #007051;
+}
+.uf-pagination .page-numbers:visited {
+    color: #333333;
+    border-bottom-color: #333333;
+}
+.uf-pagination .page-numbers.current {
+    border-bottom-color: #00a384;
+    color: #00a384;
+}
+.uf-pagination .prev.page-numbers, .uf-pagination .next.page-numbers {
+    position: absolute;
+    margin-right: 0;
+    padding: 0;
+    color: #00a384;
+    font-family: "Quattrocento Sans";
+}
+.uf-pagination .prev.page-numbers:before, .uf-pagination .next.page-numbers:before {
+    position: absolute;
+    background: url("http://lukeandsara.dev/wp-content/uploads/2015/05/noise.jpg") no-repeat #ffffff;
+}
+.uf-pagination .prev.page-numbers:before {
+    content: "<";
+    left: 0;
+}
+.uf-pagination .next.page-numbers:before {
+    content: ">";
+    right: 0;
+}
+.uf-pagination .prev.page-numbers {
+    left: 0;
+}
+.uf-pagination .next.page-numbers {
+    right: 0;
+}
+.uf-pagination .page-numbers:hover {
+    color: #007051;
+    font-family: "Quattrocento";
+}
+.uf-pagination .prev.page-numbers:hover, .uf-pagination .next.page-numbers:hover {
+    font-family: "Quattrocento Sans";
+}
+
+
+/* 133620-1456900936-au */

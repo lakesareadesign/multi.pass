@@ -1,0 +1,17 @@
+.upfront-region-container-luke-and-sara .upfront-region-container-bg {
+    position: relative;
+}
+.upfront-region-container-luke-and-sara .upfront-region-container-bg:after {
+    content: "";
+    opacity: 0.2;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000000;
+}
+
+
+/* 133620-1456900936-au */

@@ -1,0 +1,10 @@
+#page .circle .upfront-image-container {
+ border-radius: 100%;
+}
+#page .circle img {
+ border-radius: 100%;
+ margin: 0px;
+}
+
+
+/* 133620-1456900953-au */

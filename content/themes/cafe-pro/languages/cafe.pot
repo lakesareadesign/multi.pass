@@ -1,0 +1,115 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Cafe Pro Theme\n"
+"POT-Creation-Date: 2014-12-07 22:59-0500\n"
+"PO-Revision-Date: 2014-12-07 22:59-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:18
+msgid "Cafe Pro Theme"
+msgstr ""
+
+#: functions.php:144
+msgid "Handcrafted with "
+msgstr ""
+
+#: functions.php:144
+msgid " on the"
+msgstr ""
+
+#: functions.php:144
+msgid " Genesis Framework"
+msgstr ""
+
+#: functions.php:209
+msgid "Before Header"
+msgstr ""
+
+#: functions.php:210
+msgid "This is the section before the header."
+msgstr ""
+
+#: functions.php:214
+msgid "Front Page 1"
+msgstr ""
+
+#: functions.php:215
+msgid "This is the Front Page 1 section."
+msgstr ""
+
+#: functions.php:219
+msgid "Front Page 2"
+msgstr ""
+
+#: functions.php:220
+msgid "This is the Front Page 2 section."
+msgstr ""
+
+#: functions.php:224
+msgid "Front Page 3"
+msgstr ""
+
+#: functions.php:225
+msgid "This is the Front Page 3 section."
+msgstr ""
+
+#: functions.php:229
+msgid "Front Page 4"
+msgstr ""
+
+#: functions.php:230
+msgid "This is the Front Page 4 section."
+msgstr ""
+
+#: lib/customize.php:57
+msgid "No Image"
+msgstr ""
+
+#: lib/customize.php:61
+msgid "Upload New"
+msgstr ""
+
+#: lib/customize.php:62
+msgid "Uploaded"
+msgstr ""
+
+#: lib/customize.php:65
+msgid "Default"
+msgstr ""
+
+#: lib/customize.php:86
+msgid ""
+"Use the included default images or personalize your site by uploading your "
+"own images.<br /><br />The default images are <strong>2000 pixels wide and "
+"between 1300-1500 pixels tall</strong>."
+msgstr ""
+
+#: lib/customize.php:87
+msgid "Background Images"
+msgstr ""
+
+#: lib/customize.php:99
+#, php-format
+msgid "Featured Section %s Image:"
+msgstr ""
+
+#: lib/customize.php:119
+msgid "Change the default accent color for links, buttons, and more."
+msgstr ""
+
+#: lib/customize.php:120
+msgid "Accent Color"
+msgstr ""

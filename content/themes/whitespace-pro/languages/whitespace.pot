@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Whitespace Pro Theme\n"
+"POT-Creation-Date: 2014-11-09 11:14-0500\n"
+"PO-Revision-Date: 2014-11-09 11:15-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:205
+msgid "Welcome"
+msgstr ""
+
+#: functions.php:206
+msgid "This is the home welcome section."
+msgstr ""
+
+#: functions.php:211
+msgid "Social"
+msgstr ""
+
+#: functions.php:212
+msgid "This is the footer social section."
+msgstr ""
+
+#: lib/customize.php:69
+msgid "No Image"
+msgstr ""
+
+#: lib/customize.php:73
+msgid "Upload New"
+msgstr ""
+
+#: lib/customize.php:74
+msgid "Uploaded"
+msgstr ""
+
+#: lib/customize.php:77
+msgid "Default"
+msgstr ""
+
+#: lib/customize.php:96
+msgid "Homepage Image"
+msgstr ""
+
+#: lib/customize.php:97
+msgid ""
+"<p>Use the included default image or personalize your site by uploading your "
+"own image for the homepage widget background.</p><p>The default image is "
+"<strong>1200 x 400 pixels</strong>.</p>"
+msgstr ""
+
+#: lib/customize.php:111
+msgid "Home Image Upload"
+msgstr ""
+
+#: lib/customize.php:130
+msgid "Accent Color"
+msgstr ""
+
+#: lib/customize.php:149
+msgid "Highlight Color"
+msgstr ""
+
+#: lib/theme-defaults.php:49 lib/theme-defaults.php:82
+#: lib/theme-defaults.php:110
+msgid "Continue Reading&hellip;"
+msgstr ""

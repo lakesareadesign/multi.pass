@@ -1,0 +1,46 @@
+#page .ugallery-mobile.upfront-gallery {
+    padding:0px!important;
+    margin:0px 0px 0px!important;
+}
+#page .ugallery-mobile .ugallery {
+    width: 100%!important;
+    display: block;
+}
+#page .ugallery-mobile .ugallery_link, #page .ugallery-mobile .ugallery_item {
+    height: 230px!important;
+    max-height: 230px!important;
+}
+#page .ugallery-mobile .ugallery_item {
+    width: 50%!important;
+    overflow: hidden;
+    padding:0pximportant;
+    margin:0px!important;
+}
+#page .ugallery-mobile .ugallery_link {
+    display: block;
+    position: relative;
+    margin-bottom: 0;
+}
+#page .ugallery-mobile img.ugallery-image {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    position: relative;
+    top: 50% !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+#page .ugallery-mobile .ugallery_link p:before {
+    margin-top: 100%;
+    margin-bottom: 10%;
+}
+#page .ugallery-mobile .ugallery_link p {
+    font-size:13px;
+}
+
+
+/* 133620-1456900936-au */

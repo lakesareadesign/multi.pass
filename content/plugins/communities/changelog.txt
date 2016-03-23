@@ -1,0 +1,109 @@
+Plugin Name: Communities
+Author: Paul Menard (Incsub)
+
+Change Log:
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+1.1.9.9 - 2014/04/17
+----------------------------------------------------------------------
+- Corrected two queries where mismatched double/single quotes were being used. Effect notification queries.
+
+1.1.9.8 - 2013/12/19
+----------------------------------------------------------------------
+- Corrected Next Page link on Manage Communities listing
+- Corrected ordering of listing on Communitoes, Manage Communities and Find Communities listings
+- Updated WPMU DEV Dashboard notifications.
+- Test for WP 3.8
+
+1.1.9.7 - 2013/06/24
+----------------------------------------------------------------------
+- Correct double filtering logic previously added for XSS prevention. 
+- Corrected issue which causes initial forum post to have blank content
+- Added support for multi-paragraph content instead of removing line breaks entered. 
+
+1.1.9.6 - 2013/6/07
+----------------------------------------------------------------------
+- Corrected query of Communities page. Fix to show all items user is owner and member of.
+
+1.1.9.5 - 2013/4/24
+----------------------------------------------------------------------
+- IMPORTANT security update - props to JJJ @ Automattic for disclosure
+- XSS prevention patches
+
+1.1.9.4 - 2013/4/22
+----------------------------------------------------------------------
+- Security patch applied for all SQL queries.
+
+1.1.9.3 - 2013/4/8
+----------------------------------------------------------------------
+- Correct call to load language files from plugin path. Was coded for mu-plugins only
+
+1.1.9.2 - 2013/3/13
+----------------------------------------------------------------------
+- Correct bug in logic for paging Communities listing.
+- Moved the Add Community form to its own menu panel.
+- Added 3 on by default role capabilities: communities_manage, communities_add, communities_view which can be assigned/remove to restrict access. 
+
+1.1.9.1 - 2013/1/7
+----------------------------------------------------------------------
+- Corrected role for menus.
+- Updated install.txt with instructions for upgrading from older versions of plugin
+
+1.1.9 - 2012/12/12
+----------------------------------------------------------------------
+- Regenerate default language files (.mo, .po) per http://premium.wpmudev.org/forums/topic/language-support-1
+
+1.1.8 - 2012/10/28
+----------------------------------------------------------------------
+- Fixed some PHP Notices/Warnings per http://premium.wpmudev.org/forums/topic/noticeafter-new-multisite-install
+- Changed logic to NOT require copy of any files to the wp-admin folder. 
+- Added hook to plugin activation to create needed tables instead of running manual sql.txt file. 
+- Added dependency checking on Avatars and Messaging plugin. Instead of displaying bad links and broken images. 
+
+1.1.7 - 10/09/2011
+----------------------------------------------------------------------
+- Changed line ends for emails body
+- Changed "Content-Type" for send email as html
+- Fixed translation of email's subject and body
+
+1.1.6 - 07/13/2011
+----------------------------------------------------------------------
+- changed function of display date for translation
+
+1.1.5 - 06/22/2011
+----------------------------------------------------------------------
+- added feature for translate the plugin
+
+1.1.4 - 06/06/2011
+----------------------------------------------------------------------
+- Fixed problem with send message using the Messaging plugin.
+
+1.1.3 - 10/11/2010
+----------------------------------------------------------------------
+- Fixed paging link bugs
+
+1.1.2 - 04/20/2010
+----------------------------------------------------------------------
+- 3.0+ compatibility update
+
+1.1.1 - 01/20/2010
+----------------------------------------------------------------------
+- 2.9+ compatibility update
+
+1.1.1 - 06/01/2009
+----------------------------------------------------------------------
+- Fixed members list bug
+
+1.1.0 - 03/31/2009
+----------------------------------------------------------------------
+- Fixed find communities description search bug
+- Fixed member count bug
+- Fixed join community bug
+
+1.0.0 - 03/26/2009
+----------------------------------------------------------------------
+- Initial release
+
+
+133620-1456637190-ai

@@ -1,0 +1,16 @@
+#page .title-pricing.upfront-plain_txt h1:after, #page .title-pricing.upfront-plain_txt h2:after {
+    content: "$";
+    display: inline-block;
+    vertical-align: top;
+    color: #00a384;
+    font-size: 50%;
+    line-height: 1em;
+}
+#page .title-pricing.upfront-plain_txt h1 {
+    padding:0px;
+    margin-left:10px;
+    margin-top:-20px;
+}
+
+
+/* 133620-1456900936-au */

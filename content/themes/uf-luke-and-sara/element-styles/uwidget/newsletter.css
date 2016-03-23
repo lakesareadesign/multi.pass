@@ -1,0 +1,81 @@
+#page .newsletter  {
+    padding-right: 60px !important;
+    padding-left: 60px !important;
+    background: #f5f5f5;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#page .newsletter .widget h2, #page .newsletter .widget p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+#page .newsletter .widget {
+    color: #333333;
+    font-size: 17px;
+    line-height: 1.4em;
+    font-family: "Quattrocento Sans";
+    font-weight: 400;
+    font-style: normal;
+    text-align: justify;
+}
+#page .newsletter .widget .widgettitle {
+    color: #61737b;
+    font-size: 28px;
+    line-height: 1.8em;
+    font-family: "Quattrocento";
+    font-weight: 700;
+    font-style: normal;
+}
+#page .newsletter .widget .newsletter, #page .newsletter .widget .newsletter-widget {
+    width: 100% !important;
+    max-width: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+#page .newsletter.newsletter form, #page .newsletter.newsletter-widget form {
+    position: relative;
+}
+#page .newsletter .widget form p {
+    width: 100%;
+    display: block;
+}
+#page .newsletter .widget .newsletter-email, #page .newsletter .widget .newsletter-submit {
+    padding: 10px 10px 8px;
+    background: #ffffff;
+    font-size: 16px;
+    line-height: 1.2em;
+    font-family: "Quattrocento Sans";
+    font-weight: 400;
+    font-style: normal;
+}
+#page .newsletter .widget .newsletter-email {
+    width: 100%;
+    margin-top: 8px;
+    padding-right: 130px;
+    border: 1px solid #d0d0d0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    color: #cccccc;
+}
+#page .newsletter .widget .newsletter-submit {
+    position: absolute;
+    top: 8px;
+    right: 0;
+    padding-left: 18px;
+    padding-right: 18px;
+    border: 1px solid #d0d0d0;
+    color: #01bc9d;
+    text-transform: uppercase;
+    -webkit-transition: all 0.5s ease-in-out;
+            transition: all 0.5s ease-in-out;
+}
+#page .newsletter .widget .newsletter-submit:hover {
+    border-color: #01bc9d;
+    background: #01bc9d;
+    color: #ffffff;
+}
+
+
+/* 133620-1456900936-au */

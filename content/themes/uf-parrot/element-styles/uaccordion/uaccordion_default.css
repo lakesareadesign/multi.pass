@@ -1,0 +1,17 @@
+.upfront-accordion-container .accordion-panel-title {
+    border-top: 1px solid rgba(97, 200, 225, 0.72);
+    color: #666666;
+    font-weight: 700;
+}
+.upfront-accordion-wrap {
+    border-bottom: 1px solid rgba(97, 200, 225, 0.72);
+}
+.upfront-accordion-container .accordion-panel-active .accordion-panel-title:after {
+    border-left: 5px solid rgba(97, 200, 225, 0.72);
+}
+.upfront-accordion-container .accordion-panel-title:after {
+    border-top: 5px solid rgba(97, 200, 225, 0.72);
+}
+
+
+/* 133620-1456900944-au */

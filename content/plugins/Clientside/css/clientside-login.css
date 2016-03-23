@@ -1,0 +1,936 @@
+/*!
+ * This file is part of: Clientside
+ * Author: Berend de Jong
+ * Author URI: http://frique.me/
+ * Version: 1.1.12 (2015-08-09 00:16)
+ */
+
+#login #wp-submit, .notice p.submit .button-primary,
+.alert-blue p.submit .button-primary,
+.message p.submit .button-primary,
+.notice-warning p.submit .button-primary,
+.notice-info p.submit .button-primary,
+.update-nag p.submit .button-primary, #login_error p.submit .button-primary, div.error p.submit .button-primary,
+.notice-error p.submit .button-primary,
+.settings-error p.submit .button-primary,
+.theme-update-message p.submit .button-primary, div.updated p.submit .button-primary,
+.notice-success p.submit .button-primary, .notice .button,
+.alert-blue .button,
+.message .button,
+.notice-warning .button,
+.notice-info .button,
+.update-nag .button, #login_error .button, div.error .button,
+.notice-error .button,
+.settings-error .button,
+.theme-update-message .button, div.updated .button,
+.notice-success .button {
+  display: inline-block;
+  border-radius: 3px !important;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  padding: 12px 26.25px !important;
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+  text-align: center;
+  box-shadow: none !important;
+  width: auto;
+  height: auto !important;
+  text-decoration: none;
+  text-shadow: none !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+}
+
+#login #wp-submit:hover, .notice p.submit .button-primary:hover,
+.alert-blue p.submit .button-primary:hover,
+.message p.submit .button-primary:hover,
+.notice-warning p.submit .button-primary:hover,
+.notice-info p.submit .button-primary:hover,
+.update-nag p.submit .button-primary:hover, #login_error p.submit .button-primary:hover, div.error p.submit .button-primary:hover,
+.notice-error p.submit .button-primary:hover,
+.settings-error p.submit .button-primary:hover,
+.theme-update-message p.submit .button-primary:hover, div.updated p.submit .button-primary:hover,
+.notice-success p.submit .button-primary:hover, .notice .button:hover,
+.alert-blue .button:hover,
+.message .button:hover,
+.notice-warning .button:hover,
+.notice-info .button:hover,
+.update-nag .button:hover, #login_error .button:hover, div.error .button:hover,
+.notice-error .button:hover,
+.settings-error .button:hover,
+.theme-update-message .button:hover, div.updated .button:hover,
+.notice-success .button:hover, #login #wp-submit:focus, .notice p.submit .button-primary:focus,
+.alert-blue p.submit .button-primary:focus,
+.message p.submit .button-primary:focus,
+.notice-warning p.submit .button-primary:focus,
+.notice-info p.submit .button-primary:focus,
+.update-nag p.submit .button-primary:focus, #login_error p.submit .button-primary:focus, div.error p.submit .button-primary:focus,
+.notice-error p.submit .button-primary:focus,
+.settings-error p.submit .button-primary:focus,
+.theme-update-message p.submit .button-primary:focus, div.updated p.submit .button-primary:focus,
+.notice-success p.submit .button-primary:focus, .notice .button:focus,
+.alert-blue .button:focus,
+.message .button:focus,
+.notice-warning .button:focus,
+.notice-info .button:focus,
+.update-nag .button:focus, #login_error .button:focus, div.error .button:focus,
+.notice-error .button:focus,
+.settings-error .button:focus,
+.theme-update-message .button:focus, div.updated .button:focus,
+.notice-success .button:focus {
+  font-weight: normal;
+  text-decoration: none !important;
+}
+
+#login #wp-submit {
+  padding: 12px 26.25px !important;
+}
+
+#login #wp-submit {
+  color: white !important;
+}
+
+#login #wp-submit {
+  background: #52bde6 !important;
+}
+
+#login #wp-submit {
+  border: 0 !important;
+}
+
+.wp-core-ui #login [disabled]#wp-submit,
+#login .wp-core-ui [disabled]#wp-submit, .wp-core-ui #login .disabled#wp-submit, #login .wp-core-ui .disabled#wp-submit {
+  opacity: 0.5;
+  text-shadow: none !important;
+}
+
+.wp-core-ui #login [disabled]#wp-submit,
+#login .wp-core-ui [disabled]#wp-submit, .wp-core-ui #login .disabled#wp-submit, #login .wp-core-ui .disabled#wp-submit {
+  color: white !important;
+}
+
+.wp-core-ui #login [disabled]#wp-submit,
+#login .wp-core-ui [disabled]#wp-submit, .wp-core-ui #login .disabled#wp-submit, #login .wp-core-ui .disabled#wp-submit {
+  background: #52bde6 !important;
+}
+
+#login #wp-submit:hover,
+#login #wp-submit:focus {
+  background: #34bbee !important;
+}
+
+#login #wp-submit:hover,
+#login #wp-submit:focus {
+  color: white !important;
+}
+
+.notice,
+.alert-blue,
+.message,
+.notice-warning,
+.notice-info,
+.update-nag, #login_error, div.error,
+.notice-error,
+.settings-error,
+.theme-update-message, div.updated,
+.notice-success {
+  margin: 15px 0 !important;
+  padding: 0 !important;
+  line-height: 1.4;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  clear: left !important;
+}
+
+.notice,
+.alert-blue,
+.message,
+.notice-warning,
+.notice-info,
+.update-nag, #login_error, div.error,
+.notice-error,
+.settings-error,
+.theme-update-message, div.updated,
+.notice-success, .notice p,
+.alert-blue p,
+.message p,
+.notice-warning p,
+.notice-info p,
+.update-nag p, #login_error p, div.error p,
+.notice-error p,
+.settings-error p,
+.theme-update-message p, div.updated p,
+.notice-success p {
+  font-size: 15px !important;
+  margin: 0;
+  padding: 0;
+}
+
+.notice a,
+.alert-blue a,
+.message a,
+.notice-warning a,
+.notice-info a,
+.update-nag a, #login_error a, div.error a,
+.notice-error a,
+.settings-error a,
+.theme-update-message a, div.updated a,
+.notice-success a {
+  text-decoration: underline;
+}
+
+.notice strong,
+.alert-blue strong,
+.message strong,
+.notice-warning strong,
+.notice-info strong,
+.update-nag strong, #login_error strong, div.error strong,
+.notice-error strong,
+.settings-error strong,
+.theme-update-message strong, div.updated strong,
+.notice-success strong {
+  font-weight: normal;
+}
+
+.is-dismissible.notice,
+.is-dismissible.alert-blue,
+.is-dismissible.message,
+.is-dismissible.notice-warning,
+.is-dismissible.notice-info,
+.is-dismissible.update-nag, .is-dismissible#login_error, div.is-dismissible.error,
+.is-dismissible.notice-error,
+.is-dismissible.settings-error,
+.is-dismissible.theme-update-message, div.is-dismissible.updated,
+.is-dismissible.notice-success {
+  padding-left: 26.25px !important;
+}
+
+.notice .notice-dismiss,
+.alert-blue .notice-dismiss,
+.message .notice-dismiss,
+.notice-warning .notice-dismiss,
+.notice-info .notice-dismiss,
+.update-nag .notice-dismiss, #login_error .notice-dismiss, div.error .notice-dismiss,
+.notice-error .notice-dismiss,
+.settings-error .notice-dismiss,
+.theme-update-message .notice-dismiss, div.updated .notice-dismiss,
+.notice-success .notice-dismiss {
+  right: auto;
+  left: 0;
+  padding: 0;
+}
+
+.notice .notice-dismiss:before,
+.alert-blue .notice-dismiss:before,
+.message .notice-dismiss:before,
+.notice-warning .notice-dismiss:before,
+.notice-info .notice-dismiss:before,
+.update-nag .notice-dismiss:before, #login_error .notice-dismiss:before, div.error .notice-dismiss:before,
+.notice-error .notice-dismiss:before,
+.settings-error .notice-dismiss:before,
+.theme-update-message .notice-dismiss:before, div.updated .notice-dismiss:before,
+.notice-success .notice-dismiss:before {
+  content: "\f335";
+  line-height: 21px;
+  width: auto;
+  height: auto;
+  font-size: 22.5px;
+  transition: color 0.15s;
+}
+
+.notice .notice-dismiss:before,
+.alert-blue .notice-dismiss:before,
+.message .notice-dismiss:before,
+.notice-warning .notice-dismiss:before,
+.notice-info .notice-dismiss:before,
+.update-nag .notice-dismiss:before, #login_error .notice-dismiss:before, div.error .notice-dismiss:before,
+.notice-error .notice-dismiss:before,
+.settings-error .notice-dismiss:before,
+.theme-update-message .notice-dismiss:before, div.updated .notice-dismiss:before,
+.notice-success .notice-dismiss:before {
+  color: #c5c5c5 ;
+}
+
+.notice .notice-dismiss:hover:before,
+.alert-blue .notice-dismiss:hover:before,
+.message .notice-dismiss:hover:before,
+.notice-warning .notice-dismiss:hover:before,
+.notice-info .notice-dismiss:hover:before,
+.update-nag .notice-dismiss:hover:before, #login_error .notice-dismiss:hover:before, div.error .notice-dismiss:hover:before,
+.notice-error .notice-dismiss:hover:before,
+.settings-error .notice-dismiss:hover:before,
+.theme-update-message .notice-dismiss:hover:before, div.updated .notice-dismiss:hover:before,
+.notice-success .notice-dismiss:hover:before {
+  color: #777 ;
+}
+
+.notice p.submit .button-primary,
+.alert-blue p.submit .button-primary,
+.message p.submit .button-primary,
+.notice-warning p.submit .button-primary,
+.notice-info p.submit .button-primary,
+.update-nag p.submit .button-primary, #login_error p.submit .button-primary, div.error p.submit .button-primary,
+.notice-error p.submit .button-primary,
+.settings-error p.submit .button-primary,
+.theme-update-message p.submit .button-primary, div.updated p.submit .button-primary,
+.notice-success p.submit .button-primary, .notice .button,
+.alert-blue .button,
+.message .button,
+.notice-warning .button,
+.notice-info .button,
+.update-nag .button, #login_error .button, div.error .button,
+.notice-error .button,
+.settings-error .button,
+.theme-update-message .button, div.updated .button,
+.notice-success .button {
+  padding: 7px 13px !important;
+  font-size: 13px !important;
+  margin-bottom: 4px;
+}
+
+.notice,
+.alert-blue,
+.message,
+.notice-warning,
+.notice-info,
+.update-nag,
+.notice [href],
+.alert-blue [href],
+.message [href],
+.notice-warning [href],
+.notice-info [href],
+.update-nag [href],
+.notice [href]:hover,
+.alert-blue [href]:hover,
+.message [href]:hover,
+.notice-warning [href]:hover,
+.notice-info [href]:hover,
+.update-nag [href]:hover,
+.notice *,
+.alert-blue *,
+.message *,
+.notice-warning *,
+.notice-info *,
+.update-nag * {
+  color: #51c3ef ;
+}
+
+#login_error,
+div.error,
+.notice-error,
+.settings-error,
+.theme-update-message,
+#login_error [href],
+div.error [href],
+.notice-error [href],
+.settings-error [href],
+.theme-update-message [href],
+#login_error [href]:hover,
+div.error [href]:hover,
+.notice-error [href]:hover,
+.settings-error [href]:hover,
+.theme-update-message [href]:hover,
+#login_error *, div.error *,
+.notice-error *,
+.settings-error *,
+.theme-update-message * {
+  color: #d85858 ;
+}
+
+div.updated,
+.notice-success,
+div.updated [href],
+.notice-success [href],
+div.updated [href]:hover,
+.notice-success [href]:hover,
+div.updated *,
+.notice-success * {
+  color: #75ba76 ;
+}
+
+#login form p label input[type=email],
+#login form p label input[type=number],
+#login form p label input[type=password],
+#login form p label input[type=search],
+#login form p label input[type=tel],
+#login form p label input[type=text],
+#login form p label input[type=url],
+#login form p label select,
+#login form p label textarea {
+  margin: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border-width: 1px;
+  font-size: 15px !important;
+  max-width: 100%;
+}
+
+#login form p label input[type=email],
+#login form p label input[type=number],
+#login form p label input[type=password],
+#login form p label input[type=search],
+#login form p label input[type=tel],
+#login form p label input[type=text],
+#login form p label input[type=url],
+#login form p label select,
+#login form p label textarea {
+  background: #fff !important;
+}
+
+#login form p label input[type=email],
+#login form p label input[type=number],
+#login form p label input[type=password],
+#login form p label input[type=search],
+#login form p label input[type=tel],
+#login form p label input[type=text],
+#login form p label input[type=url],
+#login form p label select,
+#login form p label textarea {
+  border-color: #e8e8e8 !important;
+}
+
+#login form p label input[type=email]:focus,
+#login form p label input[type=number]:focus,
+#login form p label input[type=password]:focus,
+#login form p label input[type=search]:focus,
+#login form p label input[type=tel]:focus,
+#login form p label input[type=text]:focus,
+#login form p label input[type=url]:focus,
+#login form p label select:focus,
+#login form p label textarea:focus {
+  border-color: #52bde6 ;
+}
+
+#login form p label input.widefat[type=email],
+#login form p label input.widefat[type=number],
+#login form p label input.widefat[type=password],
+#login form p label input.widefat[type=search],
+#login form p label input.widefat[type=tel],
+#login form p label input.widefat[type=text],
+#login form p label input.widefat[type=url],
+#login form p label select.widefat,
+#login form p label textarea.widefat {
+  width: 100%;
+}
+
+#login form p label input.large-text[type=email],
+#login form p label input.large-text[type=number],
+#login form p label input.large-text[type=password],
+#login form p label input.large-text[type=search],
+#login form p label input.large-text[type=tel],
+#login form p label input.large-text[type=text],
+#login form p label input.large-text[type=url],
+#login form p label select.large-text,
+#login form p label textarea.large-text {
+  width: 100%;
+}
+
+#login form p label input.small-text[type=email],
+#login form p label input.small-text[type=number],
+#login form p label input.small-text[type=password],
+#login form p label input.small-text[type=search],
+#login form p label input.small-text[type=tel],
+#login form p label input.small-text[type=text],
+#login form p label input.small-text[type=url],
+#login form p label select.small-text,
+#login form p label textarea.small-text {
+  width: 100px;
+}
+
+#login form p label input.current-page[type=email],
+#login form p label input.current-page[type=number],
+#login form p label input.current-page[type=password],
+#login form p label input.current-page[type=search],
+#login form p label input.current-page[type=tel],
+#login form p label input.current-page[type=text],
+#login form p label input.current-page[type=url],
+#login form p label select.current-page,
+#login form p label textarea.current-page {
+  font-size: 13px !important;
+}
+
+#titlewrap #login form p label input#title[type=email], #login form p label #titlewrap input#title[type=email],
+#titlewrap #login form p label input#title[type=number], #login form p label #titlewrap input#title[type=number],
+#titlewrap #login form p label input#title[type=password], #login form p label #titlewrap input#title[type=password],
+#titlewrap #login form p label input#title[type=search], #login form p label #titlewrap input#title[type=search],
+#titlewrap #login form p label input#title[type=tel], #login form p label #titlewrap input#title[type=tel],
+#titlewrap #login form p label input#title[type=text], #login form p label #titlewrap input#title[type=text],
+#titlewrap #login form p label input#title[type=url], #login form p label #titlewrap input#title[type=url],
+#titlewrap #login form p label select#title, #login form p label #titlewrap select#title,
+#titlewrap #login form p label textarea#title, #login form p label #titlewrap textarea#title {
+  font-size: 18px !important;
+}
+
+#login form p label input[type=email]::-webkit-input-placeholder,
+#login form p label input[type=number]::-webkit-input-placeholder,
+#login form p label input[type=password]::-webkit-input-placeholder,
+#login form p label input[type=search]::-webkit-input-placeholder,
+#login form p label input[type=tel]::-webkit-input-placeholder,
+#login form p label input[type=text]::-webkit-input-placeholder,
+#login form p label input[type=url]::-webkit-input-placeholder,
+#login form p label select::-webkit-input-placeholder,
+#login form p label textarea::-webkit-input-placeholder {
+  color: #c5c5c5 ;
+}
+
+#login form p label input[type=email]::-moz-placeholder,
+#login form p label input[type=number]::-moz-placeholder,
+#login form p label input[type=password]::-moz-placeholder,
+#login form p label input[type=search]::-moz-placeholder,
+#login form p label input[type=tel]::-moz-placeholder,
+#login form p label input[type=text]::-moz-placeholder,
+#login form p label input[type=url]::-moz-placeholder,
+#login form p label select::-moz-placeholder,
+#login form p label textarea::-moz-placeholder {
+  color: #c5c5c5 ;
+}
+
+#login form p label input[type=email]:-ms-input-placeholder,
+#login form p label input[type=number]:-ms-input-placeholder,
+#login form p label input[type=password]:-ms-input-placeholder,
+#login form p label input[type=search]:-ms-input-placeholder,
+#login form p label input[type=tel]:-ms-input-placeholder,
+#login form p label input[type=text]:-ms-input-placeholder,
+#login form p label input[type=url]:-ms-input-placeholder,
+#login form p label select:-ms-input-placeholder,
+#login form p label textarea:-ms-input-placeholder {
+  color: #c5c5c5 ;
+}
+
+#login form p label input[type=email]::placeholder,
+#login form p label input[type=number]::placeholder,
+#login form p label input[type=password]::placeholder,
+#login form p label input[type=search]::placeholder,
+#login form p label input[type=tel]::placeholder,
+#login form p label input[type=text]::placeholder,
+#login form p label input[type=url]::placeholder,
+#login form p label select::placeholder,
+#login form p label textarea::placeholder {
+  color: #c5c5c5 ;
+}
+
+#login form p label input[disabled][type=email],
+#login form p label input[disabled][type=number],
+#login form p label input[disabled][type=password],
+#login form p label input[disabled][type=search],
+#login form p label input[disabled][type=tel],
+#login form p label input[disabled][type=text],
+#login form p label input[disabled][type=url],
+#login form p label select[disabled],
+#login form p label textarea[disabled], #login form p label input[readonly][type=email],
+#login form p label input[readonly][type=number],
+#login form p label input[readonly][type=password],
+#login form p label input[readonly][type=search],
+#login form p label input[readonly][type=tel],
+#login form p label input[readonly][type=text],
+#login form p label input[readonly][type=url],
+#login form p label select[readonly],
+#login form p label textarea[readonly] {
+  opacity: 0.5;
+}
+
+#login form p label input[type=email],
+#login form p label input[type=number],
+#login form p label input[type=password],
+#login form p label input[type=search],
+#login form p label input[type=tel],
+#login form p label input[type=text],
+#login form p label input[type=url],
+#login form p label select,
+#login form p label textarea {
+  height: 45px !important;
+  padding: 11px !important;
+  width: 300px;
+  border-radius: 2px;
+}
+
+#login form p label input[type=email],
+#login form p label input[type=number],
+#login form p label input[type=password],
+#login form p label input[type=search],
+#login form p label input[type=tel],
+#login form p label input[type=text],
+#login form p label input[type=url],
+#login form p label select,
+#login form p label textarea {
+  color: #222 ;
+}
+
+.form-table #login form p label input[type=email], #login form p label .form-table input[type=email],
+.form-table #login form p label input[type=number], #login form p label .form-table input[type=number],
+.form-table #login form p label input[type=password], #login form p label .form-table input[type=password],
+.form-table #login form p label input[type=search], #login form p label .form-table input[type=search],
+.form-table #login form p label input[type=tel], #login form p label .form-table input[type=tel],
+.form-table #login form p label input[type=text], #login form p label .form-table input[type=text],
+.form-table #login form p label input[type=url], #login form p label .form-table input[type=url],
+.form-table #login form p label select, #login form p label .form-table select,
+.form-table #login form p label textarea, #login form p label .form-table textarea {
+  margin-top: -12px !important;
+}
+
+#login form p label input.current-page[type=email],
+#login form p label input.current-page[type=number],
+#login form p label input.current-page[type=password],
+#login form p label input.current-page[type=search],
+#login form p label input.current-page[type=tel],
+#login form p label input.current-page[type=text],
+#login form p label input.current-page[type=url],
+#login form p label select.current-page,
+#login form p label textarea.current-page {
+  border-radius: 2px;
+  height: 33px !important;
+  padding: 6.4px !important;
+}
+
+#titlewrap #login form p label input#title[type=email], #login form p label #titlewrap input#title[type=email],
+#titlewrap #login form p label input#title[type=number], #login form p label #titlewrap input#title[type=number],
+#titlewrap #login form p label input#title[type=password], #login form p label #titlewrap input#title[type=password],
+#titlewrap #login form p label input#title[type=search], #login form p label #titlewrap input#title[type=search],
+#titlewrap #login form p label input#title[type=tel], #login form p label #titlewrap input#title[type=tel],
+#titlewrap #login form p label input#title[type=text], #login form p label #titlewrap input#title[type=text],
+#titlewrap #login form p label input#title[type=url], #login form p label #titlewrap input#title[type=url],
+#titlewrap #login form p label select#title, #login form p label #titlewrap select#title,
+#titlewrap #login form p label textarea#title, #login form p label #titlewrap textarea#title {
+  height: 52px !important;
+  padding: 15.4px !important;
+}
+
+/*
+ * Table of contents
+ *
+ * 1.0 Resets
+ * 2.0 Alert boxes
+ * 3.0 Login window
+ */
+
+/*
+ * 1.0 Resets
+ */
+html,
+body {
+  background: #f8f8fa;
+}
+
+body {
+  font-family: "Lato", "Helvetica Neue", "Segoe UI", "Roboto", "Open Sans", sans-serif;
+  font-size: 15px;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+/*
+ * 2.0 Alert boxes
+ */
+/* Sometimes an .updated can appear outside of the .wrap. Then give it .wrap padding */
+#wpbody-content > .notice,
+#wpbody-content > .notice-error,
+#wpbody-content > .notice-success,
+#wpbody-content > .notice-info,
+#wpbody-content > .notice-warning,
+#wpbody-content > .error,
+#wpbody-content > div.updated,
+#wpbody-content > .settings-error,
+#wpbody-content > .update-nag {
+  margin: 0;
+  padding: 45px 90px 0 !important;
+  display: block;
+  clear: both !important;
+}
+
+@media (min-width: 1880px) {
+  #wpbody-content > .notice,
+  #wpbody-content > .notice-error,
+  #wpbody-content > .notice-success,
+  #wpbody-content > .notice-info,
+  #wpbody-content > .notice-warning,
+  #wpbody-content > .error,
+  #wpbody-content > div.updated,
+  #wpbody-content > .settings-error,
+  #wpbody-content > .update-nag {
+    padding: 67.5px 135px 0 !important;
+  }
+}
+
+@media (max-width: 782px) {
+  #wpbody-content > .notice,
+  #wpbody-content > .notice-error,
+  #wpbody-content > .notice-success,
+  #wpbody-content > .notice-info,
+  #wpbody-content > .notice-warning,
+  #wpbody-content > .error,
+  #wpbody-content > div.updated,
+  #wpbody-content > .settings-error,
+  #wpbody-content > .update-nag {
+    padding: 15px 15px 0 !important;
+  }
+}
+
+#wpbody-content > .notice + .notice,
+#wpbody-content > .notice-error + .notice-error,
+#wpbody-content > .notice-success + .notice-success,
+#wpbody-content > .notice-info + .notice-info,
+#wpbody-content > .notice-warning + .notice-warning,
+#wpbody-content > .error + .error,
+#wpbody-content > div.updated + div.updated,
+#wpbody-content > .settings-error + .settings-error,
+#wpbody-content > .update-nag + .update-nag {
+  padding-top: 0 !important;
+}
+
+.clientside-notification-center #wpbody .notice,
+.clientside-notification-center #wpbody .notice-error,
+.clientside-notification-center #wpbody .notice-success,
+.clientside-notification-center #wpbody .notice-info,
+.clientside-notification-center #wpbody .notice-warning,
+.clientside-notification-center #wpbody .error,
+.clientside-notification-center #wpbody div.updated,
+.clientside-notification-center #wpbody .settings-error,
+.clientside-notification-center #wpbody .update-nag {
+  display: none;
+}
+
+.clientside-notification-center #wpbody .notice.inline,
+.clientside-notification-center #wpbody .notice-error.inline,
+.clientside-notification-center #wpbody .notice-success.inline,
+.clientside-notification-center #wpbody .notice-info.inline,
+.clientside-notification-center #wpbody .notice-warning.inline,
+.clientside-notification-center #wpbody .error.inline,
+.clientside-notification-center #wpbody div.updated.inline,
+.clientside-notification-center #wpbody .settings-error.inline,
+.clientside-notification-center #wpbody .update-nag.inline {
+  display: block;
+}
+
+body.mobile #wpbody .notice,
+body.mobile #wpbody .notice-error,
+body.mobile #wpbody .notice-success,
+body.mobile #wpbody .notice-info,
+body.mobile #wpbody .notice-warning,
+body.mobile #wpbody .error,
+body.mobile #wpbody div.updated,
+body.mobile #wpbody .settings-error,
+body.mobile #wpbody .update-nag {
+  display: block;
+}
+
+/*
+ * 3.0 Login window
+ */
+#login h1 a {
+  background-size: contain;
+  background-position: center center;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+#login .message,
+#login #reg_passmail {
+  text-align: center;
+}
+
+#login form {
+  box-shadow: none;
+  margin-top: 15px;
+}
+
+#login form {
+  padding: 0 ;
+}
+
+#login form {
+  background: none ;
+}
+
+#login form p {
+  position: relative;
+  height: 60px;
+}
+
+#login form p label input[type=email],
+#login form p label input[type=number],
+#login form p label input[type=password],
+#login form p label input[type=search],
+#login form p label input[type=tel],
+#login form p label input[type=text],
+#login form p label input[type=url],
+#login form p label select,
+#login form p label textarea {
+  padding: 17.4px 21px !important;
+  font-size: 18px !important;
+  height: 60px !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border-radius: 0;
+  width: 100%;
+}
+
+#login form p label input[type=email]:focus,
+#login form p label input[type=number]:focus,
+#login form p label input[type=password]:focus,
+#login form p label input[type=search]:focus,
+#login form p label input[type=tel]:focus,
+#login form p label input[type=text]:focus,
+#login form p label input[type=url]:focus,
+#login form p label select:focus,
+#login form p label textarea:focus {
+  z-index: 2;
+}
+
+#login form p label input[type=email]::-webkit-input-placeholder,
+#login form p label input[type=number]::-webkit-input-placeholder,
+#login form p label input[type=password]::-webkit-input-placeholder,
+#login form p label input[type=search]::-webkit-input-placeholder,
+#login form p label input[type=tel]::-webkit-input-placeholder,
+#login form p label input[type=text]::-webkit-input-placeholder,
+#login form p label input[type=url]::-webkit-input-placeholder,
+#login form p label select::-webkit-input-placeholder,
+#login form p label textarea::-webkit-input-placeholder {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+#login form p label input[type=email]::-moz-placeholder,
+#login form p label input[type=number]::-moz-placeholder,
+#login form p label input[type=password]::-moz-placeholder,
+#login form p label input[type=search]::-moz-placeholder,
+#login form p label input[type=tel]::-moz-placeholder,
+#login form p label input[type=text]::-moz-placeholder,
+#login form p label input[type=url]::-moz-placeholder,
+#login form p label select::-moz-placeholder,
+#login form p label textarea::-moz-placeholder {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+#login form p label input[type=email]:-ms-input-placeholder,
+#login form p label input[type=number]:-ms-input-placeholder,
+#login form p label input[type=password]:-ms-input-placeholder,
+#login form p label input[type=search]:-ms-input-placeholder,
+#login form p label input[type=tel]:-ms-input-placeholder,
+#login form p label input[type=text]:-ms-input-placeholder,
+#login form p label input[type=url]:-ms-input-placeholder,
+#login form p label select:-ms-input-placeholder,
+#login form p label textarea:-ms-input-placeholder {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+#login form p label input[type=email]::placeholder,
+#login form p label input[type=number]::placeholder,
+#login form p label input[type=password]::placeholder,
+#login form p label input[type=search]::placeholder,
+#login form p label input[type=tel]::placeholder,
+#login form p label input[type=text]::placeholder,
+#login form p label input[type=url]::placeholder,
+#login form p label select::placeholder,
+#login form p label textarea::placeholder {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+#login form p label input[type=checkbox],
+#login form p label input[type=radio] {
+  margin: 15px 0;
+}
+
+#login form p + p {
+  height: 59px;
+}
+
+#login form p + p label input[type=email],
+#login form p + p label input[type=number],
+#login form p + p label input[type=password],
+#login form p + p label input[type=search],
+#login form p + p label input[type=tel],
+#login form p + p label input[type=text],
+#login form p + p label input[type=url],
+#login form p + p label select,
+#login form p + p label textarea {
+  margin-top: -1px !important;
+}
+
+#login form p.forgetmenot {
+  display: none;
+}
+
+#login form p#reg_passmail {
+  font-style: italic;
+  height: auto;
+  margin: 1em 0;
+}
+
+#login form p.submit {
+  height: auto;
+  margin: 1em 0;
+}
+
+#login form#loginform #user_login {
+  border-radius: 4px 4px 0 0 ;
+}
+
+#login form#loginform #user_pass {
+  border-radius: 0 0 4px 4px ;
+}
+
+#login form#lostpasswordform #user_login {
+  border-radius: 4px ;
+}
+
+#login form > br.clear {
+  display: none;
+}
+
+#login #wp-submit {
+  padding: 15px 26.25px !important;
+  font-size: 15px !important;
+  line-height: 22px !important;
+  padding: 15.5px;
+  float: none;
+  width: 100%;
+  height: auto;
+  border: 0;
+  box-shadow: none;
+}
+
+#login #nav,
+#login #backtoblog {
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+}
+
+#login #nav a,
+#login #backtoblog a {
+  display: block;
+  font-size: 15px;
+  line-height: 1.54;
+}
+
+#login #nav a,
+#login #backtoblog a {
+  color: #ccc ;
+}
+
+#login #nav a:hover,
+#login #nav a:active,
+#login #nav a:focus,
+#login #backtoblog a:hover,
+#login #backtoblog a:active,
+#login #backtoblog a:focus {
+  text-decoration: underline;
+}
+
+#login #nav a:hover,
+#login #nav a:active,
+#login #nav a:focus,
+#login #backtoblog a:hover,
+#login #backtoblog a:active,
+#login #backtoblog a:focus {
+  color: #555 ;
+}

@@ -1,0 +1,59 @@
+#login{
+	padding:30px;
+	border: 1px solid rgba(0,0,0,.2);
+	background-clip: padding-box;
+	background: rgba(255, 255, 255, 0.9);
+	box-shadow: 0 0 13px 3px rgba(0,0,0,.1);
+	overflow: hidden;
+	width: 340px;
+
+}
+
+.login{
+	padding-top: 50px;
+}
+
+body {
+	background: url("../images/veg.jpg") no-repeat fixed 0% 0% / 100% auto #D4EAFF;
+	color: #a5a5a3;
+}
+
+.login h1 a {
+background-image: url('../images/logo_sm.png');
+background-size: 340px 91px;
+width: 340px;
+height: 91px;
+}
+
+.login form {
+	padding:30px;
+	background: none;
+	box-shadow: none;
+}
+
+.login label {
+	color: #00953a;
+	line-height: 26px;
+}
+
+.login #backtoblog a,
+.login #nav a {
+color: #a7dbb7;
+}
+
+.login .button-primary {
+width: 120px;
+float:right;
+background-color:#00953a !important;
+color: #fff;
+}
+.login .button-primary:hover {
+background-color:#a7dbb7 !important;
+color: #00953a;
+}
+
+.login .button-primary:active {
+background-color:#007028 !important;
+color: #fff;
+}
+

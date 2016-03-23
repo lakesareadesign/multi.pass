@@ -1,0 +1,202 @@
+ div[data-style='horizontal'] ul.menu,  div[data-style='vertical'] ul.menu {
+    background: transparent;
+}
+ div[data-style='horizontal'] ul.menu > li.menu-item,  div[data-style='vertical'] ul.menu > li.menu-item {
+    position: relative;
+}
+ div[data-style='horizontal'] ul.menu li a,  div[data-style='vertical'] ul.menu li a {
+    transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    -moz-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    -webkit-transition: color 2.3s ease-in-out, border-color 0.2s ease-in-out;
+}
+ div[data-style='horizontal'] ul.menu > li.menu-item:after {
+    content: "|";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #00a384;
+    line-height: 1.2;
+}
+ div[data-style='horizontal'] ul.menu > li.menu-item:last-child:after {
+    display: none;
+}
+ div[data-style='horizontal'] ul.menu > li.menu-item > a {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    color: #333333;
+    font-size: 18px;
+    line-height: 1;
+    font-family: "Quattrocento";
+    text-rendering: geometricPrecision;
+}
+ div[data-style='horizontal'] ul.menu > li.menu-item > a:hover,  div[data-style='horizontal'] ul.menu > li.current-menu-item > a {
+    color: #01bc9d;
+}
+ div[data-style='horizontal'] ul.sub-menu {
+    padding-top: 20px;
+}
+ div[data-style='horizontal'] ul.sub-menu > li.menu-item > a {
+    padding: 12px 10px 10px;
+    border: 1px solid #d2d2d2;
+    border-bottom: 0;
+    background: #ffffff;
+    color: #333333;
+    font-size: 18px;
+    line-height: 1.2;
+    font-family: "Quattrocento";
+    font-weight: 400;
+    font-style: normal;
+    text-rendering: geometricPrecision;
+}
+ div[data-style='horizontal'] ul.sub-menu > li.menu-item:last-child > a {
+    border-bottom: 1px solid #d2d2d2;
+}
+ div[data-style='horizontal'] ul.sub-menu > li.menu-item > a:hover {
+    border-color: #0ba588;
+    color: #00a384;
+}
+ div[data-style='vertical'] ul.menu > li.menu-item > a {
+    position: relative;
+    padding-right: 0;
+    color: #333333;
+}
+ div[data-style='vertical'] ul.menu > li.menu-item > a:after {
+    content: "";
+    width: 20px;
+    height: 1px;
+    display: block;
+    position: absolute;
+    background: #d0d0d0;
+    right: 0;
+    bottom: 0;
+}
+ div[data-style='vertical'] ul.menu > li.menu-item:last-child > a:after {
+    display: none;
+}
+ div[data-style='vertical'] ul.menu > li.menu-item:hover > a,  div[data-style='vertical'] ul.menu > li.current-menu-item > a {
+    color: #00a384;
+}
+ div[data-style='vertical'] ul.menu > li.menu-item > a:hover:after,  div[data-style='vertical'] ul.menu > li.current-menu-item > a:after {
+    background: #00a384;
+}
+ div[data-style='vertical'] ul.sub-menu {
+    padding-left: 25px;
+}
+ div[data-style='vertical'] ul.sub-menu > li.menu-item > a {
+    border: 1px solid #d2d2d2;
+    border-bottom: 0;
+    background: #ffffff;
+    color: #333333;
+}
+ div[data-style='vertical'] ul.sub-menu > li.menu-item:last-child > a {
+    border-bottom: 1px solid #d2d2d2;
+}
+ div[data-style='vertical'] ul.sub-menu > li.menu-item > a:hover {
+    border-color: #0da78a;
+    color: #00a384;
+}
+
+div.responsive_nav_toggler {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 100%;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    background: url("UPFRONT_THEME_BASE/ui/nav-open.png") no-repeat center #ufc0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    transition: background-color 0.2s ease-in-out;
+    -ms-transition: background-color 0.2s ease-in-out;
+    -moz-transition: background-color 0.2s ease-in-out;
+    -webkit-transition: background-color 0.2s ease-in-out;
+}
+
+div.responsive_nav_toggler:hover {
+    background: url("UPFRONT_THEME_BASE/ui/nav-open.png") no-repeat center #ufc2;
+}
+
+div.responsive_nav_toggler > div {
+    display: none;
+}
+div[data-style='burger'] ul.menu {
+    display: block;
+    padding: 0 !important;
+    border-bottom: 0 !important;
+    background-color: rgba(255, 255, 255, 1) !important;
+    height:450px!important;
+    border-bottom: 1px solid #f9f9f9!important;
+}
+div[data-style='burger'] ul.menu > li.menu-item {
+    margin-bottom: -1px;
+    padding: 0 !important;
+    border: 0 !important;
+    cursor: auto;
+}
+div[data-style='burger'] ul.menu > li.menu-item > a {
+    display: block;
+    position: relative;
+    padding: 10px;
+    border-left: 0;
+    border-right: 0;
+    background: transparent;
+    color: #333333;
+    font-size: 18px;
+    font-family: "Quattrocento";
+    font-weight: 400;
+    font-style: normal;
+    transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+}
+div[data-style='burger'] ul.menu > li.current-menu-item > a, div[data-style='burger'] ul.menu > li.menu-item > a:hover {
+    color: #01bc9d;
+    background: transparent;
+}
+div[data-style='burger'] i.burger_nav_close {
+    width: 30px;
+    height: 30px;
+    margin-top: 30px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-radius: 100%;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    background: url("UPFRONT_THEME_BASE/ui/nav-close.png") no-repeat center #ufc0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    text-indent: -9999px;
+    transition: background-color 0.2s ease-in-out;
+    -ms-transition: background-color 0.2s ease-in-out;
+    -moz-transition: background-color 0.2s ease-in-out;
+    -webkit-transition: background-color 0.2s ease-in-out;
+}
+
+div[data-style='burger'] i.burger_nav_close:hover {
+    background: url("UPFRONT_THEME_BASE/ui/nav-close.png") no-repeat center #ufc2;
+}
+
+div.upfront-navigation div[data-style="burger"][ data-burger_alignment="left"] ul.menu {
+    width: 100%;
+    max-width: 250px;
+    height: 100%;
+    left: 0;
+}
+div.upfront-navigation div[data-style="burger"][ data-burger_alignment="right"] ul.menu {
+    width: 100%;
+    max-width: 250px;
+    height: 100%;
+    right: 0;
+}
+
+.menu-luke-menu-container .menu {
+}
+
+
+/* 133620-1456900936-au */

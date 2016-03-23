@@ -1,0 +1,24 @@
+<div class='farreaches'>
+{{if ext_services }}
+    {{for ext_services}}
+        <div class="frstatus-postlist fr-post-status-{{>ext_services}}">
+            <div class='frstatustxt-postlist'>
+                Connected to
+                <div class='frstatusimg-postlist'>
+                    <img src='{{>service_icon}}'>
+                </div>
+            </div>
+        </div>
+    {{/for}}
+{{else}}
+    <div class="frstatus-postlist ">
+        <div class='frstatustxt-postlist'>
+            Nothing linked.
+            <div class='frstatusimg-postlist'>
+                <a href='javascript:window.location.reload()'><div class='icon-refresh'></div></a>
+            </div>
+        </div>
+    </div>
+{{/if}}
+<div><a href='{{:settings_page}}' alt='Link a Category'><div class='icon-add'></div>
+</div>

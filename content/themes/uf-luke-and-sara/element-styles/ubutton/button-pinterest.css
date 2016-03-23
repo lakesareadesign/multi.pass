@@ -1,0 +1,28 @@
+#page .button-pinterest.upfront-button {
+    padding:0px;
+    margin:0px;
+}
+#page .button-pinterest.upfront-button a.upfront_cta {
+    border: none;
+    z-index: 1;
+    width: 50px !important;
+    height: 50px;
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    background: url("UPFRONT_THEME_BASE/ui/sprites-v2.png") no-repeat;
+    background-image: url("UPFRONT_THEME_BASE/ui/sprites-v2.svg"), none;
+    background-position: -54px -375px;
+    text-align: center;
+    text-indent: -9999px;
+    transition: none;
+    -ms-transition: none;
+    -moz-transition: none;
+    -webkit-transition: none;
+}
+#page .button-pinterest.upfront-button a.upfront_cta:hover {
+    background-position: -214px -375px;
+}
+
+
+/* 133620-1456900936-au */

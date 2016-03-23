@@ -1,0 +1,8 @@
+{
+  "name": "wp-hummingbird",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "WPMU DEV",
+  "license": "GPL-2.0"
+}

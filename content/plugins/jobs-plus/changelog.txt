@@ -1,0 +1,83 @@
+Jobs+ Change Log
+Developers: Hoang NGO, Ashok Kumar Nath
+
+
+== 1.0.2.2 ==
+Added: Missing text for translation
+Added: Expert search form shortcode - "[jbp-expert-search]"
+Added: Option to exclude expired jobs from archive
+Added: Constant 'JS_ALTERNATE_VIEW_COUNT' to use alternate method for expert view count
+Fixed: Avatar was not uploading
+Fixed: Disable contact form doesn't work
+Fixed: Database error in add new expert page (admin)
+Fixed: Data insertion problem in add expert front page
+Fixed: Database error in add job front page
+Fixed: Cannot properly save skills from the back end
+Fixed: Cannot upload avatar image from front end
+Fixed: Credit can't be sent to any user
+Fixed: Post type error for jbp_expert, changed into jbp_pro
+Fixed: Message that keeps popping up to ask to complete the Messaging setup even though the options are set
+Fixed: Job is still displays in Recently posted Jobs tab after the deletion
+Fixed: SSL Bug in google font
+Fixed: Text formating in Jobs display
+Fixed: Demo data addon was not working
+Fixed: Multiple images can't be added in job form
+
+
+==1.0==
+Initial Release
+==1.0.1
+Fix bug require to refresh permalink
+==1.0.1.1
+Ability to change currency in setting
+==1.0.1.2
+Add Message Add-On
+Fix currency issue in post job page
+Fix some translate issue
+Fix bug widget title not save
+Fix native contact page go 404 after send contact
+==1.0.1.3
+Fix security issues for my jobs/my profiles page
+==1.0.1.4
+Fix bug jobs page show no jobs when active Advanced Search
+Add helper filters
+Fix WYISWYG button styling
+Fix bug can contact job poster when no expert profile
+Fix bug can not assign job owner in backend
+Update PM to latest release
+Add ability for developer can add additions fields, CRUD and validation support for additions fields
+Separate view file, can replace native view and custom theme
+Ability for update field name, example job_title=>Job Name
+Attachment now need permission for upload
+Improve assets processing
+Grunt Support
+==1.0.1.5
+Fix Private Message add-on not store db version properly
+==1.0.1.6
+Fix search job widget price slider
+Add ability for admin can on/off job discussion
+Fix blank shortcode instruction in settings
+==1.0.1.7
+New addon - Exert Location
+Use WP Media for uploader
+Fix: conflict with Advanced Custom Field
+Fix: Social & Skill js bug
+==1.0.1.8
+Some more hooks & filters
+Fix bug extend jobs expired date
+Fix bug job search widget wrong parameter
+Fix bug expert widget not assign profile to owner
+Add MarketPress integration (wallets)
+Add charging when saving new expert profile
+Add charging when saving new job
+Fix bug recent job widget not showing
+Some other minor bugs fix
+==1.0.1.9
+Show notification when user deactivate MarketPress plugin while MarketPress integration add-on still enable
+==1.0.2.0
+Integration with MarketPress 3.0
+==1.0.2.1
+Fix backward issue with MarketPress 2.9
+
+
+133620-1458267377-au

@@ -1,0 +1,2230 @@
+# LANGUAGE (LOCALE) translation for Classifieds.
+# Copyright 2010 Incsub, (http://incsub.com)
+# This file is distributed under the same license as the Classifieds package.
+# Author: Ivan Shaovchev <ivan.shaovchev@gmail.com>, 2010.
+# msgid ""
+msgid ""
+msgstr ""
+"Project-Id-Version: Classifieds\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-06 14:44-0500\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Arnold Bailey <arnold@incsub.com>\n"
+"Language-Team: Arnold Bailey <arnold@incsub.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;"
+"esc_html__;esc_html_e;esc_html_x\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../core/admin.php:97 ../core/admin.php:98 ../core/data.php:53
+msgid "Add New"
+msgstr ""
+
+#: ../core/admin.php:107 ../core/admin.php:108
+msgid "Dashboard"
+msgstr ""
+
+#: ../core/admin.php:115
+msgid "Classifieds Settings"
+msgstr ""
+
+#: ../core/admin.php:116
+msgid "Settings"
+msgstr ""
+
+#: ../core/admin.php:126
+msgid "Classifieds Credits"
+msgstr ""
+
+#: ../core/admin.php:127
+msgid "Credits"
+msgstr ""
+
+#: ../core/admin.php:136
+msgid "Tutorial"
+msgstr ""
+
+#: ../core/admin.php:217
+msgid "ROLE ALREADY EXISTS"
+msgstr ""
+
+#: ../core/admin.php:218
+#, php-format
+msgid "New Role \"%s\" Added"
+msgstr ""
+
+#: ../core/admin.php:224
+#, php-format
+msgid "Role \"%s\" Removed"
+msgstr ""
+
+#: ../core/admin.php:235 ../ui-admin/message.php:3
+msgid "Settings Saved."
+msgstr ""
+
+#: ../core/admin.php:277
+#, php-format
+msgid "User \"%s\" received %s credits to member's Classifieds account"
+msgstr ""
+
+#: ../core/admin.php:280
+#, php-format
+msgid "User \"%s\" not found or not a Classifieds member"
+msgstr ""
+
+#: ../core/admin.php:293
+#, php-format
+msgid "All users have had \"%s\" credits added to their accounts."
+msgstr ""
+
+#: ../core/buddypress.php:103 ../ui-admin/navigation.php:25
+#: ../ui-front/general/page-my-classifieds.php:66
+msgid "My Credits"
+msgstr ""
+
+#: ../core/buddypress.php:114 ../ui-admin/dashboard.php:11
+msgid "Create New Ad"
+msgstr ""
+
+#: ../core/buddypress.php:126
+msgid "All"
+msgstr ""
+
+#: ../core/buddypress.php:167 ../core/buddypress.php:225 ../core/core.php:1195
+#: ../core/main.php:107
+msgid "Security check failed!"
+msgstr ""
+
+#: ../core/core.php:100
+msgid "View classifieds."
+msgstr ""
+
+#: ../core/core.php:101
+msgid "View private classifieds."
+msgstr ""
+
+#: ../core/core.php:103
+msgid "Add classifieds."
+msgstr ""
+
+#: ../core/core.php:105
+msgid "Edit classifieds."
+msgstr ""
+
+#: ../core/core.php:106
+msgid "Edit published classifieds."
+msgstr ""
+
+#: ../core/core.php:107
+msgid "Edit private classifieds."
+msgstr ""
+
+#: ../core/core.php:109
+msgid "Delete classifieds"
+msgstr ""
+
+#: ../core/core.php:110
+msgid "Delete published classifieds."
+msgstr ""
+
+#: ../core/core.php:111
+msgid "Delete private classifieds."
+msgstr ""
+
+#: ../core/core.php:113
+msgid "Edit others' classifieds."
+msgstr ""
+
+#: ../core/core.php:114
+msgid "Delete others' classifieds."
+msgstr ""
+
+#: ../core/core.php:116
+msgid "Upload files."
+msgstr ""
+
+#: ../core/core.php:226
+msgid "Virtual"
+msgstr ""
+
+#: ../core/core.php:314
+msgid "CC Email"
+msgstr ""
+
+#: ../core/core.php:315
+msgid "CC First Name"
+msgstr ""
+
+#: ../core/core.php:316
+msgid "CC Last Name"
+msgstr ""
+
+#: ../core/core.php:317
+msgid "CC Street"
+msgstr ""
+
+#: ../core/core.php:318
+msgid "CC City"
+msgstr ""
+
+#: ../core/core.php:319
+msgid "CC State"
+msgstr ""
+
+#: ../core/core.php:320
+msgid "CC Zip"
+msgstr ""
+
+#: ../core/core.php:321
+msgid "CC Country Code"
+msgstr ""
+
+#: ../core/core.php:545
+msgid "Virtual page. Editing this page won't change anything."
+msgstr ""
+
+#: ../core/core.php:758
+msgid "Please fill in the required fields."
+msgstr ""
+
+#: ../core/core.php:1125
+msgid "No expiration date set."
+msgstr ""
+
+#: ../core/core.php:1464 ../core/core.php:1465
+msgid "You are being redirected. Please wait."
+msgstr ""
+
+#: ../core/core.php:1533 ../core/data.php:51 ../loader.php:20
+#: ../ui-admin/settings-shortcodes.php:34
+#: ../ui-admin/settings-shortcodes.php:35 ../ui-front/general/taxonomy.php:33
+msgid "Classifieds"
+msgstr ""
+
+#: ../core/core.php:1553 ../ui-admin/settings-shortcodes.php:66
+#: ../ui-admin/settings-shortcodes.php:67
+msgid "Add Classified"
+msgstr ""
+
+#: ../core/core.php:1575 ../core/data.php:55
+#: ../ui-admin/settings-shortcodes.php:51
+#: ../ui-admin/settings-shortcodes.php:74
+#: ../ui-admin/settings-shortcodes.php:75
+msgid "Edit Classified"
+msgstr ""
+
+#: ../core/core.php:1596 ../ui-admin/settings-checkout.php:13
+msgid "Classifieds Checkout"
+msgstr ""
+
+#: ../core/core.php:1616 ../ui-admin/credits-my-credits.php:13
+msgid "My Classifieds Credits"
+msgstr ""
+
+#: ../core/core.php:1638 ../ui-admin/settings-shortcodes.php:42
+#: ../ui-admin/settings-shortcodes.php:43
+msgid "My Classifieds"
+msgstr ""
+
+#: ../core/core.php:1658 ../ui-admin/settings-shortcodes.php:82
+#: ../ui-admin/settings-shortcodes.php:83
+msgid "Go to Profile"
+msgstr ""
+
+#: ../core/core.php:1678 ../ui-admin/settings-shortcodes.php:90
+#: ../ui-admin/settings-shortcodes.php:91
+msgid "Signin"
+msgstr ""
+
+#: ../core/core.php:1702 ../core/core.php:1726
+#: ../ui-admin/settings-shortcodes.php:106
+#: ../ui-admin/settings-shortcodes.php:107
+msgid "Logout"
+msgstr ""
+
+#: ../core/data.php:52
+msgid "Classified"
+msgstr ""
+
+#: ../core/data.php:54
+msgid "Add New Classified"
+msgstr ""
+
+#: ../core/data.php:56
+msgid "New Classified"
+msgstr ""
+
+#: ../core/data.php:57
+msgid "View Classified"
+msgstr ""
+
+#: ../core/data.php:58
+msgid "Search Classifieds"
+msgstr ""
+
+#: ../core/data.php:59
+msgid "No Classifieds Found"
+msgstr ""
+
+#: ../core/data.php:60
+msgid "No Classifieds Found In Trash"
+msgstr ""
+
+#: ../core/data.php:94
+msgid "Classified Tags"
+msgstr ""
+
+#: ../core/data.php:95
+msgid "Classified Tag"
+msgstr ""
+
+#: ../core/data.php:96
+msgid "Search Classified Tags"
+msgstr ""
+
+#: ../core/data.php:97
+msgid "Popular Classified Tags"
+msgstr ""
+
+#: ../core/data.php:98
+msgid "All Classified Tags"
+msgstr ""
+
+#: ../core/data.php:99
+msgid "Edit Classified Tag"
+msgstr ""
+
+#: ../core/data.php:100
+msgid "Update Classified Tag"
+msgstr ""
+
+#: ../core/data.php:101
+msgid "Add New Classified Tag"
+msgstr ""
+
+#: ../core/data.php:102
+msgid "New Classified Tag Name"
+msgstr ""
+
+#: ../core/data.php:103
+msgid "Add or remove Classified tags"
+msgstr ""
+
+#: ../core/data.php:104
+msgid "Choose from the most used Classified tags"
+msgstr ""
+
+#: ../core/data.php:105
+msgid "Separate Classified tags with commas"
+msgstr ""
+
+#: ../core/data.php:142
+msgid "Classified Categories"
+msgstr ""
+
+#: ../core/data.php:143
+msgid "Classified Category"
+msgstr ""
+
+#: ../core/data.php:144
+msgid "Search Classified Categories"
+msgstr ""
+
+#: ../core/data.php:145
+msgid "Popular Classified Categories"
+msgstr ""
+
+#: ../core/data.php:146
+msgid "All Classified Categories"
+msgstr ""
+
+#: ../core/data.php:147
+msgid "Parent Category"
+msgstr ""
+
+#: ../core/data.php:148
+msgid "Edit Classified Category"
+msgstr ""
+
+#: ../core/data.php:149
+msgid "Update Classified Category"
+msgstr ""
+
+#: ../core/data.php:150
+msgid "Add New Classified Category"
+msgstr ""
+
+#: ../core/data.php:151
+msgid "New Classified Category"
+msgstr ""
+
+#: ../core/data.php:152
+msgid "Parent Category:"
+msgstr ""
+
+#: ../core/data.php:153
+msgid "Add or remove Classified categories"
+msgstr ""
+
+#: ../core/functions.php:63
+msgid "View all posts in "
+msgstr ""
+
+#: ../core/functions.php:131 ../core/functions.php:134
+#, php-format
+msgid "View all posts in %s"
+msgstr ""
+
+#: ../core/functions.php:201
+#, php-format
+msgid "Posts by %s"
+msgstr ""
+
+#: ../core/functions.php:226
+msgid "How long is this Ad open from today?</option>"
+msgstr ""
+
+#: ../core/functions.php:231
+msgid "Expires on"
+msgstr ""
+
+#: ../core/main.php:94
+msgid ""
+"You do not have enough credits to publish your classified for the selected "
+"time period. Please select a shorter period, if available, or purchase more "
+"credits. Your ad has been saved as a Draft."
+msgstr ""
+
+#: ../core/main.php:146
+msgid ""
+"You do not have enough credits to publish your classified for the selected "
+"time period. Please select a shorter period, if available, or purchase more "
+"credits.<br />Your ad has been saved as a Draft."
+msgstr ""
+
+#: ../loader.php:17
+msgid ""
+"Classifieds - Add Classifieds to your blog, network or BuddyPress site. "
+"Create and manage ads, upload images, send emails, enable the credit system "
+"and charge your users for placing ads on your network or BuddyPress site."
+msgstr ""
+
+#: ../loader.php:18
+msgid "Ivan Shaovchev, Andrey Shipilov (Incsub), Arnold Bailey (Incsub)"
+msgstr ""
+
+#: ../loader.php:19
+msgid "http://premium.wpmudev.org"
+msgstr ""
+
+#: ../ui-admin/credits-my-credits.php:17 ../ui-admin/credits-my-credits.php:21
+#: ../ui-front/buddypress/members/single/classifieds/my-credits.php:27
+#: ../ui-front/general/page-my-credits.php:14
+msgid "Available Credits"
+msgstr ""
+
+#: ../ui-admin/credits-my-credits.php:25
+#: ../ui-front/buddypress/members/single/classifieds/my-credits.php:31
+#: ../ui-front/general/page-my-credits.php:18
+msgid "All of your currently available credits."
+msgstr ""
+
+#: ../ui-admin/credits-my-credits.php:33 ../ui-admin/credits-my-credits.php:37
+msgid "Purchase Additional Credits"
+msgstr ""
+
+#: ../ui-admin/credits-my-credits.php:42
+msgid "Purchase"
+msgstr ""
+
+#: ../ui-admin/credits-my-credits.php:51
+#: ../ui-front/buddypress/members/single/classifieds/my-credits.php:51
+#: ../ui-front/general/page-my-credits.php:38
+msgid "Purchase History"
+msgstr ""
+
+#: ../ui-admin/credits-my-credits.php:57
+#: ../ui-front/general/page-my-credits.php:44
+msgid "Date:"
+msgstr ""
+
+#: ../ui-admin/credits-my-credits.php:62
+#: ../ui-front/general/page-my-credits.php:49
+msgid "Classifieds Credits spent."
+msgstr ""
+
+#: ../ui-admin/credits-my-credits.php:64
+#: ../ui-front/buddypress/members/single/classifieds/my-credits.php:61
+#: ../ui-front/general/page-my-credits.php:51
+msgid "Classifieds Credits purchased."
+msgstr ""
+
+#: ../ui-admin/credits-send-credits.php:14
+msgid "Send Classifieds Credits"
+msgstr ""
+
+#: ../ui-admin/credits-send-credits.php:19
+msgid "Send Credits To Classifieds members"
+msgstr ""
+
+#: ../ui-admin/credits-send-credits.php:31
+msgid "Number of credits to send"
+msgstr ""
+
+#: ../ui-admin/credits-send-credits.php:37
+msgid "Username to send credits to"
+msgstr ""
+
+#: ../ui-admin/credits-send-credits.php:46 ../ui-admin/navigation.php:29
+msgid "Send Credits"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:10
+msgid "Classifieds Dashboard"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:14
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:70
+#: ../ui-front/general/page-my-classifieds.php:70
+msgid "Active Ads"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:18 ../ui-admin/dashboard.php:70
+#: ../ui-admin/dashboard.php:139
+msgid "ID"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:19 ../ui-admin/dashboard.php:71
+#: ../ui-admin/dashboard.php:140
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:129
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:93
+#: ../ui-front/general/loop-author.php:90
+#: ../ui-front/general/loop-taxonomy.php:87
+#: ../ui-front/general/page-my-classifieds.php:106
+#: ../ui-front/general/page-update-classified.php:90
+msgid "Title"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:20 ../ui-admin/dashboard.php:72
+#: ../ui-admin/dashboard.php:141
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:135
+#: ../ui-front/general/loop-author.php:114
+#: ../ui-front/general/loop-taxonomy.php:103
+#: ../ui-front/general/page-my-classifieds.php:112
+#: ../ui-front/general/single-classifieds.php:82
+msgid "Categories"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:21 ../ui-admin/dashboard.php:73
+#: ../ui-admin/dashboard.php:142 ../ui-front/general/page-checkout.php:518
+msgid "Expiration Date"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:22 ../ui-admin/dashboard.php:74
+#: ../ui-admin/dashboard.php:143
+msgid "Image"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:23 ../ui-admin/dashboard.php:75
+#: ../ui-admin/dashboard.php:144
+msgid "Actions"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:48 ../ui-admin/dashboard.php:100
+#: ../ui-admin/dashboard.php:169
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:157
+#: ../ui-front/general/page-my-classifieds.php:133
+msgid "Edit Ad"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:49
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:162
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:185
+#: ../ui-front/general/page-my-classifieds.php:138
+#: ../ui-front/general/page-my-classifieds.php:156
+msgid "End Ad"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:50 ../ui-admin/dashboard.php:102
+#: ../ui-admin/dashboard.php:171
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:168
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:183
+#: ../ui-front/general/page-my-classifieds.php:144
+#: ../ui-front/general/page-my-classifieds.php:154
+msgid "Delete Ad"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:54 ../ui-admin/dashboard.php:123
+#: ../ui-admin/dashboard.php:191
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:210
+#: ../ui-front/general/page-my-classifieds.php:180
+msgid "Confirm"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:55 ../ui-admin/dashboard.php:124
+#: ../ui-admin/dashboard.php:192
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:211
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:236
+#: ../ui-front/general/page-my-classifieds.php:181
+#: ../ui-front/general/page-update-classified.php:226
+#: ../ui-front/general/single-classifieds.php:156
+msgid "Cancel"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:66
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:71
+#: ../ui-front/general/page-my-classifieds.php:71
+msgid "Saved Ads"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:101
+msgid "Publish Ad"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:120 ../ui-admin/dashboard.php:188
+#, php-format
+msgid "%s"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:135
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:72
+#: ../ui-front/general/page-my-classifieds.php:72
+msgid "Ended Ads"
+msgstr ""
+
+#: ../ui-admin/dashboard.php:170
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:164
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:184
+#: ../ui-front/general/page-my-classifieds.php:140
+#: ../ui-front/general/page-my-classifieds.php:155
+msgid "Renew Ad"
+msgstr ""
+
+#: ../ui-admin/navigation.php:4
+#, php-format
+msgid "Classifieds Settings %s"
+msgstr ""
+
+#: ../ui-admin/navigation.php:10
+msgid "General"
+msgstr ""
+
+#: ../ui-admin/navigation.php:11 ../ui-admin/settings-capabilities.php:17
+msgid "Capabilities"
+msgstr ""
+
+#: ../ui-admin/navigation.php:12
+msgid "Payments"
+msgstr ""
+
+#: ../ui-admin/navigation.php:13 ../ui-admin/settings-payment-types.php:36
+msgid "Payment Types"
+msgstr ""
+
+#: ../ui-admin/navigation.php:16 ../ui-admin/settings-affiliate.php:27
+msgid "Affiliate"
+msgstr ""
+
+#: ../ui-admin/navigation.php:20
+msgid "Shortcodes"
+msgstr ""
+
+#: ../ui-admin/settings-affiliate.php:4
+msgid "Affiliate payment credited for signed member (recurring payments):"
+msgstr ""
+
+#: ../ui-admin/settings-affiliate.php:5
+msgid "Affiliate payment credited for permanent member (one-time payments):"
+msgstr ""
+
+#: ../ui-admin/settings-affiliate.php:22
+msgid "Affiliate settings"
+msgstr ""
+
+#: ../ui-admin/settings-affiliate.php:24
+msgid "Here you can set reward for your affiliates."
+msgstr ""
+
+#: ../ui-admin/settings-affiliate.php:31
+msgid ""
+"This feature will be available only after installation the <b>Affiliate "
+"plugin</b>  and activation the <b>Classifieds add-on</b> there."
+msgstr ""
+
+#: ../ui-admin/settings-affiliate.php:33
+#, php-format
+msgid ""
+"More information about the Affiliate plugin you can get <a href=\"%s\" "
+"target=\"_blank\">here</a>."
+msgstr ""
+
+#: ../ui-admin/settings-affiliate.php:36
+msgid "Please activate:"
+msgstr ""
+
+#: ../ui-admin/settings-affiliate.php:38
+msgid "1. The <b>Affiliate plugin</b>"
+msgstr ""
+
+#: ../ui-admin/settings-affiliate.php:39
+msgid " - <i>Completed</i>"
+msgstr ""
+
+#: ../ui-admin/settings-affiliate.php:41
+msgid "2. The <b>Classifieds add-on</b> in the Affiliate plugin"
+msgstr ""
+
+#: ../ui-admin/settings-capabilities.php:13
+msgid "Capabilities Settings"
+msgstr ""
+
+#: ../ui-admin/settings-capabilities.php:22
+msgid "Assign Capabilities"
+msgstr ""
+
+#: ../ui-admin/settings-capabilities.php:29
+msgid "Select a role to which you want to assign Classifieds capabilities."
+msgstr ""
+
+#: ../ui-admin/settings-checkout.php:18
+msgid "Annual Payment Option"
+msgstr ""
+
+#: ../ui-admin/settings-checkout.php:22
+msgid "Cost of \"Annual\" service."
+msgstr ""
+
+#: ../ui-admin/settings-checkout.php:25
+msgid "Text of \"Annual\" service."
+msgstr ""
+
+#: ../ui-admin/settings-checkout.php:30 ../ui-admin/settings-payments.php:99
+msgid "One Time Payment Option"
+msgstr ""
+
+#: ../ui-admin/settings-checkout.php:34 ../ui-admin/settings-payments.php:103
+msgid "Cost of \"One Time\" service."
+msgstr ""
+
+#: ../ui-admin/settings-checkout.php:37 ../ui-admin/settings-payments.php:106
+msgid "Text of \"One Time\" service."
+msgstr ""
+
+#: ../ui-admin/settings-checkout.php:42 ../ui-admin/settings-payments.php:160
+#: ../ui-admin/settings-payments.php:166
+msgid "Terms of Service Text"
+msgstr ""
+
+#: ../ui-admin/settings-checkout.php:47 ../ui-admin/settings-payments.php:171
+msgid "Text for \"Terms of Service\""
+msgstr ""
+
+#: ../ui-admin/settings-checkout.php:55 ../ui-admin/settings-general.php:312
+#: ../ui-admin/settings-payment-types.php:327
+#: ../ui-admin/settings-payments.php:181
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:234
+#: ../ui-front/general/page-update-classified.php:224
+msgid "Save Changes"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:6
+msgid ""
+"Hi TO_NAME, you have received a message from\n"
+"\n"
+"  Name: FROM_NAME\n"
+"  Email: FROM_EMAIL\n"
+"  Subject: FROM_SUBJECT\n"
+"  Message:\n"
+"\n"
+"  FROM_MESSAGE\n"
+"\n"
+"\n"
+"  Classifieds link: POST_LINK\n"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:26
+msgid "General Settings"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:30
+msgid "Classified Member Role"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:35
+msgid "Assign Member's Role"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:41
+msgid ""
+"Select the role to which you want to assign a Classifieds member on signup."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:42
+msgid ""
+"If you are running multiple plugins that have signups use the same role for "
+"both."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:52
+msgid "Add a Role"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:53
+msgid "Add a new role. Alphanumerics only."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:54
+msgid ""
+"When you add a new role you must add the appropriate capabilities to make it "
+"functional."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:71
+msgid "Remove a Role"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:72
+msgid "Confirm Remove this Role"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:81
+msgid "Classifieds Status Options"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:86
+msgid "Available Classified Status Options"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:89
+msgid "Published"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:90
+msgid "Allow members to Publish Classifieds themselves."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:91
+msgid "Pending Review"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:92
+msgid "Classified is pending review by an administrator."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:93
+msgid "Draft"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:94
+msgid "Allow members to save Drafts."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:103
+msgid "Form Fields"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:108
+msgid "Image field:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:113
+msgid "not required"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:118
+msgid "Media manager:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:123
+msgid "enable full media manager for feature image uploads"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:128
+msgid "Use default image (URL):"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:132
+msgid "this image will be show for all ads without images"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:140
+msgid "Display Options"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:145
+msgid "Count of categories:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:149
+msgid ""
+"a number of categories that will be displayed in the list of categories."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:154
+msgid "Display count in parent categories:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:159
+msgid "Display the count of listings for the top parent categories"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:166
+msgid "Count of sub-categories:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:170
+msgid ""
+"a number of sub-categories that will be displayed for each category in the "
+"list of categories."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:175
+msgid "Display count for sub categories:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:180
+msgid "Display the count of listings for sub categories"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:187
+msgid "Empty sub-category:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:192
+msgid "Hide empty sub-category"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:214
+msgid "Pagination Settings"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:218
+msgid "Pagination position:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:223
+msgid "display at top of page."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:229
+msgid "display at bottom of page."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:235
+msgid "Ads per Page:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:239
+msgid "Number of ads displayed on each page."
+msgstr ""
+
+#: ../ui-admin/settings-general.php:244
+msgid "Pagination Range:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:247
+msgid "Number of page links to show at one time in pagination"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:255
+msgid "Notification Settings"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:259
+msgid "Disable Contact Form:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:264
+msgid "disable contact form"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:269
+msgid "CC the Administrator:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:274
+msgid "cc the administrator"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:279
+msgid "CC the Sender:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:284
+msgid "cc the sender"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:289
+msgid "Email Subject:"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:293 ../ui-admin/settings-general.php:303
+msgid ""
+"Variables: TO_NAME, FROM_NAME, FROM_EMAIL, FROM_SUBJECT, FROM_MESSAGE, "
+"POST_TITLE, POST_LINK, SITE_NAME"
+msgstr ""
+
+#: ../ui-admin/settings-general.php:297
+msgid "Email Content:"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:41
+msgid "Payment Gateway Settings"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:46
+msgid "Select Payment Gateway(s)"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:51
+msgid "Free Listings"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:52
+msgid "(logged users can create listings for free)."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:58
+#: ../ui-front/general/page-checkout.php:159
+msgid "PayPal"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:65
+msgid "AuthorizeNet"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:84
+msgid "PayPal Settings"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:87
+msgid ""
+"Express Checkout is PayPal's premier checkout solution, which streamlines "
+"the checkout process for buyers and keeps them on your site after making a "
+"purchase. Unlike PayPal Pro, there are no additional fees to use Express "
+"Checkout, though you may need to do a free upgrade to a business account."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:88
+msgid "More Info"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:94
+msgid "PayPal API Calls URL"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:99
+#: ../ui-admin/settings-payment-types.php:216
+msgid "Sandbox"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:100
+#: ../ui-admin/settings-payment-types.php:217
+msgid "Live"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:102
+msgid "Choose between PayPal Sandbox and PayPal Live."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:107
+msgid "PayPal Business Email"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:111
+msgid "Your PayPal business email for Recurring Payments."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:116
+msgid "API Username"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:121
+msgid ""
+"You must login to PayPal and create an API signature to get your "
+"credentials. "
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:122
+msgid "Instructions"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:126
+msgid "Your PayPal API Username."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:131
+msgid "API Password"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:135
+msgid "Your PayPal API Password."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:140
+msgid "API Signature"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:144
+msgid "Your PayPal API Signature."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:149
+msgid "Currency"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:154
+msgid "U.S. Dollar"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:155
+msgid "Euro"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:156
+msgid "Pound Sterling"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:157
+msgid "Canadian Dollar"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:158
+msgid "Australian Dollar"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:159
+msgid "Japanese Yen"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:160
+msgid "Swiss Franc"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:161
+msgid "Singapore Dollar"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:162
+msgid "New Zealand Dollar"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:163
+msgid "Swedish Krona"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:164
+msgid "Danish Krone"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:165
+msgid "Norwegian Krone"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:166
+msgid "Czech Koruna"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:167
+msgid "Hungarian Forint"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:168
+msgid "Polish Zloty"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:170
+msgid "The currency in which you want to process payments."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:175
+#: ../ui-admin/settings-payment-types.php:240
+msgid "Redirect URL on Success:"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:179
+#: ../ui-admin/settings-payment-types.php:244
+msgid "by default to internal success page"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:184
+#: ../ui-admin/settings-payment-types.php:249
+msgid "Redirect URL on Cancel:"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:188
+#: ../ui-admin/settings-payment-types.php:253
+msgid "by default to Home page"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:206
+msgid "Authorize.net AIM Settings"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:208
+msgid ""
+"Authorize.net AIM is a customizable payment processing solution that gives "
+"the merchant control over all the steps in processing a transaction. An SSL "
+"certificate is required to use this gateway. USD is the only currency "
+"supported by this gateway."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:211
+msgid "Mode"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:223
+msgid "Gateway Credentials"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:225
+#, php-format
+msgid ""
+"You must login to Authorize.net merchant dashboard to obtain the API login "
+"ID and API transaction key. <a target=\"_blank\" href=\"%s\">Instructions "
+"&raquo;</a>"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:227
+msgid "Login ID"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:232
+msgid "Transaction Key"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:257
+msgid "Advanced Settings"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:259
+msgid "Optional settings to control advanced options"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:262
+msgid ""
+"Authorize.net default is ','. Otherwise, get this from your credit card "
+"processor. If the transactions are not going through, this character is most "
+"likely wrong."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:262
+msgid "Delimiter Character"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:268
+msgid ""
+"Authorize.net default is blank. Otherwise, get this from your credit card "
+"processor. If the transactions are going through, but getting strange "
+"responses, this character is most likely wrong."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:268
+msgid "Encapsulation Character"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:274
+msgid "Email Customer (on success):"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:277
+#: ../ui-admin/settings-payment-types.php:305
+msgid "Yes"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:278
+#: ../ui-admin/settings-payment-types.php:306
+msgid "No"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:284
+msgid ""
+"This text will appear as the header of the email receipt sent to the "
+"customer."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:284
+msgid "Customer Receipt Email Header"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:285
+msgid "Thanks for your payment!"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:290
+msgid ""
+"This text will appear as the footer on the email receipt sent to the "
+"customer."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:290
+msgid "Customer Receipt Email Footer"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:296
+msgid ""
+"The payment gateway generated MD5 hash value that can be used to "
+"authenticate the transaction response. Not needed because responses are "
+"returned using an SSL connection."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:296
+msgid "Security: MD5 Hash"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:302
+msgid "Request a delimited response from the payment gateway."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:302
+msgid "Delim Data:"
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:312
+msgid ""
+"Many other gateways have Authorize.net API emulators. To use one of these "
+"gateways input their API post url here."
+msgstr ""
+
+#: ../ui-admin/settings-payment-types.php:312
+msgid "Custom API URL"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:11
+msgid "Payment Settings"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:15
+msgid "Recurring Payments"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:20
+msgid "Enable Recurring Payments"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:24
+msgid "Use recurring payments"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:29
+#: ../ui-front/general/page-checkout.php:43
+msgid "Cost of Service"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:33
+msgid "Amount to bill for each billing cycle."
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:38
+msgid "Name of Service"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:42
+msgid "Name of the service."
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:47
+msgid "Billing Period"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:51
+msgid "Day"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:52
+msgid "Week"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:54
+msgid "Semi Monthly"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:56
+msgid "Month"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:57
+msgid "Year"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:59
+msgid "The unit of measure for the billing cycle."
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:64
+msgid "Billing Frequency"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:68
+msgid ""
+"Number of billing periods that make up one billing cycle. The combination of "
+"billing frequency and billing period must be less than or equal to one year. "
+"If the billing period is SemiMonth, the billing frequency must be 1."
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:73
+#: ../ui-front/general/page-checkout.php:613
+msgid "Billing Agreement"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:77
+msgid ""
+"The description of the goods or services associated with that billing "
+"agreement. PayPal recommends that the description contain a brief summary of "
+"the billing agreement terms and conditions. For example, customer will be "
+"billed at \"$9.99 per month for 2 years.\""
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:84
+msgid "One Time Payment Options"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:89
+msgid "Enable One-time Payments"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:93
+msgid "Enable one time service for publishing an ad."
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:114
+msgid "Use Credits"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:118
+msgid "Enable Credits"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:122
+msgid "Enable credits for publishing an ad."
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:127
+msgid "Cost Per Credit"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:130
+msgid "How much a credit should cost."
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:134
+msgid "Credits Per Week"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:137
+msgid "How many credits you need to publish an ad for one week."
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:141
+msgid "Signup Credits"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:144
+msgid "How many credits a user should receive for signing up."
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:148
+#: ../ui-front/general/single-classifieds.php:171
+msgid "Description"
+msgstr ""
+
+#: ../ui-admin/settings-payments.php:152
+msgid ""
+"Description of the costs and durations associated with publishing an ad. "
+"Will be displayed in the admin area."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:8
+#: ../ui-admin/settings-shortcodes.php:11
+msgid "Classifieds Shortcodes"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:14
+msgid ""
+"Shortcodes allow you to include dynamic store content in posts and pages on "
+"your site. Simply type or paste them into your post or page content where "
+"you would like them to appear. Optional attributes can be added in a format "
+"like <em>[shortcode attr1=\"value\" attr2=\"value\"]</em>."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:17
+msgid ""
+"Attributes: (\"|\" means use one OR the other. ie style=\"grid\" or style="
+"\"list\" not style=\"grid | list\")"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:18
+msgid "text = <em>Text to display on a button</em>"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:19
+msgid ""
+"view = <em>Whether the button is visible when loggedin, loggedout, or "
+"always</em>"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:20
+msgid ""
+"redirect = <em>On the Logout button, what page to go to after logout</em>"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:21
+msgid ""
+"ccats = <em>A comma separated list of classifieds_categories ids to display</"
+"em>"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:25
+msgid "List of Categories:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:28
+msgid "Displays a list of Classifieds categories."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:32
+msgid "Classifieds Button:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:35
+#: ../ui-admin/settings-shortcodes.php:43
+#: ../ui-admin/settings-shortcodes.php:51
+#: ../ui-admin/settings-shortcodes.php:59
+#: ../ui-admin/settings-shortcodes.php:67
+#: ../ui-admin/settings-shortcodes.php:75
+#: ../ui-admin/settings-shortcodes.php:83
+#: ../ui-admin/settings-shortcodes.php:91
+#: ../ui-admin/settings-shortcodes.php:99
+#: ../ui-admin/settings-shortcodes.php:107
+msgid "someimage.jpg"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:36
+msgid ""
+"Links to the Classifieds List Page. Generates a &lt;button&gt; &lt;/"
+"button&gt; with the contents you define."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:40
+msgid "My Classifieds Button:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:44
+msgid ""
+"Links to the My Classifieds Page. Generates a &lt;button&gt; &lt;/button&gt; "
+"with the contents you define."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:48
+msgid "My Classified Credits Button:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:50
+msgid "My Classified Credits"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:52
+msgid ""
+"Links to the Classifieds Credit management page. Generates a &lt;button&gt; "
+"&lt;/button&gt; with the contents you define."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:56
+msgid "Classifieds Checkout Button:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:58
+#: ../ui-admin/settings-shortcodes.php:98
+msgid "Checkout"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:59
+#: ../ui-admin/settings-shortcodes.php:99
+msgid "Signup"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:60
+msgid ""
+"Links to the Classifeds Checkout Page. Generates a &lt;button&gt; &lt;/"
+"button&gt; with the contents you define."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:64
+msgid "Add Classified Button:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:68
+msgid ""
+"Links to the Add Classifieds Page. Generates a &lt;button&gt; &lt;/"
+"button&gt; with the contents you define."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:72
+msgid "Edit Classified Button:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:76
+msgid ""
+"Links to the Edit Classifieds Page. Generates a &lt;button&gt; &lt;/"
+"button&gt; with the contents you define."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:80
+msgid "Profile Button:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:84
+msgid ""
+"Links to the Profile Page. Generates a &lt;button&gt; &lt;/button&gt; with "
+"the contents you define."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:88
+msgid "Signin Button:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:92
+msgid ""
+"Links to the Signin Page. Generates a &lt;button&gt; &lt;/button&gt; with "
+"the contents you define."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:96
+msgid "Checkout Button:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:100
+msgid ""
+"Links to the Checkout Page. Generates a &lt;button&gt; &lt;/button&gt; with "
+"the contents you define."
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:104
+msgid "Logout Button:"
+msgstr ""
+
+#: ../ui-admin/settings-shortcodes.php:108
+msgid ""
+"Links to the Logout Page. Generates a &lt;button&gt; &lt;/button&gt; with "
+"the contents you define. The \"redirect\" attribute is the url to go to "
+"after logging out."
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:61
+#: ../ui-front/general/page-my-classifieds.php:56
+msgid "You have access to create new ads"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:63
+#: ../ui-front/general/page-my-classifieds.php:58
+msgid "Available Credits:"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:65
+#: ../ui-front/general/page-my-classifieds.php:60
+msgid "Purchase ads"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:83
+msgid "There were no ads found."
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:86
+#, php-format
+msgid "Ad \"%s\" ended."
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:89
+#, php-format
+msgid "Ad \"%s\" renewed."
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:92
+#, php-format
+msgid "Ad \"%s\" updated successfully."
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:95
+#, php-format
+msgid "Ad \"%s\" deleted successfully."
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:144
+#: ../ui-front/general/loop-author.php:123
+#: ../ui-front/general/loop-taxonomy.php:113
+#: ../ui-front/general/page-my-classifieds.php:121
+msgid "Expires"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-classifieds.php:203
+#: ../ui-front/general/page-my-classifieds.php:173
+#, php-format
+msgid "%s for %s Credits"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-credits.php:23
+#: ../ui-front/general/page-my-credits.php:10
+msgid "Available Classifieds Credits"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-credits.php:36
+#: ../ui-front/buddypress/members/single/classifieds/my-credits.php:40
+#: ../ui-front/general/page-my-credits.php:23
+#: ../ui-front/general/page-my-credits.php:27
+msgid "Purchase Additional Classifieds Credits"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-credits.php:44
+#: ../ui-front/general/page-my-credits.php:31
+msgid "Purchase Classifieds Credits"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/my-credits.php:57
+msgid "Purchase Date:"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:28
+#: ../ui-front/general/page-update-classified.php:26
+msgid "Auto Draft"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:95
+#: ../ui-front/general/page-update-classified.php:92
+msgid "Enter title here."
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:105
+#: ../ui-front/general/page-update-classified.php:102
+msgid "Feature Image Chosen"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:111
+#: ../ui-front/general/page-update-classified.php:108
+msgid "Set Feature Image"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:131
+#: ../ui-front/general/page-update-classified.php:128
+msgid "Content"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:143
+#: ../ui-front/general/page-update-classified.php:132
+msgid "The content of your classified."
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:148
+#: ../ui-front/general/page-update-classified.php:137
+msgid "Excerpt"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:150
+#: ../ui-front/general/page-update-classified.php:139
+msgid "A short excerpt of your classified."
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:210
+#: ../ui-front/general/page-update-classified.php:200
+msgid "Status"
+msgstr ""
+
+#: ../ui-front/buddypress/members/single/classifieds/update-classified.php:221
+#: ../ui-front/general/page-update-classified.php:211
+msgid "Select a status for your classified."
+msgstr ""
+
+#: ../ui-front/general/author.php:42
+#, php-format
+msgid "Classifieds By: %s"
+msgstr ""
+
+#: ../ui-front/general/loop-author.php:47
+#: ../ui-front/general/loop-taxonomy.php:39
+msgid "Not Found"
+msgstr ""
+
+#: ../ui-front/general/loop-author.php:49
+#: ../ui-front/general/loop-taxonomy.php:41
+msgid ""
+"Apologies, but no results were found for the requested classifieds. Perhaps "
+"searching will help find a related classified."
+msgstr ""
+
+#: ../ui-front/general/loop-author.php:96
+#: ../ui-front/general/loop-taxonomy.php:94
+#: ../ui-front/general/single-classifieds.php:61
+msgid "Posted By"
+msgstr ""
+
+#: ../ui-front/general/loop-taxonomy.php:66
+#, php-format
+msgid "%01.2f"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:26
+msgid "You already have access to create ads."
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:32
+msgid "This feature is currently disabled by the system administrator."
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:48
+msgid "Buy Credits"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:78
+msgid " per "
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:81
+msgid " period"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:105
+#: ../ui-front/general/page-signin.php:120
+msgid "Terms of Service"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:118
+#: ../ui-front/general/page-signin.php:122
+msgid "I agree with the Terms of Service"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:129
+#: ../ui-front/general/page-checkout.php:178
+msgid "Continue"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:151
+msgid "Posting Classified Ads is Free when Logged In"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:155
+msgid "Choose Payment Method"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:168
+msgid "Credit Card"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:450
+msgid "Payment Details"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:454
+msgid "Email Address for Credit Card"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:458
+msgid "First Name"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:462
+msgid "Last Name"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:466
+msgid "Street"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:470
+msgid "City"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:474
+msgid "State"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:478
+msgid "Postal Code"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:482
+msgid "Country"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:495
+#: ../ui-front/general/page-checkout.php:619
+#: ../ui-front/general/page-checkout.php:720
+msgid "Total Amount"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:503
+msgid "Credit Card Type"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:506
+msgid "Visa"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:507
+msgid "MasterCard"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:508
+msgid "Amex"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:509
+msgid "Discover"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:514
+msgid "Credit Card Number"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:521
+msgid "01 Jan"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:522
+msgid "02 Feb"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:523
+msgid "03 Mar"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:524
+msgid "04 Apr"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:525
+msgid "05 May"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:526
+msgid "06 Jun"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:527
+msgid "07 Jul"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:528
+msgid "08 Aug"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:529
+msgid "09 Sep"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:530
+msgid "10 Oct"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:531
+msgid "11 Nov"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:532
+msgid "12 Dec"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:544
+msgid "Expiration Date (mm/yy)"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:549
+msgid "CVV2"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:585
+#: ../ui-front/general/page-checkout.php:694
+msgid "Confirm Payment"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:590
+#: ../ui-front/general/page-checkout.php:698
+msgid "Email Address"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:597
+#: ../ui-front/general/page-checkout.php:705
+#: ../ui-front/general/single-classifieds.php:125
+msgid "Name"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:604
+#: ../ui-front/general/page-checkout.php:712
+msgid "Address"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:606
+#: ../ui-front/general/page-checkout.php:714
+#, php-format
+msgid "%1$s, %2$s, %3$s %4$s %5$s"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:661
+msgid "The registration is completed successfully!"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:662
+msgid ""
+"You can go to your profile and review/change your personal information, or "
+"you can go straight to the classifieds submission page."
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:665
+#: ../ui-front/general/page-checkout.php:742
+msgid "Proceed to your Classifieds"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:727
+msgid "Confirm data"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:738
+msgid "Thank you for your business. Transaction processed successfully!"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:739
+msgid ""
+"You can go to your profile and review/change your personal information. You "
+"can also go straight to classifieds submission page."
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:748
+msgid "Pages:"
+msgstr ""
+
+#: ../ui-front/general/page-checkout.php:749
+msgid "Edit"
+msgstr ""
+
+#: ../ui-front/general/page-my-classifieds.php:65
+msgid "Create New Classified"
+msgstr ""
+
+#: ../ui-front/general/page-my-classifieds.php:78
+msgid "No Classifieds found."
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:32
+#: ../ui-front/general/page-signin.php:81
+msgid "Login"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:36
+msgid "Register Account"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:38
+msgid "New Account"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:42
+msgid "Forgot?"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:49
+#: ../ui-front/general/page-signin.php:54
+msgid "Success!"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:50
+msgid "Check your email for the password and then return to log in."
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:55
+msgid "Check your email to reset your password."
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:59
+msgid "Have an account?"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:60
+msgid "You have to login to view the contents of this page."
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:61
+msgid "Log in or sign up! It&rsquo;s fast &amp; <em>free!</em>"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:67
+#: ../ui-front/general/page-signin.php:98
+#: ../ui-front/general/page-signin.php:106
+msgid "Username"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:71
+msgid "Password"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:77
+msgid "Remember me"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:89
+msgid "Register for this site!"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:90
+msgid "Sign up now for the good stuff."
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:113
+msgid "Your Email"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:128
+msgid "Sign up!"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:130
+msgid "Check your email for the password!"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:139
+msgid "Lose something?"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:140
+msgid "Enter your username or email to reset your password."
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:143
+msgid "Username or Email"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:148
+msgid "Reset my password"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:150
+msgid "A message will be sent to your email address."
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:162
+#, php-format
+msgid "Welcome, %s"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:167
+#, php-format
+msgid "You&rsquo;re logged in as <strong>%s</strong>"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:169
+msgid "Log out"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:171
+msgid "Admin"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:172
+msgid "Profile"
+msgstr ""
+
+#: ../ui-front/general/page-signin.php:198
+msgid "Please accept the Terms of Service"
+msgstr ""
+
+#: ../ui-front/general/page-update-classified.php:193
+msgid "add a tag"
+msgstr ""
+
+#: ../ui-front/general/pagination.php:19
+#, php-format
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: ../ui-front/general/pagination.php:22
+msgid "First"
+msgstr ""
+
+#: ../ui-front/general/pagination.php:26
+msgid "Previous"
+msgstr ""
+
+#: ../ui-front/general/pagination.php:36
+msgid "Next"
+msgstr ""
+
+#: ../ui-front/general/pagination.php:40
+msgid "Last"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:27
+msgid ""
+"Send message failed: you didn't fill all required fields correctly in "
+"contact form!"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:34
+msgid "Message is sent!"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:41
+msgid "Email service is not responding!"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:91
+msgid "Posted On"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:95
+msgid "Expires On"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:112
+msgid "Contact User"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:125
+#: ../ui-front/general/single-classifieds.php:130
+#: ../ui-front/general/single-classifieds.php:135
+#: ../ui-front/general/single-classifieds.php:140
+#: ../ui-front/general/single-classifieds.php:146
+msgid "required"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:127
+msgid "Enter your full name here."
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:130
+msgid "Email"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:132
+msgid "Enter a valid email address here."
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:135
+msgid "Subject"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:137
+msgid "Enter the subject of your enquiry here."
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:140
+msgid "Message"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:142
+msgid "Enter the content of your enquiry here."
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:146
+msgid "Security image"
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:149
+msgid "Enter the characters from the image."
+msgstr ""
+
+#: ../ui-front/general/single-classifieds.php:155
+msgid "Send"
+msgstr ""

@@ -1,0 +1,125 @@
+#page .post-style .post_date {
+    font-size: 14px;
+    font-weight: lighter;
+    text-transform: uppercase;
+    color: #636363;
+}
+#page .post-style .post_date:after {
+    content: "/";
+    float: right;
+}
+#page .post-style .upfront-postpart-author {
+    font-size: 14px;
+}
+#page .post-style .post_author {
+    font-size: 14px;
+    color: #c09533;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+#page .post-style .upfront-postpart-title {
+    margin-bottom: 20px;
+}
+#page .post-style .post_title, #page .post-style .post_title a {
+    font-family: "Cantata One", serif;
+    font-size: 24px;
+    font-weight: normal;
+    line-height: 1.25em;
+}
+#page .post-style .post_title a {
+    display: inline-block;
+    max-width: 100%;
+    color: #c09533;
+}
+#page .post-style .post_title {
+    display: inline-block;
+    max-width: 100%;
+    position: relative;
+}
+#page .post-style .post_title:after {
+    content: " ";
+    display: block;
+    width: 24px;
+    height: 0;
+    border-bottom: 2px solid #1d1d1d;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-left: -12px;
+}
+#page .post-style .post_comments {
+    font-size: 14px;
+    font-weight: 100;
+    color: #6fcece;
+    text-align: right;
+}
+#page .post-style .post_comments:before {
+    content: " ";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("/scribe/wp-content/themes/uf-scribe/ui/sprites.png");
+    background-position: -172px -50px;
+    margin-right: 4px;
+}
+#page .post-style .post_content {
+    padding: 0 15px;
+}
+#page .post-style .post_thumbnail {
+    margin: 0 0 15px;
+}
+#page .post-style .post_categories_label {
+    font-size: 22px;
+    line-height: 25px;
+    text-transform: uppercase;
+    display: block;
+    margin: 0 0 25px;
+}
+#page .post-style .post_categories li {
+    display: inline-block;
+    margin: 0 10px 10px 0;
+    text-transform: uppercase;
+    border: 1px solid #c09533;
+    font-size: 16px;
+    line-height: 33px;
+}
+#page .post-style .post_categories li a {
+    display: block;
+    padding: 0 30px;
+    color: #c09533;
+}
+#page .post-style .post_categories li a:hover {
+    background: #c09533;
+    color: #ffffff;
+}
+#page .post-style p, #page .post-style ul, #page .post-style ol {
+    font-size: 14px;
+    margin: 0 0 15px;
+}
+#page .post-style .wp-caption-text {
+    font-style: italic;
+    border-left: 2px solid #6fcece;
+    padding: 0 0.5em;
+}
+#page .post-style blockquote {
+    border-left: 2px solid #6fcece;
+    text-align: center;
+    padding: 1em;
+}
+#page .post-style blockquote p {
+    font-size: 28px;
+    text-transform: uppercase;
+    font-style: italic;
+}
+#page .post-style blockquote cite {
+    font-size: 16px;
+    font-weight: 100;
+    font-style: normal;
+    text-transform: uppercase;
+}
+#page .post-style blockquote cite:before, #page .post-style blockquote cite:after {
+    content: " – ";
+}
+
+
+/* 133620-1456900948-au */

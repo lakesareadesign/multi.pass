@@ -1,0 +1,89 @@
+<div data-endpoint="{{:lookupKey}}" class="farreaches-endpoint-row {{:cssClass}}">
+    <div class="farreaches-servicetitle {{cssName:service_name}}24"><!-- service name -->
+        {{if ~root.message_end_point_forget_topic}}
+	        <button type="button" class="fr-button"
+	            data-publish-topic="{{:~root.message_end_point_forget_topic}}"
+	            data-publish-event="{{:lookupKey}}"
+	            data-publish-label="<span class='farreaches-icon-busy'></span>"
+	            data-publish-label-success="<span class='farreaches-icon-point-left'></span>"
+	            data-publish-disabled-after="false"
+	            data-publish-success="remove_endpoint"
+	            data-publish-failure="notification_on_failure"
+	            title="Delete"
+	        >
+	        <span class="farreaches-icon-remove"></span>
+	        </button>
+	     {{/if}}
+        <a href='{{>publicUri}}' target='_blank' title='{{>publicUriAnchorTitle}}'>{{>publicUriAnchorText}}</a>
+    </div>
+
+	{{if ! inactiveState}}
+	    <input type="hidden" id="categories-{{:lookupKey}}" name="categories-{{:lookupKey}}" value="{{:externalSelectedTopics}}"/>
+	    <div class="farreaches-accordion category-parent farreaches-advanced">
+			<h3>Posts</h3>
+			<div class="farreaches-posts">
+			{{if delayedPosts}}
+				{{for delayedPosts}}
+					<div class="farreaches-post" data-post-id='{{:postId}}'>
+							<h4>
+					        	<span class='farreaches-icon-alarm'></span> <a href="{{:link}}">{{:title}}</a>    
+							</h4>
+							<p>{{>statusText}} <b>{{>timestamp}}</b></p>
+					</div>
+				{{/for}}
+			{{/if}}
+			{{if posts}}
+				{{for posts}}
+					<div class="farreaches-post" data-post-id='{{:postId}}'>
+							<h4>
+							{{if link}}
+					        	{{if status=='aut'}}
+						        	{{:title}}    
+					            {{else}}
+					            	<a href="{{>link}}" target="_blank">{{:title}}</a>
+					            {{/if}}
+					        {{/if}}
+							</h4>
+							<p>{{>statusText}} <b>{{>timestamp}}</b></p>
+					</div>
+				{{/for}}
+			{{else}}
+				No posts were published to this service. You have to assign a category to the connection and publish a post within
+				the category to get the post out to the service.
+			{{/if}}
+			</div>
+	        <h3>
+	        	<button type="button" 
+	        		id="{{:lookupKey}}-add"
+	            	class="button farreaches-category-add"
+	            	data-message-end-point="{{:lookupKey}}">+Assign a category</button>
+	        	Categories  
+	        	
+	        </h3>
+	        <div id="{{:lookupKey}}-cats" class="farreaches-categories" data-message-end-point="{{:lookupKey}}">
+	            <!-- list of all categories -->
+	            {{for categories}}
+	                <button type="button"
+	                		id="{{:message_end_point_id}}-{{:category}}"
+	                		class="button farreaches-category-change {{:class}}"  
+	                		data-message-end-point="{{:message_end_point_id}}" 
+	                		data-category="{{:category}}" 
+	                		>{{:name}}</button>
+	            {{/for}}
+	            <p class="farreaches-instruction">Assign a category to publish posts to the service.</p>
+            </div>
+	    </div>
+	{{else}}
+		{{if inactiveState == 'xab'}}
+			<p>
+				You external account was suspended due to abusive content.
+			</p>
+		{{else}}
+	        <p>
+	            Social Marketing (FarReach.es) is no longer authorized to access your account. 
+	            This usually is a result of the FarReach.es being removed as an authorized application. 
+	            Try re-connecting the service.
+	        </p>
+		{{/if}}
+	{{/if}}
+</div>

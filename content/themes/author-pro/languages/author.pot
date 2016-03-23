@@ -1,0 +1,121 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Author Pro Theme\n"
+"POT-Creation-Date: 2015-04-16 08:43-0500\n"
+"PO-Revision-Date: 2015-04-16 08:43-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: functions.php:15
+msgid "Author Pro Theme"
+msgstr ""
+
+#: functions.php:69
+msgid "Header Navigation Menu"
+msgstr ""
+
+#: functions.php:69
+msgid "Secondary Navigation Menu"
+msgstr ""
+
+#: functions.php:116
+msgctxt "noun"
+msgid "Comment"
+msgstr ""
+
+#: functions.php:126
+msgid "Front Page 1"
+msgstr ""
+
+#: functions.php:127
+msgid "This is the front page 1 section."
+msgstr ""
+
+#: functions.php:131
+msgid "Front Page 2"
+msgstr ""
+
+#: functions.php:132
+msgid "This is the front page 2 section."
+msgstr ""
+
+#: functions.php:136
+msgid "Front Page 3"
+msgstr ""
+
+#: functions.php:137
+msgid "This is the front page 3 section."
+msgstr ""
+
+#: functions.php:141
+msgid "Front Page 4"
+msgstr ""
+
+#: functions.php:142
+msgid "This is the front page 4 section."
+msgstr ""
+
+#: functions.php:146
+msgid "Front Page 5"
+msgstr ""
+
+#: functions.php:147
+msgid "This is the front page 5 section."
+msgstr ""
+
+#: lib/customize.php:97
+msgid "Header Background Color"
+msgstr ""
+
+#: lib/customize.php:98
+msgid ""
+"Change the header background color. You can use the same color as the "
+"background color, if desired."
+msgstr ""
+
+#: lib/customize.php:118
+msgid "Light Color"
+msgstr ""
+
+#: lib/customize.php:119
+msgid ""
+"Change the light background color for areas such as the secondary navigation "
+"and sidebar."
+msgstr ""
+
+#: lib/customize.php:139
+msgid "Dark Color"
+msgstr ""
+
+#: lib/customize.php:140
+msgid ""
+"Change the dark background color for areas such as submenus and footer "
+"widgets."
+msgstr ""
+
+#: lib/customize.php:160
+msgid "Accent Color"
+msgstr ""
+
+#: lib/customize.php:161
+msgid ""
+"Change the default accent color for links, numeric pagination, and "
+"highlighted menu items."
+msgstr ""
+
+#: lib/theme-defaults.php:54 lib/theme-defaults.php:82
+msgid "Continue Reading&hellip;"
+msgstr ""

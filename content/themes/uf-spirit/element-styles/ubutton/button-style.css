@@ -1,0 +1,14 @@
+#page .button-style a.upfront_cta, #page .button-style a.upfront_cta:hover {
+   border-left: none;
+   border-top: none;
+   border-right: none;
+   padding: 8px 25px;
+   font-style: normal !important;
+   text-decoration: none;
+}
+#page .button-style a.upfront_cta .uf_font_icon {
+ font-style: normal !important;
+}
+
+
+/* 133620-1456900953-au */

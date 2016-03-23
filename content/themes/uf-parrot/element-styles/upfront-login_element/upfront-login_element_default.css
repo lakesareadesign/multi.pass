@@ -1,0 +1,70 @@
+div.upfront-login_element-object .upfront_login-form form#loginform label {
+    font-weight: 400;
+    line-height: 1.4em;
+    margin-bottom: 10px;
+}
+.upfront_login-form form input[type="text"], .upfront_login-form form input[type="email"], .upfront_login-form form input[type="password"] {
+    border: 1px solid #ufc7;
+}
+.upfront_login-form form#loginform input[type=checkbox] {
+    margin: 0 5px 0 0;
+    top: 0;
+}
+.upfront_login-form form#loginform input[type=checkbox]:before {
+    border: 1px solid #ufc7;
+}
+.upfront_login-form form#loginform input[type=checkbox]:checked:before {
+    background-image: none;
+    content: "x";
+    color: #ufc0;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 1.4em;
+    text-align: center;
+}
+.upfront_login-form form#loginform .login-submit input[type=submit] {
+    background-color: #ufc0;
+    border: 3px solid transparent;
+    color: #ufc2;
+    height: inherit;
+    padding: 10px 20px;
+}
+.upfront_login-form form#loginform .login-submit {
+    margin-top: 0;
+}
+.upfront_login-form form .login-submit input[type=submit]:hover {
+    background-color: transparent;
+    border-color :#ufc1;
+    color: #ufc1;
+}
+.upfront_login-form p .login-lostpassword-link {
+    color: #ufc0;
+}
+.upfront_login-form p .login-lostpassword-link:hover {
+    color: #ufc1;
+}
+ /* dropdown */
+.upfront_login-trigger {
+    color: #ufc0;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 1.4em;
+}
+.upfront-login_element-object .upfront_login.upfront_login-hover .upfront_login-form, .upfront-login_element-object .upfront_login.upfront_login-click .upfront_login-form {
+    border: 2px solid #ufc7;
+}
+.upfront-login_element-object .upfront_login.upfront_login-hover:hover .upfront_login-form:before, .upfront-login_element-object .upfront_login.upfront_login-click.active .upfront_login-form:before {
+    border-top: 2px solid #ufc7;
+    border-left: 2px solid #ufc7;
+}
+.upfront-login_element-object a.logout_link {
+    font-size: 15px;
+    line-height: 1.667em;
+}
+
+
+/* 133620-1456900944-au */

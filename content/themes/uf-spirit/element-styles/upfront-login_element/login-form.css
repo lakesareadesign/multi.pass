@@ -1,0 +1,28 @@
+#page .login-form label {
+    color: #f4f4f4;
+    text-shadow: 1px 1px #548685;
+}
+#page .login-form input[type="submit"], #page .login-form a.logout_link {
+    text-align: center;
+    background: #69a8a6;
+    color: #FFFFFF;
+    border-radius: 4px;
+    border: 0px;
+    border-bottom: 3px solid #548685;
+    padding: 4px 25px;
+    font-size: 24px;
+    display: inline-block;
+    text-decoration: none;
+    font: 24px Open Sans, Arial;
+    width: 150px !important;
+    float: right;
+}
+#page .login-form input[type="submit"]:hover, #page .login-form a.logout_link:hover {
+    color: #548685;
+}
+#page .login-form p.login-lostpassword {
+    clear: both;
+}
+
+
+/* 133620-1456900953-au */

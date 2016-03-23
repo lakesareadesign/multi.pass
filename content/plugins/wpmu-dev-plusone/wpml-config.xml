@@ -1,0 +1,11 @@
+<wpml-config>
+    <custom-fields>
+        <custom-field action="ignore">wdgpo_gplus_author</custom-field>
+        <custom-field action="ignore">wdgpo_gplus_feed_id</custom-field>
+        <custom-field action="ignore">wdgpo_gplus_item_id</custom-field>
+    </custom-fields>
+   
+    <custom-types>
+        <custom-type translate="0">wdgpo_imported_post</custom-type>
+    </custom-types>      
+</wpml-config>

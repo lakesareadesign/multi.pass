@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2014 by original authors @ fontello.com</metadata>
+<defs>
+<font id="simmer-admin-icons" horiz-adv-x="1000" >
+<font-face font-family="simmer-admin-icons" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="fork" unicode="&#xe800;" d="m500 850c-275 0-500-225-500-500 0-255 185-465 430-495 5 95 5 190 10 285 0 30-10 50-30 70-65 55-85 125-85 205 5 65 20 125 30 190 5 20 15 30 35 25 20 0 25-15 25-35 0-30 0-60 0-90 0-25 0-55 0-80 0-15 0-25 20-30 20 0 25 10 25 25 5 50 5 105 5 155 0 5 0 15 0 20 0 20 10 30 30 30 20 0 30-10 35-30 5-55 5-105 10-160 0-5 0-10 0-20 0-15 10-25 25-25 15 0 20 10 20 25 0 60 0 115 0 175 0 10 10 25 20 30 15 10 35 0 40-20 25-90 45-175 25-270-10-55-35-100-80-135-25-20-30-45-30-75 5-95 5-185 10-280 245 35 430 245 430 500 0 285-225 510-500 510z" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>

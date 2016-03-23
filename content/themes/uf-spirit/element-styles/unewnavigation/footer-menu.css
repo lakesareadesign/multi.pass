@@ -1,0 +1,30 @@
+#page .footer-menu ul {
+    background-color: transparent;
+}
+#page .footer-menu ul li {
+  display: inline-block;
+  padding: 0px;
+}
+#page .footer-menu ul li a {
+    color: #ufc2;
+    font: 12px Oswald, Arial;
+    text-transform: uppercase;
+    padding: 0px 4px 0px 0px;
+}
+#page .footer-menu ul li a:hover {
+    color: #ufc5;
+}
+#page .footer-menu ul li a:before {
+    content: '/';
+    padding: 0px 4px 0px 0px;
+}
+#page .footer-menu ul li a:hover:before {
+   color: #69a8a6;
+}
+#page .footer-menu ul li:first-child a:before {
+    content: '';
+    padding: 0px;
+}
+
+
+/* 133620-1456900953-au */

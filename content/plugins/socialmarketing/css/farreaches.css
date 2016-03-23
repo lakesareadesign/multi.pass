@@ -1,0 +1,764 @@
+@font-face {
+  font-family: 'farreaches';
+  src: url("../../fonts/farreaches.eot");
+  src: url("../../fonts/farreaches.eot?#iefix") format("embedded-opentype"), url("../../fonts/farreaches.ttf") format("truetype"), url("../../fonts/farreaches.woff") format("woff"), url("../../fonts/farreaches.svg#farreaches") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+[class*="farreaches-icon-"] {
+  font-family: 'farreaches';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.farreaches-icon-alarm:before {
+  content: "\e608"; }
+
+.farreaches-icon-busy:before {
+  content: "\e600"; }
+
+.farreaches-icon-point-left:before {
+  content: "\e601"; }
+
+.farreaches-icon-close:before {
+  content: "\e602"; }
+
+.farreaches-icon-remove:before {
+  content: "\e603"; }
+
+.farreaches {
+  /**
+   * IMPORTANT : .farreaches class is used as a selector class. Because the farreaches html lives within wordpress generated pages
+   * we do not want any styling here - such styling can result in the farreaches html looking out of place.
+   */
+  /* DIAGNOSTICS */ }
+  .farreaches input[type='tel'] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
+  .farreaches .facebook24 {
+    background-image: url(../../img/socialicons/facebook_24.png); }
+  .farreaches .tumblr24 {
+    background-image: url(../../img/socialicons/tumblr_24.png); }
+  .farreaches .twitter24 {
+    background-image: url(../../img/socialicons/twitter_24.png); }
+  .farreaches .btn {
+    margin: 3px; }
+  .farreaches .required:after {
+    content: '*'; }
+  .farreaches .farreaches-beginner .farreaches-advanced {
+    display: none; }
+  .farreaches .farreaches-list-table, .farreaches .farreaches-user-list-table {
+    display: table;
+    margin: 10px 0px 0px 10px; }
+    .farreaches .farreaches-list-table .table-header, .farreaches .farreaches-user-list-table .table-header {
+      display: table-header-group; }
+    .farreaches .farreaches-list-table th.narrow-column, .farreaches .farreaches-user-list-table th.narrow-column {
+      width: 9em; }
+    .farreaches .farreaches-list-table td.check-column, .farreaches .farreaches-user-list-table td.check-column {
+      text-align: center; }
+    .farreaches .farreaches-list-table tr, .farreaches .farreaches-user-list-table tr, .farreaches .farreaches-list-table .table-row, .farreaches .farreaches-user-list-table .table-row {
+      display: table-row; }
+      .farreaches .farreaches-list-table tr:not(:hover) input, .farreaches .farreaches-user-list-table tr:not(:hover) input, .farreaches .farreaches-list-table .table-row:not(:hover) input, .farreaches .farreaches-user-list-table .table-row:not(:hover) input {
+        border: 0px;
+        background: inherit; }
+      .farreaches .farreaches-list-table tr:not(:hover) .expanded, .farreaches .farreaches-user-list-table tr:not(:hover) .expanded, .farreaches .farreaches-list-table .table-row:not(:hover) .expanded, .farreaches .farreaches-user-list-table .table-row:not(:hover) .expanded {
+        display: none; }
+        .farreaches .farreaches-list-table tr:not(:hover) .expanded input:not([value='']), .farreaches .farreaches-user-list-table tr:not(:hover) .expanded input:not([value='']), .farreaches .farreaches-list-table tr:not(:hover) .expanded input:not([value]), .farreaches .farreaches-user-list-table tr:not(:hover) .expanded input:not([value]), .farreaches .farreaches-list-table .table-row:not(:hover) .expanded input:not([value='']), .farreaches .farreaches-user-list-table .table-row:not(:hover) .expanded input:not([value='']), .farreaches .farreaches-list-table .table-row:not(:hover) .expanded input:not([value]), .farreaches .farreaches-user-list-table .table-row:not(:hover) .expanded input:not([value]) {
+          display: block; }
+    .farreaches .farreaches-list-table .table-cell-border-less, .farreaches .farreaches-user-list-table .table-cell-border-less, .farreaches .farreaches-list-table .table-cell, .farreaches .farreaches-user-list-table .table-cell {
+      display: table-cell;
+      padding: 5px 5px;
+      height: auto; }
+      .farreaches .farreaches-list-table .table-cell-border-less input, .farreaches .farreaches-user-list-table .table-cell-border-less input, .farreaches .farreaches-list-table .table-cell input, .farreaches .farreaches-user-list-table .table-cell input {
+        width: 100%; }
+    .farreaches .farreaches-list-table .table-cell, .farreaches .farreaches-user-list-table .table-cell {
+      border: 1px solid gray; }
+    .farreaches .farreaches-list-table .farreaches-label, .farreaches .farreaches-user-list-table .farreaches-label {
+      font-weight: bolder;
+      width: 25%; }
+      .farreaches .farreaches-list-table .farreaches-label:after, .farreaches .farreaches-user-list-table .farreaches-label:after {
+        content: ':'; }
+  .farreaches .farreaches-user-list-table .farreaches-user-checkbox {
+    width: 30px; }
+  .farreaches .diagnostics-table {
+    background-color: #cde9f7; }
+    .farreaches .diagnostics-table .status-ok {
+      background-color: #b2da8e; }
+    .farreaches .diagnostics-table .status-warn {
+      background-color: #ea9d0b; }
+    .farreaches .diagnostics-table .status-error {
+      background-color: #e68a8a; }
+    .farreaches .diagnostics-table .status-none {
+      background-color: #eaf2a5; }
+  .farreaches .bug-description {
+    width: 50%;
+    height: 200px; }
+  .farreaches .farreaches-organization-settings .farreaches-contact {
+    display: inline-block;
+    margin: 10px;
+    width: 30%; }
+  .farreaches .farreaches-organization-settings li {
+    margin-bottom: 30px; }
+  .farreaches .farreaches-organization-settings .farreaches-dialog {
+    display: none; }
+  .farreaches .farreaches-info-box {
+    min-height: 86px;
+    position: relative;
+    margin: 0 0 10px 0 !important;
+    z-index: 100;
+    overflow: hidden;
+    clear: both;
+    padding: 10px;
+    background-color: #f8f8f8;
+    margin: 0 2px;
+    border: 1px solid #bcbcbc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.15); }
+    .farreaches .farreaches-info-box h4 {
+      margin: 0 10px 10px 0;
+      font-size: 18px;
+      font-weight: normal;
+      color: #222222;
+      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+      border-radius: 5px;
+      display: inline-block; }
+    .farreaches .farreaches-info-box .button-primary {
+      font-size: 20px;
+      height: 40px;
+      display: inline-block;
+      padding: 8px 15px;
+      margin-right: 15px;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+      border-radius: 5px;
+      border: 1px solid #8caa46;
+      background: #b4d278;
+      -webkit-box-shadow: inset 0 0 2px white, 0 1px 1px rgba(0, 0, 0, 0.1);
+      -moz-box-shadow: inset 0 0 2px white, 0 1px 1px rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 0 2px white, 0 1px 1px rgba(0, 0, 0, 0.1);
+      text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+      -webkit-transition-duration: 0.3s;
+      -moz-transition-duration: 0.3s;
+      -o-transition-duration: 0.3s;
+      transition-duration: 0.3s;
+      cursor: pointer;
+      float: right; }
+    .farreaches .farreaches-info-box .loader {
+      background: url(../../img/wpspin.gif);
+      width: 16px;
+      height: 16px; }
+  .farreaches img.farreaches-profile-picture {
+    width: 80px;
+    border: thin solid #fff;
+    display: inline-block; }
+  .farreaches .farreaches-connect-panel {
+    padding: 40px 0; }
+  .farreaches .farreaches-accordion h3 {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px dashed #999;
+    margin: 0;
+    font-weight: 700;
+    background-color: #A8E7F3;
+    color: #2D6370;
+    position: relative; }
+    .farreaches .farreaches-accordion h3 button {
+      float: right;
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      opacity: 1;
+      transition: opacity .2s ease-in; }
+  .farreaches .farreaches-accordion div {
+    padding: 10px; }
+  .farreaches .fr-input {
+    /* Bootstrap bugfix for Firefox and IE. Consider updating core bootstrap css rule in case of annoying input height problem. */
+    height: inherit; }
+  .farreaches button.farreaches-needs-save {
+    color: #1b8daa; }
+  .farreaches .fr-form-wrap {
+    padding-bottom: 20px; }
+  .farreaches .farreaches-endpoint-row {
+    width: 30%;
+    min-width: 250px;
+    max-width: 600px;
+    border-radius: 3px;
+    border: 1px solid #44ACDB;
+    background: white;
+    margin: 0 10px 40px 0;
+    display: inline-block;
+    vertical-align: top; }
+    .farreaches .farreaches-endpoint-row .farreaches-servicetitle {
+      font-size: 18px;
+      font-weight: 300;
+      height: 32px;
+      border-radius: 3px 3px 0px 0px;
+      background-color: #44ACDB;
+      padding: 0 0 0 35px;
+      background-repeat: no-repeat;
+      background-position: 4px 50%; }
+      .farreaches .farreaches-endpoint-row .farreaches-servicetitle.farreaches-servicetitledisabled {
+        font-weight: 200; }
+      .farreaches .farreaches-endpoint-row .farreaches-servicetitle a {
+        color: white;
+        line-height: 32px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block; }
+      .farreaches .farreaches-endpoint-row .farreaches-servicetitle button {
+        float: right;
+        font-weight: bold;
+        line-height: auto;
+        opacity: 1;
+        transition: opacity .2s ease-in;
+        color: white;
+        border: 0px;
+        background: none;
+        box-shadow: none;
+        text-shadow: none;
+        cursor: pointer;
+        padding: 4px; }
+        .farreaches .farreaches-endpoint-row .farreaches-servicetitle button:hover {
+          color: black; }
+    .farreaches .farreaches-endpoint-row:hover {
+      border: 1px solid #4474DB; }
+      .farreaches .farreaches-endpoint-row:hover .farreaches-servicetitle {
+        background-color: #4474DB; }
+    .farreaches .farreaches-endpoint-row:not(:hover) .farreaches-servicetitle button {
+      transition: opacity .5s ease-out;
+      opacity: 0; }
+    .farreaches .farreaches-endpoint-row:not(:hover) h3:not(.ui-accordion-header-active) button {
+      transition: opacity .5s ease-out;
+      opacity: 0; }
+    .farreaches .farreaches-endpoint-row .farreaches-categories-add {
+      background-color: khaki;
+      margin-bottom: 10px;
+      position: relative; }
+      .farreaches .farreaches-endpoint-row .farreaches-categories-add .farreaches-icon-close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 10px;
+        color: coral;
+        cursor: pointer; }
+        .farreaches .farreaches-endpoint-row .farreaches-categories-add .farreaches-icon-close:hover {
+          color: black; }
+    .farreaches .farreaches-endpoint-row .farreaches-categories {
+      line-height: 28px;
+      max-height: 300px;
+      height: 300px;
+      overflow: hidden; }
+      .farreaches .farreaches-endpoint-row .farreaches-categories:hover {
+        overflow: auto; }
+    .farreaches .farreaches-endpoint-row .farreaches-posts {
+      max-height: 300px;
+      height: 300px;
+      overflow: hidden; }
+      .farreaches .farreaches-endpoint-row .farreaches-posts h4 {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: inherit;
+        margin: 0; }
+      .farreaches .farreaches-endpoint-row .farreaches-posts p {
+        margin: 3px 0px 8px; }
+      .farreaches .farreaches-endpoint-row .farreaches-posts:hover {
+        overflow: auto; }
+      .farreaches .farreaches-endpoint-row .farreaches-posts .farreaches-post-highlight {
+        background-color: khaki; }
+  .farreaches .farreaches-endpoint-row:first-of-type:nth-last-of-type(1),
+  .farreaches .farreaches-endpoint-row:first-of-type:nth-last-of-type(1) ~ .farreaches-endpoint-row {
+    width: 90%; }
+  .farreaches .farreaches-endpoint-row:first-of-type:nth-last-of-type(2),
+  .farreaches .farreaches-endpoint-row:first-of-type:nth-last-of-type(2) ~ .farreaches-endpoint-row {
+    width: 45%; }
+  .farreaches .farreaches-endpoint-row:first-of-type:nth-last-of-type(3),
+  .farreaches .farreaches-endpoint-row:first-of-type:nth-last-of-type(3) ~ .farreaches-endpoint-row {
+    width: 30%; }
+  .farreaches .legal-caps {
+    font-size: .9em;
+    letter-spacing: .1em; }
+  .farreaches iframe.help {
+    height: 4000px;
+    overflow: auto;
+    width: 100%; }
+  .farreaches .feature-anl {
+    display: none; }
+  .farreaches.fr-paid-anl .feature-anl {
+    display: block; }
+  .farreaches .feature-description {
+    background-color: #f0f0f0;
+    padding: 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    max-width: 60em; }
+    .farreaches .feature-description ul {
+      list-style: disc;
+      padding-left: 40px; }
+
+.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  visibility: hidden; }
+
+.farreaches-category-icons {
+  margin-left: 7px; }
+  .farreaches-category-icons a {
+    margin-right: 3px; }
+    .farreaches-category-icons a img {
+      margin-bottom: -4px; }
+
+.farreaches-unavailable {
+  border: 1px solid #999 !important;
+  background-color: #C6D7DB !important;
+  color: #666; }
+  .farreaches-unavailable h4 {
+    color: #333 !important; }
+
+.fr-post-status {
+  clear: both; }
+  .fr-post-status .service-icons {
+    float: left;
+    padding-right: 3px; }
+  .fr-post-status .fr-post-status-controls {
+    padding-top: 10px; }
+
+.fr-publish-buttons {
+  text-align: right; }
+
+.fr-status {
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding-left: 20px;
+  line-height: 20px; }
+
+.fr-status-icon {
+  padding-left: 30px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  line-height: 21px;
+  display: block; }
+
+.fr-post-status-aut {
+  color: #ff7a22; }
+
+.fr-post-status-pcd {
+  color: #444; }
+
+.fr-post-status-facebook {
+  background-image: url("../../img/socialicons/facebook_16.png"); }
+
+.fr-post-status-twitter {
+  background-image: url("../../img/socialicons/twitter_16.png"); }
+
+.fr-post-status-tumblr {
+  background-image: url("../../img/socialicons/tumblr_16.png"); }
+
+.fr-post-status-local {
+  padding-left: 0; }
+
+.farreaches_destinations {
+  padding: 3px;
+  margin: 5px 0px 0px 13px; }
+
+.farreaches_destinations_metabox {
+  padding: 0;
+  margin: 0 0 10px 0; }
+
+.farreaches-assigned {
+  color: green; }
+
+.farreaches-categories-add .farreaches-add:not(.farreaches-not-assigned) {
+  display: none; }
+
+.farreaches-category-change:not(.farreaches-assigned) {
+  display: none; }
+
+.misc-pub-section .fr-plugin-header {
+  font-weight: bolder;
+  font-size: larger; }
+.misc-pub-section .fr-post-status .btn-group {
+  clear: both;
+  overflow-y: auto; }
+.misc-pub-section .fr-post-status a.fr-submit {
+  text-decoration: underline;
+  cursor: pointer; }
+
+.farreaches-service-page {
+  position: relative;
+  left: 0;
+  width: 100%;
+  display: inline-block;
+  margin: 5px 0px 0px 0px;
+  background: #f6fbff; }
+
+div.farreaches-endpoint {
+  margin: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border: 1px solid #bcbcbc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.15); }
+
+div.farreaches-endpoint-selected:hover, div.farreaches-endpoint:hover {
+  background-color: #c8c8c8;
+  cursor: pointer; }
+
+div.farreaches-endpoint:active, div.farreaches-endpoint-selected:active {
+  background: red;
+  cursor: pointer; }
+
+div.farreaches-endpoint-selected {
+  background-color: #d8FFd8;
+  background-image: url("../../img/status/pass_16.png");
+  background-repeat: no-repeat;
+  background-position: 10px 50%;
+  padding-left: 30px !important; }
+
+#pages {
+  margin: 3px 0px 0px 0px;
+  display: inline-block; }
+
+#complete-connection-configuration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 10px; }
+
+.farreaches-endpoints-list {
+  padding-left: 0px; }
+
+.disabledService {
+  border: 1px solid #efefef;
+  background-color: #e5e5e5; }
+
+.fr-waiting {
+  padding-left: 30px;
+  color: gray; }
+
+.fr-button {
+  -webkit-box-shadow: inset 0px 1px 0px 0px white;
+  -moz-box-shadow: inset 0px 1px 0px 0px white;
+  box-shadow: inset 0px 1px 0px 0px white;
+  background-color: #ededed;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #dcdcdc;
+  display: inline-block;
+  color: #777777;
+  font-weight: bold;
+  padding: 2px 15px;
+  text-decoration: none;
+  text-shadow: 1px 1px 0px #ffffff; }
+  .fr-button:hover {
+    background-color: #fff; }
+  .fr-button:active {
+    position: relative;
+    background-color: #e1faff;
+    -webkit-box-shadow: inset 0px 0px 0px 0px white;
+    -moz-box-shadow: inset 0px 0px 0px 0px white;
+    box-shadow: inset 0px 0px 0px 0px white; }
+  .fr-button:disabled {
+    color: #cccccc; }
+  .fr-button.fr-button-big {
+    font-size: 16px;
+    padding: 5px 15px 5px 32px;
+    line-height: 24px;
+    height: 32px;
+    background-repeat: no-repeat;
+    background-position: 4px 50%; }
+
+.defaultcategory {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  float: right;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ccc; }
+
+.ajax-loader {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  vertical-align: text-top;
+  background-image: url("../../img/wpspin.gif");
+  background-repeat: no-repeat; }
+
+.farreaches-loading {
+  background-image: url("../../img/wpspin.gif");
+  background-repeat: no-repeat;
+  background-position: 10px 50%;
+  padding-left: 30px !important; }
+
+.fr-label-progress {
+  background-image: url("../../img/wpspin.gif");
+  background-repeat: no-repeat;
+  background-position: 0px 50%;
+  padding-left: 18px !important; }
+
+.fr-label-success {
+  background-image: url("../../img/status/pass_16.png");
+  background-repeat: no-repeat;
+  background-position: 0px 50%;
+  padding-left: 18px !important; }
+
+.fr-label-failure {
+  background-image: url("../../img/status/fail_16.png");
+  background-repeat: no-repeat;
+  background-position: 0px 50%;
+  padding-left: 18px !important; }
+
+.icon-refresh {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  vertical-align: text-top;
+  background-image: url("../../img/icon_refresh.png");
+  background-repeat: no-repeat;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+  opacity: 0.4; }
+  .icon-refresh:hover {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1; }
+
+.icon-add {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  vertical-align: text-top;
+  background-image: url("../../img/icon_add.png");
+  background-repeat: no-repeat;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+  opacity: 0.4; }
+  .icon-add:hover {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1; }
+
+.caret {
+  margin-top: 7px;
+  margin-left: 5px; }
+
+#wp_notificator {
+  margin-bottom: 0.5em; }
+
+.wp_notification {
+  background-color: #FFFFE0;
+  border-color: #E6DB55;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+  margin: 5px 0 2px;
+  padding: 0 0.6em; }
+  .wp_notification p {
+    margin: 0.5em 0;
+    padding: 2px; }
+
+a.wp_notificator_dismiss {
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 18px;
+  color: #000000;
+  text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  text-decoration: none; }
+
+button.postNow {
+  float: left; }
+
+button.abortPost {
+  float: right; }
+
+.column-farreaches_external_services .misc-pub-section {
+  border: none !important; }
+
+.preview-block {
+  padding-bottom: 10px; }
+  .preview-block #fr-preview-content {
+    padding: 10px; }
+  .preview-block .preview-label {
+    font-weight: bold; }
+  .preview-block .preview-icon {
+    vertical-align: middle;
+    cursor: pointer; }
+  .preview-block .preview-container {
+    display: none; }
+
+.fr-preview-buttons-panel {
+  text-align: center; }
+
+.fr-dialog-buttons-panel {
+  text-align: right; }
+
+.fr-highlight {
+  background-color: #eee; }
+
+#farreaches_publishing div.inside {
+  margin: 0;
+  padding: 6px 10px; }
+
+.simplemodal-container {
+  border: 1px solid #808080;
+  -webkit-box-shadow: 0px 0px 2px #333333;
+  -moz-box-shadow: 0px 0px 2px #333333;
+  box-shadow: 0px 0px 2px #333333;
+  background-color: #ffffff;
+  padding: 10px; }
+
+.simplemodal-overlay {
+  background-color: #000000; }
+
+.farreaches .fb-post-preview {
+  margin-top: 30px;
+  font-size: 11px;
+  line-height: 14px;
+  word-wrap: break-word;
+  font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+  color: #808080; }
+  .farreaches .fb-post-preview .fb-post-header {
+    border-bottom: 1px solid #e9e9e9;
+    padding-bottom: 10px; }
+    .farreaches .fb-post-preview .fb-post-header .fb-face {
+      width: 50px;
+      height: 50px;
+      float: left;
+      margin-right: 10px;
+      background-image: url(../../img/preview/facebook/fb-face.jpg);
+      background-repeat: no-repeat;
+      background-position: center center; }
+    .farreaches .fb-post-preview .fb-post-header .fb-user {
+      display: inline-block;
+      padding-top: 15px; }
+      .farreaches .fb-post-preview .fb-post-header .fb-user .fb-user-who .fb-link {
+        color: #3b5998; }
+      .farreaches .fb-post-preview .fb-post-header .fb-user .fb-user-who .fb-user-name {
+        font-weight: 700; }
+  .farreaches .fb-post-preview .fb-post-body {
+    padding: 8px;
+    width: 398px;
+    background-color: #F7F7F7;
+    border: 1px solid #e9e9e9;
+    margin-top: 10px; }
+    .farreaches .fb-post-preview .fb-post-body .fb-post-inner {
+      max-height: 72px;
+      overflow: hidden; }
+    .farreaches .fb-post-preview .fb-post-body .fb-post-title {
+      font-weight: 700;
+      color: #3b5998;
+      font-weight: bold; }
+    .farreaches .fb-post-preview .fb-post-body .fb-post-url, .farreaches .fb-post-preview .fb-post-body .fb-post-text {
+      font-weight: 400; }
+    .farreaches .fb-post-preview .fb-post-body .fb-post-text {
+      margin-top: 3px; }
+
+.farreaches .twitter-post-preview {
+  margin-top: 30px; }
+  .farreaches .twitter-post-preview .twitter-head {
+    font-family: "Helvetica Neue",Arial,sans-serif; }
+    .farreaches .twitter-post-preview .twitter-head .twitter-user-pic {
+      float: left;
+      margin-right: 10px;
+      height: 48px;
+      width: 48px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+      border-radius: 5px;
+      background-image: url(../../img/preview/facebook/default_userpic.jpg); }
+    .farreaches .twitter-post-preview .twitter-head .twitter-user-info {
+      display: inline-block;
+      padding-top: 5px;
+      line-height: 1.25; }
+      .farreaches .twitter-post-preview .twitter-head .twitter-user-info .twitter-user-full-name {
+        color: #333333;
+        font-size: 18px;
+        font-weight: bold; }
+      .farreaches .twitter-post-preview .twitter-head .twitter-user-info .twitter-user-name {
+        color: #999999;
+        font-size: 14px; }
+  .farreaches .twitter-post-preview .twitter-body {
+    margin-top: 10px;
+    font-family: Georgia,"Times New Roman",serif;
+    font-size: 22px;
+    line-height: 28px;
+    word-wrap: break-word; }
+    .farreaches .twitter-post-preview .twitter-body .twitter-post-url {
+      word-wrap: break-word;
+      color: #0084B4; }
+
+.farreaches .tumblr-post-preview {
+  font-family: "Helvetica Neue","HelveticaNeue",Helvetica,Arial,sans-serif;
+  margin-top: 30px; }
+  .farreaches .tumblr-post-preview .tumblr-post-header {
+    color: #A8B1BA;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 20px; }
+    .farreaches .tumblr-post-preview .tumblr-post-header .tumblr-user-name {
+      float: left; }
+    .farreaches .tumblr-post-preview .tumblr-post-header .tumblr-actions {
+      float: right; }
+  .farreaches .tumblr-post-preview .tumblr-post-body {
+    margin-top: 15px; }
+    .farreaches .tumblr-post-preview .tumblr-post-body .tumblr-post-title {
+      font-size: 22px;
+      font-weight: bold;
+      line-height: 1.3;
+      margin-bottom: 10px; }
+    .farreaches .tumblr-post-preview .tumblr-post-body .tumblr-post-text {
+      word-wrap: break-word;
+      color: #444444;
+      font-size: 14px; }

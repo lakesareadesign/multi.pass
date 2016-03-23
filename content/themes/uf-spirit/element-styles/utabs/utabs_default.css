@@ -1,0 +1,35 @@
+.upfront-tabs-container .tabs-tab:first-child {
+    border-left:none;
+}
+.upfront-tabs-container .tabs-tab {
+    box-sizing:border-box;
+    padding:0;
+    border:0px;
+    margin:0;
+    border:3px solid transparent;
+    margin-right:0px;
+    -webkit-transition:0;
+            transition:0;
+}
+.upfront-tabs-container .tabs-tab-active {
+    border-bottom:0;
+    border:3px solid #97d8d6;
+}
+.upfront-tabs-container .tabs-tab .inner-box {
+    padding:4px 20px;
+    background:#7a8080;
+    display:inline-block;
+    vertical-align:middle;
+    font-weight:300;
+    margin:0;
+}
+.upfront-tabs-container .tabs-tab-active .inner-box {
+    background:#97d8d6;
+}
+.upfront-tabs-container .tabs-content {
+    padding:30px;
+    border:1px solid #97d8d6;
+}
+
+
+/* 133620-1456900953-au */

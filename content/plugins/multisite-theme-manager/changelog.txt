@@ -1,0 +1,41 @@
+Plugin Name: Multisite Theme Manager
+Author: WPMUDEV
+Lead developer: Maniu
+
+== Changelog ==
+
+= 1.1.1 =
+* Design improvements
+* Fixed hooking up to customizer in WP 4.2
+
+= 1.1 =
+* added theme deprecation system to smoothly delete themes from network
+* added frontend theme showcase through shortcode (beta): [wmd-theme-showcase preview_site_id="{required - id of site used to live preview themes}" category="{optional - default theme category to display}"]
+* fixed double "customize" button
+
+= 1.0.0.5 =
+* fixed missing translation
+* fixed XSS security issue
+
+= 1.0.0.4 =
+* fixed languages folder paths
+* fixed custom themes folder paths
+
+= 1.0.0.3 =
+* Added option to set target for custom theme and author theme link
+* Added merging of config and site categories
+* Fixed issue when opening themes admin page on other blog then main when in setup mode
+* Fixed h2 floating problem on themes.php based admin pages
+
+= 1.0.0.2 =
+* Fixed JS incompatibility with Firefox
+* Removed PHP notices
+
+= 1.0.0.1 =
+* Changed translation text domain from wmd_prettythemes to wmd_multisitethememanager
+
+= 1.0.0 =
+* Initial Release
+
+
+133620-1439422436-au

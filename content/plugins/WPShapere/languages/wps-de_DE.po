@@ -1,0 +1,704 @@
+# Copyright (C) 2015 WPSHAPERE
+# This file is distributed under the same license as the WPSHAPERE package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WPSHAPERE 3.0\n"
+"Report-Msgid-Bugs-To: http://acmeedesign.com/support\n"
+"POT-Creation-Date: 2015-05-27 10:22:33+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-05-27 15:54+0530\n"
+"Last-Translator: AcmeeDesign <support@acmeedesign.com>\n"
+"Language-Team: AcmeeDesign <support@acmeedesign.com>\n"
+"Language: en_EN\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: includes/wps-options.php:18
+msgid "WPSHAPERE Options"
+msgstr ""
+
+#: includes/wps-options.php:25
+msgid "General"
+msgstr ""
+
+#: includes/wps-options.php:30
+msgid "Login Page"
+msgstr ""
+
+#: includes/wps-options.php:34
+msgid "Dashboard"
+msgstr ""
+
+#: includes/wps-options.php:38
+msgid "Adminbar"
+msgstr ""
+
+#: includes/wps-options.php:42
+msgid "Admin Pages"
+msgstr ""
+
+#: includes/wps-options.php:46
+msgid "Footer"
+msgstr ""
+
+#: includes/wps-options.php:50
+msgid "Email Settings"
+msgstr ""
+
+#: includes/wps-options.php:58
+msgid "Admin Menu Color options"
+msgstr ""
+
+#: includes/wps-options.php:63 includes/wps-options.php:412
+msgid "Background color"
+msgstr ""
+
+#: includes/wps-options.php:69
+msgid "Left menu wrap color"
+msgstr ""
+
+#: includes/wps-options.php:75
+msgid "Submenu wrap color"
+msgstr ""
+
+#: includes/wps-options.php:81
+msgid "Menu hover color"
+msgstr ""
+
+#: includes/wps-options.php:87
+msgid "Current active Menu color"
+msgstr ""
+
+#: includes/wps-options.php:93
+msgid "Menu text color"
+msgstr ""
+
+#: includes/wps-options.php:99
+msgid "Menu hover text color"
+msgstr ""
+
+#: includes/wps-options.php:105
+msgid "Updates Count notification background"
+msgstr ""
+
+#: includes/wps-options.php:111
+msgid "Updates Count text color"
+msgstr ""
+
+#: includes/wps-options.php:117
+msgid "Primary button colors"
+msgstr ""
+
+#: includes/wps-options.php:121
+msgid "Button background  color"
+msgstr ""
+
+#: includes/wps-options.php:128 includes/wps-options.php:184
+msgid "Button border color"
+msgstr ""
+
+#: includes/wps-options.php:134 includes/wps-options.php:190
+msgid "Button shadow color"
+msgstr ""
+
+#: includes/wps-options.php:141 includes/wps-options.php:197
+#: includes/wps-options.php:246
+msgid "Button text color"
+msgstr ""
+
+#: includes/wps-options.php:147 includes/wps-options.php:203
+#: includes/wps-options.php:240
+msgid "Button hover background color"
+msgstr ""
+
+#: includes/wps-options.php:154 includes/wps-options.php:210
+msgid "Button hover border color"
+msgstr ""
+
+#: includes/wps-options.php:160 includes/wps-options.php:216
+msgid "Button hover shadow color"
+msgstr ""
+
+#: includes/wps-options.php:167 includes/wps-options.php:223
+#: includes/wps-options.php:252
+msgid "Button hover text color"
+msgstr ""
+
+#: includes/wps-options.php:173
+msgid "Secondary button colors"
+msgstr ""
+
+#: includes/wps-options.php:177 includes/wps-options.php:234
+msgid "Button background color"
+msgstr ""
+
+#: includes/wps-options.php:230
+msgid "Add New button"
+msgstr ""
+
+#: includes/wps-options.php:259
+msgid "Metabox Colors"
+msgstr ""
+
+#: includes/wps-options.php:263
+msgid "Metabox header box"
+msgstr ""
+
+#: includes/wps-options.php:269
+msgid "Metabox header box border"
+msgstr ""
+
+#: includes/wps-options.php:275
+msgid "Metabox header Click button color"
+msgstr ""
+
+#: includes/wps-options.php:281
+msgid "Metabox header Click button hover color"
+msgstr ""
+
+#: includes/wps-options.php:287
+msgid "Metabox header text color"
+msgstr ""
+
+#: includes/wps-options.php:294
+msgid "Message box (Post/Page updates)"
+msgstr ""
+
+#: includes/wps-options.php:298
+msgid "Message box color"
+msgstr ""
+
+#: includes/wps-options.php:304
+msgid "Message text color"
+msgstr ""
+
+#: includes/wps-options.php:310
+msgid "Message box border color"
+msgstr ""
+
+#: includes/wps-options.php:316
+msgid "Message link color"
+msgstr ""
+
+#: includes/wps-options.php:322
+msgid "Message link hover color"
+msgstr ""
+
+#: includes/wps-options.php:328 includes/wps-options.php:551
+msgid "Custom CSS"
+msgstr ""
+
+#: includes/wps-options.php:332
+msgid "Custom CSS for Admin pages"
+msgstr ""
+
+#: includes/wps-options.php:344 includes/wps-options.php:455
+msgid "Upload Logo"
+msgstr ""
+
+#: includes/wps-options.php:347
+msgid "Image to be displayed in all pages. Maximum size 200x50 pixels."
+msgstr ""
+
+#: includes/wps-options.php:351
+msgid "Move logo Top by"
+msgstr ""
+
+#: includes/wps-options.php:354 includes/wps-options.php:363
+msgid "Can be used in case of logo position haven't matched the menu position."
+msgstr ""
+
+#: includes/wps-options.php:360
+msgid "Move logo Bottom by"
+msgstr ""
+
+#: includes/wps-options.php:369
+msgid "Admin bar color"
+msgstr ""
+
+#: includes/wps-options.php:376
+msgid "Admin bar menu color"
+msgstr ""
+
+#: includes/wps-options.php:383
+msgid "Admin bar menu hover color"
+msgstr ""
+
+#: includes/wps-options.php:390
+msgid "Remove Unwanted Menus"
+msgstr ""
+
+#: includes/wps-options.php:393
+msgid "Select menu items to remove."
+msgstr ""
+
+#: includes/wps-options.php:395
+msgid "Site Name"
+msgstr ""
+
+#: includes/wps-options.php:396
+msgid "Updates"
+msgstr ""
+
+#: includes/wps-options.php:397
+msgid "Comments"
+msgstr ""
+
+#: includes/wps-options.php:398
+msgid "New Content"
+msgstr ""
+
+#: includes/wps-options.php:399
+msgid "Edit Profile"
+msgstr ""
+
+#: includes/wps-options.php:400
+msgid "My account"
+msgstr ""
+
+#: includes/wps-options.php:401
+msgid "WordPress Logo"
+msgstr ""
+
+#: includes/wps-options.php:419
+msgid "Background image"
+msgstr ""
+
+#: includes/wps-options.php:424
+msgid "Background Repeat"
+msgstr ""
+
+#: includes/wps-options.php:427
+msgid "Check to repeat"
+msgstr ""
+
+#: includes/wps-options.php:431
+msgid "Scale background image"
+msgstr ""
+
+#: includes/wps-options.php:434
+msgid "Scale image to fit Screen size."
+msgstr ""
+
+#: includes/wps-options.php:438
+msgid "Login Form Top margin"
+msgstr ""
+
+#: includes/wps-options.php:446
+msgid "Login Form Width in %"
+msgstr ""
+
+#: includes/wps-options.php:458
+msgid ""
+"Image to be displayed on login page. Maximum width should be under 450pixels."
+msgstr ""
+
+#: includes/wps-options.php:462
+msgid "Resize Logo?"
+msgstr ""
+
+#: includes/wps-options.php:466
+msgid "Select to resize logo size."
+msgstr ""
+
+#: includes/wps-options.php:469
+msgid "Set Logo size in %"
+msgstr ""
+
+#: includes/wps-options.php:476
+msgid "Logo Height"
+msgstr ""
+
+#: includes/wps-options.php:483
+msgid "Logo url"
+msgstr ""
+
+#: includes/wps-options.php:489
+msgid "Transparent Form"
+msgstr ""
+
+#: includes/wps-options.php:493
+msgid "Select to show transparent form background."
+msgstr ""
+
+#: includes/wps-options.php:496
+msgid "Login div bacground color"
+msgstr ""
+
+#: includes/wps-options.php:502
+msgid "Login form bacground color"
+msgstr ""
+
+#: includes/wps-options.php:508
+msgid "Form border color"
+msgstr ""
+
+#: includes/wps-options.php:514
+msgid "Form text color"
+msgstr ""
+
+#: includes/wps-options.php:520
+msgid "Form link color"
+msgstr ""
+
+#: includes/wps-options.php:526
+msgid "Form link hover color"
+msgstr ""
+
+#: includes/wps-options.php:532
+msgid "Hide Back to blog link"
+msgstr ""
+
+#: includes/wps-options.php:536 includes/wps-options.php:543
+msgid "select to hide"
+msgstr ""
+
+#: includes/wps-options.php:539
+msgid "Hide Remember me"
+msgstr ""
+
+#: includes/wps-options.php:546
+msgid "Custom Footer content"
+msgstr ""
+
+#: includes/wps-options.php:555
+msgid "Custom CSS for Login page"
+msgstr ""
+
+#: includes/wps-options.php:565
+msgid "General options"
+msgstr ""
+
+#: includes/wps-options.php:569
+msgid "Choose design type"
+msgstr ""
+
+#: includes/wps-options.php:573
+msgid "Flat design"
+msgstr ""
+
+#: includes/wps-options.php:574
+msgid "Default design"
+msgstr ""
+
+#: includes/wps-options.php:579
+msgid "Heading H1 color"
+msgstr ""
+
+#: includes/wps-options.php:585
+msgid "Heading H2 color"
+msgstr ""
+
+#: includes/wps-options.php:591
+msgid "Heading H3 color"
+msgstr ""
+
+#: includes/wps-options.php:597
+msgid "Heading H4 color"
+msgstr ""
+
+#: includes/wps-options.php:603
+msgid "Heading H5 color"
+msgstr ""
+
+#: includes/wps-options.php:609
+msgid "Heading H6 color"
+msgstr ""
+
+#: includes/wps-options.php:615
+msgid "Remove unwanted items"
+msgstr ""
+
+#: includes/wps-options.php:618 includes/wps-options.php:682
+msgid "Select whichever you want to remove."
+msgstr ""
+
+#: includes/wps-options.php:620
+msgid "Wordpress Help tab."
+msgstr ""
+
+#: includes/wps-options.php:621
+msgid "Screen Options."
+msgstr ""
+
+#: includes/wps-options.php:622
+msgid "Wordpress update notifications."
+msgstr ""
+
+#: includes/wps-options.php:626
+msgid "Disable automatic updates"
+msgstr ""
+
+#: includes/wps-options.php:629
+msgid "Select to disable all automatic background updates."
+msgstr ""
+
+#: includes/wps-options.php:633
+msgid "Disable update emails"
+msgstr ""
+
+#: includes/wps-options.php:636
+msgid "Select to disable emails regarding automatic updates."
+msgstr ""
+
+#: includes/wps-options.php:640
+msgid "Hide Admin bar"
+msgstr ""
+
+#: includes/wps-options.php:643
+msgid "Select to hideadmin bar on frontend."
+msgstr ""
+
+#: includes/wps-options.php:647
+msgid "Hide Color picker from user profile"
+msgstr ""
+
+#: includes/wps-options.php:650
+msgid "Select to hide Color picker from user profile."
+msgstr ""
+
+#: includes/wps-options.php:655
+msgid "Menu Customization options"
+msgstr ""
+
+#: includes/wps-options.php:659
+msgid "Menu display"
+msgstr ""
+
+#: includes/wps-options.php:663
+msgid "Show all Menu links to all admin users"
+msgstr ""
+
+#: includes/wps-options.php:664
+msgid "Show all Menu links to specific admin users"
+msgstr ""
+
+#: includes/wps-options.php:668
+msgid "Select Privilege users"
+msgstr ""
+
+#: includes/wps-options.php:671
+msgid "Select admin users who can have access to all menu items."
+msgstr ""
+
+#: includes/wps-options.php:679
+msgid "Remove unwanted Widgets"
+msgstr ""
+
+#: includes/wps-options.php:684
+msgid "Welcome panel"
+msgstr ""
+
+#: includes/wps-options.php:685
+msgid "Right now"
+msgstr ""
+
+#: includes/wps-options.php:686
+msgid "Recent activity"
+msgstr ""
+
+#: includes/wps-options.php:687
+msgid "Incoming links"
+msgstr ""
+
+#: includes/wps-options.php:688
+msgid "Plugins"
+msgstr ""
+
+#: includes/wps-options.php:689
+msgid "Quick press"
+msgstr ""
+
+#: includes/wps-options.php:690
+msgid "Recent drafts"
+msgstr ""
+
+#: includes/wps-options.php:691
+msgid "Wordpress news"
+msgstr ""
+
+#: includes/wps-options.php:692
+msgid "Wordpress blog"
+msgstr ""
+
+#: includes/wps-options.php:693
+msgid "bbPress"
+msgstr ""
+
+#: includes/wps-options.php:694
+msgid "Yoast seo"
+msgstr ""
+
+#: includes/wps-options.php:695
+msgid "Gravity forms"
+msgstr ""
+
+#: includes/wps-options.php:700
+msgid "Create New Widgets"
+msgstr ""
+
+#: includes/wps-options.php:705
+msgid "Widget 1"
+msgstr ""
+
+#: includes/wps-options.php:708 includes/wps-options.php:748
+#: includes/wps-options.php:788 includes/wps-options.php:828
+msgid "Widget Type"
+msgstr ""
+
+#: includes/wps-options.php:711 includes/wps-options.php:751
+#: includes/wps-options.php:791 includes/wps-options.php:831
+msgid "RSS Feed"
+msgstr ""
+
+#: includes/wps-options.php:712 includes/wps-options.php:752
+#: includes/wps-options.php:792 includes/wps-options.php:832
+msgid "Text Content"
+msgstr ""
+
+#: includes/wps-options.php:718 includes/wps-options.php:758
+#: includes/wps-options.php:798 includes/wps-options.php:838
+msgid "Widget Position"
+msgstr ""
+
+#: includes/wps-options.php:721 includes/wps-options.php:761
+#: includes/wps-options.php:801 includes/wps-options.php:841
+msgid "Left"
+msgstr ""
+
+#: includes/wps-options.php:722 includes/wps-options.php:762
+#: includes/wps-options.php:802 includes/wps-options.php:842
+msgid "Right"
+msgstr ""
+
+#: includes/wps-options.php:727 includes/wps-options.php:767
+#: includes/wps-options.php:807 includes/wps-options.php:847
+msgid "Widget Title"
+msgstr ""
+
+#: includes/wps-options.php:732 includes/wps-options.php:772
+#: includes/wps-options.php:812 includes/wps-options.php:852
+msgid "RSS Feed url"
+msgstr ""
+
+#: includes/wps-options.php:735 includes/wps-options.php:775
+#: includes/wps-options.php:815 includes/wps-options.php:855
+msgid ""
+"Put your RSS feed url here if you want to show your own RSS feeds. Otherwise "
+"fill your static contents in the below editor."
+msgstr ""
+
+#: includes/wps-options.php:738 includes/wps-options.php:778
+#: includes/wps-options.php:818 includes/wps-options.php:858
+msgid "Widget Content"
+msgstr ""
+
+#: includes/wps-options.php:745
+msgid "Widget 2"
+msgstr ""
+
+#: includes/wps-options.php:785
+msgid "Widget 3"
+msgstr ""
+
+#: includes/wps-options.php:825
+msgid "Widget 4"
+msgstr ""
+
+#: includes/wps-options.php:868
+msgid "Footer Text"
+msgstr ""
+
+#: includes/wps-options.php:871
+msgid "Put any text you want to show on admin footer."
+msgstr ""
+
+#: includes/wps-options.php:878
+msgid "White Label emails"
+msgstr ""
+
+#: includes/wps-options.php:881
+msgid "Disable White Label emails"
+msgstr ""
+
+#: includes/wps-options.php:882
+msgid "Set Email address as <strong> %1$s </strong> From name as <strong> %2$s"
+msgstr ""
+
+#: includes/wps-options.php:883
+msgid "Set different"
+msgstr ""
+
+#: includes/wps-options.php:889
+msgid "Email From address"
+msgstr ""
+
+#: includes/wps-options.php:892
+msgid "Enter valid email address"
+msgstr ""
+
+#: includes/wps-options.php:895
+msgid "Email From name"
+msgstr ""
+
+#: includes/wpshapere.class.php:221
+msgid "WPShapere Options - Customize Admin Menus"
+msgstr ""
+
+#: includes/wpshapere.class.php:221
+msgid "Customize Admin Menus"
+msgstr ""
+
+#: includes/wpshapere.class.php:222
+msgid "WPShapere Options - Import and Export Settings"
+msgstr ""
+
+#: includes/wpshapere.class.php:222
+msgid "Import-Export Settings"
+msgstr ""
+
+#: includes/wpshapere.class.php:385
+msgid "Export Settings <span>Save the below contents to a text file.</span>"
+msgstr ""
+
+#: includes/wpshapere.class.php:389
+msgid "<h2>Import Settings</h2>"
+msgstr ""
+
+#: includes/wpshapere.class.php:393
+msgid "Settings Imported."
+msgstr ""
+
+#: includes/wpshapere.class.php:624
+msgid "Howdy, %1$s"
+msgstr ""
+
+#: includes/wpsthemes.class.php:30
+msgid "WPShapere Color Themes"
+msgstr ""
+
+#: includes/wpsthemes.class.php:31
+msgid "Note: Importing a theme will replace your existing custom set colors."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WPSHAPERE"
+msgstr ""
+
+#. #-#-#-#-#  wps.pot (WPSHAPERE 3.0)  #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  wps.pot (WPSHAPERE 3.0)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "http://acmeedesign.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"WPShapere is a wordpress plugin to customize the WordPress Admin theme and "
+"elements as your wish. Make WordPress a complete CMS with WPShapere."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "KannanC"
+msgstr ""

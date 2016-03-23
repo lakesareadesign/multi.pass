@@ -1,0 +1,124 @@
+V2.0.1.5: 2015-04-21
+- Fixes possible WordPress XSS bug.
+
+V2.0.1.4: 2014-07-23
+- Fixed sql for random page liking 
+
+V2.0.1.3: 2014-05-26
+- Added logic to support storing likes into usermeta table for WordPress authenticated users. Thanks @Dave for the suggestion. 
+
+V2.0.1.2: 2014-05-22
+- Correct conflict between Pay With a Like and Affiliate graphs. Both use the same plot JavaScript. 
+
+V2.0.1.1: 2014-05-22
+- Reworked and combined logic to test if buttons need to be displayed. Prior versions parts where within different logic. 
+- Added many more debug output message. Mainly helpful for support team when member reporting issues.
+- Added new shortcode parameter 'post_url' to pass an alternate URL to be used for the like. Default is the current permalink. This is handy when using the shortcode from a theme template or widget where the URL is not derived from the post loop.
+- Corrected issue where the default settings were not being set at the individual post during processing. 
+
+V2.0.1: 2014-05-12
+- Added logic to support 'URL to like' for individual post. This allows a custom URL other than the default post URL.
+- Added logic to store shortcode hidden content via transient. This is when the button handler tries to load the hidden content via AJAX it has something to display. 
+- Corrected reported issue to the bot logic. Thanks @Chris.
+- Corrected reported issue where site-wide like was not correctly working when using shortcode.
+- Modified button handler AJAX logic to allow empty hidden content to be used. 
+- Modified/Added filter 'pwal_display_buttons' to allow override of processing flag to show/hide PWAL buttons. Added third filter argument to pass content_id. Filter now used for normal excerpt as well as shortcodes.  
+
+V2.0.0.9: 2014-05-06
+- Corrected loading of Facebook PHP SDK. Seems other plugins are loading other classes named Facebook which consuses PWAL. Made Facebook class unique to PWAL.
+
+V2.0.0.8: 2014-04-22
+- Corrected reported issue of an extra closing div left orphaned under google plus button section.
+- Added logic to use the theme content_width global if defined for the default width of the buttons container.
+
+V2.0.0.7: 2014-04-22
+- Reworked the buttons container structure from unordered list to just divs wrapped in an outer container. This was to make the Facebook comment popup easier to display without scrollbars. 
+- 
+V2.0.0.6: 2014-04-17
+- Removed Fascebook PHP SDK references as these were only used for testing. All Facebook functionality is made via JavaScript
+
+V2.0.0.5: 2014-03-25
+- Changes to resolve issue with nested shortcodes rendering after like button action.
+
+V2.0.0.4: 2014-03-11
+- More changes to try and resolve multiple Facebook elements loading independant libraries and parsing content.
+
+V2.0.0.3: 2014-03-11
+- Corrected reported issue where the like URL on Twitter was not properly set.
+- Refactor some of the related Facebook JavaScript code to get around an issue where other plugins are also loading the Facebook all.js file Asynchronously.
+
+V2.0.0.2: 2014-03-06
+- Refine logic for determining when to show buttons.
+- Removed unused Facebook PHP SDK library
+- Added filter 'pwal_display_buttons' in content function to allow override of settings.
+
+V2.0.0.1: 2014-03-04
+- Corrected output of DEBUG messages. 
+- Corrected a report of undefined variable.
+
+V2.0: 2014-03-04
+- Refresh Settings UI. Now has own menu section
+- Added deeper support for Facebook API and FQL to check for previous likes. 
+- Added support for Facebook fan page support. Now if a visitor has liked some defined Facebook page, you can grant them automatic access to your hidden content.
+- Many options added to support social button style and layout. 
+- Added option to set/select language used for buttons if not in the default site lanauge.
+- Added support for loading hidden content via AJAX. Should help for WPE and caching plugin issues. 
+- Added customization options to the post metabox to override defaults. 
+- Added cool new charts to show statistics for social buttons uages.
+- Added cool new chat for single post showing social button usages. 
+- Added Top 10 Liked statistics table showing most liked posts.
+- Added Top 10 IP Addressses statistics table
+- Added support for real shortcode via WordPress do_shortcode(). See customization page. No more need to call custom template functions.
+
+
+V1.1.6: 
+- Loading external JS file to support https.
+
+V1.1.5: 2013-07-26
+- Fixed issue with Facebook API change. 
+- Added logic to determine if Facebook like was from other like button and not PWAL. Will be ignored.
+- Added better support for multi post home and archive pages when using 'URL to be like' setting.
+- Added some CSS for list item margins/paddings on PWAL buttons to have more consistent layout.
+- Moved all inline JavaScript to external file. Less repeating code as well as IDs.
+- Added new global setting to allow wait on Facebook comment popup before reloading page. 
+- Added URL parameter PWAL_DEBUG to allow debug via JS console log of click actions without setting final cookie.
+- Cleanup some of the settings label to make the option details clearer.
+
+V1.1.4: 2013-05-29
+- Added filter 'pwal_is_authorized' to allow external override
+
+V1.1.3:
+- Added CSS to hide Facebook Like Comment form on click
+- Added standard WPMU DEV Dashboard update include
+
+V1.1.2:	
+- wpmudev_wpal_html function to protect any html code added
+- Translation base file is now presented as pwal.pot
+- New hooks added
+
+V1.1.1:	
+- Added admin warning if plugin is being used in localhost
+- Added admin warning if WPLANG is wrong
+- Changed priority of the_content filter as 8
+- Broken tags in Automatic mode are now automatically repaired
+- Possibility to have a custom css file outside the plugin directory added
+- css and javascript files are now loaded when necessary
+- Fix for xx_XX-YY type locales
+- Google popup is now hidden by css as default
+		
+V1.1.0: 
+- Support for unlimited protected content on a single page
+- Basic statistics added
+- Possibility to have a custom css file outside the plugin directory added
+- wpmudev_wpal function to be used for custom post type templates added
+- Deprecated message for PHP5.3 fixed
+- Embedded scripts are moved to the footer for W3C and better performance and problems with some themes
+- Improvement of UI in post editor and settings page
+- Fixed setcookie issue when zero or empty value is entered
+		
+V1.0.0: 
+- Initial release
+
+
+
+133620-1429610663-au

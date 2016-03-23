@@ -1,0 +1,158 @@
+div.upfront-navigation ul.menu {
+    background-color: transparent;
+}
+div.upfront-navigation div[data-style='burger'] ul.menu {
+    background: #333;
+}
+
+div.responsive_nav_toggler, div.responsive_nav_toggler > div, div.upfront-navigation i.burger_nav_close {
+    transition: background-color 0.2s ease-in-out;
+    -ms-transition: background-color 0.2s ease-in-out;
+    -moz-transition: background-color 0.2s ease-in-out;
+    -webkit-transition: background-color 0.2s ease-in-out;
+}
+
+div.responsive_nav_toggler {
+    width: 34px;
+    height: 34px;
+    padding: 8px 0;
+    border: 2px solid;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    background: #ufc2;
+    border-color:#ufc2;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    z-index:0;
+}
+
+div.responsive_nav_toggler:hover {
+    background: transparent;
+    border-color:#ufc2;
+}
+
+div.responsive_nav_toggler > div {
+    width: 18px;
+    height: 2px;
+    margin: 0 auto;
+    margin-bottom: 2px;
+    background-color: #ufc0;
+    border-radius: 0px;
+}
+
+div.responsive_nav_toggler:hover > div {
+    background: #ufc2;
+}
+div.responsive_nav_toggler > div:first-child {
+    margin-top: 2px;
+}
+div.responsive_nav_toggler > div:last-child {
+    margin-bottom: 0;
+}
+
+#page .parrot-main-nav-2 div.responsive_nav_toggler {
+    background: #ufc0;
+    border-color:#ufc0;
+}
+
+#page .parrot-main-nav-2 div.responsive_nav_toggler:hover {
+    background: transparent;
+    border-color:#ufc0;
+}
+
+#page .parrot-main-nav-2 div.responsive_nav_toggler > div {
+    background-color: #ufc2;
+}
+
+#page .parrot-main-nav-2 div.responsive_nav_toggler:hover > div {
+    background: #ufc0;
+}
+
+div.upfront-navigation i.burger_nav_close {
+    width: 34px;
+    height: 34px;
+    margin: 25px 20px 20px;
+    border: 2px solid;
+    background: #ufc2;
+    border-color: #ufc2;
+    color: #222;
+    font-size: 24px;
+    line-height: 30px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+div.upfront-navigation i.burger_nav_close:hover {
+    border-color: #ufc2;
+    background:transparent;
+    color: #ufc2;
+}
+div.upfront-navigation div[data-style='burger'] ul.menu > li.menu-item > a {
+    padding-top: 0;
+    padding-bottom: 0;
+    background: #333;
+    color: #ufc2;
+    font-size: 15px;
+    font-family: "Open Sans";
+}
+div.upfront-navigation li.current-menu-item a, div.upfront-navigation li.current_page_item a {
+   font-weight: bold;
+}
+div.upfront-navigation div[data-style='burger'] ul.menu > li.menu-item {
+    padding-right: 20px;
+    padding-left: 20px;
+    display: block;
+}
+div.upfront-navigation div[data-style='burger'] ul.menu > li.menu-item > a {
+    display: inline-block;
+    padding: 0;
+    position: relative;
+}
+div.upfront-navigation div[data-style='burger'] ul.menu > li.menu-item > a:after {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    bottom: 1px;
+    left: 0%;
+    content: '';
+    z-index: 9;
+    opacity: 0;
+    border-bottom: 1px solid;
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+div.upfront-navigation div[data-style='burger'] ul.menu > li.menu-item:hover > a:after {
+    opacity: 1;
+    border-bottom-color: #ufc2;
+}
+div.upfront-navigation div[data-style="burger"][ data-burger_alignment="left"] ul.menu {
+    width: 100%;
+    max-width: 250px;
+    height: 100%;
+    left: 0;
+}
+div.upfront-navigation div[data-style="burger"][ data-burger_alignment="right"] ul.menu {
+    width: 100%;
+    max-width: 250px;
+    height: 100%;
+    right: 0;
+}
+div.upfront-navigation div[data-style="burger"][ data-burger_alignment="whole"] ul.menu a {
+    text-align: center;
+}
+div.upfront-navigation div[data-aliment="left"] ul.menu li.wrap_burger_nav_close {
+    text-align: left;
+}
+div.upfront-navigation div[data-aliment="center"] ul.menu li.wrap_burger_nav_close {
+    text-align: right;
+}
+div.upfront-navigation div[data-aliment="right"] ul.menu li.wrap_burger_nav_close {
+    text-align: right;
+}
+
+
+/* 133620-1456900944-au */

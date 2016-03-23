@@ -1,0 +1,104 @@
+#page .archive.uposts-object ul {
+    border-bottom: 1px solid #c09533;
+    overflow: hidden;
+}
+#page .archive.uposts-object li {
+    border-top: 1px solid #c09533;
+    padding: 25px 0;
+    clear: both;
+}
+#page .archive.uposts-object li .thumbnail {
+    float: left;
+    clear: left;
+    width: 250px;
+}
+#page .archive.uposts-object li .title {
+    margin-bottom: 20px;
+}
+#page .archive.uposts-object li .title h3, #page .archive.uposts-object li .title a {
+    font-family: "Cantata One", serif;
+    font-size: 24px;
+    font-weight: normal;
+    line-height: 1.25em;
+}
+#page .archive.uposts-object li .title a {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #c09533;
+}
+#page .archive.uposts-object li .title h3 {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+#page .archive.uposts-object li .title h3:after {
+    content: " ";
+    display: block;
+    width: 24px;
+    height: 0;
+    border-bottom: 2px solid #1d1d1d;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-left: -12px;
+}
+#page .archive.uposts-object li .date_posted {
+    font-size: 14px;
+    font-weight: lighter;
+    text-transform: uppercase;
+    color: #636363;
+    float: left;
+}
+#page .archive .uposts-object li .thumbnail ~ .date_posted, #page .archive.uposts-object li .thumbnail ~ .title, #page .archive.uposts-object li .thumbnail ~ .content {
+    margin-left: 270px;
+    float: none;
+}
+#page .archive.uposts-object li .date_posted + .title, #page .archive .uposts-object li .date_posted + .content {
+    clear: left;
+}
+#page .archive.uposts-object li .read_more {
+    float: right;
+}
+#page .archive.uposts-object li .read_more a {
+    display: block;
+    width: 100px;
+    height: 30px;
+    background: url("/wp-content/themes/uf-scribe/ui/arrows.png");
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+#page .archive.uposts-object li .read_more a:hover {
+    background-position: 0 -30px;
+}
+#page .archive.uposts-object .uf-pagination {
+    padding: 15px 0;
+    margin: 0 -3px;
+    font-family: "Lato",sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+    text-align: right;
+}
+#page .archive.uposts-object .uf-pagination .page-numbers {
+    display: inline-block;
+    float: left;
+    color: #000000;
+    margin: 0 3px;
+}
+#page .archive.uposts-object .uf-pagination .page-numbers:hover {
+    color: #c09533;
+}
+#page .archive.uposts-object .uf-pagination .page-numbers.current {
+    color: #c09533;
+}
+#page .archive.uposts-object .uf-pagination .page-numbers.next, #page .archive .uposts-object .uf-pagination .page-numbers.prev {
+    float: none;
+}
+
+
+/* 133620-1456900948-au */

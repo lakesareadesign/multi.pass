@@ -1,0 +1,26 @@
+#page .u-brand-menu h1, #page .u-brand-menu a {
+    color: #ufc0;
+    font-family: 'Lato', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+}
+#page .u-brand-menu h1 {
+    font-size: 18px;
+    line-height: 1.39em;
+    text-transform: none;
+    margin-left:0px;
+}
+#page .u-brand-menu h1:after {
+    content: "";
+    display: block;
+    margin-bottom: 0px;
+}
+#page .u-brand-menu a {
+    text-decoration: none;
+}
+#page .u-brand-menu a:hover {
+    color: #ufc5;
+}
+
+
+/* 133620-1456900939-au */

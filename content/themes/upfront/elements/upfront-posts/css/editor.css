@@ -1,0 +1,240 @@
+.upfront_posts-list > ul, .upfront_posts-list > ul li,
+.upfront_posts-single > ul, .upfront_posts-single > ul li
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.upfront_posts-list > ul li,
+.upfront_posts-single > ul li {
+    padding: 15px;
+}
+
+.upfront_posts-list *,
+.upfront_posts-single * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+/* --- Initial screen --- */
+.upfront-output-posts {
+	min-height: 220px;
+}
+.upfront_posts-initial-wrapper {
+    height: 150px;
+}
+.upfront_posts-initial-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 300px;
+    max-height: 120px;
+    text-align: center;
+}
+.upfront_posts-initial-content .upfront-field-wrap {
+    margin: 0;
+}
+.upfront_posts-initial-content .upfront-field-wrap-radios .upfront-field-label-block {
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0 0 20px;
+}
+.upfront_posts-initial-content .upfront-field-multiple-horizontal-inline {
+    margin: 0 20px;
+}
+.upfront_posts-initial-content .options {
+    padding: 8px 0 0;
+    margin: 0 0 15px;
+}
+.upfront-object-content .upfront_posts-initial-content a.continue,
+.upfront-object-content .upfront_posts-initial-content a.continue:link,
+.upfront-object-content .upfront_posts-initial-content a.continue:visited {
+    display: inline-block;
+    border: 2px solid #99c3e9;
+    padding: 8px 25px;
+    color: #284662;
+    font-size: 11px;
+    text-decoration: none;
+	font-family: Source Sans Pro, sans-serif;
+	font-weight: 300;
+	font-style: normal;
+}
+
+/* --- Custom posts list --- */
+.upfront-settings-item-content .custom_posts ol {
+    border-top: 1px solid #c6dbef;
+    margin: 10px 0 0;
+    padding: 10px 0 0 20px;
+}
+.upfront-settings-item-content .custom_posts ol li {
+    color: #a7bfde;
+}
+.upfront-settings-item-content .custom_posts ol li .permalink {
+    color: #30475e;
+}
+.upfront-settings-item-content .custom_posts ol li a {
+	display: none;
+	border-bottom: none;
+}
+.upfront-settings-item-content .custom_posts ol li:hover a {
+	display: inline;
+}
+.upfront-settings-item-content .custom_posts ol li a i {
+	display: inline-block;
+	color: white;
+	background: red;
+	height: 14px;
+	width: 14px;
+	line-height: 14px;
+	font-size: 12px;
+	border-radius: 7px;
+	margin-left: 1em;
+	text-align: center;
+}
+.upfront-settings-item-content .custom_posts a {
+	color: #00a167;
+	border-bottom: 1px solid #00a167;
+	text-decoration: none;
+}
+
+
+/* --- Post parts list --- */
+.uposts-parts-picker-setting {
+    margin: 0 0 5px;
+}
+.uposts-parts-picker-setting .upfront-field-multiple-horizontal-inline {
+    margin: 0 15px 5px 0;
+}
+.upfront-settings-item-content .post_parts.ui-sortable {
+	margin-top: 1em;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li {
+	border: 1px solid #9bbfde;
+	margin: 2px;
+	border-radius: 4px;
+	cursor: move;
+	position: relative;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li:before {
+	display: block;
+	position: absolute;
+	content: "\22EE";
+	background: #9bbfde;
+	width: 14px;
+	height: 22px;
+	line-height: 22px;
+	font-size: 22px;
+	color: #f1f9ff;
+	padding: 0 0 0 2px;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li:hover {
+    border-color: #5984ab;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li:hover:before {
+    background: #5984ab;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li .name_action_wrapper {
+	clear: both;
+	height: 22px;
+	margin-left: 12px;
+    height: 20px;
+    overflow: hidden;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li .name_action_wrapper span {
+	display: block;
+	float: left;
+	margin-left: 8px;
+}
+
+.upfront-settings-item-content .post_parts.ui-sortable li .options {
+	min-height: 24px;
+	padding: 1px;
+	background: rgb(218, 231, 244);
+}
+.upfront-settings-item-content .post_parts.ui-sortable li .options .option {
+	width: 65%;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li .options .edit_part {
+	display: block;
+	position: absolute;
+	right: 12px;
+	bottom: 6px;
+	background: #00a167;
+	border-radius: 4px;
+	padding: 0 3px;
+    max-width: 62px;
+    overflow: hidden;
+    height: 16px;
+    white-space: nowrap;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li .options .edit_part a {
+	color: white;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li .options  .upfront-field-label-inline {
+	padding-right: 4px;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li .options input { max-width: 50%; }
+.upfront-settings-item-content .post_parts.ui-sortable li .options.categories-options input { max-width: 25%; }
+.upfront-settings-item-content .post_parts.ui-sortable li .options.tags-options input { max-width: 25%; }
+.upfront-settings-item-content .post_parts.ui-sortable li .options.content-options input { max-width: 40%; }
+.upfront-settings-item-content .post_parts.ui-sortable li .options.gravatar-options input { max-width: 40%; }
+.upfront-settings-item-content .post_parts.ui-sortable li .options.date_posted-options input { max-width: 60%; }
+
+.upfront-settings-item-content .post_parts.ui-sortable li .part_action {
+	position: absolute;
+	right: 24px;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li .part_action a {
+	margin-right: 3px;
+	display: none;
+}
+.upfront-settings-item-content .post_parts.ui-sortable li:hover .part_action a {
+	display: inline;
+}
+
+
+/* --- Icons --- */
+.upfront-field-icon.upfront-posts-display_type {
+	background-image: url(../../../img/uf-core-el-sprite.png);
+	background-repeat: no-repeat;
+	height: 18px;
+	width: 22px;
+}
+.upfront-field-icon.upfront-posts-display_type.upfront-posts-display_type-upfront-posts-single {
+	background-position: -480px -490px;
+}
+.upfront-field-icon.upfront-posts-display_type.upfront-posts-display_type-upfront-posts-list {
+	background-position: -570px -490px;
+}
+
+.upfront-posts-custom-add_post {
+	background-image: url(../../../img/uf-ui-sprite.png);
+	background-repeat: no-repeat;
+	background-position: -728px -74px;
+	height: 14px;
+	width: 18px;
+	display: inline-block;
+}
+
+.upfront-settings-item-content .post_parts.ui-sortable li .part_action:after {
+	display: inline-block;
+	background-image: url(../../../img/uf-ui-sprite.png);
+	background-repeat: no-repeat;
+	background-position: -43px -112px;
+	top: 1px;
+	position: absolute;
+	width: 18px;
+	height: 18px;
+	border-radius: 7px;
+	content: "";
+}
+.upfront-settings-item-content .post_parts.ui-sortable li.active .part_action:after {
+	background-position: -43px -145px;
+}
+
+
+/* 133620-1456260851-au */

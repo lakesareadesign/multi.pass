@@ -1,0 +1,24 @@
+#page .footer-navigation div[data-style='horizontal'] ul.menu, #page .footer-navigation div[data-style='vertical'] ul.menu {
+    padding:0px;
+    margin:0px;
+}
+#page .footer-navigation div[data-style='horizontal'] ul.menu > li.menu-item {
+    position: relative;
+    letter-spacing: 0.2px;
+}
+#page .footer-navigation div[data-style='horizontal'] ul.menu > li.menu-item:after {
+    content: " / ";
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #333333;
+    line-height: 1.2;
+    letter-spacing: -2px;
+    text-rendering: geometricPrecision;
+}
+#page .footer-navigation div[data-style='horizontal'] ul.menu > li.menu-item:last-child:after {
+    display: none;
+}
+
+
+/* 133620-1456900936-au */

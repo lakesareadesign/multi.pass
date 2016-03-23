@@ -1,0 +1,14 @@
+#page .button-android-small.upfront-button .upfront_cta {
+    background:url("UPFRONT_THEME_BASE/ui/sprite.png") no-repeat;
+    background-image: url("UPFRONT_THEME_BASE/ui/sprite.svg"), none;
+    background-position: -373px -374px;
+    width: 42px;
+    height: 42px;
+    margin: 0 -10px;
+    display: block;
+    overflow: hidden;
+    text-indent: -9999px;
+}
+
+
+/* 133620-1456900944-au */

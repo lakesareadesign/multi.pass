@@ -1,0 +1,2072 @@
+/*
+	Theme Name: Lifestyle Pro Theme
+	Theme URI: http://my.studiopress.com/themes/lifestyle/
+	Description: A mobile responsive and HTML5 theme built for the Genesis Framework.
+	Author: StudioPress
+	Author URI: http://www.studiopress.com/
+	Version: 3.1
+ 
+	Tags: green, tan, white, one-column, two-columns, three-columns, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, premise-landing-page
+ 
+	Template: genesis
+	Template Version: 2.1
+ 
+	License: GPL-2.0+
+	License URI: http://www.gnu.org/licenses/gpl-2.0.html
+*/
+ 
+/* Table of Contents
+
+	- HTML5 Reset
+		- Baseline Normalize
+		- Box Sizing
+		- Float Clearing
+	- Defaults
+		- Typographical Elements
+		- Headings
+		- Objects
+		- Gallery
+		- Forms
+		- Tables
+	- Structure and Layout
+		- Site Containers
+		- Column Widths and Positions
+		- Column Classes
+		- Home Page
+		- Miscellaneous
+	- Common Classes
+		- WordPress
+		- Genesis
+		- Titles
+	- Widgets
+		- Featured Content
+	- Plugins
+		- Genesis eNews Extended
+		- Genesis Responsive Slider
+		- Jetpack
+	- Site Header
+		- Title Area
+		- Widget Area
+	- Site Navigation
+		- Header Navigation
+		- Primary Navigation
+		- Secondary Navigation
+		- Responsive Menu
+	- Content Area
+		- Home Page
+		- Entries
+		- After Entry
+		- Pagination
+		- Comments
+	- Sidebars
+	- Footer Widgets
+	- Site Footer
+	- Theme Colors
+		- Lifestyle Pro Blue
+		- Lifestyle Pro Green
+		- Lifestyle Pro Mustard
+		- Lifestyle Pro Purple
+		- Lifestyle Pro Red
+	- Media Queries
+		- Retina Display
+		- max-width: 1139px
+		- max-width: 1023px
+		- max-width: 767px
+
+*/
+
+
+/*
+HTML5 Reset
+---------------------------------------------------------------------------------------------------- */
+
+/* Baseline Normalize
+	normalize.css v2.1.2 | MIT License | git.io/normalize
+--------------------------------------------- */
+
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden]{display:none}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em;margin:.67em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}mark{background:#ff0;color:#000}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em}pre{white-space:pre-wrap}q{quotes:"\201C" "\201D" "\2018" "\2019"}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:0}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}button,input{line-height:normal}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}
+
+/* Box Sizing
+--------------------------------------------- */
+
+*,
+input[type="search"] {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
+}
+
+/* Float Clearing
+--------------------------------------------- */
+
+.clearfix:before,
+.entry-content:before,
+.entry:before,
+.footer-widgets:before,
+.nav-primary:before,
+.nav-secondary:before,
+.pagination:before,
+.site-container:before,
+.site-footer:before,
+.site-header:before,
+.site-inner:before,
+.widget:before,
+.wrap:before  {
+	content: " ";
+	display: table;
+}
+
+.clearfix:after,
+.entry-content:after,
+.entry:after,
+.footer-widgets:after,
+.nav-primary:after,
+.nav-secondary:after,
+.pagination:after,
+.site-container:after,
+.site-footer:after,
+.site-header:after,
+.site-inner:after,
+.widget:after,
+.wrap:after {
+	clear: both;
+	content: " ";
+	display: table;
+}
+
+
+/*
+Defaults
+---------------------------------------------------------------------------------------------------- */
+
+/* Typographical Elements
+--------------------------------------------- */
+
+body {
+	background-color: #efefe9;
+	color: #a5a5a3;
+	font-family: 'Droid Sans', sans-serif;
+	font-size: 16px;
+	font-weight: 300;
+	line-height: 1.625;
+}
+
+a,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+textarea:focus,
+.button {
+	-webkit-transition: all 0.1s ease-in-out;
+	-moz-transition:    all 0.1s ease-in-out;
+	-ms-transition:     all 0.1s ease-in-out;
+	-o-transition:      all 0.1s ease-in-out;
+	transition:         all 0.1s ease-in-out;
+}
+
+::-moz-selection {
+	background-color: #333;
+	color: #fff;
+}
+
+::selection {
+	background-color: #333;
+	color: #fff;
+}
+
+a {
+	color: #76d2c5;
+	text-decoration: none;
+}
+
+a:hover,
+.site-footer a:hover {
+	color: #222;
+}
+
+p {
+	margin: 0 0 16px;
+	padding: 0;
+}
+
+strong {
+	font-weight: 700;
+}
+
+ol,
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+blockquote,
+blockquote::before {
+	color: #999;
+}
+
+blockquote {
+	margin: 40px 40px 24px;
+}
+
+blockquote::before {
+	content: "“";
+	display: block;
+	font-size: 30px;
+	height: 0;
+	left: -20px;
+	position: relative;
+	top: -10px;
+}
+
+.entry-content code {
+	background-color: #333;
+	color: #ddd;
+}
+
+cite {
+	font-style: normal;
+}
+
+/* Headings
+--------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: #222;
+	font-family: 'Roboto Slab', sans-serif;
+	font-weight: 300;
+	line-height: 1.2;
+	margin: 0 0 24px;
+}
+
+h1,
+.entry-title {
+	font-size: 30px;
+}
+
+h2,
+.home-top .entry-title {
+	font-size: 24px;
+}
+
+h3,
+.archive-title,
+.comments-title,
+.home-bottom .entry-title,
+.home-middle .entry-title {
+	font-size: 20px;
+}
+
+h4 {
+	font-size: 20px;
+}
+
+h5 {
+	font-size: 18px;
+}
+
+h6,
+.sidebar .entry-title {
+	font-size: 16px;
+}
+
+/* Objects
+--------------------------------------------- */
+
+embed,
+iframe,
+img,
+object,
+video,
+.wp-caption {
+	max-width: 100%;
+}
+
+img {
+	height: auto;
+}
+
+.featured-content img,
+.gallery img {
+	width: auto; /* IE8 */
+}
+
+/* Gallery
+--------------------------------------------- */
+
+.gallery {
+	overflow: hidden;
+	margin-bottom: 28px;
+}
+
+.gallery-item {
+	float: left;
+	margin: 0;
+	padding: 0 4px;
+	text-align: center;
+	width: 100%;
+}
+
+.gallery-columns-2 .gallery-item {
+	width: 50%;
+}
+
+.gallery-columns-3 .gallery-item {
+	width: 33%;
+}
+
+.gallery-columns-4 .gallery-item {
+	width: 25%;
+}
+
+.gallery-columns-5 .gallery-item {
+	width: 20%;
+}
+
+.gallery-columns-6 .gallery-item {
+	width: 16.6666%;
+}
+
+.gallery-columns-7 .gallery-item {
+	width: 14.2857%;
+}
+
+.gallery-columns-8 .gallery-item {
+	width: 12.5%;
+}
+
+.gallery-columns-9 .gallery-item {
+	width: 11.1111%;
+}
+
+.gallery-columns-2 .gallery-item:nth-child(2n+1),
+.gallery-columns-3 .gallery-item:nth-child(3n+1),
+.gallery-columns-4 .gallery-item:nth-child(4n+1),
+.gallery-columns-5 .gallery-item:nth-child(5n+1),
+.gallery-columns-6 .gallery-item:nth-child(6n+1),
+.gallery-columns-7 .gallery-item:nth-child(7n+1),
+.gallery-columns-8 .gallery-item:nth-child(8n+1),
+.gallery-columns-9 .gallery-item:nth-child(9n+1) {
+	clear: left;
+}
+
+.gallery .gallery-item img {
+	border: none;
+	height: auto;
+	margin: 0;
+}
+
+/* Forms
+--------------------------------------------- */
+
+input,
+select,
+textarea {
+	background-color: #fff;
+	border: 1px solid #eeeee8;
+	box-shadow: 0 0 5px #f8f8f8 inset;
+	color: #999;
+	font-size: 14px;
+	padding: 16px;
+	width: 100%;
+}
+
+input[type="checkbox"],
+input[type="image"],
+input[type="radio"] {
+	width: auto;
+}
+
+input:focus,
+textarea:focus {
+	border: 1px solid #999;
+	outline: none;
+}
+
+::-moz-placeholder {
+	color: #999;
+	opacity: 1;
+}
+
+::-webkit-input-placeholder {
+	color: #999;
+}
+
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+.button,
+.entry-content .button {
+	background-color: #76d2c5;
+	box-shadow: none;
+	border: none;
+	color: #fff;
+	cursor: pointer;
+	padding: 16px 24px;
+	width: auto;
+}
+
+button:hover,
+input:hover[type="button"],
+input:hover[type="reset"],
+input:hover[type="submit"],
+.button:hover,
+.entry-content .button:hover {
+	background-color: #eeeee8;
+	color: #a5a5a3;
+}
+
+.button {
+	display: inline-block;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button {
+	display: none;
+}
+
+/* Tables
+--------------------------------------------- */
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	line-height: 2;
+	margin-bottom: 40px;
+	width: 100%;
+}
+
+tbody {
+	border-bottom: 1px solid #eeeee8;
+}
+
+th,
+td {
+	text-align: left;
+}
+
+th {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+td {
+	border-top: 1px solid #eeeee8;
+	padding: 6px 0;
+}
+
+
+/*
+Structure and Layout
+---------------------------------------------------------------------------------------------------- */
+
+/* Site Containers
+--------------------------------------------- */
+
+.site-container {
+	background-color: #fff;
+	box-shadow: 0 0 5px #ddd;
+	margin: 32px auto;
+	max-width: 1140px;
+	overflow: hidden;
+	padding: 36px;
+}
+
+.site-inner {
+	clear: both;
+	padding-top: 32px;
+}
+
+.wrap {
+	margin: 0 auto;
+	max-width: 1140px;
+}
+
+/* Column Widths and Positions
+--------------------------------------------- */
+
+/* Wrapping div for .content and .sidebar-primary */
+
+.content-sidebar-sidebar .content-sidebar-wrap,
+.sidebar-content-sidebar .content-sidebar-wrap,
+.sidebar-sidebar-content .content-sidebar-wrap {
+	width: 868px;
+}
+
+.content-sidebar-sidebar .content-sidebar-wrap {
+	float: left;
+}
+
+.sidebar-content-sidebar .content-sidebar-wrap,
+.sidebar-sidebar-content .content-sidebar-wrap {
+	float: right;
+}
+
+/* Content */
+
+.content {
+	float: right;
+	width: 700px;
+}
+
+.content-sidebar .content,
+.content-sidebar-sidebar .content,
+.sidebar-content-sidebar .content {
+	float: left;
+}
+
+.content-sidebar-sidebar .content,
+.sidebar-content-sidebar .content,
+.sidebar-sidebar-content .content {
+	width: 500px;
+}
+
+.full-width-content .content {
+	width: 100%;
+}
+
+.lifestyle-pro-landing .site-container {
+	max-width: 772px;
+}
+
+.lifestyle-pro-landing .site-inner,
+.lifestyle-pro-landing .entry {
+	padding: 0;
+}
+
+/* Primary Sidebar */
+
+.sidebar-primary {
+	float: right;
+	width: 332px;
+}
+
+.sidebar-content .sidebar-primary,
+.sidebar-sidebar-content .sidebar-primary {
+	float: left;
+}
+
+/* Secondary Sidebar */
+
+.sidebar-secondary {
+	float: left;
+	width: 164px;
+}
+
+.content-sidebar-sidebar .sidebar-secondary {
+	float: right;
+}
+
+/* Column Classes
+	Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css
+--------------------------------------------- */
+
+.five-sixths,
+.four-sixths,
+.one-fourth,
+.one-half,
+.one-sixth,
+.one-third,
+.three-fourths,
+.three-sixths,
+.two-fourths,
+.two-sixths,
+.two-thirds {
+	float: left;
+	margin-left: 2.564102564102564%;
+}
+
+.one-half,
+.three-sixths,
+.two-fourths {
+	width: 48.717948717948715%;
+}
+
+.one-third,
+.two-sixths {
+	width: 31.623931623931625%;
+}
+
+.four-sixths,
+.two-thirds {
+	width: 65.81196581196582%;
+}
+
+.one-fourth {
+	width: 23.076923076923077%;
+}
+
+.three-fourths {
+	width: 74.35897435897436%;
+}
+
+.one-sixth {
+	width: 14.52991452991453%;
+}
+
+.five-sixths {
+	width: 82.90598290598291%;
+}
+
+.first {
+	clear: both;
+	margin-left: 0;
+}
+
+
+/*
+Common Classes
+---------------------------------------------------------------------------------------------------- */
+
+/* WordPress
+--------------------------------------------- */
+
+.avatar {
+	border-radius: 50%;
+	float: left;
+}
+
+.alignleft .avatar {
+	margin-right: 24px;
+}
+
+.alignright .avatar {
+	margin-left: 24px;
+}
+
+.search-form {
+	overflow: hidden;
+	width: 100%;
+}
+
+.search-form input[type="search"] {
+	background: #fff url(images/search.png) no-repeat 15px 16px;
+	background-size: 15px 15px;
+	padding: 16px 16px 16px 44px;
+}
+
+.genesis-nav-menu .search input[type="submit"],
+.widget_search input[type="submit"] {
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
+
+a.aligncenter img {
+	display: block;
+	margin: 0 auto;
+}
+
+img.centered,
+.aligncenter {
+	display: block;
+	margin: 0 auto 24px;
+}
+
+a.alignnone {
+	display: inline-block;
+}
+
+img.alignnone,
+.alignnone {
+	margin-bottom: 12px;
+}
+
+.alignleft {
+	float: left;
+	text-align: left;
+}
+
+.alignright {
+	float: right;
+	text-align: right;
+}
+
+a.alignleft,
+a.alignnone,
+a.alignright {
+	max-width: 100%;
+}
+
+a.alignleft,
+img.alignleft,
+.wp-caption.alignleft {
+	margin: 0 24px 12px 0;
+}
+
+a.alignright,
+img.alignright,
+.wp-caption.alignright {
+	margin: 0 0 12px 24px;
+}
+
+.alignleft.post-image {
+	margin-bottom: 24px;
+}
+
+.entry-content .wp-caption-text {
+	font-size: 14px;
+	margin: 0;
+	text-align: center;
+}
+
+.gallery-caption,
+.entry-content .gallery-caption {
+	margin: 0 0 10px;
+}
+
+.widget_calendar table {
+	width: 100%;
+}
+
+.widget_calendar td,
+.widget_calendar th {
+	text-align: center;
+}
+
+/* Genesis
+--------------------------------------------- */
+
+.breadcrumb {
+	border: 1px solid #eeeee8;
+	font-size: 12px;
+	margin-bottom: 32px;
+	padding: 16px 32px;
+}
+
+.archive-description,
+.author-box,
+.sticky {
+	border: 1px solid #eeeee8;
+	margin-bottom: 32px;
+	overflow: hidden;
+	padding: 32px;
+}
+
+.author-box-title {
+	font-size: 16px;
+	margin: 0 0 8px;
+}
+
+.author-box p {
+	margin-bottom: 0;
+}
+
+.author-box .avatar {
+	margin-right: 24px;
+}
+
+/* Titles
+--------------------------------------------- */
+
+.site-header .widget-title {
+  color: #fff;
+}
+
+.entry-title a,
+.sidebar .widget-title a {
+	color: #222;
+	text-decoration: none;
+}
+
+.entry-title a:hover {
+	color: #76d2c5;
+}
+
+.archive-title {
+	font-size: 20px;
+}
+
+/*
+Widgets
+---------------------------------------------------------------------------------------------------- */
+
+.widget {
+	margin-bottom: 40px;
+	overflow: hidden;
+	word-wrap: break-word;
+}
+
+.widget li {
+	text-align: left;
+}
+
+.widget ol > li {
+	border-bottom: 1px solid #eeeee8;
+	list-style-position: inside;
+	list-style-type: decimal;
+	margin-bottom: 12px;
+	padding-bottom: 12px;
+	padding-left: 20px;
+	text-indent: -20px;
+}
+
+.widget ul > li {
+	border-bottom: 1px solid #eeeee8;
+	list-style-type: none;
+	margin-bottom: 12px;
+	padding-bottom: 12px;
+}
+
+.widget li li {
+	border: none;
+	margin: 0 0 0 30px;
+	padding: 0;
+}
+
+.widget p:last-child,
+.widget ol > li:last-child.
+.widget ul > li:last-child {
+	border: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+/* Featured Content
+--------------------------------------------- */
+
+.featured-content .entry {
+	margin-bottom: 32px;
+	text-align: center;
+}
+
+.featured-content .entry-header {
+	border: none;
+	margin-bottom: 12px;
+}
+
+.featured-content .entry-title {
+	margin-bottom: 8px;
+}
+
+.featuredpost.widget li {
+	text-align: center;
+}
+
+.more-from-category {
+	padding-top: 12px;
+}
+
+.more-from-category a {
+	border-top: 1px solid #eeeee8;
+	display: block;
+	padding-top: 12px;
+}
+
+/*
+Plugins
+---------------------------------------------------------------------------------------------------- */
+
+/* Genesis eNews Extended
+--------------------------------------------- */
+
+.enews-widget input {
+	margin-bottom: 16px;
+}
+
+.enews-widget input[type="submit"] {
+	margin: 0;
+	width: 100%;
+}
+
+.enews-widget input {
+	margin-bottom: 12px;
+}
+
+.enews form + p {
+	margin-top: 24px;
+}
+
+/* Genesis Responsive Slider
+--------------------------------------------- */
+
+.widget.genesis_responsive_slider li {
+	border: 0;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+/* Jetpack
+--------------------------------------------- */
+
+img#wpstats {
+	display: none;
+}
+
+
+/*
+Site Header
+---------------------------------------------------------------------------------------------------- */
+
+.site-header {
+	background-color: #76d2c5;
+	padding: 48px;
+	overflow: hidden;
+}
+
+/* Title Area
+--------------------------------------------- */
+
+.title-area {
+	float: left;
+	width: 320px;
+}
+
+.site-title {
+	font-family: 'Roboto Slab', sans-serif;
+	font-size: 50px;
+	line-height: 1;
+	margin: 0 0 16px;
+}
+
+.site-title a,
+.site-title a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+.site-description {
+	color: #fff;
+	font-size: 16px;
+	line-height: 1;
+	margin: 0;
+}
+
+/* Full width header, no widgets */
+
+.header-full-width .title-area,
+.header-full-width .site-title {
+	text-align: center;
+	width: 100%;
+}
+
+.header-image .site-description,
+.header-image .site-title a {
+	display: block;
+	text-indent: -9999px;
+}
+
+.header-full-width.header-image .site-title a {
+	background-position: center !important;
+	margin: 0;
+}
+
+/* Logo, hide text */
+
+.header-image .title-area {
+	padding: 0;
+}
+
+.header-image .site-title a {
+	float: left;
+	min-height: 110px;
+	width: 100%;
+}
+
+/* Widget Area
+--------------------------------------------- */
+
+.site-header .widget-area {
+	color: #fff;
+	float: right;
+	width: 600px;
+}
+
+.site-header .widget-area .widget {
+	margin-bottom: 0;
+}
+
+.site-header .search-form {
+	float: right;
+	margin-top: 16px;
+}
+
+.site-header .widget-area a {
+	color: #fff;
+}
+
+
+/*
+Site Navigation
+---------------------------------------------------------------------------------------------------- */
+
+.genesis-nav-menu {
+	clear: both;
+	font-size: 14px;
+	line-height: 1;
+	width: 100%;
+}
+
+.genesis-nav-menu .menu-item {
+	display: inline-block;
+	text-align: left;
+}
+
+.genesis-nav-menu a {
+	color: #fff;
+	display: block;
+	padding: 20px 24px;
+	position: relative;
+	text-decoration: none;
+}
+
+.genesis-nav-menu li:hover > a,
+.genesis-nav-menu a:hover,
+.genesis-nav-menu .current-menu-item > a {
+	background-color: #fff;
+	color: #a5a5a3;
+}
+
+.genesis-nav-menu .sub-menu {
+	left: -9999px;
+	opacity: 0;
+	position: absolute;
+	-webkit-transition: opacity .4s ease-in-out;
+	-moz-transition:    opacity .4s ease-in-out;
+	-ms-transition:     opacity .4s ease-in-out;
+	-o-transition:      opacity .4s ease-in-out;
+	transition:         opacity .4s ease-in-out;
+	width: 184px;
+	z-index: 99;
+}
+
+.genesis-nav-menu > li:hover .sub-menu a,
+.genesis-nav-menu .sub-menu a {
+	background-color: #fafafa;
+	color: #a5a5a3;
+	font-size: 12px;
+	padding: 16px 24px;
+	position: relative;
+	width: 184px;
+}
+
+.genesis-nav-menu > li:hover .sub-menu a:hover,
+.genesis-nav-menu .sub-menu a:hover {
+	background-color: #eeeee8;
+	color: #222;
+}
+
+.genesis-nav-menu .sub-menu .sub-menu {
+	margin: -44px 0 0 183px;
+}
+
+.genesis-nav-menu .menu-item:hover {
+	position: static;
+}
+
+.genesis-nav-menu .menu-item:hover > .sub-menu {
+	left: auto;
+	opacity: 1;
+}
+
+.genesis-nav-menu > .first > a {
+	padding-left: 0;
+}
+
+.genesis-nav-menu > .last > a {
+	padding-right: 0;
+}
+
+.genesis-nav-menu > .right {
+	display: inline-block;
+	float: right;
+	list-style-type: none;
+	padding: 20px 0;
+}
+
+.genesis-nav-menu > .right > a {
+	background: none;
+	color: #a5a5a3;
+	display: inline;
+	padding: 0;
+}
+
+.genesis-nav-menu > .right > a:hover {
+	color: #76d2c5;
+}
+
+.genesis-nav-menu > .rss > a {
+	margin-left: 48px;
+}
+
+.genesis-nav-menu > .search {
+	padding: 0;
+}
+
+.genesis-nav-menu .search-form input[type="search"] {
+	background-position: 12px 12px;
+	font-size: 12px;
+	padding: 12px 12px 12px 44px;
+}
+
+/* Site Header Navigation
+--------------------------------------------- */
+
+.site-header .genesis-nav-menu li,
+.site-header .widget_nav_menu ul ul {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* Primary Navigation
+--------------------------------------------- */
+
+.nav-primary a {
+	color: #a5a5a3;
+}
+
+.nav-primary  li.menu-item-has-children:hover > a,
+.nav-primary a:hover,
+.nav-primary .current-menu-item > a {
+	color: #222;
+}
+
+/* Secondary Navigation
+--------------------------------------------- */
+
+.nav-secondary {
+	background-color: #91dbd1;
+	color: #fff;
+}
+
+/* Responsive Menu
+--------------------------------------------- */
+
+.responsive-menu-icon {
+	cursor: pointer;
+	display: none;
+	text-align: center;
+}
+
+.responsive-menu-icon::before {
+	content: "\f333";
+	display: inline-block;
+	font: normal 20px/1 'dashicons';
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.site-header .responsive-menu-icon::before {
+	padding: 0;
+}
+
+
+/*
+Content Area
+---------------------------------------------------------------------------------------------------- */
+
+/* Home Page
+--------------------------------------------- */
+
+.lifestyle-pro-home .content .widget,
+.lifestyle-pro-home .content .widget:last-child {
+	margin-bottom: 32px;
+}
+
+.lifestyle-pro-home .featured-content .entry {
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+}
+
+.lifestyle-pro-home .entry:last-child {
+	margin-bottom: 0;
+}
+
+.home-middle .featuredpost .alignleft {
+	margin-bottom: 0;
+	margin-right: 20px;
+}
+
+.home-bottom-left,
+.home-bottom-right {
+	width: 332px;
+}
+
+.home-bottom-left {
+	float: left;
+}
+
+.home-bottom-right {
+	float: right;
+}
+
+.lifestyle-pro-home .content .featuredpost p {
+	margin: 0;
+}
+
+.lifestyle-pro-home .content .widget-title {
+	background-color: #76d2c5;
+	color: #fff;
+	padding: 12px 32px;
+}
+
+/* Entries
+--------------------------------------------- */
+
+.content .entry {
+	border: 1px solid #eeeee8;
+	margin-bottom: 32px;
+	padding: 32px;
+}
+
+.lifestyle-pro-landing .content .entry {
+	border: none;
+}
+
+.entry-header {
+	border-bottom: 1px solid #eeeee8;
+	margin-bottom: 32px;
+	text-align: center;
+}
+
+.entry-content ol,
+.entry-content p,
+.entry-content ul,
+.quote-caption {
+	margin-bottom: 26px;
+}
+
+.entry-content ol,
+.entry-content ul {
+	margin-left: 40px;
+}
+
+.entry-content ol > li {
+	list-style-type: decimal;
+}
+
+.entry-content ul > li {
+	list-style-type: circle;
+}
+
+.entry-content ol ol,
+.entry-content ul ul {
+	margin-bottom: 0;
+}
+
+.entry-meta {
+	font-size: 12px;
+}
+
+.entry-header .entry-meta {
+	margin-bottom: 24px;
+}
+
+.entry-footer .entry-meta {
+	border-top: 1px solid #eeeee8;
+	margin: 0;
+	padding: 32px 0 8px;
+}
+
+.entry-comments-link::before {
+	content: "\2014";
+	margin: 0 6px 0 2px;
+}
+
+.entry-meta .entry-tags {
+	float: right;
+}
+
+
+/* After Entry
+--------------------------------------------- */
+
+.after-entry {
+	border: 1px solid #eeeee8;
+	margin-bottom: 32px;
+	padding: 32px;
+	text-align: center;
+}
+
+.after-entry .widget {
+	margin-bottom: 32px;
+}
+
+.after-entry .widget:last-child,
+.after-entry p:last-child {
+	margin: 0;
+}
+
+.after-entry li {
+	list-style-type: none;
+}
+
+/* Pagination
+--------------------------------------------- */
+
+.archive-pagination {
+	clear: both;
+	font-size: 14px;
+	margin: 40px 0;
+}
+
+.archive-pagination li {
+	display: inline;
+}
+
+.archive-pagination li a {
+	border: 1px solid #eeeee8;
+	color: #a5a5a3;
+	cursor: pointer;
+	display: inline-block;
+	margin-bottom: 4px;
+	padding: 8px 12px;
+	text-decoration: none;
+}
+
+.archive-pagination li a:hover,
+.archive-pagination li.active a {
+	color: #76d2c5;
+}
+
+/* Comments
+--------------------------------------------- */
+
+.ping-list,
+.entry-comments,
+.comment-respond {
+	margin-bottom: 40px;
+}
+
+.comment-content {
+	clear: both;
+}
+
+.entry-comments .comment-author {
+	margin-bottom: 0;
+}
+
+.comment-respond input[type="email"],
+.comment-respond input[type="text"],
+.comment-respond input[type="url"] {
+	width: 50%
+}
+
+.comment-respond label {
+	display: block;
+	margin-right: 12px;
+}
+
+.comment-list li,
+.ping-list li {
+	list-style-type: none;
+	margin-top: 24px;
+	padding: 32px;
+}
+
+.comment-list li li {
+	margin-right: -32px;
+}
+
+.comment {
+	border: 1px solid #eeeee8; 
+	border-right: none; 
+}
+
+.comment.depth-1 {
+	border-right: 1px solid #eeeee8; 
+}
+
+.comment .avatar {
+	margin: 0 16px 24px 0;
+}
+
+.form-allowed-tags {
+	background-color: #f8f8f8;
+	font-size: 14px;
+	padding: 24px;
+}
+
+p.subscribe-to-comments {
+	padding: 24px 0 16px;
+}
+
+/*
+Sidebars
+---------------------------------------------------------------------------------------------------- */
+
+.sidebar {
+	font-size: 15px;
+}
+
+.sidebar .widget {
+	border: 1px solid #eeeee8;
+	margin-bottom: 32px;
+	padding: 32px;
+	text-align: center;
+}
+
+/*
+Footer Widgets
+---------------------------------------------------------------------------------------------------- */
+
+.footer-widgets {
+	background-color: #fff;
+	border-top: 1px dotted #eeeee8;
+	clear: both;
+	margin: 0 auto;
+	padding-top: 32px;
+}
+
+.footer-widgets-1,
+.footer-widgets-2,
+.footer-widgets-3 {
+	width: 332px;
+}
+
+.footer-widgets-1 {
+	margin-right: 36px;
+}
+
+.footer-widgets-1,
+.footer-widgets-2 {
+	float: left;
+}
+
+.footer-widgets-3 {
+	float: right;
+}
+
+.footer-widgets .widget {
+	border: 1px solid #eeeee8;
+	margin-bottom: 32px;
+	padding: 32px;
+	text-align: center;
+}
+
+.footer-widgets li {
+	list-style-type: none;
+	margin-bottom: 6px;
+}
+
+.footer-widgets .search-form input:focus {
+	border: 1px solid #ddd;
+}
+
+
+/*
+Site Footer
+---------------------------------------------------------------------------------------------------- */
+
+.site-footer {
+	background-color: #76d2c5;
+	color: #fff;
+	font-size: 12px;
+	padding: 36px;
+	text-align: center;
+}
+
+.site-footer a {
+	color: #fff;
+	text-decoration: none;	
+}
+
+.site-footer p {
+	margin-bottom: 0;
+}
+
+/*
+Theme Colors
+---------------------------------------------------------------------------------------------------- */
+
+/* Lifestyle Pro Blue
+--------------------------------------------- */
+
+.lifestyle-pro-blue .archive-pagination li a:hover,
+.lifestyle-pro-blue .archive-pagination li.active a,
+.lifestyle-pro-blue .entry-title a:hover,
+.lifestyle-pro-blue a  {
+	color: #4cc4e0;
+}
+
+.lifestyle-pro-blue .button,
+.lifestyle-pro-blue .genesis-nav-menu a,
+.lifestyle-pro-blue .site-footer a,
+.lifestyle-pro-blue .site-title a,
+.lifestyle-pro-blue .site-title a:hover {
+	color: #fff;
+}
+
+.lifestyle-pro-blue .entry-title a,
+.lifestyle-pro-blue .sidebar .widget-title a,
+.lifestyle-pro-blue .site-footer a:hover,
+.lifestyle-pro-blue a:hover {
+	color: #222;
+}
+
+.lifestyle-pro-blue .archive-pagination li a,
+.lifestyle-pro-blue .genesis-nav-menu .current-menu-item > a,
+.lifestyle-pro-blue .genesis-nav-menu .sub-menu a,
+.lifestyle-pro-blue .nav-primary a {
+	color: #a5a5a3;
+}
+
+.lifestyle-pro-blue .button,
+.lifestyle-pro-blue .entry-content .button,
+.lifestyle-pro-blue .site-footer,
+.lifestyle-pro-blue .site-header,
+.lifestyle-pro-blue button,
+.lifestyle-pro-blue input[type="button"],
+.lifestyle-pro-blue input[type="reset"],
+.lifestyle-pro-blue input[type="submit"],
+.lifestyle-pro-blue.lifestyle-pro-home .content .widget-title {
+	background-color: #4cc4e0;
+}
+
+.lifestyle-pro-blue .button:hover,
+.lifestyle-pro-blue .entry-content .button:hover,
+.lifestyle-pro-blue button:hover,
+.lifestyle-pro-blue input:hover[type="button"],
+.lifestyle-pro-blue input:hover[type="reset"],
+.lifestyle-pro-blue input:hover[type="submit"] {
+	background-color: #eeeee8;
+}
+
+.lifestyle-pro-blue .nav-secondary {
+	background-color: #80d2e5;
+}
+
+/* Lifestyle Pro Green
+--------------------------------------------- */
+
+.lifestyle-pro-green .archive-pagination li a:hover,
+.lifestyle-pro-green .archive-pagination li.active a,
+.lifestyle-pro-green .entry-title a:hover,
+.lifestyle-pro-green a  {
+	color: #84cc78;
+}
+
+.lifestyle-pro-green .button,
+.lifestyle-pro-green .genesis-nav-menu a,
+.lifestyle-pro-green .site-footer a,
+.lifestyle-pro-green .site-title a,
+.lifestyle-pro-green .site-title a:hover {
+	color: #fff;
+}
+
+.lifestyle-pro-green .entry-title a,
+.lifestyle-pro-green .sidebar .widget-title a,
+.lifestyle-pro-green .site-footer a:hover,
+.lifestyle-pro-green a:hover {
+	color: #222;
+}
+
+.lifestyle-pro-green .archive-pagination li a,
+.lifestyle-pro-green .genesis-nav-menu .current-menu-item > a,
+.lifestyle-pro-green .genesis-nav-menu .sub-menu a,
+.lifestyle-pro-green .nav-primary a {
+	color: #a5a5a3;
+}
+
+.lifestyle-pro-green .button,
+.lifestyle-pro-green .entry-content .button,
+.lifestyle-pro-green .site-footer,
+.lifestyle-pro-green .site-header,
+.lifestyle-pro-green button,
+.lifestyle-pro-green input[type="button"],
+.lifestyle-pro-green input[type="reset"],
+.lifestyle-pro-green input[type="submit"],
+.lifestyle-pro-green.lifestyle-pro-home .content .widget-title {
+	background-color: #84cc78;
+}
+
+.lifestyle-pro-green .button:hover,
+.lifestyle-pro-green .entry-content .button:hover,
+.lifestyle-pro-green button:hover,
+.lifestyle-pro-green input:hover[type="button"],
+.lifestyle-pro-green input:hover[type="reset"],
+.lifestyle-pro-green input:hover[type="submit"] {
+	background-color: #eeeee8;
+}
+
+.lifestyle-pro-green .nav-secondary {
+	background-color: #a2d49a;
+}
+
+/* Lifestyle Pro Mustard
+--------------------------------------------- */
+
+.lifestyle-pro-mustard .archive-pagination li a:hover,
+.lifestyle-pro-mustard .archive-pagination li.active a,
+.lifestyle-pro-mustard .entry-title a:hover,
+.lifestyle-pro-mustard a  {
+	color: #edce4a;
+}
+
+.lifestyle-pro-mustard .button,
+.lifestyle-pro-mustard .genesis-nav-menu a,
+.lifestyle-pro-mustard .site-footer a,
+.lifestyle-pro-mustard .site-title a,
+.lifestyle-pro-mustard .site-title a:hover {
+	color: #fff;
+}
+
+.lifestyle-pro-mustard .entry-title a,
+.lifestyle-pro-mustard .sidebar .widget-title a,
+.lifestyle-pro-mustard .site-footer a:hover,
+.lifestyle-pro-mustard a:hover {
+	color: #222;
+}
+
+.lifestyle-pro-mustard .archive-pagination li a,
+.lifestyle-pro-mustard .genesis-nav-menu .current-menu-item > a,
+.lifestyle-pro-mustard .genesis-nav-menu .sub-menu a,
+.lifestyle-pro-mustard .nav-primary a {
+	color: #a5a5a3;
+}
+
+.lifestyle-pro-mustard .button,
+.lifestyle-pro-mustard .entry-content .button,
+.lifestyle-pro-mustard .site-footer,
+.lifestyle-pro-mustard .site-header,
+.lifestyle-pro-mustard button,
+.lifestyle-pro-mustard input[type="button"],
+.lifestyle-pro-mustard input[type="reset"],
+.lifestyle-pro-mustard input[type="submit"],
+.lifestyle-pro-mustard.lifestyle-pro-home .content .widget-title {
+	background-color: #edce4a;
+}
+
+.lifestyle-pro-mustard .button:hover,
+.lifestyle-pro-mustard .entry-content .button:hover,
+.lifestyle-pro-mustard button:hover,
+.lifestyle-pro-mustard input:hover[type="button"],
+.lifestyle-pro-mustard input:hover[type="reset"],
+.lifestyle-pro-mustard input:hover[type="submit"] {
+	background-color: #eeeee8;
+}
+
+.lifestyle-pro-mustard .nav-secondary {
+	background-color: #f5d85a;
+}
+
+/* Lifestyle Pro Purple
+--------------------------------------------- */
+
+.lifestyle-pro-purple .archive-pagination li a:hover,
+.lifestyle-pro-purple .archive-pagination li.active a,
+.lifestyle-pro-purple .entry-title a:hover,
+.lifestyle-pro-purple a  {
+	color: #816689;
+}
+
+.lifestyle-pro-purple .button,
+.lifestyle-pro-purple .genesis-nav-menu a,
+.lifestyle-pro-purple .site-footer a,
+.lifestyle-pro-purple .site-title a,
+.lifestyle-pro-purple .site-title a:hover {
+	color: #fff;
+}
+
+.lifestyle-pro-purple .entry-title a,
+.lifestyle-pro-purple .sidebar .widget-title a,
+.lifestyle-pro-purple .site-footer a:hover,
+.lifestyle-pro-purple a:hover {
+	color: #222;
+}
+
+.lifestyle-pro-purple .archive-pagination li a,
+.lifestyle-pro-purple .genesis-nav-menu .current-menu-item > a,
+.lifestyle-pro-purple .genesis-nav-menu .sub-menu a,
+.lifestyle-pro-purple .nav-primary a {
+	color: #a5a5a3;
+}
+
+.lifestyle-pro-purple .button,
+.lifestyle-pro-purple .entry-content .button,
+.lifestyle-pro-purple .site-footer,
+.lifestyle-pro-purple .site-header,
+.lifestyle-pro-purple button,
+.lifestyle-pro-purple input[type="button"],
+.lifestyle-pro-purple input[type="reset"],
+.lifestyle-pro-purple input[type="submit"],
+.lifestyle-pro-purple.lifestyle-pro-home .content .widget-title {
+	background-color: #816689;
+}
+
+.lifestyle-pro-purple .button:hover,
+.lifestyle-pro-purple .entry-content .button:hover,
+.lifestyle-pro-purple button:hover,
+.lifestyle-pro-purple input:hover[type="button"],
+.lifestyle-pro-purple input:hover[type="reset"],
+.lifestyle-pro-purple input:hover[type="submit"] {
+	background-color: #eeeee8;
+}
+
+.lifestyle-pro-purple .nav-secondary {
+	background-color: #8e7197;
+}
+
+/* Lifestyle Pro Red
+--------------------------------------------- */
+
+.lifestyle-pro-red .archive-pagination li a:hover,
+.lifestyle-pro-red .archive-pagination li.active a,
+.lifestyle-pro-red .entry-title a:hover,
+.lifestyle-pro-red a  {
+	color: #e65e52;
+}
+
+.lifestyle-pro-red .button,
+.lifestyle-pro-red .genesis-nav-menu a,
+.lifestyle-pro-red .site-footer a,
+.lifestyle-pro-red .site-title a,
+.lifestyle-pro-red .site-title a:hover {
+	color: #fff;
+}
+
+.lifestyle-pro-red .entry-title a,
+.lifestyle-pro-red .sidebar .widget-title a,
+.lifestyle-pro-red .site-footer a:hover,
+.lifestyle-pro-red a:hover {
+	color: #222;
+}
+
+.lifestyle-pro-red .archive-pagination li a,
+.lifestyle-pro-red .genesis-nav-menu .current-menu-item > a,
+.lifestyle-pro-red .genesis-nav-menu .sub-menu a,
+.lifestyle-pro-red .nav-primary a {
+	color: #a5a5a3;
+}
+
+.lifestyle-pro-red .button,
+.lifestyle-pro-red .entry-content .button,
+.lifestyle-pro-red .site-footer,
+.lifestyle-pro-red .site-header,
+.lifestyle-pro-red button,
+.lifestyle-pro-red input[type="button"],
+.lifestyle-pro-red input[type="reset"],
+.lifestyle-pro-red input[type="submit"],
+.lifestyle-pro-red.lifestyle-pro-home .content .widget-title {
+	background-color: #e65e52;
+}
+
+.lifestyle-pro-red .button:hover,
+.lifestyle-pro-red .entry-content .button:hover,
+.lifestyle-pro-red button:hover,
+.lifestyle-pro-red input:hover[type="button"],
+.lifestyle-pro-red input:hover[type="reset"],
+.lifestyle-pro-red input:hover[type="submit"] {
+	background-color: #eeeee8;
+}
+
+.lifestyle-pro-red .nav-secondary {
+	background-color: #f2685c;
+}
+
+
+/*
+Media Queries
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+	only screen and (-moz-min-device-pixel-ratio: 1.5),
+	only screen and (-o-min-device-pixel-ratio: 3/2),
+	only screen and (min-device-pixel-ratio: 1.5) {
+	
+	.search-form input[type="search"] {
+		background-image: url(images/search@2x.png);
+	}
+
+}
+
+@media only screen and (max-width: 1139px) {
+
+	.footer-widgets,
+	.site-container,
+	.wrap {
+		max-width: 960px;
+	}
+
+	.content-sidebar-sidebar .content-sidebar-wrap,
+	.sidebar-content-sidebar .content-sidebar-wrap,
+	.sidebar-sidebar-content .content-sidebar-wrap {
+		width: 688px;
+	}
+
+	.content {
+		width: 580px;
+	}
+
+	.content-sidebar-sidebar .content,
+	.sidebar-content-sidebar .content,
+	.sidebar-sidebar-content .content,
+	.site-header .widget-area {
+		width: 380px;
+	}
+
+	.footer-widgets-1,
+	.footer-widgets-2,
+	.footer-widgets-3,
+	.home-bottom-left,
+	.home-bottom-right,
+	.sidebar-primary {
+		width: 272px;
+	}
+
+}
+
+@media only screen and (max-width: 1023px) {
+
+	.footer-widgets,
+	.site-container,
+	.wrap {
+		max-width: 772px;
+	}
+
+	.content-sidebar-sidebar .content-sidebar-wrap,
+	.content-sidebar-sidebar .content,
+	.content,
+	.footer-widgets-1,
+	.footer-widgets-2,
+	.footer-widgets-3,
+	.sidebar-content-sidebar .content-sidebar-wrap,
+	.sidebar-content-sidebar .content,
+	.sidebar-primary,
+	.sidebar-secondary,
+	.sidebar-sidebar-content .content-sidebar-wrap,
+	.sidebar-sidebar-content .content,
+	.site-header .widget-area,
+	.title-area {
+		width: 100%;
+	}
+	
+	.site-header {
+		padding: 20px 0;
+	}
+	
+	.site-header .title-area,
+	.site-header .widget {
+		padding: 0 20px;
+	}
+	
+	.site-header .widget_nav_menu {
+		padding: 0;
+	}
+	
+	.header-image .site-title a {
+		background-position: center !important;
+		margin: 0 0 16px;
+	}
+
+	.genesis-nav-menu li,
+	.site-header ul.genesis-nav-menu,
+	.site-header .search-form {
+		float: none;
+	}
+
+	.genesis-nav-menu,
+	.site-description,
+	.site-footer p,
+	.site-header hgroup,
+	.site-header .search-form,
+	.site-title {
+		text-align: center;
+	}
+
+	.genesis-nav-menu a {
+		padding: 20px 16px;
+	}
+	
+	.site-header .widget-area {
+		margin-top: 16px;
+	}
+
+	.site-header .search-form {
+		margin: 16px auto ;
+	}
+
+	.genesis-nav-menu li.alignleft,
+	.genesis-nav-menu li.right {
+		display: none;
+	}
+
+	.entry-footer .entry-meta {
+		margin: 0;
+		padding-top: 12px;
+	}
+	
+	.home-bottom-left,
+	.home-bottom-right {
+		width: 332px;
+	}
+	
+	.footer-widgets-1 {
+		margin: 0;
+	}
+
+	.site-footer {
+		padding: 20px;
+	}
+
+}
+
+@media only screen and (max-width: 767px) {
+
+	body {
+		font-size: 14px;
+	}
+	
+	.site-container {
+		padding: 20px 5%;
+		width: 94%;
+	}
+
+	.five-sixths,
+	.four-sixths,
+	.home-bottom-left,
+	.home-bottom-right,
+	.one-fourth,
+	.one-half,
+	.one-sixth,
+	.one-third,
+	.three-fourths,
+	.three-sixths,
+	.two-fourths,
+	.two-sixths,
+	.two-thirds {
+		margin: 0;
+		width: 100%;
+	}
+	
+	.site-title {
+		font-size: 32px;
+	}
+	
+	.header-image .site-title a {
+		background-size: contain !important;
+	}
+	
+	.genesis-nav-menu.responsive-menu > .menu-item > .sub-menu,
+	.genesis-nav-menu.responsive-menu {
+		display: none;
+	}
+
+	.genesis-nav-menu.responsive-menu .menu-item,
+	.responsive-menu-icon {
+		display: block;
+	}
+	
+	.genesis-nav-menu.responsive-menu .menu-item {
+		margin: 0;
+	}
+
+	.genesis-nav-menu.responsive-menu .menu-item:hover {
+		position: static;
+	}
+	
+	.genesis-nav-menu.responsive-menu li.current-menu-item > a,
+	.genesis-nav-menu.responsive-menu .sub-menu li.current-menu-item > a:hover,
+	.genesis-nav-menu.responsive-menu li a,
+	.genesis-nav-menu.responsive-menu li a:hover {
+		background: none;
+		border: none;
+		display: block;
+		line-height: 1;
+		padding: 20px;
+		text-transform: none;
+	}
+	
+	.genesis-nav-menu.responsive-menu .current-menu-item > a,
+	.genesis-nav-menu.responsive-menu .sub-menu a,
+	.genesis-nav-menu.responsive-menu > li:hover .sub-menu a,
+	.genesis-nav-menu.responsive-menu a:hover,
+	.genesis-nav-menu.responsive-menu li:hover > a {
+		color: #fff;
+	}
+
+	.genesis-nav-menu.responsive-menu .menu-item-has-children {
+		cursor: pointer;	
+	}
+
+	.genesis-nav-menu.responsive-menu > .menu-item-has-children > a {
+		margin-right: 60px;
+	}
+
+	.genesis-nav-menu.responsive-menu > .menu-item-has-children:before {
+		content: "\f140";
+		float: right;
+		font: normal 20px/1 'dashicons';
+		height: 20px;
+		padding: 16px 20px;
+		right: 0;
+		text-align: right;
+		z-index: 9999;
+	}
+
+	.genesis-nav-menu.responsive-menu .menu-open.menu-item-has-children:before {
+		content: "\f142";
+	}
+
+	.genesis-nav-menu.responsive-menu .sub-menu {
+		background-color: rgba(0, 0, 0, 0.025);
+		border: none;
+		left: auto;
+		opacity: 1;
+		position: relative;
+		-moz-transition:    opacity .4s ease-in-out;
+		-ms-transition:     opacity .4s ease-in-out;
+		-o-transition:      opacity .4s ease-in-out;
+		-webkit-transition: opacity .4s ease-in-out;
+		transition:         opacity .4s ease-in-out;
+		width: 100%;
+		z-index: 99;
+	}
+
+	.genesis-nav-menu.responsive-menu .sub-menu .sub-menu {
+		background-color: transparent;
+		margin: 0;
+		padding-left: 25px;
+	}
+
+	.genesis-nav-menu.responsive-menu > li:hover .sub-menu a:hover,
+	.genesis-nav-menu.responsive-menu > li:hover .sub-menu a,
+	.genesis-nav-menu.responsive-menu .sub-menu li a,
+	.genesis-nav-menu.responsive-menu .sub-menu li a:hover {
+		background: none;
+		border: none;
+		padding: 12px 20px;
+		position: relative;
+		text-transform: none;
+		width: 100%;
+	}
+	
+	.nav-primary .genesis-nav-menu.responsive-menu .current-menu-item > a,
+	.nav-primary .genesis-nav-menu.responsive-menu .sub-menu a,
+	.nav-primary .genesis-nav-menu.responsive-menu > li:hover .sub-menu a,
+	.nav-primary .genesis-nav-menu.responsive-menu a:hover,
+	.nav-primary .genesis-nav-menu.responsive-menu li:hover > a {
+		color: #222;
+	}
+	
+	.genesis-nav-menu a {
+		font-size: 12px;
+	}
+	
+	.entry-meta .entry-tags {
+		clear: both;
+		float: left;
+	}
+	
+	.entry-meta .entry-comments a {
+		margin: 0 0 10px;
+	}
+	
+	.lifestyle-pro-home .featuredpost .alignleft,
+	.lifestyle-pro-home .featuredpost .alignright {
+		float: none;
+		margin: 0 auto;
+	}
+
+}

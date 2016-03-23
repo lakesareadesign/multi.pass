@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'farreaches';
+  src: url("../../fonts/farreaches.eot");
+  src: url("../../fonts/farreaches.eot?#iefix") format("embedded-opentype"), url("../../fonts/farreaches.ttf") format("truetype"), url("../../fonts/farreaches.woff") format("woff"), url("../../fonts/farreaches.svg#farreaches") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+[class*="farreaches-icon-"] {
+  font-family: 'farreaches';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.farreaches-icon-alarm:before {
+  content: "\e608"; }
+
+.farreaches-icon-busy:before {
+  content: "\e600"; }
+
+.farreaches-icon-point-left:before {
+  content: "\e601"; }
+
+.farreaches-icon-close:before {
+  content: "\e602"; }
+
+.farreaches-icon-remove:before {
+  content: "\e603"; }

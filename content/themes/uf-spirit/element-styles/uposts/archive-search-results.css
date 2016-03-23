@@ -1,0 +1,33 @@
+#page .archive-search-results.uposts-object li.uf-post .date_posted {
+    font: 300 30px/26px 'Open Sans', Arial;
+    text-transform: uppercase;
+    text-align: center;
+    color: #69a8a6;
+    width: 52px;
+    font-style: italic;
+    position: absolute;
+}
+#page .archive-search-results.uposts-object li.uf-post .date_posted .month {
+    font-size: 24px;
+}
+#page .archive-search-results.uposts-object li.uf-post .title {
+    margin-bottom:4px;
+}
+#page .archive-search-results.uposts-object li.uf-post .title, #page .archive-search-results.uposts-object li.uf-post .post_categories {
+    margin-left:70px;
+}
+#page .archive-search-results.uposts-object li.uf-post .title h3 a {
+    font: 600 18px/18px 'Open Sans', Arial;
+
+
+    text-transform: uppercase;
+    color: #000 !important;
+}
+#page .archive-search-results.uposts-object li.uf-post .post_categories a {
+    font: 300 18px 'Open Sans', Arial;
+    text-transform: uppercase;
+    color:#a89084;
+}
+
+
+/* 133620-1456900953-au */

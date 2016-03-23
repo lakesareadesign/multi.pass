@@ -1,0 +1,69 @@
+/* Flexbox */
+.flexbox-support .upfront-modules_container > .upfront-editable_entities_container,
+.flexbox-support .upfront-editable_entities_container > .upfront-wrapper,
+.flexbox-support .upfront-wrapper > .upfront-module-view,
+.flexbox-support .upfront-grid-layout,
+.flexbox-support .upfront-region,
+.flexbox-support .upfront-region > .upfront-region-wrapper,
+.flexbox-support .upfront-module-group,
+.flexbox-support .upfront-modules_container
+ {
+ 	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-align-items: flex-start;
+	align-items: flex-start;
+	-webkit-align-content: flex-start;
+	align-content: flex-start;
+}
+.flexbox-support .upfront-grid-layout,
+.flexbox-support .upfront-module-group {
+	-webkit-align-items: stretch;
+	align-items: stretch;
+}
+.flexbox-support .upfront-region,
+.flexbox-support .upfront-region > .upfront-region-wrapper,
+.flexbox-support .upfront-modules_container {
+	-webkit-flex-wrap: nowrap;
+	flex-wrap: nowrap;
+	-webkit-align-items: stretch;
+	align-items: stretch;
+}
+.flexbox-support .upfront-region-container-hidden .upfront-grid-layout,
+.flexbox-support .upfront-region-hidden {
+	display: block;
+}
+.flexbox-support .upfront-grid-layout:before,
+.flexbox-support .upfront-grid-layout:after,
+.flexbox-support .upfront-wrapper:before,
+.flexbox-support .upfront-wrapper:after {
+	content: none;
+}
+.flexbox-support .upfront-modules_container > .upfront-editable_entities_container > .upfront-wrapper,
+.flexbox-support .upfront-editable_entities_container > .upfront-wrapper > .upfront-module-view {
+	-webkit-order: 0;
+	order: 0;
+}
+.flexbox-support .upfront-editable_entities_container,
+.flexbox-support .upfront-editable_entities_container > .upfront-wrapper > .upfront-module-view,
+.flexbox-support .upfront-editable_entities_container > .upfront-module-view {
+	width: 100%;
+}
+
+/* Firefox specific hack (lighter usage of Flexbox) */
+@media screen and (min--moz-device-pixel-ratio:0) {
+  .flexbox-support .upfront-grid-layout,
+  .flexbox-support .upfront-region,
+  .flexbox-support .upfront-region > .upfront-region-wrapper {
+    display: block;
+  }
+  .flexbox-support .upfront-grid-layout:before,
+  .flexbox-support .upfront-grid-layout:after {
+    content: "";
+  }
+}
+
+

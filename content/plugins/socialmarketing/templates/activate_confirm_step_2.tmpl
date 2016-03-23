@@ -1,0 +1,36 @@
+<div id="settings-form-wrap" class="fr-form-wrap">
+    <form id="settings-form" method="post">
+        <h2>Step 2: Connect {{:siteUrl}} to Social Marketing Sites</h2>
+        <div class="farreaches-list-table farreaches-beginner">
+            <div class="table-row">
+                <div class="table-cell-border-less farreaches-label">Your social marketing connections</div>
+                <div class="table-cell-border-less social-media-connections">
+                    {{for external_service_definitions}}
+                        <div id="{{domId:service_name}}" class="farreaches-service">
+                            <div class="{{cssName:service_name}}48 logo48"><!-- service logo --></div>
+                            <div class="farreaches-service-content">
+                                {{if messageEndPoints}}
+                                    {{for messageEndPoints ~service_name=service_name ~show_separator=false tmpl="#message_end_point_settings"/}}
+                                    <hr class="mep-separator"/>
+                                    <button type="button" class="fr-button fr-connect-button" data-service-name="{{:name}}">Add Additional</button>
+                                {{else}}
+                                    <button type="button" class="fr-button fr-button-big fr-connect-button" data-service-name="{{:name}}">Connect to {{>service_name}}</button>
+                                {{/if}}
+                            </div>
+                        </div>
+                    {{/for}}
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <button
+        class="button button-primary"
+        data-publish-event='!form#settings-form'
+        data-publish-topic='{{:publish_topic}}'
+        data-publish-label="Saving.."
+        data-publish-disabled-after="false"
+        data-publish-success="settings_save_on_success"
+        data-publish-failure="notification_on_failure"
+        >Create my first Social Marketing Post</button>
+</div>

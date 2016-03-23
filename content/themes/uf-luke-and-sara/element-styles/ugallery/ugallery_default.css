@@ -1,0 +1,81 @@
+
+.ugallery_link .ugallery-thumb-title.ugallery-caption-over {
+	width: auto;
+	height: auto;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	bottom: 5px;
+	left: 5px;
+	padding: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	text-align: center;
+	transition: 0.3s ease-in-out;
+	-ms-transition: 0.3s ease-in-out;
+	-moz-transition: 0.3s ease-in-out;
+	-webkit-transition: 0.3s ease-in-out;
+}
+.ugallery_link .ugallery-thumb-title.ugallery-caption-over:before {
+	content: "";
+	width: 16px;
+	height: 16px;
+	display: block;
+	margin: 0 auto 10px;
+	background: url("UPFRONT_THEME_BASE/ui/lightning.png") no-repeat center center transparent;
+	background-image: url("UPFRONT_THEME_BASE/ui/lightning.svg"), none;
+	background-size: contain;
+}
+.ugallery_link:active .ugallery-thumb-title {
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+.ugallery_link .ugallery-thumb-title.ugallery-caption-below p {
+	text-align: left;
+}
+.ugallery_link .ugallery-thumb-title.ugallery-caption-below p:before {
+	content: "";
+	width: 7px;
+	height: 12px;
+	position: relative;
+	display: inline-block;
+	top: 1px;
+	margin-right: 10px;
+	background: url("UPFRONT_THEME_BASE/ui/lightning.png") no-repeat left top transparent;
+	background-image: url("UPFRONT_THEME_BASE/ui/lightning.svg"), none;
+	background-size: contain;
+}
+.ugallery_labels {
+    margin-bottom: 45px;
+    text-align: center;
+}
+.ugallery_label_filter {
+    display: inline-block;
+    margin-right: 30px;
+    padding: 5px 22px 4px;
+    border: 1px solid #00a384;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    background: transparent;
+    color: #00a384;
+    font-size: 14px;
+    line-height: 1.4em;
+    text-transform: uppercase;
+    transition: background 0.2s ease-in-out, border-color 0.25s ease, color 0.2s ease;
+    -ms-transition: background 0.2s ease-in-out, border-color 0.25s ease, color 0.2s ease;
+    -moz-transition: background 0.2s ease-in-out, border-color 0.25s ease, color 0.2s ease;
+    -webkit-transition: background 0.2s ease-in-out, border-color 0.25s ease, color 0.2s ease;
+}
+.ugallery_label_filter:last-child {
+    margin-right: 0;
+}
+.ugallery_label_filter:hover, .ugallery_label_filter:active {
+    border-color: #008a7a;
+    background: #00a384;
+    color: #ffffff;
+}
+
+
+/* 133620-1456900936-au */

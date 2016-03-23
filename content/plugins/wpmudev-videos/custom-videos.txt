@@ -1,0 +1,34 @@
+This code snippet is an example of how you can add your own custom videos to the videos page via a plugin or functions.php:
+
+<?php
+
+add_filter('wpmudev_vids_list', function( $video_list ) {
+	$video_list[ 'myvid' ] = 'My Favorite Vid';
+	return $video_list;
+});
+
+add_filter('wpmudev_vids_categories', function( $video_cats ) {
+	//add to other category
+	$video_cats[ 'other' ][ 'list' ][] = 'myvid';
+
+	//create my own category
+	$video_cats['mine'] = array(
+		'name' => 'My Category',
+		'list' => array( 'myvid' )
+	);
+
+	return $video_cats;
+});
+
+add_filter('wpmudev_vids_embed_html', function( $video_html, $slug ) {
+	if ( 'myvid' == $slug ) {
+		$video_html = '<iframe width="640" height="480" src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen></iframe>';
+	}
+
+	return $video_html;
+}, 10, 2);
+
+?>
+
+
+133620-1448469619-au

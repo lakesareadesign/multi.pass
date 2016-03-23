@@ -1,0 +1,21 @@
+.upfront-region-container-footer .upfront-region-container-bg {
+    border-top: 1px solid rgba(251,244,203,0.5);
+    color: #ffffff;
+}
+.upfront-region-container-footer .upfront-region-container-bg p {
+    margin: 8px 0;
+    color: #ffffff;
+}
+.upfront-region-container-footer .upfront-region-container-bg .post_content {
+    line-height: 3em;
+}
+.upfront-region-container-footer .upfront-region-container-bg a {
+    color: #ffffff;
+    text-decoration: none;
+}
+.upfront-region-container-footer .upfront-region-container-bg a:hover {
+    text-decoration: underline;
+}
+
+
+/* 133620-1456900948-au */

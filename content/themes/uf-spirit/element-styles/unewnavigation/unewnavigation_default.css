@@ -1,0 +1,100 @@
+div[data-style='burger'] ul.menu {
+    background: #67a8a7;
+}
+
+div.responsive_nav_toggler, .upfront-navigation i.burger_nav_close {
+    background: #ufc7;
+    color: #ufc6;
+    transition: background-color 0.2s ease-in-out;
+    -ms-transition: background-color 0.2s ease-in-out;
+    -moz-transition: background-color 0.2s ease-in-out;
+    -webkit-transition: background-color 0.2s ease-in-out;
+}
+
+div.responsive_nav_toggler:hover, .upfront-navigation i.burger_nav_close:hover {
+    background: #ufc6;
+    color: #ufc7;
+}
+
+
+div.responsive_nav_toggler {
+    width: 34px;
+    height: 34px;
+    padding-top: 12px;
+    padding-left:9px;
+    border: 0;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    z-index: 0;
+}
+div.responsive_nav_toggler > div {
+    width: 16px;
+    height: 2px;
+    margin-bottom: 2px;
+    background: #ufc6;
+}
+div.responsive_nav_toggler:hover > div {
+    background: #ufc7;
+}
+
+div.responsive_nav_toggler > div:last-child {
+    margin-bottom: 0;
+}
+ i.burger_nav_close {
+    width: 34px;
+    height: 34px;
+    margin: 20px 0 20px 20px;
+    padding-top: 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-size: 20px;
+    line-height: 29px;
+    font-weight: 300;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+    -ms-transition: opacity 0.2s ease-in;
+    -moz-transition: opacity 0.2s ease-in;
+    -webkit-transition: opacity 0.2s ease-in;
+}
+div.upfront-navigation div.burger_overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+}
+div[data-style='burger'] ul.menu > li.menu-item > a {
+    color: #ufc6;
+    display: inline-block;
+    font-size: 17px;
+    line-height: 20px;
+    font-family: "Oswald";
+    font-weight: 400;
+    font-style: normal;
+    text-transform: uppercase;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    transition: color 0.25s ease-in;
+    -moz-transition: color 0.25s ease-in;
+    -webkit-transition: color 0.25s ease-in;
+}
+div[data-style='burger'] ul.menu > li.current-menu-item > a, div[data-style='burger'] ul.menu > li.menu-item > a:hover {
+    color: #ufc7;
+}
+div.upfront-navigation div.upfront-navigation[data-style="burger"][data-burger_alignment="right"] ul.menu {
+    min-width: 200px;
+    padding: 0 20px;
+    width: auto;
+}
+div.upfront-navigation div[data-style="burger"][data-burger_alignment="right"] ul.menu li {
+    margin-bottom: 5px;
+}
+div.upfront-navigation div[data-style="burger"][data-burger_alignment="right"] ul.menu li:last-child, div.upfront-navigation div[data-style="burger"][data-burger_alignment="right"] ul.menu li.wrap_burger_nav_close {
+    margin-bottom: 0;
+}
+div[data-style='burger'][data-burger_alignment="right"] ul.menu > li.menu-item > a {
+    padding: 0;
+}
+
+
+/* 133620-1456900953-au */

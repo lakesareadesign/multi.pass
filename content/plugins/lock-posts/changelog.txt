@@ -1,0 +1,42 @@
+Plugin Name: Lock Posts
+Author: WPMUDEV
+Lead developer: Maniu
+Contributors: Andrew Billits, Ulrich Sossou
+
+Change Log:
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+1.1.6 - 11/13/2015
+----------------------------------------------------------------------
+- Update dash notice
+
+1.1.5 - 11/13/2013
+----------------------------------------------------------------------
+- Added support for all public custom post types.
+
+1.1 - 08/10/2012
+----------------------------------------------------------------------
+- Locking based on user capability querying interception.
+- Filterable, post type based scope locking.
+- Filterable set of locking capabilities.
+
+1.0.3 - 01/10/2012
+----------------------------------------------------------------------
+- Fix for submenu checks.
+
+1.0.2 - 01/04/2011
+----------------------------------------------------------------------
+- 3.1+ compatibility.
+- Internationalization.
+
+1.0.1 - 08/31/2009
+----------------------------------------------------------------------
+- Fixed bug that resulted in posts getting locked regardless of setting.
+
+1.0.0 - 06/19/2009
+----------------------------------------------------------------------
+- Initial Release.
+
+
+133620-1448469607-au

@@ -1,0 +1,26 @@
+/**
+ * @Package: WordPress Plugin
+ * @Subpackage: Ultra WordPress Admin Theme
+ * @Since: Ultra 1.0
+ * @WordPress Version: 4.0 or above
+ * This file is part of Ultra WordPress Admin Theme Plugin.
+ */
+
+ /*revolution slider & visual composer*/
+
+body .composer-switch, body .composer-switch *, body #vc_properties-panel,
+.toplevel_page_revslider *{
+	box-sizing:content-box;
+	-o-box-sizing:content-box;
+	-ms-box-sizing:content-box;
+	-moz-box-sizing:content-box;
+	-webkit-box-sizing:content-box;
+}
+
+.toplevel_page_themepunch-google-fonts .button-primary,
+.toplevel_page_themepunch-google-fonts .button-secondary,
+.toplevel_page_revslider .button-secondary,
+.toplevel_page_revslider .button-primary{
+	padding: 0px 10px 1px 10px;
+	height: auto;
+}

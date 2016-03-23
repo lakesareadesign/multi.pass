@@ -1,0 +1,136 @@
+Plugin Name: WPMU DEV Videos
+Author: Aaron Edwards (incsub)
+
+Change Log:
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+1.5.2 - 11/11/2015
+----------------------------------------------------------------------
+- Fix: Exclude multisite only videos from group shortcode output
+- Fix: Hide hidden videos in group shortcodes
+- New: Style messy Hide Videos list into columns
+- New: Show list of included video names next to group shortcode docs
+- New: Use Masonry to make the videos page look neat and clean
+- Fix: Fixed and documented hooks and sample code to add custom videos to video page
+
+1.5.1 - 10/19/2015
+----------------------------------------------------------------------
+- Fix: Update and clean up video names to match the site
+
+1.5 - 1/23/2015
+----------------------------------------------------------------------
+- New: Hooks added for being able to add custom videos to the page
+- Fix: Support System admin menu option was not working
+
+1.4 - 11/04/2014
+----------------------------------------------------------------------
+- New: Added Install Themes/Plugins videos (not in multisite)
+- Fix: Admin menu conflicts with Themify themes
+
+1.3.1 - 5/06/2014
+----------------------------------------------------------------------
+- New: Added new videos - Creating Playlists, Running Updates (not in multisite)
+
+1.3 - 4/30/2014
+----------------------------------------------------------------------
+- New: Added new videos - Customizer, Revisions, Pages vs. Posts, Tools, Settings
+- Fix: Videos will now autoplay properly on the dashboard videos page
+
+1.2.8 - 4/23/2014
+----------------------------------------------------------------------
+- Remove "Paste from Word" depreciated in WP 3.9
+- Change "oEmbed" title to "Embed Videos"
+- Refresh language files
+
+1.2.7 - 3/18/2014
+----------------------------------------------------------------------
+- Add html ids to contextual help videos to fix error in Visual Composer
+
+1.2.6 - 1/29/2014
+----------------------------------------------------------------------
+- Use improved dashicon in WP 3.8
+- Update plugin header info
+
+1.2.5 - 12/16/2013
+----------------------------------------------------------------------
+- Rename QuickPress to Quick Draft for WP 3.8
+- Videos updated for WP 3.8
+
+1.2.4 - 11/21/2013
+----------------------------------------------------------------------
+- Update UN notice code
+- WP 3.8/MP6 support
+- Refresh language file
+
+1.2.3 - 9/2/2013
+----------------------------------------------------------------------
+- Change page url slugs to be less generic to avoid theme/plugin conflicts
+
+1.2.2 - 8/26/2013
+----------------------------------------------------------------------
+- Don't load videos into help tabs until tab is opened by user
+
+1.2.1 - 7/12/2013
+----------------------------------------------------------------------
+- Add more graceful error handling for API calls
+
+1.2 - 1/24/2013
+----------------------------------------------------------------------
+- Added secure support for Domain Mapped admin areas! Much requested.
+- Added new "Creating and Editing Image Galleries" and "Creating and Editing Users" videos
+
+1.1.3 - 12/11/2012
+----------------------------------------------------------------------
+- Removed "Links" videos as no longer part of WP as of 3.5
+
+1.1.2 - 11/20/2012
+----------------------------------------------------------------------
+- Fix error message for latest Domain Mapping release
+
+1.1.1 - 11/19/2012
+----------------------------------------------------------------------
+- Remove 2 old videos that have been combined into "Image Editor"
+
+1.1 - 10/29/2012
+----------------------------------------------------------------------
+- Update for new video embed codes and dimensions
+- Improved dashboard video player design and size
+- Added width and height arguments to shortcodes
+- Allow for disabling domain mapping check via WPMUDEV_VIDS_IGNORE_MAPPING
+
+1.0.6 - 3/09/2012
+----------------------------------------------------------------------
+- Add ability to show group titles to shortcodes
+- Wrap group shortcode output for better default display
+
+1.0.5 - 3/05/2012
+----------------------------------------------------------------------
+- Add group ability to the short codes list
+- Add compatibility checks to warn about domain mapping configuration
+
+1.0.4 - 1/30/2012
+----------------------------------------------------------------------
+- Fix missing "Excerpts" video
+- Remove duplicate "Editing Links" video
+
+1.0.3 - 12/12/2011
+----------------------------------------------------------------------
+- WP 3.3 compatibility for help dropdowns
+
+1.0.2 - 10/19/2011
+----------------------------------------------------------------------
+- Fix video display on SSL admin areas
+
+1.0.1 - 10/18/2011
+----------------------------------------------------------------------
+- Fix settings menu showing to normal admins in multisite
+- Fix wrong translation file location
+- Add default PO file
+
+1.0 - 10/11/2011
+----------------------------------------------------------------------
+- Initial Release
+
+
+133620-1448469619-au

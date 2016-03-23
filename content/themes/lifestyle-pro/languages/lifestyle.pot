@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Lifestyle Pro Theme for Genesis Framework\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-27 16:08-0500\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:8
+msgid "Lifestyle Pro Theme"
+msgstr ""
+
+#: functions.php:47
+msgid "Lifestyle Pro Blue"
+msgstr ""
+
+#: functions.php:48
+msgid "Lifestyle Pro Green"
+msgstr ""
+
+#: functions.php:49
+msgid "Lifestyle Pro Mustard"
+msgstr ""
+
+#: functions.php:50
+msgid "Lifestyle Pro Purple"
+msgstr ""
+
+#: functions.php:51
+msgid "Lifestyle Pro Red"
+msgstr ""
+
+#: functions.php:81
+msgid "Home - Top"
+msgstr ""
+
+#: functions.php:82
+msgid "This is the top section of the homepage."
+msgstr ""
+
+#: functions.php:86
+msgid "Home - Middle"
+msgstr ""
+
+#: functions.php:87
+msgid "This is the middle section of the homepage."
+msgstr ""
+
+#: functions.php:91
+msgid "Home - Bottom Left"
+msgstr ""
+
+#: functions.php:92
+msgid "This is the bottom left section of the homepage."
+msgstr ""
+
+#: functions.php:96
+msgid "Home - Bottom Right"
+msgstr ""
+
+#: functions.php:97
+msgid "This is the bottom right section of the homepage."
+msgstr ""

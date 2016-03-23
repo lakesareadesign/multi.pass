@@ -1,0 +1,32 @@
+#page .u-button-social-facebook.upfront-button {
+    text-align: center;
+}
+#page .u-button-social-facebook .upfront_cta {
+    border-radius: 50%;
+    display: inline-block;
+    height: 75px;
+    padding: 0;
+    width: 75px;
+    position: relative;
+}
+#page .u-button-social-facebook .upfront_cta:before {
+    content: "";
+    background: url("UPFRONT_THEME_BASE/ui/panino_sprite_v2.png") no-repeat;
+    background-image: url("UPFRONT_THEME_BASE/ui/panino_sprite_v2.svg");
+    background-position: -70px -703px;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 17px;
+    height: 33px;
+    margin: auto;
+}
+#page .u-button-social-facebook .upfront_cta .uf_font_icon {
+    line-height: 75px;
+}
+
+
+/* 133620-1456900939-au */

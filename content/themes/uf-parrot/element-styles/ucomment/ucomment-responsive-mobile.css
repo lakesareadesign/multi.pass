@@ -1,0 +1,22 @@
+#page .ucomment-responsive-mobile .comment .comment-avatar {
+    display: none;
+}
+#page .ucomment-responsive-mobile .comment .comment-content-wrapper {
+    display: block;
+    margin: 0;
+    max-width: 100%;
+}
+#page .ucomment-responsive-mobile ol.children {
+    margin-left: 15px;
+}
+#page .ucomment-responsive-mobile input {
+    width: 100%;
+}
+#page .ucomment-responsive-mobile #respond small {
+    float:none;
+    position:relative;
+    top:-5px;
+}
+
+
+/* 133620-1456900944-au */

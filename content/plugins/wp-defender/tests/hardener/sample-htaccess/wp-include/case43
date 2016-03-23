@@ -1,0 +1,17 @@
+<Files *.php>
+					Order allow,deny
+					Deny from all
+					</Files>
+
+					## CUSTOM PHP CGI BINARY SETUP
+                    AddHandler php-cgi .php .htm
+                    Action php-cgi /cgi-bin/php.cgi
+
+
+                    ## PROCESS SPECIFIC FILETYPES WITH CGI-SCRIPT
+                    Action image/gif /cgi-bin/img-create.cgi
+
+
+                    ## CREATE CUSTOM HANDLER FOR SPECIFIC FILE EXTENSIONS
+                    AddHandler custom-processor .ssp
+                    Action custom-processor /cgi-bin/myprocessor.cgi

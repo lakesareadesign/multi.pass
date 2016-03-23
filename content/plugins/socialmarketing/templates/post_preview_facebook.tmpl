@@ -1,0 +1,23 @@
+<div class="wrap farreaches">
+    <h2>Facebook Post Preview</h2>
+    <div class="fb-post-preview">
+        <div class="fb-post-header clearfix">
+        	<div class="fb-face" {{if extServiceUserProfilePicture}}style="background-image:url('{{:extServiceUserProfilePicture}}')"{{/if}}></div>
+            <div class="fb-user">
+                <div class="fb-user-who">
+                    <span class="fb-user-name fb-link">{{>extServiceUserFullName||'User Name'}}</span> shared a <span class="fb-link">link</span>.
+                </div>
+                <div class="fb-user-when">
+                    1 second ago via FarReach.es
+                </div>
+            </div>
+        </div>
+        <div class="fb-post-body">
+            <div class="fb-post-inner">
+                <div class="fb-post-title">{{>post_title||'Enter Title Here'}}</div>
+                <div class="fb-post-url">{{>post_url_title}}</div>
+                <div class="fb-post-text">{{>post_text}}</div>
+            </div>
+        </div>
+    </div>
+</div>

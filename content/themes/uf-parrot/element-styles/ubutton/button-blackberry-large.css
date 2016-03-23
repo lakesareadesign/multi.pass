@@ -1,0 +1,14 @@
+#page .button-blackberry-large.upfront-button .upfront_cta {
+    background:url("UPFRONT_THEME_BASE/ui/sprite.png") no-repeat;
+    background-image: url("UPFRONT_THEME_BASE/ui/sprite.svg"), none;
+    background-position: -32px -195px;
+    width: 82px;
+    height: 82px;
+    margin: 0 auto;
+    display: block;
+    overflow: hidden;
+    text-indent: -9999px;
+}
+
+
+/* 133620-1456900944-au */

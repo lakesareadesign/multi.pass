@@ -1,0 +1,161 @@
+.toggle_handle
+{
+    cursor: pointer;
+}
+
+.toggle_content
+{
+    display: none;
+}
+
+div#debug_handle
+{
+    margin: 10px 0;
+    padding: 5px;
+
+    background-color: #aaa;
+    color: #444;
+}
+
+div#debug
+{
+    font-family: monospace;
+    white-space: pre;
+}
+
+div#dead_blogs_email_left,
+div#dead_blogs_email_right
+{
+    float: left;
+
+    border: solid 1px black;
+    padding: 5px 10px;
+    background-color: #ccc;
+}
+
+div#dead_blogs_email_left
+{
+    width: 276px; /* 300, -4 for the borders, -20 for the margin on the right side */
+}
+
+div#dead_blogs_email_left div.blog
+{
+    position: relative;
+    border: solid 1px black;
+    padding: 5px;
+    margin-bottom: 10px;
+
+    background-color: #fff;
+}
+
+div#dead_blogs_email_left div.blog.selected
+{
+    background-color: #bfb;
+}
+
+div#dead_blogs_email_left div.blog ul
+{
+    margin: 5px 0px 5px 15px;
+
+    list-style-type: square;
+}
+
+div#dead_blogs_email_left div.blog div.remove
+{
+    position: absolute;
+    display: none;
+
+    bottom: 0;
+    right: 10px;
+
+    padding: 0px 2px;
+    border: solid 1px black;
+    border-bottom: none;
+
+    background-color: #d99;
+    font-size: 8pt;
+    line-height: 8pt;
+    cursor: pointer;
+}
+
+div#dead_blogs_email_left div.blog .email_to,
+div#dead_blogs_email_left div.blog .email_cc,
+div#dead_blogs_email_left div.blog .email_subject,
+div#dead_blogs_email_left div.blog .email_body
+{
+    display: none;
+}
+
+div#dead_blogs_email_right
+{
+    width: 700px;
+    margin-left: 20px;
+}
+
+div#dead_blogs_email_right input.subject,
+div#dead_blogs_email_right textarea.body,
+div#dead_blogs_email_right input.replyto
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 680px;
+}
+
+div#dead_blogs_email_right textarea.body
+{
+    height: 300px;
+}
+
+div#dead_blogs_email_right h3.input_label
+{
+    margin: 10px 12px;
+}
+
+div#dead_blogs_email_right input.submit
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+}
+
+div#dead_blogs_email_right table
+{
+    border: solid 1px black;
+    border-collapse: collapse;
+    margin: 10px auto;
+
+    background-color: #eee;
+    text-align: left;
+}
+
+div#dead_blogs_email_right table th,
+div#dead_blogs_email_right table td
+{
+    padding: 0 10px;
+}
+
+div#dead_blogs_email_right .email_to,
+div#dead_blogs_email_right .email_cc,
+div#dead_blogs_email_right .email_subject,
+div#dead_blogs_email_right .email_body,
+div#dead_blogs_email_right .email_replyto
+{
+    border: solid 1px black;
+    padding: 10px;
+    background-color: white;
+}
+
+table#dead-blogs-filter th,
+table#dead-blogs-filter td
+{
+    text-align: left;
+}
+
+table.smalltable th
+{
+    width: 300px;
+    vertical-align: top;
+}

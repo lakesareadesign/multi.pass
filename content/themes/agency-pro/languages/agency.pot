@@ -1,0 +1,107 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Agency Pro Theme\n"
+"POT-Creation-Date: 2016-01-08 02:09-0500\n"
+"PO-Revision-Date: 2016-01-08 02:08-0500\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#. Theme Name of the plugin/theme
+#: functions.php:15
+msgid "Agency Pro Theme"
+msgstr ""
+
+#: functions.php:73
+msgid "Agency Pro Blue"
+msgstr ""
+
+#: functions.php:74
+msgid "Agency Pro Green"
+msgstr ""
+
+#: functions.php:75
+msgid "Agency Pro Orange"
+msgstr ""
+
+#: functions.php:76
+msgid "Agency Pro Red"
+msgstr ""
+
+#: functions.php:97
+msgid "After Header Navigation Menu"
+msgstr ""
+
+#: functions.php:97
+msgid "Footer Navigation Menu"
+msgstr ""
+
+#: functions.php:122
+msgid "Home Top"
+msgstr ""
+
+#: functions.php:123
+msgid "This is the top section of the homepage."
+msgstr ""
+
+#: functions.php:127
+msgid "Home Middle"
+msgstr ""
+
+#: functions.php:128
+msgid "This is the middle section of the homepage."
+msgstr ""
+
+#: functions.php:132
+msgid "Home Bottom"
+msgstr ""
+
+#: functions.php:133
+msgid "This is the bottom section of the homepage."
+msgstr ""
+
+#: lib/customize.php:25
+msgid "Backstretch Image"
+msgstr ""
+
+#: lib/customize.php:26
+msgid ""
+"<p>Use the included default image or personalize your site by uploading your "
+"own image for the background.</p><p>The default image is <strong>1600 x 1000 "
+"pixels</strong>.</p>"
+msgstr ""
+
+#: lib/customize.php:41
+msgid "Backstretch Image Upload"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/agency/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Represent your professional services with confidence and clarity by "
+"harnessing the streamlined professionalism of the Agency theme."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
+msgstr ""

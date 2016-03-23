@@ -1,0 +1,54 @@
+@CHARSET "UTF-8";
+
+.bau_required {
+	color: #900;
+	font-size: .8em;
+	font-style: italic;
+}
+
+#bau_tabs label {
+	font-size: 1.1em;
+	float: left;
+	width: 160px;
+}
+
+.bau_root p {
+	clear: both;
+}
+
+.bau_inline_help {
+	display: block;
+	font-size: .9em;
+	color: #666;
+	font-style: italic;
+}
+
+.bau_help {
+	float: left;
+	height: 16px;
+	width: 20px;
+	background: url(../img/help.png) top left no-repeat;
+	cursor: help;
+}
+
+.bau_help_window {
+	display: none;
+}
+
+#bau_tabs .bau_pre_container {
+	background-color: #ddd;
+	width: 600px;
+	padding: 5px;
+}
+#bau_tabs .bau_pre_container label {
+	width: 400px;
+}
+.bau_pre_container table {
+
+}
+.bau_pre_container table td {
+	border-bottom: 1px solid #ccc !important;
+}
+
+
+/* 133620-1458517009 */

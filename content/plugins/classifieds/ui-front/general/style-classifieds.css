@@ -1,0 +1,639 @@
+/*
+Styleshteet Name: Classifieds UI Front Main
+Description: You can override this file in your active theme.
+*/
+
+/* =Styles for Classifieds Main component.
+-------------------------------------------------------------- */
+
+.error {
+	background: #FFEBE8;
+	padding:10px;
+	border:1px solid red;
+}
+.submit {
+	margin: 10px 0;
+}
+.invalid-login {
+	margin-top: 10px;
+}
+.description {
+	color:#888888;
+	font-size:12px;
+}
+
+.clear{
+	clear: both;
+	width:auto;
+	height: auto;
+}
+
+.clear_left{
+	clear: left;
+}
+
+.clear_right{
+	clear: right;
+}
+
+.editfield label, .editfield .label {
+	font-size:14px;
+	color: #333;
+	display: block;
+	font-family:"Helvetica Neue",Arial,Helvetica,"Nimbus Sans L",sans-serif;
+}
+
+.editfield input,
+.editfield textarea,
+.editfield select {
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	width:100%;
+}
+
+/* Update page*/
+.cf_tax_panel{
+	overflow: auto;
+	height:160px;
+	border:1px solid #ddd;
+}
+
+.cf_tax_panel ul{
+	padding: 0;
+	list-style: none outside none;
+	margin-left: 1em;
+}
+
+.cf_tax_panel ul.chilcfen{
+	font-size: .8em;
+	margin-left: 1.6em;
+}
+
+.cf_taxonomydiv{
+	float: left;
+	display: block;
+	width:47%;
+	margin-right: 3%;
+}
+
+
+.entry-content .cf-ad input {
+	margin: 0;
+}
+
+.entry-content .cf-checkout input {
+	margin: 0;
+}
+.entry-content .cf-login input {
+	margin: 0;
+}
+
+/*
+#content .editfield table {
+border:0;
+width: inherit;
+margin: 0;
+}
+
+#content .editfield tr td {
+border-top:0;
+padding:0 15px 0 0;
+vertical-align: top;
+}
+
+#content .cf-ad table {
+margin: 0 0 0 15px;
+display: block;
+border: 1px solid #ddd;
+border-collapse: collapse;
+width: 100%;
+}
+*/
+
+.cf-ad{
+	width: 100%;
+	overflow: hidden;
+}
+
+.cf-excerpt{
+	font-size: .8em;
+	line-height: 1.2em;
+}
+
+.cf-pad{
+	margin: .5em;
+	border: 1px solid #ddd;
+}
+
+.cf-title {
+	font-weight: bold;
+
+}
+
+.cf-price {
+	float: right;
+	font-weight: bold;
+}
+.cf-image {
+	float: left;
+	background-color: #fafafa;
+	margin: 5px;
+}
+
+.cf-image h3{
+	float: right;
+}
+
+.cf-info {
+	margin: 5px 5px 5px 160px;
+}
+
+.cf-post .cf-info {
+	margin: 5px 5px 5px 360px;
+}
+
+.cf-info table{
+	width: 100%;
+	height: 150px;
+	border-collapse: collapse;
+	margin:0;
+}
+
+.cf-info table th {
+	text-align: right;
+	width: 50px;
+}
+
+.cf-info table th,
+.cf-info table td {
+	padding: 0 1em;
+	vertical-align: middle;
+	border: 1px solid #ddd;
+}
+
+.cf-ad form {
+	padding-right: 7px;
+	overflow: hidden;
+	float: right;
+}
+
+.cf-ad form.del-form {
+	padding-right: 7px;
+}
+
+.cf-ad-info{
+	border-collapse: collapse;
+	font-size: .8em;
+}
+
+
+table.cf-ad-info th,
+table.cf-ad-info td {
+	border: 1px solid #ddd;
+	padding: 0 1em;
+}
+
+table.cf-ad-info th {
+	text-align: right;
+	width:50px;
+}
+
+ul.button-nav li {
+	float: left;
+	list-style: none;
+	padding-right: 15px;
+}
+/*
+#content .hentry ul {
+overflow: hidden;
+margin: 0;
+padding-bottom: 15px;
+}
+*/
+.cf-checkout {
+	margin-right: 15px;
+}
+
+#content .cf-checkout table {
+	margin:0;
+}
+
+#content .cf-checkout table tr td {
+	padding:6px 0 6px 24px;
+}
+
+#content .cf-login table {
+	margin:0;
+}
+.terms {
+	height:100px;
+	overflow-x: hidden;
+	color:#888888;
+	font-size:12px;
+	font-family:"Helvetica Neue",Arial,Helvetica,"Nimbus Sans L",sans-serif;
+}
+.editfield .wp-post-image {
+	border: 1px solid #ddd;
+	padding: 15px;
+}
+.single-classifieds #content img.wp-post-image {
+	border: 1px solid #ddd;
+	padding: 15px;
+	margin: 0 auto 10px auto;
+}
+.button-nav {
+	margin: 12px 0 0 0;
+}
+.button-nav li a {
+	text-decoration: none;
+	-moz-border-radius:3px 3px 3px 3px;
+	border:1px solid #DDDDDD;
+	color:#888888;
+	cursor:pointer;
+	font-size:12px;
+	font-weight:normal;
+	padding:3px 10px;
+}
+.button-nav li.current a {
+	color: #000;
+}
+.create-new-btn,
+.credits_btn,
+.checkout_btn {
+	float: right;
+}
+.cf-custom-fields .alt {
+	background: #F3F3F3;
+}
+#content .cf-custom-fields tr th {
+	border-top:1px solid #E7E7E7;
+}
+.action-form, .confirm-form {
+	margin-top: 10px;
+}
+.cf-contact-form {
+	width: 300px;
+	float: left;
+}
+
+.av-credits {
+	float: right;
+	margin-top: -30px;
+	color: green;
+}
+
+#cf-message,
+#cf-message-error {
+	background-color: #8FF57A;
+	color: #1A6A00;
+	-moz-border-radius: 3px 3px 3px 3px;
+	border: 1px solid #80CF70;
+	font-weight: normal;
+	margin: 3px 0px 10px 0px;
+	text-decoration: none;
+	display: block;
+	font-size: 12px;
+	padding: 5px 50px;
+	float: left;
+}
+
+#cf-message-error {
+	background-color: #FFEBE8;
+	color: #000;
+	border: 1px solid #CC0000;
+}
+
+.my-credits h3 {
+	font-size: 20px;
+	font-weight: bold;
+	margin: 15px 0px 15px 0px;
+
+}
+
+.my-credits table {
+	width: inherit;
+}
+
+.my-credits table tr td, .my-credits table tr td {
+	padding: 8px;
+}
+
+/* Pagination styles */
+
+.cf-navigation{
+	float:right;
+}
+
+.cf-pagination {
+	clear:both;
+	padding:0;
+	position: relative;
+	font-size:11px;
+	line-height:13px;
+	z-index:99;
+}
+
+.cf-pagination span, .cf-pagination a {
+	display:block;
+	float:left;
+	margin: 2px 2px 2px 0;
+	padding:6px 9px 5px 9px;
+	text-decoration:none;
+	width:auto;
+	color:#fff;
+	background: #555;
+}
+.cf-pagination a:hover{
+	color:#fff;
+	background: #3279BB;
+}
+.cf-pagination .current{
+	padding:6px 9px 5px 9px;
+	background: #3279BB;
+	color:#fff;
+}
+
+/** Sigin Form **/
+/* tabbed list */
+#login-register-password, ul.cf_tabs {
+	padding-bottom: 0;
+	margin: 0 !important;
+	position: relative;
+	list-style: none;
+	z-index: 1000;
+	float: left;
+}
+
+ul.cf_tabs li {
+	background: #fff;
+	border: 1px solid #E7E9F6;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	line-height: 2em;
+	padding: 0;
+	margin-right: 5px;
+	overflow: hidden;
+	float: left;
+}
+ul.cf_tabs li a {
+	text-decoration: none;
+	padding: 0 10px;
+	display: block;
+}
+
+ul.cf_tabs li.cf_active {
+	border-bottom: 1px solid #fff;
+}
+ul.cf_tabs li.cf_active a {
+	font-weight: bold;
+	color: #333;
+}
+
+.cf_tab_container {
+	background: #fff;
+	position: relative;
+	margin: 0;
+	border: 1px solid #E7E9F6;
+	z-index: 999;
+	float: left;
+	width: 100%;
+	top: -1px;
+	z-index: 999;
+
+}
+.cf_tab_content {
+	padding: 15px;
+}
+.cf_tab_content ul {
+	padding: 0;
+	margin: 0 0 0 15px;
+}
+.cf_tab_content li {
+	margin: 5px 0;
+}
+
+/* global styles */
+#login-register-password {}
+#login-register-password h3 {
+	border: 0 none;
+	margin: 10px 0;
+	padding: 0;
+}
+#login-register-password p {
+	margin: 0 0 15px 0;
+	padding: 0;
+}
+/* form elements */
+.wp-user-form {}
+.username,
+.password,
+.login_fields {
+	margin: 7px 0 0 0;
+	overflow: hidden;
+	width: 100%;
+}
+.username label,
+.password label {
+	float: left;
+	width: 25%;
+}
+.username input,
+.password input {
+	float: left;
+	width: 200px;
+	padding: 2px 3px;
+	color: #777;
+}
+.rememberme {
+	overflow: hidden;
+	width: 100%;
+	margin-bottom: 7px;
+}
+#rememberme {
+	float: left;
+	margin: 4px 4px -4px 0;
+}
+.user-submit {
+	padding: 5px 10px;
+	margin: 5px 0;
+}
+.userinfo {
+	float: left;
+	width: 75%;
+	margin-bottom: 10px;
+}
+.userinfo p {
+	margin-left: 10px;
+}
+.usericon {
+	float: left;
+	width: 15%;
+	margin: 0 0 10px 22px;
+}
+.usericon img {
+	border: 1px solid #F4950E;
+	padding: 1px;
+}
+
+/* custom input field styles */
+.ct-form-field table{
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.ct-form-field label{
+	border:none;
+	font-family: inherit;
+}
+.ct-form-field td{
+	border:none;
+}
+
+.ct-form-field p{
+	font-size: .8em;
+}
+
+/** Thickbox layer adjustment */
+#TB_overlay {
+	z-index:10000;
+}
+
+#TB_window {
+	z-index: 10002;
+}
+
+#TB_load{
+	z-index:10003;
+}
+
+#TB_HideSelect{
+	z-index:9999;
+}
+
+/* #cf_listing_list */
+
+#cf_listing_list .entry-title{
+	float: left;
+}
+
+#cf_listing_list .entry-meta{
+	clear: none;
+	float: right !important;
+	width: 230px;
+	border-left: 1px solid #ddd;
+	padding: 0 5px;
+	margin-left: 5px;
+}
+
+#cf_listing_list .entry-post{
+	border: 1px solid #ddd;
+	margin-bottom: 1em;
+	padding: 1em;
+}
+
+#cf_listing_list .entry-summary{
+	clear: left;
+	padding:0;
+}
+
+/*Categories list grid css*/
+
+#cf_list_categories ul{
+	padding:0;
+	margin:0;
+}
+
+.cf_list_grid h2{
+	background-color: #eee;
+	padding: .2em 1em;
+	border-radius: .3em;
+	text-align: center;
+	font-size: 1em;
+}
+
+.cf_list_grid li{
+	float: left;
+	list-style: none outside none;
+	min-height: 11em;
+	padding: .5em;
+	width: 19%;
+	margin: 0 2% 2% 0;
+	border: medium solid #eee;
+	border-radius: .4em;
+	font-size: small;
+}
+
+#cf_list_categories span{
+}
+
+/*Categories list css*/
+.cf_list h2{
+	background-color: #eee;
+	padding: .2em 1em;
+	border-radius: .3em;
+	text-shadow: 1px 1px #fff;
+}
+
+.cf_list ul{
+	min-width:50%;
+}
+
+.cf_list li{
+	list-style: none outside none;
+	margin: .6em;
+}
+
+.cf_list div{
+	float:left;
+	margin: 0 1em;
+}
+
+/** File upload button
+*
+* this is rather empirically arrived at ratios to get the upload button
+* to work in all browsers due to [type=file] weirdness between browsers
+* Firefox in particualr is touchy.
+*/
+
+.upload-button {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+
+.upload-button input {
+  position: absolute;
+  right: 0;
+  top: -200%;
+  width: 100%;
+  height: 400%;
+  font-size: 10%;
+  letter-spacing: 12em;
+  cursor: pointer;
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  opacity: 0;
+  margin-right: 10px;
+}
+
+.upload-button .button {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 11px;
+  margin-right: 5px;
+  padding: 4px 18px;
+  text-transform: uppercase;
+}
+
+.upload-button .file-holder {
+	background: #ddd;
+	padding:3px;
+}
+
+
+/* 133620-1435570200-ai */

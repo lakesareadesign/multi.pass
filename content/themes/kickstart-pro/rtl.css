@@ -1,0 +1,949 @@
+/* Kickstart Pro RTL */
+
+/* Table of Contents
+
+	- Defaults
+		- Typographical Elements
+		- Tables
+	- Structure and Layout
+		- Column Widths and Positions
+		- Column Classes
+	- Common Classes
+		- WordPress
+		- Genesis
+	- Widgets
+		- Calendar
+		- Categories
+	- Plugins
+		- Genesis eNews Extended
+		- Genesis Responsive Slider
+		- Gravity Forms
+		- Testimonials
+	- Site Header
+		- Title Area
+		- Widget Area
+	- Site Navigation
+		- Accessible Menu
+	- Content Area
+		- Entries
+		- Post Formats
+		- Comments
+		- Pricing Table
+	- Templates
+		- Archive / Blog Page
+		- Contact Page
+		- Homepage
+	- Sidebars
+	- Before Footer
+	- Footer Widgets
+	- Footer Social
+	- Site Footer
+	- Media Queries
+		- max-width: 1400px
+		- max-width: 1139px
+		- max-width: 1023px
+		- max-width: 900px
+		- max-width: 480px
+
+*/
+
+
+/*
+Defaults
+---------------------------------------------------------------------------------------------------- */
+
+/* Typographical Elements
+--------------------------------------------- */
+
+blockquote::before {
+	content: "\201D";
+    right: -20px;
+	left: auto;
+}
+
+/* Tables
+--------------------------------------------- */
+
+th,
+td {
+    text-align: right;
+}
+
+
+/*
+Structure and Layout
+---------------------------------------------------------------------------------------------------- */
+
+/* Column Widths and Positions
+--------------------------------------------- */
+
+/* Wrapping div for .content and .sidebar-primary */
+
+.content-sidebar-sidebar .content-sidebar-wrap {
+    float: right;
+}
+
+.sidebar-content-sidebar .content-sidebar-wrap,
+.sidebar-sidebar-content .content-sidebar-wrap {
+    float: left;
+}
+
+/* Content */
+
+.content {
+    float: left;
+}
+
+.content-sidebar .content,
+.content-sidebar-sidebar .content,
+.sidebar-content-sidebar .content {
+    float: right;
+}
+
+/* Primary Sidebar */
+
+.sidebar-primary {
+    float: left;
+}
+
+.sidebar-content .sidebar-primary,
+.sidebar-sidebar-content .sidebar-primary {
+    float: right;
+}
+
+/* Column Classes
+	Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css
+--------------------------------------------- */
+
+.columns-2 .quote,
+.columns-3 .quote,
+.columns-4 .quote,
+.five-sixths,
+.four-sixths,
+.one-fourth,
+.one-half,
+.one-sixth,
+.one-third,
+.three-fourths,
+.three-sixths,
+.two-fourths,
+.two-sixths,
+.two-thirds {
+    float: right;
+    margin-right: 2.564102564102564%;
+	margin-left: auto;
+}
+
+.columns-2 .first,
+.columns-3 .first,
+.columns-4 .first,
+.first {
+    margin-right: 0;
+	margin-left: auto;
+}
+
+
+/*
+Common Classes
+---------------------------------------------------------------------------------------------------- */
+
+/* WordPress
+--------------------------------------------- */
+
+.avatar {
+    float: right;
+}
+
+.alignright .avatar {
+    margin-left: 24px;
+	margin-right: auto;
+}
+
+.alignleft .avatar {
+    margin-right: 24px;
+	margin-left: auto;
+}
+
+.alignright {
+    float: right;
+    text-align: right;
+}
+
+.alignleft {
+    float: left;
+    text-align: left;
+}
+
+img.alignright,
+.wp-caption.alignright {
+    margin: 0 0 24px 24px;
+}
+
+img.alignleft,
+.wp-caption.alignleft {
+    margin: 0 24px 24px 0;
+}
+
+/* Genesis
+--------------------------------------------- */
+
+.author-box .avatar {
+    margin-left: 24px;
+	margin-right: auto;
+}
+
+
+/*
+Widgets
+---------------------------------------------------------------------------------------------------- */
+
+/* Calendar
+--------------------------------------------- */
+
+.widget_calendar td#prev {
+    text-align: right;
+}
+
+.widget_calendar td#next {
+    text-align: left;
+}
+
+/* Categories
+--------------------------------------------- */
+
+.sidebar .widget_categories ul {
+    margin-right: 6px;
+	margin-left: auto;
+}
+
+.sidebar .widget_categories ul li:before {
+    padding-left: 12px;
+	padding-right: 0;
+}
+
+
+/*
+Plugins
+---------------------------------------------------------------------------------------------------- */
+
+/* Genesis eNews Extended
+--------------------------------------------- */
+
+.home-row .enews-widget .widget-title,
+.home-row .enews-widget p {
+    float: right;
+}
+
+.home-row .enews-widget .widget-title {
+    padding-left: 17px;
+	padding-right: 0;
+}
+
+.home-row .enews-widget form {
+    text-align: left;
+}
+
+.home-row .enews-widget input {
+	border: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+.home-row .enews-widget input[type="submit"] {
+	border-radius: 3px 0 0 3px;
+    margin-right: -5px;
+	margin-left: 0;
+}
+
+/* Genesis Responsive Slider
+--------------------------------------------- */
+
+div.flex-direction-nav li .prev {
+    right: 0;
+	left: auto;
+}
+
+div.flex-direction-nav li .next {
+    left: 0;
+	right: auto;
+}
+
+div.slide-excerpt {
+    right: 0;
+    left: 0;
+}
+
+ul.flex-direction-nav li .next {
+    left: 0;
+	right: auto;
+}
+
+ul.flex-direction-nav li .prev {
+    right: 0;
+	left: auto;
+}
+
+ul.flex-direction-nav li .next:after {
+	content: "\f053";
+    left: 10px;
+    text-align: left;
+	right: auto;
+}
+
+ul.flex-direction-nav li .prev:after {
+	content: "\f054";
+    right: 10px;
+    text-align: right;
+	left: auto;
+}
+
+/* Gravity Forms
+--------------------------------------------- */
+
+body.rtl div.gform_wrapper .gform_footer input[type="submit"] {
+    text-align: center !important;
+}
+
+/* Testimonials
+--------------------------------------------- */
+
+.testimonials {
+    text-align: right;
+}
+
+.testimonials blockquote p:first-child {
+    text-align: right;
+}
+
+.testimonials blockquote:before {
+    right: 0;
+	left: auto;
+}
+
+.testimonials .author {
+    padding-left: 30px;
+	padding-right: 0;
+}
+
+.testimonials .quote:after {
+	content: "\201C";
+    left: 30px;
+	right: auto;
+}
+
+
+/*
+Site Header
+---------------------------------------------------------------------------------------------------- */
+
+/* Title Area
+--------------------------------------------- */
+
+.title-area {
+    float: right;
+}
+
+.site-title {
+    float: right;
+}
+
+.site-description {
+    float: right;
+}
+
+/* Logo, hide text */
+
+.header-image .site-header .wrap {
+	background: url(images/logo.png) no-repeat right center;
+	padding: 0;
+}
+
+.header-image .site-title a {
+	background: none;
+	float: right;
+	height: 80px;
+	margin-top: 15px;
+	max-height: 80px;
+	padding: 0;
+	width: 155px;
+}
+
+/* Widget Area
+--------------------------------------------- */
+
+.site-header .widget-area {
+    float: left;
+    text-align: left;
+}
+
+
+/*
+Site Navigation
+---------------------------------------------------------------------------------------------------- */
+
+.genesis-nav-menu .menu-item {
+    margin-left: 8px;
+    text-align: right;
+	margin-right: auto;
+}
+
+.genesis-nav-menu .menu-item:last-child {
+    margin-left: 0;
+	margin-right: auto;
+}
+
+.genesis-nav-menu .sub-menu {
+    right: -9999px;
+	left: auto;
+}
+
+.genesis-nav-menu .sub-menu .sub-menu {
+    margin: -37px 199px 0 0;
+}
+
+.genesis-nav-menu .menu-item:hover > .sub-menu {
+    right: auto;
+	left: auto;
+}
+
+.genesis-nav-menu > .first > a {
+    padding-right: 0;
+	padding-left: 0;
+}
+
+.genesis-nav-menu > .last > a {
+    padding-left: 0;
+	padding-right: 0;
+}
+
+.genesis-nav-menu > .left {
+    float: left;
+}
+
+.genesis-nav-menu > .rss > a {
+    margin-right: 48px;
+	margin-left: auto;
+}
+
+/* Accessible Menu
+--------------------------------------------- */
+
+.menu .menu-item > a:focus + ul.sub-menu,
+.menu .menu-item.sfHover > ul.sub-menu {
+    right: auto;
+	left: auto;
+}
+
+
+/*
+Content Area
+---------------------------------------------------------------------------------------------------- */
+
+/* Entries
+--------------------------------------------- */
+
+.entry-content ol,
+.entry-content ul {
+    margin-right: 40px;
+	margin-left: auto;
+}
+
+.entry-comments-link::before {
+    margin: 0 2px 0 6px;
+}
+
+/* Post Formats
+--------------------------------------------- */
+
+.format-quote .entry-content {
+    margin: 0 0 40px 40px;
+}
+
+/* Comments
+--------------------------------------------- */
+
+.comment-respond label {
+    margin-left: 12px;
+	margin-right: auto;
+}
+
+.comment-list li li {
+    margin-right: 32px;
+    margin-left: -32px;
+}
+
+.comment .avatar {
+    margin: 0 0 24px 16px;
+}
+
+/* Pricing Table
+--------------------------------------------- */
+
+.pricing-column.featured:before {
+    left: 0;
+    border-width: 0 0 50px 50px;
+    border-color: transparent transparent transparent #fff;
+}
+
+.pricing-column.featured:after {
+    left: 7px;
+	right: auto;
+}
+
+
+/*
+Templates
+---------------------------------------------------------------------------------------------------- */
+
+/* Archive / Blog Page
+--------------------------------------------- */
+
+.blog-top img {
+    padding-left: 10%;
+	padding-right: 0;
+}
+
+.blog-top .entry-content {
+	position: relative;
+}
+
+.blog-top .entry-content a.more-link {
+	left: 0;
+}
+
+/* Contact Page
+--------------------------------------------- */
+
+/* Top Area */
+
+.before-contact .wrap {
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.kickstart-contact-box {
+    left: 0;
+    text-align: right;
+	right: auto;
+}
+
+.kickstart-contact-box .address,
+.kickstart-contact-box .email,
+.kickstart-contact-box .phone {
+    padding-right: 27px;
+	padding-left: 0;
+}
+
+.kickstart-contact-box .address:before,
+.kickstart-contact-box .email:before,
+.kickstart-contact-box .phone:before {
+    right: 0;
+	left: auto;
+}
+
+/* Homepage
+--------------------------------------------- */
+
+/* Home - General Styles */
+
+.home-row ul.featured {
+    margin: 55px 20px 0 0;
+}
+
+.home-row ul.featured li {
+    text-align: right;
+}
+
+.home-row ul.featured li:before {
+	display: none;
+}
+
+.home-row ul.featured li:after {
+	content: "\f005";
+	font-family: FontAwesome;
+    padding-left: 20px;
+}
+
+.home-row1-left .widget-title,
+.home-row3-left .widget-title {
+    text-align: right;
+}
+
+/* Home Top */
+
+.featured-link:before,
+.home-top .widget .featured-link:before {
+	border-width: 6.5px 11px 6.5px 0;
+	border-color: transparent #fff transparent transparent;
+    left: 20px;
+	right: auto;
+}
+
+.featured-link:after,
+.home-top .widget .featured-link:after {
+    left: 53px;
+	right: auto;
+}
+
+.featured-link a {
+    padding: 15px 28px 15px 50px;
+}
+
+.home-top-callout {
+    left: 48px;
+	right: auto;
+}
+
+.home-top-news .entry-content,
+.home-top-news .entry-header,
+.home-top-news .entry-title,
+.home-top-news .widget-title {
+    float: right;
+    text-align: right;
+}
+
+.home-top-news .entry-content,
+.home-top-news .entry-header {
+    padding-right: 20px;
+	padding-left: 0;
+}
+
+.home-top-news .entry-content a {
+    left: 0;
+	right: auto;
+}
+
+.home-top-news .entry-content a:after {
+	content: "\f053";
+    left: 0;
+    text-align: left;
+	right: auto;
+}
+
+.home-top-news .widget {
+    padding-right: 40px;
+	padding-left: 0;
+}
+
+.home-top-news .widget:before {
+    right: 0;
+	left: auto;
+}
+
+/* Home Row 4 */
+
+.home-row4 .post {
+    float: right;
+}
+
+.home-row4 .post:nth-child(odd) {
+	margin-left: 0;
+	margin-right: 18%;
+}
+
+
+/*
+Sidebars
+---------------------------------------------------------------------------------------------------- */
+
+.sidebar .widget input[type="email"],
+.sidebar .widget input[type="search"] {
+    margin-left: 2px;
+	margin-right: auto;
+}
+
+
+/*
+Before Footer
+---------------------------------------------------------------------------------------------------- */
+
+.before-footer .widget-title {
+    float: right;
+    padding-right: 40px;
+	padding-left: 0;
+}
+
+.before-footer .latest-tweets:before {
+    right: 0;
+	left: auto;
+}
+
+.before-footer .latest-tweets ul li {
+    float: right;
+    padding-right: 40px;
+	padding-left: 0;
+}
+
+.before-footer .latest-tweets .tweet-details a span {
+    padding-right: 20px;
+	padding-left: 0;
+}
+
+
+/*
+Footer Widgets
+---------------------------------------------------------------------------------------------------- */
+
+.footer-widgets .widget-area {
+    margin-left: 18px;
+	margin-right: auto;
+}
+
+.footer-widgets .widget-area:last-child {
+    margin-left: 0;
+	margin-right: auto;
+}
+
+.footer-widgets-1,
+.footer-widgets-2,
+.footer-widgets-3,
+.footer-widgets-4 {
+    float: right;
+}
+
+.footer-widgets-5 {
+    float: left;
+}
+
+
+/*
+Footer Social
+---------------------------------------------------------------------------------------------------- */
+
+.footer-social .simple-social-icons ul li {
+    margin: 0 !important 12px 2px;
+}
+
+
+/*
+Site Footer
+---------------------------------------------------------------------------------------------------- */
+
+
+/*
+Media Queries
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 1400px) {
+}
+
+@media only screen and (max-width: 1139px) {
+}
+
+@media only screen and (max-width: 1023px) {
+
+	.before-footer .wrap,
+	.blog-top .wrap,
+	.footer-social .wrap,
+	.front-page .site-inner .wrap,
+	.home-top-news .widget,
+	.site-inner,
+	.site-footer .wrap {
+	    padding-right: 5%;
+	    padding-left: 5%;
+	}
+
+	.front-page .site-inner {
+	    padding-right: 0;
+	    padding-left: 0;
+	}
+
+	.header-image .site-header .wrap {
+	    background-position: right 20px center;
+	    padding: 0 20px;
+	}
+
+	.header-image .title-area {
+	    margin-right: 0;
+		margin-left: auto;
+	}
+
+	.before-footer .widget-title {
+	    padding-right: 0;
+		padding-left: 0;
+	}
+
+	.before-footer .latest-tweets ul li {
+	    padding-right: 0;
+		padding-left: 0;
+	}
+
+	.before-footer .latest-tweets .tweet-details a span {
+	    padding-right: 0;
+		padding-left: 0;
+	}
+
+	/* Homepage */
+
+	html > body div.slide-excerpt-border {
+	    margin-right: 50px;
+		margin-left: auto;
+	}
+
+	.home-top .widget {
+	    right: 20px;
+		left: auto;
+	}
+
+	.featured-link a {
+	    padding: 15px 20px 15px 50px;
+	}
+
+	.home-top-news .entry-content,
+	.home-top-news .entry-header,
+	.home-top-news .entry-title,
+	.home-top-news .widget-title {
+		float: none;
+	    padding-right: 0;
+		padding-left: 0;
+		text-align: center;
+	}
+
+	.home-row .enews-widget .widget-title,
+	.home-row .enews-widget p {
+		float: none;
+		text-align: center;
+	}
+
+	.home-row .enews-widget form {
+		text-align: center;
+	}
+
+	/* Contact Page */
+
+	.kickstart-contact-box {
+	    right: 50%;
+	    margin-right: -213px;
+		left: auto;
+		margin-left: auto;
+	}
+
+}
+
+@media only screen and (max-width: 900px) {
+
+	.columns-2 .quote,
+	.columns-3 .quote,
+	.columns-4 .quote,
+	.five-sixths,
+	.four-sixths,
+	.one-fourth,
+	.one-half,
+	.one-sixth,
+	.one-third,
+	.three-fourths,
+	.three-sixths,
+	.two-fourths,
+	.two-sixths,
+	.two-thirds {
+		margin-right: 0;
+	}
+
+	.header-image .site-header .wrap {
+	    background-position: center 5px;
+	    background-size: 93px 48px;
+	    padding: 0;
+	}
+
+	.site-description,
+	.site-title,
+	.title-area {
+		float: none;
+		text-align: center;
+	}
+
+	.header-image .site-title a {
+	    float: none;
+	    height: auto;
+	    margin-top: 0;
+	    min-height: 58px;
+	    width: 100%;
+	}
+
+	.menu-toggle {
+	    left: 0;
+		right: auto;
+	}
+
+	.menu-toggle:before,
+	.menu-toggle.activated:before {
+	    padding: 0 0 0 10px;
+	}
+
+	.sub-menu-toggle {
+	    float: left;
+	    left: 5%;
+		right: auto;
+	}
+
+	.js .genesis-nav-menu .menu-item {
+		float: none;
+	    text-align: right;
+	}
+
+	.js .genesis-nav-menu .sub-menu .sub-menu .menu-item a {
+	    padding-right: 7.5%;
+	    padding-left: 7.5%;
+	}
+
+	.js .genesis-nav-menu .sub-menu .sub-menu .sub-menu-toggle {
+	    left: 5%;
+		right: auto;
+	}
+
+	.js .genesis-nav-menu .sub-menu .sub-menu .sub-menu .menu-item a {
+	    padding-right: 10%;
+	    padding-left: 10%;
+	}
+
+	.site-footer .alignleft,
+	.site-footer .alignright {
+		float: none;
+	}
+
+	.home-top .widget,
+	html > body div.slide-excerpt-border {
+	    right: 0;
+	    margin-right: auto;
+	    margin-left: auto;
+	    left: 0;
+	}
+
+	.home-row4 .post,
+	.home-row4 .post:nth-child(odd) {
+    	float: none;
+    	margin: 0 auto 50px;
+    }
+
+	.blog-top img {
+	    padding-right: 0;
+		padding-left: 0;
+	}
+
+}
+
+@media only screen and (max-width: 480px) {
+
+	.wrap {
+	    padding-right: 5%;
+	    padding-left: 5%;
+	}
+
+	.home-top-slider .wrap {
+	    padding-right: 0;
+	    padding-left: 0;
+	}
+
+	html > body div.slide-excerpt-border .featured-link a {
+	    padding: 10px 20px 10px 50px;
+	}
+
+	.kickstart-contact-box {
+	    right: 0;
+	    margin-right: 0;
+		left: auto;
+		margin-left: auto;
+	}
+
+}
