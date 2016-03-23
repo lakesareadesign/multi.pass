@@ -106,7 +106,7 @@ $footer_column->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'bottom_padding_use' => false,
@@ -267,13 +267,13 @@ $footer_column->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 948,
+         'menu-item-db-id' => 1179,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Home',
          'menu-item-url' => '{{upfront:home_url}}',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '948',
+         'menu-item-object-id' => '1179',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -285,13 +285,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 949,
+         'menu-item-db-id' => 1180,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Features',
          'menu-item-url' => '{{upfront:home_url}}/features/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '949',
+         'menu-item-object-id' => '1180',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -303,13 +303,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 950,
+         'menu-item-db-id' => 1181,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Download',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '950',
+         'menu-item-object-id' => '1181',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -321,13 +321,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 951,
+         'menu-item-db-id' => 1182,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '951',
+         'menu-item-object-id' => '1182',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -364,12 +364,15 @@ $footer_column->add_element("Unewnavigation", array (
          'menu_alignment' => 'left',
          'width' => 315,
          'row' => 28,
+         'use_padding' => 'yes',
       )),
        'tablet' =>
       (array)(array(
          'row' => 32,
          'width' => 570,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'parrot-footer-1',
@@ -465,7 +468,7 @@ $footer_column->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_slider' => '10',
@@ -627,13 +630,13 @@ $footer_column->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 952,
+         'menu-item-db-id' => 1183,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'BlackBerry',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '952',
+         'menu-item-object-id' => '1183',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -645,13 +648,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 953,
+         'menu-item-db-id' => 1184,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'iPhone',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '953',
+         'menu-item-object-id' => '1184',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -663,13 +666,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 954,
+         'menu-item-db-id' => 1185,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Android',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '954',
+         'menu-item-object-id' => '1185',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -709,7 +712,13 @@ $footer_column->add_element("Unewnavigation", array (
       (array)(array(
          'row' => 22,
          'width' => 315,
+         'use_padding' => 'yes',
       )),
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'parrot-footer-2',
@@ -894,7 +903,7 @@ $footer->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => true,
@@ -1052,13 +1061,13 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 955,
+         'menu-item-db-id' => 1186,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '955',
+         'menu-item-object-id' => '1186',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -1098,12 +1107,15 @@ $footer->add_element("Unewnavigation", array (
       (array)(array(
          'row' => 30,
          'width' => 570,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
          'row' => 28,
          'width' => 315,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'parrot-footer-3',
@@ -1245,7 +1257,7 @@ $footer->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => true,
@@ -1409,13 +1421,13 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 956,
+         'menu-item-db-id' => 1187,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact Us',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '956',
+         'menu-item-object-id' => '1187',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -1427,13 +1439,13 @@ $footer->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 957,
+         'menu-item-db-id' => 1188,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Facebook',
          'menu-item-url' => 'http://facebook.com/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '957',
+         'menu-item-object-id' => '1188',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -1445,13 +1457,13 @@ $footer->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 958,
+         'menu-item-db-id' => 1189,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Twitter',
          'menu-item-url' => 'http://twitter.com',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '958',
+         'menu-item-object-id' => '1189',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -1491,12 +1503,15 @@ $footer->add_element("Unewnavigation", array (
       (array)(array(
          'row' => 30,
          'width' => 570,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
          'row' => 26,
          'width' => 315,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'parrot-footer-4',

@@ -107,18 +107,19 @@ $main_header->add_element("PlainTxt", array (
       (array)(array(
          'theme_style' => '',
          'row' => 9,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
          'theme_style' => '',
       )),
-       'current_property' => 'lock_padding',
+       'current_property' => 'use_padding',
     )),
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'preset' => 'u-brand-menu-m',
     'padding_slider' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -343,13 +344,13 @@ $main_header->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 88,
+         'menu-item-db-id' => 4106,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Our Story',
          'menu-item-url' => '{{upfront:home_url}}/our-story/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '88',
+         'menu-item-object-id' => '4106',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -361,13 +362,13 @@ $main_header->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 89,
+         'menu-item-db-id' => 4107,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Menu',
          'menu-item-url' => '{{upfront:home_url}}/our-menu/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '89',
+         'menu-item-object-id' => '4107',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -379,13 +380,13 @@ $main_header->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 90,
+         'menu-item-db-id' => 4108,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '90',
+         'menu-item-object-id' => '4108',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -397,13 +398,13 @@ $main_header->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 91,
+         'menu-item-db-id' => 4109,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Gallery',
          'menu-item-url' => '{{upfront:home_url}}/our-gallery/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '91',
+         'menu-item-object-id' => '4109',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -415,13 +416,13 @@ $main_header->add_element("Unewnavigation", array (
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 92,
+         'menu-item-db-id' => 4110,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Find Us',
          'menu-item-url' => '{{upfront:home_url}}/our-location/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '92',
+         'menu-item-object-id' => '4110',
          'menu-item-target' => '',
          'menu-item-position' => 5,
          'link' =>
@@ -484,8 +485,9 @@ $main_header->add_element("Unewnavigation", array (
          'is_floating' => 'no',
          'top_padding_use' => true,
          'top_padding_num' => 20,
+         'use_padding' => 'yes',
       )),
-       'current_property' => 'lock_padding',
+       'current_property' => 'use_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'panino-main-menu',
@@ -499,10 +501,10 @@ $main_header->add_element("Unewnavigation", array (
     ),
     'anchor' => '',
     'theme_style' => '',
-    'row' => 8,
+    'row' => 9,
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',

@@ -122,7 +122,7 @@ $main->add_element("PlainTxt", array (
     'top_padding_num' => 105,
     'bottom_padding_num' => '15',
     'preset' => 'u-section-title-m',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -148,14 +148,14 @@ $main->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 3,
       'clear' => true,
     ),
   ),
@@ -272,6 +272,7 @@ $main->add_element("Uwidget", array (
     'view_class' => 'UwidgetView',
     'class' => 'c24 upfront-widget',
     'has_settings' => 1,
+    'preset' => 'default',
     'widget' => 'search-2',
     'usingNewAppearance' => true,
     'element_id' => 'uwidget-object-1427786246652-1504',
@@ -301,9 +302,8 @@ $main->add_element("Uwidget", array (
     'current_widget' => 'search-2',
     'current_widget_specific_settings' => false,
     'bottom_padding_num' => '15',
-    'preset' => 'default',
     'theme_style' => '',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -490,6 +490,7 @@ $main->add_element("Posts", array (
     array (
     ),
     'gravatar_size' => 200,
+    'preset' => 'grid',
     'post-part-date_posted' => '<div class="uposts-part date_posted">
 	Posted on <span class="date">{{date_1}}</span>, at <span class="time">{{date_2}}</span></div>',
     'post-part-author' => '<div class="uposts-part author">
@@ -548,7 +549,6 @@ $main->add_element("Posts", array (
     'padding_number' => '15',
     'left_padding_num' => '0',
     'right_padding_num' => '0',
-    'preset' => 'grid',
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>

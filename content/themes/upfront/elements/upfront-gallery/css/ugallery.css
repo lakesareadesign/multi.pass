@@ -315,7 +315,7 @@ div.ugallery-label-selector {
 .ugallery-controls,
 .ui-resizable-autohide .ugallery_item:hover .ugallery-controls {
 	display: none;
-	z-index: 2;
+	z-index: 1000;
 }
 
 .upfront-control-visible .ugallery-controls,
@@ -324,7 +324,7 @@ div.ugallery-label-selector {
 }
 
 .ugallery_selected {
-	z-index:20;
+	z-index: auto;
 }
 
 .ugallery_item:hover .ugallery-controls {
@@ -827,6 +827,11 @@ figure.gallery-labels-figure img.mfp-img {
 	display: block;
 }
 
+/* Always show caption in editor */
+.upfront-editing .ugallery-caption-on-hover-1 {
+	display: block!important;/* yeah, we need important here */
+}
+
 .ugallery-caption-on-hover-1 {
 	display: none;
 }
@@ -1080,4 +1085,4 @@ figure.gallery-labels-figure img.mfp-img {
 }
 
 
-/* 133620-1456260851-au */
+/* 133620-1458758071-au */

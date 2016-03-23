@@ -50,7 +50,7 @@ $header_download = upfront_create_region(
   'background_position_y' => '50',
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-page-download/hero-1.jpg',
-  'background_image_ratio' => 0.309999999999999997779553950749686919152736663818359375,
+  'background_image_ratio' => 0.31,
   'version' => '1.0.0',
 )
 			);
@@ -570,14 +570,14 @@ $header_download->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
   ),
@@ -912,7 +912,7 @@ $main->add_element("Button", array (
     'view_class' => 'ButtonView',
     'class' => 'c24 upfront-button',
     'has_settings' => 1,
-    'id_slug' => 'button',
+    'id_slug' => 'ubutton',
     'preset' => 'blackberry-large',
     'usingNewAppearance' => true,
     'element_id' => 'button-object-1429799912847-1647',
@@ -970,7 +970,7 @@ $main->add_element("Button", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 0,
+      'order' => 2,
       'clear' => true,
     ),
   ),
@@ -1173,7 +1173,7 @@ $main->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
   ),
@@ -1426,7 +1426,7 @@ $main->add_element("Button", array (
     'view_class' => 'ButtonView',
     'class' => 'c24 upfront-button',
     'has_settings' => 1,
-    'id_slug' => 'button',
+    'id_slug' => 'ubutton',
     'preset' => 'apple-large',
     'usingNewAppearance' => true,
     'element_id' => 'object-1429800157503-1442',
@@ -1470,14 +1470,14 @@ $main->add_element("Button", array (
     array (
       'edited' => false,
       'col' => 4,
-      'order' => 0,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 0,
+      'order' => 2,
       'clear' => true,
     ),
   ),
@@ -1675,14 +1675,14 @@ $main->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 4,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
   ),
@@ -1934,7 +1934,7 @@ $main->add_element("Button", array (
     'view_class' => 'ButtonView',
     'class' => 'c24 upfront-button',
     'has_settings' => 1,
-    'id_slug' => 'button',
+    'id_slug' => 'ubutton',
     'preset' => 'android-large',
     'usingNewAppearance' => true,
     'element_id' => 'object-1429800163889-1963',
@@ -1992,7 +1992,7 @@ $main->add_element("Button", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 0,
+      'order' => 2,
       'clear' => true,
     ),
   ),
@@ -2200,7 +2200,7 @@ $main->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
   ),

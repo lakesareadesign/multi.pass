@@ -180,7 +180,7 @@ $content->add_element("PlainTxt", array (
     'top_padding_num' => 70,
     'bottom_padding_num' => '15',
     'preset' => 'u-section-title-m',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -219,7 +219,7 @@ $content->add_element("PlainTxt", array (
     'mobile' =>
     array (
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'current_property' =>
@@ -329,58 +329,6 @@ $content->add_element("Uspacer", array (
   ),
 ));
 
-$content->add_element("Uspacer", array (
-  'columns' => '1',
-  'margin_left' => '0',
-  'margin_right' => '0',
-  'margin_top' => '0',
-  'margin_bottom' => '0',
-  'class' => 'module-1450867942-3515 upfront-module-spacer',
-  'id' => 'module-1450867942-3515',
-  'options' =>
-  array (
-    'type' => 'UspacerModel',
-    'view_class' => 'UspacerView',
-    'class' => 'c24',
-    'has_settings' => 0,
-    'id_slug' => 'uspacer',
-    'usingNewAppearance' => true,
-    'element_id' => 'spacer-object-1450867942-83641',
-    'preset' => 'default',
-  ),
-  'row' => 6,
-  'sticky' => false,
-  'default_hide' => 1,
-  'hide' => 1,
-  'toggle_hide' => 0,
-  'wrapper_id' => 'wrapper-1450867942-14494',
-  'new_line' => true,
-  'wrapper_breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'clear' => false,
-      'order' => 1,
-      'edited' => true,
-      'col' => 1,
-    ),
-    'mobile' =>
-    array (
-      'col' => 1,
-    ),
-  ),
-  'breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'hide' => 0,
-      'left' => 0,
-      'col' => 1,
-      'edited' => true,
-    ),
-  ),
-));
-
 $content->add_element("Uwidget", array (
   'columns' => '18',
   'margin_left' => '0',
@@ -396,6 +344,7 @@ $content->add_element("Uwidget", array (
     'view_class' => 'UwidgetView',
     'class' => 'c24 upfront-widget',
     'has_settings' => 1,
+    'preset' => 'default',
     'widget' => 'search-2',
     'usingNewAppearance' => true,
     'element_id' => 'uwidget-object-1427803456253-1782',
@@ -423,9 +372,8 @@ $content->add_element("Uwidget", array (
     'current_widget' => 'search-2',
     'current_widget_specific_settings' => false,
     'bottom_padding_num' => '15',
-    'preset' => 'default',
     'theme_style' => '',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -451,7 +399,7 @@ $content->add_element("Uwidget", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'current_property' =>
@@ -562,57 +510,6 @@ $content->add_element("Uspacer", array (
   ),
 ));
 
-$content->add_element("Uspacer", array (
-  'columns' => '1',
-  'margin_left' => '0',
-  'margin_right' => '0',
-  'margin_top' => '0',
-  'margin_bottom' => '0',
-  'class' => 'module-1450867942-73724 upfront-module-spacer',
-  'id' => 'module-1450867942-73724',
-  'options' =>
-  array (
-    'type' => 'UspacerModel',
-    'view_class' => 'UspacerView',
-    'class' => 'c24',
-    'has_settings' => 0,
-    'id_slug' => 'uspacer',
-    'usingNewAppearance' => true,
-    'element_id' => 'spacer-object-1450867942-23068',
-    'preset' => 'default',
-  ),
-  'row' => 6,
-  'sticky' => false,
-  'default_hide' => 1,
-  'hide' => 1,
-  'toggle_hide' => 0,
-  'wrapper_id' => 'wrapper-1450867942-8798',
-  'wrapper_breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'clear' => true,
-      'order' => 0,
-      'edited' => true,
-      'col' => 1,
-    ),
-    'mobile' =>
-    array (
-      'col' => 1,
-    ),
-  ),
-  'breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'hide' => 0,
-      'left' => 0,
-      'col' => 1,
-      'edited' => true,
-    ),
-  ),
-));
-
 $content->add_element("Posts", array (
   'columns' => '18',
   'margin_left' => '0',
@@ -675,6 +572,7 @@ $content->add_element("Posts", array (
     'content_length' => '15',
     'resize_featured' => '1',
     'gravatar_size' => 200,
+    'preset' => 'list',
     'post-part-date_posted' => '<div class="post-meta">
     <div class="uposts-part date_posted">
         Posted: <span class="date day">{{date_1}}</span> <span class="date month">{{date_2}}</span> <span class="date year">{{date_3}}</span>
@@ -733,13 +631,12 @@ $content->add_element("Posts", array (
     'top_padding_use' => true,
     'top_padding_num' => 60,
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
-    'preset' => 'list',
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -750,7 +647,7 @@ $content->add_element("Posts", array (
       (array)(array(
          'preset' => 'list-mobile',
       )),
-      'mobile' =>
+       'mobile' =>
       (array)(array(
          'preset' => 'list-mobile',
       )),
@@ -775,7 +672,7 @@ $content->add_element("Posts", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'current_property' =>

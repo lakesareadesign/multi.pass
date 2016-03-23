@@ -12,7 +12,7 @@ ob_clean();
 
 //***** comments_count
 ?><div class="comments_count">COMMENTS / <a href="%permalink%#comments">%comments_count%</a></div><?php
-$templates["comments_count"] = ob_get_contents();
+$templates["comments_count"] = ob_get_contents();	     	 		 		  		  	 
 ob_clean();
 
 //***** date

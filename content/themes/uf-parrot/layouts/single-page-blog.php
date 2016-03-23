@@ -52,7 +52,7 @@ $blog_header_area = upfront_create_region(
   'background_position_y' => '50',
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-page-blog/hero-4.jpg',
-  'background_image_ratio' => 0.309999999999999997779553950749686919152736663818359375,
+  'background_image_ratio' => 0.31,
   'version' => '1.0.0',
 )
 			);
@@ -294,7 +294,7 @@ $blog_header_area->add_element("Uimage", array (
     )),
     'bottom_padding_num' => '10',
     'theme_style' => '',
-    'use_padding' => true,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_slider' => '10',
     'padding_number' => '10',
@@ -550,6 +550,7 @@ $blog_header_area->add_element("Posts", array (
     'content_length' => '23',
     'resize_featured' => '1',
     'gravatar_size' => 200,
+    'preset' => 'default',
     'post-part-date_posted' => '<div class="uposts-part date_posted"> <span class="date">{{date_1}}</span> <span class="time">{{date_2}}</span> <span class="year">{{date_3}}</span></div>',
     'post-part-author' => '<div class="uposts-part author">
 	By <a href="{{url}}">{{name}}</a> -&nbsp;</div>',
@@ -602,13 +603,12 @@ $blog_header_area->add_element("Posts", array (
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '10',
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
-    'preset' => 'default',
     'breakpoint_presets' =>
     (array)(array(
        'tablet' =>

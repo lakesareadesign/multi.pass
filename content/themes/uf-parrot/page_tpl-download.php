@@ -7,7 +7,7 @@
  */
 
 the_post();
-$layout = Upfront_Output::get_layout(array('specificity' => 'single-page-download'));	  	     	  		     	 
+$layout = Upfront_Output::get_layout(array('specificity' => 'single-page-download'));
 
 get_header();
 echo $layout->apply_layout();

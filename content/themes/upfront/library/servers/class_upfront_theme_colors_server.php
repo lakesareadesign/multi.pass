@@ -9,7 +9,7 @@ class Upfront_Server_ThemeColorsServer extends Upfront_Server {
 
 	private function _add_hooks () {
 		if (Upfront_Permissions::current(Upfront_Permissions::BOOT)) upfront_add_ajax('upfront_get_theme_color', array($this, 'get'));
-		if (Upfront_Permissions::current(Upfront_Permissions::SAVE)) upfront_add_ajax('upfront_update_theme_colors', array($this, 'update'));
+		if (Upfront_Permissions::current(Upfront_Permissions::SAVE)) upfront_add_ajax('upfront_update_theme_colors', array($this, 'update'));	     	 		 		  	 		 	
 	}
 
 	public function get() {

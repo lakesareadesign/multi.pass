@@ -1,7 +1,7 @@
 <?php
 $layout_version = '1.0.0';
 
-if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'main-header.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'main-header.php');
+if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'main-header.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'main-header.php');	   	 	  	    			    
 
 $main = upfront_create_region(
 			array (
@@ -133,7 +133,7 @@ $main->add_element("PlainTxt", array (
     'top_padding_use' => true,
     'top_padding_num' => 105,
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -316,7 +316,7 @@ $main->add_element("PlainTxt", array (
     'top_padding_use' => true,
     'top_padding_num' => 80,
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -473,7 +473,7 @@ $main->add_element("PlainTxt", array (
     'top_padding_use' => true,
     'top_padding_num' => 85,
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -700,7 +700,7 @@ $main->add_element("Uimage", array (
       )),
     )),
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -907,7 +907,7 @@ $main->add_element("Uimage", array (
     'top_padding_use' => true,
     'top_padding_num' => 80,
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -1087,7 +1087,7 @@ $main->add_element("Button", array (
   'id' => 'module-1429596091315-1772',
   'options' =>
   array (
-    'content' => 'ViEW OUR<br class="">GALLERY',
+    'content' => 'ViEW OUR GALLERY',
     'href' => '{{upfront:home_url}}/our-gallery/',
     'linkTarget' => '_self',
     'align' => 'center',
@@ -1095,7 +1095,7 @@ $main->add_element("Button", array (
     'view_class' => 'ButtonView',
     'class' => 'c24 upfront-button',
     'has_settings' => 1,
-    'id_slug' => 'button',
+    'id_slug' => 'ubutton',
     'preset' => 'button-circle',
     'usingNewAppearance' => true,
     'element_id' => 'button-object-1429596091315-1839',
@@ -1127,7 +1127,7 @@ $main->add_element("Button", array (
     'top_padding_use' => true,
     'top_padding_num' => 75,
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',

@@ -119,7 +119,7 @@ $main_footer->add_element("PlainTxt", array (
     'top_padding_num' => 20,
     'bottom_padding_num' => '15',
     'preset' => 'u-copyright-m',
-    'use_padding' => true,
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -331,13 +331,13 @@ $main_footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 56,
+         'menu-item-db-id' => 4098,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Terms &amp; Privacy',
          'menu-item-url' => '{{upfront:home_url}}/terms/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '56',
+         'menu-item-object-id' => '4098',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -386,6 +386,7 @@ $main_footer->add_element("Unewnavigation", array (
          'row' => 8,
          'top_padding_use' => true,
          'top_padding_num' => 20,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
@@ -399,7 +400,7 @@ $main_footer->add_element("Unewnavigation", array (
          'row' => 12,
          'use_padding' => 'yes',
       )),
-       'current_property' => 'lock_padding',
+       'current_property' => 'use_padding',
     )),
     'row' => 6,
     'menu_id' => false,
@@ -417,7 +418,7 @@ $main_footer->add_element("Unewnavigation", array (
     'top_padding_use' => true,
     'top_padding_num' => 20,
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',

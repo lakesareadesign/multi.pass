@@ -151,6 +151,8 @@ $newsletter->add_element("Code", array (
     user-select: none;
     position: relative;
     font-family: \'open sans\';
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
 }
 .newsletter-form input[type="submit"]:hover {
    border-color: #ufc1;
@@ -170,6 +172,7 @@ $newsletter->add_element("Code", array (
     'bottom_padding_num' => '10',
     'padding_slider' => '10',
     'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -355,7 +358,7 @@ $newsletter->add_element("PlainTxt", array (
     'bottom_padding_num' => '10',
     'preset' => 'default',
     'theme_style' => '',
-    'use_padding' => true,
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '10',
     'padding_number' => '10',
@@ -562,7 +565,7 @@ $newsletter->add_element("Button", array (
     'view_class' => 'ButtonView',
     'class' => 'c24 upfront-button',
     'has_settings' => 1,
-    'id_slug' => 'button',
+    'id_slug' => 'ubutton',
     'preset' => 'parrot-blackberry-sm',
     'usingNewAppearance' => true,
     'element_id' => 'object-1429806456925-1858',
@@ -657,7 +660,7 @@ $newsletter->add_element("Button", array (
     'view_class' => 'ButtonView',
     'class' => 'c24 upfront-button',
     'has_settings' => 1,
-    'id_slug' => 'button',
+    'id_slug' => 'ubutton',
     'preset' => 'parrot-apple-sm',
     'usingNewAppearance' => true,
     'element_id' => 'object-1429806573620-1842',
@@ -751,7 +754,7 @@ $newsletter->add_element("Button", array (
     'view_class' => 'ButtonView',
     'class' => 'c24 upfront-button',
     'has_settings' => 1,
-    'id_slug' => 'button',
+    'id_slug' => 'ubutton',
     'preset' => 'parrot-android-sm',
     'usingNewAppearance' => true,
     'element_id' => 'object-1429806166863-1396',
@@ -1066,6 +1069,7 @@ $newsletter->add_element("Code", array (
     'bottom_padding_num' => '10',
     'padding_slider' => '10',
     'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,

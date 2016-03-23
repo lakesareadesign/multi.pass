@@ -339,13 +339,13 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 277,
+         'menu-item-db-id' => 404,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '277',
+         'menu-item-object-id' => '404',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -357,13 +357,13 @@ $footer->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 278,
+         'menu-item-db-id' => 407,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'News',
          'menu-item-url' => '{{upfront:home_url}}/news/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '278',
+         'menu-item-object-id' => '407',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -375,13 +375,13 @@ $footer->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 279,
+         'menu-item-db-id' => 410,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '279',
+         'menu-item-object-id' => '410',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -421,6 +421,11 @@ $footer->add_element("Unewnavigation", array (
        'tablet' =>
       array (
       ),
+       'current_property' => 'use_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
     )),
     'breakpoint_presets' =>
     (array)(array(
@@ -778,7 +783,7 @@ $footer->add_element("Button", array (
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'row' => 6,
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '10',
     'padding_number' => '10',
@@ -928,7 +933,7 @@ $footer->add_element("Button", array (
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '10',
     'padding_number' => '10',
@@ -1127,7 +1132,7 @@ $footer->add_element("Button", array (
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '10',
     'padding_number' => '10',
@@ -1272,7 +1277,7 @@ $footer->add_element("Button", array (
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '10',
     'padding_number' => '10',

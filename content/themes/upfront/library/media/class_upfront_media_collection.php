@@ -78,6 +78,10 @@ class Upfront_MediaCollection extends Upfront_Media {
 
 		if (!empty($filters['type'])) $collection->_set_type_arguments($filters['type']);
 
+		if (!empty($filters['media_limit'])) {
+			$collection->_args['posts_per_page'] = intval($filters['media_limit']);
+		}
+
 		$order = $orderby = false;
 		if (!empty($filters['order'])) {
 			$raw_order = end($filters['order']);

@@ -71,7 +71,7 @@
       'bottom_padding_num' => '0',
       'attributes' =>
       array (
-        'style' => 'max-height: 400px',
+        'style' => 'max-height: 370px',
       ),
       'lock_padding' => '',
       'top_padding_use' => 'yes',

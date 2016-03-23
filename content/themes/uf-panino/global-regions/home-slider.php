@@ -165,7 +165,7 @@ $home_slider->add_element("Button", array (
     'view_class' => 'ButtonView',
     'class' => 'c24 upfront-button',
     'has_settings' => 1,
-    'id_slug' => 'button',
+    'id_slug' => 'ubutton',
     'preset' => 'button-logo',
     'usingNewAppearance' => true,
     'element_id' => 'button-object-1429088152556-1127',

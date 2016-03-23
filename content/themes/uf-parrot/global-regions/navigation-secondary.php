@@ -117,7 +117,7 @@ $navigation_secondary->add_element("Uimage", array (
     'element_size' =>
     (array)(array(
        'width' => 70,
-       'height' => 35,
+       'height' => 36,
     )),
     'rotation' => 0,
     'color' => '#ffffff',
@@ -153,13 +153,13 @@ $navigation_secondary->add_element("Uimage", array (
     (array)(array(
        'tablet' =>
       (array)(array(
-         'row' => 11,
+         'row' => 12,
          'top_padding_use' => true,
          'top_padding_num' => 20,
       )),
        'mobile' =>
       (array)(array(
-         'row' => 14,
+         'row' => 13,
          'top_padding_use' => true,
          'top_padding_num' => 20,
       )),
@@ -168,7 +168,7 @@ $navigation_secondary->add_element("Uimage", array (
     'top_padding_num' => 60,
     'bottom_padding_num' => '10',
     'padding_slider' => '10',
-    'use_padding' => true,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -187,14 +187,14 @@ $navigation_secondary->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 2,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 2,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
   ),
@@ -207,7 +207,7 @@ $navigation_secondary->add_element("Uimage", array (
       'col' => 2,
       'order' => 0,
       'top' => 0,
-      'row' => 11,
+      'row' => 12,
     ),
     'mobile' =>
     array (
@@ -328,7 +328,7 @@ $navigation_secondary->add_element("Uspacer", array (
     'tablet' =>
     array (
       'clear' => false,
-      'order' => 1,
+      'order' => 2,
       'edited' => true,
       'col' => 8,
     ),
@@ -383,7 +383,7 @@ $navigation_secondary->add_element("Uspacer", array (
     'mobile' =>
     array (
       'clear' => false,
-      'order' => 1,
+      'order' => 2,
       'edited' => true,
       'col' => 3,
     ),
@@ -419,13 +419,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 792,
+         'menu-item-db-id' => 1173,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Home',
          'menu-item-url' => '{{upfront:home_url}}',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '792',
+         'menu-item-object-id' => '1173',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -437,13 +437,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 793,
+         'menu-item-db-id' => 1174,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Features',
          'menu-item-url' => '{{upfront:home_url}}/features/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '793',
+         'menu-item-object-id' => '1174',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -455,13 +455,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 794,
+         'menu-item-db-id' => 1175,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Download',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '794',
+         'menu-item-object-id' => '1175',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -473,13 +473,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 795,
+         'menu-item-db-id' => 1176,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact Us',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '795',
+         'menu-item-object-id' => '1176',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -491,13 +491,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 796,
+         'menu-item-db-id' => 1177,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '796',
+         'menu-item-object-id' => '1177',
          'menu-item-target' => '',
          'menu-item-position' => 5,
          'link' =>
@@ -509,13 +509,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
       )),
       5 =>
       (array)(array(
-         'menu-item-db-id' => 797,
+         'menu-item-db-id' => 1178,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '797',
+         'menu-item-object-id' => '1178',
          'menu-item-target' => '',
          'menu-item-position' => 6,
          'link' =>
@@ -562,6 +562,7 @@ $navigation_secondary->add_element("Unewnavigation", array (
          'is_floating' => 'no',
          'top_padding_use' => true,
          'top_padding_num' => 20,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
@@ -574,6 +575,7 @@ $navigation_secondary->add_element("Unewnavigation", array (
          'is_floating' => 'no',
          'top_padding_use' => true,
          'top_padding_num' => 20,
+         'use_padding' => 'yes',
       )),
        'current_property' => 'use_padding',
     )),
@@ -592,7 +594,7 @@ $navigation_secondary->add_element("Unewnavigation", array (
     'theme_style' => '',
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '10',
     'padding_number' => '10',
@@ -626,14 +628,14 @@ $navigation_secondary->add_element("Unewnavigation", array (
     array (
       'edited' => true,
       'col' => 2,
-      'order' => 1,
+      'order' => 3,
       'clear' => false,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 2,
-      'order' => 1,
+      'order' => 3,
       'clear' => false,
     ),
   ),

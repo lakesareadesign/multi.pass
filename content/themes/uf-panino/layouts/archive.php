@@ -168,7 +168,7 @@ $content->add_element("PlainTxt", array (
     'top_padding_use' => true,
     'top_padding_num' => 70,
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -194,13 +194,13 @@ $content->add_element("PlainTxt", array (
     'tablet' =>
     array (
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
   ),
@@ -364,6 +364,7 @@ $content->add_element("Posts", array (
     'content_length' => '15',
     'resize_featured' => '1',
     'gravatar_size' => 200,
+    'preset' => 'list',
     'post-part-date_posted' => '<div class="post-meta">
     <div class="uposts-part date_posted">
         Posted: <span class="date day">{{date_1}}</span> <span class="date month">{{date_2}}</span> <span class="date year">{{date_3}}</span>
@@ -419,13 +420,12 @@ $content->add_element("Posts", array (
     'top_padding_use' => true,
     'top_padding_num' => 90,
     'bottom_padding_num' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
-    'preset' => 'list',
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -454,14 +454,14 @@ $content->add_element("Posts", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
   ),

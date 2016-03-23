@@ -21,7 +21,7 @@
 #page .footer-search .icon-search:before {
     content: "";
     background: url(UPFRONT_THEME_BASE/images/sprite.png);
-    background-image: url(UPFRONT_THEME_BASE/images/sprite.svg), none;	     	 		 		  		  	 
+    background-image: url(UPFRONT_THEME_BASE/images/sprite.svg), none;
     /* If it supports multiple backgrounds supports svg */
     top: -1px;
     left: 0;
@@ -37,4 +37,4 @@
 }
 
 
-/* 133620-1456900953-au */
+/* 133620-1458758067-au */
