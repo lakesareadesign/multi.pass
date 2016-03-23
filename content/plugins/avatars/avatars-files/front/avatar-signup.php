@@ -82,7 +82,7 @@ class Avatars_Signup {
 					  		alert(response.message);
 					  	}
 					  	else if ( 'upload-error' == response ) {
-					  		alert( '<?php _e( "There was an error uploading the file. Please try with another image", "avatars" ); ?>' );	     	  								 
+					  		alert( '<?php _e( "There was an error uploading the file. Please try with another image", "avatars" ); ?>' );
 						}
 						else {
 							$('#user-avatar-container img').attr('src', decodeURIComponent( response ) );
