@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: YouTube Featured Video\n"
+"POT-Creation-Date: 2013-04-02 14:38+0100\n"
+"PO-Revision-Date: 2013-04-02 14:39+0100\n"
+"Last-Translator: \n"
+"Language-Team: Incsub\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: /Volumes/Trunk/xampp/htdocs/wdorg/wp-content/plugins/"
+"youtube-videos-widget\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ./lib\n"
+
+#: loader.php:50
+msgid ""
+"There was an issue determining where YouTube video widget plugin is "
+"installed. Please reinstall."
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:16
+msgid "Shows a YouTube video"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:24
+msgid "Select videos"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:25
+msgid "Please, wait"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:26
+msgid "Save Selection"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:48
+msgid "Title:"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:53
+msgid "Username or Channel:"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:58
+msgid "This is a Google+ connected channel"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:64
+msgid "Show these Videos from the channel:"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:74
+msgid "Select videos to show"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:78
+msgid "Show:"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:80
+msgid "Show all selected videos"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:83
+msgid "Show random video from selection"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:86
+msgid "Show related video from selection, fall back to random"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:92
+msgid "Show player in an overlay popup"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:95
+msgid "Show Video title"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:98
+msgid "Show Channel link"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:101
+msgid "Channel link text:"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:106
+msgid "Please, enter the channel and save settings before continuing"
+msgstr ""
+
+#: lib/class_ytvw_video_widget.php:148
+msgid "View more"
+msgstr ""
