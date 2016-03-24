@@ -3879,6 +3879,12 @@ As suggested by "anthonyparsons" on envato
 }
 
 
+/*------ woocommerce --------*/
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight{
+	height: 23px;
+	text-align: center;
+}
+
 /* -------------------------------------------
 	default theme added in core css file 
 	Generated Dynamically

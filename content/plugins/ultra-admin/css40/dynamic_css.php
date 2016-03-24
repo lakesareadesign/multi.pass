@@ -339,7 +339,9 @@ echo ultra_css_background($ultrastr, "box-bg", "1.0") . "\n";
 
 
 echo " \n/* -- Box Head -- */\n";
-$ultrastr = " .postbox .hndle, .stuffbox .hndle, .welcome-panel h2, .settings_page_menu_editor .ui-dialog-titlebar";
+$ultrastr = " .postbox .hndle, .stuffbox .hndle, .welcome-panel h2, 
+h2.hndle.ui-sortable-handle, #poststuff h2, .metabox-holder h2.hndle, .postbox .hndle, .stuffbox .hndle,
+.settings_page_menu_editor .ui-dialog-titlebar";
 echo ultra_css_background($ultrastr, "box-head-bg", "1.0") . "\n";
 echo ultra_css_color($ultrastr, "box-head-color", "1.0") . "\n";
 

@@ -25,6 +25,13 @@ function ultra_admin_deactivation() {
 	delete_option( "ultraadmin_logintheme_page");
 	delete_option( "ultraadmin_master_theme");
 
+       delete_option("ultraadmin_menuorder");
+       delete_option("ultraadmin_submenuorder");
+       delete_option("ultraadmin_menurename");
+       delete_option("ultraadmin_submenurename");
+       delete_option("ultraadmin_menudisable");
+       delete_option("ultraadmin_submenudisable");
+
 
   delete_site_option( "ultraadmin_plugin_access");
   delete_site_option( "ultraadmin_plugin_page");
@@ -35,6 +42,12 @@ function ultra_admin_deactivation() {
   delete_site_option( "ultraadmin_logintheme_page");
   delete_site_option( "ultraadmin_master_theme");
 
+       delete_site_option("ultraadmin_menuorder");
+       delete_site_option("ultraadmin_submenuorder");
+       delete_site_option("ultraadmin_menurename");
+       delete_site_option("ultraadmin_submenurename");
+       delete_site_option("ultraadmin_menudisable");
+       delete_site_option("ultraadmin_submenudisable");
 
 /*
        delete_option("ultraadmin_menuorder");
