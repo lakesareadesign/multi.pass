@@ -273,7 +273,9 @@ class AS3CF_Uploader extends AS3CF_Tool {
 	 * @param int $blog_id
 	 */
 	protected function should_upload_attachment( $attachment_id, $blog_id ) {
-		if ( $this->progress['total_allowed_items'] > 0 ) {
+		$total_allowed = (int) $this->progress['total_allowed_items'];
+
+		if ( -1 === $total_allowed || $total_allowed > 0 ) {
 			return;
 		}
 
@@ -334,7 +336,9 @@ class AS3CF_Uploader extends AS3CF_Tool {
 			return false;
 		}
 
-		$this->progress['total_allowed_items']--;
+		if ( $this->progress['total_allowed_items'] > 0 ) {
+			$this->progress['total_allowed_items']--;
+		}
 
 		return true;
 	}

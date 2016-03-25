@@ -14,8 +14,13 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-// Run the uninstall for the lite plugin
-require dirname( __FILE__ ) . '/uninstall-lite.php';
+if ( ! file_exists( WP_PLUGIN_DIR . '/amazon-s3-and-cloudfront/wordpress-s3.php' ) ) {
+	// Only uninstall the lite plugin data if the lite plugin isn't installed
+	require dirname( __FILE__ ) . '/uninstall-lite.php';
+} else {
+	require dirname( __FILE__ ) . '/classes/wp-aws-uninstall.php';
+}
+
 require dirname( __FILE__ ) . '/classes/pro/as3cf-pro-utils.php';
 
 $options = array(

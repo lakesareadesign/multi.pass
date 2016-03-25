@@ -1594,7 +1594,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 * @return string
 	 */
 	public function get_plugin_row_slug() {
-		return $this->licence->plugin->slug;
+		return sanitize_title( $this->licence->plugin->name );
 	}
 
 	/**
@@ -1638,10 +1638,21 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 			$media_limit_check = $cached_media_limit_check;
 		}
 
-		$total = absint( $media_limit_check['total'] );
-		$limit = absint( $media_limit_check['limit'] );
+		$total   = absint( $media_limit_check['total'] );
+		$limit   = absint( $media_limit_check['limit'] );
+		$allowed = $limit - $total;
 
-		return $limit - $total;
+		if ( 0 === $limit ) {
+			// Unlimited uploads allowed
+			return -1;
+		}
+
+		if ( $allowed < 0 ) {
+			// Upload limit reached
+			return 0;
+		}
+
+		return $allowed;
 	}
 
 	/**

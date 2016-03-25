@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-s3-and-cloudfront-pro\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2016-03-08 12:45+0000\n"
+"POT-Creation-Date: 2016-03-23 14:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -935,11 +935,11 @@ msgstr ""
 msgid "Upload Now"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:281
+#: classes/pro/tools/as3cf-uploader.php:283
 msgid "My Account"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:282
+#: classes/pro/tools/as3cf-uploader.php:284
 #, php-format
 msgid ""
 "You've reached your license limit so we've had to stop your upload. To "
@@ -947,20 +947,20 @@ msgid ""
 "and simply run the uploader again. It will pick up where it stopped."
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:290
+#: classes/pro/tools/as3cf-uploader.php:292
 msgid "Upload has been stopped"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:329
+#: classes/pro/tools/as3cf-uploader.php:331
 #, php-format
 msgid "Could not upload attachment %s to S3 - %s"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:378
+#: classes/pro/tools/as3cf-uploader.php:382
 msgid "Upload Errors"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:379
+#: classes/pro/tools/as3cf-uploader.php:383
 msgid ""
 "Previous attempts at uploading your media library have resulted in errors."
 msgstr ""
