@@ -5,8 +5,10 @@ php.ini
 *.log
 .htaccess
 wp-config.php
+db-config.php
+/content/db.php
 
-/content/themes/children/_archive
+/_archive
 /shared
 /config
 staging-config.php
@@ -20,12 +22,6 @@ staging-config.php
 composer.phar
 config.codekit
 
-gdform.php
-webformmailer.php
-googleefaccad81528a2bb.html
-BingSiteAuth.xml
-661fae407cafb46d6518d0c7af14cd333e8f60fe.php
-pinterest-d636b.html
 stats/
 .bash_profile
 
