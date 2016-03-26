@@ -59,13 +59,12 @@ class WP_Migrate_DB_Pro_Tweaks {
 	* The example below preserves the 'blogname' value though any number of additional options may be added.
 	*/
 	function preserved_options( $options ) {
-		$options[] = 
-		'as3cfpro_licence_issue_type';
-		'as3cf_assets_location_versions';
-		'as3cf_assets_files';
-		'as3cf_assets_enqueued_scripts';
-		'as3cf_assets';
-		'tantan_wordpress_s3';
+		$options[] = 'as3cfpro_licence_issue_type';
+		$options[] = 'as3cf_assets_location_versions';
+		$options[] = 'as3cf_assets_files';
+		$options[] = 'as3cf_assets_enqueued_scripts';
+		$options[] = 'as3cf_assets';
+		$options[] = 'tantan_wordpress_s3';
 		return $options;
 	}
 
