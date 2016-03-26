@@ -1,0 +1,278 @@
+.um-profile-body.purchases,
+.um-profile-body.product-reviews {
+	padding-top: 25px;
+}
+
+/* order popup */
+.um-woo-order-head {
+	border-bottom: 1px solid #eee;
+	padding: 12px 10px 12px 10px;
+}
+
+.um-woo-order-body {
+	padding: 15px 5px 0 15px;
+}
+
+.um-woo-order-body p {
+	margin: 0 0 15px 0 !important;
+	padding: 0 !important;
+}
+
+.um-woo-order-body table {
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+	border: none;
+}
+
+.um-woo-order-body table th,
+.um-woo-order-body table td {
+	padding: 2px 10px;
+	border: none;
+	border-bottom: 1px solid #f9f9f9;
+}
+
+.um-woo-order-body table span.amount {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.um-woo-order-body .col-2 {
+	float: right;
+}
+
+.um-woo-order-body .col2-set {
+	margin: 20px 0 0 0;
+}
+
+.um-woo-order-body .order-info mark {
+	background: #f9f9f9;
+	border-radius: 3px;
+	color: #666;
+	padding: 4px 6px;
+	margin: 0 3px;
+}
+
+.um-woo-order-body address {
+	margin: 5px 0 0 0 !important;
+	font-size: 12px;
+}
+
+.um-woo-order-body  h2 {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.um-woo-customer {
+	float: left;
+	color: #333;
+}
+
+.um-woo-orderid {
+	float: right;
+	font-size: 16px;
+	color: #666;
+	margin-top: 3px;
+}
+
+.um-woo-orderid a.um-woo-order-hide {
+	margin-left: 4px;
+	color: #aaa;
+	opacity: 0.5;
+	text-decoration: none;
+}
+
+.um-woo-orderid a.um-woo-order-hide:hover {
+	opacity: 1;
+	text-decoration: none;
+}
+
+.um-woo-customer img {
+	vertical-align: middle;
+	border-radius: 3px;
+}
+
+.um-woo-customer span {
+	padding-left: 5px;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.um-woo-die {
+	text-align: center;
+	font-size: 20px;
+	width: 100%;
+	display: block;
+	opacity: 0.3;
+}
+
+/* on account page */
+.um-woo-form input.button,
+.um-woo-form h3 {display: none}
+
+.um-woo-form .woocommerce-error {
+	margin: 15px 0 !important;
+}
+
+.um-woo-form table {
+	margin-top: 20px;
+	border: none;
+}
+
+.um-woo-form table th {
+	background: #f9f9f9;
+	color: #999;
+}
+
+.um-woo-form table th,
+.um-woo-form table td {
+	padding: 8px 10px;
+	border: none;
+	font-size: 14px;
+	border-bottom: 1px solid #f9f9f9;
+}
+
+.um-woo-form table span.amount {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.um-woo-form .order-date time {color: #aaa}
+
+.um-woo-form span.um-woo-status {
+	padding: 3px 4px;
+	font-size: 11px;
+	font-weight: bold;
+	border-radius: 2px;
+	color: #fff;
+	background: #ccc;
+}
+
+.um-woo-form span.um-woo-status.processing {background: #3cc1ab}
+.um-woo-form span.um-woo-status.pending {background: #dd5800}
+.um-woo-form span.um-woo-status.completed {background: #7ACF58}
+.um-woo-form span.um-woo-status.failed,
+.um-woo-form span.um-woo-status.refunded
+{background: #C74A4A}
+
+.um-woo-form .order-detail a {
+	font-size: 18px;
+	color: #333;
+	opacity: 0.7;
+	position: relative;
+	top: 0px;
+	border: none;
+}
+
+.um-woo-form .order-detail a:hover {
+	text-decoration: none !important;
+	opacity: 1;
+}
+
+/* grid item */
+.um-woo-grid {
+	padding: 10px;
+	font-size: 15px;
+	text-align: center;
+	float: left;
+	width: 44%;
+	margin: 0 3%;
+	box-sizing: border-box;
+	border: 1px solid #eee;
+	margin-bottom: 15px;
+	border-radius: 3px;
+}
+
+.um-woo-grid:hover {border-color: #ddd}
+
+div.uimob340 .um-woo-grid,
+div.uimob500 .um-woo-grid {
+	width: 100%;
+	margin: 0;
+}
+
+.um-woo-grid-img {
+	margin: 0 0 10px 0;
+	text-align: center;
+	display: inline-block;
+	margin: 0 auto;
+}
+
+.um-woo-grid-img a {
+	padding: 4px;
+	background-color: #fff;
+	display: inline-block;
+	max-width: 80%;
+}
+
+.um-woo-grid-img img {
+	width: 100%;
+}
+
+.um-woo-grid-title {
+	font-weight: bold;
+	color: #333;
+	display: block;
+	margin: 5px 0 0 0;
+}
+
+.um-woo-grid-content {
+	display: block;
+	margin: 5px 0 0 0;
+	color: #666;
+	-ms-word-break: break-all;
+	word-break: break-word;
+	word-wrap: break-word;
+	text-align: center;
+	font-size: 14px;
+	font-style: italic;
+}
+
+.um-woo-grid-content p {
+	margin: 0 !important;
+	padding: 0 !important;
+	color: #666;
+}
+
+.um-woo-grid-meta {
+	display: block;
+	color: #999;
+	font-size: 12px;
+}
+
+.um-woo-grid-meta i {margin-right:6px}
+.um-woo-grid-meta span {margin: 0 6px}
+
+.um-woo-stock_state {color: #333;font-weight: bold}
+
+.um-woo-grid-btn {
+	margin: 10px 0 0 0;
+}
+.um-woo-grid-btn a.um-button {padding: 8px 10px !important}
+
+.um-woo-grid-price del {
+	opacity: 0.5;
+}
+
+.um-woo-grid-price ins {
+	text-decoration: none;
+}
+
+span.um-woo-grid-avg {
+	display: block;
+}
+
+span.um-woo-grid-avg i {
+	font-size: 20px;
+	width: 22px;
+	color: #E6B800;
+	display: inline-block;
+	text-align: center;
+	margin: 0 !important;
+	font-weight: 400 !important;
+	position: relative;
+	top: 2px;
+}
+
+.um-woo-form .input-text {
+	width: 100%;
+}

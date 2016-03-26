@@ -1,0 +1,27 @@
+Version 1.2.0
+
+* Fixed: Remove error notices
+
+Version 1.1.9
+
+* Fixed: target percentage
+
+Version 1.1.8
+
+* Tweak: compatibility with WP 4.4
+
+Version 1.1.7
+
+* Fixed: WP role sync conflict
+
+Version 1.1.6
+
+* Fixed: compatibility with WordPress 4.3
+
+Version 1.1.1
+
+* Fixed: profile completeness should appear to profile owner only
+
+Version 1.1.0
+
+* Fixed: bug with saving fields in profile completeness modal

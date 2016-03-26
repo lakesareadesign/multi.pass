@@ -1,0 +1,53 @@
+Version 1.2.2
+
+* Tweak: Update EDD_SL_Plugin_Updater.php
+* Tweak: Allow templates to be customized via theme folder like our core
+
+Version 1.2.1
+
+* Tweak: show message to guests when trying to review a user
+* Fixed: show manage reviews pagination
+
+Version 1.2.0
+
+* Fixed: Trashed reviews are now resolved
+
+Version 1.1.9
+
+* Fixed: character limit issue in title and content
+
+Version 1.1.8
+
+* Fixed: issue with accessing screen in admin
+
+Version 1.1.7
+
+* Fixed: pagination for user reviews in backend
+
+Version 1.1.6
+
+* Fixed: compatibility with WordPress 4.3
+
+Version 1.1.5
+
+* Fixed: User rating should not appear if user have reviews turned off
+
+Version 1.1.4
+
+* Fixed: profile link bug in rating widgets
+
+Version 1.1.3
+
+* New: live notifications extension support
+
+Version 1.1.2
+
+* Fixed: bug with edit permissions
+
+Version 1.1.1
+
+* Fixed: javascript bug in backend
+
+Version 1.1.0
+
+* New: added a widget option to display specific user role (Top rated, most rated, etc)

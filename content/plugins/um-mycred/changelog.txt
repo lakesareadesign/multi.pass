@@ -1,0 +1,53 @@
+Version 1.2.2
+
+* New: Order user by mycred points
+* Tweak: Update EDD_SL_Plugin_Updater.php
+
+Version 1.2.1
+
+* Fixed: issue with displaying rank and points balance in directory
+
+Version 1.2.0
+
+* Fixed: edit profile notification
+
+Version 1.1.9
+
+* Fixed: profile caching issue
+
+Version 1.1.8
+
+* Fixed: update required for latest notifications version
+
+Version 1.1.7
+
+* Fixed: fixes deleted badges issues
+
+Version 1.1.6
+
+* New: added Italian language support
+
+Version 1.1.5
+
+* New: added Turkish language support
+
+Version 1.1.4
+
+* New: allow users to transfer points to other users (can be controlled)
+* New: added more options for bbpress integration
+
+Version 1.1.3
+
+* New: point credits and charges are now logged through myCRED Log
+
+Version 1.1.2
+
+* Fixed: credit/charge points with limit issue resolved
+
+Version 1.1.1
+
+* New: added French language support
+
+Version 1.1.0
+
+* Fixed: a php bug with number_format() function

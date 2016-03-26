@@ -1,0 +1,100 @@
+.um-admin.post-type-um_review .manage-column.column-review_from,
+.um-admin.post-type-um_review .manage-column.column-review_to {
+	width: 70px;
+}
+
+.um-admin.post-type-um_review .manage-column.column-review_rating,
+.um-admin.post-type-um_review .manage-column.column-review_date {
+	width: 110px;
+}
+
+.um-admin.post-type-um_review .manage-column.column-review_flag {
+	width: 70px;
+}
+
+.um-admin.post-type-um_review td.column-review_from a,
+.um-admin.post-type-um_review td.column-review_to a {
+	margin-top: 6px;
+}
+
+.um-admin.post-type-um_review td.column-review_from a,
+.um-admin.post-type-um_review td.column-review_to a,
+.um-admin.post-type-um_review td.column-review_from img,
+.um-admin.post-type-um_review td.column-review_to img {
+	border-radius: 3px;
+	display: block;
+	width: 32px;
+	height: 32px;
+}
+
+.um-admin.post-type-um_review td.column-review_rating {
+	font-size: 14px;
+}
+
+.um-admin.post-type-um_review .add-new-h2,
+.um-admin.post-type-um_review .tablenav
+{ /*display: none;*/ }
+
+.um-admin.post-type-um_review .alignleft.actions {
+    display: none; /* hide actions */
+}
+
+.um-admin.post-type-um_review p.search-box {display: none}
+
+.um-admin.post-type-um_review #misc-publishing-actions {display: none}
+
+/* Edit post page */
+
+#um-admin-reviews-review .inside {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+#um-admin-reviews-review .inside p {
+	margin-bottom: 12px;
+}
+
+#um-admin-reviews-review span.heading {
+	font-size: 15px;
+	font-weight: bold;
+	color: #333;
+	display: block;
+	margin-bottom: 4px;
+}
+
+#um-admin-reviews-review span.um-reviews-avg,
+#um-admin-reviews-review span.um-reviews-rate {
+	font-size: 16px;
+}
+
+.um-admin-review-from,
+.um-admin-review-to,
+.um-admin-review-rating,
+.um-admin-review-flagged,
+.um-admin-review-status {
+	padding: 15px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.um-admin-review-from a,
+.um-admin-review-to a  {
+	height: 40px;
+	line-height: 40px;
+	display: block;
+	text-decoration: none !important;
+	color: #666;
+}
+
+.um-admin-review-from img,
+.um-admin-review-to img {
+	vertical-align: middle;
+	border-radius: 3px;
+	margin-right: 18px;
+	display: inline-block;
+}
+
+.post-type-um_review .pagination-links {
+    display: block !important;
+        float: left !important;
+        padding-right: 20px;
+}

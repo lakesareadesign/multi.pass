@@ -1,0 +1,7 @@
+Version 1.0.2
+
+* Fixed: Fixed undefined function in admin
+
+Version 1.0.1
+
+* Fixed: popular user tags count in widget

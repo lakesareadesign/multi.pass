@@ -1,0 +1,11 @@
+.redux-sidebar .redux-group-tab-link-a i.um-icon-mailchimp {
+	width: 20px !important;
+	height: 20px !important;
+	display: block !important;
+	background: url(../img/icon.png) no-repeat center !important;
+}
+
+span.um-mailchimp-icon {
+	padding: 4px 0 4px 26px;
+	background: url(../img/icon.png) no-repeat left center !important;
+}

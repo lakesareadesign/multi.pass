@@ -1,0 +1,3 @@
+Version 1.0.1
+
+* Fixed: Registration process and field visibility

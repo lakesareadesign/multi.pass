@@ -1,0 +1,1 @@
+<a href="{author_profile}" class="um-link">{author_name}</a> has just followed {user_photo} <a href="{user_profile}" class="um-link">{user_name}</a>

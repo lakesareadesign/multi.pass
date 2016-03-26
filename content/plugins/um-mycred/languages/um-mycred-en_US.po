@@ -1,0 +1,302 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Ultimate Member\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-29 14:33+0200\n"
+"PO-Revision-Date: 2015-04-29 14:33+0200\n"
+"Last-Translator: Calum Allison <umplugin@gmail.com>\n"
+"Language-Team: Ultimate Member <umplugin@gmail.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: EDD_SL_Plugin_Updater.php:177
+#, php-format
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+msgstr ""
+
+#: EDD_SL_Plugin_Updater.php:184
+#, php-format
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
+"\">update now</a>."
+msgstr ""
+
+#: EDD_SL_Plugin_Updater.php:324
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: EDD_SL_Plugin_Updater.php:324
+msgid "Error"
+msgstr ""
+
+#: admin/templates/role/mycred.php:8
+msgid "Can transfer points to other members?"
+msgstr ""
+
+#: admin/templates/role/mycred.php:13
+msgid "Can not receive points from other members?"
+msgstr ""
+
+#: core/actions/um-mycred-account.php:16
+#, php-format
+msgid "Add %s points to your balance by connecting to this network."
+msgstr ""
+
+#: core/actions/um-mycred-account.php:28 core/filters/um-mycred-account.php:94
+msgid "Confirm Transfer"
+msgstr ""
+
+#: core/actions/um-mycred-admin.php:14 core/filters/um-mycred-settings.php:12
+msgid "myCRED"
+msgstr ""
+
+#: core/filters/um-mycred-account.php:10
+msgid "Invalid amount."
+msgstr ""
+
+#: core/filters/um-mycred-account.php:13
+msgid "That user can not receive points."
+msgstr ""
+
+#: core/filters/um-mycred-account.php:16
+msgid "The user does not exist."
+msgstr ""
+
+#: core/filters/um-mycred-account.php:19
+msgid "You do not have enough balance."
+msgstr ""
+
+#: core/filters/um-mycred-account.php:22
+msgid "You can not transfer points to yourself."
+msgstr ""
+
+#: core/filters/um-mycred-account.php:25
+msgid "You are not allowed to transfer points."
+msgstr ""
+
+#: core/filters/um-mycred-account.php:37
+msgid "My Points"
+msgstr ""
+
+#: core/filters/um-mycred-account.php:77
+msgid "My Balance"
+msgstr ""
+
+#: core/filters/um-mycred-account.php:85
+msgid "Transfer Balance"
+msgstr ""
+
+#: core/filters/um-mycred-account.php:88
+#, php-format
+msgid "You can transfer up to %s points to another user."
+msgstr ""
+
+#: core/filters/um-mycred-account.php:90
+msgid "Username, e-mail, or ID"
+msgstr ""
+
+#: core/filters/um-mycred-account.php:92
+msgid "Enter amount below"
+msgstr ""
+
+#: core/filters/um-mycred-account.php:96
+msgid "This is not reversible once you click confirm transfer."
+msgstr ""
+
+#: core/filters/um-mycred-account.php:105
+msgid "My Referral Link"
+msgstr ""
+
+#: core/filters/um-mycred-fields.php:10 core/filters/um-mycred-fields.php:13
+msgid "myCRED Balance"
+msgstr ""
+
+#: core/filters/um-mycred-fields.php:21 core/filters/um-mycred-fields.php:24
+msgid "myCRED Progress"
+msgstr ""
+
+#: core/filters/um-mycred-fields.php:34 core/filters/um-mycred-fields.php:37
+msgid "myCRED Badges"
+msgstr ""
+
+#: core/filters/um-mycred-fields.php:47 core/filters/um-mycred-fields.php:50
+msgid "myCRED Rank"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:21
+msgid "Width / height of badge in pixels (Badges appearing in profile tab)"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:28
+msgid "Account Tab"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:30
+msgid "Show or hide an account tab that shows the user balance"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:31
+#: core/filters/um-mycred-settings.php:40
+#: core/filters/um-mycred-settings.php:49
+msgid "On"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:32
+#: core/filters/um-mycred-settings.php:41
+#: core/filters/um-mycred-settings.php:50
+msgid "Off"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:38
+msgid "Show user affiliate link in account page"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:47
+msgid "Show user badges in profile header?"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:56
+msgid "Number of decimals to allow in balance"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:64
+msgid "Hide bbPress Role?"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:70
+msgid "Show user rank in bbPress replies"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:76
+msgid "Show user balance in bbPress replies"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:82
+msgid "Show user rank progress in bbPress replies"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:90
+msgid "General"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:96
+msgid "user login"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:97
+msgid "new user is approved"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:98
+msgid "user updates profile"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:99
+msgid "user uploads a profile photo"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:100
+msgid "user uploads a cover photo"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:117
+#: core/filters/um-mycred-settings.php:152
+msgid "points"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:126
+#: core/filters/um-mycred-settings.php:161
+msgid "limit"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:128
+msgid "How many times this can be awarded."
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:134
+msgid "user removes a profile photo"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:135
+msgid "user removes a cover photo"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:163
+msgid "How many times this can be deducted."
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:171
+msgid "Award points when"
+msgstr ""
+
+#: core/filters/um-mycred-settings.php:179
+msgid "Deduct points when"
+msgstr ""
+
+#: core/filters/um-mycred-tabs.php:22
+msgid "Badges"
+msgstr ""
+
+#: core/filters/um-mycred-tabs.php:25
+msgid "Your Badges"
+msgstr ""
+
+#: core/filters/um-mycred-tabs.php:25
+#, php-format
+msgid "%s's Badges"
+msgstr ""
+
+#: core/filters/um-mycred-tabs.php:26
+msgid "All Badges"
+msgstr ""
+
+#: core/um-mycred-init.php:22
+#, php-format
+msgid ""
+"The <strong>%s</strong> extension requires the Ultimate Member plugin to be "
+"activated to work properly. You can download it <a href=\"https://wordpress."
+"org/plugins/ultimate-member\">here</a>"
+msgstr ""
+
+#: core/um-mycred-init.php:27
+#, php-format
+msgid ""
+"Sorry. You must activate the <strong>myCRED</strong> plugin to use the %s."
+msgstr ""
+
+#: core/um-mycred-init.php:32
+#, php-format
+msgid ""
+"The <strong>%s</strong> extension requires a <a href=\"https://wordpress.org/"
+"plugins/ultimate-member\">newer version</a> of Ultimate Member to work "
+"properly."
+msgstr ""
+
+#: core/um-mycred-init.php:134
+#, php-format
+msgid "%s points"
+msgstr ""
+
+#~ msgid "outdatedBrowser_page_message"
+#~ msgstr ""
+#~ "The site you are visiting can only be viewed using a modern browser. "
+#~ "Please upgrade your browser to increase safety and your browsing "
+#~ "experience. Choose one of the browsers above. If you don't care <a href="
+#~ "\"?forwardOutdatedBrowser=1\">click here</a>"
+
+#~ msgid "404_page_message"
+#~ msgstr ""
+#~ "The Page you are looking for doesn't exist or an other error occurred. <a "
+#~ "href=\"javascript:history.go(-1)\">Go back</a>, or head over to <a href="
+#~ "\"%s\">%s</a> to choose a new direction."

@@ -1,0 +1,1 @@
+<a href="{author_profile}" class="um-link">{author_name}</a> just joined the site. Check out their profile.

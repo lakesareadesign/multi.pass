@@ -1,0 +1,38 @@
+Version 1.0.9
+
+* Fixed: Fix woocommerce billing text fields
+
+Version 1.0.8
+
+* Tweak: Plugin updater updated to latest version
+* Tweak: Remove notes
+* Fixed: Add select2 to billing and shipping country and state
+
+Version 1.0.7
+
+* Tweak: sync billing data from wc to um profile
+* Tweak: sync um profile to woocommerce billing
+
+Version 1.0.6
+
+* Tweak: compatibility with WP 4.4
+
+Version 1.0.5
+
+* Fixed: bug with account details update
+
+Version 1.0.4
+
+* Fixed: WP Multisite invalid notice issue
+
+Version 1.0.3
+
+* Fixed: blank account page after WooCommerce update
+
+Version 1.0.2
+
+* Fixed: issues with billing/shipping update
+
+Version 1.0.1
+
+* Fixed: Issue with billing details update

@@ -1,0 +1,41 @@
+Version 1.1.9
+
+* Fixed: exclude deleted users
+
+Version 1.1.8
+
+* New: order members by followers
+* New: adds a "follows you" text in profile header
+
+Version 1.1.7
+
+* New: added spanish and swedich language support
+* Tweak: css changes
+
+Version 1.1.6
+
+* Fixed: compatibility with WordPress 4.3
+
+Version 1.1.5
+
+* Fixed: minor bug fixes and improved compatibility with PM
+
+Version 1.1.4
+
+* Tweak: Compatibility with Private Messages
+
+Version 1.1.3
+
+* Fixed: minor bug fixes and tweaks
+
+Version 1.1.2
+
+* Tweak: translation ready
+
+Version 1.1.1
+
+* Fixed: Some css and layout issues
+
+Version 1.1.0
+
+* Tweak: Followers data is removed when user is deleted

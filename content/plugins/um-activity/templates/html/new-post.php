@@ -1,0 +1,1 @@
+<a href="{author_profile}" class="um-link">{author_name}</a> just created a new blog <a href="{post_url}" class="um-link">post</a>. <span class="post-meta"><a href="{post_url}">{post_image} {post_title} {post_excerpt}</a></span>

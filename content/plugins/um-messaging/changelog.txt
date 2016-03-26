@@ -1,0 +1,44 @@
+Version 1.1.0
+
+* Tweak: Update EDD_SL_Plugin_Updater.php
+* Fixed: Fix new message notification
+
+Version 1.0.9
+
+* Tweak: UI and CSS improved
+* Tweak: exclude blocked users from unread messages
+* Tweak: hides conversations from deleted users
+* Fixed: db setup error
+
+Version 1.0.8
+
+* Fixed: conflicts with WP-CLI and cron jobs
+
+Version 1.0.7
+
+* Fixed: conflict with social login
+
+Version 1.0.6
+
+* Fixed: unread messages count problem
+
+Version 1.0.5
+
+* Tweak: improved e-mail notifications for new messages
+
+Version 1.0.4
+
+* Fixed: linebreaks in private messages
+
+Version 1.0.3
+
+* Fixed: send message button disappears if message limit is around 500
+
+Version 1.0.2
+
+* New: added option to show/hide PM button on each member directory
+
+Version 1.0.1
+
+* New: added Message button to member directory
+* Fixed: several JS bugs

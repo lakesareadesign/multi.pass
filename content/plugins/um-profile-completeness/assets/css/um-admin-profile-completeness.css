@@ -1,0 +1,19 @@
+.profilec-data p {
+	border-top: 1px solid #eee;
+	padding: 8px 0;
+	margin: 0;
+}
+
+span.profilec-edit {
+	padding-left: 4px;
+	color: #aaa;
+	cursor: pointer;
+}
+
+span.profilec-edit:hover {color: #888}
+
+.profilec-inline {display: none}
+
+.profilec-inline p {border: none !important}
+
+.profilec-data ins {text-decoration: none}

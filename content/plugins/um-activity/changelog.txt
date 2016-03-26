@@ -1,0 +1,145 @@
+Version 1.2.7
+
+* Fixed: Remove forum topic when removed from bbpress
+* Fixed: Remove activity's hashtag if it's not mentioned anymore
+
+Version 1.2.6
+
+* Fixed: Replace embed media with link when uploaded an image
+* Fixed: Add hashtag in comment content after submit
+* Fixed: Fixed title encoding to allow quotes characters
+* Fixed: Fix hashtag for html special chars
+
+Version 1.2.5
+
+* New: allow hashtags in wall comments
+* New: allow soundcloud embeds by track url
+* Fixed: remove shortcodes from excerpts
+* Fixed: regex for parsing links
+
+Version 1.2.4
+
+* New: user can delete their comments
+
+Version 1.2.3
+
+* Fixed: issue in accessing admin screen
+* Fixed: broken social activity avatar
+
+Version 1.2.2
+
+* New: integration/sync with our new Verified extension
+* Fixed: bug with wall post permalink
+
+Version 1.2.1
+
+* Fixed: removes post activity when post status is not published
+
+Version 1.2.0
+
+* Fixed: sharing link and photo in one post conflict
+* Fixed: css bugs
+
+Version 1.1.9
+
+* Tweak: updated language catalogs
+* Fixed: Invalid HTTP requests
+
+Version 1.1.8
+
+* Fixed: comments display on new posts
+
+Version 1.1.7
+
+* Fixed: link sharing for internal links
+* Fixed: comments were not showing on some websites
+
+Version 1.1.6
+
+* New: view shared links in the backend and moderate them like normal posts
+* Tweak: improved link sharing from the web
+* Fixed: video embeds and link sharing conflicts
+* Fixed: hashtag feed shows all posts by hashtag
+
+Version 1.1.5
+
+* Tweak: better activity templates when adding new post/product/forum topic
+
+Version 1.1.4
+
+* New: added option to make public wall show activity from followed users only
+* New: added link sharing feature from any webpage
+* Tweak: updated language files
+
+Version 1.1.3
+
+* New: completely revoked and improved hashtag system
+* New: added widget to display trending hashtags
+* New: easily access posts by hashtags and see how many posts each hashtag has got
+
+Version 1.1.2
+
+* New: extended integration with followers
+* New: you can mention followers/followed users in your wall post
+* New: mention users with autocomplete support
+* New: mentioned users get a web notification (requires UM Notifications)
+* New: improved wall post/comment linking with permalinks
+* New: set comment/reply order by newest first or oldest first in social posts
+* Tweak: sorting comments by oldest comment first by default (optional)
+* Tweak: improved post actions menu
+* Fixed: comments count should not include replies
+* Fixed: wall comments should not appear in comments tab in profiles
+
+Version 1.1.1
+
+* New: added option to delete wall posts via frontend
+
+Version 1.1.0
+
+* New: added ajax/inline frontend post editing capability
+
+Version 1.0.8
+
+* New: added Swedish language support
+* New: added filter to control post submission args um_activity_insert_post_args
+* New: added filter to control WP_Query args to display wall posts um_activity_wall_args
+* Fixed: Truncated text not working for activity posts
+
+Version 1.0.7
+
+* Fixed: minor bug fixes with shortcodes
+
+Version 1.0.6
+
+* Fixed: issue with wall loading more posts
+
+Version 1.0.5
+
+* New: show when user creates blog post
+* New: show when user creates a product
+* New: show when user follows someone
+* New: show when user creates a forum topic
+* New: show when user signs up
+* New: integration with notifications add-on
+
+Version 1.0.4
+
+* New: option to turn off wall privacy settings in account page
+* Tweak: allow user to get redirected to wall post after login
+* Fixed: php issue in comments display
+
+Version 1.0.3
+
+* Fixed: post truncate is resolved
+
+Version 1.0.2
+
+* New: show comment/reply likes through modal
+* Tweak: likes modal is customizable via template
+* Fixed: hashtag view in main activity
+
+Version 1.0.1
+
+* New: user can post directly from activity page
+* New: display user wall or general activity with shortcode anywhere on site
+* Tweak: added default max-width css to activity wall

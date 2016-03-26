@@ -1,0 +1,24 @@
+Version 1.1.5
+
+* New: Add sort subscriptions
+* New: Show subscribed forums
+
+Version 1.1.4
+
+* Fixed: Hide notices for guests
+
+Version 1.1.3
+
+* New: added support for custom bbpress templates
+
+Version 1.1.2
+
+* Fixed: PHP warning
+
+Version 1.1.1
+
+* Fixed: forum tabs were not showing any content on specific installations
+
+Version 1.1.0
+
+* New: added option to hide forums tab from guests

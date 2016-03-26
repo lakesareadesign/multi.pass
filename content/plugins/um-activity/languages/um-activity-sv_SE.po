@@ -1,0 +1,674 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Ultimate Member\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-25 13:01+0100\n"
+"PO-Revision-Date: 2015-08-25 13:01+0100\n"
+"Last-Translator: \n"
+"Language-Team: Ultimate Member <umplugin@gmail.com>\n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.1\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: EDD_SL_Plugin_Updater.php:177
+#, php-format
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+msgstr ""
+"En ny version av %1$s finns tillgänglig. <a target=“_blank” class=“thickbox” "
+"href=“%2$s”>Visa version %3$s detaljer</a>."
+
+#: EDD_SL_Plugin_Updater.php:184
+#, php-format
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
+"\">update now</a>."
+msgstr ""
+"Det finns en ny version av %1$s tillgänglig. <a target=“_blank” "
+"class=“thickbox” href=“%2$s”>Visa detaljer för version %3$s</a> eller <a "
+"href=“%4$s”>uppdatera nu</a>."
+
+#: EDD_SL_Plugin_Updater.php:324
+msgid "You do not have permission to install plugin updates"
+msgstr "Du har inte behörighet att installera plugin-uppdateringar"
+
+#: EDD_SL_Plugin_Updater.php:324
+msgid "Error"
+msgstr "Fel"
+
+#: admin/templates/role/activity.php:8
+msgid "Turn off social wall for this user?"
+msgstr "Stänga av sociala väggen för den här användaren?"
+
+#: admin/templates/role/activity.php:13
+msgid "Do not allow this role to write posts?"
+msgstr "Vill du tillåta denna roll att skriva inlägg?"
+
+#: admin/templates/role/activity.php:18
+msgid "Turn off uploading photos?"
+msgstr "Stänga av fotouppladdning?"
+
+#: admin/templates/role/activity.php:23
+msgid "Do not allow this role to write comments?"
+msgstr "Tillåt inte denna roll att skriva kommentarer?"
+
+#: core/actions/um-activity-admin.php:9
+msgid "You cannot add hashtags here."
+msgstr ""
+
+#: core/actions/um-activity-admin.php:24
+#: core/filters/um-activity-settings.php:139 core/um-activity-admin.php:83
+#: core/um-activity-taxonomies.php:18 core/um-activity-taxonomies.php:19
+msgid "Social Activity"
+msgstr "Social aktivitet"
+
+#: core/actions/um-activity-ajax.php:401 core/actions/um-activity-ajax.php:469
+msgid "You must login to like"
+msgstr "Du måste vara inloggad för att gilla"
+
+#: core/actions/um-activity-ajax.php:404 core/actions/um-activity-ajax.php:439
+msgid "Invalid comment"
+msgstr "Felaktig kommentar"
+
+#: core/actions/um-activity-ajax.php:436 core/actions/um-activity-ajax.php:506
+msgid "You must login to unlike"
+msgstr "Du måste logga in för att ta bort gilla"
+
+#: core/actions/um-activity-ajax.php:472 core/actions/um-activity-ajax.php:509
+#: core/actions/um-activity-ajax.php:541
+msgid "Invalid wall post"
+msgstr "Felaktigt vägginlägg"
+
+#: core/actions/um-activity-ajax.php:538
+msgid "Login to post a comment"
+msgstr "Logga in för att kommentera inlägg"
+
+#: core/actions/um-activity-ajax.php:544
+msgid "Enter a comment first"
+msgstr "Skriv en kommentar först"
+
+#: core/actions/um-activity-ajax.php:598
+msgid "You can not post as guest"
+msgstr "Du kan inte göra inlägg som gäst"
+
+#: core/actions/um-activity-ajax.php:602
+msgid "You should type something first"
+msgstr "Du måste skriva något först"
+
+#: core/actions/um-activity-footer.php:13
+#: core/filters/um-activity-settings.php:65
+#: core/filters/um-activity-settings.php:82
+#: core/filters/um-activity-settings.php:111
+#: core/filters/um-activity-settings.php:119
+#: core/filters/um-activity-settings.php:131
+msgid "Yes"
+msgstr "Ja"
+
+#: core/actions/um-activity-footer.php:14
+#: core/filters/um-activity-settings.php:66
+#: core/filters/um-activity-settings.php:83
+#: core/filters/um-activity-settings.php:112
+#: core/filters/um-activity-settings.php:120
+#: core/filters/um-activity-settings.php:132
+msgid "No"
+msgstr "Nej"
+
+#: core/actions/um-activity-webnotification.php:84
+msgid "User get a new wall post"
+msgstr "Användaren får nytt väggmeddelande"
+
+#: core/actions/um-activity-webnotification.php:86
+msgid "When someone publish a post on my wall"
+msgstr "När någon gör ett inlägg på min vägg"
+
+#: core/actions/um-activity-webnotification.php:90
+msgid "User get a new wall comment"
+msgstr "Användare får ny väggkommentar"
+
+#: core/actions/um-activity-webnotification.php:92
+msgid "When someone comments on your post"
+msgstr "När någon kommenterar på ditt inlägg"
+
+#: core/actions/um-activity-webnotification.php:96
+msgid "User get a new post like"
+msgstr "Användare får ett nytt gilla på inlägg"
+
+#: core/actions/um-activity-webnotification.php:98
+msgid "When someone likes your post"
+msgstr "När någon gillar ditt inlägg"
+
+#: core/actions/um-activity-webnotification.php:102
+msgid "User get a new mention"
+msgstr ""
+
+#: core/actions/um-activity-webnotification.php:104
+msgid "When someone mentions me"
+msgstr ""
+
+#: core/filters/um-activity-privacy.php:10
+msgid "You must login to view this user activity"
+msgstr "Du måste logga in för att se användarens aktivitet"
+
+#: core/filters/um-activity-privacy.php:18
+msgid "Please login to view this user activity"
+msgstr "Vänligen logga in för att se användarens aktivitet"
+
+#: core/filters/um-activity-privacy.php:21
+msgid "This user wall is private"
+msgstr "Användarens vägg är privat"
+
+#: core/filters/um-activity-privacy.php:27
+msgid "You must follow this user to view their social activity"
+msgstr "Du måste följa användaren för att se social aktivitet"
+
+#: core/filters/um-activity-privacy.php:32
+msgid "This user must follow you before you can view their wall"
+msgstr "Användaren måste följa dig innan denne kan se din vägg"
+
+#: core/filters/um-activity-privacy.php:58
+msgid "Public"
+msgstr "Officiell"
+
+#: core/filters/um-activity-privacy.php:59
+msgid "Members"
+msgstr "Medlem"
+
+#: core/filters/um-activity-privacy.php:60
+msgid "Only me"
+msgstr "Bara jag"
+
+#: core/filters/um-activity-privacy.php:64
+msgid "Followers"
+msgstr "Följare"
+
+#: core/filters/um-activity-privacy.php:65
+msgid "People I follow"
+msgstr "Folk jag följer"
+
+#: core/filters/um-activity-privacy.php:71
+#: core/filters/um-activity-privacy.php:74
+msgid "Who can see your activity wall?"
+msgstr "Vem kan se min väggs aktivitet?"
+
+#: core/filters/um-activity-settings.php:15
+msgid "Number of wall posts on desktop"
+msgstr "Antal inlägg på väggen i dator"
+
+#: core/filters/um-activity-settings.php:22
+msgid "Number of wall posts on mobile"
+msgstr "Antal inlägg på väggen i mobil"
+
+#: core/filters/um-activity-settings.php:29
+msgid "Number of initial comments/replies to display per post"
+msgstr "Antal visade kommentarer att visa per inlägg"
+
+#: core/filters/um-activity-settings.php:36
+msgid "Number of comments/replies to get when user load more"
+msgstr "Antal kommentarer som visas vid “visa fler”"
+
+#: core/filters/um-activity-settings.php:44
+msgid "Comments order"
+msgstr ""
+
+#: core/filters/um-activity-settings.php:47
+msgid "Newest first"
+msgstr ""
+
+#: core/filters/um-activity-settings.php:48
+msgid "Oldest first"
+msgstr ""
+
+#: core/filters/um-activity-settings.php:50
+msgid "Select..."
+msgstr ""
+
+#: core/filters/um-activity-settings.php:56
+msgid "How many words appear before wall post is truncated?"
+msgstr "Hur många ord i varje inlägg innan trunkering?"
+
+#: core/filters/um-activity-settings.php:63
+msgid "Allow users to set their activity wall privacy through account page?"
+msgstr "Tillåt användare att sätta privat vägg via kontosidan?"
+
+#: core/filters/um-activity-settings.php:72
+msgid "Trending Hashtags Days"
+msgstr ""
+
+#: core/filters/um-activity-settings.php:73
+msgid ""
+"Enter number of days here. For example: 0 will calculate trending hashtags "
+"over today only, and 7 will calculate trending hashtags over a 7 day period."
+msgstr ""
+
+#: core/filters/um-activity-settings.php:80
+msgid "Require user to login to view activity walls?"
+msgstr "Kräv inloggning för att se aktiviteter på väggar?"
+
+#: core/filters/um-activity-settings.php:89
+msgid "Text to display If user needs to login to interact in a post"
+msgstr "Text att visa om användare ska logga in för att skriva på inlägg"
+
+#: core/filters/um-activity-settings.php:90
+#, php-format
+msgid ""
+"Please <a href=\"%s\" class=\"um-link\">sign up</a> or <a href=\"%s\" class="
+"\"um-link\">sign in</a> to like or comment on this post."
+msgstr ""
+"Vänligen <a href=\"%s\" class=\"um-link\">registera dig</a> eller <a href="
+"\"%s\" class=\"um-link\">logga in</a> för att gilla eller kommentera här."
+
+#: core/filters/um-activity-settings.php:98
+msgid "Active Color"
+msgstr ""
+
+#: core/filters/um-activity-settings.php:109
+msgid ""
+"Enable integration with followers to convert user names to user profile "
+"links automatically (mention users)?"
+msgstr ""
+
+#: core/filters/um-activity-settings.php:117
+msgid "Show only followed users activity in the social wall"
+msgstr ""
+
+#: core/filters/um-activity-settings.php:129
+#, php-format
+msgid "Enable \"%s\" in activity"
+msgstr "Aktivera “%s” i aktivitet"
+
+#: core/um-activity-admin.php:49
+msgid "This can be done from the frontend only."
+msgstr "Det här kan bara göras på hemsidan."
+
+#: core/um-activity-admin.php:59
+msgid "Flagged"
+msgstr "Anmäld"
+
+#: core/um-activity-admin.php:83
+#, php-format
+msgid "Social Activity %s"
+msgstr "Social aktivitet %s"
+
+#: core/um-activity-admin.php:85 core/um-activity-cols.php:25
+#: core/um-activity-taxonomies.php:54
+msgid "Hashtags"
+msgstr ""
+
+#: core/um-activity-api.php:7
+msgid "New wall post"
+msgstr "Nytt vägginlägg"
+
+#: core/um-activity-api.php:8
+msgid "New user"
+msgstr "Ny användare"
+
+#: core/um-activity-api.php:9
+msgid "New blog post"
+msgstr "Ny bloggpost"
+
+#: core/um-activity-api.php:10
+msgid "New product"
+msgstr "Ny produkt"
+
+#: core/um-activity-api.php:11
+msgid "New follow"
+msgstr "Ny följare"
+
+#: core/um-activity-api.php:12
+msgid "New forum topic"
+msgstr "Nytt foruminlägg"
+
+#: core/um-activity-api.php:149 core/um-activity-setup.php:33
+msgid "Activity"
+msgstr "Aktivitet"
+
+#: core/um-activity-api.php:190
+msgid "See more"
+msgstr "Läs mer"
+
+#: core/um-activity-api.php:304
+msgid "Untitled"
+msgstr ""
+
+#: core/um-activity-api.php:465 templates/clone.php:12
+msgid "Just now"
+msgstr "Just nu"
+
+#: core/um-activity-api.php:473
+#, php-format
+msgid "%s min"
+msgstr "%s min"
+
+#: core/um-activity-api.php:475
+#, php-format
+msgid "%s mins"
+msgstr "%s minuter"
+
+#: core/um-activity-api.php:484
+#, php-format
+msgid "%s hr"
+msgstr "%s timme"
+
+#: core/um-activity-api.php:486
+#, php-format
+msgid "%s hrs"
+msgstr "%s timmar"
+
+#: core/um-activity-api.php:495
+#, php-format
+msgid "Yesterday at %s"
+msgstr "Igår %s"
+
+#: core/um-activity-api.php:497 core/um-activity-api.php:502
+#: core/um-activity-api.php:506 core/um-activity-api.php:510
+#, php-format
+msgid "%s at %s"
+msgstr "%s vid %s"
+
+#: core/um-activity-api.php:533 templates/likes.php:2
+msgid "People who like this"
+msgstr "Andra som gillar detta"
+
+#: core/um-activity-cols.php:23
+msgid "Author"
+msgstr "Författare"
+
+#: core/um-activity-cols.php:24
+msgid "Content"
+msgstr "Innehåll"
+
+#: core/um-activity-cols.php:26
+msgid "Likes"
+msgstr "Antal gilla"
+
+#: core/um-activity-cols.php:27
+msgid "Comments"
+msgstr "Kommentarer"
+
+#: core/um-activity-cols.php:28
+msgid "Action"
+msgstr "Skicka"
+
+#: core/um-activity-cols.php:62 templates/clone.php:25
+#: templates/user-wall.php:79
+msgid "Edit"
+msgstr "Ändra"
+
+#: core/um-activity-cols.php:62
+msgid "Permalink"
+msgstr "Permalänk"
+
+#: core/um-activity-cols.php:73
+#, php-format
+msgid "This post is flagged by community. <a href=\"%s\">Clear report</a>"
+msgstr ""
+"Det här inlägget har andra anmält. <a href=“%s”>Nollställ rapportering</a>"
+
+#: core/um-activity-init.php:25
+#, php-format
+msgid ""
+"The <strong>%s</strong> extension requires the Ultimate Member plugin to be "
+"activated to work properly. You can download it <a href=\"https://wordpress."
+"org/plugins/ultimate-member\">here</a>"
+msgstr ""
+"<strong>%s</strong> utökningen kräver Ultimate Member -plugin aktiverad för "
+"att fungera. Du kan ladda ned den <a href=“https://wordpress.org/plugins/"
+"ultimate-member”>här</a>"
+
+#: core/um-activity-init.php:30
+#, php-format
+msgid ""
+"The <strong>%s</strong> extension requires a <a href=\"https://wordpress.org/"
+"plugins/ultimate-member\">newer version</a> of Ultimate Member to work "
+"properly."
+msgstr ""
+"<strong>%s</strong> utökningen kräver en <a href=“https://wordpress.org/"
+"plugins/ultimate-member”>nyare version</a> av Ultimate Member för att "
+"fungera korrekt."
+
+#: core/um-activity-taxonomies.php:20 core/um-activity-taxonomies.php:21
+msgid "Add New Post"
+msgstr "Nytt vägginlägg"
+
+#: core/um-activity-taxonomies.php:22
+msgid "Edit Post"
+msgstr "Ändra inlägg"
+
+#: core/um-activity-taxonomies.php:23
+msgid "No wall posts have been added yet"
+msgstr "Det finns ännu inga inlägg"
+
+#: core/um-activity-taxonomies.php:24
+msgid "Nothing found in Trash"
+msgstr "Inget funnet i papperskorgen"
+
+#: core/um-activity-taxonomies.php:25
+msgid "Search Posts"
+msgstr "Sök inlägg"
+
+#: core/um-activity-taxonomies.php:41
+msgid "Search Hashtags"
+msgstr ""
+
+#: core/um-activity-taxonomies.php:42
+msgid "Popular Hashtags"
+msgstr ""
+
+#: core/um-activity-taxonomies.php:43
+msgid "All Hashtags"
+msgstr ""
+
+#: core/um-activity-taxonomies.php:46
+msgid "Edit Hashtag"
+msgstr ""
+
+#: core/um-activity-taxonomies.php:47
+msgid "Update Hashtag"
+msgstr ""
+
+#: core/um-activity-taxonomies.php:48
+msgid "Add New Hashtag"
+msgstr ""
+
+#: core/um-activity-taxonomies.php:49
+msgid "New Hashtag Name"
+msgstr ""
+
+#: core/um-activity-taxonomies.php:50
+msgid "Separate hashtags with commas"
+msgstr ""
+
+#: core/um-activity-taxonomies.php:51
+msgid "Add or remove hashtags"
+msgstr ""
+
+#: core/um-activity-taxonomies.php:52
+msgid "Choose from the most used hashtags"
+msgstr ""
+
+#: core/um-activity-taxonomies.php:53
+msgid "No hashtags found."
+msgstr ""
+
+#: core/um-activity-widget.php:13
+msgid "Ultimate Member - Trending Hashtags"
+msgstr ""
+
+#: core/um-activity-widget.php:16
+msgid "Shows your trending hashtags"
+msgstr ""
+
+#: core/um-activity-widget.php:47
+msgid "Trending"
+msgstr ""
+
+#: core/um-activity-widget.php:54
+msgid "Title:"
+msgstr ""
+
+#: templates/clone.php:25 templates/user-wall.php:79
+msgid "Cancel editing"
+msgstr ""
+
+#: templates/clone.php:25 templates/user-wall.php:79
+msgid "Update"
+msgstr ""
+
+#: templates/clone.php:27 templates/user-wall.php:83
+msgid "Are you sure you want to delete this post?"
+msgstr ""
+
+#: templates/clone.php:27 templates/user-wall.php:83
+msgid "Delete"
+msgstr ""
+
+#: templates/clone.php:68 templates/comment-reply.php:19
+#: templates/comment-reply.php:21 templates/comment.php:31
+#: templates/comment.php:33 templates/comments.php:23
+#: templates/comments.php:39 templates/user-wall.php:151
+#: templates/user-wall.php:153
+msgid "Like"
+msgstr "Gilla"
+
+#: templates/clone.php:70 templates/user-wall.php:156
+msgid "Comment"
+msgstr "Kommentarer"
+
+#: templates/comment-reply.php:9
+msgid "Reply hidden. <a href=\"#\" class=\"um-link\">Show this reply</a>"
+msgstr "Dolt svar. <a href=\"#\" class=\"um-link\">Visa detta svar</a>"
+
+#: templates/comment-reply.php:19 templates/comment-reply.php:21
+#: templates/comment.php:31 templates/comment.php:33 templates/comments.php:23
+#: templates/comments.php:39 templates/user-wall.php:151
+#: templates/user-wall.php:153
+msgid "Unlike"
+msgstr "Ta bort gilla"
+
+#: templates/comment-reply.php:19 templates/comment.php:31
+msgid "Unike"
+msgstr "Ta bort gilla"
+
+#: templates/comment.php:19
+msgid "Comment hidden. <a href=\"#\" class=\"um-link\">Show this comment</a>"
+msgstr "Gömd kommentar. <a href=\"#\" class=\"um-link\">Visa kommentar</a>"
+
+#: templates/comment.php:38 templates/comments.php:24
+msgid "Reply"
+msgstr "Svara"
+
+#: templates/comment.php:73
+#, php-format
+msgid "load %s more replies"
+msgstr "ladda %s fler svar"
+
+#: templates/comment.php:75
+#, php-format
+msgid "load %s more reply"
+msgstr "ladda %s svar"
+
+#: templates/comment.php:77 templates/comments.php:65
+msgid "load more replies"
+msgstr "ladda fler svar"
+
+#: templates/comment.php:77 templates/comments.php:65
+msgid "load more comments"
+msgstr "ladda fler kommentarer"
+
+#: templates/comments.php:7
+msgid "Write a reply..."
+msgstr "Skriv ett svar…"
+
+#: templates/comments.php:7
+msgid "Write a comment..."
+msgstr "Skriv en kommentar…"
+
+#: templates/comments.php:15 templates/comments.php:31
+msgid "Hide"
+msgstr "Dölj"
+
+#: templates/comments.php:61
+#, php-format
+msgid "load %s more comments"
+msgstr "ladda %s fler kommentarer"
+
+#: templates/comments.php:63
+#, php-format
+msgid "load %s more comment"
+msgstr "ladda %s kommentar"
+
+#: templates/new.php:6
+msgid "Post on your wall"
+msgstr "Skriv inlägg på väggen"
+
+#: templates/new.php:6
+#, php-format
+msgid "Post on %s's wall"
+msgstr "Skriv inlägg på vägg för %s"
+
+#: templates/new.php:12
+msgid "Say something about this photo"
+msgstr "Säg något om denna bild"
+
+#: templates/new.php:12
+msgid "What's on your mind?"
+msgstr "Vad tänker du på?"
+
+#: templates/new.php:32
+msgid "Add photo"
+msgstr "Lägg till foto"
+
+#: templates/new.php:32
+msgid "Image is too large"
+msgstr "Bilden är för stor"
+
+#: templates/new.php:32
+msgid "Please upload a valid image"
+msgstr "Vänligen ladda upp giltig bild"
+
+#: templates/new.php:42
+msgid "Post"
+msgstr "Skicka\t"
+
+#: templates/user-wall.php:88
+msgid "Report"
+msgstr "Anmäl"
+
+#: templates/user-wall.php:88
+msgid "Cancel report"
+msgstr ""
+
+#: templates/user-wall.php:135
+msgid "likes"
+msgstr "gilla"
+
+#: templates/user-wall.php:135
+msgid "comments"
+msgstr "kommentarer"
+
+#~ msgid "Repost"
+#~ msgstr "Återpublicera"
+
+#~ msgid "People who liked this"
+#~ msgstr "Andra som gillar det här"
+
+#~ msgid "outdatedBrowser_page_message"
+#~ msgstr ""
+#~ "Webbplatsen kräver modern webbläsare. Vänligen välj annan (förslag ovan) "
+#~ "för ökad säkerhet och bättre användarupplevelse. Om du inte kan eller "
+#~ "inte bryr dig <a href=“?forwardOutdatedBrowser=1”>klicka här</a>"
+
+#~ msgid "404_page_message"
+#~ msgstr ""
+#~ "Sidan du försöker visa finns inte eller så uppstod ett fel. <a "
+#~ "href=“javascript:history.go(-1)”>Gå tillbaka</a>, eller till <a href=“%s”>"
+#~ "%s</a> för ett nytt försök."

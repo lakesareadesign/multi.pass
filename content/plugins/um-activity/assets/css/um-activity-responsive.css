@@ -1,0 +1,24 @@
+div.uimob340 .um-activity-actions a span,
+div.uimob500 .um-activity-actions a span,
+div.uimob340 .um-activity-privacy span,
+div.uimob500 .um-activity-privacy span 
+{
+	display: none;
+}
+
+div.uimob340 .um-activity-actions a,
+div.uimob500 .um-activity-actions a {
+	font-size: 18px;
+}
+
+div.uimob340 .um-activity-insert,
+div.uimob500 .um-activity-insert,
+div.uimob800 .um-activity-insert
+{
+	min-width: 200px;
+}
+
+div.uimob340 .um-activity-foot a.um-button i,
+div.uimob500 .um-activity-foot a.um-button i {
+	margin-right: 0;
+}

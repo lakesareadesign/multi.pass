@@ -1,0 +1,517 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Ultimate Member\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-11 12:57+0100\n"
+"PO-Revision-Date: 2015-06-11 12:57+0100\n"
+"Last-Translator: Calum Allison <umplugin@gmail.com>\n"
+"Language-Team: Ultimate Member <umplugin@gmail.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.1\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: EDD_SL_Plugin_Updater.php:177
+#, php-format
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+msgstr ""
+
+#: EDD_SL_Plugin_Updater.php:184
+#, php-format
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
+"\">update now</a>."
+msgstr ""
+
+#: EDD_SL_Plugin_Updater.php:324
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: EDD_SL_Plugin_Updater.php:324
+msgid "Error"
+msgstr ""
+
+#: admin/templates/review.php:6
+msgid "Flagged:"
+msgstr ""
+
+#: admin/templates/review.php:8
+msgid "This review has been flagged. Change the status below."
+msgstr ""
+
+#: admin/templates/review.php:11
+msgid "Under Review"
+msgstr ""
+
+#: admin/templates/review.php:12
+msgid "Reviewed"
+msgstr ""
+
+#: admin/templates/review.php:20
+msgid "From:"
+msgstr ""
+
+#: admin/templates/review.php:34
+msgid "To:"
+msgstr ""
+
+#: admin/templates/review.php:48
+msgid "Rating:"
+msgstr ""
+
+#: admin/templates/review.php:61
+msgid "Status:"
+msgstr ""
+
+#: admin/templates/review.php:64 core/um-reviews-admin.php:61
+msgid "Approved"
+msgstr ""
+
+#: admin/templates/review.php:65 core/um-reviews-admin.php:63
+msgid "Pending"
+msgstr ""
+
+#: admin/templates/role/reviews.php:8
+msgid "Can have user reviews tab?"
+msgstr ""
+
+#: admin/templates/role/reviews.php:8 admin/templates/role/reviews.php:36
+#: admin/templates/role/reviews.php:41
+msgid "If this is turned off user reviews will be disabled for this role."
+msgstr ""
+
+#: admin/templates/role/reviews.php:13
+msgid "Can review other members?"
+msgstr ""
+
+#: admin/templates/role/reviews.php:13
+msgid "Decide If this role can review other members"
+msgstr ""
+
+#: admin/templates/role/reviews.php:18
+msgid "Can review these roles only"
+msgstr ""
+
+#: admin/templates/role/reviews.php:18
+msgid ""
+"Which roles that role can review, choose none to allow role to review all "
+"member roles"
+msgstr ""
+
+#: admin/templates/role/reviews.php:31
+msgid "Automatically publish reviews from this role?"
+msgstr ""
+
+#: admin/templates/role/reviews.php:31
+msgid "If turned off, reviews from this role will be pending admin review."
+msgstr ""
+
+#: admin/templates/role/reviews.php:36
+msgid "Can remove their own reviews?"
+msgstr ""
+
+#: admin/templates/role/reviews.php:41
+msgid "Can remove other reviews?"
+msgstr ""
+
+#: core/actions/um-reviews-admin.php:22
+#: core/filters/um-reviews-settings.php:13 core/um-reviews-admin.php:82
+#: core/um-reviews-taxonomies.php:18
+msgid "User Reviews"
+msgstr ""
+
+#: core/actions/um-reviews-admin.php:33
+msgid "Highest rated first"
+msgstr ""
+
+#: core/actions/um-reviews-ajax.php:33
+msgid "This review has been flagged for admin review"
+msgstr ""
+
+#: core/actions/um-reviews-ajax.php:50
+msgid "Invalid request"
+msgstr ""
+
+#: core/actions/um-reviews-ajax.php:53
+msgid "You can not rate this user."
+msgstr ""
+
+#: core/actions/um-reviews-ajax.php:56
+msgid "Please add a rating."
+msgstr ""
+
+#: core/actions/um-reviews-ajax.php:59
+msgid "You must provide a title."
+msgstr ""
+
+#: core/actions/um-reviews-ajax.php:62
+msgid "You must provide review content."
+msgstr ""
+
+#: core/actions/um-reviews-ajax.php:120
+#, php-format
+msgid "%s star"
+msgstr ""
+
+#: core/actions/um-reviews-ajax.php:175 templates/review-edit.php:34
+msgid "This review will be moderated by an admin before it is live."
+msgstr ""
+
+#: core/actions/um-reviews-controls.php:30
+msgid "Report"
+msgstr ""
+
+#: core/actions/um-reviews-controls.php:34
+#: core/actions/um-reviews-controls.php:36
+msgid "Edit"
+msgstr ""
+
+#: core/actions/um-reviews-controls.php:40
+msgid "Are you sure you want to remove this review?"
+msgstr ""
+
+#: core/actions/um-reviews-controls.php:40
+msgid "Remove"
+msgstr ""
+
+#: core/filters/um-reviews-fields.php:10 core/filters/um-reviews-fields.php:13
+#: core/filters/um-reviews-search.php:58 core/um-reviews-api.php:349
+msgid "User Rating"
+msgstr ""
+
+#: core/filters/um-reviews-permissions.php:18
+msgid "Block reviews"
+msgstr ""
+
+#: core/filters/um-reviews-permissions.php:20
+msgid "Unblock reviews"
+msgstr ""
+
+#: core/filters/um-reviews-search.php:60
+msgid "5 Stars"
+msgstr ""
+
+#: core/filters/um-reviews-search.php:61
+msgid "4 Stars"
+msgstr ""
+
+#: core/filters/um-reviews-search.php:62
+msgid "3 Stars"
+msgstr ""
+
+#: core/filters/um-reviews-search.php:63
+msgid "2 Stars"
+msgstr ""
+
+#: core/filters/um-reviews-search.php:64
+msgid "1 Star"
+msgstr ""
+
+#: core/filters/um-reviews-search.php:65
+msgid "Any rating"
+msgstr ""
+
+#: core/filters/um-reviews-search.php:78
+msgid "Filter by user rating"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:19
+msgid "Show Reviews tab for guests"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:26
+msgid "Show user rating in members directory"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:34
+msgid "Who can flag reviews"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:37
+msgid "Everyone"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:38
+msgid "Reviewed user only"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:39
+msgid "All Logged-in Users"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:41
+msgid "Select..."
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:47
+#: core/filters/um-reviews-settings.php:55
+#: core/filters/um-reviews-settings.php:65
+msgid "New Review Notification"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:49
+msgid "Send a notification to user when he receives a new review"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:56
+msgid "Subject Line"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:59
+msgid "This is the subject line of the e-mail"
+msgstr ""
+
+#: core/filters/um-reviews-settings.php:66
+msgid "Message Body"
+msgstr ""
+
+#: core/filters/um-reviews-tabs.php:11
+msgid "Reviews"
+msgstr ""
+
+#: core/um-reviews-admin.php:60
+msgid "All"
+msgstr ""
+
+#: core/um-reviews-admin.php:62 core/um-reviews-cols.php:28
+#: core/um-reviews-cols.php:47
+msgid "Flagged"
+msgstr ""
+
+#: core/um-reviews-api.php:349
+msgid "Your Rating"
+msgstr ""
+
+#: core/um-reviews-api.php:363
+#, php-format
+msgid "%s average based on %s review."
+msgstr ""
+
+#: core/um-reviews-api.php:365
+#, php-format
+msgid "%s average based on %s reviews."
+msgstr ""
+
+#: core/um-reviews-api.php:369
+msgid "Nobody has reviewed you yet."
+msgstr ""
+
+#: core/um-reviews-api.php:372
+msgid "Nobody has reviewed this user yet."
+msgstr ""
+
+#: core/um-reviews-api.php:441
+#, php-format
+msgid "%s Star"
+msgstr ""
+
+#: core/um-reviews-api.php:442
+#, php-format
+msgid "%s reviews (%s)"
+msgstr ""
+
+#: core/um-reviews-cols.php:24
+msgid "From"
+msgstr ""
+
+#: core/um-reviews-cols.php:25
+msgid "To"
+msgstr ""
+
+#: core/um-reviews-cols.php:26
+msgid "Rating"
+msgstr ""
+
+#: core/um-reviews-cols.php:27
+msgid "Date"
+msgstr ""
+
+#: core/um-reviews-init.php:22
+#, php-format
+msgid ""
+"The <strong>%s</strong> extension requires the Ultimate Member plugin to be "
+"activated to work properly. You can download it <a href=\"https://wordpress."
+"org/plugins/ultimate-member\">here</a>"
+msgstr ""
+
+#: core/um-reviews-init.php:27
+#, php-format
+msgid ""
+"The <strong>%s</strong> extension requires a <a href=\"https://wordpress.org/"
+"plugins/ultimate-member\">newer version</a> of Ultimate Member to work "
+"properly."
+msgstr ""
+
+#: core/um-reviews-init.php:32
+#, php-format
+msgid "The user reviews add-on needs some setup. <a href=\"%s\">Run setup</a>"
+msgstr ""
+
+#: core/um-reviews-metabox.php:30
+msgid "This Review"
+msgstr ""
+
+#: core/um-reviews-shortcode.php:69 core/um-reviews-shortcode.php:145
+#: core/um-reviews-shortcode.php:221
+#, php-format
+msgid "%s average based on %s review"
+msgstr ""
+
+#: core/um-reviews-shortcode.php:71 core/um-reviews-shortcode.php:147
+#: core/um-reviews-shortcode.php:223
+#, php-format
+msgid "%s average based on %s reviews"
+msgstr ""
+
+#: core/um-reviews-taxonomies.php:19
+msgid "Review"
+msgstr ""
+
+#: core/um-reviews-taxonomies.php:20 core/um-reviews-taxonomies.php:21
+msgid "Add New Review"
+msgstr ""
+
+#: core/um-reviews-taxonomies.php:22
+msgid "Edit Review"
+msgstr ""
+
+#: core/um-reviews-taxonomies.php:23
+msgid "No user reviews have been submitted yet"
+msgstr ""
+
+#: core/um-reviews-taxonomies.php:24
+msgid "Nothing found in Trash"
+msgstr ""
+
+#: core/um-reviews-taxonomies.php:25
+msgid "Search Reviews"
+msgstr ""
+
+#: core/um-reviews-widget.php:13
+msgid "Ultimate Member - Lowest Rated"
+msgstr ""
+
+#: core/um-reviews-widget.php:16
+msgid "Shows your lowest rated users in a widget"
+msgstr ""
+
+#: core/um-reviews-widget.php:46
+msgid "Lowest Rated Users"
+msgstr ""
+
+#: core/um-reviews-widget.php:65 core/um-reviews-widget.php:160
+#: core/um-reviews-widget.php:255
+msgid "Title:"
+msgstr ""
+
+#: core/um-reviews-widget.php:70 core/um-reviews-widget.php:165
+#: core/um-reviews-widget.php:260
+msgid "Number of users:"
+msgstr ""
+
+#: core/um-reviews-widget.php:75 core/um-reviews-widget.php:170
+#: core/um-reviews-widget.php:265
+msgid "Limit to community role:"
+msgstr ""
+
+#: core/um-reviews-widget.php:77 core/um-reviews-widget.php:172
+#: core/um-reviews-widget.php:267
+msgid "All roles"
+msgstr ""
+
+#: core/um-reviews-widget.php:108
+msgid "Ultimate Member - Most Rated"
+msgstr ""
+
+#: core/um-reviews-widget.php:111
+msgid "Shows your most rated users in a widget"
+msgstr ""
+
+#: core/um-reviews-widget.php:141
+msgid "Most Rated Users"
+msgstr ""
+
+#: core/um-reviews-widget.php:203
+msgid "Ultimate Member - Top Rated"
+msgstr ""
+
+#: core/um-reviews-widget.php:206
+msgid "Shows your top rated users in a widget"
+msgstr ""
+
+#: core/um-reviews-widget.php:236
+msgid "Top Rated Users"
+msgstr ""
+
+#: templates/review-add.php:12
+msgid "Write a review for this user"
+msgstr ""
+
+#: templates/review-add.php:20 templates/review-add.php:42
+#: templates/review-edit.php:25 templates/review-edit.php:57
+#: templates/review-list.php:24 templates/review-list.php:48
+#, php-format
+msgid "by <a href=\"%s\">%s</a>, %s"
+msgstr ""
+
+#: templates/review-add.php:40 templates/review-edit.php:55
+#: templates/review-list.php:46
+msgid "Enter subject..."
+msgstr ""
+
+#: templates/review-add.php:44 templates/review-edit.php:59
+#: templates/review-list.php:50
+msgid "Enter your review..."
+msgstr ""
+
+#: templates/review-add.php:53
+msgid "Submit Review"
+msgstr ""
+
+#: templates/review-edit.php:30 templates/review-list.php:29
+msgid "This is currently being reviewed by an admin"
+msgstr ""
+
+#: templates/review-edit.php:72 templates/review-list.php:63
+msgid "Save Review"
+msgstr ""
+
+#: templates/review-my.php:3 templates/review-none.php:3
+msgid "You have not received any reviews yet."
+msgstr ""
+
+#: templates/review-my.php:3
+msgid "This user did not receive any other reviews."
+msgstr ""
+
+#: templates/review-none.php:3
+msgid "This user did not receive any reviews yet."
+msgstr ""
+
+#: templates/review-overview.php:16
+#, php-format
+msgid ""
+"(You are viewing only %s star reviews. <a href=\"%s\">View all reviews</a>)"
+msgstr ""
+
+#~ msgid "outdatedBrowser_page_message"
+#~ msgstr ""
+#~ "The site you are visiting can only be viewed using a modern browser. "
+#~ "Please upgrade your browser to increase safety and your browsing "
+#~ "experience. Choose one of the browsers above. If you don't care <a href="
+#~ "\"?forwardOutdatedBrowser=1\">click here</a>"
+
+#~ msgid "404_page_message"
+#~ msgstr ""
+#~ "The Page you are looking for doesn't exist or an other error occurred. <a "
+#~ "href=\"javascript:history.go(-1)\">Go back</a>, or head over to <a href="
+#~ "\"%s\">%s</a> to choose a new direction."

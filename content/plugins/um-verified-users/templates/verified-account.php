@@ -1,0 +1,1 @@
+<a href="{author_profile}" class="um-link">{author_name}</a> {verified} account is now verified on the site.

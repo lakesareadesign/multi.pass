@@ -1,0 +1,337 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Ultimate Member\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-14 02:46+0200\n"
+"PO-Revision-Date: 2015-05-18 15:07-0500\n"
+"Last-Translator: Calum Allison <umplugin@gmail.com>\n"
+"Language-Team: Ultimate Member <umplugin@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Language: es\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: EDD_SL_Plugin_Updater.php:177
+#, php-format
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+msgstr ""
+
+#: EDD_SL_Plugin_Updater.php:184
+#, php-format
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
+"\">update now</a>."
+msgstr ""
+
+#: EDD_SL_Plugin_Updater.php:324
+msgid "You do not have permission to install plugin updates"
+msgstr "Usted no tiene permiso para instalar la actualización del plugin."
+
+#: EDD_SL_Plugin_Updater.php:324
+msgid "Error"
+msgstr "Error"
+
+#: admin/templates/cta.php:4
+msgid "Enable Call to Action button"
+msgstr "Enable Call to Action button"
+
+#: admin/templates/cta.php:13
+msgid "Button Text"
+msgstr "Texto del Botón"
+
+#: admin/templates/cta.php:22
+msgid "Button URL"
+msgstr "URL del Botón"
+
+#: admin/templates/cta.php:31
+msgid "Button Background Color"
+msgstr "Color de Fondo del Botón"
+
+#: admin/templates/cta.php:40
+msgid "Button Text Color"
+msgstr "Color de Texto del Botón"
+
+#: admin/templates/notice.php:3 core/um-notices-cols.php:17
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: admin/templates/notice.php:19 core/um-notices-cols.php:18
+msgid "Reach"
+msgstr "Reach"
+
+#: admin/templates/notice.php:24
+msgid "Flush"
+msgstr "Flush"
+
+#: admin/templates/notice.php:25
+msgid ""
+"Flushing a notice makes it appear as a new notice to users even those who "
+"have seen it already."
+msgstr ""
+"Flushing a notice makes it appear as a new notice to users even those who "
+"have seen it already."
+
+#: admin/templates/notice.php:26
+msgid "Flush this notice"
+msgstr "Flush this notice"
+
+#: admin/templates/options.php:4
+msgid "Allow this notice to appear in footer"
+msgstr "Permitir que la noticia aparezca en el footer"
+
+#: admin/templates/options.php:4
+msgid "If turned off, this notice can only appear using shortcode method"
+msgstr ""
+"Si usted marca como apagado (Off), la noticia solo será visible utilizando "
+"un shortcode"
+
+#: admin/templates/options.php:13
+msgid "Display this notice to logged in users"
+msgstr "Mostrar la noticia a los usuarios que hayan ingresado a su cuenta"
+
+#: admin/templates/options.php:22
+msgid "Display this notice to logged out users"
+msgstr "Mostrar la noticia a los usuarios que no hayan ingresado a su cuenta"
+
+#: admin/templates/options.php:31
+msgid "Which user roles can see this notice"
+msgstr "¿Cuáles roles pueden ver esta noticia?"
+
+#: admin/templates/options.php:31
+msgid "Leave blank to show to all user roles"
+msgstr "Dejar en blanco para mostrar el mensaje a todos los roles"
+
+#: admin/templates/options.php:44
+msgid "Show If the user did not"
+msgstr "Mostrar si el usuario no lo hizo"
+
+#: admin/templates/options.php:49
+msgid "Upload profile photo"
+msgstr "Subir imagen de perfil"
+
+#: admin/templates/options.php:50
+msgid "Upload cover photo"
+msgstr "Subir portada de perfil"
+
+#: admin/templates/options.php:51
+msgid "Other"
+msgstr "Otros"
+
+#: admin/templates/options.php:58
+msgid "Show If the user did not fill that metakey"
+msgstr "Show If the user did not fill that metakey"
+
+#: admin/templates/rules.php:4
+msgid "Show on Homepage"
+msgstr "Mostrar en Página Principal"
+
+#: admin/templates/rules.php:13
+msgid "Show on Posts"
+msgstr "Mostrar en Publicaciones"
+
+#: admin/templates/rules.php:22
+msgid "Show on Pages"
+msgstr "Mostrar en Páginas"
+
+#: admin/templates/rules.php:31
+msgid "Show on Custom Post Types"
+msgstr "Mostrar en Publicaciones Personalizadas"
+
+#: admin/templates/rules.php:40
+msgid "Show on specific URLs"
+msgstr "Mostrar en una URL especifica"
+
+#: admin/templates/rules.php:49
+msgid "Enter allowed URLs one per line"
+msgstr "Escriba las URL permitidas (una url por línea)"
+
+#: admin/templates/styling.php:3
+msgid "If you do not provide custom styling here, defaults will be used."
+msgstr ""
+"Si usted no utiliza un estilo personalizado, se aplicará el diseño de "
+"predeterminado."
+
+#: admin/templates/styling.php:6
+msgid "Notice Minimum Width"
+msgstr "Ancho Mínimo de la Noticia"
+
+#: admin/templates/styling.php:6
+msgid "Set a minimum width for notice wrapper"
+msgstr "Mínimo del ancho de la notica wrapper"
+
+#: admin/templates/styling.php:15
+msgid "Notice background color"
+msgstr "Color de Fondo de la Noticia"
+
+#: admin/templates/styling.php:24
+msgid "Notice text color"
+msgstr "Color del Texto de la Noticia"
+
+#: admin/templates/styling.php:33
+msgid "Notice font size"
+msgstr "Tamaño de Letra de la Noticia"
+
+#: admin/templates/styling.php:42
+msgid "Notice Icon"
+msgstr "Icono de la Noticia"
+
+#: admin/templates/styling.php:42
+msgid "You can optionally add an icon to this notice"
+msgstr "Usted puede incluir un icono en ésta noticia"
+
+#: admin/templates/styling.php:45
+msgid "Choose Icon"
+msgstr "Seleccione el icono"
+
+#: admin/templates/styling.php:51
+msgid "No Icon"
+msgstr "No Icono"
+
+#: admin/templates/styling.php:67
+msgid "Notice Icon color"
+msgstr "Color del Icono de la Noticia"
+
+#: admin/templates/styling.php:76
+msgid "Notice Close Icon color"
+msgstr "Color del Icono Cerrar Noticia"
+
+#: admin/templates/styling.php:85
+msgid "Border"
+msgstr "Borde"
+
+#: admin/templates/styling.php:85
+msgid "Enter border css here"
+msgstr "Escriba el css del borde"
+
+#: admin/templates/styling.php:94
+msgid "Border Radius"
+msgstr "Radio del Borde (Radius)"
+
+#: admin/templates/styling.php:94
+msgid "Enter border radius here. e.g. 3px"
+msgstr "Ingrese el radio del borde ejemplo: 3px"
+
+#: admin/templates/styling.php:103
+msgid "Box Shadow"
+msgstr "Efecto de Sombra"
+
+#: admin/templates/styling.php:103
+msgid "Change this If you want to apply a box-shadow to the notice box"
+msgstr ""
+"Cambiar esto, si usted quiere aplicar el efecto sombra (box-shadow) a la "
+"noticia."
+
+#: core/filters/um-notices-settings.php:14
+msgid "Notice Position in Footer"
+msgstr "Posición de la Noticia en el Footer"
+
+#: core/filters/um-notices-settings.php:17
+msgid "Show to Right"
+msgstr "Mostrar a la derecha"
+
+#: core/filters/um-notices-settings.php:18
+msgid "Show to Left"
+msgstr "Mostrar a la izquierda"
+
+#: core/filters/um-notices-settings.php:20
+msgid "Select..."
+msgstr "Seleccionar..."
+
+#: core/filters/um-notices-settings.php:26 core/um-notices-admin.php:30
+#: core/um-notices-cpt.php:18
+msgid "Notices"
+msgstr "Noticias"
+
+#: core/um-notices-admin.php:21
+msgid "Enter notice title here"
+msgstr "Escriba el título de la noticia"
+
+#: core/um-notices-cols.php:18
+msgid ""
+"How many people reached this notice? Count users who seen and closed the "
+"notice only"
+msgstr ""
+"¿Cuantas personas puede ver ésta noticia? Cuenta los usuarios que vieron la "
+"noticia y la cerrará"
+
+#: core/um-notices-cpt.php:19
+msgid "Notice"
+msgstr "Noticia"
+
+#: core/um-notices-cpt.php:20 core/um-notices-cpt.php:21
+msgid "Add New Notice"
+msgstr "Agregar Nueva Noticia"
+
+#: core/um-notices-cpt.php:22
+msgid "Edit Notice"
+msgstr "Editar Noticia"
+
+#: core/um-notices-cpt.php:23
+msgid "You did not create any notices yet"
+msgstr "Usted aún no ha creado noticias."
+
+#: core/um-notices-cpt.php:24
+msgid "Nothing found in Trash"
+msgstr "No se ha encontrado nada en la papelera"
+
+#: core/um-notices-cpt.php:25
+msgid "Search Notices"
+msgstr "Buscar Noticias"
+
+#: core/um-notices-init.php:22
+#, php-format
+msgid ""
+"The <strong>%s</strong> extension requires the Ultimate Member plugin to be "
+"activated to work properly. You can download it <a href=\"https://wordpress."
+"org/plugins/ultimate-member\">here</a>"
+msgstr ""
+
+#: core/um-notices-init.php:27
+#, php-format
+msgid ""
+"The <strong>%s</strong> extension requires a <a href=\"https://wordpress.org/"
+"plugins/ultimate-member\">newer version</a> of Ultimate Member to work "
+"properly."
+msgstr ""
+
+#: core/um-notices-metabox.php:30
+msgid "Options"
+msgstr "Opciones"
+
+#: core/um-notices-metabox.php:31
+msgid "Footer Notice Rules"
+msgstr "Reglas de la Noticia en Footer"
+
+#: core/um-notices-metabox.php:32
+msgid "Styling"
+msgstr "Estilos"
+
+#: core/um-notices-metabox.php:33
+msgid "CTA (Call to Action)"
+msgstr "CTA (Call to Action)"
+
+#: core/um-notices-metabox.php:35
+msgid "This Notice"
+msgstr "Ésta Noticia"
+
+msgid "outdatedBrowser_page_message"
+msgstr ""
+"The site you are visiting can only be viewed using a modern browser. Please "
+"upgrade your browser to increase safety and your browsing experience. Choose "
+"one of the browsers above. If you don't care <a href=\"?"
+"forwardOutdatedBrowser=1\">click here</a>"
+
+msgid "404_page_message"
+msgstr ""
+"The Page you are looking for doesn't exist or an other error occurred. <a "
+"href=\"javascript:history.go(-1)\">Go back</a>, or head over to <a href=\"%s"
+"\">%s</a> to choose a new direction."

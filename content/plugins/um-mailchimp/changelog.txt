@@ -1,0 +1,28 @@
+Version 1.1.7
+
+* Fixed: empty email lists
+
+Version 1.1.6
+
+* Tweak: better mailchimp subscription information in admin e-mail notification
+
+Version 1.1.5
+
+* Fixed: bug with real-time sync with Mailchimp
+* Fixed: bug with updating subscriber account/profile details
+
+Version 1.1.4
+
+* Fixed: compatibility with updated UM core
+
+Version 1.1.3
+
+* Fixed: issue with merging checkbox fields
+
+Version 1.1.2
+
+* Fixed: when user update account information their information is merged/synced to MailChimp
+
+Version 1.1.1
+
+* Tweak: eliminates php errors caused by missing configuration / API key
