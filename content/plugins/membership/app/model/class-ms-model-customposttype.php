@@ -134,7 +134,7 @@ class MS_Model_CustomPostType extends MS_Model {
 		MS_Factory::select_blog();
 		$this->before_save();
 
-		$this->post_modified = gmdate( 'Y-m-d H:i:s' );
+		$this->post_modified = MS_Helper_Period::current_date( 'Y-m-d H:i:s' );
 		$class = get_class( $this );
 
 		/*
@@ -460,7 +460,11 @@ class MS_Model_CustomPostType extends MS_Model {
 		// Post-type is always lower case.
 		$posttype = strtolower( substr( $orig_posttype, 0, 20 ) );
 
-		// Network-wide IS PRO ONLY!
+		// Network-wide mode uses different post-types then single-site mode.
+		if ( MS_Plugin::is_network_wide() ) {
+			$posttype = substr( $posttype, 0, 18 );
+			$posttype .= '-n';
+		}
 
 		return $posttype;
 	}

@@ -15,7 +15,8 @@ class MS_Addon_Mediafiles extends MS_Addon {
 	 * @return bool
 	 */
 	static public function is_active() {
-		return false;
+		return MS_Model_Addon::is_enabled( self::ID ) &&
+			MS_Model_Addon::is_enabled( MS_Model_Addon::ADDON_MEDIA );
 	}
 
 	/**
@@ -69,7 +70,11 @@ class MS_Addon_Mediafiles extends MS_Addon {
 	 * @return bool The actual state of this add-on.
 	 */
 	public function is_enabled( $enabled ) {
-		return false;
+		if ( $enabled ) {
+			$enabled = MS_Model_Addon::is_enabled( MS_Model_Addon::ADDON_MEDIA );
+		}
+
+		return $enabled;
 	}
 
 }

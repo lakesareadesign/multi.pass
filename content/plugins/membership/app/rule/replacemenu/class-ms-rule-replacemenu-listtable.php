@@ -26,6 +26,11 @@ class MS_Rule_ReplaceMenu_ListTable extends MS_Helper_ListTable_RuleMatching {
 			array( $this, 'customize_columns' )
 		);
 
+                add_filter(
+                    'bulk_actions-membership-2_page_membership2-protection',
+                    array( $this, 'replace_menu_disable_bulk_action' )
+                );
+
 		$this->editable = self::list_shows_base_items();
 	}
 
@@ -38,6 +43,18 @@ class MS_Rule_ReplaceMenu_ListTable extends MS_Helper_ListTable_RuleMatching {
 		$columns['access'] = true;
 		return $columns;
 	}
+
+        /**
+	 * Remove bulk action feature
+	 *
+	 * @since  1.0.2.6
+	 */
+        public function replace_menu_disable_bulk_action( $actions ) {
+            if( isset( $_REQUEST['tab'] ) && $_REQUEST['tab'] == 'replace_menu' ) {
+                return '';
+            }
+            return $actions;
+        }
 
 	/**
 	 * Override the column captions.

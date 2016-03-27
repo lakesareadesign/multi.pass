@@ -91,4 +91,3 @@ class GetSettledBatchListRequest extends ANetApiRequestType
 
 
 }
-

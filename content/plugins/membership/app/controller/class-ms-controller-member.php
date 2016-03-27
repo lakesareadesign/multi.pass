@@ -327,8 +327,11 @@ class MS_Controller_Member extends MS_Controller {
 			elseif ( isset( $_POST['btn_modify'] )
 				&& $this->verify_nonce()
 			) {
-				$user_id = intval( $_POST['user_id'] );
+				// REQUEST here: When editing a user the ID is sent in the URL.
+				$user_id = intval( $_REQUEST['user_id'] );
 				$user = MS_Factory::load( 'MS_Model_Member', $user_id );
+                                // We don't need need user_id here as this is an user modification
+                                $fields_modify = array( 'memberships' );
 
 				// Modify existing subscriptions.
 				if ( self::validate_required( $fields_modify, 'POST' ) ) {
@@ -475,7 +478,7 @@ class MS_Controller_Member extends MS_Controller {
 		if ( $this->_resp_ok() && ! $this->is_admin_user() ) {
 			$this->_resp_err( 'permission denied' );
 		} elseif ( $this->_resp_ok() && ! self::validate_required( $required ) ) {
-			$this->_resp_err( 'validate: required' );
+			$this->_resp_err( __( 'This field is required.', 'membership2' ) );
 		}
 
 		if ( $this->_resp_ok() ) {
@@ -545,6 +548,8 @@ class MS_Controller_Member extends MS_Controller {
 				'orderby' => 'display_name',
 			);
 			$users = get_users( $args );
+                        $admins = get_users( array( 'role' => 'administrator' ) );
+                        $users = array_udiff( $users, $admins, array( $this, 'compare_objects' ) );
 
 			if ( count( $users ) > $items_per_page ) {
 				$res->more = true;
@@ -566,6 +571,10 @@ class MS_Controller_Member extends MS_Controller {
 		echo json_encode( $res );
 		exit;
 	}
+
+        public function compare_objects( $obj_a, $obj_b ) {
+            return $obj_a->ID - $obj_b->ID;
+        }
 
 	/**
 	 * Assigns (or removes) memberships to a Member.

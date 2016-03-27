@@ -418,7 +418,6 @@ class MS_Model_Addon extends MS_Model_Option {
 		$list[self::ADDON_CPT_POST_BY_POST] = (object) array(
 			'name' => __( 'Individual Custom Posts', 'membership2' ),
 			'description' => __( 'Protect individual Posts of a Custom Post Type.', 'membership2' ),
-			'action' => array( __( 'Pro Version', 'membership2' ) ),
 		);
 
 		$list[self::ADDON_MEDIA] = (object) array(
@@ -456,12 +455,15 @@ class MS_Model_Addon extends MS_Model_Option {
 				array(
 					'id' => 'advanced',
 					'type' => MS_Helper_Html::INPUT_TYPE_RADIO_SLIDER,
-					'title' => __( 'Protect Individual Media files', 'membership2' ) .
-						' - ' . __( 'Pro Version', 'membership2' ),
-					'wrapper_class' => 'disabled',
-					'read_only' => true,
+					'title' => __( 'Protect Individual Media files', 'membership2' ),
 					'desc' => __( 'Enable this to display a new tab in "Membership2" where you can manually modify access to each media library item.<br>Default: When this option is disabled then the parent-post controls the access to the media file.', 'membership2' ),
-					'value' => false,
+					'value' => self::is_enabled( MS_Addon_Mediafiles::ID ),
+					'data_ms' => array(
+						'action' => MS_Controller_Addon::AJAX_ACTION_TOGGLE_ADDON,
+						'field' => 'active',
+						'addon' => MS_Addon_Mediafiles::ID,
+						'_wpnonce' => true, // Nonce will be generated from 'action'
+					),
 				),
 			),
 		);
@@ -519,7 +521,6 @@ class MS_Model_Addon extends MS_Model_Option {
 			'name' => __( 'Admin Side Protection', 'membership2' ),
 			'description' => __( 'Control the pages and even Meta boxes that members can access on the admin side.', 'membership2' ),
 			'icon' => 'dashicons dashicons-admin-network',
-			'action' => array( __( 'Pro Version', 'membership2' ) ),
 		);
 
 		$list[self::ADDON_MEMBERCAPS] = (object) array(

@@ -72,7 +72,7 @@ class TheLib_Ui extends TheLib {
 		switch ( $module ) {
 			case 'core':
 				$this->css( $this->_css_url( 'wpmu-ui.3.min.css' ), $onpage );
-				$this->js( $this->_js_url( 'wpmu-ui.3.min.js' ), $onpage );
+				$this->js( $this->_js_url( 'wpmu-ui.3.js' ), $onpage );
 				break;
 
 			case 'animate':

@@ -26,7 +26,7 @@ class MS_View_Shortcode_Login extends MS_View {
 				$form = 'logout';
 			} elseif ( isset( $action ) && 'resetpass' === $action ) {
 				$form = 'reset';
-			} elseif ( 'lostpass' == $_GET['show'] ) {
+			} elseif ( isset( $_GET['show'] ) && 'lostpass' == $_GET['show'] ) {
 				$form = 'lost';
 			} else {
 				$form = 'login';
@@ -126,7 +126,8 @@ class MS_View_Shortcode_Login extends MS_View {
 			lib3()->ui->data(
 				'ms_ajax_login',
 				array(
-					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					//'ajaxurl' => admin_url( 'admin-ajax.php' ),
+                                        'ajaxurl' => admin_url( 'admin-ajax.php', is_ssl() ? 'https' : 'http' ),
 					'loadingmessage' => __( 'Please wait...', 'membership2' ),
 					'errormessage' => __( 'Request failed, please try again.', 'membership2' ),
 				)

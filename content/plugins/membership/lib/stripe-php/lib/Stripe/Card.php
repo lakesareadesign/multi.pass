@@ -63,4 +63,3 @@ class M2_Stripe_Card extends M2_Stripe_ApiResource
     return self::_scopedSave($class);
   }
 }
-

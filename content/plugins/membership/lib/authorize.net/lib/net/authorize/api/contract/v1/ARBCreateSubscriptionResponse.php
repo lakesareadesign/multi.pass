@@ -37,4 +37,3 @@ class ARBCreateSubscriptionResponse extends ANetApiResponseType
 
 
 }
-

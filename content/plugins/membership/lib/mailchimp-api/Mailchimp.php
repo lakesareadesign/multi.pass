@@ -258,4 +258,3 @@ class M2_Mailchimp {
     }
 }
 
-

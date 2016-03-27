@@ -78,4 +78,3 @@ class Country {
   */
   public $tax_supported; // bool
   }
-

@@ -37,4 +37,3 @@ class GetHostedProfilePageResponse extends ANetApiResponseType
 
 
 }
-

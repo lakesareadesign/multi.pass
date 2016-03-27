@@ -92,8 +92,18 @@ class MS_View extends MS_Hooker {
 	 * @since  1.0.0
 	 */
 	protected function check_network() {
-		// Network-wide IS PRO ONLY!
-		return;
+		if ( MS_Plugin::is_network_wide() && wp_is_large_network() ) :
+		?>
+			<div class="error below-h2">
+			<p>
+				<strong><?php _e( 'Warning!', 'membership2' ); ?></strong>
+			</p>
+			<p>
+				<?php _e( 'This network has a large number of sites. Some features of network protection might be slow or unavailable.', 'membership2' ); ?>
+			</p>
+			</div>
+		<?php
+		endif;
 	}
 
 	/**

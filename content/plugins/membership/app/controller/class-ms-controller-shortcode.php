@@ -289,6 +289,15 @@ class MS_Controller_Shortcode extends MS_Controller {
 			$exclude
 		);
 
+                if ( ! $member->is_valid() || ! $member->has_membership() ) {
+                    foreach( $memberships as $key => $membership ) {
+                        if( isset( $membership->update_denied['guest'] ) && lib3()->is_true( $membership->update_denied['guest'] ) ) {
+                            unset( $memberships[$key] );
+                        }
+                    }
+                }
+
+
 		$data['memberships'] = $memberships;
 		$move_from_ids = array();
 
@@ -562,17 +571,24 @@ class MS_Controller_Shortcode extends MS_Controller {
 		$setting = MS_Plugin::instance()->settings;
 		$member = MS_Model_Member::get_current_member();
 
-		if ( count( $member->subscriptions ) ) {
-			$sub = $member->get_subscription( 'priority' );
-			$protection_msg = $setting->get_protection_message(
-				MS_Model_Settings::PROTECTION_MSG_CONTENT,
-				$sub->membership_id
-			);
-		} else {
-			$protection_msg = $setting->get_protection_message(
-				MS_Model_Settings::PROTECTION_MSG_CONTENT
-			);
-		}
+                if( defined( 'MS_PROTECTED_MESSAGE_REVERSE_RULE' ) && MS_PROTECTED_MESSAGE_REVERSE_RULE && isset( $_REQUEST['membership_id'] ) ) {
+                    $protection_msg = $setting->get_protection_message(
+                            MS_Model_Settings::PROTECTION_MSG_CONTENT,
+                            $_REQUEST['membership_id']
+                    );
+                }else{
+                    if ( count( $member->subscriptions ) ) {
+                            $sub = $member->get_subscription( 'priority' );
+                            $protection_msg = $setting->get_protection_message(
+                                    MS_Model_Settings::PROTECTION_MSG_CONTENT,
+                                    $sub->membership_id
+                            );
+                    } else {
+                            $protection_msg = $setting->get_protection_message(
+                                    MS_Model_Settings::PROTECTION_MSG_CONTENT
+                            );
+                    }
+                }
 
 		$html = '<div class="ms-protected-content">';
 		if ( ! empty( $protection_msg ) ) {
@@ -889,6 +905,8 @@ class MS_Controller_Shortcode extends MS_Controller {
 	public function ms_note( $atts, $content = '' ) {
 		MS_Helper_Shortcode::did_shortcode( MS_Helper_Shortcode::SCODE_NOTE );
 
+		lib3()->ui->css( 'ms-styles' );
+
 		$atts = apply_filters(
 			'ms_controller_shortcode_note_atts',
 			shortcode_atts(
@@ -1023,11 +1041,15 @@ class MS_Controller_Shortcode extends MS_Controller {
 				break;
 
 			case 'guest':
-				$access = ($user_type === 'guest' );
+				$access = ($user_type == 'guest' );
 				break;
 
 			case 'admin':
-				$access = ( $user_type === 'admin' );
+				$access = ( $user_type == 'admin' );
+				break;
+
+			case 'non-admin':
+				$access = ( $user_type != 'admin' );
 				break;
 		}
 

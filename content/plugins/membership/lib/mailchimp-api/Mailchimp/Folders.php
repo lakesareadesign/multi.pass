@@ -59,4 +59,3 @@ class M2_Mailchimp_Folders {
 
 }
 
-

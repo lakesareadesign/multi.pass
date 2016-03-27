@@ -81,7 +81,7 @@ class MS_Addon_Taxamo_Userprofile extends MS_View {
 			$vat_details = __( 'VAT Number is invalid.', 'membership2' );
 		}
 		if ( $profile->use_vat_number ) {
-			$tax_message = __( 'Valid EU VAT Number provided: You are exempt of VAT', 'membership2' );
+			$tax_message = __( 'Valid EU VAT Number provided: You are exempt of VAT', 'membership2' );	   	 	 		 	  					  
 		} else {
 			$tax_message = __( 'The country used for tax calculation is %s', 'membership2' );
 		}

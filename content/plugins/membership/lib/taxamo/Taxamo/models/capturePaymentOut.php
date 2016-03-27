@@ -33,4 +33,3 @@ class CapturePaymentOut {
   */
   public $success; // bool
   }
-

@@ -71,4 +71,3 @@ class GetTransactionListResponse extends ANetApiResponseType
 
 
 }
-

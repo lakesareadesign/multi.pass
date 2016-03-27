@@ -53,4 +53,3 @@ class Additional_currency {
   */
   public $total_amount; // number
   }
-

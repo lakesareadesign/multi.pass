@@ -33,4 +33,3 @@ class GetTransactionOut {
   */
   public $transaction; // transaction
   }
-

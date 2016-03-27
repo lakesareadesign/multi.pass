@@ -33,4 +33,3 @@ class GetRefundsOut {
   */
   public $report; // array[report]
   }
-

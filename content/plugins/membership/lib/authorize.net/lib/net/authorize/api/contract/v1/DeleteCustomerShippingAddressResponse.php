@@ -10,4 +10,3 @@ class DeleteCustomerShippingAddressResponse extends ANetApiResponseType
 
 
 }
-

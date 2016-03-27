@@ -43,4 +43,3 @@ class LocateMyIPOut {
   */
   public $country; // country
   }
-

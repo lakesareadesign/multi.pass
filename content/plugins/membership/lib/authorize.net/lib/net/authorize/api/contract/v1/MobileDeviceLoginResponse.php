@@ -125,4 +125,3 @@ class MobileDeviceLoginResponse extends ANetApiResponseType
 
 
 }
-

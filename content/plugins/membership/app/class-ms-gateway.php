@@ -347,7 +347,9 @@ class MS_Gateway extends MS_Model_Option {
 			);
 			$card_expire_days = MS_Helper_Period::subtract_dates(
 				$card_exp,
-				MS_Helper_Period::current_date()
+				MS_Helper_Period::current_date(),
+				DAY_IN_SECONDS, // return value in DAYS.
+				true // return negative value if first date is before second date.
 			);
 			if ( $card_expire_days < 0 || ( $days == $card_expire_days ) ) {
 				MS_Model_Event::save_event(
@@ -411,6 +413,10 @@ class MS_Gateway extends MS_Model_Option {
 	 * @return boolean True if is in live mode.
 	 */
 	public function is_live_mode() {
+		if ( empty( $this->mode ) ) {
+			$this->mode = self::MODE_SANDBOX;
+		}
+
 		$is_live_mode = ( self::MODE_SANDBOX !== $this->mode );
 
 		return apply_filters(
@@ -584,6 +590,7 @@ class MS_Gateway extends MS_Model_Option {
 				'CO' => __( 'Colombia', 'membership2' ),
 				'CK' => __( 'Cook Islands', 'membership2' ),
 				'CR' => __( 'Costa Rica', 'membership2' ),
+				'HR' => __( 'Croatia', 'membership2' ),
 				'CY' => __( 'Cyprus', 'membership2' ),
 				'CZ' => __( 'Czech Republic', 'membership2' ),
 				'DK' => __( 'Denmark', 'membership2' ),

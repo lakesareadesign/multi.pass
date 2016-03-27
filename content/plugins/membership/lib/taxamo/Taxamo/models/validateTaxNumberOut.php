@@ -43,4 +43,3 @@ class ValidateTaxNumberOut {
   */
   public $billing_country_code; // string
   }
-

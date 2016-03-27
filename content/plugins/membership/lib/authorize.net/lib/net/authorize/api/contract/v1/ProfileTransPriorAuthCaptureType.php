@@ -121,4 +121,3 @@ class ProfileTransPriorAuthCaptureType extends ProfileTransAmountType
 
 
 }
-

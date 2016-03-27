@@ -37,4 +37,3 @@ class GetTransactionDetailsResponse extends ANetApiResponseType
 
 
 }
-

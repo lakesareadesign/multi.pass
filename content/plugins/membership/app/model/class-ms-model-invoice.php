@@ -1096,10 +1096,9 @@ class MS_Model_Invoice extends MS_Model_CustomPostType {
 			}
 
 			$member->save();
-			$subscription->gateway_id = $this->gateway_id;
-			$subscription->save();
-			$this->gateway_id = $this->gateway_id;
 			$this->save();
+
+			$subscription->set_gateway( $this->gateway_id );
 		}
 
 		return apply_filters(

@@ -111,4 +111,3 @@ class M2_Mailchimp_Templates {
 
 }
 
-

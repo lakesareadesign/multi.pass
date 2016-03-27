@@ -153,4 +153,3 @@ class Input_transaction_update {
   */
   public $order_date; // string
   }
-

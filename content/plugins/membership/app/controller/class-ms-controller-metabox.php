@@ -79,7 +79,7 @@ class MS_Controller_Metabox extends MS_Controller {
 
 		$post_types = array_merge(
 			array( 'page', 'post', 'attachment' ),
-			array() // PRO VERSION PARAMETER
+			MS_Rule_CptGroup_Model::get_custom_post_types()
 		);
 
 		$this->post_types = apply_filters(
@@ -347,6 +347,12 @@ class MS_Controller_Metabox extends MS_Controller {
 			$read_only = true;
 		} elseif ( 'attachment' == $post_type ) {
 			$read_only = true;
+		} elseif ( in_array( $post_type, MS_Rule_CptGroup_Model::get_custom_post_types() ) ) {
+			if ( MS_Model_Addon::is_enabled( MS_Model_Addon::ADDON_CPT_POST_BY_POST ) ) {
+				$read_only = false;
+			} else {
+				$read_only = true;
+			}
 		} else {
 			$read_only = false;
 		}

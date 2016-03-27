@@ -33,4 +33,3 @@ class GetProductTypesDictOut {
   */
   public $dictionary; // array[product_type_schema]
   }
-

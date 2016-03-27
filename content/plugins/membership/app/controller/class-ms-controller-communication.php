@@ -1,5 +1,10 @@
 <?php
 /**
+ * Controller.
+ * @package  Membership2
+ */
+
+/**
  * Controller for Automated Communications.
  *
  * @since  1.0.0
@@ -34,28 +39,61 @@ class MS_Controller_Communication extends MS_Controller {
 
 		do_action( 'ms_controller_communication_before', $this );
 
+		// Handle Ajax action from Admin-side to update communication templates.
 		$this->add_ajax_action(
 			self::AJAX_ACTION_UPDATE_COMM,
 			'ajax_action_update_communication'
 		);
 
+		// Triggered when first membership was created after installation.
 		$this->add_action(
 			'ms_controller_membership_setup_completed',
 			'auto_setup_communications'
 		);
 
+		// Observe all M2 events and send/enqueue messages if needed.
 		$this->add_action(
 			'ms_model_event',
 			'process_event',
 			10, 2
 		);
 
+		// Works for user creation from admin only.
+		$this->add_action(
+			'user_register',
+			'save_user_create_event',
+			10, 1
+		);
+
+		// Frequently process messages that were enqueued earlier.
 		$this->add_action(
 			'ms_cron_process_communications',
 			'process_queue'
 		);
 
+		// Log emails that were sent via M2.
+		$this->add_action(
+			'ms_model_communication_after_send_message',
+			'log_sent_message',
+			10, 7
+		);
+
 		do_action( 'ms_controller_communication_after', $this );
+	}
+
+	/**
+	 * Fires only at user creation from admin
+	 * Create even to send notification email.
+	 *
+	 * @since 1.0.2.6
+	 *
+	 * @param int $user_id The user that was created.
+	 */
+	public function save_user_create_event( $user_id ) {
+		if ( is_admin() ) {
+			$member = MS_Factory::load( 'MS_Model_Member', $user_id );
+			MS_Model_Event::save_event( MS_Model_Event::TYPE_MS_REGISTERED, $member );
+		}
 	}
 
 	/**
@@ -166,7 +204,7 @@ class MS_Controller_Communication extends MS_Controller {
 	 *
 	 * @since  1.0.1.0
 	 * @param  MS_Model_Event $event The event that is processed.
-	 * @param  mixed $data The data passed to the event handler.
+	 * @param  mixed          $data The data passed to the event handler.
 	 */
 	public function process_event( $event, $data ) {
 		if ( $data instanceof MS_Model_Relationship ) {
@@ -196,7 +234,7 @@ class MS_Controller_Communication extends MS_Controller {
 				$enqueue[] = MS_Model_Communication::COMM_TYPE_FAILED_PAYMENT;
 				break;
 
-			case MS_Model_Event::TYPE_MS_DEACTIVATED:
+			case MS_Model_Event::TYPE_MS_EXPIRED:
 				$enqueue[] = MS_Model_Communication::COMM_TYPE_FINISHED;
 				break;
 
@@ -227,7 +265,7 @@ class MS_Controller_Communication extends MS_Controller {
 
 			case MS_Model_Event::TYPE_MS_MOVED:
 				break;
-			case MS_Model_Event::TYPE_MS_EXPIRED:
+			case MS_Model_Event::TYPE_MS_DEACTIVATED:
 				break;
 			case MS_Model_Event::TYPE_MS_TRIAL_EXPIRED:
 				break;
@@ -326,10 +364,12 @@ class MS_Controller_Communication extends MS_Controller {
 			$this
 		);
 
-		echo apply_filters(
-			'ms_controller_commnucation_ajax_action_update_communication_msg',
-			$msg,
-			$this
+		echo esc_js(
+			apply_filters(
+				'ms_controller_commnucation_ajax_action_update_communication_msg',
+				$msg,
+				$this
+			)
 		);
 		exit;
 	}
@@ -343,7 +383,7 @@ class MS_Controller_Communication extends MS_Controller {
 	 * - ms_controller_membership_setup_completed
 	 *
 	 * @since  1.0.0
-	 * @param MS_Model_Membership $membership
+	 * @param MS_Model_Membership $membership The related membership object.
 	 */
 	public function auto_setup_communications( $membership ) {
 		/*
@@ -371,6 +411,7 @@ class MS_Controller_Communication extends MS_Controller {
 	 *
 	 * @since  1.0.0
 	 *
+	 * @param string  $type The communication-type (internal ID).
 	 * @param mixed[] $fields The data to process.
 	 */
 	public function save_communication( $type, $fields ) {
@@ -424,6 +465,67 @@ class MS_Controller_Communication extends MS_Controller {
 			$fields,
 			$this
 		);
+	}
+
+	/**
+	 * Log sent messages to DB.
+	 *
+	 * @since  1.0.2.7
+	 * @param  bool                   $sent Status indicator.
+	 * @param  array                  $recipients List of email addresses.
+	 * @param  string                 $subject Email subject.
+	 * @param  string                 $message Full email message.
+	 * @param  array                  $headers Email headers.
+	 * @param  MS_Model_Communication $comm Object that sent the email.
+	 * @param  MS_Model_Relationship  $subscription Related subscriprion object.
+	 */
+	public function log_sent_message( $sent, $recipients, $subject, $message, $headers, $comm, $subscription ) {
+		if ( ! defined( 'MS_LOG_EMAILS' ) || ! MS_LOG_EMAILS ) { return; }
+
+		// Generate a basic back-trace.
+		$backtrace = debug_backtrace();
+		$trace = array();
+		$start_trace = false;
+
+		foreach ( $backtrace as $item ) {
+			if ( ! isset( $item['function'] ) ) { continue; }
+			if ( ! isset( $item['file'] ) ) { continue; }
+			if ( ! isset( $item['class'] ) ) { $item['class'] = ''; }
+			if ( ! isset( $item['type'] ) ) { $item['type'] = ''; }
+
+			// Skip irrelevant steps to keep the trace short.
+			if ( ! $start_trace ) {
+				if ( 'MS_Model_Communication' == $item['class'] ) {
+					$start_trace = true;
+				} else {
+					continue;
+				}
+			}
+
+			$trace[] = sprintf(
+				'%s (%s:%d)',
+				$item['class'] . $item['type'] . $item['function'],
+				basename( $item['file'] ),
+				$item['line']
+			);
+		}
+
+		$log = MS_Factory::create( 'MS_Model_Communicationlog' );
+
+		$log->name = $comm->type;
+		$log->sent = (int) $sent;
+		$log->title = $subject;
+		$log->subscription_id = $subscription->id;
+		$log->user_id = $subscription->user_id;
+		$log->trace = json_encode( $trace );
+
+		if ( is_array( $recipients ) ) {
+			$log->recipient = reset( $recipients );
+		} else {
+			$log->recipient = $recipients;
+		}
+
+		$log->save();
 	}
 
 	/**
@@ -494,5 +596,4 @@ class MS_Controller_Communication extends MS_Controller {
 		array_push( $buttons, 'ms_variable' );
 		return $buttons;
 	}
-
 }

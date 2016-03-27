@@ -48,4 +48,3 @@ class N {
   */
   public $day; // string
   }
-

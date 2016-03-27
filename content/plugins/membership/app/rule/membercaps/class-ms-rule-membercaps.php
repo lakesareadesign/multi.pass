@@ -67,4 +67,3 @@ class MS_Rule_MemberCaps extends MS_Controller {
 	}
 
 }
-

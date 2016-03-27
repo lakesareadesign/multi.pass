@@ -67,4 +67,3 @@ class MS_Rule_MenuItem extends MS_Controller {
 	}
 
 }
-

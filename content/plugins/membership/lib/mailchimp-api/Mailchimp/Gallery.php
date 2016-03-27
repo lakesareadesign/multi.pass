@@ -103,4 +103,3 @@ class M2_Mailchimp_Gallery {
 
 }
 
-

@@ -48,4 +48,3 @@ class By_country {
   */
   public $currency_code; // string
   }
-

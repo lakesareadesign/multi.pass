@@ -10,4 +10,3 @@ class UpdateSplitTenderGroupResponse extends ANetApiResponseType
 
 
 }
-

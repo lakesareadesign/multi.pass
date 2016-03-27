@@ -64,4 +64,3 @@ class DecryptPaymentDataRequest extends ANetApiRequestType
 
 
 }
-

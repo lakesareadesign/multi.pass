@@ -67,4 +67,3 @@ class MS_Rule_Content extends MS_Controller {
 	}
 
 }
-

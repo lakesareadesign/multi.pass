@@ -122,6 +122,7 @@ class MS_Controller_Frontend extends MS_Controller {
 
 			// Redirect users to their Account page after login.
 			$this->add_filter( 'login_redirect', 'login_redirect', 10, 3 );
+			$this->add_action( 'wp_logout', 'logout_redirect', 10 );
 		}
 	}
 
@@ -590,7 +591,9 @@ class MS_Controller_Frontend extends MS_Controller {
 			$user->signon_user();
 
 			if ( MS_Model_Event::save_event( MS_Model_Event::TYPE_MS_REGISTERED, $user ) ) {
+                            if( ! defined( 'MS_DISABLE_WP_NEW_USER_NOTIFICATION' ) ){
 				wp_new_user_notification( $user->id, $user->password );
+                            }
 			}
 
 			do_action( 'ms_controller_frontend_register_user_complete', $user );
@@ -610,7 +613,8 @@ class MS_Controller_Frontend extends MS_Controller {
 						array(
 							'step' => self::STEP_PAYMENT_TABLE,
 							'membership_id' => absint( $_REQUEST['membership_id'] ),
-						)
+						),
+                                                MS_Model_Pages::get_page_url( MS_Model_Pages::MS_PAGE_REGISTER )
 					)
 				);
 			}
@@ -799,6 +803,7 @@ class MS_Controller_Frontend extends MS_Controller {
 					try {
 						$member->validate_member_info();
 						$member->save();
+						do_action( 'ms_model_member_update_user', $member );
 						wp_safe_redirect(
 							esc_url_raw( remove_query_arg( 'action' ) )
 						);
@@ -948,6 +953,18 @@ class MS_Controller_Frontend extends MS_Controller {
 			$user,
 			$this
 		);
+	}
+
+	/**
+	 * Redirect user to page.
+	 *
+	 * @since  1.0.2.4
+	 *
+	 * @return void
+	 */
+	public function logout_redirect() {
+		wp_redirect( MS_Model_Pages::get_url_after_logout() );
+		exit;
 	}
 
 	/**

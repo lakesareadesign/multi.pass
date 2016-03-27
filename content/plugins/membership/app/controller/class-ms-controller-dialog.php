@@ -27,7 +27,10 @@ class MS_Controller_Dialog extends MS_Controller {
 		$this->add_ajax_action( 'ms_submit', 'ajax_submit' );
 
 		// Login. For IE this hook is listening to guests + logged in users.
-		$this->add_ajax_action( 'ms_login', 'ajax_login', true, true );
+                /**
+                 * This is moved to main plugin file to avoid IE11 and EDGE browser issue
+                 */
+		//$this->add_ajax_action( 'ms_login', 'ajax_login', true, true );
 		$this->add_ajax_action( 'ms_lostpass', 'ajax_lostpass', true, true );
 	}
 
@@ -147,7 +150,17 @@ class MS_Controller_Dialog extends MS_Controller {
 			 *
 			 * @since  1.0.0
 			 */
-			$resp['redirect'] = apply_filters( 'ms-ajax-login-redirect', '', $member );
+                        $enforce = false;
+                        if( isset( $_POST['redirect_to'] ) ) {
+                            $resp['redirect'] = apply_filters( 'ms-ajax-login-redirect', $_POST['redirect_to'], $member );
+                        }else{
+                            $resp['redirect'] = apply_filters(
+				'ms_url_after_login',
+				$_POST['redirect_to'],
+				$enforce
+                            );
+                        }
+
 		}
 
 		$this->respond( $resp );
@@ -219,10 +232,11 @@ class MS_Controller_Dialog extends MS_Controller {
 			$schema = is_ssl() ? 'https' : 'http';
 
 			$message = sprintf(
-				__( 'Someone requested that the password be reset for the following account: %sIf this was a mistake, just ignore this email and nothing will happen.%s', 'membership2' ),
-				"\r\n\r\n" . network_home_url( '/', $schema ) . "\r\n" .
-				sprintf( __( 'Your username: %s', 'membership2' ), $user_login ) . "\r\n\r\n",
-				"\r\n\r\n" . $reset->url . "\r\n"
+				__( 'Someone has requested a password reset for the following account: %sIf this was a mistake, just ignore this email and nothing will happen.%s %s', 'membership2' ),
+				"\r\n\r\n" . network_home_url( '/', $schema ) . "\r\n\r\n" .
+				sprintf( __( 'Username: %s', 'membership2' ), $user_login ) . "\r\n\r\n",
+                                "\r\n\r\n" . __( 'To reset your password, visit the following address:', 'membership2' ) . "\r\n",
+				"\r\n<" . $reset->url . ">\r\n"
 			);
 
 			if ( is_multisite() ) {

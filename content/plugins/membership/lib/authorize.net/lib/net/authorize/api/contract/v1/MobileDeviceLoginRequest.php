@@ -10,4 +10,3 @@ class MobileDeviceLoginRequest extends ANetApiRequestType
 
 
 }
-

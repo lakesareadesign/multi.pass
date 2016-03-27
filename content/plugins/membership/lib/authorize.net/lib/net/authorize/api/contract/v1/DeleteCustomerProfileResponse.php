@@ -10,4 +10,3 @@ class DeleteCustomerProfileResponse extends ANetApiResponseType
 
 
 }
-

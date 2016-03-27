@@ -94,4 +94,3 @@ class CustomerPaymentProfileType extends CustomerPaymentProfileBaseType
 
 
 }
-

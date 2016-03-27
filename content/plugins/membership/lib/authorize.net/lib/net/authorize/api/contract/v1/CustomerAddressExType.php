@@ -40,4 +40,3 @@ class CustomerAddressExType extends CustomerAddressType
 
 
 }
-

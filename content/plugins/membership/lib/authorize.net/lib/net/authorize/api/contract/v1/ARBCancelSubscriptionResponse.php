@@ -10,4 +10,3 @@ class ARBCancelSubscriptionResponse extends ANetApiResponseType
 
 
 }
-

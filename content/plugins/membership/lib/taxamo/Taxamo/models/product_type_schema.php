@@ -33,4 +33,3 @@ class Product_type_schema {
   */
   public $code; // string
   }
-

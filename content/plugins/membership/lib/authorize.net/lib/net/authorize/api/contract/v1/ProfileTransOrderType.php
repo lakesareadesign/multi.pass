@@ -229,4 +229,3 @@ class ProfileTransOrderType extends ProfileTransAmountType
 
 
 }
-

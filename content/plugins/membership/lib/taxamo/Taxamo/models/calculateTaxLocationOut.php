@@ -68,4 +68,3 @@ class CalculateTaxLocationOut {
   */
   public $evidence; // evidence
   }
-

@@ -40,4 +40,3 @@ class CustomerPaymentProfileExType extends CustomerPaymentProfileType
 
 
 }
-

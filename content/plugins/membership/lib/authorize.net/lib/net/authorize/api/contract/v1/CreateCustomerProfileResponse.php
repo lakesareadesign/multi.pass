@@ -220,4 +220,3 @@ class CreateCustomerProfileResponse extends ANetApiResponseType
 
 
 }
-

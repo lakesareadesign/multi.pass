@@ -33,4 +33,3 @@ class GetSettlementSummaryOut {
   */
   public $summary; // summary
   }
-

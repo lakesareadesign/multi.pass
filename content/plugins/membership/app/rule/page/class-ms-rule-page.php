@@ -68,4 +68,3 @@ class MS_Rule_Page extends MS_Controller {
 	}
 
 }
-

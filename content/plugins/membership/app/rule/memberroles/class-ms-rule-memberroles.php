@@ -67,4 +67,3 @@ class MS_Rule_MemberRoles extends MS_Controller {
 	}
 
 }
-

@@ -10,4 +10,3 @@ class DeleteCustomerPaymentProfileResponse extends ANetApiResponseType
 
 
 }
-

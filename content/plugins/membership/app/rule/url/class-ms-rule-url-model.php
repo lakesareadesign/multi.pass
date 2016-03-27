@@ -53,13 +53,13 @@ class MS_Rule_Url_Model extends MS_Rule {
 		$has_access = null;
 
 		if ( MS_Model_Addon::is_enabled( MS_Model_Addon::ADDON_URL_GROUPS ) ) {
-			if ( ! $this->has_rule_for_current_url() ) { return null; }
-
 			if ( ! empty( $id ) ) {
 				$url = get_permalink( $id );
 			} else {
 				$url = MS_Helper_Utility::get_current_url();
 			}
+
+			if ( ! $this->has_rule_for_url( $url ) ) { return null; }
 
 			$exclude = apply_filters(
 				'ms_rule_url_model_excluded_urls',
@@ -101,11 +101,10 @@ class MS_Rule_Url_Model extends MS_Rule {
 	 *
 	 * @return boolean True if has access, false otherwise.
 	 */
-	protected function has_rule_for_current_url() {
+	protected function has_rule_for_url( $url ) {
 		$has_rules = false;
 
 		if ( MS_Model_Addon::is_enabled( MS_Model_Addon::ADDON_URL_GROUPS ) ) {
-			$url = MS_Helper_Utility::get_current_url();
 			if ( $this->check_url_expression_match( $url, $this->get_protected_urls() ) ) {
 				$has_rules = true;
 			}
@@ -158,12 +157,6 @@ class MS_Rule_Url_Model extends MS_Rule {
 		if ( count( $check_list ) ) {
 			$check_list = array_map( 'strtolower', $check_list );
 			$check_list = array_map( 'trim', $check_list );
-
-			// Straight match.
-			$check_list = array_merge(
-				$check_list,
-				array_map( 'untrailingslashit', $check_list )
-			);
 
 			$url = strtolower( $url );
 			foreach ( $check_list as $check ) {

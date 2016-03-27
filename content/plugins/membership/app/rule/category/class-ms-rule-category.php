@@ -68,4 +68,3 @@ class MS_Rule_Category extends MS_Controller {
 	}
 
 }
-

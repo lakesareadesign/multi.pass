@@ -448,7 +448,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		$subscription->membership_id = $membership_id;
 		$subscription->user_id = $user_id;
 		$subscription->move_from_id = $move_from_id;
-		$subscription->gateway_id = $gateway_id;
+		$subscription->set_gateway( $gateway_id );
 		$subscription->expire_date = '';
 
 		// Set initial state.
@@ -515,8 +515,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		$args = self::get_query_args( $args );
 		$key = md5( json_encode( $args ) );
 
-		if ( ! isset( $Subscription_IDs[$key] ) ) {
-			$Subscription_IDs[$key] = array();
+		if ( ! isset( $Subscription_IDs[ $key ] ) ) {
+			$Subscription_IDs[ $key ] = array();
 
 			MS_Factory::select_blog();
 			$query = new WP_Query( $args );
@@ -536,11 +536,11 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			 * @see MS_Model_Membership::get_memberships()
 			 */
 			foreach ( $items as $post_id ) {
-				$Subscription_IDs[$key][] = $post_id;
+				$Subscription_IDs[ $key ][] = $post_id;
 			}
 		}
 
-		return $Subscription_IDs[$key];
+		return $Subscription_IDs[ $key ];
 	}
 
 	/**
@@ -822,8 +822,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			if ( $generate_event ) {
 				MS_Model_Event::save_event( MS_Model_Event::TYPE_MS_CANCELED, $this );
 			}
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			MS_Helper_Debug::log( '[Error canceling membership]: '. $e->getMessage() );
 		}
 
@@ -868,8 +867,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 				MS_Model_Event::TYPE_MS_DEACTIVATED,
 				$this
 			);
-		}
-		catch( Exception $e ) {
+		} catch ( Exception $e ) {
 			MS_Helper_Debug::log(
 				'[Error deactivating membership]: '. $e->getMessage()
 			);
@@ -1311,7 +1309,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 * @since  1.0.0
 	 * @internal
 	 */
-	public function config_period() { // Needed because of status change.
+	public function config_period() {
+		// Needed because of status change.
 		do_action(
 			'ms_model_relationship_config_period_before',
 			$this
@@ -1375,9 +1374,13 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 * @return int Remaining days.
 	 */
 	public function get_current_period() {
+		// @todo: Start date must be in same timezone as ::current_date()
+		//        Otherwise the result is wrong in some cases...
 		$period_days = MS_Helper_Period::subtract_dates(
 			MS_Helper_Period::current_date(),
-			$this->start_date
+			$this->start_date,
+			DAY_IN_SECONDS, // return value in DAYS.
+			true // return negative value if first date is before second date.
 		);
 
 		return apply_filters(
@@ -1396,9 +1399,13 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 * @return int Remaining days.
 	 */
 	public function get_remaining_trial_period() {
+		// @todo: Trial-Expiration date must be in same timezone as ::current_date()
+		//        Otherwise the result is wrong in some cases...
 		$period_days = MS_Helper_Period::subtract_dates(
 			$this->trial_expire_date,
-			MS_Helper_Period::current_date()
+			MS_Helper_Period::current_date(),
+			DAY_IN_SECONDS, // return value in DAYS.
+			true // return negative value if first date is before second date.
 		);
 
 		return apply_filters(
@@ -1417,10 +1424,25 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 * @return int Remaining days.
 	 */
 	public function get_remaining_period() {
+		// @todo: Expiration date must be in same timezone as ::current_date()
+		//        Otherwise the result is wrong in some cases...
 		$period_days = MS_Helper_Period::subtract_dates(
 			$this->expire_date,
-			MS_Helper_Period::current_date()
+			MS_Helper_Period::current_date(),
+			DAY_IN_SECONDS, // return value in DAYS.
+			true // return negative value if first date is before second date.
 		);
+
+		/*
+		This setting adds X days to the remaining period. Reason for this is to
+		extend the remaining-period by a day or more so the payment gateway has
+		some extra time to process the payment.
+		This setting only affects M2-expiration, not the date on which the
+		payment gateway processes the next recurring-payment!
+		 */
+		if ( defined( 'MS_PAYMENT_DELAY' ) ) {
+			$period_days += max( 0, (int) MS_PAYMENT_DELAY );
+		}
 
 		return apply_filters(
 			'ms_model_relationship_get_remaining_period',
@@ -1851,7 +1873,10 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			'ms_model_relationship_get_payment_description',
 			$desc,
 			$membership,
-			$payment_type
+			$payment_type,
+			$this,
+			$invoice,
+			$short
 		);
 	}
 
@@ -1874,12 +1899,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		$this->payments = lib3()->array->get( $this->payments );
 
 		// Update the payment-gateway.
-		if ( ! $this->gateway_id ) {
-			$this->gateway_id = $gateway;
-		} elseif ( MS_Gateway_Free::ID != $gateway ) {
-			// Don't change an existing gateway to "Free".
-			$this->gateway_id = $gateway;
-		}
+		$this->set_gateway( $gateway );
 
 		if ( $amount > 0 ) {
 			$this->payments[] = array(
@@ -1978,13 +1998,13 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 		foreach ( $res as $key => $info ) {
 			if ( ! isset( $info['amount'] ) ) {
-				unset( $res[$key] );
+				unset( $res[ $key ] );
 				continue;
 			}
 
-			if ( ! isset( $info['date'] ) ) { $res[$key]['date'] = ''; }
-			if ( ! isset( $info['gateway'] ) ) { $res[$key]['gateway'] = ''; }
-			if ( ! isset( $info['external_id'] ) ) { $res[$key]['external_id'] = ''; }
+			if ( ! isset( $info['date'] ) ) { $res[ $key ]['date'] = ''; }
+			if ( ! isset( $info['gateway'] ) ) { $res[ $key ]['gateway'] = ''; }
+			if ( ! isset( $info['external_id'] ) ) { $res[ $key ]['external_id'] = ''; }
 		}
 
 		return $res;
@@ -2065,6 +2085,45 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	}
 
 	/**
+	 * Change subscription to display a different payment gateway.
+	 * We do some validation here, to avoid "No Gateway" notifications...
+	 *
+	 * @since 1.0.2.8
+	 * @param string $new_gateway The new payment-gateway ID.
+	 */
+	public function set_gateway( $new_gateway ) {
+		$old_gateway = $this->gateway_id;
+
+		// Do not set subscription to "No Gateway".
+		if ( ! $new_gateway ) { return; }
+
+		// No change needed. Skip.
+		if ( $new_gateway == $old_gateway ) { return; }
+
+		// Don't change an non-free gateway to Free.
+		if ( $old_gateway && MS_Gateway_Free::ID == $new_gateway ) { return; }
+
+		// Okay, change the gateway and save the subscription!
+		$this->gateway_id = $new_gateway;
+		$this->save();
+
+		/**
+		 * Notify WP that a subscription changed the payment gateway.
+		 *
+		 * @since 1.0.2.8
+		 * @var object The subscription.
+		 * @var string New gateway ID.
+		 * @var string Previous gateway ID.
+		 */
+		do_action(
+			'ms_subscription_gateway_changed',
+			$this,
+			$new_gateway,
+			$old_gateway
+		);
+	}
+
+	/**
 	 * Returns an i18n translated version of the subscription status.
 	 *
 	 * @since  1.0.0
@@ -2081,8 +2140,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 		$result = $this->status;
 
-		if ( isset( $Status[$this->status] ) ) {
-			$result = $Status[$this->status];
+		if ( isset( $Status[ $this->status ] ) ) {
+			$result = $Status[ $this->status ];
 		}
 
 		return apply_filters(
@@ -2168,6 +2227,9 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		} elseif ( $membership->is_free() ) {
 			$can_activate = true;
 			$debug_msg[] = '[Can activate: Free membership]';
+		} elseif ( ! empty( $this->source ) ) {
+			$can_activate = true;
+			$debug_msg[] = '[Can activate: Imported subscription]';
 		} else {
 			$valid_payment = false;
 			// Check if there is *any* payment, no matter what height.
@@ -2235,10 +2297,14 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 				$debug_msg[] = '[Not ACTIVE(2): Expire date set or wrong status-request]';
 			}
 
-			// If expire date is not reached then membership obviously is active.
+			/*
+			If expire date is not reached then membership obviously is active.
+			Note: When remaining days is 0 then the user is on last day
+			of the subscription and should still have access.
+			*/
 			if ( ! $calc_status
 				&& ! empty( $this->expire_date )
-				&& strtotime( $this->expire_date ) >= strtotime( MS_Helper_Period::current_date() )
+				&& $this->get_remaining_period() >= 0
 			) {
 				$calc_status = self::STATUS_ACTIVE;
 				$debug_msg[] = '[ACTIVE(3): Expire date set and not reached]';
@@ -2440,8 +2506,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 						__( 'Membership expires on ', 'membership2' ),
 						MS_Helper_Period::format_date( $this->expire_date )
 					);
-				}
-				else {
+				} else {
 					$desc = __( 'Permanent access.', 'membership2' );
 				}
 				break;
@@ -2508,10 +2573,30 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		$remaining_trial_days = $this->get_remaining_trial_period();
 
 		$comms = MS_Model_Communication::get_communications( $membership );
-		$invoice_before_days = 5;//@todo create a setting to configure this period.
-		$deactivate_expired_after_days = 30; //@todo create a setting to configure this period.
-		$deactivate_pending_after_days = 30; //@todo create a setting to configure this period.
-		$deactivate_trial_expired_after_days = 5; //@todo create a setting to configure this period.
+
+		//@todo create settings to configure the following day-values via UI.
+		$invoice_before_days = apply_filters(
+			'ms_status_check-invoice_before_days',
+			5,
+			$this
+		);
+		$deactivate_expired_after_days = apply_filters(
+			'ms_status_check-deactivate_after_days',
+			30,
+			$this
+		);
+		$deactivate_trial_expired_after_days = apply_filters(
+			'ms_status_check-deactivate_trial_after_days',
+			5,
+			$this
+		);
+
+		// We need to create the new invoice based on original expiration date.
+		// So we add the same offset to the invoice_before days as we used to
+		// modify the remaining days.
+		if ( defined( 'MS_PAYMENT_DELAY' ) ) {
+			$invoice_before_days += max( 0, (int) MS_PAYMENT_DELAY );
+		}
 
 		//@todo: Add a flag to subscriptions with sent communications. Then improve the conditions below to prevent multiple emails.
 
@@ -2625,7 +2710,12 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 				 * renew the subscription. All other types will expire when the
 				 * end date is reached.
 				 */
-				$auto_renew = ($membership->payment_type == MS_Model_Membership::PAYMENT_TYPE_RECURRING);
+				//$auto_renew = ($membership->payment_type == MS_Model_Membership::PAYMENT_TYPE_RECURRING);
+                                if ( self::STATUS_CANCELED == $this->status ) {
+                                    $auto_renew = false;
+                                } else {
+                                    $auto_renew = ($membership->payment_type == MS_Model_Membership::PAYMENT_TYPE_RECURRING);
+                                }
 				$deactivate = false;
 				$invoice = null;
 
@@ -2675,7 +2765,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 						$comm->period['period_type']
 					);
 
-					if ( $remaining_days < 0 && $days == abs( $remaining_days ) ) {
+					if ( $remaining_days < 0 && abs( $remaining_days ) == $days ) {
 						$comm->add_to_queue( $this->id );
 						MS_Model_Event::save_event(
 							MS_Model_Event::TYPE_MS_AFTER_FINISHES,
@@ -2734,21 +2824,31 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 						// Check if the payment was successful.
 						$remaining_days = $this->get_remaining_period();
+					}
 
-						/*
-						 * User did not renew the membership. Give him some time
-						 * to react before restricting his access.
-						 */
-						if ( $deactivate_expired_after_days < - $remaining_days ) {
-							$deactivate = true;
-						}
-					} else {
+					/*
+					 * User did not renew the membership. Give him some time to
+					 * react before restricting his access.
+					 */
+					if ( $deactivate_expired_after_days < - $remaining_days ) {
 						$deactivate = true;
 					}
 				}
 
-				if ( $deactivate ) {
+				$next_status = $this->calculate_status( null );
+
+				/*
+				 * When the subscription expires the first time then create a
+				 * new event that triggers the "Expired" email.
+				 */
+				if ( self::STATUS_EXPIRED == $next_status && $next_status != $this->status ) {
+					MS_Model_Event::save_event(
+						MS_Model_Event::TYPE_MS_EXPIRED,
+						$this
+					);
+				} elseif ( $deactivate ) {
 					$this->deactivate_membership();
+					$next_status = $this->status;
 
 					// Move membership to configured membership.
 					$membership = $this->get_membership();
@@ -2905,5 +3005,4 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			$this
 		);
 	}
-
 }

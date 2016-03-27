@@ -10,4 +10,3 @@ class GetUnsettledTransactionListRequest extends ANetApiRequestType
 
 
 }
-

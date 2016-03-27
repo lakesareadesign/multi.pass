@@ -1,5 +1,10 @@
 <?php
 /**
+ * Model.
+ * @package Membership2
+ */
+
+/**
  * Communication model.
  *
  * Persisted by parent class MS_Model_CustomPostType.
@@ -226,10 +231,11 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	);
 
 
-	//
-	//
-	//
-	// -------------------------------------------------------------- COLLECTION
+	/*
+	 *
+	 *
+	 * -------------------------------------------------------------- COLLECTION
+	 */
 
 
 	/**
@@ -363,8 +369,8 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	 *
 	 * @since  1.0.0
 	 *
-	 * @param  $membership Optional. If specified only Comm-Types relevant for
-	 *         that membership are returned.
+	 * @param  mixed $membership Optional. If specified only Comm-Types relevant
+	 *               for that membership are returned.
 	 * @return array {
 	 *     Return array of $type => $title.
 	 *
@@ -374,10 +380,10 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	 */
 	public static function get_communication_type_titles( $membership = null ) {
 		$type_titles = array(
-			self::COMM_TYPE_REGISTRATION => __( 'Signup - Completed with payment', 'membership2' ),
-			self::COMM_TYPE_REGISTRATION_FREE => __( 'Signup - Completed (free membership)', 'membership2' ),
 			self::COMM_TYPE_SIGNUP => __( 'Signup - User account created', 'membership2' ),
 			self::COMM_TYPE_RESETPASSWORD => __( 'Signup - Forgot Password', 'membership2' ),
+			self::COMM_TYPE_REGISTRATION => __( 'Subscription - Completed with payment', 'membership2' ),
+			self::COMM_TYPE_REGISTRATION_FREE => __( 'Subscription - Completed (free membership)', 'membership2' ),
 			self::COMM_TYPE_RENEWED => __( 'Subscription - Renewed', 'membership2' ),
 			self::COMM_TYPE_BEFORE_FINISHES => __( 'Subscription - Before expires', 'membership2' ),
 			self::COMM_TYPE_FINISHED => __( 'Subscription - Expired', 'membership2' ),
@@ -509,7 +515,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 
 			foreach ( $items as $id ) {
 				$comm = MS_Factory::load( 'MS_Model_Communication', $id );
-				self::$Communication_IDs[$comm->membership_id][$comm->type] = $id;
+				self::$Communication_IDs[ $comm->membership_id ][ $comm->type ] = $id;
 			}
 		}
 
@@ -521,8 +527,8 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 
 		if ( null === $key ) {
 			$result = self::$Communication_IDs;
-		} elseif ( isset( self::$Communication_IDs[$key] ) ) {
-			$result = self::$Communication_IDs[$key];
+		} elseif ( isset( self::$Communication_IDs[ $key ] ) ) {
+			$result = self::$Communication_IDs[ $key ];
 		} else {
 			$result = array();
 		}
@@ -554,13 +560,13 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 		} else {
 			// A single membership is requested. Index is comm-type.
 			foreach ( $ids as $type => $id ) {
-				$result[$type] = MS_Factory::load( 'MS_Model_Communication', $id );
+				$result[ $type ] = MS_Factory::load( 'MS_Model_Communication', $id );
 			}
 
 			$types = self::get_communication_types();
 			foreach ( $types as $type ) {
-				if ( ! isset( $result[$type] ) ) {
-					$result[$type] = self::get_communication( $type, $membership );
+				if ( ! isset( $result[ $type ] ) ) {
+					$result[ $type ] = self::get_communication( $type, $membership );
 				}
 			}
 		}
@@ -579,11 +585,11 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	 *
 	 * @since  1.0.0
 	 *
-	 * @param  string $type The type of the communication.
+	 * @param  string              $type The type of the communication.
 	 * @param  MS_Model_Membership $membership Optional. If defined then we try
 	 *         to load the overridden template for that membership with fallback
 	 *         to the default template.
-	 * @param  bool $no_fallback Optional. Default value is false.
+	 * @param  bool                $no_fallback Optional. Default value is false.
 	 *         True: Always return a communication for specified membership_id
 	 *         False: Fallback to default message if membership_id does not
 	 *         override the requested message.
@@ -634,7 +640,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 							'value' => $type,
 							'compare' => '=',
 						),
-					)
+					),
 				);
 
 				$args = apply_filters(
@@ -663,7 +669,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 			}
 
 			if ( $comm ) {
-				self::$Communication_IDs[$comm->membership_id][$type] = $comm->id;
+				self::$Communication_IDs[ $comm->membership_id ][ $type ] = $comm->id;
 			}
 
 			// If no template found or defined then fallback to default template.
@@ -682,10 +688,11 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	}
 
 
-	//
-	//
-	//
-	// ------------------------------------------------------------- SINGLE ITEM
+	/*
+	 *
+	 *
+	 * ------------------------------------------------------------- SINGLE ITEM
+	 */
 
 
 	/**
@@ -717,29 +724,29 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 			$has_membership = false;
 		} else {
 			// Password is only available in the Signup email.
-			unset( $this->comm_vars[self::COMM_VAR_PASSWORD] );
+			unset( $this->comm_vars[ self::COMM_VAR_PASSWORD ] );
 		}
 
 		if ( self::COMM_TYPE_RESETPASSWORD == $this->type ) {
 			$has_membership = false;
 		} else {
 			// Reset-Key is only available in the Forgot Password email.
-			unset( $this->comm_vars[self::COMM_VAR_RESETURL] );
+			unset( $this->comm_vars[ self::COMM_VAR_RESETURL ] );
 		}
 
 		if ( ! $has_membership ) {
 			// If no membership context is available then remove those variables.
-			unset( $this->comm_vars[self::COMM_VAR_MS_NAME] );
-			unset( $this->comm_vars[self::COMM_VAR_MS_DESCRIPTION] );
-			unset( $this->comm_vars[self::COMM_VAR_MS_REMAINING_DAYS] );
-			unset( $this->comm_vars[self::COMM_VAR_MS_REMAINING_TRIAL_DAYS] );
-			unset( $this->comm_vars[self::COMM_VAR_MS_EXPIRY_DATE] );
-			unset( $this->comm_vars[self::COMM_VAR_MS_INVOICE] );
+			unset( $this->comm_vars[ self::COMM_VAR_MS_NAME ] );
+			unset( $this->comm_vars[ self::COMM_VAR_MS_DESCRIPTION ] );
+			unset( $this->comm_vars[ self::COMM_VAR_MS_REMAINING_DAYS ] );
+			unset( $this->comm_vars[ self::COMM_VAR_MS_REMAINING_TRIAL_DAYS ] );
+			unset( $this->comm_vars[ self::COMM_VAR_MS_EXPIRY_DATE ] );
+			unset( $this->comm_vars[ self::COMM_VAR_MS_INVOICE ] );
 		}
 
 		if ( is_multisite() ) {
-			$this->comm_vars[self::COMM_VAR_NET_NAME] = __( 'Network: Name', 'membership2' );
-			$this->comm_vars[self::COMM_VAR_NET_URL] = __( 'Network: URL', 'membership2' );
+			$this->comm_vars[ self::COMM_VAR_NET_NAME ] = __( 'Network: Name', 'membership2' );
+			$this->comm_vars[ self::COMM_VAR_NET_URL ] = __( 'Network: URL', 'membership2' );
 		}
 	}
 
@@ -757,6 +764,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	/**
 	 * Customize the data that is written to the DB.
 	 *
+	 * @param  WP_Post $post The post object.
 	 * @since  1.0.1.0
 	 */
 	public function save_post_data( $post ) {
@@ -769,6 +777,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	/**
 	 * Hook process communication actions.
 	 *
+	 * @param  WP_Post $post The post object.
 	 * @since  1.0.1.0
 	 */
 	public function load_post_data( $post ) {
@@ -835,7 +844,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	 * Override this in child classes to customize the label.
 	 *
 	 * @since  1.0.0
-	 * @param array $field A HTML definition, passed to lib3()->html->element()
+	 * @param array $field A HTML definition, passed to lib3()->html->element().
 	 */
 	public function set_period_name( $field ) {
 		$field['title'] = __( 'Period before/after', 'membership2' );
@@ -847,6 +856,8 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	 * Process communication.
 	 *
 	 * Send email and manage queue.
+	 *
+	 * @uses self::send_message() to send the message.
 	 *
 	 * @since  1.0.0
 	 * @internal Called by MS_Controller_Communication::process_queue()
@@ -907,15 +918,13 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 				$was_sent = $this->send_message( $subscription );
 
 				if ( ! $was_sent ) {
-					do_action(
-						'lib2_debug_log',
-						sprintf(
-							'[error: Communication email failed] comm_type=%s, subscription_id=%s, user_id=%s',
-							$this->type,
-							$subscription->id,
-							$subscription->user_id
-						)
+					$msg = sprintf(
+						'[error: Communication email failed] comm_type=%s, subscription_id=%s, user_id=%s',
+						$this->type,
+						$subscription->id,
+						$subscription->user_id
 					);
+					lib3()->debug->log( $msg );
 				}
 			}
 
@@ -933,7 +942,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	 *
 	 * @since  1.0.0
 	 * @api
-	 * @param  MS_Model_Event $event The event object.
+	 * @param  MS_Model_Event        $event The event object.
 	 * @param  MS_Model_Relationship $subscription The subscription to send message to.
 	 */
 	public function enqueue_messages( $event, $subscription ) {
@@ -958,8 +967,8 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	 * - Only enqueue message for specific $subscriptions (e.g. free ones)
 	 *
 	 * @since  1.0.1.0
-	 * @param  MS_Model_Event $event
-	 * @param  MS_Model_Relationship $subscription
+	 * @param  MS_Model_Event        $event The event object.
+	 * @param  MS_Model_Relationship $subscription The subscription object.
 	 */
 	public function process_communication( $event, $subscription ) {
 		// Can be overwritten in the child class for custom actions.
@@ -982,14 +991,12 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 		 */
 		if ( MS_Plugin::get_modifier( 'MS_STOP_EMAILS' ) ) {
 			$subscription = MS_Factory::load( 'MS_Model_Relationship', $subscription_id );
-			do_action(
-				'lib2_debug_log',
-				sprintf(
-					'Following Email was not sent: "%s" to user "%s".',
-					$this->type,
-					$subscription->user_id
-				)
+			$msg = sprintf(
+				'Following Email was not sent: "%s" to user "%s".',
+				$this->type,
+				$subscription->user_id
 			);
+			lib3()->debug->log( $msg );
 
 			return false;
 		}
@@ -1056,7 +1063,12 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	public function remove_from_queue( $subscription_id ) {
 		do_action( 'ms_model_communication_remove_from_queue_before', $this );
 
-		// Delete history
+		$max_history = apply_filters(
+			'ms_model_communication_sent_queue_max_history',
+			200
+		);
+
+		// Delete history.
 		if ( count( $this->sent_queue ) > $max_history ) {
 			$this->sent_queue = array_slice(
 				$this->sent_queue,
@@ -1069,16 +1081,16 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 		$this->sent_queue[ $subscription_id ] = MS_Helper_Period::current_time();
 		unset( $this->queue[ $subscription_id ] );
 
-		$max_history = apply_filters(
-			'ms_model_communication_sent_queue_max_history',
-			200
-		);
-
 		do_action( 'ms_model_communication_remove_from_queue_after', $this );
 	}
 
 	/**
 	 * Send email message.
+	 *
+	 * THIS IS THE ONLY PLACE IN THE M2 PLUGIN THAT WILL ACTUALLY SEND OUT AN
+	 * EMAIL! One exception: If the custom "Reset Password" template is
+	 * disabled then `class-ms-controller-dialog.php` will send a default reset
+	 * email using a different wp_mail() call.
 	 *
 	 * Delete history of sent messages after max is reached.
 	 *
@@ -1091,6 +1103,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 		$user_id = 0;
 		$subscription = null;
 		$member = null;
+		$sent = false;
 
 		if ( $reference instanceof MS_Model_Relationship ) {
 			$user_id = $reference->user_id;
@@ -1108,14 +1121,12 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 		 * @since  1.0.1.0
 		 */
 		if ( MS_Plugin::get_modifier( 'MS_STOP_EMAILS' ) ) {
-			do_action(
-				'lib2_debug_log',
-				sprintf(
-					'Following Email was not sent: "%s" to user "%s".',
-					$this->type,
-					$user_id
-				)
+			$msg = sprintf(
+				'Following Email was not sent: "%s" to user "%s".',
+				$this->type,
+				$user_id
 			);
+			lib3()->debug->log( $msg );
 
 			return false;
 		}
@@ -1127,97 +1138,86 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 			$this
 		);
 
-		$sent = false;
-
 		if ( $this->enabled ) {
 			if ( ! is_email( $member->email ) ) {
-				do_action(
-					'lib2_debug_log',
-					sprintf(
-						'Invalid user email. User_id: %1$s, email: %2$s',
-						$user_id,
-						$member->email
-					)
+				$msg = sprintf(
+					'Invalid user email. User_id: %1$s, email: %2$s',
+					$user_id,
+					$member->email
 				);
+				lib3()->debug->log( $msg );
+
 				return false;
 			}
 
 			$comm_vars = $this->get_comm_vars( $subscription, $member );
+			$headers = array();
 
-			// Replace the email variables.
+			// Prepare the message: Replace variables.
 			$message = str_replace(
 				array_keys( $comm_vars ),
 				array_values( $comm_vars ),
 				stripslashes( $this->message )
 			);
 
+			// Prepare the subject: Replace variables and remove HTML tags.
 			$subject = str_replace(
 				array_keys( $comm_vars ),
 				array_values( $comm_vars ),
 				stripslashes( $this->subject )
 			);
+			$subject = strip_tags( $subject );
 
-			$html_message = wpautop( $message );
-			$text_message = strip_tags(
-				preg_replace(
-					'/\<a .*?href="(.*?)".*?\>.*?\<\/a\>/is',
-					'$0 [$1]',
+			// Set the content-type of the email without using WP hooks.
+			$content_type = $this->get_mail_content_type();
+			$headers[] = sprintf(
+				'Content-Type: %s; charset="UTF-8"',
+				$content_type
+			);
+
+			// Pre-process the message according to content-type.
+			if ( 'text/html' == $content_type ) {
+				$message = wpautop( $message );
+				$message = make_clickable( $message );
+			} else {
+				$message = preg_replace(
+					'/\<a .*?href=["\'](.*?)["\'].*?\>(.*?)\<\/a\>/is',
+					'$2 [$1]',
 					$message
-				)
-			);
-			$subject = strip_tags(
-				preg_replace(
-					'/\<a .*?href="(.*?)".*?\>.*?\<\/a\>/is',
-					'$0 [$1]',
-					$subject
-				)
-			);
-
-			$message = $text_message;
-
-			if ( 'text/html' == $this->get_mail_content_type() ) {
-				$this->add_filter(
-					'wp_mail_content_type',
-					'get_mail_content_type'
 				);
-				$message = $html_message;
+				$message = strip_tags( $message );
 			}
 
-			$recipients = array( $member->email );
-			if ( $this->cc_enabled ) {
-				$recipients[] = $this->cc_email;
-			}
-
+			// Prepare the FROM sender details.
 			$admin_emails = MS_Model_Member::get_admin_user_emails();
-			$headers = '';
-
 			if ( ! empty( $admin_emails[0] ) ) {
-				$headers = array(
-					sprintf(
-						'From: %s <%s> ',
-						get_option( 'blogname' ),
-						$admin_emails[0]
-					)
+				$headers[] = sprintf(
+					'From: %s <%s> ',
+					get_option( 'blogname' ),
+					$admin_emails[0]
 				);
 			}
 
+			// Prepare list of recipients.
+			$recipients = array( $member->email );
+			$cc_recipients = $this->cc_email;
+			if ( $this->cc_enabled && ! empty( $cc_recipients ) ) {
+				$recipients[] = $cc_recipients;
+			}
+
+			// Final step: Allow customization of all email parts.
 			$recipients = apply_filters(
 				'ms_model_communication_send_message_recipients',
 				$recipients,
 				$this,
 				$subscription
 			);
-			$html_message = apply_filters(
-				'ms_model_communication_send_message_html_message',
-				$html_message,
+			$message = apply_filters(
+				'ms_model_communication_send_message_contents',
+				$message,
 				$this,
-				$subscription
-			);
-			$text_message = apply_filters(
-				'ms_model_communication_send_message_text_message',
-				$text_message,
-				$this,
-				$subscription
+				$subscription,
+				$content_type
 			);
 			$subject = apply_filters(
 				'ms_model_communication_send_message_subject',
@@ -1233,29 +1233,36 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 			);
 
 			/*
-			 * Send the mail.
+			 * Send the mail!
 			 * wp_mail will not throw an error, so no error-suppression/handling
 			 * is required here. On error the function response is FALSE.
 			 */
 			$sent = wp_mail( $recipients, $subject, $message, $headers );
 
-			// Log the outgoing email.
+			/**
+			 * Broadcast that we just send an email to a member.
+			 *
+			 * @since  1.0.2.7
+			 */
 			do_action(
-				'lib2_debug_log',
-				sprintf(
-					'Sent email [%s] to <%s>: %s',
-					$this->type,
-					implode( '>, <', $recipients ),
-					$sent ? 'OK' : 'ERR'
-				)
+				'ms_model_communication_after_send_message',
+				$sent,
+				$recipients,
+				$subject,
+				$message,
+				$headers,
+				$this,
+				$subscription
 			);
 
-			if ( 'text/html' == $this->get_mail_content_type() ) {
-				$this->remove_filter(
-					'wp_mail_content_type',
-					'get_mail_content_type'
-				);
-			}
+			// Log the outgoing email.
+			$msg = sprintf(
+				'Sent email [%s] to <%s>: %s',
+				$this->type,
+				implode( '>, <', $recipients ),
+				$sent ? 'OK' : 'ERR'
+			);
+			lib3()->debug->log( $msg );
 		}
 
 		do_action(
@@ -1274,7 +1281,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	 * @since  1.0.0
 	 *
 	 * @param MS_Model_Relationship $subscription The membership relationship to send message to.
-	 * @param MS_Model_Member $member The member object to get info from.
+	 * @param MS_Model_Member       $member The member object to get info from.
 	 * @return array {
 	 *     Returns array of ( $var_name => $var_replace ).
 	 *
@@ -1383,21 +1390,21 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 					);
 					break;
 
-				// Needs: $membership
+				// Needs: $membership.
 				case self::COMM_VAR_MS_NAME:
 					if ( $membership && $membership->name ) {
 						$var_value = $membership->name;
 					}
 					break;
 
-				// Needs: $membership
+				// Needs: $membership.
 				case self::COMM_VAR_MS_DESCRIPTION:
 					if ( $membership && $membership->description ) {
 						$var_value = $membership->get_description();
 					}
 					break;
 
-				// Needs: $invoice
+				// Needs: $invoice.
 				case self::COMM_VAR_MS_INVOICE:
 					if ( $invoice ) {
 						if ( $invoice->total > 0 || $invoice->uses_trial ) {
@@ -1411,7 +1418,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 					}
 					break;
 
-				// Needs: $subscription
+				// Needs: $subscription.
 				case self::COMM_VAR_MS_REMAINING_DAYS:
 					if ( $subscription ) {
 						$days = $subscription->get_remaining_period();
@@ -1423,7 +1430,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 					}
 					break;
 
-				// Needs: $subscription
+				// Needs: $subscription.
 				case self::COMM_VAR_MS_REMAINING_TRIAL_DAYS:
 					if ( $subscription ) {
 						$days = $subscription->get_remaining_trial_period();
@@ -1435,7 +1442,7 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 					}
 					break;
 
-				// Needs: $subscription
+				// Needs: $subscription.
 				case self::COMM_VAR_MS_EXPIRY_DATE:
 					if ( $subscription ) {
 						$var_value = $subscription->expire_date;
@@ -1482,8 +1489,8 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 	 * Validate specific property before set.
 	 *
 	 * @since 1.0.0
-	 * @param string $name The name of a property to associate.
-	 * @param mixed $value The value of a property.
+	 * @param string $property The name of a property to associate.
+	 * @param mixed  $value The value of a property.
 	 */
 	public function __set( $property, $value ) {
 		switch ( $property ) {
@@ -1535,5 +1542,4 @@ class MS_Model_Communication extends MS_Model_CustomPostType {
 			$this
 		);
 	}
-
 };

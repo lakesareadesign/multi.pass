@@ -10,4 +10,3 @@ class ErrorResponse extends ANetApiResponseType
 
 
 }
-

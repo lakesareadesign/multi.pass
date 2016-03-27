@@ -100,4 +100,3 @@ class ARBGetSubscriptionListResponse extends ANetApiResponseType
 
 
 }
-

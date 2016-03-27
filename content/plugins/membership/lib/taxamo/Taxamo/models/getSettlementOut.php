@@ -53,4 +53,3 @@ class GetSettlementOut {
   */
   public $fx_rate_date; // string
   }
-

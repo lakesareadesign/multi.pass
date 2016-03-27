@@ -37,4 +37,3 @@ class CreateCustomerShippingAddressResponse extends ANetApiResponseType
 
 
 }
-

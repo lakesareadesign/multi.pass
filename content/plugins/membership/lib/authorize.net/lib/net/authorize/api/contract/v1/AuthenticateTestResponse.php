@@ -10,4 +10,3 @@ class AuthenticateTestResponse extends ANetApiResponseType
 
 
 }
-

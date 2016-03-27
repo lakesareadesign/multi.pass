@@ -10,4 +10,3 @@ class ARBUpdateSubscriptionResponse extends ANetApiResponseType
 
 
 }
-

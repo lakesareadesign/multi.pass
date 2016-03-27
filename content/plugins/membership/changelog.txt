@@ -1,8 +1,138 @@
 Plugin Name: Membership 2
-Author: Philipp Stracker, Fabio Jun, Rheinard Khorf
+Author: Philipp Stracker, Ashok Kumar Nath, Fabio Jun, Rheinard Khorf
 
 Change Log:
 ----------------------------------------------------------------------
+
+1.0.2.9
+----------------------------------------------------------------------
+- Fixed: Version change
+
+
+1.0.2.8
+----------------------------------------------------------------------
+- Added: New import option to import each membership on its own, to prevent memory- or similar overflow issues.
+- Added: Settings for PayPal gateways now also list the country "Croatia".
+- Added: Filters  'ms_helper_color_index' and 'ms_model_membership_get_color'
+- Improved: Memberships can't be assigned to admin users any longer
+- Fixed: IE and Edge users can now log in from front end again
+- Fixed: Import of M1 data now correctly creates recurring memberships.
+- Fixed: For people who saw a PHP notice "WDEV_DEBUG is undefined": It's gone!
+- Fixed: Missing translation string added.
+- Fixed: Redirect add on works properly again
+- Fixed: Nickname now saves when BuddyPress profile fields add on is activated
+- Fixed: Missing string in default lost password default email no longer missing
+- Fixed: Media protection no longer breaks images in customizer
+
+
+1.0.2.7
+----------------------------------------------------------------------
+- Added: Constant 'MS_LOG_EMAILS' to enable log and display email logs
+- Added: Constant 'MS_PROTECTED_MESSAGE_REVERSE_RULE' to implement reverse logic on membership based protection message
+- Added: Bulk Delete Membership feature
+- Fixed: BuddyPress Integration addon: "All BuddyPress Pages" rule being overwritten by rule set in Pages
+- Fixed: Warning when the database table prefix is not the default "wp_"
+- Fixed: Login on non-SSL page is broken when SSL forced for wp-admin
+- Fixed: "Already have an account" link not sending user to login form after failed register attempt
+- Fixed: "Already have a user account" doesn't redirect to purchase subscription after login
+- Fixed: HTTPS not being forced when Stripe gateway is set to Live mode
+- Fixed: Expired email sent even the user is not really expired
+- Fixed: Invitation code addon: conflict with Yoast SEO plugin
+- Fixed: Invitation code addon: usage count wasn't decreased when user removed it when signing up
+- Fixed: Multiple Membership addon: Membership was not removed when set as cancel in upgrade path and pay later
+- Fixed: Expired trial is not going to payment gateway when clicking "sign up" in invoice.
+- Fixed: Taxamo addon: tax was not added as tax in PayPal and 2Checkout gateways
+- Fixed: User can't register in Opera Mini browser
+- Fixed: Membership based protection message
+- Fixed: Advanced Menu Protection Replace Menu not working
+- Fixed: Simulation Box on frontend overlaps with navigation
+- Fixed: Content Protection Message based on membership protection
+- Fixed: Gateway mode changed from Sandbox to Live on plugin update
+- Fixed: Expired date mismatch with the original expired date in PayPal
+- Fixed: Expiry date not set while importing data in Finite membership
+- Fixed: Finite paid membership turned into free membership while importing data
+- Fixed: Finite paid membership subscription period gets doubled for a member while importing data
+- Fixed: Gateway mode changed into Live mode when something is changed in settings
+
+
+1.0.2.6
+----------------------------------------------------------------------
+- Added: Constant 'MS_DISABLE_WP_NEW_USER_NOTIFICATION' to disable WP default welcome on registration
+- Added: Constant 'MS_PAYPAL_TRIAL_SUBSCRIPTION' to enable subscription for Paypal when trial mode is enabled (works only at Paypal)
+- Added: Constant 'MS_PROCESS_PER_BATCH' to set number of members for processing per batch
+- Added: Addon - WP reCaptcha integration
+- Added: Batch Process - Membership Status check, helpful when you have lots of members
+- Enhancement: Display warning in HELP page if cron jobs are disabled
+- Fixed: User could not use same invitation code for different memberships
+- Fixed: Confirmation emails not sent when registering new user from admin end
+- Fixed: Category protected posts was being appeared in home and search result page
+- Fixed: Warning on edit membership screen when % sign is in the membership name
+- Fixed: Subsite users subscription details can't be edited
+- Fixed: Visitors coming from search engines links get blank page, Error 500
+- Fixed: Upgrade path is ignored when a member is logged in but has no subscription
+- Fixed: Media Protection - Individual Media files protection doesn't work if embedded
+- Fixed: Media Protection - changes attachment URLs but does not revert when disabled
+- Fixed: Media Protection - changing URL of non protected media items
+- Fixed: Media Protection - Linked media URL was not masking
+- Fixed: Media Protection - Video file was not playing
+- Fixed: XProfile Date field was not being saved in registration form
+- Fixed: White screen in WP-Touch settings page
+- Fixed: BuddyPress Members directory could not be protected
+- Fixed: BuddyPress sitewide pages are not protected
+- Fixed: Welcome to BuddyPress Admin Item shows twice in Admin Side Protection Rules
+- Fixed: Typos in Automated Response Email Default Text
+- Fixed: Admin Protection - Direct link can be accessed
+- Fixed: Protected post are being appeared in feed
+- Fixed: Network Protection - Selected pages can't be viewed from network admin interface
+- Fixed: Inernal Server Error on adding a member in a multisite configuration
+
+1.0.2.5
+----------------------------------------------------------------------
+- Added: Constant M2_FORCE_NO_SSL to avoid forcing SSL in Stripe Live Mode
+- Fixed: Manual Payment Gateway always in Sandbox Mode
+- Fixed: Free Payment Gateway always in Sandbox Mode
+- Fixed: Membership Payment amount could not be saved in Firefox
+- Fixed: BuddyPress Integration - No xProfile field validation
+- Fixed: BuddyPress Integration - No validation error message shown
+- Fixed: Select drop down in Authorize.net checkout was broken
+- Fixed: JS conflict with Visual Composer
+- Fixed: JS conflict with Be Theme
+- Fixed: JS conflict with LayerSlider
+- Fixed: Pagination was not working for Classifieds plugin
+- Fixed: Search was not working on front-end
+- Fixed: Upgrade path settings for memberships were being ignored
+- Fixed: Junk error message on Add Member page
+- Fixed: Currency was always USD in 2CO gateway
+- Fixed: Search was not working in Members Capability page
+- Fixed: Invitation Code - Max uses features were ignored
+- Fixed: Invitation Code - New code created automatically if wrong code is provided
+- Fixed: Some post types were not working for protection
+- Fixed: Recurring events are not showing in event calendar (Events+)
+- Fixed: Menu item protection was not working for Guest Membership
+- Fixed: Force SSL on Stripe checkout page in Live Mode
+
+1.0.2.4
+----------------------------------------------------------------------
+- Add new option 'non-admin' to the shortcode [ms-user]
+- Improve support for protection rules on admin-side (shortcode, menu-items)
+- Improve payment-matching for imported subscriptions
+- Improve the transaction logs page and show better description for PayPal transactions
+- Improve and fix minor issues in PayPal Standard gateway, related to imported subscriptions
+- Improve the Edit-Member page to only offer valid subscription status options
+- Fix bug that caused expiration emails to be sent multiple times
+- Fix incorrectly displayed "Live Mode" flag for payment gateways on initial setup
+- Fix a PHP notice in the login form
+- Fix BuddyPress XProfile issue (caused by M2 loading before BP was initialized)
+- Fix issue in Account page that did not save the users email address
+- Fix error about undefined value 'user_id' when editing a user in M2
+- Fix error in Searchindex addon that (among others) caused a problem with Sitemaps
+- Fix issue in Profile-Fields Addon that would not save website/description
+- Fix small issues with formatting some time/date values
+- Fix small issue in Authorize.Net payment settings that would not save Secure Payments setting
+- Fix wrong logic that would hide the Billing menu item if all paid memberships were private
+- Fix small issue in URL-protection that ignored the last slash of the URL rule
+- Fix a issue that caused the modal background to stay open after closing popups in some cases
+- Small clean-up, add/update filters, fix typos, ...
 
 1.0.2.3
 ----------------------------------------------------------------------
@@ -467,3 +597,6 @@ Membership2 1.0.0.0
 1.0.0
 ----------------------------------------------------------------------
 - Initial version.
+
+
+133620-1459040228-ai

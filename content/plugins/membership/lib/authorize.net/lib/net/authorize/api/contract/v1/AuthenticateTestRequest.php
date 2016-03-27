@@ -10,4 +10,3 @@ class AuthenticateTestRequest extends ANetApiRequestType
 
 
 }
-

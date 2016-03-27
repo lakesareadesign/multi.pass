@@ -10,4 +10,3 @@ class UpdateCustomerShippingAddressResponse extends ANetApiResponseType
 
 
 }
-

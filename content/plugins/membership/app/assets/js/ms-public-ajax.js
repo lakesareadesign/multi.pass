@@ -1,6 +1,6 @@
-/*! Membership 2 - v4.0.06
- * https://wordpress.org/plugins/membership/
- * Copyright (c) 2015; * Licensed GPLv2+ */
+/*! Membership 2 Pro - v1.0.29
+ * https://premium.wpmudev.org/project/membership/
+ * Copyright (c) 2016; * Licensed GPLv2+ */
 /*global window:false */
 /*global document:false */
 /*global ms_data:false */
@@ -70,7 +70,7 @@ jQuery( function() {
 		sts_login.removeClass( 'error' ).text( '' );
 		set_focus();
 	});
-
+        
 	// Login Handler
 	frm_login.on( 'submit', function( ev ){
 		var key, data = {},
@@ -88,11 +88,11 @@ jQuery( function() {
 			}
 		}
 		data['action'] = 'ms_login'; // calls wp_ajax_nopriv_ms_login
-
+                
 		jQuery.ajax({
 			type: 'POST',
 			dataType: 'json',
-			url: ms_ajax.ajaxurl,
+			url: ms_ajax.ajaxurl + '?ms_ajax=1',
 			data: data,
 			success: function( data ) {
 				enable_form( frm_current );

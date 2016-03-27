@@ -77,7 +77,47 @@ class MS_Gateway_Stripe extends MS_Gateway {
 		$this->group = 'Stripe';
 		$this->manual_payment = true; // Recurring billed/paid manually
 		$this->pro_rate = true;
+
+                $this->add_filter(
+                        'ms_model_pages_get_ms_page_url',
+                        'ms_model_pages_get_ms_page_url_cb',
+                        99, 4
+                );
 	}
+
+        /**
+	 * Force SSL when Stripe in Live mode
+	 *
+	 * @since  1.0.2.5
+	 *
+	 * @param String $url The modified or raw URL
+	 * @param String $page_type Check if this is a membership page
+	 * @param Bool $ssl If SSL enabled or not
+	 * @param Int $site_id The ID of site
+	 *
+	 * @return String $url Modified or raw URL
+	 */
+        public function ms_model_pages_get_ms_page_url_cb( $url, $page_type, $ssl, $site_id ) {
+            /**
+             * Constant M2_FORCE_NO_SSL
+             *
+             * It's needed, if :
+             *      - the user has no SSL
+             *      - the user has SSL but doesn't want to force
+             *      - The user has multiple gateways like Paypal and Stripe and doesn't want to force
+             *
+             * If the user has SSL certificate, this rule won't work
+             */
+            if( ! defined( 'M2_FORCE_NO_SSL' ) ){
+                if ( $this->active && $this->is_live_mode() ) {
+                    if( $page_type == MS_Model_Pages::MS_PAGE_MEMBERSHIPS || $page_type == MS_Model_Pages::MS_PAGE_REGISTER ) {
+                        $url = MS_Helper_Utility::get_ssl_url( $url );
+                    }
+                }
+            }
+
+	    return $url;
+        }
 
 	/**
 	 * Processes purchase action.
@@ -127,7 +167,7 @@ class MS_Gateway_Stripe extends MS_Gateway {
 					);
 
 					if ( true == $charge->paid ) {
-						$invoice->pay_it( $this->id, $charge->id );
+						$invoice->pay_it( self::ID, $charge->id );
 						$note = __( 'Payment successful', 'membership2' );
 						$note .= ' - Token: ' . $token;
 						$success = true;
@@ -213,7 +253,7 @@ class MS_Gateway_Stripe extends MS_Gateway {
 
 						if ( true == $charge->paid ) {
 							$was_paid = true;
-							$invoice->pay_it( $this->id, $external_id );
+							$invoice->pay_it( self::ID, $external_id );
 							$note = __( 'Payment successful', 'membership2' );
 						} else {
 							$note = __( 'Stripe payment failed', 'membership2' );
@@ -267,7 +307,7 @@ class MS_Gateway_Stripe extends MS_Gateway {
 	public function get_publishable_key() {
 		$publishable_key = null;
 
-		if ( MS_Gateway::MODE_LIVE == $this->mode ) {
+		if ( $this->is_live_mode() ) {
 			$publishable_key = $this->publishable_key;
 		} else {
 			$publishable_key = $this->test_publishable_key;
@@ -290,7 +330,7 @@ class MS_Gateway_Stripe extends MS_Gateway {
 	public function get_secret_key() {
 		$secret_key = null;
 
-		if ( MS_Gateway::MODE_LIVE == $this->mode ) {
+		if ( $this->is_live_mode() ) {
 			$secret_key = $this->secret_key;
 		} else {
 			$secret_key = $this->test_secret_key;

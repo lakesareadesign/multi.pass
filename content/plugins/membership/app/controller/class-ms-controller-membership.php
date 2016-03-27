@@ -44,7 +44,7 @@ class MS_Controller_Membership extends MS_Controller {
 	const TAB_DETAILS = 'details';
 	const TAB_TYPE = 'type';
 	const TAB_PAYMENT = 'payment';
-	// Upgrade paths IS PRO ONLY!
+	const TAB_UPGRADE = 'upgrade';
 	const TAB_PAGES = 'pages';
 	const TAB_MESSAGES = 'messages';
 	const TAB_EMAILS = 'emails';
@@ -95,6 +95,7 @@ class MS_Controller_Membership extends MS_Controller {
 			'ms_detect_membership_id',
 			'autodetect_membership'
 		);
+
 	}
 
 	/**
@@ -120,6 +121,11 @@ class MS_Controller_Membership extends MS_Controller {
 				);
 			}
 		}
+
+                $this->add_action(
+                        'admin_action_membership_bulk_delete',
+                        'membership_bulk_delete'
+                );
 	}
 
 	/**
@@ -153,6 +159,38 @@ class MS_Controller_Membership extends MS_Controller {
 
 		wp_die( $msg );
 	}
+
+        /**
+         * Bulk delete memberships
+         *
+         * @since 1.0.2.7
+         */
+        public function membership_bulk_delete() {
+
+            if ( empty( $_REQUEST['_wpnonce'] ) ) { return; }
+            if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'bulk_delete' ) ) { return; }
+
+            if( ! isset( $_REQUEST['membership_ids'] ) ) {
+                wp_redirect( MS_Controller_Plugin::get_admin_url() );
+                exit;
+            }
+
+            $membership_ids = explode( '-', $_REQUEST['membership_ids'] );
+
+            foreach( $membership_ids as $membership_id ) {
+                $membership = MS_Factory::load( 'MS_Model_Membership', $membership_id );
+                try {
+                    $membership->delete();
+                }
+                catch( Exception $e ) {
+
+                }
+            }
+
+            wp_redirect( MS_Controller_Plugin::get_admin_url() );
+            exit;
+
+        }
 
 	/**
 	 * Handle Ajax toggle action.
@@ -276,16 +314,22 @@ class MS_Controller_Membership extends MS_Controller {
 	 * @param  int $preferred The preferred ID is only used if it is a valid ID.
 	 * @param  bool $no_member_check If set to true the member subscriptions are
 	 *         not checked, which means only REQUEST data is examined.
+	 * @param  bool $ignore_system If set to true, then the return value will
+	 *         never be a system-membership-ID (no auto-assigned membership).
 	 * @return int A valid Membership ID or 0 if all tests fail.
 	 */
-	public function autodetect_membership( $preferred = 0, $no_member_check = false ) {
+	public function autodetect_membership( $preferred = 0, $no_member_check = false, $ignore_system = false ) {
 		$membership_id = 0;
 
 		// Check 1: If the preferred value is correct use it.
 		if ( $preferred ) {
 			$membership = MS_Factory::load( 'MS_Model_Membership', $preferred );
-			if ( $membership->id == $preferred ) {
-				$membership_id = $membership->id;
+
+			// Only use the membership_id if it's valid and not filtered by ignore_system.
+			if ( $membership->is_valid() && $membership->id == $preferred ) {
+				if ( ! $ignore_system || ! $membership->is_system() ) {
+					$membership_id = $membership->id;
+				}
 			}
 		}
 
@@ -309,6 +353,18 @@ class MS_Controller_Membership extends MS_Controller {
 				}
 				$membership_id = intval( $membership_id );
 			}
+
+			// Reset the membership_id if it's invalid or filtered by ignore_system.
+			if ( $membership_id ) {
+				$membership = MS_Factory::load( 'MS_Model_Membership', $membership_id );
+				if ( ! $membership->is_valid() ) {
+					$membership_id = 0;
+				} elseif ( $membership->id != $membership_id ) {
+					$membership_id = 0;
+				} elseif ( $ignore_system && $membership->is_system ) {
+					$membership_id = 0;
+				}
+			}
 		}
 
 		// Check 3: Check subscriptions of the current user.
@@ -317,6 +373,18 @@ class MS_Controller_Membership extends MS_Controller {
 			$subscription = $member->get_subscription( 'priority' );
 			if ( $subscription ) {
 				$membership_id = $subscription->membership_id;
+			}
+
+			// Reset the membership_id if it's invalid or filtered by ignore_system.
+			if ( $membership_id ) {
+				$membership = MS_Factory::load( 'MS_Model_Membership', $membership_id );
+				if ( ! $membership->is_valid() ) {
+					$membership_id = 0;
+				} elseif ( $membership->id != $membership_id ) {
+					$membership_id = 0;
+				} elseif ( $ignore_system && $membership->is_system ) {
+					$membership_id = 0;
+				}
 			}
 		}
 
@@ -639,6 +707,7 @@ class MS_Controller_Membership extends MS_Controller {
 			false,
 			array( 'step' => self::STEP_ADD_NEW )
 		);
+                $data['delete_url'] = wp_nonce_url( admin_url( 'admin.php?action=membership_bulk_delete' ), 'bulk_delete' );
 
 		$view = MS_Factory::create( 'MS_View_Membership_List' );
 		$view->data = apply_filters( 'ms_view_membership_list_data', $data, $this );
@@ -941,34 +1010,34 @@ class MS_Controller_Membership extends MS_Controller {
 				self::TAB_PAYMENT => array(
 					'title' => __( 'Payment options', 'membership2' ),
 				),
-				/*
-				PRO FEATURE => array(
+				self::TAB_UPGRADE => array(
 					'title' => __( 'Upgrade paths', 'membership2' ),
 				),
-				Not yet finished... will be added soon.
+				/* Not yet finished... will be added soon.
 				self::TAB_PAGES => array(
 					'title' => __( 'Membership Pages', 'membership2' ),
 				),
-				PRO FEATURE => array(
+				*/
+				self::TAB_MESSAGES => array(
 					'title' => __( 'Protection Messages', 'membership2' ),
 				),
-
-				PRO FEATURE => array(
+				self::TAB_EMAILS => array(
 					'title' => __( 'Automated Email Responses', 'membership2' ),
 				),
-				*/
 			);
 
 			if ( $membership->is_system() ) {
 				unset( $Tabs[self::TAB_TYPE] );
 				unset( $Tabs[self::TAB_PAYMENT] );
-				// EMAIL OVERRIDES is PRO ONLY
-				// UPGRADE PATHS is PRO ONLY
+				unset( $Tabs[self::TAB_EMAILS] );
+				unset( $Tabs[ self::TAB_UPGRADE ] );
 			} elseif ( $membership->is_free ) {
 				$Tabs[self::TAB_PAYMENT]['title'] = __( 'Access options', 'membership2' );
 			}
 
-			// UPGRADE PATHS is PRO ONLY
+			if ( $count < 2 ) {
+				unset( $Tabs[ self::TAB_UPGRADE ] );
+			}
 
 			// Allow Add-ons to add or remove rule tabs
 			$Tabs = apply_filters(
@@ -1259,6 +1328,7 @@ class MS_Controller_Membership extends MS_Controller {
 			'ms_init' => array(),
 			'lang' => array(
 				'msg_delete' => __( 'Do you want to completely delete the membership <strong>%s</strong> including all subscriptions?', 'membership2' ),
+                                'msg_bulk_delete' => __( 'Do you want to completely delete all selected memberships including all subscriptions?', 'membership2' ),
 				'btn_delete' => __( 'Delete', 'membership2' ),
 				'btn_cancel' => __( 'Cancel', 'membership2' ),
 				'quickedit_error' => __( 'Error while saving changes.', 'membership2' ),
@@ -1295,11 +1365,17 @@ class MS_Controller_Membership extends MS_Controller {
 						$data['ms_init'][] = 'view_membership_add';
 						break;
 
-					// UPGRADE PATHS is PRO ONLY
+					case self::TAB_UPGRADE:
+						$data['ms_init'][] = 'view_membership_upgrade';
+						break;
 
-					// MESSAGE OVERRIDE is PRO ONLY
+					case self::TAB_MESSAGES:
+						$data['ms_init'][] = 'view_settings_protection';
+						break;
 
-					// EMAIL OVERRIDE id PRO ONLY
+					case self::TAB_EMAILS:
+						$data['ms_init'][] = 'view_settings_automated_msg';
+						break;
 				}
 
 				do_action(
@@ -1311,6 +1387,7 @@ class MS_Controller_Membership extends MS_Controller {
 			case self::STEP_MS_LIST:
 				$data['ms_init'][] = 'view_membership_list';
 				$data['ms_init'][] = 'view_settings_setup';
+                                $data['ms_init'][] = 'bulk_delete_membership';
 				break;
 		}
 

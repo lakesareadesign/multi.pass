@@ -33,4 +33,3 @@ class GetCountriesDictOut {
   */
   public $dictionary; // array[country_schema]
   }
-

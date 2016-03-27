@@ -64,4 +64,3 @@ class CreateCustomerProfileTransactionRequest extends ANetApiRequestType
 
 
 }
-

@@ -20,6 +20,12 @@ class MS_View_Shortcode_RegisterUser extends MS_View {
 
 		// When redirecting to login form we want to keep the previously submitted form data.
 		$url_data = $_POST;
+                // Removing unnecessary data
+                unset( $url_data['action'] );
+                unset( $url_data['step'] );
+                unset( $url_data['password'] );
+                unset( $url_data['password2'] );
+
 		$url_data['do-login'] = '1';
 		$login_url = esc_url_raw( add_query_arg( $url_data ) );
 
@@ -74,7 +80,11 @@ class MS_View_Shortcode_RegisterUser extends MS_View {
 		$title = $this->data['title'];
 		ob_start();
 
-		$reg_url = MS_Model_Pages::get_page_url( MS_Model_Pages::MS_PAGE_REGISTER );
+		$reg_url = apply_filters(
+			'ms_shortcode_register_form_url',
+			MS_Model_Pages::get_page_url( MS_Model_Pages::MS_PAGE_REGISTER ),
+			$this->data
+		);
 		$reg_url = esc_url_raw(
 			add_query_arg( 'action', 'register_user', $reg_url )
 		);
@@ -314,6 +324,7 @@ class MS_View_Shortcode_RegisterUser extends MS_View {
 		});
 		<?php
 		$script = ob_get_clean();
+		lib3()->ui->js( 'jquery-validate' );
 		lib3()->ui->script( $script );
 	}
 

@@ -33,4 +33,3 @@ class GetDailySettlementStatsOut {
   */
   public $settlement_daily; // array[settlement_daily_stats_schema]
   }
-

@@ -48,4 +48,3 @@ class Evidence_schema {
   */
   public $evidence_value; // string
   }
-

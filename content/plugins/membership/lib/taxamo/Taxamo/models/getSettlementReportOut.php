@@ -43,4 +43,3 @@ class GetSettlementReportOut {
   */
   public $report; // array[settlement_report_entry]
   }
-

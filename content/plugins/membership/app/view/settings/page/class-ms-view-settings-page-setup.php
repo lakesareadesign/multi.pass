@@ -93,7 +93,66 @@ class MS_View_Settings_Page_Setup extends MS_View {
 				</div>
 				<?php echo $this->show_menu_controls(); ?>
 			</div>
-			<?php // Network-wide IS PRO ONLY! ?>
+			<?php else : ?>
+			<div class="ms-setup-site">
+				<div class="ms-title">
+					<i class="ms-icon dashicons dashicons-admin-network"></i>
+					<?php _e( 'Select the Site that hosts Membership 2 Pages', 'membership2' ); ?>
+				</div>
+				<div class="ms-description">
+					<?php _e( 'When you change the site new Membership 2 Pages are created on the selected site. You can customize or replace these pages at any time.', 'membership2' ); ?>
+				</div>
+				<?php
+				$site_options = MS_Helper_Settings::get_blogs();
+				$site_fields = array(
+					array(
+						'type' => MS_Helper_Html::INPUT_TYPE_SELECT,
+						'id' => 'network_site',
+						'title' => __( 'Select the site that hosts the Membership 2 Pages', 'membership2' ),
+						'value' => MS_Model_Pages::get_site_info( 'id' ),
+						'field_options' => $site_options,
+						'class' => 'ms-site-options',
+					),
+					array(
+						'type' => MS_Helper_Html::INPUT_TYPE_HIDDEN,
+						'name' => 'action',
+						'value' => 'network_site',
+					),
+					array(
+						'type' => MS_Helper_Html::INPUT_TYPE_HIDDEN,
+						'name' => '_wpnonce',
+						'value' => wp_create_nonce( 'network_site' ),
+					),
+					array(
+						'type' => MS_Helper_Html::INPUT_TYPE_SUBMIT,
+						'value' => __( 'Save', 'membership2' ),
+					),
+					array(
+						'type' => MS_Helper_Html::INPUT_TYPE_BUTTON,
+						'class' => 'ms-setup-pages-cancel',
+						'value' => __( 'Cancel', 'membership2' ),
+					),
+				);
+				?>
+				<div class="ms-setup-pages-site">
+					<div class="ms-setup-pages-site-info"><?php
+					printf(
+						__( 'Membership pages are located on site %s', 'membership2' ),
+						'<strong>' . MS_Model_Pages::get_site_info( 'title' ) . '</strong>'
+					);
+					?>
+					<a href="#change-site" class="ms-setup-pages-change-site"><?php
+					_e( 'Change site...', 'membership2' );
+					?></a></div>
+					<div class="ms-setup-pages-site-form cf" style="display:none;">
+						<?php
+						foreach ( $site_fields as $field ) {
+							MS_Helper_Html::html_element( $field );
+						}
+						?>
+					</div>
+				</div>
+			</div>
 			<?php endif; ?>
 			<div class="ms-setup-pages">
 				<div class="ms-title">

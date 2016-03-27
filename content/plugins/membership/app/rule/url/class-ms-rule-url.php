@@ -135,4 +135,3 @@ class MS_Rule_Url extends MS_Controller {
 	}
 
 }
-

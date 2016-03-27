@@ -37,4 +37,3 @@ class GetBatchStatisticsRequest extends ANetApiRequestType
 
 
 }
-

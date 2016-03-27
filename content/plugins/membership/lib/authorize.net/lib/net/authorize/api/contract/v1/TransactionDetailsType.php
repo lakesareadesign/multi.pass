@@ -1168,4 +1168,3 @@ class TransactionDetailsType
 
 
 }
-

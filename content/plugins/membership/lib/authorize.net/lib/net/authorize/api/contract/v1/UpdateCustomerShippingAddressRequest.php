@@ -64,4 +64,3 @@ class UpdateCustomerShippingAddressRequest extends ANetApiRequestType
 
 
 }
-

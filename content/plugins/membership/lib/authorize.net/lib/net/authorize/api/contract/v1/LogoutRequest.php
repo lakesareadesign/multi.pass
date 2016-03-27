@@ -10,4 +10,3 @@ class LogoutRequest extends ANetApiRequestType
 
 
 }
-

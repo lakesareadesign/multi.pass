@@ -15,7 +15,7 @@ abstract class ApiOperationBase implements IApiOperation
      * @var \net\authorize\api\contract\v1\AnetApiRequestType
      */
     private $apiRequest = null;
-    
+
     /**
      * @var \net\authorize\api\contract\v1\AnetApiResponseType
      */

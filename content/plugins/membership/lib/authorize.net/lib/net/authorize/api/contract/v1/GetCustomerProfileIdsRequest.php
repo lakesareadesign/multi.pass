@@ -10,4 +10,3 @@ class GetCustomerProfileIdsRequest extends ANetApiRequestType
 
 
 }
-

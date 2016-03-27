@@ -53,4 +53,3 @@ class Currency_schema {
   */
   public $isonum; // integer
   }
-

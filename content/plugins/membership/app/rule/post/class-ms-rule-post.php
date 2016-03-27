@@ -68,4 +68,3 @@ class MS_Rule_Post extends MS_Controller {
 	}
 
 }
-

@@ -355,7 +355,19 @@ class MS_Model_Pages extends MS_Model_Option {
 		if ( null === $Site_Info ) {
 			$Site_Info = array();
 
-			$site_id = get_current_blog_id();
+			if ( MS_Plugin::is_network_wide() ) {
+				$site_id = self::get_setting( 'site_id' );
+				if ( ! $site_id || ! is_numeric( $site_id ) ) {
+					if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
+						$site_id = BLOG_ID_CURRENT_SITE;
+					} else {
+						$site_id = 1;
+					}
+					self::set_setting( 'site_id', $site_id );
+				}
+			} else {
+				$site_id = get_current_blog_id();
+			}
 
 			$Site_Info['id'] = $site_id;
 		}
@@ -766,6 +778,9 @@ class MS_Model_Pages extends MS_Model_Option {
 	static public function create_menu( $page_type, $update_only = null, $update_type = null ) {
 		$res = false;
 
+		if ( MS_Plugin::is_network_wide() ) {
+			return $res;
+		}
 
 		if ( self::is_valid_type( $page_type ) ) {
 			if ( $update_only && empty( $update_type ) ) {
@@ -842,6 +857,9 @@ class MS_Model_Pages extends MS_Model_Option {
 	static public function drop_menu( $page_type ) {
 		$res = true;
 
+		if ( MS_Plugin::is_network_wide() ) {
+			return $res;
+		}
 
 		if ( self::is_valid_type( $page_type ) ) {
 			$ms_page = self::get_page( $page_type, true );
@@ -973,6 +991,9 @@ class MS_Model_Pages extends MS_Model_Option {
 	 * @since  1.0.0
 	 */
 	static public function create_default_menu() {
+		if ( MS_Plugin::is_network_wide() ) {
+			return;
+		}
 
 		$menu_id = wp_create_nav_menu( __( 'Default Menu', 'membership2' ) );
 

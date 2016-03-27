@@ -1,5 +1,11 @@
 <?php
 /**
+ * Controller.
+ *
+ * @package Membership2
+ */
+
+/**
  * Class that handles Import/Export functions.
  *
  * @since  1.0.0
@@ -51,7 +57,7 @@ class MS_Controller_Import extends MS_Controller {
 	 * @since  1.0.0
 	 */
 	public function admin_init() {
-		$tab_key = 'import'; // should be unique plugin-wide value of `&tab=`.
+		$tab_key = 'import'; // Should be unique plugin-wide value of `&tab=`.
 
 		$this->run_action(
 			'ms_controller_settings_enqueue_scripts_' . $tab_key,
@@ -62,15 +68,17 @@ class MS_Controller_Import extends MS_Controller {
 	/**
 	 * Handles the matching of transaction details with a membership.
 	 *
-	 * Expected output:
-	 *   OK:Message to display
-	 *   ERR
+	 * Expected JSON output:
+	 * {
+	 *     success [bool]
+	 *     data [object] {
+	 *         message [string]
+	 *     }
+	 * }
 	 *
 	 * @since  1.0.1.2
 	 */
 	public function ajax_action_match() {
-		$res = 'ERR';
-
 		if ( ! $this->is_admin_user() ) {
 			return;
 		}
@@ -81,31 +89,38 @@ class MS_Controller_Import extends MS_Controller {
 		if ( $this->verify_nonce()
 			&& self::validate_required( $fields_match )
 		) {
-			$source = $_POST['source'];
-			$source_id = $_POST['source_id'];
-			$match_id = $_POST['match_with'];
+			$source = $_REQUEST['source'];
+			$source_id = $_REQUEST['source_id'];
+			$match_id = $_REQUEST['match_with'];
 
 			if ( MS_Model_Import::match_with_source( $match_id, $source_id, $source ) ) {
-				$res = 'OK:' . __( 'Matching details saved. Future transactions are automatically processed from now on!', 'membership2' );
+				wp_send_json_success(
+					array(
+						'message' => __( 'Matching details saved. Future transactions are automatically processed from now on!', 'membership2' ),
+					)
+				);
 			}
 		}
 
-		echo $res;
+		wp_send_json_error();
 		exit;
 	}
 
 	/**
 	 * Retries to process a single error-state transaction.
 	 *
-	 * Expected output:
-	 *   OK
-	 *   ERR
+	 * Expected JSON output:
+	 * {
+	 *     success [bool]
+	 *     data [object] {
+	 *         desc [string]
+	 *         status [string]
+	 *     }
+	 * }
 	 *
 	 * @since  1.0.1.2
 	 */
 	public function ajax_action_retry() {
-		$res = 'ERR';
-
 		if ( ! $this->is_admin_user() ) {
 			return;
 		}
@@ -118,15 +133,18 @@ class MS_Controller_Import extends MS_Controller {
 		) {
 			$log_id = intval( $_POST['id'] );
 
-			if ( MS_Model_Import::retry_to_process( $log_id ) ) {
-				$res = 'OK';
-			}
+			MS_Model_Import::retry_to_process( $log_id );
 
 			$log = MS_Factory::load( 'MS_Model_Transactionlog', $log_id );
-			$res .= ':' . $log->description;
+			wp_send_json_success(
+				array(
+					'desc' => $log->description,
+					'state' => $log->state,
+				)
+			);
 		}
 
-		echo $res;
+		wp_send_json_error( array( 'desc' => '', 'status' => '' ) );
 		exit;
 	}
 
@@ -147,7 +165,7 @@ class MS_Controller_Import extends MS_Controller {
 		$success = 0;
 
 		if ( ! isset( $_POST['items'] ) || ! isset( $_POST['source'] ) ) {
-			echo $res;
+			echo 'ERR';
 			exit;
 		}
 
@@ -161,7 +179,7 @@ class MS_Controller_Import extends MS_Controller {
 			}
 		}
 
-		echo $res . ':' . $success;
+		echo esc_html( $res . ':' . $success );
 		exit;
 	}
 
@@ -169,7 +187,9 @@ class MS_Controller_Import extends MS_Controller {
 	 * Processes a single import command.
 	 *
 	 * @since  1.0.0
-	 * @param  array $item The import command.
+	 * @param  array  $item The import command.
+	 * @param  string $source The import source.
+	 * @return bool
 	 */
 	protected function process_item( $item, $source ) {
 		$res = false;
@@ -183,7 +203,7 @@ class MS_Controller_Import extends MS_Controller {
 		// Set MS_STOP_EMAILS modifier to suppress any outgoing emails.
 		MS_Plugin::set_modifier( 'MS_STOP_EMAILS', true );
 
-		// Possible tasks are defined in ms-view-settings-import.js
+		// Possible tasks are defined in ms-view-settings-import.js.
 		switch ( $task ) {
 			case 'start':
 				lib3()->array->equip( $item, 'clear' );
@@ -261,7 +281,7 @@ class MS_Controller_Import extends MS_Controller {
 
 				try {
 					$model = MS_Factory::create( $model_name );
-				} catch( Exception $ex ) {
+				} catch ( Exception $ex ) {
 					self::_message(
 						'error',
 						__( 'Coming soon: This import source is not supported yet...', 'membership2' )
@@ -315,5 +335,4 @@ class MS_Controller_Import extends MS_Controller {
 		lib3()->ui->data( 'ms_data', $data );
 		wp_enqueue_script( 'ms-admin' );
 	}
-
 }

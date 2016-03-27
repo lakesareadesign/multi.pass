@@ -1,6 +1,6 @@
-/*! Membership 2 - v4.0.06
- * https://wordpress.org/plugins/membership/
- * Copyright (c) 2015; * Licensed GPLv2+ */
+/*! Membership 2 Pro - v1.0.29
+ * https://premium.wpmudev.org/project/membership/
+ * Copyright (c) 2016; * Licensed GPLv2+ */
 /*global window:false */
 /*global document:false */
 /*global ms_data:false */
@@ -647,6 +647,14 @@ jQuery( document ).ready( function() {
 			}
 		}
 	)
+        .on(
+		'change',
+		'input.wpmui-ajax-update[type="number"]',
+		function( ev ) {
+			var el = jQuery( this );
+			el.focus();
+		}
+	)
 	.on(
 		'focus',
 		'input.wpmui-ajax-update[type="number"]',
@@ -1081,16 +1089,14 @@ window.ms_init.view_billing_transactions = function init() {
 			window.ajaxurl,
 			data,
 			function(response) {
-				var message = '';
-
-				if ( response.indexOf( 'OK:' ) === 0 ) {
-					message = response.substr( 3 );
-					wpmUi.message( message );
+				if ( response.success ) {
+					wpmUi.message( response.data.message );
 
 					// Start to process the transactions.
 					retry_transactions();
 				}
-			}
+			},
+			'json'
 		).always(function() {
 			frm_match.removeClass( 'wpmui-loading' );
 		});
@@ -1102,13 +1108,12 @@ window.ms_init.view_billing_transactions = function init() {
 	function retry_transactions() {
 		var rows = table.find( '.item' ),
 			nonce = frm_match.find( '.retry_nonce' ).val(),
-			action = frm_match.find( '.retry_action' ).val(),
 			progress = wpmUi.progressbar(),
 			counter = 0,
 			ajax_data = {},
 			queue = [];
 
-		ajax_data.action = action;
+		ajax_data.action = 'transaction_retry';
 		ajax_data._wpnonce = nonce;
 
 		// Collect all log-IDs in the queue.
@@ -1144,21 +1149,15 @@ window.ms_init.view_billing_transactions = function init() {
 				window.ajaxurl,
 				data,
 				function(response) {
-					var message = false;
-
-					if ( response.indexOf( 'OK:' ) === 0 ) {
-						message = response.substr( 3 );
-						row.removeClass( 'log-err' ).addClass( 'log-ok' );
-					} else if ( response.indexOf( 'ERR:' ) === 0 ) {
-						message = response.substr( 4 );
-					}
-
-					if ( message ) {
-						row.find( '.column-note .txt' ).text( message );
+					if ( response.success && response.data.desc ) {
+						row.removeClass( 'log-err log-ignore log-ok' );
+						row.addClass( 'log-' + response.data.state );
+						row.find( '.column-note .txt' ).text( response.data.desc );
 					}
 
 					window.setTimeout( function() { process_queue(); }, 1 );
-				}
+				},
+				'json'
 			).always(function() {
 				row.find( '.column-note' ).removeClass( 'wpmui-loading' );
 			});
@@ -1233,7 +1232,7 @@ window.ms_init.view_billing_transactions = function init() {
 			row_id = row.attr( 'id' ).replace( /^item-/, '' ),
 			data = {};
 
-		if ( ! row.hasClass( 'log-err' ) ) { return false; }
+		if ( ! row.hasClass( 'log-err' ) && ! row.hasClass( 'log-ignore' ) ) { return false; }
 
 		data.action = 'transaction_retry';
 		data._wpnonce = nonce;
@@ -1244,19 +1243,13 @@ window.ms_init.view_billing_transactions = function init() {
 			window.ajaxurl,
 			data,
 			function(response) {
-				var message = false;
-
-				if ( response.indexOf( 'OK:' ) === 0 ) {
-					message = response.substr( 3 );
-					row.removeClass( 'log-err' ).addClass( 'log-ok' );
-				} else if ( response.indexOf( 'ERR:' ) === 0 ) {
-					message = response.substr( 4 );
+				if ( response.success && response.data.desc ) {
+					row.removeClass( 'log-err log-ignore log-ok' );
+					row.addClass( 'log-' + response.data.state );
+					row.find( '.column-note .txt' ).text( response.data.desc );
 				}
-
-				if ( message ) {
-					row.find( '.column-note .txt' ).text( message );
-				}
-			}
+			},
+			'json'
 		).always(function() {
 			cell.removeClass( 'wpmui-loading' );
 		});
@@ -1695,6 +1688,53 @@ window.ms_init.view_membership_list = function init () {
 		}
 	});
 };
+
+window.ms_init.bulk_delete_membership = function() {
+    
+    var delete_url = jQuery( '.bulk_delete_memberships_button' ).attr( 'href' );
+    
+    var serealize_membership_ids = function() {
+        
+        var membership_ids = [];
+        jQuery( 'input.del_membership_ids:checked' ).each( function() {
+            membership_ids.push( jQuery( this ).val() );
+        } );
+        
+        if( membership_ids.length > 0 ){
+            return delete_url + '&membership_ids=' + membership_ids.join( '-' );
+        }else{
+            return delete_url;
+        }
+        
+    };
+    
+    function confirm_bulk_delete( ev ) {
+            var args,
+                    me = jQuery( this ),
+                    row = me.parents( 'tr' ),
+                    delete_url = me.attr( 'href' );
+
+            ev.preventDefault();
+            args = {
+                    message: ms_data.lang.msg_bulk_delete,
+                    buttons: [
+                            ms_data.lang.btn_delete,
+                            ms_data.lang.btn_cancel
+                    ],
+                    callback: function( key ) {
+                            if ( key === 0 ) {
+                                    window.location = serealize_membership_ids();
+                            }
+                    }
+            };
+            wpmUi.confirm( args );
+
+            return false;
+    }
+    
+    jQuery( '.bulk_delete_memberships_button' ).click( confirm_bulk_delete );
+        
+};
 /*global window:false */
 /*global document:false */
 /*global ms_data:false */
@@ -1915,7 +1955,6 @@ window.ms_init.view_membership_payment = function init () {
 	jQuery( '.wpmui-slider-trial_period_enabled' ).on( 'ms-radio-slider-updated', toggle_trial );
 	jQuery(document).on( 'ms-ajax-updated', '#enable_trial_addon', reload_page );
 };
-
 /*global window:false */
 /*global document:false */
 /*global ms_data:false */
@@ -2660,7 +2699,7 @@ window.ms_init.view_settings_payment = function init() {
 
 			if ( 'sandbox' === data.value ) {
 				row.removeClass( 'is-live' ).addClass( 'is-sandbox' );
-			} else {
+			} else if ( 'live' === data.value ) {
 				row.removeClass( 'is-sandbox' ).addClass( 'is-live' );
 			}
 		} else {
@@ -2693,7 +2732,6 @@ window.ms_init.view_settings_payment = function init() {
 	}
 
 	jQuery( document ).on( 'ms-ajax-updated', toggle_status );
-
 	jQuery( document ).on( 'click', '.show-settings', change_icon );
 
 	jQuery( '.wpmui-slider-secure_cc' ).on( 'ms-ajax-done', toggle_description );
