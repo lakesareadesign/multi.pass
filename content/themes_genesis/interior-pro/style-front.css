@@ -1,0 +1,85 @@
+/* # Interior Pro Front Page
+Loaded on the front page */
+
+/* Front Page
+---------------------------------------------------------------------------------------------------- */
+
+.front-page .site-inner {
+	max-width: 100%;
+	padding: 0;
+}
+
+.front-page .content {
+	margin-bottom: 0;
+}
+
+/* Front Page 1
+--------------------------------------------- */
+
+.front-page-1 {
+	padding-bottom: 0;
+}
+
+.front-page-1 .widget_text {
+	font-size: 48px;
+	font-size: 4.8rem;
+	line-height: 1.2;
+}
+
+/* Front Page 2
+--------------------------------------------- */
+
+.front-page-2 {
+	background-color: #fff;
+}
+
+.front-page-2 .flexible-widgets.widget-full .enews-widget,
+.front-page-2 .flexible-widgets.widget-full .widget_text {
+	margin: 0 auto 40px;
+	max-width: 800px;
+	text-align: center;
+}
+
+/* Front Page 3
+--------------------------------------------- */
+
+.front-page-3 .widget-wrap {
+	background-color: #fff;
+	padding: 40px;
+}
+
+.front-page-3 .featured-content a.alignnone {
+	margin: -40px -40px 32px;
+	max-width: none;
+}
+
+.front-page-3 .widget-title + .entry a.alignnone {
+	margin-top: 0;
+}
+
+.front-page-3 .featured-content a.alignnone img {
+	width: 100%;
+}
+
+
+/* # Media Queries
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 1024px) {
+
+	.front-page-1 .widget_text {
+		font-size: 36px;
+		font-size: 3.6rem;
+	}
+
+}
+
+@media only screen and (max-width: 880px) {
+
+	.front-page-1 .widget_text {
+		font-size: 30px;
+		font-size: 3rem;
+	}
+
+
+}

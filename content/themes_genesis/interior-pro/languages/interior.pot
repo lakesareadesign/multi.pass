@@ -1,0 +1,164 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Interior Pro\n"
+"POT-Creation-Date: 2016-03-23 09:45-0400\n"
+"PO-Revision-Date: 2016-03-23 09:45-0400\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: front-page.php:66
+msgid "Main Content"
+msgstr ""
+
+#: functions.php:42 functions.php:43
+msgid "Menu"
+msgstr ""
+
+#: functions.php:113
+msgid "Skip to footer"
+msgstr ""
+
+#: functions.php:121
+msgid "Header Menu"
+msgstr ""
+
+#: functions.php:121
+msgid "Footer Menu"
+msgstr ""
+
+#: functions.php:236 functions.php:265
+msgid "Before Footer"
+msgstr ""
+
+#: functions.php:241 functions.php:270
+msgid "Footer"
+msgstr ""
+
+#: functions.php:250
+msgid "Front Page 1"
+msgstr ""
+
+#: functions.php:251
+msgid "This is the front page 1 section."
+msgstr ""
+
+#: functions.php:255
+msgid "Front Page 2"
+msgstr ""
+
+#: functions.php:256
+msgid "This is the front page 2 section."
+msgstr ""
+
+#: functions.php:260
+msgid "Front Page 3"
+msgstr ""
+
+#: functions.php:261
+msgid "This is the front page 3 section."
+msgstr ""
+
+#: functions.php:266
+msgid "This is the before footer section."
+msgstr ""
+
+#: functions.php:271
+msgid "This is the footer section."
+msgstr ""
+
+#: lib/customize.php:55
+msgid ""
+"Use the included default images or personalize your site by uploading your "
+"own images.<br /><br />The default images are <strong>1800 pixels wide and "
+"800 pixels tall</strong>."
+msgstr ""
+
+#: lib/customize.php:56
+msgid "Hero Images"
+msgstr ""
+
+#: lib/customize.php:67
+msgid "Front Page Hero Image:"
+msgstr ""
+
+#: lib/customize.php:80
+msgid "Page Hero Image:"
+msgstr ""
+
+#: lib/customize.php:93
+msgid "Post and Archive Hero Image:"
+msgstr ""
+
+#: lib/customize.php:105
+msgid "Change the default background color for site title area."
+msgstr ""
+
+#: lib/customize.php:106
+msgid "Site Title Color"
+msgstr ""
+
+#: lib/customize.php:117
+msgid "Change the default color overlay for the hero image sections."
+msgstr ""
+
+#: lib/customize.php:118
+msgid "Hero Image Overlay Color"
+msgstr ""
+
+#: lib/customize.php:129
+msgid "Change the default link color for primary links."
+msgstr ""
+
+#: lib/customize.php:130
+msgid "Primary Link Color"
+msgstr ""
+
+#: lib/customize.php:141
+msgid "Change the default background color for buttons."
+msgstr ""
+
+#: lib/customize.php:142
+msgid "Button Background Color"
+msgstr ""
+
+#: lib/customize.php:153
+msgid "Change the default background color for the Before Footer Section."
+msgstr ""
+
+#: lib/customize.php:154
+msgid "Before Footer Background Color"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Interior Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/interior/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "This is the interior theme to begin a StudioPress child theme."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
+msgstr ""
