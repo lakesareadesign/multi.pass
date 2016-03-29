@@ -66,16 +66,78 @@ add_theme_support( 'genesis-style-selector', array(
 	'centric-pro-yellow'   => __( 'Centric Yellow', 'centric' ),
 ) );
 
+//* Remove Unused User Settings
+remove_action( 'show_user_profile', 'genesis_user_options_fields' );
+remove_action( 'edit_user_profile', 'genesis_user_options_fields' );
+remove_action( 'show_user_profile', 'genesis_user_archive_fields' );
+remove_action( 'edit_user_profile', 'genesis_user_archive_fields' );
+remove_action( 'show_user_profile', 'genesis_user_seo_fields' );
+remove_action( 'edit_user_profile', 'genesis_user_seo_fields' );
+remove_action( 'show_user_profile', 'genesis_user_layout_fields' );
+remove_action( 'edit_user_profile', 'genesis_user_layout_fields' );
+
 //* Unregister layout settings
 genesis_unregister_layout( 'content-sidebar-sidebar' );
 genesis_unregister_layout( 'sidebar-content-sidebar' );
 genesis_unregister_layout( 'sidebar-sidebar-content' );
+
+//* Remove Genesis in-post SEO Settings
+remove_action( 'admin_menu', 'genesis_add_inpost_seo_box' );
+//* Remove Genesis SEO Settings menu link
+remove_theme_support( 'genesis-seo-settings-menu' );
 
 //* Unregister secondary navigation menu
 add_theme_support( 'genesis-menus', array( 'primary' => __( 'Primary Navigation Menu', 'centric' ) ) );
 
 //* Unregister secondary sidebar
 unregister_sidebar( 'sidebar-alt' );
+
+//*========================
+// Add Woo Projects Support
+//*========================
+//* Remove the default wrappers
+remove_action( 'projects_before_main_content', 'projects_output_content_wrapper', 10 );
+remove_action( 'projects_after_main_content', 'projects_output_content_wrapper_end', 10 );
+
+//* Add the correct wrappers
+add_action( 'projects_before_main_content', 'my_projects_output_content_wrapper', 10 );
+add_action( 'projects_after_main_content', 'my_projects_output_content_wrapper_end', 10 );
+
+function my_projects_output_content_wrapper() {
+echo '<section class="content">';
+}
+
+function my_projects_output_content_wrapper_end() {
+echo '</section>';
+}
+
+// //* Remove CSS by specific stylesheet
+// add_action( 'wp_enqueue_scripts', 'jk_dequeue_projects_css', 999 );
+// function jk_dequeue_projects_css() {
+// 	wp_dequeue_style( 'projects-styles' ); // Disable general projects css
+// 	wp_dequeue_style( 'projects-handheld' ); // Disable handheld projects css
+// 	if ( is_project() ) {
+// 		wp_dequeue_style( 'dashicons' ); // Disable dashicons
+// 	}
+// }
+// //* Remove all styles regardless
+// add_filter( 'projects_enqueue_styles', '__return_false' );
+
+
+add_filter('projects_show_page_title',false); 
+// //* Testing Hook
+// remove_action( 'projects_before_main_content', 'projects_show_page_title' );
+// add_action( 'genesis_after_header', 'centric_open_post_title', 1 );
+// add_action( 'genesis_after_header', 'genesis_post_title_text', 2 );
+// add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+
+// remove_action('projects_before_single_project_summary', 'projects_template_single_title');
+// add_action( 'genesis_after_header', 'centric_open_post_title', 1 );
+// add_action( 'genesis_after_header', 'projects_template_single_title', 2 );
+// add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+//*=================
+// End Woo Projects
+//*=================
 
 //* Reposition Page Title
 add_action( 'genesis_before', 'centric_post_title' );
@@ -86,16 +148,16 @@ function centric_post_title() {
 		add_action( 'genesis_after_header', 'centric_open_post_title', 1 );
 		add_action( 'genesis_after_header', 'genesis_do_post_title', 2 );
 		add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
-	} elseif ( is_category() ) {
-		remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
-		add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
-		add_action( 'genesis_after_header', 'genesis_do_taxonomy_title_description', 2 );
-		add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
-	} elseif ( is_search() ) {
-        remove_action( 'genesis_before_loop', 'genesis_do_search_title' );
-        add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
-        add_action( 'genesis_after_header', 'genesis_do_search_title', 2 );
-        add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+	// } elseif ( is_category() ) {
+		// remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
+		// add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
+		// add_action( 'genesis_after_header', 'genesis_do_taxonomy_title_description', 2 );
+		// add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+	// } elseif ( is_search() ) {
+        // remove_action( 'genesis_before_loop', 'genesis_do_search_title' );
+        // add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
+        // add_action( 'genesis_after_header', 'genesis_do_search_title', 2 );
+        // add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
     }
 
 }
@@ -108,13 +170,35 @@ function centric_close_post_title() {
 	echo '</div></div>';
 }
 
+// POST SPECIFIC FUNCTIONS 
+//* adding POST format support  */
+add_theme_support( 'post-formats', array( 'aside', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video', 'audio' ));
+
+//* adding support for POST format images */
+add_theme_support( 'genesis-post-format-images' );
+
+/** Customize the POST info function */
+add_filter( 'genesis_post_info', 'post_info_filter' );
+function post_info_filter($post_info) {
+if (!is_page()) {
+    $post_info = '[post_date] by [post_author_posts_link] &middot; [post_comments] [post_edit]';
+    return $post_info;
+}}
+//* Customize the POST meta function */
+add_filter( 'genesis_post_meta', 'post_meta_filter' );
+function post_meta_filter($post_meta) {
+if (!is_page()) {
+    $post_meta = '[post_categories before="Filed Under: "] &middot; [post_tags before="Tagged: "]';
+    return $post_meta;
+}}
+
 //* Prevent Page Scroll When Clicking the More Link
 add_filter( 'the_content_more_link', 'remove_more_link_scroll' );
 function remove_more_link_scroll( $link ) {
 
 	$link = preg_replace( '|#more-[0-9]+|', '', $link );
 	return $link;
-	
+
 }
 
 //* Modify the size of the Gravatar in author box
@@ -198,3 +282,19 @@ genesis_register_sidebar( array(
 	'name'        => __( 'Home 6', 'centric' ),
 	'description' => __( 'This is the sixth section of the home page.', 'centric' ),
 ) );
+
+//* Add support for custom login
+add_action('login_head', 'custom_login_css');
+function custom_login_css() {
+	wp_enqueue_style( 'login_head', get_stylesheet_directory_uri(). '/login/login-styles.css' );
+}
+
+function my_login_logo_url() {
+return get_bloginfo( 'url' );
+}
+add_filter( 'login_headerurl', 'my_login_logo_url' );
+
+function my_login_logo_url_title() {
+return 'Zack Lieble for Mayor';
+}
+add_filter( 'login_headertitle', 'my_login_logo_url_title' );
