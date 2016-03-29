@@ -129,7 +129,7 @@
 	height: auto;
 	background-size: 18px;
 }
-/* http://loading.io/loader/?use=eyJzaXplIjoyNCwic3BlZWQiOjEsImNiayI6IiNkZGRkZGQiLCJjMSI6IiNjY2NjY2MiLCJjMiI6IjciLCJjMyI6IjEwIiwiYzQiOiJ5LWF4aXMiLCJ0eXBlIjoic3BpbiJ9 */
+/* http://loading.io/loader/?use=eyJzaXplIjoyNCwic3BlZWQiOjEsImNiayI6IiNkZGRkZGQiLCJjMSI6IiNjY2NjY2MiLCJjMiI6IjciLCJjMyI6IjEwIiwiYzQiOiJ5LWF4aXMiLCJ0eXBlIjoic3BpbiJ9 */	     	 	  		 	 		
 .wpmud .project-box .project-image > .img {
 	display: block;
 	width: 100%;
@@ -368,6 +368,9 @@
 	text-transform: none;
 	font-weight: 400;
 	font-size: 14px;
+}
+.wpmud #login .right {
+	float: right;
 }
 
 /* ****************************************************************************
@@ -945,3 +948,6 @@
 	padding: 30px;
 	text-align: center;
 }
+
+
+/* 133620-1459227701-au */

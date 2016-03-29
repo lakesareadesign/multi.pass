@@ -11,7 +11,7 @@
  * @package WPMUDEV_Dashboard
  */
 
-$item = WPMUDEV_Dashboard::$site->get_project_infos( $pid, true );
+$item = WPMUDEV_Dashboard::$site->get_project_infos( $pid, true );	     	 	  		 	 		
 
 if ( ! $item || ! is_object( $item ) ) {
 	include 'popup-no-data-found.php';
