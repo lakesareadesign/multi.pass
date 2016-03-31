@@ -123,18 +123,8 @@ echo '</section>';
 // //* Remove all styles regardless
 // add_filter( 'projects_enqueue_styles', '__return_false' );
 
-
-add_filter('projects_show_page_title',false); 
-// //* Testing Hook
-// remove_action( 'projects_before_main_content', 'projects_show_page_title' );
-// add_action( 'genesis_after_header', 'centric_open_post_title', 1 );
-// add_action( 'genesis_after_header', 'genesis_post_title_text', 2 );
-// add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
-
-// remove_action('projects_before_single_project_summary', 'projects_template_single_title');
-// add_action( 'genesis_after_header', 'centric_open_post_title', 1 );
-// add_action( 'genesis_after_header', 'projects_template_single_title', 2 );
-// add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+remove_action( 'projects_before_single_project_summary', 'projects_template_single_title', 10 );
+add_filter( 'projects_show_page_title', false );
 //*=================
 // End Woo Projects
 //*=================
@@ -148,25 +138,39 @@ function centric_post_title() {
 		add_action( 'genesis_after_header', 'centric_open_post_title', 1 );
 		add_action( 'genesis_after_header', 'genesis_do_post_title', 2 );
 		add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
-	// } elseif ( is_category() ) {
-		// remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
-		// add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
-		// add_action( 'genesis_after_header', 'genesis_do_taxonomy_title_description', 2 );
-		// add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
-	// } elseif ( is_search() ) {
-        // remove_action( 'genesis_before_loop', 'genesis_do_search_title' );
-        // add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
-        // add_action( 'genesis_after_header', 'genesis_do_search_title', 2 );
-        // add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+	} elseif ( is_category() ) {
+		// remove_action( 'genesis_before_loop', 'output_category_title' );
+		add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
+		add_action( 'genesis_after_header', 'single_cat_title', 2 );
+		add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+	} elseif ( is_single()) {
+		add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
+		add_action( 'genesis_after_header', 'single_post_title', 2 );
+		add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+	} elseif (is_page('projects') || is_projects() ) {
+		add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
+		add_action( 'genesis_after_header', 'projects_page_title', 2 );
+		add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+	} elseif (is_page('project') || is_project() ) {
+		add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
+		add_action( 'genesis_after_header', 'projects_template_single_title', 2 );
+		add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+	} elseif ( is_search() ) {
+        remove_action( 'genesis_before_loop', 'genesis_do_search_title' );
+        add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
+        add_action( 'genesis_after_header', 'genesis_do_search_title', 2 );
+        add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
     }
 
 }
 
 function centric_open_post_title() {
 	echo '<div class="page-title"><div class="wrap">';
+	echo '<h1 class="entry-title" itemprop="headline">';
 }
 
 function centric_close_post_title() {
+	echo '</h1>';
 	echo '</div></div>';
 }
 
