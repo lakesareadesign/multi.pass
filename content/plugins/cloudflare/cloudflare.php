@@ -3,7 +3,7 @@
 Plugin Name: CloudFlare
 Plugin URI: http://www.cloudflare.com/wiki/CloudFlareWordPressPlugin
 Description: CloudFlare integrates your blog with the CloudFlare platform.
-Version: 1.3.23
+Version: 1.3.24
 Author: Ian Pye, Jerome Chen, James Greene, Simon Moore, David Fritsch, John Wineman (CloudFlare Team)
 License: GPLv2
 */
@@ -26,7 +26,7 @@ Plugin adapted from the Akismet WP plugin.
 
 */
 
-define('CLOUDFLARE_VERSION', '1.3.23');
+define('CLOUDFLARE_VERSION', '1.3.24');
 define('CLOUDFLARE_API_URL', 'https://www.cloudflare.com/api_json.html');
 define('CLOUDFLARE_SPAM_URL', 'https://www.cloudflare.com/ajax/external-event.html');
 
@@ -35,7 +35,7 @@ require_once("IpRange.php");
 
 use CloudFlare\IpRewrite;
 
-$cfPostKeys = array("cloudflare_zone_name", "key", "email", "dev_mode", "protocol_rewrite");
+$cfPostKeys = array("cloudflare_zone_name", "cf_key", "cf_email", "dev_mode", "protocol_rewrite");
 
 foreach($_POST as $key => $value) {
     if(in_array($key, $cfPostKeys)) {
@@ -158,8 +158,8 @@ function cloudflare_conf() {
 
         $zone_name = str_replace("&period;",".",$zone_name);
 
-        $key = $_POST['key'];
-        $email = $_POST['email'];
+        $key = $_POST['cf_key'];
+        $email = $_POST['cf_email'];
 
         $allowedCharacters = array(
             "&period;" => ".",
@@ -313,13 +313,13 @@ function cloudflare_conf() {
             <?php if (isset($zone_message)) echo sprintf('<p>%s</p>', $zone_message); ?>
             <h3><label for="key"><?php _e('CloudFlare API Key'); ?></label></h3>
             <p>
-                <input id="key" name="key" type="text" size="50" maxlength="48" value="<?php echo get_option('cloudflare_api_key'); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /> (<?php _e('<a href="https://www.cloudflare.com/a/account/my-account" target="_blank">Get this?</a>'); ?>)
+                <input id="key" name="cf_key" type="text" size="50" maxlength="48" value="<?php echo get_option('cloudflare_api_key'); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /> (<?php _e('<a href="https://www.cloudflare.com/a/account/my-account" target="_blank">Get this?</a>'); ?>)
             </p>
             <?php if (isset($key_message)) echo sprintf('<p>%s</p>', $key_message); ?>
 
             <h3><label for="email"><?php _e('CloudFlare API Email'); ?></label></h3>
             <p>
-                <input id="email" name="email" type="text" size="50" maxlength="48" value="<?php echo get_option('cloudflare_api_email'); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /> (<?php _e('<a href="https://www.cloudflare.com/a/account/my-account" target="_blank">Get this?</a>'); ?>)
+                <input id="email" name="cf_email" type="text" size="50" maxlength="48" value="<?php echo get_option('cloudflare_api_email'); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /> (<?php _e('<a href="https://www.cloudflare.com/a/account/my-account" target="_blank">Get this?</a>'); ?>)
             </p>
             <?php if (isset($key_message)) echo sprintf('<p>%s</p>', $key_message); ?>
 
