@@ -1,0 +1,125 @@
+*** Artificer Changelog ***
+
+2015.09.03 - version 1.3.14
+ * Fix - Fixes the flickr and embed widgets
+   /includes/widgets/woo-widget-flickr.php
+   /includes/widgets/woo-widget-embed.php
+
+ * Removed obsolete Twitter widget
+
+2015.09.02 - version 1.3.13
+ * Fix - Fixes Strict Standards notices in the comments section.
+   comments.php
+
+* Fix - Ensures all widgets correctly reference parent::__construct and have a clean update() method.
+   /includes/widgets/
+
+2015.06.04 - version 1.3.12
+ * includes/js/jquery.prettyPhoto.js - Updated prettyPhoto to version 3.1.6.
+
+2015.05.21 - version 1.3.11
+ * Tweak - Remove template-imagegallery.php as it is no longer supported by the WooFramework.
+   template-imagegallery.php
+
+2014.12.09 - version 1.3.10
+ * Fix - Fixes issue with Shop layout.
+ style.css
+
+2014.09.29 - version 1.3.9
+ * Fix - Sync version number in changelog and style.css.
+
+2014.04.22 - version 1.3.8
+ * Fix - Updated fitvids to the latest stable version
+   includes/js/third-party.js
+
+ * Fix - Removed category exclude option which breaks custom homepages.
+   includes/theme-functions.php
+
+2014.02.03 - version 1.3.7
+ * Fix - removes query checking a nonexistent option.
+   index.php
+
+2013.12.16 - version 1.3.6
+ * Fix - removes check of redundant woo_homepage_tweet option.
+   index.php
+
+2013.11.08 - version 1.3.5
+ * style.css - Fixes an issue with the responsive layout on the contact template.
+
+2013.08.22 - version 1.3.4
+ * includes/theme-woocommerce.php - Tweaked how WooCommerce css is dequeued for 2.1.
+
+2013.06.25 - version 1.3.3
+ * includes/theme-woocommerce.php - WooCommerce CSS is now dequeued in preparation for WooCommerce 2.1. Related products prepared for WooCommerce 2.1.
+ * style.css
+   layout.css - Fixed cart layout on handheld devices.
+
+2013.06.14 - version 1.3.2
+ * index.php
+   includes/theme-options.php
+   includes/theme-functions.php - Removed Latest Tweet homepage component which is incompatible with Twitter API 1.1
+ * includes/theme-options.php - Fixed broken co-ordinates link
+
+2013.04.25 - version 1.3.1
+ * style.css - Fixes stretched images bug on mobile devices.
+
+2013.04.04 - version 1.3.0
+ * Re-added missing lightbox feature
+ * No longer requires WooCommerce
+
+2013.03.06 - version 1.2.5
+ * style.css - WooCommerce checkout validation
+ * css/layout.css - WooCommerce tab styling fix
+
+2013.02.22 - version 1.2.4
+ * includes/theme-woocommerce.php - WooCommerce 2.0 pagination preparation
+
+2013.02.11 - version 1.2.3
+ * includes/theme-woocommerce.php - added WooCommerce support flag
+
+2013-02-06 - version 1.2.2
+ * index.php - fixed featured product price bug
+
+2013-01-29 - version 1.2.1
+ * includes/theme-woocommerce.php - Fixed cart fragment bug
+ * style.css - WooCommerce 2.0 styles (star rating in product archives)
+
+2013-01-07 - version 1.2
+ * style.css
+   css/layout.css - Styling preparation for WooCommerce 2.0 standardised class names (.woocommerce-). Added demo store notice styling
+ * includes/theme-woocommerce.php - fixed upsell grid layout
+
+
+2012.12.24 - version 1.1.1
+ * index.php - fixed bug where all products had the same price
+
+2012.12.06 - version 1.1
+ * style.css - Styling preparation for WooCommerce 2.0
+ * index.php - WC_Product class replaced with get_product
+ * includes/theme-woocommerce.php - disable WooCommerce lightbox when prettyPhoto is enabled
+ * style.css
+   /styles/* - fixed phone/email icons in ie9
+
+2012.10.16 - version 1.0.6
+ * includes/theme-woocommerce.php - dont hide the admin bar
+
+2012.07.30 - version 1.0.5
+ * images/ico-subscribe-social.png - Updated Twitter Icon
+ * images/twitter.png - Updated Twitter Icon
+ * includes/widget/widget-woo-twitter.php - Added "Twitter" text for default widget title
+
+2012.07.30 - version 1.0.4
+ * index.php removed woo_pagenav()
+
+2012.07.25 - version 1.0.3
+ * includes/theme-js.php - changed the way the html5shim is called
+
+2012.07.01 - version 1.0.2
+ * style.css
+   styles/* - fixed broken typeface URL in alt styles
+
+2012.07.01 - version 1.0.1
+ * css/layout.css - fixed IE9 product tab bug
+
+2012.06.21 - version 1.0
+ * First release!
