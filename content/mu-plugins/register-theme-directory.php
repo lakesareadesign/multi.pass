@@ -11,7 +11,6 @@ register_theme_directory( ABSPATH . 'wp-content/themes/' );
 // Creating additional theme directories
 register_theme_directory( ABSPATH . '../content/themes_custom' );
 register_theme_directory( ABSPATH . '../content/themes_genesis' );
-register_theme_directory( ABSPATH . '../content/themes_upfront' );
 register_theme_directory( ABSPATH . '../content/themes_woothemes' );
 
 ?>
