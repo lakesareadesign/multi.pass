@@ -2181,6 +2181,12 @@ a.ueditor-action-pickercancel {
 .upfront-wp-inserted_image-wrapper {
   max-width: 100%; }
 
+.upfront-wp-inserted_image-wrapper .wp-caption {
+  position: relative; }
+
+.upfront-wp-inserted_image-wrapper .wp-caption .upfront-inline-panel {
+  top: 15px !important; }
+
 /*.upfront-inserted_image-wrapper .wp-caption-text,
 .uinsert-image-wrapper{
 	padding: 15px;
@@ -16000,4 +16006,4 @@ div.preset-manager-panel .checkbox-tooltip {
 /*# sourceMappingURL=editor-interface.css.map */
 
 
-/* 133620-1458758071-au */
+/* 133620-1459471806-au */

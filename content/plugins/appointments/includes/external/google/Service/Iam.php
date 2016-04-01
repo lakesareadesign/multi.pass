@@ -388,7 +388,7 @@ class Google_Service_Iam_ProjectsServiceAccounts_Resource extends Google_Service
   {
     $params = array('resource' => $resource, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('testIamPermissions', array($params), "Google_Service_Iam_TestIamPermissionsResponse");		   		 	  		  	 	 	
+    return $this->call('testIamPermissions', array($params), "Google_Service_Iam_TestIamPermissionsResponse");
   }
 
   /**

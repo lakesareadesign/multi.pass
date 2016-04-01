@@ -3,7 +3,7 @@
 Plugin Name: Appointments+
 Description: Lets you accept appointments from front end and manage or create them from admin side
 Plugin URI: http://premium.wpmudev.org/project/appointments-plus/
-Version: 1.7.1
+Version: 1.7.2
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
 Textdomain: appointments
@@ -32,7 +32,7 @@ if ( !class_exists( 'Appointments' ) ) {
 
 class Appointments {
 
-	public $version = "1.7.1";
+	public $version = "1.7.2";
 	public $db_version;
 
 	public $timetables = array();
@@ -136,7 +136,7 @@ class Appointments {
 		// Caching
 		if ( 'yes' == @$this->options['use_cache'] ) {
 			add_filter( 'the_content', array( &$this, 'pre_content' ), 8 );				// Check content before do_shortcode
-			add_filter( 'the_content', array( &$this, 'post_ceontent' ), 100 );			// Serve this later than do_shortcode
+			add_filter( 'the_content', array( &$this, 'post_content' ), 100 );			// Serve this later than do_shortcode
 			add_action( 'wp_footer', array( &$this, 'save_script' ), 8 );				// Save script to database
 			add_action( 'permalink_structure_changed', array( &$this, 'flush_cache' ) );// Clear cache in case permalink changed
 			add_action( 'save_post', array( &$this, 'save_post' ), 10, 2 ); 			// Clear cache if it has shortcodes
@@ -217,10 +217,9 @@ class Appointments {
 		appointments_clear_cache();
 
 		include_once( 'includes/class-app-upgrader.php' );
-		$upgrader = new Appointments_Upgrader( $this->version );
-		$upgrader->upgrade( $this->version );
 
-		update_option( 'app_db_version', $this->version );
+		$upgrader = new Appointments_Upgrader( $this->version );
+		$upgrader->upgrade( $db_version, $this->version );
 	}
 
 
@@ -989,8 +988,10 @@ class Appointments {
 		if ( $message ) {
 			$to_put = '<b>['. date_i18n( $this->datetime_format, $this->local_time ) .']</b> '. $message;
 			// Prevent multiple messages with same text and same timestamp
-			if ( !file_exists( $this->log_file ) || strpos( @file_get_contents( $this->log_file ), $to_put ) === false )
+			if ( !file_exists( $this->log_file ) || strpos( @file_get_contents( $this->log_file ), $to_put ) === false ) {
 				@file_put_contents( $this->log_file, $to_put . chr(10). chr(13), FILE_APPEND );
+			}
+
 		}
 	}
 
@@ -3093,8 +3094,10 @@ if ($this->worker && $this->service && ($app->service != $this->service)) {
 		));
 
 		//  Run this code not before 10 mins
-		if ( ( time() - get_option( "app_last_update" ) ) < apply_filters( 'app_update_time', 600 ) )
+		if ( ( time() - get_option( "app_last_update" ) ) < apply_filters( 'app_update_time', 600 ) ) {
 			return;
+		}
+
 		$this->remove_appointments();
 		$this->send_reminder();
 		$this->send_reminder_worker();
@@ -3181,8 +3184,9 @@ if ($this->worker && $this->service && ($app->service != $this->service)) {
 	 */
 	function send_notification( $app_id, $cancel=false ) {
 		// In case of cancellation, continue
-		if ( !$cancel && !isset( $this->options["send_notification"] ) || 'yes' != $this->options["send_notification"] )
+		if ( ! $cancel && ! isset( $this->options["send_notification"] ) || 'yes' != $this->options["send_notification"] ) {
 			return;
+		}
 		global $wpdb;
 		$r = appointments_get_appointment( $app_id );
 		if ( $r ) {
@@ -3352,8 +3356,9 @@ if ($this->worker && $this->service && ($app->service != $this->service)) {
 	 *
 	 */
 	function send_reminder() {
-		if ( !isset( $this->options["reminder_time"] ) || !$this->options["reminder_time"] || 'yes' != $this->options["send_reminder"] )
+		if ( ! isset( $this->options["reminder_time"] ) || ! $this->options["reminder_time"] || 'yes' != $this->options["send_reminder"] ) {
 			return;
+		}
 
 		$hours = explode( "," , trim( $this->options["reminder_time"] ) );
 
@@ -3421,7 +3426,7 @@ if ($this->worker && $this->service && ($app->service != $this->service)) {
 					$this->log( sprintf( __('Reminder message sent to %s for appointment ID:%s','appointments'), $message["to"], $message["ID"] ) );
 			}
 		}
-		return true;
+		return;
 	}
 
 	/**
@@ -3440,7 +3445,7 @@ if ($this->worker && $this->service && ($app->service != $this->service)) {
 
 		$messages = array();
 		foreach ( $hours as $hour ) {
-			$results = appointments_get_unsent_appointments( $hour, 'user' );
+			$results = appointments_get_unsent_appointments( $hour, 'worker' );
 
 			$provider_add_text  = __('You are receiving this reminder message for your appointment as a provider. The below is a copy of what may have been sent to your client:', 'appointments');
 			$provider_add_text .= "\n\n\n";
