@@ -133,10 +133,14 @@ add_filter( 'projects_show_page_title', false );
 add_action( 'genesis_before', 'centric_post_title' );
 function centric_post_title() {
 
-	if ( is_page() and !is_page_template() ) {
+	if ( is_page() && !is_page_template() ) {
 		remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
 		add_action( 'genesis_after_header', 'centric_open_post_title', 1 );
 		add_action( 'genesis_after_header', 'genesis_do_post_title', 2 );
+		add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+	} elseif (is_page('journal') ) {
+		add_action( 'genesis_after_header', 'centric_open_post_title', 1 ) ;
+		add_action( 'genesis_after_header', 'the_title', 2 );
 		add_action( 'genesis_after_header', 'centric_close_post_title', 3 );
 	} elseif ( is_category() ) {
 		// remove_action( 'genesis_before_loop', 'output_category_title' );
@@ -234,9 +238,9 @@ function centric_remove_comment_form_allowed_tags( $defaults ) {
 //* Add support for 4-column footer widgets
 add_theme_support( 'genesis-footer-widgets', 4 );
 
-add_filter( 'genesis_footer_creds_text', 'lad_footer_creds_text' );
-function lad_footer_creds() {
-}
+// add_filter( 'genesis_footer_creds_text', 'lad_footer_creds_text' );
+// function lad_footer_creds() {
+// }
 
 add_filter( 'genesis_footer_output', 'lad_footer_output', 10, 3 );
 function lad_footer_output() {

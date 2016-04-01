@@ -31,7 +31,8 @@ content/plugins/w3tc-wp-loader.php
 content/object-cache.php
 content/db.php
 content/advanced-cache.php
+content/mu-plugins/query-monitor
+content/mu-plugins/genesis-visual-hook-guide
+content/mu-plugins/dev_tools_loading.php
+content/mu-plugins/debug-this
 git n permissions cheater.txt
-content/plugins/genesis-visual-hook-guide
-content/plugins/debug-this
-content/plugins/query-monitor
