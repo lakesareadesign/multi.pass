@@ -6,6 +6,7 @@ php.ini
 .htaccess
 wp-config.php
 db-config.php
+.well-known
 /content/db.php
 
 /_archive
@@ -36,3 +37,4 @@ content/mu-plugins/genesis-visual-hook-guide
 content/mu-plugins/dev_tools_loading.php
 content/mu-plugins/debug-this
 git n permissions cheater.txt
+content/mu-plugins/theme-check
