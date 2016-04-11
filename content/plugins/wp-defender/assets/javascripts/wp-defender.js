@@ -45,6 +45,7 @@ jQuery.fn.wd_according = function (options) {
         elements.push($(this));
         target.hide();
         var that = $(this);
+        that.unbind('click');
         that.on('click', function () {
             if (that.hasClass('open')) {
                 close_according($(this), target);

@@ -89,17 +89,20 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 		}
 
 		if ( $this->check_rule_by_request( self::PREVENT_PHP_ACCESS, 'uploads' ) ) {
-			$htacces_path = WP_CONTENT_DIR . '/.htaccess';
+			$uploads_dir = wp_upload_dir();
+
+			$htacces_path = $uploads_dir['basedir'] . '/.htaccess';
 			if ( file_exists( $htacces_path ) ) {
 				$this->_revert( $htacces_path, 'uploads' );
 			}
 		}
-
-		wp_send_json( array(
-			'status'  => 1,
-			'revert'  => 1,
-			'element' => $this->apache_output()
-		) );
+		if ( $this->is_ajax() ) {
+			wp_send_json( array(
+				'status'  =>  1,
+				'revert'  => 1,
+				'element' => $this->apache_output()
+			) );
+		}
 	}
 
 	private function _revert( $htaccess_path, $context ) {
@@ -221,6 +224,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 										div.prependTo($('.wd-hardener-success'));
 										div.find('.rule-title').removeClass('issue').addClass('fixed').find('button').hide();
 										div.find('i.dashicons-flag').replaceWith($('<i class="wdv-icon wdv-icon-fw wdv-icon-ok"/>'));
+										div.find('.form-ignore').addClass('wd-hide');
 										div.show(500, function () {
 											/*$('html, body').animate({
 											 scrollTop: div.find('.rule-title').offset().top
@@ -252,6 +256,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 										}
 										div.find('.rule-title').removeClass('fixed').addClass('issue').find('button').show();
 										div.find('i.wdv-icon-ok').replaceWith($('<i class="dashicons dashicons-flag"/>'));
+										div.find('.form-ignore').addClass('wd-hide');
 										div.show(500, function () {
 											/*$('html, body').animate({
 											 scrollTop: div.find('.rule-title').offset().top
@@ -300,7 +305,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 						break;
 				}
 				?>
-
+				<?php echo $this->ignore_button() ?>
 			</div>
 		</div>
 		<?php
@@ -371,7 +376,7 @@ location ~* ^$wp_content/.*\.php$ {
 				</p>
 			<?php else: ?>
 				<p>
-					<?php _e( "We will place .htaccess files into each of these directories to to prevent PHP execution.", wp_defender()->domain ) ?>
+					<?php _e( "We will place .htaccess files into each of these directories to prevent PHP execution.", wp_defender()->domain ) ?>
 				</p>
 			<?php endif; ?>
 			<form id="protect_upload_dir_frm" method="post">

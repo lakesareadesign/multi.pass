@@ -57,6 +57,7 @@ class WD_Disable_Ping_Back extends WD_Hardener_Abstract {
 										div.prependTo($('.wd-hardener-success'));
 										div.find('.rule-title').removeClass('issue').addClass('fixed').find('button').hide();
 										div.find('i.dashicons-flag').replaceWith($('<i class="wdv-icon wdv-icon-fw wdv-icon-ok"/>'));
+										div.find('.form-ignore').addClass('wd-hide');
 										div.show(500);
 									})
 								}
@@ -90,6 +91,7 @@ class WD_Disable_Ping_Back extends WD_Hardener_Abstract {
 										}
 										div.find('.rule-title').removeClass('fixed').addClass('issue').find('button').show();
 										div.find('i.wdv-icon-ok').replaceWith($('<i class="dashicons dashicons-flag"/>'));
+										div.find('.form-ignore').removeClass('wd-hide');
 										div.show(500, function () {
 											/*$('html, body').animate({
 											 scrollTop: div.find('.rule-title').offset().top
@@ -154,6 +156,7 @@ class WD_Disable_Ping_Back extends WD_Hardener_Abstract {
 				<div class="wd-well">
 					<?php echo $this->_display(); ?>
 				</div>
+				<?php echo $this->ignore_button() ?>
 			</div>
 		</div>
 		<?php

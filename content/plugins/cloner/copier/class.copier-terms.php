@@ -14,6 +14,8 @@ if ( ! class_exists( 'Site_Copier_Terms' ) ) {
 		public function copy() {
 			global $wpdb;
 
+			$start_time = $this->_get_microtime();
+
 			if ( ! function_exists( 'wp_delete_link' ) )
 				include_once( ABSPATH . 'wp-admin/includes/bookmark.php' );
 
@@ -23,18 +25,21 @@ if ( ! class_exists( 'Site_Copier_Terms' ) ) {
 				unset( $taxonomies['nav_menu'] );
 
 			$all_terms = get_terms( $taxonomies, array( 'hide_empty' => false ) );
-			foreach ( $all_terms as $term )
+			$this->log( 'class.copier-terms.php. Deleting ' . count( $all_terms ) . ' terms' );
+			foreach ( $all_terms as $term ) {
 				$result = wp_delete_term( $term->term_id, $term->taxonomy );
+			}
+
 
 			unset( $all_terms );
 
 			// Remove current links
 			$all_links = get_bookmarks();
-			foreach ( $all_links as $link )
+			foreach ( $all_links as $link ) {
 				wp_delete_link( $link->link_id );
+			}
 
 			unset( $all_links );
-
 
 			switch_to_blog( $this->source_blog_id );
 
@@ -65,7 +70,13 @@ if ( ! class_exists( 'Site_Copier_Terms' ) ) {
 	        if ( isset( $taxonomies['nav_menu'] ) )
 				unset( $taxonomies['nav_menu'] );
 
+			$taxonomies = apply_filters( 'wpmudev_copier_copy_taxonomies', $taxonomies, $this );
 			$source_terms = get_terms( $taxonomies, array( 'orderby' => 'id', 'get' => 'all' ) );
+
+			$this->log( 'class.copier-terms.php. Taxonomies to copy:' );
+			$this->log( $taxonomies );
+
+			$this->log( 'class.copier-terms.php. Copying ' . count( $source_terms ) . ' terms' );
 
 			$_source_links = get_bookmarks();
 			$source_links = array();
@@ -211,6 +222,8 @@ if ( ! class_exists( 'Site_Copier_Terms' ) ) {
 
 	        	$updated = update_option( 'widget_links', $new_widget_links_settings );
 	        }
+
+			$this->log( 'Terms Copy. Elapsed time: ' .  ( $this->_get_microtime() - $start_time ) );
 
 	        return true;
 		}

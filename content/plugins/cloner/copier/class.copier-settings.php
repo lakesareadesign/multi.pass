@@ -11,6 +11,8 @@ if ( ! class_exists( 'Site_Copier_Settings' ) ) {
     	public function copy() {
     		global $wpdb;
 
+            $start_time = $this->_get_microtime();
+
             wp_cache_delete( 'notoptions', 'options' );
             wp_cache_delete( 'alloptions', 'options' );
 
@@ -46,6 +48,7 @@ if ( ! class_exists( 'Site_Copier_Settings' ) ) {
 
             $the_options = $wpdb->get_col( "SELECT option_name FROM $wpdb->options" );
             $the_options = apply_filters( 'wpmudev_copier_delete_options', $the_options );
+            $this->log( 'class.copier-post-types.php. Deleting ' . count( $the_options ) . ' options' );
             foreach ( $the_options as $option_name ) {
                 if ( ! in_array( $option_name, $exclude_settings ) ) {
                     // Better use delete_option instead of doing it directly in DB
@@ -60,11 +63,14 @@ if ( ! class_exists( 'Site_Copier_Settings' ) ) {
             //$exclude_settings = apply_filters( 'blog_template_exclude_settings', $exclude_settings_where );
             //$wpdb->query( "DELETE FROM $wpdb->options WHERE $exclude_settings_where" );
 
-            if ( $wpdb->last_error )
+            if ( $wpdb->last_error ) {
+                $this->log( 'class.copier-settings.php. Error copying settings: ' . $wpdb->last_error );
                 return new WP_Error( 'settings_error', __( 'Error copying settings', WPMUDEV_COPIER_LANG_DOMAIN ) );
+            }
 
-            if ( ! function_exists( 'get_plugins' ) )
+            if ( ! function_exists( 'get_plugins' ) ) {
                 require_once ABSPATH . 'wp-admin/includes/plugin.php';
+            }
 
             switch_to_blog( $this->source_blog_id );
             $src_blog_settings = $wpdb->get_results( "SELECT * FROM $wpdb->options WHERE $exclude_settings_where" );
@@ -89,6 +95,7 @@ if ( ! class_exists( 'Site_Copier_Settings' ) ) {
 
             $new_prefix = $wpdb->prefix;
 
+            $this->log( 'class.copier-post-types.php. Copyng ' . count( $src_blog_settings ) . ' options' );
             foreach ( $src_blog_settings as $row ) {
 
                 //Make sure none of the options are using wp_X_ convention, and if they are, replace the value with the new blog ID
@@ -189,6 +196,7 @@ if ( ! class_exists( 'Site_Copier_Settings' ) ) {
              */
             do_action( 'wpmudev_copier-copy-options', $this->source_blog_id, $this->user_id, $this->template );
 
+            $this->log( 'Settings copy. Elapsed time: ' . ( $this->_get_microtime() - $start_time ) );
             return true;
     	}
 

@@ -7,21 +7,20 @@ if ( ! class_exists( 'Site_Copier_Post_Types' ) ) {
         protected $args = array();
         protected $posts_copied = array();
 
-        public function __construct( $source_blog_id, $template, $args = array(), $user_id = 0 ) {
-            $this->args = wp_parse_args( $args, $this->get_default_args() );
-
-            $this->source_blog_id = $source_blog_id;
-            $this->user_id = $user_id;
-            $this->template = $template;
-        }
-
         public function get_default_args() {}
 
-        public function copy() {
-            global $wpdb;
-
-            if ( $this->type == false )
+        /**
+         * @param bool|integer|array $post_id If we want to copy only one post
+         * This param is not used anywhere yet. It adds the possibility to
+         *copy only one post instead of all of them
+         *
+         * @return array
+         */
+        public function copy( $post_id = false ) {
+            if ( $this->type == false ) {
+                $this->log( 'class.copier-post-types. No Custom Post Types to copy' );
                 return new WP_Error( 'wrong_post_type', __( 'No Custom Post Types to copy', WPMUDEV_COPIER_LANG_DOMAIN ) );
+            }
 
 
             /**
@@ -34,10 +33,7 @@ if ( ! class_exists( 'Site_Copier_Post_Types' ) ) {
              * The filter removes the following hooks:
              * - save_post
              * - wp_insert_post
-             * - save_post_{$post->post_type}
              * - transition_post_status
-             * - {$old_status}_to_{$new_status}
-             * - {$new_status}_{$post->post_type}
              * - It also disables wp_mail just in case
              *
              * @param Boolean $remove_hooks Remove hooks if set to true (true by default)
@@ -51,8 +47,10 @@ if ( ! class_exists( 'Site_Copier_Post_Types' ) ) {
                 remove_all_actions( 'transition_post_status' );
             }
 
-
-            $this->clear_posts();
+            if ( ! $post_id ) {
+                // If we pass the post IDs, clear_posts must be executed outside
+                $this->clear_posts();
+            }
 
             switch_to_blog( $this->source_blog_id );
 
@@ -67,11 +65,19 @@ if ( ! class_exists( 'Site_Copier_Post_Types' ) ) {
                 'posts_per_page' => -1,
                 'ignore_sticky_posts' => true,
                 'post_status' => array( 'publish', 'pending', 'draft', 'future', 'private', 'inherit' ),
-                'post_type' => $this->type
+                'post_type' => $this->type,
             ) );
-            $all_posts = get_posts(
-                $args
-            );
+
+            if ( $post_id ) {
+                if ( ! is_array( $post_id ) ) {
+                    $post_id = array( $post_id );
+                }
+                $args['post__in'] = $post_id;
+            }
+
+            $this->log( 'class.copier-post-types. Get source posts arguments:' );
+            $this->log( $args );
+            $all_posts = get_posts( $args );
 
             // Adding the metadata
             foreach ( $all_posts as $key => $post ) {
@@ -87,8 +93,10 @@ if ( ! class_exists( 'Site_Copier_Post_Types' ) ) {
 
             restore_current_blog();
 
-            if ( empty( $all_posts ) )
+            if ( empty( $all_posts ) ) {
+                $this->log( 'class.copier-post-types. No Posts to copy' );
                 return new WP_Error( 'empty_posts', __( 'No posts to copy', WPMUDEV_COPIER_LANG_DOMAIN ) );
+            }
 
             // Array that relations the source posts with the destination posts
             $posts_mapping = array();
@@ -170,6 +178,10 @@ if ( ! class_exists( 'Site_Copier_Post_Types' ) ) {
                         stick_post( $new_post_id );
 
                 }
+                else {
+                    $this->log( 'class.copier-post-types. Error cloning post:' );
+                    $this->log( $new_post );
+                }
 
             }
 
@@ -196,8 +208,9 @@ if ( ! class_exists( 'Site_Copier_Post_Types' ) ) {
              */
             do_action( 'wpmudev_copier-copied-posts', $this->source_blog_id, $posts_mapping, $this->user_id, $this->template, $this->type );
 
-            if ( $remove_hooks )
+            if ( $remove_hooks ) {
                 remove_filter( 'wp_mail', array( $this, 'disable_wp_mail' ), 1 );
+            }
 
             return $posts_mapping;
 
@@ -214,7 +227,7 @@ if ( ! class_exists( 'Site_Copier_Post_Types' ) ) {
             return $args;
         }
 
-        private function clear_posts() {
+        public function clear_posts() {
             /**
              * Filter the deletion posts query variables.
              *
@@ -231,13 +244,18 @@ if ( ! class_exists( 'Site_Copier_Post_Types' ) ) {
                 'post_type' => $this->type
             ) );
 
+            $this->log( 'class.copier-post-types.php. Clearing posts. Arguments:' );
+            $this->log( $args );
+
             $all_posts = get_posts( $args );
 
             remove_action( 'before_delete_post', '_reset_front_page_settings_for_post' );
             remove_action( 'wp_trash_post',      '_reset_front_page_settings_for_post' );
 
-            foreach ( $all_posts as $post_id )
+            foreach ( $all_posts as $post_id ) {
                 @wp_delete_post( $post_id, true );
+            }
+
 
         }
 

@@ -714,7 +714,7 @@ if ( ! function_exists( 'copier_maybe_copy' ) ) {
                                 data: {
                                     action: 'copier_process_copy_action',
                                     security: '<?php echo $nonce; ?>'
-                                },
+                                }
                             })
                             .done(function( data ) {
                                 if ( typeof data == 'object') {
@@ -787,22 +787,13 @@ if ( ! function_exists( 'copier_process_ajax_template' ) ) {
         if ( ! current_user_can( 'manage_options' ) )
             wp_send_json_error( array( 'message' => __( "Security Error", WPMUDEV_COPIER_LANG_DOMAIN ) ) );
 
-        check_ajax_referer( 'copier_process_copy', 'security' );
+        $check_nonce = check_ajax_referer( 'copier_process_copy', 'security', false );
+        if ( ! $check_nonce )
+            wp_send_json_error( array( 'message' => __( "Security Error", WPMUDEV_COPIER_LANG_DOMAIN ) ) );
 
         $option = get_option( 'copier-pending' );
 
-        if ( copier_allow_buffered_response() )
-            ob_start();
-
         $result = copier_process_copy( $option );
-
-        if ( copier_allow_buffered_response() )
-            $buffer_result = ob_get_clean();
-
-        if ( ! empty( $buffer_result ) ) {
-            // It seems that we have an error
-            //wp_send_json_success( array( 'message' => $buffer_result ) );
-        }
 
         if ( $result['error'] )
             wp_send_json_error( array( 'message' => $result['message'] ) );

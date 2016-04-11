@@ -119,6 +119,13 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 	protected $result = array();
 
 	/**
+	 * storing ids of issue
+	 * @var array
+	 * @since 1.0.4
+	 */
+	protected $item_indexes = array();
+
+	/**
 	 * @var array
 	 */
 	protected $ignore_files = array();
@@ -195,6 +202,16 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 			'type' => 'wp_meta',
 			'prop' => 'result',
 			'wp'   => 'result'
+		),
+		array(
+			'type' => 'wp_meta',
+			'prop' => 'result',
+			'wp'   => 'result'
+		),
+		array(
+			'type' => 'wp_meta',
+			'prop' => 'item_indexes',
+			'wp'   => 'item_indexes'
 		)
 	);
 
@@ -248,14 +265,22 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 	 * @since 1.0
 	 */
 	public function get_results() {
+		//cache result in each request
+		if ( isset( wp_defender()->global['results'] ) && ! empty( wp_defender()->global['result'] ) ) {
+			return wp_defender()->global['results'];
+		}
+		if ( ! empty( $this->item_indexes ) ) {
+			$this->result = array();
+			$this->get_results_104();
+		}
+
 		$result = $this->result;
-		$md5    = get_site_transient( 'wd_md5_checksum' );
+		$md5    = WD_Utils::get_cache( 'wd_md5_checksum' );
 		if ( $md5 == false ) {
 			$md5 = WD_Scan_Api::download_md5_files();
 			//short cache, as user might update the version anytime
-			set_site_transient( 'wd_md5_checksum', $md5, 3600 );
+			WD_Utils::cache( 'wd_md5_checksum', $md5, 3600 );
 		}
-
 		foreach ( $result as $key => $item ) {
 			if ( $item->check( $this ) == true ) {
 				unset( $result[ $key ] );
@@ -284,7 +309,22 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 
 		usort( $result, array( &$this, 'sort_priority' ) );
 
+		wp_defender()->global['results'] = $result;
+
 		return $result;
+	}
+
+	public function get_results_104() {
+		$metas = get_post_meta( $this->id );
+		foreach ( $this->item_indexes as $key => $index ) {
+			if ( isset( $metas[ 'item_' . $key ] ) ) {
+				$raw = array_shift( $metas[ 'item_' . $key ] );
+				$raw = maybe_unserialize( $raw );
+				if ( is_object( $raw ) ) {
+					$this->result[] = $raw;
+				}
+			}
+		}
 	}
 
 	/**
@@ -337,8 +377,9 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 	}
 
 	public function get_result_by_type( $type ) {
+		;
 		$result = array();
-		foreach ( $this->result as $key => $item ) {
+		foreach ( $this->get_results() as $key => $item ) {
 			if ( $item->get_system_type() == $type ) {
 				$result[] = $item;
 			}
@@ -351,13 +392,22 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 	 * @param $id
 	 */
 	public function delete_item_from_result( $id ) {
-		$index = $this->find_result_item( $id, true );
-		$item  = $this->find_result_item( $id );
-		unset( $this->md5_tree[ $item->name ] );
-		unset( $this->result[ $index ] );
-		//unset from md5 tree too
-		update_post_meta( $this->id, 'md5_tree', $this->md5_tree );
-		update_post_meta( $this->id, 'result', $this->result );
+		if ( ! empty( $this->item_indexes ) ) {
+			if ( isset( $this->item_indexes[ $id ] ) ) {
+				unset( $this->md5_tree[ $this->item_indexes[ $id ] ] );
+				delete_post_meta( $this->id, 'item_' . $id );
+				//todo fix this bottle neck
+				//update_post_meta( $this->id, 'md5_tree', $this->md5_tree );
+			}
+		} else {
+			$index = $this->find_result_item( $id, true );
+			$item  = $this->find_result_item( $id );
+			unset( $this->md5_tree[ $item->name ] );
+			unset( $this->result[ $index ] );
+			//unset from md5 tree too
+			update_post_meta( $this->id, 'md5_tree', $this->md5_tree );
+			update_post_meta( $this->id, 'result', $this->result );
+		}
 		WD_Utils::flag_for_submitting();
 	}
 
@@ -383,17 +433,31 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 	 * @return int|null|string
 	 */
 	public function find_result_item( $id, $return_index = false ) {
-		foreach ( $this->result as $key => $item ) {
-			if ( $item->id == $id ) {
-				if ( $return_index ) {
-					return $key;
-				} else {
-					return $item;
+		if ( ! empty( $this->item_indexes ) ) {
+			$model = get_post_meta( $this->id, 'item_' . $id, true );
+			if ( ! is_object( $model ) ) {
+				$model = maybe_unserialize( $model );
+			}
+
+			if ( is_object( $model ) ) {
+				return $model;
+			} else {
+				//model got issue
+				return null;
+			}
+		} else {
+			foreach ( $this->result as $key => $item ) {
+				if ( $item->id == $id ) {
+					if ( $return_index ) {
+						return $key;
+					} else {
+						return $item;
+					}
 				}
 			}
-		}
 
-		return null;
+			return null;
+		}
 	}
 
 	/**
@@ -403,9 +467,28 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 	 * @return null
 	 */
 	public function find_result_item_by_file( $file, $scan_type ) {
-		foreach ( $this->result as $key => $item ) {
-			if ( $item->name == $file && get_class( $item ) == $scan_type ) {
-				return $item;
+		if ( ! empty( $this->item_indexes ) ) {
+			$count_value = array_count_values( $this->item_indexes );
+			if ( isset( $count_value[ $file ] ) && $count_value[ $file ] > 1 ) {
+				//multiple, need to check scan type
+			} elseif ( ( $id = array_search( $file, $this->item_indexes ) ) !== false ) {
+				$model = get_post_meta( $this->id, 'item_' . $id, true );
+				if ( ! is_object( $model ) ) {
+					$model = maybe_unserialize( $model );
+				}
+
+				if ( is_object( $model ) ) {
+					return $model;
+				} else {
+					//model got issue
+					return null;
+				}
+			}
+		} else {
+			foreach ( $this->result as $key => $item ) {
+				if ( $item->name == $file && get_class( $item ) == $scan_type ) {
+					return $item;
+				}
 			}
 		}
 
@@ -456,15 +539,26 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 	 */
 	public function group_result_by_file( $asb_path ) {
 		$groups = array();
-		foreach ( $this->result as $key => $item ) {
-			$result_file_path = $item->name;
-			if ( ! file_exists( $result_file_path ) ) {
-				continue;
+		if ( ! empty( $this->item_indexes ) ) {
+			$tmp = $this->item_indexes;
+			while ( ( $id = array_search( $asb_path, $tmp ) ) !== false ) {
+				$item = $this->find_result_item( $id );
+				if ( is_object( $item ) ) {
+					$groups[] = $item;
+				}
+				unset( $tmp[ $id ] );
 			}
+		} else {
+			foreach ( $this->result as $key => $item ) {
+				$result_file_path = $item->name;
+				if ( ! file_exists( $result_file_path ) ) {
+					continue;
+				}
 
-			if ( $result_file_path == $asb_path ) {
-				//catch
-				$groups[] = $item;
+				if ( $result_file_path == $asb_path ) {
+					//catch
+					$groups[] = $item;
+				}
 			}
 		}
 
@@ -486,6 +580,10 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 		}
 
 		return $progress;
+	}
+
+	public function add_item( $item ) {
+		add_post_meta( $this->id, 'item_' . $item->id, $item );
 	}
 
 	/**

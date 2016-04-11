@@ -83,9 +83,13 @@ abstract class WD_Scan_Abstract extends WD_Component {
 	 * @since 1.0.3
 	 */
 	protected function get_cpu_usage() {
-		$loaded = sys_getloadavg();
-		if ( isset( $loaded[0] ) ) {
-			return $loaded[0];
+		if ( stristr( PHP_OS, 'win' ) ) {
+			return false;
+		} else {
+			$loaded = sys_getloadavg();
+			if ( isset( $loaded[0] ) ) {
+				return $loaded[0];
+			}
 		}
 
 		return 0;
@@ -99,7 +103,7 @@ abstract class WD_Scan_Abstract extends WD_Component {
 		$current = $this->get_cpu_usage();
 		$limit   = apply_filters( 'wd_limit_cpu', 0.85 );
 
-		if ( $current == false ) {
+		if ( $current === false ) {
 			//we can't detect, it might be windows server, just return
 			return false;
 		}

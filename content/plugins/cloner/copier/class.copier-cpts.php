@@ -21,8 +21,15 @@ if ( ! class_exists( 'Site_Copier_Posts' ) ) {
 			$post_types = $wpdb->get_col( "SELECT DISTINCT post_type FROM $wpdb->posts WHERE post_type NOT IN $exclude_post_types" );
 			restore_current_blog();
 
-			if ( ! empty( $post_types ) )
+			$post_types = apply_filters( 'wpmudev_copier_copy_post_types', $post_types, $source_blog_id, $args, $user_id, $template );
+
+			$this->log( 'Copying Post Types:' );
+			$this->log( $post_types );
+
+			if ( ! empty( $post_types ) ) {
 				$this->type = $post_types;
+			}
+
 		}
 
 		public function get_default_args() {

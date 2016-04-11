@@ -363,6 +363,7 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 						</form>
 					<?php endif; ?>
 				</div>
+				<?php echo $this->ignore_button() ?>
 			</div>
 		</div>
 		<?php

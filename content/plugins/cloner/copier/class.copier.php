@@ -37,6 +37,20 @@ if ( ! class_exists( 'Site_Copier' ) ) {
          */
     	public abstract function copy();
 
+	    protected function log( $message ) {
+		    if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+			    $date = current_time( 'mysql' );
+			    if ( ! is_string( $message ) ) {
+				    $message = print_r( $message, true );
+			    }
+			    $message = '[' . $date . '] - ' . $message . "\n";
+			    file_put_contents( trailingslashit( WP_CONTENT_DIR ) . 'debug-cloner.log', $message, FILE_APPEND );
+		    }
+	    }
+
+	    public function _get_microtime() {
+		    return microtime( true );
+	    }
 
     }
 }

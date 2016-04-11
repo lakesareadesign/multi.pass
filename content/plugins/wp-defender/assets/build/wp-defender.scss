@@ -452,6 +452,17 @@
           border-top: 10px solid #FECF2F;
         }
       }
+      .rule-title.ignored {
+        background-color: #DFF6FA;
+        color: #777771;
+        cursor: default;
+        button {
+          position: absolute;
+          right: 33px;
+          top: 50%;
+          margin-top: -16px;
+        }
+      }
       .rule-title.open {
         .wd-caret-down {
           border-top: 10px solid #F4F4F4;
@@ -495,6 +506,12 @@
       .wd-theme-info {
         background: url("img/theme-icon.png") no-repeat 10px center;
         padding-left: 50px;
+      }
+
+      .form-ignore {
+        button {
+          margin-top: 20px;
+        }
       }
     }
   }

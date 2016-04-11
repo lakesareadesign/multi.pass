@@ -37,5 +37,21 @@
 				?>
 			<?php endforeach; ?>
 		</section>
+		<?php
+		if ( count( $ignored ) > 0 ) :?>
+			<h3 class="tc hardener-title">
+				<?php _e( "Ignored", wp_defender()->domain ); ?>
+			</h3>
+			<p class="tc wd-no-padding">
+				<?php _e( " You’ve chosen to ignore these tweaks. You can restore them at any time", wp_defender()->domain ) ?>
+			</p>
+			<section class="wd-hardener-rules wd-hardener-ignored">
+				<?php foreach ( $ignored as $module ): ?>
+					<?php
+					echo $module->ignore_html();
+					?>
+				<?php endforeach; ?>
+			</section>
+		<?php endif; ?>
 	</div>
 </div>

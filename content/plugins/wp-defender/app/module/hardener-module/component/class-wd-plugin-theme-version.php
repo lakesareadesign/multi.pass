@@ -401,6 +401,7 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 						<p><?php _e( "Update each version individually and be sure to check the changelog in case of major changes. It’s safe practice to update one at a time, and check your website front end for any breakages as you go.", wp_defender()->domain ) ?></p>
 					<?php endif; ?>
 				</div>
+				<?php echo $this->ignore_button() ?>
 			</div>
 		</div>
 		<?php

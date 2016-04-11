@@ -316,6 +316,15 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
         background-color: #FECF2F; }
         .wp-defender .wd-hardener-rules .wd-hardener-rule .rule-title.issue .wd-caret-down {
           border-top: 10px solid #FECF2F; }
+      .wp-defender .wd-hardener-rules .wd-hardener-rule .rule-title.ignored {
+        background-color: #DFF6FA;
+        color: #777771;
+        cursor: default; }
+        .wp-defender .wd-hardener-rules .wd-hardener-rule .rule-title.ignored button {
+          position: absolute;
+          right: 33px;
+          top: 50%;
+          margin-top: -16px; }
       .wp-defender .wd-hardener-rules .wd-hardener-rule .rule-title.open .wd-caret-down {
         border-top: 10px solid #F4F4F4; }
       .wp-defender .wd-hardener-rules .wd-hardener-rule .rule-title.open.issue {
@@ -341,6 +350,8 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
       .wp-defender .wd-hardener-rules .wd-rule-content .wd-theme-info {
         background: url("img/theme-icon.png") no-repeat 10px center;
         padding-left: 50px; }
+      .wp-defender .wd-hardener-rules .wd-rule-content .form-ignore button {
+        margin-top: 20px; }
   .wp-defender .wd-hardener-error .wd-hardener-rule:last-child .wd-rule-content {
     border-bottom: solid 1px #ddd;
     padding-bottom: 50px; }
@@ -1103,4 +1114,4 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
 /*# sourceMappingURL=wp-defender.css.map */
 
 
-/* 133620-1458650566-au */
+/* 133620-1460350142-au */

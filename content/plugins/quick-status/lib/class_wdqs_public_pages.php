@@ -76,7 +76,7 @@ class Wdqs_PublicPages {
 
 	private function _check_permissions () {
 		global $current_user;
-		$level = WDQS_PUBLISH_CAPABILITY;//$this->data->get("contributors") ? "edit_posts" : "publish_posts";
+		$level = WDQS_PUBLISH_CAPABILITY;//$this->data->get("contributors") ? "edit_posts" : "publish_posts";	     	 	 			  		 
 		if (!current_user_can($level)) return false;
 		if (!$current_user->ID) return false;
 

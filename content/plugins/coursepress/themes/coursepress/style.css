@@ -2361,7 +2361,7 @@ select.units_dropdown::-ms-expand {
     margin-top: 8px;
 }
 
-.depth-2 .discussion-answer-circle, .depth-3 .discussion-answer-circle, .depth-4 .discussion-answer-circle, .depth-5 .discussion-answer-circle, .depth-6 .discussion-answer-circle, .depth-7 .discussion-answer-circle, .depth-8 .discussion-answer-circle, .depth-9 .discussion-answer-circle, .depth-10 .discussion-answer-circle{									   	 	   		
+.depth-2 .discussion-answer-circle, .depth-3 .discussion-answer-circle, .depth-4 .discussion-answer-circle, .depth-5 .discussion-answer-circle, .depth-6 .discussion-answer-circle, .depth-7 .discussion-answer-circle, .depth-8 .discussion-answer-circle, .depth-9 .discussion-answer-circle, .depth-10 .discussion-answer-circle{
     display: none;
 }
 
@@ -3162,4 +3162,4 @@ RESPONSIVE
 }
 
 
-/* 133620-1459621163-au */
+/* 133620-1460350114-au */

@@ -13,6 +13,7 @@ class UM_Shortcodes {
 		add_shortcode('um_loggedin', array(&$this, 'um_loggedin'));
 		add_shortcode('um_loggedout', array(&$this, 'um_loggedout'));
 		add_shortcode('um_show_content', array(&$this, 'um_shortcode_show_content_for_role') );
+		add_shortcode('ultimatemember_searchform', array(&$this, 'ultimatemember_searchform') );
 
 
 		add_filter('body_class', array(&$this, 'body_class'), 0);
@@ -415,33 +416,37 @@ class UM_Shortcodes {
 			$paths[] = glob(get_stylesheet_directory() . '/ultimate-member/templates/' . '*.php');
 		}
 
-		foreach ($paths as $k => $files) {
+		if( isset( $paths ) && ! empty( $paths ) ){
+			
+			foreach ($paths as $k => $files) {
 
-			foreach ($files as $file) {
+				foreach ($files as $file) {
 
-				$clean_filename = $this->get_template_name($file);
+					$clean_filename = $this->get_template_name($file);
 
-				if (0 === strpos($clean_filename, $excluded)) {
+					if (0 === strpos($clean_filename, $excluded)) {
 
-					$source = file_get_contents($file);
-					$tokens = token_get_all($source);
-					$comment = array(
-						T_COMMENT, // All comments since PHP5
-						T_DOC_COMMENT, // PHPDoc comments
-					);
-					foreach ($tokens as $token) {
-						if (in_array($token[0], $comment) && strstr($token[1], '/* Template:') && $clean_filename != $excluded) {
-							$txt = $token[1];
-							$txt = str_replace('/* Template: ', '', $txt);
-							$txt = str_replace(' */', '', $txt);
-							$array[$clean_filename] = $txt;
+						$source = file_get_contents($file);
+						$tokens = token_get_all($source);
+						$comment = array(
+							T_COMMENT, // All comments since PHP5
+							T_DOC_COMMENT, // PHPDoc comments
+						);
+						foreach ($tokens as $token) {
+							if (in_array($token[0], $comment) && strstr($token[1], '/* Template:') && $clean_filename != $excluded) {
+								$txt = $token[1];
+								$txt = str_replace('/* Template: ', '', $txt);
+								$txt = str_replace(' */', '', $txt);
+								$array[$clean_filename] = $txt;
+							}
 						}
+
 					}
 
 				}
 
 			}
-
+			
 		}
 
 		return $array;
@@ -568,6 +573,22 @@ class UM_Shortcodes {
 		}
 
 	    return '';
+	}
+
+	public function ultimatemember_searchform($args = array(), $content = "") {
+		// turn off buffer
+		ob_start();
+
+		// load template
+		$this->load_template( 'searchform' );
+
+		// get the buffer
+		$template = ob_get_contents();
+
+		// clear the buffer
+		ob_end_clean();
+
+		return $template;
 	}
 
 }

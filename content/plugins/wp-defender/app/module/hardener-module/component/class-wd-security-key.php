@@ -273,6 +273,7 @@ class WD_Security_Key extends WD_Hardener_Abstract {
 						<?php printf( __( "Your salt keys are %d days old. You are fine for now.", wp_defender()->domain ), floor( $this->days_ago() ) ) ?>
 					<?php endif; ?>
 				</div>
+				<?php echo $this->ignore_button() ?>
 			</div>
 		</div>
 		<?php

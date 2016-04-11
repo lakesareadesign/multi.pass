@@ -7,8 +7,8 @@ class WD_Scan_Api extends WD_Component {
 	protected static $last_scan;
 	protected static $model;
 
-	const CACHE_CORE_FILES = 'wd_core_files', CACHE_CONTENT_FILES = 'wd_content_files', CACHE_SCAN_PERCENT = 'wd_scan_percent',
-		CACHE_SCANNED = 'wd_scanned_file';
+	const CACHE_CORE_FILES = 'wd_cfiles', CACHE_CONTENT_FILES = 'wd_sfiles',
+		CACHE_CONTENT_FILES_FRAG = 'wd_sfrag', CACHE_CONTENT_FOLDERS = 'wd_sfolders';
 	const ALERT_NESTED_WP = 'wd_nested_wp', ALERT_NO_MD5 = 'wd_no_md5';
 
 	const SCAN_CORE_INTEGRITY = 'core_integrity', SCAN_VULN_DB = 'vulndb', SCAN_SUSPICIOUS_FILE = 'suspicious_file';
@@ -21,7 +21,7 @@ class WD_Scan_Api extends WD_Component {
 	 * @since 1.0
 	 */
 	public static function get_core_files() {
-		$cache = get_site_transient( self::CACHE_CORE_FILES );
+		$cache = WD_Utils::get_cache( self::CACHE_CORE_FILES, false );
 		if ( is_array( $cache ) ) {
 			return $cache;
 		}
@@ -38,8 +38,8 @@ class WD_Scan_Api extends WD_Component {
 		), array(), false );
 		$abs_files = $dir_tree->get_dir_tree();
 		$files     = array_merge( (array) $abs_files, (array) $core_files );
-		set_site_transient( self::CACHE_CORE_FILES, $files );
-		set_site_transient( self::CACHE_CORE_FILES . 'count', count( $files ) );
+		WD_Utils::cache( self::CACHE_CORE_FILES, $files );
+		WD_Utils::cache( self::CACHE_CORE_FILES . 'count', count( $files ) );
 
 		return $files;
 	}
@@ -232,7 +232,7 @@ class WD_Scan_Api extends WD_Component {
 	 * @since 1.0
 	 */
 	public static function get_content_files() {
-		$cache = get_site_transient( self::CACHE_CONTENT_FILES );
+		$cache = WD_Utils::get_cache( self::CACHE_CONTENT_FILES );
 		if ( is_array( $cache ) ) {
 			return $cache;
 		}
@@ -244,13 +244,13 @@ class WD_Scan_Api extends WD_Component {
 			'ext' => $ext
 		), true, $max_size );
 
-		$outsiders      = WD_Utils::get_dir_tree( ABSPATH, false, true, array(
+		$outsiders      = WD_Utils::get_dir_tree( ABSPATH, false, true, apply_filters( 'wd_suspicious_scan_outsider_dir', array(
 			'dir' => array(
 				ABSPATH . 'wp-admin',
 				ABSPATH . 'wp-content',
 				ABSPATH . 'wp-includes'
 			)
-		), array(), false );
+		) ), array(), false );
 		$outsider_files = array();
 		foreach ( $outsiders as $outsider ) {
 			$osd_files      = WD_Utils::get_dir_tree( $outsider, true, false, array(), array(
@@ -266,15 +266,98 @@ class WD_Scan_Api extends WD_Component {
 			$alerts = __( "Please note the nested WP install on your site will not be scanned. Install WP Defender there to scan separately.", wp_defender()->domain );
 			//self::log( var_export( $wp_installs, true ), self::ERROR_LEVEL_DEBUG, 'nested' );
 			//$alerts = array_merge( $alerts, $wp_installs );
-			set_site_transient( self::ALERT_NESTED_WP, $alerts );
+			WD_Utils::cache( self::ALERT_NESTED_WP, $alerts );
 		}
-		set_site_transient( self::CACHE_CONTENT_FILES, $content_files );
+		WD_Utils::cache( self::CACHE_CONTENT_FILES, $content_files );
 		//just for debug
-		set_site_transient( self::CACHE_CONTENT_FILES . 'count', count( $content_files ) );
-
-		//$content_files = array_slice( $content_files, 0, 2000 );
+		WD_Utils::cache( self::CACHE_CONTENT_FILES . 'count', count( $content_files ) );
 
 		return $content_files;
+	}
+
+	/**
+	 * fragment queries files.
+	 * @return array|bool|mixed
+	 */
+	public static function get_content_files_fragment() {
+		if ( ( $cache_files = WD_Utils::get_cache( self::CACHE_CONTENT_FILES, false ) ) !== false ) {
+			//@self::log( 'hit', self::ERROR_LEVEL_DEBUG, 'bb' );
+
+			return $cache_files;
+		}
+
+		$exts     = array( 'php' );
+		$max_size = WD_Utils::get_setting( 'max_file_size', false );
+		$folders  = self::get_content_folders_fragment();
+		$files    = WD_Utils::get_cache( self::CACHE_CONTENT_FILES_FRAG, array() );
+		//now we got folders, need to get files inside each
+		//make it into chunks
+		$indexed_count = 0;
+		$skip_count    = 0;
+		foreach ( $folders as $folder ) {
+			if ( in_array( $folder, $files ) ) {
+				//this folder already get indexing
+				if ( $skip_count == ( count( $folders ) - 2 ) ) {
+					//we have to remove the folders index
+					$files = array_slice( $files, count( $folders ) );
+					//this mean it is done
+					//we will move the fragment to content cache, and remove the fragment cache
+					list( $content_files, $wp_installs ) = self::is_nested_wp_install( $files );
+					WD_Utils::cache( self::CACHE_CONTENT_FILES, $content_files );
+					WD_Utils::remove_cache( self::CACHE_CONTENT_FILES_FRAG );
+					if ( count( $wp_installs ) ) {
+						//we need to warn about this
+						$alerts = __( "Please note the nested WP install on your site will not be scanned. Install WP Defender there to scan separately.", wp_defender()->domain );
+						//self::log( var_export( $wp_installs, true ), self::ERROR_LEVEL_DEBUG, 'nested' );
+						//$alerts = array_merge( $alerts, $wp_installs );
+						WD_Utils::cache( self::ALERT_NESTED_WP, $alerts );
+					}
+
+					return $content_files;
+				}
+				$skip_count ++;
+				continue;
+			}
+			if ( $indexed_count == apply_filters( 'wd_fragment_content_chunks', 500 ) ) {
+				break;
+			}
+			$folder_files = WD_Utils::get_dir_tree( $folder, true, false, array(), array(
+				'ext' => $exts
+			), false, $max_size );
+			$files        = array_merge( $files, $folder_files );
+			//we will put the folder onto top
+			array_unshift( $files, $folder );
+			$indexed_count += 1;
+		}
+		WD_Utils::cache( self::CACHE_CONTENT_FILES_FRAG, $files );
+
+		return false;
+	}
+
+	/**
+	 * this will query folders from root path, but not files
+	 */
+	private static function get_content_folders_fragment() {
+		if ( ( $folders = WD_Utils::get_cache( self::CACHE_CONTENT_FOLDERS, false ) ) !== false ) {
+			return $folders;
+		}
+		$exclude_dirs       = apply_filters( 'wd_exclude_dirs', array() );
+		$folders_in_content = WD_Utils::get_dir_tree( WP_CONTENT_DIR, false, true, array(
+			'dir' => $exclude_dirs
+		) );
+		$outsiders          = WD_Utils::get_dir_tree( ABSPATH, false, true, array(
+			'dir' => array_merge( $exclude_dirs, array(
+				ABSPATH . 'wp-admin',
+				ABSPATH . 'wp-content',
+				ABSPATH . 'wp-includes'
+			) )
+		) );
+
+		//we got all folder, however, we dont need all, jsut need some root folder
+		$data = array_merge( $folders_in_content, $outsiders );
+		WD_Utils::cache( self::CACHE_CONTENT_FOLDERS, $data );
+
+		return $data;
 	}
 
 	/**
@@ -439,39 +522,22 @@ class WD_Scan_Api extends WD_Component {
 		return $model;
 	}
 
-	/**
-	 * @param $log
-	 */
-	public static function log_scanned_file( $log ) {
-		//we dnot need this function, clean up later
-		global $wpdb;
-		$log = $log . '|';
-		if ( ! get_option( self::CACHE_SCANNED ) ) {
-			update_option( self::CACHE_SCANNED, '' );
-		}
-		$sql = $wpdb->prepare( "UPDATE " . $wpdb->options . " SET option_value = CONCAT(option_value, '%s') WHERE option_name = %s;",
-			$log, self::CACHE_SCANNED );
-		$wpdb->query( $sql );
-	}
-
 	public static function clear_cache() {
-		delete_site_transient( self::CACHE_CONTENT_FILES );
-		delete_site_transient( self::CACHE_CORE_FILES );
-		delete_site_transient( WD_Core_Integrity_Scan::FILE_SCANNED );
-		delete_site_transient( WD_Core_Integrity_Scan::CACHE_MD5 );
-		delete_site_transient( WD_Suspicious_Scan::CACHE_SIGNATURES );
-		delete_site_transient( self::ALERT_NESTED_WP );
-		delete_site_transient( self::ALERT_NO_MD5 );
+		WD_Utils::remove_cache( self::CACHE_CONTENT_FILES );
+		WD_Utils::remove_cache( self::CACHE_CONTENT_FILES_FRAG );
+		WD_Utils::remove_cache( self::CACHE_CORE_FILES );
+		WD_Utils::remove_cache( self::CACHE_CONTENT_FOLDERS );
+		WD_Utils::remove_cache( WD_Core_Integrity_Scan::FILE_SCANNED );
+		WD_Utils::remove_cache( WD_Core_Integrity_Scan::CACHE_MD5 );
+		WD_Utils::remove_cache( WD_Suspicious_Scan::CACHE_SIGNATURES );
+		WD_Utils::remove_cache( WD_Suspicious_Scan::FILE_SCANNED );
+		WD_Utils::remove_cache( WD_Suspicious_Scan::RECOUNT_TOTAL );
+		WD_Utils::remove_cache( WD_Suspicious_Scan::TRY_ATTEMPT );
+		WD_Utils::remove_cache( self::ALERT_NESTED_WP );
+		WD_Utils::remove_cache( self::ALERT_NO_MD5 );
 		delete_site_option( 'wd_scan_lock' );
 		//sometime user upgrade from single to network, we need to remove the lefrover
 		delete_option( 'wd_scan_lock' );
-		delete_transient( self::CACHE_CONTENT_FILES );
-		delete_transient( self::CACHE_CORE_FILES );
-		delete_transient( WD_Core_Integrity_Scan::FILE_SCANNED );
-		delete_transient( WD_Core_Integrity_Scan::CACHE_MD5 );
-		delete_transient( WD_Suspicious_Scan::CACHE_SIGNATURES );
-		delete_transient( self::ALERT_NESTED_WP );
-		delete_transient( self::ALERT_NO_MD5 );
 	}
 
 	public static function virus_weight( $data = array() ) {

@@ -29,7 +29,7 @@
 						<div class="col span_6_of_12">
 							<p>
 								<strong>Total Scan:</strong>
-								<?php echo get_site_transient( 'wd_scan_count' ) ?>
+								<?php echo WD_Utils::get_cache( 'wd_scan_count' ) ?>
 							</p>
 
 							<p>
@@ -72,7 +72,10 @@
 								<strong><?php _e( "Total Core Files: " ) ?></strong>
 								<?php echo count( $core_files ) ?>
 							</p>
-
+							<p>
+								<strong><?php _e( "Fraging Files: " ) ?></strong>
+								<?php echo count( $frag_files ) ?>
+							</p>
 							<p>
 								<strong><?php _e( "Total Contents Files: " ) ?></strong>
 								<?php echo count( $content_files ) ?>

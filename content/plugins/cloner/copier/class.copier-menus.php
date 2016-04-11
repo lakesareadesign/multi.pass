@@ -189,6 +189,15 @@ if ( ! class_exists( 'Site_Copier_Menus' ) ) {
             }
 
 
+            /**
+             * Fired after a menu has been cloned
+             *
+             * @param array $args Array of arguments passed to this class
+             * @param integer $new_menu_id ID of the new menu
+             */
+            do_action( 'wpmudev_copier-copied_menu', $this->args, $new_menu_id, $this->source_blog_id );
+
+
             return array(
                 'menu_name' => $new_menu->name,
                 'menu_id' => $new_menu->term_id

@@ -10,21 +10,42 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 $options_name = 'wp_defender';
 delete_option( $options_name );
 delete_site_option( $options_name );
-//clear cache
-delete_transient( 'wd_content_files' );
-delete_transient( 'wd_core_files' );
-delete_transient( 'wd_scan_percent' );
-delete_transient( 'wd_core_scan_index' );
-delete_transient( 'wd_suspicious_scan_index' );
-delete_transient( 'wd_signatures_cache' );
-delete_transient( 'wd_nested_wp' );
-delete_transient( 'wd_no_md5' );
-delete_site_option( 'wd_scanned_file' );
-delete_option( 'wd_scanned_file' );
-delete_site_option( 'wd_scan_lock' );
-delete_option( 'wd_scan_lock' );
-delete_site_option( 'wd_scan_processing' );
-delete_option( 'wd_scan_processing' );
-delete_site_option( 'wd_flash_data' );
-delete_transient( 'wd_content_filescount' );
-delete_transient( 'wd_core_filescount' );
+
+//require needed files
+$path = dirname( __FILE__ );
+include_once $path . DIRECTORY_SEPARATOR . 'wp-defender.php';
+WD_Scan_Module::get_instance();
+WD_Hardener_Module::get_instance();
+
+WD_Scan_Api::clear_cache();
+//cache cleared, now we have to remove htaccess
+$hardeners = WD_Hardener_Module::find_controller( 'hardener' );
+$hardeners->load_modules();
+$rules     = $hardeners->get_loaded_modules();
+
+foreach ( $rules as $rule ) {
+	if ( $rule->id == 'protect_core_dir' ) {
+		$rule->revert(null,true);
+	}
+
+	//remove htaccess content from wp-content and wp-includes
+	if ( $rule->id == 'protect_upload_dir' ) {
+		$rule->revert();
+		$uploads_dir = wp_upload_dir();
+		$paths       = array(
+			ABSPATH . WPINC . '/.htaccess',
+			WP_CONTENT_DIR . '/.htaccess',
+			$uploads_dir['basedir'] . '/.htaccess'
+		);
+
+		foreach ( $paths as $path ) {
+			if ( file_exists( $path ) ) {
+				$content = file_get_contents( $path );
+				$content = trim( $content );
+				if ( strlen( $content ) == 0 ) {
+					unlink( $path );
+				}
+			}
+		}
+	}
+}

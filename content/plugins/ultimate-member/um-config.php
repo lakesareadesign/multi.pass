@@ -23,27 +23,31 @@ foreach( $core_pages as $page_s => $page ) {
 
 	$have_pages = $ultimatemember->query->wp_pages();
 
-	if( ! empty( $have_pages ) ){
-		$page_setup[] = array(
-					'id'       		=> 'core_' . $page_s,
-	                'type'     		=> 'select',
-					'select2'		=> array( 'allowClear' => 0, 'minimumResultsForSearch' => -1 ),
-	                'title'    		=> $page,
-	                'default'  		=> ( isset( $ultimatemember->permalinks->core[ $page_s ] ) ) ? $ultimatemember->permalinks->core[ $page_s ] : '' ,
-					'options' 		=> $ultimatemember->query->wp_pages(),
-					'placeholder' 	=> __('Choose a page...','ultimatemember'),
-					'compiler' 		=> true,
-	        );
-	}else{
-		$page_setup[] = array(
-		                'id'       		=> 'core_' . $page_s,
+	$page_id = 'core_' . $page_s;
+	$page_id = apply_filters('um_core_page_id_filter', $page_id );
+
+	if( 'reached_maximum_limit' == $have_pages ){
+			$page_setup[] = array(
+		                'id'       		=> $page_id,
 		                'type'     		=> 'text',
 		                'title'    		=> $page,
 	                	'placeholder' 	=> __('Add page ID','ultimatemember'),
-						'default'       => ( isset( $ultimatemember->permalinks->core[ $page_s ] ) ) ? $ultimatemember->permalinks->core[ $page_s ] : '',
+						'default'       => ( isset( $ultimatemember->permalinks->core[ $page_id ] ) ) ? $ultimatemember->permalinks->core[ $page_id ] : '',
 		    			'compiler' 		=> true,
 	        );
+	}else{
+			$page_setup[] = array(
+						'id'       		=> $page_id,
+		                'type'     		=> 'select',
+						'select2'		=> array( 'allowClear' => 0, 'minimumResultsForSearch' => -1 ),
+		                'title'    		=> $page,
+		                'default'  		=> ( isset( $ultimatemember->permalinks->core[ $page_id ] ) ) ? $ultimatemember->permalinks->core[ $page_id ] : '' ,
+						'options' 		=> $ultimatemember->query->wp_pages(),
+						'placeholder' 	=> __('Choose a page...','ultimatemember'),
+						'compiler' 		=> true,
+	        );
 	}
+	
 }
 
 $this->sections[] = array(
@@ -177,6 +181,26 @@ $this->sections[] = array(
 				'off'			=> __('No','ultimatemember'),
         ),
 
+		array(
+				'id'       		=> 'use_um_gravatar_default_builtin_image',
+                'type'     		=> 'select',
+				 'title'    	=> __( 'Use Gravatar builtin image','ultimatemember' ),
+                'desc' 	   		=> __( 'Gravatar has a number of built in options which you can also use as defaults','ultimatemember' ),
+                'default'  		=> 'default',
+				'options' 		=> array(
+									'default'		=> __('Default','ultimatemember'),
+									'404'			=> __('404 ( File Not Found response )','ultimatemember'),
+									'mm'			=> __('Mystery Man','ultimatemember'),
+									'identicon'		=> __('Identicon','ultimatemember'),
+									'monsterid'		=> __('Monsterid','ultimatemember'),
+									'wavatar'		=> __('Wavatar','ultimatemember'),
+									'retro'			=> __('Retro','ultimatemember'),
+									'blank'			=> __('Blank ( a transparent PNG image )','ultimatemember'),
+
+				),
+				'required'		=> array( 'use_gravatars', '=', 1 ),
+				'select2'		=> array( 'allowClear' => 0, 'minimumResultsForSearch' => -1 ),
+		 ),
         array(
                 'id'       		=> 'use_um_gravatar_default_image',
                 'type'     		=> 'switch',
@@ -185,7 +209,7 @@ $this->sections[] = array(
 				'desc' 	   		=> __('Do you want to use the plugin default avatar instead of the gravatar default photo (If the user did not upload a custom profile photo / avatar)','ultimatemember'),
 				'on'			=> __('Yes','ultimatemember'),
 				'off'			=> __('No','ultimatemember'),
-				'required'		=> array( 'use_gravatars', '=', 1 ),
+				'required'		=> array( 'use_um_gravatar_default_builtin_image', '=', 'default' ),
         ),
 
         array(
@@ -194,6 +218,16 @@ $this->sections[] = array(
                 'title'   		=> __( 'Require a strong password? (when user resets password only)','ultimatemember' ),
 				'default' 		=> 0,
 				'desc' 	   		=> __('Enable or disable a strong password rules on password reset and change procedure','ultimatemember'),
+				'on'			=> __('On','ultimatemember'),
+				'off'			=> __('Off','ultimatemember'),
+        ),
+
+        array(
+                'id'       		=> 'editable_primary_email_in_profile',
+                'type'     		=> 'switch',
+                'title'   		=> __( 'Editable primary email field in profile view','ultimatemember' ),
+				'default' 		=> 0,
+				'desc' 	   		=> __('Allow users to edit their primary emails in profile view ( when email address field is added only )','ultimatemember'),
 				'on'			=> __('On','ultimatemember'),
 				'off'			=> __('Off','ultimatemember'),
         ),
@@ -1593,6 +1627,30 @@ foreach( $tabs as $id => $tab ) {
 					'on'			=> __('On','ultimatemember'),
 					'off'			=> __('Off','ultimatemember'),
 	);
+
+	$tab_options[] = array(
+		            'id'       		=> 'profile_tab_' . $id . '_privacy',
+		            'type'     		=> 'select',
+					'select2'		=> array( 'allowClear' => 0, 'minimumResultsForSearch' => -1 ),
+		            'title'    		=> sprintf( __( 'Who can see %s Tab?','ultimatemember' ), $tab ),
+		            'desc' 	   		=> __( 'Select which users can view this tab.','ultimatemember' ),
+		            'default'  		=> 0,
+					'options' 		=> $ultimatemember->profile->tabs_privacy(),
+					'required'		=> array( 'profile_tab_' . $id, '=', 1 ),
+	);
+
+	$tab_options[] = array(
+					'id'       		=> 'profile_tab_' . $id . '_roles',
+	                'type'     		=> 'select',
+	                'multi'         => true,
+					'select2'		=> array( 'allowClear' => 1, 'minimumResultsForSearch' => -1 ),
+	                'title'    		=> __( 'Allowed roles','ultimatemember' ),
+	                'desc' 	   		=> __( 'Select the the user roles allowed to view this tab.','ultimatemember' ),
+	                'default'  		=> '',
+					'options' 		=> $ultimatemember->query->get_roles(),
+					'placeholder' 	=> __( 'Choose user roles...','ultimatemember' ),
+					'required'		=> array( 'profile_tab_' . $id . '_privacy', '=', 4 ),
+    );
 
 }
 

@@ -262,14 +262,14 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 		}
 		if ( is_null( $md5 ) ) {
 			//we will need to lookpup the md5 each request to check this file content
-			$md5 = get_site_transient( 'wd_md5_checksum' );
+			$md5 = WD_Utils::get_cache( 'wd_md5_checksum' );
 			if ( $md5 == false ) {
 				$md5 = WD_Scan_Api::download_md5_files();
 				if ( is_wp_error( $md5 ) ) {
 					return false;
 				}
 				//short cache, as user might update the version anytime
-				set_site_transient( 'wd_md5_checksum', $md5, 3600 );
+				WD_Utils::cache( 'wd_md5_checksum', $md5, 3600 );
 			}
 		}
 		if ( isset( $md5[ ltrim( $this->get_sub(), ' / ' ) ] ) ) {

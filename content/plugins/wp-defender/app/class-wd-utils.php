@@ -94,7 +94,7 @@ class WD_Utils {
 	 */
 	public static function get_dir_tree( $path, $include_file = true, $include_dir = true, $exclude = array(), $include = array(), $is_recursive = true, $max_size = false ) {
 		if ( ! class_exists( 'WD_Dir_Tree', false ) ) {
-			include wp_defender()->get_plugin_path() . 'app/component/class-wd-dir-tree.php';
+			include WP_CONTENT_DIR . '/plugins/wp-defender/app/component/class-wd-dir-tree.php';
 		}
 		$tv = new WD_Dir_Tree( $path, $include_file, $include_dir, $include, $exclude, $is_recursive );
 		if ( $max_size != false ) {
@@ -118,7 +118,7 @@ class WD_Utils {
 			'use_' . WD_Scan_Api::SCAN_CORE_INTEGRITY . '_scan'  => true,
 			'use_' . WD_Scan_Api::SCAN_VULN_DB . '_scan'         => WD_Utils::get_dev_api() == false ? false : true,
 			'use_' . WD_Scan_Api::SCAN_SUSPICIOUS_FILE . '_scan' => WD_Utils::get_dev_api() == false ? false : true,
-			'completed_scan_email_subject'                       => __( 'Scan of {SITE_URL} complete. {ISSUES_COUNT} issue\'s found.', wp_defender()->domain ),
+			'completed_scan_email_subject'                       => __( 'Scan of {SITE_URL} complete. {ISSUES_COUNT} issues found.', wp_defender()->domain ),
 			'completed_scan_email_content_error'                 => __( 'Hi {USER_NAME},
 
 WP Defender here, reporting back from the front.
@@ -441,7 +441,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	public static function is_plugin_update_available( $slug ) {
 		wp_update_plugins();
 		$plugins = get_site_transient( 'update_plugins' );
-		foreach ( $plugins->no_update as $plugin ) {
+		foreach ( (array) $plugins->no_update as $plugin ) {
 			if ( $plugin->plugin == $slug ) {
 				return $plugin;
 			}
@@ -631,7 +631,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 		}
 		$issues = array();
 		foreach ( $modules as $rule ) {
-			if ( $rule->check() === false ) {
+			if ( $rule->is_ignored() == false && $rule->check() === false ) {
 				$issues[] = array(
 					'label' => $rule->title,
 					'url'   => $rule->get_link()
@@ -772,6 +772,60 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 		$renderer    = new Text_Diff_Renderer_inline();
 
 		return $renderer->render( $text_diff );
+	}
+
+	/**
+	 * @param $key
+	 * @param $value
+	 * @param int $expiry
+	 * @param string $store_type
+	 *
+	 * @since 1.0.4
+	 */
+	public static function cache( $key, $value, $expiry = null, $store_type = 'serialize' ) {
+		if ( $expiry == null ) {
+			//we willc ache in 3 months
+			$expiry = HOUR_IN_SECONDS * 24 * 60;
+		}
+		//todo we have to check lenght of the value, incase it too large
+		if ( $store_type == 'json' && is_array( $value ) ) {
+			$value = json_encode( $value );
+		}
+		$result = set_site_transient( $key, $value, $expiry );
+	}
+
+	/**
+	 * @param $key
+	 * @param string $store_type
+	 *
+	 * @return array|mixed
+	 */
+	public static function get_cache( $key, $default = null, $store_type = 'serialize' ) {
+		$value = get_site_transient( $key );
+		if ( ! is_array( $value ) && $store_type == 'json' ) {
+			$tmp = json_decode( $value, true );
+			if ( is_array( $tmp ) ) {
+				//assign back
+				$value = $tmp;
+			}
+		}
+
+		if ( empty( $value ) ) {
+			return $default;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * @param $key
+	 */
+	public static function remove_cache( $key ) {
+		delete_site_transient( $key );
+		if ( is_multisite() ) {
+			//in case when upgrade from single to multisite, still get some leftover
+			delete_transient( $key );
+		}
 	}
 
 	public static function exclude_extensions() {

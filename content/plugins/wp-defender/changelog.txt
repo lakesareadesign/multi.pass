@@ -32,5 +32,16 @@ Change Log:
 - Fix false blacklist detection in local environment
 - Some other minor enhancements/fixes
 
+1.0.4 - 2016-22-03
+----------------------------------------------------------------------
+- Improve scan engine, reduce false positives
+- Improve uninstallation method
+- Add the ability to ignore hardener rules.
+- Improve the performance impact on the site.
 
-133620-1458650566-au
+- Fix scans sticking at 100% in some cases
+- Fix compatibility issues with IIS
+- Some other minor enhancements/fixes
+
+
+133620-1460350142-au

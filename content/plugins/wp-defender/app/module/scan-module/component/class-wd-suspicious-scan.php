@@ -19,15 +19,14 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 		$this->name               = __( "Suspicious file scan", wp_defender()->domain );
 		$this->percentable        = true;
 		$this->dashboard_required = true;
-		$this->total_files        = WD_Scan_Api::get_content_files();
-		$this->file_scanned       = get_site_transient( self::FILE_SCANNED );
-		if ( ! is_array( $this->file_scanned ) ) {
-			$this->file_scanned = array();
+		$this->total_files        = WD_Scan_Api::get_content_files_fragment();
+		if ( $this->total_files === false ) {
+			return false;
 		}
-		$this->try_attempt = get_site_transient( self::TRY_ATTEMPT );
-		if ( ! is_array( $this->try_attempt ) ) {
-			$this->try_attempt = array();
-		}
+		$this->file_scanned = WD_Utils::get_cache( self::FILE_SCANNED, array() );
+
+		$this->try_attempt = WD_Utils::get_cache( self::TRY_ATTEMPT, array() );
+
 		if ( is_object( $this->model ) && count( $this->model->result_core_integrity ) ) {
 			//this mean the core dir scan just done, and we got some stuff, need to scan that stuff too
 			$this->total_files = array_merge( $this->total_files, $this->model->result_core_integrity );
@@ -71,7 +70,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 	 * @return mixed
 	 */
 	private function get_patterns( $key ) {
-		$cache = get_site_transient( self::CACHE_SIGNATURES );
+		$cache = WD_Utils::get_cache( self::CACHE_SIGNATURES, false );
 		if ( $cache !== false && ! is_wp_error( $cache ) ) {
 			$defender_signatures = $cache;
 		} else {
@@ -79,7 +78,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 			$defender_signatures = $this->wpmudev_call( $api_endpoint, array(), array(
 				'method' => 'GET'
 			) );
-			set_site_transient( self::CACHE_SIGNATURES, $defender_signatures );
+			WD_Utils::cache( self::CACHE_SIGNATURES, $defender_signatures, 900 );
 		}
 
 		if ( ! is_wp_error( $defender_signatures ) ) {
@@ -98,7 +97,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 	}
 
 	public function flush_cache() {
-		delete_site_transient( self::CACHE_SIGNATURES );
+		WD_Utils::remove_cache( self::CACHE_SIGNATURES );
 	}
 
 	public function process() {
@@ -108,13 +107,13 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 		set_time_limit( - 1 );
 		ini_set( 'memory_limit', - 1 );
 
-		if ( get_site_transient( self::RECOUNT_TOTAL ) == 0 ) {
+		if ( WD_Utils::get_cache( self::RECOUNT_TOTAL ) == 0 ) {
 			$this->model->message = __( "Analyzing WordPress content files…", wp_defender()->domain );
 			//include the count
 			$this->model->result_core_integrity = array_filter( $this->model->result_core_integrity );
 			$this->model->total_files           = $this->model->total_files + count( $this->model->result_core_integrity );
 			$this->model->save();
-			set_site_transient( self::RECOUNT_TOTAL, 1 );
+			WD_Utils::cache( self::RECOUNT_TOTAL, 1 );
 		}
 
 		//many case this is error, so we have to rebind the message
@@ -142,6 +141,10 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 
 		$cpu_count = 0;
 		foreach ( $files as $file ) {
+			if ( ! is_file( $file ) ) {
+				var_dump( $file );
+				die;
+			}
 			if ( $this->cpu_reach_threshold() ) {
 				if ( $this->is_ajax() ) {
 					sleep( 3 );
@@ -166,25 +169,24 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 			/**
 			 * we need to check if this is still processing, and fault
 			 */
-
 			$tried_check = array_count_values( $this->try_attempt );
 			if ( isset( $tried_check[ $file ] ) && $tried_check[ $file ] >= 3 ) {
-				$this->log( $file, self::ERROR_LEVEL_DEBUG, 'broken' );
+				//$this->log( $file, self::ERROR_LEVEL_DEBUG, 'broken' );
 				//skip this
 				//todo index this
 				$this->file_scanned[] = $file;
+
 				$this->model->current_index += 1;
-				continue;
+				$this->model->save();
+				WD_Utils::cache( self::FILE_SCANNED, $this->file_scanned );
+
 			} else {
 				//process try attempt, we only get 5 last
-				$this->try_attempt   = array_slice( $this->try_attempt, - 5, 5 );
 				$this->try_attempt[] = $file;
-
 				//save right away
-				set_site_transient( self::TRY_ATTEMPT, $this->try_attempt );
+				WD_Utils::cache( self::TRY_ATTEMPT, $this->try_attempt );
 			}
 
-			$need_scan                      = true;
 			$checksum                       = md5_file( $file );
 			$this->model->md5_tree[ $file ] = $checksum;
 
@@ -212,7 +214,9 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 				$ret = $this->_scan_a_file( $file );
 				if ( $ret instanceof WD_Scan_Result_File_Item_Model ) {
 					//found an issue
-					$this->model->result[] = $ret;
+					$this->model->add_item( $ret );
+					$this->model->item_indexes[ $ret->id ] = $file;
+					//$this->model->result[] = $ret;
 				}
 			}
 
@@ -233,8 +237,10 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 		$this->model->save();
 		//process file scan
 		$this->file_scanned = array_unique( $this->file_scanned );
-		set_site_transient( self::FILE_SCANNED, $this->file_scanned );
-		$this->flush_cache();
+		//all success
+		$this->try_attempt = array();
+		WD_Utils::cache( self::TRY_ATTEMPT, $this->try_attempt );
+		WD_Utils::cache( self::FILE_SCANNED, $this->file_scanned );
 	}
 
 	/**
@@ -735,7 +741,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 	}
 
 	public function check() {
-		$files_need_scan = array_diff( $this->total_files, $this->file_scanned );
+		$files_need_scan = array_diff( $this->total_files,  $this->file_scanned  );
 		if ( count( $files_need_scan ) == 0 ) {
 			return true;
 		}
@@ -744,10 +750,10 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 	}
 
 	public function clean_up() {
-		delete_site_transient( self::FILE_SCANNED );
-		delete_site_transient( self::TRY_ATTEMPT );
-		delete_site_transient( self::RECOUNT_TOTAL );
-		delete_site_transient( self::CACHE_SIGNATURES );
+		WD_Utils::remove_cache( self::FILE_SCANNED );
+		WD_Utils::remove_cache( self::TRY_ATTEMPT );
+		WD_Utils::remove_cache( self::RECOUNT_TOTAL );
+		WD_Utils::remove_cache( self::CACHE_SIGNATURES );
 	}
 
 	public function is_enabled() {

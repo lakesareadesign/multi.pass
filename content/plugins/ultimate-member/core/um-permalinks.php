@@ -191,27 +191,9 @@ class UM_Permalinks {
 		$page_id = $this->core['user'];
 		$profile_url = get_permalink( $page_id );
 
-		if ( function_exists('icl_get_current_language') && icl_get_current_language() != icl_get_default_language() ) {
-			if ( get_the_ID() > 0 && get_post_meta( get_the_ID(), '_um_wpml_user', true ) == 1 ) {
-				$profile_url = get_permalink( get_the_ID() );
-			}
-		}
 
-		// WPML compatibility
-		if ( function_exists('icl_object_id') ) {
+		$profile_url = apply_filters('um_localize_permalink_filter', $this->core, $page_id, $profile_url );
 
-
-			$language_code = ICL_LANGUAGE_CODE;
-			$lang_post_id = icl_object_id( $page_id , 'page', true, $language_code );
-
-			 if($lang_post_id != 0) {
-		        $profile_url = get_permalink( $lang_post_id );
-		    }else {
-		        // No page found, it's most likely the homepage
-		        global $sitepress;
-		        $profile_url = $sitepress->language_url( $language );
-		    }
-		}
 
 		if ( um_get_option('permalink_base') == 'user_login' ) {
 			$user_in_url = um_user('user_login');
@@ -239,11 +221,10 @@ class UM_Permalinks {
 		{
 			$full_name = um_user( 'full_name' );
 			$last_name = um_user( 'last_name' );
-			$count     = intval( um_is_meta_value_exists( 'full_name', $full_name ) );
+			$first_name = um_user( 'first_name' );
 
-			if( strpos( $last_name, '-') > -1 && strpos( $full_name, '-' ) > -1 ){
-				$full_name  = str_replace('-', '_', $full_name  );
-			}
+			$count  = intval( um_is_meta_value_exists( 'full_name', $full_name ) );
+
 
 			if( $count > 1 )
 			{
@@ -252,16 +233,119 @@ class UM_Permalinks {
 
 			switch( um_get_option('permalink_base') )
 			{
-				case 'name':
-					$user_in_url = rawurlencode( strtolower( str_replace( " ", ".", $full_name ) ) );
+				case 'name': // dotted
+
+					$full_name_slug = $full_name;
+					$difficulties = 0;
+					
+
+					if( strpos( $full_name, '.' ) > -1 ){
+						$full_name = str_replace(".", "_", $full_name );
+						$difficulties++;
+					}
+					
+					$full_name = strtolower( str_replace( " ", ".", $full_name ) );
+					
+					if( strpos( $full_name, '_.' ) > -1 ){
+						$full_name  = str_replace('_.', '_', $full_name );
+						$difficulties++;
+					}
+					
+					$full_name_slug = str_replace( '-' ,  '.', $full_name_slug );
+					$full_name_slug = str_replace( ' ' ,  '.', $full_name_slug );
+					$full_name_slug = str_replace( '..' , '.', $full_name_slug );
+
+					if( strpos( $full_name, '.' ) > -1 ){
+						$full_name  = str_replace('.', ' ', $full_name );
+						$difficulties++;
+					}
+
+		
+					if( $difficulties > 0 ){
+						update_user_meta( um_user('ID'), 'um_user_profile_url_slug_name_'.$full_name_slug, $full_name );
+					}
+
+					
+					$user_in_url = rawurlencode( $full_name_slug );
+
 					break;
-				case 'name_dash':
-					$user_in_url = rawurlencode( strtolower( str_replace(" ", "-", $full_name ) ) );
+					
+				case 'name_dash': // dashed
+					
+					$difficulties = 0;
+					
+					$full_name_slug = strtolower( $full_name );
+
+					// if last name has dashed replace with underscore
+					if( strpos( $last_name, '-') > -1 && strpos( $full_name, '-' ) > -1 ){
+						$difficulties++;
+						$full_name  = str_replace('-', '_', $full_name  );
+					}
+					// if first name has dashed replace with underscore
+					if( strpos( $first_name, '-') > -1 && strpos( $full_name, '-' ) > -1 ){
+						$difficulties++;
+						$full_name  = str_replace('-', '_', $full_name  );
+					}
+					// if name has space, replace with dash
+					$full_name_slug = str_replace( ' ' ,  '-', $full_name_slug );
+
+					// if name has period
+					if( strpos( $last_name, '.') > -1 && strpos( $full_name, '.' ) > -1 ){
+						$difficulties++;
+					}
+
+					$full_name_slug = str_replace( '.' ,  '-', $full_name_slug );
+					$full_name_slug = str_replace( '--' , '-', $full_name_slug );
+
+					if( $difficulties > 0 ){
+						update_user_meta( um_user('ID'), 'um_user_profile_url_slug_name_'.$full_name_slug, $full_name );
+					}
+
+					$user_in_url = rawurlencode(  $full_name_slug );
+
 					break;
-				case 'name_plus':
-					$user_in_url = strtolower( str_replace(" ", "+" , $full_name ) );
+
+				case 'name_plus': // plus
+										
+					$difficulties = 0;
+					
+					$full_name_slug = strtolower( $full_name );
+
+					// if last name has dashed replace with underscore
+					if( strpos( $last_name, '+') > -1 && strpos( $full_name, '+' ) > -1 ){
+						$difficulties++;
+						$full_name  = str_replace('-', '_', $full_name  );
+					}
+					// if first name has dashed replace with underscore
+					if( strpos( $first_name, '+') > -1 && strpos( $full_name, '+' ) > -1 ){
+						$difficulties++;
+						$full_name  = str_replace('-', '_', $full_name  );
+					}
+					if( strpos( $last_name, '-') > -1 || strpos( $first_name, '-') > -1 || strpos( $full_name, '-') > -1 ){
+						$difficulties++;
+					}
+					// if name has space, replace with dash
+					$full_name_slug = str_replace( ' ' ,  '+', $full_name_slug );
+					$full_name_slug = str_replace( '-' ,  '+', $full_name_slug );
+					
+					// if name has period
+					if( strpos( $last_name, '.') > -1 && strpos( $full_name, '.' ) > -1 ){
+						$difficulties++;
+					}
+
+					$full_name_slug = str_replace( '.' ,  '+', $full_name_slug );
+					$full_name_slug = str_replace( '++' , '+', $full_name_slug );
+
+					if( $difficulties > 0 ){
+						update_user_meta( um_user('ID'), 'um_user_profile_url_slug_name_'.$full_name_slug, $full_name );
+					}
+
+					$user_in_url = $full_name_slug;
+					
 					break;
 			}
+
+
 		}
 
 		if ( get_option('permalink_structure') ) {

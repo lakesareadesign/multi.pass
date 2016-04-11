@@ -298,18 +298,18 @@ class UM_Fields {
 			$label = apply_filters("um_edit_label_all_fields", $label, $data );
 		}
 
-		$output .= '<label for="'.$key.$ultimatemember->form->form_suffix.'">'.$label.'</label>';
+		$output .= '<label for="'.$key.$ultimatemember->form->form_suffix.'">'.__( $label, UM_TEXTDOMAIN ).'</label>';
 
 		if ( isset( $data['help'] ) && !empty( $data['help'] ) && $this->viewing == false && !strstr($key, 'confirm_user_pass') ) {
 
 			if ( !$ultimatemember->mobile->isMobile() ) {
 				if ( !isset( $this->disable_tooltips ) ) {
-					$output .= '<span class="um-tip um-tip-w" title="'.$data['help'].'"><i class="um-icon-help-circled"></i></span>';
+					$output .= '<span class="um-tip um-tip-w" title="'.__( $data['help'], UM_TEXTDOMAIN ).'"><i class="um-icon-help-circled"></i></span>';
 				}
 			}
 
 			if ( $ultimatemember->mobile->isMobile() || isset( $this->disable_tooltips ) ) {
-				$output .= '<span class="um-tip-text">'. $data['help'] . '</span>';
+				$output .= '<span class="um-tip-text">'.__( $data['help'], UM_TEXTDOMAIN ). '</span>';
 			}
 
 		}
@@ -909,7 +909,13 @@ class UM_Fields {
 		if ( !um_can_edit_field( $data ) ) return;
 
 		// fields that need to be disabled in edit mode (profile)
-		if ( in_array( $key, array('user_email','username','user_login','user_password') ) && $this->editing == true && $this->set_mode == 'profile' ) {
+		$arr_restricted_fields = array('user_email','username','user_login','user_password');
+		
+		if( um_get_option('editable_primary_email_in_profile') == 1 ){
+			unset( $arr_restricted_fields[0] ); // remove user_email
+		}
+
+		if ( in_array( $key, $arr_restricted_fields ) && $this->editing == true && $this->set_mode == 'profile' ) {
 			return;
 		}
 
@@ -1573,8 +1579,11 @@ class UM_Fields {
 							if ( isset( $options_pair ) ) {
 								$option_value = $k;
 							}
+							
+							$option_value = htmlentities($option_value);
+							$option_value = apply_filters('um_select_dropdown_dynamic_option_value', $option_value);
 
-							$output .= '<option value="' . htmlentities($option_value) . '" ';
+							$output .= '<option value="' . $option_value . '" ';
 							if ( $this->is_selected($form_key, $option_value, $data) ) {
 								$output.= 'selected';
 							}

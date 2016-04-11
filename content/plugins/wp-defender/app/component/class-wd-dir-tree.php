@@ -238,9 +238,21 @@ class WD_Dir_Tree extends WD_Component {
 	 */
 	private function _filter_include( $path ) {
 		$include     = $this->include;
+		$exclude     = $this->exclude;
 		$applied     = 0;
 		$dir_include = isset( $include['dir'] ) ? $include['dir'] : array();
+		$dir_exclude = isset( $exclude['dir'] ) ? $exclude['dir'] : array();
 		if ( is_array( $dir_include ) && count( $dir_include ) ) {
+			if ( is_array( $dir_exclude ) ) {
+				foreach ( $dir_exclude as $dir ) {
+					if ( strpos( $path, $dir ) === 0 ) {
+						//this mean, exlucde matched, we wont list this
+						//move to next loop
+						continue;
+					}
+				}
+			}
+
 			foreach ( $dir_include as $dir ) {
 				if ( strpos( $path, $dir ) === 0 ) {
 					return true;

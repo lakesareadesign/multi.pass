@@ -108,6 +108,7 @@ class WD_WP_Version extends WD_Hardener_Abstract {
 						<?php endif; ?>
 					<?php endif; ?>
 				</div>
+				<?php echo $this->ignore_button() ?>
 			</div>
 		</div>
 		<?php

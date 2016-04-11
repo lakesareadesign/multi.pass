@@ -124,7 +124,7 @@ if (!class_exists('MM_Block_List')) {
                                     'query': query
                                 },
                                 beforeSend: function () {
-                                    $('.selectize-input').append('<i style="position: absolute;right: 10px;" class="fa fa-circle-o-notch fa-spin"></i>');
+                                    $('.selectize-input').append('<i style="position: absolute;right: 10px;" class="fa fa-circle-o-notch fa-spin"></i>');									     						
                                 },
                                 success: function (data) {
                                     $('.selectize-input').find('i').remove();

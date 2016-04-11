@@ -7,7 +7,7 @@ class JE_Expert_Search_Shortcode_Controller extends IG_Request
 {
     public function __construct()
     {
-        add_shortcode('jbp-expert-search', array(&$this, 'main'));									     						
+        add_shortcode('jbp-expert-search', array(&$this, 'main'));
     }
 
     function main($atts)

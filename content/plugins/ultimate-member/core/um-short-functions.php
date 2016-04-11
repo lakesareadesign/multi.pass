@@ -54,11 +54,11 @@
 	***	@Get where user should be headed after logging
 	***/
 	function um_dynamic_login_page_redirect( $redirect_to = '' ) {
-		
+
 		global $ultimatemember;
-		
+
 		$uri = um_get_core_page( 'login' );
-		
+
 		if ( ! $redirect_to ) {
 			$redirect_to = $ultimatemember->permalinks->get_current_url();
 		}
@@ -72,11 +72,11 @@
 
 	/**
 	 * Set redirect key
-	 * @param  string $url 
+	 * @param  string $url
 	 * @return string $redirect_key
 	 */
 	function um_set_redirect_url( $url ){
-		
+
 		if( um_is_session_started() === FALSE ){
 				session_start();
 		}
@@ -90,17 +90,17 @@
 
 	/**
 	 * Set redirect key
-	 * @param  string $url 
+	 * @param  string $url
 	 * @return string $redirect_key
 	 */
 	function um_get_redirect_url( $key ){
-		
+
 		if( um_is_session_started() === FALSE ){
 				session_start();
 		}
 
 		if( isset( $_SESSION['um_redirect_key'][ $key ] ) ){
-			
+
 			$url = $_SESSION['um_redirect_key'][ $key ];
 
 			return $url;
@@ -126,7 +126,7 @@
 	 * @return bool
 	*/
 	function um_is_session_started(){
-		
+
 		if ( php_sapi_name() !== 'cli' ) {
 		        if ( version_compare(phpversion(), '5.4.0', '>=') ) {
 		            return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
@@ -134,7 +134,7 @@
 		            return session_id() === '' ? FALSE : TRUE;
 		        }
 		}
-		
+
 		return FALSE;
 	}
 
@@ -145,16 +145,12 @@
 	function um_clean_user_basename( $value ) {
 
 		$raw_value = $value;
-		$value = str_replace('<hon>', '', $value);
-		$value = preg_replace('/^([a-z]{2,3})\./', '$1<hon>', $value);
-		$value = preg_replace('/([a-z]{2,3})\.$/', '$1<hon>', $value);
 		$value = str_replace('.', ' ', $value);
 		$value = str_replace('-', ' ', $value);
 		$value = str_replace('+', ' ', $value);
-		$value = str_replace('<hon>', '.', $value);
 
 		$value = apply_filters('um_clean_user_basename_filter', $value, $raw_value );
-		
+
 		return $value;
 	}
 	/***
@@ -807,10 +803,15 @@ function um_reset_user() {
 	/***
 	***	@remove edit profile args from url
 	***/
-	function um_edit_my_profile_cancel_uri() {
-		$url = remove_query_arg( 'um_action' );
-		$url = remove_query_arg( 'profiletab', $url );
-		$url = add_query_arg('profiletab', 'main', $url );
+	function um_edit_my_profile_cancel_uri( $url = '' ) {
+		global $ultimatemember;
+		
+		if(  empty(  $url ) ){
+			$url = remove_query_arg( 'um_action' );
+			$url = remove_query_arg( 'profiletab', $url );
+			$url = add_query_arg('profiletab', 'main', $url );
+		}
+
 		return $url;
 	}
 
@@ -1191,11 +1192,12 @@ function um_fetch_user( $user_id ) {
 	function um_get_cover_uri( $image, $attrs ) {
 		global $ultimatemember;
 		$uri = false;
-		if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/cover_photo.jpg' ) ) {
-			$uri = um_user_uploads_uri() . 'cover_photo.jpg?' . current_time( 'timestamp' );
+		$ext = '.' . pathinfo($image, PATHINFO_EXTENSION);
+		if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/cover_photo'.$ext ) ) {
+			$uri = um_user_uploads_uri() . 'cover_photo'.$ext.'?' . current_time( 'timestamp' );
 		}
-		if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/cover_photo-' . $attrs. '.jpg' ) ){
-			$uri = um_user_uploads_uri() . 'cover_photo-'.$attrs.'.jpg?' . current_time( 'timestamp' );
+		if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/cover_photo-' .$attrs.$ext ) ){
+			$uri = um_user_uploads_uri() . 'cover_photo-'.$attrs.$ext.'?' . current_time( 'timestamp' );
 		}
 		return $uri;
 	}
@@ -1215,28 +1217,28 @@ function um_fetch_user( $user_id ) {
 		global $ultimatemember;
 		$uri = false;
 		$find = false;
+		$ext = '.' . pathinfo($image, PATHINFO_EXTENSION);
+		if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/profile_photo-' . $attrs. $ext ) ) {
 
-		if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/profile_photo-' . $attrs. '.jpg' ) ) {
-
-			$uri = um_user_uploads_uri() . 'profile_photo-'.$attrs.'.jpg?' . current_time( 'timestamp' );
+			$uri = um_user_uploads_uri() . 'profile_photo-'.$attrs.$ext.'?' . current_time( 'timestamp' );
 
 		} else {
 
 			$sizes = um_get_option('photo_thumb_sizes');
 			if ( is_array( $sizes ) ) $find = um_closest_num( $sizes, $attrs );
 
-			if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/profile_photo-' . $find. '.jpg' ) ) {
+			if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/profile_photo-' . $find.$ext ) ) {
 
-				$uri = um_user_uploads_uri() . 'profile_photo-'.$find.'.jpg?' . current_time( 'timestamp' );
+				$uri = um_user_uploads_uri() . 'profile_photo-'.$find.$ext.'?' . current_time( 'timestamp' );
 
-			} else if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/profile_photo.jpg' ) ) {
+			} else if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/profile_photo'.$ext ) ) {
 
-				$uri = um_user_uploads_uri() . 'profile_photo.jpg?' . current_time( 'timestamp' );
+				$uri = um_user_uploads_uri() . 'profile_photo'.$ext.'?' . current_time( 'timestamp' );
 
 			}
 
 			if ( $attrs == 'original' ) {
-				$uri = um_user_uploads_uri() . 'profile_photo.jpg?' . current_time( 'timestamp' );
+				$uri = um_user_uploads_uri() . 'profile_photo'.$ext.'?' . current_time( 'timestamp' );
 			}
 
 		}
@@ -1433,9 +1435,16 @@ function um_fetch_user( $user_id ) {
 					if( um_get_option('use_gravatars') && ! um_user('synced_profile_photo') && ! $has_profile_photo ){
 						$avatar_uri  = um_get_domain_protocol().'gravatar.com/avatar/'.um_user('synced_gravatar_hashed_id');
 						$avatar_uri = add_query_arg('s',400, $avatar_uri);
-						if( um_get_option('use_um_gravatar_default_image') ){
-							$avatar_uri = add_query_arg('d', um_get_default_avatar_uri(), $avatar_uri  );
+						$gravatar_type = um_get_option('use_um_gravatar_default_builtin_image');
+
+						if( $gravatar_type == 'default' ){
+							if( um_get_option('use_um_gravatar_default_image') ){
+								$avatar_uri = add_query_arg('d', um_get_default_avatar_uri(), $avatar_uri  );
+							}
+						}else{
+								$avatar_uri = add_query_arg('d', $gravatar_type, $avatar_uri  );
 						}
+						
 					}
 
 					return '<img src="' . $avatar_uri . '" class="func-um_user gravatar avatar avatar-'.$attrs.' um-avatar" width="'.$attrs.'" height="'.$attrs.'" alt="" />';
@@ -1482,19 +1491,30 @@ function um_fetch_user( $user_id ) {
 	/**
 	 * Check if meta_value exists
 	 * @param  string $key
-	 * @param  mixed $value 
+	 * @param  mixed $value
 	 * @return integer
 	 */
-	function um_is_meta_value_exists( $key, $value ){
+	function um_is_meta_value_exists( $key, $value, $return_user_id = false ){
 		global $wpdb;
 
-		$count = $wpdb->get_var( $wpdb->prepare(
-				"SELECT COUNT(*) as count FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value = %s ",
-				$key,
-				$value
-		) );
+		if( ! $return_user_id ){
+			$count = $wpdb->get_var( $wpdb->prepare(
+					"SELECT COUNT(*) as count FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value = %s ",
+					$key,
+					$value
+			) );
 
-		return $count;
+			return $count;
+		}
+
+			$user_id = $wpdb->get_var( $wpdb->prepare(
+					"SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value = %s ",
+					$key,
+					$value
+			) );
+
+			return $user_id;
+
 	}
 
 	/**
@@ -1509,7 +1529,7 @@ function um_fetch_user( $user_id ) {
 			foreach ($value as $key => $value) {
 				$utf8_decoded_value = utf8_decode( $value );
 
-				if( mb_check_encoding( $utf8_decoded_value, 'UTF-8') ){ 
+				if( mb_check_encoding( $utf8_decoded_value, 'UTF-8') ){
 				 	array_push( $arr_value, $utf8_decoded_value );
 				}else{
 					array_push( $arr_value, $value );
@@ -1521,11 +1541,69 @@ function um_fetch_user( $user_id ) {
 
 			$utf8_decoded_value = utf8_decode($value);
 
-			if( mb_check_encoding( $utf8_decoded_value, 'UTF-8') ){ 
+			if( mb_check_encoding( $utf8_decoded_value, 'UTF-8') ){
 			 	return $utf8_decoded_value;
 			}
 		}
 
 		return $value;
 
+	}
+
+	/**
+	 * Filters the search query.
+	 *
+	 * @param  string $search
+	 * @return string
+	 */
+	function um_filter_search($search) {
+		$search = trim( strip_tags( $search ) );
+		$search = preg_replace('/[^a-z \.\@\_\-]+/i', '', $search);
+
+		return $search;
+	}
+
+	/**
+	 * Returns the user search query
+	 * @return string
+	 */
+	function um_get_search_query() {
+		global $ultimatemember;
+
+		$query  = $ultimatemember->permalinks->get_query_array();
+		$search = isset( $query['search'] ) ? $query['search'] : '';
+
+		return um_filter_search($search);
+	}
+
+	/**
+	 * Returns the ultimate member search form
+	 * @return string
+	 */
+	function um_get_search_form() {
+		return do_shortcode( '[ultimatemember_searchform]' );
+	}
+
+	/**
+	 * Display the search form.
+	 *
+	 * @return string
+	 */
+	function um_search_form() {
+		echo um_get_search_form();
+	}
+
+	/**
+	 * Get localization
+	 * @return string
+	 */
+	function um_get_locale(){
+
+		$lang_code = get_locale();
+
+		if( strpos( $lang_code , 'en_' ) > -1 || empty( $lang_code ) ||  $lang_code == 0 ){
+			return 'en';
+		}
+		
+		return $lang_code;
 	}

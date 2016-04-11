@@ -15,7 +15,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 		$this->percentable        = true;
 		$this->dashboard_required = false;
 		$this->total_files        = WD_Scan_Api::get_core_files();
-		$this->file_scanned       = get_site_transient( self::FILE_SCANNED );
+		$this->file_scanned       = WD_Utils::get_cache( self::FILE_SCANNED, array() );
 		if ( ! is_array( $this->file_scanned ) ) {
 			$this->file_scanned = array();
 		}
@@ -80,7 +80,8 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 				 */
 				if ( is_object( $is_issue ) && $is_ignored ) {
 					$this->model->ignore_files[] = $is_issue->id;
-					$this->model->result[]       = $is_issue;
+					//$this->model->result[]       = $is_issue;
+					$this->model->add_item( $is_issue );
 					//we dont need scanm this file
 					$need_scan = false;
 				} elseif ( ! is_object( $is_issue ) ) {
@@ -104,13 +105,14 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 					/**
 					 * issue found, we saving
 					 */
-					$this->model->result[]                = $result;
+					$this->model->item_indexes[ $result->id ] = $file;
+					$this->model->add_item( $result );
 					$this->model->result_core_integrity[] = $file;
 				} elseif ( $result === - 1 ) {
 					//this mean no signatures
-					set_site_transient( WD_Scan_Api::ALERT_NO_MD5, __( "There are no available checksums for your WordPress version, the scan will skip the core integrity check.", wp_defender()->domain ) );	  	 	   	 		 		 				
+					WD_Utils::cache( WD_Scan_Api::ALERT_NO_MD5, __( "There are no available checksums for your WordPress version, the scan will skip the core integrity check.", wp_defender()->domain ) );
 					$this->model->current_index = count( $this->total_files );
-					set_site_transient( self::FILE_SCANNED, $this->total_files );
+					WD_Utils::cache( self::FILE_SCANNED, $this->total_files );
 					$this->model->save();
 
 					return true;
@@ -129,7 +131,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 		 */
 		$this->model->save();
 		$this->file_scanned = array_unique( $this->file_scanned );
-		set_site_transient( self::FILE_SCANNED, $this->file_scanned );
+		WD_Utils::cache( self::FILE_SCANNED, $this->file_scanned );
 	}
 
 	/**
@@ -140,7 +142,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 	 */
 	private function scan_a_file( $file, $checksum = false ) {
 		//we need to download md5 from wp
-		if ( ( $md5_files = get_site_transient( self::CACHE_MD5 ) ) == false ) {
+		if ( ( $md5_files = WD_Utils::get_cache( self::CACHE_MD5, false ) ) == false ) {
 			$md5_files = WD_Scan_Api::download_md5_files();
 			$md5_files = array_filter( $md5_files );
 			if ( is_wp_error( $md5_files ) ) {
@@ -151,10 +153,15 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 				//this mean no signatures return,we will skip
 				return - 1;
 			}
-			set_site_transient( self::CACHE_MD5, $md5_files );
+			WD_Utils::cache( self::CACHE_MD5, $md5_files );
 		}
-
-		$relative_path = str_replace( ABSPATH, '', $file );
+		if ( stristr( PHP_OS, 'win' ) ) {
+			$abs_path = rtrim( ABSPATH, '/' );
+			$abs_path = $abs_path . '\\';
+		} else {
+			$abs_path = ABSPATH;
+		}
+		$relative_path = str_replace( $abs_path, '', $file );
 		$detail        = false;
 		if ( isset( $md5_files[ $relative_path ] ) ) {
 			$ochecksum = $md5_files[ $relative_path ];
@@ -206,8 +213,8 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 	}
 
 	public function clean_up() {
-		delete_site_transient( self::CACHE_MD5 );
-		delete_site_transient( self::FILE_SCANNED );
+		WD_Utils::remove_cache( self::CACHE_MD5 );
+		WD_Utils::remove_cache( self::FILE_SCANNED );
 	}
 
 	public function is_enabled() {

@@ -39,6 +39,11 @@ abstract class WD_Hardener_Abstract extends WD_Component {
 			$this->last_processed = $last_processed;
 		}
 		do_action( 'wd_hardener_' . $this->id . '_after_init', $this );
+		$this->add_ajax_action( 'wd_hardener_ignore', 'hardener_ignore' );
+		if ( ! isset( wp_defender()->global['hardener_js_output'] ) ) {
+			$this->add_action( 'admin_footer', 'js_output' );
+			wp_defender()->global['hardener_js_output'] = 1;
+		}
 	}
 
 	/**
@@ -76,7 +81,7 @@ abstract class WD_Hardener_Abstract extends WD_Component {
 	 * @return string
 	 */
 	protected function get_css_class() {
-		return $this->check() === true ? 'fixed' : 'issue';
+		return $this->is_ignored() ? 'ignored' : ( $this->check() === true ? 'fixed' : 'issue' );
 	}
 
 	/**
@@ -119,9 +124,20 @@ abstract class WD_Hardener_Abstract extends WD_Component {
 		     data-target="#<?php echo $this->id ?>">
 			<?php echo $this->get_icon(); ?>
 			<?php echo $this->title ?>
-			<i class="wdv-icon wdv-icon-large wdv-icon-plus wd_toggle_icon"></i>
+			<?php if ( $this->is_ignored() ): ?>
+				<form method="post" class="form-ignore">
+					<input type="hidden" name="id" value="<?php echo $this->id ?>"/>
+					<input type="hidden" name="action" value="wd_hardener_ignore"/>
+					<?php echo $this->generate_nonce_field( 'wd_hardener_ignore' ) ?>
+					<button type="submit" class="button button-small button-light">
+						<i class="wdv-icon wdv-icon-fw wdv-icon-undo wd_undo_icon"></i>
+					</button>
+				</form>
+			<?php else: ?>
+				<i class="wdv-icon wdv-icon-large wdv-icon-plus wd_toggle_icon"></i>
 
-			<div class="wd-caret-down wd-hide"></div>
+				<div class="wd-caret-down wd-hide"></div>
+			<?php endif; ?>
 		</div>
 		<?php
 		return ob_get_clean();
@@ -210,5 +226,170 @@ abstract class WD_Hardener_Abstract extends WD_Component {
 	 */
 	protected function get_setting_key( $key ) {
 		return $this->id . '->' . $key;
+	}
+
+	/**
+	 * return html code to display ignore button
+	 * @return string
+	 */
+	public function ignore_button() {
+		ob_start();
+		?>
+		<form method="post" class="form-ignore tr <?php echo $this->check() ? 'wd-hide' : null ?>">
+			<input type="hidden" name="id" value="<?php echo $this->id ?>"/>
+			<input type="hidden" name="action" value="wd_hardener_ignore"/>
+			<?php echo $this->generate_nonce_field( 'wd_hardener_ignore' ) ?>
+			<button
+				tooltip="<?php esc_attr_e( "Ignore this hardening tweak, you can un-ignore at any time", wp_defender()->domain ) ?>"
+				type="submit" class="button button-light"><?php _e( "Ignore", wp_defender()->domain ) ?></button>
+		</form>
+		<div class="clearfix"></div>
+		<?php
+		return ob_get_clean();
+	}
+
+	public function js_output() {
+		?>
+		<script type="text/javascript">
+			jQuery(function ($) {
+				$('body').on('submit', '.form-ignore', function () {
+					var that = $(this);
+					var parent = $(this).closest('.wd-hardener-rule');
+					$.ajax({
+						type: 'POST',
+						url: ajaxurl,
+						data: that.serialize(),
+						beforeSend: function () {
+							that.find('button').attr('disabled', 'disabled');
+							that.find('button').css({
+								'cursor': 'progress'
+							});
+						},
+						success: function (data) {
+							that.find('button').removeAttr('disabled');
+							that.find('button').css({
+								'cursor': 'pointer'
+							});
+
+							if (data.status == 0) {
+
+							} else {
+								if (data.type == 'ignore') {
+									if ($('.wd-hardener-ignored').size() == 0) {
+										location.reload();
+									} else {
+										parent.hide(500, function () {
+											parent.remove();
+											$('.wd-hardener-ignored').append(data.html);
+										})
+									}
+								} else {
+									parent.fadeOut(500, function () {
+										if (data.type == 'fixed') {
+											var titles = $('.hardener-success-container .rule-title');
+										} else if (data.type == 'issue') {
+											var titles = $('.hardener-error-container .rule-title');
+										}
+										var found = false;
+										if (titles.size() > 0) {
+											titles = $.makeArray(titles);
+											titles.reverse();
+											var div = $(data.html);
+											var current_title = div.find('.rule-title').text();
+											$.each(titles, function (i, v) {
+												var text = $(this).text().toUpperCase();
+												//if the current letter is order up the current, add bellow that
+												if (current_title.toUpperCase().localeCompare(text) == true) {
+													div.insertAfter($(this).closest('.wd-hardener-rule'));
+													found = true;
+													return false;
+												}
+											})
+										}
+										if (found == false) {
+											//append it
+											if (data.type == 'fixed') {
+												div.prependTo($('.wd-success-error'));
+											} else {
+												div.prependTo($('.wd-hardener-error'));
+											}
+										}
+										$('.wd-according').wd_according();
+										parent.remove();
+										if ($('.wd-hardener-ignored').find('.wd-hardener-rule').size() == 0) {
+											location.reload();
+										}
+									})
+								}
+							}
+						}
+					})
+					return false;
+				})
+			})
+		</script>
+		<?php
+	}
+
+	/**
+	 *
+	 */
+	public function hardener_ignore() {
+		if ( ! WD_Utils::check_permission() ) {
+			return;
+		}
+
+		if ( ! $this->verify_nonce( 'wd_hardener_ignore' ) ) {
+			return;
+		}
+
+		$ignored = WD_Utils::get_setting( 'hardener->ignores', array() );
+		$id      = WD_Utils::http_post( 'id' );
+		if ( ( $key = array_search( $id, $ignored ) ) !== false ) {
+			//lift it out
+			unset( $ignored[ $key ] );
+			WD_Utils::update_setting( 'hardener->ignores', $ignored );
+			ob_start();
+			$this->display();
+			$content = ob_get_clean();
+			WD_Utils::flag_for_submitting();
+			wp_send_json( array(
+				'status' => 1,
+				'type'   => $this->check() ? 'fixed' : 'issue',
+				'html'   => $content
+			) );
+		} else {
+			$ignored[] = $id;
+			WD_Utils::update_setting( 'hardener->ignores', $ignored );
+			WD_Utils::flag_for_submitting();
+			wp_send_json( array(
+				'status' => 1,
+				'type'   => 'ignore',
+				'html'   => $this->ignore_html()
+			) );
+		}
+	}
+
+	public function ignore_html() {
+		ob_start();
+		?>
+		<div class="wd-hardener-rule">
+			<?php echo $this->get_rule_title(); ?>
+			<div class="wd-clearfix"></div>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function is_ignored() {
+		$ignored = WD_Utils::get_setting( 'hardener->ignores', array() );
+		if ( array_search( $this->id, $ignored ) !== false ) {
+			return true;
+		}
+
+		return false;
 	}
 }

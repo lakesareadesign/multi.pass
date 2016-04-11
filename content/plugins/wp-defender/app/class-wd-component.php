@@ -285,7 +285,7 @@ class WD_Component {
 	 * @param string $level
 	 */
 	public function log( $message, $level = self::ERROR_LEVEL_INFO, $log_name = 'log' ) {
-		if ( WD_DEBUG_LOG != true ) {
+		if ( ! defined( 'WD_DEBUG_LOG' ) || WD_DEBUG_LOG != true ) {
 			return;
 		}
 
@@ -415,9 +415,11 @@ class WD_Component {
 		if ( $is_apache ) {
 			$upload_dirs = wp_upload_dir();
 			$log_dir     = $upload_dirs['basedir'] . DIRECTORY_SEPARATOR . 'wp-defender/';
-			$result      = WD_Utils::get_dir_tree( $log_dir, true, false, array(), array(
-				'ext' => array( 'log' )
-			) );
+			if ( is_dir( $log_dir ) ) {
+				$result = WD_Utils::get_dir_tree( $log_dir, true, false, array(), array(
+					'ext' => array( 'log' )
+				) );
+			}
 		} else {
 			global $wpdb;
 			$table  = is_multisite() ? $wpdb->sitemeta : $wpdb->options;

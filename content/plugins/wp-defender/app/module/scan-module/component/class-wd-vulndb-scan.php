@@ -51,7 +51,8 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 					);
 				}
 				$item->detail = $detail;
-				$data[]       = $item;
+				$this->model->item_indexes[$item->id] = $item->name;
+				$this->model->add_item( $item );
 			}
 
 			if ( count( $result['plugins'] ) ) {
@@ -69,7 +70,8 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 								'fixed_in'  => $bug['fixed_in'],
 							);
 						}
-						$data[] = $item;
+						$this->model->item_indexes[$item->id] = $item->name;
+						$this->model->add_item( $item );
 					} elseif ( isset( $plugin['possible'] ) ) {
 						$item            = new WD_Scan_Result_VulnDB_Item_Model();
 						$item->id        = uniqid();
@@ -84,7 +86,8 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 								'fixed_in'  => $bug['fixed_in'],
 							);
 						}
-						$data[] = $item;
+						$this->model->item_indexes[$item->id] = $item->name;
+						$this->model->add_item( $item );
 					}
 				}
 			}
@@ -104,7 +107,8 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 								'fixed_in'  => $bug['fixed_in']
 							);
 						}
-						$data[] = $item;
+						$this->model->item_indexes[$item->id] = $item->name;
+						$this->model->add_item( $item );
 					} elseif ( isset( $theme['possible'] ) ) {
 						$item            = new WD_Scan_Result_VulnDB_Item_Model();
 						$item->id        = uniqid();
@@ -119,13 +123,15 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 								'fixed_in'  => $bug['fixed_in'],
 							);
 						}
-						$data[] = $item;
+						$this->model->item_indexes[$item->id] = $item->name;
+						$this->model->add_item( $item );
 					}
 				}
 			}
-			$this->model->result = array_merge( $this->model->result, $data );
+			//$this->model->result = array_merge( $this->model->result, $data );
+			//$this->model->item_indexes = array_merge( $this->model->item_indexes, $data );
 			$this->model->save();
-			set_site_transient( self::IS_DONE, 1 );
+			WD_Utils::cache( self::IS_DONE, 1 );
 
 			return true;
 		}
@@ -187,13 +193,14 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 			}
 		} else {
 			$data = wp_remote_retrieve_body( $response );
+			$this->log( var_export( $data, true ) );
 
 			return json_decode( $data, true );
 		}
 	}
 
 	public function check() {
-		if ( get_site_transient( self::IS_DONE ) == 1 ) {
+		if ( WD_Utils::get_cache( self::IS_DONE ) == 1 ) {
 			return true;
 		}
 
@@ -201,7 +208,7 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 	}
 
 	public function clean_up() {
-		delete_site_transient( self::IS_DONE );
+		WD_Utils::remove_cache( self::IS_DONE );
 	}
 
 	public function is_enabled() {

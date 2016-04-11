@@ -26,7 +26,7 @@ class WD_Debug_Controller extends WD_Controller {
 	}
 
 	public function clear_log() {
-		if ( ! WD_Utils::check_permission()  ) {
+		if ( ! WD_Utils::check_permission() ) {
 			return;
 		}
 
@@ -78,7 +78,8 @@ class WD_Debug_Controller extends WD_Controller {
 		$this->render( 'debug/debug', array(
 			'model'         => $model,
 			'core_files'    => WD_Scan_APi::get_core_files(),
-			'content_files' => WD_Scan_APi::get_content_files(),
+			'content_files' => WD_Utils::get_cache( WD_Scan_Api::CACHE_CONTENT_FILES, array() ),
+			'frag_files'    => WD_Utils::get_cache( WD_Scan_Api::CACHE_CONTENT_FILES_FRAG, array() ),
 			'logs_data'     => $logs_data
 		), true );
 	}

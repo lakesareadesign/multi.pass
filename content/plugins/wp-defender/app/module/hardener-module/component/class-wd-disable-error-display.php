@@ -132,6 +132,7 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 									div.prependTo($('.wd-hardener-success'));
 									div.find('.rule-title').removeClass('issue').addClass('fixed').find('button').hide();
 									div.find('i.dashicons-flag').replaceWith($('<i class="wdv-icon wdv-icon-fw wdv-icon-ok"/>'));
+									div.find('.form-ignore').addClass('wd-hide');
 									div.show(500);
 								})
 							}
@@ -241,6 +242,7 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 						</form>
 					<?php endif; ?>
 				</div>
+				<?php echo $this->ignore_button() ?>
 			</div>
 		</div>
 		<?php

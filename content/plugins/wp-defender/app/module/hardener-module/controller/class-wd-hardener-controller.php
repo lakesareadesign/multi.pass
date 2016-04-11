@@ -162,8 +162,12 @@ class WD_Hardener_Controller extends WD_Controller {
 
 		$resolved = array();
 		$issues   = array();
+		$ignored  = array();
+
 		foreach ( $this->_modules as $obj ) {
-			if ( $obj->check() === true ) {
+			if ( $obj->is_ignored() ) {
+				$ignored[] = $obj;
+			} elseif ( $obj->check() === true ) {
 				$resolved[] = $obj;
 			} else {
 				$issues[] = $obj;
@@ -171,10 +175,10 @@ class WD_Hardener_Controller extends WD_Controller {
 		}
 
 		usort( $resolved, array( &$this, 'sort_resolved' ) );
-
 		$this->render( 'main', array(
 			'resolved' => $resolved,
-			'issues'   => $issues
+			'issues'   => $issues,
+			'ignored'  => $ignored
 		), true );
 	}
 

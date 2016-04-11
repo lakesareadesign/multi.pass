@@ -35,7 +35,7 @@
 						///hardener widget
 						$widget = WD_Widget_Manager::get_instance()->display( 'WD_Hardener_Widget' );
 						//blacklist widget
-						$widget = WD_Widget_Manager::get_instance()->display( 'WD_Blacklist_Widget' );
+						$widget = WD_Widget_Manager::get_instance()->display( 'WD_Blacklist_Widget' );	  	 	   	 		 		 				
 						//backup
 						$widget = WD_Widget_Manager::get_instance()->display( 'WD_Backup_Widget' );
 						?>

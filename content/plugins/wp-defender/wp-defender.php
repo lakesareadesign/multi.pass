@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Defender
  * Plugin URI: https://premium.wpmudev.org/project/wp-defender/
- * Version:     1.0.3
+ * Version:     1.0.4
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
@@ -72,7 +72,7 @@ class WP_Defender {
 	/**
 	 * @var string
 	 */
-	private $version = "1.0.3";
+	private $version = "1.0.4";
 
 	/**
 	 * @var string
@@ -110,7 +110,9 @@ class WP_Defender {
 		$this->plugin_url  = plugin_dir_url( __FILE__ );
 
 		$this->includes();
-
+		$this->files_mapped = WD_Utils::get_dir_tree( $this->plugin_path, true, false, array(), array(
+			'ext' => array( 'php' )
+		) );
 		spl_autoload_register( array( $this, 'class_loader' ) );
 		add_action( 'init', array( &$this, 'init' ) );
 		add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
@@ -138,6 +140,11 @@ class WP_Defender {
 	}
 
 	public function maybe_upgrade() {
+		//only in admin
+		if ( ! is_admin() || ! ( is_multisite() && is_network_admin() ) ) {
+			return;
+		}
+
 		$db_version = get_site_option( 'wd_db_version' );
 		if ( $db_version == false || version_compare( $db_version, $this->db_version, '<' ) ) {
 			//from version 1.0.2, we clean up the htaccess
@@ -221,23 +228,20 @@ class WP_Defender {
 	 * initial plugin scripts
 	 */
 	public function init() {
-		$this->files_mapped = WD_Utils::get_dir_tree( $this->plugin_path, true, false, array(), array(
-			'ext' => array( 'php' )
-		) );
 		/**
 		 * includes necessary controllers
 		 */
 		$module_manager = new WD_Module_Manager();
 		$module_manager->attach( WD_Hardener_Module::get_instance() );
-		$module_manager->attach( new WD_Scan_Module() );
+		$module_manager->attach( WD_Scan_Module::get_instance() );
+		$module_manager->attach( WD_Audit_Log_Module::get_instance() );
 		//listen to membership status
 		$this->global['module_manager'] = $module_manager;
 
 		//include the rest controller
 		$controllers = array(
-			'admin'   => new WD_Admin_Controller(),
-			'backup'  => new WD_Backup_Controller(),
-			'logging' => new WD_Logging_Controller(),
+			'admin'  => new WD_Admin_Controller(),
+			'backup' => new WD_Backup_Controller(),
 		);
 		//store for later use
 		$this->global['controllers'] = $controllers;

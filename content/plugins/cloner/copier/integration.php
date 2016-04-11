@@ -22,7 +22,10 @@ $files_list = apply_filters( 'copier_integration_files', array(
 	'shortcodes-ultimate',
 	'wp-https',
 	'wpmu-dev-seo',
-	'woocommerce'
+	'woocommerce',
+	'cookie-notice',
+	'jetpack',
+	'ubermenu'
 ) );
 
 foreach ( $files_list as $file ) {

@@ -205,13 +205,13 @@ class WD_Scan_Controller extends WD_Controller {
 		//trigger
 		//$progress = get_site_transient( WD_Scan_Api::CACHE_SCAN_PERCENT ) == false ? 0 : get_site_transient( WD_Scan_Api::CACHE_SCAN_PERCENT );
 		$progress = $model->get_percent();
-		$alert    = get_site_transient( WD_Scan_Api::ALERT_NESTED_WP );
+		$alert    = WD_Utils::get_cache( WD_Scan_Api::ALERT_NESTED_WP, false );
 		/*if ( $alert ) {
 			$alert = implode( '<br/>', $alert );
 		} else {
 			$alert = 0;
 		}*/
-		$md5_alert = get_site_transient( WD_Scan_Api::ALERT_NO_MD5 );
+		$md5_alert = WD_Utils::get_cache( WD_Scan_Api::ALERT_NO_MD5, false );
 		wp_send_json( array(
 			'progress'  => $progress,
 			'message'   => $model->message,
@@ -228,8 +228,8 @@ class WD_Scan_Controller extends WD_Controller {
 	 * @return string
 	 */
 	public function scanned_to_html( $raw = false ) {
-		$core_scanned       = get_site_transient( WD_Core_Integrity_Scan::FILE_SCANNED );
-		$suspicious_scanned = get_site_transient( WD_Suspicious_Scan::FILE_SCANNED );
+		$core_scanned       = WD_Utils::get_cache( WD_Core_Integrity_Scan::FILE_SCANNED );
+		$suspicious_scanned = WD_Utils::get_cache( WD_Suspicious_Scan::FILE_SCANNED );
 
 		if ( ! is_array( $core_scanned ) ) {
 			$core_scanned = array();
@@ -249,7 +249,7 @@ class WD_Scan_Controller extends WD_Controller {
 	}
 
 	public function process_a_scan() {
-		set_time_limit( - 1 );
+		//set_time_limit( - 1 );
 		//open a memory stream
 		$this->open_mem_stream();
 
@@ -301,7 +301,10 @@ class WD_Scan_Controller extends WD_Controller {
 				continue;
 			}
 
-			$scan->init();
+			if ( $scan->init() === false ) {
+				//if the init is return false, means something hasn't completed
+				return;
+			}
 
 			if ( is_array( $scan->total_files ) ) {
 				$total_files = array_merge( $total_files, $scan->total_files );
@@ -328,6 +331,8 @@ class WD_Scan_Controller extends WD_Controller {
 		 * Starting scan
 		 */
 		foreach ( $scans_index as $key => $scan ) {
+			//we have to refresh model
+			$model           = WD_Scan_Api::get_active_scan();
 			$scan->model     = $model;
 			$scan->last_scan = $last_scan;
 			if ( $scan->check() == false ) {
@@ -340,6 +345,7 @@ class WD_Scan_Controller extends WD_Controller {
 
 			//recheck again, in case after process
 			if ( $scan->check() == false ) {
+				echo 'Processing ' . $key . PHP_EOL;
 				//the current step hasn't done yet, break
 				break;
 			}
@@ -447,12 +453,12 @@ class WD_Scan_Controller extends WD_Controller {
 		}
 
 		if ( WD_STRESS_SCAN == true ) {
-			$count = get_site_transient( 'wd_scan_count' );
+			$count = WD_Utils::get_cache( 'wd_scan_count' );
 			if ( $count == false ) {
 				$count = 0;
 			}
 			$count = $count + 1;
-			set_site_transient( 'wd_scan_count', $count );
+			WD_Utils::cache( 'wd_scan_count', $count );
 		}
 	}
 

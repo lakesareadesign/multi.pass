@@ -13,7 +13,7 @@ class WD_Hardener_Widget extends WD_Controller {
 		}
 		$issues = array();
 		foreach ( $modules as $rule ) {
-			if ( $rule->check() == false ) {
+			if ( $rule->is_ignored() == false && $rule->check() == false ) {
 				$issues[] = $rule;
 			}
 		}
