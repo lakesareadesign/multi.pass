@@ -5,6 +5,17 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 2.2.1 =
+* New: Option to resmush image if settings are changed after optimising images
+* New: Added an option to preserve EXIF
+* New: Remove Smush meta on image regeneration,
+       This allows user to manually smush them later, if auto smush is off ( WP Image Editor support )
+* New: Manual Image restore option for Media Library and NextGen Gallery, if "Backup Original Images" was kept on while smushing ( Pro Only )
+* New: Delete Backup Files (Pro Only) on attachment deletion
+* Updated: Upfront Integration
+* Fixed: jQuery tooltip conflict
+* Code Optimisation, Updated Settings page UI
+
 = 2.1.5 =
 * Fixed: WP Media Folder Plugin compatibility
 * Fixed: Warning on Plugins Page
@@ -139,4 +150,4 @@ Change Log:
 - First release
 
 
-133620-1457719713-au
+133620-1460514835-au

@@ -341,7 +341,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 * Add find and replace modal to settings page
 	 */
 	function post_settings_render() {
-		if ( ! $this->is_plugin_setup() ) {
+		if ( ! $this->is_pro_plugin_setup() ) {
 			return;
 		}
 
@@ -421,7 +421,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 * Render find and replace modal
 	 */
 	function find_and_replace_render() {
-		if ( ! $this->is_plugin_setup() ) {
+		if ( ! $this->is_pro_plugin_setup() ) {
 			return;
 		}
 
@@ -980,7 +980,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 * @return bool
 	 */
 	function verify_media_actions() {
-		if ( ! $this->is_plugin_setup() ) {
+		if ( ! $this->is_pro_plugin_setup() ) {
 			return false;
 		}
 
@@ -1679,7 +1679,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 *
 	 * @return bool
 	 */
-	function is_plugin_setup() {
+	function is_pro_plugin_setup() {
 		if ( isset( $this->licence ) ) {
 			if ( ! $this->licence->is_valid_licence() ) {
 				// Empty, invalid or expired license
@@ -1692,15 +1692,6 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 			}
 		}
 
-		return $this->is_lite_plugin_setup();
-	}
-
-	/**
-	 * Is lite plugin setup
-	 *
-	 * @return bool
-	 */
-	public function is_lite_plugin_setup() {
 		return parent::is_plugin_setup();
 	}
 

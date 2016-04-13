@@ -33,7 +33,7 @@ class Amazon_S3_And_CloudFront_WooCommerce {
 		if ( in_array( $screen->id, array( 'product', 'edit-product' ) ) ) {
 			global $as3cfpro;
 
-			if ( ! $as3cfpro->is_plugin_setup() ) {
+			if ( ! $as3cfpro->is_pro_plugin_setup() ) {
 				// Don't allow new shortcodes if Pro not set up
 				return;
 			}
@@ -106,7 +106,7 @@ class Amazon_S3_And_CloudFront_WooCommerce {
 			}
 
 			global $as3cfpro;
-			if ( $as3cfpro->is_plugin_setup() ) {
+			if ( $as3cfpro->is_pro_plugin_setup() ) {
 				// Only set new files as private if the Pro plugin is setup
 				$s3object = $as3cf->set_attachment_acl_on_s3( $attachment_id, $s3object, $as3cf::PRIVATE_ACL );
 				if ( $s3object && ! is_wp_error( $s3object ) ) {

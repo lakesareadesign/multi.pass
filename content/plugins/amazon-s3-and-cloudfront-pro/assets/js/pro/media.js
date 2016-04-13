@@ -32,7 +32,7 @@
 
 			media.view.Button.prototype.initialize.apply( this, arguments );
 
-			this.listenTo( this.controller, 'selection:toggle', this.toggleDisabled );
+			this.controller.on( 'selection:toggle', this.toggleDisabled, this );
 
 			_.bindAll( this, 'findAndReplaceResult' );
 			$( 'body' ).off( 'as3cf-find-and-replace' ).on( 'as3cf-find-and-replace', '.as3cf-find-replace-container', this.findAndReplaceResult );

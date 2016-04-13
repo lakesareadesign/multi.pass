@@ -913,21 +913,19 @@
 		updateNonFatalErrors: function( data ) {
 			if ( 'undefined' !== typeof data.errors ) {
 				var $errorCount = $( '.progress-errors-title .error-count' );
-				var count = parseInt( $errorCount.html() );
 
 				$.each( data.errors, function( index, value ) {
-					count++;
 					$( '.progress-errors .progress-errors-detail ol' ).append( '<li>' + value + '</li>' );
 					this.nonFatalErrors = true;
 				} );
 
-				if ( count > 0 ) {
+				if ( data.error_count > 0 ) {
 					$( '.progress-errors' ).show();
 				}
 
-				$errorCount.html( count );
+				$errorCount.html( data.error_count );
 
-				if ( 1 === count ) {
+				if ( 1 === data.error_count ) {
 					$( '.progress-errors-title .error-text' ).html( this.getString( 'error' ) );
 				} else {
 					$( '.progress-errors-title .error-text' ).html( this.getString( 'errors' ) );

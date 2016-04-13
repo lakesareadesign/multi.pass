@@ -39,7 +39,7 @@ a.pickcolor {
 	font-size: 24px;
 	font-weight: bold;
 }
-a.app-remove_break, a.app-remove_break:hover, a.app-remove_break:active { color: #C33; }		   		 	  		  	 	 	
+a.app-remove_break, a.app-remove_break:hover, a.app-remove_break:active { color: #C33; }
 .app-remove_break:after {
 	content: " x";
 }
@@ -103,4 +103,4 @@ a.app-remove_break, a.app-remove_break:hover, a.app-remove_break:active { color:
 }
 
 
-/* 133620-1460350110-au */
+/* 133620-1460514810-au */

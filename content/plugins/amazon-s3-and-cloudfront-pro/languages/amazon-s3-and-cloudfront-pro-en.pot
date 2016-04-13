@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-s3-and-cloudfront-pro\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2016-03-23 14:19+0000\n"
+"POT-Creation-Date: 2016-04-12 10:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -913,33 +913,33 @@ msgid ""
 "try again later, or contact support if the issue persists."
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:236
+#: classes/pro/tools/as3cf-uploader.php:241
 #, php-format
 msgid "%s%% of your Media Library has been uploaded to S3"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:238
+#: classes/pro/tools/as3cf-uploader.php:243
 msgid "Upload Remaining Now"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:242
+#: classes/pro/tools/as3cf-uploader.php:247
 #, php-format
 msgid "100% of your Media Library has been uploaded to S3, congratulations!"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:255
+#: classes/pro/tools/as3cf-uploader.php:260
 msgid "Your Media Library needs to be uploaded to S3"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:256
+#: classes/pro/tools/as3cf-uploader.php:261
 msgid "Upload Now"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:283
+#: classes/pro/tools/as3cf-uploader.php:288
 msgid "My Account"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:284
+#: classes/pro/tools/as3cf-uploader.php:289
 #, php-format
 msgid ""
 "You've reached your license limit so we've had to stop your upload. To "
@@ -947,20 +947,20 @@ msgid ""
 "and simply run the uploader again. It will pick up where it stopped."
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:292
+#: classes/pro/tools/as3cf-uploader.php:297
 msgid "Upload has been stopped"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:331
+#: classes/pro/tools/as3cf-uploader.php:339
 #, php-format
 msgid "Could not upload attachment %s to S3 - %s"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:382
+#: classes/pro/tools/as3cf-uploader.php:391
 msgid "Upload Errors"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:383
+#: classes/pro/tools/as3cf-uploader.php:392
 msgid ""
 "Previous attempts at uploading your media library have resulted in errors."
 msgstr ""

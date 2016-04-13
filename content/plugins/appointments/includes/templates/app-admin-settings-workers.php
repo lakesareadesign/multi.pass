@@ -32,7 +32,7 @@
 		}
 	}
 	else {
-		echo '<tr class="no_workers_defined"><td colspan="6">'. __( 'No service providers defined', 'appointments' ) . '</td></tr>';		   		 	  		  	 	 	
+		echo '<tr class="no_workers_defined"><td colspan="6">'. __( 'No service providers defined', 'appointments' ) . '</td></tr>';
 	}
 	?>
 

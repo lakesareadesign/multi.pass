@@ -76,7 +76,7 @@ class AS3CF_Downloader extends AS3CF_Tool {
 	 * @return array|bool
 	 */
 	protected function get_sidebar_notice_args() {
-		if ( ! $this->as3cf->is_lite_plugin_setup() ) {
+		if ( ! $this->as3cf->is_plugin_setup() ) {
 			// Don't show tool if not setup
 			return false;
 		}

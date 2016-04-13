@@ -193,7 +193,12 @@ class AS3CF_Uploader extends AS3CF_Tool {
 			wp_send_json( $response );
 		}
 
-		return array( 'total_allowed_items' => $total_allowed_items_to_upload );
+		$data = array(
+			'total_allowed_items' => $total_allowed_items_to_upload,
+			'error_count'         => 0,
+		);
+
+		return $data;
 	}
 
 	/**
@@ -202,8 +207,8 @@ class AS3CF_Uploader extends AS3CF_Tool {
 	 * @return array|false
 	 */
 	protected function get_sidebar_notice_args() {
-		if ( ! $this->as3cf->is_plugin_setup() ) {
-			// Don't show tool if not setup
+		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+			// Don't show tool if pro not setup
 			return false;
 		}
 
@@ -328,10 +333,14 @@ class AS3CF_Uploader extends AS3CF_Tool {
 
 		// Build error message
 		if ( is_wp_error( $s3object ) ) {
-			$error_msg      = sprintf( __( 'Could not upload attachment %s to S3 - %s' ), $attachment_id, $s3object->get_error_message() );
-			$this->errors[] = $error_msg;
+			$this->progress['error_count']++;
+			
+			if ( $this->progress['error_count'] <= 100 ) {
+				$error_msg      = sprintf( __( 'Could not upload attachment %s to S3 - %s' ), $attachment_id, $s3object->get_error_message() );
+				$this->errors[] = $error_msg;
 
-			$this->process_errors[ $blog_id ][ $attachment_id ] = $error_msg;
+				$this->process_errors[ $blog_id ][ $attachment_id ] = $error_msg;	
+			}
 
 			return false;
 		}

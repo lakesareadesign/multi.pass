@@ -78,7 +78,9 @@
 	add_action( 'um_before_login_fields', 'um_display_login_errors' );
 	function um_display_login_errors( $args ) {
 		global $ultimatemember;
-
+	
+		$error = '';
+	
 		if( $ultimatemember->form->count_errors() > 0 ) {
 			$error = array_values( $ultimatemember->form->errors );
 			$error = array_shift( $error );
@@ -155,7 +157,7 @@
 
 		$rememberme = ( isset($args['rememberme']) ) ? 1 : 0;
 
-		if ( um_get_option('deny_admin_frontend_login') && strstr( um_user('wp_roles' ), 'administrator' ) )
+		if ( um_get_option('deny_admin_frontend_login') && ! isset( $_GET['provider'] ) && strstr( um_user('wp_roles' ), 'administrator' ) )
 			wp_die( __('This action has been prevented for security measures.','ultimatemember') );
 
 		$ultimatemember->user->auto_login( um_user('ID'), $rememberme );

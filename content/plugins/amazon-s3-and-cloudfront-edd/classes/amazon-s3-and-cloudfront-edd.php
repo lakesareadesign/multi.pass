@@ -92,7 +92,7 @@ class Amazon_S3_And_CloudFront_EDD {
 				}
 
 				global $as3cfpro;
-				if ( $as3cfpro->is_plugin_setup() ) {
+				if ( $as3cfpro->is_pro_plugin_setup() ) {
 					$s3object = $as3cf->set_attachment_acl_on_s3( $file['attachment_id'], $s3object, $as3cf::PRIVATE_ACL );
 					if ( $s3object && ! is_wp_error( $s3object ) ) {
 						$as3cf->make_acl_admin_notice( $s3object );
