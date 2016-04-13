@@ -21,7 +21,7 @@
     $delimiter = '/';
     $dirname = wp_normalize_path( dirname( __FILE__ ) );
 
-    $woo_framework_functions_path = str_replace( 'js' . $delimiter . 'shortcode-generator' . $delimiter . 'js', '', dirname( __FILE__ ) );
+    $woo_framework_functions_path = str_replace( 'js' . $delimiter . 'shortcode-generator' . $delimiter . 'js', '', $dirname );
 
     // Require admin functions.
     require_once( $woo_framework_functions_path . $delimiter . 'admin-functions.php' );

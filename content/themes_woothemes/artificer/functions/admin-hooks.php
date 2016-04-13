@@ -68,6 +68,10 @@ function woo_post_before() { woo_do_atomic( 'woo_post_before' ); }
 function woo_post_after() { woo_do_atomic( 'woo_post_after' ); }
 function woo_post_inside_before() { woo_do_atomic( 'woo_post_inside_before' ); }
 function woo_post_inside_after() { woo_do_atomic( 'woo_post_inside_after' ); }
+function woo_page_before() { woo_do_atomic( 'woo_post_before_singular-page' ); }
+function woo_page_after() { woo_do_atomic( 'woo_post_after_singular-page' ); }
+function woo_page_inside_before() { woo_do_atomic( 'woo_post_inside_before_singular-page' ); }
+function woo_page_inside_after() { woo_do_atomic( 'woo_post_inside_after_singular-page' ); }
 function woo_loop_before() { woo_do_atomic( 'woo_loop_before' ); }
 function woo_loop_after() { woo_do_atomic( 'woo_loop_after' ); }
 

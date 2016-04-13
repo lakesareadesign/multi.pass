@@ -214,6 +214,17 @@ function woo_image($args) {
     	$custom_field = esc_url( get_post_meta( $id, $key, true ) );
 	}
 
+	// Theme Override
+	if ( apply_filters( 'woo_image_override', false ) ) {
+		// Use predefined size string
+		if ( $size )
+			$thumb_size = $size;
+		else
+			$thumb_size = array( $width, $height );
+
+		$img_link = get_the_post_thumbnail( $id, $thumb_size, array( 'class' => 'woo-image ' . esc_attr( $class ) ) );
+	}
+
 	// Automatic Image Thumbs - get first image from post attachment
 	if ( empty( $custom_field ) && get_option( 'woo_auto_img' ) == 'true' && empty( $img_link ) && ! ( is_singular() && in_the_loop() && $link == 'src' ) ) {
 
@@ -811,7 +822,7 @@ function woo_show_pagemenu( $exclude = '' ) {
 function woo_style_path() {
 	$return = '';
 
-	$style = $_REQUEST['style'];
+	$style = isset( $_REQUEST['style'] ) ? $_REQUEST['style'] : '';
 
 	// Sanitize request input.
 	$style = esc_attr( strtolower( trim( strip_tags( $style ) ) ) );
@@ -2533,7 +2544,7 @@ function woo_breadcrumbs( $args = array() ) {
 		}
 
 		/* Display terms for specific post type taxonomy if requested. */
-		if ( isset( $args["singular_{$post_type}_taxonomy"] ) ) {
+		if ( isset( $args["singular_{$post_type}_taxonomy"] ) && $post_type != 'page' ) {
 			$raw_terms = get_the_terms( $post_id, $args["singular_{$post_type}_taxonomy"] );
 
 			if ( is_array( $raw_terms ) && 0 < count( $raw_terms ) && ! is_wp_error( $raw_terms ) ) {

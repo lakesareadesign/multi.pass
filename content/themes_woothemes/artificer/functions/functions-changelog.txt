@@ -1,5 +1,38 @@
 *** WooThemes Framework Changelog ***
 
+2016.03.08 - version 6.2.5
+ * Fix - Fixes post hook output on pages for Woo Hooks Manager in Canvas.
+   admin-hooks.php
+
+2016.03.25 - version 6.2.4
+ * Fix - Fixes warning message on creating posts where Saving Draft would show in the editor.
+   classes/class-wf-meta.php
+
+2015.12.10 - version 6.2.3
+ * Fix - woo_breadcrumbs() WP 4.4 compatibility fix for get_the_terms() on pages.
+   admin-functions.php
+
+2015.11.09 - version 6.2.2
+ * Fix - Ninja forms conflict for get_current_screen
+   classes/class-wf-meta.php
+ * Deprecated - removal of deprecated JS files
+   js/jquery.maskedinput.js,
+   js/nicEdit.js,
+   js/php.js,
+   js/tumblog-ajax.js
+
+2015.10.02 - version 6.2.1
+ * Fix - woo_image() override filter added 'woo_image_override'
+   admin-functions.php
+ * Fix - warning notices for PHP7
+   classes/class-wf-settings.php
+ * Fix - PHP warning notice for style key
+   admin-functions.php
+ * Fix - windows directory path output correction
+   js/shortcode-generator/js/dialog-js.php
+ * Fix - Fixes the shortcode generator window content overflow issue.
+   css/shortcode-generator.css
+
 2015.05.07 - version 6.2.0
  * Fix - Ensurs woo_get_video_image() supports HTTPS.
  * Fix - Ensurs the "Custom CSS" setting correctly interprets \ and > in CSS.
