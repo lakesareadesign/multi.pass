@@ -3,7 +3,7 @@
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
-Version: 2.6.6
+Version: 2.7.1
 Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 Text Domain: cta
@@ -20,8 +20,8 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		public function __construct() {
 			self::define_constants();
 			self::includes();
-			self::load_shared_files();
 			self::load_text_domain_init();
+			self::load_shared_files();
 		}
 
 		/*
@@ -30,7 +30,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*/
 		private static function define_constants() {
 
-			define('WP_CTA_CURRENT_VERSION', '2.6.6' );
+			define('WP_CTA_CURRENT_VERSION', '2.7.1' );
 			define('WP_CTA_URLPATH', plugins_url( '/' , __FILE__ ) );
 			define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -140,7 +140,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		static function fail_php_version() {
 			//add_action( 'plugins_loaded', array( __CLASS__, 'load_text_domain_init' ) );
 			$plugin_url = admin_url( 'plugins.php' );
-			self::notice( __( 'Calls to Action requires PHP version 5.3+ to run. Your version '.PHP_VERSION.' is not high enough.<br><u>Please contact your hosting provider</u> to upgrade your PHP Version.<br>The plugin is NOT Running. You can disable this warning message by <a href="'.$plugin_url.'">deactivating the plugin</a>', 'cta' ) );
+			self::notice( __( 'Calls to Action requires PHP version 5.3+ to run. Your version '.PHP_VERSION.' is not high enough.<br><u>Please contact your hosting provider</u> to upgrade your PHP Version.<br>The plugin is NOT Running. You can disable this warning message by <a href="'.$plugin_url.'">deactivating the plugin</a>', 'inbound-pro' ) );
 		}
 
 		/**

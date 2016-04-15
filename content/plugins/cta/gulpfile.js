@@ -186,7 +186,7 @@ gulp.task("generateDocs", function() {
 });
 
 /* sync shared folders with `sudo gulp sync` */
-gulp.task('sync', ['sync-lp', 'sync-leads', 'sync-pro']);
+gulp.task('sync', [ 'sync-lp', 'sync-leads', 'sync-pro', 'sync-translations']);
 gulp.task('sync-lp', function () {
         return gulp.src(['./shared/**']).pipe(gulp.dest('../landing-pages/shared/'));
 });
@@ -195,7 +195,11 @@ gulp.task('sync-leads', function () {
 });
 gulp.task('sync-pro', function () {
     return gulp.src(['./shared/**'])
-        .pipe(gulp.dest('./../_inbound-pro/core/shared/'));
+        .pipe(gulp.dest('./../_inbound-now/core/shared/'));
+});
+gulp.task('sync-translations', function () {
+    return gulp.src(['../translations/lang/**.mo'])
+        .pipe(gulp.dest('./../_inbound-now/assets/lang'));
 });
 /* end sync */
 
