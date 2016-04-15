@@ -4,7 +4,7 @@ Plugin Name: Ultra WordPress Admin
 Plugin URI: http://codecanyon.net/item/ultra-wordpress-admin-theme/9220673
 Description: Advanced Admin Theme with White Label Branding for WordPress.
 Author: themepassion
-Version: 6.2
+Version: 6.3
 Author URI: http://codecanyon.net/user/themepassion/portfolio
 */
 

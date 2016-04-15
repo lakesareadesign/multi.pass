@@ -368,6 +368,7 @@ class Clientside_Admin_Menu_Editor {
 
 				$submenu_item_slug = $submenu_item[2];
 				$submenu_array_key = 'submenu-' . $submenu_item_slug;
+				$submenu_array_key = str_replace( '&amp;', '&', $submenu_array_key );
 
 				// Only continue if this item has saved customizations
 				if ( ! isset( $customizations[ $submenu_array_key . '[title]' ] ) ) {

@@ -10,7 +10,7 @@ class Upfront_UsearchView extends Upfront_Object {
 		$data['action'] = home_url('/');
 		$data['iconClass'] = $data['label'] == '__image__' ? 'icon' : 'text';
 
-		return upfront_get_template('usearch', $data, dirname(dirname(__FILE__)) . '/tpl/usearch.html');
+		return upfront_get_template('usearch', $data, dirname(dirname(__FILE__)) . '/tpl/usearch.html');	     	 		 		  	 		 	
 	}
 
 	private function properties_to_array(){

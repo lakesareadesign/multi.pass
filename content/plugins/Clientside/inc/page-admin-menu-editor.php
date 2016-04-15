@@ -1,6 +1,6 @@
 <div class="wrap">
 
-	<h2><?php echo $page_info['title']; ?></h2>
+	<h1><?php echo $page_info['title']; ?></h1>
 
 	<div class="clientside-page-sidebar">
 

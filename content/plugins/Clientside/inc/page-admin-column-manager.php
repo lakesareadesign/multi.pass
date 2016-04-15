@@ -11,6 +11,15 @@
 			<?php } ?>
 		</div>
 
+		<div class="clientside-widget clientside-widget-empty">
+			<ul>
+				<li><?php _e( 'Index', 'clientside' ); ?></li>
+				<?php foreach ( Clientside_Admin_Column_Manager::get_column_info() as $page_slug => $columns ) { ?>
+					<li><a href="#clientside-admin-columns-<?php echo esc_attr( $page_slug ); ?>" data-scrollto><?php echo Clientside_Admin_Column_Manager::get_page_name( $page_slug ); ?></a></li>
+				<?php } ?>
+			</ul>
+		</div>
+
 		<div class="clientside-widget clientside-widget-bordered">
 			<div class="inside">
 				<p>

@@ -208,9 +208,9 @@ input[type=checkbox], input[type=color], input[type=date], input[type=datetime-l
     -o-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
 
-#login_error, .login .message {
+.login #login_error, .login .message {
     margin: 23px 23px 0px 23px;
-    padding: 12px 23px 11px 23px;
+    padding: 12px 19px 11px 19px;
 }
 
 

@@ -108,7 +108,8 @@ class Clientside_User {
 		if ( is_multisite() && Clientside_Options::get_saved_network_option( 'network-admins-only' ) ) {
 			return 'manage_network_options';
 		}
-		return 'edit_theme_options';
+		//return 'edit_theme_options';
+		return 'manage_options';
 
 	}
 

@@ -85,7 +85,7 @@ class Clientside_Menu {
 				$page_info['parent'],
 				$page_info['title'],
 				( $page_info['menu-title'] ? $page_info['menu-title'] : $page_info['title'] ),
-				'edit_theme_options',
+				Clientside_User::get_admin_cap(),
 				$page_info['slug'],
 				$page_info['callback']
 			);

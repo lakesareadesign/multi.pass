@@ -2,7 +2,7 @@
  * This file is part of: Clientside
  * Author: Berend de Jong
  * Author URI: http://frique.me/
- * Version: 1.1.12 (2015-08-09 00:16)
+ * Version: 1.2.9 (2016-04-15 00:11)
  */
 
 #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions .clientside-toolbar-user-role {
@@ -35,8 +35,7 @@
 }
 
 #wpadminbar #wp-admin-bar-clientside-admin > .ab-item:hover, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:hover, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:hover, #wpadminbar li#wp-admin-bar-clientside-notification-center .button:hover,
-#wpadminbar li#wp-admin-bar-clientside-notification-center .button-primary:hover,
-#wpadminbar #wp-admin-bar-clientside-admin > .ab-item:focus, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:focus, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:focus, #wpadminbar li#wp-admin-bar-clientside-notification-center .button:focus,
+#wpadminbar li#wp-admin-bar-clientside-notification-center .button-primary:hover, #wpadminbar #wp-admin-bar-clientside-admin > .ab-item:focus, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:focus, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:focus, #wpadminbar li#wp-admin-bar-clientside-notification-center .button:focus,
 #wpadminbar li#wp-admin-bar-clientside-notification-center .button-primary:focus {
   font-weight: normal;
   text-decoration: none !important;
@@ -58,17 +57,11 @@
   border: 0 !important;
 }
 
-#wpadminbar #wp-admin-bar-clientside-admin > .ab-item:hover,
-#wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:hover,
-#wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:hover,
-#wpadminbar #wp-admin-bar-clientside-admin > .ab-item:focus, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:focus, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:focus {
+#wpadminbar #wp-admin-bar-clientside-admin > .ab-item:hover, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:hover, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:hover, #wpadminbar #wp-admin-bar-clientside-admin > .ab-item:focus, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:focus, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:focus {
   color: #222 !important;
 }
 
-#wpadminbar #wp-admin-bar-clientside-admin > .ab-item:hover,
-#wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:hover,
-#wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:hover,
-#wpadminbar #wp-admin-bar-clientside-admin > .ab-item:focus, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:focus, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:focus {
+#wpadminbar #wp-admin-bar-clientside-admin > .ab-item:hover, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:hover, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:hover, #wpadminbar #wp-admin-bar-clientside-admin > .ab-item:focus, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:focus, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-logout a:focus {
   background: #e0e4e6 !important;
 }
 
@@ -77,14 +70,10 @@
 }
 
 #wpadminbar li .ab-item:hover, #screen-meta-links > div > a:hover,
-#screen-meta-links > div > button:hover, #wpadminbar li .ab-item:hover .ab-label,
-#screen-meta-links > div > a:hover .ab-label,
-#screen-meta-links > div > button:hover .ab-label,
-#wpadminbar li .ab-item:active, #screen-meta-links > div > a:active,
-#screen-meta-links > div > button:active, #wpadminbar li .ab-item:active .ab-label,
-#screen-meta-links > div > a:active .ab-label,
-#screen-meta-links > div > button:active .ab-label,
-#wpadminbar li .ab-item:focus, #screen-meta-links > div > a:focus,
+#screen-meta-links > div > button:hover, #wpadminbar li .ab-item:hover .ab-label, #screen-meta-links > div > a:hover .ab-label,
+#screen-meta-links > div > button:hover .ab-label, #wpadminbar li .ab-item:active, #screen-meta-links > div > a:active,
+#screen-meta-links > div > button:active, #wpadminbar li .ab-item:active .ab-label, #screen-meta-links > div > a:active .ab-label,
+#screen-meta-links > div > button:active .ab-label, #wpadminbar li .ab-item:focus, #screen-meta-links > div > a:focus,
 #screen-meta-links > div > button:focus, #wpadminbar li .ab-item:focus .ab-label, #screen-meta-links > div > a:focus .ab-label,
 #screen-meta-links > div > button:focus .ab-label, #wpadminbar li.menupop:hover > .ab-item,
 #wpadminbar li.menupop:hover > .ab-item .ab-label {
@@ -92,14 +81,10 @@
 }
 
 #wpadminbar li .ab-item:hover, #screen-meta-links > div > a:hover,
-#screen-meta-links > div > button:hover, #wpadminbar li .ab-item:hover .ab-label,
-#screen-meta-links > div > a:hover .ab-label,
-#screen-meta-links > div > button:hover .ab-label,
-#wpadminbar li .ab-item:active, #screen-meta-links > div > a:active,
-#screen-meta-links > div > button:active, #wpadminbar li .ab-item:active .ab-label,
-#screen-meta-links > div > a:active .ab-label,
-#screen-meta-links > div > button:active .ab-label,
-#wpadminbar li .ab-item:focus, #screen-meta-links > div > a:focus,
+#screen-meta-links > div > button:hover, #wpadminbar li .ab-item:hover .ab-label, #screen-meta-links > div > a:hover .ab-label,
+#screen-meta-links > div > button:hover .ab-label, #wpadminbar li .ab-item:active, #screen-meta-links > div > a:active,
+#screen-meta-links > div > button:active, #wpadminbar li .ab-item:active .ab-label, #screen-meta-links > div > a:active .ab-label,
+#screen-meta-links > div > button:active .ab-label, #wpadminbar li .ab-item:focus, #screen-meta-links > div > a:focus,
 #screen-meta-links > div > button:focus, #wpadminbar li .ab-item:focus .ab-label, #screen-meta-links > div > a:focus .ab-label,
 #screen-meta-links > div > button:focus .ab-label, #wpadminbar li.menupop:hover > .ab-item,
 #wpadminbar li.menupop:hover > .ab-item .ab-label {
@@ -107,41 +92,43 @@
 }
 
 #wpadminbar li .ab-item:hover, #screen-meta-links > div > a:hover,
-#screen-meta-links > div > button:hover, #wpadminbar li .ab-item:hover .ab-label,
-#screen-meta-links > div > a:hover .ab-label,
-#screen-meta-links > div > button:hover .ab-label,
-#wpadminbar li .ab-item:active, #screen-meta-links > div > a:active,
-#screen-meta-links > div > button:active, #wpadminbar li .ab-item:active .ab-label,
-#screen-meta-links > div > a:active .ab-label,
-#screen-meta-links > div > button:active .ab-label,
-#wpadminbar li .ab-item:focus, #screen-meta-links > div > a:focus,
+#screen-meta-links > div > button:hover, #wpadminbar li .ab-item:hover .ab-label, #screen-meta-links > div > a:hover .ab-label,
+#screen-meta-links > div > button:hover .ab-label, #wpadminbar li .ab-item:active, #screen-meta-links > div > a:active,
+#screen-meta-links > div > button:active, #wpadminbar li .ab-item:active .ab-label, #screen-meta-links > div > a:active .ab-label,
+#screen-meta-links > div > button:active .ab-label, #wpadminbar li .ab-item:focus, #screen-meta-links > div > a:focus,
 #screen-meta-links > div > button:focus, #wpadminbar li .ab-item:focus .ab-label, #screen-meta-links > div > a:focus .ab-label,
 #screen-meta-links > div > button:focus .ab-label, #wpadminbar li.menupop:hover > .ab-item,
 #wpadminbar li.menupop:hover > .ab-item .ab-label {
   background: #fff !important;
 }
 
-.clientside-site #wpadminbar li .ab-item:hover, #wpadminbar li .clientside-site .ab-item:hover, .clientside-site #screen-meta-links > div > a:hover, .clientside-site #screen-meta-links > div > button:hover, .clientside-site #wpadminbar li .ab-item:hover .ab-label, #wpadminbar li .ab-item:hover .clientside-site .ab-label,
-.clientside-site #screen-meta-links > div > a:hover .ab-label, #screen-meta-links > div > a:hover .clientside-site .ab-label,
-.clientside-site #screen-meta-links > div > button:hover .ab-label, #screen-meta-links > div > button:hover .clientside-site .ab-label,
-.clientside-site #wpadminbar li .ab-item:active, #wpadminbar li .clientside-site .ab-item:active, .clientside-site #screen-meta-links > div > a:active, .clientside-site #screen-meta-links > div > button:active, .clientside-site #wpadminbar li .ab-item:active .ab-label, #wpadminbar li .ab-item:active .clientside-site .ab-label,
-.clientside-site #screen-meta-links > div > a:active .ab-label, #screen-meta-links > div > a:active .clientside-site .ab-label,
-.clientside-site #screen-meta-links > div > button:active .ab-label, #screen-meta-links > div > button:active .clientside-site .ab-label,
-.clientside-site #wpadminbar li .ab-item:focus, #wpadminbar li .clientside-site .ab-item:focus, .clientside-site #screen-meta-links > div > a:focus, .clientside-site #screen-meta-links > div > button:focus, .clientside-site #wpadminbar li .ab-item:focus .ab-label, #wpadminbar li .ab-item:focus .clientside-site .ab-label, .clientside-site #screen-meta-links > div > a:focus .ab-label, #screen-meta-links > div > a:focus .clientside-site .ab-label,
-.clientside-site #screen-meta-links > div > button:focus .ab-label, #screen-meta-links > div > button:focus .clientside-site .ab-label, .clientside-site #wpadminbar li.menupop:hover > .ab-item, #wpadminbar .clientside-site li.menupop:hover > .ab-item,
-.clientside-site #wpadminbar li.menupop:hover > .ab-item .ab-label, #wpadminbar li.menupop:hover > .ab-item .clientside-site .ab-label {
+.clientside-site #wpadminbar li .ab-item:hover, #wpadminbar li .clientside-site .ab-item:hover, .clientside-site #screen-meta-links > div > a:hover, .clientside-site
+#screen-meta-links > div > button:hover, .clientside-site #wpadminbar li .ab-item:hover .ab-label, #wpadminbar li .ab-item:hover .clientside-site .ab-label, .clientside-site #screen-meta-links > div > a:hover .ab-label, #screen-meta-links > div > a:hover .clientside-site .ab-label, .clientside-site
+#screen-meta-links > div > button:hover .ab-label,
+#screen-meta-links > div > button:hover .clientside-site .ab-label, .clientside-site #wpadminbar li .ab-item:active, #wpadminbar li .clientside-site .ab-item:active, .clientside-site #screen-meta-links > div > a:active, .clientside-site
+#screen-meta-links > div > button:active, .clientside-site #wpadminbar li .ab-item:active .ab-label, #wpadminbar li .ab-item:active .clientside-site .ab-label, .clientside-site #screen-meta-links > div > a:active .ab-label, #screen-meta-links > div > a:active .clientside-site .ab-label, .clientside-site
+#screen-meta-links > div > button:active .ab-label,
+#screen-meta-links > div > button:active .clientside-site .ab-label, .clientside-site #wpadminbar li .ab-item:focus, #wpadminbar li .clientside-site .ab-item:focus, .clientside-site #screen-meta-links > div > a:focus, .clientside-site
+#screen-meta-links > div > button:focus, .clientside-site #wpadminbar li .ab-item:focus .ab-label, #wpadminbar li .ab-item:focus .clientside-site .ab-label, .clientside-site #screen-meta-links > div > a:focus .ab-label, #screen-meta-links > div > a:focus .clientside-site .ab-label, .clientside-site
+#screen-meta-links > div > button:focus .ab-label,
+#screen-meta-links > div > button:focus .clientside-site .ab-label, .clientside-site #wpadminbar li.menupop:hover > .ab-item, #wpadminbar .clientside-site li.menupop:hover > .ab-item, .clientside-site
+#wpadminbar li.menupop:hover > .ab-item .ab-label,
+#wpadminbar li.menupop:hover > .ab-item .clientside-site .ab-label {
   color: #555 !important;
 }
 
-.clientside-site #wpadminbar li .ab-item:hover, #wpadminbar li .clientside-site .ab-item:hover, .clientside-site #screen-meta-links > div > a:hover, .clientside-site #screen-meta-links > div > button:hover, .clientside-site #wpadminbar li .ab-item:hover .ab-label, #wpadminbar li .ab-item:hover .clientside-site .ab-label,
-.clientside-site #screen-meta-links > div > a:hover .ab-label, #screen-meta-links > div > a:hover .clientside-site .ab-label,
-.clientside-site #screen-meta-links > div > button:hover .ab-label, #screen-meta-links > div > button:hover .clientside-site .ab-label,
-.clientside-site #wpadminbar li .ab-item:active, #wpadminbar li .clientside-site .ab-item:active, .clientside-site #screen-meta-links > div > a:active, .clientside-site #screen-meta-links > div > button:active, .clientside-site #wpadminbar li .ab-item:active .ab-label, #wpadminbar li .ab-item:active .clientside-site .ab-label,
-.clientside-site #screen-meta-links > div > a:active .ab-label, #screen-meta-links > div > a:active .clientside-site .ab-label,
-.clientside-site #screen-meta-links > div > button:active .ab-label, #screen-meta-links > div > button:active .clientside-site .ab-label,
-.clientside-site #wpadminbar li .ab-item:focus, #wpadminbar li .clientside-site .ab-item:focus, .clientside-site #screen-meta-links > div > a:focus, .clientside-site #screen-meta-links > div > button:focus, .clientside-site #wpadminbar li .ab-item:focus .ab-label, #wpadminbar li .ab-item:focus .clientside-site .ab-label, .clientside-site #screen-meta-links > div > a:focus .ab-label, #screen-meta-links > div > a:focus .clientside-site .ab-label,
-.clientside-site #screen-meta-links > div > button:focus .ab-label, #screen-meta-links > div > button:focus .clientside-site .ab-label, .clientside-site #wpadminbar li.menupop:hover > .ab-item, #wpadminbar .clientside-site li.menupop:hover > .ab-item,
-.clientside-site #wpadminbar li.menupop:hover > .ab-item .ab-label, #wpadminbar li.menupop:hover > .ab-item .clientside-site .ab-label {
+.clientside-site #wpadminbar li .ab-item:hover, #wpadminbar li .clientside-site .ab-item:hover, .clientside-site #screen-meta-links > div > a:hover, .clientside-site
+#screen-meta-links > div > button:hover, .clientside-site #wpadminbar li .ab-item:hover .ab-label, #wpadminbar li .ab-item:hover .clientside-site .ab-label, .clientside-site #screen-meta-links > div > a:hover .ab-label, #screen-meta-links > div > a:hover .clientside-site .ab-label, .clientside-site
+#screen-meta-links > div > button:hover .ab-label,
+#screen-meta-links > div > button:hover .clientside-site .ab-label, .clientside-site #wpadminbar li .ab-item:active, #wpadminbar li .clientside-site .ab-item:active, .clientside-site #screen-meta-links > div > a:active, .clientside-site
+#screen-meta-links > div > button:active, .clientside-site #wpadminbar li .ab-item:active .ab-label, #wpadminbar li .ab-item:active .clientside-site .ab-label, .clientside-site #screen-meta-links > div > a:active .ab-label, #screen-meta-links > div > a:active .clientside-site .ab-label, .clientside-site
+#screen-meta-links > div > button:active .ab-label,
+#screen-meta-links > div > button:active .clientside-site .ab-label, .clientside-site #wpadminbar li .ab-item:focus, #wpadminbar li .clientside-site .ab-item:focus, .clientside-site #screen-meta-links > div > a:focus, .clientside-site
+#screen-meta-links > div > button:focus, .clientside-site #wpadminbar li .ab-item:focus .ab-label, #wpadminbar li .ab-item:focus .clientside-site .ab-label, .clientside-site #screen-meta-links > div > a:focus .ab-label, #screen-meta-links > div > a:focus .clientside-site .ab-label, .clientside-site
+#screen-meta-links > div > button:focus .ab-label,
+#screen-meta-links > div > button:focus .clientside-site .ab-label, .clientside-site #wpadminbar li.menupop:hover > .ab-item, #wpadminbar .clientside-site li.menupop:hover > .ab-item, .clientside-site
+#wpadminbar li.menupop:hover > .ab-item .ab-label,
+#wpadminbar li.menupop:hover > .ab-item .clientside-site .ab-label {
   background: #fff !important;
 }
 
@@ -155,33 +142,27 @@
   border-radius: 3px;
 }
 
-#wpadminbar li .ab-item,
-#screen-meta-links > div > a,
-#screen-meta-links > div > button,
-#wpadminbar li .ab-item .ab-label, #screen-meta-links > div > a .ab-label,
+#wpadminbar li .ab-item, #screen-meta-links > div > a,
+#screen-meta-links > div > button, #wpadminbar li .ab-item .ab-label, #screen-meta-links > div > a .ab-label,
 #screen-meta-links > div > button .ab-label {
   color: #999 !important;
 }
 
-#wpadminbar li .ab-item,
-#screen-meta-links > div > a,
-#screen-meta-links > div > button,
-#wpadminbar li .ab-item .ab-label, #screen-meta-links > div > a .ab-label,
+#wpadminbar li .ab-item, #screen-meta-links > div > a,
+#screen-meta-links > div > button, #wpadminbar li .ab-item .ab-label, #screen-meta-links > div > a .ab-label,
 #screen-meta-links > div > button .ab-label {
   background: none !important;
 }
 
-.clientside-site #wpadminbar li .ab-item,
-#wpadminbar li .clientside-site .ab-item, .clientside-site #screen-meta-links > div > a,
-.clientside-site #screen-meta-links > div > button,
-.clientside-site #wpadminbar li .ab-item .ab-label, #wpadminbar li .clientside-site .ab-item .ab-label, .clientside-site #screen-meta-links > div > a .ab-label, .clientside-site #screen-meta-links > div > button .ab-label {
+.clientside-site #wpadminbar li .ab-item, #wpadminbar li .clientside-site .ab-item, .clientside-site #screen-meta-links > div > a, .clientside-site
+#screen-meta-links > div > button, .clientside-site #wpadminbar li .ab-item .ab-label, #wpadminbar li .clientside-site .ab-item .ab-label, .clientside-site #screen-meta-links > div > a .ab-label, .clientside-site
+#screen-meta-links > div > button .ab-label {
   color: #999 !important;
 }
 
-.clientside-site #wpadminbar li .ab-item,
-#wpadminbar li .clientside-site .ab-item, .clientside-site #screen-meta-links > div > a,
-.clientside-site #screen-meta-links > div > button,
-.clientside-site #wpadminbar li .ab-item .ab-label, #wpadminbar li .clientside-site .ab-item .ab-label, .clientside-site #screen-meta-links > div > a .ab-label, .clientside-site #screen-meta-links > div > button .ab-label {
+.clientside-site #wpadminbar li .ab-item, #wpadminbar li .clientside-site .ab-item, .clientside-site #screen-meta-links > div > a, .clientside-site
+#screen-meta-links > div > button, .clientside-site #wpadminbar li .ab-item .ab-label, #wpadminbar li .clientside-site .ab-item .ab-label, .clientside-site #screen-meta-links > div > a .ab-label, .clientside-site
+#screen-meta-links > div > button .ab-label {
   background: none !important;
 }
 
@@ -244,10 +225,11 @@ body {
     min-width: 0;
     height: 65px;
     z-index: 100;
+    overflow: hidden;
     padding-left: 0;
   }
-  .clientside-show-menu-separators #wpadminbar,
-  .clientside-show-menu-separators .auto-fold #wpadminbar {
+  .clientside-show-menu-separators #wpadminbar, .clientside-show-menu-separators
+  .auto-fold #wpadminbar {
     padding-left: 0;
   }
 }
@@ -258,10 +240,11 @@ body {
     min-width: 0;
     height: 65px;
     z-index: 100;
+    overflow: hidden;
     padding-left: 0;
   }
-  .clientside-show-menu-separators #wpadminbar,
-  .clientside-show-menu-separators .auto-fold #wpadminbar {
+  .clientside-show-menu-separators #wpadminbar, .clientside-show-menu-separators
+  .auto-fold #wpadminbar {
     padding-left: 0;
   }
 }
@@ -362,15 +345,11 @@ body {
   text-decoration: none !important;
 }
 
-#wpadminbar li .ab-empty-item:hover,
-#wpadminbar li .ab-empty-item:active,
-#wpadminbar li .ab-empty-item:focus {
+#wpadminbar li .ab-empty-item:hover, #wpadminbar li .ab-empty-item:active, #wpadminbar li .ab-empty-item:focus {
   background: none !important;
 }
 
-.clientside-site #wpadminbar li .ab-empty-item:hover,
-.clientside-site #wpadminbar li .ab-empty-item:active,
-.clientside-site #wpadminbar li .ab-empty-item:focus {
+.clientside-site #wpadminbar li .ab-empty-item:hover, .clientside-site #wpadminbar li .ab-empty-item:active, .clientside-site #wpadminbar li .ab-empty-item:focus {
   background: none !important;
 }
 
@@ -390,27 +369,19 @@ body {
   color: #999 !important;
 }
 
-#wpadminbar li .ab-sub-wrapper .ab-item:hover,
-#wpadminbar li .ab-sub-wrapper .ab-item:active,
-#wpadminbar li .ab-sub-wrapper .ab-item:focus {
+#wpadminbar li .ab-sub-wrapper .ab-item:hover, #wpadminbar li .ab-sub-wrapper .ab-item:active, #wpadminbar li .ab-sub-wrapper .ab-item:focus {
   color: #222 !important;
 }
 
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:hover,
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:active,
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:focus {
+.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:hover, .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:active, .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:focus {
   color: #222 !important;
 }
 
-#wpadminbar li .ab-sub-wrapper .ab-item:hover,
-#wpadminbar li .ab-sub-wrapper .ab-item:active,
-#wpadminbar li .ab-sub-wrapper .ab-item:focus {
+#wpadminbar li .ab-sub-wrapper .ab-item:hover, #wpadminbar li .ab-sub-wrapper .ab-item:active, #wpadminbar li .ab-sub-wrapper .ab-item:focus {
   background: #fcfcfc !important;
 }
 
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:hover,
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:active,
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:focus {
+.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:hover, .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:active, .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item:focus {
   background: #fcfcfc !important;
 }
 
@@ -419,29 +390,23 @@ body {
 }
 
 #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:hover,
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:hover,
-#wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active,
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active,
-#wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:focus,
+.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:hover, #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active,
+.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active, #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:focus,
 .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:focus {
   background: none !important;
 }
 
 #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:hover,
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:hover,
-#wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active,
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active,
-#wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:focus,
+.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:hover, #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active,
+.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active, #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:focus,
 .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:focus {
   color: #999 !important;
 }
 
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:hover,
-.clientside-site .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:hover,
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active,
-.clientside-site .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active,
-.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:focus,
-.clientside-site .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:focus {
+.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:hover, .clientside-site
+.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:hover, .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active, .clientside-site
+.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:active, .clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:focus, .clientside-site
+.clientside-site #wpadminbar li .ab-sub-wrapper .ab-item.ab-empty-item:focus {
   color: #999 !important;
 }
 
@@ -451,78 +416,86 @@ body {
 }
 
 /* Toolbar icons */
-#wpadminbar .ab-icon,
-#wpadminbar *:before,
-#wpadminbar *:after {
+#wpadminbar .ab-icon, #wpadminbar
+*:before, #wpadminbar
+*:after {
   top: 0 !important;
   padding: 0 !important;
   line-height: 52px !important;
   transition: color 0.15s;
 }
 
-#wpadminbar .ab-icon,
-#wpadminbar *:before,
-#wpadminbar *:after {
+#wpadminbar .ab-icon, #wpadminbar
+*:before, #wpadminbar
+*:after {
   color: #c5c5c5 !important;
 }
 
-.clientside-site #wpadminbar .ab-icon,
-.clientside-site #wpadminbar *:before,
-.clientside-site #wpadminbar *:after {
+.clientside-site #wpadminbar .ab-icon, .clientside-site #wpadminbar
+*:before, .clientside-site #wpadminbar
+*:after {
   color: #c5c5c5 !important;
 }
 
 #wpadminbar li:hover .ab-icon,
 #wpadminbar li:active .ab-icon,
-#wpadminbar li:focus .ab-icon,
-#wpadminbar li:hover *:before,
-#wpadminbar li:active *:before,
-#wpadminbar li:focus *:before,
-#wpadminbar li:hover *:after,
-#wpadminbar li:active *:after,
-#wpadminbar li:focus *:after {
+#wpadminbar li:focus .ab-icon, #wpadminbar li:hover
+*:before,
+#wpadminbar li:active
+*:before,
+#wpadminbar li:focus
+*:before, #wpadminbar li:hover
+*:after,
+#wpadminbar li:active
+*:after,
+#wpadminbar li:focus
+*:after {
   color: #555 !important;
 }
 
-.clientside-site #wpadminbar li:hover .ab-icon,
-.clientside-site #wpadminbar li:active .ab-icon,
-.clientside-site #wpadminbar li:focus .ab-icon,
-.clientside-site #wpadminbar li:hover *:before,
-.clientside-site #wpadminbar li:active *:before,
-.clientside-site #wpadminbar li:focus *:before,
-.clientside-site #wpadminbar li:hover *:after,
-.clientside-site #wpadminbar li:active *:after,
-.clientside-site #wpadminbar li:focus *:after {
+.clientside-site #wpadminbar li:hover .ab-icon, .clientside-site
+#wpadminbar li:active .ab-icon, .clientside-site
+#wpadminbar li:focus .ab-icon, .clientside-site #wpadminbar li:hover
+*:before, .clientside-site
+#wpadminbar li:active
+*:before, .clientside-site
+#wpadminbar li:focus
+*:before, .clientside-site #wpadminbar li:hover
+*:after, .clientside-site
+#wpadminbar li:active
+*:after, .clientside-site
+#wpadminbar li:focus
+*:after {
   color: #555 !important;
 }
 
-#wpadminbar li:hover .ab-submenu .ab-icon,
-#wpadminbar li:hover .ab-submenu *:before,
-#wpadminbar li:hover .ab-submenu *:after {
+#wpadminbar li:hover .ab-submenu .ab-icon, #wpadminbar li:hover .ab-submenu
+*:before, #wpadminbar li:hover .ab-submenu
+*:after {
   top: 1px !important;
 }
 
-#wpadminbar li:hover .ab-submenu .ab-icon,
-#wpadminbar li:hover .ab-submenu *:before,
-#wpadminbar li:hover .ab-submenu *:after {
+#wpadminbar li:hover .ab-submenu .ab-icon, #wpadminbar li:hover .ab-submenu
+*:before, #wpadminbar li:hover .ab-submenu
+*:after {
   color: #aaa !important;
 }
 
-#wp-admin-bar-comments > .ab-item > .ab-icon,
-#wp-admin-bar-comments > .ab-item > *:before,
-#wp-admin-bar-comments > .ab-item > *:after {
+#wp-admin-bar-comments > .ab-item > .ab-icon, #wp-admin-bar-comments > .ab-item >
+*:before, #wp-admin-bar-comments > .ab-item >
+*:after {
   top: 1px !important;
 }
 
-#wp-admin-bar-new-content > .ab-item > .ab-icon,
-#wp-admin-bar-new-content > .ab-item > *:before,
-#wp-admin-bar-new-content > .ab-item > *:after {
+#wp-admin-bar-new-content > .ab-item > .ab-icon, #wp-admin-bar-new-content > .ab-item >
+*:before, #wp-admin-bar-new-content > .ab-item >
+*:after {
   top: 1px !important;
 }
 
-#wp-admin-bar-clientside-notification-center > .ab-item > .ab-icon,
-#wp-admin-bar-clientside-notification-center > .ab-item > *:before,
-#wp-admin-bar-clientside-notification-center > .ab-item > *:after {
+#wp-admin-bar-clientside-notification-center > .ab-item > .ab-icon, #wp-admin-bar-clientside-notification-center > .ab-item >
+*:before, #wp-admin-bar-clientside-notification-center > .ab-item >
+*:after {
   position: relative;
   top: 1px !important;
 }
@@ -537,9 +510,7 @@ body {
   margin-right: 20px !important;
 }
 
-#wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:hover,
-#wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:active,
-#wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:focus,
+#wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:hover, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:active, #wpadminbar #wp-admin-bar-clientside-view-site > .ab-item:focus,
 #wpadminbar #wp-admin-bar-clientside-admin > .ab-item:hover,
 #wpadminbar #wp-admin-bar-clientside-admin > .ab-item:active,
 #wpadminbar #wp-admin-bar-clientside-admin > .ab-item:focus {
@@ -622,20 +593,19 @@ body {
   #wpadminbar li#wp-admin-bar-menu-toggle,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle,
   #wpadminbar li#wp-admin-bar-my-sites,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites {
     margin: 10px 0 !important;
   }
   #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item {
     margin-left: 0;
     padding-left: 20px !important;
   }
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item,
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:hover,
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:active,
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:focus,
+  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item, #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:hover, #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:active, #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:focus,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:hover,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:active,
@@ -644,28 +614,34 @@ body {
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item:hover,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item:active,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item:focus,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item:hover,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item:active,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item:focus {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item,
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item:hover,
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item:active,
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item:focus {
     border: 0;
     background: none !important;
   }
   #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item .ab-icon,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item .ab-icon,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon {
     width: auto;
     height: auto;
   }
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item .ab-icon:before,
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:before,
+  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item .ab-icon:before, #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:before,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item .ab-icon:before,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:before,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon:before,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item:before,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon:before,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item:before {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon:before,
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item:before {
     width: auto;
     height: 45px;
     font-size: 35px;
@@ -675,7 +651,8 @@ body {
   #wpadminbar li#wp-admin-bar-menu-toggle#wp-admin-bar-my-sites > .ab-item:before,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle#wp-admin-bar-my-sites > .ab-item:before,
   #wpadminbar li#wp-admin-bar-my-sites#wp-admin-bar-my-sites > .ab-item:before,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites#wp-admin-bar-my-sites > .ab-item:before {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites#wp-admin-bar-my-sites > .ab-item:before {
     font-size: 27px;
   }
 }
@@ -684,20 +661,19 @@ body {
   #wpadminbar li#wp-admin-bar-menu-toggle,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle,
   #wpadminbar li#wp-admin-bar-my-sites,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites {
     margin: 10px 0 !important;
   }
   #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item {
     margin-left: 0;
     padding-left: 20px !important;
   }
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item,
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:hover,
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:active,
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:focus,
+  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item, #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:hover, #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:active, #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:focus,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:hover,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:active,
@@ -706,28 +682,34 @@ body {
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item:hover,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item:active,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item:focus,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item:hover,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item:active,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item:focus {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item,
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item:hover,
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item:active,
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item:focus {
     border: 0;
     background: none !important;
   }
   #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item .ab-icon,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item .ab-icon,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon {
     width: auto;
     height: auto;
   }
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item .ab-icon:before,
-  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:before,
+  #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item .ab-icon:before, #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:before,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item .ab-icon:before,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle > .ab-item:before,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon:before,
   #wpadminbar li#wp-admin-bar-my-sites > .ab-item:before,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon:before,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites > .ab-item:before {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item .ab-icon:before,
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites > .ab-item:before {
     width: auto;
     height: 45px;
     font-size: 35px;
@@ -737,7 +719,8 @@ body {
   #wpadminbar li#wp-admin-bar-menu-toggle#wp-admin-bar-my-sites > .ab-item:before,
   .auto-fold #wpadminbar li#wp-admin-bar-menu-toggle#wp-admin-bar-my-sites > .ab-item:before,
   #wpadminbar li#wp-admin-bar-my-sites#wp-admin-bar-my-sites > .ab-item:before,
-  .auto-fold #wpadminbar li#wp-admin-bar-my-sites#wp-admin-bar-my-sites > .ab-item:before {
+  .auto-fold
+  #wpadminbar li#wp-admin-bar-my-sites#wp-admin-bar-my-sites > .ab-item:before {
     font-size: 27px;
   }
 }
@@ -747,9 +730,11 @@ body {
   #wp-admin-bar-updates,
   .auto-fold #wp-admin-bar-updates,
   #wp-admin-bar-comments,
-  .auto-fold #wp-admin-bar-comments,
+  .auto-fold
+  #wp-admin-bar-comments,
   #wp-admin-bar-new-content,
-  .auto-fold #wp-admin-bar-new-content {
+  .auto-fold
+  #wp-admin-bar-new-content {
     display: none !important;
   }
 }
@@ -758,9 +743,11 @@ body {
   #wp-admin-bar-updates,
   .auto-fold #wp-admin-bar-updates,
   #wp-admin-bar-comments,
-  .auto-fold #wp-admin-bar-comments,
+  .auto-fold
+  #wp-admin-bar-comments,
   #wp-admin-bar-new-content,
-  .auto-fold #wp-admin-bar-new-content {
+  .auto-fold
+  #wp-admin-bar-new-content {
     display: none !important;
   }
 }
@@ -818,9 +805,7 @@ body {
   color: #555 ;
 }
 
-#wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-clientside-username a:hover,
-#wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-clientside-username a:active,
-#wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-clientside-username a:focus {
+#wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-clientside-username a:hover, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-clientside-username a:active, #wpadminbar #wp-admin-bar-my-account #wp-admin-bar-user-actions #wp-admin-bar-clientside-username a:focus {
   text-decoration: underline;
 }
 
@@ -909,8 +894,8 @@ body {
   color: #c5c5c5 !important;
 }
 
-.clientside-site #screen-meta-links > div > a:after,
-.clientside-site #screen-meta-links > div > button:after {
+.clientside-site #screen-meta-links > div > a:after, .clientside-site
+#screen-meta-links > div > button:after {
   color: #c5c5c5 !important;
 }
 
@@ -932,18 +917,13 @@ body {
   color: #555 !important;
 }
 
-.clientside-site #screen-meta-links > div:hover > a:after,
-.clientside-site #screen-meta-links > div:active > a:after,
-.clientside-site #screen-meta-links > div:focus > a:after {
+.clientside-site #screen-meta-links > div:hover > a:after, .clientside-site
+#screen-meta-links > div:active > a:after, .clientside-site
+#screen-meta-links > div:focus > a:after {
   color: #555 !important;
 }
 
 /* Notification Center */
-#wp-admin-bar-clientside-notification-center,
-#wp-admin-bar-clientside-notification-center-dummy {
-  display: none;
-}
-
 @media screen and (max-width: 782px) {
   #wpadminbar li#wp-admin-bar-clientside-notification-center,
   .auto-fold #wpadminbar li#wp-admin-bar-clientside-notification-center {

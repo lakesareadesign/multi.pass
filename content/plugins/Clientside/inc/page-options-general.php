@@ -13,6 +13,17 @@
 			<?php } ?>
 		</div>
 
+		<div class="clientside-widget clientside-widget-empty">
+			<ul>
+				<li><?php _e( 'Index', 'clientside' ); ?></li>
+				<?php foreach ( Clientside_Options::get_options_sections() as $section_slug => $section_info ) { ?>
+					<?php if ( $section_info['page'] == 'clientside-options-general' ) { ?>
+						<li><a href="#<?php echo esc_attr( $section_slug ); ?>" data-scrollto><?php echo $section_info['title']; ?></a></li>
+					<?php } ?>
+				<?php } ?>
+			</ul>
+		</div>
+
 		<div class="clientside-widget clientside-widget-bordered">
 			<div class="inside">
 				<?php if ( is_multisite() ) { ?>

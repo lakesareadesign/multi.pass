@@ -54,7 +54,7 @@ class QA_Edit {
 					$url = qa_get_url( 'single', $post->post_parent );
 				} elseif ( 'question' == $post->post_type ) {
 					wp_delete_post( $post->ID );
-					$url = esc_url_raw(add_query_arg( 'qa_msg', 'deleted', qa_get_url( 'archive' ) ));
+					$url = add_query_arg( 'qa_msg', 'deleted', qa_get_url( 'archive' ) );
 				}
 			}
 		} elseif ( isset( $_POST['qa_action'] ) ) {
@@ -72,7 +72,7 @@ class QA_Edit {
 		}
 
 		if ( !$url ) {
-			$url = esc_url_raw(add_query_arg( 'qa_error', 1, qa_get_url( 'archive' ) ));
+			$url = add_query_arg( 'qa_error', 1, qa_get_url( 'archive' ) );
 		}
 
 		wp_redirect( $url );
@@ -321,7 +321,7 @@ class QA_Edit {
 		}
 
 		$message_content = get_option('qa_email_notification_content', $qa_email_notification_content);
-		$message_content = str_replace( "SITE_NAME", wp_specialchars_decode(get_option('blogname'), ENT_QUOTES), $message_content );
+		$message_content = str_replace( "SITE_NAME", get_option( 'blogname' ), $message_content );
 		$message_content = str_replace( "SITE_URL", 'http://' . $current_site->domain . '', $message_content );
 
 		$message_content = str_replace( "QUESTION_TITLE", $post->post_title, $message_content );
@@ -339,7 +339,7 @@ class QA_Edit {
 		$message_content = str_replace( "\'", "'", $message_content );
 
 		$subject_content = get_option('qa_email_notification_subject', $qa_email_notification_subject);
-		$subject_content = str_replace( "SITE_NAME", wp_specialchars_decode(get_option('blogname'), ENT_QUOTES), $subject_content );
+		$subject_content = str_replace( "SITE_NAME", get_option( 'blogname' ), $subject_content );
 		// Modify message subject
 		$subject_content = apply_filters( 'qa_message_subject', $subject_content, $post );
 
@@ -348,7 +348,7 @@ class QA_Edit {
 			$admin_email = 'admin@' . $current_site->domain;
 		}
 
-		$message_headers = "MIME-Version: 1.0\n" . "From: " . wp_specialchars_decode(get_option('blogname'), ENT_QUOTES) .  " <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
+		$message_headers = "MIME-Version: 1.0\n" . "From: " . get_option( 'blogname' ) .  " <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 		// Modify message headers
 		$message_headers = apply_filters( 'qa_message_headers', $message_headers, $post );
 

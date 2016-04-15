@@ -12,26 +12,27 @@
  * @return bool
  */
 function is_qa_page( $type = '' ) {
+	global $wp;
 	static $flags;
 
 	if ( !$flags ) {
 		$flags = array(
-			'ask'		 => (bool) get_query_var( 'qa_ask' ),
+			'ask' => (bool) get_query_var( 'qa_ask' ),
 			'unanswered' => (bool) get_query_var( 'qa_unanswered' ),
-			'edit'		 => (bool) get_query_var( 'qa_edit' ),
-			'user'		 => 'question' == get_query_var( 'post_type' ) && get_query_var( 'author_name' ),
-			'single'	 => is_singular( 'question' ),
-			'archive'	 => is_post_type_archive( 'question' ),
-			'tag'		 => is_tax( 'question_tag' ),
-			'category'	 => is_tax( 'question_category' )
+			'edit' => (bool) get_query_var( 'qa_edit' ),
+			'user' => 'question' == get_query_var( 'post_type' ) && get_query_var( 'author_name' ),
+			'single' => is_singular( 'question' ),
+			'archive' => is_post_type_archive( 'question' ),
+			'tag' => is_tax( 'question_tag' ),
+			'category' => is_tax( 'question_category' )
 		);
 	}
 
 	// Check if any flags are true
 	if ( empty( $type ) )
-		$result	 = in_array( true, $flags );
+		$result = in_array( true, $flags );
 	else
-		$result	 = isset( $flags[ $type ] ) && $flags[ $type ];
+		$result = isset( $flags[ $type ] ) && $flags[ $type ];
 
 	return apply_filters( 'is_qa_page', $result, $type );
 }
@@ -48,13 +49,13 @@ function qa_get_url( $type, $id = 0 ) {
 
 	switch ( $type ) {
 		case 'ask':
-			$result	 = trailingslashit( $base ) . user_trailingslashit( QA_SLUG_ASK );
+			$result = trailingslashit( $base ) . user_trailingslashit( QA_SLUG_ASK );
 			break;
 		case 'unanswered':
-			$result	 = trailingslashit( $base ) . user_trailingslashit( QA_SLUG_UNANSWERED );
+			$result = trailingslashit( $base ) . user_trailingslashit( QA_SLUG_UNANSWERED );
 			break;
 		case 'edit':
-			$post	 = get_post( $id );
+			$post = get_post( $id );
 			if ( $post ) {
 				$result = trailingslashit( $base ) . user_trailingslashit( QA_SLUG_EDIT . '/' . $post->ID );
 			}
@@ -62,10 +63,10 @@ function qa_get_url( $type, $id = 0 ) {
 		case 'delete':
 			$post = get_post( $id );
 			if ( $post ) {
-				$result = esc_url_raw( add_query_arg( array(
-					'qa_delete'	 => $post->ID,
-					'_wpnonce'	 => wp_create_nonce( 'qa_delete' )
-				), $base ) );
+				$result = add_query_arg( array(
+					'qa_delete' => $post->ID,
+					'_wpnonce' => wp_create_nonce( 'qa_delete' )
+				), $base );
 			}
 			break;
 		case 'user':
@@ -81,16 +82,16 @@ function qa_get_url( $type, $id = 0 ) {
 			}
 			break;
 		case 'single':
-			$result	 = get_permalink( $id );
+			$result = get_permalink( $id );
 			break;
 		case 'archive':
-			$result	 = get_post_type_archive_link( 'question' );
+			$result = get_post_type_archive_link( 'question' );
 			break;
 		case 'tag':
-			$result	 = get_term_link( $id, 'question_tag' );
+			$result = get_term_link( $id, 'question_tag' );
 			break;
 		case 'category':
-			$result	 = get_term_link( $id, 'question_category' );
+			$result = get_term_link( $id, 'question_category' );
 			break;
 		default:
 			return '';
@@ -104,33 +105,33 @@ function is_question_answered( $question_id = 0, $type = 'any' ) {
 		$question_id = get_the_ID();
 
 	if ( 'accepted' == $type ) {
-		return apply_filters( 'qa_is_question_answered', get_post_meta( $question_id, '_accepted_answer', true ) );
+		return apply_filters( 'qa_is_question_answered', get_post_meta( $question_id, '_accepted_answer', true ));
 	} else {
-		return apply_filters( 'qa_is_question_answered', (get_answer_count( $question_id ) > 0 ) );
+		return apply_filters( 'qa_is_question_answered', (get_answer_count( $question_id ) > 0) );
 	}
 }
 
 function get_answer_count( $question_id ) {
-	$count = (int) get_post_meta( $question_id, '_answer_count', true );
+	$count = (int)get_post_meta( $question_id, '_answer_count', true );
 
-	if ( $count < 0 )
-		update_post_meta( $question_id, '_answer_count', 0 );
+	if($count < 0) update_post_meta( $question_id, '_answer_count', 0);
 
 	return $count;
 }
 
+
 /* Reputation API */
 
 function qa_get_votes( $id ) {
-	return $GLOBALS[ '_qa_votes' ]->get( $id );
+	return $GLOBALS['_qa_votes']->get( $id );
 }
 
 function qa_add_vote( $id, $vote ) {
-	return $GLOBALS[ '_qa_votes' ]->add( $id, $vote );
+	return $GLOBALS['_qa_votes']->add( $id, $vote );
 }
 
 function qa_remove_vote( $id ) {
-	return $GLOBALS[ '_qa_votes' ]->remove( $id );
+	return $GLOBALS['_qa_votes']->remove( $id );
 }
 
 function qa_get_user_rep( $user_id ) {
@@ -138,7 +139,7 @@ function qa_get_user_rep( $user_id ) {
 }
 
 /* = Private API (the following functions may vanish at any point)
-  -------------------------------------------------------------- */
+-------------------------------------------------------------- */
 
 /**
  * Minimalist HTML framework.
@@ -157,9 +158,9 @@ function _qa_html( $tag ) {
 
 	$tag = array_shift( $args );
 
-	if ( is_array( $args[ 0 ] ) ) {
-		$closing	 = $tag;
-		$attributes	 = array_shift( $args );
+	if ( is_array( $args[0] ) ) {
+		$closing = $tag;
+		$attributes = array_shift( $args );
 		foreach ( $attributes as $key => $value ) {
 			$tag .= ' ' . $key . '="' . htmlspecialchars( $value, ENT_QUOTES ) . '"';
 		}
@@ -180,50 +181,50 @@ function _qa_html( $tag ) {
  * Update to v1.4
  * @since 1.4
  */
-function qa_update_14() {
-	$version = get_option( 'qa_installed_version' );
-	if ( $version == QA_VERSION )
-		return;
+	function qa_update_14() {
+		$version = get_option('qa_installed_version');
+		if ( $version == QA_VERSION )
+			return;
 
-	// Just update version number if theme is already supported
-	if ( strpos( qa_supported_themes(), get_template() ) !== false )
-		$supported_theme = true;
-	else
-		$supported_theme = false;
-
-	if ( !$options = get_option( QA_OPTIONS_NAME ) )
-		$options = array();
-
-	$changed = false;
-	if ( !isset( $options[ "general_settings" ][ "page_layout" ] ) ) {
-		if ( isset( $options[ "general_settings" ][ "full_width" ] ) && $options[ "general_settings" ][ "full_width" ] )
-			$options[ "general_settings" ][ "page_layout" ]	 = 'content';
+		// Just update version number if theme is already supported
+		if ( strpos( qa_supported_themes(), get_template() ) !== false )
+			$supported_theme = true;
 		else
-			$options[ "general_settings" ][ "page_layout" ]	 = 'content-sidebar';
+			$supported_theme = false;
 
-		unset( $options[ "general_settings" ][ "full_width" ] );
-		$changed = true;
-	}
-	if ( !isset( $options[ "general_settings" ][ "page_width" ] ) && !$supported_theme ) {
-		$options[ "general_settings" ][ "page_width" ]	 = 1000;
-		$changed									 = true;
-	}
-	if ( !isset( $options[ "general_settings" ][ "content_width" ] ) && !$supported_theme ) {
-		$options[ "general_settings" ][ "content_width" ]	 = 600;
-		$changed										 = true;
-	}
-	if ( !isset( $options[ "general_settings" ][ "sidebar_width" ] ) && !$supported_theme ) {
-		$options[ "general_settings" ][ "sidebar_width" ]	 = 300;
-		$changed										 = true;
-	}
-	if ( !isset( $options[ "general_settings" ][ "content_alignment" ] ) ) {
-		$options[ "general_settings" ][ "content_alignment" ]	 = 'center';
-		$changed											 = true;
-	}
-	if ( $changed || empty( $options ) ) {
-		update_option( QA_OPTIONS_NAME, $options );
-		update_option( 'qa_installed_version', QA_VERSION );
-	}
+		if ( !$options = get_option( QA_OPTIONS_NAME ) )
+			$options = array();
+
+		$changed = false;
+		if ( !isset( $options["general_settings"]["page_layout"] ) ) {
+			if ( isset( $options["general_settings"]["full_width"] ) && $options["general_settings"]["full_width"] )
+				$options["general_settings"]["page_layout"] = 'content';
+			else
+				$options["general_settings"]["page_layout"] = 'content-sidebar';
+
+			unset( $options["general_settings"]["full_width"] );
+			$changed = true;
+		}
+		if ( !isset( $options["general_settings"]["page_width"] ) && !$supported_theme ) {
+			$options["general_settings"]["page_width"] = 1000;
+			$changed = true;
+		}
+		if ( !isset( $options["general_settings"]["content_width"] ) && !$supported_theme ) {
+			$options["general_settings"]["content_width"] = 600;
+			$changed = true;
+		}
+		if ( !isset( $options["general_settings"]["sidebar_width"] ) && !$supported_theme ) {
+			$options["general_settings"]["sidebar_width"] = 300;
+			$changed = true;
+		}
+		if ( !isset( $options["general_settings"]["content_alignment"] ) ) {
+			$options["general_settings"]["content_alignment"] = 'center';
+			$changed = true;
+		}
+		if ( $changed || empty( $options ) ) {
+			update_option( QA_OPTIONS_NAME, $options );
+			update_option( 'qa_installed_version', QA_VERSION);
+		}
 }
 
 /**
@@ -232,16 +233,16 @@ function qa_update_14() {
  * @since 1.4
  *
  */
-function qa_supported_themes() {
-	$dir	 = QA_PLUGIN_DIR . 'theme-mods/css/';
-	$files	 = glob( $dir . 'custom-*.css' );
+function qa_supported_themes(){
+	/*$dir = QA_PLUGIN_DIR . 'theme-mods/css/';
+	$files = glob( $dir . 'custom-*.css' );
 	if ( is_array( $files ) && !empty( $files ) ) {
 		$file_list = '';
 		foreach ( $files as $filename ) {
-			$file_list .= str_replace( array( $dir . 'custom-', '.css' ), '', $filename ) . ', ';
+			$file_list .= str_replace( array( $dir . 'custom-', '.css'), '', $filename ) . ', ';
 		}
 		return rtrim( $file_list, ', ' );
-	}
+	}*/
 
 	return '';
 }

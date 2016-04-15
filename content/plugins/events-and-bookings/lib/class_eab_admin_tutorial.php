@@ -13,7 +13,7 @@ class Eab_AdminTutorial {
 		if (version_compare($wp_version, "3.3") >= 0) {
 		    add_action('admin_init', array($this, 'tutorial') );
 		}
-		add_action('wp_ajax_eab_restart_tutorial', array($this, 'handle_tutorial_restart'));	     	 	 			 		 	
+		add_action('wp_ajax_eab_restart_tutorial', array($this, 'handle_tutorial_restart'));
 	}
 
 	function tutorial() {

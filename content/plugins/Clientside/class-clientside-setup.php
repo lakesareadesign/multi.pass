@@ -13,18 +13,18 @@ class Clientside_Setup {
 	static function action_enqueue_admin_styles() {
 
 		// Always-use CSS
-		wp_enqueue_style( 'clientside-admin-css', plugins_url( 'css/clientside-admin.css', __FILE__ ), array(), '1.1.12' );
+		wp_enqueue_style( 'clientside-admin-css', plugins_url( 'css/clientside-admin.css', __FILE__ ), array(), '1.2.9' );
 
 		// Enqueue the media manager scripts and styles
 		wp_enqueue_media();
 
 		// Theme CSS, when admin theming is enabled
 		if ( Clientside_Options::get_saved_option( 'enable-admin-theme' ) ) {
-			wp_enqueue_style( 'clientside-theme-css', plugins_url( 'css/clientside-admin-theme.min.css', __FILE__ ), array( 'clientside-admin-css', 'thickbox' ), '1.1.12' );
+			wp_enqueue_style( 'clientside-theme-css', plugins_url( 'css/clientside-admin-theme.min.css', __FILE__ ), array( 'clientside-admin-css', 'thickbox' ), '1.2.9' );
 
 			// Additional external plugin support
 			if ( Clientside_Options::get_saved_option( 'enable-plugin-support' ) ) {
-				wp_enqueue_style( 'clientside-plugin-support-css', plugins_url( 'css/clientside-plugin-support.min.css', __FILE__ ), array( 'clientside-theme-css' ), '1.1.12' );
+				wp_enqueue_style( 'clientside-plugin-support-css', plugins_url( 'css/clientside-plugin-support.min.css', __FILE__ ), array( 'clientside-theme-css' ), '1.2.9' );
 			}
 
 		}
@@ -34,7 +34,7 @@ class Clientside_Setup {
 	// Enqueue admin scripts
 	static function action_enqueue_admin_scripts() {
 
-		wp_enqueue_script( 'clientside-admin-js', plugins_url( 'js/clientside-admin.js', __FILE__ ), array( 'jquery', 'thickbox', 'jquery-ui-sortable' ), '1.1.12' );
+		wp_enqueue_script( 'clientside-admin-js', plugins_url( 'js/clientside-admin.js', __FILE__ ), array( 'jquery', 'thickbox', 'jquery-ui-sortable' ), '1.2.9' );
 
 		// Add localized strings
 		wp_localize_script( 'clientside-admin-js', 'L10n',
@@ -47,6 +47,7 @@ class Clientside_Setup {
 				'revertConfirm' => _x( 'Are you sure you want to remove all customizations and start from scratch?', 'Confirmation message when reverting the Admin Menu Editor to default.', 'clientside' ),
 				'screenOptions' => __( 'Screen Options' ),
 				'help' => __( 'Help' ),
+				'exportLoading' => __( 'Loading...', 'clientside' ),
 				// Non-translation variables
 				'options_slug' => Clientside_Options::$options_slug
 			)
@@ -59,7 +60,7 @@ class Clientside_Setup {
 
 		// Only if login page theming is enabled
 		if ( Clientside_Options::get_saved_option( 'enable-login-theme' ) ) {
-			wp_enqueue_style( 'clientside-login-css', plugins_url( 'css/clientside-login.css', __FILE__ ), array(), '1.1.12' );
+			wp_enqueue_style( 'clientside-login-css', plugins_url( 'css/clientside-login.css', __FILE__ ), array(), '1.2.9' );
 		}
 
 	}
@@ -69,7 +70,7 @@ class Clientside_Setup {
 
 		// Only if login page theming is enabled
 		if ( Clientside_Options::get_saved_option( 'enable-login-theme' ) ) {
-			wp_enqueue_script( 'clientside-login-js', plugins_url( 'js/clientside-login.js', __FILE__ ), array( 'jquery' ), '1.1.12' );
+			wp_enqueue_script( 'clientside-login-js', plugins_url( 'js/clientside-login.js', __FILE__ ), array( 'jquery' ), '1.2.9' );
 		}
 
 	}
@@ -85,8 +86,10 @@ class Clientside_Setup {
 		// Load the stylesheet
 		add_editor_style( plugins_url( 'css/clientside-editor.css', __FILE__ ) );
 
-		// Load the Google Fonts
-		add_editor_style( str_replace( ',', '%2C', '//fonts.googleapis.com/css?family=' . self::$editor_font_family ) );
+		// Load the Google Fonts, unless Google Fonts are disabled
+		if ( ! Clientside_Options::get_saved_option( 'disable-google-fonts-admin' ) ) {
+			add_editor_style( str_replace( ',', '%2C', '//fonts.googleapis.com/css?family=' . self::$editor_font_family ) );
+		}
 
 	}
 
@@ -98,18 +101,21 @@ class Clientside_Setup {
 
 	}
 
-	// Dequeue and enqueue Google Fonts fonts
+	// Dequeue and enqueue Google Fonts in the admin area
 	static function action_enqueue_admin_fonts() {
 
 		// Deactivate the default Google Fonts version of Open Sans
 		wp_deregister_style( 'open-sans' );
+		wp_register_style( 'open-sans', false );
 
-		// Replace it
-		wp_enqueue_style( 'open-sans', '//fonts.googleapis.com/css?family=' . self::$admin_font_family );
+		// Replace them, unless Google Fonts are disabled
+		if ( ! Clientside_Options::get_saved_option( 'disable-google-fonts-admin' ) ) {
+			wp_enqueue_style( 'clientside-admin-fonts', '//fonts.googleapis.com/css?family=' . self::$admin_font_family );
+		}
 
 	}
 
-	// Dequeue and enqueue Google Fonts fonts
+	// Enqueue Google Fonts fonts for the login screen
 	static function action_enqueue_login_fonts() {
 		wp_enqueue_style( 'clientside-login-fonts', '//fonts.googleapis.com/css?family=' . self::$admin_font_family );
 	}
@@ -139,29 +145,15 @@ class Clientside_Setup {
 
 	}
 
-	// Remove plugin listing "Deactivate" link depending on network option
-	static function filter_remove_plugin_deactivation( $actions, $plugin_file, $plugin_data, $context ) {
-
-		// Only for Clientside
-		if ( $plugin_file != 'Clientside/index.php' ) {
-			return $actions;
-		}
-
-		// Remove from links array
-		if ( isset( $actions['deactivate'] ) && ! Clientside_User::is_admin() ) {
-			unset( $actions['deactivate'] );
-		}
-
-		// Return links array
-		return $actions;
-
-	}
-
 	// Add CSS classes to the page's <body> tag
 	static function filter_add_body_classes( $body_classes ) {
 
 		$new_classes = array();
-		$is_login = is_array( $body_classes ) && substr( $body_classes[0], 0, 5) == 'login';
+
+		// Only when logged in
+		if ( ! is_user_logged_in() ) {
+			return $body_classes;
+		}
 
 		// If viewing the site
 		if ( ! is_admin() ) {
@@ -169,7 +161,7 @@ class Clientside_Setup {
 		}
 
 		// If theming is enabled
-		if ( ( $is_login && Clientside_Options::get_saved_option( 'enable-login-theme' ) ) || Clientside_Options::get_saved_option( 'enable-admin-theme' ) ) {
+		if ( Clientside::is_themed() ) {
 			$new_classes[] = 'clientside-theme';
 		}
 
@@ -211,6 +203,11 @@ class Clientside_Setup {
 		// If hide-media-bulk-select option is enabled
 		if ( Clientside_Options::get_saved_option( 'hide-media-bulk-select' ) ) {
 			$new_classes[] = 'clientside-hide-media-bulk-select';
+		}
+
+		// If hide-comment-type-filter option is enabled
+		if ( Clientside_Options::get_saved_option( 'hide-comment-type-filter' ) ) {
+			$new_classes[] = 'clientside-hide-comment-type-filter';
 		}
 
 		// If enable-separators option is enabled
@@ -259,7 +256,7 @@ class Clientside_Setup {
 	// Hide Clientside from plugin list depending on network option
 	static function filter_trim_plugin_list( $plugins ) {
 
-		if ( ! Clientside_User::is_admin() ) {
+		if ( is_multisite() && Clientside_Options::get_saved_network_option( 'hide-plugin-entry' ) ) {
 			unset( $plugins['Clientside/index.php'] );
 		}
 

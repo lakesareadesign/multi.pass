@@ -25,21 +25,23 @@
 
 		<div class="clientside-widget clientside-widget-bordered">
 			<ol class="inside clientside-docs-index">
-				<li><a href="#clientside-doc-installation">Installation</a></li>
-				<li><a href="#clientside-doc-options">Finding the Plugin Options</a></li>
-				<li><a href="#clientside-doc-updating">Updating the plugin</a></li>
-				<li><a href="#clientside-doc-uninstall">Deactivating / Uninstalling the plugin</a></li>
-				<li><a href="#clientside-doc-admin-menu-editor">Customizing the admin menu with the Admin Menu Editor Tool</a></li>
-				<li><a href="#clientside-doc-disabling-menu-editor">How do I disable the Clientside Menu Editor?</a></li>
-				<li><a href="#clientside-doc-admin-widget-manager">Hiding admin page sections with the Admin Widget Manager Tool</a></li>
-				<li><a href="#clientside-doc-notification-center">Using or disabling the Notification Center</a></li>
-				<li><a href="#clientside-doc-hiding">Hiding other admin page sections</a></li>
-				<li><a href="#clientside-doc-admin-column-manager">Hiding post (any type) listing columns with the Admin Column Manager Tool</a></li>
-				<li><a href="#clientside-doc-upload-logo">Uploading a custom logo image</a></li>
-				<li><a href="#clientside-doc-long-menu">Accessing menu items in long admin menus</a></li>
-				<li><a href="#clientside-doc-network-options">Managing network (multisite) options</a></li>
-				<li><a href="#clientside-doc-disable-theme">Using Clientside functionality without the theme</a></li>
-				<li><a href="#clientside-doc-support">Support</a></li>
+				<li><a href="#clientside-doc-installation" data-scrollto>Installation</a></li>
+				<li><a href="#clientside-doc-options" data-scrollto>Finding the Plugin Options</a></li>
+				<li><a href="#clientside-doc-updating" data-scrollto>Updating the plugin</a></li>
+				<li><a href="#clientside-doc-uninstall" data-scrollto>Deactivating / Uninstalling the plugin</a></li>
+				<li><a href="#clientside-doc-import-export" data-scrollto>How to backup your settings</a></li>
+				<li><a href="#clientside-doc-admin-menu-editor" data-scrollto>Customizing the admin menu with the Admin Menu Editor Tool</a></li>
+				<li><a href="#clientside-doc-disabling-menu-editor" data-scrollto>How do I disable the Clientside Menu Editor?</a></li>
+				<li><a href="#clientside-doc-admin-widget-manager" data-scrollto>Hiding admin page sections with the Admin Widget Manager Tool</a></li>
+				<li><a href="#clientside-doc-notification-center" data-scrollto>Using or disabling the Notification Center</a></li>
+				<li><a href="#clientside-doc-hiding" data-scrollto>Hiding other admin page sections</a></li>
+				<li><a href="#clientside-doc-admin-column-manager" data-scrollto>Hiding post (any type) listing columns with the Admin Column Manager Tool</a></li>
+				<li><a href="#clientside-doc-upload-logo" data-scrollto>Uploading a custom logo image</a></li>
+				<li><a href="#clientside-doc-long-menu" data-scrollto>Accessing menu items in long admin menus</a></li>
+				<li><a href="#clientside-doc-network-options" data-scrollto>Managing network (multisite) options</a></li>
+				<li><a href="#clientside-doc-disable-theme" data-scrollto>Using Clientside functionality without the theme</a></li>
+				<li><a href="#clientside-doc-custom-cssjs" data-scrollto>Injecting custom CSS and javascript with the Custom CSS/JS Tool</a></li>
+				<li><a href="#clientside-doc-support" data-scrollto>Support</a></li>
 			</ol>
 		</div>
 
@@ -69,7 +71,7 @@
 		</ol>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-options">
@@ -87,22 +89,27 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-updating">
 			Updating the plugin
 		</h3>
 
+		<!--
 		<p>
 			Updating Clientside works just like any other plugin. If an update is available a notification will appear in the plugin list or the general WordPress updates page, along with a button to install the update.<br>
+		</p>
+		-->
+		<p>
+			Visit your CodeCanyon downloads page to download the latest version of Clientside. Simply replace the plugin folder with a newer one to upgrade.
 		</p>
 		<p>
 			All settings are kept when updating and deactivation / uninstallation prior to updating is not necessary.
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-uninstall">
@@ -118,7 +125,25 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
+		</p>
+
+		<h3 class="clientside-header-underlined" id="clientside-doc-import-export">
+			How to backup and restore your settings and configurations
+		</h3>
+
+		<p>
+			Visit the "Import/export Settings" tab under Appearance > Admin Theme to find the import/exporting features for the Clientside options.
+		</p>
+		<p>
+			Under Export you can choose which sections to export. Hitting the Export button will generate a text string that can be used to import the settings at a later time or in a different Clientside installation.
+		</p>
+		<p>
+			Under Import you can paste a previously exported text string to reapply the exported settings to the current installation. Importing settings overwrites existing settings in the sections it applies to. Sections that were not included in the export will be ignored when importing.
+		</p>
+
+		<p>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-admin-menu-editor">
@@ -131,6 +156,10 @@
 
 		<p>
 			The menu editor allows you to reorder menu items, rename them and conditionally hide them for specific user roles. This avoids confusion and distraction for the affected user group.
+		</p>
+
+		<p>
+			Note that this tool does not create or remove permissions (user capabilities) necessary to view certain pages. Therefore a page can still be inaccessible to a certain user group even if you enable it in the menu editor.
 		</p>
 
 		<h4>Reordering menu items</h4>
@@ -161,7 +190,7 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-disabling-menu-editor">
@@ -173,7 +202,7 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-admin-widget-manager">
@@ -206,7 +235,7 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-notification-center">
@@ -224,7 +253,7 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-hiding">
@@ -239,7 +268,7 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-admin-column-manager">
@@ -271,7 +300,7 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-upload-logo">
@@ -290,7 +319,7 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-long-menus">
@@ -302,7 +331,7 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-network-options">
@@ -321,7 +350,7 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-disable-theme">
@@ -339,7 +368,22 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
+		</p>
+
+		<h3 class="clientside-header-underlined" id="clientside-doc-custom-cssjs">
+			Injecting custom CSS and javascript with the Custom CSS/JS Tool
+		</h3>
+
+		<p>
+			One of Clientside’s bundled tools is the “<a class="clientside-internal-link" href="<?php echo Clientside_Pages::get_page_url( 'clientside-custom-cssjs-tool' ); ?>">Custom CSS/JS Tool</a>”. You can find it via the <a class="clientside-internal-link" href="<?php echo Clientside_Pages::get_page_url( 'clientside-tools' ); ?>">Clientside Tools page</a>, or in the menu under Tools.
+		</p>
+		<p>
+			Writing CSS styles or javascript code into the text areas and saving the page will inject these snippets into the site or admin area accordingly. This can be used to overwrite or add to existing styles and scripts if you know how to do so.
+		</p>
+
+		<p>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 		<h3 class="clientside-header-underlined" id="clientside-doc-support">
@@ -351,7 +395,7 @@
 		</p>
 
 		<p>
-			<a class="clientside-docs-backtotop" href="#wpwrap">Back to top</a>
+			<a class="clientside-docs-backtotop" href="#wpwrap" data-scrollto>Back to top</a>
 		</p>
 
 

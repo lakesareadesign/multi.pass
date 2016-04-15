@@ -60,7 +60,7 @@ class e_newsletter_subscribe extends WP_Widget {
         $all_groups = $email_newsletter->get_groups();
         $groups_html = array();
         foreach ($all_groups as $group) {
-            $checked = (isset($instance['auto_groups']) && is_array($instance['auto_groups']) && in_array($group['group_id'], $instance['auto_groups'])) ? 'checked="checked"' : '';	     	 	 		 			 	
+            $checked = (isset($instance['auto_groups']) && is_array($instance['auto_groups']) && in_array($group['group_id'], $instance['auto_groups'])) ? 'checked="checked"' : '';
             $groups_html[] = '
                 <input id="'.$this->get_field_id( 'auto_groups_'.$group['group_id'] ).'" name="'.$this->get_field_name( 'auto_groups' ).'[]" type="checkbox" value="'.$group['group_id'].'" '.$checked.'/>
                 <label for="'.$this->get_field_id( 'auto_groups_'.$group['group_id'] ).'">'.$group['group_name'].'</label>

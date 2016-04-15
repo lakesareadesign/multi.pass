@@ -2,7 +2,7 @@
  * This file is part of: Clientside
  * Author: Berend de Jong
  * Author URI: http://frique.me/
- * Version: 1.1.12 (2015-08-09 00:16)
+ * Version: 1.2.9 (2016-04-15 00:11)
  */
 
 jQuery( function( $ ) {
@@ -13,19 +13,22 @@ jQuery( function( $ ) {
 	 * 1.0 Setup
 	 * 2.0 Better placeholders
 	 * 3.0 Widget close buttons
-	 * 4.0 Open Screen Options & Help in popups
+	 * 4.0 Open Screen Options & Help in a lightbox
 	 * 5.0 Revert Clientside Options
 	 * 6.0 Admin Menu Editor Tool
 	 * 7.0 Admin Widget Manager
 	 * 8.0 Admin Column Manager
-	 * 9.0 Custom Media Manager trigger
-	 * 10.0 Main menu
-	 * 11.0 Conditional highlighting of elements
-	 * 12.0 Animating scroll triggers
-	 * 13.0 Add global back-to-top button to left-bottom
-	 * 14.0 Add warning when navigating away when theme/plugin editor is used
-	 * 15.0 Add a .wrap to (plugin) pages that don't have one
-	 * 16.0 Notification Center
+	 * 9.0 Custom CSS/JS tool
+	 * 10.0 Custom Media Manager trigger
+	 * 11.0 Main menu
+	 * 12.0 Conditional highlighting of elements
+	 * 13.0 Animating scroll triggers
+	 * 14.0 Add global back-to-top button to left-bottom
+	 * 15.0 Add warning when navigating away when theme/plugin editor is used
+	 * 16.0 Add a .wrap to (plugin) pages that don't have one
+	 * 17.0 Notification Center
+	 * 18.0 Import/export functionality
+	 * 19.0 Insert tab character on tab keypress in code textarea
 	 */
 
 	/* 1.0 Setup */
@@ -76,7 +79,7 @@ jQuery( function( $ ) {
 
 	} );
 
-	/* 4.0 Open Screen Options & Help in popups */
+	/* 4.0 Open Screen Options & Help in a lightbox */
 
 	// Replace Screen Options / Help button events with Fancybox popup
 	if ( theme ) {
@@ -243,7 +246,22 @@ jQuery( function( $ ) {
 
 	});
 
-	/* 9.0 Custom Media Manager trigger */
+	/* 9.0 Custom CSS/JS tool */
+
+	// Event: Revert button click
+	$( '.clientside-custom-cssjs-revert-button' ).on( 'click', function( e ) {
+
+		e.preventDefault();
+
+		if ( confirm( L10n.revertConfirm ) ) {
+			// Add a revert request field to the form & submit it
+			$( '.clientside-custom-cssjs-form' ).prepend( '<input type="hidden" name="' + L10n.options_slug + '[clientside-revert-page]" value="1" />' );
+			$( '.clientside-custom-cssjs-save-button' ).trigger( 'click' );
+		}
+
+	});
+
+	/* 10.0 Custom Media Manager trigger */
 	$( '.clientside-media-select-button' ).on( 'click', function( e ) {
 
 		e.preventDefault();
@@ -264,7 +282,7 @@ jQuery( function( $ ) {
 
 	} );
 
-	/* 10.0 Main menu */
+	/* 11.0 Main menu */
 
 	// Event: Relay custom sidebar-menu collapse button click to original collapse button
 	$( '#toplevel_page_clientside-menu-collapse > a, #wp-admin-bar-clientside-menu-expand' ).on( 'click', function( e ) {
@@ -316,7 +334,7 @@ jQuery( function( $ ) {
 			} );
 	}
 
-	/* 11.0 Conditional highlighting of elements */
+	/* 12.0 Conditional highlighting of elements */
 
 	// Highlight the quick-draft save button when the form is edited
 	$( '.clientside-theme #dashboard_quick_press' ).on( 'change keyup', ':input:not([type="submit"])', function() {
@@ -401,7 +419,7 @@ jQuery( function( $ ) {
 
 	} );
 
-	/* 12.0 Animating scroll triggers */
+	/* 13.0 Animating scroll triggers */
 
 	// Scroll the page with animation
 	function scrollto( y_position ) {
@@ -411,23 +429,21 @@ jQuery( function( $ ) {
 	}
 
 	// Capture clicks on on-page hash links and trigger an animated scroll
-	$( '[href^="#"]' ).on( 'click', function( e ) {
-
+	$( '[data-scrollto]' ).on( 'click', function( e ) {
 		var href = $( this ).attr( 'href' );
 
-		// Ignore if this is a Thickbox call
-		if ( href.substring(0, 4) === "#TB_" ) {
-			return true;
-		}
-		// Ignore post edit screen publish detail forms
-		if ( href === '#post_status' || href === '#visibility' || href === '#edit_timestamp' ) {
-			return true;
+		// Check if element with target #id exists
+		var $target = $( href );
+
+		// Check if element with name="id" exists
+		if ( ! $target.length ) {
+			$target = $( '[name="' + href.replace( '#', '' ) + '"]' );
 		}
 
-		var $target = $( href );
+		// Only perform the animation if an HTML target exists
 		if ( $target.length ) {
-			//e.preventDefault(); // Caused trouble for cases where there were other events attached
-			scrollto( $target.offset().top );
+			e.preventDefault();
+			scrollto( $target.offset().top - 100 );
 		}
 
 	} );
@@ -441,7 +457,7 @@ jQuery( function( $ ) {
 		}
 	} );
 
-	/* 13.0 Add global back-to-top button to left-bottom */
+	/* 14.0 Add global back-to-top button to left-bottom */
 
 	// Add back-to-top arrow to left-bottom
 	if ( theme ) {
@@ -474,9 +490,9 @@ jQuery( function( $ ) {
 		} );
 	}
 
-	/* 14.0 Add warning when navigating away when theme/plugin editor is used */
+	/* 15.0 Add warning when navigating away when theme/plugin editor is used */
 
-	$( '#template #newcontent' ).one( 'change', function() {
+	$( '#template #newcontent, .tools_page_clientside-custom-cssjs-tool .clientside-textarea-code' ).one( 'change', function() {
 		// Browser warning when navigating away without saving changes
 		window.onbeforeunload = function() {
 			return L10n.saveAlert;
@@ -484,18 +500,18 @@ jQuery( function( $ ) {
 	} );
 
 	// Remove warning when submit button is clicked
-	$( '#template #submit ').on( 'click', function() {
+	$( '#template #submit, .clientside-custom-cssjs-save-button').on( 'click', function() {
 		window.onbeforeunload = null;
 	} );
 
-	/* 15.0 Add a .wrap to (plugin) pages that don't have one */
+	/* 16.0 Add a .wrap to (plugin) pages that don't have one */
 
 	if ( ! $( '.wrap' ).length ) {
 		$( '#wpbody-content' ).wrapInner( '<div class="wrap" />' );
 		$( '#screen-meta-links' ).insertBefore( $( '#wpbody-content > .wrap' ) );
 	}
 
-	/* 16.0 Notification Center */
+	/* 17.0 Notification Center */
 
 	if ( $body.hasClass( 'clientside-notification-center' ) && ! $body.hasClass( 'mobile' ) ) {
 
@@ -504,7 +520,10 @@ jQuery( function( $ ) {
 		var notification_count = 0;
 		var important_flag = false;
 		var $alerts = $( '.update-nag, .notice, .notice-success, .updated, .settings-error, .error, .notice-error, .notice-warning, .notice-info' )
-			.not( '.inline, .theme-update-message, .hidden, .hide-if-js' );
+			.not( '.inline, .theme-update-message, .hidden, .hide-if-js' )
+			// Plugin exceptions
+			// Also see _theme-alerts.scss
+			.not( '#gadwp-notice, .rs-update-notice-wrap' );
 		var greens = [ 'updated', 'notice-success' ];
 		var reds = [ 'error', 'notice-error', 'settings-error' ];
 		var blues = [ 'update-nag', 'notice', 'notice-info', 'update-nag', 'notice-warning' ];
@@ -513,13 +532,13 @@ jQuery( function( $ ) {
 		$alerts.each( function( i ) {
 
 			var $alert = $( this );
-			var content = $alert.html();
+			//var content = $alert.html();
 
 			// Strip content whitespace
-			content = content.replace( /^\s+|\s+$/g, '' );
+			// content = content.replace( /^\s+|\s+$/g, '' );
 
-			// Only continue if not empty
-			if ( ! content ) {
+			// Skip if alert is empty
+			if ( ! $alert.html().replace( /^\s+|\s+$/g, '' ).length ) {
 				return true;
 			}
 
@@ -541,7 +560,9 @@ jQuery( function( $ ) {
 			}
 
 			// Add it to the notification list
-			$submenu.append( '<li><div class="ab-item ab-empty-item clientside-notification-center-item--' + priority + '">' + content + '</div></li>' );
+			//$submenu.append( '<li><div class="ab-item ab-empty-item clientside-notification-center-item--' + priority + '">' + content + '</div></li>' );
+			var $new_item = $( '<li><div class="ab-item ab-empty-item clientside-notification-center-item--' + priority + '"></div></li>' ).appendTo( $submenu );
+			$alert.children().first().clone( true ).appendTo( $new_item.children( 'div' ) );
 			notification_count += 1;
 
 		} );
@@ -556,5 +577,89 @@ jQuery( function( $ ) {
 		}
 
 	}
+
+	/* 18.0 Import/export functionality */
+
+	// Manage Import button state
+	$( '.clientside-import-textarea' ).on( 'keydown keyup change', function( e ) {
+		if ( $( this ).val() ) {
+			$( '.clientside-import-button' ).prop( 'disabled', false );
+		}
+		else {
+			$( '.clientside-import-button' ).prop( 'disabled', true );
+		}
+	} );
+
+	// Output serialized options in export box
+	$( '.clientside-export-button' ).on( 'click', function( e ) {
+
+		e.preventDefault();
+		var $status = $( '.clientside-export-status' ).show().html( L10n.exportLoading );
+		var $export = $( '.clientside-export-textarea' );
+		var $result = $( '.clientside-export-result' ).hide();
+		var $button = $( '.clientside-export-button' ).prop( 'disabled', true );
+		var data = {
+			action: 'clientside-get-export',
+			sections: []
+		};
+
+		// Prepare requested sections
+		if ( $( '#clientside-export-checkbox-options' ).prop( 'checked' ) ) {
+			data.sections.push( 'options' );
+		}
+		if ( $( '#clientside-export-checkbox-menu-editor' ).prop( 'checked' ) ) {
+			data.sections.push( 'menu-editor' );
+		}
+		if ( $( '#clientside-export-checkbox-widget-manager' ).prop( 'checked' ) ) {
+			data.sections.push( 'widget-manager' );
+		}
+		if ( $( '#clientside-export-checkbox-column-manager' ).prop( 'checked' ) ) {
+			data.sections.push( 'column-manager' );
+		}
+		if ( $( '#clientside-export-checkbox-custom-cssjs' ).prop( 'checked' ) ) {
+			data.sections.push( 'custom-cssjs' );
+		}
+
+		// Request export string
+		$.ajax( ajaxurl, {
+			data: data,
+			error: function() {
+				$export.val( '' );
+				$status.show().html( 'That seems to be an invalid request.' );
+			},
+			success: function( result ) {
+				$export.val( result );
+				$status.hide();
+			},
+			complete: function() {
+				$result.show();
+				$button.prop( 'disabled', false );
+			}
+		} );
+
+	} );
+
+	/* 19.0 Insert tab character on tab keypress in code textarea */
+
+	$( '.clientside-textarea-code' ).on( 'keydown', function( e ) {
+
+		if ( e.keyCode === 9 ) {
+
+			e.preventDefault();
+			var $code = $( this );
+			var content = $code.val();
+			var selection_start = this.selectionStart;
+			var selection_end = this.selectionEnd;
+
+			// Replace textarea content with text before caret + tab + text after caret
+			$code.val( content.substring( 0, selection_start ) + '\t' + content.substring( selection_end ) );
+
+			// Place caret
+			this.selectionStart = selection_start + 1;
+			this.selectionEnd = selection_start + 1;
+
+		}
+
+	} );
 
 } );

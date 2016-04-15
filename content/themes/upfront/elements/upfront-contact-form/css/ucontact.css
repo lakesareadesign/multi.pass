@@ -19,7 +19,7 @@ div.contact_label_position > span {
 }
 
 /* Border-box layout for everything inside the contact form */
-.upfront-contact-form * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+.upfront-contact-form * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }	     	 		 		  	 		 	
 .upfront-contact-form label {
 	line-height: 1.1em;
 }
@@ -139,4 +139,4 @@ div.contact_label_position > span {
 }
 
 
-/* 133620-1459471806-au */
+/* 133620-1460689793-au */

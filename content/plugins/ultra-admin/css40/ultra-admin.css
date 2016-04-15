@@ -1119,7 +1119,7 @@ form h3, p.submit{
 	width: 100%;
 	outline: 0;
 	margin: 0;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, sans-serif;
 	background: #ffffff;
 	border: 1px solid #e8e8e8;
 	font-weight: 300;
@@ -1154,16 +1154,18 @@ form h3, p.submit{
 	background: #777777;
 }
 
-
+/*
 #wp-content-editor-tools{
 	background: transparent;
 }
+*/
 
 .wp-switch-editor{
 	height: auto !important;
 	padding: 8px 18px !important;
 	margin: 4px 0 0 9px !important;
 }
+
 
 #editable-post-name input{
 	line-height: 22px;
@@ -1246,7 +1248,6 @@ div.mce-toolbar-grp{
 #all-plugins-table .plugins a.delete:hover, #media-items a.delete-permanently:hover, #media-items a.delete:hover, #nav-menu-footer .menu-delete:hover, #search-plugins-table .plugins a.delete:hover, .file-error, .plugins a.delete:hover, .row-actions .delete a:hover, .row-actions .spam a:hover, .row-actions .trash a:hover, .submitbox .submitdelete:hover, .widget-control-remove:hover, abbr.required{
 	color: #da2527;
 }
-
 
 
 

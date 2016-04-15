@@ -2,7 +2,7 @@
  * This file is part of: Clientside
  * Author: Berend de Jong
  * Author URI: http://frique.me/
- * Version: 1.1.12 (2015-08-09 00:16)
+ * Version: 1.2.9 (2016-04-15 00:11)
  */
 
 #login #wp-submit, .notice p.submit .button-primary,
@@ -10,7 +10,8 @@
 .message p.submit .button-primary,
 .notice-warning p.submit .button-primary,
 .notice-info p.submit .button-primary,
-.update-nag p.submit .button-primary, #login_error p.submit .button-primary, div.error p.submit .button-primary,
+.update-nag p.submit .button-primary, #login_error p.submit .button-primary,
+div.error p.submit .button-primary,
 .notice-error p.submit .button-primary,
 .settings-error p.submit .button-primary,
 .theme-update-message p.submit .button-primary, div.updated p.submit .button-primary,
@@ -19,7 +20,8 @@
 .message .button,
 .notice-warning .button,
 .notice-info .button,
-.update-nag .button, #login_error .button, div.error .button,
+.update-nag .button, #login_error .button,
+div.error .button,
 .notice-error .button,
 .settings-error .button,
 .theme-update-message .button, div.updated .button,
@@ -45,7 +47,8 @@
 .message p.submit .button-primary:hover,
 .notice-warning p.submit .button-primary:hover,
 .notice-info p.submit .button-primary:hover,
-.update-nag p.submit .button-primary:hover, #login_error p.submit .button-primary:hover, div.error p.submit .button-primary:hover,
+.update-nag p.submit .button-primary:hover, #login_error p.submit .button-primary:hover,
+div.error p.submit .button-primary:hover,
 .notice-error p.submit .button-primary:hover,
 .settings-error p.submit .button-primary:hover,
 .theme-update-message p.submit .button-primary:hover, div.updated p.submit .button-primary:hover,
@@ -54,7 +57,8 @@
 .message .button:hover,
 .notice-warning .button:hover,
 .notice-info .button:hover,
-.update-nag .button:hover, #login_error .button:hover, div.error .button:hover,
+.update-nag .button:hover, #login_error .button:hover,
+div.error .button:hover,
 .notice-error .button:hover,
 .settings-error .button:hover,
 .theme-update-message .button:hover, div.updated .button:hover,
@@ -63,7 +67,8 @@
 .message p.submit .button-primary:focus,
 .notice-warning p.submit .button-primary:focus,
 .notice-info p.submit .button-primary:focus,
-.update-nag p.submit .button-primary:focus, #login_error p.submit .button-primary:focus, div.error p.submit .button-primary:focus,
+.update-nag p.submit .button-primary:focus, #login_error p.submit .button-primary:focus,
+div.error p.submit .button-primary:focus,
 .notice-error p.submit .button-primary:focus,
 .settings-error p.submit .button-primary:focus,
 .theme-update-message p.submit .button-primary:focus, div.updated p.submit .button-primary:focus,
@@ -72,7 +77,8 @@
 .message .button:focus,
 .notice-warning .button:focus,
 .notice-info .button:focus,
-.update-nag .button:focus, #login_error .button:focus, div.error .button:focus,
+.update-nag .button:focus, #login_error .button:focus,
+div.error .button:focus,
 .notice-error .button:focus,
 .settings-error .button:focus,
 .theme-update-message .button:focus, div.updated .button:focus,
@@ -97,29 +103,30 @@
   border: 0 !important;
 }
 
-.wp-core-ui #login [disabled]#wp-submit,
-#login .wp-core-ui [disabled]#wp-submit, .wp-core-ui #login .disabled#wp-submit, #login .wp-core-ui .disabled#wp-submit {
+.wp-core-ui #login [disabled]#wp-submit, #login .wp-core-ui [disabled]#wp-submit,
+.wp-core-ui #login .disabled#wp-submit, #login
+.wp-core-ui .disabled#wp-submit {
   opacity: 0.5;
   text-shadow: none !important;
 }
 
-.wp-core-ui #login [disabled]#wp-submit,
-#login .wp-core-ui [disabled]#wp-submit, .wp-core-ui #login .disabled#wp-submit, #login .wp-core-ui .disabled#wp-submit {
+.wp-core-ui #login [disabled]#wp-submit, #login .wp-core-ui [disabled]#wp-submit,
+.wp-core-ui #login .disabled#wp-submit, #login
+.wp-core-ui .disabled#wp-submit {
   color: white !important;
 }
 
-.wp-core-ui #login [disabled]#wp-submit,
-#login .wp-core-ui [disabled]#wp-submit, .wp-core-ui #login .disabled#wp-submit, #login .wp-core-ui .disabled#wp-submit {
+.wp-core-ui #login [disabled]#wp-submit, #login .wp-core-ui [disabled]#wp-submit,
+.wp-core-ui #login .disabled#wp-submit, #login
+.wp-core-ui .disabled#wp-submit {
   background: #52bde6 !important;
 }
 
-#login #wp-submit:hover,
-#login #wp-submit:focus {
+#login #wp-submit:hover, #login #wp-submit:focus {
   background: #34bbee !important;
 }
 
-#login #wp-submit:hover,
-#login #wp-submit:focus {
+#login #wp-submit:hover, #login #wp-submit:focus {
   color: white !important;
 }
 
@@ -128,7 +135,8 @@
 .message,
 .notice-warning,
 .notice-info,
-.update-nag, #login_error, div.error,
+.update-nag, #login_error,
+div.error,
 .notice-error,
 .settings-error,
 .theme-update-message, div.updated,
@@ -147,7 +155,8 @@
 .message,
 .notice-warning,
 .notice-info,
-.update-nag, #login_error, div.error,
+.update-nag, #login_error,
+div.error,
 .notice-error,
 .settings-error,
 .theme-update-message, div.updated,
@@ -156,7 +165,8 @@
 .message p,
 .notice-warning p,
 .notice-info p,
-.update-nag p, #login_error p, div.error p,
+.update-nag p, #login_error p,
+div.error p,
 .notice-error p,
 .settings-error p,
 .theme-update-message p, div.updated p,
@@ -171,7 +181,8 @@
 .message a,
 .notice-warning a,
 .notice-info a,
-.update-nag a, #login_error a, div.error a,
+.update-nag a, #login_error a,
+div.error a,
 .notice-error a,
 .settings-error a,
 .theme-update-message a, div.updated a,
@@ -184,7 +195,8 @@
 .message strong,
 .notice-warning strong,
 .notice-info strong,
-.update-nag strong, #login_error strong, div.error strong,
+.update-nag strong, #login_error strong,
+div.error strong,
 .notice-error strong,
 .settings-error strong,
 .theme-update-message strong, div.updated strong,
@@ -197,7 +209,8 @@
 .is-dismissible.message,
 .is-dismissible.notice-warning,
 .is-dismissible.notice-info,
-.is-dismissible.update-nag, .is-dismissible#login_error, div.is-dismissible.error,
+.is-dismissible.update-nag, .is-dismissible#login_error,
+div.is-dismissible.error,
 .is-dismissible.notice-error,
 .is-dismissible.settings-error,
 .is-dismissible.theme-update-message, div.is-dismissible.updated,
@@ -210,7 +223,8 @@
 .message .notice-dismiss,
 .notice-warning .notice-dismiss,
 .notice-info .notice-dismiss,
-.update-nag .notice-dismiss, #login_error .notice-dismiss, div.error .notice-dismiss,
+.update-nag .notice-dismiss, #login_error .notice-dismiss,
+div.error .notice-dismiss,
 .notice-error .notice-dismiss,
 .settings-error .notice-dismiss,
 .theme-update-message .notice-dismiss, div.updated .notice-dismiss,
@@ -225,7 +239,8 @@
 .message .notice-dismiss:before,
 .notice-warning .notice-dismiss:before,
 .notice-info .notice-dismiss:before,
-.update-nag .notice-dismiss:before, #login_error .notice-dismiss:before, div.error .notice-dismiss:before,
+.update-nag .notice-dismiss:before, #login_error .notice-dismiss:before,
+div.error .notice-dismiss:before,
 .notice-error .notice-dismiss:before,
 .settings-error .notice-dismiss:before,
 .theme-update-message .notice-dismiss:before, div.updated .notice-dismiss:before,
@@ -243,7 +258,8 @@
 .message .notice-dismiss:before,
 .notice-warning .notice-dismiss:before,
 .notice-info .notice-dismiss:before,
-.update-nag .notice-dismiss:before, #login_error .notice-dismiss:before, div.error .notice-dismiss:before,
+.update-nag .notice-dismiss:before, #login_error .notice-dismiss:before,
+div.error .notice-dismiss:before,
 .notice-error .notice-dismiss:before,
 .settings-error .notice-dismiss:before,
 .theme-update-message .notice-dismiss:before, div.updated .notice-dismiss:before,
@@ -256,7 +272,8 @@
 .message .notice-dismiss:hover:before,
 .notice-warning .notice-dismiss:hover:before,
 .notice-info .notice-dismiss:hover:before,
-.update-nag .notice-dismiss:hover:before, #login_error .notice-dismiss:hover:before, div.error .notice-dismiss:hover:before,
+.update-nag .notice-dismiss:hover:before, #login_error .notice-dismiss:hover:before,
+div.error .notice-dismiss:hover:before,
 .notice-error .notice-dismiss:hover:before,
 .settings-error .notice-dismiss:hover:before,
 .theme-update-message .notice-dismiss:hover:before, div.updated .notice-dismiss:hover:before,
@@ -269,7 +286,8 @@
 .message p.submit .button-primary,
 .notice-warning p.submit .button-primary,
 .notice-info p.submit .button-primary,
-.update-nag p.submit .button-primary, #login_error p.submit .button-primary, div.error p.submit .button-primary,
+.update-nag p.submit .button-primary, #login_error p.submit .button-primary,
+div.error p.submit .button-primary,
 .notice-error p.submit .button-primary,
 .settings-error p.submit .button-primary,
 .theme-update-message p.submit .button-primary, div.updated p.submit .button-primary,
@@ -278,7 +296,8 @@
 .message .button,
 .notice-warning .button,
 .notice-info .button,
-.update-nag .button, #login_error .button, div.error .button,
+.update-nag .button, #login_error .button,
+div.error .button,
 .notice-error .button,
 .settings-error .button,
 .theme-update-message .button, div.updated .button,
@@ -293,20 +312,17 @@
 .message,
 .notice-warning,
 .notice-info,
-.update-nag,
-.notice [href],
+.update-nag, .notice [href],
 .alert-blue [href],
 .message [href],
 .notice-warning [href],
 .notice-info [href],
-.update-nag [href],
-.notice [href]:hover,
+.update-nag [href], .notice [href]:hover,
 .alert-blue [href]:hover,
 .message [href]:hover,
 .notice-warning [href]:hover,
 .notice-info [href]:hover,
-.update-nag [href]:hover,
-.notice *,
+.update-nag [href]:hover, .notice *,
 .alert-blue *,
 .message *,
 .notice-warning *,
@@ -319,33 +335,333 @@
 div.error,
 .notice-error,
 .settings-error,
-.theme-update-message,
-#login_error [href],
+.theme-update-message, #login_error [href],
 div.error [href],
 .notice-error [href],
 .settings-error [href],
-.theme-update-message [href],
-#login_error [href]:hover,
+.theme-update-message [href], #login_error [href]:hover,
 div.error [href]:hover,
 .notice-error [href]:hover,
 .settings-error [href]:hover,
-.theme-update-message [href]:hover,
-#login_error *, div.error *,
+.theme-update-message [href]:hover, #login_error *,
+div.error *,
 .notice-error *,
 .settings-error *,
 .theme-update-message * {
-  color: #d85858 ;
+  color: #fd6e6e ;
 }
 
 div.updated,
-.notice-success,
-div.updated [href],
-.notice-success [href],
-div.updated [href]:hover,
-.notice-success [href]:hover,
-div.updated *,
+.notice-success, div.updated [href],
+.notice-success [href], div.updated [href]:hover,
+.notice-success [href]:hover, div.updated *,
 .notice-success * {
   color: #75ba76 ;
+}
+
+/*
+ * Table of contents
+ *
+ * 1.0 Resets
+ * 2.0 Alert boxes
+ * 3.0 Login window
+ */
+
+/*
+ * 1.0 Resets
+ */
+html,
+body {
+  background: #f8f8fa;
+}
+
+body {
+  font-family: "Lato", "Helvetica Neue", "Segoe UI", "Roboto", "Open Sans", sans-serif;
+  font-size: 15px;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+/*
+ * 2.0 Alert boxes
+ */
+/* Sometimes an .updated can appear outside of the .wrap. Then give it .wrap padding */
+#wpbody-content > .notice, #wpbody-content >
+.notice-error, #wpbody-content >
+.notice-success, #wpbody-content >
+.notice-info, #wpbody-content >
+.notice-warning, #wpbody-content >
+.error, #wpbody-content >
+div.updated, #wpbody-content >
+.settings-error, #wpbody-content >
+.update-nag {
+  margin: 0;
+  padding: 45px 90px 0 !important;
+  display: block;
+  clear: both !important;
+}
+
+@media (min-width: 1880px) {
+  #wpbody-content > .notice, #wpbody-content >
+  .notice-error, #wpbody-content >
+  .notice-success, #wpbody-content >
+  .notice-info, #wpbody-content >
+  .notice-warning, #wpbody-content >
+  .error, #wpbody-content >
+  div.updated, #wpbody-content >
+  .settings-error, #wpbody-content >
+  .update-nag {
+    padding: 67.5px 135px 0 !important;
+  }
+}
+
+@media (max-width: 782px) {
+  #wpbody-content > .notice, #wpbody-content >
+  .notice-error, #wpbody-content >
+  .notice-success, #wpbody-content >
+  .notice-info, #wpbody-content >
+  .notice-warning, #wpbody-content >
+  .error, #wpbody-content >
+  div.updated, #wpbody-content >
+  .settings-error, #wpbody-content >
+  .update-nag {
+    padding: 15px 15px 0 !important;
+  }
+}
+
+#wpbody-content > .notice + .notice, #wpbody-content >
+.notice-error + .notice, #wpbody-content >
+.notice-success + .notice, #wpbody-content >
+.notice-info + .notice, #wpbody-content >
+.notice-warning + .notice, #wpbody-content >
+.error + .notice, #wpbody-content >
+div.updated + .notice, #wpbody-content >
+.settings-error + .notice, #wpbody-content >
+.update-nag + .notice, #wpbody-content > .notice +
+.notice-error, #wpbody-content >
+.notice-error +
+.notice-error, #wpbody-content >
+.notice-success +
+.notice-error, #wpbody-content >
+.notice-info +
+.notice-error, #wpbody-content >
+.notice-warning +
+.notice-error, #wpbody-content >
+.error +
+.notice-error, #wpbody-content >
+div.updated +
+.notice-error, #wpbody-content >
+.settings-error +
+.notice-error, #wpbody-content >
+.update-nag +
+.notice-error, #wpbody-content > .notice +
+.notice-success, #wpbody-content >
+.notice-error +
+.notice-success, #wpbody-content >
+.notice-success +
+.notice-success, #wpbody-content >
+.notice-info +
+.notice-success, #wpbody-content >
+.notice-warning +
+.notice-success, #wpbody-content >
+.error +
+.notice-success, #wpbody-content >
+div.updated +
+.notice-success, #wpbody-content >
+.settings-error +
+.notice-success, #wpbody-content >
+.update-nag +
+.notice-success, #wpbody-content > .notice +
+.notice-info, #wpbody-content >
+.notice-error +
+.notice-info, #wpbody-content >
+.notice-success +
+.notice-info, #wpbody-content >
+.notice-info +
+.notice-info, #wpbody-content >
+.notice-warning +
+.notice-info, #wpbody-content >
+.error +
+.notice-info, #wpbody-content >
+div.updated +
+.notice-info, #wpbody-content >
+.settings-error +
+.notice-info, #wpbody-content >
+.update-nag +
+.notice-info, #wpbody-content > .notice +
+.notice-warning, #wpbody-content >
+.notice-error +
+.notice-warning, #wpbody-content >
+.notice-success +
+.notice-warning, #wpbody-content >
+.notice-info +
+.notice-warning, #wpbody-content >
+.notice-warning +
+.notice-warning, #wpbody-content >
+.error +
+.notice-warning, #wpbody-content >
+div.updated +
+.notice-warning, #wpbody-content >
+.settings-error +
+.notice-warning, #wpbody-content >
+.update-nag +
+.notice-warning, #wpbody-content > .notice +
+.error, #wpbody-content >
+.notice-error +
+.error, #wpbody-content >
+.notice-success +
+.error, #wpbody-content >
+.notice-info +
+.error, #wpbody-content >
+.notice-warning +
+.error, #wpbody-content >
+.error +
+.error, #wpbody-content >
+div.updated +
+.error, #wpbody-content >
+.settings-error +
+.error, #wpbody-content >
+.update-nag +
+.error, #wpbody-content > .notice +
+div.updated, #wpbody-content >
+.notice-error +
+div.updated, #wpbody-content >
+.notice-success +
+div.updated, #wpbody-content >
+.notice-info +
+div.updated, #wpbody-content >
+.notice-warning +
+div.updated, #wpbody-content >
+.error +
+div.updated, #wpbody-content >
+div.updated +
+div.updated, #wpbody-content >
+.settings-error +
+div.updated, #wpbody-content >
+.update-nag +
+div.updated, #wpbody-content > .notice +
+.settings-error, #wpbody-content >
+.notice-error +
+.settings-error, #wpbody-content >
+.notice-success +
+.settings-error, #wpbody-content >
+.notice-info +
+.settings-error, #wpbody-content >
+.notice-warning +
+.settings-error, #wpbody-content >
+.error +
+.settings-error, #wpbody-content >
+div.updated +
+.settings-error, #wpbody-content >
+.settings-error +
+.settings-error, #wpbody-content >
+.update-nag +
+.settings-error, #wpbody-content > .notice +
+.update-nag, #wpbody-content >
+.notice-error +
+.update-nag, #wpbody-content >
+.notice-success +
+.update-nag, #wpbody-content >
+.notice-info +
+.update-nag, #wpbody-content >
+.notice-warning +
+.update-nag, #wpbody-content >
+.error +
+.update-nag, #wpbody-content >
+div.updated +
+.update-nag, #wpbody-content >
+.settings-error +
+.update-nag, #wpbody-content >
+.update-nag +
+.update-nag {
+  padding-top: 0 !important;
+}
+
+.clientside-notification-center #wpbody .notice, .clientside-notification-center #wpbody
+.notice-error, .clientside-notification-center #wpbody
+.notice-success, .clientside-notification-center #wpbody
+.notice-info, .clientside-notification-center #wpbody
+.notice-warning, .clientside-notification-center #wpbody
+.error, .clientside-notification-center #wpbody
+div.updated, .clientside-notification-center #wpbody
+.settings-error, .clientside-notification-center #wpbody
+.update-nag {
+  display: none;
+}
+
+.clientside-notification-center #wpbody .notice.inline, .clientside-notification-center #wpbody .notice#gadwp-notice, .clientside-notification-center #wpbody .notice.rs-update-notice-wrap, .clientside-notification-center #wpbody
+.notice-error.inline, .clientside-notification-center #wpbody
+.notice-error#gadwp-notice, .clientside-notification-center #wpbody
+.notice-error.rs-update-notice-wrap, .clientside-notification-center #wpbody
+.notice-success.inline, .clientside-notification-center #wpbody
+.notice-success#gadwp-notice, .clientside-notification-center #wpbody
+.notice-success.rs-update-notice-wrap, .clientside-notification-center #wpbody
+.notice-info.inline, .clientside-notification-center #wpbody
+.notice-info#gadwp-notice, .clientside-notification-center #wpbody
+.notice-info.rs-update-notice-wrap, .clientside-notification-center #wpbody
+.notice-warning.inline, .clientside-notification-center #wpbody
+.notice-warning#gadwp-notice, .clientside-notification-center #wpbody
+.notice-warning.rs-update-notice-wrap, .clientside-notification-center #wpbody
+.error.inline, .clientside-notification-center #wpbody
+.error#gadwp-notice, .clientside-notification-center #wpbody
+.error.rs-update-notice-wrap, .clientside-notification-center #wpbody
+div.updated.inline, .clientside-notification-center #wpbody
+div.updated#gadwp-notice, .clientside-notification-center #wpbody
+div.updated.rs-update-notice-wrap, .clientside-notification-center #wpbody
+.settings-error.inline, .clientside-notification-center #wpbody
+.settings-error#gadwp-notice, .clientside-notification-center #wpbody
+.settings-error.rs-update-notice-wrap, .clientside-notification-center #wpbody
+.update-nag.inline, .clientside-notification-center #wpbody
+.update-nag#gadwp-notice, .clientside-notification-center #wpbody
+.update-nag.rs-update-notice-wrap {
+  display: block;
+}
+
+body.mobile #wpbody .notice, body.mobile #wpbody
+.notice-error, body.mobile #wpbody
+.notice-success, body.mobile #wpbody
+.notice-info, body.mobile #wpbody
+.notice-warning, body.mobile #wpbody
+.error, body.mobile #wpbody
+div.updated, body.mobile #wpbody
+.settings-error, body.mobile #wpbody
+.update-nag {
+  display: block;
+}
+
+/*
+ * 3.0 Login window
+ */
+#login h1 a {
+  background-size: contain;
+  background-position: center center;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+#login .message,
+#login #reg_passmail {
+  text-align: center;
+}
+
+#login form {
+  box-shadow: none;
+  margin-top: 15px;
+}
+
+#login form {
+  padding: 0 ;
+}
+
+#login form {
+  background: none ;
+}
+
+#login form p {
+  position: relative;
+  height: 60px;
 }
 
 #login form p label input[type=email],
@@ -365,6 +681,19 @@ div.updated *,
   border-width: 1px;
   font-size: 15px !important;
   max-width: 100%;
+  height: 45px !important;
+  padding: 11px !important;
+  width: 300px;
+  border-radius: 2px;
+  padding: 17.4px 21px !important;
+  font-size: 18px !important;
+  height: 60px !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border-radius: 0;
+  width: 100%;
 }
 
 #login form p label input[type=email],
@@ -403,63 +732,63 @@ div.updated *,
   border-color: #52bde6 ;
 }
 
-#login form p label input.widefat[type=email],
-#login form p label input.widefat[type=number],
-#login form p label input.widefat[type=password],
-#login form p label input.widefat[type=search],
-#login form p label input.widefat[type=tel],
-#login form p label input.widefat[type=text],
-#login form p label input.widefat[type=url],
+#login form p label input[type=email].widefat,
+#login form p label input[type=number].widefat,
+#login form p label input[type=password].widefat,
+#login form p label input[type=search].widefat,
+#login form p label input[type=tel].widefat,
+#login form p label input[type=text].widefat,
+#login form p label input[type=url].widefat,
 #login form p label select.widefat,
 #login form p label textarea.widefat {
   width: 100%;
 }
 
-#login form p label input.large-text[type=email],
-#login form p label input.large-text[type=number],
-#login form p label input.large-text[type=password],
-#login form p label input.large-text[type=search],
-#login form p label input.large-text[type=tel],
-#login form p label input.large-text[type=text],
-#login form p label input.large-text[type=url],
+#login form p label input[type=email].large-text,
+#login form p label input[type=number].large-text,
+#login form p label input[type=password].large-text,
+#login form p label input[type=search].large-text,
+#login form p label input[type=tel].large-text,
+#login form p label input[type=text].large-text,
+#login form p label input[type=url].large-text,
 #login form p label select.large-text,
 #login form p label textarea.large-text {
   width: 100%;
 }
 
-#login form p label input.small-text[type=email],
-#login form p label input.small-text[type=number],
-#login form p label input.small-text[type=password],
-#login form p label input.small-text[type=search],
-#login form p label input.small-text[type=tel],
-#login form p label input.small-text[type=text],
-#login form p label input.small-text[type=url],
+#login form p label input[type=email].small-text,
+#login form p label input[type=number].small-text,
+#login form p label input[type=password].small-text,
+#login form p label input[type=search].small-text,
+#login form p label input[type=tel].small-text,
+#login form p label input[type=text].small-text,
+#login form p label input[type=url].small-text,
 #login form p label select.small-text,
 #login form p label textarea.small-text {
   width: 100px;
 }
 
-#login form p label input.current-page[type=email],
-#login form p label input.current-page[type=number],
-#login form p label input.current-page[type=password],
-#login form p label input.current-page[type=search],
-#login form p label input.current-page[type=tel],
-#login form p label input.current-page[type=text],
-#login form p label input.current-page[type=url],
+#login form p label input[type=email].current-page,
+#login form p label input[type=number].current-page,
+#login form p label input[type=password].current-page,
+#login form p label input[type=search].current-page,
+#login form p label input[type=tel].current-page,
+#login form p label input[type=text].current-page,
+#login form p label input[type=url].current-page,
 #login form p label select.current-page,
 #login form p label textarea.current-page {
   font-size: 13px !important;
 }
 
-#titlewrap #login form p label input#title[type=email], #login form p label #titlewrap input#title[type=email],
-#titlewrap #login form p label input#title[type=number], #login form p label #titlewrap input#title[type=number],
-#titlewrap #login form p label input#title[type=password], #login form p label #titlewrap input#title[type=password],
-#titlewrap #login form p label input#title[type=search], #login form p label #titlewrap input#title[type=search],
-#titlewrap #login form p label input#title[type=tel], #login form p label #titlewrap input#title[type=tel],
-#titlewrap #login form p label input#title[type=text], #login form p label #titlewrap input#title[type=text],
-#titlewrap #login form p label input#title[type=url], #login form p label #titlewrap input#title[type=url],
-#titlewrap #login form p label select#title, #login form p label #titlewrap select#title,
-#titlewrap #login form p label textarea#title, #login form p label #titlewrap textarea#title {
+#titlewrap #login form p label input[type=email]#title, #titlewrap
+#login form p label input[type=number]#title, #titlewrap
+#login form p label input[type=password]#title, #titlewrap
+#login form p label input[type=search]#title, #titlewrap
+#login form p label input[type=tel]#title, #titlewrap
+#login form p label input[type=text]#title, #titlewrap
+#login form p label input[type=url]#title, #titlewrap
+#login form p label select#title, #titlewrap
+#login form p label textarea#title {
   font-size: 18px !important;
 }
 
@@ -511,39 +840,24 @@ div.updated *,
   color: #c5c5c5 ;
 }
 
-#login form p label input[disabled][type=email],
-#login form p label input[disabled][type=number],
-#login form p label input[disabled][type=password],
-#login form p label input[disabled][type=search],
-#login form p label input[disabled][type=tel],
-#login form p label input[disabled][type=text],
-#login form p label input[disabled][type=url],
+#login form p label input[type=email][disabled], #login form p label input[type=email][readonly],
+#login form p label input[type=number][disabled],
+#login form p label input[type=number][readonly],
+#login form p label input[type=password][disabled],
+#login form p label input[type=password][readonly],
+#login form p label input[type=search][disabled],
+#login form p label input[type=search][readonly],
+#login form p label input[type=tel][disabled],
+#login form p label input[type=tel][readonly],
+#login form p label input[type=text][disabled],
+#login form p label input[type=text][readonly],
+#login form p label input[type=url][disabled],
+#login form p label input[type=url][readonly],
 #login form p label select[disabled],
-#login form p label textarea[disabled], #login form p label input[readonly][type=email],
-#login form p label input[readonly][type=number],
-#login form p label input[readonly][type=password],
-#login form p label input[readonly][type=search],
-#login form p label input[readonly][type=tel],
-#login form p label input[readonly][type=text],
-#login form p label input[readonly][type=url],
 #login form p label select[readonly],
+#login form p label textarea[disabled],
 #login form p label textarea[readonly] {
   opacity: 0.5;
-}
-
-#login form p label input[type=email],
-#login form p label input[type=number],
-#login form p label input[type=password],
-#login form p label input[type=search],
-#login form p label input[type=tel],
-#login form p label input[type=text],
-#login form p label input[type=url],
-#login form p label select,
-#login form p label textarea {
-  height: 45px !important;
-  padding: 11px !important;
-  width: 300px;
-  border-radius: 2px;
 }
 
 #login form p label input[type=email],
@@ -558,25 +872,39 @@ div.updated *,
   color: #222 ;
 }
 
-.form-table #login form p label input[type=email], #login form p label .form-table input[type=email],
-.form-table #login form p label input[type=number], #login form p label .form-table input[type=number],
-.form-table #login form p label input[type=password], #login form p label .form-table input[type=password],
-.form-table #login form p label input[type=search], #login form p label .form-table input[type=search],
-.form-table #login form p label input[type=tel], #login form p label .form-table input[type=tel],
-.form-table #login form p label input[type=text], #login form p label .form-table input[type=text],
-.form-table #login form p label input[type=url], #login form p label .form-table input[type=url],
-.form-table #login form p label select, #login form p label .form-table select,
-.form-table #login form p label textarea, #login form p label .form-table textarea {
+.form-table #login form p label input[type=email], .form-table
+#login form p label input[type=number], .form-table
+#login form p label input[type=password], .form-table
+#login form p label input[type=search], .form-table
+#login form p label input[type=tel], .form-table
+#login form p label input[type=text], .form-table
+#login form p label input[type=url], .form-table
+#login form p label select, .form-table
+#login form p label textarea {
   margin-top: -12px !important;
 }
 
-#login form p label input.current-page[type=email],
-#login form p label input.current-page[type=number],
-#login form p label input.current-page[type=password],
-#login form p label input.current-page[type=search],
-#login form p label input.current-page[type=tel],
-#login form p label input.current-page[type=text],
-#login form p label input.current-page[type=url],
+@media (max-width: 782px) {
+  .form-table #login form p label input[type=email], .form-table
+  #login form p label input[type=number], .form-table
+  #login form p label input[type=password], .form-table
+  #login form p label input[type=search], .form-table
+  #login form p label input[type=tel], .form-table
+  #login form p label input[type=text], .form-table
+  #login form p label input[type=url], .form-table
+  #login form p label select, .form-table
+  #login form p label textarea {
+    margin-top: 0 !important;
+  }
+}
+
+#login form p label input[type=email].current-page,
+#login form p label input[type=number].current-page,
+#login form p label input[type=password].current-page,
+#login form p label input[type=search].current-page,
+#login form p label input[type=tel].current-page,
+#login form p label input[type=text].current-page,
+#login form p label input[type=url].current-page,
 #login form p label select.current-page,
 #login form p label textarea.current-page {
   border-radius: 2px;
@@ -584,190 +912,17 @@ div.updated *,
   padding: 6.4px !important;
 }
 
-#titlewrap #login form p label input#title[type=email], #login form p label #titlewrap input#title[type=email],
-#titlewrap #login form p label input#title[type=number], #login form p label #titlewrap input#title[type=number],
-#titlewrap #login form p label input#title[type=password], #login form p label #titlewrap input#title[type=password],
-#titlewrap #login form p label input#title[type=search], #login form p label #titlewrap input#title[type=search],
-#titlewrap #login form p label input#title[type=tel], #login form p label #titlewrap input#title[type=tel],
-#titlewrap #login form p label input#title[type=text], #login form p label #titlewrap input#title[type=text],
-#titlewrap #login form p label input#title[type=url], #login form p label #titlewrap input#title[type=url],
-#titlewrap #login form p label select#title, #login form p label #titlewrap select#title,
-#titlewrap #login form p label textarea#title, #login form p label #titlewrap textarea#title {
+#titlewrap #login form p label input[type=email]#title, #titlewrap
+#login form p label input[type=number]#title, #titlewrap
+#login form p label input[type=password]#title, #titlewrap
+#login form p label input[type=search]#title, #titlewrap
+#login form p label input[type=tel]#title, #titlewrap
+#login form p label input[type=text]#title, #titlewrap
+#login form p label input[type=url]#title, #titlewrap
+#login form p label select#title, #titlewrap
+#login form p label textarea#title {
   height: 52px !important;
   padding: 15.4px !important;
-}
-
-/*
- * Table of contents
- *
- * 1.0 Resets
- * 2.0 Alert boxes
- * 3.0 Login window
- */
-
-/*
- * 1.0 Resets
- */
-html,
-body {
-  background: #f8f8fa;
-}
-
-body {
-  font-family: "Lato", "Helvetica Neue", "Segoe UI", "Roboto", "Open Sans", sans-serif;
-  font-size: 15px;
-}
-
-body * {
-  box-sizing: border-box;
-}
-
-/*
- * 2.0 Alert boxes
- */
-/* Sometimes an .updated can appear outside of the .wrap. Then give it .wrap padding */
-#wpbody-content > .notice,
-#wpbody-content > .notice-error,
-#wpbody-content > .notice-success,
-#wpbody-content > .notice-info,
-#wpbody-content > .notice-warning,
-#wpbody-content > .error,
-#wpbody-content > div.updated,
-#wpbody-content > .settings-error,
-#wpbody-content > .update-nag {
-  margin: 0;
-  padding: 45px 90px 0 !important;
-  display: block;
-  clear: both !important;
-}
-
-@media (min-width: 1880px) {
-  #wpbody-content > .notice,
-  #wpbody-content > .notice-error,
-  #wpbody-content > .notice-success,
-  #wpbody-content > .notice-info,
-  #wpbody-content > .notice-warning,
-  #wpbody-content > .error,
-  #wpbody-content > div.updated,
-  #wpbody-content > .settings-error,
-  #wpbody-content > .update-nag {
-    padding: 67.5px 135px 0 !important;
-  }
-}
-
-@media (max-width: 782px) {
-  #wpbody-content > .notice,
-  #wpbody-content > .notice-error,
-  #wpbody-content > .notice-success,
-  #wpbody-content > .notice-info,
-  #wpbody-content > .notice-warning,
-  #wpbody-content > .error,
-  #wpbody-content > div.updated,
-  #wpbody-content > .settings-error,
-  #wpbody-content > .update-nag {
-    padding: 15px 15px 0 !important;
-  }
-}
-
-#wpbody-content > .notice + .notice,
-#wpbody-content > .notice-error + .notice-error,
-#wpbody-content > .notice-success + .notice-success,
-#wpbody-content > .notice-info + .notice-info,
-#wpbody-content > .notice-warning + .notice-warning,
-#wpbody-content > .error + .error,
-#wpbody-content > div.updated + div.updated,
-#wpbody-content > .settings-error + .settings-error,
-#wpbody-content > .update-nag + .update-nag {
-  padding-top: 0 !important;
-}
-
-.clientside-notification-center #wpbody .notice,
-.clientside-notification-center #wpbody .notice-error,
-.clientside-notification-center #wpbody .notice-success,
-.clientside-notification-center #wpbody .notice-info,
-.clientside-notification-center #wpbody .notice-warning,
-.clientside-notification-center #wpbody .error,
-.clientside-notification-center #wpbody div.updated,
-.clientside-notification-center #wpbody .settings-error,
-.clientside-notification-center #wpbody .update-nag {
-  display: none;
-}
-
-.clientside-notification-center #wpbody .notice.inline,
-.clientside-notification-center #wpbody .notice-error.inline,
-.clientside-notification-center #wpbody .notice-success.inline,
-.clientside-notification-center #wpbody .notice-info.inline,
-.clientside-notification-center #wpbody .notice-warning.inline,
-.clientside-notification-center #wpbody .error.inline,
-.clientside-notification-center #wpbody div.updated.inline,
-.clientside-notification-center #wpbody .settings-error.inline,
-.clientside-notification-center #wpbody .update-nag.inline {
-  display: block;
-}
-
-body.mobile #wpbody .notice,
-body.mobile #wpbody .notice-error,
-body.mobile #wpbody .notice-success,
-body.mobile #wpbody .notice-info,
-body.mobile #wpbody .notice-warning,
-body.mobile #wpbody .error,
-body.mobile #wpbody div.updated,
-body.mobile #wpbody .settings-error,
-body.mobile #wpbody .update-nag {
-  display: block;
-}
-
-/*
- * 3.0 Login window
- */
-#login h1 a {
-  background-size: contain;
-  background-position: center center;
-  margin-bottom: 15px;
-  width: 100%;
-}
-
-#login .message,
-#login #reg_passmail {
-  text-align: center;
-}
-
-#login form {
-  box-shadow: none;
-  margin-top: 15px;
-}
-
-#login form {
-  padding: 0 ;
-}
-
-#login form {
-  background: none ;
-}
-
-#login form p {
-  position: relative;
-  height: 60px;
-}
-
-#login form p label input[type=email],
-#login form p label input[type=number],
-#login form p label input[type=password],
-#login form p label input[type=search],
-#login form p label input[type=tel],
-#login form p label input[type=text],
-#login form p label input[type=url],
-#login form p label select,
-#login form p label textarea {
-  padding: 17.4px 21px !important;
-  font-size: 18px !important;
-  height: 60px !important;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  border-radius: 0;
-  width: 100%;
 }
 
 #login form p label input[type=email]:focus,
@@ -917,18 +1072,14 @@ body.mobile #wpbody .update-nag {
   color: #ccc ;
 }
 
-#login #nav a:hover,
-#login #nav a:active,
-#login #nav a:focus,
+#login #nav a:hover, #login #nav a:active, #login #nav a:focus,
 #login #backtoblog a:hover,
 #login #backtoblog a:active,
 #login #backtoblog a:focus {
   text-decoration: underline;
 }
 
-#login #nav a:hover,
-#login #nav a:active,
-#login #nav a:focus,
+#login #nav a:hover, #login #nav a:active, #login #nav a:focus,
 #login #backtoblog a:hover,
 #login #backtoblog a:active,
 #login #backtoblog a:focus {

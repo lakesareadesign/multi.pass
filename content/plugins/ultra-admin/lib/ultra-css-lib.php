@@ -213,8 +213,14 @@ function ultra_link_color($selector, $id, $opacity = "", $type = "", $valuetype 
     }
 }
 
-function ultra_css_bgcolor($selector, $id, $opacity = "", $valuetype = "") {
+function ultra_css_bgcolor($selector, $id, $opacity = "", $valuetype = "",$important = "") {
     global $ultraadmin;
+
+    $imp = "";
+    if($important == "imp"){
+        $imp = "!important";
+    }
+    
     if ($valuetype == "string") {
         $value = $id;
     } else if($valuetype == "luminosity"){
@@ -239,7 +245,7 @@ function ultra_css_bgcolor($selector, $id, $opacity = "", $valuetype = "") {
     if($value == "transparent"){ $color = "transparent"; } 
     else if(strpos($value,"rgba") !== false){ $color = $value;}
     else {$color = ultra_hextorgba($value, $opacity);}
-    return " ".$selector . "{background-color:" . $color ." /*".$value."*/;} ";
+    return " ".$selector . "{background-color:" . $color .$imp." /*".$value."*/;} ";
 }
 
 function ultra_css_border_color($selector, $id, $opacity = "", $bordertype, $valuetype = "") {
@@ -280,12 +286,17 @@ function ultra_css_border_color($selector, $id, $opacity = "", $bordertype, $val
     return " ".$selector . "{" . $css_property . ":" . $color ." /*".$value."*/;}\n ";
 }
 
-function ultra_css_background($selector, $id, $opacity = "",$type = "") {
+function ultra_css_background($selector, $id, $opacity = "",$type = "",$important = "") {
     global $ultraadmin;
     if($type == "array"){
         $value = $id;
     } else {
         $value = $ultraadmin[$id];
+    }
+
+    $imp = "";
+    if($important == "imp"){
+        $imp = "!important";
     }
 
     if(!isset($value['background-image'])){$value['background-image'] = "";}
@@ -299,39 +310,39 @@ function ultra_css_background($selector, $id, $opacity = "",$type = "") {
     $bg_image = "";
     $ultraadminID = $value['background-image'];
     if (isset($ultraadminID) && trim($ultraadminID) != "") {
-        $bg_image = "background-image:url(" . $ultraadminID . "); ";
+        $bg_image = "background-image:url(" . $ultraadminID . ")".$imp."; ";
     }
 
     $bg_color = "";
     $ultraadminID = $value['background-color'];
-    $colorcode = ultra_colorcode($ultraadminID,$opacity);
-    $bg_color = "background-color: ".$colorcode.";";
+    $colorcode = ultra_colorcode($ultraadminID,$opacity,$imp);
+    $bg_color = "background-color: ".$colorcode."";
     
     $bg_repeat = "";
     $ultraadminID = $value['background-repeat'];
     if (isset($ultraadminID) && trim($ultraadminID) != "") {
-        $bg_repeat = "background-repeat:" . $ultraadminID . "; ";
+        $bg_repeat = "background-repeat:" . $ultraadminID . "".$imp."; ";
     }
 
     $bg_size = "";
     $ultraadminID = $value['background-size'];
     if (isset($ultraadminID) && trim($ultraadminID) != "") {
-        $bg_size = "-webkit-background-size:" . $ultraadminID . "; "
-                . "-moz-background-size:" . $ultraadminID . "; "
-                . "-o-background-size:" . $ultraadminID . "; "
-                . "background-size:" . $ultraadminID . "; ";
+        $bg_size = "-webkit-background-size:" . $ultraadminID . "".$imp."; "
+                . "-moz-background-size:" . $ultraadminID . "".$imp."; "
+                . "-o-background-size:" . $ultraadminID . "".$imp."; "
+                . "background-size:" . $ultraadminID . "".$imp."; ";
     }
 
     $bg_attach = "";
     $ultraadminID = $value['background-attachment'];
     if (isset($ultraadminID) && trim($ultraadminID) != "") {
-        $bg_attach = "background-attachment:" . $ultraadminID . "; ";
+        $bg_attach = "background-attachment:" . $ultraadminID . "".$imp."; ";
     }
 
     $bg_pos = "";
     $ultraadminID = $value['background-position'];
     if (isset($ultraadminID) && trim($ultraadminID) != "") {
-        $bg_pos = "background-position:" . $ultraadminID . "; ";
+        $bg_pos = "background-position:" . $ultraadminID . "".$imp."; ";
     }
 
 

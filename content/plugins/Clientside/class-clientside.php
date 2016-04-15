@@ -174,6 +174,147 @@ class Clientside {
 
 	}
 
+	// Inject custom CSS in the site header (Custom CSS/JS tool)
+	static function action_inject_custom_site_css_header() {
+
+		// Only if custom CSS is supplied
+		if ( ! Clientside_Options::get_saved_option( 'custom-site-css' ) ) {
+			return;
+		}
+
+		// Output CSS
+		echo '<style type="text/css" class="clientside-custom-css">';
+			echo Clientside_Options::get_saved_option( 'custom-site-css' );
+		echo '</style>';
+
+	}
+
+	// Inject custom JS in the site header (Custom CSS/JS tool)
+	static function action_inject_custom_site_js_header() {
+
+		// Only if custom JS is supplied
+		if ( ! Clientside_Options::get_saved_option( 'custom-site-js-header' ) ) {
+			return;
+		}
+
+		// Output JS
+		echo '<script type="text/javascript" class="clientside-custom-js">';
+			echo Clientside_Options::get_saved_option( 'custom-site-js-header' );
+		echo '</script>';
+
+	}
+
+	// Inject custom JS in the site footer (Custom CSS/JS tool)
+	static function action_inject_custom_site_js_footer() {
+
+		// Only if custom JS is supplied
+		if ( ! Clientside_Options::get_saved_option( 'custom-site-js-footer' ) ) {
+			return;
+		}
+
+		// Output JS
+		echo '<script type="text/javascript" class="clientside-custom-js">';
+			echo Clientside_Options::get_saved_option( 'custom-site-js-footer' );
+		echo '</script>';
+
+	}
+
+	// Inject custom CSS in the admin header (Custom CSS/JS tool)
+	static function action_inject_custom_admin_css_header() {
+
+		// Only if custom CSS is supplied
+		if ( ! Clientside_Options::get_saved_option( 'custom-admin-css' ) ) {
+			return;
+		}
+
+		// Output CSS
+		echo '<style class="clientside-custom-css">';
+			echo Clientside_Options::get_saved_option( 'custom-admin-css' );
+		echo '</style>';
+
+	}
+
+	// Inject custom JS in the admin header (Custom CSS/JS tool)
+	static function action_inject_custom_admin_js_header() {
+
+		// Only if custom JS is supplied
+		if ( ! Clientside_Options::get_saved_option( 'custom-admin-js-header' ) ) {
+			return;
+		}
+
+		// Output JS
+		echo '<script class="clientside-custom-js">';
+			echo Clientside_Options::get_saved_option( 'custom-admin-js-header' );
+		echo '</script>';
+
+	}
+
+	// Inject custom JS in the admin footer (Custom CSS/JS tool)
+	static function action_inject_custom_admin_js_footer() {
+
+		// Only if custom JS is supplied
+		if ( ! Clientside_Options::get_saved_option( 'custom-admin-js-footer' ) ) {
+			return;
+		}
+
+		// Output JS
+		echo '<script class="clientside-custom-js">';
+			echo Clientside_Options::get_saved_option( 'custom-admin-js-footer' );
+		echo '</script>';
+
+	}
+
+	// Remove the quick-edit functionality from post/page listings depending on the user's role
+	static function action_disable_quick_edit( $actions = array(), $post = null ) {
+
+		// Only if enabled for the current role
+		if ( ! Clientside_Options::get_saved_option( 'disable-quick-edit' ) ) {
+			return $actions;
+	    }
+
+		// Remove "Quick Edit"
+		if ( isset( $actions['inline hide-if-no-js'] ) ) {
+			unset( $actions['inline hide-if-no-js'] );
+		}
+
+		// Return
+		return $actions;
+
+	}
+
+	// Return wether the current page renders the Clientide theming
+	static function is_themed() {
+
+		// Login / Register pages
+		if ( in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) ) && Clientside_Options::get_saved_option( 'enable-login-theme' ) ) {
+			return true;
+		}
+
+		// Admin area
+		if ( is_admin() && Clientside_Options::get_saved_option( 'enable-admin-theme' ) ) {
+			return true;
+		}
+
+		// Viewing site
+		if ( Clientside_Options::get_saved_option( 'enable-site-toolbar-theme' ) ) {
+			return true;
+		}
+
+		// Otherwise
+		return false;
+
+	}
+
+	// Avoid loading jQuery Migrate
+	static function dequeue_jquery_migrate( $scripts ) {
+		if ( Clientside_Options::get_saved_option( 'disable-jquery-migrate' ) ) {
+			if ( ! empty( $scripts->registered['jquery'] ) ) {
+				$jquery_dependencies = $scripts->registered['jquery']->deps;
+				$scripts->registered['jquery']->deps = array_diff( $jquery_dependencies, array( 'jquery-migrate' ) );
+			}
+		}
+	}
+
 }
 
 ?>

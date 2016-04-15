@@ -50,7 +50,7 @@
                                         else
                                             $checked = 'checked="checked"';
 
-                                        $groups_echo[] = '<label><input type="checkbox" name="e_newsletter_groups_id[]" ' . $checked . ' value="' . $group['group_id'] . '" />' . $group['group_name'] . '</label>';
+                                        $groups_echo[] = '<label><input type="checkbox" name="e_newsletter_groups_id[]" ' . $checked . ' value="' . $group['group_id'] . '" />' . $group['group_name'] . '</label>';	     	 	 		 			 	
                                     }
     							echo implode('<br/>', $groups_echo);
                             ?>

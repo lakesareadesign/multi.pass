@@ -11,7 +11,7 @@ class Clientside_Toolbar {
 
 		// Toolbar styling
 		if ( is_admin_bar_showing() && Clientside_Options::get_saved_option( 'enable-admin-theme' ) && Clientside_Options::get_saved_option( 'enable-site-toolbar-theme' ) ) {
-			wp_enqueue_style( 'clientside-toolbar-css', plugins_url( 'css/clientside-site-toolbar.min.css', __FILE__ ), array(), '1.1.12' );
+			wp_enqueue_style( 'clientside-toolbar-css', plugins_url( 'css/clientside-site-toolbar.min.css', __FILE__ ), array(), '1.2.9' );
 		}
 
 	}
@@ -57,36 +57,42 @@ class Clientside_Toolbar {
 		}
 
 		// Add full username & role
-		$wp_toolbar->add_node(
-			array(
-				'id' => 'clientside-username',
-				'title' => '<a href="' . esc_url( admin_url( 'profile.php' ) ) . '">' . Clientside_User::get_full_name() . '</a>' . '<span class="clientside-toolbar-user-role">' . Clientside_User::get_user_role_display() . '</span>',
-				'parent' => 'user-actions'
-			)
-		);
+		if ( Clientside::is_themed() ) {
+			$html = '<a href="' . esc_url( admin_url( 'profile.php' ) ) . '">' . Clientside_User::get_full_name() . '</a>';
+			$html .= '<span class="clientside-toolbar-user-role">' . Clientside_User::get_user_role_display() . '</span>';
+			$wp_toolbar->add_node(
+				array(
+					'id' => 'clientside-username',
+					'title' => $html,
+					'parent' => 'user-actions'
+				)
+			);
+		}
 
 	}
 
 	// Add items to the admin toolbar, part 2 (triggered at a later priority)
 	static function action_add_toolbar_nodes_later( $wp_toolbar ) {
 
-		// Add notification center
-		if ( Clientside_Options::get_saved_option( 'enable-notification-center' ) && ( is_admin() || Clientside_Options::get_saved_option( 'enable-site-toolbar-theme' ) ) ) {
-			$wp_toolbar->add_node(
-				array(
-					'id' => 'clientside-notification-center',
-					'title' => '<span class="dashicons dashicons-marker"></span> <span class="clientside-notification-count">0</a>',
-					'parent' => 'top-secondary'
-				)
-			);
-			// Add dummy notification center submenu item
-			$wp_toolbar->add_menu(
-				array(
-					'id' => 'clientside-notification-center-dummy',
-					'parent' => 'clientside-notification-center',
-					'title' => ''
-				)
-			);
+		// Add notification center (except when viewing the site)
+		if ( is_admin() ) {
+			if ( Clientside_Options::get_saved_option( 'enable-notification-center' ) && ( is_admin() || Clientside_Options::get_saved_option( 'enable-site-toolbar-theme' ) ) ) {
+				$wp_toolbar->add_node(
+					array(
+						'id' => 'clientside-notification-center',
+						'title' => '<span class="dashicons dashicons-marker"></span> <span class="clientside-notification-count">0</a>',
+						'parent' => 'top-secondary'
+					)
+				);
+				// Add dummy notification center submenu item
+				$wp_toolbar->add_menu(
+					array(
+						'id' => 'clientside-notification-center-dummy',
+						'parent' => 'clientside-notification-center',
+						'title' => ''
+					)
+				);
+			}
 		}
 
 	}
@@ -117,6 +123,11 @@ class Clientside_Toolbar {
 			$wp_toolbar->remove_node( 'search' );
 		}
 
+		// Remove the Customize button
+		if ( Clientside_Options::get_saved_option( 'hide-toolbar-customize' ) ) {
+			$wp_toolbar->remove_node( 'customize' );
+		}
+
 		// Only continue if admin theming is enabled
 		if ( ! Clientside_Options::get_saved_option( 'enable-admin-theme' ) ) {
 			return;
@@ -126,7 +137,9 @@ class Clientside_Toolbar {
 		$wp_toolbar->remove_node( 'site-name' );
 
 		// Remove User menu parts that are added differently
-		$wp_toolbar->remove_node( 'user-info' );
+		if ( Clientside::is_themed() ) {
+			$wp_toolbar->remove_node( 'user-info' );
+		}
 		$wp_toolbar->remove_node( 'edit-profile' );
 
 	}

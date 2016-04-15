@@ -3,7 +3,7 @@
 Plugin Name: Clientside
 Plugin URI: http://frique.me/clientside/
 Description: Clientside is a meticulous combination of a redesigned admin theme and a set of settings and tools that help customize and unclutter the WordPress interface for yourself or your clients.
-Version: 1.1.12
+Version: 1.2.9
 Author: Berend de Jong
 Author URI: http://frique.me/
 */
@@ -25,6 +25,7 @@ include( plugin_dir_path( __FILE__ ) . 'class-clientside-admin-widget-manager.ph
 include( plugin_dir_path( __FILE__ ) . 'class-clientside-admin-column-manager.php' );
 include( plugin_dir_path( __FILE__ ) . 'class-clientside-user.php' );
 include( plugin_dir_path( __FILE__ ) . 'class-clientside-error-handler.php' );
+include( plugin_dir_path( __FILE__ ) . 'class-clientside-updates.php' );
 
 // Plugin setup
 add_action( 'admin_enqueue_scripts', array( 'Clientside_Setup', 'action_enqueue_admin_styles' ) );
@@ -32,7 +33,6 @@ add_action( 'admin_enqueue_scripts', array( 'Clientside_Setup', 'action_enqueue_
 add_action( 'login_enqueue_scripts', array( 'Clientside_Setup', 'action_enqueue_login_styles' ) );
 add_action( 'login_enqueue_scripts', array( 'Clientside_Setup', 'action_enqueue_login_scripts' ) );
 add_filter( 'plugin_action_links', array( 'Clientside_Setup', 'filter_add_plugin_options_link' ), 10, 2 );
-add_filter( 'plugin_action_links', array( 'Clientside_Setup', 'filter_remove_plugin_deactivation' ), 10, 4 );
 add_filter( 'body_class', array( 'Clientside_Setup', 'filter_add_body_classes' ) );
 add_filter( 'admin_body_class', array( 'Clientside_Setup', 'filter_add_body_classes' ) );
 add_filter( 'login_body_class', array( 'Clientside_Setup', 'filter_add_body_classes' ) );
@@ -43,7 +43,7 @@ add_action( 'admin_init', array( 'Clientside_Setup', 'action_enqueue_editor_styl
 add_action( 'plugins_loaded', array( 'Clientside_Setup', 'action_prepare_translations' ) );
 add_filter( 'all_plugins', array( 'Clientside_Setup', 'filter_trim_plugin_list' ) );
 
-// Register plugin options
+// Register plugin options / settings
 add_action( 'admin_init', array( 'Clientside_Options', 'action_register_settings_and_fields' ) );
 add_action( 'network_admin_edit_clientside_options', array( 'Clientside_Options', 'action_network_option_save' ) );
 
@@ -62,6 +62,16 @@ add_action( 'admin_init', array( 'Clientside', 'action_hide_post_list_date_filte
 add_action( 'admin_init', array( 'Clientside', 'action_hide_post_list_category_filter' ) );
 add_filter( 'edit_posts_per_page', array( 'Clientside', 'filter_paging_posts' ) );
 add_filter( 'admin_menu', array( 'Clientside', 'action_disable_file_editor' ), 9 );
+add_action( 'admin_init', array( 'Clientside_Options', 'action_import' ) );
+add_action( 'wp_head', array( 'Clientside', 'action_inject_custom_site_css_header' ) );
+add_action( 'wp_head', array( 'Clientside', 'action_inject_custom_site_js_header' ) );
+add_action( 'wp_footer', array( 'Clientside', 'action_inject_custom_site_js_footer' ) );
+add_action( 'admin_head', array( 'Clientside', 'action_inject_custom_admin_css_header' ) );
+add_action( 'admin_head', array( 'Clientside', 'action_inject_custom_admin_js_header' ) );
+add_action( 'in_admin_footer', array( 'Clientside', 'action_inject_custom_admin_js_footer' ) );
+add_filter( 'post_row_actions', array( 'Clientside', 'action_disable_quick_edit' ), 10, 2 );
+add_filter( 'page_row_actions', array( 'Clientside', 'action_disable_quick_edit' ), 10, 2 );
+add_action( 'wp_default_scripts', array( 'Clientside', 'dequeue_jquery_migrate' ) );
 
 // Admin widget manipulation
 add_action( 'wp_dashboard_setup', array( 'Clientside_Dashboard', 'action_add_dashboard_widgets' ) );
@@ -96,13 +106,18 @@ add_action( 'wp_enqueue_scripts', array( 'Clientside_Toolbar', 'action_enqueue_s
 add_filter( 'admin_bar_menu', array( 'Clientside_Toolbar', 'filter_user_greeting' ) );
 add_action( 'init', array( 'Clientside_Toolbar', 'action_remove_toolbar_css_injection' ) );
 
+// Process ajax calls
+add_action( 'wp_ajax_clientside-get-export', array( 'Clientside_Options', 'get_export' ) );
+
 // Uninstallation hook
 register_uninstall_hook( __FILE__, array( 'Clientside_Setup', 'action_uninstall' ) );
 
-// Update script
-include( plugin_dir_path( __FILE__ ) . 'inc/wp-updates-plugin.php' );
-new WPUpdatesPluginUpdater_989( 'http://wp-updates.com/api/2/plugin', plugin_basename( __FILE__ ) );
+// Plugin updates
+add_filter( 'pre_set_site_transient_update_plugins', array( 'Clientside_Updates', 'filter_check' ) );
+add_filter( 'plugins_api', array( 'Clientside_Updates', 'filter_plugin_info' ), 10, 3 );
+add_filter( 'http_request_host_is_external', array( 'Clientside_Updates', 'allow_update_host' ), 10, 3 );
 
 // Custom error handling
 add_action( 'init', array( 'Clientside_Error_Handler', 'action_collect_php_errors' ) );
 add_action( 'all_admin_notices', array( 'Clientside_Error_Handler', 'action_output_php_errors' ) );
+

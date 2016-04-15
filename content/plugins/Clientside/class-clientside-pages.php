@@ -56,6 +56,15 @@ class Clientside_Pages {
 			)
 		);
 
+		$pages['clientside-importexport'] = array_merge(
+			$default_args,
+			array(
+				'slug' => 'clientside-importexport',
+				'title' => _x( 'Import/Export Settings', 'Option page title', 'clientside' ),
+				'callback' => array( __CLASS__, 'display_importexport_page' )
+			)
+		);
+
 		$pages['clientside-documentation'] = array_merge(
 			$default_args,
 			array(
@@ -101,6 +110,18 @@ class Clientside_Pages {
 			)
 		);
 
+		$pages['clientside-custom-cssjs-tool'] = array_merge(
+			$default_args,
+			array(
+				'slug' => 'clientside-custom-cssjs-tool',
+				'title' => __( 'Custom CSS/JS', 'Tool page title', 'clientside' ),
+				'callback' => array( __CLASS__, 'display_custom_cssjs_tool' ),
+				'parent' => 'tools.php',
+				'in-menu' => true,
+				'has-tab' => false
+			)
+		);
+
 		// Return
 		if ( $page_slug ) {
 			if ( ! isset( $pages[ $page_slug ] ) ) {
@@ -136,6 +157,12 @@ class Clientside_Pages {
 		include( plugin_dir_path( __FILE__ ) . 'inc/page-tools.php' );
 	}
 
+	// Output the content of the Clientside Import/export Settings page
+	static function display_importexport_page() {
+		$page_info = self::get_pages( 'clientside-importexport' );
+		include( plugin_dir_path( __FILE__ ) . 'inc/page-importexport.php' );
+	}
+
 	// Output the content of the admin menu editor tool page
 	static function display_admin_menu_editor() {
 		$page_info = self::get_pages( 'clientside-admin-menu-editor' );
@@ -152,6 +179,12 @@ class Clientside_Pages {
 	static function display_admin_column_manager() {
 		$page_info = self::get_pages( 'clientside-admin-column-manager' );
 		include( plugin_dir_path( __FILE__ ) . 'inc/page-admin-column-manager.php' );
+	}
+
+	// Output the content of the custom css/js tool page
+	static function display_custom_cssjs_tool() {
+		$page_info = self::get_pages( 'clientside-custom-cssjs-tool' );
+		include( plugin_dir_path( __FILE__ ) . 'inc/page-custom-cssjs-tool.php' );
 	}
 
 	// Output the HTML for page tabs on the Clientside pages
@@ -175,7 +208,7 @@ class Clientside_Pages {
 	}
 
 	// Return URL to specific page
-	static function get_page_url( $page_slug = '' ) {
+	static function get_page_url( $page_slug = '', $params = array() ) {
 
 		// Get page info
 		$page_info = self::get_pages( $page_slug );
@@ -183,18 +216,26 @@ class Clientside_Pages {
 			return '';
 		}
 
+		// Format page params
+		$querystring = '';
+		if ( count( $params ) ) {
+			foreach ( $params as $key => $value ) {
+				$querystring .= '&' . $key . '=' . $value;
+			}
+		}
+
 		// Network page
 		if ( $page_info['network'] ) {
-			$url = network_admin_url( $page_info['parent'] . '?page=' . $page_info['slug'] );
+			$url = network_admin_url( $page_info['parent'] . '?page=' . $page_info['slug'] . $querystring );
 		}
 
 		// Regular page
 		else{
-			$url = admin_url( $page_info['parent'] . '?page=' . $page_info['slug'] );
+			$url = admin_url( $page_info['parent'] . '?page=' . $page_info['slug'] . $querystring );
 		}
 
 		// Return
-		return esc_url( $url );
+		return $url;
 
 	}
 

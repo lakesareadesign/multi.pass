@@ -30,10 +30,13 @@ class Clientside_Options {
 					'remove-version-header',
 					'hide-updates',
 					'disable-file-editor',
+					'disable-quick-edit',
 					'disable-cli-error-handling',
 					'enable-notification-center',
 					'enable-plugin-support',
-					'menu-hover-expand'
+					'menu-hover-expand',
+					'disable-google-fonts-admin',
+					'disable-jquery-migrate'
 				)
 			),
 			'clientside-section-theme' => array(
@@ -61,7 +64,8 @@ class Clientside_Options {
 					'hide-post-search',
 					'hide-view-switch',
 					'hide-media-bulk-select',
-					'hide-user-role-changer'
+					'hide-user-role-changer',
+					'hide-comment-type-filter'
 				)
 			),
 			'clientside-section-toolbar' => array(
@@ -75,7 +79,8 @@ class Clientside_Options {
 					'hide-toolbar-new',
 					'hide-toolbar-comments',
 					'hide-toolbar-updates',
-					'hide-toolbar-search'
+					'hide-toolbar-search',
+					'hide-toolbar-customize'
 				)
 			),
 
@@ -85,7 +90,8 @@ class Clientside_Options {
 				'title' => _x( 'Network options', 'Option section name', 'clientside' ),
 				'page' => 'clientside-options-network',
 				'options' => array(
-					'network-admins-only'
+					'network-admins-only',
+					'hide-plugin-entry'
 				)
 			),
 
@@ -96,6 +102,30 @@ class Clientside_Options {
 				'page' => 'clientside-admin-menu-editor',
 				'options' => array(
 					'admin-menu'
+				)
+			),
+
+			// Custom CSS/JS tool: Frontend
+			'clientside-custom-cssjs-site' => array(
+				'slug' => 'clientside-custom-cssjs-site',
+				'title' => __( 'Front-end', 'clientside' ),
+				'page' => 'clientside-custom-cssjs-tool',
+				'options' => array(
+					'custom-site-css',
+					'custom-site-js-header',
+					'custom-site-js-footer'
+				)
+			),
+
+			// Custom CSS/JS tool: Admin
+			'clientside-custom-cssjs-admin' => array(
+				'slug' => 'clientside-custom-cssjs-admin',
+				'title' => __( 'Admin area', 'clientside' ),
+				'page' => 'clientside-custom-cssjs-tool',
+				'options' => array(
+					'custom-admin-css',
+					'custom-admin-js-header',
+					'custom-admin-js-footer'
 				)
 			)
 
@@ -189,6 +219,30 @@ class Clientside_Options {
 				'type' => 'checkbox',
 				'default' => 0,
 				'help' => _x( 'This replaces the default behavior of clicking a menu item to expand its submenu.', 'Option description', 'clientside' )
+			)
+		);
+
+		$options['disable-google-fonts-admin'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'disable-google-fonts-admin',
+				'title' => _x( 'Disable Google Fonts', 'Option title', 'clientside' ),
+				'secondary-title' => __( 'Disable', 'clientside' ),
+				'help' => _x( 'Prevent Google Webfonts from loading in the admin area. This can speed up page load times but can affect the admin theme\'s typography.', 'Option description', 'clientside' ),
+				'type' => 'checkbox',
+				'default' => 0
+			)
+		);
+
+		$options['disable-jquery-migrate'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'disable-jquery-migrate',
+				'title' => _x( 'Disable jQuery Migrate', 'Option title', 'clientside' ),
+				'secondary-title' => __( 'Disable', 'clientside' ),
+				'help' => _x( 'Stop WP from loading jQuery Migrate along with jQuery. This avoids an HTTP request and sligntly speeds up page load times.', 'Option description', 'clientside' ),
+				'type' => 'checkbox',
+				'default' => 0
 			)
 		);
 
@@ -322,6 +376,17 @@ class Clientside_Options {
 			)
 		);
 
+		$options['hide-comment-type-filter'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'hide-comment-type-filter',
+				'title' => _x( 'Hide Comment Type Filter', 'Option title', 'clientside' ),
+				'help' => _x( 'Hides the comment type filter (Comments / Pings) dropdown above comment-listings.', 'Option description', 'clientside' ),
+				'type' => 'checkbox',
+				'default' => 1
+			)
+		);
+
 		$options['hide-top-paging'] = array_merge(
 			$default_args,
 			array(
@@ -438,6 +503,18 @@ class Clientside_Options {
 			)
 		);
 
+		$options['hide-toolbar-customize'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'hide-toolbar-customize',
+				'title' => _x( 'Hide the Customize button in the toolbar on certain pages when viewing the site.', 'Option title', 'clientside' ),
+				'help' => _x( 'This button is often not applicable and mistaken for the "Edit Post" button.', 'Option description', 'clientside' ),
+				'type' => 'checkbox',
+				'default' => 1,
+				'role-based' => true
+			)
+		);
+
 		$options['disable-login-errors'] = array_merge(
 			$default_args,
 			array(
@@ -544,6 +621,19 @@ class Clientside_Options {
 			)
 		);
 
+		$options['disable-quick-edit'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'disable-quick-edit',
+				'title' => _x( 'Quick Edit', 'Option title', 'clientside' ),
+				'secondary-title' => __( 'Disable', 'clientside' ),
+				'help' => _x( 'Remove the Quick Edit link under each post in post/page listings.', 'Option description', 'clientside' ),
+				'type' => 'checkbox',
+				'default' => 0,
+				'role-based' => true
+			)
+		);
+
 		$options['disable-cli-error-handling'] = array_merge(
 			$default_args,
 			array(
@@ -562,7 +652,19 @@ class Clientside_Options {
 				'name' => 'network-admins-only',
 				'title' => _x( 'Network Admins Only', 'Option title', 'clientside' ),
 				'secondary-title' => __( 'Make Clientside only manageable by Network/Super Admins', 'clientside' ),
-				'help' => _x( 'Plugin Options, Clientside Tools and the entry in the plugin list on all network sites will be hidden to anyone except Network Admins.', 'Option description', 'clientside' ),
+				'help' => _x( 'Plugin Options and Clientside Tools on all network sites will not be editable by site administrators.', 'Option description', 'clientside' ),
+				'type' => 'checkbox',
+				'default' => 0
+			)
+		);
+
+		$options['hide-plugin-entry'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'hide-plugin-entry',
+				'title' => _x( 'Hide Plugin Entry', 'Option title', 'clientside' ),
+				'secondary-title' => __( 'Make site administrators unable to see and deactivate Clientside', 'clientside' ),
+				'help' => _x( 'Hides Clientside on individual network site\'s plugin listings for anyone except Network Admins, making Site Admins unable to deactivate the plugin. Note that if Clientside is network-activated, it will already be hidden from the individual site\'s plugin list.', 'Option description', 'clientside' ),
 				'type' => 'checkbox',
 				'default' => 0
 			)
@@ -603,6 +705,72 @@ class Clientside_Options {
 
 		}
 
+		// Custom CSS/JS tool: Frontend CSS
+		$options['custom-site-css'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'custom-site-css',
+				'title' => _x( 'CSS', 'Option title', 'clientside' ),
+				'type' => 'code',
+				'placeholder' => '/* ' . __( 'Optional custom CSS', 'clientside' ) . ' */'
+			)
+		);
+
+		// Custom CSS/JS tool: Frontend JS (Header)
+		$options['custom-site-js-header'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'custom-site-js-header',
+				'title' => _x( 'Javascript (header)', 'Option title', 'clientside' ),
+				'type' => 'code',
+				'placeholder' => '/* ' . __( 'Optional custom JS', 'clientside' ) . ' */'
+			)
+		);
+
+		// Custom CSS/JS tool: Frontend JS (Footer)
+		$options['custom-site-js-footer'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'custom-site-js-footer',
+				'title' => _x( 'Javascript (footer)', 'Option title', 'clientside' ),
+				'type' => 'code',
+				'placeholder' => '/* ' . __( 'Optional custom JS', 'clientside' ) . ' */'
+			)
+		);
+
+		// Custom CSS/JS tool: Admin CSS
+		$options['custom-admin-css'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'custom-admin-css',
+				'title' => _x( 'CSS', 'Option title', 'clientside' ),
+				'type' => 'code',
+				'placeholder' => '/* ' . __( 'Optional custom CSS', 'clientside' ) . ' */'
+			)
+		);
+
+		// Custom CSS/JS tool: Admin JS (Header)
+		$options['custom-admin-js-header'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'custom-admin-js-header',
+				'title' => _x( 'Javascript (header)', 'Option title', 'clientside' ),
+				'type' => 'code',
+				'placeholder' => '/* ' . __( 'Optional custom JS', 'clientside' ) . ' */'
+			)
+		);
+
+		// Custom CSS/JS tool: Admin JS (Footer)
+		$options['custom-admin-js-footer'] = array_merge(
+			$default_args,
+			array(
+				'name' => 'custom-admin-js-footer',
+				'title' => _x( 'Javascript (footer)', 'Option title', 'clientside' ),
+				'type' => 'code',
+				'placeholder' => '/* ' . __( 'Optional custom JS', 'clientside' ) . ' */'
+			)
+		);
+
 		// Return requested option
 		if ( $option_slug ) {
 			if ( ! isset( $options[ $option_slug ] ) ) {
@@ -633,7 +801,7 @@ class Clientside_Options {
 			add_settings_section(
 				$options_section['slug'],
 				$options_section['title'],
-				'__return_false',
+				array( __CLASS__, 'callback_settings_section_header' ),
 				$options_section['page']
 			);
 
@@ -668,6 +836,11 @@ class Clientside_Options {
 
 		}
 
+	}
+
+	// Output some HTML above each settings section to be able to link to the individual sections via an index
+	static function callback_settings_section_header( $args ) {
+		echo '<a name="' . $args['id'] . '"></a>';
 	}
 
 	// Return saved options from cache or the database
@@ -776,35 +949,36 @@ class Clientside_Options {
 
 		// Set submitted page's unchecked checkboxes to false
 		foreach ( self::get_options_sections() as $options_section ) {
-			if ( $options_section['page'] == $new_options['options-page-identification'] ) {
-				foreach ( $options_section['options'] as $option_slug) {
+			if ( $new_options['options-page-identification'] == 'import' || $options_section['page'] != $new_options['options-page-identification'] ) {
+				continue;
+			}
+			foreach ( $options_section['options'] as $option_slug) {
 
-					// Skip this field if it isn't a checkbox
-					$original_option = self::get_option_info( $option_slug );
-					if ( $original_option['type'] != 'checkbox' ) {
-						continue;
-					}
+				// Skip this field if it isn't a checkbox
+				$original_option = self::get_option_info( $option_slug );
+				if ( $original_option['type'] != 'checkbox' ) {
+					continue;
+				}
 
-					// Role based option
-					if ( $original_option['role-based'] ) {
-						foreach ( Clientside_User::get_all_roles() as $role ) {
-							// Ignore network admin value when current user is not a network admin
-							if ( $role['slug'] == 'super' && ! is_super_admin() ) {
-								continue;
-							}
-							// All other: set missing values to unchecked
-							if ( ! isset( $new_options[ $original_option['name'] ][ $role['slug'] ] ) ) {
-								$new_options[ $original_option['name'] ][ $role['slug'] ] = 0;
-							}
+				// Role based option
+				if ( $original_option['role-based'] ) {
+					foreach ( Clientside_User::get_all_roles() as $role ) {
+						// Ignore network admin value when current user is not a network admin
+						if ( $role['slug'] == 'super' && ! is_super_admin() ) {
+							continue;
+						}
+						// All other: set missing values to unchecked
+						if ( ! isset( $new_options[ $original_option['name'] ][ $role['slug'] ] ) ) {
+							$new_options[ $original_option['name'] ][ $role['slug'] ] = 0;
 						}
 					}
-
-					// Single option
-					else if ( ! isset( $new_options[ $original_option['name'] ] ) ) {
-						$new_options[ $original_option['name'] ] = 0;
-					}
-
 				}
+
+				// Single option
+				else if ( ! isset( $new_options[ $original_option['name'] ] ) ) {
+					$new_options[ $original_option['name'] ] = 0;
+				}
+
 			}
 		}
 
@@ -826,11 +1000,14 @@ class Clientside_Options {
 		unset( $new_options['clientside-revert-page'] );
 
 		// Remove non-existing / legacy options
+		//todo Bug: This removes newer options after updating from previous versions (custom CSS/JS tool complaints)
+		/*
 		foreach ( $new_options as $option_slug => $option_value ) {
 			if ( ! isset( $saved_options[ $option_slug ] ) ) {
 				unset( $new_options[ $option_slug ] );
 			}
 		}
+		*/
 
 		// Return safe set of options
 		return $new_options;
@@ -857,7 +1034,117 @@ class Clientside_Options {
 
 	}
 
-	
+	// Return encoded JSON string of requested settings
+	static function get_export() {
+
+		$sections = ( isset( $_REQUEST['sections'] ) && $_REQUEST['sections'] ) ? $_REQUEST['sections'] : array();
+		$options = self::get_saved_options();
+		$strategy = in_array( 'options', $sections ) ? 'exclude' : 'include';
+		$return = $strategy == 'exclude' ? $options : array();
+		$return['options-page-identification'] = 'import';
+
+		// In-/exclude menu editor tool configuration
+		if ( in_array( 'menu-editor', $sections ) && $strategy == 'include' ) {
+			$return['admin-menu'] = $options['admin-menu'];
+		}
+		if ( ! in_array( 'menu-editor', $sections ) && $strategy == 'exclude' ) {
+			unset( $return['admin-menu'] );
+		}
+
+		// In-/exclude widget manager tool configuration
+		foreach ( Clientside_Admin_Widget_Manager::get_widget_info() as $page_slug => $widgets ) {
+			foreach ( $widgets as $widget_slug => $widget_info ) {
+
+				// Include each related setting
+				if ( in_array( 'widget-manager', $sections ) && $strategy == 'include' ) {
+					$return[ $widget_info['field']['name'] ] = $options[ $widget_info['field']['name'] ];
+				}
+
+				// Exclude each related setting
+				if ( ! in_array( 'widget-manager', $sections ) && $strategy == 'exclude' ) {
+					if ( isset( $return[ $widget_info['field']['name'] ] ) ) {
+						unset( $return[ $widget_info['field']['name'] ] );
+					}
+				}
+
+			}
+		}
+
+		// In-/exclude column manager tool configuration
+		foreach ( Clientside_Admin_Column_Manager::get_column_info() as $page_slug => $columns ) {
+			foreach ( $columns as $column_slug => $column_info ) {
+
+				// Include each related setting
+				if ( in_array( 'column-manager', $sections ) && $strategy == 'include' ) {
+					$return[ $column_info['field']['name'] ] = $options[ $column_info['field']['name'] ];
+				}
+
+				// Exclude each related setting
+				if ( ! in_array( 'column-manager', $sections ) && $strategy == 'exclude' ) {
+					if ( isset( $return[ $column_info['field']['name'] ] ) ) {
+						unset( $return[ $column_info['field']['name'] ] );
+					}
+				}
+
+			}
+		}
+
+		// In-/exclude custom css/js tool configuration
+		if ( in_array( 'custom-cssjs', $sections ) && $strategy == 'include' ) {
+			$return['custom-site-css'] = $options['custom-site-css'];
+			$return['custom-site-js-header'] = $options['custom-site-js-header'];
+			$return['custom-site-js-footer'] = $options['custom-site-js-footer'];
+			$return['custom-admin-css'] = $options['custom-admin-css'];
+			$return['custom-admin-js-header'] = $options['custom-admin-js-header'];
+			$return['custom-admin-js-footer'] = $options['custom-admin-js-footer'];
+		}
+		if ( ! in_array( 'custom-cssjs', $sections ) && $strategy == 'exclude' ) {
+			unset( $return['custom-site-css'] );
+			unset( $return['custom-site-js-header'] );
+			unset( $return['custom-site-js-footer'] );
+			unset( $return['custom-admin-css'] );
+			unset( $return['custom-admin-js-header'] );
+			unset( $return['custom-admin-js-footer'] );
+		}
+
+		// Return as ajax response
+		echo base64_encode( json_encode( $return ) );
+		die();
+
+	}
+
+	// Process a Clientside settings import request
+	static function action_import() {
+
+		// Prepare
+		if ( ! isset( $_POST['clientside-import-nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( $_POST['clientside-import-nonce'], 'clientside-import' ) ) {
+			return;
+		}
+		if ( ! isset( $_POST['import'] ) || ! sanitize_text_field( $_POST['import'] ) ) {
+			return;
+		}
+
+		// Decipher data
+		$import = json_decode( base64_decode( sanitize_text_field( $_POST['import'] ) ), true );
+		if ( ! is_array( $import ) ) {
+			add_settings_error( 'import', 'fail', __( 'Import failed.', 'clientside' ), 'error' );
+			return;
+		}
+
+		// Funnel submitted data through validation
+		$import = self::callback_option_validation( $import );
+
+		// Save imported options
+		update_option( self::$options_slug, $import );
+
+		// Redirect back to import/export page
+		wp_redirect( Clientside_Pages::get_page_url( 'clientside-importexport', array( 'updated' => 1 ) ) );
+		die();
+
+	}
 
 	// Print an option field
 	static function display_form_field( $args = array() ) {
@@ -900,6 +1187,13 @@ class Clientside_Options {
 	static function display_form_field_type_textarea( $field, $value, $name ) {
 		?>
 		<textarea id="<?php echo 'clientside-formfield-' . $field['name']; ?>" class="widefat" rows="8" name="<?php echo esc_attr( $name ); ?>"><?php echo $value; ?></textarea>
+		<?php
+	}
+
+	// Print a code-friendly textarea field for options pages
+	static function display_form_field_type_code( $field, $value, $name ) {
+		?>
+		<textarea id="<?php echo 'clientside-formfield-' . $field['name']; ?>" class="widefat clientside-textarea-code" rows="8" name="<?php echo esc_attr( $name ); ?>" <?php if ( isset( $field['placeholder'] ) && $field['placeholder'] ) { ?>placeholder="<?php echo $field['placeholder']; ?>"<?php } ?>><?php echo $value; ?></textarea>
 		<?php
 	}
 

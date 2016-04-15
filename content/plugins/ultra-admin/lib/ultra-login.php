@@ -25,8 +25,8 @@ function ultra_custom_login() {
     echo "\n<style type='text/css'>";
 
     /*text, backgrounds, link color*/
-    echo ultra_css_background("body, #wp-auth-check-wrap #wp-auth-check", "login-background") . "\n";
-    echo ultra_css_background(".login form", "login-form-background") . "\n";
+    echo ultra_css_background("body, #wp-auth-check-wrap #wp-auth-check", "login-background","","","imp") . "\n";
+    echo ultra_css_background(".login form", "login-form-background","","","imp") . "\n";
     echo ultra_link_color(".login #backtoblog a, .login #nav a, .login a", "login-link-color") . "\n";
     echo ultra_css_color(".login, .login form label, .login form, .login .message", "login-text-color") . "\n";
 
@@ -37,8 +37,8 @@ function ultra_custom_login() {
 
 
     /*form input fields - text and checkbox*/
-    echo ultra_css_bgcolor(".login form .input, .login form input[type=checkbox], .login input[type=text]", "login-input-bg-color", ($ultraadmin['login-input-bg-opacity']) == "" ? "0.5" : $ultraadmin['login-input-bg-opacity']) . "\n";
-    echo ultra_css_bgcolor(".login form .input:hover, .login form input[type=checkbox]:hover, .login input[type=text]:hover, .login form .input:focus, .login form input[type=checkbox]:focus, .login input[type=text]:focus", "login-input-bg-color", ($ultraadmin['login-input-bg-hover-opacity']) == "" ? "0.8" : $ultraadmin['login-input-bg-hover-opacity']) . "\n";
+    echo ultra_css_bgcolor(".login form .input, .login form input[type=checkbox], .login input[type=text]", "login-input-bg-color", ($ultraadmin['login-input-bg-opacity']) == "" ? "0.5" : $ultraadmin['login-input-bg-opacity'],"","imp") . "\n";
+    echo ultra_css_bgcolor(".login form .input:hover, .login form input[type=checkbox]:hover, .login input[type=text]:hover, .login form .input:focus, .login form input[type=checkbox]:focus, .login input[type=text]:focus", "login-input-bg-color", ($ultraadmin['login-input-bg-hover-opacity']) == "" ? "0.8" : $ultraadmin['login-input-bg-hover-opacity'],"","imp") . "\n";
     echo ultra_css_color(".login form .input, .login form input[type=checkbox], .login input[type=text]", "login-input-text-color") . "\n";
     echo ultra_css_color(".login.wp-core-ui input[type=checkbox]:checked:before", "login-input-text-color") . "\n";
 
@@ -49,7 +49,7 @@ function ultra_custom_login() {
 
 
     /*login error message*/
-    echo ultra_css_bgcolor(".login #login_error, .login .message", "login-input-bg-color", ($ultraadmin['login-input-bg-opacity']) == "" ? "0.5" : $ultraadmin['login-input-bg-opacity']) . "\n";
+    echo ultra_css_bgcolor(".login #login_error, .login .message", "login-input-bg-color", ($ultraadmin['login-input-bg-opacity']) == "" ? "0.5" : $ultraadmin['login-input-bg-opacity'],"","imp") . "\n";
     echo ultra_css_color(" .login .message,  .login .message a, .login #login_error, .login #login_error a", "login-input-text-color") . "\n";
 
 
@@ -61,7 +61,7 @@ function ultra_custom_login() {
         $logo_url = $ultraadmin['logo']['url'];
     }
 
-    echo '.login h1 a { background-image: url("' . $logo_url . '");}';
+    echo '.login h1 a { background-image: url("' . $logo_url . '") !important;}';
 
 
 echo "</style>\n"; 

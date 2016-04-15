@@ -2,6 +2,7 @@
 global $user_ID, $post;
 get_header( 'question' );
 ?>
+
 <div id="qa-page-wrapper">
 	<div id="qa-content-wrapper">
 	<?php do_action( 'qa_before_content', 'single-question' ); ?>
@@ -23,7 +24,8 @@ get_header( 'question' );
 				<div class="question-meta">
 					<?php do_action( 'qa_before_question_meta' ); ?>
 
-					<?php the_qa_action_links( get_the_ID() ); ?>
+					<?php
+					the_qa_action_links( get_the_ID() ); ?>
 					<?php the_qa_author_box( get_the_ID() ); ?>
 
 					<?php do_action( 'qa_after_question_meta' ); ?>
@@ -62,7 +64,7 @@ get_header( 'question' );
 </div><!--#qa-page-wrapper-->
 
 <?php
-global $qa_general_settings;	     	 	 		  		 	
+global $qa_general_settings;
 
 if ( isset( $qa_general_settings["page_layout"] ) && $qa_general_settings["page_layout"] !='content' )
 	get_sidebar( 'question' );

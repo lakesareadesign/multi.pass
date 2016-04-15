@@ -14,7 +14,7 @@
 			<?php _ex( 'Post revisions', 'Site / server status', 'clientside' ); ?>
 		</span>
 		<span class="clientside-status-value">
-			<?php echo ( defined( 'WP_POST_REVISIONS' ) && ! WP_POST_REVISIONS ) ? __( 'Disabled', 'clientside' ) : __( 'Enabled', 'clientside' ); ?>
+			<?php echo ( defined( 'WP_POST_REVISIONS' ) && ! WP_POST_REVISIONS ) ? __( 'Disabled', 'clientside' ) : ( WP_POST_REVISIONS === true ? __( 'Enabled', 'clientside' ) : WP_POST_REVISIONS ); ?>
 		</span>
 	</li>
 
@@ -32,10 +32,19 @@
 
 	<li class="clientside-status-item">
 		<span class="clientside-status-key">
-			<?php _ex( 'File editor', 'Site / server status', 'clientside' ); ?>
+			<?php _ex( 'Theme/plugin file editor', 'Site / server status', 'clientside' ); ?>
 		</span>
 		<span class="clientside-status-value">
 			<?php echo ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) ? __( 'Disabled', 'clientside' ) : __( 'Enabled', 'clientside' ); ?>
+		</span>
+	</li>
+
+	<li class="clientside-status-item">
+		<span class="clientside-status-key">
+			<?php _ex( 'WP Cron', 'Site / server status', 'clientside' ); ?>
+		</span>
+		<span class="clientside-status-value">
+			<?php echo ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) ? __( 'Disabled', 'clientside' ) : __( 'Enabled', 'clientside' ); ?>
 		</span>
 	</li>
 
@@ -61,9 +70,29 @@
 			<?php _ex( 'Max upload size', 'Site / server status', 'clientside' ); ?>
 		</span>
 		<span class="clientside-status-value">
-			<?php echo ini_get("upload_max_filesize"); ?>
+			<?php echo strtolower( ini_get( 'upload_max_filesize' ) ); ?>
 		</span>
 	</li>
+
+	<li class="clientside-status-item">
+		<span class="clientside-status-key">
+			<?php _ex( 'Max execution time', 'Site / server status', 'clientside' ); ?>
+		</span>
+		<span class="clientside-status-value">
+			<?php echo ini_get( 'max_execution_time' ); ?>s
+		</span>
+	</li>
+
+	<li class="clientside-status-item">
+		<span class="clientside-status-key">
+			<?php _ex( 'Gzip enabled', 'Site / server status', 'clientside' ); ?>
+		</span>
+		<span class="clientside-status-value">
+			<?php echo ( function_exists( 'ob_gzhandler' ) && ini_get( 'zlib.output_compression' ) ) ? __( 'Yes', 'clientside' ) : __( 'No', 'clientside' ); ?>
+		</span>
+	</li>
+
+	<li>&nbsp;</li>
 
 	<li class="clientside-status-item">
 		<span class="clientside-status-key">

@@ -4,21 +4,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Clientside 1.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-26 00:06+0700\n"
-"PO-Revision-Date: 2015-05-26 00:06+0700\n"
+"POT-Creation-Date: 2015-08-15 20:40+0700\n"
+"PO-Revision-Date: 2015-08-15 20:50+0700\n"
 "Last-Translator: Berend de Jong <please@frique.me>\n"
 "Language-Team: Frique <please@frique.me>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.6\n"
+"X-Generator: Poedit 1.8.4\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
 "_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
 "esc_html_x:1,2c\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: ../\n"
+"X-Poedit-Basepath: ..\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -115,24 +115,24 @@ msgstr "Berichten"
 msgid "The user's post count"
 msgstr "De hoeveelheid berichten van deze gebruiker"
 
-#: class-clientside-admin-menu-editor.php:110
+#: class-clientside-admin-menu-editor.php:113
 msgctxt "Item name in the admin menu editor"
 msgid "(separator)"
 msgstr "(afscheiding)"
 
-#: class-clientside-admin-menu-editor.php:116
+#: class-clientside-admin-menu-editor.php:119
 msgid "Edit"
 msgstr "Aanpassen"
 
-#: class-clientside-admin-menu-editor.php:117
+#: class-clientside-admin-menu-editor.php:120
 msgid "Close"
 msgstr "Sluiten"
 
-#: class-clientside-admin-menu-editor.php:131
+#: class-clientside-admin-menu-editor.php:134
 msgid "Title"
 msgstr "Titel"
 
-#: class-clientside-admin-menu-editor.php:137
+#: class-clientside-admin-menu-editor.php:140
 msgid "Role-based visibility"
 msgstr "Rol-gebaseerde zichtbaarheid"
 
@@ -299,41 +299,41 @@ msgctxt "Option section name"
 msgid "Post Listing Options"
 msgstr "Berichtenlijst Opties"
 
-#: class-clientside-options.php:67
+#: class-clientside-options.php:69
 msgctxt "Option section name"
 msgid "Toolbar Options"
 msgstr "Toolbar Opties"
 
-#: class-clientside-options.php:83
+#: class-clientside-options.php:85
 msgctxt "Option section name"
 msgid "Network options"
 msgstr "Netwerkopties"
 
-#: class-clientside-options.php:93 inc/page-tools.php:48
+#: class-clientside-options.php:95 inc/page-tools.php:49
 msgid "Admin Menu Editor"
 msgstr "Admin Menu Beheer"
 
-#: class-clientside-options.php:151
+#: class-clientside-options.php:153
 msgctxt "Option title"
 msgid "Admin Dashboard button text"
 msgstr "Admin Dashboard knop tekst"
 
-#: class-clientside-options.php:152
+#: class-clientside-options.php:154
 msgctxt "Option description"
 msgid "Text on the Admin Dashboard button when viewing the site."
 msgstr "Text op de Admin Dashboard klop tijdens het bekijken van de site."
 
-#: class-clientside-options.php:153
+#: class-clientside-options.php:155
 msgctxt "Toolbar button text"
 msgid "Admin Dashboard"
 msgstr "Admin Dashboard"
 
-#: class-clientside-options.php:161
+#: class-clientside-options.php:163
 msgctxt "Option title"
 msgid "Enable Clientside admin theming"
 msgstr "Clientside admin thema inschakelen"
 
-#: class-clientside-options.php:164
+#: class-clientside-options.php:166
 msgctxt "Option description"
 msgid ""
 "Disabling this option will prevent all style related changes for the "
@@ -342,18 +342,19 @@ msgstr ""
 "Schakel deze optie uit om geen stijl gerelateerde aanpassingen toe te passen "
 "voor de specifieke gebruikersrol."
 
-#: class-clientside-options.php:173
+#: class-clientside-options.php:175
 msgctxt "Option title"
 msgid "Additional plugin support"
 msgstr "Extra plugin ondersteuning"
 
-#: class-clientside-options.php:174 class-clientside-options.php:186
-#: class-clientside-options.php:198 class-clientside-options.php:365
-#: class-clientside-options.php:445 class-clientside-options.php:457
+#: class-clientside-options.php:176 class-clientside-options.php:188
+#: class-clientside-options.php:200 class-clientside-options.php:212
+#: class-clientside-options.php:390 class-clientside-options.php:470
+#: class-clientside-options.php:482
 msgid "Enable"
 msgstr "Inschakelen"
 
-#: class-clientside-options.php:177
+#: class-clientside-options.php:179
 #, php-format
 msgctxt "Option description"
 msgid ""
@@ -365,12 +366,26 @@ msgstr ""
 "plugins</a> in gebruik is. Deze optie uitschakelen levert een iets betere "
 "pagina prestatie op omdat er dan minder CSS ingeladen hoeft te worden."
 
-#: class-clientside-options.php:185
+#: class-clientside-options.php:187
+msgctxt "Option title"
+msgid "Expand Submenus on Hover"
+msgstr "Klap submenus uit met muis-over"
+
+#: class-clientside-options.php:191
+msgctxt "Option description"
+msgid ""
+"This replaces the default behavior of clicking a menu item to expand its "
+"submenu."
+msgstr ""
+"Dit vervangt de standaard manier van submenus openen door op het hoofdmenu "
+"item te klikken."
+
+#: class-clientside-options.php:199
 msgctxt "Option title"
 msgid "Text editor styling"
 msgstr "Tekstverwerker stijl"
 
-#: class-clientside-options.php:189
+#: class-clientside-options.php:203
 msgctxt "Option description"
 msgid ""
 "Some themes might make the editor styling match the site's typography. "
@@ -379,23 +394,23 @@ msgstr ""
 "Sommige thema's voegen hun eigen stijl aanpassingen toe op de "
 "tesktverwerker. Het inschakelen van deze optie zal dit overschrijven."
 
-#: class-clientside-options.php:197
+#: class-clientside-options.php:211
 msgctxt "Option title"
 msgid "Menu separators"
 msgstr "Menu afscheidingen"
 
-#: class-clientside-options.php:201
+#: class-clientside-options.php:215
 msgctxt "Option description"
 msgid "Menu separators are hidden by default. This option enables them."
 msgstr ""
 "Menu afscheidingen zijn standaard verborgen. Deze optie schakelt dit in."
 
-#: class-clientside-options.php:209
+#: class-clientside-options.php:223
 msgctxt "Option title"
 msgid "Hide update information (WP core, plugins, themes)"
 msgstr "Verberg update informatie (WP core, plugins, thema's)"
 
-#: class-clientside-options.php:210
+#: class-clientside-options.php:224
 msgctxt "Option description"
 msgid ""
 "The affected user role won't be confronted with update information. This "
@@ -405,24 +420,24 @@ msgstr ""
 "gebruikersrol. Dit kan ook een positief effect hebben op de pagina laad "
 "snelheid."
 
-#: class-clientside-options.php:229
+#: class-clientside-options.php:243
 msgctxt "Option title"
 msgid "Hide the admin toolbar when viewing the site"
 msgstr "Verberg de admin toolbar tijdens het bekijken van de site."
 
-#: class-clientside-options.php:230
+#: class-clientside-options.php:244
 msgctxt "Option description"
 msgid "Note that this overwrites the native user-based setting when checked."
 msgstr ""
 "Let op: Dit overschrijft de gebruiker's eigen instelling wanneer "
 "ingeschakeld."
 
-#: class-clientside-options.php:241
+#: class-clientside-options.php:255
 msgctxt "Option title"
 msgid "Hide the Screen Options button"
 msgstr "Verberg de Schermopties knop"
 
-#: class-clientside-options.php:242
+#: class-clientside-options.php:256
 msgctxt "Option description"
 msgid ""
 "This will make the affected users unable to manage the page's widgets and "
@@ -431,37 +446,47 @@ msgstr ""
 "Hiermee hebben de gebruikers in kwestie geen mogelijkheid meer om zelf de "
 "pagina widgets en andere pagina opties te beheren."
 
-#: class-clientside-options.php:253
+#: class-clientside-options.php:267
 msgctxt "Option title"
 msgid "Hide the Help button"
 msgstr "Verberg de Hulp knop"
 
-#: class-clientside-options.php:264
+#: class-clientside-options.php:278
+msgctxt "Option title"
+msgid "Hide User Role Changer"
+msgstr "Verberg Gebruikersrol Aanpasser"
+
+#: class-clientside-options.php:279
+msgctxt "Option description"
+msgid "Hides the role changing dropdown above user-listings."
+msgstr "Verbergt het rol aanpassingsmenu boven de gebruikerslijsten."
+
+#: class-clientside-options.php:289
 msgctxt "Option title"
 msgid "Hide Date Filter"
 msgstr "Verberg Datum Filter"
 
-#: class-clientside-options.php:265
+#: class-clientside-options.php:290
 msgctxt "Option description"
 msgid "Hides the post-listing date filter dropdown (for all post types)."
 msgstr "Verbergt de berichtenlijst datum filter (voor alle post-types)."
 
-#: class-clientside-options.php:284
+#: class-clientside-options.php:309
 msgctxt "Option title"
 msgid "Hide Category Filter"
 msgstr "Verberg Categorie Filter"
 
-#: class-clientside-options.php:285
+#: class-clientside-options.php:310
 msgctxt "Option description"
 msgid "Hides the post-listing category filter dropdown (for all post types)."
 msgstr "Verbergt de berichtenlijst categorie filter (voor alle post-types)."
 
-#: class-clientside-options.php:304
+#: class-clientside-options.php:329
 msgctxt "Option title"
 msgid "Hide Top Pager"
 msgstr "Verberg Bovenste Paginanavigatie"
 
-#: class-clientside-options.php:305
+#: class-clientside-options.php:330
 msgctxt "Option description"
 msgid ""
 "Hides the paging navigation above post-listings (for all post types). The "
@@ -470,12 +495,12 @@ msgstr ""
 "Verbergt de pagina navigatie bovenaan de berichtenlijst (voor alle post-"
 "types)."
 
-#: class-clientside-options.php:316
+#: class-clientside-options.php:341
 msgctxt "Option title"
 msgid "Hide Top Bulk Actions"
 msgstr "Verberg Bovenste Acties"
 
-#: class-clientside-options.php:317
+#: class-clientside-options.php:342
 msgctxt "Option description"
 msgid ""
 "Hides the Bulk Actions dropdown above post-listings (for all post types). "
@@ -483,45 +508,45 @@ msgid ""
 msgstr ""
 "Verbergt de actie selectie bovenaan de berichtenlijst (voor alle post-types)."
 
-#: class-clientside-options.php:328
+#: class-clientside-options.php:353
 msgctxt "Option title"
 msgid "Hide Post Search"
 msgstr "Verberg Zoekbalk"
 
-#: class-clientside-options.php:329
+#: class-clientside-options.php:354
 msgctxt "Option description"
 msgid "Hides the search form above post-listings (for all post types)."
 msgstr ""
 "Verbergt het zoekveld bovenaan de berichtenlijst (voor alle post-types)."
 
-#: class-clientside-options.php:340
+#: class-clientside-options.php:365
 msgctxt "Option title"
 msgid "Hide View Switch"
 msgstr "Verberg Weergave Switch"
 
-#: class-clientside-options.php:341
+#: class-clientside-options.php:366
 msgctxt "Option description"
 msgid "Hides the view switcher above the media page."
 msgstr "Verbergt de weergave switcher bovenaan de media pagina."
 
-#: class-clientside-options.php:352
+#: class-clientside-options.php:377
 msgctxt "Option title"
 msgid "Hide Media Bulk Select"
 msgstr "Verberg Media Massaselectie"
 
-#: class-clientside-options.php:353
+#: class-clientside-options.php:378
 msgctxt "Option description"
 msgid ""
 "Hides the Bulk Select button above the media page that allows for deletion "
 "of multiple files."
 msgstr "Verbergt de Massaselectie knop bovenaan de media pagina."
 
-#: class-clientside-options.php:364
+#: class-clientside-options.php:389
 msgctxt "Option title"
 msgid "Notification Center"
 msgstr "Notificatie Centrum"
 
-#: class-clientside-options.php:366
+#: class-clientside-options.php:391
 msgctxt "Option description"
 msgid ""
 "The Clientside Notification Center puts notifications away into a toolbar "
@@ -530,53 +555,53 @@ msgstr ""
 "Het Clientside Notificatie Centrum stopt alle notificaties in een toolbar "
 "item in plaats van ze rechtstreeks op de pagina weer te geven."
 
-#: class-clientside-options.php:376
+#: class-clientside-options.php:401
 msgctxt "Option title"
 msgid "Hide the \"New\" dropdown list in the toolbar."
 msgstr "Verberg de \"Nieuw\" knop in de toolbar."
 
-#: class-clientside-options.php:387
+#: class-clientside-options.php:412
 msgctxt "Option title"
 msgid "Hide the \"Comments\" button in the toolbar."
 msgstr "Verberg de \"Reacties\" knop in de toolbar."
 
-#: class-clientside-options.php:398
+#: class-clientside-options.php:423
 msgctxt "Option title"
 msgid "Hide the \"Updates\" button in the toolbar."
 msgstr "Verberg de \"Updates\" knop in de toolbar."
 
-#: class-clientside-options.php:409
+#: class-clientside-options.php:434
 msgctxt "Option title"
 msgid "Hide the Search functionality in the toolbar when viewing the site."
 msgstr ""
 "Verberg de zoekfunctionaliteit in de toolbar tijdens het bekijken van de "
 "site."
 
-#: class-clientside-options.php:420
+#: class-clientside-options.php:445
 msgctxt "Option title"
 msgid "Login error hinting"
 msgstr "Login error weergave"
 
-#: class-clientside-options.php:421 class-clientside-options.php:515
-#: class-clientside-options.php:527
+#: class-clientside-options.php:446 class-clientside-options.php:540
+#: class-clientside-options.php:552
 msgid "Disable"
 msgstr "Uitschakelen"
 
-#: class-clientside-options.php:422
+#: class-clientside-options.php:447
 msgctxt "Option description"
 msgid "Prevent WP from showing login errors. This can add to security."
 msgstr "Vermijd het weergeven van login errors. Dit voegt toe aan veiligheid."
 
-#: class-clientside-options.php:432
+#: class-clientside-options.php:457
 msgctxt "Option title"
 msgid "WordPress version meta tag"
 msgstr "WordPress versie meta tag"
 
-#: class-clientside-options.php:433
+#: class-clientside-options.php:458
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: class-clientside-options.php:434
+#: class-clientside-options.php:459
 msgctxt "Option description"
 msgid ""
 "Prevent WP from printing the WP version in the site header. This can add to "
@@ -585,34 +610,34 @@ msgstr ""
 "Vermijd het weergeven van de WP versie in de site header. Dit voegt toe aan "
 "veiligheid."
 
-#: class-clientside-options.php:444
+#: class-clientside-options.php:469
 msgctxt "Option title"
 msgid "Themed login/register page"
 msgstr "Gestijlde login/inschrijven pagina"
 
-#: class-clientside-options.php:446
+#: class-clientside-options.php:471
 msgctxt "Option description"
 msgid "Also apply theming to the login/register pages."
 msgstr "Voeg stijl aanpassingen ook toe op de login-/inschrijfpagina's."
 
-#: class-clientside-options.php:456
+#: class-clientside-options.php:481
 msgctxt "Option title"
 msgid "Themed Site Toolbar"
 msgstr "Gestijlde Site Toolbar"
 
-#: class-clientside-options.php:458
+#: class-clientside-options.php:483
 msgctxt "Option description"
 msgid "Disable if the active site theme is breaking the toolbar positioning."
 msgstr ""
 "Schakel dit uit wanneer het site thema de positionering van de toolbar in de "
 "weg zit."
 
-#: class-clientside-options.php:468
+#: class-clientside-options.php:493
 msgctxt "Option title"
 msgid "Logo image"
 msgstr "Logo afbeelding"
 
-#: class-clientside-options.php:469
+#: class-clientside-options.php:494
 msgctxt "Option description"
 msgid ""
 "Will appear on the login page and above the admin menu (optional). Leave "
@@ -621,12 +646,12 @@ msgstr ""
 "Zichtbaar op de login pagina en boven het admin menu (optioneel). Laat dit "
 "leeg om het standaard WordPress logo te gebruiken."
 
-#: class-clientside-options.php:479
+#: class-clientside-options.php:504
 msgctxt "Option title"
 msgid "Hide the logo above the menu"
 msgstr "Verberg logo boven menu"
 
-#: class-clientside-options.php:480
+#: class-clientside-options.php:505
 msgctxt "Option description"
 msgid ""
 "Applies if a custom logo is uploaded. The \"View Site\" button will appear "
@@ -635,16 +660,16 @@ msgstr ""
 "Van toepassing als er een eigen logo is geupload. De \"Site Bekijken\" knop "
 "wordt in plaats daarvan gebruikt."
 
-#: class-clientside-options.php:491
+#: class-clientside-options.php:516
 msgctxt "Option title"
 msgid "Hide the login logo"
 msgstr "Verberg login logo"
 
-#: class-clientside-options.php:492
+#: class-clientside-options.php:517
 msgid "Hide"
 msgstr "Verbergen"
 
-#: class-clientside-options.php:493
+#: class-clientside-options.php:518
 msgctxt "Option description"
 msgid ""
 "Completely hides the logo on the login page, wether it's a custom uploaded "
@@ -653,12 +678,12 @@ msgstr ""
 "Verbergt het logo op de login pagina. Van toepassing op eigen logo en het "
 "standaard WP logo."
 
-#: class-clientside-options.php:503
+#: class-clientside-options.php:528
 msgctxt "Option title"
 msgid "Posts per page"
 msgstr "Berichten per pagina"
 
-#: class-clientside-options.php:504
+#: class-clientside-options.php:529
 msgctxt "Option description"
 msgid ""
 "This changes the number of posts per page for all post types and all users "
@@ -669,12 +694,12 @@ msgstr ""
 "berichtenlijst (alle post-types). Dit overschrijft de instelling in de "
 "Scherminstellingen. Laat dit leeg om de standaard te behouden."
 
-#: class-clientside-options.php:514
+#: class-clientside-options.php:539
 msgctxt "Option title"
 msgid "Theme/plugin file editor"
 msgstr "Thema/plugin bestandsbewerker"
 
-#: class-clientside-options.php:516
+#: class-clientside-options.php:541
 msgctxt "Option description"
 msgid ""
 "Prevent access to the theme/plugin file editing pages. Note that this will "
@@ -685,12 +710,12 @@ msgstr ""
 "alleen effect als de \"DISALLOW_FILE_EDIT\" constant niet al gezet is (via "
 "wp-config.php)."
 
-#: class-clientside-options.php:526
+#: class-clientside-options.php:551
 msgctxt "Option title"
 msgid "Custom error handler"
 msgstr "Eigen error opvanging"
 
-#: class-clientside-options.php:528
+#: class-clientside-options.php:553
 msgctxt "Option description"
 msgid ""
 "Clientside prevents PHP from printing errors before the document HTML and "
@@ -702,16 +727,16 @@ msgstr ""
 "Deze functionaliteit kan hier uitgeschakeld worden als dit problemen "
 "oplevert met een eigen error opvanging oplossing."
 
-#: class-clientside-options.php:538
+#: class-clientside-options.php:563
 msgctxt "Option title"
 msgid "Network Admins Only"
 msgstr "Alleen voor Netwerk Beheerders"
 
-#: class-clientside-options.php:539
+#: class-clientside-options.php:564
 msgid "Make Clientside only manageable by Network/Super Admins"
 msgstr "Maak Clientside alleen beheerbaar voor Netwerk Beheerders"
 
-#: class-clientside-options.php:540
+#: class-clientside-options.php:565
 msgctxt "Option description"
 msgid ""
 "Plugin Options, Clientside Tools and the entry in the plugin list on all "
@@ -721,12 +746,16 @@ msgstr ""
 "alle netwerk sites zullen verborgen zijn voor iedereen behalve Netwerk "
 "Beheerders."
 
-#: class-clientside-options.php:551
+#: class-clientside-options.php:576
 msgctxt "Option title"
 msgid "Admin Menu"
 msgstr "Admin Menu"
 
-#: class-clientside-options.php:945
+#: class-clientside-options.php:939
+msgid "Import failed."
+msgstr "Import mislukt."
+
+#: class-clientside-options.php:1063
 msgctxt "Upload button text"
 msgid "Upload"
 msgstr "Upload"
@@ -756,21 +785,26 @@ msgctxt "Option page title"
 msgid "Admin Tools"
 msgstr "Admin Hulpmiddelen"
 
-#: class-clientside-pages.php:63
+#: class-clientside-pages.php:64
+msgctxt "Option page title"
+msgid "Import/Export Settings"
+msgstr "Import/Export Instellingen"
+
+#: class-clientside-pages.php:74
 msgctxt "Option page title"
 msgid "Documentation & Support"
 msgstr "Handleiding en Support"
 
-#: class-clientside-pages.php:72
+#: class-clientside-pages.php:83
 msgctxt "Tool page title"
 msgid "Admin Menu Editor"
 msgstr "Admin Menu Beheer"
 
-#: class-clientside-pages.php:84 inc/page-tools.php:69
+#: class-clientside-pages.php:95 inc/page-tools.php:70
 msgid "Admin Widget Manager"
 msgstr "Admin Widget Beheer"
 
-#: class-clientside-pages.php:96 inc/page-tools.php:90
+#: class-clientside-pages.php:107 inc/page-tools.php:91
 msgid "Admin Column Manager"
 msgstr "Admin Column Beheer"
 
@@ -802,7 +836,11 @@ msgstr "Scherm Opties"
 msgid "Help"
 msgstr "Hulp"
 
-#: class-clientside-setup.php:132
+#: class-clientside-setup.php:50
+msgid "Loading..."
+msgstr "Aan het laden…"
+
+#: class-clientside-setup.php:133
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -960,6 +998,105 @@ msgstr "Alle Clientside Hulpmiddelen"
 msgid "Support"
 msgstr "Support"
 
+#: inc/page-importexport.php:13
+msgid ""
+"Use this page to import/export Clientside settings and configurations. Press "
+"Export to generate a text string which can then be imported later or in "
+"another installation (also useful for copying settings among a multisite "
+"installation)."
+msgstr ""
+"Gebruik deze pagina om Clientside instellingen te importeren en exporteren. "
+"Gebruik de Export knop om een regel tekst te genereren die vervolgens in een "
+"andere installatie te importeren is (ook handig om instellingen te delen "
+"tussen meerdere sites in een multisite installatie)."
+
+#: inc/page-importexport.php:19
+msgid "Note that only Network Administrators have access to this tool."
+msgstr "Let op: Alleen Netwerk Administrators hebben toegang tot deze tool."
+
+#: inc/page-importexport.php:21
+msgid ""
+"Note that both Network Administrators and Site Administrators have access to "
+"this tool."
+msgstr ""
+"Let op: Netwerk Administrators en Administrators hebben beide toegang tot "
+"deze tool."
+
+#: inc/page-importexport.php:25 inc/page-options-general.php:27
+#: inc/page-tools.php:20
+msgid "Visit the Network Options to change this behavior."
+msgstr "Bezoek de Netwerk Opties om dit aan te passen."
+
+#: inc/page-importexport.php:26 inc/page-options-general.php:28
+#: inc/page-tools.php:21
+msgid "Network Options"
+msgstr "Netwerk Opties"
+
+#: inc/page-importexport.php:30
+msgid "Note that only Administrators have access to this tool."
+msgstr "Let op: Alleen Administrators hebben toegang tot deze tool."
+
+#: inc/page-importexport.php:38
+msgid ""
+"Note that importing the Menu Editor Tool's configuration can cause "
+"unexpected results if the target site has different menu items."
+msgstr ""
+"Let op: Het importeren van de Menu Beheer Tool configuratie kan onverwachtse "
+"resultaten opleveren als de menu items niet overeen komen."
+
+#: inc/page-importexport.php:44
+msgid "Importing settings will overwrite the current site's settings!"
+msgstr "Bestaande instellingen worden overschreven bij het importeren!"
+
+#: inc/page-importexport.php:53
+msgid "Import succeeded."
+msgstr "Import gelukt."
+
+#: inc/page-importexport.php:62
+msgid "Paste an export string here to import."
+msgstr "Plak hier een geëxporteerde tekst om te importeren."
+
+#: inc/page-importexport.php:65
+msgid "Import"
+msgstr "Importeren"
+
+#: inc/page-importexport.php:74
+msgid "Please enable Javascript to make use of this functionality."
+msgstr "Schakel Javascript in om gebruik te maken van deze functionaliteit."
+
+#: inc/page-importexport.php:81
+msgid "Plugin Options"
+msgstr "Plugin Opties"
+
+#: inc/page-importexport.php:86
+msgid "Menu Editor Tool Configuration"
+msgstr "Menu Beheer Tool Configuratie"
+
+#: inc/page-importexport.php:91
+msgid "Admin Widget Manager Tool Configuration"
+msgstr "Admin Widget Beheer Tool Configuratie"
+
+#: inc/page-importexport.php:96
+msgid "Admin Column Manager Tool Configuration"
+msgstr "Admin Column Beheer Tool Configuratie"
+
+#: inc/page-importexport.php:101
+msgctxt "Button text"
+msgid "Export"
+msgstr "Export"
+
+#: inc/page-importexport.php:106
+msgid "Press the Export button above."
+msgstr "Gebruik de Export knop hierboven."
+
+#: inc/page-importexport.php:108
+msgid ""
+"Save this text string as a backup or copy it over to another installation to "
+"import it."
+msgstr ""
+"Sla deze tekst ergens op als backup of kopieer het naar een andere "
+"installatie om het daar te importeren."
+
 #: inc/page-options-general.php:21
 msgid "Note that only Network Administrators have access to these settings."
 msgstr ""
@@ -972,14 +1109,6 @@ msgid ""
 msgstr ""
 "Let op: Netwerk Beheerders en Site Beheerders hebben beide toegang tot deze "
 "instellingen."
-
-#: inc/page-options-general.php:27 inc/page-tools.php:19
-msgid "Visit the Network Options to change this behavior."
-msgstr "Bezoek de Netwerk Opties om dit aan te passen."
-
-#: inc/page-options-general.php:28 inc/page-tools.php:20
-msgid "Network Options"
-msgstr "Netwerk Opties"
 
 #: inc/page-options-general.php:32
 msgid "Note that only Administrators have access to these settings."
@@ -997,12 +1126,12 @@ msgstr ""
 msgid "View all Tools"
 msgstr "Alle Hulpmiddelen"
 
-#: inc/page-tools.php:13
+#: inc/page-tools.php:14
 msgid "Note that only Network Administrators have access to these Admin Tools."
 msgstr ""
 "Let op: Alleen Netwerk Beheerders hebben toegang tot deze Admin Hulpmiddelen."
 
-#: inc/page-tools.php:15
+#: inc/page-tools.php:16
 msgid ""
 "Note that both Network Administrators and Site Administrators have access to "
 "these Admin Tools."
@@ -1010,7 +1139,7 @@ msgstr ""
 "Let op: Netwerk Beheerders en Site Beheerders hebben beide toegang tot deze "
 "Admin Hulpmiddelen."
 
-#: inc/page-tools.php:24
+#: inc/page-tools.php:25
 msgid "Note that only Administrators have access to these Admin Tools."
 msgstr "Let op: Alleen Beheerders hebben toegang tot deze Admin Hulpmiddelen."
 
@@ -1026,6 +1155,18 @@ msgstr ""
 #: inc/wp-updates-plugin.php:91
 msgid "An unknown error occurred"
 msgstr "Er is een onbekende fout opgetreden"
+
+#~ msgid "Clientside"
+#~ msgstr "Clientside"
+
+#~ msgid "http://frique.me/clientside/"
+#~ msgstr "http://frique.me/clientside/"
+
+#~ msgid "Berend de Jong"
+#~ msgstr "Berend de Jong"
+
+#~ msgid "http://frique.me/"
+#~ msgstr "http://frique.me/"
 
 #~ msgctxt "Option title"
 #~ msgid "Login page logo image"

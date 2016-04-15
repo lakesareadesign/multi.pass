@@ -2,33 +2,29 @@
  * This file is part of: Clientside
  * Author: Berend de Jong
  * Author URI: http://frique.me/
- * Version: 1.1.12 (2015-08-09 00:16)
+ * Version: 1.2.9 (2016-04-15 00:11)
  */
 
-.clientside-theme.toplevel_page_jetpack .jp-content,
-.clientside-theme.jetpack_page_jetpack_modules .jp-content {
+.clientside-theme.toplevel_page_jetpack .jp-content, .clientside-theme.jetpack_page_jetpack_modules .jp-content {
   margin: 0;
   padding: 45px 90px;
   clear: both;
 }
 
 @media (min-width: 1880px) {
-  .clientside-theme.toplevel_page_jetpack .jp-content,
-  .clientside-theme.jetpack_page_jetpack_modules .jp-content {
+  .clientside-theme.toplevel_page_jetpack .jp-content, .clientside-theme.jetpack_page_jetpack_modules .jp-content {
     padding: 67.5px 135px;
   }
 }
 
 @media (max-width: 1200px) {
-  .clientside-theme.toplevel_page_jetpack .jp-content,
-  .clientside-theme.jetpack_page_jetpack_modules .jp-content {
+  .clientside-theme.toplevel_page_jetpack .jp-content, .clientside-theme.jetpack_page_jetpack_modules .jp-content {
     padding: 22.5px 45px;
   }
 }
 
 @media (max-width: 782px) {
-  .clientside-theme.toplevel_page_jetpack .jp-content,
-  .clientside-theme.jetpack_page_jetpack_modules .jp-content {
+  .clientside-theme.toplevel_page_jetpack .jp-content, .clientside-theme.jetpack_page_jetpack_modules .jp-content {
     padding: 15px;
   }
 }
@@ -57,8 +53,7 @@
   margin-left: 0 !important;
 }
 
-.clientside-theme .jp-content .modal,
-.clientside-theme .jp-content .modal * {
+.clientside-theme .jp-content .modal, .clientside-theme .jp-content .modal * {
   box-sizing: border-box;
 }
 
@@ -80,8 +75,7 @@
   }
 }
 
-.clientside-theme .jp-content .modal #TB_ajaxContent,
-.clientside-theme .jp-content .modal #TB_iframeContent {
+.clientside-theme .jp-content .modal #TB_ajaxContent, .clientside-theme .jp-content .modal #TB_iframeContent {
   position: absolute;
   width: 100% !important;
   max-height: 100% !important;
@@ -153,6 +147,10 @@
   position: absolute;
   top: 0;
   right: 0;
+  width: 51px;
+  height: 50px;
+  text-align: center;
+  text-decoration: none !important;
 }
 
 .clientside-theme .jp-content .modal #TB_title #TB_closeAjaxWindow #TB_closeWindowButton {
@@ -186,67 +184,120 @@
   color: #959595 ;
 }
 
+.clientside-theme .jp-content .modal #TB_title #TB_closeAjaxWindow #TB_closeWindowButton:after {
+  font-size: 22px;
+  line-height: 54px;
+}
+
+.clientside-theme .jp-content .modal #TB_title #TB_closeAjaxWindow #TB_closeWindowButton:after {
+  color: #c8c8c8 ;
+}
+
+.clientside-theme .jp-content .modal #TB_title #TB_closeAjaxWindow #TB_closeWindowButton:hover {
+  background: #f6f6f6 ;
+}
+
+.clientside-theme .jp-content .modal #TB_title #TB_closeAjaxWindow #TB_closeWindowButton:hover:after {
+  color: #959595 ;
+}
+
 .clientside-theme .layers-panel, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox {
-  border: 1px solid #f2f2f2;
-  background: white;
+  border: 1px solid;
   margin-bottom: 45px;
   box-shadow: none !important;
 }
 
-.clientside-theme .layers-panel ul,
-body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox ul,
-.clientside-theme .layers-panel ol, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox ol {
+.clientside-theme .layers-panel, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox {
+  border-color: #f2f2f2 ;
+}
+
+.clientside-theme .layers-panel, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox {
+  background: white ;
+}
+
+.clientside-theme .layers-panel ul, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox ul, .clientside-theme .layers-panel ol, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox ol {
   list-style-position: inside;
 }
 
-.clientside-theme .layers-panel .hndle,
-body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle,
-#poststuff .clientside-theme .layers-panel > h3, .clientside-theme #poststuff .layers-panel > h3, #poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3, body.clientside-theme.toplevel_page_revslider #poststuff .postbox.unite-postbox > h3 {
+.clientside-theme .layers-panel .hndle, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle,
+#poststuff .clientside-theme .layers-panel > h3, .clientside-theme
+#poststuff .layers-panel > h3,
+#poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3, body.clientside-theme.toplevel_page_revslider
+#poststuff .postbox.unite-postbox > h3 {
   cursor: default !important;
   padding: 30px;
   padding-bottom: 0;
   margin: 0;
   font-weight: normal;
+}
+
+.clientside-theme .layers-panel .hndle, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle, .clientside-theme .layers-panel .hndle span, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle span,
+#poststuff .clientside-theme .layers-panel > h3, .clientside-theme
+#poststuff .layers-panel > h3,
+#poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3, body.clientside-theme.toplevel_page_revslider
+#poststuff .postbox.unite-postbox > h3,
+#poststuff .clientside-theme .layers-panel > h3 span, .clientside-theme
+#poststuff .layers-panel > h3 span,
+#poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3 span, body.clientside-theme.toplevel_page_revslider
+#poststuff .postbox.unite-postbox > h3 span {
   font-size: 18px;
 }
 
-.clientside-theme .layers-panel .hndle,
-body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle,
-.clientside-theme .layers-panel .hndle a,
-body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle a,
-#poststuff .clientside-theme .layers-panel > h3,
-.clientside-theme #poststuff .layers-panel > h3, #poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3,
-body.clientside-theme.toplevel_page_revslider #poststuff .postbox.unite-postbox > h3, #poststuff .clientside-theme .layers-panel > h3 a, .clientside-theme #poststuff .layers-panel > h3 a, #poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3 a, body.clientside-theme.toplevel_page_revslider #poststuff .postbox.unite-postbox > h3 a {
+.clientside-theme .layers-panel .hndle, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle, .clientside-theme .layers-panel .hndle a, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle a,
+#poststuff .clientside-theme .layers-panel > h3, .clientside-theme
+#poststuff .layers-panel > h3,
+#poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3, body.clientside-theme.toplevel_page_revslider
+#poststuff .postbox.unite-postbox > h3,
+#poststuff .clientside-theme .layers-panel > h3 a, .clientside-theme
+#poststuff .layers-panel > h3 a,
+#poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3 a, body.clientside-theme.toplevel_page_revslider
+#poststuff .postbox.unite-postbox > h3 a {
   border: 0;
 }
 
-.clientside-theme .layers-panel .hndle,
-body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle,
-.clientside-theme .layers-panel .hndle a,
-body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle a,
-#poststuff .clientside-theme .layers-panel > h3,
-.clientside-theme #poststuff .layers-panel > h3, #poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3,
-body.clientside-theme.toplevel_page_revslider #poststuff .postbox.unite-postbox > h3, #poststuff .clientside-theme .layers-panel > h3 a, .clientside-theme #poststuff .layers-panel > h3 a, #poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3 a, body.clientside-theme.toplevel_page_revslider #poststuff .postbox.unite-postbox > h3 a {
+.clientside-theme .layers-panel .hndle, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle, .clientside-theme .layers-panel .hndle a, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle a,
+#poststuff .clientside-theme .layers-panel > h3, .clientside-theme
+#poststuff .layers-panel > h3,
+#poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3, body.clientside-theme.toplevel_page_revslider
+#poststuff .postbox.unite-postbox > h3,
+#poststuff .clientside-theme .layers-panel > h3 a, .clientside-theme
+#poststuff .layers-panel > h3 a,
+#poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3 a, body.clientside-theme.toplevel_page_revslider
+#poststuff .postbox.unite-postbox > h3 a {
   color: #222 ;
 }
 
-.clientside-theme .layers-panel .hndle a,
-body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle a,
-#poststuff .clientside-theme .layers-panel > h3 a, .clientside-theme #poststuff .layers-panel > h3 a, #poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3 a, body.clientside-theme.toplevel_page_revslider #poststuff .postbox.unite-postbox > h3 a {
+.clientside-theme .layers-panel .hndle a, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle a,
+#poststuff .clientside-theme .layers-panel > h3 a, .clientside-theme
+#poststuff .layers-panel > h3 a,
+#poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3 a, body.clientside-theme.toplevel_page_revslider
+#poststuff .postbox.unite-postbox > h3 a {
   cursor: pointer !important;
   text-decoration: none;
   font-size: inherit;
 }
 
-.clientside-theme .layers-panel .hndle.ui-sortable-handle,
-body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle.ui-sortable-handle,
-#poststuff .clientside-theme .layers-panel > h3.ui-sortable-handle, .clientside-theme #poststuff .layers-panel > h3.ui-sortable-handle, #poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3.ui-sortable-handle, body.clientside-theme.toplevel_page_revslider #poststuff .postbox.unite-postbox > h3.ui-sortable-handle {
+.clientside-theme .layers-panel .hndle.ui-sortable-handle, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .hndle.ui-sortable-handle,
+#poststuff .clientside-theme .layers-panel > h3.ui-sortable-handle, .clientside-theme
+#poststuff .layers-panel > h3.ui-sortable-handle,
+#poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > h3.ui-sortable-handle, body.clientside-theme.toplevel_page_revslider
+#poststuff .postbox.unite-postbox > h3.ui-sortable-handle {
   cursor: move !important;
 }
 
-.clientside-theme .layers-panel > .inside,
-body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > .inside,
-#poststuff .clientside-theme .layers-panel > .inside, .clientside-theme #poststuff .layers-panel > .inside, #poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > .inside, body.clientside-theme.toplevel_page_revslider #poststuff .postbox.unite-postbox > .inside {
+.clientside-theme .layers-panel .handlediv:before, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .handlediv:before {
+  font-family: dashicons;
+}
+
+.clientside-theme .layers-panel .toggle-indicator, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox .toggle-indicator {
+  display: none;
+}
+
+.clientside-theme .layers-panel > .inside, body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > .inside,
+#poststuff .clientside-theme .layers-panel > .inside, .clientside-theme
+#poststuff .layers-panel > .inside,
+#poststuff body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > .inside, body.clientside-theme.toplevel_page_revslider
+#poststuff .postbox.unite-postbox > .inside {
   margin: 30px;
   padding: 0;
   font-size: 15px;
@@ -276,15 +327,11 @@ body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > .inside,
   padding-bottom: 30px;
 }
 
-.clientside-theme #frm_form_editor_container > .postbox .clientside-widget-close,
-.clientside-theme #frm_form_editor_container > .postbox .handlediv {
+.clientside-theme #frm_form_editor_container > .postbox .clientside-widget-close, .clientside-theme #frm_form_editor_container > .postbox .handlediv {
   margin-top: 30px;
 }
 
-.clientside-theme #frm_form_editor_container > .postbox .clientside-widget-close,
-.clientside-theme #frm_form_editor_container > .postbox .clientside-widget-close span,
-.clientside-theme #frm_form_editor_container > .postbox .clientside-widget-close span:before,
-.clientside-theme #frm_form_editor_container > .postbox .handlediv, .clientside-theme #frm_form_editor_container > .postbox .handlediv span, .clientside-theme #frm_form_editor_container > .postbox .handlediv span:before {
+.clientside-theme #frm_form_editor_container > .postbox .clientside-widget-close, .clientside-theme #frm_form_editor_container > .postbox .clientside-widget-close span, .clientside-theme #frm_form_editor_container > .postbox .clientside-widget-close span:before, .clientside-theme #frm_form_editor_container > .postbox .handlediv, .clientside-theme #frm_form_editor_container > .postbox .handlediv span, .clientside-theme #frm_form_editor_container > .postbox .handlediv span:before {
   height: 21.6px;
   line-height: 21.6px;
 }
@@ -293,13 +340,13 @@ body.clientside-theme.toplevel_page_revslider .postbox.unite-postbox > .inside,
   margin-right: 33.75px;
 }
 
-.clientside-theme #frm_form_editor_container > .postbox .handlediv:before,
-.clientside-theme #frm_form_editor_container > .postbox .clientside-widget-close .dashicons:before {
+.clientside-theme #frm_form_editor_container > .postbox .handlediv:before, .clientside-theme #frm_form_editor_container > .postbox .clientside-widget-close .dashicons:before {
   line-height: 21.6px;
 }
 
 .clientside-theme #frm_form_editor_container > .postbox > .inside,
-#poststuff .clientside-theme #frm_form_editor_container > .postbox > .inside, .clientside-theme #poststuff #frm_form_editor_container > .postbox > .inside {
+#poststuff .clientside-theme #frm_form_editor_container > .postbox > .inside, .clientside-theme
+#poststuff #frm_form_editor_container > .postbox > .inside {
   margin: 30px 33.75px;
 }
 
@@ -333,10 +380,10 @@ body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revca
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple,
 body.clientside-theme.toplevel_page_revslider #button_import_slider,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark, #gadash-widget #submit, form[name=ga_dash_form] #authorize, .clientside-theme #frm_submit_side_top, .clientside-theme .jp-content .modal .activate .button-primary, .wpseo-admin-page .submit .button, .clientside-theme #layers-backup-pages, .clientside-theme .layers-product-actions .load-customize, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark, #gadwp-widget #submit, #poststuff.gadwp form[name=ga_dash_form] #authorize, .clientside-theme #frm_submit_side_top, .clientside-theme .jp-content .modal .activate .button-primary, .wpseo-admin-page .submit .button, .clientside-theme #layers-backup-pages, .clientside-theme .layers-product-actions .load-customize, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider,
 body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary,
 body.clientside-theme.toplevel_page_revslider #button_save_general_settings, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings, form[name=ga_dash_form] .submit > .button-primary, form[name=ga_dash_form] [name=ga_dash_authorize], .clientside-theme .vc_settings .wpb_settings_accordion a, .clientside-theme #ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .button:last-child, .clientside-theme a.frm_insert_form, .clientside-theme .layers-button.btn-link, .clientside-theme .layers-image-upload-button + .layers-image-upload-button, .wp-customizer #customize-control-site_logo .button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button, .clientside-theme #w3tc-options-menu a, .wpseo-admin-page table tbody td.col_row_action a, .clientside-theme .layers-nav-horizontal li > a, .clientside-theme #w3tc.wrap .button,
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize], .clientside-theme .vc_settings .wpb_settings_accordion a, .clientside-theme #ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .button:last-child, .clientside-theme a.frm_insert_form, .clientside-theme .layers-button.btn-link, .clientside-theme .layers-image-upload-button + .layers-image-upload-button, .wp-customizer #customize-control-site_logo .button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button, .wp-editor-tabs #content-panels, .clientside-theme #w3tc-options-menu a, .wpseo-admin-page table tbody td.col_row_action a, .clientside-theme .layers-nav-horizontal li > a, .clientside-theme #w3tc.wrap .button,
 .clientside-theme #w3tc.wrap .button-primary,
 .clientside-theme #w3tc.wrap .button-secondary,
 .clientside-theme #w3tc.wrap .button-buy-plugin,
@@ -366,19 +413,14 @@ body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revca
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple:hover,
 body.clientside-theme.toplevel_page_revslider #button_import_slider:hover,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:hover, #gadash-widget #submit:hover, form[name=ga_dash_form] #authorize:hover, .clientside-theme #frm_submit_side_top:hover, .clientside-theme .jp-content .modal .activate .button-primary:hover, .wpseo-admin-page .submit .button:hover, .clientside-theme #layers-backup-pages:hover, .clientside-theme .layers-product-actions .load-customize:hover, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:hover,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:hover, #gadwp-widget #submit:hover, #poststuff.gadwp form[name=ga_dash_form] #authorize:hover, .clientside-theme #frm_submit_side_top:hover, .clientside-theme .jp-content .modal .activate .button-primary:hover, .wpseo-admin-page .submit .button:hover, .clientside-theme #layers-backup-pages:hover, .clientside-theme .layers-product-actions .load-customize:hover, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:hover,
 body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide:hover, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary:hover,
 body.clientside-theme.toplevel_page_revslider #button_save_general_settings:hover, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form:hover,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:hover, form[name=ga_dash_form] .submit > .button-primary:hover, form[name=ga_dash_form] [name=ga_dash_authorize]:hover, .clientside-theme .vc_settings .wpb_settings_accordion a:hover, .clientside-theme #ws_show_more_icons:hover, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:hover, .clientside-theme #edge-mode.updated .button:hover:last-child, .clientside-theme a.frm_insert_form:hover, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:hover, .wp-customizer #customize-control-site_logo .button:hover, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:hover, .clientside-theme #w3tc-options-menu a:hover, .wpseo-admin-page table tbody td.col_row_action a:hover, .clientside-theme .layers-nav-horizontal li > a:hover, .clientside-theme #w3tc.wrap .button:hover,
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:hover, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary:hover, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize]:hover, .clientside-theme .vc_settings .wpb_settings_accordion a:hover, .clientside-theme #ws_show_more_icons:hover, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:hover, .clientside-theme #edge-mode.updated .button:hover:last-child, .clientside-theme a.frm_insert_form:hover, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:hover, .wp-customizer #customize-control-site_logo .button:hover, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:hover, .wp-editor-tabs #content-panels:hover, .clientside-theme #w3tc-options-menu a:hover, .wpseo-admin-page table tbody td.col_row_action a:hover, .clientside-theme .layers-nav-horizontal li > a:hover, .clientside-theme #w3tc.wrap .button:hover,
 .clientside-theme #w3tc.wrap .button-primary:hover,
 .clientside-theme #w3tc.wrap .button-secondary:hover,
 .clientside-theme #w3tc.wrap .button-buy-plugin:hover,
-.clientside-theme #w3tc.wrap #w3tc_dashboard .button:hover,
-.clientside-theme #adminmenu li .wp-submenu ul.admin-menu-tree-page-tree li .button-primary:hover,
-.clientside-theme #frm_form_editor_container .button:hover,
-.clientside-theme #poststuff #woocommerce-order-notes .add_note .button.add_note:hover,
-body.clientside-theme.toplevel_page_revslider .title_line .button-secondary:hover,
-.clientside-theme .layers-button:focus, body.clientside-theme.toplevel_page_revslider #button_upload_plugin:focus,
+.clientside-theme #w3tc.wrap #w3tc_dashboard .button:hover, .clientside-theme #adminmenu li .wp-submenu ul.admin-menu-tree-page-tree li .button-primary:hover, .clientside-theme #frm_form_editor_container .button:hover, .clientside-theme #poststuff #woocommerce-order-notes .add_note .button.add_note:hover, body.clientside-theme.toplevel_page_revslider .title_line .button-secondary:hover, .clientside-theme .layers-button:focus, body.clientside-theme.toplevel_page_revslider #button_upload_plugin:focus,
 body.clientside-theme.toplevel_page_revslider #button_cancel_save_slider:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revyellow:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revred:focus,
@@ -387,10 +429,10 @@ body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revca
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple:focus,
 body.clientside-theme.toplevel_page_revslider #button_import_slider:focus,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:focus, #gadash-widget #submit:focus, form[name=ga_dash_form] #authorize:focus, .clientside-theme #frm_submit_side_top:focus, .clientside-theme .jp-content .modal .activate .button-primary:focus, .wpseo-admin-page .submit .button:focus, .clientside-theme #layers-backup-pages:focus, .clientside-theme .layers-product-actions .load-customize:focus, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:focus,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:focus, #gadwp-widget #submit:focus, #poststuff.gadwp form[name=ga_dash_form] #authorize:focus, .clientside-theme #frm_submit_side_top:focus, .clientside-theme .jp-content .modal .activate .button-primary:focus, .wpseo-admin-page .submit .button:focus, .clientside-theme #layers-backup-pages:focus, .clientside-theme .layers-product-actions .load-customize:focus, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:focus,
 body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide:focus, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary:focus,
 body.clientside-theme.toplevel_page_revslider #button_save_general_settings:focus, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form:focus,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:focus, form[name=ga_dash_form] .submit > .button-primary:focus, form[name=ga_dash_form] [name=ga_dash_authorize]:focus, .clientside-theme .vc_settings .wpb_settings_accordion a:focus, .clientside-theme #ws_show_more_icons:focus, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:focus, .clientside-theme #edge-mode.updated .button:focus:last-child, .clientside-theme a.frm_insert_form:focus, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:focus, .wp-customizer #customize-control-site_logo .button:focus, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:focus, .clientside-theme #w3tc-options-menu a:focus, .wpseo-admin-page table tbody td.col_row_action a:focus, .clientside-theme .layers-nav-horizontal li > a:focus, .clientside-theme #w3tc.wrap .button:focus,
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:focus, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary:focus, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize]:focus, .clientside-theme .vc_settings .wpb_settings_accordion a:focus, .clientside-theme #ws_show_more_icons:focus, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:focus, .clientside-theme #edge-mode.updated .button:focus:last-child, .clientside-theme a.frm_insert_form:focus, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:focus, .wp-customizer #customize-control-site_logo .button:focus, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:focus, .wp-editor-tabs #content-panels:focus, .clientside-theme #w3tc-options-menu a:focus, .wpseo-admin-page table tbody td.col_row_action a:focus, .clientside-theme .layers-nav-horizontal li > a:focus, .clientside-theme #w3tc.wrap .button:focus,
 .clientside-theme #w3tc.wrap .button-primary:focus,
 .clientside-theme #w3tc.wrap .button-secondary:focus,
 .clientside-theme #w3tc.wrap .button-buy-plugin:focus,
@@ -435,16 +477,12 @@ body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revca
   border: 0 !important;
 }
 
-.clientside-theme .layers-button:hover,
-.clientside-theme .layers-button.btn-primary.disable:hover,
-.clientside-theme .layers-nav-horizontal li > a.layers-get-updater:hover,
-body.clientside-theme.toplevel_page_revslider #button_upload_plugin:hover,
+.clientside-theme .layers-button:hover, .clientside-theme .layers-button.btn-primary.disable:hover, .clientside-theme .layers-nav-horizontal li > a.layers-get-updater:hover, body.clientside-theme.toplevel_page_revslider #button_upload_plugin:hover,
 body.clientside-theme.toplevel_page_revslider #button_cancel_save_slider:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revyellow:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revred:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgray:hover,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revcarrot:hover,
-.clientside-theme .layers-button:focus, .clientside-theme .layers-button.btn-primary.disable:focus, .clientside-theme .layers-nav-horizontal li > a.layers-get-updater:focus, body.clientside-theme.toplevel_page_revslider #button_upload_plugin:focus,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revcarrot:hover, .clientside-theme .layers-button:focus, .clientside-theme .layers-button.btn-primary.disable:focus, .clientside-theme .layers-nav-horizontal li > a.layers-get-updater:focus, body.clientside-theme.toplevel_page_revslider #button_upload_plugin:focus,
 body.clientside-theme.toplevel_page_revslider #button_cancel_save_slider:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revyellow:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revred:focus,
@@ -453,16 +491,12 @@ body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revca
   color: #222 !important;
 }
 
-.clientside-theme .layers-button:hover,
-.clientside-theme .layers-button.btn-primary.disable:hover,
-.clientside-theme .layers-nav-horizontal li > a.layers-get-updater:hover,
-body.clientside-theme.toplevel_page_revslider #button_upload_plugin:hover,
+.clientside-theme .layers-button:hover, .clientside-theme .layers-button.btn-primary.disable:hover, .clientside-theme .layers-nav-horizontal li > a.layers-get-updater:hover, body.clientside-theme.toplevel_page_revslider #button_upload_plugin:hover,
 body.clientside-theme.toplevel_page_revslider #button_cancel_save_slider:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revyellow:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revred:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgray:hover,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revcarrot:hover,
-.clientside-theme .layers-button:focus, .clientside-theme .layers-button.btn-primary.disable:focus, .clientside-theme .layers-nav-horizontal li > a.layers-get-updater:focus, body.clientside-theme.toplevel_page_revslider #button_upload_plugin:focus,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revcarrot:hover, .clientside-theme .layers-button:focus, .clientside-theme .layers-button.btn-primary.disable:focus, .clientside-theme .layers-nav-horizontal li > a.layers-get-updater:focus, body.clientside-theme.toplevel_page_revslider #button_upload_plugin:focus,
 body.clientside-theme.toplevel_page_revslider #button_cancel_save_slider:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revyellow:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revred:focus,
@@ -475,7 +509,7 @@ body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revca
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple,
 body.clientside-theme.toplevel_page_revslider #button_import_slider,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark, #gadash-widget #submit, form[name=ga_dash_form] #authorize {
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark, #gadwp-widget #submit, #poststuff.gadwp form[name=ga_dash_form] #authorize {
   padding: 12px 26.25px !important;
 }
 
@@ -483,7 +517,7 @@ body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbl
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple,
 body.clientside-theme.toplevel_page_revslider #button_import_slider,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark, #gadash-widget #submit, form[name=ga_dash_form] #authorize {
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark, #gadwp-widget #submit, #poststuff.gadwp form[name=ga_dash_form] #authorize {
   color: white !important;
 }
 
@@ -491,7 +525,7 @@ body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbl
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple,
 body.clientside-theme.toplevel_page_revslider #button_import_slider,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark, #gadash-widget #submit, form[name=ga_dash_form] #authorize {
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark, #gadwp-widget #submit, #poststuff.gadwp form[name=ga_dash_form] #authorize {
   background: #52bde6 !important;
 }
 
@@ -499,319 +533,371 @@ body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbl
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple,
 body.clientside-theme.toplevel_page_revslider #button_import_slider,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark, #gadash-widget #submit, form[name=ga_dash_form] #authorize {
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark, #gadwp-widget #submit, #poststuff.gadwp form[name=ga_dash_form] #authorize {
   border: 0 !important;
 }
 
-.wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields [disabled]#add_field,
-.clientside-theme #post-body #postbox-container-2 #acf_fields .wp-core-ui [disabled]#add_field, .wp-core-ui .clientside-theme [disabled].layers-button.btn-primary,
-.clientside-theme .wp-core-ui [disabled].layers-button.btn-primary, .wp-core-ui .wp-customizer [disabled].button-secondary.add-new-widget,
-.wp-customizer .wp-core-ui [disabled].button-secondary.add-new-widget, .wp-core-ui .wp-customizer .widget-content [disabled].layers-add-widget-column,
-.wp-customizer .widget-content .wp-core-ui [disabled].layers-add-widget-column, .wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revblue,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revblue,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revgreen,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revgreen,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revpurple,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revpurple,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled]#button_import_slider,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_import_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revbluedark,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revbluedark, .wp-core-ui #gadash-widget [disabled]#submit,
-#gadash-widget .wp-core-ui [disabled]#submit, .wp-core-ui form[name=ga_dash_form] [disabled]#authorize,
-form[name=ga_dash_form] .wp-core-ui [disabled]#authorize, .wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields .disabled#add_field, .clientside-theme #post-body #postbox-container-2 #acf_fields .wp-core-ui .disabled#add_field, .wp-core-ui .clientside-theme .disabled.layers-button.btn-primary, .clientside-theme .wp-core-ui .disabled.layers-button.btn-primary, .wp-core-ui .wp-customizer .disabled.button-secondary.add-new-widget, .wp-customizer .wp-core-ui .disabled.button-secondary.add-new-widget, .wp-core-ui .wp-customizer .widget-content .disabled.layers-add-widget-column, .wp-customizer .widget-content .wp-core-ui .disabled.layers-add-widget-column, .wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revblue, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revblue,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revgreen, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revgreen,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revpurple, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revpurple,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled#button_import_slider, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled#button_import_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revbluedark, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revbluedark, .wp-core-ui #gadash-widget .disabled#submit, #gadash-widget .wp-core-ui .disabled#submit, .wp-core-ui form[name=ga_dash_form] .disabled#authorize, form[name=ga_dash_form] .wp-core-ui .disabled#authorize {
+.wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields [disabled]#add_field, .clientside-theme #post-body #postbox-container-2 #acf_fields .wp-core-ui [disabled]#add_field, .wp-core-ui .clientside-theme [disabled].layers-button.btn-primary, .clientside-theme .wp-core-ui [disabled].layers-button.btn-primary, .wp-core-ui .wp-customizer [disabled].button-secondary.add-new-widget, .wp-customizer .wp-core-ui [disabled].button-secondary.add-new-widget, .wp-core-ui .wp-customizer .widget-content [disabled].layers-add-widget-column, .wp-customizer .widget-content .wp-core-ui [disabled].layers-add-widget-column, .wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revblue, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revblue, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revgreen,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revgreen, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revpurple,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revpurple, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider [disabled]#button_import_slider,
+body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_import_slider, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revbluedark,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revbluedark, .wp-core-ui #gadwp-widget [disabled]#submit, #gadwp-widget .wp-core-ui [disabled]#submit, .wp-core-ui #poststuff.gadwp form[name=ga_dash_form] [disabled]#authorize, #poststuff.gadwp form[name=ga_dash_form] .wp-core-ui [disabled]#authorize,
+.wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields .disabled#add_field, .clientside-theme #post-body #postbox-container-2 #acf_fields
+.wp-core-ui .disabled#add_field,
+.wp-core-ui .clientside-theme .disabled.layers-button.btn-primary, .clientside-theme
+.wp-core-ui .disabled.layers-button.btn-primary,
+.wp-core-ui .wp-customizer .disabled.button-secondary.add-new-widget, .wp-customizer
+.wp-core-ui .disabled.button-secondary.add-new-widget,
+.wp-core-ui .wp-customizer .widget-content .disabled.layers-add-widget-column, .wp-customizer .widget-content
+.wp-core-ui .disabled.layers-add-widget-column,
+.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revblue, body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revblue,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revgreen,
+body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revgreen,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revpurple,
+body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revpurple,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider .disabled#button_import_slider,
+body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled#button_import_slider,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revbluedark,
+body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revbluedark,
+.wp-core-ui #gadwp-widget .disabled#submit, #gadwp-widget
+.wp-core-ui .disabled#submit,
+.wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .disabled#authorize, #poststuff.gadwp form[name=ga_dash_form]
+.wp-core-ui .disabled#authorize {
   opacity: 0.5;
   text-shadow: none !important;
 }
 
-.wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields [disabled]#add_field,
-.clientside-theme #post-body #postbox-container-2 #acf_fields .wp-core-ui [disabled]#add_field, .wp-core-ui .clientside-theme [disabled].layers-button.btn-primary,
-.clientside-theme .wp-core-ui [disabled].layers-button.btn-primary, .wp-core-ui .wp-customizer [disabled].button-secondary.add-new-widget,
-.wp-customizer .wp-core-ui [disabled].button-secondary.add-new-widget, .wp-core-ui .wp-customizer .widget-content [disabled].layers-add-widget-column,
-.wp-customizer .widget-content .wp-core-ui [disabled].layers-add-widget-column, .wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revblue,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revblue,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revgreen,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revgreen,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revpurple,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revpurple,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled]#button_import_slider,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_import_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revbluedark,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revbluedark, .wp-core-ui #gadash-widget [disabled]#submit,
-#gadash-widget .wp-core-ui [disabled]#submit, .wp-core-ui form[name=ga_dash_form] [disabled]#authorize,
-form[name=ga_dash_form] .wp-core-ui [disabled]#authorize, .wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields .disabled#add_field, .clientside-theme #post-body #postbox-container-2 #acf_fields .wp-core-ui .disabled#add_field, .wp-core-ui .clientside-theme .disabled.layers-button.btn-primary, .clientside-theme .wp-core-ui .disabled.layers-button.btn-primary, .wp-core-ui .wp-customizer .disabled.button-secondary.add-new-widget, .wp-customizer .wp-core-ui .disabled.button-secondary.add-new-widget, .wp-core-ui .wp-customizer .widget-content .disabled.layers-add-widget-column, .wp-customizer .widget-content .wp-core-ui .disabled.layers-add-widget-column, .wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revblue, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revblue,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revgreen, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revgreen,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revpurple, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revpurple,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled#button_import_slider, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled#button_import_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revbluedark, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revbluedark, .wp-core-ui #gadash-widget .disabled#submit, #gadash-widget .wp-core-ui .disabled#submit, .wp-core-ui form[name=ga_dash_form] .disabled#authorize, form[name=ga_dash_form] .wp-core-ui .disabled#authorize {
+.wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields [disabled]#add_field, .clientside-theme #post-body #postbox-container-2 #acf_fields .wp-core-ui [disabled]#add_field, .wp-core-ui .clientside-theme [disabled].layers-button.btn-primary, .clientside-theme .wp-core-ui [disabled].layers-button.btn-primary, .wp-core-ui .wp-customizer [disabled].button-secondary.add-new-widget, .wp-customizer .wp-core-ui [disabled].button-secondary.add-new-widget, .wp-core-ui .wp-customizer .widget-content [disabled].layers-add-widget-column, .wp-customizer .widget-content .wp-core-ui [disabled].layers-add-widget-column, .wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revblue, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revblue, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revgreen,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revgreen, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revpurple,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revpurple, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider [disabled]#button_import_slider,
+body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_import_slider, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revbluedark,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revbluedark, .wp-core-ui #gadwp-widget [disabled]#submit, #gadwp-widget .wp-core-ui [disabled]#submit, .wp-core-ui #poststuff.gadwp form[name=ga_dash_form] [disabled]#authorize, #poststuff.gadwp form[name=ga_dash_form] .wp-core-ui [disabled]#authorize,
+.wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields .disabled#add_field, .clientside-theme #post-body #postbox-container-2 #acf_fields
+.wp-core-ui .disabled#add_field,
+.wp-core-ui .clientside-theme .disabled.layers-button.btn-primary, .clientside-theme
+.wp-core-ui .disabled.layers-button.btn-primary,
+.wp-core-ui .wp-customizer .disabled.button-secondary.add-new-widget, .wp-customizer
+.wp-core-ui .disabled.button-secondary.add-new-widget,
+.wp-core-ui .wp-customizer .widget-content .disabled.layers-add-widget-column, .wp-customizer .widget-content
+.wp-core-ui .disabled.layers-add-widget-column,
+.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revblue, body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revblue,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revgreen,
+body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revgreen,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revpurple,
+body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revpurple,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider .disabled#button_import_slider,
+body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled#button_import_slider,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revbluedark,
+body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revbluedark,
+.wp-core-ui #gadwp-widget .disabled#submit, #gadwp-widget
+.wp-core-ui .disabled#submit,
+.wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .disabled#authorize, #poststuff.gadwp form[name=ga_dash_form]
+.wp-core-ui .disabled#authorize {
   color: white !important;
 }
 
-.wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields [disabled]#add_field,
-.clientside-theme #post-body #postbox-container-2 #acf_fields .wp-core-ui [disabled]#add_field, .wp-core-ui .clientside-theme [disabled].layers-button.btn-primary,
-.clientside-theme .wp-core-ui [disabled].layers-button.btn-primary, .wp-core-ui .wp-customizer [disabled].button-secondary.add-new-widget,
-.wp-customizer .wp-core-ui [disabled].button-secondary.add-new-widget, .wp-core-ui .wp-customizer .widget-content [disabled].layers-add-widget-column,
-.wp-customizer .widget-content .wp-core-ui [disabled].layers-add-widget-column, .wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revblue,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revblue,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revgreen,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revgreen,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revpurple,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revpurple,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled]#button_import_slider,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_import_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revbluedark,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revbluedark, .wp-core-ui #gadash-widget [disabled]#submit,
-#gadash-widget .wp-core-ui [disabled]#submit, .wp-core-ui form[name=ga_dash_form] [disabled]#authorize,
-form[name=ga_dash_form] .wp-core-ui [disabled]#authorize, .wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields .disabled#add_field, .clientside-theme #post-body #postbox-container-2 #acf_fields .wp-core-ui .disabled#add_field, .wp-core-ui .clientside-theme .disabled.layers-button.btn-primary, .clientside-theme .wp-core-ui .disabled.layers-button.btn-primary, .wp-core-ui .wp-customizer .disabled.button-secondary.add-new-widget, .wp-customizer .wp-core-ui .disabled.button-secondary.add-new-widget, .wp-core-ui .wp-customizer .widget-content .disabled.layers-add-widget-column, .wp-customizer .widget-content .wp-core-ui .disabled.layers-add-widget-column, .wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revblue, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revblue,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revgreen, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revgreen,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revpurple, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revpurple,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled#button_import_slider, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled#button_import_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revbluedark, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui .disabled.button-primary.revbluedark, .wp-core-ui #gadash-widget .disabled#submit, #gadash-widget .wp-core-ui .disabled#submit, .wp-core-ui form[name=ga_dash_form] .disabled#authorize, form[name=ga_dash_form] .wp-core-ui .disabled#authorize {
+.wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields [disabled]#add_field, .clientside-theme #post-body #postbox-container-2 #acf_fields .wp-core-ui [disabled]#add_field, .wp-core-ui .clientside-theme [disabled].layers-button.btn-primary, .clientside-theme .wp-core-ui [disabled].layers-button.btn-primary, .wp-core-ui .wp-customizer [disabled].button-secondary.add-new-widget, .wp-customizer .wp-core-ui [disabled].button-secondary.add-new-widget, .wp-core-ui .wp-customizer .widget-content [disabled].layers-add-widget-column, .wp-customizer .widget-content .wp-core-ui [disabled].layers-add-widget-column, .wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revblue, body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revblue, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revgreen,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revgreen, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revpurple,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revpurple, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider [disabled]#button_import_slider,
+body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_import_slider, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper [disabled].button-primary.revbluedark,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .wp-core-ui [disabled].button-primary.revbluedark, .wp-core-ui #gadwp-widget [disabled]#submit, #gadwp-widget .wp-core-ui [disabled]#submit, .wp-core-ui #poststuff.gadwp form[name=ga_dash_form] [disabled]#authorize, #poststuff.gadwp form[name=ga_dash_form] .wp-core-ui [disabled]#authorize,
+.wp-core-ui .clientside-theme #post-body #postbox-container-2 #acf_fields .disabled#add_field, .clientside-theme #post-body #postbox-container-2 #acf_fields
+.wp-core-ui .disabled#add_field,
+.wp-core-ui .clientside-theme .disabled.layers-button.btn-primary, .clientside-theme
+.wp-core-ui .disabled.layers-button.btn-primary,
+.wp-core-ui .wp-customizer .disabled.button-secondary.add-new-widget, .wp-customizer
+.wp-core-ui .disabled.button-secondary.add-new-widget,
+.wp-core-ui .wp-customizer .widget-content .disabled.layers-add-widget-column, .wp-customizer .widget-content
+.wp-core-ui .disabled.layers-add-widget-column,
+.wp-core-ui body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revblue, body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revblue,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revgreen,
+body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revgreen,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revpurple,
+body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revpurple,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider .disabled#button_import_slider,
+body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled#button_import_slider,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider #viewWrapper .disabled.button-primary.revbluedark,
+body.clientside-theme.toplevel_page_revslider #viewWrapper
+.wp-core-ui .disabled.button-primary.revbluedark,
+.wp-core-ui #gadwp-widget .disabled#submit, #gadwp-widget
+.wp-core-ui .disabled#submit,
+.wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .disabled#authorize, #poststuff.gadwp form[name=ga_dash_form]
+.wp-core-ui .disabled#authorize {
   background: #52bde6 !important;
 }
 
-.clientside-theme #post-body #postbox-container-2 #acf_fields #add_field:hover,
-.clientside-theme .layers-button.btn-primary:hover,
-.wp-customizer .button-secondary.add-new-widget:hover,
-.wp-customizer .widget-content .layers-add-widget-column:hover,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revblue:hover,
+.clientside-theme #post-body #postbox-container-2 #acf_fields #add_field:hover, .clientside-theme .layers-button.btn-primary:hover, .wp-customizer .button-secondary.add-new-widget:hover, .wp-customizer .widget-content .layers-add-widget-column:hover, body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revblue:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple:hover,
 body.clientside-theme.toplevel_page_revslider #button_import_slider:hover,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:hover,
-#gadash-widget #submit:hover,
-form[name=ga_dash_form] #authorize:hover,
-.clientside-theme #post-body #postbox-container-2 #acf_fields #add_field:focus, .clientside-theme .layers-button.btn-primary:focus, .wp-customizer .button-secondary.add-new-widget:focus, .wp-customizer .widget-content .layers-add-widget-column:focus, body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revblue:focus,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:hover, #gadwp-widget #submit:hover, #poststuff.gadwp form[name=ga_dash_form] #authorize:hover, .clientside-theme #post-body #postbox-container-2 #acf_fields #add_field:focus, .clientside-theme .layers-button.btn-primary:focus, .wp-customizer .button-secondary.add-new-widget:focus, .wp-customizer .widget-content .layers-add-widget-column:focus, body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revblue:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple:focus,
 body.clientside-theme.toplevel_page_revslider #button_import_slider:focus,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:focus, #gadash-widget #submit:focus, form[name=ga_dash_form] #authorize:focus {
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:focus, #gadwp-widget #submit:focus, #poststuff.gadwp form[name=ga_dash_form] #authorize:focus {
   background: #34bbee !important;
 }
 
-.clientside-theme #post-body #postbox-container-2 #acf_fields #add_field:hover,
-.clientside-theme .layers-button.btn-primary:hover,
-.wp-customizer .button-secondary.add-new-widget:hover,
-.wp-customizer .widget-content .layers-add-widget-column:hover,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revblue:hover,
+.clientside-theme #post-body #postbox-container-2 #acf_fields #add_field:hover, .clientside-theme .layers-button.btn-primary:hover, .wp-customizer .button-secondary.add-new-widget:hover, .wp-customizer .widget-content .layers-add-widget-column:hover, body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revblue:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen:hover,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple:hover,
 body.clientside-theme.toplevel_page_revslider #button_import_slider:hover,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:hover,
-#gadash-widget #submit:hover,
-form[name=ga_dash_form] #authorize:hover,
-.clientside-theme #post-body #postbox-container-2 #acf_fields #add_field:focus, .clientside-theme .layers-button.btn-primary:focus, .wp-customizer .button-secondary.add-new-widget:focus, .wp-customizer .widget-content .layers-add-widget-column:focus, body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revblue:focus,
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:hover, #gadwp-widget #submit:hover, #poststuff.gadwp form[name=ga_dash_form] #authorize:hover, .clientside-theme #post-body #postbox-container-2 #acf_fields #add_field:focus, .clientside-theme .layers-button.btn-primary:focus, .wp-customizer .button-secondary.add-new-widget:focus, .wp-customizer .widget-content .layers-add-widget-column:focus, body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revblue:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revgreen:focus,
 body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revpurple:focus,
 body.clientside-theme.toplevel_page_revslider #button_import_slider:focus,
-body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:focus, #gadash-widget #submit:focus, form[name=ga_dash_form] #authorize:focus {
+body.clientside-theme.toplevel_page_revslider #viewWrapper .button-primary.revbluedark:focus, #gadwp-widget #submit:focus, #poststuff.gadwp form[name=ga_dash_form] #authorize:focus {
   color: white !important;
 }
 
 .clientside-theme #frm_submit_side_top, .clientside-theme .jp-content .modal .activate .button-primary, .wpseo-admin-page .submit .button, .clientside-theme #layers-backup-pages, .clientside-theme .layers-product-actions .load-customize, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider,
 body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary,
 body.clientside-theme.toplevel_page_revslider #button_save_general_settings, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings, form[name=ga_dash_form] .submit > .button-primary, form[name=ga_dash_form] [name=ga_dash_authorize] {
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize] {
   padding: 12px 26.25px !important;
 }
 
 .clientside-theme #frm_submit_side_top, .clientside-theme .jp-content .modal .activate .button-primary, .wpseo-admin-page .submit .button, .clientside-theme #layers-backup-pages, .clientside-theme .layers-product-actions .load-customize, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider,
 body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary,
 body.clientside-theme.toplevel_page_revslider #button_save_general_settings, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings, form[name=ga_dash_form] .submit > .button-primary, form[name=ga_dash_form] [name=ga_dash_authorize] {
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize] {
   color: white !important;
 }
 
 .clientside-theme #frm_submit_side_top, .clientside-theme .jp-content .modal .activate .button-primary, .wpseo-admin-page .submit .button, .clientside-theme #layers-backup-pages, .clientside-theme .layers-product-actions .load-customize, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider,
 body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary,
 body.clientside-theme.toplevel_page_revslider #button_save_general_settings, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings, form[name=ga_dash_form] .submit > .button-primary, form[name=ga_dash_form] [name=ga_dash_authorize] {
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize] {
   background: #75c377 !important;
 }
 
 .clientside-theme #frm_submit_side_top, .clientside-theme .jp-content .modal .activate .button-primary, .wpseo-admin-page .submit .button, .clientside-theme #layers-backup-pages, .clientside-theme .layers-product-actions .load-customize, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider,
 body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary,
 body.clientside-theme.toplevel_page_revslider #button_save_general_settings, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings, form[name=ga_dash_form] .submit > .button-primary, form[name=ga_dash_form] [name=ga_dash_authorize] {
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize] {
   border: 0 !important;
 }
 
-.wp-core-ui .clientside-theme [disabled]#frm_submit_side_top,
-.clientside-theme .wp-core-ui [disabled]#frm_submit_side_top, .wp-core-ui .clientside-theme .jp-content .modal .activate [disabled].button-primary,
-.clientside-theme .jp-content .modal .activate .wp-core-ui [disabled].button-primary, .wp-core-ui .wpseo-admin-page .submit [disabled].button,
-.wpseo-admin-page .submit .wp-core-ui [disabled].button, .wp-core-ui .clientside-theme [disabled]#layers-backup-pages,
-.clientside-theme .wp-core-ui [disabled]#layers-backup-pages, .wp-core-ui .clientside-theme .layers-product-actions [disabled].load-customize,
-.clientside-theme .layers-product-actions .wp-core-ui [disabled].load-customize, .wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slider,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slide,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slide, .wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider [disabled].button-primary,
-body.clientside-theme.toplevel_page_revslider #dialog_import_slider .wp-core-ui [disabled].button-primary,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled]#button_save_general_settings,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_save_general_settings, .wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms [disabled].button-primary.update-form,
-.clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled].button-primary.update-form,
-.wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms [disabled]#gform_save_settings,
-.clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled]#gform_save_settings, .wp-core-ui form[name=ga_dash_form] .submit > [disabled].button-primary,
-form[name=ga_dash_form] .wp-core-ui .submit > [disabled].button-primary, .wp-core-ui form[name=ga_dash_form] [disabled][name=ga_dash_authorize],
-form[name=ga_dash_form] .wp-core-ui [disabled][name=ga_dash_authorize], .wp-core-ui .clientside-theme .disabled#frm_submit_side_top, .clientside-theme .wp-core-ui .disabled#frm_submit_side_top, .wp-core-ui .clientside-theme .jp-content .modal .activate .disabled.button-primary, .clientside-theme .jp-content .modal .activate .wp-core-ui .disabled.button-primary, .wp-core-ui .wpseo-admin-page .submit .disabled.button, .wpseo-admin-page .submit .wp-core-ui .disabled.button, .wp-core-ui .clientside-theme .disabled#layers-backup-pages, .clientside-theme .wp-core-ui .disabled#layers-backup-pages, .wp-core-ui .clientside-theme .layers-product-actions .disabled.load-customize, .clientside-theme .layers-product-actions .wp-core-ui .disabled.load-customize, .wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slider, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled.button-primary.revgreen#button_save_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slide, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled.button-primary.revgreen#button_save_slide, .wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider .disabled.button-primary, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .wp-core-ui .disabled.button-primary,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled#button_save_general_settings, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled#button_save_general_settings, .wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms .disabled.button-primary.update-form, .clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui .disabled.button-primary.update-form,
-.wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms .disabled#gform_save_settings, .clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui .disabled#gform_save_settings, .wp-core-ui form[name=ga_dash_form] .submit > .disabled.button-primary, form[name=ga_dash_form] .wp-core-ui .submit > .disabled.button-primary, .wp-core-ui form[name=ga_dash_form] .disabled[name=ga_dash_authorize], form[name=ga_dash_form] .wp-core-ui .disabled[name=ga_dash_authorize] {
+.wp-core-ui .clientside-theme [disabled]#frm_submit_side_top, .clientside-theme .wp-core-ui [disabled]#frm_submit_side_top, .wp-core-ui .clientside-theme .jp-content .modal .activate [disabled].button-primary, .clientside-theme .jp-content .modal .activate .wp-core-ui [disabled].button-primary, .wp-core-ui .wpseo-admin-page .submit [disabled].button, .wpseo-admin-page .submit .wp-core-ui [disabled].button, .wp-core-ui .clientside-theme [disabled]#layers-backup-pages, .clientside-theme .wp-core-ui [disabled]#layers-backup-pages, .wp-core-ui .clientside-theme .layers-product-actions [disabled].load-customize, .clientside-theme .layers-product-actions .wp-core-ui [disabled].load-customize, .wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slider, body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slider, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slide,
+body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slide, .wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider [disabled].button-primary, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .wp-core-ui [disabled].button-primary, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider [disabled]#button_save_general_settings,
+body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_save_general_settings, .wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms [disabled].button-primary.update-form, .clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled].button-primary.update-form, .wp-core-ui
+.clientside-theme.toplevel_page_gf_edit_forms [disabled]#gform_save_settings,
+.clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled]#gform_save_settings, .wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .submit > [disabled].button-primary, #poststuff.gadwp form[name=ga_dash_form] .wp-core-ui .submit > [disabled].button-primary, .wp-core-ui #poststuff.gadwp form[name=ga_dash_form] [disabled][name=ga_dash_authorize], #poststuff.gadwp form[name=ga_dash_form] .wp-core-ui [disabled][name=ga_dash_authorize],
+.wp-core-ui .clientside-theme .disabled#frm_submit_side_top, .clientside-theme
+.wp-core-ui .disabled#frm_submit_side_top,
+.wp-core-ui .clientside-theme .jp-content .modal .activate .disabled.button-primary, .clientside-theme .jp-content .modal .activate
+.wp-core-ui .disabled.button-primary,
+.wp-core-ui .wpseo-admin-page .submit .disabled.button, .wpseo-admin-page .submit
+.wp-core-ui .disabled.button,
+.wp-core-ui .clientside-theme .disabled#layers-backup-pages, .clientside-theme
+.wp-core-ui .disabled#layers-backup-pages,
+.wp-core-ui .clientside-theme .layers-product-actions .disabled.load-customize, .clientside-theme .layers-product-actions
+.wp-core-ui .disabled.load-customize,
+.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slider, body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled.button-primary.revgreen#button_save_slider,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slide,
+body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled.button-primary.revgreen#button_save_slide,
+.wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider .disabled.button-primary, body.clientside-theme.toplevel_page_revslider #dialog_import_slider
+.wp-core-ui .disabled.button-primary,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider .disabled#button_save_general_settings,
+body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled#button_save_general_settings,
+.wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms .disabled.button-primary.update-form, .clientside-theme.toplevel_page_gf_edit_forms
+.wp-core-ui .disabled.button-primary.update-form,
+.wp-core-ui
+.clientside-theme.toplevel_page_gf_edit_forms .disabled#gform_save_settings,
+.clientside-theme.toplevel_page_gf_edit_forms
+.wp-core-ui .disabled#gform_save_settings,
+.wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .submit > .disabled.button-primary, #poststuff.gadwp form[name=ga_dash_form]
+.wp-core-ui .submit > .disabled.button-primary,
+.wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .disabled[name=ga_dash_authorize], #poststuff.gadwp form[name=ga_dash_form]
+.wp-core-ui .disabled[name=ga_dash_authorize] {
   opacity: 0.5;
   text-shadow: none !important;
 }
 
-.wp-core-ui .clientside-theme [disabled]#frm_submit_side_top,
-.clientside-theme .wp-core-ui [disabled]#frm_submit_side_top, .wp-core-ui .clientside-theme .jp-content .modal .activate [disabled].button-primary,
-.clientside-theme .jp-content .modal .activate .wp-core-ui [disabled].button-primary, .wp-core-ui .wpseo-admin-page .submit [disabled].button,
-.wpseo-admin-page .submit .wp-core-ui [disabled].button, .wp-core-ui .clientside-theme [disabled]#layers-backup-pages,
-.clientside-theme .wp-core-ui [disabled]#layers-backup-pages, .wp-core-ui .clientside-theme .layers-product-actions [disabled].load-customize,
-.clientside-theme .layers-product-actions .wp-core-ui [disabled].load-customize, .wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slider,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slide,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slide, .wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider [disabled].button-primary,
-body.clientside-theme.toplevel_page_revslider #dialog_import_slider .wp-core-ui [disabled].button-primary,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled]#button_save_general_settings,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_save_general_settings, .wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms [disabled].button-primary.update-form,
-.clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled].button-primary.update-form,
-.wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms [disabled]#gform_save_settings,
-.clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled]#gform_save_settings, .wp-core-ui form[name=ga_dash_form] .submit > [disabled].button-primary,
-form[name=ga_dash_form] .wp-core-ui .submit > [disabled].button-primary, .wp-core-ui form[name=ga_dash_form] [disabled][name=ga_dash_authorize],
-form[name=ga_dash_form] .wp-core-ui [disabled][name=ga_dash_authorize], .wp-core-ui .clientside-theme .disabled#frm_submit_side_top, .clientside-theme .wp-core-ui .disabled#frm_submit_side_top, .wp-core-ui .clientside-theme .jp-content .modal .activate .disabled.button-primary, .clientside-theme .jp-content .modal .activate .wp-core-ui .disabled.button-primary, .wp-core-ui .wpseo-admin-page .submit .disabled.button, .wpseo-admin-page .submit .wp-core-ui .disabled.button, .wp-core-ui .clientside-theme .disabled#layers-backup-pages, .clientside-theme .wp-core-ui .disabled#layers-backup-pages, .wp-core-ui .clientside-theme .layers-product-actions .disabled.load-customize, .clientside-theme .layers-product-actions .wp-core-ui .disabled.load-customize, .wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slider, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled.button-primary.revgreen#button_save_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slide, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled.button-primary.revgreen#button_save_slide, .wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider .disabled.button-primary, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .wp-core-ui .disabled.button-primary,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled#button_save_general_settings, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled#button_save_general_settings, .wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms .disabled.button-primary.update-form, .clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui .disabled.button-primary.update-form,
-.wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms .disabled#gform_save_settings, .clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui .disabled#gform_save_settings, .wp-core-ui form[name=ga_dash_form] .submit > .disabled.button-primary, form[name=ga_dash_form] .wp-core-ui .submit > .disabled.button-primary, .wp-core-ui form[name=ga_dash_form] .disabled[name=ga_dash_authorize], form[name=ga_dash_form] .wp-core-ui .disabled[name=ga_dash_authorize] {
+.wp-core-ui .clientside-theme [disabled]#frm_submit_side_top, .clientside-theme .wp-core-ui [disabled]#frm_submit_side_top, .wp-core-ui .clientside-theme .jp-content .modal .activate [disabled].button-primary, .clientside-theme .jp-content .modal .activate .wp-core-ui [disabled].button-primary, .wp-core-ui .wpseo-admin-page .submit [disabled].button, .wpseo-admin-page .submit .wp-core-ui [disabled].button, .wp-core-ui .clientside-theme [disabled]#layers-backup-pages, .clientside-theme .wp-core-ui [disabled]#layers-backup-pages, .wp-core-ui .clientside-theme .layers-product-actions [disabled].load-customize, .clientside-theme .layers-product-actions .wp-core-ui [disabled].load-customize, .wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slider, body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slider, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slide,
+body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slide, .wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider [disabled].button-primary, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .wp-core-ui [disabled].button-primary, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider [disabled]#button_save_general_settings,
+body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_save_general_settings, .wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms [disabled].button-primary.update-form, .clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled].button-primary.update-form, .wp-core-ui
+.clientside-theme.toplevel_page_gf_edit_forms [disabled]#gform_save_settings,
+.clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled]#gform_save_settings, .wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .submit > [disabled].button-primary, #poststuff.gadwp form[name=ga_dash_form] .wp-core-ui .submit > [disabled].button-primary, .wp-core-ui #poststuff.gadwp form[name=ga_dash_form] [disabled][name=ga_dash_authorize], #poststuff.gadwp form[name=ga_dash_form] .wp-core-ui [disabled][name=ga_dash_authorize],
+.wp-core-ui .clientside-theme .disabled#frm_submit_side_top, .clientside-theme
+.wp-core-ui .disabled#frm_submit_side_top,
+.wp-core-ui .clientside-theme .jp-content .modal .activate .disabled.button-primary, .clientside-theme .jp-content .modal .activate
+.wp-core-ui .disabled.button-primary,
+.wp-core-ui .wpseo-admin-page .submit .disabled.button, .wpseo-admin-page .submit
+.wp-core-ui .disabled.button,
+.wp-core-ui .clientside-theme .disabled#layers-backup-pages, .clientside-theme
+.wp-core-ui .disabled#layers-backup-pages,
+.wp-core-ui .clientside-theme .layers-product-actions .disabled.load-customize, .clientside-theme .layers-product-actions
+.wp-core-ui .disabled.load-customize,
+.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slider, body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled.button-primary.revgreen#button_save_slider,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slide,
+body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled.button-primary.revgreen#button_save_slide,
+.wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider .disabled.button-primary, body.clientside-theme.toplevel_page_revslider #dialog_import_slider
+.wp-core-ui .disabled.button-primary,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider .disabled#button_save_general_settings,
+body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled#button_save_general_settings,
+.wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms .disabled.button-primary.update-form, .clientside-theme.toplevel_page_gf_edit_forms
+.wp-core-ui .disabled.button-primary.update-form,
+.wp-core-ui
+.clientside-theme.toplevel_page_gf_edit_forms .disabled#gform_save_settings,
+.clientside-theme.toplevel_page_gf_edit_forms
+.wp-core-ui .disabled#gform_save_settings,
+.wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .submit > .disabled.button-primary, #poststuff.gadwp form[name=ga_dash_form]
+.wp-core-ui .submit > .disabled.button-primary,
+.wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .disabled[name=ga_dash_authorize], #poststuff.gadwp form[name=ga_dash_form]
+.wp-core-ui .disabled[name=ga_dash_authorize] {
   color: white !important;
 }
 
-.wp-core-ui .clientside-theme [disabled]#frm_submit_side_top,
-.clientside-theme .wp-core-ui [disabled]#frm_submit_side_top, .wp-core-ui .clientside-theme .jp-content .modal .activate [disabled].button-primary,
-.clientside-theme .jp-content .modal .activate .wp-core-ui [disabled].button-primary, .wp-core-ui .wpseo-admin-page .submit [disabled].button,
-.wpseo-admin-page .submit .wp-core-ui [disabled].button, .wp-core-ui .clientside-theme [disabled]#layers-backup-pages,
-.clientside-theme .wp-core-ui [disabled]#layers-backup-pages, .wp-core-ui .clientside-theme .layers-product-actions [disabled].load-customize,
-.clientside-theme .layers-product-actions .wp-core-ui [disabled].load-customize, .wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slider,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slide,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slide, .wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider [disabled].button-primary,
-body.clientside-theme.toplevel_page_revslider #dialog_import_slider .wp-core-ui [disabled].button-primary,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled]#button_save_general_settings,
-body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_save_general_settings, .wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms [disabled].button-primary.update-form,
-.clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled].button-primary.update-form,
-.wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms [disabled]#gform_save_settings,
-.clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled]#gform_save_settings, .wp-core-ui form[name=ga_dash_form] .submit > [disabled].button-primary,
-form[name=ga_dash_form] .wp-core-ui .submit > [disabled].button-primary, .wp-core-ui form[name=ga_dash_form] [disabled][name=ga_dash_authorize],
-form[name=ga_dash_form] .wp-core-ui [disabled][name=ga_dash_authorize], .wp-core-ui .clientside-theme .disabled#frm_submit_side_top, .clientside-theme .wp-core-ui .disabled#frm_submit_side_top, .wp-core-ui .clientside-theme .jp-content .modal .activate .disabled.button-primary, .clientside-theme .jp-content .modal .activate .wp-core-ui .disabled.button-primary, .wp-core-ui .wpseo-admin-page .submit .disabled.button, .wpseo-admin-page .submit .wp-core-ui .disabled.button, .wp-core-ui .clientside-theme .disabled#layers-backup-pages, .clientside-theme .wp-core-ui .disabled#layers-backup-pages, .wp-core-ui .clientside-theme .layers-product-actions .disabled.load-customize, .clientside-theme .layers-product-actions .wp-core-ui .disabled.load-customize, .wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slider, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled.button-primary.revgreen#button_save_slider,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slide, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled.button-primary.revgreen#button_save_slide, .wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider .disabled.button-primary, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .wp-core-ui .disabled.button-primary,
-.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled#button_save_general_settings, body.clientside-theme.toplevel_page_revslider .wp-core-ui .disabled#button_save_general_settings, .wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms .disabled.button-primary.update-form, .clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui .disabled.button-primary.update-form,
-.wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms .disabled#gform_save_settings, .clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui .disabled#gform_save_settings, .wp-core-ui form[name=ga_dash_form] .submit > .disabled.button-primary, form[name=ga_dash_form] .wp-core-ui .submit > .disabled.button-primary, .wp-core-ui form[name=ga_dash_form] .disabled[name=ga_dash_authorize], form[name=ga_dash_form] .wp-core-ui .disabled[name=ga_dash_authorize] {
+.wp-core-ui .clientside-theme [disabled]#frm_submit_side_top, .clientside-theme .wp-core-ui [disabled]#frm_submit_side_top, .wp-core-ui .clientside-theme .jp-content .modal .activate [disabled].button-primary, .clientside-theme .jp-content .modal .activate .wp-core-ui [disabled].button-primary, .wp-core-ui .wpseo-admin-page .submit [disabled].button, .wpseo-admin-page .submit .wp-core-ui [disabled].button, .wp-core-ui .clientside-theme [disabled]#layers-backup-pages, .clientside-theme .wp-core-ui [disabled]#layers-backup-pages, .wp-core-ui .clientside-theme .layers-product-actions [disabled].load-customize, .clientside-theme .layers-product-actions .wp-core-ui [disabled].load-customize, .wp-core-ui body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slider, body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slider, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider [disabled].button-primary.revgreen#button_save_slide,
+body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled].button-primary.revgreen#button_save_slide, .wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider [disabled].button-primary, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .wp-core-ui [disabled].button-primary, .wp-core-ui
+body.clientside-theme.toplevel_page_revslider [disabled]#button_save_general_settings,
+body.clientside-theme.toplevel_page_revslider .wp-core-ui [disabled]#button_save_general_settings, .wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms [disabled].button-primary.update-form, .clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled].button-primary.update-form, .wp-core-ui
+.clientside-theme.toplevel_page_gf_edit_forms [disabled]#gform_save_settings,
+.clientside-theme.toplevel_page_gf_edit_forms .wp-core-ui [disabled]#gform_save_settings, .wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .submit > [disabled].button-primary, #poststuff.gadwp form[name=ga_dash_form] .wp-core-ui .submit > [disabled].button-primary, .wp-core-ui #poststuff.gadwp form[name=ga_dash_form] [disabled][name=ga_dash_authorize], #poststuff.gadwp form[name=ga_dash_form] .wp-core-ui [disabled][name=ga_dash_authorize],
+.wp-core-ui .clientside-theme .disabled#frm_submit_side_top, .clientside-theme
+.wp-core-ui .disabled#frm_submit_side_top,
+.wp-core-ui .clientside-theme .jp-content .modal .activate .disabled.button-primary, .clientside-theme .jp-content .modal .activate
+.wp-core-ui .disabled.button-primary,
+.wp-core-ui .wpseo-admin-page .submit .disabled.button, .wpseo-admin-page .submit
+.wp-core-ui .disabled.button,
+.wp-core-ui .clientside-theme .disabled#layers-backup-pages, .clientside-theme
+.wp-core-ui .disabled#layers-backup-pages,
+.wp-core-ui .clientside-theme .layers-product-actions .disabled.load-customize, .clientside-theme .layers-product-actions
+.wp-core-ui .disabled.load-customize,
+.wp-core-ui body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slider, body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled.button-primary.revgreen#button_save_slider,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider .disabled.button-primary.revgreen#button_save_slide,
+body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled.button-primary.revgreen#button_save_slide,
+.wp-core-ui body.clientside-theme.toplevel_page_revslider #dialog_import_slider .disabled.button-primary, body.clientside-theme.toplevel_page_revslider #dialog_import_slider
+.wp-core-ui .disabled.button-primary,
+.wp-core-ui
+body.clientside-theme.toplevel_page_revslider .disabled#button_save_general_settings,
+body.clientside-theme.toplevel_page_revslider
+.wp-core-ui .disabled#button_save_general_settings,
+.wp-core-ui .clientside-theme.toplevel_page_gf_edit_forms .disabled.button-primary.update-form, .clientside-theme.toplevel_page_gf_edit_forms
+.wp-core-ui .disabled.button-primary.update-form,
+.wp-core-ui
+.clientside-theme.toplevel_page_gf_edit_forms .disabled#gform_save_settings,
+.clientside-theme.toplevel_page_gf_edit_forms
+.wp-core-ui .disabled#gform_save_settings,
+.wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .submit > .disabled.button-primary, #poststuff.gadwp form[name=ga_dash_form]
+.wp-core-ui .submit > .disabled.button-primary,
+.wp-core-ui #poststuff.gadwp form[name=ga_dash_form] .disabled[name=ga_dash_authorize], #poststuff.gadwp form[name=ga_dash_form]
+.wp-core-ui .disabled[name=ga_dash_authorize] {
   background: #75c377 !important;
 }
 
-.clientside-theme #frm_submit_side_top:hover,
-.clientside-theme .jp-content .modal .activate .button-primary:hover,
-.wpseo-admin-page .submit .button:hover,
-.clientside-theme #layers-backup-pages:hover,
-.clientside-theme .layers-product-actions .load-customize:hover,
-body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:hover,
-body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide:hover,
-body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary:hover,
-body.clientside-theme.toplevel_page_revslider #button_save_general_settings:hover,
-.clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form:hover,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:hover,
-form[name=ga_dash_form] .submit > .button-primary:hover,
-form[name=ga_dash_form] [name=ga_dash_authorize]:hover,
-.clientside-theme #frm_submit_side_top:focus, .clientside-theme .jp-content .modal .activate .button-primary:focus, .wpseo-admin-page .submit .button:focus, .clientside-theme #layers-backup-pages:focus, .clientside-theme .layers-product-actions .load-customize:focus, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:focus,
+.clientside-theme #frm_submit_side_top:hover, .clientside-theme .jp-content .modal .activate .button-primary:hover, .wpseo-admin-page .submit .button:hover, .clientside-theme #layers-backup-pages:hover, .clientside-theme .layers-product-actions .load-customize:hover, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:hover,
+body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide:hover, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary:hover,
+body.clientside-theme.toplevel_page_revslider #button_save_general_settings:hover, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form:hover,
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:hover, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary:hover, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize]:hover, .clientside-theme #frm_submit_side_top:focus, .clientside-theme .jp-content .modal .activate .button-primary:focus, .wpseo-admin-page .submit .button:focus, .clientside-theme #layers-backup-pages:focus, .clientside-theme .layers-product-actions .load-customize:focus, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:focus,
 body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide:focus, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary:focus,
 body.clientside-theme.toplevel_page_revslider #button_save_general_settings:focus, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form:focus,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:focus, form[name=ga_dash_form] .submit > .button-primary:focus, form[name=ga_dash_form] [name=ga_dash_authorize]:focus {
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:focus, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary:focus, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize]:focus {
   color: white !important;
 }
 
-.clientside-theme #frm_submit_side_top:hover,
-.clientside-theme .jp-content .modal .activate .button-primary:hover,
-.wpseo-admin-page .submit .button:hover,
-.clientside-theme #layers-backup-pages:hover,
-.clientside-theme .layers-product-actions .load-customize:hover,
-body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:hover,
-body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide:hover,
-body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary:hover,
-body.clientside-theme.toplevel_page_revslider #button_save_general_settings:hover,
-.clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form:hover,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:hover,
-form[name=ga_dash_form] .submit > .button-primary:hover,
-form[name=ga_dash_form] [name=ga_dash_authorize]:hover,
-.clientside-theme #frm_submit_side_top:focus, .clientside-theme .jp-content .modal .activate .button-primary:focus, .wpseo-admin-page .submit .button:focus, .clientside-theme #layers-backup-pages:focus, .clientside-theme .layers-product-actions .load-customize:focus, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:focus,
+.clientside-theme #frm_submit_side_top:hover, .clientside-theme .jp-content .modal .activate .button-primary:hover, .wpseo-admin-page .submit .button:hover, .clientside-theme #layers-backup-pages:hover, .clientside-theme .layers-product-actions .load-customize:hover, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:hover,
+body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide:hover, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary:hover,
+body.clientside-theme.toplevel_page_revslider #button_save_general_settings:hover, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form:hover,
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:hover, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary:hover, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize]:hover, .clientside-theme #frm_submit_side_top:focus, .clientside-theme .jp-content .modal .activate .button-primary:focus, .wpseo-admin-page .submit .button:focus, .clientside-theme #layers-backup-pages:focus, .clientside-theme .layers-product-actions .load-customize:focus, body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slider:focus,
 body.clientside-theme.toplevel_page_revslider .button-primary.revgreen#button_save_slide:focus, body.clientside-theme.toplevel_page_revslider #dialog_import_slider .button-primary:focus,
 body.clientside-theme.toplevel_page_revslider #button_save_general_settings:focus, .clientside-theme.toplevel_page_gf_edit_forms .button-primary.update-form:focus,
-.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:focus, form[name=ga_dash_form] .submit > .button-primary:focus, form[name=ga_dash_form] [name=ga_dash_authorize]:focus {
+.clientside-theme.toplevel_page_gf_edit_forms #gform_save_settings:focus, #poststuff.gadwp form[name=ga_dash_form] .submit > .button-primary:focus, #poststuff.gadwp form[name=ga_dash_form] [name=ga_dash_authorize]:focus {
   background: #51be54 !important;
 }
 
-.clientside-theme .vc_settings .wpb_settings_accordion a, .clientside-theme #ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .button:last-child, .clientside-theme a.frm_insert_form, .clientside-theme .layers-button.btn-link, .clientside-theme .layers-image-upload-button + .layers-image-upload-button, .wp-customizer #customize-control-site_logo .button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button {
+.clientside-theme .vc_settings .wpb_settings_accordion a, .clientside-theme #ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .button:last-child, .clientside-theme a.frm_insert_form, .clientside-theme .layers-button.btn-link, .clientside-theme .layers-image-upload-button + .layers-image-upload-button, .wp-customizer #customize-control-site_logo .button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button, .wp-editor-tabs #content-panels {
   padding: 11px 26.25px !important;
 }
 
-.clientside-theme .vc_settings .wpb_settings_accordion a, .clientside-theme #ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .button:last-child, .clientside-theme a.frm_insert_form, .clientside-theme .layers-button.btn-link, .clientside-theme .layers-image-upload-button + .layers-image-upload-button, .wp-customizer #customize-control-site_logo .button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button {
+.clientside-theme .vc_settings .wpb_settings_accordion a, .clientside-theme #ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .button:last-child, .clientside-theme a.frm_insert_form, .clientside-theme .layers-button.btn-link, .clientside-theme .layers-image-upload-button + .layers-image-upload-button, .wp-customizer #customize-control-site_logo .button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button, .wp-editor-tabs #content-panels {
   color: #5d6365 !important;
 }
 
-.clientside-theme .vc_settings .wpb_settings_accordion a, .clientside-theme #ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .button:last-child, .clientside-theme a.frm_insert_form, .clientside-theme .layers-button.btn-link, .clientside-theme .layers-image-upload-button + .layers-image-upload-button, .wp-customizer #customize-control-site_logo .button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button {
+.clientside-theme .vc_settings .wpb_settings_accordion a, .clientside-theme #ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .button:last-child, .clientside-theme a.frm_insert_form, .clientside-theme .layers-button.btn-link, .clientside-theme .layers-image-upload-button + .layers-image-upload-button, .wp-customizer #customize-control-site_logo .button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button, .wp-editor-tabs #content-panels {
   background: none !important;
 }
 
-.clientside-theme .vc_settings .wpb_settings_accordion a, .clientside-theme #ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .button:last-child, .clientside-theme a.frm_insert_form, .clientside-theme .layers-button.btn-link, .clientside-theme .layers-image-upload-button + .layers-image-upload-button, .wp-customizer #customize-control-site_logo .button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button {
+.clientside-theme .vc_settings .wpb_settings_accordion a, .clientside-theme #ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .button:last-child, .clientside-theme a.frm_insert_form, .clientside-theme .layers-button.btn-link, .clientside-theme .layers-image-upload-button + .layers-image-upload-button, .wp-customizer #customize-control-site_logo .button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button, .wp-editor-tabs #content-panels {
   border: 1px solid #d2d7da !important;
 }
 
-.clientside-theme .vc_settings .wpb_settings_accordion a.clientside-button-large, .clientside-theme .clientside-button-large#ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .clientside-button-large.acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .clientside-button-large.button:last-child, .clientside-theme a.clientside-button-large.frm_insert_form, .clientside-theme .clientside-button-large.layers-button.btn-link, .clientside-theme .layers-image-upload-button + .clientside-button-large.layers-image-upload-button, .wp-customizer #customize-control-site_logo .clientside-button-large.button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .clientside-button-large.button {
+.clientside-theme .vc_settings .wpb_settings_accordion a.clientside-button-large, .clientside-theme .clientside-button-large#ws_show_more_icons, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .clientside-button-large.acf_edit_field.acf-button, .clientside-theme #edge-mode.updated .clientside-button-large.button:last-child, .clientside-theme a.clientside-button-large.frm_insert_form, .clientside-theme .clientside-button-large.layers-button.btn-link, .clientside-theme .layers-image-upload-button + .clientside-button-large.layers-image-upload-button, .wp-customizer #customize-control-site_logo .clientside-button-large.button, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .clientside-button-large.button, .wp-editor-tabs .clientside-button-large#content-panels {
   line-height: 22px !important;
   padding: 14px 26.25px !important;
 }
 
-.clientside-theme .vc_settings .wpb_settings_accordion a:hover,
-.clientside-theme #ws_show_more_icons:hover,
-.clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:hover,
-.clientside-theme #edge-mode.updated .button:hover:last-child,
-.clientside-theme a.frm_insert_form:hover,
-.clientside-theme .layers-button.btn-link:hover,
-.clientside-theme .layers-image-upload-button + .layers-image-upload-button:hover,
-.wp-customizer #customize-control-site_logo .button:hover,
-.clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:hover,
-.clientside-theme .vc_settings .wpb_settings_accordion a:focus, .clientside-theme #ws_show_more_icons:focus, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:focus, .clientside-theme #edge-mode.updated .button:focus:last-child, .clientside-theme a.frm_insert_form:focus, .clientside-theme .layers-button.btn-link:focus, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:focus, .wp-customizer #customize-control-site_logo .button:focus, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:focus {
+.clientside-theme .vc_settings .wpb_settings_accordion a:hover, .clientside-theme #ws_show_more_icons:hover, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:hover, .clientside-theme #edge-mode.updated .button:hover:last-child, .clientside-theme a.frm_insert_form:hover, .clientside-theme .layers-button.btn-link:hover, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:hover, .wp-customizer #customize-control-site_logo .button:hover, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:hover, .wp-editor-tabs #content-panels:hover, .clientside-theme .vc_settings .wpb_settings_accordion a:focus, .clientside-theme #ws_show_more_icons:focus, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:focus, .clientside-theme #edge-mode.updated .button:focus:last-child, .clientside-theme a.frm_insert_form:focus, .clientside-theme .layers-button.btn-link:focus, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:focus, .wp-customizer #customize-control-site_logo .button:focus, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:focus, .wp-editor-tabs #content-panels:focus {
   color: #222 !important;
 }
 
-.clientside-theme .vc_settings .wpb_settings_accordion a:hover,
-.clientside-theme #ws_show_more_icons:hover,
-.clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:hover,
-.clientside-theme #edge-mode.updated .button:hover:last-child,
-.clientside-theme a.frm_insert_form:hover,
-.clientside-theme .layers-button.btn-link:hover,
-.clientside-theme .layers-image-upload-button + .layers-image-upload-button:hover,
-.wp-customizer #customize-control-site_logo .button:hover,
-.clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:hover,
-.clientside-theme .vc_settings .wpb_settings_accordion a:focus, .clientside-theme #ws_show_more_icons:focus, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:focus, .clientside-theme #edge-mode.updated .button:focus:last-child, .clientside-theme a.frm_insert_form:focus, .clientside-theme .layers-button.btn-link:focus, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:focus, .wp-customizer #customize-control-site_logo .button:focus, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:focus {
+.clientside-theme .vc_settings .wpb_settings_accordion a:hover, .clientside-theme #ws_show_more_icons:hover, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:hover, .clientside-theme #edge-mode.updated .button:hover:last-child, .clientside-theme a.frm_insert_form:hover, .clientside-theme .layers-button.btn-link:hover, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:hover, .wp-customizer #customize-control-site_logo .button:hover, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:hover, .wp-editor-tabs #content-panels:hover, .clientside-theme .vc_settings .wpb_settings_accordion a:focus, .clientside-theme #ws_show_more_icons:focus, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:focus, .clientside-theme #edge-mode.updated .button:focus:last-child, .clientside-theme a.frm_insert_form:focus, .clientside-theme .layers-button.btn-link:focus, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:focus, .wp-customizer #customize-control-site_logo .button:focus, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:focus, .wp-editor-tabs #content-panels:focus {
   background: none !important;
 }
 
-.clientside-theme .vc_settings .wpb_settings_accordion a:hover,
-.clientside-theme #ws_show_more_icons:hover,
-.clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:hover,
-.clientside-theme #edge-mode.updated .button:hover:last-child,
-.clientside-theme a.frm_insert_form:hover,
-.clientside-theme .layers-button.btn-link:hover,
-.clientside-theme .layers-image-upload-button + .layers-image-upload-button:hover,
-.wp-customizer #customize-control-site_logo .button:hover,
-.clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:hover,
-.clientside-theme .vc_settings .wpb_settings_accordion a:focus, .clientside-theme #ws_show_more_icons:focus, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:focus, .clientside-theme #edge-mode.updated .button:focus:last-child, .clientside-theme a.frm_insert_form:focus, .clientside-theme .layers-button.btn-link:focus, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:focus, .wp-customizer #customize-control-site_logo .button:focus, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:focus {
+.clientside-theme .vc_settings .wpb_settings_accordion a:hover, .clientside-theme #ws_show_more_icons:hover, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:hover, .clientside-theme #edge-mode.updated .button:hover:last-child, .clientside-theme a.frm_insert_form:hover, .clientside-theme .layers-button.btn-link:hover, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:hover, .wp-customizer #customize-control-site_logo .button:hover, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:hover, .wp-editor-tabs #content-panels:hover, .clientside-theme .vc_settings .wpb_settings_accordion a:focus, .clientside-theme #ws_show_more_icons:focus, .clientside-theme #post-body #postbox-container-2 #acf_fields .field_save .acf_edit_field.acf-button:focus, .clientside-theme #edge-mode.updated .button:focus:last-child, .clientside-theme a.frm_insert_form:focus, .clientside-theme .layers-button.btn-link:focus, .clientside-theme .layers-image-upload-button + .layers-image-upload-button:focus, .wp-customizer #customize-control-site_logo .button:focus, .clientside-theme.toplevel_page_gf_edit_forms #sidebarmenu1 .button:focus, .wp-editor-tabs #content-panels:focus {
   border: 1px solid #b3bbbe !important;
 }
 
 .clientside-theme #w3tc-options-menu a, .wpseo-admin-page table tbody td.col_row_action a, .clientside-theme .layers-nav-horizontal li > a {
-  margin-right: 4px;
-  margin-bottom: 4px;
+  margin: 0 4px 4px 0;
   padding: 11px 26.25px !important;
 }
 
@@ -827,24 +913,15 @@ body.clientside-theme.toplevel_page_revslider #button_save_general_settings:focu
   background: none !important;
 }
 
-.clientside-theme #w3tc-options-menu a:hover,
-.wpseo-admin-page table tbody td.col_row_action a:hover,
-.clientside-theme .layers-nav-horizontal li > a:hover,
-.clientside-theme #w3tc-options-menu a:focus, .wpseo-admin-page table tbody td.col_row_action a:focus, .clientside-theme .layers-nav-horizontal li > a:focus {
+.clientside-theme #w3tc-options-menu a:hover, .wpseo-admin-page table tbody td.col_row_action a:hover, .clientside-theme .layers-nav-horizontal li > a:hover, .clientside-theme #w3tc-options-menu a:focus, .wpseo-admin-page table tbody td.col_row_action a:focus, .clientside-theme .layers-nav-horizontal li > a:focus {
   color: #222 !important;
 }
 
-.clientside-theme #w3tc-options-menu a:hover,
-.wpseo-admin-page table tbody td.col_row_action a:hover,
-.clientside-theme .layers-nav-horizontal li > a:hover,
-.clientside-theme #w3tc-options-menu a:focus, .wpseo-admin-page table tbody td.col_row_action a:focus, .clientside-theme .layers-nav-horizontal li > a:focus {
+.clientside-theme #w3tc-options-menu a:hover, .wpseo-admin-page table tbody td.col_row_action a:hover, .clientside-theme .layers-nav-horizontal li > a:hover, .clientside-theme #w3tc-options-menu a:focus, .wpseo-admin-page table tbody td.col_row_action a:focus, .clientside-theme .layers-nav-horizontal li > a:focus {
   border-color: #b3bbbe !important;
 }
 
-.clientside-theme #w3tc-options-menu a:hover,
-.wpseo-admin-page table tbody td.col_row_action a:hover,
-.clientside-theme .layers-nav-horizontal li > a:hover,
-.clientside-theme #w3tc-options-menu a:focus, .wpseo-admin-page table tbody td.col_row_action a:focus, .clientside-theme .layers-nav-horizontal li > a:focus {
+.clientside-theme #w3tc-options-menu a:hover, .wpseo-admin-page table tbody td.col_row_action a:hover, .clientside-theme .layers-nav-horizontal li > a:hover, .clientside-theme #w3tc-options-menu a:focus, .wpseo-admin-page table tbody td.col_row_action a:focus, .clientside-theme .layers-nav-horizontal li > a:focus {
   background: none !important;
 }
 
@@ -859,27 +936,19 @@ body.clientside-theme.toplevel_page_revslider #button_save_general_settings:focu
   color: #5d6365 !important;
 }
 
-.clientside-theme .layers-nav-horizontal li.active > a,
-.clientside-theme .layers-nav-horizontal li.active > a:hover,
-.clientside-theme .layers-nav-horizontal li.active > a:focus {
+.clientside-theme .layers-nav-horizontal li.active > a, .clientside-theme .layers-nav-horizontal li.active > a:hover, .clientside-theme .layers-nav-horizontal li.active > a:focus {
   cursor: default;
 }
 
-.clientside-theme .layers-nav-horizontal li.active > a,
-.clientside-theme .layers-nav-horizontal li.active > a:hover,
-.clientside-theme .layers-nav-horizontal li.active > a:focus {
+.clientside-theme .layers-nav-horizontal li.active > a, .clientside-theme .layers-nav-horizontal li.active > a:hover, .clientside-theme .layers-nav-horizontal li.active > a:focus {
   color: white !important;
 }
 
-.clientside-theme .layers-nav-horizontal li.active > a,
-.clientside-theme .layers-nav-horizontal li.active > a:hover,
-.clientside-theme .layers-nav-horizontal li.active > a:focus {
+.clientside-theme .layers-nav-horizontal li.active > a, .clientside-theme .layers-nav-horizontal li.active > a:hover, .clientside-theme .layers-nav-horizontal li.active > a:focus {
   border: 1px solid #787e80 !important;
 }
 
-.clientside-theme .layers-nav-horizontal li.active > a,
-.clientside-theme .layers-nav-horizontal li.active > a:hover,
-.clientside-theme .layers-nav-horizontal li.active > a:focus {
+.clientside-theme .layers-nav-horizontal li.active > a, .clientside-theme .layers-nav-horizontal li.active > a:hover, .clientside-theme .layers-nav-horizontal li.active > a:focus {
   background: #787e80 !important;
 }
 
@@ -909,6 +978,7 @@ body.clientside-theme.toplevel_page_revslider #button_save_general_settings:focu
  * 17. Slider WD
  * 18. Mailchimp Pro
  * 19. Google Analytics Dashboard
+ * 20. SiteOrigin Pagebuilder
  */
 /* 1. Visual Composer */
 .clientside-theme .composer-switch {
@@ -1500,13 +1570,11 @@ body.clientside-theme.toplevel_page_revslider #button_save_general_settings:focu
 }
 
 /* 10. Jetpack */
-.clientside-theme.toplevel_page_jetpack .wrap,
-.clientside-theme.jetpack_page_jetpack_modules .wrap {
+.clientside-theme.toplevel_page_jetpack .wrap, .clientside-theme.jetpack_page_jetpack_modules .wrap {
   padding: 0 !important;
 }
 
-.clientside-theme.toplevel_page_jetpack p.search-box,
-.clientside-theme.jetpack_page_jetpack_modules p.search-box {
+.clientside-theme.toplevel_page_jetpack p.search-box, .clientside-theme.jetpack_page_jetpack_modules p.search-box {
   margin-left: 0;
 }
 
@@ -2043,48 +2111,91 @@ body.clientside-theme.toplevel_page_revslider .sliders_list_container {
 }
 
 /* 19. Google Analytics Dashboard */
-#gadash-widget select,
-#gadash-widget #ga_dash_period,
-#gadash-widget #ga_dash_profile_select {
+#gadwp-widget select {
   width: 100%;
   font-size: 15px !important;
   height: 45px !important;
 }
 
-#gadash-widget #submit {
+#gadwp-widget select + select {
+  margin-top: 4px !important;
+}
+
+#gadwp-widget #submit {
   width: 100%;
 }
 
-#gadash-widget #gadash-mainchart {
+#gadwp-widget #gadwp-mainchart-1 {
   width: 100%;
-  margin-bottom: 0;
+  margin-bottom: 4px;
 }
 
-#gadash-widget .inside .small-box {
+#gadwp-widget .gadwp-wrapper .inside .small-box {
   box-shadow: none;
   background: none;
   margin-top: 15px;
   margin-bottom: 0;
 }
 
-#gadash-widget .inside .small-box h3 {
+#gadwp-widget .gadwp-wrapper .inside .small-box h3 {
   font-size: 13px;
 }
 
-#gadash-widget .inside .small-box h3 {
+#gadwp-widget .gadwp-wrapper .inside .small-box h3 {
   color: #aaa ;
 }
 
-#gadash-widget .inside .small-box p {
+#gadwp-widget .gadwp-wrapper .inside .small-box p {
   font-size: 15px;
   margin-bottom: 0;
 }
 
-#gadash-widget .inside .small-box p {
+#gadwp-widget .gadwp-wrapper .inside .small-box p {
   color: #555 ;
 }
 
-form[name=ga_dash_form] #ga_speed_samplerate,
-form[name=ga_dash_form] #ga_realtime_pages {
+#gadwp-widget #gadwp-reports-1 + div {
+  text-align: center !important;
+  font-size: 13px !important;
+  margin-top: 15px !important;
+  margin-right: 0 !important;
+}
+
+#gadwp-widget #gadwp-reports-1 + div {
+  color: #aaa !important;
+}
+
+#poststuff.gadwp {
+  padding-top: 0 !important;
+}
+
+#poststuff.gadwp form[name=ga_dash_form] #ga_speed_samplerate,
+#poststuff.gadwp form[name=ga_dash_form] #ga_realtime_pages {
   width: 100px;
+}
+
+/* 20. SiteOrigin Pagebuilder */
+#so-panels-panels {
+  clear: both;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.wp-editor-tabs #content-panels {
+  padding: 7px 13px !important;
+  font-size: 13px !important;
+  padding: 6px 12px !important;
+  margin-top: 0;
+}
+
+.siteorigin-panels-builder .so-widget {
+  max-height: none !important;
+}
+
+.siteorigin-panels-builder .so-widget .description {
+  padding-top: 0;
+}
+
+.siteorigin-panels-builder .so-rows-container {
+  overflow: hidden;
 }

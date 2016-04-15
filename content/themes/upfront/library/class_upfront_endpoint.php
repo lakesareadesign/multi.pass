@@ -279,7 +279,10 @@ class Upfront_Editor_Ajax extends Upfront_Server {
 	}
 
 	function create_post_type () {
-		if (!Upfront_Permissions::current(Upfront_Permissions::EDIT)) $this->_reject();
+		if (!Upfront_Permissions::current(Upfront_Permissions::CREATE_POST_PAGE)) {
+			$this->_reject();
+		}
+
 		$data = wp_parse_args(
 			stripslashes_deep($_POST['data']),
 			array(

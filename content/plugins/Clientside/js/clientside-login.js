@@ -2,7 +2,7 @@
  * This file is part of: Clientside
  * Author: Berend de Jong
  * Author URI: http://frique.me/
- * Version: 1.1.12 (2015-08-09 00:16)
+ * Version: 1.2.9 (2016-04-15 00:11)
  */
 
 jQuery( function( $ ) {

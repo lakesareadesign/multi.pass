@@ -65,7 +65,7 @@ echo $ultrastr."{".$ultra_fonts['button_font_css']."}";
  ---------------------------------------------*/
 
 echo " \n/* -- Page BG -- */\n";
-echo ultra_css_background("html, #ws_menu_editor .ws_editbox", "page-bg", "1.0") . "\n";
+echo ultra_css_background("html, #wp-content-editor-tools, #ws_menu_editor .ws_editbox", "page-bg", "1.0") . "\n";
 
 
 echo " \n/* -- Heading -- */\n";

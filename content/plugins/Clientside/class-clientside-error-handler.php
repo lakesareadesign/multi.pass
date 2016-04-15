@@ -22,7 +22,7 @@ class Clientside_Error_Handler {
 	}
 
 	// Write a PHP error to a custom error message to output later
-	static function error_handler( $number, $error, $file, $line, $context ) {
+	static function error_handler( $number, $error, $file = '', $line = '', $context = '' ) {
 
 		// Error type not in error_reporting or error trigger prepended with @
 		if ( ( error_reporting() & $number ) == 0 ) {
