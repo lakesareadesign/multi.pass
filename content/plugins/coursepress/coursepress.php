@@ -6,7 +6,7 @@ Description: CoursePress Pro turns WordPress into a powerful online learning pla
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
 Developers: Marko Miljus ( https://twitter.com/markomiljus ), Rheinard Korf ( https://twitter.com/rheinardkorf )
-Version: 1.3.2
+Version: 1.3.3
 TextDomain: cp
 Domain Path: /languages/
 WDP ID: 913071
@@ -67,7 +67,7 @@ if ( ! class_exists( 'CoursePress' ) ) {
 		 * @since 1.0.0
 		 * @var string
 		 */
-		public $version = '1.3.2';
+		public $version = '1.3.3';
 
 		/**
 		 * Plugin friendly name.
@@ -4993,8 +4993,29 @@ if ( ! class_exists( 'CoursePress' ) ) {
 
 		function cp_jquery_admin( $hook_sufix ) {
 			if ( strpos( $hook_sufix, 'course' ) !== false ) {
-				wp_enqueue_script( 'jquery' );
-				wp_enqueue_script( 'jquery-ui', '//code.jquery.com/ui/1.10.3/jquery-ui.js', array( 'jquery' ), '1.10.3' ); //need to change this to built-in
+
+				wp_enqueue_script( "jquery" );
+				$jquery_ui = array(
+					"jquery-ui-core",
+					"jquery-effects-core",
+					"jquery-ui-widget",
+					"jquery-ui-mouse",
+					"jquery-ui-accordion",
+					"jquery-ui-slider",
+					"jquery-ui-tabs",
+					"jquery-ui-sortable",
+					"jquery-ui-draggable",
+					"jquery-ui-droppable",
+					"jquery-ui-selectable",
+					"jquery-ui-position",
+					"jquery-ui-datepicker",
+					"jquery-ui-resizable",
+					"jquery-ui-dialog",
+					"jquery-ui-button"
+				);
+				foreach ( $jquery_ui as $script ) {
+					wp_enqueue_script( $script );
+				}
 			}
 		}
 

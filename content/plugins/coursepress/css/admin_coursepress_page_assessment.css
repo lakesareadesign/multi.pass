@@ -79,7 +79,7 @@
 
 
 .assessment .ui-tabs .ui-tabs-nav li a:hover, .assessment .ui-tabs .ui-tabs-nav li a:active, .assessment .ui-tabs .ui-tabs-nav li a:focus,
-.assessment .ui-tabs .ui-tabs-nav li.ui-tabs-active a:hover, .assessment .ui-tabs .ui-tabs-nav li.ui-tabs-active a:active, .assessment .ui-tabs .ui-tabs-nav li.ui-tabs-active a:focus									   	 	   		
+.assessment .ui-tabs .ui-tabs-nav li.ui-tabs-active a:hover, .assessment .ui-tabs .ui-tabs-nav li.ui-tabs-active a:active, .assessment .ui-tabs .ui-tabs-nav li.ui-tabs-active a:focus
 {
     outline: 0;
 }
@@ -317,4 +317,4 @@ td.less_visible_row{
 }
 
 
-/* 133620-1460350114-au */
+/* 133620-1460789919-au */
