@@ -1,0 +1,10 @@
+#proofing_email_template,
+#proofing_user_email_template,
+#proofing_user_confirmation_template {
+    width: 400px;
+    height: 150px;
+}
+#proofing_user_email_subject,
+#proofing_user_confirmation_not_found {
+    width: 400px;
+}

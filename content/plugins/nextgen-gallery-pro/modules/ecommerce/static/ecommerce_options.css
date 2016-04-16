@@ -1,0 +1,26 @@
+#ngg-mail_content input[type=text],
+#ngg-mail_content textarea {
+    width: 500px;
+}
+
+#ngg-mail_content textarea {
+    height: 100px;
+}
+#ngg-ecommerce-options_content td,
+#ngg-mail_content td {
+    vertical-align: top;
+}
+
+#ngg-payment-gateways_content input[type=text],
+#ngg-payment-gateways_content input[type=password]{
+    width: 450px;
+}
+
+#ecommerce_not_for_sale_msg {
+    width: 400px;
+    height: 100px;
+}
+
+#ngg-ecommerce-options_content td select {
+    width: 100%;
+}

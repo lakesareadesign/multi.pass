@@ -1,0 +1,85 @@
+#ngg_page_content table {
+    width: 100%;
+}
+
+#ngg_page_content table td,
+#ngg_page_content table th {
+    text-align: left;
+    word-wrap: break-word;
+}
+
+#ngg_page_content select,
+#ngg_page_content input[type=checkbox] {
+    font-size: inherit;
+}
+
+#ngg_page_content .label_column {
+	height: 27px;
+}
+
+#ngg_page_content table input[type=text],
+#ngg_page_content table input[type=number] {
+    width: 100%;
+    max-width: 150px;
+    min-width: 60px;
+}
+
+#ngg_page_content table .title_field {
+    max-width: none !important;
+}
+
+#no_pricelist_items {
+	display:none;
+}
+
+#ngg_page_content table input.shipping_rate {
+	width: 60px;
+}
+
+#ngg_digital_downloads_content {
+    width: auto !important;
+}
+
+#digital_downloads_licensing_page {
+	width: 315px;
+}
+
+#digital_downloads .resolution_column {
+    white-space: nowrap;
+    overflow: visible;
+    word-break: keep-all;
+    word-wrap: normal;
+}
+
+#manual_pricelist .title_column {
+    width: 200px;
+}
+
+#manual_pricelist .price_column {
+    width: 153px;
+}
+
+#digital_downloads .title_column {
+    width: 200px;
+}
+
+#digital_downloads .price_column {
+    width: 150px;
+}
+
+#digital_downloads .resolution_column {
+    width: 80px;
+}
+
+#digital_downloads .resolution_column input {
+    max-width: 60px !important;
+    width: 100%;
+}
+
+#ngg_page_content .delete_item {
+    cursor: pointer;
+}
+
+#ngg_page_content .title_empty {
+    border: solid 1px red;
+}
