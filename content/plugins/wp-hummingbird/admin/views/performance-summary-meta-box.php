@@ -5,8 +5,8 @@
 				<span class="close"></span>
 				<span class="wphb-icon wphb-icon-left"><i class="wdv-icon wdv-icon-fw wdv-icon-warning-sign"></i></span>
 				<p><?php echo $error; ?></p>
-				<a href="<?php echo esc_url( $retry_url ); ?>" class="button button-light button-notice button-notice-error"><?php _e( 'Try again', 'wpb' ); ?></a>
-				<a target="_blank" href="<?php echo esc_url( wphb_support_link() ); ?>" class="button button-light button-notice button-notice-error"><?php _e( 'Support', 'wpb' ); ?></a>
+				<a href="<?php echo esc_url( $retry_url ); ?>" class="button button-light button-notice button-notice-error"><?php _e( 'Try again', 'wphb' ); ?></a>
+				<a target="_blank" href="<?php echo esc_url( wphb_support_link() ); ?>" class="button button-light button-notice button-notice-error"><?php _e( 'Support', 'wphb' ); ?></a>
 			</div>
 		</div>
 	</div>

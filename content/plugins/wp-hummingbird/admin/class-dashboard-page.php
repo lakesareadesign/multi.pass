@@ -74,7 +74,7 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 		if ( ! get_user_meta( get_current_user_id(), 'wphb-hide-welcome-box' ) ) {
 			//$user = wp_get_current_user();
 			//$user = $user->user_nicename;
-			$user = get_current_user_info();
+			$user = wphb_get_current_user_info();
 			$this->add_meta_box( 'dashboard-welcome', sprintf( __( 'Welcome %s', 'wphb' ), $user) , array( $this, 'dashboard_welcome_metabox' ), null, null, 'main', array( 'box_class' => 'dev-box can-close content-box content-box-two-cols-image-left' ) );
 		}
 
@@ -163,14 +163,14 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 	public function dashboard_welcome_metabox() {
 		//$user = wp_get_current_user();
 		//$user = $user->user_nicename;
-		$user = get_current_user_info();
+		$user = wphb_get_current_user_info();
 		$this->view( 'dashboard-welcome-meta-box', array( 'user' => $user ) );
 	}
 
 	public function dashboard_welcome_metabox_header() {
 		//$user = wp_get_current_user();
 		//$user = $user->user_nicename;
-		$user = get_current_user_info();
+		$user = wphb_get_current_user_info();
 		$this->view( 'dashboard-welcome-meta-box-header', array( 'title' => sprintf( __( 'Welcome %s', 'wphb' ), $user) ) );
 	}
 
@@ -209,7 +209,7 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 		$this->view( 'dashboard-uptime-module-meta-box-footer', array( 'viewreport_link' => $viewreport_link ) );
 	}
 	public function dashboard_uptime_disabled_metabox() {
-		$user = get_current_user_info();
+		$user = wphb_get_current_user_info();
 		$enable_url = add_query_arg( 'action', 'enable', wphb_get_admin_menu_url( 'uptime' ) );
 		$enable_url = wp_nonce_url( $enable_url, 'wphb-toggle-uptime' );
 		$this->view( 'dashboard-uptime-disabled-meta-box', array( 'enable_url' => $enable_url, 'current_user' => $user ) );
@@ -235,6 +235,18 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 	 *******************/
 	public function dashboard_minification_module_metabox() {
 		$collection = wphb_minification_get_resources_collection();
+		// Remove those assets that we don't want to display
+		foreach ( $collection['styles'] as $key => $item ) {
+			if ( ! apply_filters( 'wphb_minification_display_enqueued_file', true, $item, 'styles' ) ) {
+				unset( $collection['styles'][ $key ] );
+			}
+		}
+		foreach ( $collection['scripts'] as $key => $item ) {
+			if ( ! apply_filters( 'wphb_minification_display_enqueued_file', true, $item, 'scripts' ) ) {
+				unset( $collection['scripts'][ $key ] );
+			}
+		}
+
 		$enqueued_files = count( $collection['scripts'] ) + count( $collection['styles'] );
 
 		$original_size_styles = array_sum( wp_list_pluck( $collection['styles'], 'original_size' ) );

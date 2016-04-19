@@ -4,6 +4,21 @@ Tested up to: 4.4.2
 
 Change Log:
 
+1.2 - 2016-04-18
+----------------------------------------------------------------------
+- New: Filter by plugin, theme or filename in minification screen
+- New: Bulk actions in minification screen
+- New: Divi integration
+- New: Splitted minification chart into header and footer charts
+- Fix: Unconsistent count of enqueued files in Dashboard
+- Fix: BuddyPress warning
+- Fix: PHP 5.2.4 error
+- Fix: GZIP and caching results were cleared after 1 hour
+- Fix: Login screen errors due to minification process
+- Fix: Sometimes minificated sources were enqueued twice.
+- Admin styles improvements
+- Other minor fixes and improvements
+
 1.1.2 - 2016-03-18
 ----------------------------------------------------------------------
 - Fixed: Performance test waiting time set back to 5 minutes
@@ -41,4 +56,4 @@ Change Log:
 - First release
 
 
-133620-1458371947-au
+133620-1461037035-au

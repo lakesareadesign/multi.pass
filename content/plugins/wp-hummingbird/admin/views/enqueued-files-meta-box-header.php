@@ -9,6 +9,6 @@
 			</span>
 		</div>
 	</div>
-	<button type="submit" class="button button-grey" name="clear-cache"><?php esc_attr_e( 'Re-Check Files', 'wphb' ); ?></button>
-	<button type="submit" class="button" name="submit"><?php esc_attr_e( 'Save', 'wphb' ); ?></button>
+	<button class="button button-grey wphb-discard" <?php disabled( true ); ?>><?php esc_attr_e( 'Discard Changes', 'wphb' ); ?></button>
+	<button type="submit" class="button button-app" name="submit"><?php esc_attr_e( 'Save Changes', 'wphb' ); ?></button>
 </div>

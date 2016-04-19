@@ -1,7 +1,7 @@
 <?php
 /**
 Plugin Name: WP Hummingbird
-Version: 1.1.2
+Version: 1.2
 Plugin URI:  https://premium.wpmudev.org/project/1081721/
 Description: Hummingbird zips through your site finding new ways to make it load faster, from file compression and minification to browser caching – because when it comes to pagespeed, every millisecond counts.
 Author: WPMU DEV
@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 
-define( 'WPHB_VERSION', '1.1.2' );
+define( 'WPHB_VERSION', '1.2' );
 /**
  * Class WP_Hummingbird
  *
@@ -119,6 +119,8 @@ class WP_Hummingbird {
 		// Core files
 		/** @noinspection PhpIncludeInspection */
 		include_once( wphb_plugin_dir() . 'core/class-core.php' );
+		/** @noinspection PhpIncludeInspection */
+		include_once( wphb_plugin_dir() . 'core/integration.php' );
 
 		// Helpers files
 		/** @noinspection PhpIncludeInspection */
@@ -129,6 +131,7 @@ class WP_Hummingbird {
 		include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-settings.php' );
 		/** @noinspection PhpIncludeInspection */
 		include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-modules.php' );
+
 
 		if ( is_admin() ) {
 			// Load only admin files
@@ -215,6 +218,15 @@ class WP_Hummingbird {
 				$module->get_analysis_data( true );
 			}
 
+			if ( version_compare( $version, '1.1.1', '<' ) ) {
+				$options = wphb_get_setting( 'network_version' );
+				if ( empty( $options ) ) {
+					wphb_update_settings( wphb_get_default_settings() );
+				}
+
+
+			}
+
 			update_site_option( 'wphb_version', WPHB_VERSION );
 		}
 
@@ -248,7 +260,7 @@ function wp_hummingbird() {
 /**
  * Get Current username info
  */
-function get_current_user_info() {
+function wphb_get_current_user_info() {
 
 	$current_user = wp_get_current_user();
 
@@ -269,7 +281,6 @@ function get_current_user_info() {
  * Init the plugin and load the plugin instance for the first time
  */
 add_action( 'plugins_loaded', 'wp_hummingbird' );
-add_action( 'plugins_loaded', 'get_current_user_info' );
 
 /**
  * Return WP Hummingbird plugin URL

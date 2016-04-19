@@ -19,7 +19,7 @@ class WP_Hummingbird_Minification_Chart {
 	/**
 	 * @var integer Count the number of sources in the chart
 	 */
-	private $sources_number = 0;
+	private $sources_number = array();
 
 	/**
 	 * Add a new group to the chart data
@@ -94,8 +94,8 @@ class WP_Hummingbird_Minification_Chart {
 		$data['header'] = $this->group_data_by_position( $raw_data, 'header' );
 		$data['footer'] = $this->group_data_by_position( $raw_data, 'footer' );
 
-		$data['header'] = $this->group_data_by_origin( $data['header'] );
-		$data['footer'] = $this->group_data_by_origin( $data['footer'] );
+		$data['header'] = $this->group_data_by_origin( $data['header'], 'header' );
+		$data['footer'] = $this->group_data_by_origin( $data['footer'], 'footer' );
 
 		$data['groups'] = $this->get_data_groups_info( $raw_data );
 
@@ -171,7 +171,7 @@ class WP_Hummingbird_Minification_Chart {
 		return $data;
 	}
 
-	public function group_data_by_origin( $data ) {
+	public function group_data_by_origin( $data, $position ) {
 		$data_by_origin = array(
 			'themes' => array(),
 			'plugins' => array(),
@@ -190,7 +190,11 @@ class WP_Hummingbird_Minification_Chart {
 
 			foreach ( $sources as $src ) {
 
-				$this->sources_number++;
+				if ( ! isset( $this->sources_number[ $position ] ) ) {
+					$this->sources_number[ $position ] = 0;
+				}
+
+				$this->sources_number[ $position ]++;
 
 				$found_match = false;
 
@@ -240,29 +244,19 @@ class WP_Hummingbird_Minification_Chart {
 		return $data_by_origin;
 	}
 
-	public static function prepare_for_javascript( $data ) {
+	public static function prepare_for_javascript( $data, $groups ) {
 		$js_data = array();
-		foreach ( $data as $position => $lists ) {
 
-			if ( $position == 'groups' )
-				continue;
-
-			$position_text = $position == 'footer' ? __( 'Footer', 'wphb' ) : __( 'Header', 'wphb' );
-
-			$themes_and_plugins = array_merge( $lists['themes'], $lists['plugins'] );
-			foreach ( $themes_and_plugins as $name => $sources ) {
-				foreach ( $sources as $src ) {
-					$js_data[] = array( self::_truncate_src( $src ), $data['groups'][$src][0], 1 );
-					$js_data[] = array( $data['groups'][$src][0], $position_text, 1 );
-				}
+		$themes_and_plugins = array_merge( $data['themes'], $data['plugins'] );
+		foreach ( $themes_and_plugins as $name => $sources ) {
+			foreach ( $sources as $src ) {
+				$js_data[] = array( self::_truncate_src( $src ), $groups[$src][0], 1 );
 			}
+		}
 
 
-			foreach ( $lists['core'] as $src ) {
-				$js_data[] = array( self::_truncate_src( $src ), $data['groups'][$src][0], 1 );
-				$js_data[] = array( $data['groups'][$src][0], $position_text, 1 );
-			}
-
+		foreach ( $data['core'] as $src ) {
+			$js_data[] = array( self::_truncate_src( $src ), $groups[$src][0], 1 );
 		}
 
 		return json_encode( $js_data );

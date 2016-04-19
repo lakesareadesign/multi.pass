@@ -53,6 +53,11 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 		/**
 		 * @var Smushed attachments out of total attachments
 		 */
+		public $remaining_count;
+
+		/**
+		 * @var Smushed attachments out of total attachments
+		 */
 		public $super_smushed;
 
 		/**
@@ -79,11 +84,6 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 		 * @var int Number of attachments exceeding free limit
 		 */
 		public $exceeding_items_count = 0;
-
-		/**
-		 * @var If the plugin is a pro version or not
-		 */
-		private $is_pro_user;
 
 		private $attachments = '';
 
@@ -145,6 +145,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			add_action( 'admin_init', array( $this, 'init_settings' ) );
 
 			$this->bulk_ui = new WpSmushBulkUi();
+
 		}
 
 		function init_settings() {
@@ -218,8 +219,6 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			//For Nextgen gallery Pages, check later in enqueue function
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 
-			//Reset Transient
-			$this->check_bulk_limit( true );
 		}
 
 		/**
@@ -229,36 +228,12 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 
 			global $WpSmush;
 
-			// Register js for smush utton in grid view
-			$current_blog_id       = get_current_blog_id();
-			$meta_key              = $current_blog_id == 1 ? 'wp_media_library_mode' : 'wp_' . $current_blog_id . '_media_library_mode';
-			$wp_media_library_mode = get_user_meta( get_current_user_id(), $meta_key, true );
-
-			//Either request variable is not empty and grid mode is set, or if request empty then view is as per user choice, or no view is set
-			if ( ( ! empty( $_REQUEST['mode'] ) && $_REQUEST['mode'] == 'grid' ) ||
-			     ( empty( $_REQUEST['mode'] ) && $wp_media_library_mode != 'list' )
-			) {
-				wp_register_script( 'wp-smushit-admin-js', WP_SMUSH_URL . 'assets/js/wp-smushit-admin.js', array(
-					'jquery',
-					'media-views'
-				), WP_SMUSH_VERSION );
-			} else {
-				wp_register_script( 'wp-smushit-admin-js', WP_SMUSH_URL . 'assets/js/wp-smushit-admin.js', array(
-					'jquery',
-					'underscore'
-				), WP_SMUSH_VERSION );
-			}
-			wp_register_script( 'wp-smushit-admin-media-js', WP_SMUSH_URL . 'assets/js/wp-smushit-admin-media.js', array( 'jquery' ), $WpSmush->version );
-
+			wp_register_script( 'wp-smushit-admin-js', WP_SMUSH_URL . 'assets/js/wp-smushit-admin.js', array(
+				'jquery'
+			), WP_SMUSH_VERSION );
 
 			/* Register Style. */
 			wp_register_style( 'wp-smushit-admin-css', WP_SMUSH_URL . 'assets/css/wp-smushit-admin.css', array(), $WpSmush->version );
-			//Get resmush list
-			//If we have a resmush list already, localize those ids
-			if ( $resmush_ids = get_option( "wp-smush-resmush-list" ) ) {
-				//get the attachments, and get lossless count
-				$this->resmush_ids = $resmush_ids;
-			}
 		}
 
 		/**
@@ -276,8 +251,8 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			 */
 			$enqueue_smush = apply_filters( 'wp_smush_enqueue', true );
 
-			//If we upgrade/install message is dismissed
-			if( get_option( 'wp-smush-hide_upgrade_notice' ) ) {
+			//If we upgrade/install message is dismissed and for pro users
+			if( get_option( 'wp-smush-hide_upgrade_notice' ) || get_site_option( 'wp-smush-hide_upgrade_notice' ) || $this->is_pro() ) {
 				//Do not enqueue, unless it is one of the required screen
 				if ( ! $enqueue_smush || ( $current_page != 'nggallery-manage-images' && $current_page != 'gallery_page_wp-smush-nextgen-bulk' && $pagenow != 'post.php' && $pagenow != 'post-new.php' && $pagenow != 'upload.php' ) ) {
 
@@ -309,12 +284,11 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 		 * Localize Translations
 		 */
 		function localize() {
+			global $current_screen;
+			$current_page = !empty( $current_screen ) ? $current_screen->base : '';
 
 			$bulk   = new WpSmushitBulk();
 			$handle = 'wp-smushit-admin-js';
-
-			//Setup all the stats
-			$this->setup_global_stats();
 
 			$wp_smush_msgs = array(
 				'resmush'       => esc_html__( 'Super-Smush', 'wp-smushit' ),
@@ -328,21 +302,46 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 
 			wp_localize_script( $handle, 'wp_smush_msgs', $wp_smush_msgs );
 
-			$this->attachments = $bulk->get_attachments();
+			//Load the stats on selected screens only
+			if ( $current_page == 'media_page_wp-smush-bulk' ) {
 
-			//Localize smushit_ids variable, if there are fix number of ids
-			$this->ids = ! empty( $_REQUEST['ids'] ) ? array_map( 'intval', explode( ',', $_REQUEST['ids'] ) ) : $this->attachments;
+				$this->attachments = $bulk->get_attachments();
 
-			//Array of all smushed, unsmushed and lossless ids
-			$data = array(
-				'count_smushed' => $this->smushed_count,
-				'count_total'   => $this->total_count,
-				'unsmushed'     => $this->ids,
-				'resmush'       => $this->resmush_ids,
-				'timeout'       => WP_SMUSH_TIMEOUT * 1000, //Convert it into ms
-			);
+				//Setup all the stats
+				$this->setup_global_stats();
+
+				//Localize smushit_ids variable, if there are fix number of ids
+				$this->ids = ! empty( $_REQUEST['ids'] ) ? array_map( 'intval', explode( ',', $_REQUEST['ids'] ) ) : $this->attachments;
+
+				//Get resmush list, If we have a resmush list already, localize those ids
+				if ( $resmush_ids = get_option( "wp-smush-resmush-list" ) ) {
+
+					//get the attachments, and get lossless count
+					$this->resmush_ids = $resmush_ids;
+
+				}
+
+				//Array of all smushed, unsmushed and lossless ids
+				$data = array(
+					'count_smushed' => $this->smushed_count,
+					'count_total'   => $this->total_count,
+					'unsmushed'     => $this->ids,
+					'resmush'       => $this->resmush_ids,
+				);
+			}else{
+				$data = array(
+					'count_smushed' => '',
+					'count_total'   => '',
+					'unsmushed'     => '',
+					'resmush'       => '',
+				);
+
+			}
+
+			$data['timeout'] = WP_SMUSH_TIMEOUT * 1000; //Convert it into ms
 
 			wp_localize_script( 'wp-smushit-admin-js', 'wp_smushit_data', $data );
+
 
 		}
 
@@ -354,7 +353,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 		 */
 		function setup_global_stats( $force_update = false ) {
 			$this->total_count     = $this->total_count();
-			$this->smushed_count   = $this->smushed_count();
+			$this->smushed_count   = $this->smushed_count( false );
 			$this->remaining_count = $this->remaining_count();
 			$this->stats           = $this->global_stats( $force_update );
 		}
@@ -381,7 +380,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			}
 
 			//Store that we need not redirect again on plugin activation
-			update_option( 'wp-smush-hide_smush_welcome', true );
+			update_site_option( 'wp-smush-hide_smush_welcome', true );
 
 			// var to temporarily assign the option value
 			$setting = null;
@@ -501,7 +500,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 				$error = $smush->get_error_message();
 				//Check for timeout error and suggest to filter timeout
 				if ( strpos( $error, 'timed out' ) ) {
-					$error = esc_html__( "Smush request timed out, You can try setting a higher value for `WP_SMUSH_API_TIMEOUT`.", "wp-smushit" );
+					$error = '<p class="wp-smush-error-message">' . esc_html__( "Smush request timed out, You can try setting a higher value for `WP_SMUSH_API_TIMEOUT`.", "wp-smushit" ) . '</p>';
 				}
 				wp_send_json_error( array( 'stats' => $stats, 'error_msg' => $error ) );
 			} else {
@@ -563,7 +562,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 				if ( $return ) {
 					return array( 'error' => $smush->get_error_message() );
 				} else {
-					wp_send_json_error( array( 'error_msg' => $smush->get_error_message() ) );
+					wp_send_json_error( array( 'error_msg' => '<p class="wp-smush-error-message">' . $smush->get_error_message() . '</p>' ) );
 				}
 			} else {
 				if ( $return ) {
@@ -655,10 +654,10 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 		 *
 		 * @return array|int
 		 */
-		function smushed_count( $return_ids = false ) {
+		function smushed_count( $return_ids ) {
 
 			//Don't query again, if the variable is already set
-			if ( ! empty( $this->smushed_count ) && $this->smushed_count > 0 ) {
+			if ( ! $return_ids && ! empty( $this->smushed_count ) && $this->smushed_count > 0 ) {
 				return $this->smushed_count;
 			}
 
@@ -931,12 +930,12 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			}
 
 			//Return if notice is already dismissed
-			if ( get_option( 'wp-smush-hide_upgrade_notice' ) ) {
+			if ( get_option( 'wp-smush-hide_upgrade_notice' ) || get_site_option( 'wp-smush-hide_upgrade_notice' ) ) {
 				return;
 			} ?>
 			<div class="wpmud wp-smush-updated"><?php
 
-			$install_type = get_option( 'wp-smush-install-type', false );
+			$install_type = get_site_option( 'wp-smush-install-type', false );
 
 			if ( ! $install_type ) {
 				if ( $this->smushed_count > 0 ) {
@@ -944,7 +943,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 				} else {
 					$install_type = 'new';
 				}
-				update_option( 'wp-smush-install-type', $install_type );
+				update_site_option( 'wp-smush-install-type', $install_type );
 			}
 
 			//Whether New/Existing Installation
@@ -1079,16 +1078,19 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 		 * Store a key/value to hide the smush features on bulk page
 		 */
 		function dismiss_welcome_notice() {
-			update_option( 'wp-smush-hide_smush_welcome', 1 );
+			update_site_option( 'wp-smush-hide_smush_welcome', 1 );
 			wp_send_json_success();
 		}
 
 		/**
 		 * Store a key/value to hide the smush features on bulk page
 		 */
-		function dismiss_upgrade_notice() {
-			update_option( 'wp-smush-hide_upgrade_notice', 1 );
-			wp_send_json_success();
+		function dismiss_upgrade_notice( $ajax = true ) {
+			update_site_option( 'wp-smush-hide_upgrade_notice', 1 );
+			//No Need to send json response for other requests
+			if ( $ajax ) {
+				wp_send_json_success();
+			}
 		}
 
 		/**
@@ -1243,7 +1245,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			//Default Notice, to be displayed at the top of page
 			//Show a message, at the top
 			$message = esc_html__( 'Yay! All images are optimised as per your current settings.', 'wp-smushit' );
-			$resp = '<div class="wp-smush-notice wp-smush-resmush-message"><i class="dev-icon dev-icon-tick"></i> ' . $message . '
+			$resp = '<div class="wp-smush-notice wp-smush-resmush-message" tabindex="0"><i class="dev-icon dev-icon-tick"></i> ' . $message . '
 				<i class="dev-icon dev-icon-cross"></i>
 				</div>';
 
@@ -1264,9 +1266,21 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			//Allow to smush Upfront images as well
 			$upfront_active = class_exists( 'Upfront' );
 
+			//Initialize Media Library Stats
+			if ( 'nextgen' != $type && empty( $this->remaining_count ) ) {
+				$this->setup_global_stats();
+			}
+
+			//Intialize NextGen Stats
+			if ( 'nextgen' == $type && is_object( $wpsmushnextgenadmin ) && empty( $wpsmushnextgenadmin->remaining_count ) ) {
+				$wpsmushnextgenadmin->setup_stats();
+			}
+
 			$key = 'nextgen' == $type ? 'wp-smush-nextgen-resmush-list' : 'wp-smush-resmush-list';
 
-			if ( ! $WpSmush->lossy_enabled && ! $WpSmush->smush_original && $WpSmush->keep_exif && ! $upfront_active ) {
+			$remaining_count = 'nextgen' == $type ? $wpsmushnextgenadmin->remaining_count : $this->remaining_count;
+
+			if ( 0 == $remaining_count && ! $WpSmush->lossy_enabled && ! $WpSmush->smush_original && $WpSmush->keep_exif && ! $upfront_active ) {
 				delete_option( $key );
 				wp_send_json_success( array( 'notice' => $resp ) );
 			}
@@ -1343,40 +1357,41 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 
 				//Store the resmush list in Options table
 				update_option( $key, $resmush_list );
+			}
 
-				//Return the Remsmush list and UI to be appended to Bulk Smush UI
-				if ( $return_ui ) {
-					if ( 'nextgen' != $type ) {
-						//Set the variables
-						$this->resmush_ids = $resmush_list;
-					} else {
-						//To avoid the php warning
-						$wpsmushnextgenadmin->resmush_ids = $resmush_list;
-					}
+			//Delete resmush list if empty
+			if ( empty( $resmush_list ) ) {
+				//Delete the resmush list
+				delete_option( $key );
+			}
 
-					//Initialize stats
-					if ( empty( $this->remaining_count ) ) {
-						$this->setup_global_stats();
-					}
+			//Return the Remsmush list and UI to be appended to Bulk Smush UI
+			if ( $return_ui ) {
+				if ( 'nextgen' != $type ) {
+					//Set the variables
+					$this->resmush_ids = $resmush_list;
+				} else {
+					//To avoid the php warning
+					$wpsmushnextgenadmin->resmush_ids = $resmush_list;
+				}
 
-					if ( ( $count = count( $resmush_list ) ) > 0 || $this->remaining_count > 0 ) {
+				if ( ( $count = count( $resmush_list ) ) > 0 || $this->remaining_count > 0 ) {
+
+					if ( $count ) {
 						$show = true;
 
-						if ( empty( $wpsmushnextgenadmin->remaining_count ) && 'nextgen' == $type ) {
-							$wpsmushnextgenadmin->setup_stats();
-						}
 						$count += 'nextgen' == $type ? $wpsmushnextgenadmin->remaining_count : $this->remaining_count;
 
 						$ajax_response = $this->bulk_ui->bulk_resmush_content( $count, $show );
-						$message = sprintf( esc_html__("You have images that need smushing. %sBulk smush now!%s", "wp-smushit"), '<a href="#" class="wp-smush-trigger-bulk">', '</a>' );
-						$resp = '<div class="wp-smush-notice wp-smush-resmush-message wp-smush-resmush-pending"><i class="dev-icon dev-icon-tick"></i> ' . $message . '
-							<i class="dev-icon dev-icon-cross"></i>
-						</div>';
-					} else {
-						//Delete the resmush list
-						delete_option( $key );
 					}
 				}
+			}
+
+			if( !empty( $resmush_list ) || $remaining_count > 0 ) {
+				$message = sprintf( esc_html__( "You have images that need smushing. %sBulk smush now!%s", "wp-smushit" ), '<a href="#" class="wp-smush-trigger-bulk">', '</a>' );
+				$resp    = '<div class="wp-smush-notice wp-smush-resmush-message wp-smush-resmush-pending" tabindex="0"><i class="dev-icon dev-icon-tick"></i> ' . $message . '
+							<i class="dev-icon dev-icon-cross"></i>
+						</div>';
 			}
 
 			//If there is a Ajax response return it, else return null
@@ -1655,8 +1670,10 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 
 				//Get all the smushed attachments
 				$attachments = $this->get_lossy_attachments( '', false );
-				foreach ( $attachments as $attachment ) {
-					update_post_meta( $attachment, 'wp-smush-lossy', 1 );
+				if( !empty( $attachments ) ) {
+					foreach ( $attachments as $attachment ) {
+						update_post_meta( $attachment, 'wp-smush-lossy', 1 );
+					}
 				}
 			}
 			//Get all the attachments with wp-smush-lossy

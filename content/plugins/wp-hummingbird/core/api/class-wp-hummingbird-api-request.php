@@ -147,7 +147,7 @@ class WP_Hummingbird_API_Request {
 
 		$code = wp_remote_retrieve_response_code( $response );
 		$body = json_decode( wp_remote_retrieve_body( $response ) );
-		$message = isset( $body->message ) ? $body->message : __( 'Unknown Error. Code: %s', $code );
+		$message = isset( $body->message ) ? $body->message : sprintf( __( 'Unknown Error. Code: %s', 'wphb' ), $code );
 
 		if ( 200 != $code ) {
 			throw new WP_Hummingbird_API_Exception( $message, $code );

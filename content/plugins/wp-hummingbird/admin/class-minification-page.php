@@ -156,8 +156,9 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 			$this->add_meta_box( 'enqueued-files-empty', __( 'Enqueued Files', 'wphb' ), array( $this, 'enqueued_files_empty_metabox' ), null, null, 'box-enqueued-files-empty', array( 'box_class' => 'dev-box content-box content-box-one-col-center') );
 		}
 		else {
-			$this->add_meta_box( 'enqueued-files', __( 'Enqueued Files', 'wphb' ), array( $this, 'enqueued_files_metabox' ), null, null, 'main', array( 'box_content_class' => 'box-content no-side-padding', 'box_footer_class' => 'box-footer buttons buttons-on-right') );
-			$this->add_meta_box( 'output', __( 'Output', 'wphb' ), array( $this, 'output_metabox') );
+			$this->add_meta_box( 'enqueued-files', __( 'Enqueued Files', 'wphb' ), array( $this, 'enqueued_files_metabox' ), null, null, 'main', array( 'box_content_class' => 'box-content no-side-padding', 'box_footer_class' => 'box-footer') );
+			$this->add_meta_box( 'output-header', __( 'Output (Header)', 'wphb' ), array( $this, 'output_header_metabox' ), array( $this, 'output_header_header_metabox' ) );
+			$this->add_meta_box( 'output-footer', __( 'Output (Footer)', 'wphb' ), array( $this, 'output_footer_metabox' ), array( $this, 'output_header_footer_metabox' ) );
 		}
 	}
 
@@ -165,7 +166,7 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		// Get current user name
 		//$user = wp_get_current_user();
 		//$user = $user->user_nicename;
-		$user = get_current_user_info();
+		$user = wphb_get_current_user_info();
 		$checking_files = wphb_minification_is_checking_files();
 		$this->view( 'minification-enqueued-files-empty-meta-box', array( 'user' => $user, 'checking_files' => $checking_files ) );
 	}
@@ -181,13 +182,40 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		$styles_rows = $this->_collection_rows( $collection['styles'], 'styles' );
 		$scripts_rows = $this->_collection_rows( $collection['scripts'], 'scripts' );
 
-		$args = compact( 'collection', 'styles_rows', 'scripts_rows' );
+		$active_plugins = get_option('active_plugins', array() );
+		if ( is_multisite() ) {
+			foreach ( get_site_option('active_sitewide_plugins', array() ) as $plugin => $item ) {
+				$active_plugins[] = $plugin;
+			}
+		}
+		$theme = wp_get_theme();
+
+		$selector_filter = array();
+		$selector_filter[ $theme->Name ] = $theme->Name;
+		foreach ( $active_plugins as $plugin ) {
+			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+			if ( $plugin_data['Name'] ) {
+				// Found plugin, add it as a filter
+				$selector_filter[ $plugin_data['Name'] ] = $plugin_data['Name'];
+			}
+		}
+
+		$args = compact( 'collection', 'styles_rows', 'scripts_rows', 'selector_filter' );
 		$this->view( 'minification-enqueued-files-meta-box', $args );
 	}
 
 
 	private function _collection_rows( $collection, $type ) {
 		$options = wphb_get_settings();
+
+		// This will be used for filtering
+		$theme = wp_get_theme();
+		$active_plugins = get_option('active_plugins', array() );
+		if ( is_multisite() ) {
+			foreach ( get_site_option('active_sitewide_plugins', array() ) as $plugin => $item ) {
+				$active_plugins[] = $plugin;
+			}
+		}
 
 		/**
 		 * @var WP_Hummingbird_Module_Minify $minification_module
@@ -242,6 +270,25 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 				$disable_switchers = $row_error['disable'];
 			}
 
+			$filter = '';
+			if ( preg_match( '/wp-content\/themes\/(.*)\//', $full_src, $matches ) ) {
+				$filter = $theme->Name;
+			}
+			elseif ( preg_match( '/wp-content\/plugins\/([\w-_]*)\//', $full_src, $matches ) ) {
+				// The source comes from a plugin
+				foreach ( $active_plugins as $active_plugin ) {
+					if ( stristr( $active_plugin, $matches[1] ) ) {
+						// It seems that we found the plguin but let's double check
+						$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $active_plugin );
+						if ( $plugin_data['Name'] ) {
+							// Found plugin, add it as a filter
+							$filter = $plugin_data['Name'];
+						}
+						break;
+					}
+
+				}
+			}
 
 			/**
 			 * Allows to enable/disable switchers in minification page
@@ -252,27 +299,57 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 			 */
 			$disable_switchers = apply_filters( 'wphb_minification_disable_switchers', $disable_switchers, $item, $type );
 
-			$args = compact( 'item', 'options', 'type', 'position', 'base_name', 'original_size', 'compressed_size', 'rel_src', 'full_src', 'ext', 'row_error', 'disable_switchers' );
+			$args = compact( 'item', 'options', 'type', 'position', 'base_name', 'original_size', 'compressed_size', 'rel_src', 'full_src', 'ext', 'row_error', 'disable_switchers', 'filter' );
 			$content .= $this->view( 'minification-enqueued-files-rows', $args, false );
 		}
 
 		return $content;
 	}
 
-	public function output_metabox() {
-
+	private function _get_output_data() {
 		$chart = wphb_get_chart( get_home_url() );
 		$data = $chart['data'];
 
-		$themes = array_unique( array_merge( array_keys( $data['header']['themes'] ), array_keys( $data['footer']['themes'] ) ) );
-		$plugins = array_unique( array_merge( array_keys( $data['header']['plugins'] ), array_keys( $data['footer']['plugins'] ) ) );
-		$options = array_merge( $themes, $plugins );
+		$themes_header = array_unique( array_keys( $data['header']['themes'] ) );
+		$themes_footer = array_unique( array_keys( $data['footer']['themes'] ) );
 
-		$height = 50 * $chart['sources_number'];
+		$plugins_header = array_unique( array_keys( $data['header']['plugins'] ) );
+		$plugins_footer = array_unique( array_keys( $data['footer']['plugins'] ) );
+		$options = array_merge( $themes_header, $themes_footer, $plugins_header, $plugins_footer );
 
-		$data = wphb_prepare_chart_data_for_javascript( $chart['data'] );
+		$height_header = 50 * $chart['sources_number']['header'];
+		$height_footer = 50 * $chart['sources_number']['footer'];
 
-		$this->view( 'minification-output-meta-box', array( 'data' => $data, 'height' => $height, 'options' => $options ) );
+		$data_header = wphb_prepare_chart_data_for_javascript( $chart['data']['header'], $chart['data']['groups'] );
+		$data_footer = wphb_prepare_chart_data_for_javascript( $chart['data']['footer'], $chart['data']['groups'] );
+
+		return compact(
+			'options',
+			'height_header',
+			'height_footer',
+			'data_header',
+			'data_footer'
+		);
+	}
+
+	public function output_header_metabox() {
+		$this->view( 'minification-output-header-meta-box', $this->_get_output_data() );
+	}
+
+	public function output_footer_metabox() {
+		$this->view( 'minification-output-footer-meta-box', $this->_get_output_data() );
+	}
+
+	public function output_header_header_metabox() {
+		?>
+			<h3><?php _e( 'Output (Header)', 'wphb' ); ?> <span id="output-spinner-header" class="spinner" style="margin-top:20px;"></span></h3>
+		<?php
+	}
+
+	public function output_header_footer_metabox() {
+		?>
+			<h3><?php _e( 'Output (Footer)', 'wphb' ); ?> <span id="output-spinner-footer" class="spinner" style="margin-top:20px;"></span></h3>
+		<?php
 	}
 
 }

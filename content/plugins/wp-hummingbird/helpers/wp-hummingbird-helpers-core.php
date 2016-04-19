@@ -60,8 +60,8 @@ function wphb_get_chart( $url ) {
  *
  * @return string JSON chart data
  */
-function wphb_prepare_chart_data_for_javascript( $data ) {
-	return WP_Hummingbird_Minification_Chart::prepare_for_javascript( $data );
+function wphb_prepare_chart_data_for_javascript( $data, $groups ) {
+	return WP_Hummingbird_Minification_Chart::prepare_for_javascript( $data, $groups );
 }
 
 /**
@@ -326,7 +326,10 @@ function wphb_support_link() {
  */
 function wphb_enqueue_admin_scripts() {
 	$ver = '20160217';
-	wp_enqueue_script( 'wphb-admin', wphb_plugin_url() . 'admin/assets/js/admin.js', array( 'jquery' ), $ver );
+
+	$file = wphb_plugin_url() . 'admin/assets/js/admin.min.js';
+
+	wp_enqueue_script( 'wphb-admin', $file, array( 'jquery' ), $ver );
 
 	$i10n = array(
 		'writeHtaccessNonce' => wp_create_nonce( 'wphb-write-htacces' ),
@@ -347,7 +350,8 @@ function wphb_enqueue_admin_scripts() {
 		'checkFilesNonce' => wp_create_nonce( 'wphb-minification-check-files' ),
 		'chartNonce' => wp_create_nonce( 'wphb-chart' ),
 		'finishedCheckURLsLink' => wphb_get_admin_menu_url( 'minification' ),
-		'toggleMinificationNonce' => wp_create_nonce( 'wphb-toggle-minification' )
+		'toggleMinificationNonce' => wp_create_nonce( 'wphb-toggle-minification' ),
+		'discardAlert' => __( 'Are you sure? All your changes will be lost', 'wphb' )
 	);
 	wp_localize_script( 'wphb-admin', 'wphbMinificationStrings', $i10n );
 

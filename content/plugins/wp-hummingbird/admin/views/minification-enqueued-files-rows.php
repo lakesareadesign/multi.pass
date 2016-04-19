@@ -1,4 +1,4 @@
-<tr>
+<tr class="wphb-minification-row" data-filter="<?php echo $item['handle']; ?>" data-filter-secondary="<?php echo esc_attr( $filter ); ?>">
 	<td class="wphb-minification-td-filename">
 		<span class="wphb-filename-extension wphb-filename-extension-<?php echo strtolower( $ext ); ?>"><?php echo $ext; ?></span>
 		<div class="wphb-filename-info">
@@ -12,7 +12,7 @@
 	<td class="wphb-minification-td-include wphb-table-td-has-tooltip">
 		<div class="tooltip-box">
 			<span class="toggle" tooltip="<?php _e( 'Include/Exclude file', 'wphb' ); ?>">
-				<input type="checkbox" <?php disabled( in_array( 'include', $disable_switchers ) ); ?> id="wphb-minification-include-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" class="toggle-checkbox" name="<?php echo $base_name; ?>[include]" <?php checked( in_array( $item['handle'], $options['block'][ $type ] ), false ); ?>>
+				<input type="checkbox" <?php disabled( in_array( 'include', $disable_switchers ) ); ?> id="wphb-minification-include-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" class="toggle-checkbox toggle-include" name="<?php echo $base_name; ?>[include]" <?php checked( in_array( $item['handle'], $options['block'][ $type ] ), false ); ?>>
 				<label for="wphb-minification-include-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" class="toggle-label"></label>
 			</span>
 		</div>
@@ -20,7 +20,7 @@
 	<td class="wphb-minification-td-minify wphb-table-td-has-tooltip">
 		<div class="tooltip-box">
 			<span class="toggle" tooltip="<?php _e( 'Reduce file size', 'wphb' ); ?>">
-				<input type="checkbox" <?php disabled( in_array( 'minify', $disable_switchers ) ); ?> id="wphb-minification-minify-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" class="toggle-checkbox" name="<?php echo $base_name; ?>[minify]" <?php checked( in_array( $item['handle'], $options['dont_minify'][ $type ] ), false ); ?>>
+				<input type="checkbox" <?php disabled( in_array( 'minify', $disable_switchers ) ); ?> id="wphb-minification-minify-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" class="toggle-checkbox toggle-minify" name="<?php echo $base_name; ?>[minify]" <?php checked( in_array( $item['handle'], $options['dont_minify'][ $type ] ), false ); ?>>
 				<label for="wphb-minification-minify-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" class="toggle-label"></label>
 			</span>
 		</div>
@@ -28,7 +28,7 @@
 	<td class="wphb-minification-td-combine wphb-table-td-has-tooltip">
 		<div class="tooltip-box">
 			<span class="toggle" tooltip="<?php _e( 'Merge with other files', 'wphb' ); ?>">
-				<input type="checkbox" <?php disabled( in_array( 'combine', $disable_switchers ) ); ?> id="wphb-minification-combine-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" class="toggle-checkbox" name="<?php echo $base_name; ?>[combine]" <?php checked( in_array( $item['handle'], $options['dont_combine'][ $type ] ), false ); ?>>
+				<input type="checkbox" <?php disabled( in_array( 'combine', $disable_switchers ) ); ?> id="wphb-minification-combine-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" class="toggle-checkbox toggle-combine" name="<?php echo $base_name; ?>[combine]" <?php checked( in_array( $item['handle'], $options['dont_combine'][ $type ] ), false ); ?>>
 				<label for="wphb-minification-combine-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" class="toggle-label"></label>
 			</span>
 		</div>
@@ -36,17 +36,17 @@
 	<td class="wphb-minification-td-position wphb-table-td-has-tooltip">
 		<div class="tooltip-box">
 			<span class="radio-group with-icon">
-				<input type="radio" id="wphb-minification-position-footer-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" name="<?php echo $base_name; ?>[position]" value="footer" <?php checked( $position, 'footer' ); ?> />
+				<input type="radio" class="toggle-position-footer" id="wphb-minification-position-footer-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" name="<?php echo $base_name; ?>[position]" value="footer" <?php checked( $position, 'footer' ); ?> />
 				<label for="wphb-minification-position-footer-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>">
 					<span tooltip="<?php _e( 'Footer', 'wphb' ); ?>"></span>
 					<i class="dev-icon dev-icon-pos_footer"></i>
 				</label>
-				<input type="radio" id="wphb-minification-position-header-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" name="<?php echo $base_name; ?>[position]" value="header" <?php checked( $position, 'header' ); ?> />
+				<input type="radio" class="toggle-position-header" id="wphb-minification-position-header-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" name="<?php echo $base_name; ?>[position]" value="header" <?php checked( $position, 'header' ); ?> />
 				<label for="wphb-minification-position-header-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>">
 					<span tooltip="<?php _e( 'Header', 'wphb' ); ?>"></span>
 					<i class="dev-icon dev-icon-pos_header"></i>
 				</label>
-				<input type="radio" id="wphb-minification-position-default-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" name="<?php echo $base_name; ?>[position]" value="" <?php checked( empty( $position ) ); ?> />
+				<input type="radio" class="toggle-position-default" id="wphb-minification-position-default-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" name="<?php echo $base_name; ?>[position]" value="" <?php checked( empty( $position ) ); ?> />
 				<label for="wphb-minification-position-default-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>">
 					<span tooltip="<?php _e( 'Original', 'wphb' ); ?>"></span>
 					<i class="dev-icon dev-icon-pos_middle"></i>

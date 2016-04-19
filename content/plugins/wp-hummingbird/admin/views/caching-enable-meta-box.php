@@ -1,6 +1,10 @@
 <div class="spinner standalone hide visible"></div>
 <div class="wphb-content">
 
+	<div>
+
+	</div>
+
 	<div id="wphb-server-instructions-apache" class="wphb-server-instructions hidden" data-server="apache">
 
 		<?php if ( $htaccess_writable && ! $already_enabled ): ?>

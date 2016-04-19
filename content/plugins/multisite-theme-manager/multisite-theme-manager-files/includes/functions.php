@@ -177,7 +177,7 @@ class WMD_PrettyThemes_Functions {
 			else
 				$this->options['theme'] = 'standard/quick-sand';
 
-			$standard_options = array('themes_link_label' => 'strip_tags', 'themes_page_title' => 'strip_tags', 'themes_page_description' => '', 'themes_auto_screenshots' => '', 'setup_mode' => '', 'themes_hide_descriptions' => '', 'themes_auto_screenshots_by_name' => '', 'author_link_target' => '', 'custom_link_target' => '');
+			$standard_options = array('themes_link_label' => 'strip_tags', 'themes_page_title' => 'strip_tags', 'themes_page_description' => '', 'themes_auto_screenshots' => '', 'setup_mode' => '', 'themes_hide_descriptions' => '', 'themes_auto_screenshots_by_name' => '', 'author_link_target' => '', 'custom_link_target' => '');					    		  	 	    
 			foreach ($standard_options as $option => $action) {
 				if(isset($input[$option])) {
 					if($action == 'strip_tags')
@@ -228,7 +228,7 @@ class WMD_PrettyThemes_Functions {
 		return $themes_custom_data_ready;
 	}
 
-	function get_merged_theme_data() {
+	function get_merged_theme_data($fe = false) {
 		$themes_categories = $this->get_merged_themes_categories();
 
 		$themes_default_data = $this->themes_data;
@@ -238,6 +238,12 @@ class WMD_PrettyThemes_Functions {
 		foreach($themes_default_data as $key => $theme) {
 			if(!isset($theme['id']))
 				continue;
+
+			if($fe == true) {
+				$allowed_themes = get_site_option('allowedthemes');
+				if(!isset($allowed_themes[$theme['id']]))
+					continue;
+			}
 
 			//lets skip this theme if it is deprecated
 			if(isset($themes_custom_data[$theme['id']]['deprecateDate']) && $themes_custom_data[$theme['id']]['deprecateDate'])

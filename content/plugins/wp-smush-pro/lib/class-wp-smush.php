@@ -15,7 +15,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 		 * Api server url to check api key validity
 		 *
 		 */
-		var $api_server = 'https://premium.wpmudev.org/wdp-un.php?action=smushit_check';
+		var $api_server = 'https://premium.wpmudev.org/api/smush/v1/check/';
 
 		/**
 		 * Meta key to save smush result to db
@@ -83,9 +83,6 @@ if ( ! class_exists( 'WpSmush' ) ) {
 			//Enqueue Scripts
 			add_action( 'admin_init', array( $this, 'admin_init' ) );
 
-			//Old Smush stats migration
-			add_action( "admin_init", array( $this, "migrate" ) );
-
 			//Load Translation files
 			add_action( 'plugins_loaded', array( $this, 'i18n' ), 12 );
 
@@ -119,7 +116,13 @@ if ( ! class_exists( 'WpSmush' ) ) {
 		}
 
 		function admin_init() {
-			wp_enqueue_script( 'common' );
+
+			//Handle Notice dismiss
+			$this->dismiss_smush_upgrade();
+
+			//Perform Migration if required
+			$this->migrate();
+
 			//Initialize variables
 			$this->initialise();
 		}
@@ -595,7 +598,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 				'timeout'    => WP_SMUSH_TIMEOUT,
 				'user-agent' => WP_SMUSH_UA,
 			);
-			$result  = wp_remote_post( $api_url, $args );
+			$result  = wp_remote_get( $api_url, $args );
 
 			//Close file connection
 			fclose( $file );
@@ -768,7 +771,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 				update_site_option( 'wp_smush_api_auth', $api_auth );
 
 				// call api
-				$url = $this->api_server . '&key=' . urlencode( $api_key );
+				$url = $this->api_server . $api_key;
 
 				$request = wp_remote_get( $url, array(
 						"user-agent" => WP_SMUSH_UA,
@@ -778,7 +781,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 
 				if ( ! is_wp_error( $request ) && '200' == wp_remote_retrieve_response_code( $request ) ) {
 					$result = json_decode( wp_remote_retrieve_body( $request ) );
-					if ( $result && $result->success ) {
+					if ( !empty( $result->success ) && $result->success ) {
 						$valid = 'valid';
 					} else {
 						$valid = 'invalid';
@@ -796,7 +799,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 				$api_auth[ $api_key ] = array( 'validity' => $valid, 'timestamp' => $timestamp );
 
 				//Update API validity
-				update_site_option( 'wp_smush_api_auth', $api_auth );
+//				update_site_option( 'wp_smush_api_auth', $api_auth );
 
 			}
 
@@ -1372,7 +1375,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 			//Check if integration is Enabled or not
 			//Smush NextGen key
 			$opt_nextgen     = WP_SMUSH_PREFIX . 'nextgen';
-			$opt_nextgen_val = get_option( $opt_nextgen, 1 );
+			$opt_nextgen_val = get_option( $opt_nextgen, false );
 			if ( ! $opt_nextgen_val ) {
 				return;
 			}
@@ -1385,8 +1388,8 @@ if ( ! class_exists( 'WpSmush' ) ) {
 			global $wpsmushnextgen, $wpsmushnextgenadmin, $wpsmushnextgenstats;
 			//Initialize Nextgen support
 			$wpsmushnextgen      = new WpSmushNextGen();
-			$wpsmushnextgenadmin = new WpSmushNextGenAdmin();
 			$wpsmushnextgenstats = new WpSmushNextGenStats();
+			$wpsmushnextgenadmin = new WpSmushNextGenAdmin();
 			new WPSmushNextGenBulk();
 		}
 
@@ -1722,7 +1725,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 			}
 
 			//If images are already smushed
-			if( $wpsmushit_admin->smushed_count() > 0 ) {
+			if( $wpsmushit_admin->smushed_count( false ) > 0 ) {
 				return false;
 			}
 
@@ -1776,6 +1779,16 @@ if ( ! class_exists( 'WpSmush' ) ) {
 					$image_bckup_path = $this->get_image_backup_path( $image_size_path );
 					@unlink( $image_bckup_path );
 				}
+			}
+		}
+
+		/**
+		 * Manually Dismiss Smush Upgrade notice
+		 */
+		function dismiss_smush_upgrade() {
+			if ( isset( $_GET['remove_smush_upgrade_notice'] ) && 1 == $_GET['remove_smush_upgrade_notice'] ) {
+				global $wpsmushit_admin;
+				$wpsmushit_admin->dismiss_upgrade_notice( false );
 			}
 		}
 	}

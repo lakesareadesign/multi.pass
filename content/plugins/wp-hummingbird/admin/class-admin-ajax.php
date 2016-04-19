@@ -295,29 +295,35 @@ class WP_Hummingbird_Admin_AJAX {
 		}
 		elseif ( $area == 'core' ) {
 			$data = wphb_filter_chart_data( $data, false );
-			$sources = 0;
-			$sources += count( $data['header']['core'] );
-			$sources += count( $data['footer']['core'] );
+			$sources = array( 'header' => count( $data['header']['core'] ), 'footer' => count( $data['footer']['core'] ) );
 		}
 		else {
 			$data = wphb_filter_chart_data( $data, $area );
 
-			$sources = 0;
-			if ( isset( $data['header']['themes'][ $area ] ) )
-				$sources += count( $data['header']['themes'][ $area ] );
+			$sources = array( 'header' => 0, 'footer' => 0 );
+			if ( isset( $data['header']['themes'][ $area ] ) ) {
+				$sources['header'] += count( $data['header']['themes'][ $area ] );
+			}
 
-			if ( isset( $data['footer']['themes'][ $area ] ) )
-				$sources += count( $data['footer']['themes'][ $area ] );
+			if ( isset( $data['footer']['themes'][ $area ] ) ) {
+				$sources['footer'] += count( $data['footer']['themes'][ $area ] );
+			}
 
-			if ( isset( $data['header']['plugins'][ $area ] ) )
-				$sources += count( $data['header']['plugins'][ $area ] );
+			if ( isset( $data['header']['plugins'][ $area ] ) ) {
+				$sources['header'] += count( $data['header']['plugins'][ $area ] );
+			}
 
-			if ( isset( $data['footer']['plugins'][ $area ] ) )
-				$sources += count( $data['footer']['plugins'][ $area ] );
+			if ( isset( $data['footer']['plugins'][ $area ] ) ) {
+				$sources['footer'] += count( $data['footer']['plugins'][ $area ] );
+			}
 		}
 
-		$data = WP_Hummingbird_Minification_Chart::prepare_for_javascript( $data );
-		$data = json_decode( $data );
+		$data_header = WP_Hummingbird_Minification_Chart::prepare_for_javascript( $data['header'], $data['groups'] );
+		$data_footer = WP_Hummingbird_Minification_Chart::prepare_for_javascript( $data['footer'], $data['groups'] );
+		$data = array(
+			'header' => json_decode( $data_header ),
+			'footer' => json_decode( $data_footer )
+		);
 
 		wp_send_json_success( array( 'chartData' => $data, 'sourcesNumber' => $sources ) );
 	}

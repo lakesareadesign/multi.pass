@@ -16,7 +16,7 @@
 			<a href="<?php echo esc_url( $activate_url ); ?>" class="button button-app button-content-cta" id="smush-activate"><?php _e( 'Activate WP Smush Pro', 'wphb' ); ?></a>
 		<?php elseif ( $is_installed && $is_active ) : ?>
 			<?php if ( $smush_data['bytes'] == 0 || $smush_data['percent'] == 0 ) : ?>
-				<p><?php _e( "WP Smush Pro is installed but no images have been smushed yet.<br> Get in there any smush away!", 'wphb' ); ?></p>
+				<p><?php _e( "WP Smush Pro is installed but no images have been smushed yet.<br> Get in there and smush away!", 'wphb' ); ?></p>
 				<a href="<?php echo esc_url( admin_url( 'upload.php?page=wp-smush-bulk' ) ); ?>" class="button button-app button-content-cta" id="smush-link"><?php _e( 'Smart Smush', 'wphb' ); ?></a>
 			<?php else : ?>
 				<p><?php echo sprintf( __( "WP Smush Pro is installed. So far you've saved <strong>%s</strong> of space.<br>That's a total savings of <strong>%s</strong>. Nice one!", 'wphb' ), $smush_data['human'], number_format_i18n( $smush_data['percent'], 2 ) . '%' ); ?></p>

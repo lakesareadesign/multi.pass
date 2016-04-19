@@ -9,7 +9,7 @@
 			<span class="wphb-icon wphb-icon-left"><i class="wdv-icon wdv-icon-fw wdv-icon-warning-sign"></i></span>
 			<?php $support_link = '#'; ?>
 			<p><?php echo $error; ?></p>
-			<a href="<?php echo esc_url( $retry_url ); ?>" class="button button-notice-box button-notice-box-error"><?php _e( 'Try again', 'wpb' ); ?></a>
+			<a href="<?php echo esc_url( $retry_url ); ?>" class="button button-notice-box button-notice-box-error"><?php _e( 'Try again', 'wphb' ); ?></a>
 		</div>
 	</div>
 <?php else: ?>

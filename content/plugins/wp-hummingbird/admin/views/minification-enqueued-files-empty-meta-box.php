@@ -22,7 +22,7 @@
 				<p><?php echo sprintf( __( 'Hummingbird\'s Minification engine can combine and minify the files your website outputs when a <br> user visits your website. The less requests your visitors have to make to your server, the <br> better. <strong>Let\'s check to see what we can optimise, %s!</strong>', 'wphb' ), $user ); ?></p>
 				<a id="check-files" class="button button-app button-content-cta" href="#check-files-modal" rel="dialog"><?php _e( 'Check files', 'wphb' ); ?></a>
 
-				<dialog class="wphb-modal wphb-progress-modal no-close" id="check-files-modal" title="<?php _e( 'Checking files', 'wbs' ); ?>">
+				<dialog class="wphb-modal wphb-progress-modal no-close" id="check-files-modal" title="<?php _e( 'Checking files', 'wphb' ); ?>">
 					<div class="wphb-block-test" id="check-files-modal-content">
 						<div class="wphb-progress">
 							<div class="wphb-progress-bar wphb-progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100" style="width:100%;">

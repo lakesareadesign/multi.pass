@@ -34,7 +34,10 @@ class WP_Hummingbird_Uptime_Page extends WP_Hummingbird_Admin_Page {
 			if ( ! current_user_can( wphb_get_admin_capability() ) )
 				return;
 
-			wphb_uptime_enable();
+			$result = wphb_uptime_enable();
+			if ( is_wp_error( $result ) ) {
+				wp_die( sprintf( __( 'Uptime error %d: %s', 'wphb' ), $result->get_error_code(), $result->get_error_message() ) );
+			}
 			$redirect_to = add_query_arg( 'run', 'true', wphb_get_admin_menu_url( 'uptime' ) );
 			$redirect_to = add_query_arg( '_wpnonce', wp_create_nonce( 'wphb-run-uptime' ), $redirect_to );
 
@@ -90,7 +93,7 @@ class WP_Hummingbird_Uptime_Page extends WP_Hummingbird_Admin_Page {
 
 	public function uptime_disabled_metabox() {
 		// Get current user name
-		$user = get_current_user_info();
+		$user = wphb_get_current_user_info();
 		$activate_url = add_query_arg( 'action', 'enable', wphb_get_admin_menu_url( 'uptime' ) );
 		$activate_url = wp_nonce_url( $activate_url, 'wphb-toggle-uptime' );
 		$this->view( 'uptime-disabled-meta-box', array( 'user' => $user, 'activate_url' => $activate_url ) );

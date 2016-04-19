@@ -151,8 +151,6 @@ if ( ! class_exists( 'WpSmushNextGenAdmin' ) ) {
 		function localize() {
 			global $wpsmushnextgenstats;
 
-			$this->setup_stats();
-
 			$handle = 'wp-smushit-admin-js';
 
 			$wp_smush_msgs = array(
@@ -166,6 +164,9 @@ if ( ! class_exists( 'WpSmushNextGenAdmin' ) ) {
 			);
 
 			wp_localize_script( $handle, 'wp_smush_msgs', $wp_smush_msgs );
+
+			//Initialize Stats
+			$this->setup_stats();
 
 			//Get the unsmushed ids, used for localized stats as well as normal localization
 			$unsmushed = $wpsmushnextgenstats->get_ngg_images( 'unsmushed' );
@@ -441,8 +442,9 @@ if ( ! class_exists( 'WpSmushNextGenAdmin' ) ) {
 					<i class="dev-icon">
 						<img src="<?php echo WP_SMUSH_URL . 'assets/images/icon-gzip.svg'; ?>" width="14px">
 					</i>
-					<span
-						class="wp-smush-notice-text"><?php printf( _n( "%s, you have %s%s%d%s image%s that need smushing!", "%s, you have %s%s%d%s images%s that need smushing!", $this->remaining_count, "wp-smushit" ), $wpsmushit_admin->get_user_name(), '<strong>', '<span class="wp-smush-remaining-count">', $this->remaining_count, '</span>', '</strong>' ); ?></span>
+					<span class="wp-smush-notice-text">
+						<?php printf( _n( "%s, you have %s%s%d%s image%s that needs smushing!", "%s, you have %s%s%d%s images%s that need smushing!", $this->remaining_count, "wp-smushit" ), $wpsmushit_admin->get_user_name(), '<strong>', '<span class="wp-smush-remaining-count">', $this->remaining_count, '</span>', '</strong>' ); ?>
+					</span>
 				</div>
 				<hr class="wp-smush-sep">
 				<div class="smush-final-log notice notice-warning inline hidden"></div>
@@ -525,14 +527,14 @@ if ( ! class_exists( 'WpSmushNextGenAdmin' ) ) {
 			<hr>
 			<div class="row smush-attachments">
 			<span class="float-l wp-smush-stats-label">
-						<strong><?php esc_html_e( "ATTACHMENTS SMUSHED", "wp-smushit" ); ?></strong>
-					</span>
-					<span class="float-r wp-smush-stats">
-						<strong>
-							<span
-								class="smushed-count"><?php echo $smushed_count . '</span>/' . $this->total_count; ?>
-						</strong>
-					</span>
+				<strong><?php esc_html_e( "ATTACHMENTS SMUSHED", "wp-smushit" ); ?></strong>
+			</span>
+			<span class="float-r wp-smush-stats">
+				<strong>
+					<span
+						class="smushed-count"><?php echo $smushed_count . '</span>/' . $this->total_count; ?>
+				</strong>
+			</span>
 			</div><?php
 			//Nonce Field for Ajax requests
 			echo wp_nonce_field( 'save_wp_smush_options', 'wp_smush_options_nonce', '', false );

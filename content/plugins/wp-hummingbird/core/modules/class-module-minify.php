@@ -25,6 +25,18 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 	);
 
 	/**
+	 * Save all the minified groups that
+	 * are already enqueued so they are not
+	 * repeated
+	 *
+	 * @var array
+	 */
+	private $done_minified = array(
+		'styles' => array(),
+		'scripts' => array()
+	);
+
+	/**
 	 * Sources that are going to be moved to header
 	 *
 	 * @var array
@@ -105,10 +117,11 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 	 * Initializes Minify module
 	 */
 	public function init() {
+		global $pagenow;
 
 		$this->errors_controller = new WP_Hummingbird_Minification_Errors_Controller();
 
-		if ( isset( $_GET['avoid-minify'] ) ) {
+		if ( isset( $_GET['avoid-minify'] ) || 'wp-login.php' === $pagenow ) {
 			add_filter( 'wp_hummingbird_is_active_module_' . $this->get_slug(), '__return_false' );
 		}
 
@@ -228,8 +241,9 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 
 		// Sometimes handles are passed twice, let's remove those that we have processed already
 		if ( $intersect = array_intersect( $handles, $this->done_handles[ $type ] ) ) {
-			foreach ( $intersect as $item )
+			foreach ( $intersect as $item ) {
 				unset( $handles[ array_search( $item, $handles ) ] );
+			}
 		}
 
 		if ( $type == 'styles' ) {
@@ -366,33 +380,40 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 				}
 			}
 			else {
-				$group_handles = $group->get_handles();
-
+				// Is the group already enqueued?
 				$group->set_group_src( $group_src );
-				self::$minified_counter++;
-				$new_handle = 'wphb-' . self::$minified_counter;
-				$group->enqueue( $new_handle, self::is_in_footer() );
+				$group_hash = $group->get_srcs_hash();
 
+				if ( ! in_array( $group_hash, $this->done_minified[ $type ] ) ) {
+					$group_handles = $group->get_handles();
 
-				$this->to_do_list[ $type ][] = $new_handle;
+					self::$minified_counter++;
+					$new_handle = 'wphb-' . self::$minified_counter;
+					$group->enqueue( $new_handle, self::is_in_footer() );
 
-				// Save collection for future reference
-				foreach ( $group_handles as $group_handle ) {
-					$registered = $wp_sources->registered[ $group_handle ];
-					$registered->original_size = $group->get_original_size( $group_handle );
-					$registered->compressed_size = $group->get_compressed_size( $group_handle );
-					$registered->group_key = $group->get_cache_key();
-					$this->collector->add_to_collection( $registered, $type );
+					// Save this group as enqueued
+					$this->done_minified[ $type ][] = $group->get_srcs_hash();
 
-					$this->done_handles[ $type ][] = $group_handle;
+					$this->to_do_list[ $type ][] = $new_handle;
+
+					// Save collection for future reference
+					foreach ( $group_handles as $group_handle ) {
+						$registered = $wp_sources->registered[ $group_handle ];
+						$registered->original_size = $group->get_original_size( $group_handle );
+						$registered->compressed_size = $group->get_compressed_size( $group_handle );
+						$registered->group_key = $group->get_cache_key();
+						$this->collector->add_to_collection( $registered, $type );
+
+						$this->done_handles[ $type ][] = $group_handle;
+					}
 				}
-
 			}
 
 		}
 
-		if ( ! empty( $process_queue ) )
+		if ( ! empty( $process_queue ) ) {
 			$this->process_queue[ $type ] = array_merge( $this->process_queue[ $type ], $process_queue );
+		}
 
 		$finish_time = $this->microtime_float();
 		$duration = ( $finish_time - $init_time );
@@ -763,13 +784,17 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 
 
 	public static function log( $message ) {
-		if ( ! isset( $_GET['log-min'] ) ) {
-			return;
-		}
+		if ( defined( 'WPHB_DEBUG_LOG' ) ) {
+			$date = current_time( 'mysql' );
+			if ( ! is_string( $message ) ) {
+				$message = print_r( $message, true );
+			}
 
-		$cache_dir = wphb_get_cache_dir();
-		$file = $cache_dir . 'minification.log';
-		file_put_contents( $file, $message . "\n", FILE_APPEND );
+			$message = '[' . $date . '] ' . $message;
+			$cache_dir = wphb_get_cache_dir();
+			$file = $cache_dir . 'minification.log';
+			file_put_contents( $file, $message . "\n", FILE_APPEND );
+		}
 	}
 
 

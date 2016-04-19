@@ -10,7 +10,10 @@ class WP_Hummingbird_API_Uptime extends WP_Hummingbird_API_Service {
 
 	public function enable() {
 		$results = $this->execute( 'monitoring/', array( 'timeout' => 30, 'method' => 'POST' ) );
-		if ( $results !== true ) {
+		if ( is_wp_error( $results ) ) {
+			return $results;
+		}
+		elseif ( $results !== true ) {
 			return new WP_Error( 500, __( 'Unknown Error', 'wphb' ) );
 		}
 

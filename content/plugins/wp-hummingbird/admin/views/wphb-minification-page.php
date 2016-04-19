@@ -55,7 +55,7 @@
 </div>
 
 <div class="row">
-	<?php $user = get_current_user_info(); ?>
+	<?php $user = wphb_get_current_user_info(); ?>
 	<div class="wphb-notice wphb-notice-box no-top-space">
 		<p><?php echo sprintf( __( '%s, moving files between the header and footer of your page can break your website. We recommend tweaking and checking each file as you go and if a setting causes errors then revert the setting here.', 'wphb' ), $user); ?></p>
 	</div>

@@ -737,6 +737,10 @@
 .wpmud .wphb-select-group-right > div {
 	float: right;
 }
+.wpmud .wphb-select-group-left > label,
+.wpmud .wphb-select-group-left > div {
+	float: left;
+}
 .wpmud .select-container {
 	overflow: hidden;
 }
@@ -1635,6 +1639,54 @@
 .wpmud .box-enqueued-files-empty .wphb-block-test {
 	margin-top: 30px;
 }
+.wpmud .wphb-minification-row.out-of-filter {
+	display:none;
+}
+#wphb-minification-filter {
+	margin-bottom: 2rem;
+}
+#wphb-minification-filter:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+#wphb-minification-filter .wphb-minification-filter-block,
+#wphb-minification-filter .wphb-minification-filter-field {
+	float: left;
+	margin-left: 3%;
+	width: 47%;
+}
+#wphb-minification-filter .wphb-minification-filter-block:first-child,
+#wphb-minification-filter .wphb-minification-filter-field:first-child {
+	margin-left: 0;
+}
+#wphb-minification-filter .wphb-block-title {
+	font: 700 15px/2em 'Roboto Condensed', 'Roboto', sans-serif;
+	text-transform: uppercase;
+}
+#wphb-minification-filter .wphb-filters-data {
+	margin-top: 30px;
+}
+#wphb-minification-filter .wphb-minification-filter-field-item {
+	display: inline-block;
+	margin-left: 30px;
+}
+#wphb-minification-filter .wphb-minification-filter-field-item:first-child {
+	margin-left: 0;
+}
+.wphb-filters-data:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+.wphb-filters-data .wphb-filter-field-title {
+	font-weight: 700;
+	text-transform: uppercase;
+}
+.wphb-minification-filter-field-search input[type="text"] {
+	padding: 8px 15px;
+	margin: 0;
+}
 
 /* ****************************************************************************
  * 7. BROWSER CACHING
@@ -1699,6 +1751,11 @@
 	.wpmud .wphb-filename-info {
 		max-width: 400px;
 	}
+
+	/* Page: Minification */
+	#wphb-minification-filter .wphb-minification-filter-field-item {
+		margin-left: 20px;
+	}
 }
 
 /* WIDE DESKTOP */
@@ -1710,6 +1767,16 @@
 	/* Page: Performance */
 	.wpmud .performance-report-table .wphb-performance-report-item-cta {
 		width: 20%;
+	}
+
+	/* Page: Minification */
+	#wphb-minification-filter .wphb-minification-filter-field {
+		float: none;
+		margin: 0 0 15px;
+		width: 100%;
+	}
+	#wphb-minification-filter .wphb-minification-filter-field:last-child {
+		margin: 0;
 	}
 }
 
@@ -2058,6 +2125,22 @@
 		width: 100%;
 	}
 
+	/* Page: Minification */
+	#wphb-minification-filter .wphb-minification-filter-block {
+		border-top: 1px solid #EAEAEA;
+		float: none;
+		margin: 0 0 30px;
+		padding-top: 30px;
+		width: 100%;
+	}
+	#wphb-minification-filter .wphb-minification-filter-block:last-child {
+		margin: 0;
+	}
+	#wphb-minification-filter .wphb-minification-filter-block:first-child {
+		border-top: none;
+		padding-top: 0;
+	}
+
 }
 
 /* LARGE MOBILE */
@@ -2136,4 +2219,4 @@
 }
 
 
-/* 133620-1458371947-au */
+/* 133620-1461037035-au */

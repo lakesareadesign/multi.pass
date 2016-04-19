@@ -480,6 +480,8 @@ class WP_Hummingbird_Sources_Group {
 		$errors = array();
 		$css_imports = array();
 
+		WP_Hummingbird_Module_Minify::log( "Processing Group : " . $this->get_cache_key() );
+
 		foreach ( $srcs as $handle => $src ) {
 			if ( ! $src )
 				continue;
@@ -494,28 +496,32 @@ class WP_Hummingbird_Sources_Group {
 
 			if ( $is_local ) {
 				$path = wphb_src_to_path( $src );
-				if ( is_file( $path ) )
+				if ( is_file( $path ) ) {
 					$content = file_get_contents( $path );
+				}
 			}
 
 			if ( false === $content ) {
+				WP_Hummingbird_Module_Minify::log( "Content empty, trying remote HTTP" );
 				// Try to get the file remotely
 				if ( ! preg_match( '/^http:/', $src ) ) {
 					// Rooted URL
 					$src = 'http:' . $src;
 				}
 				$request = wp_remote_get( $src, array( 'sslverify' => false ) );
+				$content = wp_remote_retrieve_body( $request );
 				if ( is_wp_error( $request ) ) {
-					// @TODO: Log error
+					WP_Hummingbird_Module_Minify::log( $request->get_error_message() );
 				} elseif ( wp_remote_retrieve_response_code( $request ) !== 200 ) {
-					// @TODO: Log error
+					WP_Hummingbird_Module_Minify::log( "Code different from 200. Truncated content:" );
+					WP_Hummingbird_Module_Minify::log( substr( $content, 0, 1000 ) );
 				}
 
-				$content = wp_remote_retrieve_body( $request );
 			}
 
 			// If nothing worked do not minify and do not combine file
 			if ( empty( $content ) ) {
+				WP_Hummingbird_Module_Minify::log( "Empty Content detected, do not process" );
 				$minification_module->errors_controller->add_error( $handle, $this->type, 'empty-content', __( 'It looks like this file is empty or there was an error trying to get its content.', 'wphb' ), array( 'minify', 'combine' ) );
 				continue;
 			}
@@ -532,12 +538,14 @@ class WP_Hummingbird_Sources_Group {
 
 			// Concatenate and minify scripts/styles!
 			if ( 'scripts' === $this->type ) {
+				WP_Hummingbird_Module_Minify::log( "Minify script" );
 				include_once( 'class-jshrink-minifier.php' );
 				if ( $this->must_minify() ) {
 					try {
 						$content = WP_Hummingbird_JShrink_Minifier::minify( $content );
 					}
 					catch ( Exception $e ) {
+						WP_Hummingbird_Module_Minify::log( "Minification failed: " . $e->getMessage() );
 						$minification_module->errors_controller->add_error( $handle, $this->type, 'shrink-error', sprintf( __( 'Javascript compression failed: %s', 'wphb' ), $e->getMessage() ), array( 'minify', 'combine' ) );
 						continue;
 					}
@@ -546,7 +554,7 @@ class WP_Hummingbird_Sources_Group {
 				}
 			}
 			elseif ( 'styles' === $this->type ) {
-
+				WP_Hummingbird_Module_Minify::log( "Minify style" );
 				if ( $is_local ) {
 					$content = self::replace_relative_urls( dirname( $path ), $content );
 				}
@@ -569,6 +577,7 @@ class WP_Hummingbird_Sources_Group {
 			}
 
 			if ( empty( $content ) ) {
+				WP_Hummingbird_Module_Minify::log( "Empty content after minification" );
 				// Something happened to compression
 				$minification_module->errors_controller->add_error( $handle, $this->type, 'after-compression', __( 'Minification failed.', 'wphb' ), array( 'minify', 'combine' ) );
 			}
@@ -594,9 +603,12 @@ class WP_Hummingbird_Sources_Group {
 		}
 
 		if ( empty( $contents ) ) {
+			WP_Hummingbird_Module_Minify::log( "Empty content after combine" );
 			$minification_module->errors_controller->add_error( $this->get_handles(), $this->type, 'empty-content', __( 'It looks like this file is empty or there was an error trying to get its content.', 'wphb' ), array( 'minify', 'combine' ) );
 		}
 		else {
+			WP_Hummingbird_Module_Minify::log( "Handles:" );
+			WP_Hummingbird_Module_Minify::log( $this->get_handles() );
 			// Put new contents in file
 			$contents = '/** handles (' . $this->type . ') :' . join( ' | ', $this->get_handles() ) . '  */' . $contents;
 			wphb_include_file_cache_class();

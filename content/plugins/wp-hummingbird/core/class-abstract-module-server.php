@@ -25,7 +25,7 @@ abstract class WP_Hummingbird_Module_Server extends WP_Hummingbird_Module {
 			return false;
 
 		$transient = 'wphb-' . $this->transient_slug . '-data';
-		$results = get_site_transient( $transient );
+		$results = get_site_option( $transient );
 
 		if ( $force ) {
 
@@ -33,8 +33,7 @@ abstract class WP_Hummingbird_Module_Server extends WP_Hummingbird_Module {
 
 			$results = $this->analize_data();
 
-			$max_age = apply_filters( 'wphb_data_analysis_max_age', 3600, $this->transient_slug );
-			set_site_transient( $transient, $results, $max_age );
+			update_site_option( $transient, $results );
 
 		}
 
@@ -52,7 +51,7 @@ abstract class WP_Hummingbird_Module_Server extends WP_Hummingbird_Module {
 	 * Clear the module cache
 	 */
 	public function clear_analysis_data() {
-		delete_site_transient( 'wphb-' . $this->transient_slug . '-data' );
+		delete_site_option( 'wphb-' . $this->transient_slug . '-data' );
 	}
 
 	/**

@@ -5,6 +5,12 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 2.2.2 =
+- Fixed: JS error causing issue with Editor on some installs, plugin conflict with CoursePress plugin, ACF ( Clear All Caches after plugin upgrade, Cloudflare as well )
+- Fixed: ReSmush count for bulk smushing
+- Fixed: Smush settings accessibility for Screen reader/Keyboard
+- Fixed: WP Admin loading slow ( Load smush stats on required admin pages only )
+
 = 2.2.1 =
 * New: Option to resmush image if settings are changed after optimising images
 * New: Added an option to preserve EXIF
@@ -150,4 +156,4 @@ Change Log:
 - First release
 
 
-133620-1460514835-au
+133620-1461037037-au

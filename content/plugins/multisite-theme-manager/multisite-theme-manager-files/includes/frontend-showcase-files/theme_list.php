@@ -3,7 +3,7 @@
 
 <?php
 foreach ( $this->plugin->themes_data as $theme ) :
-	$aria_action = esc_attr( $theme['id'] . '-action' );					    		  	 	    
+	$aria_action = esc_attr( $theme['id'] . '-action' );
 	$aria_name   = esc_attr( $theme['id'] . '-name' );
 	?>
 <div class="theme<?php if ( $theme['active'] ) echo ' active'; ?>" tabindex="0" aria-describedby="<?php echo $aria_action . ' ' . $aria_name; ?>">

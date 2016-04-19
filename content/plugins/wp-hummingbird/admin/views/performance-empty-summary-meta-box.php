@@ -10,7 +10,7 @@
 			<p><?php _e( 'For us to know what to improve we need to scan your website. All testing is done in the background via our <br> secure servers. Once complete, we\'ll give you a list of things to improve, and how to do it.', 'wphb' ); ?></p>
 			<a href="#run-performance-test-modal" class="button button-app button-content-app" id="run-performance-test" rel="dialog"><?php _e( 'Scan my website', 'wphb' ); ?></a>
 
-			<dialog class="wphb-modal wphb-progress-modal no-close" id="run-performance-test-modal" title="<?php _e( 'Scanning your website for performance improvements', 'wbs' ); ?>">
+			<dialog class="wphb-modal wphb-progress-modal no-close" id="run-performance-test-modal" title="<?php _e( 'Scanning your website for performance improvements', 'wphb' ); ?>">
 				<div class="wphb-block-test" id="run-performance-test-modal-modal-content">
 					<div class="wphb-progress">
 						<div class="wphb-progress-bar wphb-progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100" style="width:100%;">

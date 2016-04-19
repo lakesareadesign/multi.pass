@@ -253,9 +253,14 @@ if ( ! class_exists( 'WpSmushNextGen' ) ) {
 
 				if ( ! empty( $existing_stats ) ) {
 					$e_size_before = !empty( $existing_stats['stats']['size_before'] ) ? $existing_stats['stats']['size_before'] : '';
+					$e_size_after = isset( $existing_stats['stats']['size_after'] ) ? $existing_stats['stats']['size_after'] : '';
 
 					//Store Original size before
 					$stats['stats']['size_before'] = ( !empty($e_size_before ) && $e_size_before > $stats['stats']['size_before'] ) ? $e_size_before : $stats['stats']['size_before'];
+
+					if ( $size_after == 0 || empty( $stats['stats']['size_after'] ) || $stats['stats']['size_after'] == $stats['stats']['size_before'] ) {
+						$stats['stats']['size_after'] = $e_size_after < $stats['stats']['size_before'] ? $e_size_after : $stats['stats']['size_before'];
+					}
 
 					//Update total bytes saved, and compression percent
 					$stats['stats']['bytes']   = isset( $existing_stats['stats']['bytes'] ) ? $existing_stats['stats']['bytes'] + $stats['stats']['bytes'] : $stats['stats']['bytes'];
@@ -331,7 +336,7 @@ if ( ! class_exists( 'WpSmushNextGen' ) ) {
 			$metadata = ! empty( $image ) ? $image->meta_data : '';
 
 			if ( empty( $metadata ) ) {
-				wp_send_json_error( array( 'error_msg' => esc_html__( "We couldn't find the metadata for the image, possibly the image has been deleted.", "wp-smushit" ) ) );
+				wp_send_json_error( array( 'error_msg' => '<p class="wp-smush-error-message">' . esc_html__( "We couldn't find the metadata for the image, possibly the image has been deleted.", "wp-smushit" ) . '</p>' ) );
 			}
 
 			//smush the main image and its sizes

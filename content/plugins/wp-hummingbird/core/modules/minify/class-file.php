@@ -23,7 +23,7 @@ class WP_Hummingbird_Cache_File {
 
 	public static function get_base_url() {
 		$upload_dir = wp_upload_dir();
-		$url = preg_replace( '/^https?:/', '', $upload_dir['baseurl'] );
+		$url = set_url_scheme( $upload_dir['baseurl'] );
 		return apply_filters( 'wphb_cache_url', $url . '/wp-hummingbird-cache/' );
 	}
 
