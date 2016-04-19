@@ -5629,6 +5629,7 @@
 				lightboxId    = $(this).closest('.fl-lightbox-wrap').attr('data-instance-id'),
 				type          = form.attr('data-type'),
 				settings      = FLBuilder._getSettings(form),
+				oldSettings   = {},
 				helper        = FLBuilder._moduleHelpers[type],
 				link          = $('.fl-builder-settings #fl-' + lightboxId),
 				preview       = link.parent().attr('data-preview-text'),
@@ -5663,6 +5664,12 @@
 					}
 				
 					link.siblings('.fl-form-field-preview-text').html(previewText);
+				}
+				
+				oldSettings = link.siblings('input').val().replace(/&#39;/g, "'");
+				
+				if ( '' != oldSettings ) {
+					settings = $.extend( JSON.parse( oldSettings ), settings );
 				}
 				
 				link.siblings('input').val(JSON.stringify(settings)).trigger('change');

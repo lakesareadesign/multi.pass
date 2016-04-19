@@ -35,6 +35,15 @@ final class FLUpdater {
 	private $settings = array();
 
 	/**
+	 * Whether a force check was already done or not.
+	 *
+	 * @since 1.7.7
+	 * @access private
+	 * @var bool $did_force_check
+	 */
+	private $did_force_check = false;
+
+	/**
 	 * Updater constructor method.
 	 *
 	 * @since 1.0
@@ -56,51 +65,87 @@ final class FLUpdater {
 	}
 
 	/**
+	 * Get the update data response from the API.
+	 *
+	 * @since 1.7.7
+	 * @return object
+	 */
+	public function get_response()
+	{
+		$transient_key = $this->settings['slug'] . '-update-response';
+		$response      = get_transient( $transient_key );
+		
+		if ( false === $response || isset( $response->error ) || ( isset( $_GET['force-check'] ) && ! $this->did_force_check ) ) {
+			
+			$this->did_force_check = true;
+			
+			$response = FLUpdater::api_request( self::$_updates_api_url, array(
+				'fl-api-method' => 'update_info',
+				'license'       => FLUpdater::get_subscription_license(),
+				'domain'        => network_home_url(),
+				'product'       => $this->settings['name'],
+				'slug'          => $this->settings['slug'],
+				'version'       => $this->settings['version']
+			) );
+			
+			set_transient( $transient_key, $response, strtotime( '+12 hours' ) );
+		}
+		
+		return $response;
+	}
+
+	/**
 	 * Checks to see if an update is available for the current product.
 	 *
 	 * @since 1.0
 	 * @param object $transient A WordPress transient object with update data.
 	 * @return object
 	 */
-	public function update_check($transient)
+	public function update_check( $transient )
 	{
-		if(empty($transient->checked)) {
+		global $pagenow;
+		
+		if( 'plugins.php' == $pagenow && is_multisite() ) {
 			return $transient;
 		}
-
-		$response = FLUpdater::api_request(self::$_updates_api_url, array(
-			'fl-api-method' => 'update_check',
-			'license'       => FLUpdater::get_subscription_license(),
-			'domain'        => network_home_url(),
-			'product'       => $this->settings['name'],
-			'slug'          => $this->settings['slug'],
-			'version'       => $this->settings['version']
-		));
+		if ( ! is_object( $transient ) ) {
+			$transient = new stdClass();
+		}
+		if ( ! isset( $transient->checked ) ) {
+			$transient->checked = array();
+		}
+		
+		$response = $this->get_response();
 
 		if( ! isset( $response->error ) ) {
+			
+			$transient->last_checked = time();
+			$transient->checked[ $this->settings['slug'] ] = $this->settings['version'];
 
 			if($this->settings['type'] == 'plugin') {
 
-				$plugin   = self::get_plugin_file($this->settings['slug']);
-				$new_ver  = $response->new_version;
-				$curr_ver = $this->settings['version'];
+				$plugin = self::get_plugin_file($this->settings['slug']);
 				
-				if ( empty( $response->package ) ) {
-					$response->upgrade_notice = FLUpdater::get_update_error_message();
-				}
-				if(version_compare($new_ver, $curr_ver, '>')) {
-					$transient->response[$plugin] = $response;
+				if ( version_compare( $response->new_version, $this->settings['version'], '>' ) ) {
+					
+					$transient->response[ $plugin ] 				= new stdClass();
+					$transient->response[ $plugin ]->slug 			= $response->slug;
+					$transient->response[ $plugin ]->new_version 	= $response->new_version;
+					$transient->response[ $plugin ]->url 			= $response->homepage;
+					$transient->response[ $plugin ]->package 		= $response->package;
+					
+					if ( empty( $response->package ) ) {
+						$transient->response[ $plugin ]->upgrade_notice = FLUpdater::get_update_error_message();
+					}
 				}
 			}
 			else if($this->settings['type'] == 'theme') {
 
-				$new_ver  = $response->new_version;
-				$curr_ver = $this->settings['version'];
-
-				if(version_compare($new_ver, $curr_ver, '>')) {
+				if(version_compare($response->new_version, $this->settings['version'], '>')) {
+					
 					$transient->response[$this->settings['slug']] = array(
 						'new_version'   => $response->new_version,
-						'url'           => $response->url,
+						'url'           => $response->homepage,
 						'package'       => $response->package
 					);
 				}
@@ -108,6 +153,47 @@ final class FLUpdater {
 		}
 
 		return $transient;
+	}
+
+	/**
+	 * Retrives the data for the plugin info lightbox.
+	 *
+	 * @since 1.0
+	 * @param bool $false
+	 * @param string $action
+	 * @param object $args
+	 * @return object|bool
+	 */
+	public function plugin_info($false, $action, $args)
+	{
+		if ( 'plugin_information' != $action ) {
+			return $false;
+		}
+		if(!isset($args->slug) || $args->slug != $this->settings['slug']) {
+			return $false;
+		}
+
+		$response = $this->get_response();
+
+		if( ! isset( $response->error ) ) {
+			
+			$info 					= new stdClass();
+			$info->name     		= $this->settings['name'];
+			$info->version			= $response->new_version;
+			$info->slug				= $response->slug;
+			$info->plugin_name		= $response->plugin_name;
+			$info->author			= $response->author;
+			$info->homepage			= $response->homepage;
+			$info->requires			= $response->requires;
+			$info->tested			= $response->tested;
+			$info->last_updated		= $response->last_updated;
+			$info->download_link	= $response->package;
+			$info->sections 		= (array)$response->sections;
+			
+			return $info;
+		}
+
+		return $false;
 	}
 
 	/**
@@ -124,39 +210,6 @@ final class FLUpdater {
 		if ( empty( $response->package ) ) {
 			echo FLUpdater::get_update_error_message( $plugin_data );
 		}
-	}
-
-	/**
-	 * Retrives the data for the plugin info lightbox.
-	 *
-	 * @since 1.0
-	 * @param bool $false
-	 * @param string $action
-	 * @param object $args
-	 * @return object|bool
-	 */
-	public function plugin_info($false, $action, $args)
-	{
-		if(!isset($args->slug) || $args->slug != $this->settings['slug']) {
-			return $false;
-		}
-
-		$response = FLUpdater::api_request(self::$_updates_api_url, array(
-			'fl-api-method' => 'plugin_info',
-			'license'       => FLUpdater::get_subscription_license(),
-			'domain'        => network_home_url(),
-			'product'       => $this->settings['name'],
-			'slug'          => $this->settings['slug'],
-			'version'       => $this->settings['version']
-		));
-
-		if( ! isset( $response->error ) ) {
-			$response->name     = $this->settings['name'];
-			$response->sections = (array)$response->sections;
-			return $response;
-		}
-
-		return $false;
 	}
 
 	/**

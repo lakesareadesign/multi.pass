@@ -23,6 +23,18 @@ class FLPostSliderModule extends FLBuilderModule {
 	}
 
 	/**
+	 * Remove pagination parameters
+	 *
+	 * @param array $query_args 	Generated query args to override
+	 * @return array 				Updated query args
+	 */
+	public function remove_pagination_args($query_args){
+		$query_args['paged'] = 0;
+		$query_args['offset'] = 0;
+		return $query_args;
+	}
+	
+	/**
 	 * Full attachment image url.
 	 *
 	 * Gets a post ID and returns the url for the 'full' size of the attachment
@@ -365,15 +377,6 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						'size'          => '5',
 						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' )
 					),
-					'transition'     => array(
-						'type'          => 'select',
-						'label'         => __('Transition', 'fl-builder'),
-						'default'       => 'horizontal',
-						'options'       => array(
-							'fade'              => __('Fade', 'fl-builder'),
-							'horizontal'   		=> __('Slide', 'fl-builder'),
-						)
-					),
 					'slider_loop'     => array(
 						'type'          => 'select',
 						'label'         => __('Loop', 'fl-builder'),
@@ -381,6 +384,15 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						'options'       => array(
 							'false'            	=> __('No', 'fl-builder'),
 							'true'				=> __('Yes', 'fl-builder'),
+						)
+					),
+					'transition'     => array(
+						'type'          => 'select',
+						'label'         => __('Transition', 'fl-builder'),
+						'default'       => 'horizontal',
+						'options'       => array(
+							'fade'              => __('Fade', 'fl-builder'),
+							'horizontal'   		=> __('Slide', 'fl-builder'),
 						)
 					),
 					'transitionDuration' => array(

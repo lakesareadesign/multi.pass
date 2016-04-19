@@ -1,8 +1,14 @@
 <?php
 
+// Do the removal of paged & offset parameters
+add_filter('fl_builder_loop_query_args', array($module, 'remove_pagination_args'), 10 );
+
 // Get the query data.
 $query  = FLBuilderLoop::query( $settings );
 $layout = isset( $settings->layout ) ? $settings->layout : 'grid';
+
+// Remove filter to prevent breaking other modules
+remove_filter('fl_builder_loop_query_args', array($module, 'remove_pagination_args'), 10);
 
 // Render the posts.
 if( $query->have_posts() ) :

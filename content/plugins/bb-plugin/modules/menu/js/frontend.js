@@ -140,22 +140,7 @@
 					}
 
 				} );
-
-			} else {
-				$li.each( function( el ){
-
-					if( !$(this).hasClass('fl-active') ){
-						$(this).find( '.sub-menu' ).fadeIn();
-					}
-
-				} );
-
-				if( this.type == 'accordion' ){
-					this.$submenus.slideUp();
-				}
-
 			}
-			
 		},
 
 		/**

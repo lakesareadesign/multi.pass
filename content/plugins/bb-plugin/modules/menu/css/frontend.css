@@ -28,6 +28,7 @@
 	text-decoration: none;
 }
 .fl-menu .sub-menu{ 
+	text-align: left;
 	min-width: 240px;
 }
 

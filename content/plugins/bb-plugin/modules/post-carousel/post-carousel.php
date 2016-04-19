@@ -22,6 +22,18 @@ class FLPostCarouselModule extends FLBuilderModule {
 		$this->add_js('jquery-bxslider');
 	}
 
+	/**
+	 * Remove pagination parameters
+	 *
+	 * @param array $query_args 	Generated query args to override
+	 * @return array 				Updated query args
+	 */
+	public function remove_pagination_args($query_args){
+		$query_args['paged'] = 0;
+		$query_args['offset'] = 0;
+		return $query_args;
+	}
+
 
 	/**
 	 * Full attachment image url.

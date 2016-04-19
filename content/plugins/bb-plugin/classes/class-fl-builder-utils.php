@@ -52,16 +52,29 @@ final class FLBuilderUtils {
 	static public function snippetwop($text, $length = 64, $tail = "...")
 	{
 		$text = trim($text);
-		$txtl = strlen($text);
+		$txtl = function_exists('mb_strlen') ? mb_strlen($text) : strlen($text);
 
 		if($txtl > $length) {
+			
 			for($i=1;$text[$length-$i]!=" ";$i++) {
+				
 				if($i == $length) {
+					
+					if(function_exists('mb_substr')) {
+						return mb_substr($text,0,$length) . $tail;
+					}
+					
 					return substr($text,0,$length) . $tail;
 				}
 			}
+			
 			for(;$text[$length-$i]=="," || $text[$length-$i]=="." || $text[$length-$i]==" ";$i++) {;}
-			$text = substr($text,0,$length-$i+1) . $tail;
+			
+			if(function_exists('mb_substr')) {
+				return mb_substr($text,0,$length-$i+1) . $tail;
+			}
+			
+			return substr($text,0,$length-$i+1) . $tail;
 		}
 		
 		return $text;

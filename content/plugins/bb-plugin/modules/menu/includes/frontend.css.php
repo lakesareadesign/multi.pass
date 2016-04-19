@@ -189,9 +189,16 @@
 			}
 		}
 	<?php endif; ?>
+	
+	@media ( max-width: <?php echo $global_settings->responsive_breakpoint ?>px ) {
+		
+		.fl-node-<?php echo $id; ?> .fl-menu {
+			text-align: left;
+		}
+	}
 
 	@media ( min-width: <?php echo $global_settings->responsive_breakpoint ?>px ) {
-
+		
 		<?php // if menu is horizontal ?>
 		<?php if( $settings->menu_layout == 'horizontal' ) : ?>
 			.fl-node-<?php echo $id; ?> .menu > li{ float: left; }
@@ -252,11 +259,8 @@
 		<?php // if menu is horizontal or vertical ?>
 		<?php if( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) ) : ?>
 
-			.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu .sub-menu{
-				display: block;
-			}
-
 			.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu:hover > .sub-menu{
+				display: block;
 				visibility: visible;
 				opacity: 1;
 			}
@@ -369,6 +373,7 @@
 		}
 
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu:hover > .sub-menu{
+			display: block;
 			visibility: visible;
 			opacity: 1;
 		}

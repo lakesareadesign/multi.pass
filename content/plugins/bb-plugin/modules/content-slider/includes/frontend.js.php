@@ -11,6 +11,7 @@
 			mode: '<?php echo $settings->transition; ?>',
 			speed: <?php echo $settings->speed * 1000; ?>,
 			controls: false,
+			infiniteLoop: <?php echo $settings->loop; ?>,
 			pager: <?php if($settings->dots) echo 'true'; else echo 'false'; ?>,
 			video: true,
 			onSliderLoad: function() { 

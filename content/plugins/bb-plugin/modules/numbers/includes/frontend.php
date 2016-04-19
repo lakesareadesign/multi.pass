@@ -3,17 +3,13 @@
 	<div class="fl-number-circle-container">	
 		<div class="fl-number-text">
 			<?php if( !empty( $settings->before_number_text ) ) : ?>
-				<span class="fl-number-before-text">
-					<?php echo esc_html( $settings->before_number_text ) ?>
-				</span>
+				<span class="fl-number-before-text"><?php echo $settings->before_number_text; ?></span>
 			<?php endif; ?>
 
 			<?php $module->render_number(); ?>
 
 			<?php if( !empty( $settings->after_number_text ) ) : ?>
-				<span class="fl-number-after-text">
-					<?php echo esc_html( $settings->after_number_text ) ?>
-				</span>
+				<span class="fl-number-after-text"><?php echo $settings->after_number_text; ?></span>
 			<?php endif; ?>		
 		</div>
 		<?php $module->render_circle_bar(); ?>
@@ -21,9 +17,7 @@
 <?php elseif( $settings->layout == 'bars' ) : ?>
 	<div class="fl-number-text fl-number-position-<?php echo esc_attr( $settings->number_position );?>">
 		<?php if( !empty( $settings->before_number_text ) ) : ?>
-			<span class="fl-number-before-text">
-				<?php echo esc_html( $settings->before_number_text ) ?>
-			</span>
+			<span class="fl-number-before-text"><?php echo $settings->before_number_text; ?></span>
 		<?php endif; ?>
 	
 		<?php
@@ -57,26 +51,20 @@
 		<?php endif; ?>
 
 		<?php if( !empty( $settings->after_number_text ) ) : ?>
-			<span class="fl-number-after-text">
-				<?php echo esc_html( $settings->after_number_text ) ?>
-			</span>
+			<span class="fl-number-after-text"><?php echo $settings->after_number_text; ?></span>
 		<?php endif; ?>
 
 	</div>
 <?php else : ?>
 	<div class="fl-number-text">
 		<?php if( !empty( $settings->before_number_text ) ) : ?>
-			<span class="fl-number-before-text">
-				<?php echo esc_html( $settings->before_number_text ) ?>
-			</span>
+			<span class="fl-number-before-text"><?php echo $settings->before_number_text; ?></span>
 		<?php endif; ?>
 
 		<?php $module->render_number(); ?>
 
 		<?php if( !empty( $settings->after_number_text ) ) : ?>
-			<span class="fl-number-after-text">
-				<?php echo esc_html( $settings->after_number_text ) ?>
-			</span>
+			<span class="fl-number-after-text"><?php echo $settings->after_number_text; ?></span>
 		<?php endif; ?>		
 	</div>
 <?php endif; ?>

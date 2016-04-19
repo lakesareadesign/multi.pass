@@ -1,3 +1,15 @@
+/**
+ * Temporary fix! Should be removed when fixed in WordPress core.
+ *
+ * The jQuery update in WordPress 4.5 breaks the media library 
+ * when border-collapse is set to 'collapse' for the table element.
+ * This is a temporary fix until fixed in core. See this ticket:
+ * https://core.trac.wordpress.org/ticket/36533
+ */
+table {
+  border-collapse: inherit !important;
+}
+
 /* General
 ------------------------------------------------------ */
 

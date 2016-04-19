@@ -821,8 +821,14 @@ final class FLBuilder {
 				echo '<script>jQuery("head").prepend("' . str_replace( '"', "'", $styles ) . '");</script>';
 			}
 			
+			// Backup the main query in case it is overwritten in the_content().
+			$backup_query = $wp_query;
+			
 			// Render the content.
 			the_content();
+			
+			// Restore the main query in case it was overwritten.
+			$wp_query = $backup_query;
 		}
 		
 		// Reset the post_id if we have one in $post_data.

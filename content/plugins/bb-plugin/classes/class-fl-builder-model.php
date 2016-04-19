@@ -4744,6 +4744,9 @@ final class FLBuilderModel {
 			$filesystem->rmdir( $upload_dir['path'], true );
 
 			// Deactivate and delete the plugin.
+			if (!function_exists('deactivate_plugins')) {
+				require_once(ABSPATH . 'wp-admin/includes/plugin.php');	
+			}
 			deactivate_plugins(array(self::plugin_basename()), false, is_network_admin());
 			delete_plugins(array(self::plugin_basename()));
 

@@ -195,7 +195,7 @@ final class FLBuilderLoop {
 			$data[$tax_slug] = $tax;
 		}
 		
-		return $data;
+		return apply_filters( 'fl_builder_loop_taxonomies', $data, $taxonomies, $post_type );
 	}
 
 	/**

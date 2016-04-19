@@ -343,7 +343,7 @@
 		 */
 		_uninstallFormSubmit: function()
 		{
-			var result = prompt(FLBuilderAdminSettingsStrings.uninstall, '');
+			var result = prompt(FLBuilderAdminSettingsStrings.uninstall.replace(/&quot;/g, '"'), '');
 			
 			if(result == 'uninstall') {
 				return true;

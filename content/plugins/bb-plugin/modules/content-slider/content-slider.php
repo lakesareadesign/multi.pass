@@ -246,15 +246,6 @@ FLBuilder::register_module('FLContentSliderModule', array(
 							)
 						)
 					),
-					'play_pause'    => array(
-						'type'          => 'select',
-						'label'         => __('Show Play/Pause', 'fl-builder'),
-						'default'       => '0',
-						'options'       => array(
-							'0'             => __('No', 'fl-builder'),
-							'1'             => __('Yes', 'fl-builder')
-						)
-					),
 					'delay'         => array(
 						'type'          => 'text',
 						'label'         => __('Delay', 'fl-builder'),
@@ -262,6 +253,15 @@ FLBuilder::register_module('FLContentSliderModule', array(
 						'maxlength'     => '4',
 						'size'          => '5',
 						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' )
+					),
+					'loop'          => array(
+						'type'          => 'select',
+						'label'         => __('Loop', 'fl-builder'),
+						'default'       => 'true',
+						'options'       => array(
+							'false'            	=> __('No', 'fl-builder'),
+							'true'				=> __('Yes', 'fl-builder'),
+						)
 					),
 					'transition'    => array(
 						'type'          => 'select',
@@ -279,6 +279,15 @@ FLBuilder::register_module('FLContentSliderModule', array(
 						'maxlength'     => '4',
 						'size'          => '5',
 						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' )
+					),
+					'play_pause'    => array(
+						'type'          => 'select',
+						'label'         => __('Show Play/Pause', 'fl-builder'),
+						'default'       => '0',
+						'options'       => array(
+							'0'             => __('No', 'fl-builder'),
+							'1'             => __('Yes', 'fl-builder')
+						)
 					),
 					'arrows'       => array(
 						'type'          => 'select',

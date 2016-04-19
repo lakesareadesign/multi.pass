@@ -1,3 +1,23 @@
+<h4>1.7.7 - 04/19/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added support for HTML in the Number Counter module.</li>
+	<li>Added a loop setting to the Content Slider module to toggle looping so sliders with a single slide can't be swiped on mobile.</li>
+	<li>Added fl_builder_loop_taxonomies filter.</li>
+	<li>Upgrade links in the lite version now open in a new window.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a bug with Japanese characters breaking nested forms.</li>
+	<li>Fixed a PHP warning caused by font fields.</li>
+	<li>Fixed a backwards compatibility issue with the Tesseract theme caused in the 1.7.6 update.</li>
+	<li>Fixed a fatal error when uninstalling via Settings > Page Builder > Uninstall.</li>
+	<li>Fixed a bug in the Post Carousel and Post Slider modules preventing slides from showing when pagination parameters are present.</li>
+	<li>Fixed a bug in the Menu module causing the page to scroll horizontally.</li>
+	<li>Fixed a bug with images in templates disappearing in nested forms when no image is selected.</li>
+	<li>Fixed a bug with the media library not working in certain themes in WordPress 4.5.</li>
+</ul>
+
 <h4>1.7.6 - 03/29/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>
