@@ -177,7 +177,7 @@ class WMD_PrettyThemes_Functions {
 			else
 				$this->options['theme'] = 'standard/quick-sand';
 
-			$standard_options = array('themes_link_label' => 'strip_tags', 'themes_page_title' => 'strip_tags', 'themes_page_description' => '', 'themes_auto_screenshots' => '', 'setup_mode' => '', 'themes_hide_descriptions' => '', 'themes_auto_screenshots_by_name' => '', 'author_link_target' => '', 'custom_link_target' => '');					    		  	 	    
+			$standard_options = array('themes_link_label' => 'strip_tags', 'themes_page_title' => 'strip_tags', 'themes_page_description' => '', 'themes_auto_screenshots' => '', 'setup_mode' => '', 'themes_hide_descriptions' => '', 'themes_auto_screenshots_by_name' => '', 'author_link_target' => '', 'custom_link_target' => '');
 			foreach ($standard_options as $option => $action) {
 				if(isset($input[$option])) {
 					if($action == 'strip_tags')

@@ -3,8 +3,8 @@ Contributors: brandbrilliance
 Donate link: http://j.mp/1QvdGgX
 Tags: wp-admin, admin, post state, color, post colours, list, highlight
 Requires at least: 3.8
-Tested up to: 4.4
-Stable tag: trunk
+Tested up to: 4.5
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,8 @@ Highlights the left border color and background color and reformats the post sta
 * Both these changes make it super easy to spot the various types of post statuses in the admin view
 * Supports all Wordpress Post status values: Published, Future, Draft, Pending, Private, Protected, Sticky (tag only)
 * Support for custom post statuses like Archived via [Archive Post Status](http://wordpress.org/plugins/archived-post-status/) plugin  
-* Supports the 4.2 status of the Front Page and Posts Page (blog page) to easily spot those pages
+* Supports the 4.2 status of the Front Page and Posts Page (blog page) to easily spot those posts/pages
+* Supports the 4.3 tags of Scheduled Posts to see upcoming posts/pages
 * Define custom colors using the color picker in the Admin Settings screen
 * Define custom dash icons using the dashicons picker in the Admin Settings screen
 * Enable/disable view in Admin Settings screen
@@ -35,7 +36,7 @@ Highlights the left border color and background color and reformats the post sta
 
 * Icons appear inside the tag, if enabled.
 * Published status: color, no tag.
-* Scheduled status: color, no tag
+* Scheduled status: color, with tag* (*from Wordpress 4.3)
 * Protected status: overrides color, but still adds tag (multiple tags support)
 * Sticky status: tag only (multiple tags support).
 * Front Page, Blog Posts: tag only (Wordpress 4.2 feature)
@@ -106,10 +107,13 @@ add_filter( 'bb_pst_lightvalue', 'my_lightvalue', 10, 2 );
 == Changelog ==
 
 = 1.1.3 =
+* Flag as compatible with Wordpress 4.5
+
+= 1.1.3 =
 * Small style fixes in the way Wordpress 4.4 displays settings
 
 = 1.1.2 =
-* Added corrected support for new inline scheduled post status
+* Added corrected support for new inline scheduled post status, since WP 4.3
 
 = 1.1.1 =
 * Added filter for background color light value, with example code in FAQ
