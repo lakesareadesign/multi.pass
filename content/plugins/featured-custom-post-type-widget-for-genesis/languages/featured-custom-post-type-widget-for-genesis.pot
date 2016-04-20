@@ -1,0 +1,244 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Featured Custom Post Type Widget for Genesis 2.0.0\n"
+"POT-Creation-Date: 2015-04-14 18:31-0500\n"
+"PO-Revision-Date: 2015-04-14 18:31-0500\n"
+"Last-Translator: Robin Cornett Creative, LLC <hello@robincornett.com>\n"
+"Language-Team: Robin Cornett <hello@robincornett.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: featured-custom-post-type-widget.php:42
+msgid ""
+"<strong>Featured Custom Post Type Widget For Genesis</strong> works only "
+"with the Genesis Framework. It has been <strong>deactivated</strong>."
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:54
+msgid "By"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:57
+msgid "[Read More...]"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:61
+msgid "More Posts from this Category"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:63
+msgid "View Custom Post Type Archive"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:68
+msgid "Displays featured custom post types with thumbnails"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:77
+msgid "Featured Custom Post Types for Genesis"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:343
+#: includes/class-featured-custom-post-type-widget-registrations.php:532
+msgid "Title:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:352
+msgid "Post Type:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:356
+#: includes/class-featured-custom-post-type-widget-registrations.php:370
+msgid "any"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:366
+msgid "Category/Term:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:382
+#: includes/class-featured-custom-post-type-widget-registrations.php:537
+msgid "Number of Posts to Show:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:387
+msgid "Number of Posts to Offset:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:392
+msgid "Order By:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:394
+msgid "Date"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:395
+msgid "Title"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:396
+msgid "Parent"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:397
+msgid "ID"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:398
+msgid "Comment Count"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:399
+msgid "Random"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:404
+msgid "Sort Order:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:406
+msgid "Descending (3, 2, 1)"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:407
+msgid "Ascending (1, 2, 3)"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:413
+msgid "Exclude Previously Displayed Posts?"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:417
+msgid "Number of Columns:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:433
+msgid "Show Author Gravatar"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:437
+msgid "Gravatar Size:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:439
+msgid "Small (45px)"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:440
+msgid "Medium (65px)"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:441
+msgid "Large (85px)"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:442
+msgid "Extra Large (125px)"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:447
+msgid "Gravatar Alignment:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:449
+#: includes/class-featured-custom-post-type-widget-registrations.php:479
+msgid "None"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:450
+#: includes/class-featured-custom-post-type-widget-registrations.php:480
+msgid "Left"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:451
+#: includes/class-featured-custom-post-type-widget-registrations.php:481
+msgid "Right"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:452
+#: includes/class-featured-custom-post-type-widget-registrations.php:482
+msgid "Center"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:462
+msgid "Show Featured Image"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:466
+msgid "Image Size:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:477
+msgid "Image Alignment:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:496
+msgid "Show Post Title"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:501
+msgid "Show Post Info"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:506
+msgid "Content Type:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:508
+msgid "Show Content"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:509
+msgid "Show Excerpt"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:510
+msgid "Show Content Limit"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:511
+msgid "No Content"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:514
+msgid "Limit content to"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:516
+msgid "characters"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:521
+msgid "More Text (if applicable):"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:529
+msgid ""
+"To display an unordered list of more posts from this category, please fill "
+"out the information below"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:547
+msgid "Show Category Archive Link"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:551
+#: includes/class-featured-custom-post-type-widget-registrations.php:560
+msgid "Link Text:"
+msgstr ""
+
+#: includes/class-featured-custom-post-type-widget-registrations.php:557
+msgid "Show Archive Link"
+msgstr ""
