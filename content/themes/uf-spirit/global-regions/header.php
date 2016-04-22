@@ -463,7 +463,7 @@ $region_381308->add_element("Code", array (
  .facebook:before {
  background-position: -63px -383px;
 }
- .facebook:hover:before,  .facebook.dark { background-position: -223px -383px;
+ .facebook:hover:before,  .facebook.dark { background-position: -223px -383px;	     	 		 		  		  	 
 }
  .twitter:before {
  background-position: -63px -543px;

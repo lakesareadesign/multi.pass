@@ -134,9 +134,9 @@
     font-size: 18px;
     vertical-align: bottom;
 }
- .widget.widget_calendar table thead > tr:first-child > td,  .widget.widget_calendar table thead > tr:first-child > th,  .widget.widget_calendar table thead > tr:first-child > td,  .widget.widget_calendar table thead > tr:first-child > th,  .widget.widget_calendar table > thead:first-child > tr:first-child > td,  .widget.widget_calendar table > thead:first-child > tr:first-child > th {
+ .widget.widget_calendar table thead > tr:first-child > td,  .widget.widget_calendar table thead > tr:first-child > th,  .widget.widget_calendar table thead > tr:first-child > td,  .widget.widget_calendar table thead > tr:first-child > th,  .widget.widget_calendar table > thead:first-child > tr:first-child > td,  .widget.widget_calendar table > thead:first-child > tr:first-child > th {	   	 	  	    			    
     border-top: 0;
 }
 
 
-/* 133620-1458758056-au */
+/* 133620-1461299000-au */

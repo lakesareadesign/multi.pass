@@ -51,6 +51,7 @@ $jacket_slider = upfront_create_region(
     0 => 'images/slider-jacket.jpg',
     1 => 'images/bg-wedding.jpg',
   ),
+  'version' => '1.0.0',
 )
 			);
 
@@ -173,6 +174,7 @@ $jacket_content->add_element("PlainTxt", array (
     'top_padding_slider' => '70',
     'padding_slider' => '10',
     'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -319,6 +321,7 @@ $jacket_content->add_element("PlainTxt", array (
     'bottom_padding_slider' => '30',
     'padding_slider' => '10',
     'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -464,7 +467,7 @@ $jacket_content->add_element("PlainTxt", array (
     'is_edited' => true,
     'row' => 173,
     'padding_slider' => '10',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -474,12 +477,12 @@ $jacket_content->add_element("PlainTxt", array (
     'breakpoint' =>
     (array)(array(
        'tablet' =>
-      (array)(array(
-      )),
+      array (
+      ),
        'current_property' => 'lock_padding',
        'mobile' =>
-      (array)(array(
-      )),
+      array (
+      ),
     )),
     'theme_style' => '',
     'breakpoint_presets' =>

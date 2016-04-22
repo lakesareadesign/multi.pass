@@ -47,6 +47,7 @@ $news_title = upfront_create_region(
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-page-news/bg-news.jpg',
   'background_image_ratio' => 0.1499999999999999944488848768742172978818416595458984375,
+  'version' => '1.0.0',
 )
 			);
 
@@ -79,6 +80,7 @@ $news_title->add_element("PlainTxt", array (
     'row' => 30,
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -93,14 +95,14 @@ $news_title->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
   ),
@@ -170,6 +172,7 @@ $news_content = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/single-page-news/noise.jpg',
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
+  'version' => '1.0.0',
 )
 			);
 
@@ -276,6 +279,7 @@ $news_content->add_element("Posts", array (
     'content_length' => '54',
     'resize_featured' => '1',
     'gravatar_size' => 200,
+    'preset' => 'default',
     'post-part-date_posted' => '<div class="uposts-part date_posted">
     <span class="date">{{date_1}}</span> <span class="time">{{date_2}}</span>, <span class="time">{{date_3}}</span></div>',
     'post-part-author' => '<div class="uposts-part author">&nbsp;<span>•</span> by <a href="{{url}}">{{name}}</a></div>',
@@ -318,7 +322,6 @@ $news_content->add_element("Posts", array (
     'row' => 328,
     'top_padding_use' => 'yes',
     'top_padding_slider' => '50',
-    'preset' => 'default',
     'theme_style' => '',
     'breakpoint_presets' =>
     (array)(array(
@@ -344,14 +347,14 @@ $news_content->add_element("Posts", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
   ),

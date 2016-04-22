@@ -63,6 +63,4 @@ class Panino_trial extends Upfront_ChildTheme {
 
 Panino_trial::serve();
 
-
-
 if (file_exists(dirname(__FILE__) . '/compat/compat.php')) require_once(dirname(__FILE__) . '/compat/compat.php');

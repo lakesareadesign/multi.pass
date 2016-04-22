@@ -220,14 +220,14 @@ $main_area->add_element("PostData", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'current_property' =>
@@ -469,14 +469,14 @@ $main_area->add_element("PostData", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'current_property' =>
@@ -1034,14 +1034,14 @@ $main_area->add_element("PostData", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'current_property' =>
@@ -1296,14 +1296,14 @@ $main_area->add_element("PostData", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
     'current_property' =>
@@ -2075,14 +2075,14 @@ $main_area->add_element("PostData", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 4,
+      'order' => 5,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 4,
+      'order' => 5,
       'clear' => true,
     ),
     'current_property' =>

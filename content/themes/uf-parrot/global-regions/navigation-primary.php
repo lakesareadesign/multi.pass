@@ -1,5 +1,5 @@
 <?php
-$navigation_primary_container = ( !empty($region_container) ? $region_container : "index-header" );
+$navigation_primary_container = ( !empty($region_container) ? $region_container : "header-download" );
 $navigation_primary_sub = ( !empty($region_sub) ? $region_sub: "left" );
 
 /* START_REGION_OUTPUT */
@@ -130,6 +130,7 @@ $navigation_primary->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -424,13 +425,13 @@ $navigation_primary->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 9,
+         'menu-item-db-id' => 1714,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Home',
          'menu-item-url' => '{{upfront:home_url}}',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '9',
+         'menu-item-object-id' => '1714',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -442,13 +443,13 @@ $navigation_primary->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 10,
+         'menu-item-db-id' => 1715,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Features',
          'menu-item-url' => '{{upfront:home_url}}/features/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '10',
+         'menu-item-object-id' => '1715',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -460,13 +461,13 @@ $navigation_primary->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 11,
+         'menu-item-db-id' => 1716,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Download',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '11',
+         'menu-item-object-id' => '1716',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -478,13 +479,13 @@ $navigation_primary->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 12,
+         'menu-item-db-id' => 1717,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact Us',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '12',
+         'menu-item-object-id' => '1717',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -496,13 +497,13 @@ $navigation_primary->add_element("Unewnavigation", array (
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 13,
+         'menu-item-db-id' => 1718,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '13',
+         'menu-item-object-id' => '1718',
          'menu-item-target' => '',
          'menu-item-position' => 5,
          'link' =>
@@ -514,13 +515,13 @@ $navigation_primary->add_element("Unewnavigation", array (
       )),
       5 =>
       (array)(array(
-         'menu-item-db-id' => 14,
+         'menu-item-db-id' => 1719,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '14',
+         'menu-item-object-id' => '1719',
          'menu-item-target' => '',
          'menu-item-position' => 6,
          'link' =>
@@ -568,6 +569,7 @@ $navigation_primary->add_element("Unewnavigation", array (
          'is_floating' => 'no',
          'top_padding_use' => true,
          'top_padding_num' => 30,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
@@ -582,7 +584,7 @@ $navigation_primary->add_element("Unewnavigation", array (
          'top_padding_use' => true,
          'top_padding_num' => 20,
       )),
-       'current_property' => 'lock_padding',
+       'current_property' => 'use_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'parrot-main-nav',

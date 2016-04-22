@@ -79,7 +79,7 @@ $luke_and_sara->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => false,
@@ -191,6 +191,7 @@ $luke_and_sara->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -512,6 +513,7 @@ $luke_and_sara->add_element("PlainTxt", array (
     'bottom_padding_slider' => '30',
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -744,6 +746,7 @@ $luke_and_sara->add_element("PlainTxt", array (
     'top_padding_slider' => '0',
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -880,7 +883,7 @@ $luke_and_sara->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => false,
@@ -994,6 +997,7 @@ $luke_and_sara->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1166,6 +1170,7 @@ $luke_and_sara->add_element("PlainTxt", array (
     'bottom_padding_slider' => '20',
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1368,6 +1373,7 @@ $luke_and_sara->add_element("PlainTxt", array (
     'bottom_padding_slider' => '30',
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1668,6 +1674,7 @@ $luke_and_sara->add_element("PlainTxt", array (
     'bottom_padding_slider' => '0',
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2056,6 +2063,7 @@ $testimonials_area->add_element("Code", array (
 }
 #active label:hover {
     border-color: #007051;
+    cursor: pointer;
 }
 #active label img {
     width: 100%;
@@ -2164,6 +2172,7 @@ $testimonials_area->add_element("Code", array (
     'script' => '/* Your code here */',
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2177,14 +2186,14 @@ $testimonials_area->add_element("Code", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
   ),
@@ -2354,6 +2363,7 @@ $our_studio_area->add_group(array (
   'bottom_padding_use' => 'yes',
   'bottom_padding_slider' => '90',
   'row' => 48,
+  'use_padding' => 'yes',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2466,6 +2476,7 @@ $our_studio_area->add_element("PlainTxt", array (
     'bottom_padding_slider' => '0',
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2711,6 +2722,7 @@ $our_studio_area->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',

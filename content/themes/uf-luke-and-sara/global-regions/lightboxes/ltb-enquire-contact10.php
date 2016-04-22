@@ -77,6 +77,7 @@ $ltb_enquire_contact10->add_element("PlainTxt", array (
          'row' => 11,
       )),
     )),
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -84,7 +85,6 @@ $ltb_enquire_contact10->add_element("PlainTxt", array (
   'hide' => 0,
   'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1453837221218-1348',
-  'edited' => true,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -133,29 +133,39 @@ $ltb_enquire_contact10->add_element("PlainTxt", array (
 
 $ltb_enquire_contact10->add_element("Uspacer", array (
   'columns' => '1',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1455165777787-1449 upfront-module-spacer',
   'id' => 'module-1455165777787-1449',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1455165777786-1165',
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1455165777786-1165',
     'preset' => 'default',
   ),
-  'wrapper_id' => 'wrapper-1455165777787-1722',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
-  'edited' => true,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1455165777787-1722',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
       'edited' => true,
+      'col' => 1,
+    ),
+    'mobile' =>
+    array (
+      'col' => 1,
     ),
     'current_property' =>
     array (
@@ -206,6 +216,7 @@ $ltb_enquire_contact10->add_element("Ucontact", array (
     'form_button_text' => 'Send',
     'form_validate_when' => 'submit',
     'form_label_position' => 'over',
+    'preset' => 'default',
     'type' => 'UcontactModel',
     'view_class' => 'UcontactView',
     'class' => 'c24 upfront-contact-form',
@@ -216,13 +227,12 @@ $ltb_enquire_contact10->add_element("Ucontact", array (
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'usingNewAppearance' => true,
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
     'anchor' => '',
-    'preset' => 'default',
     'breakpoint' =>
     (array)(array(
        'mobile' =>
@@ -237,7 +247,6 @@ $ltb_enquire_contact10->add_element("Ucontact", array (
   'hide' => 0,
   'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1453837259542-1631',
-  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -285,28 +294,38 @@ $ltb_enquire_contact10->add_element("Ucontact", array (
 
 $ltb_enquire_contact10->add_element("Uspacer", array (
   'columns' => '1',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1455165780561-1478 upfront-module-spacer',
   'id' => 'module-1455165780561-1478',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1455165780560-1062',
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1455165780560-1062',
     'preset' => 'default',
   ),
-  'wrapper_id' => 'wrapper-1455165780561-1137',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
-  'edited' => true,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1455165780561-1137',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
       'edited' => true,
+      'col' => 1,
+    ),
+    'mobile' =>
+    array (
+      'col' => 1,
     ),
     'current_property' =>
     array (

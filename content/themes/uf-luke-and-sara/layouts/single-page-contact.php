@@ -63,6 +63,7 @@ $contact_title = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/single-page-contact/noise.jpg',
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
+  'version' => '1.0.0',
 )
 			);
 
@@ -206,7 +207,7 @@ $contact_title->add_element("PlainTxt", array (
       (array)(array(
          'preset' => 'underlined-tablet',
       )),
-      'mobile' =>
+       'mobile' =>
       (array)(array(
          'preset' => 'underlined-tablet',
       )),
@@ -464,7 +465,7 @@ $contact_title->add_element("PlainTxt", array (
     )),
     'breakpoint_presets' =>
     (array)(array(
-      'mobile' =>
+       'mobile' =>
       (array)(array(
          'preset' => 'content-center-aligned',
       )),
@@ -490,14 +491,14 @@ $contact_title->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
   ),
@@ -644,7 +645,7 @@ $contact_title->add_element("PlainTxt", array (
     )),
     'breakpoint_presets' =>
     (array)(array(
-      'mobile' =>
+       'mobile' =>
       (array)(array(
          'preset' => 'content-center-aligned',
       )),
@@ -670,14 +671,14 @@ $contact_title->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 4,
+      'order' => 5,
       'clear' => true,
     ),
   ),
@@ -784,6 +785,7 @@ $new_york = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/single-page-contact/noise.jpg',
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
+  'version' => '1.0.0',
 )
 			);
 
@@ -813,6 +815,7 @@ $new_york->add_group(array (
   'bottom_padding_slider' => '10',
   'lock_padding' => '',
   'row' => 74,
+  'background_default' => 'color',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -1060,7 +1063,7 @@ $new_york->add_element("PlainTxt", array (
        'current_property' => 'use_padding',
     )),
     'padding_slider' => '10',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -1376,7 +1379,7 @@ $new_york->add_element("PlainTxt", array (
       )),
     )),
     'padding_slider' => '10',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -1741,6 +1744,7 @@ $new_york->add_element("Button", array (
     'bottom_padding_num' => '10',
     'row' => 12,
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1946,6 +1950,7 @@ $new_york->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -2007,7 +2012,7 @@ $new_york->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
@@ -2101,6 +2106,7 @@ $san_francisco = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/single-page-contact/noise.jpg',
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
+  'version' => '1.0.0',
 )
 			);
 
@@ -2155,6 +2161,7 @@ $san_francisco->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -2279,6 +2286,7 @@ $san_francisco->add_group(array (
   'use_padding' => 0,
   'background_type' => 'color',
   'anchor' => '',
+  'background_default' => 'color',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2467,7 +2475,7 @@ $san_francisco->add_element("PlainTxt", array (
     'row' => 9,
     'preset' => 'default',
     'padding_slider' => '10',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -2854,7 +2862,7 @@ $san_francisco->add_element("PlainTxt", array (
        'current_property' => 'use_padding',
     )),
     'padding_slider' => '10',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -3220,6 +3228,7 @@ $san_francisco->add_element("Button", array (
     'bottom_padding_num' => '10',
     'row' => 12,
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3428,6 +3437,7 @@ $contact_form = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => 'rgba(205,204,202,1)',
+  'version' => '1.0.0',
 )
 			);
 
@@ -3493,7 +3503,7 @@ $contact_form->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
@@ -3593,6 +3603,7 @@ $contact_form->add_element("Ucontact", array (
     'form_button_text' => 'Send',
     'form_validate_when' => 'submit',
     'form_label_position' => 'over',
+    'preset' => 'default',
     'type' => 'UcontactModel',
     'view_class' => 'UcontactView',
     'class' => 'c24 upfront-contact-form',
@@ -3602,7 +3613,6 @@ $contact_form->add_element("Ucontact", array (
     'element_id' => 'ucontact-object-1451919881438-1377',
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
-    'preset' => 'default',
     'theme_style' => '',
     'use_padding' => 'yes',
     'lock_padding' => '',
@@ -3765,6 +3775,7 @@ $contact_testimonials = upfront_create_region(
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-page-contact/bg-polaroid.jpg',
   'background_image_ratio' => 0.299999999999999988897769753748434595763683319091796875,
+  'version' => '1.0.0',
 )
 			);
 
@@ -3934,6 +3945,7 @@ $contact_testimonials->add_element("Code", array (
 }
 #active label:hover {
     border-color: #007051;
+    cursor: pointer;
 }
 #active label img {
     width: 100%;
@@ -4048,6 +4060,7 @@ $contact_testimonials->add_element("Code", array (
     'bottom_padding_slider' => '100',
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -4061,14 +4074,14 @@ $contact_testimonials->add_element("Code", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
   ),

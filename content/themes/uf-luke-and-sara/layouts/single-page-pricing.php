@@ -602,6 +602,7 @@ $pro->add_group(array (
   'lock_padding' => '',
   'bottom_padding_use' => 'yes',
   'bottom_padding_slider' => '0',
+  'use_padding' => 'yes',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -954,6 +955,7 @@ $pro->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1971,6 +1973,7 @@ $platinum->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -2670,6 +2673,7 @@ $premium->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',

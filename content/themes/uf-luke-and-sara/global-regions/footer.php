@@ -155,6 +155,7 @@ $footer->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -339,13 +340,13 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 404,
+         'menu-item-db-id' => 473,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '404',
+         'menu-item-object-id' => '473',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -357,13 +358,13 @@ $footer->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 407,
+         'menu-item-db-id' => 474,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'News',
          'menu-item-url' => '{{upfront:home_url}}/news/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '407',
+         'menu-item-object-id' => '474',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -375,13 +376,13 @@ $footer->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 410,
+         'menu-item-db-id' => 475,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '410',
+         'menu-item-object-id' => '475',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -776,9 +777,9 @@ $footer->add_element("Button", array (
     'element_id' => 'button-object-1451177325363-1479',
     'link' =>
     (array)(array(
-       'type' => 'unlink',
-       'url' => '',
-       'target' => '',
+       'type' => 'external',
+       'url' => 'http://twitter.com',
+       'target' => '_blank',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
@@ -927,9 +928,9 @@ $footer->add_element("Button", array (
     'element_id' => 'button-object-1451182542566-1244',
     'link' =>
     (array)(array(
-       'type' => 'unlink',
-       'url' => '',
-       'target' => '',
+       'type' => 'external',
+       'url' => 'http://facebook.com',
+       'target' => '_blank',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
@@ -1126,9 +1127,9 @@ $footer->add_element("Button", array (
     'element_id' => 'button-object-1451182444580-1423',
     'link' =>
     (array)(array(
-       'type' => 'unlink',
-       'url' => '',
-       'target' => '',
+       'type' => 'external',
+       'url' => 'http://pinterest.com',
+       'target' => '_blank',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
@@ -1271,9 +1272,9 @@ $footer->add_element("Button", array (
     'element_id' => 'button-object-1451182668941-1932',
     'link' =>
     (array)(array(
-       'type' => 'unlink',
-       'url' => '',
-       'target' => '',
+       'type' => 'external',
+       'url' => 'http://instagram.com',
+       'target' => '_blank',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',

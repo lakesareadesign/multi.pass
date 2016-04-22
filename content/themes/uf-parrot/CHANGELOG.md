@@ -2,6 +2,13 @@ Change Log
 ============
 
 
+1.1.1 - 2016-04-21
+-------------------------------------------------------------------------------
+- Fix: reorder Download page elements on tablet view.
+- Fix: single page blockquotes within 'title content only' preset.
+- Fix: list style conflicts.
+- Fix: set gallery caption always visible in editor.
+
 1.1 - 2016-03-23
 -------------------------------------------------------------------------------
 - Add: full Upfront v1.1 compatibility.

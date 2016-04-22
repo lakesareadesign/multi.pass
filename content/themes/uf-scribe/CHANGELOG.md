@@ -2,6 +2,13 @@ Change Log
 ============
 
 
+1.1.1 - 2016-04-21
+-------------------------------------------------------------------------------
+- Add: list preset.
+- Fix: awaiting moderation visual issue.
+- Fix: comment author and date styles.
+- Fix: improve calendar widget appearance.
+
 1.1 - 2016-03-23
 -------------------------------------------------------------------------------
 - Add: full Upfront v1.1 compatibility.

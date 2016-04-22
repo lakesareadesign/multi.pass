@@ -47,7 +47,7 @@ $home_hero = upfront_create_region(
   'background_position_y' => '50',
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/archive-home/_MG_8032 (5).jpg',
-  'background_image_ratio' => 0.67000000000000003996802888650563545525074005126953125,
+  'background_image_ratio' => 0.67000000000000004,
   'background_repeat' => 'repeat',
   'background_position' => '50% 50%',
   'version' => '1.0.0',
@@ -748,6 +748,16 @@ $region_1->add_group(array (
   'bottom_padding_num' => '15',
   'edited' => true,
   'use_padding' => 'yes',
+  'background_color' => '#ffffff',
+  'background_style' => 'full',
+  'background_default' => 'hide',
+  'background_position_y' => 50,
+  'background_position_x' => 50,
+  'background_type' => 'color',
+  'anchor' => '',
+  'top_padding_slider' => '15',
+  'bottom_padding_use' => false,
+  'bottom_padding_slider' => '15',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -848,6 +858,7 @@ $region_1->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -940,7 +951,7 @@ $region_1->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<p class="" style="text-align: center;">Restoration and repair</p><p class="" style="text-align: center;">Restoring family bible</p><p class="" style="text-align: center;">Restoring family album</p><p class="" style="text-align: center;">Restoring &nbsp;album</p>',
+    'content' => '<ul><li style="text-align: center;">Restoration and repair<br></li><li style="text-align: center;">Restoring family bible<br></li><li style="text-align: center;">Restoring family album<br></li><li style="text-align: center;">Restoring &nbsp;album<br></li></ul>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1444839385982-1336',
     'class' => 'c24 upfront-plain_txt',
@@ -952,18 +963,20 @@ $region_1->add_element("PlainTxt", array (
     'border_color' => '',
     'bg_color' => '',
     'anchor' => '',
-    'theme_style' => 'uf-text-block-list-bullets',
+    'theme_style' => '',
     'breakpoint' =>
     (array)(array(
        'tablet' =>
       (array)(array(
          'row' => 46,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
-    'preset' => 'special-lists',
+    'preset' => 'list',
     'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '15',
@@ -973,7 +986,7 @@ $region_1->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'special-lists',
+         'preset' => 'list',
       )),
     )),
   ),
@@ -1200,6 +1213,7 @@ $region_1->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1292,7 +1306,7 @@ $region_1->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<p class="" style="text-align: center;">Saddle stitch</p><p class="" style="text-align: center;">Perfect binding</p><p class="" style="text-align: center;">PUR binding</p><p class="" style="text-align: center;">Spiral binding</p>',
+    'content' => '<ul><li style="text-align: center;"><span>Saddle stitch</span><br></li><li style="text-align: center;"><span>Perfect binding</span><br></li><li style="text-align: center;"><span>PUR binding</span><br></li><li style="text-align: center;"><span>Spiral binding</span><br></li></ul>',
     'type' => 'PlainTxtModel',
     'element_id' => 'object-1444840077031-1432',
     'class' => 'c24 upfront-plain_txt',
@@ -1304,7 +1318,7 @@ $region_1->add_element("PlainTxt", array (
     'border_color' => '',
     'bg_color' => '',
     'anchor' => '',
-    'theme_style' => 'uf-text-block-list-bullets',
+    'theme_style' => '',
     'breakpoint' =>
     (array)(array(
        'tablet' =>
@@ -1315,7 +1329,7 @@ $region_1->add_element("PlainTxt", array (
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
-    'preset' => 'special-lists',
+    'preset' => 'list',
     'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '15',
@@ -1325,7 +1339,7 @@ $region_1->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'special-lists',
+         'preset' => 'list',
       )),
     )),
   ),
@@ -1552,6 +1566,7 @@ $region_1->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1644,7 +1659,7 @@ $region_1->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<p class="" style="text-align: center;">Foiling finishes</p><p class="" style="text-align: center;">Tabbing finishes</p><p class="" style="text-align: center;">Perforation finishes</p><p class="" style="text-align: center;">Lamination finishes</p>',
+    'content' => '<ul><li style="text-align: center;"><span>Foiling finishes</span><br></li><li style="text-align: center;"><span>Tabbing finishes</span><br></li><li style="text-align: center;"><span>Perforation finishes</span><br></li><li style="text-align: center;"><span>Lamination finishes</span><br></li></ul>',
     'type' => 'PlainTxtModel',
     'element_id' => 'object-1444840080798-1452',
     'class' => 'c24 upfront-plain_txt',
@@ -1656,7 +1671,7 @@ $region_1->add_element("PlainTxt", array (
     'border_color' => '',
     'bg_color' => '',
     'anchor' => '',
-    'theme_style' => 'uf-text-block-list-bullets',
+    'theme_style' => '',
     'breakpoint' =>
     (array)(array(
        'tablet' =>
@@ -1667,7 +1682,7 @@ $region_1->add_element("PlainTxt", array (
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
-    'preset' => 'special-lists',
+    'preset' => 'list',
     'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '15',
@@ -1677,7 +1692,7 @@ $region_1->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'special-lists',
+         'preset' => 'list',
       )),
     )),
   ),

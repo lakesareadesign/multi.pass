@@ -249,6 +249,7 @@ $header_download->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => false,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -295,7 +296,7 @@ $header_download->add_element("Uimage", array (
     )),
     'bottom_padding_num' => '10',
     'padding_slider' => '10',
-    'use_padding' => true,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -550,7 +551,7 @@ $header_download->add_element("PlainTxt", array (
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'padding_slider' => '10',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -832,7 +833,7 @@ $main->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => '',
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => true,
@@ -936,7 +937,7 @@ $main->add_element("Button", array (
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'padding_slider' => '10',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -1355,6 +1356,7 @@ $main->add_group(array (
   'top_padding_num' => 90,
   'version' => '1.0.0',
   'bottom_padding_num' => '10',
+  'use_padding' => 'yes',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1443,7 +1445,7 @@ $main->add_element("Button", array (
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'padding_slider' => '10',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -1468,9 +1470,9 @@ $main->add_element("Button", array (
   array (
     'tablet' =>
     array (
-      'edited' => false,
+      'edited' => true,
       'col' => 4,
-      'order' => 2,
+      'order' => 0,
       'clear' => true,
     ),
     'mobile' =>
@@ -1485,7 +1487,7 @@ $main->add_element("Button", array (
   array (
     'tablet' =>
     array (
-      'edited' => false,
+      'edited' => true,
       'left' => 0,
       'col' => 4,
       'order' => 0,
@@ -1576,7 +1578,7 @@ $main->add_element("PlainTxt", array (
   array (
     'tablet' =>
     array (
-      'edited' => false,
+      'edited' => true,
       'col' => 4,
       'order' => 1,
       'clear' => true,
@@ -1673,10 +1675,10 @@ $main->add_element("PlainTxt", array (
   array (
     'tablet' =>
     array (
-      'edited' => false,
+      'edited' => true,
       'col' => 4,
       'order' => 3,
-      'clear' => true,
+      'clear' => false,
     ),
     'mobile' =>
     array (
@@ -1864,6 +1866,7 @@ $main->add_group(array (
   'top_padding_num' => 90,
   'version' => '1.0.0',
   'bottom_padding_num' => '10',
+  'use_padding' => 'yes',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1958,7 +1961,7 @@ $main->add_element("Button", array (
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'padding_slider' => '10',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '10',
     'left_padding_num' => '10',

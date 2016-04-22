@@ -144,7 +144,7 @@ $newsletter->add_element("Code", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
@@ -203,6 +203,7 @@ $newsletter->add_group(array (
   'bottom_padding_slider' => '0',
   'lock_padding' => '',
   'version' => '1.0.0',
+  'background_default' => 'color',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -297,6 +298,7 @@ $newsletter->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -530,6 +532,7 @@ $newsletter->add_element("Code", array (
        'current_property' => 'bottom_padding_num',
     )),
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,

@@ -52,6 +52,7 @@ $bb_slider = upfront_create_region(
     0 => 'images/slider-beautiful-bride.jpg',
     1 => 'images/bg-wedding.jpg',
   ),
+  'version' => '1.0.0',
 )
 			);
 
@@ -172,6 +173,7 @@ $bb_content->add_element("PlainTxt", array (
     'top_padding_slider' => '70',
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -318,6 +320,7 @@ $bb_content->add_element("PlainTxt", array (
     'bottom_padding_slider' => '30',
     'preset' => 'default',
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -464,7 +467,7 @@ $bb_content->add_element("PlainTxt", array (
     'row' => 201,
     'preset' => 'default',
     'padding_slider' => '10',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -473,12 +476,12 @@ $bb_content->add_element("PlainTxt", array (
     'breakpoint' =>
     (array)(array(
        'tablet' =>
-      (array)(array(
-      )),
+      array (
+      ),
        'current_property' => 'use_padding',
        'mobile' =>
-      (array)(array(
-      )),
+      array (
+      ),
     )),
     'theme_style' => '',
     'breakpoint_presets' =>

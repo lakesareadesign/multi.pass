@@ -7,7 +7,7 @@ $region_container = 'header';
 $region_sub = 'left';
 if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'navigation-secondary.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'navigation-secondary.php');
 
-$region_18b28c = upfront_create_region(
+$region_bc669d = upfront_create_region(
 			array (
   'name' => 'header',
   'title' => 'Header Area',
@@ -52,7 +52,7 @@ $region_18b28c = upfront_create_region(
   'background_position_y' => '50',
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-post/hero-1.jpg',
-  'background_image_ratio' => 0.309999999999999997779553950749686919152736663818359375,
+  'background_image_ratio' => 0.31,
   'version' => '1.0.0',
   'bg_padding_type' => 'varied',
   'top_bg_padding_slider' => 0,
@@ -64,7 +64,7 @@ $region_18b28c = upfront_create_region(
 )
 			);
 
-$region_18b28c->add_element("Uspacer", array (
+$region_bc669d->add_element("Uspacer", array (
   'columns' => '6',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -103,7 +103,7 @@ $region_18b28c->add_element("Uspacer", array (
   ),
 ));
 
-$region_18b28c->add_element("Uspacer", array (
+$region_bc669d->add_element("Uspacer", array (
   'columns' => '4',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -155,7 +155,7 @@ $region_18b28c->add_element("Uspacer", array (
   ),
 ));
 
-$region_18b28c->add_element("Uspacer", array (
+$region_bc669d->add_element("Uspacer", array (
   'columns' => '1',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -207,7 +207,7 @@ $region_18b28c->add_element("Uspacer", array (
   ),
 ));
 
-$region_18b28c->add_element("Uimage", array (
+$region_bc669d->add_element("Uimage", array (
   'columns' => '4',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -258,6 +258,7 @@ $region_18b28c->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -341,7 +342,7 @@ $region_18b28c->add_element("Uimage", array (
   ),
 ));
 
-$region_18b28c->add_element("Uspacer", array (
+$region_bc669d->add_element("Uspacer", array (
   'columns' => '10',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -379,7 +380,7 @@ $region_18b28c->add_element("Uspacer", array (
   ),
 ));
 
-$region_18b28c->add_element("Uspacer", array (
+$region_bc669d->add_element("Uspacer", array (
   'columns' => '4',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -430,7 +431,7 @@ $region_18b28c->add_element("Uspacer", array (
   ),
 ));
 
-$region_18b28c->add_element("Uspacer", array (
+$region_bc669d->add_element("Uspacer", array (
   'columns' => '1',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -481,7 +482,7 @@ $region_18b28c->add_element("Uspacer", array (
   ),
 ));
 
-$region_18b28c->add_element("PostData", array (
+$region_bc669d->add_element("PostData", array (
   'columns' => '16',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -621,14 +622,10 @@ $region_18b28c->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'row' => 13,
@@ -654,7 +651,7 @@ $region_18b28c->add_element("PostData", array (
   ),
 ));
 
-$region_18b28c->add_element("Uspacer", array (
+$region_bc669d->add_element("Uspacer", array (
   'columns' => '4',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -691,7 +688,7 @@ $region_18b28c->add_element("Uspacer", array (
   ),
 ));
 
-$region_18b28c->add_element("PostData", array (
+$region_bc669d->add_element("PostData", array (
   'columns' => '16',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -832,14 +829,10 @@ $region_18b28c->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'row' => 5,
@@ -865,7 +858,7 @@ $region_18b28c->add_element("PostData", array (
   ),
 ));
 
-$region_18b28c->add_element("PostData", array (
+$region_bc669d->add_element("PostData", array (
   'columns' => '16',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -990,14 +983,10 @@ $region_18b28c->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'breakpoint' =>
@@ -1021,7 +1010,7 @@ $region_18b28c->add_element("PostData", array (
   ),
 ));
 
-$region_18b28c->add_element("Uspacer", array (
+$region_bc669d->add_element("Uspacer", array (
   'columns' => '4',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -1058,7 +1047,7 @@ $region_18b28c->add_element("Uspacer", array (
   ),
 ));
 
-$region_18b28c->add_element("PostData", array (
+$region_bc669d->add_element("PostData", array (
   'columns' => '16',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -1164,14 +1153,10 @@ $region_18b28c->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',
@@ -1196,7 +1181,7 @@ $region_18b28c->add_element("PostData", array (
   ),
 ));
 
-$region_18b28c->add_element("PostData", array (
+$region_bc669d->add_element("PostData", array (
   'columns' => '16',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -1375,7 +1360,7 @@ $region_18b28c->add_element("PostData", array (
   ),
 ));
 
-$region_18b28c->add_element("Uspacer", array (
+$region_bc669d->add_element("Uspacer", array (
   'columns' => '4',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -1412,7 +1397,7 @@ $region_18b28c->add_element("Uspacer", array (
   ),
 ));
 
-$region_18b28c->add_element("PostData", array (
+$region_bc669d->add_element("PostData", array (
   'columns' => '16',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -1608,14 +1593,10 @@ $region_18b28c->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',
@@ -1666,14 +1647,10 @@ $region_18b28c->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 2,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 2,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',
@@ -1706,7 +1683,7 @@ $region_18b28c->add_element("PostData", array (
   ),
 ));
 
-$region_18b28c->add_element("Uspacer", array (
+$region_bc669d->add_element("Uspacer", array (
   'columns' => '4',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -1743,7 +1720,7 @@ $region_18b28c->add_element("Uspacer", array (
   ),
 ));
 
-$regions->add($region_18b28c);
+$regions->add($region_bc669d);
 
 if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'newsletter.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'newsletter.php');
 

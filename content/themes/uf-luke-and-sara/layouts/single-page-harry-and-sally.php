@@ -52,6 +52,7 @@ $has_slider = upfront_create_region(
     0 => 'images/slider-wedding-cake.jpg',
     1 => 'images/slider-couple-woods.jpg',
   ),
+  'version' => '1.0.0',
 )
 			);
 
@@ -174,6 +175,7 @@ $has_content->add_element("PlainTxt", array (
     'top_padding_slider' => '70',
     'padding_slider' => '10',
     'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -187,14 +189,14 @@ $has_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
   ),
@@ -322,6 +324,7 @@ $has_content->add_element("PlainTxt", array (
     'bottom_padding_slider' => '30',
     'padding_slider' => '10',
     'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -335,14 +338,14 @@ $has_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
   ),
@@ -466,7 +469,7 @@ $has_content->add_element("PlainTxt", array (
     'row' => 55,
     'padding_slider' => '10',
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -475,12 +478,12 @@ $has_content->add_element("PlainTxt", array (
     'breakpoint' =>
     (array)(array(
        'tablet' =>
-      (array)(array(
-      )),
+      array (
+      ),
        'current_property' => 'use_padding',
        'mobile' =>
-      (array)(array(
-      )),
+      array (
+      ),
     )),
     'breakpoint_presets' =>
     (array)(array(
@@ -510,14 +513,14 @@ $has_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
   ),

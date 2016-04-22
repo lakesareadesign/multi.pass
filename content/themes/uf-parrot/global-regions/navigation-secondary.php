@@ -128,6 +128,7 @@ $navigation_secondary->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -419,13 +420,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 1173,
+         'menu-item-db-id' => 1714,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Home',
          'menu-item-url' => '{{upfront:home_url}}',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1173',
+         'menu-item-object-id' => '1714',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -437,13 +438,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 1174,
+         'menu-item-db-id' => 1715,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Features',
          'menu-item-url' => '{{upfront:home_url}}/features/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1174',
+         'menu-item-object-id' => '1715',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -455,13 +456,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 1175,
+         'menu-item-db-id' => 1716,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Download',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1175',
+         'menu-item-object-id' => '1716',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -473,13 +474,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 1176,
+         'menu-item-db-id' => 1717,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact Us',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1176',
+         'menu-item-object-id' => '1717',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -491,13 +492,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 1177,
+         'menu-item-db-id' => 1718,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1177',
+         'menu-item-object-id' => '1718',
          'menu-item-target' => '',
          'menu-item-position' => 5,
          'link' =>
@@ -509,13 +510,13 @@ $navigation_secondary->add_element("Unewnavigation", array (
       )),
       5 =>
       (array)(array(
-         'menu-item-db-id' => 1178,
+         'menu-item-db-id' => 1719,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1178',
+         'menu-item-object-id' => '1719',
          'menu-item-target' => '',
          'menu-item-position' => 6,
          'link' =>

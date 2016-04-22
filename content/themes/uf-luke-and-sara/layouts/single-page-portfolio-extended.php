@@ -57,6 +57,7 @@ $pe_slider = upfront_create_region(
     0 => 'images/bg-happy.jpg',
     1 => 'images/bg-wedding.jpg',
   ),
+  'version' => '1.0.0',
 )
 			);
 
@@ -124,10 +125,10 @@ $pe_content->add_element("Uspacer", array (
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'usingNewAppearance' => true,
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1451192746-33956',
     'preset' => 'default',
   ),
@@ -162,8 +163,8 @@ $pe_content->add_element("PlainTxt", array (
   'options' =>
   array (
     'view_class' => 'PlainTxtView',
-    'usingNewAppearance' => true,
     'id_slug' => 'plain_text',
+    'usingNewAppearance' => true,
     'content' => '<div class="plain-text-container" style="text-align: center;">
 <font color="#333333" face="Quattrocento, serif"><span style="font-size: 60px; line-height: 72px;">Harry + Sally</span></font>
 </div>',
@@ -203,6 +204,8 @@ $pe_content->add_element("PlainTxt", array (
     'top_padding_num' => 70,
     'bottom_padding_num' => '10',
     'preset' => 'default',
+    'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -261,10 +264,10 @@ $pe_content->add_element("Uspacer", array (
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'usingNewAppearance' => true,
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1451192746-44568',
     'preset' => 'default',
   ),
@@ -299,10 +302,10 @@ $pe_content->add_element("Uspacer", array (
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'usingNewAppearance' => true,
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1452145340151-1457',
     'preset' => 'default',
   ),
@@ -337,8 +340,8 @@ $pe_content->add_element("PlainTxt", array (
   'options' =>
   array (
     'view_class' => 'PlainTxtView',
-    'usingNewAppearance' => true,
     'id_slug' => 'plain_text',
+    'usingNewAppearance' => true,
     'content' => '<h6 class="" style="text-align: center;">I LOVE ALL THINGS VINTAGE AND FLORAL AND BELIEVE OUR WEDDING TURNED OUT TO BE AN UNINTENTIONAL "GATSBY" VIBE.</h6>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1452145288549-1723',
@@ -351,6 +354,8 @@ $pe_content->add_element("PlainTxt", array (
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '30',
     'preset' => 'default',
+    'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -364,14 +369,14 @@ $pe_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
   ),
@@ -406,10 +411,10 @@ $pe_content->add_element("Uspacer", array (
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'usingNewAppearance' => true,
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1452145344168-1630',
     'preset' => 'default',
   ),
@@ -444,10 +449,10 @@ $pe_content->add_element("Uspacer", array (
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'usingNewAppearance' => true,
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1452145132120-1081',
     'preset' => 'default',
   ),
@@ -482,8 +487,8 @@ $pe_content->add_element("PlainTxt", array (
   'options' =>
   array (
     'view_class' => 'PlainTxtView',
-    'usingNewAppearance' => true,
     'id_slug' => 'plain_text',
+    'usingNewAppearance' => true,
     'content' => '<div class="plain-text-container">
 <p>Hoodie cornhole mustache, sustainable locavore fashion axe leggings twee blog forage you probably haven’t heard of them pour-over drinking vinegar Shoreditch chillwave. Cred readymade Echo Park, asymmetrical tattooed fashion axe salvia tote bag four loko pour-over distillery bicycle rights leggings vinyl chia. Keffiyeh photo booth 90’s Kickstarter, viral meh Bushwick gluten-free mumblecore. PBR craft beer pug, direct trade keffiyeh flannel vegan heirloom literally PBR&amp;B you probably haven’t trust fund bicycle rights leggings vinyl chia. Keffiyeh photo booth 90’s Kickstarter.</p><p>Normcore paleo pop-up gastropub kitsch messenger bag. Drinking vinegar ennui post-ironic twee flannel High Life, XOXO vegan. McSweeney’s trust fund cardigan, umami mixtape Tonx direct trade actually twee Carles kitsch whatever Marfa. Synth flannel blog heirloom. Portland 90’s Intelligentsia, flannel artisan crucifix pour-over. Mustache Tumblr pickled, vegan salvia selfies Austin roof party polaroid ugh. Shabby chic chambray normcore retro, mixtape drinking vinegar cardigan Drinking vinegar ennui post-ironic twee flannel High Life, XOXO vegan. McSweeney’s trust fund cardigan, umami mixtape.<br>&nbsp;</p>
 </div>',
@@ -496,6 +501,8 @@ $pe_content->add_element("PlainTxt", array (
     'is_edited' => true,
     'row' => 72,
     'preset' => 'default',
+    'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -509,14 +516,14 @@ $pe_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
   ),
@@ -551,10 +558,10 @@ $pe_content->add_element("Uspacer", array (
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'usingNewAppearance' => true,
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1452145135639-1398',
     'preset' => 'default',
   ),
@@ -682,13 +689,13 @@ $pe_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
     'display_caption' => 'showCaption',
     'type' => 'UimageModel',
     'view_class' => 'UimageView',
-    'usingNewAppearance' => true,
     'has_settings' => 1,
     'class' => 'c24 upfront-image',
     'id_slug' => 'image',
@@ -700,6 +707,7 @@ $pe_images->add_element("Uimage", array (
        'url' => '',
        'target' => false,
     )),
+    'usingNewAppearance' => true,
     'element_id' => 'image-1452144297001-1553',
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -727,7 +735,6 @@ $pe_images->add_element("Uimage", array (
          'row' => 37,
       )),
     )),
-    'usingNewAppearance' => true,
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -832,13 +839,13 @@ $pe_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
     'display_caption' => 'showCaption',
     'type' => 'UimageModel',
     'view_class' => 'UimageView',
-    'usingNewAppearance' => true,
     'has_settings' => 1,
     'class' => 'c24 upfront-image',
     'id_slug' => 'image',
@@ -850,6 +857,7 @@ $pe_images->add_element("Uimage", array (
        'url' => '',
        'target' => false,
     )),
+    'usingNewAppearance' => true,
     'element_id' => 'image-1452144526265-1851',
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -877,7 +885,6 @@ $pe_images->add_element("Uimage", array (
          'row' => 89,
       )),
     )),
-    'usingNewAppearance' => true,
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -983,13 +990,13 @@ $pe_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
     'display_caption' => 'showCaption',
     'type' => 'UimageModel',
     'view_class' => 'UimageView',
-    'usingNewAppearance' => true,
     'has_settings' => 1,
     'class' => 'c24 upfront-image',
     'id_slug' => 'image',
@@ -1001,6 +1008,7 @@ $pe_images->add_element("Uimage", array (
        'url' => '',
        'target' => false,
     )),
+    'usingNewAppearance' => true,
     'element_id' => 'image-1452144531870-1915',
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -1028,7 +1036,6 @@ $pe_images->add_element("Uimage", array (
          'row' => 63,
       )),
     )),
-    'usingNewAppearance' => true,
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -1133,13 +1140,13 @@ $pe_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
     'display_caption' => 'showCaption',
     'type' => 'UimageModel',
     'view_class' => 'UimageView',
-    'usingNewAppearance' => true,
     'has_settings' => 1,
     'class' => 'c24 upfront-image',
     'id_slug' => 'image',
@@ -1151,6 +1158,7 @@ $pe_images->add_element("Uimage", array (
        'url' => '',
        'target' => false,
     )),
+    'usingNewAppearance' => true,
     'element_id' => 'image-1452144584330-1115',
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -1178,7 +1186,6 @@ $pe_images->add_element("Uimage", array (
          'row' => 37,
       )),
     )),
-    'usingNewAppearance' => true,
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -1283,13 +1290,13 @@ $pe_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
     'display_caption' => 'showCaption',
     'type' => 'UimageModel',
     'view_class' => 'UimageView',
-    'usingNewAppearance' => true,
     'has_settings' => 1,
     'class' => 'c24 upfront-image',
     'id_slug' => 'image',
@@ -1301,6 +1308,7 @@ $pe_images->add_element("Uimage", array (
        'url' => '',
        'target' => false,
     )),
+    'usingNewAppearance' => true,
     'element_id' => 'image-1452144722097-1334',
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -1328,7 +1336,6 @@ $pe_images->add_element("Uimage", array (
          'row' => 63,
       )),
     )),
-    'usingNewAppearance' => true,
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -1434,13 +1441,13 @@ $pe_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
     'display_caption' => 'showCaption',
     'type' => 'UimageModel',
     'view_class' => 'UimageView',
-    'usingNewAppearance' => true,
     'has_settings' => 1,
     'class' => 'c24 upfront-image',
     'id_slug' => 'image',
@@ -1452,6 +1459,7 @@ $pe_images->add_element("Uimage", array (
        'url' => '',
        'target' => false,
     )),
+    'usingNewAppearance' => true,
     'element_id' => 'image-1452144836999-1936',
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -1479,7 +1487,6 @@ $pe_images->add_element("Uimage", array (
          'row' => 89,
       )),
     )),
-    'usingNewAppearance' => true,
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>

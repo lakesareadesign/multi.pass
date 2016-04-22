@@ -7,7 +7,7 @@ $region_container = 'header';
 $region_sub = 'left';
 if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'navigation-secondary.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'navigation-secondary.php');
 
-$region_75f2a4 = upfront_create_region(
+$region_e3125e = upfront_create_region(
 			array (
   'name' => 'header',
   'title' => 'Header Area',
@@ -57,7 +57,7 @@ $region_75f2a4 = upfront_create_region(
 )
 			);
 
-$region_75f2a4->add_element("Uspacer", array (
+$region_e3125e->add_element("Uspacer", array (
   'columns' => '6',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -96,7 +96,7 @@ $region_75f2a4->add_element("Uspacer", array (
   ),
 ));
 
-$region_75f2a4->add_element("Uimage", array (
+$region_e3125e->add_element("Uimage", array (
   'columns' => '4',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -147,6 +147,7 @@ $region_75f2a4->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => false,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -227,7 +228,7 @@ $region_75f2a4->add_element("Uimage", array (
   ),
 ));
 
-$region_75f2a4->add_element("Uspacer", array (
+$region_e3125e->add_element("Uspacer", array (
   'columns' => '10',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -265,7 +266,7 @@ $region_75f2a4->add_element("Uspacer", array (
   ),
 ));
 
-$region_75f2a4->add_element("PostData", array (
+$region_e3125e->add_element("PostData", array (
   'columns' => '16',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -403,14 +404,10 @@ $region_75f2a4->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'breakpoint' =>
@@ -452,14 +449,10 @@ $region_75f2a4->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 2,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 2,
-          'clear' => true,
         ),
       ),
       'breakpoint' =>
@@ -483,7 +476,7 @@ $region_75f2a4->add_element("PostData", array (
   ),
 ));
 
-$region_75f2a4->add_element("Uspacer", array (
+$region_e3125e->add_element("Uspacer", array (
   'columns' => '4',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -519,7 +512,7 @@ $region_75f2a4->add_element("Uspacer", array (
   ),
 ));
 
-$regions->add($region_75f2a4);
+$regions->add($region_e3125e);
 
 $header_bottom = upfront_create_region(
 			array (

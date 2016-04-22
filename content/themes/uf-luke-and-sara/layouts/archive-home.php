@@ -62,6 +62,7 @@ $video = upfront_create_region(
   'background_video_width' => 960,
   'background_video_height' => 540,
   'expand_lock' => false,
+  'version' => '1.0.0',
 )
 			);
 
@@ -521,6 +522,7 @@ $welcome = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/archive-home/noise.jpg',
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
+  'version' => '1.0.0',
 )
 			);
 
@@ -572,6 +574,7 @@ $welcome->add_element("PlainTxt", array (
          'row' => 28,
       )),
     )),
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -620,30 +623,41 @@ $welcome->add_element("PlainTxt", array (
 
 $welcome->add_element("Uspacer", array (
   'columns' => '1',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1454456137202-1661 upfront-module-spacer',
   'id' => 'module-1454456137202-1661',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1454456137201-1023',
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1454456137201-1023',
     'preset' => 'default',
   ),
-  'wrapper_id' => 'wrapper-1454456137202-1324',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 1,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1454456137202-1324',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
+    'tablet' =>
+    array (
+      'col' => 1,
+    ),
     'mobile' =>
     array (
       'edited' => true,
       'clear' => true,
       'order' => 1,
+      'col' => 1,
     ),
     'current_property' =>
     array (
@@ -738,7 +752,7 @@ $welcome->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
@@ -780,29 +794,40 @@ $welcome->add_element("PlainTxt", array (
 
 $welcome->add_element("Uspacer", array (
   'columns' => '1',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1454456139513-1342 upfront-module-spacer',
   'id' => 'module-1454456139513-1342',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1454456139512-1319',
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1454456139512-1319',
     'preset' => 'default',
   ),
-  'wrapper_id' => 'wrapper-1454456139513-1103',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 1,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1454456139513-1103',
   'wrapper_breakpoint' =>
   array (
+    'tablet' =>
+    array (
+      'col' => 1,
+    ),
     'mobile' =>
     array (
       'edited' => true,
       'clear' => false,
       'order' => 1,
+      'col' => 1,
     ),
     'current_property' =>
     array (
@@ -873,6 +898,7 @@ $home_intro = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/archive-home/noise.jpg',
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
+  'version' => '1.0.0',
 )
 			);
 
@@ -927,6 +953,7 @@ $home_intro->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -989,7 +1016,7 @@ $home_intro->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 4,
       'clear' => true,
     ),
   ),
@@ -1063,6 +1090,7 @@ $home_intro->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1423,6 +1451,7 @@ $home_intro->add_element("PlainTxt", array (
       )),
        'current_property' => 'bottom_padding_num',
     )),
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2255,6 +2284,7 @@ $home_intro->add_element("Button", array (
     'bottom_padding_num' => '10',
     'row' => 12,
     'padding_slider' => '10',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2517,6 +2547,7 @@ $home_intro->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',

@@ -2,6 +2,13 @@ Change Log
 ============
 
 
+1.1.1 - 2016-04-21
+-------------------------------------------------------------------------------
+- Add: new presets for desktop and responsive.
+- Fix: social icons links.
+- Fix: cursor on hover on testimonials.
+- Fix: gravatar size issue.
+
 1.1 - 2016-03-23
 -------------------------------------------------------------------------------
 - Add: full Upfront v1.1 compatibility.

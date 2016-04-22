@@ -139,8 +139,8 @@ return array(
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.upfront-object div > p:first-child,
-.upfront-output-object div > p:first-child {
+.upfront-object div > p:first-child:not(.upfront-icon-swap-image),
+.upfront-output-object div > p:first-child:not(.upfront-icon-swap-image) {
     margin-top: 0;
 }
 

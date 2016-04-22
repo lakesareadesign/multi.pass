@@ -48,7 +48,7 @@ class Uf_scribe extends Upfront_ChildTheme {
         foreach ($regions as $idx => $region) {
             if (empty($region['properties']) || !is_array($region['properties'])) continue;
             foreach($region['properties'] as $pidx => $prop) {
-                if (empty($prop['name']) || empty($prop['value']) || 'background_slider_images' !== $prop['name']) continue;	     	 			  	 	 	 	 
+                if (empty($prop['name']) || empty($prop['value']) || 'background_slider_images' !== $prop['name']) continue;
                 foreach ($prop['value'] as $order_id => $attachment_src) {
                     if (is_numeric($attachment_src)) continue; // A hopefully existing image.
                     $regions[$idx]['properties'][$pidx]['value'][$order_id] = $this->_import_slider_image($attachment_src);
@@ -62,6 +62,5 @@ class Uf_scribe extends Upfront_ChildTheme {
 }
 
 Uf_scribe::serve();
-
 
 if (file_exists(dirname(__FILE__) . '/compat/compat.php')) require_once(dirname(__FILE__) . '/compat/compat.php');

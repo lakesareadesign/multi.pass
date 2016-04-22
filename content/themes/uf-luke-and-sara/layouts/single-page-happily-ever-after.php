@@ -52,6 +52,7 @@ $hea_slider = upfront_create_region(
     0 => 'images/bg-wedding.jpg',
     1 => 'images/bg-happy.jpg',
   ),
+  'version' => '1.0.0',
 )
 			);
 
@@ -172,6 +173,7 @@ $hea_content->add_element("PlainTxt", array (
     'top_padding_slider' => '70',
     'padding_slider' => '10',
     'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -185,14 +187,14 @@ $hea_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
   ),
@@ -318,6 +320,7 @@ $hea_content->add_element("PlainTxt", array (
     'bottom_padding_slider' => '30',
     'padding_slider' => '10',
     'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -331,14 +334,14 @@ $hea_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
   ),
@@ -464,7 +467,7 @@ $hea_content->add_element("PlainTxt", array (
     'row' => 55,
     'padding_slider' => '10',
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -473,8 +476,8 @@ $hea_content->add_element("PlainTxt", array (
     'breakpoint' =>
     (array)(array(
        'tablet' =>
-      (array)(array(
-      )),
+      array (
+      ),
        'current_property' => 'use_padding',
     )),
     'breakpoint_presets' =>
@@ -505,14 +508,14 @@ $hea_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
   ),
@@ -678,6 +681,7 @@ $sally_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -724,7 +728,7 @@ $sally_images->add_element("Uimage", array (
       )),
     )),
   ),
-  'row' => 127,
+  'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
@@ -808,7 +812,7 @@ $sally_images->add_element("Uimage", array (
     'marginTop' => 0,
     'element_size' =>
     (array)(array(
-       'width' => 451,
+       'width' => 450,
        'height' => 635,
     )),
     'rotation' => 0,
@@ -820,6 +824,7 @@ $sally_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -955,7 +960,7 @@ $sally_images->add_element("Uimage", array (
     'marginTop' => 0,
     'element_size' =>
     (array)(array(
-       'width' => 629,
+       'width' => 630,
        'height' => 635,
     )),
     'rotation' => 0,
@@ -967,6 +972,7 @@ $sally_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1113,6 +1119,7 @@ $sally_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1159,7 +1166,7 @@ $sally_images->add_element("Uimage", array (
       )),
     )),
   ),
-  'row' => 127,
+  'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
@@ -1243,7 +1250,7 @@ $sally_images->add_element("Uimage", array (
     'marginTop' => 0,
     'element_size' =>
     (array)(array(
-       'width' => 628,
+       'width' => 630,
        'height' => 635,
     )),
     'rotation' => 0,
@@ -1255,6 +1262,7 @@ $sally_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1390,7 +1398,7 @@ $sally_images->add_element("Uimage", array (
     'marginTop' => 0,
     'element_size' =>
     (array)(array(
-       'width' => 452,
+       'width' => 450,
        'height' => 635,
     )),
     'rotation' => 0,
@@ -1402,6 +1410,7 @@ $sally_images->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',

@@ -19,10 +19,10 @@
     text-transform: capitalize;
 }
 .uposts-object li .gravatar {
-    width: 100%;
-    max-width: 68px;
+    width: 68px;
+    height: 68px;
     border: 1px solid #01bc9d;
-    display:none;
+    display: none;
 }
 .uposts-object li .gravatar, .uposts-object li .gravatar img {
     display: block;
@@ -32,6 +32,8 @@
 }
 .uposts-object li .gravatar img {
     width: 100%;
+    height: auto;
+    margin: 0 auto;
 }
 /* Post Thumbnail */
  .uf-post .thumbnail {
@@ -110,4 +112,4 @@
 }
 
 
-/* 133620-1458758052-au */
+/* 133620-1461298997-au */

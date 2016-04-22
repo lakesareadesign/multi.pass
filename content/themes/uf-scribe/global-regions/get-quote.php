@@ -67,6 +67,7 @@ $get_quote->add_element("Uspacer", array (
   'hide' => 0,
   'toggle_hide' => 0,
   'wrapper_id' => 'wrapper-1455121008605-1781',
+  'edited' => true,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -779,6 +780,7 @@ $get_quote->add_element("Uspacer", array (
   'hide' => 0,
   'toggle_hide' => 0,
   'wrapper_id' => 'wrapper-1455121011505-1981',
+  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>

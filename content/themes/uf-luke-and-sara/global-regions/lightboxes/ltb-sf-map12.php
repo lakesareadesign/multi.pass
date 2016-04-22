@@ -23,10 +23,12 @@ $ltb_sf_map12 = upfront_create_region(
      'tablet' =>
     (array)(array(
        'edited' => false,
+       'col' => 12,
     )),
      'mobile' =>
     (array)(array(
        'edited' => false,
+       'col' => 7,
     )),
   )),
   'background_type' => '',
@@ -39,6 +41,7 @@ $ltb_sf_map12 = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'delete' => false,
+  'version' => '1.0.0',
 )
 			);
 
@@ -93,7 +96,7 @@ $ltb_sf_map12->add_element("Umap", array (
     'location' => '360 Folsom Street, San Francisco, CA 94105, USA',
     'hide_markers' => '',
     'use_custom_map_code' => '1',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '10',
     'padding_number' => '10',
@@ -118,14 +121,14 @@ $ltb_sf_map12->add_element("Umap", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
   ),

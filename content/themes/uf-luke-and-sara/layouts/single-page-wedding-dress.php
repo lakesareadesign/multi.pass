@@ -51,6 +51,7 @@ $wd_slider = upfront_create_region(
     0 => 'images/slider-dress.jpg',
     1 => 'images/slider-bride.jpg',
   ),
+  'version' => '1.0.0',
 )
 			);
 
@@ -171,6 +172,7 @@ $wd_content->add_element("PlainTxt", array (
     'top_padding_slider' => '70',
     'padding_slider' => '10',
     'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -317,6 +319,7 @@ $wd_content->add_element("PlainTxt", array (
     'bottom_padding_slider' => '30',
     'padding_slider' => '10',
     'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -463,7 +466,7 @@ $wd_content->add_element("PlainTxt", array (
     'row' => 170,
     'padding_slider' => '10',
     'preset' => 'default',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '10',
     'left_padding_num' => '10',
@@ -472,12 +475,12 @@ $wd_content->add_element("PlainTxt", array (
     'breakpoint' =>
     (array)(array(
        'tablet' =>
-      (array)(array(
-      )),
+      array (
+      ),
        'current_property' => 'use_padding',
        'mobile' =>
-      (array)(array(
-      )),
+      array (
+      ),
     )),
     'theme_style' => '',
     'breakpoint_presets' =>
