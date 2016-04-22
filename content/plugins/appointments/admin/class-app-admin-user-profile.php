@@ -45,7 +45,7 @@ class Appointments_Admin_User_Profile {
 				foreach ( $_POST['app_cancel'] as $app_id => $value ) {
 					if ( appointments_update_appointment_status( $app_id, 'removed' ) ) {
 						$appointments->log( sprintf( __( 'Client %s cancelled appointment with ID: %s', 'appointments' ), $appointments->get_client_name( $app_id ), $app_id ) );
-						$appointments->send_notification( $app_id, true );
+						appointments_send_cancel_notification( $app_id );
 					}
 				}
 			}
@@ -60,7 +60,6 @@ class Appointments_Admin_User_Profile {
 				foreach ( $_POST['app_confirm'] as $app_id => $value ) {
 					if ( appointments_update_appointment_status( $app_id, 'confirmed' ) ) {
 						$appointments->log( sprintf( __( 'Service Provider %s manually confirmed appointment with ID: %s', 'appointments' ), appointments_get_worker_name( $current_user->ID ), $app_id ) );
-						$appointments->send_confirmation( $app_id );
 					}
 				}
 			}

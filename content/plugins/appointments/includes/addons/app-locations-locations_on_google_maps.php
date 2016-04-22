@@ -151,14 +151,14 @@ class App_Locations_GoogleMaps {
 
 		public function show_settings () {
 			$map_types = array(
-				'ROADMAP' => __('ROADMAP', 'agm_google_maps'),
-				'SATELLITE' => __('SATELLITE', 'agm_google_maps'),
-				'HYBRID' => __('HYBRID', 'agm_google_maps'),
-				'TERRAIN' => __('TERRAIN', 'agm_google_maps'),
+				'ROADMAP' => __('ROADMAP', 'appointments'),
+				'SATELLITE' => __('SATELLITE', 'appointments'),
+				'HYBRID' => __('HYBRID', 'appointments'),
+				'TERRAIN' => __('TERRAIN', 'appointments'),
 			);
 			$map_units = array(
-				'METRIC' => __('Metric', 'agm_google_maps'),
-				'IMPERIAL' => __('Imperial', 'agm_google_maps'),
+				'METRIC' => __('Metric', 'appointments'),
+				'IMPERIAL' => __('Imperial', 'appointments'),
 			);
 		?>
 <div class="postbox">

@@ -4,14 +4,14 @@ Plugin Name: WPMU DEV Videos
 Plugin URI: https://premium.wpmudev.org/project/unbranded-video-tutorials/
 Description: A simple way to integrate WPMU DEV's over 40 unbranded support videos into your websites. Simply activate this plugin, then configure where and how you want to display the video tutorials.
 Author: WPMU DEV
-Version: 1.5.2
-Author URI: http://premium.wpmudev.org/
+Version: 1.5.3
+Author URI: https://premium.wpmudev.org/
 Network: true
 WDP ID: 248
 */
 
 /*
-Copyright 2007-2015 Incsub (http://incsub.com)
+Copyright 2007-2016 Incsub (http://incsub.com)
 Author - Aaron Edwards
 Contributors - Jeffri, Joshua Dailey
 
@@ -35,7 +35,7 @@ class WPMUDEV_Videos {
 	//---Config---------------------------------------------------------------//
 	//------------------------------------------------------------------------//
 
-	var $version = '1.5.2';
+	var $version = '1.5.3';
 	var $api_url = 'https://premium.wpmudev.org/video-api-register.php';
 	var $video_list;
 	var $video_cats;
@@ -585,41 +585,38 @@ class WPMUDEV_Videos {
 			<h3><?php _e( 'Select a Video Tutorial', 'wpmudev_vids' ) ?></h3>
 
 			<div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "columWidth": 190 }'>
-						<?php foreach ( $this->video_cats as $cat ) {
-							//skip if no vids in category
-							if ( count( $cat['list'] ) == 0 ) {
+				<?php foreach ( $this->video_cats as $cat ) {
+					//skip if no vids in category
+					if ( count( $cat['list'] ) == 0 ) {
+						continue;
+					}
+					?>
+					<table class='widefat grid-item' style="width: 19%; float: left; margin-right: 1%;margin-bottom: 10px;clear: none;">
+						<thead>
+						<tr>
+							<th scope='col'><?php echo $cat['name']; ?></th>
+						</tr>
+						</thead>
+						<tbody id='the-list'>
+						<?php
+						$class = '';
+						foreach ( $cat['list'] as $video ) {
+							if ( ! isset( $this->video_list[ $video ] ) ) {
 								continue;
 							}
-							?>
-							<table class='widefat grid-item' style="width: 19%; float: left; margin-right: 1%;margin-bottom: 10px;clear: none;">
-								<thead>
-								<tr>
-									<th scope='col'><?php echo $cat['name']; ?></th>
-								</tr>
-								</thead>
-								<tbody id='the-list'>
-								<?php
-								$class = '';
-								foreach ( $cat['list'] as $video ) {
-									if ( ! isset( $this->video_list[ $video ] ) ) {
-										continue;
-									}
-									//=========================================================//
-									$highlight = ( isset( $_GET['vid'] ) && $_GET['vid'] == $video ) ? ' style="color:#D54E21;font-weight:bold;"' : '';
-									echo "<tr class='$class'>";
-									echo "<td valign='top'><a href='" . $this->page_url . "&vid=$video" . "'$highlight>" . esc_attr( $this->video_list[ $video ] ) . "</a></td>";
-									echo "</tr>";
-									$class = ( 'alternate' == $class ) ? '' : 'alternate';
-									//=========================================================//
-								}
-								?>
-								</tbody>
-							</table>
-						<?php } ?>
-						<div class="clear"></div>
-					</div>
-				</div>
-
+							//=========================================================//
+							$highlight = ( isset( $_GET['vid'] ) && $_GET['vid'] == $video ) ? ' style="color:#D54E21;font-weight:bold;"' : '';
+							echo "<tr class='$class'>";
+							echo "<td valign='top'><a href='" . $this->page_url . "&vid=$video" . "'$highlight>" . esc_attr( $this->video_list[ $video ] ) . "</a></td>";
+							echo "</tr>";
+							$class = ( 'alternate' == $class ) ? '' : 'alternate';
+							//=========================================================//
+						}
+						?>
+						</tbody>
+					</table>
+				<?php } ?>
+				<div class="clear"></div>
 			</div>
 
 		</div>

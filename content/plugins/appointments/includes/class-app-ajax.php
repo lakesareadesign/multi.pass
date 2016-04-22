@@ -78,6 +78,7 @@ class Appointments_AJAX {
 		$resend = $_POST["resend"];
 
 		$data = apply_filters('app-appointment-inline_edit-save_data', $data);
+		do_action( 'appointments_inline_edit', $app_id, $data );
 
 		$update_result = $insert_result = false;
 		if ( $app ) {
@@ -89,13 +90,11 @@ class Appointments_AJAX {
 
 		} else {
 			// Insert
-			$app_id = appointments_insert_appointment( $data );
-			if ( $app_id ) {
-				$insert_result = true;
-				if ( $resend ) {
-					appointments_send_confirmation( $app_id );
-				}
+			if ( ! $resend ) {
+				add_filter( 'appointments_send_confirmation', '__return_false' );
 			}
+			$app_id = appointments_insert_appointment( $data );
+			$insert_result = true;
 		}
 
 		do_action('app-appointment-inline_edit-after_save', $app_id, $data);
@@ -209,8 +208,9 @@ class Appointments_AJAX {
 		$html = '';
 		$html .= '<tr class="inline-edit-row inline-edit-row-post quick-edit-row-post">';
 
+		$columns = isset( $_POST['columns'] ) ? absint( $_POST['columns'] ) : absint( $_POST['col_len'] );
 		$html .= isset($_POST['col_len']) && is_numeric($_POST['col_len'])
-			? '<td colspan="' . (int)$_POST["col_len"] . '" class="colspanchange">'
+			? '<td colspan="' . $columns . '" class="colspanchange">'
 			: '<td colspan="6" class="colspanchange">'
 		;
 
@@ -632,13 +632,10 @@ class Appointments_AJAX {
 			'yes' == $appointments->options["send_notification"] &&
 			'pending' == $status
 		) {
-			$appointments->send_notification( $insert_id );
+			appointments_send_notification( $insert_id );
 		}
 
-		// Send confirmation if we forced it
-		if ('confirmed' == $status && isset($appointments->options["send_confirmation"]) && 'yes' == $appointments->options["send_confirmation"]) {
-			$appointments->send_confirmation( $insert_id );
-		}
+
 
 		// GCal button
 		if (isset($appointments->options["gcal"]) && 'yes' == $appointments->options["gcal"] && $gcal) {
@@ -769,9 +766,7 @@ class Appointments_AJAX {
 					$currency = $_POST['mc_currency'];
 
 					$appointments->record_transaction($_POST['custom'], $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], '');
-					if ( $appointments->change_status( 'paid', $_POST['custom'] ) )
-						$appointments->send_confirmation( $_POST['custom'] );
-					else {
+					if ( ! appointments_update_appointment_status( $_POST['custom'], 'paid' ) ) {
 						// Something wrong. Warn admin
 						$message = sprintf( __('Paypal confirmation arrived, but status could not be changed for some reason. Please check appointment with ID %s', 'appointments'), $_POST['custom'] );
 

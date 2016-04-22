@@ -30,7 +30,7 @@ class FLPostSliderModule extends FLBuilderModule {
 	 */
 	public function remove_pagination_args($query_args){
 		$query_args['paged'] = 0;
-		$query_args['offset'] = 0;
+		$query_args['offset'] = $this->settings->offset;
 		return $query_args;
 	}
 	

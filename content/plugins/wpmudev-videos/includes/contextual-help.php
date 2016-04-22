@@ -74,14 +74,14 @@ $wpmudev_video_pages = array(
 	'theme-install'      => array( 'install-themes' ),
 );
 
-add_filter( 'contextual_help', 'wpmudev_vids_help', 10, 3 );
+add_filter( 'contextual_help', 'wpmudev_vids_help', 10, 3 );	     	 	 			 		  
 
 function wpmudev_vids_help( $old_help, $screen_id, $screen ) {
 	global $wpmudev_video_pages, $wpmudev_vids, $wp_version;
 
 	if ( isset( $wpmudev_video_pages[ $screen_id ] ) ) {
 		$hidden          = $wpmudev_vids->get_setting( 'hide' );
-		$contextual_help = '<div id="poststuff" class="metabox-holder">';	     	 	 			 		  
+		$contextual_help = '<div class="metabox-holder">';
 		foreach ( $wpmudev_video_pages[ $screen_id ] as $video ) {
 			//skip if not set in master list
 			if ( ! isset( $wpmudev_vids->video_list[ $video ] ) ) {
@@ -100,7 +100,7 @@ function wpmudev_vids_help( $old_help, $screen_id, $screen ) {
 				</div>
 			</div>';
 		}
-		$contextual_help .= '</div><div class="clear"></div>';
+		$contextual_help .= '<div class="clear"></div></div>';
 
 		$screen->add_help_tab( array(
 			'id'      => 'wpmudev_vids',

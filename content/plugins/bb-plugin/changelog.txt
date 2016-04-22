@@ -1,3 +1,9 @@
+<h4>1.7.8 - 04/20/2016</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a bug in the Post Carousel and Post Slider modules caused in 1.7.7 that broke the offset setting.</li>
+</ul>
+
 <h4>1.7.7 - 04/19/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

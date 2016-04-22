@@ -37,18 +37,10 @@ class App_Users_AdditionalFields {
 		add_action('app-additional_fields-validate', array($this, 'validate_submitted_fields'));
 		add_action('wpmudev_appointments_insert_appointment', array($this, 'save_submitted_fields'));
 
-		// Auto-cleanup
-		add_action('app_remove_expired', array($this, 'cleanup_data'));
-		add_action('app_remove_pending', array($this, 'cleanup_data'));
-		// Manual cleanup
-		add_action('wpmudev_appointments_update_appointment_status', array($this, 'manual_cleanup_data'), 10, 2);
-		add_action('app_bulk_status_change', array($this, 'bulk_cleanup_data'));
-		// Delete filters
-		add_action('appointments_delete_appointment', array($this, 'permanently_deleted_cleanup'));
 
 		// Display additional notes
 		add_filter('app-appointments_list-edit-client', array($this, 'display_inline_data'), 10, 2);
-		add_action('app-appointment-inline_edit-before_response', array($this, 'save_admin_submitted_data'), 10, 2);
+		add_action( 'appointments_inline_edit', array( $this, 'save_admin_submitted_data' ), 10, 2 );
 
 		// Email filters
 		add_filter('app_notification_message', array($this, 'expand_email_macros'), 10, 3);
@@ -216,44 +208,6 @@ EO_ADMIN_JS;
 		return $result;
 	}
 
-	public function bulk_cleanup_data ($app_ids) {
-		$status = !empty($_POST["app_new_status"]) ? $_POST['app_new_status'] : false;
-		if ('removed' != $status) return false;
-		$app_ids = !empty($app_ids) && is_array($app_ids) ? $app_ids : array();
-		foreach ($app_ids as $app_id) {
-			$app_id = (int)$app_id;
-			if (!$app_id) continue;
-			$this->cleanup_data(appointments_get_appointment($app_id));
-		}
-	}
-
-	public function permanently_deleted_cleanup ($app_ids) {
-		$fields = !empty($this->_data['additional_fields']) ? $this->_data['additional_fields'] : array();
-		if (empty($fields)) return false;
-		$app_ids = !empty($app_ids) && is_array($app_ids) ? $app_ids : array();
-		foreach ($app_ids as $app_id) {
-			$app_id = (int)$app_id;
-			if (!$app_id) continue;
-			$this->_remove_appointment_meta($app_id);
-		}
-	}
-
-	public function manual_cleanup_data ($app_id, $new_status) {
-		if ('removed' != $new_status) return false;
-		$this->cleanup_data(appointments_get_appointment($app_id));
-	}
-
-	public function cleanup_data ($app) {
-		$cleanup = !isset($this->_data['additional_fields-cleanup']) || !empty($this->_data['additional_fields-cleanup']);
-		if (!$cleanup) return false;
-
-		$status = !empty($app->status) ? $app->status : '';
-		if ('removed' != $status) return false;
-
-		$fields = !empty($this->_data['additional_fields']) ? $this->_data['additional_fields'] : array();
-		if (empty($fields)) return false;
-		if (!empty($app->ID)) $this->_remove_appointment_meta($app->ID);
-	}
 
 	public function field_names ($map) {
 		$fields = !empty($this->_data['additional_fields']) ? $this->_data['additional_fields'] : array();
@@ -453,11 +407,11 @@ function parse_template (str, data) {
 		interpolate : /\{\{([\s\S]+?)\}\}/g
 	};
 
-	t = _.template(str, data);
+	var compiled = _.template(str);
 
 	_.templateSettings = orig_settings;
 
-	return t;
+	return compiled(data);
 }
 
 function add_new_field () {

@@ -626,15 +626,22 @@ function um_profile_id() {
 	/***
 	***	@Check value of queried search in text input
 	***/
-	function um_queried_search_value( $filter ) {
+	function um_queried_search_value( $filter, $echo = true ) {
 		global $ultimatemember;
+		$value = '';
 		if ( isset($_REQUEST['um_search']) ) {
 			$query = $ultimatemember->permalinks->get_query_array();
-			if ( $query[$filter] != '' ) {
-				echo stripslashes_deep( $query[$filter] );
+			if ( $query[ $filter ] != '' ) {
+				$value = stripslashes_deep( $query[ $filter ] );
 			}
 		}
-		echo '';
+		
+		if( $echo ){
+			echo $value;
+		}else{
+			return $value;
+		}
+
 	}
 
 	/***
@@ -1327,14 +1334,16 @@ function um_fetch_user( $user_id ) {
 
 				if ( um_user('first_name') && um_user('last_name') ) {
 					$initial = um_user('last_name');
-					$f_and_l_initial =  um_user('first_name').' '.$initial[0];
+					$f_and_l_initial =  strtolower( um_user('first_name') ).' '. strtoupper( $initial[0]);
 				}else{
 					$f_and_l_initial = um_profile( $data );
 				}
 
 				$f_and_l_initial = $ultimatemember->validation->safe_name_in_url( $f_and_l_initial );
 
-				return $f_and_l_initial;
+				$name = ucwords( strtolower( $f_and_l_initial ) ); 
+				
+				return $name;
 
 			break;
 
@@ -1417,7 +1426,7 @@ function um_fetch_user( $user_id ) {
 					}
 				}
 
-
+				$name = ucwords( strtolower( $name ) ); 
 
 				return apply_filters('um_user_display_name_filter', $name, um_user('ID'), ( $attrs == 'html' ) ? 1 : 0 );
 
@@ -1646,4 +1655,45 @@ function um_fetch_user( $user_id ) {
 		}
 		
 		return $lang_code;
+	}
+
+	/**
+	 * Get current page type
+	 * @return string
+	 */
+	function um_get_current_page_type() {
+	    global $wp_query;
+	    $loop = 'notfound';
+
+	    if ( $wp_query->is_page ) {
+	        $loop = is_front_page() ? 'front' : 'page';
+	    } elseif ( $wp_query->is_home ) {
+	        $loop = 'home';
+	    } elseif ( $wp_query->is_single ) {
+	        $loop = ( $wp_query->is_attachment ) ? 'attachment' : 'single';
+	    } elseif ( $wp_query->is_category ) {
+	        $loop = 'category';
+	    } elseif ( $wp_query->is_tag ) {
+	        $loop = 'tag';
+	    } elseif ( $wp_query->is_tax ) {
+	        $loop = 'tax';
+	    } elseif ( $wp_query->is_archive ) {
+	        if ( $wp_query->is_day ) {
+	            $loop = 'day';
+	        } elseif ( $wp_query->is_month ) {
+	            $loop = 'month';
+	        } elseif ( $wp_query->is_year ) {
+	            $loop = 'year';
+	        } elseif ( $wp_query->is_author ) {
+	            $loop = 'author';
+	        } else {
+	            $loop = 'archive';
+	        }
+	    } elseif ( $wp_query->is_search ) {
+	        $loop = 'search';
+	    } elseif ( $wp_query->is_404 ) {
+	        $loop = 'notfound';
+	    }
+
+	    return $loop;
 	}
