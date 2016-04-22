@@ -20,6 +20,17 @@ function ns_add_body_class( $classes ) {
 
 }
 
+//* Remove Skip Links from a template
+remove_action ( 'genesis_before_header', 'genesis_skip_links', 5 );
+
+//* Dequeue Skip Links Script
+add_action( 'wp_enqueue_scripts', 'ns_dequeue_skip_links' );
+function ns_dequeue_skip_links() {
+
+	wp_dequeue_script( 'skip-links' );
+
+}
+
 //* Remove site header elements
 remove_action( 'genesis_header', 'genesis_header_markup_open', 5 );
 remove_action( 'genesis_header', 'genesis_do_header' );

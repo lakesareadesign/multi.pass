@@ -51,19 +51,38 @@ function aspire_front_page_genesis_meta() {
 		}
 
 		//* Force full width content layout
-		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
+		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_content_sidebar' );
 
 		//* Remove breadcrumbs
 		remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
 
-		//* Remove the default Genesis loop
-		remove_action( 'genesis_loop', 'genesis_do_loop' );
-
 		//* Add homepage widgets
-		add_action( 'genesis_loop', 'aspire_front_page_widgets' );
-		add_action( 'genesis_loop', 'aspire_front_page_widgets_mid' );
-		add_action( 'genesis_loop', 'aspire_front_page_widgets_bottom' );
+		add_action( 'genesis_after_header', 'aspire_front_page_widgets' );
+		add_action( 'genesis_after_header', 'aspire_front_page_widgets_mid' );
+		add_action( 'genesis_after_header', 'aspire_front_page_widgets_bottom' );
 		
+		$journal = get_option( 'aspire_journal_setting', 'true' );
+		
+				if ( $journal === 'true' ) {
+		
+					//* Add opening markup for blog section
+					add_action( 'genesis_before_loop', 'aspire_front_page_blog_open' );
+		
+					//* Add closing markup for blog section
+					add_action( 'genesis_after_loop', 'aspire_front_page_blog_close' );
+		
+				} else {
+		
+					//* Remove the default Genesis loop
+					remove_action( 'genesis_loop', 'genesis_do_loop' );
+		
+					//* Remove .site-inner
+					add_filter( 'genesis_markup_site-inner', '__return_null' );
+					add_filter( 'genesis_markup_content-sidebar-wrap_output', '__return_false' );
+					add_filter( 'genesis_markup_content', '__return_null' );
+					remove_action( 'genesis_sidebar', 'genesis_do_sidebar' );
+		
+				}
 
 		//* Add featured-section body class
 		if ( is_active_sidebar( 'front-page-1' ) ) {
@@ -184,6 +203,36 @@ function aspire_front_page_widgets_bottom() {
 		'after'  => '</div></div></div></div>',
 	) );
 	
+
+}
+
+//* Add opening markup for blog section
+function aspire_front_page_blog_open() {
+
+	$journal_text = get_option( 'aspire_journal_text', __( 'Latest From the Blog', 'aspire' ) );
+	
+	if ( 'posts' == get_option( 'show_on_front' ) ) {
+
+		echo '<div id="journal" class="widget-area"><div class="wrap">';
+
+		if ( ! empty( $journal_text ) ) {
+
+			echo '<h2 class="widgettitle widget-title journal-title">' . $journal_text . '</h2><hr>';
+
+		}
+
+	}
+
+}
+
+//* Add closing markup for blog section
+function aspire_front_page_blog_close() {
+
+	if ( 'posts' == get_option( 'show_on_front' ) ) {
+
+		echo '</div></div>';
+
+	}
 
 }
 

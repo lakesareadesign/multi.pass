@@ -31,4 +31,9 @@ CHANGELOG
 
 = 1.0.1 =
 * Update blog page template
-* Remove IE8 CSS fix for images 
+* Remove IE8 CSS fix for images
+
+= 1.0.2 =
+* Adjust mobile menu button ID
+* Improve skip links
+* Adjust paginated mobile layout

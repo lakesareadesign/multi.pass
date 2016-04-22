@@ -1,5 +1,19 @@
 # Jessica Changelog
 
+## 1.3.0 - 07 Mar 2016
+* Change Genesis Simple Sidebar related logic to be compatible with Genesis 2.2.7    
+* Update Soliloquy plugin install script                
+
+### Files Modified
+* /style.css (version number only)  
+* /style-rtl.css (version number only)  
+* /lib/languages/*  
+* /lib/plugins/class-tgm-plugin-activation.php  
+* /lib/plugins/plugins.php  
+* /lib/structure/sidebar.php    
+
+---
+
 ## 1.2.10 - 05 Feb 2016
 * Fix for Genesis Connect for WooCommerce with Genesis Simple Sidebars compatibility    
 * Fix typo in Social Widget code                

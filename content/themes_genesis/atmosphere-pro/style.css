@@ -5,9 +5,9 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 1.0.2
+	Version: 1.0.3
 
-	Tags: develop, black, blue, white, one-column, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
+	Tags: black, blue, white, one-column, responsive-layout, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
 
 	Template: genesis
 	Template Version: 2.2
@@ -312,11 +312,6 @@ img {
 	height: auto;
 }
 
-.featured-content img,
-.gallery img {
-	width: auto;
-}
-
 /* Gallery
 --------------------------------------------- */
 
@@ -364,6 +359,17 @@ img {
 
 .gallery-columns-9 .gallery-item {
 	width: 11.1111%;
+}
+
+.gallery-columns-2 .gallery-item:nth-child(2n+1),
+.gallery-columns-3 .gallery-item:nth-child(3n+1),
+.gallery-columns-4 .gallery-item:nth-child(4n+1),
+.gallery-columns-5 .gallery-item:nth-child(5n+1),
+.gallery-columns-6 .gallery-item:nth-child(6n+1),
+.gallery-columns-7 .gallery-item:nth-child(7n+1),
+.gallery-columns-8 .gallery-item:nth-child(8n+1),
+.gallery-columns-9 .gallery-item:nth-child(9n+1) {
+	clear: left;
 }
 
 .gallery img {
@@ -1230,6 +1236,10 @@ a[rel~="attachment"]:hover,
 	letter-spacing: 1px;
 	padding: 10px;
 	text-transform: uppercase;
+}
+
+.genesis-nav-menu .current-menu-item > a {
+	color: #55acee;
 }
 
 .genesis-nav-menu .sub-menu {

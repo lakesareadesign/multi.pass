@@ -24,11 +24,12 @@ function atmosphere_css() {
 		a:focus,
 		.entry-title a:hover,
 		.entry-title a:focus,
+		.genesis-nav-menu .current-menu-item > a,
 		.js nav button:focus,
 		.js .menu-toggle:focus {
 			color: %1$s;
 		}
-		@media only screen and (max-width: 1280px) {
+		@media only screen and (max-width: 1024px) {
 
 			.nav-primary li.highlight > a:hover,
 			.nav-primary li.menu-item.highlight > a:focus {
@@ -83,7 +84,7 @@ function atmosphere_css() {
 		}
 		', $color_accent ) : '';
 
-	if( $css ){
+	if ( $css ) {
 		wp_add_inline_style( $handle, $css );
 	}
 

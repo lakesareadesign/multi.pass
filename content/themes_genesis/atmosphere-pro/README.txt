@@ -42,3 +42,8 @@ CHANGELOG
 * Adjust menu position when admin bar is used
 * Address unlinked heading color in footer widgets
 * Adjust featured content spacing in footer widgets on blog page template
+
+= 1.0.3 =
+* Adjust mobile menu button ID
+* Improve skip links
+* Add rems to genesis-accessibility

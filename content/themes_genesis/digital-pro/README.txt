@@ -38,4 +38,12 @@ CHANGELOG
 
 = 1.0.1 =
 * Adjust front-page-1 widget title
+
+= 1.0.2 =
 * Footer widget width in Safari
+* Adjust mobile menu button ID
+* Update post meta to include Author
+* Improve Skip Links
+* Current menu item highlight
+* Add rems to genesis-accessibility
+* Change font to Lora

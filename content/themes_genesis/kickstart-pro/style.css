@@ -3,7 +3,7 @@
 	Description: A super slim start up theme for the Genesis Framework.
 	Author: Lean Themes
 	Author URI: http://leanthemes.co/
-	Version: 1.3.2
+	Version: 1.3.4
 
 	Tags: black, orange, white, one-column, two-columns, background, custom-menu, full-width-template, responsive-layout, rtl-language-support, theme-options, threaded-comments, translation-ready
 
@@ -81,6 +81,7 @@
 		- max-width: 1023px
 		- max-width: 900px
 		- max-width: 480px
+		- max-width: 400px;
 
 */
 
@@ -2179,7 +2180,7 @@ html > body div.slide-excerpt-border {
 
 .home-top .widget p,
 div.slide-excerpt-border p {
-	line-height: 44px;
+	line-height: 1.25;
 	margin-bottom: 0;
 	padding: 27px;
 }
@@ -3325,7 +3326,6 @@ Media Queries
 	}
 
 	html > body div.slide-excerpt-border p {
-		line-height: 30px;
 	    padding: 15px;
 	}
 
@@ -3419,23 +3419,13 @@ Media Queries
 		padding-right: 0;
 	}
 
-	html > body div.slide-excerpt-border {
-		bottom: 0;
-		width: 100%;
-	}
-
 	html > body div.slide-excerpt-border p {
 		font-size: 16px;
-		line-height: 1.5;
 		padding: 10px 20px;
 	}
 
 	html > body div.slide-excerpt-border .featured-link a {
 		padding: 10px 50px 10px 20px;
-	}
-
-	ul.flex-direction-nav {
-		display: none;
 	}
 
 	.home-row .enews-widget input {
@@ -3447,5 +3437,19 @@ Media Queries
 		margin-left: 0;
 		max-width: 100%;
 	}
+
+}
+
+@media only screen and (max-width: 400px) {
+
+	ul.flex-direction-nav {
+		display: none;
+	}
+
+	div.flexslider .slides img {
+		height: 170px;
+		max-width: none;
+		width: auto;
+    }
 
 }

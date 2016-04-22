@@ -5,9 +5,9 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 1.0.1
+	Version: 1.0.3
 
-	Tags: develop, black, blue, white, one-column, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
+	Tags: black, red, white, one-column, two-columns, left-sidebar, right-sidebar, responsive-layout, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
 
 	Template: genesis
 	Template Version: 2.2
@@ -68,6 +68,7 @@
 - Media Queries
 	- Min-width: 801px
 	- Max-width: 800px
+	- Max-width: 600px
 */
 
 
@@ -143,17 +144,17 @@ html {
 
 /* Chrome fix */
 body > div {
-    font-size: 2rem;
+    font-size: 1.6rem;
 }
 
 body {
 	background-color: #fff;
 	color: #5b5e5e;
-	font-family: 'Neuton', sans-serif;
-	font-size: 20px;
-	font-size: 2rem;
-	font-weight: 300;
-	line-height: 1.75;
+	font-family: 'Lora', sans-serif;
+	font-size: 16px;
+	font-size: 1.6rem;
+	font-weight: 400;
+	line-height: 2;
 	margin: 0;
 	-webkit-font-smoothing: antialiased;
 }
@@ -218,8 +219,8 @@ strong {
 }
 
 small {
-	font-size: 16px;
-	font-size: 1.6rem;
+	font-size: 14px;
+	font-size: 1.4rem;
 }
 
 blockquote,
@@ -392,6 +393,17 @@ img.entry-image {
 	width: 11.1111%;
 }
 
+.gallery-columns-2 .gallery-item:nth-child(2n+1),
+.gallery-columns-3 .gallery-item:nth-child(3n+1),
+.gallery-columns-4 .gallery-item:nth-child(4n+1),
+.gallery-columns-5 .gallery-item:nth-child(5n+1),
+.gallery-columns-6 .gallery-item:nth-child(6n+1),
+.gallery-columns-7 .gallery-item:nth-child(7n+1),
+.gallery-columns-8 .gallery-item:nth-child(8n+1),
+.gallery-columns-9 .gallery-item:nth-child(9n+1) {
+	clear: left;
+}
+
 .gallery img {
 	border: 1px solid #ddd;
 	height: auto;
@@ -479,6 +491,10 @@ input[type="submit"],
 }
 
 a.button.small,
+button.small,
+input[type="button"].small,
+input[type="reset"].small,
+input[type="submit"].small,
 .entry-content a.button.small,
 .textwidget a.button.small {
 	font-size: 12px;
@@ -492,14 +508,6 @@ input[type="submit"],
 	font-size: 1.6rem;
 	padding: 20px 25px;
 	width: 100%;
-}
-
-button.small,
-input[type="button"].small,
-input[type="reset"].small,
-input[type="submit"].small,
-.button.small {
-	padding: 8px 16px;
 }
 
 a.more-link {
@@ -1363,7 +1371,8 @@ a[rel~="attachment"]:hover,
 }
 
 .genesis-nav-menu a:focus,
-.genesis-nav-menu a:hover {
+.genesis-nav-menu a:hover,
+.genesis-nav-menu .current-menu-item > a {
 	color: #e85555;
 }
 
@@ -1539,8 +1548,8 @@ a[rel~="attachment"]:hover,
 .single .entry-content p.intro {
 	color: #232525;
 	display: block;
-	font-size: 24px;
-	font-size: 2.4rem;
+	font-size: 20px;
+	font-size: 2rem;
 	font-style: italic;
 }
 
@@ -1558,20 +1567,12 @@ a[rel~="attachment"]:hover,
 
 p.entry-meta {
 	font-family: 'Poppins', sans-serif;
-	font-size: 10px;
-	font-size: 1rem;
-	font-weight: 400;
-	letter-spacing: 1px;
-	margin-bottom: 10px;
-	text-transform: uppercase;
-}
-
-.entry-categories,
-.entry-header .post-edit-link,
-.entry-time {
 	font-size: 12px;
 	font-size: 1.2rem;
 	font-weight: 600;
+	letter-spacing: 1px;
+	margin-bottom: 10px;
+	text-transform: uppercase;
 }
 
 .entry-meta a,
@@ -1694,8 +1695,6 @@ p.entry-meta {
 
 .content-sidebar .sidebar,
 .sidebar-content .sidebar {
-	font-size: 18px;
-	font-size: 1.8rem;
 	width: 30%;
 }
 
@@ -1920,8 +1919,8 @@ p.form-submit,
 }
 
 .site-footer p {
-	font-size: 16px;
-	font-size: 1.6rem;
+	font-size: 14px;
+	font-size: 1.4rem;
 	margin-bottom: 0;
 }
 

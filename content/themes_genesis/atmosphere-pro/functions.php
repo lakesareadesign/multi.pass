@@ -17,7 +17,7 @@ include_once( get_stylesheet_directory() . '/lib/output.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'Atmosphere Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/atmosphere/' );
-define( 'CHILD_THEME_VERSION', '1.0.2' );
+define( 'CHILD_THEME_VERSION', '1.0.3' );
 
 //* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'atmosphere_scripts_styles' );
@@ -26,7 +26,7 @@ function atmosphere_scripts_styles() {
 	wp_enqueue_style( 'google-fonts', '//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700', array(), CHILD_THEME_VERSION );
 	wp_enqueue_style( 'ionicons', '//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css', array(), CHILD_THEME_VERSION );
 	
-	wp_enqueue_script( 'atmosphere-responsive-menu', get_bloginfo( 'stylesheet_directory' ) . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0', true );
+	wp_enqueue_script( 'atmosphere-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0', true );
 	$output = array(
 		'mainMenu' => __( 'Menu', 'atmosphere' ),
 		'subMenu'  => __( 'Menu', 'atmosphere' ),
@@ -39,7 +39,7 @@ function atmosphere_scripts_styles() {
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 
 //* Add accessibility support
-add_theme_support( 'genesis-accessibility', array( '404-page', 'drop-down-menu', 'headings', 'search-form', 'skip-links' ) );
+add_theme_support( 'genesis-accessibility', array( '404-page', 'drop-down-menu', 'headings', 'rems', 'search-form', 'skip-links' ) );
 
 //* Add screen reader class to archive description
 add_filter( 'genesis_attr_author-archive-description', 'genesis_attributes_screen_reader_class' );
@@ -63,7 +63,7 @@ add_theme_support( 'custom-background' );
 add_theme_support( 'genesis-after-entry-widget-area' );
 
 //* Rename primary and secondary navigation menus
-add_theme_support ( 'genesis-menus' , array ( 'primary' => __( 'Header Menu', 'atmosphere' ), 'secondary' => __( 'Footer Menu', 'atmosphere' ) ) );
+add_theme_support( 'genesis-menus' , array( 'primary' => __( 'Header Menu', 'atmosphere' ), 'secondary' => __( 'Footer Menu', 'atmosphere' ) ) );
 
 //* Remove output of primary navigation right extras
 remove_filter( 'genesis_nav_items', 'genesis_nav_right', 10, 2 );
@@ -93,13 +93,27 @@ add_action( 'genesis_footer', 'genesis_do_subnav', 12 );
 
 //* Reduce the secondary navigation menu to one level depth
 add_filter( 'wp_nav_menu_args', 'atmosphere_secondary_menu_args' );
-function atmosphere_secondary_menu_args( $args ){
+function atmosphere_secondary_menu_args( $args ) {
 
-	if( 'secondary' != $args['theme_location'] )
-	return $args;
+	if ( 'secondary' != $args['theme_location'] ) {
+		return $args;
+	}
 
 	$args['depth'] = 1;
+
 	return $args;
+
+}
+
+//* Remove skip link for primary navigation
+add_filter( 'genesis_skip_links_output', 'atmosphere_skip_links_output' );
+function atmosphere_skip_links_output( $links ) {
+
+	if ( isset( $links['genesis-nav-primary'] ) ) {
+		unset( $links['genesis-nav-primary'] );
+	}
+
+	return $links;
 
 }
 
@@ -128,7 +142,7 @@ function atmosphere_customize_register( $wp_customize ) {
 //* Modify the entry title text
 function atmosphere_title( $title ) {
 
-	if( genesis_get_custom_field( 'large_title' ) ) {
+	if ( genesis_get_custom_field( 'large_title' ) ) {
 		$title = '<span class="atmosphere-large-text">' . genesis_get_custom_field( 'large_title' ) . '</span><span class="intro">' . $title . '</span>';
 	}
 
@@ -140,7 +154,7 @@ function atmosphere_title( $title ) {
 add_action( 'genesis_entry_header', 'atmosphere_add_title_filter', 1 );
 function atmosphere_add_title_filter() {
 
-	if( is_singular() ) {
+	if ( is_singular() ) {
 		add_filter( 'the_title', 'atmosphere_title' );
 	}
 
@@ -213,17 +227,18 @@ function atmosphere_widget_area_class( $id ) {
 
 	$class = '';
 	
-	if( $count == 1 ) {
+	if ( $count == 1 ) {
 		$class .= ' widget-full';
-	} elseif( $count % 3 == 1 ) {
+	} elseif ( $count % 3 == 1 ) {
 		$class .= ' widget-thirds';
-	} elseif( $count % 4 == 1 ) {
+	} elseif ( $count % 4 == 1 ) {
 		$class .= ' widget-fourths';
-	} elseif( $count % 2 == 0 ) {
+	} elseif ( $count % 2 == 0 ) {
 		$class .= ' widget-halves uneven';
 	} else {	
 		$class .= ' widget-halves';
 	}
+
 	return $class;
 	
 }

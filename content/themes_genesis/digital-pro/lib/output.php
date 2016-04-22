@@ -1,6 +1,13 @@
 <?php
-/* 
- * Adds the required CSS to the front end.
+/**
+ * Digital Pro.
+ *
+ * This file adds the required CSS to the front end to the Digital Pro Theme.
+ *
+ * @package Digital
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    http://my.studiopress.com/themes/digital/
  */
 
 add_action( 'wp_enqueue_scripts', 'digital_css' );
@@ -12,7 +19,7 @@ add_action( 'wp_enqueue_scripts', 'digital_css' );
 */
 function digital_css() {
 
-	$handle  = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
+	$handle = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
 
 	$color_accent = get_theme_mod( 'digital_accent_color', digital_customizer_get_default_accent_color() );
 
@@ -55,7 +62,8 @@ function digital_css() {
 		.footer-widgets a:hover,
 		.front-page .front-page-3 a:focus,
 		.front-page .front-page-3 a:hover,
-		.front-page .front-page-2 ul.checkmark li:before,		
+		.front-page .front-page-2 ul.checkmark li:before,
+		.genesis-nav-menu .current-menu-item > a,
 		.genesis-nav-menu a:focus,
 		.genesis-nav-menu a:hover,
 		.js nav button:focus,
@@ -66,7 +74,7 @@ function digital_css() {
 		}
 		', $color_accent ) : '';
 
-	if( $css ){
+	if ( $css ) {
 		wp_add_inline_style( $handle, $css );
 	}
 

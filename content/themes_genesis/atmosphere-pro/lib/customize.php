@@ -56,6 +56,7 @@ function atmosphere_customizer_register() {
 
 	$wp_customize->add_setting( 'atmosphere-front-image', array(
 		'default'  => sprintf( '%s/images/front-page-1.jpg', get_stylesheet_directory_uri() ),
+		'sanitize_callback' => 'esc_url_raw',
 		'type'     => 'option',
 	) );
 	 

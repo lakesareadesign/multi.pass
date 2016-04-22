@@ -114,5 +114,50 @@ function aspire_customizer_register() {
 			)
 		)
 	);
+	
+	//* Add front page setting to the Customizer
+		$wp_customize->add_section( 'aspire_journal_section', array(
+		    'title'    => __( 'Front Page Content Settings', 'aspire' ),
+		    'description' => __( 'Choose if you would like to display the content section below widget sections on the front page.', 'aspire' ),
+		    'priority' => 75.01,
+		));
+		
+		//* Add front page setting to the Customizer
+		$wp_customize->add_setting( 'aspire_journal_setting', array(
+		    'default'           => 'true',
+		    'capability'        => 'edit_theme_options',
+		    'type'              => 'option',
+		));	
+	
+		$wp_customize->add_control( new WP_Customize_Control( 
+		    $wp_customize, 'aspire_journal_control', array(
+				'label'       => __( 'Front Page Content Section Display', 'aspire' ),
+				'description' => __( 'Show or Hide the content section. The section will display on the front page by default.', 'aspire' ),
+				'section'     => 'aspire_journal_section',
+				'settings'    => 'aspire_journal_setting',
+				'type'        => 'select',
+				'choices'     => array(                    
+					'false'   => __( 'Hide content section', 'aspire' ),
+					'true'    => __( 'Show content section', 'aspire' ),
+				),
+		    ))
+		);
+		
+	    $wp_customize->add_setting( 'aspire_journal_text', array(
+			'default'           => __( 'Latest From the Blog', 'aspire' ),
+			'capability'        => 'edit_theme_options',
+			'sanitize_callback' => 'wp_kses_post',
+			'type'              => 'option',
+	    ));
+	
+	    $wp_customize->add_control( new WP_Customize_Control( 
+	        $wp_customize, 'aspire_journal_text_control', array(
+				'label'      => __( 'Journal Section Heading Text', 'aspire' ),
+				'description' => __( 'Choose the heading text you would like to display above posts on the front page.<br /><br />This text will show when displaying posts and using widgets on the front page.', 'aspire' ),
+				'section'    => 'aspire_journal_section',
+				'settings'   => 'aspire_journal_text',
+				'type'       => 'text',
+			))
+		);
 
 }

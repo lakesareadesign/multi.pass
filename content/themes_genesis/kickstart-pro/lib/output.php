@@ -85,7 +85,7 @@ function kickstart_customizer_css() {
 				color: <?php echo get_theme_mod( 'kickstart_primary_color' ); ?>;
 			}
 
-			@media only screen and (max-width: 768px) {
+			@media only screen and (max-width: 900px) {
 				.site-header {
 					background-color: <?php echo get_theme_mod( 'kickstart_primary_color' ); ?>;
 				}

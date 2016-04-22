@@ -46,43 +46,16 @@ function wsm_child_sidebars_init() {
  *
  * @return string/boolean String of sidebar key OR false if none found
  */
-function jessica_child_has_ss_sidebar( $sidebar_key = '_ss_sidebar' ) {
-	static $taxonomies = null;
+function wsm_child_has_ss_sidebar( $sidebar_key = '_ss_sidebar' ) {
+
 	if ( is_singular() && $sidebar_key = genesis_get_custom_field( $sidebar_key ) ) {
 		return $sidebar_key;
 	}
 
-	if ( is_category() ) {
-		$term = get_term( get_query_var( 'cat' ), 'category' );
-		if ( isset( $term->meta[$sidebar_key] ) )
-			return $term->meta[$sidebar_key];
-	}
+	if ( is_tax() || is_category() || is_tag() ) {
 
-	if ( is_tag() ) {
-		$term = get_term( get_query_var( 'tag_id' ), 'post_tag' );
-		if ( isset( $term->meta[$sidebar_key] ) )
-			return $term->meta[$sidebar_key];
-	}
-
-	if ( is_tax() ) {
-
-		if ( function_exists( 'ss_do_sidebar' ) ) {
-
-			if ( null === $taxonomies )
-			$taxonomies = ss_get_taxonomies();
-
-			foreach ( $taxonomies as $tax ) {
-				if ( 'post_tag' == $tax || 'category' == $tax )
-					continue;
-
-				if ( is_tax( $tax ) ) {
-					$obj = get_queried_object();
-					$term = get_term( $obj->term_id, $tax );
-					if ( isset( $term->meta[$sidebar_key] ) )
-						return $term->meta[$sidebar_key];
-					break;
-				}
-			}
+		if ( $sidebar_key = get_term_meta( get_queried_object()->term_id, $sidebar_key, true ) ) {
+			return $sidebar_key;
 		}
 	}
 
@@ -95,7 +68,7 @@ function jessica_child_has_ss_sidebar( $sidebar_key = '_ss_sidebar' ) {
  */
 function jessica_child_do_sidebar() {
 
-	if ( $id = jessica_child_has_ss_sidebar() ) {
+	if ( $id = wsm_child_has_ss_sidebar() ) {
 
 		if ( dynamic_sidebar( $id ) ) { /* do nothing */ }
 	}

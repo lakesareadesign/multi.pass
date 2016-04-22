@@ -54,7 +54,9 @@ function aspire_css() {
 		.button,
 		.widget .button,
 		.front-page-2 .image-section,
-		.popular {
+		.popular,
+		body.woocommerce span.onsale,
+		body.woocommerce ul.products li.product .onsale {
 			background-color: %1$s;
 		}
 

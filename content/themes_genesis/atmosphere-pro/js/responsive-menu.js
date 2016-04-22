@@ -50,7 +50,7 @@
 
 	// Change Skiplinks and Superfish
 	function _doResize() {
-		var buttons = $( 'button[id^=mobile-]' ).attr( 'id' );
+		var buttons = $( 'button[id^="mobile-"]' ).attr( 'id' );
 		if ( typeof buttons === 'undefined' ) {
 			return;
 		}

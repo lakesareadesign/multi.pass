@@ -5,7 +5,7 @@
 	Author: Appfinite
 	Author URI: http://www.appfinite.com/
 
-	Version: 1.0.0
+	Version: 1.1
 
 	Tags: black, white, blue, green, orange, pink, one-column, two-columns, responsive-layout, custom-header, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, rtl-language-support
 
@@ -654,8 +654,9 @@ th {
 
 .front-page .site-container .site-inner {
 	margin-top: 0;
-	max-width: 100%;
+	/*max-width: 100%;*/
 	overflow: hidden;
+	padding-top: 80px;
 }
 
 .aspire-landing .site-container .site-inner {
@@ -1332,6 +1333,7 @@ Site Navigation
 	padding: 20px;
 	position: relative;
 	width: 200px;
+	word-wrap: break-word;
 }
 
 .genesis-nav-menu .sub-menu a:hover,
@@ -2102,6 +2104,88 @@ li.comment { }
 }
 
 
+/*
+Portfolio
+---------------------------------------------------------------------------------------------------- */
+
+.entry-portfolio {
+	margin: 0 0 40px;
+	padding: 0;
+}
+
+.content .portfolio {
+	background: none;
+	float: left;
+	margin: 0 2% 40px 0 !important;
+	overflow: hidden;
+	padding: 0;
+	width: 30.555555555%;
+}
+
+.portfolio .post-image {
+	border: none;
+	margin: 0 0 10px;
+	padding: 0;
+}
+
+.portfolio .post-image:hover {
+	-moz-transition:all .5s ease;	
+	-o-transition:all .5s ease;	
+	-webkit-transition:all .5s ease;
+	transition:all .5s ease;
+	opacity: 0.6;
+}
+
+.portfolio .post .entry-title {
+	font-size: 24px;
+	font-weight: 400;
+	margin: 10px 0;
+}
+
+.portfolio .entry-title a {
+	color: #333;
+}
+
+.portfolio .entry-title a:hover {
+	color: #4c5e6b;
+}
+	
+.portfolio .entry-title a {
+	margin: 0;
+	text-decoration: none;
+}
+
+.portfolio .entry-meta {
+	display: none;
+}
+
+.portfolio .more-link {
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	color: #fff;
+	display: block;
+	padding: 8px 12px;;
+	margin: 20px 0 0;
+	text-align: center;
+	text-decoration: none;	
+	max-width: 150px;
+}
+	
+.content .portfolio .more-link:hover {
+	background: #555;
+	color: #fff;
+}
+
+.portfolio-clear {
+	clear: none;
+}
+
+.portfolio-clear-2 {
+	clear: both;
+}
+
+
 /* # Miscelaneous
 ---------------------------------------------------------------------------------------------------- */
 
@@ -2271,6 +2355,18 @@ div.pp_default .pp_bottom .pp_right {
 	background: none !important;
 }
 
+.journal-title {
+	font-size: 20px;
+	letter-spacing: 1px;
+	text-transform: uppercase;	
+}
+
+#journal hr {
+	border: 1px solid #ddd;
+	margin: 30px 0;
+	width: 100px;
+}
+
 
 /* # Site Footer
 ---------------------------------------------------------------------------------------------------- */
@@ -2330,7 +2426,6 @@ div.pp_default .pp_bottom .pp_right {
     animation-name: fadeInUp;
 }
 
-
 /* # Media Queries
 ---------------------------------------------------------------------------------------------------- */
 
@@ -2382,14 +2477,12 @@ div.pp_default .pp_bottom .pp_right {
 		width: 400px;
 	}
 
-	.sidebar-primary,
-	.title-area {
+	.sidebar-primary {
 		width: 300px;
 	}
-
-	.sidebar-primary,
+	
 	.title-area {
-		width: 300px;
+		width: 200px;
 	}
 
 }
@@ -2415,7 +2508,7 @@ div.pp_default .pp_bottom .pp_right {
 	}
 
 	.front-page .site-inner {
-		max-width: none;
+		max-width: 768px;
 	}
 
 	.site-header {
@@ -2904,6 +2997,26 @@ div.pp_default .pp_bottom .pp_right {
 
 }
 
+@media only screen and (max-height: 740px) {
+
+	.content .portfolio {
+		width: 48%;
+	}
+	
+	.portfolio-clear {
+		clear: both;
+	}
+	
+	.portfolio-clear-2 {
+		clear: none;
+	}
+	
+	.content .portfolio .post-image {
+		width: 100%;
+	}
+	
+}
+
 @media only screen and (max-height: 640px) {
 
 	.front-page-1,
@@ -2916,6 +3029,26 @@ div.pp_default .pp_bottom .pp_right {
 	}
 
 }
+
+@media only screen and (max-height: 550px) {
+
+	.content .portfolio {
+		text-align: center;
+		width: 100%;
+	}
+	
+	.content .portfolio .post-image {
+		width: 100%;
+	}
+	
+	.content .portfolio .more-link {
+		margin: 20px auto 0;
+		padding: 6px;
+		width: 60%;
+	}
+	
+}
+
 
 /* # Print Styles
 ---------------------------------------------------------------------------------------------------- */

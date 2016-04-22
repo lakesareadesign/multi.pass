@@ -17,7 +17,7 @@ include_once( get_stylesheet_directory() . '/lib/output.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'No Sidebar Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/no-sidebar/' );
-define( 'CHILD_THEME_VERSION', '1.0.1' );
+define( 'CHILD_THEME_VERSION', '1.0.2' );
 
 //* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'ns_scripts_styles' );
@@ -223,6 +223,7 @@ add_filter( 'genesis_comment_list_args', 'ns_comments_gravatar' );
 function ns_comments_gravatar( $args ) {
 
 	$args['avatar_size'] = 108;
+
 	return $args;
 
 }

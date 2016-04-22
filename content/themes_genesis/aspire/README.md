@@ -9,6 +9,6 @@
 4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking.
 
 
-## Theme Documentation and Support
+## Theme Support
 
-Please visit http://appfinite.com/theme-setup/aspire-theme-setup/ for Theme Setup and Documentation.  You can also visit http://appfinite.com/forums for theme support.
+Please visit http://appfinite.com/forums for theme support.

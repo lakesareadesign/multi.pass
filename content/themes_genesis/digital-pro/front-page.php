@@ -56,6 +56,7 @@ function digital_front_page_genesis_meta() {
 		function digital_body_class( $classes ) {
 
 			$classes[] = 'front-page';
+
 			return $classes;
 
 		}
@@ -71,7 +72,7 @@ function digital_front_page_genesis_meta() {
 
 		$journal = get_option( 'digital_journal_setting', 'true' );
 
-		if ( $journal === 'true' ) {
+		if ( 'true' === $journal ) {
 
 			//* Add opening markup for blog section
 			add_action( 'genesis_before_loop', 'digital_front_page_blog_open' );
