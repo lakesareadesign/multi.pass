@@ -1,0 +1,562 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "Sidebar Login"
+msgstr ""
+
+#. Short description.
+msgid "Easily add an ajax-enhanced login widget to your WordPress site sidebar."
+msgstr ""
+
+#. Screenshot description.
+msgid "The widget when logged in"
+msgstr ""
+
+#. Screenshot description.
+msgid "The widget when logged out"
+msgstr ""
+
+#. Screenshot description.
+msgid "Widget settings"
+msgstr ""
+
+#. Found in description header.
+msgid "Usage"
+msgstr ""
+
+#. Found in description header.
+msgid "Tags for titles + links"
+msgstr ""
+
+#. Found in description header.
+msgid "Filter Reference"
+msgstr ""
+
+#. Found in description header.
+msgid "Action Reference"
+msgstr ""
+
+#. Found in description header.
+msgid "Notes"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>%username%</code> - logged in users display name"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>%userid%</code> - logged in users ID"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>%firstname%</code> - logged in users firstname"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>%lastname%</code> - logged in users lastname"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>%name%</code> - logged in users firstname + lastname"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>%admin_url%</code> - url to WP admin"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>%logout_url%</code> - logout url"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>%buddypress_profile_url%</code> - Buddypress Profile URL"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>%bbpress_profile_url%</code> - Buddypress Profile URL"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>%avatar%</code> - User Avatar"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_js_in_footer</code> - return true to show JS file in the footer instead of the header"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_include_css</code> - return false to not include the CSS stylesheet"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_logged_in_links</code> - An array of links shown when logged in."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_logged_out_links</code> - An array of links shown when logged out."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_display</code> - Return false to hide the widget."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_logged_in_title</code> - The widget title shown when logged in."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_avatar_size</code> - The avatar size - defaulted to 38 (thats in px)"
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_logged_out_title</code> - The widget title shown when logged out."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_form_args</code> - Arguments for the wp_login_form function."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_login_redirect</code> - Redirect URL after login."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_logout_redirect</code> - the redirect after logging out."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_register_url</code> - The URL for registration links."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_lost_password_url</code> - The URL for lost password links."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_wp_login_form</code> - The HTML of the Login form."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_start</code> - Fired before the widget."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_{logged_in || logged_out}_content_start</code> - Fired before the widget content."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_before_{logged_in || logged_out}_links</code> - Fired before the links."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_after_{logged_in || logged_out}_links</code> - Fire after the links."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_{logged_in || logged_out}_content_end</code> - Fired after the widget content."
+msgstr ""
+
+#. Found in description list item.
+msgid "<code>sidebar_login_widget_end</code> - Fired after the widget."
+msgstr ""
+
+#. Found in description list item.
+msgid "Due to AJAX not working across different domains (see <a href=\"http://en.wikipedia.org/wiki/Same_origin_policy\">same_origin_policy</a>), AJAX logins will be disabled if your site it non-SSL, but the FORCE_SSL_ADMIN constant is set to true. Instead it will fallback to a traditional POST."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Sidebar-Login adds a useful login widget which you can use to login from in the sidebar of your WordPress powered blog."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Once a user logs in it then redirects them back to the page they logged in from rather than the admin panel (this is configurable)."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "If you'd like to contribute code to the plugin you can do so via <a href=\"https://github.com/mikejolley/sidebar-login\">GitHub</a>."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "If you'd like to contribute a translation, <a href=\"https://translate.wordpress.org/projects/wp-plugins/sidebar-login\">the project is hosted on WordPress.org</a>."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Simply go to <code>Appearance &gt; Widgets</code> and drag \"sidebar login\" to the sidebar of your choice. Within the widget are several options you can use for changing the titles or the links displayed to the user."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "To use this widget in a template, use <a href=\"http://codex.wordpress.org/Function_Reference/the_widget\">the <code>the_widget()</code> function</a> which WordPress provides."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "These tags can be used in the widget settings for titles + links and will be replaced at runtime."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tweak - %avatar% placeholder."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tweak - Removed translations due to WordPress.org language packs."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tweak - sidebar_login_widget_wp_login_form filter."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix - Removed force_ssl_login which is deprecated in 4.4 in favour of force_ssl_admin."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Feature - Added firstname, lastname, name tags."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix - PHP4 widget contructors (https://gist.github.com/chriscct7/d7d077afb01011b1839d)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix - Missing strings in localisation."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix - Change email to username during wp_authenticate hook."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Make rememberme show by default, without a widget save."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Renamed textdomain from sidebar_login to sidebar-login."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Moved translations to Transifex."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added Grunt."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed deprecated sidebarlogin function."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Option to show/hide the rememberme checkbox."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Allow login using an email address - username will be queried based on address given."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Support for Buddypress Profile URL via %buddypress_profile_url%. Thanks Tim Reeves."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Support for BBPress Profile URL via %bbpress_profile_url%."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Slovakian translation by Alexander Kriss"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Swedish translation by Tommy Wahlund"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Dutch translation by Bert Smulders"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Russian and Ukranian translation by Yarri"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Polish translation by Czeslaw Liebert"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed nonce check on frontend due to conflict with caching scripts"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Arabic translation by Mamoun Elkheir"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Brazillian translation by Marco André Argenta"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Italian translation by Adriano Calvitto"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Latvian translation by Lana Mangusa"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "German translation by Klaus-Peter"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Wrapped response to prevent crap plugins breaking the response"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Filterable error classes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tweak to how SSL logins are handled."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FR translation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix $link_cap"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Rewrite and code cleanup - class based."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Optionless - Moved all settings to the widgets themselves rather than having a settings page."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed all localisations (these are out of date, and need re-doing)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed JSONP/GET request - although this allowed logins between urls of different origin, it poses a security risk as GET requests are logged."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "XSS Fix"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added classes to tags in widget"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improved/filtered register and lost password links"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed the outdated openid/fb code. Hook it in if you want it."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed markup in favour of wp_login_form()"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Sanitize REQUEST_URI/$pageURL"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Use jsonp to enable login from http to https"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed remember me logic (in js)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Sanitize redirect url"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed esc_attr from username and password to prevent breaking login"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Updated french and italian langs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added Swedish lang by Ove Kaufeldt"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "SSL URL tweak"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Better handling for force_ssl_login and force_ssl_admin"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed a link after request from WordPress.org staff"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "wp_lostpassword_url() for lost password link"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "sanitized user_login"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Uses wp_ajax for ajax login instead of init functions"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Secure cookie logic change"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Login redirect fix"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Error loop fix"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added filter for errors - sidebar_login_error"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Put the project on GitHub"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added new localisations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New options panel"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "AJAX Login"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FORCE_SSL_LOGIN/ADMIN double login issue fix (Thanks to bmaupin)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Only added openid styling if other plugin is installed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added more languages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Further revised the |true / |user_capability code - only need to use one or the other now."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Updated translations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Support for https and style.css"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "is_date fix"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added option for headings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed attribute_escape for esc_attr - therefore this version needs wp 2.8 and above"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "USER LEVEL option gone - replaced with USER CAPABILITY instead - use a capability like 'manage_options'"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Headers sent bugs fixed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Avatar display option"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "More/Updated langs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Moved settings to appearance menu"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Changed min user level to capilbilty 'manage_options'"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed menu showing in wordpress 3.0"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added %USERID% for links"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed white space bug for link options"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Min level setting for links. Add user level after |true when defining the logged in links."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Moved 'settings' from tools to settings."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Encoded ampersand for valid markup"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Moved Labels about"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed SSL url"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Reusable widget"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added changelog to readme."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "OpenID Plugin (http://wordpress.org/extend/plugins/openid/) Integration."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "%username% can be used in your custom links shown when logged in (gets replaced with username)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "WP-FacebookConnect (http://wordpress.org/extend/plugins/wp-facebookconnect/) integration (untested!)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Minor fixes (worked through a big list of em!)"
+msgstr ""
