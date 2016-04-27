@@ -53,6 +53,16 @@ class Domainmap_Utils{
     private static $_mapped_domains = array();
 
     /**
+     * The array of mapped domains.
+     *
+     * @since 4.4.2.2
+     *
+     * @access private
+     * @var array
+     */
+    private static $_mapped_primary_domains = array();
+
+    /**
      * The array of original domains.
      *
      * @since 4.1.0
@@ -62,6 +72,13 @@ class Domainmap_Utils{
      */
     private static $_original_domains = array();
 
+    /**
+     * Original domain
+     *
+     * @var string
+     */
+    private static $_original_domain;
+
     function __construct()
     {
         global $wpdb;
@@ -69,7 +86,9 @@ class Domainmap_Utils{
         $this->_wpdb = $wpdb;
         $this->_http = new CHttpRequest();
         $this->_http->init();
-        $this->_set_mapped_domains();
+
+        if( array() === self::$_mapped_domains )
+            $this->_set_mapped_domains();
 
         return $this;
     }
@@ -80,9 +99,11 @@ class Domainmap_Utils{
      * @since 4.4.2.1
      */
     private function _set_mapped_domains(){
-       $results = $this->_wpdb->get_results( "SELECT blog_id, domain FROM " . DOMAINMAP_TABLE_MAP );
+        $results = $this->_wpdb->get_results( "SELECT blog_id, domain, is_primary  FROM " . DOMAINMAP_TABLE_MAP );
         foreach( $results as $result ){
             self::$_mapped_domains[ $result->blog_id ] = $result->domain;
+            if( $result->is_primary  )
+                self::$_mapped_primary_domains[ $result->blog_id ] = $result->domain;
         }
     }
 
@@ -95,6 +116,17 @@ class Domainmap_Utils{
     public function get_mapped_domains(){
         return self::$_mapped_domains;
     }
+
+    /**
+     * Returns primary mapped domains
+     *
+     * @since 4.4.2.1
+     * @return array|null|object
+     */
+    public function get_mapped_primary_domains(){
+        return self::$_mapped_primary_domains;
+    }
+
     /**
      * Returns original domain
      *
@@ -102,8 +134,13 @@ class Domainmap_Utils{
      * @return mixed|string
      */
     public function get_original_domain( $with_www = false ){
-        $home = network_home_url( '/' );
-        $original_domain = parse_url( $home, PHP_URL_HOST );
+        if( self::$_original_domain ){
+            $original_domain = self::$_original_domain;
+        }else{
+            $home = network_home_url( '/' );
+            $original_domain = parse_url( $home, PHP_URL_HOST );
+            self::$_original_domain = $original_domain;
+        }
         return $with_www ? "www." . $original_domain : $original_domain ;
     }
 
@@ -149,8 +186,10 @@ class Domainmap_Utils{
     }
 
     public function get_admin_scheme( $url = null ){
-        if( $this->is_original_domain( $url ) )
-        return Domainmap_Plugin::instance()->get_option("map_force_admin_ssl") ? "https" : null;
+        if( is_null( $url ) )
+            return  Domainmap_Plugin::instance()->get_option("map_force_admin_ssl") ? "https" : null;
+        else
+            return $this->is_original_domain( $url ) && Domainmap_Plugin::instance()->get_option("map_force_admin_ssl") ? "https" : null;
     }
 
     /**
@@ -186,7 +225,11 @@ class Domainmap_Utils{
         $domain = $_parsed ? $_parsed : $domain;
         $current_domain = isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
         $domain = $domain === "" ? $current_domain  : $domain;
-        $transient_key = domain_map::FORCE_SSL_KEY_PREFIX . $domain;
+        $domain = str_replace("www.", "", $domain );
+        $_domain = $this->is_mapped_domain( $domain ) ? $domain : $this->swap_to_mapped_url( $domain );
+
+        if( $this->is_original_domain( $domain ) && is_object( $dm_mapped ) ) return $dm_mapped->scheme;
+        $transient_key = domain_map::FORCE_SSL_KEY_PREFIX . $_domain;
 
         if( is_object( $dm_mapped )  && $dm_mapped->domain === $domain ){ // use from the global dm_domain
             $force_ssl_on_mapped_domain = (int) $dm_mapped->scheme;
@@ -214,6 +257,7 @@ class Domainmap_Utils{
      * @return bool
      */
     public function is_mapped_domain( $domain = null ){
+        if( in_array( $domain, self::$_mapped_domains )  ) return true;
         return !$this->is_original_domain( $domain );
     }
 
@@ -253,9 +297,11 @@ class Domainmap_Utils{
      * @return bool true if it's original domain, false if not
      */
     public function is_original_domain( $domain = null ){
+        $domain = empty( $domain ) ? $this->_http->hostinfo : "http://" . str_replace(array("http://", "https://"), "", $domain);
 
-        $domain = parse_url( is_null( $domain ) ? $this->_http->hostinfo : $domain  , PHP_URL_HOST );
-
+        $domain = parse_url( $domain , PHP_URL_HOST );
+        $domain = str_replace("www.", "", $domain);
+        if( in_array( $domain, self::$_original_domains ) ) return apply_filters("dm_is_original_domain", true, $domain);
         /** MULTI DOMAINS INTEGRATION */
         if( class_exists( 'multi_domain' ) ){
             global $multi_dm;
@@ -269,6 +315,7 @@ class Domainmap_Utils{
         }
 
         $is_original_domain = $domain === $this->get_original_domain() || strpos($domain, "." . $this->get_original_domain());
+
         return apply_filters("dm_is_original_domain", $is_original_domain, $domain);
     }
 
@@ -329,13 +376,13 @@ class Domainmap_Utils{
      *
      * @return null|string
      */
-    private function _fetch_mapped_domain( $blog_id ) {
+    public function _fetch_mapped_domain( $blog_id ) {
         $errors = $this->_wpdb->suppress_errors();
 
         $sql    = domain_map::allow_multiple()
-            ? sprintf( "SELECT domain FROM %s WHERE blog_id = %d ORDER BY is_primary DESC, id ASC LIMIT 1", DOMAINMAP_TABLE_MAP, $blog_id )
-            : sprintf( "SELECT domain FROM %s WHERE blog_id = %d ORDER BY id ASC LIMIT 1", DOMAINMAP_TABLE_MAP, $blog_id );
-        $domain = $this->_wpdb->get_var( $sql );
+            ? sprintf( "SELECT domain, is_primary FROM %s WHERE blog_id = %d ORDER BY is_primary DESC, id ASC LIMIT 1", DOMAINMAP_TABLE_MAP, $blog_id )
+            : sprintf( "SELECT domain, is_primary FROM %s WHERE blog_id = %d ORDER BY id ASC LIMIT 1", DOMAINMAP_TABLE_MAP, $blog_id );
+        $domain = $this->_wpdb->get_row( $sql, OBJECT );
 
         $this->_wpdb->suppress_errors( $errors );
 
@@ -359,6 +406,11 @@ class Domainmap_Utils{
         }
 
         // if we have already found mapped domain, then return it
+        if ( isset( self::$_mapped_primary_domains[$blog_id] ) ) {
+            return self::$_mapped_primary_domains[$blog_id];
+        }
+
+        // if we have already found mapped domain, then return it
         if ( isset( self::$_mapped_domains[$blog_id] ) ) {
             return self::$_mapped_domains[$blog_id];
         }
@@ -369,12 +421,17 @@ class Domainmap_Utils{
             $domain = is_admin() && $this->is_original_domain() ? $domain : $_SERVER['HTTP_HOST'];
         } else {
             // fetch mapped domain
-            $domain = $this->_fetch_mapped_domain( $blog_id );
+            $fetched_domain = $this->_fetch_mapped_domain( $blog_id );
 
+            $domain = isset( $fetched_domain->domain ) ? $fetched_domain->domain : false;
+            $is_primary = isset( $fetched_domain->is_primary ) ? $fetched_domain->is_primary : false;
         }
 
         // save mapped domain into local cache
-        self::$_mapped_domains[$blog_id] = !empty( $domain ) ? $domain : false;
+        if( $is_primary )
+            self::$_mapped_primary_domains[$blog_id] = $domain;
+        else
+            self::$_mapped_domains[$blog_id] = $domain;
 
         return apply_filters("dm_mapped_domain", $domain, $blog_id, $consider_front_redirect_type);
     }
@@ -486,4 +543,45 @@ class Domainmap_Utils{
         return apply_filters("dm_unswaped_url", $unwapped_url, $url, $blog_id, $include_path ) ;
     }
 
+    /**
+     * Swaps URL from original to mapped one.
+     *
+     * @since 4.1.0
+     * @filter home_url 10 4
+     * @filter site_url 10 4
+     * @filter includes_url 10 2
+     * @filter content_url 10 2
+     * @filter plugins_url 10 3
+     *
+     * @param $url
+     * @param bool $path
+     * @param bool $orig_scheme
+     * @param bool $blog_id
+     * @param bool $consider_front_redirect_type
+     *
+     * @return string
+     */
+    public function swap_to_mapped_url( $url, $path = false, $orig_scheme = false, $blog_id = false, $consider_front_redirect_type = true ) {
+
+        // parse current url
+        $components = $this->parse_mb_url( $url );
+
+        if ( empty( $components['host'] ) ) {
+            return apply_filters("dm_swap_mapped_url", $url, $path, $orig_scheme, $blog_id);
+        }
+
+
+
+        // find mapped domain
+        $mapped_domain = $this->get_mapped_domain( $blog_id, $consider_front_redirect_type );
+
+        if ( !$mapped_domain || $components['host'] == $mapped_domain ) {
+            return apply_filters("dm_swap_mapped_url", $url, $path, $orig_scheme, $blog_id);
+        }
+
+        $components['host'] = $mapped_domain;
+        $components['path'] = "/" . $path;
+
+        return apply_filters("dm_swap_mapped_url", $this->build_url( $components ), $path, $orig_scheme, $blog_id);
+    }
 }

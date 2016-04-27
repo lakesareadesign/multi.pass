@@ -11,7 +11,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		parent::__construct( $plugin_file_path );
 		$this->plugin_slug    = 'wp-migrate-db-pro-multisite-tools';
 		$this->plugin_version = $GLOBALS['wpmdb_meta']['wp-migrate-db-pro-multisite-tools']['version'];
-		if ( ! $this->meets_version_requirements( '1.5.4' ) ) {
+		if ( ! $this->meets_version_requirements( '1.6' ) ) {
 			return;
 		}
 
@@ -261,11 +261,12 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	public function load_assets() {
 		$plugins_url = trailingslashit( plugins_url() ) . trailingslashit( $this->plugin_folder_name );
 		$version     = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : $this->plugin_version;
+		$min         = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		$src = $plugins_url . 'asset/css/styles.css';
+		$src = $plugins_url . 'asset/dist/css/styles.css';
 		wp_enqueue_style( 'wp-migrate-db-pro-multisite-tools-styles', $src, array( 'wp-migrate-db-pro-styles' ), $version );
 
-		$src = $plugins_url . 'asset/js/script.js';
+		$src = $plugins_url . "asset/dist/js/script$min.js";
 		wp_enqueue_script( 'wp-migrate-db-pro-multisite-tools-script',
 			$src,
 			array(

@@ -1,4 +1,11 @@
 * Speed up DNS A record detection on network settings and allow disabling it via DM_SKIP_DNS_CHECK define
+
+== 4.4.2.2 ==
+* Improved: Mapping performance
+* Fixed: Issue with mapping scheme
+* Fixed: Issue with multiple mapped domains
+* Fixed: Multiple issues with translation files
+
 == 4.4.2.1 ==
 * Improved: Better compatibility with Upfront themes
 * Improved: Better scheme forcing
@@ -221,4 +228,4 @@
 * Improved MultiDB compatibility by registering domain mapping tables as global
 
 
-133620-1458014630-au
+133620-1461781372-au

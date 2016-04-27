@@ -963,7 +963,7 @@ class Domainmap_Reseller_Enom extends Domainmap_Reseller {
 		// check if we received invalid xml and was not able to parse it
 		if ( !$response ) {
 			$response = new WP_Error();
-			$response->add( 'invalid_xml', __( 'We received unexpected result from eNom server. Try to resubmit your form again and if you receive information that such login is already exists, then it means that current request was processed successfully.', 'domainmap' ) );
+			$response->add( 'invalid_xml', __( 'We received unexpected result from eNom server. Try to resubmit your form again and if you receive information that such login is already exists, then it means that current request was processed successfully.', 'domainmap' ) );	     	 	  	 	 			
 		}
 
 		// pass FALSE as request type to process errors only
