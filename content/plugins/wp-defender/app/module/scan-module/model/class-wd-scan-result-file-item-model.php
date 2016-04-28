@@ -116,7 +116,7 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 			}
 		} elseif ( empty( $location ) ) {
 			//files belong to no where, deleteable
-			if ( unlink( $this->name ) ) {
+			if ( @unlink( $this->name ) ) {
 				$model = WD_Scan_Api::get_last_scan();
 				$model->delete_item_from_result( $this->id );
 			} else {

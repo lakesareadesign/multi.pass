@@ -38,8 +38,7 @@ class WD_Hardener_Controller extends WD_Controller {
 		 * loads all hardener modules without init
 		 */
 		$this->add_action( 'admin_enqueue_scripts', 'load_scripts' );
-		$this->add_action( 'wp_loaded', 'load_modules' );
-		$this->add_action( 'wd_hardener_after_processed', 'update_results' );
+		$this->add_action( 'wp_loaded', 'load_modules', 9 );
 		if ( WD_Utils::get_setting( 'disable_ping_back->remove_pingback', 0 ) == 1 ) {
 			$this->add_filter( 'wp_headers', 'remove_pingback' );
 		}
@@ -107,12 +106,6 @@ class WD_Hardener_Controller extends WD_Controller {
 		}
 		//sort modules
 		usort( $this->_modules, array( &$this, 'sort_modules' ) );
-		$last_res = WD_Utils::get_setting( 'hardener->results', false );
-		if ( empty( $last_res ) || ! is_array( $last_res ) ) {
-			$this->update_results();
-			//init submit to API
-			WD_Utils::do_submitting( true );
-		}
 	}
 
 	public function sort_modules( $a, $b ) {

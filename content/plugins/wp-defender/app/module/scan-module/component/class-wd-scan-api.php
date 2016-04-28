@@ -8,7 +8,8 @@ class WD_Scan_Api extends WD_Component {
 	protected static $model;
 
 	const CACHE_CORE_FILES = 'wd_cfiles', CACHE_CONTENT_FILES = 'wd_sfiles',
-		CACHE_CONTENT_FILES_FRAG = 'wd_sfrag', CACHE_CONTENT_FOLDERS = 'wd_sfolders';
+		CACHE_CONTENT_FILES_FRAG = 'wd_sfrag', CACHE_CONTENT_FOLDERS = 'wd_sfolders',
+		CACHE_LAST_MD5 = 'wd_lmd5', CACHE_TMP_MD5 = 'wd_tmd5';
 	const ALERT_NESTED_WP = 'wd_nested_wp', ALERT_NO_MD5 = 'wd_no_md5';
 
 	const SCAN_CORE_INTEGRITY = 'core_integrity', SCAN_VULN_DB = 'vulndb', SCAN_SUSPICIOUS_FILE = 'suspicious_file';
@@ -39,7 +40,6 @@ class WD_Scan_Api extends WD_Component {
 		$abs_files = $dir_tree->get_dir_tree();
 		$files     = array_merge( (array) $abs_files, (array) $core_files );
 		WD_Utils::cache( self::CACHE_CORE_FILES, $files );
-		WD_Utils::cache( self::CACHE_CORE_FILES . 'count', count( $files ) );
 
 		return $files;
 	}
@@ -177,7 +177,7 @@ class WD_Scan_Api extends WD_Component {
 	 */
 	public static function calculate_chunks( $files ) {
 		//load maximum 2MB
-		$chunk_size   = 2097152;
+		$chunk_size   = 1000000;
 		$current_size = 0;
 		$chunks       = array();
 		foreach ( $files as $file ) {
@@ -280,11 +280,17 @@ class WD_Scan_Api extends WD_Component {
 	 * @return array|bool|mixed
 	 */
 	public static function get_content_files_fragment() {
-		if ( ( $cache_files = WD_Utils::get_cache( self::CACHE_CONTENT_FILES, false ) ) !== false ) {
+		$cache_files = WD_Utils::get_cache( self::CACHE_CONTENT_FILES, false );
+		if ( is_array( $cache_files ) && count( $cache_files ) ) {
 			//@self::log( 'hit', self::ERROR_LEVEL_DEBUG, 'bb' );
-
 			return $cache_files;
 		}
+
+		/*$files = self::get_sample_files();
+		WD_Utils::cache( self::CACHE_CONTENT_FILES, $files );
+
+		return $files;*/
+
 
 		$exts     = array( 'php' );
 		$max_size = WD_Utils::get_setting( 'max_file_size', false );
@@ -338,7 +344,8 @@ class WD_Scan_Api extends WD_Component {
 	 * this will query folders from root path, but not files
 	 */
 	private static function get_content_folders_fragment() {
-		if ( ( $folders = WD_Utils::get_cache( self::CACHE_CONTENT_FOLDERS, false ) ) !== false ) {
+		$folders = WD_Utils::get_cache( self::CACHE_CONTENT_FOLDERS, false );
+		if ( is_array( $folders ) && count( $folders ) ) {
 			return $folders;
 		}
 		$exclude_dirs       = apply_filters( 'wd_exclude_dirs', array() );
@@ -455,10 +462,20 @@ class WD_Scan_Api extends WD_Component {
 	}
 
 	public static function get_sample_files() {
-		return WD_Utils::get_dir_tree( ABSPATH . 'sample/', true, false, array(), array(
+		return WD_Utils::get_dir_tree( ABSPATH . 'false/', true, false, array(), array(
 			//'filename' => array( 'help.php' )
 			'ext' => array( 'php' )
 		) );
+
+		/*return WD_Utils::get_dir_tree( ABSPATH . 'randomly/', true, false, array(), array(
+			//'filename' => array( 'help.php' )
+			'ext' => array( 'php' )
+		) );*/
+
+		/*return WD_Utils::get_dir_tree( WP_CONTENT_DIR, true, false, array(), array(
+			//'filename' => array( 'help . php' )
+			'ext' => array( 'php' )
+		) );*/
 	}
 
 	/**
@@ -535,6 +552,7 @@ class WD_Scan_Api extends WD_Component {
 		WD_Utils::remove_cache( WD_Suspicious_Scan::TRY_ATTEMPT );
 		WD_Utils::remove_cache( self::ALERT_NESTED_WP );
 		WD_Utils::remove_cache( self::ALERT_NO_MD5 );
+		WD_Utils::remove_cache( 'wd_large_data' );
 		delete_site_option( 'wd_scan_lock' );
 		//sometime user upgrade from single to network, we need to remove the lefrover
 		delete_option( 'wd_scan_lock' );
@@ -543,23 +561,23 @@ class WD_Scan_Api extends WD_Component {
 	public static function virus_weight( $data = array() ) {
 		$b64_res = isset( $data['b64_res'] ) ? $data['b64_res'] : array();
 		if ( count( $b64_res ) ) {
-			//self::log( var_export( $b64_res, true ), self::ERROR_LEVEL_DEBUG, 'b64' );
+			//@self::log( var_export( $b64_res, true ), self::ERROR_LEVEL_DEBUG, 'b64' );
 		}
 		$sconcat_res = isset( $data['sconcat_res'] ) ? $data['sconcat_res'] : array();
 		if ( count( $sconcat_res ) ) {
-			//self::log( var_export( $sconcat_res, true ), self::ERROR_LEVEL_DEBUG, 'sconcat' );
+			//@self::log( var_export( $sconcat_res, true ), self::ERROR_LEVEL_DEBUG, 'sconcat' );
 		}
 		$vconcat_res = isset( $data['vconcat_res'] ) ? $data['vconcat_res'] : array();
 		if ( count( $vconcat_res ) ) {
-			//self::log( var_export( $vconcat_res, true ), self::ERROR_LEVEL_DEBUG, 'vconcat' );
+			//@self::log( var_export( $vconcat_res, true ), self::ERROR_LEVEL_DEBUG, 'vconcat' );
 		}
 		$vfunction_res = isset( $data['vfunction_res'] ) ? $data['vfunction_res'] : array();
 		if ( count( $vfunction_res ) ) {
-			//self::log( var_export( $vfunction_res, true ), self::ERROR_LEVEL_DEBUG, 'vfunc' );
+			//@self::log( var_export( $vfunction_res, true ), self::ERROR_LEVEL_DEBUG, 'vfunc' );
 		}
 		$sfunction_res = isset( $data['sfunction_res'] ) ? $data['sfunction_res'] : array();
 		if ( count( $sfunction_res ) ) {
-			//self::log( var_export( $sfunction_res, true ), self::ERROR_LEVEL_DEBUG, 'sfunc' );
+			//@self::log( var_export( $sfunction_res, true ), self::ERROR_LEVEL_DEBUG, 'sfunc' );
 		}
 
 		$weight      = 0;
@@ -569,9 +587,19 @@ class WD_Scan_Api extends WD_Component {
 		 * if suspicious function found, each function will add 2 weight to other scan type
 		 * if vfunc found, add 1 weight to other scan type
 		 */
-		$weight_plus = count( $sfunction_res ) * 2;
+
+		$functions_used = array();
+		foreach ( $sfunction_res as $sf ) {
+			if ( is_array( $sf ) ) {
+				$functions_used = array_merge( $functions_used, $sf );
+			} else {
+				$functions_used[] = $sf;
+			}
+		}
+
+		$weight_plus = count( $functions_used ) * 1;
 		if ( count( $vfunction_res ) ) {
-			$weight_plus += 1;
+			$weight_plus = $weight_plus + count( $vfunction_res );
 		}
 
 		/**
@@ -580,7 +608,7 @@ class WD_Scan_Api extends WD_Component {
 
 		foreach ( $b64_res as $b64_code ) {
 			//we dont stored code, as it heavily the db
-			unset( $b64_code['code'] );
+			//unset( $b64_code['code'] );
 			$details[] = $b64_code;
 			$weight    = $weight + 14 + $weight_plus;
 		}
@@ -610,6 +638,11 @@ class WD_Scan_Api extends WD_Component {
 			$weight += $local_weight;
 
 			$details[] = $vconcat;
+		}
+
+		if ( $weight_plus ) {
+			$details[] = $sfunction_res;
+			$details[] = $vfunction_res;
 		}
 
 		return array(

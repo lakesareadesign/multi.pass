@@ -72,13 +72,20 @@
 								<strong><?php _e( "Total Core Files: " ) ?></strong>
 								<?php echo count( $core_files ) ?>
 							</p>
+
 							<p>
 								<strong><?php _e( "Fraging Files: " ) ?></strong>
 								<?php echo count( $frag_files ) ?>
 							</p>
+
 							<p>
 								<strong><?php _e( "Total Contents Files: " ) ?></strong>
 								<?php echo count( $content_files ) ?>
+							</p>
+
+							<p>
+								<strong><?php _e( "Large file cache: " ) ?></strong>
+								<?php var_export( WD_Utils::get_cache( 'wd_large_data' ) ) ?>
 							</p>
 						</div>
 						<div class="col span_6_of_12">
@@ -91,6 +98,13 @@
 								<?php
 								$loaded = sys_getloadavg();
 								echo $loaded[0]
+								?>
+							</p>
+
+							<p>
+								<strong><?php _e( "CPU core: " ) ?></strong>
+								<?php
+								echo WD_Utils::get_cpu_cores();
 								?>
 							</p>
 
@@ -141,7 +155,7 @@
 						</div>
 						<div>
 							<?php
-							$res = $model->get_result_by_type( WD_Scan_Result_Model::TYPE_FILE );
+							$res = $model->get_result_by_type( WD_Scan_Result_Model::TYPE_FILE, 0 );
 							?>
 							<h3>
 								<?php echo sprintf( __( "Result Suspicious Scan (%s)" ), count( $res ) ) ?>

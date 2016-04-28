@@ -535,7 +535,7 @@ WDefender.scanning = function () {
                             }
                             setTimeout(function () {
                                 jq('#secret_key_scanning').submit();
-                            }, 3000)
+                            }, 4000)
                         }
                     }
                 })
@@ -550,7 +550,7 @@ WDefender.scanning = function () {
                     current = current.replace(abs_path, '/');
                     scanned_log.append(jq('<p/>').html(current));
                 }
-                setTimeout(function(){
+                setTimeout(function () {
                     queue_up_files(abs_path);
                 }, 5);
             }

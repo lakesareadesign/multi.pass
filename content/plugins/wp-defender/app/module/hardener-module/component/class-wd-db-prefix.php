@@ -171,6 +171,8 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 			) );
 		}
 
+		set_time_limit( - 1 );
+
 		//add trailing underscore if not present
 		if ( substr( $prefix, - 1 ) != '_' ) {
 			$prefix .= '_';

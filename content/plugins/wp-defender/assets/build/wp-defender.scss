@@ -514,6 +514,20 @@
         }
       }
     }
+    #wd_security_key {
+      .security_keys_remind_days {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 10px;
+      }
+
+      #update_security_keys_remind_days {
+        .wdv-icon-ok-sign{
+          font-size:19px;
+          color: #1ABC9C;
+        }
+      }
+    }
   }
   .wd-hardener-error .wd-hardener-rule:last-child .wd-rule-content {
     border-bottom: solid 1px #ddd;

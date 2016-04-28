@@ -352,6 +352,13 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
         padding-left: 50px; }
       .wp-defender .wd-hardener-rules .wd-rule-content .form-ignore button {
         margin-top: 20px; }
+    .wp-defender .wd-hardener-rules #wd_security_key .security_keys_remind_days {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 10px; }
+    .wp-defender .wd-hardener-rules #wd_security_key #update_security_keys_remind_days .wdv-icon-ok-sign {
+      font-size: 19px;
+      color: #1ABC9C; }
   .wp-defender .wd-hardener-error .wd-hardener-rule:last-child .wd-rule-content {
     border-bottom: solid 1px #ddd;
     padding-bottom: 50px; }
@@ -1114,4 +1121,4 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
 /*# sourceMappingURL=wp-defender.css.map */
 
 
-/* 133620-1460350142-au */
+/* 133620-1461878862-au */

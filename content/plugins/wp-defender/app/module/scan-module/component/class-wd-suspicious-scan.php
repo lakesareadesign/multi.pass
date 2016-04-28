@@ -132,19 +132,16 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 		}
 
 		$last_scan = $this->last_scan;
-
-		if ( is_object( $last_scan ) ) {
+		if ( ( $tmp = WD_Utils::get_cache( WD_Scan_Api::CACHE_LAST_MD5, false ) ) !== false ) {
+			$last_checksum = $tmp;
+		} elseif ( is_object( $last_scan ) ) {
 			$last_checksum = $last_scan->md5_tree;
 		} else {
 			$last_checksum = null;
 		}
-
-		$cpu_count = 0;
+		$cpu_count    = 0;
+		$tmp_checksum = WD_Utils::get_cache( WD_Scan_Api::CACHE_TMP_MD5, array() );
 		foreach ( $files as $file ) {
-			if ( ! is_file( $file ) ) {
-				var_dump( $file );
-				die;
-			}
 			if ( $this->cpu_reach_threshold() ) {
 				if ( $this->is_ajax() ) {
 					sleep( 3 );
@@ -162,16 +159,16 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 				}
 			}
 
-			$this->log( 'before memory ' . $this->convert_size( memory_get_usage() ), self::ERROR_LEVEL_DEBUG, 'scan' );
-			$this->log( 'before cpu' . $this->get_cpu_usage(), self::ERROR_LEVEL_DEBUG, 'cpu' );
-			$this->log( 'start file ' . $file, self::ERROR_LEVEL_DEBUG, 'scan' );
+			//$this->log( 'before memory ' . $this->convert_size( memory_get_usage() ), self::ERROR_LEVEL_DEBUG, 'scan' );
+			//$this->log( 'before cpu' . $this->get_cpu_usage(), self::ERROR_LEVEL_DEBUG, 'cpu' );
+			//$this->log( 'start file ' . $file, self::ERROR_LEVEL_DEBUG, 'scan' );
 
 			/**
 			 * we need to check if this is still processing, and fault
 			 */
 			$tried_check = array_count_values( $this->try_attempt );
 			if ( isset( $tried_check[ $file ] ) && $tried_check[ $file ] >= 3 ) {
-				//$this->log( $file, self::ERROR_LEVEL_DEBUG, 'broken' );
+				$this->log( $file, self::ERROR_LEVEL_DEBUG, 'broken' );
 				//skip this
 				//todo index this
 				$this->file_scanned[] = $file;
@@ -187,10 +184,11 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 				WD_Utils::cache( self::TRY_ATTEMPT, $this->try_attempt );
 			}
 
-			$checksum                       = md5_file( $file );
-			$this->model->md5_tree[ $file ] = $checksum;
-
-			if ( is_array( $last_checksum ) && isset( $last_checksum[ $file ] ) && strcmp( $checksum, $last_checksum[ $file ] ) === 0 ) {
+			$checksum = md5_file( $file );
+			//$this->model->md5_tree[ $file ] = $checksum;
+			$tmp_checksum[ $file ] = $checksum;
+			$need_scan             = true;
+			if ( is_object( $last_scan ) && is_array( $last_checksum ) && isset( $last_checksum[ $file ] ) && strcmp( $checksum, $last_checksum[ $file ] ) === 0 ) {
 				$is_ignored = $last_scan->is_file_ignored( $file, 'WD_Scan_Result_File_Item_Model' );
 				$is_issue   = $last_scan->find_result_item_by_file( $file, 'WD_Scan_Result_File_Item_Model' );
 				/**
@@ -201,7 +199,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 
 				if ( is_object( $is_issue ) && $is_ignored ) {
 					$this->model->ignore_files[] = $is_issue->id;
-					$this->model->result[]       = $is_issue;
+					$this->model->add_item( $is_issue );
 					//we dont need scanm this file
 					$need_scan = false;
 				} elseif ( ! is_object( $is_issue ) ) {
@@ -223,9 +221,9 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 			$this->file_scanned[] = $file;
 			$this->model->current_index += 1;
 
-			$this->log( 'after memory ' . $this->convert_size( memory_get_usage() ), self::ERROR_LEVEL_DEBUG, 'scan' );
-			$this->log( 'after cpu' . $this->get_cpu_usage(), self::ERROR_LEVEL_DEBUG, 'cpu' );
-			$this->log( '=================================' );
+			//$this->log( 'after memory ' . $this->convert_size( memory_get_usage() ), self::ERROR_LEVEL_DEBUG, 'scan' );
+			//$this->log( 'after cpu' . $this->get_cpu_usage(), self::ERROR_LEVEL_DEBUG, 'cpu' );
+			//$this->log( '=================================' );
 		}
 
 		/**
@@ -241,6 +239,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 		$this->try_attempt = array();
 		WD_Utils::cache( self::TRY_ATTEMPT, $this->try_attempt );
 		WD_Utils::cache( self::FILE_SCANNED, $this->file_scanned );
+		WD_Utils::cache( WD_Scan_Api::CACHE_TMP_MD5, $tmp_checksum );
 	}
 
 	/**
@@ -249,13 +248,15 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 	 * @return bool|WD_Scan_Result_File_Item_Model
 	 */
 	public function _scan_a_file( $file ) {
-		$content      = $this->read_file_content( $file );
-		$item         = true;
-		$this->tokens = null;
+		$content             = $this->read_file_content( $file );
+		$item                = true;
+		$this->tokens        = null;
+		$this->tokens_is_php = null;
 		if ( $content === false || strlen( $content ) == 0 ) {
 			//quickly skip this, but we still need to record the index & info
 		} else {
 			//break in new line for easier trace
+			$content = trim( preg_replace( '/\s\s+/', '', $content ) );
 			$content = str_replace( ';', ';' . PHP_EOL, $content );
 			$content = preg_replace( "/\n+/", "\n", $content );
 			/**
@@ -324,7 +325,8 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 				}
 				//items
 				$item         = new WD_Scan_Result_File_Item_Model();
-				$item->id     = uniqid();
+				$item->score  = $score;
+				$item->id     = uniqid( "", true );
 				$item->name   = $file;
 				$item->detail = $tmp;
 				//$model->result[] = $item;
@@ -455,7 +457,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 					"' . '",
 					'" . "',
 				), '', $match );
-				if ( ( $decoded = base64_decode( $match ) ) !== false ) {
+				if ( ( $decoded = base64_decode( $match, true ) ) !== false ) {
 					//if this is a normal script, it should been here
 					if ( $this->maybe_danger_decoded_code( $decoded ) ) {
 						//if gone here that must be something
@@ -503,6 +505,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 			} catch ( Exception $e ) {
 
 			}
+
 			/**
 			 * things need to be done here
 			 * 1. Found base 64 encoding
@@ -525,7 +528,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 						//if gone here that must be something
 						$res[] = array(
 							'line'   => $line,
-							'code'   => $match,
+							//'code'   => $match,
 							//'decoded' => $decoded,
 							'offset' => array( $found[1], $found[1] + strlen( $found[0] ) ),
 							'file'   => $file,
@@ -536,7 +539,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 					//can't decode, might be some deeper encrypt, and likely unfriendly
 					$res[] = array(
 						'line'   => $line,
-						'code'   => $match,
+						//'code'   => $match,
 						//'decoded' => false,
 						'offset' => array( $found[1], $found[1] + strlen( $found[0] ) ),
 						'file'   => $file,
@@ -612,8 +615,8 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 	 * @return bool
 	 */
 	private function maybe_danger_decoded_code( $decoded ) {
-		//can decode, need to check some case
 		$decoded = trim( $decoded );
+
 		if ( empty( $decoded ) ) {
 			return false;
 		}
@@ -741,7 +744,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 	}
 
 	public function check() {
-		$files_need_scan = array_diff( $this->total_files,  $this->file_scanned  );
+		$files_need_scan = array_diff( $this->total_files, $this->file_scanned );
 		if ( count( $files_need_scan ) == 0 ) {
 			return true;
 		}

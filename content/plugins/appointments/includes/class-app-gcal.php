@@ -8,7 +8,7 @@ class Appointments_Google_Calendar {
 
 	public $admin;
 
-	private $api_mode = 'none';
+	public $api_mode = 'none';
 
 	private $access_code;
 
@@ -104,14 +104,14 @@ class Appointments_Google_Calendar {
 			return;
 		}
 
-		add_action( 'wpmudev_appointments_insert_appointment', array( $this, 'on_insert_appointment' ) );
-		add_action( 'wpmudev_appointments_update_appointment', array( $this, 'on_update_appointment' ), 10, 3 );
+		add_action( 'wpmudev_appointments_insert_appointment', array( $this, 'on_insert_appointment' ), 50 );
+		add_action( 'wpmudev_appointments_update_appointment', array( $this, 'on_update_appointment' ), 50, 3 );
 		add_action( 'appointments_delete_appointment', array( $this, 'on_delete_appointment' ) );
 	}
 
 	public function remove_appointments_hooks() {
-		remove_action( 'wpmudev_appointments_insert_appointment', array( $this, 'on_insert_appointment' ) );
-		remove_action( 'wpmudev_appointments_update_appointment', array( $this, 'on_update_appointment' ), 10, 3 );
+		remove_action( 'wpmudev_appointments_insert_appointment', array( $this, 'on_insert_appointment' ), 50 );
+		remove_action( 'wpmudev_appointments_update_appointment', array( $this, 'on_update_appointment' ), 50, 3 );
 		remove_action( 'appointments_delete_appointment', array( $this, 'on_delete_appointment' ) );
 	}
 
@@ -422,6 +422,8 @@ class Appointments_Google_Calendar {
 		} else {
 			$location = get_bloginfo( 'description' );
 		}
+
+		$location = apply_filters( 'appointments_gcal_event_location', $location, $app );
 
 		// Dates
 		$start = new Google_Service_Calendar_EventDateTime();
@@ -934,6 +936,9 @@ class Appointments_Google_Calendar {
 		} else {
 			$location = get_bloginfo( 'description' );
 		}
+
+		$location = apply_filters( 'appointments_gcal_event_location', $location, $app );
+
 		$event->setLocation( $location );
 
 		$start = new Google_Service_Calendar_EventDateTime();

@@ -87,8 +87,9 @@ abstract class WD_Scan_Abstract extends WD_Component {
 			return false;
 		} else {
 			$loaded = sys_getloadavg();
+			$core_count = WD_Utils::get_cpu_cores();
 			if ( isset( $loaded[0] ) ) {
-				return $loaded[0];
+				return $loaded[0] / $core_count;
 			}
 		}
 
@@ -101,7 +102,7 @@ abstract class WD_Scan_Abstract extends WD_Component {
 	 */
 	protected function cpu_reach_threshold() {
 		$current = $this->get_cpu_usage();
-		$limit   = apply_filters( 'wd_limit_cpu', 0.85 );
+		$limit   = apply_filters( 'wd_limit_cpu', 0.75 );
 
 		if ( $current === false ) {
 			//we can't detect, it might be windows server, just return

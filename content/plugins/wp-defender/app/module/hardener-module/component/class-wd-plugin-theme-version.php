@@ -135,18 +135,13 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 				if ( isset( $matches[1] ) && count( $matches[1] ) ) {
 					//we only get first line
 					$logs = $matches[1];
-					wp_send_json( array(
-						'status'  => 1,
-						'message' => wp_trim_words( array_shift( $logs ), apply_filters( $this->id . '/truncate_length', 15 ) )
-					) );
+
+					return wp_trim_words( array_shift( $logs ), apply_filters( $this->id . '/truncate_length', 15 ) );
 				}
 			}
 		}
 
-		wp_send_json( array(
-			'status'  => 1,
-			'message' => __( "N/A", wp_defender()->domain )
-		) );
+		return __( "N/A", wp_defender()->domain );
 	}
 
 	public function get_theme_changelog( $slug, $base ) {
@@ -185,44 +180,70 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 			return;
 		}
 
-		$slug = WD_Utils::http_post( 'slug' );
-		$type = WD_Utils::http_post( 'type' );
-		$base = WD_Utils::http_post( 'base' );
-		//must be havin all data, if missing, mean injection or fail plugin
-		if ( empty( $slug ) || empty( $type ) || empty( $base ) ) {
+		$data = isset( $_POST['data'] ) ? $_POST['data'] : array();
+		if ( empty( $data ) ) {
 			return;
 		}
 
-		if ( $type == 'plugin' ) {
-			$this->get_plugin_changelog( $slug, $base );
-		} elseif ( $type == 'theme' ) {
-			$this->get_theme_changelog( $slug, $base );
+		$ret = array();
+
+		foreach ( $data as $item ) {
+			$slug = $item['slug'];
+			$type = $item['type'];
+			$base = $item['base'];
+
+			if ( empty( $slug ) || empty( $type ) || empty( $base ) ) {
+				continue;
+			}
+
+			if ( $type == 'plugin' ) {
+				$info  = $this->get_plugin_changelog( $slug, $base );
+				$ret[] = array(
+					'base' => $base,
+					'html' => $info
+				);
+			}
 		}
+
+		wp_send_json( array(
+			'status' => 1,
+			'data'   => $ret
+		) );
+
 	}
 
 	public function print_scripts() {
 		?>
 		<script type="text/javascript">
 			jQuery(function ($) {
+				var data = [];
 				$('.wd-plugin-changelog').each(function () {
 					var that = $(this);
-					$.ajax({
-						method: 'POST',
-						url: ajaxurl,
-						data: {
-							action: 'wd_get_plugin_changelog',
-							wp_plugin_theme_version_nonce: '<?php echo $this->generate_nonce('wd_get_plugin_changelog') ?>',
-							slug: that.data('slug'),
-							type: that.data('type'),
-							base: that.data('base')
-						},
-						async: true,
-						success: function (data) {
-							if (data.status == 1) {
-								that.html(data.message);
+					data.push({
+						slug: that.data('slug'),
+						type: that.data('type'),
+						base: that.data('base')
+					});
+				}).promise().done(function () {
+					if (data.length > 0) {
+						$.ajax({
+							method: 'POST',
+							url: ajaxurl,
+							data: {
+								action: 'wd_get_plugin_changelog',
+								wp_plugin_theme_version_nonce: '<?php echo $this->generate_nonce( 'wd_get_plugin_changelog' ) ?>',
+								data: data
+							},
+							async: true,
+							success: function (data) {
+								if (data.status == 1) {
+									$.each(data.data, function (i, v) {
+										$('[data-base="' + v.base + '"]').html(v.html);
+									})
+								}
 							}
-						}
-					})
+						})
+					}
 				});
 
 				$('.wd-plugins-update').submit(function () {
@@ -252,7 +273,6 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 					})
 					return false;
 				})
-
 			})
 		</script>
 		<?php

@@ -4,15 +4,33 @@ Tested up to: 4.2.2
 
 Change Log:
 
-1.0 - 2016-01-03
+1.0.5 - 2016-06-04
 ----------------------------------------------------------------------
-- First release
+- Added: Option to choose reminder period for Hardener rule "Update old security keys"
+- Improved: Compatibility with Windows server
+- Improved: Optimized resource usage when scanning
 
-1.0.1 - 2016-03-03
+- Fix: issue with memcached
+- Other minor enhancements/fixes
+
+1.0.4 - 2016-06-04
 ----------------------------------------------------------------------
-- Scanning can auto detect if user is active on scanning page to work based on ajax, or leave to enable background scan
-- Improve condition checking for Prevent Information Disclosure module
-- Improve condition checking for Prevent PHP execution module
+- Improve scan engine, reduce false positives
+- Improve uninstallation method
+- Add the ability to ignore hardener rules.
+- Improve the performance impact on the site.
+
+- Fix scans sticking at 100% in some cases
+- Fix compatibility issues with IIS
+- Some other minor enhancements/fixes
+
+1.0.3 - 2016-22-03
+----------------------------------------------------------------------
+- Optimize scanning
+- Preventing performance issue with some hosts
+
+- Fix false blacklist detection in local environment
+- Some other minor enhancements/fixes
 
 1.0.2 - 2016-15-03
 ----------------------------------------------------------------------
@@ -24,24 +42,15 @@ Change Log:
 - Fix scan stability with limited memory
 - Some other minor enhancements/fixes
 
-1.0.3 - 2016-22-03
+1.0.1 - 2016-03-03
 ----------------------------------------------------------------------
-- Optimize scanning
-- Preventing performance issue with some hosts
+- Scanning can auto detect if user is active on scanning page to work based on ajax, or leave to enable background scan
+- Improve condition checking for Prevent Information Disclosure module
+- Improve condition checking for Prevent PHP execution module
 
-- Fix false blacklist detection in local environment
-- Some other minor enhancements/fixes
-
-1.0.4 - 2016-22-03
+1.0 - 2016-01-03
 ----------------------------------------------------------------------
-- Improve scan engine, reduce false positives
-- Improve uninstallation method
-- Add the ability to ignore hardener rules.
-- Improve the performance impact on the site.
-
-- Fix scans sticking at 100% in some cases
-- Fix compatibility issues with IIS
-- Some other minor enhancements/fixes
+- First release
 
 
-133620-1460350142-au
+133620-1461878862-au

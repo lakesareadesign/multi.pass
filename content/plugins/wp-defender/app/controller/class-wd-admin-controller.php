@@ -23,7 +23,7 @@ class WD_Admin_Controller extends WD_Controller {
 		$this->add_action( 'admin_enqueue_scripts', 'load_scripts' );
 		$this->add_action( 'wp_loaded', 'toggle_showed_intro' );
 		$this->add_action( 'wp_loaded', 'settings_save' );
-		$this->add_action( 'wp_loaded', 'maybe_submit_result_to_api' );
+		$this->add_action( 'wp_loaded', 'maybe_submit_result_to_api', 12 );
 	}
 
 	/**
@@ -199,12 +199,12 @@ class WD_Admin_Controller extends WD_Controller {
 
 		if ( isset( $submenu['wp-defender'] ) ) {
 			$defender_menu       = $submenu['wp-defender'];
-			$defender_menu[7][4] = 'wd-menu-hide';
+			$defender_menu[6][4] = 'wd-menu-hide';
 			$defender_menu[0][0] = __( "Dashboard", wp_defender()->domain );
 			$settings            = $defender_menu[1];
 			unset( $defender_menu[1] );
-			$defender_menu[] = $settings;
-			$defender_menu   = array_values( $defender_menu );
+			$defender_menu[]        = $settings;
+			$defender_menu          = array_values( $defender_menu );
 			$submenu['wp-defender'] = $defender_menu;
 		}
 

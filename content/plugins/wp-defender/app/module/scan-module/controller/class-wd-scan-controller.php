@@ -103,7 +103,6 @@ class WD_Scan_Controller extends WD_Controller {
 
 		$maybe_process = false;
 		//check the cache
-
 		if ( get_option( 'wd_scan_processing' ) ) {
 			//we already having a scanning, just move on
 			$maybe_process = true;
@@ -114,6 +113,7 @@ class WD_Scan_Controller extends WD_Controller {
 				//fire immediatly
 				$last_check = false;
 			}
+
 			if ( $last_check == false || strtotime( '+15 minutes', $last_check ) < time() ) {
 				$maybe_process = true;
 				WD_Utils::update_setting( 'cache->last_check_scan_cron', time() );
@@ -249,7 +249,7 @@ class WD_Scan_Controller extends WD_Controller {
 	}
 
 	public function process_a_scan() {
-		//set_time_limit( - 1 );
+		set_time_limit( - 1 );
 		//open a memory stream
 		$this->open_mem_stream();
 
@@ -316,7 +316,6 @@ class WD_Scan_Controller extends WD_Controller {
 		if ( $model->status == WD_Scan_Result_Model::STATUS_INIT && get_option( 'wd_scan_processing' ) != $model->id ) {
 			$model->status = WD_Scan_Result_Model::STATUS_PROCESSING;
 			update_option( 'wd_scan_processing', $model->id );
-			WD_Scan_Api::clear_cache();
 			$model->execute_time = array(
 				'start' => current_time( 'timestamp' )
 			);
@@ -345,7 +344,7 @@ class WD_Scan_Controller extends WD_Controller {
 
 			//recheck again, in case after process
 			if ( $scan->check() == false ) {
-				echo 'Processing ' . $key . PHP_EOL;
+				//echo 'Processing ' . $key . PHP_EOL;
 				//the current step hasn't done yet, break
 				break;
 			}
@@ -362,6 +361,9 @@ class WD_Scan_Controller extends WD_Controller {
 			$model->execute_time['end_utc'] = time();
 			$model->save();
 			delete_option( 'wd_scan_processing' );
+			//move tmp md5 to normal
+			WD_Utils::cache( WD_Scan_Api::CACHE_LAST_MD5, WD_Utils::get_cache( WD_Scan_Api::CACHE_TMP_MD5 ), 0 );
+			WD_Utils::remove_cache( WD_Scan_Api::CACHE_TMP_MD5 );
 			//unlock
 			$this->unlock();
 			//flag it

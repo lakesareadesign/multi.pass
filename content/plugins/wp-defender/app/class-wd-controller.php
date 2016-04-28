@@ -21,7 +21,7 @@ class WD_Controller extends WD_Component {
 	 *
 	 * @return string
 	 */
-	public function render( $path, $args = array(), $output = false ) {
+	public function render( $path, $args = array(), $output = true ) {
 		$args['controller'] = $this;
 		$base_path          = $this->determine_base_path();;
 

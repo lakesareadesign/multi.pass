@@ -8,14 +8,23 @@
 			</div>
 			<div class="box-content">
 				<?php
-				$content = file_get_contents( $model->name );
-				$content = str_replace( ';', ';' . PHP_EOL, $content );
-				$content = preg_replace( "/\n+/", "\n", $content );
+				$content     = file_get_contents( $model->name );
+				$content     = str_replace( ';', ';' . PHP_EOL, $content );
+				$content     = preg_replace( "/\n+/", "\n", $content );
+				$raw_content = $content;
 				//we will need to wrap the code offset with a custom tag, so we can display toolip and styling
 				$content = esc_html( $content );
+
 				if ( isset( $model->detail['log'] ) ) {
-					foreach ( $model->detail['log'] as $issue ) {
-						$code = substr( $content, $issue['offset'][0], $issue['offset'][1] - $issue['offset'][0] );
+					foreach ( $model->detail['log'] as $key => $issue ) {
+						if ( isset( $model->detail['log'][ $key - 1 ] ) ) {
+							$prev = $model->detail['log'][ $key - 1 ];
+							if ( $issue['offset'][0] < $prev['offset'][1] ) {
+								continue;
+							}
+						}
+
+						$code = substr( $raw_content, $issue['offset'][0], $issue['offset'][1] - $issue['offset'][0] );
 						//we add a custom tag here
 						$tooltips = $issue['offset'][0] . '-' . ( $issue['offset'][1] );
 						$tag      = '<span class="wd-highlight" tooltip="' . esc_attr( $tooltips ) . '">' . $code . '</span>';

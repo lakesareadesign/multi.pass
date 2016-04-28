@@ -181,7 +181,7 @@ class WD_Post_Model extends WD_Model {
 	/**
 	 * @param array $params
 	 *
-	 * @return mixed|null
+	 * @return self|null
 	 * @since 1.0
 	 */
 	public function find_by_attributes( $params = array(), $addition_params = array() ) {

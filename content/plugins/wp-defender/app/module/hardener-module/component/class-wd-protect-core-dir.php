@@ -176,6 +176,7 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 
 		if ( $this->is_ajax() && $silent == false ) {
 			if ( @file_put_contents( $htaccess_path, $content, LOCK_EX ) ) {
+				WD_Utils::flag_for_submitting();
 				wp_send_json( array(
 					'status'  => 1,
 					'revert'  => 1,
@@ -186,6 +187,8 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 			}
 		} else {
 			if ( @file_put_contents( $htaccess_path, $content, LOCK_EX ) ) {
+				WD_Utils::flag_for_submitting();
+
 				return true;
 			} else {
 				return new WP_Error( 'write_permission', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $htaccess_path ) );

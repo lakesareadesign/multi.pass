@@ -4,7 +4,7 @@
  * @author: Hoang Ngo
  */
 class WD_Dir_Tree extends WD_Component {
-	const ENGINE_SPL = 'spl', ENGINE_SCANDIR = 'scan_dir';
+	const ENGINE_SPL = 'spl', ENGINE_SCANDIR = 'scan_dir', ENGINE_OPENDIR = 'open_dir';
 	/**
 	 * Engine use to create a dir tree
 	 * @var string
@@ -77,10 +77,13 @@ class WD_Dir_Tree extends WD_Component {
 		$this->include      = $include;
 		$this->exclude      = $exclude;
 		$this->is_recursive = $is_recursive;
-		if ( class_exists( 'FilesystemIterator' ) && class_exists( 'RecursiveDirectoryIterator' ) && class_exists( 'RecursiveCallbackFilterIterator' ) ) {
+
+		if ( function_exists( 'scandir' ) && stristr( PHP_OS, 'win' ) == false ) {
+			$this->engine = self::ENGINE_SCANDIR;
+		} elseif ( class_exists( 'FilesystemIterator' ) && class_exists( 'RecursiveDirectoryIterator' ) && class_exists( 'RecursiveCallbackFilterIterator' ) ) {
 			$this->engine = self::ENGINE_SPL;
 		} else {
-			$this->engine = self::ENGINE_SCANDIR;
+			$this->engine = self::ENGINE_OPENDIR;
 		}
 	}
 
@@ -89,10 +92,16 @@ class WD_Dir_Tree extends WD_Component {
 	 */
 	public function get_dir_tree() {
 		$result = array();
+		if ( ! is_dir( $this->path ) ) {
+			return $result;
+		}
+
 		if ( $this->engine == self::ENGINE_SPL ) {
 			$result = $this->_get_dir_tree_by_spl();
 		} elseif ( $this->engine == self::ENGINE_SCANDIR ) {
 			$result = $this->_get_dir_tree_by_scandir();
+		} elseif ( $this->engine == self::ENGINE_OPENDIR ) {
+			$result = $this->_get_dir_tree_by_open_dir();
 		}
 
 		return $result;
@@ -171,7 +180,7 @@ class WD_Dir_Tree extends WD_Component {
 		if ( is_null( $path ) ) {
 			$path = $this->path;
 		}
-		$path   = rtrim( $path, '/' ) . '/';
+		$path   = rtrim( $path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
 		$rfiles = scandir( $path );
 		$data   = array();
 
@@ -186,15 +195,26 @@ class WD_Dir_Tree extends WD_Component {
 
 			$real_path = $path . $rfile;
 
-			if ( ( ! empty( $this->include ) || ! empty( $this->exclude ) ) && ( $this->filter_directory( $real_path ) == false ) ) {
+			$type = filetype( $real_path );
+
+			if ( ( ! empty( $this->include ) || ! empty( $this->exclude ) ) && ( $this->filter_directory( $real_path, $type ) == false ) ) {
 				continue;
 			}
 
-			if ( is_file( $real_path ) && $this->include_file == true ) {
-				$data[] = $real_path;
+			if ( $type == 'file' && $this->include_file == true ) {
+				if ( is_numeric( $this->max_filesize ) ) {
+					$max_size = $this->max_filesize * ( pow( 1024, 2 ) );
+					if ( filesize( $real_path ) > $max_size ) {
+						continue;
+					} else {
+						$data[] = $real_path;
+					}
+				} else {
+					$data[] = $real_path;
+				}
 			}
 
-			if ( is_dir( $real_path ) ) {
+			if ( $type == 'dir' ) {
 				if ( $this->include_dir ) {
 					$data[] = $real_path;
 				}
@@ -204,13 +224,74 @@ class WD_Dir_Tree extends WD_Component {
 				}
 			}
 
-			if ( is_file( $real_path ) && is_numeric( $this->max_filesize ) ) {
+			/*if ( is_file( $real_path ) && is_numeric( $this->max_filesize ) ) {
 				//convert max to bytes
 				$max_size = $this->max_filesize * ( pow( 1024, 2 ) );
 				if ( filesize( $real_path ) > $max_size ) {
 					continue;
 				}
+			}*/
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Query files on path using opendir&readir
+	 *
+	 * @param null $path
+	 *
+	 * @return array
+	 * @since 1.0.5
+	 */
+	private function _get_dir_tree_by_open_dir( $path = null ) {
+		if ( is_null( $path ) ) {
+			$path = $this->path;
+		}
+		$path = rtrim( $path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
+		$data = array();
+
+		if ( $dh = opendir( $path ) ) {
+			while ( ( $file = readdir( $dh ) ) !== false ) {
+				if ( $file == '.' || $file == '..' ) {
+					continue;
+				}
+				$real_path = $path . $file;
+				if ( substr( pathinfo( $real_path, PATHINFO_BASENAME ), 0, 1 ) == '.' ) {
+					//hidden files, move on
+					continue;
+				}
+
+				if ( ( ! empty( $this->include ) || ! empty( $this->exclude ) ) && ( $this->filter_directory( $real_path ) == false ) ) {
+					continue;
+				}
+
+				$type = filetype( $real_path );
+
+				if ( $type == 'file' && $this->include_file == true ) {
+					if ( is_numeric( $this->max_filesize ) ) {
+						$max_size = $this->max_filesize * ( pow( 1024, 2 ) );
+						if ( filesize( $real_path ) > $max_size ) {
+							continue;
+						} else {
+							$data[] = $real_path;
+						}
+					} else {
+						$data[] = $real_path;
+					}
+				}
+
+				if ( $type == 'dir' ) {
+					if ( $this->include_dir ) {
+						$data[] = $real_path;
+					}
+					if ( $this->is_recursive ) {
+						$tdata = $this->_get_dir_tree_by_open_dir( $real_path );
+						$data  = array_merge( $data, $tdata );
+					}
+				}
 			}
+			closedir( $dh );
 		}
 
 		return $data;
@@ -223,11 +304,11 @@ class WD_Dir_Tree extends WD_Component {
 	 *
 	 * @return bool
 	 */
-	public function filter_directory( $current ) {
+	public function filter_directory( $current, $filetype = null ) {
 		if ( ! empty( $this->include ) ) {
-			return $this->_filter_include( $current );
+			return $this->_filter_include( $current, $filetype );
 		} elseif ( ! empty( $this->exclude ) ) {
-			return $this->_filter_exclude( $current );
+			return $this->_filter_exclude( $current, $filetype );
 		}
 	}
 
@@ -236,12 +317,19 @@ class WD_Dir_Tree extends WD_Component {
 	 *
 	 * @return bool
 	 */
-	private function _filter_include( $path ) {
+	private function _filter_include( $path, $filetype = null ) {
 		$include     = $this->include;
 		$exclude     = $this->exclude;
 		$applied     = 0;
 		$dir_include = isset( $include['dir'] ) ? $include['dir'] : array();
 		$dir_exclude = isset( $exclude['dir'] ) ? $exclude['dir'] : array();
+
+		if ( is_null( $filetype ) ) {
+			$type = $filetype;
+		} else {
+			$type = filetype( $path );
+		}
+
 		if ( is_array( $dir_include ) && count( $dir_include ) ) {
 			if ( is_array( $dir_exclude ) ) {
 				foreach ( $dir_exclude as $dir ) {
@@ -264,7 +352,7 @@ class WD_Dir_Tree extends WD_Component {
 		//next extension
 		$ext_include = isset( $include['ext'] ) ? $include['ext'] : array();
 
-		if ( is_array( $ext_include ) && count( $ext_include ) && is_file( $path ) ) {
+		if ( is_array( $ext_include ) && count( $ext_include ) && $type == 'file' ) {
 			//we will uses foreach and strcasecmp instead of regex cause it faster
 			foreach ( $ext_include as $ext ) {
 				if ( strcasecmp( pathinfo( $path, PATHINFO_EXTENSION ), $ext ) === 0 ) {
@@ -277,7 +365,7 @@ class WD_Dir_Tree extends WD_Component {
 
 		//now filename
 		$filename_include = isset( $include['filename'] ) ? $include['filename'] : array();
-		if ( is_array( $filename_include ) && count( $filename_include ) && is_file( $path ) ) {
+		if ( is_array( $filename_include ) && count( $filename_include ) && $type == 'file' ) {
 			foreach ( $filename_include as $filename ) {
 				if ( preg_match( '/' . $filename . '/', pathinfo( $path, PATHINFO_BASENAME ) ) ) {
 					return true;
@@ -288,7 +376,7 @@ class WD_Dir_Tree extends WD_Component {
 
 		//now abs path
 		$path_include = isset( $include['path'] ) ? $include['path'] : array();
-		if ( is_array( $path_include ) && count( $path_include ) && is_file( $path ) ) {
+		if ( is_array( $path_include ) && count( $path_include ) && $type == 'file' ) {
 			foreach ( $path_include as $p ) {
 				if ( strcmp( $p, $path ) === 0 ) {
 					return true;
@@ -311,9 +399,14 @@ class WD_Dir_Tree extends WD_Component {
 	 *
 	 * @return bool
 	 */
-	private function _filter_exclude( $path ) {
+	private function _filter_exclude( $path, $filetype = null ) {
 		$exclude = $this->exclude;
 		//first filer dir, or file inside dir
+		if ( is_null( $filetype ) ) {
+			$type = $filetype;
+		} else {
+			$type = filetype( $path );
+		}
 		$dir_exclude = isset( $exclude['dir'] ) ? $exclude['dir'] : array();
 		if ( is_array( $dir_exclude ) && count( $dir_exclude ) ) {
 			foreach ( $dir_exclude as $dir ) {
@@ -325,7 +418,7 @@ class WD_Dir_Tree extends WD_Component {
 
 		//next extension
 		$ext_exclude = isset( $exclude['ext'] ) ? $exclude['ext'] : array();
-		if ( is_array( $ext_exclude ) && count( $ext_exclude ) && is_file( $path ) ) {
+		if ( is_array( $ext_exclude ) && count( $ext_exclude ) && $type == 'file' ) {
 			//we will uses foreach and strcasecmp instead of regex cause it faster
 			foreach ( $ext_exclude as $ext ) {
 				if ( strcasecmp( pathinfo( $path, PATHINFO_EXTENSION ), $ext ) === 0 ) {
@@ -336,7 +429,7 @@ class WD_Dir_Tree extends WD_Component {
 		}
 		//now filename
 		$filename_exclude = isset( $exclude['filename'] ) ? $exclude['filename'] : array();
-		if ( is_array( $filename_exclude ) && count( $filename_exclude ) && is_file( $path ) ) {
+		if ( is_array( $filename_exclude ) && count( $filename_exclude ) && $type == 'file' ) {
 			foreach ( $filename_exclude as $filename ) {
 				if ( preg_match( '/' . $filename . '/', pathinfo( $path, PATHINFO_BASENAME ) ) ) {
 					return false;
@@ -346,7 +439,7 @@ class WD_Dir_Tree extends WD_Component {
 
 		//now abs path
 		$path_exclude = isset( $exclude['path'] ) ? $exclude['path'] : array();
-		if ( is_array( $path_exclude ) && count( $path_exclude ) && is_file( $path ) ) {
+		if ( is_array( $path_exclude ) && count( $path_exclude ) && $type == 'file' ) {
 			foreach ( $path_exclude as $p ) {
 				if ( strcmp( $p, $path ) === 0 ) {
 					return false;

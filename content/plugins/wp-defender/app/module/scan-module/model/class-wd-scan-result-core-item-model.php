@@ -32,7 +32,15 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 	 * @return mixed
 	 */
 	public function get_sub() {
-		return str_replace( ABSPATH, '/', $this->name );
+		if ( stristr( PHP_OS, 'win' ) ) {
+			$abs_path = rtrim( ABSPATH, '/' );
+			$abs_path .= '\\';
+			$sub = str_replace( $abs_path, '\\', $this->name );
+
+			return $sub;
+		} else {
+			return str_replace( ABSPATH, '/', $this->name );
+		}
 	}
 
 	/**
@@ -83,7 +91,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 	 */
 	public function remove() {
 		//first we need to unlink the file
-		if ( unlink( $this->name ) ) {
+		if ( @unlink( $this->name ) ) {
 			$model = WD_Scan_Api::get_last_scan();
 
 			$model->delete_item_from_result( $this->id );
@@ -193,9 +201,10 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 		} else {
 			$locale = null;
 		}
-		if ( $this->get_sub() == '/wp-includes/version.php' && ! empty( $locale ) ) {
+		$ds = DIRECTORY_SEPARATOR;
+		if ( $this->get_sub() == $ds . 'wp-includes' . $ds . 'version.php' && ! empty( $locale ) ) {
 			$upload_dirs = wp_upload_dir();
-			$path        = $upload_dirs['basedir'] . '/wp-defender/';
+			$path        = $upload_dirs['basedir'] . $ds . 'wp-defender' . $ds;
 			if ( file_exists( $path . $wp_version . '.zip' ) ) {
 				//get last time
 
@@ -208,7 +217,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 				}
 				//move into vault folder
 				$upload_dirs = wp_upload_dir();
-				$path        = $upload_dirs['basedir'] . '/wp-defender/';
+				$path        = $upload_dirs['basedir'] . $ds . 'wp-defender' . $ds;
 				if ( ! copy( $tmp, $path . $wp_version . '.zip' ) ) {
 					return new WP_Error( 'cant_copy', sprintf( __( "Please make sure the folder %s writeable", wp_defender()->domain ), $path ) );
 				}
@@ -222,7 +231,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 			}
 
 			//looking
-			$file_path = $path . 'wordpress/wp-includes/version.php';
+			$file_path = $path . 'wordpress' . $ds . 'wp-includes' . $ds . 'version.php';
 
 			if ( file_exists( $file_path ) ) {
 				$content = file_get_contents( $file_path );
@@ -235,9 +244,14 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 			return new WP_Error( 'generic', __( "An unexpected error happened. Please try again", wp_defender()->domain ) );
 		} else {
 			//no global locale, means this is enUS
-			$source_file_url = "http://core.svn.wordpress.org/tags/$wp_version/" . ltrim( $this->get_sub(), ' / ' );
+			$rev_path = $this->get_sub();
+			if ( stristr( PHP_OS, 'win' ) ) {
+				$rev_path = str_replace( '\\', '/', $rev_path );
+			}
+			$rev_path        = ltrim( $rev_path, '/' );
+			$source_file_url = "http://core.svn.wordpress.org/tags/$wp_version/" . $rev_path;
 			if ( ! function_exists( 'download_url' ) ) {
-				require_once ABSPATH . 'wp-admin/includes/file.php';
+				require_once ABSPATH . 'wp-admin' . $ds . 'includes' . $ds . 'file.php';
 			}
 			$tmp = download_url( $source_file_url );
 			if ( is_wp_error( $tmp ) ) {
@@ -263,7 +277,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 		if ( is_null( $md5 ) ) {
 			//we will need to lookpup the md5 each request to check this file content
 			$md5 = WD_Utils::get_cache( 'wd_md5_checksum' );
-			if ( $md5 == false ) {
+			if ( $md5 == false || is_wp_error( $md5 ) ) {
 				$md5 = WD_Scan_Api::download_md5_files();
 				if ( is_wp_error( $md5 ) ) {
 					return false;
@@ -272,12 +286,32 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 				WD_Utils::cache( 'wd_md5_checksum', $md5, 3600 );
 			}
 		}
-		if ( isset( $md5[ ltrim( $this->get_sub(), ' / ' ) ] ) ) {
-			$hash = $md5[ ltrim( $this->get_sub(), ' / ' ) ];
-			if ( $hash == md5_file( $this->name ) ) {
-				$model->delete_item_from_result( $this->id );
+		$rev_path = str_replace( '\\', '/', $this->get_sub() );
 
-				return true;
+		if ( isset( $md5[ ltrim( $rev_path, '/' ) ] ) ) {
+			$hash = $md5[ ltrim( $rev_path, '/' ) ];
+			if ( stristr( PHP_OS, 'win' ) ) {
+				$file_content = file_get_contents( $this->name );
+				$file_content = str_replace( '\r\n', '\n', $file_content );
+
+				$md5_file = md5( $file_content );
+				$hash     = $md5[ ltrim( $rev_path, '/' ) ];
+
+				if ( $hash == $md5_file ) {
+					$model->delete_item_from_result( $this->id );
+
+					return true;
+				} elseif ( $hash == md5_file( $this->name ) ) {
+					$model->delete_item_from_result( $this->id );
+
+					return true;
+				}
+			} else {
+				if ( $hash == md5_file( $this->name ) ) {
+					$model->delete_item_from_result( $this->id );
+
+					return true;
+				}
 			}
 		}
 

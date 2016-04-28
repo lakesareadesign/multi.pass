@@ -264,7 +264,7 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 	 * @access public
 	 * @since 1.0
 	 */
-	public function get_results() {
+	public function get_results( $score = 17 ) {
 		//cache result in each request
 		if ( isset( wp_defender()->global['results'] ) && ! empty( wp_defender()->global['result'] ) ) {
 			return wp_defender()->global['results'];
@@ -292,8 +292,8 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 				continue;
 			}
 
-			$detect_core = apply_filters( 'wd_scan_detect_score', 19 );
-			if ( $item instanceof WD_Scan_Result_File_Item_Model && $item->score <= $detect_core ) {
+			$detect_core = apply_filters( 'wd_scan_detect_score', $score );
+			if ( $item instanceof WD_Scan_Result_File_Item_Model && $item->score < $detect_core ) {
 				unset( $result[ $key ] );
 			}
 			//temp remove unconfirm issue
@@ -376,10 +376,10 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 		return isset( $labels[ $type ] ) ? $labels[ $type ] : null;
 	}
 
-	public function get_result_by_type( $type ) {
+	public function get_result_by_type( $type, $score = 19 ) {
 		;
 		$result = array();
-		foreach ( $this->get_results() as $key => $item ) {
+		foreach ( $this->get_results( $score ) as $key => $item ) {
 			if ( $item->get_system_type() == $type ) {
 				$result[] = $item;
 			}
@@ -471,6 +471,19 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 			$count_value = array_count_values( $this->item_indexes );
 			if ( isset( $count_value[ $file ] ) && $count_value[ $file ] > 1 ) {
 				//multiple, need to check scan type
+				foreach ( $this->item_indexes as $key => $val ) {
+					if ( $file == $val ) {
+						$m = get_post_meta( $this->id, 'item_' . $key, true );
+						if ( ! is_object( $m ) ) {
+							$m = maybe_unserialize( $m );
+						}
+						if ( is_object( $m ) && get_class( $m ) == $scan_type ) {
+							return $m;
+						} else {
+							return null;
+						}
+					}
+				}
 			} elseif ( ( $id = array_search( $file, $this->item_indexes ) ) !== false ) {
 				$model = get_post_meta( $this->id, 'item_' . $id, true );
 				if ( ! is_object( $model ) ) {

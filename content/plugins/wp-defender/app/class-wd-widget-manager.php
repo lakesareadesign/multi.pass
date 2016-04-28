@@ -32,6 +32,11 @@ class WD_Widget_Manager extends WD_Component {
 	 * Need to load all the widget in init, or some ajax funciton won't work
 	 */
 	public function prepare_widgets() {
+		if ( ! is_admin() ) {
+			//we dont need this to load on frontend
+			return;
+		}
+
 		$files_mapped = wp_defender()->files_mapped;
 
 		foreach ( $files_mapped as $file ) {

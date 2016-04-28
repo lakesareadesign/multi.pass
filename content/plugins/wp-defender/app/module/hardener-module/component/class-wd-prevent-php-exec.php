@@ -291,7 +291,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 
 				</div>
 				<?php
-				$url    = site_url( 'wp-login.php' );
+				$url    = site_url( 'index.php' );
 				$server = WD_Utils::determine_server( $url );
 				switch ( $server ) {
 					case 'nginx':

@@ -36,7 +36,9 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 		/**
 		 * check md5 cache from prev scan
 		 */
-		if ( is_object( $this->last_scan ) ) {
+		if ( ( $tmp = WD_Utils::get_cache( WD_Scan_Api::CACHE_LAST_MD5, false ) ) !== false ) {
+			$last_checksum = $tmp;
+		} elseif ( is_object( $this->last_scan ) ) {
 			$last_checksum = $this->last_scan->md5_tree;
 		} else {
 			$last_checksum = null;
@@ -49,7 +51,8 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 			$chunks          = array_chunk( $files_need_scan, 200 );
 			$files_need_scan = array_shift( $chunks );
 		}
-		$cpu_count = 0;
+		$cpu_count    = 0;
+		$tmp_checksum = WD_Utils::get_cache( WD_Scan_Api::CACHE_TMP_MD5, array() );
 		foreach ( $files_need_scan as $file ) {
 			if ( $this->cpu_reach_threshold() ) {
 				if ( $this->is_ajax() ) {
@@ -67,10 +70,11 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 					break;
 				}
 			}
-			$need_scan                      = true;
-			$checksum                       = md5_file( $file );
-			$this->model->md5_tree[ $file ] = $checksum;
-			if ( is_array( $last_checksum ) && isset( $last_checksum[ $file ] ) && strcmp( $checksum, $last_checksum[ $file ] ) === 0 ) {
+			$need_scan = true;
+			$checksum  = md5_file( $file );
+			//$this->model->md5_tree[ $file ] = $checksum;
+			$tmp_checksum[ $file ] = $checksum;
+			if ( is_object( $this->last_scan ) && is_array( $last_checksum ) && isset( $last_checksum[ $file ] ) && strcmp( $checksum, $last_checksum[ $file ] ) === 0 ) {
 				$is_ignored = $this->last_scan->is_file_ignored( $file, 'WD_Scan_Result_Core_Item_Model' );
 				$is_issue   = $this->last_scan->find_result_item_by_file( $file, 'WD_Scan_Result_Core_Item_Model' );
 				/**
@@ -132,6 +136,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 		$this->model->save();
 		$this->file_scanned = array_unique( $this->file_scanned );
 		WD_Utils::cache( self::FILE_SCANNED, $this->file_scanned );
+		WD_Utils::cache( WD_Scan_Api::CACHE_TMP_MD5, $tmp_checksum );
 	}
 
 	/**
@@ -162,7 +167,10 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 			$abs_path = ABSPATH;
 		}
 		$relative_path = str_replace( $abs_path, '', $file );
-		$detail        = false;
+		if ( stristr( PHP_OS, 'win' ) ) {
+			$relative_path = str_replace( '\\', '/', $relative_path );
+		}
+		$detail = false;
 		if ( isset( $md5_files[ $relative_path ] ) ) {
 			$ochecksum = $md5_files[ $relative_path ];
 			if ( $checksum == false ) {

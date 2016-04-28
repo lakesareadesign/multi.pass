@@ -395,7 +395,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 			'OK' !== wp_remote_retrieve_response_message( $response )
 			OR 200 !== wp_remote_retrieve_response_code( $response )
 		) {
-			return new WP_Error( wp_remote_retrieve_response_code( $response ), wp_remote_retrieve_response_message( $response ) );
+			return new WP_Error( wp_remote_retrieve_response_code( $response ), wp_remote_retrieve_response_message( $response ) );	  	 	   	 		 		 				
 		} else {
 			$data = wp_remote_retrieve_body( $response );
 
@@ -582,6 +582,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 
 			return;
 		}
+
 		$end_point = "https://premium.wpmudev.org/api/defender/v1/scan-results";
 		$data      = WD_Utils::prepare_api_result();
 		$component = new WD_Component();
@@ -615,20 +616,13 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 * @return array
 	 */
 	public static function prepare_api_result() {
-		$model = WD_Scan_Api::get_last_scan();
-		if ( ! is_object( $model ) ) {
-			$scan_result = array();
-			$timestamp   = null;
-		} else {
-			$scan_result = $model->get_results_raw();
-
-		}
-
 		$hardener = WD_Hardener_Module::find_controller( 'hardener' );
 		$modules  = $hardener->get_loaded_modules();
+
 		if ( ! is_array( $modules ) ) {
 			$modules = array();
 		}
+
 		$issues = array();
 		foreach ( $modules as $rule ) {
 			if ( $rule->is_ignored() == false && $rule->check() === false ) {
@@ -763,7 +757,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 */
 	public static function text_diff( $left_string, $right_string, $args = null ) {
 		if ( ! class_exists( 'Text_Diff', false ) || ! class_exists( 'Text_Diff_Renderer_inline', false ) ) {
-			require( ABSPATH . WPINC . '/wp-diff.php' );
+			require( ABSPATH . WPINC . DIRECTORY_SEPARATOR . 'wp-diff.php' );
 		}
 
 		$left_lines  = explode( "\n", $left_string );
@@ -777,21 +771,81 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	/**
 	 * @param $key
 	 * @param $value
-	 * @param int $expiry
+	 * @param null $expiry
 	 * @param string $store_type
 	 *
+	 * @return bool
 	 * @since 1.0.4
 	 */
 	public static function cache( $key, $value, $expiry = null, $store_type = 'serialize' ) {
 		if ( $expiry == null ) {
 			//we willc ache in 3 months
-			$expiry = HOUR_IN_SECONDS * 24 * 60;
+			$expiry = HOUR_IN_SECONDS * 24 * 7;
 		}
-		//todo we have to check lenght of the value, incase it too large
-		if ( $store_type == 'json' && is_array( $value ) ) {
-			$value = json_encode( $value );
+
+		if ( wp_using_ext_object_cache() ) {
+			if ( is_array( $value ) && mb_strlen( serialize( $value ), '8bit' ) >= 1000000 ) {
+				//this mean value is very large
+				//first we need to remove all current cache for this key
+				self::remove_cache( $key );
+				$chunks    = array_chunk( $value, 25000 );
+				$large_key = wp_cache_get( 'wd_large_data', 'wp_defender' );
+				if ( ! is_array( $large_key ) ) {
+					$large_key = array();
+				}
+				unset( $large_key[ $key ] );
+
+				foreach ( $chunks as $i => $chunk ) {
+					wp_cache_set( $key . '_' . $i, $chunk, $key, $expiry );
+					//we will need to index this too
+					$large_key[ $key ][] = $key . '_' . $i;
+					wp_cache_set( 'wd_large_data', $large_key, 'wp_defender' );
+				}
+
+				return true;
+			} else {
+				$ret = wp_cache_set( $key, $value, 'wp_defender', $expiry );
+			}
+
+			return $ret;
+		} else {
+			//todo we have to check lenght of the value, incase it too large
+			if ( $store_type == 'json' && is_array( $value ) ) {
+				$value = json_encode( $value );
+			}
+
+			$result = set_site_transient( $key, $value, $expiry );
+
+			return $result;
 		}
-		$result = set_site_transient( $key, $value, $expiry );
+	}
+
+	/**
+	 * @return int
+	 */
+	public static function get_cpu_cores() {
+		if ( ( $count = WD_Utils::get_cache( 'wd_cpu_count1', false ) ) != false ) {
+			return $count;
+		}
+		$core_count = 1;
+		if ( is_file( '/proc/cpuinfo' ) ) {
+			$cpu_info = file_get_contents( '/proc/cpuinfo' );
+			if ( preg_match_all( '/^processor/m', $cpu_info, $matches ) ) {
+				$core_count = count( $matches[0] );
+			}
+		} else {
+			$process = @popen( 'sysctl -a', 'rb' );
+			if ( false !== $process ) {
+				$output = stream_get_contents( $process );
+				if ( preg_match( '/hw.ncpu: (\d+)/', $output, $matches ) ) {
+					$core_count = intval( $matches[1][0] );
+				}
+				pclose( $process );
+			}
+		}
+		WD_Utils::cache( 'wd_cpu_count', $core_count );
+
+		return $core_count;
 	}
 
 	/**
@@ -801,30 +855,63 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 * @return array|mixed
 	 */
 	public static function get_cache( $key, $default = null, $store_type = 'serialize' ) {
-		$value = get_site_transient( $key );
-		if ( ! is_array( $value ) && $store_type == 'json' ) {
-			$tmp = json_decode( $value, true );
-			if ( is_array( $tmp ) ) {
-				//assign back
-				$value = $tmp;
+		if ( wp_using_ext_object_cache() ) {
+			$large_key = wp_cache_get( 'wd_large_data', 'wp_defender' );
+			if ( isset( $large_key[ $key ] ) ) {
+				$data = array();
+				foreach ( $large_key[ $key ] as $index ) {
+					$tmp = wp_cache_get( $index, $key );
+					if ( is_array( $tmp ) ) {
+						$data = array_merge( $data, $tmp );
+					}
+				}
+
+				return $data;
+			} else {
+				$cache = wp_cache_get( $key, 'wp_defender' );
+				if ( ! $cache ) {
+					$cache = $default;
+				}
+
+				return $cache;
 			}
-		}
+		} else {
+			$value = get_site_transient( $key );
+			if ( ! is_array( $value ) && $store_type == 'json' ) {
+				$tmp = json_decode( $value, true );
+				if ( is_array( $tmp ) ) {
+					//assign back
+					$value = $tmp;
+				}
+			}
 
-		if ( empty( $value ) ) {
-			return $default;
-		}
+			if ( empty( $value ) ) {
+				return $default;
+			}
 
-		return $value;
+			return $value;
+		}
 	}
 
 	/**
 	 * @param $key
 	 */
 	public static function remove_cache( $key ) {
-		delete_site_transient( $key );
-		if ( is_multisite() ) {
-			//in case when upgrade from single to multisite, still get some leftover
-			delete_transient( $key );
+		if ( wp_using_ext_object_cache() ) {
+			$large_key = wp_cache_get( 'wd_large_data', 'wp_defender' );
+			if ( isset( $large_key[ $key ] ) ) {
+				foreach ( $large_key[ $key ] as $index ) {
+					wp_cache_delete( $index, $key );
+				}
+			} else {
+				wp_cache_delete( $key, 'wp_defender' );
+			}
+		} else {
+			delete_site_transient( $key );
+			if ( is_multisite() ) {
+				//in case when upgrade from single to multisite, still get some leftover
+				delete_transient( $key );
+			}
 		}
 	}
 

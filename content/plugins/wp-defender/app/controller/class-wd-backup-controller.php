@@ -6,9 +6,9 @@
 class WD_Backup_Controller extends WD_Controller {
 	public function __construct() {
 		if ( is_multisite() ) {
-			$this->add_action( 'network_admin_menu', 'admin_menu', 12 );
+			$this->add_action( 'network_admin_menu', 'admin_menu', 13 );
 		} else {
-			$this->add_action( 'admin_menu', 'admin_menu', 12 );
+			$this->add_action( 'admin_menu', 'admin_menu', 13 );
 		}
 		$this->add_action( 'admin_enqueue_scripts', 'load_scripts' );
 	}

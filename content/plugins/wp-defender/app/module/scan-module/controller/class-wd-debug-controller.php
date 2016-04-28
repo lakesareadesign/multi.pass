@@ -75,9 +75,10 @@ class WD_Debug_Controller extends WD_Controller {
 		foreach ( $logs as $log ) {
 			$logs_data[ $log ] = $this->get_log( $log );
 		}
+
 		$this->render( 'debug/debug', array(
 			'model'         => $model,
-			'core_files'    => WD_Scan_APi::get_core_files(),
+			'core_files'    => WD_Utils::get_cache( WD_Scan_Api::CACHE_CORE_FILES, array() ),
 			'content_files' => WD_Utils::get_cache( WD_Scan_Api::CACHE_CONTENT_FILES, array() ),
 			'frag_files'    => WD_Utils::get_cache( WD_Scan_Api::CACHE_CONTENT_FILES_FRAG, array() ),
 			'logs_data'     => $logs_data

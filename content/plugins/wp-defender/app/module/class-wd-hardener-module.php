@@ -9,7 +9,7 @@ class WD_Hardener_Module extends WD_Module_Abstract {
 	private static $_instance;
 
 	public static function get_instance() {
-		if ( ! is_object( self::$_instance ) ) {
+		if ( ! self::$_instance instanceof WD_Hardener_Module ) {
 			self::$_instance = new WD_Hardener_Module();
 		}
 
@@ -32,6 +32,7 @@ class WD_Hardener_Module extends WD_Module_Abstract {
 
 	/**
 	 * Find a controller instance
+	 *
 	 * @param $controller
 	 *
 	 * @return null
@@ -39,6 +40,7 @@ class WD_Hardener_Module extends WD_Module_Abstract {
 	 */
 	public static function find_controller( $controller ) {
 		$module = self::get_instance();
+
 		return isset( $module->controllers[ $controller ] ) ? $module->controllers[ $controller ] : null;
 	}
 }
