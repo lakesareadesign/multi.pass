@@ -328,7 +328,7 @@ final class FLTheme {
 	static public function head()
 	{
 		$settings  = self::get_settings();
-
+		
 		// Skin
 		echo '<link rel="stylesheet" href="' . FLCustomizer::css_url() . '" />' . "\n";
 
@@ -608,11 +608,8 @@ final class FLTheme {
 		$logo_retina    = self::get_setting( 'fl-logo-image-retina' );
 		$logo_text      = self::get_setting( 'fl-logo-text' );
 		
-		if ( empty( $logo_text ) || $logo_type == 'image' ) {
-			$logo_text = get_bloginfo( 'name' );
-		}
-		
 		if ( $logo_type == 'image' ) {
+			$logo_text = get_bloginfo( 'name' );
 			echo '<img class="fl-logo-img" itemscope itemtype="http://schema.org/ImageObject" src="'. $logo_image .'"';
 			echo ' data-retina="' . $logo_retina . '"';
 			echo ' alt="' . esc_attr( $logo_text ) . '" />';
@@ -675,6 +672,7 @@ final class FLTheme {
 			'google',
 			'linkedin',
 			'yelp',
+			'xing',
 			'pinterest',
 			'tumblr',
 			'vimeo',

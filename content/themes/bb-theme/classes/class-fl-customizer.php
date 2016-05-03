@@ -223,7 +223,7 @@ final class FLCustomizer {
 			}
 		}
 
-		return $mods;
+		return apply_filters( 'fl_theme_mods', $mods );
 	}
 
 	/**
@@ -582,7 +582,7 @@ final class FLCustomizer {
 			}
 		}
 
-		return $mods;
+		return apply_filters( 'fl_default_theme_mods', $mods );
 	}
 
 	/**

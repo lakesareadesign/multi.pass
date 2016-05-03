@@ -287,12 +287,12 @@
 					$text_input = $( this ).closest( 'label' ).find( '#fl-range-value-input' );
 					value       = $slider.attr( 'value' );
 
-				$slider.mousemove(function() {
+				$slider.on('input', function () {
 					value = $slider.attr( 'value' );
 					$text_input.val( value );
 				});
 
-				$text_input.change(function(){
+				$text_input.on('keyup change', function(){
 					$slider.val($text_input.val());
 					$slider.change();
 				});

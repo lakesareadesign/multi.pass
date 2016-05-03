@@ -1,3 +1,27 @@
+<h4>1.5.1 - 05/02/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added a setting for choosing which side of an uneven menu the centered inline logo will appear.</li>
+	<li>Added the fl_theme_mods filter.</li>
+	<li>Added the fl_default_theme_mods filter.
+	<li>Added Xing as a social icon option.</li>
+	<li>The scroll to top button is now available on all screen sizes.</li></li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a bug with submenu toggles not working on Android devices.</li>
+	<li>Fixed a bug with custom sidebar sizes only working on posts, not on standard pages.</li>
+	<li>Fixed a bug with the logo not appearing when the fixed header is set to shrink.</li>
+	<li>Fixed a bug with the fixed header when set to shrink on Safari.</li>
+	<li>Fixed a bug with the fixed header when switching between landscape and portrait on mobile devices.</li>
+	<li>Fixed a bug with the line-height in comments.</li>
+	<li>Fixed a bug with the browser focusing on the search widget instead of the header search bar.</li>
+	<li>Fixed a bug with Customizer slider controls.</li>
+	<li>Fixed a bug causing horizontal scrollbars with custom content widths.</li>
+	<li>Fixed a bug causing logo text to appear even when empty.</li>
+	<li>Fixed a bug with WooCommerce variable products styling. </li>
+</ul>
+
 <h4>1.5 - 03/16/2016</h4>
 <p>This is a major update that adds a number of new features. Please see <a href="https://www.wpbeaverbuilder.com/version-1-5-of-the-beaver-builder-theme-is-now-in-beta//">this blog post</a> for more details.</p>
 <p><strong>Enhancements</strong></p>

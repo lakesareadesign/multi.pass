@@ -57,6 +57,12 @@ FLCustomizer::add_panel('fl-settings', array(
 						'label' => 'Yelp',
 					)
 				),
+				'fl-social-xing' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Xing',
+					)
+				),
 				'fl-social-pinterest' => array(
 					'control'   => array(
 						'class' => 'WP_Customize_Control',

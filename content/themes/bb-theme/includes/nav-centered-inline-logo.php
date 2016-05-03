@@ -2,7 +2,7 @@
 	<div class="fl-page-header-wrap">
 		<div class="fl-page-header-container container">
 			<div class="fl-page-header-row row">
-				<div class="fl-page-header-logo" itemscope="itemscope" itemtype="http://schema.org/Organization">
+				<div class="fl-page-header-logo fl-inline-logo-<?php echo FLTheme::get_setting('fl-inline-logo-side'); ?>" itemscope="itemscope" itemtype="http://schema.org/Organization">
 					<a href="<?php echo home_url(); ?>" itemprop="url"><?php FLTheme::logo(); ?></a>
 				</div>
 				<div class="fl-page-nav-col col-sm-12">

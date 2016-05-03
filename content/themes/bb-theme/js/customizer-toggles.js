@@ -168,6 +168,9 @@
 				
                 return 'boxed' == layoutWidth;
 			}
+		},{
+			controls: [ 'fl-inline-logo-side' ],
+			callback: function( val ) { return 'centered-inline-logo' == val; }
 		}],
 
 		'fl-fixed-header': [{

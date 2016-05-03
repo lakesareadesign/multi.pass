@@ -107,10 +107,22 @@
 
 			// Go to Top
 			if($('body.fl-scroll-to-top').length != 0) {
-				$(window).on('resize', $.throttle(500, this._toTop));
 				this._toTop();
 			}
 
+		},
+		
+		/**
+		 * Checks to see if the current device is mobile.
+		 *
+		 * @since 1.5.1
+		 * @access private
+		 * @method _isMobile
+		 * @return {Boolean}
+		 */ 
+		_isMobile: function()
+		{
+			return /Mobile|Android|Silk\/|Kindle|BlackBerry|Opera Mini|Opera Mobi|webOS/i.test( navigator.userAgent );
 		},
 		
 		/**
@@ -187,10 +199,17 @@
 		 */
 		_enableTopNavDropDowns: function()
 		{
-			var nav      = $('.fl-page-bar-nav'),
-				navItems = nav.find(' > li');
+			var nav        = $('.fl-page-bar-nav'),
+				navItems   = nav.find(' > li'),
+				subToggles = nav.find('> li').has('> ul.sub-menu').find('> a');
 			
-			navItems.hover(FLTheme._navItemMouseover, FLTheme._navItemMouseout);
+			if ( FLTheme._isMobile() ) {
+				navItems.hover(function(){}, FLTheme._navItemMouseout);
+				subToggles.on('click', FLTheme._navSubMenuToggleClick);
+			}
+			else {
+				navItems.hover(FLTheme._navItemMouseover, FLTheme._navItemMouseout);
+			}
 		},
 		
 		/**
@@ -202,21 +221,29 @@
 		 */
 		_enablePageNavDropDowns: function()
 		{
-			var nav      = $('.fl-page-nav .fl-page-nav-collapse'),
-				navItems = nav.find('ul li'),
-				subMenus = navItems.find('ul.sub-menu');
-			
+			var nav        = $('.fl-page-nav .fl-page-nav-collapse'),
+				navItems   = nav.find('ul li'),
+				subToggles = nav.find('li').has('> ul.sub-menu').find('> a'),
+				subMenus   = navItems.find('ul.sub-menu');
+				
 			if( $( '.fl-page-nav .navbar-toggle' ).is( ':visible' ) ) {
 				navItems.off('mouseenter mouseleave');
 				nav.find('> ul > li').has('ul.sub-menu').find('> a').on('click', FLTheme._navItemClickMobile);
+				subToggles.off('click', FLTheme._navSubMenuToggleClick);
 			}
 			else {
 				nav.find('a').off('click', FLTheme._navItemClickMobile);
 				nav.removeClass('in').addClass('collapse');
 				navItems.removeClass('fl-mobile-sub-menu-open');
 				navItems.find('a').width(0).width('auto');
-				navItems.hover(FLTheme._navItemMouseover, FLTheme._navItemMouseout);
-				navItems.click(FLTheme._navItemMouseover, FLTheme._navItemMouseout);
+				
+				if ( FLTheme._isMobile() ) {
+					navItems.hover(function(){}, FLTheme._navItemMouseout);
+					subToggles.on('click', FLTheme._navSubMenuToggleClick);
+				}
+				else {
+					navItems.hover(FLTheme._navItemMouseover, FLTheme._navItemMouseout);
+				}
 			}
 		},
 		
@@ -327,6 +354,26 @@
 		},
 		
 		/**
+		 * Callback for when a submenu toggle is clicked on mobile.
+		 *
+		 * @since 1.5.1
+		 * @access private
+		 * @method _navSubToggleClick
+		 * @param {Object} e The event object.
+		 */
+		_navSubMenuToggleClick: function( e )
+		{
+			var li = $( this ).closest( 'li' ).eq( 0 );
+			
+			if ( ! li.hasClass( 'fl-sub-menu-open' ) ) {
+				
+				FLTheme._navItemMouseover.apply( li[0] );
+				
+				e.preventDefault();
+			}
+		},
+		
+		/**
 		 * Shows or hides the nav search form.
 		 *
 		 * @since 1.0
@@ -343,7 +390,7 @@
 			else {
 				form.stop().fadeIn(200);
 				$('body').on('click.fl-page-nav-search', FLTheme._hideNavSearch);
-				$('.fl-search-input').focus();
+				$('.fl-page-nav-search .fl-search-input').focus();
 			}
 		},
 		
@@ -487,8 +534,10 @@
 		 		$('.fl-page').css("padding-top", totalHeaderHeight);
 
 		 		/* logo css transition hack */
-		 		var logoHeight = $('.fl-logo-img').height();
-		 		$('.fl-logo-img').css('max-height', logoHeight);
+		 		win.load(function() {
+				  var logoHeight = $('.fl-logo-img').height();
+				  $('.fl-logo-img').css('max-height', logoHeight);
+				});
 
 
 		 		$(win).scroll(function () {
@@ -546,6 +595,8 @@
 		 		if($('body.fl-scroll-header').length === 0) {
 		 			$('.fl-page').css("padding-top", totalHeaderHeight);
 		 		}
+		 	} else {
+		 		$('.fl-page').css("padding-top", "0");
 		 	}
 
 
@@ -584,7 +635,13 @@
 					logo_li_location  = Math.round( nav_li_length / 2 ) - 1;
 				
 				if(win.width() >= 992 && $inline_logo.length < 1 ) {
-			 	    $nav.children( 'li:nth( '+logo_li_location+' )' ).after( '<li class="fl-logo-centered-inline"></li>' );
+
+					if( $logo.hasClass( 'fl-inline-logo-left' ) && nav_li_length % 2 != 0 ) {
+						$nav.children( 'li:nth( '+logo_li_location+' )' ).before( '<li class="fl-logo-centered-inline"></li>' );
+					} else {
+						$nav.children( 'li:nth( '+logo_li_location+' )' ).after( '<li class="fl-logo-centered-inline"></li>' );
+					}
+
 			 	    $nav.children( '.fl-logo-centered-inline' ).append( $logo );
 			 	}
 
@@ -671,19 +728,15 @@
 		 	});
 
 		 	$(win).scroll(function() {
-		 		if(win.width() >= 768) {
 
-				 	  var scroll = $(this).scrollTop();
+		 	  var scroll = $(this).scrollTop();
 
-				 	  if (scroll > 800) {
-				 	    $('#fl-to-top').fadeIn();
-				 	  } else {
-				 	    $('#fl-to-top').fadeOut();
-				 	  }
-				 	  
-				} else {
-			 		$('#fl-to-top').hide();
-			 	}
+		 	  if (scroll > 800) {
+		 	    $('#fl-to-top').fadeIn();
+		 	  } else {
+		 	    $('#fl-to-top').fadeOut();
+		 	  }
+
 		 	});
 		 	
 		 },

@@ -309,6 +309,23 @@ FLCustomizer::add_panel('fl-header', array(
 					)
 				),
 
+				/* Inline Logo Side */
+				'fl-inline-logo-side' => array(
+					'setting'   => array(
+						'default'   => 'right'
+					),
+					'control'   => array(
+						'class'     => 'WP_Customize_Control',
+						'label'     => __('Inline Logo Position', 'fl-automator'),
+						'description'   => __('The inline logo will appear on the left or right side of odd menu items.', 'fl-automator'),
+						'type'      => 'select',
+						'choices'   => array(
+							'left'     => __('Left', 'fl-automator'),
+							'right'    => __('Right', 'fl-automator')
+						)
+					)
+				),
+
 				/* Vertical Header Width */
 				'fl-vertical-header-width' => array(
 					'setting'   => array(
