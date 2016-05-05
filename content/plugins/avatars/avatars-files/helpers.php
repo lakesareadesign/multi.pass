@@ -42,5 +42,5 @@ function avatar_display_posts( $user_ID, $size = '32', $deprecated = '' ) {
  **/
 function avatar_display_comments( $user_email, $size = '32', $deprecated = '' ) {
 	global $ms_avatar;
-	return $ms_avatar->display_comments( $user_email, $size, $deprecated );
+	return $ms_avatar->display_comments( $user_email, $size, $deprecated );	     	  								 
 }

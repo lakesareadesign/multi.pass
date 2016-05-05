@@ -5,6 +5,15 @@ Contributors: Cole Stevenson, Jose Jaureguiberry
 
 == Changelog ==
 
+= 2.6.4.2 =
+Improved FE styling (please check compatibility with active theme)
+Improved UX for jumping between Simple and Advanced fundraising type
+Improved fundraising start/end date handling
+Improved PP error handling
+Added ajax check for delayed pledges
+Enabled address collecting without rewards
+Fixed typo
+
 = 2.6.4.1 =
 Improved Upfront compatibility
 Added  ability to hide standard Fundraising Panel (may be useful in some scenarios)
@@ -261,4 +270,4 @@ New custom template structure for your theme
 Addition of several action and filter hooks for external plugins or theme function files.
 
 
-133620-1456499709-au
+133620-1462466936-au

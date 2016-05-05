@@ -4,7 +4,7 @@ Contributors: pupunzi
 Tags: video player, youtube, full background, video, HTML5, flash, mov, jquery, pupunzi, mb.components, cover video, embed, embed videos, embed youtube, embedding, plugin, shortcode, video cover, video HTML5, youtube, youtube embed, youtube player, youtube videos
 Requires at least: 3.0
 Tested up to: 4.4
-Stable tag:  2.0.6
+Stable tag:  2.0.7
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DSHAHSJJCQ53Y
 License: GPLv2 or later
 
@@ -93,6 +93,9 @@ Adding a background image to the body as mobile devices fallback is a good pract
 
 == Changelog ==
 
+= 2.0.7 =
+* Bug fix: An issue with Safari browser that freeze the video at start should be fixed.
+
 = 2.0.6 =
 * Bug fix: the volume value was not preserved in the settings page.
 
@@ -136,3 +139,6 @@ The video quality option is just a suggestion for the Youtube API; the video is 
 
 = The video stops some seconds before the real end; why? =
 To prevent the display of the "play" button provided by the Youtube API the video intentionally stops some seconds before the end; if you are the owner of the video I can suggest to make it a little bit longer (about 3/4 seconds).
+
+= I love your plugin! What can I do to help?
+Creating and supporting this plugin takes up a lot of my free time, therefore I would highly appreciate it if you could take a couple of minutes to write a review. This will help other WordPress users to start using this plugin and keep me motivated to maintain and support it. You can also make a donation to support my work!

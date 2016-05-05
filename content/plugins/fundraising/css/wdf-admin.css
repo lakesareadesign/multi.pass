@@ -209,7 +209,7 @@ td.wdf_goal_end_date input {
 	box-shadow: none!important;
 	background: rgb(7,67,112)!important; /* Old browsers */
 	background: -moz-linear-gradient(top,  rgba(7,67,112,1) 0%, rgba(5,50,84,1) 100%)!important; /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(7,67,112,1)), color-stop(100%,rgba(5,50,84,1)))!important; /* Chrome,Safari4+ */	     	 	 				 			
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(7,67,112,1)), color-stop(100%,rgba(5,50,84,1)))!important; /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top,  rgba(7,67,112,1) 0%,rgba(5,50,84,1) 100%)!important; /* Chrome10+,Safari5.1+ */
 	background: -o-linear-gradient(top,  rgba(7,67,112,1) 0%,rgba(5,50,84,1) 100%)!important; /* Opera 11.10+ */
 	background: -ms-linear-gradient(top,  rgba(7,67,112,1) 0%,rgba(5,50,84,1) 100%)!important; /* IE10+ */
@@ -234,4 +234,4 @@ h1.wdf_goal {
 }
 
 
-/* 133620-1456499709-au */
+/* 133620-1462466936-au */
