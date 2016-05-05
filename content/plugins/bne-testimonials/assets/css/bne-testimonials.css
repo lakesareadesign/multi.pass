@@ -1,0 +1,310 @@
+/*
+ * 	BNE Testimonials Wordpress Plugin
+ *	CSS File
+ *
+ * 	@author		Kerry Kline
+ * 	@copyright	Copyright (c) 2013-2015, Kerry Kline
+ * 	@link		http://www.bnecreative.com
+ *
+ * 	@updated	February 7, 2015
+*/
+
+
+/* ===========================================================
+ *	BNE Testimonials Global Styles
+ * ======================================================== */
+
+.bne-element-container { margin: 0px 0px 30px 0px; }
+
+/* == No Testimonial Warning == */
+.bne-testimonial-warning {
+	padding: 8px 35px 8px 14px;
+	margin-bottom: 20px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	background-color: #fcf8e3;
+	border: 1px solid #fbeed5;
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+	   		border-radius: 4px;
+	color: #c09853;
+}
+
+
+
+/* ===========================================================
+ *	Featured Image Styles
+ * ======================================================== */
+
+/* Global Profile Image Styles */
+.bne-testimonial-featured-image,
+.bne-testimonial-featured-image.square,
+.bne-testimonial-featured-image.circle,
+.bne-testimonial-featured-image.flat-square,
+.bne-testimonial-featured-image.flat-circle {
+	width: 100px !important;
+	height: 100px !important;
+	float: left;
+	margin: 5px 20px 10px 0;
+}
+
+/* Square Style */
+.bne-testimonial-featured-image,
+.bne-testimonial-featured-image.square {
+	padding: 4px;
+	background: white;
+	border: 1px solid #D1D1D1;
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+	        border-radius: 4px;
+	-webkit-box-shadow: 0px 0px 3px #CCC;
+	   -moz-box-shadow: 0px 0px 3px #CCC;
+	        box-shadow: 0px 0px 3px #CCC;
+}
+
+/* Square Style (Flat) */
+.bne-testimonial-featured-image.flat-square {
+	border: none;
+	border-radius: 0px;
+	box-shadow: none;
+	padding: 0;
+}
+
+/* Circle Style */
+.bne-testimonial-featured-image.circle {
+	border:none;
+	padding:0px;
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+	   		border-radius: 50%;
+
+	/* Using shadows to mimic the padding, border color and final outer shadow effect.
+	 * Safari has an issue of only using border-radius above.
+	 * Shadow mimic Order: 1) padding, 2) border, 3) box shadow
+	 */
+	-webkit-box-shadow: 0 0 0 4px white, 0 0 0 5px #D1D1D1, 0px 0px 9px #555;
+	   -moz-box-shadow: 0 0 0 4px white, 0 0 0 5px #D1D1D1, 0px 0px 9px #555;
+	   		box-shadow: 0 0 0 4px white, 0 0 0 5px #D1D1D1, 0px 0px 9px #555;
+}
+
+/* Circle Style (Flat) */
+.bne-testimonial-featured-image.flat-circle {
+	border: none;
+	box-shadow: none;
+	padding: 0px;
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+	   		border-radius: 50%;
+}
+
+
+/* ===========================================================
+ *	General Typography
+ * ======================================================== */
+
+.bne-testimonial-heading,
+h3.bne-testimonial-heading,
+h4.bne-testimonial-heading {
+	clear: none;
+	margin: 0px 0px 5px 0px !important;
+	line-height: 1.2em;
+	float: none;
+	text-align:left;
+}
+.bne-testimonial-details {
+	font-weight: normal;
+	font-style: italic;
+	margin: 0px 0px 12px 0px;
+	line-height: 1.2em;
+	float: none;
+}
+.bne-testimonial-description {
+	float: none;
+}
+.bne-testimonial-description p {
+	float: none;
+}
+
+
+
+/* ===========================================================
+ *	BNE Testimonials List
+ * ======================================================== */
+
+.bne-testimonial-list-wrapper .single-bne-testimonial { margin-bottom: 30px; }
+.bne-testimonial-list-wrapper .bne-testimonial-description { margin-bottom: 5px; }
+.bne-testimonial-list-wrapper .single-bne-testimonial:last-child { margin-bottom: 10px; }
+
+
+/* ===========================================================
+ *	Flexslider CSS for Testimonial Slider
+ * ======================================================== */
+
+/* == Flexslider Browser/Theme Resets == */
+.bne-testimonial-slider.bne-flexslider .flex-container a:active,
+.bne-testimonial-slider.bne-flexslider a:active,
+.bne-testimonial-slider.bne-flexslider .flex-container a:focus,
+.bne-testimonial-slider.bne-flexslider a:focus { outline: none; }
+.bne-testimonial-slider.bne-flexslider .slides,
+.bne-testimonial-slider.bne-flexslider .flex-control-nav,
+.bne-testimonial-slider.bne-flexslider .flex-direction-nav { margin: 0 !important; padding: 0 !important; list-style: none !important; }
+.bne-testimonial-slider.bne-flexslider .flex-direction-nav li a {background:none;}
+.bne-testimonial-slider.bne-flexslider .flex-control-paging li a {margin:0}
+.bne-testimonial-slider.bne-flexslider li {margin: 0; padding:0; background:none !important; content:""; border:0 !important; list-style-type: none;}
+.bne-testimonial-slider.bne-flexslider li:before {content:"";}
+.bne-testimonial-slider.bne-flexslider li:after {content:"";}
+.bne-testimonial-slider.bne-flexslider { width: auto; margin: 0; padding: 0; position:relative; z-index: 1;}
+.bne-testimonial-slider.bne-flexslider .slides > li { display: none; -webkit-backface-visibility: hidden; }
+.bne-testimonial-slider.bne-flexslider .flex-pauseplay span {text-transform: capitalize;}
+.bne-testimonial-slider.bne-flexslider .slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
+html[xmlns] .bne-testimonial-slider.bne-flexslider .slides {display: block;}
+* html .bne-testimonial-slider.bne-flexslider .slides {height: 1%;}
+.no-js .bne-testimonial-slider.bne-flexslider .slides > li:first-child {display: block;}
+
+
+/* == Testimonial Slider (Flexslider Container) == */
+.bne-testimonial-slider-wrapper {
+	margin: 0px;
+	background: #fff;
+	padding:4px;
+	border: solid 1px #ccc;
+	position: relative;
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+	   		border-radius: 4px;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+	   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+	   		box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+	zoom: 1;
+}
+
+.flat-testimonial-slider .bne-testimonial-slider-wrapper {
+	background: none;
+	border: none;
+	padding: 0;
+	-webkit-border-radius: 0px;
+	   -moz-border-radius: 0px;
+	   		border-radius: 0px;
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	   		box-shadow: none;
+
+}
+
+
+/* == Background of slides == */
+.bne-testimonial-slider.bne-flexslider .flex-viewport { min-height:50px; max-height: 2000px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; -o-transition: all 1s ease; transition: all 1s ease; }
+.bne-testimonial-slider.bne-flexslider .loading .flex-viewport { max-height: 300px; }
+.bne-testimonial-slider.bne-flexslider .slides { zoom: 1; }
+
+/* == Direction Nav == */
+.bne-testimonial-slider.bne-flexslider .flex-direction-nav {
+	position: absolute;
+	bottom: 15px;
+	right: 10px;
+	height: 11px;
+	z-index: 4;
+	width: auto;
+}
+
+.bne-testimonial-slider.bne-flexslider .flex-direction-nav li {
+	float: left;
+	padding: 0 !important;
+	margin: 0 !important;
+	list-style-type: none !important;
+	width: auto;
+}
+.bne-testimonial-slider.bne-flexslider .flex-direction-nav li a {
+	background-image: url('../images/slider-arrows.png');
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	display: block;
+	margin: 0 1px;
+	outline: 0;
+	text-indent: -9999px;
+	width: 16px;
+	height: 16px;
+	padding: 0px;
+	position: relative;
+	left: 0;
+	right:0;
+	top:0;
+	bottom:0;
+	opacity: 1;
+	text-decoration: none !important;
+	border: none !important;
+	-webkit-transition: none;
+	transition: none;
+}
+
+.bne-testimonial-slider.bne-flexslider .flex-direction-nav .flex-prev { background-position: 0 0; }
+.bne-testimonial-slider.bne-flexslider .flex-direction-nav .flex-next { background-position: 0 -16px; }
+
+/* == Direction Nav Background - Use 2x image for retina == */
+@media 	only screen and (-webkit-min-device-pixel-ratio: 1.5),
+		only screen and (-moz-min-device-pixel-ratio: 1.5),
+		only screen and (-o-min-device-pixel-ratio: 1.5),
+		only screen and (min-device-pixel-ratio: 1.5),
+		only screen and (min-resolution: 1.5dppx) {
+
+		.bne-testimonial-slider.bne-flexslider .flex-direction-nav li a {
+			background-image: url('../images/slider-arrows_2x.png');
+			background-size: 32px 64px;
+		}
+}
+
+/* == Control Nav == */
+.bne-testimonial-slider.bne-flexslider .flex-control-nav { position: absolute; bottom: 15px; left: 10px; text-align: center; width: 100%; height: 11px; z-index: 3; }
+.bne-testimonial-slider.bne-flexslider .flex-control-nav li { float: left; padding: 2px !important; margin:0 !important; list-style-type:none !important; width: auto; }
+
+/* == Control Nav Background == */
+.bne-testimonial-slider.bne-flexslider .flex-control-nav li a {
+	background: url('../images/flexslider-nav.png') no-repeat;
+	cursor: pointer;
+	display: block;
+	outline: none;
+	text-indent: -9999px;
+	width: 10px;
+	height: 11px;
+	text-decoration: none !important;
+	border: none !important;
+	-webkit-transition: none;
+	transition: none;
+}
+
+/* == Control Nav Background - Use 2x image for retina == */
+@media 	only screen and (-webkit-min-device-pixel-ratio: 1.5),
+		only screen and (-moz-min-device-pixel-ratio: 1.5),
+		only screen and (-o-min-device-pixel-ratio: 1.5),
+		only screen and (min-device-pixel-ratio: 1.5),
+		only screen and (min-resolution: 1.5dppx) {
+
+		.bne-testimonial-slider.bne-flexslider .flex-control-nav li a {
+			background-image: url('../images/flexslider-nav_2x.png');
+			background-size: 20px 11px;
+		}
+}
+
+.bne-testimonial-slider.bne-flexslider .flex-control-nav li a.flex-active { background-position: -10px 0; }
+
+/* == Content within Flexslider == */
+.bne-testimonial-slider.bne-flexslider .flex-content { padding: 8px 12px 35px 12px; }
+.bne-testimonial-slider-wrapper .bne-testimonial-description { margin-bottom: 5px; }
+
+
+
+
+/* ===========================================================
+ *	Miscellaneous
+ * ======================================================== */
+
+/*
+ * Hide the Shareaholic icons on our post type
+ * Since v1.3 this shouldn't be needed, but left as a backup.
+*/
+.bne-element-container .shareaholic-canvas,
+.bne-element-container #ssba { display:none; }
+
+
+/*  == Clearfix ==  */
+.clear:before, .clear:after, .clearfix:before, .clearfix:after { display: table;content: ""; }
+.clear:after, .clearfix:after { content: "";visibility: hidden;display: block;height: 0;clear: both; }
