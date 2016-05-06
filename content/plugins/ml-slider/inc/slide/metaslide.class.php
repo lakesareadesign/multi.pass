@@ -396,6 +396,32 @@ class MetaSlide {
 
     }
 
+
+    /**
+     * Detect a [metaslider] or [ml-slider] shortcode in the slide caption, which has an ID that matches the current slideshow ID
+     *
+     * @param $content string
+     */
+    protected function detect_self_metaslider_shortcode( $content ) {
+        $pattern = get_shortcode_regex();
+
+        if ( preg_match_all( '/'. $pattern .'/s', $content, $matches ) && array_key_exists( 2, $matches ) && ( in_array( 'metaslider', $matches[2] ) || in_array( 'ml-slider', $matches[2] ) ) ) {
+            // caption contains [metaslider] shortcode
+            if ( array_key_exists( 3, $matches ) && array_key_exists( 0, $matches[3] ) ) {
+                // [metaslider] shortcode has attributes
+                $attributes = shortcode_parse_atts( $matches[3][0] );
+
+                if ( isset( $attributes['id'] ) && $attributes['id'] == $this->slider->ID ) {
+                    // shortcode has ID attribute that matches the current slideshow ID
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
     /**
      * Get the thumbnail for the slide
      */

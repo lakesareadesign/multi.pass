@@ -27,9 +27,7 @@ get_header(); ?>
 					} else {
 						get_search_form();
 					}
-					?>
 
-					<?php
 					if ( is_woocommerce_activated() ) {
 
 						echo '<div class="fourohfour-columns-2">';
@@ -42,11 +40,11 @@ get_header(); ?>
 
 							echo '<div class="col-2">';
 
-								echo '<h2>' . esc_html__( 'Product Categories', 'storefront' ) . '</h2>';
+							echo '<h2>' . esc_html__( 'Product Categories', 'storefront' ) . '</h2>';
 
-								the_widget( 'WC_Widget_Product_Categories', array(
-															'count'		=> 1,
-														) );
+							the_widget( 'WC_Widget_Product_Categories', array(
+																			'count'		=> 1,
+							) );
 							echo '</div>';
 
 						echo '</div>';
@@ -54,9 +52,9 @@ get_header(); ?>
 						echo '<h2>' . esc_html__( 'Popular Products', 'storefront' ) . '</h2>';
 
 						echo storefront_do_shortcode( 'best_selling_products', array(
-															'per_page' 	=> 4,
-															'columns'	=> 4,
-														) );
+																			'per_page' 	=> 4,
+																			'columns'	=> 4,
+						) );
 					}
 					?>
 
@@ -66,4 +64,4 @@ get_header(); ?>
 		</main><!-- #main -->
 	</div><!-- #primary -->
 
-<?php get_footer(); ?>
+<?php get_footer();

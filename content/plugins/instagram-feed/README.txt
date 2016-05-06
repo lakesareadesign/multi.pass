@@ -2,8 +2,8 @@
 Contributors: smashballoon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram plugin, Instagram stream, Custom Instagram Feed, responsive Instagram, mobile Instagram, Instagram posts, Instagram wall, Instagram account, Instagram gallery, Instagram photo, Instagram post, Instagram share, Instagram customized, Instagrams, Instagram feeds, Instagram plugins, Instagram responsive, Instagram mobile feed, Instagram accounts, public Instagram feed, Instagram photography, Instagram galleries, multiple Instagram, Instagram widget, Instagram clean, beautiful Instagram, custom Instagram design
 Requires at least: 3.0
-Tested up to: 4.4
-Stable tag: 1.3.11
+Tested up to: 4.5.1
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -185,7 +185,22 @@ For more FAQs related to the Instagram Feed plugin please visit the [FAQ section
 6. Just copy and paste the shortcode into any page, post or widget on your site
 7. The Instagram Feed plugin Settings pages
 
+== Upgrade Notice ==
+
+= 1.4.1 =
+**Important:** Due to the upcoming Instagram API changes, in order for the Instagram Feed plugin to continue working after **June 1st** you must update the plugin and obtain a new Access Token on the plugin's Settings page.
+
 == Changelog ==
+
+= 1.4.1 =
+* **IMPORTANT: Due to the upcoming Instagram API changes, in order for the Instagram Feed plugin to continue working after June 1st you must obtain a new Access Token by using the Instagram button on the plugin's Settings page.**
+* New: Compatible with Instagram's new API changes effective June 1st
+* New: Added video icons to Instagram posts in the feed which contain videos
+* New: Added a setting to allow you to use a fixed pixel width for the feed on desktop but switch to a 100% width responsive layout on mobile
+* Tweak: Added a width and height attribute to the images to help improve Google PageSpeed score
+* Tweak: A few minor UI tweaks on the settings pages
+* Fix: Minified CSS and JS files
+
 = 1.3.11 =
 * Fix: Fixed a bug which was causing the height of the photos to be shorter than they should have been in some themes
 * Fix: Fixed an issue where when a feed was initially hidden (in a tab, for example) then the photo resolution was defaulting to 'thumbnail'

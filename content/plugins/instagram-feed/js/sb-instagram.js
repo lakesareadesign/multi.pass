@@ -111,7 +111,7 @@ if(!sbi_js_exists){
                     sortBy: sortby,
                     resolution: imgRes,
                     limit: parseInt( num, 10 ),
-                    template: '<div class="sbi_item sbi_type_{{model.type}} sbi_new" id="sbi_{{id}}" data-date="{{model.created_time_raw}}"><div class="sbi_photo_wrap"><a class="sbi_photo" href="{{link}}" target="_blank"><img src="{{image}}" alt="{{caption}}" /></a></div></div>',
+                    template: '<div class="sbi_item sbi_type_{{model.type}} sbi_new" id="sbi_{{id}}" data-date="{{model.created_time_raw}}"><div class="sbi_photo_wrap"><a class="sbi_photo" href="{{link}}" target="_blank"><img src="{{image}}" alt="{{caption}}" width="200" height="200" /></a></div></div>',
                     filter: function(image) {
                         //Create time for sorting
                         var date = new Date(image.created_time*1000),
@@ -162,7 +162,7 @@ if(!sbi_js_exists){
                                 }
                                 head.appendChild(style);
                             }();
-                            $self.find(".sbi_photo").sbi_imgLiquid({fill:true});
+                            // $self.find(".sbi_photo").sbi_imgLiquid({fill:true});
                         } // End: ( imgRes !== 'thumbnail' ) check
 
                         //Only check the width once the resize event is over
@@ -222,11 +222,17 @@ if(!sbi_js_exists){
 
                         //Fade photos on hover
                         jQuery('#sb_instagram .sbi_photo').each(function(){
-                            jQuery(this).hover(function(){
+                            $sbi_photo = jQuery(this);
+                            $sbi_photo.hover(function(){
                                 jQuery(this).fadeTo(200, 0.85);
                             }, function(){
                                 jQuery(this).stop().fadeTo(500, 1);
                             });
+
+                            //Add video icon to videos
+                            if( $sbi_photo.closest('.sbi_item').hasClass('sbi_type_video') ){
+                                if( !$sbi_photo.find('.sbi_playbtn').length ) $sbi_photo.append('<i class="fa fa-play sbi_playbtn"></i>');
+                            }
                         });
 
                         //Sort posts by date
@@ -252,6 +258,16 @@ if(!sbi_js_exists){
                             morePosts = [];
                         }, 500);
 
+                        function sbiGetItemSize(){
+                          $self.removeClass('sbi_small sbi_medium');
+                          var sbiItemWidth = $self.find('.sbi_item').innerWidth();
+                          if( sbiItemWidth > 120 && sbiItemWidth < 240 ){
+                              $self.addClass('sbi_medium');
+                          } else if( sbiItemWidth <= 120 ){
+                              $self.addClass('sbi_small');
+                          }
+                        }
+                        sbiGetItemSize();
 
                     }, // End 'after' function
                     error: function(data) {
@@ -260,7 +276,7 @@ if(!sbi_js_exists){
 
                         if( data.indexOf('access_token') > -1 ){
                             sbiErrorMsg += '<p><b>Error: Access Token is not valid</b><br /><span>This error message is only visible to WordPress admins</span>';
-                            sbiErrorDir = "<p>There's an issue with the Instagram Access Token that you are using. Please obtain a new Access Token on the plugin's Settings page.";
+                            sbiErrorDir = "<p>There's an issue with the Instagram Access Token that you are using. Please obtain a new Access Token on the plugin's Settings page.<br />If you continue to have an issue with your Access Token then please see <a href='https://smashballoon.com/my-instagram-access-token-keep-expiring/' target='_blank'>this FAQ</a> for more information.";
                         } else if( data.indexOf('user does not exist') > -1 ){
                             sbiErrorMsg += '<p><b>Error: The User ID does not exist</b><br /><span>This error is only visible to WordPress admins</span>';
                             sbiErrorDir = "<p>Please double check the Instagram User ID that you are using. To find your User ID simply enter your Instagram user name into this <a href='http://www.otzberg.net/iguserid/' target='_blank'>tool</a>.</p>";

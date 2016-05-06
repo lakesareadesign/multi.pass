@@ -167,7 +167,34 @@
 	margin: 3px 6px 0 0;
 }
 
+/* Quick links */
+#sbi_admin .sb_instagram_contents_links{
+	float: left;
+	clear: both;
+	width: 100%;
+	padding-bottom: 12px;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 15px;
+}
+#sbi_admin .sb_instagram_contents_links a,
+#sbi_admin .sb_instagram_contents_links span{
+	display: block;
+	float: left;
+	padding: 2px 5px;
+}
+#sbi_admin .sb_instagram_contents_links span{
+	padding-left: 0;
+}
 
+#sbi_admin #sb_instagram_width_options{
+	margin-top: 5px;
+	display: none;
+}
+#sbi_admin #sb_instagram_width_options label {
+	font-size: 13px;
+	position: relative;
+	top: -2px;
+}
 
 
 /* Error notice */
@@ -206,4 +233,36 @@
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+}
+
+/* Update notice */
+.sb_instagram_notice{
+	position: relative;
+	clear: both;
+	width: 96%;
+	margin: 20px 0;
+	background: #F7E6E6;
+	padding: 15px 1.5%;
+	border: 1px solid #BA7B7B;
+	color: #592626;
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+.sb_instagram_notice .sb_instagram_notice_title{
+	font-size: 18px;
+	padding-bottom: 5px;
+}
+.sb_instagram_notice p{
+	padding: 0;
+	margin: 0;
+	font-size: 14px;
+}
+.sb_instagram_dismiss{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	color: #dd3d36;
+	text-decoration: none;
 }

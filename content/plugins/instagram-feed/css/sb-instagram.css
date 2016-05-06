@@ -85,6 +85,10 @@
   display: block;
   text-decoration: none;
 }
+#sb_instagram .sbi_photo img{
+  width: 100%;
+  height: 100%;
+}
 #sb_instagram a,
 #sb_instagram a:hover,
 #sb_instagram a:focus,
@@ -135,6 +139,23 @@
 #sb_instagram .sbi_photo_wrap:hover .sbi_link,
 #sb_instagram .sbi_photo_wrap:focus .sbi_link{
   display: block;
+}
+
+/* Videos */
+#sb_instagram .sbi_type_video .sbi_playbtn{
+  display: block !important;
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  margin-top: -24px;
+  margin-left: -19px;
+  padding: 0;
+  font-size: 48px;
+  color: #fff;
+  color: rgba(255,255,255,0.9);
+  font-style: normal !important;
+  text-shadow: 0 0 8px rgba(0,0,0,0.8);
 }
 
 /* Loader */
@@ -311,18 +332,22 @@
   margin-left: 5px;
 }
 
+/* Error messages */
+#sb_instagram .sb_instagram_error{
+  width: 100%;
+  text-align: center;
+}
 
 /* Mod only error msgs */
 #sbi_mod_error{
   display: none;
-}
-#sbi_mod_error{
   border: 1px solid #ddd;
   background: #eee;
   color: #333;
   margin: 0;
   padding: 10px 15px;
   font-size: 13px;
+  text-align: center;
 
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -346,6 +371,18 @@
   font-size: 12px;
 }
 
+/* Medium */
+#sb_instagram.sbi_medium .sbi_playbtn{
+  font-size: 23px;
+  margin-top: -12px;
+  margin-left: -9px;
+}
+/* Small */
+#sb_instagram.sbi_small .sbi_playbtn{
+  font-size: 18px;
+  margin-top: -9px;
+  margin-left: -7px;
+}
 
 /* Media queries */
 @media all and (max-width: 640px){
@@ -362,6 +399,10 @@
   #sb_instagram.sbi_col_9 #sbi_images .sbi_item,
   #sb_instagram.sbi_col_10 #sbi_images .sbi_item{
     width: 25%;
+  }
+  /* On mobile make the min-width 100% */
+  #sb_instagram.sbi_width_resp{
+    width: 100% !important;
   }
 }
 @media all and (max-width: 480px){

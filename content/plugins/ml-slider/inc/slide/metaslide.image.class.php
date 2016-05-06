@@ -243,6 +243,7 @@ class MetaImageSlide extends MetaSlide {
 
     }
 
+
     /**
      * Returns the HTML for the public slide
      *
@@ -262,6 +263,12 @@ class MetaImageSlide extends MetaSlide {
 
         $thumb = $imageHelper->get_image_url();
 
+        if ( $this->detect_self_metaslider_shortcode( $this->slide->post_excerpt ) ) {
+            $caption = str_replace( array( "[metaslider", "[ml-slider" ), "[metaslider-disabled", $this->slide->post_excerpt );
+        } else {
+            $caption = $this->slide->post_excerpt;
+        }
+
         // store the slide details
         $slide = array(
             'id' => $this->slide->ID,
@@ -273,8 +280,8 @@ class MetaImageSlide extends MetaSlide {
             'width' => $this->settings['width'],
             'height' => $this->settings['height'],
             'alt' => __( get_post_meta( $this->slide->ID, '_wp_attachment_image_alt', true ) ),
-            'caption' => __( html_entity_decode( do_shortcode( $this->slide->post_excerpt ), ENT_NOQUOTES, 'UTF-8' ) ),
-            'caption_raw' => __( do_shortcode( $this->slide->post_excerpt ) ),
+            'caption' => __( html_entity_decode( do_shortcode( $caption ), ENT_NOQUOTES, 'UTF-8' ) ),
+            'caption_raw' => __( do_shortcode( $caption ) ),
             'class' => "slider-{$this->slider->ID} slide-{$this->slide->ID}",
             'rel' => "",
             'data-thumb' => ""
