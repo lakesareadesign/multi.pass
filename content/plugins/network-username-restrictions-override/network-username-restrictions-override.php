@@ -63,7 +63,7 @@ class NetworkUsernameRestrictionsOverridePlugin {
 
 			if ($code == 'user_name') {
 				foreach ($messages as $message) {
-					if ($message == __('Only lowercase letters (a-z) and numbers are allowed.')) {
+					if ($message == __('Usernames can only contain lowercase letters (a-z) and numbers.')) {
 						// Check if we allow email addresses; otherwise, check against character overrides
 
 						if (is_email($username)) {
