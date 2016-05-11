@@ -1776,7 +1776,7 @@ class ProSites_Gateway_Stripe {
 			}
 		}
 
-		$period = isset( $args['period'] ) && ! empty( $args['period'] ) ? $args['period'] : 1;
+		$period = isset( $args['period'] ) && ! empty( $args['period'] ) ? $args['period'] : ProSites_Helper_ProSite::default_period();
 		$level  = isset( $render_data['new_blog_details'] ) && isset( $render_data['new_blog_details']['level'] ) ? (int) $render_data['new_blog_details']['level'] : 0;
 		$level  = isset( $render_data['upgraded_blog_details'] ) && isset( $render_data['upgraded_blog_details']['level'] ) ? (int) $render_data['upgraded_blog_details']['level'] : $level;
 
@@ -2257,7 +2257,7 @@ class ProSites_Gateway_Stripe {
 					}
 
 					// If this is a trial before the subscription starts
-					if ( $psts->is_trial_allowed( $blog_id ) ) {
+					if ( $psts->is_trial_allowed( $blog_id, $_POST['level'] ) ) {
 						if ( isset( $process_data['new_blog_details'] ) || ! $psts->is_existing( $blog_id ) ) {
 							//customer is new - add trial days
 							$args['trial_end'] = strtotime( '+ ' . $trial_days . ' days' );
@@ -3269,6 +3269,46 @@ class ProSites_Gateway_Stripe {
 			</table>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Fetch Subscription End date
+	 *
+	 * @param $blog_id
+	 *
+	 * @return bool|string
+	 */
+	public static function get_blog_subscription_expiry( $blog_id ) {
+		//Return If we don't have any blog id
+		if( empty( $blog_id ) ) {
+			return '';
+		}
+
+		//retrieve Customer Subscription
+		$customer_data = self::get_customer_data( $blog_id );
+
+		$customer_id = !empty( $customer_data ) && !empty( $customer_data->customer_id ) ? $customer_data->customer_id : '';
+		$sub_id = !empty( $customer_data ) && !empty( $customer_data->subscription_id ) ? $customer_data->subscription_id : '';
+
+		//Return If we don't have customer id
+		if( empty( $customer_id ) || empty( $sub_id ) ) {
+			return '';
+		}
+
+		$expiry = '';
+
+		try {
+			//Get the Subscription details
+			$customer     = Stripe_Customer::retrieve( $customer_id );
+			$subscription = $customer->subscriptions->retrieve( $sub_id );
+			$expiry = !empty( $subscription->current_period_end ) ? $subscription->current_period_end : '';
+		}
+		catch ( Exception $e ) {
+			error_log( $e->getMessage() );
+		}
+
+		return $expiry;
+
 	}
 
 }

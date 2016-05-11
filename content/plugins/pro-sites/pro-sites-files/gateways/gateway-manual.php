@@ -26,23 +26,28 @@ class ProSites_Gateway_Manual {
 		<div class="inside">
 			<table class="form-table">
 				<tr>
-					<th scope="row" class="psts-help-div psts-method-name"><?php echo __( 'Method Name', 'psts' ) . $psts->help_text( __( 'Enter a public name for this payment method that is displayed to users - No HTML', 'psts' ) ); ?></th>
+					<th scope="row"
+					    class="psts-help-div psts-method-name"><?php echo __( 'Method Name', 'psts' ) . $psts->help_text( __( 'Enter a public name for this payment method that is displayed to users - No HTML', 'psts' ) ); ?></th>
 					<td>
 						<span class="description"><?php ?></span>
 
 						<p>
-							<input value="<?php echo esc_attr( $psts->get_setting( "mp_name" ) ); ?>" style="width: 100%;" name="psts[mp_name]" type="text"/>
+							<input value="<?php echo esc_attr( $psts->get_setting( "mp_name" ) ); ?>"
+							       style="width: 100%;" name="psts[mp_name]" type="text"/>
 						</p>
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row" class="psts-help-div psts-user-instruction"><?php echo __( 'User Instructions', 'psts' ) . $psts->help_text( __( 'Manual payment instructions to display on the checkout screen - HTML allowed', 'psts' ) ); ?></th>
+					<th scope="row"
+					    class="psts-help-div psts-user-instruction"><?php echo __( 'User Instructions', 'psts' ) . $psts->help_text( __( 'Manual payment instructions to display on the checkout screen - HTML allowed', 'psts' ) ); ?></th>
 					<td>
-						<textarea name="psts[mp_instructions]" type="text" rows="4" wrap="soft" id="mp_instructions" style="width: 100%;"/><?php echo esc_textarea( stripslashes( $psts->get_setting( 'mp_instructions' ) ) ); ?></textarea>
+						<textarea name="psts[mp_instructions]" type="text" rows="4" wrap="soft" id="mp_instructions"
+						          style="width: 100%;"/><?php echo esc_textarea( stripslashes( $psts->get_setting( 'mp_instructions' ) ) ); ?></textarea>
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row" class="psts-help-div psts-show-submission"><?php echo __( 'Show Submission Form', 'psts' ) . $psts->help_text( __( 'Displays a textarea to allow user to enter payment details. The form submission will come to the network admin email address.', 'psts' ) ); ?></th>
+					<th scope="row"
+					    class="psts-help-div psts-show-submission"><?php echo __( 'Show Submission Form', 'psts' ) . $psts->help_text( __( 'Displays a textarea to allow user to enter payment details. The form submission will come to the network admin email address.', 'psts' ) ); ?></th>
 					<td>
 						<label>
 							<input type="radio" name="psts[mp_show_form]" value="1"<?php checked( $show_form, 1 ); ?>>
@@ -56,9 +61,12 @@ class ProSites_Gateway_Manual {
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row" class="psts-help-div psts-submission-form-email"><?php echo __( 'Submission Form Email', 'psts' ) . $psts->help_text( __( 'The email address to send manual payment form submissions to.', 'psts' ) ); ?></th>
+					<th scope="row"
+					    class="psts-help-div psts-submission-form-email"><?php echo __( 'Submission Form Email', 'psts' ) . $psts->help_text( __( 'The email address to send manual payment form submissions to.', 'psts' ) ); ?></th>
 					<td>
-						<input type="text" name="psts[mp_email]" id="mp_email" value="<?php echo esc_attr( $psts->get_setting( 'mp_email', get_site_option( "admin_email" ) ) ); ?>" size="40"/>
+						<input type="text" name="psts[mp_email]" id="mp_email"
+						       value="<?php echo esc_attr( $psts->get_setting( 'mp_email', get_site_option( "admin_email" ) ) ); ?>"
+						       size="40"/>
 					</td>
 				</tr>
 			</table>
@@ -178,7 +186,7 @@ class ProSites_Gateway_Manual {
 			$render_data[ $key ] = isset( $render_data[ $key ] ) ? $render_data[ $key ] : ProSites_Helper_Session::session( $key );
 		}
 
-		$period = isset( $args['period'] ) && ! empty( $args['period'] ) ? $args['period'] : 1;
+		$period = isset( $args['period'] ) && ! empty( $args['period'] ) ? $args['period'] : ProSites_Helper_ProSite::default_period();
 
 		$level = isset( $render_data['new_blog_details'] ) && isset( $render_data['new_blog_details']['level'] ) ? (int) $render_data['new_blog_details']['level'] : 0;
 		$level = isset( $render_data['upgraded_blog_details'] ) && isset( $render_data['upgraded_blog_details']['level'] ) ? (int) $render_data['upgraded_blog_details']['level'] : $level;
@@ -310,7 +318,7 @@ class ProSites_Gateway_Manual {
 			}
 
 			$current_payment = self::calculate_cost( $blog_id, $_POST['level'], $_POST['period'], $process_data['COUPON_CODE'] );
-			$modify = self::is_modifying($blog_id, $_POST, $current_payment );
+			$modify          = self::is_modifying( $blog_id, $_POST, $current_payment );
 			if ( $modify ) {
 				//Plan Update
 				$psts->log_action( $blog_id, sprintf( __( 'User submitted Manual Payment for blog upgrade from %s to %s.', 'psts' ), $psts->get_level_setting( intval( $current->level ), 'name' ), $psts->get_level_setting( intval( $_POST['level'] ), 'name' ) ) );
@@ -327,25 +335,25 @@ class ProSites_Gateway_Manual {
 				$subject = __( 'Pro Sites Manual Payment Submission for Plan update', 'psts' );
 
 				$message_fields = apply_filters( 'prosites_manual_payment_email_info_fields', array(
-					'username'        => $username,
-					'level'           => intval( $_POST['level'] ),
-					'level_name'      => $psts->get_level_setting( intval( $_POST['level'] ), 'name' ),
-					'period'          => intval( $_POST['period'] ),
-					'user_email'      => $email,
-					'site_address'    => get_home_url(),
-					'manage_link'     => $blog_admin_url,
-					'coupon_code'     => ! empty( $process_data['COUPON_CODE'] ) ? $process_data['COUPON_CODE'] : ''
+					'username'     => $username,
+					'level'        => intval( $_POST['level'] ),
+					'level_name'   => $psts->get_level_setting( intval( $_POST['level'] ), 'name' ),
+					'period'       => intval( $_POST['period'] ),
+					'user_email'   => $email,
+					'site_address' => get_home_url(),
+					'manage_link'  => $blog_admin_url,
+					'coupon_code'  => ! empty( $process_data['COUPON_CODE'] ) ? $process_data['COUPON_CODE'] : ''
 				) );
 
 				$message_parts = apply_filters( 'prosites_manual_payment_email_info', array(
-					'description'     => sprintf( __( 'The user "%s" has submitted a manual payment request via the Pro Sites checkout form.', 'psts' ), $message_fields['username'] ) . "\n",
-					'level_text'      => __( 'Level: ', 'psts' ) . $message_fields['level'] . ' - ' . $message_fields['level_name'],
-					'period_text'     => __( 'Period: ', 'psts' ) . sprintf( __( 'Every %d Months', 'psts' ), $message_fields['period'] ),
-					'email_text'      => sprintf( __( "User Email: %s", 'psts' ), $message_fields['user_email'] ),
-					'site_text'       => sprintf( __( "Site Address: %s", 'psts' ), $message_fields['site_address'] ),
-					'manage_text'     => sprintf( __( "Manage Site: %s", 'psts' ), $blog_admin_url ),
-					'coupon_used'     => sprintf( __( "Coupon Used: %s", 'psts' ), $message_fields['coupon_code'] ),
-					'payment_amount'  => sprintf( __( "Payment Amount: %s", 'psts' ), $current_payment ),
+					'description'    => sprintf( __( 'The user "%s" has submitted a manual payment request via the Pro Sites checkout form.', 'psts' ), $message_fields['username'] ) . "\n",
+					'level_text'     => __( 'Level: ', 'psts' ) . $message_fields['level'] . ' - ' . $message_fields['level_name'],
+					'period_text'    => __( 'Period: ', 'psts' ) . sprintf( __( 'Every %d Months', 'psts' ), $message_fields['period'] ),
+					'email_text'     => sprintf( __( "User Email: %s", 'psts' ), $message_fields['user_email'] ),
+					'site_text'      => sprintf( __( "Site Address: %s", 'psts' ), $message_fields['site_address'] ),
+					'manage_text'    => sprintf( __( "Manage Site: %s", 'psts' ), $blog_admin_url ),
+					'coupon_used'    => sprintf( __( "Coupon Used: %s", 'psts' ), $message_fields['coupon_code'] ),
+					'payment_amount' => sprintf( __( "Payment Amount: %s", 'psts' ), $current_payment ),
 				), $message_fields );
 
 				if ( ! empty( $_POST['psts_mp_text'] ) ) {
@@ -357,20 +365,26 @@ class ProSites_Gateway_Manual {
 
 				wp_mail( $psts->get_setting( 'mp_email', get_site_option( "admin_email" ) ), $subject, $message );
 
-			}else {
+			} else {
 
 				$subject = __( 'Pro Sites Manual Payment Submission', 'psts' );
-				// Send email with activation link.
-				if ( class_exists( 'BuddyPress' ) ) {
-					// Set up activation link
-					$activate_url = bp_get_activation_page() . "?key=$activation_key";
-				} elseif ( ! is_subdomain_install() || get_current_site()->id != 1 ) {
-					$activate_url = network_site_url( "wp-activate.php?key=$activation_key" );
-				} else {
-					$activate_url = "http://{$domain}{$path}wp-activate.php?key=$activation_key"; // @todo use *_url() API
-				}
 
-				$activate_url = esc_url($activate_url);
+				$activate_url = '';
+
+				//Form the activation URL only if we have the activation key
+				if ( ! empty( $activation_key ) ) {
+					// Send email with activation link.
+					if ( class_exists( 'BuddyPress' ) ) {
+						// Set up activation link
+						$activate_url = bp_get_activation_page() . "?key=$activation_key";
+					} elseif ( ! is_subdomain_install() || get_current_site()->id != 1 ) {
+						$activate_url = network_site_url( "wp-activate.php?key=$activation_key" );
+					} else {
+						$activate_url = ! empty( $path ) && ! empty( $domain ) ? "http://{$domain}{$path}wp-activate.php?key=$activation_key" : ''; // @todo use *_url() API
+					}
+
+					$activate_url = esc_url( $activate_url );
+				}
 
 				$message_fields = apply_filters( 'prosites_manual_payment_email_info_fields', array(
 					'username'        => $username,
@@ -390,11 +404,11 @@ class ProSites_Gateway_Manual {
 					'level_text'      => __( 'Level: ', 'psts' ) . $message_fields['level'] . ' - ' . $message_fields['level_name'],
 					'period_text'     => __( 'Period: ', 'psts' ) . sprintf( __( 'Every %d Months', 'psts' ), $message_fields['period'] ),
 					'email_text'      => sprintf( __( "User Email: %s", 'psts' ), $message_fields['user_email'] ),
-					'activation_text' => sprintf( __( "Activation Key: %s", 'psts' ), $message_fields['activation_key'] ),
-					'activation_link' => sprintf( __( "Activation Link: %s", 'psts' ), $message_fields['activation_link'] ),
+					'activation_text' => ! empty( $message_fields['activation_key'] ) ? sprintf( __( "Activation Key: %s", 'psts' ), $message_fields['activation_key'] ) : '',
+					'activation_link' => ! empty( $message_fields['activation_link'] ) ? sprintf( __( "Activation Link: %s", 'psts' ), $message_fields['activation_link'] ) : '',
 					'site_text'       => sprintf( __( "Site Address: %s", 'psts' ), $message_fields['site_address'] ),
 					'manage_text'     => sprintf( __( "Manage Site: %s", 'psts' ), $blog_admin_url ),
-					'coupon_used'     => sprintf( __( "Coupon Used: %s", 'psts' ), $message_fields['coupon_code'] ),
+					'coupon_used'     => ! empty( $message_fields['coupon_code'] ) ? sprintf( __( "Coupon Used: %s", 'psts' ), $message_fields['coupon_code'] ) : '',
 					'payment_amount'  => sprintf( __( "Payment Amount: %s", 'psts' ), $current_payment ),
 				), $message_fields );
 
@@ -473,7 +487,7 @@ class ProSites_Gateway_Manual {
 		$psts->record_stat( $blog_id, 'cancel' );
 
 		$last_gateway = ProSites_Helper_ProSite::last_gateway( $blog_id );
-		if( ! empty( $last_gateway ) && $last_gateway == self::get_slug() ) {
+		if ( ! empty( $last_gateway ) && $last_gateway == self::get_slug() ) {
 			$psts->email_notification( $blog_id, 'canceled' );
 		}
 		update_blog_option( $blog_id, 'psts_is_canceled', 1 );
@@ -553,6 +567,7 @@ class ProSites_Gateway_Manual {
 
 		return $modify;
 	}
+
 	public static function render_account_modified( $content, $blog_id, $domain ) {
 		global $psts;
 
@@ -589,6 +604,155 @@ class ProSites_Gateway_Manual {
 		ProSites_Helper_Session::unset_session( 'plan_updated' );
 
 		return $content;
+	}
+
+	/**
+	 * Returns list of all the currencies for Manual Gateway
+	 *
+	 * @return array
+	 */
+	public static function get_supported_currencies() {
+
+		return array(
+			'AED' => array( 'United Arab Emirates Dirham', '62F, 2E ,625' ),
+			'AFN' => array( 'Afghan Afghani', '60b' ),
+			'ALL' => array( 'Albanian Lek', '4c, 65, 6b' ),
+			'AMD' => array( 'Armenian Dram', '58F' ),
+			'ANG' => array( 'Netherlands Antillean Gulden', '192' ),
+			'AOA' => array( 'Angolan Kwanza', '4B, 7A' ),
+			'ARS' => array( 'Argentine Peso', '24' ),
+			'AUD' => array( 'Australian Dollar', '24' ),
+			'AWG' => array( 'Aruban Florin', '192' ),
+			'AZN' => array( 'Azerbaijani Manat', '43c, 430, 43d' ),
+			'BAM' => array( 'Bosnia & Herzegovina Convertible Mark', '4b, 4d' ),
+			'BBD' => array( 'Barbadian Dollar', '24' ),
+			'BDT' => array( 'Bangladeshi Taka', '09F3' ),
+			'BGN' => array( 'Bulgarian Lev', '43b, 432' ),
+			'BIF' => array( 'Burundian Franc', '46, 42, 75' ),
+			'BMD' => array( 'Bermudian Dollar', '24' ),
+			'BND' => array( 'Brunei Dollar', '24' ),
+			'BOB' => array( 'Bolivian Boliviano', '24, 62' ),
+			'BRL' => array( 'Brazilian Real', '52, 24' ),
+			'BSD' => array( 'Bahamian Dollar', '24' ),
+			'BWP' => array( 'Botswana Pula', '50' ),
+			'BZD' => array( 'Belize Dollar', '42, 5a, 24' ),
+			'CAD' => array( 'Canadian Dollar', '24' ),
+			'CDF' => array( 'Congolese Franc', '46, 43' ),
+			'CHF' => array( 'Swiss Franc', '43, 48, 46' ),
+			'CLP' => array( 'Chilean Peso', '24' ),
+			'CNY' => array( 'Chinese Renminbi Yuan', 'a5' ),
+			'COP' => array( 'Colombian Peso', '24' ),
+			'CRC' => array( 'Costa Rican Colón', '20a1' ),
+			'CVE' => array( 'Cape Verdean Escudo', '24' ),
+			'CZK' => array( 'Czech Koruna', '4b, 10d' ),
+			'DJF' => array( 'Djiboutian Franc', '46, 64, 6A' ),
+			'DKK' => array( 'Danish Krone', '6b, 72' ),
+			'DOP' => array( 'Dominican Peso', '52, 44, 24' ),
+			'DZD' => array( 'Algerian Dinar', '62F, 62C' ),
+			'EEK' => array( 'Estonian Kroon', '6b, 72' ),
+			'EGP' => array( 'Egyptian Pound', 'a3' ),
+			'ETB' => array( 'Ethiopian Birr', '1265, 122D' ),
+			'EUR' => array( 'Euro', '20ac' ),
+			'FJD' => array( 'Fijian Dollar', '24' ),
+			'FKP' => array( 'Falkland Islands Pound', 'a3' ),
+			'GBP' => array( 'British Pound', 'a3' ),
+			'GEL' => array( 'Georgian Lari', '10DA' ),
+			'GIP' => array( 'Gibraltar Pound', 'a3' ),
+			'GMD' => array( 'Gambian Dalasi', '44' ),
+			'GNF' => array( 'Guinean Franc', '46, 47' ),
+			'GTQ' => array( 'Guatemalan Quetzal', '51' ),
+			'GYD' => array( 'Guyanese Dollar', '24' ),
+			'HKD' => array( 'Hong Kong Dollar', '24' ),
+			'HNL' => array( 'Honduran Lempira', '4c' ),
+			'HRK' => array( 'Croatian Kuna', '6b, 6e' ),
+			'HTG' => array( 'Haitian Gourde', '47' ),
+			'HUF' => array( 'Hungarian Forint', '46, 74' ),
+			'IDR' => array( 'Indonesian Rupiah', '52, 70' ),
+			'ILS' => array( 'Israeli New Sheqel', '20aa' ),
+			'INR' => array( 'Indian Rupee', '20B9' ),
+			'ISK' => array( 'Icelandic Króna', '6b, 72' ),
+			'JMD' => array( 'Jamaican Dollar', '4a, 24' ),
+			'JPY' => array( 'Japanese Yen', 'a5' ),
+			'KES' => array( 'Kenyan Shilling', '4B, 53, 68' ),
+			'KGS' => array( 'Kyrgyzstani Som', '43b, 432' ),
+			'KHR' => array( 'Cambodian Riel', '17db' ),
+			'KMF' => array( 'Comorian Franc', '43, 46' ),
+			'KRW' => array( 'South Korean Won', '20a9' ),
+			'KYD' => array( 'Cayman Islands Dollar', '24' ),
+			'KZT' => array( 'Kazakhstani Tenge', '43b, 432' ),
+			'LAK' => array( 'Lao Kip', '20ad' ),
+			'LBP' => array( 'Lebanese Pound', 'a3' ),
+			'LKR' => array( 'Sri Lankan Rupee', '20a8' ),
+			'LRD' => array( 'Liberian Dollar', '24' ),
+			'LSL' => array( 'Lesotho Loti', '4C' ),
+			'LTL' => array( 'Lithuanian Litas', '4c, 74' ),
+			'LVL' => array( 'Latvian Lats', '4c, 73' ),
+			'MAD' => array( 'Moroccan Dirham', '62F, 2E, 645, 2E' ),
+			'MDL' => array( 'Moldovan Leu', '6C, 65, 69' ),
+			'MGA' => array( 'Malagasy Ariary', '41, 72' ),
+			'MKD' => array( 'Macedonian Denar', '434, 435, 43d' ),
+			'MNT' => array( 'Mongolian Tögrög', '20ae' ),
+			'MOP' => array( 'Macanese Pataca', '4D, 4F, 50, 24' ),
+			'MRO' => array( 'Mauritanian Ouguiya', '55, 4D' ),
+			'MUR' => array( 'Mauritian Rupee', '20a8' ),
+			'MVR' => array( 'Maldivian Rufiyaa', '52, 66' ),
+			'MWK' => array( 'Malawian Kwacha', '4D, 4B' ),
+			'MXN' => array( 'Mexican Peso', '24' ),
+			'MYR' => array( 'Malaysian Ringgit', '52, 4d' ),
+			'MZN' => array( 'Mozambican Metical', '4d, 54' ),
+			'NAD' => array( 'Namibian Dollar', '24' ),
+			'NGN' => array( 'Nigerian Naira', '20a6' ),
+			'NIO' => array( 'Nicaraguan Córdoba', '43, 24' ),
+			'NOK' => array( 'Norwegian Krone', '6b, 72' ),
+			'NPR' => array( 'Nepalese Rupee', '20a8' ),
+			'NZD' => array( 'New Zealand Dollar', '24' ),
+			'PAB' => array( 'Panamanian Balboa', '42, 2f, 2e' ),
+			'PEN' => array( 'Peruvian Nuevo Sol', '53, 2f, 2e' ),
+			'PGK' => array( 'Papua New Guinean Kina', '4B' ),
+			'PHP' => array( 'Philippine Peso', '20b1' ),
+			'PKR' => array( 'Pakistani Rupee', '20a8' ),
+			'PLN' => array( 'Polish Złoty', '7a, 142' ),
+			'PYG' => array( 'Paraguayan Guaraní', '47, 73' ),
+			'QAR' => array( 'Qatari Riyal', 'fdfc' ),
+			'RON' => array( 'Romanian Leu', '6c, 65, 69' ),
+			'RSD' => array( 'Serbian Dinar', '414, 438, 43d, 2e' ),
+			'RUB' => array( 'Russian Ruble', '440, 443, 431' ),
+			'RWF' => array( 'Rwandan Franc', '52, 20A3' ),
+			'SAR' => array( 'Saudi Riyal', 'fdfc' ),
+			'SBD' => array( 'Solomon Islands Dollar', '24' ),
+			'SCR' => array( 'Seychellois Rupee', '20a8' ),
+			'SEK' => array( 'Swedish Krona', '6b, 72' ),
+			'SGD' => array( 'Singapore Dollar', '24' ),
+			'SHP' => array( 'Saint Helenian Pound', 'a3' ),
+			'SLL' => array( 'Sierra Leonean Leone', '4C, 65' ),
+			'SOS' => array( 'Somali Shilling', '53' ),
+			'SRD' => array( 'Surinamese Dollar', '24' ),
+			'STD' => array( 'São Tomé and Príncipe Dobra', '44, 62' ),
+			'SVC' => array( 'Salvadoran Colón', '24' ),
+			'SZL' => array( 'Swazi Lilangeni', '45' ),
+			'THB' => array( 'Thai Baht', 'e3f' ),
+			'TJS' => array( 'Tajikistani Somoni', '73, 6F, 6D, 6F, 6E, 69' ),
+			'TOP' => array( 'Tongan Paʻanga', '54, 24' ),
+			'TRY' => array( 'Turkish Lira', '20BA' ),
+			'TTD' => array( 'Trinidad and Tobago Dollar', '54, 54, 24' ),
+			'TWD' => array( 'New Taiwan Dollar', '4e, 54, 24' ),
+			'TZS' => array( 'Tanzanian Shilling', '78, 2F, 79' ),
+			'UAH' => array( 'Ukrainian Hryvnia', '20b4' ),
+			'UGX' => array( 'Ugandan Shilling', '55, 53, 68' ),
+			'USD' => array( 'United States Dollar', '24' ),
+			'UYU' => array( 'Uruguayan Peso', '24, 55' ),
+			'UZS' => array( 'Uzbekistani Som', '43b, 432' ),
+			'VND' => array( 'Vietnamese Đồng', '20ab' ),
+			'VUV' => array( 'Vanuatu Vatu', '56, 54' ),
+			'WST' => array( 'Samoan Tala', '24' ),
+			'XAF' => array( 'Central African Cfa Franc', '46, 43, 46, 41' ),
+			'XCD' => array( 'East Caribbean Dollar', '24' ),
+			'XOF' => array( 'West African Cfa Franc', '43, 46, 41' ),
+			'XPF' => array( 'Cfp Franc', '46' ),
+			'YER' => array( 'Yemeni Rial', 'fdfc' ),
+			'ZAR' => array( 'South African Rand', '52' ),
+			'ZMW' => array( 'Zambian Kwacha', '4B' ),
+		);
 	}
 }
 

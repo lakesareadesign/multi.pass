@@ -175,7 +175,7 @@ class ProSites_Module_PremiumThemes {
 				$upgrade_notice = str_replace( 'LEVEL', $psts->get_level_setting( $allowed_themes[ $slug ], 'name' ), $psts->get_setting( 'pt_text' ) );
 				//This is SUPER hacky due to no hooks. We utilize the lack of esc_attr() in themes.php to insert create 2 hidden <a> tags with our custom one in the middle!
 				$prepared_themes[ $slug ]['actions']['activate'] = '#" style="display:none;">';
-				$prepared_themes[ $slug ]['actions']['activate'] .= '<a href="' . $psts->checkout_url( $blog_id ) . '" class="button button-secondary activate nonpsts" style="color:red;" data-level="' . $allowed_themes[ $slug ] . '" title="' . esc_attr( $upgrade_notice ) . '">' . $rebrand . '</a>';	     	 	   	  	 	
+				$prepared_themes[ $slug ]['actions']['activate'] .= '<a href="' . $psts->checkout_url( $blog_id ) . '" class="button button-secondary activate nonpsts" style="color:red;" data-level="' . $allowed_themes[ $slug ] . '" title="' . esc_attr( $upgrade_notice ) . '">' . $rebrand . '</a>';
 				$prepared_themes[ $slug ]['actions']['activate'] .= '<a style="display:none;';
 			}
 
@@ -431,11 +431,10 @@ class ProSites_Module_PremiumThemes {
 			}
 		}
 
-		if( $access ) {
+		if ( $access ) {
 			return 'tick';
 		} else {
 			return 'cross';
 		}
-
 	}
 }

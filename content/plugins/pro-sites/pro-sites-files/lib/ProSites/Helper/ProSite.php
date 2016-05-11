@@ -61,7 +61,15 @@ if ( ! class_exists( 'ProSites_Helper_ProSite' ) ) {
 			if ( class_exists( 'BuddyPress' ) && bp_is_register_page() ) {
 				$bp_redirect = true;
 			}
+
 			if ( ( 'wp-signup.php' == $pagenow || $bp_redirect ) && $show_signup ) {
+				//If Blog templates class exists and Page is redirected to add new user, do not add query args
+				if ( class_exists( 'blog_templates' ) ) {
+					if ( ! empty( $_GET['blog_template'] ) && 'just_user' == $_GET['blog_template'] ) {
+						return;
+					}
+				}
+
 				//Check if already logged in
 				$new_blog = add_query_arg( array( "action" => "new_blog" ), $psts->checkout_url() );
 				$new_blog = apply_filters( 'psts_redirect_signup_page_url', $new_blog );
@@ -268,6 +276,40 @@ if ( ! class_exists( 'ProSites_Helper_ProSite' ) ) {
 				//If count is greater than 1, don't allow new blogs
 				return false;
 			}
+		}
+
+		/**
+		 * Fetch the Gateway Name for the given blog id
+		 *
+		 * @param $blog_id
+		 *
+		 * @return string
+		 */
+		public static function get_site_gateway( $blog_id ) {
+			global $wpdb;
+			$sql     = $wpdb->prepare( "SELECT `gateway` FROM {$wpdb->base_prefix}pro_sites WHERE blog_ID = %s", $blog_id );
+			$result  = $wpdb->get_row( $sql );
+			$gateway = ! empty( $result->gateway ) ? strtolower( $result->gateway ) : '';
+
+			return $gateway;
+		}
+
+		/**
+		 * Returns the default period
+		 *
+		 * @return int Default active period
+		 *
+		 */
+		public static function default_period() {
+			global $psts;
+
+			$active_periods = (array) $psts->get_setting( 'enabled_periods' );
+
+			if ( ! empty( $active_periods ) && is_array( $active_periods ) ) {
+				return $active_periods[0];
+			}
+
+			return 1;
 		}
 	}
 }

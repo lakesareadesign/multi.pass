@@ -87,7 +87,7 @@
 }
 #sb_instagram .sbi_photo img{
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 #sb_instagram a,
 #sb_instagram a:hover,

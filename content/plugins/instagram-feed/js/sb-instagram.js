@@ -162,7 +162,7 @@ if(!sbi_js_exists){
                                 }
                                 head.appendChild(style);
                             }();
-                            // $self.find(".sbi_photo").sbi_imgLiquid({fill:true});
+                            $self.find(".sbi_photo").sbi_imgLiquid({fill:true});
                         } // End: ( imgRes !== 'thumbnail' ) check
 
                         //Only check the width once the resize event is over

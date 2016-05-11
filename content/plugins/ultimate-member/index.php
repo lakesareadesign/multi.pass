@@ -3,9 +3,11 @@
 Plugin Name: Ultimate Member
 Plugin URI: http://ultimatemember.com/
 Description: The easiest way to create powerful online communities and beautiful user profiles with WordPress
-Version: 1.3.50
+Version: 1.3.51
 Author: Ultimate Member
 Author URI: http://ultimatemember.com/
+Text Domain: ultimatemember
+Domain Path: /languages
 */
 	defined('ABSPATH') || exit;
 	require_once(ABSPATH.'wp-admin/includes/plugin.php');

@@ -1334,14 +1334,18 @@ function um_fetch_user( $user_id ) {
 
 				if ( um_user('first_name') && um_user('last_name') ) {
 					$initial = um_user('last_name');
-					$f_and_l_initial =  strtolower( um_user('first_name') ).' '. strtoupper( $initial[0]);
+					$f_and_l_initial =  um_user('first_name').' '. $initial[0];
 				}else{
 					$f_and_l_initial = um_profile( $data );
 				}
 
 				$f_and_l_initial = $ultimatemember->validation->safe_name_in_url( $f_and_l_initial );
 
-				$name = ucwords( strtolower( $f_and_l_initial ) ); 
+				if( um_get_option('force_display_name_capitlized') ){
+					$name = ucwords( strtolower( $f_and_l_initial ) ); 
+				}else{
+					$name = $f_and_l_initial;
+				}
 				
 				return $name;
 
@@ -1426,7 +1430,9 @@ function um_fetch_user( $user_id ) {
 					}
 				}
 
-				$name = ucwords( strtolower( $name ) ); 
+				if( um_get_option('force_display_name_capitlized') ){
+					$name = ucwords( strtolower( $name ) ); 
+				}
 
 				return apply_filters('um_user_display_name_filter', $name, um_user('ID'), ( $attrs == 'html' ) ? 1 : 0 );
 
@@ -1544,7 +1550,11 @@ function um_fetch_user( $user_id ) {
 	 * @return integer
 	 */
 	function um_is_meta_value_exists( $key, $value, $return_user_id = false ){
-		global $wpdb;
+		global $wpdb, $ultimatemember;
+
+		if( isset( $ultimatemember->profile->arr_user_slugs[ 'is_'.$return_user_id ][ $key ] ) ){
+			return $ultimatemember->profile->arr_user_slugs[ 'is_'.$return_user_id ][ $key ];
+		}
 
 		if( ! $return_user_id ){
 			$count = $wpdb->get_var( $wpdb->prepare(
@@ -1553,14 +1563,18 @@ function um_fetch_user( $user_id ) {
 					$value
 			) );
 
+			$ultimatemember->profile->arr_user_slugs[ 'is_'.$return_user_id ][ $key ] = $count;
+
 			return $count;
 		}
-
+			
 			$user_id = $wpdb->get_var( $wpdb->prepare(
 					"SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value = %s ",
 					$key,
 					$value
 			) );
+			
+			$ultimatemember->profile->arr_user_slugs[ 'is_'.$return_user_id ][ $key ] = $user_id;
 
 			return $user_id;
 

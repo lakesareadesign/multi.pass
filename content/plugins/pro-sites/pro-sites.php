@@ -4,7 +4,7 @@ Plugin Name: Pro Sites
 Plugin URI: http://premium.wpmudev.org/project/pro-sites/
 Description: The ultimate multisite site upgrade plugin, turn regular sites into multiple pro site subscription levels selling access to storage space, premium themes, premium plugins and much more!
 Author: WPMU DEV
-Version: 3.5.2
+Version: 3.5.4
 Author URI: http://premium.wpmudev.org/
 Text Domain: psts
 Domain Path: /pro-sites-files/languages/
@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 class ProSites {
 
-	var $version = '3.5.2';
+	var $version = '3.5.4';
 	var $location;
 	var $language;
 	var $plugin_dir = '';
@@ -1080,7 +1080,7 @@ Thanks!", 'psts' ),
 	}
 
 	function checkout_url( $blog_id = false, $domain = false ) {
-		global $current_site;
+		global $psts;
 
 		$url = $this->get_setting( 'checkout_url' );
 
@@ -1304,6 +1304,11 @@ Thanks!", 'psts' ),
 		}
 	}
 
+	/**
+    * Check if a blog is expired
+    *
+	* @return bool
+    */
 	function check() {
 
 		global $blog_id, $wpdb;
@@ -1322,6 +1327,19 @@ Thanks!", 'psts' ),
 			 * 1 day = 86400 seconds
 			 */
 			$expiration_buffer = defined( 'PSTS_EXPIRATION_BUFFER' ) ? (int) PSTS_EXPIRATION_BUFFER : 7200;
+
+			//Confirm the expiry from subscription
+			if( $current_expire <= time() ) {
+				//Try to fetch subscription details from Gateway first
+				$expiry = $this->get_subscription_details( $blog_id );
+
+				//If the blog is not expired, return
+				if( !empty( $expiry ) && $expiry >= time() ) {
+					//Update the Expiry of the blog
+					$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->base_prefix}pro_sites SET expire = %s WHERE blog_ID = %d", $expiry, $blog_id ) );
+					return true;
+				}
+			}
 
 			// Check current expiration, if its '9999999999' then its indefinite, else calculate
 			if( '9999999999' == $current_expire || ( ( (int) $current_expire + $expiration_buffer ) < time() ) ) {
@@ -1597,21 +1615,25 @@ Thanks!", 'psts' ),
 		// Get the user
 		if ( !empty( $transaction->username ) ) {
 			$user = get_user_by( 'login', $transaction->username );
-			$email = $user->user_email;
+			$email = !empty( $user ) ? $user->user_email : '';
 		} elseif ( !empty( $transaction->email ) ) {
 			$user = get_user_by( 'email', $transaction->email );
 			$email = $transaction->email;
 		}
-		if ( ! $user ) {
+
+		//Get admin email for the blog id
+		if ( ! $user || empty( $email ) ) {
 			$email = get_blog_option( $transaction->blog_id, 'admin_email' );
 		}
 
 		// Get current plan
 		$level_list = get_site_option( 'psts_levels' );
-		$level_name = !empty($transaction->level ) ? $level_list[ $transaction->level ]['name'] : '';
+		$level_name = !empty($transaction->level ) && !empty( $level_list[ $transaction->level ] ) ? $level_list[ $transaction->level ]['name'] : '';
 		$level_name = ! empty( $level_name ) ? $level_name : $level_list[ $psts->get_level( $transaction->blog_id ) ]['name'];
+
 		$gateway    = ProSites_Helper_Gateway::get_nice_name_from_class( $transaction->gateway );
 		$result     = $wpdb->get_row( $wpdb->prepare( "SELECT term FROM {$wpdb->base_prefix}pro_sites WHERE blog_ID = %d", $transaction->blog_id ) );
+
 		$term       = !empty( $result->term ) ? $result->term : false;
 
 		if ( $term == 1 || $term == 3 || $term == 12 ) {
@@ -3749,14 +3771,16 @@ function admin_levels() {
 		$this->update_setting( 'enabled_periods', $periods );
 
 		$old_levels = $levels;
+
 		foreach ( $_POST['name'] as $level => $name ) {
 			$stripped_name                  = stripslashes( trim( wp_filter_nohtml_kses( $name ) ) );
 			$name                           = empty( $stripped_name ) ? $levels[ $level ]['name'] : $stripped_name;
 			$levels[ $level ]['name']       = $name;
-			$levels[ $level ]['price_1']    = round( @$_POST['price_1'][ $level ], 2 );
-			$levels[ $level ]['price_3']    = round( @$_POST['price_3'][ $level ], 2 );
-			$levels[ $level ]['price_12']   = round( @$_POST['price_12'][ $level ], 2 );
-			$levels[ $level ]['is_visible'] = intval( @$_POST['is_visible'][ $level ] );
+			$levels[ $level ]['price_1']    = isset($_POST['price_1'] ) ? round( @$_POST['price_1'][ $level ], 2 ) : $old_levels[$level]['price_1'];
+			$levels[ $level ]['price_3']    = isset($_POST['price_3'] ) ? round( @$_POST['price_3'][ $level ], 2 ) : $old_levels[$level]['price_3'];
+			$levels[ $level ]['price_12']   = isset($_POST['price_12'] ) ? round( @$_POST['price_12'][ $level ], 2 ) : $old_levels[$level]['price_12'];
+
+			$levels[ $level ]['is_visible'] = isset( $_POST['is_visible'][ $level ] ) ? intval( $_POST['is_visible'][ $level ] ) : 0;
 		}
 
 		do_action( 'update_site_option_psts_levels', '', $levels, $old_levels );
@@ -3958,7 +3982,7 @@ function admin_modules() {
 		}
 		if ( get_option( 'psts_module_settings_updated' ) ) {
 			delete_option( 'psts_module_settings_updated' );
-			echo '<div class="updated notice-info is-dismissible"><p>' . __( 'Modules Saved. Please <a href="admin.php?page=psts-settings">visit Settings</a> to configure them.', 'psts' ) . '</p></div>';
+			echo '<div class="updated notice-info is-dismissible"><p>' . __( 'Modules Saved. Please visit <a href="admin.php?page=psts-settings">Settings</a> to configure them.', 'psts' ) . '</p></div>';
 		}
 		?>
 		<div class="wrap">
@@ -4355,10 +4379,19 @@ function admin_modules() {
 	 * @return bool
 	 */
 
-	function is_trial_allowed( $blog_id ) {
+	function is_trial_allowed( $blog_id, $level = '' ) {
+
 		$trial_days = $this->get_setting( 'trial_days', 0 );
 
+		$trial_level = $this->get_setting( 'trial_level' );
+
+		//If Trial is not set
 		if ( $trial_days == 0 ) {
+			return false;
+		}
+
+		//If the selected level is not same as allowed trial level
+		if( !empty( $level ) && $trial_level != $level ) {
 			return false;
 		}
 
@@ -4604,15 +4637,6 @@ function admin_modules() {
 					$content .= '<div class="alignright"><a href="' . add_query_arg( array( 'blogs-start' => $next_start ), get_permalink() ) . '">Next</a></div>';
 				}
 				$content .= '</div>';
-
-				// Signup for another blog?
-				$allow_multi = $this->get_setting('multiple_signup');
-				$registeration = get_site_option('registration');
-				$allow_multi = 'all' == $registeration || 'blog' == $registeration ? $allow_multi : false;
-
-				if( $allow_multi ) {
-					$content .= '<div id="psts-signup-another"><a href="' . esc_url( $this->checkout_url() . '?action=new_blog' ) . '">' . esc_html__( 'Sign up for another site.', 'psts' ) . '</a>' . '</div>';
-				}
 				$content .= apply_filters( 'prosites_myaccounts_list', '', $blog_id );
 
 			}
@@ -5240,6 +5264,28 @@ function admin_modules() {
 		}else{
 			return 'user';
 		}
+	}
+	/**
+    * Try to fetch the latest subscription detail from the respective Gateway
+    * to check if the blog is expired
+    *
+	* @param string $blog_id
+    *
+	* @return string|null Expiry Date
+    */
+	function get_subscription_details( $blog_id = '' ) {
+		$expiry = '';
+		if( empty( $blog_id ) ) {
+			return $expiry;
+		}
+		$gateway = ProSites_Helper_ProSite::get_site_gateway( $blog_id );
+		if( 'stripe' == $gateway ) {
+			$expiry = ProSites_Gateway_Stripe::get_blog_subscription_expiry( $blog_id );
+		}elseif( 'paypal' == $gateway ) {
+			$expiry = ProSites_Gateway_PayPalExpressPro::get_blog_subscription_expiry( $blog_id );
+		}
+
+		return $expiry;
 	}
 
 }

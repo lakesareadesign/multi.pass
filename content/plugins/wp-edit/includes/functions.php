@@ -200,6 +200,33 @@ if($plugin_options_general['page_excerpt_editor'] == 1) {
 	}
 }
 
+// Add Editor to CPT's
+if(isset($plugin_options_general['cpt_excerpt_editor']) && !empty($plugin_options_general['cpt_excerpt_editor'])) {
+	
+	add_action('admin_init', 'wp_edit_change_cpt_excerpt');
+}
+function wp_edit_change_cpt_excerpt() {
+	
+	$plugin_options_general = get_option('wp_edit_general');
+	$cpt_excerpts = $plugin_options_general['cpt_excerpt_editor'];
+	
+	foreach($cpt_excerpts as $key => $cpt) {
+		
+		remove_meta_box('postexcerpt', $cpt, 'normal');
+		add_meta_box('postexcerpt', __('Wp Edit (' . $cpt . ') Excerpt','wp-edit'), 'wp_edit_cpt_excerpt_meta_box', $cpt, 'normal');
+	}
+}
+function wp_edit_cpt_excerpt_meta_box() {
+	
+	global $wpdb, $post;
+	$get_cpt_excerpt = $wpdb->get_row("SELECT post_excerpt FROM $wpdb->posts WHERE id = '$post->ID'");
+	$cpt_excerpt = $get_cpt_excerpt->post_excerpt;
+	$id = 'excerpt';
+	$settings = array('quicktags' => array('buttons' => 'em,strong,link',), 'text_area_name' => 'excerpt', 'quicktags' => true, 'tinymce' => true, 'editor_css'	=> '<style>#wp-excerpt-editor-container .wp-editor-area{height:250px; width:100%;}</style>');
+	
+	wp_editor($cpt_excerpt, $id, $settings);
+}
+
 // Extend editor to profile biography
 if($plugin_options_general['profile_editor'] == 1) {
 	

@@ -1048,23 +1048,28 @@ function sbi_add_settings_link( $links, $file ) {
 add_action('admin_notices', 'sbi_new_token_notice');
 function sbi_new_token_notice() {
 
-    global $current_user;
-        $user_id = $current_user->ID;
+    //Only show to admins
+    if( current_user_can('manage_options') ){
 
-    // Use this to show notice again
-    // delete_user_meta($user_id, 'sb_instagram_ignore_notice');
+        global $current_user;
+            $user_id = $current_user->ID;
 
-    /* Check that the user hasn't already clicked to ignore the message */
-    if ( ! get_user_meta($user_id, 'sb_instagram_ignore_notice') ) {
+        // Use this to show notice again
+        // delete_user_meta($user_id, 'sb_instagram_ignore_notice');
 
-    _e("
-    <div class='sb_instagram_notice'>
-        <p class='sb_instagram_notice_title'><i class='fa fa-exclamation-circle' aria-hidden='true'></i> <b>Important</b></p>
-        <p><b>Just installed the plugin?</b> You can ignore this notice and hide it using the 'Dismiss' button in the top right corner.</p>
-        <p><b>Just updated the plugin?</b> Due to the upcoming Instagram API changes, in order for the Instagram Feed plugin to continue working after <b><u>June 1st</u></b> you must obtain a new Access Token by using the Instagram button on the plugin's <a href='".get_admin_url()."admin.php?page=sb-instagram-feed'>Settings page</a>.</p>
-        <a class='sb_instagram_dismiss' href='" .esc_url( add_query_arg( 'sb_instagram_token_nag_ignore', '0' ) ). "'><i class='fa fa-times-circle' aria-hidden='true'></i> Dismiss</a>
-    </div>
-    ");
+        /* Check that the user hasn't already clicked to ignore the message */
+        if ( ! get_user_meta($user_id, 'sb_instagram_ignore_notice') ) {
+
+            _e("
+            <div class='sb_instagram_notice'>
+                <p class='sb_instagram_notice_title'><i class='fa fa-exclamation-circle' aria-hidden='true'></i> <b>Important</b></p>
+                <p><b>Just installed the plugin?</b> You can ignore this notice and hide it using the 'Dismiss' button in the top right corner.</p>
+                <p><b>Just updated the plugin?</b> Due to the upcoming Instagram API changes, in order for the Instagram Feed plugin to continue working after <b><u>June 1st</u></b> you must obtain a new Access Token by using the Instagram button on the plugin's <a href='".get_admin_url()."admin.php?page=sb-instagram-feed'>Settings page</a>.</p>
+                <a class='sb_instagram_dismiss' href='" .esc_url( add_query_arg( 'sb_instagram_token_nag_ignore', '0' ) ). "'><i class='fa fa-times-circle' aria-hidden='true'></i> Dismiss</a>
+            </div>
+            ");
+
+        }
 
     }
 

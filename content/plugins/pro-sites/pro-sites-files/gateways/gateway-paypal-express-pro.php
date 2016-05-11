@@ -168,7 +168,7 @@ class ProSites_Gateway_PayPalExpressPro {
 		$button_url = "https://fpdbs.paypal.com/dynamicimageweb?cmd=_dynamic-image&locale=" . get_locale();
 		$button_url = apply_filters( 'psts_pypl_checkout_image_url', $button_url );
 
-		$period = isset( $args['period'] ) && ! empty( $args['period'] ) ? $args['period'] : '';
+		$period = isset( $args['period'] ) && ! empty( $args['period'] ) ? $args['period'] : ProSites_Helper_ProSite::default_period();
 		$period = empty( $period ) ? ( ! empty( $render_data['new_blog_details'] ) ? $render_data['new_blog_details']['period'] : '' ) : $period;
 		$level  = isset( $render_data['new_blog_details'] ) && isset( $render_data['new_blog_details']['level'] ) ? (int) $render_data['new_blog_details']['level'] : 0;
 		$level  = isset( $render_data['upgraded_blog_details'] ) && isset( $render_data['upgraded_blog_details']['level'] ) ? (int) $render_data['upgraded_blog_details']['level'] : $level;
@@ -511,7 +511,6 @@ class ProSites_Gateway_PayPalExpressPro {
 		     isset( $_POST['cc_paypal_checkout'] ) ||
 		     isset( $_GET['token'] )
 		) {
-
 			//Check for level, if there is no level and period, return back
 			if ( empty( $_POST['level'] ) || empty( $_POST['period'] ) ) {
 				$psts->errors->add( 'general', __( 'Please choose your desired level and payment plan.', 'psts' ) );
@@ -520,26 +519,25 @@ class ProSites_Gateway_PayPalExpressPro {
 			}
 
 			//prepare vars
-			$currency   = self::currency();
-			$trial_days = $psts->get_setting( 'trial_days', 0 );
-			$is_trial   = $psts->is_trial_allowed( $blog_id );
-			$setup_fee  = (float) $psts->get_setting( 'setup_fee', 0 );
-			$trial_desc = ( $is_trial ) ? ProSites_Gateway_PayPalExpressPro::get_free_trial_desc( $trial_days ) : '';
-			$recurring  = $psts->get_setting( 'recurring_subscriptions', true );
+			$currency    = self::currency();
+
+			$is_trial    = $psts->is_trial_allowed( $blog_id, $_POST['level'] );
+
+			$setup_fee   = (float) $psts->get_setting( 'setup_fee', 0 );
+
+			$recurring   = $psts->get_setting( 'recurring_subscriptions', true );
 
 			//If free level is selected, activate a trial
-			if ( isset( $_POST['level'] ) && isset( $_POST['period'] ) ) {
-				if ( ! empty ( $domain ) && ! $psts->prevent_dismiss() && '0' === $_POST['level'] && '0' === $_POST['period'] ) {
-					$esc_domain = esc_url( $domain );
-					ProSites_Helper_Registration::activate_blog( $process_data['activation_key'], $is_trial, $process_data[ $signup_type ]['period'], $process_data[ $signup_type ]['level'] );
+			if ( ! empty ( $domain ) && ! $psts->prevent_dismiss() && '0' === $_POST['level'] && '0' === $_POST['period'] ) {
+				$esc_domain = esc_url( $domain );
+				ProSites_Helper_Registration::activate_blog( $process_data['activation_key'], $is_trial, $process_data[ $signup_type ]['period'], $process_data[ $signup_type ]['level'] );
 
-					//Set complete message
-					self::$complete_message = __( 'Your trial blog has been setup at <a href="' . $esc_domain . '">' . $esc_domain . '</a>', 'psts' );
+				//Set complete message
+				self::$complete_message = __( 'Your trial blog has been setup at <a href="' . $esc_domain . '">' . $esc_domain . '</a>', 'psts' );
 
-					return;
-				}
-
+				return;
 			}
+
 			//Current site name as per the payment procedure
 			$site_name = ! empty ( $domain ) ? $domain : ( ! empty( $process_data[ $signup_type ]['domain'] ) ? $process_data[ $signup_type ]['domain'] : $current_site->site_name );
 
@@ -834,8 +832,9 @@ class ProSites_Gateway_PayPalExpressPro {
 				//Upgrade
 				if ( $modify ) {
 
+					$is_trial    = $psts->is_trial_allowed( $blog_id, $_POST['level'] );
 					//! create the recurring profile
-					$resArray = PaypalApiHelper::CreateRecurringPaymentsProfileExpress( $_GET['token'], $paymentAmount, $_POST['period'], $desc, $blog_id, $_POST['level'], $modify, $activation_key, '', $tax_amt_payment );
+					$resArray = PaypalApiHelper::CreateRecurringPaymentsProfileExpress( $_GET['token'], $paymentAmount, $_POST['period'], $desc, $blog_id, $_POST['level'], $modify, $activation_key, '', $tax_amt_payment, $is_trial );
 					if ( $resArray['ACK'] == 'Success' || $resArray['ACK'] == 'SuccessWithWarning' ) {
 						$new_profile_id = $resArray["PROFILEID"];
 
@@ -959,7 +958,7 @@ class ProSites_Gateway_PayPalExpressPro {
 						update_blog_option( $blog_id, 'psts_waiting_step', 1 );
 
 						//create the recurring profile
-						$resArray       = PaypalApiHelper::CreateRecurringPaymentsProfileExpress( $_GET['token'], $paymentAmount, $_POST['period'], $desc, $blog_id, $_POST['level'], '', $activation_key, '', $tax_amt_payment );
+						$resArray       = PaypalApiHelper::CreateRecurringPaymentsProfileExpress( $_GET['token'], $paymentAmount, $_POST['period'], $desc, $blog_id, $_POST['level'], '', $activation_key, '', $tax_amt_payment, $is_trial );
 						$profile_status = ! empty( $resArray['PROFILESTATUS'] ) ? $resArray['PROFILESTATUS'] : '';
 
 						//If Profile is created
@@ -1394,7 +1393,11 @@ class ProSites_Gateway_PayPalExpressPro {
 		return $sel_currency;
 	}
 
-	public static function get_free_trial_desc( $trial_days ) {
+	public static function get_free_trial_desc() {
+		global $psts;
+
+		$trial_days  = $psts->get_setting( 'trial_days', 0 );
+
 		return ' (billed after ' . $trial_days . ' day free trial)';
 	}
 
@@ -3125,6 +3128,35 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 		}
 
 		return ! empty( $data ) ? $data : '';
+	}
+
+	/**
+	 * Fetch the Next Billing Date for the subscription
+	 *
+	 * @param $blog_id
+	 *
+	 * @return string
+	 */
+	function get_blog_subscription_expiry( $blog_id ) {
+		//Return If we don't have any blog id
+		if ( empty( $blog_id ) ) {
+			return '';
+		}
+		$expiry = '';
+		$profile_id = $this->get_profile_id( $blog_id );
+		if ( $profile_id ) {
+			$resArray = PaypalApiHelper::GetRecurringPaymentsProfileDetails( $profile_id );
+
+			if( empty( $resArray ) ) {
+				return $expiry;
+			}
+
+			//If the Profile is active
+			if ( ( $resArray['ACK'] == 'Success' || $resArray['ACK'] == 'SuccessWithWarning' ) && $resArray['STATUS'] == 'Active' ) {
+				$expiry = !empty( $resArray['NEXTBILLINGDATE'] ) ? $resArray['NEXTBILLINGDATE'] : '';
+			}
+		}
+		return $expiry;
 	}
 }
 

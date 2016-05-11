@@ -547,6 +547,9 @@ ul.pricing-column li, .pricing-column ul li {
 .feature-section-wrapper {
     overflow: hidden;
 }
+.feature-section-wrapper .feature-section {
+	margin-left: 0;
+}
 
 .feature-section,
 .pricing-column {
@@ -1405,4 +1408,4 @@ ul.pricing-column.chosen-plan {
 }
 
 
-/* 133620-1458014632-au */
+/* 133620-1462985015-au */

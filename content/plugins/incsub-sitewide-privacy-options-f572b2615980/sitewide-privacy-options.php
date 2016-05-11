@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/sitewide-privacy-options-for-word
 Description: Adds more levels of privacy and allows you to control them across all sites - or allow users to override them.
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
-Version: 1.1.8.4
+Version: 1.1.8.5
 Network: true
 WDP ID: 52
 License: GNU General Public License (Version 2 - GPLv2)
@@ -142,6 +142,11 @@ function additional_privacy_admin_enqueue_scripts($hook) {
  * check that it is mobile app
  */
 function spo_is_mobile_app() {
+
+    // Early exit if $_SERVER['HTTP_USER_AGENT'] is not set
+    if ( ! isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
+        return false;
+    }
 
     //WordPress for iOS
     if ( stripos( $_SERVER['HTTP_USER_AGENT'], 'wp-iphone' ) !== false ) {
@@ -745,19 +750,19 @@ function additional_privacy_blog_options() {
     <?php if ( isset( $privacy_available['network'] ) && '1' == $privacy_available['network'] ): ?>
 
     <input id="blog-privacy-reguser" type="radio" name="blog_public" value="-1" <?php if ( $blog_public == '-1' ) { echo 'checked="checked"'; } ?> <?php echo (additional_privacy_is_pro())?'':'disabled="disabled"'; ?> />
-    <label><?php printf( __( 'Visitors must have a login - anyone that is a registered user of %s can gain access.', 'sitewide-privacy-options' ), $text_network_name ) ?></label>
+    <label for="blog-privacy-reguser"><?php printf( __( 'Visitors must have a login - anyone that is a registered user of %s can gain access.', 'sitewide-privacy-options' ), $text_network_name ) ?></label>
     <br />
     <?php endif ?>
     <?php if ( isset( $privacy_available['private'] ) &&  '1' == $privacy_available['private'] ): ?>
 
     <input id="blog-privacy-bloguser" type="radio" name="blog_public" value="-2" <?php if ( $blog_public == '-2' ) { echo 'checked="checked"'; } ?> <?php echo (additional_privacy_is_pro())?'':'disabled="disabled"'; ?> />
-    <label><?php printf( __( 'Only registered users of this blogs can have access - anyone found under %s can have access.', 'sitewide-privacy-options'), $text_all_user_link ); ?></label>
+    <label for="blog-privacy-bloguser"><?php printf( __( 'Only registered users of this blogs can have access - anyone found under %s can have access.', 'sitewide-privacy-options'), $text_all_user_link ); ?></label>
     <br />
     <?php endif ?>
     <?php if ( isset( $privacy_available['admin'] ) &&  '1' == $privacy_available['admin'] ): ?>
 
     <input id="blog-privacy-admin" type="radio" name="blog_public" value="-3" <?php if ( $blog_public == '-3' ) { echo 'checked="checked"'; } ?> <?php echo (additional_privacy_is_pro())?'':'disabled="disabled"'; ?> />
-    <label><?php _e( 'Only administrators can visit - good for testing purposes before making it live.', 'sitewide-privacy-options' ); ?></label>
+    <label for="blog-privacy-admin"><?php _e( 'Only administrators can visit - good for testing purposes before making it live.', 'sitewide-privacy-options' ); ?></label>
     <br />
     <?php endif ?>
 
@@ -776,7 +781,7 @@ function additional_privacy_blog_options() {
 
     <br />
     <input id="blog-privacy-pass" type="radio" name="blog_public" value="-4" <?php if ( $blog_public == '-4' ) { echo 'checked="checked"'; } ?> <?php echo (additional_privacy_is_pro())?'':'disabled="disabled"'; ?> />
-    <label><?php _e( 'Anyone that visits must first provide this password:', 'sitewide-privacy-options' ); ?></label>
+    <label for="blog-privacy-pass"><?php _e( 'Anyone that visits must first provide this password:', 'sitewide-privacy-options' ); ?></label>
     <br />
     <input id="blog_pass" type="text" name="blog_pass" value="<?php if ( isset( $spo_settings['blog_pass'] ) ) { echo $spo_settings['blog_pass']; } ?>" <?php if ( '-4'  != $blog_public ) { echo 'readonly'; } ?> <?php echo (additional_privacy_is_pro())?'':'disabled="disabled"'; ?> />
     <br />
@@ -853,17 +858,21 @@ function additional_privacy_site_admin_options() {
         <tr valign="top">
             <th scope="row"><?php _e( 'Available Options', 'sitewide-privacy-options' ) ?></th>
             <td>
-                <input name="privacy_available[network]" type="checkbox" value="1" <?php echo ( isset( $privacy_available['network'] ) && '1' == $privacy_available['network'] ) ? 'checked' : ''; ?> />
-                <?php _e( 'Only allow logged in users to see all sites.', 'sitewide-privacy-options' ); ?>
+				<label for="privacy_available_network">
+                <input name="privacy_available[network]" id="privacy_available_network" type="checkbox" value="1" <?php echo ( isset( $privacy_available['network'] ) && '1' == $privacy_available['network'] ) ? 'checked' : ''; ?> />
+                <?php _e( 'Only allow logged in users to see all sites.', 'sitewide-privacy-options' ); ?></label>
                 <br />
-                <input name="privacy_available[private]" type="checkbox" value="1" <?php echo ( isset( $privacy_available['private'] ) && '1' == $privacy_available['private'] ) ? 'checked' : ''; ?> />
-                <?php _e( 'Only allow a registered user to see a site for which they are registered to.', 'sitewide-privacy-options' ); ?>
+				<label for="privacy_available_private">
+                <input name="privacy_available[private]" id="privacy_available_private" type="checkbox" value="1" <?php echo ( isset( $privacy_available['private'] ) && '1' == $privacy_available['private'] ) ? 'checked' : ''; ?> />
+                <?php _e( 'Only allow a registered user to see a site for which they are registered to.', 'sitewide-privacy-options' ); ?></label>
                 <br />
-                <input name="privacy_available[admin]" type="checkbox" value="1" <?php echo ( isset( $privacy_available['admin'] ) && '1' == $privacy_available['admin'] ) ? 'checked' : ''; ?> />
-                <?php _e( 'Only allow administrators of a site to view the site for which they are an admin.', 'sitewide-privacy-options' ); ?>
+				<label for="privacy_available_admin">
+                <input name="privacy_available[admin]" id="privacy_available_admin" type="checkbox" value="1" <?php echo ( isset( $privacy_available['admin'] ) && '1' == $privacy_available['admin'] ) ? 'checked' : ''; ?> />
+                <?php _e( 'Only allow administrators of a site to view the site for which they are an admin.', 'sitewide-privacy-options' ); ?></label>
                 <br />
-                <input name="privacy_available[single_pass]" type="checkbox" value="1" <?php echo ( isset( $privacy_available['single_pass'] ) && '1' == $privacy_available['single_pass'] ) ? 'checked' : ''; ?> />
-                <?php _e( 'Allow Network Administrators to set a single password that any visitors must use to see the site.', 'sitewide-privacy-options' ); ?>
+				<label for="privacy_available_single_pass">
+                <input name="privacy_available[single_pass]" id="privacy_available_single_pass" type="checkbox" value="1" <?php echo ( isset( $privacy_available['single_pass'] ) && '1' == $privacy_available['single_pass'] ) ? 'checked' : ''; ?> />
+                <?php _e( 'Allow Network Administrators to set a single password that any visitors must use to see the site.', 'sitewide-privacy-options' ); ?></label>
                 <br />
             </td>
         </tr>
@@ -890,9 +899,11 @@ function additional_privacy_site_admin_options() {
         <tr valign="top">
 	    <th scope="row"><?php _e('Allow Override', 'sitewide-privacy-options') ?></th>
 	    <td>
-	        <input name="privacy_override" id="privacy_override" value="yes" <?php if ( $privacy_override == 'yes' ) { echo 'checked="checked"'; } ?> type="radio"> <?php _e('Yes', 'sitewide-privacy-options'); ?>
+			<label>
+	        <input name="privacy_override" id="privacy_override" value="yes" <?php if ( $privacy_override == 'yes' ) { echo 'checked="checked"'; } ?> type="radio"> <?php _e('Yes', 'sitewide-privacy-options'); ?></label>
 	        <br />
-	        <input name="privacy_override" id="privacy_override" value="no" <?php if ( $privacy_override == 'no' ) { echo 'checked="checked"'; } ?> type="radio"> <?php _e('No', 'sitewide-privacy-options'); ?>
+			<label>
+	        <input name="privacy_override" id="privacy_override" value="no" <?php if ( $privacy_override == 'no' ) { echo 'checked="checked"'; } ?> type="radio"> <?php _e('No', 'sitewide-privacy-options'); ?></label>
 	        <br />
 	        <?php _e('Allow Site Administrators to modify the privacy setting for their site(s). Note that Network Admins will always be able to edit site privacy options.', 'sitewide-privacy-options') ?>
 	    </td>
@@ -915,7 +926,7 @@ function additional_privacy_site_admin_options() {
 if ( !function_exists( 'wdp_un_check' ) ) {
     function wdp_un_check() {
         if ( !class_exists('WPMUDEV_Update_Notifications') && current_user_can('edit_users') )
-            echo '<div class="error fade"><p>' . __('Please install the latest version of <a href="http://premium.wpmudev.org/project/update-notifications/" title="Download Now &raquo;">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href="http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/">More information &raquo;</a>', 'wpmudev') . '</a></p></div>';
+            echo '<div class="error fade"><p>' . __('Please install the latest version of <a href="http://premium.wpmudev.org/project/update-notifications/" title="Download Now &raquo;">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href="http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/">More information &raquo;</a>', 'wpmudev') . '</a></p></div>';	     	 	   	 	   
     }
     add_action( 'admin_notices', 'wdp_un_check', 5 );
     add_action( 'network_admin_notices', 'wdp_un_check', 5 );

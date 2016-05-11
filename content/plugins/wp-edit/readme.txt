@@ -3,8 +3,8 @@ Contributors: josh401
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A9E5VNRBMVBCS
 Tags: wpedit, wp edit, editor, buttons, button, add, font, font style, font select, table, tables, visual editor, search, replace, colors, color, anchor, advance, advanced, links, link, popup, javascript, upgrade, update, admin, image, images, citations, preview, html, custom css, borders, pages, posts, colorful, php, php widget, shortcode, shortcodes, style, styles, plugin, login, excerpt, id, post, page, youtube, tinymce
 Requires at least: 3.9
-Tested up to: 4.5 Alpha
-Stable tag: 3.7
+Tested up to: 4.6
+Stable tag: 3.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,7 @@ Take complete control over the WordPress content editor.
 == Description ==
 
 = Introduction =
-For a riveting video introduction into the possibilities available with WP Edit; please visit [Jupiter Jim's Marketing Team](http://jupiterjimsmarketingteam.com/wordpress-video-tutorials/change-font-size-family-wordpress/).
+For a riveting video introduction into the possibilities available with WP Edit; please visit [Jupiter Jim's Marketing Team](http://jupiterjim.club/wordpress/tutorials/change-font-family-font-size-wordpress-4-4-1/).
 
 = Description =
 
@@ -97,9 +97,20 @@ OR...
 
 == Changelog ==
 
-= 3.7 =
-* 01/11-16
+= 3.8.1 =
+* 05/11/16
+* Removed a stray var_dump() function.
 
+= 3.8 =
+* 05/11/16
+* Added support for WP Edit toolbars in custom post types excerpt areas.
+* Fixed deprecated function.  (htmledit_pre changed to format_for_editor) (main.php ~line 115).
+* Updated introduction video link.
+* Minor changes to ensure WordPress 4.6 compatibility.
+* Increased stable tag version.
+
+= 3.7 =
+* 01/11/16
 * Fixed Feedblitz image loading insecure over https.
 * Fixed WP_PLUGIN_URL constant; switched to using plugins_url() function.
 * Fixed profile biography editor.

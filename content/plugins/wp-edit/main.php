@@ -3,7 +3,7 @@
  * Plugin Name: WP Edit
  * Plugin URI: https://wpeditpro.com
  * Description: Ultimate WordPress Content Editing.
- * Version: 3.7
+ * Version: 3.8.1
  * Author: Josh Lobe
  * Author URI: https://wpeditpro.com
  * License: GPL2
@@ -50,7 +50,8 @@ class wp_edit_class {
 		'shortcodes_in_excerpts' => '0',
 		'post_excerpt_editor' => '0',
 		'page_excerpt_editor' => '0',
-		'profile_editor' => '0'
+		'profile_editor' => '0',
+		'cpt_excerpt_editor' => array()
 	);
 	public $global_options_posts = array(
 		'post_title_field' => 'Enter title here',
@@ -112,7 +113,7 @@ class wp_edit_class {
 		add_filter('tiny_mce_before_init', array($this, 'wp_edit_tiny_mce_before_init'));  // Before tinymce initialization
 		add_action('init', array($this, 'wp_edit_init_tinymce'));  // Tinymce initialization
 		
-		add_filter('htmledit_pre', array($this, 'htlmedit_pre'), 999);  // Filter html content if wpautop is disabled
+		add_filter('format_for_editor', array($this, 'htlmedit_pre'));  // Filter html content if wpautop is disabled
 		
 		$plugin_file   = basename( __FILE__ );
 		$plugin_folder = basename( dirname( __FILE__ ) );
@@ -984,6 +985,9 @@ class wp_edit_class {
 			*/
             else if($active_tab == 'general'){
 				
+				// Get all cpt's (_builtin will exclude default post types)
+				$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names' );
+				
 				echo '<div class="main_container">';
 				
 					?>
@@ -1001,6 +1005,7 @@ class wp_edit_class {
                                 $post_excerpt_editor = isset($options_general['post_excerpt_editor']) && $options_general['post_excerpt_editor'] === '1' ? 'checked="checked"' : '';
                                 $page_excerpt_editor = isset($options_general['page_excerpt_editor']) && $options_general['page_excerpt_editor'] === '1' ? 'checked="checked"' : '';
                                 $profile_editor = isset($options_general['profile_editor']) && $options_general['profile_editor'] === '1' ? 'checked="checked"' : '';
+								$cpt_excerpts = isset($options_general['cpt_excerpt_editor']) ? $options_general['cpt_excerpt_editor'] : array();
                                 ?>
                                 
                                 <table cellpadding="8">
@@ -1023,6 +1028,22 @@ class wp_edit_class {
                                     <label for="shortcodes_in_excerpts"><?php _e('Use shortcodes in excerpt areas.', 'wp-edit'); ?></label>
                                     </td>
                                 </tr>
+                                <tr><td><?php _e('Profile Editor', 'wp-edit'); ?></td>
+                                    <td class="jwl_user_cell">
+                                        <input id="profile_editor" type="checkbox" value="1" name="profile_editor" <?php echo $profile_editor; ?> />
+                                        <label for="profile_editor"><?php _e('Use modified editor in profile biography field.', 'wp-edit'); ?></label>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+						<div class="postbox">
+							<div class="inside">
+                                
+                                <table cellpadding="8">
+                                <tbody>
                                 <tr><td><?php _e('WP Edit Post Excerpt', 'wp-edit'); ?></td>
                                     <td>
                                     <input id="post_excerpt_editor" type="checkbox" value="1" name="post_excerpt_editor" <?php echo $post_excerpt_editor; ?> />
@@ -1035,12 +1056,27 @@ class wp_edit_class {
                                     <label for="page_excerpt_editor"><?php _e('Add the WP Edit editor to the Page Excerpt area.', 'wp-edit'); ?></label>
                                     </td>
                                 </tr>
-                                <tr><td><?php _e('Profile Editor', 'wp-edit'); ?></td>
-                                    <td class="jwl_user_cell">
-                                        <input id="profile_editor" type="checkbox" value="1" name="profile_editor" <?php echo $profile_editor; ?> />
-                                        <label for="profile_editor"><?php _e('Use modified editor in profile biography field.', 'wp-edit'); ?></label>
-                                    </td>
-                                </tr>
+                                </tbody>
+                                </table>
+                                
+                                <h3><?php _e('Custom Post Types', 'wp-edit'); ?></h3>
+                                <table cellpadding="3" style="margin-left:7px;">
+                                <tbody>
+                                <?php
+                                if( !empty( $post_types) ) {
+                                    foreach ( $post_types as $post_type ) {
+                                        
+                                        $selected = in_array($post_type, $cpt_excerpts) ? 'checked="checked"' : ''; 
+                                        echo '<tr><td><input type="checkbox" name="cpt_excerpt_editor['.$post_type.']" '.$selected.'> '.$post_type.'</td></tr>';
+                                    }
+                                }
+                                else {
+                                    
+                                    echo '<tr><td>';
+                                    _e('No registered custom post types were found.', 'wp-edit');
+                                    echo '</td></tr>';
+                                }
+                                ?>
                                 </tbody>
                                 </table>
                             </div>
@@ -1920,6 +1956,25 @@ class wp_edit_class {
 			$options_general['post_excerpt_editor'] = isset($_POST['post_excerpt_editor']) ? '1' : '0';
 			$options_general['page_excerpt_editor'] = isset($_POST['page_excerpt_editor']) ? '1' : '0';
 			$options_general['profile_editor'] = isset($_POST['profile_editor']) ? '1' : '0';
+			
+			// Save cpt excerpts
+			$cpt_excerpts = array();
+			$options_general['cpt_excerpt_editor'] = array();
+			
+			if(isset($_POST['cpt_excerpt_editor'])) {
+				
+				$cpt_excerpts = $_POST['cpt_excerpt_editor'];
+				
+				// Loop checked cpt's and create array
+				foreach($cpt_excerpts as $key => $value) {
+					
+					if($value === 'on')
+						$options_general['cpt_excerpt_editor'][] = $key;
+				}
+			}
+			else {
+				$options_general['cpt_excerpt_editor'] = array();
+			}
 			
 			update_option('wp_edit_general', $options_general);
 			
