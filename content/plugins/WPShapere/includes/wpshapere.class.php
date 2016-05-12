@@ -286,7 +286,7 @@ echo '<input type="hidden" name="menu_item_name['.$menu_num.']" value="'.$wps_cl
 echo '<div class="menu_edit_wrap"><label>Rename Label</label><input autocomplete="off" type="text" class="widefat edit-menu-item-title" name="menu_item_label['.$menu_num.']" value="'. $custom_menu_label .'" /></div>';
 //custom icon
 echo '<div class="menu_edit_wrap"><input class="regular-text" type="hidden" id="menu_icon_picker_'.$menu_num.'" name="menu_item_icon['.$menu_num.']" value="'.$custom_menu_icon.'"/>
-<label for"icon_picker">Choose Icon</label><div id="" data-target="#menu_icon_picker_'.$menu_num.'" class="icon-picker ';
+<label for="icon_picker">Choose Icon</label><div id="" data-target="#menu_icon_picker_'.$menu_num.'" class="icon-picker ';
 if(isset($custom_icon)) echo $custom_icon[0] . " " . $custom_icon[1];
 echo '"></div></div>';
 //Show/Hide Link
@@ -871,8 +871,8 @@ echo '<div class="menu_edit_wrap"><input type="checkbox"' . $menu_hide . ' class
 .quicklinks li.wpshape_site_title { width: 200px !important; }
 .quicklinks li.wpshape_site_title a{ outline:none; border:none;
 <?php 
-  $admin_logo_id = $this->aof_options['admin_logo'];
-  $admin_logo_url = $this->get_wps_image_url($admin_logo_id);
+
+  $admin_logo_url = (is_numeric($this->aof_options['admin_logo'])) ? $this->get_wps_image_url($this->aof_options['admin_logo']) : $this->aof_options['admin_logo'];
 
 if(!empty($admin_logo_url)){ ?>
 background-image:url(<?php echo $admin_logo_url;  ?>) !important; background-repeat: no-repeat !important; background-position: center center !important; background-size: 70% auto !important; text-indent:-9999px !important; width: auto !important; 

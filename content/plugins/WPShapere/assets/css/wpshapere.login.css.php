@@ -14,7 +14,7 @@ body.login-action-login, body.login-action-lostpassword { position: fixed }
 .login h1 a { 
 <?php if(!empty($login_logo)) { ?>
 width: 100%;
-background: url(<?php echo $login_logo; ?>) center center no-repeat; 
+background: url(<?php echo $login_logo; ?>) center center no-repeat !important; 
 <?php if($this->aof_options['admin_logo_resize']) { ?>
 background-size: <?php echo $this->aof_options['admin_logo_size_percent']; ?>%;	
 <?php }

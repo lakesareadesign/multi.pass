@@ -76,7 +76,7 @@ if (!class_exists('AcmeeFramework')) {
                 'multi' => false
               );
             $args = array_merge($default, $this->config);
-            $aof_page = add_menu_page( $args['page_title'], $args['menu_title'], $args['capability'], $this->menu_slug, array($this, 'generateFields'), $args['icon_url'], $args['position'] );
+            $aof_page = add_menu_page( $args['page_title'], $args['menu_title'], $args['capability'], $this->menu_slug, array($this, 'generateFields'), $args['icon_url'] );
         }        
         
         /**
