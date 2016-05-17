@@ -112,7 +112,7 @@
 												<?php foreach ( WD_Scan_Api::get_times() as $key => $val ): ?>
 													<option <?php echo selected( $time, $key ) ?>
 														value="<?php echo esc_attr( $key ) ?>">
-														<?php echo esc_html( $val ) ?>
+														<?php echo esc_html( strftime( '%I:%M %p', strtotime( $val ) ) ) ?>
 													</option>
 												<?php endforeach; ?>
 											</select>

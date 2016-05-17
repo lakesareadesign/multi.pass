@@ -17,6 +17,8 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 		$this->add_action( 'wd_hardener_layout_end', 'show_dialog' );
 		if ( $this->check() && WD_Utils::get_setting( $this->get_setting_key( 'start' ) ) ) {
 			WD_Utils::update_setting( $this->get_setting_key( 'start' ), 0 );
+			//flag for submit
+			WD_Utils::flag_for_submitting();
 		}
 	}
 
@@ -89,7 +91,7 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 	 * @return bool|void
 	 */
 	public function process() {
-		if ( ! WD_Utils::check_permission()  ) {
+		if ( ! WD_Utils::check_permission() ) {
 			return;
 		}
 
@@ -162,6 +164,7 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 			}
 		}
 		clean_user_cache( $admin_data->ID );
+
 		return true;
 		$is_added = $wpdb->insert( $wpdb->users, array(
 			'user_login'          => $new_user_name,

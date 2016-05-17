@@ -120,6 +120,7 @@ class WD_Disable_Ping_Back extends WD_Hardener_Abstract {
 
 		if ( WD_Utils::get_setting( $this->get_setting_key( 'remove_pingback' ) ) == 1 ) {
 			WD_Utils::update_setting( $this->get_setting_key( 'remove_pingback' ), 0 );
+			WD_Utils::flag_for_submitting();
 			wp_send_json( array(
 				'status'  => 1,
 				'message' => $this->_display(),

@@ -1,4 +1,4 @@
-<tr class="wphb-minification-row" data-filter="<?php echo $item['handle']; ?>" data-filter-secondary="<?php echo esc_attr( $filter ); ?>">
+<tr class="wphb-minification-row" data-filter="<?php echo $item['handle'] . ' ' . strtolower( $ext ); ?>" data-filter-secondary="<?php echo esc_attr( $filter ); ?>">
 	<td class="wphb-minification-td-filename">
 		<span class="wphb-filename-extension wphb-filename-extension-<?php echo strtolower( $ext ); ?>"><?php echo $ext; ?></span>
 		<div class="wphb-filename-info">

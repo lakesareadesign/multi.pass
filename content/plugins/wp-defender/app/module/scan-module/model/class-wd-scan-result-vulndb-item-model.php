@@ -88,13 +88,15 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 			$this->detail = array( $this->detail );
 		}
 		$html = '';
-		foreach ( $this->detail as $row ) {
+		foreach ( $this->detail as $key => $row ) {
 			$html .= '<i class="wd-text-warning wdv-icon wdv-icon-fw wdv-icon-exclamation-sign"></i> <strong>' . $row['title'] . '</strong>';
 			$html .= '<span> - ' . __( "Vulnerability type", wp_defender()->domain ) . ':' . $row['vuln_type'] . '</span>';
 			if ( ! empty( $row['fixed_in'] ) ) {
 				$html .= '<span> - ' . sprintf( __( "This bug has been fixed in version %s", wp_defender()->domain ), $row['fixed_in'] ) . '</span>';
 			}
+			$html .= "<span class='blank-line'></span>";
 		}
+
 
 		return $html;
 	}

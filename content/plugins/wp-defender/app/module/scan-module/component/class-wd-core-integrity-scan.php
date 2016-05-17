@@ -160,14 +160,14 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 			}
 			WD_Utils::cache( self::CACHE_MD5, $md5_files );
 		}
-		if ( stristr( PHP_OS, 'win' ) ) {
+		if ( DIRECTORY_SEPARATOR == '\\' ) {
 			$abs_path = rtrim( ABSPATH, '/' );
 			$abs_path = $abs_path . '\\';
 		} else {
 			$abs_path = ABSPATH;
 		}
 		$relative_path = str_replace( $abs_path, '', $file );
-		if ( stristr( PHP_OS, 'win' ) ) {
+		if ( DIRECTORY_SEPARATOR == '\\' ) {
 			$relative_path = str_replace( '\\', '/', $relative_path );
 		}
 		$detail = false;

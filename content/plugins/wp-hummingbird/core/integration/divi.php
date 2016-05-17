@@ -2,7 +2,7 @@
 $stylesheet = get_stylesheet();
 $theme = wp_get_theme();
 
-if ( 'Divi' === $theme || 'Divi' === $theme->get_template() ) {
+if ( 'divi' === strtolower( $theme ) || 'divi' === strtolower( $theme->get_template() ) ) {
 	if ( ! function_exists( 'wphb_divi_after_setup_theme' ) ) {
 		// Divi tries to add inline script in header. This break dependencies with Hummingbird so we'll enqueue them at footer
 		function wphb_divi_after_setup_theme() {

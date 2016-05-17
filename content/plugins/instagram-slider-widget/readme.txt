@@ -3,14 +3,14 @@ Contributors: jetonr
 Tags: instagram, slider, widget, images
 Donate link: http://goo.gl/RZiu34
 Requires at least: 3.5
-Tested up to: 4.2.2
+Tested up to: 4.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Instagram Slider Widget is a responsive slider widget that shows 24 latest images from a public instagram user.
+Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public instagram user or hashtag.
 
 == Description ==
-* Instagram Slider Widget is a responsive slider widget that shows 24 latest images from a public instagram user. 
+* Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public instagram user or hashtag. 
 = Features =
 * Images from instagram are imported as wordpress attachments
 * Display Images in Slider or Thumbnails
@@ -43,6 +43,12 @@ I will try to respond on wordpress.org asap but for faster reposnse use the link
 3. Backend Configuration
 
 == Changelog ==
+= 1.3.1 =
+* Fixed issue when no images were shown due to instagram recent changes.
+* Caption fix when no caption in image
+* set wait time to 3 min for php because of larger images
+* updated flexislider to latest version
+
 = 1.3.0 =
 * Added Option to search for hashtags
 * Added Limit for number of words to appear in caption

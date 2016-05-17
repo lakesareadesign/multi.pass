@@ -3,6 +3,9 @@ Authors: Ivan Shaovchev, Andrew Billits, Andrey Shipilov (Incsub), S H Mohanjith
 
 == Changelog ==
 
+= 1.1.8.6 =
+* Fixed: Plugin folder name
+
 = 1.1.8.5 =
 * Fixed: Fix HTML standard (for attribute added in label tag)
 
@@ -142,4 +145,4 @@ Authors: Ivan Shaovchev, Andrew Billits, Andrey Shipilov (Incsub), S H Mohanjith
 * Initial Release
 
 
-133620-1462985014-au
+133620-1463498456-au

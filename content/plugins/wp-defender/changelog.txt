@@ -4,7 +4,18 @@ Tested up to: 4.2.2
 
 Change Log:
 
-1.0.5 - 2016-06-04
+1.0.7 - 2016-17-05
+----------------------------------------------------------------------
+- Improved: Scan schedule.
+- Fix: issue with W3 Total Cache Object Cache
+
+1.0.6 - 2016-13-05
+----------------------------------------------------------------------
+- Fix: Defender data doesn't sync with HUB correctly
+- Fix: Email report doesn't send properly
+- Some other minor enhancements/fixes
+
+1.0.5 - 2016-28-04
 ----------------------------------------------------------------------
 - Added: Option to choose reminder period for Hardener rule "Update old security keys"
 - Improved: Compatibility with Windows server
@@ -53,4 +64,4 @@ Change Log:
 - First release
 
 
-133620-1461878862-au
+133620-1463498463-au

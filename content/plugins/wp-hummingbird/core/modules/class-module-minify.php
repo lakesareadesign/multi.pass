@@ -259,8 +259,10 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			return $handles;
 		}
 
-		if ( ! $this->is_active() )
+		if ( ! $this->is_active() ) {
 			return $handles;
+		}
+
 
 		if ( self::is_in_footer() && ! empty( $this->to_footer[ $type ] ) ) {
 			// We have some gift from the header
@@ -271,10 +273,9 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			$handles = array_unique( array_merge( $this->to_header[ $type ], $handles ) );
 		}
 
-		$in_footer = self::is_in_footer() ? 'footer' : 'header';
-
-		if ( empty( $handles ) )
+		if ( empty( $handles ) ) {
 			return $handles;
+		}
 
 		// Group the sources by externals and extras
 		$groups = $this->group_sources_by_externals( $handles, $wp_sources->registered, $type );
@@ -297,6 +298,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			$all_groups[] = $obj_group;
 
 		}
+
 
 		unset( $groups );
 
@@ -494,8 +496,14 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			 * @var string $source_url Source URL
 			 * @var string $type scripts|styles
 			 */
-			$block_resource = apply_filters( 'wphb_block_resource', false, $handle, $type, $source_url );
+			$block_resource = apply_filters( 'wphb_block_resource', false, $handle, $type, $source_url, $registered );
 			if ( $block_resource ) {
+				$item = $registered[ $handle ];
+				$item->original_size = false;
+				$item->compressed_size = false;
+				$item->group_key = '';
+				$this->collector->add_to_collection( $item, $type );
+				$this->errors_controller->clear_handle_error( $handle, $type );
 				continue;
 			}
 
@@ -666,16 +674,18 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			$source = $wp_sources->registered[ $handle ];
 			$extras = $source->extra;
 
-			if ( is_a( $wp_sources, 'WP_Styles') )
+			if ( is_a( $wp_sources, 'WP_Styles' ) ) {
 				$extras['media'] = is_string( $source->args ) ? $source->args : 'all';
+			}
 
 			unset( $extras['suffix'] );
 			unset( $extras['rtl'] );
 			unset( $extras['data'] );
 
 			// Default scripts are not assigned 'group', so we use the original 'deps->args' value
-			if ( is_a( $wp_sources, 'WP_Scripts' ) && empty( $extra['group'] ) && is_int( $wp_sources->args ) )
+			if ( is_a( $wp_sources, 'WP_Scripts' ) && empty( $extra['group'] ) && is_int( $wp_sources->args ) ) {
 				$extras['group'] = $wp_sources->args;
+			}
 
 			ksort( $extras );
 
@@ -826,7 +836,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 
 		// One call logged out
 		$args = array(
-			'timeout' => 5,
+			'timeout' => 0.01,
 			'blocking' => false,
 			'sslverify' => false
 		);
@@ -1026,7 +1036,6 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 
 		if ( empty( $queue ) ) {
 			wphb_delete_pending_process_queue();
-
 			return;
 		}
 

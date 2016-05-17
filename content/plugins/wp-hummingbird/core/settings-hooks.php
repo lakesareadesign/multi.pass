@@ -1,11 +1,13 @@
 <?php
 
-add_filter( 'wphb_block_resource', 'wphb_filter_resource_block', 10, 3 );
+add_filter( 'wphb_block_resource', 'wphb_filter_resource_block', 10, 5 );
 function wphb_filter_resource_block( $value, $handle, $type ) {
 	$options = wphb_get_settings();
 	$blocked = $options['block'][ $type ];
-	if ( in_array( $handle, $blocked ) )
+	if ( in_array( $handle, $blocked ) ) {
 		return true;
+	}
+
 
 	return $value;
 }
@@ -14,8 +16,9 @@ add_filter( 'wphb_minify_resource', 'wphb_filter_resource_minify', 10, 3 );
 function wphb_filter_resource_minify( $value, $handle, $type ) {
 	$options = wphb_get_settings();
 	$dont_minify = $options['dont_minify'][ $type ];
-	if ( in_array( $handle, $dont_minify ) )
+	if ( in_array( $handle, $dont_minify ) ) {
 		return false;
+	}
 
 	return $value;
 }

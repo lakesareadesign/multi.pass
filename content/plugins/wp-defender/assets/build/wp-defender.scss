@@ -522,8 +522,8 @@
       }
 
       #update_security_keys_remind_days {
-        .wdv-icon-ok-sign{
-          font-size:19px;
+        .wdv-icon-ok-sign {
+          font-size: 19px;
           color: #1ABC9C;
         }
       }
@@ -654,8 +654,6 @@
       display: inline-block;
     }
     label {
-      font-weight: 300;
-      font-size: 14px;
       display: inline-block;
       vertical-align: 80%;
       padding-bottom: 0;
@@ -1151,6 +1149,13 @@
         }
         .wd-suspicious-strong {
           color: #FF4949;
+        }
+      }
+      td.issue-detail {
+        .blank-line:not(:last-child) {
+          clear: both;
+          margin-bottom: 10px;
+          display: block;
         }
       }
 

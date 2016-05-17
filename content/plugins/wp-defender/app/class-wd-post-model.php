@@ -143,7 +143,7 @@ class WD_Post_Model extends WD_Model {
 			return null;
 		}
 
-		$class = get_class($this);
+		$class = get_class( $this );
 		//instance it
 		$model = new $class;
 
@@ -211,8 +211,9 @@ class WD_Post_Model extends WD_Model {
 					$args[ $wp_prop ] = $val;
 				} elseif ( $relation['type'] == 'wp_meta' ) {
 					$meta         = array(
-						'key'   => $relation['wp'],
-						'value' => $val
+						'key'     => $relation['wp'],
+						'value'   => $val,
+						'compare' => is_array( $val ) ? 'IN' : '='
 					);
 					$meta_query[] = $meta;
 				}
@@ -221,7 +222,8 @@ class WD_Post_Model extends WD_Model {
 		if ( count( ( $meta_query ) ) ) {
 			$args['meta_query'] = $meta_query;
 		}
-		$args    = array_merge( $args, $addition_params );
+		$args = array_merge( $args, $addition_params );
+
 		$results = get_posts( $args );
 
 		if ( count( $results ) ) {

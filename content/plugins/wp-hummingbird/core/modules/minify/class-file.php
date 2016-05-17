@@ -13,6 +13,7 @@ class WP_Hummingbird_Cache_File {
 
 		$this->path = self::get_base_path() . $this->filename . $this->get_extension();
 		$this->src = self::get_base_url() . $this->filename . $this->get_extension();
+
 	}
 
 
@@ -38,10 +39,19 @@ class WP_Hummingbird_Cache_File {
 		// Try to write the file
 		$result = file_put_contents( $this->get_path() , $new_content );
 
+		WP_Hummingbird_Module_Minify::log( 'Trying to save file' );
+		WP_Hummingbird_Module_Minify::log( 'Path:' . $this->get_path() );
+
+
 		if ( $result ) {
+			WP_Hummingbird_Module_Minify::log( 'Result OK:' );
+			WP_Hummingbird_Module_Minify::log( $result );
 			// Success! let's return the new cache file URL
 			return $this->get_src();
 		}
+
+		WP_Hummingbird_Module_Minify::log( 'Result NOT OK:' );
+		WP_Hummingbird_Module_Minify::log( $result );
 
 		// No luck
 		return $result;

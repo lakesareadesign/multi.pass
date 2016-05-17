@@ -106,6 +106,12 @@ class WD_Hardener_Controller extends WD_Controller {
 		}
 		//sort modules
 		usort( $this->_modules, array( &$this, 'sort_modules' ) );
+		$last_res = WD_Utils::get_setting( 'hardener->is_first_submitted', false );
+		if ( $last_res == false ) {
+			WD_Utils::update_setting( 'hardener->is_first_submitted', true );
+			//init submit to API
+			WD_Utils::do_submitting( true );
+		}
 	}
 
 	public function sort_modules( $a, $b ) {

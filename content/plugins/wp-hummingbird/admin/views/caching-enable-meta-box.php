@@ -50,7 +50,7 @@
 
 			<ol class="wphb-listing wphb-listing-ordered">
 				<li><?php _e( 'Copy the generated code into your <strong>nginx.conf</strong> usually located at <strong>/etc/nginx/nginx.conf</strong> or <strong>/usr/local/nginx/conf/nginx.conf</strong>', 'wphb' ); ?></li>
-				<li><?php _e( 'Add the code above to the <strong>http</strong> section in the file.', 'wphb' ); ?></li>
+				<li><?php _e( 'Add the code above to the <strong>http</strong> or inside <strong>server</strong> section in the file.', 'wphb' ); ?></li>
 				<li><?php _e( 'Reload NGINX.', 'wphb' ); ?></li>
 			</ol>
 

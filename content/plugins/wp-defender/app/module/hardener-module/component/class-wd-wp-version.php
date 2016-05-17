@@ -11,6 +11,13 @@ class WD_WP_Version extends WD_Hardener_Abstract {
 		$this->id         = 'wp_verify_version';
 		$this->title      = __( 'Update WordPress to latest version', wp_defender()->domain );
 		$this->wp_version = $wp_version;
+		$this->add_action( 'upgrader_process_complete', 'maybe_submit_result', 10, 2 );
+	}
+
+	public function maybe_submit_result( $upgrader, $args ) {
+		if ( $args['type'] == 'core' && $args['action'] == 'update' ) {
+			WD_Utils::flag_for_submitting();
+		}
 	}
 
 	/**

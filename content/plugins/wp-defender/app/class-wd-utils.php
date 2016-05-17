@@ -136,11 +136,11 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 
 WP Defender here, reporting back from the front.
 
-I\'ve finished scanning your site for vulnerabilities and I found nothing - well done for running such a tight ship!
+I\'ve finished scanning your site for vulnerabilities and I found nothing. Well done for running such a tight ship!
 
 Keep up the good work! With regular security scans and a well-hardened installation you\'ll be just fine.
 
-Stay Safe,
+Stay safe,
 WP Defender
 Official WPMU DEV Superhero', wp_defender()->domain ),
 			//'log_directory'                        => str_replace( ABSPATH, '', wp_defender()->get_plugin_path() . 'vault/' ),
@@ -163,6 +163,24 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 			     || ( ! is_multisite() && user_can( $user_id, 'manage_options' ) )
 			) {
 				$setting['recipients'] = array( $user_id );
+			} else {
+				//we have to find a default here
+				$admin_email = get_site_option( 'admin_email' );
+				$admin       = get_user_by( 'email', $admin_email );
+				if ( is_object( $admin ) ) {
+					$setting['recipients'] = array( $admin->ID );
+				} else {
+					$users = get_users( array(
+						'role'    => 'administrator',
+						'orderby' => 'ID',
+						'order'   => 'ASC'
+					) );
+
+					if ( is_array( $users ) ) {
+						$user                  = array_shift( $users );
+						$setting['recipients'] = array( $user->ID );
+					}
+				}
 			}
 		}
 
@@ -395,7 +413,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 			'OK' !== wp_remote_retrieve_response_message( $response )
 			OR 200 !== wp_remote_retrieve_response_code( $response )
 		) {
-			return new WP_Error( wp_remote_retrieve_response_code( $response ), wp_remote_retrieve_response_message( $response ) );	  	 	   	 		 		 				
+			return new WP_Error( wp_remote_retrieve_response_code( $response ), wp_remote_retrieve_response_message( $response ) );
 		} else {
 			$data = wp_remote_retrieve_body( $response );
 
@@ -576,7 +594,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 		if ( self::get_setting( 'flag->need_submit_to_api' ) == false && $force == false ) {
 			return;
 		}
-		if ( self::is_wpmudev_dashboard_installed() == false ) {
+		if ( self::get_dev_api() == false ) {
 			//we need to submit st, but the scenario doesn't work, so we need to postponse
 			self::update_setting( 'flag->submit_asap', 1 );
 
@@ -587,9 +605,10 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 		$data      = WD_Utils::prepare_api_result();
 		$component = new WD_Component();
 		$component->log( var_export( $data, true ), WD_Component::ERROR_LEVEL_DEBUG, 'api_submit' );
-		$component->wpmudev_call( $end_point, $data, array(
+		$result = $component->wpmudev_call( $end_point, $data, array(
 			'method' => 'POST'
 		) );
+		$component->log( var_export( $result, true ), WD_Component::ERROR_LEVEL_DEBUG, 'api_submit' );
 		self::update_setting( 'flag->need_submit_to_api', false );
 		self::update_setting( 'flag->submit_asap', false );
 	}
@@ -779,17 +798,20 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 */
 	public static function cache( $key, $value, $expiry = null, $store_type = 'serialize' ) {
 		if ( $expiry == null ) {
-			//we willc ache in 3 months
+			//we willc ache in 1 week
 			$expiry = HOUR_IN_SECONDS * 24 * 7;
 		}
 
-		if ( wp_using_ext_object_cache() ) {
-			if ( is_array( $value ) && mb_strlen( serialize( $value ), '8bit' ) >= 1000000 ) {
+		//if this is w3total cache, need to fallback to site transient, so they can cache
+		$group = 'wp_defender';
+
+		if ( wp_using_ext_object_cache() && ! defined( 'W3TC' ) ) {
+			if ( is_array( $value ) && mb_strlen( serialize( $value ), '8bit' ) >= 10000 ) {
 				//this mean value is very large
 				//first we need to remove all current cache for this key
 				self::remove_cache( $key );
 				$chunks    = array_chunk( $value, 25000 );
-				$large_key = wp_cache_get( 'wd_large_data', 'wp_defender' );
+				$large_key = wp_cache_get( 'wd_large_data', $group );
 				if ( ! is_array( $large_key ) ) {
 					$large_key = array();
 				}
@@ -799,12 +821,12 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 					wp_cache_set( $key . '_' . $i, $chunk, $key, $expiry );
 					//we will need to index this too
 					$large_key[ $key ][] = $key . '_' . $i;
-					wp_cache_set( 'wd_large_data', $large_key, 'wp_defender' );
+					wp_cache_set( 'wd_large_data', $large_key, $group );
 				}
 
 				return true;
 			} else {
-				$ret = wp_cache_set( $key, $value, 'wp_defender', $expiry );
+				$ret = wp_cache_set( $key, $value, $group, 0 );
 			}
 
 			return $ret;
@@ -813,8 +835,8 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 			if ( $store_type == 'json' && is_array( $value ) ) {
 				$value = json_encode( $value );
 			}
-
-			$result = set_site_transient( $key, $value, $expiry );
+			$id     = 'wdfc_' . $key;
+			$result = update_option( $id, $value, false );
 
 			return $result;
 		}
@@ -855,8 +877,10 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 * @return array|mixed
 	 */
 	public static function get_cache( $key, $default = null, $store_type = 'serialize' ) {
-		if ( wp_using_ext_object_cache() ) {
-			$large_key = wp_cache_get( 'wd_large_data', 'wp_defender' );
+		$group = 'wp_defender';
+
+		if ( wp_using_ext_object_cache() && ! defined( 'W3TC' ) ) {
+			$large_key = wp_cache_get( 'wd_large_data', $group );
 			if ( isset( $large_key[ $key ] ) ) {
 				$data = array();
 				foreach ( $large_key[ $key ] as $index ) {
@@ -868,7 +892,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 
 				return $data;
 			} else {
-				$cache = wp_cache_get( $key, 'wp_defender' );
+				$cache = wp_cache_get( $key, $group );
 				if ( ! $cache ) {
 					$cache = $default;
 				}
@@ -876,7 +900,8 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 				return $cache;
 			}
 		} else {
-			$value = get_site_transient( $key );
+			$id    = 'wdfc_' . $key;
+			$value = get_option( $id );
 			if ( ! is_array( $value ) && $store_type == 'json' ) {
 				$tmp = json_decode( $value, true );
 				if ( is_array( $tmp ) ) {
@@ -897,21 +922,20 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 * @param $key
 	 */
 	public static function remove_cache( $key ) {
-		if ( wp_using_ext_object_cache() ) {
-			$large_key = wp_cache_get( 'wd_large_data', 'wp_defender' );
+		$group = 'wp_defender';
+
+		if ( wp_using_ext_object_cache() && ! defined( 'W3TC' ) ) {
+			$large_key = wp_cache_get( 'wd_large_data', $group );
 			if ( isset( $large_key[ $key ] ) ) {
 				foreach ( $large_key[ $key ] as $index ) {
 					wp_cache_delete( $index, $key );
 				}
 			} else {
-				wp_cache_delete( $key, 'wp_defender' );
+				wp_cache_delete( $key, $group );
 			}
 		} else {
-			delete_site_transient( $key );
-			if ( is_multisite() ) {
-				//in case when upgrade from single to multisite, still get some leftover
-				delete_transient( $key );
-			}
+			$id = 'wdfc_' . $key;
+			delete_option( $id );
 		}
 	}
 

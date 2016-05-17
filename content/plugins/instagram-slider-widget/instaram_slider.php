@@ -2,8 +2,8 @@
 /*
 Plugin Name: Instagram Slider Widget
 Plugin URI: http://jrwebstudio.com/instagram-slider/
-Version: 1.3.0
-Description: Instagram Slider Widget is a responsive slider widget that shows 20 latest images from a public instagram user.
+Version: 1.3.1
+Description: Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public Instagram user.
 Author: jetonr
 Author URI: http://jrwebstudio.com/
 License: GPLv2 or later
@@ -24,7 +24,7 @@ class JR_InstagramSlider extends WP_Widget {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '1.3.0';	
+	const VERSION = '1.3.1';	
 	
 	/**
 	 * Initialize the plugin by registering widget and loading public scripts
@@ -174,7 +174,7 @@ class JR_InstagramSlider extends WP_Widget {
 			'username'         => '',
 			'hashtag'          => '',
 			'source'           => 'instagram',
-			'attachment' 	   => 1,
+			'attachment' 	   => 0,
 			'template'         => 'slider',
 			'images_link'      => 'image_url',
 			'custom_url'       => '',
@@ -249,7 +249,7 @@ class JR_InstagramSlider extends WP_Widget {
 					} else {
 						echo '<span class="jr-description jr-media-library-option '.$media_option_class.'"><strong>WP Media Library</strong> can display up to <strong>'. $saved_images .'</strong> images that are saved in media library for <strong>'. $username.'</strong>!<br> This option will NOT check for new images on Instagram!</span>';
 					}
-					echo '<span class="jr-description jr-instagram-option '.$insta_option_class.'"><strong>Instagram</strong> can display up to <strong>24</strong> images for <strong>'. $username .'</strong>!<br> This option will check for new images on Instagram!</span>';
+					echo '<span class="jr-description jr-instagram-option '.$insta_option_class.'"><strong>Instagram</strong> can display up to <strong>12</strong> images for <strong>'. $username .'</strong>!<br> This option will check for new images on Instagram!</span>';
 				?>
 			</p>
 	        <p class="<?php if ( 'instagram' != $instance['source'] || 'username' != $instance['search_for'] ) echo 'hidden'; ?>">
@@ -942,7 +942,7 @@ class JR_InstagramSlider extends WP_Widget {
 						$image_data['code']       = $result['code'];
 						$image_data['username']   = 'user' == $search ? $search_string : false;
 						$image_data['user_id']    = $result['owner']['id'];
-						$image_data['caption']    = $this->sanitize( $result['caption'] );
+						$image_data['caption']    = isset( $result['caption'] ) ? $this->sanitize( $result['caption'] ) : '';
 						$image_data['id']         = $result['id'];
 						$image_data['link']       = 'https://instagram.com/p/'. $result['code'];
 						$image_data['popularity'] = (int) ( $result['comments']['count'] ) + ( $result['likes']['count'] );
@@ -1015,7 +1015,7 @@ class JR_InstagramSlider extends WP_Widget {
 			}
 			
 		} // end -> false === $instaData
-		
+
 		return $instaData;
 	}
 
@@ -1041,7 +1041,13 @@ class JR_InstagramSlider extends WP_Widget {
 	 */
 	private function save_wp_attachment( $image_data ) {
 		
-		$image_info = pathinfo( $image_data['url'] );
+		// Increase Time limit to 3 min
+		set_time_limit( 180 );
+
+		// Remove Instagram chace key from url
+		$clean_url = esc_url( remove_query_arg( 'ig_cache_key', $image_data['url'] ) );
+
+		$image_info = pathinfo( $clean_url );
 		
 		if ( !in_array( $image_info['extension'], array( 'jpg', 'jpe', 'jpeg', 'gif', 'png' ) ) ) {
 			return false;
@@ -1054,12 +1060,12 @@ class JR_InstagramSlider extends WP_Widget {
 			require_once( ABSPATH . 'wp-admin/includes/media.php' );
 		}
 
-		$tmp = download_url( $image_data['url'] );
+		$tmp = download_url( $clean_url );
 		
 		$file_array             = array();
 		$file_array['name']     = $image_info['basename'];
 		$file_array['tmp_name'] = $tmp;
-		
+
 		// If error storing temporarily, unlink
 		if ( is_wp_error( $tmp ) ) {
 			

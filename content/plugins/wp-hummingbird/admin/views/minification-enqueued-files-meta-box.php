@@ -3,7 +3,7 @@
 	<div id="wphb-minification-filter" class="wphb-block-content-grey">
 		<div class="wphb-minification-filter-block" id="wphb-minification-filter-block-search">
 			<h3 class="wphb-block-title"><?php _e( 'Filter', 'wphb' ); ?></h3>
-			<p class="wphb-block-subtitle"><?php _e( 'Filter plugin or theme, or search by name.', 'wphb' ); ?></p>
+			<p class="wphb-block-subtitle"><?php _e( 'Filter plugin or theme, or search by name or extension (js/css/other).', 'wphb' ); ?></p>
 
 			<div class="wphb-filters-data">
 

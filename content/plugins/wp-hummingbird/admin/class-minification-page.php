@@ -157,8 +157,8 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		}
 		else {
 			$this->add_meta_box( 'enqueued-files', __( 'Enqueued Files', 'wphb' ), array( $this, 'enqueued_files_metabox' ), null, null, 'main', array( 'box_content_class' => 'box-content no-side-padding', 'box_footer_class' => 'box-footer') );
-			$this->add_meta_box( 'output-header', __( 'Output (Header)', 'wphb' ), array( $this, 'output_header_metabox' ), array( $this, 'output_header_header_metabox' ) );
-			$this->add_meta_box( 'output-footer', __( 'Output (Footer)', 'wphb' ), array( $this, 'output_footer_metabox' ), array( $this, 'output_header_footer_metabox' ) );
+			$this->add_meta_box( 'output-header', __( 'Output (Header)', 'wphb' ), array( $this, 'output_header_metabox' ), array( $this, 'output_header_header_metabox' ), null, 'main-2' );
+			$this->add_meta_box( 'output-footer', __( 'Output (Footer)', 'wphb' ), array( $this, 'output_footer_metabox' ), array( $this, 'output_header_footer_metabox' ), null, 'main-2' );
 		}
 	}
 
@@ -317,8 +317,8 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		$plugins_footer = array_unique( array_keys( $data['footer']['plugins'] ) );
 		$options = array_merge( $themes_header, $themes_footer, $plugins_header, $plugins_footer );
 
-		$height_header = 50 * $chart['sources_number']['header'];
-		$height_footer = 50 * $chart['sources_number']['footer'];
+		$height_header = 50 * ( isset( $chart['sources_number']['header'] ) ? $chart['sources_number']['header'] : 1 );
+		$height_footer = 50 * ( isset( $chart['sources_number']['footer'] ) ? $chart['sources_number']['footer'] : 1 );
 
 		$data_header = wphb_prepare_chart_data_for_javascript( $chart['data']['header'], $chart['data']['groups'] );
 		$data_footer = wphb_prepare_chart_data_for_javascript( $chart['data']['footer'], $chart['data']['groups'] );

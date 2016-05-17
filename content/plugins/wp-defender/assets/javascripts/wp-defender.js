@@ -515,7 +515,7 @@ WDefender.scanning = function () {
                             jq('.current_working').html(data.message);
                         }
                         if (data.complete == 1 || data.error == 1) {
-                            location.reload();
+                            location.href = data.url;
                         } else {
                             //merging the files
                             files = files.concat(data.scanned);

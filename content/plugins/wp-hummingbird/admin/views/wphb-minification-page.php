@@ -56,12 +56,21 @@
 
 <div class="row">
 	<?php $user = wphb_get_current_user_info(); ?>
+
 	<div class="wphb-notice wphb-notice-box no-top-space">
 		<p><?php echo sprintf( __( '%s, moving files between the header and footer of your page can break your website. We recommend tweaking and checking each file as you go and if a setting causes errors then revert the setting here.', 'wphb' ), $user); ?></p>
 	</div>
+
 	<form action="" method="post">
 		<?php $this->do_meta_boxes( 'main' ); ?>
 	</form>
+
+	<?php if ( $this->has_meta_boxes( 'main-2' ) ): ?>
+		<div class="wphb-notice wphb-notice-box no-top-space">
+			<p><?php _e( 'Hummingbird will combine your files as best it can, however, depending on your settings, combining all your files might not be possible. What you see here is the best output Hummingbird can muster!', 'wphb' ); ?></p>
+		</div>
+		<?php $this->do_meta_boxes( 'main-2' ); ?>
+	<?php endif; ?>
 </div>
 
 <script>

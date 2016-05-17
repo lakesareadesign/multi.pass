@@ -3,7 +3,7 @@
 	<div class="wphb-block-entry-content">
 
 		<div class="wphb-block-test wphb-block-test-standalone">
-			<h2 class="wphb-block-test-title"><?php _e( 'Scanning your website for performance improvements', 'wphb' ); ?></h2>
+			<h2 class="wphb-block-test-title"><?php _e( 'Testing your website for performance improvements', 'wphb' ); ?></h2>
 			<h4 class="wphb-block-test-sub-title"><?php _e( 'This test is running in the background, you can check back anytime to see progress', 'wphb' ); ?></h4>
 			<div class="wphb-progress">
 				<div class="wphb-progress-bar wphb-progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100" style="width:100%">

@@ -30,6 +30,7 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			add_action( 'wp_enqueue_scripts',              array( $this, 'add_customizer_css' ), 130 );
 			add_action( 'after_setup_theme',               array( $this, 'custom_header_setup' ) );
 			add_action( 'customize_controls_print_styles', array( $this, 'customizer_custom_control_css' ) );
+			add_action( 'customize_register',              array( $this, 'edit_default_customizer_settings' ), 99 );
 			add_action( 'init',                            array( $this, 'default_theme_mod_values' ), 10 );
 
 			add_action( 'after_switch_theme',              array( $this, 'set_storefront_style_theme_mods' ) );
@@ -73,6 +74,20 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 				add_filter( 'theme_mod_' . $mod, function( $setting ) use ( $val ) {
 					return $setting ? $setting : $val;
 				}, 10 );
+			}
+		}
+
+		/**
+		 * Set Customizer setting defaults.
+		 * These defaults need to be applied separately as child themes can filter storefront_setting_default_values
+		 *
+		 * @param  array $wp_customize the Customizer object.
+		 * @uses   get_storefront_default_setting_values()
+		 * @return void
+		 */
+		public function edit_default_customizer_settings( $wp_customize ) {
+			foreach ( Storefront_Customizer::get_storefront_default_setting_values() as $mod => $val ) {
+				$wp_customize->get_setting( $mod )->default = $val;
 			}
 		}
 
@@ -571,25 +586,25 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 				outline-color: ' . $storefront_theme_mods['accent_color'] . ';
 			}
 
-			button, input[type="button"], input[type="reset"], input[type="submit"], .button, .added_to_cart, .widget-area .widget a.button, .site-header-cart .widget_shopping_cart a.button {
+			button, input[type="button"], input[type="reset"], input[type="submit"], .button, .added_to_cart, .widget a.button, .site-header-cart .widget_shopping_cart a.button {
 				background-color: ' . $storefront_theme_mods['button_background_color'] . ';
 				border-color: ' . $storefront_theme_mods['button_background_color'] . ';
 				color: ' . $storefront_theme_mods['button_text_color'] . ';
 			}
 
-			button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover, .button:hover, .added_to_cart:hover, .widget-area .widget a.button:hover, .site-header-cart .widget_shopping_cart a.button:hover {
+			button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover, .button:hover, .added_to_cart:hover, .widget a.button:hover, .site-header-cart .widget_shopping_cart a.button:hover {
 				background-color: ' . storefront_adjust_color_brightness( $storefront_theme_mods['button_background_color'], $darken_factor ) . ';
 				border-color: ' . storefront_adjust_color_brightness( $storefront_theme_mods['button_background_color'], $darken_factor ) . ';
 				color: ' . $storefront_theme_mods['button_text_color'] . ';
 			}
 
-			button.alt, input[type="button"].alt, input[type="reset"].alt, input[type="submit"].alt, .button.alt, .added_to_cart.alt, .widget-area .widget a.button.alt, .added_to_cart, .pagination .page-numbers li .page-numbers.current, .woocommerce-pagination .page-numbers li .page-numbers.current {
+			button.alt, input[type="button"].alt, input[type="reset"].alt, input[type="submit"].alt, .button.alt, .added_to_cart.alt, .widget-area .widget a.button.alt, .added_to_cart, .pagination .page-numbers li .page-numbers.current, .woocommerce-pagination .page-numbers li .page-numbers.current, .widget a.button.checkout {
 				background-color: ' . $storefront_theme_mods['button_alt_background_color'] . ';
 				border-color: ' . $storefront_theme_mods['button_alt_background_color'] . ';
 				color: ' . $storefront_theme_mods['button_alt_text_color'] . ';
 			}
 
-			button.alt:hover, input[type="button"].alt:hover, input[type="reset"].alt:hover, input[type="submit"].alt:hover, .button.alt:hover, .added_to_cart.alt:hover, .widget-area .widget a.button.alt:hover, .added_to_cart:hover {
+			button.alt:hover, input[type="button"].alt:hover, input[type="reset"].alt:hover, input[type="submit"].alt:hover, .button.alt:hover, .added_to_cart.alt:hover, .widget-area .widget a.button.alt:hover, .added_to_cart:hover, .widget a.button.checkout:hover {
 				background-color: ' . storefront_adjust_color_brightness( $storefront_theme_mods['button_alt_background_color'], $darken_factor ) . ';
 				border-color: ' . storefront_adjust_color_brightness( $storefront_theme_mods['button_alt_background_color'], $darken_factor ) . ';
 				color: ' . $storefront_theme_mods['button_alt_text_color'] . ';
@@ -738,13 +753,16 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 
 		/**
 		 * Add CSS in <head> for styles handled by the theme customizer
-		 * If the Customizer is active pull in the raw css. Otherwise pull in the prepared theme_mods.
+		 * If the Customizer is active pull in the raw css. Otherwise pull in the prepared theme_mods if they exist.
 		 *
 		 * @since 1.0.0
 		 * @return void
 		 */
 		public function add_customizer_css() {
-			if ( is_customize_preview() || ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) ) {
+			$storefront_styles             = get_theme_mod( 'storefront_styles' );
+			$storefront_woocommerce_styles = get_theme_mod( 'storefront_woocommerce_styles' );
+
+			if ( is_customize_preview() || ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) || ( false === $storefront_styles && false === $storefront_woocommerce_styles ) ) {
 				wp_add_inline_style( 'storefront-style', $this->get_css() );
 				wp_add_inline_style( 'storefront-woocommerce-style', $this->get_woocommerce_css() );
 			} else {

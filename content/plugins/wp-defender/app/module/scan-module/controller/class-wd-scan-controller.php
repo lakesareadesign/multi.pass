@@ -90,6 +90,9 @@ class WD_Scan_Controller extends WD_Controller {
 	 * maybe we can schedule a scan
 	 */
 	public function maybe_schedule_cron() {
+		//queue a scan run
+		WD_Scan_Api::update_next_run();
+
 		if ( $this->is_ajax() ) {
 			return;
 		}
@@ -162,7 +165,11 @@ class WD_Scan_Controller extends WD_Controller {
 	 * @return bool|mixed|void
 	 */
 	public function is_on_time( $current = null, $last_run = null ) {
-		$next_run = WD_Scan_Api::calculate_next_run( $last_run );
+		$next_run = WD_Utils::get_setting( 'scan->next_runtime', false );
+		if ( $next_run == false ) {
+			return false;
+		}
+
 		if ( is_null( $current ) ) {
 			$current = current_time( 'timestamp' );
 		}
@@ -220,7 +227,8 @@ class WD_Scan_Controller extends WD_Controller {
 			'scanned'   => $this->scanned_to_html( true ),
 			'alert'     => $alert,
 			'md5_alert' => $md5_alert,
-			'abs_path'  => ABSPATH
+			'abs_path'  => ABSPATH,
+			'url'       => network_admin_url( 'admin.php?page=wdf-scan' )
 		) );
 	}
 
@@ -368,6 +376,7 @@ class WD_Scan_Controller extends WD_Controller {
 			$this->unlock();
 			//flag it
 			WD_Utils::flag_for_submitting();
+			WD_Scan_Api::update_next_run( true );
 			do_action( 'wd_scan_completed', $model );
 		}
 

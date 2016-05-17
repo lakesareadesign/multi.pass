@@ -56,9 +56,9 @@ class WD_Notification_Controller extends WD_Controller {
 			$email_template = $this->render( 'email_template', array(
 				'subject' => $subject,
 				'message' => $email_content
-			) );
+			), false );
 			$no_reply_email = "noreply@" . parse_url( get_site_url(), PHP_URL_HOST );
-			$headers = array(
+			$headers        = array(
 				'From: WP Defender <' . $no_reply_email . '>',
 				'Content-Type: text/html; charset=UTF-8'
 			);

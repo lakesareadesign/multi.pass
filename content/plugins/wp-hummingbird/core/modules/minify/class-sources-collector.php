@@ -44,7 +44,6 @@ class WP_Hummingbird_Sources_Collector {
 
 		$this->collection_updated = true;
 		$this->collected[ $type ][ $registered['handle'] ] = $registered;
-
 	}
 
 

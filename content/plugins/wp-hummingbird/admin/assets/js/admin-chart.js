@@ -13,7 +13,12 @@
                 self.strings = wphbMinificationStrings;
 
             self.google = google;
-            self.google.load("visualization", "1.1", {packages:["sankey"]});
+            self.google.load("visualization", "1.1", {
+                packages:["sankey"],
+                callback: function() {
+                     
+                }
+            });
 
             $( '.wphb-chart-selector').change( function() {
                 var value = $(this).val();

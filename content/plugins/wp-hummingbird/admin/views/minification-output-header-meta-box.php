@@ -14,7 +14,9 @@
 	jQuery( document ).ready( function() {
 		if ( typeof WPHB_Admin !== 'undefined' ) {
 			var module = WPHB_Admin.getModule( 'chart' );
-			module.draw(<?php echo $data_header; ?>, 'sankey_multiple_header');
+			module.google.setOnLoadCallback(function() {
+				module.draw(<?php echo $data_header; ?>, 'sankey_multiple_header');
+			});
 		}
 	});
 </script>

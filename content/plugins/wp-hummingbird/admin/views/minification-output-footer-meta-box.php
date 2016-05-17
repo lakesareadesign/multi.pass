@@ -14,7 +14,10 @@
 	jQuery( document ).ready( function() {
 		if ( typeof WPHB_Admin !== 'undefined' ) {
 			var module = WPHB_Admin.getModule( 'chart' );
-			module.draw(<?php echo $data_footer; ?>, 'sankey_multiple_footer');
+			module.google.setOnLoadCallback(function() {
+				module.draw(<?php echo $data_footer; ?>, 'sankey_multiple_footer');
+			});
+
 		}
 	});
 </script>

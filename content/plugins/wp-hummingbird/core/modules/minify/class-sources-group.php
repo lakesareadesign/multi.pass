@@ -181,6 +181,7 @@ class WP_Hummingbird_Sources_Group {
 		$this->position = $position;
 	}
 
+
 	/**
 	 * Get the source position (header|footer)
 	 *

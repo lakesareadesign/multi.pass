@@ -207,7 +207,7 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 			return true;
 		}
 
-		return new WP_Error( 'cant_writable', __( "Your wp-config.php isn't writable", wp_defender()->domain ) );
+		return new WP_Error( 'cant_writable', __( "Your wp-config.php isn't writable", wp_defender()->domain ) );	  	 	   	 		 		 				
 	}
 
 	public function display() {

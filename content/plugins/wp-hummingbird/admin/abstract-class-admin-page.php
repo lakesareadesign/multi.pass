@@ -190,6 +190,13 @@ abstract class WP_Hummingbird_Admin_Page {
 	}
 
 	/**
+	 * Check if there is any meta box for a given context
+	 */
+	protected function has_meta_boxes( $context ) {
+		return ! empty( $this->meta_boxes[ $this->slug ][ $context ] );
+	}
+
+	/**
 	 * Renders the template header that is repeated on every page.
 	 * From WPMU DEV Dashboard
 	 *

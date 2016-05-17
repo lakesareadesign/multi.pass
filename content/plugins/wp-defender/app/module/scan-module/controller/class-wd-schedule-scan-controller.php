@@ -31,7 +31,7 @@ class WD_Schedule_Scan_Controller extends WD_Controller {
 	 * Save setting for schedule a scan to run
 	 */
 	public function schedule_scan() {
-		if ( ! WD_Utils::check_permission()  ) {
+		if ( ! WD_Utils::check_permission() ) {
 			return;
 		}
 
@@ -56,6 +56,8 @@ class WD_Schedule_Scan_Controller extends WD_Controller {
 		//we also activate the toggle
 		WD_Utils::update_setting( 'scan->auto_scan', 1 );
 		WD_Utils::do_submitting( true );
+		//next run
+		WD_Scan_Api::update_next_run( true );
 		wp_send_json( array(
 			'status'  => 1,
 			'message' => __( "Congratulations. Your scan schedule is saved.", wp_defender()->domain )
@@ -66,7 +68,7 @@ class WD_Schedule_Scan_Controller extends WD_Controller {
 	 * an ajax function to toggle auto scan
 	 */
 	public function toggle_auto_scan() {
-		if ( ! WD_Utils::check_permission()  ) {
+		if ( ! WD_Utils::check_permission() ) {
 			return;
 		}
 

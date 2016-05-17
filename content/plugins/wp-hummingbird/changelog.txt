@@ -1,8 +1,17 @@
 Plugin Name: WP Hummingbird
 Author: Ignacio Cruz, Ricardo Freitas
-Tested up to: 4.4.2
+Tested up to: 4.5.2
 
 Change Log:
+
+1.2.1 - 2016-05-17
+----------------------------------------------------------------------
+Fix: Sometimes excluded files did not appear on list after re checking files
+Fix: Server type not updated when user switches it
+Fixes to Google Chart API
+Enhance: Faster minification scan
+Enhance: Better GZIP htaccess code
+Enhance: Search by extension in minification page
 
 1.2 - 2016-04-18
 ----------------------------------------------------------------------
@@ -56,4 +65,4 @@ Change Log:
 - First release
 
 
-133620-1461037035-au
+133620-1463498466-au

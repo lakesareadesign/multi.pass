@@ -40,7 +40,6 @@ class WD_Scan_Api extends WD_Component {
 		$abs_files = $dir_tree->get_dir_tree();
 		$files     = array_merge( (array) $abs_files, (array) $core_files );
 		WD_Utils::cache( self::CACHE_CORE_FILES, $files );
-
 		return $files;
 	}
 
@@ -71,11 +70,18 @@ class WD_Scan_Api extends WD_Component {
 				$user     = get_user_by( 'id', $user_id );
 				$emails[] = $user->user_email;
 			}
-			$res = sprintf( __( "Automatic scans have been enabled. Expect your first report on <strong>%s</strong> to <strong>%s</strong>", wp_defender()->domain ),
-				date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), self::calculate_next_run() ),
+			$res = sprintf( __( "Automatic scans have been enabled. Expect your next report on <strong>%s</strong> to <strong>%s</strong>", wp_defender()->domain ),
+				date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), WD_Utils::get_setting( 'scan->next_runtime' ) ),
 				implode( ',', $emails ) );
 
 			return '<p class="wd-no-margin"><i class=\"dev-icon dev-icon-tick\"></i>' . $res . '</p>';
+		}
+	}
+
+	public static function update_next_run( $force = false ) {
+		if ( WD_Utils::get_setting( 'scan->next_runtime', false ) == false || $force == true ) {
+			$next_run = self::calculate_next_run();
+			WD_Utils::update_setting( 'scan->next_runtime', $next_run );
 		}
 	}
 
@@ -85,7 +91,8 @@ class WD_Scan_Api extends WD_Component {
 	 * @return int|null
 	 */
 	public static function calculate_next_run( $last_scan_time = null ) {
-		$args = WD_Utils::get_automatic_scan_settings();
+		$args         = WD_Utils::get_automatic_scan_settings();
+		$current_time = current_time( 'timestamp' );
 
 		if ( is_null( $last_scan_time ) ) {
 			$last_scan = WD_Scan_Api::get_last_scan();
@@ -102,29 +109,77 @@ class WD_Scan_Api extends WD_Component {
 		$next_scan = null;
 		switch ( $args['frequency'] ) {
 			case 1:
-				//tomorrow of the last scan time
-				if ( $last_scan_time == null ) {
-					//null, so never run, today should be the day
-					$last_scan_time = strtotime( 'yesterday', current_time( 'timestamp' ) );
+				/**
+				 * if last scan is today, so we will set tomorrow
+				 * if last scan is far, or null, we will use today midnight
+				 */
+
+				//pick the nearest time, first try with today
+				$time_mile = array(
+					'today midnight',
+					'tomorrow midnight'
+				);
+
+				if ( ! is_null( $last_scan_time ) && date( 'Ymd', $current_time ) == date( 'Ymd', $last_scan_time ) ) {
+					//ths mean, today, a scan already run, we wont schedulefor today
+					unset( $time_mile[0] );
 				}
-				$next_day  = strtotime( 'tomorrow', $last_scan_time );
-				$next_scan = mktime( $hour, $minute, 0, date( 'm', $next_day ), date( 'd', $next_day ), date( 'Y', $next_day ) );
+
+				foreach ( $time_mile as $mile ) {
+					$time      = strtotime( $mile, current_time( 'timestamp' ) );
+					$next_scan = mktime( $hour, $minute, 0, date( 'm', $time ), date( 'd', $time ), date( 'Y', $time ) );
+					if ( $next_scan >= current_time( 'timestamp' ) ) {
+						//next scan in the future
+						break;
+					}
+				}
 				break;
 			case 7:
-				if ( $last_scan_time == null ) {
-					//null, so never run, today should be the day
-					$last_scan_time = strtotime( 'yesterday', current_time( 'timestamp' ) );
+				$time_mile = array(
+					$args['day'] . ' this week',
+					'next ' . $args['day']
+				);
+
+				//if a scan already run in this week, we will psot pone to next week
+				$first_day = strtotime( 'sunday last week' );
+				$last_day  = strtotime( 'sunday this week' );
+
+				if ( $last_scan_time > $first_day && $last_scan_time < $last_day ) {
+					//already run this week
+					unset( $time_mile[0] );
 				}
-				$next_week = strtotime( 'next ' . $args['day'], $last_scan_time );
-				$next_scan = mktime( $hour, $minute, 0, date( 'm', $next_week ), date( 'd', $next_week ), date( 'Y', $next_week ) );
+
+				foreach ( $time_mile as $mile ) {
+					$time      = strtotime( $mile );
+					$next_scan = mktime( $hour, $minute, 0, date( 'm', $time ), date( 'd', $time ), date( 'Y', $time ) );
+					if ( $next_scan >= current_time( 'timestamp' ) ) {
+						//next scan in the future
+						break;
+					}
+				}
 				break;
 			case 30:
-				if ( $last_scan_time == null ) {
-					//null, so never run, today should be the day
-					$last_scan_time = strtotime( 'yesterday', current_time( 'timestamp' ) );
+				$time_mile = array(
+					$args['day'] . ' this week',
+					'next ' . $args['day'],
+					'first ' . $args['day'] . ' of next month'
+				);
+
+				//if a scan alread run this month, queue for next month
+				//if a scan already run in this week, we will psot pone to next week
+				if ( date( 'm', $last_scan_time ) == date( 'm' ) ) {
+					//already run
+					unset( $time_mile[0] );
+					unset( $time_mile[1] );
 				}
-				$next_month = strtotime( 'first ' . $args['day'] . ' of next month', $last_scan_time );
-				$next_scan  = mktime( $hour, $minute, 0, date( 'm', $next_month ), date( 'd', $next_month ), date( 'Y', $next_month ) );
+				foreach ( $time_mile as $mile ) {
+					$time      = strtotime( $mile );
+					$next_scan = mktime( $hour, $minute, 0, date( 'm', $time ), date( 'd', $time ), date( 'Y', $time ) );
+					if ( $next_scan >= current_time( 'timestamp' ) ) {
+						//next scan in the future
+						break;
+					}
+				}
 				break;
 		}
 
@@ -163,8 +218,21 @@ class WD_Scan_Api extends WD_Component {
 
 		$body = wp_remote_retrieve_body( $response );
 		$body = json_decode( $body, true );
+		if ( ! is_array( $body ) || empty( $body ) ) {
+			//need to try again, without locale
+			$url      = "https://api.wordpress.org/core/checksums/1.0/?version={$wp_version}";
+			$response = wp_remote_get( $url, apply_filters( 'wd_vulndb_api_request_arguments',
+				array(
+					'timeout' => 15
+				) ) );
+			//if request can go through the first time, we dont have to check 2nd time
+			$body = wp_remote_retrieve_body( $response );
+			$body = json_decode( $body, true );
 
-		return $body['checksums'];
+			return $body['checksums'];
+		} else {
+			return $body['checksums'];
+		}
 	}
 
 	/**
@@ -553,6 +621,7 @@ class WD_Scan_Api extends WD_Component {
 		WD_Utils::remove_cache( self::ALERT_NESTED_WP );
 		WD_Utils::remove_cache( self::ALERT_NO_MD5 );
 		WD_Utils::remove_cache( 'wd_large_data' );
+		WD_Utils::remove_cache( WD_Vulndb_Scan::IS_DONE );
 		delete_site_option( 'wd_scan_lock' );
 		//sometime user upgrade from single to network, we need to remove the lefrover
 		delete_option( 'wd_scan_lock' );

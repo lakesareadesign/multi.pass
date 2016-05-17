@@ -23,7 +23,19 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 	 */
 	public function check() {
 		if ( count( $this->get_plugins_outdate() ) || count( $this->get_themes_outdate() ) ) {
+			$last_submission = get_site_option( $this->id . 'last_submission' );
+			if ( $last_submission != false ) {
+				delete_site_option( $this->id . 'last_submission' );
+				WD_Utils::flag_for_submitting();
+			}
+
 			return false;
+		}
+
+		$last_submission = get_site_option( $this->id . 'last_submission' );
+		if ( $last_submission == false ) {
+			WD_Utils::flag_for_submitting();
+			update_site_option( $this->id . 'last_submission', time() );
 		}
 
 		return true;
@@ -45,7 +57,6 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 	 * @return array
 	 */
 	public function get_plugins_outdate() {
-		wp_update_plugins();
 		$plugins = get_site_transient( 'update_plugins' );
 
 		$need_update = array();
@@ -83,11 +94,10 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 	 * //todo for now, it only can get from wp repo, need to extend it later
 	 */
 	public function get_themes_outdate() {
-		wp_update_themes();
 		$themes = get_site_transient( 'update_themes' );
 
 		$need_update = array();
-		foreach ( $themes->response as $key => $theme ) {
+		foreach ( (array) $themes->response as $key => $theme ) {
 			$data = wp_get_theme( $key );
 			if ( version_compare( $data->Version, $theme['new_version'] ) == - 1 ) {
 				$need_update[] = array(
@@ -323,6 +333,7 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 				'error' => $ret->get_error_message()
 			) );
 		}
+		//re generate cache
 		wp_send_json_success();
 	}
 

@@ -9,8 +9,10 @@
 
 		$is_email = false;
 
-		$form_id = $args['form_id'];
-		$mode = $args['mode'];
+			  $form_id = $args['form_id'];
+				 $mode = $args['mode'];
+		$user_password = $args['user_password'];
+
 
 		if ( isset( $args['username'] ) && $args['username'] == '' ) {
 			$ultimatemember->form->add_error( 'username',  __('Please enter your username or email','ultimatemember') );
@@ -284,3 +286,13 @@
 		echo $ultimatemember->fields->display( 'login', $args );
 
 	}
+
+	/**
+	 * Remove authenticate filter
+	 * @uses 'wp_authenticate_username_password_before'
+	 */
+	add_action('wp_authenticate_username_password_before','um_auth_username_password_before',10,3);
+	function um_auth_username_password_before( $user, $username, $password ){
+		remove_filter( 'authenticate', 'wp_authenticate_username_password', 20, 3 );
+	}
+

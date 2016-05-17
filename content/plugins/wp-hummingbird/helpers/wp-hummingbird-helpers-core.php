@@ -121,6 +121,11 @@ function wphb_get_server_type() {
 	global $is_apache, $is_IIS, $is_iis7, $is_nginx;
 	//delete_site_option( 'wphb-server-type' );
 	$type = get_site_option( 'wphb-server-type' );
+	$user_type = get_user_meta( get_current_user_id(), 'wphb-server-type', true );
+	if ( $user_type ) {
+		$type = $user_type;
+	}
+
 	if ( ! $type ) {
 		$type = '';
 
@@ -262,7 +267,9 @@ function wphb_unsave_htaccess( $module ) {
  * @TODO: Improve or remove
  */
 function wphb_log( $message ) {
-	error_log( $message );
+	if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+		error_log( $message );
+	}
 }
 
 function wphb_uninstall() {
