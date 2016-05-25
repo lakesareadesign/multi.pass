@@ -3,7 +3,7 @@
 Plugin Name: Appointments+
 Description: Lets you accept appointments from front end and manage or create them from admin side
 Plugin URI: http://premium.wpmudev.org/project/appointments-plus/
-Version: 1.8.2
+Version: 1.9
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
 Textdomain: appointments
@@ -32,7 +32,7 @@ if ( !class_exists( 'Appointments' ) ) {
 
 class Appointments {
 
-	public $version = "1.8.2";
+	public $version = "1.9";
 	public $db_version;
 
 	public $timetables = array();
@@ -58,8 +58,14 @@ class Appointments {
 	/** @var Appointments_Admin  */
 	public $admin;
 
+	/** @var  Appointments_Addons_Loader */
+	public $addons_loader;
+
 	/** @var Appointments_Notifications_Manager */
 	public $notifications;
+
+	public $pro = false;
+
 
 	function __construct() {
 
@@ -67,6 +73,13 @@ class Appointments {
 		include_once( 'includes/helpers-settings.php' );
 		include_once( 'includes/deprecated-hooks.php' );
 		include_once( 'includes/class-app-notifications-manager.php' );
+		include_once( 'includes/class-app-api-logins.php' );
+
+		// Load premium features
+		if ( is_readable( appointments_plugin_dir() . 'includes/pro/class-app-pro.php' ) ) {
+			include_once( appointments_plugin_dir() . 'includes/pro/class-app-pro.php' );
+			$this->pro = new Appointments_Pro();
+		}
 
 		$this->timetables = get_transient( 'app_timetables' );
 		if ( ! $this->timetables || ! is_array( $this->timetables ) ) {
@@ -203,6 +216,7 @@ class Appointments {
 
 		$this->notifications = new Appointments_Notifications_Manager();
 	}
+
 
 	public function load_admin() {
 		include_once( 'admin/class-app-admin.php' );
@@ -532,7 +546,7 @@ class Appointments {
 	 * @return array of objects
 	 */
 	function get_reserve_apps_by_service( $l, $s, $week=0 ) {
-		_deprecated_function( __FUNCTION__, '1.6', 'appointments_get_appointments()' );
+		_deprecated_function( __FUNCTION__, '1.6', 'appointments_get_appointments_filtered_by_services()' );
 		$args = array(
 			'location' => $l,
 			'service' => $s,
@@ -603,43 +617,6 @@ class Appointments {
 		return appointments_get_worker_name( $worker, $field );
 	}
 
-	/**
-	 * Only for Unit Testing purposes, do not use
-	 */
-	function _old_get_worker_name( $worker=0, $php = true ) {
-		global $current_user;
-		$user_name = '';
-		if ( 0 == $worker ) {
-			// Show different text to authorized people
-			if ( is_admin() || App_Roles::current_user_can( 'manage_options', App_Roles::CTX_STAFF ) || appointments_is_worker( $current_user->ID ) )
-				$user_name = __('Our staff', 'appointments');
-			else
-				$user_name = __('A specialist', 'appointments');
-		}
-		else {
-			$userdata = get_userdata( $worker );
-			if (is_object($userdata) && !empty($userdata->app_name)) {
-				$user_name = $userdata->app_name;
-			}
-			if (empty($user_name)) {
-				if ( !$php ) {
-					$user_name = $userdata->user_login;
-				}
-				else {
-					$user_name = $userdata->display_name;
-				}
-
-				if ( !$user_name ){
-					$first_name = get_user_meta($worker, 'first_name', true);
-					$last_name = get_user_meta($worker, 'last_name', true);
-					$user_name = $first_name . " " . $last_name;
-				}
-				if ( "" == trim( $user_name ) )
-					$user_name = $userdata->user_login;
-			}
-		}
-		return apply_filters( 'app_get_worker_name', $user_name, $worker );
-	}
 
 	/**
 	 * Find worker email given his ID
@@ -1129,12 +1106,12 @@ class Appointments {
 	 */
 	function get_classes() {
 		return apply_filters( 'app_box_class_names',
-							array(
-								'free'			=> __('Free', 'appointments'),
-								'busy'			=> __('Busy', 'appointments'),
-								'notpossible'	=> __('Not possible', 'appointments')
-								)
-				);
+			array(
+				'free'        => __( 'Free', 'appointments' ),
+				'busy'        => __( 'Busy', 'appointments' ),
+				'notpossible' => __( 'Not possible', 'appointments' )
+			)
+		);
 	}
 
 	/**
@@ -2950,7 +2927,6 @@ if ($this->worker && $this->service && ($app->service != $this->service)) {
 				'error' => __('Login error. Please try again.', 'appointments'),
 				'_can_use_twitter' => (!empty($this->options['twitter-app_id']) && !empty($this->options['twitter-app_secret'])),
 				'show_login_button' => $show_login_button,
-				'gg_client_id' => $this->options['google-client_id'],
 				'register' => ($do_register ? __('Register', 'appointments') : ''),
 				'registration_url' => ($do_register ? wp_registration_url() : ''),
 			)));
@@ -2983,6 +2959,11 @@ if ($this->worker && $this->service && ($app->service != $this->service)) {
 			}
 			do_action('app-scripts-api');
 		}
+
+		/**
+		 * Fired when scripts/styles have been loaded
+		 */
+		do_action( 'appointments_scripts_loaded' );
 	}
 
 	/**
@@ -3011,9 +2992,6 @@ if ($this->worker && $this->service && ($app->service != $this->service)) {
 			echo 'td.'.$class.',div.'.$class.' {background: #'. $color .' !important;}';
 		}
 
-		// Don't show Google+ button if openid is not enabled
-		if ( !@$this->openid )
-			echo '.appointments-login_link-google{display:none !important;}';
 		?>
 		</style>
 		<?php
@@ -3443,52 +3421,6 @@ if ($this->worker && $this->service && ($app->service != $this->service)) {
 		return false;
 	}
 
-
-
-
-
-
-
-	private function _create_pages () {
-		// Add an appointment page
-		if ( isset( $_POST["make_an_appointment"] ) ) {
-			$tpl = !empty($_POST['app_page_type']) ? $_POST['app_page_type'] : false;
-			wp_insert_post(
-					array(
-						'post_title'	=> 'Make an Appointment',
-						'post_status'	=> 'publish',
-						'post_type'		=> 'page',
-						'post_content'	=> App_Template::get_default_page_template($tpl)
-					)
-			);
-		}
-
-		// Add an appointment product page
-		if ( isset( $_POST["make_an_appointment_product"] ) && $this->marketpress_active ) {
-			$tpl = !empty($_POST['app_page_type_mp']) ? $_POST['app_page_type_mp'] : false;
-			$post_id = wp_insert_post(
-					array(
-						'post_title'	=> 'Appointment',
-						'post_status'	=> 'publish',
-						'post_type'		=> 'product',
-						'post_content'	=> App_Template::get_default_page_template($tpl)
-					)
-			);
-			if ( $post_id ) {
-				// Add a download link, so that app will be a digital product
-				$file = get_post_meta($post_id, 'mp_file', true);
-				if ( !$file ) add_post_meta( $post_id, 'mp_file', get_permalink( $post_id) );
-
-				// MP requires at least 2 variations, so we add a dummy one
-				add_post_meta( $post_id, 'mp_var_name', array( 0 ) );
-				add_post_meta( $post_id, 'mp_sku', array( 0 ) );
-				add_post_meta( $post_id, 'mp_price', array( 0 ) );
-			}
-		}
-	}
-
-
-
 	/**
 	 *	Sorts a comma delimited string
 	 *	@since 1.2
@@ -3499,24 +3431,6 @@ if ($this->worker && $this->service && ($app->service != $this->service)) {
 		$temp = explode( ',', $input );
 		sort( $temp );
 		return implode( ',', $temp );
-	}
-
-	/**
-	 *	Packs an array into a string with : as glue
-	 */
-	function _implode( $input ) {
-		if ( !is_array( $input ) || empty( $input ) )
-			return false;
-		return ':'. implode( ':', array_filter( $input ) ) . ':';
-	}
-
-	/**
-	 *	Packs a string into an array assuming : as glue
-	 */
-	function _explode( $input ){
-		if ( !is_string( $input ) )
-			return false;
-		return array_filter( explode( ':' , ltrim( $input , ":") ) );
 	}
 
 	/**
@@ -4083,15 +3997,23 @@ require_once APP_PLUGIN_DIR . '/includes/class_app_timed_abstractions.php';
 require_once APP_PLUGIN_DIR . '/includes/class_app_roles.php';
 require_once APP_PLUGIN_DIR . '/includes/class_app_codec.php';
 require_once APP_PLUGIN_DIR . '/includes/class_app_shortcodes.php';
-require_once APP_PLUGIN_DIR . '/includes/class_app_addon_helper.php';
 
 App_Installer::serve();
 
-App_AddonHandler::serve();
 App_Shortcodes::serve();
 
 global $appointments;
 $appointments = new Appointments();
+
+// Load addons
+include_once( 'includes/class-app-addon.php' );
+include_once( 'includes/class-app-addons-loader.php' );
+if ( ! defined( 'APP_PLUGIN_ADDONS_DIR' ) ) {
+	define('APP_PLUGIN_ADDONS_DIR', APP_PLUGIN_DIR . '/includes/addons');
+}
+$appointments->addons_loader = Appointments_Addons_Loader::get_instance();
+$appointments->addons_loader->load_active_addons();
+
 
 if (is_admin()) {
 	require_once APP_PLUGIN_DIR . '/includes/support/class_app_tutorial.php';
@@ -4101,7 +4023,7 @@ if (is_admin()) {
 	App_AdminHelp::serve();
 
 	// Setup dashboard notices
-	if (file_exists(APP_PLUGIN_DIR . '/includes/external/wpmudev-dash-notification.php')) {
+	if (file_exists(APP_PLUGIN_DIR . '/includes/external/wpmudev-dash/wpmudev-dash-notification.php')) {
 		global $wpmudev_notices;
 		if (!is_array($wpmudev_notices)) $wpmudev_notices = array();
 		$wpmudev_notices[] = array(
@@ -4113,7 +4035,7 @@ if (is_admin()) {
 				'appointments_page_app_faq',
 			),
 		);
-		require_once APP_PLUGIN_DIR . '/includes/external/wpmudev-dash-notification.php';
+		require_once APP_PLUGIN_DIR . '/includes/external/wpmudev-dash/wpmudev-dash-notification.php';
 	}
 	// End dash bootstrap
 }

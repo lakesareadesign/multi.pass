@@ -26,11 +26,13 @@ class Appointments_Admin_Appointments_Page {
 		$this->page_id = add_menu_page('Appointments', __('Appointments','appointments'), App_Roles::get_capability('manage_options', App_Roles::CTX_PAGE_APPOINTMENTS),  'appointments', array(&$this,'appointment_list'),'dashicons-clock');
 		add_action( "admin_print_scripts-" . $this->page_id, array( &$this, 'admin_scripts' ) );
 		add_action( 'load-' . $this->page_id, array( $this, 'on_load' ) );
+		add_action( 'load-' . $this->page_id, array( $this, 'set_screen_options' ) );
 
 		$this->maybe_reset_filters();
 	}
 
 	public function on_load() {
+
 		$appointments = appointments();
 
 		// Bulk status change
@@ -53,6 +55,41 @@ class Appointments_Admin_Appointments_Page {
 			}
 		}
 
+		// Delete removed app records
+		if ( isset($_POST["delete_removed"]) && 'delete_removed' == $_POST["delete_removed"]
+		     && isset( $_POST["app"] ) && is_array( $_POST["app"] ) ) {
+			$result = 0;
+			foreach ( $_POST["app"] as $app_id ) {
+				$result = $result + appointments_delete_appointment( $app_id );
+			}
+
+			if ( $result ) {
+				global $current_user;
+				$userdata = get_userdata( $current_user->ID );
+				add_action( 'admin_notices', array ( &$appointments, 'deleted' ) );
+				do_action( 'app_deleted',  $_POST["app"] );
+				$appointments->log( sprintf( __('Appointment(s) with id(s):%s deleted by user:%s', 'appointments' ),  implode( ', ', $_POST["app"] ), $userdata->user_login ) );
+			}
+		}
+
+	}
+
+	public function set_screen_options() {
+		$options = appointments_get_options();
+		$default = 50;
+		if ( isset( $options['records_per_page'] ) && absint( $options['records_per_page'] ) ) {
+			$default = absint( $options['records_per_page'] );
+		}
+
+		add_screen_option( 'per_page', array( 'label' => __( 'Queue items per page', 'appointments' ), 'default' => $default, 'option' => 'appointments_records_per_page' ) );
+	}
+
+	public function save_screen_options( $status, $option, $value ) {
+		if ( 'appointments_records_per_page' == $option ) {
+			return absint( $value );
+		}
+
+		return $status;
 	}
 
 	private function maybe_reset_filters() {
@@ -129,18 +166,17 @@ class Appointments_Admin_Appointments_Page {
 	}
 
 	private function parse_pagination_args() {
-		$options = appointments_get_options();
-
 		if ( empty( $_GET['paged'] ) ) {
 			$paged = 1;
 		} else {
 			$paged = ( (int) $_GET['paged'] );
 		}
 
-		if ( isset( $options["records_per_page"] ) && $options["records_per_page"] ) {
-			$rpp = $options["records_per_page"];
-		} else {
-			$rpp = 50;
+		$current_screen = get_current_screen();
+		$screen_option = $current_screen->get_option( 'per_page', 'option' );
+		$rpp = get_user_meta( get_current_user_id(), $screen_option, true );
+		if ( empty ( $rpp ) || $rpp < 1 ) {
+			$rpp = $current_screen->get_option( 'per_page', 'default' );
 		}
 
 		$this->pagination_args['per_page'] = $rpp;
@@ -243,7 +279,6 @@ class Appointments_Admin_Appointments_Page {
 			<?php include_once( appointments_plugin_dir() . 'admin/views/page-appointments-status-filter.php' ); ?>
 			<?php include_once( appointments_plugin_dir() . 'admin/views/page-appointments-nav-filter.php' ); ?>
 			<?php include_once( appointments_plugin_dir() . 'admin/views/page-appointments-list.php' ); ?>
-			<?php include_once( appointments_plugin_dir() . 'admin/views/page-appointments-exports.php' ); ?>
 
 		</div> <!-- wrap -->
 		<?php
@@ -353,5 +388,4 @@ class Appointments_Admin_Appointments_Page {
 
 		echo $output;
 	}
-
 }

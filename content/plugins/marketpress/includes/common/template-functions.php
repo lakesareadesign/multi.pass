@@ -219,7 +219,7 @@ if ( ! function_exists( 'mp_orderstatus_link' ) ) :
 
 endif;
 
-if ( ! function_exists( 'mp_product_link' ) ) :
+if ( ! function_exists( 'mp_products_link' ) ) :
 
 	/**
 	 * Echos the current product list link.
@@ -509,7 +509,7 @@ if ( ! function_exists( '_mp_order_status_overview' ) ) :
 	 */
 	function _mp_order_status_overview() {
 		$history        = array_filter( mp_get_order_history() );
-		$page           = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
+		$page           = get_query_var( 'mp_status_pagenumber', 1 );
 		$per_page_value = mp_get_setting( 'per_page_order_history' );
 		$per_page       = isset( $per_page_value ) ? $per_page_value : get_option( 'posts_per_page' );
 		$offset         = ( $page - 1 ) * $per_page;
@@ -1503,18 +1503,9 @@ if ( ! function_exists( 'mp_get_states' ) ) :
 	 */
 	function mp_get_states( $country ) {
 		$list = false;
-		switch ( $country ) {
-			case 'US' :
-				$list = mp()->usa_states;
-				break;
-
-			case 'CA' :
-				$list = mp()->canadian_provinces;
-				break;
-
-			case 'AU' :
-				$list = mp()->australian_states;
-				break;
+		$property = $country.'_provinces';
+		if ( property_exists( mp(), $property ) ) {
+			$list = mp()->$property;
 		}
 
 		/**
@@ -1723,7 +1714,7 @@ if ( ! function_exists( 'mp_tax_rate' ) ) :
 
 			case 'CA':
 //Canada tax is for all orders in country, based on province shipped to. We're assuming the rate is a combination of GST/PST/etc.
-				if ( $country == 'CA' && array_key_exists( $state, mp()->canadian_provinces ) ) {
+				if ( $country == 'CA' && array_key_exists( $state, mp()->CA_provinces ) ) {
 					if ( $_tax_rate = mp_get_setting( "tax->canada_rate->$state" ) ) {
 						$tax_rate = (float) $_tax_rate;
 					}
@@ -1986,6 +1977,14 @@ if ( ! function_exists( 'mp_list_products' ) ) :
 			$query['order'] = $args['order'];
 		}
 
+// Filter by featured
+		if ( (bool) $args['featured'] ) {
+			$query['meta_query'][]     = array(
+				'key'     => 'featured',
+				'value'   => '1',
+				'compare' => '=',
+			);
+		}
 
 // The Query
 		//var_dump($query);
@@ -2113,6 +2112,7 @@ if ( ! function_exists( 'mp_order_status' ) ) :
 		$args = array_replace_recursive( array(
 			'echo'     => false,
 			'order_id' => get_query_var( 'mp_order_id', null ),
+			'guest_email' => get_query_var( 'mp_guest_email', null ),
 		), $args );
 
 		extract( $args );
@@ -2126,9 +2126,10 @@ if ( ! function_exists( 'mp_order_status' ) ) :
 			} else {
 				$order = new MP_Order( $order_id );
 				if ( $order->exists() ) {
-					//only owner can see
-					if ( $order->post_author != get_current_user_id() ) {
+					//only owner and store admins can see
+					if ( $order->post_author != get_current_user_id() && !current_user_can( apply_filters( 'mp_store_settings_cap', 'read_store_order' ) ) ) {
 						$html .= __( 'Oops! We couldn\'t locate any orders matching that order number. Please verify the order number and try again.', 'mp' );
+						$html .= _mp_order_status_overview();
 					} else {
 						$html .= $order->details( false );
 					}
@@ -2138,31 +2139,20 @@ if ( ! function_exists( 'mp_order_status' ) ) :
 				}
 			}
 		} else {
-			//we will try to find the order by history cookie, separate code for prevent conflict later
-			//$orders = mp_get_cookie_value( 'mp_order_history', array() );
 			if ( ! is_null( $order_id ) ) {
-				$orders = mp_get_order_history();
-				if ( is_array( $orders ) ) {
+				if( ! is_null ( $guest_email ) ) {
+					// If email and order provided matches, show the order status page
 					$order = new MP_Order( $order_id );
-					if ( $order->exists() ) {
-						$found = false;
-						foreach ( $orders as $key => $val ) {
-							if ( $val['id'] == $order->ID ) {
-								//this order belonged to this user
-								$found = true;
-								break;
-							}
-						}
-						if ( $found == true ) {
-							$html .= $order->details( false );
-						} else {
-							$html .= __( 'Oops! We couldn\'t locate any orders matching that order number. Please verify the order number and try again.', 'mp' );
-						}
+					if ( $order->exists() && ( md5( $order->get_meta( 'mp_billing_info->email', '' ) ) == $guest_email || md5( $order->get_meta( 'mp_shipping_info->email', '' ) ) == $guest_email ) ) {
+						$html .= $order->details( false );
 					} else {
 						$html .= __( 'Oops! We couldn\'t locate any orders matching that order number. Please verify the order number and try again.', 'mp' );
-						$html .= _mp_order_status_overview();
 					}
+				} else {
+					$html .= __( 'Oops! We couldn\'t locate any orders matching that order number. Please verify the order number and try again.', 'mp' );
 				}
+			} else {
+				$html .= __( 'Oops! We couldn\'t locate any orders matching that order number. Please verify the order number and try again.', 'mp' );
 			}
 		}
 
@@ -2194,6 +2184,58 @@ if ( ! function_exists( 'mp_pinit_button' ) ) :
 			echo $snippet;
 		} else {
 			return $snippet;
+		}
+	}
+
+endif;
+
+if ( ! function_exists( 'mp_featured_products' ) ) :
+
+	/**
+	 * Displays a list of popular products ordered by sales.
+	 *
+	 * @since 3.0
+	 *
+	 * @uses mp_list_products()
+	 *
+	 * @param bool $echo Optional, whether to echo or return
+	 * @param bool $paginate Optional, whether to paginate
+	 * @param int $page Optional, The page number to display in the product list if $paginate is set to true.
+	 * @param int $per_page Optional, How many products to display in the product list if $paginate is set to true.
+	 * @param string $order_by Optional, What field to order products by. Can be: title, date, ID, author, price, sales, rand
+	 * @param string $order Optional, Direction to order products by. Can be: DESC, ASC
+	 * @param string $category Optional, limit to a product category
+	 * @param string $tag Optional, limit to a product tag
+	 * @param bool $list_view Optional, show as list. Default to presentation settings
+	 * @param bool $filters Optional, show filters
+	 */
+	function mp_featured_products() {
+		$func_args        = func_get_args();
+		$args             = mp_parse_args( $func_args, mp()->defaults['list_products'] );
+		$echo = $args['echo'];
+
+		// force echo to false to get content from mp_list_products()
+		// force featured to true to filter only featured in mp_list_products()
+		$args['echo'] 	  = false;
+		$args['nopaging'] = false;
+		$args['featured'] = true;
+		$content = mp_list_products($args);
+
+		/**
+		 * Filter the featured products html
+		 *
+		 * @since 3.0
+		 *
+		 * @param string $content The current HTML markup.
+		 * @param array $args mp_featured_products short code attributes.
+		*/
+		$content = apply_filters( 'mp_featured_products', $content, $args );
+
+
+		if ( $echo ) {
+			echo $content;
+		} else {
+			return $content;
 		}
 	}
 
@@ -2306,6 +2348,8 @@ if ( ! function_exists( 'mp_product' ) ) {
 		$fb      = $product->facebook_like_button( 'single_view' );
 		$twitter = $product->twitter_button( 'single_view' );
 
+		$display_description = ( ! empty( $content ) && (bool) $content );
+
 		$has_image = false;
 		if ( ! $product->has_variations() ) {
 			$values = get_post_meta( $product->ID, 'mp_product_images', true );
@@ -2333,7 +2377,7 @@ if ( ! function_exists( 'mp_product' ) ) {
 
 		$return = '
 			<!-- MP Single Product -->
-			<section id="mp-single-product" itemscope itemtype="http://schema.org/Product">
+			<section id="mp-single-product-' . $product->ID . '" class="mp-single-product" itemscope itemtype="http://schema.org/Product">
 				<div class="mp_product mp_single_product' . ( $has_image ? ' mp_single_product-has-image mp_single_product-image-' . ( ! empty( $image_alignment ) ? $image_alignment : 'aligncenter' ) . '' : '' ) . ( $product->has_variations() ? ' mp_single_product-has-variations' : '' ) . '">';
 
 		$values = get_post_meta( $product->ID, 'mp_product_images', true );
@@ -2440,7 +2484,7 @@ if ( ! function_exists( 'mp_product' ) ) {
 			// Price
 			$return .= ( $variation ) ? $variation->display_price( false ) : $product->display_price( false );
 
-			if ( mp_get_setting( 'show_single_excerpt' ) == 1 ) {
+			if ( mp_get_setting( 'show_single_excerpt' ) == 1  && $display_description ) {
 				// Excerpt
 				if ( ! $variation ) {
 					$return .= '<div class="mp_product_excerpt">';
@@ -2492,11 +2536,18 @@ if ( ! function_exists( 'mp_product' ) ) {
 		}
 
 		$return .= '<div class="mp_single_product_extra">';
+
+		if( ! $display_description && isset( $product->content_tabs[ 'mp-product-overview' ] ) ){
+			unset( $product->content_tabs[ 'mp-product-overview' ] );
+		}
+
 		$return .= $product->content_tab_labels( false );
 
-		if ( ! empty( $content ) ) {
+		$index = 0;
+
+		if( $display_description ){
 			$return .= '
-<div id="mp-product-overview" class="mp_product_tab_content mp_product_tab_content-overview mp_product_tab_content-current">';
+<div id="mp-product-overview' . '-' . $product->ID . '" class="mp_product_tab_content mp_product_tab_content-overview mp_product_tab_content-current">';
 
 			$return .= '
 <div itemprop="description" class="mp_product_tab_content_text">';
@@ -2510,11 +2561,12 @@ if ( ! function_exists( 'mp_product' ) ) {
 			$return .= '
 </div><!-- end mp_product_tab_content_text -->
 </div><!-- end mp-product-overview -->';
+			$index++;
 		}
 
 
 		// Remove overview tab as it's already been manually output above
-		array_shift( $product->content_tabs );
+		unset( $product->content_tabs[ 'mp-product-overview' ] );
 
 		$func_args = func_get_args();
 		$args      = mp_parse_args( $func_args, mp()->defaults['list_products'] );
@@ -2529,7 +2581,7 @@ if ( ! function_exists( 'mp_product' ) ) {
 							$layout_type = $args['list_view'] ? 'list' : 'grid';
 						}
 						$return .= '
-						<div id="mp-related-products" class="mp-multiple-products mp_product_tab_content mp_product_tab_content-related-products">
+						<div id="mp-related-products-' . $product->ID . '" class="' . ( ( $index == 0 ) ? 'mp_product_tab_content-current' : '' ) . ' mp-multiple-products mp_product_tab_content mp_product_tab_content-related-products">
 							<div class="mp_product_tab_content_products mp_products mp_products-related ' . ( isset( $view ) ? 'mp_products-' . $view : 'mp_products-list' ) . '">' . $product->related_products() . ' </div>
 						</div><!-- end mp-related-products -->';
 					}
@@ -2547,11 +2599,12 @@ if ( ! function_exists( 'mp_product' ) ) {
 					$tab = apply_filters( 'mp_content_tab_html', '', $slug );
 
 					$return .= '
-					<div id="' . esc_attr( $slug ) . '" class="mp_product_tab_content mp_product_tab_content-html" style="display:none">
+					<div id="' . esc_attr( $slug ) . '-' . $product->ID . '" class="' . ( ( $index == 0 ) ? 'mp_product_tab_content-current' : '' ) . ' mp_product_tab_content mp_product_tab_content-html" style="display:none">
 						<div class="mp_product_tab_content_html">' . $tab . '</div><!-- end mp_product_tab_content_html -->
 					</div><!-- end ' . esc_attr( $slug ) . ' -->';
 					break;
 			}
+			$index++;
 		}
 		$return .= '</div><!-- end mp_single_product_extra -->';
 
@@ -2763,39 +2816,37 @@ if ( ! function_exists( 'mp_products_filter' ) ) :
 			$options_html .= '<option value="' . $value . '" ' . selected( $value, $current_order, false ) . '>' . $t[2] . '</option>';
 		}
 
-		$hideProductsFilter = mp_get_setting( 'hide_products_filter' );
-		if ( $hideProductsFilter != 1 ) {
 
-			$return = '
-			<a id="mp-product-top"></a>
-			<!-- Products Filter -->
-			<section class="mp_products_filter">
-				<form id="mp-products-filter-form" name="mp_products_filter_form" class="mp_form mp_form-products-filter" method="get">
+		$return = '
+		<a id="mp-product-top"></a>
+		<!-- Products Filter -->
+		<section class="mp_products_filter">
+			<form id="mp-products-filter-form" name="mp_products_filter_form" class="mp_form mp_form-products-filter" method="get">
 
-					<div class="mp_form_fields">
-						<div class="mp_form_field mp_products_filter_field mp_products_filter_category" data-placeholder="' . __( 'Product Category', 'mp' ) . '">
-							<label for="mp_product_category" class="mp_form_label">' . __( 'Category', 'mp' ) . '</label>
-							' . $terms . '
-						</div><!-- mp_listing_products_category -->
+				<div class="mp_form_fields">
+					<div class="mp_form_field mp_products_filter_field mp_products_filter_category" data-placeholder="' . __( 'Product Category', 'mp' ) . '">
+						<label for="mp_product_category" class="mp_form_label">' . __( 'Category', 'mp' ) . '</label>
+						' . $terms . '
+					</div><!-- mp_listing_products_category -->
 
-						<div class="mp_form_field mp_products_filter_field mp_products_filter_orderby">
-							<label for="mp_sort_orderby" class="mp_form_label">' . __( 'Order By', 'mp' ) . '</label>
-							<select id="mp_sort_orderby" class="mp_select2" name="order">
-								' . $options_html . '
-							</select>
-						</div><!-- mp_products_filter_orderby -->
-					</div>
+					<div class="mp_form_field mp_products_filter_field mp_products_filter_orderby">
+						<label for="mp_sort_orderby" class="mp_form_label">' . __( 'Order By', 'mp' ) . '</label>
+						<select id="mp_sort_orderby" class="mp_select2" name="order">
+							' . $options_html . '
+						</select>
+					</div><!-- mp_products_filter_orderby -->
+				</div>
 
-					' . ( ( is_null( $per_page ) ) ? '' : '<input type="hidden" name="per_page" value="' . $per_page . '">' ) . '
-					<input type="hidden" name="page" value="' . max( get_query_var( 'paged' ), 1 ) . '">
+				' . ( ( is_null( $per_page ) ) ? '' : '<input type="hidden" name="per_page" value="' . $per_page . '">' ) . '
+				<input type="hidden" name="page" value="' . max( get_query_var( 'paged' ), 1 ) . '">
 
-				</form><!-- mp_products_filter_form -->
-			</section><!-- end mp_products_filter -->
-			';
+			</form><!-- mp_products_filter_form -->
+		</section><!-- end mp_products_filter -->
+		';
 
-			return apply_filters( 'mp_products_filter', $return );
+		return apply_filters( 'mp_products_filter', $return );
 
-		}
+
 	}
 
 endif;
@@ -2917,8 +2968,10 @@ function mp_get_the_excerpt( $id = false, $length = 55, $variation = false ) {
 	if ( $variation ) {
 		$parent_post_id = wp_get_post_parent_id( $id );
 		$parent_post    = get_post( $parent_post_id );
-		if ( ! empty( $parent_post->post_content ) ) {
-			$excerpt = $parent_post->post_content . "\r\n" . $excerpt;
+		if ( ! empty( $parent_post->post_excerpt ) ) {
+			$excerpt = $parent_post->post_excerpt;
+		} else {
+			$excerpt = $parent_post->post_content;
 		}
 	}
 

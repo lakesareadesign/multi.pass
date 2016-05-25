@@ -117,7 +117,7 @@ class WD_Scan_Controller extends WD_Controller {
 				$last_check = false;
 			}
 
-			if ( $last_check == false || strtotime( '+15 minutes', $last_check ) < time() ) {
+			if ( $last_check == false || strtotime( '+5 minutes', $last_check ) < time() ) {
 				$maybe_process = true;
 				WD_Utils::update_setting( 'cache->last_check_scan_cron', time() );
 			}

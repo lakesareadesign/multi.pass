@@ -40,6 +40,7 @@ class WD_Scan_Api extends WD_Component {
 		$abs_files = $dir_tree->get_dir_tree();
 		$files     = array_merge( (array) $abs_files, (array) $core_files );
 		WD_Utils::cache( self::CACHE_CORE_FILES, $files );
+
 		return $files;
 	}
 
@@ -195,13 +196,9 @@ class WD_Scan_Api extends WD_Component {
 	 */
 	public static function download_md5_files() {
 		set_time_limit( 0 );
-		global $wp_version, $wp_local_package;
-		if ( isset( $wp_local_package ) ) {
-			$locale = $wp_local_package;
-		} else {
-			$locale = get_locale();
-		}
-		$url      = "https://api.wordpress.org/core/checksums/1.0/?version={$wp_version}&locale={$locale}";
+		global $wp_version;
+		$url = "https://api.wordpress.org/core/checksums/1.0/?version={$wp_version}";
+
 		$response = wp_remote_get( $url, apply_filters( 'wd_vulndb_api_request_arguments',
 			array(
 				'timeout' => 15
@@ -218,21 +215,11 @@ class WD_Scan_Api extends WD_Component {
 
 		$body = wp_remote_retrieve_body( $response );
 		$body = json_decode( $body, true );
-		if ( ! is_array( $body ) || empty( $body ) ) {
-			//need to try again, without locale
-			$url      = "https://api.wordpress.org/core/checksums/1.0/?version={$wp_version}";
-			$response = wp_remote_get( $url, apply_filters( 'wd_vulndb_api_request_arguments',
-				array(
-					'timeout' => 15
-				) ) );
-			//if request can go through the first time, we dont have to check 2nd time
-			$body = wp_remote_retrieve_body( $response );
-			$body = json_decode( $body, true );
-
-			return $body['checksums'];
-		} else {
-			return $body['checksums'];
+		if ( isset( $body['checksums'][ $wp_version ] ) ) {
+			return $body['checksums'][ $wp_version ];
 		}
+
+		return false;
 	}
 
 	/**

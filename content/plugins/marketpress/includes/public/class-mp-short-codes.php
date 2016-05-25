@@ -36,6 +36,7 @@ class MP_Short_Codes {
 		add_shortcode( 'mp_tag_cloud', array( &$this, 'mp_tag_cloud_sc' ) );
 		add_shortcode( 'mp_list_categories', array( &$this, 'mp_list_categories_sc' ) );
 		add_shortcode( 'mp_dropdown_categories', array( &$this, 'mp_dropdown_categories_sc' ) );
+		add_shortcode( 'mp_featured_products', array( &$this, 'mp_featured_products_sc' ) );
 		add_shortcode( 'mp_popular_products', array( &$this, 'mp_popular_products_sc' ) );
 		add_shortcode( 'mp_related_products', array( &$this, 'mp_related_products_sc' ) );
 		add_shortcode( 'mp_list_products', array( &$this, 'mp_list_products_sc' ) );
@@ -132,7 +133,7 @@ class MP_Short_Codes {
 		wp_localize_script( 'mp-cart', 'mp_cart_i18n', array(
 			'ajaxurl'                  => mp_get_ajax_url(),
 			'ajax_loader'              => '<span class="mp_ajax_loader"><img src="' . mp_plugin_url( 'ui/images/ajax-loader.gif' ) . '" alt=""> ' . __( 'Adding...', 'mp' ) . '</span>',
-			'cart_updated_error_limit' => __( 'Cart update notice: this item has a limit per order.', 'mp' ),
+			'cart_updated_error_limit' => __( 'Cart update notice: this item has a limit per order or you have reached the stock limit.', 'mp' ),
 			'is_cart_page'             => mp_is_shop_page( 'cart' )
 		) );
 	}
@@ -328,6 +329,30 @@ class MP_Short_Codes {
 		$this->shortcodes_frontend_styles_scripts();
 		$atts = $this->_parse_atts( $atts );
 		return mp_dropdown_categories( false, $atts );
+	}
+
+	/**
+	 * Displays a list of featured products
+	 *
+	 * @param bool paginate Optional, whether to paginate
+	 * @param int page Optional, The page number to display in the product list if paginate is set to true.
+	 * @param int per_page Optional, How many products to display in the product list if $paginate is set to true.
+	 * @param string order_by Optional, What field to order products by. Can be: title, date, ID, author, price, sales, rand
+	 * @param string order Optional, Direction to order products by. Can be: DESC, ASC
+	 * @param string category Optional, limit to a product category
+	 * @param string tag Optional, limit to a product tag
+	 * @param bool list_view Optional, show as list. Grid default
+	 * @param bool filters Optional, show filters
+	 */
+	function mp_featured_products_sc( $atts ) {
+		$this->cart_needed();
+		$this->shortcodes_frontend_styles_scripts();
+		$atts[ 'echo' ]	 = false;
+		$atts[ 'featured' ]	 = true;
+		$args			 = shortcode_atts( mp()->defaults[ 'list_products' ], $atts );
+		$args			 = $this->_parse_atts( $args );
+
+		return mp_featured_products( $args );
 	}
 
 	/**

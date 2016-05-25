@@ -166,6 +166,19 @@
 	background: #eacccc;
 	margin: 3px 6px 0 0;
 }
+#sbi_admin .sbi_plugins_promo,
+#sbi_admin .sbi_share_plugin{
+	width: 100%;
+	float: left;
+	clear: both;
+}
+#sbi_admin .sbi_plugins_promo a{
+	color: #e34f0e;
+}
+#sbi_admin .sbi_share_plugin{
+	border-top: 1px solid #ccc;
+	margin: 20px 0 0 0;
+}
 
 /* Quick links */
 #sbi_admin .sb_instagram_contents_links{

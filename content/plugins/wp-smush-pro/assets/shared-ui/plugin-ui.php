@@ -180,7 +180,7 @@ if ( ! class_exists( 'WDEV_Plugin_Ui' ) ) {
 					$command .= sprintf( '.showMessage("delay", %s)', intval( $notice['delay'] ) );
 				}
 				if ( is_array( $notice ) && ! empty( $notice['message'] ) ) {
-					$command .= sprintf( '.showMessage("message", "%s")', esc_html( $notice['message'] ) );								 	 	   		   
+					$command .= sprintf( '.showMessage("message", "%s")', esc_html( $notice['message'] ) );
 				} elseif ( is_string( $notice ) ) {
 					$command .= sprintf( '.showMessage("message", "%s")', esc_html( $notice ) );
 				}

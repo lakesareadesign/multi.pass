@@ -58,7 +58,7 @@ class App_Admin_PendingCount {
 	}
 
 	public function hb_send_response ($response, $data, $screen_id) {
-		if (!current_user_can(App_Roles::get_capability('manage_options', App_Roles::CTX_PAGE_APPOINTMENTS))) return $response;		   		 	  		  	 	 	
+		if (!current_user_can(App_Roles::get_capability('manage_options', App_Roles::CTX_PAGE_APPOINTMENTS))) return $response;
 		if (empty($data[self::HB_KEY])) return $response;
 
 		$count = $this->_get_pending_items_count();

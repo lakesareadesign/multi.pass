@@ -4382,7 +4382,7 @@ if ( ! class_exists( 'CoursePress_Shortcodes' ) ) {
 							esc_html_e( 'Previous unit must be completed successfully.', 'cp' );
 						}
 						if ( isset( $unit->status ) && ! empty( $unit->status ) && ! $unit->status['date_restriction']['result'] ) {
-							echo __( 'Available', 'cp' ) . ' ' . date_i18n( get_option( 'date_format' ), strtotime( do_shortcode( '[course_unit_details field="unit_availability"]' ) ) );
+							echo __( 'Available', 'cp' ) . ' ' . date_i18n( get_option( 'date_format' ), strtotime( do_shortcode( '[course_unit_details field="unit_availability" unit_id="' . $unit_id . '"]' ) ) );
 						}
 					}
 					?></span>

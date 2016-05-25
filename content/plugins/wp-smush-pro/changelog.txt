@@ -5,6 +5,19 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 2.3 =
+
+* Fixed:
+    * Tooltip on image edit page
+    * Warning and Notices
+* Updated:
+    * Improved stats calculation
+    * Bulk Smush page optimised for Image heavy sites
+    * Cleanup on uninstall
+* Added:
+    * Image Resizing option for Media, NextGen(Pro Only) images
+    * Total image count on stats page
+
 = 2.2.2 =
 - Fixed: JS error causing issue with Editor on some installs, plugin conflict with CoursePress plugin, ACF ( Clear All Caches after plugin upgrade, Cloudflare as well )
 - Fixed: ReSmush count for bulk smushing
@@ -156,4 +169,4 @@ Change Log:
 - First release
 
 
-133620-1461037037-au
+133620-1464151247-au

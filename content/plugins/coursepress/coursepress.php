@@ -6,7 +6,7 @@ Description: CoursePress Pro turns WordPress into a powerful online learning pla
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
 Developers: Marko Miljus ( https://twitter.com/markomiljus ), Rheinard Korf ( https://twitter.com/rheinardkorf )
-Version: 1.3.3
+Version: 1.3.4
 TextDomain: cp
 Domain Path: /languages/
 WDP ID: 913071
@@ -67,7 +67,7 @@ if ( ! class_exists( 'CoursePress' ) ) {
 		 * @since 1.0.0
 		 * @var string
 		 */
-		public $version = '1.3.3';
+		public $version = '1.3.4';
 
 		/**
 		 * Plugin friendly name.
@@ -1755,6 +1755,7 @@ if ( ! class_exists( 'CoursePress' ) ) {
 			if( $is_paid ) {
 				if ( cp_use_woo() ) {
 					global $woocommerce;
+					remove_filter( 'nonce_user_logged_out', array( $woocommerce->session, 'nonce_user_logged_out' ) ); // Custom nonce for non-logued users caused issues with ajax form.
 					$product_id = CP_WooCommerce_Integration::woo_product_id( $course_id );
 					if ( ! empty( $product_id ) ) {
 						$signup_steps = array_merge( $signup_steps, array(

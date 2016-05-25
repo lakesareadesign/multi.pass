@@ -118,9 +118,9 @@ if(!sbi_js_exists){
                             time = date.getTime();
                         image.created_time_raw = time;
 
-                        //Replace double quotes in the captions with the HTML symbol
+                        //Remove all special chars in caption so doesn't cause issue in alt tag
                         //Always check to make sure it exists
-                        if(image.caption != null) image.caption.text = image.caption.text.replace(/"/g, "&quot;");
+                        if(image.caption != null) image.caption.text = image.caption.text.replace(/[^a-zA-Z ]/g, "");
 
                         return true;
                     },

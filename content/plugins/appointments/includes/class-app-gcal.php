@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Manages all related to Google Calendar integration,
+ * import, export and sync appointments
+ *
+ * Class Appointments_Google_Calendar
+ */
 class Appointments_Google_Calendar {
 
 	public $api_manager = false;
@@ -104,14 +110,14 @@ class Appointments_Google_Calendar {
 			return;
 		}
 
-		add_action( 'wpmudev_appointments_insert_appointment', array( $this, 'on_insert_appointment' ), 50 );
-		add_action( 'wpmudev_appointments_update_appointment', array( $this, 'on_update_appointment' ), 50, 3 );
+		add_action( 'wpmudev_appointments_insert_appointment', array( $this, 'on_insert_appointment' ), 200 );
+		add_action( 'wpmudev_appointments_update_appointment', array( $this, 'on_update_appointment' ), 200, 3 );
 		add_action( 'appointments_delete_appointment', array( $this, 'on_delete_appointment' ) );
 	}
 
 	public function remove_appointments_hooks() {
-		remove_action( 'wpmudev_appointments_insert_appointment', array( $this, 'on_insert_appointment' ), 50 );
-		remove_action( 'wpmudev_appointments_update_appointment', array( $this, 'on_update_appointment' ), 50, 3 );
+		remove_action( 'wpmudev_appointments_insert_appointment', array( $this, 'on_insert_appointment' ), 200 );
+		remove_action( 'wpmudev_appointments_update_appointment', array( $this, 'on_update_appointment' ), 200, 3 );
 		remove_action( 'appointments_delete_appointment', array( $this, 'on_delete_appointment' ) );
 	}
 
@@ -282,7 +288,17 @@ class Appointments_Google_Calendar {
 					}
 
 					if ( ! in_array( $app->status, array( 'completed', 'pending', 'removed' ) ) ) {
-						appointments_update_appointment_status( $app->ID, 'removed' );
+						// So the event is not in our list but is it on GCal?
+						// Maybe the time has passed
+						$event = $this->get_event( $app->ID );
+						if ( $event ) {
+							// The event is in GCal but the time has passed
+							// Let's move it to completed
+							appointments_update_appointment_status( $app->ID, apply_filters( 'appointments_gcal_change_status_on_completed_event', 'completed' ) );
+						}
+						else {
+							appointments_update_appointment_status( $app->ID, 'removed' );
+						}
 					}
 				}
 				$this->add_appointments_hooks();

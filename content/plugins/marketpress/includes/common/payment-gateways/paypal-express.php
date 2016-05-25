@@ -407,7 +407,7 @@ class MP_Gateway_Paypal_Express extends MP_Gateway_API {
 				$request[ 'PAYMENTREQUEST_' . $index . '_SHIPTOSTREET' ]      = $this->trim_name( mp_arr_get_value( 'address1', $shipping_info, '' ), 100 );
 				$request[ 'PAYMENTREQUEST_' . $index . '_SHIPTOSTREET2' ]     = $this->trim_name( mp_arr_get_value( 'address2', $shipping_info, '' ), 100 );
 				$request[ 'PAYMENTREQUEST_' . $index . '_SHIPTOCITY' ]        = $this->trim_name( mp_arr_get_value( 'city', $shipping_info, '' ), 40 );
-				$request[ 'PAYMENTREQUEST_' . $index . '_SHIPTOSTATE' ]       = $this->trim_name( mp_arr_get_value( 'state', $shipping_info, '' ), 40 );
+				$request[ 'PAYMENTREQUEST_' . $index . '_SHIPTOSTATE' ]       = $this->trim_name( mp_arr_get_value( 'state', $shipping_info, mp_arr_get_value( 'city', $shipping_info, 'No State' ) ), 40 );
 				$request[ 'PAYMENTREQUEST_' . $index . '_SHIPTOZIP' ]         = $this->trim_name( mp_arr_get_value( 'zip', $shipping_info, '' ), 20 );
 				$request[ 'PAYMENTREQUEST_' . $index . '_SHIPTOCOUNTRYCODE' ] = $this->trim_name( mp_arr_get_value( 'country', $shipping_info, '' ), 2 );
 				$request[ 'PAYMENTREQUEST_' . $index . '_SHIPTOPHONENUM' ]    = $this->trim_name( mp_arr_get_value( 'phone', $shipping_info, '' ), 20 );
@@ -435,6 +435,10 @@ class MP_Gateway_Paypal_Express extends MP_Gateway_API {
 				$request["L_PAYMENTREQUEST_{$index}_ITEMCATEGORY{$i}"] = 'Physical';
 
 				$i ++;
+			}
+
+			if( method_exists( $vcart, 'update_total' ) ) {
+				$vcart->update_total( array() );// Reset in order to prevent issue caused by cart subtotals being pre-set to 0.
 			}
 
 			$request["PAYMENTREQUEST_{$index}_ITEMAMT"] = (float) $vcart->product_total( false ); //items subtotal
@@ -850,6 +854,7 @@ class MP_Gateway_Paypal_Express extends MP_Gateway_API {
 			// Buyer has already setup payment with PayPal - process order
 			$error    = false;
 			$response = $this->_do_express_checkout_payment( $token, $payer_id );
+
 			if ( ! is_wp_error( $response ) ) {
 				if ( 'Success' == mp_arr_get_value( 'ACK', $response ) || 'SuccessWithWarning' == mp_arr_get_value( 'ACK', $response ) ) {
 					$blog_id      = get_current_blog_id();
@@ -963,10 +968,9 @@ class MP_Gateway_Paypal_Express extends MP_Gateway_API {
 	 */
 	function process_ipn_return() {
 		$payment_status = mp_get_post_value( 'payment_status' );
-		$txn_type       = mp_get_post_value( 'txn_type' );
 		$invoice        = mp_get_post_value( 'invoice' );
 
-		if ( empty( $payment_status ) || empty( $txn_type ) || empty( $invoice ) ) {
+		if ( empty( $payment_status ) || empty( $invoice ) ) {
 			header( 'Status: 404 Not Found' );
 			echo 'Error: Missing POST variables. Identification is not possible.';
 			exit;

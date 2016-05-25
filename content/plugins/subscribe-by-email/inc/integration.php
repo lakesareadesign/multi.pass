@@ -51,7 +51,7 @@ function sbe_wpml_register_settings( $current_tab, $settings_group, $settings_na
 		return;
 
 	if ( $current_tab == 'general' ) {
-		add_settings_section( 'sbe-wpml-settings', __( 'WPML', INCSUB_SBE_LANG_DOMAIN ), null, $menu_slug );
+		add_settings_section( 'sbe-wpml-settings', __( 'WPML', INCSUB_SBE_LANG_DOMAIN ), null, $menu_slug );	     	 	  			  		
 		add_settings_field(
 			'do-not-send-translated-posts',
 			__( 'Do not resend translated posts', INCSUB_SBE_LANG_DOMAIN ),

@@ -277,7 +277,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 		if ( is_null( $md5 ) ) {
 			//we will need to lookpup the md5 each request to check this file content
 			$md5 = WD_Utils::get_cache( 'wd_md5_checksum' );
-			if ( $md5 == false || is_wp_error( $md5 ) ) {
+			if ( $md5 == false || is_wp_error( $md5 ) || ! is_array( $md5 ) ) {
 				$md5 = WD_Scan_Api::download_md5_files();
 				if ( is_wp_error( $md5 ) ) {
 					return false;

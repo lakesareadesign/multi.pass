@@ -520,7 +520,7 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
       @media only screen and (max-width: 480px) {
         .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group {
           text-align: center; }
-          .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group label, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group input, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group select, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group .select-container {
+          .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group label, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group input, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group select, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group .select-container {	  	 	   	 		 		 				
             display: block; }
           .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group .select-container {
             width: 80%;
@@ -1124,4 +1124,4 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
   display: none; }
 
 
-/* 133620-1463498463-au */
+/* 133620-1464151244-au */

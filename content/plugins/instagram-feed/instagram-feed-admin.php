@@ -664,7 +664,7 @@ function sb_instagram_settings_page() {
         <p><?php _e("Copy and paste the following shortcode directly into the page, post or widget where you'd like the feed to show up:", 'instagram-feed'); ?></p>
         <input type="text" value="[instagram-feed]" size="16" readonly="readonly" style="text-align: center;" onclick="this.focus();this.select()" title="<?php _e('To copy, click the field then press Ctrl + C (PC) or Cmd + C (Mac).', 'instagram-feed'); ?>" />
 
-        <h3 style="padding-top: 10px;"><?php _e( 'Multiple Feeds', 'custom-twitter-feed' ); ?></h3>
+        <h3 style="padding-top: 10px;"><?php _e( 'Multiple Feeds', 'instagram-feed' ); ?></h3>
         <p><?php _e("If you'd like to display multiple feeds then you can set different settings directly in the shortcode like so:", 'instagram-feed'); ?>
         <code>[instagram-feed num=9 cols=3]</code></p>
         <p>You can display as many different feeds as you like, on either the same page or on different pages, by just using the shortcode options below. For example:<br />
@@ -997,6 +997,41 @@ while (list($key, $val) = each($sbi_options)) {
     <a href="https://smashballoon.com/instagram-feed/demo" target="_blank" style="display: block; margin: 20px 0 0 0; float: left; clear: both;">
         <img src="<?php echo plugins_url( 'img/instagram-pro-promo.png' , __FILE__ ) ?>" alt="Instagram Feed Pro">
     </a>
+
+    <p class="sbi_plugins_promo dashicons-before dashicons-admin-plugins"> Check out our other free plugins: <a href="https://wordpress.org/plugins/custom-facebook-feed/" target="_blank">Facebook</a> and <a href="https://wordpress.org/plugins/custom-twitter-feeds/" target="_blank">Twitter</a>.</p>
+
+    <div class="sbi_share_plugin">
+        <h3><?php _e('Like the plugin? Help spread the word!'); ?></h3>
+
+        <!-- TWITTER -->
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://wordpress.org/plugins/instagram-feed/" data-text="Display beautifully clean, customizable, and responsive feeds from multiple Instagram accounts" data-via="smashballoon" data-dnt="true">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        <style type="text/css">
+        #twitter-widget-0{ float: left; width: 100px !important; }
+        .IN-widget{ margin-right: 20px; }
+        </style>
+
+        <!-- FACEBOOK -->
+        <div id="fb-root" style="display: none;"></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=640861236031365&version=v2.0";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+        <div class="fb-like" data-href="https://wordpress.org/plugins/instagram-feed/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true" style="display: block; float: left; margin-right: 20px;"></div>
+
+        <!-- LINKEDIN -->
+        <script src="//platform.linkedin.com/in.js" type="text/javascript">
+          lang: en_US
+        </script>
+        <script type="IN/Share" data-url="https://wordpress.org/plugins/instagram-feed/"></script>
+
+        <!-- GOOGLE + -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <div class="g-plusone" data-size="medium" data-href="https://wordpress.org/plugins/instagram-feed/"></div>
+    </div>
 
 </div> <!-- end #sbi_admin -->
 

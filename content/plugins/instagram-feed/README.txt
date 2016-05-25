@@ -3,7 +3,7 @@ Contributors: smashballoon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram plugin, Instagram stream, Custom Instagram Feed, responsive Instagram, mobile Instagram, Instagram posts, Instagram wall, Instagram account, Instagram gallery, Instagram photo, Instagram post, Instagram share, Instagram customized, Instagrams, Instagram feeds, Instagram plugins, Instagram responsive, Instagram mobile feed, Instagram accounts, public Instagram feed, Instagram photography, Instagram galleries, multiple Instagram, Instagram widget, Instagram clean, beautiful Instagram, custom Instagram design
 Requires at least: 3.0
 Tested up to: 4.5.2
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -560,6 +560,11 @@ No Waiver of Rights by Instagram: Instagram's failure to exercise or enforce any
 **Important:** Due to the upcoming Instagram API changes, in order for the Instagram Feed plugin to continue working after **June 1st** you must update the plugin and obtain a new Access Token on the plugin's Settings page.
 
 == Changelog ==
+
+= 1.4.4 =
+* Fix: Fixed an issue caused by a specific type of emoji which would cause the feed to break when used in a post
+* Tweak: Added links to our other **free** plugins to the bottom of the admin pages: [The Custom Facebook Feed](https://wordpress.org/plugins/custom-facebook-feed/) and [Custom Twitter Feeds](https://wordpress.org/plugins/custom-twitter-feeds/)
+* **Reminder: If you haven't done so already, please update your Access Token on the plugin's Settings page so that the plugin will continue to work after June 1st.**
 
 = 1.4.3 =
 * Fix: Important notice added in the last update is now only visible to admins

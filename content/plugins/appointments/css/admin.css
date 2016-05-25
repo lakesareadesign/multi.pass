@@ -39,7 +39,7 @@ a.pickcolor {
 	font-size: 24px;
 	font-weight: bold;
 }
-a.app-remove_break, a.app-remove_break:hover, a.app-remove_break:active { color: #C33; }
+a.app-remove_break, a.app-remove_break:hover, a.app-remove_break:active { color: #C33; }		   		 	  		  	 	 	
 .app-remove_break:after {
 	content: " x";
 }
@@ -102,5 +102,15 @@ a.app-remove_break, a.app-remove_break:hover, a.app-remove_break:active { color:
 	font-size: 18px;
 }
 
+div.appointments-settings .subsubsub a:focus {
+	outline:none;
+}
+.app-settings-section {
+	display:none;
+}
+.app-settings-section.current {
+	display:block;
+}
 
-/* 133620-1461878830-au */
+
+/* 133620-1464151214-au */

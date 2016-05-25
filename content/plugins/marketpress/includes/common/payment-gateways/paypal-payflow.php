@@ -161,7 +161,7 @@ class MP_Gateway_PayPal_Payflow extends MP_Gateway_API {
    * Use this to process any fields you added. Use the $_POST global,
    *  and be sure to save it to both the $_SESSION and usermeta if logged in.
    *  DO NOT save credit card details to usermeta as it's not PCI compliant.
-   *  Call mp()->cart_checkout_error($msg, $context); to handle errors. If no errors
+   *  Call mp_checkout()->add_error($msg, $context); to handle errors. If no errors
    *  it will redirect to the next step.
    *
    * @param array $cart. Contains the cart contents for the current blog, global cart if mp()->global_cart is true
@@ -169,25 +169,25 @@ class MP_Gateway_PayPal_Payflow extends MP_Gateway_API {
    */
   function process_payment_form($cart, $shipping_info) {
     if ( ! is_email(mp_get_post_value('email', '')) )
-      mp()->cart_checkout_error('Please enter a valid Email Address.', 'email');
+      mp_checkout()->add_error('Please enter a valid Email Address.', 'email');
 
     if ( ! mp_get_post_value('name') )
-      mp()->cart_checkout_error('Please enter your Full Name.', 'name');
+      mp_checkout()->add_error('Please enter your Full Name.', 'name');
 
     if ( mp_get_post_value('address1') )
-      mp()->cart_checkout_error('Please enter your Street Address.', 'address1');
+      mp_checkout()->add_error('Please enter your Street Address.', 'address1');
 
     if ( ! mp_get_post_value('city') )
-      mp()->cart_checkout_error('Please enter your City.', 'city');
+      mp_checkout()->add_error('Please enter your City.', 'city');
 
     if ((mp_get_post_value('country') == 'US' || mp_get_post_value('country') == 'CA') && empty($_POST['state']))
-      mp()->cart_checkout_error('Please enter your State/Province/Region.', 'state');
+      mp_checkout()->add_error('Please enter your State/Province/Region.', 'state');
 
     if ( ! mp()->is_valid_zip(mp_get_post_value('zip'), mp_get_post_value('country')) )
-      mp()->cart_checkout_error('Please enter a valid Zip/Postal Code.', 'zip');
+      mp_checkout()->add_error('Please enter a valid Zip/Postal Code.', 'zip');
 
     if ( empty($_POST['country']) || strlen(mp_get_post_value('country', '')) != 2 )
-      mp()->cart_checkout_error('Please enter your Country.', 'country');
+      mp_checkout()->add_error('Please enter your Country.', 'country');
 
     //for checkout plugins
     do_action('mp_billing_process');
@@ -210,18 +210,18 @@ class MP_Gateway_PayPal_Payflow extends MP_Gateway_API {
       update_user_meta($current_user->ID, 'mp_billing_info', $_SESSION['mp_billing_info']);
 
     if (!isset($_POST['exp_month']) || !isset($_POST['exp_year']) || empty($_POST['exp_month']) || empty($_POST['exp_year'])) {
-      mp()->cart_checkout_error( __('Please select your credit card expiration date.', 'mp'), 'exp');
+      mp_checkout()->add_error( __('Please select your credit card expiration date.', 'mp'), 'exp');
     }
 
     if (!isset($_POST['card_code']) || empty($_POST['card_code'])) {
-      mp()->cart_checkout_error( __('Please enter your credit card security code', 'mp'), 'card_code');
+      mp_checkout()->add_error( __('Please enter your credit card security code', 'mp'), 'card_code');
     }
 
     if (!isset($_POST['card_num']) || empty($_POST['card_num'])) {
-      mp()->cart_checkout_error( __('Please enter your credit card number', 'mp'), 'card_num');
+      mp_checkout()->add_error( __('Please enter your credit card number', 'mp'), 'card_num');
     } else {
       if ($this->_get_card_type($_POST['card_num']) == "") {
-        mp()->cart_checkout_error( __('Please enter a valid credit card number', 'mp'), 'card_num');
+        mp_checkout()->add_error( __('Please enter a valid credit card number', 'mp'), 'card_num');
       }
     }
 
@@ -230,7 +230,7 @@ class MP_Gateway_PayPal_Payflow extends MP_Gateway_API {
         ($this->_get_card_type($_POST['card_num']) == "American Express" && strlen($_POST['card_code']) != 4) ||
         ($this->_get_card_type($_POST['card_num']) != "American Express" && strlen($_POST['card_code']) != 3)
         ) {
-        mp()->cart_checkout_error(__('Please enter a valid credit card security code', 'mp'), 'card_code');
+        mp_checkout()->add_error(__('Please enter a valid credit card security code', 'mp'), 'card_code');
       }
     }
 

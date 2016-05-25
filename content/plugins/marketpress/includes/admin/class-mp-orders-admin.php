@@ -131,7 +131,9 @@ class MP_Orders_Admin {
 		$tracking_num    = trim( mp_get_post_value( 'mp->tracking_info->tracking_num', '' ) );
 		$shipment_method = trim( mp_get_post_value( 'mp->tracking_info->shipping_method', '' ) );
 		$custom_method   = trim( mp_get_post_value( 'mp->tracking_info->custom_method' ) );
-		//check for the custom shipping method here
+		$tracking_link   = trim( mp_get_post_value( 'mp->tracking_info->tracking_link' ) );
+
+		// check for the custom shipping method here
 		if ( $shipment_method == 'other' && ! empty( $custom_method ) ) {
 			//so if shippin method = custom, & user provided a new method name, we will use tht method name
 			$method_name     = trim( mp_get_post_value( 'mp->tracking_info->custom_method' ) );
@@ -152,14 +154,18 @@ class MP_Orders_Admin {
 					mp_update_setting( 'shipping->custom_method', $custom_shipping_method );
 				}
 			}
-
-			// update status to shipped?
-			if ( 'shipped' != $order->post_status && 'shipped' == mp_get_post_value( 'post_status' ) ) {
-				remove_action( 'save_post', array( &$this, 'save_meta_boxes' ) );
-				$order->change_status( 'order_shipped', true );
-				add_action( 'save_post', array( &$this, 'save_meta_boxes' ) );
-			}
 		}
+
+		// Save tracking_link only if shipement method is custom and tracking_link not empty
+		// Remove tracking_link if not
+		$custom_carriers = mp_get_setting( 'shipping->custom_method', array() );
+
+		if( ! empty( $tracking_link ) && ( isset( $custom_carriers[ $shipment_method ] ) || $shipment_method == 'other' ) ) {
+			$order->update_meta( 'mp_shipping_info->tracking_link', $tracking_link );
+		} else {
+			$order->update_meta( 'mp_shipping_info->tracking_link', '' );
+		}
+
 	}
 
 	/**
@@ -304,7 +310,7 @@ class MP_Orders_Admin {
 		$order = new MP_Order( $this );
 		$cart = $order->get_meta( 'mp_cart_info' );
 
-		if ( ! $cart->is_download_only() ) {
+		if ( is_object( $cart ) && ! $cart->is_download_only() ) {
 			add_meta_box( 'mp-order-shipping-info-metabox', __( 'Shipping Info', 'mp' ), array(
 				&$this,
 				'meta_box_shipping_info'
@@ -502,7 +508,7 @@ class MP_Orders_Admin {
 		<div class="misc-pub-section"><strong><?php _e( 'Shipping Tax', 'mp' ); ?>
 				:</strong><br/><?php echo $shipping_tax_total; ?></div>
 		<?php } ?>
-		<?php if ( $order->get_meta( 'mp_shipping_info->shipping_sub_option' ) ) : ?>
+		<?php if ( $order->get_meta( 'mp_shipping_info->shipping_sub_option' ) && !is_array($order->get_meta( 'mp_shipping_info->shipping_option' ) ) ) : ?>
 			<div class="misc-pub-section">
 				<strong><?php _e( 'Method Paid For', 'mp' ); ?>:</strong><br/>
 				<?php echo strtoupper( $order->get_meta( 'mp_shipping_info->shipping_option', '' ) . ' ' . $order->get_meta( 'mp_shipping_info->shipping_sub_option', '' ) ); ?>
@@ -524,7 +530,13 @@ class MP_Orders_Admin {
 				<strong><?php _e( 'Method', 'mp' ); ?>:</strong><br/>
 				<input type="text" name="mp[tracking_info][custom_method]"
 					   placeholder="<?php _e( 'Method Name', 'mp' ); ?>" value="" style="width:100%"/>
-				<br/>
+				<br/><br/>
+			</div>
+			<div class="mp-order-custom-tracking-link mp-hide">
+				<strong><?php _e( 'Tracking Link', 'mp' ); ?>:</strong><br/>
+				<input type="text" name="mp[tracking_info][tracking_link]"
+					   placeholder="<?php _e( 'Tracking Link', 'mp' ); ?>" value="<?php echo $order->get_meta( 'mp_shipping_info->tracking_link' ); ?>" style="width:100%"/>
+				<br/><br/>
 			</div>
 			<strong><?php _e( 'Tracking Number', 'mp' ); ?>:</strong><br/>
 			<input type="text" name="mp[tracking_info][tracking_num]"
@@ -550,7 +562,15 @@ class MP_Orders_Admin {
 			$billing_address = array();
 			//we need to link this order to right user
 			global $wpdb;
-			$sql     = "SELECT * FROM " . $wpdb->usermeta . " WHERE meta_key='mp_order_history'";
+
+			if (is_multisite()) {
+				global $blog_id;
+				$meta_id = 'mp_order_history_' . $blog_id;
+			} else {
+				$meta_id = 'mp_order_history';
+			}
+
+			$sql     = "SELECT * FROM " . $wpdb->usermeta . " WHERE meta_key='" .$meta_id. "'";
 			$results = $wpdb->get_results( $sql );
 			$user_id = 0;
 			foreach ( $results as $res ) {
@@ -567,7 +587,13 @@ class MP_Orders_Admin {
 
 			if ( $user_id != 0 ) {
 				//we have the user, try to find & link
-				$billings = get_user_meta( $post->post_author, 'mp_billing_info', true );
+				$billings = get_user_meta( $user_id, 'mp_billing_info', true );
+			} else {
+				//this case, the user checkout as guest
+				$billings = get_post_meta( $post->ID, 'mp_shipping_info', true );
+			}
+
+			if( is_array($billings) ){
 				foreach ( $billings as $key => $val ) {
 					if ( $key == 'name' ) {
 						$full_name = explode( ' ', $val );
@@ -580,10 +606,8 @@ class MP_Orders_Admin {
 					$billing_address[ $key ] = $val;
 				}
 				$order->update_meta( 'mp_billing_info', $billing_address );
-			} else {
-				//this case, the user checkout as guest
-
 			}
+
 		}
 
 		echo $order->get_addresses( true );
@@ -684,14 +708,24 @@ class MP_Orders_Admin {
 		$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
 		$action        = $wp_list_table->current_action();
 
+		if( ( 'delete_all' == $action ) && ! current_user_can( get_post_type_object( get_current_screen()->post_type )->cap->delete_others_posts ) ){
+			return;
+		}
+
 		$posts         = mp_get_get_value( 'post', array() );
+
+		if ( 'untrash' == $action ) {
+			$posts         = explode( ',' , mp_get_get_value( 'ids', array() ) );
+		}
+
 		$valid_actions = array(
 			'order_received',
 			'order_paid',
 			'order_shipped',
 			'order_closed',
 			'trash',
-			'delete_all'
+			'delete_all',
+			'untrash'
 		);
 		$pagenum       = $wp_list_table->get_pagenum();
 
@@ -737,10 +771,23 @@ class MP_Orders_Admin {
 				wp_delete_post( $post->ID, true );
 			}
 		} else {
+
 			foreach ( $posts as $post_id ) {
+				$post_status = $action;
+				//if bulk action is untrash then restore the last status before trash
+				if ( 'untrash' == $action ) {
+
+					$order = new MP_Order( $post_id );
+
+					//Get the last order status before trash
+					$post_status = get_post_meta( $post_id, '_wp_trash_meta_status', true );
+					if( ! $post_status )
+						$post_status = 'order_received';
+				}
+
 				wp_update_post( array(
 					'ID'          => $post_id,
-					'post_status' => $action
+					'post_status' => $post_status
 				) );
 			}
 
@@ -805,8 +852,10 @@ class MP_Orders_Admin {
 			// this isn't an order - bail
 		}
 
+		$this->save_meta_boxes($post->ID);
+
 		$order = new MP_Order( $post );
-		$order->change_status( $new_status, false );
+		$order->change_status( $new_status, true, $old_status );
 	}
 
 	/**
@@ -1073,9 +1122,9 @@ class MP_Orders_Admin {
 
 			//! Order Shipping
 			case 'mp_orders_shipping' :
-				$cart = $order->get_meta( 'mp_cart_info' );
+				$cart = $order->get_cart();
 
-				if ( $cart->is_download_only() ) {
+				if ( is_object( $cart ) && $cart->is_download_only() ) {
 					$html .= '&mdash;';
 				} else {
 					$shipping = get_post_meta( $post_id, 'mp_shipping_total', true );
@@ -1150,7 +1199,7 @@ class MP_Orders_Admin {
 	public function orders_search_join ( $join ){
 		global $pagenow, $wpdb;
 
-		if ( $pagenow === 'edit.php' && $_GET['post_type'] === 'mp_order' && ! empty( $_GET['s'] ) ) {
+		if ( $pagenow === 'edit.php' && isset( $_GET['post_type'] )  && $_GET['post_type'] === 'mp_order' && ! empty( $_GET['s'] ) ) {
 			$join .= " LEFT JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id ";
 		}
 
@@ -1169,7 +1218,7 @@ class MP_Orders_Admin {
 	public function orders_search_where( $where ){
 		global $pagenow, $wpdb;
 
-		if ( $pagenow === 'edit.php' && $_GET['post_type'] === 'mp_order' && ! empty( $_GET['s'] ) ) {
+		if ( $pagenow === 'edit.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'mp_order' && ! empty( $_GET['s'] ) ) {
 			$where = preg_replace(
 				"/\(\s*{$wpdb->posts}.post_title\s+LIKE\s*(\'[^\']+\')\s*\)/",
 				"({$wpdb->posts}.post_title LIKE $1) OR ({$wpdb->postmeta}.meta_value LIKE $1)", $where
@@ -1191,7 +1240,7 @@ class MP_Orders_Admin {
 	public function orders_search_groupby( $groupby ){
 		global $pagenow, $wpdb;
 
-		if ( $pagenow === 'edit.php' && $_GET['post_type'] === 'mp_order' && ! empty( $_GET['s'] ) ) {
+		if ( $pagenow === 'edit.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'mp_order' && ! empty( $_GET['s'] ) ) {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 

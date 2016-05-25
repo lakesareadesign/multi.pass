@@ -162,7 +162,7 @@ function sbe_terms_checklist( $post_id = 0, $args = array() ) {
 	if ( is_array( $popular_cats ) )
 		$args['popular_cats'] = $popular_cats;
 	else
-		$args['popular_cats'] = get_terms( $taxonomy, array( 'fields' => 'ids', 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );	     	 	  			  		
+		$args['popular_cats'] = get_terms( $taxonomy, array( 'fields' => 'ids', 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
 
 	if ( $descendants_and_self ) {
 		$categories = (array) get_terms($taxonomy, array( 'child_of' => $descendants_and_self, 'hierarchical' => 0, 'hide_empty' => 0 ) );

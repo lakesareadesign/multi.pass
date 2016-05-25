@@ -291,7 +291,7 @@ class MP_Gateway_Bitpay extends MP_Gateway_API {
 
 		//Check order Id for obtained Invoice
 		if ( $_SESSION['mp_order'] != $invoice->posData ) {
-			mp()->cart_checkout_error( __( 'Incorrect order invoice, please contact site administrator', 'mp' ) );
+			mp_checkout()->add_error( __( 'Incorrect order invoice, please contact site administrator', 'mp' ) );
 			wp_redirect( mp_checkout_step_url( 'confirm-checkout' ) );
 			exit;
 		}

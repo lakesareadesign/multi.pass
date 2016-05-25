@@ -113,9 +113,10 @@ if ( ! function_exists( 'mp_filter_email' ) ) :
 <td align="right">' . mp_format_currency( $currency, $price ) . '</td>
 </tr>' . "\n";
 			}
+
+			$order_info .= "</table><br /><br />";
 		}
 
-		$order_info .= "</table><br /><br />";
 
 		// Coupon lines
 		if ( $coupons = $order->get_meta( 'mp_discount_info' ) ) {
@@ -128,7 +129,7 @@ if ( ! function_exists( 'mp_filter_email' ) ) :
 
 		// Shipping line
 		if ( $shipping_total = $order->get_meta( 'mp_shipping_total' ) ) {
-			if( !mp()->download_only_cart( mp_cart() ) ) {
+			if( ! mp_cart()->is_download_only()  ) {
 				$order_info .= '<strong>' . __( 'Shipping:', 'mp' ) . '</strong> ' . ( ( 0 == $shipping_total ) ? __( 'FREE', 'mp' ) : mp_format_currency( $currency, $shipping_total ) ) . "<br />\n";
 			}
 		}
@@ -156,8 +157,10 @@ if ( ! function_exists( 'mp_filter_email' ) ) :
 			$shipping_billing_info .= '<td align="left"><h3>' . __( 'Shipping', 'mp' ) . '</h3>' . __( 'No shipping required for this order.', 'mp' ) . '</td>';
 			$type = array( 'billing' => __( 'Billing', 'mp' ) );
 		}
-
+		$all_countries = mp_countries();
 		foreach ( $types as $type => $label ) {
+			$states = mp_get_states( $order->get_meta( "mp_{$type}_info->country" ) );
+
 			if( $type != "shipping" || !mp()->download_only_cart( mp_cart() ) ) {
 				$shipping_billing_info .= '<td><strong>' . $label . '</strong><br /><br />' . "\n";
 				$shipping_billing_info .= $order->get_name( $type ) . "<br />\n";
@@ -168,7 +171,15 @@ if ( ! function_exists( 'mp_filter_email' ) ) :
 					$shipping_billing_info .= $order->get_meta( "mp_{$type}_info->address2" ) . "<br />\n";
 				}
 
-				$shipping_billing_info .= $order->get_meta( "mp_{$type}_info->city" ) . ', ' . $order->get_meta( "mp_{$type}_info->state" ) . ' ' . $order->get_meta( "mp_{$type}_info->zip" ) . ' ' . $order->get_meta( "mp_{$type}_info->country" ) . "<br /><br />\n";
+				if( ( ( $state = $order->get_meta( "mp_{$type}_info->state", '' ) ) && is_array( $states ) && isset( $states[$state] ) ) ){
+					$state = $states[$state];
+				}
+
+				if( ( ( $country = $order->get_meta( "mp_{$type}_info->country", '' ) ) && is_array( $all_countries ) && isset( $all_countries[$country] ) ) ){
+					$country = $all_countries[$country];
+				}
+
+				$shipping_billing_info .= $order->get_meta( "mp_{$type}_info->city" ) . ', ' . $state . ' ' . $order->get_meta( "mp_{$type}_info->zip" ) . ' ' . $country . "<br /><br />\n";
 				$shipping_billing_info .= $order->get_meta( "mp_{$type}_info->email" ) . "<br />\n";
 
 				if ( $order->get_meta( "mp_{$type}_info->phone" ) ) {
@@ -181,16 +192,27 @@ if ( ! function_exists( 'mp_filter_email' ) ) :
 
 		$shipping_billing_info .= '</tr></table><br /><br />';
 
+		$custom_carriers = mp_get_setting( 'shipping->custom_method', array() );
+		$method = $order->get_meta( 'mp_shipping_info->method' );
+
+		if( isset( $custom_carriers[ $method ] ) && !empty( $custom_carriers[ $method ] ) ) {
+			$carrier = $custom_carriers[ $method ];
+		} else {
+			$carrier = $method;
+		}
+
 		// If actually shipped show method, else customer's shipping choice.
 		if ( $order->get_meta( 'mp_shipping_info->method' ) && $order->get_meta( 'mp_shipping_info->method' != 'other' ) ) {
-			$shipping_billing_info .= '<strong>' . __( 'Shipping Method:', 'mp' ) . '</strong> ' . $order->get_meta( 'mp_shipping_info->method' );
+			$shipping_billing_info .= '<strong>' . __( 'Shipping Method:', 'mp' ) . '</strong> ' . $carrier;
 			// If using calculated shipping, show the carrier and shipping option selected
-		} elseif ( $order->get_meta( 'mp_shipping_info->shipping_sub_option' ) ) {
+		} elseif ( $order->get_meta( 'mp_shipping_info->shipping_sub_option' ) &&  !is_array( $order->get_meta( 'mp_shipping_info->shipping_option' ) ) ) {
 			$shipping_billing_info .= '<strong>' . __( 'Shipping Method:', 'mp' ) . '</strong> ' . strtoupper( $order->get_meta( 'mp_shipping_info->shipping_option' ) ) . ' ' . $order->get_meta( 'mp_shipping_info->shipping_sub_option' );
+		} else {
+			$shipping_billing_info .= '<strong>' . __( 'Shipping Method:', 'mp' ) . '</strong> ' . $carrier;
 		}
 
 		if ( $order->get_meta( 'mp_shipping_info->tracking_num' ) ) {
-			$shipping_billing_info .= "<br /><strong>" . __( 'Tracking Number:', 'mp' ) . ':</strong> ' . $order->get_meta( 'mp_shipping_info->tracking_num' );
+			$shipping_billing_info .= "<br /><strong>" . __( 'Tracking Number:', 'mp' ) . '</strong> ' . $order->get_meta( 'mp_shipping_info->tracking_num' );
 		}
 
 		// Special Instructions
@@ -216,7 +238,7 @@ if ( ! function_exists( 'mp_filter_email' ) ) :
 
 		$payment_info .= '<strong>' . __( 'Payment Total:', 'mp' ) . '</strong> ' . mp_format_currency( $currency, $order->get_meta( 'mp_payment_info->total' ) ) . "<br /><br />\n";
 
-		if ( $order->post_status == 'order_paid' ) {
+		if ( $order->post_status == 'order_paid' || $order->post_status == 'order_shipped' ) {
 			$payment_info .= __( 'Your payment for this order is complete.', 'mp' );
 		} else {
 			$payment_info .= __( 'Your payment for this order is not yet complete. Here is the latest status:', 'mp' ) . "\n";
@@ -233,9 +255,14 @@ if ( ! function_exists( 'mp_filter_email' ) ) :
 		// Tracking URL
 		$tracking_url = $order->tracking_url( false );
 
+		$customer_name = trim( $order->get_meta( 'mp_shipping_info->first_name' ) . ' ' . $order->get_meta( 'mp_shipping_info->last_name' ) );
+
+		// If we don't have shipping name (for example on digital download only orders), lets use the name on the billing info
+		if( empty( $customer_name ) ) $customer_name = trim( $order->get_meta( 'mp_billing_info->first_name' ) . ' ' . $order->get_meta( 'mp_billing_info->last_name' ) );
+
 		// Setup search/replace
 		$search_replace = array(
-			'CUSTOMERNAME' => $order->get_meta( 'mp_shipping_info->first_name' ) . ' ' . $order->get_meta( 'mp_shipping_info->last_name' ),
+			'CUSTOMERNAME' => $customer_name,
 			'ORDERID'      => $order->get_id(),
 			'ORDERINFOSKU' => $order_info,
 			'ORDERINFO'    => $order_info,
@@ -251,7 +278,7 @@ if ( ! function_exists( 'mp_filter_email' ) ) :
 			$search_replace = array_map( create_function( '$a', 'return str_replace("%","%%",$a);' ), $search_replace );
 		}
 
-		// Replace
+		// Replace codes
 		$text = str_replace( array_keys( $search_replace ), array_values( $search_replace ), $text );
 
 		return $text;
@@ -375,6 +402,29 @@ if ( ! function_exists( 'mp_checkout' ) ) :
 
 endif;
 
+if ( ! function_exists( 'mp_countries' ) ) :
+
+	/**
+	 * Gets the whole country list
+	 *
+	 * @since 3.0
+	 * @return array
+	 */
+	function mp_countries() {
+		$countries = mp()->countries;
+
+		/**
+		 * Filter the all countries list
+		 *
+		 * @since 3.0
+		 *
+		 * @param array $countries The default countries.
+		 */
+		return apply_filters( 'mp_countries', $countries );
+	}
+
+endif;
+
 
 if ( ! function_exists( 'mp_country_list' ) ) :
 
@@ -386,7 +436,7 @@ if ( ! function_exists( 'mp_country_list' ) ) :
 	 */
 	function mp_country_list() {
 		$sorted    = array();
-		$countries = mp()->countries;
+		$countries = mp_countries();
 
 		foreach ( $countries as $code => $country ) {
 			if ( ! in_array( $code, mp()->popular_countries ) ) {
@@ -444,26 +494,21 @@ if ( ! function_exists( 'mp_get_states' ) ) :
 	 */
 	function mp_get_states( $country ) {
 		$list = array();
-
-		switch ( $country ) {
-			case 'US' :
-				$list = mp()->usa_states;
-				break;
-
-			case 'CA' :
-				$list = mp()->canadian_provinces;
-				break;
-
-			case 'GB' :
-				$list = mp()->uk_counties;
-				break;
-
-			case 'AU' :
-				$list = mp()->australian_states;
-				break;
+		$property = $country.'_provinces';
+		if ( property_exists( mp(), $property ) ) {
+			$list = mp()->$property;
 		}
 
-		return $list;
+		/**
+		 * Filter the state/province list
+		 *
+		 * @since 3.0
+		 *
+		 * @param array $list The current state/province list.
+		 * @param string $country The current country.
+		 */
+
+		return apply_filters( 'mp_get_states', $list, $country );
 	}
 
 endif;
@@ -1413,4 +1458,33 @@ if ( ! function_exists( 'mp_resize_image' ) ) {
 
 if ( ! function_exists( 'mp_get_the_thumbnail' ) ) {
 
+}
+
+if (! function_exists( 'mp_array_column' ) ) {
+    function mp_array_column( array $input, $columnKey, $indexKey = null ) {
+
+    	if( function_exists( 'array_column' ) ){
+    		return array_column( $input, $columnKey, $indexKey );
+    	}
+
+        $array = array();
+        foreach ( $input as $value ) {
+            if ( ! isset( $value[$columnKey] ) ) {
+                return false;
+            }
+            if ( is_null( $indexKey ) ) {
+                $array[] = $value[$columnKey];
+            }
+            else {
+                if ( ! isset( $value[$indexKey] ) ) {
+                    return false;
+                }
+                if ( ! is_scalar( $value[$indexKey] ) ) {
+                    return false;
+                }
+                $array[$value[$indexKey]] = $value[$columnKey];
+            }
+        }
+        return $array;
+    }
 }

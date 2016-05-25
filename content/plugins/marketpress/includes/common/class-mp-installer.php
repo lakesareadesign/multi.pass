@@ -150,16 +150,19 @@ class MP_Installer {
 				$variations_data = $variation_values_row;
 
 				global $variations_single_data;
-				foreach ( $variations_data as $variations_single_data ) {
 
-					/* Check if the term ($variations_single_data ie red, blue, green etc) for the given taxonomy already exists */
-					$term_object = array_filter(
-						$terms, function ( $e ) {
+				if( !function_exists( 'term_object_array_filter' ) ){
+					function term_object_array_filter ( $e ) {
 						global $variations_single_data;
 
 						return $e->slug == sanitize_key( trim( $variations_single_data ) ); //compare slug-like variation name against the existent ones in the db
 					}
-					);
+				}
+
+				foreach ( $variations_data as $variations_single_data ) {
+
+					/* Check if the term ($variations_single_data ie red, blue, green etc) for the given taxonomy already exists */
+					$term_object = array_filter($terms, 'term_object_array_filter' );
 
 					reset( $term_object );
 					$data[ $i ][]          = $variation_name . '=' . ( ( ! empty( $term_object ) ) ? $term_object[ key( $term_object ) ]->slug : $variations_single_data ); //add taxonomy + term_id (if exists), if not leave the name of the term we'll create later
@@ -256,6 +259,14 @@ class MP_Installer {
 				/* Add default post metas for variation */
 				foreach ( $variation_metas as $meta_key => $meta_value ) {
 					update_post_meta( $variation_id, $meta_key, sanitize_text_field( $meta_value ) );
+				}
+
+				/* Set parent thumbnail as default thumbnail for the variation */
+				$post_thumbnail = get_post_thumbnail_id( $post_id );
+				$variation_thumbnail = get_post_thumbnail_id( $variation_id );
+				if ( is_numeric( $post_thumbnail ) && ! is_numeric( $variation_thumbnail ) ) {
+					update_post_meta( $variation_id, 'mp_product_images', $post_thumbnail );
+					set_post_thumbnail( $variation_id, $post_thumbnail );
 				}
 
 				/* Add post terms for the variation */

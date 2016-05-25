@@ -806,7 +806,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 		$group = 'wp_defender';
 
 		if ( wp_using_ext_object_cache() && ! defined( 'W3TC' ) ) {
-			if ( is_array( $value ) && mb_strlen( serialize( $value ), '8bit' ) >= 10000 ) {
+			if ( is_array( $value ) && mb_strlen( serialize( $value ), '8bit' ) >= 1000000 ) {
 				//this mean value is very large
 				//first we need to remove all current cache for this key
 				self::remove_cache( $key );

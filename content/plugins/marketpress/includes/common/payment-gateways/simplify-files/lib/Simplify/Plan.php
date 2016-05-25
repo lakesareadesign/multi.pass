@@ -79,7 +79,7 @@ class Simplify_Plan extends Simplify_Object {
         */
         static public function listPlan($criteria = null, $publicKey = null, $privateKey = null) {
             $val = new Simplify_Plan();
-            $list = Simplify_PaymentsApi::listObject($val, $criteria, $publicKey, $privateKey);	     	 	 	    	  
+            $list = Simplify_PaymentsApi::listObject($val, $criteria, $publicKey, $privateKey);
 
             return $list;
         }
