@@ -21,3 +21,19 @@ The Workstation Pro theme is translation ready.  More information about the tran
 
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
+
+= 1.0 =
+* Initial release
+
+= 1.0.1 =
+* Adjust mobile menu button ID
+* Remove IE8 CSS fix for images
+* Remove navigation extras setting
+* Improve skip links
+
+= 1.0.2 =
+* Add rems to genesis-accessibility
+* Add sitemap to 404 page
+* Update menu order and names in admin
+* Update responsive-menu.js for combined menus
+* Add small button style

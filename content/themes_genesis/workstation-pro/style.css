@@ -1,16 +1,16 @@
 /* # Workstation Pro Theme
-Theme Name: Workstation Pro Theme
+Theme Name: Workstation Pro
 Theme URI: http://my.studiopress.com/themes/workstation/
 Description: Share your vision with the world and showcase your artistic sense with spacious design and beautiful typography.
 Author: StudioPress
 Author URI: http://www.studiopress.com/
 
-Version: 1.0.0
+Version: 1.0.2
 
 Template: genesis
 Template Version: 2.2.0
 
-Tags: develop, black, orange, white, one-column, two-columns, left-sidebar, right-sidebar, responsive-layout, accessibility-ready, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
+Tags: black, orange, white, one-column, two-columns, left-sidebar, right-sidebar, responsive-layout, accessibility-ready, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -299,11 +299,6 @@ img {
 	height: auto;
 }
 
-.featured-content img,
-.gallery img {
-	width: auto;
-}
-
 /* ## Gallery
 --------------------------------------------- */
 
@@ -351,6 +346,17 @@ img {
 
 .gallery-columns-9 .gallery-item {
 	width: 11.1111%;
+}
+
+.gallery-columns-2 .gallery-item:nth-child(2n+1),
+.gallery-columns-3 .gallery-item:nth-child(3n+1),
+.gallery-columns-4 .gallery-item:nth-child(4n+1),
+.gallery-columns-5 .gallery-item:nth-child(5n+1),
+.gallery-columns-6 .gallery-item:nth-child(6n+1),
+.gallery-columns-7 .gallery-item:nth-child(7n+1),
+.gallery-columns-8 .gallery-item:nth-child(8n+1),
+.gallery-columns-9 .gallery-item:nth-child(9n+1) {
+	clear: left;
 }
 
 .gallery img {
@@ -421,6 +427,7 @@ input[type="submit"],
 	padding: 20px 24px;
 	text-decoration: none;
 	text-transform: uppercase;
+	white-space: normal;
 	width: auto;
 }
 
@@ -438,6 +445,14 @@ input:focus[type="submit"],
 .widget .button:focus {
 	background-color: #111;
 	color: #fff;
+}
+
+button.small,
+input[type="button"].small,
+input[type="reset"].small,
+input[type="submit"].small,
+.button.small {
+	padding: 8px 16px;
 }
 
 .entry-content .button:hover,
@@ -1904,6 +1919,7 @@ p.entry-meta {
 		border: none;
 		color: #fff;
 		font-family: 'Roboto Condensed', sans-serif;
+		margin-top: 1px;
 		padding: 20px;
 		width: 100%;
 	}

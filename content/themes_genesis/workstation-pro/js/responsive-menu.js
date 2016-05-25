@@ -28,7 +28,11 @@
 					text : workstation.params.subMenu
 				} ) )
 		};
-		$( '.nav-primary' ).before( toggleButtons.menu ); // add the main nav buttons
+		if ( $( '.nav-primary' ).length > 0 ) {
+			$( '.nav-primary' ).before( toggleButtons.menu ); // add the main nav buttons
+		} else {
+			$( '.nav-secondary' ).before( toggleButtons.menu ); // add the main nav buttons
+		}
 		$( 'nav .sub-menu' ).before( toggleButtons.submenu ); // add the submenu nav buttons
 		$( '.' + mainMenuButtonClass ).each( _addClassID );
 		$( window ).on( 'resize.workstation', _doResize ).triggerHandler( 'resize.workstation' );
@@ -50,11 +54,11 @@
 	
 	// check CSS rule to determine width
 	function _combineMenus(){
-		if ($( '.js nav' ).css( 'position' ) == 'relative' ){ // depends on .js nav having position: relative; in style.css
+		if ( ( $( '.js nav' ).css( 'position' ) == 'relative' ) && $( '.menu-primary' ).length > 0 ) { // depends on .js nav having position: relative; in style.css
 			$( 'ul.menu-secondary > li' ).addClass( 'moved-item' ); // tag moved items so we can move them back
 			$( 'ul.menu-secondary > li' ).appendTo( 'ul.menu-primary' );
 			$( '.nav-secondary' ).hide();
-		} else {
+		} else if ( ( $( '.js nav' ).css( 'position' ) !== 'relative' ) && $( '.menu-primary' ).length > 0 ) {
 			$( '.nav-secondary' ).show();
 			$( 'ul.menu-primary > li.moved-item' ).appendTo( 'ul.menu-secondary' );
 			$( 'ul.menu-secondary > li' ).removeClass( 'moved-item' );
@@ -63,7 +67,7 @@
 
 	// Change Skiplinks and Superfish
 	function _doResize() {
-		var buttons = $( 'button[id^=mobile-]' ).attr( 'id' );
+		var buttons = $( 'button[id^="mobile-"]' ).attr( 'id' );
 		if ( typeof buttons === 'undefined' ) {
 			return;
 		}
@@ -80,7 +84,7 @@
 		_toggleAria( $this, 'aria-pressed' );
 		_toggleAria( $this, 'aria-expanded' );
 		$this.toggleClass( 'activated' );
-		$( 'nav.nav-primary' ).slideToggle( 'fast' ); //changed to .nav-primary since we're not toggling .nav-secondary
+		$this.next( 'nav, .sub-menu' ).slideToggle( 'fast' );
 	}
 
 	/**

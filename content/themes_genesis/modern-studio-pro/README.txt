@@ -23,3 +23,18 @@ CHANGELOG
 
 = 1.0 =
 * Initial release
+
+= 1.0.1 =
+* Solid Simple Social Icons style
+
+= 1.0.2 =
+* Update CSS for Genesis Simple Share button changes
+* Remove Comment form allowed tags filter
+* Post Password style
+* Remove unused nav extras setting
+
+= 1.0.3 =
+* Remove IE8 CSS fix for images
+* Add hr tag styling
+* Add small and disabled button styles
+* Update menu names in admin

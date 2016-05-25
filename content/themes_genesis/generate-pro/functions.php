@@ -11,7 +11,7 @@ load_child_theme_textdomain( 'generate', apply_filters( 'child_theme_textdomain'
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Generate Pro Theme', 'generate' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/generate/' );
-define( 'CHILD_THEME_VERSION', '2.1' );
+define( 'CHILD_THEME_VERSION', '2.1.1' );
 
 //* Add HTML5 markup structure
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
@@ -66,6 +66,9 @@ function generate_customize_register( $wp_customize ) {
 	
 }
 
+//* Rename menus
+add_theme_support( 'genesis-menus', array( 'primary' => __( 'After Header Menu', 'generate' ), 'secondary' => __( 'Footer Menu', 'generate' ) ) );
+
 //* Reposition the secondary navigation menu
 remove_action( 'genesis_after_header', 'genesis_do_subnav' );
 add_action( 'genesis_footer', 'genesis_do_subnav', 7 );
@@ -100,15 +103,6 @@ function generate_featured_photo() {
 remove_action( 'genesis_entry_header', 'genesis_post_info', 12 );
 add_action( 'genesis_entry_header', 'genesis_post_info', 5 );
 
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'generate_remove_comment_form_allowed_tags' );
-function generate_remove_comment_form_allowed_tags( $defaults ) {
-	
-	$defaults['comment_notes_after'] = '';
-	return $defaults;
-
-}
-
 //* Hook after home featured widget before the content
 add_action( 'genesis_after_header', 'generate_home_featured' );
 function generate_home_featured() {
@@ -135,5 +129,5 @@ add_action( 'genesis_after_entry', 'genesis_after_entry_widget_area', 5 );
 genesis_register_sidebar( array(
 	'id'          => 'home-featured',
 	'name'        => __( 'Home Featured', 'generate' ),
-	'description' => __( 'This is the featured widget area of the home page.', 'generate' ),
+	'description' => __( 'Widgets in this section are featured at the top of the homepage.', 'generate' ),
 ) );

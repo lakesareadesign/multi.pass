@@ -1,6 +1,6 @@
 <?php
 
-//* Daily Dish Theme Setting Defaults
+//* Modern Studio Theme Setting Defaults
 add_filter( 'genesis_theme_settings_defaults', 'ms_theme_defaults' );
 function ms_theme_defaults( $defaults ) {
 
@@ -15,7 +15,7 @@ function ms_theme_defaults( $defaults ) {
 
 }
 
-//* Daily Dish Theme Setup
+//* Modern Studio Theme Setup
 add_action( 'after_switch_theme', 'ms_theme_setting_defaults' );
 function ms_theme_setting_defaults() {
 
@@ -40,7 +40,7 @@ function ms_theme_setting_defaults() {
 				'slideshow_excerpt_content_limit' => '100',
 				'slideshow_excerpt_content'       => 'full',
 				'slideshow_excerpt_width'         => '60',
-				'slideshow_excerpt_show'          => 1,
+				'slideshow_excerpt_show'          => 0,
 				'slideshow_height'                => '400',
 				'slideshow_more_text'             => __( 'Continue Reading&hellip;', 'modern-studio' ),
 				'slideshow_pager'                 => 1,
@@ -89,8 +89,11 @@ function ms_social_default_styles( $defaults ) {
 	$args = array(
 		'alignment'              => 'aligncenter',
 		'background_color'       => '#ffffff',
-		'background_color_hover' => '#ffffff',
+		'background_color_hover' => '#ffffff',		
+		'border_color'           => '#000000',
+		'border_color_hover'     => '#000000',
 		'border_radius'          => 25,
+		'border_width'           => 1,
 		'icon_color'             => '#000000',
 		'icon_color_hover'       => '#f7a27f',
 		'size'                   => 25,

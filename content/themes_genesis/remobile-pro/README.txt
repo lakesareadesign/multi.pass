@@ -28,3 +28,18 @@ CHANGELOG
 
 = 1.0 =
 * Initial release
+
+= 1.0.1 =
+* Update eNews font color in After Entry widget area
+* Update comment form allowed tags filter
+
+= 1.0.2 =
+* Add Table Styles
+* Remove IE8 CSS fix for images
+* Add Screen reader text CSS
+* Remove obsolete comments filter
+* Add hr tag styling
+* Add small and disabled button styles
+* Update menu names in admin
+* Correct Backstretch image description
+* Remove unused customizer layout setting

@@ -32,7 +32,16 @@ Please visit http://my.studiopress.com/help/ for theme support.
 CHANGELOG
 
 = 1.0.1 =
-Update font, remove top border
+* Update font, remove top border
 
 = 1.0.2 =
-Update widget area markup
+* Update widget area markup
+
+= 1.0.3 =
+* Add Table CSS
+* Add hr tag styling
+* Add small and disabled button styles
+* Update menu order
+* Remove IE8 image fix
+* Update widget area descriptions
+* Remove obsolete comments filter

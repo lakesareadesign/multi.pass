@@ -2,48 +2,58 @@
 //* Start the engine
 include_once( get_template_directory() . '/lib/init.php' );
 
+//* Setup Theme
+include_once( get_stylesheet_directory() . '/lib/theme-defaults.php' );
+
 //* Set Localization (do not remove)
 load_child_theme_textdomain( 'metro', apply_filters( 'child_theme_textdomain', get_stylesheet_directory() . '/languages', 'metro' ) );
+
+//* Add Image upload to WordPress Theme Customizer
+add_action( 'customize_register', 'metro_customizer' );
+function metro_customizer(){
+
+	require_once( get_stylesheet_directory() . '/lib/customize.php' );
+	
+}
 
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Metro Pro Theme', 'metro' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/metro/' );
-define( 'CHILD_THEME_VERSION', '2.0.1' );
+define( 'CHILD_THEME_VERSION', '2.1.1' );
 
 //* Add HTML5 markup structure
-add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list' ) );
+add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 
 //* Add viewport meta tag for mobile browsers
 add_theme_support( 'genesis-responsive-viewport' );
 
-//* Enqueue Google fonts
-add_action( 'wp_enqueue_scripts', 'metro_google_fonts' );
-function metro_google_fonts() {
+//* Enqueue Scripts
+add_action( 'wp_enqueue_scripts', 'metro_load_scripts' );
+function metro_load_scripts() {
+
+	wp_enqueue_script( 'news-responsive-menu', get_bloginfo( 'stylesheet_directory' ) . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
+	
+	wp_enqueue_style( 'dashicons' );
+	
 	wp_enqueue_style( 'google-font', '//fonts.googleapis.com/css?family=Oswald:400', array(), CHILD_THEME_VERSION );
+	
 }
 
 //* Enqueue Backstretch script and prepare images for loading
 add_action( 'wp_enqueue_scripts', 'metro_enqueue_scripts' );
 function metro_enqueue_scripts() {
 
-	//* Load scripts only if custom background is being used
-	if ( ! get_background_image() )
-		return;
+	$image = get_option( 'metro-backstretch-image', sprintf( '%s/images/bg.jpg', get_stylesheet_directory_uri() ) );
+	
+	//* Load scripts only if custom backstretch image is being used
+	if ( ! empty( $image ) ) {
 
-	wp_enqueue_script( 'metro-pro-backstretch', get_bloginfo( 'stylesheet_directory' ) . '/js/backstretch.js', array( 'jquery' ), '1.0.0' );
-	wp_enqueue_script( 'metro-pro-backstretch-set', get_bloginfo('stylesheet_directory').'/js/backstretch-set.js' , array( 'jquery', 'metro-pro-backstretch' ), '1.0.0' );
+		wp_enqueue_script( 'metro-pro-backstretch', get_bloginfo( 'stylesheet_directory' ) . '/js/backstretch.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_script( 'metro-pro-backstretch-set', get_bloginfo('stylesheet_directory').'/js/backstretch-set.js' , array( 'jquery', 'metro-pro-backstretch' ), '1.0.0' );
 
-	wp_localize_script( 'metro-pro-backstretch-set', 'BackStretchImg', array( 'src' => str_replace( 'http:', '', get_background_image() ) ) );
-
-}
-
-//* Add custom background callback for background color
-function metro_background_callback() {
-
-	if ( ! get_background_color() )
-		return;
-
-	printf( '<style>body { background-color: #%s; }</style>' . "\n", get_background_color() );
+		wp_localize_script( 'metro-pro-backstretch-set', 'BackStretchImg', array( 'src' => str_replace( 'http:', '', $image ) ) );
+	
+	}
 
 }
 
@@ -53,7 +63,7 @@ add_image_size( 'home-middle', 332, 190, TRUE );
 add_image_size( 'home-top', 700, 400, TRUE );
 
 //* Add support for custom background
-add_theme_support( 'custom-background', array( 'wp-head-callback' => 'metro_background_callback' ) );
+add_theme_support( 'custom-background' );
 
 //* Add support for custom header
 add_theme_support( 'custom-header', array(
@@ -74,6 +84,9 @@ add_theme_support( 'genesis-style-selector', array(
 //* Add support for 3-column footer widgets
 add_theme_support( 'genesis-footer-widgets', 3 );
 
+//* Rename menus
+add_theme_support( 'genesis-menus', array( 'secondary' => __( 'Before Header Menu', 'metro' ), 'primary' => __( 'After Header Menu', 'metro' ) ) );
+
 //* Reposition the secondary navigation
 remove_action( 'genesis_after_header', 'genesis_do_subnav' );
 add_action( 'genesis_before', 'genesis_do_subnav' );
@@ -89,15 +102,6 @@ function metro_after_post() {
 		'before' => '<div class="after-entry widget-area"><div class="wrap">',
 		'after'  => '</div></div>',
     ) );
-
-}
-
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'metro_remove_comment_form_allowed_tags' );
-function metro_remove_comment_form_allowed_tags( $defaults ) {
-	
-	$defaults['comment_notes_after'] = '';
-	return $defaults;
 
 }
 

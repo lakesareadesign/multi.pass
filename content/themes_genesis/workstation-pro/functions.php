@@ -17,9 +17,9 @@ include_once( get_stylesheet_directory() . '/lib/output.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Workstation Pro Theme', 'workstation' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/workstation/' );
-define( 'CHILD_THEME_VERSION', '1.0.0' );
+define( 'CHILD_THEME_VERSION', '1.0.2' );
 
-//* Enqueue Google Fonts
+//* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'workstation_enqueue_scripts_styles' );
 function workstation_enqueue_scripts_styles() {
 
@@ -39,7 +39,7 @@ function workstation_enqueue_scripts_styles() {
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 
 //* Add accessibility support
-add_theme_support( 'genesis-accessibility', array( 'drop-down-menu', 'headings', 'search-form', 'skip-links' ) );
+add_theme_support( 'genesis-accessibility', array( '404-page', 'drop-down-menu', 'headings', 'rems', 'search-form', 'skip-links' ) );
 
 //* Add viewport meta tag for mobile browsers
 add_theme_support( 'genesis-responsive-viewport' );
@@ -78,11 +78,19 @@ unregister_sidebar( 'sidebar-alt' );
 unregister_sidebar( 'header-right' );
 
 //* Rename Primary Menu
-add_theme_support ( 'genesis-menus' , array ( 'primary' => __( 'Header Navigation Menu', 'workstation' ), 'secondary' => __( 'Before Header Navigation Menu', 'workstation' ) ) );
+add_theme_support ( 'genesis-menus' , array ( 'secondary' => __( 'Before Header Menu', 'workstation' ), 'primary' => __( 'Header Menu', 'workstation' ) ) );
 
 //* Remove output of primary navigation right extras
 remove_filter( 'genesis_nav_items', 'genesis_nav_right', 10, 2 );
 remove_filter( 'wp_nav_menu_items', 'genesis_nav_right', 10, 2 );
+
+//* Remove navigation meta box
+add_action( 'genesis_theme_settings_metaboxes', 'digital_remove_genesis_metaboxes' );
+function digital_remove_genesis_metaboxes( $_genesis_theme_settings_pagehook ) {
+
+    remove_meta_box( 'genesis-theme-settings-nav', $_genesis_theme_settings_pagehook, 'main' );
+
+}
 
 //* Reposition the navigation
 remove_action( 'genesis_after_header', 'genesis_do_nav' );

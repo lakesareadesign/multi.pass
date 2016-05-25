@@ -3,7 +3,7 @@
  * This file adds the Landing template to the Workstation Pro Theme.
  *
  * @author StudioPress
- * @package Studio
+ * @package Workstation
  * @subpackage Customizations
  */
 
@@ -21,8 +21,16 @@ function workstation_add_body_class( $classes ) {
 
 }
 
-//* Remove skip link for primary navigation
-remove_filter( 'genesis_skip_links_output', 'workstation_skip_links_output' );
+//* Remove Skip Links from a template
+remove_action ( 'genesis_before_header', 'genesis_skip_links', 5 );
+
+//* Dequeue Skip Links Script
+add_action( 'wp_enqueue_scripts', 'workstation_dequeue_skip_links' );
+function workstation_dequeue_skip_links() {
+
+	wp_dequeue_script( 'skip-links' );
+
+}
 
 //* Force full width content layout
 add_filter( 'genesis_site_layout', '__genesis_return_full_width_content' );

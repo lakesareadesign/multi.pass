@@ -11,7 +11,7 @@ load_child_theme_textdomain( 'daily-dish', apply_filters( 'child_theme_textdomai
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Daily Dish Pro Theme', 'daily-dish' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/daily-dish/' );
-define( 'CHILD_THEME_VERSION', '1.0.2' );
+define( 'CHILD_THEME_VERSION', '1.0.3' );
 
 //* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'daily_dish_enqueue_scripts_styles' );
@@ -63,6 +63,9 @@ function daily_dish_remove_genesis_metaboxes( $_genesis_theme_settings_pagehook 
 
 }
 
+//* Rename Primary and Secondary Menu
+add_theme_support( 'genesis-menus' , array( 'secondary' => __( 'Before Header Menu', 'daily-dish' ), 'primary' => __( 'After Header Menu', 'daily-dish' ) ) );
+
 //* Remove output of primary navigation right extras
 remove_filter( 'genesis_nav_items', 'genesis_nav_right', 10, 2 );
 remove_filter( 'wp_nav_menu_items', 'genesis_nav_right', 10, 2 );
@@ -97,15 +100,6 @@ function daily_dish_post_meta_filter($post_meta) {
 
 	$post_meta = '[post_categories before=""] [post_tags before=""]';
 	return $post_meta;
-
-}
-
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'daily_dish_remove_comment_form_allowed_tags' );
-function daily_dish_remove_comment_form_allowed_tags( $defaults ) {
-	
-	$defaults['comment_notes_after'] = '';
-	return $defaults;
 
 }
 
@@ -163,30 +157,30 @@ add_action( 'genesis_after_entry', 'genesis_after_entry_widget_area', 5 );
 genesis_register_sidebar( array(
 	'id'          => 'before-header',
 	'name'        => __( 'Before Header', 'daily-dish' ),
-	'description' => __( 'This is the before header widget area.', 'daily-dish' ),
+	'description' => __( 'Widgets in this section will display before the header on every page.', 'daily-dish' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'home-top',
 	'name'        => __( 'Home - Top', 'daily-dish' ),
-	'description' => __( 'This is the top section of the homepage.', 'daily-dish' ),
+	'description' => __( 'Widgets in this section will display at the top of the homepage.', 'daily-dish' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'home-middle',
 	'name'        => __( 'Home - Middle', 'daily-dish' ),
-	'description' => __( 'This is the middle section of the homepage.', 'daily-dish' ),
+	'description' => __( 'Widgets in this section will display in the middle of the homepage.', 'daily-dish' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'home-bottom',
 	'name'        => __( 'Home - Bottom', 'daily-dish' ),
-	'description' => __( 'This is the bottom section of the homepage.', 'daily-dish' ),
+	'description' => __( 'Widgets in this section will display at the bottom of the homepage.', 'daily-dish' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'before-footer-widgets',
 	'name'        => __( 'Before Footer Widgets', 'daily-dish' ),
-	'description' => __( 'This is the before footer widgets section.', 'daily-dish' ),
+	'description' => __( 'Widgets in this section will display before the footer widgets on every page.', 'daily-dish' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'after-footer',
 	'name'        => __( 'After Footer', 'daily-dish' ),
-	'description' => __( 'This is the after footer section.', 'daily-dish' ),
+	'description' => __( 'Widgets in this section will display at the bottom of every page.', 'daily-dish' ),
 ) );

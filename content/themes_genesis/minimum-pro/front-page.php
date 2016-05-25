@@ -3,26 +3,31 @@
 //* Enqueue scripts
 add_action( 'wp_enqueue_scripts', 'minimum_front_page_enqueue_scripts' );
 function minimum_front_page_enqueue_scripts() {
-	
-	//* Load scripts only if custom background is being used
-	if ( ! get_background_image() )
-		return;
 
-	//* Enqueue Backstretch scripts
-	wp_enqueue_script( 'minimum-backstretch', get_bloginfo( 'stylesheet_directory' ) . '/js/backstretch.js', array( 'jquery' ), '1.0.0' );
-	wp_enqueue_script( 'minimum-backstretch-set', get_bloginfo('stylesheet_directory').'/js/backstretch-set.js' , array( 'jquery', 'minimum-backstretch' ), '1.0.0' );
-
-	wp_localize_script( 'minimum-backstretch-set', 'BackStretchImg', array( 'src' => str_replace( 'http:', '', get_background_image() ) ) );
+	$image = get_option( 'minimum-backstretch-image', sprintf( '%s/images/bg.jpg', get_stylesheet_directory_uri() ) );
 	
-	//* Add custom body class
-	add_filter( 'body_class', 'minimum_add_body_class' );
+	//* Load scripts only if custom backstretch image is being used
+	if ( ! empty( $image ) ) {
+	
+		//* Enqueue Backstretch scripts
+		wp_enqueue_script( 'minimum-backstretch', get_bloginfo( 'stylesheet_directory' ) . '/js/backstretch.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_script( 'minimum-backstretch-set', get_bloginfo( 'stylesheet_directory' ).'/js/backstretch-set.js' , array( 'jquery', 'minimum-backstretch' ), '1.0.0' );
+
+		wp_localize_script( 'minimum-backstretch-set', 'BackStretchImg', array( 'src' => str_replace( 'http:', '', $image ) ) );
+		
+		//* Add custom body class
+		add_filter( 'body_class', 'minimum_add_body_class' );
+	
+	}
 
 }
 
 //* Minimum custom body class
 function minimum_add_body_class( $classes ) {
+
 	$classes[] = 'minimum';
-		return $classes;
+	return $classes;
+
 }
 
 //* Add widget support for homepage if widgets are being used
@@ -90,6 +95,7 @@ function minimum_home_featured() {
 function minimum_grid_loop_helper() {
 
 	if ( function_exists( 'genesis_grid_loop' ) ) {
+
 		genesis_grid_loop( array(
 			'features'              => 0,
 			'feature_image_size'    => 0,
@@ -98,6 +104,7 @@ function minimum_grid_loop_helper() {
 			'grid_content_limit'    => 250,
 			'more'                  => __( '[Read more]', 'minimum' ),
 		) );
+
 	} else {
 
 		genesis_standard_loop();

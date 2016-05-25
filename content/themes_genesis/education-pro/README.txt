@@ -23,7 +23,7 @@ Footer 4 - This is the fourth column of the footer section.
 Footer 5 - This is the fifth column of the footer section.
 
 FEATURED IMAGES
-By default WordPress will create a default thumbnail image for each image you upload and the size can be specified in your dashboard under Settings > Media. In addition, the Executive Pro Theme creates the following thumbnail images you'll see below, which are defined (and can be modified) in the functions.php file. These are the recommended thumbnail sizes that are used on the Executive Pro Theme demo site.
+By default WordPress will create a default thumbnail image for each image you upload and the size can be specified in your dashboard under Settings > Media. In addition, the Education Pro Theme creates the following thumbnail images you'll see below, which are defined (and can be modified) in the functions.php file. These are the recommended thumbnail sizes that are used on the Education Pro Theme demo site.
 
 slider - 1600px by 800px
 sidebar - 280px by 150px
@@ -33,3 +33,17 @@ The Education Pro theme is translation ready.  More information about the transl
 
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
+
+= 3.0 =
+* Initial release
+
+= 3.0.1 =
+* Remove obsolete comments filter
+* Remove IE8 image fix
+* Add hr tag styling
+* Add small and disabled button styles
+* Update menu names in admin
+
+= 3.0.2 =
+* Update table of contents
+* Add CSS for Genesis Author Pro

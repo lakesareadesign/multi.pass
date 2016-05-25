@@ -42,6 +42,8 @@ CHANGELOG
 = 1.0.2 =
 * Footer widget width in Safari
 * Adjust mobile menu button ID
+
+= 1.0.3 =
 * Update post meta to include Author
 * Improve Skip Links
 * Current menu item highlight

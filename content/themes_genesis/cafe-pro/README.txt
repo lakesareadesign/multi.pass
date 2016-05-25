@@ -5,7 +5,7 @@ INSTALL
 1. Upload the Cafe Pro theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the Cafe Pro theme.
-4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/setup/cafe-theme/.
+4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/setup/cafe-pro-theme/.
 
 WIDGET AREAS
 Primary Sidebar - This is the primary sidebar if you are using the Content/Sidebar or Sidebar/Conent Site Layout option.
@@ -28,4 +28,16 @@ Please visit http://my.studiopress.com/help/ for theme support.
 CHANGELOG
 
 = 1.0.1 =
-* Add background scroll for iPad landscape
+* Update background CSS for iPad landscape
+
+= 1.0.2 =
+* Update comment form allowed tags filter
+* Update button CSS in footer widget
+
+= 1.0.3 =
+* Update Footer Navigation method
+* Rename and reorder menus in admin
+* Add hr tag styling
+* Add small and disabled button styles
+* Remove obsolete comments filter
+* Remove IE8 image fix

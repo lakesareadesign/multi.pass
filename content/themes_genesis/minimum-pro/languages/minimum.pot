@@ -1,71 +1,114 @@
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Minimum Pro Child Theme for Genesis Framework\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-25 22:53-0500\n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Minimum Pro\n"
+"POT-Creation-Date: 2016-05-01 11:55-0400\n"
+"PO-Revision-Date: 2016-05-01 11:55-0400\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
-"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
-"X-Textdomain-Support: yes\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Poedit-Basepath: ..\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: front-page.php:98
+#: front-page.php:105
 msgid "[Read more]"
 msgstr ""
 
-#: functions.php:9
+#: functions.php:15
 msgid "Minimum Pro Theme"
 msgstr ""
 
-#: functions.php:72 functions.php:73
-msgid "Portfolio"
+#: functions.php:70
+msgid "After Header Menu"
 msgstr ""
 
-#: functions.php:160
+#: functions.php:70
+msgid "Footer Menu"
+msgstr ""
+
+#: functions.php:142
 msgid "Site Tagline Right"
 msgstr ""
 
-#: functions.php:161
+#: functions.php:143
 msgid "This is the site tagline right section."
 msgstr ""
 
-#: functions.php:165
+#: functions.php:147
 msgid "Home Featured 1"
 msgstr ""
 
-#: functions.php:166
+#: functions.php:148
 msgid "This is the home featured 1 section."
 msgstr ""
 
-#: functions.php:170
+#: functions.php:152
 msgid "Home Featured 2"
 msgstr ""
 
-#: functions.php:171
+#: functions.php:153
 msgid "This is the home featured 2 section."
 msgstr ""
 
-#: functions.php:175
+#: functions.php:157
 msgid "Home Featured 3"
 msgstr ""
 
-#: functions.php:176
+#: functions.php:158
 msgid "This is the home featured 3 section."
 msgstr ""
 
-#: functions.php:180
+#: functions.php:162
 msgid "Home Featured 4"
 msgstr ""
 
-#: functions.php:181
+#: functions.php:163
 msgid "This is the home featured 4 section."
+msgstr ""
+
+#: lib/customize.php:41
+msgid "Backstretch Image"
+msgstr ""
+
+#: lib/customize.php:42
+msgid ""
+"<p>Use the included default image or personalize your site by uploading your "
+"own image for the homepage and landing page template background.</p><p>The "
+"default image is <strong>1600 x 1050 pixels</strong>.</p>"
+msgstr ""
+
+#: lib/customize.php:56
+msgid "Backstretch Image Upload"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Minimum Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/minimum/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"A stunning execution of \"less is more,\" the Minimum child theme expresses "
+"everything you're about, with very little effort."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
 msgstr ""

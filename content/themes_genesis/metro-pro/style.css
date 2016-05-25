@@ -1,15 +1,15 @@
 /*
-	Theme Name: Metro Pro Theme
+	Theme Name: Metro Pro
 	Theme URI: http://my.studiopress.com/themes/metro/
-	Description: A mobile responsive and HTML5 theme built for the Genesis Framework.
+	Description: Presenting Metro, a modern magazine-style layout built on an optimized mobile responsive platform.
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
-	Version: 2.0.1
+	Version: 2.1.1
  
-	Tags: black, orange, white, one-column, two-columns, three-columns, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, premise-landing-page
+	Tags: black, orange, white, one-column, two-columns, three-columns, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
  
 	Template: genesis
-	Template Version: 2.0.0
+	Template Version: 2.1
  
 	License: GPL-2.0+
 	License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -26,6 +26,7 @@
 		- Typographical Elements
 		- Headings
 		- Objects
+		- Gallery
 		- Forms
 		- Tables
 	- Structure and Layout
@@ -41,7 +42,6 @@
 	- Plugins
 		- Genesis eNews Extended
 		- Genesis Latest Tweets
-		- Gravity Forms
 		- Jetpack
 	- Site Header
 		- Title Area
@@ -50,6 +50,7 @@
 		- Header Navigation
 		- Primary Navigation
 		- Secondary Navigation
+		- Responsive Menu
 	- Content Area
 		- Home Page
 		- Entries
@@ -97,6 +98,7 @@ input[type="search"] {
 /* Float Clearing
 --------------------------------------------- */
 
+.author-box:before,
 .clearfix:before,
 .entry-content:before,
 .entry:before,
@@ -114,6 +116,7 @@ input[type="search"] {
 	display: table;
 }
 
+.author-box:after,
 .clearfix:after,
 .entry-content:after,
 .entry:after,
@@ -222,6 +225,15 @@ cite {
 	font-style: normal;
 }
 
+hr {
+	border: 0;
+	border-collapse: collapse;
+	border-bottom: 5px solid #f5f5f5;
+	clear: left;
+	margin: 0 0 40px;
+	padding-top: 20px;
+}
+
 /* Headings
 --------------------------------------------- */
 
@@ -278,9 +290,69 @@ img {
 	height: auto;
 }
 
-.featured-content img,
-.gallery img {
-	width: auto; /* IE8 */
+/* Gallery
+--------------------------------------------- */
+
+.gallery {
+	overflow: hidden;
+	margin-bottom: 28px;
+}
+
+.gallery-item {
+	float: left;
+	margin: 0;
+	padding: 0 4px;
+	text-align: center;
+	width: 100%;
+}
+
+.gallery-columns-2 .gallery-item {
+	width: 50%;
+}
+
+.gallery-columns-3 .gallery-item {
+	width: 33%;
+}
+
+.gallery-columns-4 .gallery-item {
+	width: 25%;
+}
+
+.gallery-columns-5 .gallery-item {
+	width: 20%;
+}
+
+.gallery-columns-6 .gallery-item {
+	width: 16.6666%;
+}
+
+.gallery-columns-7 .gallery-item {
+	width: 14.2857%;
+}
+
+.gallery-columns-8 .gallery-item {
+	width: 12.5%;
+}
+
+.gallery-columns-9 .gallery-item {
+	width: 11.1111%;
+}
+
+.gallery-columns-2 .gallery-item:nth-child(2n+1),
+.gallery-columns-3 .gallery-item:nth-child(3n+1),
+.gallery-columns-4 .gallery-item:nth-child(4n+1),
+.gallery-columns-5 .gallery-item:nth-child(5n+1),
+.gallery-columns-6 .gallery-item:nth-child(6n+1),
+.gallery-columns-7 .gallery-item:nth-child(7n+1),
+.gallery-columns-8 .gallery-item:nth-child(8n+1),
+.gallery-columns-9 .gallery-item:nth-child(9n+1) {
+	clear: left;
+}
+
+.gallery .gallery-item img {
+	border: none;
+	height: auto;
+	margin: 0;
 }
 
 /* Forms
@@ -334,6 +406,7 @@ input[type="submit"],
 	padding: 16px 24px;
 	text-decoration: none;
 	text-transform: uppercase;
+	white-space: normal;
 	width: auto;
 }
 
@@ -347,6 +420,14 @@ input:hover[type="submit"],
 	background-color: #f96e5b;
 }
 
+button.small,
+input[type="button"].small,
+input[type="reset"].small,
+input[type="submit"].small,
+.button.small {
+	padding: 8px 12px;
+}
+
 .entry-content .button:hover {
 	color: #fff;
 }
@@ -355,9 +436,30 @@ input:hover[type="submit"],
 	display: inline-block;
 }
 
+.site-container button:disabled,
+.site-container button:disabled:hover,
+.site-container input:disabled,
+.site-container input:disabled:hover,
+.site-container input[type="button"]:disabled,
+.site-container input[type="button"]:disabled:hover,
+.site-container input[type="reset"]:disabled,
+.site-container input[type="reset"]:disabled:hover,
+.site-container input[type="submit"]:disabled,
+.site-container input[type="submit"]:disabled:hover {
+    background-color: #ddd;
+	border-width: 0;
+    color: #777;
+    cursor: not-allowed;
+}
+
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button {
 	display: none;
+}
+
+.error404 .entry-content input[type="search"],
+.post-password-form input[type="password"] {
+	margin-bottom: 15px;
 }
 
 /* Tables
@@ -578,7 +680,8 @@ Common Classes
 	padding: 16px 16px 16px 44px;
 }
 
-.search-form input[type="submit"] {
+.genesis-nav-menu .search input[type="submit"],
+.widget_search input[type="submit"] {
 	border: 0;
 	clip: rect(0, 0, 0, 0);
 	height: 1px;
@@ -588,13 +691,18 @@ Common Classes
 	width: 1px;
 }
 
+a.aligncenter img {
+	display: block;
+	margin: 0 auto;
+}
+
 img.centered,
 .aligncenter {
 	display: block;
 	margin: 0 auto 12px;
 }
 
-a.alignnone img,
+a.alignnone,
 img.alignnone {
 	margin-bottom: 12px;
 }
@@ -610,20 +718,29 @@ img.alignnone {
 }
 
 a.alignleft,
+a.alignnone,
 a.alignright {
-    max-width: 100%;
+	max-width: 100%;
 }
 
-a.alignleft img,
+a.alignnone {
+	display: inline-block;
+}
+
+a.alignleft,
 img.alignleft,
 .wp-caption.alignleft {
 	margin: 0 24px 12px 0;
 }
 
-a.alignright img,
+a.alignright,
 img.alignright,
 .wp-caption.alignright {
 	margin: 0 0 24px 24px;
+}
+
+.gallery-caption {
+	margin: 0 0 10px;
 }
 
 .wp-caption-text {
@@ -638,6 +755,12 @@ img.alignright,
 
 .widget_calendar td {
 	text-align: center;
+}
+
+.wp-audio-shortcode,
+.wp-playlist,
+.wp-video {
+    margin: 0 0 28px;
 }
 
 /* Genesis
@@ -664,7 +787,7 @@ img.alignright,
 	margin-right: 24px;
 }
 
-.author-box h1 {
+.author-box .author-box-title {
 	font-size: 16px;
 	margin-bottom: 4px;
 }
@@ -829,29 +952,6 @@ Plugins
 	margin-bottom: 16px;
 }
 
-/* Gravity Forms
---------------------------------------------- */
-
-.site-inner div.gform_wrapper input[type="text"],
-.site-inner div.gform_wrapper textarea,
-.site-inner div.gform_wrapper .ginput_complex label {
-	font-size: 16px;
-	padding: 16px;
-}
-
-.site-inner div.gform_wrapper .ginput_complex label {
-	padding: 0;
-}
-
-div.gform_wrapper li,
-div.gform_wrapper form li {
-	margin: 16px 0 0;
-}
-
-.site-inner div.gform_wrapper input[type="submit"] {
-	font-size: 14px;
-}
-
 /* Jetpack
 --------------------------------------------- */
 
@@ -929,7 +1029,7 @@ Site Header
 }
 
 .header-image .site-title a {
-	background-color: none;
+	background-color: transparent;
 	max-width: 270px;
 	min-height: 80px;
 	padding: 0;
@@ -1073,6 +1173,7 @@ Site Navigation
 
 .nav-primary {
 	background-color: #333;
+	color: #fff;
 }
 
 .nav-primary a {
@@ -1102,6 +1203,7 @@ Site Navigation
 
 .nav-secondary {
 	background-color: #333;
+	color: #fff;
 	text-align: right;
 }
 
@@ -1115,6 +1217,24 @@ Site Navigation
 .nav-secondary .sub-menu a:hover {
 	background-color: #f96e5b;
 	color: #fff;
+}
+
+/* Responsive Menu
+--------------------------------------------- */
+
+.responsive-menu-icon {
+	cursor: pointer;
+	display: none;
+	margin-bottom: -1px;
+	text-align: center;
+}
+
+.responsive-menu-icon::before {
+	content: "\f333";
+	display: inline-block;
+	font: normal 20px/1 'dashicons';
+	margin: 0 auto;
+	padding: 10px;
 }
 
 
@@ -1982,26 +2102,85 @@ Media Queries
 		width: 100%;
 	}
 
-	.genesis-nav-menu a,
-	.nav-primary .sub-menu a {
-		font-size: 12px;
-		padding: 12px;
+	.genesis-nav-menu.responsive-menu > .menu-item > .sub-menu,
+	.genesis-nav-menu.responsive-menu {
+		display: none;
 	}
 
-	.nav-secondary a,
-	.nav-secondary .sub-menu a {
-		font-size: 11px;
-		padding: 10px 8px;
+	.genesis-nav-menu.responsive-menu .menu-item,
+	.responsive-menu-icon {
+		display: block;
+	}
+	
+	.genesis-nav-menu.responsive-menu .menu-item {
+		margin: 0;
 	}
 
-	.genesis-nav-menu .sub-menu .sub-menu {
-		margin: -31px 0 0 174px;
+	.genesis-nav-menu.responsive-menu .menu-item:hover {
+		position: static;
 	}
 
-	.nav-primary .sub-menu .sub-menu {
-		margin: -36px 0 0 174px;
+	.genesis-nav-menu.responsive-menu li.current-menu-item > a,
+	.genesis-nav-menu.responsive-menu li a,
+	.genesis-nav-menu.responsive-menu li a:hover {
+		background: none;
+		display: block;
+		line-height: 1;
+		padding: 16px 20px;
 	}
 
+	.genesis-nav-menu.responsive-menu .menu-item-has-children {
+		cursor: pointer;	
+	}
+
+	.genesis-nav-menu.responsive-menu .menu-item-has-children > a {
+		margin-right: 60px;
+	}
+
+	.genesis-nav-menu.responsive-menu > .menu-item-has-children:before {
+		content: "\f140";
+		float: right;
+		font: normal 20px/1 'dashicons';
+		height: 20px;
+		padding: 12px 20px;
+		right: 0;
+		text-align: right;
+		z-index: 9999;
+	}
+
+	.genesis-nav-menu.responsive-menu .menu-open.menu-item-has-children:before {
+		content: "\f142";
+	}
+
+	.genesis-nav-menu.responsive-menu .sub-menu {
+		background-color: rgba(0, 0, 0, 0.05);
+		border: none;
+		left: auto;
+		opacity: 1;
+		position: relative;
+		-moz-transition:    opacity .4s ease-in-out;
+		-ms-transition:     opacity .4s ease-in-out;
+		-o-transition:      opacity .4s ease-in-out;
+		-webkit-transition: opacity .4s ease-in-out;
+		transition:         opacity .4s ease-in-out;
+		width: 100%;
+		z-index: 99;
+	}
+
+	.genesis-nav-menu.responsive-menu .sub-menu .sub-menu {
+		background-color: transparent;
+		margin: 0;
+		padding-left: 25px;
+	}
+
+	.genesis-nav-menu.responsive-menu .sub-menu li a,
+	.genesis-nav-menu.responsive-menu .sub-menu li a:hover {
+		background: none;
+		padding: 16px 20px;
+		position: relative;
+		width: 100%;
+	}
+	
 	.entry-title {
 		font-size: 30px;
 	}

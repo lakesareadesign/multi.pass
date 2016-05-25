@@ -3,7 +3,7 @@
  * This file adds the Home Page to the Workstation Pro Theme.
  *
  * @author StudioPress
- * @package Workstation Pro
+ * @package Workstation
  * @subpackage Customizations
  */
 

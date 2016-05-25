@@ -17,7 +17,7 @@ include_once( get_stylesheet_directory() . '/lib/output.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Cafe Pro Theme', 'cafe' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/cafe/' );
-define( 'CHILD_THEME_VERSION', '1.0.1' );
+define( 'CHILD_THEME_VERSION', '1.0.3' );
 
 //* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'cafe_enqueue_scripts_styles' );
@@ -36,7 +36,7 @@ function cafe_enqueue_scripts_styles() {
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 
 //* Add support for footer menu
-add_theme_support ( 'genesis-menus' , array ( 'primary' => 'Primary Navigation Menu', 'secondary' => 'Secondary Navigation Menu', 'footer' => 'Footer Navigation Menu' ) );
+add_theme_support( 'genesis-menus' , array( 'secondary' => __( 'Before Header Menu', 'cafe' ), 'primary' => __( 'After Header Menu', 'cafe' ), 'footer' => __( 'Footer Menu', 'cafe' ) ) );
 
 //* Add viewport meta tag for mobile browsers
 add_theme_support( 'genesis-responsive-viewport' );
@@ -77,12 +77,10 @@ remove_action( 'genesis_after_header', 'genesis_do_subnav' );
 add_action( 'genesis_before_header', 'genesis_do_subnav', 11 );
 
 //* Hook menu in footer
-add_action( 'genesis_footer', 'rainmaker_footer_menu', 7 );
-function rainmaker_footer_menu() {
+add_action( 'genesis_footer', 'cafe_footer_menu', 7 );
+function cafe_footer_menu() {
 
-	printf( '<nav %s>', genesis_attr( 'nav-footer' ) );
-
-	wp_nav_menu( array(
+	genesis_nav_menu( array(
 		'theme_location' => 'footer',
 		'container'      => false,
 		'depth'          => 1,
@@ -90,10 +88,11 @@ function rainmaker_footer_menu() {
 		'menu_class'     => 'genesis-nav-menu',		
 		
 	) );
-	
-	echo '</nav>';
 
 }
+
+//* Add Attributes for Footer Navigation
+add_filter( 'genesis_attr_nav-footer', 'genesis_attributes_nav' ); 
 
 //* Hook before header widget area above header
 add_action( 'genesis_before_header', 'cafe_before_header' );
@@ -128,15 +127,6 @@ function cafe_comments_gravatar( $args ) {
 
 }
 
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'cafe_remove_comment_form_allowed_tags' );
-function cafe_remove_comment_form_allowed_tags( $defaults ) {
-
-	$defaults['comment_notes_after'] = '';
-	return $defaults;
-
-}
-
 //* Customize the site footer
 add_filter( 'genesis_footer_output', 'filter_custom_footer' );
 function filter_custom_footer( $output ) {
@@ -149,7 +139,7 @@ function filter_custom_footer( $output ) {
 //* Add Site Title to Primary Nav
 add_filter( 'genesis_nav_items', 'cafe_nav_site_title', 10, 2 );
 add_filter( 'wp_nav_menu_items', 'cafe_nav_site_title', 10, 2 );
-function cafe_nav_site_title($menu, $args) {
+function cafe_nav_site_title( $menu, $args ) {
 
 	$args = (array)$args;
 	if ( 'primary' !== $args['theme_location']  )

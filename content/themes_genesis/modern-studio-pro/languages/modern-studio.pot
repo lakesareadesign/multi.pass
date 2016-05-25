@@ -1,62 +1,81 @@
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Modern Studio Pro Theme\n"
-"POT-Creation-Date: 2015-02-26 16:15-0500\n"
-"PO-Revision-Date: 2015-02-26 16:16-0500\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: en_US\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Modern Studio Pro\n"
+"POT-Creation-Date: 2016-05-01 12:07-0400\n"
+"PO-Revision-Date: 2016-05-01 12:07-0400\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.7\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: functions.php:86
-msgid "Left Navigation Menu"
+msgid "Left Menu"
 msgstr ""
 
 #: functions.php:86
-msgid "Right Navigation Menu"
+msgid "Right Menu"
 msgstr ""
 
-#: functions.php:148
-msgctxt "noun"
-msgid "Comment"
-msgstr ""
-
-#: functions.php:187
+#: functions.php:184
 msgid "Sticky Message"
 msgstr ""
 
-#: functions.php:188
+#: functions.php:185
 msgid ""
 "Widgets in this section will display as a sticky message at the top of pages."
 msgstr ""
 
-#: functions.php:192
+#: functions.php:189
 msgid "Welcome Message"
 msgstr ""
 
-#: functions.php:193
+#: functions.php:190
 msgid ""
 "Widgets in this section will display above posts at the top of the home page."
 msgstr ""
 
-#: lib/customize.php:48
+#: lib/customize.php:49
 msgid "Accent Color"
 msgstr ""
 
-#: lib/customize.php:49
+#: lib/customize.php:50
 msgid "Change the default accent color for links and link borders."
 msgstr ""
 
 #: lib/theme-defaults.php:45 lib/theme-defaults.php:73
 msgid "Continue Reading&hellip;"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Modern Studio Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/modern-studio/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Stylish and elegant, the Modern Studio theme is the perfect platform for "
+"your most-compelling words and images."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://studiopress.com/"
 msgstr ""

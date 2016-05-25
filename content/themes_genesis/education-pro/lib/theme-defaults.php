@@ -31,48 +31,25 @@ function education_theme_setting_defaults() {
 			'posts_nav'                 => 'numeric',
 			'site_layout'               => 'content-sidebar',
 		) );
-		
-		genesis_update_settings( array(
-			'location_horizontal'             => 'right',
-			'location_vertical'               => 'top',
-			'posts_num'                       => '3',
-			'slideshow_arrows'                => 0,
-			'slideshow_excerpt_content_limit' => '170',
-			'slideshow_excerpt_content'       => 'full',
-			'slideshow_excerpt_width'         => '35',
-			'slideshow_height'                => '800',
-			'slideshow_more_text'             => __( 'Continue Reading', 'education' ),
-			'slideshow_pager'                 => 0,
-			'slideshow_title_show'            => 1,
-			'slideshow_width'                 => '1600',
-		), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
-		
-	} else {
 
-		_genesis_update_settings( array(
-			'blog_cat_num'              => 3,	
-			'content_archive'           => 'excerpts',
-			'content_archive_limit'     => 0,
-			'content_archive_thumbnail' => 0,
-			'image_alignment'           => 'alignleft',
-			'posts_nav'                 => 'numeric',
-			'site_layout'               => 'content-sidebar',
-		) );
-		
-		_genesis_update_settings( array(
-			'location_horizontal'             => 'right',
-			'location_vertical'               => 'top',
-			'posts_num'                       => '3',
-			'slideshow_arrows'                => 0,
-			'slideshow_excerpt_content_limit' => '170',
-			'slideshow_excerpt_content'       => 'full',
-			'slideshow_excerpt_width'         => '35',
-			'slideshow_height'                => '800',
-			'slideshow_more_text'             => __( 'Continue Reading', 'education' ),
-			'slideshow_pager'                 => 0,
-			'slideshow_title_show'            => 1,
-			'slideshow_width'                 => '1600',
-		), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
+		if ( function_exists( 'GenesisResponsiveSliderInit' ) ) {
+
+			genesis_update_settings( array(
+				'location_horizontal'             => 'right',
+				'location_vertical'               => 'top',
+				'posts_num'                       => '3',
+				'slideshow_arrows'                => 0,
+				'slideshow_excerpt_content_limit' => '170',
+				'slideshow_excerpt_content'       => 'full',
+				'slideshow_excerpt_width'         => '35',
+				'slideshow_height'                => '800',
+				'slideshow_more_text'             => __( 'Continue Reading', 'education' ),
+				'slideshow_pager'                 => 0,
+				'slideshow_title_show'            => 1,
+				'slideshow_width'                 => '1600',
+			), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
+
+		}
 		
 	}
 	

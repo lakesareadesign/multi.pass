@@ -24,14 +24,18 @@ function minimum_add_body_class( $classes ) {
 add_action( 'wp_enqueue_scripts', 'minimum_enqueue_backstretch' );
 function minimum_enqueue_backstretch() {
 
-	//* Load scripts only if custom background is being used
-	if ( ! get_background_image() )
-		return;
+	$image = get_option( 'minimum-backstretch-image', sprintf( '%s/images/bg.jpg', get_stylesheet_directory_uri() ) );
 	
-	//* Load Backstretch scripts
-	wp_enqueue_script( 'minimum-backstretch', get_bloginfo( 'stylesheet_directory' ) . '/js/backstretch.js', array( 'jquery' ), '1.0.0' );
-	wp_enqueue_script( 'minimum-backstretch-set', get_bloginfo('stylesheet_directory').'/js/backstretch-set.js' , array( 'jquery', 'minimum-backstretch' ), '1.0.0' );
-	wp_localize_script( 'minimum-backstretch-set', 'BackStretchImg', array( 'src' => get_background_image() ) );
+	//* Load scripts only if custom backstretch image is being used
+	if ( ! empty( $image ) ) {
+	
+		//* Load Backstretch scripts
+		wp_enqueue_script( 'minimum-backstretch', get_bloginfo( 'stylesheet_directory' ) . '/js/backstretch.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_script( 'minimum-backstretch-set', get_bloginfo('stylesheet_directory').'/js/backstretch-set.js' , array( 'jquery', 'minimum-backstretch' ), '1.0.0' );
+
+		wp_localize_script( 'minimum-backstretch-set', 'BackStretchImg', array( 'src' => str_replace( 'http:', '', $image ) ) );
+	
+	}
 
 }
 

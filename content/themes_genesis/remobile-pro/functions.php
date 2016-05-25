@@ -19,7 +19,7 @@ function remobile_customizer(){
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Remobile Pro Theme', 'remobile' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/remobile/' );
-define( 'CHILD_THEME_VERSION', '1.0' );
+define( 'CHILD_THEME_VERSION', '1.0.2' );
 
 //* Enqueue scripts and style
 add_action( 'wp_enqueue_scripts', 'remobile_enqueue_styles' );
@@ -53,6 +53,14 @@ genesis_unregister_layout( 'content-sidebar-sidebar' );
 genesis_unregister_layout( 'sidebar-sidebar-content' );
 genesis_unregister_layout( 'sidebar-content-sidebar' );
 
+//* Remove layout section from Theme Customizer
+add_action( 'customize_register', 'remobile_customize_register', 16 );
+function remobile_customize_register( $wp_customize ) {
+
+	$wp_customize->remove_section( 'genesis_layout' );
+
+}
+
 //* Unregister sidebars
 unregister_sidebar( 'sidebar' );
 unregister_sidebar( 'sidebar-alt' );
@@ -67,6 +75,9 @@ add_filter( 'genesis_site_layout', '__genesis_return_full_width_content' );
 add_theme_support( 'genesis-structural-wraps', array(
 	'footer-widgets',
 ) );
+
+//* Rename primary and secondary navigation menus
+add_theme_support( 'genesis-menus' , array( 'primary' => __( 'Before Header Menu', 'remobile' ), 'secondary' => __( 'Footer Menu', 'remobile' ) ) );
 
 //* Reposition the primary navigation menu
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
@@ -97,15 +108,6 @@ function remobile_secondary_menu_args( $args ){
 
 	$args['depth'] = 1;
 	return $args;
-
-}
-
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'remobile_remove_comment_form_allowed_tags' );
-function remobile_remove_comment_form_allowed_tags( $defaults ) {
-	
-	$defaults['comment_notes_after'] = '';
-	return $defaults;
 
 }
 

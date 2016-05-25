@@ -11,7 +11,7 @@ load_child_theme_textdomain( 'education', apply_filters( 'child_theme_textdomain
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Education Pro Theme', 'education' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/education/' );
-define( 'CHILD_THEME_VERSION', '3.0.0' );
+define( 'CHILD_THEME_VERSION', '3.0.2' );
 
 //* Add HTML5 markup structure
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', ) );
@@ -60,6 +60,9 @@ add_theme_support( 'genesis-footer-widgets', 5 );
 //* Add support for after entry widget
 add_theme_support( 'genesis-after-entry-widget-area' );
 
+//* Rename Primary and Secondary Menu
+add_theme_support( 'genesis-menus' , array( 'primary' => __( 'Before Header Menu', 'education' ), 'secondary' => __( 'Footer Menu', 'education' ) ) );
+
 //* Reposition the primary navigation menu
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
 add_action( 'genesis_before_header', 'genesis_do_nav' );
@@ -107,15 +110,6 @@ add_filter( 'genesis_author_box_gravatar_size', 'parallax_author_box_gravatar' )
 function parallax_author_box_gravatar( $size ) {
 
 	return 96;
-
-}
-
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'education_remove_comment_form_allowed_tags' );
-function education_remove_comment_form_allowed_tags( $defaults ) {
-	
-	$defaults['comment_notes_after'] = '';
-	return $defaults;
 
 }
 

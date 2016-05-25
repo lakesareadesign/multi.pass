@@ -5,7 +5,7 @@ INSTALL
 1. Upload the Metro Pro theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the Metro Pro theme.
-4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking.  To set up the theme like the demo, please visit http://my.studiopress.com/setup/metro-theme/.
+4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking.  To set up the theme like the demo, please visit http://my.studiopress.com/setup/metro-pro-theme/.
 
 WIDGET AREAS
 Primary Sidebar - This is the primary sidebar if you are using the Content/Sidebar, Sidebar/Content, Content/Sidebar/Sidebar, Sidebar/Sidebar/Content or Sidebar/Content/Sidebar Site Layout option.
@@ -31,3 +31,21 @@ The Metro Pro theme is translation ready.  More information about the translatio
 
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
+
+CHANGELOG
+
+= 2.0.1 =
+* Remove rem units
+
+= 2.1 =
+* Move backstretch image upload to customizer
+* Add theme setting defaults
+* Update responsive menu
+* HTML5 Galleries
+
+= 2.1.1 =
+* Remove obsolete comments filter
+* Remove IE8 CSS fix for images
+* Add hr tag styling
+* Add small and disabled button styles
+* Update menu names in admin

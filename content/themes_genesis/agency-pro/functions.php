@@ -14,7 +14,7 @@ require_once( get_stylesheet_directory() . '/lib/customize.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Agency Pro Theme', 'agency' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/agency/' );
-define( 'CHILD_THEME_VERSION', '3.1.3' );
+define( 'CHILD_THEME_VERSION', '3.1.4' );
 
 //* Add HTML5 markup structure
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
@@ -94,7 +94,7 @@ add_action( 'genesis_before', 'genesis_header_markup_close', 15 );
 remove_action( 'genesis_site_description', 'genesis_seo_site_description' );
 
 //* Rename Menus based on location
-add_theme_support ( 'genesis-menus' , array ( 'primary' => __( 'After Header Navigation Menu', 'agency' ), 'secondary' => __( 'Footer Navigation Menu', 'agency' ) ) );
+add_theme_support( 'genesis-menus', array( 'primary' => __( 'After Header Menu', 'agency' ), 'secondary' => __( 'Footer Menu', 'agency' ) ) );
 
 //* Reposition the secondary navigation menu
 remove_action( 'genesis_after_header', 'genesis_do_subnav' );
@@ -102,12 +102,14 @@ add_action( 'genesis_footer', 'genesis_do_subnav', 7 );
 
 //* Reduce the secondary navigation menu to one level depth
 add_filter( 'wp_nav_menu_args', 'agency_secondary_menu_args' );
-function agency_secondary_menu_args( $args ){
+function agency_secondary_menu_args( $args ) {
 
-	if ( 'secondary' != $args['theme_location'] )
-	return $args;
+	if ( 'secondary' != $args['theme_location'] ) {
+		return $args;
+	}
 
 	$args['depth'] = 1;
+
 	return $args;
 
 }

@@ -1,13 +1,13 @@
 /*
-	Theme Name: Remobile Pro Theme
+	Theme Name: Remobile Pro
 	Theme URI: http://my.studiopress.com/themes/remobile/
 	Description: With an emphasis on incredible typography and responsive design, this HTML5 theme will leave your audience nothing short of speechless.
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 1.0
+	Version: 1.0.2
 
-	Tags: black, white, one-column, two-columns, responsive-layout, custom-header, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, premise-landing-page
+	Tags: black, white, one-column, two-columns, responsive-layout, custom-header, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
 	Template: genesis
 	Template Version: 2.0
@@ -29,6 +29,8 @@
 		- Objects
 		- Gallery
 		- Forms
+		- Tables
+		- Screen Reader Text
 	- Structure and Layout
 		- Site Containers
 		- Column Classes
@@ -105,6 +107,7 @@ input[type="search"] {
 .site-footer:before,
 .site-header:before,
 .site-inner:before,
+.widget:before,
 .wrap:before {
 	content: " ";
 	display: table;
@@ -122,6 +125,7 @@ input[type="search"] {
 .site-footer:after,
 .site-header:after,
 .site-inner:after,
+.widget:after,
 .wrap:after {
 	clear: both;
 	content: " ";
@@ -223,6 +227,15 @@ blockquote::before {
 	top: -10px;
 }
 
+hr {
+	border: 0;
+	border-collapse: collapse;
+	border-bottom: 2px solid #f5f5f5;
+	clear: left;
+	margin: 0 0 40px;
+	padding-top: 20px;
+}
+
 
 /* Headings
 --------------------------------------------- */
@@ -278,11 +291,6 @@ video,
 
 img {
 	height: auto;
-}
-
-.featured-content img,
-.gallery img {
-	width: auto;
 }
 
 /* Gallery
@@ -405,6 +413,7 @@ input[type="submit"],
 	padding: 20px;
 	text-align: center;
 	text-transform: uppercase;
+	white-space: normal;
 	width: 100%;
 }
 
@@ -417,13 +426,101 @@ input:hover[type="submit"],
 	color: #fff;
 }
 
+button.small,
+input[type="button"].small,
+input[type="reset"].small,
+input[type="submit"].small,
+.button.small {
+	padding: 8px 16px;
+}
+
 .button {
 	display: inline-block;
+}
+
+.site-container button:disabled,
+.site-container button:disabled:hover,
+.site-container input:disabled,
+.site-container input:disabled:hover,
+.site-container input[type="button"]:disabled,
+.site-container input[type="button"]:disabled:hover,
+.site-container input[type="reset"]:disabled,
+.site-container input[type="reset"]:disabled:hover,
+.site-container input[type="submit"]:disabled,
+.site-container input[type="submit"]:disabled:hover {
+    background-color: #ddd;
+	border-width: 0;
+    color: #777;
+    cursor: not-allowed;
 }
 
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button {
 	display: none;
+}
+
+.error404 .entry-content input[type="search"],
+.post-password-form input[type="password"] {
+	margin-bottom: 15px;
+}
+
+/* Tables
+--------------------------------------------- */
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	line-height: 2;
+	margin-bottom: 40px;
+	width: 100%;
+}
+
+tbody {
+	border-bottom: 1px solid #ddd;
+}
+
+th,
+td {
+	text-align: left;
+}
+
+th {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+td {
+	border-top: 1px solid #ddd;
+	padding: 6px 0;
+}
+
+/* Screen Reader Text
+--------------------------------------------- */
+
+.screen-reader-shortcut,
+.screen-reader-text,
+.screen-reader-text span {
+	background-color: #fff;
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	color: #222;
+	height: 1px;
+	overflow: hidden;
+	position: absolute !important;
+	width: 1px;
+}
+
+.genesis-nav-menu .search input[type="submit"]:focus,
+.screen-reader-shortcut:focus,
+.screen-reader-text:focus,
+.widget_search input[type="submit"]:focus  {
+	clip: auto !important;
+	display: block;
+	height: auto;
+	padding: 20px;
+	text-decoration: none;
+	width: auto;
+	z-index: 100000; /* Above WP toolbar. */
 }
 
 
@@ -607,6 +704,7 @@ Common Classes
 
 .entry-content .search-form {
 	width: 50%;
+	margin-bottom: 30px;
 }
 
 .genesis-nav-menu .search input[type="submit"],
@@ -728,6 +826,12 @@ img.alignright,
 }
 
 .sticky {
+}
+
+.wp-audio-shortcode,
+.wp-playlist,
+.wp-video {
+    margin: 0 0 28px;
 }
 
 
@@ -1447,8 +1551,14 @@ p.entry-meta {
 --------------------------------------------- */
 
 .after-entry {
+	color: #333;
 	border-bottom: 2px solid #f5f5f5;
 	margin-bottom: 60px;
+}
+
+.after-entry .enews-widget, 
+.after-entry .enews-widget .widget-title {
+	color: #333;
 }
 
 .after-entry .widget,

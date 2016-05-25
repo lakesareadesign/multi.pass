@@ -1,0 +1,129 @@
+# Copyright (C) 2016 Themetry
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Milan Pro 1.0.0\n"
+"Report-Msgid-Bugs-To: https://themetry.com/support\n"
+"POT-Creation-Date: 2016-05-01 12:59:44+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: functions.php:56 functions.php:82
+msgid "Primary Navigation Menu"
+msgstr ""
+
+#: functions.php:103
+msgctxt "screen reader text for main menu subpages"
+msgid "next"
+msgstr ""
+
+#: functions.php:103
+msgctxt "text to navigate from subpages"
+msgid "Back"
+msgstr ""
+
+#: functions.php:165
+msgctxt "search placeholder text"
+msgid "Search &#x2026;"
+msgstr ""
+
+#: functions.php:177
+msgid "Previous"
+msgstr ""
+
+#: functions.php:184
+msgid "Next"
+msgstr ""
+
+#: functions.php:191
+msgid "Older Comments"
+msgstr ""
+
+#: functions.php:198
+msgid "Newer Comments"
+msgstr ""
+
+#: functions.php:205
+msgid "Comments"
+msgstr ""
+
+#: functions.php:230
+msgid "Featured Content"
+msgstr ""
+
+#: functions.php:232
+msgid "This widget area is intended to house a two instances of the Genesis Featured Posts widget. It is displayed on the front page."
+msgstr ""
+
+#: functions.php:241
+msgid "Social Footer"
+msgstr ""
+
+#: functions.php:243
+msgid "This widget area is intended to house a single instance the Simple Social Icons widget. It is displayed in the footer sitewide."
+msgstr ""
+
+#: lib/customize.php:49
+msgid "Accent Color"
+msgstr ""
+
+#: lib/customize.php:50
+msgid "Change the default accent color for links and link borders."
+msgstr ""
+
+#: single.php:18
+msgctxt "post author"
+msgid "by %s"
+msgstr ""
+
+#: single.php:37
+msgctxt "post date"
+msgid "%s"
+msgstr ""
+
+#. translators: used between list items, there is a space after the comma
+
+#: single.php:47
+msgid "Filed under:"
+msgstr ""
+
+#. translators: used between list items, there is a space after the comma
+
+#: single.php:70
+msgid "Tagged: %1$s"
+msgstr ""
+
+#: single.php:82
+msgid "Post navigation"
+msgstr ""
+
+#: single.php:91
+msgid "Previous Post"
+msgstr ""
+
+#: single.php:97
+msgid "Next Post"
+msgstr ""
+#. Theme Name of the plugin/theme
+msgid "Milan Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/milan/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "A fashionable Genesis magazine theme."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Themetry"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://themetry.com"
+msgstr ""

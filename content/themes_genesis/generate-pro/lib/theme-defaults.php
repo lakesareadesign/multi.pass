@@ -33,50 +33,26 @@ function generate_theme_setting_defaults() {
 			'posts_nav'                 => 'numeric',
 			'site_layout'               => 'content-sidebar',
 		) );
+
+		if ( function_exists( 'GenesisResponsiveSliderInit' ) ) {
+
+			genesis_update_settings( array(
+				'location_horizontal'             => 'left',
+				'location_vertical'               => 'bottom',
+				'posts_num'                       => '4',
+				'slideshow_arrows'                => 0,
+				'slideshow_excerpt_content_limit' => '100',
+				'slideshow_excerpt_content'       => 'full',
+				'slideshow_excerpt_width'         => '40',
+				'slideshow_height'                => '460',
+				'slideshow_more_text'             => __( 'Continue Reading', 'generate' ),
+				'slideshow_pager'                 => 1,
+				'slideshow_title_show'            => 1,
+				'slideshow_width'                 => '1060',
+			), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
 		
-		genesis_update_settings( array(
-			'location_horizontal'             => 'left',
-			'location_vertical'               => 'bottom',
-			'posts_num'                       => '4',
-			'slideshow_arrows'                => 0,
-			'slideshow_excerpt_content_limit' => '100',
-			'slideshow_excerpt_content'       => 'full',
-			'slideshow_excerpt_width'         => '40',
-			'slideshow_height'                => '460',
-			'slideshow_more_text'             => __( 'Continue Reading', 'generate' ),
-			'slideshow_pager'                 => 1,
-			'slideshow_title_show'            => 1,
-			'slideshow_width'                 => '1060',
-		), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
-	
-	} else {
-	
-		_genesis_update_settings( array(
-			'blog_cat_num'              => 3,	
-			'content_archive'           => 'full',
-			'content_archive_limit'     => 0,
-			'content_archive_thumbnail' => 1,
-			'image_alignment'           => 'alignleft',
-			'image_size'                => 'blog',
-			'posts_nav'                 => 'numeric',
-			'site_layout'               => 'content-sidebar',
-		) );
-	
-		_genesis_update_settings( array(
-			'location_horizontal'             => 'left',
-			'location_vertical'               => 'bottom',
-			'posts_num'                       => '4',
-			'slideshow_arrows'                => 0,
-			'slideshow_excerpt_content_limit' => '100',
-			'slideshow_excerpt_content'       => 'full',
-			'slideshow_excerpt_width'         => '40',
-			'slideshow_height'                => '460',
-			'slideshow_more_text'             => __( 'Continue Reading', 'generate' ),
-			'slideshow_pager'                 => 1,
-			'slideshow_title_show'            => 1,
-			'slideshow_width'                 => '1060',
-		), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
-	
+		}
+
 	}
 
 	update_option( 'posts_per_page', 3 );

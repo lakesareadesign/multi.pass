@@ -11,7 +11,7 @@ load_child_theme_textdomain( 'hello_pro', apply_filters( 'child_theme_textdomain
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Hello Pro', 'hello_pro' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/hello' );
-define( 'CHILD_THEME_VERSION', '1.0.1' );
+define( 'CHILD_THEME_VERSION', '1.2.0' );
 
 //* Add HTML5 markup structure
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
@@ -34,6 +34,9 @@ function hello_pro_load_scripts() {
 	wp_enqueue_style( 'google-font', '//fonts.googleapis.com/css?family=Comfortaa:400,700|Lato:400,300,300italic,400italic,700,700italic', array(), CHILD_THEME_VERSION );
 
 }
+
+//* Demo Functions
+include_once( get_stylesheet_directory() . '/demo-functions.php' );
 
 //* Theme Image Sizes
 add_image_size( 'featured', 300, 100, TRUE );

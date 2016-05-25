@@ -1,10 +1,10 @@
 /*
-	Theme Name: Agency Pro Theme
+	Theme Name: Agency Pro
 	Theme URI: http://my.studiopress.com/themes/agency/
 	Description: Represent your professional services with confidence and clarity by harnessing the streamlined professionalism of the Agency theme.
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
-	Version: 3.1.3
+	Version: 3.1.4
  
 	Tags: black, orange, white, one-column, two-columns, three-columns, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
  
@@ -450,11 +450,6 @@ input:hover[type="submit"],
 	color: #fff;
 }
 
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button {
-	display: none;
-}
-
 .site-container button:disabled,
 .site-container button:disabled:hover,
 .site-container input:disabled,
@@ -469,6 +464,16 @@ input[type="search"]::-webkit-search-results-button {
 	border: 1px solid #ddd;
 	color: #777;
 	cursor: not-allowed;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button {
+	display: none;
+}
+
+.error404 .entry-content input[type="search"],
+.post-password-form input[type="password"] {
+	margin-bottom: 15px;
 }
 
 /* Tables
@@ -521,12 +526,8 @@ td {
 .screen-reader-shortcut:focus,
 .screen-reader-text:focus,
 .widget_search input[type="submit"]:focus  {
-	border: 1px solid #333;
 	clip: auto !important;
 	display: block;
-	font-size: 18px;
-	font-size: 1.8rem;
-	font-weight: 700;
 	height: auto;
 	padding: 20px;
 	text-decoration: none;
@@ -726,7 +727,7 @@ img.centered,
 	margin: 0 auto 24px;
 }
 
-a.alignnone img,
+a.alignnone,
 .alignnone img {
 	margin-bottom: 12px;
 }
@@ -1067,7 +1068,6 @@ Site Header
 
 .site-header .search-form {
 	float: right;
-	margin-top: 24px;
 }
 
 

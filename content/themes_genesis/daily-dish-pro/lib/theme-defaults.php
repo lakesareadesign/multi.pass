@@ -31,51 +31,27 @@ function daily_dish_theme_setting_defaults() {
 			'posts_nav'                 => 'numeric',
 			'site_layout'               => 'content-sidebar',
 		) );
-		
-		genesis_update_settings( array(
-			'location_horizontal'             => 'left',
-			'location_vertical'               => 'top',
-			'posts_num'                       => '5',
-			'slideshow_arrows'                => 0,
-			'slideshow_excerpt_content_limit' => '100',
-			'slideshow_excerpt_content'       => 'full',
-			'slideshow_excerpt_width'         => '40',
-			'slideshow_excerpt_show'          => 1,
-			'slideshow_height'                => '400',
-			'slideshow_more_text'             => __( 'Continue Reading&hellip;', 'daily-dish' ),
-			'slideshow_pager'                 => 1,
-			'slideshow_title_show'            => 1,
-			'slideshow_width'                 => '720',
-		), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
-	
-	} else {
-	
-		_genesis_update_settings( array(
-			'blog_cat_num'              => 5,	
-			'content_archive_limit'     => 280,
-			'content_archive_thumbnail' => 1,
-			'image_alignment'           => 'alignleft',
-			'image_size'                => 'daily-dish-archive',
-			'posts_nav'                 => 'numeric',
-			'site_layout'               => 'content-sidebar',
-		) );
-		
-		_genesis_update_settings( array(
-			'location_horizontal'             => 'left',
-			'location_vertical'               => 'top',
-			'posts_num'                       => '5',
-			'slideshow_arrows'                => 0,
-			'slideshow_excerpt_content_limit' => '100',
-			'slideshow_excerpt_content'       => 'full',
-			'slideshow_excerpt_width'         => '40',
-			'slideshow_excerpt_show'          => 1,
-			'slideshow_height'                => '400',
-			'slideshow_more_text'             => __( 'Continue Reading&hellip;', 'daily-dish' ),
-			'slideshow_pager'                 => 1,
-			'slideshow_title_show'            => 1,
-			'slideshow_width'                 => '720',
-		), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
-	
+
+		if ( function_exists( 'GenesisResponsiveSliderInit' ) ) {
+
+			genesis_update_settings( array(
+				'location_horizontal'             => 'left',
+				'location_vertical'               => 'top',
+				'posts_num'                       => '5',
+				'slideshow_arrows'                => 0,
+				'slideshow_excerpt_content_limit' => '100',
+				'slideshow_excerpt_content'       => 'full',
+				'slideshow_excerpt_width'         => '40',
+				'slideshow_excerpt_show'          => 1,
+				'slideshow_height'                => '400',
+				'slideshow_more_text'             => __( 'Continue Reading&hellip;', 'daily-dish' ),
+				'slideshow_pager'                 => 1,
+				'slideshow_title_show'            => 1,
+				'slideshow_width'                 => '720',
+			), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
+
+		}
+
 	}
 
 	update_option( 'posts_per_page', 5 );

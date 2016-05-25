@@ -1,13 +1,13 @@
 /* 
-	Theme Name: Cafe Pro Theme 
+	Theme Name: Cafe Pro 
 	Theme URI: http://my.studiopress.com/themes/cafe/  
 	Description: A delectable design that puts your important communication front and center, and highlights your delicious offerings.
 	Author: StudioPress  
 	Author URI: http://www.studiopress.com/  
 	
-	Version: 1.0.1
+	Version: 1.0.3
 	 
-	Tags: black, green, white, one-column, two-columns, three-columns, left-sidebar, right-sidebar, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, premise-landing-page
+	Tags: black, green, white, one-column, two-columns, three-columns, left-sidebar, right-sidebar, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
 	Template: genesis
 	Template Version: 2.1
@@ -225,6 +225,15 @@ blockquote::before {
 	top: -10px;
 }
 
+hr {
+	border: 0;
+	border-collapse: collapse;
+	border-bottom: 1px solid #000;
+	clear: left;
+	margin: 0 0 40px;
+	padding-top: 20px;
+}
+
 
 /* ## Headings
 --------------------------------------------- */
@@ -279,11 +288,6 @@ video,
 
 img {
 	height: auto;
-}
-
-.featured-content img,
-.gallery img {
-	width: auto;
 }
 
 /* ## Gallery
@@ -411,6 +415,7 @@ input[type="submit"],
 	margin: 10px;
 	padding: 16px 24px;
 	text-transform: uppercase;
+	white-space: normal;
 	width: auto;
 }
 
@@ -429,9 +434,18 @@ input:hover[type="submit"] {
 	color: #fff;
 }
 
+button.small,
+input[type="button"].small,
+input[type="reset"].small,
+input[type="submit"].small,
+.button.small {
+	padding: 8px 16px;
+}
+
 .content .button,
 .widget .button {
 	color: #fff;
+	text-decoration: none;
 }
 
 .footer-widgets .wrap button:hover,
@@ -454,9 +468,29 @@ input:hover[type="submit"] {
 	display: inline-block;
 }
 
+.site-container button:disabled,
+.site-container button:disabled:hover,
+.site-container input:disabled,
+.site-container input:disabled:hover,
+.site-container input[type="button"]:disabled,
+.site-container input[type="button"]:disabled:hover,
+.site-container input[type="reset"]:disabled,
+.site-container input[type="reset"]:disabled:hover,
+.site-container input[type="submit"]:disabled,
+.site-container input[type="submit"]:disabled:hover {
+    background-color: #ddd;
+	border-width: 0;
+    color: #777;
+    cursor: not-allowed;
+}
+
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button {
 	display: none;
+}
+
+.post-password-form input[type="password"] {
+	margin-bottom: 15px;
 }
 
 /* ## Tables
@@ -807,6 +841,12 @@ img.alignright,
 }
 
 .sticky {
+}
+
+.wp-audio-shortcode,
+.wp-playlist,
+.wp-video {
+    margin: 0 0 28px;
 }
 
 
@@ -1709,7 +1749,7 @@ li.comment.depth-1 {
 	color: #fff;
 }
 
-.footer-widgets .wrap a {
+.footer-widgets a {
 	text-decoration: underline;
 }
 
@@ -1963,7 +2003,7 @@ li.comment.depth-1 {
 	}
 	
 	.nav-primary.fixed {
-		position: relative;
+		position: static;
 	}
 	
 	.nav-primary.fixed + div {

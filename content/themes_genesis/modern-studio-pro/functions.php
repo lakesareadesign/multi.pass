@@ -14,14 +14,14 @@ require_once( get_stylesheet_directory() . '/lib/customize.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'Modern Studio Pro Theme' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/modern-studio/' );
-define( 'CHILD_THEME_VERSION', '1.0' );
+define( 'CHILD_THEME_VERSION', '1.0.3' );
 
 //* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'ms_scripts_styles' );
 function ms_scripts_styles() {
 
-	wp_enqueue_script( 'ms-responsive-menu', esc_url( get_stylesheet_directory_uri() ) . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
-	wp_enqueue_script( 'ms-sticky-message', esc_url( get_stylesheet_directory_uri() ) . '/js/sticky-message.js', array( 'jquery' ), '1.0.0' );
+	wp_enqueue_script( 'ms-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
+	wp_enqueue_script( 'ms-sticky-message', get_stylesheet_directory_uri() . '/js/sticky-message.js', array( 'jquery' ), '1.0.0' );
 
 	wp_enqueue_style( 'dashicons' );
 	wp_enqueue_style( 'google-fonts', '//fonts.googleapis.com/css?family=Lato:400,700,400italic|Montserrat', array(), CHILD_THEME_VERSION );
@@ -83,7 +83,7 @@ function ms_sticky_message() {
 unregister_sidebar( 'header-right' );
 
 //* Rename menus
-add_theme_support( 'genesis-menus', array( 'primary' => __( 'Left Navigation Menu', 'modern-studio' ), 'secondary' => __( 'Right Navigation Menu', 'modern-studio' ) ) );
+add_theme_support( 'genesis-menus', array( 'primary' => __( 'Left Menu', 'modern-studio' ), 'secondary' => __( 'Right Menu', 'modern-studio' ) ) );
 
 //* Hook menus
 add_action( 'genesis_after_header', 'ms_menus_container' );
@@ -106,6 +106,14 @@ add_action( 'ms_menus', 'genesis_do_subnav' );
 //* Remove output of primary navigation right extras
 remove_filter( 'genesis_nav_items', 'genesis_nav_right', 10, 2 );
 remove_filter( 'wp_nav_menu_items', 'genesis_nav_right', 10, 2 );
+
+//* Remove navigation meta box
+add_action( 'genesis_theme_settings_metaboxes', 'ms_remove_genesis_metaboxes' );
+function ms_remove_genesis_metaboxes( $_genesis_theme_settings_pagehook ) {
+
+    remove_meta_box( 'genesis-theme-settings-nav', $_genesis_theme_settings_pagehook, 'main' );
+
+}
 
 //* Hook welcome message widget area before content
 add_action( 'genesis_before_loop', 'ms_welcome_message' );
@@ -138,17 +146,6 @@ function ms_entry_meta_footer( $post_meta ) {
 	$post_meta = '[post_categories before="Categories // "] [post_tags before="Tags // "]';
 
 	return $post_meta;
-
-}
-
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'ms_remove_comment_form_allowed_tags' );
-function ms_remove_comment_form_allowed_tags( $defaults ) {
-	
-	$defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . _x( 'Comment', 'noun', 'modern-studio' ) . '</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
-	$defaults['comment_notes_after'] = '';	
-
-	return $defaults;
 
 }
 

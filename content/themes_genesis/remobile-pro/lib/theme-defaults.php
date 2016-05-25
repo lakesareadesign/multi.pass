@@ -32,17 +32,6 @@ function remobile_theme_setting_defaults() {
 			'site_layout'               => 'full-width-content',
 		) );
 		
-	} else {
-		
-		_genesis_update_settings( array(
-			'blog_cat_num'              => 5,	
-			'content_archive'           => 'full',
-			'content_archive_limit'     => 0,
-			'content_archive_thumbnail' => 0,
-			'image_alignment'           => 'alignleft',
-			'posts_nav'                 => 'numeric',
-			'site_layout'               => 'full-width-content',
-		) );
 	}
 
 	update_option( 'posts_per_page', 5 );

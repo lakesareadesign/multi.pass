@@ -29,3 +29,11 @@ Please visit http://my.studiopress.com/help/ for theme support.
 * Update responsive menu
 * Use theme supports for after entry widget
 * HTML5 Galleries
+
+= 2.1.1 =
+* Remove obsolete comments filter
+* Remove IE8 CSS fix for images
+* Add hr tag styling
+* Add small and disabled button styles
+* Update menu names in admin
+* Update widget area descriptions

@@ -1,4 +1,4 @@
-Hello! A WordPress Personal Branding Theme from brandiD
+Hello! Pro A WordPress Personal Branding Theme from brandiD
 
 PURCHASE
 https://thebrandid.com/product/hello-personal-branding-wordpress-theme/

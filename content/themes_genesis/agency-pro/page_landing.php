@@ -16,8 +16,9 @@ add_filter( 'body_class', 'agency_add_body_class' );
 function agency_add_body_class( $classes ) {
 
    $classes[] = 'agency-pro-landing';
+
    return $classes;
-   
+
 }
 
 //* Force full width content layout

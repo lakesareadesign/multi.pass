@@ -60,3 +60,8 @@ CHANGELOG
 * Update Home Middle section for mobile devices and keyboard navigation
 * Remove IE8 CSS fix for images
 * Add Screen reader text CSS
+
+= 3.1.4 =
+* Adjust search button for screen readers
+* Adjust featured image alignnone margin
+* Remove the word Navigation from menu names

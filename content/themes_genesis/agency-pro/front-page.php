@@ -33,22 +33,22 @@ function agency_home_genesis_meta() {
 
 		//* Force content-sidebar layout setting
 		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
-		
+
 		//* Add agency-pro-home body class
 		add_filter( 'body_class', 'agency_body_class' );
-		
+
 		//* Remove breadcrumbs
 		remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
 
 		//* Remove the default Genesis loop
 		remove_action( 'genesis_loop', 'genesis_do_loop' );
-		
+
 		//* Add homepage home-top
 		add_action( 'genesis_after_header', 'agency_homepage_top' );
 
 		//* Add homepage widgets
 		add_action( 'genesis_loop', 'agency_homepage_widgets' );
-		
+
 		//* Modify length of post excerpts
 		add_filter( 'excerpt_length', 'agency_home_excerpt_length' );
 
@@ -59,8 +59,9 @@ function agency_home_genesis_meta() {
 function agency_body_class( $classes ) {
 
 	$classes[] = 'agency-pro-home';
+
 	return $classes;
-	
+
 }
 
 function agency_homepage_top() {
@@ -69,16 +70,16 @@ function agency_homepage_top() {
 		'before' => '<div id="home-top" class="home-top widget-area"><div class="wrap">',
 		'after'  => '</div></div>',
 	) );
-	
+
 }
 
 function agency_homepage_widgets() {
-	
+
 	genesis_widget_area( 'home-middle', array(
 		'before' => '<div id="home-middle" class="home-middle widget-area"><div class="wrap">',
 		'after'  => '</div></div>',
 	) );
-	
+
 	genesis_widget_area( 'home-bottom', array(
 		'before' => '<div id="home-bottom" class="home-bottom widget-area"><div class="wrap">',
 		'after'  => '</div></div>',
@@ -89,7 +90,7 @@ function agency_homepage_widgets() {
 function agency_home_excerpt_length( $length ) {
 
 	return 35;
-    
+
 }
 
 genesis();
