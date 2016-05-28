@@ -20,7 +20,7 @@ Class DgdScrollboxAdmin {
     protected $height_select_options = array('auto'=>'auto', '60'=>'60', '80'=>'80', '100'=>'100', '120'=>'120', '140'=>'140', 
         '160'=>'160', '180'=>'180', '200'=>'200', '220'=>'220', '240'=>'240', 
         '260'=>'260', '280'=>'280', '300'=>'300', '350'=>'350', '400'=>'400', 
-        '450'=>'450', '500'=>'500', '550'=>'550', '600'=>'600', '650'=>'650', '700'=>'700');
+        '450'=>'450', '500'=>'500', '550'=>'550', '600'=>'600', '650'=>'650', '700'=>'700', '100%' => '100%');
 
     // popup width
     protected $width_options = array (
@@ -29,7 +29,7 @@ Class DgdScrollboxAdmin {
     protected $width_select_options = array('60'=>'60', '80'=>'80', '100'=>'100', '120'=>'120', '140'=>'140', 
         '160'=>'160', '180'=>'180', '200'=>'200', '220'=>'220', '240'=>'240', 
         '260'=>'260', '280'=>'280', '300'=>'300', '350'=>'350', '400'=>'400', 
-        '450'=>'450', '500'=>'500', '550'=>'550', '600'=>'600', '650'=>'650', '700'=>'700');
+        '450'=>'450', '500'=>'500', '550'=>'550', '600'=>'600', '650'=>'650', '700'=>'700', '100%' => '100%');
 
     protected $trigger_options = array(
         'scroll' => 'Scroll and/or Time delay',
@@ -113,6 +113,21 @@ Class DgdScrollboxAdmin {
     protected $closeimage_options = array(
         0 => true,      // all input is good
         );
+
+    protected $blur_options = array(
+        '0'=>'None',
+        '1' => '1 px',
+        '2' => '2 px',
+        '3' => '3 px',
+        '4' => '4 px',
+        '5' => '5 px'
+        );
+
+    protected $opacity_options = array(
+        '0' => 'None',
+        '0.1' => '10 %', '0.2' => '20 %', '0.3' => '30 %', '0.4' => '40 %', '0.5' => '50 %',
+        '0.6' => '60 %', '0.7' => '70 %', '0.8' => '80 %', '0.9' => '90 %', '1' => '100%'
+    );
 
     protected $padding_options = array( '0' => '0px', '1' => '1px', '2' => '2px', '3' => '3px', 
         '4' => '4px', '5' => '5px', '6' => '6px', '7' => '7px', '8' => '8px', '9' => '9px', '10' => '10px', 
@@ -247,17 +262,7 @@ Class DgdScrollboxAdmin {
 
     function dgd_scrollbox_default($content, $post) {
         if($post->post_type == DGDSCROLLBOXTYPE) {
-            $content= '    <h5>Sign up for our Newsletter</h5>
-    <ul>
-        <li>Fresh trends</li>
-        <li>Cases and examples</li>
-        <li>Research and statistics</li>
-    </ul>
-    <p>Enter your email and stay on top of things,</p>
-    <form action="#" class="stbContactForm" method="post">
-        <input type="email" name="email" required="required" id="email" value="" /><input type="submit" class="stb-submit" value="Subscribe" />
-    </form>
-    <p class="stbMsgArea"></p>';
+            $content = DgdScrollboxHelper::sampleHtml();
         }
         return $content;
     }
@@ -697,9 +702,43 @@ Class DgdScrollboxAdmin {
                     </select>
                 </td>
             </tr>
+            <tr>
+                <td>Keep open</td>
+                <td><label><input type="checkbox" name="dgd_stb[keep_open]" value="1" <?php checked(true, isset($dgd_stb['keep_open'])); ?>>Keep box open if user scrolls back up</label></td>
+            </tr>
         </tbody>
         </table>
 
+        <h1>Lightbox</h1>
+        <table class="dgd_admin">
+        <tbody>
+            <tr>
+                <td>Lightbox</td>
+                <td><label><input type="checkbox" name="dgd_stb[lightbox][enabled]" value="1" <?php checked(true, isset($dgd_stb['lightbox']['enabled'])); ?>>Enable page shading with overlay ("Lightbox")</label></td>
+            </tr>
+            <tr>
+                <td>Overlay color</td>
+                <td>
+                    <input type="text" name="dgd_stb[lightbox][color]" value="<?php echo isset($dgd_stb['lightbox']['color']) ? $dgd_stb['lightbox']['color'] : '#000000' ?>" class="dgd-popup-color-picker" />
+                </td>
+            </tr>
+            <tr>
+                <td>Overlay opacity</td>
+                <td>
+                    <select name="dgd_stb[lightbox][opacity]">
+                        <?php echo $this->populate_options($this->opacity_options, isset($dgd_stb['lightbox']['opacity']) ? $dgd_stb['lightbox']['opacity'] : '0.7') ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Page content blur</td>
+                <td><label><input type="checkbox" name="dgd_stb[lightbox][blur]" value="2" <?php checked(true, isset($dgd_stb['lightbox']['blur'])); ?>>blur page content (Works on browsers supporting CSS3)</label></td>
+            </tr>
+
+
+
+        </tbody>
+        </table>
 
         <h1>Scrollbox design</h1>
         <table class="dgd_admin">
@@ -1095,12 +1134,14 @@ Class DgdScrollboxAdmin {
         if(version_compare($old_version, '2.1', '<')) {
             // upgrading to 2.1, fill "thankyou" value with default
             $pop_ups = get_pages( array('post_type'=>DGDSCROLLBOXTYPE, 'post_status' => 'publish'));
-            foreach($pop_ups as $pop_up) {
-                $meta=get_post_meta($pop_up->ID, 'dgd_stb', true);
-                if(!isset($meta['thankyou'])) {
-                    $meta['thankyou']=DgdScrollboxHelper::$dgd_stb_meta_default['thankyou'];
+            if(is_array($pop_ups)) {
+                foreach($pop_ups as $pop_up) {
+                    $meta=get_post_meta($pop_up->ID, 'dgd_stb', true);
+                    if(!isset($meta['thankyou'])) {
+                        $meta['thankyou']=DgdScrollboxHelper::$dgd_stb_meta_default['thankyou'];
+                    }
+                    update_post_meta( $pop_up->ID, 'dgd_stb', $meta);
                 }
-                update_post_meta( $pop_up->ID, 'dgd_stb', $meta);
             }
         }
         update_option('stb_version', DGDSCROLLBOX_VERSION);

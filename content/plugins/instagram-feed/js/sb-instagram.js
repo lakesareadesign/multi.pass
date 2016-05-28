@@ -91,7 +91,7 @@ if(!sbi_js_exists){
                     if( data.data.bio.length ) $header += '<p class="sbi_bio" '+headerStyles+'>'+data.data.bio+'</p>';
                     $header += '</div>';
                     $header += '<div class="sbi_header_img">';
-                    $header += '<div class="sbi_header_img_hover"><i class="fa fa-instagram"></i></div>';
+                    $header += '<div class="sbi_header_img_hover"><i></i></div>';
                     $header += '<img src="'+data.data.profile_picture+'" alt="'+data.data.full_name+'" width="50" height="50">';
                     $header += '</div>';
                     $header += '</a>';

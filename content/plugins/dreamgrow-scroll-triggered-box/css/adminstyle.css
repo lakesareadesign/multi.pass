@@ -9,8 +9,7 @@ table#dgd_pos_selector {width: 120px; border-spacing: 0px; border-collapse: coll
 
 #dgd_pos_selector a:hover {background: pink }
 #dgd_pos_selector a.selected {background: red }
-.dgd_form_footer { background: #dddddd                                                                                                                                                                                                                                                                                                       url('http://www.dreamgrow.com/wp-content/themes/dreamgrow_com/images/footer_grid.gif'); 
-}
+.dgd_form_footer { background: #dddddd url('//www.dreamgrow.com/wp-content/plugins/lazy-load/images/1x1.trans.gif'); }
 
 ul#dgd_tabs { list-style-type: none; margin: 30px 0 0 0; padding: 0 0 0.3em 0; }
 ul#dgd_tabs li { display: inline; color: #42454a; background-color: #dedbde; border: 1px solid #c9c3ba; border-bottom: none; padding: 0.3em; text-decoration: none; cursor: pointer }
@@ -32,7 +31,6 @@ div.dgd_tab_container .hide { display: none; }
     background: rgba(0, 0, 0, 0.5);
     width: 100%;
     visibility: hidden;
-    opacity: 0;
 }
 
 #dgd_preview_frame.activate {
@@ -40,7 +38,6 @@ div.dgd_tab_container .hide { display: none; }
     right: 0px;
     top: 0px;
     visibility: visible;
-    opacity: 1;
 }
 
 .dgd_preview_mode {

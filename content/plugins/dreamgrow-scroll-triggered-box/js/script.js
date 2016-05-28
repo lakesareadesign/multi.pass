@@ -1,4 +1,4 @@
-/*jslint browser: true, continue: true, regexp: true, plusplus: true, sloppy: true */
+/*jslint browser: true, continue: true, regexp: true, plusplus: true, sloppy: true, this: true, for: true, multivar: true */
 /*global $DGD */
 /*global jQuery */
 /*global FB */
@@ -9,7 +9,9 @@
 
 if (typeof $DGD.echo !== 'object') {
     $DGD.echo = function (str) {
-        if ($DGD.debug) {console.log(str); }
+        if ($DGD.debug) {
+            console.log(str);
+        }
     };
 }
 
@@ -17,6 +19,7 @@ $DGD.didScroll = true;
 $DGD.didResize = false;
 $DGD.screenheight = 2000;
 $DGD.screenwidth = 4000;
+$DGD.all_boxes = [];
 $DGD.boxes_wait_for_scroll = [];
 $DGD.boxes_with_relative_position = [];
 $DGD.boxes_wait_for_close = [];
@@ -24,6 +27,7 @@ $DGD.boxes_wait_for_open = [];
 $DGD.tabs_to_open = [];
 $DGD.docheight = 2000;
 $DGD.toScroll = 2000;
+$DGD.overlay = null;
 
 
 function DgdCreateSocialButtons(box) {
@@ -33,10 +37,10 @@ function DgdCreateSocialButtons(box) {
     this.addFbButton = function () {
         this.ul.append('<li class="fb ' + box.social.facebook + '"><div class="fb-like" data-send="false" data-share="false" data-action="like" data-layout="' + box.social.facebook + '" data-width="200" data-show-faces="false"></div></li>');
         if (typeof FB === 'object') {
-            FB.init({ status: true, cookie: true, xfbml: true });
+            FB.init({status: true, cookie: true, xfbml: true});
         } else {
             jQuery.getScript("//connect.facebook.net/en_US/all.js#xfbml=1", function () {
-                FB.init({ status: true, cookie: true, xfbml: true });
+                FB.init({status: true, cookie: true, xfbml: true});
             });
         }
     };
@@ -75,9 +79,10 @@ function DgdCreateSocialButtons(box) {
     };
 
     this.addLinkedinButton = function () {
-        if (typeof IN === 'object') {
-            IN.parse();
-        } else {
+        // if (typeof IN === 'object') {
+        //    IN.parse();
+        // } else {
+        if (typeof IN === 'undefined') {
             jQuery.getScript("//platform.linkedin.com/in.js");
         }
         this.ul.append('<li class="linkedin ' + box.social.linkedin + '"><script type="IN/Share"' + (box.social.linkedin !== 'none' ? ' data-counter="' + box.social.linkedin + '"' : '') + '></script></li>');
@@ -108,12 +113,24 @@ function DgdCreateSocialButtons(box) {
         }
         this.ul = jQuery(this.container).find('ul.stb_social');
         if (this.ul.length > 0) {
-            if (box.social.facebook) {this.addFbButton(); }
-            if (box.social.twitter) {this.addTwitterButton(); }
-            if (box.social.google) {this.addGoogleButton(); }
-            if (box.social.linkedin) {this.addLinkedinButton(); }
-            if (box.social.stumbleupon) {this.addStumbleuponButton(); }
-            if (box.social.pinterest) {this.addPinterestButton(); }
+            if (box.social.facebook) {
+                this.addFbButton();
+            }
+            if (box.social.twitter) {
+                this.addTwitterButton();
+            }
+            if (box.social.google) {
+                this.addGoogleButton();
+            }
+            if (box.social.linkedin) {
+                this.addLinkedinButton();
+            }
+            if (box.social.stumbleupon) {
+                this.addStumbleuponButton();
+            }
+            if (box.social.pinterest) {
+                this.addPinterestButton();
+            }
         }
     }
 }
@@ -157,9 +174,10 @@ $DGD.measureScreen = function () {
         this.screenheight = parseInt(jQuery(window).height(), 10);
         this.screenwidth = parseInt(jQuery(window).width(), 10);
     }
-    this.docheight = parseInt(document.body.scrollHeight || jQuery(document).height(), 10);
+    this.docheight = parseInt(jQuery(document).height() || document.body.scrollHeight, 10);
     // With no doctype tag Chrome reports the same value for both calls.
     this.toScroll = this.docheight - this.screenheight;
+    // console.log(this.screenwidth + 'x' + this.screenheight + ' ' + this.toScroll);
 };
 
 
@@ -179,25 +197,16 @@ $DGD.calcScroll = function () {
         box;
     for (i = 0; i < this.boxes_wait_for_scroll.length; i++) {
         box = this.boxes_wait_for_scroll[i];
-        if (box.trigger.action === 'scroll' && rate >= box.trigger.scroll && box.hidden && !box.closed) {
+        if ((box.trigger.action === 'scroll' || box.trigger.action === 'element') && rate >= box.trigger.scroll && box.hidden && !box.closed) {
             if (box.trigger.delaytime > 0) {
                 this.regTimedOpening(box, box.trigger.delaytime);
             } else {
                 this.showBox(box, false);
             }
         }
-        if (box.trigger.action === 'scroll' && rate < box.trigger.scroll && !box.hidden) {
+        if (!box.keep_open && (box.trigger.action === 'scroll' || box.trigger.action === 'element') && rate < box.trigger.scroll && !box.hidden) {
             this.hideBox(box);
         }
-    }
-};
-
-$DGD.fixPosition = function () {
-    var i, box;
-    for (i = 0; i < this.boxes_with_relative_position.length; i++) {
-        box = this.boxes_with_relative_position[i];
-        if (box.vpos === 'center') { box.div.css('top', (this.screenheight - box.height) / 2 + 'px'); }
-        if (box.hpos === 'center') { box.div.css('left', (this.screenwidth - box.width) / 2 + 'px'); }
     }
 };
 
@@ -233,6 +242,146 @@ $DGD.checkCookie = function (box) {
     return true;
 };
 
+$DGD.resizeBox = function (box) {
+    // box.height is input from box author
+    // box.height_int is calculated value according to screen or box measurements, if height expressed in relative values (auto or %)
+    if (box.height === 'auto') {
+        // used for TAB-s mainly
+        box.height_int = parseInt(box.div.outerHeight(true), 10);
+    } else {
+        if (box.height === '100%') {
+            box.height_int = this.screenheight - 2 * box.jsCss.margin;
+        } else {
+            box.height_int = parseInt(box.height, 10);
+            if (box.height_int > this.screenheight - 2 * box.jsCss.margin) {
+                box.height_int = this.screenheight - 2 * box.jsCss.margin;
+            }
+        }
+        box.div.css('height', box.height_int);
+    }
+
+    if (box.width === 'auto') {
+        // used for TAB-s mainly
+        box.width_int = parseInt(box.div.outerWidth(true), 10);
+    } else {
+        if (box.width === '100%') {
+            box.width_int = this.screenwidth - 2 * box.jsCss.margin;
+        } else {
+            box.width_int = parseInt(box.width, 10);
+            if (box.width_int > this.screenwidth - 2 * box.jsCss.margin) {
+                box.width_int = this.screenwidth - 2 * box.jsCss.margin;
+            }
+        }
+        box.div.css('width', box.width_int);
+    }
+};
+
+$DGD.calculateBoxPlacement = function (box) {
+    // calculates box positions before and after animation (e.g. slide out) according to
+    // box.vpos: vertical (y-axis) positioning, either 'top', 'center', or 'bottom')
+    // box.hpos: horisontal (x-axis) positioning, either 'left', 'center', or 'right'
+    // box.transition.from: slide from behind edge, 't' - top edge, 'b' - bottom edge, 'r' - right edge, 'l' - left edge
+
+    // before executing this function box.width_int and box.height_int int values must be calculated with this.resizebox
+
+    switch (box.vpos) {    // placement 'to'
+    case 'top':
+        box.vpos_att = 'top';
+        box.vpos_to = box.jsCss.margin;
+        switch (box.transition.from) {
+        case 't':
+            box.vpos_from = -(box.height_int + box.jsCss.margin);
+            break;
+        case 'b':
+            box.vpos_from = this.screenheight + box.jsCss.margin;
+            break;
+        default:
+            box.vpos_from = box.vpos_to;
+        }
+        break;
+    case 'center':
+        box.vpos_att = 'top';
+        box.vpos_to = (this.screenheight - box.height_int) / 2;
+        switch (box.transition.from) {
+        case 't':
+            box.vpos_from = -(box.height_int + box.jsCss.margin);
+            break;
+        case 'b':
+            box.vpos_from = this.screenheight + box.jsCss.margin;
+            break;
+        default:
+            box.vpos_from = box.vpos_to;
+        }
+        break;
+    default: // case 'bottom'
+        box.vpos_att = 'bottom';
+        box.vpos_to = box.jsCss.margin;
+        switch (box.transition.from) {
+        case 't':
+            box.vpos_from = this.screenheight + box.jsCss.margin;
+            break;
+        case 'b':
+            box.vpos_from = -(box.height_int + box.jsCss.margin);
+            break;
+        default:
+            box.vpos_from = box.vpos_to;
+        }
+        break;
+    }
+
+    switch (box.hpos) { // placement 'to'
+    case 'left':
+        box.hpos_att = 'left';
+        box.hpos_to = box.jsCss.margin;
+        switch (box.transition.from) {
+        case 'r':
+            box.hpos_from = this.screenwidth + box.jsCss.margin;
+            break;
+        case 'l':
+            box.hpos_from = -(box.width_int + 2 * box.jsCss.margin);
+            break;
+        default:
+            box.hpos_from = box.hpos_to;
+        }
+        break;
+    case 'center':
+        box.hpos_att = 'left';
+        box.hpos_to = (this.screenwidth - box.width_int) / 2;
+        switch (box.transition.from) {
+        case 'r':
+            box.hpos_from = this.screenwidth + box.jsCss.margin;
+            break;
+        case 'l':
+            box.hpos_from = -(box.width_int + 2 * box.jsCss.margin);
+            break;
+        default:
+            box.hpos_from = box.hpos_to;
+        }
+        break;
+    default: // case 'right':
+        box.hpos_att = 'right';
+        box.hpos_to = box.jsCss.margin;
+        switch (box.transition.from) {
+        case 'r':
+            box.hpos_from = -(box.width_int + 2 * box.jsCss.margin);
+            break;
+        case 'l':
+            box.hpos_from = this.screenwidth + 2 * box.jsCss.margin;
+            break;
+        default:
+            box.hpos_from = box.hpos_to;
+        }
+        break;
+    }
+
+    box.div.css(box.vpos_att, box.vpos_from);
+    box.div.css(box.hpos_att, box.hpos_from);
+    box.anim_from[box.vpos_att] = box.vpos_from;
+    box.anim_from[box.hpos_att] = box.hpos_from;
+    box.anim_to[box.vpos_att] = box.vpos_to;
+    box.anim_to[box.hpos_att] = box.hpos_to;
+};
+
 $DGD.placeBox = function (box) {
     var image,
         elementheight,
@@ -255,15 +404,29 @@ $DGD.placeBox = function (box) {
     box.closed = false;    // box is closed, do not show again
     box.anim_from = {};
     box.anim_to = {};
+    box.width_int = null; // value will be set with this.resizeBox
+    box.height_int = null; // value will be set with this.resizeBox
 
     // set div properties first as they affect position calculations later
-    if (box.jsCss.backgroundColor !== null && box.jsCss.backgroundColor !== '') { box.div.css('background-color', box.jsCss.backgroundColor); }
-    if (box.jsCss.padding !== null) { box.div.css('padding', box.jsCss.padding + 'px'); }
+    if (box.jsCss.backgroundColor !== null && box.jsCss.backgroundColor !== '') {
+        box.div.css('background-color', box.jsCss.backgroundColor);
+    }
+    if (box.jsCss.padding !== null) {
+        box.div.css('padding', box.jsCss.padding + 'px');
+    }
     box.jsCss.margin = parseInt(box.jsCss.margin, 10);
-    if (box.jsCss.borderWidth !== '0px' && box.jsCss.borderColor !== '') { box.div.css('border', box.jsCss.borderColor + ' solid ' + box.jsCss.borderWidth); }
-    if (box.jsCss.borderRadius !== '0px') { box.div.css('border-radius', box.jsCss.borderRadius); }
-    if (box.jsCss.boxShadow !== '0px') { box.div.css('box-shadow', box.jsCss.boxShadow + ' ' + box.jsCss.boxShadow + ' 25px #888888'); }
-    if (box.jsCss.backgroundImageUrl !== null && box.jsCss.backgroundImageUrl !== '') { box.div.css('background-image', 'url(' + box.jsCss.backgroundImageUrl + ')'); }
+    if (box.jsCss.borderWidth !== '0px' && box.jsCss.borderColor !== '') {
+        box.div.css('border', box.jsCss.borderColor + ' solid ' + box.jsCss.borderWidth);
+    }
+    if (box.jsCss.borderRadius !== '0px') {
+        box.div.css('border-radius', box.jsCss.borderRadius);
+    }
+    if (box.jsCss.boxShadow !== '0px') {
+        box.div.css('box-shadow', box.jsCss.boxShadow + ' ' + box.jsCss.boxShadow + ' 25px #888888');
+    }
+    if (box.jsCss.backgroundImageUrl !== null && box.jsCss.backgroundImageUrl !== '') {
+        box.div.css('background-image', 'url(' + box.jsCss.backgroundImageUrl + ')');
+    }
 
     if (box.closeImageUrl !== null && box.closeImageUrl !== '') {
         // first tag in box.div is always close button, set this image as background
@@ -279,27 +442,13 @@ $DGD.placeBox = function (box) {
         box.div.click($DGD.closeBox);
     }
 
-    if (box.height === 'auto') {
-        box.height = parseInt(box.div.outerHeight(true), 10);
-    } else {
-        box.height = parseInt(box.height, 10);
-        // box.div.height(box.height);
-        box.div.css('height', box.height);
-    }
-    if (box.width === 'auto') {
-        box.width = parseInt(box.div.outerWidth(true), 10);
-    } else {
-        box.width = parseInt(box.width, 10);
-        // box.div.width(box.width);
-        box.div.css('width', box.width);
-    }
-
     if (box.trigger.action === 'element') {
         if (jQuery(box.trigger.element).length > 0) {
             elementheight = jQuery(box.trigger.element).offset().top;
-            this.toScroll = this.docheight - this.screenheight;
+            // this.toScroll = this.docheight - this.screenheight;
             box.trigger.scroll = ((elementheight - this.screenheight) + 0.001) / (this.toScroll + 0.001) * 100;
         } else {
+            // if element is missing, box will be not shown
             box.trigger.scroll = 111;
             this.echo('Element ' + box.trigger.element + ' is missing');
         }
@@ -313,105 +462,30 @@ $DGD.placeBox = function (box) {
         box.div.css('opacity', 0);
         break;
     }
-
-    switch (box.vpos) {    // placement 'to'
-    case 'top':
-        box.vpos_att = 'top';
-        box.vpos_to = box.jsCss.margin;
-        switch (box.transition.from) {
-        case 't':
-            box.vpos_from = -(box.height + box.jsCss.margin);
-            break;
-        case 'b':
-            box.vpos_from = this.screenheight + box.jsCss.margin;
-            break;
-        default:
-            box.vpos_from = box.vpos_to;
-        }
-        break;
-    case 'center':
-        box.vpos_att = 'top';
-        box.vpos_to = (this.screenheight - box.height) / 2;
-        switch (box.transition.from) {
-        case 't':
-            box.vpos_from = -(box.height + box.jsCss.margin);
-            break;
-        case 'b':
-            box.vpos_from = this.screenheight + box.jsCss.margin;
-            break;
-        default:
-            box.vpos_from = box.vpos_to;
-        }
-        break;
-    default: // case 'bottom'
-        box.vpos_att = 'bottom';
-        box.vpos_to = box.jsCss.margin;
-        switch (box.transition.from) {
-        case 't':
-            box.vpos_from = this.screenheight + box.jsCss.margin;
-            break;
-        case 'b':
-            box.vpos_from = -(box.height + box.jsCss.margin);
-            break;
-        default:
-            box.vpos_from = box.vpos_to;
-        }
-        break;
-    }
-
-    switch (box.hpos) { // placement 'to'
-    case 'left':
-        box.hpos_att = 'left';
-        box.hpos_to = box.jsCss.margin;
-        switch (box.transition.from) {
-        case 'r':
-            box.hpos_from = this.screenwidth + box.jsCss.margin;
-            break;
-        case 'l':
-            box.hpos_from = -(box.width + 2 * box.jsCss.margin);
-            break;
-        default:
-            box.hpos_from = box.hpos_to;
-        }
-        break;
-    case 'center':
-        box.hpos_att = 'left';
-        box.hpos_to = (this.screenwidth - box.width) / 2;
-        switch (box.transition.from) {
-        case 'r':
-            box.hpos_from = this.screenwidth + box.jsCss.margin;
-            break;
-        case 'l':
-            box.hpos_from = -(box.width + 2 * box.jsCss.margin);
-            break;
-        default:
-            box.hpos_from = box.hpos_to;
-        }
-        break;
-    default: // case 'right':
-        box.hpos_att = 'right';
-        box.hpos_to = box.jsCss.margin;
-        switch (box.transition.from) {
-        case 'r':
-            box.hpos_from = -(box.width + 2 * box.jsCss.margin);
-            break;
-        case 'l':
-            box.hpos_from = this.screenwidth + 2 * box.jsCss.margin;
-            break;
-        default:
-            box.hpos_from = box.hpos_to;
-        }
-        break;
-    }
-
-    box.div.css(box.vpos_att, box.vpos_from);
-    box.div.css(box.hpos_att, box.hpos_from);
-    box.anim_from[box.vpos_att] = box.vpos_from;
-    box.anim_from[box.hpos_att] = box.hpos_from;
-    box.anim_to[box.vpos_att] = box.vpos_to;
-    box.anim_to[box.hpos_att] = box.hpos_to;
-
     // box.div.css('display', 'block').stop(true, true);
+};
+
+$DGD.fixPosition = function () {
+    var i, box;
+    for (i = 0; i < this.all_boxes.length; i++) {
+        box = this.all_boxes[i];
+        this.resizeBox(box);
+        this.calculateBoxPlacement(box);
+        if (!box.hidden) {
+            // Box already visible, fix position
+            // box.div.animate(box.anim_to, box.transition.speed, 'swing');
+
+            box.div.css(box.vpos_att, box.vpos_to);
+            box.div.css(box.hpos_att, box.hpos_to);
+        }
+    }
+};
+
+$DGD.hideOverlay = function (box) {
+    if (typeof box.lightbox === 'object' && box.lightbox.enabled) {
+        $DGD.overlay.hide();
+        jQuery('#page, .dgd_blurme').removeClass('dgd_blur');
+    }
 };
 
 $DGD.hideBox = function (box) {
@@ -421,7 +495,10 @@ $DGD.hideBox = function (box) {
     }
     // BUG: Do not hide if some input boxes are in focus?
     box.hidden = true;
-    box.div.animate(box.anim_from, box.transition.speed, 'swing', function () { box.div.css('display', 'none'); });
+    box.div.animate(box.anim_from, box.transition.speed, 'swing', function () {
+        box.div.css('display', 'none');
+    });
+    $DGD.hideOverlay(box);
 };
 
 $DGD.regTimedClose = function (box, seconds) {
@@ -438,6 +515,17 @@ $DGD.regTimedOpening = function (box, seconds) {
     }
 };
 
+$DGD.showOverlay = function(box) {
+    if (typeof box.lightbox === 'object' && box.lightbox.enabled) {
+        $DGD.overlay.height(this.docheight);
+        $DGD.overlay.css({'opacity': box.lightbox.opacity, 'background-color': box.lightbox.color});
+        $DGD.overlay.show();
+        if (box.lightbox.blur) {
+            jQuery('#page, .dgd_blurme').addClass('dgd_blur');
+        }
+    }
+};
+
 $DGD.showBox = function (box, forcedOpen) {
     if (!box) { box = this; }
     if (!box.hidden || (box.closed && !forcedOpen)) {
@@ -447,6 +535,9 @@ $DGD.showBox = function (box, forcedOpen) {
     if (box.tabid) {
         $DGD.closeBox($DGD.getBoxById(box.tabid));
     }
+
+    this.showOverlay(box);
+
     box.hidden = false;
     box.div.css('display', 'block').stop(true, true);
     box.div.animate(box.anim_to, box.transition.speed, 'swing');
@@ -481,9 +572,11 @@ $DGD.closeBox = function () {
         $DGD.hideBox(box);
         $DGD.setCookie(box.id, box.cookieLifetime);
         if (box.tabid) {
+            // it's a box with tab, show tab
             $DGD.showBox($DGD.getBoxById(box.tabid), true);
         }
         if (box.parentid) {
+            // if tab is closed, then parent will be opened
             $DGD.showBox($DGD.getBoxById(box.parentid), true);
         }
     }
@@ -508,18 +601,20 @@ $DGD.submitForm = function (e) {
         message_container = form.next('p'),
         sendobj = {};
 
+    console.log(this);
+
     // Fallback for situation where this <p> does not exist
     if (message_container.length === 0) {
         form.parent().append('<p class="stbMsgArea"></p>');
         message_container = form.parent().find('p.stbMsgArea');
     }
 
-    sendobj.box = box_id;
-    sendobj.page = document.location.href;
+    sendobj.Box = box_id;
+    sendobj.Page = document.location.href;
     sendobj.action = 'dgd_stb_form_process';
     sendobj.stbNonce = $DGD.nonce;
-    sendobj.user_screen_size = $DGD.screenwidth + 'px * ' + $DGD.screenheight + 'px';
-    form.find('input').each(function () {
+    sendobj.Screen_size = $DGD.screenwidth + 'px * ' + $DGD.screenheight + 'px';
+    form.find('input, textarea, select').each(function () {
         sendobj[jQuery(this).attr('name')] = jQuery(this).val();
     });
 
@@ -584,6 +679,7 @@ $DGD.scrollboxInit = function () {
         d;
 
     if (this.scrollboxes.length > 0) {
+        $DGD.overlay = jQuery('.dgd_overlay');
         this.measureScreen();
 
         for (i = 0; i < this.scrollboxes.length; i++) {
@@ -596,11 +692,15 @@ $DGD.scrollboxInit = function () {
 
             this.generateBox(box, boxparent);
             this.placeBox(box);
+            this.resizeBox(box);
+            this.calculateBoxPlacement(box);
+
+            this.all_boxes.push(box);
 
             if (!this.checkCookie(box)) {
                 // closed boxes will be not added to wait arrays, those can be opened only from tab (if exists)
                 if (box.tabid) {
-                    $DGD.tabs_to_open[this.tabs_to_open.length] = box.tabid;
+                    $DGD.tabs_to_open.push(box.tabid);
                 }
                 continue;
             }
@@ -611,7 +711,8 @@ $DGD.scrollboxInit = function () {
                     jQuery(box.trigger.element).on(box.trigger.action, $DGD.mouseEventHandler);
                 }
             }
-            this.boxes_wait_for_scroll[this.boxes_wait_for_scroll.length] = box;
+
+            this.boxes_wait_for_scroll.push(box);
         }
 
         if (this.boxes_wait_for_scroll.length > 0) {
@@ -623,11 +724,14 @@ $DGD.scrollboxInit = function () {
                     $DGD.didScroll = false;
                     $DGD.calcScroll();
                 }
+
+                // Monitor screen and content changes and correct boxes placement
                 if ($DGD.didResize) {
                     $DGD.didResize = false;
                     $DGD.measureScreen();
                     $DGD.fixPosition();
                 }
+
                 if ($DGD.boxes_wait_for_close.length > 0) {
                     d = Date.now();
                     for (i = 0; i < $DGD.boxes_wait_for_close.length; i++) {
@@ -653,10 +757,11 @@ $DGD.scrollboxInit = function () {
                     }
                 }
             }, 333);
-            if ($DGD.tabs_to_open.length > 0) {
-                for (i = 0; i < $DGD.tabs_to_open.length; i++) {
-                    $DGD.showBox($DGD.getBoxById($DGD.tabs_to_open[i]));
-                }
+        }
+
+        if ($DGD.tabs_to_open.length > 0) {
+            for (i = 0; i < $DGD.tabs_to_open.length; i++) {
+                $DGD.showBox($DGD.getBoxById($DGD.tabs_to_open[i]));
             }
         }
 
@@ -664,7 +769,23 @@ $DGD.scrollboxInit = function () {
         jQuery('.dgd_stb_box_close_button').click($DGD.closeBox);
         // fallback for old layout
         jQuery('#closebox').click($DGD.closeBox);
+
+        // Bind close action to MailChimp "success" response field change
+        jQuery('.dgd_stb_box #mce-success-response').bind('DOMSubtreeModified', function() {
+            $DGD.closeAfterSubmit(jQuery('#mce-success-response').closest('.dgd_stb_box').attr('id'));
+        });
     }
 };
 
 jQuery(document).ready(function () { $DGD.scrollboxInit(); });
+
+/*
+TIP Example about triggering scrollboxes resizing from page changing event
+
+if (typeof $DGD === 'object') {
+    jQuery('body').bind('DOMNodeInserted DOMNodeRemoved', function() { $DGD.didResize = true; });
+}
+
+
+
+*/

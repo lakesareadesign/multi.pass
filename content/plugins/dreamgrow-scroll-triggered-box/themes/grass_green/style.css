@@ -13,14 +13,14 @@
 }
 .dgd_stb_box.grass_green h5 { font-family: Arial, Helvetica, sans-serif; color: #FFF; font-size: 18px; text-shadow: 0 1px 0px #66a523; display: block; padding: 10px 15px 0 0; }
 .dgd_stb_box.grass_green p { font-size: 16px; }
-.dgd_stb_box.grass_green ul { font-size: 14px; margin: 10px 0; padding: 0; }
-.dgd_stb_box.grass_green ul li { list-style: none; font-size: 14px; background: url("bullet.png") 0 6px no-repeat; padding: 0 0 0 25px; line-height: 1.5; }
+.dgd_stb_box.grass_green ul { font-size: 14px; margin: 10px 0; padding: 0; list-style: disc url("bullet.png") inside; }
+.dgd_stb_box.grass_green ul li { font-size: 14px; }
 
 
 
 
-.dgd_stb_box.grass_green ul.stb_social { overflow: hidden; margin: 10px -7px 0 0; clear: both; }
-.dgd_stb_box.grass_green ul.stb_social li { float: left; list-style: none; background: none; padding: 0; height: 30px; margin: 0 7px 0 0; }
+.dgd_stb_box.grass_green ul.stb_social { overflow: hidden; margin: 10px -7px 0 0; clear: both; list-style: none url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"); }
+.dgd_stb_box.grass_green ul.stb_social li { float: left; display: inline; padding: 0; height: 30px; margin: 0 7px 0 0; }
 .dgd_stb_box.grass_green ul.stb_social li.fb.standard { width: 50px; overflow: hidden; }
 .dgd_stb_box.grass_green ul.stb_social li.twitter.regular { width: 80px; }
 .dgd_stb_box.grass_green ul.stb_social li.google.medium { width: 60px; }

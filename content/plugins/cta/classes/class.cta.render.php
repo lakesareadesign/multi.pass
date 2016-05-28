@@ -370,6 +370,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
          *  Enqueue CSS & JS
          */
         public function enqueue_scripts() {
+            global $post;
 
             /* Get Variation Selection Nature */
             self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery', 0 );
@@ -389,8 +390,16 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $ajax_url =  admin_url( 'admin-ajax.php' );
             }
 
+            /* cta preview mode uses shortcodes that call this manually */
+            if (isset($post) && $post->post_type == 'wp-call-to-action' ) {
+                $cta_id = 0;
+            } else {
+                $cta_id = self::$instance->selected_cta['id'];
+            }
+
             wp_enqueue_script( 'cta-load-variation', WP_CTA_URLPATH . 'assets/js/cta-variation.js', array('jquery'), true );
-            wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'], 'ajax_url' => $ajax_url, 'admin_url' => admin_url( 'admin-ajax.php'), 'home_url' => get_home_url(), 'disable_ajax' => self::$instance->disable_ajax ));
+            wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => $cta_id, 'ajax_url' => $ajax_url, 'admin_url' => admin_url( 'admin-ajax.php'), 'home_url' => get_home_url(), 'disable_ajax' => self::$instance->disable_ajax ));
+
 
             /* If placement is popup load popup asset files */
             if ( self::$instance->cta_content_placement === 'popup') {
@@ -527,7 +536,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
                 $dynamic_css = str_replace("{{", "", $dynamic_css);
                 $dynamic_css = str_replace("}}", "", $dynamic_css);
-
 
                 $dynamic_css = self::$instance->parse_css_template($dynamic_css, $css_id_preface);
 
@@ -802,7 +810,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
             //(?<={% if )(.*)(?=%})
             /* Match Conditionals {% if {{var-name}} === "XXXX" %} tokens */
             preg_match_all('/{%+(.*?)%}/', $template, $conditional_tokens);
-            //print_r($conditional_tokens);
+            $conditional_tokens = array_filter($conditional_tokens);
+
             foreach ($conditional_tokens as $key => $value) {
                 if (is_array($value) && !empty($value[0])) {
                     $debug_output = false;
@@ -810,12 +819,12 @@ if ( !class_exists( 'CTA_Render' ) ) {
                         //echo $conditional_code;
                         $clean_val = trim(str_replace(array("{%", "%}"), "", $conditional_code));
                         $pieces = explode(" ", $clean_val); // explode string into function parts
-                        //print_r($pieces);
+
                         if (count($pieces) > 2) {
                             $function = $pieces[0] . "(" . $pieces[1] . $pieces[2] . $pieces[3] . ") {";
                             $function .= 'return TRUE;';
                             $function .= '}';
-                            //echo $function;
+
                             $return_val = eval($function);
 
                             if (!$return_val){
@@ -983,6 +992,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             $dynamic_css = str_replace('}}', ']]', $dynamic_css);
 
             $oParser = new Sabberworm\CSS\Parser($dynamic_css);
+
             $oCss = $oParser->parse();
 
             foreach($oCss->getAllDeclarationBlocks() as $oBlock) {
@@ -1347,14 +1357,20 @@ if ( !class_exists( 'CTA_Render' ) ) {
                         return this;
                     }
                 </script>
-            <?php } ?>
-            <script type="text/javascript">
-                jQuery(document).ready(function($) {
-                    jQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo intval($_GET['wp-cta-variation-id']); ?>').show();
-                });
-            </script>
-            <?php
+            <?php }
+
+            if($_GET['wp-cta-variation-id']) {
+                ?>
+                <script type="text/javascript">
+                    jQuery(document).ready(function($) {
+                        jQuery('.wp_cta_<?php echo $cta_id; ?>_variation_<?php echo intval($_GET['wp-cta-variation-id']); ?>').show();
+                    });
+                </script>
+                <?php
+            }
+
             do_action('wp_footer');
+
             echo '</body>';
             echo '</html>';
             exit;

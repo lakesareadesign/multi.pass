@@ -36,7 +36,7 @@ Class DgdScrollboxHelper {
             'element' =>'',     // element shown to trigger
             ),
         'height' => 'auto',
-        'width' => 300,
+        'width' => 350,
         'vpos' => 'bottom',
         'hpos' => 'right',
         'include_css' => '1',
@@ -64,6 +64,12 @@ Class DgdScrollboxHelper {
             'stumbleupon' => 0,
             'linkedin' => 0
         ),
+        'lightbox' => array(
+            'enabled' => null,
+            'color' => '#000000',
+            'opacity' => '0.7',
+            'blur' => 2
+        ),
         'closeImageUrl' => '',
         'hide_mobile' => '1',
         'submit_auto_close' => 5,
@@ -75,6 +81,7 @@ Class DgdScrollboxHelper {
         'widget_enabled' => '1',
         'tabhtml'=>'Subscribe!',
         'tab'=>'1',
+        'keep_open' => null
     );
 
     public static $dgd_stb_show_meta_default = array(
@@ -85,7 +92,7 @@ Class DgdScrollboxHelper {
         'categories' => array(),
         'tags' => array(),
         'post_types' => array ('page'=>1, 'post'=>1),
-        'admin_only' => '0',
+        'admin_only' => null,
     );
 
 
@@ -196,13 +203,8 @@ Class DgdScrollboxHelper {
         return false;
     }
 
-
-
-}
-
-
-// Set sample HTML for back and front
-$sampleHtml =  '<h5>Sign up for our Newsletter</h5>
+    public static function sampleHtml($sample=0) {
+        return '<h5>Sign up for our Newsletter</h5>
     <ul>
         <li>Fresh trends</li>
         <li>Cases and examples</li>
@@ -210,6 +212,13 @@ $sampleHtml =  '<h5>Sign up for our Newsletter</h5>
     </ul>
     <p>Enter your email and stay on top of things,</p>
     <form action="#" class="stbContactForm" method="post">
-        <input type="text" name="email" id="email" value="" /><input type="submit" class="stb-submit" value="Subscribe" />
+        <input type="text" name="Email" id="email" value="" /><input type="submit" name="Submit" class="stb-submit" value="Subscribe" />
     </form>
     <p class="stbMsgArea"></p>';
+    }
+
+}
+
+
+// Set sample HTML for back and front
+$sampleHtml = DgdScrollboxHelper::sampleHtml();

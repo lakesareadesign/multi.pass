@@ -3,7 +3,7 @@
 Plugin Name: Scroll Triggered Box
 Plugin URI: http://www.dreamgrow.com/dreamgrow-scroll-triggered-box/
 Description: Scroll Triggered Box
-Version: 2.2.0
+Version: 2.3
 Author: Dreamgrow Digital
 Author URI: http://www.dreamgrow.com
 License: GPL2
@@ -13,7 +13,7 @@ if(!defined('DGDSCROLLBOXTYPE'))
     define('DGDSCROLLBOXTYPE', 'dgd_scrollbox');        // DO NOT TOUCH!
 
 if(!defined('DGDSCROLLBOX_VERSION'))
-    define('DGDSCROLLBOX_VERSION', '2.2.0');
+    define('DGDSCROLLBOX_VERSION', '2.3');
 
 require_once(plugin_dir_path(__FILE__).'dgd-scrollbox-helper.class.php');
 
@@ -26,7 +26,6 @@ class DgdScrollbox {
 
     public function __construct() {
         add_action('init', array($this, 'create_dgd_scrollbox_post_type') );
-        add_action('wp', array($this, 'get_original_post_id'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_style_n_script') );
         add_shortcode('close-button', array($this, 'close_button') );
         add_action('wp_ajax_dgd_stb_form_process', array($this, 'dgd_stb_form_process'));
@@ -39,7 +38,7 @@ class DgdScrollbox {
             new DgdScrollboxAdmin();
             register_activation_hook(__FILE__, array('DgdScrollboxAdmin', 'install') );
             register_deactivation_hook(__FILE__, array('DgdScrollboxAdmin', 'uninstall') );
-        }
+        } 
     }
 
     function create_dgd_scrollbox_post_type() {
@@ -69,16 +68,19 @@ class DgdScrollbox {
     }
 
     public function get_original_post_id() {
-        global $wp_version;
+        global $wp_version, $post;
         if(version_compare($wp_version, '3.1', '>=')) {
-            // WP=3.1.0 or newer
-            $post=get_queried_object();
-            if (is_object($post) && isset($post->ID)) {
+            // get_queried_object() is available from WP 3.1.0
+            $post1=get_queried_object();
+            if (is_object($post1) && isset($post1->ID)) {
+                $this->post_id = $post1->ID;
+                $this->post_title = $post1->post_title;
+            } else {
+                // get_queried_object() does not work for first page if WP<4.1
                 $this->post_id = $post->ID;
-                $this->post_title = $post->post_title;
+                $this->post_title = $post->post_title;                
             }
         } else {
-            global $post;
             $this->post_id = $post->ID;
             $this->post_title = $post->post_title;
         }
@@ -102,15 +104,18 @@ class DgdScrollbox {
             die (json_encode(array('html'=>'Sorry, but you must reload this page!', 'status'=>'500')));
         }
         
-        $box_id=(int)str_replace( DGDSCROLLBOXTYPE.'-', '', $_POST['box']);
+        $box_id=(int)str_replace( DGDSCROLLBOXTYPE.'-', '', $_POST['Box']);
         $box_id = filter_var($box_id, FILTER_VALIDATE_INT);
         $meta=get_post_meta($box_id, 'dgd_stb', true );
         if(!isset($meta['thankyou'])) {
             $meta['thankyou']=DgdScrollboxHelper::$dgd_stb_meta_default['thankyou'];
+            $meta['thankyou'].='. Box post: '.$_POST['box'].', id:'.$box_id;
         }
 
         if(isset($_POST['email'])) {
             $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+        } else if (isset($_POST['Email'])) {
+            $email = filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL);
         } else {
             $email = $meta['receiver_email'];
         }
@@ -119,13 +124,14 @@ class DgdScrollbox {
         $subject = __('Dgd Scrollbox submit on ' . get_bloginfo('name'));
         $body="Submitted values:\n";
         foreach($_POST as $name=>$value) {
-            if(!in_array($name, array('action', 'stbNonce', 'submitted'))) { 
+            if(!in_array($name, array('action', 'stbNonce', 'submitted', 'Screen_size'))) { 
                 $body.=htmlspecialchars($name).': '.htmlspecialchars($value)."\n"; 
             }
         }
         $body.="===============================\n";
         $body.='Submitted from IP: '.$_SERVER['REMOTE_ADDR']."\n";
         $body.='Used browser: '.$_SERVER['HTTP_USER_AGENT']."\n";
+        $body.='Screen size: '.$_POST['Screen_size']."\n";
 
         $headers = 'From: ' . $emailTo . "\r\n" . 'Reply-To: ' . $email;
 
@@ -240,8 +246,9 @@ class DgdScrollbox {
                             'from' => $meta['transition']['from'],
                             'speed' => $meta['transition']['speed'],
                             ),
+                        'lightbox' => 0,
                         'closeImageUrl' => '',
-                        'hide_mobile' => $meta['hide_mobile'],
+                        'hide_mobile' => (isset($meta['hide_mobile']) ? '1' : null),
                         'submit_auto_close' => 0,
                         'delay_auto_close' => 0,
                         'hide_submitted' => 0,
@@ -326,23 +333,19 @@ class DgdScrollbox {
 
     public function do_footer() {
         // using HTML output gives better compatibility with other plugins
-        echo "\n<!--     ===== START Dreamgrow Scroll Triggered Box =====   -->\n\n";
+        echo "\n<!--     ===== START Dreamgrow Scroll Triggered Box ".DGDSCROLLBOX_VERSION." =====   -->\n\n";
+        echo '<div class="dgd_overlay"></div>'."\n";
         echo $this->get_html();
-        echo "\n<!--     ===== END OF Dreamgrow Scroll Triggered Box =====   -->\n\n";
+        echo "\n<!--     ===== END OF Dreamgrow Scroll Triggered Box ".DGDSCROLLBOX_VERSION." =====   -->\n\n";
     }
 
     public function enqueue_style_n_script() {
         global $wp_version;
 
-	    wp_enqueue_style( 'dgd-scrollbox-plugin-core', plugins_url( 'css/style.css', __FILE__ ), array(), DGDSCROLLBOX_VERSION );  
+        wp_enqueue_style( 'dgd-scrollbox-plugin-core', plugins_url( 'css/style.css', __FILE__ ), array(), DGDSCROLLBOX_VERSION );  
         wp_enqueue_script( 'dgd-scrollbox-plugin', plugins_url( 'js/script.js', __FILE__ ), array('jquery'), DGDSCROLLBOX_VERSION, false );
 
-        if (!isset($this->post_id)) {
-            // get_queried_object() does not work for first page if WP<4.1
-            global $post;
-            $this->post_id = $post->ID;
-            $this->post_title = $post->post_title;
-        }
+        $this->get_original_post_id();
 
         $image='';
         $thumbnail=false;
@@ -354,13 +357,13 @@ class DgdScrollbox {
         $scrollboxes_array=$this->get_scrollboxes();
 
         $data = array(
-            'ajaxurl' => admin_url('admin-ajax.php'),
+            'ajaxurl' => parse_url(admin_url('admin-ajax.php'), PHP_URL_PATH),
             'nonce' => wp_create_nonce('dgd_stb_nonce'),
             'debug' => (current_user_can('manage_options') ? '1' : ''),
             'permalink' => get_permalink($this->post_id),
             'title' => $this->post_title,
             'thumbnail' => $thumbnail,
-            'scripthost' => plugins_url('/',  __FILE__), 
+            'scripthost' => parse_url(plugins_url('/',  __FILE__), PHP_URL_PATH), 
         );
 
         if(version_compare($wp_version, '3.3', '>=')) {

@@ -3,8 +3,8 @@ Contributors: pk2000,madisn,Eero Hermlin
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B4NCTTDR9MEPW
 Tags: call to action, pop-up, newsletter signup popup, newsletter sign-up, scroll triggered pop-up, subscription pop-up
 Requires at least: 3.0
-Tested up to: 4.1.1
-Stable tag: 2.2.0
+Tested up to: 4.5.2
+Stable tag: 2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -192,6 +192,18 @@ Here some common elements you can use on most WordPress themes:
 
 == Changelog ==
 
+= 2.3 =
+* Added "Lightbox" (page overlay) possibility;
+* Added CSS3 content blurring option to be used with "Lightbox" (Works with browsers supporting CSS3);
+* Added option for leaving box open while scrolling back up;
+* Added support for 100% width and 100% height;
+* Added support for Textarea and Select elements in Forms;
+* Added Box resizing to screen width if screen is narrower than in box definition;
+* Improved support for MailChimp native html code;
+* Fixed "Scroll to element" functionality
+* Fixed conflict with Weaver II Pro Theme
+* Fixed conflict with IN
+
 = 2.2.0 =
 * Added "Tab" for reopening closed Scrollbox
 * "Preview Scrollbox" button in Edit screen gives live preview (not guaranteed to work on older than WP 4.0)
@@ -283,5 +295,4 @@ Release
 
 == ToDo list ==
 
-* Add "ear" tab for closed scrollbox (2.2)
-* Support Preview button for Admin screen (2.2)
+* Add some new Themes/Templates

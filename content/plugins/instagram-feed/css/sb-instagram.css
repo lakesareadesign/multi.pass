@@ -200,6 +200,10 @@
   margin: 0 !important;
   padding: 0 !important;
   border: none !important;
+
+  -moz-border-radius: 40px;
+  -webkit-border-radius: 40px;
+  border-radius: 40px;
 }
 /* Profile pic hover */
 #sb_instagram .sbi_header_img_hover{
@@ -225,12 +229,16 @@
 #sb_instagram .sb_instagram_header a:focus .sbi_header_img_hover{
   opacity: 1;
 }
-#sb_instagram .sbi_header_img_hover .fa{
+#sb_instagram .sbi_header_img_hover i{
   position: absolute;
   top: 50%;
-  margin-top: -10px;
-  margin-left: -8px;
-  font-size: 20px;
+  left: 50%;
+  margin-top: -12px;
+  margin-left: -12px;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  background: url('../img/small-logo.png') no-repeat 0 0;
 }
 /* Header text */
 #sb_instagram .sbi_header_text{

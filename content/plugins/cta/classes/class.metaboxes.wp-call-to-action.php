@@ -176,6 +176,11 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			$template_id = $metabox_args['args']['template_id'];
 
+			if (!isset($extension_data[$template_id])) {
+				_e( '<i>It looks like the template you are using is no longer available. Please check your uploads folder for your custom CTA template or visit our marketplace to download free CTA templates recently removed from this plugin.</i>' , 'inbound-pro' );
+				return;
+			}
+
 			$wp_cta_custom_fields = $extension_data[$template_id]['settings'];
 
 			$template_id = ($template_id) ? $template_id : 'blank-template';
@@ -282,41 +287,103 @@ if (!class_exists('CTA_Metaboxes')) {
 				?>
 
 				<div id="wp-cta-variation-<?php echo $CTA_Variations->vid_to_letter( $post->ID, $vid ); ?>" class="bab-variation-row variation-<?php echo $status;?>" >
-					<div class='bab-varation-header'>
-							<span class='bab-variation-name'>Variation <span class='bab-stat-letter'><?php echo $CTA_Variations->vid_to_letter( $post->ID, $vid); ?></span>
-							<?php
-							echo "<span class='' style='font-size:10px;font-style:italic;padding-left:10px;'>". $status ."</span>";
-							?>
-							</span>
+					 
+
+<!-- New UI START -->
+<div class='bab-varation-header'>
+<span class='bab-variation-name'>Variation
+<span class='bab-stat-letter'>
+<?php echo $CTA_Variations->vid_to_letter( $post->ID, $vid); ?>
+</span>
+            <?php
+			if ( isset($variation_status) && $variation_status != 1) {
+				switch($variation_status) {
+					case 'paused':
+						?>
+						<span class='is-paused'>(<?php _e('Paused', 'landing-pages') ?>)</span>
+						<?php
+						break;
+					default:
+						?>
+						<span class='is-<?php echo $variation_status; ?>'>(<?php echo $variation_status; ?>)</span>
+						<?php
+						break;
+				}
+
+			} ?>
+            
+
+ 
+</span>
+
+<span class="settings_icon"> </span>
+<span class="settings_wrapper">
+<span class="settings_wrapper_heading">Variation Settings</span>
+    <ul class="settings_list_li">
+        <li class="settings_edit">
+            <span class='bab-stat-menu-edit'>
+                <a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>'><?php _e('Edit', 'inbound-pro' ); ?></a>
+            </span>
+        </li>
+        <li class="settings_preview">
+            <span class='bab-stat-menu-preview'>
+                <a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&inbound_popup_preview=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview', 'inbound-pro' ); ?></a>
+            </span>
+        </li>
+        <li class="settings_clone">
+            <span class='bab-stat-menu-clone'>
+                <a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&ab-action=clone&wp-cta-variation-id=<?php echo $next_available_variation_id; ?>'><?php _e('Clone', 'inbound-pro' ); ?></a>
+            </span>
+        </li>
+        <li class="settings_delete">
+            <span class='bab-stat-control-delete'>
+                <a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete', 'inbound-pro' ); ?></a>
+            </span>
+        </li>
+        <li class="settings_clearstat">
+<!-- CLEAR STATS START -->
+        <span class="wp-cta-delete-var-stats" data-letter='<?php echo $CTA_Variations->vid_to_letter( $post->ID, $vid ); ?>' data-vid='<?php echo $vid; ?>' rel='<?php echo $post->ID;?>' title="Delete this variations stats">Clear Stats</span>
+<!-- CLEAR STAT END --></li>
+    </ul>
+</span>
 
 
-							<span class="wp-cta-delete-var-stats" data-letter='<?php echo $CTA_Variations->vid_to_letter( $post->ID, $vid ); ?>' data-vid='<?php echo $vid; ?>' rel='<?php echo $post->ID;?>' title="Delete this variations stats">Clear Stats</span>
-						</div>
+                                
+<!-- PAUSE START -->                                
+<span class='bab-stat-control-pause'><a title="Pause this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=pause-variation'> </a></span>
+<!-- PAUSE END -->                                
+
+<!-- PLAY START -->
+<span class='bab-stat-seperator pause-sep'>|</span>
+<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'> </a></span>
+<!-- PLAY END -->
+                         
+                                
+                                
+                            </div>
+<!-- New Ui end -->
+                    
 					<div class="bab-variation-notes">
 					<?php echo $variation_notes; ?>
 					</div>
 					<div class="bab-stat-row">
 						<div class='bab-stat-stats' colspan='2'>
 							<div class='bab-stat-container-impressions bab-number-box'>
-								<span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
 								<span class="bab-stat-id"><?php _e('Views', 'inbound-pro' ); ?></span>
+                                
+								<span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
 							</div>
 							<div class='bab-stat-container-conversions bab-number-box'>
-								<span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
-								<span class="bab-stat-id"><?php _e('Conversions', 'inbound-pro' ); ?></span></span>
+								<span class="bab-stat-id"><?php _e('Conversions', 'inbound-pro' ); ?></span>
+                                <span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
+								</span>
 							</div>
 							<div class='bab-stat-container-conversion_rate bab-number-box'>
-								<span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
 								<span class="bab-stat-id bab-rate"><?php _e('Conversion Rate', 'inbound-pro' ); ?></span>
+                                <span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
+								
 							</div>
-							<div class='bab-stat-control-container'>
-								<span class='bab-stat-control-pause'><a title="Pause this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=pause-variation'><?php _e('Pause', 'inbound-pro' ); ?></a></span> <span class='bab-stat-seperator pause-sep'>|</span>
-								<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'><?php _e('Play', 'inbound-pro' ); ?></a></span> <span class='bab-stat-seperator play-sep'>|</span>
-								<span class='bab-stat-menu-edit'><a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>'><?php _e('Edit', 'inbound-pro' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
-								<span class='bab-stat-menu-clone'><a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&ab-action=clone&wp-cta-variation-id=<?php echo $next_available_variation_id; ?>'><?php _e('Clone', 'inbound-pro' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
-								<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&inbound_popup_preview=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview', 'inbound-pro' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
-								<span class='bab-stat-control-delete'><a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete', 'inbound-pro' ); ?></a></span>
-							</div>
+							 
 						</div>
 					</div>
 					<div class="bab-stat-row">
@@ -444,7 +511,7 @@ if (!class_exists('CTA_Metaboxes')) {
 								//echo 1; exit;
 								echo '<label for="upload_image" data-field-type="text">';
 								echo '<input name="'.$field_id.'"	id="'.$field_id.'" type="text" size="36" name="upload_image" value="'.$meta.'" />';
-								echo '<input class="upload_image_button" id="uploader_'.$field_id.'" type="button" value="Upload Image" />';
+								echo '<input class="upload_image_button" id="uploader_'.$field_id.'" type="button" value="Upload Image" data-field-id="'.$field_id.'" />';
 								echo '<p class="description">'.$field['description'].'</p>';
 								break;
 							// checkbox
