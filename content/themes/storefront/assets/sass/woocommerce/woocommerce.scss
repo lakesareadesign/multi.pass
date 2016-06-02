@@ -1108,6 +1108,10 @@ form.checkout {
 					}
 				}
 
+				ul.wc-saved-payment-methods {
+					margin-left: 0;
+				}
+
 				.wc-credit-card-form-card-number,
 				.wc-credit-card-form-card-expiry,
 				.wc-credit-card-form-card-cvc {
@@ -1270,7 +1274,7 @@ form.checkout {
 			border-bottom: 1px solid $color_border;
 			position: relative;
 
-			&.current-item {
+			&.is-active {
 				a:before {
 					opacity: 1;
 				}
@@ -1493,7 +1497,7 @@ p.order-again {
 .demo_store {
 	position: fixed;
 	left: 0;
-	bottom: 0;
+	bottom: 69px;
 	right: 0;
 	margin: 0;
 	padding: 1em 1.387em;
@@ -1798,11 +1802,11 @@ dl.variation {
 /**
  * My Account
  */
- .woocommerce-MyAccount-content {
- 	.woocommerce-Pagination {
- 		text-align: center;
- 	}
- }
+.woocommerce-MyAccount-content {
+	.woocommerce-Pagination {
+		text-align: center;
+	}
+}
 
 /**
  * Homepage
@@ -1819,6 +1823,10 @@ dl.variation {
 }
 
 @include susy-media($desktop) {
+	.demo_store {
+		bottom: 0;
+	}
+	
 	/**
 	 * Handheld footer bar
 	 */
