@@ -72,6 +72,8 @@
 		if ( 'support' === hash ) {
 			if ( '1' === as3cfpro.strings.has_licence ) {
 				checkLicence();
+			} else {
+				$( '.licence-input' ).focus();
 			}
 		} else {
 			editcheckLicenseURL( hash );
@@ -232,6 +234,8 @@
 		if ( window.location.hash ) {
 			hash = window.location.hash.substring( 1 );
 		}
+
+		hash = as3cf.tabs.sanitizeHash( hash );
 
 		return hash;
 	}

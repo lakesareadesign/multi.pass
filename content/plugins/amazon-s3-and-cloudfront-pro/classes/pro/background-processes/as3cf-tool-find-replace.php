@@ -8,6 +8,11 @@ class AS3CF_Tool_Find_Replace extends AS3CF_Background_Process {
 	protected $action = 'find_replace';
 
 	/**
+	 * @var string
+	 */
+	protected $lock_key = '';
+
+	/**
 	 * Initiate new background process
 	 *
 	 * @param Aws\S3\S3Client $as3cf Instance of calling class
@@ -31,6 +36,9 @@ class AS3CF_Tool_Find_Replace extends AS3CF_Background_Process {
 	protected function task( $item ) {
 		// Control the direction of the find and replace
 		$upload = isset( $item['upload'] ) ? $item['upload'] : true;
+
+		// If the item is part of a queue with a lock key, ensure completion message waits for lock to be released.
+		$this->lock_key = empty( $item['lock_key'] ) ? '' : $item['lock_key'];
 
 		$this->as3cf->switch_to_blog( $item['blog_id'] );
 
@@ -60,7 +68,12 @@ class AS3CF_Tool_Find_Replace extends AS3CF_Background_Process {
 	protected function complete() {
 		parent::complete();
 
-		$this->as3cf->notices->add_notice( __( '<strong>WP Offload S3 Find & Replace Complete</strong> &mdash; Media items within your content have been updated to use the S3 URLs.', 'amazon-s3-and-cloudfront' ) );
+		$args = array(
+			'flash'    => false,
+			'lock_key' => $this->lock_key,
+		);
+
+		$this->as3cf->notices->add_notice( __( '<strong>WP Offload S3 Find & Replace Complete</strong> &mdash; Media items within your content have been updated to use the S3 URLs.', 'amazon-s3-and-cloudfront' ), $args );
 	}
 
 }

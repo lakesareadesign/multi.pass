@@ -3,7 +3,7 @@ Contributors: smashballoon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram plugin, Instagram stream, Custom Instagram Feed, responsive Instagram, mobile Instagram, Instagram posts, Instagram wall, Instagram account, Instagram gallery, Instagram photo, Instagram post, Instagram share, Instagram customized, Instagrams, Instagram feeds, Instagram plugins, Instagram responsive, Instagram mobile feed, Instagram accounts, public Instagram feed, Instagram photography, Instagram galleries, multiple Instagram, Instagram widget, Instagram clean, beautiful Instagram, custom Instagram design
 Requires at least: 3.0
 Tested up to: 4.5.2
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -554,7 +554,15 @@ Relationship of the Parties: Notwithstanding any provision hereof, for all purpo
 Invalidity of Specific Terms: If any provision of the Instagram API Terms is found by a court of competent jurisdiction to be invalid, the parties nevertheless agree that the court should endeavor to give effect to the parties' intentions as reflected in the provision and that the other provisions remain in full force and effect.
 No Waiver of Rights by Instagram: Instagram's failure to exercise or enforce any right or provision of the Instagram API Terms shall not constitute a waiver of such right or provision.
 
+== Upgrade Notice ==
+
+= 1.4.6 =
+**Important:** Due to the recent Instagram API changes, in order for the Instagram Feed plugin to continue working after **June 1st** you must update the plugin and obtain a new Access Token on the plugin's Settings page.
+
 == Changelog ==
+
+= 1.4.6 =
+* **IMPORTANT: Due to the recent Instagram API changes, in order for the Instagram Feed plugin to continue working after June 1st you must obtain a new Access Token by using the Instagram button on the plugin's Settings page.** This is true even if you recently already obtained a new token. Apologies for any inconvenience.
 
 = 1.4.5 =
 * New: When you click on the name of a setting on the plugin’s Settings pages it now displays the shortcode option for that setting, making it easier to find the option that you need

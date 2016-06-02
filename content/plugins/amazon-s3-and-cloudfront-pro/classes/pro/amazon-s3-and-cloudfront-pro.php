@@ -10,7 +10,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	/**
 	 * @var array
 	 */
-	protected $previous_url_whitelist = array( 'cloudfront', 'domain', 'ssl' );
+	protected $previous_url_whitelist = array( 'cloudfront', 'domain', 'force-https' );
 
 	/**
 	 * @var AS3CF_Pro_Licences_Updates
@@ -121,7 +121,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		// Settings link on the plugins page
 		add_filter( 'plugin_action_links', array( $this, 'plugin_actions_settings_link' ), 10, 2 );
 		// Diagnostic info
-		add_action( 'as3cf_diagnostic_info', array( $this, 'diagnostic_info' ) );
+		add_filter( 'as3cf_diagnostic_info', array( $this, 'diagnostic_info' ) );
 
 		// Include compatibility code for other plugins
 		$this->plugin_compat = new AS3CF_Pro_Plugin_Compatibility( $this );
@@ -211,7 +211,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		wp_enqueue_script( 'as3cf-pro-find-replace-media' );
 
 		$src = plugins_url( 'assets/js/pro/media' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-pro-media-script', $src, array( 'jquery', 'as3cf-pro-find-replace-media', 'media-views', 'media-grid', 'wp-util' ), $version, true );
+		wp_enqueue_script( 'as3cf-pro-media-script', $src, array( 'jquery', 'as3cf-pro-find-replace-media', 'media-views', 'media-grid', 'wp-util' ), $version );
 
 		wp_localize_script( 'as3cf-pro-media-script',
 			'as3cfpro_media',
@@ -243,7 +243,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 
 		// Register script for later use
 		$src = plugins_url( 'assets/js/pro/find-replace-media' . $suffix . '.js', $this->plugin_file_path );
-		wp_register_script( 'as3cf-pro-find-replace-media', $src, array( 'jquery', 'as3cf-modal' ), $version, true );
+		wp_register_script( 'as3cf-pro-find-replace-media', $src, array( 'jquery', 'as3cf-modal' ), $version );
 
 		global $post;
 		if ( 'post.php' != $hook_suffix || 'attachment' != $post->post_type ) {
@@ -256,7 +256,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		wp_enqueue_script( 'as3cf-pro-find-replace-media' );
 
 		$src = plugins_url( 'assets/js/pro/attachment' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-pro-attachment-script', $src, array( 'jquery', 'as3cf-pro-find-replace-media', 'wp-util' ), $version, true );
+		wp_enqueue_script( 'as3cf-pro-attachment-script', $src, array( 'jquery', 'as3cf-pro-find-replace-media', 'wp-util' ), $version );
 
 		wp_localize_script( 'as3cf-pro-attachment-script',
 			'as3cfpro_media',
@@ -876,7 +876,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 * @return string
 	 */
 	function get_custom_attachment_url( $attachment, $args ) {
-		$scheme  = $this->get_s3_url_scheme( $args['ssl'] );
+		$scheme  = $this->get_s3_url_scheme( $args['force-https'] );
 		$expires = null;
 
 		// Force use of secured url when ACL has been set to private
@@ -1383,6 +1383,8 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		foreach ( $post_ids as $post_id ) {
 			// if bulk action check has been uploaded to S3
 			if ( $doing_bulk_action && ! $this->get_attachment_s3_info( $post_id ) ) {
+				// Confirm that item already deleted.
+				$deleted_count++;
 				continue;
 			}
 
@@ -1401,12 +1403,13 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 				// Delete attachment from S3
 				$this->delete_attachment( $post_id, $doing_bulk_action );
 				if ( $this->get_attachment_s3_info( $post_id ) ) {
-					$error_count ++;
+					$error_count++;
 					continue;
 				}
-
-				$deleted_count ++;
 			}
+
+			// If here, delete worked, or we can assume Find & Replace plus Delete *will* work.
+			$deleted_count++;
 		}
 
 		// Dispatch background process
@@ -1720,30 +1723,34 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 
 	/**
 	 * Pro specific diagnostic info
+	 *
+	 * @param string $output
+	 *
+	 * @return string
 	 */
-	function diagnostic_info() {
+	function diagnostic_info( $output = '' ) {
 		$post_count = $this->get_diagnostic_post_count();
-		echo 'Posts Count: ';
-		echo number_format_i18n( $post_count );
-		echo "\r\n\r\n";
+		$output .= 'Posts Count: ';
+		$output .= number_format_i18n( $post_count );
+		$output .= "\r\n\r\n";
 
-		echo 'Pro Upgrade: ';
-		echo "\r\n";
-		echo 'License Status: ';
+		$output .= 'Pro Upgrade: ';
+		$output .= "\r\n";
+		$output .= 'License Status: ';
 		$status      = $this->licence->is_licence_expired();
 		$status_text = 'Valid';
 		if ( isset( $status['errors'] ) ) {
 			reset( $status['errors'] );
 			$status_text = key( $status['errors'] );
 		}
-		echo ucwords( str_replace( '_', ' ', $status_text ) );
-		echo "\r\n";
-		echo 'License Constant: ';
-		echo $this->licence->is_licence_constant() ? 'On' : 'Off';
-		echo "\r\n\r\n";
+		$output .= ucwords( str_replace( '_', ' ', $status_text ) );
+		$output .= "\r\n";
+		$output .= 'License Constant: ';
+		$output .= $this->licence->is_licence_constant() ? 'On' : 'Off';
+		$output .= "\r\n\r\n";
 
 		// Background processing jobs
-		echo 'Background Jobs: ';
+		$output .= 'Background Jobs: ';
 		$job_keys = AS3CF_Pro_Utils::get_batch_job_keys();
 
 		global $wpdb;
@@ -1768,14 +1775,16 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 			}
 
 			foreach ( $jobs as $job ) {
-				echo $job->{$column};
-				echo "\r\n";
-				print_r( maybe_unserialize( $job->{$value_column} ) );
-				echo "\r\n";
+				$output .= $job->{$column};
+				$output .= "\r\n";
+				$output .= print_r( maybe_unserialize( $job->{$value_column} ), true );
+				$output .= "\r\n";
 			}
 		}
 
-		echo "\r\n\r\n";
+		$output .= "\r\n\r\n";
+
+		return $output;
 	}
 
 	/**

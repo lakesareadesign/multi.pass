@@ -3,8 +3,8 @@
 Contributors: pupunzi
 Tags: video player, youtube, full background, video, HTML5, flash, mov, jquery, pupunzi, mb.components, cover video, embed, embed videos, embed youtube, embedding, plugin, shortcode, video cover, video HTML5, youtube, youtube embed, youtube player, youtube videos
 Requires at least: 3.0
-Tested up to: 4.4
-Stable tag:  2.0.7
+Tested up to: 4.5
+Stable tag:  2.0.8
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DSHAHSJJCQ53Y
 License: GPLv2 or later
 
@@ -30,8 +30,6 @@ Adding a background image to the body as mobile devices fallback is a good pract
 note:
 If you doesn't want ADs on your background video and you are the owner of it you can disable this on your Youtube channel as explained here: http://candidio.com/blog/how-to-remove-ads-from-your-youtube-videos .
 
-
-Links:/Users/mbicocchi/Dropbox/wordpress/My-Game/wordpress/wp-content/themes/myGame/templates/urban-1/css/intro.css
 
 * demo: http://pupunzi.com/mb.components/mb.YTPlayer/demo/demo.html
 * video: http://www.youtube.com/watch?v=lTW937ld02Y
@@ -92,6 +90,9 @@ The mb.YTPlayer doesn't work on any mobile devices (iOs, Android, Windows, etc.)
 Adding a background image to the body as mobile devices fallback is a good practice and it will also prevent unwanted white flickering on desktop browsers when the video is buffering.
 
 == Changelog ==
+
+= 2.0.8 =
+* Bug fix: Fixed a bug with the control-bar if not present in the page.
 
 = 2.0.7 =
 * Bug fix: An issue with Safari browser that freeze the video at start should be fixed.

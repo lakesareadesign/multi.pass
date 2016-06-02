@@ -92,7 +92,7 @@
 		if ( $words != '' ) {
 
 			$words = array_map("rtrim", explode("\n", $words));
-			if( isset( $fields ) ){
+			if( isset( $fields ) && ! empty( $fields ) && is_array( $fields ) ){
 				foreach( $fields as $key => $array ) {
 					if ( isset($array['validate']) && in_array( $array['validate'], array('unique_username','unique_email','unique_username_or_email') ) ) {
 						if ( !$ultimatemember->form->has_error( $key ) && isset( $args[$key] ) && in_array( $args[$key], $words ) ) {
@@ -167,7 +167,7 @@
 					$ultimatemember->form->add_error($key, sprintf(__('%s is required.','ultimatemember'), $array['title'] ) );
 				}
 
-                if ( isset( $array['type'] ) && $array['type'] == 'user_tags' && isset( $array['required'] ) && $array['required'] == 1 && !isset( $args[$key] ) ) {
+                if ( defined('um_user_tags_path') && isset( $array['type'] ) && $array['type'] == 'user_tags' && isset( $array['required'] ) && $array['required'] == 1 && !isset( $args[$key] ) ) {
                     $ultimatemember->form->add_error($key, sprintf(__('%s is required.','ultimatemember'), $array['title'] ) );
                 }
 

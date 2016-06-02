@@ -97,6 +97,7 @@ if ( ! class_exists( 'WpSmushResize' ) ) {
 			if ( ! empty( $mime ) && ! $mime_supported = apply_filters( 'wp_smush_resmush_mime_supported', $mime_supported, $mime ) ) {
 				return false;
 			}
+
 			//Check if already resized
 			$resize_meta = get_post_meta( $id, WP_SMUSH_PREFIX . 'resize_savings', true );
 			if ( ! empty( $resize_meta ) ) {
@@ -166,6 +167,9 @@ if ( ! class_exists( 'WpSmushResize' ) ) {
 			$replaced = $this->replcae_original_image( $file_path, $resize, $id, $meta );
 
 			if ( $replaced ) {
+				//Clear Stat Cache, Else the size obtained is same as the original file size
+				clearstatcache();
+
 				//Updated File size
 				$u_file_size = filesize( $file_path );
 

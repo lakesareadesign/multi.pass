@@ -86,7 +86,7 @@ Smush button transformation
     margin: 15px 20px 15px 0;
 }
 
-.wpmud .toggle .toggle-checkbox:focus+.toggle-label:before {
+.wpmud .toggle .toggle-checkbox:focus + .toggle-label:before {
     background: #c1c1c1;
 }
 
@@ -1073,7 +1073,11 @@ small.smush-setting-description {
 }
 
 .compat-item .compat-field-wp_smush {
-    overflow: visible;
+    display: table-row;
+}
+
+.manage-column.column-smushit {
+    width: 260px;
 }
 
 .smushit [tooltip], .compat-field-wp_smush [tooltip] {
@@ -1287,4 +1291,4 @@ small.smush-setting-description {
 }
 
 
-/* 133620-1464151247-au */
+/* 133620-1464832141-au */

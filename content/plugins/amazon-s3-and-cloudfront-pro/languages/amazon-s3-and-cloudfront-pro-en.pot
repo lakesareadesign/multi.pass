@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the amazon-s3-and-cloudfront-pro package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-s3-and-cloudfront-pro\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2016-04-12 10:30+0100\n"
+"POT-Creation-Date: 2016-05-30 15:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,119 +25,127 @@ msgstr ""
 msgid "S3 and CloudFront"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:195
+#: classes/amazon-s3-and-cloudfront.php:196
 #: view/bucket-setting.php:18
 msgid "defined in wp-config.php"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:769
+#: classes/amazon-s3-and-cloudfront.php:803
 msgid "Upload aborted by filter 'as3cf_pre_upload_attachment'"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:780
+#: classes/amazon-s3-and-cloudfront.php:814
 #, php-format
 msgid "File %s does not exist"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:791
+#: classes/amazon-s3-and-cloudfront.php:825
 #, php-format
 msgid "Mime type %s is not allowed"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:878
+#: classes/amazon-s3-and-cloudfront.php:911
 #, php-format
 msgid "Error uploading %s to S3: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:1866
+#: classes/amazon-s3-and-cloudfront.php:1900
 msgid "Cheatin&#8217; eh?"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:1870
+#: classes/amazon-s3-and-cloudfront.php:1904
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:1876
+#: classes/amazon-s3-and-cloudfront.php:1910
 msgid "No bucket name provided."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2161
+#: classes/amazon-s3-and-cloudfront.php:2195
 msgid "Error Getting Bucket Region"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2162
+#: classes/amazon-s3-and-cloudfront.php:2196
 #, php-format
 msgid "There was an error attempting to get the region of the bucket %s: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2282
+#: classes/amazon-s3-and-cloudfront.php:2316
 msgid ""
 "This is a test file to check if the user has write permission to S3. Delete "
 "me if found."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2314
+#: classes/amazon-s3-and-cloudfront.php:2348
 #, php-format
 msgid ""
 "There was an error attempting to check the permissions of the bucket %s: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2371
+#: classes/amazon-s3-and-cloudfront.php:2405
 msgid "Error creating bucket"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2372
+#: classes/amazon-s3-and-cloudfront.php:2406
 msgid "Bucket name too short."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2373
+#: classes/amazon-s3-and-cloudfront.php:2407
 msgid "Bucket name too long."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2374
+#: classes/amazon-s3-and-cloudfront.php:2408
 msgid ""
 "Invalid character. Bucket names can contain lowercase letters, numbers, "
 "periods and hyphens."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2375
+#: classes/amazon-s3-and-cloudfront.php:2409
 msgid "Error saving bucket"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2376
+#: classes/amazon-s3-and-cloudfront.php:2410
 msgid "Error fetching buckets"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2377
+#: classes/amazon-s3-and-cloudfront.php:2411
 msgid "Error getting URL preview: "
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2378
+#: classes/amazon-s3-and-cloudfront.php:2412
 msgid "The changes you made will be lost if you navigate away from this page"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2436
+#: classes/amazon-s3-and-cloudfront.php:2413
+msgid "Getting diagnostic info..."
+msgstr ""
+
+#: classes/amazon-s3-and-cloudfront.php:2414
+msgid "Error getting diagnostic info: "
+msgstr ""
+
+#: classes/amazon-s3-and-cloudfront.php:2473
 msgid "Cheatin' eh?"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2539
+#: classes/amazon-s3-and-cloudfront.php:2576
 msgctxt "Show the media library tab"
 msgid "Media Library"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2540
+#: classes/amazon-s3-and-cloudfront.php:2577
 msgctxt "Show the support tab"
 msgid "Support"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2744
+#: classes/amazon-s3-and-cloudfront.php:2781
 #, php-format
 msgid ""
 "<strong>WP Offload S3</strong> &mdash; The file %s has been given %s "
 "permissions on Amazon S3."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2763
+#: classes/amazon-s3-and-cloudfront.php:2800
 msgid ""
 "<strong>WP Offload S3 Requirement Missing</strong> &mdash; Looks like you "
 "don't have an image manipulation library installed on this server and "
@@ -145,11 +153,11 @@ msgid ""
 "Please setup GD or ImageMagick."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3388
+#: classes/amazon-s3-and-cloudfront.php:3460
 msgid "Quick Start Guide"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3390
+#: classes/amazon-s3-and-cloudfront.php:3462
 #, php-format
 msgid ""
 "Looks like we don't have write access to this bucket. It's likely that the "
@@ -158,7 +166,7 @@ msgid ""
 "correctly."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3392
+#: classes/amazon-s3-and-cloudfront.php:3464
 #, php-format
 msgid ""
 "Looks like we don't have access to the buckets. It's likely that the user "
@@ -166,39 +174,41 @@ msgid ""
 "Please see our %s for instructions on setting up permissions correctly."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3543
+#: classes/amazon-s3-and-cloudfront.php:3615
 msgid "WP Offload S3 Activation"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3544
+#: classes/amazon-s3-and-cloudfront.php:3616
 msgid ""
 "WP Offload S3 Lite and WP Offload S3 cannot both be active. We've "
 "automatically deactivated WP Offload S3 Lite."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3546
+#: classes/amazon-s3-and-cloudfront.php:3618
 msgid "WP Offload S3 Lite Activation"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3547
+#: classes/amazon-s3-and-cloudfront.php:3619
 msgid ""
 "WP Offload S3 Lite and WP Offload S3 cannot both be active. We've "
 "automatically deactivated WP Offload S3."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3590
+#: classes/amazon-s3-and-cloudfront.php:3693
 msgid "More info"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3680
+#: classes/amazon-s3-and-cloudfront.php:3785
+#: classes/amazon-s3-and-cloudfront.php:3808
 msgid "this doc"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3682
+#: classes/amazon-s3-and-cloudfront.php:3787
+#: classes/amazon-s3-and-cloudfront.php:3810
 msgid "WP Offload S3 Feature Removed"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3683
+#: classes/amazon-s3-and-cloudfront.php:3788
 #, php-format
 msgid ""
 "The \"Copy HiDPI (@2x) Images\" feature has been removed as of version 1.1 "
@@ -207,11 +217,22 @@ msgid ""
 "images to S3."
 msgstr ""
 
-#: classes/as3cf-notices.php:433
+#: classes/amazon-s3-and-cloudfront.php:3811
+#, php-format
+msgid ""
+"You had the \"Always non-SSL\" option selected in your settings, but we've "
+"removed this option in version 1.3. We'll now use HTTPS when the request is "
+"HTTPS and regular HTTP when the request is HTTP. This should work fine for "
+"your site, but please take a poke around and make sure things are working "
+"ok. See %s for more details on why we did this and how you can revert back "
+"to the old behavior."
+msgstr ""
+
+#: classes/as3cf-notices.php:441
 msgid "Error dismissing notice."
 msgstr ""
 
-#: classes/as3cf-notices.php:448
+#: classes/as3cf-notices.php:456
 msgid "Invalid notice ID."
 msgstr ""
 
@@ -425,7 +446,7 @@ msgstr ""
 msgid "There were errors when downloading the media from S3."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:1545
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:1548
 #, php-format
 msgid "There were %s errors downloading files for attachment ID %s from S3"
 msgstr ""
@@ -725,7 +746,7 @@ msgid ""
 "been updated in your content to reflect the new URL settings."
 msgstr ""
 
-#: classes/pro/background-processes/as3cf-tool-find-replace.php:63
+#: classes/pro/background-processes/as3cf-tool-find-replace.php:76
 msgid ""
 "<strong>WP Offload S3 Find & Replace Complete</strong> &mdash; Media items "
 "within your content have been updated to use the S3 URLs."
@@ -951,16 +972,16 @@ msgstr ""
 msgid "Upload has been stopped"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:339
+#: classes/pro/tools/as3cf-uploader.php:340
 #, php-format
 msgid "Could not upload attachment %s to S3 - %s"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:391
+#: classes/pro/tools/as3cf-uploader.php:392
 msgid "Upload Errors"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:392
+#: classes/pro/tools/as3cf-uploader.php:393
 msgid ""
 "Previous attempts at uploading your media library have resulted in errors."
 msgstr ""
@@ -1061,14 +1082,14 @@ msgstr ""
 msgid "The %s plugin has been deactivated."
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:132
+#: vendor/deliciousbrains/base.php:134
 msgid ""
 "<strong>Could not connect to deliciousbrains.com</strong> &mdash; You will "
 "not receive update notifications or be able to activate your license until "
 "this is fixed."
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:139
+#: vendor/deliciousbrains/base.php:141
 #, php-format
 msgid ""
 "We've detected that <code>WP_HTTP_BLOCK_EXTERNAL</code> is enabled and the "
@@ -1078,7 +1099,7 @@ msgid ""
 "\" target=\"_blank\">More information</a>"
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:143
+#: vendor/deliciousbrains/base.php:145
 #, php-format
 msgid ""
 "This issue is often caused by an improperly configured SSL server (https). "
@@ -1086,23 +1107,23 @@ msgid ""
 "on your server</a>, but if you need a quick fix you can:%2$s"
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:143
+#: vendor/deliciousbrains/base.php:145
 msgid "Temporarily disable SSL for connections to deliciousbrains.com"
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:195
+#: vendor/deliciousbrains/base.php:197
 msgid ""
 "<strong>Delicious Brains API is Down — </strong>Unfortunately we're "
 "experiencing some problems with our server."
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:199
+#: vendor/deliciousbrains/base.php:201
 #, php-format
 msgctxt "ex. 2 hours ago"
 msgid "%s ago"
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:204
+#: vendor/deliciousbrains/base.php:206
 msgid "Here's the most recent update on its status"
 msgstr ""
 
@@ -1384,7 +1405,7 @@ msgstr ""
 msgid "Diagnostic Info"
 msgstr ""
 
-#: view/debug-info.php:11
+#: view/debug-info.php:13
 msgctxt "Download to your computer"
 msgid "Download"
 msgstr ""
@@ -1679,80 +1700,54 @@ msgstr ""
 msgid "Add the Year/Month in the URL."
 msgstr ""
 
-#: view/settings.php:138
-msgid "SSL"
-msgstr ""
-
 #: view/settings.php:142
-msgid "Controls the protocol of the S3 URLs."
+msgid "Force HTTPS"
 msgstr ""
 
-#: view/settings.php:152
-msgid "Same as request"
-msgstr ""
-
-#: view/settings.php:153
-msgid "When the request is https://, use https:// for the file URL as well."
-msgstr ""
-
-#: view/settings.php:157
-msgid "Always SSL"
-msgstr ""
-
-#: view/settings.php:158
-msgid "Forces https:// to be used."
-msgstr ""
-
-#: view/settings.php:160
+#: view/settings.php:144
 msgid ""
-"You cannot use the \"Bucket as a subdomain\" domain option when using SSL."
+"By default we use HTTPS when the request is HTTPS and regular HTTP when the "
+"request is HTTP, but you may want to force the use of HTTPS always, "
+"regardless of the request."
 msgstr ""
 
-#: view/settings.php:165
-msgid "Always non-SSL"
-msgstr ""
-
-#: view/settings.php:166
-msgid "Forces http:// to be used."
-msgstr ""
-
-#: view/settings.php:172
+#: view/settings.php:151
 msgid "Advanced Options"
 msgstr ""
 
-#: view/settings.php:181
+#: view/settings.php:160
 msgid "Remove Files From Server"
 msgstr ""
 
-#: view/settings.php:182
+#: view/settings.php:161
 msgid "Once a file has been copied to S3, remove it from the local server."
 msgstr ""
 
-#: view/settings.php:186
+#: view/settings.php:165
 msgid ""
 "<strong>Broken URLs</strong> &mdash; There will be broken URLs for files "
 "that don't exist locally. You can fix this by enabling <strong>Rewrite File "
 "URLs</strong> to use the S3 URLs."
 msgstr ""
 
-#: view/settings.php:197
+#: view/settings.php:176
 #, php-format
 msgid ""
 "<strong>Warning</strong> &mdash; Some plugins depend on the file being "
 "present on the local server and may not work when the file is removed. %s"
 msgstr ""
 
-#: view/settings.php:215
+#: view/settings.php:194
 msgid "Object Versioning"
 msgstr ""
 
-#: view/settings.php:217
+#: view/settings.php:196
 msgid ""
 "Append a timestamp to the S3 file path. Recommended when using CloudFront so "
 "you don't have to worry about cache invalidation."
 msgstr ""
 
-#: view/settings.php:224
+#: view/settings.php:203
 msgid "Save Changes"
 msgstr ""
 

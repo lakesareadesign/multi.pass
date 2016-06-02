@@ -304,14 +304,14 @@ class AS3CF_Uploader extends AS3CF_Tool {
 	/**
 	 * Upload the attachment to S3 and start a find and replace of the URLs
 	 *
-	 * @param int   $attachment_id
-	 * @param int   $blog_id
+	 * @param int $attachment_id
+	 * @param int $blog_id
 	 *
 	 * @return bool
 	 */
 	protected function handle_attachment( $attachment_id, $blog_id ) {
 		// Check we are allowed to upload
-		$this->should_upload_attachment( $attachment_id, $blog_id  );
+		$this->should_upload_attachment( $attachment_id, $blog_id );
 
 		// Skip item if attachment already on S3
 		if ( $this->as3cf->get_attachment_s3_info( $attachment_id ) ) {
@@ -327,6 +327,7 @@ class AS3CF_Uploader extends AS3CF_Tool {
 			$data = array(
 				'attachment_id' => $attachment_id,
 				'blog_id'       => $blog_id,
+				'lock_key'      => $this->lock_key,
 			);
 			$this->find_replace_process->push_to_queue( $data );
 		}

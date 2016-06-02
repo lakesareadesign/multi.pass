@@ -76,7 +76,7 @@
 		}
 
 		if ( ! isset( $user_password ) ){
-			$user_password = $ultimatemember->validation->generate();
+			$user_password = $ultimatemember->validation->generate( 8 );
 		}
 
 
@@ -123,8 +123,6 @@
 		$ultimatemember->user->set_role( $role );
 
 		$ultimatemember->user->set_registration_details( $args['submitted'] );
-
-		$ultimatemember->user->set_plain_password( $args['user_password'] );
 
 		$ultimatemember->user->set_last_login();
 

@@ -8,6 +8,8 @@ class Amazon_S3_And_CloudFront_EDD {
 	function __construct( $plugin_file_path ) {
 		// Set download method to redirect
 		add_filter( 'edd_file_download_method', array( $this, 'set_download_method' ) );
+		// Disable using symlinks for download.
+		add_filter( 'edd_symlink_file_downloads', array( $this, 'disable_symlink_file_downloads' ) );
 		// Hook into edd_requested_file to swap in the S3 secure URL
 		add_filter( 'edd_requested_file', array( $this, 'get_download_url' ), 10, 3 );
 		// Hook into the save download files metabox to apply the private ACL
@@ -25,6 +27,17 @@ class Amazon_S3_And_CloudFront_EDD {
 	 */
 	function set_download_method( $method ) {
 		return 'redirect';
+	}
+
+	/**
+	 * Disable symlink file downloads
+	 *
+	 * @param bool $use_symlink
+	 *
+	 * @return bool
+	 */
+	public function disable_symlink_file_downloads( $use_symlink ) {
+		return false;
 	}
 
 	/**

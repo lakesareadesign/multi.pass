@@ -84,7 +84,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		add_action( 'wp_ajax_as3cf-assets-manual-purge', array( $this, 'ajax_manual_purge' ) );
 
 		add_filter( 'plugin_action_links', array( $this, 'plugin_actions_settings_link' ), 10, 2 );
-		add_action( 'as3cf_diagnostic_info', array( $this, 'diagnostic_info' ) );
+		add_filter( 'as3cf_diagnostic_info', array( $this, 'diagnostic_info' ) );
 
 		load_plugin_textdomain( 'as3cf-assets', false, dirname( plugin_basename( $plugin_file_path ) ) . '/languages/' );
 
@@ -995,14 +995,18 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 					}
 				}
 
-				if ( version_compare( $details['s3_version'], $details['local_version'], '!=' ) ) {
-					$update = true;
-				} elseif ( $this->is_failure( 'gzip', $file, true ) ) {
+				if ( $this->is_failure( 'gzip', $file, true ) || $this->is_failure( 'upload', $file, true ) ) {
 					$files_to_process[] = array(
 						'action' => 'copy',
 						'file'   => $file,
 						'object' => $details['object'],
 					);
+				} elseif (
+					! $this->is_failure( 'gzip', $file ) &&
+					! $this->is_failure( 'upload', $file ) &&
+					version_compare( $details['s3_version'], $details['local_version'], '!=' )
+				) {
+					$update = true;
 				}
 
 				$files_to_save[ $file ]   = $details;
@@ -1100,8 +1104,8 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 		foreach ( $files_to_process as $key => $file ) {
 			$count++;
-			if ( $count > $batch_limit ) {
-				// Batch limit reached
+			// Batch or time limit reached.
+			if ( $count > $batch_limit || time() >= $finish_time ) {
 				break;
 			}
 
@@ -1126,20 +1130,27 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 					$body      = file_get_contents( $file['file'] );
 					$gzip_body = $this->maybe_gzip_file( $file['file'], $details, $body );
 
-					if ( ! is_wp_error( $gzip_body ) ) {
-						$s3_info = $this->copy_body_to_s3( $s3client, $bucket, $gzip_body, $details, true );
-					} else {
+					if ( is_wp_error( $gzip_body ) ) {
 						$s3_info = $this->copy_file_to_s3( $s3client, $bucket, $file['file'], $details );
+					} else {
+						$s3_info = $this->copy_body_to_s3( $s3client, $bucket, $gzip_body, $details, true );
 					}
 
-					if ( ! is_wp_error( $s3_info ) ) {
+					if ( is_wp_error( $s3_info ) ) {
+						$this->handle_failure( $file['file'], 'upload' );
+					} else {
 						$details['s3_version']        = $details['local_version'];
 						$details['s3_info']           = $s3_info;
 						$saved_files[ $file['file'] ] = $details;
 
 						$files_copied++;
 
-						// Remove file from failure queue
+						// Maybe remove file from upload failure queue
+						if ( $this->is_failure( 'upload', $file['file'] ) ) {
+							$this->remove_failure( 'upload', $file['file'] );
+						}
+
+						// Maybe remove file from gzip failure queue
 						if ( ! is_wp_error( $gzip_body ) && $this->is_failure( 'gzip', $file['file'] ) ) {
 							$this->remove_failure( 'gzip', $file['file'] );
 						}
@@ -1149,11 +1160,6 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			}
 
 			unset( $files_to_process[ $key ] );
-
-			if ( time() >= $finish_time ) {
-				// Time limit exceeded
-				break;
-			}
 		}
 
 		if ( $files_copied > 0 ) {
@@ -1730,6 +1736,8 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			$key = $this->minify->maybe_prefix_key( $script, $path );
 		}
 
+		$key = $this->maybe_update_cloudfront_path( $key );
+
 		// Handle file name encoding
 		$file = $this->encode_filename_in_path( $key );
 
@@ -2168,7 +2176,19 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			$message = __( 'There were errors when attempting to minify your assets.', 'as3cf-assets' );
 		}
 
+		if ( 'upload' === $type ) {
+			$title   = __( 'Upload Error', 'as3cf-assets' );
+			$message = __( 'There were errors when attempting to upload your assets to S3.', 'as3cf-assets' );
+		}
+
 		return sprintf( '<strong>%s</strong> &mdash; %s', $title, $message );
+	}
+
+	/**
+	 * Failure to upload notice callback
+	 */
+	public function failure_upload_notice_callback() {
+		$this->failure_notice_callback( 'upload' );
 	}
 
 	/**
@@ -2241,111 +2261,117 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 	/**
 	 * Addon specific diagnostic info
+	 *
+	 * @param string $output
+	 *
+	 * @return string
 	 */
-	function diagnostic_info() {
-		echo 'Assets Addon: ';
-		echo "\r\n";
-		echo 'Enabled: ';
-		echo $this->on_off( 'enable-addon' );
-		echo "\r\n";
-		echo 'Cron: ';
-		echo $this->on_off( 'enable-cron' );
+	function diagnostic_info( $output = '' ) {
+		$output .= 'Assets Addon: ';
+		$output .= "\r\n";
+		$output .= 'Enabled: ';
+		$output .= $this->on_off( 'enable-addon' );
+		$output .= "\r\n";
+		$output .= 'Cron: ';
+		$output .= $this->on_off( 'enable-cron' );
 		if ( $this->get_setting( 'enable-cron' ) ) {
-			echo "\r\n";
-			echo 'Scanning Cron: ';
-			echo ( wp_next_scheduled( $this->scanning_cron_hook ) ) ? 'On' : 'Off';
+			$output .= "\r\n";
+			$output .= 'Scanning Cron: ';
+			$output .= ( wp_next_scheduled( $this->scanning_cron_hook ) ) ? 'On' : 'Off';
 		}
-		echo "\r\n";
-		echo 'Processing Cron: ';
-		echo ( wp_next_scheduled( $this->processing_cron_hook ) ) ? 'On' : 'Off';
-		echo "\r\n";
-		echo 'Bucket: ';
-		echo $this->get_setting( 'bucket' );
-		echo "\r\n";
-		echo 'Region: ';
+		$output .= "\r\n";
+		$output .= 'Processing Cron: ';
+		$output .= ( wp_next_scheduled( $this->processing_cron_hook ) ) ? 'On' : 'Off';
+		$output .= "\r\n";
+		$output .= 'Bucket: ';
+		$output .= $this->get_setting( 'bucket' );
+		$output .= "\r\n";
+		$output .= 'Region: ';
 		$region = $this->get_setting( 'region' );
 		if ( ! is_wp_error( $region ) ) {
-			echo $region;
+			$output .= $region;
 		}
-		echo "\r\n";
-		echo 'Domain: ';
+		$output .= "\r\n";
+		$output .= 'Domain: ';
 		$domain = $this->get_setting( 'domain' );
-		echo $domain;
-		echo "\r\n";
+		$output .= $domain;
+		$output .= "\r\n";
 		if ( 'cloudfront' === $domain ) {
-			echo 'CloudFront: ';
-			echo $this->get_setting( 'cloudfront' );
-			echo "\r\n";
+			$output .= 'CloudFront: ';
+			$output .= $this->get_setting( 'cloudfront' );
+			$output .= "\r\n";
 		}
-		echo 'Enable Path: ';
-		echo $this->on_off( 'enable-script-object-prefix' );
-		echo "\r\n";
-		echo 'Custom Path: ';
-		echo $this->get_setting( 'object-prefix' );
-		echo "\r\n";
-		echo 'File Extensions: ';
-		echo $this->get_setting( 'file-extensions' );
-		echo "\r\n";
-		echo 'Minify: ';
-		echo $this->on_off( 'enable-minify' );
-		echo "\r\n";
-		echo 'Gzip: ';
-		echo $this->on_off( 'enable-gzip' );
-		echo "\r\n";
-		echo 'Custom Endpoint: ';
+		$output .= 'Enable Path: ';
+		$output .= $this->on_off( 'enable-script-object-prefix' );
+		$output .= "\r\n";
+		$output .= 'Custom Path: ';
+		$output .= $this->get_setting( 'object-prefix' );
+		$output .= "\r\n";
+		$output .= 'File Extensions: ';
+		$output .= $this->get_setting( 'file-extensions' );
+		$output .= "\r\n";
+		$output .= 'Minify: ';
+		$output .= $this->on_off( 'enable-minify' );
+		$output .= "\r\n";
+		$output .= 'Gzip: ';
+		$output .= $this->on_off( 'enable-gzip' );
+		$output .= "\r\n";
+		$output .= 'Custom Endpoint: ';
 		$custom_endpoint = $this->on_off( 'enable-custom-endpoint' );
-		echo $custom_endpoint;
-		echo "\r\n";
+		$output .= $custom_endpoint;
+		$output .= "\r\n";
 		if ( 'On' === $custom_endpoint ) {
-			echo 'Custom Endpoint: ';
-			echo home_url( '/?' . $this->custom_endpoint . '=' . $this->get_setting( 'custom-endpoint-key' ) );
-			echo "\r\n";
+			$output .= 'Custom Endpoint: ';
+			$output .= home_url( '/?' . $this->custom_endpoint . '=' . $this->get_setting( 'custom-endpoint-key' ) );
+			$output .= "\r\n";
 		}
 
 		if ( $files = $this->get_files() ) {
-			echo 'Scanned Files: ';
-			echo count( $files );
-			echo "\r\n";
+			$output .= 'Scanned Files: ';
+			$output .= count( $files );
+			$output .= "\r\n";
 		}
 
 		if ( $processing = get_site_option( self::TO_PROCESS_SETTINGS_KEY ) ) {
-			echo 'Processing Files: ';
-			echo count( $processing );
-			echo "\r\n";
+			$output .= 'Processing Files: ';
+			$output .= count( $processing );
+			$output .= "\r\n";
 		}
 
 		if ( $enqueued = get_site_option( self::ENQUEUED_SETTINGS_KEY ) ) {
 			if ( isset( $enqueued['css'] ) ) {
-				echo 'Enqueued CSS: ' . count( $enqueued['css'] );
-				echo "\r\n";
+				$output .= 'Enqueued CSS: ' . count( $enqueued['css'] );
+				$output .= "\r\n";
 			}
 			if ( isset( $enqueued['js'] ) ) {
-				echo 'Enqueued JS: ' . count( $enqueued['js'] );
-				echo "\r\n";
+				$output .= 'Enqueued JS: ' . count( $enqueued['js'] );
+				$output .= "\r\n";
 			}
 
 			$minified_assets = $this->get_minified_assets( $enqueued, false );
 			if ( ! empty( $minified_assets ) ) {
-				echo "\r\n";
-				echo 'Minified Assets: ';
-				echo "\r\n";
-				echo implode( "\r\n", $minified_assets );
-				echo "\r\n\r\n";
+				$output .= "\r\n";
+				$output .= 'Minified Assets: ';
+				$output .= "\r\n";
+				$output .= implode( "\r\n", $minified_assets );
+				$output .= "\r\n\r\n";
 			}
 		}
 
 		if ( $minify_failures = $this->get_failures( 'minify', false ) ) {
-			echo 'Minify Failures: ';
-			echo "\r\n";
-			echo print_r( $minify_failures, true );
-			echo "\r\n";
+			$output .= 'Minify Failures: ';
+			$output .= "\r\n";
+			$output .= print_r( $minify_failures, true );
+			$output .= "\r\n";
 		}
 
 		if ( $gzip_failures = $this->get_failures( 'gzip', false ) ) {
-			echo 'Gzip Failures: ';
-			echo "\r\n";
-			echo print_r( $gzip_failures, true );
-			echo "\r\n";
+			$output .= 'Gzip Failures: ';
+			$output .= "\r\n";
+			$output .= print_r( $gzip_failures, true );
+			$output .= "\r\n";
 		}
+
+		return $output;
 	}
 }

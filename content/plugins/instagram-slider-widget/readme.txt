@@ -43,6 +43,13 @@ I will try to respond on wordpress.org asap but for faster reposnse use the link
 3. Backend Configuration
 
 == Changelog ==
+= 1.3.2 =
+* Fixed deeplink issue with smartphones. Contributors via wordpress forum @ricksportel
+* Added option to block users when searching for hashtag. Sponsored by VirtualStrides.com
+* Modified sizes to show square croped and original sizes
+* Added new wordpress size only for instagram plugin - regenerating thumbnails might be required.
+* Added option to stop Pinterest pinning on images
+
 = 1.3.1 =
 * Fixed issue when no images were shown due to instagram recent changes.
 * Caption fix when no caption in image

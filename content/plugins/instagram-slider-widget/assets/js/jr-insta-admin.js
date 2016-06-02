@@ -35,6 +35,7 @@
 				search_for.closest('.jr-container').find('select[id$="images_link"] option[value="attachment"]').animate({opacity: 'hide' , height: 'hide'}, 200);
 				search_for.closest('.jr-container').find('select[id$="images_link"]').val('image_url');				
 				search_for.closest('.jr-container').find('select[id$="description"] option[value="username"]').animate({opacity: 'hide' , height: 'hide'}, 200);
+				search_for.closest('.jr-container').find('input[id$="blocked_users"]').closest('p').animate({opacity: 'show' , height: 'show'}, 200);
 
 			} else {
 				search_for.closest('.jr-container').find('input[id$="source"]').closest('p').animate({opacity: 'show' , height: 'show'}, 200);
@@ -45,7 +46,9 @@
 				search_for.closest('.jr-container').find('select[id$="images_link"] option[value="user_url"]').animate({opacity: 'show' , height: 'show'}, 200);			
 				search_for.closest('.jr-container').find('select[id$="images_link"] option[value="attachment"]').animate({opacity: 'show' , height: 'show'}, 200);		
 				search_for.closest('.jr-container').find('select[id$="images_link"]').val('image_url');
-				search_for.closest('.jr-container').find('select[id$="description"] option[value="username"]').animate({opacity: 'show' , height: 'show'}, 200);		
+				search_for.closest('.jr-container').find('select[id$="description"] option[value="username"]').animate({opacity: 'show' , height: 'show'}, 200);
+				search_for.closest('.jr-container').find('input[id$="blocked_users"]').closest('p').animate({opacity: 'hide' , height: 'hide'}, 200);
+
 			}
 		});
 

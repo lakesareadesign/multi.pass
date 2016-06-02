@@ -66,6 +66,8 @@ class Delicious_Brains_API_Base extends Delicious_Brains_API {
 		$args['version'] = $this->plugin->version;
 		$args['locale']  = urlencode( get_locale() );
 
+		$args = apply_filters( $this->plugin->prefix . '_' . $request . '_request_args', $args );
+
 		if ( false !== get_site_transient( 'dbrains_temporarily_disable_ssl' ) && 0 === strpos( $this->api_url, 'https://' ) ) {
 			$url = substr_replace( $url, 'http', 0, 5 );
 		}

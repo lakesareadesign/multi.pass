@@ -215,7 +215,7 @@ function sb_instagram_settings_page() {
 
                     <div id="sbi_config">
                         <!-- <a href="https://instagram.com/oauth/authorize/?client_id=1654d0c81ad04754a898d89315bec227&redirect_uri=https://smashballoon.com/instagram-feed/instagram-token-plugin/?return_uri=<?php echo admin_url('admin.php?page=sb-instagram-feed'); ?>&response_type=token" class="sbi_admin_btn"><?php _e('Log in and get my Access Token and User ID', 'instagram-feed'); ?></a> -->
-                        <a href="https://instagram.com/oauth/authorize/?client_id=3a81a9fa2a064751b8c31385b91cc25c&redirect_uri=https://smashballoon.com/instagram-feed/instagram-token-plugin/?return_uri=<?php echo admin_url('admin.php?page=sb-instagram-feed'); ?>&response_type=token" class="sbi_admin_btn"><?php _e('Log in and get my Access Token and User ID', 'instagram-feed'); ?></a>
+                        <a href="https://instagram.com/oauth/authorize/?client_id=3a81a9fa2a064751b8c31385b91cc25c&scope=basic+public_content&redirect_uri=https://smashballoon.com/instagram-feed/instagram-token-plugin/?return_uri=<?php echo admin_url('admin.php?page=sb-instagram-feed'); ?>&response_type=token" class="sbi_admin_btn"><?php _e('Log in and get my Access Token and User ID', 'instagram-feed'); ?></a>
                         <a href="https://smashballoon.com/instagram-feed/token/" target="_blank" style="position: relative; top: 14px; left: 15px;"><?php _e('Button not working?', 'instagram-feed'); ?></a>
                     </div>
                     
@@ -239,11 +239,11 @@ function sb_instagram_settings_page() {
                                 <label class="sbi_radio_label" for="sb_instagram_type_user">User ID(s):</label>
                                 <input name="sb_instagram_user_id" id="sb_instagram_user_id" type="text" value="<?php esc_attr_e( $sb_instagram_user_id, 'instagram-feed' ); ?>" size="25" />
                                 &nbsp;<a class="sbi_tooltip_link" href="JavaScript:void(0);"><?php _e("What is this?", 'instagram-feed'); ?></a>
-                                <p class="sbi_tooltip"><?php _e("These are the IDs of the Instagram accounts you want to display photos from. To get your ID simply click on the button above and log into Instagram.<br /><br />You can also display photos from other peoples Instagram accounts. To find their User ID you can use <a href='http://www.otzberg.net/iguserid/' target='_blank'>this tool</a>. You can separate multiple IDs using commas.", 'instagram-feed'); ?></p><br />
+                                <p class="sbi_tooltip"><?php _e("These are the IDs of the Instagram accounts you want to display photos from. To get your ID simply click on the button above and log into Instagram.<br /><br />You can also display photos from other peoples Instagram accounts. To find their User ID you can use <a href='https://smashballoon.com/instagram-feed/find-instagram-user-id/' target='_blank'>this tool</a>. You can separate multiple IDs using commas.", 'instagram-feed'); ?></p><br />
                             </span>
 
                             <div class="sbi_notice sbi_user_id_error">
-                                <?php _e("<p>Please be sure to enter your numeric <b>User ID</b> and not your Username. You can find your User ID by clicking the blue Instagram Login button above, or by entering your username into <a href='http://www.otzberg.net/iguserid/' target='_blank'>this tool</a>.</p>", 'instagram-feed'); ?>
+                                <?php _e("<p>Please be sure to enter your numeric <b>User ID</b> and not your Username. You can find your User ID by clicking the blue Instagram Login button above, or by entering your username into <a href='https://smashballoon.com/instagram-feed/find-instagram-user-id/' target='_blank'>this tool</a>.</p>", 'instagram-feed'); ?>
                             </div>
                             
                             <span class="sbi_pro sbi_row">
@@ -1106,6 +1106,45 @@ function sbi_add_settings_link( $links, $file ) {
     array_unshift( $links, $sbi_settings_link );
  
     return $links;
+}
+
+/* Display a notice that can be dismissed regarding updating the Instagram Access Token */
+add_action('admin_notices', 'sbi_new_token_notice_2016');
+function sbi_new_token_notice_2016() {
+
+    //Only show to admins
+    if( current_user_can('manage_options') ){
+
+        global $current_user;
+            $user_id = $current_user->ID;
+
+        // Use this to show notice again
+        // delete_user_meta($user_id, 'sb_instagram_ignore_notice_2016');
+
+        /* Check that the user hasn't already clicked to ignore the message */
+        if ( ! get_user_meta($user_id, 'sb_instagram_ignore_notice_2016') ) {
+
+            _e("
+            <div class='sb_instagram_notice'>
+                <p class='sb_instagram_notice_title'><i class='fa fa-exclamation-circle' aria-hidden='true'></i> <b>Important</b></p>
+                <p><b>Just installed the plugin?</b> You can ignore this notice and hide it using the 'Dismiss' button in the top right corner.</p>
+                <p><b>Just updated the plugin?</b> Due to the recent Instagram API changes, in order for the Instagram Feed plugin to continue working after <b><u>June 1st</u></b> you must obtain and save a new Access Token by using the Instagram button on the plugin's <a href='".get_admin_url()."admin.php?page=sb-instagram-feed'>Settings page</a>. This is required even if you recently already obtained a new token. Apologies for any inconvenience.</p>
+                <a class='sb_instagram_dismiss' href='" .esc_url( add_query_arg( 'sb_instagram_token_nag_ignore_2016', '0' ) ). "'><i class='fa fa-times-circle' aria-hidden='true'></i> Dismiss</a>
+            </div>
+            ");
+
+        }
+
+    }
+
+}
+add_action('admin_init', 'sb_instagram_token_nag_ignore_2016');
+function sb_instagram_token_nag_ignore_2016() {
+    global $current_user;
+        $user_id = $current_user->ID;
+        if ( isset($_GET['sb_instagram_token_nag_ignore_2016']) && '0' == $_GET['sb_instagram_token_nag_ignore_2016'] ) {
+             add_user_meta($user_id, 'sb_instagram_ignore_notice_2016', 'true', true);
+    }
 }
 
 ?>

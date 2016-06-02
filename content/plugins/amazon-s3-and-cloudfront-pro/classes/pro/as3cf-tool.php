@@ -611,6 +611,10 @@ abstract class AS3CF_Tool {
 	 * @return bool
 	 */
 	protected function should_process_attachment( $attachment_id, $s3object ) {
+		if ( is_wp_error( $s3object ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -779,7 +783,22 @@ abstract class AS3CF_Tool {
 	 * @return bool
 	 */
 	protected function is_processing() {
-		return (bool) get_site_transient( $this->lock_key );
+		return $this->lock_key_exists( $this->lock_key );
+	}
+
+	/**
+	 * Does the given lock key exist?
+	 *
+	 * @param string $lock_key
+	 *
+	 * @return bool
+	 */
+	public static function lock_key_exists( $lock_key = '' ) {
+		if ( empty( $lock_key ) ) {
+			return false;
+		}
+
+		return (bool) get_site_transient( $lock_key );
 	}
 
 	/**

@@ -4,7 +4,7 @@ Plugin Name: WP Offload S3
 Plugin URI:  http://deliciousbrains.com/wp-offload-s3/
 Description: Speed up your WordPress site by offloading your media and assets to Amazon S3 & CloudFront.
 Author: Delicious Brains
-Version: 1.1.3
+Version: 1.1.4
 Author URI: http://deliciousbrains.com/
 Network: True
 Text Domain: amazon-s3-and-cloudfront
@@ -25,7 +25,7 @@ Domain Path: /languages/
 
 require_once dirname( __FILE__ ) . '/version.php';
 
-$aws_plugin_version_required = '0.3.5';
+$aws_plugin_version_required = '0.3.6';
 
 require_once dirname( __FILE__ ) . '/classes/wp-aws-compatibility-check.php';
 require_once dirname( __FILE__ ) . '/classes/pro/as3cf-pro-installer.php';
