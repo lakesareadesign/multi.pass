@@ -29,6 +29,8 @@ FLBuilder::render_module_css('button', $id, array(
 	'bg_color'          => $settings->btn_bg_color,
 	'bg_hover_color'    => $settings->btn_bg_hover_color,
 	'bg_opacity'        => $settings->btn_bg_opacity,
+	'bg_hover_opacity'  => $settings->btn_bg_hover_opacity,
+	'button_transition' => $settings->btn_button_transition,
 	'border_radius'     => $settings->btn_border_radius,
 	'border_size'       => $settings->btn_border_size,
 	'font_size'         => $settings->btn_font_size,

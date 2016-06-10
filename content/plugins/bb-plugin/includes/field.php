@@ -33,10 +33,14 @@
 	$field_file = FL_BUILDER_DIR . 'includes/field-' . $field['type'] . '.php';
 	
 	if(file_exists($field_file)) {
-		include $field_file;
+	    do_action('fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings);
+	    include $field_file;
+	    do_action('fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings);
 	}
 	else {
-		do_action('fl_builder_control_' . $field['type'], $name, $value, $field, $settings);
+	    do_action('fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings);
+	    do_action('fl_builder_control_' . $field['type'], $name, $value, $field, $settings);
+	    do_action('fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings);
 	}
 		
 	?>

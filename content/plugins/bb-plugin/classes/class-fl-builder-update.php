@@ -8,6 +8,17 @@
 final class FLBuilderUpdate {
 
 	/** 
+	 * Initialize hooks.
+	 *
+	 * @since 1.8
+	 * @return void
+	 */
+	static public function init()
+	{
+		add_action( 'init', __CLASS__ . '::maybe_run', 11 );
+	}
+
+	/** 
 	 * Checks to see if an update should be run. If it should,
 	 * the appropriate update method is run and the version
 	 * number is updated in the database.
@@ -15,7 +26,7 @@ final class FLBuilderUpdate {
 	 * @since 1.2.8
 	 * @return void
 	 */
-	static public function init()
+	static public function maybe_run()
 	{
 		// Make sure the user is logged in.
 		if ( ! is_user_logged_in() ) {
@@ -431,3 +442,5 @@ final class FLBuilderUpdate {
 		}
 	}
 }
+
+FLBuilderUpdate::init();

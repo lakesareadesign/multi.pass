@@ -302,7 +302,9 @@ if(!function_exists('wdf_time_left')) {
 		$start_date = strtotime(get_post_meta($post_id, 'wdf_goal_start', true));
 		$now = current_time('timestamp');
 
-		if($now > $end_date) {
+		$meta = get_post_custom($post->ID);
+
+		if($now > $end_date && $meta['wdf_has_goal'][0] == 1 ) {
 			if($active_bool === true)
 				return false;
 

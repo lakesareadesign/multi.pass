@@ -3,6 +3,10 @@
 	$hours      = array_merge( $prepend, range( 10, 12 ) ); 
 	$minutes    = array_merge( array('00'), $prepend, range( 10, 59 ) ); 
 	$day_period = array( 'am', 'pm' ); 
+
+	if ( is_object( $value ) ) {
+		$value = (array) $value;
+	}
 ?> 
 <select name="<?php echo $name . '[][hours]'; ?>" class="fl-time-field-hours">
 <?php foreach( $hours as $hour ) : ?>

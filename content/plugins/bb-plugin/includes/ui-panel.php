@@ -24,26 +24,7 @@
 					</div>
 				</div>
 				
-				<?php if ( $row_templates ) : ?>
-					<?php foreach ( $row_templates['categorized'] as $cat ) : ?>
-					<div class="fl-builder-blocks-section">
-						<span class="fl-builder-blocks-section-title">
-							<?php echo $cat['name']; ?>
-							<i class="fa fa-chevron-down"></i>
-						</span>
-						<div class="fl-builder-blocks-section-content fl-builder-row-templates">
-							<?php foreach ( $cat['templates'] as $template ) : ?>
-							<span class="fl-builder-block fl-builder-block-template fl-builder-block-row-template" data-id="<?php echo $template['id']; ?>">
-								<?php if ( ! stristr( $template['image'], 'blank.jpg' ) ) : ?>
-								<img class="fl-builder-block-template-image" src="<?php echo $template['image']; ?>" />
-								<?php endif; ?>
-								<span class="fl-builder-block-title"><?php echo $template['name']; ?></span>
-							</span>
-							<?php endforeach; ?>
-						</div>
-					</div>
-					<?php endforeach; ?>
-				<?php endif; ?>
+				<?php do_action( 'fl_builder_ui_panel_after_rows' ); ?>
 				
 				<div class="fl-builder-blocks-separator"></div>
 				
@@ -69,28 +50,13 @@
 				</div>
 				<?php endforeach; ?>
 				
-				<?php if ( $module_templates ) : ?>
-					<?php foreach ( $module_templates['categorized'] as $cat ) : ?>
-					<div class="fl-builder-blocks-section">
-						<span class="fl-builder-blocks-section-title">
-							<?php echo $cat['name']; ?>
-							<i class="fa fa-chevron-down"></i>
-						</span>
-						<div class="fl-builder-blocks-section-content fl-builder-module-templates">
-							<?php foreach ( $cat['templates'] as $template ) : ?>
-							<span class="fl-builder-block fl-builder-block-template fl-builder-block-module-template" data-id="<?php echo $template['id']; ?>">
-								<?php if ( ! stristr( $template['image'], 'blank.jpg' ) ) : ?>
-								<img class="fl-builder-block-template-image" src="<?php echo $template['image']; ?>" />
-								<?php endif; ?>
-								<span class="fl-builder-block-title"><?php echo $template['name']; ?></span>
-							</span>
-							<?php endforeach; ?>
-						</div>
-					</div>
-					<?php endforeach; ?>
-				<?php endif; ?>
+				<?php do_action( 'fl_builder_ui_panel_after_modules' ); ?>
 				
-				<?php FLBuilder::render_ui_panel_node_templates(); ?>
+				<?php if ( true === FL_BUILDER_LITE ) : ?>
+				<div class="fl-builder-modules-cta">
+					<a href="#" onclick="window.open('<?php echo FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'modules-panel-cta' ) ); ?>');" target="_blank"><i class="fa fa-external-link-square"></i> Get more time-saving features, modules, and expert support.</a>
+				</div>
+				<?php endif; ?>
 
 			</div>
 		</div>

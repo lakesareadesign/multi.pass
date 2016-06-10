@@ -140,7 +140,7 @@ FLBuilder::register_module('FLNumbersModule', array(
 						'type'          => 'text',
 						'label'         => __('Number Suffix', 'fl-builder'),
 						'size'          => '10',
-						'help'			=> __( 'For example, if your number is 10%, your prefix would be "%".', 'fl-builder' )
+						'help'			=> __( 'For example, if your number is 10%, your suffix would be "%".', 'fl-builder' )
 					),
 					'animation_speed' => array(
 						'type'          => 'text',
@@ -210,7 +210,7 @@ FLBuilder::register_module('FLNumbersModule', array(
 				'fields'        => array(
 					'circle_width' => array(
 						'type'          => 'text',
-						'label'         => __('Cirle Size', 'fl-builder'),
+						'label'         => __('Circle Size', 'fl-builder'),
 						'default'       => '200',
 						'maxlength'     => '4',
 						'size'          => '4',
@@ -234,7 +234,7 @@ FLBuilder::register_module('FLNumbersModule', array(
 					),
 					'circle_dash_width' => array(
 						'type'          => 'text',
-						'label'         => __('Cirle Stroke Size', 'fl-builder'),
+						'label'         => __('Circle Stroke Size', 'fl-builder'),
 						'default'       => '10',
 						'maxlength'     => '2',
 						'size'          => '4',

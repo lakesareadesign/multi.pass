@@ -22,17 +22,24 @@ function leadin_registration_ajax()
 
     $newPortalId = $data['portalId'];
     $newHapiKey = $data['hapikey'];
+    $slumberMode = $data['slumberMode'];
 
     error_log($data['hapikey']);
 
-    if (empty($newPortalId) || empty($newHapiKey)) {
+    if (empty($newPortalId) OR (empty($newHapiKey) AND empty($slumberMode))) {
         error_log("Registration error");
         header('HTTP/1.0 400 Bad Request');
         wp_die('{"error": "Registration missing required fields"}');
     }
 
     add_option('leadin_portalId', $newPortalId);
-    add_option('leadin_hapikey', $newHapiKey);
+
+    if (!empty($newHapiKey)) {
+        add_option('leadin_hapikey', $newHapiKey);
+    }
+    if (!empty($slumberMode)) {
+        add_option('leadin_slumber_mode', $slumberMode);
+    }
 
     wp_die('{"message": "Success!"}');
 }

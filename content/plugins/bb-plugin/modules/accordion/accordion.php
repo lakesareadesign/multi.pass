@@ -94,6 +94,16 @@ FLBuilder::register_module('FLAccordionModule', array(
 						'preview'       => array(
 							'type'          => 'none'
 						)
+					),
+					'open_first'       => array(
+						'type'          => 'select',
+						'label'         => __('Expand First Item', 'fl-builder'),
+						'default'       => '0',
+						'options'       => array(
+							'0'             => __('No', 'fl-builder'),
+							'1'             => __('Yes', 'fl-builder')
+						),
+						'help' 			=> __('Choosing yes will expand the first item by default.', 'fl-builder')
 					)
 				)
 			)

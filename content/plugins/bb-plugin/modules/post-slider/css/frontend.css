@@ -1,6 +1,9 @@
 /* Post Slider */
 
 /* Wrappers */
+body.rtl .fl-module-post-slider .bx-viewport {
+	direction: ltr;
+}
 .fl-module-post-slider .bx-wrapper {
 	margin: 0 auto 40px;
 }

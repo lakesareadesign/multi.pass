@@ -3,7 +3,7 @@ Contributors: leadin, sredmond
 Tags:  crm, contacts, lead tracking, click tracking, visitor tracking, analytics, marketing automation, inbound marketing, subscription, marketing, lead generation, mailchimp, constant contact, newsletter, popup, popover, email list, email, contacts database, contact form, forms, form widget, popup form
 Requires at least: 3.7
 Tested up to: 4.5
-Stable tag: 4.8.2
+Stable tag: 5.0.2
 
 Leadin is an easy-to-use contact form and marketing analytics plugin for your website that helps you better understand your website visitors.
 
@@ -67,8 +67,14 @@ Having trouble? Check out our <a href="https://leadin.hubspot.com/knowledge/" ta
 
 == Changelog ==
 
-- Current version: 4.8.2
-- Current version release: 2016-05-30
+- Current version: 5.0.2
+- Current version release: 2016-06-02
+
+= 5.0.2
+- Update deployment script
+
+= 5.0.1
+- The Leadin plugin can now be installed for an existing Leadin web app account
 
 = 4.8.2 (2016.05.30) =
 - Added 'Flows' to the WordPress navigation - all-in-one lead conversion widgets - http://leadin.hubspot.com/flows

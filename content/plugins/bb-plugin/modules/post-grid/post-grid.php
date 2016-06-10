@@ -166,6 +166,11 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'default'       => '10',
 						'size'          => '4'
 					),
+					'no_results_message' => array(
+						'type' 				=> 'text',
+						'label'				=> __('No Results Message', 'fl-builder'),
+						'default'			=> __('No Posts Found.', 'fl-builder')
+					)
 				)
 			),
 			'grid'          => array(
@@ -211,6 +216,7 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'label'         => __('Position', 'fl-builder'),
 						'default'       => 'above',
 						'options'       => array(
+							'above-title'   => __('Above Title', 'fl-builder'),
 							'above'         => __('Above Text', 'fl-builder'),
 							'beside'        => __('Beside Text', 'fl-builder')
 						)

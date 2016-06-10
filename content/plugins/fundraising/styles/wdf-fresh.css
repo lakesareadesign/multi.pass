@@ -11,7 +11,7 @@
 	background-color: #EEE;
 	background-repeat: repeat-x;
 	background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,whiteSmoke), color-stop(100%,#EEE));	     	 	 				 			
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,whiteSmoke), color-stop(100%,#EEE));
 	background-image: -webkit-linear-gradient(top, whiteSmoke 0%,#EEE 100%);
 	background-image: -ms-linear-gradient(top, whiteSmoke 0%,#EEE 100%);
 	background-image: -o-linear-gradient(top, whiteSmoke 0%,#EEE 100%);
@@ -152,4 +152,4 @@
 }
 
 
-/* 133620-1462466936-au */
+/* 133620-1465596664-au */

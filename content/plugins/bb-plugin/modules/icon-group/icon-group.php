@@ -138,6 +138,51 @@ FLBuilder::register_settings_form('icon_group_form', array(
 						'link'          => array(
 							'type'          => 'link',
 							'label'         => __('Link', 'fl-builder')
+						),
+						'link_target'	=> array(
+							'type'          => 'select',
+							'label'         => __('Link Target', 'fl-builder'),
+							'default'       => '_blank',
+							'options'       => array(
+								'_self' 		=> __('Same Window', 'fl-builder'),
+								'_blank'    	=> __('New Window', 'fl-builder')
+							)
+						)
+					)
+				)
+			)
+		),
+		'style'         => array( // Tab
+			'title'         => __('Style', 'fl-builder'), // Tab title
+			'sections'      => array( // Tab Sections
+				'colors'        => array( // Section
+					'title'         => __('Colors', 'fl-builder'), // Section Title
+					'fields'        => array( // Section Fields
+						'color'         => array(
+							'type'          => 'color',
+							'label'         => __('Color', 'fl-builder'),
+							'show_reset'    => true
+						),
+						'hover_color' => array(
+							'type'          => 'color',
+							'label'         => __('Hover Color', 'fl-builder'),
+							'show_reset'    => true,
+							'preview'       => array(
+								'type'          => 'none'
+							)
+						),
+						'bg_color'      => array(
+							'type'          => 'color',
+							'label'         => __('Background Color', 'fl-builder'),
+							'show_reset'    => true
+						),
+						'bg_hover_color' => array(
+							'type'          => 'color',
+							'label'         => __('Background Hover Color', 'fl-builder'),
+							'show_reset'    => true,
+							'preview'       => array(
+								'type'          => 'none'
+							)
 						)
 					)
 				)

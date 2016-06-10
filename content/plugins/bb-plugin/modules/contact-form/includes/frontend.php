@@ -1,4 +1,4 @@
-<form class="fl-contact-form">
+<form class="fl-contact-form" <?php if ( isset( $module->template_id ) ) echo 'data-template-id="' . $module->template_id . '" data-template-node-id="' . $module->template_node_id . '"'; ?>>
   
 	<?php if ($settings->name_toggle == 'show') : ?>
 	<div class="fl-input-group fl-name">
@@ -37,10 +37,33 @@
 		<span class="fl-contact-error"><?php _e('Please enter a message.', 'fl-builder');?></span>
 		<textarea name="fl-message" placeholder="<?php esc_attr_e( 'Your message', 'fl-builder' ); ?>"></textarea>
 	</div>
-
-	<input type="text" value="<?php echo $settings->mailto_email; ?>" style="display: none;" class="fl-mailto">
   
-	<input type="submit" value="<?php esc_attr_e( 'Send', 'fl-builder' ); ?>" class="fl-contact-form-submit" />
+	<?php
+	
+	FLBuilder::render_module_html( 'button', array(
+		'bg_color'          => $settings->btn_bg_color,
+		'bg_hover_color'    => $settings->btn_bg_hover_color,
+		'bg_opacity'        => $settings->btn_bg_opacity,
+		'bg_hover_opacity'  => $settings->btn_bg_hover_opacity,
+		'button_transition' => $settings->btn_button_transition,
+		'border_radius'     => $settings->btn_border_radius,
+		'border_size'       => $settings->btn_border_size,
+		'font_size'         => $settings->btn_font_size,
+		'icon'              => $settings->btn_icon,
+		'icon_position'     => $settings->btn_icon_position,
+		'link'              => '#',
+		'link_target'       => '_self',
+		'padding'           => $settings->btn_padding,
+		'style'             => $settings->btn_style,
+		'text'              => $settings->btn_text,
+		'text_color'        => $settings->btn_text_color,
+		'text_hover_color'  => $settings->btn_text_hover_color,
+		'width'             => $settings->btn_width,
+		'align'				=> $settings->btn_align,
+		'icon_animation'	=> $settings->btn_icon_animation
+	));
+	
+	?>
 	<?php if ($settings->success_action == 'redirect') : ?>
 		<input type="text" value="<?php echo $settings->success_url; ?>" style="display: none;" class="fl-success-url">  
 	<?php elseif($settings->success_action == 'none') : ?>  

@@ -47,6 +47,7 @@ class FLCtaModule extends FLBuilderModule {
 			'font_size'         => $this->settings->btn_font_size,
 			'icon'              => $this->settings->btn_icon,
 			'icon_position'		=> $this->settings->btn_icon_position,
+			'icon_animation'	=> $this->settings->btn_icon_animation,
 			'link'              => $this->settings->btn_link,
 			'link_target'       => $this->settings->btn_link_target,
 			'padding'           => $this->settings->btn_padding,
@@ -240,6 +241,15 @@ FLBuilder::register_module('FLCtaModule', array(
 							'before'        => __('Before Text', 'fl-builder'),
 							'after'         => __('After Text', 'fl-builder')
 						)
+					),
+					'btn_icon_animation' => array(
+						'type'          => 'select',
+						'label'         => __('Icon Visibility', 'fl-builder'),
+						'default'       => 'disable',
+						'options'       => array(
+							'disable'        => __('Always Visible', 'fl-builder'),
+							'enable'         => __('Fade In On Hover', 'fl-builder')
+						)
 					)
 				)
 			),
@@ -316,7 +326,7 @@ FLBuilder::register_module('FLCtaModule', array(
 						),
 						'toggle'        => array(
 							'transparent'   => array(
-								'fields'        => array('btn_bg_opacity', 'btn_border_size')
+								'fields'        => array('btn_bg_opacity', 'btn_bg_hover_opacity', 'btn_border_size')
 							)
 						)
 					),
@@ -337,6 +347,24 @@ FLBuilder::register_module('FLCtaModule', array(
 						'maxlength'     => '3',
 						'size'          => '5',
 						'placeholder'   => '0'
+					),
+					'btn_bg_hover_opacity' => array(
+						'type'          => 'text',
+						'label'         => __('Background Hover Opacity', 'fl-builder'),
+						'default'       => '0',
+						'description'   => '%',
+						'maxlength'     => '3',
+						'size'          => '5',
+						'placeholder'   => '0'
+					),
+					'btn_button_transition' => array(
+						'type'          => 'select',
+						'label'         => __('Transition', 'fl-builder'),
+						'default'       => 'disable',
+						'options'       => array(
+							'disable'        => __('Disabled', 'fl-builder'),
+							'enable'         => __('Enabled', 'fl-builder')
+						)
 					)
 				)  
 			),

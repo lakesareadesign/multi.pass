@@ -69,7 +69,7 @@ class LI_Pointers
             'position' => array('edge' => 'left', 'align' => 'center')
         );
 
-        $function2 = 'li_redirect_to_settings()';
+        $function2 = 'li_redirect_to_leadin()';
 
         $this->print_scripts($id, $opt_arr, 'Complete Setup', FALSE, '', $function2);
     }
@@ -93,15 +93,15 @@ class LI_Pointers
 
                 var li_pointer_options = <?php echo json_encode( $options ); ?>, setup;
 
-                function li_redirect_to_settings() {
-                    window.location.href = "<?php echo get_bloginfo('wpurl'); ?>/wp-admin/admin.php?page=leadin_settings";
+                function li_redirect_to_leadin() {
+                    window.location.href = "<?php echo get_bloginfo('wpurl'); ?>/wp-admin/admin.php?page=leadin";
                 }
 
                 li_pointer_options = $.extend(li_pointer_options, {
                     buttons: function (event, t) {
                         button = jQuery('<a id="pointer-close" style="margin-left:5px" class="button-secondary">' + '<?php echo $button1; ?>' + '</a>');
                         button.bind('click.pointer', function () {
-                            window.location.href = "<?php echo get_bloginfo('wpurl'); ?>/wp-admin/admin.php?page=leadin_settings";
+                            window.location.href = "<?php echo get_bloginfo('wpurl'); ?>/wp-admin/admin.php?page=leadin";
                             //t.element.pointer('close');
                         });
                         return button;

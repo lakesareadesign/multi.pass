@@ -1,4 +1,63 @@
-<h4>1.7.8 - 04/20/2016</h4>
+<h4>1.8 - 06/07/2016</h4>
+<p>This update adds a number of new features. Be sure to check out <a href="https://www.wpbeaverbuilder.com/beaver-builder-1-8-gordon/">the blog post</a> for detailed info on what was added.</p>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added 16 new home page templates.</li>
+	<li>Added the ability for theme authors to load third party templates into all version of the builder (including the lite) using the new Template Data Exporter. Please <a href="https://www.wpbeaverbuilder.com/knowledge-base/theme-author-templates/">read the docs</a> for more info on that.</li>
+	<li>Added the ability to export single templates or groups of templates using the WordPress Exporter.</li>
+	<li>Added a patch for the WordPress Importer to prevent it from breaking imports in certain situations.</li>
+	<li>Added a setting in the advanced tab to show rows/modules/columns based on if a user is logged in, logged out, or never show them (they only appear while editing). You can also choose the capability logged in users must have to see a row/column/module.</li>
+	<li>Added a setting in the advanced tab to reverse the column stacking order on smaller devices.</li>
+	<li>Added settings to vertically center or top align content in full height rows and equal height columns.</li>
+	<li>Added settings to add a video background to a row using external links instead of the media library.</li>
+	<li>Added settings in the Icon Group module to choose individual icon colors and link targets.</li>
+	<li>Added settings in the Heading module to set the line-height and letter spacing.</li>
+	<li>Added settings in the Separator module to set the width and alignment.</li>
+	<li>Added a setting to the Accordion module that makes the first item open by default.</li>
+	<li>Added a setting in the Posts module to customize the "No Posts Found" message.</li>
+	<li>Added settings to all modules with buttons for fading in icons on hover and choosing a hover opacity for transparent backgrounds.</li>
+	<li>Added settings to the Contact Form module for customizing the button.</li>
+	<li>Made changes to the Contact Form module so the recipient's email address is no longer visible in the markup.</li>
+	<li>Captions are now displayed in the Gallery module's lightbox.</li>
+	<li>PHP files can now be used to register templates and load template data from the database.</li>
+	<li>Added caching to FLBuilderModel::get_user_template_type to cut down on the number of queries it runs.</li>
+	<li>The form validation required message is now translatable.</li>
+	<li>Empty index files are now added the cache directories to prevent browsing.</li>
+	<li>Added a button for resizing settings lightboxes so they fill the screen.</li>
+	<li>Added support for oEmbeds in the Text Editor module.</li>
+	<li>Changed row and module templates to saved rows and modules.</li>
+	<li>Tweaked templates admin settings terminology.</li>
+	<li>Tweaked draft and discard button terminology.</li>
+	<li>Added CSS/JavaScript to layout settings button and panel.</li>
+	<li>Increased size of the publish button.</li>
+	<li>Added a setting to collapse inactive items in accordion mode for the Menu module.</li>
+	<li>Updated Font Awesome.</li>
+	<li>Sticky posts are no longer included when using the fl_builder_insert_layout shortcode.</li>
+	<li>Added an above title option for image position in the Posts module.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed issues with exporting and importing new templates.</li>
+	<li>Fixed issues with layout CSS/JS not exporting and importing.</li>
+	<li>Fixed incorrect module paths on Windows servers.</li>
+	<li>Fixed the alignment setting preview for the Heading module. </li>
+	<li>Fixed the incorrect load order of FLBuilder::render_query CSS in IE.</li>
+	<li>Fixed RTL issues with the Content Slider and Post Slider modules.</li>
+	<li>Fixed an IE11 bug with images that have height:auto in equal height columns.</li>
+	<li>Fixed a PHP notice when adding Post Slider and Post Carousel modules to the page.</li>
+	<li>Fixed a PHP error when the time field is used inside a nested form.</li>
+	<li>Fixed a bug with duplicate rows adding backslashes to text.</li>
+	<li>Fixed a bug with nested Tab modules via the fl_builder_insert_layout shortcode.</li>
+	<li>Fixed an issue with sticky posts being included when using the fl_builder_insert_layout shortcode.</li>
+	<li>Fixed a PHP notice when using the fl_builder_insert_layout shortcode on a 404 page.</li>
+	<li>Fixed TinyMCE link editor not closing since WordPress 4.5.</li>
+	<li>Fixed a fatal error with the new Template Data Exporter caused by unsupported syntax in certain PHP versions.</li>
+	<li>Fixed a PHP warning caused by plugin activation.</li>
+	<li>Fixed the display of SVG files in the Photo module.</li>
+	<li>Fixed CSS specificity issues in IE when using the fl_builder_render_layout shortcode.</li>
+</ul>
+
+<h4>1.7.8 - 04/20/2016</h4> 
 <p><strong>Bug Fixes</strong></p>
 <ul>
 	<li>Fixed a bug in the Post Carousel and Post Slider modules caused in 1.7.7 that broke the offset setting.</li>
@@ -174,32 +233,6 @@
 	<li>Fixed a bug with the Subscribe Form module.</li>
 	<li>Fixed CSS specificity issues with the new builder shortcode.</li>
 	<li>Fixed a CSS bug with custom column widths on small devices.</li>
-</ul>
-
-<h4>1.7-beta.2 - 1/10/2016</h4>
-<p><strong>Enhancements</strong></p>
-<ul>
-	<li>Builder caching is now disabled when WP_DEBUG is set to true.</li>
-</ul>
-<p><strong>Bug Fixes</strong></p>
-<ul>
-	<li>Fixed a bug with the Subscribe Form module.</li>
-	<li>Fixed CSS specificity issues with the new builder shortcode.</li>
-</ul>
-
-<h4>1.7-beta.1 - 12/16/2015</h4>
-<p><strong>Enhancements</strong></p>
-<ul>
-	<li>Added partial refresh for all rows, columns, and modules. Developers will need to read the custom module docs for info on making their modules compatible with partial refresh.</li>
-	<li>Added the Layout Settings panel with per-page CSS and JavaScript settings.</li>
-	<li>Added CSS and JavaScript settings to the Global Settings panel.</li>
-	<li>Added the Audio module.</li>
-	<li>Added the Countdown module.</li>
-	<li>Added new style settings to the Pricing Table module for achieving a variety of different looks.</li>
-	<li>Added the fl_builder_insert_layout shortcode for inserting builder saved templates, rows, modules anywhere in your posts.</li>
-	<li>Added the FLBuilder::render_query method for rendering layouts anywhere within a theme's PHP files.</li>
-	<li>Refactored frontend AJAX actions and rendering to support partial refresh. Developers tapping into those actions may need to update their code.</li>
-	<li>Optimized loading of the builder UI by concatenating and minifying all core CSS and JavaScript files.</li>
 </ul>
 
 <h4>1.6.4.7 - 1/10/2016</h4>

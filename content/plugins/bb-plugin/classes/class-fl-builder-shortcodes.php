@@ -39,6 +39,7 @@ final class FLBuilderShortcodes {
 		if ( isset( $attrs['id'] ) ) {
 			
 			$args['orderby'] = 'post__in';
+			$args['ignore_sticky_posts'] = true;
 			
 			if ( is_numeric( $attrs['id'] ) ) {
 				$args['post__in'] = array( $attrs['id'] );

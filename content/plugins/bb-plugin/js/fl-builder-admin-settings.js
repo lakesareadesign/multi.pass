@@ -32,7 +32,6 @@
 			this._initOverrides();
 			this._initLicenseSettings();
 			this._templatesOverrideChange();
-			this._initHelpButtonSettings();
 		},
 		
 		/**
@@ -51,10 +50,6 @@
 			$('input[name=fl-templates-override]').on('keyup click', FLBuilderAdminSettings._templatesOverrideChange);
 			$('input[name=fl-upload-icon]').on('click', FLBuilderAdminSettings._showIconUploader);
 			$('.fl-delete-icon-set').on('click', FLBuilderAdminSettings._deleteCustomIconSet);
-			$('input[name=fl-help-button-enabled]').on('click', FLBuilderAdminSettings._initHelpButtonSettings);
-			$('input[name=fl-help-video-enabled]').on('click', FLBuilderAdminSettings._initHelpButtonSettings);
-			$('input[name=fl-knowledge-base-enabled]').on('click', FLBuilderAdminSettings._initHelpButtonSettings);
-			$('input[name=fl-forums-enabled]').on('click', FLBuilderAdminSettings._initHelpButtonSettings);
 			$('#uninstall-form').on('submit', FLBuilderAdminSettings._uninstallFormSubmit);
 		},
 		
@@ -254,31 +249,6 @@
 			}
 			
 			overrideNodes.toggle( toggle );
-		},
-		
-		/**
-		 * Initializes the the help button settings.
-		 *
-		 * @since 1.4.9
-		 * @access private
-		 * @method _initHelpButtonSettings
-		 */
-		_initHelpButtonSettings: function()
-		{
-			if ( 0 === $( '#fl-help-button-form' ).length ) {
-				return;
-			}
-			
-			var enabled  = $( 'input[name=fl-help-button-enabled]' )[ 0 ].checked,
-				tour     = $('input[name=fl-help-tour-enabled]')[ 0 ].checked,
-				video    = $('input[name=fl-help-video-enabled]')[ 0 ].checked,
-				kb       = $('input[name=fl-knowledge-base-enabled]')[ 0 ].checked,
-				forums   = $('input[name=fl-forums-enabled]')[ 0 ].checked;
-			
-			$( '.fl-help-button-settings' ).toggle( enabled );
-			$( '.fl-help-video-embed' ).toggle( video );
-			$( '.fl-knowledge-base-url' ).toggle( kb );
-			$( '.fl-forums-url' ).toggle( forums );
 		},
 		
 		/**

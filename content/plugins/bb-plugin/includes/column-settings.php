@@ -29,6 +29,23 @@ FLBuilder::register_settings_form('col', array(
 								'no'          => __( 'No', 'fl-builder' ),
 								'yes'         => __( 'Yes', 'fl-builder' ),
 							),
+							'toggle'        => array(
+								'yes'         	=> array(
+									'fields'      	=> array('content_alignment')
+								)
+							),
+							'preview'         => array(
+								'type'            => 'none'
+							)
+						),
+						'content_alignment' => array(
+							'type'          	=> 'select',
+							'label'         	=> __('Content Alignment', 'fl-builder'),
+							'default'       	=> 'top',
+							'options'       	=> array(
+								'top'          		=> __( 'Top', 'fl-builder' ),
+								'center'         	=> __( 'Center', 'fl-builder' ),
+							),
 							'preview'         => array(
 								'type'            => 'none'
 							)
@@ -510,6 +527,50 @@ FLBuilder::register_settings_form('col', array(
 							'preview'         => array(
 								'type'            => 'none'
 							)
+						),
+						'responsive_order' => array(
+							'type'          => 'select',
+							'label'         => __('Stacking Order', 'fl-builder'),
+							'help'          => __( 'The order of the columns in this group when they are stacked for small devices.', 'fl-builder' ),
+							'default'		=> 'default',
+							'options'       => array(
+								'default'       => __('Default', 'fl-builder'),
+								'reversed'        => __('Reversed', 'fl-builder'),
+							),
+							'preview'         => array(
+								'type'            => 'none'
+							)
+						),
+					)
+				),
+				'visibility'   => array(
+					'title'         => __('Visibility', 'fl-builder'),
+					'fields'        => array(
+						'visibility_display' => array(
+							'type'          => 'select',
+							'label'         => __('Display', 'fl-builder'),
+							'options'       => array(
+								''				=> __('Always', 'fl-builder'),
+								'logged_out'    => __('Logged Out User', 'fl-builder'),
+								'logged_in'     => __('Logged In User', 'fl-builder'),
+								'0'             => __('Never', 'fl-builder'),
+							),
+							'toggle' 		=> array(
+								'logged_in'		=> array(
+									'fields' 		=> array('visibility_user_capability')
+								)
+							),
+							'preview'         => array(
+								'type'            => 'none'
+							)
+						),
+						'visibility_user_capability' => array(
+							'type' 						=> 'text',
+							'label'						=> __('User Capability', 'fl-builder'),
+							'description'  	 			=> sprintf( __( 'Optional. Set the <a%s>capability</a> required for users to view this column.', 'fl-builder' ), ' href="http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table" target="_blank"' ),
+							'preview'         			=> array(
+								'type'            			=> 'none'
+							),
 						)
 					)
 				),

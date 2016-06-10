@@ -7,7 +7,17 @@
 			closeBtnInside: false,
 			type: 'image',
 			gallery: {
-				enabled: true
+				enabled: true,
+				navigateByImgClick: true,
+			},
+			'image': {
+				titleSrc: function(item) {
+					<?php if($settings->show_captions == 'below') : ?>
+						return item.el.parent().next('.fl-photo-caption').text();
+					<?php elseif($settings->show_captions == 'hover') : ?>
+						return item.el.next('.fl-photo-caption').text();
+					<?php endif; ?>
+				}
 			}
 		});
 		<?php endif; ?>

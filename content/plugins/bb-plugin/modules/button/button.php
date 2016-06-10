@@ -84,6 +84,15 @@ FLBuilder::register_module('FLButtonModule', array(
 							'before'        => __('Before Text', 'fl-builder'),
 							'after'         => __('After Text', 'fl-builder')
 						)
+					),
+					'icon_animation' => array(
+						'type'          => 'select',
+						'label'         => __('Icon Visibility', 'fl-builder'),
+						'default'       => 'disable',
+						'options'       => array(
+							'disable'        => __('Always Visible', 'fl-builder'),
+							'enable'         => __('Fade In On Hover', 'fl-builder')
+						)
 					)
 				)
 			),
@@ -166,7 +175,7 @@ FLBuilder::register_module('FLButtonModule', array(
 						),
 						'toggle'        => array(
 							'transparent'   => array(
-								'fields'        => array('bg_opacity', 'border_size')
+								'fields'        => array('bg_opacity', 'bg_hover_opacity', 'border_size')
 							)
 						)
 					),
@@ -187,6 +196,24 @@ FLBuilder::register_module('FLButtonModule', array(
 						'maxlength'     => '3',
 						'size'          => '5',
 						'placeholder'   => '0'
+					),
+					'bg_hover_opacity'    => array(
+						'type'          => 'text',
+						'label'         => __('Background Hover Opacity', 'fl-builder'),
+						'default'       => '0',
+						'description'   => '%',
+						'maxlength'     => '3',
+						'size'          => '5',
+						'placeholder'   => '0'
+					),
+					'button_transition'         => array(
+						'type'          => 'select',
+						'label'         => __('Transition', 'fl-builder'),
+						'default'       => 'disable',
+						'options'       => array(
+							'disable'        => __('Disabled', 'fl-builder'),
+							'enable'         => __('Enabled', 'fl-builder')
+						)
 					)
 				)  
 			),

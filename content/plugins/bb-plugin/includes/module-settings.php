@@ -79,6 +79,37 @@ FLBuilder::register_settings_form('module_advanced', array(
 				)
 			)
 		),
+		'visibility'   => array(
+			'title'         => __('Visibility', 'fl-builder'),
+			'fields'        => array(
+				'visibility_display' => array(
+					'type'          => 'select',
+					'label'         => __('Display', 'fl-builder'),
+					'options'       => array(
+						''				=> __('Always', 'fl-builder'),
+						'logged_out'    => __('Logged Out User', 'fl-builder'),
+						'logged_in'     => __('Logged In User', 'fl-builder'),
+						'0'             => __('Never', 'fl-builder'),
+					),
+					'toggle' 		=> array(
+						'logged_in'		=> array(
+							'fields' 		=> array('visibility_user_capability')
+						)
+					),
+					'preview'         => array(
+						'type'            => 'none'
+					)
+				),
+				'visibility_user_capability' => array(
+					'type' 						=> 'text',
+					'label'						=> __('User Capability', 'fl-builder'),
+					'description'  	 			=> sprintf( __( 'Optional. Set the <a%s>capability</a> required for users to view this module.', 'fl-builder' ), ' href="http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table" target="_blank"' ),
+					'preview'         			=> array(
+						'type'            			=> 'none'
+					),
+				)
+			)
+		),
 		'animation'    => array(
 			'title'         => __('Animation', 'fl-builder'),
 			'fields'        => array(

@@ -38,7 +38,16 @@ if($settings->pagination != 'none' && $query->have_posts()) :
 if(!$query->have_posts() && (defined('DOING_AJAX') || isset($_REQUEST['fl_builder']))) :
 
 ?>
-<div class="fl-post-grid-empty"><?php _e( 'No posts found.', 'fl-builder' ); ?></div>
+<div class="fl-post-grid-empty">
+	<?php 
+	if (isset($settings->no_results_message)) :
+		echo $settings->no_results_message;
+	else :
+		_e( 'No posts found.', 'fl-builder' );
+	endif; 
+	?>
+</div>
+	
 <?php
 
 endif;

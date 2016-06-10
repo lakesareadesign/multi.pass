@@ -15,7 +15,7 @@ foreach($settings->icons as $icon) {
 		'hover_color'    => $settings->hover_color,
 		'icon'           => $icon->icon,
 		'link'           => $icon->link,
-		'link_target'    => '_blank',
+		'link_target'    => isset($icon->link_target) ? $icon->link_target : '_blank',
 		'size'           => $settings->size,
 		'text'           => '',
 		'three_d'        => $settings->three_d

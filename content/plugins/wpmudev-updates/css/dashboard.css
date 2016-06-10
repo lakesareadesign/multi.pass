@@ -129,7 +129,7 @@
 	height: auto;
 	background-size: 18px;
 }
-/* http://loading.io/loader/?use=eyJzaXplIjoyNCwic3BlZWQiOjEsImNiayI6IiNkZGRkZGQiLCJjMSI6IiNjY2NjY2MiLCJjMiI6IjciLCJjMyI6IjEwIiwiYzQiOiJ5LWF4aXMiLCJ0eXBlIjoic3BpbiJ9 */	     	 	  		 	 		
+/* http://loading.io/loader/?use=eyJzaXplIjoyNCwic3BlZWQiOjEsImNiayI6IiNkZGRkZGQiLCJjMSI6IiNjY2NjY2MiLCJjMiI6IjciLCJjMyI6IjEwIiwiYzQiOiJ5LWF4aXMiLCJ0eXBlIjoic3BpbiJ9 */
 .wpmud .project-box .project-image > .img {
 	display: block;
 	width: 100%;
@@ -334,7 +334,7 @@
 	font-weight: 400;
 }
 
-.dev-overlay .dev-error .the-hero {
+.dev-overlay .the-hero {
 	position: absolute;
 	color: #EEE;
 	z-index: -1;
@@ -342,7 +342,7 @@
 	left: -45px;
 	text-align: left;
 }
-.dev-overlay .dev-error .the-hero .dev-icon {
+.dev-overlay .the-hero .dev-icon {
 	font-size: 160px;
 }
 
@@ -950,4 +950,4 @@
 }
 
 
-/* 133620-1459227701-au */
+/* 133620-1465596691-au */

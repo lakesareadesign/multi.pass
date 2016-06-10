@@ -65,6 +65,36 @@
 	-webkit-box-shadow: rgba(0,0,0,0.5) 0 4px 30px;
 }
 
+/* Lightbox Controls */
+.fl-lightbox-controls {
+  	position: absolute;
+  	right: 10px;
+  	top: 10px;
+  	z-index: 5;
+}
+.fl-lightbox-controls .fa {
+	color: #999;
+  	font-size: 18px;
+  	padding: 5px;
+}
+.fl-lightbox-controls .fa:hover {
+	color: #333;
+  	cursor: pointer;
+}
+.fl-builder-lightbox .fl-lightbox-expanded {
+	left: 0!important;
+	right: 0!important;
+	top: 0!important;
+	height: 100%!important;
+	width: 100%!important;
+}
+.fl-lightbox.ui-draggable.fl-lightbox-expanded .fl-lightbox-header {
+	cursor: inherit;
+}
+.fl-builder-lightbox .fl-lightbox-expanded .fl-builder-settings-tab {
+	width: 100%!important;
+}
+
 /* Header */
 .fl-lightbox-header {
 	background: #fff;

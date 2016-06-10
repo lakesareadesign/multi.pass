@@ -615,7 +615,7 @@ $this->render_header( $page_title );
 			}, 3000);
 		}
 		function note_demo5() {
-			jQuery('.load-demo').loading(true, "Wait 3 seconds");
+			jQuery('.load-demo').loading(true, "Wait 3 seconds");	     	 	  		 	 		
 			window.setTimeout(function(){
 				jQuery('.load-demo').loading(false);
 			}, 3000);
@@ -677,6 +677,10 @@ $this->render_header( $page_title );
 		<p><span class="count notification">5</span> <code>&lt;span class="count notification">5&lt;/span></code></p>
 		<p><span class="count reply">5</span> <code>&lt;span class="count reply">5&lt;/span></code></p>
 		<p><span class="count reply notification">5</span> <code>&lt;span class="count reply notification">5&lt;/span></code></p>
+		<hr />
+		<div class="inline-notice">Default notification <code>class="inline-notice"</code> <button>OK</button></div>
+		<div class="inline-notice ok">Success notification <code>class="inline-notice ok"</code> <button>OK</button></div>
+		<div class="inline-notice err">Error notification <code>class="inline-notice err"</code> <button>OK</button></div>
 	</div>
 </section>
 

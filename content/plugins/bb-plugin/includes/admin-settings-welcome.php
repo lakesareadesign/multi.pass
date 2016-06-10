@@ -4,7 +4,15 @@
 
 	<div class="fl-settings-form-content fl-welcome-page-content">
 
-		<p><?php _e('Thank you for choosing Beaver Builder and welcome to the colony! Find some helpful information below. Also, to the left are the Page Builder settings options.', 'fl-builder'); ?></p>
+		<p><?php _e('Thank you for choosing Beaver Builder and welcome to the colony! Find some helpful information below. Also, to the left are the Page Builder settings options.', 'fl-builder'); ?>
+
+			<?php if (true === FL_BUILDER_LITE) : ?>
+			<?php printf( __('For more time-saving features and access to our expert support team, <a href="%s" target="_blank">upgrade today</a>.', 'fl-builder'), FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-lite', 'utm_source' => 'welcome-settings-page', 'utm_campaign' => 'settings-welcome-support' ) ) ); ?>
+			<?php else: ?>
+			<?php _e('Be sure to add your license key for access to updates and new features.', 'fl-builder'); ?>
+			<?php endif; ?>
+
+		</p>
 
 		<h4><?php _e('Getting Started - Building your first page.', 'fl-builder'); ?></h4>
 
@@ -21,8 +29,8 @@
 				<p><?php _e('There\'s a wonderful community of "Beaver Builders" out there and we\'d love it if <em>you</em> joined us!', 'fl-builder'); ?></p>
 
 				<ul>
-					<li><?php _e('<a href="https://www.facebook.com/groups/beaverbuilders/" target="_blank">Join the Beaver Builder\'s Group on Facebook</a>', 'fl-builder'); ?></li>
-					<li><?php _e('<a href="https://beaverbuilders.herokuapp.com/" target="_blank">Join the Beaver Builder\'s Group on Slack</a>', 'fl-builder'); ?></li>
+					<li><?php printf( __( '<a href="https://www.wpbeaverbuilder.com/go/bb-facebook" target="_blank">Join the Beaver Builder\'s Group on Facebook</a>', 'fl-builder' ), ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-pro' ) ); ?></li>
+					<li><?php printf( __( '<a href="https://www.wpbeaverbuilder.com/go/bb-slack" target="_blank">Join the Beaver Builder\'s Group on Slack</a>', 'fl-builder'), ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-pro' ) ); ?></li>
 				</ul>
 
 				<p><?php _e('Come by and share a project, ask a question, or just say hi! For news about new features and updates, like our <a href="https://www.facebook.com/wpbeaverbuilder/" target="_blank">Facebook Page</a> or follow us <a href="https://twitter.com/beaverbuilder" target="_blank">on Twitter</a>.', 'fl-builder'); ?></p>
@@ -41,17 +49,18 @@
 
 			<div class="fl-welcome-col">
 
-				<h4><?php _e('What\'s New in Beaver Builder 1.7', 'fl-builder'); ?></h4>
+				<h4><?php _e('What\'s New in Beaver Builder 1.8 Gordon', 'fl-builder'); ?></h4>
 
-				<p><?php _e('Beaver Builder 1.7 is live and it\'s got some slick new features:', 'fl-builder'); ?></p>
+				<p><?php _e('Beaver Builder 1.8 is out and it\'s has some epic new features:', 'fl-builder'); ?></p>
 
 				<ul>
-					<li><?php _e('Partial Refresh is live and will make your builder experience faster and more fluid.', 'fl-builder'); ?></li>
-					<li><?php _e('The Audio Module and Count Down module are available!', 'fl-builder'); ?></li>
-					<li><?php _e('You can now insert layouts with a shortcode.', 'fl-builder'); ?></li>
+					<li><?php _e('16 new landing page templates are available in the template selector.', 'fl-builder'); ?></li>
+					<li><?php _e('Overhauled Import/Export options and the ability to export single templates.', 'fl-builder'); ?></li>
+					<li><?php _e('Hide rows and modules depending on whether a user is logged in or out.', 'fl-builder'); ?></li>
+					<li><?php _e('Ability to expand settings panels.', 'fl-builder'); ?></li>
 				</ul>
 
-				<p><?php _e('Read more our <a href="https://www.wpbeaverbuilder.com/beaver-builder-1-7-now-with-partial-refresh-per-page-code-settings-and-our-first-shortcode/" target="_blank">update post</a> or <a href="https://www.wpbeaverbuilder.com/change-logs/" target="_blank">change logs</a>.', 'fl-builder'); ?></p>
+				<p><?php _e('There\'s a whole lot more, too! Read about everything else on our <a href="https://www.wpbeaverbuilder.com/beaver-builder-1-8-gordon/" target="_blank">update post</a> or <a href="https://www.wpbeaverbuilder.com/change-logs/" target="_blank">change logs</a>.', 'fl-builder'); ?></p>
 
 			</div>
 
@@ -63,9 +72,13 @@
 
 				<p><?php _e('The fastest way to find an answer to a question is to see if someone\'s already answered it!', 'fl-builder');  ?></p>
 
-				<p><?php _e('For that, check our <a href="https://www.wpbeaverbuilder.com/knowledge-base/" target="_blank">Knowledge Base</a>, <a href="https://www.wpbeaverbuilder.com/frequently-asked-questions/" target="_blank">FAQ page</a>, or search our <a href="http://www.wpbeaverbuilder.com/support/" target="_blank">support forum.</a>', 'fl-builder');  ?></p>
+				<p><?php _e('For that, check our <a href="https://www.wpbeaverbuilder.com/knowledge-base/" target="_blank">Knowledge Base</a>, <a href="https://www.wpbeaverbuilder.com/frequently-asked-questions/" target="_blank">FAQ page</a>, or search our legacy <a href="http://www.wpbeaverbuilder.com/support/" target="_blank">support forum.</a>', 'fl-builder');  ?></p>
 
-				<p><?php _e('If you can\'t find an answer, feel free to post a question in our <a href="http://www.wpbeaverbuilder.com/support/" target="_blank">support forum</a>.', 'fl-builder'); ?></p>
+				<?php if (true === FL_BUILDER_LITE) : ?>
+				<p><?php printf( __('If you can\'t find an answer, consider upgrading to a premium version of Beaver Builder. Our expert support team is waiting to answer your questions and help you build your website. <a href="%s" target="_blank">Learn More</a>.', 'fl-builder'), FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-lite', 'utm_source' => 'welcome-settings-page', 'utm_campaign' => 'settings-welcome-support' ) ) ); ?></p>
+				<?php else: ?>
+				<p><?php _e('If you can\'t find an answer, feel free to <a href="https://www.wpbeaverbuilder.com/beaver-builder-support/" target="_blank">send us a message with your question.</a>', 'fl-builder'); ?></p>
+				<?php endif; ?>
 			</div>
 
 		</div>

@@ -130,7 +130,7 @@
 	<div class="fl-builder-actions {{data.className}}">
 		<span class="fl-builder-actions-title">{{data.title}}</span>
 		<# for( var i in data.buttons ) { #>
-		<span class="fl-builder-{{i}}-button fl-builder-button fl-builder-button-large">{{data.buttons[ i ]}}</span>
+		<span class="fl-builder-{{data.buttons[ i ].key}}-button fl-builder-button fl-builder-button-large">{{data.buttons[ i ].label}}</span>
 		<# } #>
 		<span class="fl-builder-cancel-button fl-builder-button fl-builder-button-primary fl-builder-button-large"><?php _e('Cancel', 'fl-builder'); ?></span>
 	</div>
@@ -164,23 +164,3 @@
 	</div>
 </script>
 <!-- #tmpl-fl-video-lightbox -->
-
-<script type="text/html" id="tmpl-fl-node-template-block">
-	<span class="fl-builder-block fl-builder-block-saved-{{data.type}}<# if ( data.global ) { #> fl-builder-block-global<# } #>" data-id="{{data.id}}">
-		<span class="fl-builder-block-title">{{data.name}}</span>
-		<# if ( data.global ) { #>
-		<div class="fl-builder-badge fl-builder-badge-global">
-			<?php _ex( 'Global', 'Indicator for global node templates.', 'fl-builder' ); ?>
-		</div>
-		<# } #>
-		<span class="fl-builder-node-template-actions">
-			<a class="fl-builder-node-template-edit" href="{{data.link}}" target="_blank">
-				<i class="fa fa-wrench"></i>
-			</a>
-			<a class="fl-builder-node-template-delete" href="javascript:void(0);">
-				<i class="fa fa-times"></i>
-			</a>
-		</span>
-	</span>
-</script>
-<!-- #tmpl-fl-node-template-block -->

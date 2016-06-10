@@ -2,8 +2,8 @@
 /*
 Plugin Name: Instagram Slider Widget
 Plugin URI: http://instagram.jrwebstudio.com/
-Version: 1.3.2
-Description: Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public Instagram user.
+Version: 1.3.3
+Description: Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public Instagram user and up to 18 images from a hashtag.
 Author: jetonr
 Author URI: http://jrwebstudio.com/
 License: GPLv2 or later
@@ -24,7 +24,7 @@ class JR_InstagramSlider extends WP_Widget {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '1.3.2';	
+	const VERSION = '1.3.3';	
 	
 	/**
 	 * Initialize the plugin by registering widget and loading public scripts
@@ -482,7 +482,7 @@ class JR_InstagramSlider extends WP_Widget {
 	private function display_images( $args ) {
 		
 		$username         = isset( $args['username'] ) && !empty( $args['username'] ) ? $args['username'] : false;
-		$hashtag          = isset( $args['hashtag'] ) && !empty( $args['hashtag'] ) ? $args['hashtag'] : false;
+		$hashtag          = isset( $args['hashtag'] ) && !empty( $args['hashtag'] ) ? str_replace( '#', '', $args['hashtag'] ) : false;
 		$blocked_users    = isset( $args['blocked_users'] ) && !empty( $args['blocked_users'] ) ? $args['blocked_users'] : false;
 		$source           = isset( $args['source'] ) && !empty( $args['source'] ) ? $args['source'] : 'instagram';
 		$attachment       = isset( $args['attachment'] ) ? true : false;
@@ -849,8 +849,34 @@ class JR_InstagramSlider extends WP_Widget {
 		}
 
 		return $output;
-	}	
-	
+	}
+
+	/**
+	 * Trigger refresh for new data
+	 * @param  bolean   $instaData 
+	 * @param  array    $old_args
+	 * @param  array    $new_args
+	 * @return bolean
+	 */
+	private function trigger_refresh_data( $instaData, $old_args, $new_args ) {
+
+		$trigger = 0;
+		
+		if ( false === $instaData ) {
+			$trigger = 1;
+		}
+
+		if ( is_array( $old_args ) && is_array( $new_args ) && array_diff( $old_args, $new_args ) !== array_diff( $new_args, $old_args ) ) {
+			$trigger = 1;	
+		}
+
+		if ( $trigger == 1 ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Stores the fetched data from instagram in WordPress DB using transients
 	 *	 
@@ -862,32 +888,39 @@ class JR_InstagramSlider extends WP_Widget {
 	 */
 	private function instagram_data( $search_for, $cache_hours, $nr_images, $attachment ) {
 		
+		$blocked_users = isset( $search_for['blocked_users'] ) && !empty( $search_for['blocked_users'] ) ? $search_for['blocked_users'] : false;
 		if ( isset( $search_for['username'] ) && !empty( $search_for['username'] ) ) {
 			$search = 'user';
 			$search_string = $search_for['username'];
 		} elseif ( isset( $search_for['hashtag'] ) && !empty( $search_for['hashtag'] ) ) {
 			$search = 'hashtag';
 			$search_string       = $search_for['hashtag'];
-			$blocked_users       = $search_for['blocked_users'];
-			$blocked_users_array = $this->get_ids_from_usernames( $blocked_users );
+			$blocked_users_array = $blocked_users ? $this->get_ids_from_usernames( $blocked_users ) : array();
 		} else {
 			return __( 'Nothing to search for', 'jrinstaslider');
 		}
 		
-		
 		$opt_name  = 'jr_insta_' . md5( $search . '_' . $search_string );
 		$instaData = get_transient( $opt_name );
-		$user_opt  = (array) get_option( $opt_name );
+		$old_opts  = (array) get_option( $opt_name );
+		$new_opts  = array( 
+			'search'        => $search, 
+			'search_string' => $search_string, 
+			'blocked_users' => $blocked_users, 
+			'cache_hours'   => $cache_hours, 
+			'nr_images'     => $nr_images, 
+			'attachment'    => $attachment 
+		);
 
-		if ( false === $instaData || $user_opt['blocked_users'] != $blocked_users || $user_opt['search_string'] != $search_string || $user_opt['search'] != $search || $user_opt['cache_hours'] != $cache_hours || $user_opt['nr_images'] != $nr_images || $user_opt['attachment'] != $attachment ) {
-			
+		if ( true === $this->trigger_refresh_data( $instaData, $old_opts, $new_opts ) ) {
+
 			$instaData = array();
-			$user_opt['search']        = $search;
-			$user_opt['search_string'] = $search_string;
-			$user_opt['blocked_users'] = $blocked_users;
-			$user_opt['cache_hours']   = $cache_hours;
-			$user_opt['nr_images']     = $nr_images;
-			$user_opt['attachment']    = $attachment;
+			$old_opts['search']        = $search;
+			$old_opts['search_string'] = $search_string;
+			$old_opts['blocked_users'] = $blocked_users;
+			$old_opts['cache_hours']   = $cache_hours;
+			$old_opts['nr_images']     = $nr_images;
+			$old_opts['attachment']    = $attachment;
 
 			if ( 'user' == $search ) {
 				$response = wp_remote_get( 'https://www.instagram.com/' . trim( $search_string ), array( 'sslverify' => false, 'timeout' => 60 ) );
@@ -936,7 +969,9 @@ class JR_InstagramSlider extends WP_Widget {
 					if ( empty( $entry_data ) ) {
 						return __( 'No images found', 'jrinstaslider');
 					}
-
+					
+					$count = count($entry_data);
+					
 					foreach ( $entry_data as $current => $result ) {
 
 						if ( $result['is_video'] == true ) {
@@ -972,17 +1007,17 @@ class JR_InstagramSlider extends WP_Widget {
 						
 						} else {
 						
-							if ( isset( $user_opt['saved_images'][$image_data['id']] ) ) {
+							if ( isset( $old_opts['saved_images'][$image_data['id']] ) ) {
 								
-								if ( is_string( get_post_status( $user_opt['saved_images'][$image_data['id']] ) ) ) {
+								if ( is_string( get_post_status( $old_opts['saved_images'][$image_data['id']] ) ) ) {
 									
-									$this->update_wp_attachment( $user_opt['saved_images'][$image_data['id']], $image_data );
+									$this->update_wp_attachment( $old_opts['saved_images'][$image_data['id']], $image_data );
 									
-									$instaData[$image_data['id']] = $user_opt['saved_images'][$image_data['id']];
+									$instaData[$image_data['id']] = $old_opts['saved_images'][$image_data['id']];
 								
 								}  else {
 
-									$user_opt['deleted_images'][$image_data['id']] = $image_data['url_thumbnail'];
+									$old_opts['deleted_images'][$image_data['id']] = $image_data['url_thumbnail'];
 								}
 								
 							} else {
@@ -991,7 +1026,7 @@ class JR_InstagramSlider extends WP_Widget {
 								
 								if ( $id && is_numeric( $id ) ) {
 									
-									$user_opt['saved_images'][$image_data['id']] = $id;
+									$old_opts['saved_images'][$image_data['id']] = $id;
 									
 									$instaData[$image_data['id']] = $id;
 								
@@ -1014,7 +1049,7 @@ class JR_InstagramSlider extends WP_Widget {
 
 			} // end -> $response['response']['code'] === 200 )
 
-			update_option( $opt_name, $user_opt );
+			update_option( $opt_name, $old_opts );
 			
 			if ( is_array( $instaData ) && !empty( $instaData )  ) {
 
@@ -1092,7 +1127,9 @@ class JR_InstagramSlider extends WP_Widget {
 		}
 
 		foreach ( $users as $user ) {
-			$return_ids[] = $user_ids[$user];
+			if ( isset( $user_ids[$user] ) ) {
+				$return_ids[] = $user_ids[$user];
+			}
 		}
 
 		return $return_ids;

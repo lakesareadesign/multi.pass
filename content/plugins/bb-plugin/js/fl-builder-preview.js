@@ -1322,14 +1322,16 @@
 			// Elements
 			$.extend(this.elements, {
 				width          : $(this.classes.settings + ' select[name=width]'),
+				contentWidth   : $(this.classes.settings + ' select[name=content_width]'),
 				height         : $(this.classes.settings + ' select[name=full_height]'),
-				contentWidth   : $(this.classes.settings + ' select[name=content_width]')
+				align          : $(this.classes.settings + ' select[name=content_alignment]')
 			});
 			
 			// Events
 			this.elements.width.on(         'change', $.proxy(this._rowWidthChange, this));
-			this.elements.height.on(        'change', $.proxy(this._rowHeightChange, this));
 			this.elements.contentWidth.on(  'change', $.proxy(this._rowContentWidthChange, this));
+			this.elements.height.on(        'change', $.proxy(this._rowHeightChange, this));
+			this.elements.align.on(         'change', $.proxy(this._rowHeightChange, this));
 			
 			// Common Elements
 			this._initNodeTextColor();
@@ -1374,8 +1376,12 @@
 		{
 			var row = this.elements.node;
 			
+			row.removeClass('fl-row-align-top');
+			row.removeClass('fl-row-align-center');
+			
 			if(this.elements.height.val() == 'full') {
 				row.addClass('fl-row-full-height');
+				row.addClass('fl-row-align-' + this.elements.align.val());
 			}
 			else {
 				row.removeClass('fl-row-full-height');
@@ -1418,13 +1424,17 @@
 		{
 			// Elements
 			$.extend(this.elements, {
-				size         : $(this.classes.settings + ' input[name=size]'),
-				columnHeight : $(this.classes.settings + ' select[name=equal_height]'),
+				size         	: $(this.classes.settings + ' input[name=size]'),
+				columnHeight 	: $(this.classes.settings + ' select[name=equal_height]'),
+				columnAlign     : $(this.classes.settings + ' select[name=content_alignment]'),
+				responsiveOrder : $(this.classes.settings + ' select[name=responsive_order]')
 			});
 			
 			// Events
-			this.elements.size.on(   		'keyup', $.proxy( this._colSizeChange, this ) );
-			this.elements.columnHeight.on( 'change', $.proxy( this._colHeightChange, this ) );
+			this.elements.size.on(   		   'keyup', $.proxy( this._colSizeChange, this ) );
+			this.elements.columnHeight.on(     'change', $.proxy( this._colHeightChange, this ) );
+			this.elements.columnAlign.on(      'change', $.proxy( this._colHeightChange, this ) );
+			this.elements.responsiveOrder.on(  'change', $.proxy( this._colResponsiveOrder, this ) );
 			
 			// Common Elements
 			this._initNodeTextColor();
@@ -1494,14 +1504,37 @@
 		 */
 		_colHeightChange: function()
 		{
-
 			var parent = this.elements.node.parent('.fl-col-group');
+			
+			parent.removeClass('fl-col-group-align-top');
+			parent.removeClass('fl-col-group-align-center');
 			
 			if(this.elements.columnHeight.val() == 'yes') {
 				parent.addClass('fl-col-group-equal-height');
+				parent.addClass('fl-col-group-align-' + this.elements.columnAlign.val());
 			}
 			else {
 				parent.removeClass('fl-col-group-equal-height');
+			}
+		},
+
+		/**
+		 * Fires when the responsive order field of a column changes.
+		 *
+		 * @since 1.8
+		 * @access private
+		 * @method _colResponsiveOrder
+		 */
+		_colResponsiveOrder: function()
+		{
+
+			var parent = this.elements.node.parent('.fl-col-group');
+			
+			if(this.elements.responsiveOrder.val() == 'reversed') {
+				parent.addClass('fl-col-group-responsive-reversed');
+			}
+			else {
+				parent.removeClass('fl-col-group-responsive-reversed');
 			}
 		},
 		

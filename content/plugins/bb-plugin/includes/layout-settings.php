@@ -1,7 +1,7 @@
 <?php
 
 FLBuilder::register_settings_form('layout', array(
-	'title' => __('Layout Settings', 'fl-builder'),
+	'title' => __('Layout CSS / Javascript', 'fl-builder'),
 	'tabs' => array(
 		'css'  => array(
 			'title'         => __('CSS', 'fl-builder'),

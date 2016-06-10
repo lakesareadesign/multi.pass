@@ -7,10 +7,12 @@ Tested up to: 4.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public instagram user or hashtag.
+Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public instagram user or up to 18 images from a hashtag.
 
 == Description ==
-* Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public instagram user or hashtag. 
+= Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public instagram user or up to 18 images from a hashtag. =
+
+
 = Features =
 * Images from instagram are imported as wordpress attachments
 * Display Images in Slider or Thumbnails
@@ -43,6 +45,9 @@ I will try to respond on wordpress.org asap but for faster reposnse use the link
 3. Backend Configuration
 
 == Changelog ==
+= 1.3.3 =
+* Fixed notification error message.
+
 = 1.3.2 =
 * Fixed deeplink issue with smartphones. Contributors via wordpress forum @ricksportel
 * Added option to block users when searching for hashtag. Sponsored by VirtualStrides.com

@@ -143,6 +143,50 @@ FLBuilder::register_module('FLHeadingModule', array(
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px'
+					),
+					'line_height'     => array(
+						'type'          => 'select',
+						'label'         => __('Line Height', 'fl-builder'),
+						'default'       => 'default',
+						'options'       => array(
+							'default'       =>  __('Default', 'fl-builder'),
+							'custom'        =>  __('Custom', 'fl-builder')
+						),
+						'toggle'        => array(
+							'custom'        => array(
+								'fields'        => array('custom_line_height')
+							)
+						)
+					),
+					'custom_line_height' => array(
+						'type'          => 'text',
+						'label'         => __('Custom Line Height', 'fl-builder'),
+						'default'       => '1.4',
+						'maxlength'     => '4',
+						'size'          => '4',
+						'description'   => 'em'
+					),
+					'letter_spacing'     => array(
+						'type'          => 'select',
+						'label'         => __('Letter Spacing', 'fl-builder'),
+						'default'       => 'default',
+						'options'       => array(
+							'default'       =>  __('Default', 'fl-builder'),
+							'custom'        =>  __('Custom', 'fl-builder')
+						),
+						'toggle'        => array(
+							'custom'        => array(
+								'fields'        => array('custom_letter_spacing')
+							)
+						)
+					),
+					'custom_letter_spacing' => array(
+						'type'          => 'text',
+						'label'         => __('Custom Letter Spacing', 'fl-builder'),
+						'default'       => '0',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px'
 					)
 				)
 			),
@@ -206,6 +250,49 @@ FLBuilder::register_module('FLHeadingModule', array(
 						'preview'         => array(
 							'type'            => 'none'
 						)
+					),
+					'r_line_height'     => array(
+						'type'          => 'select',
+						'label'         => __('Line Height', 'fl-builder'),
+						'default'       => 'default',
+						'options'       => array(
+							'default'       =>  __('Default', 'fl-builder'),
+							'custom'        =>  __('Custom', 'fl-builder')
+						),
+						'toggle'        => array(
+							'custom'        => array(
+								'fields'        => array('r_custom_line_height')
+							)
+						)
+					),
+					'r_custom_line_height' => array(
+						'type'          => 'text',
+						'label'         => __('Custom Line Height', 'fl-builder'),
+						'default'       => '1.4',
+						'maxlength'     => '4',
+						'size'          => '4'
+					),
+					'r_letter_spacing'     => array(
+						'type'          => 'select',
+						'label'         => __('Letter Spacing', 'fl-builder'),
+						'default'       => 'default',
+						'options'       => array(
+							'default'       =>  __('Default', 'fl-builder'),
+							'custom'        =>  __('Custom', 'fl-builder')
+						),
+						'toggle'        => array(
+							'custom'        => array(
+								'fields'        => array('r_custom_letter_spacing')
+							)
+						)
+					),
+					'r_custom_letter_spacing' => array(
+						'type'          => 'text',
+						'label'         => __('Custom Letter Spacing', 'fl-builder'),
+						'default'       => '0',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px'
 					)
 				)
 			)

@@ -105,7 +105,7 @@ FLBuilder::register_module('FLMenuModule', array(
 					    		'fields'		=> array( 'submenu_hover_toggle' ),
 					    	),
 					    	'accordion'		=> array(
-					    		'fields'		=> array( 'submenu_click_toggle' ),
+					    		'fields'		=> array( 'submenu_click_toggle', 'collapse' ),
 					    	),
 					    )
 					),
@@ -127,6 +127,19 @@ FLBuilder::register_module('FLMenuModule', array(
 					    	'arrows'		=> __( 'Arrows', 'fl-builder' ),
 					    	'plus'			=> __( 'Plus sign', 'fl-builder' ),
 					    )
+					),
+					'collapse'   => array(
+						'type'          => 'select',
+						'label'         => __('Collapse Inactive', 'fl-builder'),
+						'default'       => '1',
+						'options'       => array(
+							'1'             => __('Yes', 'fl-builder'),
+							'0'             => __('No', 'fl-builder')
+						),
+						'help'          => __('Choosing yes will keep only one item open at a time. Choosing no will allow multiple items to be open at the same time.', 'fl-builder'),
+						'preview'       => array(
+							'type'          => 'none'
+						)
 					),
 					'mobile_toggle' => array(
 					    'type'          => 'select',

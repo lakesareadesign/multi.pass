@@ -158,6 +158,8 @@ class FLBuilderModule {
 		
 		// We need to normalize the paths here since path comparisons 
 		// break on Windows because they use backslashes.
+		$abspath                    = str_replace( '\\', '/', ABSPATH );
+		$fl_builder_dir             = str_replace( '\\', '/', FL_BUILDER_DIR );
 		$dir_path                   = str_replace( '\\', '/', $dir_path );
 		$stylesheet_directory       = str_replace( '\\', '/', get_stylesheet_directory() );
 		$stylesheet_directory_uri   = str_replace( '\\', '/', get_stylesheet_directory_uri() );
@@ -177,8 +179,8 @@ class FLBuilderModule {
 			$this->url = trailingslashit($params['url']);
 			$this->dir = trailingslashit($params['dir']);
 		}
-		else if(!stristr($dir_path, FL_BUILDER_DIR)) {
-			$this->url = trailingslashit(str_replace(trailingslashit(ABSPATH), trailingslashit(home_url()), $dir_path));
+		else if(!stristr($dir_path, $fl_builder_dir)) {
+			$this->url = trailingslashit(str_replace(trailingslashit($abspath), trailingslashit(home_url()), $dir_path));
 			$this->dir = trailingslashit($dir_path);
 		}
 		else {                

@@ -87,7 +87,8 @@ if ( ! empty( $settings->bg_hover_color ) ) {
 	border: <?php echo $border_size; ?>px solid #<?php echo $border_hover_color; ?>;
 	
 	<?php if ( 'transparent' == $settings->style ) : // Transparent ?>
-	background-color: rgba(<?php echo implode( ',', FLBuilderColor::hex_to_rgb( $settings->bg_hover_color ) ) ?>, <?php echo $settings->bg_opacity/100; ?>);
+	background-color: rgba(<?php echo implode( ',', FLBuilderColor::hex_to_rgb( $settings->bg_hover_color ) ) ?>, <?php echo $settings->bg_hover_opacity/100; ?>);
+	border-color: #<?php echo $settings->bg_hover_color; ?>
 	<?php endif; ?>
 
 	<?php if ( 'gradient' == $settings->style ) : // Gradient ?>
@@ -109,4 +110,29 @@ if ( ! empty( $settings->bg_hover_color ) ) {
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button:focus * {
 	color: #<?php echo $settings->text_hover_color; ?>;
 }
+<?php endif; ?>
+
+
+<?php // Transition
+	  if ('enable' == $settings->button_transition): ?>
+.fl-builder-content .fl-node-<?php echo $id; ?> .fl-button,
+.fl-builder-content .fl-node-<?php echo $id; ?> .fl-button * {
+	transition: all 0.2s linear !important;
+    -moz-transition: all 0.2s linear !important;
+    -webkit-transition: all 0.2s linear !important;
+    -o-transition: all 0.2s linear !important;
+}
+<?php endif; ?>
+
+<?php if ( empty( $settings->text ) ) : ?>
+<?php if ('after' == $settings->icon_position): ?>
+.fl-builder-content .fl-node-<?php echo $id; ?> .fl-button i.fl-button-icon-after {
+	margin-left: 0;
+}
+<?php endif; ?>
+<?php if ('before' == $settings->icon_position): ?>
+.fl-builder-content .fl-node-<?php echo $id; ?> .fl-button i.fl-button-icon-before {
+	margin-right: 0;
+}
+<?php endif; ?>
 <?php endif; ?>

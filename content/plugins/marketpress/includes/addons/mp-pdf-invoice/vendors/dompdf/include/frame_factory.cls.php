@@ -228,7 +228,7 @@ class Frame_Factory {
         }
         else {
           if ( !$parent_node->hasAttribute("dompdf-counter") ) {
-            $index = ($parent_node->hasAttribute("start") ? $parent_node->getAttribute("start") : 1);	     	 	 	    	  
+            $index = ($parent_node->hasAttribute("start") ? $parent_node->getAttribute("start") : 1);
           }
           else {
             $index = $parent_node->getAttribute("dompdf-counter")+1;

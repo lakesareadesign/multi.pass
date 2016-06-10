@@ -96,12 +96,16 @@ class WPLeadInAdmin
         $leadin_icon = LEADIN_PATH . '/images/leadin-icon-16x16-white.png';
 
         add_menu_page('Leadin', 'Leadin', $capability, 'leadin', array($this, 'leadin_build_app'), $leadin_icon, '25.100713');
+        
+        $slumberMode = get_option('leadin_slumber_mode');
+        
+        if (!$slumberMode) {
+            add_submenu_page('leadin', 'Contacts', 'Contacts', 'activate_plugins', 'leadin_contacts', array($this, 'leadin_build_app'));
+            add_submenu_page('leadin', 'Flows', 'Flows', 'activate_plugins', 'leadin_flows', array($this, 'leadin_build_app'));
+            add_submenu_page('leadin', 'Settings', 'Settings', 'activate_plugins', 'leadin_settings', array($this, 'leadin_build_app'));
 
-        add_submenu_page('leadin', 'Contacts', 'Contacts', 'activate_plugins', 'leadin_contacts', array($this, 'leadin_build_app'));
-        add_submenu_page('leadin', 'Flows', 'Flows', 'activate_plugins', 'leadin_flows', array($this, 'leadin_build_app'));
-        add_submenu_page('leadin', 'Settings', 'Settings', 'activate_plugins', 'leadin_settings', array($this, 'leadin_build_app'));
-
-        $submenu['leadin'][0][0] = 'Dashboard';
+            $submenu['leadin'][0][0] = 'Dashboard';
+        }
 
         if (!isset($_GET['page']) || $_GET['page'] != ('leadin' || 'leadin_settings' || 'leadin_contacts' || 'leadin_flows')) {
             if (!get_option('leadin_portalId'))
@@ -166,6 +170,7 @@ class WPLeadInAdmin
         $leadin_config = array(
             'portalId' => get_option('leadin_portalId'),
             'hapikey' => get_option('leadin_hapikey'),
+            'slumberMode' => get_option('leadin_slumber_mode'),
             'env' => constant('LEADIN_ENV'),
             'user' => $this->leadin_get_user_for_tracking(),
             'allRoles' => $wp_roles->get_names(),

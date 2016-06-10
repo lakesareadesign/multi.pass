@@ -15,7 +15,7 @@ function bp_wdf_add_js() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->wdf->slug )
-		wp_enqueue_script( 'bp-wdf-js', BP_WDF_PLUGIN_BASE_DIR . '/js/general.js' );	     	 	 				 			
+		wp_enqueue_script( 'bp-wdf-js', BP_WDF_PLUGIN_BASE_DIR . '/js/general.js' );
 }
 add_action( 'template_redirect', 'bp_wdf_add_js', 1 );
 

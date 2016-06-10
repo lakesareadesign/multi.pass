@@ -183,6 +183,11 @@ final class FLBuilderIcons {
 		// Loop through uploaded sets.
 		foreach ( $folders as $folder ) {
 			
+			// Make sure we have a directory.
+			if ( ! is_dir( $folder ) ) {
+				continue;
+			}
+			
 			$folder = trailingslashit( $folder );
 			
 			// This is an Icomoon font.

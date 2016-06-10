@@ -1,4 +1,4 @@
-<div class="fl-menu">
+<div class="fl-menu<?php if ( $settings->collapse ) echo ' fl-menu-accordion-collapse'; ?>">
 	<?php $module->render_toggle_button(); ?>
 	<div class="fl-clear"></div>
 	<?php 

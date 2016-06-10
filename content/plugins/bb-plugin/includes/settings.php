@@ -6,6 +6,9 @@
 			<span class="fl-builder-badge fl-builder-badge-<?php echo $form_badge_slug; ?>"><?php echo $form_badge_title; ?></span>
 			<?php endforeach; ?>
 		</h1>
+		<?php if (isset($form['resizable']) && $form['resizable'] === true) : ?>
+			<div class="fl-lightbox-controls"><i class="fa fa-expand"></i></div>
+		<?php endif; ?>
 	</div>
 	<?php if(count($form['tabs']) > 1) : ?>
 	<div class="fl-builder-settings-tabs">

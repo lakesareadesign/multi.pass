@@ -25,6 +25,7 @@
 		'font_size'         => $settings->btn_font_size,
 		'icon'              => $settings->btn_icon,
 		'icon_position'     => $settings->btn_icon_position,
+		'icon_animation'    => $settings->btn_icon_animation,
 		'link'              => '#',
 		'link_target'       => '_self',
 		'padding'           => $settings->btn_padding,

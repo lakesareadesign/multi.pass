@@ -17,18 +17,33 @@ final class FLBuilderAdminSettings {
 	static public $errors = array();
 	
 	/** 
-	 * Adds the admin menu and enqueues CSS/JS if we are on
-	 * the builder admin settings page.
+	 * Initializes the admin settings.
 	 *
 	 * @since 1.0
 	 * @return void
 	 */
 	static public function init()
 	{
-		add_action( 'admin_menu', 'FLBuilderAdminSettings::menu' );
+		add_action( 'plugins_loaded', __CLASS__ . '::init_hooks' );
+	}
+	
+	/** 
+	 * Adds the admin menu and enqueues CSS/JS if we are on
+	 * the builder admin settings page.
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
+	static public function init_hooks()
+	{
+		if ( ! is_admin() ) {
+			return;
+		}
+		
+		add_action( 'admin_menu', __CLASS__ . '::menu' );
 			
 		if ( isset( $_REQUEST['page'] ) && 'fl-builder-settings' == $_REQUEST['page'] ) {
-			add_action( 'admin_enqueue_scripts', 'FLBuilderAdminSettings::styles_scripts' );
+			add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
 			self::save();
 		}
 	}
@@ -64,7 +79,7 @@ final class FLBuilderAdminSettings {
 			$title = FLBuilderModel::get_branding();
 			$cap   = 'delete_users';
 			$slug  = 'fl-builder-settings';
-			$func  = 'FLBuilderAdminSettings::render';
+			$func  = __CLASS__ . '::render';
 			
 			add_submenu_page( 'options-general.php', $title, $title, $cap, $slug, $func );
 		}
@@ -142,60 +157,66 @@ final class FLBuilderAdminSettings {
 	 */	  
 	static public function render_nav_items()
 	{
-		$item_data = array(
+		$item_data = apply_filters( 'fl_builder_admin_settings_nav_items', array(
 			'welcome' => array(
-				'title' => __( 'Welcome', 'fl-builder' ),
-				'show'	=> FLBuilderModel::get_branding() == __( 'Page Builder', 'fl-builder' ) && ( is_network_admin() || ! self::multisite_support() )
+				'title' 	=> __( 'Welcome', 'fl-builder' ),
+				'show'		=> FLBuilderModel::get_branding() == __( 'Page Builder', 'fl-builder' ) && ( is_network_admin() || ! self::multisite_support() ),
+				'priority'	=> 50
 			),
 			'license' => array(
-				'title' => __( 'License', 'fl-builder' ),
-				'show'	=> FL_BUILDER_LITE !== true && ( is_network_admin() || ! self::multisite_support() )
+				'title' 	=> __( 'License', 'fl-builder' ),
+				'show'		=> FL_BUILDER_LITE !== true && ( is_network_admin() || ! self::multisite_support() ),
+				'priority'	=> 100
 			),
 			'upgrade' => array(
-				'title' => __( 'Upgrade', 'fl-builder' ),
-				'show'	=> FL_BUILDER_LITE === true
+				'title' 	=> __( 'Upgrade', 'fl-builder' ),
+				'show'		=> FL_BUILDER_LITE === true,
+				'priority'	=> 200
 			),
 			'modules' => array(
-				'title' => __( 'Modules', 'fl-builder' ),
-				'show'	=> true
-			),
-			'templates' => array(
-				'title' => __( 'Templates', 'fl-builder' ),
-				'show'	=> FL_BUILDER_LITE !== true
+				'title' 	=> __( 'Modules', 'fl-builder' ),
+				'show'		=> true,
+				'priority'	=> 300
 			),
 			'post-types' => array(
-				'title' => __( 'Post Types', 'fl-builder' ),
-				'show'	=> true
+				'title' 	=> __( 'Post Types', 'fl-builder' ),
+				'show'		=> true,
+				'priority'	=> 400
 			),
 			'icons' => array(
-				'title' => __( 'Icons', 'fl-builder' ),
-				'show'	=> FL_BUILDER_LITE !== true
+				'title' 	=> __( 'Icons', 'fl-builder' ),
+				'show'		=> FL_BUILDER_LITE !== true,
+				'priority'	=> 500
 			),
 			'editing' => array(
-				'title' => __( 'Editing', 'fl-builder' ),
-				'show'	=> true
-			),
-			'branding' => array(
-				'title' => __( 'Branding', 'fl-builder' ),
-				'show'	=> self::has_support( 'branding' ) && ( is_network_admin() || ! self::multisite_support() )
-			),
-			'help-button' => array(
-				'title' => __( 'Help Button', 'fl-builder' ),
-				'show'	=> self::has_support( 'help-button' ) && ( is_network_admin() || ! self::multisite_support() )
+				'title' 	=> __( 'Editing', 'fl-builder' ),
+				'show'		=> true,
+				'priority'	=> 600
 			),
 			'cache' => array(
-				'title' => __( 'Cache', 'fl-builder' ),
-				'show'	=> true
+				'title' 	=> __( 'Cache', 'fl-builder' ),
+				'show'		=> true,
+				'priority'	=> 700
 			),
 			'uninstall' => array(
-				'title' => __( 'Uninstall', 'fl-builder' ),
-				'show'	=> is_network_admin() || ! self::multisite_support()
+				'title' 	=> __( 'Uninstall', 'fl-builder' ),
+				'show'		=> is_network_admin() || ! self::multisite_support(),
+				'priority'	=> 800
 			),
-		);
+		) );
+		
+		$sorted_data = array();
 		
 		foreach ( $item_data as $key => $data ) {
+			$data['key'] = $key;
+			$sorted_data[ $data['priority'] ] = $data;
+		}
+		
+		ksort( $sorted_data );
+		
+		foreach ( $sorted_data as $data ) {
 			if ( $data['show'] ) {
-				echo '<li><a href="#' . $key . '">' . $data['title'] . '</a></li>';
+				echo '<li><a href="#' . $data['key'] . '">' . $data['title'] . '</a></li>';
 			}
 		}
 	}
@@ -226,9 +247,6 @@ final class FLBuilderAdminSettings {
 		// Modules
 		self::render_form( 'modules' );
 		
-		// Templates
-		self::render_form( 'templates' );
-		
 		// Post Types
 		self::render_form( 'post-types' );
 		
@@ -238,17 +256,14 @@ final class FLBuilderAdminSettings {
 		// Editing
 		self::render_form( 'editing' );
 		
-		// Branding
-		self::render_form( 'branding' );
-		
-		// Help Button
-		self::render_form( 'help-button' );
-		
 		// Cache
 		self::render_form( 'cache' );
 		
 		// Uninstall
 		self::render_form( 'uninstall' );
+		
+		// Let extensions hook into form rendering.
+		do_action( 'fl_builder_admin_settings_render_forms' );
 	}
 	
 	/** 
@@ -348,14 +363,14 @@ final class FLBuilderAdminSettings {
 		}
 		
 		self::save_enabled_modules();
-		self::save_enabled_templates();
 		self::save_enabled_post_types();
 		self::save_enabled_icons();
 		self::save_editing_capability();
-		self::save_branding();
-		self::save_help_button();
 		self::clear_cache();
 		self::uninstall();
+		
+		// Let extensions hook into saving.
+		do_action( 'fl_builder_admin_settings_save' );
 	}
 	
 	/** 
@@ -376,30 +391,6 @@ final class FLBuilderAdminSettings {
 			}
 			
 			FLBuilderModel::update_admin_settings_option( '_fl_builder_enabled_modules', $modules, true );
-		}
-	}
-	
-	/** 
-	 * Saves the enabled templates.
-	 *
-	 * @since 1.0
-	 * @since 1.5.7 Added the ability to enable the templates admin UI.
-	 * @access private
-	 * @return void
-	 */ 
-	static private function save_enabled_templates()
-	{
-		if ( isset( $_POST['fl-templates-nonce'] ) && wp_verify_nonce( $_POST['fl-templates-nonce'], 'templates' ) ) {
-		
-			$enabled_templates   = sanitize_text_field( $_POST['fl-template-settings'] );
-			$admin_ui_enabled    = isset( $_POST['fl-template-admin-ui'] ) ? 1 : 0;
-			
-			FLBuilderModel::update_admin_settings_option( '_fl_builder_enabled_templates', $enabled_templates, true );
-			FLBuilderModel::update_admin_settings_option( '_fl_builder_user_templates_admin', $admin_ui_enabled, true );
-			
-			if ( class_exists( 'FLBuilderTemplatesOverride' ) ) {
-				FLBuilderTemplatesOverride::save_admin_settings();	
-			}
 		}
 	}
 	
@@ -560,110 +551,12 @@ final class FLBuilderAdminSettings {
 	{
 		if ( isset( $_POST['fl-editing-nonce'] ) && wp_verify_nonce( $_POST['fl-editing-nonce'], 'editing' ) ) {
 			
-			$capability 			= sanitize_text_field( $_POST['fl-editing-capability'] );
-			$templates_capability 	= sanitize_text_field( $_POST['fl-global-templates-editing-capability'] );
+			$capability = sanitize_text_field( $_POST['fl-editing-capability'] );
 			
 			FLBuilderModel::update_admin_settings_option( '_fl_builder_editing_capability', $capability, true );
-			FLBuilderModel::update_admin_settings_option( '_fl_builder_global_templates_editing_capability', $templates_capability, true );
 		}
 	}
 	
-	/** 
-	 * Saves the branding settings.
-	 *
-	 * @since 1.0
-	 * @access private
-	 * @return void
-	 */ 
-	static private function save_branding()
-	{
-		if ( isset( $_POST['fl-branding-nonce'] ) && wp_verify_nonce( $_POST['fl-branding-nonce'], 'branding' ) ) {
-			
-			// Get the plugin branding data.
-			$branding		= wp_kses_post( $_POST['fl-branding'] );
-			$branding_icon	= sanitize_text_field( $_POST['fl-branding-icon'] );
-			
-			// Get the theme branding data.
-			$theme_data = array(
-				'name' 				=> wp_kses_post( $_POST['fl-theme-branding-name'] ),
-				'description' 		=> wp_kses_post( $_POST['fl-theme-branding-description'] ),
-				'company_name' 		=> wp_kses_post( $_POST['fl-theme-branding-company-name'] ),
-				'company_url' 		=> sanitize_text_field( $_POST['fl-theme-branding-company-url'] ),
-				'screenshot_url' 	=> sanitize_text_field( $_POST['fl-theme-branding-screenshot-url'] ),
-			);
-			
-			// Save the data.
-			FLBuilderModel::update_admin_settings_option( '_fl_builder_branding', $branding, false );
-			FLBuilderModel::update_admin_settings_option( '_fl_builder_branding_icon', $branding_icon, false );
-			FLBuilderModel::update_admin_settings_option( '_fl_builder_theme_branding', $theme_data, false );
-		}
-	}
-	
-	/** 
-	 * Saves the help button settings.
-	 *
-	 * @since 1.0
-	 * @access private
-	 * @return void
-	 */ 
-	static private function save_help_button()
-	{
-		if ( isset( $_POST['fl-help-button-nonce'] ) && wp_verify_nonce( $_POST['fl-help-button-nonce'], 'help-button' ) ) {
-			
-			$settings					= FLBuilderModel::get_help_button_defaults();
-			$settings['enabled']		= isset( $_POST['fl-help-button-enabled'] )		? true : false;
-			$settings['tour']			= isset( $_POST['fl-help-tour-enabled'] )		? true : false;
-			$settings['video']			= isset( $_POST['fl-help-video-enabled'] )		? true : false;
-			$settings['knowledge_base'] = isset( $_POST['fl-knowledge-base-enabled'] )	? true : false;
-			$settings['forums']			= isset( $_POST['fl-forums-enabled'] )			? true : false;
-			
-			// Disable everything if the main button is disabled.
-			if ( ! $settings['enabled'] ) {
-				$settings['tour']			= false;
-				$settings['video']			= false;
-				$settings['knowledge_base'] = false;
-				$settings['forums']			= false;
-			}
-			
-			// Clean the video embed.
-			$video_embed = wp_kses( $_POST['fl-help-video-embed'], array(
-				'iframe' => array(
-					'src'					=> array(),
-					'frameborder'			=> array(),
-					'webkitallowfullscreen' => array(),
-					'mozallowfullscreen'	=> array(),
-					'allowfullscreen'		=> array()
-				)
-			));
-			
-			// Save the video embed.
-			if ( ! empty( $video_embed ) && ! stristr( $video_embed, 'iframe' ) ) {
-				self::add_error( __( "Error! Please enter an iframe for the video embed code.", 'fl-builder' ) );
-			}
-			else if ( ! empty( $video_embed ) ) {
-				$settings['video_embed'] = $video_embed;
-			}
-			
-			// Save the knowledge base URL.
-			if ( ! empty( $_POST['fl-knowledge-base-url'] ) ) {
-				$settings['knowledge_base_url'] = sanitize_text_field( $_POST['fl-knowledge-base-url'] );
-			}
-			
-			// Save the forums URL.
-			if ( ! empty( $_POST['fl-forums-url'] ) ) {
-				$settings['forums_url'] = sanitize_text_field( $_POST['fl-forums-url'] );
-			}
-			
-			// Make sure we have at least one help feature enabled.
-			if ( $settings['enabled'] && ! $settings['tour'] && ! $settings['video'] && ! $settings['knowledge_base'] && ! $settings['forums'] ) {
-				self::add_error( __( "Error! You must have at least one feature of the help button enabled.", 'fl-builder' ) );
-				return;
-			}
-			
-			FLBuilderModel::update_admin_settings_option( '_fl_builder_help_button', $settings, false );
-		}
-	}
-
 	/** 
 	 * Clears the builder cache.
 	 *
@@ -727,12 +620,41 @@ final class FLBuilderAdminSettings {
 			return; 
 		}
 		else if ( isset( $_POST['fl-uninstall'] ) && wp_verify_nonce( $_POST['fl-uninstall'], 'uninstall' ) ) {
-			if ( is_multisite() && class_exists( 'FLBuilderMultisite' ) ) {
-				FLBuilderMultisite::uninstall();
-			}
-			else {
-				FLBuilderAdmin::uninstall();
+			
+			$uninstall = apply_filters( 'fl_builder_uninstall', true );
+			
+			if ( $uninstall ) {
+				FLBuilderAdmin::uninstall();	
 			}
 		}
 	}
+	
+	/** 
+	 * @since 1.0
+	 * @deprecated 1.8
+	 */ 
+	static private function save_help_button()
+	{
+		_deprecated_function( __METHOD__, '1.8', 'FLBuilderWhiteLabel::save_help_button_settings()' );
+	}
+	
+	/** 
+	 * @since 1.0
+	 * @deprecated 1.8
+	 */ 
+	static private function save_branding()
+	{
+		_deprecated_function( __METHOD__, '1.8', 'FLBuilderWhiteLabel::save_branding_settings()' );
+	}
+	
+	/** 
+	 * @since 1.0
+	 * @deprecated 1.8
+	 */ 
+	static private function save_enabled_templates()
+	{
+		_deprecated_function( __METHOD__, '1.8', 'FLBuilderUserTemplatesAdmin::save_settings()' );
+	}
 }
+
+FLBuilderAdminSettings::init();

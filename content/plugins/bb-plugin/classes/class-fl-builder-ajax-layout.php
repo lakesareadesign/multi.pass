@@ -72,15 +72,21 @@ final class FLBuilderAJAXLayout {
 	 * @param string $cols The type of column layout to use.
 	 * @param int $position The position of the new row in the layout.
 	 * @param string $template_id The ID of a row template to render.
+	 * @param string $template_type The type of template. Either "user" or "core".
 	 * @return array
 	 */
-	static public function render_new_row( $cols = '1-col', $position = false, $template_id = null )
+	static public function render_new_row( $cols = '1-col', $position = false, $template_id = null, $template_type = 'user' )
 	{
 		// Add a row template?
-		if ( $template_id ) {
+		if ( null !== $template_id ) {
 			
-			// Add the row template.
-			$row = FLBuilderModel::apply_node_template( $template_id, null, $position );
+			if ( 'core' == $template_type ) {
+				$template = FLBuilderModel::get_template( $template_id, 'row' );
+				$row      = FLBuilderModel::apply_node_template( $template_id, null, $position, $template );
+			}
+			else {
+				$row = FLBuilderModel::apply_node_template( $template_id, null, $position );
+			}
 			
 			// Return the response.
 			return self::render( $row->node );
@@ -173,13 +179,21 @@ final class FLBuilderAJAXLayout {
 	 * @param int $position The new module position.
 	 * @param string $type The type of module.
 	 * @param string $template_id The ID of a module template to render.
+	 * @param string $template_type The type of template. Either "user" or "core".
 	 * @return array
 	 */
-	static public function render_new_module( $parent_id, $position = false, $type = null, $template_id = null )
+	static public function render_new_module( $parent_id, $position = false, $type = null, $template_id = null, $template_type = 'user' )
 	{
 		// Add a module template?
-		if ( $template_id ) {
-			$module = FLBuilderModel::apply_node_template( $template_id, $parent_id, $position );
+		if ( null !== $template_id ) {
+			
+			if ( 'core' == $template_type ) {
+				$template = FLBuilderModel::get_template( $template_id, 'module' );
+				$module   = FLBuilderModel::apply_node_template( $template_id, $parent_id, $position, $template );
+			}
+			else {
+				$module = FLBuilderModel::apply_node_template( $template_id, $parent_id, $position );	
+			}
 		}
 		// Add a standard module.
 		else {

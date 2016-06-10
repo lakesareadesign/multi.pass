@@ -27,6 +27,45 @@
 	background-position: center center !important;
 }
 
+/* Column Groups
+------------------------------------------------------ */
+
+/* Equal Heights */
+.fl-col-group.fl-col-group-equal-height {
+	display: block;
+}
+.fl-col-group.fl-col-group-equal-height.fl-col-group-custom-width {
+	display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+/* Reversed Responsive Stacking */
+.fl-col-group.fl-col-group-responsive-reversed {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -moz-flex;
+	display: -webkit-flex;
+	display: flex;
+	flex-flow: row wrap;
+	-ms-box-orient: horizontal;
+	-webkit-flex-flow: row wrap;
+}
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(1) { order: 12; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(2) { order: 11; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(3) { order: 10; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(4) { order: 9; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(5) { order: 8; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(6) { order: 7; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(7) { order: 6; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(8) { order: 5; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(9) { order: 4; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(10) { order: 3; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(11) { order: 2; }
+.fl-col-group-responsive-reversed .fl-col:nth-of-type(12) { order: 1; }
+
 /* Columns
 ------------------------------------------------------ */
 
@@ -39,15 +78,6 @@
 }
 .fl-col-small {
 	max-width: 400px;
-}
-.fl-col-group.fl-col-group-equal-height {
-	display: block;
-}
-.fl-col-group.fl-col-group-equal-height.fl-col-group-custom-width {
-	display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
 }
 .fl-block-col-resize {
 	display:none;

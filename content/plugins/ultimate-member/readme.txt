@@ -7,7 +7,7 @@ Tags: access control, author, authors, author profile, comments, community, comm
 Requires at least: 4.1
 Tested up to: 4.5
 
-Stable Tag: 1.3.53
+Stable Tag: 1.3.58
 
 License: GNU Version 2 or Any Later Version
 
@@ -148,6 +148,31 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 16. Screenshot 16
 
 == Changelog ==
+
+= 1.3.58: June 09, 2016 =
+* Fixed: change password
+* Fixed: select field overlay
+
+= 1.3.57: June 09, 2016 =
+* Fixed: admin access restriction
+
+= 1.3.56: June 09, 2016 =
+* Fixed: query of pages
+
+= 1.3.55: June 09, 2016 =
+* Fixed: select fields styles
+* Fixed: select fields with accented characters
+* Fixed: select fields with accented text values
+* Fixed: select fields in overlay
+* Fixed: admin front-end access restriction 
+* Fixed: pages query
+
+= 1.3.54: June 02, 2016 =
+* Fixed: remove quick edit from Built-in roles row actions
+* Fixed: remove notices
+* Fixed: dropdown/select fields 
+* Fixed: upload file extension's case sensitive issue
+* Fixed: reset and change password
 
 = 1.3.53: June 01, 2016 =
 * New: generate dummy users tool

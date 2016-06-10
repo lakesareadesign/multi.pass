@@ -3,7 +3,7 @@
 Plugin Name: Leadin
 Plugin URI: http://leadin.hubspot.com
 Description: Leadin is an easy-to-use marketing automation and lead tracking plugin for WordPress that helps you better understand your web site visitors.
-Version: 4.8.2
+Version: 5.0.2
 Author: Leadin
 Author URI: http://leadin.hubspot.com
 License: GPL2
@@ -29,7 +29,7 @@ if (!defined('LEADIN_DB_VERSION'))
     define('LEADIN_DB_VERSION', '2.2.5');
 
 if (!defined('LEADIN_PLUGIN_VERSION'))
-    define('LEADIN_PLUGIN_VERSION', '4.8.2');
+    define('LEADIN_PLUGIN_VERSION', '5.0.2');
 
 if (!defined('LEADIN_SOURCE'))
     define('LEADIN_SOURCE', 'leadin.com');
@@ -52,6 +52,7 @@ if (file_exists(LEADIN_PLUGIN_DIR . '/inc/leadin-constants.php'))
 
 require_once(LEADIN_PLUGIN_DIR . '/inc/leadin-functions.php');
 require_once(LEADIN_PLUGIN_DIR . '/inc/leadin-registration.php');
+require_once(LEADIN_PLUGIN_DIR . '/inc/leadin-disconnect.php');
 require_once(LEADIN_PLUGIN_DIR . '/admin/leadin-admin.php');
 
 require_once(LEADIN_PLUGIN_DIR . '/inc/class-leadin.php');

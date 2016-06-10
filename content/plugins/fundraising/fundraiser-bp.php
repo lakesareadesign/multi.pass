@@ -30,7 +30,7 @@
 define( 'WDF_BP_INSTALLED', 1 );
 
 // Define a constant that we can use to construct file paths throughout the component
-define( 'BP_WDF_PLUGIN_BASE_DIR', dirname( __FILE__ ) . '/lib/bp');
+define( 'BP_WDF_PLUGIN_BASE_DIR', dirname( __FILE__ ) . '/lib/bp');	     	 	 				 			
 
 /* Define a constant that will hold the database version number that can be used for upgrading the DB
  *

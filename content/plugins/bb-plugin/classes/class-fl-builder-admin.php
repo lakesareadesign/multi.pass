@@ -8,6 +8,26 @@
 final class FLBuilderAdmin {
 
 	/**
+	 * Initialize hooks.
+	 *
+	 * @since 1.8
+	 * @return void
+	 */
+	static public function init()
+	{
+		$basename = plugin_basename( FL_BUILDER_FILE );
+		
+		// Activation
+		register_activation_hook( FL_BUILDER_FILE,           __CLASS__ . '::activate' );
+		
+		// Actions
+		add_action( 'admin_init',                            __CLASS__ . '::show_activate_notice' );
+
+		// Filters
+		add_filter( 'plugin_action_links_' . $basename,      __CLASS__ . '::render_plugin_action_links' );
+	}
+
+	/**
 	 * Called on plugin activation and checks to see if the correct 
 	 * WordPress version is installed and multisite is supported. If 
 	 * all checks are passed the install method is called.
@@ -20,43 +40,28 @@ final class FLBuilderAdmin {
 		global $wp_version;
 
 		// Check for WordPress 3.5 and above.
-		if(version_compare($wp_version, '3.5', '>=')) {
+		if(!version_compare($wp_version, '3.5', '>=')) {
+			self::show_activate_error(__('The <strong>Page Builder</strong> plugin requires WordPress version 3.5 or greater. Please update WordPress before activating the plugin.', 'fl-builder'));
+		}
+		
+		// Allow extensions to hook activation.
+		$activate = apply_filters( 'fl_builder_activate', true );
+		
+		// Should we continue with activation? 
+		if ( $activate ) {
 
 			// Check for multisite.
 			if(is_multisite()) {
-
-				// Init multisite support.
-				self::init_classes();
-				self::init_multisite();
-
-				// This version has multisite support.
-				if(class_exists('FLBuilderMultisite')) {
-
-					if(is_network_admin()) {
-						FLBuilderMultisite::install();
-					}
-					else {
-						self::install();
-					}
-				}
-				// This version doesn't have multisite support.
-				else {
-					$url = FLBuilderModel::get_upgrade_url( array( 'utm_source' => 'external', 'utm_medium' => 'builder', 'utm_campaign' => 'no-multisite-support' ) );
-					self::show_activate_error( sprintf( __( 'This version of the <strong>Page Builder</strong> plugin is not compatible with WordPress Multisite. <a%s>Please upgrade</a> to the Multisite version of this plugin.', 'fl-builder' ), ' href="' . $url . '" target="_blank"' ) );
-				}
+				$url = FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-pro', 'utm_source' => 'plugins-admin-page', 'utm_campaign' => 'no-multisite-support' ) );
+				self::show_activate_error( sprintf( __( 'This version of the <strong>Page Builder</strong> plugin is not compatible with WordPress Multisite. <a%s>Please upgrade</a> to the Multisite version of this plugin.', 'fl-builder' ), ' href="' . $url . '" target="_blank"' ) );
 			}
-			// No multisite, standard install.
-			else {
-				self::install();
-			}
+			
+			// Success! Run the install.
+			self::install();
+	
+			// Trigger the activation notice.
+			self::trigger_activate_notice();
 		}
-		// Wrong WordPress version.
-		else {
-			self::show_activate_error(__('The <strong>Page Builder</strong> plugin requires WordPress version 3.5 or greater. Please update WordPress before activating the plugin.', 'fl-builder'));
-		}
-
-		// Success! Trigger the activation notice.
-		update_site_option('_fl_builder_activation_admin_notice', true);
 	}
 
 	/**
@@ -75,19 +80,44 @@ final class FLBuilderAdmin {
 	}
 
 	/**
-	 * Sets the action to show the activation success message.
+	 * Sets the transient that triggers the activation notice
+	 * or welcome page redirect.
+	 *
+	 * @since 1.8
+	 * @return void
+	 */
+	static public function trigger_activate_notice()
+	{
+		if ( current_user_can( 'delete_users' ) ) {
+			set_transient( '_fl_builder_activation_admin_notice', true, 30 );
+		}
+	}
+
+	/**
+	 * Shows the activation success message or redirects to the 
+	 * welcome page.
 	 *
 	 * @since 1.0
 	 * @return void
 	 */
 	static public function show_activate_notice()
 	{
-		$notice = get_site_option('_fl_builder_activation_admin_notice');
+		// Bail if no activation transient is set.
+		if ( ! get_transient( '_fl_builder_activation_admin_notice' ) ) {
+			return;
+		}
 
-		if($notice) {
-			add_action('admin_notices', 'FLBuilderAdmin::activate_notice');
-			add_action('network_admin_notices', 'FLBuilderAdmin::activate_notice');
-			delete_site_option('_fl_builder_activation_admin_notice');
+		// Delete the activation transient.
+		delete_transient( '_fl_builder_activation_admin_notice' );
+
+		if ( isset( $_GET['activate-multi'] ) || is_multisite() ) {
+			// Show the notice if we are activating multiple plugins or on multisite.
+			add_action('admin_notices', __CLASS__ . '::activate_notice');
+			add_action('network_admin_notices', __CLASS__ . '::activate_notice');
+		}
+		else {
+			// Redirect to the welcome page.
+			wp_safe_redirect( add_query_arg( array( 'page' => 'fl-builder-settings' ), admin_url( 'options-general.php' ) ) );
 		}
 	}
 
@@ -99,24 +129,19 @@ final class FLBuilderAdmin {
 	 */
 	static public function activate_notice()
 	{
-		if ( class_exists('FLBuilderMultisiteSettings') && is_multisite() && current_user_can( 'manage_network_plugins' ) ) {
-			$href = esc_url( network_admin_url( '/settings.php?page=fl-builder-multisite-settings' ) );
-		}
-		else {
-			$href = esc_url( admin_url( '/options-general.php?page=fl-builder-settings' ) );
-		}
-		
 		if ( FL_BUILDER_LITE !== true ) {
-			$href .= '#license';
+			$hash    = '#license';
 			$message = __( 'Page Builder activated! <a%s>Click here</a> to enable remote updates.', 'fl-builder' );
 		}
 		else {
-			$href .= '#welcome';
+			$hash    = '#welcome';
 			$message = __( 'Page Builder activated! <a%s>Click here</a> to get started.', 'fl-builder' );
 		}
 		
+		$url = apply_filters( 'fl_builder_activate_redirect_url', admin_url( '/options-general.php?page=fl-builder-settings' . $hash ) );
+		
 		echo '<div class="updated" style="background: #d3ebc1;">';
-		echo '<p><strong>' . sprintf( $message, ' href="' . esc_url( $href ) . '"' ) . '</strong></p>';
+		echo '<p><strong>' . sprintf( $message, ' href="' . esc_url( $url ) . '"' ) . '</strong></p>';
 		echo '</div>';
 	}
 
@@ -141,97 +166,6 @@ final class FLBuilderAdmin {
 	}
 
 	/**
-	 * Initializes builder logic for wp-admin.
-	 *
-	 * @since 1.0
-	 * @return void
-	 */
-	static public function init()
-	{
-		self::init_classes();
-		self::init_settings();
-		self::init_multisite();
-		self::init_templates();
-		self::show_activate_notice();
-	}
-
-	/**
-	 * Loads builder classes if they exist.
-	 *
-	 * @since 1.0
-	 * @return void
-	 */
-	static public function init_classes()
-	{
-		$templates_class	= FL_BUILDER_DIR . 'classes/class-fl-builder-template-settings.php';
-		$overrides_class	= FL_BUILDER_DIR . 'classes/class-fl-builder-templates-override.php';
-		$ms_class			= FL_BUILDER_DIR . 'classes/class-fl-builder-multisite.php';
-		$ms_settings_class	= FL_BUILDER_DIR . 'classes/class-fl-builder-multisite-settings.php';
-
-		if(file_exists($templates_class)) {
-			require_once $templates_class;
-		}
-		if(file_exists($overrides_class)) {
-			require_once $overrides_class;
-		}
-		if(is_multisite()) {
-
-			if(file_exists($ms_class)) {
-				require_once $ms_class;
-			}
-			if(file_exists($ms_settings_class)) {
-				require_once $ms_settings_class;
-			}
-		}
-
-		require_once FL_BUILDER_DIR . 'classes/class-fl-builder-admin-settings.php';
-	}
-
-	/**
-	 * Initializes the builder admin settings page.
-	 *
-	 * @since 1.0
-	 * @return void
-	 */
-	static public function init_settings()
-	{
-		FLBuilderAdminSettings::init();
-	}
-
-	/**
-	 * Initializes the builder network admin settings page
-	 * and additional multisite logic.
-	 *
-	 * @since 1.0
-	 * @return void
-	 */
-	static public function init_multisite()
-	{
-		if(is_multisite()) {
-
-			if(class_exists('FLBuilderMultisite')) {
-				FLBuilderMultisite::init();
-			}
-			if(class_exists('FLBuilderMultisiteSettings')) {
-				FLBuilderMultisiteSettings::init();
-			}
-		}
-	}
-
-	/**
-	 * Initializes the interface for core builder templates.
-	 *
-	 * @since 1.0
-	 * @return void
-	 */
-	static public function init_templates()
-	{
-		if(class_exists('FLBuilderTemplates')) {
-			FLBuilderTemplates::init();
-		}
-	}
-
-	/**
 	 * Renders the link for the row actions on the plugins page.
 	 *
 	 * @since 1.0
@@ -241,7 +175,7 @@ final class FLBuilderAdmin {
 	static public function render_plugin_action_links($actions)
 	{
 		if(FL_BUILDER_LITE === true) {
-			$url = FLBuilderModel::get_upgrade_url( array( 'utm_source' => 'external', 'utm_medium' => 'builder', 'utm_campaign' => 'plugins-page' ) );
+			$url = FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-lite', 'utm_source' => 'plugins-admin-page', 'utm_campaign' => 'plugins-admin-upgrade' ) );
 			$actions[] = '<a href="' . $url . '" style="color:#3db634;" target="_blank">' . _x( 'Upgrade', 'Plugin action link label.', 'fl-builder' ) . '</a>';
 		}
 
@@ -249,86 +183,83 @@ final class FLBuilderAdmin {
 	}
 
 	/**
-	 * White labels the builder on the plugins page.
-	 *
 	 * @since 1.0
-	 * @param array $plugins An array data for each plugin.
-	 * @return array
+	 * @deprecated 1.8
+	 */
+	static public function init_classes()
+	{
+		_deprecated_function( __METHOD__, '1.8' );
+	}
+
+	/**
+	 * @since 1.0
+	 * @deprecated 1.8
+	 */
+	static public function init_settings()
+	{
+		_deprecated_function( __METHOD__, '1.8' );
+	}
+
+	/**
+	 * @since 1.0
+	 * @deprecated 1.8
+	 */
+	static public function init_multisite()
+	{
+		_deprecated_function( __METHOD__, '1.8' );
+	}
+
+	/**
+	 * @since 1.0
+	 * @deprecated 1.8
+	 */
+	static public function init_templates()
+	{
+		_deprecated_function( __METHOD__, '1.8' );
+	}
+
+	/**
+	 * @since 1.0
+	 * @deprecated 1.8
 	 */
 	static public function white_label_plugins_page($plugins)
 	{
-		$default  = __( 'Page Builder', 'fl-builder' );
-		$branding = FLBuilderModel::get_branding();
-		$key	  = FLBuilderModel::plugin_basename();
-
-		if ( isset( $plugins[ $key ] ) && $branding != $default ) {
-			$plugins[ $key ]['Name']	   = $branding;
-			$plugins[ $key ]['Title']	   = $branding;
-			$plugins[ $key ]['Author']	   = '';
-			$plugins[ $key ]['AuthorName'] = '';
-			$plugins[ $key ]['PluginURI']  = '';
+		_deprecated_function( __METHOD__, '1.8', 'FLBuilderWhiteLabel::plugins_page()' );
+		
+		if ( class_exists( 'FLBuilderWhiteLabel' ) ) {
+			return FLBuilderWhiteLabel::plugins_page( $plugins );
 		}
 
 		return $plugins;
 	}
 
 	/**
-	 * White labels the builder theme on the themes page.
-	 *
 	 * @since 1.6.4.3
-	 * @param array $themes An array data for each theme.
-	 * @return array
+	 * @deprecated 1.8
 	 */
 	static public function white_label_themes_page( $themes )
 	{
-		if ( isset( $themes['bb-theme'] ) ) {
-			
-			$theme_data = FLBuilderModel::get_theme_branding();
-			
-			if ( ! empty( $theme_data['name'] ) ) {
-				
-				$themes['bb-theme']['name'] = $theme_data['name'];
-				
-				foreach ( $themes as $theme_key => $theme ) {
-					if ( isset( $theme['parent'] ) && $theme['parent'] == 'Beaver Builder Theme' ) {
-						$themes[ $theme_key ]['parent'] = $theme_data['name'];
-					}
-				}
-			}
-			if ( ! empty( $theme_data['description'] ) ) {
-				$themes['bb-theme']['description'] = $theme_data['description'];
-			}
-			if ( ! empty( $theme_data['company_name'] ) ) {
-				$company_url = empty( $theme_data['company_url'] ) ? '#' : $theme_data['company_url'];
-				$themes['bb-theme']['author'] = $theme_data['company_name'];
-				$themes['bb-theme']['authorAndUri'] = '<a href="' . $company_url . '">' . $theme_data['company_name'] . '</a>';
-			}
-			if ( ! empty( $theme_data['screenshot_url'] ) ) {
-				$themes['bb-theme']['screenshot'] = array( $theme_data['screenshot_url'] );
-			}
+		_deprecated_function( __METHOD__, '1.8', 'FLBuilderWhiteLabel::themes_page()' );
+		
+		if ( class_exists( 'FLBuilderWhiteLabel' ) ) {
+			return FLBuilderWhiteLabel::themes_page( $themes );
 		}
 		
 		return $themes;
 	}
 
 	/**
-	 * White labels the builder theme using the gettext filter
-	 * to cover areas that we can't access like the Customizer.
-	 *
 	 * @since 1.6.4.4
-	 * @return string
+	 * @deprecated 1.8
 	 */
 	static public function white_label_theme_gettext( $text )
 	{
-		if ( is_admin() && 'Beaver Builder Theme' == $text ) {
-			
-			$theme_data = FLBuilderModel::get_theme_branding();
-			
-			if ( ! empty( $theme_data['name'] ) ) {
-				$text = $theme_data['name'];
-			}
-	    }
-	
-	    return $text;
+		if ( class_exists( 'FLBuilderWhiteLabel' ) ) {
+			return FLBuilderWhiteLabel::theme_gettext( $text );
+		}
+		
+		return $text;
 	}
 }
+
+FLBuilderAdmin::init();

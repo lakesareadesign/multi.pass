@@ -8,6 +8,17 @@
 final class FLBuilderLoop {
 
 	/**
+	 * Initializes hooks.
+	 *
+	 * @since 1.8
+	 * @return void
+	 */
+	static public function init()
+	{
+		add_filter( 'found_posts', __CLASS__ . '::found_posts', 1, 2 );
+	}
+
+	/**
 	 * Returns a new instance of WP_Query based on 
 	 * the provided module settings. 
 	 *
@@ -214,3 +225,5 @@ final class FLBuilderLoop {
 		the_time( $format );
 	}
 }
+
+FLBuilderLoop::init();

@@ -14,22 +14,25 @@
 		
 		_init: function()
 		{
-			$( this.nodeClass + ' .fl-contact-form-submit' ).click( $.proxy( this._submit, this ) );
+			$( this.nodeClass + ' .fl-button' ).click( $.proxy( this._submit, this ) );
 		},
 		
 		_submit: function( e )
 		{
-			var theForm	  	= $(this.nodeClass + ' .fl-contact-form'),
-				submit	  	= $(this.nodeClass + ' .fl-contact-form-submit'),
-				name	  	= $(this.nodeClass + ' .fl-name input'),
-				email		= $(this.nodeClass + ' .fl-email input'),
-				phone		= $(this.nodeClass + ' .fl-phone input'),
-				subject	  	= $(this.nodeClass + ' .fl-subject input'),
-				message	  	= $(this.nodeClass + ' .fl-message textarea'),
-				mailto	  	= $(this.nodeClass + ' .fl-mailto'),
-				ajaxurl	  	= FLBuilderLayoutConfig.paths.wpAjaxUrl,
-				email_regex = /\S+@\S+\.\S+/,
-				isValid	  	= true;
+			var theForm	  		= $(this.nodeClass + ' .fl-contact-form'),
+				submit	  		= $(this.nodeClass + ' .fl-button'),
+				name	  		= $(this.nodeClass + ' .fl-name input'),
+				email			= $(this.nodeClass + ' .fl-email input'),
+				phone			= $(this.nodeClass + ' .fl-phone input'),
+				subject	  		= $(this.nodeClass + ' .fl-subject input'),
+				message	  		= $(this.nodeClass + ' .fl-message textarea'),
+				ajaxurl	  		= FLBuilderLayoutConfig.paths.wpAjaxUrl,
+				email_regex 	= /\S+@\S+\.\S+/,
+				isValid	  		= true,
+				postId      	= theForm.closest( '.fl-builder-content' ).data( 'post-id' ),
+				templateId		= theForm.data( 'template-id' ),
+				templateNodeId	= theForm.data( 'template-node-id' ),
+				nodeId      	= theForm.closest( '.fl-module' ).data( 'node' );
 		  
 			e.preventDefault();
 			
@@ -102,13 +105,16 @@
 				
 				// post the form data
 				$.post(ajaxurl, {
-					action	: 'fl_builder_email',
-					name	: name.val(),
-					subject	: subject.val(),
-					email	: email.val(),
-					phone	: phone.val(),
-					mailto	: mailto.val(),
-					message	: message.val()
+					action				: 'fl_builder_email',
+					name				: name.val(),
+					subject				: subject.val(),
+					email				: email.val(),
+					phone				: phone.val(),
+					message				: message.val(),
+					post_id 			: postId,
+					template_id 		: templateId,
+					template_node_id 	: templateNodeId,
+					node_id 			: nodeId
 				}, $.proxy( this._submitComplete, this ) );
 			}
 		},
@@ -136,7 +142,7 @@
 			} 
 			// On failure show fail message and re-enable the send button
 			else {
-				$(this.nodeClass + ' .fl-contact-form-submit').removeClass('fl-disabled');
+				$(this.nodeClass + ' .fl-button').removeClass('fl-disabled');
 				$(this.nodeClass + ' .fl-send-error').fadeIn();
 				return false;
 			}

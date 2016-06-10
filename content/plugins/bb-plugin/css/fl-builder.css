@@ -136,6 +136,10 @@ html.fl-builder-edit {
 .fl-builder-help-button:hover {
 	color: #666;
 }
+.fl-builder-publish-button {
+	height: 45px;
+	line-height: 45px !important;
+}
 
 /* Builder Badges
 ------------------------------------------------------ */
@@ -278,6 +282,11 @@ ul.fl-builder-submenu li a:hover {
 	color: #fff !important;
 	text-decoration: none;
 }
+.fl-builder-buy-button i.fa-external-link-square,
+.fl-builder-upgrade-button i.fa-external-link-square {
+	color: #f4d1a7;
+	margin: 0 0 0 6px;
+}
 .fl-builder-buy-button:hover,
 .fl-builder-upgrade-button:hover {
 	background: #de861b;
@@ -411,6 +420,29 @@ ul.fl-builder-submenu li a:hover {
 }
 .ui-sortable-helper .fl-builder-badge {
 	display: none !important;
+}
+
+/* Lite version modules CTA */
+.fl-builder-modules-cta a {
+    color: #999 !important;
+    display: block !important;
+    font-size: 12px !important;
+    font-style: italic !important;
+    padding: 15px 20px !important;
+    line-height: 16px !important;
+}
+.fl-builder-modules-cta a:hover {
+    background: #e5e5e5 !important;
+    color: #666 !important;
+	text-decoration: none !important;
+}
+.fl-builder-modules-cta a:focus {
+	text-decoration: none !important;
+}
+.fl-builder-modules-cta .fa {
+	float: right !important;
+	font-size: 14px !important;
+	margin: 3px 0px 0 9px !important;
 }
 
 /* Builder Panel Templates
@@ -865,6 +897,9 @@ span.fl-builder-block-no-node-templates:hover {
 .fl-template-selector .fl-builder-settings-fields {
 	height: 470px;
 }
+.fl-template-selector .fl-builder-settings-tab {
+	width: 560px;
+}
 .fl-template-selector .fl-builder-settings-tab-description  {
 	font-size: 15px!important;
 	margin: 0 !important;
@@ -873,7 +908,7 @@ span.fl-builder-block-no-node-templates:hover {
 }
 .fl-template-preview {
 	float: left;
-	margin: 0 20px 30px 0;
+	margin: 0 25px 30px 0;
 	position: relative;
 	text-align: center;
 	width: 170px;
@@ -943,6 +978,26 @@ span.fl-builder-block-no-node-templates:hover {
 }
 .fl-user-templates-message {
 	display: none;
+}
+
+/* Lite version templates CTA */
+.fl-builder-templates-cta {
+	margin-bottom: 20px;
+}
+.fl-builder-templates-cta p {
+	display: inline-block !important;
+	width: 75% !important;
+	font-size: 14px !important;
+	line-height: 1.5 !important;
+	margin-bottom: 0 !important;
+}
+.fl-builder-templates-cta .fl-builder-upgrade-button {
+	font-size: 13px !important;
+	line-height: 13px !important;
+	position: relative;
+	top: 8px;
+	left: 15px;
+	padding: 1px 12px;
 }
 
 /* User Template Settings
@@ -1452,7 +1507,6 @@ form.fl-builder-settings {
 }
 .fl-builder-edit form#wp-link #link-options label span {
 	padding-right: 10px;
-	width: 60px;
 	vertical-align: middle;
 }
 .fl-builder-edit form#wp-link #link-options input[type="text"] {
@@ -1461,6 +1515,9 @@ form.fl-builder-settings {
 	margin: 5px 0 0;
 	padding: 3px 5px;
 	width: 80%;
+}
+.fl-builder-edit form#wp-link .query-results {
+	top: 225px;
 }
 
 /* Code Editors */
@@ -1756,7 +1813,8 @@ li.as-result-item em {
 	position: relative;
 	top: 2px;
 }
-.fl-builder-service-connect-row .fl-field-description {
+.fl-builder-service-connect-row .fl-field-description,
+#fl-field-visibility_user_capability .fl-field-description {
 	background: #f0f0f0;
 	color: #333 !important;
 	display: block;
@@ -1764,7 +1822,8 @@ li.as-result-item em {
 	margin: 10px 0 0 0;
 	padding: 10px;
 }
-.fl-builder-service-connect-row .fl-field-description a {
+.fl-builder-service-connect-row .fl-field-description a,
+#fl-field-visibility_user_capability .fl-field-description a {
 	color: #21759b !important;
 	text-decoration: underline !important;
 }

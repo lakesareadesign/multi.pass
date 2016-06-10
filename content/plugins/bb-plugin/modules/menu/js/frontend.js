@@ -111,8 +111,21 @@
 
 				var $subMenu = $link.children( '.sub-menu' ).first();
 
+				if ($(this.wrapperClass).hasClass('fl-menu-accordion-collapse')) {
+					if ( !$link.parents('.menu-item').hasClass('fl-active') ) {
+						$('.fl-active', this.wrapperClass).not($link).removeClass('fl-active');
+						$('.sub-menu', this.wrapperClass).not($subMenu).slideUp('normal');		
+					}
+					else if ($link.parents('.menu-item').hasClass('fl-active') && $link.parent('.sub-menu').length) {
+						var $mainMenuParent = $( e.target ).parents( '.fl-has-submenu.fl-active' ).last(),
+							$activeSubMenu  = $mainMenuParent.children( '.sub-menu' ).last();
+						
+						$('.fl-active', this.wrapperClass).not($link).not($mainMenuParent).removeClass('fl-active');
+						$('.sub-menu', this.wrapperClass).not($subMenu).not($activeSubMenu).slideUp('normal');	
+					}
+				}
+				
 				$subMenu.slideToggle();
-
 				$link.toggleClass( 'fl-active' );
 
 			}.bind( this ) );

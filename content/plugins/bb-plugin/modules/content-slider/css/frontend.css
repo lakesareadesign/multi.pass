@@ -1,4 +1,7 @@
 /* Wrappers */
+body.rtl .fl-module-content-slider .bx-viewport {
+	direction: ltr;
+}
 .fl-module-content-slider .bx-wrapper {
 	margin: 0 auto 40px;
 }

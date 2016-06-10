@@ -158,30 +158,22 @@
 }
 
 /* Full Height Rows */
-.fl-row-full-height .fl-row-content-wrap{
+.fl-row-full-height .fl-row-content-wrap {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
 	display: flex;	
-  	  -webkit-box-align: center;
-  	-webkit-align-items: center;
-  	     -ms-flex-align: center;
-  	        align-items: center;
-  	   -webkit-box-pack: center;
-  	-webkit-justify-content: center;
-  	      -ms-flex-pack: center;
-  	        justify-content: center;
 	min-height: 100vh;
 	
 }
-.fl-row-full-height .fl-row-content{
+.fl-row-full-height .fl-row-content {
   -webkit-box-flex: 1 1 auto;
   	 -moz-box-flex: 1 1 auto;
   	  -webkit-flex: 1 1 auto;
   		  -ms-flex: 1 1 auto;
   			  flex: 1 1 auto;
 }
-.fl-row-full-height .fl-row-full-width.fl-row-content{
+.fl-row-full-height .fl-row-full-width.fl-row-content {
 	max-width: 100%;
 	width: 100%;
 }
@@ -196,28 +188,33 @@
 	margin: 0;
 }
 
-/** 
- * iPad with portrait orientation.
- */
+/* Full height align center */
+.fl-row-full-height.fl-row-align-center .fl-row-content-wrap {
+	align-items: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-align: center;
+	-ms-flex-pack: center;
+}
+
+/* Full height iPad with portrait orientation. */
 @media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait){
   .fl-row-full-height .fl-row-content-wrap{
     min-height: 1024px;
   }
 }
 
-/** 
- * iPad with landscape orientation.
- */
+/* Full height iPad with landscape orientation. */
 @media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape){
   .fl-row-full-height .fl-row-content-wrap{
     min-height: 768px;
   }
 }
 
-/**
- * iPhone 5
- * You can also target devices with aspect ratio.
- */
+/* Full height iPhone 5. You can also target devices with aspect ratio. */
 @media screen and (device-aspect-ratio: 40/71) {
   .fl-row-full-height .fl-row-content-wrap {
     min-height: 500px;
@@ -226,6 +223,7 @@
 
 /* Column Groups
 ------------------------------------------------------ */
+
 .fl-col-group-equal-height,
 .fl-col-group-equal-height .fl-col,
 .fl-col-group-equal-height .fl-col-content{
@@ -265,6 +263,23 @@
 .fl-col-group-equal-height .fl-col:after,
 .fl-col-group-equal-height .fl-col-content:after{
 	content: none;
+}
+
+/* Equal height align center */
+.fl-col-group-equal-height.fl-col-group-align-center .fl-col-content {
+	align-items: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-align: center;
+	-ms-flex-pack: center;
+}
+
+/* IE11 fix for images with height:auto in equal height columns. */
+.fl-builder-ie-11 .fl-col-group-equal-height .fl-module {
+	min-height: 1px;
 }
 
 /* Columns
@@ -427,6 +442,9 @@
 	line-height: 0;
 	position: relative;
 	max-width: 100%;
+}
+.fl-photo-img-svg {
+	width: 100%;
 }
 .fl-photo-content img {
 	display: inline;
@@ -694,4 +712,30 @@ img.mfp-img {
 @-moz-keyframes fl-slide-down {
 	0% { opacity: 0; -moz-transform: translateY(-10%); }            
 	100% { opacity: 1; -moz-transform: translateY(0%); }
+}
+
+/* Button Icon Animation */
+.fl-button.fl-button-icon-animation i {
+	width: 0 !important;
+	opacity: 0;
+	-ms-filter: "alpha(opacity=0)";
+	transition: all 0.2s ease-out;
+	-webkit-transition: all 0.2s ease-out;
+}
+.fl-button.fl-button-icon-animation:hover i {
+	opacity: 1! important;
+    -ms-filter: "alpha(opacity=100)";
+}
+.fl-button.fl-button-icon-animation i.fl-button-icon-after {
+	margin-left: 0px !important;
+}
+.fl-button.fl-button-icon-animation:hover i.fl-button-icon-after {
+	margin-left: 10px !important;
+}
+.fl-button.fl-button-icon-animation i.fl-button-icon-before {
+	margin-right: 0 !important;
+}
+.fl-button.fl-button-icon-animation:hover i.fl-button-icon-before {
+	margin-right: 20px !important;
+    margin-left: -10px;
 }

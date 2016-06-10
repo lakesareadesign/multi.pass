@@ -140,6 +140,11 @@
 		 */
 		close: function()
 		{
+			// Temporary fix for link editor not closing since WP 4.5
+			if ( typeof tinymce !== 'undefined' ) {
+				tinymce.EditorManager.activeEditor.hide();
+			}
+			
 			this._node.hide();
 			this._visible = false;
 			this.trigger('close');
@@ -173,6 +178,7 @@
 		empty: function()
 		{
 			this._node.find('.fl-lightbox-content').empty();
+			this._node.find('.fl-lightbox').removeClass('fl-lightbox-expanded');
 		},
 		
 		/**
@@ -230,7 +236,7 @@
 			if(this._draggable) {
 				lightbox.draggable('destroy');
 			}
-			
+
 			if(toggle) {
 			
 				this._unbind();
@@ -247,7 +253,7 @@
 				this._bind();
 				this._draggable = false;
 			}
-			
+
 			this._resize();
 		},
 		
@@ -267,6 +273,76 @@
 			
 			FLLightbox._instances[this._id] = 'undefined';
 			try{ delete FLLightbox._instances[this._id]; } catch(e){}
+		},
+
+		/**
+		 * Render the expand/contract of lightbox
+		 * 
+		 * @method renderResize
+		 * @param {String}		 
+		 */
+		renderResize: function(method)
+		{	
+			if(typeof method !== 'undefined') {
+				var	activeNode 		= this._getActiveNode();
+					lightbox  		= activeNode.find('.fl-lightbox'),
+					boxFields 		= lightbox.find('.fl-builder-settings-fields'),
+					win       		= $(window),
+					winHeight 		= win.height(),
+					winWidth  		= win.width(),
+					boxHeaderHeight = lightbox.find('.fl-lightbox-header').height(),
+					boxTabsHeight 	= lightbox.find('.fl-builder-settings-tabs').height(),
+					boxFooterHeight = lightbox.find('.fl-lightbox-footer').height(),
+					boxFieldHeight  = (winHeight - (boxHeaderHeight + boxTabsHeight + boxFooterHeight + 103)),
+					editorId 		= typeof tinymce !== 'undefined' ? tinymce.EditorManager.activeEditor.id : null,
+					editorIframeEl 	= lightbox.find('#'+ editorId +'_ifr'),
+					editorTextarea 	= lightbox.find('#'+ editorId),
+					codeField 		= lightbox.find('.fl-code-field .ace_editor');
+
+				if(method == 'expand' || method == 'window_resize') {
+					if(method == 'window_resize' && !lightbox.hasClass('fl-lightbox-expanded')) {
+						return false;
+					}
+					
+					boxFields.css('height', boxFieldHeight + 'px');
+					
+					if(method == 'expand') {
+						lightbox.addClass('fl-lightbox-expanded');	
+						lightbox.draggable('disable');
+					}					
+
+					if(editorIframeEl.length > 0) {
+						editorIframeEl.css('height', (boxFieldHeight - 145) + 'px');
+					}
+
+					if(editorTextarea.length > 0) {
+						editorTextarea.css('height', (boxFieldHeight - 145) + 'px');
+					}
+
+					if(codeField.length > 0) {
+						codeField.css('height', (boxFieldHeight - 30) + 'px');
+					}
+					
+				}
+				else {
+					// Contract lightbox
+					setTimeout($.proxy(this._resize, this), 250);
+
+					lightbox.removeClass('fl-lightbox-expanded');
+					boxFields.removeAttr('style');
+					
+					if(editorId !== null) {
+						editorIframeEl.css('height', '232px');
+						editorTextarea.css('height', '232px');
+					}
+
+					if(codeField.length > 0) {
+						codeField.css('height', '380px');
+					}
+
+					lightbox.draggable('enable');
+				}			
+			}		
 		},
 		
 		/**
@@ -343,6 +419,8 @@
 			clearTimeout(this._resizeTimer);
 			
 			this._resizeTimer = setTimeout($.proxy(this._resize, this), 250);
+			
+			this.renderResize('window_resize');
 		},
 		
 		/**
@@ -404,6 +482,27 @@
 			if(e.which == 27 && this._visible) {
 				this.close();
 			}
+		},
+
+		/**
+		 * Get the current active lightbox from multiple instances.
+		 *
+		 * @since 1.0
+		 * @access private
+		 * @method _getActiveNode
+		 * @return {object} Current node
+		 */
+		_getActiveNode: function()
+		{
+			var activeNode = this._node;
+
+			$.each(FLLightbox._instances, function(i, obj){
+				if($(obj._node).is(':visible')) {
+					activeNode = $(obj._node);
+				}
+			});
+
+			return activeNode;
 		}
 	};
 
