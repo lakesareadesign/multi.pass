@@ -700,6 +700,8 @@ class MS_Model_Plugin extends MS_Model {
 			$this->setup_cron_services( $hook );
 		}
 
+                $_SESSION['m2_status_check'] = 'inv';
+
 		// Perform the actual status checks!
 		foreach ( $subscriptions as $subscription ) {
 			$subscription->check_membership_status();

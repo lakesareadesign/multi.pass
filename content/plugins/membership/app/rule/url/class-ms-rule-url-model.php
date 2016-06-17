@@ -269,7 +269,7 @@ class MS_Rule_Url_Model extends MS_Rule {
 		if ( empty( $access ) ) {
 			$this->delete_url( $hash );
 		} else {
-			$base_rule = MS_Model_Membership::get_base()->get_rule( $this->rule_type );	   	 	 		 	  					  
+			$base_rule = MS_Model_Membership::get_base()->get_rule( $this->rule_type );
 			$url = $base_rule->get_url_from_hash( $hash );
 			$this->add_url( $url );
 		}

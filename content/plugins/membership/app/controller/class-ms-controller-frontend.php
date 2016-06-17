@@ -587,6 +587,7 @@ class MS_Controller_Frontend extends MS_Controller {
 
 			// Default WP action hook
 			do_action( 'signup_finished' );
+                        do_action( 'ms_controller_frontend_register_user_before_login', $user, $_REQUEST, $this );
 
 			$user->signon_user();
 
@@ -596,7 +597,7 @@ class MS_Controller_Frontend extends MS_Controller {
                             }
 			}
 
-			do_action( 'ms_controller_frontend_register_user_complete', $user );
+			do_action( 'ms_controller_frontend_register_user_complete', $user, $_REQUEST, $this );
 
 			// Go to membership signup payment form.
 			if ( empty( $_REQUEST['membership_id'] ) ) {
@@ -796,7 +797,7 @@ class MS_Controller_Frontend extends MS_Controller {
 				if ( $this->verify_nonce() ) {
 					if ( is_array( $_POST ) ) {
 						foreach ( $_POST as $field => $value ) {
-							$member->$field = $value;
+                                                        $member->$field = $value;
 						}
 					}
 

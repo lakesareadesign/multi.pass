@@ -123,8 +123,9 @@ class MS_Controller_Gateway extends MS_Controller {
 		$msg = MS_Helper_Settings::SETTINGS_MSG_NOT_UPDATED;
 
 		$fields = array( 'action', 'gateway_id', 'field', 'value' );
+
 		if ( $this->verify_nonce()
-			&& self::validate_required( $fields )
+			&& ( self::validate_required( $fields ) || $_POST['field'] == 'pay_button_url' )
 			&& $this->is_admin_user()
 		) {
 			lib3()->array->strip_slashes( $_POST, 'value' );
@@ -286,16 +287,18 @@ class MS_Controller_Gateway extends MS_Controller {
 
 		$membership = $subscription->get_membership();
 		$is_free = false;
-		if ( $membership->is_free() ) { $is_free = true; }
-		elseif ( 0 == $invoice->total ) { $is_free = true; }
-		elseif ( $invoice->uses_trial ) {
-                    if( defined( 'MS_PAYPAL_TRIAL_SUBSCRIPTION' ) && MS_PAYPAL_TRIAL_SUBSCRIPTION ) {
-                        $is_free = false;
-                    }else{
-                        $is_free = true;
-                    }
 
-                }
+		if ( $membership->is_free() ) {
+			$is_free = true;
+		} elseif ( 0 == $invoice->total ) {
+			$is_free = true;
+		} elseif ( $invoice->uses_trial ) {
+			if ( defined( 'MS_PAYPAL_TRIAL_SUBSCRIPTION' ) && MS_PAYPAL_TRIAL_SUBSCRIPTION ) {
+				$is_free = false;
+			} else {
+				$is_free = true;
+			}
+		}
 
 		// show gateway purchase button for every active gateway
 		foreach ( $gateways as $gateway ) {
@@ -314,9 +317,8 @@ class MS_Controller_Gateway extends MS_Controller {
 				if ( MS_Gateway_Free::ID !== $gateway->id ) {
 					continue;
 				}
-			}
-			// Skip free gateway
-			elseif ( MS_Gateway_Free::ID === $gateway->id ) {
+			} elseif ( MS_Gateway_Free::ID === $gateway->id ) {
+				// Skip free gateway
 				continue;
 			}
 
@@ -345,7 +347,7 @@ class MS_Controller_Gateway extends MS_Controller {
 				);
 
 				$html = apply_filters(
-					'ms_controller_gateway_purchase_button_'. $gateway->id,
+					'ms_controller_gateway_purchase_button_' . $gateway->id,
 					$view->to_html(),
 					$subscription,
 					$this
@@ -358,7 +360,7 @@ class MS_Controller_Gateway extends MS_Controller {
 	}
 
 
-        /**
+		/**
 	 * Show gateway purchase button in invoice
 	 *
 	 * Related action hooks:
@@ -374,18 +376,20 @@ class MS_Controller_Gateway extends MS_Controller {
 
 		$membership = $subscription->get_membership();
 		$is_free = false;
-                $is_trial = false;
-		if ( $membership->is_free() ) { $is_free = true; }
-		elseif ( 0 == $invoice->total ) { $is_free = true; }
-		elseif ( $invoice->uses_trial ) {
-                    if( defined( 'MS_PAYPAL_TRIAL_SUBSCRIPTION' ) && MS_PAYPAL_TRIAL_SUBSCRIPTION ) {
-                        $is_free = false;
-                    }else{
-                        $is_free = true;
-                        $is_trial = true;
-                    }
+		$is_trial = false;
 
-                }
+		if ( $membership->is_free() ) {
+			$is_free = true;
+		} elseif ( 0 == $invoice->total ) {
+			$is_free = true;
+		} elseif ( $invoice->uses_trial ) {
+			if ( defined( 'MS_PAYPAL_TRIAL_SUBSCRIPTION' ) && MS_PAYPAL_TRIAL_SUBSCRIPTION ) {
+				$is_free = false;
+			} else {
+				$is_free = true;
+				$is_trial = true;
+			}
+		}
 
 		// show gateway purchase button for every active gateway
 		foreach ( $gateways as $gateway ) {
@@ -404,9 +408,8 @@ class MS_Controller_Gateway extends MS_Controller {
 				if ( MS_Gateway_Free::ID !== $gateway->id ) {
 					continue;
 				}
-			}
-			// Skip free gateway
-			elseif ( MS_Gateway_Free::ID === $gateway->id ) {
+			} elseif ( MS_Gateway_Free::ID === $gateway->id ) {
+				// Skip free gateway
 				continue;
 			}
 
@@ -661,8 +664,7 @@ class MS_Controller_Gateway extends MS_Controller {
 					// Something went wrong, the payment was not successful.
 					$this->add_action( 'the_content', 'purchase_error_content' );
 				}
-			}
-			catch ( Exception $e ) {
+			} catch ( Exception $e ) {
 				MS_Helper_Debug::log( $e->getMessage() );
 
 				switch ( $gateway_id ) {
@@ -1073,5 +1075,4 @@ class MS_Controller_Gateway extends MS_Controller {
 				break;
 		}
 	}
-
 }

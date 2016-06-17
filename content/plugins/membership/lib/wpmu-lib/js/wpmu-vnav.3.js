@@ -1,6 +1,6 @@
 /*! WPMU Dev code library - v2.0.3
  * http://premium.wpmudev.org/
- * Copyright (c) 2015; * Licensed GPLv2+ */
+ * Copyright (c) 2016; * Licensed GPLv2+ */
 /*!
  * UI Pattern: Vertical navigation.
  * Version: 1.0.0
@@ -25,13 +25,13 @@ jQuery(function() {
 	function init_vnav() {
 		var context = jQuery( this );
 
-		// We look for all h3 tags inside the context element.
-		// Each h3 element starts a new navigation section.
+		// We look for all h2/h3 tags inside the context element.
+		// Each h2/h3 element starts a new navigation section.
 		var ind, section, parts, title, body, list, key,
 			list_height = 0,
 			wnd = jQuery( window ),
 			html = context.html(),
-			sections = html.split( '<h3>' ),
+			sections = html.replace( '<h3>', '<h2>' ).split( '<h2>' ),
 			act_key = window.location.hash.replace(/^#/, ''),
 			act_class = (! act_key.length ? ' active' : '');
 
@@ -40,7 +40,7 @@ jQuery(function() {
 		for ( ind = 0; ind < sections.length; ind += 1 ) {
 			section = sections[ ind ];
 			// Split section title from section body.
-			parts = section.split( '</h3>' );
+			parts = section.replace( '</h3>', '</h2>' ).split( '</h2>' );
 
 			if ( 2 === parts.length && parts[0].length ) {
 				if ( parts[0] === '-' ) {
@@ -55,7 +55,7 @@ jQuery(function() {
 					if ( act_key.length && act_key === key ) {
 						act_class = ' active';
 					}
-					title = '<h3 data-key="' + key + '">' + parts[0] + '</h3>';
+					title = '<h2 data-key="' + key + '">' + parts[0] + '</h2>';
 					body = '<div class="data">' + parts[1] + '</div>';
 					html += '<li class="lst-vnav-item' + act_class + '">' + title + body + '</li>';
 					act_class = '';
@@ -136,15 +136,18 @@ jQuery(function() {
 		};
 
 		// Add click hander to change the section.
-		context.on( 'click', 'h3', activate_section );
-		context.on( 'click', 'h3', toggle_sections );
+		context.on( 'click', 'h2,h3', activate_section );
+		context.on( 'click', 'h2,h3', toggle_sections );
 
 		// Hide the section list on window resize (mobile screens only).
 		wnd.resize( resize_content );
 		wnd.resize( close_sections );
 
 		// Timeout of 50ms: Screen needs to refresh once before this works.
-		window.setTimeout( function() { jQuery( '.active h3', context ).click(); }, 50 );
+		window.setTimeout( function() {
+			var ctx_active = jQuery( '.active', context );
+			jQuery( 'h2,h3', ctx_active ).click();
+		}, 50 );
 	}
 
 	// Add a new jQuery function to init a vnav container

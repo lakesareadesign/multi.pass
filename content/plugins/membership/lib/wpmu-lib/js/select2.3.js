@@ -1,6 +1,6 @@
 /*! WPMU Dev code library - v2.0.3
  * http://premium.wpmudev.org/
- * Copyright (c) 2015; * Licensed GPLv2+ */
+ * Copyright (c) 2016; * Licensed GPLv2+ */
 /*!
  * https://github.com/select2/select2/blob/master/dist/js/select2.full.js
  *

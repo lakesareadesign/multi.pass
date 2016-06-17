@@ -1,13 +1,46 @@
 Plugin Name: Membership 2
-Author: Philipp Stracker, Ashok Kumar Nath, Fabio Jun, Rheinard Khorf
+Author:      Ashok Kumar Nath, Philipp Stracker
+Build Stamp: 2016-06-16T19:43:25.409Z
 
 Change Log:
 ----------------------------------------------------------------------
 
+1.0.3.1
+----------------------------------------------------------------------
+- Unlock some Add-ons again, that were accidentally displayed as "Pro Only"!
+
+1.0.3.0
+----------------------------------------------------------------------
+- Added: Template system, now M2 pages (Membership List, Payment Form, Registration Page, Account Page) can be overwritten from theme
+- Added: Option to select different list for different membership in Mailchimp addon
+- Added: Option to show BP XProfile fields in M2 account page
+- Added: ms_get_blog_list_args filter added to show non-public blogs in protectin rules page in network admin
+- Added: Define 'MS_CPT_ENABLE_ACCESS_BOX' to enable protection meta box in custom post type
+- Added: Filter 'ms_helper_listtable_billing_default_column' added for default column in billing table
+- Added: Filter 'ms_gateway_stripe_charge_amount' and 'ms_gateway_stripe_form_details_after' added to customize the amount for stripe
+- Fixed: Duplicate expiration emails were sent on expiration date.
+- Fixed: Test Memberships was not working (simulation mode)
+- Fixed: Protected posts appears in archive page
+- Fixed: Conflict with WPEngine Deployment
+- Fixed: Wrong message when a coupon is removed
+- Fixed: Wrong logic on category protection for multiple membership
+- Fixed: Inactive Memberships still available for renewal
+- Fixed: BP activation page is always protected in multisite
+- Fixed: Some unexpected notices and warnings
+- Fixed: Input validation of registration page fails to redirect to correct page when shortcode is used
+- Fixed: Price on SignUp page not shows correctly for the administrator
+- Fixed: Deleting an user doesn't not remove the membership information from Membership page
+- Fixed: JS Conflict for #password ID
+- Fixed: Media Protection doesn't work in some cases
+- Fixed: Display name was not being saved from edit account page
+- Fixed: Buddy Press extended profile fields data not showing on Membership 2 My Account page
+- Fixed: Cannot remove value for payment button in payment gateway settings
+- Fixed: Free membership setup with Membership 2 Pro shows still payment information
+- Removed: Filter `ms_class_file_override`
+
 1.0.2.9
 ----------------------------------------------------------------------
 - Fixed: Version change
-
 
 1.0.2.8
 ----------------------------------------------------------------------
@@ -23,7 +56,6 @@ Change Log:
 - Fixed: Nickname now saves when BuddyPress profile fields add on is activated
 - Fixed: Missing string in default lost password default email no longer missing
 - Fixed: Media protection no longer breaks images in customizer
-
 
 1.0.2.7
 ----------------------------------------------------------------------
@@ -53,7 +85,6 @@ Change Log:
 - Fixed: Finite paid membership turned into free membership while importing data
 - Fixed: Finite paid membership subscription period gets doubled for a member while importing data
 - Fixed: Gateway mode changed into Live mode when something is changed in settings
-
 
 1.0.2.6
 ----------------------------------------------------------------------
@@ -599,4 +630,4 @@ Membership2 1.0.0.0
 - Initial version.
 
 
-133620-1460763634-ai
+133620-1466174984-au

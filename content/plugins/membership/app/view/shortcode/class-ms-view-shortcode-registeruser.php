@@ -78,11 +78,16 @@ class MS_View_Shortcode_RegisterUser extends MS_View {
 		);
 
 		$title = $this->data['title'];
+
+                wp_enqueue_style( 'ms-styles' );
+
 		ob_start();
 
 		$reg_url = apply_filters(
 			'ms_shortcode_register_form_url',
-			MS_Model_Pages::get_page_url( MS_Model_Pages::MS_PAGE_REGISTER ),
+			//MS_Model_Pages::get_page_url( MS_Model_Pages::MS_PAGE_REGISTER ),
+                        //MS_Model_Pages::current_page(),
+                        get_permalink(),
 			$this->data
 		);
 		$reg_url = esc_url_raw(
@@ -94,81 +99,41 @@ class MS_View_Shortcode_RegisterUser extends MS_View {
 		?>
 		<div class="ms-membership-form-wrapper">
 			<?php $this->render_errors(); ?>
-			<form
-				id="ms-shortcode-register-user-form"
-				class="form-membership"
-				action="<?php echo esc_url( $reg_url ); ?>"
-				method="post">
 
-				<?php wp_nonce_field( $this->data['action'] ); ?>
-				<?php if ( ! empty( $title ) ) : ?>
-					<legend>
-						<?php echo $title; ?>
-					</legend>
-				<?php endif; ?>
+                        <?php
 
-				<?php foreach ( $fields as $field ) {
-					if ( is_string( $field ) ) {
-						MS_Helper_Html::html_element( $field );
-					} elseif ( MS_Helper_Html::INPUT_TYPE_HIDDEN == $field['type'] ) {
-						MS_Helper_Html::html_element( $field );
-					} else {
-						?>
-						<div class="ms-form-element ms-form-element-<?php echo esc_attr( $field['id'] ); ?>">
-							<?php MS_Helper_Html::html_element( $field ); ?>
-						</div>
-						<?php
-					}
-				}
+                            $login_link_exists = $this->data['loginlink'];
+                            $reg_action_url = esc_url( $reg_url );
 
-				echo '<div class="ms-extra-fields">';
+                            if ( is_multisite() ) {
+                                $empty_error = new WP_Error();
+                            }
 
-				/**
-				 * Trigger default WordPress action to allow other plugins
-				 * to add custom fields to the registration form.
-				 *
-				 * signup_extra_fields Defined in wp-signup.php which is used
-				 *              for Multisite signup process.
-				 *
-				 * register_form Defined in wp-login.php which is only used for
-				 *              Single site registration process.
-				 *
-				 * @since  1.0.0
-				 */
-				if ( is_multisite() ) {
-					$empty_error = new WP_Error();
-					do_action( 'signup_extra_fields', $empty_error );
-				} else {
-					do_action( 'register_form' ); // Always on the register form.
-				}
+                            $m2_reg_error = $this->error;
 
-				echo '</div>';
+                            $template_data = array(
+                                            'title' => $title,
+                                            'fields' => $fields,
+                                            'empty_error' => isset( $empty_error ) ? $empty_error : '',
+                                            'register_button' => $register_button,
+                                            'm2_reg_error' => $m2_reg_error,
+                                            'login_link_exists' => $login_link_exists,
+                                            'login_link' => $login_link,
+                                            'm2_obj' => $this
+                                        );
 
-				MS_Helper_Html::html_element( $register_button );
+                            MS_Helper_Template::$ms_registration_form = $template_data;
+                            ?>
+                            <form id="ms-shortcode-register-user-form" class="form-membership" action="<?php echo $reg_action_url; ?>" method="post">
+                            <?php
+                                wp_nonce_field( $this->data['action'] );
 
-				if ( is_wp_error( $this->error ) ) {
-					/**
-					 * Display registration errors.
-					 *
-					 * @since  1.0.0
-					 */
-					do_action( 'registration_errors', $this->error );
-				}
+                                if( $path = MS_Helper_Template::template_exists( 'membership_registration_form.php' ) ) {
+                                    require $path;
+                                }
+                            ?>
+                            </form>
 
-				/**
-				 * This hook is intended to output hidden fields or JS code
-				 * at the end of the form tag.
-				 *
-				 * @since  1.0.1.0
-				 */
-				do_action( 'ms_shortcode_register_form_end', $this );
-				?>
-			</form>
-			<?php
-			if ( $this->data['loginlink'] ) {
-				MS_Helper_Html::html_link( $login_link );
-			}
-			?>
 		</div>
 		<?php
 		// Default WP action hook.
@@ -295,7 +260,7 @@ class MS_View_Shortcode_RegisterUser extends MS_View {
 			),
 			'password2' => array(
 				'required' => true,
-				'equalTo' => '#password',
+				'equalTo' => '.ms-form-element #password',
 			),
 		);
 

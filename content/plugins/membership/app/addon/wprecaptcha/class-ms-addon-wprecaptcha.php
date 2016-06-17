@@ -41,13 +41,12 @@ class MS_Addon_Wprecaptcha extends MS_Addon {
 	 * @since  1.0.0
 	 */
 	public function init() {
-
 		if ( self::is_active() ) {
-                    $this->add_filter(
-                        'ms_model_membership_create_new_user_validation_errors',
-                        'check_captcha_validation',
-                        20, 1
-                    );
+			$this->add_filter(
+				'ms_model_membership_create_new_user_validation_errors',
+				'check_captcha_validation',
+				20, 1
+			);
 		}
 	}
 
@@ -76,7 +75,7 @@ class MS_Addon_Wprecaptcha extends MS_Addon {
 		return $list;
 	}
 
-        /**
+	/**
 	 * Returns true, when the BuddyPress plugin is activated.
 	 *
 	 * @since  1.0.0
@@ -86,28 +85,26 @@ class MS_Addon_Wprecaptcha extends MS_Addon {
 		return class_exists( 'ReCAPTCHAPlugin' );
 	}
 
-        public function check_captcha_validation( $errors ) {
-            $options = WPPlugin::retrieve_options( 'recaptcha_options' );
+	public function check_captcha_validation( $errors ) {
+		$options = WPPlugin::retrieve_options( 'recaptcha_options' );
 
-            if (empty($_POST['g-recaptcha-response']) ||
-                $_POST['g-recaptcha-response'] == '') {
-                $errors->add('blank_captcha', $options['no_response_error']);
-                return $errors;
-            }
+		if ( empty( $_POST['g-recaptcha-response'] ) ) {
+			$errors->add( 'blank_captcha', $options['no_response_error'] );
+			return $errors;
+		}
 
-            $reCaptchaLib = new ReCaptcha($options['secret']);
+		$reCaptchaLib = new ReCaptcha( $options['secret'] );
 
-            $response = $reCaptchaLib->verifyResponse(
-                $_SERVER['REMOTE_ADDR'],
-                $_POST['g-recaptcha-response']);
+		$response = $reCaptchaLib->verifyResponse(
+			$_SERVER['REMOTE_ADDR'],
+			$_POST['g-recaptcha-response']
+		);
 
-            // response is bad, add incorrect response error
-            if (!$response->success)
-                $errors->add('captcha_wrong', $response->error);
+		// response is bad, add incorrect response error
+		if ( ! $response->success ) {
+			$errors->add( 'captcha_wrong', $response->error );
+		}
 
-            return $errors;
-        }
-
-
-
+		return $errors;
+	}
 }

@@ -1,6 +1,6 @@
 /*! WPMU Dev code library - v2.0.3
  * http://premium.wpmudev.org/
- * Copyright (c) 2015; * Licensed GPLv2+ */
+ * Copyright (c) 2016; * Licensed GPLv2+ */
 /*!
  * WPMU Dev UI library
  * (Philipp Stracker for WPMU Dev)
@@ -798,8 +798,6 @@
  */
 /*global jQuery:false */
 /*global window:false */
-/*global document:false */
-/*global XMLHttpRequest:false */
 
 (function( wpmUi ) {
 
@@ -965,6 +963,24 @@
 		var _need_check_size = false;
 
 		/**
+		 * Position of the popup, can contain one or more of these flags:
+		 * 'none', 'left', 'right', 'top', 'bottom'
+		 *
+		 * @since  2.0.0
+		 * @internal
+		 */
+		var _snap = { top: false, left: false, right: false, bottom: false };
+
+		/**
+		 * Define closing-behavior of the popup to be a slide-in:
+		 * 'none', 'up', 'down'
+		 *
+		 * @since  2.0.0
+		 * @internal
+		 */
+		var _slidein = 'none';
+
+		/**
 		 * Called after the window is made visible.
 		 *
 		 * @type  Callback function.
@@ -1001,7 +1017,15 @@
 		var _onresize = null;
 
 		/**
-		 * The popup container element.
+		 * The popup container element. This is the outermost DOM element of the
+		 * popup. The _wnd element might contain additional data, such as a
+		 * CSS <style> tag that belongs to the popup.
+		 *
+		 * The _wnd element
+		 * - is attached/detached from the DOM on show/hide
+		 * - is positioned during resize
+		 * - is positioned during open/close of slide-in
+		 * - can contain <style> tag or hidden .buttons element
 		 *
 		 * @type  jQuery object.
 		 * @since  1.0.0
@@ -1013,6 +1037,12 @@
 		 * The popup window element.
 		 * By default this is identical to _wnd, but might be different when
 		 * using a custom template. This is the element with class .popup
+		 *
+		 * The _popup element
+		 * - is displayed/hidden during show/hide
+		 * - is animated during show/hide
+		 * - contains the loading-animation via .loading(true)
+		 * - all dynamic classes are added to this element
 		 *
 		 * @type  jQuery object.
 		 * @since  3.0.0
@@ -1030,6 +1060,43 @@
 		var _status = 'hidden';
 
 
+		/**
+		 * Slide-in status: collapsed, collapsing, expanded, expaning
+		 *
+		 * @type   string
+		 * @since  2.0.0
+		 * @internal
+		 */
+		var _slidein_status = 'none';
+
+		/**
+		 * Slide-in Icon for collapsed state
+		 *
+		 * @type   string
+		 * @since  2.0.0
+		 * @internal
+		 */
+		var _icon_collapse = '';
+
+		/**
+		 * Slide-in Icon for expanded state
+		 *
+		 * @type   string
+		 * @since  2.0.0
+		 * @internal
+		 */
+		var _icon_expand = '';
+
+		/**
+		 * Slide-in option that defines the speed to expand/collapse the popup.
+		 *
+		 * @type   number
+		 * @since  2.0.0
+		 * @internal
+		 */
+		var _slidein_speed = 400;
+
+
 		// ==============================
 		// == Public functions ==========
 
@@ -1040,6 +1107,42 @@
 		 * @type  int
 		 */
 		this.id = 0;
+
+		/**
+		 * Returns the modal property.
+		 *
+		 * @since  2.0.0
+		 */
+		this.is_modal = function is_modal() {
+			return _modal;
+		};
+
+		/**
+		 * Returns the visible-state property.
+		 *
+		 * @since  2.0.0
+		 */
+		this.is_visible = function is_visible() {
+			return _visible;
+		};
+
+		/**
+		 * Returns the slidein property.
+		 *
+		 * @since  2.0.0
+		 */
+		this.is_slidein = function is_slidein() {
+			return _slidein;
+		};
+
+		/**
+		 * Returns the _snap property.
+		 *
+		 * @since  2.0.0
+		 */
+		this.get_snap = function get_snap() {
+			return _snap;
+		};
 
 		/**
 		 * Sets the modal property.
@@ -1059,15 +1162,6 @@
 		};
 
 		/**
-		 * Returns the modal property.
-		 *
-		 * @since  2.0.0
-		 */
-		this.is_modal = function is_modal() {
-			return _modal;
-		};
-
-		/**
 		 * Sets the window size.
 		 *
 		 * @since  1.0.0
@@ -1080,6 +1174,74 @@
 			if ( isNaN( new_height ) ) { new_height = 0; }
 			if ( new_width >= 0 ) { _width = new_width; }
 			if ( new_height >= 0 ) { _height = new_height; }
+
+			_need_check_size = true;
+			_update_window();
+			return _me;
+		};
+
+		/**
+		 * Sets the snap-constraints of the popup.
+		 *
+		 * @since  2.0.0
+		 */
+		this.snap = function snap() {
+			var is_middle = false;
+			_snap = { top: false, left: false, right: false, bottom: false };
+
+			for ( var i = 0; i < arguments.length && ! is_middle; i += 1 ) {
+				var snap_to = arguments[i].toLowerCase();
+
+				switch(snap_to) {
+					case 'top':
+					case 'left':
+					case 'right':
+					case 'bottom':
+						_snap[snap_to] = true;
+						break;
+
+					case 'none':
+					case 'center':
+						is_middle = true;
+						break;
+				}
+			}
+
+			if ( is_middle ) {
+				_snap = { top: false, left: false, right: false, bottom: false };
+			}
+
+			_need_check_size = true;
+			_update_window();
+			return _me;
+		};
+
+		/**
+		 * Enables or disables the slide-in function of the popup.
+		 *
+		 * @since  2.0.0
+		 */
+		this.slidein = function slidein( option, duration ) {
+			option = option.toLowerCase();
+			_slidein = 'none';
+
+			switch ( option ) {
+				case 'down':
+					_slidein = 'down';
+					_icon_collapse = 'dashicons-arrow-down-alt2';
+					_icon_expand = 'dashicons-arrow-up-alt2';
+					break;
+
+				case 'up':
+					_slidein = 'up';
+					_icon_collapse = 'dashicons-arrow-up-alt2';
+					_icon_expand = 'dashicons-arrow-down-alt2';
+					break;
+			}
+
+			if ( ! isNaN( duration ) && duration >= 0 ) {
+				_slidein_speed = duration;
+			}
 
 			_need_check_size = true;
 			_update_window();
@@ -1180,9 +1342,9 @@
 		 */
 		this.loading = function loading( state ) {
 			if ( state ) {
-				_wnd.addClass( 'wpmui-loading' );
+				_popup.addClass( 'wpmui-loading' );
 			} else {
-				_wnd.removeClass( 'wpmui-loading' );
+				_popup.removeClass( 'wpmui-loading' );
 			}
 			return _me;
 		};
@@ -1255,7 +1417,8 @@
 		 */
 		this.show = function show() {
 			// Add the DOM elements to the document body and add event handlers.
-			_wnd.appendTo( jQuery( 'body' ) ).hide();
+			_wnd.appendTo( jQuery( 'body' ) );
+			_popup.hide();
 			_hook();
 
 			_visible = true;
@@ -1273,7 +1436,7 @@
 				_popup.show();
 			}, 2);
 
-			if ( _animation_in ) {
+			if ( 'none' === _slidein && _animation_in ) {
 				_popup.addClass( _animation_in + ' animated' );
 				_popup.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 					_popup.removeClass( 'animated' );
@@ -1294,9 +1457,11 @@
 		 */
 		this.hide = function hide() {
 			function hide_popup() {
-				// Remove the popup from the DOM (but keep it in memory)
-				_wnd.detach();
-				_unhook();
+				if ( 'none' === _slidein ) {
+					// Remove the popup from the DOM (but keep it in memory)
+					_wnd.detach();
+					_unhook();
+				}
 
 				_visible = false;
 				_status = 'hidden';
@@ -1307,7 +1472,7 @@
 				}
 			}
 
-			if ( _animation_out ) {
+			if ( 'none' === _slidein && _animation_out ) {
 				_popup.addClass( _animation_out + ' animated' );
 				_popup.one(
 					'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
@@ -1350,6 +1515,7 @@
 				// Completely remove the popup from the memory.
 				_wnd.remove();
 				_wnd = null;
+				_popup = null;
 
 				delete _all_popups[_me.id];
 
@@ -1423,23 +1589,26 @@
 				_template = '<div class="wpmui-popup">' +
 					'<div class="popup-title">' +
 						'<span class="the-title"></span>' +
-						'<a href="#" class="popup-close"><i class="dashicons dashicons-no-alt"></i></a>' +
+						'<span class="popup-close"><i class="dashicons dashicons-no-alt"></i></span>' +
 					'</div>' +
 					'<div class="popup-content"></div>' +
 					'</div>';
 			}
 
-			if ( _css ) {
-				jQuery( '<style>' + _css + '</style>' ).prependTo( _template );
-			}
-
 			// Create the DOM elements.
 			_wnd = jQuery( _template );
+
+			// Add custom CSS.
+			if ( _css ) {
+				jQuery( '<style>' + _css + '</style>' ).prependTo( _wnd );
+			}
 
 			// Add default selector class to the base element if the class is missing.
 			if ( ! _wnd.filter( '.popup' ).length && ! _wnd.find( '.popup' ).length ) {
 				_wnd.addClass( 'popup' );
 			}
+
+			// See comments in top section for difference between _wnd and _popup.
 			if ( _wnd.hasClass( 'popup' ) ) {
 				_popup = _wnd;
 			} else {
@@ -1447,12 +1616,22 @@
 			}
 
 			// Add supported content modification methods.
-			if ( ! _wnd.find( '.popup-title .the-title' ).length ) {
-				_me.title = function() {};
+			if ( ! _popup.find( '.popup-title' ).length ) {
+				_me.title = function() { return _me; };
 			}
 
-			if ( ! _wnd.find( '.popup-content' ).length ) {
-				_me.content = function() {};
+			if ( ! _popup.find( '.popup-content' ).length ) {
+				_me.content = function() { return _me; };
+			}
+
+			if ( ! _popup.find( '.slidein-toggle' ).length ) {
+				if (  _popup.find( '.popup-title .popup-close' ).length ) {
+					_popup.find( '.popup-title .popup-close' ).addClass( 'slidein-toggle' );
+				} else if ( _popup.find( '.popup-title' ).length ) {
+					_popup.find( '.popup-title' ).addClass( 'slidein-toggle' );
+				} else {
+					_popup.prepend( '<span class="slidein-toggle only-slidein"><i class="dashicons"></i></span>' );
+				}
 			}
 
 			_visible = false;
@@ -1465,16 +1644,19 @@
 		 * @internal
 		 */
 		function _hook() {
-			if ( _wnd ) {
-				_wnd.on( 'click', '.popup-close', _me.hide );
-				_wnd.on( 'click', '.close', _me.hide );
-				_wnd.on( 'click', 'thead .check-column :checkbox', _toggle_checkboxes );
-				_wnd.on( 'click', 'tfoot .check-column :checkbox', _toggle_checkboxes );
-				_wnd.on( 'click', 'tbody .check-column :checkbox', _check_checkboxes );
-				jQuery( window ).on( 'resize', _check_size );
+			if ( _popup && ! _popup.data( 'hooked' ) ) {
+				_popup.data( 'hooked', true );
+				_popup.on( 'click', '.popup-close', _click_close );
+				_popup.on( 'click', '.popup-title', _click_title );
+				_popup.on( 'click', '.close', _me.hide );
+				_popup.on( 'click', '.destroy', _me.destroy );
+				_popup.on( 'click', 'thead .check-column :checkbox', _toggle_checkboxes );
+				_popup.on( 'click', 'tfoot .check-column :checkbox', _toggle_checkboxes );
+				_popup.on( 'click', 'tbody .check-column :checkbox', _check_checkboxes );
+				jQuery( window ).on( 'resize', _resize_and_move );
 
 				if ( jQuery().draggable !== undefined ) {
-					_wnd.draggable({
+					_popup.draggable({
 						containment: jQuery( 'body' ),
 						scroll: false,
 						handle: '.popup-title'
@@ -1490,11 +1672,13 @@
 		 * @internal
 		 */
 		function _unhook() {
-			if ( _wnd ) {
-				_wnd.off( 'click', '.popup-close', _me.hide );
-				_wnd.off( 'click', '.close', _me.hide );
-				_wnd.off( 'click', '.check-column :checkbox', _toggle_checkboxes );
-				jQuery( window ).off( 'resize', _check_size );
+			if ( _popup && _popup.data( 'hooked' ) ) {
+				_popup.data( 'hooked', false );
+				_popup.off( 'click', '.popup-close', _click_close );
+				_popup.off( 'click', '.popup-title', _click_title );
+				_popup.off( 'click', '.close', _me.hide );
+				_popup.off( 'click', '.check-column :checkbox', _toggle_checkboxes );
+				jQuery( window ).off( 'resize', _resize_and_move );
 			}
 		}
 
@@ -1506,26 +1690,30 @@
 		 */
 		function _update_window() {
 			if ( ! _wnd ) { return false; }
+			if ( ! _popup ) { return false; }
 
 			var _overlay = wpmUi._modal_overlay(),
-				_el_title = _wnd.find( '.popup-title' ),
-				_el_content = _wnd.find( '.popup-content' );
+				_el_title = _popup.find( '.popup-title' ),
+				_el_content = _popup.find( '.popup-content' ),
+				_title_span = _el_title.find( '.the-title' );
 
 			// Window title.
-			_el_title.find( '.the-title' ).html( _title );
+			if ( _template && ! _title_span.length ) {
+				_title_span = _el_title;
+			}
+			_title_span.html( _title );
 
 			if ( _title_close ) {
-				_wnd.removeClass( 'no-close' );
+				_popup.removeClass( 'no-close' );
 			} else {
-				_wnd.addClass( 'no-close' );
+				_popup.addClass( 'no-close' );
 			}
 
 			// Display a copy of the specified content.
 			if ( _content_changed ) {
 				// Remove the current button bar.
 				_wnd.find( '.buttons' ).remove();
-				_wnd.removeClass();
-				_wnd.addClass( 'wpmui-popup no-buttons' );
+				_popup.addClass( 'no-buttons' );
 
 				// Update the content.
 				if ( _content instanceof jQuery ) {
@@ -1539,12 +1727,12 @@
 				// Move the buttons out of the content area.
 				var buttons = _el_content.find( '.buttons' );
 				if ( buttons.length ) {
-					buttons.appendTo( _wnd );
-					_wnd.removeClass( 'no-buttons' );
+					buttons.appendTo( _popup );
+					_popup.removeClass( 'no-buttons' );
 				}
 
 				// Add custom class to the popup.
-				_wnd.addClass( _classes );
+				_popup.addClass( _classes );
 
 				_content_changed = false;
 			}
@@ -1555,7 +1743,7 @@
 
 			// Show or hide the window and modal background.
 			if ( _visible ) {
-				_wnd.show();
+				_show_the_popup();
 
 				if ( _modal ) {
 					wpmUi._make_modal( '', 'has-popup' );
@@ -1567,19 +1755,27 @@
 
 				if ( _need_check_size ) {
 					_need_check_size = false;
-					_check_size();
+					_resize_and_move();
 				}
 
 				// Allow the browser to display + render the title first.
 				window.setTimeout(function() {
-					_el_content.css({ top: _el_title.height() + 1 });
+					if ( 'down' === _slidein ) {
+						_el_content.css({ bottom: _el_title.height() + 1 });
+					} else {
+						_el_content.css({ top: _el_title.height() + 1 });
+					}
+					if ( ! _height ) {
+						window.setTimeout(_resize_and_move, 5);
+					}
 				}, 5);
 			} else {
-				_wnd.hide();
+				_hide_the_popup();
 
 				var wnd, remove_modal = true;
 				for ( wnd in _all_popups ) {
 					if ( _all_popups[wnd] === _me ) { continue; }
+					if ( ! _all_popups[wnd].is_visible() ) { continue; }
 					if ( _all_popups[wnd].is_modal() ) {
 						remove_modal = false;
 						break;
@@ -1589,6 +1785,154 @@
 				if ( remove_modal ) {
 					wpmUi._close_modal( 'has-popup no-scroll can-scroll' );
 				}
+			}
+
+			// Adjust the close-icon according to slide-in state.
+			var icon = _popup.find('.popup-close .dashicons');
+			if ( icon.length ) {
+				if ( 'none' === _slidein ) {
+					icon.removeClass().addClass('dashicons dashicons-no-alt');
+				} else {
+					if ( 'collapsed' === _slidein_status ) {
+						icon.removeClass().addClass('dashicons').addClass(_icon_collapse);
+					} else if ( 'expanded' === _slidein_status ) {
+						icon.removeClass().addClass('dashicons').addClass(_icon_expand);
+					}
+				}
+			}
+
+			// Remove all "slidein-..." classes from the popup.
+			_popup[0].className = _popup[0].className.replace(/\sslidein-.+?\b/g, '');
+
+			if ( 'none' === _slidein ) {
+				_popup.removeClass( 'slidein' );
+				_popup.removeClass( 'wdev-slidein' );
+				_popup.addClass( 'wdev-window' );
+			} else {
+				_popup.addClass( 'slidein' );
+				_popup.addClass( 'slidein-' + _slidein );
+				_popup.addClass( 'slidein-' + _slidein_status );
+				_popup.addClass( 'wdev-slidein' );
+				_popup.removeClass( 'wdev-window' );
+			}
+			if ( _snap.top ) { _popup.addClass('snap-top'); }
+			if ( _snap.left ) { _popup.addClass('snap-left'); }
+			if ( _snap.right ) { _popup.addClass('snap-right'); }
+			if ( _snap.bottom ) { _popup.addClass('snap-bottom'); }
+		}
+
+		/**
+		 * Displays the popup while considering the slidein option
+		 *
+		 * @since  2.0.0
+		 */
+		function _show_the_popup() {
+			_popup.show();
+
+			// We have a collapsed slide-in. Animate it.
+			var have_slidein = 'none' !== _slidein,
+				can_expand = ('collapsed' === _slidein_status);
+
+			if ( have_slidein ) {
+				// First time the slide in is opened? Animate it.
+				if ( ! can_expand && 'none' === _slidein_status ) {
+					var styles = {};
+					_slidein_status = 'collapsed';
+					styles = _get_popup_size( styles );
+					styles = _get_popup_pos( styles );
+					_popup.css(styles);
+
+					can_expand = true;
+				}
+
+				if ( can_expand ) {
+					_slidein_status = 'expanding';
+					_resize_and_move( _slidein_speed );
+					_need_check_size = false;
+
+					window.setTimeout(function() {
+						_slidein_status = 'expanded';
+						_update_window();
+						window.setTimeout( _resize_and_move, 10 );
+					}, _slidein_speed);
+				}
+			}
+		}
+
+		/**
+		 * Hides the popup while considering the slidein option to either
+		 * completely hide the popup or to keep the title visible.
+		 *
+		 * @since  2.0.0
+		 */
+		function _hide_the_popup() {
+			switch ( _slidein ) {
+				case 'up':
+				case 'down':
+					var can_collapse = ('expanded' === _slidein_status);
+
+					if ( can_collapse ) {
+						var wnd = jQuery( window ),
+							window_height = wnd.innerHeight(),
+							popup_pos = _popup.position(),
+							styles = {};
+
+						// First position the popup using the `top` property only.
+						styles['margin-top'] = 0;
+						styles['margin-bottom'] = 0;
+						styles['bottom'] = 'auto';
+						styles['top'] = popup_pos.top;
+						_popup.css( styles );
+
+						// Calculate the destination position of the popup and animate.
+						_slidein_status = 'collapsing';
+						styles = _get_popup_pos();
+						_popup.animate(styles, _slidein_speed, function() {
+							_slidein_status = 'collapsed';
+							_update_window();
+							window.setTimeout( _resize_and_move, 10 );
+						});
+					}
+					break;
+
+				default:
+					_popup.hide();
+					break;
+			}
+		}
+
+		/**
+		 * When the popup has slide-in behavior then the close button acts as
+		 * a toggle-visiblity button.
+		 *
+		 * @since  1.0.0
+		 */
+		function _click_close( ev ) {
+			if ( 'none' === _slidein ) {
+				_me.hide();
+			} else {
+				if ( _visible ) {
+					_me.hide();
+				} else {
+					_me.show();
+				}
+			}
+			ev.stopPropagation();
+		}
+
+		/**
+		 * Slide-ins also react when the user clicks the title.
+		 *
+		 * @since  1.0.0
+		 */
+		function _click_title( ev ) {
+			if ( 'none' !== _slidein ) {
+				if ( _visible ) {
+					_me.hide();
+				} else {
+					_me.show();
+				}
+				ev.stopPropagation();
 			}
 		}
 
@@ -1607,49 +1951,174 @@
 			_me.hide();
 		}
 
-
 		/**
 		 * Makes sure that the popup window is not bigger than the viewport.
 		 *
 		 * @since  1.0.0
 		 * @internal
 		 */
-		function _check_size() {
-			if ( ! _wnd ) { return false; }
+		function _resize_and_move(duration) {
+			if ( ! _popup ) { return false; }
 
 			if ( typeof _onresize === 'function' ) {
 				_onresize.apply( _me, [ _me.$() ] );
 			} else {
-				var me = jQuery( this ), // this is jQuery( window )
-					window_width = me.innerWidth(),
-					window_height = me.innerHeight(),
-					real_width = _width,
-					real_height = _height,
-					popup_styles = {};
+				var styles = {};
 
-				if ( window_width < _width ) {
-					real_width = window_width;
-				}
-				if ( window_height < _height ) {
-					real_height = window_height;
-				}
-
-				if ( real_width ) {
-					popup_styles['width'] = real_width;
-					popup_styles['margin-left'] = -1 * (real_width / 2);
-				}
-				if ( real_height ) {
-					popup_styles['height'] = real_height;
-					popup_styles['margin-top'] = -1 * (real_height / 2);
-				}
+				styles = _get_popup_size( styles );
+				styles = _get_popup_pos( styles );
 
 				// Size and position.
-				if ( _wnd.is( ':visible' ) ) {
-					_popup.animate(popup_styles, 200);
+				if ( ! isNaN( duration ) && duration > 0 ) {
+					_popup.animate(styles, duration);
 				} else {
-					_popup.css(popup_styles);
+					_popup.css(styles);
 				}
 			}
+		}
+
+		/**
+		 * A helper function for the resize/slidein functions that returns the
+		 * actual size (width and height) of the popup.
+		 *
+		 * @since  1.0.0
+		 * @return object
+		 */
+		function _get_popup_size( size ) {
+			var wnd = jQuery( window ),
+				window_width = wnd.innerWidth(),
+				window_height = wnd.innerHeight(),
+				border_x = parseInt( _popup.css('border-left-width') ) +
+					parseInt( _popup.css('border-right-width') ),
+				border_y = parseInt( _popup.css('border-top-width') ) +
+					parseInt( _popup.css('border-bottom-width') ),
+				real_width = _width + border_x,
+				real_height = _height + border_y;
+
+			if ( 'object' !== typeof size ) { size = {}; }
+
+			// Calculate the width and height ------------------------------
+
+			if ( ! _height || ! _width ) {
+				var get_width = ! _width,
+					get_height = ! _height,
+					new_width = 0, new_height = 0;
+
+				_popup.find('*').each(function() {
+					var el = jQuery( this ),
+						pos = el.position(),
+						el_width = el.outerWidth() + pos.left,
+						el_height = el.outerHeight() + pos.top;
+
+					if ( get_width && new_width < el_width ) {
+						new_width = el_width;
+					}
+					if ( get_height && new_height < el_height ) {
+						new_height = el_height;
+					}
+				});
+
+				if ( get_width ) { real_width = new_width + border_x; }
+				if ( get_height ) { real_height = new_height + border_y; }
+			}
+
+			if ( _snap.left && _snap.right ) {
+				// Snap to 2 sides: full width.
+				size['width'] = window_width - border_x;
+			} else {
+				if ( window_width < real_width ) {
+					real_width = window_width;
+				}
+				size['width'] = real_width - border_x;
+			}
+
+			if ( _snap.top && _snap.bottom ) {
+				// Snap to 2 sides: full height.
+				size['height'] = window_height - border_y;
+			} else {
+				if ( window_height < real_height ) {
+					real_height = window_height;
+				}
+				size['height'] = real_height - border_y;
+			}
+
+			return size;
+		}
+
+		/**
+		 * Helper function used for positioning the popup, it will return the
+		 * x/y positioning styles.
+		 *
+		 * @since  1.0.0
+		 * @return object
+		 */
+		function _get_popup_pos( styles ) {
+			var wnd = jQuery( window ),
+				el_toggle = _popup.find( '.slidein-toggle' ),
+				window_width = wnd.innerWidth(),
+				window_height = wnd.innerHeight(),
+				border_x = parseInt( _popup.css('border-left-width') ) +
+					parseInt( _popup.css('border-right-width') ),
+				border_y = parseInt( _popup.css('border-top-width') ) +
+					parseInt( _popup.css('border-bottom-width') );
+
+			if ( 'object' !== typeof styles ) { styles = {}; }
+			if ( undefined === styles['width'] || undefined === styles['height'] ) {
+				styles = _get_popup_size( styles );
+			}
+
+			// Position X: (empty) / left / right / left + right
+			if ( ! _snap.left && ! _snap.right ) {
+				// Center X.
+				styles['left'] = (window_width - styles['width']) / 2;
+			} else if ( _snap.left && _snap.right ) {
+				// Snap to 2 sides.
+				styles['left'] = 0;
+			} else {
+				// Snap to one side.
+				if ( _snap.left ) {
+					styles['left'] = 0;
+				}
+				if ( _snap.right ) {
+					styles['left'] = window_width - styles['width'] - border_x;
+				}
+			}
+
+			if ( 'none' !== _slidein && ('collapsed' === _slidein_status || 'collapsing' === _slidein_status) ) {
+				// We have a collapsed slide-in. Y-position is fixed.
+				if ( 'down' === _slidein ) {
+					styles['top'] = el_toggle.outerHeight() - styles['height'];
+				} else {
+					styles['top'] = window_height - el_toggle.outerHeight();
+				}
+			} else {
+				// Position Y: (empty) / top / bottom / top + bottom
+				if ( ! _snap.top && ! _snap.bottom ) {
+					// Center Y.
+					styles['top'] = (window_height - styles['height']) / 2;
+				} else if ( _snap.top && _snap.bottom ) {
+					// Snap to 2 sides.
+					styles['top'] = 0;
+				} else {
+					// Snap to one side.
+					if ( _snap.top ) {
+						styles['top'] = 0;
+					}
+					if ( _snap.bottom ) {
+						styles['top'] = window_height - styles['height'] - border_y;
+					}
+				}
+			}
+
+			styles['margin-top'] = 0;
+			styles['margin-bottom'] = 0;
+			styles['bottom'] = 'auto';
+			styles['right'] = 'auto';
+
+			if ( undefined === styles['top'] ) { styles['top'] = 'auto'; }
+			if ( undefined === styles['left'] ) { styles['left'] = 'auto'; }
+
+			return styles;
 		}
 
 		/**
@@ -1969,6 +2438,8 @@
 /*global document:false */
 
 (function( wpmUi ) {
+
+	if (wpmUi.add_action) { return; }
 
 	/*===========================*\
 	===============================

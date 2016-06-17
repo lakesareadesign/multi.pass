@@ -59,21 +59,23 @@
 
 .wpmui-overlay {
   background: #000;
-  opacity: 0.7;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 9999;
-  display: none;
-}
-.wpmui-overlay.light {
-  opacity: .25;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s, z-index 0.3s step-end;
 }
 
 .wpmui-has-overlay .wpmui-overlay {
-  display: block;
+  z-index: 9999;
+  opacity: 0.7;
+  transition: opacity 0.3s, z-index 0.3s step-start;
+}
+.wpmui-has-overlay .wpmui-overlay.light {
+  opacity: .25;
 }
 .wpmui-has-overlay #wpwrap {
   -webkit-filter: grayscale(75%);
@@ -129,6 +131,10 @@
   box-sizing: border-box;
 }
 .wpmui-popup .popup-title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
   line-height: 50px;
   white-space: nowrap;
   overflow: hidden;
@@ -141,6 +147,25 @@
   font-size: 23px;
   font-weight: 100;
   z-index: 5;
+}
+.wpmui-popup .popup-title .the-title {
+  display: inline-block;
+  padding-right: 71px;
+}
+.wpmui-popup.slidein.slidein-down .popup-title {
+  top: auto;
+  bottom: 0;
+  border-top: 1px solid #E5E5E5;
+  border-bottom: 0;
+}
+.wpmui-popup.slidein .popup-title {
+  cursor: pointer;
+}
+.wpmui-popup .only-slidein {
+  display: none;
+}
+.wpmui-popup.slideing .only-slidein {
+  display: block;
 }
 .wpmui-popup .popup-close {
   position: absolute;
@@ -165,6 +190,7 @@
 }
 .wpmui-popup .popup-content {
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -207,6 +233,20 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+.popup.wdev-window,
+.popup.wdev-slidein {
+  position: fixed;
+  z-index: 10000;
+  top: 50%;
+  left: 50%;
+  background: #FFF;
+  box-sizing: border-box;
+}
+.popup.wdev-window.slidein .popup-title,
+.popup.wdev-slidein.slidein .popup-title {
+  cursor: pointer;
 }
 
 /**
@@ -1116,4 +1156,4 @@
 }
 
 
-/* 133620-1460763634-ai */
+/* 133620-1466174984-au */

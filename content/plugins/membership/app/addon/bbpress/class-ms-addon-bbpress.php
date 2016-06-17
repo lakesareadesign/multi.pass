@@ -43,11 +43,11 @@ class MS_Addon_Bbpress extends MS_Addon {
 	public function init() {
 
 		if ( self::is_active() ) {
-                        // Always remove bbpress from MS_Rule_CptGroup_Model.
-                        $this->add_filter(
-                                'ms_rule_cptgroup_model_get_excluded_content',
-                                'exclude_bbpress_cpts'
-                        );
+			// Always remove bbpress from MS_Rule_CptGroup_Model.
+			$this->add_filter(
+				'ms_rule_cptgroup_model_get_excluded_content',
+				'exclude_bbpress_cpts'
+			);
 
 			$this->add_filter(
 				'ms_controller_protection_tabs',
@@ -129,5 +129,4 @@ class MS_Addon_Bbpress extends MS_Addon {
 
 		return $excluded;
 	}
-
 }

@@ -21,6 +21,7 @@
   margin-bottom: 5px;
 }
 
+.lst-vnav-item h2,
 .lst-vnav-item h3 {
   width: 180px;
   overflow: hidden;
@@ -39,10 +40,12 @@
   border: 1px solid transparent;
 }
 
+.lst-vnav-item h2:hover,
 .lst-vnav-item h3:hover {
   color: #2EA2CC;
 }
 
+.lst-vnav-item.active h2,
 .lst-vnav-item.active h3 {
   color: #333;
   background-color: #FDFDFD;
@@ -86,6 +89,7 @@
 
 /* Condense the tabs/setting-headers on small screens */
 @media screen and (max-width: 1024px) {
+  .lst-vnav-item h2,
   .lst-vnav-item h3 {
     width: 150px;
   }
@@ -105,6 +109,7 @@
     margin-bottom: 40px;
   }
 
+  .lst-vnav-item h2,
   .lst-vnav-item h3 {
     width: auto;
     background-color: #F8F8F8;
@@ -112,6 +117,7 @@
     font-weight: bold;
   }
 
+  .lst-vnav-item.active h2,
   .lst-vnav-item.active h3 {
     display: block;
     background-color: #F1F1F1;
@@ -119,6 +125,7 @@
     border-right-color: #DEDEDE;
   }
 
+  .lst-vnav.open .lst-vnav-item h2,
   .lst-vnav.open .lst-vnav-item h3 {
     display: block;
     border-top-style: none;
@@ -127,10 +134,12 @@
     border-right-color: #999;
   }
 
+  .lst-vnav.open .lst-vnav-item:first-child h2,
   .lst-vnav.open .lst-vnav-item:first-child h3 {
     border-top: 1px solid #999;
   }
 
+  .lst-vnav.open .lst-vnav-item:last-child h2,
   .lst-vnav.open .lst-vnav-item:last-child h3 {
     border-bottom: 1px solid #999;
   }
@@ -152,4 +161,4 @@
 }
 
 
-/* 133620-1460763634-ai */
+/* 133620-1466174984-au */
