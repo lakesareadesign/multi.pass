@@ -14,7 +14,7 @@ require_once( get_stylesheet_directory() . '/lib/customize.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Author Pro Theme', 'author' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/author/' );
-define( 'CHILD_THEME_VERSION', '1.0.0' );
+define( 'CHILD_THEME_VERSION', '1.1' );
 
 //* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'author_enqueue_scripts_styles' );
@@ -25,6 +25,12 @@ function author_enqueue_scripts_styles() {
 	wp_enqueue_style( 'dashicons' );
 	wp_enqueue_style( 'google-fonts', '//fonts.googleapis.com/css?family=Lato:300,400,900,400italic', array(), CHILD_THEME_VERSION );
 
+	wp_enqueue_script( 'author-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0', true );
+	$output = array(
+		'mainMenu' => __( 'Menu', 'author' ),
+		'subMenu'  => __( 'Menu', 'author' ),
+	);
+	wp_localize_script( 'author-responsive-menu', 'AuthorL10n', $output );
 }
 
 //* Add new image sizes
@@ -35,6 +41,9 @@ add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list'
 
 //* Add viewport meta tag for mobile browsers
 add_theme_support( 'genesis-responsive-viewport' );
+
+//* Enable Genesis Accessibility Components
+add_theme_support( 'genesis-accessibility', array( '404-page', 'drop-down-menu', 'headings', 'search-form', 'skip-links' ) );
 
 //* Add support for custom background
 add_theme_support( 'custom-background' );
@@ -66,11 +75,30 @@ add_theme_support( 'custom-header', array(
 ) );
 
 //* Rename Primary Menu
-add_theme_support ( 'genesis-menus' , array ( 'primary' => __( 'Header Navigation Menu', 'author' ), 'secondary' => __( 'Secondary Navigation Menu', 'author' ) ) );
+add_theme_support( 'genesis-menus' , array( 'primary' => __( 'Header Menu', 'author' ), 'secondary' => __( 'After Header Menu', 'author' ) ) );
 
 //* Remove output of primary navigation right extras
 remove_filter( 'genesis_nav_items', 'genesis_nav_right', 10, 2 );
 remove_filter( 'wp_nav_menu_items', 'genesis_nav_right', 10, 2 );
+
+//* Remove skip link for primary navigation and add skip link for footer widgets
+add_filter( 'genesis_skip_links_output', 'author_skip_links_output' );
+function author_skip_links_output( $links ){
+
+	if( isset( $links['genesis-nav-primary'] ) ){
+		unset( $links['genesis-nav-primary'] );
+	}
+
+	$new_links = $links;
+	array_splice( $new_links, 1 );
+
+	if ( has_nav_menu( 'secondary' ) ) {
+		$new_links['menu-secondary-navigation'] = __( 'Skip to secondary navigation', 'author' );
+	}
+
+	return array_merge( $new_links, $links );
+
+}
 
 //* Reposition the navigation
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
@@ -106,17 +134,6 @@ function author_widget_area_class( $id ) {
 	}
 
 	return $class;
-
-}
-
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'author_remove_comment_form_allowed_tags' );
-function author_remove_comment_form_allowed_tags( $defaults ) {
-
-	$defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . _x( 'Comment', 'noun', 'author' ) . '</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
-	$defaults['comment_notes_after'] = '';
-
-	return $defaults;
 
 }
 

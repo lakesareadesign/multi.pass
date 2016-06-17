@@ -1,57 +1,43 @@
-jQuery(function( $ ){
-	
-	// Add opacity class to site header
-	if( $( document ).scrollTop() > 0 ){
-		$( '.site-header' ).addClass( 'shrink' );
-		$( '.nav-secondary' ).addClass( 'shrink' );			
-	}
-	
-	$( document ).on('scroll', function(){
+( function ( document, $ ) {
 
-		if ( $( document ).scrollTop() > 0 ){
+	'use strict';
+
+	function _shrinkClass() {
+		
+		if ( $( document ).scrollTop() > 0 && ( $( '.js nav' ).css( 'position' ) !== 'relative' ) ) {
 			$( '.site-header' ).addClass( 'shrink' );
 			$( '.nav-secondary' ).addClass( 'shrink' );			
-
 		} else {
 			$( '.site-header' ).removeClass( 'shrink' );
-			$( '.nav-secondary' ).removeClass( 'shrink' );			
+			$( '.nav-secondary' ).removeClass( 'shrink' );
 		}
+
+	}
+	
+	function _fixedClass() {
+		var distanceFromTop = $( document ).scrollTop();
+	    if ( distanceFromTop >= $( '.front-page-1' ).height() + 40 && ( $( '.js nav' ).css( 'position' ) !== 'relative' ) ) {
+	        $( '.nav-secondary' ).addClass( 'fixed' );
+	    } else {
+	        $( '.nav-secondary' ).removeClass( 'fixed' );
+	    }
+	}
+
+	$( document ).ready( function () {
+
+		// run test on initial page load
+		_shrinkClass();
+
+		// run test on resize of the window
+		$( window ).resize( _shrinkClass );
+		$( window ).resize( _fixedClass );
+		
+		//run test on scroll
+		$( document ).on( 'scroll', _shrinkClass );
+
+		// Add class for secondary menu
+		$(	window	).scroll( _fixedClass );
 
 	});
 	
-	// Add class for tertiary menu
-	$(window).scroll(function() {
-	       var distanceFromTop = $(document).scrollTop();
-	       if (distanceFromTop >= $( '.front-page-1' ).height() + 40 )
-	       {
-	           $( '.nav-secondary' ).addClass( 'fixed' );
-	       }
-	       else
-	       {
-	           $( '.nav-secondary' ).removeClass( 'fixed' );
-	       }
-	   });
-
-
-	$( '.nav-primary .genesis-nav-menu, .nav-secondary .genesis-nav-menu' ).addClass( 'responsive-menu' ).before( '<div class="responsive-menu-icon"></div>' );
-
-	$( '.responsive-menu-icon' ).click(function(){
-		$(this).next( '.nav-primary .genesis-nav-menu,  .nav-secondary .genesis-nav-menu' ).slideToggle();
-	});
-
-	$( window ).resize(function(){
-		if ( window.innerWidth > 800 ) {
-			$( '.nav-primary .genesis-nav-menu,  .nav-secondary .genesis-nav-menu, nav .sub-menu' ).removeAttr( 'style' );
-			$( '.responsive-menu > .menu-item' ).removeClass( 'menu-open' );
-		}
-	});
-
-	$( '.responsive-menu > .menu-item' ).click(function(event){
-		if ( event.target !== this )
-		return;
-			$(this).find( '.sub-menu:first' ).slideToggle(function() {
-			$(this).parent().toggleClass( 'menu-open' );
-		});
-	});
-
-});
+})( document, jQuery );

@@ -24,3 +24,9 @@ The Author Pro theme is translation ready.  More information about the translati
 
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
+
+= 1.0 =
+* Initial release
+
+= 1.1 =
+* Add Accessibility support

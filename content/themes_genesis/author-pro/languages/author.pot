@@ -1,21 +1,22 @@
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Author Pro Theme\n"
-"POT-Creation-Date: 2015-04-16 08:43-0500\n"
-"PO-Revision-Date: 2015-04-16 08:43-0500\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: en_US\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Author Pro\n"
+"POT-Creation-Date: 2016-05-11 13:27-0400\n"
+"PO-Revision-Date: 2016-05-11 13:16-0400\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
@@ -23,56 +24,59 @@ msgstr ""
 msgid "Author Pro Theme"
 msgstr ""
 
-#: functions.php:69
-msgid "Header Navigation Menu"
+#: functions.php:30 functions.php:31
+msgid "Menu"
 msgstr ""
 
-#: functions.php:69
-msgid "Secondary Navigation Menu"
+#: functions.php:78
+msgid "Header Menu"
 msgstr ""
 
-#: functions.php:116
-msgctxt "noun"
-msgid "Comment"
+#: functions.php:78
+msgid "After Header Menu"
 msgstr ""
 
-#: functions.php:126
+#: functions.php:96
+msgid "Skip to secondary navigation"
+msgstr ""
+
+#: functions.php:143
 msgid "Front Page 1"
 msgstr ""
 
-#: functions.php:127
+#: functions.php:144
 msgid "This is the front page 1 section."
 msgstr ""
 
-#: functions.php:131
+#: functions.php:148
 msgid "Front Page 2"
 msgstr ""
 
-#: functions.php:132
+#: functions.php:149
 msgid "This is the front page 2 section."
 msgstr ""
 
-#: functions.php:136
+#: functions.php:153
 msgid "Front Page 3"
 msgstr ""
 
-#: functions.php:137
+#: functions.php:154
 msgid "This is the front page 3 section."
 msgstr ""
 
-#: functions.php:141
+#: functions.php:158
 msgid "Front Page 4"
 msgstr ""
 
-#: functions.php:142
+#: functions.php:159
 msgid "This is the front page 4 section."
 msgstr ""
 
-#: functions.php:146
+#: functions.php:163
 msgid "Front Page 5"
 msgstr ""
 
-#: functions.php:147
+#: functions.php:164
 msgid "This is the front page 5 section."
 msgstr ""
 
@@ -118,4 +122,26 @@ msgstr ""
 
 #: lib/theme-defaults.php:54 lib/theme-defaults.php:82
 msgid "Continue Reading&hellip;"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Author Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/author/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Further your following by showcasing your published work with a better "
+"online library."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
 msgstr ""

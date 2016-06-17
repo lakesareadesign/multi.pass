@@ -228,7 +228,8 @@ function author_css() {
 		.site-footer a:hover {
 			color: %1$s;
 		}
-
+		
+		div .book-featured-text-banner,
 		.nav-secondary .genesis-nav-menu .highlight > a {
 			background-color: %1$s;
 		}
