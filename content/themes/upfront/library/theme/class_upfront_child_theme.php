@@ -282,7 +282,7 @@ abstract class Upfront_ChildTheme implements IUpfront_Server {
 			$style_files = array_diff(scandir($styles_root . DIRECTORY_SEPARATOR . $type), self::$_EXCLUDED_FILES);
 			foreach ($style_files as $style) {
 				// If region CSS, only load the one saved matched the layout_id
-				$style_rx = '/^(' . preg_quote("{$layout_id}", '/') . '|' . preg_quote("{$type}", '/') . (!empty($alternate_layout_id) ? '|' . preg_quote($alternate_layout_id, '/') : '') . ')/';
+				$style_rx = '/^(' . preg_quote("{$layout_id}", '/') . '|' . preg_quote("{$type}", '/') . (!empty($alternate_layout_id) ? '|' . preg_quote($alternate_layout_id, '/') : '') . ')/';	     	 		 		  	 		 	
 				if (preg_match('/^region(-container|)$/', $type) && !preg_match($style_rx, $style)) {
 					continue;
 				}

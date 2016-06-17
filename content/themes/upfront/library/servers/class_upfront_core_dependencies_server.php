@@ -158,6 +158,7 @@ class Upfront_CoreDependencies_Server extends Upfront_Server {
 				$.each(script_urls, function (idx, url) {
 					head.append(script_tpl.replace(/%url%/, url));
 				});
+				$(window).on('load', function () { $(window).trigger('resize'); });
 			{$callback_wrap_end}
 			})(jQuery);
 		</script>";
