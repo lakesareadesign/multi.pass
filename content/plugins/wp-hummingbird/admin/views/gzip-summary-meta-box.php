@@ -22,7 +22,7 @@
 			$resultStatus = __( 'Enabled', 'wphb' );
 			$resultStatusColor = 'green';
 		} else {
-			$resultStatus = __( 'Disabled', 'wphb' );	  	 	   	 		 		 		 	
+			$resultStatus = __( 'Disabled', 'wphb' );
 			$resultStatusColor = 'red';
 		} ?>
 		<li>

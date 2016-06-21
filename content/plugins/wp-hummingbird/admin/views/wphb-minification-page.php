@@ -61,7 +61,7 @@
 		<p><?php echo sprintf( __( '%s, moving files between the header and footer of your page can break your website. We recommend tweaking and checking each file as you go and if a setting causes errors then revert the setting here.', 'wphb' ), $user); ?></p>
 	</div>
 
-	<form action="" method="post">
+	<form action="" method="post" id="wphb-minification-form">
 		<?php $this->do_meta_boxes( 'main' ); ?>
 	</form>
 

@@ -36,8 +36,15 @@ class WP_Hummingbird_Uptime_Page extends WP_Hummingbird_Admin_Page {
 
 			$result = wphb_uptime_enable();
 			if ( is_wp_error( $result ) ) {
-				wp_die( sprintf( __( 'Uptime error %d: %s', 'wphb' ), $result->get_error_code(), $result->get_error_message() ) );
+				$redirect_to = add_query_arg( 'error', 'true', wphb_get_admin_menu_url( 'uptime' ) );
+				$redirect_to = add_query_arg( array(
+					'code' => $result->get_error_code(),
+					'message' => urlencode( $result->get_error_message() )
+				), $redirect_to );
+				wp_redirect( $redirect_to );
+				exit;
 			}
+
 			$redirect_to = add_query_arg( 'run', 'true', wphb_get_admin_menu_url( 'uptime' ) );
 			$redirect_to = add_query_arg( '_wpnonce', wp_create_nonce( 'wphb-run-uptime' ), $redirect_to );
 
@@ -183,9 +190,14 @@ class WP_Hummingbird_Uptime_Page extends WP_Hummingbird_Admin_Page {
 			$error = $stats->get_error_message();
 			$error_type = 'error';
 		}
+		else {
+			if ( isset( $_GET['error'] ) ) {
+				$error = urldecode($_GET['message'] );
+				$error_type = 'error';
+			}
+		}
 
 		$retry_url = add_query_arg( 'run', 'true' );
-		$retry_url = remove_query_arg( 'uptime-error', $retry_url );
 		$retry_url = wp_nonce_url( $retry_url, 'wphb-run-uptime' );
 
 		$support_url = 'https://premium.wpmudev.org/forums/forum/support#question';

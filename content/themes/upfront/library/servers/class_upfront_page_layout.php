@@ -77,6 +77,12 @@ class Upfront_Server_PageLayout extends Upfront_Server {
 	}
 
 	public function get_layout_id_by_slug ($slug, $load_dev) {
+		// Dumb quick check to make sure that what we try to resolve here
+		// doesn't resemble something that's not a single page layout
+		if (preg_match('/-archive-/', $slug)) return false;
+
+		// Still here? Good. Possibly a page layout, let's get on with it
+
 		return $this->_data->get_id_by_slug($slug, $load_dev);
 	}
 

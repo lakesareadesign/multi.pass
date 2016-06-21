@@ -4,6 +4,17 @@ Tested up to: 4.5.2
 
 Change Log:
 
+1.2.2 - 2016-06-16
+----------------------------------------------------------------------
+- Fixed: Hummingbird Exception throwing fatal error in old versions of PHP (<5.3)
+- Fixed: Notice in minification screen when a plugin was deleted manually
+- Fixed: replaced buttons by inputs as sometimes settings cannot be submitted in minification screen
+- Fixed: Some minified URLs where prepended 'http' even if they had already http prepended
+- Enhance: Better Uptime error handling
+- Replaced the javascript compressor for a better one
+- Some styles improvements in admin
+
+
 1.2.1 - 2016-05-17
 ----------------------------------------------------------------------
 Fix: Sometimes excluded files did not appear on list after re checking files
@@ -65,4 +76,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1463498466-au
+133620-1466479864-au

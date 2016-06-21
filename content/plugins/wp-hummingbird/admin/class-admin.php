@@ -10,7 +10,6 @@ class WP_Hummingbird_Admin {
 	public $pages = array();
 
 	public function __construct() {
-
 		$this->includes();
 
 		add_action( 'admin_menu', array( $this, 'add_menu_pages' ) );

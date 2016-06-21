@@ -10,5 +10,5 @@
 		</div>
 	</div>
 	<button class="button button-grey wphb-discard" <?php disabled( true ); ?>><?php esc_attr_e( 'Discard Changes', 'wphb' ); ?></button>
-	<button type="submit" class="button button-app" name="submit"><?php esc_attr_e( 'Save Changes', 'wphb' ); ?></button>
+	<input type="submit" class="button button-app" name="submit" value="<?php esc_attr_e( 'Save Changes', 'wphb' ); ?>" />
 </div>

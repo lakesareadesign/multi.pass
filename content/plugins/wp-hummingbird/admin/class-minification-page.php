@@ -1,17 +1,16 @@
 <?php
 
-
 class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 
 
 	public function on_load() {
 
 		wphb_minification_maybe_stop_checking_files();
-
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'wphb-enqueued-files' );
 
 			$options = wphb_get_settings();
+
 			$options = $this->_sanitize_type( 'styles', $options );
 			$options = $this->_sanitize_type( 'scripts', $options );
 
@@ -193,6 +192,9 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		$selector_filter = array();
 		$selector_filter[ $theme->Name ] = $theme->Name;
 		foreach ( $active_plugins as $plugin ) {
+			if ( ! is_file( WP_PLUGIN_DIR . '/' . $plugin ) ) {
+				continue;
+			}
 			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
 			if ( $plugin_data['Name'] ) {
 				// Found plugin, add it as a filter

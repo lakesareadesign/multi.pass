@@ -96,12 +96,12 @@ class WPLeadInAdmin
         $leadin_icon = LEADIN_PATH . '/images/leadin-icon-16x16-white.png';
 
         add_menu_page('Leadin', 'Leadin', $capability, 'leadin', array($this, 'leadin_build_app'), $leadin_icon, '25.100713');
-        
+
         $slumberMode = get_option('leadin_slumber_mode');
-        
+
         if (!$slumberMode) {
             add_submenu_page('leadin', 'Contacts', 'Contacts', 'activate_plugins', 'leadin_contacts', array($this, 'leadin_build_app'));
-            add_submenu_page('leadin', 'Flows', 'Flows', 'activate_plugins', 'leadin_flows', array($this, 'leadin_build_app'));
+            add_submenu_page('leadin', 'Lead Flows', 'Lead Flows', 'activate_plugins', 'leadin_flows', array($this, 'leadin_build_app'));
             add_submenu_page('leadin', 'Settings', 'Settings', 'activate_plugins', 'leadin_settings', array($this, 'leadin_build_app'));
 
             $submenu['leadin'][0][0] = 'Dashboard';
@@ -127,7 +127,13 @@ class WPLeadInAdmin
      */
     function leadin_plugin_settings_link($links)
     {
-        $url = get_admin_url(get_current_blog_id(), 'admin.php?page=leadin_settings');
+        $fullyRegistered = get_option('leadin_hapikey');
+        if ($fullyRegistered) {
+            $url = get_admin_url(get_current_blog_id(), 'admin.php?page=leadin_settings');
+        } else {
+            $url = get_admin_url(get_current_blog_id(), 'admin.php?page=leadin');
+        }
+
         $settings_link = '<a href="' . $url . '">Settings</a>';
         array_unshift($links, $settings_link);
         return $links;

@@ -505,7 +505,7 @@ class WP_Hummingbird_Sources_Group {
 			if ( false === $content ) {
 				WP_Hummingbird_Module_Minify::log( "Content empty, trying remote HTTP" );
 				// Try to get the file remotely
-				if ( ! preg_match( '/^http:/', $src ) ) {
+				if ( ! preg_match( '/^https?:/', $src ) ) {
 					// Rooted URL
 					$src = 'http:' . $src;
 				}
@@ -543,7 +543,9 @@ class WP_Hummingbird_Sources_Group {
 				include_once( 'class-jshrink-minifier.php' );
 				if ( $this->must_minify() ) {
 					try {
-						$content = WP_Hummingbird_JShrink_Minifier::minify( $content );
+						$minifier = new WP_Hummingbird_JShrink_Minifier();
+						$minifier->add( $content );
+						$content = $minifier->minify();
 					}
 					catch ( Exception $e ) {
 						WP_Hummingbird_Module_Minify::log( "Minification failed: " . $e->getMessage() );

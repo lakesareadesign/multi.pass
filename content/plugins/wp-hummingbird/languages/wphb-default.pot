@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the WP Hummingbird package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Hummingbird 1.2.1\n"
+"Project-Id-Version: WP Hummingbird 1.2.2\n"
 "Report-Msgid-Bugs-To: https://wpmudev.org\n"
-"POT-Creation-Date: 2016-05-17 11:24:11+00:00\n"
+"POT-Creation-Date: 2016-06-17 16:00:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,26 +24,26 @@ msgstr ""
 msgid "Settings Updated"
 msgstr ""
 
-#: admin/class-admin.php:48
+#: admin/class-admin.php:47
 msgid "Go to WP Hummingbird Dashboard"
 msgstr ""
 
-#: admin/class-admin.php:48
+#: admin/class-admin.php:47
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:73 admin/class-admin.php:88 admin/class-admin.php:103
+#: admin/class-admin.php:72 admin/class-admin.php:87 admin/class-admin.php:102
 #: admin/views/dashboard-performance-module-resume-meta-box.php:7
 #: admin/views/dashboard-welcome-meta-box.php:4
 #: admin/views/membership-modal.php:21
 msgid "Hummingbird"
 msgstr ""
 
-#: admin/class-admin.php:74 admin/class-admin.php:104
+#: admin/class-admin.php:73 admin/class-admin.php:103
 msgid "Dashboard"
 msgstr ""
 
-#: admin/class-admin.php:75 admin/class-admin.php:105
+#: admin/class-admin.php:74 admin/class-admin.php:104
 #: admin/class-dashboard-page.php:84 admin/class-dashboard-page.php:89
 #: admin/class-dashboard-page.php:90 admin/class-dashboard-page.php:93
 #: admin/class-dashboard-page.php:96 admin/class-dashboard-page.php:340
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Performance Report"
 msgstr ""
 
-#: admin/class-admin.php:76 admin/class-admin.php:88
+#: admin/class-admin.php:75 admin/class-admin.php:87
 #: admin/class-dashboard-page.php:105 admin/class-dashboard-page.php:115
 #: admin/class-dashboard-page.php:118 admin/class-dashboard-page.php:277
 #: admin/views/dashboard-minification-disabled-meta-box.php:5
@@ -62,32 +62,32 @@ msgstr ""
 msgid "Minification"
 msgstr ""
 
-#: admin/class-admin.php:77 admin/class-admin.php:106
+#: admin/class-admin.php:76 admin/class-admin.php:105
 #: admin/class-dashboard-page.php:125 admin/class-dashboard-page.php:128
 #: admin/class-dashboard-page.php:194
 #: admin/views/dashboard-caching-disabled-meta-box.php:5
 msgid "Browser Caching"
 msgstr ""
 
-#: admin/class-admin.php:78 admin/class-admin.php:107
+#: admin/class-admin.php:77 admin/class-admin.php:106
 #: admin/class-dashboard-page.php:134 admin/class-dashboard-page.php:137
 #: admin/class-dashboard-page.php:302
 #: admin/views/dashboard-gzip-disabled-meta-box.php:5
 msgid "GZIP Compression"
 msgstr ""
 
-#: admin/class-admin.php:79 admin/class-admin.php:108
+#: admin/class-admin.php:78 admin/class-admin.php:107
 #: admin/class-dashboard-page.php:146 admin/class-dashboard-page.php:201
 #: admin/views/dashboard-uptime-disabled-meta-box.php:5
 #: admin/views/dashboard-uptime-no-membership-meta-box.php:5
 msgid "Uptime Monitoring"
 msgstr ""
 
-#: admin/class-admin.php:79 admin/class-admin.php:108
+#: admin/class-admin.php:78 admin/class-admin.php:107
 #: admin/class-dashboard-page.php:149 admin/class-dashboard-page.php:152
 #: admin/class-dashboard-page.php:155 admin/class-uptime-page.php:17
 #: admin/class-uptime-page.php:20 admin/class-uptime-page.php:23
-#: admin/class-uptime-page.php:169
+#: admin/class-uptime-page.php:176
 #: admin/views/dashboard-uptime-module-meta-box.php:5
 #: admin/views/performance-uptime-meta-box.php:5
 #: admin/views/uptime-disabled-meta-box.php:5
@@ -172,20 +172,20 @@ msgstr ""
 msgid "Enable GZIP"
 msgstr ""
 
-#: admin/class-minification-page.php:156 admin/class-minification-page.php:159
+#: admin/class-minification-page.php:155 admin/class-minification-page.php:158
 msgid "Enqueued Files"
 msgstr ""
 
-#: admin/class-minification-page.php:160 admin/class-minification-page.php:345
+#: admin/class-minification-page.php:159 admin/class-minification-page.php:347
 msgid "Output (Header)"
 msgstr ""
 
-#: admin/class-minification-page.php:161 admin/class-minification-page.php:351
+#: admin/class-minification-page.php:160 admin/class-minification-page.php:353
 msgid "Output (Footer)"
 msgstr ""
 
-#: admin/class-minification-page.php:263 admin/class-minification-page.php:264
-#: admin/class-minification-page.php:265
+#: admin/class-minification-page.php:265 admin/class-minification-page.php:266
+#: admin/class-minification-page.php:267
 msgid "OTHER"
 msgstr ""
 
@@ -204,19 +204,15 @@ msgstr ""
 msgid "Run Test"
 msgstr ""
 
-#: admin/class-uptime-page.php:39
-msgid "Uptime error %d: %s"
-msgstr ""
-
-#: admin/class-uptime-page.php:104
+#: admin/class-uptime-page.php:111
 msgid "Last Day"
 msgstr ""
 
-#: admin/class-uptime-page.php:105
+#: admin/class-uptime-page.php:112
 msgid "Last Week"
 msgstr ""
 
-#: admin/class-uptime-page.php:106
+#: admin/class-uptime-page.php:113
 msgid "Last Month"
 msgstr ""
 
@@ -843,11 +839,6 @@ msgstr ""
 msgid "Re-Check Files"
 msgstr ""
 
-#: admin/views/enqueued-files-meta-box-footer.php:5
-#: admin/views/enqueued-files-meta-box-header.php:12
-msgid "Discard Changes"
-msgstr ""
-
 #: admin/views/enqueued-files-meta-box-footer.php:6
 #: admin/views/enqueued-files-meta-box-header.php:13
 msgid "Save Changes"
@@ -855,6 +846,10 @@ msgstr ""
 
 #: admin/views/enqueued-files-meta-box-header.php:6
 msgid "Disable Minification"
+msgstr ""
+
+#: admin/views/enqueued-files-meta-box-header.php:12
+msgid "Discard Changes"
 msgstr ""
 
 #: admin/views/gzip-enable-meta-box-footer.php:6
@@ -1304,21 +1299,21 @@ msgid "Minification Error: Incorrect type for the group"
 msgstr ""
 
 #: core/modules/minify/class-sources-group.php:526
-#: core/modules/minify/class-sources-group.php:608
+#: core/modules/minify/class-sources-group.php:610
 msgid ""
 "It looks like this file is empty or there was an error trying to get its "
 "content."
 msgstr ""
 
-#: core/modules/minify/class-sources-group.php:550
+#: core/modules/minify/class-sources-group.php:552
 msgid "Javascript compression failed: %s"
 msgstr ""
 
-#: core/modules/minify/class-sources-group.php:583
+#: core/modules/minify/class-sources-group.php:585
 msgid "Minification failed."
 msgstr ""
 
-#: core/modules/minify/class-sources-group.php:620
+#: core/modules/minify/class-sources-group.php:622
 msgid "Error saving compressed file"
 msgstr ""
 

@@ -62,9 +62,11 @@ class Upfront_Ajax extends Upfront_Server {
 		$parsed = false;
 		$post_id = (isset($_POST['post_id'])) ? (int)$_POST['post_id'] : false;
 
+		// Initialize the value
+		$post = false;
 
-		if (empty($layout_ids))
-			$this->_out(new Upfront_JsonResponse_Error("No such layout"));
+
+		if (empty($layout_ids)) $this->_out(new Upfront_JsonResponse_Error("No such layout"));
 
 		upfront_switch_stylesheet($stylesheet);
 
@@ -80,7 +82,7 @@ class Upfront_Ajax extends Upfront_Server {
 		}
 
 		// if post_id is false, still load_page_layout()
-		if ( !$post_id ) return $this->load_page_layout();
+		// if ( !$post_id ) return $this->load_page_layout(); // avoiding this for virtual pages (still use options table)
 
 		$layout = Upfront_Layout::from_entity_ids($layout_ids, $storage_key, $load_dev);
 
@@ -91,10 +93,9 @@ class Upfront_Ajax extends Upfront_Server {
 
 		global $upfront_ajax_query;
 
-		if(!$upfront_ajax_query)
-			$upfront_ajax_query = false;
+		if (!$upfront_ajax_query) $upfront_ajax_query = false;
 
-		if($post_type){
+		if ($post_type) {
 			$post = Upfront_PostModel::create($post_type);
 			// set new layout IDS based on the created post ID
 			$cascade = array(
@@ -315,11 +316,11 @@ class Upfront_Ajax extends Upfront_Server {
 		}
 
 		// if post_id is false, still use save_page_layout()
-		if ( !$post_id ) return $this->save_page_layout();
+		//if ( !$post_id ) return $this->save_page_layout();// NO! DO NOT DO THAT!
 
 		upfront_switch_stylesheet($stylesheet);
 
-		// for post still save on options
+		// for post and virtual pages still save on options
 		$layout = Upfront_Layout::from_php($data, $storage_key);
 		$key = $layout->save();
 
@@ -331,7 +332,7 @@ class Upfront_Ajax extends Upfront_Server {
 		if (!$data) $this->_out(new Upfront_JsonResponse_Error("Unknown layout"));
 		$stylesheet = ($_POST['stylesheet']) ? $_POST['stylesheet'] : get_stylesheet();
 		$save_dev = ( isset($_POST['save_dev']) && is_numeric($_POST['save_dev']) && $_POST['save_dev'] == 1 ) ? true : false;
-		$post_id = (isset($_POST['post_id'])) ? $_POST['post_id'] : false;
+		$post_id = ( isset($_POST['post_id']) && is_numeric($_POST['post_id']) && ((int)$_POST['post_id'] > 0) ) ? $_POST['post_id'] : false;
 
 		upfront_switch_stylesheet($stylesheet);
 
@@ -748,7 +749,7 @@ class Upfront_Ajax extends Upfront_Server {
 		}
 
 		// if post_id is false, still use update_page_layout_element()
-		if ( !$post_id ) return $this->update_page_layout_element();
+		// if ( !$post_id ) return $this->update_page_layout_element(); // avoiding this as keep on saving to options for virtual pages
 
 		$layout = Upfront_Layout::from_entity_ids($data['layout'], $data['storage_key']);
 		if(empty($layout))
