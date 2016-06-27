@@ -15,6 +15,7 @@ This filename is saved as metadata with each popup that uses these rules.
 Renaming the file will DISABLE the rules, which is very bad!
 */
 
+
 class IncPopupRule_Category extends IncPopupRule {
 
 	/**
@@ -30,8 +31,8 @@ class IncPopupRule_Category extends IncPopupRule {
 		// 'category' rule.
 		$this->add_rule(
 			'category',
-			__( 'On post category', PO_LANG ),
-			__( 'Shows the PopUp on pages that match any of the specified categories.', PO_LANG ),
+			__( 'On post category', 'popover' ),
+			__( 'Shows the PopUp on pages that match any of the specified categories.', 'popover' ),
 			'no_category',
 			30
 		);
@@ -39,8 +40,8 @@ class IncPopupRule_Category extends IncPopupRule {
 		// 'no_category' rule.
 		$this->add_rule(
 			'no_category',
-			__( 'Not on post category', PO_LANG ),
-			__( 'Shows the PopUp on pages that do not match any of the specified categories.', PO_LANG ),
+			__( 'Not on post category', 'popover' ),
+			__( 'Shows the PopUp on pages that do not match any of the specified categories.', 'popover' ),
 			'category',
 			30
 		);
@@ -61,8 +62,8 @@ class IncPopupRule_Category extends IncPopupRule {
 		);
 
 		$this->url_types = array(
-			'singular' => __( 'Singular', PO_LANG ),
-			'plural'   => __( 'Archive', PO_LANG ),
+			'singular' => __( 'Singular', 'popover' ),
+			'plural'   => __( 'Archive', 'popover' ),
 		);
 	}
 
@@ -117,8 +118,8 @@ class IncPopupRule_Category extends IncPopupRule {
 	protected function form_category( $data ) {
 		$this->render_form(
 			'category',
-			__( 'Show on these post categories:', PO_LANG ),
-			__( 'Show on these category type URLs:', PO_LANG ),
+			__( 'Show on these post categories:', 'popover' ),
+			__( 'Show on these category type URLs:', 'popover' ),
 			$data
 		);
 	}
@@ -131,7 +132,7 @@ class IncPopupRule_Category extends IncPopupRule {
 	 * @return mixed Data collection of this rule.
 	 */
 	protected function save_category( $data ) {
-		lib2()->array->equip( $data, 'category' );
+		lib3()->array->equip( $data, 'category' );
 		return $data['category'];
 	}
 
@@ -167,8 +168,8 @@ class IncPopupRule_Category extends IncPopupRule {
 	protected function form_no_category( $data ) {
 		$this->render_form(
 			'no_category',
-			__( 'Hide on these post categories:', PO_LANG ),
-			__( 'Hide on these category type URLs:', PO_LANG ),
+			__( 'Hide on these post categories:', 'popover' ),
+			__( 'Hide on these category type URLs:', 'popover' ),
 			$data
 		);
 	}
@@ -181,7 +182,7 @@ class IncPopupRule_Category extends IncPopupRule {
 	 * @return mixed Data collection of this rule.
 	 */
 	protected function save_no_category( $data ) {
-		lib2()->array->equip( $data, 'no_category' );
+		lib3()->array->equip( $data, 'no_category' );
 		return $data['no_category'];
 	}
 
@@ -272,8 +273,7 @@ class IncPopupRule_Category extends IncPopupRule {
 					}
 				}
 			}
-		}
-		else if ( ! $cur_single && in_array( 'plural', $url_types ) ) {
+		} elseif ( ! $cur_single && in_array( 'plural', $url_types ) ) {
 			if ( empty( $categories ) ) {
 				$response = true; // Any cat, archive
 			} else {
@@ -288,7 +288,6 @@ class IncPopupRule_Category extends IncPopupRule {
 
 		return $response;
 	}
-
 };
 
 IncPopupRules::register( 'IncPopupRule_Category' );

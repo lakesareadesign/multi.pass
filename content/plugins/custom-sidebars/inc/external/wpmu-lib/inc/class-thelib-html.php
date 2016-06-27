@@ -1,10 +1,11 @@
 <?php
 /**
  * HTML Helper functions
+ * Access via function `lib3()->html`.
  *
  * @since 1.1.0
  */
-class TheLib_2_0_3_Html extends TheLib_2_0_3  {
+class TheLib_Html extends TheLib  {
 
 	/* Constants for default HTML input elements. */
 	const INPUT_TYPE_HIDDEN = 'hidden';
@@ -46,45 +47,6 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 	 */
 	public function __construct() {
 		parent::__construct();
-	}
-
-
-	/*=====================================*\
-	=========================================
-	==                                     ==
-	==           WPMUI-FUNCTIONS           ==
-	==                                     ==
-	=========================================
-	\*=====================================*/
-
-
-	/**
-	 * Displays a WordPress like message to the user. The message is generated
-	 * via Javascript after the page is fully loaded.
-	 *
-	 * Should only be used in the Admin-Side
-	 *
-	 * @since  1.1.0
-	 * @api
-	 *
-	 * @param  string $text Contents of the message.
-	 * @return Reference to $this for chaining.
-	 */
-	public function message( $text, $type = 'ok', $id = 'msg_ok', $close = true ) {
-		self::$core->ui->add( 'core' );
-
-		$data = array(
-			'message' => $text,
-			'type' => $type,
-			'id' => $id,
-			'close' => $close,
-		);
-		printf(
-			'<script>jQuery(function(){ wpmUi.message( %s ) });</script>',
-			json_encode( $data )
-		);
-
-		return $this;
 	}
 
 
@@ -144,7 +106,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		$modal = self::$core->is_true( $modal );
 		$blur = self::$core->is_true( $blur );
 
-		$this->_add( 'init_pointer', compact( 'pointer_id', 'html_el', 'title', 'body', 'once', 'modal', 'blur' ) );
+		$this->_add( 'init_pointer', compact( 'pointer_id', 'html_el', 'title', 'body', 'once', 'modal', 'blur' ) );							 			 	 	 		  
 		$this->add_action( 'init', '_init_pointer' );
 
 		return $this;
@@ -251,10 +213,10 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		$args['height'] = absint( $args['height'] );
 
 		if ( $args['width'] < 20 ) {
-			$args['width'] = '';
+			$args['width'] = -1;
 		}
 		if ( $args['height'] < 20 ) {
-			$args['height'] = '';
+			$args['height'] = -1;
 		}
 
 		$args['modal'] = $args['modal'] ? 'true' : 'false';
@@ -344,8 +306,9 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 	 *
 	 * @return Reference to $this for chaining.
 	 */
-	public function plugin_list( $items, $lang, $filters ) {
-		self::$core->ui->add( 'card_list' );
+	public function addon_list( $items, $lang, $filters ) {
+		self::$core->ui->css( $this->_css_url( 'wpmu-card-list.3.min.css' ) );
+		self::$core->ui->js( $this->_js_url( 'wpmu-card-list.3.min.js' ) );
 		include $this->_view_path( 'list.php' );
 		return $this;
 	}
@@ -399,7 +362,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 			if ( $return ) {
 				return $field_args;
 			} else {
-				echo '' . $field_args;
+				echo $field_args;
 				return;
 			}
 		}
@@ -427,7 +390,6 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 			'placeholder'    => '',
 			'data_placeholder' => '',
 			'ajax_data'      => '',
-			'data_ms'        => '', // alias for "ajax_data"
 			'data'           => array(),
 			'label_type'     => 'label',
 			'sticky'         => false, // populate $value from $_REQUEST struct
@@ -483,7 +445,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 				$ajax_data['_wpnonce'] = wp_create_nonce( $ajax_data['action'] );
 			}
 
-			$ajax_data = ' data-ajax="' . esc_attr( json_encode( $ajax_data ) ) . '" ';
+			$ajax_data = ' data-wpmui-ajax="' . esc_attr( json_encode( $ajax_data ) ) . '" ';
 		}
 
 		$max_attr = empty( $maxlength ) ? '' : 'maxlength="' . esc_attr( $maxlength ) . '" ';
@@ -493,6 +455,9 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		$data_attr = '';
 		foreach ( $data as $data_key => $data_value ) {
 			$data_attr .= 'data-' . $data_key . '=' . json_encode( $data_value ) . ' ';
+		}
+		foreach ( $config as $conf_key => $conf_value ) {
+			$data_attr .= $conf_key . '=' . json_encode( $conf_value ) . ' ';
 		}
 
 		if ( ! empty( $ajax_data ) ) {
@@ -547,11 +512,6 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 			case self::INPUT_TYPE_TIME:
 			case self::INPUT_TYPE_SEARCH:
 			case self::INPUT_TYPE_FILE:
-				$attr = array();
-				foreach ( $config as $conf_key => $conf_value ) {
-					$attr[] = $conf_key . '="' . esc_attr( $conf_value ) . '"';
-				}
-
 				$this->element_input(
 					$labels,
 					$type,
@@ -559,7 +519,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 					$id,
 					$name,
 					$value,
-					$read_only . $max_attr . $attr_placeholder . $ajax_data . $data_attr . implode( ' ', $attr ),
+					$read_only . $max_attr . $attr_placeholder . $ajax_data . $data_attr,
 					$wrapper_class
 				);
 				break;
@@ -1134,7 +1094,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		if ( $state ) { $value = $options['active']; }
 		else { $value = $options['inactive']; }
 
-		$turned = ( $value ) ? 'on' : '';
+		$turned = ( $value ) ? 'on' : 'off';
 
 		$this->wrap_open( 'radio-slider', $class, 'span', $turned . ' ' . $wrapper_class );
 		$this->element_label( $labels );
@@ -1337,7 +1297,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		printf(
 			'<a id="%1$s" title="%2$s" class="wpmui-link %3$s" href="%4$s" target="%7$s" %6$s>%5$s</a>',
 			esc_attr( $id ),
-			esc_attr( $title ),
+			esc_attr( strip_tags( $title ) ),
 			esc_attr( $class ),
 			esc_url( $url ),
 			$label,
@@ -1624,7 +1584,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		}
 
 		if ( empty( $labels->title ) ) {
-			echo '' . $labels->tooltip_code;
+			echo $labels->tooltip_code;
 		}
 	}
 
@@ -1652,7 +1612,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		<div class="wpmui-tooltip">
 			<div class="wpmui-tooltip-button">&times;</div>
 			<div class="wpmui-tooltip-content">
-			<?php echo '' . $tip; ?>
+			<?php echo $tip; ?>
 			</div>
 		</div>
 		<?php
@@ -1661,4 +1621,4 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		if ( $return ) { return ob_get_clean(); }
 	}
 
-};
+}

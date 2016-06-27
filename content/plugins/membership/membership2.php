@@ -1,10 +1,9 @@
 <?php
-
 /**
  * Plugin Name: Membership 2 Pro
  * Plugin URI:  https://premium.wpmudev.org/project/membership/
- * Version:     1.0.3.1
- * Build Stamp: 2016-06-16T19:43:25.409Z
+ * Version:     1.0.3.3
+ * Build Stamp: 2016-06-22T22:23:01.107Z
  * Description: The most powerful, easy to use and flexible membership plugin for WordPress sites available.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
@@ -15,7 +14,6 @@
  *
  * @package Membership2
  */
-
 
 /**
  * Copyright notice
@@ -51,8 +49,8 @@
 
 function membership2_init_app() {
 	if ( defined( 'MS_PLUGIN' ) ) {
-		$plugin_name = 'Membership 2 Pro';
 
+		$plugin_name = 'Membership 2 Pro';
 		if ( is_admin() ) {
 			// Can happen in Multisite installs where a sub-site has activated the
 			// plugin and then the plugin is also activated in network-admin.
@@ -76,6 +74,19 @@ function membership2_init_app() {
 	define(
 		'MS_PLUGIN_VERSION'
 		, '1.0.3.0'
+
+	);
+
+	/**
+	 * Free or pro plugin?
+	 * This only affects some display settings, it does not really lock/unlock
+	 * any premium features...
+	 *
+	 * @since  1.0.3.2
+	 */
+	define(
+		'MS_IS_PRO'
+		,true
 
 	);
 
@@ -421,7 +432,6 @@ if ( isset( $_REQUEST['ms_ajax'] ) ) {
 		}
 	}
 }
-
 
 
 

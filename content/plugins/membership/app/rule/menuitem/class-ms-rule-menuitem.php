@@ -45,7 +45,7 @@ class MS_Rule_MenuItem extends MS_Controller {
 	 * @return array Correct callback.
 	 */
 	public function handle_render_callback( $callback, $data ) {
-		$view = MS_Factory::load( 'MS_Rule_MenuItem_View' );	   	 	 		 	  					  
+		$view = MS_Factory::load( 'MS_Rule_MenuItem_View' );
 
 		$view->data = $data;
 		$callback = array( $view, 'to_html' );

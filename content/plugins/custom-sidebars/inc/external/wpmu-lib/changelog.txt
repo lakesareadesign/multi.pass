@@ -4,6 +4,38 @@ Author:      Philipp Stracker
 Change Log:
 ----------------------------------------------------------------------
 
+3.0.0
+----------------------------------------------------------------------
+PHP
+- Improve performance of initial module loading
+- Change library function from `lib2()` to `lib3()`
+- Add a P3P header so IE stores session data
+- Remove deprecated function `lib3()->translate_plugin()`
+- Remove deprecated function `lib3()->html->message()`
+- Add convenience function `lib3()->is_false()`
+- Rename `lib3()->html->plugin_list()` to `addon_list()`
+- Hide the "Details" link for disabled add-ons in the addon-list
+
+JS
+- Big improvements to the `wpmUi.popup()` function (templates, custom css, ...)
+- Add WordPress-like hook integration `wpmUi.add_action()`, `wpmUi.do_action()`, ...
+- Update select2 library from v3.5 to v4.0
+- Remove tiny-scrollbar JS library
+
+CSS
+- Update fontawesome library from v4.2 to v4.4
+- Update jQuery UI CSS from v1.10.4 to v1.11.4
+- Add animate.css library v3.4
+
+Migration notes
+- Rename `lib2()` to `lib3()`
+- Remove `->ui->add('scrollbar')`, add custom solution via CSS
+- Remove `->translate_plugin` with direct locationzation code
+- Replace `->html->message` with `->ui->admin_message`
+- Replace `->html->plugin_list` with `->html->addon_list`
+
+= v 3.0 ==============================================================
+
 2.0.2
 ----------------------------------------------------------------------
 - Fix bug with wpmui.popup contents
@@ -32,6 +64,8 @@ Change Log:
 - Added new functions
 - Much better documentation of the library
 - Great improvements in the debugger output
+
+= v 2.0 ==============================================================
 
 1.1.3
 ----------------------------------------------------------------------
@@ -145,4 +179,4 @@ Change Log:
 - First version.
 
 
-133620-1449637571-au
+133620-1467043643-au

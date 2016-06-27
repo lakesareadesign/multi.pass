@@ -1,10 +1,10 @@
 /**
  * Style: Minimal
  */
-.has-popup.no-scroll {
+html.no-scroll {
   overflow: hidden;
 }
-.has-popup.no-scroll body {
+html.no-scroll body {
   overflow: hidden;
 }
 
@@ -33,8 +33,11 @@
   bottom: 0;
   overflow: auto;
   background: rgba(0, 0, 0, 0.5);
-  padding: 0 50px 0 50px;
+  padding: 0;
   /* Default: Image on right side */
+}
+#messagebox *, #messagebox *:before, #messagebox *:after {
+  box-sizing: content-box;
 }
 #messagebox.custom-size {
   padding: 0;
@@ -66,7 +69,7 @@
 #messagebox .wdpu-msg {
   position: relative;
   display: block;
-  margin: 0 auto 30px;
+  margin: 0;
   text-align: left;
   box-shadow: 0 2px 40px rgba(0, 0, 0, 0.3);
   font-size: 15px;
@@ -142,6 +145,7 @@
   height: 100%;
   width: auto;
   position: relative;
+  max-width: none;
 }
 #messagebox .wdpu-middle {
   position: relative;
@@ -262,7 +266,7 @@
 
 @media screen and (max-width: 770px) and (min-width: 480px) {
   #messagebox {
-    padding: 0 50px 0 50px;
+    padding: 0;
   }
   #messagebox .wdpu-image, #messagebox.img-right .wdpu-image, #messagebox.img-left .wdpu-image, #messagebox.no-img .wdpu-image {
     width: 100%;
@@ -308,7 +312,7 @@
 }
 @media screen and (max-width: 480px) {
   #messagebox {
-    padding: 0 10px 0 10px;
+    padding: 0;
   }
   #messagebox .wdpu-image, #messagebox.img-right .wdpu-image, #messagebox.img-left .wdpu-image, #messagebox.no-img .wdpu-image {
     width: 100%;
@@ -354,4 +358,4 @@
 }
 
 
-/* 133620-1441125802-au */
+/* 133620-1467043657-au */

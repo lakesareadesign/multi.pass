@@ -1,11 +1,11 @@
 <?php
 /**
  * The Net component.
- * Access via function `lib2()->net`.
+ * Access via function `lib3()->net`.
  *
  * @since  2.0.0
  */
-class TheLib_2_0_3_Net extends TheLib_2_0_3 {
+class TheLib_Net extends TheLib {
 
 	/**
 	 * Returns the current URL.
@@ -39,7 +39,7 @@ class TheLib_2_0_3_Net extends TheLib_2_0_3 {
 				$cur_url = $protocol;
 			}
 
-			$is_ssl = 'https' === $cur_url;
+			$is_ssl = (false !== strpos( $cur_url, 'https' ));
 			$cur_url .= '://';
 
 			if ( isset( $_SERVER['SERVER_NAME'] ) ) {
@@ -174,7 +174,7 @@ class TheLib_2_0_3_Net extends TheLib_2_0_3 {
 		header( 'Content-Length: ' . strlen( $contents ) );
 
 		// Finally send the export-file content.
-		echo '' . $contents;
+		echo $contents;
 
 		exit;
 	}

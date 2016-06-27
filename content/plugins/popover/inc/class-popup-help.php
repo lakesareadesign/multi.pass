@@ -57,7 +57,7 @@ class IncPopupHelp {
 		$screen->add_help_tab(
 			array(
 				'id'       => 'help_shortcodes',
-				'title'    => __( 'Shortcodes', PO_LANG ),
+				'title'    => __( 'Shortcodes', 'popover' ),
 				'callback' => array( $this, 'content_shortcodes' ),
 			)
 		);
@@ -71,7 +71,6 @@ class IncPopupHelp {
 	 * @since  4.6.1.1
 	 */
 	public function content_shortcodes() {
-		include PO_VIEWS_DIR . 'info-shortcodes.php';
+		IncPopup::load_view( 'info-shortcodes' );
 	}
-
 };

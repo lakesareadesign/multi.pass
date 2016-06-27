@@ -27,6 +27,12 @@
 .post-type-inc_popup .status-trash .status-icon:before {
   content: "\f182";
 }
+.post-type-inc_popup .wpmui-grid-12.chk-custom-colors {
+  overflow: visible;
+}
+.post-type-inc_popup .wpmui-grid-12.chk-custom-colors.inactive {
+  overflow: hidden;
+}
 
 select.block,
 textarea.block,
@@ -314,6 +320,17 @@ div.msg-err {
 ==                            ==
 ================================
 \*============================*/
+/* Submit-Div is floating in top/right corner (does not scroll) */
+.floating-submit #submitdiv.closed,
+.floating-submit #submitdiv {
+  position: fixed;
+  top: 52px;
+  width: 280px;
+  right: 20px;
+  box-sizing: border-box;
+}
+
+/* Submit-Div sticks to the top of the window, whole width (does not scroll) */
 .sticky-submit #submitdiv.closed,
 .sticky-submit #submitdiv {
   position: fixed;
@@ -1158,4 +1175,4 @@ div.msg-err {
 }
 
 
-/* 133620-1441125802-au */
+/* 133620-1467043657-au */

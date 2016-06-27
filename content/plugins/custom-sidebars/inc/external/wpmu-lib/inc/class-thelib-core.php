@@ -1,13 +1,13 @@
 <?php
 /**
  * Main access to the Code-Library.
- * Access via function `lib2()`.
+ * Access via function `lib3()`.
  *
  * Inspired by Jigsaw plugin by Jared Novack (http://jigsaw.upstatement.com/)
  *
  * @since  1.0.0
  */
-class TheLib_2_0_3_Core extends TheLib_2_0_3 {
+class TheLib_Core extends TheLib {
 
 	/**
 	 * Interface to the array component.
@@ -105,37 +105,8 @@ class TheLib_2_0_3_Core extends TheLib_2_0_3 {
 		foreach ( $components as $component ) {
 			if ( ! property_exists( $this, $component ) ) { continue; }
 
-			$class_name = str_replace( 'Core', ucfirst( $component ), __CLASS__ );
+			$class_name = 'TheLib_' . ucfirst( $component );
 			$this->$component = new $class_name();
-		}
-	}
-
-	/**
-	 * Short way to load the textdomain of a plugin.
-	 *
-	 * @since  1.0.0
-	 * @api
-	 *
-	 * @param  string $domain Translations will be mapped to this domain.
-	 * @param  string $rel_dir Path to the dictionary folder; relative to ABSPATH.
-	 */
-	public function translate_plugin( $domain, $rel_dir ) {
-		$this->_add( 'textdomain', compact( 'domain', 'rel_dir' ) );
-
-		$this->add_action( 'plugins_loaded', '_translate_plugin_callback' );
-	}
-
-	/**
-	 * Create function callback for load textdomain (for PHP <5.3 only)
-	 *
-	 * @since  1.0.1
-	 * @internal
-	 */
-	public function _translate_plugin_callback() {
-		$items = $this->_get( 'textdomain' );
-		foreach ( $items as $item ) {
-			extract( $item ); // domain, rel_dir
-			load_plugin_textdomain( $domain, false, $rel_dir );
 		}
 	}
 
@@ -150,8 +121,8 @@ class TheLib_2_0_3_Core extends TheLib_2_0_3 {
 	 * @since  1.1.0
 	 * @api
 	 *
-	 * @param  mixed $value A value that will be evaluated into a boolean.
-	 * @return bool True if the specified $value evaluated to true.
+	 * @param  mixed $value A value that will be evaluated as a boolean.
+	 * @return bool True if the specified $value evaluated to TRUE.
 	 */
 	public function is_true( $value ) {
 		if ( false === $value || null === $value || '' === $value ) {
@@ -169,6 +140,17 @@ class TheLib_2_0_3_Core extends TheLib_2_0_3 {
 			);
 		}
 		return false;
+	}
+
+	/**
+	 * Opposite of the is_true() function.
+	 *
+	 * @since  3.0.0
+	 * @param  mixed $value A value that will be evaluated as a boolean
+	 * @return bool True if the speciefied value evals as FALSE
+	 */
+	public function is_false( $value ) {
+		return ! $this->is_true( $value );
 	}
 
 	/**
@@ -236,4 +218,4 @@ class TheLib_2_0_3_Core extends TheLib_2_0_3 {
 		return $retval;
 	}
 
-};
+}

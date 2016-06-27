@@ -109,7 +109,16 @@ abstract class TheLib {
 
 		self::$_have_session = false;
 
+		if ( defined( 'WDEV_USE_SESSION' ) ) {
+			$use_session = WDEV_USE_SESSION;
+		} else {
+			$use_session = true;
+		}
+		$use_session = apply_filters( 'wdev_lib-use_session', $use_session );
+
 		if ( ! session_id() ) {
+			if ( ! $use_session ) { return false; }
+
 			if ( ! headers_sent() ) {
 				/**
 				 * Fix for IE: This is a privacy policy which states, that we do
@@ -139,6 +148,8 @@ abstract class TheLib {
 		} else {
 			self::$_have_session = true;
 		}
+
+		return true;
 	}
 
 	/**
@@ -338,5 +349,4 @@ abstract class TheLib {
 			add_action( $tag, array( $this, $function ), $priority );
 		}
 	}
-
 }

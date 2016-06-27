@@ -41,8 +41,6 @@ class IncPopupAddon_AnonyousLoading {
 	 * @since  4.6
 	 */
 	static public function init() {
-		self::$_slug = self::_generate_slug();
-
 		if ( is_admin() ) {
 			// Called from the PopUp Settings screen.
 			add_filter(
@@ -50,13 +48,18 @@ class IncPopupAddon_AnonyousLoading {
 				array( __CLASS__, 'settings' )
 			);
 		} else {
+
 			// Called when initializing custom loading method in the Front-End.
 			add_action(
 				'popup-init-loading-method',
 				array( __CLASS__, 'init_public' ),
 				10, 2
 			);
+
 		}
+
+
+		self::$_slug = self::_generate_slug();
 
 		// Modify the HTML/CSS code of the ajax response.
 		add_filter(
@@ -64,6 +67,7 @@ class IncPopupAddon_AnonyousLoading {
 			array( __CLASS__, 'filter_script_data' ),
 			10, 2
 		);
+
 	}
 
 	/**
@@ -75,17 +79,22 @@ class IncPopupAddon_AnonyousLoading {
 	 * @return array
 	 */
 	static public function settings( $loading_methods ) {
+
+		$pro_only = '';
+
 		$loading_methods[] = (object) array(
 			'id'    => self::METHOD,
-			'label' => __( 'Anonymous Script', PO_LANG ),
+			'label' => __( 'Anonymous Script', 'popover' ) . $pro_only,
 			'info'  => __(
 				'Drastically increase the chance to bypass ad-blockers. ' .
 				'Loads PopUp like WordPress AJAX, but the URL to the ' .
-				'JavaScript file is masked. ', PO_LANG
+				'JavaScript file is masked. ', 'popover'
 			),
+			'disabled' => ! ! $pro_only,
 		);
 		return $loading_methods;
 	}
+
 
 	/**
 	 * Enqueue the anonymous script.
@@ -102,7 +111,7 @@ class IncPopupAddon_AnonyousLoading {
 		$slug = self::$_slug;
 		$val = self::_rot( time(), rand( 1, 22 ) );
 		$script_url = esc_url_raw(
-			add_query_arg( array( $slug => $val ), lib2()->net->current_url() )
+			add_query_arg( array( $slug => $val ), lib3()->net->current_url() )
 		);
 
 		// The script is the home URL with a special URL-param.
@@ -113,13 +122,14 @@ class IncPopupAddon_AnonyousLoading {
 		);
 
 		// Enable animations in 'Anonymous Script'
-		lib2()->ui->add( PO_CSS_URL . 'animate.min.css', 'front' );
+		lib3()->ui->add( 'animate', 'front' );
+		lib3()->ui->add( 'core', 'front' );
 
 		// This checks if the current URL contains the special URL-param.
 		// If the param is found then the PopUp details are output instead of the page.
 		add_action(
 			'template_redirect',
-			array( __CLASS__, 'apply')
+			array( __CLASS__, 'apply' )
 		);
 	}
 
@@ -258,7 +268,7 @@ class IncPopupAddon_AnonyousLoading {
 	 */
 	static public function has_fragment() {
 		$slug = self::$_slug;
-		return ! empty( $_GET[$slug] );
+		return ! empty( $_GET[ $slug ] );
 	}
 
 	/**
@@ -300,6 +310,7 @@ class IncPopupAddon_AnonyousLoading {
 		$shifted = substr( $letters, $offset ) . substr( $letters, 0, $offset );
 		return strtr( $str, $letters, $shifted );
 	}
+
 }
 
 IncPopupAddon_AnonyousLoading::init();

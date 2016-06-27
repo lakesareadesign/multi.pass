@@ -1,10 +1,11 @@
 <?php
 /**
  * HTML Helper functions
+ * Access via function `lib3()->html`.
  *
  * @since 1.1.0
  */
-class TheLib_2_0_3_Html extends TheLib_2_0_3  {
+class TheLib_Html extends TheLib  {
 
 	/* Constants for default HTML input elements. */
 	const INPUT_TYPE_HIDDEN = 'hidden';
@@ -46,45 +47,6 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 	 */
 	public function __construct() {
 		parent::__construct();
-	}
-
-
-	/*=====================================*\
-	=========================================
-	==                                     ==
-	==           WPMUI-FUNCTIONS           ==
-	==                                     ==
-	=========================================
-	\*=====================================*/
-
-
-	/**
-	 * Displays a WordPress like message to the user. The message is generated
-	 * via Javascript after the page is fully loaded.
-	 *
-	 * Should only be used in the Admin-Side
-	 *
-	 * @since  1.1.0
-	 * @api
-	 *
-	 * @param  string $text Contents of the message.
-	 * @return Reference to $this for chaining.
-	 */
-	public function message( $text, $type = 'ok', $id = 'msg_ok', $close = true ) {
-		self::$core->ui->add( 'core' );
-
-		$data = array(
-			'message' => $text,
-			'type' => $type,
-			'id' => $id,
-			'close' => $close,
-		);
-		printf(
-			'<script>jQuery(function(){ wpmUi.message( %s ) });</script>',
-			json_encode( $data )
-		);
-
-		return $this;
 	}
 
 
@@ -251,10 +213,10 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		$args['height'] = absint( $args['height'] );
 
 		if ( $args['width'] < 20 ) {
-			$args['width'] = '';
+			$args['width'] = -1;
 		}
 		if ( $args['height'] < 20 ) {
-			$args['height'] = '';
+			$args['height'] = -1;
 		}
 
 		$args['modal'] = $args['modal'] ? 'true' : 'false';
@@ -344,8 +306,9 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 	 *
 	 * @return Reference to $this for chaining.
 	 */
-	public function plugin_list( $items, $lang, $filters ) {
-		self::$core->ui->add( 'card_list' );
+	public function addon_list( $items, $lang, $filters ) {
+		self::$core->ui->css( $this->_css_url( 'wpmu-card-list.3.min.css' ) );
+		self::$core->ui->js( $this->_js_url( 'wpmu-card-list.3.min.js' ) );
 		include $this->_view_path( 'list.php' );
 		return $this;
 	}
@@ -399,7 +362,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 			if ( $return ) {
 				return $field_args;
 			} else {
-				echo '' . $field_args;
+				echo $field_args;
 				return;
 			}
 		}
@@ -427,7 +390,6 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 			'placeholder'    => '',
 			'data_placeholder' => '',
 			'ajax_data'      => '',
-			'data_ms'        => '', // alias for "ajax_data"
 			'data'           => array(),
 			'label_type'     => 'label',
 			'sticky'         => false, // populate $value from $_REQUEST struct
@@ -483,7 +445,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 				$ajax_data['_wpnonce'] = wp_create_nonce( $ajax_data['action'] );
 			}
 
-			$ajax_data = ' data-ajax="' . esc_attr( json_encode( $ajax_data ) ) . '" ';
+			$ajax_data = ' data-wpmui-ajax="' . esc_attr( json_encode( $ajax_data ) ) . '" ';
 		}
 
 		$max_attr = empty( $maxlength ) ? '' : 'maxlength="' . esc_attr( $maxlength ) . '" ';
@@ -1622,7 +1584,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		}
 
 		if ( empty( $labels->title ) ) {
-			echo '' . $labels->tooltip_code;
+			echo $labels->tooltip_code;
 		}
 	}
 
@@ -1650,7 +1612,7 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		<div class="wpmui-tooltip">
 			<div class="wpmui-tooltip-button">&times;</div>
 			<div class="wpmui-tooltip-content">
-			<?php echo '' . $tip; ?>
+			<?php echo $tip; ?>
 			</div>
 		</div>
 		<?php
@@ -1659,4 +1621,4 @@ class TheLib_2_0_3_Html extends TheLib_2_0_3  {
 		if ( $return ) { return ob_get_clean(); }
 	}
 
-};
+}

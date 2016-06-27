@@ -1,11 +1,35 @@
 <?php
 /**
  * The UI component.
- * Access via function `lib2()->ui`.
+ * Access via function `lib3()->ui`.
  *
  * @since  1.1.4
  */
-class TheLib_2_0_3_Ui extends TheLib_2_0_3 {
+class TheLib_Ui extends TheLib {
+
+	// Load the main JS module (the wpmUi object) and basic styles.
+	const MODULE_CORE = 'core';
+
+	// Load CSS animations.
+	const MODULE_ANIMATION = 'animate';
+
+	// Custom select2 integration. JS: wpmUi.upgrade_multiselect()
+	const MODULE_SELECT = 'select';
+
+	// Vertical navigation support.
+	const MODULE_VNAV = 'vnav';
+
+	// Styles for lib3()->html->element() output.
+	const MODULE_HTML = 'html_element';
+
+	// WordPress media gallery support.
+	const MODULE_MEDIA = 'media';
+
+	// Fontawesome CSS icons.
+	const MODULE_ICONS = 'fontawesome';
+
+	// jQuery datepicker, draggable, jQuery-UI styles.
+	const MODULE_JQUERY = 'jquery-ui';
 
 	/**
 	 * Class constructor
@@ -28,7 +52,6 @@ class TheLib_2_0_3_Ui extends TheLib_2_0_3 {
 	 *
 	 * Defined modules:
 	 *  - core
-	 *  - scrollbar
 	 *  - select
 	 *  - vnav
 	 *  - card-list
@@ -48,33 +71,29 @@ class TheLib_2_0_3_Ui extends TheLib_2_0_3 {
 	public function add( $module = 'core', $onpage = 'all' ) {
 		switch ( $module ) {
 			case 'core':
-				$this->css( $this->_css_url( 'wpmu-ui.2.min.css' ), $onpage );
-				$this->js( $this->_js_url( 'wpmu-ui.2.min.js' ), $onpage );
+				$this->css( $this->_css_url( 'wpmu-ui.3.min.css' ), $onpage );
+				$this->js( $this->_js_url( 'wpmu-ui.3.min.js' ), $onpage );
 				break;
 
-			case 'scrollbar':
-				$this->js( $this->_js_url( 'tiny-scrollbar.2.min.js' ), $onpage );
+			case 'animate':
+			case 'animation':
+				$this->css( $this->_css_url( 'animate.3.min.css' ), $onpage );
 				break;
 
 			case 'select':
-				$this->css( $this->_css_url( 'select2.2.min.css' ), $onpage );
-				$this->js( $this->_js_url( 'select2.2.min.js' ), $onpage );
+				$this->css( $this->_css_url( 'select2.3.min.css' ), $onpage );
+				$this->js( $this->_js_url( 'select2.3.min.js' ), $onpage );
 				break;
 
 			case 'vnav':
-				$this->css( $this->_css_url( 'wpmu-vnav.2.min.css' ), $onpage );
-				$this->js( $this->_js_url( 'wpmu-vnav.2.min.js' ), $onpage );
-				break;
-
-			case 'card-list':
-			case 'card_list':
-				$this->css( $this->_css_url( 'wpmu-card-list.2.min.css' ), $onpage );
-				$this->js( $this->_js_url( 'wpmu-card-list.2.min.js' ), $onpage );
+				$this->css( $this->_css_url( 'wpmu-vnav.3.min.css' ), $onpage );
+				$this->js( $this->_js_url( 'wpmu-vnav.3.min.js' ), $onpage );
 				break;
 
 			case 'html-element':
 			case 'html_element':
-				$this->css( $this->_css_url( 'wpmu-html.2.min.css' ), $onpage );
+			case 'html':
+				$this->css( $this->_css_url( 'wpmu-html.3.min.css' ), $onpage );
 				break;
 
 			case 'media':
@@ -82,20 +101,22 @@ class TheLib_2_0_3_Ui extends TheLib_2_0_3 {
 				break;
 
 			case 'fontawesome':
-				$this->css( $this->_css_url( 'fontawesome.2.min.css' ), $onpage );
+			case 'icons':
+				$this->css( $this->_css_url( 'fontawesome.3.min.css' ), $onpage );
 				break;
 
 			case 'jquery-ui':
+			case 'jquery':
 				$this->js( 'jquery-ui-core', $onpage );
 				$this->js( 'jquery-ui-datepicker', $onpage );
 				$this->js( 'jquery-ui-draggable', $onpage );
-				$this->css( $this->_css_url( 'jquery-ui.wpmui.2.min.css' ), $onpage );
+				$this->css( $this->_css_url( 'jquery-ui.wpmui.3.min.css' ), $onpage );
 				break;
 
 			default:
 				$ext = strrchr( $module, '.' );
 
-				if ( defined( 'WDEV_UNMINIFIED' ) && WDEV_UNMINIFIED ) {
+				if ( WDEV_UNMINIFIED ) {
 					$module = str_replace( '.min' . $ext, $ext, $module );
 				}
 				if ( '.css' === $ext ) {
@@ -289,11 +310,13 @@ class TheLib_2_0_3_Ui extends TheLib_2_0_3 {
 	 *
 	 * @since  1.0.1
 	 * @internal
-	 *
-	 * @param  string $hook The current admin page that is rendered.
 	 */
-	public function _enqueue_style_callback( $hook = '' ) {
+	public function _enqueue_style_callback() {
+		global $hook_suffix;
+
 		$items = $this->_get( 'css' );
+		$this->_clear( 'css' );
+		$hook = $hook_suffix;
 
 		if ( empty( $hook ) ) { $hook = 'front'; }
 
@@ -319,11 +342,13 @@ class TheLib_2_0_3_Ui extends TheLib_2_0_3 {
 	 *
 	 * @since  1.0.1
 	 * @internal
-	 *
-	 * @param  string $hook The current admin page that is rendered.
 	 */
-	public function _enqueue_script_callback( $hook = '' ) {
+	public function _enqueue_script_callback() {
+		global $hook_suffix;
+
 		$items = $this->_get( 'js' );
+		$this->_clear( 'js' );
+		$hook = $hook_suffix;
 
 		if ( empty( $hook ) ) { $hook = 'front'; }
 
@@ -509,4 +534,4 @@ class TheLib_2_0_3_Ui extends TheLib_2_0_3 {
 		}
 	}
 
-};
+}

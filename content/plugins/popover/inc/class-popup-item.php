@@ -17,6 +17,7 @@ class IncPopupItem {
 		'delay'  /* show popup after X seconds */,
 		'scroll' /* show popup when user scrolls X % down */,
 		'anchor' /* show popup when user scrolls past element X */,
+		'manual' /* popup is controlled via javascript */,
 	);
 
 	// Internal Popup ID.
@@ -229,7 +230,7 @@ class IncPopupItem {
 		$this->display = 'delay';
 		$this->display_data = array(
 			'delay' => 0,
-			'delay_type' => 0,
+			'delay_type' => 's',
 			'scroll' => 0,
 			'scroll_type' => '%',
 			'anchor' => '',
@@ -375,7 +376,7 @@ class IncPopupItem {
 		if ( ! is_array( $this->rule ) ) { $this->rule = array(); }
 		$this->rule_files = array();
 		foreach ( $this->rule as $ind => $key ) {
-			if ( empty( $key ) ) { unset( $this->rule[$ind] ); }
+			if ( empty( $key ) ) { unset( $this->rule[ $ind ] ); }
 
 			// Set rule-files.
 			$file = IncPopupRules::file_for_rule( $key );
@@ -385,7 +386,7 @@ class IncPopupItem {
 		}
 		if ( ! is_array( $this->rule_data ) ) { $this->rule_data = array(); }
 		foreach ( $this->rule_data as $ind => $key ) {
-			if ( empty( $key ) ) { unset( $this->rule_data[$ind] ); }
+			if ( empty( $key ) ) { unset( $this->rule_data[ $ind ] ); }
 		}
 
 		// Generate unique ID.
@@ -401,12 +402,12 @@ class IncPopupItem {
 		}
 
 		// Display data.
-		if ( ! $this->custom_colors || empty ( $this->color['col1'] ) ) {
+		if ( ! $this->custom_colors || empty( $this->color['col1'] ) ) {
 			$this->code->color1 = '#488CFD';
 		} else {
 			$this->code->color1 = $this->color['col1'];
 		}
-		if ( ! $this->custom_colors || empty ( $this->color['col2'] ) ) {
+		if ( ! $this->custom_colors || empty( $this->color['col2'] ) ) {
 			$this->code->color2 = '#FFFFFF';
 		} else {
 			$this->code->color2 = $this->color['col2'];
@@ -415,7 +416,7 @@ class IncPopupItem {
 		// Very rough validation that makes sure that the field does not close
 		// the <style> tag manually.
 		$this->custom_css = str_replace( '</s', 's', $this->custom_css );
-		$this->class = lib2()->array->get( $this->class );
+		$this->class = lib3()->array->get( $this->class );
 
 		$this->script_data['html_id'] = $this->code->id;
 		$this->script_data['popup_id'] = $this->id;
@@ -437,7 +438,7 @@ class IncPopupItem {
 		if ( ! $this->is_upfront && is_admin() && $this->id >= 0 ) {
 			// Name.
 			if ( empty( $this->name ) ) {
-				$this->name = __( 'New PopUp', PO_LANG );
+				$this->name = __( 'New PopUp', 'popover' );
 			}
 
 			// Order.
@@ -556,6 +557,8 @@ class IncPopupItem {
 			default:         $status = 'draft'; break;
 		}
 
+
+
 		// When the content changed make sure to only allow valid code!
 		if ( $this->content != $this->orig_content
 			&& ! current_user_can( 'unfiltered_html' )
@@ -617,29 +620,29 @@ class IncPopupItem {
 		if ( $show_message ) {
 			if ( ! empty( $res ) ) {
 				if ( $this->orig_status === $this->status ) {
-					$msg = __( 'Saved PopUp "<strong>%1$s</strong>"', PO_LANG );
+					$msg = __( 'Saved PopUp "<strong>%1$s</strong>"', 'popover' );
 				} else {
 					switch ( $status ) {
 						case 'publish':
-							$msg = __( 'Activated PopUp "<strong>%1$s</strong>".', PO_LANG );
+							$msg = __( 'Activated PopUp "<strong>%1$s</strong>".', 'popover' );
 							break;
 
 						case 'draft':
-							$msg = __( 'Deactivated PopUp "<strong>%1$s</strong>".', PO_LANG );
+							$msg = __( 'Deactivated PopUp "<strong>%1$s</strong>".', 'popover' );
 							break;
 
 						case 'trash':
-							$msg = __( 'Moved PopUp "<strong>%1$s</strong>" to trash.', PO_LANG );
+							$msg = __( 'Moved PopUp "<strong>%1$s</strong>" to trash.', 'popover' );
 							break;
 
 						default:
-							$msg = __( 'Saved PopUp "<strong>%1$s</strong>".', PO_LANG );
+							$msg = __( 'Saved PopUp "<strong>%1$s</strong>".', 'popover' );
 							break;
 					}
 				}
-				lib2()->ui->admin_message( sprintf( $msg, $this->name ) );
+				lib3()->ui->admin_message( sprintf( $msg, $this->name ) );
 			} else {
-				lib2()->ui->admin_message( __( 'Could not save PopUp.', PO_LANG ), 'err' );
+				lib3()->ui->admin_message( __( 'Could not save PopUp.', 'popover' ), 'err' );
 			}
 		}
 
@@ -666,9 +669,9 @@ class IncPopupItem {
 		if ( 'footer' !== $method
 			&& preg_match( '#\[gravityforms?(\s.*?\]|\])#', $content )
 		) {
-			lib2()->ui->admin_message(
+			lib3()->ui->admin_message(
 				sprintf(
-					__( 'You are using Gravity Forms inside this PopUp. It is best to switch to the <a href="%s">loading method</a> "Page Footer" to ensure the form works as expected.', PO_LANG ),
+					__( 'You are using Gravity Forms inside this PopUp. It is best to switch to the <a href="%s">loading method</a> "Page Footer" to ensure the form works as expected.', 'popover' ),
 					'edit.php?post_type=' . IncPopupItem::POST_TYPE . '&page=settings'
 				),
 				'err'
@@ -686,9 +689,9 @@ class IncPopupItem {
 				foreach ( $check->shortcodes as $code ) {
 					$match = array();
 					if ( preg_match( '#\[' . $code . '(\s.*?\]|\])#', $content, $match ) ) {
-						lib2()->ui->admin_message(
+						lib3()->ui->admin_message(
 							sprintf(
-								__( 'Shortcode <code>%s</code> requires a different <a href="%s">loading method</a> to work.<br />Try "Page Footer", though sometimes the method "Custom AJAX" also works (please test the result)', PO_LANG ),
+								__( 'Shortcode <code>%s</code> requires a different <a href="%s">loading method</a> to work.<br />Try "Page Footer", though sometimes the method "Custom AJAX" also works (please test the result)', 'popover' ),
 								$match[0],
 								'edit.php?post_type=' . IncPopupItem::POST_TYPE . '&page=settings'
 							),
@@ -704,7 +707,7 @@ class IncPopupItem {
 				break;
 
 			default:
-				//lib2()->ui->admin_message( 'Shortcode-Check not defined for: ' . $method );
+				//lib3()->ui->admin_message( 'Shortcode-Check not defined for: ' . $method );
 		}
 	}
 
@@ -738,7 +741,7 @@ class IncPopupItem {
 	 * @return array List of variables
 	 */
 	protected function prepare_template_vars() {
-		$has_title = ! empty( $this->title );
+		$has_title = strlen( $this->title );
 		$has_subtitle = ! empty( $this->subtitle );
 		$has_cta = ! empty( $this->cta_label ) && ! empty( $this->cta_link );
 		$cta_target = empty( $this->cta_target ) ? '_self' : $this->cta_target;
@@ -761,7 +764,7 @@ class IncPopupItem {
 		if ( $this->can_hide ) {
 			$hide_forever_tag = sprintf(
 				'<a href="#" class="wdpu-hide-forever">%s</a>',
-				__( 'Never see this message again.', PO_LANG )
+				__( 'Never see this message again.', 'popover' )
 			);
 		} else {
 			$hide_forever_tag = '';
@@ -771,8 +774,10 @@ class IncPopupItem {
 		$inner_class = array();
 		$img_left = false;
 
+		$outer_class[] = 'wpmui-popup';
 		$outer_class[] = 'wdpu-container';
 		$outer_class[] = 'wdpu-background';
+		$inner_class[] = 'popup';
 		$inner_class[] = 'wdpu-msg';
 		$inner_class[] = 'move';
 
@@ -836,11 +841,7 @@ class IncPopupItem {
 					$inner_class[] = 'no-move-y';
 					$pos_style .= 'margin-top:0;margin-bottom:0;';
 				}
-			} else {
-				$inner_class[] = 'no-move-x';
 			}
-		} else {
-			$inner_class[] = 'no-move-x';
 		}
 
 		/**
@@ -850,10 +851,16 @@ class IncPopupItem {
 		 * @since 4.6.1.2
 		 */
 		if ( $this->inline ) { $outer_class[] = 'inline'; }
-		if ( $has_title ) { $outer_class[] = 'with-title'; }
-		else { $outer_class[] = 'no-title'; }
-		if ( $has_subtitle ) { $outer_class[] = 'with-subtitle'; }
-		else { $outer_class[] = 'no-subtitle'; }
+		if ( $has_title ) {
+			$outer_class[] = 'with-title';
+		} else {
+			$outer_class[] = 'no-title';
+		}
+		if ( $has_subtitle ) {
+			$outer_class[] = 'with-subtitle';
+		} else {
+			$outer_class[] = 'no-subtitle';
+		}
 
 		$outer_class = implode(
 			' ',
@@ -876,19 +883,14 @@ class IncPopupItem {
 		);
 
 		/**
-		 * This determines if the PopUp is initially hidden on the page.
+		 * Add custom styles to the popup.
 		 *
-		 * @var   bool
+		 * @var   string
 		 * @since 4.8.0.0
 		 */
-		$layer_style = 'display:none;';
-		if ( $this->inline ) {
-			$layer_style = '';
-		}
-
-		$layer_style = apply_filters(
+		$pos_style = apply_filters(
 			'popup-layer-style',
-			$layer_style,
+			$pos_style,
 			$this->id,
 			$this
 		);
@@ -913,7 +915,6 @@ class IncPopupItem {
 			'inner_class' => $inner_class,
 			'pos' => $pos,
 			'pos_style' => $pos_style,
-			'layer_style' => $layer_style,
 			'content' => $content,
 			'cta_button_tag' => $cta_button_tag,
 			'hide_forever_tag' => $hide_forever_tag,
@@ -933,7 +934,7 @@ class IncPopupItem {
 
 		if ( ! isset( $Html[ $this->id ] ) ) {
 			$styles = apply_filters( 'popup-styles', array() );
-			$details = $styles[$this->style];
+			$details = $styles[ $this->style ];
 
 			$vars = $this->prepare_template_vars();
 			extract( $vars );
@@ -979,7 +980,7 @@ class IncPopupItem {
 						$hide_forever_tag,
 						esc_attr( $outer_class ),
 						esc_attr( $inner_class ),
-						esc_attr( $layer_style ),
+						'', // @deprecated since 4.8.0.0
 						esc_attr( $pos_style ),
 					),
 					$Html[ $this->id ]
@@ -1001,7 +1002,7 @@ class IncPopupItem {
 
 		if ( ! isset( $Code[ $this->id ] ) ) {
 			$styles = apply_filters( 'popup-styles', array() );
-			$details = $styles[$this->style];
+			$details = $styles[ $this->style ];
 
 			$Code[ $this->id ] = '';
 			$tpl_file = $details->dir . 'style.css';
@@ -1037,7 +1038,12 @@ class IncPopupItem {
 	public function get_script_data( $is_preview = false ) {
 		static $Data = array();
 
+		if ( ! $this->id ) {
+			$this->id = time() * -1;
+		}
+
 		if ( ! isset( $Data[ $this->id ] ) ) {
+			$this->validate_data();
 			$this->is_preview = $is_preview;
 			$Data[ $this->id ] = $this->script_data;
 			$Data[ $this->id ]['html'] = $this->load_html();
@@ -1070,6 +1076,33 @@ class IncPopupItem {
 		return $data;
 	}
 
+	/**
+	 * Outputs the javascript code that is needed to display the popup via
+	 * javascript later.
+	 *
+	 * The name-parameter defines the name of the popup object in javascript.
+	 *
+	 * @since  4.7
+	 * @param  strong $name Name of the javascript variable that holds the popup.
+	 */
+	public function output( $name ) {
+		// Make sure the JS/CSS files are enqueued.
+		lib3()->ui->add( PO_JS_URL . 'public.min.js' );
+		lib3()->ui->add( 'animate' );
+
+		// Sanitize the variable name.
+		$name = sanitize_html_class( $name );
+		$name = str_replace( '-', '_', $name );
+		$data_name = '__inc_popup_' . $name;
+
+		// Output the javascript details.
+		$js_data = $this->get_script_data();
+		$script = 'jQuery(function() { window.' . $name . ' = wdev_popup(' . $data_name . '); });';
+
+		lib3()->ui->data( $data_name, $js_data );
+		lib3()->ui->script( $script );
+	}
+
 
 	/*======================================*\
 	==========================================
@@ -1089,18 +1122,18 @@ class IncPopupItem {
 	 */
 	static public function condition_label( $key = null ) {
 		switch ( $key ) {
-			case 'login':        return __( 'Visitor is logged in', PO_LANG );
-			case 'no_login':     return __( 'Visitor is not logged in', PO_LANG );
-			case 'url':          return __( 'On specific URL', PO_LANG );
-			case 'no_url':       return __( 'Not on specific URL', PO_LANG );
-			case 'country':      return __( 'In a specific country', PO_LANG );
-			case 'no_country':   return __( 'Not in a specific country', PO_LANG );
-			case 'prosite':      return __( 'Site is not a Pro-site', PO_LANG );
-			case 'searchengine': return __( 'Visit via a search engine', PO_LANG );
-			case 'no_comment':   return __( 'Visitor has never commented', PO_LANG );
-			case 'no_internal':  return __( 'Visit not via an Internal link', PO_LANG );
-			case 'referrer':     return __( 'Visit via specific referer', PO_LANG );
-			case 'count':        return __( 'Popover shown less than x times', PO_LANG );
+			case 'login':        return __( 'Visitor is logged in', 'popover' );
+			case 'no_login':     return __( 'Visitor is not logged in', 'popover' );
+			case 'url':          return __( 'On specific URL', 'popover' );
+			case 'no_url':       return __( 'Not on specific URL', 'popover' );
+			case 'country':      return __( 'In a specific country', 'popover' );
+			case 'no_country':   return __( 'Not in a specific country', 'popover' );
+			case 'prosite':      return __( 'Site is not a Pro-site', 'popover' );
+			case 'searchengine': return __( 'Visit via a search engine', 'popover' );
+			case 'no_comment':   return __( 'Visitor has never commented', 'popover' );
+			case 'no_internal':  return __( 'Visit not via an Internal link', 'popover' );
+			case 'referrer':     return __( 'Visit via specific referer', 'popover' );
+			case 'count':        return __( 'Popover shown less than x times', 'popover' );
 			default:             return apply_filters( 'popup-rule-label', $key, $key );
 		}
 	}
@@ -1114,12 +1147,10 @@ class IncPopupItem {
 	 */
 	static public function status_label( $key ) {
 		switch ( $key ) {
-			case 'active':    return __( 'Active', PO_LANG );
-			case 'inactive':  return __( 'Inactive', PO_LANG );
-			case 'trash':     return __( 'Trashed', PO_LANG );
+			case 'active':    return __( 'Active', 'popover' );
+			case 'inactive':  return __( 'Inactive', 'popover' );
+			case 'trash':     return __( 'Trashed', 'popover' );
 			default:          return $key;
 		}
 	}
-
-
 }

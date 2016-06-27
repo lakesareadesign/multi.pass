@@ -1,10 +1,11 @@
 <?php
 /**
  * The Debug component.
+ * Access via function `lib3()->debug`.
  *
  * @since 1.1.4
  */
-class TheLib_2_0_3_Debug extends TheLib_2_0_3  {
+class TheLib_Debug extends TheLib  {
 
 	/**
 	 * If set to true or false it will override the WP_DEBUG value
@@ -44,30 +45,30 @@ class TheLib_2_0_3_Debug extends TheLib_2_0_3  {
 	 * @internal
 	 */
 	public function __construct() {
-		remove_all_actions( 'lib2_debug_log' );
-		remove_all_actions( 'lib2_debug_log_trace' );
-		remove_all_actions( 'lib2_debug_dump' );
-		remove_all_actions( 'lib2_debug_trace' );
+		remove_all_actions( 'wdev_debug_log' );
+		remove_all_actions( 'wdev_debug_log_trace' );
+		remove_all_actions( 'wdev_debug_dump' );
+		remove_all_actions( 'wdev_debug_trace' );
 
 		add_action(
-			'lib2_debug_log',
+			'wdev_debug_log',
 			array( $this, 'log' ),
 			10, 99
 		);
 
 		add_action(
-			'lib2_debug_log_trace',
+			'wdev_debug_log_trace',
 			array( $this, 'log_trace' )
 		);
 
 		add_action(
-			'lib2_debug_dump',
+			'wdev_debug_dump',
 			array( $this, 'dump' ),
 			10, 99
 		);
 
 		add_action(
-			'lib2_debug_trace',
+			'wdev_debug_trace',
 			array( $this, 'trace' )
 		);
 	}
@@ -113,15 +114,15 @@ class TheLib_2_0_3_Debug extends TheLib_2_0_3  {
 	 */
 	public function is_enabled() {
 		$enabled = $this->enabled;
-		$is_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+		$is_ajax = false;
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { $is_ajax = true; }
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) { $is_ajax = true; }
 
 		if ( null === $enabled ) {
-			$enabled = false;
-			if ( defined( 'WDEV_DEBUG' ) && WDEV_DEBUG ) { $enabled = true; }
-			elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) { $enabled = true; }
-
-			if ( $is_ajax && defined( 'WDEV_AJAX_DEBUG' ) ) {
+			if ( $is_ajax ) {
 				$enabled = WDEV_AJAX_DEBUG;
+			} else {
+				$enabled = WDEV_DEBUG;
 			}
 		}
 
@@ -179,7 +180,9 @@ class TheLib_2_0_3_Debug extends TheLib_2_0_3  {
 	public function is_plain_text() {
 		$plain_text = $this->plain_text;
 
-		$is_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+		$is_ajax = false;
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { $is_ajax = true; }
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) { $is_ajax = true; }
 		if ( $is_ajax ) { $plain_text = true; }
 
 		return $plain_text;
@@ -197,7 +200,7 @@ class TheLib_2_0_3_Debug extends TheLib_2_0_3  {
 		if ( $this->is_enabled() ) {
 			$plain_text = $this->plain_text;
 			$this->format_text();
-			$log_file = WP_CONTENT_DIR . '/lib2.log';
+			$log_file = WP_CONTENT_DIR . '/lib3.log';
 			$time = date( "Y-m-d\tH:i:s\t" );
 
 			foreach ( func_get_args() as $param ) {
@@ -223,7 +226,7 @@ class TheLib_2_0_3_Debug extends TheLib_2_0_3  {
 		if ( $this->is_enabled() ) {
 			$plain_text = $this->plain_text;
 			$this->format_text();
-			$log_file = WP_CONTENT_DIR . '/lib2.log';
+			$log_file = WP_CONTENT_DIR . '/lib3.log';
 
 			// Display the backtrace.
 			$trace = $this->trace( false );
@@ -235,9 +238,9 @@ class TheLib_2_0_3_Debug extends TheLib_2_0_3  {
 
 	/**
 	 * Adds a log-message to the HTTP response header.
-	 * This is very useful to debug Ajax requests or redirects
+	 * This is very useful to debug Ajax requests or redirects.
 	 *
-	 * @since  1.0.0
+	 * @since  2.0.3
 	 * @param  string $message The debug message
 	 */
 	public function header( $message ) {
@@ -262,7 +265,7 @@ class TheLib_2_0_3_Debug extends TheLib_2_0_3  {
 	 * @since  1.0.14
 	 * @api
 	 *
-	 * @param mixed <dynamic> Each param will be dumped
+	 * @param mixed <dynamic> Each param will be dumped.
 	 */
 	public function dump( $first_arg ) {
 		if ( ! $this->is_enabled() ) { return; }

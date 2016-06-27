@@ -4,9 +4,11 @@
 require_once CSB_INC_DIR . 'class-custom-sidebars-widgets.php';
 require_once CSB_INC_DIR . 'class-custom-sidebars-editor.php';
 require_once CSB_INC_DIR . 'class-custom-sidebars-replacer.php';
+
 require_once CSB_INC_DIR . 'class-custom-sidebars-cloning.php';
 require_once CSB_INC_DIR . 'class-custom-sidebars-visibility.php';
 require_once CSB_INC_DIR . 'class-custom-sidebars-export.php';
+
 require_once CSB_INC_DIR . 'class-custom-sidebars-explain.php';
 
 
@@ -53,7 +55,7 @@ class CustomSidebars {
 		static $Inst = null;
 
 		// We can initialize the plugin once we know the current user:
-		// The lib2()->html->pointer() notification is based on current user...
+		// The lib3()->html->pointer() notification is based on current user...
 		if ( ! did_action( 'set_current_user' ) ) {
 			add_action( 'set_current_user', array( __CLASS__, 'instance' ) );
 			return null;
@@ -71,24 +73,27 @@ class CustomSidebars {
 	 * We directly initialize sidebar options when class is created.
 	 */
 	private function __construct() {
+
+		$plugin_title = 'Custom Sidebars Pro';
+
 		/**
 		 * ID of the WP-Pointer used to introduce the plugin upon activation
 		 *
 		 * ========== Pointer ==========
 		 *  Internal ID:  wpmudcs1 [WPMUDev CustomSidebars 1]
 		 *  Point at:     #menu-appearance (Appearance menu item)
-		 *  Title:        Custom Sidebars Pro
+		 *  Title:        Custom Sidebars
 		 *  Description:  Create and edit custom sidebars in your widget screen!
 		 * -------------------------------------------------------------------------
 		 */
-		lib2()->html->pointer(
+		lib3()->html->pointer(
 			'wpmudcs1',                               // Internal Pointer-ID
 			'#menu-appearance',                       // Point at
-			__( 'Custom Sidebars Pro', CSB_LANG ),    // Title
+			$plugin_title,
 			sprintf(
 				__(
 					'Now you can create and edit custom sidebars in your ' .
-					'<a href="%1$s">Widgets screen</a>!', CSB_LANG
+					'<a href="%1$s">Widgets screen</a>!', 'custom-sidebars'
 				),
 				admin_url( 'widgets.php' )
 			)                                         // Body
@@ -100,15 +105,15 @@ class CustomSidebars {
 
 		// We don't support accessibility mode. Display a note to the user.
 		if ( true === self::$accessibility_mode ) {
-			lib2()->ui->admin_message(
+			lib3()->ui->admin_message(
 				sprintf(
 					__(
 						'<strong>Accessibility mode is not supported by the
 						%1$s plugin.</strong><br /><a href="%2$s">Click here</a>
 						to disable accessibility mode and use the %1$s plugin!',
-						CSB_LANG
+						'custom-sidebars'
 					),
-					'Custom Sidebars Pro',
+					$plugin_title,
 					admin_url( 'widgets.php?widgets-access=off' )
 				),
 				'err',
@@ -116,12 +121,11 @@ class CustomSidebars {
 			);
 		} else {
 			// Load javascripts/css files
-			lib2()->ui->add( 'core', 'widgets.php' );
-			lib2()->ui->add( 'scrollbar', 'widgets.php' );
-			lib2()->ui->add( 'select', 'widgets.php' );
-			lib2()->ui->add( CSB_JS_URL . 'cs.min.js', 'widgets.php' );
-			lib2()->ui->add( CSB_CSS_URL . 'cs.css', 'widgets.php' );
-			lib2()->ui->add( CSB_CSS_URL . 'cs.css', 'edit.php' );
+			lib3()->ui->add( 'core', 'widgets.php' );
+			lib3()->ui->add( 'select', 'widgets.php' );
+			lib3()->ui->add( CSB_JS_URL . 'cs.min.js', 'widgets.php' );
+			lib3()->ui->add( CSB_CSS_URL . 'cs.css', 'widgets.php' );
+			lib3()->ui->add( CSB_CSS_URL . 'cs.css', 'edit.php' );
 
 			// AJAX actions
 			add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
@@ -144,9 +148,15 @@ class CustomSidebars {
 				$msg = wp_kses( $msg, $kses_args );
 
 				if ( ! empty( $msg ) ) {
-					lib2()->ui->admin_message( $msg );
+					lib3()->ui->admin_message( $msg );
 				}
 			}
+
+			add_action(
+				'in_widget_form',
+				array( $this, 'in_widget_form' ),
+				10, 1
+			);
 		}
 	}
 
@@ -246,7 +256,7 @@ class CustomSidebars {
 	static public function get_array( $val1, $val2 = array() ) {
 		if ( is_array( $val1 ) ) {
 			return $val1;
-		} else if ( is_array( $val2 ) ) {
+		} elseif ( is_array( $val2 ) ) {
 			return $val2;
 		} else {
 			return array();
@@ -439,13 +449,12 @@ class CustomSidebars {
 		$cs_sidebars = self::get_custom_sidebars();
 		$delete_widgetized_sidebars = array();
 
-
 		foreach ( $widgetized_sidebars as $id => $bar ) {
 			if ( substr( $id, 0, 3 ) == self::$sidebar_prefix ) {
-				$found = FALSE;
+				$found = false;
 				foreach ( $cs_sidebars as $csbar ) {
 					if ( $csbar['id'] == $id ) {
-						$found = TRUE;
+						$found = true;
 					}
 				}
 				if ( ! $found ) {
@@ -458,12 +467,12 @@ class CustomSidebars {
 		foreach ( $cs_sidebars as $cs ) {
 			$sb_id = $cs['id'];
 			if ( ! in_array( $sb_id, $all_ids ) ) {
-				$widgetized_sidebars[$sb_id] = array();
+				$widgetized_sidebars[ $sb_id ] = array();
 			}
 		}
 
 		foreach ( $delete_widgetized_sidebars as $id ) {
-			unset( $widgetized_sidebars[$id] );
+			unset( $widgetized_sidebars[ $id ] );
 		}
 
 		update_option( 'sidebars_widgets', $widgetized_sidebars );
@@ -476,7 +485,7 @@ class CustomSidebars {
 	 * @since  2.0
 	 */
 	static public function get_post_meta( $post_id ) {
-		$data = get_post_meta( $post_id, '_cs_replacements', TRUE );
+		$data = get_post_meta( $post_id, '_cs_replacements', true );
 		if ( ! is_array( $data ) ) {
 			$data = array();
 		}
@@ -514,25 +523,25 @@ class CustomSidebars {
 		// Remove inactive sidebars.
 		foreach ( $allsidebars as $sb_id => $sidebar ) {
 			if ( false !== strpos( $sidebar['class'], 'inactive-sidebar' ) ) {
-				unset( $allsidebars[$sb_id] );
+				unset( $allsidebars[ $sb_id ] );
 			}
 		}
 
 		ksort( $allsidebars );
-		if ( $type == 'all' ) {
+		if ( 'all' == $type ) {
 			$result = $allsidebars;
-		} else if ( $type == 'cust' ) {
+		} elseif ( 'cust' == $type ) {
 			foreach ( $allsidebars as $key => $sb ) {
 				// Only keep custom sidebars in the results.
 				if ( substr( $key, 0, 3 ) == self::$sidebar_prefix ) {
-					$result[$key] = $sb;
+					$result[ $key ] = $sb;
 				}
 			}
-		} else if ( $type == 'theme' ) {
+		} elseif ( 'theme' == $type ) {
 			foreach ( $allsidebars as $key => $sb ) {
 				// Remove custom sidebars from results.
 				if ( substr( $key, 0, 3 ) != self::$sidebar_prefix ) {
-					$result[$key] = $sb;
+					$result[ $key ] = $sb;
 				}
 			}
 		}
@@ -626,7 +635,7 @@ class CustomSidebars {
 	static public function get_post_types( $type = 'names' ) {
 		$Valid = array();
 
-		if ( $type != 'objects' ) {
+		if ( 'objects' != $type ) {
 			$type = 'names';
 		}
 
@@ -697,7 +706,7 @@ class CustomSidebars {
 	 * Helper function used to sort categories.
 	 */
 	static public function get_category_level( $catid ) {
-		if ( $catid == 0 ) {
+		if ( ! $catid ) {
 			return 0;
 		}
 
@@ -710,6 +719,17 @@ class CustomSidebars {
 	// == ACTION HOOKS
 	// =========================================================================
 
+
+	/**
+	 * Callback for in_widget_form action
+	 *
+	 * Free version only.
+	 *
+	 * @since 2.0.1
+	 */
+	public function in_widget_form( $widget ) {
+
+	}
 
 
 	// =========================================================================
@@ -811,24 +831,5 @@ class CustomSidebars {
 		 * @param  string $action The specified ajax action.
 		 */
 		do_action( 'cs_ajax_request_get', $get_action );
-	}
-
-	/**
-	 * Add extra translations from the free plugin version so poedit will
-	 * recognize the translations and we do not need to keep separate
-	 * translation files for pro/free version.
-	 *
-	 * @since  2.0
-	 */
-	private function other_translations() {
-		return;
-
-		// These functions will never be called, but poedit recognizes the text.
-		__(
-			'Import / Export functionality is available<br />' .
-			'in the <b>PRO</b> version of this plugin.<br />' .
-			'<a href="%1$s" target="_blank">Learn more</a>', CSB_LANG
-		);
-		__( 'Pro Version Features', CSB_LANG );
 	}
 };

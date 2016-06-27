@@ -143,25 +143,24 @@ class IncPopup extends IncPopupBase {
 	 * @param  array $options PopUp options.
 	 */
 	public function show_popup( $contents, $options = array() ) {
-		$this->script_data['popup'] = lib2()->array->get( $this->script_data['popup'] );
+		static $Count = 0;
+
+		if ( empty( $options['name'] ) ) {
+			$Count += 1;
+			$the_name = 'dynamic_' . $Count;
+		} else {
+			$the_name = $options['name'];
+		}
+
+		$this->script_data['popup'] = lib3()->array->get( $this->script_data['popup'] );
 
 		$popup = new IncPopupItem();
-		$data = lib2()->array->get( $options );
+		$data = lib3()->array->get( $options );
 		$data['content'] = $contents;
 		$popup->populate( $data );
 		$popup->script_data['manual'] = true;
 
-		// 1. Add the popup to the global popup-list.
-		$this->popups[] = $popup;
-
-		// 2. Enqueue the popup in the page footer.
-		$item = $popup->get_script_data( false );
-		unset( $item['html'] );
-		unset( $item['styles'] );
-		$this->script_data['popup'][] = $item;
-
-		$this->load_scripts();
-		$this->enqueue_footer();
+		$popup->output( $the_name );
 	}
 
 	/**
@@ -185,16 +184,17 @@ class IncPopup extends IncPopupBase {
 		if ( ! $Loaded ) {
 			if ( is_array( $this->script_data ) && ! empty( $this->script_data ) ) {
 				$popup_data = apply_filters( 'popup-ajax-data', $this->script_data );
-				lib2()->ui->data( '_popup_data', $popup_data, 'front' );
+				lib3()->ui->data( '_popup_data', $popup_data, 'front' );
 
-				$popup_data['popup'] = lib2()->array->get( $popup_data['popup'] );
+				$popup_data['popup'] = lib3()->array->get( $popup_data['popup'] );
 				foreach ( $popup_data['popup'] as $item ) {
 					$this->enqueued[] = $item['html_id'];
 				}
 			}
 
-			lib2()->ui->add( PO_JS_URL . 'public.min.js', 'front' );
-			lib2()->ui->add( PO_CSS_URL . 'animate.min.css', 'front' );
+			lib3()->ui->add( 'core', 'front' );
+			lib3()->ui->add( 'animate', 'front' );
+			lib3()->ui->add( PO_JS_URL . 'public.min.js', 'front' );
 		} else {
 			if ( is_array( $this->script_data ) && is_array( $this->script_data['popup'] ) ) {
 				foreach ( $this->script_data['popup'] as $popup ) {
@@ -203,7 +203,7 @@ class IncPopup extends IncPopupBase {
 					}
 
 					$script = 'window._popup_data.popup.push(' . json_encode( $popup ) . ')';
-					lib2()->ui->script( $script );
+					lib3()->ui->script( $script );
 					$this->enqueued[] = $popup['html_id'];
 				}
 			}
@@ -289,7 +289,7 @@ class IncPopup extends IncPopupBase {
 		 * In an ajax request they would already be defined by the ajax url.
 		 */
 		$_REQUEST['thereferrer'] = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
-		$_REQUEST['thefrom'] = lib2()->net->current_url();
+		$_REQUEST['thefrom'] = lib3()->net->current_url();
 
 		// Populates $this->popups
 		$this->select_popup();
@@ -301,13 +301,9 @@ class IncPopup extends IncPopupBase {
 			if ( ! empty( $item['manual'] ) ) { continue; }
 			if ( in_array( $item['html_id'], $this->enqueued ) ) { continue; }
 
-			unset( $item['html'] );
-			unset( $item['styles'] );
 			$this->script_data['popup'][] = $item;
 		}
 		$this->load_scripts();
-
-		$this->enqueue_footer();
 	}
 
 	/**
@@ -326,9 +322,9 @@ class IncPopup extends IncPopupBase {
 		 * In an ajax request they would already be defined by the ajax url.
 		 */
 		$_REQUEST['thereferrer'] = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
-		$_REQUEST['thefrom'] = lib2()->net->current_url();
+		$_REQUEST['thefrom'] = lib3()->net->current_url();
 
-		// Populates $this->popups
+		// Populate list: $this->popups
 		$this->select_popup();
 
 		if ( empty( $this->popups ) ) { die(); }
@@ -348,60 +344,4 @@ class IncPopup extends IncPopupBase {
 	==                                      ==
 	==========================================
 	\*======================================*/
-
-
-	/**
-	 * Adds the wp_header/wp_footer actions to the action queue.
-	 *
-	 * @since  4.7.1
-	 */
-	protected function enqueue_footer() {
-		static $Did_Enqueue = false;
-
-		if ( $Did_Enqueue ) { return; }
-		$Did_Enqueue = true;
-
-		add_action(
-			'wp_head',
-			array( $this, 'show_header')
-		);
-
-		add_action(
-			'wp_footer',
-			array( $this, 'show_footer')
-		);
-	}
-
-	/**
-	 * Used by "load_method_footer" to print the popup CSS styles.
-	 *
-	 * @since  4.6
-	 */
-	public function show_header() {
-		if ( empty( $this->popups ) ) { return; }
-
-		$code = '';
-		$data = $this->get_popup_data();
-		foreach ( $data as $ind => $item ) {
-			$code .= $item['styles'];
-		}
-		echo '<style type="text/css">' . $code . '</style>';
-	}
-
-	/**
-	 * Used by "load_method_footer" to print the popup HTML code.
-	 *
-	 * @since  4.6
-	 */
-	public function show_footer() {
-		if ( empty( $this->popups ) ) { return; }
-
-		$code = '';
-		$data = $this->get_popup_data();
-		foreach ( $data as $ind => $item ) {
-			$code .= $item['html'];
-		}
-		echo $code;
-	}
-
 };

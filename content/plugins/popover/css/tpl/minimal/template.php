@@ -32,8 +32,8 @@
 	<div class="resize %inner_class%" style="%inner_style%">
 
 		<a href="#"
-			class="wdpu-close <?php echo esc_attr( $show_title ? '' : 'no-title' ); ?>"
-			title="<?php _e( 'Close this box', PO_LANG ); ?>"></a>
+			class="wdpu-close"
+			title="<?php _e( 'Close this box', 'popover' ); ?>"></a>
 
 		<div class="wdpu-msg-inner resize">
 			<div class="wdpu-head">

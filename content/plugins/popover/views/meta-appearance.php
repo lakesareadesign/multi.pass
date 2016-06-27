@@ -14,7 +14,7 @@ $animations = IncPopup::get_animations();
 	<div class="col-12">
 		<label for="po-style">
 			<strong>
-				<?php _e( 'Select which style you want to use:', PO_LANG ); ?>
+				<?php _e( 'Select which style you want to use:', 'popover' ); ?>
 			</strong>
 		</label>
 	</div>
@@ -30,15 +30,27 @@ $animations = IncPopup::get_animations();
 			name="po_orig_style_old"
 			value="<?php echo esc_attr( $popup->deprecated_style ); ?>" />
 		<select class="block" id="po-style" name="po_style">
-			<?php foreach ( $styles as $key => $data ) :
+			<?php
+			$disabled_items = array();
+			foreach ( $styles as $key => $data ) :
 				if ( ! isset( $data->deprecated ) ) { $data->deprecated = false; }
 				if ( $data->deprecated && $popup->style != $key ) { continue; }
-				?>
-				<option value="<?php echo esc_attr( $key ); ?>"
-					data-old="<?php echo esc_attr( $data->deprecated ); ?>"
-					<?php selected( $key, $popup->style ); ?>>
-					<?php echo esc_attr( $data->name ); ?>
-					<?php if ( $data->deprecated ) : ?>*)<?php endif; ?>
+				if ( 'pro' == PO_VERSION || ! $data->pro ) { ?>
+					<option value="<?php echo esc_attr( $key ); ?>"
+						data-old="<?php echo esc_attr( $data->deprecated ); ?>"
+						<?php selected( $key, $popup->style ); ?>>
+						<?php echo esc_attr( $data->name ); ?>
+						<?php if ( $data->deprecated ) : ?>*)<?php endif; ?>
+					</option>
+				<?php
+				} else {
+					$disabled_items[] = $data;
+				}
+			endforeach;
+			foreach ( $disabled_items as $data ) : ?>
+				<option disabled="disabled">
+					<?php echo esc_attr( $data->name ); ?> -
+					<?php _e( 'PRO Version only', PO_LANG ); ?>
 				</option>
 			<?php endforeach; ?>
 		</select>
@@ -48,7 +60,7 @@ $animations = IncPopup::get_animations();
 			<input type="checkbox"
 				name="po_no_round_corners"
 				<?php checked( $popup->round_corners, false ); ?> />
-			<?php _e( 'No rounded corners', PO_LANG ); ?>
+			<?php _e( 'No rounded corners', 'popover' ); ?>
 		</label>
 	</div>
 </div>
@@ -63,7 +75,7 @@ $animations = IncPopup::get_animations();
 				'Once you save your PopUp with a new style you cannot ' .
 				'revert to this style!<br />' .
 				'Tipp: Use the Preview function to test this PopUp with one ' .
-				'of the new styles before saving it.', PO_LANG
+				'of the new styles before saving it.', 'popover'
 			);
 			?></em></p>
 		</div>
@@ -79,7 +91,7 @@ endif; ?>
 				id="po-custom-colors"
 				data-toggle=".chk-custom-colors"
 				<?php checked( $popup->custom_colors ); ?> />
-			<?php _e( 'Use custom colors', PO_LANG ); ?>
+			<?php _e( 'Use custom colors', 'popover' ); ?>
 		</label>
 	</div>
 </div>
@@ -90,7 +102,7 @@ endif; ?>
 			name="po_color[col1]"
 			value="<?php echo esc_attr( $popup->color['col1'] ); ?>" />
 		<br />
-		<?php _e( 'Links, button background, heading and subheading', PO_LANG ); ?>
+		<?php _e( 'Links, button background, heading and subheading', 'popover' ); ?>
 	</div>
 	<div class="col-colorpicker inp-row">
 		<input type="text"
@@ -98,7 +110,7 @@ endif; ?>
 			name="po_color[col2]"
 			value="<?php echo esc_attr( $popup->color['col2'] ); ?>" />
 		<br />
-		<?php _e( 'Button text', PO_LANG ); ?>
+		<?php _e( 'Button text', 'popover' ); ?>
 	</div>
 </div>
 
@@ -110,13 +122,13 @@ endif; ?>
 				id="po-custom-size"
 				data-toggle=".chk-custom-size"
 				<?php checked( $popup->custom_size ); ?> />
-			<?php _e( 'Use custom size (if selected the PopUp won\'t be responsive)', PO_LANG ); ?>
+			<?php _e( 'Use custom size (if selected the PopUp won\'t be responsive)', 'popover' ); ?>
 		</label>
 	</div>
 </div>
 <div class="wpmui-grid-12 chk-custom-size">
 	<div class="col-5 inp-row">
-		<label for="po-size-width"><?php _e( 'Width:', PO_LANG ); ?></label>
+		<label for="po-size-width"><?php _e( 'Width:', 'popover' ); ?></label>
 		<input type="text"
 			id="po-size-width"
 			name="po_size_width"
@@ -125,7 +137,7 @@ endif; ?>
 			placeholder="600px" />
 	</div>
 	<div class="col-5 inp-row">
-		<label for="po-size-height"><?php _e( 'Height:', PO_LANG ); ?></label>
+		<label for="po-size-height"><?php _e( 'Height:', 'popover' ); ?></label>
 		<input type="text"
 			id="po-size-height"
 			name="po_size_height"
@@ -143,7 +155,7 @@ endif; ?>
 				id="po-scroll-body"
 				data-toggle=".chk-scroll-body"
 				<?php checked( $popup->scroll_body ); ?> />
-			<?php _e( 'Allow page to be scrolled while PopUp is visible', PO_LANG ); ?>
+			<?php _e( 'Allow page to be scrolled while PopUp is visible', 'popover' ); ?>
 		</label>
 	</div>
 </div>
@@ -153,12 +165,12 @@ endif; ?>
 <div class="wpmui-grid-12">
 	<div class="col-6 inp-row">
 		<label for="po-animation-in">
-			<?php _e( 'PopUp display animation', PO_LANG ); ?>
+			<?php _e( 'PopUp display animation', 'popover' ); ?>
 		</label>
 	</div>
 	<div class="col-6 inp-row">
 		<label for="po-animation-out">
-			<?php _e( 'PopUp closing animation', PO_LANG ); ?>
+			<?php _e( 'PopUp closing animation', 'popover' ); ?>
 		</label>
 	</div>
 	<div class="col-6 inp-row">
@@ -168,14 +180,7 @@ endif; ?>
 				<optgroup label="<?php echo esc_attr( $group ); ?>">
 				<?php endif; ?>
 
-				<?php foreach ( $items as $key => $label ) {
-					printf(
-						'<option value="%2$s" %3$s>%1$s</option>',
-						esc_attr( $label ),
-						esc_attr( $key ),
-						selected( $key, $popup->animation_in, false )
-					);
-				} ?>
+				<?php inc_popup_show_options( $items, $popup->animation_in ); ?>
 
 				<?php if ( ! empty( $group ) ) : ?>
 				</optgroup>
@@ -191,14 +196,7 @@ endif; ?>
 				<optgroup label="<?php echo esc_attr( $group ); ?>">
 				<?php endif; ?>
 
-				<?php foreach ( $items as $key => $label ) {
-					printf(
-						'<option value="%2$s" %3$s>%1$s</option>',
-						esc_attr( $label ),
-						esc_attr( $key ),
-						selected( $key, $popup->animation_out, false )
-					);
-				} ?>
+				<?php inc_popup_show_options( $items, $popup->animation_out ); ?>
 
 				<?php if ( ! empty( $group ) ) : ?>
 				</optgroup>
@@ -207,3 +205,24 @@ endif; ?>
 		</select>
 	</div>
 </div>
+
+<?php
+function inc_popup_show_options( $items, $selected = false ) {
+	$pro_only = ' - ' . __( 'PRO Version', 'popover' );
+
+	foreach ( $items as $key => $label ) {
+		if ( strpos( $label, $pro_only ) ) {
+			printf(
+				'<option disabled>%1$s</option>',
+				esc_attr( $label )
+			);
+		} else {
+			printf(
+				'<option value="%2$s" %3$s>%1$s</option>',
+				esc_attr( $label ),
+				esc_attr( $key ),
+				selected( $key, $selected, false )
+			);
+		}
+	}
+}

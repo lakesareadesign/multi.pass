@@ -1,9 +1,17 @@
 Plugin Name: Membership 2
 Author:      Ashok Kumar Nath, Philipp Stracker
-Build Stamp: 2016-06-16T19:43:25.409Z
+Build Stamp: 2016-06-22T22:23:01.107Z
 
 Change Log:
 ----------------------------------------------------------------------
+
+1.0.3.2
+----------------------------------------------------------------------
+- Small Bugfixes
+
+- Fixed: Problems with the two Add-ons; WPML and Coupons.
+- Fixed: Wrong display in Help page; Pro plugin said "you are using the free plugin".
+- Improved: Compatibility with Domain Mapping plugin.
 
 1.0.3.1
 ----------------------------------------------------------------------
@@ -630,4 +638,4 @@ Membership2 1.0.0.0
 - Initial version.
 
 
-133620-1466174984-au
+133620-1467043650-au

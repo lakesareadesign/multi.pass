@@ -1,7 +1,7 @@
 <?php
 /**
  * Code-snippet for WordPress plugin list.
- * Used in function lib2()->html->plugin_list()
+ * Used in function lib3()->html->addon_list()
  *
  * @since  1.1.0
  *
@@ -47,8 +47,12 @@ $current = 'current';
 <div class="the-list wpmui-list">
 	<?php foreach ( $items as $item ) :
 		self::$core->array->equip( $item, $item_fields );
-		$item->action = self::$core->array->get( $item->action );
-		$item->details = self::$core->array->get( $item->details );
+		if ( isset( $item->action ) && is_array( $item->action ) ) {
+			$item->details = self::$core->array->get( $item->details );
+		} else {
+			$item->action = array();
+			$item->details = array();
+		}
 
 		$item_class = $item->active ? 'active' : '';
 		$item_class .= ' ' . $item->class;
@@ -60,7 +64,7 @@ $current = 'current';
 						<?php echo esc_html( $lang->active_badge ); ?>
 					</span>
 				</span>
-				<div class="item-icon"><?php echo '' . $item->icon; ?></div>
+				<div class="item-icon"><?php echo $item->icon; ?></div>
 				<div class="name">
 					<h4 class="<?php if ( $item->details ) : ?>toggle-details<?php endif; ?> is-no-detail">
 						<?php echo esc_html( $item->title ); ?>
@@ -70,7 +74,7 @@ $current = 'current';
 					</h4>
 				</div>
 				<div class="desc">
-					<?php echo '' . $item->description; ?>
+					<?php echo $item->description; ?>
 				</div>
 				<div class="action-links">
 					<span class="toggle-details toggle-link is-detail close-button">
@@ -99,7 +103,7 @@ $current = 'current';
 			</div>
 			<div class="list-card-bottom">
 				<span class="list-card-footer is-no-detail">
-					<?php echo '' . $item->footer; ?>
+					<?php echo $item->footer; ?>
 				</span>
 				<?php if ( $item->details ) : ?>
 				<span class="toggle-details toggle-link is-no-detail">

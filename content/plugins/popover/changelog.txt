@@ -1,8 +1,18 @@
 Plugin Name: PopUp Pro
-Author: Barry (Incsub), Marko Miljus (Incsub), Philipp Stracker (Incsub)
+Author: Philipp Stracker (Incsub), Barry (Incsub), Marko Miljus (Incsub)
 
 Change Log:
 ----------------------------------------------------------------------
+
+4.8.0.0
+----------------------------------------------------------------------
+- Improve the popup javascript to display popups.
+- Update and clean up background code.
+- Fix issue, that prevented users from deleting popups.
+- Fix issue with extra "\" slashes in admin preview.
+- Fix permissions of the Popup custom post type.
+- Fix issues with twentysixteen theme.
+- Many small bugfixes in the background.
 
 4.7.1.1
 ----------------------------------------------------------------------
@@ -157,4 +167,4 @@ Change Log:
 - Added show on exit rule add-on.
 
 
-133620-1441125802-au
+133620-1467043657-au

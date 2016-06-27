@@ -133,7 +133,7 @@ abstract class Upfront_Presets_Server extends Upfront_Server {
 		foreach ($presets as $idx => $preset) {
 			if (empty($preset['preset_style'])) continue;
 
-			$preset['preset_style'] = preg_replace('/' . preg_quote(Upfront_ChildTheme::THEME_BASE_URL_MACRO, '/') . '/', $contextless_uri, $preset['preset_style']);
+			$preset['preset_style'] = preg_replace('/' . preg_quote(Upfront_ChildTheme::THEME_BASE_URL_MACRO, '/') . '/', $contextless_uri, $preset['preset_style']);	     	 		 		  	 		 	
 			$presets[$idx] = $preset;
 		}
 

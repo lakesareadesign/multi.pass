@@ -12,21 +12,21 @@
  * @since 1.1.4
  * @example inc/class-thelib-updates.php 20 11 Demo workflow.
  */
-class TheLib_2_0_3_Updates extends TheLib_2_0_3  {
+class TheLib_Updates extends TheLib  {
 	/*
 	Example:
 
 	// make sure the queue is empty
-	lib2()->updates->clear();
+	lib3()->updates->clear();
 
 	// Enqueue some updates
-	lib2()->updates->add( 'update_post_meta', 123, 'key', 'new-value' );
+	lib3()->updates->add( 'update_post_meta', 123, 'key', 'new-value' );
 	$the_post = get_post( 123 );
 	$the_post['post_type'] = 'new_type';
-	lib2()->updates->add( 'update_post', $the_post );
+	lib3()->updates->add( 'update_post', $the_post );
 
 	// Execute the changes
-	lib2()->updates->execute();
+	lib3()->updates->execute();
 	*/
 
 	/**
@@ -226,7 +226,7 @@ class TheLib_2_0_3_Updates extends TheLib_2_0_3  {
 
 		// Create the Snapshot sub-folder.
 		if ( empty( $this->plugin ) ) {
-			$this->plugin( 'wpmudev' );
+			$this->plugin( 'wpmudev-plugin' );
 		}
 		$target = trailingslashit( $upload['basedir'] ) . $this->plugin . '/';
 
@@ -291,7 +291,7 @@ class TheLib_2_0_3_Updates extends TheLib_2_0_3  {
 
 		// Build the full file name.
 		if ( empty( $this->plugin ) ) {
-			$this->plugin( 'wpmudev' );
+			$this->plugin( 'wpmudev-plugin' );
 		}
 		$target = trailingslashit( $upload['basedir'] ) . $this->plugin . '/';
 
@@ -332,7 +332,7 @@ class TheLib_2_0_3_Updates extends TheLib_2_0_3  {
 
 		// Build the full file name.
 		if ( empty( $this->plugin ) ) {
-			$this->plugin( 'wpmudev' );
+			$this->plugin( 'wpmudev-plugin' );
 		}
 		$target = trailingslashit( $upload['basedir'] ) . $this->plugin . '/';
 
@@ -383,6 +383,10 @@ class TheLib_2_0_3_Updates extends TheLib_2_0_3  {
 	/**
 	 * Saves a snapshot of certain database values to the uploads directory.
 	 *
+	 * CAREFUL! THIS FUNCTION CAN CAUSE MEMORY ISSUES IF THE $data_list IS TOO
+	 * LARGE.
+	 * FUNCTION IS STILL EXPERIMENTAL.
+	 *
 	 * @since  2.0.0
 	 * @api
 	 *
@@ -425,9 +429,18 @@ class TheLib_2_0_3_Updates extends TheLib_2_0_3  {
 	private function write_file_failed( $silent_fail, $err_code, $error = '' ) {
 		if ( $silent_fail ) { return false; }
 
-		$msg = '<b>Abborting update of Protected Content!</b> '.
-			'Could not create a restore-point [' . $err_code . ']<br />' .
-			$error;
+		if ( empty( $this->plugin ) ) {
+			$this->plugin( 'wpmudev-plugin' );
+		}
+
+		$msg = sprintf(
+			'<b>Abborting update of %s!</b> '.
+			'Could not create a restore-point [%s]<br />%s',
+			ucwords( $this->plugin ),
+			$err_code,
+			$error
+		);
+
 		wp_die( $msg );
 	}
 
@@ -488,6 +501,10 @@ class TheLib_2_0_3_Updates extends TheLib_2_0_3  {
 	 * We're using a lot of SQL queries here to get as much performance as
 	 * possible. Using functions like wp_set_option() takes much longer than
 	 * a direct SQL query.
+	 *
+	 * NOTE THAT THIS FUNCTION IS FOR DEVELOPMENT AND DEBUGGING. IT MIGHT CAUSE
+	 * MEMORY ISSUES FOR LARGE SNAPSHOTS OR EVEN BREAK THINGS.
+	 * FUNCTION IS STILL EXPERIMENTAL.
 	 *
 	 * @since  2.0.0
 	 * @api
@@ -643,4 +660,5 @@ class TheLib_2_0_3_Updates extends TheLib_2_0_3  {
 
 		return true;
 	}
+
 }

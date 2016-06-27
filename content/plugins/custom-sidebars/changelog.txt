@@ -4,6 +4,11 @@ Author: Javier Marquez (Incsub), Philipp Stracker (Incsub)
 Change Log:
 ----------------------------------------------------------------------
 
+2.1.0.8
+----------------------------------------------------------------------
+- Fix a deprecated notice
+- Fix bug that prevented Widget-Visibility options to work
+
 2.1.0.7
 ----------------------------------------------------------------------
 - Fix PHP warning about "Missing argument 2 for apply_filters()"
@@ -258,4 +263,4 @@ Change Log:
 - Initial release
 
 
-133620-1449637571-au
+133620-1467043643-au

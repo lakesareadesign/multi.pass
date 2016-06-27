@@ -1,11 +1,11 @@
 <?php
 /**
  * The Session storage component.
- * Access via function `lib2()->session`.
+ * Access via function `lib3()->session`.
  *
  * @since  1.1.4
  */
-class TheLib_2_0_3_Session extends TheLib_2_0_3 {
+class TheLib_Session extends TheLib {
 
 	/**
 	 * Adds a value to the data collection in the user session.
@@ -54,4 +54,4 @@ class TheLib_2_0_3_Session extends TheLib_2_0_3 {
 		return $val;
 	}
 
-};
+}

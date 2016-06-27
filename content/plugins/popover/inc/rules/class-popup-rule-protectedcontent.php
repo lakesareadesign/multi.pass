@@ -18,6 +18,7 @@ This rule is called PROTECTED CONTENT but it actually handles the MEMBERSHIP 2
 integration since the plugin was re-branded as M2.
 */
 
+
 class IncPopupRule_ProtectedContent extends IncPopupRule {
 
 	/**
@@ -39,8 +40,8 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 		// 'pc_subscription' rule.
 		$this->add_rule(
 			'pc_subscription',
-			__( 'For Members (Membership 2)', PO_LANG ),
-			__( 'Only shows the PopUp if the user has subscribed to a certain Membership (Membership2 plugin).', PO_LANG ),
+			__( 'For Members (Membership 2)', 'popover' ),
+			__( 'Only shows the PopUp if the user has subscribed to a certain Membership (Membership2 plugin).', 'popover' ),
 			'pc_unsubscription',
 			25
 		);
@@ -48,8 +49,8 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 		// 'pc_unsubscription' rule.
 		$this->add_rule(
 			'pc_unsubscription',
-			__( 'For Non-Members (Membership 2)', PO_LANG ),
-			__( 'Only shows the PopUp if the user has not yet subscribed to a certain Membership (Membership2 plugin).', PO_LANG ),
+			__( 'For Non-Members (Membership 2)', 'popover' ),
+			__( 'Only shows the PopUp if the user has not yet subscribed to a certain Membership (Membership2 plugin).', 'popover' ),
 			'pc_subscription',
 			25
 		);
@@ -73,6 +74,7 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 		$this->is_active = class_exists( 'MS_Plugin' );
 
 		if ( ! $this->is_active ) { return; }
+		if ( ! empty( $_REQUEST['ms_ajax'] ) ) { return; }
 
 		$args = array(
 			'include_base' => false,
@@ -112,7 +114,7 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 	protected function form_pc_subscription( $data ) {
 		$this->render_subscription_form(
 			'pc_subscription',
-			__( 'Show to users that belong to one of the following Memberships:', PO_LANG ),
+			__( 'Show to users that belong to one of the following Memberships:', 'popover' ),
 			$data
 		);
 	}
@@ -125,7 +127,7 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 	 * @return mixed Data collection of this rule.
 	 */
 	protected function save_pc_subscription( $data ) {
-		lib2()->array->equip( $data, 'pc_subscription' );
+		lib3()->array->equip( $data, 'pc_subscription' );
 		return $data['pc_subscription'];
 	}
 
@@ -159,7 +161,7 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 	protected function form_pc_unsubscription( $data ) {
 		$this->render_subscription_form(
 			'pc_unsubscription',
-			__( 'Show to users that do not belong to any of the following Memberships:', PO_LANG ),
+			__( 'Show to users that do not belong to any of the following Memberships:', 'popover' ),
 			$data
 		);
 	}
@@ -172,7 +174,7 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 	 * @return mixed Data collection of this rule.
 	 */
 	protected function save_pc_unsubscription( $data ) {
-		lib2()->array->equip( $data, 'pc_unsubscription' );
+		lib3()->array->equip( $data, 'pc_unsubscription' );
 		return $data['pc_unsubscription'];
 	}
 
@@ -195,8 +197,8 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 	 * @param  array $data
 	 */
 	protected function render_subscription_form( $name, $label, $data ) {
-		$data = lib2()->array->get( $data );
-		$data['pc_subscription'] = lib2()->array->get( $data['pc_subscription'] );
+		$data = lib3()->array->get( $data );
+		$data['pc_subscription'] = lib3()->array->get( $data['pc_subscription'] );
 
 		if ( ! $this->is_active ) {
 			$this->render_plugin_inactive();
@@ -211,7 +213,7 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 				$is_sel = in_array( $membership->id, $data['pc_subscription'] );
 				$ext = '';
 				if ( ! $membership->active ) {
-					$ext = ' (' . __( 'inactive', PO_LANG ) . ')';
+					$ext = ' (' . __( 'inactive', 'popover' ) . ')';
 				}
 				?>
 			<option value="<?php echo esc_attr( $membership->id ); ?>"
@@ -236,7 +238,7 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 			printf(
 				__(
 					'This condition requires that the <a href="%s" target="_blank">' .
-					'Membership2 Plugin</a> is installed and activated.', PO_LANG
+					'Membership2 Plugin</a> is installed and activated.', 'popover'
 				),
 				'http://premium.wpmudev.org/project/membership/'
 			);
@@ -254,8 +256,8 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 	 */
 	protected function user_has_membership( $data ) {
 		$result = false;
-		$data = lib2()->array->get( $data );
-		$data['pc_subscription'] = lib2()->array->get( $data['pc_subscription'] );
+		$data = lib3()->array->get( $data );
+		$data['pc_subscription'] = lib3()->array->get( $data['pc_subscription'] );
 
 		$member = MS_Plugin::$api->get_current_member();
 
@@ -268,7 +270,6 @@ class IncPopupRule_ProtectedContent extends IncPopupRule {
 
 		return $result;
 	}
-
 };
 
 IncPopupRules::register( 'IncPopupRule_ProtectedContent' );

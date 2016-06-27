@@ -349,7 +349,7 @@ class Google_Service_Cloudresourcemanager_Organizations_Resource extends Google_
   {
     $params = array('resource' => $resource, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('testIamPermissions', array($params), "Google_Service_Cloudresourcemanager_TestIamPermissionsResponse");
+    return $this->call('testIamPermissions', array($params), "Google_Service_Cloudresourcemanager_TestIamPermissionsResponse");		   		 	  		  	 	 	
   }
 
   /**

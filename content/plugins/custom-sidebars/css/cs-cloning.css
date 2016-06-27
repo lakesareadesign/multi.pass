@@ -1,6 +1,10 @@
 /**
  * CSS rules for the cloning module.
  */
+.inactive-sidebar .csb-clone {
+  display: none;
+}
+
 .widget-control-actions .csb-clone-button {
   margin: 0 5px 0 0;
 }
@@ -60,4 +64,4 @@ h4 .btn-clone-group:hover {
 }
 
 
-/* 133620-1449637571-au */
+/* 133620-1467043643-au */

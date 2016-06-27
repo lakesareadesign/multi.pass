@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Membership 2 Pro 1.0.3.1\n"
+"Project-Id-Version: Membership 2 Pro 1.0.3.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/membership2\n"
-"POT-Creation-Date: 2016-06-16 19:44:47+00:00\n"
+"POT-Creation-Date: 2016-06-22 22:24:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -248,12 +248,12 @@ msgid "Protect your posts by category."
 msgstr ""
 
 #: app/addon/coupon/class-ms-addon-coupon.php:57
-#: premium/addon/coupon/class-ms-addon-coupon.php:57
+#: premium/addon/coupon/class-ms-addon-coupon.php:171
 msgid "Coupon"
 msgstr ""
 
 #: app/addon/coupon/class-ms-addon-coupon.php:58
-#: premium/addon/coupon/class-ms-addon-coupon.php:58
+#: premium/addon/coupon/class-ms-addon-coupon.php:172
 msgid "Enable discount coupons."
 msgstr ""
 
@@ -690,12 +690,12 @@ msgid "Addresses EU VAT regulations."
 msgstr ""
 
 #: app/addon/wpml/class-ms-addon-wpml.php:55
-#: premium/addon/wpml/class-ms-addon-wpml.php:55
+#: premium/addon/wpml/class-ms-addon-wpml.php:169
 msgid "WPML Integration"
 msgstr ""
 
 #: app/addon/wpml/class-ms-addon-wpml.php:56
-#: premium/addon/wpml/class-ms-addon-wpml.php:56
+#: premium/addon/wpml/class-ms-addon-wpml.php:170
 msgid "Use WPML to translate plugin messages."
 msgstr ""
 
@@ -1700,11 +1700,11 @@ msgstr ""
 msgid "Link Transaction"
 msgstr ""
 
-#: app/controller/class-ms-controller-dialog.php:134 membership2.php:411
+#: app/controller/class-ms-controller-dialog.php:134 membership2.php:420
 msgid "Wrong username or password"
 msgstr ""
 
-#: app/controller/class-ms-controller-dialog.php:145 membership2.php:414
+#: app/controller/class-ms-controller-dialog.php:145 membership2.php:423
 msgid "Logging in..."
 msgstr ""
 
@@ -2293,14 +2293,14 @@ msgstr ""
 
 #: app/controller/class-ms-controller-shortcode.php:666
 #: app/view/class-ms-view-help.php:884
-#: app/view/shortcode/class-ms-view-shortcode-login.php:335
+#: app/view/shortcode/class-ms-view-shortcode-login.php:347
 msgid "Username or E-mail"
 msgstr ""
 
 #: app/controller/class-ms-controller-shortcode.php:667
 #: app/view/class-ms-view-help.php:892
-#: app/view/shortcode/class-ms-view-shortcode-login.php:336
-#: app/view/shortcode/class-ms-view-shortcode-login.php:625
+#: app/view/shortcode/class-ms-view-shortcode-login.php:348
+#: app/view/shortcode/class-ms-view-shortcode-login.php:637
 msgid "Reset Password"
 msgstr ""
 
@@ -3431,7 +3431,7 @@ msgstr ""
 #: app_old/membershipincludes/includes/default.rules.php:1262
 #: app_old/membershipincludes/includes/default.rules.php:1383
 #: app_old/membershipincludes/includes/default.rules.php:1526
-#: premium/addon/coupon/class-ms-addon-coupon.php:398
+#: premium/addon/coupon/class-ms-addon-coupon.php:513
 #: premium/addon/invitation/class-ms-addon-invitation.php:582
 msgid "Remove"
 msgstr ""
@@ -6254,7 +6254,7 @@ msgstr ""
 #: app/view/class-ms-view-help.php:200
 #: app_old/membershipincludes/classes/membershipadmin.php:298
 #: app_old/membershipincludes/classes/membershipadmin.php:472
-#: premium/addon/coupon/class-ms-addon-coupon.php:80
+#: premium/addon/coupon/class-ms-addon-coupon.php:194
 #: premium/addon/coupon/view/class-ms-addon-coupon-view-list.php:25
 msgid "Coupons"
 msgstr ""
@@ -7451,56 +7451,56 @@ msgstr ""
 msgid "Lost your password?"
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:398
-#: app/view/shortcode/class-ms-view-shortcode-login.php:421
+#: app/view/shortcode/class-ms-view-shortcode-login.php:410
+#: app/view/shortcode/class-ms-view-shortcode-login.php:433
 msgid "Log in"
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:450
+#: app/view/shortcode/class-ms-view-shortcode-login.php:462
 msgid "You are logged in as %s."
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:462
+#: app/view/shortcode/class-ms-view-shortcode-login.php:474
 msgid "Logout"
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:527
+#: app/view/shortcode/class-ms-view-shortcode-login.php:539
 msgid ""
 "Sorry, this reset-key is not valid anymore. Please request a new reset "
 "email and try again."
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:533
+#: app/view/shortcode/class-ms-view-shortcode-login.php:545
 msgid ""
 "Sorry, we did not find a valid reset-key. Please request a new reset email "
 "and try again."
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:542
+#: app/view/shortcode/class-ms-view-shortcode-login.php:554
 msgid "The passwords do not match, try again."
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:559
+#: app/view/shortcode/class-ms-view-shortcode-login.php:571
 msgid "Request a new password-reset key"
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:574
+#: app/view/shortcode/class-ms-view-shortcode-login.php:586
 msgid "Your Password has been reset."
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:576
+#: app/view/shortcode/class-ms-view-shortcode-login.php:588
 msgid "Login with your new password"
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:599
+#: app/view/shortcode/class-ms-view-shortcode-login.php:611
 msgid "New password"
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:604
+#: app/view/shortcode/class-ms-view-shortcode-login.php:616
 msgid "Strength indicator"
 msgstr ""
 
-#: app/view/shortcode/class-ms-view-shortcode-login.php:608
+#: app/view/shortcode/class-ms-view-shortcode-login.php:620
 msgid "Confirm new password"
 msgstr ""
 
@@ -11048,12 +11048,12 @@ msgid "Sign Up"
 msgstr ""
 
 #: app_old/membershipincludes/includes/coupon.form.php:42
-#: premium/addon/coupon/class-ms-addon-coupon.php:464
+#: premium/addon/coupon/class-ms-addon-coupon.php:579
 msgid "Have a coupon code?"
 msgstr ""
 
 #: app_old/membershipincludes/includes/coupon.form.php:46
-#: premium/addon/coupon/class-ms-addon-coupon.php:414
+#: premium/addon/coupon/class-ms-addon-coupon.php:529
 msgid "Apply Coupon"
 msgstr ""
 
@@ -11596,23 +11596,23 @@ msgid ""
 "registration details."
 msgstr ""
 
-#: membership2.php:78
+#: membership2.php:74
 msgid ""
 "Could not load the plugin %s, because another version of the plugin is "
 "already loaded"
 msgstr ""
 
-#: membership2.php:133
+#: membership2.php:142
 msgid "Get Members!"
 msgstr ""
 
-#: membership2.php:180
+#: membership2.php:189
 msgid ""
 "Hey %s, you've been using %s for a while now, and we hope you're happy with "
 "it."
 msgstr ""
 
-#: membership2.php:182
+#: membership2.php:191
 msgid ""
 "We're constantly working to improve our plugins, and it helps a lot when "
 "members just like you share feedback!"
@@ -11726,28 +11726,28 @@ msgstr ""
 msgid "Save Attribute"
 msgstr ""
 
-#: premium/addon/coupon/class-ms-addon-coupon.php:235
+#: premium/addon/coupon/class-ms-addon-coupon.php:349
 #: premium/addon/coupon/helper/class-ms-addon-coupon-helper-listtable.php:137
 #: premium/addon/invitation/class-ms-addon-invitation.php:306
 #: premium/addon/invitation/helper/class-ms-addon-invitation-helper-listtable.php:136
 msgid "Any"
 msgstr ""
 
-#: premium/addon/coupon/class-ms-addon-coupon.php:331
+#: premium/addon/coupon/class-ms-addon-coupon.php:446
 #: premium/addon/coupon/helper/class-ms-addon-coupon-helper-listtable.php:27
 #: premium/addon/coupon/view/class-ms-addon-coupon-view-edit.php:76
 msgid "Discount"
 msgstr ""
 
-#: premium/addon/coupon/class-ms-addon-coupon.php:453
+#: premium/addon/coupon/class-ms-addon-coupon.php:568
 msgid "Coupon removed: \"%s\""
 msgstr ""
 
-#: premium/addon/coupon/class-ms-addon-coupon.php:522
+#: premium/addon/coupon/class-ms-addon-coupon.php:638
 msgid "Remove Coupon \"%s\""
 msgstr ""
 
-#: premium/addon/coupon/class-ms-addon-coupon.php:539
+#: premium/addon/coupon/class-ms-addon-coupon.php:655
 msgid "Apply Coupon \"%s\": Discount %s %s!"
 msgstr ""
 
@@ -11987,57 +11987,61 @@ msgstr ""
 msgid "Define what content can be indexed by a Search Engine"
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:117
+#: premium/addon/wpml/class-ms-addon-wpml.php:176
+msgid "Activate WPML to use this Add-on"
+msgstr ""
+
+#: premium/addon/wpml/class-ms-addon-wpml.php:239
 msgid "WPML not active!"
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:118
+#: premium/addon/wpml/class-ms-addon-wpml.php:240
 msgid ""
 "Heads up: Activate the WPML plugin to enable all translation features of "
 "Membership 2 Pro."
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:129
-#: premium/addon/wpml/class-ms-addon-wpml.php:141
-#: premium/addon/wpml/class-ms-addon-wpml.php:154
+#: premium/addon/wpml/class-ms-addon-wpml.php:251
+#: premium/addon/wpml/class-ms-addon-wpml.php:263
+#: premium/addon/wpml/class-ms-addon-wpml.php:276
 msgid "Great, you're using WPML!"
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:130
+#: premium/addon/wpml/class-ms-addon-wpml.php:252
 msgid ""
 "Heads up: Your version of WPML is outdated. Please update WPML to version "
 "<b>3.2 or higher</b> to enable all translation features of Membership 2 Pro."
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:142
+#: premium/addon/wpml/class-ms-addon-wpml.php:264
 msgid ""
 "Heads up: To enable all the translation features of Membership 2 Pro you "
 "need to activate the <b>WPML String Translation</b> module."
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:156
+#: premium/addon/wpml/class-ms-addon-wpml.php:278
 msgid ""
 "Heads up: For the best translation experience we recommend to enable "
 "\"<b>Set admin language as editing language</b>\" in your %suser profile%s."
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:188
+#: premium/addon/wpml/class-ms-addon-wpml.php:310
 msgid "WPML Support"
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:189
+#: premium/addon/wpml/class-ms-addon-wpml.php:311
 msgid "Translate by using the language switch in the toolbar."
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:191
+#: premium/addon/wpml/class-ms-addon-wpml.php:313
 msgid "WPML not supported"
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:192
+#: premium/addon/wpml/class-ms-addon-wpml.php:314
 msgid "Required module missing"
 msgstr ""
 
-#: premium/addon/wpml/class-ms-addon-wpml.php:299
+#: premium/addon/wpml/class-ms-addon-wpml.php:421
 msgid ""
 "You can change your settings for the Membership 2 Pages only when you "
 "switch to your <b>default langauge</b> (%s)"

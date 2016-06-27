@@ -5,9 +5,9 @@ Contributors: ultimatemember, champsupertramp
 Donate link: 
 Tags: access control, author, authors, author profile, comments, community, communities, conditional fields, conditional logic, conditional menus, content protection, custom fields, file uploads, form builder, front-end login, front-end registration, gravatar, hide wp-admin, login, login page, logged-in users, mandrill, member, members, membership, member directory, online users, profile, profiles, profile builder, registration, restriction, restrict content, role creation, role menus, search filters, sign in, sign up, social network, star ratings, toolbar, user, users, user fields, user profile, user-profile, user profiles, user roles
 Requires at least: 4.1
-Tested up to: 4.5
+Tested up to: 4.5.3
 
-Stable Tag: 1.3.59
+Stable Tag: 1.3.62
 
 License: GNU Version 2 or Any Later Version
 
@@ -148,6 +148,24 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 16. Screenshot 16
 
 == Changelog ==
+
+= 1.3.62: June 27, 2016 =
+* Fixed: access settings and redirection for logged out users
+* Fixed: global access settings
+* Fixed: remove notice in permalink
+
+= 1.3.61: June 24, 2016 =
+* Fixed: edit profile url in multi-site setup
+* Fixed: global access settings
+
+= 1.3.60: June 23, 2016 =
+* Fixed: change password
+* Fixed: menu settings and roles
+* Fixed: cropper issue with Avada theme
+* Fixed: image cropper and modal
+* Fixed: nonce in registration forms
+* Fixed: user redirection for non-loggedin users
+* Fixed: global access setting
 
 = 1.3.59: June 17, 2016 =
 * Added: filter 'um_register_hidden_role_field'

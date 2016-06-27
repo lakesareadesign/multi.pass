@@ -109,12 +109,12 @@ abstract class IncPopupBase {
 
 		if ( function_exists( 'get_rocket_option' ) && get_rocket_option( 'minify_js' ) ) {
 			foreach ( array( 'edit-inc_popup', 'inc_popup', 'inc_popup_page_settings' ) as $screen ) {
-				lib2()->ui->admin_message(
+				lib3()->ui->admin_message(
 					__(
 						'You are using WP Rocket with JS Minification, which has ' .
 						'caused some issues in the past. We recommend to disable ' .
 						'the JS Minification setting in WP Rocket to avoid problems.',
-						PO_LANG
+						'popover'
 					),
 					'err',
 					$screen
@@ -159,7 +159,7 @@ abstract class IncPopupBase {
 				}
 			} else {
 				$blog_id = defined( 'BLOG_ID_CURRENT_SITE' )  ? BLOG_ID_CURRENT_SITE : 0;
-				if ( is_network_admin() || $blog_id == get_current_blog_id() ) {
+				if ( is_network_admin() || get_current_blog_id() == $blog_id ) {
 					$State = true;
 				}
 			}
@@ -174,14 +174,14 @@ abstract class IncPopupBase {
 	 * @since  4.6
 	 * @return array Core Popup styles.
 	 */
-	static protected function _get_styles( ) {
+	static protected function _get_styles() {
 		$Styles = null;
 
 		if ( null === $Styles ) {
 			$Styles = array();
 			if ( $handle = opendir( PO_TPL_DIR ) ) {
 				while ( false !== ( $entry = readdir( $handle ) ) ) {
-					if ( $entry === '.' || $entry === '..' ) { continue; }
+					if ( '.' == $entry || '..' == $entry ) { continue; }
 					$style_file = PO_TPL_DIR . $entry . '/style.php';
 					if ( ! file_exists( $style_file ) ) { continue; }
 
@@ -214,7 +214,7 @@ abstract class IncPopupBase {
 
 		// Add core styles to the response.
 		foreach ( $core_styles as $key => $data ) {
-			lib2()->array->equip( $data, 'pro', 'deprecated', 'name' );
+			lib3()->array->equip( $data, 'pro', 'deprecated', 'name' );
 
 			$list[ $key ] = (object) array(
 				'url' => trailingslashit( PO_TPL_URL . $key ),
@@ -223,8 +223,8 @@ abstract class IncPopupBase {
 				'pro' => $data->pro,
 				'deprecated' => (bool) $data->deprecated,
 			);
-			if ( isset( $urls[$data->name] ) ) { unset( $urls[$data->name] ); }
-			if ( isset( $paths[$data->name] ) ) { unset( $paths[$data->name] ); }
+			if ( isset( $urls[ $data->name ] ) ) { unset( $urls[ $data->name ] ); }
+			if ( isset( $paths[ $data->name ] ) ) { unset( $paths[ $data->name ] ); }
 		}
 
 		// Add custom styles to the response.
@@ -233,7 +233,7 @@ abstract class IncPopupBase {
 
 			$list[ $key ] = (object) array(
 				'url' => $url,
-				'dir' => $paths[$key],
+				'dir' => $paths[ $key ],
 				'name' => $key,
 				'pro' => false,
 				'deprecated' => false,
@@ -301,7 +301,7 @@ abstract class IncPopupBase {
 	static protected function prepare_formdata( $form ) {
 		if ( ! is_array( $form ) ) { $form = array(); }
 
-		lib2()->array->equip(
+		lib3()->array->equip(
 			$form,
 			'po_name',
 			'po_content',
@@ -328,20 +328,20 @@ abstract class IncPopupBase {
 
 		$data = array(
 			// Meta: Content
-			'name' => $form['po_name'],
-			'content' => $form['po_content'],
-			'title' => $form['po_heading'],
-			'subtitle' => $form['po_subheading'],
-			'cta_label' => $form['po_cta'],
-			'cta_link' => $form['po_cta_link'],
-			'cta_target' => $form['po_cta_target'],
-			'image' => $form['po_image'],
+			'name' => stripslashes( $form['po_name'] ),
+			'content' => stripslashes( $form['po_content'] ),
+			'title' => stripslashes( $form['po_heading'] ),
+			'subtitle' => stripslashes( $form['po_subheading'] ),
+			'cta_label' => stripslashes( $form['po_cta'] ),
+			'cta_link' => stripslashes( $form['po_cta_link'] ),
+			'cta_target' => stripslashes( $form['po_cta_target'] ),
+			'image' => stripslashes( $form['po_image'] ),
 			'image_pos' => $form['po_image_pos'],
 			'image_mobile' => ! isset( $form['po_image_no_mobile'] ),
 			'active' => isset( $form['po_active'] ),
 
 			// Meta: Appearance
-			'style' => $form['po_style'],
+			'style' => stripslashes( $form['po_style'] ),
 			'round_corners' => ! isset( $form['po_no_round_corners'] ),
 			'scroll_body' => isset( $form['po_scroll_body'] ),
 			'custom_colors' => isset( $form['po_custom_colors'] ),
@@ -351,7 +351,7 @@ abstract class IncPopupBase {
 				'width' => $form['po_size_width'],
 				'height' => $form['po_size_height'],
 			),
-			'custom_css' => $form['po_custom_css'],
+			'custom_css' => stripslashes( $form['po_custom_css'] ),
 			'animation_in' => $form['po_animation_in'],
 			'animation_out' => $form['po_animation_out'],
 
@@ -380,7 +380,7 @@ abstract class IncPopupBase {
 	 * @since  4.6
 	 */
 	public function ajax_load_popup() {
-		lib2()->array->equip_request( 'do', 'data' );
+		lib3()->array->equip_request( 'do', 'data' );
 		$action = $_REQUEST['do'];
 
 		switch ( $action ) {
@@ -438,111 +438,114 @@ abstract class IncPopupBase {
 	 * }
 	 */
 	public static function get_animations() {
+
+		$pro_only = '';
+
 		$animations_in = array(
 			'' => array(
-				'' => __( '(No Animation)', PO_LANG ),
+				'' => __( '(No Animation)', 'popover' ),
 			),
-			__( 'Attention Seekers', PO_LANG ) => array(
-				'bounce' => __( 'Bounce', PO_LANG ),
-				'flash' => __( 'Flash', PO_LANG ),
-				'pulse' => __( 'Pulse', PO_LANG ),
-				'rubberBand' => __( 'Rubber Band', PO_LANG ),
-				'shake' => __( 'Shake', PO_LANG ),
-				'swing' => __( 'Swing', PO_LANG ),
-				'tada' => __( 'Tada', PO_LANG ),
-				'wobble' => __( 'Wobble', PO_LANG ),
+			__( 'Attention Seekers', 'popover' ) => array(
+				'bounce' => __( 'Bounce', 'popover' ),
+				'flash' => __( 'Flash', 'popover' ),
+				'pulse' => __( 'Pulse', 'popover' ),
+				'rubberBand' => __( 'Rubber Band', 'popover' ),
+				'shake' => __( 'Shake', 'popover' ),
+				'swing' => __( 'Swing', 'popover' ),
+				'tada' => __( 'Tada', 'popover' ),
+				'wobble' => __( 'Wobble', 'popover' ),
 			),
-			__( 'Bouncing Entrances', PO_LANG ) => array(
-				'bounceIn' => __( 'Bounce In', PO_LANG ),
-				'bounceInDown' => __( 'Bounce In Down', PO_LANG ),
-				'bounceInLeft' => __( 'Bounce In Left', PO_LANG ),
-				'bounceInRight' => __( 'Bounce In Right', PO_LANG ),
-				'bounceInUp' => __( 'Bounce In Up', PO_LANG ),
+			__( 'Bouncing Entrances', 'popover' ) => array(
+				'bounceIn' => __( 'Bounce In', 'popover' ) . $pro_only,
+				'bounceInDown' => __( 'Bounce In Down', 'popover' ) . $pro_only,
+				'bounceInLeft' => __( 'Bounce In Left', 'popover' ) . $pro_only,
+				'bounceInRight' => __( 'Bounce In Right', 'popover' ) . $pro_only,
+				'bounceInUp' => __( 'Bounce In Up', 'popover' ) . $pro_only,
 			),
-			__( 'Fading Entrances', PO_LANG ) => array(
-				'fadeIn' => __( 'Fade In', PO_LANG ),
-				'fadeInDown' => __( 'Fade In Down', PO_LANG ),
-				'fadeInDownBig' => __( 'Fade In Down Big', PO_LANG ),
-				'fadeInLeft' => __( 'Fade In Left', PO_LANG ),
-				'fadeInLeftBig' => __( 'Fade In Left Big', PO_LANG ),
-				'fadeInRight' => __( 'Fade In Right', PO_LANG ),
-				'fadeInRightBig' => __( 'Fade In Right Big', PO_LANG ),
-				'fadeInUp' => __( 'Fade In Up', PO_LANG ),
-				'fadeInUpBig' => __( 'Fade In Up Big', PO_LANG ),
+			__( 'Fading Entrances', 'popover' ) => array(
+				'fadeIn' => __( 'Fade In', 'popover' ) . $pro_only,
+				'fadeInDown' => __( 'Fade In Down', 'popover' ) . $pro_only,
+				'fadeInDownBig' => __( 'Fade In Down Big', 'popover' ) . $pro_only,
+				'fadeInLeft' => __( 'Fade In Left', 'popover' ) . $pro_only,
+				'fadeInLeftBig' => __( 'Fade In Left Big', 'popover' ) . $pro_only,
+				'fadeInRight' => __( 'Fade In Right', 'popover' ) . $pro_only,
+				'fadeInRightBig' => __( 'Fade In Right Big', 'popover' ) . $pro_only,
+				'fadeInUp' => __( 'Fade In Up', 'popover' ) . $pro_only,
+				'fadeInUpBig' => __( 'Fade In Up Big', 'popover' ) . $pro_only,
 			),
-			__( 'Flippers', PO_LANG ) => array(
-				'flip' => __( 'Flip', PO_LANG ),
-				'flipInX' => __( 'Flip In X', PO_LANG ),
-				'flipInY' => __( 'Flip In Y', PO_LANG ),
+			__( 'Flippers', 'popover' ) => array(
+				'flip' => __( 'Flip', 'popover' ) . $pro_only,
+				'flipInX' => __( 'Flip In X', 'popover' ) . $pro_only,
+				'flipInY' => __( 'Flip In Y', 'popover' ) . $pro_only,
 			),
-			__( 'Lightspeed', PO_LANG ) => array(
-				'lightSpeedIn' => __( 'Light Speed In', PO_LANG ),
+			__( 'Lightspeed', 'popover' ) => array(
+				'lightSpeedIn' => __( 'Light Speed In', 'popover' ) . $pro_only,
 			),
-			__( 'Rotating Entrances', PO_LANG ) => array(
-				'rotateIn' => __( 'Rotate In', PO_LANG ),
-				'rotateInDownLeft' => __( 'Rotate In Down Left', PO_LANG ),
-				'rotateInDownRight' => __( 'Rotate In Down Right', PO_LANG ),
-				'rotateInUpLeft' => __( 'Rotate In Up Left', PO_LANG ),
-				'rotateInUpRight' => __( 'Rotate In Up Right', PO_LANG ),
+			__( 'Rotating Entrances', 'popover' ) => array(
+				'rotateIn' => __( 'Rotate In', 'popover' ) . $pro_only,
+				'rotateInDownLeft' => __( 'Rotate In Down Left', 'popover' ) . $pro_only,
+				'rotateInDownRight' => __( 'Rotate In Down Right', 'popover' ) . $pro_only,
+				'rotateInUpLeft' => __( 'Rotate In Up Left', 'popover' ) . $pro_only,
+				'rotateInUpRight' => __( 'Rotate In Up Right', 'popover' ) . $pro_only,
 			),
-			__( 'Specials', PO_LANG ) => array(
-				'rollIn' => __( 'Roll In', PO_LANG ),
+			__( 'Specials', 'popover' ) => array(
+				'rollIn' => __( 'Roll In', 'popover' ) . $pro_only,
 			),
-			__( 'Zoom Entrances', PO_LANG ) => array(
-				'zoomIn' => __( 'Zoom In', PO_LANG ),
-				'zoomInDown' => __( 'Zoom In Down', PO_LANG ),
-				'zoomInLeft' => __( 'Zoom In Left', PO_LANG ),
-				'zoomInRight' => __( 'Zoom In Right', PO_LANG ),
-				'zoomInUp' => __( 'Zoom In Up', PO_LANG ),
+			__( 'Zoom Entrances', 'popover' ) => array(
+				'zoomIn' => __( 'Zoom In', 'popover' ) . $pro_only,
+				'zoomInDown' => __( 'Zoom In Down', 'popover' ) . $pro_only,
+				'zoomInLeft' => __( 'Zoom In Left', 'popover' ) . $pro_only,
+				'zoomInRight' => __( 'Zoom In Right', 'popover' ) . $pro_only,
+				'zoomInUp' => __( 'Zoom In Up', 'popover' ) . $pro_only,
 			),
 		);
 
 		$animations_out = array(
 			'' => array(
-				'' => __( '(No Animation)', PO_LANG ),
+				'' => __( '(No Animation)', 'popover' ),
 			),
-			__( 'Bouncing Exits', PO_LANG ) => array(
-				'bounceOut' => __( 'Bounce Out', PO_LANG ),
-				'bounceOutDown' => __( 'Bounce Out Down', PO_LANG ),
-				'bounceOutLeft' => __( 'Bounce Out Left', PO_LANG ),
-				'bounceOutRight' => __( 'Bounce Out Right', PO_LANG ),
-				'bounceOutUp' => __( 'Bounce Out Up', PO_LANG ),
+			__( 'Bouncing Exits', 'popover' ) => array(
+				'bounceOut' => __( 'Bounce Out', 'popover' ),
+				'bounceOutDown' => __( 'Bounce Out Down', 'popover' ),
+				'bounceOutLeft' => __( 'Bounce Out Left', 'popover' ),
+				'bounceOutRight' => __( 'Bounce Out Right', 'popover' ),
+				'bounceOutUp' => __( 'Bounce Out Up', 'popover' ),
 			),
-			__( 'Fading Exits', PO_LANG ) => array(
-				'fadeOut' => __( 'Fade Out', PO_LANG ),
-				'fadeOutDown' => __( 'Fade Out Down', PO_LANG ),
-				'fadeOutDownBig' => __( 'Fade Out Down Big', PO_LANG ),
-				'fadeOutLeft' => __( 'Fade Out Left', PO_LANG ),
-				'fadeOutLeftBig' => __( 'Fade Out Left Big', PO_LANG ),
-				'fadeOutRight' => __( 'Fade Out Right', PO_LANG ),
-				'fadeOutRightBig' => __( 'Fade Out Right Big', PO_LANG ),
-				'fadeOutUp' => __( 'Fade Out Up', PO_LANG ),
-				'fadeOutUpBig' => __( 'Fade Out Up Big', PO_LANG ),
+			__( 'Fading Exits', 'popover' ) => array(
+				'fadeOut' => __( 'Fade Out', 'popover' ),
+				'fadeOutDown' => __( 'Fade Out Down', 'popover' ),
+				'fadeOutDownBig' => __( 'Fade Out Down Big', 'popover' ),
+				'fadeOutLeft' => __( 'Fade Out Left', 'popover' ),
+				'fadeOutLeftBig' => __( 'Fade Out Left Big', 'popover' ),
+				'fadeOutRight' => __( 'Fade Out Right', 'popover' ),
+				'fadeOutRightBig' => __( 'Fade Out Right Big', 'popover' ),
+				'fadeOutUp' => __( 'Fade Out Up', 'popover' ),
+				'fadeOutUpBig' => __( 'Fade Out Up Big', 'popover' ),
 			),
-			__( 'Flippers', PO_LANG ) => array(
-				'flipOutX' => __( 'Flip Out X', PO_LANG ),
-				'flipOutY' => __( 'Flip Out Y', PO_LANG ),
+			__( 'Flippers', 'popover' ) => array(
+				'flipOutX' => __( 'Flip Out X', 'popover' ) . $pro_only,
+				'flipOutY' => __( 'Flip Out Y', 'popover' ) . $pro_only,
 			),
-			__( 'Lightspeed', PO_LANG ) => array(
-				'lightSpeedOut' => __( 'Light Speed Out', PO_LANG ),
+			__( 'Lightspeed', 'popover' ) => array(
+				'lightSpeedOut' => __( 'Light Speed Out', 'popover' ) . $pro_only,
 			),
-			__( 'Rotating Exits', PO_LANG ) => array(
-				'rotateOut' => __( 'Rotate Out', PO_LANG ),
-				'rotateOutDownLeft' => __( 'Rotate Out Down Left', PO_LANG ),
-				'rotateOutDownRight' => __( 'Rotate Out Down Right', PO_LANG ),
-				'rotateOutUpLeft' => __( 'Rotate Out Up Left', PO_LANG ),
-				'rotateOutUpRight' => __( 'Rotate Out Up Right', PO_LANG ),
+			__( 'Rotating Exits', 'popover' ) => array(
+				'rotateOut' => __( 'Rotate Out', 'popover' ) . $pro_only,
+				'rotateOutDownLeft' => __( 'Rotate Out Down Left', 'popover' ) . $pro_only,
+				'rotateOutDownRight' => __( 'Rotate Out Down Right', 'popover' ) . $pro_only,
+				'rotateOutUpLeft' => __( 'Rotate Out Up Left', 'popover' ) . $pro_only,
+				'rotateOutUpRight' => __( 'Rotate Out Up Right', 'popover' ) . $pro_only,
 			),
-			__( 'Specials', PO_LANG ) => array(
-				'hinge' => __( 'Hinge', PO_LANG ),
-				'rollOut' => __( 'Roll Out', PO_LANG ),
+			__( 'Specials', 'popover' ) => array(
+				'hinge' => __( 'Hinge', 'popover' ) . $pro_only,
+				'rollOut' => __( 'Roll Out', 'popover' ) . $pro_only,
 			),
-			__( 'Zoom Exits', PO_LANG ) => array(
-				'zoomOut' => __( 'Zoom Out', PO_LANG ),
-				'zoomOutDown' => __( 'Zoom Out Down', PO_LANG ),
-				'zoomOutLeft' => __( 'Zoom Out Left', PO_LANG ),
-				'zoomOutRight' => __( 'Zoom Out Right', PO_LANG ),
-				'zoomOutUp' => __( 'Zoom Out Up', PO_LANG ),
+			__( 'Zoom Exits', 'popover' ) => array(
+				'zoomOut' => __( 'Zoom Out', 'popover' ) . $pro_only,
+				'zoomOutDown' => __( 'Zoom Out Down', 'popover' ) . $pro_only,
+				'zoomOutLeft' => __( 'Zoom Out Left', 'popover' ) . $pro_only,
+				'zoomOutRight' => __( 'Zoom Out Right', 'popover' ) . $pro_only,
+				'zoomOutUp' => __( 'Zoom Out Up', 'popover' ) . $pro_only,
 			),
 		);
 
@@ -598,7 +601,7 @@ abstract class IncPopupBase {
 	 */
 	protected function find_popups() {
 		$popups = array();
-		lib2()->array->equip_request( 'po_id', 'preview' );
+		lib3()->array->equip_request( 'po_id', 'preview' );
 
 		/**
 		 * Allow other modules to provide a single popup ID to display.
@@ -632,7 +635,7 @@ abstract class IncPopupBase {
 			$this
 		);
 
-		$popup_ids = lib2()->array->get( $popup_ids );
+		$popup_ids = lib3()->array->get( $popup_ids );
 		foreach ( $popup_ids as $id ) {
 			$popup = IncPopupDatabase::get( $id );
 
@@ -669,7 +672,30 @@ abstract class IncPopupBase {
 		$name = 'po_h-' . $id;
 		$name_old = 'popover_never_view_' . $id;
 
-		return isset( $_COOKIE[$name] ) || isset( $_COOKIE[$name_old] );
+		return isset( $_COOKIE[ $name ] ) || isset( $_COOKIE[ $name_old ] );
+	}
+
+	/**
+	 * Loads the specified view (template from views/ directory).
+	 * The list of args is extracted so the view can access the variables.
+	 *
+	 * @since  4.7.2.0
+	 * @param  string $name Name of the view (filename without extension).
+	 * @param  array  $args Optional list of variables to provide.
+	 */
+	static public function load_view( $name, $args = array() ) {
+		if ( is_array( $args ) ) {
+			extract( $args );
+		}
+
+		$path = PO_DIR . 'views/' . strtolower( $name );
+		if ( 'pro' == PO_VERSION ) {
+			if ( file_exists( $path . '-premium.php' ) ) {
+				$path .= '-premium';
+			}
+		}
+
+		include $path . '.php';
 	}
 
 
@@ -787,24 +813,4 @@ abstract class IncPopupBase {
 
 		$_SERVER['REQUEST_URI'] = $this->orig_url;
 	}
-
-	/**
-	 * Add extra translations from the free plugin version so poedit will
-	 * recognize the translations and we do not need to keep separate
-	 * translation files for pro/free version.
-	 *
-	 * @since  4.6.1.3
-	 */
-	private function other_translations() {
-		return;
-
-		// These functions will never be called, but poedit recognizes the text.
-		__( 'PRO Version', PO_LANG );
-		__( 'Pro feature. <a href="%1$s" target="_blank">Find out more &raquo;</a>', PO_LANG );
-		__( '<strong>WordPress PopUp</strong><br />Your installation was successfully updated to use the latest version of the plugin!<br /><em>Note: Some PopUp options changed or were replaced. You should have a look at your <a href="%s">PopUps</a> to see if they still look as intended.</em>', PO_LANG );
-		__( 'In the free version you can activate 1 PopUp. When you activate this PopUp then all other PopUps will be deactivated ', PO_LANG );
-		__( 'In the free version you can activate 1 PopUp. The PRO Version allows you to have unlimited active PopUps! <a href=\"%1$s\" target=\"_blank\">Find out more &raquo;</a>', PO_LANG );
-	}
-
-
 };

@@ -1,7 +1,7 @@
 <?php
 /**
  * Code-snippet for WordPress pointers.
- * Used in function lib2()->html->pointer()
+ * Used in function lib3()->html->pointer()
  *
  * @since  1.0.0
  *
@@ -40,7 +40,7 @@ $code = str_replace( array("\r", "\n"), '', $code );
 			body = jQuery( 'body' );
 
 		if ( jQuery().pointer !== undefined ) {
-			var target = jQuery( '<?php echo '' . $html_el; ?>' );
+			var target = jQuery( '<?php echo $html_el; ?>' );
 			if ( ! target.length ) { return; }
 			target = target.first();
 
@@ -63,7 +63,7 @@ $code = str_replace( array("\r", "\n"), '', $code );
 
 			// Insert the pointer HTML code
 			target.pointer({
-				content: '<?php echo '' . $code; ?>',
+				content: '<?php echo $code; ?>',
 				position: {
 					edge: 'left',
 					align: 'center'

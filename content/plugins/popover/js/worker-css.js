@@ -1,6 +1,6 @@
-/*! PopUp Pro - v4.7.11
+/*! PopUp - v4.8.0
  * http://premium.wpmudev.org/project/the-pop-over-plugin/
- * Copyright (c) 2015; * Licensed GPLv2+ */
+ * Copyright (c) 2016; * Licensed GPLv2+ */
 "no use strict";;
 (function(window) {
     if (typeof window.window != "undefined" && window.document) {
