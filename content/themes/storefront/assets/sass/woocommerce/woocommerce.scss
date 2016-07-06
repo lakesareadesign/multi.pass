@@ -667,6 +667,16 @@ a.reset_variations {
 	}
 }
 
+.widget {
+	ul.products {
+		li.product {
+			a {
+				text-decoration: none;
+			}
+		}
+	}
+}
+
 .widget_products {
 	a {
 		display: block;
@@ -1060,7 +1070,7 @@ form.checkout {
 				border-bottom: 0;
 			}
 
-			input[type=radio]:first-child {
+			&.wc_payment_method > input[type=radio]:first-child {
 				@include screen-reader-text();
 
 				&:checked + label:before {
@@ -1094,16 +1104,6 @@ form.checkout {
 						}
 					}
 
-					.form-row-first {
-						select {
-							width: 48%;
-
-							&:nth-child(2n) {
-								float: right;
-							}
-						}
-					}
-
 					#cvv {
 						width: 22% !important;
 					}
@@ -1111,6 +1111,19 @@ form.checkout {
 					.help {
 						width: 75%;
 						float: right;
+					}
+				}
+
+				.woocommerce-SavedPaymentMethods {
+					padding-top: 1em;
+					margin: 0;
+
+					li {
+						margin-top: .618em;
+
+						input[type=radio] {
+							margin-right: .236em;
+						}
 					}
 				}
 

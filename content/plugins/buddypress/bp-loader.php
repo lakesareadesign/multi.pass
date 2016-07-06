@@ -15,7 +15,7 @@
  * Description: BuddyPress helps you build any type of community website using WordPress, with member profiles, activity streams, user groups, messaging, and more.
  * Author:      The BuddyPress Community
  * Author URI:  https://buddypress.org/
- * Version:     2.6.0
+ * Version:     2.6.1.1
  * Text Domain: buddypress
  * Domain Path: /bp-languages/
  * License:     GPLv2 or later (license.txt)
@@ -330,7 +330,7 @@ class BuddyPress {
 
 		/** Versions **********************************************************/
 
-		$this->version    = '2.6.0';
+		$this->version    = '2.6.1.1';
 		$this->db_version = 10469;
 
 		/** Loading ***********************************************************/
@@ -614,6 +614,18 @@ class BuddyPress {
 
 		// Sanity check.
 		if ( ! file_exists( $path ) ) {
+			return;
+		}
+
+		/*
+		 * Sanity check 2 - Check if component is active before loading class.
+		 * Skip if PHPUnit is running, or BuddyPress is installing for the first time.
+		 */
+		if (
+			! in_array( $component, array( 'core', 'members' ), true ) &&
+			! bp_is_active( $component ) &&
+			! function_exists( 'tests_add_filter' )
+		) {
 			return;
 		}
 
