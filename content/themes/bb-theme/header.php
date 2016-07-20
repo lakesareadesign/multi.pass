@@ -10,7 +10,6 @@
 <?php FLTheme::title(); ?>
 <?php FLTheme::favicon(); ?>
 <?php FLTheme::fonts(); ?>
-<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/bootstrap.min.css" />
 <!--[if lt IE 9]>
 	<script src="<?php echo get_template_directory_uri(); ?>/js/html5shiv.js"></script>
 	<script src="<?php echo get_template_directory_uri(); ?>/js/respond.min.js"></script>

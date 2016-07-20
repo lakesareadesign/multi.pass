@@ -84,6 +84,17 @@ iframe {
 	max-width: 100%;
 }
 
+/* Accessibility
+----------------------------------------------------------- */
+
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}
+
 /* Bootstrap Overrides
 ----------------------------------------------------------- */
 
@@ -339,6 +350,12 @@ iframe {
 .mega-menu a[href="#"]:focus {
 	color: @header-fg-link-color !important;
 	cursor: default;
+}
+
+ul.navbar-nav li.mega-menu {
+	.hide-heading > a {
+		display: none;
+	}
 }
 
 /* Nav Collapse
@@ -664,7 +681,7 @@ iframe {
 	width: 44px;
 	height: 42px;
 	text-align: center;
-	z-index: 999999999;
+	z-index: 1003;
 	&:hover {
 		background-color: rgba(0,0,0,.3);
 	}
@@ -748,6 +765,10 @@ iframe {
 .fl-icon-instagram-circle:before { content: '\e300'; }
 .fl-icon-instagram-regular:before { content: '\e100'; }
 .fl-icon-instagram.fl-icon-color-branded { color: #517fa5; }
+
+.fl-icon-skype-circle:before { content: '\e274'; }
+.fl-icon-skype-regular:before { content: '\e074'; }
+.fl-icon-skype.fl-icon-color-branded { color: #009EE5; }
 
 .fl-icon-dribbble-circle:before { content: '\e221'; }
 .fl-icon-dribbble-regular:before { content: '\e021'; }
@@ -1394,6 +1415,10 @@ img.mfp-img {
 				background: @mobile-nav-btn-color;
 			}
 		}
+		ul.sub-menu {
+			height: 100%;
+			overflow: hidden;
+		}
 	}
 }
 
@@ -1752,9 +1777,6 @@ img.mfp-img {
 	
 	ul.navbar-nav li.mega-menu {
 		position: inherit;
-		.hide-heading > a {
-			display: none;
-		}
 		&.fl-sub-menu-open > ul.sub-menu {
 			left: 0;
 		}
@@ -1782,7 +1804,7 @@ img.mfp-img {
 				height: auto;
 				vertical-align: top;
 				border-right: 1px solid mix(@nav-fg-hover-color, @nav-dropdown-bg-color, 20%);
-
+					
 				&:last-child {
 					border-right: none;
 				}
@@ -2173,7 +2195,7 @@ img.mfp-img {
 			padding-right: 40px;
 			width: auto;
 		}
-		.fl-content-full.container {
+		&.fl-builder .fl-content-full.container {
 			padding-left: 0;
 			padding-right: 0;
 		}
@@ -2307,11 +2329,10 @@ img.mfp-img {
 		}
 	}
 
-	
 	/* Shrink Header
 	----------------------------------------------------------- */
 	
-	.fl-shrink {
+	.fl-shrink-header-enabled {
 		&.admin-bar .fl-page-bar {
 			top: 32px;
 		}
@@ -2321,8 +2342,7 @@ img.mfp-img {
 			top: 0;
 			left: 0;
 			right: 0;
-			z-index: 99998;
-			
+			z-index: 101;
 		}
 		&.admin-bar .fl-page-header {
 			top: 32px;
@@ -2331,7 +2351,7 @@ img.mfp-img {
 			position: fixed;
 			min-width: 100%;
 			top: 0;
-			z-index: 99997;
+			z-index: 100;
 		}
 		&.fl-fixed-width {
 			.fl-page-bar,
@@ -2340,11 +2360,6 @@ img.mfp-img {
 				min-width: 0;
 				margin: 0 auto;
 			}	
-		} 
-		.fl-logo-img, .fl-page-header-container.container {
-			-webkit-transition: all 0.4s ease-in-out;
-			-moz-transition: all 0.4s ease-in-out;
-			transition: all 0.4s ease-in-out;
 		}
 	}
 	.fl-shrink-header {
@@ -2356,6 +2371,17 @@ img.mfp-img {
 			padding-top: 8px;
 			padding-bottom: 8px;
 		}
+	}
+	.fl-shrink-header-transition {
+		.fl-logo-img, .fl-page-header-container.container {
+			-webkit-transition: all 0.4s ease-in-out;
+			-moz-transition: all 0.4s ease-in-out;
+			transition: all 0.4s ease-in-out;
+		}
+	}
+
+	.fl-builder-edit .fl-shrink.admin-bar .fl-page-bar {
+		top: 43px;
 	}
 
 	/* Fixed Header
@@ -2371,8 +2397,7 @@ img.mfp-img {
 			top: 0;
 			left: 0;
 			right: 0;
-			z-index: 99998;
-			
+			z-index: 101;
 		}
 		&.admin-bar .fl-page-header {
 			top: 32px;
@@ -2381,7 +2406,7 @@ img.mfp-img {
 			position: fixed;
 			min-width: 100%;
 			top: 0;
-			z-index: 99997;
+			z-index: 100;
 		}
 		&.fl-fixed-width {
 			.fl-page-bar,
@@ -2391,6 +2416,9 @@ img.mfp-img {
 				margin: 0 auto;
 			}	
 		}
+	}
+	.fl-builder-edit .fl-fixed-header.admin-bar .fl-page-bar {
+		top: 43px;
 	}
 
 	/* Hide Header Until Scroll
@@ -2571,7 +2599,7 @@ img.mfp-img {
 	----------------------------------------------------------- */
 
 	.fl-nav-vertical.fl-full-width {
-		&.page .fl-content-full.container {
+		&.page.fl-builder .fl-content-full.container {
 			max-width: none;
 		}
 		.container {
@@ -2585,7 +2613,7 @@ img.mfp-img {
 			padding-left: 40px;
 			padding-right: 40px;
 		}
-		.fl-page-content .fl-content-full.container {
+		&.fl-builder .fl-page-content .fl-content-full.container {
 			padding-left: 0;
 			padding-right: 0;
 		}

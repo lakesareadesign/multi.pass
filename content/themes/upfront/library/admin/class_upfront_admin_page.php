@@ -6,6 +6,8 @@
  */
 abstract class Upfront_Admin_Page {
 
+	public function __construct () {}
+
 	abstract public function render_page ();
 
     /**

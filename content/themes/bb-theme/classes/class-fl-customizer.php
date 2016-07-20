@@ -207,6 +207,7 @@ final class FLCustomizer {
 			// No mods! Get defaults.
 			if ( ! $mods ) {
 				$mods = self::_get_default_mods();
+				update_option( 'theme_mods_' . get_option( 'stylesheet' ), $mods );
 			}
 		}
 		// We have cached the mods already.
@@ -340,6 +341,17 @@ final class FLCustomizer {
 		}
 
 		return $dir_info;
+	}
+
+	/**
+	 * Deletes all cached CSS files.
+	 *
+	 * @since 1.5.2
+	 * @return void
+	 */
+	static public function clear_all_css_cache()
+	{
+		self::_clear_css_cache( true );
 	}
 
 	/**
@@ -687,21 +699,24 @@ final class FLCustomizer {
 	}
 
 	/**
-	 * Deletes all cached CSS files.
+	 * Deletes cached CSS files based on the current
+	 * context (live, preview or customizer) or all if
+	 * $all is set to true.
 	 *
 	 * @since 1.2.0
 	 * @access private
+	 * @param bool $all
 	 * @return void
 	 */
-	static private function _clear_css_cache()
+	static private function _clear_css_cache( $all = false )
 	{
 		$dir_name   = basename( FL_THEME_DIR );
 		$cache_dir  = self::get_cache_dir();
-		$css_slug   = self::_css_slug();
+		$css_slug   = $all ? '' : self::_css_slug() . '-';
 
 		if ( ! empty( $cache_dir['path'] ) && stristr( $cache_dir['path'], $dir_name ) ) {
 
-			$css = glob( $cache_dir['path'] . $css_slug . '-*' );
+			$css = glob( $cache_dir['path'] . $css_slug . '*' );
 
 			foreach ( $css as $file ) {
 				if ( is_file( $file ) ) {
@@ -749,6 +764,7 @@ final class FLCustomizer {
 		$new_css_key  = uniqid();
 		$css_slug     = self::_css_slug();
 		$css          = '';
+		$filename     = $cache_dir['path'] . $css_slug . '-' . $new_css_key . '.css';
 
 		// Theme stylesheet
 		$css .= file_get_contents( FL_THEME_DIR . '/less/theme.less' );
@@ -787,7 +803,10 @@ final class FLCustomizer {
 		$css = str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    ' ), '', $css );
 
 		// Save the new css.
-		file_put_contents( $cache_dir['path'] . $css_slug . '-' . $new_css_key . '.css', $css );
+		file_put_contents( $filename, $css );
+		
+		// Make sure we can read the new file. 
+		@chmod( $filename, 0644 );
 
 		// Save the new css key.
 		update_option( self::$_css_key . '-' . $css_slug, $new_css_key );

@@ -1596,9 +1596,10 @@ class UM_Fields {
 								$option_value = $k;
 							}
 							
-							$option_value = htmlentities($option_value);
-							$option_value = apply_filters('um_select_dropdown_dynamic_option_value', $option_value);
+							$um_field_checkbox_item_title = $option_value;
 
+							$option_value = apply_filters('um_field_non_utf8_value',$option_value );
+    
 							$output .= '<option value="' . $option_value . '" ';
 							
 							if ( $this->is_selected( $form_key, $option_value, $data ) ||  $this->is_selected( $form_key, $v, $data )  ) {
@@ -1606,7 +1607,7 @@ class UM_Fields {
 							}
 
 
-							$output .= '>'.__($v, UM_TEXTDOMAIN).'</option>';
+							$output .= '>'.__( $um_field_checkbox_item_title, UM_TEXTDOMAIN).'</option>';
 
 						}
 
@@ -1660,9 +1661,9 @@ class UM_Fields {
 						$output .= '<option value=""></option>';
 
 						// add options
-						foreach($options as $k => $v) {
+						foreach( $options as $k => $v ) {
 
-							$v = rtrim($v);
+							$v = rtrim( $v );
 
 							$use_keyword = apply_filters('um_multiselect_option_value', 0, $data['type'] );
 
@@ -1672,11 +1673,15 @@ class UM_Fields {
 								$opt_value = $v;
 							}
 
-							$output .= '<option value="'.htmlentities($opt_value).'" ';
-							if ( $this->is_selected($key, $opt_value, $data) ) {
-								$output.= 'selected';
+							$um_field_checkbox_item_title = $opt_value;
+
+							$opt_value = apply_filters('um_field_non_utf8_value',$opt_value );
+    
+							$output .= '<option value="'.$opt_value.'" ';
+							if ( $this->is_selected( $key, $opt_value, $data ) ) {
+								$output .= 'selected';
 							}
-							$output .= '>'.__($v,UM_TEXTDOMAIN).'</option>';
+							$output .= '>'.__( $um_field_checkbox_item_title ,UM_TEXTDOMAIN).'</option>';
 
 						}
 
@@ -1685,7 +1690,7 @@ class UM_Fields {
 						$output .= '</div>';
 
 						if ( $this->is_error($key) ) {
-							$output .= $this->field_error( $this->show_error($key) );
+							$output .= $this->field_error( $this->show_error( $key ) );
 						}
 
 						$output .= '</div>';
@@ -1754,7 +1759,12 @@ class UM_Fields {
 							}
 
 							$output .= '<label class="um-field-radio '.$active.' um-field-half '.$col_class.'">';
-							$output .= '<input type="radio" name="'.$form_key.'" value="'.htmlentities($option_value).'" ';
+
+							$um_field_checkbox_item_title = $option_value;
+
+							$option_value = apply_filters('um_field_non_utf8_value',$option_value );
+    
+							$output .= '<input type="radio" name="'.$form_key.'" value="'.$option_value.'" ';
 
 							if ( $this->is_radio_checked($key, $option_value, $data) ) {
 								$output.= 'checked';
@@ -1762,7 +1772,7 @@ class UM_Fields {
 
 							$output .= ' />';
 							$output .= '<span class="um-field-radio-state"><i class="'.$class.'"></i></span>';
-							$output .= '<span class="um-field-radio-option">'.__($v,UM_TEXTDOMAIN).'</span>';
+							$output .= '<span class="um-field-radio-option">'.__( $um_field_checkbox_item_title,UM_TEXTDOMAIN).'</span>';
 							$output .= '</label>';
 
 							if ($i % 2 == 0) {
@@ -1821,6 +1831,11 @@ class UM_Fields {
 							}
 
 							$output .= '<label class="um-field-checkbox '.$active.' um-field-half '.$col_class.'">';
+                            
+                            $um_field_checkbox_item_title = $v;
+
+							$v = apply_filters('um_field_non_utf8_value', $v );
+    
 							$output .= '<input type="checkbox" name="'.$key.'[]" value="'.strip_tags( $v ).'" ';
 
 							if ( $this->is_selected($key, $v, $data) ) {
@@ -1830,7 +1845,7 @@ class UM_Fields {
 							$output .= ' />';
 
 							$output .= '<span class="um-field-checkbox-state"><i class="'.$class.'"></i></span>';
-							$output .= '<span class="um-field-checkbox-option">'. __($v,UM_TEXTDOMAIN) .'</span>';
+							$output .= '<span class="um-field-checkbox-option">'. __( $um_field_checkbox_item_title ,UM_TEXTDOMAIN) .'</span>';
 							$output .= '</label>';
 
 							if ($i % 2 == 0) {

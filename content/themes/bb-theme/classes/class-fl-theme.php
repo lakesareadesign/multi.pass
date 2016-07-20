@@ -139,6 +139,12 @@ final class FLTheme {
 			wp_enqueue_script('jquery-magnificpopup', FL_THEME_URL . '/js/jquery.magnificpopup.min.js', array(), FL_THEME_VERSION, true);
 		}
 
+		// FitVids
+		$body_classes = get_body_class();
+		if(!in_array('fl-builder', $body_classes)) {
+			wp_enqueue_script('jquery-fitvids', FL_THEME_URL . '/js/jquery.fitvids.js', array(), FL_THEME_VERSION, true);
+		}
+
 		// Threaded Comments
 		if(is_singular() && comments_open() && get_option('thread_comments')) {
 			wp_enqueue_script('comment-reply');
@@ -150,8 +156,11 @@ final class FLTheme {
 			wp_localize_script('fl-automator-preview', 'preview', array('preset' => $_GET['fl-preview']));
 		}
 
-		// Bootstrap and theme JS
+		// Bootstrap
+		wp_enqueue_style('bootstrap', FL_THEME_URL . '/css/bootstrap.min.css', array(), FL_THEME_VERSION);
 		wp_enqueue_script('bootstrap', FL_THEME_URL . '/js/bootstrap.min.js', array(), FL_THEME_VERSION, true);
+
+		// Core theme JS
 		wp_enqueue_script('fl-automator', FL_THEME_URL . '/js/theme.js', array(), FL_THEME_VERSION, true);
 	}
 
@@ -438,6 +447,7 @@ final class FLTheme {
 	static public function nav_menu_fallback($args)
 	{
 		$url  = current_user_can('edit_theme_options') ? admin_url('nav-menus.php') : home_url();
+		$url  = apply_filters( 'fl_nav_menu_fallback_url', $url );
 		$text = current_user_can('edit_theme_options') ? __('Choose Menu', 'fl-automator') :  __('Home', 'fl-automator');
 
 		echo '<ul class="fl-page-' . $args['theme_location'] . '-nav nav navbar-nav menu">';
@@ -666,7 +676,7 @@ final class FLTheme {
 	{
 		$settings = self::get_settings();
 
-		$keys = apply_filters( 'fl_social_icons', array(
+		$icons = apply_filters( 'fl_social_icons', array(
 			'facebook',
 			'twitter',
 			'google',
@@ -679,6 +689,7 @@ final class FLTheme {
 			'youtube',
 			'flickr',
 			'instagram',
+			'skype',
 			'dribbble',
 			'500px',
 			'blogger',
@@ -687,26 +698,7 @@ final class FLTheme {
 			'email'
 		) );
 
-		echo '<div class="fl-social-icons">';
-
-		foreach($keys as $key) {
-
-			$link_target = ' target="_blank"';
-
-			if(!empty($settings['fl-social-' . $key])) {
-
-				if($key == 'email') {
-					$settings['fl-social-' . $key] = 'mailto:' . $settings['fl-social-' . $key];
-					$link_target = '';
-				}
-
-				$class = 'fl-icon fl-icon-color-'. $settings['fl-social-icons-color'] .' fl-icon-'. $key .' fl-icon-'. $key;
-				$class .= $circle ? '-circle' : '-regular';
-				echo '<a href="'. $settings['fl-social-' . $key] . '"' . $link_target . ' class="'. $class .'"></a>';
-			}
-		}
-
-		echo '</div>';
+		include locate_template( 'includes/social-icons.php' );
 	}
 
 	/**

@@ -79,8 +79,10 @@ class UM_Permalinks {
 							$page_url .= '?' . $_SERVER['QUERY_STRING'];
 						}
 				}else {
-
-						if( $_SERVER[ $server_name_method ] == "localhost" ){
+						
+						$network_permalink_structure = um_get_option("network_permalink_structure");
+      					
+      					if(  $network_permalink_structure == "sub-directory" ){
 						
 							$page_url = 'http';
 

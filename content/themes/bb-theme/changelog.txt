@@ -1,3 +1,30 @@
+<h4>1.5.2 - 07/12/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Theme CSS cache is now cleared when clearing builder CSS cache under Settings > Page Builder > Cache.</li>
+	<li>Reworked comments.php to add support for JetPack comments.</li>
+	<li>Added social-icons.php for overriding social icons markup in a child theme.</li>
+	<li>Added Skype to the social icons settings.</li>
+	<li>Added FitVids responsive video support for videos in the WordPress editor when the builder is not active.</li>
+	<li>Bootstrap's CSS is now loaded using wp_enqueue_style instead of in header.php.</li>
+	<li>Add the fl_nav_menu_fallback_url filter.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a bug with content padding when using vertical header layouts.</li>
+	<li>Fixed a bug with the scroll to top button freezing scrolling on iOS.</li>
+	<li>Fixed a bug with builder UI elements going on top of fixed headers.</li>
+	<li>Fixed a bug with screen reader text showing.</li>
+	<li>Fixed a bug with double class attributes in nav-search.php.</li>
+	<li>Fixed a bug with mega menu headings not showing on mobile.</li>
+	<li>Fixed a bug with WooCommerce product category layouts.</li>
+	<li>Fixed a bug with the fl_default_theme_mods filter not working.</li>
+	<li>Fixed a bug with long mega menus going off the page. Long mega menus now revert to standard dropdowns when there is not enough room.</li>
+	<li>Fixed a bug with the logo resizing from 0 to 100% on load when the shrink header option is selected.</li>
+	<li>Fixed a bug with cache files not being created with the correct file permissions.</li>
+	<li>Fixed a bug with the mobile menu's transition when submenus are present.</li>
+</ul>
+
 <h4>1.5.1 - 05/02/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>
@@ -5,7 +32,7 @@
 	<li>Added the fl_theme_mods filter.</li>
 	<li>Added the fl_default_theme_mods filter.
 	<li>Added Xing as a social icon option.</li>
-	<li>The scroll to top button is now available on all screen sizes.</li></li>
+	<li>The scroll to top button is now available on all screen sizes.</li>
 </ul>
 <p><strong>Bug Fixes</strong></p>
 <ul>

@@ -115,6 +115,7 @@ final class FLThemeUpdate {
 			'youtube'                   => 'fl-social-youtube',
 			'flickr'                    => 'fl-social-flickr',
 			'instagram'                 => 'fl-social-instagram',
+			'skype'                 	=> 'fl-social-skype',
 			'dribbble'                  => 'fl-social-dribbble',
 			'500px'                     => 'fl-social-500px',
 			'blogger'                   => 'fl-social-blogger',

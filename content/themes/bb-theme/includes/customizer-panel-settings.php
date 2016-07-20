@@ -99,6 +99,12 @@ FLCustomizer::add_panel('fl-settings', array(
 						'label' => 'Instagram',
 					)
 				),
+				'fl-social-skype' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Skype',
+					)
+				),
 				'fl-social-dribbble' => array(
 					'control'   => array(
 						'class' => 'WP_Customize_Control',
