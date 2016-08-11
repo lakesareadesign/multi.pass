@@ -197,6 +197,7 @@ class Mailchimp {
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         curl_setopt($ch, CURLOPT_VERBOSE, $this->debug);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         $start = microtime(true);
         $this->log('Call to ' . $this->root . $url . '.json: ' . $params);

@@ -455,6 +455,7 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 										div.find('.form-ignore').addClass('wd-hide');
 										div.show(500);
 									})
+									$('body').trigger('after_an_issue_resolved', -1);
 								}
 
 								if (data.revert == 1) {
@@ -467,15 +468,22 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 											titles = $.makeArray(titles);
 											titles.reverse();
 											var current_title = div.find('.rule-title').text();
+											var append = false;
 											$.each(titles, function (i, v) {
 												//if the current letter is order up the current, add bellow that
 												var text = $(this).text().toUpperCase();
 												//if the current letter is order up the current, add bellow that
 												if (current_title.toUpperCase().localeCompare(text) == true) {
 													div.insertAfter($(this).closest('.wd-hardener-rule'));
+													append = true;
 													return false;
 												}
 											})
+
+											if (append == false) {
+												div.prependTo($('.wd-hardener-error'));
+											}
+
 										} else {
 											div.appendTo($('.wd-hardener-error'));
 										}
@@ -487,6 +495,7 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 											 scrollTop: div.find('.rule-title').offset().top
 											 }, 1000);*/
 										});
+										$('body').trigger('after_an_issue_resolved', 1);
 									})
 								}
 							}

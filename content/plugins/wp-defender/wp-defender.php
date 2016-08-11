@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Defender
  * Plugin URI: https://premium.wpmudev.org/project/wp-defender/
- * Version:     1.0.8
+ * Version:     1.1.1
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
@@ -77,7 +77,7 @@ class WP_Defender {
 	/**
 	 * @var string
 	 */
-	public $db_version = '1.0.2';
+	public $db_version = '1.0.3';
 
 	/**
 	 * @var string
@@ -141,40 +141,13 @@ class WP_Defender {
 
 	public function maybe_upgrade() {
 		//only in admin
-		if ( ! is_admin() || ! ( is_multisite() && is_network_admin() ) ) {
-			return;
-		}
+		if ( is_admin() || ( is_multisite() && is_network_admin() ) ) {
 
-		$db_version = get_site_option( 'wd_db_version' );
-		if ( $db_version == false || version_compare( $db_version, $this->db_version, '<' ) ) {
-			//from version 1.0.2, we clean up the htaccess
-			//need to check if has httacces in wp-include
-			$hardeners = WD_Hardener_Module::find_controller( 'hardener' );
-			$rules     = $hardeners->get_loaded_modules();
-			foreach ( $rules as $rule ) {
-				if ( $rule->id == 'protect_core_dir' ) {
-					$done_all = true;
-					$path     = ABSPATH . WPINC . '/.htaccess';
-					if ( file_exists( $path ) ) {
-						if ( $rule->revert( $path, true ) !== true ) {
-							$done_all = false;
+			$db_version = get_site_option( 'wd_db_version' );
 
-							return;
-						}
-					}
-					$path = WP_CONTENT_DIR . '/.htaccess';
-					if ( file_exists( $path ) ) {
-						if ( $rule->revert( $path, true ) !== true ) {
-							$done_all = false;
-
-							return;
-						}
-					}
-
-					if ( $done_all == true ) {
-						update_site_option( 'wd_db_version', $this->db_version );
-					}
-				}
+			if ( $db_version == false || version_compare( $db_version, '1.0.3', '<' ) ) {
+				WD_Utils::remove_cache( WD_Scan_Api::CACHE_LAST_MD5 );
+				update_site_option( 'wd_db_version', $this->db_version );
 			}
 		}
 	}
@@ -228,6 +201,7 @@ class WP_Defender {
 	 * initial plugin scripts
 	 */
 	public function init() {
+		$this->register_post_type();
 		$module_manager = new WD_Module_Manager();
 		$module_manager->attach( WD_Hardener_Module::get_instance() );
 		$module_manager->attach( WD_Scan_Module::get_instance() );
@@ -249,6 +223,10 @@ class WP_Defender {
 
 	public function register_post_type() {
 		register_post_type( 'wdscan_result', array(
+			'labels'          => array(
+				'name'          => __( "Scans", $this->domain ),
+				'singular_name' => __( "Scan", $this->domain )
+			),
 			'public'          => false,
 			'show_ui'         => false,
 			'show_in_menu'    => false,

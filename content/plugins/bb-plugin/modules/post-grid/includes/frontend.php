@@ -1,4 +1,5 @@
 <?php
+wp_reset_query();
 
 // Get the query data.
 $query = FLBuilderLoop::query($settings);

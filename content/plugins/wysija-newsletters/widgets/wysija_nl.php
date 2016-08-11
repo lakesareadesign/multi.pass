@@ -237,6 +237,7 @@ class WYSIJA_NL_Widget extends WP_Widget {
 
 	function widget( $args, $instance = null ) {
 		// this lines feed local variables such as $before_widget ,$after_widget etc...
+        $args = array_map('sanitize_text_field', $args);
 		extract( $args );
 
 		//in some case we may pass only one argument, in which case we will just assign the first to the second
@@ -303,7 +304,7 @@ class WYSIJA_NL_Widget extends WP_Widget {
 				if ( isset( $this->core_only ) && $this->core_only && ! isset( $field_params['core'] ) ){
 					continue;
 				}
-				if ( $field == 'success' && $instance[ $field ] == $this->successmsgsub . ' ' . $this->successmsgconf ){
+				if ( $field == 'success' && !empty($instance[ $field ]) && $instance[ $field ] == $this->successmsgsub . ' ' . $this->successmsgconf ){
 					if ( ! $model_config->getValue( 'confirm_dbleoptin' ) ){
 						$instance[ $field ] = $this->successmsgsub;
 					}

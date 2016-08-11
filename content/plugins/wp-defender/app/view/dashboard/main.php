@@ -1,7 +1,9 @@
 <div class="wrap">
 	<div class="wpmud">
 		<div class="wp-defender">
-			<h2 class="tl wd-title"><?php _e( "Dashboard", wp_defender()->domain ) ?></h2>
+			<section id="header">
+				<h1 class="tl"><?php _e( "Dashboard", wp_defender()->domain ) ?></h1>
+			</section>
 
 			<div class="wd-dashboard">
 				<section class="dev-box wd-dashboard-intro">
@@ -30,7 +32,7 @@
 					</div>
 				</section>
 				<div class="group wd-no-margin">
-					<div class="col span_6_of_12 wd-no-padding">
+					<div class="col span_6_of_12">
 						<?php
 						///hardener widget
 						$widget = WD_Widget_Manager::get_instance()->display( 'WD_Hardener_Widget' );
@@ -135,25 +137,9 @@
 							</div>
 						</section>
 					</div>
-					<div class="col span_6_of_12 wd-no-padding float-r">
+					<div class="col span_6_of_12 float-r">
 						<?php $widget = WD_Widget_Manager::get_instance()->display( 'WD_Scan_Widget' ); ?>
-						<section class="dev-box">
-							<div class="box-title">
-								<h3><?php _e( "Audit Logging", wp_defender()->domain ) ?></h3>
-							</div>
-							<div class="box-content tc">
-								<img width="200px"
-								     src="<?php echo wp_defender()->get_plugin_url() ?>assets/img/dev-man-log.png"/>
-
-								<h2><?php _e( "Coming Soon", wp_defender()->domain ) ?></h2>
-
-								<p>
-									<?php
-									_e( "We are working on an audit log feature that will track all interactions with your website and store them securely in the cloud. That way, you'll always know who did what on your site and hackers or malware can't cover their tracks. We'll keep you posted!", wp_defender()->domain )
-									?>
-								</p>
-							</div>
-						</section>
+						<?php $widget = WD_Widget_Manager::get_instance()->display( 'WD_Audit_Log_Widget' ); ?>
 					</div>
 				</div>
 			</div>

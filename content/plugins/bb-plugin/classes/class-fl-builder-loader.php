@@ -27,12 +27,14 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			$plugin_dirname = basename( dirname( dirname( __FILE__ ) ) );
 			
 			if ( class_exists( 'FLBuilder' ) || ( $plugin_dirname != $lite_dirname && $lite_active ) ) {
-				self::admin_notice_hooks();
+				add_action('admin_notices',           __CLASS__ . '::double_install_admin_notice');
+				add_action('network_admin_notices',   __CLASS__ . '::double_install_admin_notice');
 				return;
 			}
 			
 			self::define_constants();
 			self::load_files();
+			self::check_permissions();
 		}
 		
 		/**
@@ -43,7 +45,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 */ 
 		static private function define_constants()
 		{
-			define('FL_BUILDER_VERSION', '1.8');
+			define('FL_BUILDER_VERSION', '1.8.4');
 			define('FL_BUILDER_FILE', trailingslashit(dirname(dirname(__FILE__))) . 'fl-builder.php');
 			define('FL_BUILDER_DIR', plugin_dir_path(FL_BUILDER_FILE));
 			define('FL_BUILDER_URL', plugins_url('/', FL_BUILDER_FILE));
@@ -86,6 +88,11 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-update.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-timezones.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-utils.php';
+
+			/* WP CLI Commands */
+			if ( defined( 'WP_CLI' ) ) {
+				require __DIR__ . '/class-fl-builder-wpcli-command.php';
+			}
 			
 			/* Includes */
 			require_once FL_BUILDER_DIR . 'includes/compatibility.php';
@@ -93,16 +100,38 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		}
 		
 		/**
-		 * Initializes actions for the admin notice if another version 
-		 * of the builder has already been loaded before this one.
+		 * Checks to see if we can write to files and shows
+		 * an admin notice if we can't.
 		 *
-		 * @since 1.8
+		 * @since 1.8.2
+		 * @access private
 		 * @return void
 		 */ 
-		static private function admin_notice_hooks()
+		static private function check_permissions()
 		{
-			add_action('admin_notices',           __CLASS__ . '::admin_notice');
-			add_action('network_admin_notices',   __CLASS__ . '::admin_notice');
+			if ( isset( $_REQUEST['page'] ) && in_array( $_REQUEST['page'], array( 'fl-builder-settings', 'fl-builder-multisite-settings' ) ) ) {
+				
+				$wp_upload_dir = wp_upload_dir();
+				$bb_upload_dir = FLBuilderModel::get_upload_dir();
+				
+				if ( ! is_writable( $wp_upload_dir['basedir'] ) || ! is_writable( $bb_upload_dir['path'] ) ) {
+					add_action('admin_notices',           __CLASS__ . '::permissions_admin_notice');
+					add_action('network_admin_notices',   __CLASS__ . '::permissions_admin_notice');
+				}
+			}
+		}
+	
+		/**
+		 * Shows an admin notice if we can't write to files.
+		 *
+		 * @since 1.8.2
+		 * @return void
+		 */
+		static public function permissions_admin_notice()
+		{
+			$message = __( 'Beaver Builder may not be functioning correctly as it does not have permission to write files to the WordPress uploads directory on your server. Please update the WordPress uploads directory permissions before continuing or contact your host for assistance.', 'fl-builder' );
+			
+			self::render_admin_notice( $message, 'error' );
 		}
 	
 		/**
@@ -112,7 +141,23 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @since 1.8
 		 * @return void
 		 */
-		static public function admin_notice()
+		static public function double_install_admin_notice()
+		{
+			$message = __( 'You currently have two versions of Beaver Builder active on this site. Please <a href="%s">deactivate one</a> before continuing.', 'fl-builder' );
+			
+			self::render_admin_notice( sprintf( $message, admin_url( 'plugins.php' ) ), 'error' );
+		}
+		
+		/**
+		 * Renders an admin notice.
+		 *
+		 * @since 1.8.2
+		 * @access private
+		 * @param string $message
+		 * @param string $type
+		 * @return void
+		 */ 
+		static private function render_admin_notice( $message, $type = 'update' )
 		{
 			if ( ! is_admin() ) {
 				return;
@@ -124,10 +169,8 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 				return;
 			}
 			
-			$message = __( 'You currently have two versions of Beaver Builder active on this site. Please <a href="%s">deactivate one</a> before continuing.', 'fl-builder' );
-			
-			echo '<div class="updated">';
-			echo '<p>' . sprintf( $message, admin_url( 'plugins.php' ) ) . '</p>';
+			echo '<div class="' . $type . '">';
+			echo '<p>' . $message . '</p>';
 			echo '</div>';
 		}
 	}

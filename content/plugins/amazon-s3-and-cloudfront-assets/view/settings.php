@@ -63,15 +63,6 @@ $prefix = $this->get_plugin_prefix_slug();
 						<p class="object-prefix-desc">
 							<?php printf( __( 'Files will be scanned every %d minutes, new and changed files will be uploaded to S3 and missing files will be removed.', 'as3cf-assets' ), $this->scanning_cron_interval_in_minutes ); ?>
 							<?php echo $this->assets_more_info_link( 'automatic-scanning' ); ?>
-							<span class="as3cf-setting enable-cron <?php echo ( $this->get_setting( 'enable-addon' ) && $this->get_setting( 'enable-cron' ) ) ? '' : 'hide'; // xss ok ?>">
-								<?php _e( 'Next scan:' ); ?>
-								<?php $timestamp = wp_next_scheduled( $this->scanning_cron_hook );
-								if ( $timestamp != '' ) : ?>
-									<span class="next-scan">
-										<?php echo date( 'M d, Y @ H:i', $timestamp ); ?>
-									</span>
-								<?php endif; ?>
-							</span>
 						</p>
 					</td>
 				</tr>
@@ -95,10 +86,10 @@ $prefix = $this->get_plugin_prefix_slug();
 				</tr>
 				<?php $this->render_view( 'domain-setting' ); ?>
 				<?php
-				$args = $this->get_setting_args( 'enable-script-object-prefix' );
+				$args          = $this->get_setting_args( 'enable-script-object-prefix' );
 				$args['class'] = 'sub-toggle';
 				?>
-				<tr class="as3cf-border-bottom <?php echo $args['tr_class']; ?>">
+				<tr class="<?php echo $args['tr_class']; ?>">
 					<td>
 						<?php $this->render_view( 'checkbox', $args ); ?>
 					</td>
@@ -116,10 +107,29 @@ $prefix = $this->get_plugin_prefix_slug();
 						</p>
 					</td>
 				</tr>
+				<?php $args = $this->get_setting_args( 'force-https' ); ?>
+				<tr class="as3cf-border-bottom <?php echo $args['tr_class']; ?>">
+					<td>
+						<?php $this->render_view( 'checkbox', $args ); ?>
+					</td>
+					<td>
+						<?php echo $args['setting_msg']; ?>
+						<h4><?php _e( 'Force HTTPS', 'as3cf-assets' ) ?></h4>
+
+						<p class="object-prefix-desc">
+							<?php _e( "By default we use HTTPS when the request is HTTPS and regular HTTP when the request is HTTP, but you may want to force the use of HTTPS always, regardless of the request.", 'as3cf-assets' ); ?>
+							<?php echo $this->assets_more_info_link( 'force-https' ); ?>
+						</p>
+					</td>
+				</tr>
 				<tr class="as3cf-setting-title">
 					<td colspan="2"><h3><?php _e( 'Advanced Options', 'as3cf-assets' ); ?></h3></td>
 				</tr>
-				<?php $args = $this->get_setting_args( 'enable-minify' ); ?>
+				<?php
+				$minify        = $this->get_setting( 'enable-minify' );
+				$args          = $this->get_setting_args( 'enable-minify' );
+				$args['class'] = 'sub-toggle';
+				?>
 				<tr class="<?php echo $args['tr_class']; ?>">
 					<td>
 						<?php $this->render_view( 'checkbox', $args ); ?>
@@ -134,8 +144,33 @@ $prefix = $this->get_plugin_prefix_slug();
 						</p>
 					</td>
 				</tr>
+				<?php
+				$minify_excludes = $this->get_setting( 'enable-minify-excludes' );
+				$args            = $this->get_setting_args( 'enable-minify-excludes' );
+				$args['class']   = 'sub-toggle';
+				?>
+				<tr class="as3cf-setting <?php echo $args['tr_class']; echo empty( $minify ) ? ' hide' : ''; // xss ok ?> enable-minify">
+					<td>
+						<?php $this->render_view( 'checkbox', $args ); ?>
+					</td>
+					<td>
+						<?php echo $args['setting_msg']; ?>
+						<h4><?php _e( 'Exclude Files From Minify', 'as3cf-assets' ) ?></h4>
+
+						<p class="enable-minify-exclude-desc">
+							<?php _e( 'List of files to be excluded from minify. One per line.', 'as3cf-assets' ); ?>
+							<?php echo $this->assets_more_info_link( 'minify-excludes' ); ?>
+						</p>
+						<?php
+						$args                    = $this->get_setting_args( 'minify-excludes' );
+						$args['minify']          = $minify;
+						$args['minify_excludes'] = $minify_excludes;
+						$this->render_view( 'minify-excludes-setting', $args );
+						?>
+					</td>
+				</tr>
 				<?php $args = $this->get_setting_args( 'enable-gzip' ); ?>
-				<tr class="as3cf-border-bottom <?php echo $args['tr_class']; ?>">
+				<tr class="<?php echo $args['tr_class']; ?>">
 					<td>
 						<?php $this->render_view( 'checkbox', $args ); ?>
 					</td>
@@ -161,37 +196,8 @@ $prefix = $this->get_plugin_prefix_slug();
 						$this->render_view( 'notice', $cdn_gzip_args ); ?>
 					</td>
 				</tr>
-				<tr class="as3cf-setting-title">
-					<td colspan="2"><h3><?php _e( 'Manual', 'as3cf-assets' ); ?></h3></td>
-				</tr>
-				<tr>
-					<td>
-						<a href="#" id="as3cf-assets-manual-scan" class="as3cf-manual-button button <?php echo ( $this->is_scanning() || $this->is_purging() ) ? 'disabled' : ''; ?>">
-							<?php _ex( 'Scan Now', 'Scan the filesystem for files to upload to S3', 'as3cf-assets' ); ?>
-						</a>
-					</td>
-					<td>
-						<p>
-							<?php _e( 'Initiate the scan now.', 'as3cf-assets' ); ?>
-							<?php echo $this->assets_more_info_link( 'scan-now' ); ?>
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<a href="#" id="as3cf-assets-manual-purge" class="as3cf-manual-button button <?php echo ( $this->is_scanning() || $this->is_purging() ) ? 'disabled' : ''; ?>">
-							<?php _ex( 'Purge', 'Remove all files from S3', 'as3cf-assets' ); ?>
-						</a>
-					</td>
-					<td>
-						<p>
-							<?php _e( 'Remove all files from S3.', 'as3cf-assets' ); ?>
-							<?php echo $this->assets_more_info_link( 'purge' ); ?>
-						</p>
-					</td>
-				</tr>
 				<?php
-				$args = $this->get_setting_args( 'enable-custom-endpoint' );
+				$args          = $this->get_setting_args( 'enable-custom-endpoint' );
 				$args['class'] = 'sub-toggle';
 				?>
 				<tr class="as3cf-border-bottom <?php echo $args['tr_class']; ?>">

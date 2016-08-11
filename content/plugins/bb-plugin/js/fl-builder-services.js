@@ -28,6 +28,9 @@
 			
 			// MailChimp Events
 			body.delegate( '.fl-builder-mailchimp-list-select', 'change', this._mailChimpListChange );
+
+			// ActiveCampaign Events
+			body.delegate( '.fl-builder-activecampaign-list_type-select', 'change', this._activeCampaignChange );
 		},
 		
 		/**
@@ -411,6 +414,60 @@
 				list    = wrap.find( '.fl-builder-service-list-select' );
 			
 			list.closest( 'tr' ).after( data.html );
+			FLBuilderServices._finishSettingsLoading();
+		},
+
+		/* ActiveCampaign
+		----------------------------------------------------------*/
+		
+		/**
+		 * Fires when the ActiveCampaign list type select is changed.
+		 *
+		 * @return void
+		 * @since 1.6.0
+		 */
+		_activeCampaignChange: function()
+		{
+			var nodeId      = $( '.fl-builder-settings' ).data( 'node' ),
+				wrap        = $( this ).closest( '.fl-builder-service-settings' ),
+				select      = wrap.find( '.fl-builder-service-select' ),
+				account     = wrap.find( '.fl-builder-service-account-select' ),
+				list    	= wrap.find( '.fl-builder-service-list-select' );
+				list_type   = wrap.find( 'select[name="list_type"]' );
+			
+			if ( 0 !== list.length ) {
+				list.closest( 'tr' ).remove();
+			}
+			
+			if ( '' === list_type.val() ) {
+				return;
+			}
+			
+			FLBuilderServices._startSettingsLoading( select );
+			
+			FLBuilder.ajax( {
+				action  : 'render_service_fields',
+				node_id : nodeId,
+				service : select.val(),
+				account : account.val(),
+				list_type : list_type.val()
+			}, FLBuilderServices._activeCampaignTypeChangeComplete );
+		},
+		
+		/**
+		 * AJAX callback for when the ActiveCampaign list select is changed.
+		 *
+		 * @param {String} response The JSON response.
+		 * @return void
+		 * @since 1.6.0
+		 */
+		_activeCampaignTypeChangeComplete: function( response )
+		{
+			var data    	= JSON.parse( response ),
+				wrap    	= $( '.fl-builder-service-settings-loading' ),
+				fieldRow  	= wrap.find( '.fl-builder-service-field-row' );
+			
+			fieldRow.after( data.html );
 			FLBuilderServices._finishSettingsLoading();
 		}
 	};

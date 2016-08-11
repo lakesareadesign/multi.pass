@@ -98,7 +98,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 		}
 		if ( $this->is_ajax() ) {
 			wp_send_json( array(
-				'status'  =>  1,
+				'status'  => 1,
 				'revert'  => 1,
 				'element' => $this->apache_output()
 			) );
@@ -230,6 +230,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 											 scrollTop: div.find('.rule-title').offset().top
 											 }, 1000);*/
 										});
+										$('body').trigger('after_an_issue_resolved', -1);
 									})
 								}
 
@@ -243,14 +244,19 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 											titles = $.makeArray(titles);
 											titles.reverse();
 											var current_title = div.find('.rule-title').text();
+											var append = false;
 											$.each(titles, function (i, v) {
 												var text = $(this).text().toUpperCase();
 												//if the current letter is order up the current, add bellow that
 												if (current_title.toUpperCase().localeCompare(text) == true) {
 													div.insertAfter($(this).closest('.wd-hardener-rule'));
+													append = true;
 													return false;
 												}
 											})
+											if (append == false) {
+												div.prependTo($('.wd-hardener-error'));
+											}
 										} else {
 											div.appendTo($('.wd-hardener-error'));
 										}
@@ -262,6 +268,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 											 scrollTop: div.find('.rule-title').offset().top
 											 }, 1000);*/
 										});
+										$('body').trigger('after_an_issue_resolved', 1);
 									})
 								}
 							}

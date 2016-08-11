@@ -4,7 +4,7 @@ Plugin Name: WP Offload S3 - Assets Addon
 Plugin URI: http://deliciousbrains.com/wp-offload-s3/#addons
 Description: WP Offload S3 addon to serve your site's JS, CSS and other assets from S3. Requires Pro Upgrade.
 Author: Delicious Brains
-Version: 1.1.2
+Version: 1.2
 Author URI: http://deliciousbrains.com
 Network: True
 
@@ -23,7 +23,7 @@ Network: True
 
 require_once dirname( __FILE__ ) . '/version.php';
 
-$as3cfpro_plugin_version_required = '1.1.4';
+$as3cfpro_plugin_version_required = '1.1.5';
 
 require dirname( __FILE__ ) . '/classes/wp-aws-compatibility-check.php';
 global $as3cf_assets_compat_check;
@@ -49,11 +49,13 @@ function as3cf_assets_init( $aws ) {
 	$abspath = dirname( __FILE__ );
 	require_once $abspath . '/classes/amazon-s3-and-cloudfront-assets.php';
 	require_once $abspath . '/classes/class-minify.php';
+	require_once $abspath . '/classes/class-process-assets.php';
 	require_once $abspath . '/classes/class-recursive-callback-filter-iterator.php';
 	require_once $abspath . '/classes/class-upgrade.php';
 	require_once $abspath . '/classes/async-requests/as3cf-scan-files-for-s3.php';
 	require_once $abspath . '/classes/async-requests/as3cf-remove-files-from-s3.php';
 	require_once $abspath . '/classes/background-processes/class-minify-background-process.php';
+	require_once $abspath . '/classes/background-processes/class-process-assets-background-process.php';
 	require_once $abspath . '/classes/minify/class-provider-interface.php';
 	require_once $abspath . '/classes/minify/class-cssmin-provider.php';
 	require_once $abspath . '/classes/minify/class-jshrink-provider.php';

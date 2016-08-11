@@ -90,6 +90,7 @@ FLBuilder::register_module('FLCtaModule', array(
 						'type'          => 'editor',
 						'label'         => '',
 						'media_buttons' => false,
+						'wpautop'		=> false,
 						'default'       => __('Drop us a line today for a free quote!', 'fl-builder'),
 						'preview'       => array(
 							'type'          => 'text',

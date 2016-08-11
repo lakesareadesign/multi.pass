@@ -32,7 +32,7 @@ class Delicious_Brains_API {
 	/**
 	 * @var string
 	 */
-	public $api_base = 'https://deliciousbrains.com';
+	public $api_base = 'https://api.deliciousbrains.com';
 
 	/**
 	 * @var string
@@ -188,6 +188,28 @@ class Delicious_Brains_API {
 	 */
 	public function get_upgrade_data() {
 		$response = $this->api_request( 'upgrade_data' );
+
+		return $response;
+	}
+
+	/**
+	 * Get changelog contents for the given plugin slug.
+	 *
+	 * @param string $slug
+	 * @param bool   $beta
+	 *
+	 * @return bool|string
+	 */
+	public function get_changelog( $slug, $beta = false ) {
+		if ( true === $beta ) {
+			$slug .= '-beta';
+		}
+
+		$args = array(
+			'slug' => $slug,
+		);
+
+		$response = $this->api_request( 'changelog', $args );
 
 		return $response;
 	}

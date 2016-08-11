@@ -8,7 +8,6 @@
  * 	@copyright	Copyright (c) 2013-2015, Kerry Kline
  * 	@link		http://www.bnecreative.com
  *
- *	@updated: February 7, 2015
 */
 
 
@@ -17,6 +16,7 @@
  *	Register Testimonials Custom Post Type
  *	post edit screen.
  *	@since v1.0
+ *	@updated v1.7.4
 */
 function bne_testimonials_post_type() {
 
@@ -34,7 +34,10 @@ function bne_testimonials_post_type() {
 		'not_found'          => __( 'No Testimonial found', 'bne-testimonials' ),
 		'not_found_in_trash' => __( 'No Testimonial found in trash', 'bne-testimonials' ),
 		'parent_item_colon'  => __( 'Parent Testimonial', 'bne-testimonials' ),
-		'menu_name'          => __( 'Testimonials', 'bne-testimonials' )
+		'menu_name'          => __( 'Testimonials', 'bne-testimonials' ),
+	    'featured_image' 		=> 	__( 'Testimonial Thumbnail', 'bne-testimonials' ),
+	    'set_featured_image'	=>	__( 'Set Image', 'bne-testimonials' ),
+	    'remove_featured_image'	=>	__( 'Remove Image', 'bne-testimonials' ),
 	);
 
 	// Custom Post Type Supports
@@ -148,32 +151,16 @@ add_filter( 'enter_title_here', 'bne_testimonials_post_title', 'bne-testimonials
 
 
 
-
-/*
- *	Featured Image Widget Title
- *	@since v1.1
-*/
-function bne_testimonials_admin_featured_image_text() {
-
-    remove_meta_box( 'postimagediv', 'bne_testimonials', 'side', 'bne-testimonials' );
-
-    add_meta_box( 'postimagediv', __( 'Set Testimonial Thumbnail', 'bne-testimonials' ), 'bne_testimonials_featured_image_box', 'bne_testimonials', 'side', 'default' );
-}
-add_action( 'do_meta_boxes', 'bne_testimonials_admin_featured_image_text' );
-
-
-
-
 /*
  *	Featured Image Widget Text
- *	@since v1.1
+ *
+ *	@since 		v1.1
+ *	@updated 	v1.7.4
 */
-function bne_testimonials_featured_image_box( $post ) {
-	$thumbnail_id = get_post_meta( $post->ID, '_thumbnail_id', true );
-	echo _wp_post_thumbnail_html( $thumbnail_id, $post->ID );
-	echo __( 'Add an optional featured image for this testimonial.', 'bne-testimonials' );
+function bne_testimonials_post_thumbnail_html( $content ) {
+    return $content .= __( 'Add an optional featured image for this testimonial.', 'bne-testimonials' );
 }
-
+add_filter( 'admin_post_thumbnail_html', 'bne_testimonials_post_thumbnail_html');
 
 
 

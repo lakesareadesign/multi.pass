@@ -127,6 +127,7 @@ class WD_Plugin_Theme_Editor extends WD_Hardener_Abstract {
 												scrollTop: div.find('.rule-title').offset().top
 											}, 1000);
 										});
+										$('body').trigger('after_an_issue_resolved', 1);
 									})
 								}
 								if (data.done == 1) {
@@ -139,6 +140,7 @@ class WD_Plugin_Theme_Editor extends WD_Hardener_Abstract {
 										div.find('i.dashicons-flag').replaceWith($('<i class="wdv-icon wdv-icon-fw wdv-icon-ok"/>'));
 										div.find('.form-ignore').addClass('wd-hide');
 										div.show(500);
+										$('body').trigger('after_an_issue_resolved', -1);
 									})
 								}
 							}

@@ -161,7 +161,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 
 			//$this->log( 'before memory ' . $this->convert_size( memory_get_usage() ), self::ERROR_LEVEL_DEBUG, 'scan' );
 			//$this->log( 'before cpu' . $this->get_cpu_usage(), self::ERROR_LEVEL_DEBUG, 'cpu' );
-			//$this->log( 'start file ' . $file, self::ERROR_LEVEL_DEBUG, 'scan' );
+			$this->log( 'start file ' . $file, self::ERROR_LEVEL_DEBUG, 'scan' );
 
 			/**
 			 * we need to check if this is still processing, and fault
@@ -187,34 +187,28 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 			$checksum = md5_file( $file );
 			//$this->model->md5_tree[ $file ] = $checksum;
 			$tmp_checksum[ $file ] = $checksum;
-			$need_scan             = true;
 			if ( is_object( $last_scan ) && is_array( $last_checksum ) && isset( $last_checksum[ $file ] ) && strcmp( $checksum, $last_checksum[ $file ] ) === 0 ) {
-				$is_ignored = $last_scan->is_file_ignored( $file, 'WD_Scan_Result_File_Item_Model' );
-				$is_issue   = $last_scan->find_result_item_by_file( $file, 'WD_Scan_Result_File_Item_Model' );
-				/**
-				 * if this is issue, but content not changed, and ignored => still ignored
-				 * if this is an issue, but not ignore, force rescan
-				 * if this is not an issue, so we skip
-				 */
-
-				if ( is_object( $is_issue ) && $is_ignored ) {
-					$this->model->ignore_files[] = $is_issue->id;
-					$this->model->add_item( $is_issue );
-					//we dont need scanm this file
-					$need_scan = false;
-				} elseif ( ! is_object( $is_issue ) ) {
-					//this file is cool, no change and no issue
-					$need_scan = false;
+				$ret = $last_scan->find_result_item_by_file( $file, 'WD_Scan_Result_File_Item_Model' );
+				if ( is_object( $ret ) ) {
+					//this file is an issue from the last, it still be
+					$this->model->item_indexes[ $ret->id ] = $file;
+					$this->model->add_item( $ret );
 				}
-			}
 
-			if ( $need_scan ) {
+			} else {
 				$ret = $this->_scan_a_file( $file );
 				if ( $ret instanceof WD_Scan_Result_File_Item_Model ) {
 					//found an issue
 					$this->model->add_item( $ret );
 					$this->model->item_indexes[ $ret->id ] = $file;
 					//$this->model->result[] = $ret;
+				}
+			}
+
+			if ( is_object( $last_scan ) ) {
+				$is_ignored = $last_scan->is_file_ignored( $file, 'WD_Scan_Result_File_Item_Model' );
+				if ( $is_ignored && $ret instanceof WD_Scan_Result_File_Item_Model ) {
+					$this->model->ignore_files[] = $ret->id;
 				}
 			}
 

@@ -26,6 +26,16 @@ final class FLUpdater {
 	static private $_products = array();
 
 	/**
+	 * An internal array of remote responses with 
+	 * update data for each product.
+	 *
+	 * @since 1.8.4
+	 * @access private
+	 * @var array $_responses
+	 */
+	static private $_responses = array();
+
+	/**
 	 * An internal array of settings for the updater instance.
 	 *
 	 * @since 1.0
@@ -33,15 +43,6 @@ final class FLUpdater {
 	 * @var array $settings
 	 */
 	private $settings = array();
-
-	/**
-	 * Whether a force check was already done or not.
-	 *
-	 * @since 1.7.7
-	 * @access private
-	 * @var bool $did_force_check
-	 */
-	private $did_force_check = false;
 
 	/**
 	 * Updater constructor method.
@@ -72,26 +73,22 @@ final class FLUpdater {
 	 */
 	public function get_response()
 	{
-		$transient_key = $this->settings['slug'] . '-update-response';
-		$response      = get_transient( $transient_key );
+		$slug = $this->settings['slug'];
 		
-		if ( false === $response || isset( $response->error ) || ( isset( $_GET['force-check'] ) && ! $this->did_force_check ) ) {
-			
-			$this->did_force_check = true;
-			
-			$response = FLUpdater::api_request( self::$_updates_api_url, array(
-				'fl-api-method' => 'update_info',
-				'license'       => FLUpdater::get_subscription_license(),
-				'domain'        => network_home_url(),
-				'product'       => $this->settings['name'],
-				'slug'          => $this->settings['slug'],
-				'version'       => $this->settings['version']
-			) );
-			
-			set_transient( $transient_key, $response, strtotime( '+12 hours' ) );
+		if ( isset( FLUpdater::$_responses[ $slug ] ) ) {
+			return FLUpdater::$_responses[ $slug ];
 		}
 		
-		return $response;
+		FLUpdater::$_responses[ $slug ] = FLUpdater::api_request( FLUpdater::$_updates_api_url, array(
+			'fl-api-method' => 'update_info',
+			'license'       => FLUpdater::get_subscription_license(),
+			'domain'        => network_home_url(),
+			'product'       => $this->settings['name'],
+			'slug'          => $this->settings['slug'],
+			'version'       => $this->settings['version']
+		) );
+		
+		return FLUpdater::$_responses[ $slug ];
 	}
 
 	/**

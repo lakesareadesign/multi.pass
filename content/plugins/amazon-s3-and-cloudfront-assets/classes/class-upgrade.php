@@ -36,6 +36,7 @@ class AS3CF_Assets_Upgrade {
 	 * Routine constants
 	 */
 	const GZIP_MINIFY = 1;
+	const LOCATION_SCANS = 2;
 
 	/**
 	 * AS3CF_Assets_Upgrade constructor.
@@ -44,7 +45,7 @@ class AS3CF_Assets_Upgrade {
 	 */
 	public function __construct( $assets ) {
 		$this->assets     = $assets;
-		$this->upgrade_id = self::GZIP_MINIFY;
+		$this->upgrade_id = self::LOCATION_SCANS;
 
 		add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
 		add_action( $this->cron_hook, array( $this, 'maybe_start_scan' ) );
@@ -161,6 +162,11 @@ class AS3CF_Assets_Upgrade {
 	protected function init() {
 		// Update status
 		update_site_option( $this->status_option, true );
+
+		// Remove unused legacy file process queue.
+		if ( $this->assets->get_setting( $this->settings_key, 0 ) < self::LOCATION_SCANS ) {
+			delete_site_option( Amazon_S3_And_CloudFront_Assets::TO_PROCESS_SETTINGS_KEY );
+		}
 
 		// Purge
 		$bucket = $this->assets->get_setting( 'bucket' );

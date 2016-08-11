@@ -1,7 +1,7 @@
 <?php
 /**
 Plugin Name: WP Hummingbird
-Version: 1.2.2
+Version: 1.2.4
 Plugin URI:  https://premium.wpmudev.org/project/1081721/
 Description: Hummingbird zips through your site finding new ways to make it load faster, from file compression and minification to browser caching – because when it comes to pagespeed, every millisecond counts.
 Author: WPMU DEV
@@ -31,7 +31,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-define( 'WPHB_VERSION', '1.2.1' );
+define( 'WPHB_VERSION', '1.2.4' );
 /**
  * Class WP_Hummingbird
  *
@@ -139,7 +139,7 @@ class WP_Hummingbird {
 		}
 
 		// Dashboard Shared UI Library
-		require_once( wphb_plugin_dir() . 'admin/assets/shared-ui/plugin-ui.php');
+		require_once( wphb_plugin_dir() . 'externals/shared-ui/plugin-ui.php');
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			// Load AJAX files

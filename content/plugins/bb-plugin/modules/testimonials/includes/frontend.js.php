@@ -20,7 +20,12 @@
 		controls : <?php echo ($settings->layout == 'compact') ? $settings->arrows : 0; ?>,
 		onSliderLoad: function() { 
 			$('.fl-node-<?php echo $id; ?> .fl-testimonials').addClass('fl-testimonials-loaded'); 
-		}
+		},
+		onSliderResize: function(currentIndex){
+			this.working = false;
+			this.reloadSlider();
+		},
+		
 	});
 
 })(jQuery);

@@ -4,6 +4,19 @@ Tested up to: 4.2.2
 
 Change Log:
 
+1.1.1 - 2016-08-08
+----------------------------------------------------------------------
+- Added: A warning indicator in WP Admin sidebar to let you know how many security issues are outstanding.
+- Added: The ability to choose to only receive email reports when there are issues with your website.
+- Fixed: Minor bug fixes & improvements
+
+1.1 - 2016-25-07
+----------------------------------------------------------------------
+- New feature: Audit logging
+- New plugin icon
+- Vulnerability plugins/theme scan result can be ignored
+- Some other minor enhancements/fixes
+
 1.0.8 - 2016-20-05
 ----------------------------------------------------------------------
 - Improve Core Integrity Scan.
@@ -69,4 +82,4 @@ Change Log:
 - First release
 
 
-133620-1464151244-au
+133620-1470955188-au

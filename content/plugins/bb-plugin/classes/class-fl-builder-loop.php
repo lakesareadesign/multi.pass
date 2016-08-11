@@ -147,10 +147,13 @@ final class FLBuilderLoop {
 			if(!$current_page = $paged) {
 				$current_page = 1;
 			}
-		
+
 			if(empty($permalink_structure)) {
 				$format = '&paged=%#%';
-			} 
+			}
+			else if ("/" == substr($permalink_structure, -1)) {
+				$format = 'page/%#%/';
+			}
 			else {
 				$format = '/page/%#%/';
 			}

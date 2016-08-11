@@ -65,6 +65,7 @@ class AS3CF_Pro_Utils {
 			'wpos3_media_actions_batch_%',
 			'wpos3_settings_change_batch_%',
 			'wpos3_minify_batch_%',
+			'wpos3_process_assets_batch_%',
 		);
 
 		return $keys;

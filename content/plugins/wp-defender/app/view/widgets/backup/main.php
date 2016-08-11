@@ -6,7 +6,7 @@
 		<img width="200"
 		     src="<?php echo wp_defender()->get_plugin_url() ?>assets/img/dev-man-backup.png"/>
 
-		<h2>
+		<h2 class="wd-title">
 			<?php _e( "Secure Cloud Backups", wp_defender()->domain ) ?>
 		</h2>
 		<div class="wd-error wd-hide">
@@ -14,7 +14,7 @@
 		</div>
 		<p>
 			<?php
-			_e( 'WPMU DEV offers automated, full website, cloud hosted, secure backups for all active members. If you ever get hacked you can revert to a previous version via our backups – easy! For now, you can still install Snapshot and backup your website locally which we recommend you do!', wp_defender()->domain )
+			_e( 'WPMU DEV will soon offer automated, full website, cloud hosted, secure backups for all active members.', wp_defender()->domain )
 			?>
 		</p>
 		<?php if ( is_plugin_active( 'snapshot/snapshot.php' ) ): ?>

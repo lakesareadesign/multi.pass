@@ -24,6 +24,8 @@
 				win.off('resize' + this.nodeClass);
 				win.on('resize' + this.nodeClass, $.proxy(this._resize, this));
 			}
+
+			FLBuilderLayout.preloadAudio( this.nodeClass + ' .fl-tabs-panel-content' );
 		},
 		
 		_labelClick: function(e)
@@ -31,9 +33,9 @@
 			var label       = $(e.target).closest('.fl-tabs-label'),
 				index       = label.data('index'),
 				wrap        = label.closest('.fl-tabs'),
-				allIcons    = wrap.find('.fl-tabs-label .fa'),
-				icon        = wrap.find('.fl-tabs-label[data-index="' + index + '"] .fa');
-			
+				allIcons    = wrap.find('.fl-tabs-panels .fl-tabs-label .fa'),
+				icon        = wrap.find('.fl-tabs-panels .fl-tabs-label[data-index="' + index + '"] .fa');
+
 			// Toggle the responsive icons.
 			allIcons.addClass('fa-plus');
 			icon.removeClass('fa-plus');
@@ -47,6 +49,15 @@
 
 			// Gallery module support.
 			FLBuilderLayout.refreshGalleries( wrap.find('.fl-tabs-panel-content[data-index="' + index + '"]') );
+
+			// Grid layout support (uses Masonry)
+			FLBuilderLayout.refreshGridLayout( wrap.find('.fl-tabs-panel-content[data-index="' + index + '"]') );
+
+			// Post Carousel support (uses BxSlider)
+			FLBuilderLayout.reloadSlider( wrap.find('.fl-tabs-panel-content[data-index="' + index + '"]') );
+
+			// WP audio shortcode support
+			FLBuilderLayout.resizeAudio( wrap.find('.fl-tabs-panel-content[data-index="' + index + '"]') );
 		},
 		
 		_responsiveLabelClick: function(e)
@@ -57,7 +68,7 @@
 				content         = label.siblings('.fl-tabs-panel-content'),
 				activeContent   = wrap.find('.fl-tabs-panel-content.fl-tab-active'),
 				activeIndex     = activeContent.data('index'),
-				allIcons        = wrap.find('.fl-tabs-label .fa'),
+				allIcons        = wrap.find('.fl-tabs-panels .fl-tabs-label > .fa'),
 				icon            = label.find('.fa');
 			
 			// Should we proceed?
@@ -85,6 +96,15 @@
 				
 				// Gallery module support.
 				FLBuilderLayout.refreshGalleries( content );
+
+				// Grid layout support (uses Masonry)
+				FLBuilderLayout.refreshGridLayout( content );
+
+				// Post Carousel support (uses BxSlider)
+				FLBuilderLayout.reloadSlider( content );
+
+				// WP audio shortcode support
+				FLBuilderLayout.resizeAudio( content );
 				
 				if(label.offset().top < $(window).scrollTop() + 100) {
 					$('html, body').animate({ scrollTop: label.offset().top - 100 }, 500, 'swing');

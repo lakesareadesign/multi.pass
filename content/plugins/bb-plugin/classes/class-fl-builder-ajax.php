@@ -181,6 +181,9 @@ final class FLBuilderAJAX {
 			return;
 		}
 		
+		// Allow developers to modify actions before they are called.
+		do_action( 'fl_ajax_before_call_action', $action );
+		
 		// Make sure the action exists.
 		if ( ! isset( self::$actions[ $action ] ) ) {
 			return;

@@ -88,7 +88,7 @@
  		 * @return int        	The number of slides for the current screen size.
  		 */
  		_getSlidesNumber: function(){
- 			var $wrapperWidth  = $( this.nodeClass + ' .fl-post-carousel' ).width(),
+ 			var $wrapperWidth  = this._getWrapperWidth(),
  				$slideWidth    = $( this.postClass ).width(),
  				columns = Math.ceil( $wrapperWidth / this.slideWidth );
 
@@ -103,7 +103,31 @@
  		 * @return int        	The correct slide width.
  		 */
  		_getSlideWidth: function(){
- 			return Math.ceil( ( $( this.nodeClass + ' .fl-post-carousel' ).width() - ( this.settings.slideMargin * ( this._getSlidesNumber() - 1 ) ) ) / this._getSlidesNumber() );
+ 			return Math.ceil( ( this._getWrapperWidth() - ( this.settings.slideMargin * ( this._getSlidesNumber() - 1 ) ) ) / this._getSlidesNumber() );
+ 		},
+
+ 		/**
+ 		 * Get the carousel module real width both visible and hidden element
+ 		 *
+ 		 * @since 1.8.1
+ 		 * @return int
+ 		 */
+ 		_getWrapperWidth: function()
+ 		{
+ 			var $wrapper = $( this.nodeClass + ' .fl-post-carousel' );
+ 				$width 	 = $wrapper.width();
+
+ 			if ( $width === 0 && $wrapper.is(':hidden') ) {
+
+ 				$clone = $wrapper.clone()
+ 					.css("visibility","hidden")
+ 					.appendTo($('.fl-row-content'));
+
+		    	$width = $clone.outerWidth();
+		    	$clone.remove();
+ 			}
+
+ 			return $width;
  		},
 
  		/**

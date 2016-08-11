@@ -102,7 +102,7 @@ abstract class WD_Scan_Abstract extends WD_Component {
 	 */
 	protected function cpu_reach_threshold() {
 		$current = $this->get_cpu_usage();
-		$limit   = apply_filters( 'wd_limit_cpu', 0.75 );
+		$limit   = apply_filters( 'wd_limit_cpu', 5 );
 
 		if ( $current === false ) {
 			//we can't detect, it might be windows server, just return

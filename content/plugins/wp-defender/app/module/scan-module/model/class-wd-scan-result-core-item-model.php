@@ -102,7 +102,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 
 	public function can_automate_resolve() {
 		if ( $this->detail['is_added'] == true ) {
-			return false;
+			return true;
 		}
 
 		return true;
@@ -139,6 +139,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 
 		$model  = WD_Scan_Api::get_last_scan();
 		$groups = $model->group_result_by_file( $this->name );
+
 		$output = $this->_get_resolve_html_template();
 		$output = str_replace(
 			array(
@@ -184,6 +185,10 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 		return ob_get_clean();
 	}
 
+	public function get_file_source() {
+		return file_get_contents( $this->name );
+	}
+
 	/**
 	 * Retrive original content of a file
 	 *
@@ -192,6 +197,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 	 */
 	public function get_file_original_source( $force = false ) {
 		if ( $this->detail['is_added'] == true ) {
+
 			return null;
 		}
 
@@ -202,6 +208,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 			$locale = null;
 		}
 		$ds = DIRECTORY_SEPARATOR;
+
 		if ( $this->get_sub() == $ds . 'wp-includes' . $ds . 'version.php' && ! empty( $locale ) ) {
 			$upload_dirs = wp_upload_dir();
 			$path        = $upload_dirs['basedir'] . $ds . 'wp-defender' . $ds;
@@ -218,12 +225,18 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 				//move into vault folder
 				$upload_dirs = wp_upload_dir();
 				$path        = $upload_dirs['basedir'] . $ds . 'wp-defender' . $ds;
+				if ( ! is_dir( $path ) ) {
+					wp_mkdir_p( $path );
+				}
+
 				if ( ! copy( $tmp, $path . $wp_version . '.zip' ) ) {
 					return new WP_Error( 'cant_copy', sprintf( __( "Please make sure the folder %s writeable", wp_defender()->domain ), $path ) );
 				}
 				@unlink( $tmp );
 			}
-
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			}
 			WP_Filesystem();
 			//unzip
 			if ( is_wp_error( ( $res = unzip_file( $path . $wp_version . '.zip', $path ) ) ) ) {
@@ -358,7 +371,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 						<?php wp_nonce_field( 'wd_resolve', 'wd_resolve_nonce' ) ?>
 						<input type="hidden" value="<?php echo esc_attr( get_class( $this ) ) ?>" name="class">
 						<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>"/>
-						<?php if ( $this->can_automate_resolve() ): ?>
+						<?php if ( $this->can_automate_resolve() && !$this->detail['is_added'] ): ?>
 							<button data-type="resolve_ci" class="button wd-button button-small"
 							        type="submit"><?php _e( "Restore File", wp_defender()->domain ) ?></button>
 							<a href="<?php echo network_admin_url( 'admin.php?page=wdf-issue-detail&id=' . $id ) ?>"

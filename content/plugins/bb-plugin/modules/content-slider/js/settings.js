@@ -44,6 +44,10 @@
 			contentLayout.on('change', this._toggleMobileTab);
 			contentLayout.on('change', this._toggleTextAndCtaTabs);
 			contentLayout.trigger('change');
+
+			// Button background color change
+			$( 'input[name=btn_bg_color]' ).on( 'change', this._bgColorChange );			
+			this._bgColorChange();
 		},
 		
 		submit: function()
@@ -124,6 +128,20 @@
 			}
 			else {
 				$('#fl-builder-settings-section-r_photo').hide();
+			}
+		},
+
+		_bgColorChange: function()
+		{
+			var bgColor = $( 'input[name=btn_bg_color]' ),
+				style   = $( '#fl-builder-settings-section-btn_style' );
+			
+
+			if ( '' == bgColor.val() ) {
+				style.hide();
+			}
+			else {
+				style.show();
 			}
 		}
 	});

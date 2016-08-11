@@ -11,20 +11,6 @@ class WP_Hummingbird_API_Exception extends Exception {
 			}
 		}
 
-		$php_ver = phpversion();
-		if ( version_compare( $php_ver, '5.3', '>=' ) ) {
-			parent::__construct( $message, $code, $previous );
-		}
-		else {
-			parent::__construct( $message, $code );
-		}
-
+		parent::__construct( $message, $code );
 	}
-
-
-	// 404: Not found
-	// 400: Bad Request
-	// 401: Invalid Credentials
-	// 500: Server error
-
 }

@@ -115,7 +115,7 @@ abstract class WP_Hummingbird_Admin_Page {
 	public function enqueue_scripts( $hook ) {
 
 		/* Enqueue Dashboard UI Shared Lib */
-		WDEV_Plugin_Ui::load( wphb_plugin_url() . 'admin/assets/shared-ui' );
+		WDEV_Plugin_Ui::load( wphb_plugin_url() . 'externals/shared-ui' );
 
 		// Styles
 		wp_enqueue_style( 'wphb-admin', wphb_plugin_url() . 'admin/assets/css/admin.css' );

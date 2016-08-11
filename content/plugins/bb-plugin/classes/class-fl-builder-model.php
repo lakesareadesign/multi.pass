@@ -193,6 +193,11 @@ final class FLBuilderModel {
 
 			if(isset($_POST['fl_builder_data'])) {
 				
+				// Decode settings if our ModSecurity fix is enabled. 
+				if ( isset( $_POST['fl_builder_data']['settings'] ) ) {
+					$_POST['fl_builder_data']['settings'] = FLBuilderUtils::modsec_fix_decode( $_POST['fl_builder_data']['settings'] );
+				}
+				
 				$data = FLBuilderUtils::json_decode_deep( wp_unslash( $_POST['fl_builder_data'] ) );
 				
 				foreach($data as $key => $val) {
@@ -387,7 +392,7 @@ final class FLBuilderModel {
 			$post		= get_post(self::get_post_id());
 
 			if($post && in_array($post->post_type, $post_types)) {
-				return get_post_meta(self::get_post_id(), '_fl_builder_enabled', true);
+				return get_post_meta($post->ID, '_fl_builder_enabled', true);
 			}
 		}
 
@@ -642,10 +647,14 @@ final class FLBuilderModel {
 		}
 
 		$info = array(
-			'css'	  => $cache_dir['path'] . $post_id . $suffix . '.css',
-			'css_url' => $cache_dir['url']	. $post_id . $suffix . '.css',
-			'js'	  => $cache_dir['path'] . $post_id . $suffix . '.js',
-			'js_url'  => $cache_dir['url']	. $post_id . $suffix . '.js'
+			'css'	          => $cache_dir['path'] . $post_id . $suffix . '.css',
+			'css_url'         => $cache_dir['url']	. $post_id . $suffix . '.css',
+			'css_partial'	  => $cache_dir['path'] . $post_id . $suffix . '-partial.css',
+			'css_partial_url' => $cache_dir['url']	. $post_id . $suffix . '-partial.css',
+			'js'	          => $cache_dir['path'] . $post_id . $suffix . '.js',
+			'js_url'          => $cache_dir['url']	. $post_id . $suffix . '.js',
+			'js_partial'	  => $cache_dir['path'] . $post_id . $suffix . '-partial.js',
+			'js_partial_url'  => $cache_dir['url']	. $post_id . $suffix . '-partial.js'
 		);
 
 		return $info;
@@ -692,9 +701,15 @@ final class FLBuilderModel {
 				$cache_dir['path'] . $post_id . '-layout.css',
 				$cache_dir['path'] . $post_id . '-layout-draft.css',
 				$cache_dir['path'] . $post_id . '-layout-preview.css',
+				$cache_dir['path'] . $post_id . '-layout-partial.css',
+				$cache_dir['path'] . $post_id . '-layout-draft-partial.css',
+				$cache_dir['path'] . $post_id . '-layout-preview-partial.css',
 				$cache_dir['path'] . $post_id . '-layout.js',
 				$cache_dir['path'] . $post_id . '-layout-draft.js',
-				$cache_dir['path'] . $post_id . '-layout-preview.js'
+				$cache_dir['path'] . $post_id . '-layout-preview.js',
+				$cache_dir['path'] . $post_id . '-layout-partial.js',
+				$cache_dir['path'] . $post_id . '-layout-draft-partial.js',
+				$cache_dir['path'] . $post_id . '-layout-preview-partial.js'
 			);
 			
 			foreach ( $paths as $path ) {
@@ -1413,24 +1428,26 @@ final class FLBuilderModel {
 				$fallback = '';
 			}
 
-			// Video MP4
-			$mp4 = FLBuilderPhoto::get_attachment_data( $new_settings->bg_video );
+			if ( $new_settings->bg_video_source == 'wordpress' ) {
+				// Video MP4
+				$mp4 = FLBuilderPhoto::get_attachment_data( $new_settings->bg_video );	
 
-			if ( $mp4 ) {
-				$parts = explode( '.', $mp4->filename );
-				$mp4->extension = array_pop( $parts );
-				$new_settings->bg_video_data = $mp4;
-				$new_settings->bg_video_data->fallback = $fallback;
-			}
-			
-			// Video WebM
-			$webm = FLBuilderPhoto::get_attachment_data( $new_settings->bg_video_webm );
-			
-			if ( $webm ) {
-				$parts = explode( '.', $webm->filename );
-				$webm->extension = array_pop( $parts );
-				$new_settings->bg_video_webm_data = $webm;
-				$new_settings->bg_video_webm_data->fallback = $fallback;
+				if ( $mp4 ) {
+					$parts = explode( '.', $mp4->filename );
+					$mp4->extension = array_pop( $parts );
+					$new_settings->bg_video_data = $mp4;
+					$new_settings->bg_video_data->fallback = $fallback;
+				}
+
+				// Video WebM
+				$webm = FLBuilderPhoto::get_attachment_data( $new_settings->bg_video_webm );
+				
+				if ( $webm ) {
+					$parts = explode( '.', $webm->filename );
+					$webm->extension = array_pop( $parts );
+					$new_settings->bg_video_webm_data = $webm;
+					$new_settings->bg_video_webm_data->fallback = $fallback;
+				}
 			}
 		}
 
@@ -2957,16 +2974,23 @@ final class FLBuilderModel {
 	{
 		$post_id	= !$post_id ? self::get_post_id() : $post_id;
 		$status		= !$status ? self::get_node_status() : $status;
+		$key 		= 'published' == $status ? '_fl_builder_data' : '_fl_builder_draft';
+		$raw_data   = get_metadata( 'post', $post_id, $key );
 		$data		= self::slash_settings( self::clean_layout_data( $data ) );
+		
+		// Update the data.
+		if ( 0 === count( $raw_data ) ) {
+			add_metadata( 'post', $post_id, $key, $data );
+		}
+		else {
+			update_metadata( 'post', $post_id, $key, $data );
+		}
 
-		// Update published data?
+		// Cache the data.
 		if($status == 'published') {
-			update_metadata('post', $post_id, '_fl_builder_data', $data);
 			self::$published_layout_data[$post_id] = $data;
 		}
-		// Update draft data?
 		else if($status == 'draft') {
-			update_metadata('post', $post_id, '_fl_builder_draft', $data);
 			self::$draft_layout_data[$post_id] = $data;
 		}
 	}
@@ -3078,10 +3102,16 @@ final class FLBuilderModel {
 		$status			= ! $status ? self::get_node_status() : $status;
 		$post_id		= ! $post_id ? self::get_post_id() : $post_id;
 		$key 			= 'published' == $status ? '_fl_builder_data_settings' : '_fl_builder_draft_settings';
+		$raw_settings   = get_metadata( 'post', $post_id, $key );
 		$old_settings 	= self::get_layout_settings( $status, $post_id );
 		$new_settings 	= (object)array_merge( (array)$old_settings, (array)$settings );
 
-		update_metadata( 'post', $post_id, $key, self::slash_settings( $new_settings ) );
+		if ( 0 === count( $raw_settings ) ) {
+			add_metadata( 'post', $post_id, $key, self::slash_settings( $new_settings ) );
+		}
+		else {
+			update_metadata( 'post', $post_id, $key, self::slash_settings( $new_settings ) );
+		}
 
 		return $new_settings;
 	}
@@ -3484,7 +3514,7 @@ final class FLBuilderModel {
 	 */
 	static public function get_user_template_type( $template_id = null )
 	{
-		if ( isset( self::$node_template_types[ $template_id ] ) ) {
+		if ( $template_id && isset( self::$node_template_types[ $template_id ] ) ) {
 			return self::$node_template_types[ $template_id ];
 		}
 		
@@ -4426,7 +4456,7 @@ final class FLBuilderModel {
 			}
 		}
 		
-		return $templates;
+		return apply_filters( 'fl_builder_get_templates', $templates, $type );
 	}
 
 	/**
@@ -4713,7 +4743,7 @@ final class FLBuilderModel {
 			'knowledge_base'		=> true,
 			'knowledge_base_url'	=> 'https://www.wpbeaverbuilder.com/knowledge-base/?utm_medium=' . ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-pro' ) . '&utm_source=builder-ui&utm_campaign=kb-help-button',
 			'forums'				=> true,
-			'forums_url'			=> 'https://www.wpbeaverbuilder.com/support/?utm_medium=' . ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-pro' ) . '&utm_source=builder-ui&utm_campaign=forums-help-button',
+			'forums_url'			=> 'https://www.wpbeaverbuilder.com/beaver-builder-support/?utm_medium=' . ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-pro' ) . '&utm_source=builder-ui&utm_campaign=forums-help-button',
 		);
 		
 		return $defaults;

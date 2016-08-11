@@ -182,6 +182,7 @@
 .fl-builder-ie-11 .fl-row-full-height .fl-row-content-wrap {
 	height: 1px;
 }
+
 .fl-builder-ie-11 .fl-row-full-height .fl-row-content {
 	flex: 0 0 auto;
 	flex-basis: 100%;
@@ -277,6 +278,10 @@
 	-ms-flex-pack: center;
 }
 
+.fl-col-group-equal-height.fl-col-group-align-center .fl-module {
+	width: 100%;
+}
+
 /* IE11 fix for images with height:auto in equal height columns. */
 .fl-builder-ie-11 .fl-col-group-equal-height .fl-module {
 	min-height: 1px;
@@ -330,12 +335,9 @@
 
 .fl-builder-content a.fl-button,
 .fl-builder-content a.fl-button:visited {
-	background: #fafafa;
-	border: 1px solid #ccc;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
-	color: #333;
 	display: inline-block;
 	font-size: 16px;
 	font-weight: normal;
@@ -343,10 +345,6 @@
 	padding: 12px 24px;
 	text-decoration: none;
 	text-shadow: none;
-}
-.fl-builder-content a.fl-button *,
-.fl-builder-content a.fl-button:visited * {
-	color: #333;
 }
 .fl-builder-content .fl-button:hover {
 	text-decoration: none;

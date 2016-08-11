@@ -507,9 +507,12 @@ class WD_Component {
 			$post_vars['body']           = $body_args;
 			$post_vars['body']['domain'] = $domain;
 			$post_vars['timeout']        = 30;
-			$post_vars['headers']        = array(
+
+			$headers = isset( $post_vars['headers'] ) ? $post_vars['headers'] : array();
+
+			$post_vars['headers'] = array_merge( $headers, array(
 				'Authorization' => 'Basic ' . $api_key
-			);
+			) );
 
 			$post_vars = array_merge( $post_vars, $request_args );
 

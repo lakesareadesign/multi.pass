@@ -338,6 +338,9 @@ final class FLBuilderIcons {
 					if ( isset( $val->$name ) ) {
 						self::enqueue_styles_for_icon( $val->$name );
 					}
+					else if( $name == $key && ! empty( $val ) ) {
+						self::enqueue_styles_for_icon( $val );
+					}
 				}
 			}
 		}

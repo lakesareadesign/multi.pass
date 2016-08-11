@@ -104,7 +104,9 @@ class FLCalloutModule extends FLBuilderModule {
 	 */
 	public function render_text()
 	{
-		echo '<div class="fl-callout-text">' . $this->settings->text . '</div>';
+		global $wp_embed;
+		
+		echo '<div class="fl-callout-text">' . wpautop( $wp_embed->autoembed( $this->settings->text ) ) . '</div>';
 	}
 
 	/**
@@ -231,6 +233,7 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'type'          => 'editor',
 						'label'         => '',
 						'media_buttons' => false,
+						'wpautop'		=> false,
 						'preview'       => array(
 							'type'          => 'text',
 							'selector'      => '.fl-callout-text'

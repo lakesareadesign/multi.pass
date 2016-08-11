@@ -185,7 +185,7 @@ class FLPhotoModule extends FLBuilderModule {
 	{
 		$classes = array( 'fl-photo-img' );
 		
-		if ( ! empty( $this->settings->photo ) ) {
+		if ( $this->settings->photo_source == 'library' && ! empty( $this->settings->photo ) ) {
 			
 			$data = self::get_data();
 			

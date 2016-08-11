@@ -42,6 +42,7 @@ class AS3CF_Minify {
 		$this->background_process = $background_process;
 
 		add_action( 'shutdown', array( $this, 'save_queue' ) );
+		add_filter( 'as3cf_minify_exclude_files', array( $this, 'as3cf_minify_exclude_files' ), 10, 2 );
 	}
 
 	/**
@@ -120,7 +121,13 @@ class AS3CF_Minify {
 	 * @return WP_Error|bool
 	 */
 	public function is_file_excluded( $file ) {
-		if ( in_array( $file, apply_filters( 'as3cf_minify_exclude_files', array() ) ) ) {
+		$minify_excludes_enabled = $this->as3cf->get_setting( 'enable-minify-excludes', false );
+
+		if ( empty( $minify_excludes_enabled ) ) {
+			return true;
+		}
+
+		if ( in_array( $file, apply_filters( 'as3cf_minify_exclude_files', array(), $file ) ) ) {
 			return $this->as3cf->_throw_error( self::ERROR_EXCLUDE_FILTER );
 		}
 
@@ -191,7 +198,6 @@ class AS3CF_Minify {
 		return $return;
 	}
 
-
 	/**
 	 * Maybe trigger background process
 	 *
@@ -253,7 +259,7 @@ class AS3CF_Minify {
 			return $this->as3cf->_throw_error( self::ERROR_FILE_DOES_NOT_EXIST );
 		}
 
-		$input  = file_get_contents( $file );
+		$input = file_get_contents( $file );
 
 		switch ( $details['extension'] ) {
 			case 'css':
@@ -377,4 +383,41 @@ class AS3CF_Minify {
 		return $this->as3cf->handle_failure( $file, 'minify' );
 	}
 
+	/**
+	 * Handle `as3cf_minify_exclude_files` filter to apply minify-excludes setting.
+	 *
+	 * @param array  $excludes
+	 * @param string $file
+	 *
+	 * @return array
+	 */
+	public function as3cf_minify_exclude_files( $excludes, $file ) {
+		$excluded_files = $this->as3cf->get_setting( 'minify-excludes' );
+
+		if ( empty( $excluded_files ) ) {
+			return $excludes;
+		}
+
+		// Split settings string by newline regardless of platform setting saved on.
+		$excluded_files = preg_split( '/\R/', $excluded_files, null, PREG_SPLIT_NO_EMPTY );
+
+		if ( ! is_array( $excluded_files ) ) {
+			return $excludes;
+		}
+
+		// Test whether the given file path ends with a match to an excluded path.
+		$excluded = array_reduce( $excluded_files, function ( $carry, $exclude ) use ( $file ) {
+			if ( ! $carry && substr( $file, -strlen( trim( $exclude ) ) ) === trim( $exclude ) ) {
+				return true;
+			}
+
+			return $carry;
+		}, false );
+
+		if ( $excluded ) {
+			$excludes[] = $file;
+		}
+
+		return $excludes;
+	}
 }

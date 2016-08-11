@@ -127,4 +127,28 @@ final class FLBuilderUtils {
 
 		return $data;
 	}
+
+	/**
+	 * Base64 decode settings if our ModSecurity fix is enabled. 
+	 *
+	 * @since 1.8.4
+	 * @return array
+	 */
+	static public function modsec_fix_decode( $settings )
+	{
+		if ( defined( 'FL_BUILDER_MODSEC_FIX' ) && FL_BUILDER_MODSEC_FIX ) {
+			
+			foreach ( $settings as $key => $value ) {
+				
+				if ( is_string( $settings[ $key ] ) ) {
+					$settings[ $key ] = wp_slash( base64_decode( $value ) );
+				}
+				else if ( is_array( $settings[ $key ] ) ) {
+					$settings[ $key ] = self::modsec_fix_decode( $settings[ $key ] );
+				}
+			}
+		}
+
+		return $settings;
+	}
 }

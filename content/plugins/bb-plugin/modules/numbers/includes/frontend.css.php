@@ -12,8 +12,8 @@
 <?php endif; ?>
 
 <?php if( !empty( $settings->text_color ) ) : ?>
-	.fl-node-<?php echo $id ?> .fl-number-before-text,
-	.fl-node-<?php echo $id ?> .fl-number-after-text{
+	.fl-node-<?php echo $id ?> .fl-module-content .fl-number-before-text,
+	.fl-node-<?php echo $id ?> .fl-module-content .fl-number-after-text{
 		color: #<?php echo $settings->text_color ?>;
 	}
 <?php endif; ?>

@@ -20,6 +20,14 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 		}
 	}
 
+	public function can_ignore() {
+		if ( $this->type == 'wordpress' ) {
+			return false;
+		}
+
+		return true;
+	}
+
 	public function can_automate_resolve() {
 		return false;
 	}

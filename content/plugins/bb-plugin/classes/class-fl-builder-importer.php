@@ -52,22 +52,30 @@ class FLBuilderImportParserRegex extends WXR_Parser_Regex {
 				}
 				if ( false !== strpos( $importline, '<wp:category>' ) ) {
 					preg_match( '|<wp:category>(.*?)</wp:category>|is', $importline, $category );
-					$this->categories[] = $this->process_category( $category[1] );
+					if ( isset($category[1]) ) {
+						$this->categories[] = $this->process_category( $category[1] );
+					}
 					continue;
 				}
 				if ( false !== strpos( $importline, '<wp:tag>' ) ) {
 					preg_match( '|<wp:tag>(.*?)</wp:tag>|is', $importline, $tag );
-					$this->tags[] = $this->process_tag( $tag[1] );
+					if ( isset($tag[1]) ) {
+						$this->tags[] = $this->process_tag( $tag[1] );
+					}
 					continue;
 				}
 				if ( false !== strpos( $importline, '<wp:term>' ) ) {
 					preg_match( '|<wp:term>(.*?)</wp:term>|is', $importline, $term );
-					$this->terms[] = $this->process_term( $term[1] );
+					if ( isset($term[1]) ) {
+						$this->terms[] = $this->process_term( $term[1] );
+					}
 					continue;
 				}
 				if ( false !== strpos( $importline, '<wp:author>' ) ) {
 					preg_match( '|<wp:author>(.*?)</wp:author>|is', $importline, $author );
-					$a = $this->process_author( $author[1] );
+					if ( isset($author[1]) ) {
+						$a = $this->process_author( $author[1] );
+					}
 					$this->authors[$a['author_login']] = $a;
 					continue;
 				}

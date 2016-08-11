@@ -83,7 +83,8 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 										 scrollTop: div.find('.rule-title').offset().top
 										 }, 1000);*/
 									});
-								})
+								});
+								$('body').trigger('after_an_issue_resolved', -1);
 							}
 						}
 					})

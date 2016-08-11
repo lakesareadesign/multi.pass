@@ -1,7 +1,9 @@
 <div class="wrap">
 	<div class="wpmud">
 		<div class="wp-defender">
-			<h2 class="tl wd-title"><?php _e( "Backups", wp_defender()->domain ) ?></h2>
+			<section id="header">
+				<h1 class="tl"><?php _e( "Backups", wp_defender()->domain ) ?></h1>
+			</section>
 			<section class="dev-box backup-section" id="wd-backup-widget">
 				<div class="box-title">
 					<h3><?php _e( "Backups", wp_defender()->domain ) ?></h3>
@@ -10,7 +12,7 @@
 					<img class="wd-bottom-30" width="200"
 					     src="<?php echo wp_defender()->get_plugin_url() ?>assets/img/dev-man-backup.png"/>
 
-					<h2>
+					<h2 class="wd-title">
 						<?php _e( "Secure Cloud Backups", wp_defender()->domain ) ?>
 					</h2>
 					<div class="wd-error wd-hide">

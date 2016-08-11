@@ -46,6 +46,8 @@ class FLContentSliderModule extends FLBuilderModule {
 	 */
 	public function render_content($slide)
 	{
+		global $wp_embed;
+	
 		if($slide->content_layout == 'none' || $slide->bg_layout == 'video') {
 			return;
 		}
@@ -57,7 +59,7 @@ class FLContentSliderModule extends FLBuilderModule {
 			echo '<' . $slide->title_tag . ' class="fl-slide-title">' . $slide->title . '</' . $slide->title_tag . '>';
 		}
 		if(!empty($slide->text)) {
-			echo '<div class="fl-slide-text">' . $slide->text . $this->render_link($slide) . '</div>';
+			echo '<div class="fl-slide-text">' . wpautop( $wp_embed->autoembed( $slide->text ) ) . $this->render_link($slide) . '</div>';
 		}
 
 		$this->render_button($slide);
@@ -456,6 +458,7 @@ FLBuilder::register_settings_form('content_slider_slide', array(
 						'text'          => array(
 							'type'          => 'editor',
 							'media_buttons' => false,
+							'wpautop'		=> false,
 							'rows'          => 16
 						)
 					)

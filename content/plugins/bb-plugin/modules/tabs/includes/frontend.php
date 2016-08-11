@@ -1,3 +1,4 @@
+<?php global $wp_embed; ?>
 <div class="fl-tabs fl-tabs-<?php echo $settings->layout; ?> fl-clearfix">
 
 	<div class="fl-tabs-labels fl-clearfix">
@@ -16,7 +17,7 @@
 				<i class="fa<?php if($i > 0) echo ' fa-plus'; ?>"></i>
 			</div>
 			<div class="fl-tabs-panel-content fl-clearfix<?php if($i == 0) echo ' fl-tab-active'; ?>" data-index="<?php echo $i; ?>">
-				<?php echo $settings->items[$i]->content; ?>
+				<?php echo wpautop( $wp_embed->autoembed( $settings->items[$i]->content ) ); ?>
 			</div>
 		</div>
 		<?php endfor; ?>

@@ -2,7 +2,9 @@
 	<div class="wpmud">
 		<div class="wp-defender">
 			<div class="wd-settings">
-				<h2 class="tl wd-title"><?php _e( "Setup Automatic Scans", wp_defender()->domain ) ?></h2>
+				<section id="header">
+					<h1 class="tl"><?php _e( "Setup Automatic Scans", wp_defender()->domain ) ?></h1>
+				</section>
 				<section class="dev-box setup-scan">
 					<div class="box-title">
 						<h3><?php _e( "Setup Automatic Scans", wp_defender()->domain ) ?>
@@ -63,7 +65,6 @@
 									<label>
 										<?php _e( "on", wp_defender()->domain ) ?>
 									</label>
-
 									<select name="day">
 										<?php foreach ( $controller->get_days_of_week() as $val ): ?>
 											<option <?php selected( $day, strtolower( $val ) ) ?>

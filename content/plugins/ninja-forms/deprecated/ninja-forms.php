@@ -265,7 +265,7 @@ class Ninja_Forms {
 
         // Plugin version
         if ( ! defined( 'NF_PLUGIN_VERSION' ) )
-            define( 'NF_PLUGIN_VERSION', '2.9.52' );
+            define( 'NF_PLUGIN_VERSION', '2.9.55.2' );
 
         // Plugin Folder Path
         if ( ! defined( 'NF_PLUGIN_DIR' ) )
@@ -809,7 +809,7 @@ function ninja_forms_three_admin_notice(){
                 <li><span class="dashicons dashicons-awards"></span><a href="<?php echo admin_url( 'admin.php?page=ninja-forms-three' ); ?>">Upgrade to the Release Candidate</a></li>
             </ul>
         </div>
-        <?
+        <?php
     } else {
         include plugin_dir_path( __FILE__ ) . 'upgrade/tmpl-notice.html.php';
         $three_link = nf_aff_link( 'https://ninjaforms.com/three/?utm_medium=plugin&utm_source=admin-notice&utm_campaign=Ninja+Forms+THREE&utm_content=Learn+More' );
@@ -936,15 +936,7 @@ function ninja_forms_three_addons_check(){
 |--------------------------------------------------------------------------
 */
 
-if ( nf_is_freemius_on() ) {
-    // Override plugin's version, should be executed before Freemius init.
-    nf_override_plugin_version();
-    // Init Freemius.
-    nf_fs();
-    nf_fs()->add_action( 'after_uninstall', 'ninja_forms_uninstall' );
-} else {
-    register_uninstall_hook( __FILE__, 'ninja_forms_uninstall' );
-}
+register_uninstall_hook( __FILE__, 'ninja_forms_uninstall' );
 
 function ninja_forms_uninstall(){
     global $wpdb;

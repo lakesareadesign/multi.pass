@@ -86,6 +86,17 @@ class WD_Scan_Controller extends WD_Controller {
 		exit;
 	}
 
+	private function is_cron_scheduled() {
+		$crons = _get_cron_array();
+		foreach ( (array) $crons as $timestamp => $cron ) {
+			if ( isset( $cron['wd_scanning_hook'] ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * maybe we can schedule a scan
 	 */
@@ -99,7 +110,7 @@ class WD_Scan_Controller extends WD_Controller {
 
 		//we dont queue if we in ajax
 
-		if ( wp_get_schedule( 'wd_scanning_hook' ) !== false ) {
+		if ( $this->is_cron_scheduled() ) {
 			//already queued, just return
 			return;
 		}
@@ -133,7 +144,7 @@ class WD_Scan_Controller extends WD_Controller {
 					return;
 				}
 			}
-			if ( wp_get_schedule( 'wd_scanning_hook' ) == false && is_object( $model ) ) {
+			if ( $this->is_cron_scheduled() == false && is_object( $model ) ) {
 				if ( is_object( $model ) && in_array( $model->status, array(
 						WD_Scan_Result_Model::STATUS_ERROR,
 						WD_Scan_Result_Model::STATUS_PAUSE
@@ -478,16 +489,9 @@ class WD_Scan_Controller extends WD_Controller {
 	 * @return bool
 	 */
 	private function is_in_page() {
-		$screen = get_current_screen();
-		if ( is_object( $screen ) && in_array( $screen->id, array(
-				'defender_page_wdf-scan',
-				'defender_page_wdf-scan-network'
-			) )
-		) {
-			return true;
-		}
+		$page = WD_Utils::http_get( 'page' );
 
-		return false;
+		return $page == 'wdf-scan';
 	}
 
 	/**

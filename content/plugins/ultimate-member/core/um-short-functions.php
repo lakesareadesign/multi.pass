@@ -364,7 +364,7 @@ function um_user_ip() {
 					$v = um_user_uploads_uri() . $file;
 				}
 
-				if ( !strstr( $k, 'user_pass' ) && $k != 'g-recaptcha-response' && $k != 'request' ) {
+				if ( !strstr( $k, 'user_pass' ) && ! in_array( $k, array('g-recaptcha-response','request','_wpnonce','_wp_http_referer') ) ) {
 
 					if ( is_array($v) ) {
 						$v = implode(',', $v );
@@ -1055,8 +1055,8 @@ function um_get_option($option_id) {
 	global $ultimatemember;
 	if ( !isset( $ultimatemember->options ) ) return '';
 	$um_options = $ultimatemember->options;
-	if ( isset($um_options[$option_id]) && !empty( $um_options[$option_id] ) )	{
-		return $um_options[$option_id];
+	if ( isset( $um_options[ $option_id ] ) && !empty( $um_options[ $option_id ] ) )	{
+		return apply_filters("um_get_option_filter__{$option_id}", $um_options[ $option_id ] );
 	}
 
 	switch($option_id){
@@ -1131,11 +1131,15 @@ function um_fetch_user( $user_id ) {
 	***/
 	function um_profile( $key ){
 		global $ultimatemember;
-		if (isset( $ultimatemember->user->profile[$key] ) && !empty( $ultimatemember->user->profile[$key] ) ){
-			return $ultimatemember->user->profile[$key];
+		
+		if (isset( $ultimatemember->user->profile[ $key ] ) && !empty( $ultimatemember->user->profile[ $key ] ) ){
+			$value = apply_filters("um_profile_{$key}__filter", $ultimatemember->user->profile[ $key ] );
 		} else {
-			return false;
+			$value = apply_filters("um_profile_{$key}_empty__filter", false );
 		}
+
+		return $value;
+			
 	}
 
 	/***
@@ -1291,8 +1295,10 @@ function um_fetch_user( $user_id ) {
 	function um_get_default_cover_uri() {
 		$uri = um_get_option('default_cover');
 		$uri = $uri['url'];
-		if ( $uri )
+		if ( $uri ){
+			$uri = apply_filters('um_get_default_cover_uri_filter', $uri );
 			return $uri;
+		}
 		return '';
 	}
 

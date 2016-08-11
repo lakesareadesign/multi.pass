@@ -41,15 +41,8 @@ class WD_Backup_Controller extends WD_Controller {
 	 * @return bool
 	 */
 	private function is_in_page() {
-		$screen = get_current_screen();
-		if ( is_object( $screen ) && in_array( $screen->id, array(
-				'defender_page_wdf-backup',
-				'defender_page_wdf-backup-network'
-			) )
-		) {
-			return true;
-		}
+		$page = WD_Utils::http_get( 'page' );
 
-		return false;
+		return $page == 'wdf-backup';
 	}
 }

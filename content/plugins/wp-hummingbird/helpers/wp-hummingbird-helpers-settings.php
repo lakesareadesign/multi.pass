@@ -94,7 +94,7 @@ function wphb_update_settings( $new_settings ) {
 	}
 	else {
 		$network_options = array_diff_key( $new_settings, array_fill_keys( wphb_get_blog_option_names(), wphb_get_blog_option_names() ) );
-		$blog_options = array_intersect_key( $new_settings, array_fill_keys( wphb_get_blog_option_names(), wphb_get_blog_option_names() ) );
+		$blog_options = array_intersect_key( $new_settings, array_fill_keys( wphb_get_blog_option_names(), wphb_get_blog_option_names() ) );	  	 	   	 		 		 		 	
 
 		update_site_option( 'wphb_settings', $network_options );
 		update_option( 'wphb_settings', $blog_options );

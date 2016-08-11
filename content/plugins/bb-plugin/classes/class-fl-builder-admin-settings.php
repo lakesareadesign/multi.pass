@@ -24,7 +24,7 @@ final class FLBuilderAdminSettings {
 	 */
 	static public function init()
 	{
-		add_action( 'plugins_loaded', __CLASS__ . '::init_hooks' );
+		add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
 	}
 	
 	/** 
@@ -574,7 +574,14 @@ final class FLBuilderAdminSettings {
 				self::clear_cache_for_all_sites();
 			}
 			else {
+				
+				// Clear builder cache.
 				FLBuilderModel::delete_asset_cache_for_all_posts();
+				
+				// Clear theme cache.
+				if ( class_exists( 'FLCustomizer' ) && method_exists( 'FLCustomizer', 'clear_all_css_cache' ) ) {
+					FLCustomizer::clear_all_css_cache();
+				}
 			}
 		}
 	}
@@ -599,8 +606,17 @@ final class FLBuilderAdminSettings {
 		
 		// Loop through the blog ids and clear the cache.
 		foreach ( $blog_ids as $id ) {
+			
+			// Switch to the blog.
 			switch_to_blog( $id );
+			
+			// Clear builder cache.
 			FLBuilderModel::delete_asset_cache_for_all_posts();
+			
+			// Clear theme cache.
+			if ( class_exists( 'FLCustomizer' ) && method_exists( 'FLCustomizer', 'clear_all_css_cache' ) ) {
+				FLCustomizer::clear_all_css_cache();
+			}
 		}
 		
 		// Revert to the original blog.

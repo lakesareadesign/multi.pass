@@ -355,7 +355,9 @@ final class FLBuilderUserTemplates {
 	 */
 	static public function render_ui_js_templates()
 	{
-		include FL_BUILDER_USER_TEMPLATES_DIR . 'includes/ui-js-templates.php';
+		if ( FLBuilderModel::is_builder_active() ) {
+			include FL_BUILDER_USER_TEMPLATES_DIR . 'includes/ui-js-templates.php';
+		}
 	}
 
 	/**

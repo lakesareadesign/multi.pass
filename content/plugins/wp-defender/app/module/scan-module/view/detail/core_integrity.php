@@ -49,15 +49,16 @@
 				<p class="tc">
 					<?php printf( __( "This will overwrite the file <strong>%s</strong> with the official WordPress <strong>%s</strong> <strong>%s</strong> file.", wp_defender()->domain ), $name, $wp_version, $name ) ?>
 				</p>
-
-				<form id="wd_resolve_ci" method="post">
-					<input type="hidden" name="action" value="wd_resolve_core_integrity"/>
-					<input type="hidden" name="id" value="<?php echo $model->id ?>">
-					<?php wp_nonce_field( 'wd_resolve_core_integrity', 'wd_resolve_nonce' ) ?>
-					<button type="submit" class="button wd-button block">
-						<?php _e( "Download and Patch", wp_defender()->domain ) ?>
-					</button>
-				</form>
+				<?php if ( ! is_wp_error( $orinial ) ): ?>
+					<form id="wd_resolve_ci" method="post">
+						<input type="hidden" name="action" value="wd_resolve_core_integrity"/>
+						<input type="hidden" name="id" value="<?php echo $model->id ?>">
+						<?php wp_nonce_field( 'wd_resolve_core_integrity', 'wd_resolve_nonce' ) ?>
+						<button type="submit" class="button wd-button block">
+							<?php _e( "Download and Patch", wp_defender()->domain ) ?>
+						</button>
+					</form>
+				<?php endif; ?>
 			</div>
 		</section>
 	</div>

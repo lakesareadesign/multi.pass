@@ -16,6 +16,8 @@
 		{
 			$( this.nodeClass + ' .fl-accordion-button' ).on('click', $.proxy( this._buttonClick, this ) );
 			
+			FLBuilderLayout.preloadAudio( this.nodeClass + ' .fl-accordion-content' );
+
 			this._openDefaultItem();
 		},
 
@@ -66,6 +68,15 @@
 				win  		= $( window );
 			
 			FLBuilderLayout.refreshGalleries( content );
+
+			// Grid layout support (uses Masonry)
+			FLBuilderLayout.refreshGridLayout( content );
+
+			// Post Carousel support (uses BxSlider)
+			FLBuilderLayout.reloadSlider( content );
+
+			// WP audio shortcode support
+			FLBuilderLayout.resizeAudio( content );
 			
 			if ( item.offset().top < win.scrollTop() + 100 ) {
 				$( 'html, body' ).animate({ 

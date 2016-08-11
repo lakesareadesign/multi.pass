@@ -10,7 +10,8 @@
 						<?php _e( "Blacklisted", wp_defender()->domain ) ?>
 					</span>
 			<?php endif; ?>
-			<span tooltip="<?php esc_attr_e( __( "Deactivate Blacklist Monitoring", wp_defender()->domain ) ) ?>" class="toggle float-r">
+			<span tooltip="<?php esc_attr_e( __( "Deactivate Blacklist Monitoring", wp_defender()->domain ) ) ?>"
+			      class="toggle float-r">
 									<input type="checkbox" class="toggle-checkbox"
 									       id="toggle_blacklist" <?php checked( true, $controller->get_status() != WD_Blacklist_Widget::STATUS_OFF ) ?>/>
 									<label class="toggle-label" for="toggle_blacklist"></label>
@@ -25,7 +26,8 @@
 	<div class="box-content">
 		<p class="wd-center">
 			<?php _e( "We are monitoring blacklists for your domain every 6 hours.", wp_defender()->domain ); ?>
-			<a href="https://premium.wpmudev.org/blog/get-off-googles-blacklist/"><?php _e( "Learn more about blacklisting", wp_defender()->domain ); ?>.</a>
+			<a href="https://premium.wpmudev.org/blog/get-off-googles-blacklist/"><?php _e( "Learn more about blacklisting", wp_defender()->domain ); ?>
+				.</a>
 		</p>
 		<br/>
 		<?php
@@ -45,7 +47,7 @@
 		}
 		?>
 	</div>
-	<?php if ( $controller->is_on_hold() ): ?>
+	<?php if ( $controller->is_on_hold() && WD_Utils::get_setting( 'blacklist->is_hold', false ) == 'off' ): ?>
 		<div class="wd-overlay" id="wd-blacklist-overlay">
 			<i class="wdv-icon wdv-icon-fw wdv-icon-refresh spin"></i>
 		</div>

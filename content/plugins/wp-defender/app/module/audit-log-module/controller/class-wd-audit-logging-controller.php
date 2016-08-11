@@ -13,24 +13,367 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			$this->add_action( 'admin_menu', 'admin_menu', 12 );
 		}
 		$this->add_action( 'admin_enqueue_scripts', 'load_scripts' );
-		/*//cache for theme deleted
-		$this->add_action( 'delete_site_transient_update_themes', 'cache_theme_transient' );
+		//cache for theme deleted
+		$this->add_ajax_action( 'wd_toggle_audit_log', 'toggle_audit' );
+		if ( WD_Utils::get_setting( 'audit_log->enabled', 0 ) == 1 ) {
+			$this->add_action( 'delete_site_transient_update_themes', 'cache_theme_transient' );
+			$this->add_action( 'wp_loaded', 'setup_events', 1 );
+			$this->add_action( 'shutdown', 'submit_events' );
+			$this->add_ajax_action( 'wd_audit_email_report', 'toggle_email_report' );
+			$this->add_action( 'wd_audit_send_report', 'send_report_email' );
+			$this->add_action( 'wp_loaded', 'listen_for_plugins_themes_content' );
+		}
+	}
 
-		$hooks = WD_Audit_API::get_hooks();
-		foreach ( $hooks as $key => $hook ) {
-			if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
-				$func = function () use ( $key ) {
-					$args      = func_get_args();
-					$hook_name = $key;
-					WD_Audit_API::build_and_submit( $hook_name, $args );
-				};
-			} else {
-				//$func_args = implode( ',', $hook['args'] );
-				//$func      = create_function( $func_args, "var_dump('" . $hook['hook'] . "');var_dump(func_get_args());die;" );
+	public function listen_for_plugins_themes_content() {
+		if ( $_SERVER['REQUEST_METHOD'] != 'POST' ) {
+			return;
+		}
+
+		if ( ! ( is_admin() || is_network_admin() ) ) {
+			return;
+		}
+
+		$newcontent = WD_Utils::http_post( 'newcontent' );
+		$action     = WD_Utils::http_post( 'action' );
+		$theme      = WD_Utils::http_post( 'theme' );
+		$plugin     = WD_Utils::http_post( 'plugin' );
+		$file       = WD_Utils::http_post( 'file' );
+		$type       = $theme !== false ? 'theme' : ( $plugin !== false ? 'plugin' : null );
+
+
+		if ( $action == 'update' && $newcontent !== false && ( $theme !== false || $plugin !== false ) && $file !== false ) {
+			if ( $type == 'plugin' ) {
+				$folder = array_shift( explode( '/', $plugin ) );
+
+				$plugins = get_plugins();
+				$data    = null;
+				foreach ( $plugins as $k => $p ) {
+					if ( strpos( $k, $folder ) === 0 ) {
+						//this mean work
+						$data = $p;
+						break;
+					}
+				}
+
+				if ( is_array( $data ) ) {
+					$object = $data['Name'];
+				} else {
+					return false;
+				}
+			} elseif ( $type == 'theme' ) {
+				$theme = wp_get_theme( $theme );
+				if ( is_object( $theme ) && $theme->exists() ) {
+					$object = $theme->Name;
+				} else {
+					return false;
+				}
+			}
+			if ( ! empty( $object ) ) {
+				do_action( 'wd_plugin/theme_changed', $type, $object, $file );
+			}
+		}
+	}
+
+	public function send_report_email() {
+		$recipients = WD_Utils::get_setting( 'recipients', array() );
+		if ( empty( $recipients ) ) {
+			return;
+		}
+		/**
+		 * report data should contains
+		 * summaries each event types
+		 * If the interval is 1 day, we get in 24 hours
+		 * if it is 7 days, we will query a week
+		 * if this is 30 days, we will query data in a month
+		 * data will be summaries by event types, by percent
+		 * we will report user activity by percent too
+		 */
+
+		$frequency = WD_Utils::get_setting( 'audit_log->report_email_frequent', 7 );
+		switch ( $frequency ) {
+			case 1:
+				$date_from = strtotime( '-24 hours' );
+				$date_to   = time();
+				break;
+			case 7:
+				$date_from = strtotime( '-7 days' );
+				$date_to   = time();
+				break;
+			case 30:
+				$date_from = strtotime( '-30 days' );
+				$date_to   = time();
+				break;
+		}
+
+		if ( ! isset( $date_from ) && ! isset( $date_to ) ) {
+			//something wrong
+			return;
+		}
+
+		$date_from = date( 'Y-m-d', $date_from );
+		$date_to   = date( 'Y-m-d', $date_to );
+
+		$logs = WD_Audit_API::get_logs( array(
+			'date_from' => $date_from,
+			'date_to'   => $date_to,
+			//no paging
+			'paged'     => - 1
+		) );
+
+		$data       = $logs['data'];
+		$email_data = array();
+		foreach ( $data as $row => $val ) {
+			if ( ! isset( $email_data[ $val['event_type'] ] ) ) {
+				$email_data[ $val['event_type'] ] = array(
+					'count' => 0
+				);
 			}
 
-			add_action( $key, $func, 11, count( $hook['args'] ) );
-		}*/
+			if ( ! isset( $email_data[ $val['event_type'] ][ $val['action_type'] ] ) ) {
+				$email_data[ $val['event_type'] ][ $val['action_type'] ] = 1;
+			} else {
+				$email_data[ $val['event_type'] ][ $val['action_type'] ] += 1;
+			}
+			$email_data[ $val['event_type'] ]['count'] += 1;
+		}
+
+		if ( WD_Utils::get_setting( 'always_notify', 0 ) == 0 && count( $email_data ) == 0 ) {
+			//dont send email here
+			return;
+		}
+
+		uasort( $email_data, array( &$this, 'sort_email_data' ) );
+		//now we create a table
+		if ( count( $email_data ) ) {
+			$table = '<p>' . sprintf( __( "{USER_NAME}, here's a quick summary of your audit events for {SITE_URL}! View the full report <a href=\"%s\">here</a>.", wp_defender()->domain ),
+					network_admin_url( 'admin.php?page=wdf-logging' ) ) . '</p>';
+			$table .= '<table style="width: 100%;"  border="0" cellpadding="0" cellspacing="0">';
+			$table .= '<thead><tr>';
+			$table .= '<th style="padding-bottom: 5px;">' . '<span style="width:100%;display:inline-block;border-bottom: solid 1px #EEEEEE;padding-bottom: 10px">' . __( "Event Type", wp_defender()->domain ) . ' </span></th>';
+			$table .= '<th style="padding-bottom: 5px;">' . '<span style="width:100%;display:inline-block;border-bottom: solid 1px #EEEEEE;padding-bottom: 10px">' . __( "Action Summaries", wp_defender()->domain ) . '</span></th>';
+			$table .= '</tr></thead>';
+			$table .= '<tbody>';
+			foreach ( $email_data as $row => $val ) {
+				$table .= '<tr>';
+				$table .= '<td valign="top"  style="padding: 5px;vertical-align: top;border-bottom: solid 1px #EEEEEE">' . '<span>' . ucfirst( WD_Audit_API::get_action_text( $row ) ) . '</span>' . '</td>';
+				$table .= '<td style="padding: 5px;border-bottom: solid 1px #EEEEEE">';
+				foreach ( $val as $k => $v ) {
+					if ( $k == 'count' ) {
+						continue;
+					}
+					$table .= '<span style="display: block;padding-bottom: 5px">' . ucwords( WD_Audit_API::get_action_text( $k ) ) . ': ' . $v . '</span>';
+				}
+				$table .= '</td>';
+				$table .= '</tr>';
+			}
+			$table .= '</tbody>';
+			$table .= '</table><br/>';
+			$table .= '<p>' . sprintf( __( "View the full report <a href=\"%s\">here</a>.", wp_defender()->domain ),
+					network_admin_url( 'admin.php?page=wdf-logging' ) ) . '</p>';
+		} else {
+			$table = '<p>' . sprintf( __( "There were no events logged for %s", wp_defender()->domain ), network_site_url() ) . '</p>';
+		}
+
+		$template = $this->render( 'email_template', array(
+			'message' => $table,
+			'subject' => sprintf( __( "Audit Log Report for %s", wp_defender()->domain ), network_site_url() )
+		), false );
+
+		foreach ( $recipients as $user_id ) {
+			$user = get_user_by( 'id', $user_id );
+			if ( ! is_object( $user ) ) {
+				continue;
+			}
+			//prepare the parameters
+			$email = $user->user_email;
+
+			$no_reply_email = "noreply@" . parse_url( get_site_url(), PHP_URL_HOST );
+			$headers        = array(
+				'From: WP Defender <' . $no_reply_email . '>',
+				'Content-Type: text/html; charset=UTF-8'
+			);
+			$params         = array(
+				'USER_NAME' => WD_Utils::get_display_name( $user_id ),
+				'SITE_URL'  => network_site_url(),
+			);
+			foreach ( $params as $key => $val ) {
+				$template = str_replace( '{' . $key . '}', $val, $template );
+			}
+			wp_mail( $email, sprintf( __( "Audit Log Report for %s", wp_defender()->domain ), network_site_url() ), $template, $headers );
+		}
+		//reqqueue
+		wp_clear_scheduled_hook( 'wd_audit_send_report' );
+		wp_schedule_single_event( strtotime( '+' . WD_Utils::get_setting( 'audit_log->report_email_frequent', 7 ) . ' days' ), 'wd_audit_send_report' );
+	}
+
+	public function sort_email_data( $a, $b ) {
+		return $a['count'] < $b['count'];
+	}
+
+	public function toggle_email_report() {
+		if ( ! WD_Utils::check_permission() ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( WD_Utils::http_post( 'wd_audit_nonce' ), 'wd_audit_email_report' ) ) {
+			return;
+		}
+
+		$frequency = WD_Utils::http_post( 'frequency', null );
+		$next_send = null;
+		if ( ! is_null( $frequency ) ) {
+			WD_Utils::update_setting( 'audit_log->report_email_frequent', $frequency );
+			WD_Utils::update_setting( 'audit_log->report_email', 1 );
+			wp_clear_scheduled_hook( 'wd_audit_send_report' );
+			$next_send = strtotime( '+' . $frequency . ' days', strtotime( 'today midnight' ) );
+			wp_schedule_single_event( $next_send, 'wd_audit_send_report' );
+		} elseif ( WD_Utils::get_setting( 'audit_log->report_email' ) == 0 ) {
+			//this mean turn on
+			WD_Utils::update_setting( 'audit_log->report_email', 1 );
+			wp_clear_scheduled_hook( 'wd_audit_send_report' );
+			$next_send = strtotime( '+' . WD_Utils::get_setting( 'audit_log->report_email_frequent', 7 ) . ' days', strtotime( 'today midnight' ) );
+			wp_schedule_single_event( $next_send, 'wd_audit_send_report' );
+		} else {
+			WD_Utils::update_setting( 'audit_log->report_email', 0 );
+			wp_clear_scheduled_hook( 'wd_audit_send_report' );
+		}
+		$html = '';
+		if ( $next_send != null ) {
+			WD_Utils::update_setting( 'audit_log->next_report_time', $next_send );
+			$html = $this->get_next_report_time_info( $next_send );
+		} else {
+			WD_Utils::update_setting( 'audit_log->next_report_time', false );
+		}
+		wp_send_json( array(
+			'status' => 1,
+			'html'   => $html
+		) );
+	}
+
+	public function get_next_report_time_info( $next_send = null ) {
+		if ( $next_send == null ) {
+			$next_send = WD_Utils::get_setting( 'audit_log->next_report_time', false );
+		}
+
+		if ( $next_send === false ) {
+			return '';
+		}
+
+		$emails = array();
+		foreach ( WD_Utils::get_setting( 'recipients', array() ) as $user_id ) {
+			$user     = get_user_by( 'id', $user_id );
+			$emails[] = $user->user_email;
+		}
+		$html = sprintf( __( "Audit Logging has been enabled. Expect your next report on <strong>%s</strong> to <strong>%s</strong> %s", wp_defender()->domain ),
+			date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_send ),
+			implode( ', ', $emails ), ' <a href="' . network_admin_url( 'admin.php?page=wdf-settings#email-recipients-frm' ) . '">' . __( "edit", wp_defender()->domain ) . '</a>' );
+
+		return $html;
+	}
+
+	public function submit_events() {
+		$data = array();
+		if ( isset( wp_defender()->global['events_queue'] ) && ! empty( wp_defender()->global['events_queue'] ) ) {
+			$data = wp_defender()->global['events_queue'];
+		}
+
+		if ( count( $data ) ) {
+			$start = new DateTime();
+			/**
+			 * if data is more than one, means various event happened at once, we will need to group each by type
+			 * and submit at bulk
+			 */
+			if ( count( $data ) > 1 ) {
+				$groups     = array();
+				$socket_log = array();
+				foreach ( $data as $k => $val ) {
+					if ( ! isset( $groups[ $val['event_type'] ] ) ) {
+						$groups[ $val['event_type'] ] = array();
+					}
+					$groups[ $val['event_type'] ][] = $val;
+				}
+				//now regroup, and start to submit
+				$new_data = array();
+				foreach ( $groups as $k => $val ) {
+					$tmp = array();
+					foreach ( $val as $v ) {
+						$tmp[] = $v['msg'];
+					}
+					$first        = array_shift( $val );
+					$first['msg'] = implode( '; ', $tmp );
+					$socket_log[] = $first['msg'];
+					$new_data[]   = $first;
+				}
+
+				$data = $new_data;
+			} elseif ( count( $data ) == 1 ) {
+				$socket_log[] = $data[0]['msg'];
+			}
+
+			if ( WD_Audit_API::submit_to_api_socket( $data ) == false ) {
+				$this->log( 'socket fail', self::ERROR_LEVEL_DEBUG, 'socket' );
+				//fallback to curl
+				WD_Audit_API::submit_to_api( $data );
+			}
+
+			$end = new DateTime();
+			$this->log( 'time in shutdown (second) ' . implode( ';;', $socket_log ) . $end->diff( $start )->format( '%s' ) );
+		}
+
+		unset( wp_defender()->global['events_queue'] );
+	}
+
+	public function setup_events() {
+		$events_class = array(
+			new WD_Users_Audit(),
+			new WD_Media_Audit(),
+			new WD_Core_Audit(),
+			new WD_Options_Audit(),
+			new WD_Comment_Audit(),
+			new WD_Post_Audit(),
+		);
+
+		//we will build up the dictionary here
+		$dictionary  = WD_Audit_API::dictionary();
+		$event_types = array();
+
+		foreach ( $events_class as $class ) {
+			$hooks      = $class->get_hooks();
+			$dictionary = array_merge( $class->dictionary(), $dictionary );
+			foreach ( $hooks as $key => $hook ) {
+				if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
+					include_once wp_defender()->get_plugin_path() . 'app/module/audit-log-module/include/php53_setup_event.php';
+				} else {
+					include_once wp_defender()->get_plugin_path() . 'app/module/audit-log-module/include/php52_setup_event.php';
+				}
+				$func = wd_get_callable_event( $key, $hook, $class );
+				add_action( $key, $func, 11, count( $hook['args'] ) );
+				$event_types[] = $hook['event_type'];
+			}
+		}
+		wp_defender()->global['event_types'] = array_unique( $event_types );
+		wp_defender()->global['dictionary']  = $dictionary;
+	}
+
+	public function toggle_audit() {
+		if ( ! WD_Utils::check_permission() ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( WD_Utils::http_post( 'wd_audit_nonce' ), 'wd_toggle_audit_log' ) ) {
+			return;
+		}
+
+		if ( WD_Utils::get_setting( 'audit_log->enabled', 0 ) == 0 ) {
+			WD_Utils::update_setting( 'audit_log->enabled', 1 );
+		} else {
+			WD_Utils::update_setting( 'audit_log->enabled', 0 );
+		}
+		wp_send_json( array(
+			'status' => 1,
+			'state'  => WD_Utils::get_setting( 'audit_log->enabled', 0 )
+		) );
 	}
 
 	/**
@@ -42,14 +385,32 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 
 	public function admin_menu() {
 		$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
-		add_submenu_page( 'wp-defender', __( "Audit Logging", wp_defender()->domain ), __( "Audit Log", wp_defender()->domain ), $cap, 'wdf-logging', array(
+		add_submenu_page( 'wp-defender', __( "Audit Logging", wp_defender()->domain ), __( "Audit Logging", wp_defender()->domain ), $cap, 'wdf-logging', array(
 			$this,
 			'display_main'
 		) );
 	}
 
 	public function display_main() {
-		$this->render( 'soon', array(), true );
+		if ( WD_Utils::get_dev_api() == false ) {
+			$this->render( 'subscribe', array(), true );
+
+			return;
+		}
+
+		if ( WD_Utils::get_setting( 'audit_log->enabled', 0 ) == 0 ) {
+			$this->_render_activate_screen();
+		} else {
+			$this->_render_logs_screen();
+		}
+	}
+
+	private function _render_logs_screen() {
+		$this->render( 'logs' );
+	}
+
+	private function _render_activate_screen() {
+		$this->render( 'activate' );
 	}
 
 	/**
@@ -59,7 +420,11 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 		if ( $this->is_in_page() ) {
 			WDEV_Plugin_Ui::load( wp_defender()->get_plugin_url() . 'shared-ui/', false );
 			wp_enqueue_style( 'wp-defender' );
+			wp_localize_script( 'wp-defender', 'audit_logging', array(
+				'date_format' => WD_Utils::convert_date_format_jQuery( 'd/m/Y' )
+			) );
 			wp_enqueue_script( 'wp-defender' );
+			wp_enqueue_script( 'jquery-ui-datepicker' );
 		}
 	}
 
@@ -68,15 +433,8 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 	 * @return bool
 	 */
 	private function is_in_page() {
-		$screen = get_current_screen();
-		if ( is_object( $screen ) && in_array( $screen->id, array(
-				'defender_page_wdf-logging',
-				'defender_page_wdf-logging-network'
-			) )
-		) {
-			return true;
-		}
+		$page = WD_Utils::http_get( 'page' );
 
-		return false;
+		return $page == 'wdf-logging';
 	}
 }

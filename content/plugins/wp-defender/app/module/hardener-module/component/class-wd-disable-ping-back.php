@@ -60,6 +60,7 @@ class WD_Disable_Ping_Back extends WD_Hardener_Abstract {
 										div.find('.form-ignore').addClass('wd-hide');
 										div.show(500);
 									})
+									$('body').trigger('after_an_issue_resolved', -1);
 								}
 								if (data.revert == 1) {
 									parent.hide(500, function () {
@@ -97,6 +98,7 @@ class WD_Disable_Ping_Back extends WD_Hardener_Abstract {
 											 scrollTop: div.find('.rule-title').offset().top
 											 }, 1000);*/
 										});
+										$('body').trigger('after_an_issue_resolved', 1);
 									})
 								}
 							}

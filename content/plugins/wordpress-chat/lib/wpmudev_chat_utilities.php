@@ -455,7 +455,7 @@ function wpmudev_chat_get_active_sessions( $session_types = array( 'page' ) ) {
 		}
 	}
 
-	$sql_str      = $wpdb->prepare( "SELECT * FROM " . WPMUDEV_Chat::tablename( 'log' ) . " WHERE session_type IN (" . $session_types_str . ") AND archived=%s AND deleted=%s AND blog_id=%d", 'no', 'no', $blog_id );	     	 	 	  	  		
+	$sql_str      = $wpdb->prepare( "SELECT * FROM " . WPMUDEV_Chat::tablename( 'log' ) . " WHERE session_type IN (" . $session_types_str . ") AND archived=%s AND deleted=%s AND blog_id=%d", 'no', 'no', $blog_id );
 	$active_chats = $wpdb->get_results( $sql_str );
 	if ( ! empty( $active_chats ) ) {
 		foreach ( $active_chats as $active_chat ) {

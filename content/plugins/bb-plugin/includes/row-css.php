@@ -60,14 +60,14 @@
 <?php endif; ?>
 
 <?php if(in_array( $row->settings->bg_type, array('color', 'photo', 'parallax', 'slideshow', 'video') ) && !empty($row->settings->bg_color)) : // Background Color ?>
-.fl-node-<?php echo $row->node; ?> .fl-row-content-wrap {
+.fl-node-<?php echo $row->node; ?> > .fl-row-content-wrap {
 	background-color: #<?php echo $row->settings->bg_color; ?>;
 	background-color: rgba(<?php echo implode(',', FLBuilderColor::hex_to_rgb($row->settings->bg_color)) ?>, <?php echo $row->settings->bg_opacity/100; ?>);
 }
 <?php endif; ?>
 
 <?php if($row->settings->bg_type == 'photo' && !empty($row->settings->bg_image)) : // Background Photo ?>
-.fl-node-<?php echo $row->node; ?> .fl-row-content-wrap {
+.fl-node-<?php echo $row->node; ?> > .fl-row-content-wrap {
 	background-image: url(<?php echo $row->settings->bg_image_src; ?>);
 	background-repeat: <?php echo $row->settings->bg_repeat; ?>;
 	background-position: <?php echo $row->settings->bg_position; ?>;
@@ -77,20 +77,20 @@
 <?php endif; ?>
 
 <?php if( in_array( $row->settings->bg_type, array('photo', 'parallax', 'slideshow', 'video') ) && !empty($row->settings->bg_overlay_color)) : // Background Color Overlay ?>
-.fl-node-<?php echo $row->node; ?> .fl-row-content-wrap:after {
+.fl-node-<?php echo $row->node; ?> > .fl-row-content-wrap:after {
 	background-color: #<?php echo $row->settings->bg_overlay_color; ?>;
 	background-color: rgba(<?php echo implode(',', FLBuilderColor::hex_to_rgb($row->settings->bg_overlay_color)) ?>, <?php echo $row->settings->bg_overlay_opacity/100; ?>);
 }
 <?php endif; ?>
 
 <?php if($row->settings->bg_type == 'parallax' && !empty($row->settings->bg_parallax_image_src)) : // Parallax Background ?>
-.fl-node-<?php echo $row->node; ?> .fl-row-content-wrap {
+.fl-node-<?php echo $row->node; ?> > .fl-row-content-wrap {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-attachment: fixed;
 	background-size: cover;
 }
-.fl-builder-mobile .fl-node-<?php echo $row->node; ?> .fl-row-content-wrap {
+.fl-builder-mobile .fl-node-<?php echo $row->node; ?> > .fl-row-content-wrap {
 	background-image: url(<?php echo $row->settings->bg_parallax_image_src; ?>);
 	background-attachment: scroll;
 	background-position: center center;
@@ -98,7 +98,7 @@
 <?php endif; ?>
 
 <?php if(!empty($row->settings->border_type)) : // Border ?>
-.fl-node-<?php echo $row->node; ?> .fl-row-content-wrap {
+.fl-node-<?php echo $row->node; ?> > .fl-row-content-wrap {
 	border-style: <?php echo $row->settings->border_type; ?>;
 	border-top-width: <?php echo is_numeric($row->settings->border_top) ? $row->settings->border_top : '0'; ?>px;
 	border-bottom-width: <?php echo is_numeric($row->settings->border_bottom) ? $row->settings->border_bottom : '0'; ?>px;

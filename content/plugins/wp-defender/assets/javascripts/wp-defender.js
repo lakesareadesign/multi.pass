@@ -5,6 +5,7 @@ jQuery(function ($) {
     WDefender.blackList();
     WDefender.resolve();
     WDefender.dashboard();
+    WDefender.audit_logging();
 
     WDefender.settings();
     $('.wd-dismiss').click(function (e) {
@@ -31,6 +32,24 @@ jQuery(function ($) {
             }
         })
     });
+    $('body').on('after_an_issue_resolved', function (event, count) {
+        if ($('.wd-issue-indicator-sidebar').size() > 0) {
+            var current = $('.wd-issue-indicator-sidebar').first().text();
+            if (current.length == 0) {
+                current = 0;
+            }
+            current = parseInt(current) + parseInt(count);
+            if (current == 0) {
+                $('.wd-issue-indicator-sidebar span').remove();
+            } else {
+                if ($('.wd-issue-indicator-sidebar span').size() == 0) {
+                    $('.wd-issue-indicator-sidebar').append('<span></span>');
+                }
+
+                $('.wd-issue-indicator-sidebar span').text(current);
+            }
+        }
+    })
 })
 jQuery.fn.wd_according = function (options) {
     var $ = jQuery;
@@ -188,6 +207,126 @@ WDefender.hardener = function (el) {
 
     init();
 
+}
+
+WDefender.audit_logging = function () {
+    var jq = jQuery;
+
+    function toggle_status() {
+        jq('body').on('submit', '.wd_audit_status_toggle', function () {
+            var that = jq(this);
+            jq.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: that.serialize(),
+                beforeSend: function () {
+                    that.find('button').attr('disabled', 'disabled');
+                    that.find('.wd-error').html('').addClass('wd-hide');
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        location.reload();
+                    } else {
+                        that.find('button').removeAttr('disabled');
+                        that.find('.wd-error').html(data.error).removeClass('wd-hide');
+                    }
+                }
+            })
+            return false;
+        })
+    }
+
+    function toggle_email_report() {
+        jq('body').on('submit', '.setup-email-report-form', function () {
+            var that = jq(this);
+            jq.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: that.serialize(),
+                beforeSend: function () {
+                    that.find('button').attr('disabled', 'disabled');
+                    that.find('.wd-error').html('').addClass('wd-hide');
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        jq('.wd-audit-log-information').html(data.html);
+                        that.find('button').removeAttr('disabled');
+                        location.reload();
+                    } else {
+                        that.find('button').removeAttr('disabled');
+                        that.find('.wd-error').html(data.error).removeClass('wd-hide');
+                    }
+                }
+            })
+            return false;
+        })
+    }
+
+    function toggle_audit_log() {
+        jq('#toggle_audit_log').change(function () {
+            jq('.wd_audit_status_toggle').submit();
+        })
+    }
+
+    function toggle_email_report_slide() {
+        jq('#toggle_audit_email_report').change(function () {
+            jq(this).closest('h3').find('.setup-email-report-form').submit();
+        })
+    }
+
+    function init() {
+        toggle_status();
+        toggle_email_report();
+        if (jq('.wd-calendar').size() > 0) {
+            jq('#wd_range_from').datepicker({
+                'maxDate': 0,
+                'dateFormat': audit_logging.date_format,
+                beforeShow: function (input, inst) {
+                    jq('#ui-datepicker-div').removeClass(function () {
+                        return 'wd-calendar'
+                    });
+                    jq('#ui-datepicker-div').addClass('wd-calendar');
+                },
+                onClose: function (selectedDate) {
+                    jq("#wd_range_to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            jq('#wd_range_to').datepicker({
+                'maxDate': 0,
+                'dateFormat': audit_logging.date_format,
+                beforeShow: function (input, inst) {
+                    jq('#ui-datepicker-div').removeClass(function () {
+                        return 'wd-calendar'
+                    });
+                    jq('#ui-datepicker-div').addClass('wd-calendar');
+                },
+                onClose: function (selectedDate) {
+                    jq("#wd_range_from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+            jq('.wd-audit-filter').change(function () {
+                var data = [];
+                jq('.wd-audit-filter').find(':input').each(function () {
+                    var that = jq(this);
+                    data.push({
+                        'name': that.attr('name'),
+                        'value': that.val()
+                    });
+                })
+                data["action"] = "wd_audit_filter";
+                jq.ajax({
+                    type: 'POST',
+                    url: ajaxurl,
+                    data: data
+                })
+                console.log(data);
+            })
+        }
+        toggle_audit_log();
+        toggle_email_report_slide();
+    }
+
+    init();
 }
 
 WDefender.settings = function () {
@@ -421,6 +560,7 @@ WDefender.resolve = function () {
                                         jq('#wd-ignore-list table tbody').append($element);
                                         $element.effect("highlight", {}, 1000);
                                         listening_to_issues_count();
+                                        jQuery('body').trigger('after_an_issue_resolved', -1);
                                     });
                                     break;
                                 case 'undo':
@@ -434,6 +574,7 @@ WDefender.resolve = function () {
                                             jq('#wd-result-list .wd-success').addClass('wd-hide');
                                         }
                                         listening_to_issues_count();
+                                        jQuery('body').trigger('after_an_issue_resolved', 1);
                                     });
                                     break;
                             }
@@ -729,6 +870,8 @@ WDefender.blackList = function () {
                 },
                 success: function (data) {
                     if (data.status == 1) {
+                        var html = jq(data.html);
+                        parent.replaceWith(html);
                         check_toggle_status();
                     } else {
                         overlay.remove();
@@ -777,7 +920,7 @@ WDefender.blackList = function () {
             return;
         }
 
-        if (parent.find('.wd-overlay').size() == 0) {
+        if (parent.find('.wd-progress').size() == 0 && parent.find('.wd-overlay').size() == 0) {
             //this mean everything ok
             return;
         }
@@ -788,7 +931,7 @@ WDefender.blackList = function () {
             jq.get(location.href, function (html) {
                 html = jq(html);
                 var new_parent = html.find('#wd-blacklist-widget');
-                if (new_parent.find('.wd-overlay').size() == 0) {
+                if (new_parent.find('.wd-progress').size() == 0 && new_parent.find('.wd-overlay').size() == 0) {
                     parent.replaceWith(new_parent);
                 } else {
                     setTimeout(_check_toggle_status, 5000);

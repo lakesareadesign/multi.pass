@@ -202,7 +202,7 @@ class Delicious_Brains_API_Updates {
 					'check_license_again'   => __( 'Check my license again', 'amazon-s3-and-cloudfront' ),
 					'license_check_problem' => __( 'A problem occurred when trying to check the license, please try again.', 'amazon-s3-and-cloudfront' ),
 				),
-				'plugins' => apply_filters( 'delicious_brains_plugins', array() )
+				'plugins' => apply_filters( 'delicious_brains_plugins', array() ),
 			)
 		);
 	}
@@ -213,16 +213,17 @@ class Delicious_Brains_API_Updates {
 	function add_plugin_update_styles() {
 		?>
 		<style type="text/css">
-			.check-licence-spinner {
-				left: 5px;
-				position: relative;
-				top: 3px;
-				width: 16px;
-				height: 16px;
-			}
-			.<?php echo $this->licences->plugin->prefix; ?>-original-update-row {
-				display: none;
-			}
+		.check-licence-spinner {
+			left: 5px;
+			position: relative;
+			top: 3px;
+			width: 16px;
+			height: 16px;
+		}
+
+		.<?php echo $this->licences->plugin->prefix; ?>-original-update-row {
+			display: none;
+		}
 		</style><?php
 	}
 
@@ -289,7 +290,6 @@ class Delicious_Brains_API_Updates {
 
 		$error_msg = '<p>' . __( 'Could not retrieve version details. Please try again.', 'amazon-s3-and-cloudfront' ) . '</p>';
 
-		$filename       = $slug;
 		$latest_version = $this->get_latest_version( $slug );
 
 		if ( false === $latest_version ) {
@@ -297,17 +297,12 @@ class Delicious_Brains_API_Updates {
 			exit;
 		}
 
-		if ( $this->is_beta_version( $latest_version ) ) {
-			$filename .= '-beta';
-		}
+		$data = $this->licences->get_changelog( $slug, $this->is_beta_version( $latest_version ) );
 
-		$url  = $this->licences->api_base . '/content/themes/delicious-brains/update-popup/' . $filename . '.html';
-		$data = $this->licences->get( $url );
-
-		if ( is_wp_error( $data ) || 200 != $data['response']['code'] ) {
+		if ( is_wp_error( $data ) || empty( $data ) ) {
 			echo $error_msg;
 		} else {
-			echo $data['body'];
+			echo $data;
 		}
 
 		exit;
@@ -334,8 +329,8 @@ class Delicious_Brains_API_Updates {
 			return;
 		}
 
-		$licence_problem  = isset( $licence_response['errors'] );
-		$no_licence       = isset( $licence_response['errors']['no_licence'] );
+		$licence_problem = isset( $licence_response['errors'] );
+		$no_licence      = isset( $licence_response['errors']['no_licence'] );
 
 		$is_addon          = $this->is_addon( $plugin_file );
 		$plugin_slug       = dirname( $plugin_file );
@@ -377,14 +372,27 @@ class Delicious_Brains_API_Updates {
 		} ?>
 
 		<tr class="plugin-update-tr <?php echo $this->licences->plugin->prefix; ?>-custom">
-			<td colspan="3" class="plugin-update">
-				<div class="update-message">
-					<span class="<?php echo $this->licences->plugin->prefix; ?>-new-version-notice"><?php echo $new_version; ?></span>
-					<?php if ( $message ) : ?>
-						<span class="<?php echo $this->licences->plugin->prefix; ?>-licence-error-notice"><?php echo $message; ?></span>
-					<?php endif; ?>
-				</div>
-			</td>
+			<?php if ( version_compare( $GLOBALS['wp_version'], '4.6-alpha', '<' ) ) { ?>
+				<td colspan="3" class="plugin-update">
+					<div class="update-message">
+						<span class="<?php echo $this->licences->plugin->prefix; ?>-new-version-notice"><?php echo $new_version; ?></span>
+						<?php if ( $message ) : ?>
+							<span class="<?php echo $this->licences->plugin->prefix; ?>-licence-error-notice"><?php echo $message; ?></span>
+						<?php endif; ?>
+					</div>
+				</td>
+			<?php } else { ?>
+				<td colspan="3" class="plugin-update colspanchange">
+					<div class="update-message notice inline notice-warning notice-alt">
+						<p>
+							<span class="<?php echo $this->licences->plugin->prefix; ?>-new-version-notice"><?php echo $new_version; ?></span>
+							<?php if ( $message ) : ?>
+								<span class="<?php echo $this->licences->plugin->prefix; ?>-licence-error-notice"><?php echo $message; ?></span>
+							<?php endif; ?>
+						</p>
+					</div>
+				</td>
+			<?php } ?>
 		</tr>
 
 		<?php if ( $new_version ) {
@@ -392,8 +400,7 @@ class Delicious_Brains_API_Updates {
 			// removes the built-in plugin update message
 			?>
 			<script type="text/javascript">
-				(
-					function( $ ) {
+				(function( $ ) {
 						var <?php echo $this->licences->plugin->prefix; ?>_row = $( 'tr[data-slug="<?php echo $plugin_row_slug; ?>"]' ).first();
 						var update_row = <?php echo $this->licences->plugin->prefix; ?>_row.next();
 
@@ -412,8 +419,7 @@ class Delicious_Brains_API_Updates {
 							original.addClass( 'addon' );
 							<?php endif; ?>
 						}
-					}
-				)( jQuery );
+					})( jQuery );
 			</script>
 			<?php
 		}
@@ -426,7 +432,8 @@ class Delicious_Brains_API_Updates {
 	 * @param array  $args
 	 * @param string $url
 	 *
-	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
+	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error
+	 *                        instance upon error
 	 */
 	function verify_download( $response, $args, $url ) {
 		if ( is_wp_error( $response ) ) {

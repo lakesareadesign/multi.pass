@@ -79,6 +79,7 @@ class WD_Blacklist_Widget extends WD_Controller {
 		if ( ! wp_verify_nonce( WD_Utils::http_post( 'wd_service_nonce' ), 'wd_toggle_blacklist' ) ) {
 			return;
 		}
+
 		$is_on_hold = WD_Utils::get_setting( 'blacklist->is_hold', false );
 		if ( $is_on_hold != false ) {
 			//settling,
@@ -187,6 +188,9 @@ class WD_Blacklist_Widget extends WD_Controller {
 		$this->settle_status();
 		if ( WD_Utils::get_dev_api() == false ) {
 			$this->render( 'widgets/blacklist/blacklist-subscribe', array(), true );
+		} elseif ( $this->is_on_hold() && WD_Utils::get_setting( 'blacklist->is_hold', false ) == 'on' ) {
+			//we only load this screen when next status is on
+			$this->render( 'widgets/blacklist/blacklist-pending', array(), true );
 		} elseif ( $this->status == self::STATUS_OFF ) {
 			$this->render( 'widgets/blacklist/blacklist-off', array(), true );
 		} elseif ( $this->status == self::STATUS_ERROR ) {

@@ -91,7 +91,8 @@ FLBuilder::register_settings_form('items_form', array(
 					'fields'        => array( 
 						'content'       => array(
 							'type'          => 'editor',
-							'label'         => ''
+							'label'         => '',
+							'wpautop'		=> false
 						)
 					)
 				)

@@ -10,7 +10,7 @@
 
 <?php //overall styling of the menu / submenu ?>
 
-.fl-node-<?php echo $id; ?> .fl-menu .menu{
+.fl-node-<?php echo $id; ?> .fl-menu .menu, .fl-node-<?php echo $id; ?> .fl-menu .menu li{
 	<?php 
 	
 		$menu_raw_color = !empty( $settings->menu_bg_color ) ? $settings->menu_bg_color : 'transparent';
@@ -167,7 +167,7 @@
 		border-top: none;
 	}
 
-	<?php if( isset( $settings->mobile_full_width ) && $settings->mobile_full_width == 'yes' ) : ?>
+	<?php if( (isset( $settings->mobile_full_width ) && $settings->mobile_full_width == 'yes') && (isset( $settings->mobile_toggle ) && in_array($settings->mobile_toggle, array('hamburger', 'hamburger-label')) ) ) : ?>
 		@media ( max-width: <?php echo ( $global_settings->responsive_breakpoint - 1 ) ?>px ) {
 
 			.fl-node-<?php echo $id; ?> .fl-menu .menu{
@@ -190,13 +190,6 @@
 		}
 	<?php endif; ?>
 	
-	@media ( max-width: <?php echo $global_settings->responsive_breakpoint ?>px ) {
-		
-		.fl-node-<?php echo $id; ?> .fl-menu {
-			text-align: left;
-		}
-	}
-
 	@media ( min-width: <?php echo $global_settings->responsive_breakpoint ?>px ) {
 		
 		<?php // if menu is horizontal ?>

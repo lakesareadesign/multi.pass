@@ -5,6 +5,38 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 2.4.3 =
+
+    * Fixed:
+        * Image resizing not working on image upload
+
+= 2.4.2 =
+
+    * Fixed:
+        * PHP 5.2 compatibility
+
+= 2.4.1 =
+
+* Fixed:
+    Conflict with customizer
+
+= 2.4 =
+
+* Compatibility:
+    * WPML Media Add-on compatibility, you can smush all the images for all the languages at once from Bulk Smush page
+
+* Features:
+    * Added PNG to JPG - Lossy Conversion for higher savings ( Pro Feature )
+
+*Fixed:
+    * EXIF: Device details were left out for some images, even when opted for stripping it
+
+* Updated:
+    * Minor Tweaks on WP Smush Page ( Bulk Smush )
+    * Stats calculation is more accurate
+    * Show current image size and image size dimensions in media library after image has been smushed
+    * JPEG optimisation - higher savings for JPEGs lossy optimisation ( Pro Feature )
+
 = 2.3.1 =
 
 * Fixed:
@@ -175,4 +207,4 @@ Change Log:
 - First release
 
 
-133620-1464832141-au
+133620-1470955204-au

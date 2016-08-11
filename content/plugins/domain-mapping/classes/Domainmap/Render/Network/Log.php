@@ -41,7 +41,7 @@ class Domainmap_Render_Network_Log extends Domainmap_Render_Network {
 		parent::_render_header();
 
 		if ( filter_input( INPUT_GET, 'deleted', FILTER_VALIDATE_BOOLEAN ) ) :
-			echo '<div id="message" class="updated fade">', __( 'Log records were deleted.', 'domainmap' ), '</div>';
+			echo '<div id="message" class="updated fade">', __( 'Log records were deleted.', 'domainmap' ), '</div>';	     	 	  	 	 			
 		endif;
 	}
 

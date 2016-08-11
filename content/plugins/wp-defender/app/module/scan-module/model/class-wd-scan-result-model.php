@@ -23,6 +23,11 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 	protected $id;
 
 	/**
+	 * @var
+	 */
+	protected $title;
+
+	/**
 	 * Clean file will be stored here, and we will use this to check integrity
 	 *
 	 * @var array
@@ -145,6 +150,11 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 		),
 		array(
 			'type' => 'native',
+			'prop' => 'title',
+			'wp'   => 'post_title'
+		),
+		array(
+			'type' => 'native',
 			'prop' => 'log',
 			'wp'   => 'post_content'
 		),
@@ -229,6 +239,7 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 		$this->status         = self::STATUS_INIT;
 		$this->current_action = '';
 		$this->log            = '<!-- result will show -->';
+		$this->title          = date_i18n( WD_Utils::get_date_time_format() );
 		$this->message        = '<i class="wdv-icon wdv-icon-fw wdv-icon-refresh spin"></i>' . __( "Initializing...", wp_defender()->domain );
 	}
 
@@ -275,7 +286,7 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 		}
 
 		$result = $this->result;
-		$md5    = WD_Utils::get_cache( 'wd_md5_checksum' );
+		$md5    = WD_Utils::get_cache( 'wd_md5_checksum', false );
 		if ( $md5 == false ) {
 			$md5 = WD_Scan_Api::download_md5_files();
 			//short cache, as user might update the version anytime

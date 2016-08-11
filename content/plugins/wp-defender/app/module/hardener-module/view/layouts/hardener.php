@@ -3,13 +3,15 @@
 		<div class="wp-defender">
 			<?php do_action( 'wd_hardener_layout_top' ) ?>
 			<div class="wd-hardener">
-				<h2 class="tl wd-title"><?php _e( "Hardening", wp_defender()->domain ) ?></h2>
+				<section id="header">
+					<h1 class="tl"><?php _e( "Hardening", wp_defender()->domain ) ?></h1>
+				</section>
 				<section class="dev-box wd-hardener-summary">
 					<div class="box-title">
 						<h3><?php _e( "Summary", wp_defender()->domain ) ?></h3>
 					</div>
 					<div class="box-content">
-						<h2 class="tl">
+						<h2 class="tl wd-title">
 							<?php
 							if ( count( $issues ) == 0 ) {
 								_e( "All Issues Resolved. Legendary!", wp_defender()->domain );
@@ -54,7 +56,7 @@
 								{{contents}}
 							</section>
 						</div>
-						<div class="col span_3_of_12 full-width-if-lower-than-1000 wd-no-padding">
+						<div class="col span_3_of_12 full-width-if-lower-than-1000 humming-ads">
 							<?php
 							$widget = WD_Widget_Manager::get_instance()->display( 'WD_Performance_Widget' ); ?>
 						</div>

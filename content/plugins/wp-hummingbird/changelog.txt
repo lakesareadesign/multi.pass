@@ -1,8 +1,16 @@
 Plugin Name: WP Hummingbird
 Author: Ignacio Cruz, Ricardo Freitas
-Tested up to: 4.5.2
+Tested up to: 4.6
 
 Change Log:
+
+1.2.4 - 2016-08-10
+----------------------------------------------------------------------
+- Fixed fatal error on activation when PHP version is < 5.3
+
+1.2.3 - 2016-07-22
+----------------------------------------------------------------------
+- Enhance: Updated WPMU DEV styles library
 
 1.2.2 - 2016-06-16
 ----------------------------------------------------------------------
@@ -76,4 +84,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1466479864-au
+133620-1470955190-au

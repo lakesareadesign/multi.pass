@@ -106,16 +106,9 @@ class WD_Schedule_Scan_Controller extends WD_Controller {
 	 * @return bool
 	 */
 	private function is_in_page() {
-		$screen = get_current_screen();
-		if ( is_object( $screen ) && in_array( $screen->id, array(
-				'defender_page_wdf-schedule-scan',
-				'defender_page_wdf-schedule-scan-network'
-			) )
-		) {
-			return true;
-		}
+		$page = WD_Utils::http_get( 'page' );
 
-		return false;
+		return $page == 'wdf-schedule-scan';
 	}
 
 	/**

@@ -256,8 +256,9 @@ class WD_Security_Key extends WD_Hardener_Abstract {
 								$('#wd_security_key_dialog').html(data.message);
 								$('.wd_security_key_dialog_trigger').trigger('click');
 								setTimeout(function () {
-									//location.reload();
-								}, 3000)
+									location.reload();
+								}, 3000);
+								$('body').trigger('after_an_issue_resolved', -1);
 							}
 						}
 					})
@@ -295,7 +296,7 @@ class WD_Security_Key extends WD_Hardener_Abstract {
 								that.find('.wdv-icon-ok-sign').fadeOut(500, function () {
 									that.find('.wdv-icon-ok-sign').addClass('wd-hide').removeAttr('style');
 								})
-							}, 3000)
+							}, 3000);
 						}
 					})
 					return false;
@@ -315,7 +316,7 @@ class WD_Security_Key extends WD_Hardener_Abstract {
 			<div id="<?php echo $this->id ?>" class="wd-rule-content">
 				<h4 class="tl"><?php _e( "Overview", wp_defender()->domain ) ?></h4>
 
-				<p><?php _e( "We recommend changing your security keys every <span class=\"expiry-days\">60 days</span> and it looks like yours are currently older than this! Simply regenerate them to prevent unwanted snooping.", wp_defender()->domain ) ?></p>
+				<p><?php _e( "We recommend changing your security keys every 60 days.", wp_defender()->domain ) ?></p>
 
 				<form method="post" id="update_security_keys_remind_days">
 					<div><?php _e( "Remind me to change my security keys every", wp_defender()->domain ) ?>

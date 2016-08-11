@@ -2,9 +2,11 @@
 	<div class="wpmud">
 		<div class="wp-defender">
 			<div class="wd-issue-detail">
-				<h2 class="tl wd-title">
-					<?php _e( "Review Changes", wp_defender()->domain ) ?>
-				</h2>
+				<section id="header">
+					<h1 class="tl">
+						<?php _e( "Review Changes", wp_defender()->domain ) ?>
+					</h1>
+				</section>
 				<section>
 					{{contents}}
 				</section>

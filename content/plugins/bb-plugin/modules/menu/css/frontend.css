@@ -16,7 +16,6 @@
 
 .fl-menu .menu{
 	position: relative;
-	min-width: 240px;
 }	
 .fl-menu li{
 	position: relative;
@@ -29,7 +28,7 @@
 }
 .fl-menu .sub-menu{ 
 	text-align: left;
-	min-width: 240px;
+	min-width: 220px;
 }
 
 /* Submenus */

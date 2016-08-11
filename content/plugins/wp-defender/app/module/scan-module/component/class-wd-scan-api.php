@@ -71,9 +71,9 @@ class WD_Scan_Api extends WD_Component {
 				$user     = get_user_by( 'id', $user_id );
 				$emails[] = $user->user_email;
 			}
-			$res = sprintf( __( "Automatic scans have been enabled. Expect your next report on <strong>%s</strong> to <strong>%s</strong>", wp_defender()->domain ),
+			$res = sprintf( __( "Automatic scans have been enabled. Expect your next report on <strong>%s</strong> to <strong>%s</strong> %s", wp_defender()->domain ),
 				date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), WD_Utils::get_setting( 'scan->next_runtime' ) ),
-				implode( ',', $emails ) );
+				implode( ', ', $emails ), ' <a href="' . network_admin_url( 'admin.php?page=wdf-settings#email-recipients-frm' ) . '">' . __( "edit", wp_defender()->domain ) . '</a>' );
 
 			return '<p class="wd-no-margin"><i class=\"dev-icon dev-icon-tick\"></i>' . $res . '</p>';
 		}
@@ -196,8 +196,11 @@ class WD_Scan_Api extends WD_Component {
 	 */
 	public static function download_md5_files() {
 		set_time_limit( 0 );
-		global $wp_version;
+		global $wp_version, $wp_local_package;
 		$url = "https://api.wordpress.org/core/checksums/1.0/?version={$wp_version}";
+		if ( ! is_null( $wp_local_package ) && count( explode( '_', $wp_local_package ) ) == 2 ) {
+			$url = $url . '&locale=' . $wp_local_package;
+		}
 
 		$response = wp_remote_get( $url, apply_filters( 'wd_vulndb_api_request_arguments',
 			array(
@@ -215,8 +218,14 @@ class WD_Scan_Api extends WD_Component {
 
 		$body = wp_remote_retrieve_body( $response );
 		$body = json_decode( $body, true );
+
 		if ( isset( $body['checksums'][ $wp_version ] ) ) {
 			return $body['checksums'][ $wp_version ];
+		}
+
+		//if it goes here, measn there is not $wp_version sindie the checksum return, and have no idea why WP return 2 schema version of md5 checksum :/
+		if ( isset( $body['checksums'] ) && is_array( $body['checksums'] ) ) {
+			return $body['checksums'];
 		}
 
 		return false;
@@ -350,7 +359,8 @@ class WD_Scan_Api extends WD_Component {
 		$exts     = array( 'php' );
 		$max_size = WD_Utils::get_setting( 'max_file_size', false );
 		$folders  = self::get_content_folders_fragment();
-		$files    = WD_Utils::get_cache( self::CACHE_CONTENT_FILES_FRAG, array() );
+
+		$files = WD_Utils::get_cache( self::CACHE_CONTENT_FILES_FRAG, array() );
 		//now we got folders, need to get files inside each
 		//make it into chunks
 		$indexed_count = 0;
@@ -416,7 +426,8 @@ class WD_Scan_Api extends WD_Component {
 		) );
 
 		//we got all folder, however, we dont need all, jsut need some root folder
-		$data = array_merge( $folders_in_content, $outsiders );
+		$data = array_merge( array( ABSPATH . 'wp-content' ), $folders_in_content, $outsiders );
+
 		WD_Utils::cache( self::CACHE_CONTENT_FOLDERS, $data );
 
 		return $data;
@@ -609,6 +620,7 @@ class WD_Scan_Api extends WD_Component {
 		WD_Utils::remove_cache( self::ALERT_NO_MD5 );
 		WD_Utils::remove_cache( 'wd_large_data' );
 		WD_Utils::remove_cache( WD_Vulndb_Scan::IS_DONE );
+		WD_Utils::remove_cache( 'wd_md5_checksum' );
 		delete_site_option( 'wd_scan_lock' );
 		//sometime user upgrade from single to network, we need to remove the lefrover
 		delete_option( 'wd_scan_lock' );
@@ -819,7 +831,7 @@ class WD_Scan_Api extends WD_Component {
 	public static function get_times() {
 		$data = array();
 		for ( $i = 0; $i < 24; $i ++ ) {
-			foreach ( array( '00', '30' ) as $min ) {
+			foreach ( apply_filters( 'wd_scan_get_times_interval', array( '00', '30' ) ) as $min ) {
 				$time          = $i . ':' . $min;
 				$data[ $time ] = apply_filters( 'wd_scan_get_times_hour_min', $time );
 			}

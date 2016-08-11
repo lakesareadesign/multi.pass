@@ -33,6 +33,7 @@ FLBuilder::register_module('FLRichTextModule', array(
 						'type'          => 'editor',
 						'label'         => '',
 						'rows'          => 13,
+						'wpautop'		=> false,
 						'preview'         => array(
 							'type'             => 'text',
 							'selector'         => '.fl-rich-text'  

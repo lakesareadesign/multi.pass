@@ -141,7 +141,7 @@
 		close: function()
 		{
 			// Temporary fix for link editor not closing since WP 4.5
-			if ( typeof tinymce !== 'undefined' ) {
+			if ( 'undefined' != typeof tinymce && 'undefined' != typeof tinymce.EditorManager.activeEditor ) {
 				tinymce.EditorManager.activeEditor.hide();
 			}
 			
@@ -294,7 +294,8 @@
 					boxTabsHeight 	= lightbox.find('.fl-builder-settings-tabs').height(),
 					boxFooterHeight = lightbox.find('.fl-lightbox-footer').height(),
 					boxFieldHeight  = (winHeight - (boxHeaderHeight + boxTabsHeight + boxFooterHeight + 103)),
-					editorId 		= typeof tinymce !== 'undefined' ? tinymce.EditorManager.activeEditor.id : null,
+					editor          = typeof tinymce !== 'undefined' && tinymce.EditorManager.activeEditor ? tinymce : null,
+					editorId 		= editor ? editor.EditorManager.activeEditor.id : 'flhiddeneditor',
 					editorIframeEl 	= lightbox.find('#'+ editorId +'_ifr'),
 					editorTextarea 	= lightbox.find('#'+ editorId),
 					codeField 		= lightbox.find('.fl-code-field .ace_editor');

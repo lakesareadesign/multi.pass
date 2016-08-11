@@ -26,25 +26,25 @@
 @media (max-width: <?php echo $global_settings->responsive_breakpoint; ?>px) {
 	
 	<?php if($settings->r_font_size == 'custom') : ?>
-	.fl-node-<?php echo $id; ?>.fl-module-heading <?php echo $settings->tag; ?>.fl-heading {
+	.fl-node-<?php echo $id; ?>.fl-module-heading .fl-heading {
 		font-size: <?php echo $settings->r_custom_font_size; ?>px;
 	}
 	<?php endif; ?>
 	
 	<?php if($settings->r_alignment == 'custom') : ?>
-	.fl-node-<?php echo $id; ?> <?php echo $settings->tag; ?>.fl-heading {
+	.fl-node-<?php echo $id; ?>.fl-module-heading .fl-heading {
 		text-align: <?php echo $settings->r_custom_alignment; ?>;
 	}
 	<?php endif; ?>
 
 	<?php if($settings->r_line_height == 'custom') : ?>
-	.fl-node-<?php echo $id; ?> <?php echo $settings->tag; ?>.fl-heading {
+	.fl-node-<?php echo $id; ?>.fl-module-heading .fl-heading {
 		line-height: <?php echo $settings->r_custom_line_height; ?>;
 	}
 	<?php endif; ?>
 
 	<?php if($settings->r_letter_spacing == 'custom') : ?>
-	.fl-node-<?php echo $id; ?> <?php echo $settings->tag; ?>.fl-heading {
+	.fl-node-<?php echo $id; ?>.fl-module-heading .fl-heading {
 		letter-spacing: <?php echo $settings->r_custom_letter_spacing; ?>px;
 	}
 	<?php endif; ?>

@@ -218,7 +218,7 @@ FLBuilder::register_settings_form('row', array(
 							'label'         => __('Scale', 'fl-builder'),
 							'default'       => 'cover',
 							'options'       => array(
-								''              => _x( 'None', 'Background scale.', 'fl-builder' ),
+								'auto'          => _x( 'None', 'Background scale.', 'fl-builder' ),
 								'contain'       => __( 'Fit', 'fl-builder'),
 								'cover'         => __( 'Fill', 'fl-builder')
 							),

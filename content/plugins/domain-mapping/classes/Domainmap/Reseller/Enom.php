@@ -479,7 +479,7 @@ class Domainmap_Reseller_Enom extends Domainmap_Reseller {
 			                                                          'RegistrantCountry'          => filter_input( INPUT_POST, 'registrant_country' ),
 			                                                          'RegistrantEmailAddress'     => filter_input( INPUT_POST, 'registrant_email' ),
 			                                                          'RegistrantPhone'            => $registrant_phone,
-			                                                          'RegistrantFax'              => $registrant_fax,
+			                                                          'RegistrantFax'              => $registrant_fax
 		                                                          ) + ( isset( $_POST['ExtendedAttributes'] ) ? (array)$_POST['ExtendedAttributes'] : array() ) );
 
 		$this->_log_enom_request( self::REQUEST_PURCHASE_DOMAIN, $response );
@@ -982,4 +982,5 @@ class Domainmap_Reseller_Enom extends Domainmap_Reseller {
 		$options = Domainmap_Plugin::instance()->get_options();
 		return isset( $options[self::RESELLER_ID]['currency'] ) ?  $options[self::RESELLER_ID]['currency'] : "USD";
 	}
+
 }

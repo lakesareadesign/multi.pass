@@ -31,7 +31,7 @@ final class FLBuilderAJAXLayout {
 			FLBuilderModel::update_post_data( 'node_id', $node_id );
 		}
 		
-		// Render CSS and JS assets.
+		// Render the draft layout CSS that will be passed back.
 		FLBuilder::render_assets();
 
 		// Register scripts needed for shortcodes and widgets.
@@ -407,6 +407,7 @@ final class FLBuilderAJAXLayout {
 		
 		// Render shortcodes.
 		if ( apply_filters( 'fl_builder_render_shortcodes', true ) ) {
+			$html = apply_filters( 'fl_builder_before_render_shortcodes', $html );
 			ob_start();
 			echo do_shortcode( $html );
 			$html = ob_get_clean();
@@ -477,6 +478,11 @@ final class FLBuilderAJAXLayout {
 	 */
 	static private function register_scripts()
 	{
+		// Running these isn't necessary and can cause performance issues.
+		remove_action( 'wp_enqueue_scripts', 'FLBuilder::register_layout_styles_scripts' );
+		remove_action( 'wp_enqueue_scripts', 'FLBuilder::enqueue_ui_styles_scripts' );
+		remove_action( 'wp_enqueue_scripts', 'FLBuilder::enqueue_all_layouts_styles_scripts' );
+		
 		ob_start();
 		do_action( 'wp_enqueue_scripts' );
 		ob_end_clean();

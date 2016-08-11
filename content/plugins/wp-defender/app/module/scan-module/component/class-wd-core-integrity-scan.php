@@ -70,31 +70,21 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 					break;
 				}
 			}
-			$need_scan = true;
-			$checksum  = md5_file( $file );
+			$checksum = md5_file( $file );
 			//$this->model->md5_tree[ $file ] = $checksum;
 			$tmp_checksum[ $file ] = $checksum;
 			if ( is_object( $this->last_scan ) && is_array( $last_checksum ) && isset( $last_checksum[ $file ] ) && strcmp( $checksum, $last_checksum[ $file ] ) === 0 ) {
-				$is_ignored = $this->last_scan->is_file_ignored( $file, 'WD_Scan_Result_Core_Item_Model' );
-				$is_issue   = $this->last_scan->find_result_item_by_file( $file, 'WD_Scan_Result_Core_Item_Model' );
 				/**
-				 * if this is issue, but content not changed, and ignored => still ignored
-				 * if this is an issue, but not ignore, force rescan
-				 * if this is not an issue, so we skip
+				 * this file content doesn't change from previous scan, so we just get the last scan result of this item
 				 */
-				if ( is_object( $is_issue ) && $is_ignored ) {
-					$this->model->ignore_files[] = $is_issue->id;
-					//$this->model->result[]       = $is_issue;
-					$this->model->add_item( $is_issue );
-					//we dont need scanm this file
-					$need_scan = false;
-				} elseif ( ! is_object( $is_issue ) ) {
-					//this file is cool, no change and no issue
-					$need_scan = false;
+				$result = $this->last_scan->find_result_item_by_file( $file, 'WD_Scan_Result_Core_Item_Model' );
+				if ( is_object( $result ) ) {
+					//this file is an issue from the last, it still be
+					$this->model->item_indexes[ $result->id ] = $file;
+					$this->model->add_item( $result );
 				}
-			}
-
-			if ( $need_scan ) {
+				//if it is not, we don't do anythng
+			} else {
 				$result = $this->scan_a_file( $file, $checksum );
 				if ( is_wp_error( $result ) ) {
 					/**
@@ -122,6 +112,18 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 					return true;
 				}
 			}
+			/**
+			 * now we have to check, if the file is ignored
+			 */
+			if ( is_object( $this->last_scan ) ) {
+				$is_ignored = $this->last_scan->is_file_ignored( $file, 'WD_Scan_Result_Core_Item_Model' );
+				//if it is ingnored, we add it to the list
+				if ( $is_ignored && $result instanceof WD_Scan_Result_Core_Item_Model ) {
+					$this->model->ignore_files[] = $result->id;
+				}
+			}
+
+
 			//cache scanned file
 			$this->file_scanned[] = $file;
 			//we need this for calculate percent

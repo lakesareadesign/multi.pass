@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/serialisation.php';
 require_once dirname(__FILE__).'/transport.php';
 require_once dirname(__FILE__).'/log.php';
 
-define('CS_REST_WRAPPER_VERSION', '4.0.2');
+define('CS_REST_WRAPPER_VERSION', '5.0.1');
 define('CS_HOST', 'api.createsend.com');
 define('CS_OAUTH_BASE_URI', 'https://'.CS_HOST.'/oauth');
 define('CS_OAUTH_TOKEN_URI', CS_OAUTH_BASE_URI.'/token');
@@ -22,14 +22,14 @@ class CS_REST_Wrapper_Result {
      * @var mixed
      */
     var $response;
-    
+
     /**
      * The http status code of the API call
      * @var int
      */
     var $http_status_code;
-    
-    function CS_REST_Wrapper_Result($response, $code) {
+
+    function __construct($response, $code) {
         $this->response = $response;
         $this->http_status_code = $code;
     }
@@ -127,7 +127,7 @@ class CS_REST_Wrapper_Base {
      * @param $transport The transport to use. Used for dependency injection
      * @access public
      */
-    function CS_REST_Wrapper_Base(
+    function __construct(
         $auth_details,
         $protocol = 'https',
         $debug_level = CS_REST_LOG_NONE,
@@ -164,7 +164,7 @@ class CS_REST_Wrapper_Base {
             'authdetails' => $auth_details,
             'userAgent' => 'CS_REST_Wrapper v'.CS_REST_WRAPPER_VERSION.
                 ' PHPv'.phpversion().' over '.$transport_type.' with '.$this->_serialiser->get_type(),
-            'contentType' => 'application/json; charset=utf-8', 
+            'contentType' => 'application/json; charset=utf-8',
             'deserialise' => true,
             'host' => $host,
             'protocol' => $protocol
@@ -215,47 +215,60 @@ class CS_REST_Wrapper_Base {
     function is_secure() {
         return $this->_protocol === 'https';
     }
-    
+
     function put_request($route, $data, $call_options = array()) {
         return $this->_call($call_options, CS_REST_PUT, $route, $data);
     }
-    
+
     function post_request($route, $data, $call_options = array()) {
         return $this->_call($call_options, CS_REST_POST, $route, $data);
     }
-    
+
     function delete_request($route, $call_options = array()) {
         return $this->_call($call_options, CS_REST_DELETE, $route);
     }
-    
+
     function get_request($route, $call_options = array()) {
         return $this->_call($call_options, CS_REST_GET, $route);
     }
-    
+
+    function get_request_with_params($route, $params) {
+      if(!is_null($params)) {
+        # http_build_query coerces booleans to 1 and 0, not helpful
+        foreach($params as $key=>$value) {
+          if(is_bool($value)) {
+            $params[$key] = ($value) ? 'true' : 'false';
+          }
+        }
+        $route = $route . '?' . http_build_query($params);
+      }
+      return $this->get_request($route);
+    }
+
     function get_request_paged($route, $page_number, $page_size, $order_field, $order_direction,
-        $join_char = '&') {      
+        $join_char = '&') {
         if(!is_null($page_number)) {
             $route .= $join_char.'page='.$page_number;
             $join_char = '&';
         }
-        
+
         if(!is_null($page_size)) {
             $route .= $join_char.'pageSize='.$page_size;
             $join_char = '&';
         }
-        
+
         if(!is_null($order_field)) {
             $route .= $join_char.'orderField='.$order_field;
             $join_char = '&';
         }
-        
+
         if(!is_null($order_direction)) {
             $route .= $join_char.'orderDirection='.$order_direction;
             $join_char = '&';
         }
-        
-        return $this->get_request($route);      
-    }       
+
+        return $this->get_request($route);
+    }
 
     /**
      * Internal method to make a general API request based on the provided options
@@ -269,10 +282,10 @@ class CS_REST_Wrapper_Base {
         if(!is_null($data)) {
             $call_options['data'] = $this->_serialiser->serialise($data);
         }
-        
+
         $call_options = array_merge($this->_default_call_options, $call_options);
         $this->_log->log_message('Making '.$call_options['method'].' call to: '.$call_options['route'], get_class($this), CS_REST_LOG_WARNING);
-            
+
         $call_result = $this->_transport->make_call($call_options);
 
         $this->_log->log_message('Call result: <pre>'.var_export($call_result, true).'</pre>',
@@ -281,7 +294,7 @@ class CS_REST_Wrapper_Base {
         if($call_options['deserialise']) {
             $call_result['response'] = $this->_serialiser->deserialise($call_result['response']);
         }
-         
+
         return new CS_REST_Wrapper_Result($call_result['response'], $call_result['code']);
     }
 }

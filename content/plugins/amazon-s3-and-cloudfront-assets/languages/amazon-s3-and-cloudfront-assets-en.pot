@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-s3-and-cloudfront-assets\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2016-05-30 15:39+0100\n"
+"POT-Creation-Date: 2016-07-27 13:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,115 +17,136 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:120
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:131
 msgid "Error getting new key: "
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:121
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:132
 msgid "Error performing manual action: "
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:122
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:133
 msgctxt "Processing manual action"
 msgid "Processing"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:148
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:134
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1975
+msgid "Scanning and uploading files to S3."
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:135
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1977
+msgid "Purging files from S3."
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:136
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1979
+msgid "No CSS or JS is being served because \"Copy & Serve\" is off."
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:163
 msgctxt "Show the Assets settings tab"
 msgid "Assets"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:769
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:204
+#: builds/amazon-s3-and-cloudfront-assets/view/assets-progress.php:3
+msgid "Assets Status"
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:889
 #, php-format
 msgid "AS3CF Assets -  S3 Upload every %d Minutes"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:775
-#, php-format
-msgid "AS3CF Assets -  S3 Process every %d Minute(s)"
-msgstr ""
-
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:906
-msgid ""
-"<strong>Scanning & Uploading Files to S3</strong> &mdash; This background "
-"task may take a while depending on how many files there are."
-msgstr ""
-
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:908
-msgid ""
-"<strong>Purging Files from S3</strong> &mdash; This background task may take "
-"a while depending on how many files there are."
-msgstr ""
-
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1316
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1483
 #, php-format
 msgid "File does not exist - %s"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1328
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1495
 #, php-format
 msgid "Error uploading %s to S3: %s"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1362
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1529
 #, php-format
 msgid "Error uploading body to S3: %s"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1811
-msgid "No CSS or JS files are being served."
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2001
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2009
+msgctxt "Why are css and js assets not serving?"
+msgid "Why?"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:1814
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2002
+#, php-format
+msgid ""
+"CSS and JS files have been uploaded to S3 but none of the files have been "
+"served just yet. %s"
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2005
 #, php-format
 msgid "%d JS and %d CSS enqueued files are currently being served. %s"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2171
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2010
+#, php-format
+msgid "No CSS or JS files are being served. %s"
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2429
 msgid "Gzip Error"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2172
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2430
 msgid "There were errors when attempting to compress your assets."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2175
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2433
 msgid "Minify Error"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2176
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2434
 msgid "There were errors when attempting to minify your assets."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2180
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2438
 msgid "Upload Error"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2181
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2439
 msgid "There were errors when attempting to upload your assets to S3."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/class-minify.php:350
+#: builds/amazon-s3-and-cloudfront-assets/classes/amazon-s3-and-cloudfront-assets.php:2675
+msgid "Next scan:"
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/classes/class-minify.php:356
 #, php-format
 msgid "Error attempting to minify %s, class not found: %s"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/class-minify.php:360
+#: builds/amazon-s3-and-cloudfront-assets/classes/class-minify.php:366
 #, php-format
 msgid "Error attempting to minify %s: %s"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/class-upgrade.php:68
+#: builds/amazon-s3-and-cloudfront-assets/classes/class-upgrade.php:69
 msgid "Every 1 Minute"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/class-upgrade.php:175
+#: builds/amazon-s3-and-cloudfront-assets/classes/class-upgrade.php:181
 msgid ""
 "<strong>WP Offload S3 Assets Addon</strong> &mdash; This update requires "
 "your assets to be re-uploaded to S3."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/classes/class-upgrade.php:176
+#: builds/amazon-s3-and-cloudfront-assets/classes/class-upgrade.php:182
 msgid "A purge and re-scan has been initiated."
 msgstr ""
 
@@ -206,6 +227,20 @@ msgstr ""
 msgid "The %s plugin has been deactivated."
 msgstr ""
 
+#: builds/amazon-s3-and-cloudfront-assets/view/assets-progress.php:32
+msgctxt "Scan the filesystem for files to upload to S3"
+msgid "Scan Now"
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/view/assets-progress.php:36
+msgctxt "Remove all files from S3"
+msgid "Purge"
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/view/minify-excludes-setting.php:4
+msgid "Invalid character. Only normal file path characters are allowed."
+msgstr ""
+
 #: builds/amazon-s3-and-cloudfront-assets/view/settings.php:22
 msgid "Having issues with web fonts not loading?"
 msgstr ""
@@ -237,100 +272,93 @@ msgid ""
 "uploaded to S3 and missing files will be removed."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:67
-msgid "Next scan:"
-msgstr ""
-
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:83
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:74
 msgid "File Extensions"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:85
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:76
 msgid "Comma separated list of file extensions to scan for and upload to S3."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:94
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:85
 msgid "File URLs"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:107
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:98
 msgid "Path"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:110
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:101
 msgid "Useful if you're using a bucket for other things."
 msgstr ""
 
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:117
+msgid "Force HTTPS"
+msgstr ""
+
 #: builds/amazon-s3-and-cloudfront-assets/view/settings.php:120
+msgid ""
+"By default we use HTTPS when the request is HTTPS and regular HTTP when the "
+"request is HTTP, but you may want to force the use of HTTPS always, "
+"regardless of the request."
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:126
 msgid "Advanced Options"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:129
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:139
 msgid "Minify"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:132
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:142
 msgid "Reduce CSS and JS file size by removing unnecessary data."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:144
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:158
+msgid "Exclude Files From Minify"
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:161
+msgid "List of files to be excluded from minify. One per line."
+msgstr ""
+
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:179
 msgid "Gzip"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:147
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:182
 msgid "Compress assets to reduce overall file size."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:151
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:186
 msgid ""
 "<strong>Warning</strong> &mdash; If you are using a CDN which supports "
 "automatic compression, you should turn off this option. Enabling compression "
 "within your CDN will reduce server load."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:165
-msgid "Manual"
-msgstr ""
-
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:170
-msgctxt "Scan the filesystem for files to upload to S3"
-msgid "Scan Now"
-msgstr ""
-
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:175
-msgid "Initiate the scan now."
-msgstr ""
-
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:183
-msgctxt "Remove all files from S3"
-msgid "Purge"
-msgstr ""
-
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:188
-msgid "Remove all files from S3."
-msgstr ""
-
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:203
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:209
 msgid "Webhook"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:207
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:213
 msgid "Initiate a scan using a URL."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:214
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:219
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:220
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:225
 msgid "Generating new unique URL"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:216
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:222
 msgid "Initiate a purge and scan using a URL."
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:222
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:228
 msgid "Generate New URL"
 msgstr ""
 
-#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:231
+#: builds/amazon-s3-and-cloudfront-assets/view/settings.php:237
 msgid "Save Changes"
 msgstr ""

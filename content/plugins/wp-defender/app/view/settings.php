@@ -2,7 +2,9 @@
 	<div class="wpmud">
 		<div class="wp-defender">
 			<div class="wd-settings">
-				<h2 class="tl wd-title"><?php _e( "Settings", wp_defender()->domain ) ?></h2>
+				<section id="header">
+					<h1 class="tl"><?php _e( "Settings", wp_defender()->domain ) ?></h1>
+				</section>
 				<?php if ( $controller->has_flash( 'updated' ) ): ?>
 					<div class="wd-success wd-left">
 						<a href="#" class="wd-dismiss">
@@ -129,17 +131,17 @@
 							</div>
 							<!--<div class="row setting-field">
 								<div class="col-left">
-									<label><?php /*_e( "Included file types", wp_defender()->domain ) */?></label>
+									<label><?php /*_e( "Included file types", wp_defender()->domain ) */ ?></label>
 
 									<div class="setting-description">
-										<?php /*_e( "Defender will only scan these file types when scanning your website", wp_defender()->domain ) */?>
+										<?php /*_e( "Defender will only scan these file types when scanning your website", wp_defender()->domain ) */ ?>
 										<div class="wd-clearfix"></div>
 										<br/>
 									</div>
 								</div>
 								<div class="col-right">
 									<input type="text" name="include_file_extension" class="wd-tags"
-									       value="<?php /*echo implode( ',', WD_Utils::get_setting( 'include_file_extension' ) ) */?>">
+									       value="<?php /*echo implode( ',', WD_Utils::get_setting( 'include_file_extension' ) ) */ ?>">
 								</div>
 								<div class="wd-clearfix"></div>
 							</div>-->
@@ -158,6 +160,34 @@
 										<div class="col span_4_of_12">
 											<input type="text" name="max_file_size"
 											       value="<?php echo WD_Utils::get_setting( 'max_file_size' ) ?>">
+										</div>
+									</div>
+								</div>
+								<div class="wd-clearfix"></div>
+							</div>
+							<div class="row setting-field">
+								<div class="col-left">
+									<label><?php _e( "Enable all email reports", wp_defender()->domain ) ?></label>
+
+									<div class="setting-description">
+										<?php _e( "By default, Defender will email you when it runs into trouble on your site. Enabling this option will ensure you are always kept up-to-date, even when your site is running smoothly.", wp_defender()->domain ) ?>
+										<div class="wd-clearfix"></div>
+										<br/>
+									</div>
+								</div>
+								<div class="col-right">
+									<div class="group">
+										<div class="col span_4_of_12">
+											<?php
+											$key     = 'always_notify';
+											//$tooltip = WD_Utils::get_setting( $key, 0 ) == 1 ? __( "Send only problem", wp_defender()->domain ) : __( "Always send", wp_defender()->domain );
+											?>
+											<span class="toggle">
+											<input type="checkbox" class="toggle-checkbox"
+											       id="<?php echo $key ?>"
+												<?php checked( 1, WD_Utils::get_setting( $key, 0 ) ) ?>/>
+											<label class="toggle-label" for="<?php echo $key ?>"></label>
+										</span>
 										</div>
 									</div>
 								</div>
@@ -192,7 +222,7 @@
 							<?php echo $controller->display_recipients() ?>
 							<input name="username" id="email-recipient" class="user-search"
 							       data-empty-msg="<?php esc_attr_e( "We did not find an admin user with this name...", wp_defender()->domain ) ?>"
-							       placeholder="<?php esc_attr_e( "Type an user’s name", wp_defender()->domain ) ?>"
+							       placeholder="<?php esc_attr_e( "Type a user’s name", wp_defender()->domain ) ?>"
 							       type="search"/>
 							<button type="submit" disabled="disabled"
 							        class="button wd-button"><?php _e( "Add", wp_defender()->domain ) ?></button>

@@ -18,6 +18,10 @@ class WD_Notification_Controller extends WD_Controller {
 	 * @since 1.0
 	 */
 	public function send_scan_notification( WD_Scan_Result_Model $model ) {
+		if ( WD_Utils::get_setting( 'always_notify', 0 ) == 0 && count( $model->get_results() ) == 0 ) {
+			return;
+		}
+
 		$recipients = WD_Utils::get_setting( 'recipients', array() );
 		if ( empty( $recipients ) ) {
 			return;
@@ -34,7 +38,7 @@ class WD_Notification_Controller extends WD_Controller {
 				'ISSUES_COUNT'   => count( $model->get_results() ),
 				'SCAN_PAGE_LINK' => network_admin_url( 'admin.php?page=wdf-scan' ),
 				'ISSUES_LIST'    => $this->issues_list_html( $model ),
-				'SITE_URL'       => site_url()
+				'SITE_URL'       => network_site_url(),
 			);
 			$params  = apply_filters( 'wd_notification_email_params', $params );
 			$subject = apply_filters( 'wd_notification_email_subject', WD_Utils::get_setting( 'completed_scan_email_subject' ) );

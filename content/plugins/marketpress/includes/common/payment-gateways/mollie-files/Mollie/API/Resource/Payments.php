@@ -61,7 +61,7 @@ class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 	{
 		if (empty($payment_id) || strpos($payment_id, self::RESOURCE_ID_PREFIX) !== 0)
 		{
-			throw new Mollie_API_Exception("Invalid payment ID: '{$payment_id}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
+			throw new Mollie_API_Exception("Invalid payment ID: '{$payment_id}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");	     	 	 	    	  
 		}
 
 		return parent::get($payment_id);

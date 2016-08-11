@@ -105,11 +105,18 @@
 		 * @return void
 		 */
 		_menuOnClick: function(){
-			$( this.wrapperClass ).off().on( 'click', '.fl-menu-toggle', function( e ){
+			$( this.wrapperClass ).off().on( 'click', '.fl-has-submenu-container', function( e ){
 
-				var $link = $( e.target ).parents( '.fl-has-submenu' ).first();
+				var $link 	 = $( e.target ).parents( '.fl-has-submenu' ).first(),
+					$subMenu = $link.children( '.sub-menu' ).first(),
+					$href	 = $link.children('.fl-has-submenu-container').first().find('> a').attr('href');
 
-				var $subMenu = $link.children( '.sub-menu' ).first();
+				if( !$subMenu.is(':visible') ){
+					e.preventDefault();	
+				} else {
+					window.location.href = $href;
+					return;
+				}
 
 				if ($(this.wrapperClass).hasClass('fl-menu-accordion-collapse')) {
 					if ( !$link.parents('.menu-item').hasClass('fl-active') ) {
@@ -127,7 +134,7 @@
 				
 				$subMenu.slideToggle();
 				$link.toggleClass( 'fl-active' );
-
+				
 			}.bind( this ) );
 
 		},

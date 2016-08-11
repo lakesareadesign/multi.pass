@@ -286,6 +286,11 @@ function bne_testimonial_admin_help_page() {
 
 							<div id="changelog_notes" style="display:none;">
 
+								<strong>1.7.4 ( August 10, 2016 )</strong>
+								<ul style="list-style:disc;margin-left:20px;">
+									<li>Fix: depreciated notice for the list and slider widgets and PHP 7.</li>
+								</ul>
+
 								<strong>1.7.3 ( November 26, 2015 )</strong>
 								<ul style="list-style:disc;margin-left:20px;">
 									<li>House keeping</li>

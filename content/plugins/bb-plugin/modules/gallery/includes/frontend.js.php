@@ -3,7 +3,8 @@
 	$(function() {
 		
 		<?php if($settings->click_action == 'lightbox') : ?>
-		$('.fl-node-<?php echo $id; ?> .fl-mosaicflow-content .fl-photo-content a, .fl-node-<?php echo $id; ?> .fl-gallery .fl-photo-content a').magnificPopup({
+		$('.fl-node-<?php echo $id; ?> .fl-mosaicflow-content, .fl-node-<?php echo $id; ?> .fl-gallery').magnificPopup({
+			delegate: '.fl-photo-content a',
 			closeBtnInside: false,
 			type: 'image',
 			gallery: {
@@ -24,8 +25,12 @@
 		
 		<?php if($settings->layout == 'collage') : ?>
 		$('.fl-node-<?php echo $id; ?> .fl-mosaicflow-content').one( 'filled', function(){
-			if ( 'undefined' != typeof $.waypoints ) {
-				$.waypoints( 'refresh' );
+			var hash = window.location.hash.replace( '#', '' );
+			if ( hash != '' ) {
+				FLBuilderLayout._scrollToElement( $( '#' + hash ) );
+			}
+			if ( 'undefined' != typeof Waypoint ) {
+				Waypoint.refreshAll();
 			}
 		}).mosaicflow({
 			itemSelector: '.fl-mosaicflow-item',

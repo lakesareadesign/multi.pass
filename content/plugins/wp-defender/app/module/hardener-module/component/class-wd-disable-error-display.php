@@ -135,6 +135,7 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 									div.find('.form-ignore').addClass('wd-hide');
 									div.show(500);
 								})
+								$('body').trigger('after_an_issue_resolved', -1);
 							}
 						}
 					})
@@ -151,7 +152,7 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 	 * @since 1.0
 	 */
 	public function process() {
-		if ( ! WD_Utils::check_permission()  ) {
+		if ( ! WD_Utils::check_permission() ) {
 			return;
 		}
 

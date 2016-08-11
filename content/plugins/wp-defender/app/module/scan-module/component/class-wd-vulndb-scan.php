@@ -50,8 +50,8 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 						'fixed_in'  => $bug['fixed_in']
 					);
 				}
-				$item->detail = $detail;
-				$this->model->item_indexes[$item->id] = $item->name;
+				$item->detail                           = $detail;
+				$this->model->item_indexes[ $item->id ] = $item->name;
 				$this->model->add_item( $item );
 			}
 
@@ -70,7 +70,7 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 								'fixed_in'  => $bug['fixed_in'],
 							);
 						}
-						$this->model->item_indexes[$item->id] = $item->name;
+						$this->model->item_indexes[ $item->id ] = $item->name;
 						$this->model->add_item( $item );
 					} elseif ( isset( $plugin['possible'] ) ) {
 						$item            = new WD_Scan_Result_VulnDB_Item_Model();
@@ -86,8 +86,16 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 								'fixed_in'  => $bug['fixed_in'],
 							);
 						}
-						$this->model->item_indexes[$item->id] = $item->name;
+						$this->model->item_indexes[ $item->id ] = $item->name;
 						$this->model->add_item( $item );
+					}
+
+					if ( is_object( $this->last_scan ) && isset( $item ) ) {
+						$is_ignored = $this->last_scan->is_file_ignored( $slug, 'WD_Scan_Result_VulnDB_Item_Model' );
+						//if it is ingnored, we add it to the list
+						if ( $is_ignored && $item instanceof WD_Scan_Result_VulnDB_Item_Model ) {
+							$this->model->ignore_files[] = $item->id;
+						}
 					}
 				}
 			}
@@ -107,7 +115,7 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 								'fixed_in'  => $bug['fixed_in']
 							);
 						}
-						$this->model->item_indexes[$item->id] = $item->name;
+						$this->model->item_indexes[ $item->id ] = $item->name;
 						$this->model->add_item( $item );
 					} elseif ( isset( $theme['possible'] ) ) {
 						$item            = new WD_Scan_Result_VulnDB_Item_Model();
@@ -123,8 +131,16 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 								'fixed_in'  => $bug['fixed_in'],
 							);
 						}
-						$this->model->item_indexes[$item->id] = $item->name;
+						$this->model->item_indexes[ $item->id ] = $item->name;
 						$this->model->add_item( $item );
+					}
+
+					if ( is_object( $this->last_scan ) && isset( $item ) ) {
+						$is_ignored = $this->last_scan->is_file_ignored( $slug, 'WD_Scan_Result_VulnDB_Item_Model' );
+						//if it is ingnored, we add it to the list
+						if ( $is_ignored && $item instanceof WD_Scan_Result_VulnDB_Item_Model ) {
+							$this->model->ignore_files[] = $item->id;
+						}
 					}
 				}
 			}

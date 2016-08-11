@@ -296,6 +296,7 @@ class GFFormDisplay {
 	private static function upload_files( $form, $files ) {
 
 		$form_upload_path = GFFormsModel::get_upload_path( $form['id'] );
+		GFCommon::log_debug( "GFFormDisplay::upload_files(): Upload path {$form_upload_path}" );
 
 		//Creating temp folder if it does not exist
 		$target_path = $form_upload_path . '/tmp/';
@@ -311,8 +312,18 @@ class GFFormDisplay {
 				continue;
 			}
 
-			if ( $field->failed_validation || empty( $_FILES[ $input_name ]['name'] ) ) {
+			/*if ( $field->failed_validation || empty( $_FILES[ $input_name ]['name'] ) ) {
 				GFCommon::log_debug( "GFFormDisplay::upload_files(): Skipping field: {$field->label}({$field->id} - {$field->type})." );
+				continue;
+			}*/
+
+			if ( $field->failed_validation ) {
+				GFCommon::log_debug( "GFFormDisplay::upload_files(): Skipping field because it failed validation: {$field->label}({$field->id} - {$field->type})." );
+				continue;
+			}
+
+			if ( empty( $_FILES[ $input_name ]['name'] ) ) {
+				GFCommon::log_debug( "GFFormDisplay::upload_files(): Skipping field because " . $_FILES[ $input_name ]['name'] . " could not be found: {$field->label}({$field->id} - {$field->type})." );
 				continue;
 			}
 
@@ -2382,28 +2393,34 @@ class GFFormDisplay {
 		foreach ( $form['fields'] as $field ) {
 
 			// default format is false, fields with no format will inherit the format of the formula field when calculated
-			$format = false;
+			// price format is specified for product fields, value format is specified number fields; used in conditional
+			// logic to determine if field or rule value should be formatted
+			$price_format = false;
+			$value_format = false;
 
 			switch ( GFFormsModel::get_input_type( $field ) ) {
 				case 'number':
-					$format = $field->numberFormat ? $field->numberFormat : 'decimal_dot';
+					$value_format = $field->numberFormat ? $field->numberFormat : 'decimal_dot';
 					break;
 				case 'singleproduct':
 				case 'calculation':
 				case 'price':
 				case 'hiddenproduct':
 				case 'singleshipping':
-					$format = $currency['decimal_separator'] == ',' ? 'decimal_comma' : 'decimal_dot';
+					$price_format = $currency['decimal_separator'] == ',' ? 'decimal_comma' : 'decimal_dot';
 					break;
 				default:
 
 					// we check above for all single-input product types, for all other products, assume decimal format
 					if ( in_array( $field->type, array( 'product', 'option', 'shipping' ) ) ) {
-						$format = 'decimal_dot';
+						$price_format = 'decimal_dot';
 					}
 			}
 
-			$number_formats[ $field->id ] = $format;
+			$number_formats[ $field->id ] = array(
+				'price' => $price_format,
+				'value' => $value_format
+			);
 
 		}
 
@@ -2992,6 +3009,16 @@ class GFFormDisplay {
 		$resume_token = sanitize_key( $resume_token );
 		$form_id = intval( $form['id'] );
 
+		/**
+		 * Filters the 'Save and Continue' URL to be used with a partial entry submission.
+		 *
+		 * @since 1.9
+		 *
+		 * @param string $resume_url   The URL to be used to resume the partial entry.
+		 * @param array  $form         The Form Object.
+		 * @param string $resume_token The token that is used within the URL.
+		 * @param string $email        The email address associated with the partial entry.
+		 */
 		$resume_url  = apply_filters( 'gform_save_and_continue_resume_url', add_query_arg( array( 'gf_token' => $resume_token ), GFFormsModel::get_current_page_url() ), $form, $resume_token, $email );
 		$resume_url  = esc_url( $resume_url );
 		$resume_link = "<a href=\"{$resume_url}\" class='resume_form_link'>{$resume_url}</a>";

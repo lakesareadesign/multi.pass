@@ -10,6 +10,7 @@
   /* ****************************************************************************
    * 1. Overriding
    */
+  margin-top: 30px;
   font-weight: 400;
   font-size: 15px;
   font-family: Roboto, sans-serif;
@@ -22,9 +23,6 @@
 Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine (@thingsinjars)
 */ }
   .wp-defender h1, .wp-defender h2, .wp-defender h3, .wp-defender h4, .wp-defender h5, .wp-defender h6 {
-    text-transform: uppercase;
-    font-weight: 400;
-    color: #777771;
     max-width: 100%; }
   .wp-defender h2 {
     font-size: 30px; }
@@ -32,10 +30,12 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     font-size: 22px; }
   .wp-defender h4 {
     font-size: 15px; }
-  .wp-defender p, .wp-defender label, .wp-defender span {
-    font-size: 15px;
-    color: #555;
-    font-weight: 400; }
+  .wp-defender strong {
+    font-weight: 700; }
+  .wp-defender #header {
+    margin-bottom: 30px; }
+    .wp-defender #header h1 {
+      margin: 0; }
   .wp-defender p.wd-sub, .wp-defender strong.wd-sub {
     font-size: 12px;
     color: darkgrey; }
@@ -44,7 +44,10 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
   .wp-defender input[type=text] {
     font-weight: 400; }
   .wp-defender .wd-title {
-    margin: 20px 0; }
+    font-size: 30px;
+    line-height: 1.333em;
+    text-transform: uppercase;
+    margin: 0 auto; }
   .wp-defender .wd-button:not(.button-secondary) {
     background: #FF5B1C;
     color: #fff; }
@@ -83,16 +86,21 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     border-radius: 5px;
     padding: 30px 30px; }
   .wp-defender .wd-well.wd-well-small {
-    padding: 30px; }
+    padding: 20px 30px; }
   .wp-defender .wd-well.wd-well-tiny {
     padding: 15px; }
+  .wp-defender .wd-well.blue {
+    background: #EBFCFF;
+    color: #14485f; }
   .wp-defender .wd-relative-position {
     position: relative; }
+  .wp-defender .toggle .toggle-checkbox:checked + .toggle-label {
+    background: #FF5B1C; }
   .wp-defender .wd-error {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    padding: 20px 15px;
+    padding: 20px 30px;
     color: #fff;
     background-color: #FF6D6D;
     margin-bottom: 10px;
@@ -102,7 +110,7 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    padding: 20px 15px;
+    padding: 20px 30px;
     color: #fff;
     background-color: #1ABC9C;
     margin-bottom: 10px;
@@ -112,7 +120,7 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    padding: 20px 15px;
+    padding: 20px 30px;
     color: #8a6d3b;
     background-color: #fcf8e3;
     margin-bottom: 10px;
@@ -131,7 +139,9 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    color: white; }
+    color: white;
+    font-weight: 400;
+    font-size: 15px; }
   .wp-defender .wd-badge-grey {
     background-color: #ECECEC;
     color: #BABABA;
@@ -142,11 +152,10 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     background: #FF6D6D; }
   .wp-defender .dev-box {
     position: relative;
-    padding: 40px; }
+    padding: 30px; }
     .wp-defender .dev-box .box-title {
-      margin: -40px -40px 40px -40px; }
+      margin: -30px -30px 30px -30px; }
       .wp-defender .dev-box .box-title h3 {
-        font-weight: 400;
         position: relative;
         overflow: visible; }
         .wp-defender .dev-box .box-title h3 a.button, .wp-defender .dev-box .box-title h3 .toggle {
@@ -161,7 +170,8 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
       margin-top: 15px; }
     .wp-defender .dev-box .box-content p {
       padding: 15px 0;
-      margin: 0; }
+      margin: 0;
+      line-height: 21px; }
     .wp-defender .dev-box .box-content img {
       margin-bottom: 24px; }
   .wp-defender .group:before,
@@ -275,12 +285,18 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
         margin: 0 -15px 44px -15px; }
   .wp-defender .wd-dashboard .float-r {
     float: right; }
+  .wp-defender .wd-dashboard .group .span_6_of_12 {
+    width: 50%; }
+  .wp-defender .wd-dashboard .group .span_6_of_12:first-child {
+    padding: 0 15px 0 0; }
+  .wp-defender .wd-dashboard .group .span_6_of_12:last-child {
+    padding: 0 0 0 15px; }
   .wp-defender .wd-hardener-summary {
     background: url("img/dev-man.png") no-repeat white 95% 100%; }
   .wp-defender .hardener-title {
     margin: 60px 0 30px 0; }
   .wp-defender .wd-hardener-rules {
-    margin: 40px -40px 0 -40px; }
+    margin: 30px -30px 0 -30px; }
     @media only screen and (max-width: 480px) {
       .wp-defender .wd-hardener-rules {
         margin: 30px -30px 0 -30px; } }
@@ -366,6 +382,8 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     margin-top: 20px; }
   .wp-defender .wd-version-subs {
     margin-bottom: 50px; }
+  .wp-defender .humming-ads {
+    padding-right: 0; }
   .wp-defender .wd-version-sub strong {
     text-transform: uppercase;
     font-size: 12px;
@@ -389,7 +407,8 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
         font-size: 50px;
         padding: 25px 0;
         display: inline-block;
-        line-height: 50px; }
+        line-height: 50px;
+        font-weight: 700; }
       .wp-defender .wd-indicators .wd-indicator .wd-footer {
         font-size: 15px;
         padding: 14px 0;
@@ -443,36 +462,36 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     text-align: center;
     display: block;
     margin: 7px 0; }
-  .wp-defender #setup-scan-form {
+  .wp-defender #setup-scan-form, .wp-defender #setup-email-report-form {
     text-align: center; }
-    .wp-defender #setup-scan-form .day-container {
+    .wp-defender #setup-scan-form .day-container, .wp-defender #setup-email-report-form .day-container {
       display: inline-block; }
-    .wp-defender #setup-scan-form label {
+    .wp-defender #setup-scan-form label, .wp-defender #setup-email-report-form label {
       display: inline-block;
       vertical-align: 80%;
       padding-bottom: 0; }
-    .wp-defender #setup-scan-form input, .wp-defender #setup-scan-form select {
+    .wp-defender #setup-scan-form input, .wp-defender #setup-scan-form select, .wp-defender #setup-email-report-form input, .wp-defender #setup-email-report-form select {
       display: inline-block;
       width: auto;
       /*vertical-align: top;*/
       height: 43px; }
-    .wp-defender #setup-scan-form .select-container {
+    .wp-defender #setup-scan-form .select-container, .wp-defender #setup-email-report-form .select-container {
       display: inline-block;
       padding-top: 0; }
-    .wp-defender #setup-scan-form button {
+    .wp-defender #setup-scan-form button, .wp-defender #setup-email-report-form button {
       margin-top: 6px;
       margin-left: 10px; }
     @media only screen and (max-width: 480px) {
-      .wp-defender #setup-scan-form {
+      .wp-defender #setup-scan-form, .wp-defender #setup-email-report-form {
         text-align: center; }
-        .wp-defender #setup-scan-form label, .wp-defender #setup-scan-form input, .wp-defender #setup-scan-form select, .wp-defender #setup-scan-form .select-container {
+        .wp-defender #setup-scan-form label, .wp-defender #setup-scan-form input, .wp-defender #setup-scan-form select, .wp-defender #setup-scan-form .select-container, .wp-defender #setup-email-report-form label, .wp-defender #setup-email-report-form input, .wp-defender #setup-email-report-form select, .wp-defender #setup-email-report-form .select-container {	  	 	   	 		 		 				
           display: block; }
-        .wp-defender #setup-scan-form .select-container {
+        .wp-defender #setup-scan-form .select-container, .wp-defender #setup-email-report-form .select-container {
           width: 100%;
           margin: 0 auto; }
-        .wp-defender #setup-scan-form button {
+        .wp-defender #setup-scan-form button, .wp-defender #setup-email-report-form button {
           margin: 10px 0 0; } }
-    .wp-defender #setup-scan-form .time-container .list-results {
+    .wp-defender #setup-scan-form .time-container .list-results, .wp-defender #setup-email-report-form .time-container .list-results {
       max-height: 250px;
       overflow-y: scroll; }
   .wp-defender .wd-dashboard #setup-scan-form {
@@ -484,13 +503,13 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
       margin-bottom: 10px; }
     .wp-defender .wd-dashboard #setup-scan-form button {
       margin-top: 20px; }
+  .wp-defender .box-title [tooltip]:after {
+    margin-left: -150px; }
   .wp-defender .wd-settings .setup-scan .box-title h3 {
     overflow: visible; }
   .wp-defender .wd-settings .setup-scan .box-title dfn {
     border-bottom: none;
     float: right; }
-  .wp-defender .wd-settings .setup-scan .box-title [tooltip]:after {
-    margin-left: -150px; }
   .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well {
     margin-top: 20px;
     box-sizing: content-box;
@@ -520,7 +539,7 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
       @media only screen and (max-width: 480px) {
         .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group {
           text-align: center; }
-          .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group label, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group input, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group select, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group .select-container {	  	 	   	 		 		 				
+          .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group label, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group input, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group select, .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group .select-container {
             display: block; }
           .wp-defender .wd-settings .setup-scan #setup-scan-form .wd-well .group .select-container {
             width: 80%;
@@ -638,31 +657,31 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     border-bottom: none; }
   .wp-defender .wd-settings .wd-recipient:first-child {
     border-top: solid 1px #EEEEEE; }
-  .wp-defender .wd-scan table {
+  .wp-defender table {
     width: 100%;
     border-collapse: collapse;
     color: #8B8B8B;
     text-align: left; }
-    .wp-defender .wd-scan table tr {
+    .wp-defender table tr {
       border-bottom: solid 1px #EEEEEE; }
-    .wp-defender .wd-scan table th {
+    .wp-defender table th {
       color: #777771;
       text-transform: uppercase;
       font-weight: bold;
       font-size: 14px;
       padding-bottom: 10px; }
-    .wp-defender .wd-scan table tbody tr:last-child {
+    .wp-defender table tbody tr:last-child {
       border-bottom: none; }
-      .wp-defender .wd-scan table tbody tr:last-child td {
+      .wp-defender table tbody tr:last-child td {
         padding-bottom: 0; }
-    .wp-defender .wd-scan table tbody td {
+    .wp-defender table tbody td {
       padding: 10px 0;
       vertical-align: middle; }
-    .wp-defender .wd-scan table tbody span {
+    .wp-defender table tbody span {
       display: block;
       font-size: 12px;
       margin: 2px 0 0 0; }
-    .wp-defender .wd-scan table tbody strong {
+    .wp-defender table tbody strong {
       color: #555; }
   .wp-defender .wd-scan .no-scan h2 {
     font-size: 30pt;
@@ -693,7 +712,7 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
   .wp-defender .wd-scan .last-scan-status {
     position: relative;
     overflow: hidden;
-    height: 60px; }
+    height: 40px; }
     .wp-defender .wd-scan .last-scan-status div {
       position: absolute;
       top: 50%;
@@ -705,53 +724,43 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
         margin-left: 10px; }
         .wp-defender .wd-scan .last-scan-status div form button {
           vertical-align: inherit; }
-  .wp-defender .wd-scan .scanning {
-    @keyframes animate-stripes {
-      0% {
-        background-position: 0 0; }
-
-      100% {
-        background-position: 60px 0; } }
- }
-    .wp-defender .wd-scan .scanning .current_working {
-      font-size: 12px;
-      display: inline-block;
-      margin-top: 5px;
-      margin-bottom: 15px;
-      word-wrap: break-word; }
-    .wp-defender .wd-scan .scanning .wd-progress {
-      width: 100%;
-      height: 50px;
-      overflow-y: hidden;
+  .wp-defender .wd-scan .scanning .current_working {
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    word-wrap: break-word; }
+  .wp-defender .wd-scan .scanning .wd-progress {
+    width: 100%;
+    height: 50px;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    background-color: #14485F;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: left; }
+    .wp-defender .wd-scan .scanning .wd-progress span {
+      color: #14485F;
+      text-align: right;
+      font-size: 16px;
+      font-weight: bolder;
+      line-height: 40px;
       box-sizing: border-box;
-      background-color: #14485F;
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
-      border-radius: 5px;
-      padding: 5px;
-      text-align: left; }
-      .wp-defender .wd-scan .scanning .wd-progress span {
-        color: #14485F;
-        text-align: right;
-        font-size: 16px;
-        font-weight: bolder;
-        line-height: 40px;
-        box-sizing: border-box;
-        padding-right: 10px;
-        display: inline-block;
-        height: 100%;
-        border-radius: 3px;
-        transition: width .4s ease-in-out;
-        background-color: #FECF2F;
-        background-size: 46px 38px;
-        background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.2) 18%, transparent 23%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); }
-    .wp-defender .wd-scan .scanning .wd-scan-log {
-      font-size: 12px;
-      color: #555;
-      max-height: 200px;
-      overflow-y: scroll; }
-    .wp-defender .wd-scan .scanning .wd-progress.animate span {
-      animation: animate-stripes 3s linear infinite; }
+      padding-right: 10px;
+      display: inline-block;
+      height: 100%;
+      border-radius: 3px;
+      transition: width .4s ease-in-out;
+      background-color: #FECF2F;
+      background-size: 46px 38px;
+      background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.2) 18%, transparent 23%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); }
+  .wp-defender .wd-scan .scanning .wd-scan-log {
+    font-size: 12px;
+    color: #555;
+    max-height: 200px;
+    overflow-y: scroll; }
   .wp-defender .wd-scan .scan-result .wd-well {
     padding: 10px 20px; }
     .wp-defender .wd-scan .scan-result .wd-well strong {
@@ -820,6 +829,8 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
           text-align: left; }
           .wp-defender .wd-scan .scan-reports td .wd-button-group button {
             margin-left: 0; } }
+  .wp-defender .wd-progress.animate span {
+    animation: wd-animate-stripes 2s linear infinite; }
   .wp-defender .wd-button-group {
     text-align: right;
     display: flex; }
@@ -948,6 +959,12 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     padding: 20px 0; }
   .wp-defender .wd-blacklist-widget [tooltip]:after {
     margin-left: -150px; }
+  .wp-defender .wd-blacklist-widget .current_working {
+    font-style: italic;
+    font-size: 11px;
+    text-align: center;
+    display: block;
+    margin: 7px 0; }
   .wp-defender .dev-box .box-content .wd-scan-log {
     max-height: 300px;
     overflow-y: scroll; }
@@ -987,6 +1004,188 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     margin: 30px 0; }
   .wp-defender .wd-issue-detail h3 {
     margin-bottom: 30px; }
+  .wp-defender .wd-audit-logging {
+    background-image: url("img/defender-mini.png");
+    background-repeat: no-repeat;
+    background-position: top right; }
+    .wp-defender .wd-audit-logging .wd-error a {
+      float: none;
+      font-size: inherit;
+      text-decoration: underline;
+      font-weight: 500; }
+    .wp-defender .wd-audit-logging .box-title h3 a.button {
+      right: 70px; }
+    .wp-defender .wd-audit-logging .setup-email-report {
+      margin-top: 40px; }
+      .wp-defender .wd-audit-logging .setup-email-report p {
+        padding-top: 0; }
+      .wp-defender .wd-audit-logging .setup-email-report #setup-email-report-form button {
+        margin-top: 2px; }
+      .wp-defender .wd-audit-logging .setup-email-report #setup-email-report-form .select-list-container {
+        font-weight: 400; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form strong {
+      font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+      color: #555555;
+      font-size: 15px;
+      text-transform: uppercase; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form small {
+      color: #8B8B8B;
+      font-size: 14px;
+      font-family: 'Roboto Condensed', 'Roboto', sans-serif; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .col:last-child strong {
+      margin-left: 48px; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form label {
+      color: #B2B2B2;
+      font-size: 12px;
+      font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      float: left;
+      position: relative;
+      margin-top: 3px;
+      font-weight: 500;
+      margin-right: 10px; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter {
+      float: left;
+      display: inline-block;
+      min-width: 30%; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container {
+        width: 70%;
+        float: left;
+        height: 40px; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container .dropdown-handle {
+          height: 39px; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container ul li {
+          color: #477B92; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container .list-value {
+          color: #477B92; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container .list-results {
+          max-height: 300px;
+          overflow-y: scroll; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container:last-child {
+        margin-right: 0; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter {
+      float: left;
+      display: inline-block; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div {
+        float: left;
+        width: 30%;
+        position: relative;
+        color: #477B92; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div input[type="text"] {
+          padding-left: 35px; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div i {
+          position: absolute;
+          font-size: 20px;
+          top: 10px;
+          left: 7px; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter label:nth-child(3) {
+        margin-right: 0; }
+    @media only screen and (max-width: 880px) {
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter {
+        width: 100%; } }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter {
+      display: inline-block; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter p {
+        padding: 0; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter label {
+        float: none;
+        display: inline-block;
+        font-size: 15px;
+        color: #477B92;
+        font-weight: 400;
+        margin: 0 10px 0 0;
+        padding-left: 0;
+        padding-right: 0; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form button {
+      margin-left: 10px; }
+    .wp-defender .wd-audit-logging .wd-well.blue {
+      margin-bottom: 0; }
+    .wp-defender .wd-audit-logging table th {
+      font-family: "Roboto Condensed", sans-serif;
+      font-weight: 700;
+      color: #777771;
+      font-size: 15px; }
+      .wp-defender .wd-audit-logging table th a {
+        padding: 0; }
+        .wp-defender .wd-audit-logging table th a span {
+          font-family: "Roboto Condensed", sans-serif;
+          font-weight: 700;
+          color: #777771;
+          font-size: 15px; }
+    .wp-defender .wd-audit-logging table td {
+      vertical-align: top;
+      font-size: 13px;
+      color: #555555; }
+      .wp-defender .wd-audit-logging table td .toggle-row:hover {
+        background: none; }
+    .wp-defender .wd-audit-logging table td:nth-child(1) {
+      width: 40%;
+      padding-right: 10px; }
+    .wp-defender .wd-audit-logging table td:nth-child(2) {
+      width: 14%; }
+      .wp-defender .wd-audit-logging table td:nth-child(2) strong {
+        color: #555555;
+        font-size: 13px;
+        display: block;
+        font-weight: 500; }
+      .wp-defender .wd-audit-logging table td:nth-child(2) small {
+        font-size: 12px;
+        color: #8B8B8B; }
+    .wp-defender .wd-audit-logging table td:nth-child(3), .wp-defender .wd-audit-logging table td:nth-child(4) {
+      width: 12%;
+      color: #19B4CF; }
+    .wp-defender .wd-audit-logging table td:nth-child(4) {
+      width: 8%;
+      color: #19B4CF; }
+    .wp-defender .wd-audit-logging table td:nth-child(5) {
+      color: #19B4CF;
+      width: 11%; }
+    .wp-defender .wd-audit-logging table td:nth-child(6) {
+      width: 15%;
+      position: relative; }
+      .wp-defender .wd-audit-logging table td:nth-child(6) div:first-child {
+        float: left;
+        padding-top: 5px; }
+        .wp-defender .wd-audit-logging table td:nth-child(6) div:first-child img {
+          left: 0;
+          margin-bottom: 0;
+          -webkit-border-radius: 50% 50% 50% 50%;
+          border-radius: 50% 50% 50% 50%; }
+      .wp-defender .wd-audit-logging table td:nth-child(6) div:last-child {
+        float: left;
+        margin-left: 10px; }
+        .wp-defender .wd-audit-logging table td:nth-child(6) div:last-child small {
+          color: #19B4CF;
+          font-size: 13px; }
+        .wp-defender .wd-audit-logging table td:nth-child(6) div:last-child span {
+          color: #8B8B8B;
+          font-size: 12px; }
+    .wp-defender .wd-audit-logging .tablenav .wd-audit-paginate {
+      display: inline-block;
+      float: right;
+      margin-right: 5px;
+      width: 100%; }
+      .wp-defender .wd-audit-logging .tablenav .wd-audit-paginate span.num-results {
+        font-size: 14px;
+        color: #8B8B8B;
+        font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+        margin-left: 10px;
+        line-height: 40px; }
+      .wp-defender .wd-audit-logging .tablenav .wd-audit-paginate .wd-button-group {
+        float: right;
+        display: inline-block;
+        vertical-align: middle; }
+        .wp-defender .wd-audit-logging .tablenav .wd-audit-paginate .wd-button-group a {
+          background-color: white;
+          height: 40px;
+          width: 50px;
+          display: inline-block;
+          padding: 0;
+          text-align: center;
+          line-height: 38px;
+          color: #19B4CF;
+          font-size: 15px;
+          border: solid 1px #E3E3E3;
+          margin-right: -5px; }
   .wp-defender .hljs {
     display: block;
     overflow-x: auto;
@@ -1123,5 +1322,49 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
 .wd-hide {
   display: none; }
 
+.wd-calendar {
+  background-color: white;
+  margin-top: 10px;
+  padding: 10px;
+  border: solid 1px #ddd; }
+  .wd-calendar .ui-datepicker-header {
+    width: 100%;
+    font-family: "Roboto Condensed", sans-serif; }
+    .wd-calendar .ui-datepicker-header .ui-datepicker-prev {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      cursor: pointer; }
+    .wd-calendar .ui-datepicker-header .ui-datepicker-next {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer; }
+    .wd-calendar .ui-datepicker-header .ui-datepicker-title {
+      text-align: center; }
+  .wd-calendar .ui-datepicker-calendar {
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px; }
+    .wd-calendar .ui-datepicker-calendar th, .wd-calendar .ui-datepicker-calendar td {
+      padding: 5px; }
+      .wd-calendar .ui-datepicker-calendar th a, .wd-calendar .ui-datepicker-calendar td a {
+        display: block;
+        width: 100%;
+        height: 100%; }
+    .wd-calendar .ui-datepicker-calendar td {
+      text-align: center; }
+  .wd-calendar .ui-datepicker-today, .wd-calendar .ui-datepicker-current-day {
+    background: #f4f4f4; }
+    .wd-calendar .ui-datepicker-today a, .wd-calendar .ui-datepicker-current-day a {
+      color: #777; }
 
-/* 133620-1464151244-au */
+@keyframes wd-animate-stripes {
+  from {
+    background-position: 0 0; }
+
+  to {
+    background-position: 60px 0; } }
+
+
+/* 133620-1470955188-au */

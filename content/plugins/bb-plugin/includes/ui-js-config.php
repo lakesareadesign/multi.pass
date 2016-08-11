@@ -12,6 +12,7 @@ echo 'FLBuilderConfig = ' . json_encode( apply_filters('fl_builder_ui_js_config'
 	'isRtl'                         => is_rtl(),
 	'isUserTemplate'                => false,
 	'lite'                          => true === FL_BUILDER_LITE,
+	'modSecFix'                     => ( defined( 'FL_BUILDER_MODSEC_FIX' ) && FL_BUILDER_MODSEC_FIX ),
 	'newUser'                       => FLBuilderModel::is_new_user(),
 	'postId'                        => $post_id,
 	'postStatus'                    => get_post_status(),
@@ -20,7 +21,8 @@ echo 'FLBuilderConfig = ' . json_encode( apply_filters('fl_builder_ui_js_config'
 	'upgradeUrl'                    => FLBuilderModel::get_upgrade_url( array( 'utm_medium' => ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-demo' ), 'utm_source' => 'builder-ui', 'utm_campaign' => ( true === FL_BUILDER_LITE ? 'top-panel-cta' : 'demo-cta' ) ) ),
 	'userCanEditGlobalTemplates'    => current_user_can( FLBuilderModel::get_global_templates_editing_capability() ),
 	'userCanPublish'                => current_user_can('publish_posts'),
-	'userTemplateType'              => FLBuilderModel::get_user_template_type()
+	'userTemplateType'              => FLBuilderModel::get_user_template_type(),
+	'googleFontsUrl'				=> apply_filters( 'fl_builder_google_fonts_domain', '//fonts.googleapis.com/' ) . 'css?family='
 ) ) ) . ';';
 
 echo 'FLBuilderStrings = ' . json_encode( apply_filters('fl_builder_ui_js_strings', array(
@@ -127,7 +129,7 @@ echo 'FLBuilderStrings = ' . json_encode( apply_filters('fl_builder_ui_js_string
 	'unloadWarning' => esc_attr__('The settings you are currently editing will not be saved if you navigate away from this page.', 'fl-builder'),
 	'viewKnowledgeBase' => esc_attr__('View the Knowledge Base', 'fl-builder'),
 	'validateRequiredMessage' => esc_attr__('This field is required.', 'fl-builder'),
-	'visitForums' => esc_attr__('Visit the Forums', 'fl-builder'),
+	'visitForums' => esc_attr__('Contact Support', 'fl-builder'),
 	'watchHelpVideo' => esc_attr__('Watch the Video', 'fl-builder'),
 	'welcomeMessage' => esc_attr__('Welcome! It looks like this might be your first time using the builder. Would you like to take a tour?', 'fl-builder'),
 	'yesPlease' => esc_attr__('Yes Please!', 'fl-builder')

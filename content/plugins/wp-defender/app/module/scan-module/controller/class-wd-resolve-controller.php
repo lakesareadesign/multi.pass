@@ -65,10 +65,17 @@ class WD_Resolve_Controller extends WD_Controller {
 				if ( isset( wp_defender()->global['error'] ) ) {
 					$error = wp_defender()->global['error'];
 				}
-				$this->render( 'detail/core_integrity', array(
-					'model' => $model,
-					'error' => is_wp_error( $error ) ? $error->get_error_message() : null
-				), true );
+				if ( $model->detail['is_added'] == false ) {
+					$this->render( 'detail/core_integrity', array(
+						'model' => $model,
+						'error' => is_wp_error( $error ) ? $error->get_error_message() : null
+					), true );
+				} else {
+					$this->render( 'detail/show_source', array(
+						'model' => $model,
+						'error' => is_wp_error( $error ) ? $error->get_error_message() : null
+					), true );
+				}
 			} elseif ( $model instanceof WD_Scan_Result_File_Item_Model ) {
 				$this->render( 'detail/file_item', array(
 					'model' => $model
@@ -144,7 +151,7 @@ class WD_Resolve_Controller extends WD_Controller {
 		if ( ! is_object( $item ) ) {
 			wp_send_json( array(
 				'status' => 0,
-				'error'  => __( "Can't not find the issue needing to be fixed.", wp_defender()->domain )
+				'error'  => __( "Can't find the issue needing to be fixed.", wp_defender()->domain )
 			) );
 		}
 		$type = WD_Utils::http_post( 'type' );

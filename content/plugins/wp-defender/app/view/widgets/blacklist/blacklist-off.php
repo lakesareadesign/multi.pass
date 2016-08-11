@@ -24,9 +24,4 @@
 			</form>
 		</div>
 	</div>
-	<?php if ( $controller->is_on_hold() ): ?>
-		<div class="wd-overlay" id="wd-blacklist-overlay">
-			<i class="wdv-icon wdv-icon-fw wdv-icon-refresh spin"></i>
-		</div>
-	<?php endif; ?>
 </section>

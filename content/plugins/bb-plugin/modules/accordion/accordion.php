@@ -134,7 +134,8 @@ FLBuilder::register_settings_form('accordion_items_form', array(
 					'fields'        => array(
 						'content'       => array(
 							'type'          => 'editor',
-							'label'         => ''
+							'label'         => '',
+							'wpautop'		=> false
 						)
 					)
 				)

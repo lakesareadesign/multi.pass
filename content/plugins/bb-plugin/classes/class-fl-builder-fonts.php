@@ -129,7 +129,11 @@ final class FLBuilderFonts {
 			$css .= 'font-family: '. $font['family'] .';';
 		}	
 
-		$css .= 'font-weight: '. $font['weight'] .';';
+		if ( 'regular' == $font['weight'] ) {
+			$css .= 'font-weight: normal;';
+		} else {
+			$css .= 'font-weight: '. $font['weight'] .';';
+		}
 
 		echo $css;
 	}
@@ -160,7 +164,8 @@ final class FLBuilderFonts {
 	 * @return void
 	 */
 	static public function enqueue_styles(){
-		$google_url = '//fonts.googleapis.com/css?family=';
+		$google_fonts_domain = apply_filters( 'fl_builder_google_fonts_domain', '//fonts.googleapis.com/');
+		$google_url = $google_fonts_domain . 'css?family=';
 
 		if( count( self::$fonts ) > 0 ){
 
@@ -169,7 +174,10 @@ final class FLBuilderFonts {
 			}
 
 			$google_url = substr( $google_url, 0, -1 );
-			wp_enqueue_style( 'fl-builder-google-fonts', $google_url, array() );
+			
+			wp_enqueue_style( 'fl-builder-google-fonts-' . md5( $google_url ), $google_url, array() );
+			
+			self::$fonts = array();
 		}		
 	}
 

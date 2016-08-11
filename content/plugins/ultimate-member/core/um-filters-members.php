@@ -83,8 +83,18 @@
 						$operator = 'LIKE';
 					}
 
-					if ( in_array( $ultimatemember->fields->get_field_type( $field ), array('checkbox','multiselect') ) ) {
+					$arr_filter_field_types = array('checkbox','multiselect');
+					$arr_field_types = apply_filters('um_search_filter_field_types', $arr_filter_field_types );
+					
+					if ( in_array( $ultimatemember->fields->get_field_type( $field ), $arr_field_types ) ) {
 						$operator = 'LIKE';
+						if( ! empty(  $value ) ){
+							$value = serialize( strval( $value ) );
+						}
+					}
+
+					if( in_array( $ultimatemember->fields->get_field_type( $field ) ,  array('select') ) ){
+						$operator = '=';
 					}
 
 					if ( $value && $field != 'um_search' && $field != 'page_id' ) {
@@ -117,6 +127,7 @@
 		if ( count ($query_args['meta_query']) == 1 ) {
 			unset( $query_args['meta_query'] );
 		}
+
 		return $query_args;
 
 	}

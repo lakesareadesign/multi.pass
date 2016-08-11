@@ -43,6 +43,7 @@ class WPLeadIn
 
         $embedDomain = constant('LEADIN_EMBED_DOMAIN');
         $portalId = get_option('leadin_portalId');
+        $slumberMode = get_option('leadin_slumber_mode');
 
         if (empty($portalId)) {
             echo '<!-- Leadin embed JS disabled as a portalId has not yet been configured -->';
@@ -50,6 +51,14 @@ class WPLeadIn
         }
 
         $embedUrl = '//' . $embedDomain . '/js/v1/' . $portalId . '.js';
+        $embedId = 'leadin-embed-js';
+
+        if ($slumberMode || $portalId > 2476588) {
+          // Send new & slumber-mode accounts to the new script loader service
+          $embedDomain = constant('LEADIN_SCRIPT_LOADER_DOMAIN');
+          $embedUrl = '//' . $embedDomain . '/' . $portalId . '.js';
+          $embedId = 'leadin-scriptloader-js';
+        }
 
 
         if (is_single())
@@ -71,17 +80,19 @@ class WPLeadIn
             'leadinPluginVersion' => LEADIN_PLUGIN_VERSION
         );
 
-        wp_register_script('leadin-embed-js', $embedUrl, array('jquery'), FALSE, TRUE);
-        wp_localize_script('leadin-embed-js', 'leadin_wordpress', $leadin_wordpress_info);
-        wp_enqueue_script('leadin-embed-js');
+        wp_register_script($embedId, $embedUrl, array('jquery'), FALSE, TRUE);
+        wp_localize_script($embedId, 'leadin_wordpress', $leadin_wordpress_info);
+        wp_enqueue_script($embedId);
     }
 
     function leadin_add_embed_script_attributes($tag, $handle)
     {
-        if ('leadin-embed-js' !== $handle)
-            return $tag;
-        else
+        if ($handle == 'leadin-embed-js')
             return str_replace(' src', ' async defer crossorigin="use-credentials" src', $tag);
+        else if ($handle == 'leadin-scriptloader-js')
+            return str_replace(' src', ' async defer src', $tag);
+        else
+            return $tag;
     }
 
     /**

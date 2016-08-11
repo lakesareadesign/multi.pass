@@ -65,7 +65,7 @@ if ( $res['count'] > 0 ) {
 			<td width="20%" class="tc">
 				<?php
 				if ( $res['file_suspicious'] > 0 ) {
-					echo '<a href="' . network_admin_url( 'admin.php?page=wdf-scan' ) . '" class="button button-small button-light">' . __( "Fix Issue", wp_defender()->domain ) . '</a>';	  	 	   	 		 		 				
+					echo '<a href="' . network_admin_url( 'admin.php?page=wdf-scan' ) . '" class="button button-small button-light">' . __( "Fix Issue", wp_defender()->domain ) . '</a>';
 				} else {
 					echo '<i class="dev-icon dev-icon-radio_checked"></i>';
 				}

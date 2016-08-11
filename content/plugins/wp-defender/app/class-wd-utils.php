@@ -123,7 +123,7 @@ class WD_Utils {
 
 WP Defender here, reporting back from the front.
 
-I\'ve finished scanning your site for vulnerabilities and I found {ISSUES_COUNT} issues that you should take a closer look at!
+I\'ve finished scanning {SITE_URL} for vulnerabilities and I found {ISSUES_COUNT} issues that you should take a closer look at!
 {ISSUES_LIST}
 
 <a href="{SCAN_PAGE_LINK}">Follow me back to the lair and let\'s get you patched
@@ -136,7 +136,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 
 WP Defender here, reporting back from the front.
 
-I\'ve finished scanning your site for vulnerabilities and I found nothing. Well done for running such a tight ship!
+I\'ve finished scanning {SITE_URL} for vulnerabilities and I found nothing. Well done for running such a tight ship!
 
 Keep up the good work! With regular security scans and a well-hardened installation you\'ll be just fine.
 
@@ -153,6 +153,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 				'value'       => '500',
 				'description' => __( "If your site has heavily traffic, lowering this amount (50-200) will improve performance and resource usage. If not, leave by default or larger.", wp_defender()->domain )
 			)*/
+			'always_notify'                                      => 0
 		) );
 
 		$plugin_settings = get_site_option( 'wp_defender' );
@@ -555,6 +556,44 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	}
 
 	/**
+	 * @param $user_id
+	 *
+	 * @return string
+	 */
+	public static function get_user_role( $user_id ) {
+		$user = get_user_by( 'id', $user_id );
+
+		return ucfirst( $user->roles[0] );
+	}
+
+	/**
+	 * @param $slug
+	 *
+	 * @return string
+	 */
+	public static function get_plugin_abs_path( $slug ) {
+		if ( ! is_file( $slug ) ) {
+			$slug = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $slug;
+		}
+
+		return $slug;
+	}
+
+	/**
+	 * @param $user_id
+	 *
+	 * @return null|string
+	 */
+	public static function get_user_name( $user_id ) {
+		$user = get_user_by( 'id', $user_id );
+		if ( is_object( $user ) ) {
+			return $user->user_login;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get full name of an account
 	 * @return string|void
 	 */
@@ -714,8 +753,17 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 				'settings_page_url'  => network_admin_url( 'admin.php?page=wdf-settings' )
 			) ),
 		);
+		WD_Utils::update_setting( 'info->issues_count', $count + count( $issues ) );
 
 		return $data;
+	}
+
+	/**
+	 * @return string
+	 * @since 1.1
+	 */
+	public static function get_date_time_format() {
+		return get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 	}
 
 	/**
@@ -838,6 +886,10 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 			$id     = 'wdfc_' . $key;
 			$result = update_option( $id, $value, false );
 
+			//we need to add timeout too, count from now
+			$clear_id = 'wdfc_time_' . $key;
+			update_option( $clear_id, strtotime( '+ ' . $expiry . ' seconds' ), false );
+
 			return $result;
 		}
 	}
@@ -846,9 +898,6 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 * @return int
 	 */
 	public static function get_cpu_cores() {
-		if ( ( $count = WD_Utils::get_cache( 'wd_cpu_count1', false ) ) != false ) {
-			return $count;
-		}
 		$core_count = 1;
 		if ( is_file( '/proc/cpuinfo' ) ) {
 			$cpu_info = file_get_contents( '/proc/cpuinfo' );
@@ -865,7 +914,8 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 				pclose( $process );
 			}
 		}
-		WD_Utils::cache( 'wd_cpu_count', $core_count );
+
+		//WD_Utils::cache( 'wd_cpu_count', $core_count );
 
 		return $core_count;
 	}
@@ -900,7 +950,18 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 				return $cache;
 			}
 		} else {
-			$id    = 'wdfc_' . $key;
+			$clear_id = 'wdfc_time_' . $key;
+			$due_time = get_option( $clear_id );
+			$id       = 'wdfc_' . $key;
+			if ( $due_time !== false ) {
+				//check if the due time is reached
+				if ( $due_time <= time() ) {
+					delete_option( $id );
+
+					return $default;
+				}
+			}
+
 			$value = get_option( $id );
 			if ( ! is_array( $value ) && $store_type == 'json' ) {
 				$tmp = json_decode( $value, true );
@@ -937,6 +998,72 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 			$id = 'wdfc_' . $key;
 			delete_option( $id );
 		}
+	}
+
+	public static function time_since( $since ) {
+		$since = time() - $since;
+		if ( $since < 0 ) {
+			$since = 0;
+		}
+		$chunks = array(
+			array( 60 * 60 * 24 * 365, __( "year" ) ),
+			array( 60 * 60 * 24 * 30, __( "month" ) ),
+			array( 60 * 60 * 24 * 7, __( "week" ) ),
+			array( 60 * 60 * 24, __( 'day' ) ),
+			array( 60 * 60, __( "hour" ) ),
+			array( 60, __( "minute" ) ),
+			array( 1, __( "second" ) )
+		);
+
+		for ( $i = 0, $j = count( $chunks ); $i < $j; $i ++ ) {
+			$seconds = $chunks[ $i ][0];
+			$name    = $chunks[ $i ][1];
+			if ( ( $count = floor( $since / $seconds ) ) != 0 ) {
+				break;
+			}
+		}
+
+		$print = ( $count == 1 ) ? '1 ' . $name : "$count {$name}s";
+
+		return $print;
+	}
+
+	public static function convert_date_format_jQuery( $dateString ) {
+		$pattern = array(
+
+			//day
+			'd',        //day of the month
+			'j',        //3 letter name of the day
+			'l',        //full name of the day
+			'z',        //day of the year
+
+			//month
+			'F',        //Month name full
+			'M',        //Month name short
+			'n',        //numeric month no leading zeros
+			'm',        //numeric month leading zeros
+
+			//year
+			'Y',        //full numeric year
+			'y'        //numeric year: 2 digit
+		);
+		$replace = array(
+			'dd',
+			'd',
+			'DD',
+			'o',
+			'MM',
+			'M',
+			'm',
+			'mm',
+			'yy',
+			'y'
+		);
+		foreach ( $pattern as &$p ) {
+			$p = '/' . $p . '/';
+		}
+
+		return preg_replace( $pattern, $replace, $dateString );
 	}
 
 	public static function exclude_extensions() {

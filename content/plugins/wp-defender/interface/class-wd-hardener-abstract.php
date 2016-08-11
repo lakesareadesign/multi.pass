@@ -282,6 +282,7 @@ abstract class WD_Hardener_Abstract extends WD_Component {
 											parent.remove();
 											$('.wd-hardener-ignored').append(data.html);
 										})
+										$('body').trigger('after_an_issue_resolved', -1);
 									}
 								} else {
 									parent.fadeOut(500, function () {
@@ -316,6 +317,7 @@ abstract class WD_Hardener_Abstract extends WD_Component {
 										}
 										$('.wd-according').wd_according();
 										parent.remove();
+										$('body').trigger('after_an_issue_resolved', 1);
 										if ($('.wd-hardener-ignored').find('.wd-hardener-rule').size() == 0) {
 											location.reload();
 										}
