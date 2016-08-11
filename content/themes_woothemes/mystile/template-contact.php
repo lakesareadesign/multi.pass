@@ -42,7 +42,7 @@ if( isset( $_POST['submitted'] ) ) {
 		if( trim( $_POST['email'] ) === '' )  {
 			$emailError = __( 'You forgot to enter your email address.', 'woothemes' );
 			$hasError = true;
-		} else if ( ! eregi( "^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$", trim($_POST['email'] ) ) ) {
+		} else if ( ! preg_match( "^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$", trim($_POST['email'] ) ) ) {
 			$emailError = __( 'You entered an invalid email address.', 'woothemes' );
 			$hasError = true;
 		} else {

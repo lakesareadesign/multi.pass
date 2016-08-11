@@ -517,7 +517,6 @@ INDEX
   .form-row .input-text,
   .form-row select {
     width: 100%;
-    *width: 90%;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;
@@ -534,7 +533,6 @@ INDEX
   }
   .form-row.notes textarea {
     width: 100%;
-    *width: 90%;
   }
   .form-row.notes + h3 {
     clear: both;
