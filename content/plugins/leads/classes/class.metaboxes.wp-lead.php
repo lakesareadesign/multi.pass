@@ -185,7 +185,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             /* lead status */
             if (isset($_POST['wp_lead_status'])) {
-                update_post_meta($post_id, 'wp_lead_status', $_POST['wp_lead_status']);
+                update_post_meta($post_id, 'wp_lead_status', sanitize_text_field($_POST['wp_lead_status']));
             }
 
             /* Loop through mappable fields and save data */
@@ -474,7 +474,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* get open tab */
             self::$active_tab = 'wpleads_lead_tab_main';
             if (isset($_REQUEST['open-tab'])) {
-                self::$active_tab = $_REQUEST['open-tab'];
+                self::$active_tab = sanitize_text_field($_REQUEST['open-tab']);
             }
 
             /* Set hidden input for active tab */
@@ -587,11 +587,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         <?php do_action('wpleads_before_quickstats', $post); ?>
                         <div class="leads_stat_box">
                             <div class="leads_stat_box_heading">
-                            <div class="label_1">Action Breakdown   </div>
-                            <div class="label_2">Count</div>
-                            <div class="clearfix"></div>
+                                <div class="label_1">Action Breakdown   </div>
+                                <div class="label_2">Count</div>
+                                <div class="clearfix"></div>
                             </div>
-                        <?php do_action('wpleads_display_quick_stat', $post); ?> <!-- Display's the data-->
+                            <?php do_action('wpleads_display_quick_stat', $post); ?> <!-- Display's the data-->
                         </div>
                         <div id="time-since-last-visit"></div>
                         <div id="lead-score"></div>
@@ -612,7 +612,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             <div class="quick-stat-label">
                 <div class="label_1"><?php _e('Page Views ', 'inbound-pro'); ?>:</div>
                 <div class="label_2">
-                     <?php echo self::get_page_view_count(); ?> 
+                    <?php echo self::get_page_view_count(); ?>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -630,7 +630,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             <div class="quick-stat-label">
                 <div class="label_1"><?php _e('Form Submissions ', 'inbound-pro'); ?>:</div>
                 <div class="label_2">
-                    <?php echo count(self::$form_submissions); ?> 
+                    <?php echo count(self::$form_submissions); ?>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -649,8 +649,12 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             }
 
             ?>
-            <div class="quick-stat-label"><?php _e('Custom Events', 'inbound-pro'); ?>
-                <span class="quick-stat-total"><?php echo count(self::$custom_events); ?></span>
+            <div class="quick-stat-label">
+                <div class="label_1"><?php _e('Custom Events', 'inbound-pro'); ?>:</div>
+                <div class="label_2">
+                    <?php echo count(self::$custom_events); ?>
+                </div>
+                <div class="clearfix"></div>
             </div>
             <?php
 
@@ -1073,8 +1077,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     continue;
                 }
 
-                $form_id = ($event['form_id']) ? $event['form_id'] : __('undefined', 'leads');
-                $form_name = ($event['form_id']) ? get_the_title($event['form_id']) : __('undefined', 'leads');
+                $form_id = ($event['form_id']) ? $event['form_id'] : __('undefined', 'inbound-pro' );
+                $form_name = ($event['form_id']) ? get_the_title($event['form_id']) : __('undefined', 'inbound-pro' );
                 $converted_page_id = $event['page_id'];
                 $converted_page_permalink = get_permalink($converted_page_id);
                 $converted_page_title = get_the_title($converted_page_id);
@@ -1097,13 +1101,13 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                                 <br>
                                     <span class="lead-helper-text" style="padding-left:6px;">
                                         <?php
-                                        _e(' Converted on page', 'leads');
+                                        _e(' Converted on page', 'inbound-pro' );
                                         ?>
                                     </span>
                                 <a href="<?php echo $converted_page_permalink; ?>" id="lead-session-<?php echo $i; ?>" rel="<?php echo $i; ?>" target="_blank"><?php echo $converted_page_title; ?></a>
                                 <?php
-                                _e('using the form ', 'leads');
-                                echo '<a href="' . admin_url('post.php?post=' . $event['form_id'] . '&action=edit') . '" target="_blank" title="' . ($event['form_id'] ? __('This is the form the user submitted their data through', 'leads') : __('Submission was processed through a 3rd party form tool or event data is incomplete.', 'inbound-pro')) . '">' . $form_name . '</a>';
+                                _e('using the form ', 'inbound-pro' );
+                                echo '<a href="' . admin_url('post.php?post=' . $event['form_id'] . '&action=edit') . '" target="_blank" title="' . ($event['form_id'] ? __('This is the form the user submitted their data through', 'inbound-pro' ) : __('Submission was processed through a 3rd party form tool or event data is incomplete.', 'inbound-pro')) . '">' . $form_name . '</a>';
                                 ?>
                             </p>
                         </div>
@@ -1234,10 +1238,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 }
             }
 
-            // Merge conversion and page view json objects
-            //uasort($new_array, array( __CLASS__ , 'datetime_sort_reverse') ); // Date sort
-
-
             $new_key_array = array();
             $num = 0;
             foreach ($new_array as $key => $val) {
@@ -1313,7 +1313,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                                 <p>
                                 <span class="lead-item-num"></span>
                                 <span class="lead-helper-text">
-                                    <b>' . __('Viewed page', 'leads') . ' :</b>
+                                    <b>' . __('Viewed page', 'inbound-pro' ) . ' :</b>
                                     <span class="conversion-date"><b>' . date_format($date_print, 'F jS, Y \a\t g:ia (l)') . '</b></span>
                                     <br>
                                 </span>
@@ -1366,8 +1366,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                                        <div class="lead-event-text">
                                             <p>
                                                 <span class="lead-item-num">' . $count . ' </span>
-                                                <span class="conversion-date"><b>' . __('Custom Event ', 'leads') . ' - ' . $date_of_conversion . '</b></span><br>
-                                                <span class="lead-helper-text"><strong>' . $event['event_name'] . ' - ' . __('Tracking ID', 'inbound-pro') . ': <span class="campaing-id">' . ($event['session_id'] ? $event['session_id'] : __('undefined', 'leads')) . '</span></strong>
+                                                <span class="conversion-date"><b>' . __('Custom Event ', 'inbound-pro' ) . ' - ' . $date_of_conversion . '</b></span><br>
+                                                <span class="lead-helper-text"><strong>' . $event['event_name'] . ' - ' . __('Tracking ID', 'inbound-pro') . ': <span class="campaing-id">' . ($event['session_id'] ? $event['session_id'] : __('undefined', 'inbound-pro' )) . '</span></strong>
                                                 <br>
                                                 <span class="custom-details">
                                                     <i>
@@ -1838,12 +1838,17 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         break;
                     // select
                     case $field['type'] == 'dropdown':
-                        echo '<select name="' . $id . '" id="' . $id . '" >';
-                        foreach ($field['options'] as $value => $field['label']) {
-                            echo '<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="' . $value . '">' . $field['label'] . '</option>';
-                        }
-                        echo '</select><div class="wpl_tooltip" title="' . $field['desc'] . '"></div>';
-                        break;
+                      
+                       echo '<select name="' . $id . '" id="' . $id . '" >';
+                       foreach ($field['options'] as $value => $label) {
+                            echo '<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="' . $value . '">' . $label . '</option>';
+                       }
+                       echo '</select>';
+
+                       if (isset($field['desc'])) {
+                        echo '<div class="wpl_tooltip" title="' . $field['desc'] . '"></div>';
+                       }
+                       break;
                     case $field['type'] == 'dropdown-country':
                         echo '<input type="hidden" id="hidden-country-value" value="' . $field['value'] . '">';
                         echo '<select name="' . $id . '" id="' . $id . '" class="wpleads-country-dropdown">';

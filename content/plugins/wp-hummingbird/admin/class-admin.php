@@ -59,8 +59,9 @@ class WP_Hummingbird_Admin {
 		include_once( 'class-gzip-page.php' );
 		include_once( 'class-uptime-page.php' );
 
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			include_once( 'class-admin-ajax.php' );
+		}
 	}
 
 
@@ -76,6 +77,7 @@ class WP_Hummingbird_Admin {
 			$this->pages['wphb-caching'] = new WP_Hummingbird_Caching_Page( 'wphb-caching', __( 'Browser Caching', 'wphb' ), __( 'Browser Caching', 'wphb' ), 'wphb' );
 			$this->pages['wphb-gzip'] = new WP_Hummingbird_GZIP_Page( 'wphb-gzip', __( 'GZIP Compression', 'wphb' ), __( 'GZIP Compression', 'wphb' ), 'wphb' );
 			$this->pages['wphb-uptime'] = new WP_Hummingbird_Uptime_Page( 'wphb-uptime', __( 'Uptime Monitoring', 'wphb' ), __( 'Uptime', 'wphb' ), 'wphb' );
+			$this->add_cloudflare_submenu();
 		}
 		else {
 			$minify = wphb_get_setting( 'minify' );
@@ -105,7 +107,17 @@ class WP_Hummingbird_Admin {
 		$this->pages['wphb-caching'] = new WP_Hummingbird_Caching_Page( 'wphb-caching', __( 'Browser Caching', 'wphb' ), __( 'Browser Caching', 'wphb' ), 'wphb' );
 		$this->pages['wphb-gzip'] = new WP_Hummingbird_GZIP_Page( 'wphb-gzip', __( 'GZIP Compression', 'wphb' ), __( 'GZIP Compression', 'wphb' ), 'wphb' );
 		$this->pages['wphb-uptime'] = new WP_Hummingbird_Uptime_Page( 'wphb-uptime', __( 'Uptime', 'wphb' ), __( 'Uptime Monitoring', 'wphb' ), 'wphb' );
+		$this->add_cloudflare_submenu();
 	}
+
+	private function add_cloudflare_submenu() {
+		/** @var WP_Hummingbird_Module_Cloudflare $cloudflare */
+		$cloudflare = wphb_get_module( 'cloudflare' );
+		if ( $cloudflare->is_active() ) {
+			add_submenu_page( 'wphb', 'CloudFlare', 'CloudFlare', wphb_get_admin_capability(), 'admin.php?page=wphb#wphb-box-dashboard-cloudflare' );
+		}
+	}
+
 
 	/**
 	 * Return an instannce of a WP Hummingbird Admin Page

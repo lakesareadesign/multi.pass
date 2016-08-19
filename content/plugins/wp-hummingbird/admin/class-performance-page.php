@@ -66,9 +66,6 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 			$this->add_meta_box( 'performance-summary', __( 'Summary', 'wphb' ), array( $this, 'performance_summary_metabox' ), array( $this, 'performance_summary_metabox_header' ), null, 'main', array( 'box_class' => 'dev-box content-box-one-col-center', 'box_content_class' => 'box-content no-side-padding' ) );
 		}
 
-		//$this->add_meta_box( 'performance-summary', __( 'Summary', 'wphb' ), array( $this, 'performance_summary_metabox' ), array( $this, 'performance_summary_metabox_header' ), null, 'main', array( 'box_class' => 'dev-box content-box-one-col-center', 'box_content_class' => 'box-content no-side-padding' ) );
-		//$this->add_meta_box( 'performance-uptime', __( 'Uptime', 'wphb' ), array( $this, 'performance_uptime_metabox' ), null, null, 'box-performance-right', array( 'box_class' => 'dev-box content-box-one-col-center' ) );
-		//$this->add_meta_box( 'performance-wpacademy', __( 'WP Academy', 'wphb' ), array( $this, 'performance_wpacademy_metabox' ), null, null, 'box-performance-right', array( 'box_class' => 'dev-box content-box-one-col-center' ) );
 	}
 
 	public function performance_summary_metabox() {
@@ -77,11 +74,19 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 
 		$is_member = wphb_is_member();
 
+		$error_details = '';
 		if ( ! $is_member ) {
-			$this->view( 'performance-summary-membership-meta-box' );
+			$this->view( 'performance/summary-membership-meta-box' );
 		} elseif ( $last_test && $is_member ) {
 			if ( is_wp_error( $last_test ) ) {
 				$error = $last_test->get_error_message();
+				$error_details = $last_test->get_error_data();
+				if ( is_array( $error_details ) && isset( $error_details['details'] ) ) {
+					$error_details = $error_details['details'];
+				}
+				else {
+					$error_details = '';
+				}
 			}
 			else {
 				$last_test = $last_test->data;
@@ -91,9 +96,9 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 			$retry_url = add_query_arg( 'run', 'true', wphb_get_admin_menu_url( 'performance' ) );
 			$retry_url = wp_nonce_url( $retry_url, 'wphb-run-performance-test' );
 
-			$this->view( 'performance-summary-meta-box', array( 'last_test' => $last_test, 'error' => $error, 'retry_url' => $retry_url ) );
+			$this->view( 'performance/summary-meta-box', array( 'last_test' => $last_test, 'error' => $error, 'error_details' => $error_details, 'retry_url' => $retry_url ) );
 		} else {
-			$this->view( 'performance-empty-summary-meta-box', array( 'doing_report' => $doing_report ) );
+			$this->view( 'performance/empty-summary-meta-box', array( 'doing_report' => $doing_report ) );
 		}
 
 	}
@@ -127,7 +132,7 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 			}
 		}
 
-		$this->view( 'dashboard-performance-module-resume-meta-box', array( 'last_report' => $last_report, 'run_url' => $run_url, 'improve_class' => $improve_class, 'improvement' => $improvement, 'last_score' => $last_score ) );
+		$this->view( 'performance/module-resume-meta-box', array( 'last_report' => $last_report, 'run_url' => $run_url, 'improve_class' => $improve_class, 'improvement' => $improvement, 'last_score' => $last_score ) );
 	}
 
 	public function performance_module_resume_metabox_header() {}
@@ -139,15 +144,8 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 		if ( $last_report && ! is_wp_error( $last_report ) ) {
 			$last_report = $last_report->data;
 		}
-		$this->view( 'performance-summary-meta-box-header', array( 'title' => $title, 'last_report' => $last_report ) );
+		$this->view( 'performance/summary-meta-box-header', array( 'title' => $title, 'last_report' => $last_report ) );
 	}
 
-	public function performance_uptime_metabox() {
-		$this->view( 'performance-uptime-meta-box' );
-	}
-
-	public function performance_wpacademy_metabox() {
-		$this->view( 'performance-wpacademy-meta-box' );
-	}
 
 }

@@ -5,7 +5,7 @@
 </section><!-- end sub-header -->
 
 <div class="row">
-	<?php $this->do_meta_boxes( 'box-caching-welcome' ); ?>
+	<div><?php $this->do_meta_boxes( 'box-caching' ); ?></div>
 </div>
 
 <div class="row">

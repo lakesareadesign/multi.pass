@@ -99,6 +99,10 @@ Smush button transformation
     margin-top: 30px;
 }
 
+.wpmud .bulk-smush-wrapper.wp-smush-container:not(.wp-smush-pro-install) {
+    padding-bottom: 0;
+}
+
 .wp-smush-pro.smush-settings-wrapper {
     width: 100%;
 }
@@ -557,6 +561,59 @@ table.wp-smush-stats-holder tr td:first-child {
     width: 100%;
 }
 
+#wp-smush-invalid-member {
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 500;
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 15px 30px;
+    position: relative;
+}
+
+#wp-smush-invalid-member.loading-notice:before {
+    content: attr(data-message);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 5;
+    text-align: center;
+    line-height: 80px;
+    font-size: 18px;
+}
+
+#wp-smush-invalid-member.loaded-notice:before {
+    content: attr(data-message);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 5;
+    text-align: center;
+    line-height: 80px;
+    font-size: 18px;
+}
+
+#wp-smush-invalid-member.loading-notice > div, #wp-smush-invalid-member.loaded-notice > div {
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+}
+
+#wp-smush-invalid-member a {
+    color: #514a30;
+    text-decoration: underline;
+}
+
 .wpmud .wp-smush-welcome.wp-smush-container {
     background-image: url(../images/welcome-notice.png);
     background-repeat: no-repeat;
@@ -675,7 +732,7 @@ table.wp-smush-stats-holder tr td:first-child {
 .wp-smush-upload-images {
     display: block;
     overflow: hidden;
-    padding: 10px 0;
+    padding: 10px 0 40px;
 }
 
 /** Ongoing Bulk Smush **/
@@ -734,8 +791,9 @@ table.wp-smush-stats-holder tr td:first-child {
 }
 
 /** Image Remaining **/
-.wp-smush-remaining {
+.wp-smush-remaining, #wp-smush-invalid-member {
     background-color: #fee696;
+    border: none;
     color: #514a30;
     line-height: 1.7;
 }
@@ -856,6 +914,7 @@ table.wp-smush-stats-holder tr td:first-child {
 }
 
 .smush-final-log {
+    margin-left: 0;
     padding: 10px;
 }
 
@@ -1133,7 +1192,7 @@ small.smush-setting-description {
 
 /** Media Queries for resolution below 782px **/
 @media only screen and (max-width: 800px) {
-    .wpmud .wp-smushit-container-wrap .col-half.wp-smushit-container-left, .wpmud .wp-smushit-container-wrap .col-half.wp-smushit-container-right {
+    .wpmud .wp-smushit-container-wrap .col-half.wp-smushit-container-left, .wpmud .wp-smushit-container-wrap .col-half.wp-smushit-container-right {								 	 	   		   
         padding: 0;
         width: 100%;
     }
@@ -1149,7 +1208,7 @@ small.smush-setting-description {
     .wpmud .wp-smush-super-smush-content {
         font-size: 11px;
         margin-left: 160px;
-        padding: 15px 20px;
+        /*padding: 15px 20px;*/
     }
 }
 
@@ -1533,4 +1592,4 @@ small.smush-setting-description {
 }
 
 
-/* 133620-1470955204-au */
+/* 133620-1471628119-au */

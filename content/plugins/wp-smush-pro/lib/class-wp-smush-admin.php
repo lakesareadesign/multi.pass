@@ -96,6 +96,12 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 		public $image_sizes = array();
 
 		/**
+		 * @var string Stores the headers returned by the latest API call
+		 *
+		 */
+		public $api_headers = array();
+
+		/**
 		 * Constructor
 		 */
 		public function __construct() {
@@ -152,6 +158,11 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 
 			add_action( 'admin_init', array( $this, 'init_settings' ) );
 
+			/**
+			 * Prints a membership validation issue notice in Media Library
+			 */
+			add_action( 'admin_notices', array( $this, 'media_library_membership_notice' ) );
+
 			$this->bulk_ui = new WpSmushBulkUi();
 
 		}
@@ -184,7 +195,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 				),
 				'png_to_jpg' => array(
 					'label' => esc_html__( 'Convert PNG to JPEG (lossy)', 'wp-smushit' ),
-					'desc'  => esc_html__( "When you optimise a PNG, Smush will check if converting it to a JPEG will reduce the file size, and if so it will automatically convert it. Note: Smush will only convert the file format if it results in smaller file size. This will change the file's name, any hardcoded URLs will need updating.", 'wp-smushit' )
+					'desc'  => sprintf( esc_html__( "When you compress a PNG file, Smush will check if converting the file to JPEG will further reduce its size. %s Note: PNGs with transparency will be ignored and Smush will only convert the file format if it results in a smaller file size. This will change the file’s name and extension, and any hard-coded URLs will need to be updated.", 'wp-smushit' ), "<br />" )
 				)
 			);
 
@@ -313,13 +324,15 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			$handle = 'wp-smushit-admin-js';
 
 			$wp_smush_msgs = array(
-				'resmush'       => esc_html__( 'Super-Smush', 'wp-smushit' ),
-				'smush_now'     => esc_html__( 'Smush Now', 'wp-smushit' ),
-				'error_in_bulk' => esc_html__( '{{errors}} image(s) were skipped due to an error.', 'wp-smushit' ),
-				'all_resmushed' => esc_html__( 'All images are fully optimised.', 'wp-smushit' ),
-				'restore'       => esc_html__( "Restoring image..", "wp-smushit" ),
-				'smushing'      => esc_html__( "Smushing image..", "wp-smushit" ),
-				'checking'      => esc_html__( "Checking images..", "wp-smushit" ),
+				'resmush'            => esc_html__( 'Super-Smush', 'wp-smushit' ),
+				'smush_now'          => esc_html__( 'Smush Now', 'wp-smushit' ),
+				'error_in_bulk'      => esc_html__( '{{errors}} image(s) were skipped due to an error.', 'wp-smushit' ),
+				'all_resmushed'      => esc_html__( 'All images are fully optimised.', 'wp-smushit' ),
+				'restore'            => esc_html__( "Restoring image..", "wp-smushit" ),
+				'smushing'           => esc_html__( "Smushing image..", "wp-smushit" ),
+				'checking'           => esc_html__( "Checking images..", "wp-smushit" ),
+				'membership_valid'   => esc_html__( "We successfully verified your membership, all the Pro features should work completely. ", "wp-smushit" ),
+				'membership_invalid' => esc_html__( "Your membership couldn't be verified.", "wp-smushit" ),
 			);
 
 			wp_localize_script( $handle, 'wp_smush_msgs', $wp_smush_msgs );
@@ -379,11 +392,9 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 		function setup_global_stats( $force_update = false ) {
 			global $wpsmush_stats;
 			$this->total_count         = $wpsmush_stats->total_count();
-			$this->smushed_attachments = $wpsmush_stats->smushed_count( true );
+			$this->stats               = $this->global_stats( $force_update );
 			$this->smushed_count       = ! empty( $this->smushed_attachments ) ? count( $this->smushed_attachments ) : 0;
 			$this->remaining_count     = $this->remaining_count();
-			$this->stats               = $this->global_stats_from_ids( $force_update );
-//			$this->stats               = $this->global_stats( $force_update );
 		}
 
 		/**
@@ -586,15 +597,21 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			$stats['smushed'] = ! empty( $this->resmush_ids ) ? $this->smushed_count - $resmush_count : $this->smushed_count;
 
 			if ( $WpSmush->lossy_enabled ) {
-				$stats['super_smushed'] = $wpsmush_stats->super_smushed_count();
+				$stats['super_smushed'] = $this->super_smushed;
 			}
 
 			$stats['tooltip_text'] = ! empty( $stats['total_images'] ) ? sprintf( esc_html__( "You've smushed %d images in total.", "wp-smushit" ), $stats['total_images'] ) : '';
 
 			//Send ajax response
-			$send_error ? wp_send_json_error( array( 'stats'     => $stats,
-			                                         'error_msg' => $error
-			) ) : wp_send_json_success( array( 'stats' => $stats ) );
+			$send_error ? wp_send_json_error( array(
+				'stats'     => $stats,
+				'error_msg' => $error,
+				'show_warning' => intval( $this->show_warning() )
+
+			) ) : wp_send_json_success( array(
+				'stats' => $stats,
+				'show_warning' => intval( $this->show_warning() )
+			) );
 
 		}
 
@@ -660,7 +677,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 				if ( $return ) {
 					return array( 'error' => $smush->get_error_message() );
 				} else {
-					wp_send_json_error( array( 'error_msg' => '<p class="wp-smush-error-message">' . $smush->get_error_message() . '</p>' ) );
+					wp_send_json_error( array( 'error_msg' => '<p class="wp-smush-error-message">' . $smush->get_error_message() . '</p>', 'show_warning' => intval( $this->show_warning() ) ) );
 				}
 			} else {
 				if ( $return ) {
@@ -799,7 +816,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 				}
 			}
 
-			global $wpdb, $WpSmush, $wpsmush_stats;
+			global $wpdb, $wpsmush_stats;
 
 			$smush_data = array(
 				'size_before' => 0,
@@ -816,20 +833,30 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			$offset     = 0;
 			$query_next = true;
 
+			$supersmushed_count         = 0;
+			$smush_data['total_images'] = 0;
+			$smush_data['id']           = array();
+
 			while ( $query_next ) {
 
-				$global_data = $wpdb->get_col( $wpdb->prepare( "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key=%s LIMIT $offset, $limit", "wp-smpro-smush-data" ) );
-
+				$global_data = $wpdb->get_results( $wpdb->prepare( "SELECT post_id, meta_value FROM $wpdb->postmeta WHERE meta_key=%s LIMIT $offset, $limit", "wp-smpro-smush-data" ) );
 				if ( ! empty( $global_data ) ) {
-					$smush_data['count']        = 0;
-					$smush_data['total_images'] = 0;
 					foreach ( $global_data as $data ) {
-						$data = maybe_unserialize( $data );
-						if ( ! empty( $data['stats'] ) ) {
-							$smush_data['count'] += 1;
-							$smush_data['total_images'] += ! empty( $data['sizes'] ) ? count( $data['sizes'] ) : 0;
-							$smush_data['size_before'] += ! empty( $data['stats']['size_before'] ) ? (int) $data['stats']['size_before'] : 0;
-							$smush_data['size_after'] += ! empty( $data['stats']['size_after'] ) ? (int) $data['stats']['size_after'] : 0;
+						$smush_data['id'][] = $data->post_id;
+						if( !empty( $data->meta_value ) ) {
+							$meta = maybe_unserialize( $data->meta_value );
+							if ( ! empty( $meta['stats'] ) ) {
+
+								//Check for lossy Compression
+								if( 1 == $meta['stats']['lossy'] ) {
+									$supersmushed_count += 1;
+								}
+								//Total Image Smushed
+								$smush_data['total_images'] += ! empty( $meta['sizes'] ) ? count( $meta['sizes'] ) : 0;
+
+								$smush_data['size_before'] += ! empty( $meta['stats']['size_before'] ) ? (int) $meta['stats']['size_before'] : 0;
+								$smush_data['size_after'] += ! empty( $meta['stats']['size_after'] ) ? (int) $meta['stats']['size_after'] : 0;
+							}
 						}
 					}
 				}
@@ -872,10 +899,10 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			$smush_data['size_after'] += $conversion_savings['size_after'];
 
 			//Add the size before and after
-			$smush_data['resize_savings'] = $this->format_bytes( $smush_data['resize_savings'] );
+			$smush_data['resize_savings'] = size_format( $smush_data['resize_savings'], 1 );
 
 			//Conversion Savings
-			$smush_data['conversion_savings'] = $this->format_bytes( $smush_data['conversion_savings'] );
+			$smush_data['conversion_savings'] = size_format( $smush_data['conversion_savings'], 1 );
 
 			if ( $smush_data['size_before'] > 0 ) {
 				$smush_data['percent'] = ( $smush_data['bytes'] / $smush_data['size_before'] ) * 100;
@@ -884,7 +911,13 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 			//Round off precentage
 			$smush_data['percent'] = round( $smush_data['percent'], 1 );
 
-			$smush_data['human'] = $WpSmush->format_bytes( $smush_data['bytes'] );
+			$smush_data['human'] = size_format( $smush_data['bytes'], 1 );
+
+			//Setup Smushed attachment ids
+			$this->smushed_attachments = !empty( $smush_data['id'] ) ? $smush_data['id'] : '';
+
+			//Super Smushed attachment count
+			$this->super_smushed = $supersmushed_count;
 
 			//Update Cache
 			wp_cache_set( 'smush_global_stats', $smush_data, '', DAY_IN_SECONDS );
@@ -986,10 +1019,10 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 				$smush_data['conversion_savings'] = ! empty( $conversion_savings['bytes'] ) ? $conversion_savings['bytes'] : 0;
 
 				//Add the size before and after
-				$smush_data['resize_savings'] = $this->format_bytes( $smush_data['resize_savings'] );
+				$smush_data['resize_savings'] = size_format( $smush_data['resize_savings'], 1 );
 
 				//Conversion Savings
-				$smush_data['conversion_savings'] = $this->format_bytes( $smush_data['conversion_savings'] );
+				$smush_data['conversion_savings'] = size_format( $smush_data['conversion_savings'], 1 );
 
 				if ( $smush_data['size_before'] > 0 ) {
 					$smush_data['percent'] = ( $smush_data['bytes'] / $smush_data['size_before'] ) * 100;
@@ -998,7 +1031,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 				//Round off precentage
 				$smush_data['percent'] = round( $smush_data['percent'], 1 );
 
-				$smush_data['human'] = $WpSmush->format_bytes( $smush_data['bytes'] );
+				$smush_data['human'] = size_format( $smush_data['bytes'], 1 );
 
 			}
 			//Update Cache
@@ -1893,6 +1926,27 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 
 			return $sizes;
 
+		}
+
+		/**
+		 * Prints the Membership Validation issue notice
+		 *
+		 */
+		function media_library_membership_notice() {
+
+			//No need to print it for free version
+			if( !$this->validate_install() ) {
+				return;
+			}
+			//Show it on Media Library page only
+			$screen = get_current_screen();
+			$screen_id = !empty( $screen ) ? $screen->id : '';
+			//Do not show notice anywhere else
+			if( empty( $screen ) || 'upload' != $screen_id ) {
+				return;
+			}
+
+			echo $this->bulk_ui->get_user_validation_message( $notice = true );
 		}
 
 	}

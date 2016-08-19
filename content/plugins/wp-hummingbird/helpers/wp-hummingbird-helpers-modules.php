@@ -175,3 +175,25 @@ function wphb_smush_is_smush_installed() {
 function wphb_smush_get_install_url() {
 	return WP_Hummingbird_Module_Smush::get_smush_install_url();
 }
+
+function wphb_has_cloudflare( $force = false ) {
+	/** @var WP_Hummingbird_Module_Cloudflare $cloudflare */
+	$cloudflare = wphb_get_module( 'cloudflare' );
+	if ( $cloudflare ) {
+		WP_Hummingbird_Module_Cloudflare::has_cloudflare( $force );
+	}
+}
+
+function wphb_cloudflare_disconnect() {
+	$cloudflare = wphb_get_module( 'cloudflare' );
+	$settings = wphb_get_settings();
+	$cloudflare->clear_caching_page_rules();
+
+	$settings['cloudflare-email'] = '';
+	$settings['cloudflare-api-key'] = '';
+	$settings['cloudflare-zone'] = '';
+	$settings['cloudflare-zone-name'] = '';
+	$settings['cloudflare-connected'] = false;
+	$settings['cloudflare-plan'] = '';
+	wphb_update_settings( $settings );
+}

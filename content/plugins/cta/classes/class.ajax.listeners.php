@@ -46,10 +46,7 @@ class CTA_Ajax_Listeners {
 	* Clears all CTA Stats
 	*/
 	public static function clear_all_stats() {
-		global $wpdb, $CTA_Call_To_Action_Post_Type;
-
-		$CTA_Call_To_Action_Post_Type->clear_all_cta_stats();
-
+		CTA_Post_Type::clear_all_cta_stats();
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
@@ -58,12 +55,8 @@ class CTA_Ajax_Listeners {
 	*	Clears stats for CTA given ID
 	*/
 	public static function clear_stats() {
-		global $wpdb, $CTA_Call_To_Action_Post_Type;
-
 		$post_id = intval($_POST['page_id']);
-
-		$CTA_Call_To_Action_Post_Type->clear_cta_stats( $post_id );
-
+		CTA_Post_Type::clear_cta_stats( $post_id );
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
@@ -72,13 +65,9 @@ class CTA_Ajax_Listeners {
 	*	Clears stats for CTA variations given CTA ID and variation ID
 	*/
 	public static function clear_variation_stats() {
-		global $wpdb, $CTA_Call_To_Action_Post_Type;
-
 		$post_id = intval($_POST['page_id']);
-		$vid = $_POST['variation'];
-
-		$CTA_Call_To_Action_Post_Type->clear_cta_variation_stats( $post_id, $vid );
-
+		$vid = intval($_POST['variation']);
+		CTA_Post_Type::clear_cta_variation_stats( $post_id, $vid );
 		header('HTTP/1.1 200 OK');
 		exit;
 	}
@@ -117,8 +106,8 @@ class CTA_Ajax_Listeners {
 		global $wpdb; // this is how you get access to the database
 		global $user_ID;
 
-		$cta_id = trim($_POST['cta_id']);
-		$variation_id = trim($_POST['variation_id']);
+		$cta_id = trim(intval($_POST['cta_id']));
+		$variation_id = trim(intval($_POST['variation_id']));
 
 		$do_not_track = apply_filters('inbound_analytics_stop_track', false );
 
@@ -144,7 +133,7 @@ class CTA_Ajax_Listeners {
 		}
 
 		$new_meta_val = $_POST['new_meta_val'];
-		$meta_id = $_POST['meta_id'];
+		$meta_id = sanitize_text_field($_POST['meta_id']);
 		$post_id = intval($_POST['page_id']);
 
 		if ($meta_id === "main_title") {
@@ -183,11 +172,11 @@ class CTA_Ajax_Listeners {
 			echo 'x';
 			exit;
 		} else 	{
-			$cta_id = $_GET['cta_id'];
+			$cta_id = intval($_GET['cta_id']);
 		}
 
-		$variations = CTA_Variations::get_variations($_GET['cta_id']);
-		$variation_marker = get_post_meta( $_GET['cta_id'], '_cta_ab_variation_marker', true );
+		$variations = CTA_Variations::get_variations($cta_id );
+		$variation_marker = get_post_meta( $cta_id , '_cta_ab_variation_marker', true );
 
 		if (!is_numeric($variation_marker)) {
 			$variation_marker = 0;
@@ -243,7 +232,7 @@ class CTA_Ajax_Listeners {
 		}
 
 
-		update_post_meta( $_GET['cta_id'],  '_cta_ab_variation_marker', $variation_marker);
+		update_post_meta( $cta_id ,  '_cta_ab_variation_marker', $variation_marker);
 		echo $variation_marker;
 		exit;
 

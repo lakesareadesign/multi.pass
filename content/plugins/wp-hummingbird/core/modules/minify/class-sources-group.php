@@ -624,8 +624,7 @@ class WP_Hummingbird_Sources_Group {
 			else {
 				$minification_module->errors_controller->clear_handle_error( array_keys( $srcs ), $this->type );
 
-				$options = wphb_get_settings();
-				$expire_on = $options['file_age'] + time();
+				$expire_on = apply_filters( 'wphb_file_expiration', 3600 * 24 * 7 ) + time(); // 1 week;
 
 				$this->set_group_src( $cache_file->get_src() );
 

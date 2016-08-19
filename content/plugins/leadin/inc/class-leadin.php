@@ -41,7 +41,7 @@ class WPLeadIn
 
         add_filter('script_loader_tag', array($this, 'leadin_add_embed_script_attributes'), 10, 2);
 
-        $embedDomain = constant('LEADIN_EMBED_DOMAIN');
+        $embedDomain = constant('LEADIN_SCRIPT_LOADER_DOMAIN');
         $portalId = get_option('leadin_portalId');
         $slumberMode = get_option('leadin_slumber_mode');
 
@@ -50,15 +50,8 @@ class WPLeadIn
             return;
         }
 
-        $embedUrl = '//' . $embedDomain . '/js/v1/' . $portalId . '.js';
-        $embedId = 'leadin-embed-js';
-
-        if ($slumberMode || $portalId > 2476588) {
-          // Send new & slumber-mode accounts to the new script loader service
-          $embedDomain = constant('LEADIN_SCRIPT_LOADER_DOMAIN');
-          $embedUrl = '//' . $embedDomain . '/' . $portalId . '.js';
-          $embedId = 'leadin-scriptloader-js';
-        }
+        $embedUrl = '//' . $embedDomain . '/' . $portalId . '.js';
+        $embedId = 'leadin-scriptloader-js';
 
 
         if (is_single())
@@ -87,9 +80,7 @@ class WPLeadIn
 
     function leadin_add_embed_script_attributes($tag, $handle)
     {
-        if ($handle == 'leadin-embed-js')
-            return str_replace(' src', ' async defer crossorigin="use-credentials" src', $tag);
-        else if ($handle == 'leadin-scriptloader-js')
+        if ($handle == 'leadin-scriptloader-js')
             return str_replace(' src', ' async defer src', $tag);
         else
             return $tag;

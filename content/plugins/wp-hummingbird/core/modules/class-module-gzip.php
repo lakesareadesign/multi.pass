@@ -18,7 +18,8 @@ class WP_Hummingbird_Module_GZip extends WP_Hummingbird_Module_Server {
 			if ( ! class_exists('SimplePie') )
 				require_once( ABSPATH . WPINC . '/class-simplepie.php' );
 
-			$result = new SimplePie_File( $file, 10, 5, null, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36' );
+			$result = new SimplePie_File( $file, 10, 5, null, $_SERVER['HTTP_USER_AGENT'] );
+
 			$headers = $result->headers;
 			if ( empty( $headers ) ) {
 				$results[ $type ] = false;
@@ -35,6 +36,7 @@ class WP_Hummingbird_Module_GZip extends WP_Hummingbird_Module_Server {
 
 		return $results;
 	}
+
 
 	public function get_nginx_code() {
 		return '
@@ -120,6 +122,10 @@ gzip_disable  "MSIE [1-6]\.(?!.*SV1)";';
     </IfModule>
 
 </IfModule>';
+	}
+
+	public function get_litespeed_code() {
+		return $this->get_apache_code();
 	}
 
 	public function get_iis_code() {

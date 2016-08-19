@@ -356,8 +356,12 @@ var InboundShortcodes = {
                     jQuery('body').trigger("inbound_forms_data_ready");
                     jQuery.data(this, 'current', jQuery(this).val());
 
-
-
+                    /* Make sure field type options are revealed */
+                    setTimeout(function() {
+                        jQuery('[data-field-name="field_type"]').each(function () {
+                            jQuery(this).trigger('change');
+                        });
+                    } , 1000 );
                 },
 
                 error: function (MLHttpRequest, textStatus, errorThrown) {
@@ -705,6 +709,8 @@ var InboundShortcodes = {
                 }
 
             } else if (input_type === "radio") {
+
+            } else if(jQuery(this).attr("multiple") && jQuery(this).hasClass("select2-offscreen")){
 
             } else {
                 jQuery(this).find("option").removeAttr("selected");

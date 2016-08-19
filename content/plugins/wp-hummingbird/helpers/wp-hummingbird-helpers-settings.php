@@ -46,7 +46,6 @@ function wphb_get_default_settings() {
 		'minify-blog' => true,
 
 		'max_files_in_group' => 10,
-		'file_age' => apply_filters( 'wphb_file_expiration', 3600 * 24 ), // 24 hours in seconds
 		'block' => array( 'scripts' => array(), 'styles' => array() ),
 		'dont_minify' => array( 'scripts' => array(), 'styles' => array() ),
 		'dont_combine' => array( 'scripts' => array(), 'styles' => array() ),
@@ -54,7 +53,16 @@ function wphb_get_default_settings() {
 		'caching_expiry_css' => '8d/A691200',
 		'caching_expiry_javascript' => '8d/A691200',
 		'caching_expiry_media' => '8d/A691200',
-		'caching_expiry_images' => '8d/A691200'
+		'caching_expiry_images' => '8d/A691200',
+
+		'cloudflare-email' => '',
+		'cloudflare-api-key' => '',
+		'cloudflare-zone' => '',
+		'cloudflare-zone-name' => '',
+		'cloudflare-connected' => false,
+		'cloudflare-plan' => false,
+		'cloudflare-page-rules' => array(),
+		'cloudflare-caching-expiry' => 691200,
 	);
 
 	/**
@@ -66,7 +74,7 @@ function wphb_get_default_settings() {
 
 
 function wphb_get_blog_option_names() {
-	return array( 'block', 'minify-blog', 'dont_minify', 'dont_combine', 'position', 'max_files_in_group' );
+	return array( 'block', 'minify-blog', 'dont_minify', 'dont_combine', 'position', 'max_files_in_group', 'last_change' );
 }
 
 
@@ -94,11 +102,18 @@ function wphb_update_settings( $new_settings ) {
 	}
 	else {
 		$network_options = array_diff_key( $new_settings, array_fill_keys( wphb_get_blog_option_names(), wphb_get_blog_option_names() ) );
-		$blog_options = array_intersect_key( $new_settings, array_fill_keys( wphb_get_blog_option_names(), wphb_get_blog_option_names() ) );	  	 	   	 		 		 		 	
+		$blog_options = array_intersect_key( $new_settings, array_fill_keys( wphb_get_blog_option_names(), wphb_get_blog_option_names() ) );
 
 		update_site_option( 'wphb_settings', $network_options );
 		update_option( 'wphb_settings', $blog_options );
 	}
+}
+
+
+function wphb_update_setting( $setting, $value ) {
+	$settings = wphb_get_settings();
+	$settings[ $setting ] = $value;
+	wphb_update_settings( $settings );
 }
 
 /**

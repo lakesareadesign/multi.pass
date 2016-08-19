@@ -77,8 +77,10 @@ class WP_Hummingbird_GZIP_Page extends WP_Hummingbird_Admin_Page {
 			exit;
 		}
 
+		$show_enable_button = ! $this->_gzip_already_activated_in_server();
+		$footer_class = ! $show_enable_button ? '' : 'box-footer buttons buttons-on-left';
 		$this->add_meta_box( 'gzip-summary', __( 'Summary', 'wphb' ), array( $this, 'gzip_summary_metabox' ), array( $this, 'gzip_summary_metabox_header' ), null, 'box-gzip-left' );
-		$this->add_meta_box( 'gzip-enable', __( 'Enable GZIP', 'wphb' ), array( $this, 'gzip_enable_metabox' ), array( $this, 'gzip_enable_metabox_header' ), array( $this, 'gzip_enable_metabox_footer' ) , 'box-gzip-right', array( 'box_footer_class' => 'box-footer buttons buttons-on-left') );
+		$this->add_meta_box( 'gzip-enable', __( 'Enable GZIP', 'wphb' ), array( $this, 'gzip_enable_metabox' ), array( $this, 'gzip_enable_metabox_header' ), array( $this, 'gzip_enable_metabox_footer' ) , 'box-gzip-right', array( 'box_footer_class' => $footer_class) );
 	}
 
 
@@ -106,18 +108,19 @@ class WP_Hummingbird_GZIP_Page extends WP_Hummingbird_Admin_Page {
 		}
 
 
-		$this->view( 'gzip-summary-meta-box', array( 'status' => $status, 'external_problem' => $external_problem ) );
+		$this->view( 'gzip/summary-meta-box', array( 'status' => $status, 'external_problem' => $external_problem ) );
 	}
 
 	public function gzip_summary_metabox_header() {
 		$recheck_url = add_query_arg( 'run', 'true' );
 		$recheck_url = remove_query_arg( 'htaccess-error', $recheck_url );
-		$this->view( 'gzip-summary-meta-box-header', array( 'recheck_url' => $recheck_url, 'title' => __( 'Summary', 'wphb' ) ) );
+		$this->view( 'gzip/summary-meta-box-header', array( 'recheck_url' => $recheck_url, 'title' => __( 'Summary', 'wphb' ) ) );
 	}
 
 	public function gzip_enable_metabox() {
 		$snippets = array(
 			'apache' => wphb_get_code_snippet( 'gzip', 'apache' ),
+			'litespeed' => wphb_get_code_snippet( 'gzip', 'LiteSpeed' ),
 			'nginx' => wphb_get_code_snippet( 'gzip', 'nginx' ),
 			'iis' => wphb_get_code_snippet( 'gzip', 'iis' ),
 			'iis-7' => wphb_get_code_snippet( 'gzip', 'iis-7' ),
@@ -131,11 +134,13 @@ class WP_Hummingbird_GZIP_Page extends WP_Hummingbird_Admin_Page {
 		$status = wphb_get_gzip_status();
 		$full_enabled = array_sum( $status ) === 3;
 
+		$server = wphb_get_server_type();
+
 		if ( $full_enabled ) {
-			$this->view( 'gzip-enabled-meta-box' );
+			$this->view( 'gzip/enabled-meta-box' );
 		}
 		else {
-			$this->view( 'gzip-enable-meta-box',
+			$this->view( 'gzip/enable-meta-box',
 				array(
 					'snippets' => $snippets,
 					'htaccess_written' => $htaccess_written,
@@ -151,7 +156,7 @@ class WP_Hummingbird_GZIP_Page extends WP_Hummingbird_Admin_Page {
 	public function gzip_enable_metabox_header() {
 		$status = wphb_get_gzip_status();
 		$full_enabled = array_sum( $status ) === 3;
-		$this->view( 'gzip-code-snippet-meta-box-header', array( 'gzip_server_type' => wphb_get_server_type(), 'title' => __( 'Enable GZIP', 'wphb' ), 'full_enabled' => $full_enabled ) );
+		$this->view( 'gzip/code-snippet-meta-box-header', array( 'gzip_server_type' => wphb_get_server_type(), 'title' => __( 'Enable GZIP', 'wphb' ), 'full_enabled' => $full_enabled ) );
 	}
 
 	/**
@@ -181,7 +186,7 @@ class WP_Hummingbird_GZIP_Page extends WP_Hummingbird_Admin_Page {
 		$show_enable_button = ! $this->_gzip_already_activated_in_server();
 		$enable_link = add_query_arg( array( 'run' => 'true', 'enable' => 'true' ) );
 		$disable_link = add_query_arg( array( 'run' => 'true', 'disable' => 'true' ) );
-		$this->view( 'gzip-enable-meta-box-footer', array( 'server_type' => wphb_get_server_type(), 'enable_link' => $enable_link, 'disable_link' => $disable_link, 'show_enable_button' => $show_enable_button ) );
+		$this->view( 'gzip/enable-meta-box-footer', array( 'server_type' => wphb_get_server_type(), 'enable_link' => $enable_link, 'disable_link' => $disable_link, 'show_enable_button' => $show_enable_button ) );
 	}
 
 

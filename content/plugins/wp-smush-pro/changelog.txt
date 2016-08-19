@@ -5,6 +5,21 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 2.4.5 =
+
+* Fixed:
+    * Error "No file content sent" with WP 4.6
+
+= 2.4.4 =
+
+* Fixed:
+    * Stats Calculation, Use custom query to retrieve data
+    * Fixed warning and notices
+    * PNG to JPEG conversion not working for Multisite ( Pro Users )
+    * thumbnails not being converted for PNG to JPEG conversion
+* Removed option to convert Transparent PNGs to JPEGs ( Pro Users )
+* Added check for invalid membership
+
 = 2.4.3 =
 
     * Fixed:
@@ -207,4 +222,4 @@ Change Log:
 - First release
 
 
-133620-1470955204-au
+133620-1471628119-au

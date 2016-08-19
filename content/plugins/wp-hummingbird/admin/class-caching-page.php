@@ -97,14 +97,10 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 			exit;
 		}
 
-		//$this->add_meta_box( 'caching-welcome', __( 'Setup', 'wphb' ), array( $this, 'caching_welcome_metabox' ), null, null, 'box-caching-welcome', array( 'box_class' => 'dev-box content-box-one-col-center' ) );
-		//$this->add_meta_box( 'caching-configure', __( 'Configure', 'wphb' ), array( $this, 'caching_configure_metabox' ), null, null, 'main' );
-		//$this->add_meta_box( 'caching-status', __( 'Caching status', 'wphb' ), array( $this, 'caching_status_metabox' ), null, null, 'box-caching-left' );
-		//$this->add_meta_box( 'caching-how-to', __( 'How to enable', 'wphb' ), array( $this, 'caching_how_to_metabox' ), null, null, 'box-caching-left' );
-		//$this->add_meta_box( 'caching-code-snippet', __( 'Code snippet', 'wphb' ), array( $this, 'caching_code_snippet_metabox' ), array( $this, 'caching_code_snippet_metabox_header'), null, 'box-caching-right' );
-
+		$disable_enable_button = ! wphb_is_htaccess_written( 'caching' ) && $this->is_caching_fully_enabled();
+		$footer_class = $disable_enable_button ? '' : 'box-footer buttons buttons-on-left';
 		$this->add_meta_box( 'caching-summary', __( 'Summary', 'wphb' ), array( $this, 'caching_summary_metabox' ), array( $this, 'caching_summary_metabox_header' ), null, 'box-caching-left', array( 'box_content_class' => 'box-content no-side-padding' ) );
-		$this->add_meta_box( 'caching-enable', __( 'Enable Caching', 'wphb' ), array( $this, 'caching_enable_metabox' ), array( $this, 'caching_enable_metabox_header'), array( $this, 'caching_enable_metabox_footer'), 'box-caching-right', array( 'box_footer_class' => 'box-footer buttons buttons-on-left') );
+		$this->add_meta_box( 'caching-enable', __( 'Enable Caching', 'wphb' ), array( $this, 'caching_enable_metabox' ), array( $this, 'caching_enable_metabox_header'), array( $this, 'caching_enable_metabox_footer'), 'box-caching-right', array( 'box_footer_class' => $footer_class) );
 	}
 
 
@@ -139,19 +135,36 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 			$external_problem = true;
 		}
 
-		$args = compact( 'expires', 'results', 'recommended', 'external_problem', 'human_results' );
-		$this->view( 'caching-summary-meta-box', $args );
-	}
+		/** @var WP_Hummingbird_Module_Cloudflare $cf_module */
+		$cf_module = wphb_get_module( 'cloudflare' );
+		$cf_active = false;
+		$cf_current_human = '';
+		$cf_tooltip = '';
+		$cf_current = '';
+		if ( $cf_module->is_active() && $cf_module->is_connected() && $cf_module->is_zone_selected() ) {
+			$cf_active = true;
+			$cf_current = $cf_module->get_caching_expiration();
+			if ( is_wp_error( $cf_current ) ) {
+				$cf_current = '';
+			}
 
+			$cf_tooltip = $cf_current == 691200 ? __('Caching is enabled', 'wphb') : __('Caching is enabled but you aren\'t using our recommended value', 'wphb');
+			$cf_current_human = wphb_human_read_time_diff( $cf_current );
+		}
+
+		$args = compact( 'expires', 'results', 'recommended', 'external_problem', 'human_results', 'cf_active', 'cf_tooltip', 'cf_current_human', 'cf_current' );
+		$this->view( 'caching/summary-meta-box', $args );
+	}
 
 	public function caching_summary_metabox_header() {
 		$recheck_url = add_query_arg( 'run', 'true' );
-		$this->view( 'caching-summary-meta-box-header', array( 'recheck_url' => $recheck_url, 'title' => __( 'Summary', 'wphb' ) ) );
+		$this->view( 'caching/summary-meta-box-header', array( 'recheck_url' => $recheck_url, 'title' => __( 'Summary', 'wphb' ) ) );
 	}
 
 	public function caching_enable_metabox() {
 		$snippets = array(
 			'apache' => wphb_get_code_snippet( 'caching', 'apache' ),
+			'litespeed' => wphb_get_code_snippet( 'caching', 'LiteSpeed' ),
 			'nginx' => wphb_get_code_snippet( 'caching', 'nginx' ),
 			'iis' => wphb_get_code_snippet( 'caching', 'iis' ),
 			'iis-7' => wphb_get_code_snippet( 'caching', 'iis-7' ),
@@ -161,18 +174,18 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 		$htaccess_writable = wphb_is_htaccess_writable();
 		$already_enabled = $this->is_caching_fully_enabled() && ! wphb_is_htaccess_written( 'caching' );
 
-		$this->view( 'caching-enable-meta-box', array( 'snippets' => $snippets, 'htaccess_written' => $htaccess_written, 'htaccess_writable' => $htaccess_writable, 'already_enabled' => $already_enabled ) );
+		$this->view( 'caching/enable-meta-box', array( 'snippets' => $snippets, 'htaccess_written' => $htaccess_written, 'htaccess_writable' => $htaccess_writable, 'already_enabled' => $already_enabled ) );
 	}
 
 	public function caching_enable_metabox_header() {
-		$this->view( 'caching-enable-meta-box-header', array( 'gzip_server_type' => wphb_get_server_type(), 'title' => __( 'Enable Caching', 'wphb' ) ) );
+		$this->view( 'caching/enable-meta-box-header', array( 'gzip_server_type' => wphb_get_server_type(), 'title' => __( 'Enable Caching', 'wphb' ) ) );
 	}
 
 	public function caching_enable_metabox_footer() {
 		$disable_enable_button = ! wphb_is_htaccess_written( 'caching' ) && $this->is_caching_fully_enabled();
 		$enable_link = add_query_arg( array( 'run' => 'true', 'enable' => 'true' ) );
 		$disable_link = add_query_arg( array( 'run' => 'true', 'disable' => 'true' ) );
-		$this->view( 'caching-enable-meta-box-footer', array( 'server_type' => wphb_get_server_type(), 'enable_link' => $enable_link, 'disable_link' => $disable_link, 'disable_enable_button' => $disable_enable_button ) );
+		$this->view( 'caching/enable-meta-box-footer', array( 'server_type' => wphb_get_server_type(), 'enable_link' => $enable_link, 'disable_link' => $disable_link, 'disable_enable_button' => $disable_enable_button ) );
 	}
 
 	public function is_caching_fully_enabled() {

@@ -11,6 +11,6 @@ if ( 'divi' === strtolower( $theme ) || 'divi' === strtolower( $theme->get_templ
 				add_action( 'wp_footer', 'et_divi_add_customizer_css', 900 );
 			}
 		}
-		add_action( 'after_setup_theme', 'wphb_divi_after_setup_theme' );
+		add_action( 'after_setup_theme', 'wphb_divi_after_setup_theme' );	  	 	   	 		 		 		 	
 	}
 }

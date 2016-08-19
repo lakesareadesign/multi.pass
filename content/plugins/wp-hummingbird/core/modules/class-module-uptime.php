@@ -46,7 +46,8 @@ class WP_Hummingbird_Module_Uptime extends WP_Hummingbird_Module {
 		}
 
 		$current_reports[ $time ] = $results;
-		set_site_transient( 'wphb-uptime-last-report', $current_reports, 10 );
+		// Save for 2 minutes
+		set_site_transient( 'wphb-uptime-last-report', $current_reports, 120 );
 	}
 
 	public static function is_remotely_enabled() {

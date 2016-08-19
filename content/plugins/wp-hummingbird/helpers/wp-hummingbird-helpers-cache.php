@@ -23,6 +23,7 @@ function wphb_flush_cache( $clear_settings = true ) {
 
 	delete_metadata( 'user', '', 'wphb-hide-welcome-box', '', true );
 	delete_metadata( 'user', '', 'wphb-server-type', '', true );
+	delete_site_option( 'wphb-is-cloudflare' );
 }
 
 

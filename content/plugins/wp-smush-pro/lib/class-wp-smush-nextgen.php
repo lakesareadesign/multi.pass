@@ -179,12 +179,6 @@ if ( ! class_exists( 'WpSmushNextGen' ) ) {
 						return false;
 					}
 
-					//Check if registered size is supposed to be converted or not
-					global $wpsmushit_admin;
-					if( 'full' != $size && $wpsmushit_admin->skip_image_size( $size ) ) {
-						return false;
-					}
-
 					// We take the original image. Get the absolute path using the storage object
 					$attachment_file_path_size = $storage->get_image_abspath( $image, $size );
 
@@ -315,7 +309,9 @@ if ( ! class_exists( 'WpSmushNextGen' ) ) {
 		 * @param bool|true $echo , Whether to echo the stats or not, false for auto smush
 		 */
 		function smush_image( $pid = '', $image = '', $echo = true ) {
-			global $wpsmushnextgenstats;
+			global $wpsmushnextgenstats, $WpSmush;
+
+			$WpSmush->initialise();
 
 			//Get image, if we have image id
 			if ( ! empty( $pid ) ) {
@@ -333,6 +329,7 @@ if ( ! class_exists( 'WpSmushNextGen' ) ) {
 			$registry = C_Component_Registry::get_instance();
 			$storage  = $registry->get_utility( 'I_Gallery_Storage' );
 
+			//Perform Resizing
 			$metadata = $this->resize_image( $pid, $image, $metadata, $storage );
 
 			//Store Meta
@@ -635,6 +632,9 @@ if ( ! class_exists( 'WpSmushNextGen' ) ) {
 			if ( empty( $attachment_id ) || empty( $meta ) || ! is_object( $storage ) ) {
 				return $meta;
 			}
+
+			//Initialize resize class
+			$wpsmush_resize->initialize();
 
 			//If resizing not enabled, or if both max width and height is set to 0, return
 			if ( ! $wpsmush_resize->resize_enabled || ( $wpsmush_resize->max_w == 0 && $wpsmush_resize->max_h == 0 ) ) {

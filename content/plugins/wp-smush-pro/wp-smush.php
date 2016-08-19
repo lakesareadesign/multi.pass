@@ -4,7 +4,7 @@ Plugin Name: WP Smush Pro
 Plugin URI: http://premium.wpmudev.org/projects/wp-smush-pro/
 Description: Reduce image file sizes, improve performance and boost your SEO using the <a href="https://premium.wpmudev.org/">WPMU DEV</a> WordPress Smush API.
 Author: WPMU DEV
-Version: 2.4.3
+Version: 2.4.5
 Author URI: http://premium.wpmudev.org/
 Textdomain: wp-smushit
 WDP ID: 912164
@@ -31,7 +31,7 @@ WDP ID: 912164
  * Constants
  */
 $prefix  = 'WP_SMUSH_';
-$version = '2.4.3';
+$version = '2.4.5';
 
 //Deactivate the .org version, if pro version is active
 add_action( 'admin_init', 'deactivate_smush_org' );
@@ -113,7 +113,7 @@ if ( ! function_exists( 'wp_smush_rating_message' ) ) {
  */
 if ( ! function_exists( 'wp_smush_email_message' ) ) {
 	function wp_smush_email_message( $message ) {
-		$message = "You're awesome for installing %s! Site speed isn't all image optimization though, so we've collected all the best speed resources we know in a single email - just for users of WP Smush!";
+		$message = "You're awesome for installing %s! Site speed isn't all image optimization though, so we've collected all the best speed resources we know in a single email - just for users of WP Smush!";								 	 	   		   
 
 		return $message;
 	}

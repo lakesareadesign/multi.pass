@@ -103,7 +103,7 @@ class WP_Hummingbird_Uptime_Page extends WP_Hummingbird_Admin_Page {
 		$user = wphb_get_current_user_info();
 		$activate_url = add_query_arg( 'action', 'enable', wphb_get_admin_menu_url( 'uptime' ) );
 		$activate_url = wp_nonce_url( $activate_url, 'wphb-toggle-uptime' );
-		$this->view( 'uptime-disabled-meta-box', array( 'user' => $user, 'activate_url' => $activate_url ) );
+		$this->view( 'uptime/disabled-meta-box', array( 'user' => $user, 'activate_url' => $activate_url ) );
 	}
 
 	private function get_data_ranges() {
@@ -173,13 +173,13 @@ class WP_Hummingbird_Uptime_Page extends WP_Hummingbird_Admin_Page {
 			$manage_link = $stats->manage_link;
 		}
 
-		$this->view( 'uptime-meta-box-header', array( 'title' => __( 'Uptime', 'wphb' ), 'manage_link' => $manage_link ) );
+		$this->view( 'uptime/meta-box-header', array( 'title' => __( 'Uptime', 'wphb' ), 'manage_link' => $manage_link ) );
 	}
 
 	public function uptime_metabox() {
 
 		if ( ! wphb_is_member() ) {
-			$this->view( 'uptime-summary-membership-meta-box' );
+			$this->view( 'uptime/summary-membership-meta-box' );
 			return;
 		}
 
@@ -215,7 +215,7 @@ class WP_Hummingbird_Uptime_Page extends WP_Hummingbird_Admin_Page {
 			$args['error_type'] = $error_type;
 		}
 
-		$this->view( 'uptime-meta-box', $args );
+		$this->view( 'uptime/meta-box', $args );
 	}
 
 }

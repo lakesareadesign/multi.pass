@@ -119,6 +119,9 @@ if ( ! class_exists( 'WpSmush' ) ) {
 			//Send Smush Stats for pro members
 			add_filter( 'wpmudev_api_project_extra_data-912164', array( $this, 'send_smush_stats') );
 
+			//Send Smush Stats for pro members
+			add_action( 'wp_ajax_smush_show_warning', array( $this, 'show_warning_ajax') );
+
 		}
 
 		function i18n() {
@@ -189,12 +192,12 @@ if ( ! class_exists( 'WpSmush' ) ) {
 
 			//Check if file exists
 			if ( $file_size == 0 ) {
-				$errors->add( "image_not_found", '<p>' . sprintf( __( 'Skipped (%s), image not found. Attachment: %s', 'wp-smushit' ), $this->format_bytes( $file_size ), basename( $file_path ) ) . '</p>' );
+				$errors->add( "image_not_found", '<p>' . sprintf( __( 'Skipped (%s), image not found. Attachment: %s', 'wp-smushit' ), size_format( $file_size, 1 ), basename( $file_path ) ) . '</p>' );
 			}
 
 			//Check size limit
 			if ( $file_size > $max_size ) {
-				$errors->add( "size_limit", '<p>' . sprintf( __( 'Skipped (%s), size limit exceeded. Attachment: %s', 'wp-smushit' ), $this->format_bytes( $file_size ), basename( $file_path ) ) . '</p>' );
+				$errors->add( "size_limit", '<p>' . sprintf( __( 'Skipped (%s), size limit exceeded. Attachment: %s', 'wp-smushit' ), size_format( $file_size, 1 ), basename( $file_path ) ) . '</p>' );
 			}
 
 			if ( count( $errors->get_error_messages() ) ) {
@@ -597,6 +600,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 		 * @return bool|array array containing success status, and stats
 		 */
 		function _post( $file_path, $file_size ) {
+			global $wpsmushit_admin;
 
 			$data = false;
 
@@ -628,7 +632,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 				'timeout'    => WP_SMUSH_TIMEOUT,
 				'user-agent' => WP_SMUSH_UA,
 			);
-			$result  = wp_remote_get( $api_url, $args );
+			$result  = wp_remote_post( $api_url, $args );
 
 			//Close file connection
 			fclose( $file );
@@ -679,6 +683,10 @@ if ( ! class_exists( 'WpSmush' ) ) {
 					//just return the data
 					$data['success'] = true;
 					$data['data']    = $response->data;
+				}
+				//If is_premium is set in response, send it over to check for member validity
+				if( !empty( $response->data ) && isset( $response->data->is_premium ) ) {
+					$wpsmushit_admin->api_headers['is_premium'] = $response->data->is_premium;
 				}
 			} else {
 				//Server side error, get message from response
@@ -898,7 +906,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 
 				$image_count    = count( $wp_smush_data['sizes'] );
 				$bytes          = isset( $combined_stats['stats']['bytes'] ) ? $combined_stats['stats']['bytes'] : 0;
-				$bytes_readable = ! empty( $bytes ) ? $this->format_bytes( $bytes ) : '';
+				$bytes_readable = ! empty( $bytes ) ? size_format( $bytes, 1 ) : '';
 				$percent        = isset( $combined_stats['stats']['percent'] ) ? $combined_stats['stats']['percent'] : 0;
 				$percent        = $percent < 0 ? 0 : $percent;
 
@@ -925,7 +933,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 						$file_path = get_attached_file( $id );
 						$size = file_exists( $file_path ) ? filesize( $file_path ) : 0;
 						if( $size > 0 ) {
-							$size       = $this->format_bytes( $size );
+							$size       = size_format( $size, 1 );
 							$image_size = sprintf( __( "<br /> Image Size: %s", "wp-smushit"), $size );
 							$status_txt .= $image_size;
 						}
@@ -1005,8 +1013,9 @@ if ( ! class_exists( 'WpSmush' ) ) {
 			if ( $text_only ) {
 				//For ajax response
 				return array(
-					'status' => $status_txt,
-					'stats'  => $stats
+					'status'       => $status_txt,
+					'stats'        => $stats,
+					'show_warning' => intval( $this->show_warning() )
 				);
 			}
 
@@ -1367,7 +1376,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 					$percent = $percent > 0 ? ' ( ' . $percent . '% )' : '';
 					$stats .= '<tr>
 					<td>' . strtoupper( $size_key ) . $dimensions . '</td>
-					<td>' . $this->format_bytes( $size_value->bytes ) . $percent . '</td>
+					<td>' . size_format( $size_value->bytes, 1 ) . $percent . '</td>
 				</tr>';
 				}
 			}
@@ -1503,12 +1512,14 @@ if ( ! class_exists( 'WpSmush' ) ) {
 				}
 			}
 
-			//Check for backup of image sizes
-			foreach ( $attachment_data['sizes'] as $image_size ) {
-				$size_path        = path_join( dirname( $file ), $image_size['file'] );
-				$size_backup_path = $wpsmushit_admin->get_image_backup_path( $size_path );
-				if ( file_exists( $size_backup_path ) ) {
-					return true;
+			if( !empty( $attachment_data['sizes'] ) ) {
+				//Check for backup of image sizes
+				foreach ( $attachment_data['sizes'] as $image_size ) {
+					$size_path        = path_join( dirname( $file ), $image_size['file'] );
+					$size_backup_path = $wpsmushit_admin->get_image_backup_path( $size_path );
+					if ( file_exists( $size_backup_path ) ) {
+						return true;
+					}
 				}
 			}
 
@@ -1864,6 +1875,7 @@ if ( ! class_exists( 'WpSmush' ) ) {
 		 *
 		 */
 		function total_compression( $stats ) {
+			$stats['stats']['size_before'] = $stats['stats']['size_after'] = $stats['stats']['time'] = '';
 			foreach ( $stats['sizes'] as $size_stats ) {
 				$stats['stats']['size_before'] += !empty( $size_stats->size_before ) ? $size_stats->size_before : 0;
 				$stats['stats']['size_after'] += !empty( $size_stats->size_after) ? $size_stats->size_after : 0;
@@ -1941,6 +1953,41 @@ if ( ! class_exists( 'WpSmush' ) ) {
 			$upload_path = $uploads['basedir'];
 
 			return path_join( $upload_path, $original_file );
+		}
+
+		/**
+		 * Check whether to show warning or not for Pro users, if they don't have a valid install
+		 *
+		 * @return bool
+		 *
+		 */
+		function show_warning() {
+			//If it's a free setup, Go back right away!
+			if ( ! $this->validate_install() ) {
+				return false;
+			}
+
+			global $wpsmushit_admin;
+			// Return. If we don't have any headers
+			if( !isset( $wpsmushit_admin->api_headers ) ) {
+				return false;
+			}
+
+			//Show warning, if function says it's premium and api says not premium
+			if( isset( $wpsmushit_admin->api_headers['is_premium'] ) && ! intval( $wpsmushit_admin->api_headers['is_premium'] ) ) {
+				return true;
+			}
+
+			return false;
+
+		}
+
+		/**
+		 * Send JSON response whether to show or not the warning
+		 */
+		function show_warning_ajax() {
+			$show = $this->show_warning();
+			wp_send_json( intval( $show ) );
 		}
 	}
 

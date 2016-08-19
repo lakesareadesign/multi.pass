@@ -124,7 +124,6 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 		if ( isset( $_GET['avoid-minify'] ) || 'wp-login.php' === $pagenow ) {
 			add_filter( 'wp_hummingbird_is_active_module_' . $this->get_slug(), '__return_false' );
 		}
-
 	}
 
 	public function run() {
@@ -132,6 +131,10 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 
 		// Init the chart data collector
 		$this->chart = new WP_Hummingbird_Minification_Chart();
+
+		add_action( 'activate_plugin', array( $this, 'on_plugin_or_theme_activation' ) );
+		add_action( 'deactivate_plugin', array( $this, 'on_plugin_or_theme_activation' ) );
+		add_action( 'switch_theme', array( $this, 'on_plugin_or_theme_activation' ) );
 
 		if ( is_admin() || is_customize_preview() || is_a( $wp_customize, 'WP_Customize_Manager' ) ) {
 			return;
@@ -151,6 +154,10 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 		add_action( 'wp_print_footer_scripts', array( $this, 'print_late_resources' ), 900 );
 
 		add_action( 'shutdown', array( $this, 'save_data' ) );
+	}
+
+	public function on_plugin_or_theme_activation() {
+		self::clear_cache( false );
 	}
 
 	/**
@@ -747,7 +754,6 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 	 * Save all the collected information
 	 */
 	public function save_data() {
-
 		if ( ! empty( $this->process_queue['styles'] ) ) {
 			// Save the queue to process it soon
 			wphb_minification_add_items_to_process_queue( $this->process_queue['styles'] );
@@ -794,17 +800,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 
 
 	public static function log( $message ) {
-		if ( defined( 'WPHB_DEBUG_LOG' ) ) {
-			$date = current_time( 'mysql' );
-			if ( ! is_string( $message ) ) {
-				$message = print_r( $message, true );
-			}
-
-			$message = '[' . $date . '] ' . $message;
-			$cache_dir = wphb_get_cache_dir();
-			$file = $cache_dir . 'minification.log';
-			file_put_contents( $file, $message . "\n", FILE_APPEND );
-		}
+		wphb_log( $message, 'minification' );
 	}
 
 
@@ -821,7 +817,10 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 	public static function scan( $url ) {
 		$cookies = array();
 		foreach ( $_COOKIE as $name => $value ) {
-			$cookies[] = new WP_Http_Cookie( array( 'name' => $name, 'value' => $value ) );
+			if ( strpos( $name, 'wordpress_' ) > -1 ) {
+				$cookies[] = new WP_Http_Cookie( array( 'name' => $name, 'value' => $value ) );
+			}
+
 		}
 
 		$result = array();

@@ -10,7 +10,7 @@
 	<div class="cp_popup_success_message">
 		<div class="congratulations-image">
 			<img src="<?php echo esc_url( CoursePress::instance()->plugin_url . 'images/congrats-tick.png' ); ?>" alt="<?php esc_attr_e( 'Congratulations image', 'cp' ); ?>">
-		</div
+		</div>
 		<p><?php echo sprintf( __( 'You have successfully enrolled in %s', 'cp' ), $course_link ); ?><br/>
 			<?php
 			_e( 'You will receive an e-mail confirmation shortly.', 'cp' );

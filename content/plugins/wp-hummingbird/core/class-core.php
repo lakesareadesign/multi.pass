@@ -17,15 +17,21 @@ class WP_Hummingbird_Core {
 
 		// Init the API
 		/** @noinspection PhpIncludeInspection */
-		include_once( wphb_plugin_dir() . 'core/api/class-wp-hummingbird-api.php' );
+		include_once( wphb_plugin_dir() . 'core/api/class-api.php' );
 		$this->api = new WP_Hummingbird_API();
 
 		$this->load_modules();
+
+		$minify = wphb_get_setting( 'minify' );
+		if ( ( is_multisite() && ( ( 'super-admins' === $minify && is_super_admin() ) || ( true === $minify ) ) )
+		     || ( ! is_multisite() && current_user_can( wphb_get_admin_capability() ) ) ) {
+			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 100 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		}
+
 	}
 
 	private function includes() {
-		/** @noinspection PhpIncludeInspection */
-		include_once( wphb_plugin_dir() . 'core/api/class-wp-hummingbird-api.php' );
 		/** @noinspection PhpIncludeInspection */
 		include_once( wphb_plugin_dir() . 'core/settings-hooks.php' );
 		/** @noinspection PhpIncludeInspection */
@@ -45,7 +51,8 @@ class WP_Hummingbird_Core {
 			'caching' =>    __( 'Caching', 'wphb' ),
 			'performance' => __( 'Performance', 'wphb' ),
 			'uptime' => __( 'Uptime', 'wphb' ),
-			'smush' => __( 'Smush', 'wphb' )
+			'smush' => __( 'Smush', 'wphb' ),
+			'cloudflare' => __( 'Cloudflare', 'wphb' )
 		) );
 
 		/** @noinspection PhpIncludeInspection */
@@ -80,6 +87,51 @@ class WP_Hummingbird_Core {
 			}
 
 			$this->modules[ $module ] = $module_obj;
+		}
+	}
+
+	public function enqueue_scripts() {
+		wp_enqueue_style( 'wphb-fonts', wphb_plugin_url() . 'admin/assets/css/wphb-font.css', array() );
+		wp_add_inline_style( 'wphb-fonts', '#wp-admin-bar-wphb > a > .ab-icon:before { font-family: "wphb"; content: "\e900"; }' );
+	}
+
+
+	/**
+	 * Add a HB menu to the admin bar
+	 *
+	 * @param WP_Admin_Bar $admin_bar
+	 */
+	public function admin_bar_menu( $admin_bar ) {
+		/** @var WP_Hummingbird_Module_Minify $minification_module */
+		$minification_module = wphb_get_module( 'minify' );
+		if ( $minification_module->is_active() ) {
+			$admin_bar->add_menu( array(
+				'id' => 'wphb',
+				'title' => '<span class="ab-icon"></span><span class="screen-reader-text">Hummingbird</span>',
+				'href' => admin_url( 'admin.php?page=wphb-minification' )
+			));
+
+			if ( ! is_admin() ) {
+
+				if ( isset( $_GET['avoid-minify'] ) ) {
+					$admin_bar->add_menu( array(
+						'id' => 'wphb-page-minify',
+						'title' => __( 'See this page minified', 'wphb' ),
+						'href' => remove_query_arg( 'avoid-minify' ),
+						'parent' => 'wphb'
+					));
+				}
+				else {
+					$admin_bar->add_menu( array(
+						'id' => 'wphb-page-minify',
+						'title' => __( 'See this page unminified', 'wphb' ),
+						'href' => add_query_arg( 'avoid-minify', 'true' ),
+						'parent' => 'wphb'
+					));
+				}
+
+			}
+
 		}
 	}
 

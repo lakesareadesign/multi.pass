@@ -5,6 +5,19 @@ CHANGE LOG
 =================================================
 
 == Changelog ==
+
+= 1.3.4.2 =
+* Fixed: Problem preview draft unit.
+* Fixed: Copy feature image from course to WooCommerce product.
+* Fixed: Problem with units on units list page.
+* Fixed: Mising div bracket in cp_popup_success_message template.
+* Fixed: Paid course flag when we change MarketPress to WooCommerce.
+* Fixed: Missing translatin domain in Woo integration.
+* Fixed: Wrong instructor id used by course_list shortcode.
+* Fixed: Redirect from WooCommerce shop main page.
+* Fixed: Problem with Virtual Pages when site use SSL.
+* Fixed: Problem with answers with html enties.
+
 = 1.3.4.1 =
 * Fixed: Skip search filter if query post types are bbpress types
 
@@ -518,4 +531,4 @@ CHANGE LOG
 * 1.0 First Release.
 
 
-133620-1464832091-au
+133620-1471628080-au

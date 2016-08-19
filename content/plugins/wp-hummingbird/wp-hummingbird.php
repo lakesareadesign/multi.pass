@@ -1,7 +1,7 @@
 <?php
 /**
 Plugin Name: WP Hummingbird
-Version: 1.2.4
+Version: 1.3.1
 Plugin URI:  https://premium.wpmudev.org/project/1081721/
 Description: Hummingbird zips through your site finding new ways to make it load faster, from file compression and minification to browser caching – because when it comes to pagespeed, every millisecond counts.
 Author: WPMU DEV
@@ -31,7 +31,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-define( 'WPHB_VERSION', '1.2.4' );
+define( 'WPHB_VERSION', '1.3.1' );
 /**
  * Class WP_Hummingbird
  *
@@ -222,8 +222,10 @@ class WP_Hummingbird {
 				if ( empty( $options ) ) {
 					wphb_update_settings( wphb_get_default_settings() );
 				}
+			}
 
-
+			if ( version_compare( $version, '1.3', '<' ) ) {
+				wphb_has_cloudflare( true );
 			}
 
 			update_site_option( 'wphb_version', WPHB_VERSION );
@@ -303,7 +305,10 @@ function wphb_plugin_dir() {
  * Activate the plugin
  */
 function wphb_activate( $redirect = true ) {
-	define( 'WPHB_ACTIVATING', true );
+	if ( ! defined( 'WPHB_ACTIVATING' ) ) {
+		define( 'WPHB_ACTIVATING', true );
+	}
+
 	/** @noinspection PhpIncludeInspection */
 	include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-core.php' );
 	/** @noinspection PhpIncludeInspection */
@@ -334,6 +339,8 @@ function wphb_activate( $redirect = true ) {
 	}
 
 	update_site_option( 'wphb_version', WPHB_VERSION );
+
+	wphb_has_cloudflare( true );
 
 }
 register_activation_hook( __FILE__, 'wphb_activate' );
@@ -377,5 +384,7 @@ function wphb_deactivate() {
 	delete_site_option( 'wphb-last-report-score' );
 	delete_site_option( 'wphb-server-type' );
 	delete_site_transient( 'wphb-uptime-last-report' );
+	delete_site_option( 'wphb-is-cloudflare' );
+	wphb_cloudflare_disconnect();
 }
 register_deactivation_hook( __FILE__, 'wphb_deactivate' );

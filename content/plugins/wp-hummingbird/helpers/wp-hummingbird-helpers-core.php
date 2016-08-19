@@ -111,7 +111,6 @@ function wphb_sanitize_chart_url( $url ) {
 }
 
 
-
 /**
  * Return the server type (Apache, NGINX...)
  *
@@ -119,7 +118,7 @@ function wphb_sanitize_chart_url( $url ) {
  */
 function wphb_get_server_type() {
 	global $is_apache, $is_IIS, $is_iis7, $is_nginx;
-	//delete_site_option( 'wphb-server-type' );
+
 	$type = get_site_option( 'wphb-server-type' );
 	$user_type = get_user_meta( get_current_user_id(), 'wphb-server-type', true );
 	if ( $user_type ) {
@@ -140,6 +139,7 @@ function wphb_get_server_type() {
 			}
 			else {
 				$server = strtolower( wp_remote_retrieve_header( $response, 'server' ) );
+				// Could be LiteSpeed too
 				$type = strpos( $server, 'nginx' ) !== false ? 'nginx' : 'apache';
 				update_site_option( 'wphb-server-type', $type );
 			}
@@ -161,6 +161,8 @@ function wphb_get_server_type() {
 	return apply_filters( 'wphb_get_server_type', $type );
 }
 
+
+
 /**
  * Get a list of server types
  *
@@ -169,6 +171,7 @@ function wphb_get_server_type() {
 function wphb_get_servers() {
 	return array(
 		'apache' => 'Apache',
+		'LiteSpeed' => 'LiteSpeed',
 		'nginx' => 'NGINX',
 		'iis' => 'IIS',
 		'iis-7' => 'IIS 7'
@@ -257,18 +260,30 @@ function wphb_unsave_htaccess( $module ) {
 	$home_path = get_home_path();
 	$htaccess_file = $home_path.'.htaccess';
 
-	if ( wphb_is_htaccess_writable() )
+	if ( wphb_is_htaccess_writable() ) {
 		return insert_with_markers( $htaccess_file, 'WP-HUMMINGBIRD-' . strtoupper( $module ), '' );
+	}
+
 
 	return false;
 }
 
-/**
- * @TODO: Improve or remove
- */
-function wphb_log( $message ) {
-	if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-		error_log( $message );
+
+function wphb_log( $message, $module ) {
+	if ( defined( 'WPHB_DEBUG_LOG' ) ) {
+		$date = current_time( 'mysql' );
+		if ( ! is_string( $message ) ) {
+			$message = print_r( $message, true );
+		}
+
+		if ( is_array( $message ) || is_object( $message ) ) {
+			$message = print_r( $message, true );
+		}
+
+		$message = '[' . $date . '] ' . $message;
+		$cache_dir = wphb_get_cache_dir();
+		$file = $cache_dir . $module . '.log';
+		file_put_contents( $file, $message . "\n", FILE_APPEND );
 	}
 }
 
@@ -301,6 +316,8 @@ function wphb_uninstall() {
 	delete_site_option( 'wphb_settings' );
 
 	delete_site_option( 'wphb_version' );
+
+	delete_site_option( 'wphb-is-cloudflare' );
 
 	// @TODO Delete cache folder (full)
 
@@ -336,7 +353,7 @@ function wphb_enqueue_admin_scripts() {
 
 	$file = wphb_plugin_url() . 'admin/assets/js/admin.min.js';
 
-	wp_enqueue_script( 'wphb-admin', $file, array( 'jquery' ), $ver );
+	wp_enqueue_script( 'wphb-admin', $file, array( 'jquery', 'underscore' ), $ver );
 
 	$i10n = array(
 		'writeHtaccessNonce' => wp_create_nonce( 'wphb-write-htacces' ),
@@ -349,7 +366,8 @@ function wphb_enqueue_admin_scripts() {
 	wp_localize_script( 'wphb-admin', 'wphbCachingStrings', $i10n );
 
 	$i10n = array(
-		'writeHtaccessNonce' => wp_create_nonce( 'wphb-write-htacces' )
+		'writeHtaccessNonce' => wp_create_nonce( 'wphb-write-htacces' ),
+		'setServerNonce' => wp_create_nonce( 'wphb-set-server' ),
 	);
 	wp_localize_script( 'wphb-admin', 'wphbGZipStrings', $i10n );
 
@@ -394,6 +412,20 @@ function wphb_enqueue_admin_scripts() {
 
 	);
 	wp_localize_script( 'wphb-admin', 'wphbUptimeStrings', $i10n );
+
+	/** @var WP_Hummingbird_Module_Cloudflare $cf */
+	$cf = wphb_get_module( 'cloudflare' );
+	$i10n = array(
+		'cloudflare' => array(
+			'is' => array(
+				'connected' => $cf->is_connected() && $cf->is_zone_selected()
+			),
+			'nonces' => array(
+				'expiry' => wp_create_nonce( 'wphb-cloudflare-expiry' )
+			)
+		)
+	);
+	wp_localize_script( 'wphb-admin', 'wphb', $i10n );
 }
 
 
@@ -478,6 +510,55 @@ function wphb_get_caching_frequencies() {
 		'6M/A15552000' => __( '6 months', 'wphb' ),
 		'1y/A31536000' => __( '1 year', 'wphb' ),
 	);
+}
+
+function wphb_get_caching_cloudflare_frequencies() {
+	return array(
+		7200 =>	__( '2 hours', 'wphb' ),
+		10800 => __( '3 hours', 'wphb' ),
+		14400 => __( '4 hours', 'wphb' ),
+		18000 => __( '5 hours', 'wphb' ),
+		28800 => __( '8 hours', 'wphb' ),
+		43200 => __( '12 hours', 'wphb' ),
+		57600 => __( '16 hours', 'wphb' ),
+		72000 => __( '20 hours', 'wphb' ),
+		86400 => __( '1 day', 'wphb' ),
+		172800 => __( '2 days', 'wphb' ),
+		259200 => __( '3 days', 'wphb' ),
+		345600 => __( '4 days', 'wphb' ),
+		432000 => __( '5 days', 'wphb' ),
+		691200 => __( '8 days', 'wphb' ),
+		1382400 => __( '16 days', 'wphb' ),
+		2073600 => __( '24 days', 'wphb' ),
+		2592000 => __( '1 month', 'wphb' ),
+		5184000 => __( '2 months', 'wphb' ),
+		15552000 => __( '6 months', 'wphb' ),
+		31536000 => __( '1 year', 'wphb' )
+	);
+}
+
+function wphb_get_caching_cloudflare_frequencies_dropdown( $args = array() ) {
+	$defaults = array(
+		'selected' => false,
+		'name' => 'expiry-select',
+		'id' => false,
+		'class' => '',
+		'data-type' => ''
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	if ( ! $args['id'] )
+		$args['id'] = $args['name'];
+
+
+	?>
+	<select id="<?php echo esc_attr( $args['id'] ); ?>" name="<?php echo esc_attr( $args['name'] ); ?>" class="<?php echo esc_attr( $args['class'] ); ?>" data-type="<?php echo esc_attr( $args['data-type'] ); ?>">
+		<?php foreach ( wphb_get_caching_cloudflare_frequencies() as $key => $value ): ?>
+			<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $args['selected'], $key ); ?>><?php echo $value; ?></option>
+		<?php endforeach; ?>
+	</select>
+	<?php
 }
 
 function wphb_get_caching_frequencies_dropdown( $args = array() ) {

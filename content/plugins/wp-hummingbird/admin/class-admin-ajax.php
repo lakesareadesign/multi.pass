@@ -21,6 +21,9 @@ class WP_Hummingbird_Admin_AJAX {
 		add_action( 'wp_ajax_caching_write_htaccess', array( $this, 'write_caching_htaccess' ) );
 		add_action( 'wp_ajax_gzip_write_htaccess', array( $this, 'write_gzip_htaccess' ) );
 		add_action( 'wp_ajax_chart_switch_chart_area', array( $this, 'switch_chart_area' ) );
+
+		add_action( 'wp_ajax_cloudflare_connect', array( $this, 'cloudflare_connect' ) );
+		add_action( 'wp_ajax_cloudflare_set_expiry', array( $this, 'cloudflare_set_expiry' ) );
 	}
 
 	public function process() {
@@ -99,6 +102,20 @@ class WP_Hummingbird_Admin_AJAX {
 		die();
 	}
 
+	public function gzip_set_server_type( $data ) {
+		if ( ! isset( $data['type'] ) ) {
+			die();
+		}
+
+		if ( ! array_key_exists( $data['type'], wphb_get_servers() ) ) {
+			die();
+		}
+
+		update_user_meta( get_current_user_id(), 'wphb-server-type', $data['type'] );
+
+		die();
+	}
+
 
 	public function caching_set_expiration( $data ) {
 		if ( ! isset( $data['type'] ) || ! isset( $data['value'] ) ) {
@@ -114,6 +131,8 @@ class WP_Hummingbird_Admin_AJAX {
 		$options = wphb_get_settings();
 		$options['caching_expiry_' . $data['type']] = $data['value'];
 		wphb_update_settings( $options );
+
+		do_action( 'wphb_caching_set_expiration', $data );
 		die();
 	}
 
@@ -326,6 +345,98 @@ class WP_Hummingbird_Admin_AJAX {
 		);
 
 		wp_send_json_success( array( 'chartData' => $data, 'sourcesNumber' => $sources ) );
+	}
+
+	public function cloudflare_connect() {
+		$form_data = $_POST['formData'];
+		$form_data = wp_parse_args( $form_data, array( 'cloudflare-email' => '', 'cloudflare-api-key' => '', 'cloudflare-zone' => '' ) );
+
+		$step = $_POST['step'];
+		$cfData = $_POST['cfData'];
+
+		/** @var WP_Hummingbird_Module_Cloudflare $cloudflare */
+		$cloudflare = wphb_get_module( 'cloudflare' );
+
+		$settings = wphb_get_settings();
+
+		switch ( $step ) {
+			case 'credentials': {
+				$settings['cloudflare-email'] = sanitize_email( $form_data['cloudflare-email'] );
+				$settings['cloudflare-api-key'] = sanitize_text_field( $form_data['cloudflare-api-key'] );
+				$settings['cloudflare-zone'] = sanitize_text_field( $form_data['cloudflare-zone'] );
+				$settings['cloudflare-zone-name'] = isset( $form_data['cloudflare-zone-name'] ) ? sanitize_text_field( $form_data['cloudflare-zone-name'] ) : '';
+				wphb_update_settings( $settings );
+
+				$zones = $cloudflare->get_zones_list();
+
+				if ( is_wp_error( $zones ) ) {
+					wp_send_json_error( array( 'error' => sprintf( '<strong>%s</strong> [%s]', $zones->get_error_message(), $zones->get_error_code() ) ) );
+				}
+
+
+				$cfData['email'] = $settings['cloudflare-email'];
+				$cfData['apiKey'] = $settings['cloudflare-api-key'];
+				$cfData['zones'] = $zones;
+
+
+				$settings['cloudflare-connected'] = true;
+				wphb_update_settings( $settings );
+
+				wp_send_json_success( array( 'nextStep' => 'zone', 'newData' => $cfData ) );
+				break;
+			}
+			case 'zone': {
+				$settings['cloudflare-zone'] = sanitize_text_field( $form_data['cloudflare-zone'] );
+
+				if ( empty( $settings['cloudflare-zone'] ) ) {
+					wp_send_json_error( array( 'error' => __( 'Please, select a CloudFlare zone. Normally, this is your website', 'wphb' ) ) );
+				}
+
+				// Check that the zone exists
+				$zones = $cloudflare->get_zones_list();
+				if ( is_wp_error( $zones ) ) {
+					wp_send_json_error( array( 'error' => sprintf( '<strong>%s</strong> [%s]', $zones->get_error_message(), $zones->get_error_code() ) ) );
+				}
+				else {
+					$filtered = wp_list_filter( $zones, array( 'value' => $settings['cloudflare-zone'] ) );
+					if ( ! $filtered ) {
+						wp_send_json_error( array( 'error' => __( 'The selected zone is not valid', 'wphb' ) ) );
+					}
+					$settings['cloudflare-zone-name'] = $filtered[0]['label'];
+					$settings['cloudflare-plan'] = $filtered[0]['plan'];
+				}
+
+				$settings['cloudflare-connected'] = true;
+
+				wphb_update_settings( $settings );
+				$cfData['zone'] = $settings['cloudflare-zone'];
+				$cfData['zoneName'] = $settings['cloudflare-zone-name'];
+				$cfData['plan'] = $settings['cloudflare-plan'];
+
+				// Remove Hummingbird caching
+				wphb_unsave_htaccess( 'caching' );
+
+				// And set the new CF setting
+				$cloudflare->set_caching_expiration( 691200 );
+
+				wp_send_json_success( array( 'nextStep' => 'final', 'newData' => $cfData ) );
+				break;
+			}
+		}
+
+		wp_send_json_error( array( 'error' => '' ) );
+	}
+
+	public function cloudflare_set_expiry() {
+		check_ajax_referer( 'wphb-cloudflare-expiry', 'security' );
+
+		$value = absint( $_POST['value'] );
+		/** @var WP_Hummingbird_Module_Cloudflare $cf */
+		$cf = wphb_get_module( 'cloudflare' );
+
+		$cf->set_caching_expiration( $value );
+
+		die();
 	}
 
 }

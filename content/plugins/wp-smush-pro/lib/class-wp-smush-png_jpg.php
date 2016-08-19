@@ -123,7 +123,7 @@ if ( ! class_exists( 'WpSmushPngtoJpg' ) ) {
 			$should_convert = false;
 
 			//Get the Transparency conversion settings
-			$convert_png = get_site_option( WP_SMUSH_PREFIX . 'png_to_jpg', false );
+			$convert_png = get_option( WP_SMUSH_PREFIX . 'png_to_jpg', false );
 			if ( ! $convert_png ) {
 				return $should_convert;
 			}
@@ -157,7 +157,7 @@ if ( ! class_exists( 'WpSmushPngtoJpg' ) ) {
 		 * @return bool True/False Can be converted or not
 		 *
 		 */
-		function can_be_converted( $id = '', $size = 'full', $mime = '' ) {
+		function can_be_converted( $id = '', $size = 'full', $mime = '', $file = '' ) {
 
 			if ( empty( $id ) ) {
 				return false;
@@ -185,7 +185,9 @@ if ( ! class_exists( 'WpSmushPngtoJpg' ) ) {
 				return false;
 			}
 
-			$file = get_attached_file( $id );
+			if ( empty( $file ) ) {
+				$file = get_attached_file( $id );
+			}
 
 			/** Whether to convert to jpg or not **/
 			$should_convert = $this->should_convert( $id, $file );
@@ -433,14 +435,14 @@ if ( ! class_exists( 'WpSmushPngtoJpg' ) ) {
 				return $meta;
 			}
 
+			$file = get_attached_file( $id );
+
 			/** Whether to convert to jpg or not **/
 			$should_convert = $this->can_be_converted( $id );
 
 			if ( ! $should_convert ) {
 				return $meta;
 			}
-
-			$file = get_attached_file( $id );
 
 			$result['meta'] = $meta;
 
@@ -458,14 +460,15 @@ if ( ! class_exists( 'WpSmushPngtoJpg' ) ) {
 				if ( ! empty( $meta['sizes'] ) ) {
 					foreach ( $meta['sizes'] as $size_k => $data ) {
 
+						$s_file = path_join( dirname( $file ), $data['file'] );
+
 						/** Whether to convert to jpg or not **/
-						$should_convert = $this->can_be_converted( $id, $size_k, 'image/png' );
+						$should_convert = $this->can_be_converted( $id, $size_k, 'image/png', $s_file );
 
 						//Perform the conversion
 						if ( ! $should_convert = apply_filters( 'wp_smush_convert_to_jpg', $should_convert, $id, $file, $size_k ) ) {
 							continue;
 						}
-						$s_file = path_join( dirname( $file ), $data['file'] );
 
 						//Perform the conversion, and update path
 						if ( ! $this->is_transparent ) {

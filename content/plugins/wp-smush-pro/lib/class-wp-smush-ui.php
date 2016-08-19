@@ -232,7 +232,7 @@ if ( ! class_exists( 'WpSmushBulkUi' ) ) {
 						<span class="float-l wp-smush-stats-label"><strong><?php esc_html_e( "PRO SAVINGS ESTIMATE", "wp-smushit" ); ?></strong><span class="wp-smush-stats-try-pro roboto-regular"><?php echo $pro_only; ?></span></span>
 						<span class="float-r wp-smush-stats">
 							<span class="wp-smush-stats-human">
-								<?php echo $wpsmushit_admin->format_bytes( round( $savings_bytes, 1 ) ); ?>
+								<?php echo size_format( $savings_bytes, 1 ); ?>
 							</span>
 							<span class="wp-smush-stats-sep">/</span>
 							<span class="wp-smush-stats-percent"><?php echo number_format_i18n( $savings, 1, '.', '' );  ?></span>%
@@ -322,19 +322,7 @@ if ( ! class_exists( 'WpSmushBulkUi' ) ) {
 							       value="1"
 							       name="<?php echo $setting_m_key; ?>" tabindex= "0">
 							<label class="toggle-label" for="<?php echo $setting_m_key; ?>"></label>
-						</span><?php
-						if( 'png_to_jpg' == $setting_key ) {
-						$bg_color = '#<input type="text" pattern=".{6,}" id="png_to_jpg_background" class="wp-smush-png_to_jpg_background" value="' . $transparent_png['background'] . '" placeholder="ffffff" name="' . $setting_m_key . '_background" tabindex="0" width="50px" maxlength="6" title="' . esc_html__("Enter 6 character Hexcode", "wp-smushit") . '" />';
-						?>
-							<div class="wp-smush-png_to_jpg-wrap<?php echo $setting_val ? '' : ' hidden'?>">
-								<label for="png_to_jpg_transparent">
-									<input type="checkbox" id="png_to_jpg_transparent" class="wp-smush-png_to_jpg_transparent" name="<?php echo $setting_m_key; ?>_transparent" tabindex="0" <?php checked( $transparent_png['convert'] ); ?>/>
-									<?php printf( esc_html__("Convert transparent images and use background color %s", "wp-smushit"), $bg_color ); ?>
-								</label>
-								<div class="wp-smush-settings-info wp-smush-hex-notice hidden"><?php esc_html_e("Color hexcode should be 6 characters.", "wp-smushit"); ?></div>
-							</div><?php
-						}
-						?>
+						</span>
 					</div>
 					<hr><?php
 				}
@@ -774,13 +762,18 @@ if ( ! class_exists( 'WpSmushBulkUi' ) ) {
 			$page_heading = $WpSmush->validate_install() ? esc_html__( 'WP Smush Pro', 'wp-smushit' ) : esc_html__( 'WP Smush', 'wp-smushit' );
 
 			$auto_smush_message = $WpSmush->is_auto_smush_enabled() ? sprintf( esc_html__( "Automatic smushing is %senabled%s. Newly uploaded images will be automagically compressed." ), '<span class="wp-smush-auto-enabled">', '</span>' ) : sprintf( esc_html__( "Automatic smushing is %sdisabled%s. Newly uploaded images will need to be manually smushed." ), '<span class="wp-smush-auto-disabled">', '</span>' );
+
+			//User API check, and display a message if not valid
+			$user_validation = $this->get_user_validation_message();
+
 			echo '<div class="smush-page-wrap">
 				<section id="header">
 					<div class="wp-smush-page-header">
 						<h1 class="wp-smush-page-heading">' . $page_heading . '</h1>
 						<div class="wp-smush-auto-message roboto-regular">' . $auto_smush_message . '</div>
-					</div>
-				</section>';
+					</div>' .
+					$user_validation .
+				'</section>';
 			//Check if settings were updated and shoe a notice
 			$this->settings_updated();
 
@@ -868,6 +861,22 @@ if ( ! class_exists( 'WpSmushBulkUi' ) ) {
 		function smush_page_footer() {
 			echo '</div><!-- End of Container wrap -->
 			</div> <!-- End of div wrap -->';
+		}
+
+		/**
+		* Returns a Warning message if API key is not validated
+		*
+		* @return string Warning Message to be displayed on Bulk Smush Page
+		*
+		*/
+		function get_user_validation_message( $notice = false ) {
+			$notice_class = $notice ? ' notice' : '';
+			$wpmu_contact = sprintf( '<a href="%s" target="_blank">', esc_url("https://premium.wpmudev.org/contact") );
+			$attr_message = esc_html__("Validating..", "wp-smushit");
+			$recheck_link = '<a href="#" id="wp-smush-revalidate-member" data-message="%s">';
+			$message = sprintf( esc_html__( "It looks like Smush couldn’t verify your WPMU DEV membership so Pro features like Super-Smush may not work correctly. If you think this is an error, run a %sre-check%s or get in touch with our %ssupport team%s.", "wp-smushit"), $recheck_link, '</a>', $wpmu_contact, '</a>' ) ;
+			$content = sprintf( '<div id="wp-smush-invalid-member" data-message="%s" class="hidden' . $notice_class . '"><div class="message">%s</div></div>', $attr_message, $message );
+			return $content;
 		}
 	}
 }

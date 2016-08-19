@@ -6,7 +6,7 @@ Description: CoursePress Pro turns WordPress into a powerful online learning pla
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
 Developers: Marko Miljus ( https://twitter.com/markomiljus ), Rheinard Korf ( https://twitter.com/rheinardkorf )
-Version: 1.3.4.1
+Version: 1.3.4.2
 TextDomain: cp
 Domain Path: /languages/
 WDP ID: 913071
@@ -67,7 +67,7 @@ if ( ! class_exists( 'CoursePress' ) ) {
 		 * @since 1.0.0
 		 * @var string
 		 */
-		public $version = '1.3.4.1';
+		public $version = '1.3.4.2';
 
 		/**
 		 * Plugin friendly name.
@@ -2159,26 +2159,32 @@ if ( ! class_exists( 'CoursePress' ) ) {
 				}
 			}
 
-			if ( cp_use_woo() && cp_redirect_woo_to_course() ) {
-				if ( isset( $post ) && $post->post_type == 'product' ) {
-					if ( isset( $post->post_parent ) ) {//parent course
-						if ( $post->post_parent !== 0 && get_post_type( $post->post_parent ) == 'course' ) {
-							$course = new Course( $post->post_parent );
+			/**
+			 * Redirect to course only when we are on singular enrtry.
+			 */
+			if ( is_singular() ) {
+				if ( cp_use_woo() && cp_redirect_woo_to_course() ) {
+					if ( isset( $post ) && $post->post_type == 'product' ) {
+						if ( isset( $post->post_parent ) ) {//parent course
+							if ( $post->post_parent !== 0 && get_post_type( $post->post_parent ) == 'course' ) {
+								$course = new Course( $post->post_parent );
+								wp_redirect( $course->get_permalink() );
+								exit;
+							}
+						}
+					}
+				} elseif( cp_redirect_mp_to_course() ) {
+					if ( isset( $post ) && $post->post_type == 'product' && $wp_query->is_single ) {
+						$course_id = (int) get_post_meta( $post->ID, 'course_id', true );
+						if ( !empty($course_id) ) {//related course
+							$course = new Course( $course_id );
 							wp_redirect( $course->get_permalink() );
 							exit;
 						}
 					}
 				}
-			} elseif( cp_redirect_mp_to_course() ) {
-				if ( isset( $post ) && $post->post_type == 'product' && $wp_query->is_single ) {
-					$course_id = (int) get_post_meta( $post->ID, 'course_id', true );
-					if ( !empty($course_id) ) {//related course
-						$course = new Course( $course_id );
-						wp_redirect( $course->get_permalink() );
-						exit;
-					}
-				}
 			}
+
 		}
 
 		function register_theme_directory() {
@@ -2982,7 +2988,7 @@ if ( ! class_exists( 'CoursePress' ) ) {
 					} else {
 						$args = array(
 							'slug'        => $wp->request,
-							'title'       => $unit->details->post_title,
+							'title'       => is_object( $unit->details )? $unit->details->post_title : __( 'Untitled Unit', 'cp' ),
 							'content'     => __( 'This Unit is not available at the moment. Please check back later.', 'cp' ),
 							'type'        => 'page',
 							'is_page'     => true,
@@ -5294,6 +5300,11 @@ if ( ! class_exists( 'CoursePress' ) ) {
 		function create_virtual_pages() {
 
 			$full_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+			if ( is_ssl() ) {
+				$full_url = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+			}
+
 			$site_url = site_url();
 
 			$uri = untrailingslashit( trim( ltrim( str_replace( $site_url, '', $full_url ), '/' ) ) );
@@ -5309,7 +5320,6 @@ if ( ! class_exists( 'CoursePress' ) ) {
 				$site_uri     = ltrim( $blog_details->path, '/' );
 				$match_uri    = str_replace( $site_uri, '', $uri );
 			}
-
 
 			$args = array(
 				'name'        => $uri,

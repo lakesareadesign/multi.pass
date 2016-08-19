@@ -29,8 +29,8 @@ class Inbound_Template_Utils {
     static function add_screen() {
         add_submenu_page(
             'edit.php?post_type=landing-page',
-            __( 'Developer Tools' , 'leads' ),
-            __( 'Developer Tools' , 'leads' ),
+            __( 'Developer Tools' , 'inbound-pro' ),
+            __( 'Developer Tools' , 'inbound-pro' ),
             'manage_options',
             'template_utils',
             array( __CLASS__ , 'html' )
@@ -43,7 +43,7 @@ class Inbound_Template_Utils {
             echo self::$activate_msg;
             exit;
         }
-        $keys = (isset($_GET['generate-template-id'])) ? array($_GET['generate-template-id']) : array();
+        $keys = (isset($_GET['generate-template-id'])) ? array(sanitize_text_field($_GET['generate-template-id'])) : array();
         //print_r($keys);
         //exit;
         //$keys = $_GET['acf_export_keys'];
@@ -194,8 +194,8 @@ class Inbound_Template_Utils {
                 }
                 echo "<label>Select the ACF options you wish to generate markup for</label>";
                 // render field
-                $acf_id = (isset($_GET['generate-template-id'])) ? $_GET['generate-template-id'] : false;
-                $template_name = (isset($_GET['template-name'])) ? $_GET['template-name'] : '';
+                $acf_id = (isset($_GET['generate-template-id'])) ? sanitize_text_field($_GET['generate-template-id']) : false;
+                $template_name = (isset($_GET['template-name'])) ? sanitize_text_field($_GET['template-name']) : '';
                 acf_render_field(array(
                     'type'      => 'select',
                     'name'      => 'generate_template',

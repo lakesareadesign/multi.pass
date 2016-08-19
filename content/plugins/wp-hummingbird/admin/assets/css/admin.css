@@ -306,12 +306,77 @@
     z-index: 9;
 }
 
+.wpmud .wphb-dashboard-caching-cloudflare-box p {
+	margin-top:30px;
+	margin-bottom:20px;
+}
+
+.wpmud #wphb-box-dashboard-cloudflare .cloudflare-step form label {
+	text-align: left;
+	font-weight: 400;
+	padding-left:0;
+	padding-right:0;
+}
+
+
+.wpmud .cloudflare-step form label input {
+	margin-top:10px;
+}
+
+.wpmud .cloudflare-step > p:first-child {
+	text-align:left;
+}
+
+.wpmud .cloudflare-spinner {
+	display: inline-block;
+	float:none;
+}
+.wpmud .cloudflare-step p.cloudflare-submit,
+.wpmud #cloudflare-how-to-title {
+	position:relative;
+	margin-top:11px;
+}
+
+.wpmud .cloudflare-step p.cloudflare-submit input[type="submit"] {
+	display: inline-block;
+	margin-top:0;
+}
+
+.wpmud #cloudflare-how-to {
+	clear:both;
+	margin-left:0;
+	list-style-position: inside;
+}
+
+.wpmud .cloudflare-step > p {
+	margin-bottom:30px;
+}
+.wpmud .cloudflare-step p.cloudflare-submit {
+	float:right;
+}
+.wpmud #cloudflare-how-to-title {
+	float:left;
+	line-height: 40px;
+}
+
+.wpmud .cloudflare-step .cloudflare-data {
+	text-align:left;
+	margin-top:30px;
+	margin-bottom:0;
+}
+
+.wpmud .cloudflare-data > span {
+	display:inline-block;
+	margin-right:20px;
+}
+
+
 /* Buttons */
 .wrap-wp-hummingbird .button-with-cta {
 	padding: 12px 20px 11px;
 }
 .wrap-wp-hummingbird .button-content-cta {
-	margin-top: 20px;
+	margin-top: 30px;
 }
 .wrap-wp-hummingbird .button-red-alt {
 	background: #fd6e70;
@@ -684,7 +749,7 @@
 	margin-left: auto;
 }
 .wpmud .wphb-image-icon-content-top {
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 
 /* Lists */
@@ -1038,7 +1103,7 @@
 }
 .wpmud .content-box-one-col-center .wphb-block-entry-content {
 	margin: 0 auto;
-	padding: 15px 0;
+	padding: 15px 0 0 0;
 }
 
 /* Box: Content w/Image (left) */
@@ -1082,6 +1147,9 @@
 .wpmud .wphb-block-content > *:last-child {
 	margin-bottom: 0;
 }
+#wphb-box-dashboard-cloudflare .wphb-block-entry  .wphb-block-entry-content {
+	padding-top: 0;
+}
 .wpmud .wphb-block-content-center {
 	text-align: center;
 }
@@ -1091,11 +1159,17 @@
 	border-radius: 5px;
 	margin: 0;
 	padding: 20px 30px;
-	white-space: pre-wrap;
-	word-break: break-word;
+	white-space: pre;
+	overflow-x: scroll;
+	max-width: 100%;
 }
 .wpmud .wphb-block-content-grey {
 	background-color: #FAFAFA;
+	border-radius: 5px;
+	padding: 20px 30px;
+}
+.wpmud .wphb-block-content-blue {
+	background-color: #e0f6ff;
 	border-radius: 5px;
 	padding: 20px 30px;
 }
@@ -1544,6 +1618,24 @@
 	text-align: center;
 	top: 50%;
 }
+#wphb-error-details {
+	display:none;
+}
+
+#wphb-error-details-link {
+	color:white;
+	text-decoration: none;
+	margin-top:10px;
+	margin-bottom:10px;
+	display:inline-block;
+	font-weight:400;
+}
+#wphb-error-details-link > .dashicons {
+	text-decoration:none;
+}
+#wphb-error-details-link.expanded {
+	display:none;
+}
 
 /* ****************************************************************************
  * 4. WELCOME / DASHBOARD
@@ -1614,6 +1706,53 @@
 
 .wpmud .box-dashboard-performance-module .dashboard-performance-report-table .wphb-performance-report-item > * {
 	cursor:pointer;
+}
+
+.wpmud #cloudflare-how-to-title,
+.wpmud #cloudflare-how-to {
+	text-align:left;
+}
+.wpmud #cloudflare-how-to a {
+	font-weight: 500;
+	text-decoration: underline;
+	color: inherit;
+}
+.wpmud #cloudflare-info {
+	clear:both;
+}
+.wpmud .cloudflare-submit {
+	margin-bottom:0;
+}
+.wpmud #cloudflare-zone .clear {
+	padding:0;
+}
+.wpmud #cloudflare-zone label {
+	margin-bottom:13px;
+}
+.wpmud #cloudflare-zone .cloudflare-submit {
+	margin-top:22.5px
+}
+.wpmud #cloudflare-steps .wphb-notice-success {
+	margin-top:0;
+}
+
+
+@media screen and (max-width: 1200px) and (min-width: 783px) {
+	.wpmud #cloudflare-how-to-title {
+		float:none;
+		display: block;
+		text-align: center;
+		margin-bottom:0;
+	}
+	.wpmud .cloudflare-step p.cloudflare-submit {
+		float:none;
+		position:relative;
+	}
+	.wpmud .cloudflare-step p.cloudflare-submit .cloudflare-spinner {
+		position:absolute;
+		right:0;
+		top: 10px;
+	}
 }
 
 /* ****************************************************************************
@@ -1703,6 +1842,13 @@
 }
 .wpmud .wphb-caching-error a {
 	text-decoration:underline;
+}
+.wpmud .wrap-wphb-caching .wphb-spinner {
+	float:none;
+	background-size: 15px 15px;
+}
+.wpmud .wphb-caching-cloudflare-box > p {
+	margin:30px 0 20px 0;
 }
 
 /* ****************************************************************************
@@ -2222,4 +2368,4 @@
 }
 
 
-/* 133620-1470955190-au */
+/* 133620-1471628115-au */

@@ -16,7 +16,29 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 		$results = array();
 		foreach ( $files as $type  => $file ) {
 
-			$result = wp_remote_head( $file );
+			$cookies = array();
+			foreach ( $_COOKIE as $name => $value ) {
+				if ( strpos( $name, 'wordpress_' ) > -1 ) {
+					$cookies[] = new WP_Http_Cookie( array( 'name' => $name, 'value' => $value ) );
+				}
+			}
+
+			$args = array(
+				'cookies' => $cookies,
+				'sslverify' => false
+			);
+
+			$result = wp_remote_head( $file, $args );
+
+			wphb_log( '----- analyzing headers for ' . $file, 'caching' );
+			wphb_log( 'args: ', 'caching' );
+			if ( isset( $args['cookies'] ) ) {
+				unset( $args['cookies'] );
+			}
+			wphb_log( $args, 'caching' );
+			wphb_log( 'result: ', 'caching' );
+			wphb_log( $result, 'caching' );
+
 			if ( is_wp_error( $result ) ) {
 				$headers = array();
 			} else {
@@ -33,6 +55,8 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 				}
 			}
 		}
+
+		do_action( 'wphb_caching_analice_data', $results );
 
 		return $results;
 	}
@@ -89,6 +113,8 @@ location ~* \.(jpg|jpeg|png|gif|swf|webp)$ {
 		return $code;
 	}
 
+
+
 	public function get_apache_code() {
 
 		$options = wphb_get_settings();
@@ -124,9 +150,7 @@ ExpiresDefault %%IMAGES%%
 </FilesMatch>
 </IfModule>
 
-<IfModule !mod_expires.c>
- <IfModule mod_headers.c>
-
+<IfModule mod_headers.c>
   <FilesMatch "\.(txt|xml|js)$">
    Header set Cache-Control "max-age=%%ASSETS_HEAD%%"
   </FilesMatch>
@@ -142,7 +166,6 @@ ExpiresDefault %%IMAGES%%
   <FilesMatch "\.(jpg|jpeg|png|gif|swf|webp)$">
    Header set Cache-Control "max-age=%%IMAGES_HEAD%%"
   </FilesMatch>
- </IfModule>
 </IfModule>';
 
 		$code = str_replace( '%%MEDIA%%', $media_expiration, $code );
@@ -156,6 +179,10 @@ ExpiresDefault %%IMAGES%%
 		$code = str_replace( '%%CSS_HEAD%%', ltrim( $css_expiration, 'A' ), $code );
 
 		return $code;
+	}
+
+	public function get_litespeed_code() {
+		return $this->get_apache_code();
 	}
 
 	public function get_iis_code() {

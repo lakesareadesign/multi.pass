@@ -68,11 +68,11 @@ class Inbound_Shortcodes {
 			}
 
 			wp_enqueue_script('jquery' );
-			wp_enqueue_script('jquery-cookie', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
-			wp_enqueue_script('jquery-total-storage', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
+			wp_enqueue_script('jquery-cookie', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.cookie.js', array( 'jquery' ) , false , true );
+			wp_enqueue_script('jquery-total-storage', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ) , false , true );
 			wp_enqueue_style('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/css/shortcodes.css');
 			wp_enqueue_script('jquery-ui-sortable' );
-			wp_enqueue_script('inbound-shortcodes-plugins', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes-plugins.js', array( 'jquery', 'jquery-cookie' ));
+			wp_enqueue_script('inbound-shortcodes-plugins', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes-plugins.js', array( 'jquery', 'jquery-cookie' ) , false , true );
 
 			if (isset($post)&&post_type_supports($post->post_type,'editor')||isset($post)&&'wp-call-to-action' === $post->post_type) {
 				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ), '1', true);
@@ -81,15 +81,16 @@ class Inbound_Shortcodes {
 				wp_dequeue_script('selectjs');
 				wp_dequeue_script('select2');
 				wp_dequeue_script('jquery-select2');
-				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', array( 'jquery' ));
+				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.js', array( 'jquery' ) , false , false );
 				wp_enqueue_style('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.css');
 			}
 
 			// Forms CPT only
 			if ((isset($post)&&'inbound-forms'=== $post->post_type)||( isset($_GET['post_type']) && $_GET['post_type']==='inbound-forms')) {
 				wp_enqueue_style('inbound-forms-css', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/css/form-cpt.css');
-				wp_enqueue_script('inbound-forms-cpt-js', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/form-cpt.js');
+				wp_enqueue_script('inbound-forms-cpt-js', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/form-cpt.js' , false , true );
 				wp_localize_script( 'inbound-forms-cpt-js', 'inbound_forms', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce'), 'form_cpt' => 'on' ) );
+				wp_deregister_script('heartbeat');
 			}
 
 			// Check for active plugins and localize
@@ -132,7 +133,7 @@ class Inbound_Shortcodes {
 	static function shortcodes_admin_head() { ?>
 		<script type="text/javascript">
 		/* <![CDATA[ */
-		// Load inline scripts var image_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', 'leads'); ?>";
+		// Load inline scripts var image_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', 'inbound-pro' ); ?>";
 		/* ]]> */
 		</script>
 		<?php
@@ -585,7 +586,7 @@ class Inbound_Shortcodes {
 		<div id="cpt-form-shortcode"><?php echo $popup;?></div>
 		<div id="cpt-form-serialize-default"><?php echo $form_serialize;?></div>
 		<div id="form-leads-list">
-			<h2><?php _e( 'Form Conversions' , INBOUNDNOW_TEXT_DOMAIN ); ?></h2>
+			<h2><?php _e( 'Form Conversions' , 'inbound-pro' ); ?></h2>
 			<ol id="form-lead-ul">
 				<?php
 
@@ -594,11 +595,11 @@ class Inbound_Shortcodes {
 					$lead_conversion_list = json_decode($lead_conversion_list,true);
 					foreach ($lead_conversion_list as $key => $value) {
 						$email = $lead_conversion_list[$key]['email'];
-						echo '<li><a title="'.__( 'View this Lead' , INBOUNDNOW_TEXT_DOMAIN ) .'" href="'.esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'lead-email-redirect' => $email ), 'edit.php' ) ) ).'">'.$lead_conversion_list[$key]['email'].'</a></li>';
+						echo '<li><a title="'.__( 'View this Lead' , 'inbound-pro' ) .'" href="'.esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'lead-email-redirect' => $email ), 'edit.php' ) ) ).'">'.$lead_conversion_list[$key]['email'].'</a></li>';
 					}
 
 				} else {
-					echo '<span id="no-conversions">'. __( 'No Conversions Yet!' , INBOUNDNOW_TEXT_DOMAIN ) .'</span>';
+					echo '<span id="no-conversions">'. __( 'No Conversions Yet!' , 'inbound-pro' ) .'</span>';
 				}
 				?>
 			</ol>
@@ -608,17 +609,17 @@ class Inbound_Shortcodes {
 
             if (defined('INBOUND_PRO_PATH')) {
             ?>
-            <h3><?php _e( 'Inbound Pro Users' , INBOUNDNOW_TEXT_DOMAIN ); ?></h3>
+            <h3><?php _e( 'Inbound Pro Users' , 'inbound-pro' ); ?></h3>
             <div class='' style='padding-left:20px;'>
 
-                <?php echo sprintf( __( 'To learn how to creat a follow email series please referrer to %s this document %s. ' , INBOUNDNOW_TEXT_DOMAIN ) , '<a href="http://docs.inboundnow.com/guide/creating-a-follow-up-email-using-inbound-now-as-an-autoresponder-marketing-automation/">', '</a>') ; ?>
+                <?php echo sprintf( __( 'To learn how to creat a follow email series please referrer to %s this document %s. ' , 'inbound-pro' ) , '<a href="http://docs.inboundnow.com/guide/creating-a-follow-up-email-using-inbound-now-as-an-autoresponder-marketing-automation/">', '</a>') ; ?>
             </div>
             <br>
             <?php
             }
             ?>
 
-			<h2><?php _e( 'Set Email Response to Send to the person filling out the form' , INBOUNDNOW_TEXT_DOMAIN ); ?></h2>
+			<h2><?php _e( 'Set Email Response to Send to the person filling out the form' , 'inbound-pro' ); ?></h2>
 			<?php
 			$values = get_post_custom( $post->ID );
 			$selected = isset( $values['inbound_email_send_notification'] ) ? esc_attr( $values['inbound_email_send_notification'][0] ) : "";
@@ -670,7 +671,7 @@ class Inbound_Shortcodes {
 		</div>
 		<div id="inbound-shortcodes-popup">
 			<div id="short_shortcode_form">
-				Copy Shortcode: <input type="text" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value='[inbound_forms id="<?php echo $post_id;?>" name="<?php echo $post_title;?>"]'>
+				Copy Shortcode: <input type="text" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value='[inbound_forms id="<?php echo $post_id;?>" name="<?php echo str_replace(array('[',']') , '' ,  $post_title );?>"]'>
 			</div>
 			<div id="inbound-shortcodes-wrap">
 						<div id="inbound-shortcodes-form-wrap">
@@ -685,7 +686,7 @@ class Inbound_Shortcodes {
 									<tbody style="display:none;">
 										<tr class="form-row" style="text-align: center;">
 											<?php if( ! $shortcode->has_child ) : ?><td class="label">&nbsp;</td><?php endif; ?>
-											<td class="field" style="width:500px;"><a href="#" id="inbound_insert_shortcode" class="button-primary inbound-shortcodes-insert"><?php _e('Insert Shortcode', 'leads'); ?></a></td>
+											<td class="field" style="width:500px;"><a href="#" id="inbound_insert_shortcode" class="button-primary inbound-shortcodes-insert"><?php _e('Insert Shortcode', 'inbound-pro' ); ?></a></td>
 										</tr>
 									</tbody>
 								</table>
@@ -694,13 +695,13 @@ class Inbound_Shortcodes {
 
 						<div id="inbound-shortcodes-preview-wrap">
 							<div id="inbound-shortcodes-preview-head">
-								<?php _e('Form Preview', 'leads'); ?>
+								<?php _e('Form Preview', 'inbound-pro' ); ?>
 							</div>
 							<?php if( $shortcode->no_preview ) : ?>
-								<div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', 'leads'); ?></div>
+								<div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', 'inbound-pro' ); ?></div>
 							<?php else :
 							    if ( isset($_REQUEST['post']) && is_int($_REQUEST['post'])  ) {
-								    $post_id = html_entity_decode( $_REQUEST['post'] );
+								    $post_id = intval( $_REQUEST['post'] );
                                 } else {
                                     $post_id = 0;
                                 }
@@ -713,7 +714,7 @@ class Inbound_Shortcodes {
 
 		</div>
 		<div id="popup-controls">
-					<a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', 'leads'); ?></a>
+					<a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', 'inbound-pro' ); ?></a>
 					<a href="#" id="shortcode_cancel" class="button inbound-shortcodes-insert-cancel">Cancel</a>
 					<a href="#" id="inbound_save_form" style="display:none;" class="button">Save As New Form</a>
 				</div>

@@ -3,7 +3,7 @@ Contributors: wysija
 Tags: newsletter, newsletters, email newsletter, email subscription, newsletter signup, post notification, autoresponder, newsletter alert, auto newsletter, automatic post notification, email newsletters, email signup, auto post notifications, newsletter widget, newsletter builder, subscribe widget, signup widget, email subscription, newsletter plugin, widget, subscription, emailing, mailpoet, wysija, mandrill, sendgrid
 Requires at least: 3.5
 Tested up to: 4.5.3
-Stable tag: 2.7.4
+Stable tag: 2.7.5
 Send newsletters post notifications or autoresponders from WordPress easily, and beautifully. Start to capture subscribers with our widget now.
 
 == Description ==
@@ -131,6 +131,9 @@ Our [support site](http://support.mailpoet.com/) has plenty of articles and a ti
 7. Importing subscribers with a CSV.
 
 == Changelog ==
+
+= 2.7.5 - 2016-08-18 =
+* Fixed subscription form widget
 
 = 2.7.4 - 2016-08-09 =
 * Fixed error appearing during newsletter creation

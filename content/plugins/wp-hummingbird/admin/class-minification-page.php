@@ -152,12 +152,12 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		$collection = wphb_minification_get_resources_collection();
 		$module = wphb_get_module( 'minify' );
 		if ( ( empty( $collection['styles'] ) && empty( $collection['scripts'] ) ) || wphb_minification_is_checking_files() || ! $module->is_active() ) {
-			$this->add_meta_box( 'enqueued-files-empty', __( 'Enqueued Files', 'wphb' ), array( $this, 'enqueued_files_empty_metabox' ), null, null, 'box-enqueued-files-empty', array( 'box_class' => 'dev-box content-box content-box-one-col-center') );
+			$this->add_meta_box( 'minification/enqueued-files-empty', __( 'Enqueued Files', 'wphb' ), array( $this, 'enqueued_files_empty_metabox' ), null, null, 'box-enqueued-files-empty', array( 'box_class' => 'dev-box content-box content-box-one-col-center') );
 		}
 		else {
-			$this->add_meta_box( 'enqueued-files', __( 'Enqueued Files', 'wphb' ), array( $this, 'enqueued_files_metabox' ), null, null, 'main', array( 'box_content_class' => 'box-content no-side-padding', 'box_footer_class' => 'box-footer') );
-			$this->add_meta_box( 'output-header', __( 'Output (Header)', 'wphb' ), array( $this, 'output_header_metabox' ), array( $this, 'output_header_header_metabox' ), null, 'main-2' );
-			$this->add_meta_box( 'output-footer', __( 'Output (Footer)', 'wphb' ), array( $this, 'output_footer_metabox' ), array( $this, 'output_header_footer_metabox' ), null, 'main-2' );
+			$this->add_meta_box( 'minification/enqueued-files', __( 'Enqueued Files', 'wphb' ), array( $this, 'enqueued_files_metabox' ), null, null, 'main', array( 'box_content_class' => 'box-content no-side-padding', 'box_footer_class' => 'box-footer') );
+			$this->add_meta_box( 'minification/output-header', __( 'Output (Header)', 'wphb' ), array( $this, 'output_header_metabox' ), array( $this, 'output_header_header_metabox' ), null, 'main-2' );
+			$this->add_meta_box( 'minification/output-footer', __( 'Output (Footer)', 'wphb' ), array( $this, 'output_footer_metabox' ), array( $this, 'output_header_footer_metabox' ), null, 'main-2' );
 		}
 	}
 
@@ -167,7 +167,7 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		//$user = $user->user_nicename;
 		$user = wphb_get_current_user_info();
 		$checking_files = wphb_minification_is_checking_files();
-		$this->view( 'minification-enqueued-files-empty-meta-box', array( 'user' => $user, 'checking_files' => $checking_files ) );
+		$this->view( 'minification/enqueued-files-empty-meta-box', array( 'user' => $user, 'checking_files' => $checking_files ) );
 	}
 
 	public function enqueue_scripts( $hook ) {
@@ -203,7 +203,7 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		}
 
 		$args = compact( 'collection', 'styles_rows', 'scripts_rows', 'selector_filter' );
-		$this->view( 'minification-enqueued-files-meta-box', $args );
+		$this->view( 'minification/enqueued-files-meta-box', $args );
 	}
 
 
@@ -302,7 +302,7 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 			$disable_switchers = apply_filters( 'wphb_minification_disable_switchers', $disable_switchers, $item, $type );
 
 			$args = compact( 'item', 'options', 'type', 'position', 'base_name', 'original_size', 'compressed_size', 'rel_src', 'full_src', 'ext', 'row_error', 'disable_switchers', 'filter' );
-			$content .= $this->view( 'minification-enqueued-files-rows', $args, false );
+			$content .= $this->view( 'minification/enqueued-files-rows', $args, false );
 		}
 
 		return $content;
@@ -335,11 +335,11 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 	}
 
 	public function output_header_metabox() {
-		$this->view( 'minification-output-header-meta-box', $this->_get_output_data() );
+		$this->view( 'minification/output-header-meta-box', $this->_get_output_data() );
 	}
 
 	public function output_footer_metabox() {
-		$this->view( 'minification-output-footer-meta-box', $this->_get_output_data() );
+		$this->view( 'minification/output-footer-meta-box', $this->_get_output_data() );
 	}
 
 	public function output_header_header_metabox() {

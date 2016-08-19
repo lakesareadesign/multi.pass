@@ -60,7 +60,7 @@
                                         value: value
                                     }
                                 }
-                            }).done( function() {
+                            }).done( function(response) {
                                 // And reload the code snippet
                                 self.reloadSnippets();
                             });
@@ -85,6 +85,10 @@
                 $('.apache-instructions').slideToggle();
             });
 
+            $( '#toggle-litespeed-instructions').click( function( e ) {
+                e.preventDefault();
+                $('.litespeed-instructions').slideToggle();
+            });
 
 
             return this;
@@ -121,7 +125,7 @@
                 this.$serverInstructions[ server ].show();
             }
 
-            if ( 'apache' == server ) {
+            if ( 'apache' == server || 'LiteSpeed' == server ) {
                 $( '#enable-cache-wrap').show();
             }
             else {

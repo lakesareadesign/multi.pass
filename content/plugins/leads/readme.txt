@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools
 Requires at least: 3.8
-Tested up to: 4.5.2
-Stable Tag: 2.1.9
+Tested up to: 4.6
+Stable Tag: 2.2.5
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -85,7 +85,16 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
-= 2.1.9 = 
+= 2.2.5 =
+* Added inbound_page_views & now monitoring page view reports.
+* Added better sanitation of _GET, _REQUEST, & POST variables.
+* Better CSV exporting (supports batching)
+* Prevent non admins from managing lead lists inside their profile.
+
+= 2.2.0 =
+* Updating Shared Folder. No real changes.
+
+= 2.1.9 =
 * UI Improvements
 
 = 2.1.8 = 

@@ -4,6 +4,24 @@ Tested up to: 4.6
 
 Change Log:
 
+1.3.1 - 2016-08-17
+----------------------------------------------------------------------
+- Fix: CloudFlare was only showing 20 sites max
+- Fix: Parse error in PHP < 5.3 installations
+
+1.3 - 2016-08-15
+----------------------------------------------------------------------
+- New: CloudFlare integration
+- New: LiteSpeed server detection
+- Enhance: Clear minification cache when a plugin/theme is activated/deactivated
+- Enhance: New better Javascript compressor
+- Enhance: Plugin performance improvements
+- Enhance: Better Uptime error display
+- Fixed: Notice in minification screen when a plugin was deleted manually
+- Fixed: replaced buttons by inputs as sometimes settings cannot be submitted in minification screen
+- Fixed: Some minified URLs where prepended 'http' even if they had already http prepended
+- Fixed: Some admin styles
+
 1.2.4 - 2016-08-10
 ----------------------------------------------------------------------
 - Fixed fatal error on activation when PHP version is < 5.3
@@ -84,4 +102,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1470955190-au
+133620-1471628115-au
