@@ -38,10 +38,4 @@ if ( ! function_exists( 'woothemes_add_css' ) ) {
 	} // End woothemes_add_css()
 }
 
-add_action('wp_head','html5_shiv');
-function html5_shiv() {
-	echo '<!--[if lte IE 8]>';
-	echo '<script src="' . esc_url( 'https://html5shiv.googlecode.com/svn/trunk/html5.js' ) . '"></script>'. "\n";
-	echo '<![endif]-->';
-}
 ?>

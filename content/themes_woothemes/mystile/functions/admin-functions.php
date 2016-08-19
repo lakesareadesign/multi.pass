@@ -2322,8 +2322,9 @@ if ( ! function_exists( 'woo_pagination' ) ) {
 		} // End IF Statement
 
 		/* If there's not more than one page, return nothing. */
-		if ( 1 >= $wp_query->max_num_pages )
+		if ( 1 >= $wp_query->max_num_pages ) {
 			return;
+		}
 
 		/* Get the current page. */
 		$current = ( get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1 );
@@ -2355,12 +2356,14 @@ if ( ! function_exists( 'woo_pagination' ) ) {
 		$defaults = apply_filters( 'woo_pagination_args_defaults', $defaults );
 
 		/* Add the $base argument to the array if the user is using permalinks. */
-		if( $wp_rewrite->using_permalinks() && ! is_search() )
+		if( $wp_rewrite->using_permalinks() && ! is_search() ) {
 			$defaults['base'] = user_trailingslashit( trailingslashit( get_pagenum_link() ) . 'page/%#%' );
+		}
 
 		/* Force search links to use raw permastruct for more accurate multi-word searching. */
-		if ( is_search() )
+		if ( is_search() ) {
 			$defaults['use_search_permastruct'] = false;
+		}
 
 		/* If we're on a search results page, we need to change this up a bit. */
 		if ( is_search() ) {
@@ -2396,10 +2399,11 @@ if ( ! function_exists( 'woo_pagination' ) ) {
 
 		preg_match( $pattern, $args['base'], $raw_querystring );
 
-		if( $wp_rewrite->using_permalinks() && $raw_querystring )
+		if( $wp_rewrite->using_permalinks() && $raw_querystring ) {
 			$raw_querystring[0] = str_replace( '', '', $raw_querystring[0] );
 			@$args['base'] = str_replace( $raw_querystring[0], '', $args['base'] );
 			@$args['base'] .= substr( $raw_querystring[0], 0, -1 );
+		}
 
 		/* Get the paginated links. */
 		$page_links = paginate_links( $args );
@@ -2416,10 +2420,11 @@ if ( ! function_exists( 'woo_pagination' ) ) {
 		do_action( 'woo_pagination_end' );
 
 		/* Return the paginated links for use in themes. */
-		if ( $args['echo'] )
+		if ( $args['echo'] ) {
 			echo $page_links;
-		else
+		} else {
 			return $page_links;
+		}
 	} // End woo_pagination()
 } // End IF Statement
 
