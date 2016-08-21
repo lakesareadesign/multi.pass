@@ -1,9 +1,9 @@
 === WP Multi Network ===
 Contributors: johnjamesjacoby, ddean, BrianLayman, rmccue
 Tags: network, networks, blog, blogs, site, sites, domain, domains, mapping, domain mapping, fun
-Requires at least: 4.4
-Tested up to: 4.4
-Stable tag: 1.7.0
+Requires at least: 4.6
+Tested up to: 4.7
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9Q4F4EL5YJ62J
@@ -20,12 +20,6 @@ WP Multi Network allows global administrators to create new networks with their 
 * Activate in the "Plugins" network admin panel using the "Network Activate" link.
 * Comment out the `DOMAIN_CURRENT_SITE` line in your `wp-config.php` file. If you don't have this line, you probably need to <a href="https://codex.wordpress.org/Create_A_Network">enable multisite</a>.
 * Start planning and creating your networks.
-
-== Screenshots ==
-
-1. List Table
-2. Add New Network
-3. Edit existing network
 
 == Frequently Asked Questions ==
 
@@ -65,6 +59,17 @@ Just leave this plugin network-activated (or in mu-plugins) and it will take car
 Not much to talk about really. Check the code for details!
 
 == Changelog ==
+
+= 1.8.1 =
+* Fix site reassignment metabox from moving sites incorrectly
+
+= 1.8.0 =
+* Support for core compat functions
+* Fix bug causing site moves to break
+* Fix bug allowing duplicate site URLs
+* Remove _network_option() functions
+* Remove network.zero placeholder
+* WordPress 4.5 & 4.6 compatibility updates
 
 = 1.7.0 =
 * WordPress 4.4 compatibility updates

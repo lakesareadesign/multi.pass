@@ -3,7 +3,7 @@
 /**
  * Metaboxes related to editing a network
  *
- * @package Networks/Metaboxes/Network/Edit
+ * @package Plugins/Networks/Metaboxes/Network/Edit
  */
 
 // Exit if accessed directly
@@ -117,12 +117,12 @@ function wpmn_edit_network_assign_sites_metabox( $network = null ) {
 		</thead>
 		<tr>
 			<td class="column-available">
-				<p class="description"><?php esc_html_e( 'Subsites of other networks, and orphaned sites with no networks.', 'wp-multi-network' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Subsites in other networks & orphaned sites without networks.', 'wp-multi-network' ); ?></p>
 				<select name="from[]" id="from" multiple>
 
 					<?php foreach ( $sites as $site ) : ?>
 
-						<?php if ( ( $site->site_id !== $network->id ) && ! is_main_site_for_network( $site->blog_id ) ) : ?>
+						<?php if ( ( (int) $site->site_id !== (int) $network->id ) && ! is_main_site_for_network( $site->blog_id ) ) : ?>
 
 							<option value="<?php echo esc_attr( $site->blog_id ); ?>">
 								<?php echo esc_html( sprintf( '%1$s (%2$s%3$s)', $site->name, $site->domain, $site->path ) ); ?>
@@ -144,7 +144,7 @@ function wpmn_edit_network_assign_sites_metabox( $network = null ) {
 
 					<?php foreach ( $sites as $site ) : ?>
 
-						<?php if ( $site->site_id === $network->id ) : ?>
+						<?php if ( (int) $site->site_id === (int) $network->id ) : ?>
 
 							<option value="<?php echo esc_attr( $site->blog_id ); ?>" <?php disabled( is_main_site_for_network( $site->blog_id ) ); ?>>
 								<?php echo esc_html( sprintf( '%1$s (%2$s%3$s)', $site->name, $site->domain, $site->path ) ); ?>
