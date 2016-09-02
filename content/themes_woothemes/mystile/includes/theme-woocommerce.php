@@ -345,9 +345,12 @@ function mystile_recent_products() {
 /* AJAX FRAGMENTS */
 /*-------------------------------------------------------------------------------------------*/
 
-add_filter( 'add_to_cart_fragments', 'header_add_to_cart_fragment' );
+if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.3', '>=' ) ) {
+	add_filter( 'woocommerce_add_to_cart_fragments', 'header_add_to_cart_fragment' );
+} else {
+	add_filter( 'add_to_cart_fragments', 'header_add_to_cart_fragment' );
+}
 function header_add_to_cart_fragment( $fragments ) {
-	global $woocommerce;
 	ob_start();
 	woocommerce_cart_link();
 	$fragments['li.cart'] = ob_get_clean();
@@ -356,14 +359,13 @@ function header_add_to_cart_fragment( $fragments ) {
 
 // Handle cart in header fragment for ajax add to cart
 function woocommerce_cart_link() {
-	global $woocommerce;
 	?>
 	<li class="cart">
-	<a href="<?php echo $woocommerce->cart->get_cart_url(); ?>" title="<?php _e('View your shopping cart', 'woothemes'); ?>" class="cart-parent">
+	<a href="<?php echo wc_get_cart_url(); ?>" title="<?php _e('View your shopping cart', 'woothemes'); ?>" class="cart-parent">
 		<span>
 	<?php
-	echo $woocommerce->cart->get_cart_total();
-	echo '<span class="contents">' . sprintf(_n('%d item', '%d items', $woocommerce->cart->get_cart_contents_count(), 'woothemes'), $woocommerce->cart->get_cart_contents_count()) . '</span>';
+	echo WC()->cart->get_cart_subtotal();
+	echo '<span class="contents">' . sprintf(_n('%d item', '%d items', WC()->cart->get_cart_contents_count(), 'woothemes'), WC()->cart->get_cart_contents_count() ) . '</span>';
 	?>
 	</span>
 	</a>

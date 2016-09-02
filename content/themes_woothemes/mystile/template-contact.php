@@ -14,13 +14,14 @@ if ( ! empty( $_SERVER['SCRIPT_FILENAME'] ) && basename( __FILE__ ) == basename(
  * @package WooFramework
  * @subpackage Template
  */
- 
+
 global $woo_options;
 get_header();
- 
+
 $nameError = '';
 $emailError = '';
 $commentError = '';
+$mathCheck = '';
 
 //If the form is submitted
 if( isset( $_POST['submitted'] ) ) {
@@ -30,23 +31,31 @@ if( isset( $_POST['submitted'] ) ) {
 		$captchaError = true;
 	} else {
 
+		// Check math field
+		if( $_POST['mathCheck'] != 9 && strcasecmp( $_POST['mathCheck'], 'nine' ) != 0  ) {
+			$mathCheck = __( 'You got the maths wrong.', 'woothemes' );
+			$hasError = true;
+		} else {
+			$math = trim( $_POST['mathCheck'] );
+		}
+
 		//Check to make sure that the name field is not empty
 		if( trim( $_POST['contactName'] ) === '' ) {
 			$nameError =  __( 'You forgot to enter your name.', 'woothemes' );
 			$hasError = true;
 		} else {
-			$name = trim( $_POST['contactName'] );
+			$name = strip_tags( trim( $_POST['contactName'] ) );
 		}
 
 		//Check to make sure sure that a valid email address is submitted
 		if( trim( $_POST['email'] ) === '' )  {
 			$emailError = __( 'You forgot to enter your email address.', 'woothemes' );
 			$hasError = true;
-		} else if ( ! preg_match( "^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$", trim($_POST['email'] ) ) ) {
+		} else if ( ! is_email( sanitize_email( $_POST['email'] ) ) ) {
 			$emailError = __( 'You entered an invalid email address.', 'woothemes' );
 			$hasError = true;
 		} else {
-			$email = trim( $_POST['email'] );
+			$email = sanitize_email( trim( $_POST['email'] ) );
 		}
 
 		//Check to make sure comments were entered
@@ -54,23 +63,33 @@ if( isset( $_POST['submitted'] ) ) {
 			$commentError = __( 'You forgot to enter your comments.', 'woothemes' );
 			$hasError = true;
 		} else {
-			$comments = stripslashes( trim( $_POST['comments'] ) );
+			$comments = sanitize_text_field( stripslashes( trim( $_POST['comments'] ) ) );
 		}
 
 		//If there is no error, send the email
-		if( ! isset( $hasError ) ) {
+		if ( ! isset( $hasError ) ) {
 
 			$emailTo = get_option( 'woo_contactform_email' );
 			$subject = __( 'Contact Form Submission from ', 'woothemes' ).$name;
-			$sendCopy = trim( $_POST['sendCopy'] );
-			$body = __( "Name: $name \n\nEmail: $email \n\nComments: $comments", 'woothemes' );
+
+			$sendCopy = false;
+			if ( isset( $_POST['sendCopy'] ) && $_POST['sendCopy'] !== '' ) {
+				$sendCopy = true;
+			}
+
+			$body = sprintf( __( "Name: %s \n\nEmail: %s \n\nComments: %s", 'woothemes' ), $name, $email, $comments );
 			$headers = __( 'From: ', 'woothemes') . "$name <$email>" . "\r\n" . __( 'Reply-To: ', 'woothemes' ) . $email;
 
 			wp_mail( $emailTo, $subject, $body, $headers );
 
-			if( $sendCopy == true ) {
+			if ( $sendCopy == true ) {
+				$nameTo = get_option( 'woo_contact_title' );
+				if ( '' == trim( $nameTo ) ) {
+					$nameTo = get_bloginfo( 'name' );
+				}
+				$nameTo = strip_tags( trim( $nameTo ) );
 				$subject = __( 'You emailed ', 'woothemes' ) . get_bloginfo( 'title' );
-				$headers = __( 'From: ', 'woothemes' ) . "$name <$emailTo>";
+				$headers = __( 'From: ', 'woothemes' ) . "$nameTo <$emailTo>";
 				wp_mail( $email, $subject, $body, $headers );
 			}
 
@@ -87,18 +106,26 @@ jQuery(document).ready(function() {
 		jQuery( 'form#contactForm .error').remove();
 		var hasError = false;
 		jQuery( '.requiredField').each(function() {
-			if(jQuery.trim(jQuery(this).val()) == '') {
-				var labelText = jQuery(this).prev( 'label').text();
-				jQuery(this).parent().append( '<span class="error"><?php _e( 'You forgot to enter your', 'woothemes' ); ?> '+labelText+'.</span>' );
-				jQuery(this).addClass( 'inputError' );
-				hasError = true;
-			} else if(jQuery(this).hasClass( 'email')) {
-				var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-				if(!emailReg.test(jQuery.trim(jQuery(this).val()))) {
-					var labelText = jQuery(this).prev( 'label').text();
-					jQuery(this).parent().append( '<span class="error"><?php _e( 'You entered an invalid', 'woothemes' ); ?> '+labelText+'.</span>' );
+			if(jQuery(this).hasClass('math')) {
+				if( jQuery.trim(jQuery(this).val()) != 9 && jQuery.trim(jQuery(this).val()).toLowerCase() != 'nine' ) {
+					jQuery(this).parent().append( '<span class="error"><?php _e( 'You got the maths wrong', 'woothemes' ); ?>.</span>' );
 					jQuery(this).addClass( 'inputError' );
 					hasError = true;
+				}
+			} else {
+				if(jQuery.trim(jQuery(this).val()) == '') {
+					var labelText = jQuery(this).prev( 'label').text();
+					jQuery(this).parent().append( '<span class="error"><?php _e( 'You forgot to enter your', 'woothemes' ); ?> '+labelText+'.</span>' );
+					jQuery(this).addClass( 'inputError' );
+					hasError = true;
+				} else if(jQuery(this).hasClass( 'email')) {
+					var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+					if(!emailReg.test(jQuery.trim(jQuery(this).val()))) {
+						var labelText = jQuery(this).prev( 'label').text();
+						jQuery(this).parent().append( '<span class="error"><?php _e( 'You entered an invalid', 'woothemes' ); ?> '+labelText+'.</span>' );
+						jQuery(this).addClass( 'inputError' );
+						hasError = true;
+					}
 				}
 			}
 		});
@@ -106,7 +133,7 @@ jQuery(document).ready(function() {
 			var formInput = jQuery(this).serialize();
 			jQuery.post(jQuery(this).attr( 'action'),formInput, function(data){
 				jQuery( 'form#contactForm').slideUp( "fast", function() {
-					jQuery(this).before( '<p class="tick"><?php _e( '<strong>Thanks!</strong> Your email was successfully sent.', 'woothemes' ); ?></p>' );
+					jQuery(this).before( '<?php echo do_shortcode( '[box type="tick"]' . __( '<strong>Thanks!</strong> Your email was successfully sent.', 'woothemes' ) . '[/box]' ); ?>' );
 				});
 			});
 		}
@@ -203,6 +230,14 @@ jQuery(document).ready(function() {
                                     <span class="error"><?php echo $commentError; ?></span>
                                 <?php } ?>
                             </li>
+
+                            <li><label for="mathCheck"><?php _e( 'Solve:', 'woothemes' ); ?> 3 + 6</label>
+                                <input type="text" name="mathCheck" id="mathCheck" value="<?php if( isset( $_POST['mathCheck'] ) ) { echo esc_attr( $_POST['mathCheck'] ); } ?>" class="txt requiredField math" />
+                                <?php if($mathCheck != '') { ?>
+                                    <span class="error"><?php echo $mathCheck;?></span>
+                                <?php } ?>
+                            </li>
+
                             <li class="inline"><input type="checkbox" name="sendCopy" id="sendCopy" value="true"<?php if( isset( $_POST['sendCopy'] ) && $_POST['sendCopy'] == true ) { echo ' checked="checked"'; } ?> /><label for="sendCopy"><?php _e( 'Send a copy of this email to yourself', 'woothemes' ); ?></label></li>
                             <li class="screenReader"><label for="checking" class="screenReader"><?php _e( 'If you want to submit this form, do not enter anything in this field', 'woothemes' ); ?></label><input type="text" name="checking" id="checking" class="screenReader" value="<?php if( isset( $_POST['checking'] ) ) { echo esc_attr( $_POST['checking'] ); } ?>" /></li>
                             <li class="buttons"><input type="hidden" name="submitted" id="submitted" value="true" /><input class="submit button" type="submit" value="<?php esc_attr_e( 'Submit', 'woothemes' ); ?>" /></li>
