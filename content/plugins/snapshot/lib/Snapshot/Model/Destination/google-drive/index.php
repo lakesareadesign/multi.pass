@@ -822,7 +822,7 @@ if ( ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) ) && ( version_compare
 											//echo "access_token<pre>"; "[". $this->destination_info['access_token'] ."]<br />";
 											if ( ! empty( $this->destination_info['access_token'] ) ) {
 												?>
-												<p><?php _e( 'Success. The Google Access Token has been received. <strong>You must save this form one last time to retain the token.</strong> The stored toekn will be used in the future when connecting to Google', SNAPSHOT_I18N_DOMAIN ); ?></p>
+												<p><?php _e( 'Success. The Google Access Token has been received. <strong>You must save this form one last time to retain the token.</strong> The stored token will be used in the future when connecting to Google', SNAPSHOT_I18N_DOMAIN ); ?></p>
 												<input type="hidden" name="snapshot-destination[access_token]"
 												       id="snapshot-destination-access_token"
 												       value="<?php echo urlencode( $this->destination_info['access_token'] ) ?>" /><?php

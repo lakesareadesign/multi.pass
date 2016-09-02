@@ -6,6 +6,7 @@ if (!defined('LEADIN_PLUGIN_VERSION')) {
 
 if (is_admin()) {
     add_action('wp_ajax_leadin_registration_ajax', 'leadin_registration_ajax'); // Call when user logged in
+    add_action('wp_ajax_leadin_deregistration_ajax', 'leadin_deregistration_ajax');
 }
 
 function leadin_registration_ajax()
@@ -40,6 +41,13 @@ function leadin_registration_ajax()
     if (!empty($slumberMode)) {
         add_option('leadin_slumber_mode', $slumberMode);
     }
+
+    wp_die('{"message": "Success!"}');
+}
+
+function leadin_deregistration_ajax() {
+    delete_option('leadin_portalId');
+    delete_option('leadin_hapikey');
 
     wp_die('{"message": "Success!"}');
 }

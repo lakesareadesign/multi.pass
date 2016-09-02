@@ -144,7 +144,7 @@ function incsub_support_register_main_script() {
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
 		$suffix = '';
 
-	wp_register_script( 'support-system', INCSUB_SUPPORT_PLUGIN_URL . '/assets/js/support-system' . $suffix . '.js', array( 'jquery' ), incsub_support_get_version(), true );
+	wp_register_script( 'support-system', INCSUB_SUPPORT_PLUGIN_URL . 'assets/js/support-system' . $suffix . '.js', array( 'jquery' ), incsub_support_get_version(), true );
 
 	$l10n = array(
 		'ajaxurl' => admin_url( 'admin-ajax.php' )
@@ -166,4 +166,18 @@ function incsub_support_enqueue_foundation_scripts( $in_footer = true ) {
 		$suffix = '';
 
 	wp_enqueue_script( 'support-system-foundation-js', INCSUB_SUPPORT_PLUGIN_URL . 'assets/js/foundation' . $suffix . '.js', array( 'jquery' ), incsub_support_get_version(), $in_footer );
+}
+
+
+/**
+ * Adds an integration class to Support System
+ *
+ * @param $classname The class name of the integrator
+ */
+function incsub_support_add_integrator( $classname ) {
+	if ( class_exists( $classname ) ) {
+		$plugin = incsub_support();
+		$r = new ReflectionClass( $classname );
+		$plugin->add_integrator( $r->newInstance() );
+	}
 }

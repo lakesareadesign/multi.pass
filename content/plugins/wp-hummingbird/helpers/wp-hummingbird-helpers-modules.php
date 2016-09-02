@@ -177,11 +177,7 @@ function wphb_smush_get_install_url() {
 }
 
 function wphb_has_cloudflare( $force = false ) {
-	/** @var WP_Hummingbird_Module_Cloudflare $cloudflare */
-	$cloudflare = wphb_get_module( 'cloudflare' );
-	if ( $cloudflare ) {
-		WP_Hummingbird_Module_Cloudflare::has_cloudflare( $force );
-	}
+	WP_Hummingbird_Module_Cloudflare::has_cloudflare( $force );
 }
 
 function wphb_cloudflare_disconnect() {

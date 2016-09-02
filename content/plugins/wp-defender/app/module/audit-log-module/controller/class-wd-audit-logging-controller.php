@@ -16,6 +16,7 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 		//cache for theme deleted
 		$this->add_ajax_action( 'wd_toggle_audit_log', 'toggle_audit' );
 		if ( WD_Utils::get_setting( 'audit_log->enabled', 0 ) == 1 ) {
+			$this->add_ajax_action( 'wd_audit_suggest_user_name', 'suggest_user_name' );
 			$this->add_action( 'delete_site_transient_update_themes', 'cache_theme_transient' );
 			$this->add_action( 'wp_loaded', 'setup_events', 1 );
 			$this->add_action( 'shutdown', 'submit_events' );
@@ -23,6 +24,30 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			$this->add_action( 'wd_audit_send_report', 'send_report_email' );
 			$this->add_action( 'wp_loaded', 'listen_for_plugins_themes_content' );
 		}
+	}
+
+	public function suggest_user_name() {
+		if ( ! WD_Utils::check_permission() ) {
+			return;
+		}
+		$args    = array(
+			'search'         => '*' . WD_Utils::http_post( 'term' ) . '*',
+			'search_columns' => array( 'user_login' ),
+			'number'         => 10,
+			'orderby'        => 'user_login',
+			'order'          => 'ASC'
+		);
+		$query   = new WP_User_Query( $args );
+		$results = array();
+		foreach ( $query->get_results() as $row ) {
+			$results[] = array(
+				'id'    => $row->user_login,
+				'label' => '<span class="name title">' . WD_Utils::get_full_name( $row->user_email ) . '</span> <span class="email">' . $row->user_email . '</span>',
+				'thumb' => WD_Utils::get_avatar_url( get_avatar( $row->user_email ) )
+			);
+		}
+		echo json_encode( $results );
+		exit;
 	}
 
 	public function listen_for_plugins_themes_content() {
@@ -325,6 +350,11 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 	}
 
 	public function setup_events() {
+		//we don't setup event when in CRON
+		if ( defined( 'DOING_CRON' ) && constant( 'DOING_CRON' ) == true ) {
+			return;
+		}
+
 		$events_class = array(
 			new WD_Users_Audit(),
 			new WD_Media_Audit(),
@@ -420,9 +450,23 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 		if ( $this->is_in_page() ) {
 			WDEV_Plugin_Ui::load( wp_defender()->get_plugin_url() . 'shared-ui/', false );
 			wp_enqueue_style( 'wp-defender' );
-			wp_localize_script( 'wp-defender', 'audit_logging', array(
-				'date_format' => WD_Utils::convert_date_format_jQuery( 'd/m/Y' )
-			) );
+			$data = array(
+				'date_format' => WD_Utils::convert_date_format_jQuery( WD_Audit_API::get_date_format() )
+			);
+			if ( WD_Utils::http_get( 'user_id', false ) !== false ) {
+				$user_id = WD_Utils::http_get( 'user_id' );
+				if ( ! filter_var( $user_id, FILTER_VALIDATE_INT ) ) {
+					$user = get_user_by( 'login', $user_id );
+				} else {
+					$user = get_user_by( 'id', $user_id );
+				}
+				if ( is_object( $user ) ) {
+					$user_label         = sprintf( '<span style="background-image:url(%s)" class="thumb"></span><span class="name title">%s</span>',
+						WD_Utils::get_avatar_url( get_avatar( $user->ID ) ), WD_Utils::get_user_name( $user->ID ) );
+					$data['user_label'] = $user_label;
+				}
+			}
+			wp_localize_script( 'wp-defender', 'audit_logging', $data );
 			wp_enqueue_script( 'wp-defender' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 		}

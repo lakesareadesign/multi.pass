@@ -1508,6 +1508,7 @@
 			
 			parent.removeClass('fl-col-group-align-top');
 			parent.removeClass('fl-col-group-align-center');
+			parent.removeClass('fl-col-group-align-bottom');
 			
 			if(this.elements.columnHeight.val() == 'yes') {
 				parent.addClass('fl-col-group-equal-height');

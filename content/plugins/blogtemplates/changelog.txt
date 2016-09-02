@@ -1,11 +1,16 @@
 Plugin Name: New Blog Templates
 Author: WPMU DEV
 Requires at least: 3.8
-Tested up to: 4.5.1
+Tested up to: 4.6
 
 Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+
+2.8.3 - 2016-08-29
+----------------------------------------------------------------------
+- Fix: Termmeta table not copying
+- Fix: RTL admin styles
 
 2.8.2 - 2016-05-05
 ----------------------------------------------------------------------
@@ -387,4 +392,4 @@ templates in Blogs Directory list
 - Bug fix: blog template admin email exported to new blogs
 
 
-133620-1462466948-au
+133620-1472790813-au

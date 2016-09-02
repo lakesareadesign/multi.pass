@@ -829,7 +829,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			}
 
 			$this->error_array['responseArray'][] = "Changing Directory: " . $directory;
-			if ( $this->destination_info['protocol'] == "yes" ) {
+			if ( $this->destination_info['protocol'] == "sftp" ) {
 
 				if ( ! $this->sftp_connection ) {
 					return false;

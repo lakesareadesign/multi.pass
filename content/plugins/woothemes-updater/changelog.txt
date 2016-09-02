@@ -1,5 +1,8 @@
 *** WooThemes Helper Changelog ***
 
+2016.08.31 - version 1.7.1
+ * Adds a check to ensure we're on the 'woothemes-helper' page, before validating and storing the Helper master key.
+
 2016.07.27 - version 1.7.0
  * New ‘connect to WooCommerce.com functionality’
  * Various connection/activation bug fixes

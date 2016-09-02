@@ -96,7 +96,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 				$this->_revert( $htacces_path, 'uploads' );
 			}
 		}
-		if ( $this->is_ajax() ) {
+		if ( $this->is_ajax() && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 			wp_send_json( array(
 				'status'  => 1,
 				'revert'  => 1,

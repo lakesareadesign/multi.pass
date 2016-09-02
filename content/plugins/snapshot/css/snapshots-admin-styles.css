@@ -237,5 +237,17 @@ tr.snapshot-log-item {
     padding: 2px;
 }
 
+#snapshot-full_backups-panel header h2 span:after {
+	display: inline-block;
+	content: '\03b2 eta';
+	background: #d54e21;
+	color: #fff;
+	padding: 2px 4px;
+	margin-left: .5em;
+	font-size: .7em;
+	height: 1.2em;
+	line-height: 1.2em;
+}
 
-/* 133620-1452728961-au */
+
+/* 133620-1472790821-au */

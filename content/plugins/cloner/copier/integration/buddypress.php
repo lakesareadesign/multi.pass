@@ -22,5 +22,5 @@ if ( ! function_exists( 'copier_copy_buddypress_pages_option' ) ) {
 		update_option( 'bp-pages', $new_options );
 	}
 
-	add_action( 'wpmudev_copier-copied-posts', 'copier_copy_buddypress_pages_option', 10, 2 );							 					 	 	  	
+	add_action( 'wpmudev_copier-copied-posts', 'copier_copy_buddypress_pages_option', 10, 2 );
 }

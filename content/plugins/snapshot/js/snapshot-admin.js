@@ -285,11 +285,18 @@ jQuery(document).ready( function($) {
 				jQuery('div#snapshot-destination-directory-description').show();
 				jQuery('div#snapshot-destination-directory-description-google-drive').hide();
 			}
+			
+			/* Toggle store local archives option */
+			if (destination_value !== 'local') {
+				jQuery('tr.snapshot-store-local').show();
+			} else {
+				jQuery('tr.snapshot-store-local').hide();
+			}
 	 	} else {
 			jQuery('div#snapshot-destination-directory-description').show();
 			jQuery('div#snapshot-destination-directory-description-google-drive').hide();
 	 	}
-	});
+	}).change();
 
 
 
@@ -810,6 +817,7 @@ jQuery(document).ready( function($) {
 		
 		
 		var snapshot_form_destination = jQuery('select#snapshot-destination', this).val();
+		var snapshot_destination_local = jQuery('select#snapshot-destination-local', this).val();
 		var snapshot_form_destination_directory = jQuery('input#snapshot-destination-directory', this).val();
 		
 		
@@ -909,6 +917,7 @@ jQuery(document).ready( function($) {
 					'snapshot-interval': snapshot_form_interval,
 					'snapshot-archive-count': snapshot_form_archive_count,
 					'snapshot-destination': snapshot_form_destination,
+					'snapshot-store-local': snapshot_destination_local,
 					'snapshot-destination-directory': snapshot_form_destination_directory,
 					'snapshot-destination-sync': snapshot_form_destination_sync
 				};

@@ -163,7 +163,7 @@ if($pagenow == 'nav-menus.php') { ?>
                         $detail_text = $this->format_currency( $currency, $recurring_amount ) . ' ' . $period;
 
                         if( isset( $trans['recurring_transactions'] ) ){
-                            $recurring_transactions = $trans['recurring_transactions'] . ' ' . _n( 'payment completed.', 'payments completed.', $trans['recurring_transactions'], 'wdf' );
+                            $recurring_transactions = $trans['recurring_transactions'] . ' ' . _n( 'payment completed.', 'payments completed.', $trans['recurring_transactions'], 'wdf' );	     	 	 				 			
                             $detail_text .= '<br />' . $recurring_transactions;
                         }
 

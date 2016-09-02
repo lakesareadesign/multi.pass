@@ -932,7 +932,7 @@ final class FLBuilder {
 			
 			do_action( 'fl_builder_after_render_content', $content );
 			
-			$content = ob_get_clean();
+			$content = apply_filters( 'fl_builder_rendered_content', ob_get_clean() );
 			
 			// Reapply the builder's render_content filter.
 			add_filter( 'the_content', 'FLBuilder::render_content' );

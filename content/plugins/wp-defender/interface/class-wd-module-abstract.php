@@ -24,12 +24,58 @@ abstract class WD_Module_Abstract {
 		if ( substr( $class, 0, 3 ) != 'wd_' ) {
 			return false;
 		}
+		$chunks = explode( '_', $class );
+		$pos    = array_pop( $chunks );
 		//build file name
 		$file_name = 'class-' . str_replace( '_', '-', $class ) . '.php';
-		foreach ( wp_defender()->files_mapped as $mapped ) {
-			if ( strpos( $mapped, $base_path ) === 0 && pathinfo( $mapped, PATHINFO_BASENAME ) == $file_name ) {
-				include_once $mapped;
-			}
+		switch ( strtolower( $pos ) ) {
+			case 'controller':
+				if ( is_file( $base_path . 'controller/' . $file_name ) ) {
+					include_once $base_path . 'controller/' . $file_name;
+
+					return;
+				}
+				break;
+			case 'model':
+				if ( is_file( $base_path . 'model/' . $file_name ) ) {
+					include_once $base_path . 'model/' . $file_name;
+
+					return;
+				}
+				break;
+			case 'abstract':
+				if ( is_file( $base_path . 'interface/' . $file_name ) ) {
+					include_once $base_path . 'interface/' . $file_name;
+
+					return;
+				}
+				break;
+			case 'widget':
+				if ( is_file( $base_path . 'widget/' . $file_name ) ) {
+					include_once $base_path . 'widget/' . $file_name;
+
+					return;
+				}
+				break;
+			default:
+				//looking in base
+				if ( is_file( $base_path . '' . $file_name ) ) {
+					include_once $base_path . '' . $file_name;
+
+					return;
+				} elseif ( is_file( $base_path . 'component/' . $file_name ) ) {
+					include_once $base_path . 'component/' . $file_name;
+
+					return;
+				}
+				break;
+		}
+
+		//if still here, means not our files, but need to check again in app folder
+		if ( is_file( $base_path . '' . $file_name ) ) {
+			include_once $base_path . '' . $file_name;
+
+			return;
 		}
 	}
 

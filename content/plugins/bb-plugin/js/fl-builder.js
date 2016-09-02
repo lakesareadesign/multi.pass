@@ -5039,8 +5039,14 @@
 			suffix = 'undefined' == typeof suffix ? '' : suffix;
 			
 			if(typeof inputArray !== 'undefined') {
+				
 				for( ; i < inputArray.length; i++) {
+					
 					$(prefix + inputArray[i] + suffix)[func]();
+					
+					if ( '#fl-field-' == prefix && 'code' == $( prefix + inputArray[i] ).data( 'type' ) ) {
+						$( prefix + inputArray[i] ).data( 'editor' ).resize();
+					}
 				}
 			}
 		},

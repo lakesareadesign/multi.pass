@@ -1,3 +1,19 @@
+<h4>1.8.5 - 08/26/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added 15 new translations. Updated 24 existing translations.</li>
+	<li>Added bottom alignment setting for equal height columns.</li>
+	<li>Added fl_builder_rendered_content filter.</li>
+	<li>Added fl_builder_exporter_template filter.</li>
+	<li>Added fl_builder_ui_panel_before_rows action.</li>
+	<li>Added fl_builder_ui_panel_before_modules action.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed an error with our smooth scrolling JavaScript when #! is in the page URL.</li>
+	<li>Fixed help text for filters in the Loop Settings. Using a comma in the list breaks the functionality.</li>
+</ul>
+
 <h4>1.8.4 - 08/09/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>
@@ -16,7 +32,7 @@
 	<li>Fixed PHP notices caused by the importer.</li>
 	<li>Fixed full height rows overlapping in IE 11.</li>
 	<li>Fixed custom global CSS being included on the page more than once when a layout is inserted with the shortcode or render_query.</li>
-	<li>Fixed SSL certificate error with MaiChimp.</li>
+	<li>Fixed SSL certificate error with MailChimp.</li>
 	<li>Fixed double slash in the pagination URL for the Posts module.</li>
 	<li>Fixed empty background-size CSS property for rows and columns.</li>
 	<li>Fixed equal height columns not vertically aligning in FireFox.</li>

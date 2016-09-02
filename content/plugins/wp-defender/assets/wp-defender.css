@@ -221,7 +221,7 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
   @media only screen and (min-width: 480px) {
     .wp-defender .wd-hide-large {
       display: none; } }
-  @media only screen and (max-width: 480px) {
+  @media only screen and (max-width: 600px) {
     .wp-defender .col {
       padding: 0; }
     .wp-defender .span_12_of_12 {
@@ -279,6 +279,9 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     margin: 0 !important; }
   .wp-defender .wd-dashboard-intro {
     background: url("img/dev-man.png") white no-repeat 4% 100%; }
+    @media only screen and (max-width: 768px) {
+      .wp-defender .wd-dashboard-intro {
+        background: none; } }
     .wp-defender .wd-dashboard-intro .box-content {
       margin-top: 42px; }
       .wp-defender .wd-dashboard-intro .box-content .group {
@@ -291,8 +294,18 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     padding: 0 15px 0 0; }
   .wp-defender .wd-dashboard .group .span_6_of_12:last-child {
     padding: 0 0 0 15px; }
+  @media only screen and (max-width: 768px) {
+    .wp-defender .wd-dashboard .group .span_6_of_12 {
+      width: 100%; }
+    .wp-defender .wd-dashboard .group .span_6_of_12:first-child {
+      padding: 0; }
+    .wp-defender .wd-dashboard .group .span_6_of_12:last-child {
+      padding: 0; } }
   .wp-defender .wd-hardener-summary {
     background: url("img/dev-man.png") no-repeat white 95% 100%; }
+    @media only screen and (max-width: 768px) {
+      .wp-defender .wd-hardener-summary {
+        background: none; } }
   .wp-defender .hardener-title {
     margin: 60px 0 30px 0; }
   .wp-defender .wd-hardener-rules {
@@ -631,7 +644,8 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     box-sizing: border-box; }
   .wp-defender .wd-settings #email-recipients-frm .search-box {
     display: inline-block;
-    width: auto; }
+    width: auto;
+    margin-bottom: 20px; }
   .wp-defender .wd-settings #email-recipients-frm .button {
     margin-top: 5px; }
   .wp-defender .wd-settings small {
@@ -1043,24 +1057,29 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
       margin-top: 3px;
       font-weight: 500;
       margin-right: 10px; }
-    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter {
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter {
       float: left;
       display: inline-block;
-      min-width: 30%; }
-      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container {
+      min-width: 30%;
+      margin-bottom: 20px; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter #wd_user_id {
+        width: 83%;
+        color: #477B92;
+        font-weight: normal; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container {
         width: 70%;
         float: left;
         height: 40px; }
-        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container .dropdown-handle {
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container .dropdown-handle {
           height: 39px; }
-        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container ul li {
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container ul li {
           color: #477B92; }
-        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container .list-value {
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container .list-value {
           color: #477B92; }
-        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container .list-results {
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container .list-results {
           max-height: 300px;
           overflow-y: scroll; }
-      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter .select-container:last-child {
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container:last-child {
         margin-right: 0; }
     .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter {
       float: left;
@@ -1367,4 +1386,4 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     background-position: 60px 0; } }
 
 
-/* 133620-1470955188-au */
+/* 133620-1472790831-au */

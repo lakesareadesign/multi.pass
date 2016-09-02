@@ -49,13 +49,20 @@ if ( ! class_exists( 'Snapshot_Helper_Session' ) ) {
 			}
 		}
 
+		/**
+		 * Session data saving
+		 *
+		 * Enables session data to persist over requests
+		 *
+		 * @return bool
+		 */
 		function save_session() {
 			if ( ! isset( $this->data ) ) {
 				$this->data = array();
 			}
 
 			$data = serialize( $this->data );
-			file_put_contents( $this->sessionFileFull, $data );
+			return (bool)file_put_contents( $this->sessionFileFull, $data );
 		}
 
 		function update_data( $data ) {

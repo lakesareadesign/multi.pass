@@ -899,8 +899,8 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 */
 	public static function get_cpu_cores() {
 		$core_count = 1;
-		if ( is_file( '/proc/cpuinfo' ) ) {
-			$cpu_info = file_get_contents( '/proc/cpuinfo' );
+		if ( @is_file( '/proc/cpuinfo' ) ) {
+			$cpu_info = @file_get_contents( '/proc/cpuinfo' );
 			if ( preg_match_all( '/^processor/m', $cpu_info, $matches ) ) {
 				$core_count = count( $matches[0] );
 			}

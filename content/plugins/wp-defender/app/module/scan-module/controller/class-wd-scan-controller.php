@@ -499,6 +499,14 @@ class WD_Scan_Controller extends WD_Controller {
 	 */
 	public function load_scripts() {
 		if ( $this->is_in_page() ) {
+			$strings   = array();
+			$last_scan = WD_Scan_Api::get_last_scan();
+			if ( is_object( $last_scan ) ) {
+				foreach ( $last_scan->get_results() as $item ) {
+					$strings[ $item->id ] = $item->clean();
+				}
+			}
+
 			wp_localize_script( 'wp-defender', 'wd_scanning', array(
 				'show_log'                  => __( "Show Log", wp_defender()->domain ),
 				'hide_log'                  => __( "Hide Log", wp_defender()->domain ),
@@ -509,6 +517,7 @@ class WD_Scan_Controller extends WD_Controller {
 				'cancel_confirm_btn'        => __( "Cancel", wp_defender()->domain ),
 				'delete_confirm_btn'        => __( "Delete", wp_defender()->domain ),
 				'ignore_confirm_btn'        => __( "Ignore", wp_defender()->domain ),
+				'strings'                   => $strings
 			) );
 			WDEV_Plugin_Ui::load( wp_defender()->get_plugin_url() . 'shared-ui/', false );
 			wp_enqueue_style( 'wp-defender' );

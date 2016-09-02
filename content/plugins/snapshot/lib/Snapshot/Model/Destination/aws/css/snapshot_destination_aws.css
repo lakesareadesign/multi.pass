@@ -16,9 +16,9 @@ select#snapshot-destination-bucket-list {
 
 #snapshot-ajax-destination-test-result.snapshot-loading,
 #snapshot-ajax-destination-bucket-error.snapshot-loading {
-	background: url("../img/snapshot-test-connection-loader.gif") no-repeat scroll 0 0 transparent;	     	 	 				 	 	
+	background: url("../img/snapshot-test-connection-loader.gif") no-repeat scroll 0 0 transparent;
 	height: 25px;
 }
 
 
-/* 133620-1452728961-au */
+/* 133620-1472790821-au */

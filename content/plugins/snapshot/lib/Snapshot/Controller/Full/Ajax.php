@@ -1,0 +1,424 @@
+<?php
+
+/**
+ * Authenticated AJAX action controller
+ */
+class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
+
+	const OPTIONS_FLAG = 'snapshot_ajax_backup_run';
+
+	/**
+	 * Internal instance reference
+	 *
+	 * @var object Snapshot_Controller_Full_Ajax instance
+	 */
+	private static $_instance;
+
+	/**
+	 * Singleton instance getter
+	 *
+	 * @return object Snapshot_Controller_Full_Ajax instance
+	 */
+	public static function get () {
+		if (empty(self::$_instance)) {
+			self::$_instance = new self;
+		}
+		return self::$_instance;
+	}
+
+	/**
+	 * Dispatch AJAX actions handling.
+	 */
+	public function run () {
+		add_action('wp_ajax_snapshot-full_backup-check_requirements', array($this, 'json_check_requirements'));
+
+		add_action('wp_ajax_snapshot-full_backup-download', array($this, 'json_download_backup'));
+		add_action('wp_ajax_snapshot-full_backup-delete', array($this, 'json_delete_backup'));
+
+		add_action('wp_ajax_snapshot-full_backup-reload', array($this, 'json_reload_backups'));
+
+		add_action('wp_ajax_snapshot-full_backup-start', array($this, 'json_start_backup'));
+		add_action('wp_ajax_snapshot-full_backup-estimate', array($this, 'json_estimate_backup'));
+		add_action('wp_ajax_snapshot-full_backup-process', array($this, 'json_process_backup'));
+		add_action('wp_ajax_snapshot-full_backup-finish', array($this, 'json_finish_backup'));
+
+		add_action('wp_ajax_snapshot-full_backup-restore', array($this, 'json_start_restore'));
+
+		add_site_option(self::OPTIONS_FLAG, '');
+	}
+
+	/**
+	 * Runs on deactivation
+	 */
+	public function deactivate () {
+		delete_site_option(self::OPTIONS_FLAG);
+	}
+
+	/**
+	 * Forces backup list reloads
+	 */
+	public function json_reload_backups () {
+		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die; // Only some users can reload
+		$status = $this->_model->remote()->reset_backups_cache(true);
+
+		wp_send_json(array(
+			'status' => $status,
+		));
+	}
+
+	/**
+	 * Prepare backup for download
+	 */
+	public function json_download_backup () {
+		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die; // Only some users can restore
+		if (!$this->_is_backup_processing_ready()) die;
+
+		$data = stripslashes_deep($_POST);
+		$timestamp = !empty($data['idx']) && is_numeric($data['idx'])
+			? $data['idx']
+			: false
+		;
+		if (!$timestamp) wp_send_json(array(
+			'task' => 'clearing',
+			'status' => false,
+		));
+
+		$archive_path = $this->_model->local()->get_backup($timestamp);
+		if (empty($archive_path) || !file_exists($archive_path)) {
+			// No local backup, try and get the remote URL instead
+			$archive_path = $this->_model->remote()->get_backup_link($timestamp);
+			if (empty($archive_path)) {
+				// Something went wrong with determining the remote URL
+				wp_send_json(array(
+					'task' => 'fetching',
+					'error' => !!$this->_model->has_errors(),
+					'status' => false,
+				));
+			} else {
+				// All good
+				wp_send_json(array(
+					'task' => 'clearing',
+					'status' => true,
+					'nonce' => wp_create_nonce('snapshot-full_backups-download'),
+				));
+			}
+		} else {
+			// If we don't have the full archive path yet, we're still fetching the file
+			if (!file_exists($archive_path)) {
+				wp_send_json(array(
+					'task' => 'fetching',
+					'error' => !!$this->_model->has_errors(),
+					'status' => false,
+				));
+			} else {
+				wp_send_json(array(
+					'task' => 'clearing',
+					'status' => true,
+					'nonce' => wp_create_nonce('snapshot-full_backups-download'),
+				));
+			}
+		}
+
+		// We shouldn't be getting here but oh well
+		die;
+	}
+
+	/**
+	 * Delete remote backup and force cache cleanup.
+	 */
+	public function json_delete_backup () {
+		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die; // Only some users can restore
+		if (!$this->_is_backup_processing_ready()) die;
+
+		$data = stripslashes_deep($_POST);
+		$timestamp = !empty($data['idx']) && is_numeric($data['idx'])
+			? $data['idx']
+			: false
+		;
+		if (!$timestamp) wp_send_json(array(
+			'task' => 'clearing',
+			'status' => false,
+		));
+
+		$status = $this->_model->delete_backup($timestamp);
+
+		if (!empty($status)) {
+			// Update all settings, new list included
+			$this->_model->update_remote_schedule();
+		}
+
+		wp_send_json(array(
+			'task' => 'clearing',
+			'status' => $status,
+		));
+	}
+
+	/**
+	 * Check requirements
+	 */
+	public function json_check_requirements () {
+		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die;
+
+		// Check WP version
+		wp_version_check();
+		$wp_state_response = get_site_transient('update_core');
+		$wp_state = !empty($wp_state_response->updates[0]->response)
+			? ('latest' === $wp_state_response->updates[0]->response)
+			: false
+		;
+
+		// Fileset
+		$set = Snapshot_Model_Fileset::get_source('full');
+		$location = $set->get_root();
+
+		// Tables
+		$tables = Snapshot_Model_Queue_Tableset::get_all_tables();
+
+		wp_send_json(array(
+			'webserver' => array(
+				'system' => array(
+					'value' => $_SERVER['SERVER_SOFTWARE'],
+					'result' => true,
+				),
+			),
+			'php' => array(
+				'basedir' => array(
+					'value' => ini_get('open_basedir') ? __('Enabled', SNAPSHOT_I18N_DOMAIN) : __('Disabled', SNAPSHOT_I18N_DOMAIN),
+					'result' => !ini_get('open_basedir'),
+				),
+				'maxtime' => array(
+					'value' => ini_get('max_execution_time'),
+					'result' => (int)ini_get('max_execution_time') >= 150,
+				),
+				'mysqli' => array(
+					'value' => (int)function_exists('mysqli_connect'),
+					'result' => (bool)function_exists('mysqli_connect'),
+				),
+			),
+			'wordpress' => array(
+				'version' => array(
+					'value' => get_bloginfo('version'),
+					'result' => (bool)$wp_state,
+				),
+			),
+			'fileset' => array(
+				'location' => array(
+					'value' => basename($location),
+					'result' => file_exists($location),
+				),
+			),
+			'tableset' => array(
+				'quantity' => array(
+					'value' => count($tables),
+					'result' => (bool)count($tables),
+				),
+			),
+		));
+	}
+
+	/**
+	 * Process restore requests
+	 */
+	public function json_start_restore () {
+		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die; // Only some users can restore
+		if (!$this->_is_backup_processing_ready()) die;
+
+		$data = stripslashes_deep($_POST);
+		$archive = !empty($data['archive']) && is_numeric($data['archive'])
+			? $data['archive']
+			: false
+		;
+		$restore_path = !empty($data['restore']) && file_exists($data['restore'])
+			? $data['restore']
+			: 'd:/tmp/restore'
+		;
+
+		$credentials = !empty($data['credentials'])
+			? stripslashes_deep($data['credentials'])
+			: true
+		;
+
+		if (!WP_Filesystem($credentials)) {
+			wp_send_json(array(
+				'task' => 'clearing',
+				'status' => false,
+			));
+		}
+
+		if (empty($archive)) {
+			wp_send_json(array(
+				'task' => 'clearing',
+				'status' => false,
+			));
+		}
+
+		if (!file_exists($restore_path)) {
+			wp_send_json(array(
+				'task' => 'clearing',
+				'status' => false,
+			));
+		}
+
+		$archive_path = $this->_model->get_backup($archive);
+
+		// If we don't have the full archive path yet, we're still fetching the file
+		if (!file_exists($archive_path)) {
+			wp_send_json(array(
+				'task' => 'fetching',
+				'error' => !!$this->_model->has_errors(),
+				'status' => false,
+			));
+		}
+
+		$restore = Snapshot_Helper_Restore::from($archive_path);
+		$restore->to($restore_path);
+
+		$task = $restore->is_done()
+			? 'clearing'
+			: 'restoring'
+		;
+
+		$status = 'clearing' === $task
+			? $restore->clear()
+			: $restore->process_files()
+		;
+
+		// TODO: this should be handled separately
+		if ('clearing' === $task) {
+			@unlink($archive_path);
+		}
+
+		wp_send_json(array(
+			'task' => $task,
+			'status' => $status,
+		));
+	}
+
+	/**
+	 * Sends back backup size estimate
+	 */
+	public function json_estimate_backup () {
+		if (!$this->_is_backup_processing_ready()) die;
+
+		$idx = $this->_get_backup_type();
+		$backup = Snapshot_Helper_Backup::load($idx);
+
+		$total = $backup
+			? $backup->get_total_steps_estimate()
+			: 0
+		;
+
+		wp_send_json(array(
+			'total' => $total,
+		));
+	}
+
+	/**
+	 * Backup start JSON handler
+	 *
+	 * First in the cascade of requests actually performing the backup
+	 */
+	public function json_start_backup () {
+		if (!$this->_is_backup_processing_ready()) die;
+
+		$idx = $this->_get_backup_type();
+		$this->_start_backup($idx);
+
+		update_site_option(self::OPTIONS_FLAG, true);
+
+		wp_send_json(array(
+			'id' => $idx,
+		));
+	}
+
+	/**
+	 * Backup processing JSON handler
+	 *
+	 * This will get called repeatedly, as long as the backup isn't ready
+	 */
+	public function json_process_backup () {
+		$data = stripslashes_deep($_POST);
+		$idx = !empty($data['idx']) ? $data['idx'] : $this->_get_backup_type();
+
+		$status = false;
+		try {
+			$status = $this->_process_backup($idx);
+		} catch (Snapshot_Exception $e) {
+			$key = $e->get_error_key();
+			$msg = Snapshot_Model_Full_Error::get_human_description($key);
+
+			Snapshot_Helper_Log::error("Error processing manual backup: {$key}");
+			Snapshot_Helper_Log::note($msg);
+
+			delete_site_option(self::OPTIONS_FLAG);
+
+			/**
+			 * Automatic backup processing encountered too many errors
+			 *
+			 * @since 3.0-beta-12
+			 *
+			 * @param string Action type indicator (process or finish)
+			 * @param string $key Error message key
+			 * @param string $msg Human-friendly message description
+			 */
+			do_action($this->get_filter('ajax-error-stop'), 'process', $key, $msg); // Notify anyone interested
+
+			die(esc_js($msg));
+		}
+
+		wp_send_json(array(
+			'done' => $status,
+		));
+	}
+
+	/**
+	 * Backup end JSON handler
+	 *
+	 * The last in the cascade of requests actually performing the backup
+	 */
+	public function json_finish_backup () {
+		$data = stripslashes_deep($_POST);
+		$idx = !empty($data['idx']) ? $data['idx'] : $this->_get_backup_type();
+
+		try {
+			$status = $this->_finish_backup($idx);
+		} catch (Snapshot_Exception $e) {
+			$key = $e->get_error_key();
+			$msg = Snapshot_Model_Full_Error::get_human_description($key);
+
+			Snapshot_Helper_Log::error("Error finalizing manual backup: {$key}");
+			Snapshot_Helper_Log::note($msg);
+
+			delete_site_option(self::OPTIONS_FLAG);
+
+			/**
+			 * Automatic backup processing encountered too many errors
+			 *
+			 * @since 3.0-beta-12
+			 *
+			 * @param string Action type indicator (process or finish)
+			 * @param string $key Error message key
+			 * @param string $msg Human-friendly message description
+			 */
+			do_action($this->get_filter('ajax-error-stop'), 'finish', $key, $msg); // Notify anyone interested
+
+			die(esc_js($msg));
+		}
+
+		delete_site_option(self::OPTIONS_FLAG);
+
+		if (!$status && !$this->_model->has_api_info()) {
+			$response = array(
+				'status' => true,
+				'msg' => __('Could not communicate with remote service', SNAPSHOT_I18N_DOMAIN),
+			);
+		} else {
+			$response = array(
+				'status' => $status,
+			);
+		}
+
+		wp_send_json($response);
+	}
+
+}

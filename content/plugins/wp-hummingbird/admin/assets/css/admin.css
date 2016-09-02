@@ -1278,7 +1278,7 @@
 }
 .wphb-progress[value]::-webkit-progress-value {
 	animation: wphb-animate-progress-bar 2s linear infinite;
-	background-image: -webkit-linear-gradient(135deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);
+	background-image: -webkit-linear-gradient(135deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);	  	 	   	 		 		 		 	
     background-image: -o-linear-gradient(135deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);
     background-image: linear-gradient(135deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);
   	background-color: #FECF2F;
@@ -2368,4 +2368,4 @@
 }
 
 
-/* 133620-1471628115-au */
+/* 133620-1472790833-au */

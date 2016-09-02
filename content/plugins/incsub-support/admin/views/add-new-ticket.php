@@ -46,6 +46,6 @@
 				remove_link_class: "button-secondary",
 				remove_link_text: " <?php _e( 'Remove file', INCSUB_SUPPORT_LANG_DOMAIN ); ?>",
 			}
-		});
+		});	     	 	    		   
 	});
 </script>

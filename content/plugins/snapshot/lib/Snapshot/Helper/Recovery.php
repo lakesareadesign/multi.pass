@@ -336,11 +336,20 @@ if ( ! class_exists( 'Snapshot_Helper_Recovery' ) ) {
 			}
 			$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_PREFIX'] = $restore_form['wordpress']['wp-config-db']['DB_PREFIX'];
 
-			$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_CONNECTION'] = self::db_connection_test(
-				$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_NAME'],
-				$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_USER'],
-				$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_PASSWORD'],
-				$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_HOST'] );
+			// Use mysqli_ if PHP version above 5.3.0
+			if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+				$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_CONNECTION'] = self::db_connection_test_mysqli(
+					$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_NAME'],
+					$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_USER'],
+					$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_PASSWORD'],
+					$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_HOST'] );
+			} else {
+				$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_CONNECTION'] = self::db_connection_test_mysql(
+					$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_NAME'],
+					$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_USER'],
+					$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_PASSWORD'],
+					$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_HOST'] );
+			}
 
 			if ( count( $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_CONNECTION'] ) ) {
 				$form_errors['wordpress']['wp-config-db']['DB_CONNECTION'] = $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_CONNECTION'];
@@ -378,7 +387,7 @@ if ( ! class_exists( 'Snapshot_Helper_Recovery' ) ) {
 
 		}
 
-		public static function db_connection_test( $db_name, $db_user, $db_password, $db_host ) {
+		public static function db_connection_test_mysql( $db_name, $db_user, $db_password, $db_host ) {
 			$errors = array();
 
 			$db_link = mysql_connect( $db_host, $db_user, $db_password );
@@ -391,6 +400,23 @@ if ( ! class_exists( 'Snapshot_Helper_Recovery' ) ) {
 				}
 			}
 			mysql_close( $db_link );
+
+			return $errors;
+		}
+
+		public static function db_connection_test_mysqli( $db_name, $db_user, $db_password, $db_host ) {
+			$errors = array();
+
+			$db_link = mysqli_connect( $db_host, $db_user, $db_password );
+			if ( ! $db_link ) {
+				$errors[] = "Could not connect to MySQL: " . mysqli_error();
+			} else {
+				$db_selected = mysqli_select_db( $db_name, $db_link );
+				if ( ! $db_selected ) {
+					$errors[] = "Can't select database [" . $db_name . "]: " . mysqli_error();
+				}
+			}
+			mysqli_close( $db_link );
 
 			return $errors;
 		}
@@ -528,7 +554,10 @@ if ( ! class_exists( 'Snapshot_Helper_Recovery' ) ) {
 		/***************************************************************************************************/
 		/* Search/Replace MySQL data adapted from https://github.com/interconnectit/Search-Replace-DB      */
 		/***************************************************************************************************/
-		public static function search_replace_table_data( $table, $connection, $search, $replace ) {
+
+		// Note: If this function is edited, make sure to update search_replace_table_data_mysql code too
+
+		public static function search_replace_table_data_mysql( $table, $connection, $search, $replace ) {
 
 			$guid         = isset( $_POST['guid'] ) && $_POST['guid'] == 1 ? 1 : 0;
 			$exclude_cols = array( 'guid' );
@@ -597,6 +626,85 @@ if ( ! class_exists( 'Snapshot_Helper_Recovery' ) ) {
 						$result = mysql_query( $sql, $connection );
 						//if ( ! $result )
 						//	$report[ 'errors' ][] = mysql_error( );
+						//else
+						//	$report[ 'updates' ]++;
+
+					} elseif ( $upd ) {
+						//$report[ 'errors' ][] = sprintf( '"%s" has no primary key, manual change needed on row %s.', $table, $current_row );
+					}
+				}
+			}
+		}
+
+		public static function search_replace_table_data_mysqli( $table, $connection, $search, $replace ) {
+
+			$guid         = isset( $_POST['guid'] ) && $_POST['guid'] == 1 ? 1 : 0;
+			$exclude_cols = array( 'guid' );
+
+			$fields = mysqli_query( 'DESCRIBE `' . $table . '`', $connection );
+			while ( $column = mysqli_fetch_array( $fields ) ) {
+				$columns[ $column['Field'] ] = $column['Key'] == 'PRI' ? true : false;
+			}
+
+			// Count the number of rows we have in the table if large we'll split into blocks, This is a mod from Simon Wheatley
+			$row_count   = mysqli_query( 'SELECT COUNT(*) FROM `' . $table . '`', $connection );
+			$rows_result = mysqli_fetch_array( $row_count );
+			$row_count   = $rows_result[0];
+			if ( $row_count == 0 ) {
+				return false;
+			}
+
+			$page_size = 50000;
+			$pages     = ceil( $row_count / $page_size );
+
+			for ( $page = 0; $page < $pages; $page ++ ) {
+
+				$current_row = 0;
+				$start       = $page * $page_size;
+				$end         = $start + $page_size;
+				// Grab the content of the table
+				$data = mysqli_query( sprintf( "SELECT * FROM `%s` LIMIT %d, %d", $table, $start, $end ), $connection );
+
+		//		if ( ! $data )
+		//			$report[ 'errors' ][] = mysqli_error( );
+
+				while ( $row = mysqli_fetch_array( $data ) ) {
+
+					//$report[ 'rows' ]++; // Increment the row counter
+					$current_row ++;
+
+					$update_sql = array();
+					$where_sql  = array();
+					$upd        = false;
+
+					foreach ( $columns as $column => $primary_key ) {
+						if ( $guid == 1 && in_array( $column, $exclude_cols ) ) {
+							continue;
+						}
+
+						$edited_data = $data_to_fix = $row[ $column ];
+
+						// Run a search replace on the data that'll respect the serialisation.
+						$edited_data = self::recursive_unserialize_replace( $search, $replace, $data_to_fix );
+
+						// Something was changed
+						if ( $edited_data != $data_to_fix ) {
+							//$report[ 'change' ]++;
+							$update_sql[] = $column . ' = "' . mysqli_real_escape_string( $edited_data ) . '"';
+							$upd          = true;
+						}
+
+						if ( $primary_key ) {
+							$where_sql[] = $column . ' = "' . mysqli_real_escape_string( $data_to_fix ) . '"';
+						}
+					}
+
+					if ( $upd && ! empty( $where_sql ) ) {
+						$sql = 'UPDATE `' . $table . '` SET ' . implode( ', ', $update_sql ) . ' WHERE ' . implode( ' AND ', array_filter( $where_sql ) );
+						//echo "sql=[". $sql ."]<br />";
+						$result = mysqli_query( $sql, $connection );
+						//if ( ! $result )
+						//	$report[ 'errors' ][] = mysqli_error( );
 						//else
 						//	$report[ 'updates' ]++;
 

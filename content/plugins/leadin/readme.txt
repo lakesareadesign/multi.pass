@@ -2,8 +2,8 @@
 Contributors: leadin, sredmond
 Tags:  crm, contacts, lead tracking, click tracking, visitor tracking, analytics, marketing automation, inbound marketing, subscription, marketing, lead generation, mailchimp, constant contact, newsletter, popup, popover, email list, email, contacts database, contact form, forms, form widget, popup form
 Requires at least: 3.7
-Tested up to: 4.5
-Stable tag: 5.4.1
+Tested up to: 4.6
+Stable tag: 5.5.3
 
 Leadin is an easy-to-use contact form and marketing analytics plugin for your website that helps you better understand your website visitors.
 
@@ -67,27 +67,33 @@ Having trouble? Check out our <a href="https://leadin.hubspot.com/knowledge/" ta
 
 == Changelog ==
 
-- Current version: 5.4.1
-- Current version release: 2016-08-17
+- Current version: 5.5.3
+- Current version release: 2016-09-01
 
-= 5.4.1
-- Moved all embed loads to the new unified script loader, which has been in beta since v5.2.1
+= 5.5.3 (2016.09.01)
+- Clean up remaining deployment issues
 
-= 5.3.1
+= 5.5.1 (2016.08.30) =
+- Added a new endpoint handler to remove hapikey and portalId from the database when removing the account.
+
+= 5.4.1 (2016.08.17) =
+- Moved all embed loads to the new unified script loader, which has been in beta since v5.2.1.
+
+= 5.3.1 (2016.08.11) =
 - Added "collected forms" screen to the navigation, a new way to manage your collected forms
 - Shifted more accounts to the new unified script loader following a beta release in 5.2.1. Now all "existing app" customers, and all new customers use the unified loader.
 
-= 5.2.1
+= 5.2.1 (2016.08.04) =
 - New "existing app" customers use the new unified script loader
 
-= 5.1.1
+= 5.1.1 (2016.06.20) =
 - Rebranding "Flows" to "Lead Flows"
 - Correcting the settings link in Plugins when Leadin is connected to an existing Leadin web app account
 
-= 5.0.2
+= 5.0.2 (2016.06.02) =
 - Update deployment script
 
-= 5.0.1
+= 5.0.1 (2016.06.02) =
 - The Leadin plugin can now be installed for an existing Leadin web app account
 
 = 4.8.2 (2016.05.30) =

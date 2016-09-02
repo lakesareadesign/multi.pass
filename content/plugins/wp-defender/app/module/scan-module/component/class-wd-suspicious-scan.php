@@ -563,6 +563,9 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 				}
 			}
 		}
+		if ( empty( $this->tokens_is_php ) ) {
+			$this->tokens_is_php = array();
+		}
 
 		return $this->tokens_is_php;
 	}

@@ -86,7 +86,7 @@ abstract class WD_Scan_Abstract extends WD_Component {
 		if ( stristr( PHP_OS, 'win' ) ) {
 			return false;
 		} else {
-			$loaded = sys_getloadavg();
+			$loaded = @sys_getloadavg();
 			$core_count = WD_Utils::get_cpu_cores();
 			if ( isset( $loaded[0] ) ) {
 				return $loaded[0] / $core_count;

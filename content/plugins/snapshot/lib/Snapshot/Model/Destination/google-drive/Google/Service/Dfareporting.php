@@ -767,7 +767,7 @@ class Google_0814_Service_Dfareporting_Activities extends Google_0814_Collection
 
 class Google_0814_Service_Dfareporting_CompatibleFields extends Google_0814_Model
 {
-  protected $crossDimensionReachReportCompatibleFieldsType = 'Google_0814_Service_Dfareporting_CrossDimensionReachReportCompatibleFields';	     	 	 				 	 	
+  protected $crossDimensionReachReportCompatibleFieldsType = 'Google_0814_Service_Dfareporting_CrossDimensionReachReportCompatibleFields';
   protected $crossDimensionReachReportCompatibleFieldsDataType = '';
   protected $floodlightReportCompatibleFieldsType = 'Google_0814_Service_Dfareporting_FloodlightReportCompatibleFields';
   protected $floodlightReportCompatibleFieldsDataType = '';

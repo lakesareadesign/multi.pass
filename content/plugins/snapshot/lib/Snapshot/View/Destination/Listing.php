@@ -23,7 +23,7 @@ if ( ! class_exists( 'Snapshot_View_Destination_Listing' ) ) {
 				<div id="snapshot-edit-destinations-panel" class="wrap snapshot-wrap">
 					<h2><?php _ex( "All Snapshot Destinations", "Snapshot Destination Page Title", SNAPSHOT_I18N_DOMAIN ); ?> </h2>
 
-					<p><?php _ex( "This page show all the destinations available for the Snapshot plugin. A destination is a remote system like Amazon S3, Dropbox or SFTP. Simply select the destination type from the drop down then will in the details. When you add or edit a Snapshot you will be able to assign it a destination. When the snapshot backup runs the archive file will be sent to the destination instead of stored locally.", 'Snapshot page description', SNAPSHOT_I18N_DOMAIN ); ?></p>
+					<p><?php _ex( "This page show all the destinations available for the Snapshot plugin. A destination is a remote system like Amazon S3, Dropbox or SFTP. Simply select the destination type from the drop down then will in the details. When you add or edit a Snapshot you will be able to assign it a destination. When the snapshot backup runs the archive file will be sent to the destination and local archive stored or deleted depending on <strong>Keep local archives?</strong> option.", 'Snapshot page description', SNAPSHOT_I18N_DOMAIN ); ?></p>
 					<?php
 					if ( session_id() == "" ) {
 						@session_start();
@@ -40,18 +40,28 @@ if ( ! class_exists( 'Snapshot_View_Destination_Listing' ) ) {
 						$destinations[ $type ][ $key ] = $item;
 					}
 
+					do_action('snapshot-destinations-render_list-before');
+
 					$destinationClasses = WPMUDEVSnapshot::instance()->get_setting( 'destinationClasses' );
 					if ( ( $destinationClasses ) && ( count( $destinationClasses ) ) ) {
 						ksort( $destinationClasses );
 
+						$idx = 0;
 						foreach ( $destinationClasses as $classObject ) {
 							//echo "classObject<pre>"; print_r($classObject); echo "</pre>";
+							if (!($idx % 2)) echo '<div class="snapshot-destination-row">';
 							?>
-							<h3 style="float:left;"><?php echo $classObject->name_display; ?> <?php if ( current_user_can( 'manage_snapshots_destinations' ) ) {
-									?><a class="add-new-h2" style="top:0;"
-									     href="<?php echo WPMUDEVSnapshot::instance()->get_setting( 'SNAPSHOT_MENU_URL' );
-									     ?>snapshots_destinations_panel&amp;snapshot-action=add&amp;type=<?php echo $classObject->name_slug; ?>">
-										Add New</a><?php } ?></h3>
+						<div class="snapshot-destination">
+							<h3 style="float:left;">
+								<?php echo $classObject->name_display; ?>
+								<?php if ( current_user_can( 'manage_snapshots_destinations' ) ) { ?>
+									<a class="add-new-h2"
+									    href="<?php echo WPMUDEVSnapshot::instance()->get_setting( 'SNAPSHOT_MENU_URL' );
+									    ?>snapshots_destinations_panel&amp;snapshot-action=add&amp;type=<?php echo $classObject->name_slug; ?>">
+										<?php esc_html_e('Add New', SNAPSHOT_I18N_DOMAIN); ?>
+									</a>
+								<?php } ?>
+							</h3>
 							<?php if ( ( isset( $classObject->name_logo ) ) && ( strlen( $classObject->name_logo ) ) ) {
 								?><img style="float: right; height: 40px;" src="<?php echo $classObject->name_logo; ?>"
 								       alt="<?php $classObject->name_display; ?>" /><?php
@@ -79,7 +89,10 @@ if ( ! class_exists( 'Snapshot_View_Destination_Listing' ) ) {
 								$classObject->display_listing_table( $destination_items, $edit_url, $delete_url );
 								?>
 							</form>
+						</div>
 						<?php
+							if ($idx % 2) echo '</div>'; // destination row div end
+							$idx++;
 						}
 					}
 

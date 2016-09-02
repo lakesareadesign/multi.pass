@@ -236,6 +236,65 @@ WDefender.audit_logging = function () {
         })
     }
 
+    function listening_to_user_filter() {
+        if (jq("#wd_user_id").size() > 0) {
+            var typingTimer;                //timer identifier
+            var doneTypingInterval = 1000;  //time in ms, 5 second for example
+            var $input = jq("#wd_user_id");
+
+            //on keyup, start the countdown
+            $input.on('keyup', function () {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            });
+
+            //on keydown, clear the countdown
+            $input.on('keydown', function () {
+                clearTimeout(typingTimer);
+            });
+
+            //user is "finished typing," do something
+            function doneTyping() {
+                //do something
+                var that = $input;
+                var value = that.val();
+                if (value.length > 2) {
+                    jq.ajax({
+                        type: 'POST',
+                        url: ajaxurl,
+                        data: {
+                            'action': 'wd_audit_suggest_user_name',
+                            'term': value,
+                            'get_all': 1
+                        },
+                        beforeSend: function () {
+                            that.trigger('progress:start');
+                        },
+                        success: function (data) {
+                            data = jq.parseJSON(data);
+                            that.trigger('progress:stop');
+                            that.trigger('results:show', [data]);
+                        }
+                    })
+                }
+
+                jq('#wd_user_id').on('item:select', function () {
+
+                })
+            }
+
+            //bind data if have any
+            //jq('#wd_user_id').selectItem(jq('<li data-id="admin" class="item item-admin"><span class="thumb" style="background-image:url(http://2.gravatar.com/avatar/8df7301ce776ac597ab96ebe8ce5f3f9?s=96&amp;d=mm&amp;r=g)"></span><span class="item-label"><span class="name title">admin</span> <span class="email">hoang1213@gmail.com</span></span></li>'));
+            if (audit_logging.user_label != undefined) {
+                var curitem = jq('.current-item');
+                curitem.html(audit_logging.user_label);
+                curitem.show();
+                $input.hide();
+                $input.trigger('item:select')
+            }
+        }
+    }
+
     function toggle_email_report() {
         jq('body').on('submit', '.setup-email-report-form', function () {
             var that = jq(this);
@@ -277,6 +336,7 @@ WDefender.audit_logging = function () {
     function init() {
         toggle_status();
         toggle_email_report();
+        listening_to_user_filter();
         if (jq('.wd-calendar').size() > 0) {
             jq('#wd_range_from').datepicker({
                 'maxDate': 0,
@@ -304,23 +364,7 @@ WDefender.audit_logging = function () {
                     jq("#wd_range_from").datepicker("option", "maxDate", selectedDate);
                 }
             });
-            jq('.wd-audit-filter').change(function () {
-                var data = [];
-                jq('.wd-audit-filter').find(':input').each(function () {
-                    var that = jq(this);
-                    data.push({
-                        'name': that.attr('name'),
-                        'value': that.val()
-                    });
-                })
-                data["action"] = "wd_audit_filter";
-                jq.ajax({
-                    type: 'POST',
-                    url: ajaxurl,
-                    data: data
-                })
-                console.log(data);
-            })
+
         }
         toggle_audit_log();
         toggle_email_report_slide();
@@ -518,77 +562,90 @@ WDefender.resolve = function () {
             }
 
             function call_ajax() {
-                jq.ajax({
-                    type: 'POST',
-                    url: ajaxurl,
-                    data: data,
-                    beforeSend: function () {
-                        btn.attr('disabled', 'disabled').css({
-                            'cursor': 'wait'
-                        });
-                        jq('.wd-error').addClass('wd-hide');
-                    },
-                    success: function (data) {
-                        if (data.status == 1) {
-                            switch (btn.data('type')) {
-                                case 'delete':
-                                    if (is_modal) {
-                                        WDP.closeOverlay();
-                                    }
-                                    location.reload();
-                                    break;
-                                case 'clean':
-                                    jq('#wd-resolve-dialog').html(data.result);
-                                    jq('#wd-resolve-trigger').click();
-                                    break;
-                                case 'resolve_ci':
-                                    if (is_modal) {
-                                        WDP.closeOverlay();
-                                    }
-                                    location.reload();
-                                    break;
-                                case 'ignore':
-                                    if (is_modal) {
-                                        WDP.closeOverlay();
-                                    }
-                                    parent.fadeOut(500, function () {
-                                        parent.remove();
-                                        if (jq('#wd-ignore-list').is(':hidden')) {
-                                            jq('#wd-ignore-list').removeClass('wd-hide');
-                                        }
-                                        var $element = jq(data.element);
-                                        jq('#wd-ignore-list table tbody').append($element);
-                                        $element.effect("highlight", {}, 1000);
-                                        listening_to_issues_count();
-                                        jQuery('body').trigger('after_an_issue_resolved', -1);
-                                    });
-                                    break;
-                                case 'undo':
-                                    parent.fadeOut(500, function () {
-                                        parent.remove();
-                                        var $element = jq(data.element);
-                                        jq('#wd-result-list table tbody').append($element);
-                                        $element.effect("highlight", {}, 1000);
-                                        if (jq('#wd-result-list table').is(':hidden')) {
-                                            jq('#wd-result-list table').removeClass('wd-hide');
-                                            jq('#wd-result-list .wd-success').addClass('wd-hide');
-                                        }
-                                        listening_to_issues_count();
-                                        jQuery('body').trigger('after_an_issue_resolved', 1);
-                                    });
-                                    break;
-                            }
-                        } else {
-                            if (is_modal) {
-                                WDP.closeOverlay();
-                            }
-                            jq('.wd-error').html(data.error).removeClass('wd-hide');
+                //we will need to check if this is load form action
+                if (btn.data('type') == 'clean') {
+                    var id = that.find('input[name="id"]').val();
+                    var strings = wd_scanning['strings'];
+                    jq.each(strings, function (i, v) {
+                        if (i == id) {
+                            jq('#wd-resolve-dialog').html(v);
+                            jq('#wd-resolve-trigger').click();
+                            return;
                         }
-                        btn.removeAttr('disabled').css({
-                            'cursor': 'pointer'
-                        });
-                    }
-                })
+                    })
+                } else {
+                    jq.ajax({
+                        type: 'POST',
+                        url: ajaxurl,
+                        data: data,
+                        beforeSend: function () {
+                            btn.attr('disabled', 'disabled').css({
+                                'cursor': 'wait'
+                            });
+                            jq('.wd-error').addClass('wd-hide');
+                        },
+                        success: function (data) {
+                            if (data.status == 1) {
+                                switch (btn.data('type')) {
+                                    case 'delete':
+                                        if (is_modal) {
+                                            WDP.closeOverlay();
+                                        }
+                                        location.reload();
+                                        break;
+                                    case 'clean':
+                                        jq('#wd-resolve-dialog').html(data.result);
+                                        jq('#wd-resolve-trigger').click();
+                                        break;
+                                    case 'resolve_ci':
+                                        if (is_modal) {
+                                            WDP.closeOverlay();
+                                        }
+                                        location.reload();
+                                        break;
+                                    case 'ignore':
+                                        if (is_modal) {
+                                            WDP.closeOverlay();
+                                        }
+                                        parent.fadeOut(500, function () {
+                                            parent.remove();
+                                            if (jq('#wd-ignore-list').is(':hidden')) {
+                                                jq('#wd-ignore-list').removeClass('wd-hide');
+                                            }
+                                            var $element = jq(data.element);
+                                            jq('#wd-ignore-list table tbody').append($element);
+                                            $element.effect("highlight", {}, 1000);
+                                            listening_to_issues_count();
+                                            jQuery('body').trigger('after_an_issue_resolved', -1);
+                                        });
+                                        break;
+                                    case 'undo':
+                                        parent.fadeOut(500, function () {
+                                            parent.remove();
+                                            var $element = jq(data.element);
+                                            jq('#wd-result-list table tbody').append($element);
+                                            $element.effect("highlight", {}, 1000);
+                                            if (jq('#wd-result-list table').is(':hidden')) {
+                                                jq('#wd-result-list table').removeClass('wd-hide');
+                                                jq('#wd-result-list .wd-success').addClass('wd-hide');
+                                            }
+                                            listening_to_issues_count();
+                                            jQuery('body').trigger('after_an_issue_resolved', 1);
+                                        });
+                                        break;
+                                }
+                            } else {
+                                if (is_modal) {
+                                    WDP.closeOverlay();
+                                }
+                                jq('.wd-error').html(data.error).removeClass('wd-hide');
+                            }
+                            btn.removeAttr('disabled').css({
+                                'cursor': 'pointer'
+                            });
+                        }
+                    })
+                }
             }
 
             function listening_to_issues_count() {

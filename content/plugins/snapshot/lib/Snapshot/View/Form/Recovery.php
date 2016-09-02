@@ -595,18 +595,35 @@ if ( ! class_exists( 'Snapshot_View_Form_Recovery' ) ) {
 
 			<form action="?step=4" method="post" class="restore_form">
 				<?php
-				$db_link = mysql_connect( $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_HOST'],
-					$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_USER'],
-					$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_PASSWORD'] );
+				// Use mysqli_ if PHP version above 5.3.0
+				if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+					$db_link = mysqli_connect( $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_HOST'],
+						$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_USER'],
+						$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_PASSWORD'] );
 
-				if ( ! $db_link ) {
-					echo "Could not connect to MySQL: " . mysql_error();
-					die();
-				}
+					if ( ! $db_link ) {
+						echo "Could not connect to MySQL: " . mysqli_error();
+						die();
+					}
 
-				$db_selected = mysql_select_db( $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_NAME'], $db_link );
-				if ( ! $db_selected ) {
-					echo "Can't select database [" . $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_NAME'] . "]: " . mysql_error();
+					$db_selected = mysqli_select_db( $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_NAME'], $db_link );
+					if ( ! $db_selected ) {
+						echo "Can't select database [" . $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_NAME'] . "]: " . mysqli_error();
+					}
+				} else {
+					$db_link = mysql_connect( $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_HOST'],
+						$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_USER'],
+						$_SESSION['restore_form']['wordpress']['wp-config-db']['DB_PASSWORD'] );
+
+					if ( ! $db_link ) {
+						echo "Could not connect to MySQL: " . mysql_error();
+						die();
+					}
+
+					$db_selected = mysql_select_db( $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_NAME'], $db_link );
+					if ( ! $db_selected ) {
+						echo "Can't select database [" . $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_NAME'] . "]: " . mysql_error();
+					}
 				}
 				if ( $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_PREFIX'] !== $_SESSION['restore_form']['snapshot']['manifest-data']['WP_DB_PREFIX'] ) {
 					$TABLE_REPLACE_PREFIX_STR = $_SESSION['restore_form']['wordpress']['wp-config-db']['DB_PREFIX'];
@@ -659,7 +676,12 @@ if ( ! class_exists( 'Snapshot_View_Form_Recovery' ) ) {
 												if ( strlen( $table_name_new ) ) {
 													$sql_str = str_replace( '`' . $table_name . '`', '`' . $table_name_new . '`', $sql_str );
 												}
-												$result = mysql_query( $sql_str, $db_link );
+
+												if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+													$result = mysqli_query( $sql_str, $db_link );
+												} else {
+													$result = mysql_query( $sql_str, $db_link );
+												}
 											}
 										}
 									} else {
@@ -669,7 +691,13 @@ if ( ! class_exists( 'Snapshot_View_Form_Recovery' ) ) {
 											if ( strlen( $table_name_new ) ) {
 												$table_file_buffer = str_replace( '`' . $table_name . '`', '`' . $table_name_new . '`', $table_file_buffer );
 											}
-											$result = mysql_query( $table_file_buffer, $db_link );
+
+											if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+												$result = mysqli_query( $table_file_buffer, $db_link );
+											} else {
+												$result = mysql_query( $table_file_buffer, $db_link );
+											}
+
 											$table_record_count += 1;
 										}
 									}
@@ -696,9 +724,14 @@ if ( ! class_exists( 'Snapshot_View_Form_Recovery' ) ) {
 										}
 										//echo "table_name_replace=[". $table_name_replace ."]<br />";
 
-										Snapshot_Helper_Recovery::search_replace_table_data( $table_name_replace, $db_link,
-											$_SESSION['restore_form']['snapshot']['manifest-data']['WP_SITEURL'], $_SESSION['restore_form']['wordpress']['site-url'] );
-
+										// Use mysqli_ if PHP version above 5.3.0
+										if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+											Snapshot_Helper_Recovery::search_replace_table_data_mysqli( $table_name_replace, $db_link,
+												$_SESSION['restore_form']['snapshot']['manifest-data']['WP_SITEURL'], $_SESSION['restore_form']['wordpress']['site-url'] );
+										} else {
+											Snapshot_Helper_Recovery::search_replace_table_data_mysql( $table_name_replace, $db_link,
+												$_SESSION['restore_form']['snapshot']['manifest-data']['WP_SITEURL'], $_SESSION['restore_form']['wordpress']['site-url'] );
+										}
 										//die();
 									}
 								}
@@ -709,7 +742,13 @@ if ( ! class_exists( 'Snapshot_View_Form_Recovery' ) ) {
 				} else {
 					echo "Snapshot Archive manifest item 'TABLES' not set. Aborting";
 				}
-				mysql_close( $db_link );
+
+				if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+					mysqli_close( $db_link );
+				} else {
+					mysql_close( $db_link );
+				}
+
 				?>
 				<!-- <p><input type="submit" value="Finished"/></p> -->
 				<p><strong>Revovery Complete:</strong> <a href="<?php echo $_SESSION['restore_form']['wordpress']['home-url']; ?>">Return to Site</a></p>

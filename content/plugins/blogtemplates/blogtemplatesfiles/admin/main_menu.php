@@ -55,7 +55,7 @@ class blog_templates_main_menu {
      * @since 1.2.1
      */
     function network_admin_page() {
-        $this->page_id = add_menu_page( __( 'Blog Templates', 'blog_templates' ), __( 'Blog Templates', 'blog_templates' ), 'manage_network', $this->menu_slug, array($this,'admin_options_page'), 'div' );	     	 	  			 		 
+        $this->page_id = add_menu_page( __( 'Blog Templates', 'blog_templates' ), __( 'Blog Templates', 'blog_templates' ), 'manage_network', $this->menu_slug, array($this,'admin_options_page'), 'div' );
     }
 
     /**

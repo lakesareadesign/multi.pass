@@ -1,7 +1,7 @@
 /**
  * Temporary fix! Should be removed when fixed in WordPress core.
  *
- * The jQuery update in WordPress 4.5 breaks the media library 
+ * The jQuery update in WordPress 4.5 breaks the media library
  * when border-collapse is set to 'collapse' for the table element.
  * This is a temporary fix until fixed in core. See this ticket:
  * https://core.trac.wordpress.org/ticket/36533
@@ -337,7 +337,7 @@ html.fl-builder-edit {
 /* Builder Panel Actions
 ------------------------------------------------------ */
 
-.fl-builder-panel-actions {    
+.fl-builder-panel-actions {
 	background: #f4f4f4;
 	border-bottom: 1px solid #dbdbdb;
 	height: 43px;
@@ -821,7 +821,7 @@ span.fl-builder-block-no-node-templates:hover {
 }
 .fl-block-col-resize-handle {
 	background: #fff;
-	border: 1px solid #259aff; 
+	border: 1px solid #259aff;
 	height: 7px;
 	width: 7px;
 }
@@ -881,14 +881,14 @@ span.fl-builder-block-no-node-templates:hover {
 }
 .fl-builder-alert-lightbox .fl-lightbox {
 	width: 440px !important;
-} 
+}
 .fl-builder-alert-lightbox .fl-lightbox-message {
 	color: #333 !important;
 	font-family: Helvetica, Verdana, sans-serif !important;
 	font-size: 16px !important;
 	line-height: 24px;
 	padding: 30px;
-} 
+}
 
 /* Template Selector
 ------------------------------------------------------ */
@@ -1027,7 +1027,7 @@ span.fl-builder-block-no-node-templates:hover {
 }
 form.fl-builder-settings {
 	margin: 0;
-	padding: 0;   
+	padding: 0;
 }
 .fl-builder-settings-message {
 	font-size: 15px !important;
@@ -1140,25 +1140,25 @@ form.fl-builder-settings {
 	margin: 0;
 	position: absolute;
 	right: 10px;
-	top: 10px;	
+	top: 10px;
 }
 .fl-builder-settings-fields .fl-nanoscroller-content {
 	padding: 15px 20px;
 }
-.fl-builder-settings-fields textarea, 
-.fl-builder-settings-fields input[type=text], 
-.fl-builder-settings-fields input[type=password], 
-.fl-builder-settings-fields input[type=file], 
-.fl-builder-settings-fields input[type=email], 
-.fl-builder-settings-fields input[type=number], 
-.fl-builder-settings-fields input[type=search], 
-.fl-builder-settings-fields input[type=tel], 
-.fl-builder-settings-fields input[type=url], 
+.fl-builder-settings-fields textarea,
+.fl-builder-settings-fields input[type=text],
+.fl-builder-settings-fields input[type=password],
+.fl-builder-settings-fields input[type=file],
+.fl-builder-settings-fields input[type=email],
+.fl-builder-settings-fields input[type=number],
+.fl-builder-settings-fields input[type=search],
+.fl-builder-settings-fields input[type=tel],
+.fl-builder-settings-fields input[type=url],
 .fl-builder-settings-fields select {
-	background-color: #fff; 
+	background-color: #fff;
 	border-color: #dfdfdf;
 	border-style: solid;
-	border-width: 1px; 
+	border-width: 1px;
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -1175,15 +1175,15 @@ form.fl-builder-settings {
 	padding: 3px;
 	width: auto;
 }
-.fl-builder-settings-fields textarea:focus, 
-.fl-builder-settings-fields input[type=text]:focus, 
-.fl-builder-settings-fields input[type=password]:focus, 
-.fl-builder-settings-fields input[type=file]:focus, 
-.fl-builder-settings-fields input[type=email]:focus, 
-.fl-builder-settings-fields input[type=number]:focus, 
-.fl-builder-settings-fields input[type=search]:focus, 
-.fl-builder-settings-fields input[type=tel]:focus, 
-.fl-builder-settings-fields input[type=url]:focus, 
+.fl-builder-settings-fields textarea:focus,
+.fl-builder-settings-fields input[type=text]:focus,
+.fl-builder-settings-fields input[type=password]:focus,
+.fl-builder-settings-fields input[type=file]:focus,
+.fl-builder-settings-fields input[type=email]:focus,
+.fl-builder-settings-fields input[type=number]:focus,
+.fl-builder-settings-fields input[type=search]:focus,
+.fl-builder-settings-fields input[type=tel]:focus,
+.fl-builder-settings-fields input[type=url]:focus,
 .fl-builder-settings-fields select:focus {
 	background: transparent;
 	border-color: #aaa;
@@ -1247,20 +1247,20 @@ form.fl-builder-settings {
 	font-weight: normal;
 	text-transform: capitalize;
 }
-.wp-core-ui textarea, 
-.wp-core-ui input[type=text], 
-.wp-core-ui input[type=password], 
-.wp-core-ui input[type=file], 
-.wp-core-ui input[type=email], 
-.wp-core-ui input[type=number], 
-.wp-core-ui input[type=search], 
-.wp-core-ui input[type=tel], 
+.wp-core-ui textarea,
+.wp-core-ui input[type=text],
+.wp-core-ui input[type=password],
+.wp-core-ui input[type=file],
+.wp-core-ui input[type=email],
+.wp-core-ui input[type=number],
+.wp-core-ui input[type=search],
+.wp-core-ui input[type=tel],
 .wp-core-ui input[type=url],
 .wp-core-ui select {
-	background-color: #fff; 
+	background-color: #fff;
 	border-color: #dfdfdf;
 	border-style: solid;
-	border-width: 1px; 
+	border-width: 1px;
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -1270,15 +1270,15 @@ form.fl-builder-settings {
 	color: #333;
 	font-weight: normal;
 }
-.wp-core-ui textarea:focus, 
-.wp-core-ui input[type=text]:focus, 
-.wp-core-ui input[type=password]:focus, 
-.wp-core-ui input[type=file]:focus, 
-.wp-core-ui input[type=email]:focus, 
-.wp-core-ui input[type=number]:focus, 
-.wp-core-ui input[type=search]:focus, 
-.wp-core-ui input[type=tel]:focus, 
-.wp-core-ui input[type=url]:focus, 
+.wp-core-ui textarea:focus,
+.wp-core-ui input[type=text]:focus,
+.wp-core-ui input[type=password]:focus,
+.wp-core-ui input[type=file]:focus,
+.wp-core-ui input[type=email]:focus,
+.wp-core-ui input[type=number]:focus,
+.wp-core-ui input[type=search]:focus,
+.wp-core-ui input[type=tel]:focus,
+.wp-core-ui input[type=url]:focus,
 .wp-core-ui select:focus {
 	background: transparent;
 	border-color: #aaa;
@@ -1591,7 +1591,7 @@ form.fl-builder-settings {
 	margin: 4px 0 0 0;
 	padding: 10px;
 }
-.fl-link-field-search-title { 
+.fl-link-field-search-title {
 	display: block;
 	margin: 0 0 3px 2px;
 }
@@ -1625,7 +1625,7 @@ form.fl-builder-settings {
 	position: absolute;
 	top: -6px;
 	width: 250px;
-	z-index: 1000; 
+	z-index: 1000;
 }
 
 /* Multiples */
@@ -1637,7 +1637,6 @@ form.fl-builder-settings {
 	padding-left: 0 !important;
 	padding-right: 0 !important;
 	text-align: center;
-	vertical-align: middle;
 	width: 85px;
 }
 .fl-builder-field-actions i {
@@ -1705,10 +1704,10 @@ form.fl-builder-settings {
 
 /* Auto Suggest */
 ul.as-selections {
-	background-color: #fff; 
+	background-color: #fff;
 	border-color: #dfdfdf;
 	border-style: solid;
-	border-width: 1px; 
+	border-width: 1px;
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 FLBuilderModel::default_settings($settings, array(
 	'post_type' => 'post',
@@ -12,14 +12,14 @@ FLBuilderModel::default_settings($settings, array(
 <div id="fl-builder-settings-section-general" class="fl-loop-builder fl-builder-settings-section">
 
 	<table class="fl-form-table">
-	<?php 
-	
+	<?php
+
 	// Post type
 	FLBuilder::render_settings_field('post_type', array(
 		'type'          => 'post-type',
 		'label'         => __('Post Type', 'fl-builder'),
-	), $settings); 
-	
+	), $settings);
+
 	// Order by
 	FLBuilder::render_settings_field('order_by', array(
 		'type'          => 'select',
@@ -34,8 +34,8 @@ FLBuilderModel::default_settings($settings, array(
 			'menu_order'    => __('Menu Order', 'fl-builder'),
 			'rand'        	=> __('Random', 'fl-builder'),
 		)
-	), $settings); 
-	
+	), $settings);
+
 	// Order
 	FLBuilder::render_settings_field('order', array(
 		'type'          => 'select',
@@ -44,8 +44,8 @@ FLBuilderModel::default_settings($settings, array(
 			'DESC'          => __('Descending', 'fl-builder'),
 			'ASC'           => __('Ascending', 'fl-builder'),
 		)
-	), $settings); 
-	
+	), $settings);
+
 	// Offset
 	FLBuilder::render_settings_field('offset', array(
 		'type'          => 'text',
@@ -53,8 +53,8 @@ FLBuilderModel::default_settings($settings, array(
 		'default'       => '0',
 		'size'          => '4',
 		'help'          => __('Skip this many posts that match the specified criteria.', 'fl-builder')
-	), $settings); 
-	
+	), $settings);
+
 	?>
 	</table>
 </div>
@@ -62,20 +62,20 @@ FLBuilderModel::default_settings($settings, array(
 	<h3 class="fl-builder-settings-title"><?php _e('Filter', 'fl-builder'); ?></h3>
 	<?php foreach(FLBuilderLoop::post_types() as $slug => $type) : ?>
 		<table class="fl-form-table fl-loop-builder-filter fl-loop-builder-<?php echo $slug; ?>-filter" <?php if($slug == $settings->post_type) echo 'style="display:table;"'; ?>>
-		<?php 
-		
+		<?php
+
 		// Posts
 		FLBuilder::render_settings_field('posts_' . $slug, array(
 			'type'          => 'suggest',
 			'action'        => 'fl_as_posts',
 			'data'          => $slug,
 			'label'         => $type->label,
-			'help'          => sprintf(__('Enter a comma separated list of %s. Only these %s will be shown.', 'fl-builder'), $type->label, $type->label)
-		), $settings); 
-		
+			'help'          => sprintf(__('Enter a list of %s. Only these %s will be shown.', 'fl-builder'), $type->label, $type->label)
+		), $settings);
+
 		// Taxonomies
 		$taxonomies = FLBuilderLoop::taxonomies($slug);
-		
+
 		foreach($taxonomies as $tax_slug => $tax) {
 
 			FLBuilder::render_settings_field('tax_' . $slug . '_' . $tax_slug, array(
@@ -83,10 +83,10 @@ FLBuilderModel::default_settings($settings, array(
 				'action'        => 'fl_as_terms',
 				'data'          => $tax_slug,
 				'label'         => $tax->label,
-				'help'          => sprintf(__('Enter a comma separated list of %s. Only posts with these %s will be shown.', 'fl-builder'), $tax->label, $tax->label)
-			), $settings); 
+				'help'          => sprintf(__('Enter a list of %s. Only posts with these %s will be shown.', 'fl-builder'), $tax->label, $tax->label)
+			), $settings);
 		}
-		
+
 		?>
 		</table>
 	<?php endforeach; ?>
@@ -98,9 +98,9 @@ FLBuilderModel::default_settings($settings, array(
 		'type'          => 'suggest',
 		'action'        => 'fl_as_users',
 		'label'         => __('Authors', 'fl-builder'),
-		'help'          => __('Enter a comma separated list of authors usernames. Only posts with these authors will be shown.', 'fl-builder')
-	), $settings); 
-	
+		'help'          => __('Enter a list of authors usernames. Only posts with these authors will be shown.', 'fl-builder')
+	), $settings);
+
 	?>
 	</table>
 </div>

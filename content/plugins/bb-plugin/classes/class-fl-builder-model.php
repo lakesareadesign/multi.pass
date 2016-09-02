@@ -4506,14 +4506,18 @@ final class FLBuilderModel {
 			else {
 				$image = FL_BUILDER_URL . 'img/templates/' . ( empty( $template->image ) ? 'blank.jpg' : $template->image );
 			}
-			
-			$templates[] = array(
-				'id' 		=> $key,
-				'name'  	=> $template->name,
-				'image' 	=> $image,
-				'category'	=> isset( $template->category ) ? $template->category : $template->categories,
-				'type'      => 'core'
+
+			$template_data = array(
+				'id'       => $key,
+				'name'     => $template->name,
+				'image'    => $image,
+				'category' => isset( $template->category ) ? $template->category : $template->categories,
+				'type'     => 'core'
 			);
+
+			$template_data = apply_filters( 'fl_builder_template_selector_data', $template_data, $template );
+
+			$templates[] = $template_data;
 		}
 		
 		// Build the categorized templates array.

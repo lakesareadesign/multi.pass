@@ -110,4 +110,4 @@ if ( ! class_exists( 'TheLib3_Wrap' ) ) {
 	} // End: TheLib3_Wrap
 }
 // Stores the lib-directory if it contains the highest version files.
-TheLib3_Wrap::set_version( $version, $files );
+TheLib3_Wrap::set_version( $version, $files );							 			 	 	 		  

@@ -37,25 +37,18 @@ class WD_Widget_Manager extends WD_Component {
 			return;
 		}
 
-		$files_mapped = wp_defender()->files_mapped;
+		$widgets = array(
+			'WD_Backup_Widget',
+			'WD_Blacklist_Widget',
+			'WD_Performance_Widget',
+			'WD_Audit_Log_Widget',
+			'WD_Hardener_Widget',
+			'WD_Scan_Widget'
+		);
 
-		foreach ( $files_mapped as $file ) {
-			//determine the class name
-			$filename = pathinfo( $file, PATHINFO_FILENAME );
-			if ( strpos( $filename, '-widget' ) != ( strlen( $filename ) - strlen( '-widget' ) ) ) {
-				continue;
-			}
-			$parts = explode( '-', $filename );
-
-			//remove the class part
-			unset( $parts[0] );
-			//part 1 usullay the prefix, so we remove to
-			unset( $parts[1] );
-			$parts = array_map( 'ucfirst', $parts );
-
-			$class = str_replace( ' ', '_', 'WD_' . implode( ' ', $parts ) );
-			if ( class_exists( $class ) ) {
-				$this->_widgets[ $class ] = new $class;
+		foreach ( $widgets as $widget ) {
+			if ( class_exists( $widget ) ) {
+				$this->_widgets[ $widget ] = new $widget;
 			}
 		}
 	}

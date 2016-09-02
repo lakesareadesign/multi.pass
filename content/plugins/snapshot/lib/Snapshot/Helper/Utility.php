@@ -1727,6 +1727,8 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		 * @return string
 		 */
 		public static function size_format( $bytes = 0, $precision = 2 ) {
+			return size_format($bytes, $precision);
+			/*
 			$kilobyte = 1000;
 			$megabyte = $kilobyte * 1000;
 			$gigabyte = $megabyte * 1000;
@@ -1749,6 +1751,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			} else {
 				return $bytes . 'b';
 			}
+			*/
 		}
 
 		/**

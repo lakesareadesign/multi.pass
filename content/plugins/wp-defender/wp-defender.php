@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Defender
  * Plugin URI: https://premium.wpmudev.org/project/wp-defender/
- * Version:     1.1.1
+ * Version:     1.1.2
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
@@ -110,9 +110,7 @@ class WP_Defender {
 		$this->plugin_url  = plugin_dir_url( __FILE__ );
 
 		$this->includes();
-		$this->files_mapped = WD_Utils::get_dir_tree( $this->plugin_path, true, false, array(), array(
-			'ext' => array( 'php' )
-		) );
+
 		spl_autoload_register( array( $this, 'class_loader' ) );
 		add_action( 'init', array( &$this, 'init' ) );
 		add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
@@ -249,16 +247,66 @@ class WP_Defender {
 		if ( substr( $class, 0, 3 ) != 'wd_' ) {
 			return false;
 		}
+		$chunks = explode( '_', $class );
+		$pos    = array_pop( $chunks );
 		//build file name
 		$file_name = 'class-' . str_replace( '_', '-', $class ) . '.php';
+		//determine file path
+		switch ( strtolower( $pos ) ) {
+			case 'controller':
+				if ( is_file( $this->plugin_path . 'app/controller/' . $file_name ) ) {
+					include_once $this->plugin_path . 'app/controller/' . $file_name;
 
-		foreach ( $this->files_mapped as $mapped ) {
-			//this should not handle file inside module folder
-			if ( pathinfo( $mapped, PATHINFO_BASENAME ) == $file_name
-			     && ( strpos( $mapped, '/module/' ) === false || ( count( explode( DIRECTORY_SEPARATOR, str_replace( $this->plugin_path . 'app/module/', '', $mapped ) ) ) == 1 ) )
-			) {
-				include_once $mapped;
-			}
+					return;
+				}
+				break;
+			case 'model':
+				if ( is_file( $this->plugin_path . 'app/model/' . $file_name ) ) {
+					include_once $this->plugin_path . 'app/model/' . $file_name;
+
+					return;
+				}
+				break;
+			case 'abstract':
+				if ( is_file( $this->plugin_path . 'interface/' . $file_name ) ) {
+					include_once $this->plugin_path . 'interface/' . $file_name;
+
+					return;
+				}
+				break;
+			case 'module':
+				if ( is_file( $this->plugin_path . 'app/module/' . $file_name ) ) {
+					include_once $this->plugin_path . 'app/module/' . $file_name;
+
+					return;
+				}
+				break;
+			case 'widget':
+				if ( is_file( $this->plugin_path . 'app/widget/' . $file_name ) ) {
+					include_once $this->plugin_path . 'app/widget/' . $file_name;
+
+					return;
+				}
+				break;
+			default:
+				//looking in base
+				if ( is_file( $this->plugin_path . 'app/' . $file_name ) ) {
+					include_once $this->plugin_path . 'app/' . $file_name;
+
+					return;
+				} elseif ( is_file( $this->plugin_path . 'app/component/' . $file_name ) ) {
+					include_once $this->plugin_path . 'app/component/' . $file_name;
+
+					return;
+				}
+				break;
+		}
+
+		//if still here, means not our files, but need to check again in app folder
+		if ( is_file( $this->plugin_path . 'app/' . $file_name ) ) {
+			include_once $this->plugin_path . 'app/' . $file_name;
+
+			return;
 		}
 	}
 

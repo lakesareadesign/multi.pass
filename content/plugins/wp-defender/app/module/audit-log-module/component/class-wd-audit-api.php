@@ -49,9 +49,9 @@ class WD_Audit_API extends WD_Component {
 				//socket_set_nonblock( $fp );
 				wp_defender()->global['sockets'][] = $fp;
 			}
-			$end = new DateTime();
-			@WD_Component::log( 'time for create socket ' . $end->diff( $start )->format( '%s' ) );
-
+			$end       = new DateTime();
+			$component = new WD_Component();
+			$component->log( 'time for create socket ' . $end->diff( $start )->format( '%s' ) );
 		}
 	}
 
@@ -80,17 +80,17 @@ class WD_Audit_API extends WD_Component {
 			return false;
 		}
 
-		$sks = $sockets;
-		$r   = null;
-		$e   = null;
-
+		$sks       = $sockets;
+		$r         = null;
+		$e         = null;
+		$component = new WD_Component();
 		if ( ( $socket_ready = stream_select( $r, $sks, $e, 1 ) ) === false ) {
 			//this case error happen
-			@WD_Component::log( 'socket error' );
+			$component->log( 'socket error' );
 
 			return false;
 		} elseif ( $socket_ready == 0 ) {
-			@WD_Component::log( 'no socket ready' );
+			$component->log( 'no socket ready' );
 
 			return self::_submit_by_socket_check_later( $data, $sockets );
 		}
@@ -211,6 +211,20 @@ class WD_Audit_API extends WD_Component {
 
 				return 0;
 		}
+	}
+
+	public static function get_date_format() {
+		$date_format = get_option( 'date_format' );
+		if ( ! in_array( $date_format, array(
+			'm/d/Y',
+			'Y-m-d',
+			'd/m/Y'
+		) )
+		) {
+			$date_format = ' Y-m-d';
+		}
+
+		return $date_format;
 	}
 
 	public static function get_data() {

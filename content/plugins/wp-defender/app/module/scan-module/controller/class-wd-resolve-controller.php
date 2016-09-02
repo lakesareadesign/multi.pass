@@ -49,10 +49,12 @@ class WD_Resolve_Controller extends WD_Controller {
 
 	public function admin_menu() {
 		$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
-		add_submenu_page( 'wp-defender', __( "Detail Information", wp_defender()->domain ), __( "Detail Information", wp_defender()->domain ), $cap, 'wdf-issue-detail', array(
-			$this,
-			'display_main'
-		) );
+		if ( WD_Utils::http_get( 'page' ) == 'wdf-issue-detail' ) {
+			add_submenu_page( 'wp-defender', __( "Detail Information", wp_defender()->domain ), __( "Detail Information", wp_defender()->domain ), $cap, 'wdf-issue-detail', array(
+				$this,
+				'display_main'
+			) );
+		}
 	}
 
 	public function display_main() {
@@ -91,16 +93,7 @@ class WD_Resolve_Controller extends WD_Controller {
 	 * @return bool
 	 */
 	private function is_in_page() {
-		$screen = get_current_screen();
-		if ( is_object( $screen ) && in_array( $screen->id, array(
-				'defender_page_wdf-issue-detail',
-				'defender_page_wdf-issue-detail-network'
-			) )
-		) {
-			return true;
-		}
-
-		return false;
+		return WD_Utils::http_get( 'page' ) == 'wdf-issue-detail';
 	}
 
 	/**

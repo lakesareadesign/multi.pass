@@ -30,6 +30,9 @@ class App_Mp_ProductCartDisplay {
 
 		add_action('app-settings-payment_settings-marketpress', array($this, 'show_settings'));
 		add_filter('app-options-before_save', array($this, 'save_settings'));
+
+		add_action( 'wp_ajax_mp_update_cart', array( $this, 'update_apps_on_cart_change' ) );
+		add_action( 'wp_ajax_nopriv_mp_update_cart', array( $this, 'update_apps_on_cart_change' ) );
 	}
 
 	public function apply_changes ($name, $service, $worker, $start, $app) {
@@ -39,19 +42,19 @@ class App_Mp_ProductCartDisplay {
 	}
 
 	public function auto_add_to_cart () {
-			global $post;
-			if (!$this->_core->is_app_mp_page($post)) return false;
-			?>
-<script>
-(function ($) {
+		global $post;
+		if (!$this->_core->is_app_mp_page($post)) return false;
+		?>
+		<script>
+			(function ($) {
 
-$(document).on("app-confirmation-response_received", function (e, response) {
-	if (!(response && response.mp && 1 == response.mp)) return false;
-	$(".mp_buy_form").hide().submit();
-});
+				$(document).on("app-confirmation-response_received", function (e, response) {
+					if (!(response && response.mp && 1 == response.mp)) return false;
+					$(".mp_buy_form").hide().submit();
+				});
 
-})(jQuery);
-</script>
+			})(jQuery);
+		</script>
 		<?php
 	}
 
@@ -79,22 +82,56 @@ $(document).on("app-confirmation-response_received", function (e, response) {
 
 			$cart_name_format = isset( $this->_data['cart_name_format'] ) ? $this->_data['cart_name_format'] : '';
 			?>
-<tr class="payment_row" <?php if ( $this->_data['payment_required'] != 'yes' ) echo 'style="display:none"';?>>
-	<th scope="row"><?php _e('Appointment in shopping cart format', 'appointments'); ?></th>
-	<td colspan="2">
-		<input type="text" class="widefat" name="cart_name_format" id="app-cart_name_format" value="<?php echo $cart_name_format; ?>" />
-		<span class="description"><?php printf(__('You can use these macros: <code>%s</code>', 'appointments'), $macros); ?></span>
-	</td>
-</tr>
-<tr class="payment_row" <?php if ( $this->_data['payment_required'] != 'yes' ) echo 'style="display:none"';?>>
-	<th scope="row"><?php _e('Auto-add appointments into cart', 'appointments'); ?></th>
-	<td colspan="2">
-		<input type="hidden" name="auto_add_to_cart" value="" />
-		<input type="checkbox" name="auto_add_to_cart" id="app-auto_add_to_cart" value="1" <?php echo (!empty($this->_data['auto_add_to_cart']) ? 'checked="checked"' : ''); ?> />
-	</td>
-</tr>
+			<tr class="payment_row" <?php if ( $this->_data['payment_required'] != 'yes' ) echo 'style="display:none"';?>>
+				<th scope="row"><?php _e('Appointment in shopping cart format', 'appointments'); ?></th>
+				<td colspan="2">
+					<input type="text" class="widefat" name="cart_name_format" id="app-cart_name_format" value="<?php echo $cart_name_format; ?>" />
+					<span class="description"><?php printf(__('You can use these macros: <code>%s</code>', 'appointments'), $macros); ?></span>
+				</td>
+			</tr>
+			<tr class="payment_row" <?php if ( $this->_data['payment_required'] != 'yes' ) echo 'style="display:none"';?>>
+				<th scope="row"><?php _e('Auto-add appointments into cart', 'appointments'); ?></th>
+				<td colspan="2">
+					<input type="hidden" name="auto_add_to_cart" value="" />
+					<input type="checkbox" name="auto_add_to_cart" id="app-auto_add_to_cart" value="1" <?php echo (!empty($this->_data['auto_add_to_cart']) ? 'checked="checked"' : ''); ?> />
+				</td>
+			</tr>
 			<?php
 		}
 	}
+
+
+	public function update_apps_on_cart_change(){
+
+		if( mp_get_post_value( 'cart_action' ) != 'remove_item' && mp_get_post_value( 'cart_action' ) != 'undo_remove_item' ) return;
+
+		$product_id = mp_get_post_value( 'product', null );
+
+		if ( mp_get_post_value( 'cart_action' ) != 'empty_cart' && is_null( $product_id ) ) {
+			wp_send_json_error();
+		}
+
+
+		if ( is_array( $product_id ) ) {
+
+			$product_id = mp_arr_get_value( 'product_id', $product_id );
+
+		}
+
+
+		$app_id = get_post_meta( $product_id, 'name', true );
+
+		if( !is_numeric( $app_id ) ) return;
+
+		$cart_action = mp_get_post_value( 'cart_action' );
+
+		switch ( $cart_action ){
+			case 'remove_item': appointments_update_appointment_status( $app_id, 'removed' ); break;
+			case 'undo_remove_item': appointments_update_appointment_status( $app_id, 'pending' ); break;
+
+		}
+
+	}
+
 }
 App_Mp_ProductCartDisplay::serve();

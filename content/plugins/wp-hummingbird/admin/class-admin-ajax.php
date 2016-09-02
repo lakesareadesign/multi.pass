@@ -416,6 +416,8 @@ class WP_Hummingbird_Admin_AJAX {
 				// Remove Hummingbird caching
 				wphb_unsave_htaccess( 'caching' );
 
+				update_site_option( 'wphb-is-cloudflare', 1 );
+
 				// And set the new CF setting
 				$cloudflare->set_caching_expiration( 691200 );
 

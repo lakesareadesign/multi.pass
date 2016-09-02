@@ -5,6 +5,10 @@ Contributors: Cole Stevenson, Jose Jaureguiberry
 
 == Changelog ==
 
+= 2.6.4.4 =
+Fixed issues with address colection for manual gateway
+WPMUDEV dashboard notice update
+
 = 2.6.4.3 =
 Fixed "Times Up!" issues with simple donation fundraising
 
@@ -273,4 +277,4 @@ New custom template structure for your theme
 Addition of several action and filter hooks for external plugins or theme function files.
 
 
-133620-1465596664-au
+133620-1472790795-au

@@ -1,7 +1,7 @@
 <?php
 /**
 Plugin Name: WP Hummingbird
-Version: 1.3.1
+Version: 1.3.2
 Plugin URI:  https://premium.wpmudev.org/project/1081721/
 Description: Hummingbird zips through your site finding new ways to make it load faster, from file compression and minification to browser caching – because when it comes to pagespeed, every millisecond counts.
 Author: WPMU DEV
@@ -31,7 +31,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-define( 'WPHB_VERSION', '1.3.1' );
+define( 'WPHB_VERSION', '1.3.2' );
 /**
  * Class WP_Hummingbird
  *
@@ -316,9 +316,14 @@ function wphb_activate( $redirect = true ) {
 	/** @noinspection PhpIncludeInspection */
 	include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-cache.php' );
 	/** @noinspection PhpIncludeInspection */
+	include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-modules.php' );
+	/** @noinspection PhpIncludeInspection */
 	include_once( wphb_plugin_dir() . 'core/class-abstract-module.php' );
 	/** @noinspection PhpIncludeInspection */
 	include_once( wphb_plugin_dir() . 'core/modules/class-module-uptime.php' );
+	/** @noinspection PhpIncludeInspection */
+	include_once( wphb_plugin_dir() . 'core/modules/class-module-cloudflare.php' );
+
 	wphb_include_file_cache_class();
 
 	$model = wphb_get_model();

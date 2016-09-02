@@ -311,7 +311,7 @@
 
   /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 
-  @media only screen and (max-width: 480px) {
+  @media only screen and (max-width: 600px) {
     .col {
       padding: 0;
     }
@@ -400,6 +400,9 @@
   }
   .wd-dashboard-intro {
     background: url("img/dev-man.png") white no-repeat 4% 100%;
+    @media only screen and (max-width: 768px) {
+      background: none;
+    }
     .box-content {
       margin-top: 42px;
       .group {
@@ -421,11 +424,25 @@
       .span_6_of_12:last-child {
         padding: 0 0 0 15px;
       }
+      @media only screen and (max-width: 768px) {
+        .span_6_of_12 {
+          width: 100%;
+        }
+        .span_6_of_12:first-child {
+          padding: 0;
+        }
+        .span_6_of_12:last-child {
+          padding: 0;
+        }
+      }
     }
   }
 
   .wd-hardener-summary {
     background: url("img/dev-man.png") no-repeat white 95% 100%;
+    @media only screen and (max-width: 768px) {
+      background: none;
+    }
   }
 
   .hardener-title {
@@ -908,6 +925,7 @@
       .search-box {
         display: inline-block;
         width: auto;
+        margin-bottom: 20px;
       }
       .button {
         margin-top: 5px;
@@ -1511,10 +1529,16 @@
           font-weight: 500;
           margin-right: 10px;
         }
-        .wd-audit-filter {
-          float: left;;
+        .wd-audit-user-filter {
+          float:left;
           display: inline-block;
           min-width: 30%;
+          margin-bottom: 20px;
+          #wd_user_id {
+            width: 83%;
+            color: #477B92;
+            font-weight: normal;
+          }
           .select-container {
             width: 70%;
             float: left;

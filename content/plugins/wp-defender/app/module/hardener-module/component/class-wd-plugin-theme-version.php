@@ -60,29 +60,31 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 		$plugins = get_site_transient( 'update_plugins' );
 
 		$need_update = array();
-		foreach ( (array) $plugins->response as $key => $plugin ) {
-			$data = get_plugin_data( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $key );
-			if ( version_compare( $data['Version'], $plugin->new_version ) == - 1 ) {
-				//this case, the version lower than newest
-				//this is for wpmudev plugin
-				$update_notices = property_exists( $plugin, 'upgrade_notice' ) === true ? $plugin->upgrade_notice : null;
-				if ( ! is_array( $update_notices ) ) {
-					$update_notices = preg_split( '/<br[^>]*>/i', $update_notices );
+		if ( is_object( $plugins ) ) {
+			foreach ( (array) $plugins->response as $key => $plugin ) {
+				$data = get_plugin_data( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $key );
+				if ( version_compare( $data['Version'], $plugin->new_version ) == - 1 ) {
+					//this case, the version lower than newest
+					//this is for wpmudev plugin
+					$update_notices = property_exists( $plugin, 'upgrade_notice' ) === true ? $plugin->upgrade_notice : null;
+					if ( ! is_array( $update_notices ) ) {
+						$update_notices = preg_split( '/<br[^>]*>/i', $update_notices );
+					}
+					//we only need a strip version
+					if ( is_array( $update_notices ) && count( $update_notices ) ) {
+						$update_notices = array_shift( $update_notices );
+						$update_notices = strip_tags( $update_notices );
+						$update_notices = wp_trim_words( $update_notices, apply_filters( $this->id . '/truncate_length', 15 ) );
+					}
+					$need_update[] = array(
+						'name'           => $data['Name'],
+						'new_version'    => $plugin->new_version,
+						'version'        => $data['Version'],
+						'slug'           => $plugin->slug,
+						'base'           => $key,
+						'update_notices' => $update_notices
+					);
 				}
-				//we only need a strip version
-				if ( is_array( $update_notices ) && count( $update_notices ) ) {
-					$update_notices = array_shift( $update_notices );
-					$update_notices = strip_tags( $update_notices );
-					$update_notices = wp_trim_words( $update_notices, apply_filters( $this->id . '/truncate_length', 15 ) );
-				}
-				$need_update[] = array(
-					'name'           => $data['Name'],
-					'new_version'    => $plugin->new_version,
-					'version'        => $data['Version'],
-					'slug'           => $plugin->slug,
-					'base'           => $key,
-					'update_notices' => $update_notices
-				);
 			}
 		}
 
@@ -97,17 +99,19 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 		$themes = get_site_transient( 'update_themes' );
 
 		$need_update = array();
-		foreach ( (array) $themes->response as $key => $theme ) {
-			$data = wp_get_theme( $key );
-			if ( version_compare( $data->Version, $theme['new_version'] ) == - 1 ) {
-				$need_update[] = array(
-					'name'        => $data['Name'],
-					'new_version' => $theme['new_version'],
-					'version'     => $data['Version'],
-					'base'        => $key,
-					//'update_notices' => $update_notices
-				);
+		if ( is_object( $themes ) ) {
+			foreach ( (array) $themes->response as $key => $theme ) {
+				$data = wp_get_theme( $key );
+				if ( version_compare( $data->Version, $theme['new_version'] ) == - 1 ) {
+					$need_update[] = array(
+						'name'        => $data['Name'],
+						'new_version' => $theme['new_version'],
+						'version'     => $data['Version'],
+						'base'        => $key,
+						//'update_notices' => $update_notices
+					);
 
+				}
 			}
 		}
 

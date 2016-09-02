@@ -3,8 +3,8 @@ Contributors: brandbrilliance
 Donate link: http://j.mp/1QvdGgX
 Tags: wp-admin, admin, post state, color, post colours, list, highlight
 Requires at least: 3.8
-Tested up to: 4.5
-Stable tag: 1.1.4
+Tested up to: 4.6
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,7 +106,11 @@ add_filter( 'bb_pst_lightvalue', 'my_lightvalue', 10, 2 );
 
 == Changelog ==
 
-= 1.1.3 =
+= 1.1.5 =
+* Fixed installation bug where icons weren't setup correctly (finally)
+* Flag as compatible with Wordpress 4.6
+
+= 1.1.4 =
 * Flag as compatible with Wordpress 4.5
 
 = 1.1.3 =

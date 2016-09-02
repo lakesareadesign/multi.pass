@@ -30,6 +30,8 @@
 		editor.getSession().on('change', function(e) {
 			textarea.val(editor.getSession().getValue()).trigger('change');
 		});
+		
+		textarea.closest( '.fl-field' ).data( 'editor', editor );
 	});
 	
 	</script>

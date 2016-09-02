@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Snapshot
-Version: 2.5.0.1
+Version: 3.0
 Description: This plugin allows you to take quick on-demand backup snapshots of your working WordPress database. You can select from the default WordPress tables as well as custom plugin tables within the database structure. All snapshots are logged, and you can restore the snapshot as needed.
 Author: WPMU DEV
-Author URI: http://premium.wpmudev.org/
-Plugin URI: http://premium.wpmudev.org/project/snapshot
+Author URI: https://premium.wpmudev.org/
+Plugin URI: https://premium.wpmudev.org/project/snapshot/
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: snapshot
@@ -18,7 +18,7 @@ WDP ID: 257
  * @copyright Incsub (http://incsub.com/)
  *
  * Authors: WPMU DEV
- * Contributors: Rheinard Korf (Incsub), Cvetan Cvetanov (Incsub), Paul Menard
+ * Contributors: Rheinard Korf (Incsub), Cvetan Cvetanov (Incsub), Paul Menard, Vladislav Bailovic, Aaron Edwards
  *
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (GPL-2.0)
  *
@@ -91,7 +91,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			$this->plugin_url  = plugin_dir_url( __FILE__ );
 
 			$this->DEBUG                         = false;
-			$this->_settings['SNAPSHOT_VERSION'] = '2.5.0.1';
+			$this->_settings['SNAPSHOT_VERSION'] = '3.0';
 
 			if ( is_multisite() ) {
 				$this->_settings['SNAPSHOT_MENU_URL'] = network_admin_url() . 'admin.php?page=';
@@ -112,7 +112,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 
 			$this->_settings['SNAPSHOT_PLUGIN_URL']      = trailingslashit( WP_PLUGIN_URL ) . basename( dirname( __FILE__ ) );
 			$this->_settings['SNAPSHOT_PLUGIN_BASE_DIR'] = dirname( __FILE__ );
-			$this->_settings['admin_menu_label']         = __( "Snapshots", SNAPSHOT_I18N_DOMAIN ); // Used as the 'option_name' for wp_options table
+			$this->_settings['admin_menu_label']         = __( "Snapshot", SNAPSHOT_I18N_DOMAIN ); // Used as the 'option_name' for wp_options table
 
 			$this->_settings['options_key'] = "wpmudev_snapshot";
 
@@ -143,11 +143,18 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				'id'      => 257,
 				'name'    => 'Snapshot',
 				'screens' => array(
+					'toplevel_page_snapshots_edit_panel',
+					'snapshots_page_snapshots_new_panel',
+					'snapshots_page_snapshots_destinations_panel',
+					'snapshots_page_snapshots_import_panel',
+					'snapshots_page_snapshots_settings_panel',
+					'snapshot_page_snapshots_full_backup_panel',
 					'toplevel_page_snapshots_edit_panel-network',
 					'snapshots_page_snapshots_new_panel-network',
 					'snapshots_page_snapshots_destinations_panel-network',
 					'snapshots_page_snapshots_import_panel-network',
-					'snapshots_page_snapshots_settings_panel-network'
+					'snapshots_page_snapshots_settings_panel-network',
+					'snapshot_page_snapshots_full_backup_panel-network',
 				)
 			);
 
@@ -267,6 +274,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 
 				}
 			}
+			Snapshot_Controller_Full::get()->run();
 		}
 
 		/**
@@ -379,6 +387,8 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 					}
 				}
 			}
+
+			Snapshot_Controller_Full::get()->deactivate();
 		}
 
 		/**
@@ -425,9 +435,14 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 		 * @return array the same links array as was passed into function but with possible changes.
 		 */
 		function snapshot_plugin_settings_link_proc( $links ) {
-
-			$settings_link = '<a href="' . $this->_settings['SNAPSHOT_MENU_URL'] . 'snapshots_settings_panel">'
-			                 . __( 'Settings', SNAPSHOT_I18N_DOMAIN ) . '</a>';
+			$settings_link = '' .
+				'<a href="' .
+					//esc_url($this->_settings['SNAPSHOT_MENU_URL'] . 'snapshots_settings_panel') .
+					esc_url($this->_settings['SNAPSHOT_MENU_URL'] . 'snapshots_new_panel') .
+				'">' .
+			    	__( 'Settings', SNAPSHOT_I18N_DOMAIN ) .
+				'</a>' .
+			'';
 			array_unshift( $links, $settings_link );
 
 			return $links;
@@ -461,8 +476,8 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			} else {
 				$menu_role_cap = 'export';
 			}
-			add_menu_page( _x( "Snapshots", 'page label', SNAPSHOT_I18N_DOMAIN ),
-				_x( "Snapshots", 'menu label', SNAPSHOT_I18N_DOMAIN ),
+			add_menu_page( _x( "Snapshot", 'page label', SNAPSHOT_I18N_DOMAIN ),
+				_x( "Snapshot", 'menu label', SNAPSHOT_I18N_DOMAIN ),
 				$menu_role_cap,
 				'snapshots_edit_panel',
 				array( $this->_snapshot_admin_panels, 'snapshot_admin_show_items_panel' ),
@@ -516,7 +531,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				$menu_role_cap = 'export';
 			}
 			$this->_pagehooks['snapshots-import'] = add_submenu_page( 'snapshots_edit_panel',
-				_x( 'Snapshots Import', 'page label', SNAPSHOT_I18N_DOMAIN ),
+				_x( 'Snapshot Import', 'page label', SNAPSHOT_I18N_DOMAIN ),
 				_x( 'Import', 'menu label', SNAPSHOT_I18N_DOMAIN ),
 				$menu_role_cap,
 				'snapshots_import_panel',
@@ -529,7 +544,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				$menu_role_cap = 'export';
 			}
 			$this->_pagehooks['snapshots-settings'] = add_submenu_page( 'snapshots_edit_panel',
-				_x( 'Snapshots Settings', 'page label', SNAPSHOT_I18N_DOMAIN ),
+				_x( 'Snapshot Settings', 'page label', SNAPSHOT_I18N_DOMAIN ),
 				_x( 'Settings', 'menu label', SNAPSHOT_I18N_DOMAIN ),
 				$menu_role_cap,
 				'snapshots_settings_panel',
@@ -626,7 +641,6 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			wp_enqueue_script( 'wp-lists' );
 			wp_enqueue_script( 'postbox' );
 
-//			require( 'lib/snapshot_admin_metaboxes.php' );
 			$_snapshot_metaboxes = new Snapshot_View_Metabox_Admin();
 
 
@@ -637,11 +651,13 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				$this->_pagehooks['snapshots-settings'],
 				'normal', 'core' );
 
+/*
 			add_meta_box( 'snapshot-display-settings-panel-segment-size',
 				__( 'Database Segment Size', SNAPSHOT_I18N_DOMAIN ),
 				array( $_snapshot_metaboxes, 'snapshot_metaboxes_show_segment_size' ),
 				$this->_pagehooks['snapshots-settings'],
 				'normal', 'core' );
+*/
 
 			add_meta_box( 'snapshot-display-settings-panel-server-info',
 				__( 'Server Info', SNAPSHOT_I18N_DOMAIN ),
@@ -649,17 +665,13 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				$this->_pagehooks['snapshots-settings'],
 				'normal', 'core' );
 
+/*
 			add_meta_box( 'snapshot-display-settings-panel-memory-limit',
 				__( 'Memory Limit', SNAPSHOT_I18N_DOMAIN ),
 				array( $_snapshot_metaboxes, 'snapshot_metaboxes_show_memory_limit' ),
 				$this->_pagehooks['snapshots-settings'],
 				'normal', 'core' );
-
-			//add_meta_box('snapshot-display-settings-panel-archive-import',
-			//	__('Archive Import', SNAPSHOT_I18N_DOMAIN),
-			//	array($_snapshot_metaboxes, 'snapshot_metaboxes_show_archives_import'),
-			//	$this->_pagehooks['snapshots-settings'],
-			//	'normal', 'core');
+*/
 
 			add_meta_box( 'snapshot-display-settings-panel-global-file-excludes',
 				__( 'Global File Exclusions', SNAPSHOT_I18N_DOMAIN ),
@@ -672,37 +684,13 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				array( $_snapshot_metaboxes, 'snapshot_metaboxes_show_global_error_reporting' ),
 				$this->_pagehooks['snapshots-settings'],
 				'normal', 'core' );
-
+/*
 			add_meta_box( 'snapshot-display-settings-panel-global-zip-library',
 				__( 'Compression Library', SNAPSHOT_I18N_DOMAIN ),
 				array( $_snapshot_metaboxes, 'snapshot_metaboxes_show_zip_library' ),
 				$this->_pagehooks['snapshots-settings'],
 				'normal', 'core' );
-			/*
-						add_meta_box('snapshot-display-settings-panel-destinations-items',
-							__('Destination Items', SNAPSHOT_I18N_DOMAIN),
-							array($_snapshot_metaboxes, 'snapshot_metaboxes_show_destination_items'),
-							$this->_pagehooks['snapshots-settings'],
-							'normal', 'core');
-			*/
-			/*
-						add_meta_box('snapshot-display-settings-panel-config-export',
-							__('Configuration Export', SNAPSHOT_I18N_DOMAIN),
-							array($_snapshot_metaboxes, 'snapshot_metaboxes_show_config_export'),
-							$this->_pagehooks['snapshots-settings'],
-							'normal', 'core');
-			*/
-
-
-			//		if ( (is_multisite()) && (is_super_admin()) && (is_network_admin()) ) {
-			//
-			//			add_meta_box('snapshot-display-settings-panel-migration',
-			//				__('Snapshot Migration', SNAPSHOT_I18N_DOMAIN),
-			//				array($_snapshot_metaboxes, 'snapshot_metaboxes_show_migration'),
-			//				$this->_pagehooks['snapshots-settings'],
-			//				'normal', 'core');
-			//
-			//		} else
+*/
 
 			if ( ! is_multisite() ) {
 
@@ -1554,6 +1542,12 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				$item['notes'] = "";
 			}
 
+			if ( isset( $_post_array['snapshot-store-local'] ) ) {
+				$item['store-local'] = sanitize_text_field( $_post_array['snapshot-store-local'] );
+			} else {
+				$item['store-local'] = "1";
+			}
+
 			$current_user = wp_get_current_user();
 			if ( ( isset( $current_user->ID ) ) && ( intval( $current_user->ID ) ) ) {
 				$item['user'] = $current_user->ID;
@@ -2063,7 +2057,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				$this->config_data['config']['segmentSize'] = 1000;
 			}
 
-			if ( ( ! isset( $this->config_data['config']['memoryLimit'] ) ) || ( empty( $this->config_data['config']['memoryLimit'] ) ) ) {
+			//if ( ( ! isset( $this->config_data['config']['memoryLimit'] ) ) || ( empty( $this->config_data['config']['memoryLimit'] ) ) ) {
 
 				$memory_limits                  = array();
 				$memory_limit                   = ini_get( 'memory_limit' );
@@ -2080,7 +2074,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 					$this->config_data['config']['memoryLimit'] = $memory_key;
 					break;
 				}
-			}
+			//}
 
 			if ( ! isset( $this->config_data['config']['errorReporting'] ) ) {
 				$this->config_data['config']['errorReporting']                    = array();
@@ -2096,7 +2090,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			}
 
 			if ( ! isset( $this->config_data['config']['zipLibrary'] ) ) {
-				$this->config_data['config']['zipLibrary'] = 'PclZip';
+				$this->config_data['config']['zipLibrary'] = 'ZipArchive';
 			}
 			if ( ( $this->config_data['config']['zipLibrary'] == 'ZipArchive' ) && ( ! class_exists( 'ZipArchive' ) ) ) {
 				$this->config_data['config']['zipLibrary'] = 'PclZip';
@@ -6354,11 +6348,18 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			// We only need the remote file cron if we have destinations defined
 			if ( ( isset( $this->config_data['destinations'] ) ) && ( count( $this->config_data['destinations'] ) ) ) {
 
-				$timestamp = wp_next_scheduled( $this->_settings['remote_file_cron_hook'] );
-				if ( ! $timestamp ) {
-					wp_schedule_event( time(), $this->_settings['remote_file_cron_interval'], $this->_settings['remote_file_cron_hook'] );
-					$HAVE_SCHEDULED_EVENTS = true;
+				// Special-case local destination check
+				// We shouldn't really do the remote file hook with only local destination set up
+				// And it is always set up by default, @see $this->load_config()
+				$destinations = $this->config_data['destinations'];
+				if (!empty($destinations['local']) && count($destinations) > 1) {
+					// Ok, so we have destinations that are not local. We should schedule, really
+					$timestamp = wp_next_scheduled( $this->_settings['remote_file_cron_hook'] );
+					if ( ! $timestamp ) {
+						wp_schedule_event( time(), $this->_settings['remote_file_cron_interval'], $this->_settings['remote_file_cron_hook'] );
+						$HAVE_SCHEDULED_EVENTS = true;
 
+					}
 				}
 			}
 
@@ -7025,6 +7026,13 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 					$data_item['destination-status'] = array();
 				}
 
+				if( isset( $item['store-local'] ) && ( $item['store-local'] == 0 ) ) {
+					if ( ( isset( $error_array['sendFileStatus'] ) ) && ( $error_array['sendFileStatus'] === true ) ) {
+						$snapshot_logger->log_message( "Local archive removed: " . basename( $backupFile ) );
+						@unlink($backupFile);
+					}
+				}
+
 
 				$data_item['destination-status'][ time() ] = $error_array;
 				//echo "destination-status<pre>"; print_r($data_item['destination-status']); echo "</pre>";
@@ -7151,6 +7159,13 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 							foreach ( $error_array['errorArray'] as $message ) {
 								$snapshot_logger->log_message( "ERROR: " . $message );
 							}
+						}
+					}
+
+					if( isset( $item['store-local'] ) && ( $item['store-local'] == 0 ) ) {
+						if ( ( isset( $error_array['sendFileStatus'] ) ) && ( $error_array['sendFileStatus'] === true ) ) {
+							$snapshot_logger->log_message( "Local archive removed: " . basename( $backupFile ) );
+							@unlink($backupFile);
 						}
 					}
 

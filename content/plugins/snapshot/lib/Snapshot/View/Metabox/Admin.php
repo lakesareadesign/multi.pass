@@ -500,7 +500,8 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 			}
 
 			if ( ! isset( $item['files-option'] ) ) {
-				$item['files-option'] = "none";
+				//$item['files-option'] = "none";
+				$item['files-option'] = "all"; // Default to all files
 			}
 
 			if ( ! isset( $item['files-sections'] ) ) {
@@ -1036,7 +1037,8 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 							<td>
 								<?php
 								if ( ! isset( $item['archive-count'] ) ) {
-									$item['archive-count'] = 0;
+									//$item['archive-count'] = 0;
+									$item['archive-count'] = 7; // Default to limited number of recurring archives
 								}
 
 								?>
@@ -1096,6 +1098,25 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 								</select><br/>
 
 								<p class="description"><?php _e( "If you select a remote destination and the 'Interval' is set as Immediate, the snapshot backup file will not be sent during the normal backup step. Instead the transfer of the backup file will be scheduled at a later time. This is to prevent the screen from locking while the backup file is sent to the remote destination.", SNAPSHOT_I18N_DOMAIN ); ?></p>
+
+							</td>
+						</tr>
+						<tr class="form-field snapshot-store-local">
+							<th scope="row">
+								<label
+									for="snapshot-destination-local"><?php _e( 'Keep local archives?', SNAPSHOT_I18N_DOMAIN ); ?></label>
+							</th>
+							<td>
+								<select name="snapshot-store-local" id="snapshot-store-local">
+									<option value="1" <?php if ( isset( $item['store-local'] ) && $item['store-local'] == "1" ) {
+									       echo 'selected';
+								       } ?>><?php _e( 'Yes', SNAPSHOT_I18N_DOMAIN ); ?></option>
+									<option value="0" <?php if ( isset( $item['store-local'] ) && $item['store-local'] == "0" ) {
+									       echo 'selected';
+								       } ?>><?php _e( 'No', SNAPSHOT_I18N_DOMAIN ); ?></option>
+								</select><br/>
+
+								<p class="description"><?php _e( "By default, Snapshot keeps a local copy of your backup, as well as uploading the archive to your chosen destination. Choose <strong>No</strong> if you wish just remove the local copy after the upload is complete.", SNAPSHOT_I18N_DOMAIN ); ?></p>
 
 							</td>
 						</tr>
@@ -2070,9 +2091,60 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 		<?php
 		}
 
+		/**
+		 * New server info output instead of the old one
+		 *
+		 * If Dashboard plugin is present, it will show the link to its server info.
+		 * Otherwise, ask users to install it
+		 *
+		 * @return bool False if the user can't reach Dashboard output
+		 */
+		private function _show_moved_server_info () {
+			$action = '';
+			$message = '';
+			$url = false;
+
+			// Kick off view settings - start with basic check
+			$user_can_view_dashboard = is_multisite()
+				? current_user_can('manage_network_options')
+				: current_user_can('manage_options')
+			;
+			if (class_exists('WPMUDEV_Dashboard') && !empty(WPMUDEV_Dashboard::$site) && is_callable(array(WPMUDEV_Dashboard::$site, 'allowed_user'))) {
+				$url = !empty(WPMUDEV_Dashboard::$ui->page_urls->support_url)
+					? esc_url(add_query_arg('view', 'system', WPMUDEV_Dashboard::$ui->page_urls->support_url))
+					: network_admin_url('?page=wpmudev-support&view=system');
+				;
+				$action = "<a class='snapshot-wpmudev-dashboard button button-primary local' href='{$url}'>" .
+					__('Take me there now', SNAPSHOT_I18N_DOMAIN) .
+				"</a>";
+				$user_can_view_dashboard = WPMUDEV_Dashboard::$site->allowed_user();
+			} else {
+				$url = esc_url('http://premium.wpmudev.org/project/dashboard/');
+				$action = "<a class='snapshot-wpmudev-dashboard button button-primary remote' href='{$url}'>" .
+					__('Get Dashboard plugin now', SNAPSHOT_I18N_DOMAIN) .
+				"</a>";
+			}
+
+			if (!$user_can_view_dashboard) return false;
+
+			$message = sprintf(
+				__('You can learn more about your server configuration in our <a href="%s">WPMU DEV Dashboard plugin</a>.', SNAPSHOT_I18N_DOMAIN),
+				$url
+			);
+
+			echo '<div class="snapshot-server_info-moved">' .
+				'<p>' . $message . '</p>' .
+				'<div class="snapshot-server_info-cta"><p>' . $action . '</p></div>' .
+			'</div>';
+
+			return true;
+		}
 
 		function snapshot_metaboxes_show_server_info() {
 
+			if ($this->_show_moved_server_info()) return false;
+
+// @TODO: deprecated, clean up below
 			global $wpdb, $wp_version;
 
 			?>
@@ -2143,38 +2215,6 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 						?>
 					</td>
 				</tr>
-				<?php /* ?>
-			<tr class="form-field" >
-				<th scope="row">
-					<?php _e('_SESSION', SNAPSHOT_I18N_DOMAIN); ?>
-
-				</th>
-				<td>
-					<?php
-						$session_save_path = session_save_path();
-						echo __('Snapshot uses _SESSIONS to store temporary information about database tables and files during the backup and restore processing. Sessions are a default part of PHP.', SNAPSHOT_I18N_DOMAIN) ."<br />";
-					?>
-					Session save path: <span class="description"><?php echo $session_save_path; ?><br />
-					<?php
-						if (empty($session_save_path)) {
-							echo '<span style="color:#FF0000">'. __('Session save path is empty. This may be ok. Try running snapshot manually.',
-							 	SNAPSHOT_I18N_DOMAIN) .'</span><br />';
-						} else {
-							if (!is_dir($session_save_path)) {
-								echo '<span style="color:#FF0000">'. __('Session save path is not a valid directory.', SNAPSHOT_I18N_DOMAIN) .'</span><br />';
-							} else {
-								echo '<span>'. __('Session save path is a valid directory.', SNAPSHOT_I18N_DOMAIN) .'</span><br />';
-							}
-							if (!is_writable($session_save_path)) {
-								echo '<span style="color:#FF0000">'. __('Session save path is not writeable.', SNAPSHOT_I18N_DOMAIN) .'</span><br />';
-							} else {
-								echo '<span>'. __('Session save path is writeable.', SNAPSHOT_I18N_DOMAIN) .'</span><br />';
-							}
-						}
-					?>
-				</td>
-			</tr>
-<?php */ ?>
 				<tr class="form-field">
 					<th scope="row">
 						<?php _e( 'Folder Permissions', SNAPSHOT_I18N_DOMAIN ); ?>
@@ -2321,21 +2361,6 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 								if ( ( defined( 'E_NOTICE' ) ) && ( $current_error & E_NOTICE ) ) {
 									$errorStr[] = "E_NOTICE";
 								}
-
-								//if ((defined('E_CORE_ERROR')) && ($current_error & E_CORE_ERROR)) $errorStr[] = "E_CORE_ERROR";
-								//if ((defined('E_CORE_WARNING')) && ($current_error & E_CORE_WARNING)) $errorStr[] = "E_CORE_WARNING";
-
-								//if ((defined('E_COMPILE_ERROR')) && ($current_error & E_COMPILE_ERROR)) $errorStr[] = "E_COMPILE_ERROR";
-								//if ((defined('E_COMPILE_WARNING')) && ($current_error & E_COMPILE_WARNING)) $errorStr[] = "E_COMPILE_WARNING";
-
-								//if ((defined('E_USER_ERROR')) && ($current_error & E_USER_ERROR)) $errorStr[] = "E_USER_ERROR";
-								//if ((defined('E_USER_WARNING')) && ($current_error & E_USER_WARNING)) $errorStr[] = "E_USER_WARNING";
-								//if ((defined('E_USER_NOTICE')) && ($current_error & E_USER_NOTICE)) $errorStr[] = "E_USER_NOTICE";
-
-								//if ((defined('E_STRICT')) && ($current_error & E_STRICT)) $errorStr[] = "E_STRICT";
-								//if ((defined('E_RECOVERABLE_ERROR')) && ($current_error & E_RECOVERABLE_ERROR)) $errorStr[] = "E_RECOVERABLE_ERROR";
-								//if ((defined('E_DEPRECATED')) && ($current_error & E_DEPRECATED)) $errorStr[] = "E_DEPRECATED";
-								//if ((defined('E_USER_DEPRECATED')) && ($current_error & E_USER_DEPRECATED)) $errorStr[] = "E_USER_DEPRECATED";
 
 								if ( count( $errorStr ) ) {
 									echo " - " . join( ', ', $errorStr );
@@ -2582,7 +2607,6 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 		}
 
 		function snapshot_metaboxes_show_zip_library() {
-
 			?>
 			<form action="?page=snapshots_settings_panel" method="post">
 				<input type="hidden" name="snapshot-action" value="settings-update"/>

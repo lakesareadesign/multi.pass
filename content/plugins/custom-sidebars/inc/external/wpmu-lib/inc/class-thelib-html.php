@@ -106,7 +106,7 @@ class TheLib_Html extends TheLib  {
 		$modal = self::$core->is_true( $modal );
 		$blur = self::$core->is_true( $blur );
 
-		$this->_add( 'init_pointer', compact( 'pointer_id', 'html_el', 'title', 'body', 'once', 'modal', 'blur' ) );							 			 	 	 		  
+		$this->_add( 'init_pointer', compact( 'pointer_id', 'html_el', 'title', 'body', 'once', 'modal', 'blur' ) );
 		$this->add_action( 'init', '_init_pointer' );
 
 		return $this;

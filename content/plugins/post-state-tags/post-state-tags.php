@@ -3,14 +3,14 @@
 Plugin Name: Post State Tags
 Plugin URI: http://wordpress.org/plugins/post-state-tags/
 Description: Make your WordPress post state list stand out with colors and color tags (draft, pending, sticky, etc)
-Version: 1.1.4
+Version: 1.1.5
 Author: BRANDbrilliance
 Author URI: http://www.brandbrilliance.co.za
 License: GPLv2 or later
 Text Domain: post-state-tags
 Domain Path: /languages
 
-Copyright 2015  BRANDbrilliance  (email : code@brandbrilliance.co.za)
+Copyright 2016  BRANDbrilliance  (email : code@brandbrilliance.co.za)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as 
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 require_once('libraries/colorhsl.php');
 
-const VERSION = '1.1.4';
+const VERSION = '1.1.5';
 
 const TEXT_DOMAIN = 'post-state-tags';
 const ADMIN_PAGE_OPTIONS = 'bb_pst_admin_options';
@@ -730,9 +730,9 @@ function bb_pst_on_activation()
 			{
 		    $handle = $custom_post_status['option_handle'];
 				$name = $custom_post_status['name'];
-				if (false === get_option($handle))
+				if ( false === get_option($handle) )
 			    update_option($handle, $GLOBALS['SETTINGS']['post']['stati']['colors'][$name]);
-				if (false === get_option($handle).'-icon')
+				if ( false === get_option($handle.'-icon') )
 			    update_option($handle.'-icon', $GLOBALS['SETTINGS']['post']['stati']['icons'][$name]);
 			}	  
 		
@@ -744,9 +744,9 @@ function bb_pst_on_activation()
 				{
 			    $handle = $custom_post_status['option_handle'];
 					$name = $custom_post_status['name'];
-					if (false === get_option($handle))
+					if ( false === get_option($handle) )
 				    update_option($handle, $GLOBALS['SETTINGS']['post']['stati']['colors'][$name]);
-					if (false === get_option($handle).'-icon')
+					if ( false === get_option($handle.'-icon') )
 				    update_option($handle.'-icon', $GLOBALS['SETTINGS']['post']['stati']['icons'][$name]);
 				}	  
 		  }

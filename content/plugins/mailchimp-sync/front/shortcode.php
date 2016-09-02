@@ -114,7 +114,7 @@ class WPMUDEV_MailChimp_Shortcode {
 		$args['button_text'] = $button_text;
 		$args['form_id'] = 'incsub-mailchimp-shortcode-form-' . self::$number;
 		$args['submit_name'] = 'submit-subscribe-shortcode-user';
-		$args['firstname'] = ! empty( $_POST['subscription-firstname'] ) ? stripslashes( $_POST['subscription-firstname'] ) : '';
+		$args['firstname'] = ! empty( $_POST['subscription-firstname'] ) ? stripslashes( $_POST['subscription-firstname'] ) : '';	     	 	   				 	
 		$args['lastname'] = ! empty( $_POST['subscription-lastname'] ) ? stripslashes( $_POST['subscription-lastname'] ) : '';
 		$args['email'] = ! empty( $_POST['subscription-email'] ) ? stripslashes( $_POST['subscription-email'] ) : '';
 

@@ -4,6 +4,14 @@ Tested up to: 4.2.2
 
 Change Log:
 
+1.1.2 - 2016-24-08
+----------------------------------------------------------------------
+- Improvement: Switched the User dropdown in Audit Logging to load results via AJAX to increase initial load performance.
+- Improvement: Scan results now pre-load information so that you can action fixes faster.
+- Fixed: Removed cronjob events from being tracked in Audit Logging.
+- Fixed: The Audit Logging filter box now stays visible if no results are returned.
+- Fixed: Other small bug fixes and improvements.
+
 1.1.1 - 2016-08-08
 ----------------------------------------------------------------------
 - Added: A warning indicator in WP Admin sidebar to let you know how many security issues are outstanding.
@@ -82,4 +90,4 @@ Change Log:
 - First release
 
 
-133620-1470955188-au
+133620-1472790831-au

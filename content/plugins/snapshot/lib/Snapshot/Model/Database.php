@@ -40,7 +40,11 @@ if ( ! class_exists( 'Snapshot_Model_Database' ) ) {
 				$this->timer_start();
 			}
 
-			$this->result = @mysql_query( $query, $this->dbh );
+			if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+				$this->result = @mysqli_query( $query, $this->dbh );
+			} else {
+				$this->result = @mysql_query( $query, $this->dbh );
+			}
 			$this->num_queries ++;
 
 			if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
@@ -48,27 +52,51 @@ if ( ! class_exists( 'Snapshot_Model_Database' ) ) {
 			}
 
 			// If there is an error then take note of it..
-			if ( $this->last_error = mysql_error( $this->dbh ) ) {
-				$this->print_error();
+			if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+				if ( $this->last_error = mysqli_error( $this->dbh ) ) {
+					$this->print_error();
 
-				return false;
+					return false;
+				}
+			} else {
+				if ( $this->last_error = mysql_error( $this->dbh ) ) {
+					$this->print_error();
+
+					return false;
+				}
 			}
 
 			if ( preg_match( '/^\s*(create|alter|truncate|drop|rename)\s/i', $query ) ) {
 				$return_val = $this->result;
 			} elseif ( preg_match( '/^\s*(insert|delete|update|replace)\s/i', $query ) ) {
-				$this->rows_affected = mysql_affected_rows( $this->dbh );
+				if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+					$this->rows_affected = mysqli_affected_rows( $this->dbh );
+				} else {
+					$this->rows_affected = mysql_affected_rows( $this->dbh );
+				}
 				// Take note of the insert_id
 				if ( preg_match( '/^\s*(insert|replace)\s/i', $query ) ) {
-					$this->insert_id = mysql_insert_id( $this->dbh );
+					if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+						$this->insert_id = mysqli_insert_id( $this->dbh );
+					} else {
+						$this->insert_id = mysql_insert_id( $this->dbh );
+					}
 				}
 				// Return number of rows affected
 				$return_val = $this->rows_affected;
 			} else {
 				$num_rows = 0;
-				while ( $row = @mysql_fetch_object( $this->result ) ) {
-					$this->last_result[ $num_rows ] = $row;
-					$num_rows ++;
+
+				if ( version_compare( phpversion(), "5.3.0", ">=" ) ) {
+					while ( $row = @mysqli_fetch_object( $this->result ) ) {
+						$this->last_result[ $num_rows ] = $row;
+						$num_rows ++;
+					}
+				} else {
+					while ( $row = @mysql_fetch_object( $this->result ) ) {
+						$this->last_result[ $num_rows ] = $row;
+						$num_rows ++;
+					}
 				}
 
 				// Log number of rows the query returned

@@ -5,7 +5,9 @@
 	<div class="fl-builder-panel-content-wrap fl-nanoscroller">
 		<div class="fl-builder-panel-content fl-nanoscroller-content">
 			<div class="fl-builder-blocks">
-				
+
+				<?php do_action( 'fl_builder_ui_panel_before_rows' ); ?>
+
 				<div id="fl-builder-blocks-rows" class="fl-builder-blocks-section">
 					<span class="fl-builder-blocks-section-title">
 						<?php _e('Row Layouts', 'fl-builder'); ?>
@@ -23,10 +25,12 @@
 						<span class="fl-builder-block fl-builder-block-row" data-cols="left-right-sidebar"><span class="fl-builder-block-title"><?php _e('Left &amp; Right Sidebar', 'fl-builder'); ?></span></span>
 					</div>
 				</div>
-				
+
 				<?php do_action( 'fl_builder_ui_panel_after_rows' ); ?>
-				
+
 				<div class="fl-builder-blocks-separator"></div>
+
+				<?php do_action( 'fl_builder_ui_panel_before_modules' ); ?>
 				
 				<?php foreach($categories as $title => $modules) : ?>
 				<div id="fl-builder-blocks-<?php echo FLBuilderModel::get_module_category_slug( $title ); ?>" class="fl-builder-blocks-section">
@@ -49,9 +53,9 @@
 					<?php endif; ?>
 				</div>
 				<?php endforeach; ?>
-				
+
 				<?php do_action( 'fl_builder_ui_panel_after_modules' ); ?>
-				
+
 				<?php if ( true === FL_BUILDER_LITE ) : ?>
 				<div class="fl-builder-modules-cta">
 					<a href="#" onclick="window.open('<?php echo FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'modules-panel-cta' ) ); ?>');" target="_blank"><i class="fa fa-external-link-square"></i> Get more time-saving features, modules, and expert support.</a>

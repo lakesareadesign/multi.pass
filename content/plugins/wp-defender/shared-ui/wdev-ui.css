@@ -863,6 +863,9 @@
 .wpmud [tooltip].tooltip-right:after {
 	margin-left: -180px;
 }
+.wpmud [tooltip].tooltip-left:after {
+	margin-left: -20px;
+}
 .wpmud [tooltip].tooltip-s.tooltip-right:after {
 	margin-left: -130px;
 }
@@ -2583,4 +2586,4 @@
 }
 
 
-/* 133620-1470955188-au */
+/* 133620-1472790831-au */

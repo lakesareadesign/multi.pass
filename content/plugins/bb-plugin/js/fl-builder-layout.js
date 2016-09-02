@@ -603,35 +603,39 @@
 			
 			if ( '' !== hash ) {
 				
-				element = $( '#' + hash );
-					
-				if ( element.length > 0 ) {
-					
-					if ( element.hasClass( 'fl-accordion-item' ) ) {
-						setTimeout( function() {
-							element.find( '.fl-accordion-button' ).trigger( 'click' );
-						}, 100 );
-					}
-					if ( element.hasClass( 'fl-tabs-panel' ) ) {
+				try {
+				
+					element = $( '#' + hash );
 						
-						setTimeout( function() {
-							
-							tabs 			= element.closest( '.fl-tabs' );
-							responsiveLabel = element.find( '.fl-tabs-panel-label' );
-							tabIndex 		= responsiveLabel.data( 'index' );
-							label 			= tabs.find( '.fl-tabs-labels .fl-tabs-label[data-index=' + tabIndex + ']' );
+					if ( element.length > 0 ) {
 						
-							if ( responsiveLabel.is( ':visible' ) ) {
-								responsiveLabel.trigger( 'click' );	
-							}
-							else {
-								FLBuilderLayout._scrollToElement( label );
-								label.trigger( 'click' );
-							}
+						if ( element.hasClass( 'fl-accordion-item' ) ) {
+							setTimeout( function() {
+								element.find( '.fl-accordion-button' ).trigger( 'click' );
+							}, 100 );
+						}
+						if ( element.hasClass( 'fl-tabs-panel' ) ) {
 							
-						}, 100 );
+							setTimeout( function() {
+								
+								tabs 			= element.closest( '.fl-tabs' );
+								responsiveLabel = element.find( '.fl-tabs-panel-label' );
+								tabIndex 		= responsiveLabel.data( 'index' );
+								label 			= tabs.find( '.fl-tabs-labels .fl-tabs-label[data-index=' + tabIndex + ']' );
+							
+								if ( responsiveLabel.is( ':visible' ) ) {
+									responsiveLabel.trigger( 'click' );	
+								}
+								else {
+									FLBuilderLayout._scrollToElement( label );
+									label.trigger( 'click' );
+								}
+								
+							}, 100 );
+						}
 					}
 				}
+				catch( e ) {}
 			}
 		},
 		

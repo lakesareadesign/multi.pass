@@ -262,7 +262,7 @@ final class FLBuilderTemplateDataExporter {
 			}
 			
 			// Add the template to the templates array.
-			$templates[] = $template;
+			$templates[] = apply_filters( 'fl_builder_exporter_template', $template, $post );
 		}
 		
 		return $templates;

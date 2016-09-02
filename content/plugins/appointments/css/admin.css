@@ -39,7 +39,7 @@ a.pickcolor {
 	font-size: 24px;
 	font-weight: bold;
 }
-a.app-remove_break, a.app-remove_break:hover, a.app-remove_break:active { color: #C33; }
+a.app-remove_break, a.app-remove_break:hover, a.app-remove_break:active { color: #C33; }		   		 	  		  	 	 	
 .app-remove_break:after {
 	content: " x";
 }
@@ -113,4 +113,4 @@ div.appointments-settings .subsubsub a:focus {
 }
 
 
-/* 133620-1467043633-au */
+/* 133620-1472790783-au */

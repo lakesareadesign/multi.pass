@@ -45,6 +45,7 @@ FLBuilder::register_settings_form('col', array(
 							'options'       	=> array(
 								'top'          		=> __( 'Top', 'fl-builder' ),
 								'center'         	=> __( 'Center', 'fl-builder' ),
+								'bottom'         	=> __( 'Bottom', 'fl-builder' ),
 							),
 							'preview'         => array(
 								'type'            => 'none'

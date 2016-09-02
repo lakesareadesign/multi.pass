@@ -989,6 +989,11 @@ if ( jQuery( 'form[name="upgrade-themes"]' ).length ) {
 	 * Also handles tracking optin.
 	 */
 	public function handle_master_key() {
+		// If we're not where we want to be (the 'woothemes-helper' page), then get out quick.
+		if ( ! isset( $_GET['page'] ) || 'woothemes-helper' != $_GET['page'] ) {
+			return;
+		}
+
 		// Token
 		$token = isset( $_GET['key'] ) ? sanitize_text_field( $_GET['key'] ) : false;
 		if ( $token ) {

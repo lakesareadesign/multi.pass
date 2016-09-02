@@ -26,7 +26,7 @@ class WD_Module_Manager {
 	 */
 	public function detach( WD_Module_Abstract $module ) {
 		if ( isset( $this->_modules[ get_class( $module ) ] ) ) {
-			unset( $this->_modules[ get_class( $module ) ] );	  	 	   	 		 		 				
+			unset( $this->_modules[ get_class( $module ) ] );
 		}
 	}
 

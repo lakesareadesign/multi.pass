@@ -278,6 +278,15 @@
 	-ms-flex-pack: center;
 }
 
+/* Equal height align bottom */
+.fl-col-group-equal-height.fl-col-group-align-bottom .fl-col-content {
+	justify-content: flex-end;
+	-webkit-justify-content: flex-end;
+	-webkit-box-align: end;
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+}
+
 .fl-col-group-equal-height.fl-col-group-align-center .fl-module {
 	width: 100%;
 }

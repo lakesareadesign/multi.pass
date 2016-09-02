@@ -191,14 +191,21 @@ class WD_Core_Audit extends WD_Event_Abstract {
 	}
 
 	private static function single_install( $upgrader, $options ) {
-		if ( ! is_object( $upgrader->skin->api ) ) {
+		if ( ! is_object( $upgrader->skin ) ) {
 			return false;
 		}
-		$name = $upgrader->skin->api->name;
-		if ( empty( $name ) ) {
+		if ( is_object( $upgrader->skin->api ) ) {
+			$name    = $upgrader->skin->api->name;
+			$version = $upgrader->skin->api->version;
+		} elseif ( ! empty( $upgrader->skin->result ) && isset( $upgrader->skin->result['destination_name'] ) ) {
+			$name = $upgrader->skin->result['destination_name'];
+			$version = __( "unknown", wp_defender()->domain );
+		}
+
+		if ( ! isset( $name ) ) {
 			return false;
 		}
-		$version = $upgrader->skin->api->version;
+
 		if ( isset( $upgrader->skin->api->preview_url ) ) {
 			return array(
 				sprintf( __( "%s installed theme: %s, version %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $name, $version ),

@@ -395,7 +395,7 @@ if ( ! class_exists( 'Snapshot_View_Settings' ) ) {
 		function snapshot_admin_show_settings_panel() {
 			?>
 			<div id="snapshot-settings-metaboxes-general" class="wrap snapshot-wrap">
-				<h2><?php _ex( "Snapshots Settings", "Snapshot Plugin Page Title", SNAPSHOT_I18N_DOMAIN ); ?></h2>
+				<h2><?php _ex( "Snapshot Settings", "Snapshot Plugin Page Title", SNAPSHOT_I18N_DOMAIN ); ?></h2>
 
 				<p><?php _ex( "The Settings panel provides access to a number of configuration options you can customize Snapshot to meet you site needs.", 'Snapshot page description', SNAPSHOT_I18N_DOMAIN ); ?></p>
 
@@ -461,7 +461,7 @@ if ( ! class_exists( 'Snapshot_View_Settings' ) ) {
 
 			?>
 			<div id="snapshot-settings-metaboxes-general" class="wrap snapshot-wrap">
-				<h2><?php _ex( "Snapshots Scan / Import", "Snapshot Plugin Page Title", SNAPSHOT_I18N_DOMAIN ); ?></h2>
+				<h2><?php _ex( "Snapshot Scan / Import", "Snapshot Plugin Page Title", SNAPSHOT_I18N_DOMAIN ); ?></h2>
 
 				<div id="poststuff" class="metabox-holder">
 					<div id="post-body" class="">
@@ -572,6 +572,10 @@ if ( ! class_exists( 'Snapshot_View_Settings' ) ) {
 													continue;
 												}
 
+												// Check if the archive is full backup - we don't import those
+												if (Snapshot_Helper_Backup::is_full_backup($file)) continue;
+
+
 												echo "<li><strong>" . __( 'Processing archive', SNAPSHOT_I18N_DOMAIN ) . ": ", basename( $restoreFile ) . "</strong> (" .
 												                                                                               Snapshot_Helper_Utility::size_format( filesize( $restoreFile ) ) . ")<ul><li>";
 												flush();
@@ -624,6 +628,9 @@ if ( ! class_exists( 'Snapshot_View_Settings' ) ) {
 										if ( is_dir( $restoreFile ) ) {
 											continue;
 										}
+
+										// Check if the archive is full backup - we don't import those
+										if (Snapshot_Helper_Backup::is_full_backup($file)) continue;
 
 										echo "<li><strong>" . __( 'Processing archive', SNAPSHOT_I18N_DOMAIN ) . ": ", basename( $restoreFile ) . "</strong> (" .
 										                                                                               Snapshot_Helper_Utility::size_format( filesize( $restoreFile ) ) . ")<ul><li>";

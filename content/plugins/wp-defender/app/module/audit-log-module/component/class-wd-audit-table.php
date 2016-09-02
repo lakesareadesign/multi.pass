@@ -66,11 +66,24 @@ class WD_Audit_Table extends WP_List_Table {
 		$params     = array();
 		foreach ( $attributes as $att => $value ) {
 			$params[ $att ] = WD_Utils::http_get( $att, $value );
+
+			if ( $att == 'date_from' || $att == 'date_to' ) {
+				$params[ $att ] = date( 'Y-m-d', strtotime( $params[ $att ] ) );
+			}
 		}
-
+		if ( ! empty( $params['user_id'] ) ) {
+			if ( ! filter_var( $params['user_id'], FILTER_VALIDATE_INT ) ) {
+				$user_id = username_exists( $params['user_id'] );
+				if ( $user_id == false ) {
+					$params['user_id'] = null;
+				} else {
+					$params['user_id'] = $user_id;
+				}
+			}
+		}
 		$params['paged'] = $this->get_pagenum();
-		$result = WD_Audit_API::get_logs( $params, WD_Utils::http_get( 'order_by', 'timestamp' ), WD_Utils::http_get( 'order', 'desc' ) );
 
+		$result = WD_Audit_API::get_logs( $params, WD_Utils::http_get( 'order_by', 'timestamp' ), WD_Utils::http_get( 'order', 'desc' ) );
 		if ( is_wp_error( $result ) ) {
 			$this->items = array();
 			$this->error = $result;
@@ -121,7 +134,7 @@ class WD_Audit_Table extends WP_List_Table {
 			sort( $item['timestamp'] );
 
 			?>
-			<strong><?php echo esc_html( WD_Utils::time_since( $item['timestamp'][0] ) . __( " ago", wp_defender()->domain ) ) ?></strong>
+			<strong><?php echo esc_html( WD_Utils::time_since( $item['timestamp'][1] ) . __( " ago", wp_defender()->domain ) ) ?></strong>
 			<small><?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $item['timestamp'][0] ) ) ) ) ) ?>
 				&nbsp;<?php esc_attr_e( "to", wp_defender()->domain ) ?>&nbsp;
 				<?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $item['timestamp'][1] ) ) ) ) ) ?></small>
@@ -236,6 +249,7 @@ class WD_Audit_Table extends WP_List_Table {
 					<?php _e( "Defender hasn’t detected any events yet. When he does, they’ll appear here!", wp_defender()->domain ) ?>
 				</div>
 			<?php else: ?>
+				<?php $this->display_tablenav( 'top' ); ?>
 				<div class="wd-well blue wd-well-small">
 					<?php _e( "Defender couldn't find any logs matching your filters.", wp_defender()->domain ) ?>
 				</div>
@@ -284,39 +298,37 @@ class WD_Audit_Table extends WP_List_Table {
 			$current_page = $this->get_pagenum();
 			$output       = sprintf( _n( 'Showing %s of %s result', 'Showing %s of %s results', $total_items, wp_defender()->domain ),
 				number_format_i18n( $current_page * $per_page < $total_items ? $current_page * $per_page : $total_items ), number_format_i18n( $total_items ) );
+			$from         = esc_attr( WD_Utils::http_get( 'date_from', date( WD_Audit_API::get_date_format(), strtotime( '-7 days midnight', current_time( 'timestamp' ) ) ) ) );
+
 			?>
 			<div class="wd-well wd-audit-filter">
 				<div class="group">
 					<form method="get" action="<?php echo network_admin_url( 'admin.php?page=wdf-logging' ) ?>">
 						<input type="hidden" name="page" value="wdf-logging">
 						<div class="col span_12_of_12">
-							<div class="wd-audit-filter">
+							<div class="wd-audit-user-filter">
 								<!--<select>
 									<option>All IP</option>
 								</select>-->
 								<label><?php _e( "Users", wp_defender()->domain ) ?></label>
-								<select name="user_id">
-									<option value=""><?php _e( "All Users", wp_defender()->domain ) ?></option>
-									<option <?php selected( 0, WD_Utils::http_get( 'user_id', null ) ) ?>
-										value="0"><?php _e( "Guest", wp_defender()->domain ) ?></option>
-									<?php foreach ( WD_Audit_API::get_users() as $user ): ?>
-										<option <?php selected( $user->ID, WD_Utils::http_get( 'user_id', null ) ) ?>
-											value="<?php echo $user->ID ?>"><?php echo $user->display_name ?></option>
-									<?php endforeach; ?>
-								</select>
+								<input name="user_id" id="wd_user_id" class="user-search"
+								       data-empty-msg="<?php esc_attr_e( "We did not find an admin user with this name...", wp_defender()->domain ) ?>"
+								       placeholder="<?php esc_attr_e( "Type a user’s name", wp_defender()->domain ) ?>"
+								       type="search"/>
+
 							</div>
 							<div class="wd-audit-date-filter">
 								<label><?php _e( "From", wp_defender()->domain ) ?></label>
 								<div>
 									<i class="wdv-icon wdv-icon-fw wdv-icon-calendar"></i>
 									<input name="date_from" id="wd_range_from" type="text" class="wd-calendar"
-									       value="<?php echo esc_attr( WD_Utils::http_get( 'date_from', date(  'd/m/Y', strtotime( '-7 days midnight', current_time( 'timestamp' ) ) ) ) ) ?>">
+									       value="<?php echo $from ?>">
 								</div>
 								<label><?php _e( "To", wp_defender()->domain ) ?></label>
 								<div>
 									<i class="wdv-icon wdv-icon-fw wdv-icon-calendar"></i>
 									<input name="date_to" id="wd_range_to" type="text" class="wd-calendar"
-									       value="<?php echo esc_attr( WD_Utils::http_get( 'date_to', date(  'd/m/Y', current_time( 'timestamp' ) ) ) ) ?>">
+									       value="<?php echo esc_attr( WD_Utils::http_get( 'date_to', date( WD_Audit_API::get_date_format(), current_time( 'timestamp' ) ) ) ) ?>">
 								</div>
 							</div>
 						</div>
@@ -344,15 +356,18 @@ class WD_Audit_Table extends WP_List_Table {
 				</div>
 			</div>
 			<br/>
-			<div class="tablenav <?php echo esc_attr( $which ); ?>">
-				<?php
-				$this->pagination( $which );
-				?>
+			<?php if ( $total_items > 0 ): ?>
 
-				<div class="wd-clearfix"></div>
-			</div>
-			<br/>
-			<br/>
+				<div class="tablenav <?php echo esc_attr( $which ); ?>">
+					<?php
+					$this->pagination( $which );
+					?>
+
+					<div class="wd-clearfix"></div>
+				</div>
+				<br/>
+				<br/>
+			<?php endif; ?>
 			<?php
 		} elseif ( 'bottom' == $which ) {
 			if ( count( $this->items ) == 0 ) {
@@ -378,6 +393,10 @@ class WD_Audit_Table extends WP_List_Table {
 		$total_items = $this->_pagination_args['total_items'];
 		$total_pages = $this->_pagination_args['total_pages'];
 		$per_page    = $this->_pagination_args['per_page'];
+
+		if ( $total_items == 0 ) {
+			return;
+		}
 
 		$links        = array();
 		$current_page = $this->get_pagenum();

@@ -84,7 +84,7 @@ class WPMUDEV_MailChimp_Form {
 	public static function validate_ajax_form() {
 		global $mailchimp_sync;
 
-		check_ajax_referer( 'mailchimp_subscribe_user_' . $_POST['form_id'] . $_POST['require_fn'] . $_POST['require_ln'] );	     	 	   				 	
+		check_ajax_referer( 'mailchimp_subscribe_user_' . $_POST['form_id'] . $_POST['require_fn'] . $_POST['require_ln'] );
 
 		$errors = self::validate_subscription_form(
 			$_POST,
