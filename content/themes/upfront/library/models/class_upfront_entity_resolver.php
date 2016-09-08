@@ -174,6 +174,9 @@ abstract class Upfront_EntityResolver {
 				// 404 page layout
 				return __('404 Page', 'upfront');
 			}
+
+			if (empty($item) && empty($specificity)) return __('Single Generic', 'upfront');
+
 			$post_type = get_post_type_object($item ? $item : 'post');
 			$name = false;
 

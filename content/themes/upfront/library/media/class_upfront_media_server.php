@@ -31,6 +31,7 @@ class Upfront_MediaServer extends Upfront_Server {
 			upfront_add_ajax('upfront-media-upload', array($this, "upload_media"));
 			upfront_add_ajax('upfront-upload-icon-font', array($this, "upload_icon_font"));
 			upfront_add_ajax('upfront_update_active_icon_font', array($this, "update_active_icon_font"));
+			upfront_add_ajax('upfront_remove_icon_font_file', array($this, "remove_icon_font_file"));
 
 			upfront_add_ajax('upfront-media-list_theme_images', array($this, "list_theme_images"));
 			upfront_add_ajax('upfront-media-upload-theme-image', array($this, "upload_theme_image"));
@@ -562,8 +563,20 @@ class Upfront_MediaServer extends Upfront_Server {
 		// allow end user to upload more icon fonts
 	}
 
+	/**
+	 * AJAX media handler to dispatch the icon font activation action
+	 */
 	public function update_active_icon_font() {
 		do_action('upfront_update_active_icon_font');
+		die;
+	}
+
+	/**
+	 * AJAX handler to dispatch the icon font file removal action
+	 */
+	public function remove_icon_font_file() {
+		do_action('upfront_remove_icon_font_file');
+		die;
 	}
 
 	public function upload_media () {

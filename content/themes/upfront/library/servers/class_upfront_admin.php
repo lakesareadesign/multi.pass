@@ -101,14 +101,14 @@ class Upfront_Server_Admin implements IUpfront_Server {
 	 */
 	public function dispatch_notices () {
 		$notices = array_filter(apply_filters('upfront-admin-admin_notices', array(
-			$this->_notify_about_parent_deletion_attempt(),
-			$this->_permalink_setup_check_notice(),
-			$this->_direct_core_activation_notice(),
-			$this->_widgets_area_notice(),
+			'parent_deletion' => $this->_notify_about_parent_deletion_attempt(),
+			'permalink_setup' => $this->_permalink_setup_check_notice(),
+			'core_activation' =>$this->_direct_core_activation_notice(),
+			'widgets_area' => $this->_widgets_area_notice(),
 		)));
 		if (empty($notices)) return false;
 		echo '<div class="error"><p>' .
-			join('</p><p>', $notices) .
+			join('</p><p>', array_values($notices)) .
 		'</p></div>';
 	}
 

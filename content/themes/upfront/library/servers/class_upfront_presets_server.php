@@ -110,6 +110,12 @@ abstract class Upfront_Presets_Server extends Upfront_Server {
 		if(!empty($presets)) {
 			foreach($presets as $preset) {
 				if(isset($preset['preset_style']) && !empty($preset['preset_style'])) {
+
+					// WARNING!!! This is added to prevent enourmos amount of slashes in preset_style
+					$preset['preset_style'] = str_replace("\\\\\\\\\\", "\\", $preset['preset_style']);
+					// Do it twice just in case we have multiple slashes
+					$preset['preset_style'] = str_replace("\\\\\\\\\\", "\\", $preset['preset_style']);
+
 					$preset['preset_style'] = str_replace("@n", "\n", $preset['preset_style']);
 				}
 
@@ -370,6 +376,7 @@ abstract class Upfront_Presets_Server extends Upfront_Server {
 	public function properties_columns($array, $column) {
         $result = array();
         foreach ($array as $item) {
+			if (!is_array($item)) continue; // Not an array, nothing to do here
             if (array_key_exists($column, $item)) {
                 $result[] = $item[$column];
 			}
@@ -386,7 +393,7 @@ abstract class Upfront_Presets_Server extends Upfront_Server {
 				'json' => false,
 				'as_array' => true
 			)
-    );
+		);
 
 		if(!is_array($presets)) {
 			$presets = json_decode($presets, true);
@@ -560,6 +567,28 @@ abstract class Upfront_Presets_Server extends Upfront_Server {
 			'ease_in' => __('ease-in', 'upfront'),
 			'ease_out' => __('ease-out', 'upfront'),
 			'ease_in_out' => __('ease-in-out', 'upfront'),
+			'accordion' => __('Accordion', 'upfront'),
+			'comments' => __('Comments', 'upfront'),
+			'contact_form' => __('Contact Form', 'upfront'),
+			'gallery' => __('Gallery', 'upfront'),
+			'image' => __('Image', 'upfront'),
+			'login' => __('Login', 'upfront'),
+			'like_box' => __('Like Box', 'upfront'),
+			'map' => __('Map', 'upfront'),
+			'navigation' => __('Navigation', 'upfront'),
+			'button' => __('Button', 'upfront'),
+			'posts' => __('Posts', 'upfront'),
+			'search' => __('Search', 'upfront'),
+			'slider' => __('Slider', 'upfront'),
+			'social' => __('Social', 'upfront'),
+			'tabs' => __('Tabs', 'upfront'),
+			'page' => __('Page', 'upfront'),
+			'post' => __('Post', 'upfront'),
+			'widget' => __('Widget', 'upfront'),
+			'youtube' => __('YouTube', 'upfront'),
+			'text' => __('Text', 'upfront'),
+			'code' => __('Code', 'upfront'),
+			'default_label' => __('Default', 'upfront'),
 			'edit_preset_css' => __('Edit Preset CSS', 'upfront'),
 			'edit_preset_label' => __('Custom CSS', 'upfront'),
 			'convert_style_to_preset' => __('Save as Preset', 'upfront'),

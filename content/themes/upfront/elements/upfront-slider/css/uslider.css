@@ -239,5 +239,18 @@ div.uslide-image img {
 	width:100%;
 }
 
+.upfront-output-uslider .upfront-image-starting-select {
+	display: block;
+	margin:0;
+	position: absolute;
+	margin: 15px;
+	width: auto;
+}
+.upfront-output-uslider .uslider-starting-centered.upfront-initial-overlay-wrapper {
+	margin: auto;
+	background: transparent;
+	width: 80%;
+}
 
-/* 133620-1468977477-au */
+
+/* 133620-1473364921-au */

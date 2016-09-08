@@ -78,7 +78,7 @@ class Upfront_Layout extends Upfront_JsonModel {
 		$regions_added = array();
 		if ( isset($data['regions']) ) {
 			foreach ( $data['regions'] as $region ) {
-				if ( $region['scope'] != 'local' ){
+				if ( isset( $region['scope'] ) && $region['scope'] != 'local' ){
 					$applied_scope = self::_apply_scoped_region($region);
 					foreach ( $applied_scope as $applied_data ) {
 						if ( !in_array($applied_data['name'], $regions_added) ){
@@ -91,12 +91,12 @@ class Upfront_Layout extends Upfront_JsonModel {
 				$regions[] = $region;
 			}
 		}
+
 		// Make sure we replace properties with global ones
 		$data["properties"] = self::get_layout_properties();
 		$data['regions'] = $regions;
 
 		return self::from_php($data, $storage_key);
-
 	}
 
 	public static function from_php ($data, $storage_key = '') {
@@ -367,6 +367,11 @@ class Upfront_Layout extends Upfront_JsonModel {
 					'specificity' => 'single-404_page',
 					'item' => 'single-page',
 					'type' => 'single',
+				)
+			),
+			'single' => array(
+				'layout' => array(
+					'type' => 'single'
 				)
 			),
 		);
@@ -711,7 +716,7 @@ class Upfront_Layout extends Upfront_JsonModel {
 
 		$i = 0;
 		$found = false;
-		while(!$found && $i < sizeof($data[$next])){
+		if (!empty($data[$next])) while(!$found && $i < sizeof($data[$next])){
 			$found = self::get_element($id, $data[$next][$i], $next);
 			if($found)
 				array_unshift($found['path'], $i);

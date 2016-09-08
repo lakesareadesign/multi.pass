@@ -60,23 +60,10 @@ class Upfront_Post_Data extends Upfront_Server {
 
 		upfront_add_ajax('upfront-post_data-post-specific', array($this, "json_get_post_specific_settings"));
 		upfront_add_ajax('upfront-post_data-comments-disable', array($this, "json_set_comment_settings"));
-
-		//upfront_add_ajax('upfront_posts-data', array($this, "load_data"));
-		//upfront_add_ajax('upfront_posts-terms', array($this, "load_terms"));
-
-		//upfront_add_ajax('upfront_posts-list_meta', array($this, "load_meta"));
-
-		// Handle legacy element parsing
-		//add_filter('upfront-virtual_region-object_defaults-fallback', array($this, 'handle_legacy_data'), 10, 2);
-		//add_filter('upfront-output-get_markup-fallback', array($this, 'handle_legacy_output'), 10, 2);
-
-
 	}
 
-	public function handle_legacy_data ($data, $type) {
-	}
-	public function handle_legacy_output ($msg, $view_class) {
-	}
+	public function handle_legacy_data ($data, $type) {}
+	public function handle_legacy_output ($msg, $view_class) {}
 
 	public function load_post () {
 		$request = !empty($_POST['data']) ? stripslashes_deep($_POST['data']) : array();

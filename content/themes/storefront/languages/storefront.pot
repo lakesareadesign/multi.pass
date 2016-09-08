@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Storefront 2.1.0\n"
+"Project-Id-Version: Storefront 2.1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/woothemes/storefront/issues\n"
-"POT-Creation-Date: 2016-08-24 11:04:01+00:00\n"
+"POT-Creation-Date: 2016-09-08 11:52:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -281,86 +281,86 @@ msgstr ""
 msgid "Why not leave us a review on %sWordPress.org%s?  We'd really appreciate it!"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:139
+#: inc/customizer/class-storefront-customizer.php:140
 msgid "Background"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:143
+#: inc/customizer/class-storefront-customizer.php:144
 msgid "Header"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:182
+#: inc/customizer/class-storefront-customizer.php:188
 msgid "Typography"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:196
-#: inc/customizer/class-storefront-customizer.php:323
+#: inc/customizer/class-storefront-customizer.php:201
+#: inc/customizer/class-storefront-customizer.php:322
 msgid "Heading color"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:212
-#: inc/customizer/class-storefront-customizer.php:266
-#: inc/customizer/class-storefront-customizer.php:339
-#: inc/customizer/class-storefront-customizer.php:394
+#: inc/customizer/class-storefront-customizer.php:216
+#: inc/customizer/class-storefront-customizer.php:268
+#: inc/customizer/class-storefront-customizer.php:337
+#: inc/customizer/class-storefront-customizer.php:391
 msgid "Text color"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:227
+#: inc/customizer/class-storefront-customizer.php:231
 msgid "Link / accent color"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:236
+#: inc/customizer/class-storefront-customizer.php:240
 msgid "Header background image"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:250
+#: inc/customizer/class-storefront-customizer.php:253
 #: inc/customizer/class-storefront-customizer.php:307
-#: inc/customizer/class-storefront-customizer.php:379
+#: inc/customizer/class-storefront-customizer.php:376
 msgid "Background color"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:282
-#: inc/customizer/class-storefront-customizer.php:355
+#: inc/customizer/class-storefront-customizer.php:283
+#: inc/customizer/class-storefront-customizer.php:352
 msgid "Link color"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:292
+#: inc/customizer/class-storefront-customizer.php:293
 msgid "Footer"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:294
+#: inc/customizer/class-storefront-customizer.php:295
 msgid "Customise the look & feel of your web site footer."
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:365
+#: inc/customizer/class-storefront-customizer.php:362
 msgid "Buttons"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:367
+#: inc/customizer/class-storefront-customizer.php:364
 msgid "Customise the look & feel of your web site buttons."
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:409
+#: inc/customizer/class-storefront-customizer.php:406
 msgid "Alternate button background color"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:424
+#: inc/customizer/class-storefront-customizer.php:421
 msgid "Alternate button text color"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:434
+#: inc/customizer/class-storefront-customizer.php:431
 msgid "Layout"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:446
+#: inc/customizer/class-storefront-customizer.php:443
 msgid "General Layout"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:459
+#: inc/customizer/class-storefront-customizer.php:456
 msgid "More"
 msgstr ""
 
-#: inc/customizer/class-storefront-customizer.php:469
+#: inc/customizer/class-storefront-customizer.php:466
 msgid "Looking for more options?"
 msgstr ""
 

@@ -1017,6 +1017,9 @@ a.remove {
 
 /**
  * Checkout
+ *
+ * 1 - Required to make the blockUI overlay cover the entire page rather than just the checkout form. We do this because
+ *     otherwise our sticky order review can break out of the checkout form (and the blockUI element).
  */
 .checkout_coupon {
 	margin-bottom: ms(5);
@@ -1024,6 +1027,28 @@ a.remove {
 
 form.checkout {
 	@include clearfix;
+	position: static !important; /* 1 */
+
+	> .blockUI {
+		position: fixed !important; /* 1 */
+	}
+}
+
+.blockUI {
+	&:before {
+		@include fa-icon();
+		content: "\f110";
+		@include animation(fa-spin .75s linear infinite);
+		height: 30px;
+		width: 30px;
+		line-height: 30px;
+		font-size: 30px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-left: -15px;
+		margin-top: -15px;
+	}
 }
 
 #payment {

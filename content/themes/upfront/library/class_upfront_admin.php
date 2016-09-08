@@ -59,10 +59,7 @@ class Upfront_Admin
 
 		global $menu, $submenu;
 
-		if (!Upfront_Permissions::current( Upfront_Permissions::SEE_USE_DEBUG ) && Upfront_Permissions::current( Upfront_Permissions::MODIFY_RESTRICTIONS )) {
-			//Here we simulate page with fake capability
-			add_menu_page( __("General Settings", Upfront::TextDomain), __("Upfront", Upfront::TextDomain), "see_use_debug_hide_restrictions",  self::$menu_slugs['main'], null, "", 58);
-		} elseif (Upfront_Permissions::current( Upfront_Permissions::SEE_USE_DEBUG ) || Upfront_Permissions::current( Upfront_Permissions::MODIFY_RESTRICTIONS )) {
+		if (Upfront_Permissions::current( Upfront_Permissions::SEE_USE_DEBUG ) || Upfront_Permissions::current( Upfront_Permissions::MODIFY_RESTRICTIONS )) {
 			add_menu_page( __("General Settings", Upfront::TextDomain), __("Upfront", Upfront::TextDomain), "manage_options",  self::$menu_slugs['main'], null, "", 58);
 		}
 

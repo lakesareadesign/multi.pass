@@ -171,7 +171,7 @@ class Upfront_Server_LayoutRevisions extends Upfront_Server {
 	 * Outputs revisions JSON data, or JSON error.
 	 */
 	public function list_revisions () {
-		if (!Upfront_Permissions::current(Upfront_Permissions::SAVE_REVISION)) $this->_out(new Upfront_JsonResponse_Error("No way"));
+		if (!Upfront_Permissions::current(Upfront_Permissions::SAVE_REVISION)) $this->_out(new Upfront_JsonResponse_Error("No way"));	     	 		 		  	 		 	
 
 		$data = stripslashes_deep($_POST);
 		$cascade = !empty($data['cascade']) ? $data['cascade'] : false;

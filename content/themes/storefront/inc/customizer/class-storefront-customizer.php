@@ -80,12 +80,15 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 		 * @return string
 		 */
 		public function get_theme_mod_value( $value ) {
-			if ( $value ) {
+			$key = substr( current_filter(), 10 );
+
+			$set_theme_mods = get_theme_mods();
+
+			if ( isset( $set_theme_mods[ $key ] ) ) {
 				return $value;
 			}
 
-			$key    = substr( current_filter(), 10 );
-			$values = self::get_storefront_default_setting_values();
+			$values = $this->get_storefront_default_setting_values();
 
 			return isset( $values[ $key ] ) ? $values[ $key ] : $value;
 		}
@@ -128,8 +131,6 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 		 * @since  1.0.0
 		 */
 		public function customize_register( $wp_customize ) {
-			$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
-			$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 
 			// Move background color setting alongside background image.
 			$wp_customize->get_control( 'background_color' )->section   = 'background_image';
@@ -144,26 +145,31 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			$wp_customize->get_section( 'header_image' )->priority      = 25;
 
 			// Selective refresh.
-			$wp_customize->selective_refresh->add_partial( 'custom_logo', array(
-				'selector'        => '.site-branding',
-				'render_callback' => function() {
-					storefront_site_title_or_logo();
-				},
-			) );
+			if ( function_exists( 'add_partial' ) ) {
+				$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
+				$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 
-			$wp_customize->selective_refresh->add_partial( 'blogname', array(
-				'selector'        => '.site-title.beta a',
-				'render_callback' => function() {
-					bloginfo( 'name' );
-				},
-			) );
+				$wp_customize->selective_refresh->add_partial( 'custom_logo', array(
+					'selector'        => '.site-branding',
+					'render_callback' => function() {
+						storefront_site_title_or_logo();
+					},
+				) );
 
-			$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
-				'selector'        => '.site-description',
-				'render_callback' => function() {
-					bloginfo( 'description' );
-				},
-			) );
+				$wp_customize->selective_refresh->add_partial( 'blogname', array(
+					'selector'        => '.site-title.beta a',
+					'render_callback' => function() {
+						bloginfo( 'name' );
+					},
+				) );
+
+				$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
+					'selector'        => '.site-description',
+					'render_callback' => function() {
+						bloginfo( 'description' );
+					},
+				) );
+			}
 
 			/**
 			 * Custom controls
@@ -189,7 +195,6 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			$wp_customize->add_setting( 'storefront_heading_color', array(
 				'default'           	=> apply_filters( 'storefront_default_heading_color', '#484c51' ),
 				'sanitize_callback' 	=> 'sanitize_hex_color',
-				'transport'				=> 'postMessage',
 			) );
 
 			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'storefront_heading_color', array(
@@ -205,7 +210,6 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			$wp_customize->add_setting( 'storefront_text_color', array(
 				'default'           	=> apply_filters( 'storefront_default_text_color', '#43454b' ),
 				'sanitize_callback' 	=> 'sanitize_hex_color',
-				'transport'				=> 'postMessage',
 			) );
 
 			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'storefront_text_color', array(
@@ -243,7 +247,6 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			$wp_customize->add_setting( 'storefront_header_background_color', array(
 				'default'           	=> apply_filters( 'storefront_default_header_background_color', '#2c2d33' ),
 				'sanitize_callback' 	=> 'sanitize_hex_color',
-				'transport'				=> 'postMessage',
 			) );
 
 			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'storefront_header_background_color', array(
@@ -259,7 +262,6 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			$wp_customize->add_setting( 'storefront_header_text_color', array(
 				'default'           	=> apply_filters( 'storefront_default_header_text_color', '#9aa0a7' ),
 				'sanitize_callback' 	=> 'sanitize_hex_color',
-				'transport'				=> 'postMessage',
 			) );
 
 			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'storefront_header_text_color', array(
@@ -275,7 +277,6 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			$wp_customize->add_setting( 'storefront_header_link_color', array(
 				'default'           	=> apply_filters( 'storefront_default_header_link_color', '#d5d9db' ),
 				'sanitize_callback' 	=> 'sanitize_hex_color',
-				'transport'				=> 'postMessage',
 			) );
 
 			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'storefront_header_link_color', array(
@@ -300,7 +301,6 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			$wp_customize->add_setting( 'storefront_footer_background_color', array(
 				'default'           	=> apply_filters( 'storefront_default_footer_background_color', '#f0f0f0' ),
 				'sanitize_callback' 	=> 'sanitize_hex_color',
-				'transport'				=> 'postMessage',
 			) );
 
 			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'storefront_footer_background_color', array(
@@ -316,7 +316,6 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			$wp_customize->add_setting( 'storefront_footer_heading_color', array(
 				'default'           	=> apply_filters( 'storefront_default_footer_heading_color', '#494c50' ),
 				'sanitize_callback' 	=> 'sanitize_hex_color',
-				'transport' 			=> 'postMessage',
 			) );
 
 			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'storefront_footer_heading_color', array(
@@ -332,7 +331,6 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			$wp_customize->add_setting( 'storefront_footer_text_color', array(
 				'default'           	=> apply_filters( 'storefront_default_footer_text_color', '#61656b' ),
 				'sanitize_callback' 	=> 'sanitize_hex_color',
-				'transport'				=> 'postMessage',
 			) );
 
 			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'storefront_footer_text_color', array(
@@ -348,7 +346,6 @@ if ( ! class_exists( 'Storefront_Customizer' ) ) :
 			$wp_customize->add_setting( 'storefront_footer_link_color', array(
 				'default'           	=> apply_filters( 'storefront_default_footer_link_color', '#2c2d33' ),
 				'sanitize_callback' 	=> 'sanitize_hex_color',
-				'transport'				=> 'postMessage',
 			) );
 
 			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'storefront_footer_link_color', array(
