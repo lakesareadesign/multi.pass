@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @package   MasterSlider
  * @author    averta [averta.net]
@@ -28,7 +28,7 @@ class MSP_Screen_Help extends Axiom_Screen_Help {
 
 		// define tabs data
 	    $tabs = array (
-	      	
+
 	      	array('id' 		=> 'msp-how-use-tab',
 	            'title'     => __( 'Display Sliders on pages', MSWP_TEXT_DOMAIN ),
 	            'callback'  => array( $this, 'display_masterslider' ) // callback to display tab content @km!
@@ -50,12 +50,12 @@ class MSP_Screen_Help extends Axiom_Screen_Help {
 		<hr />
 
 		<div class="row-fluid">
-			
+
 			<div>
 				<h3>1 - Inserting the slider with WordPress Editor button</h3>
 				<p>You can place your sliders into pages and posts with their shortcodes.</p>
 				<p>Click on "Master Slider button" on WordPress editor, then select a slider from list. The slider shortcode will be added to WordPress editor.</p>
-				
+
                 <img  src="<?php echo MSWP_AVERTA_ADMIN_URL. '/assets/images/misc/tinymce-button.png'; ?>" />
             </div>
         </div>
@@ -63,7 +63,7 @@ class MSP_Screen_Help extends Axiom_Screen_Help {
 		<hr>
 
         <div class="row-fluid">
-			
+
 			<div>
 				<h3>2 - Inserting the slider with shortcode</h3>
 				<p>You can place your sliders into pages and posts with their shortcodes.</p>
@@ -82,13 +82,13 @@ class MSP_Screen_Help extends Axiom_Screen_Help {
 			<div >
 				<h3>3 - Inserting the slider with the Master Slider WP widget</h3>
 				<p>
-					MasterSlider WP supports widgets, so you can place your slider in your front-end page just by a drag n' drop. To do that, navigate to the Appearance menu on your left sidebar and select "Widgets". Grab the MasterSlider WP Widget and drop it into one of your widget area. 
+					MasterSlider WP supports widgets, so you can place your slider in your front-end page just by a drag n' drop. To do that, navigate to the Appearance menu on your left sidebar and select "Widgets". Grab the MasterSlider WP Widget and drop it into one of your widget area.
 
 					Please note that some themes may not support a widget area what you need. In this case, you can create a new widget area by editing your theme files.
                 </p>
             </div>
         </div>
-		
+
 		<hr>
 
 		<div class="row-fluid">
@@ -103,9 +103,9 @@ class MSP_Screen_Help extends Axiom_Screen_Help {
 				<p>Displays Master Slider markup for specific slider ID</p>
 
 				<h5>Usage :</h5>
-				<p><code>&lt;?php masterslider( $id ); ?&gt;</code></p>It's equal to : 
+				<p><code>&lt;?php masterslider( $id ); ?&gt;</code></p>It's equal to :
 				<p><code>&lt;?php echo get_masterslider( $id ); ?&gt;</code></p>
-				
+
 				<h5>Parameters :</h5>
 				<dl>
 					<dt><tt>$id</tt></dt>
@@ -116,8 +116,8 @@ class MSP_Screen_Help extends Axiom_Screen_Help {
 				<p>If you've created a slider and the slider ID is equal to <code>1</code> you can use the following code to display the slider on your website.</p>
 				<p><code>&lt;?php masterslider ( 1 ); ?&gt;</code></p>OR
 				<p><code>&lt;?php echo get_masterslider ( 1 ); ?&gt;</code></p><br />
-				
-				<p><strong>Note</strong>: If you are developer, take a look at our <a href="http://masterslider.com/doc/wp/developer/" target="_blank">developer documentation</a> too.</p>
+
+				<p><strong>Note</strong>: If you are developer, take a look at our <a href="http://avt.li/mswpdevcondoc" target="_blank">developer documentation</a> too.</p>
 				<hr>
 
 				<p>
@@ -125,7 +125,7 @@ class MSP_Screen_Help extends Axiom_Screen_Help {
                 </p>
             </div>
         </div>
-				
+
 		<?php
 	}
 
@@ -136,11 +136,11 @@ class MSP_Screen_Help extends Axiom_Screen_Help {
 
 		<h4>If you have any questions please follow these steps:</h4>
 		<ul>
-			<li>1 - Please read item's <a href="http://masterslider.com/doc/wp" target="_blank">Documentation </a> </li>
+			<li>1 - Please read item's <a href="http://avt.li/mswpcondoc" target="_blank">Documentation </a> </li>
 			<li>2 - Take a look in our <a href="http://support.averta.net/envato/faq/" target="_blank">FAQ</a> page</li>
 			<li>3 - Take a look in our <a href="http://support.averta.net/envato/knowledgebase/" target="_blank">Knowledge base</a></li>
 			<li>4 - Take a look in <a href="http://support.averta.net/envato/videos/" target="_blank">Video Tutorials</a> page</li>
-			<li>5 - Still have questions(s)? <a href="http://support.averta.net/envato/wp-login.php?action=register" target="_blank" rel="nofollow">Create an Account</a> in <a href="http://support.averta.net/envato/support/" rel="nofollow">Support Forums</a> (<a href="http://i44.tinypic.com/311rr4h.jpg" rel="nofollow">Find your “Item Purchase Code”</a>)</li>
+			<li>5 - Still have questions(s)? <a href="http://support.averta.net/envato/registration/" target="_blank" >Create an Account</a> in <a href="http://support.averta.net/envato/support/" rel="nofollow">Support Forums</a></li>
 			<li>6 - Use search field at the top of support forum for similar topics</li>
 			<li>7 - If you still didn't find your answers please post your question(s) in the item’s <a href="http://support.averta.net/envato/support/" target="_blank">support forum</a>
 			Our support staff are there to help you as soon as possible.</li>
@@ -169,17 +169,17 @@ class MSP_Screen_Help extends Axiom_Screen_Help {
 		  <li>Support for third party software and plug-ins</li>
 		</ul>
 		<br>
-		
+
 		<p><span class="label label-info">Important Note</span> We <strong>CAN NOT</strong> provide support via email.
 		Please ask your support related questions only in our <a href="http://support.averta.net/envato/support/" target="_blank">support forum</a>.
 		</p>
-		
+
 		<br>
 		<p><span class="label label-info">Important Note</span> For the fast troubleshooting, please send us detailed informations about the issue and make sure that you don't forget to send us your site url where you are using or want to use the item. Please note, that we cannot troubleshoot from screencast videos or screenshots.</p>
 		<?php
 	}
-    
-    
+
+
 }
 
 endif;

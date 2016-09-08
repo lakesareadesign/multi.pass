@@ -608,6 +608,10 @@ class MSP_Importer {
 	    if( isset( $results['slides'] ) ) {
 
 	    	foreach ( $results['slides'] as $slide ) {
+                // skip if current slide is 'overlay' slide not 'standard' slide
+                if( empty( $slide['src'] ) )
+                    continue;
+
 	    		$this->image_import_queue[] = $slide['src'];
 	    		$this->image_import_queue[] = $slide['thumb'];
 	    	}

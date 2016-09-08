@@ -23,8 +23,6 @@ class UM_Members {
 	function user_search_columns( $search_columns ){
 		if ( is_admin() ) {
 			$search_columns[] = 'display_name';
-		} else {
-			$search_columns = array('display_name','user_email','user_login');
 		}
 		return $search_columns;
 	}
@@ -149,29 +147,32 @@ class UM_Members {
 		
 		// Prepare for BIG SELECT query
 		$wpdb->query('SET SQL_BIG_SELECTS=1');
-		// Add filter to optimize BIG Select with multiple LEFT JOINs
-		add_filter( 'pre_user_query', array( $this, 'um_optimize_member_query' ) );
-
-		$users = new WP_User_Query( $query_args );
-
-		remove_filter( 'pre_user_query', array( $this, 'um_optimize_member_query' ) );
 		
 		// number of profiles for mobile
-		if ( $ultimatemember->mobile->isMobile() && isset( $profiles_per_page_mobile ) )
+		if ( $ultimatemember->mobile->isMobile() && isset( $profiles_per_page_mobile ) ){
 			$profiles_per_page = $profiles_per_page_mobile;
+		}
 
+		$query_args['number'] = $profiles_per_page;
+		
+		$members_page = isset($_REQUEST['members_page']) ? $_REQUEST['members_page'] : 1;
+		
+		$query_args['paged'] = $members_page;
+		
+		$users = new WP_User_Query( $query_args );
+		
 		$array['users'] = array_unique( $users->results );
 
 		$array['total_users'] = (isset( $max_users ) && $max_users && $max_users <= $users->total_users ) ? $max_users : $users->total_users;
 
-		$array['page'] = isset($_REQUEST['members_page']) ? $_REQUEST['members_page'] : 1;
+		$array['page'] = $members_page;
 
 		$array['total_pages'] = ceil( $array['total_users'] / $profiles_per_page );
 
 		$array['header'] = $this->convert_tags( $header, $array );
 		$array['header_single'] = $this->convert_tags( $header_single, $array );
 
-		$array['users_per_page'] = array_slice($array['users'], ( ( $profiles_per_page * $array['page'] ) - $profiles_per_page ), $profiles_per_page );
+		$array['users_per_page'] = $array['users'];
 
 		for( $i = $array['page']; $i <= $array['page'] + 2; $i++ ) {
 			if ( $i <= $array['total_pages'] ) {
@@ -255,6 +256,7 @@ class UM_Members {
 		}
 
 		return apply_filters('um_prepare_user_results_array', $array );
+
 	}
 
 

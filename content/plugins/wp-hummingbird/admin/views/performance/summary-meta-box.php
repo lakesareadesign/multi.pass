@@ -35,7 +35,7 @@
 			if ( count >= 2 ) {
 				// Get the previous key pressed. If they are H+B, we'll display the error
 				if ( pressedKeys[ count - 1 ] == 66 && pressedKeys[ count - 2 ] == 72 ) {
-					var errorDetails = document.getElementById('wphb-error-details');	  	 	   	 		 		 		 	
+					var errorDetails = document.getElementById('wphb-error-details');
 					errorDetails.style.display = 'block';
 				}
 			}

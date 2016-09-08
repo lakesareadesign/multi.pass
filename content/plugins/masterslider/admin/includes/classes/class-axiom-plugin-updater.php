@@ -194,11 +194,11 @@ if( ! class_exists('Axiom_Plugin_Updater') ) {
                 $error_code    = isset( $result['code'] ) ? $result['code']. '. ' : '';
 
                 return new WP_Error( 'no_credentials',
-                                        apply_filters( 'axiom_plugin_updater_failed_connect_api',
-                                            __( 'Faild to connect to download API ..') . $error_message . $error_code ,
-                                            $this->slug, $error_message , $error_code
-                                        )
-                                    );
+                    apply_filters( 'axiom_plugin_updater_failed_connect_api',
+                        __( 'Faild to connect to download API ..') . $error_message . $error_code ,
+                        $this->slug, $error_message , $error_code
+                    )
+                );
             }
             $json = $request['body'];
             $result = json_decode( $request['body'], true );
@@ -210,11 +210,11 @@ if( ! class_exists('Axiom_Plugin_Updater') ) {
 
                 // Envato API error ..
                 return new WP_Error( 'no_credentials',
-                                        apply_filters( 'axiom_plugin_updater_api_error',
-                                            __( $json . 'Error on connecting to download API ..') . $error_message . ' [' . $error_code . ']' ,
-                                            $this->slug, $error_message , $error_code
-                                        )
-                                    );
+                    apply_filters( 'axiom_plugin_updater_api_error',
+                        __( $json . 'Error on connecting to download API ..') . $error_message . ' [' . $error_code . ']' ,
+                        $this->slug, $error_message , $error_code
+                    )
+                );
             }
 
             return $result['download_url'];

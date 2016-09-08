@@ -26,6 +26,8 @@ class MSP_Admin_Ajax {
 		add_action( 'wp_ajax_ms-slug'               , array( $this, 'slider_alias_validation' ) );
 
 		add_action( 'wp_ajax_msp_license_activation', array( $this, 'check_license_activation' ) );
+
+		add_action( 'wp_ajax_msp_replace'           , array( $this, 'msp_replacer' ) );
 	}
 
 
@@ -64,21 +66,19 @@ class MSP_Admin_Ajax {
      */
     public function slider_alias_validation(){
 
-        header( "Content-Type: application/json" );
-
         // verify nonce
-        if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( $_GET['nonce'], "msp_panel") ) {
-            echo json_encode( __( "Authorization failed!", MSWP_TEXT_DOMAIN ) );
-            exit;
+        if ( ! isset( $_REQUEST['nonce'] ) || ! wp_verify_nonce( $_REQUEST['nonce'], "msp_panel") ) {
+            wp_send_json_error( __( "Authorization failed!", MSWP_TEXT_DOMAIN ) );
         }
 
         global $mspdb;
 
-        if( isset( $_GET['slug'] ) && isset( $_GET['id'] ) ){
-            echo json_encode( $mspdb->validate_slider_alias( $_GET['slug'], $_GET['id'] ) );
+        if( isset( $_REQUEST['slug'] ) && isset( $_REQUEST['id'] ) ){
+            wp_send_json_success( $mspdb->validate_slider_alias( $_REQUEST['slug'], $_REQUEST['id'] ) );
+        } else {
+            wp_send_json_error( __( "Slider ID or slug is not available", MSWP_TEXT_DOMAIN ) );
         }
 
-        exit;// IMPORTANT
     }
 
 
@@ -114,31 +114,33 @@ class MSP_Admin_Ajax {
 
 
 
-	/**
+    /**
 	 * Save ajax handler for main panel data
 	 *
 	 * @since    1.0.0
 	 */
-	public function save_panel_ajax() {
+    public function save_panel_ajax() {
 
-		header( "Content-Type: application/json" );
+        header( "Content-Type: application/json" );
 
-		// verify nonce
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], "msp_panel") ) {
-			echo json_encode( array( 'success' => false, 'message' => __("Authorization failed!", MSWP_TEXT_DOMAIN ) ) );
-			exit();
-		}
+        // verify nonce
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], "msp_panel") ) {
+            echo json_encode( array( 'success' => false, 'message' => __("Authorization failed!", MSWP_TEXT_DOMAIN ) ) );
+            exit();
+        }
 
-		// ignore the request if the current user doesn't have sufficient permissions
-	    if ( ! current_user_can( 'publish_masterslider' ) ) {
-	    	echo json_encode( array( 'success' => false,
-	    	                 		 'message' => apply_filters( 'masterslider_insufficient_permissions_to_publish_message', __( "Sorry, You don't have enough permission to publish slider!", MSWP_TEXT_DOMAIN ) )
-	    	                 		)
-	    	);
-	    	exit();
-		}
+        // ignore the request if the current user doesn't have sufficient permissions
+        if ( ! current_user_can( 'publish_masterslider' ) ) {
+            echo json_encode(
+                array(
+                    'success' => false,
+                    'message' => apply_filters( 'masterslider_insufficient_permissions_to_publish_message', __( "Sorry, You don't have enough permission to publish slider!", MSWP_TEXT_DOMAIN ) )
+                )
+            );
+            exit();
+        }
 
-		/////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////
 
 		// Get the slider id
 		$slider_id 		= isset( $_REQUEST['slider_id'] ) ? $_REQUEST['slider_id'] : '';
@@ -280,6 +282,125 @@ class MSP_Admin_Ajax {
     	echo json_encode( $result );
         exit;// IMPORTANT
     }
+
+
+    /**
+	 * Replacer function
+	 */
+    public function msp_replacer() {
+		// Check ajax-referer, user capability
+		if ( current_user_can( 'access_masterslider' ) && check_admin_referer( 'msprp-nonce', 'nonce' ) ) {
+
+			if ( empty( $_POST['ids'] ) ) {
+				wp_send_json_error( __( 'Please Select Slider(s)', MSWP_TEXT_DOMAIN ) );
+			}
+
+			if ( empty( $_POST['search'] ) && 'on' != $_POST['all_urls'] ) {
+				wp_send_json_error( __( 'Search field is empty.', MSWP_TEXT_DOMAIN ) );
+			}
+
+			if ( empty( $_POST['replace'] ) ) {
+				wp_send_json_error( __( 'Replace field is empty.', MSWP_TEXT_DOMAIN ) );
+			}
+
+			if ( empty( $_POST['where'] ) ) {
+				wp_send_json_error( __( 'Please select where to replace.', MSWP_TEXT_DOMAIN ) );
+			}
+
+			$ids            = $_POST['ids'];
+			$search         = sanitize_text_field($_POST['search']);
+			$replace        = sanitize_text_field($_POST['replace']);
+			$case_sensitive = sanitize_text_field($_POST['cs']);
+			$where          = $_POST['where'];
+			$backup         = $_POST['backup'];
+
+			if ( array('slides', 'layers') == $where ) {
+				$where_replace = 'full';
+			} else {
+				$where_replace = $where[0];
+			}
+			// Pattern for finding initial replace-able data
+			$pattern = '/(?<=,\\\"link|info|content|bgv_mp4|bgv_ogg|bgv_webm\\\":\\\").*?(?=\\\",\\\")/';
+			$args_sliders = array(
+				'perpage' => 0,
+				'offset'  => 0,
+				'orderby' => 'ID',
+				'order'   => 'DESC',
+				'where'   => "ID IN (".implode(',', $ids).") AND status='published'",
+				'like' 	  => ''
+			);
+			global $mspdb;
+			$sliders = $mspdb->ms_query($args_sliders);
+
+			if ( 'on' == $_POST['all_urls'] ) {
+				// Pattern for detecting URLs
+				$urls = '/(https?|ftps?):\/{2}(([\w\d\.-]){1,})\.([a-zA-Z\d:]+|\/&[^\.])|http:\/{2}localhost/i';
+				$callback = function( $matches ) use ( $urls, $replace ) {
+								return preg_replace( $urls, $replace, $matches[0] );
+							};
+			} else {
+				if ( 'on' == $case_sensitive ) {
+					// Case sensitive replace
+					$callback = function( $matches ) use ( $search, $replace ) {
+			        				return str_replace( $search, $replace, $matches[0] );
+			    				};
+				} else {
+					// Case insensitive replace
+					$callback = function( $matches ) use ( $search, $replace ) {
+			        				return str_ireplace( $search, $replace, $matches[0] );
+								};
+				}
+			}
+
+			// Callback that runs replace function for detected replace-able contents
+			$callback_callback = function( $matches ) use ( $pattern, $callback ) {
+								return preg_replace_callback( $pattern, $callback, $matches[0], -1, $count);
+							};
+
+			// Start Replacing process
+			if ( $sliders ) {
+				if ( 'on' == $backup ) {
+					foreach ( $sliders as $slider ) {
+						update_option('msprp_backup_'.$slider['ID'], $slider['params']);
+					}
+				}
+				if ( 'layers' == $where_replace ) {
+					foreach ( $sliders as $slider ) {
+						$decoded = base64_decode( $slider['params'] );
+						// Match in Layers data only
+						$changed = preg_replace_callback( '/(?<=,\"MSPanel\.Layer\":\{).*?(?=\}\"\},\")/', $callback_callback, $decoded, -1, $count);
+						$params = base64_encode( $changed );
+						$mspdb->update_slider( $slider['ID'], array( 'params' => $params ) );
+					}
+					wp_send_json_success( __( 'Done!', MSWP_TEXT_DOMAIN ) );
+				} elseif ( 'slides' == $where_replace ) {
+					foreach ( $sliders as $slider ) {
+						$decoded = base64_decode( $slider['params'] );
+						// Match in Slides data only
+						$changed = preg_replace_callback( '/(?<=,\"MSPanel\.Slide\":\{).*?(?=\}\"\},\")/', $callback_callback, $decoded, -1, $count);
+						$params = base64_encode( $changed );
+						$mspdb->update_slider( $slider['ID'], array( 'params' => $params ) );
+					}
+					wp_send_json_success( __( 'Done!', MSWP_TEXT_DOMAIN ) );
+				} elseif ( 'full' == $where_replace ) {
+					foreach ( $sliders as $slider ) {
+						$params = $slider['params'];
+						$decoded = base64_decode( $params );
+						// MAtch any replace-able content
+						$changed = preg_replace_callback( $pattern, $callback, $decoded, -1, $count);
+						$params = base64_encode( $changed );
+						$mspdb->update_slider( $slider['ID'], array( 'params' => $params ) );
+					}
+					wp_send_json_success( __( 'Done!', MSWP_TEXT_DOMAIN ) );
+				}
+			}
+			// Send error by default
+			wp_send_json_error( __( 'Sorry! An error occurred while replacing process!', MSWP_TEXT_DOMAIN ) );
+
+		}
+			wp_send_json_error( __( 'Sorry! An error occurred while replacing process!', MSWP_TEXT_DOMAIN ) );
+
+	}
 
 }
 

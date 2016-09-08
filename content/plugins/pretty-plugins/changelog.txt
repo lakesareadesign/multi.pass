@@ -1,13 +1,19 @@
-Plugin Name: Pretty Plugins
-Author: WPMUDEV
+Plugin Name: PrettyPlugins
+Author: WPMU DEV
 Lead developer: Maniu
 
 == Changelog ==
 
-= 1.0.5 =
-* Fixed "Edit details" button not being visible in some situations
-* Fixed unstripped slashes in custom plugin title
-* Fixed missing esc_url
+= 1.5 =
+* Added new template - 3 Eight (if you are using custom theme, please make sure that required changes did not break it)
+* Added support to pull plugins images from WP.org (it is not guarandeed to work for all plugins)
+* Added frontend theme showcase through shortcode (beta): [wmd-plugins-showcase category="{optional - default theme category to display}" plugins="{optional - show selected plugins}"]
+* Fixed WP 4.6 compatibility issues
+
+= 1.0.5 =
+* Fixed "Edit details" button not being visible in some situations
+* Fixed unstripped slashes in custom plugin title
+* Fixed missing esc_url
 
 = 1.0.4 =
 * Fixed remaining styling issue for images
@@ -29,4 +35,4 @@ Lead developer: Maniu
 * Initial Release
 
 
-133620-1443654439-au
+133620-1473370910-au

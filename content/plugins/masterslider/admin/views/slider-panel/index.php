@@ -219,6 +219,9 @@
                {{switch-box value=instantShowLayers}}<label><?php _e('Show layers before the slide transition is complete', MSWP_TEXT_DOMAIN); ?></label>
             </div>
             <div class="msp-metabox-indented">
+               {{switch-box value=mobileBGVideo}}<label><?php _e('Show background video in mobile devices (Not recommended)', MSWP_TEXT_DOMAIN); ?></label>
+            </div>
+            <div class="msp-metabox-indented">
                 <label><?php _e('Start with slide :', MSWP_TEXT_DOMAIN); ?> </label> {{number-input value=start min=1}}
             </div>
             <h4><?php _e('Slider deep linking options' , MSWP_TEXT_DOMAIN); ?></h4>
@@ -306,6 +309,7 @@
 
                     {{!--
                     <option value="ms-skin-default"><?php _e('Default', MSWP_TEXT_DOMAIN); ?></option>
+                    <option value="ms-skin-minimal"><?php _e('Minimal', MSWP_TEXT_DOMAIN); ?></option>
                     <option value="ms-skin-light-2"><?php _e('Light 2', MSWP_TEXT_DOMAIN); ?></option>
                     <option value="ms-skin-light-3"><?php _e('Light 3', MSWP_TEXT_DOMAIN); ?></option>
                     <option value="ms-skin-light-4"><?php _e('Light 4', MSWP_TEXT_DOMAIN); ?></option>
@@ -712,7 +716,7 @@
          {{view MSPanel.SlideList}}
         </div>
         {{/meta-box}}
-        {{#if length}}
+        {{#if currentSlide}}
             {{partial "slide-settings"}}
         {{/if}}
     {{/if}}
@@ -775,6 +779,16 @@
 <!-- Slide Settings Partial -->
 <script type="text/x-handlebars" id="slide-settings">
 
+    {{#if currentSlide.isOverlayLayers}}
+        {{#meta-box title="<?php _e('Overlay layers', MSWP_TEXT_DOMAIN); ?>"}}
+            <div class="msp-metabox-indented">
+                <p><?php _e('In this section you can add layers over the slider. They remain fixed while changing slides.', MSWP_TEXT_DOMAIN);?></p>
+            </div>
+            <div class="msp-metabox-indented">
+                 {{switch-box value=sliderSettings.enableOverlayLayers}} <label> <?php _e('Enable overlay layers', MSWP_TEXT_DOMAIN);?></label>
+            </div>
+        {{/meta-box}}
+    {{else}}
     {{#tabs-panel id="slide-settings"}}
     <div class="msp-metabox-handle">
 
@@ -799,6 +813,8 @@
 
     {{/tabs-panel}}
 
+    <!-- end of check for overlay if -->
+    {{/if}}
     {{render "layers" currentSlide.layers}}
 </script>
 
@@ -874,6 +890,9 @@
 <script type="text/x-handlebars" id="slide-info">
     <div class="msp-metabox-row">
         <div class="msp-metabox-indented">
+            <label><?php _e('Unique slide id :', MSWP_TEXT_DOMAIN); ?> </label> {{input size=60 value=currentSlide.msId}}
+        </div>
+        <div class="msp-metabox-indented">
             <label><?php _e('The info. will appear next to the slider when it reaches that specific slide, or it can represent as a tab in tabs control. Please note that it is relative to the selected slider\'s template.', MSWP_TEXT_DOMAIN); ?></label>
         </div>
 
@@ -924,7 +943,7 @@
     <div class="msp-metabox-row">
         <label><?php _e('New layer :', MSWP_TEXT_DOMAIN); ?> </label> {{view MSPanel.AddLayer}}
         <span class="msp-form-space"></span>
-        <label><?php _e('Slide duration :', MSWP_TEXT_DOMAIN); ?> </label> {{number-input class="msp-number-input" min=0 max=600 step="0.1" value=slide.duration}} s
+        <label><?php _e('Slide duration :', MSWP_TEXT_DOMAIN); ?> </label> {{number-input class="msp-number-input" min=0 max=300 step="0.1" value=slide.duration}} s
         <span class="msp-form-space"></span>
         {{view MSPanel.PreviewSlideBtn}}
     </div>
@@ -935,6 +954,31 @@
 
     {{partial layerSettings}}
 </script>
+
+<!-- layer content common settings -->
+<script type="text/x-handlebars" id="layer-content-common">
+    <div class="msp-metabox-indented">
+        <label><?php _e('Layer type:', MSWP_TEXT_DOMAIN); ?> </label>
+        {{#dropdwon-List value=currentLayer.position}}
+            <option value="normal"><?php _e('Normal', MSWP_TEXT_DOMAIN); ?></option>
+            <option value="static"><?php _e('Static', MSWP_TEXT_DOMAIN); ?></option>
+            <option value="fixed"><?php _e('Fixed', MSWP_TEXT_DOMAIN); ?></option>
+        {{/dropdwon-List}}
+        <div class="msp-form-space"></div>
+        <label><?php _e('Unique layer id :', MSWP_TEXT_DOMAIN); ?> </label> {{input value=currentLayer.msId}}
+    </div>
+    {{#if currentLayer.slide.isOverlayLayers}}
+        <div class="msp-metabox-indented">
+            <p><?php _e('Enter slide(s) id separated by comma to show or hide the overlay layer over specific slide.', MSWP_TEXT_DOMAIN); ?></p>
+            {{#dropdwon-List value=currentLayer.overlayTargetSlidesAction width="200"}}
+                <option value="show"><?php _e('Show layer only in slide(s):', MSWP_TEXT_DOMAIN); ?></option>
+                <option value="hide"><?php _e('Hide layer in slide(s):', MSWP_TEXT_DOMAIN); ?></option>
+            {{/dropdwon-List}}
+            {{input value=currentLayer.overlayTargetSlides size="50"}}
+        </div>
+    {{/if}}
+</script>
+
 
 <!-- text layer settings -->
 <script type="text/x-handlebars" id="text-layer-settings">
@@ -954,14 +998,7 @@
     <ul class="tabs-content">
         <li id="layer-content">
             <div class="msp-metabox-row">
-                <div class="msp-metabox-indented">
-                    <label><?php _e('Layer type:', MSWP_TEXT_DOMAIN); ?> </label>
-                    {{#dropdwon-List value=currentLayer.position}}
-                        <option value="normal"><?php _e('Normal', MSWP_TEXT_DOMAIN); ?></option>
-                        <option value="static"><?php _e('Static', MSWP_TEXT_DOMAIN); ?></option>
-                        <option value="fixed"><?php _e('Fixed', MSWP_TEXT_DOMAIN); ?></option>
-                    {{/dropdwon-List}}
-                </div>
+                {{partial 'layer-content-common'}}
                  <div class="msp-metabox-indented">
                     <label><?php _e('Width :', MSWP_TEXT_DOMAIN); ?> </label> {{number-input value=currentLayer.width}} px
                     {{!--<span class="msp-form-space"></span>
@@ -1017,14 +1054,7 @@
     <ul class="tabs-content">
         <li id="layer-content">
             <div class="msp-metabox-row">
-                <div class="msp-metabox-indented">
-                    <label><?php _e('Layer type:', MSWP_TEXT_DOMAIN); ?> </label>
-                    {{#dropdwon-List value=currentLayer.position}}
-                        <option value="normal"><?php _e('Normal', MSWP_TEXT_DOMAIN); ?></option>
-                        <option value="static"><?php _e('Static', MSWP_TEXT_DOMAIN); ?></option>
-                        <option value="fixed"><?php _e('Fixed', MSWP_TEXT_DOMAIN); ?></option>
-                    {{/dropdwon-List}}
-                </div>
+                {{partial 'layer-content-common'}}
                 <h4><?php _e('Layer image and alt attribute', MSWP_TEXT_DOMAIN); ?></h4>
                 <div class="msp-metabox-indented">
                     <label><?php _e('Select image :', MSWP_TEXT_DOMAIN); ?> </label> {{view MSPanel.ImgSelect value=currentLayer.img thumb=currentLayer.imgThumb}}
@@ -1071,14 +1101,7 @@
     <ul class="tabs-content">
         <li id="layer-content">
             <div class="msp-metabox-row">
-                <div class="msp-metabox-indented">
-                    <label><?php _e('Layer type:', MSWP_TEXT_DOMAIN); ?> </label>
-                    {{#dropdwon-List value=currentLayer.position}}
-                        <option value="normal"><?php _e('Normal', MSWP_TEXT_DOMAIN); ?></option>
-                        <option value="static"><?php _e('Static', MSWP_TEXT_DOMAIN); ?></option>
-                        <option value="fixed"><?php _e('Fixed', MSWP_TEXT_DOMAIN); ?></option>
-                    {{/dropdwon-List}}
-                </div>
+                {{partial 'layer-content-common'}}
                 <h4><?php _e('Youtube or Vimeo video embed source', MSWP_TEXT_DOMAIN); ?></h4>
                 <div class="msp-metabox-indented">
                     <label><?php _e('URL :', MSWP_TEXT_DOMAIN); ?> </label> {{input class="msp-path-input" value=currentLayer.video}}
@@ -1126,14 +1149,7 @@
     <ul class="tabs-content">
         <li id="layer-content">
             <div class="msp-metabox-row">
-                <div class="msp-metabox-indented">
-                    <label><?php _e('Layer type:', MSWP_TEXT_DOMAIN); ?> </label>
-                    {{#dropdwon-List value=currentLayer.position}}
-                        <option value="normal"><?php _e('Normal', MSWP_TEXT_DOMAIN); ?></option>
-                        <option value="static"><?php _e('Static', MSWP_TEXT_DOMAIN); ?></option>
-                        <option value="fixed"><?php _e('Fixed', MSWP_TEXT_DOMAIN); ?></option>
-                    {{/dropdwon-List}}
-                </div>
+                {{partial 'layer-content-common'}}
                 <h4><?php _e('Hotspot tooltip alignment and max width', MSWP_TEXT_DOMAIN); ?></h4>
                 <div class="msp-metabox-indented">
                     <label><?php _e('Tooltip align : ', MSWP_TEXT_DOMAIN); ?> </label>
@@ -1202,14 +1218,7 @@
     <ul class="tabs-content">
         <li id="layer-content">
             <div class="msp-metabox-row">
-                <div class="msp-metabox-indented">
-                    <label><?php _e('Layer type:', MSWP_TEXT_DOMAIN); ?> </label>
-                    {{#dropdwon-List value=currentLayer.position}}
-                        <option value="normal"><?php _e('Normal', MSWP_TEXT_DOMAIN); ?></option>
-                        <option value="static"><?php _e('Static', MSWP_TEXT_DOMAIN); ?></option>
-                        <option value="fixed"><?php _e('Fixed', MSWP_TEXT_DOMAIN); ?></option>
-                    {{/dropdwon-List}}
-                </div>
+                {{partial 'layer-content-common'}}
                 <h4><?php _e('Button label and link', MSWP_TEXT_DOMAIN); ?></h4>
                 <div class="msp-metabox-indented">
                     <label><?php _e('Label :', MSWP_TEXT_DOMAIN); ?> </label> {{input value=currentLayer.content}}
@@ -1252,12 +1261,17 @@
         <div class="msp-metabox-indented">
             <label><?php _e('Parallax effect level :', MSWP_TEXT_DOMAIN); ?> </label> {{number-input value=currentLayer.parallax}} %
         </div>
+
         {{#if staticLayer}}
             <h4><?php _e('Layer transition in', MSWP_TEXT_DOMAIN); ?></h4>
             <div class="msp-metabox-indented">
                 <p><strong><?php _e('Static layer doesn\'t support transitions.', MSWP_TEXT_DOMAIN); ?></strong></p>
             </div>
         {{else}}
+            <h4><?php _e('Wait for action trigger', MSWP_TEXT_DOMAIN); ?></h4>
+            <div class="msp-metabox-indented">
+                {{switch-box value=currentLayer.wait}} <label><label><?php _e('Do not start automatically and wait for an action trigger.', MSWP_TEXT_DOMAIN); ?> </label>
+            </div>
             <h4><?php _e('Layer transition in', MSWP_TEXT_DOMAIN); ?></h4>
             <div class="msp-metabox-indented">
                 <label><?php _e('Transition effect :', MSWP_TEXT_DOMAIN); ?> </label><button class="msp-regular" {{action "openEffectEditor" "show"}}>Select...</button>
@@ -1301,6 +1315,26 @@
             <span class="msp-form-space"></span>
             <label><?php _e('Height :', MSWP_TEXT_DOMAIN); ?> </label> {{number-input value=currentLayer.height}} px
         </div>
+
+        {{#if maskOptions}}
+        <h4><?php _e('Layer mask settings', MSWP_TEXT_DOMAIN); ?></h4>
+        <div class="msp-metabox-indented">
+            <label><?php _e('Mask layer :', MSWP_TEXT_DOMAIN); ?> </label> {{switch-box value=currentLayer.masked}}
+            <span class="msp-form-space"></span>
+            {{#if currentLayer.masked}}
+            <label><?php _e('Custom mask size :', MSWP_TEXT_DOMAIN); ?> </label> {{switch-box value=currentLayer.maskCustomSize}}
+            {{/if}}
+        </div>
+        {{#if currentLayer.masked}}
+        {{#if currentLayer.maskCustomSize}}
+        <div class="msp-metabox-indented">
+            <label><?php _e('Mask width :', MSWP_TEXT_DOMAIN); ?> </label> {{number-input value=currentLayer.maskWidth}} px
+            <span class="msp-form-space"></span>
+            <label><?php _e('Mask height :', MSWP_TEXT_DOMAIN); ?> </label> {{number-input value=currentLayer.maskHeight}} px
+        </div>
+        {{/if}}
+        {{/if}}
+        {{/if}}
 
         <h4><?php _e('Layer style settings', MSWP_TEXT_DOMAIN); ?></h4>
         <div class="msp-metabox-indented">

@@ -1,6 +1,3 @@
-table.plugins {
-	display: none;
-}
 .edit-category-save-button, .add-category-button {
 	margin: 0 0 0 5px !important;
 }
@@ -22,7 +19,7 @@ table.plugins {
 .setting-disabled span.title {
 	color: #999;
 }
-.setting-disabled span.input-text-wrap input, .setting-disabled textarea {				    	 					 			 
+.setting-disabled span.input-text-wrap input, .setting-disabled textarea {
 	background: #ededed;
 }
 .inline-edit-row fieldset label textarea.plugin_description {
@@ -30,4 +27,4 @@ table.plugins {
 }
 
 
-/* 133620-1443654439-au */
+/* 133620-1473370910-au */

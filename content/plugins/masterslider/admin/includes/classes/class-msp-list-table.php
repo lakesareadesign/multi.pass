@@ -57,14 +57,18 @@ class MSP_List_Table extends Axiom_List_Table {
 
 
 	function column_title($item) {
-		// $actions = array(
-  		//     'edit'      => sprintf('<a href="?page=%s&action=%s&slider_id=%s">%s</a>',$_REQUEST['page'],'edit'  	,$item['ID'], __('edit')		),
-  		//     'duplicate' => sprintf('<a href="?page=%s&action=%s&slider_id=%s">%s</a>',$_REQUEST['page'],'duplicate'	,$item['ID'], __('duplicate')	),
-  		//     'delete'    => sprintf('<a href="?page=%s&action=%s&slider_id=%s">%s</a>',$_REQUEST['page'],'delete'	,$item['ID'], __('delete') 		),
-  		//     'preview'   => sprintf('<a href="?page=%s&action=%s&slider_id=%s">%s</a>',$_REQUEST['page'],'preview'	,$item['ID'], __('preview')		)
-  		// );
 
-		return sprintf('<a href="?page=%s&action=%s&slider_id=%s">%s</a>',$_REQUEST['page'],'edit', $item['ID'], $item['title'] );
+		return sprintf(
+            '<a href="%s">%s</a>',
+            esc_url( add_query_arg(
+                array(
+                    'page'      => $_GET['page'],
+                    'action'    => 'edit',
+                    'slider_id' => $item['ID'  ]
+                )
+            )),
+            $item['title']
+        );
 	}
 
 	function column_action( $item ) {
@@ -73,17 +77,52 @@ class MSP_List_Table extends Axiom_List_Table {
 
 		$buttons  = '';
 
-		if( current_user_can( 'duplicate_masterslider' ) || apply_filters( 'masterslider_admin_display_duplicate_btn', 0 ) )
-			$buttons .= sprintf( '<a class="action-duplicate msp-ac-btn msp-btn-gray msp-iconic" href="?page=%s&action=%s&slider_id=%s%s"><span></span>%s</a>',$_REQUEST['page'],'duplicate'	,$item['ID'], $paged_arg, __('duplicate') );
+		if( current_user_can( 'duplicate_masterslider' ) || apply_filters( 'masterslider_admin_display_duplicate_btn', 0 ) ){
 
-		if( current_user_can( 'delete_masterslider' ) || apply_filters( 'masterslider_admin_display_delete_btn', 0 ) ) {
-	    	$buttons .= sprintf( '<a class="action-delete msp-ac-btn msp-btn-red msp-iconic" href="?page=%s&action=%s&slider_id=%s%s" onClick="return confirm(\'%s\');" ><span></span>%s</a>', $_REQUEST['page'],'delete' ,$item['ID'],
-	    	                     $paged_arg, wp_slash( apply_filters( 'masterslider_admin_delete_btn_alert_message', __( 'Are you sure you want to delete this slider?' , MSWP_TEXT_DOMAIN ) ) ),
-	    	                     __('delete')
-	    	            );
-		}
+            $buttons .= sprintf(
+                '<a class="action-duplicate msp-ac-btn msp-btn-gray msp-iconic" href="%s"><span></span>%s</a>',
+                esc_url( add_query_arg(
+                    array(
+                        'page'      => $_GET['page'],
+                        'action'    => 'duplicate',
+                        'slider_id' => $item['ID'],
+                        'paged'     => $paged
+                    )
+                )),
+                __('duplicate', MSWP_TEXT_DOMAIN )
+            );
+        }
 
-	    $buttons .= sprintf( '<a class="action-preview msp-ac-btn msp-btn-blue msp-iconic" href="?page=%s&action=%s&slider_id=%s" onClick="lunchMastersliderPreviewBySliderID(%s);return false;" ><span></span>%s</a>',$_REQUEST['page'],'preview' ,$item['ID'], $item['ID'], __('preview') );
+        if( current_user_can( 'delete_masterslider' ) || apply_filters( 'masterslider_admin_display_delete_btn', 0 ) ) {
+            $buttons .= sprintf(
+                '<a class="action-delete msp-ac-btn msp-btn-red msp-iconic" href="%s" onClick="return confirm(\'%s\');" ><span></span>%s</a>',
+                esc_url( add_query_arg(
+                    array(
+                        'page'      => $_GET['page'],
+                        'action'    => 'delete',
+                        'slider_id' => $item['ID'],
+                        'paged'     => $paged
+                    )
+                )),
+                wp_slash(
+                    apply_filters( 'masterslider_admin_delete_btn_alert_message', __( 'Are you sure you want to delete this slider?' , MSWP_TEXT_DOMAIN ) )
+                ),
+                __('delete', MSWP_TEXT_DOMAIN )
+            );
+        }
+
+        $buttons .= sprintf(
+            '<a class="action-preview msp-ac-btn msp-btn-blue msp-iconic" href="%s" onClick="lunchMastersliderPreviewBySliderID(%s);return false;" ><span></span>%s</a>',
+            esc_url( add_query_arg(
+                array(
+                    'page'      => $_GET['page'],
+                    'action'    => 'preview',
+                    'slider_id' => $item['ID']
+                )
+            )),
+            $item['ID'],
+            __( 'preview', MSWP_TEXT_DOMAIN )
+        );
 
 	  	return $buttons;
 	}
@@ -172,7 +211,9 @@ class MSP_List_Table extends Axiom_List_Table {
 	function get_records( $perpage = 20, $paged  = 1, $orderby = 'ID', $order = 'DESC', $where = "status='published'" ){
 		global $mspdb;
 
-		$offset  = ( (int)$paged - 1 ) * $perpage;
+        $offset  = ( (int)$paged - 1 ) * $perpage;
+		$offset  = $offset < 0 ? 0 : $offset;
+
 		$orderby = isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : 'ID';
 		$order 	 = isset( $_REQUEST['order'] ) ? $_REQUEST['order'] : 'ASC';
 

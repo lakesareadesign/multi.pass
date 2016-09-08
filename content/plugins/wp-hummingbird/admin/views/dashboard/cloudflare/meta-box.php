@@ -36,14 +36,13 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 
 		<p><?php _e( 'Hummingbird can control your CloudFlare Browser Cache settings from here. Simply add your CloudFlare API details and configure away.', 'wphb' ); ?></p>
 
-
 		<form class="wphb-block-content-grey" action="" method="post" id="cloudflare-credentials">
 			<label for="cloudflare-email"><?php _e( 'CloudFlare email', 'wphb' ); ?>
-				<input type="text" autocomplete="off" value="<%- email %>" name="cloudflare-email" id="cloudflare-email">
+				<input type="text" autocomplete="off" value="{{ data.email }}" name="cloudflare-email" id="cloudflare-email">
 			</label>
 
 			<label for="cloudflare-api-key"><?php _e( 'CloudFlare Global API Key', 'wphb' ); ?>
-				<input type="text" autocomplete="off" value="<%- apiKey %>" name="cloudflare-api-key" id="cloudflare-api-key">
+				<input type="text" autocomplete="off" value="{{ data.apiKey }}" name="cloudflare-api-key" id="cloudflare-api-key">
 			</label>
 
 			<p class="cloudflare-submit">
@@ -69,9 +68,9 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 				<label for="cloudflare-zone"><?php _e( 'Select the domain that matches this website', 'wphb' ); ?></label>
 				<select name="cloudflare-zone" id="cloudflare-zone">
 					<option value=""><?php _e( 'Select domain', 'wphb' ); ?></option>
-					<% for ( i in zones ) { %>
-						<option value="<%- zones[i].value %>"><%= zones[i].label %></option>
-					<% } %>
+					<# for ( i in data.zones ) { #>
+						<option value="{{ data.zones[i].value }}">{{{ data.zones[i].label }}}</option>
+					<# } #>
 				</select>
 			<p class="cloudflare-submit">
 				<span class="spinner cloudflare-spinner"></span>
@@ -88,8 +87,8 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 			<p><?php _e( 'CloudFlare is connected and being controlled by Hummingbird', 'wphb' ); ?></p>
 		</div>
 		<p class="cloudflare-data">
-			<span><strong><?php _ex( 'Zone', 'CloudFlare Zone', 'wphb' ); ?>:</strong> <%- zoneName %></span>
-			<span><strong><?php _ex( 'Plan', 'CloudFlare Plan', 'wphb' ); ?>:</strong> <%- plan %></span>
+			<span><strong><?php _ex( 'Zone', 'CloudFlare Zone', 'wphb' ); ?>:</strong> {{ data.zoneName }}</span>
+			<span><strong><?php _ex( 'Plan', 'CloudFlare Plan', 'wphb' ); ?>:</strong> {{ data.plan }}</span>
 		</p>
 	</div>
 </script>
@@ -117,7 +116,7 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 			},
 
 			renderStep: function( step ) {
-				var template = _.template( $('#cloudflare-step-' + step).html() );
+				var template = CloudFlare.template( '#cloudflare-step-' + step );
 				var content = template( this.data );
 				var self = this;
 
@@ -217,6 +216,21 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 					});
 			}
 		};
+
+		CloudFlare.template = _.memoize(function ( id ) {
+			var compiled,
+				options = {
+					evaluate:    /<#([\s\S]+?)#>/g,
+					interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
+					escape:      /\{\{([^\}]+?)\}\}(?!\})/g,
+					variable:    'data'
+				};
+
+			return function ( data ) {
+				compiled = compiled || _.template( $( id ).html(),  options );
+				return compiled( data );
+			};
+		});
 
 		CloudFlare.init( <?php echo $cloudflare_js_settings; ?> );
 	});

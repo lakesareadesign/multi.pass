@@ -98,12 +98,18 @@
 
 		if ( $live_timestamp - $form_timestamp < 3 && um_get_option('enable_timebot') == 1 )
 			wp_die( __('Whoa, slow down! You\'re seeing this message because you tried to submit a form too fast and we think you might be a spam bot. If you are a real human being please wait a few seconds before submitting the form. Thanks!') );
+        
+        $user = "";
 
-		if ( strlen(trim( $_POST['username_b'] ) ) == 0 ) {
+        foreach ( $_POST as $key => $val ) {
+        	if( strstr( $key, "username_b") ){
+        		$user = trim( $val );
+        	}
+        }
+
+		if ( empty( $user ) ) {
 			$ultimatemember->form->add_error('username_b', __('Please provide your username or email','ultimatemember') );
 		}
-
-		$user = $_POST['username_b'];
 
 		if ( ( !is_email( $user ) && !username_exists( $user ) ) || ( is_email( $user ) && !email_exists( $user ) ) ) {
 			$ultimatemember->form->add_error('username_b', __('We can\'t find an account registered with that address or username','ultimatemember') );
@@ -155,7 +161,7 @@
 		if ( $live_timestamp - $form_timestamp < 3 && um_get_option('enable_timebot') == 1 )
 			wp_die( __('Whoa, slow down! You\'re seeing this message because you tried to submit a form too fast and we think you might be a spam bot. If you are a real human being please wait a few seconds before submitting the form. Thanks!') );
 
-		if ( !$args['user_password'] ) {
+		if ( isset( $args['user_password'] ) && ! empty( $args['user_password'] ) ) {
 			$ultimatemember->form->add_error('user_password', __('You must enter a new password','ultimatemember') );
 		}
 
@@ -175,11 +181,11 @@
 
 		}
 
-		if ( !$args['confirm_user_password'] ) {
+		if ( isset( $args['confirm_user_password'] ) && ! empty( $args['confirm_user_password'] ) ) {
 			$ultimatemember->form->add_error('confirm_user_password', __('You must confirm your new password','ultimatemember') );
 		}
 
-		if ( $args['user_password'] != $args['confirm_user_password'] ) {
+		if ( isset( $args['user_password'] ) && isset( $args['confirm_user_password'] ) && $args['user_password'] != $args['confirm_user_password'] ) {
 			$ultimatemember->form->add_error('confirm_user_password', __('Your passwords do not match','ultimatemember') );
 		}
 

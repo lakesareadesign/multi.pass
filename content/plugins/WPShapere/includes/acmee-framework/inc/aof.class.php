@@ -2,14 +2,14 @@
 
 /*
  * AcmeeFramework
- * @author   KannanC
+ * @author   AcmeeDesign
  * @url     http://acmeedesign.com
 */
 
 defined('ABSPATH') || die;
 
 if (!class_exists('AcmeeFramework')) {
-    
+
     class AcmeeFramework {
         protected $config;
         protected $options_slug;
@@ -17,7 +17,7 @@ if (!class_exists('AcmeeFramework')) {
         public $page_title;
         public $fields_array;
         public $do_not_save;
-                
+
         function __construct($config) {
             if(is_array($config)) {
                 $this->config = $config;
@@ -27,7 +27,7 @@ if (!class_exists('AcmeeFramework')) {
                 $this->fields_array = $this->config['fields'];
             }
             $this->do_not_save = array('title', 'openTab', 'import', 'export');
-            
+
             add_action('admin_menu', array($this, 'createOptionsmenu'));
             add_action( 'after_setup_theme', array($this, 'aofLoaddefault' ));
             add_action( 'admin_enqueue_scripts', array($this, 'aofAssets'), 99 );
@@ -41,27 +41,29 @@ if (!class_exists('AcmeeFramework')) {
             add_action('aof_after_heading', array($this, 'adminNotices'));
             add_action('aof_before_heading', array($this, 'licenseUpdated'));
         }
-        
+
         function aofAssets($page) {
-            
+
             global $aof_page;
             if( $page != $aof_page )
                 return;
             wp_enqueue_script( 'jquery' );
-            wp_enqueue_script( 'aof-jquery-ui', 'https://code.jquery.com/ui/1.10.4/jquery-ui.min.js', array( 'jquery'), false, true );
+            //wp_enqueue_script('jquery-ui-core', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
+            wp_enqueue_script( 'jquery-ui-core' );
+            wp_enqueue_script( 'jquery-ui-sortable' );
             wp_enqueue_script( 'jquery-ui-slider' );
             wp_enqueue_style('aofOptions-css', AOF_DIR_URI . 'assets/css/aof-framework.css');
             wp_enqueue_style('aof-ui-css', AOF_DIR_URI . 'assets/css/jquery-ui.css');
             wp_enqueue_script( 'responsivetabsjs', AOF_DIR_URI . 'assets/js/easyResponsiveTabs.js', array( 'jquery' ), '', true );
-            // Add the color picker css file       
-            wp_enqueue_style( 'wp-color-picker' ); 
-            wp_enqueue_script( 'scriptjs', AOF_DIR_URI . 'assets/js/script.js', array( 'jquery', 'wp-color-picker' ), false, true );
-        
+            // Add the color picker css file
+            wp_enqueue_style( 'wp-color-picker' );
+            wp_enqueue_script( 'aof-scriptjs', AOF_DIR_URI . 'assets/js/script.js', array( 'jquery', 'wp-color-picker' ), false, true );
+
         }
-        
+
         /**
         * Create Options menu
-        */  
+        */
         function createOptionsmenu() {
             global $aof_page;
             $default = array(
@@ -77,33 +79,33 @@ if (!class_exists('AcmeeFramework')) {
               );
             $args = array_merge($default, $this->config);
             $aof_page = add_menu_page( $args['page_title'], $args['menu_title'], $args['capability'], $this->menu_slug, array($this, 'generateFields'), $args['icon_url'] );
-        }        
-        
+        }
+
         /**
         * Function to generate form fields
-        */  
+        */
         function generateFields($fields_array) {
             //build form
-            echo '<div class="wrap clearfix">'; 
+            echo '<div class="wrap clearfix">';
             do_action('aof_before_heading');
             echo '<h2>' . $this->config['page_title'] . '</h2>';
             do_action('aof_after_heading');
-            
+
             do_action('aof_before_form');
-            do_action('aof_the_form');          
-            do_action('aof_after_form');      
-            
+            do_action('aof_the_form');
+            do_action('aof_after_form');
+
             echo '</div>'; //close div wrap
         }
-        
+
         function fieldLoop($fields_array) {
             //get options data
             $getoption = $this->aofgetOptions( $this->option_name );
 
             echo '<div class="loading_form_text">' . __('Loading ...', 'aof') . '</div>';
-           
+
             do_action('aof_tab_start');
-                       
+
             echo '<div id="aof_options_tab" class="clearfix">
             <ul class="resp-tabs-list hor_1">';
             if(is_array($this->panel_tabs) && !empty($this->panel_tabs)) {
@@ -119,7 +121,7 @@ if (!class_exists('AcmeeFramework')) {
                     unset($field_meta);
                     $field_meta = array();
                     $field_meta['meta'] = (!empty($getoption[$field_array['id']])) ? $getoption[$field_array['id']] : "";
-                    $field_array = array_merge($field_array, $field_meta); 
+                    $field_array = array_merge($field_array, $field_meta);
                 }
                         switch ($field_array['type']) {
                             case 'openTab' :
@@ -172,19 +174,19 @@ if (!class_exists('AcmeeFramework')) {
                                 $this->addImport($field_array);
                                 break;
                         }
-                        
-                        
+
+
 
             } // foreach
-            
-            
+
+
             echo '</div>
         </div>'; //close div aof_options_tab
-            
-            do_action('aof_tab_close');     
-            
+
+            do_action('aof_tab_close');
+
         }
-        
+
         function licenseValidate() {
             //verify purchase code
             $valid_license = $this->validatePurchase();
@@ -200,13 +202,13 @@ if (!class_exists('AcmeeFramework')) {
             $purchase_data = get_option($this->wps_purchase_data);
             return $purchase_data;
         }
-        
+
         function getLicense() {
             $code = $this->validatePurchase();
             if(!empty($code)) {
                 return $code[3][0];
             }
-            else 
+            else
                 return null;
         }
 
@@ -216,7 +218,9 @@ if (!class_exists('AcmeeFramework')) {
     <?php
     if(isset($_GET['status']) && $_GET['status'] == 'license_fail') {
                 echo '<div class="notice error">';
-                echo __('Invalid Purchase code! Or the envato server may be down. Please try again later.', 'wps');
+                echo __('Invalid Purchase code! Or the envato server may be down. ', 'wps');
+                echo __('Or your server may not support wordpress remote get method. Please open a support ticket at ', 'wps');
+                echo '<a href="http://acmeedesign.com/support">http://acmeedesign.com/support</a>';
                 echo '</div>';
             }
      ?>
@@ -229,12 +233,12 @@ if (!class_exists('AcmeeFramework')) {
         <br />
         <a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-" target="_blank">How to find your purchase code?</a>
         <?php
-        
+
         ?>
 </div>
     <?php
         }
-        
+
         function licenseUpdated() {
             if(isset($_GET['status']) && $_GET['status'] == 'license_success') {
                 echo '<div class="license-updated">';
@@ -245,7 +249,7 @@ if (!class_exists('AcmeeFramework')) {
                 echo '</div>';
             }
         }
-        
+
         function SaveSettings() {
             if(isset($_POST['action']) && $_POST['action'] == 'license_data') {
                 $purchase_code = trim($_POST['purchase_code']);
@@ -257,17 +261,17 @@ if (!class_exists('AcmeeFramework')) {
                     $code = explode('-', $purchase_code);
                     $purchase_data = array($buyer, $item_id, $license_type, $code);
                     update_option( $this->wps_purchase_data, $purchase_data );
-                    wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=license_success' ) ); 
+                    wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=license_success' ) );
                     exit();
                 }
                 else {
-                    wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=license_fail' ) ); 
+                    wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=license_fail' ) );
                     exit();
                 }
 
             }
              if(isset($_POST) && isset($_POST['aof_options_save'])) {
-                 
+
                 if ( isset($_POST['aof_options_nonce']) && !wp_verify_nonce($_POST['aof_options_nonce'], 'aof_options_form') )
 	return;
                 if($this->getLicense() !== null && strlen($this->getLicense()) == 8) {
@@ -276,8 +280,8 @@ if (!class_exists('AcmeeFramework')) {
                         if(!empty($settings) && is_serialized($settings)) {
                             $settings = unserialize($settings);
                             update_option( $this->option_name, $settings );
-                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=success' ) ); 
-                            exit();		
+                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=success' ) );
+                            exit();
                         }
                     }
                     else {
@@ -294,8 +298,8 @@ if (!class_exists('AcmeeFramework')) {
                                             foreach($chkbox_values as $options) {
                                                 $multicheck[] = $options;
                                             }
-                                            $save_data[$field['id']] = $multicheck;
                                         }
+                                        $save_data[$field['id']] = $multicheck;
                                     }
                                     elseif($field['type'] == "typography") {
                                         $typography = array();
@@ -316,20 +320,20 @@ if (!class_exists('AcmeeFramework')) {
 
                         $saved = $this->aofsaveOptions($save_data);
                         if($saved) {
-                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=updated' ) ); 
+                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=updated' ) );
                             exit();
                         }
                         else {
-                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=error' ) ); 
+                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=error' ) );
                             exit();
                         }
 
                     }
                 }
-                	
+
             }//aof options save
         }
-        
+
         function aofgetOptions($option_id) {
             if($this->config['multi'] === true) {
                 if(is_serialized(get_site_option( $option_id ))) {
@@ -349,7 +353,7 @@ if (!class_exists('AcmeeFramework')) {
             }
             return $get_options;
         }
-        
+
         function aofsaveOptions($save_options) {
             if($this->config['multi'] === true) {
                 update_site_option( $this->option_name, $save_options );
@@ -360,42 +364,42 @@ if (!class_exists('AcmeeFramework')) {
                 return true;
             }
         }
-        
+
         function openTab($fields, $tab_first) {
             if($tab_first) {
                 $output = '<div>';
                 if(!empty($fields['name'])) $output .= '<h2>' . $fields['name'] . '</h2>';
             }
-            else { 
+            else {
                 $output = '</div><div>';
                 if(!empty($fields['name'])) $output .= '<h2>' . $fields['name'] . '</h2>';
             }
             echo $output;
         }
-        
+
         function addTitle($fields) {
             echo '<h3>' . $fields['name'] . '</h3>';
         }
-        
+
         function addNote($fields) {
             $output = '<p class="description">' . $fields['desc'] . '</p>';
             echo $output;
         }
-        
+
         function addText($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             $form_field = '<input id="' . $fields['id'] . '" class="regular-text ' . $fields['id'] . '" type="text" name="' . $fields['id'] . '" value="' . $meta . '"  />';
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         function addTextarea($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             $form_field = '<textarea id="' . $fields['id'] . '" class="regular-text ' . $fields['id'] . '" name="' . $fields['id'] . '" rows="10">' . $meta . '</textarea>';
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         //single checkbox
         function addCheckbox($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
@@ -405,9 +409,9 @@ if (!class_exists('AcmeeFramework')) {
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         //multi checkboxes
-        function addMultiCheckbox($fields) {        
+        function addMultiCheckbox($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             if(isset($fields['options'])) {
                 $form_field = "";
@@ -423,8 +427,8 @@ if (!class_exists('AcmeeFramework')) {
                 echo $output;
             }
         }
-        
-        function addradio($fields) { 
+
+        function addradio($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             if(isset($fields['options'])) {
                 $form_field = "";
@@ -438,7 +442,7 @@ if (!class_exists('AcmeeFramework')) {
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         function addSelect($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             if(isset($fields['options'])) {
@@ -446,14 +450,14 @@ if (!class_exists('AcmeeFramework')) {
                 foreach($fields['options'] as $field_key => $field_value) {
                     $form_field .= '<option value="' . $field_key . '"';
                     $form_field .= ($meta == $field_key) ? ' selected="selected"' : '';
-                    $form_field .= '>' . $field_value .  '</option>';                    
+                    $form_field .= '>' . $field_value .  '</option>';
                 }
                 $form_field .= '</label>';
             }
             $output = $this->fieldWrap($fields, $form_field);
-            echo $output;            
+            echo $output;
         }
-        
+
         function addNumber($fields) {
             $default = array(
                 'default' => '1',
@@ -476,9 +480,9 @@ if (!class_exists('AcmeeFramework')) {
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         function addTypography($fields) {
-            $meta = (isset($fields['meta'])) ? $fields['meta'] : ""; 
+            $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             $font_type = isset($meta['font-type']) ? $meta['font-type'] : "";
             $color = isset($meta['color']) ? $meta['color'] : "";
             $gfonts = new AOFgfonts();
@@ -486,7 +490,7 @@ if (!class_exists('AcmeeFramework')) {
             $safe_fonts = array('Arial' => 'Arial, Helvetica, sans-serif', 'Arial Black' => '&quot;Arial Black&quot;, Gadget, sans-serif', 'Comic Sans' => '&quot;Comic Sans MS&quot;, cursive, sans-serif', 'Courier New' => '&quot;Courier New&quot;, Courier, monospace', 'Georgia' => 'Georgia, serif', 'Lucida Sans Unicode' => '&quot;Lucida Sans Unicode&quot;, &quot;Lucida Grande&quot;, sans-serif');
             $font_weights = array( 'normal', 'lighter', 'bold', 'bolder', '100', '200', '300', '400', '500', '600', '700', '800', '900' );
             $font_styles = array('normal', 'italic');
-            
+
             //print_r($gfonts_lists);
             $form_field = '<div class="aof_typography">';
             if(isset($fields['show_font_family']) && $fields['show_font_family'] !== false) {
@@ -505,12 +509,12 @@ if (!class_exists('AcmeeFramework')) {
                 $form_field .='</optgroup>';
                 $form_field .='</select><input type="hidden" class="aof-font-type" name="' . $fields['id'] . '[font-type]" value="' . $font_type . '" /></label>';
             }
-            
+
             if(isset($fields['show_color']) && $fields['show_color'] !== false) {
                 //wpcolor
                 $form_field .= __( 'Color', 'aof' ) . '<label><input class="aof-wpcolor ' . $fields['id'] . '" type="text" name="' . $fields['id'] . '[color]" value="' . $color . '"  /></label>';
             }
-            
+
             if(isset($fields['show_font_weight']) && $fields['show_font_weight'] !== false) {
                 //font weight
                 $form_field .= __( 'Font Weight', 'aof' ) . '<label><select class="aof_font_weight" name="' . $fields['id'] . '[font-weight]">';
@@ -520,7 +524,7 @@ if (!class_exists('AcmeeFramework')) {
                 }
                 $form_field .='</select></label>';
             }
-            
+
             if(isset($fields['show_font_style']) && $fields['show_font_style'] !== false) {
                 //font style
                 $form_field .= __( 'Font Style', 'aof' ) . '<label><select class="aof_font_style" name="' . $fields['id'] . '[font-style]">';
@@ -530,7 +534,7 @@ if (!class_exists('AcmeeFramework')) {
                 }
                 $form_field .='</select></label>';
             }
-            
+
             if(isset($fields['show_font_size']) && $fields['show_font_size'] !== false) {
                 //font size
                 $form_field .= __( 'Font Size', 'aof' ) . '<label><select class="aof_font_size" name="' . $fields['id'] . '[font-size]">';
@@ -544,14 +548,14 @@ if (!class_exists('AcmeeFramework')) {
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         function addwpColor($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             $form_field = '<input id="' . $fields['id'] . '" class="aof-wpcolor ' . $fields['id'] . '" type="text" name="' . $fields['id'] . '" value="' . $meta . '"  />';
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         function addwpEditor($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             echo '<div class="field_wrap">';
@@ -565,7 +569,7 @@ if (!class_exists('AcmeeFramework')) {
             echo '</div></div>';
 
         }
-        
+
         function addUpload($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             $attachment_url = (is_numeric($meta)) ? $this->getAttachmenturl($meta) : $meta;
@@ -579,7 +583,7 @@ if (!class_exists('AcmeeFramework')) {
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         function addExport($fields) {
             $getoption = $this->aofgetOptions( $this->option_name );
             if(is_serialized($getoption) === false && is_array($getoption)) {
@@ -590,35 +594,35 @@ if (!class_exists('AcmeeFramework')) {
             }
             else {
                 $meta = "";
-            }            
+            }
             $export_options = array();
             $export_options['name'] = $fields['name'];
             $export_options['id'] = $fields['id'];
             $export_options['meta'] = $meta;
             $this->addTextarea($export_options);
         }
-        
+
         function addImport($fields) {
             $import_options = array();
             $import_options['name'] = $fields['name'];
             $import_options['id'] = "aof_import_settings";
             $this->addTextarea($import_options);
         }
-        
+
         function saveBtn() {
             echo '<div class="save_options">
                 <input type="submit" value="Save Changes" class="button button-primary button-large" />' .
-                //<input type="submit" name="aof_reset_options" value="Reset to Defaults" class="button button-secondary button-large" />   			
+                //<input type="submit" name="aof_reset_options" value="Reset to Defaults" class="button button-secondary button-large" />
                 '</div>';
         }
-        
+
         function fieldWrap($args, $field) {
             if(isset($args['id']) && !empty($args['id'])) {
                 $label = $args['id'];
             }
             else {
                 $label = $this->createSlug($args['name']);
-            }            
+            }
             $output = '<div class="field_wrap">';
             $output .= '<div class="label"><label for="' . $label . '">' . $args['name'] . '</label></div>';
             $output .= '<div class="field_content">';
@@ -629,17 +633,17 @@ if (!class_exists('AcmeeFramework')) {
             $output .= '</div></div>';
             return $output;
         }
-        
+
         function formwrapStart() {
             echo '<form method="post" name="aof_options_framework" class="aof_options_framework clearfix" id="aof_options_framework" action="" enctype="multipart/form-data">';
         }
-        
+
         function formwrapEnd() {
             echo '<input type="hidden" name="aof_options_save" value="saveoptions" />';
             wp_nonce_field( 'aof_options_form', 'aof_options_nonce' );
             echo '</form>';
         }
-        
+
         function validateInputs($data, $type = NULL) {
             if($type == "text") {
                $output = sanitize_text_field( $data );
@@ -652,14 +656,14 @@ if (!class_exists('AcmeeFramework')) {
             }
             return $output;
         }
-        
+
         function createSlug($arg) {
             $slug = trim(strtolower($arg));
             $slug = str_replace(' ', '_', $slug);
             $slug = preg_replace('/[^a-zA-Z0-9]/', '_', $slug);
             return $slug;
         }
-        
+
         function getAttachmenturl($attc_id, $size='full') {
             global $switched, $wpdb;
             $imageAttachment = "";
@@ -671,9 +675,9 @@ if (!class_exists('AcmeeFramework')) {
                 }
                 else $imageAttachment = wp_get_attachment_image_src( $attc_id, $size );
                 return $imageAttachment[0];
-            } 
+            }
         }
-        
+
         /**
         * Function to get default options
         */
@@ -709,13 +713,13 @@ if (!class_exists('AcmeeFramework')) {
            }
            else return false;
        }
-        
+
         /**
         * Function to insert default values
-        */  
+        */
         function aofLoaddefault() {
             $default_options = $this->aofgetOptions( $this->option_name );
-            if ( false === $default_options ) {
+            if ( false === $default_options || empty($default_options)) {
                 $default_options = $this->getDefaultOptions();
                 if(!empty($default_options)) {
                     if($this->config['multi'] === true) {
@@ -728,10 +732,10 @@ if (!class_exists('AcmeeFramework')) {
             }
 
         }
-        
+
         /**
         * Function to show notices for plugin actions
-        */  
+        */
         function adminNotices() {
             if( isset($_GET['status']) && $_GET['status'] == "updated") {
                 $message = __( 'Settings saved.', 'aof');
@@ -742,7 +746,7 @@ if (!class_exists('AcmeeFramework')) {
                 echo "<div class='error'><p>{$message}</p></div>";
             }
         }
- 
+
 
     }
 }

@@ -14,8 +14,7 @@ if ( ! defined('ABSPATH') ) {
 }
 
 
-class Axiom_Plugin_Check_Update
-{
+class Axiom_Plugin_Check_Update {
     /**
      * The plugin current version
      * @var string
@@ -141,19 +140,23 @@ class Axiom_Plugin_Check_Update
         }
 
         $this_plugin = $all_plugins[ $this->plugin_slug ];
+        if( ! is_array( $this_plugin ) ){
+            $this_plugin = array();
+        }
         $this_plugin['ID']        = $this->plugin_id;
+        $this_plugin['Theme']     = $theme_data->Name;
         $this_plugin['Slug']      = $this->slug;
         $this_plugin['Activated'] = get_option( $this->slug . '_is_license_actived', 0);
 
         $request = wp_remote_post( $this->update_path, array(
                 'user-agent' => 'WordPress/'.$wp_version.'; '. get_site_url(),
                 'timeout'    => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
-                'body' => array(
+                'body'       => array(
                     'cat'       => 'version-check',
                     'action'    => 'final',
+                    'type'      => 'plugin',
                     'item-name' => $this->request_name,
-                    'item-info' => $this_plugin,
-                    'theme'     => $theme_data->Name
+                    'item-info' => $this_plugin
                 )
             )
         );

@@ -449,7 +449,14 @@ class MSP_Admin_Assets {
 			'ui_028' => __( 'Scroll to bottom of slider', MSWP_TEXT_DOMAIN ),
 			'ui_029' => __( 'Scroll animation duration :', MSWP_TEXT_DOMAIN ),
 			'ui_030' => __( 'Scroll to an element in page :', MSWP_TEXT_DOMAIN ),
-			'ui_031' => __( 'Target element :', MSWP_TEXT_DOMAIN ),
+            'ui_031' => __( 'Target element :', MSWP_TEXT_DOMAIN ),
+
+            'ui_040' => __( 'Show layer', MSWP_TEXT_DOMAIN ),
+            'ui_041' => __( 'Hide layer', MSWP_TEXT_DOMAIN ),
+            'ui_042' => __( 'Toggle layer', MSWP_TEXT_DOMAIN ),
+            'ui_043' => __( 'Target layer id : ', MSWP_TEXT_DOMAIN ),
+            'ui_044' => __( 'Overlay Layers', MSWP_TEXT_DOMAIN ),
+			'ui_045' => __( 'Add multiple layers ids separated by "|".', MSWP_TEXT_DOMAIN ),
 
 		 	// ApplicationController.js
 		 	'ap_001' => __( 'Sending data...', MSWP_TEXT_DOMAIN ),

@@ -70,7 +70,7 @@
 
 		$unique_userID = $ultimatemember->query->count_users() + 1;
 
-		if ( ! isset( $user_login ) ) {
+		if ( ! isset( $user_login ) ||  strlen( $user_login ) > 30 ) {
 			$user_login = 'user' . $unique_userID;
 		}
 
@@ -84,7 +84,8 @@
 
 
 		if( ! isset( $user_email ) ) {
-			$user_email = 'nobody' . $unique_userID . '@' . get_bloginfo('name');
+			$site_url = @$_SERVER['SERVER_NAME'];
+			$user_email = 'nobody' . $unique_userID . '@' . $site_url;
 		}
 
 
@@ -135,6 +136,8 @@
 		do_action('um_post_registration_save', $user_id, $args);
 
 		do_action('um_post_registration_listener', $user_id, $args);
+		
+		do_action('um_update_profile_full_name', $args );
 
 		do_action('um_post_registration', $user_id, $args);
 
@@ -197,6 +200,7 @@
             if ( $status == 'approved' ) {
 
 				$ultimatemember->user->auto_login( $user_id );
+				$ultimatemember->permalinks->profile_url( true );
 
 				do_action('um_registration_after_auto_login', $user_id );
 
@@ -219,6 +223,7 @@
 					$url = $ultimatemember->permalinks->get_current_url();
 					$url =  add_query_arg( 'message', esc_attr( $status ), $url );
 					$url =  add_query_arg( 'uid', esc_attr( um_user('ID') ), $url );
+					$url =  add_query_arg( 'um_form_id', esc_attr( $form_id ), $url );
 
 					exit( wp_redirect( $url ) );
 				}
@@ -271,6 +276,8 @@
 		} else if( $use_global_settings == 1 ) {
 			$role = um_get_option('default_role');
 		}
+
+		if( empty( $role ) ) return;
 
 		$role = apply_filters('um_register_hidden_role_field', $role );
 		if( $role ){

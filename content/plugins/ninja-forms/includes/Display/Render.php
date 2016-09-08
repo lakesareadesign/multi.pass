@@ -21,7 +21,8 @@ final class NF_Display_Render
         'fields-label',
         'fields-error',
         'form-error',
-        'field-input-limit'
+        'field-input-limit',
+        'field-null'
     );
 
     protected static $use_test_values = FALSE;
@@ -55,10 +56,13 @@ final class NF_Display_Render
             }
 
             if( $count >= $form->get_setting( 'sub_limit_number' ) ) {
-                echo $form->get_setting( 'sub_limit_msg' );
+                echo apply_filters( 'nf_sub_limit_reached_msg', $form->get_setting( 'sub_limit_msg' ), $form_id );
                 return;
             }
         }
+
+        $title = apply_filters( 'ninja_forms_form_title', $form->get_setting( 'title' ), $form_id );
+        $form->update_setting( 'title', $title );
 
         $before_form = apply_filters( 'ninja_forms_display_before_form', '', $form_id );
         $form->update_setting( 'beforeForm', $before_form );
@@ -83,9 +87,10 @@ final class NF_Display_Render
 
                 $field_type = $field->get_settings('type');
 
-                if( ! isset( Ninja_Forms()->fields[ $field_type ] ) ) continue;
-                if( ! apply_filters( 'ninja_forms_display_type_' . $field_type, TRUE ) ) continue;
-                if( ! apply_filters( 'ninja_forms_display_field', $field ) ) continue;
+                if( ! isset( Ninja_Forms()->fields[ $field_type ] ) ) {
+                    $field = NF_Fields_Unknown::create( $field );
+                    $field_type = $field->get_setting( 'type' );
+                }
 
                 $field = apply_filters('ninja_forms_localize_fields', $field);
                 $field = apply_filters('ninja_forms_localize_field_' . $field_type, $field);
@@ -406,9 +411,9 @@ final class NF_Display_Render
             wp_enqueue_script('nf-front-end--inputmask', $js_dir . 'front-end--inputmask.min.js', array('jquery'));
         }
 
-//        if( $is_preview || self::form_uses_rte( $form_id ) ) {
+        // if( $is_preview || self::form_uses_rte( $form_id ) ) {
             wp_enqueue_script('nf-front-end--rte', $js_dir . 'front-end--rte.min.js', array('jquery'));
-//        }
+        // }
 
         if( $is_preview || self::form_uses_helptext( $form_id ) ) {
             wp_enqueue_script('nf-front-end--helptext', $js_dir . 'front-end--helptext.min.js', array('jquery'));
@@ -418,7 +423,8 @@ final class NF_Display_Render
             wp_enqueue_script('nf-front-end--starrating', $js_dir . 'front-end--starrating.min.js', array('jquery'));
         }
 
-        wp_enqueue_script( 'nf-front-end',             $js_dir . 'front-end.min.js',             array( 'jquery', 'backbone' ) );
+        wp_enqueue_script( 'nf-front-end-deps',        $js_dir . 'front-end-deps.js',             array( 'jquery', 'backbone' ) );
+        wp_enqueue_script( 'nf-front-end',             $js_dir . 'front-end.js',                  array( 'nf-front-end-deps'  ) );
 
         wp_localize_script( 'nf-front-end', 'nfi18n', Ninja_Forms::config( 'i18nFrontEnd' ) );
 

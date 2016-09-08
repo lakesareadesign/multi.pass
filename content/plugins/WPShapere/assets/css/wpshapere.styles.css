@@ -1,4 +1,4 @@
-html.wp-toolbar { 
+html.wp-toolbar {
         padding-top: 50px;
 }
 #wpadminbar {
@@ -30,6 +30,7 @@ li#wp-admin-bar-my-account a {
 }
 ul#wp-admin-bar-root-default, ul.ab-top-menu {}
 #wpadminbar .quicklinks>ul>li>a, div.ab-empty-item { padding: 9px !important }
+#wpadminbar .quicklinks ul li li div.ab-empty-item {padding-top: 0!important;padding-bottom: 0!important}
 /*#adminmenu, #adminmenu .wp-submenu, #adminmenuback, #adminmenuwrap {
         width: 230px;
 }*/
@@ -54,7 +55,7 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
 #adminmenu div.wp-menu-image img { display: none; }
 .titan-framework-panel-wrap .form-table th { width: 250px; }
 /*#wpfooter { position: relative !important; }*/
-.button, .button-primary, .button-secondary { outline: none} 
+.button, .button-primary, .button-secondary { outline: none}
 
 /* jQuery Sortable */
 .titan-framework-panel-wrap h2 span {
@@ -68,7 +69,7 @@ div.wps_menu_order {
 }
 div.wps_menu_order:after {
         content: "";
-        width: 0; 
+        width: 0;
         height: 0;
         display: block;
         clear: both;
@@ -90,14 +91,14 @@ ol.sortUls li {
         line-height:18px;
         position: relative;
 }
-ol.sortUls li.sortable-placeholder {          
+ol.sortUls li.sortable-placeholder {
         height: 20px;
         background: none;
         border-left: 3px solid #a5a5a5;
         margin: 0 0 0.75rem 0;
         position: relative;
         z-index: 6;
-}    
+}
 div.removed_menus ol.menu_sortable li {
         background: #84edd1;
 }
@@ -123,7 +124,7 @@ ol.sortUls div.menu_handle{
 ol.sortUls li div.menu_edit_content label{
     font-size: 13px;
     font-style: italic;
-}    
+}
 ol.sortUls li a.admin_menu_edit{
     position: absolute;
     right: 7px;
@@ -192,7 +193,7 @@ div.wps_kb_link a {
 }
 
 @media screen and (max-width: 782px){
-        ul#wp-admin-bar-root-default, ul.ab-top-menu { 
+        ul#wp-admin-bar-root-default, ul.ab-top-menu {
                 margin-top: 0;
         }
         .auto-fold #adminmenu, .auto-fold #adminmenuback, .auto-fold #adminmenuwrap {

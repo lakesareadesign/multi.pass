@@ -3,8 +3,8 @@ Contributors: josh401
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A9E5VNRBMVBCS
 Tags: wpedit, wp edit, editor, buttons, button, add, font, font style, font select, table, tables, visual editor, search, replace, colors, color, anchor, advance, advanced, links, link, popup, javascript, upgrade, update, admin, image, images, citations, preview, html, custom css, borders, pages, posts, colorful, php, php widget, shortcode, shortcodes, style, styles, plugin, login, excerpt, id, post, page, youtube, tinymce
 Requires at least: 3.9
-Tested up to: 4.6
-Stable tag: 3.8.1
+Tested up to: 4.7
+Stable tag: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,12 +97,21 @@ OR...
 
 == Changelog ==
 
+= 3.9 =
+* 09/05/2016
+
+* Added functionality to enable visual editor on BBPress forums (Editor tab).
+* Fixed strict standards error on wp_widget_rss_output() function (final fix will be done upstream when WordPress 4.7 is released).
+* Adjusted plugin css file.
+
 = 3.8.1 =
 * 05/11/16
+
 * Removed a stray var_dump() function.
 
 = 3.8 =
 * 05/11/16
+
 * Added support for WP Edit toolbars in custom post types excerpt areas.
 * Fixed deprecated function.  (htmledit_pre changed to format_for_editor) (main.php ~line 115).
 * Updated introduction video link.
@@ -111,6 +120,7 @@ OR...
 
 = 3.7 =
 * 01/11/16
+
 * Fixed Feedblitz image loading insecure over https.
 * Fixed WP_PLUGIN_URL constant; switched to using plugins_url() function.
 * Fixed profile biography editor.

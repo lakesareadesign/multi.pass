@@ -22,21 +22,21 @@ if(isset($user_query) && !empty($user_query)) {
 }
 
 $panel_tabs = array(
-    'general' => __( 'General Options', 'aof' ),
-    'login' => __( 'Login Options', 'aof' ),
-    'dash' => __( 'Dashboard Options', 'aof' ),
-    'adminbar' => __( 'Adminbar Options', 'aof' ),
-    'adminop' => __( 'Admin Page Options', 'aof' ),
-    'adminmenu' => __( 'Admin menu Options', 'aof' ),
-    'footer' => __( 'Footer Options', 'aof' ),
-    'email' => __( 'Email Options', 'aof' ),
+    'general' => __( 'General Options', 'wps' ),
+    'login' => __( 'Login Options', 'wps' ),
+    'dash' => __( 'Dashboard Options', 'wps' ),
+    'adminbar' => __( 'Adminbar Options', 'wps' ),
+    'adminop' => __( 'Admin Page Options', 'wps' ),
+    'adminmenu' => __( 'Admin menu Options', 'wps' ),
+    'footer' => __( 'Footer Options', 'wps' ),
+    'email' => __( 'Email Options', 'wps' ),
     );
 
 $panel_fields = array();
 
 //General Options
 $panel_fields[] = array(
-    'name' => __( 'General Options', 'aof' ),
+    'name' => __( 'General Options', 'wps' ),
     'type' => 'openTab'
 );
 

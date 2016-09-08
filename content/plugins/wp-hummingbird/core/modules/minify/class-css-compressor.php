@@ -15,7 +15,7 @@ class WP_Hummingbird_CSS_Compressor {
 		$buffer = preg_replace('/\xA0/u', ' ', $buffer);
 
 		/* remove comments */
-		$buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
+		$buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);	  	 	   	 		 		 		 	
 
 		/* remove tabs, spaces, newlines, etc. */
 		$buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '   ', '    '), ' ', $buffer); // Actually, replace them with single space

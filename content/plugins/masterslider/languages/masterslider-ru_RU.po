@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Master Slider (Pro version) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-09-05 05:37:22+0000\n"
+"PO-Revision-Date: 2016-03-14 06:47:08+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,7 +16,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1876
 #: build/masterslider/admin/views/slider-panel/index.php:1810
 msgid "Insert navigation arrows"
-msgstr ""
+msgstr "Вставить навигационные стрелки"
 
 #: admin/views/slider-panel/index.php:1813
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:731
@@ -24,7 +24,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1879
 #: build/masterslider/admin/views/slider-panel/index.php:1813
 msgid "Change slides on hovering over thumbs/tabs."
-msgstr ""
+msgstr "Менять слайд при наведении на миниатюру/вкладку"
 
 #: admin/views/slider-panel/index.php:1846
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:764
@@ -32,32 +32,32 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1912
 #: build/masterslider/admin/views/slider-panel/index.php:1846
 msgid "Insert thumbnail inside tabs"
-msgstr ""
+msgstr "Вставить миниатюру во вкладки"
 
 #: build/masterslider/includes/msp-template-tags.php:26
 #: includes/msp-template-tags.php:26
 msgid "The post content-(with length limit)"
-msgstr ""
+msgstr "Содержимое записи (с ограничением длины)"
 
 #: build/masterslider/includes/msp-template-tags.php:74
 #: includes/msp-template-tags.php:74
 msgid "Post image-(with custom dimensions)"
-msgstr ""
+msgstr "Изображение записи с размерами"
 
 #: build/masterslider/includes/msp-template-tags.php:86
 #: includes/msp-template-tags.php:86
 msgid "Post thumbnail"
-msgstr ""
+msgstr "Миниатюра записи"
 
 #: build/masterslider/includes/msp-template-tags.php:92
 #: includes/msp-template-tags.php:92
 msgid "Post thumbnail-(with custom dimensions)"
-msgstr ""
+msgstr "Миниатюра с произвольными размерами"
 
 #: build/masterslider/includes/msp-template-tags.php:98
 #: includes/msp-template-tags.php:98
 msgid "Post thumbnail source"
-msgstr ""
+msgstr "Ссылка миниатюры записи"
 
 #: admin/views/slider-panel/index.php:934
 #: admin/views/slider-panel/index.php:997
@@ -80,7 +80,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1106
 #: build/masterslider/admin/views/slider-panel/index.php:1182
 msgid "Layer type:"
-msgstr ""
+msgstr "Тип слоя:"
 
 #: admin/views/slider-panel/index.php:937
 #: admin/views/slider-panel/index.php:1000
@@ -103,7 +103,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1109
 #: build/masterslider/admin/views/slider-panel/index.php:1185
 msgid "Static"
-msgstr ""
+msgstr "Статичный"
 
 #: admin/views/slider-panel/index.php:938
 #: admin/views/slider-panel/index.php:1001
@@ -126,79 +126,79 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1110
 #: build/masterslider/admin/views/slider-panel/index.php:1186
 msgid "Fixed"
-msgstr ""
+msgstr "Фиксированный"
 
 #: admin/views/slider-panel/index.php:1234
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1234
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1298
 #: build/masterslider/admin/views/slider-panel/index.php:1234
 msgid "Static layer doesn't support transitions."
-msgstr ""
+msgstr "Статичный слой не поддерживает перевод."
 
 #: admin/includes/msp-sample-sliders.php:352
 #: build/masterslider/admin/includes/msp-sample-sliders.php:352
 msgid "Fullscreen width Zoom Effect"
-msgstr ""
+msgstr "Во весь экран zoom-эффект"
 
 #: admin/includes/msp-sample-sliders.php:501
 #: build/masterslider/admin/includes/msp-sample-sliders.php:501
 msgid "Post Slider With Tabs on Right"
-msgstr ""
+msgstr "Слайд записи со вкладками справа"
 
 #: admin/includes/msp-sample-sliders.php:510
 #: build/masterslider/admin/includes/msp-sample-sliders.php:510
 msgid "Post Slider With Thumb in Tabs"
-msgstr ""
+msgstr "Слайд записи с миниатюрами во вкладках"
 
 #: admin/includes/classes/class-axiom-list-table.php:779
 #: build/masterslider/admin/includes/classes/class-axiom-list-table.php:779
 msgid "Search sliders"
-msgstr ""
+msgstr "Найти слайдер"
 
 #: admin/includes/classes/class-msp-admin-assets.php:401
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:401
 msgid "Static layer doesn't support transitions. :"
-msgstr ""
+msgstr "Статичный слой не поддерживает анимацию:"
 
 #: admin/includes/classes/class-msp-admin-assets.php:432
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:432
 msgid "Scroll to an element in page :"
-msgstr ""
+msgstr "Прокрутить к элементу на странице:"
 
 #: admin/includes/classes/class-msp-admin-assets.php:433
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:433
 msgid "Target element :"
-msgstr ""
+msgstr "Элемент страницы:"
 
 #: admin/includes/classes/class-msp-list-table.php:34
 #: build/masterslider/admin/includes/classes/class-msp-list-table.php:34
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #: admin/includes/classes/class-msp-list-table.php:35
 #: build/masterslider/admin/includes/classes/class-msp-list-table.php:35
 msgid "Shortcode"
-msgstr ""
+msgstr "Код (shortcode)"
 
 #: admin/includes/classes/class-msp-list-table.php:37
 #: build/masterslider/admin/includes/classes/class-msp-list-table.php:37
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: admin/includes/classes/class-msp-list-table.php:38
 #: build/masterslider/admin/includes/classes/class-msp-list-table.php:38
 msgid "Last Modify"
-msgstr ""
+msgstr "Последние изменения"
 
 #: admin/includes/classes/class-msp-list-table.php:39
 #: build/masterslider/admin/includes/classes/class-msp-list-table.php:39
 msgid "Date Created"
-msgstr ""
+msgstr "Дата создания"
 
 #: admin/includes/classes/class-msp-list-table.php:40
 #: build/masterslider/admin/includes/classes/class-msp-list-table.php:40
 msgid "Action"
-msgstr ""
+msgstr "Действие"
 
 #: admin/views/slider-panel/index.php:63
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:64
@@ -206,14 +206,14 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:66
 #: build/masterslider/admin/views/slider-panel/index.php:63
 msgid "Saved"
-msgstr ""
+msgstr "Сохранено"
 
 #: admin/views/slider-panel/index.php:121
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:121
 #: bower_components/averta-masterslider-wp-panel/src/index.php:136
 #: build/masterslider/admin/views/slider-panel/index.php:121
 msgid "Auto fill to element :"
-msgstr ""
+msgstr "Автозаполнение в элемент:"
 
 #: admin/views/slider-panel/index.php:126
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:196
@@ -221,14 +221,14 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:142
 #: build/masterslider/admin/views/slider-panel/index.php:126
 msgid "Minimum height amount :"
-msgstr ""
+msgstr "Минимальная высота:"
 
 #: admin/views/slider-panel/index.php:267
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:267
 #: bower_components/averta-masterslider-wp-panel/src/index.php:302
 #: build/masterslider/admin/views/slider-panel/index.php:267
 msgid "Keyboard navigation"
-msgstr ""
+msgstr "Навигация с клавиатуры"
 
 #: admin/views/slider-panel/index.php:270
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:271
@@ -236,32 +236,32 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:306
 #: build/masterslider/admin/views/slider-panel/index.php:270
 msgid "Start slider when appears in browser window."
-msgstr ""
+msgstr "Запустить слайдер при появлении в окне браузера."
 
 #: admin/includes/msp-hooks.php:47
 #: build/masterslider/admin/includes/msp-hooks.php:47
 msgid "Warning: the [rich editing] capability is disabled for this user which might lead to some potential issues. Please enable it."
-msgstr ""
+msgstr "Внимание: возможность расширенного редактирования отключена во избежания потенциального вреда от неопытного пользователя. Можете включить."
 
 #: admin/includes/msp-sample-sliders.php:127
 #: build/masterslider/admin/includes/msp-sample-sliders.php:127
 msgid "Image Gallery with Stack Effect"
-msgstr ""
+msgstr "Галерея с эффектом стопки"
 
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:213
 #: bower_components/averta-masterslider-wp-panel/src/index.php:163
 msgid "Slider Transition"
-msgstr ""
+msgstr "Анимация перехода слайдера"
 
 #: build/masterslider/includes/msp-template-tags.php:14
 #: includes/msp-template-tags.php:14
 msgid "The post title with link"
-msgstr ""
+msgstr "Заголовок записи со ссылкой"
 
 #: admin/includes/msp-sample-sliders.php:190
 #: build/masterslider/admin/includes/msp-sample-sliders.php:190
 msgid "Slider With Vertical Tabs"
-msgstr ""
+msgstr "Слайдер с вертикальными вкладками"
 
 #: admin/views/slider-panel/index.php:831
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:415
@@ -269,7 +269,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:894
 #: build/masterslider/admin/views/slider-panel/index.php:831
 msgid "Link id :"
-msgstr ""
+msgstr "id ссылки:"
 
 #: admin/views/slider-panel/index.php:833
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:417
@@ -277,7 +277,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:896
 #: build/masterslider/admin/views/slider-panel/index.php:833
 msgid "Link class :"
-msgstr ""
+msgstr "class ссылки:"
 
 #: admin/views/slider-panel/index.php:836
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:420
@@ -285,7 +285,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:899
 #: build/masterslider/admin/views/slider-panel/index.php:836
 msgid "Link rel :"
-msgstr ""
+msgstr "rel ссылки:"
 
 #: admin/views/slider-panel/index.php:838
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:422
@@ -293,14 +293,14 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:901
 #: build/masterslider/admin/views/slider-panel/index.php:838
 msgid "Link title :"
-msgstr ""
+msgstr "title ссылки:"
 
 #: admin/views/slider-panel/index.php:1266
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1266
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1330
 #: build/masterslider/admin/views/slider-panel/index.php:1266
 msgid "Layer position and size"
-msgstr ""
+msgstr "Позиция и размеры слоя"
 
 #: admin/views/slider-panel/index.php:936
 #: admin/views/slider-panel/index.php:999
@@ -331,21 +331,21 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1511
 #: build/masterslider/admin/views/slider-panel/index.php:1529
 msgid "Normal"
-msgstr ""
+msgstr "Нормальное"
 
 #: admin/views/slider-panel/index.php:1512
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1512
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1576
 #: build/masterslider/admin/views/slider-panel/index.php:1512
 msgid "Over"
-msgstr ""
+msgstr "При наведении"
 
 #: admin/views/slider-panel/index.php:1513
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1513
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1577
 #: build/masterslider/admin/views/slider-panel/index.php:1513
 msgid "Pressed"
-msgstr ""
+msgstr "Нажатая"
 
 #: admin/views/slider-panel/index.php:1520
 #: admin/views/slider-panel/index.php:1527
@@ -356,49 +356,49 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1520
 #: build/masterslider/admin/views/slider-panel/index.php:1527
 msgid "Button style :"
-msgstr ""
+msgstr "Стиль кнопки:"
 
 #: admin/views/slider-panel/index.php:1522
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1522
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1586
 #: build/masterslider/admin/views/slider-panel/index.php:1522
 msgid "Box"
-msgstr ""
+msgstr "Прямоугольная"
 
 #: admin/views/slider-panel/index.php:1523
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1523
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1587
 #: build/masterslider/admin/views/slider-panel/index.php:1523
 msgid "Round"
-msgstr ""
+msgstr "С закругленными углами"
 
 #: admin/views/slider-panel/index.php:1524
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1524
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1588
 #: build/masterslider/admin/views/slider-panel/index.php:1524
 msgid "Circle"
-msgstr ""
+msgstr "Круглая"
 
 #: admin/views/slider-panel/index.php:1530
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1530
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1594
 #: build/masterslider/admin/views/slider-panel/index.php:1530
 msgid "Small"
-msgstr ""
+msgstr "Мелкая"
 
 #: admin/views/slider-panel/index.php:1531
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1531
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1595
 #: build/masterslider/admin/views/slider-panel/index.php:1531
 msgid "Medium"
-msgstr ""
+msgstr "Средняя"
 
 #: admin/views/slider-panel/index.php:1532
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1532
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1596
 #: build/masterslider/admin/views/slider-panel/index.php:1532
 msgid "Large"
-msgstr ""
+msgstr "Большая"
 
 #: admin/views/slider-panel/index.php:1536
 #: admin/views/slider-panel/index.php:1544
@@ -413,7 +413,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1544
 #: build/masterslider/admin/views/slider-panel/index.php:1552
 msgid "You can add custom style in below box, please make sure to enter a valid CSS. Example: <em>text-transform:uppercase;"
-msgstr ""
+msgstr "Вы можете добавить произвольный стиль в поле снизу, убедитесь в валидности CSS. Пример: <em>text-transform:uppercase;"
 
 #: admin/views/slider-panel/index.php:1679
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:597
@@ -426,7 +426,7 @@ msgstr "Промежуток между буллетами:"
 #: build/masterslider/includes/msp-functions.php:85
 #: includes/msp-functions.php:85
 msgid "Master Slider cannot find \"%s\" slider."
-msgstr ""
+msgstr "Master Slider не нашел слайдер \"%s\""
 
 #: admin/includes/classes/class-msp-admin-assets.php:424
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:424
@@ -456,22 +456,22 @@ msgstr "На&nbsp;слайд"
 #: admin/includes/classes/class-msp-admin-assets.php:429
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:429
 msgid "Slide number:"
-msgstr ""
+msgstr "Номер слайда:"
 
 #: admin/includes/classes/class-msp-admin-assets.php:430
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:430
 msgid "Scroll to bottom of slider"
-msgstr ""
+msgstr "Прокрутить вниз слайдера"
 
 #: admin/includes/classes/class-msp-admin-assets.php:431
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:431
 msgid "Scroll animation duration :"
-msgstr ""
+msgstr "Время анимации прокрутки:"
 
 #: admin/includes/classes/class-msp-admin-assets.php:449
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:449
 msgid "Update Button Style"
-msgstr ""
+msgstr "Обновить стиль кнопки"
 
 #: admin/includes/classes/class-msp-admin-assets.php:450
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:450
@@ -501,12 +501,12 @@ msgstr "Обновление кнопки изменит её на&nbsp;всех
 #: admin/includes/classes/class-msp-admin-assets.php:456
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:456
 msgid "Select background image for new slide. (Multiple selection is available)"
-msgstr ""
+msgstr "Выбрать фон для нового слайда. (Возможно выбрать несколько)"
 
 #: admin/includes/classes/class-msp-admin-assets.php:457
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:457
 msgid "Create Slide(s)"
-msgstr ""
+msgstr "Создать слайд(ы)"
 
 #: admin/includes/classes/class-msp-import-custom-sliders.php:59
 #: admin/includes/classes/class-msp-import-custom-sliders.php:60
@@ -515,77 +515,77 @@ msgstr ""
 #: build/masterslider/admin/includes/classes/class-msp-import-custom-sliders.php:60
 #: build/masterslider/admin/includes/classes/class-msp-import-custom-sliders.php:134
 msgid "Import Sliders"
-msgstr ""
+msgstr "Импортировать слайды"
 
 #: admin/includes/classes/class-msp-import-custom-sliders.php:87
 #: build/masterslider/admin/includes/classes/class-msp-import-custom-sliders.php:87
 msgid "So slider data found to import!"
-msgstr ""
+msgstr "Найдены данные слайдера для импорта!"
 
 #: admin/includes/classes/class-msp-import-custom-sliders.php:105
 #: build/masterslider/admin/includes/classes/class-msp-import-custom-sliders.php:105
 msgid "Slider Items"
-msgstr ""
+msgstr "Элементы слайдера"
 
 #: admin/includes/classes/class-msp-importer.php:258
 #: build/masterslider/admin/includes/classes/class-msp-importer.php:258
 msgid "You do not have enough permission to import sliders"
-msgstr ""
+msgstr "У вас недостаточно прав для импорта слайдеров"
 
 #: admin/views/global/gallery-templates.php:87
 #: build/masterslider/admin/views/global/gallery-templates.php:87
 msgid "Master Slider Settings"
-msgstr ""
+msgstr "Настройки Master Slider"
 
 #: admin/views/global/gallery-templates.php:90
 #: build/masterslider/admin/views/global/gallery-templates.php:90
 msgid "Display Images as Slider?"
-msgstr ""
+msgstr "Отображать изображения как слайдер?"
 
 #: admin/views/global/gallery-templates.php:97
 #: build/masterslider/admin/views/global/gallery-templates.php:97
 msgid "Enable AutoPlay?"
-msgstr ""
+msgstr "Включить Автозапуск? "
 
 #: admin/views/global/gallery-templates.php:102
 #: build/masterslider/admin/views/global/gallery-templates.php:102
 msgid "Enable Continues Sliding?"
-msgstr ""
+msgstr "Включить бесконечный слайдинг?"
 
 #: admin/views/global/gallery-templates.php:107
 #: build/masterslider/admin/views/global/gallery-templates.php:107
 msgid "Display Thumbails?"
-msgstr ""
+msgstr "Отображать миниатюры?"
 
 #: admin/views/global/gallery-templates.php:112
 #: build/masterslider/admin/views/global/gallery-templates.php:112
 msgid "Thumbnails Alignment"
-msgstr ""
+msgstr "Выравнивание миниатюр"
 
 #: admin/views/global/gallery-templates.php:122
 #: build/masterslider/admin/views/global/gallery-templates.php:122
 msgid "Display Image Caption?"
-msgstr ""
+msgstr "Отображать подпись изображения?"
 
 #: admin/views/global/gallery-templates.php:127
 #: build/masterslider/admin/views/global/gallery-templates.php:127
 msgid "Enable Auto Height?"
-msgstr ""
+msgstr "Включить автоподгон высоты?"
 
 #: admin/views/global/gallery-templates.php:143
 #: build/masterslider/admin/views/global/gallery-templates.php:143
 msgid "Extra css class"
-msgstr ""
+msgstr "Дополнительные CSS стили "
 
 #: admin/views/setting/class-msp-settings.php:92
 #: build/masterslider/admin/views/setting/class-msp-settings.php:92
 msgid "Enable Automatic Update"
-msgstr ""
+msgstr "Включить автоматическое обновление"
 
 #: admin/views/setting/class-msp-settings.php:93
 #: build/masterslider/admin/views/setting/class-msp-settings.php:93
 msgid "To enable automatic update for Master Slider, a valid purchase code is required."
-msgstr ""
+msgstr "Для автообновления Master Slider'а, необходим верный код покупки."
 
 #: admin/views/setting/class-msp-settings.php:108
 #: build/masterslider/admin/views/setting/class-msp-settings.php:108
@@ -595,22 +595,22 @@ msgstr "Расширенные настройки"
 #: admin/views/setting/class-msp-settings.php:154
 #: build/masterslider/admin/views/setting/class-msp-settings.php:154
 msgid "How to find your envato username"
-msgstr ""
+msgstr "Как найти имя пользователя Envato"
 
 #: admin/views/setting/class-msp-settings.php:161
 #: build/masterslider/admin/views/setting/class-msp-settings.php:161
 msgid "To find your API key, navigate to your envato account, select settings from the account dropdown, then navigate to the API Keys tab."
-msgstr ""
+msgstr "Чтобы найти API ключ, перейдите в аккаунт Envato, выберите Настройки(Settings) из меню и перейдите на вкладку API ключей (API Keys)."
 
 #: admin/views/setting/class-msp-settings.php:162
 #: build/masterslider/admin/views/setting/class-msp-settings.php:162
 msgid "Screenshot"
-msgstr ""
+msgstr "Скриншот"
 
 #: admin/views/setting/class-msp-settings.php:162
 #: build/masterslider/admin/views/setting/class-msp-settings.php:162
 msgid "More info .."
-msgstr ""
+msgstr "Подробнее.."
 
 #: admin/views/setting/class-msp-settings.php:190
 #: build/masterslider/admin/views/setting/class-msp-settings.php:190
@@ -636,7 +636,7 @@ msgstr "Загрузка данных…"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:225
 #: build/masterslider/admin/views/slider-panel/index.php:197
 msgid "Autoplay (Slideshow)"
-msgstr ""
+msgstr "Автозапуск (Слайдшоу)"
 
 #: admin/views/slider-panel/index.php:214
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:257
@@ -644,84 +644,84 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:246
 #: build/masterslider/admin/views/slider-panel/index.php:214
 msgid "Start with slide :"
-msgstr ""
+msgstr "Начать со слайда:"
 
 #: admin/views/slider-panel/index.php:216
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:216
 #: bower_components/averta-masterslider-wp-panel/src/index.php:249
 #: build/masterslider/admin/views/slider-panel/index.php:216
 msgid "Slider deep linking options"
-msgstr ""
+msgstr "Опции ссылок слайдера в адресной строки"
 
 #: admin/views/slider-panel/index.php:218
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:218
 #: bower_components/averta-masterslider-wp-panel/src/index.php:251
 #: build/masterslider/admin/views/slider-panel/index.php:218
 msgid "Enable slider deep linking."
-msgstr ""
+msgstr "Включить ссылки в адресной строке"
 
 #: admin/views/slider-panel/index.php:222
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:222
 #: bower_components/averta-masterslider-wp-panel/src/index.php:255
 #: build/masterslider/admin/views/slider-panel/index.php:222
 msgid "Deeplink name :"
-msgstr ""
+msgstr " Ссылка:"
 
 #: admin/views/slider-panel/index.php:224
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:224
 #: bower_components/averta-masterslider-wp-panel/src/index.php:257
 #: build/masterslider/admin/views/slider-panel/index.php:224
 msgid "Type of permalink: "
-msgstr ""
+msgstr "Тип ссылки:"
 
 #: admin/views/slider-panel/index.php:226
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:226
 #: bower_components/averta-masterslider-wp-panel/src/index.php:259
 #: build/masterslider/admin/views/slider-panel/index.php:226
 msgid "URL path style (/name/index/)"
-msgstr ""
+msgstr "URL (/name/index/)"
 
 #: admin/views/slider-panel/index.php:227
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:227
 #: bower_components/averta-masterslider-wp-panel/src/index.php:260
 #: build/masterslider/admin/views/slider-panel/index.php:227
 msgid "Query string style (&name=index)"
-msgstr ""
+msgstr "с параметрами (&name=index)"
 
 #: admin/views/slider-panel/index.php:242
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:242
 #: bower_components/averta-masterslider-wp-panel/src/index.php:275
 #: build/masterslider/admin/views/slider-panel/index.php:242
 msgid "Parallax move and fade layers when slider leaves page by scrolling"
-msgstr ""
+msgstr "Параллакс исчезает при прокрутке страницы за пределы слайдера"
 
 #: admin/views/slider-panel/index.php:244
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:244
 #: bower_components/averta-masterslider-wp-panel/src/index.php:277
 #: build/masterslider/admin/views/slider-panel/index.php:244
 msgid "Scrolling parallax effect"
-msgstr ""
+msgstr "Эффект параллакса при прокрутке"
 
 #: admin/views/slider-panel/index.php:248
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:248
 #: bower_components/averta-masterslider-wp-panel/src/index.php:281
 #: build/masterslider/admin/views/slider-panel/index.php:248
 msgid "Layers parallax depth percentage :"
-msgstr ""
+msgstr "Глубина параллакса для слоя в процентах:"
 
 #: admin/views/slider-panel/index.php:250
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:250
 #: bower_components/averta-masterslider-wp-panel/src/index.php:283
 #: build/masterslider/admin/views/slider-panel/index.php:250
 msgid "Background parallax depth percentage :"
-msgstr ""
+msgstr "Глубина параллакса фона в процентах:"
 
 #: admin/views/slider-panel/index.php:253
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:253
 #: bower_components/averta-masterslider-wp-panel/src/index.php:286
 #: build/masterslider/admin/views/slider-panel/index.php:253
 msgid "Fade layers while scrolling."
-msgstr ""
+msgstr "Делать прозрачными слои при прокрутке."
 
 #: admin/views/slider-panel/index.php:324
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:325
@@ -729,7 +729,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:360
 #: build/masterslider/admin/views/slider-panel/index.php:324
 msgid "Slider custom class name and style"
-msgstr ""
+msgstr "Произвольные классы и стили слайдера"
 
 #: admin/views/slider-panel/index.php:332
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:333
@@ -737,21 +737,21 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:368
 #: build/masterslider/admin/views/slider-panel/index.php:332
 msgid "Slider custom styles :"
-msgstr ""
+msgstr "Произвольные стили слайдера:"
 
 #: admin/views/slider-panel/index.php:505
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:505
 #: bower_components/averta-masterslider-wp-panel/src/index.php:542
 #: build/masterslider/admin/views/slider-panel/index.php:505
 msgid "Enter the post IDs which you want to exclude or include"
-msgstr ""
+msgstr "Введите ID записей, которые хотите исключить или включить"
 
 #: admin/views/slider-panel/index.php:511
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:511
 #: bower_components/averta-masterslider-wp-panel/src/index.php:548
 #: build/masterslider/admin/views/slider-panel/index.php:511
 msgid "Include posts :"
-msgstr ""
+msgstr "Включая записи: "
 
 #: admin/views/slider-panel/index.php:844
 #: admin/views/slider-panel/index.php:1070
@@ -775,7 +775,7 @@ msgstr "Автоматически проигрывать видео:"
 #: build/masterslider/admin/views/slider-panel/index.php:847
 #: build/masterslider/admin/views/slider-panel/index.php:1067
 msgid "Where to find the Youtube/Vimeo embed URL."
-msgstr ""
+msgstr "Где найти код вставки Youtube/Vimeo "
 
 #: admin/views/slider-panel/index.php:887
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:471
@@ -783,7 +783,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:950
 #: build/masterslider/admin/views/slider-panel/index.php:887
 msgid "Slide color and pattern overlay "
-msgstr ""
+msgstr "Цвет и текстура наложения слайда"
 
 #: admin/views/slider-panel/index.php:889
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:473
@@ -791,7 +791,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:952
 #: build/masterslider/admin/views/slider-panel/index.php:889
 msgid "Color overlay :"
-msgstr ""
+msgstr "Цвет наложения:"
 
 #: admin/views/slider-panel/index.php:891
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:475
@@ -799,21 +799,21 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:954
 #: build/masterslider/admin/views/slider-panel/index.php:891
 msgid "Pattern overlay :"
-msgstr ""
+msgstr "Текстура наложения:"
 
 #: admin/views/slider-panel/index.php:959
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:959
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1023
 #: build/masterslider/admin/views/slider-panel/index.php:959
 msgid "Bind action to layer"
-msgstr ""
+msgstr "Применить действие к слою"
 
 #: admin/views/slider-panel/index.php:961
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:961
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1025
 #: build/masterslider/admin/views/slider-panel/index.php:961
 msgid "Enable actions. Action runs by clicking user on the layer."
-msgstr ""
+msgstr "Включить действия. Действия происходят при клике пользователя на слое."
 
 #: admin/views/slider-panel/index.php:965
 #: admin/views/slider-panel/index.php:1016
@@ -832,14 +832,14 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1145
 #: build/masterslider/admin/views/slider-panel/index.php:1199
 msgid "Select action :"
-msgstr ""
+msgstr "Выбрать действие:"
 
 #: admin/views/slider-panel/index.php:1010
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1010
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1074
 #: build/masterslider/admin/views/slider-panel/index.php:1010
 msgid "Link layer or bind action to layer"
-msgstr ""
+msgstr "Ссылка слоя или действие на слое"
 
 #: admin/views/slider-panel/index.php:1012
 #: admin/views/slider-panel/index.php:1141
@@ -854,56 +854,56 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1141
 #: build/masterslider/admin/views/slider-panel/index.php:1195
 msgid "Bind action to layer. Action runs by clicking user on the layer."
-msgstr ""
+msgstr "Привязать действие к слою. Действия совершаются при клике пользователем по слою."
 
 #: admin/views/slider-panel/index.php:1139
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1139
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1203
 #: build/masterslider/admin/views/slider-panel/index.php:1139
 msgid "Link hotspot or bind action to layer"
-msgstr ""
+msgstr "Сделать активную точку ссылкой или применить действие к слою"
 
 #: admin/views/slider-panel/index.php:1189
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1189
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1253
 #: build/masterslider/admin/views/slider-panel/index.php:1189
 msgid "Button label and link"
-msgstr ""
+msgstr "Текст кнопки и ссылка"
 
 #: admin/views/slider-panel/index.php:1191
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1191
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1255
 #: build/masterslider/admin/views/slider-panel/index.php:1191
 msgid "Label :"
-msgstr ""
+msgstr "Надпись:"
 
 #: admin/views/slider-panel/index.php:1193
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1193
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1257
 #: build/masterslider/admin/views/slider-panel/index.php:1193
 msgid "Link button or bind action"
-msgstr ""
+msgstr "Связать с кнопкой или действием"
 
 #: admin/views/slider-panel/index.php:1205
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1205
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1269
 #: build/masterslider/admin/views/slider-panel/index.php:1205
 msgid "Choose button style from below or create/edit a new button."
-msgstr ""
+msgstr "Выберите стиль кнопки или создайте/отредактируйте новую."
 
 #: admin/views/slider-panel/index.php:1211
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1211
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1275
 #: build/masterslider/admin/views/slider-panel/index.php:1211
 msgid "New/Edit Button..."
-msgstr ""
+msgstr "Новая/Редактировать кнопку"
 
 #: admin/views/slider-panel/index.php:1295
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1295
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1359
 #: build/masterslider/admin/views/slider-panel/index.php:1295
 msgid "Disable swipe navigation when mouse moves over this layer :"
-msgstr ""
+msgstr "Отключить свайп навигацию когда мышь движется в слое:"
 
 #: masterslider.php:34 build/masterslider/masterslider.php:34
 msgid "You are using two instances of MasterSlider plugin at same time, please deactive one of them."
@@ -917,52 +917,52 @@ msgstr "Оценить этот плагин"
 #: admin/includes/msp-hooks.php:36
 #: build/masterslider/admin/includes/msp-hooks.php:36
 msgid "Premium support"
-msgstr ""
+msgstr "Премиум поддержка"
 
 #: admin/includes/msp-sample-sliders.php:18
 #: build/masterslider/admin/includes/msp-sample-sliders.php:18
 msgid "Dynamic Sliders"
-msgstr ""
+msgstr "Динамические слайдеры"
 
 #: admin/includes/msp-sample-sliders.php:307
 #: build/masterslider/admin/includes/msp-sample-sliders.php:307
 msgid "Partial View Slider Version 4"
-msgstr ""
+msgstr "Слайдер частичного отображения 4"
 
 #: admin/includes/msp-sample-sliders.php:361
 #: build/masterslider/admin/includes/msp-sample-sliders.php:361
 msgid "Slider with Parallax Mask"
-msgstr ""
+msgstr "Слайдер с маской параллакса"
 
 #: admin/includes/msp-sample-sliders.php:442
 #: build/masterslider/admin/includes/msp-sample-sliders.php:442
 msgid "Parallax Swipe Effect"
-msgstr ""
+msgstr "Параллакс свайп-эффект"
 
 #: admin/includes/msp-sample-sliders.php:451
 #: build/masterslider/admin/includes/msp-sample-sliders.php:451
 msgid "Parallax Follow Mouse"
-msgstr ""
+msgstr "Параллакс реагирует на мышь"
 
 #: admin/includes/msp-sample-sliders.php:465
 #: build/masterslider/admin/includes/msp-sample-sliders.php:465
 msgid "Post Slider Boxed Layout"
-msgstr ""
+msgstr "Блочный слайдер"
 
 #: admin/includes/msp-sample-sliders.php:474
 #: build/masterslider/admin/includes/msp-sample-sliders.php:474
 msgid "Post Slider With Excerpt"
-msgstr ""
+msgstr "Слайдер записи с цитатой"
 
 #: admin/includes/msp-sample-sliders.php:483
 #: build/masterslider/admin/includes/msp-sample-sliders.php:483
 msgid "Post Slider With Partial View"
-msgstr ""
+msgstr "Слайдер записей с частичным отображением"
 
 #: admin/includes/msp-sample-sliders.php:492
 #: build/masterslider/admin/includes/msp-sample-sliders.php:492
 msgid "Post Slider With Overlay Content"
-msgstr ""
+msgstr "Слайдер с наложением"
 
 #: admin/includes/classes/class-msp-admin-assets.php:356
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:356
@@ -972,7 +972,7 @@ msgstr "Слой кнопок"
 #: admin/includes/classes/class-msp-admin-assets.php:369
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:369
 msgid "Transition Editor"
-msgstr ""
+msgstr "Редактор переходов"
 
 #: admin/includes/classes/class-msp-admin-assets.php:382
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:382
@@ -984,70 +984,70 @@ msgstr "Редактор стилей"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1388
 #: build/masterslider/admin/views/slider-panel/index.php:1324
 msgid "Padding"
-msgstr ""
+msgstr "Отступы"
 
 #: admin/views/slider-panel/index.php:1336
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1336
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1400
 #: build/masterslider/admin/views/slider-panel/index.php:1336
 msgid "Text color :"
-msgstr ""
+msgstr "Цвет текста:"
 
 #: admin/views/slider-panel/index.php:1338
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1338
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1402
 #: build/masterslider/admin/views/slider-panel/index.php:1338
 msgid "Font size :"
-msgstr ""
+msgstr "Размер текста:"
 
 #: admin/views/slider-panel/index.php:1341
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1341
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1405
 #: build/masterslider/admin/views/slider-panel/index.php:1341
 msgid "Font :"
-msgstr ""
+msgstr "Шрифт:"
 
 #: admin/views/slider-panel/index.php:1343
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1343
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1407
 #: build/masterslider/admin/views/slider-panel/index.php:1343
 msgid "Font weight :"
-msgstr ""
+msgstr "Толщина шрифта:"
 
 #: admin/views/slider-panel/index.php:1345
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1345
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1409
 #: build/masterslider/admin/views/slider-panel/index.php:1345
 msgid "Wordwrap :"
-msgstr ""
+msgstr "Перенос строк:"
 
 #: admin/views/slider-panel/index.php:1348
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1348
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1412
 #: build/masterslider/admin/views/slider-panel/index.php:1348
 msgid "Letter spacing :"
-msgstr ""
+msgstr "Межбуквенный интервал: "
 
 #: admin/views/slider-panel/index.php:1350
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1350
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1414
 #: build/masterslider/admin/views/slider-panel/index.php:1350
 msgid "Line height :"
-msgstr ""
+msgstr "Высота строки:"
 
 #: admin/views/slider-panel/index.php:1352
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1352
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1416
 #: build/masterslider/admin/views/slider-panel/index.php:1352
 msgid "Text align :"
-msgstr ""
+msgstr "Выравнивание текста:"
 
 #: admin/views/slider-panel/index.php:1357
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1357
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1421
 #: build/masterslider/admin/views/slider-panel/index.php:1357
 msgid "Justify"
-msgstr ""
+msgstr "Заполнение текстом"
 
 #: admin/views/slider-panel/index.php:1363
 #: admin/views/slider-panel/index.php:1393
@@ -1058,7 +1058,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1363
 #: build/masterslider/admin/views/slider-panel/index.php:1393
 msgid "Top :"
-msgstr ""
+msgstr "Сверху:"
 
 #: admin/views/slider-panel/index.php:1365
 #: admin/views/slider-panel/index.php:1395
@@ -1069,7 +1069,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1365
 #: build/masterslider/admin/views/slider-panel/index.php:1395
 msgid "Right :"
-msgstr ""
+msgstr "Справа:"
 
 #: admin/views/slider-panel/index.php:1367
 #: admin/views/slider-panel/index.php:1397
@@ -1080,7 +1080,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1367
 #: build/masterslider/admin/views/slider-panel/index.php:1397
 msgid "Bottom :"
-msgstr ""
+msgstr "Снизу:"
 
 #: admin/views/slider-panel/index.php:1369
 #: admin/views/slider-panel/index.php:1399
@@ -1091,238 +1091,238 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1369
 #: build/masterslider/admin/views/slider-panel/index.php:1399
 msgid "Left :"
-msgstr ""
+msgstr "Слева:"
 
 #: admin/views/slider-panel/index.php:1372
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1372
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1436
 #: build/masterslider/admin/views/slider-panel/index.php:1372
 msgid "Border color :"
-msgstr ""
+msgstr "Цвет границ:"
 
 #: admin/views/slider-panel/index.php:1374
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1374
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1438
 #: build/masterslider/admin/views/slider-panel/index.php:1374
 msgid "Border style :"
-msgstr ""
+msgstr "Стиль границ:"
 
 #: admin/views/slider-panel/index.php:1376
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1376
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1440
 #: build/masterslider/admin/views/slider-panel/index.php:1376
 msgid "Solid"
-msgstr ""
+msgstr "Линия"
 
 #: admin/views/slider-panel/index.php:1378
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1378
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1442
 #: build/masterslider/admin/views/slider-panel/index.php:1378
 msgid "Hidden"
-msgstr ""
+msgstr "Скрытый"
 
 #: admin/views/slider-panel/index.php:1379
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1379
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1443
 #: build/masterslider/admin/views/slider-panel/index.php:1379
 msgid "Dotted"
-msgstr ""
+msgstr "Точки"
 
 #: admin/views/slider-panel/index.php:1380
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1380
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1444
 #: build/masterslider/admin/views/slider-panel/index.php:1380
 msgid "Dashed"
-msgstr ""
+msgstr "Тире"
 
 #: admin/views/slider-panel/index.php:1381
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1381
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1445
 #: build/masterslider/admin/views/slider-panel/index.php:1381
 msgid "Double"
-msgstr ""
+msgstr "Двойной"
 
 #: admin/views/slider-panel/index.php:1382
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1382
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1446
 #: build/masterslider/admin/views/slider-panel/index.php:1382
 msgid "Groove"
-msgstr ""
+msgstr "Вдавленная"
 
 #: admin/views/slider-panel/index.php:1383
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1383
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1447
 #: build/masterslider/admin/views/slider-panel/index.php:1383
 msgid "Ridge"
-msgstr ""
+msgstr "Выступающая"
 
 #: admin/views/slider-panel/index.php:1384
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1384
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1448
 #: build/masterslider/admin/views/slider-panel/index.php:1384
 msgid "Inset"
-msgstr ""
+msgstr "Внутри"
 
 #: admin/views/slider-panel/index.php:1385
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1385
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1449
 #: build/masterslider/admin/views/slider-panel/index.php:1385
 msgid "Outset"
-msgstr ""
+msgstr "Снаружи"
 
 #: admin/views/slider-panel/index.php:1388
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1388
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1452
 #: build/masterslider/admin/views/slider-panel/index.php:1388
 msgid "Rounded corners :"
-msgstr ""
+msgstr "Скругленные углы:"
 
 #: admin/views/slider-panel/index.php:1404
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1404
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1468
 #: build/masterslider/admin/views/slider-panel/index.php:1404
 msgid "You can add more style settings in below box, please make sure to enter a valid CSS. Example: <em>text-transform:uppercase;"
-msgstr ""
+msgstr "Вы можете добавить дополнительные стили ниже, удостоверьтесь в правильности CSS. Пример: <em>text-transform: uppercase;"
 
 #: admin/views/slider-panel/index.php:1419
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1419
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1483
 #: build/masterslider/admin/views/slider-panel/index.php:1419
 msgid "General and Offset"
-msgstr ""
+msgstr "Общее и смещения"
 
 #: admin/views/slider-panel/index.php:1420
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1420
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1484
 #: build/masterslider/admin/views/slider-panel/index.php:1420
 msgid "Rotate"
-msgstr ""
+msgstr "Поворот"
 
 #: admin/views/slider-panel/index.php:1421
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1421
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1485
 #: build/masterslider/admin/views/slider-panel/index.php:1421
 msgid "Scale and Skew"
-msgstr ""
+msgstr "Размер и искажение"
 
 #: admin/views/slider-panel/index.php:1422
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1422
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1486
 #: build/masterslider/admin/views/slider-panel/index.php:1422
 msgid "Move Origin"
-msgstr ""
+msgstr "Определить начальное положение"
 
 #: admin/views/slider-panel/index.php:1428
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1428
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1492
 #: build/masterslider/admin/views/slider-panel/index.php:1428
 msgid "Fade :"
-msgstr ""
+msgstr "Растворение:"
 
 #: admin/views/slider-panel/index.php:1432
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1432
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1496
 #: build/masterslider/admin/views/slider-panel/index.php:1432
 msgid "Ease function :"
-msgstr ""
+msgstr "Функция анимации:"
 
 #: admin/views/slider-panel/index.php:1462
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1462
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1526
 #: build/masterslider/admin/views/slider-panel/index.php:1462
 msgid "Offset X :"
-msgstr ""
+msgstr "Отступ X:"
 
 #: admin/views/slider-panel/index.php:1464
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1464
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1528
 #: build/masterslider/admin/views/slider-panel/index.php:1464
 msgid "Offset Y :"
-msgstr ""
+msgstr "Отступ Y:"
 
 #: admin/views/slider-panel/index.php:1466
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1466
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1530
 #: build/masterslider/admin/views/slider-panel/index.php:1466
 msgid "Offset Z :"
-msgstr ""
+msgstr "Отступ Z:"
 
 #: admin/views/slider-panel/index.php:1471
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1471
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1535
 #: build/masterslider/admin/views/slider-panel/index.php:1471
 msgid "2D Rotate :"
-msgstr ""
+msgstr "2D поворот:"
 
 #: admin/views/slider-panel/index.php:1474
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1474
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1538
 #: build/masterslider/admin/views/slider-panel/index.php:1474
 msgid "Rotate X :"
-msgstr ""
+msgstr "Поворот X:"
 
 #: admin/views/slider-panel/index.php:1476
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1476
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1540
 #: build/masterslider/admin/views/slider-panel/index.php:1476
 msgid "Rotate Y :"
-msgstr ""
+msgstr "Поворот Y:"
 
 #: admin/views/slider-panel/index.php:1478
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1478
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1542
 #: build/masterslider/admin/views/slider-panel/index.php:1478
 msgid "Rotate Z :"
-msgstr ""
+msgstr "Поворот Z:"
 
 #: admin/views/slider-panel/index.php:1483
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1483
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1547
 #: build/masterslider/admin/views/slider-panel/index.php:1483
 msgid "Scale X :"
-msgstr ""
+msgstr "Масштаб X:"
 
 #: admin/views/slider-panel/index.php:1485
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1485
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1549
 #: build/masterslider/admin/views/slider-panel/index.php:1485
 msgid "Scale Y :"
-msgstr ""
+msgstr "Масштаб Y:"
 
 #: admin/views/slider-panel/index.php:1488
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1488
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1552
 #: build/masterslider/admin/views/slider-panel/index.php:1488
 msgid "Skew X :"
-msgstr ""
+msgstr "Искажение X:"
 
 #: admin/views/slider-panel/index.php:1490
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1490
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1554
 #: build/masterslider/admin/views/slider-panel/index.php:1490
 msgid "Skew Y :"
-msgstr ""
+msgstr "Искажение Y:"
 
 #: admin/views/slider-panel/index.php:1495
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1495
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1559
 #: build/masterslider/admin/views/slider-panel/index.php:1495
 msgid "Origin X :"
-msgstr ""
+msgstr "Начало X:"
 
 #: admin/views/slider-panel/index.php:1497
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1497
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1561
 #: build/masterslider/admin/views/slider-panel/index.php:1497
 msgid "Origin Y :"
-msgstr ""
+msgstr "Начало Y:"
 
 #: admin/views/slider-panel/index.php:1499
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1499
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1563
 #: build/masterslider/admin/views/slider-panel/index.php:1499
 msgid "Origin Z :"
-msgstr ""
+msgstr "Начало Z:"
 
 #: admin/views/slider-panel/index.php:1567
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:485
@@ -1346,7 +1346,7 @@ msgstr "Добавьте или удалите контролы на&nbsp;сла
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1644
 #: build/masterslider/admin/views/slider-panel/index.php:1578
 msgid "Add new control"
-msgstr "Добавить новый контрол"
+msgstr "Добавить новый элемент управления"
 
 #: admin/views/slider-panel/index.php:1589
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:507
@@ -1354,7 +1354,7 @@ msgstr "Добавить новый контрол"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1655
 #: build/masterslider/admin/views/slider-panel/index.php:1589
 msgid "-- All controls are used --"
-msgstr "Все контролы уже задействованы"
+msgstr "Все элементы управления уже задействованы"
 
 #: admin/views/slider-panel/index.php:1596
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:514
@@ -1491,7 +1491,7 @@ msgstr "Скрывать буллеты, когда мышь вне слайде
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1729
 #: build/masterslider/admin/views/slider-panel/index.php:1663
 msgid "Show bullets over Youtube/Vimeo video player"
-msgstr ""
+msgstr "Показывать буллеты на видеоплеере Youtube/Vimeo"
 
 #: admin/views/slider-panel/index.php:1666
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:584
@@ -1651,7 +1651,7 @@ msgstr "Отступы для&nbsp;кругового таймера:"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1820
 #: build/masterslider/admin/views/slider-panel/index.php:1754
 msgid "Circle stroke :"
-msgstr ""
+msgstr "Край круга: "
 
 #: admin/views/slider-panel/index.php:1756
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:674
@@ -1771,7 +1771,7 @@ msgstr "Отступы для&nbsp;ярлыков/вкладок"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1893
 #: build/masterslider/admin/views/slider-panel/index.php:1827
 msgid "Appearance :"
-msgstr ""
+msgstr "Отображение:"
 
 #: admin/views/slider-panel/index.php:1829
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:747
@@ -1779,7 +1779,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1895
 #: build/masterslider/admin/views/slider-panel/index.php:1829
 msgid "Thumblist"
-msgstr ""
+msgstr "Список миниатюр"
 
 #: admin/views/slider-panel/index.php:1830
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:748
@@ -1866,19 +1866,19 @@ msgstr "Удалить"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1976
 #: build/masterslider/admin/views/slider-panel/index.php:1909
 msgid "Here you can choose template for the slider. Please note that selecting template may overwrite some slider options. If you want to have full control on options, select \"Custom Template\"."
-msgstr ""
+msgstr "Тут вы можете выбрать шаблон для слайдера. Некоторые шаблоны могут изменять настройки слайдера. Если вы желаете иметь доступ ко всем опциям, выберите \"Произвольный шаблон\""
 
 #: admin/views/slider-panel/index.php:1918
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1918
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1985
 #: build/masterslider/admin/views/slider-panel/index.php:1918
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: build/masterslider/includes/msp-functions.php:41
 #: includes/msp-functions.php:41
 msgid "Invalid slider id. Master Slider ID must be a valid number."
-msgstr ""
+msgstr "Неверный идентификатор слайдера. Идентификатор должен быть целым числом."
 
 #: build/masterslider/includes/msp-functions.php:1059
 #: includes/msp-functions.php:1059
@@ -1938,7 +1938,7 @@ msgstr "Картинка записи"
 #: build/masterslider/includes/msp-template-tags.php:80
 #: includes/msp-template-tags.php:80
 msgid "Post image source"
-msgstr ""
+msgstr "Ссылка на изображение записи"
 
 #: build/masterslider/includes/msp-template-tags.php:104
 #: includes/msp-template-tags.php:104
@@ -1948,7 +1948,7 @@ msgstr "Год записи"
 #: build/masterslider/includes/msp-template-tags.php:110
 #: includes/msp-template-tags.php:110
 msgid "Numeric Month"
-msgstr ""
+msgstr "Месяц цифрой"
 
 #: build/masterslider/includes/msp-template-tags.php:116
 #: includes/msp-template-tags.php:116
@@ -2028,7 +2028,7 @@ msgstr "Средний рейтинг"
 #: build/masterslider/includes/msp-template-tags.php:228
 #: includes/msp-template-tags.php:228
 msgid "Rating Count"
-msgstr ""
+msgstr "Количество отзывов"
 
 #: build/masterslider/includes/classes/class-msp-db.php:797
 #: includes/classes/class-msp-db.php:797
@@ -2085,28 +2085,28 @@ msgstr "Если вы хотите по-своему стилизовать эл
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1122
 #: build/masterslider/admin/views/slider-panel/index.php:1058
 msgid "Youtube or Vimeo video embed source"
-msgstr ""
+msgstr "Код вставки Youtube или Vimeo"
 
 #: admin/views/slider-panel/index.php:1072
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1072
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1136
 #: build/masterslider/admin/views/slider-panel/index.php:1072
 msgid "Video custom cover image"
-msgstr ""
+msgstr "Произвольное изображение видео до воспроизведения"
 
 #: admin/views/slider-panel/index.php:1113
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1113
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1177
 #: build/masterslider/admin/views/slider-panel/index.php:1113
 msgid "Hotspot tooltip alignment and max width"
-msgstr ""
+msgstr "Положение и ширина подсказки на активных точках"
 
 #: admin/views/slider-panel/index.php:1115
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1115
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1179
 #: build/masterslider/admin/views/slider-panel/index.php:1115
 msgid "Tooltip align : "
-msgstr ""
+msgstr "Расположение подсказки"
 
 #: admin/views/global/gallery-templates.php:115
 #: admin/views/slider-panel/index.php:1117
@@ -2247,35 +2247,35 @@ msgstr "Слева"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1187
 #: build/masterslider/admin/views/slider-panel/index.php:1123
 msgid "Tooltip max width : "
-msgstr ""
+msgstr "Максимальная ширина подсказки:"
 
 #: admin/views/slider-panel/index.php:1126
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1126
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1190
 #: build/masterslider/admin/views/slider-panel/index.php:1126
 msgid "Stay tooltip on mouse over it : "
-msgstr ""
+msgstr "Оставлять подсказку при наведении на нее мыши:"
 
 #: admin/views/slider-panel/index.php:1128
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1128
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1192
 #: build/masterslider/admin/views/slider-panel/index.php:1128
 msgid "Insert your hotspot content here, for a better SEO result you can use heading tags for important contents."
-msgstr ""
+msgstr "Введите контент активной точки, для лучшего SEO результата вы можете использовать тэги заголовков для важной информации."
 
 #: admin/views/slider-panel/index.php:1227
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1227
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1291
 #: build/masterslider/admin/views/slider-panel/index.php:1227
 msgid "Layer parallax effect"
-msgstr ""
+msgstr "Эффект параллакса слоя"
 
 #: admin/views/slider-panel/index.php:1229
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1229
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1293
 #: build/masterslider/admin/views/slider-panel/index.php:1229
 msgid "Parallax effect level :"
-msgstr ""
+msgstr "Уровень параллакс эффекта:"
 
 #: admin/views/slider-panel/index.php:1232
 #: admin/views/slider-panel/index.php:1237
@@ -2286,7 +2286,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1232
 #: build/masterslider/admin/views/slider-panel/index.php:1237
 msgid "Layer transition in"
-msgstr ""
+msgstr "Эффект появления слоя"
 
 #: admin/views/slider-panel/index.php:1239
 #: admin/views/slider-panel/index.php:1251
@@ -2297,7 +2297,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1239
 #: build/masterslider/admin/views/slider-panel/index.php:1251
 msgid "Transition effect :"
-msgstr ""
+msgstr "Эффект перехода:"
 
 #: admin/views/slider-panel/index.php:1241
 #: admin/views/slider-panel/index.php:1253
@@ -2312,133 +2312,133 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1253
 #: build/masterslider/admin/views/slider-panel/index.php:1430
 msgid "Duration :"
-msgstr ""
+msgstr "Продолжительность:"
 
 #: admin/views/slider-panel/index.php:1243
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1243
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1307
 #: build/masterslider/admin/views/slider-panel/index.php:1243
 msgid "Delay :"
-msgstr ""
+msgstr "Задержка:"
 
 #: admin/views/slider-panel/index.php:1245
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1245
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1309
 #: build/masterslider/admin/views/slider-panel/index.php:1245
 msgid "Layer transition out"
-msgstr ""
+msgstr "Эффект исчезновение слоя"
 
 #: admin/views/slider-panel/index.php:1247
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1247
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1311
 #: build/masterslider/admin/views/slider-panel/index.php:1247
 msgid "Enable transition out"
-msgstr ""
+msgstr "Включить эффект исчезновения"
 
 #: admin/views/slider-panel/index.php:1255
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1255
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1319
 #: build/masterslider/admin/views/slider-panel/index.php:1255
 msgid "Waiting :"
-msgstr ""
+msgstr "Ожидание:"
 
 #: admin/views/slider-panel/index.php:1268
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1268
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1332
 #: build/masterslider/admin/views/slider-panel/index.php:1268
 msgid "Layer position origin :"
-msgstr ""
+msgstr "Позиционирование слоя:"
 
 #: admin/views/slider-panel/index.php:1270
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1270
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1334
 #: build/masterslider/admin/views/slider-panel/index.php:1270
 msgid "OffsetX :"
-msgstr ""
+msgstr "Смещение по X:"
 
 #: admin/views/slider-panel/index.php:1272
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1272
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1336
 #: build/masterslider/admin/views/slider-panel/index.php:1272
 msgid "OffsetY :"
-msgstr ""
+msgstr "Смещение по Y:"
 
 #: admin/views/slider-panel/index.php:1281
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1281
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1345
 #: build/masterslider/admin/views/slider-panel/index.php:1281
 msgid "Layer style settings"
-msgstr ""
+msgstr "Настройки стиля слоя"
 
 #: admin/views/slider-panel/index.php:1283
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1283
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1347
 #: build/masterslider/admin/views/slider-panel/index.php:1283
 msgid "Select style for your layer :"
-msgstr ""
+msgstr "Выберите стиль для вашего слоя:"
 
 #: admin/views/slider-panel/index.php:1283
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1283
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1347
 #: build/masterslider/admin/views/slider-panel/index.php:1283
 msgid "Select..."
-msgstr ""
+msgstr "Выбрать..."
 
 #: admin/views/slider-panel/index.php:1287
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1287
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1351
 #: build/masterslider/admin/views/slider-panel/index.php:1287
 msgid "Resizable layer :"
-msgstr ""
+msgstr "Адаптивный слой:"
 
 #: admin/views/slider-panel/index.php:1289
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1289
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1353
 #: build/masterslider/admin/views/slider-panel/index.php:1289
 msgid "Hide layer under width :"
-msgstr ""
+msgstr "Скрыть слой при ширине:"
 
 #: admin/views/slider-panel/index.php:1292
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1292
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1356
 #: build/masterslider/admin/views/slider-panel/index.php:1292
 msgid "Don't change layer position when resizing browser :"
-msgstr ""
+msgstr "Не менять позицию при изменении размеров браузера:"
 
 #: admin/views/slider-panel/index.php:1304
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1304
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1368
 #: build/masterslider/admin/views/slider-panel/index.php:1304
 msgid "CSS class name :"
-msgstr ""
+msgstr "Имя класса CSS:"
 
 #: admin/views/slider-panel/index.php:1309
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1309
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1373
 #: build/masterslider/admin/views/slider-panel/index.php:1309
 msgid "Title attribute :"
-msgstr ""
+msgstr "Атрибут title:"
 
 #: admin/views/slider-panel/index.php:1311
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1311
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1375
 #: build/masterslider/admin/views/slider-panel/index.php:1311
 msgid "Rel attribute :"
-msgstr ""
+msgstr "Атрибут rel:"
 
 #: admin/views/slider-panel/index.php:1322
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1322
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1386
 #: build/masterslider/admin/views/slider-panel/index.php:1322
 msgid "Font and typography"
-msgstr ""
+msgstr "Шрифт и типография"
 
 #: admin/views/slider-panel/index.php:1323
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1323
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1387
 #: build/masterslider/admin/views/slider-panel/index.php:1323
 msgid "Border"
-msgstr ""
+msgstr "Границы"
 
 #: admin/views/slider-panel/index.php:39 admin/views/slider-panel/index.php:412
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:39
@@ -2449,7 +2449,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:39
 #: build/masterslider/admin/views/slider-panel/index.php:412
 msgid "Facebook Settings"
-msgstr ""
+msgstr "Настройки Facebook"
 
 #: admin/views/slider-panel/index.php:40 admin/views/slider-panel/index.php:472
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:40
@@ -2460,7 +2460,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:40
 #: build/masterslider/admin/views/slider-panel/index.php:472
 msgid "Posts Settings"
-msgstr ""
+msgstr "Настройка записей"
 
 #: admin/views/slider-panel/index.php:41 admin/views/slider-panel/index.php:581
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:41
@@ -2471,7 +2471,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:41
 #: build/masterslider/admin/views/slider-panel/index.php:581
 msgid "Product Slider Settings"
-msgstr ""
+msgstr "Настройки слайдера товаров"
 
 #: admin/includes/classes/class-msp-list-table.php:36
 #: admin/views/slider-panel/index.php:42 admin/views/slider-panel/index.php:689
@@ -2548,21 +2548,21 @@ msgstr "Сохранить изменения"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:79
 #: build/masterslider/admin/views/slider-panel/index.php:71
 msgid "Ooops! It seems Woocommers plugin is not installed."
-msgstr ""
+msgstr "Ой! Похоже плагин WooCommerce не установлен или не активирован."
 
 #: admin/views/slider-panel/index.php:73
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:73
 #: bower_components/averta-masterslider-wp-panel/src/index.php:81
 #: build/masterslider/admin/views/slider-panel/index.php:73
 msgid "This type of slider requiers the Woocommers plugin. "
-msgstr ""
+msgstr "Для этого типа слайдеров необходим плагин WooCommerce."
 
 #: admin/views/slider-panel/index.php:74
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:74
 #: bower_components/averta-masterslider-wp-panel/src/index.php:82
 #: build/masterslider/admin/views/slider-panel/index.php:74
 msgid "Please install and activate it first."
-msgstr ""
+msgstr "Пожалуйста, сначала установите и активируйте."
 
 #: admin/views/slider-panel/index.php:84
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:167
@@ -2633,28 +2633,28 @@ msgstr "Полная ширина"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:116
 #: build/masterslider/admin/views/slider-panel/index.php:105
 msgid "Full-screen"
-msgstr ""
+msgstr "Во весь экран"
 
 #: admin/views/slider-panel/index.php:106
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:106
 #: bower_components/averta-masterslider-wp-panel/src/index.php:117
 #: build/masterslider/admin/views/slider-panel/index.php:106
 msgid "Auto size width to fill slider parent element"
-msgstr ""
+msgstr "Подгонять ширину слайдера под родительский элемент"
 
 #: admin/views/slider-panel/index.php:107
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:107
 #: bower_components/averta-masterslider-wp-panel/src/index.php:118
 #: build/masterslider/admin/views/slider-panel/index.php:107
 msgid "Auto size width and height to fill slider parent element"
-msgstr ""
+msgstr "Подгонять ширину и высоту слайдера под родительский элемент"
 
 #: admin/views/slider-panel/index.php:108
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:108
 #: bower_components/averta-masterslider-wp-panel/src/index.php:119
 #: build/masterslider/admin/views/slider-panel/index.php:108
 msgid "Boxed and visible nearby slides"
-msgstr ""
+msgstr "Блочный с видимыми рядом слайдами"
 
 #: admin/views/slider-panel/index.php:112
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:191
@@ -2669,7 +2669,7 @@ msgstr "Автоподгонка по&nbsp;высоте"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:129
 #: build/masterslider/admin/views/slider-panel/index.php:116
 msgid "Fullscreen margin :"
-msgstr ""
+msgstr "Отступы при полноэкранном режиме"
 
 #: admin/views/slider-panel/index.php:131
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:201
@@ -2684,28 +2684,28 @@ msgstr "Ширина контейнера:"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:160
 #: build/masterslider/admin/views/slider-panel/index.php:143
 msgid "Slider Template"
-msgstr ""
+msgstr "Шаблон слайдера"
 
 #: admin/views/slider-panel/index.php:145
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:145
 #: bower_components/averta-masterslider-wp-panel/src/index.php:168
 #: build/masterslider/admin/views/slider-panel/index.php:145
 msgid "Select slider template here, click on \"Choose template\" for list of all templates."
-msgstr ""
+msgstr "Выберите шаблон слайдера, нажмите  \"Выбрать шаблон\" чтобы отобразить список шаблонов."
 
 #: admin/views/slider-panel/index.php:147
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:147
 #: bower_components/averta-masterslider-wp-panel/src/index.php:170
 #: build/masterslider/admin/views/slider-panel/index.php:147
 msgid "Template:"
-msgstr ""
+msgstr "Шаблон:"
 
 #: admin/views/slider-panel/index.php:152
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:152
 #: bower_components/averta-masterslider-wp-panel/src/index.php:175
 #: build/masterslider/admin/views/slider-panel/index.php:152
 msgid "Choose template"
-msgstr ""
+msgstr "Выберите шаблон"
 
 #: admin/views/slider-panel/index.php:157
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:216
@@ -2721,7 +2721,7 @@ msgstr "Способ трансформации слайдера, скорост
 #: bower_components/averta-masterslider-wp-panel/src/index.php:184
 #: build/masterslider/admin/views/slider-panel/index.php:160
 msgid "Transition :"
-msgstr "Трансформация:"
+msgstr "Переход:"
 
 #: admin/views/slider-panel/index.php:177
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:225
@@ -2729,7 +2729,7 @@ msgstr "Трансформация:"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:205
 #: build/masterslider/admin/views/slider-panel/index.php:177
 msgid "Transition speed :"
-msgstr "Скорость трансформации:"
+msgstr "Скорость перехода:"
 
 #: admin/views/slider-panel/index.php:180
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:228
@@ -2755,7 +2755,7 @@ msgstr "Направление:"
 #: build/masterslider/admin/views/slider-panel/index.php:1703
 #: build/masterslider/admin/views/slider-panel/index.php:1839
 msgid "Horizontal"
-msgstr "Горизонтальная"
+msgstr "Горизонтально"
 
 #: admin/views/slider-panel/index.php:183
 #: admin/views/slider-panel/index.php:1704
@@ -2773,7 +2773,7 @@ msgstr "Горизонтальная"
 #: build/masterslider/admin/views/slider-panel/index.php:1704
 #: build/masterslider/admin/views/slider-panel/index.php:1840
 msgid "Vertical"
-msgstr "Вертикальная"
+msgstr "Вертикально"
 
 #: admin/views/slider-panel/index.php:186
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:234
@@ -2836,63 +2836,63 @@ msgstr "Случайный порядок"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:237
 #: build/masterslider/admin/views/slider-panel/index.php:208
 msgid "Hide layers before changing slide"
-msgstr ""
+msgstr "Скрыть слои перед сменой слайда"
 
 #: admin/views/slider-panel/index.php:211
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:211
 #: bower_components/averta-masterslider-wp-panel/src/index.php:242
 #: build/masterslider/admin/views/slider-panel/index.php:211
 msgid "Show layers before slide transition complete"
-msgstr ""
+msgstr "Отобразить слои перед окончанием перехода"
 
 #: admin/views/slider-panel/index.php:231
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:231
 #: bower_components/averta-masterslider-wp-panel/src/index.php:264
 #: build/masterslider/admin/views/slider-panel/index.php:231
 msgid "Layers parallax mode"
-msgstr ""
+msgstr "Режим параллакса слоев"
 
 #: admin/views/slider-panel/index.php:233
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:233
 #: bower_components/averta-masterslider-wp-panel/src/index.php:266
 #: build/masterslider/admin/views/slider-panel/index.php:233
 msgid "Parallax mode : "
-msgstr ""
+msgstr "Режим параллакса:"
 
 #: admin/views/slider-panel/index.php:235
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:235
 #: bower_components/averta-masterslider-wp-panel/src/index.php:268
 #: build/masterslider/admin/views/slider-panel/index.php:235
 msgid "Move while sliding/swiping"
-msgstr ""
+msgstr "Двигать при смене слайдов"
 
 #: admin/views/slider-panel/index.php:236
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:236
 #: bower_components/averta-masterslider-wp-panel/src/index.php:269
 #: build/masterslider/admin/views/slider-panel/index.php:236
 msgid "Follow mouse"
-msgstr ""
+msgstr "Следить за мышкой"
 
 #: admin/views/slider-panel/index.php:237
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:237
 #: bower_components/averta-masterslider-wp-panel/src/index.php:270
 #: build/masterslider/admin/views/slider-panel/index.php:237
 msgid "Follow mouse over X-axis"
-msgstr ""
+msgstr "Следить за мышью по оси X"
 
 #: admin/views/slider-panel/index.php:238
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:238
 #: bower_components/averta-masterslider-wp-panel/src/index.php:271
 #: build/masterslider/admin/views/slider-panel/index.php:238
 msgid "Follow mouse over Y-axis"
-msgstr ""
+msgstr "Следить за мышью по оси Y"
 
 #: admin/views/slider-panel/index.php:239
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:239
 #: bower_components/averta-masterslider-wp-panel/src/index.php:272
 #: build/masterslider/admin/views/slider-panel/index.php:239
 msgid "Disable"
-msgstr ""
+msgstr "Отключить"
 
 #: admin/views/slider-panel/index.php:256
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:259
@@ -2980,7 +2980,7 @@ msgstr "Количество слайдов"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:324
 #: build/masterslider/admin/views/slider-panel/index.php:288
 msgid "Appearance"
-msgstr ""
+msgstr "Отображение"
 
 #: admin/views/global/gallery-templates.php:132
 #: admin/views/slider-panel/index.php:291
@@ -3006,7 +3006,7 @@ msgstr "Стиль"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:336
 #: build/masterslider/admin/views/slider-panel/index.php:300
 msgid "Default"
-msgstr ""
+msgstr "По-умолчанию"
 
 #: admin/views/slider-panel/index.php:301
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:302
@@ -3014,7 +3014,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:337
 #: build/masterslider/admin/views/slider-panel/index.php:301
 msgid "Light 2"
-msgstr ""
+msgstr "Светлый 2"
 
 #: admin/views/slider-panel/index.php:302
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:303
@@ -3022,7 +3022,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:338
 #: build/masterslider/admin/views/slider-panel/index.php:302
 msgid "Light 3"
-msgstr ""
+msgstr "Светлый 3"
 
 #: admin/views/slider-panel/index.php:303
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:304
@@ -3030,7 +3030,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:339
 #: build/masterslider/admin/views/slider-panel/index.php:303
 msgid "Light 4"
-msgstr ""
+msgstr "Светлый 4"
 
 #: admin/views/slider-panel/index.php:304
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:305
@@ -3038,7 +3038,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:340
 #: build/masterslider/admin/views/slider-panel/index.php:304
 msgid "Light 5"
-msgstr ""
+msgstr "Светлый 5"
 
 #: admin/views/slider-panel/index.php:305
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:306
@@ -3046,7 +3046,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:341
 #: build/masterslider/admin/views/slider-panel/index.php:305
 msgid "Light 6"
-msgstr ""
+msgstr "Светлый 6"
 
 #: admin/views/slider-panel/index.php:306
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:307
@@ -3054,7 +3054,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:342
 #: build/masterslider/admin/views/slider-panel/index.php:306
 msgid "Light 6 Round"
-msgstr ""
+msgstr "Светлый 6 округленный"
 
 #: admin/views/slider-panel/index.php:307
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:308
@@ -3062,7 +3062,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:343
 #: build/masterslider/admin/views/slider-panel/index.php:307
 msgid "Contrast"
-msgstr ""
+msgstr "Контрастный"
 
 #: admin/views/slider-panel/index.php:308
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:309
@@ -3070,7 +3070,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:344
 #: build/masterslider/admin/views/slider-panel/index.php:308
 msgid "Black 1"
-msgstr ""
+msgstr "Темный 1"
 
 #: admin/views/slider-panel/index.php:309
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:310
@@ -3078,7 +3078,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:345
 #: build/masterslider/admin/views/slider-panel/index.php:309
 msgid "Black 2"
-msgstr ""
+msgstr "Темный 2"
 
 #: admin/views/slider-panel/index.php:310
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:311
@@ -3086,7 +3086,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:346
 #: build/masterslider/admin/views/slider-panel/index.php:310
 msgid "Black 2 Round"
-msgstr ""
+msgstr "Темный 2 округленный"
 
 #: admin/views/slider-panel/index.php:311
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:312
@@ -3094,7 +3094,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:347
 #: build/masterslider/admin/views/slider-panel/index.php:311
 msgid "Metro"
-msgstr ""
+msgstr "Метро-стиль"
 
 #: admin/views/slider-panel/index.php:316
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:317
@@ -3102,7 +3102,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:352
 #: build/masterslider/admin/views/slider-panel/index.php:316
 msgid "Align center slider controls :"
-msgstr ""
+msgstr "Выровнять элементы управления слайдером по центру:"
 
 #: admin/views/slider-panel/index.php:318
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:319
@@ -3179,21 +3179,21 @@ msgstr "Инлайновые стили:"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:383
 #: build/masterslider/admin/views/slider-panel/index.php:346
 msgid "Enter your Flickr API key here"
-msgstr ""
+msgstr "Введите ваш API ключ Flickr"
 
 #: admin/views/slider-panel/index.php:348
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:348
 #: bower_components/averta-masterslider-wp-panel/src/index.php:385
 #: build/masterslider/admin/views/slider-panel/index.php:348
 msgid "API key :"
-msgstr ""
+msgstr "API ключ:"
 
 #: admin/views/slider-panel/index.php:351
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:351
 #: bower_components/averta-masterslider-wp-panel/src/index.php:388
 #: build/masterslider/admin/views/slider-panel/index.php:351
 msgid "Don't have API key?"
-msgstr ""
+msgstr "Нет ключа API?"
 
 #: admin/views/slider-panel/index.php:352
 #: admin/views/slider-panel/index.php:374
@@ -3212,14 +3212,14 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:378
 #: build/masterslider/admin/views/slider-panel/index.php:434
 msgid "See here for more details."
-msgstr ""
+msgstr "Дополнительная информация тут."
 
 #: admin/views/slider-panel/index.php:355
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:355
 #: bower_components/averta-masterslider-wp-panel/src/index.php:392
 #: build/masterslider/admin/views/slider-panel/index.php:355
 msgid "Create slides from user images or photoset images"
-msgstr ""
+msgstr "Создавать слайды из изображений пользователя или фотосетов"
 
 #: admin/views/slider-panel/index.php:357
 #: admin/views/slider-panel/index.php:416
@@ -3230,7 +3230,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:357
 #: build/masterslider/admin/views/slider-panel/index.php:416
 msgid "Create slides from :"
-msgstr ""
+msgstr "Создать слайды из:"
 
 #: admin/views/slider-panel/index.php:359
 #: admin/views/slider-panel/index.php:418
@@ -3241,42 +3241,42 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:359
 #: build/masterslider/admin/views/slider-panel/index.php:418
 msgid "User public photos"
-msgstr ""
+msgstr "Публичные фото пользователя"
 
 #: admin/views/slider-panel/index.php:360
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:360
 #: bower_components/averta-masterslider-wp-panel/src/index.php:397
 #: build/masterslider/admin/views/slider-panel/index.php:360
 msgid "Photos in a set"
-msgstr ""
+msgstr "Фото в сете"
 
 #: admin/views/slider-panel/index.php:365
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:365
 #: bower_components/averta-masterslider-wp-panel/src/index.php:402
 #: build/masterslider/admin/views/slider-panel/index.php:365
 msgid "Photoset Id :"
-msgstr ""
+msgstr "ID фотосета:"
 
 #: admin/views/slider-panel/index.php:367
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:367
 #: bower_components/averta-masterslider-wp-panel/src/index.php:404
 #: build/masterslider/admin/views/slider-panel/index.php:367
 msgid "User Id :"
-msgstr ""
+msgstr "ID пользователя:"
 
 #: admin/views/slider-panel/index.php:373
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:373
 #: bower_components/averta-masterslider-wp-panel/src/index.php:410
 #: build/masterslider/admin/views/slider-panel/index.php:373
 msgid "Don't have you photoset id?"
-msgstr ""
+msgstr "У вас есть ID фотосета?"
 
 #: admin/views/slider-panel/index.php:377
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:377
 #: bower_components/averta-masterslider-wp-panel/src/index.php:414
 #: build/masterslider/admin/views/slider-panel/index.php:377
 msgid "Don't have the user id?"
-msgstr ""
+msgstr "У вас нет ID пользователя?"
 
 #: admin/views/slider-panel/index.php:383
 #: admin/views/slider-panel/index.php:439
@@ -3287,7 +3287,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:383
 #: build/masterslider/admin/views/slider-panel/index.php:439
 msgid "Number of photos and size of images and thumbnails"
-msgstr ""
+msgstr "Количество фото и размеры изображений и миниатюр"
 
 #: admin/views/slider-panel/index.php:385
 #: admin/views/slider-panel/index.php:441
@@ -3298,7 +3298,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:385
 #: build/masterslider/admin/views/slider-panel/index.php:441
 msgid "Number of photos :"
-msgstr ""
+msgstr "Количество фото:"
 
 #: admin/views/slider-panel/index.php:388
 #: admin/views/slider-panel/index.php:444
@@ -3309,35 +3309,35 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:388
 #: build/masterslider/admin/views/slider-panel/index.php:444
 msgid "Images size :"
-msgstr ""
+msgstr "Размер изображения:"
 
 #: admin/views/slider-panel/index.php:390
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:390
 #: bower_components/averta-masterslider-wp-panel/src/index.php:427
 #: build/masterslider/admin/views/slider-panel/index.php:390
 msgid "800px on longest side"
-msgstr ""
+msgstr "800px по высоте"
 
 #: admin/views/slider-panel/index.php:391
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:391
 #: bower_components/averta-masterslider-wp-panel/src/index.php:428
 #: build/masterslider/admin/views/slider-panel/index.php:391
 msgid "500px on longest side"
-msgstr ""
+msgstr "500px по высоте"
 
 #: admin/views/slider-panel/index.php:392
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:392
 #: bower_components/averta-masterslider-wp-panel/src/index.php:429
 #: build/masterslider/admin/views/slider-panel/index.php:392
 msgid "640px on longest side"
-msgstr ""
+msgstr "640px по высоте"
 
 #: admin/views/slider-panel/index.php:393
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:393
 #: bower_components/averta-masterslider-wp-panel/src/index.php:430
 #: build/masterslider/admin/views/slider-panel/index.php:393
 msgid "1024px on longest side"
-msgstr ""
+msgstr "1024px по высоте"
 
 #: admin/views/slider-panel/index.php:394
 #: admin/views/slider-panel/index.php:446
@@ -3352,7 +3352,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:446
 #: build/masterslider/admin/views/slider-panel/index.php:456
 msgid "Original image"
-msgstr ""
+msgstr "Оригинал изображения"
 
 #: admin/views/slider-panel/index.php:397
 #: admin/views/slider-panel/index.php:454
@@ -3363,63 +3363,63 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:397
 #: build/masterslider/admin/views/slider-panel/index.php:454
 msgid "Thumbnails size :"
-msgstr ""
+msgstr "Размеры миниатюры:"
 
 #: admin/views/slider-panel/index.php:399
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:399
 #: bower_components/averta-masterslider-wp-panel/src/index.php:436
 #: build/masterslider/admin/views/slider-panel/index.php:399
 msgid "Large square 150x150"
-msgstr ""
+msgstr "Большой квадрат 150x150"
 
 #: admin/views/slider-panel/index.php:400
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:400
 #: bower_components/averta-masterslider-wp-panel/src/index.php:437
 #: build/masterslider/admin/views/slider-panel/index.php:400
 msgid "Small square 75x75"
-msgstr ""
+msgstr "Малый квадрат 75x75"
 
 #: admin/views/slider-panel/index.php:401
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:401
 #: bower_components/averta-masterslider-wp-panel/src/index.php:438
 #: build/masterslider/admin/views/slider-panel/index.php:401
 msgid "100px on longest side"
-msgstr ""
+msgstr "100px по высоте"
 
 #: admin/views/slider-panel/index.php:414
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:414
 #: bower_components/averta-masterslider-wp-panel/src/index.php:451
 #: build/masterslider/admin/views/slider-panel/index.php:414
 msgid "Create slides from user images or album images"
-msgstr ""
+msgstr "Создать слайды из изображений пользователя или альбома"
 
 #: admin/views/slider-panel/index.php:419
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:419
 #: bower_components/averta-masterslider-wp-panel/src/index.php:456
 #: build/masterslider/admin/views/slider-panel/index.php:419
 msgid "Photos in a album"
-msgstr ""
+msgstr "Фото в альбоме"
 
 #: admin/views/slider-panel/index.php:424
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:424
 #: bower_components/averta-masterslider-wp-panel/src/index.php:461
 #: build/masterslider/admin/views/slider-panel/index.php:424
 msgid "Username :"
-msgstr ""
+msgstr "Имя пользователя:"
 
 #: admin/views/slider-panel/index.php:426
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:426
 #: bower_components/averta-masterslider-wp-panel/src/index.php:463
 #: build/masterslider/admin/views/slider-panel/index.php:426
 msgid "Album id :"
-msgstr ""
+msgstr "ID альбома:"
 
 #: admin/views/slider-panel/index.php:433
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:433
 #: bower_components/averta-masterslider-wp-panel/src/index.php:470
 #: build/masterslider/admin/views/slider-panel/index.php:433
 msgid "Don't have you album id?"
-msgstr ""
+msgstr "У вас есть ID альбома?"
 
 #: admin/views/slider-panel/index.php:447
 #: admin/views/slider-panel/index.php:457
@@ -3430,7 +3430,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:447
 #: build/masterslider/admin/views/slider-panel/index.php:457
 msgid "960px on longest side"
-msgstr ""
+msgstr "960px по высоте"
 
 #: admin/views/slider-panel/index.php:448
 #: admin/views/slider-panel/index.php:458
@@ -3441,7 +3441,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:448
 #: build/masterslider/admin/views/slider-panel/index.php:458
 msgid "720px on longest side"
-msgstr ""
+msgstr "720px по высоте"
 
 #: admin/views/slider-panel/index.php:449
 #: admin/views/slider-panel/index.php:459
@@ -3452,7 +3452,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:449
 #: build/masterslider/admin/views/slider-panel/index.php:459
 msgid "600px on longest side"
-msgstr ""
+msgstr "600px по высоте"
 
 #: admin/views/slider-panel/index.php:450
 #: admin/views/slider-panel/index.php:460
@@ -3463,7 +3463,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:450
 #: build/masterslider/admin/views/slider-panel/index.php:460
 msgid "480px on longest side"
-msgstr ""
+msgstr "480px по высоте"
 
 #: admin/views/slider-panel/index.php:451
 #: admin/views/slider-panel/index.php:461
@@ -3474,7 +3474,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:451
 #: build/masterslider/admin/views/slider-panel/index.php:461
 msgid "320px on longest side"
-msgstr ""
+msgstr "320px по высоте"
 
 #: admin/views/slider-panel/index.php:474
 #: admin/views/slider-panel/index.php:584
@@ -3485,14 +3485,14 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:474
 #: build/masterslider/admin/views/slider-panel/index.php:584
 msgid "Create slides from below filter"
-msgstr ""
+msgstr "Создать слайды из фильтра"
 
 #: admin/views/slider-panel/index.php:476
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:476
 #: bower_components/averta-masterslider-wp-panel/src/index.php:513
 #: build/masterslider/admin/views/slider-panel/index.php:476
 msgid "Post type :"
-msgstr ""
+msgstr "Тип записи:"
 
 #: admin/views/slider-panel/index.php:486
 #: admin/views/slider-panel/index.php:586
@@ -3503,7 +3503,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:486
 #: build/masterslider/admin/views/slider-panel/index.php:586
 msgid "Categories :"
-msgstr ""
+msgstr "Рубрики:"
 
 #: admin/views/slider-panel/index.php:488
 #: admin/views/slider-panel/index.php:588
@@ -3514,7 +3514,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:488
 #: build/masterslider/admin/views/slider-panel/index.php:588
 msgid "All Categories"
-msgstr ""
+msgstr "Все рубрики"
 
 #: admin/views/slider-panel/index.php:496
 #: admin/views/slider-panel/index.php:594
@@ -3525,7 +3525,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:496
 #: build/masterslider/admin/views/slider-panel/index.php:594
 msgid "Tags :"
-msgstr ""
+msgstr "Метки:"
 
 #: admin/views/slider-panel/index.php:498
 #: admin/views/slider-panel/index.php:596
@@ -3536,14 +3536,14 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:498
 #: build/masterslider/admin/views/slider-panel/index.php:596
 msgid "All Tags"
-msgstr ""
+msgstr "Все метки"
 
 #: admin/views/slider-panel/index.php:507
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:507
 #: bower_components/averta-masterslider-wp-panel/src/index.php:544
 #: build/masterslider/admin/views/slider-panel/index.php:507
 msgid "Exclude posts :"
-msgstr ""
+msgstr "Исключить записи:"
 
 #: admin/views/slider-panel/index.php:508
 #: admin/views/slider-panel/index.php:512
@@ -3554,21 +3554,21 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:508
 #: build/masterslider/admin/views/slider-panel/index.php:512
 msgid "post IDs separated by comma (eg. 53,34,87,25)"
-msgstr ""
+msgstr "ID записей, разделенные запятыми (пример, 53,34,87,25)"
 
 #: admin/views/slider-panel/index.php:514
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:514
 #: bower_components/averta-masterslider-wp-panel/src/index.php:551
 #: build/masterslider/admin/views/slider-panel/index.php:514
 msgid "Maximum number of posts to include in slider and length of excerpt"
-msgstr ""
+msgstr "Максимальное количество записей для слайдера и длина цитаты"
 
 #: admin/views/slider-panel/index.php:516
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:516
 #: bower_components/averta-masterslider-wp-panel/src/index.php:553
 #: build/masterslider/admin/views/slider-panel/index.php:516
 msgid "Posts number :"
-msgstr ""
+msgstr "Количество записей:"
 
 #: admin/views/slider-panel/index.php:518
 #: admin/views/slider-panel/index.php:621
@@ -3579,7 +3579,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:518
 #: build/masterslider/admin/views/slider-panel/index.php:621
 msgid "Excerpt length :"
-msgstr ""
+msgstr "Длина цитаты:"
 
 #: admin/views/slider-panel/index.php:518
 #: admin/views/slider-panel/index.php:621
@@ -3590,7 +3590,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:518
 #: build/masterslider/admin/views/slider-panel/index.php:621
 msgid "character(s)"
-msgstr ""
+msgstr "символ(ов)"
 
 #: admin/views/slider-panel/index.php:521
 #: admin/views/slider-panel/index.php:624
@@ -3601,21 +3601,21 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:521
 #: build/masterslider/admin/views/slider-panel/index.php:624
 msgid "Number of first results to skip (offset) :"
-msgstr ""
+msgstr "Число элементов для пропуска (отступ):"
 
 #: admin/views/slider-panel/index.php:523
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:523
 #: bower_components/averta-masterslider-wp-panel/src/index.php:560
 #: build/masterslider/admin/views/slider-panel/index.php:523
 msgid "Link slides to post's page"
-msgstr ""
+msgstr "Ссылка слайда на страницу"
 
 #: admin/views/slider-panel/index.php:525
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:525
 #: bower_components/averta-masterslider-wp-panel/src/index.php:562
 #: build/masterslider/admin/views/slider-panel/index.php:525
 msgid "Link slides to post's page : "
-msgstr ""
+msgstr "Ссылка слайда на страницу:"
 
 #: admin/views/slider-panel/index.php:529
 #: admin/views/slider-panel/index.php:632
@@ -3626,7 +3626,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:529
 #: build/masterslider/admin/views/slider-panel/index.php:632
 msgid "Slide link target : "
-msgstr ""
+msgstr "Цель ссылки:"
 
 #: admin/views/slider-panel/index.php:532
 #: admin/views/slider-panel/index.php:635
@@ -3637,7 +3637,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:532
 #: build/masterslider/admin/views/slider-panel/index.php:635
 msgid "Order of slides"
-msgstr ""
+msgstr "Порядок слайдов"
 
 #: admin/views/slider-panel/index.php:534
 #: admin/views/slider-panel/index.php:637
@@ -3648,7 +3648,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:534
 #: build/masterslider/admin/views/slider-panel/index.php:637
 msgid "Order by :"
-msgstr ""
+msgstr "Сортировка:"
 
 #: admin/views/slider-panel/index.php:536
 #: admin/views/slider-panel/index.php:639
@@ -3659,7 +3659,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:536
 #: build/masterslider/admin/views/slider-panel/index.php:639
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: admin/views/slider-panel/index.php:537
 #: admin/views/slider-panel/index.php:640
@@ -3670,7 +3670,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:537
 #: build/masterslider/admin/views/slider-panel/index.php:640
 msgid "Menu Order"
-msgstr ""
+msgstr "Порядок меню"
 
 #: admin/views/slider-panel/index.php:538
 #: admin/views/slider-panel/index.php:641
@@ -3681,7 +3681,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:538
 #: build/masterslider/admin/views/slider-panel/index.php:641
 msgid "Title"
-msgstr ""
+msgstr "Заголовок"
 
 #: admin/includes/classes/class-msp-list-table.php:33
 #: admin/views/slider-panel/index.php:539
@@ -3694,7 +3694,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:539
 #: build/masterslider/admin/views/slider-panel/index.php:642
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: admin/views/slider-panel/index.php:540
 #: admin/views/slider-panel/index.php:643
@@ -3705,7 +3705,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:540
 #: build/masterslider/admin/views/slider-panel/index.php:643
 msgid "Random"
-msgstr ""
+msgstr "Случайно"
 
 #: admin/views/slider-panel/index.php:541
 #: admin/views/slider-panel/index.php:644
@@ -3716,7 +3716,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:541
 #: build/masterslider/admin/views/slider-panel/index.php:644
 msgid "Comments"
-msgstr ""
+msgstr "Комментарии"
 
 #: admin/views/slider-panel/index.php:542
 #: admin/views/slider-panel/index.php:645
@@ -3727,7 +3727,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:542
 #: build/masterslider/admin/views/slider-panel/index.php:645
 msgid "Date Modified"
-msgstr ""
+msgstr "Дата изменения"
 
 #: admin/views/slider-panel/index.php:543
 #: admin/views/slider-panel/index.php:646
@@ -3738,7 +3738,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:543
 #: build/masterslider/admin/views/slider-panel/index.php:646
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 #: admin/views/slider-panel/index.php:546
 #: admin/views/slider-panel/index.php:653
@@ -3749,7 +3749,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:546
 #: build/masterslider/admin/views/slider-panel/index.php:653
 msgid "Order direction :"
-msgstr ""
+msgstr "Порядок:"
 
 #: admin/views/slider-panel/index.php:548
 #: admin/views/slider-panel/index.php:655
@@ -3760,7 +3760,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:548
 #: build/masterslider/admin/views/slider-panel/index.php:655
 msgid "Descending"
-msgstr ""
+msgstr "Убывание"
 
 #: admin/views/slider-panel/index.php:549
 #: admin/views/slider-panel/index.php:656
@@ -3771,7 +3771,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:549
 #: build/masterslider/admin/views/slider-panel/index.php:656
 msgid "Ascending"
-msgstr ""
+msgstr "Возрастание"
 
 #: admin/views/slider-panel/index.php:552
 #: admin/views/slider-panel/index.php:659
@@ -3782,7 +3782,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:552
 #: build/masterslider/admin/views/slider-panel/index.php:659
 msgid "Use as background image of slide"
-msgstr ""
+msgstr "Использовать в качестве фона слайда"
 
 #: admin/views/slider-panel/index.php:554
 #: admin/views/slider-panel/index.php:661
@@ -3793,7 +3793,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:554
 #: build/masterslider/admin/views/slider-panel/index.php:661
 msgid "Grab the image from :"
-msgstr ""
+msgstr "Взять изображение из:"
 
 #: admin/views/slider-panel/index.php:556
 #: admin/views/slider-panel/index.php:663
@@ -3804,7 +3804,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:556
 #: build/masterslider/admin/views/slider-panel/index.php:663
 msgid "Auto Select"
-msgstr ""
+msgstr "Автовыбор"
 
 #: admin/views/slider-panel/index.php:557
 #: admin/views/slider-panel/index.php:664
@@ -3815,7 +3815,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:557
 #: build/masterslider/admin/views/slider-panel/index.php:664
 msgid "Featured Image"
-msgstr ""
+msgstr "Тизер"
 
 #: admin/views/slider-panel/index.php:558
 #: admin/views/slider-panel/index.php:665
@@ -3826,7 +3826,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:558
 #: build/masterslider/admin/views/slider-panel/index.php:665
 msgid "First Image in Post"
-msgstr ""
+msgstr "Первое изображение в записи"
 
 #: admin/views/slider-panel/index.php:559
 #: admin/views/slider-panel/index.php:666
@@ -3837,147 +3837,147 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:559
 #: build/masterslider/admin/views/slider-panel/index.php:666
 msgid "Custom Image"
-msgstr ""
+msgstr "Произвольное изображение"
 
 #: admin/views/slider-panel/index.php:572
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:572
 #: bower_components/averta-masterslider-wp-panel/src/index.php:609
 #: build/masterslider/admin/views/slider-panel/index.php:572
 msgid "Posts Preview"
-msgstr ""
+msgstr "Превью записей"
 
 #: admin/views/slider-panel/index.php:603
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:603
 #: bower_components/averta-masterslider-wp-panel/src/index.php:640
 #: build/masterslider/admin/views/slider-panel/index.php:603
 msgid "Only display in-stock products."
-msgstr ""
+msgstr "Отображать только товары в наличии."
 
 #: admin/views/slider-panel/index.php:606
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:606
 #: bower_components/averta-masterslider-wp-panel/src/index.php:643
 #: build/masterslider/admin/views/slider-panel/index.php:606
 msgid "Only display featured products."
-msgstr ""
+msgstr "Отображать только избранные товары."
 
 #: admin/views/slider-panel/index.php:609
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:609
 #: bower_components/averta-masterslider-wp-panel/src/index.php:646
 #: build/masterslider/admin/views/slider-panel/index.php:609
 msgid "Only display on sale products."
-msgstr ""
+msgstr "Отображать только акционные товары"
 
 #: admin/views/slider-panel/index.php:612
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:612
 #: bower_components/averta-masterslider-wp-panel/src/index.php:649
 #: build/masterslider/admin/views/slider-panel/index.php:612
 msgid "Enter the product IDs which you want to exclude"
-msgstr ""
+msgstr "Введите ID продуктов, которые желаете исключить"
 
 #: admin/views/slider-panel/index.php:614
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:614
 #: bower_components/averta-masterslider-wp-panel/src/index.php:651
 #: build/masterslider/admin/views/slider-panel/index.php:614
 msgid "Exclude products :"
-msgstr ""
+msgstr "Исключить товары:"
 
 #: admin/views/slider-panel/index.php:615
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:615
 #: bower_components/averta-masterslider-wp-panel/src/index.php:652
 #: build/masterslider/admin/views/slider-panel/index.php:615
 msgid "product IDs separated by comma (eg. 53,34,87,25)"
-msgstr ""
+msgstr "ID товаров через запятую (т.е. 53,34,87,25)"
 
 #: admin/views/slider-panel/index.php:617
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:617
 #: bower_components/averta-masterslider-wp-panel/src/index.php:654
 #: build/masterslider/admin/views/slider-panel/index.php:617
 msgid "Maximum number of products to include in slider and length of excerpt"
-msgstr ""
+msgstr "Максимальное количество товаров в слайдере и длина цитаты"
 
 #: admin/views/slider-panel/index.php:619
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:619
 #: bower_components/averta-masterslider-wp-panel/src/index.php:656
 #: build/masterslider/admin/views/slider-panel/index.php:619
 msgid "Products number :"
-msgstr ""
+msgstr "Количество товаров:"
 
 #: admin/views/slider-panel/index.php:626
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:626
 #: bower_components/averta-masterslider-wp-panel/src/index.php:663
 #: build/masterslider/admin/views/slider-panel/index.php:626
 msgid "Link slides to product's page"
-msgstr ""
+msgstr "Слайдер ссылается на страницу товара"
 
 #: admin/views/slider-panel/index.php:628
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:628
 #: bower_components/averta-masterslider-wp-panel/src/index.php:665
 #: build/masterslider/admin/views/slider-panel/index.php:628
 msgid "Link slides to product's page : "
-msgstr ""
+msgstr "Слайдер ссылается на страницу товара:"
 
 #: admin/views/slider-panel/index.php:647
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:647
 #: bower_components/averta-masterslider-wp-panel/src/index.php:684
 #: build/masterslider/admin/views/slider-panel/index.php:647
 msgid "Popularity"
-msgstr ""
+msgstr "Популярность"
 
 #: admin/views/slider-panel/index.php:648
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:648
 #: bower_components/averta-masterslider-wp-panel/src/index.php:685
 #: build/masterslider/admin/views/slider-panel/index.php:648
 msgid "Average rating"
-msgstr ""
+msgstr "Средний рейтинг"
 
 #: admin/views/slider-panel/index.php:649
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:649
 #: bower_components/averta-masterslider-wp-panel/src/index.php:686
 #: build/masterslider/admin/views/slider-panel/index.php:649
 msgid "Price: low to high"
-msgstr ""
+msgstr "Цена: возрастающая"
 
 #: admin/views/slider-panel/index.php:650
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:650
 #: bower_components/averta-masterslider-wp-panel/src/index.php:687
 #: build/masterslider/admin/views/slider-panel/index.php:650
 msgid "Price: high to low"
-msgstr ""
+msgstr "Цена: убывающая"
 
 #: admin/views/slider-panel/index.php:679
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:679
 #: bower_components/averta-masterslider-wp-panel/src/index.php:716
 #: build/masterslider/admin/views/slider-panel/index.php:679
 msgid "Products Preview"
-msgstr ""
+msgstr "Превью товаров"
 
 #: admin/views/slider-panel/index.php:699
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:699
 #: bower_components/averta-masterslider-wp-panel/src/index.php:739
 #: build/masterslider/admin/views/slider-panel/index.php:699
 msgid "Slides Template"
-msgstr ""
+msgstr "Шаблон слайдов"
 
 #: admin/views/slider-panel/index.php:702
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:702
 #: bower_components/averta-masterslider-wp-panel/src/index.php:742
 #: build/masterslider/admin/views/slider-panel/index.php:702
 msgid "In this section you can create slide template for your slider."
-msgstr ""
+msgstr "В этом разделе вы можете создать шаблон слайда для вашего слайдера."
 
 #: admin/views/slider-panel/index.php:703
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:703
 #: bower_components/averta-masterslider-wp-panel/src/index.php:743
 #: build/masterslider/admin/views/slider-panel/index.php:703
 msgid "Slide template will be used by the slider to create dynamically slides from posts, Facebook or Flickr photos."
-msgstr ""
+msgstr "Шаблон слайда будет использован слайдером для автосоздания слайдов из записей, Facebook или Flikr."
 
 #: admin/views/slider-panel/index.php:718
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:718
 #: bower_components/averta-masterslider-wp-panel/src/index.php:760
 #: build/masterslider/admin/views/slider-panel/index.php:718
 msgid "Fill Mode"
-msgstr ""
+msgstr "Режим заполения"
 
 #: admin/views/slider-panel/index.php:720
 #: admin/views/slider-panel/index.php:765
@@ -4016,7 +4016,7 @@ msgstr "Разное"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:771
 #: build/masterslider/admin/views/slider-panel/index.php:729
 msgid "Choose slide background fill mode"
-msgstr ""
+msgstr "Выберите режим заполнения фона для слайда"
 
 #: admin/views/slider-panel/index.php:731
 #: admin/views/slider-panel/index.php:791
@@ -4039,14 +4039,14 @@ msgstr "Режим заливки:"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:780
 #: build/masterslider/admin/views/slider-panel/index.php:738
 msgid "Slide background color"
-msgstr ""
+msgstr "Цвет фона слайда"
 
 #: admin/views/slider-panel/index.php:742
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:742
 #: bower_components/averta-masterslider-wp-panel/src/index.php:784
 #: build/masterslider/admin/views/slider-panel/index.php:742
 msgid "Custom class name for slide element"
-msgstr ""
+msgstr "Произвольный класс для элемента слайда"
 
 #: admin/views/slider-panel/index.php:761
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:364
@@ -4061,7 +4061,7 @@ msgstr "Фон"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:807
 #: build/masterslider/admin/views/slider-panel/index.php:762
 msgid "Video Background"
-msgstr ""
+msgstr "Фоновое видео"
 
 #: admin/views/slider-panel/index.php:763
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:365
@@ -4100,63 +4100,63 @@ msgstr "Эскиз:"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:862
 #: build/masterslider/admin/views/slider-panel/index.php:800
 msgid "Video background paths"
-msgstr ""
+msgstr "Путь к видео"
 
 #: admin/views/slider-panel/index.php:802
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:802
 #: bower_components/averta-masterslider-wp-panel/src/index.php:864
 #: build/masterslider/admin/views/slider-panel/index.php:802
 msgid "MP4 :"
-msgstr ""
+msgstr "MP4:"
 
 #: admin/views/slider-panel/index.php:803
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:803
 #: bower_components/averta-masterslider-wp-panel/src/index.php:865
 #: build/masterslider/admin/views/slider-panel/index.php:803
 msgid "Webm :"
-msgstr ""
+msgstr "Webm:"
 
 #: admin/views/slider-panel/index.php:806
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:806
 #: bower_components/averta-masterslider-wp-panel/src/index.php:868
 #: build/masterslider/admin/views/slider-panel/index.php:806
 msgid "Ogg :"
-msgstr ""
+msgstr "Ogg:"
 
 #: admin/views/slider-panel/index.php:808
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:808
 #: bower_components/averta-masterslider-wp-panel/src/index.php:870
 #: build/masterslider/admin/views/slider-panel/index.php:808
 msgid "Video background fill mode"
-msgstr ""
+msgstr "Режим заполнения видео"
 
 #: admin/views/slider-panel/index.php:812
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:812
 #: bower_components/averta-masterslider-wp-panel/src/index.php:874
 #: build/masterslider/admin/views/slider-panel/index.php:812
 msgid "Video background settings"
-msgstr ""
+msgstr "Настройки фонового видео"
 
 #: admin/views/slider-panel/index.php:814
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:814
 #: bower_components/averta-masterslider-wp-panel/src/index.php:876
 #: build/masterslider/admin/views/slider-panel/index.php:814
 msgid "Loop :"
-msgstr ""
+msgstr "Зациклить:"
 
 #: admin/views/slider-panel/index.php:816
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:816
 #: bower_components/averta-masterslider-wp-panel/src/index.php:878
 #: build/masterslider/admin/views/slider-panel/index.php:816
 msgid "Mute :"
-msgstr ""
+msgstr "Без звука:"
 
 #: admin/views/slider-panel/index.php:818
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:818
 #: bower_components/averta-masterslider-wp-panel/src/index.php:880
 #: build/masterslider/admin/views/slider-panel/index.php:818
 msgid "Pause video on slide changed :"
-msgstr ""
+msgstr "Остановить видео при смене слайда:"
 
 #: admin/views/slider-panel/index.php:825
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:409
@@ -4204,7 +4204,7 @@ msgstr "Видео с&nbsp;Youtube или Vimeo на&nbsp;слайде"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:905
 #: build/masterslider/admin/views/slider-panel/index.php:842
 msgid "Video embed src :"
-msgstr ""
+msgstr "Код вставки видео:"
 
 #: admin/views/slider-panel/index.php:856
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:440
@@ -4212,7 +4212,7 @@ msgstr ""
 #: bower_components/averta-masterslider-wp-panel/src/index.php:919
 #: build/masterslider/admin/views/slider-panel/index.php:856
 msgid "This info will show beside of slider when slider reaches the slide or it can represent as tab in a tabs control. It is relative to selected slider template."
-msgstr ""
+msgstr "Эта информация будет отображаться рядом со слайдером, когда будет активным слайд или она может представлять название вкладки. Относится к текущему выбранному шаблону слайдера."
 
 #: admin/views/slider-panel/index.php:861
 #: admin/views/slider-panel/index.php:951
@@ -4279,7 +4279,7 @@ msgstr "Альтернативный текст:"
 #: bower_components/averta-masterslider-wp-panel/src/index.php:965
 #: build/masterslider/admin/views/slider-panel/index.php:901
 msgid "New layer :"
-msgstr ""
+msgstr "Новый слой:"
 
 #: admin/views/slider-panel/index.php:903
 #: bower_components/averta-masterslider-wp-panel/dist/lite/slider-panel/index.php:385
@@ -4311,7 +4311,7 @@ msgstr "Длительность показа слайда:"
 #: build/masterslider/admin/views/slider-panel/index.php:1093
 #: build/masterslider/admin/views/slider-panel/index.php:1169
 msgid "Layer Content"
-msgstr ""
+msgstr "Контент слоя"
 
 #: admin/views/slider-panel/index.php:922
 #: admin/views/slider-panel/index.php:985
@@ -4334,7 +4334,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1094
 #: build/masterslider/admin/views/slider-panel/index.php:1170
 msgid "Transition"
-msgstr ""
+msgstr "Эффект"
 
 #: admin/views/slider-panel/index.php:923
 #: admin/views/slider-panel/index.php:986
@@ -4357,7 +4357,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1095
 #: build/masterslider/admin/views/slider-panel/index.php:1171
 msgid "Style"
-msgstr ""
+msgstr "Стиль"
 
 #: admin/views/slider-panel/index.php:942
 #: admin/views/slider-panel/index.php:1062
@@ -4372,7 +4372,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1062
 #: build/masterslider/admin/views/slider-panel/index.php:1276
 msgid "Width :"
-msgstr ""
+msgstr "Ширина:"
 
 #: admin/views/slider-panel/index.php:944
 #: admin/views/slider-panel/index.php:1064
@@ -4387,21 +4387,21 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1064
 #: build/masterslider/admin/views/slider-panel/index.php:1278
 msgid "Height :"
-msgstr ""
+msgstr "Высота:"
 
 #: admin/views/slider-panel/index.php:947
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:947
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1011
 #: build/masterslider/admin/views/slider-panel/index.php:947
 msgid "Insert your text content here, for a better SEO result you can use heading tags for important contents."
-msgstr ""
+msgstr "Введите контент, для лучшего SEO результата вы можете использовать тэги заголовков для важной информации."
 
 #: admin/views/slider-panel/index.php:1004
 #: bower_components/averta-masterslider-wp-panel/dist/pro/slider-panel/index.php:1004
 #: bower_components/averta-masterslider-wp-panel/src/index.php:1068
 #: build/masterslider/admin/views/slider-panel/index.php:1004
 msgid "Layer image and alt attribute"
-msgstr ""
+msgstr "Изображение слоя и атрибут alt"
 
 #: admin/views/slider-panel/index.php:1006
 #: admin/views/slider-panel/index.php:1074
@@ -4412,7 +4412,7 @@ msgstr ""
 #: build/masterslider/admin/views/slider-panel/index.php:1006
 #: build/masterslider/admin/views/slider-panel/index.php:1074
 msgid "Select image :"
-msgstr ""
+msgstr "Выбрать изображение:"
 
 #: admin/views/setting/class-msp-settings.php:132
 #: build/masterslider/admin/views/setting/class-msp-settings.php:132
@@ -4437,37 +4437,37 @@ msgstr "Время обновления кэша в&nbsp;часах. Также 
 #: admin/views/setting/class-msp-settings.php:152
 #: build/masterslider/admin/views/setting/class-msp-settings.php:152
 msgid "Your Envato Username"
-msgstr ""
+msgstr "Ваше имя пользователя на Envato"
 
 #: admin/views/setting/class-msp-settings.php:160
 #: build/masterslider/admin/views/setting/class-msp-settings.php:160
 msgid "Your Secret API Key"
-msgstr ""
+msgstr "Ваш секретный API ключ"
 
 #: admin/views/setting/class-msp-settings.php:168
 #: build/masterslider/admin/views/setting/class-msp-settings.php:168
 msgid "Master Slider Purchase Code"
-msgstr ""
+msgstr "Код приобретения Master Slider"
 
 #: admin/views/setting/class-msp-settings.php:169
 #: build/masterslider/admin/views/setting/class-msp-settings.php:169
 msgid "Please enter purchase code for your Master Slider"
-msgstr ""
+msgstr "Пожалуйста, введите код приобретения Master Slider"
 
 #: admin/views/setting/class-msp-settings.php:170
 #: build/masterslider/admin/views/setting/class-msp-settings.php:170
 msgid "How to find your Item's Purchase Code"
-msgstr ""
+msgstr "Как найти ваш код покупки"
 
 #: admin/views/setting/class-msp-settings.php:181
 #: build/masterslider/admin/views/setting/class-msp-settings.php:181
 msgid "Enable slider in product single page"
-msgstr ""
+msgstr "Включить слайдер на странице товара"
 
 #: admin/views/setting/class-msp-settings.php:182
 #: build/masterslider/admin/views/setting/class-msp-settings.php:182
 msgid "Replace woocommerce default product slider in product single page with Masterslider"
-msgstr ""
+msgstr "Заменить слайдер продукта WooCommerce слайдером Master Slider на странице товара"
 
 #: admin/views/slider-dashboard/list-sliders.php:14
 #: build/masterslider/admin/views/slider-dashboard/list-sliders.php:14
@@ -4482,12 +4482,12 @@ msgstr "Импорт и экспорт"
 #: admin/views/slider-dashboard/list-sliders.php:29
 #: build/masterslider/admin/views/slider-dashboard/list-sliders.php:29
 msgid "Latest Video Tutorials"
-msgstr ""
+msgstr "Последние видеоуроки"
 
 #: admin/views/slider-dashboard/list-sliders.php:30
 #: build/masterslider/admin/views/slider-dashboard/list-sliders.php:30
 msgid "Updates"
-msgstr ""
+msgstr "Обновления"
 
 #: admin/views/slider-dashboard/list-sliders.php:98
 #: build/masterslider/admin/views/slider-dashboard/list-sliders.php:98
@@ -4504,17 +4504,17 @@ msgstr "Экспорт"
 #: admin/views/slider-dashboard/list-sliders.php:139
 #: build/masterslider/admin/views/slider-dashboard/list-sliders.php:139
 msgid "Export Options"
-msgstr ""
+msgstr "Экспортировать настройки"
 
 #: admin/views/slider-dashboard/list-sliders.php:146
 #: build/masterslider/admin/views/slider-dashboard/list-sliders.php:146
 msgid "Export Preset Styles?"
-msgstr ""
+msgstr "Экспортировать предустановленные стили?"
 
 #: admin/views/slider-dashboard/list-sliders.php:148
 #: build/masterslider/admin/views/slider-dashboard/list-sliders.php:148
 msgid "Export Preset Transitions?"
-msgstr ""
+msgstr "Экспортировать предустановленные эффекты?"
 
 #: admin/views/slider-dashboard/list-sliders.php:199
 #: build/masterslider/admin/views/slider-dashboard/list-sliders.php:199
@@ -4543,7 +4543,7 @@ msgstr "Настройки слайдера"
 #: build/masterslider/admin/views/slider-panel/index.php:38
 #: build/masterslider/admin/views/slider-panel/index.php:344
 msgid "Flickr Settings"
-msgstr ""
+msgstr "Настройки Flickr"
 
 #: admin/class-master-slider-admin.php:235
 #: build/masterslider/admin/class-master-slider-admin.php:235
@@ -4574,7 +4574,7 @@ msgstr "Настройки"
 #: admin/class-master-slider-admin.php:270
 #: build/masterslider/admin/class-master-slider-admin.php:270
 msgid "Docs"
-msgstr ""
+msgstr "Документы"
 
 #: admin/includes/msp-sample-sliders.php:8
 #: build/masterslider/admin/includes/msp-sample-sliders.php:8
@@ -4594,197 +4594,197 @@ msgstr "Пользовательский слайдер"
 #: admin/includes/msp-sample-sliders.php:45
 #: build/masterslider/admin/includes/msp-sample-sliders.php:45
 msgid "Post Slider"
-msgstr ""
+msgstr "Слайдер записей"
 
 #: admin/includes/msp-sample-sliders.php:55
 #: build/masterslider/admin/includes/msp-sample-sliders.php:55
 msgid "Flickr Slider"
-msgstr ""
+msgstr "Слайдер Flickr"
 
 #: admin/includes/msp-sample-sliders.php:64
 #: build/masterslider/admin/includes/msp-sample-sliders.php:64
 msgid "Facebook Slider"
-msgstr ""
+msgstr "Слайдер Facebook"
 
 #: admin/includes/msp-sample-sliders.php:74
 #: build/masterslider/admin/includes/msp-sample-sliders.php:74
 msgid "WooCommerce Product Slider"
-msgstr ""
+msgstr "Слайдер товара WooCommerce"
 
 #: admin/includes/msp-sample-sliders.php:81
 #: build/masterslider/admin/includes/msp-sample-sliders.php:81
 msgid "Please install and activate WooCommerce plugin to enable this feature."
-msgstr ""
+msgstr "Пожалуйста, установите и активируйте плагин WooCommerce для использования этой функции."
 
 #: admin/includes/msp-sample-sliders.php:85
 #: build/masterslider/admin/includes/msp-sample-sliders.php:85
 msgid "Instagram Slider"
-msgstr ""
+msgstr "Слайдер Instagram"
 
 #: admin/includes/msp-sample-sliders.php:100
 #: build/masterslider/admin/includes/msp-sample-sliders.php:100
 msgid "Sample Slider 1"
-msgstr ""
+msgstr "Пример слайда 1"
 
 #: admin/includes/msp-sample-sliders.php:109
 #: build/masterslider/admin/includes/msp-sample-sliders.php:109
 msgid "Sample Slider 2"
-msgstr ""
+msgstr "Пример слайда 2"
 
 #: admin/includes/msp-sample-sliders.php:118
 #: build/masterslider/admin/includes/msp-sample-sliders.php:118
 msgid "Sample Image Gallery"
-msgstr ""
+msgstr "Пример галереи изображений"
 
 #: admin/includes/msp-sample-sliders.php:136
 #: build/masterslider/admin/includes/msp-sample-sliders.php:136
 msgid "Sample 3D Flow Carousel"
-msgstr ""
+msgstr "Пример 3D карусели"
 
 #: admin/includes/msp-sample-sliders.php:145
 #: build/masterslider/admin/includes/msp-sample-sliders.php:145
 msgid "Creative Agency"
-msgstr ""
+msgstr "Креативное агентство"
 
 #: admin/includes/msp-sample-sliders.php:154
 #: build/masterslider/admin/includes/msp-sample-sliders.php:154
 msgid "Showcase"
-msgstr ""
+msgstr "Презентация"
 
 #: admin/includes/msp-sample-sliders.php:163
 #: build/masterslider/admin/includes/msp-sample-sliders.php:163
 msgid "Slider in Display"
-msgstr ""
+msgstr "Слайдер в мониторе"
 
 #: admin/includes/msp-sample-sliders.php:172
 #: build/masterslider/admin/includes/msp-sample-sliders.php:172
 msgid "Slider in Laptop"
-msgstr ""
+msgstr "Слайдер в ноутбуке"
 
 #: admin/includes/msp-sample-sliders.php:181
 #: build/masterslider/admin/includes/msp-sample-sliders.php:181
 msgid "Slider With Horizontal Tabs"
-msgstr ""
+msgstr "Слайдер с горизонтальными вкладками"
 
 #: admin/includes/msp-sample-sliders.php:199
 #: build/masterslider/admin/includes/msp-sample-sliders.php:199
 msgid "Slider With Vertical Thumbs"
-msgstr ""
+msgstr "Слайдер с вертикальными миниатюрами"
 
 #: admin/includes/msp-sample-sliders.php:208
 #: build/masterslider/admin/includes/msp-sample-sliders.php:208
 msgid "Staff Carousel 1"
-msgstr ""
+msgstr "Карусель сотрудников 1"
 
 #: admin/includes/msp-sample-sliders.php:217
 #: build/masterslider/admin/includes/msp-sample-sliders.php:217
 msgid "Staff Carousel 2"
-msgstr ""
+msgstr "Карусель сотрудников 2"
 
 #: admin/includes/msp-sample-sliders.php:226
 #: build/masterslider/admin/includes/msp-sample-sliders.php:226
 msgid "Staff Carousel 3"
-msgstr ""
+msgstr "Карусель сотрудников 3"
 
 #: admin/includes/msp-sample-sliders.php:235
 #: build/masterslider/admin/includes/msp-sample-sliders.php:235
 msgid "Staff Carousel 4"
-msgstr ""
+msgstr "Карусель сотрудников 4"
 
 #: admin/includes/msp-sample-sliders.php:244
 #: build/masterslider/admin/includes/msp-sample-sliders.php:244
 msgid "Staff Carousel 5"
-msgstr ""
+msgstr "Карусель сотрудников 5"
 
 #: admin/includes/msp-sample-sliders.php:253
 #: build/masterslider/admin/includes/msp-sample-sliders.php:253
 msgid "Staff Carousel 6"
-msgstr ""
+msgstr "Карусель сотрудников 6"
 
 #: admin/includes/msp-sample-sliders.php:262
 #: build/masterslider/admin/includes/msp-sample-sliders.php:262
 msgid "Video Gallery Sample 1"
-msgstr ""
+msgstr "Пример видео галереи 1"
 
 #: admin/includes/msp-sample-sliders.php:271
 #: build/masterslider/admin/includes/msp-sample-sliders.php:271
 msgid "Video Gallery Sample 2"
-msgstr ""
+msgstr "Пример видео галереи 2"
 
 #: admin/includes/msp-sample-sliders.php:280
 #: build/masterslider/admin/includes/msp-sample-sliders.php:280
 msgid "Partial View Slider Version 1"
-msgstr ""
+msgstr "Слайдер частичного отображения 1"
 
 #: admin/includes/msp-sample-sliders.php:289
 #: build/masterslider/admin/includes/msp-sample-sliders.php:289
 msgid "Partial View Slider Version 2"
-msgstr ""
+msgstr "Слайдер частичного отображения 2"
 
 #: admin/includes/msp-sample-sliders.php:298
 #: build/masterslider/admin/includes/msp-sample-sliders.php:298
 msgid "Partial View Slider Version 3"
-msgstr ""
+msgstr "Слайдер частичного отображения 3"
 
 #: admin/includes/msp-sample-sliders.php:316
 #: build/masterslider/admin/includes/msp-sample-sliders.php:316
 msgid "Sample Showcase Slider"
-msgstr ""
+msgstr "Презентационный слайдер"
 
 #: admin/includes/msp-sample-sliders.php:325
 #: build/masterslider/admin/includes/msp-sample-sliders.php:325
 msgid "Vertical Direction Slider"
-msgstr ""
+msgstr "Вертикальный слайдер"
 
 #: admin/includes/msp-sample-sliders.php:334
 #: build/masterslider/admin/includes/msp-sample-sliders.php:334
 msgid "Slider with Horizontal Thumbs"
-msgstr ""
+msgstr "Слайдер с горизонтальными миниатюрами"
 
 #: admin/includes/msp-sample-sliders.php:343
 #: build/masterslider/admin/includes/msp-sample-sliders.php:343
 msgid "Fullscreen with Background Video"
-msgstr ""
+msgstr "Полноэкранный с фоновым видео"
 
 #: admin/includes/msp-sample-sliders.php:370
 #: build/masterslider/admin/includes/msp-sample-sliders.php:370
 msgid "Slider in Tablet"
-msgstr ""
+msgstr "Слайдер в планшете"
 
 #: admin/includes/msp-sample-sliders.php:379
 #: build/masterslider/admin/includes/msp-sample-sliders.php:379
 msgid "Slider in Flat Tablet"
-msgstr ""
+msgstr "Слайдер в плоском планшете"
 
 #: admin/includes/msp-sample-sliders.php:388
 #: build/masterslider/admin/includes/msp-sample-sliders.php:388
 msgid "Slider in Landscape Tablet"
-msgstr ""
+msgstr "Слайдер в горизонтальном планшете"
 
 #: admin/includes/msp-sample-sliders.php:397
 #: build/masterslider/admin/includes/msp-sample-sliders.php:397
 msgid "Slider in Flat Landscape Tablet"
-msgstr ""
+msgstr "Слайдер в горизонтальном плоском планшете"
 
 #: admin/includes/msp-sample-sliders.php:406
 #: build/masterslider/admin/includes/msp-sample-sliders.php:406
 msgid "Slider in Smartphone"
-msgstr ""
+msgstr "Слайдер в Смартфоне"
 
 #: admin/includes/msp-sample-sliders.php:415
 #: build/masterslider/admin/includes/msp-sample-sliders.php:415
 msgid "Slider in Flat Smartphone"
-msgstr ""
+msgstr "Слайдер в плоском смартфоне"
 
 #: admin/includes/msp-sample-sliders.php:424
 #: build/masterslider/admin/includes/msp-sample-sliders.php:424
 msgid "Slider in Landscape Smartphone"
-msgstr ""
+msgstr "Слайдер в горизонтальном смартфоне"
 
 #: admin/includes/msp-sample-sliders.php:433
 #: build/masterslider/admin/includes/msp-sample-sliders.php:433
 msgid "Slider in Flat Landscape Smartphone"
-msgstr ""
+msgstr "Слайдер в горизонтальном плоском смартфоне"
 
 #: admin/includes/classes/class-axiom-list-table.php:194
 #: admin/views/global/gallery-templates.php:77
@@ -4796,7 +4796,7 @@ msgstr "Ничего не найдено."
 #: admin/includes/classes/class-axiom-list-table.php:320
 #: build/masterslider/admin/includes/classes/class-axiom-list-table.php:320
 msgid "Bulk Actions"
-msgstr ""
+msgstr "Массовые действия"
 
 #: admin/includes/classes/class-axiom-list-table.php:330
 #: build/masterslider/admin/includes/classes/class-axiom-list-table.php:330
@@ -4811,7 +4811,7 @@ msgstr "Показать все даты"
 #: admin/includes/classes/class-axiom-list-table.php:427
 #: build/masterslider/admin/includes/classes/class-axiom-list-table.php:427
 msgid "%1$s %2$d"
-msgstr ""
+msgstr "%1$s %2$d"
 
 #: admin/includes/classes/class-axiom-list-table.php:443
 #: build/masterslider/admin/includes/classes/class-axiom-list-table.php:443
@@ -4821,7 +4821,7 @@ msgstr "Списком"
 #: admin/includes/classes/class-axiom-list-table.php:444
 #: build/masterslider/admin/includes/classes/class-axiom-list-table.php:444
 msgid "Excerpt View"
-msgstr ""
+msgstr "Вид цитаты"
 
 #: admin/includes/classes/class-axiom-list-table.php:470
 #: build/masterslider/admin/includes/classes/class-axiom-list-table.php:470
@@ -4857,7 +4857,7 @@ msgstr "Текущая страница"
 #: build/masterslider/admin/includes/classes/class-axiom-list-table.php:578
 msgctxt "paging"
 msgid "%1$s of %2$s"
-msgstr ""
+msgstr "%1$s из %2$s"
 
 #: admin/includes/classes/class-axiom-list-table.php:582
 #: build/masterslider/admin/includes/classes/class-axiom-list-table.php:582
@@ -4877,67 +4877,67 @@ msgstr "Выбрать всё"
 #: admin/includes/classes/class-axiom-plugin-updater.php:82
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:82
 msgid "You do not have sufficient permissions to update plugins for this site."
-msgstr ""
+msgstr "У вас нет прав для обновления плагинов на этом сайте."
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:86
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:86
 msgid "Update Plugin"
-msgstr ""
+msgstr "Обновить плагин"
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:97
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:97
 msgid "Go to plugins page"
-msgstr ""
+msgstr "Перейти на страницу плагинов"
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:97
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:97
 msgid "Return to Plugins page"
-msgstr ""
+msgstr "Вернуться на страницу плагинов"
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:113
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:113
 msgid "Envato username, API key and your item purchase code are required for downloading updates from Envato marketplace."
-msgstr ""
+msgstr "Имя пользователя Envato, API ключ и ваш код покупки обязательны для загрузки обновлений с Envato."
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:129
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:129
 msgid "Faild to connect to download API .."
-msgstr ""
+msgstr "Ошибка подключения для загрузки API.."
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:145
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:145
 msgid "Error on connecting to download API .."
-msgstr ""
+msgstr "Ошибка при подключении для загрузки API.."
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:172
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:172
 msgid "Error! Failed to connect filesystem"
-msgstr ""
+msgstr "Ошибка! Не удалось подключить файловую систему"
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:203
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:203
 msgid "Error on unzipping archive file .."
-msgstr ""
+msgstr "Ошибка распаковки архива.."
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:223
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:223
 msgid "Downloading package from envato marketplace ..."
-msgstr ""
+msgstr "Загружается обновление с Envato..."
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:304
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:304
 msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox\" title=\"%3$s\">View version %4$s details</a>."
-msgstr ""
+msgstr "Есть новая версия %1$s. <a href=\"%2$s\" class=\"thickbox\" title=\"%3$s\">Подробнее %4$s</a>."
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:306
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:306
 msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox\" title=\"%3$s\">View version %4$s details</a>. <em>Automatic update is not available for this plugin. Visit %5$ssetting page%6$s to enable that.</em>"
-msgstr ""
+msgstr "Есть новая версия %1$s. <a href=\"%2$s\" class=\"thickbox\" title=\"%3$s\">Подробнее %4$s</a>. <em>Автоматическое обновление недоступно для этого плагина. Перейдите в %5$ssetting page%6$s чтобы включить автоматическое обновление.</em>"
 
 #: admin/includes/classes/class-axiom-plugin-updater.php:309
 #: build/masterslider/admin/includes/classes/class-axiom-plugin-updater.php:309
 msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox\" title=\"%3$s\">View version %4$s details</a> or <a href=\"%5$s\">update now</a>."
-msgstr ""
+msgstr "Есть новая версия %1$s. <a href=\"%2$s\" class=\"thickbox\" title=\"%3$s\">Ознакомиться %4$s </a> или <a href=\"%5$s\">обновить</a>."
 
 #: admin/includes/classes/class-axiom-screen-help.php:71
 #: build/masterslider/admin/includes/classes/class-axiom-screen-help.php:71
@@ -4960,7 +4960,7 @@ msgstr "Авторизоваться не удалось."
 #: build/masterslider/admin/includes/classes/class-msp-admin-ajax.php:75
 #: build/masterslider/admin/includes/classes/class-msp-shortcode-factory.php:61
 msgid "Please install and activate WooCommerce plugin."
-msgstr ""
+msgstr "Пожалуйста, установите и активируйте плагин WooCommerce."
 
 #: admin/includes/classes/class-msp-admin-ajax.php:109
 #: build/masterslider/admin/includes/classes/class-msp-admin-ajax.php:109
@@ -5000,17 +5000,17 @@ msgstr "Невозможно создать слайдер"
 #: admin/includes/classes/class-msp-admin-ajax.php:255
 #: build/masterslider/admin/includes/classes/class-msp-admin-ajax.php:255
 msgid "Your license activated successfully. Thank you!"
-msgstr ""
+msgstr "Ваша лицензия успешно активирована. Спасибо!"
 
 #: admin/includes/classes/class-msp-admin-ajax.php:265
 #: build/masterslider/admin/includes/classes/class-msp-admin-ajax.php:265
 msgid "The license activation failed. Please try again later."
-msgstr ""
+msgstr "Не удалось активировать лицензию. Пожалуйста, попробуйте позже."
 
 #: admin/includes/classes/class-msp-admin-ajax.php:271
 #: build/masterslider/admin/includes/classes/class-msp-admin-ajax.php:271
 msgid "Your license deactivated successfully"
-msgstr ""
+msgstr "Ваша лицензия успешно деактивирована."
 
 #: admin/includes/classes/class-msp-admin-assets.php:326
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:326
@@ -5114,7 +5114,7 @@ msgstr "Галерея/Вкладки"
 #: admin/includes/classes/class-msp-admin-assets.php:348
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:348
 msgid "Please enter name for new preset effect"
-msgstr ""
+msgstr "Укажите название вашей предустановке еффекта"
 
 #: admin/includes/classes/class-msp-admin-assets.php:349
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:349
@@ -5139,12 +5139,12 @@ msgstr "Слой видео"
 #: admin/includes/classes/class-msp-admin-assets.php:355
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:355
 msgid "Hotspot"
-msgstr ""
+msgstr "Точка внимания"
 
 #: admin/includes/classes/class-msp-admin-assets.php:359
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:359
 msgid "Please enter name for new preset style"
-msgstr ""
+msgstr "Укажите название вашей предустановке стиля"
 
 #: admin/includes/classes/class-msp-admin-assets.php:360
 #: admin/views/slider-panel/index.php:1325
@@ -5165,29 +5165,29 @@ msgstr "Слайдер без заголовка"
 #: admin/includes/classes/class-msp-admin-assets.php:366
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:366
 msgid "Preset Transitions"
-msgstr ""
+msgstr "Предустановленные эффекты"
 
 #: admin/includes/classes/class-msp-admin-assets.php:367
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:367
 msgid "Apply transition"
-msgstr ""
+msgstr "Применить эффект"
 
 #: admin/includes/classes/class-msp-admin-assets.php:368
 #: admin/includes/classes/class-msp-admin-assets.php:379
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:368
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:379
 msgid "Save as preset"
-msgstr ""
+msgstr "Сохранить как предустановку"
 
 #: admin/includes/classes/class-msp-admin-assets.php:372
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:372
 msgid "Align to stage :"
-msgstr ""
+msgstr "Выравнивание от сцены:"
 
 #: admin/includes/classes/class-msp-admin-assets.php:373
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:373
 msgid "Snapping :"
-msgstr ""
+msgstr "Примыкание:"
 
 #: admin/includes/classes/class-msp-admin-assets.php:374
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:374
@@ -5197,7 +5197,7 @@ msgstr "Масштаб:"
 #: admin/includes/classes/class-msp-admin-assets.php:375
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:375
 msgid "Layer position origin : "
-msgstr ""
+msgstr "Начальная позиция слоя:"
 
 #: admin/includes/classes/class-msp-admin-assets.php:378
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:378
@@ -5207,12 +5207,12 @@ msgstr "Применить стиль"
 #: admin/includes/classes/class-msp-admin-assets.php:380
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:380
 msgid "Preset Styles"
-msgstr ""
+msgstr "Предустановленные стили"
 
 #: admin/includes/classes/class-msp-admin-assets.php:381
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:381
 msgid "By deleting preset style it also will be removed from other sliders in your website. Are you sure you want to delete \"%s\"?"
-msgstr ""
+msgstr "Удаляя предустановленный стиль вы так же удаляете его из других слайдеров в вашем сайте. Вы уверены что желаете удалить \"%s\"?"
 
 #: admin/includes/classes/class-msp-admin-assets.php:385
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:385
@@ -5232,7 +5232,7 @@ msgstr "Показать/Скрыть все"
 #: admin/includes/classes/class-msp-admin-assets.php:389
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:389
 msgid "Solo All"
-msgstr ""
+msgstr "Выделить все"
 
 #: admin/includes/classes/class-msp-admin-assets.php:390
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:390
@@ -5257,7 +5257,7 @@ msgstr "Показать/Скрыть"
 #: admin/includes/classes/class-msp-admin-assets.php:394
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:394
 msgid "Solo"
-msgstr ""
+msgstr "Выделить"
 
 #: admin/includes/classes/class-msp-admin-assets.php:395
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:395
@@ -5322,12 +5322,12 @@ msgstr "Открывать на&nbsp;новой странице"
 #: admin/includes/classes/class-msp-admin-assets.php:410
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:410
 msgid "Open in parent frame"
-msgstr ""
+msgstr "Окрыть в родительском фрейме"
 
 #: admin/includes/classes/class-msp-admin-assets.php:411
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:411
 msgid "Open in main frame"
-msgstr ""
+msgstr "Открыть в главном фрейме"
 
 #: admin/includes/classes/class-msp-admin-assets.php:412
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:412
@@ -5475,7 +5475,7 @@ msgstr "Создание слайдера…"
 #: admin/includes/classes/class-msp-admin-assets.php:474
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:474
 msgid "Select a Starter"
-msgstr ""
+msgstr "Давайте начнем"
 
 #: admin/includes/classes/class-msp-admin-assets.php:475
 #: build/masterslider/admin/includes/classes/class-msp-admin-assets.php:475
@@ -5663,12 +5663,12 @@ msgstr "Справка"
 #: admin/includes/classes/class-msp-pointers.php:186
 #: build/masterslider/admin/includes/classes/class-msp-pointers.php:186
 msgid "Start with 33 Ready to Use Sample Sliders"
-msgstr ""
+msgstr "Начните с 33 готовыми примерами слайдеров"
 
 #: admin/includes/classes/class-msp-pointers.php:187
 #: build/masterslider/admin/includes/classes/class-msp-pointers.php:187
 msgid "You can create your slider from scratch or use one of 33 ready to use sample sliders to start"
-msgstr ""
+msgstr "Вы можете создать ваш слайдер на основе 33х уже готовых примерах слайдеров"
 
 #: admin/includes/classes/class-msp-screen-help.php:33
 #: build/masterslider/admin/includes/classes/class-msp-screen-help.php:33
@@ -5685,7 +5685,7 @@ msgstr "Поддержка Master Slider"
 #: build/masterslider/includes/msp-template-tags.php:174
 #: includes/msp-template-tags.php:174
 msgid "Regular Price"
-msgstr ""
+msgstr "Обычная цена"
 
 #: admin/includes/classes/class-msp-wc-product-slider.php:117
 #: build/masterslider/admin/includes/classes/class-msp-wc-product-slider.php:117
@@ -5700,11 +5700,11 @@ msgstr "Спасибо за&nbsp;работу с&nbsp;<a href=\"%s\">WordPress</
 
 #: admin/views/index.php:19 build/masterslider/admin/views/index.php:19
 msgid "https://wordpress.org/"
-msgstr ""
+msgstr "https://wordpress.org/"
 
 #: admin/views/index.php:20 build/masterslider/admin/views/index.php:20
 msgid " and using Master Slider %s"
-msgstr ""
+msgstr "и использовать Master Slider %s"
 
 #: admin/views/setting/class-msp-settings.php:61
 #: build/masterslider/admin/views/setting/class-msp-settings.php:61
@@ -5734,12 +5734,12 @@ msgstr "Основные настройки"
 #: admin/views/setting/class-msp-settings.php:98
 #: build/masterslider/admin/views/setting/class-msp-settings.php:98
 msgid "You need to install and activate WooCommerce plugin to use following options."
-msgstr ""
+msgstr "Вам необходимо установить и активировать плагин WooCommerce для использования этих настроек."
 
 #: admin/views/setting/class-msp-settings.php:102
 #: build/masterslider/admin/views/setting/class-msp-settings.php:102
 msgid "WooCommerce Setting"
-msgstr ""
+msgstr "Настройки WooCommerce"
 
 #: admin/views/setting/class-msp-settings.php:126
 #: build/masterslider/admin/views/setting/class-msp-settings.php:126

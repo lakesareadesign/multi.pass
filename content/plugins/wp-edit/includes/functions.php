@@ -596,6 +596,64 @@ if(!empty($plugin_options_posts['hide_admin_pages']) && $plugin_options_posts['h
 
 /*
 ****************************************************************
+Editor Functions
+****************************************************************
+*/
+$plugin_options_editor = get_option('wp_edit_editor');
+
+// BBPress editor
+if(isset($plugin_options_editor['bbpress_editor']) && $plugin_options_editor['bbpress_editor'] === '1') {
+	
+	// Add visual editor
+	function wp_edit_enable_bbpress_visual_editor( $args = array() ) {
+		
+		$args['tinymce'] = true;
+		$args['teeny'] = false;
+		return $args;
+	}
+	add_filter( 'bbp_after_get_the_content_parse_args', 'wp_edit_enable_bbpress_visual_editor' );
+	
+	// Replace kses funtion (to allow more tags)
+	function wp_edit_enable_bbpress_custom_kses_allowed_tags() {
+		
+		return array(
+		
+			// Links
+			'a' 			=> array( 'class'    => true, 'href' => true, 'title' => true, 'rel' => true, 'class' => true, 'target' => true ),
+			// Quotes
+			'blockquote' 	=> array( 'cite' => true ),
+			// Div
+			'div' 			=> array( 'class' => true ),
+			// Span
+			'span'			=> array( 'class' => true ),
+			// Code
+			'code' 			=> array(),
+			'pre' 			=> array( 'class'  => true ),
+			// Formatting
+			'em' 			=> array(),
+			'strong' 		=> array(),
+			'del' 			=> array( 'datetime' => true ),
+			// Lists
+			'ul'     	    => array(),
+			'ol'     	    => array( 'start' => true ),
+			'li'     	    => array(),
+			// Images
+			'img'        	=> array( 'class' => true, 'src' => true, 'border' => true, 'alt' => true, 'height' => true, 'width' => true ),
+			// Tables
+			'table'      	=> array( 'align' => true, 'bgcolor' => true, 'border' => true ),
+			'tbody'      	=> array( 'align' => true, 'valign' => true ),
+			'td'        	=> array( 'align' => true, 'valign' => true ),
+			'tfoot'     	=> array( 'align' => true, 'valign' => true ),
+			'th'        	=> array( 'align' => true, 'valign' => true ),
+			'thead'     	=> array( 'align' => true, 'valign' => true ),
+			'tr'        	=> array( 'align' => true, 'valign' => true )
+		);
+	}
+	add_filter( 'bbp_kses_allowed_tags', 'wp_edit_enable_bbpress_custom_kses_allowed_tags' );
+}
+
+/*
+****************************************************************
 Extras Functions
 ****************************************************************
 */
@@ -729,8 +787,7 @@ function wp_edit_user_specific_init() {
 			echo '<p><a href="//www.feedblitz.com/f/?Sub=950320"><img title="Subscribe to get updates by email and more!" border="0" src="//assets.feedblitz.com/chicklets/email/i/25/950320.bmp"></a><br />News updates for WP Edit Pro and Stable versions.</p>';
 			echo '<p style="border-bottom:#000 1px solid;">Showing ('.$jwl_total_items.') Posts</p>';
 			echo '<div class="rss-widget">';
-				wp_widget_rss_output(array(
-					'url' => $protocol . '//feeds.feedblitz.com/wpeditpro&x=1',
+				wp_widget_rss_output( $protocol . '//feeds.feedblitz.com/wpeditpro&x=1', array(
 					'title' => '',
 					'items' => $jwl_total_items,
 					'show_author' => 0,

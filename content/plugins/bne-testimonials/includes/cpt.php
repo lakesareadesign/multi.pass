@@ -155,10 +155,14 @@ add_filter( 'enter_title_here', 'bne_testimonials_post_title', 'bne-testimonials
  *	Featured Image Widget Text
  *
  *	@since 		v1.1
- *	@updated 	v1.7.4
+ *	@updated 	v1.7.5
 */
 function bne_testimonials_post_thumbnail_html( $content ) {
-    return $content .= __( 'Add an optional featured image for this testimonial.', 'bne-testimonials' );
+	global $post_type;
+	if ('bne_testimonials' == $post_type ) {
+		$content .= __( 'Add an optional featured image for this testimonial.', 'bne-testimonials' );
+	}
+    return $content;
 }
 add_filter( 'admin_post_thumbnail_html', 'bne_testimonials_post_thumbnail_html');
 

@@ -4,7 +4,7 @@ Contributors: bluenotes
 Tags: testimonials, flexslider, feedback, reviews
 Requires at least: 4.0
 Tested up to: 4.6
-Stable tag: 1.7.4
+Stable tag: 1.7.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,7 +76,11 @@ Possible, but most likely not in the free version. If you would like to see new 
 
 == Changelog ==
 
-= 1.7.4 ( August 10, 2016 ) =
+= 1.7.5 September 5, 2016 =
+* Fix: Featured Thumbnail metabox description was being thrown on other post types.
+
+
+= 1.7.4 August 10, 2016 =
 * Fix: depreciated notice for the list and slider widgets and PHP 7.
 
 

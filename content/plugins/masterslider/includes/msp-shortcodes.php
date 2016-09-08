@@ -663,54 +663,56 @@ add_shortcode( 'ms_slide', 'msp_masterslider_slide_shortcode' );
 
 function msp_masterslider_slide_shortcode( $atts, $content = null ) {
 	extract( shortcode_atts(
-				array(
-					'src'       => '',
-					'src_full'  => '',
+        array(
+            'ms_id'             => '', // slide id
 
-					'css_class' => '',
-					'css_id'    => '',
-					'style' 	=> '',
+            'src'               => '',
+            'src_full'          => '',
 
-					'src_blank'	=> MSWP_BLANK_IMG, // url to black image for preloading job
+            'css_class'         => '',
+            'css_id'            => '',
+            'style'             => '',
 
-					'title'     => '', // image title
-		            'alt'       => '', // image alternative text
+            'src_blank'         => MSWP_BLANK_IMG, // url to black image for preloading job
 
-		            'link'       => '',
-		            'link_title' => '',
-		            'link_class' => '',
-		            'link_id'    => '',
-		            'link_rel'   => '',
+            'title'             => '', // image title
+            'alt'               => '', // image alternative text
 
-					'target'    => '_blank',
-					'video'     => '', // youtube or vimeo video link
-					'auto_play_video' => '', // autoplay for youtube or vimeo videos
+            'link'              => '',
+            'link_title'        => '',
+            'link_class'        => '',
+            'link_id'           => '',
+            'link_rel'          => '',
 
-					'mp4'		=> '', // self host video bg
-					'webm'		=> '', // self host video bg
-					'ogg'		=> '', // self host video bg
+            'target'            => '_blank',
+            'video'             => '', // youtube or vimeo video link
+            'auto_play_video'   => '', // autoplay for youtube or vimeo videos
 
-					'info'      => '',
+            'mp4'               => '', // self host video bg
+            'webm'              => '', // self host video bg
+            'ogg'               => '', // self host video bg
 
-					'autopause' => 'false',
-					'mute'		=> 'true',
-					'loop' 		=> 'true',
-					'vbgalign' 	=> 'fill',
+            'info'              => '',
 
-					'crop_width'  => '', // empty means auto
-					'crop_height' => '', // empty means auto
+            'autopause'         => 'false',
+            'mute'              => 'true',
+            'loop'              => 'true',
+            'vbgalign'          => 'fill',
 
-					'thumb' 	=> '',
-					'tab' 		=> '',
-					'tab_thumb' => '',
-					'delay'     => '', // data-delay
-					'bgalign'	=> '',  // data-fill-mode
-					'bgcolor' 	=> '',
-					'pattern'   => '',
-					'tintcolor' => ''
-				)
-				, $atts, 'masterslider_slide' )
-			 );
+            'crop_width'        => '', // empty means auto
+            'crop_height'       => '', // empty means auto
+
+            'thumb'             => '',
+            'tab'               => '',
+            'tab_thumb'         => '',
+            'delay'             => '', // data-delay
+            'bgalign'           => '',  // data-fill-mode
+            'bgcolor'           => '',
+            'pattern'           => '',
+            'tintcolor'         => ''
+        )
+        , $atts, 'ms_slide' )
+    );
 
 	$css_class = empty( $css_class ) ? '' : ' '.$css_class;
 
@@ -724,10 +726,12 @@ function msp_masterslider_slide_shortcode( $atts, $content = null ) {
 	$data_delay = empty( $delay ) ? '' : 'data-delay="'.( (float) $delay ).'"';
 
 	// create bg align attr if is set
-	$data_align = empty( $bgalign )?'':'data-fill-mode="'. $bgalign .'"';
+	$data_align = empty( $bgalign ) ? '' : 'data-fill-mode="'. $bgalign .'"';
+
+    $data_ms_id      = ! empty( $ms_id ) ? ' data-id="'. $ms_id .'"' : '';
 
 	// add slide starter tag
-	$slide_start_tag = sprintf( '<div %s class="ms-slide%s" %s %s %s >', $css_id, $css_class, $data_delay, $data_align, $style_attr )."\n";
+	$slide_start_tag = sprintf( '<div %s class="ms-slide%s" %s %s %s %s >', $css_id, $css_class, $data_delay, $data_align, $data_ms_id, $style_attr )."\n";
 
 	// making start tag filterable for extend purposes
 	$slide_start_tag = apply_filters( 'msp_masterslider_slide_start_tag', "\t\t\t".$slide_start_tag, $atts );
@@ -839,6 +843,29 @@ function msp_masterslider_slide_shortcode( $atts, $content = null ) {
 	return apply_filters( 'masterslider_slide_content', $output, $slide_start_tag, $slide_content, $slide_end_tag );
 }
 
+/*-----------------------------------------------------------------------------------*/
+/*  Master Slider Overlay Slide
+/*-----------------------------------------------------------------------------------*/
+
+add_shortcode( 'ms_overlay_slide', 'msp_masterslider_overlay_slide_shortcode' );
+
+function msp_masterslider_overlay_slide_shortcode( $atts, $content = null ) {
+    extract( shortcode_atts(
+        array(
+            'ms_id' => '' // slide id
+        )
+        , $atts, 'ms_overlay_slide' )
+    );
+
+    $data_ms_id      = ! empty( $ms_id ) ? ' data-id="'. $ms_id .'"' : '';
+    $slide_start_tag = '<div class="ms-overlay-layers"'. $data_ms_id .'>';
+    $slide_end_tag   = '</div>';
+    $content         = do_shortcode( $content );
+
+    $output = !empty( $content ) ? $slide_start_tag . $content . $slide_end_tag : '';
+
+    return apply_filters( 'masterslider_overlay_slide_content', $output, $slide_start_tag, $content, $slide_end_tag );
+}
 
 /*-----------------------------------------------------------------------------------*/
 /*  Master Slider Layer
@@ -850,66 +877,79 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 
 	// merge input and default attrs
 	$merged = shortcode_atts(
-				  array(
-					'src'       	=> '', // image layer src or video cover image
-					'src_blank'		=> MSWP_BLANK_IMG, // url to black image for preloading job
+        array(
+            'src'                          => '', // image layer src or video cover image
+            'src_blank'                    => MSWP_BLANK_IMG, // url to black image for preloading job
 
-					'widthlimit'	=> '-1',
+            'widthlimit'                   => '-1',
 
-					'type'			=> 'text', // layer type : text, image, video, hotspot
-					'resize'		=> 'true',
+            'ms_id'                        => '', // slide id
+            'action_target_layer'          => '', // the target layer id
+            'wait'                         => 'false',
 
-					'css_class' 	=> '',
-            		'btn_class' 	=> 'ms-default-btn',
-					'css_id'    	=> '',
-					'style_id'  	=> '',
+            'masked'                       => 'false',
+            'mask_custom_size'             => 'false',
+            'mask_width'                   => '',
+            'mask_height'                  => '',
 
-					'action'    	=> 'next',
-            		'use_action'	=> 'false',
-            		'to_slide'  	=> 1,
-            		'action_scroll_duration'  => 2,
-            		'scroll_target' => '',
+            // only for overlay layers, show or hide the layer over the specified slides
+            'overlay_target_slides'        => '', // ms_id for target slides
+            'overlay_target_slides_action' => '', // show, hide
 
-            		'position_type' => 'normal',
+            'type'                         => 'text', // layer type : text, image, video, hotspot
+            'resize'                       => 'true',
 
-					'offsetx'   	=> '',
-					'offsety'   	=> '',
-					'origin'    	=> 'tl',
-					'fixed'     	=> 'false',
+            'css_class'                    => '',
+            'btn_class'                    => 'ms-default-btn',
+            'css_id'                       => '',
+            'style_id'                     => '',
 
-					'show_effect'	=> 'fade',
-					'show_duration'	=> '1000',
-					'show_delay'    => '0', // when the show transition effect starts, in milliseconds
-					'show_ease'		=> 'linear',
+            'action'                       => 'next',
+            'use_action'                   => 'false',
+            'to_slide'                     => 1,
+            'action_scroll_duration'       => 2,
+            'scroll_target'                => '',
 
-					'style'			=> '',
+            'position_type'                => 'normal',
 
-					'use_hide'      => 'false',
-					'hide_effect'   => '',
-					'hide_duration' => '1000',
-					'hide_delay'    => '1000',
-					'hide_ease'     => '',
-					'title'     	=> '',
+            'offsetx'                      => '',
+            'offsety'                      => '',
+            'origin'                       => 'tl',
+            'fixed'                        => 'false',
 
-            		'tooltip_align' => 'top',
-            		'tooltip_stay_hover' => 'true',
-            		'tooltip_width'	=> '',
+            'show_effect'                  => 'fade',
+            'show_duration'                => '1000',
+            'show_delay'                   => '0', // when the show transition effect starts, in milliseconds
+            'show_ease'                    => 'linear',
 
-            		'parallax' 		=> '',
+            'style'                        => '',
 
-					'rel'       	=> '', // image alternative text
-					'alt'       	=> '', // image alternative text
-					'link'      	=> '', // image external url
-					'target'    	=> '_blank',
+            'use_hide'                     => 'false',
+            'hide_effect'                  => '',
+            'hide_duration'                => '1000',
+            'hide_delay'                   => '1000',
+            'hide_ease'                    => '',
+            'title'                        => '',
 
-					'video'     	=> '', // youtube or vimeo video link
-					'auto_play_video' => 'false', // autoplay for youtube or vimeo videos
-					'width'	    	=> '',
-					'height'    	=> ''
-				  )
-				  , $atts, 'masterslider_layer' );
+            'tooltip_align'                => 'top',
+            'tooltip_stay_hover'           => 'true',
+            'tooltip_width'                => '',
 
-		extract( $merged );
+            'parallax'                     => '',
+
+            'rel'                          => '', // image alternative text
+            'alt'                          => '', // image alternative text
+            'link'                         => '', // image external url
+            'target'                       => '_blank',
+
+            'video'                        => '', // youtube or vimeo video link
+            'auto_play_video'              => 'false', // autoplay for youtube or vimeo videos
+            'width'                        => '',
+            'height'                       => ''
+        )
+        , $atts, 'masterslider_layer' );
+
+	extract( $merged );
 
 
 	$wrapper_class = trim( 'ms-layer '. $css_class.' '. $style_id );
@@ -940,39 +980,52 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 	$hide_start_time = $show_duration + $show_delay + $hide_delay;
 
 
-	// decode escaped square brackets
-	$content = str_replace( array( "%5B", "%5D" ), array('[', ']'), $content );
+    // decode escaped square brackets
+    $content            = str_replace( array( "%5B", "%5D" ), array('[', ']'), $content );
 
 
-	// create widthlimit attr if it's not default value
-	$data_widthlimit = ( (int)$widthlimit < 1 ) ? '': 'data-widthlimit="'.((int)$widthlimit).'"';
+    // create widthlimit attr if it's not default value
+    $data_widthlimit    = ( (int)$widthlimit < 1 ) ? '': 'data-widthlimit="'.((int)$widthlimit).'"';
 
-	// create type attr if it's not default value
-	$data_type = ( 'text' === $type ) ? '': 'data-type="'.$type.'"';
+    // create type attr if it's not default value
+    $data_type          = ( 'text' === $type ) ? '': 'data-type="'.$type.'"';
 
-	// create resize attr if it's not default value
-	$data_resize = ( 'true' == $resize || 'yes' == $resize )? '': 'data-resize="'.$resize.'"';
+    // create resize attr if it's not default value
+    $data_resize        = ( 'true' == $resize || 'yes' == $resize )? '': 'data-resize="'.$resize.'"';
 
-	// create show_effect attr if it's not default value
-	$data_show_effect = ( 'fade' === $show_effect ) ? '': 'data-effect="'.$show_effect.'"';
+    // create show_effect attr if it's not default value
+    $data_show_effect   = ( 'fade' === $show_effect ) ? '': 'data-effect="'.$show_effect.'"';
 
-	// create show_duration attr if it's not default value
-	$data_show_duration = ( 1000 === (int)$show_duration ) ?'':'data-duration="'.((int)$show_duration).'"';
+    // create show_duration attr if it's not default value
+    $data_show_duration = ( 1000 === (int)$show_duration ) ?'':'data-duration="'.((int)$show_duration).'"';
 
-	// create show_delay attr if it's not default value
-	$data_show_delay = ( 0 === (int)$show_delay ) ? '': 'data-delay="'.((int)$show_delay).'"';
+    // create show_delay attr if it's not default value
+    $data_show_delay    = ( 0 === (int)$show_delay ) ? '': 'data-delay="'.((int)$show_delay).'"';
 
-	// create show_ease attr if it's not default value
-	$data_show_ease = 'data-ease="'.$show_ease.'"';
+    // create show_ease attr if it's not default value
+    $data_show_ease     = 'data-ease="'.$show_ease.'"';
 
-	// create attribute for layer position
-	$data_position = 'data-position="'.$position_type.'"';
+    // create attribute for layer position
+    $data_position      = 'data-position="'.$position_type.'"';
 
-	// create parallax attr if it's not default value
-	$data_parallax = empty( $parallax ) ? '': 'data-parallax="'.$parallax.'"';
+    // create parallax attr if it's not default value
+    $data_parallax      = empty( $parallax ) ? '': 'data-parallax="'.$parallax.'"';
 
-	// create fixed attr if it's not default value
-	$data_fixed = ( 'true' === $fixed ) ? 'data-fixed="true"' : '';
+    // create fixed attr if it's not default value
+    $data_fixed         = ( 'true' === $fixed ) ? 'data-fixed="true"' : '';
+
+    $data_overlay_target_slides  = '';
+    if( in_array( $overlay_target_slides_action, array( 'show', 'hide' ) ) && ! empty( $overlay_target_slides ) ){
+        $data_overlay_target_slides  = sprintf( ' data-%s-on="%s"', $overlay_target_slides_action, $overlay_target_slides );
+    }
+
+    // create attribute for layer id
+    $data_ms_id         = ! empty( $ms_id )  ? ' data-id="'. $ms_id .'"'  : '';
+    $data_wait          = 'true' == $wait    ? ' data-wait="true"'   : '';
+    $data_masked        = 'true' == $masked  ? ' data-masked="true"' : '';
+    $data_mask_width    = 'true' == $mask_custom_size && ! empty( $mask_width  ) ? ' data-mask-width="'  . $mask_width  . '"' : '';
+    $data_mask_height   = 'true' == $mask_custom_size && ! empty( $mask_height ) ? ' data-mask-height="' . $mask_height . '"' : '';
+
 
 	// Remove all transition attributes when the position type is static for the layer
 	if( 'static' == $position_type ){
@@ -1015,7 +1068,10 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 	// create data-action attr if it's enabled and defined
 	if( 'true' == $use_action ) {
 
-		if( 'gotoSlide' == $action ) {
+        if( in_array( $action, array( 'showLayer', 'toggleLayer', 'hideLayer' ) ) ){
+            $data_action  = 'data-action="'.$action.'s('. (string)$action_target_layer .')"';
+
+        }else if( 'gotoSlide' == $action ) {
 			$data_action  = 'data-action="'.$action.'('.( (int)$to_slide - 1 ).')"';
 
 		} elseif( 'scrollDuration' == $action ) {
@@ -1025,15 +1081,14 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 			if( ! empty( $scroll_target ) ){
 				$data_action  = 'data-action="'.$action.'('. $scroll_target .', '. (float)$action_scroll_duration .')"';
 			}
-		} else {
+
+        } else {
 			$data_action  = 'data-action="'.$action.'"';
 		}
 
 		$data_link    = '';
 		$link 		  = '#';
-
 	}
-
 
 	// convert relative image link to absolute
 	$src = ! empty( $src ) ? msp_get_the_absolute_media_url( $src ) : $src;
@@ -1045,12 +1100,14 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 	$data_target     = 'hotspot' == $type ? 'data-target="'.$target.'"' : '';
 
 	$effect_attrs 	 = sprintf( '%s %s %s %s %s %s %s %s %s %s',
-									  $data_show_effect, $data_show_duration, $data_show_delay, $data_show_ease, $data_hide_effect,
-									  $data_hide_duration, $data_hide_time, $data_hide_ease, $data_hide_delay, $data_fixed );
+								$data_show_effect, $data_show_duration, $data_show_delay, $data_show_ease, $data_hide_effect,
+								$data_hide_duration, $data_hide_time, $data_hide_ease, $data_hide_delay, $data_fixed );
 
 	$common_attrs 	= sprintf( '%s %s %s %s %s %s %s %s %s', $data_parallax, $data_type, $data_resize, $data_align, $data_stay_hover, $data_tp_width, $data_target, $data_widthlimit, $data_action );
 
 	$position_attrs = sprintf( '%s %s %s %s', $data_offset_x, $data_offset_y, $data_origin, $data_position );
+
+    $general_data_attrs = $data_ms_id . $data_wait . $data_masked . $data_mask_width . $data_mask_height . $data_overlay_target_slides;
 
 	 // store layer markup
 	 $layer = '';
@@ -1065,19 +1122,21 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 
 				$layer_image = "\n\t".sprintf( '<img src="%s" data-src="%s" alt="%s" style="%s" %s %s %s %s %s %s />',
 				                               $src_blank, $src, $alt, $style_size, $title_attr, $effect_attrs, $data_type, $data_parallax, $position_attrs, $data_resize )."\n";
-				$layer .= sprintf( '<a %s class="%s" href="%s" target="%s" %s %s >%s</a>', $id_attr, $wrapper_class, $link, $target, $rel_attr, $data_action, $layer_image ). "\n";
+				$layer .= sprintf( '<a %s class="%s" href="%s" target="%s" %s %s %s >%s</a>', $id_attr, $wrapper_class, $link, $target, $rel_attr, $data_action, $general_data_attrs, $layer_image ). "\n";
 
 		// or single image
 		} else {
-			$layer .= sprintf( '<img %s class="%s" src="%s" data-src="%s" alt="%s" style="%s" %s %s %s %s %s />',
-									 $id_attr, $wrapper_class, $src_blank, $src, $alt, $style_size, $title_attr, $effect_attrs, $common_attrs, $rel_attr, $position_attrs )."\n";
+			$layer .= sprintf( '<img %s class="%s" src="%s" data-src="%s" alt="%s" style="%s" %s %s %s %s %s %s />',
+			                   $id_attr, $wrapper_class, $src_blank, $src, $alt, $style_size, $title_attr, $effect_attrs,
+                               $common_attrs, $rel_attr, $general_data_attrs, $position_attrs )."\n";
 		}
 
 	} elseif( 'button' == $type ) {
 
 		$layer_content = ! empty( $content ) ? do_shortcode( wp_unslash( $content ) ) : '';
-	 	$layer = sprintf( '<a %s href="%s" target="%s" class="%s %s" %s %s %s %s %s >%s</a>',
-								 $id_attr, $link, $target, $wrapper_class, $btn_class, $effect_attrs, $common_attrs, $position_attrs, $rel_attr, $title_attr, $layer_content )."\n";
+	 	$layer = sprintf( '<a %s href="%s" target="%s" class="%s %s" %s %s %s %s %s %s >%s</a>',
+						  $id_attr, $link, $target, $wrapper_class, $btn_class, $effect_attrs, $common_attrs,
+                          $position_attrs, $rel_attr, $title_attr, $general_data_attrs, $layer_content )."\n";
 
 	// if layer type was text, video or hotspot
 	} else {
@@ -1103,8 +1162,9 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 		// create data-autoplay attr if video autoplay is enabled
 		$data_auto_play_video = ( 'true' === $auto_play_video ) ? 'data-autoplay="'. $auto_play_video .'"' : '' ;
 
-		$layer = sprintf( '<div %s class="%s" style="%s" %s %s %s %s %s %s>%s</div>',
-								 $id_attr, $wrapper_class, $style_size, $data_link, $title_attr, $effect_attrs, $common_attrs, $position_attrs, $data_auto_play_video, $layer_content )."\n";
+		$layer = sprintf( '<div %s class="%s" style="%s" %s %s %s %s %s %s %s>%s</div>',
+								 $id_attr, $wrapper_class, $style_size, $data_link, $title_attr, $effect_attrs, $common_attrs,
+                                 $position_attrs, $data_auto_play_video, $general_data_attrs, $layer_content )."\n";
 	}
 
 	// end layer markup generation //////////////////////////////////////////

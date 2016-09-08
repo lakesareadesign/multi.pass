@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BNE Testimonials
- * Version: 1.7.4
+ * Version: 1.7.5
  * Plugin URI: http://www.bnecreative.com/blog/new-testimonial-plugin-for-wordpress/
  * Description: Adds a Custom Post Type to display Testimonials on any page, post, or sidebar. Display the testimonials as a list or slider powered by Flexslider. Shortcodes: [bne_testimonials_list] & [bne_testimonials_slider]. Includes corresponding widget options.
  * Author: Kerry Kline
@@ -37,7 +37,7 @@ if ( !defined('ABSPATH') ) exit;
  *	Plugin Constants and Localization
  * ======================================================== */
 
-define( 'BNE_TESTIMONIALS_VERSION', '1.7.4' );
+define( 'BNE_TESTIMONIALS_VERSION', '1.7.5' );
 define( 'BNE_TESTIMONIALS_DIR', dirname( __FILE__ ) );
 define( 'BNE_TESTIMONIALS_URI', plugins_url( '', __FILE__ ) );
 define( 'BNE_TESTIMONIALS_BASENAME', plugin_basename( __FILE__ ) );

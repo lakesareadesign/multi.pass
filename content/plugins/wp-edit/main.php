@@ -3,7 +3,7 @@
  * Plugin Name: WP Edit
  * Plugin URI: https://wpeditpro.com
  * Description: Ultimate WordPress Content Editing.
- * Version: 3.8.1
+ * Version: 3.9
  * Author: Josh Lobe
  * Author URI: https://wpeditpro.com
  * License: GPL2
@@ -66,7 +66,8 @@ class wp_edit_class {
 	public $global_options_editor = array(
 		'editor_add_pre_styles' => '0',
 		'default_editor_fontsize_type' => 'pt',
-		'default_editor_fontsize_values' => ''
+		'default_editor_fontsize_values' => '',
+		'bbpress_editor' => '0'
 	);
 	public $global_options_extras = array(
 		'signoff_text' => 'Please enter text here...'
@@ -407,7 +408,7 @@ class wp_edit_class {
 							<div class="postbox">
 								
 								<div class="inside wpep_act_button_area" id="inside_button_hover">
-									<h3 style="margin-left:-13px;"><?php _e('Button Rows', 'wp-edit'); ?></h3>
+									<h3><?php _e('Button Rows', 'wp-edit'); ?></h3>
 							
 									<?php
 									$no_tooltips = false;
@@ -422,7 +423,7 @@ class wp_edit_class {
 									foreach ($options_buttons as $toolbar => $icons) {
 										
 										if($toolbar === 'tmce_container') {
-											?><h3 style="margin-left:-13px;"><?php _e('Button Container', 'wp-edit'); ?></h3><?php
+											?><h3><?php _e('Button Container', 'wp-edit'); ?></h3><?php
 										}
 										
 										// Disregard rows 3 and 4
@@ -1236,6 +1237,7 @@ class wp_edit_class {
                                 $editor_add_pre_styles = isset($options_editor['editor_add_pre_styles']) && $options_editor['editor_add_pre_styles'] === '1' ? 'checked="checked"' : '';
                                 $default_editor_fontsize_type = isset($options_editor['default_editor_fontsize_type']) ? $options_editor['default_editor_fontsize_type'] : 'pt';
 								$default_editor_fontsize_values = isset($options_editor['default_editor_fontsize_values']) ? $options_editor['default_editor_fontsize_values'] : '';
+                                $bbpress_editor = isset($options_editor['bbpress_editor']) && $options_editor['bbpress_editor'] === '1' ? 'checked="checked"' : '';
                                 ?>
                                 
                                 <table cellpadding="8">
@@ -1276,6 +1278,27 @@ class wp_edit_class {
                                     <?php _e('Define available font-size values for Font Size dropdown box.', 'wp-edit'); ?><br />
                                     <?php _e('Values should be space separated; and end with the chosen font size type (selected above).', 'wp-edit'); ?><br />
                                     <?php _e('For Example: If <strong>em</strong> is selected; possible values could be <strong>1em 1.1em 1.2em</strong> etc.', 'wp-edit'); ?>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3><?php _e('BBPress Options', 'wp-edit'); ?></h3>
+                    <div class="metabox-holder"> 
+                        <div class="postbox">
+                            <div class="inside">
+                            
+                            	<p style="margin-left:10px;"><?php _e('Options for the editor used in the BBPress forums.', 'wp-edit'); ?></p>
+                                
+                                <table cellpadding="8">
+                                <tbody>
+                                <tr><td><?php _e('Enable Visual BBPRess Editor', 'wp-edit'); ?></td>
+                                	<td>
+                                    <input id="bbpress_editor" type="checkbox" value="1" name="bbpress_editor" <?php echo $bbpress_editor; ?> />
+                                    <label for="bbpress_editor"><?php _e('Replaces default textarea with modified visual editor.', 'wp-edit'); ?></label>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -1610,7 +1633,7 @@ class wp_edit_class {
 								<tbody>
 								<tr><td><?php _e('Support Forum:','wp-edit'); ?></td>
 									<td>
-									<?php echo '<a target="_blank" href="http://forum.wpeditpro.com">'.__('Support Forum', 'wp-edit').'</a>'; ?>
+									<?php echo '<a target="_blank" href="https://wordpress.org/support/plugin/wp-edit">'.__('Support Forum', 'wp-edit').'</a>'; ?>
 									</td>
 								</tr>
 								<tr><td><?php _e('Knowledge Base:','wp-edit'); ?></td>
@@ -2078,6 +2101,7 @@ class wp_edit_class {
 			$options_editor['editor_add_pre_styles'] = isset($_POST['editor_add_pre_styles']) ? '1' : '0';
 			$options_editor['default_editor_fontsize_type'] = isset($_POST['default_editor_fontsize_type']) ? $_POST['default_editor_fontsize_type'] : 'pt';
 			$options_editor['default_editor_fontsize_values'] = isset($_POST['default_editor_fontsize_values']) ? sanitize_text_field($_POST['default_editor_fontsize_values']) : '';
+			$options_editor['bbpress_editor'] = isset($_POST['bbpress_editor']) ? '1' : '0';
 			
 			update_option('wp_edit_editor', $options_editor);
 				

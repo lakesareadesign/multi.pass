@@ -17,15 +17,18 @@ if ( !class_exists('MSP_Settings' ) ):
 class MSP_Settings {
 
     private $settings_api;
+    private $mspdb;
 
     function __construct() {
 
         $this->settings_api = new WeDevs_Settings_API;
+        // Used for getting sliders list in settings
+        $this->mspdb = new MSP_DB;
 
         add_action( 'admin_init', array( $this, 'admin_init' ) );
         add_action( 'admin_menu', array( $this, 'admin_menu' ), 11 );
         add_action( 'admin_action_msp_envato_license', array( $this, 'envato_license_updated' ) );
-        
+
         add_action( 'admin_footer', array( $this, 'print_setting_script' ) );
         add_filter( 'axiom_wedev_setting_section_submit_button', array( $this, 'section_submit_button' ), 10, 2 );
     }
@@ -39,11 +42,11 @@ class MSP_Settings {
 
         //initialize settings
         $this->settings_api->admin_init();
-        
+
         $this->flush_sliders_cache();
     }
 
-    
+
     function flush_sliders_cache(){
 
         if( isset( $_POST['msp_general_setting'] ) ){
@@ -54,19 +57,50 @@ class MSP_Settings {
     }
 
 
+    // Get list of sliders
+    function list_sliders() {
+
+        $html    = '';
+        $sliders = $this->mspdb->get_sliders();
+        $html    = '<div class="msprp-list-wrapper"><div class="msprp-list-header">
+                        <label for="select-all-sliders" class="msprp-check-all">
+                        <input type="checkbox" id="select-all-sliders" class="msprp-check-all-box"><span>' .
+                        __( 'Select All', MSWP_TEXT_DOMAIN ) . '</span></label>'.
+                    '</div><ul name="msprp-slider" id="msprp-slider" class="msprp-list slider-list">';
+
+            if( ! empty( $sliders ) ){
+                foreach ( $sliders as $slider ) {
+                    $html .= '<li><label for="slide-'.$slider['ID'].'"></label>'.
+                                '<input type="checkbox" name="slider-ids[]" id="slide-'.$slider['ID'].'" class="msprp-slider-select" value="'.$slider['ID'].'">'.
+                                $slider['ID'] . '-' . $slider['title'].
+                             '</li>';
+                }
+            }
+
+        $html .= '</ul></div>';
+
+        return $html;
+
+    }
+
+
     function section_submit_button( $button_markup, $section ){
         if( isset( $section['id'] ) && 'msp_envato_license' == $section['id'] ){
             $is_license_actived = get_option( MSWP_SLUG . '_is_license_actived', 0 );
-            return sprintf( '<a id="validate_envato_license" class="button button-primary button-large" data-activate="%1$s" data-isactive="%3$d" data-deactivate="%2$s" data-validation="%4$s" >%1$s</a>%5$s', 
+            return sprintf( '<a id="validate_envato_license" class="button button-primary button-large" data-activate="%1$s" data-isactive="%3$d" data-deactivate="%2$s" data-validation="%4$s" >%1$s</a>%5$s',
                             __( 'Activate License', MSWP_TEXT_DOMAIN ), __( 'Deactivate License', MSWP_TEXT_DOMAIN ), (int)$is_license_actived,
                             __( 'Validating ..', MSWP_TEXT_DOMAIN ), '<div class="msp-msg-nag">is not actived</div>' );
+        }
+        if( isset( $section['id'] ) && 'msp_replacer' == $section['id'] ){
+            return sprintf( '<button id="msprp-replace-btn" data-nonce="%2$s" class="button button-primary button-large">%1$s</button>',
+                            __( 'Start', MSWP_TEXT_DOMAIN ), wp_create_nonce( 'msprp-nonce' ) );
         }
         return $button_markup;
     }
 
 
     function admin_menu() {
-        
+
         add_submenu_page(
             MSWP_SLUG,
             __( 'Settings' , MSWP_TEXT_DOMAIN ),
@@ -79,7 +113,7 @@ class MSP_Settings {
 
     function get_settings_sections() {
         $sections = array(
-            
+
             array(
                 'id' => 'msp_general_setting',
                 'title' => __( 'General Settings', MSWP_TEXT_DOMAIN )
@@ -108,6 +142,11 @@ class MSP_Settings {
             'title' => __( 'Advanced Setting', MSWP_TEXT_DOMAIN )
         );
 
+        $sections[] =  array(
+            'id' => 'msp_replacer',
+            'title' => __( 'Replace Settings', MSWP_TEXT_DOMAIN )
+        );
+
         return $sections;
     }
 
@@ -117,9 +156,9 @@ class MSP_Settings {
      * @return array settings fields
      */
     function get_settings_fields() {
-        
+
         $settings_fields = array();
-            
+
         $settings_fields['msp_general_setting'] = array(
             array(
                 'name'  => 'hide_info_table',
@@ -144,7 +183,7 @@ class MSP_Settings {
         );
 
         if( ! apply_filters( MSWP_SLUG.'_disable_auto_update', 0 ) ) {
-            
+
             $settings_fields['msp_envato_license'] = array(
 
                     array(
@@ -185,12 +224,51 @@ class MSP_Settings {
             )
         );
 
+        $settings_fields['msp_replacer'] = array(
+            array(
+                'name'  => 'msprp_list_sliders',
+                'label' => __( 'Select Slider', MSWP_TEXT_DOMAIN ),
+                'desc'  => $this->list_sliders(),
+                'type'  => 'html',
+            ),
+            array(
+                'name'  => 'msprp_search',
+                'label' => __( 'Search for:', MSWP_TEXT_DOMAIN ),
+                'desc'  => '<input type="search" name="msprp-search" id="msprp-search" class="msprp-search" size="50"> <label for="msprp-replace-all-urls" class="msprp-all-urls"><input type="checkbox" id="msprp-replace-all-urls">' . __( 'All URLs', MSWP_TEXT_DOMAIN ) . '</label>',
+                'type'  => 'html'
+            ),
+            array(
+                'name'  => 'msprp_replace',
+                'label' => __( 'Replace with:', MSWP_TEXT_DOMAIN ),
+                'desc'  => '<input type="search" name="msprp-replace" id="msprp-replace" class="msprp-replace" size="50"><input type="button" class="button msprp-current-url" id="msprp-replace-current-url" value="' . __( 'Load current URL', MSWP_TEXT_DOMAIN ) . '">',
+                'type'  => 'html'
+            ),
+            array(
+                'name'  => 'msprp_case_sensitive',
+                'label' => '',
+                'desc'  => '<label for="msprp-case-sensitive"><input type="checkbox" id="msprp-case-sensitive" name="msprp_cs"><span>' . __( 'Case Sensitive', MSWP_TEXT_DOMAIN ) . '</span></label>',
+                'type'  => 'html'
+            ),
+            array(
+                'name'  => 'msprp_where',
+                'label' => __( 'Replace in:', MSWP_TEXT_DOMAIN ),
+                'desc'  => '<label for="msprp-replace-slides"><input type="checkbox" id="msprp-replace-slides" class="msprp-replace-where" value="slides"><span>' . __( 'Slides', MSWP_TEXT_DOMAIN ) . '</span></label> <label for="msprp-replace-layers"><input type="checkbox" id="msprp-replace-layers" class="msprp-replace-where" value="layers"><span>' . __( 'Layers', MSWP_TEXT_DOMAIN ) . '</span></label>',
+                'type'  => 'html'
+            ),
+            array(
+                'name'  => 'msprp_backup',
+                'label' => '',
+                'desc'  => '<label for="msprp-case-sensitive"><input type="checkbox" id="msprp-backup" name="msprp_backup"><span>' . __( 'Backup Befor Replace', MSWP_TEXT_DOMAIN ) . '</span> <small>'. __( '(Any existing backups will be overwriten).', MSWP_TEXT_DOMAIN ) .'</small></label>',
+                'type'  => 'html'
+                )
+        );
+
         return $settings_fields;
     }
 
     function render_setting_page() {
         echo '<div class="wrap">';
-        
+
         $this->settings_api->show_navigation();
         $this->settings_api->show_forms();
 
@@ -217,7 +295,7 @@ class MSP_Settings {
 
     /**
      * This code uses localstorage for displaying active tabs
-     * 
+     *
      */
     function print_setting_script() {
 
@@ -281,7 +359,7 @@ class MSP_Settings {
                     },
                     function( res ){
                         res = JSON.parse(res);
-                        
+
                         _is_license_active = res.success && ( res.status === 'active' );
 
                         msp_enable_activation_form( _is_license_active );
@@ -290,7 +368,70 @@ class MSP_Settings {
                         $this.data('isactive', String( _is_license_active ) );
                     }
                 );
-                    
+
+            });
+
+            var $slidersCheckbox = $('.msprp-slider-select'),
+                $replace         = $('#msprp-replace'),
+                $replace_btn     = $('#msprp-replace-btn'),
+                $needDisable     = $('#msprp-search, #msprp-case-sensitive'),
+                $results         = $("<div/>").addClass("msp-msg-nag").attr('id', 'msprp-results');
+
+            $('.msprp-check-all').click(function(){
+                var check_all = $(this).children();
+                if ( $('.msprp-check-all-box').prop('checked') ) {
+                    $slidersCheckbox.prop('checked', true);
+                    check_all.text("Unselect All");
+                } else {
+                     $slidersCheckbox.prop('checked', false);
+                     check_all.text("Select All");
+                }
+            });
+
+            $('.msprp-all-urls').click(function(){
+                var all_links = $(this).children();
+                if ( all_links.prop('checked') ) {
+                    $needDisable.prop('disabled', true);
+                } else {
+                    $needDisable.prop('disabled', false);
+                }
+            });
+
+            $('.msprp-current-url').click(function(){
+                $replace.val(window.location.protocol + '//' + window.location.hostname);
+            });
+
+            $replace_btn.click(function(e) {
+                e.preventDefault();
+                $replace_btn.prop('disabled', true);
+                var r = confirm( 'Are You Sure?' );
+                if ( r === false ) {
+                    return false;
+                }
+                jQuery.post( ajaxurl,
+                    {
+                        ids:     $('.msprp-slider-select:checked').map(function(){
+                              return $(this).val();
+                            }).get(),
+                        search:   $('#msprp-search').val(),
+                        all_urls: $('#msprp-replace-all-urls').prop("checked") ? 'on' : 'off',
+                        replace:  $replace.val(),
+                        cs:       $('#msprp-case-sensitive').prop("checked") ? 'on' : 'off',
+                        where:    $('.msprp-replace-where:checked').map(function(){
+                              return $(this).val();
+                            }).get(),
+                        backup:   $('#msprp-backup').prop("checked") ? 'on' : 'off',
+                        nonce:    $(this).data('nonce'),
+                        action:   'msp_replace'
+                    },
+                    function(response){
+                        if (response.success) {
+                            $results.addClass('success');
+                        }
+                        $replace_btn.after($results.empty().append(response.data)).prop('disabled', false);
+
+                    }
+                );
             });
 
         });
@@ -315,6 +456,23 @@ class MSP_Settings {
             }
             .msp-msg-nag sub{
                 vertical-align: middle;
+            }
+            .msprp-list-wrapper{
+                padding: 15px;
+                background-color: #fff;
+            }
+            .msprp-list {
+                min-height: 42px;
+                max-height: 300px;
+                overflow: auto;
+                padding: 0.9em;
+                border: 1px solid #ddd;
+                background-color: #fdfdfd;
+                overflow-y: auto;
+                margin: 0;
+            }
+            .msprp-list-header {
+                margin-bottom: 15px;
             }
         </style>
         <?php

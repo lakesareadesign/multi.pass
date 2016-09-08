@@ -351,7 +351,7 @@ class UM_Fields {
 		}
 
 		if ( isset($data['icon']) && $data['icon'] && isset( $this->field_icons ) && $this->field_icons == 'field' ) {
-			$classes .= 'um-iconed';
+			$classes .= 'um-iconed ';
 		}
 
 		if ($add) {
@@ -366,6 +366,7 @@ class UM_Fields {
 	***/
 	function field_value( $key, $default = false, $data = null ) {
 		global $ultimatemember;
+ 		
 
 		if ( isset($_SESSION) && isset($_SESSION['um_social_profile'][$key]) && isset( $this->set_mode ) && $this->set_mode == 'register' )
 			return $_SESSION['um_social_profile'][$key];
@@ -496,6 +497,10 @@ class UM_Fields {
 					}
 
 					$um_user_value = um_user( $key );
+					
+					if( $key == 'role' ){
+						$um_user_value = strtolower( $um_user_value );
+					}
 
 					if ( $um_user_value == $value ) {
 						return true;
@@ -505,7 +510,15 @@ class UM_Fields {
 						return true;
 					}
 
-					
+					if ( is_array( $um_user_value ) ){
+					    foreach( $um_user_value as $u) {
+							if( $u == html_entity_decode( $value ) ){
+								return true;
+							}
+						}
+					}
+
+
 				} else {
 
 					if ( isset($data['default']) && $data['default'] == $value ) {
@@ -910,7 +923,8 @@ class UM_Fields {
 		global $ultimatemember;
 
 		$output = null;
-
+		$disabled = '';
+		
 		// get whole field data
 		if ( isset( $data ) && is_array( $data ) ) {
 			$data = $this->get_field($key);
@@ -1601,22 +1615,22 @@ class UM_Fields {
 
 						// role field
 						if ( $form_key == 'role' ) {
-
 							global $wpdb;
 							foreach($options as $key => $val ) {
 								$val = (string) $val;
 								$val = trim( $val );
 								$post_id = $wpdb->get_var( 
-									$wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'um_role' AND post_title = %s", $val)
+									$wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'um_role' AND post_name = %s OR post_title = %s", $key, $val )
 								);
 								$_role = get_post( $post_id );
-								$new_roles[ $_role->post_name ] = $_role->post_title;
+								if( isset( $_role->post_title ) ){
+									$new_roles[ $_role->post_name ] = $_role->post_title;
+								}
 								wp_reset_postdata();
 							}
 
 							$options = $new_roles;
 						}
-
 
 						// add an empty option!
 						$output .= '<option value=""></option>';
@@ -1789,7 +1803,9 @@ class UM_Fields {
 							foreach($options as $rkey => $val ) {
 								$val = (string) $val;
 								$val = trim( $val );
-								$post_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'um_role' AND post_title = '$val'");
+								$post_id = $wpdb->get_var(
+									$wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'um_role' AND post_name = %s OR post_title = %s", $rkey, $val )
+								);
 								$_role = get_post($post_id);
 								$new_roles[$_role->post_name] = $_role->post_title;
 								wp_reset_postdata();

@@ -286,6 +286,11 @@ function bne_testimonial_admin_help_page() {
 
 							<div id="changelog_notes" style="display:none;">
 
+								<strong>1.7.5 ( September 5, 2016 )</strong>
+								<ul style="list-style:disc;margin-left:20px;">
+									<li>Fix: Featured Thumbnail metabox description was being thrown on other post types.</li>
+								</ul>
+
 								<strong>1.7.4 ( August 10, 2016 )</strong>
 								<ul style="list-style:disc;margin-left:20px;">
 									<li>Fix: depreciated notice for the list and slider widgets and PHP 7.</li>
@@ -337,6 +342,7 @@ function bne_testimonial_admin_help_page() {
 							<ul>
 								<li>Front end submission form</li>
 								<li>Masonry grid display</li>
+								<li>Thumbnail Slider display</li>
 								<li>Star Ratings</li>
 								<li>Developer tools and support!</li>
 								<li>Additional theme styles</li>
@@ -357,13 +363,6 @@ function bne_testimonial_admin_help_page() {
 								<li><a href="http://www.bnecreative.com/products/full-size-page-backgrounds-for-wordpress/" target="_blank">BNE Backstretch</a></li>
 								<li><a href="http://www.bnecreative.com/products/off-canvas-sidebar-content-for-wordpress/" target="_blank">BNE Flyouts</a></li>
 								<li><a href="http://www.bnecreative.com/products/logo-showcase-for-wordpress/" target="_blank">BNE Logo Showcase</a></li>
-							</ul>
-							<strong>WP Themes</strong>
-							<ul>
-								<li><a href="http://www.bnecreative.com/products/babia-wordpress-theme/" target="_blank">Babia</a></li>
-								<li><a href="http://www.bnecreative.com/products/natista-wordpress-theme/" target="_blank">Natista</a></li>
-								<li><a href="http://www.bnecreative.com/products/careclinic-medical-wordpress-theme/" target="_blank">CareClinic</a></li>
-								<li><a href="http://www.bnecreative.com/products/centium-prime-wordpress-theme/" target="_blank">Centium Prime</a></li>
 							</ul>
 						</div><!-- .widget (end) -->
 					

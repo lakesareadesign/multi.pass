@@ -1,6 +1,30 @@
+Version 3.0.4 / (16.08.2016)
+============================
+- [Fix]: Addressed as issue with adding custom css class name to slides in post slider
+- [Fix]: Minor bugs fixed
+
+Version 3.0.0 / (15.08.2016)
+============================
+- [New]: Introducing overlay layers, now you can add animated layers over the slider too.
+- [New]: Introducing masked layer, this feature gives you the ability of masking layers to achieve fresh looking animations.
+- [New]: Introducing smart layer actions, now it is possible to add "show layer", "hide layer" or "toggle layer" actions to the layers.
+- [New]: Introducing sample sliders store. Now, "direct buyers" of Master Slider are able to access to weekly new sample sliders right from their websites. Master Slider will auto fetches new sample sliders from Master server. All you have to do is adding your purchase key in Master Slider > Setting page to enable the "automatic update" and "Live Sample Sliders" feature.
+- [New]: New slider skin, "Minimal".
+- [New]: New slider sample as the example of new features.
+- [New]: Search and replace tool for applying bulk changes in slides and layers content (MasterSlider > Setting > Replace Setting).
+- [New]: Option of enabling background video in mobile devices.
+- [Fix]: Static layers positioning in Firefox.
+- [Improvement]: Layer animations and show/hide timing functionality.
+- [Improvement]: In slider alias verification field.
+- [Improvement]: Some minor security improvements.
+
+Version 2.29.0 / (15.03.2016)
+============================
+- [Fix]: An issue in Master slider gallery view with latest version of Master Slider fixed
+
 Version 2.28.3 / (07.03.2016)
 ============================
-- An issue with resizing images in post slider fixed
+- [Fix]: An issue with resizing images in post slider fixed
 
 Version 2.28.1 / (02.03.2016)
 ============================

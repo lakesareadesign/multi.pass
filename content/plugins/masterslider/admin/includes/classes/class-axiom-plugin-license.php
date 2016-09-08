@@ -80,7 +80,7 @@ class Axiom_Plugin_License {
 	    $args = array(
 	        'user-agent' => 'WordPress/'.$wp_version.'; ' . get_site_url(),
 	        'timeout'    => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
-	        'body' => array(
+	        'body'       => array(
 	            'action'	=> $action,
 		    	'key'  		=> $purchase_code,
 		    	'user' 		=> $username,
@@ -136,7 +136,7 @@ class Axiom_Plugin_License {
 
 	    if( false !== $response ){
 
-	    	if( ! isset( $response['result'] ) ){
+	    	if( empty( $response['result'] ) ){
 	    		$output['message'] = __( 'Bad request with wrong header ..', $this->text_domain );
 	    		return $output;
 	    	}
@@ -178,6 +178,10 @@ class Axiom_Plugin_License {
 	    	$output['message'] = __( 'Connection error ..', $this->text_domain );
 	    	$output['success'] = 0;
 	    }
+
+        delete_transient( 'msp_get_remote_sample_sliders' );
+
+        do_action( 'masterslider_on_license_action', $action, $output );
 
 	    return $output;
 	}

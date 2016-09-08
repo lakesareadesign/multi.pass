@@ -11,13 +11,16 @@ class UM_Access {
 		
 	}
 	
-	/***
-	***	@do actions based on priority
-	***/
+	
+	/**
+	 * Set custom access actions and redirection
+	 */
 	function template_redirect() {
 		global $post, $ultimatemember;
 
 		do_action('um_access_global_settings');
+
+		do_action('um_access_user_custom_homepage');
 		
 		do_action('um_access_frontpage_per_role');
 		
@@ -42,9 +45,12 @@ class UM_Access {
 		
 	}
 	
-	/***
-	***	@get meta
-	***/
+	
+	/**
+	 * Get custom access settings meta
+	 * @param  integer $post_id 
+	 * @return array
+	 */
 	function get_meta( $post_id ) {
 		global $post;
 		$meta = get_post_custom( $post_id );
@@ -60,6 +66,20 @@ class UM_Access {
 			return (array)$array;
 		else
 			return array('');
+	}
+
+	/**
+	 * Sets a custom access referer in a redirect URL
+	 * @param string $url    
+	 * @param string $referer 
+	 */
+	function set_referer( $url, $referer ){
+
+		$enable_referer = apply_filters("um_access_enable_referer", false );
+		if( ! $enable_referer ) return $url;
+
+		$url = add_query_arg('um_ref',$referer, $url);
+		return $url;
 	}
 
 }

@@ -22,15 +22,15 @@ h5 { color: <?php echo $this->aof_options['h5_color']; ?>; }
 
 .quicklinks li.wpshape_site_title { <?php if($this->aof_options['logo_top_margin'] != 0) echo 'margin-top:-' . $this->aof_options['logo_top_margin'] . 'px !important;'; if($this->aof_options['logo_bottom_margin'] != 0) echo 'margin-top:' . $this->aof_options['logo_bottom_margin'] . 'px !important;'; ?>}
 .quicklinks li.wpshape_site_title a{ margin-left:20px !important; outline:none; border:none; }
-<?php 
+<?php
 $admin_logo = $this->aof_options['admin_logo'];
 $admin_logo_url = (is_numeric($admin_logo)) ? $this->get_wps_image_url($admin_logo) : $admin_logo;
 if(!empty($admin_logo_url)){ ?>
 .quicklinks li.wpshape_site_title a, .quicklinks li.wpshape_site_title a:hover, .quicklinks li.wpshape_site_title a:focus {
-    background:url(<?php echo $admin_logo_url;  ?>) left 4px no-repeat !important; text-indent:-9999px !important; width: auto; 
+    background:url(<?php echo $admin_logo_url;  ?>) left 4px no-repeat !important; text-indent:-9999px !important; width: auto;
 }
 <?php } ?>
- 
+
 /* Buttons */
 .wp-core-ui .button,.wp-core-ui .button-secondary{color:<?php echo $this->aof_options['sec_button_text_color']; ?>;background:<?php echo $this->aof_options['sec_button_color']; ?>;}
 .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover { color:<?php echo $this->aof_options['sec_button_hover_text_color']; ?>;background:<?php echo $this->aof_options['sec_button_hover_color']; ?>;}
@@ -46,7 +46,7 @@ if(!empty($admin_logo_url)){ ?>
 
 /* Left Menu */
     <?php
-    
+
     if(isset($this->aof_options['admin_menu_width']) && !empty($this->aof_options['admin_menu_width'])) {
         $admin_menu_width = $this->aof_options['admin_menu_width'];
         $wp_content_margin = $admin_menu_width + 20;
@@ -61,8 +61,8 @@ if(!empty($admin_logo_url)){ ?>
             margin-left: <?php echo $wp_content_margin . 'px'; ?>;
             <?php } ?>
         }
-        #adminmenu .wp-submenu { 
-            <?php if(is_rtl()) echo 'right: ' . $admin_menu_width . 'px'; else echo 'left: ' . $admin_menu_width . 'px'; ?>; 
+        #adminmenu .wp-submenu {
+            <?php if(is_rtl()) echo 'right: ' . $admin_menu_width . 'px'; else echo 'left: ' . $admin_menu_width . 'px'; ?>;
         }
         .quicklinks li.wpshape_site_title {
             width: <?php echo $admin_menu_width . 'px'; ?> !important;
@@ -112,10 +112,10 @@ ol.sortUls a.plus:before, ol.sortUls a.minus:before { color: <?php echo $this->a
 .wrap .add-new-h2:hover { background-color: <?php echo $this->aof_options['addbtn_hover_bg_color']; ?>; color: <?php echo $this->aof_options['addbtn_hover_text_color']; ?>; }
 
 /* Message box */
-div.updated { border-left: 4px solid <?php echo $this->aof_options['msgbox_border_color']; ?>; background-color: <?php echo $this->aof_options['msg_box_color']; ?>; color: <?php echo $this->aof_options['msgbox_text_color']; ?>; }
+div.updated, #update-nag, .update-nag { border-left: 4px solid <?php echo $this->aof_options['msgbox_border_color']; ?>; background-color: <?php echo $this->aof_options['msg_box_color']; ?>; color: <?php echo $this->aof_options['msgbox_text_color']; ?>; }
 div.updated #bulk-titles div a:before, .notice-dismiss:before, .tagchecklist span a:before, .welcome-panel .welcome-panel-close:before { <?php echo $this->aof_options['msg_box_color']; ?>; color: <?php echo $this->aof_options['msgbox_text_color']; ?>; }
-div.updated a { color: <?php echo $this->aof_options['msgbox_link_color']; ?>; }
-div.updated a:hover { color: <?php echo $this->aof_options['msgbox_link_hover_color']; ?>; }
+div.updated a, #update-nag a, .update-nag a { color: <?php echo $this->aof_options['msgbox_link_color']; ?>; }
+div.updated a:hover, #update-nag a:hover, .update-nag a:hover { color: <?php echo $this->aof_options['msgbox_link_hover_color']; ?>; }
 
 
 /* Option conditional logics */
@@ -131,18 +131,18 @@ tr.wpshapere_privilege_users {
 }
 
 <?php if($this->aof_options['design_type'] == 1) { ?>
-.wp-core-ui .button-primary, #wpadminbar, .postbox,.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button, .wp-core-ui .button-secondary, .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover, #wpadminbar .menupop .ab-sub-wrapper, #wpadminbar .shortlink-input, .theme-browser .theme { 
+.wp-core-ui .button-primary, #wpadminbar, .postbox,.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button, .wp-core-ui .button-secondary, .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover, #wpadminbar .menupop .ab-sub-wrapper, #wpadminbar .shortlink-input, .theme-browser .theme {
 	-webkit-box-shadow: none !important;
 	-moz-box-shadow: none !important;
 	box-shadow: none !important;
 	border: none !important;
                     text-shadow: none !important;
 }
-input[type=checkbox], input[type=radio], #update-nag, .update-nag, .wp-list-table, .widefat, input[type=email], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=url], select, textarea, #adminmenu .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu, .folded #adminmenu a.wp-has-current-submenu:focus+.wp-submenu, .mce-toolbar .mce-btn-group .mce-btn.mce-listbox, .wp-color-result, .widget-top, .widgets-holder-wrap { 
+input[type=checkbox], input[type=radio], #update-nag, .update-nag, .wp-list-table, .widefat, input[type=email], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=url], select, textarea, #adminmenu .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu, .folded #adminmenu a.wp-has-current-submenu:focus+.wp-submenu, .mce-toolbar .mce-btn-group .mce-btn.mce-listbox, .wp-color-result, .widget-top, .widgets-holder-wrap {
 	-webkit-box-shadow: none !important;
 	-moz-box-shadow: none !important;
 	box-shadow: none !important;
-} 
+}
 body #dashboard-widgets .postbox form .submit { padding: 10px 0 !important; }
 <?php } ?>
 
