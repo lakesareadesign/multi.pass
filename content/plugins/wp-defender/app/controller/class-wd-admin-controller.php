@@ -196,10 +196,9 @@ class WD_Admin_Controller extends WD_Controller {
 	 */
 	public function menu_order( $menu_order ) {
 		global $submenu;
-
 		if ( isset( $submenu['wp-defender'] ) ) {
 			$defender_menu       = $submenu['wp-defender'];
-			$defender_menu[6][4] = 'wd-menu-hide';
+			//$defender_menu[6][4] = 'wd-menu-hide';
 			$defender_menu[0][0] = __( "Dashboard", wp_defender()->domain );
 			$settings            = $defender_menu[1];
 			unset( $defender_menu[1] );

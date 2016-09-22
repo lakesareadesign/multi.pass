@@ -1064,7 +1064,7 @@ form.fl-builder-settings {
 	display: inline-block;
 	margin: 0;
 	padding: 10px 20px;
-	text-decoration: none;
+	text-decoration: none !important;
 }
 .fl-builder-settings-tabs a:hover {
 	color: #333;

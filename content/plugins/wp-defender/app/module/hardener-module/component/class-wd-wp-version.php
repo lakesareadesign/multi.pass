@@ -22,7 +22,7 @@ class WD_WP_Version extends WD_Hardener_Abstract {
 
 	/**
 	 * This will check if we need to upgrade or not
-	 * @return bool
+	 * @return bool|WP_Error
 	 */
 	public function check() {
 		$latest = $this->get_latest_version();
@@ -45,6 +45,12 @@ class WD_WP_Version extends WD_Hardener_Abstract {
 		if ( ! function_exists( 'get_core_updates' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/update.php';
 		}
+		$update_data = get_core_updates();
+
+		if ( $update_data === false ) {
+			wp_version_check( array(), true );
+		}
+
 		$update_data = get_core_updates();
 
 		if ( isset( $update_data[0] ) && is_object( $update_data[0] ) ) {

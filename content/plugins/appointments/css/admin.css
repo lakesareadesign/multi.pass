@@ -39,7 +39,7 @@ a.pickcolor {
 	font-size: 24px;
 	font-weight: bold;
 }
-a.app-remove_break, a.app-remove_break:hover, a.app-remove_break:active { color: #C33; }		   		 	  		  	 	 	
+a.app-remove_break, a.app-remove_break:hover, a.app-remove_break:active { color: #C33; }
 .app-remove_break:after {
 	content: " x";
 }
@@ -112,5 +112,15 @@ div.appointments-settings .subsubsub a:focus {
 	display:block;
 }
 
+/** WORKING HOURS PAGE **/
+body.appointments_page_app_settings .appointments-settings-tab-working_hours table.widefat {
+	background:transparent;
+	border:none;
+}
 
-/* 133620-1472790783-au */
+body.appointments_page_app_settings .appointments-settings-tab-working_hours table.widefat th {
+	font-weight:bold;
+}
+
+
+/* 133620-1474567015-au */

@@ -94,7 +94,7 @@ class WD_Utils {
 	 */
 	public static function get_dir_tree( $path, $include_file = true, $include_dir = true, $exclude = array(), $include = array(), $is_recursive = true, $max_size = false ) {
 		if ( ! class_exists( 'WD_Dir_Tree', false ) ) {
-			include WP_CONTENT_DIR . '/plugins/wp-defender/app/component/class-wd-dir-tree.php';
+			include WP_PLUGIN_DIR . '/wp-defender/app/component/class-wd-dir-tree.php';
 		}
 		$tv = new WD_Dir_Tree( $path, $include_file, $include_dir, $include, $exclude, $is_recursive );
 		if ( $max_size != false ) {
@@ -573,7 +573,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 */
 	public static function get_plugin_abs_path( $slug ) {
 		if ( ! is_file( $slug ) ) {
-			$slug = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $slug;
+			$slug = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $slug;
 		}
 
 		return $slug;

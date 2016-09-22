@@ -159,6 +159,8 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	public function json_check_requirements () {
 		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die;
 
+		$minimum_exec_time = 150;
+
 		// Check WP version
 		wp_version_check();
 		$wp_state_response = get_site_transient('update_core');
@@ -167,12 +169,27 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 			: false
 		;
 
+		if (!$wp_state) Snapshot_Helper_Log::note("There has been an issue with determining WordPress state");
+
 		// Fileset
 		$set = Snapshot_Model_Fileset::get_source('full');
 		$location = $set->get_root();
 
+		if (empty($location) || !file_exists($location)) Snapshot_Helper_Log::note("There has been an issue with determining location");
+
 		// Tables
 		$tables = Snapshot_Model_Queue_Tableset::get_all_tables();
+		if (empty($tables)) Snapshot_Helper_Log::note("There has been an issue with determining your database setup");
+
+		$open_basedir = ini_get('open_basedir');
+		if ($open_basedir) Snapshot_Helper_Log::note("It seems that open_basedir is in effect");
+
+		$exec_time = ini_get('max_execution_time');
+		$runtime = (int)$exec_time >= $minimum_exec_time;
+		if (!$runtime) Snapshot_Helper_Log::note("Run time might not be enough: {$exec_time}");
+
+		$mysqli = (bool)function_exists('mysqli_connect');
+		if (!$mysqli) Snapshot_Helper_Log::note("We do not seem to have mysqli available");
 
 		wp_send_json(array(
 			'webserver' => array(
@@ -183,16 +200,16 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 			),
 			'php' => array(
 				'basedir' => array(
-					'value' => ini_get('open_basedir') ? __('Enabled', SNAPSHOT_I18N_DOMAIN) : __('Disabled', SNAPSHOT_I18N_DOMAIN),
-					'result' => !ini_get('open_basedir'),
+					'value' => $open_basedir ? __('Enabled', SNAPSHOT_I18N_DOMAIN) : __('Disabled', SNAPSHOT_I18N_DOMAIN),
+					'result' => !$open_basedir,
 				),
 				'maxtime' => array(
-					'value' => ini_get('max_execution_time'),
-					'result' => (int)ini_get('max_execution_time') >= 150,
+					'value' => $exec_time,
+					'result' => $runtime,
 				),
 				'mysqli' => array(
-					'value' => (int)function_exists('mysqli_connect'),
-					'result' => (bool)function_exists('mysqli_connect'),
+					'value' => (int)$mysqli,
+					'result' => (bool)$mysqli,
 				),
 			),
 			'wordpress' => array(
@@ -230,7 +247,7 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 		;
 		$restore_path = !empty($data['restore']) && file_exists($data['restore'])
 			? $data['restore']
-			: 'd:/tmp/restore'
+			: false
 		;
 
 		$credentials = !empty($data['credentials'])
@@ -252,7 +269,7 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 			));
 		}
 
-		if (!file_exists($restore_path)) {
+		if (empty($restore_path) || !file_exists($restore_path)) {
 			wp_send_json(array(
 				'task' => 'clearing',
 				'status' => false,

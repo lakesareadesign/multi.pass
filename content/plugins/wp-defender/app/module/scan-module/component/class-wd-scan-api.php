@@ -197,38 +197,21 @@ class WD_Scan_Api extends WD_Component {
 	public static function download_md5_files() {
 		set_time_limit( 0 );
 		global $wp_version, $wp_local_package;
-		$url = "https://api.wordpress.org/core/checksums/1.0/?version={$wp_version}";
+		$locale = 'en_US';
 		if ( ! is_null( $wp_local_package ) && count( explode( '_', $wp_local_package ) ) == 2 ) {
-			$url = $url . '&locale=' . $wp_local_package;
+			$locale = $wp_local_package;
 		}
 
-		$response = wp_remote_get( $url, apply_filters( 'wd_vulndb_api_request_arguments',
-			array(
-				'timeout' => 15
-			) ) );
-
-		if (
-			'OK' !== wp_remote_retrieve_response_message( $response )
-			OR 200 !== wp_remote_retrieve_response_code( $response )
-		) {
-			self::log( var_export( $response, true ) );
-
-			return new WP_Error( wp_remote_retrieve_response_code( $response ), wp_remote_retrieve_response_message( $response ) );
+		$checksum = get_core_checksums( $wp_version, $locale );
+		if ( $checksum == false ) {
+			return $checksum;
 		}
 
-		$body = wp_remote_retrieve_body( $response );
-		$body = json_decode( $body, true );
-
-		if ( isset( $body['checksums'][ $wp_version ] ) ) {
-			return $body['checksums'][ $wp_version ];
+		if ( isset( $checksum[ $wp_version ] ) ) {
+			return $checksum[ $wp_version ];
 		}
 
-		//if it goes here, measn there is not $wp_version sindie the checksum return, and have no idea why WP return 2 schema version of md5 checksum :/
-		if ( isset( $body['checksums'] ) && is_array( $body['checksums'] ) ) {
-			return $body['checksums'];
-		}
-
-		return false;
+		return $checksum;
 	}
 
 	/**
@@ -334,7 +317,7 @@ class WD_Scan_Api extends WD_Component {
 		}
 		WD_Utils::cache( self::CACHE_CONTENT_FILES, $content_files );
 		//just for debug
-		WD_Utils::cache( self::CACHE_CONTENT_FILES . 'count', count( $content_files ) );
+		//WD_Utils::cache( self::CACHE_CONTENT_FILES . 'count', count( $content_files ) );
 
 		return $content_files;
 	}

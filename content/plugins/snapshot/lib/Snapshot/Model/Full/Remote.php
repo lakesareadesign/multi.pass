@@ -5,8 +5,6 @@
  */
 class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 
-	const CACHE_EXPIRATION = 86400;
-
 	public function get_errors () {
 		$errors = array_merge(
 			array_values(parent::get_errors()),
@@ -101,13 +99,25 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 	/**
 	 * Resets backups cache, which forces backups reload
 	 *
+	 * @uses $this->reset_api_caches()
+	 *
 	 * @param bool $forced Optional API cleanup, defaults to false
 	 *
 	 * @return bool
 	 */
 	public function reset_backups_cache ($forced=false) {
 		Snapshot_Model_Transient::delete($this->get_filter("backups"));
+		return $this->reset_api_caches($forced);
+	}
 
+	/**
+	 * Resets API errors cache and, optionally, API cache as well
+	 *
+	 * @param bool $forced Optional API cleanup, defaults to false
+	 *
+	 * @return bool
+	 */
+	public function reset_api_caches ($forced=false) {
 		// Also reset any API error, so we actually force new request if needed
 		Snapshot_Model_Transient::delete($this->get_filter("api_error"));
 
@@ -175,6 +185,10 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 		$path = $backup->get_destination_path();
 		if (empty($path)) {
 			Snapshot_Helper_Log::warn("Unable to determine destination path for upload", "Remote");
+
+			// Also log error, this is an issue that should break after a while
+			Snapshot_Model_Full_Error::get()->add(Snapshot_Model_Full_Error::ERROR_UPLOAD);
+
 			return false;
 		}
 
@@ -212,12 +226,20 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 		// No local files still present
 		if (empty($all)) {
 			Snapshot_Helper_Log::warn("Error continuing upload, unable to determine target paths for: {$timestamp}", "Remote");
+
+			// Also log error, this is an issue that should break after a while
+			Snapshot_Model_Full_Error::get()->add(Snapshot_Model_Full_Error::ERROR_UPLOAD);
+
 			return false;
 		}
 		$path = reset($all);
 
 		if (empty($path) || !file_exists($path)) {
 			Snapshot_Helper_Log::warn("Unable to determine target path for continuing the upload", "Remote");
+
+			// Also log error, this is an issue that should break after a while
+			Snapshot_Model_Full_Error::get()->add(Snapshot_Model_Full_Error::ERROR_UPLOAD);
+
 			return false;
 		}
 
@@ -226,18 +248,8 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 		return Snapshot_Model_Full_Remote_Storage::get()->send_backup_file($path);
 	}
 
-	/**
-	 * Get local cache expiry timeframe.
-	 *
-	 * Filtered, defaults to constant (1 day in seconds)
-	 *
-	 * @return int Number of seconds to keep cache around
-	 */
 	public function get_cache_expiration () {
-		return apply_filters(
-			$this->get_filter('cache_expiration'),
-			self::CACHE_EXPIRATION
-		);
+		return Snapshot_Model_Full_Remote_Storage::get()->get_cache_expiration();
 	}
 
 	public function get_dashboard_api_key () {
@@ -393,29 +405,8 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 		return $backups;
 	}
 
-	/**
-	 * Connect to API and update local cache with fresh backups list
-	 *
-	 * @return bool
-	 */
 	private function _refresh () {
-		$backups = array();
-
-		// Connect to API and get the list
-		if (Snapshot_Model_Full_Remote_Api::get()->connect()) {
-			$backups = Snapshot_Model_Full_Remote_Storage::get()->get_remote_list();
-		}
-
-		$backups = apply_filters(
-			$this->get_filter("backups-refresh"),
-			$backups // API-obtained backup list
-		);
-
-		return Snapshot_Model_Transient::set(
-			$this->get_filter("backups"),
-			$backups,
-			$this->get_cache_expiration()
-		);
+		return Snapshot_Model_Full_Remote_Storage::get()->refresh_backups_list();
 	}
 
 }

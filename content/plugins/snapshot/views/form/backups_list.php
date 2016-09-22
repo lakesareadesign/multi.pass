@@ -202,6 +202,14 @@ function report_error (msg) {
 	alert(msg);
 }
 
+function report_restore_error ($step, msg) {
+	$step
+		.find(".progress.update p").removeClass('current')
+		.filter(".indicator").removeClass('current').end()
+		.filter(".error").addClass('current').end()
+	;
+}
+
 function restore ($step) {
 	var prm = new $.Deferred(),
 		$archive = $("#restore_target .step.connect :hidden.archive"),
@@ -210,22 +218,29 @@ function restore ($step) {
 		rq = {},
 		callback = function (request) {
 			request.action = "snapshot-full_backup-restore";
-			$.post(ajaxurl, request, function (data) {
-				if (data.error) {
-					report_error("Error restoring backup");
+			$.post(ajaxurl, request, function () {}, 'json')
+				.then(function (data) {
+					if (!data || (data || {}).error) {
+						report_restore_error($step, "Error restoring backup");
+						prm.resolve();
+						return false;
+					}
+					if (data.task !== 'clearing') {
+						var cls = 'fetching' === data.task ? 'fetch' : 'process';
+						restore_progress_display($step, cls);
+						callback(request);
+					} else {
+						restore_progress_display($step, (data.status ? 'done' : 'error'));
+						restore_in_progress = false;
+						prm.resolve();
+					}
+				})
+				.fail(function () {
+					console.log(arguments);
 					prm.resolve();
-					return false;
-				}
-				if (data.task !== 'clearing') {
-					var cls = 'fetching' === data.task ? 'fetch' : 'process';
-					restore_progress_display($step, cls);
-					callback(request);
-				} else {
-					restore_progress_display($step, (data.status ? 'done' : 'error'));
-					restore_in_progress = false;
-					prm.resolve();
-				}
-			});
+					return report_restore_error($step, "Restoration failed");
+				})
+			;
 		}
 	;
 
@@ -246,9 +261,18 @@ function restore ($step) {
 
 	restore_in_progress = true;
 	restore_progress_display($step, 'fetch');
+
+	$(window).on("beforeunload.snapshot-restore", function (e) {
+		var msg = "You still have a restore active, navigating off this page will stop it mid-process";
+		e.returnValue = msg;
+		return msg;
+	});
+
 	callback(rq);
 
-	return prm.promise();
+	return prm.promise().always(function () {
+		$(window).off("beforeunload.snapshot-restore");
+	});
 }
 
 function restore_progress_display ($step, progress) {

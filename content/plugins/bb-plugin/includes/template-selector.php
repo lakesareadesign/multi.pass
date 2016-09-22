@@ -21,12 +21,12 @@
 				<?php if ( FLBuilderModel::has_templates() ) : ?>
 				<div class="fl-builder-settings-message fl-builder-templates-cta">
 					<p>Save and reuse your layouts or kick-start your creativity with even more professionally designed templates.</p>
-					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'templates-cta' ) ); ?>" target="_blank">Learn More <i class="fa fa-external-link-square"></i></a>
+					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'templates-cta' ) ); ?>" target="_blank">Learn More <i class="fa fa-external-link-square"></i></a>
 				</div>
 				<?php else : ?>
 				<div class="fl-builder-settings-message fl-builder-templates-cta">
 					<p>Save and reuse your layouts or kick-start your creativity with dozens of professionally designed templates.</p>
-					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'templates-cta' ) ); ?>" target="_blank">Learn More <i class="fa fa-external-link-square"></i></a>
+					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'templates-cta' ) ); ?>" target="_blank">Learn More <i class="fa fa-external-link-square"></i></a>
 				</div>
 				<img class="fl-builder-templates-cta-img" src="<?php echo FL_BUILDER_URL; ?>img/templates-preview.jpg" />
 				<?php endif; ?>

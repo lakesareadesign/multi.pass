@@ -4,7 +4,7 @@
 if ( ! class_exists( 'WPMUDEV_Dashboard_Notice4' ) ) {
 	class WPMUDEV_Dashboard_Notice4 {
 
-		var $version = '4.0';
+		var $version = '4.1';
 		var $screen_id = false;
 		var $product_name = false;
 		var $product_update = false;
@@ -14,7 +14,7 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Notice4' ) ) {
 
 		function __construct() {
 			add_action( 'init', array( &$this, 'init' ) );
-			add_action( 'plugins_loaded', array( &$this, 'remove_older' ), 20 );
+			add_action( 'plugins_loaded', array( &$this, 'remove_older' ), 5 );
 		}
 
 		function remove_older() {
@@ -23,34 +23,45 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Notice4' ) ) {
 			//remove 3.0 notices
 			if ( is_object( $WPMUDEV_Dashboard_Notice3 ) ) {
 				remove_action( 'init', array( $WPMUDEV_Dashboard_Notice3, 'init' ) );
-			} else if ( class_exists( 'WPMUDEV_Dashboard_Notice3' ) ) { //if class is not in global (some projects included inside a method), we have to use a hacky way to remove the filter
-				/* Adapted from: https://github.com/herewithme/wp-filters-extras/ - Copyright 2012 Amaury Balmer - amaury@beapi.fr */
-				global $wp_filter;
-				$hook_name   = 'init';
-				$class_name  = 'WPMUDEV_Dashboard_Notice3';
-				$method_name = 'init';
-				$priority    = 10;
+				remove_action( 'plugins_loaded', array( $WPMUDEV_Dashboard_Notice3, 'init' ) );
+			} else if ( method_exists( 'WPMUDEV_Dashboard_Notice3', 'init' ) ) { //if class is not in global (some projects included inside a method), we have to use a hacky way to remove the filter
+				$this->deregister_hook( 'init', 'WPMUDEV_Dashboard_Notice3', 'init', 10 );
+				$this->deregister_hook( 'plugins_loaded', 'WPMUDEV_Dashboard_Notice3', 'init', 10 );
+			}
 
-				// Take only filters on right hook name and priority
-				if ( ! isset( $wp_filter[ $hook_name ][ $priority ] ) || ! is_array( $wp_filter[ $hook_name ][ $priority ] ) ) {
-					return false;
-				}
-
-				// Loop on filters registered
-				foreach ( (array) $wp_filter[ $hook_name ][ $priority ] as $unique_id => $filter_array ) {
-					// Test if filter is an array ! (always for class/method)
-					if ( isset( $filter_array['function'] ) && is_array( $filter_array['function'] ) ) {
-						// Test if object is a class, class and method is equal to param !
-						if ( is_object( $filter_array['function'][0] ) && get_class( $filter_array['function'][0] ) && get_class( $filter_array['function'][0] ) == $class_name && $filter_array['function'][1] == $method_name ) {
-							unset( $wp_filter[ $hook_name ][ $priority ][ $unique_id ] );
-						}
-					}
-				}
+			//remove version 2.0
+			if ( method_exists( 'WPMUDEV_Dashboard_Notice', 'init' ) ) {
+				$this->deregister_hook( 'init', 'WPMUDEV_Dashboard_Notice', 'init', 10 );
+				$this->deregister_hook( 'plugins_loaded', 'WPMUDEV_Dashboard_Notice', 'init', 10 );
 			}
 
 			//remove version 1.0
 			remove_action( 'admin_notices', 'wdp_un_check', 5 );
 			remove_action( 'network_admin_notices', 'wdp_un_check', 5 );
+		}
+
+		/* Adapted from: https://github.com/herewithme/wp-filters-extras/ - Copyright 2012 Amaury Balmer - amaury@beapi.fr */
+		function deregister_hook( $hook_name, $class_name, $method_name, $priority ) {
+			global $wp_filter;
+
+			// Take only filters on right hook name and priority
+			if ( ! isset( $wp_filter[ $hook_name ][ $priority ] ) || ! is_array( $wp_filter[ $hook_name ][ $priority ] ) ) {
+				return false;
+			}
+
+			// Loop on filters registered
+			foreach ( (array) $wp_filter[ $hook_name ][ $priority ] as $unique_id => $filter_array ) {
+				// Test if filter is an array ! (always for class/method)
+				if ( isset( $filter_array['function'] ) && is_array( $filter_array['function'] ) ) {
+					// Test if object is a class, class and method is equal to param !
+					if ( is_object( $filter_array['function'][0] ) && get_class( $filter_array['function'][0] ) && get_class( $filter_array['function'][0] ) == $class_name && $filter_array['function'][1] == $method_name ) {
+						unset( $wp_filter[ $hook_name ][ $priority ][ $unique_id ] );
+						return true;
+					}
+				}
+			}
+
+			return false;
 		}
 
 		function init() {
@@ -96,9 +107,6 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Notice4' ) ) {
 				add_action( 'wp_ajax_wdpun-changelog', array( &$this, 'popup_changelog_ajax' ) );
 				add_action( 'wp_ajax_wdpun-dismiss', array( &$this, 'dismiss_ajax' ) );
 
-				//remove version 2.0, a bit nasty but only way
-				remove_all_actions( 'all_admin_notices', 5 );
-
 				//if dashboard is installed but not activated
 				if ( file_exists( WP_PLUGIN_DIR . '/wpmudev-updates/update-notifications.php' ) ) {
 					if ( ! get_site_option( 'wdp_un_autoactivated' ) ) {
@@ -131,7 +139,7 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Notice4' ) ) {
 		function is_allowed_screen() {
 			global $wpmudev_notices;
 			$screen          = get_current_screen();
-			$this->screen_id = $screen->id;
+			if ($screen && is_object($screen)) $this->screen_id = $screen->id;
 
 			//Show special message right after plugin activation
 			if ( in_array( $this->screen_id, array(

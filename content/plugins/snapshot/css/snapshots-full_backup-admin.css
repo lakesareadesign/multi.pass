@@ -166,6 +166,9 @@
 			border-top: none;
 			overflow: hidden; /* clears */
 		}
+		.restore-info-root .step.requirements .requirements-process.final .fail article {
+			display: block;
+		}
 		.restore-info-root .step.requirements .requirements-process.final article:first-of-type {
 			border-top: 1px solid #ddd;
 		}
@@ -549,4 +552,4 @@
 }
 
 
-/* 133620-1472790821-au */
+/* 133620-1474567070-au */

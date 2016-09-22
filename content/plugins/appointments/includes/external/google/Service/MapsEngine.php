@@ -2568,7 +2568,7 @@ class Google_Service_MapsEngine_RasterCollectionsRasters_Resource extends Google
   {
     $params = array('id' => $id, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('batchDelete', array($params), "Google_Service_MapsEngine_RasterCollectionsRastersBatchDeleteResponse");		   		 	  		  	 	 	
+    return $this->call('batchDelete', array($params), "Google_Service_MapsEngine_RasterCollectionsRastersBatchDeleteResponse");
   }
 
   /**

@@ -20,6 +20,10 @@ final class FLBuilderImport {
 			return;
 		}
 		
+		if ( defined( 'FL_BUILDER_IMPORTER_FIX' ) && ! FL_BUILDER_IMPORTER_FIX ) {
+			return;
+		}
+		
 		require_once FL_BUILDER_DIR . '/classes/class-fl-builder-importer.php';
 		
 		// Remove the WordPress importer.

@@ -31,18 +31,41 @@ if ( ! class_exists( 'Snapshot_Helper_Locker' ) ) {
 		}
 
 
-// See this bug on PHP flock third argument https://bugs.php.net/bug.php?id=31189&edit=2
 		function __destruct() {
+			$this->unlock();
+		}
+
+		/**
+		 * Sets lock on internal file pointer
+		 *
+		 * @return bool
+		 */
+		public function lock () {
+			return flock( $this->lock_fp, LOCK_EX | LOCK_NB );
+		}
+
+		/**
+		 * Unsets internal pointer lock
+		 *
+		 * @return bool
+		 */
+		public function unlock () {
+			// See this bug on PHP flock third argument https://bugs.php.net/bug.php?id=31189&edit=2
 			if ( $this->lock_fp ) {
 				flock( $this->lock_fp, LOCK_UN );
 				fclose( $this->lock_fp );
+
 				unset( $this->lock_fp );
+				$this->lock_fp = false;
+
+				return true;
 			}
+			return false;
 		}
 
 		function is_locked() {
 			if ( $this->lock_fp ) {
-				if ( flock( $this->lock_fp, LOCK_EX | LOCK_NB ) ) {
+				if ( $this->lock() ) {
 					$this->has_lock = true;
 				} else {
 					$this->has_lock = false;

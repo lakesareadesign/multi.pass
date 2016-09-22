@@ -9,7 +9,7 @@ class WD_Backup_Widget extends WD_Controller {
 	}
 
 	public function install_snapshot() {
-		if ( ! WD_Utils::check_permission()  ) {
+		if ( ! WD_Utils::check_permission() ) {
 			return;
 		}
 
@@ -40,12 +40,12 @@ class WD_Backup_Widget extends WD_Controller {
 		} else {
 			//plugin doesnt install
 			$sid      = 257;
-			$site_api = WPMUDEV_Dashboard::$site;
-			$res      = $site_api->install_project( $sid, $errors, false );
+			$site_api = WPMUDEV_Dashboard::$upgrader;
+			$res      = $site_api->install( $sid );
 			if ( $res == false ) {
 				wp_send_json( array(
 					'status' => 0,
-					'error'  => $errors
+					'error'  => $site_api->get_error()
 				) );
 			} else {
 				//activate it

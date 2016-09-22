@@ -151,4 +151,48 @@ final class FLBuilderUtils {
 
 		return $settings;
 	}
+
+	/**
+	 * Get video type and ID from a given URL
+	 *
+	 * @since 1.9
+	 * @param string $url 	The URL to check for video type
+	 * @param string $type 	The type of video to check
+	 * @return array
+	 */
+	static public function get_video_data( $url, $type = '' )
+	{
+		if ( empty($url) ) 
+		return false;
+
+		$y_matches 	= array();
+		$vm_matches = array();
+	    $yt_pattern = '/^(?:(?:(?:https?:)?\/\/)?(?:www.)?(?:youtu(?:be.com|.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/is';
+	    $vm_pattern = '#(?:https?://)?(?:www.)?(?:player.)?vimeo.com/(?:[a-z]*/)*([0-9]{6,11})[?]?.*#';
+	    $video_data = array('type' => 'mp4', 'video_id' => '');
+
+	    preg_match($yt_pattern, $url, $yt_matches);
+	    preg_match($vm_pattern, $url, $vm_matches);
+
+	    if ( isset($yt_matches[1]) ) {
+	    	$video_data['type'] 	= 'youtube';
+	    	$video_data['video_id'] = $yt_matches[1];
+	    }
+	    else if (isset($vm_matches[1]) ) {
+	    	$video_data['type'] 	= 'vimeo';
+	    	$video_data['video_id'] = $vm_matches[1];
+	    }
+
+	    if ( !empty($type) ) {
+	    	if ( $type === $video_data['type'] ) {
+	    		return $video_data['video_id'];
+	    	}
+	    	else {
+	    		return false;
+	    	}
+	    }
+
+	    return $video_data;
+	}
+
 }

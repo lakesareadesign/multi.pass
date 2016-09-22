@@ -497,7 +497,7 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     @media only screen and (max-width: 480px) {
       .wp-defender #setup-scan-form, .wp-defender #setup-email-report-form {
         text-align: center; }
-        .wp-defender #setup-scan-form label, .wp-defender #setup-scan-form input, .wp-defender #setup-scan-form select, .wp-defender #setup-scan-form .select-container, .wp-defender #setup-email-report-form label, .wp-defender #setup-email-report-form input, .wp-defender #setup-email-report-form select, .wp-defender #setup-email-report-form .select-container {	  	 	   	 		 		 				
+        .wp-defender #setup-scan-form label, .wp-defender #setup-scan-form input, .wp-defender #setup-scan-form select, .wp-defender #setup-scan-form .select-container, .wp-defender #setup-email-report-form label, .wp-defender #setup-email-report-form input, .wp-defender #setup-email-report-form select, .wp-defender #setup-email-report-form .select-container {
           display: block; }
         .wp-defender #setup-scan-form .select-container, .wp-defender #setup-email-report-form .select-container {
           width: 100%;
@@ -1022,6 +1022,8 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     background-image: url("img/defender-mini.png");
     background-repeat: no-repeat;
     background-position: top right; }
+    .wp-defender .wd-audit-logging .wd-new-events-alert {
+      margin: 0 0 30px 0; }
     .wp-defender .wd-audit-logging .wd-error a {
       float: none;
       font-size: inherit;
@@ -1037,85 +1039,101 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
         margin-top: 2px; }
       .wp-defender .wd-audit-logging .setup-email-report #setup-email-report-form .select-list-container {
         font-weight: 400; }
-    .wp-defender .wd-audit-logging .wd-audit-filter form strong {
-      font-family: 'Roboto Condensed', 'Roboto', sans-serif;
-      color: #555555;
-      font-size: 15px;
-      text-transform: uppercase; }
-    .wp-defender .wd-audit-logging .wd-audit-filter form small {
-      color: #8B8B8B;
-      font-size: 14px;
-      font-family: 'Roboto Condensed', 'Roboto', sans-serif; }
-    .wp-defender .wd-audit-logging .wd-audit-filter form .col:last-child strong {
-      margin-left: 48px; }
-    .wp-defender .wd-audit-logging .wd-audit-filter form label {
-      color: #B2B2B2;
-      font-size: 12px;
-      font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
-      float: left;
-      position: relative;
-      margin-top: 3px;
-      font-weight: 500;
-      margin-right: 10px; }
-    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter {
-      float: left;
-      display: inline-block;
-      min-width: 30%;
-      margin-bottom: 20px; }
-      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter #wd_user_id {
-        width: 83%;
-        color: #477B92;
-        font-weight: normal; }
-      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container {
-        width: 70%;
-        float: left;
-        height: 40px; }
-        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container .dropdown-handle {
-          height: 39px; }
-        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container ul li {
-          color: #477B92; }
-        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container .list-value {
-          color: #477B92; }
-        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container .list-results {
-          max-height: 300px;
-          overflow-y: scroll; }
-      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container:last-child {
-        margin-right: 0; }
-    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter {
-      float: left;
-      display: inline-block; }
-      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div {
-        float: left;
-        width: 30%;
-        position: relative;
-        color: #477B92; }
-        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div input[type="text"] {
-          padding-left: 35px; }
-        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div i {
-          position: absolute;
-          font-size: 20px;
-          top: 10px;
-          left: 7px; }
-      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter label:nth-child(3) {
-        margin-right: 0; }
-    @media only screen and (max-width: 880px) {
-      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-filter {
-        width: 100%; } }
-    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter {
-      display: inline-block; }
-      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter p {
-        padding: 0; }
-      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter label {
-        float: none;
-        display: inline-block;
+    .wp-defender .wd-audit-logging #audit-table-content {
+      position: relative; }
+      .wp-defender .wd-audit-logging #audit-table-content .tablenav {
+        height: auto;
+        margin: 0 0 30px 0; }
+    .wp-defender .wd-audit-logging .wd-audit-filter {
+      margin: 0 0 30px 0; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form strong {
+        font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+        color: #555555;
         font-size: 15px;
-        color: #477B92;
-        font-weight: 400;
-        margin: 0 10px 0 0;
-        padding-left: 0;
-        padding-right: 0; }
-    .wp-defender .wd-audit-logging .wd-audit-filter form button {
-      margin-left: 10px; }
+        text-transform: uppercase; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form small {
+        color: #8B8B8B;
+        font-size: 14px;
+        font-family: 'Roboto Condensed', 'Roboto', sans-serif; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .col:last-child strong {
+        margin-left: 48px; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form label {
+        color: #B2B2B2;
+        font-size: 12px;
+        font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        float: left;
+        position: relative;
+        margin-top: 3px;
+        font-weight: 500;
+        margin-right: 10px; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter {
+        float: left;
+        display: inline-block;
+        min-width: 30%;
+        margin-bottom: 20px; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter #wd_user_id {
+          width: 83%;
+          color: #477B92;
+          font-weight: normal; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container {
+          width: 70%;
+          float: left;
+          height: 40px; }
+          .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container .dropdown-handle {
+            height: 39px; }
+          .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container ul li {
+            color: #477B92; }
+          .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container .list-value {
+            color: #477B92; }
+          .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container .list-results {
+            max-height: 300px;
+            overflow-y: scroll; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .select-container:last-child {
+          margin-right: 0; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter {
+        float: left;
+        display: inline-block;
+        margin-bottom: 20px;
+        position: relative; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div {
+          float: left;
+          width: 60%;
+          position: relative;
+          color: #477B92;
+          margin-right: 15px; }
+          .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div input[type="text"] {
+            padding-left: 35px;
+            margin: 0; }
+          .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div i {
+            position: absolute;
+            font-size: 20px;
+            top: 10px;
+            left: 7px; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter label:nth-child(3) {
+          margin-right: 0; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter a {
+          margin-top: 5px; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter {
+        display: inline-block;
+        max-width: 82%; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter p {
+          padding: 0; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter .event {
+          display: inline-block; }
+          .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter .event label {
+            float: none;
+            display: inline-block;
+            font-size: 15px;
+            color: #477B92;
+            font-weight: 400;
+            margin: 0 10px 0 0;
+            padding-left: 0;
+            padding-right: 0; }
+          .wp-defender .wd-audit-logging .wd-audit-filter form .wd-event-filter .event input[type="checkbox"] {
+            margin-top: 0;
+            margin-bottom: 0; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form button {
+        margin-left: 10px; }
     .wp-defender .wd-audit-logging .wd-well.blue {
       margin-bottom: 0; }
     .wp-defender .wd-audit-logging table th {
@@ -1138,8 +1156,9 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
         background: none; }
     .wp-defender .wd-audit-logging table td:nth-child(1) {
       width: 40%;
-      padding-right: 10px; }
+      padding-right: 20px; }
     .wp-defender .wd-audit-logging table td:nth-child(2) {
+      padding-right: 20px;
       width: 14%; }
       .wp-defender .wd-audit-logging table td:nth-child(2) strong {
         color: #555555;
@@ -1151,13 +1170,15 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
         color: #8B8B8B; }
     .wp-defender .wd-audit-logging table td:nth-child(3), .wp-defender .wd-audit-logging table td:nth-child(4) {
       width: 12%;
-      color: #19B4CF; }
+      color: #19B4CF;
+      padding-right: 20px; }
     .wp-defender .wd-audit-logging table td:nth-child(4) {
       width: 8%;
       color: #19B4CF; }
     .wp-defender .wd-audit-logging table td:nth-child(5) {
       color: #19B4CF;
-      width: 11%; }
+      width: 11%;
+      padding-right: 20px; }
     .wp-defender .wd-audit-logging table td:nth-child(6) {
       width: 15%;
       position: relative; }
@@ -1205,6 +1226,68 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
           font-size: 15px;
           border: solid 1px #E3E3E3;
           margin-right: -5px; }
+  @media only screen and (max-width: 980px) {
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter, .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter {
+      width: 100%; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter label, .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter label {
+        width: 19%;
+        display: inline-block;
+        float: left; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .user-search {
+      width: 78%;
+      float: left; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .user-search .input-box {
+        width: 100%; }
+        .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .user-search .input-box #wd_user_id {
+          width: 100%; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div {
+      width: 78%;
+      float: left;
+      margin: 0; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-event-context > label {
+      width: 19%;
+      display: inline-block;
+      float: left; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-event-context .wd-event-filter {
+      width: 78%;
+      float: left; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-event-context .wd-event-filter .event {
+        display: block;
+        float: left;
+        width: 33%; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-event-context .wd-event-filter .event:nth-child(3n+4) {
+        clear: both; } }
+  @media only screen and (max-width: 980px) and (max-width: 600px) {
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter, .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter {
+      width: 100%; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter label, .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter label {
+        width: 100%;
+        float: none; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-user-filter .user-search {
+      width: 100%;
+      float: none;
+      padding-left: 10px;
+      padding-right: 10px; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div {
+      width: 100%;
+      float: none;
+      padding: 0 10px; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div i {
+        left: 17px; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-event-context > label {
+      width: 100%;
+      float: none;
+      margin: 0 0 10px; }
+    .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-event-context .wd-event-filter {
+      width: 100%;
+      max-width: 100%;
+      padding: 0 10px; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-event-context .wd-event-filter .event {
+        width: 50%; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-event-context .wd-event-filter .event:nth-child(3n+4) {
+        clear: none; }
+      .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-event-context .wd-event-filter .event:nth-child(2n+3) {
+        clear: both; } }
   .wp-defender .hljs {
     display: block;
     overflow-x: auto;
@@ -1373,9 +1456,13 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
         height: 100%; }
     .wd-calendar .ui-datepicker-calendar td {
       text-align: center; }
-  .wd-calendar .ui-datepicker-today, .wd-calendar .ui-datepicker-current-day {
-    background: #f4f4f4; }
-    .wd-calendar .ui-datepicker-today a, .wd-calendar .ui-datepicker-current-day a {
+  .wd-calendar .ui-datepicker-today {
+    background: #FFF5D5; }
+    .wd-calendar .ui-datepicker-today a {
+      color: #777; }
+  .wd-calendar .ui-datepicker-current-day {
+    background: #E1F6FF; }
+    .wd-calendar .ui-datepicker-current-day a {
       color: #777; }
 
 @keyframes wd-animate-stripes {
@@ -1386,4 +1473,4 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     background-position: 60px 0; } }
 
 
-/* 133620-1472790831-au */
+/* 133620-1474567082-au */

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Snapshot
-Version: 3.0
+Version: 3.0.1
 Description: This plugin allows you to take quick on-demand backup snapshots of your working WordPress database. You can select from the default WordPress tables as well as custom plugin tables within the database structure. All snapshots are logged, and you can restore the snapshot as needed.
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org/
@@ -91,7 +91,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			$this->plugin_url  = plugin_dir_url( __FILE__ );
 
 			$this->DEBUG                         = false;
-			$this->_settings['SNAPSHOT_VERSION'] = '3.0';
+			$this->_settings['SNAPSHOT_VERSION'] = '3.0.1';
 
 			if ( is_multisite() ) {
 				$this->_settings['SNAPSHOT_MENU_URL'] = network_admin_url() . 'admin.php?page=';
@@ -1902,7 +1902,25 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 
 				if ( ( isset( $backupFolder ) ) && ( strlen( $backupFolder ) ) ) {
 					if ( $_oldbackupFolderFull != $_newbackupFolderFull ) {
-						$rename_ret = rename( $_oldbackupFolderFull, $_newbackupFolderFull );
+						// Start with the assumption we failed moving dirs by default
+						$rename_ret = false;
+						if (file_exists($_oldbackupFolderFull)) {
+							// If we can reach the old folder, we might still
+							// be able to simply rename it
+							$rename_ret = rename( $_oldbackupFolderFull, $_newbackupFolderFull );
+						} else {
+							// Okay, so no old backup folder. Let's just create
+							// what we got and inform the user
+							$this->_admin_header_error .= __(
+								"Warning: We were unable to find the old Snapshot folder.",
+								SNAPSHOT_I18N_DOMAIN
+							) . " " . $_newbackupFolderFull;
+							$rename_ret = true; // This will get picked up by the next condition...
+							// ... and we will just create it via
+							// the `$this->set_backup_folder()` call automatically
+						}
+
+						// Alright now... so, are we good to go?
 						if ( $rename_ret === true ) {
 							$CONFIG_CHANGED = true;
 

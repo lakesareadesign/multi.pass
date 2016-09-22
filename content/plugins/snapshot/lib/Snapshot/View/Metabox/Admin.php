@@ -1962,7 +1962,7 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 		 * @return none
 		 */
 		function snapshot_metabox_show_folder_location() {
-
+			$default_folder = "snapshots";
 			?>
 			<form action="?page=snapshots_settings_panel" method="post">
 				<input type="hidden" name="snapshot-action" value="settings-update"/>
@@ -1972,8 +1972,10 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 				<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 				<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
-				<p><?php _ex( "Set a destination folder for your snapshots. This folder will be created inside your site's media upload folder.", 'Snapshot page description', SNAPSHOT_I18N_DOMAIN ); ?>
-					/wp-content/uploads/snapshots</p>
+				<p>
+					<?php _ex( "Set a destination folder for your snapshots. This folder will be created inside your site's media upload folder.", 'Snapshot page description', SNAPSHOT_I18N_DOMAIN ); ?>
+					<code>/wp-content/uploads/<?php echo esc_html($default_folder); ?></code>
+				</p>
 
 				<p><?php _ex( "Optionally, you can attempt to set the snapshot folder to a directory outside of your web site. This may not be available depending on your hosting configuration. Check with your hosting provider. If you change the folder to be outside of your web site you may not be able to access the archive via this plugin. You will need to use FTP or some other solution provided by your hosting provider.", 'Snapshot page description', SNAPSHOT_I18N_DOMAIN ); ?></p>
 
@@ -1991,7 +1993,7 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 
 							<p class="description"><?php
 								printf( __( 'Default folder is %s. If you change the folder name the previous snapshot files will be moved to the new folder.', SNAPSHOT_I18N_DOMAIN ),
-									'<code>snapshot</code>' ); ?></p>
+									'<code>' . esc_html($default_folder) . '</code>' ); ?></p>
 
 							<p class="description"><?php _e( 'Current folder', SNAPSHOT_I18N_DOMAIN ); ?> <code><?php
 									echo trailingslashit( WPMUDEVSnapshot::instance()->get_setting( 'backupBaseFolderFull' ) ); ?></code>
@@ -2007,7 +2009,7 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 									if( 'htdocs' == $example[ count( $example ) -1 ] ) {
 										array_pop( $example );
 									}
-									$example = implode( '/', $example ) . '/snapshots';
+									$example = implode( '/', $example ) . '/' . $default_folder;
 
 									echo '<p class="description snapshot-security">' .
 								         sprintf( '%s%s',

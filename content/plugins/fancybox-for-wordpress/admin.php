@@ -87,39 +87,9 @@ function mfbfw_options_page() {
 		</div>
 	</form>
 
-	<div id="mfbfwd" style="border-top:1px dashed #DDDDDD;margin:20px auto 40px;overflow:hidden;padding-top:25px;width:735px">
+	<div id="mfbfwd" style="border-top:1px dashed #DDDDDD;margin:20px 0 40px;overflow:hidden;padding-top:25px;width:100%;float:left">
 
-		<div style="background-color:#FFFFE0;border:1px solid #E6DB55;padding:0 .6em;margin:5px 15px 2px;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;height:90px;float:left;text-align:center;width:200px">
-			<p style="line-height:1.5em;"><?php _e( 'If you use FancyBox and like it, buy the author a beer!', 'mfbfw' ); ?></p>
-			<form id="donate_form" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-				<input name="cmd" value="_donations" type="hidden">
-				<input name="business" value="janis.skarnelis@gmail.com" type="hidden">
-				<input name="item_name" value="FancyBox" type="hidden">
-				<input name="amount" value="10.00" type="hidden">
-				<input name="no_shipping" value="0" type="hidden">
-				<input name="no_note" value="1" type="hidden">
-				<input name="currency_code" value="EUR" type="hidden">
-				<input name="tax" value="0" type="hidden">
-				<input name="lc" value="LV" type="hidden">
-				<input name="bn" value="PP-DonationsBF" type="hidden">
-				<input type="image" style="margin:0;padding:0" border="0" src="<?php echo FBFW_URL ?>css/img/extra_donate.png" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
-			</form>
-		</div>
-
-		<div style="background-color:#FFFFE0;border:1px solid #E6DB55;padding:0 .6em;margin:5px 15px 2px;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;height:90px;float:left;margin-left:10px;text-align:center;width:200px">
-			<p style="line-height:1.5em;"><?php _e( 'The author of this WordPress Plugin also likes beer :P', 'mfbfw' ); ?></p>
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-				<input type="hidden" name="cmd" value="_s-xclick"/>
-				<input type="hidden" name="hosted_button_id" value="3878319"/>
-				<input type="image" style="margin:0;padding:0" border="0" src="<?php echo FBFW_URL ?>css/img/extra_donate.png" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
-				<img height="1" width="1" border="0" alt="" src="https://www.paypal.com/es_ES/i/scr/pixel.gif" />
-			</form>
-		</div>
-
-		<div style="background-color:#9DD1F2;border:1px solid #419ED9;padding:0 .6em;margin:5px 15px 2px;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;height:90px;float:left;margin-left:10px;text-align:center;width:200px">
-			<p style="line-height:1.5em;"><a href="http://twitter.com/moskis/"><?php _e( 'Follow me on Twitter for more WordPress Plugins and Themes', 'mfbfw' ); ?></a></p>
-			<img height="16" width="16" border="0" alt="" src="<?php echo FBFW_URL ?>css/img/extra_twitter.png" />
-		</div>
+		Plugin developer and supported by <a href="https://colorlib.com">Colorlib</a>
 
 	</div>
 

@@ -20,9 +20,18 @@ class Snapshot_Helper_Zip {
 	 */
 	public static function get_object ($variation=false) {
 		$variation = strtolower($variation);
+
+		// Use explicit user-submitted ZIP library variation, if any
 		if (empty($variation) || !in_array($variation, array(self::TYPE_PCLZIP, self::TYPE_ARCHIVE))) {
 			$variation = strtolower(WPMUDEVSnapshot::instance()->config_data['config']['zipLibrary']);
 		}
+
+		// Allow for forced ZIP library variation
+		if (defined('SNAPSHOT_FORCE_ZIP_LIBRARY') && SNAPSHOT_FORCE_ZIP_LIBRARY) {
+			if (self::TYPE_ARCHIVE === SNAPSHOT_FORCE_ZIP_LIBRARY) $variation = self::TYPE_ARCHIVE;
+			else if (self::TYPE_PCLZIP === SNAPSHOT_FORCE_ZIP_LIBRARY) $variation = self::TYPE_PCLZIP;
+		}
+
 		$library = self::TYPE_PCLZIP === strtolower($variation) && function_exists('gzopen')
 			? 'Snapshot_Helper_Zip_Pclzip'
 			: 'Snapshot_Helper_Zip_Archive'

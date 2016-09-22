@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-s3-and-cloudfront-pro\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2016-09-01 15:54+0100\n"
+"POT-Creation-Date: 2016-09-19 08:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -315,7 +315,7 @@ msgid "Try Run It Again"
 msgstr ""
 
 #: classes/as3cf-upgrade.php:408
-#: classes/pro/as3cf-background-process.php:392
+#: classes/pro/as3cf-background-process.php:406
 #, php-format
 msgid "Every %d Minutes"
 msgstr ""

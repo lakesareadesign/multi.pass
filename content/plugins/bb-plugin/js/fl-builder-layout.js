@@ -101,15 +101,17 @@
 		reloadSlider: function( element )
 		{
 			var $element 	= 'undefined' == typeof element ? $( 'body' ) : $( element ),
-				bxContent	= $element.find('.bx-viewport > div'),
+				bxContent	= $element.find('.bx-viewport .fl-post-carousel-wrapper'),
 				bxObject   	= null;
 				
 			if ( bxContent.length ) {
-				bxObject = bxContent.data( 'bxSlider');
-
-				if ( bxObject ) {
-					bxObject.reloadSlider();
-				}				
+				bxContent.each(function(){
+					bxObject = $(this).data( 'bxSlider');
+					if ( bxObject ) {
+						bxObject.reloadSlider();
+					}					
+				})
+				
 			}
 		},
 
@@ -385,6 +387,8 @@
 				width  		= wrap.data( 'width' ),
 				height  	= wrap.data( 'height' ),
 				mp4  		= wrap.data( 'mp4' ),
+				youtube 	= wrap.data( 'youtube'),	
+				vimeo 		= wrap.data( 'vimeo'),
 				mp4Type  	= wrap.data( 'mp4-type' ),
 				webm  		= wrap.data( 'webm' ),
 				webmType  	= wrap.data( 'webm-type' ),
@@ -393,8 +397,9 @@
 				fallbackTag = '',
 				videoTag	= null,
 				mp4Tag    	= null,
-				webmTag    	= null; 
-			
+				webmTag    	= null,
+				playerTag 	= wrap.find('.fl-bg-video-player');	
+				
 			// Return if the video has been loaded for this row.
 			if ( loaded ) {
 				return;
@@ -432,7 +437,16 @@
 					videoTag.append( webmTag );
 				}
 				
-				wrap.append( videoTag );
+				// Check what video player we are going to load in a row
+				if ( 'undefined' != typeof youtube ) {
+					FLBuilderLayout._initYoutubeBgVideo.apply( this );	
+				} 
+				else if ( 'undefined' != typeof vimeo ) {
+					FLBuilderLayout._initVimeoBgVideo.apply( this );
+				}
+				else {
+					wrap.append( videoTag );
+				}
 			}
 			// Append the fallback tag for mobile.
 			else if ( '' !== fallback ) {
@@ -444,6 +458,101 @@
 			
 			// Mark this video as loaded.
 			wrap.data('loaded', true);
+		},
+
+		/**
+		 * Initializes Youtube video background
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _initYoutubeBgVideo
+		 */
+		_initYoutubeBgVideo: function()
+		{
+			var playerWrap	= $(this),
+				videoId 	= playerWrap.data('video-id'),
+				videoPlayer = playerWrap.find('.fl-bg-video-player'),
+				player;
+
+			if ( videoId ) {
+
+				FLBuilderLayout._onYoutubeApiReady( function( YT ) {
+					setTimeout( function() {
+
+						player = new YT.Player( videoPlayer[0], {
+							videoId: videoId,
+							events: {
+								onReady: function(event) {
+									event.target.mute();
+									
+									// Store an instance to a parent
+									playerWrap.data('YTPlayer', player);
+									FLBuilderLayout._resizeYoutubeBgVideo.apply(playerWrap);
+
+									event.target.playVideo();									
+								},
+								onStateChange: function( event ) {
+									if ( event.data === YT.PlayerState.ENDED ) {
+										player.seekTo( 0 );
+									}
+								}
+							},
+							playerVars: {
+								controls: 0,
+								showinfo: 0
+							}
+						} );
+					}, 1 );
+				} );
+			}
+		},
+
+		/**
+		 * Check if Youtube API has been downloaded
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _onYoutubeApiReady
+		 * @param  {Function} callback Method to call when YT API has been loaded
+		 */
+		_onYoutubeApiReady: function( callback ) {
+			if ( window.YT && YT.loaded ) {
+				callback( YT );
+			} else {
+				// If not ready check again by timeout..
+				setTimeout( function() {
+					FLBuilderLayout._onYoutubeApiReady( callback );
+				}, 350 );
+			}
+		},
+
+		/**
+		 * Initializes Vimeo video background
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _initVimeoBgVideo
+		 */
+		_initVimeoBgVideo: function()
+		{
+			var playerWrap	= $(this),
+				videoId 	= playerWrap.data('video-id'),
+				videoPlayer = playerWrap.find('.fl-bg-video-player'),
+				player,
+				width = playerWrap.outerWidth();
+
+			if ( typeof Vimeo !== 'undefined' && videoId )	{
+				player = new Vimeo.Player(videoPlayer[0], {
+					id: videoId,
+			        loop: true,
+			        title: false,
+			        portrait: false
+				});
+
+				playerWrap.data('VMPlayer', player);
+				player.setVolume(0);
+				player.play();
+			}
 		},
 		
 		/**
@@ -502,7 +611,7 @@
 		 */ 
 		_resizeBgVideo: function()
 		{
-			if ( 0 === $( this ).find( 'video' ).length ) {
+			if ( 0 === $( this ).find( 'video' ).length && 0 === $( this ).find( 'iframe' ).length ) {
 				return;
 			}
 			
@@ -515,36 +624,74 @@
 				newWidth    = wrapWidth,
 				newHeight   = Math.round(vidHeight * wrapWidth/vidWidth),
 				newLeft     = 0,
-				newTop      = 0;
-				
-			if(vidHeight === '' || vidWidth === '') {
-				
-				vid.css({
-					'left'      : '0px',
-					'top'       : '0px',
-					'width'     : newWidth + 'px'
-				});
-			}
-			else {
-				
-				if(newHeight < wrapHeight) {
-					newHeight   = wrapHeight;
-					newWidth    = Math.round(vidWidth * wrapHeight/vidHeight);  
-					newLeft     = -((newWidth - wrapWidth)/2);
+				newTop      = 0,
+				iframe 		= wrap.find('iframe');
+			
+			if ( vid.length ) {
+				if(vidHeight === '' || vidWidth === '') {
+					vid.css({
+						'left'      : '0px',
+						'top'       : '0px',
+						'width'     : newWidth + 'px'
+					});
 				}
 				else {
-					newTop      = -((newHeight - wrapHeight)/2);
+					
+					if(newHeight < wrapHeight) {
+						newHeight   = wrapHeight;
+						newWidth    = Math.round(vidWidth * wrapHeight/vidHeight);  
+						newLeft     = -((newWidth - wrapWidth)/2);
+					}
+					else {
+						newTop      = -((newHeight - wrapHeight)/2);
+					}
+					
+					vid.css({
+						'left'      : newLeft + 'px',
+						'top'       : newTop + 'px',
+						'height'    : newHeight + 'px',
+						'width'     : newWidth + 'px'
+					});
 				}
-				
-				vid.css({
-					'left'      : newLeft + 'px',
-					'top'       : newTop + 'px',
-					'height'    : newHeight + 'px',
-					'width'     : newWidth + 'px'
-				});
+			}
+			else if ( iframe.length ) {
+
+				// Resize Youtube video player within iframe tag
+				if ( typeof wrap.data('youtube') !== 'undefined' ) {
+					FLBuilderLayout._resizeYoutubeBgVideo.apply(this);	
+				}				
 			}
 		},
-		
+
+		/**
+		 * Fires when the window is resized to resize
+		 * a single Youtube video background.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _resizeYoutubeBgVideo
+		 */
+		_resizeYoutubeBgVideo: function()
+		{
+			var wrap				= $(this),
+				wrapWidth 			= wrap.outerWidth(),
+				wrapHeight 			= wrap.outerHeight(),
+				player 				= wrap.data('YTPlayer'),
+				video 				= player ? player.getIframe() : null,
+				aspectRatioSetting 	= '16:9', // Medium
+				aspectRatioArray 	= aspectRatioSetting.split( ':' ),
+				aspectRatio 		= aspectRatioArray[0] / aspectRatioArray[1],
+				ratioWidth 			= wrapWidth / aspectRatio,
+				ratioHeight 		= wrapHeight * aspectRatio,
+				isWidthFixed 		= wrapWidth / wrapHeight > aspectRatio,
+				width 				= isWidthFixed ? wrapWidth : ratioHeight,
+				height 				= isWidthFixed ? ratioWidth : wrapHeight;
+
+			if ( video ) {
+				$(video).width( width ).height( height );
+			}
+		},
+
 		/**
 		 * Initializes module animations.
 		 *
@@ -555,10 +702,22 @@
 		_initModuleAnimations: function()
 		{
 			if(typeof jQuery.fn.waypoint !== 'undefined' && !FLBuilderLayout._isMobile()) {
-				$('.fl-animation').waypoint({
-					offset: '80%',
-					handler: FLBuilderLayout._doModuleAnimation
-				});
+				$('.fl-animation').each( function() {
+					var node = $( this ),
+						nodeTop = node.offset().top,
+						winHeight = $( window ).height(),
+						bodyHeight = $( 'body' ).height(),
+						offset = '80%';
+						
+					if ( bodyHeight - nodeTop < winHeight * 0.2 ) {
+						offset = '100%';
+					}
+					
+					node.waypoint({
+						offset: offset,
+						handler: FLBuilderLayout._doModuleAnimation
+					});
+				} );
 			}
 		},
 		
@@ -571,7 +730,7 @@
 		 */ 
 		_doModuleAnimation: function()
 		{
-			var module = $(this.element),
+			var module = 'undefined' == typeof this.element ? $(this) : $(this.element),
 				delay  = parseFloat(module.data('animation-delay'));
 			
 			if(!isNaN(delay) && delay > 0) {

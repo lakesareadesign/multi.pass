@@ -270,6 +270,7 @@ final class FLBuilderServiceActiveCampaign extends FLBuilderService {
 	 * Subscribe an email address to ActiveCampaign.
 	 *
 	 * @since 1.6.0
+	 * @since 1.8.6  Changed contact_add method to contact_sync
 	 * @param object $settings A module settings object.
 	 * @param string $email The email to subscribe.
 	 * @param string $name Optional. The full name of the person subscribing.
@@ -313,9 +314,9 @@ final class FLBuilderServiceActiveCampaign extends FLBuilderService {
 			}
 			
 			// Subscribe
-			$result = $api->api( 'contact/add', $data );
+			$result = $api->api( 'contact/sync', $data );
 			
-			if ( ! $result->success && isset( $result->error ) && ! stristr( $result->error, 'duplicate' ) ) {
+			if ( ! $result->success && isset( $result->error ) ) {
 				
 				if ( stristr( $result->error, 'access' ) ) {
 					$response['error'] = __( 'Error: Invalid API data.', 'fl-builder' );

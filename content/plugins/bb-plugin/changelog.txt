@@ -1,3 +1,32 @@
+<h4>1.8.6 - 09/19/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added YouTube and Vimeo support for row backgrounds.</li>
+	<li>Added a no follow setting to the Button module and modules that have buttons in them.</li>
+	<li>Added a loader icon when opening a lightbox for the Gallery and Photo modules.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed Gallery module lightbox ordering when using the collage layout.</li>
+	<li>Fixed multiple color picker issues by changing the mode to HSV.</li>
+	<li>Fixed auto suggest fields breaking in the Posts module.</li>
+	<li>Fixed themes that load older versions of jQuery Waypoints breaking animations.</li>
+	<li>Fixed negative column and module margins covering row overlay actions.</li>
+	<li>Fixed SSL issues caused by the YUI3 script.</li>
+	<li>Fixed Posts Carousel error when added to an Accordion module via shortcode.</li>
+	<li>Fixed memory limit issue with loading in template data files.</li>
+	<li>Fixed width rounding issues in the Gallery module.</li>
+	<li>Fixed module animations not running when the module is too far down the page.</li>
+	<li>Fixed lightbox close button being hidden by the admin bar.</li>
+	<li>Fixed PHP notices when only user templates are enabled but none have been saved.</li>
+	<li>Fixed skipping slides in the Content Slider module when clicking too fast.</li>
+	<li>Fixed error caused by removing a photo from a photo field before the single photo selector is initialized.</li>
+	<li>Fixed Menu module dropdowns in older browsers.</li>
+	<li>Fixed API errors with the Active Campaign integration.</li>
+	<li>Fixed unstripped slashes in theme branding fields.</li>
+	<li>Fixed fonts not being enqueued for font fields in nested forms.</li>
+</ul>
+
 <h4>1.8.5 - 08/26/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

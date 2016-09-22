@@ -22,6 +22,10 @@ class WD_Notification_Controller extends WD_Controller {
 			return;
 		}
 
+		if ( get_post_meta( $model->id, 'email_sent', true ) == 'yes' ) {
+			return;
+		}
+
 		$recipients = WD_Utils::get_setting( 'recipients', array() );
 		if ( empty( $recipients ) ) {
 			return;
@@ -68,6 +72,7 @@ class WD_Notification_Controller extends WD_Controller {
 			);
 			wp_mail( $email, $subject, $email_template, $headers );
 		}
+		update_post_meta( $model->id, 'email_sent', 'yes' );
 	}
 
 	/**

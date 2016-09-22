@@ -19,7 +19,8 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 		$this->name               = __( "Suspicious file scan", wp_defender()->domain );
 		$this->percentable        = true;
 		$this->dashboard_required = true;
-		$this->total_files        = WD_Scan_Api::get_content_files_fragment();
+		$this->total_files        = WD_Scan_Api::get_content_files();
+
 		if ( $this->total_files === false ) {
 			return false;
 		}

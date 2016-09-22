@@ -5,6 +5,16 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.0.1
+----------------------------------------------------------------------
+- New: auto-expand failed preflight checks for restore.
+- Fix: improve error conditions tracking.
+- Fix: some minor markup fixes.
+- Fix: improve start event (re)scheduling.
+- Fix: issue with snapshot root folders change.
+- Fix: improve the restore handler and script error reporting
+- Fix: potential issues with backup rotation.
+
 3.0
 ----------------------------------------------------------------------
 - New: Beta release of automatic managed cloud backups
@@ -349,4 +359,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-133620-1472790821-au
+133620-1474567070-au

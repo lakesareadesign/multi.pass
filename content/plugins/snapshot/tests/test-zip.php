@@ -20,6 +20,16 @@ class ZipTest extends WP_UnitTestCase {
 		}
 	}
 
+	function test_forced_variation () {
+		if (!defined('SNAPSHOT_FORCE_ZIP_LIBRARY')) {
+			define('SNAPSHOT_FORCE_ZIP_LIBRARY', Snapshot_Helper_Zip::TYPE_ARCHIVE);
+
+			$zip = Snapshot_Helper_Zip::get_object(Snapshot_Helper_Zip::TYPE_PCLZIP);
+
+			$this->assertInstanceOf('Snapshot_Helper_Zip_Archive', $zip);
+		}
+	}
+
 	function test_add_archive () {
 		$backup = WPMUDEVSnapshot::instance()->get_setting('backupBaseFolderFull');
 		$path = trailingslashit($backup) . 'archive_test.zip';

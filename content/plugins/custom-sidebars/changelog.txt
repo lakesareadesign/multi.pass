@@ -4,6 +4,9 @@ Author: Javier Marquez (Incsub), Philipp Stracker (Incsub), Marcin Pietrzak (Inc
 Change Log:
 ----------------------------------------------------------------------
 
+2.1.1.0
+- Fixed undefined index in Sidebars Editor.
+
 2.1.0.9
 ----------------------------------------------------------------------
 - Fixed issue with broken link icon for cloned widgets.
@@ -268,4 +271,4 @@ Change Log:
 - Initial release
 
 
-133620-1472790793-au
+133620-1474567048-au

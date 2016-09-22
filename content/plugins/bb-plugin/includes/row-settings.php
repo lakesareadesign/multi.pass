@@ -237,8 +237,9 @@ FLBuilder::register_settings_form('row', array(
 							'label'         => __('Source', 'fl-builder'),
 							'default'       => 'wordpress',
 							'options'       => array(
-								'wordpress'     => __('Media Library', 'fl-builder'),
-								'video_url'       => 'URL'
+								'wordpress'     	=> __('Media Library', 'fl-builder'),
+								'video_url'     	=> 'URL',
+								'video_service'		=> __('YouTube or Vimeo', 'fl-builder')
 							),
 							'toggle'        => array(
 								'wordpress'      => array(
@@ -246,6 +247,9 @@ FLBuilder::register_settings_form('row', array(
 								),
 								'video_url'        => array(
 									'fields'        => array('bg_video_url_mp4', 'bg_video_url_webm')
+								),
+								'video_service' 	=> array(
+									'fields' 			=> array('bg_video_service_url')
 								)
 							),
 							'preview'         => array(
@@ -271,7 +275,7 @@ FLBuilder::register_settings_form('row', array(
 						'bg_video_url_mp4'   => array(
 							'type'          => 'text',
 							'label'         => __('Video URL (MP4)', 'fl-builder'),
-							'help'          => __('A video in the MP4 format to use as the background of this row. Most modern browsers support this format.', 'fl-builder'),
+							'help'          => __('A video in the MP4 to use as the background of this row. Most modern browsers support this format.', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'refresh'
 							)
@@ -280,6 +284,14 @@ FLBuilder::register_settings_form('row', array(
 							'type'          => 'text',
 							'label'         => __('Video URL (WebM)', 'fl-builder'),
 							'help'          => __('A video in the WebM format to use as the background of this row. This format is required to support browsers such as FireFox and Opera.', 'fl-builder'),
+							'preview'         => array(
+								'type'            => 'refresh'
+							)
+						),
+						'bg_video_service_url'   => array(
+							'type'          => 'text',
+							'label'         => __('Youtube Or Vimeo URL', 'fl-builder'),
+							'help'          => __('A video from Youtube or Vimeo to use as the background of this row. Most modern browsers support this format.', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'refresh'
 							)

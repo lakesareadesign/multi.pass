@@ -5,6 +5,8 @@
  */
 class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 
+	const CACHE_EXPIRATION = 86400;
+
 	/**
 	 * Singleton instance
 	 *
@@ -228,6 +230,8 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 * @return bool
 	 */
 	public function rotate_backups ($path) {
+		Snapshot_Helper_Log::info("Enter backup rotation", "Remote");
+
 		$error = __('Error rotating backups', SNAPSHOT_I18N_DOMAIN);
 		$to_remove = $this->get_backup_rotation_list($path);
 
@@ -415,28 +419,43 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		// Determine if we're continuing this upload,
 		// or sending the fresh one
 		$is_continued_upload = false;
-		foreach ($parts as $part) {
-			if (empty($part['done'])) continue;
-			$is_continued_upload = true;
-			break;
+		if (!(defined('SNAPSHOT_FORCE_CONTINUATION_PURGE') && SNAPSHOT_FORCE_CONTINUATION_PURGE)) {
+			foreach ($parts as $part) {
+				if (empty($part['done'])) continue;
+				$is_continued_upload = true;
+				break;
+			}
 		}
 
 		if (!$is_continued_upload) {
 			// Fresh one. Check backups rotation first.
 			// We *do* seem to have enough space, *but* do we also have 3+ backups?
 			// If we do, we need to clean them up
+			Snapshot_Helper_Log::info('Checking space/backups kept requirements', 'Remote');
 
 			// We work with cache, because it's quicker
 			$backups = Snapshot_Model_Transient::get_any($this->get_filter("backups"), false);
+			if (false === $backups) {
+				// So apparently cache has been purged recently, let's rebuild
+				Snapshot_Helper_Log::info('No cached backups to count and rotate, requesting fresh list', 'Remote');
+				$this->refresh_backups_list();
+				$backups = Snapshot_Model_Transient::get_any($this->get_filter("backups"), false);
+			}
 			if (!empty($backups) && is_array($backups) && count($backups) >= $this->get_max_backups_limit()) {
-				Snapshot_Helper_Log::info("More than upper limit backups (" . count($backups) . '/' . $this->get_max_backups_limit() . "), removing some", "Remote");
+				Snapshot_Helper_Log::info("More than upper limit backups (" .
+					count($backups) . '/' . $this->get_max_backups_limit() .
+				"), removing some", "Remote");
 				$status = $this->rotate_backups($path);
 				return $status
 					? false // Not done in this pass
 					: true // We had an error, clean up and rely on error set in removal
 				;
+			} else {
+				if (empty($backups) && is_array($backups)) Snapshot_Helper_Log::info('Apparently no remote backups, no need to rotate', 'Remote');
+				else if (empty($backups) && !is_array($backups)) Snapshot_Helper_Log::info('Skip rotate, cache needs update', 'Remote');
+				else if (!empty($backups)) Snapshot_Helper_Log::info(sprintf('Skip rotate, backups count in check: %d', count($backups)), 'Remote');
 			}
-		}
+		} else Snapshot_Helper_Log::info('A continued upload, we will not be re-rotating', 'Remote');
 
 		$s3 = $this->get_remote_storage_handler();
 		$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
@@ -497,11 +516,16 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 
 
 		$destination = false;
-		$lock = new Snapshot_Helper_Locker(WPMUDEVSnapshot::instance()->get_setting('backupLockFolderFull'), $timestamp);
+		$lock = new Snapshot_Helper_Locker(
+			WPMUDEVSnapshot::instance()->get_setting('backupLockFolderFull'),
+			Snapshot_Helper_String::conceal($backup)
+		);
 		$local_path = trailingslashit(wp_normalize_path(WPMUDEVSnapshot::instance()->get_setting('backupRestoreFolderFull')));
 
 		if ($lock->is_locked()) {
 			if (Snapshot_Model_Full_Remote_Api::get()->connect()) {
+				Snapshot_Helper_Log::info("Starting remote backup file download", 'Remote');
+
 				$destination = $local_path . basename($backup);
 				$s3 = $this->get_remote_storage_handler();
 				$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
@@ -518,11 +542,12 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 					$this->_set_error(__('Error fetching file', SNAPSHOT_I18N_DOMAIN));
 					Snapshot_Helper_Log::warn("Error fetching file", "Remote");
 					return false; // Error fetching the file
-				}
+				} else Snapshot_Helper_Log::info("Remote backup file successfully downloaded", 'Remote');
 			}
 
+			$lock->unlock();
 			unset($lock); // Clear lock
-		}
+		} else Snapshot_Helper_Log::warn("Unable to obtain lock on downloaded remote backup", 'Remote');
 
 		return $destination;
 	}
@@ -655,6 +680,45 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		}
 
 		return $backups;
+	}
+
+	/**
+	 * Connect to API and update local cache with fresh backups list
+	 *
+	 * @return bool
+	 */
+	public function refresh_backups_list () {
+		$backups = array();
+
+		// Connect to API and get the list
+		if (Snapshot_Model_Full_Remote_Api::get()->connect()) {
+			$backups = $this->get_remote_list();
+		}
+
+		$backups = apply_filters(
+			$this->get_filter("backups-refresh"),
+			$backups // API-obtained backup list
+		);
+
+		return Snapshot_Model_Transient::set(
+			$this->get_filter("backups"),
+			$backups,
+			$this->get_cache_expiration()
+		);
+	}
+
+	/**
+	 * Get local cache expiry timeframe.
+	 *
+	 * Filtered, defaults to constant (1 day in seconds)
+	 *
+	 * @return int Number of seconds to keep cache around
+	 */
+	public function get_cache_expiration () {
+		return apply_filters(
+			$this->get_filter('cache_expiration'),
+			self::CACHE_EXPIRATION
+		);
 	}
 
 }

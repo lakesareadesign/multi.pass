@@ -34,9 +34,15 @@ class FLPhotoModule extends FLBuilderModule {
 	 */
 	public function enqueue_scripts()
 	{
-		if($this->settings && $this->settings->link_type == 'lightbox') {
+		$override_lightbox = apply_filters( 'fl_builder_override_lightbox', false );
+		
+		if($this->settings && $this->settings->link_type == 'lightbox' && ! $override_lightbox) {
 			$this->add_js('jquery-magnificpopup');
 			$this->add_css('jquery-magnificpopup');
+		}
+		else {
+			wp_dequeue_script('jquery-magnificpopup');
+			wp_dequeue_style('jquery-magnificpopup');
 		}
 	}
 

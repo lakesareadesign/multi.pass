@@ -29,6 +29,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	protected $custom_endpoint;
 	protected $exclude_dirs;
 	protected $location_versions;
+	private $files;
 
 	const SETTINGS_KEY = 'as3cf_assets';
 	const SETTINGS_CONSTANT = 'WPOS3_ASSETS_SETTINGS';
@@ -1142,6 +1143,9 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 		foreach ( $locations as $location ) {
 			$this->scan_files_for_s3_by_location( $location );
+
+			// Force new batch per location as some are rather large.
+			$this->process_assets_background_process->save();
 		}
 
 		// For each removed location add its files to a remove batch.
@@ -1231,6 +1235,8 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			$files_to_update[ $file ] = $details;
 		}
 
+		unset( $location_files );
+
 		// File modified, purge entire location
 		if ( $update && ! empty( $files_to_update ) ) {
 			$this->set_object_version_prefix( $location['type'], $location['object'] );
@@ -1254,6 +1260,8 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			}
 		}
 
+		unset( $files_to_update );
+
 		// Remove files from S3 that don't exist locally anymore
 		if ( ! empty( $saved_files ) ) {
 			foreach ( $saved_files as $file => $details ) {
@@ -1268,12 +1276,16 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			}
 		}
 
+		unset( $saved_files );
+
 		// Save the files array to the db
 		$this->save_files( $files_to_save );
+		unset( $files_to_save );
 
 		if ( ! empty( $files_to_process ) ) {
 			// Save the files to be processed to S3 to the db
 			$this->process_assets->batch_process( $files_to_process );
+			unset( $files_to_process );
 		}
 
 		if ( true === $unlock ) {
@@ -1350,7 +1362,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		}
 
 		// Update location versions with redundant versions removed.
-		update_site_option( static::LOCATION_VERSIONS_KEY, $new_location_versions );
+		$this->update_site_option( static::LOCATION_VERSIONS_KEY, $new_location_versions );
 	}
 
 	/**
@@ -1778,7 +1790,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		}
 
 		$this->location_versions[ $type ][ $object ] = date( 'YmdHis' );
-		update_site_option( static::LOCATION_VERSIONS_KEY, $this->location_versions );
+		$this->update_site_option( static::LOCATION_VERSIONS_KEY, $this->location_versions );
 
 		return $this->location_versions[ $type ][ $object ];
 	}
@@ -1884,7 +1896,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 					// Add the script to the 'enqueued_scripts' mapping for the future
 					$enqueued_scripts[ $script_type ][ $file ] = array();
-					update_site_option( self::ENQUEUED_SETTINGS_KEY, $enqueued_scripts );
+					$this->update_site_option( self::ENQUEUED_SETTINGS_KEY, $enqueued_scripts );
 					break;
 				}
 			}
@@ -2056,7 +2068,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 		$current[ $type ] = $failures;
 
-		update_site_option( self::FAILURES_KEY, $current );
+		$this->update_site_option( self::FAILURES_KEY, $current );
 	}
 
 	/**
@@ -2137,6 +2149,10 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 * @return mixed
 	 */
 	public function get_files() {
+		if ( ! is_null( $this->files ) ) {
+			return $this->files;
+		}
+
 		$files          = array();
 		$location_types = array();
 
@@ -2157,6 +2173,8 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		if ( empty( $files ) ) {
 			return get_site_option( self::FILES_SETTINGS_KEY, array() );
 		}
+
+		$this->files = $files;
 
 		return $files;
 	}
@@ -2197,8 +2215,11 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 		// Update the key for each location that has files
 		foreach ( $locations as $location_key => $location_files ) {
-			update_site_option( $location_key, $location_files );
+			$this->update_site_option( $location_key, $location_files );
 		}
+
+		// Clear saved files cache
+		$this->files = null;
 	}
 
 	/**
@@ -2228,7 +2249,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 * @param array $files
 	 */
 	public function save_enqueued_files( $files ) {
-		update_site_option( self::ENQUEUED_SETTINGS_KEY, $files );
+		$this->update_site_option( self::ENQUEUED_SETTINGS_KEY, $files );
 	}
 
 	/**
@@ -2299,7 +2320,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			'timestamp' => $timestamp,
 		);
 
-		update_site_option( self::FAILURES_KEY, $failures );
+		$this->update_site_option( self::FAILURES_KEY, $failures );
 
 		// Reached limit, show notice
 		if ( 3 === $count ) {

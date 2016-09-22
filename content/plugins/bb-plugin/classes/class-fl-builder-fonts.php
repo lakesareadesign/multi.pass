@@ -145,14 +145,45 @@ final class FLBuilderFonts {
 	 * @param  object $module The respective module.
 	 * @return void
 	 */
-	static public function add_fonts_for_module( $module ){
+	static public function add_fonts_for_module( $module )
+	{
 		$fields = FLBuilderModel::get_settings_form_fields( $module->form );
-		$array = array();
 
 		foreach ( $fields as $name => $field ) {
 			if ( $field['type'] == 'font' && isset( $module->settings->$name ) ) {
-				$array[] = $module->settings->$name;
 				self::add_font( $module->settings->$name );
+			}
+			else if ( isset( $field['form'] ) ) {
+				$form = FLBuilderModel::$settings_forms[ $field['form'] ];
+				self::add_fonts_for_nested_module_form( $module, $form['tabs'], $name );
+			}
+		}
+	}
+
+	/**
+	 * Add fonts to the $font array for a nested module form.
+	 *
+	 * @since 1.8.6
+	 * @access private
+	 * @param object $module The module to add for.
+	 * @param array $form The nested form.
+	 * @param string $setting The nested form setting key.
+	 * @return void
+	 */
+	static private function add_fonts_for_nested_module_form( $module, $form, $setting )
+	{
+		$fields = FLBuilderModel::get_settings_form_fields( $form );
+		
+		foreach ( $fields as $name => $field ) {
+			if ( $field['type'] == 'font' && isset( $module->settings->$setting ) ) {
+				foreach ( $module->settings->$setting as $key => $val ) {
+					if ( isset( $val->$name ) ) {
+						self::add_font( ( array )$val->$name );
+					}
+					else if( $name == $key && ! empty( $val ) ) {
+						self::add_font( ( array )$val );
+					}
+				}
 			}
 		}
 	}
@@ -1304,6 +1335,15 @@ final class FLBuilderFontFamilies {
 	    "Henny Penny" => array(
 	        "regular",
 	    ),
+	    "Heebo" 	  => array(
+	    	"100",
+			"300",
+			"regular",
+			"500",
+			"700",
+			"800",
+			"900"
+	    ),	
 	    "Herr Von Muellerhoff" => array(
 	        "regular",
 	    ),

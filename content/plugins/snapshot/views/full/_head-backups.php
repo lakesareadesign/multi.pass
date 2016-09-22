@@ -1,6 +1,6 @@
 <?php
 if (!defined('WPINC')) die;
-$secret_key = $model->get_config('secret-key', '');
+$secret_key = $model->get_config('secret-key', '');	     	 	 				 	 	
 ?>
 <div id="snapshot-full_backups-panel" class="wrap snapshot-wrap">
 	<header class="<?php echo !empty($secret_key) && $model->is_active() ? 'is-' : 'not-'; ?>active">

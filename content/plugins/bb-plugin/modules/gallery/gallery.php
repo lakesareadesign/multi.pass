@@ -18,10 +18,26 @@ class FLGalleryModule extends FLBuilderModule {
 			'partial_refresh'	=> true
 		));
 
+		$this->add_styles_scripts();
+	}
+
+	/**
+	 * @method add_styles_scripts()
+	 */
+	public function add_styles_scripts()
+	{
 		$this->add_js('jquery-wookmark');
 		$this->add_js('jquery-mosaicflow');
-		$this->add_js('jquery-magnificpopup');
-		$this->add_css('jquery-magnificpopup');
+
+		$override_lightbox = apply_filters( 'fl_builder_override_lightbox', false );
+		if ( ! $override_lightbox ) {
+			$this->add_js('jquery-magnificpopup');
+			$this->add_css('jquery-magnificpopup');	
+		}
+		else {
+			wp_dequeue_script('jquery-magnificpopup');
+			wp_dequeue_style('jquery-magnificpopup');
+		}
 	}
 
 	/**

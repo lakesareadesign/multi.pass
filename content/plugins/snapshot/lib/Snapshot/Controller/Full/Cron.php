@@ -41,13 +41,14 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	/**
 	 * Reschedules events according to the current (updated) setup
 	 *
+	 * @uses $this->stop() to stop any currently running processes first
+	 * @uses $this->start() to (re)start
+	 *
 	 * @return bool
 	 */
 	public function reschedule () {
-		$this->_unschedule_backup_starting();
-		$this->_unschedule_backup_processing();
-
-		return $this->set_up_scheduling();
+		$this->stop();
+		return $this->start();
 	}
 
 	/**
@@ -74,6 +75,21 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 		$this->_delete_started_backups();
 
 		return true;
+	}
+
+	/**
+	 * Reschedules the backup process.
+	 *
+	 * This is to be called from user action processing method.
+	 *
+	 * @uses $this->set_up_scheduling() to attach hooks and set up local rotation scheduling
+	 * @since 3.0.1
+	 *
+	 * @return bool
+	 */
+	public function start () {
+		$this->set_up_scheduling();
+		return $this->_schedule_backup_starting();
 	}
 
 	/**
@@ -143,12 +159,22 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	 * Sets up backup scheduling when the model data is ready for it
 	 */
 	public function set_up_scheduling () {
+		// Do local backup rotation automagic schedule first.
+		// This is so we allow this to happen even if further cron jobs
+		// are not being allowed to run (for actual backups making)
 		$this->_schedule_backup_local_rotation();
+
 		if ($this->_model->get_config('disable_cron', false)) return false;
 
-		$this->_schedule_backup_starting();
+		// Deprecated the schedule auto starting in favor of
+		// semi-automatic schedule setup with user action
+		//$this->_auto_schedule_backup_starting();
 
 		// Now the schedule action listeners here
+
+		// Add scheduled backup start action listener
+		$start_action = $this->get_filter('start_backup');
+		add_action($start_action, array($this, 'start_backup'));
 
 		// Add kickstart processing action handler listening
 		$kickstart_action = $this->get_filter(self::BACKUP_KICKSTART_ACTION);
@@ -452,13 +478,59 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	}
 
 	/**
-	 * Schedule started backups start.
+	 * Schedules backup starting
 	 *
-	 * This should happen only as set in settings.
+	 * Dumb, manual schedule starting interface, decoupled from
+	 * the action hookup. Serves single duty.
+	 *
+	 * @since 3.0.1
 	 *
 	 * @return bool
 	 */
 	private function _schedule_backup_starting () {
+		if ($this->_model->get_config('disable_cron', false)) return false;
+
+		$start_action = $this->get_filter('start_backup');
+
+		$next_scheduled = wp_next_scheduled($start_action);
+		if ($next_scheduled) {
+			Snapshot_Helper_Log::info("Found previous backup start set for " . date('r', $next_scheduled) . ", rescheduling first.", "Cron");
+			$this->_unschedule_backup_starting();
+		}
+
+		$frequency = $this->_model->get_frequency();
+
+		$schedule = $this->_model->get_schedule_time();
+		$now = Snapshot_Model_Time::get()->get_utc_time();
+		$next_event = strtotime(date("Y-m-d 00:00:00", $now), $now) + $schedule;
+
+		if ($now > $next_event) $next_event += DAY_IN_SECONDS; // Local time of next event is in the past, move to future
+		// Allow for filtering
+		$next_event = apply_filters(
+			$this->get_filter('next_backup_start'),
+			$next_event
+		);
+
+		$status = wp_schedule_event($next_event, $this->get_filter($frequency), $start_action);
+		Snapshot_Helper_Log::info("Next start action scheduled for " . date('r', $next_event), "Cron");
+
+		// Use strict type check instead of boolean type casting, because
+		// the `wp_schedule_event` will return:
+		//   - (bool)false on failure,
+		//   - undefined otherwise
+		return false !== $status;
+	}
+
+	/**
+	 * Schedule started backups start.
+	 *
+	 * This should happen only as set in settings.
+	 *
+	 * @deprecated since 3.0.1 Also renamed with `auto_` prefix
+	 *
+	 * @return bool
+	 */
+	private function _auto_schedule_backup_starting () {
 		if ($this->_model->get_config('disable_cron', false)) return false;
 
 		$start_action = $this->get_filter('start_backup');

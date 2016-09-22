@@ -23,7 +23,28 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			$this->add_ajax_action( 'wd_audit_email_report', 'toggle_email_report' );
 			$this->add_action( 'wd_audit_send_report', 'send_report_email' );
 			$this->add_action( 'wp_loaded', 'listen_for_plugins_themes_content' );
+			$this->add_ajax_action( 'wd_audit_get_events', 'get_events_ajax' );
 		}
+	}
+
+	public function get_events_ajax() {
+		if ( ! WD_Utils::check_permission() ) {
+			die;
+		}
+
+		$table = new WD_Audit_Table();
+		$table->prepare_items();
+		ob_start();
+		$table->display();
+		$table_html = ob_get_clean();
+		ob_start();
+		$table->display_tablenav( 'bottom' );
+		$table_nav = ob_get_clean();
+		wp_send_json( array(
+			'table' => $table_html,
+			'nav'   => $table_nav
+		) );
+		die;
 	}
 
 	public function suggest_user_name() {
@@ -451,7 +472,9 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			WDEV_Plugin_Ui::load( wp_defender()->get_plugin_url() . 'shared-ui/', false );
 			wp_enqueue_style( 'wp-defender' );
 			$data = array(
-				'date_format' => WD_Utils::convert_date_format_jQuery( WD_Audit_API::get_date_format() )
+				'date_format'              => WD_Utils::convert_date_format_jQuery( WD_Audit_API::get_date_format() ),
+				'load_event_text_singular' => __( "Load %s new event", wp_defender()->domain ),
+				'load_event_text_plural'   => __( "Load %s new events", wp_defender()->domain ),
 			);
 			if ( WD_Utils::http_get( 'user_id', false ) !== false ) {
 				$user_id = WD_Utils::http_get( 'user_id' );

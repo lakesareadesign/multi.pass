@@ -181,6 +181,7 @@ class Appointments_Admin_Settings_Page {
 
 		$file = _appointments_get_settings_tab_view_file_path( $tab );
 
+		echo '<div class="appointments-settings-tab-' . $tab . '">';
 		if ( $file ) {
 			require_once( $file );
 		}
@@ -188,6 +189,7 @@ class Appointments_Admin_Settings_Page {
 			do_action( 'app-settings-tabs', $tab, $sections );
 			do_action( "appointments-settings-tab-{$tab}", $sections );
 		}
+		echo '</div>';
 	}
 
 	/**
@@ -437,7 +439,10 @@ class Appointments_Admin_Settings_Page {
 						'price'		=> $service["price"],
 						'page'		=> $service["page"]
 					);
-					appointments_insert_service( $args );
+					$result = appointments_insert_service( $args );
+					if ( is_wp_error( $result ) ) {
+						wp_die( $result->get_error_message() );
+					}
 				}
 
 				do_action('app-services-service-updated', $ID);

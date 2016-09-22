@@ -2526,7 +2526,8 @@
 		 * @access private
 		 * @method _appendOverlay
 		 * @param {Object} node A jQuery reference to the node this overlay is associated with.
-		 * @param {Object} template A rendered wp.template. 
+		 * @param {Object} template A rendered wp.template.
+		 * @return {Object} The overlay element.
 		 */
 		_appendOverlay: function( node, template )
 		{
@@ -2563,10 +2564,7 @@
 				overlay.css( 'bottom', ( margins.bottom + overlayPos ) + 'px' );
 			}
 			
-			// Put row action headers on the bottom if they're hidden.
-			if ( isRow && overlay.offset().top < 43 ) {
-				overlay.addClass( 'fl-row-overlay-header-bottom' );
-			}
+			return overlay;
 		},
 		
 		/* Rows
@@ -2657,24 +2655,43 @@
 		 */
 		_rowMouseenter: function()
 		{
-			var row      = $( this ),
-				template = wp.template( 'fl-row-overlay' );
+			var row        = $( this ),
+                rowTop     = row.offset().top,
+                childTop   = null,
+                overlay    = null,
+                template   = wp.template( 'fl-row-overlay' );
 
-			if ( ! row.hasClass( 'fl-block-overlay-active' ) ) {
-				
-				// Append the overlay.
-				FLBuilder._appendOverlay( row, template( { 
-					global : row.hasClass( 'fl-node-global' ), 
-					node   : row.attr('data-node')
-				} ) );
-				
-				// Adjust the height of modules if needed.
-				row.find( '.fl-module' ).each( function(){
-					if ( $( this ).outerHeight( true ) < 20 ) {
-						$( this ).addClass( 'fl-module-adjust-height' );
-					}
-				} );
-			}
+            if ( ! row.hasClass( 'fl-block-overlay-active' ) ) {
+
+                // Append the overlay.
+                overlay = FLBuilder._appendOverlay( row, template( {
+                    global : row.hasClass( 'fl-node-global' ),
+                    node   : row.attr('data-node')
+                } ) );
+
+                // Adjust the overlay position if covered by negative margin content.
+                row.find( '.fl-node-content:visible' ).each( function(){
+                    var top = $( this ).offset().top;
+                    childTop = ( null === childTop || childTop > top ) ? top : childTop;
+                } );
+
+                if ( null !== childTop && childTop < rowTop ) {
+	                overlay.css( 'top', ( childTop - rowTop - 30 ) + 'px' );
+                }
+
+                // Put action headers on the bottom if they're hidden.
+                if ( overlay.offset().top < 43 ) {
+                    overlay.addClass( 'fl-row-overlay-header-bottom' );
+                }
+
+                // Adjust the height of modules if needed.
+                row.find( '.fl-module' ).each( function(){
+                    var module = $( this );
+                    if ( module.outerHeight( true ) < 20 ) {
+                        module.addClass( 'fl-module-adjust-height' );
+                    }
+                } );
+            }
 		},
 		
 		/**
@@ -5066,6 +5083,7 @@
 
 			var colorPresets 	   = FLBuilderConfig.colorPresets ? FLBuilderConfig.colorPresets : [];
 			FLBuilder.colorPicker  = new FLBuilderColorPicker({
+				mode: 'hsv',
 				elements: '.fl-color-picker .fl-color-picker-value',
 		    	presets: colorPresets,
 				labels: {
@@ -5094,13 +5112,13 @@
 		----------------------------------------------------------*/
 		
 		/**
-		 * Shows the single photo selector.
+		 * Initializes the single photo selector.
 		 *
-		 * @since 1.0
+		 * @since 1.8.6
 		 * @access private
-		 * @method _selectSinglePhoto
+		 * @method _initSinglePhotoSelector
 		 */ 
-		_selectSinglePhoto: function()
+		_initSinglePhotoSelector: function()
 		{
 			if(FLBuilder._singlePhotoSelector === null) {
 				FLBuilder._singlePhotoSelector = wp.media({
@@ -5110,7 +5128,18 @@
 					multiple: false
 				});
 			}
-			
+		},
+		
+		/**
+		 * Shows the single photo selector.
+		 *
+		 * @since 1.0
+		 * @access private
+		 * @method _selectSinglePhoto
+		 */ 
+		_selectSinglePhoto: function()
+		{
+			FLBuilder._initSinglePhotoSelector();
 			FLBuilder._singlePhotoSelector.once('open', $.proxy(FLBuilder._singlePhotoOpened, this));
 			FLBuilder._singlePhotoSelector.once('select', $.proxy(FLBuilder._singlePhotoSelected, this));
 			FLBuilder._singlePhotoSelector.open();
@@ -5179,12 +5208,18 @@
 		 */ 
 		_singlePhotoRemoved: function()
 		{
-			var selection   = FLBuilder._singlePhotoSelector.state().get('selection'),
+			FLBuilder._initSinglePhotoSelector();
+			
+			var state       = FLBuilder._singlePhotoSelector.state(),
+				selection   = 'undefined' != typeof state ? state.get('selection') : null,
 				wrap        = $(this).closest('.fl-photo-field'),
 				photoField  = wrap.find('input[type=hidden]'),
 				srcSelect   = wrap.find('select');
-				
-			selection.reset();
+			
+			if ( selection ) {
+				selection.reset();
+			}
+			
 			wrap.addClass('fl-photo-empty');
 			photoField.val('');
 			srcSelect.html('');

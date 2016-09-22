@@ -47,7 +47,7 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 */
 	public function run () {
 		$this->_view->run();
-		add_action('admin_init', array($this, 'process_submissions'));
+		add_action('current_screen', array($this, 'process_submissions'));
 	}
 
 	/**
@@ -76,6 +76,7 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 				return false;
 			}
 		}
+		if (!$this->_view->is_current_admin_page()) return false;
 		if (!current_user_can($this->_view->get_page_role())) return false;
 
 		$data = new Snapshot_Model_Post;
@@ -210,6 +211,9 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 				// Require secret key to activate the backups
 				$this->_model->set_config('active', true);
 
+				// Set initial cron hooks if at all possible
+				Snapshot_Controller_Full_Cron::get()->reschedule();
+
 				// Send initial schedule update
 				$this->_model->update_remote_schedule();
 			}
@@ -264,6 +268,9 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 		) return false;
 
 		$this->_model->set_config('disable_cron', false);
+
+		// Reset cron hooks
+		Snapshot_Controller_Full_Cron::get()->reschedule();
 
 		// Let the service know
 		$this->_model->update_remote_schedule();

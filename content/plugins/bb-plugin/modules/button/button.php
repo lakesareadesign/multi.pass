@@ -118,6 +118,18 @@ FLBuilder::register_module('FLButtonModule', array(
 						'preview'       => array(
 							'type'          => 'none'
 						)
+					),
+					'link_nofollow'          => array(
+						'type'          => 'select',
+						'label'         => __('Link No Follow', 'fl-builder'),
+						'default'       => 'no',
+						'options' 		=> array(
+							'yes' 			=> __('Yes', 'fl-builder'),
+							'no' 			=> __('No', 'fl-builder'),
+						),
+						'preview'       => array(
+							'type'          => 'none'
+						)
 					)
 				)
 			)

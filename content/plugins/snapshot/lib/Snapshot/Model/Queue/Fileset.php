@@ -27,7 +27,20 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 		$this->_current = $source;
 
 		$start = $chunk * $chunk_size;
-		$all_files = $source->get_files();
+
+		$all_files = array();
+		if (defined('SNAPSHOT_FILESET_USE_PRECACHE') && SNAPSHOT_FILESET_USE_PRECACHE) {
+			if ($this->has_cached_source_files()) {
+				$all_files = $this->get_cached_source_files();
+				if (!is_array($all_files) || empty($all_files)) $all_files = $source->get_files();
+			} else {
+				$all_files = $source->get_files();
+				$this->set_cached_source_files($all_files);
+			}
+		} else {
+			$all_files = $source->get_files();
+		}
+
 		$files = array_slice($all_files, $start, $chunk_size);
 
 		$info['chunk'] = $chunk + 1;
@@ -42,6 +55,43 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 	public function add_source ($src) {
 		if (!Snapshot_Model_Fileset::is_source($src)) return false;
 		return parent::add_source($src);
+	}
+
+	/**
+	 * Checks whether we have pre-cached sources available
+	 *
+	 * @return bool
+	 */
+	public function has_cached_source_files () {
+		if (!defined('SNAPSHOT_FILESET_USE_PRECACHE')) return false;
+		if (!SNAPSHOT_FILESET_USE_PRECACHE) return false;
+
+		$cache = $this->get_cached_source_files();
+		return !empty($cache) && is_array($cache);
+	}
+
+	/**
+	 * Gets pre-cached sources
+	 *
+	 * @return array
+	 */
+	public function get_cached_source_files () {
+		if (!defined('SNAPSHOT_FILESET_USE_PRECACHE')) return array();
+		if (!SNAPSHOT_FILESET_USE_PRECACHE) return array();
+
+		return $this->_get('precached', array());
+	}
+
+	/**
+	 * Sets and stores pre-cached sources
+	 *
+	 * @param array $files Source to set
+	 */
+	public function set_cached_source_files ($files) {
+		if (!defined('SNAPSHOT_FILESET_USE_PRECACHE')) return false;
+		if (!SNAPSHOT_FILESET_USE_PRECACHE) return false;
+
+		return $this->_set('precached', $files);
 	}
 
 	/**
@@ -74,6 +124,10 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 	}
 
 	public function get_chunk_size () {
+		if (defined('SNAPSHOT_FILESET_CHUNK_SIZE') && is_numeric(SNAPSHOT_FILESET_CHUNK_SIZE)) {
+			$size = intval(SNAPSHOT_FILESET_CHUNK_SIZE);
+			if ($size) return $size;
+		}
 		return 250;
 	}
 

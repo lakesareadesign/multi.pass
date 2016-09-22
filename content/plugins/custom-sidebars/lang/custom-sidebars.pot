@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Custom Sidebars Pro PLUGIN_VERSION\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/customsidebars\n"
-"POT-Creation-Date: 2016-08-29 09:38:05+00:00\n"
+"POT-Creation-Date: 2016-09-12 06:23:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -137,108 +137,108 @@ msgstr ""
 msgid "Imported %d widget(s)!"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:185
+#: inc/class-custom-sidebars-visibility.php:191
 #: inc/class-custom-sidebars.php:764
 msgid "Visibility"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:194
+#: inc/class-custom-sidebars-visibility.php:200
 msgid "<b>Show</b> widget if:"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:195
+#: inc/class-custom-sidebars-visibility.php:201
 msgid "<b>Hide</b> widget if:"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:199
+#: inc/class-custom-sidebars-visibility.php:205
 msgid "Filters"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:203
+#: inc/class-custom-sidebars-visibility.php:209
 msgid "Date"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:208
+#: inc/class-custom-sidebars-visibility.php:214
 msgid "Guests"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:213
+#: inc/class-custom-sidebars-visibility.php:219
 msgid "Roles"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:218
+#: inc/class-custom-sidebars-visibility.php:224
 msgid "Membership"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:224
+#: inc/class-custom-sidebars-visibility.php:230
 msgid "Membership2"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:230 views/import.php:303
+#: inc/class-custom-sidebars-visibility.php:236 views/import.php:303
 msgid "Special pages"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:235
+#: inc/class-custom-sidebars-visibility.php:241
 msgid "For posttype"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:237
+#: inc/class-custom-sidebars-visibility.php:243
 msgid "Taxonomy"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:254
+#: inc/class-custom-sidebars-visibility.php:260
 msgid "Always"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:279
-#: inc/class-custom-sidebars-visibility.php:284
-#: inc/class-custom-sidebars-visibility.php:293
-#: inc/class-custom-sidebars-visibility.php:312
-#: inc/class-custom-sidebars-visibility.php:332
-#: inc/class-custom-sidebars-visibility.php:351
-#: inc/class-custom-sidebars-visibility.php:370
-#: inc/class-custom-sidebars-visibility.php:461
+#: inc/class-custom-sidebars-visibility.php:285
+#: inc/class-custom-sidebars-visibility.php:290
+#: inc/class-custom-sidebars-visibility.php:299
+#: inc/class-custom-sidebars-visibility.php:318
+#: inc/class-custom-sidebars-visibility.php:338
+#: inc/class-custom-sidebars-visibility.php:357
+#: inc/class-custom-sidebars-visibility.php:376
+#: inc/class-custom-sidebars-visibility.php:467
 msgid "AND"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:280
+#: inc/class-custom-sidebars-visibility.php:286
 msgid "User is not logged-in (Guest)"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:285
+#: inc/class-custom-sidebars-visibility.php:291
 msgid "User is logged-in (Member)"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:294
+#: inc/class-custom-sidebars-visibility.php:300
 msgid "User has role"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:313
+#: inc/class-custom-sidebars-visibility.php:319
 msgid "User has Membership Level"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:321
-#: inc/class-custom-sidebars-visibility.php:341
+#: inc/class-custom-sidebars-visibility.php:327
+#: inc/class-custom-sidebars-visibility.php:347
 msgid "(inactive)"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:333
+#: inc/class-custom-sidebars-visibility.php:339
 msgid "User has Membership"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:352
+#: inc/class-custom-sidebars-visibility.php:358
 msgid "On these special pages"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:371
+#: inc/class-custom-sidebars-visibility.php:377
 msgid "On any page of these types"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:389
+#: inc/class-custom-sidebars-visibility.php:395
 msgid "Only for specific %s"
 msgstr ""
 
-#: inc/class-custom-sidebars-visibility.php:390
+#: inc/class-custom-sidebars-visibility.php:396
 msgid "Only these %s:"
 msgstr ""
 

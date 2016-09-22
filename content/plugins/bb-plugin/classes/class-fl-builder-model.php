@@ -173,9 +173,22 @@ final class FLBuilderModel {
 	 */
 	static public function get_upgrade_url( $params = array() )
 	{
-		$url = FL_BUILDER_UPGRADE_URL . '?' . http_build_query( $params, '', '&' );
+		return apply_filters( 'fl_builder_upgrade_url', self::get_store_url( '', $params ) );
+	}
+
+	/**
+	 * Returns a URL that points to the Beaver Builder store.
+	 *
+	 * @since 1.8.6
+	 * @param string $path A URL path to append to the store URL.
+	 * @param array $params An array of key/value params to add to the query string.
+	 * @return string
+	 */
+	static public function get_store_url( $path = '', $params = array() )
+	{
+		$url = trailingslashit( FL_BUILDER_STORE_URL . $path ) . '?' . http_build_query( $params, '', '&' );
 		
-		return apply_filters( 'fl_builder_upgrade_url', $url );
+		return apply_filters( 'fl_builder_store_url', $url, $path );
 	}
 
 	/**
@@ -1986,7 +1999,7 @@ final class FLBuilderModel {
 			}
 		} 
 		
-		return $setting;
+		return apply_filters( 'fl_builder_enabled_modules', $setting );
 	}
 
 	/**
@@ -2442,11 +2455,6 @@ final class FLBuilderModel {
 			// Loop through the settings.
 			foreach ( $settings as $key => $val ) {
 				
-				// Make sure the setting value is an array.				
-				if ( ! is_array( $val ) ) {
-					continue;
-				}
-				
 				// Make sure this field is a nested form.
 				if ( ! isset( $fields[ $key ]['form'] ) ) {
 					continue;
@@ -2455,9 +2463,14 @@ final class FLBuilderModel {
 				// Get the nested form defaults.
 				$nested_defaults = self::get_settings_form_defaults( $fields[ $key ]['form'] );
 				
-				// Loop through the nested form settings and merge the defaults.
-				foreach ( $val as $nested_key => $nested_val ) {
-					$settings->{ $key }[ $nested_key ] = ( object )array_merge( ( array )$nested_defaults, ( array )$nested_val );
+				// Merge the defaults.		
+				if ( is_array( $val ) ) {
+					foreach ( $val as $nested_key => $nested_val ) {
+						$settings->{ $key }[ $nested_key ] = ( object )array_merge( ( array )$nested_defaults, ( array )$nested_val );
+					}	
+				}
+				else {
+					$settings->{ $key } = ( object )array_merge( ( array )$nested_defaults, ( array )$settings->{ $key } );
 				}
 			}
 		}
@@ -4440,9 +4453,14 @@ final class FLBuilderModel {
 			
 			if ( file_exists( $path ) ) {
 				
-				ob_start();
-				include $path;
-				$unserialized = unserialize( ob_get_clean() );
+				if ( stristr( $path, '.php' ) ) {
+					ob_start();
+					include $path;
+					$unserialized = unserialize( ob_get_clean() );
+				}
+				else {
+					$unserialized = unserialize( file_get_contents( $path ) );
+				}
 				
 				if ( is_array( $unserialized ) ) {
 					
@@ -4522,6 +4540,10 @@ final class FLBuilderModel {
 		
 		// Build the categorized templates array.
 		foreach( $templates as $template ) {
+
+			if ( ! isset( $template['category'] ) ) {
+				continue;
+			}
 			
 			if ( is_array( $template['category'] ) ) {
 				
@@ -4745,9 +4767,9 @@ final class FLBuilderModel {
 			'video'					=> true,
 			'video_embed'			=> '<iframe src="https://player.vimeo.com/video/124230072?autoplay=1" width="420" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',
 			'knowledge_base'		=> true,
-			'knowledge_base_url'	=> 'https://www.wpbeaverbuilder.com/knowledge-base/?utm_medium=' . ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-pro' ) . '&utm_source=builder-ui&utm_campaign=kb-help-button',
+			'knowledge_base_url'	=> self::get_store_url( 'knowledge-base', array( 'utm_medium' => ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-pro' ), 'utm_source' => 'builder-ui', 'utm_campaign' => 'kb-help-button' ) ),
 			'forums'				=> true,
-			'forums_url'			=> 'https://www.wpbeaverbuilder.com/beaver-builder-support/?utm_medium=' . ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-pro' ) . '&utm_source=builder-ui&utm_campaign=forums-help-button',
+			'forums_url'			=> self::get_store_url( 'knowledge-base', array( 'utm_medium' => ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-pro' ), 'utm_source' => 'builder-ui', 'utm_campaign' => 'forums-help-button' ) )
 		);
 		
 		return $defaults;

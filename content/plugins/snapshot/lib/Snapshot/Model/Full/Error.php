@@ -9,6 +9,7 @@ class Snapshot_Model_Full_Error extends Snapshot_Model_Full {
 
 	const ERROR_GENERAL = 'backup';
 	const ERROR_POSTPROCESS = 'postprocess';
+	const ERROR_UPLOAD = 'upload';
 
 	const PART_UNKNOWN = 'unknown';
 
@@ -182,6 +183,7 @@ class Snapshot_Model_Full_Error extends Snapshot_Model_Full {
 
 		if (self::ERROR_GENERAL === $error_key) return __('General backup error', SNAPSHOT_I18N_DOMAIN);
 		if (self::ERROR_POSTPROCESS === $error_key) return __('Backup post-processing error', SNAPSHOT_I18N_DOMAIN);
+		if (self::ERROR_UPLOAD === $error_key) return __('Backup upload error', SNAPSHOT_I18N_DOMAIN);
 
 		if (false === strpos($error_key, ':')) return $fallback;
 

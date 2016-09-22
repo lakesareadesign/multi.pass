@@ -213,14 +213,16 @@
 			<div class="body">
 				<p>
 					<?php esc_html_e('We are now restoring your backup to a fully working website.', SNAPSHOT_I18N_DOMAIN); ?>
-					<?php esc_html_e('Please be patient as this can take a few minutes.', SNAPSHOT_I18N_DOMAIN); ?>
+					<?php esc_html_e('Please be patient, this process can take between 2 - 20 minutes depending on file size and load, go grab a cup of tea and come back :)', SNAPSHOT_I18N_DOMAIN); ?>
+					<br />
+					<?php esc_html_e('Please do not leave this page while your backup is being restored.', SNAPSHOT_I18N_DOMAIN); ?>
 				</p>
 				<div class="progress update">
 					<p class="indicator"><i>...</i></p>
 					<p class="fetch"><?php esc_html_e('Fetching file...', SNAPSHOT_I18N_DOMAIN); ?></p>
 					<p class="process"><?php esc_html_e('Managed backup restoration in progress...', SNAPSHOT_I18N_DOMAIN); ?></p>
 					<p class="done"><span><?php esc_html_e('Restoration successfull', SNAPSHOT_I18N_DOMAIN); ?></span></p>
-					<p class="error"><span><?php esc_html_e('Restoration borked', SNAPSHOT_I18N_DOMAIN); ?></span></p>
+					<p class="error"><span><?php esc_html_e('There was an error restoring your backup', SNAPSHOT_I18N_DOMAIN); ?></span></p>
 				</div>
 				<p>
 					<button type="button" class="button cancel">

@@ -121,7 +121,16 @@ if ( ! class_exists( 'Unit' ) ) {
 			$available = $unit_status['mandatory_required']['enabled'] ? $unit_status['mandatory_required']['result'] : $available;
 			$available = $unit_status['completion_required']['enabled'] ? $unit_status['completion_required']['result'] : $available;
 
+
 			$unit_status['date_restriction']['result'] = $current_date >= $unit_available_date;
+
+			/**
+			 * Check course available date too.
+			 */
+			if ( $unit_status['date_restriction']['result'] ) {
+				$course_start_date = get_post_meta( $course_id, 'course_start_date', true );
+				$unit_status['date_restriction']['result'] = $current_date >= $course_start_date;
+			}
 
 			if ( ! $unit_status['date_restriction']['result'] || ! $available ) {
 				$available = false;
@@ -541,7 +550,7 @@ if ( ! class_exists( 'Unit' ) ) {
 			$unit_post_name   = get_post_field( 'post_name', $unit_id );
 
 
-			$unit_permalink = trailingslashit( home_url() . '/' ) . trailingslashit( $course_slug . '/' ) . trailingslashit( isset( $course_post_name ) ? $course_post_name : '' . '/' ) . trailingslashit( $units_slug . '/' ) . trailingslashit( isset( $unit_post_name ) ? $unit_post_name : '' . '/' );
+			$unit_permalink = trailingslashit( home_url() . '/' ) . trailingslashit( $course_slug . '/' ) . trailingslashit( isset( $course_post_name ) ? $course_post_name : '' . '/' ) . trailingslashit( $units_slug . '/' ) . trailingslashit( isset( $unit_post_name ) ? $unit_post_name : '' . '/' );									   	 	   		
 
 			return $unit_permalink;
 		}

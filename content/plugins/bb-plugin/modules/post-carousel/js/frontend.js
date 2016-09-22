@@ -164,10 +164,8 @@
 		 */
 		_initCarousel: function(){
 
-			this.carousel = $( this.wrapperClass ).bxSlider( this._getSettings() );
+			this.carousel = $( this.wrapperClass ).bxSlider( this._getSettings() );			
 			
-			$( this.wrapperClass ).data( 'bxSlider', this.carousel );
-
 			if( this.navigation ){
 
 				this.prevCarouselBtn.on( 'click', function( e ){
@@ -192,7 +190,14 @@
 		 * @return void
 		 */
 		_reloadCarousel: function(){
-			this.carousel.reloadSlider( this._getSettings() );
+			var bxObject = this.carousel.data('bxSlider');
+
+			if ( bxObject ) {
+				bxObject.reloadSlider( this._getSettings() );
+			}
+			else {
+				this.carousel.reloadSlider( this._getSettings() );
+			}
 		},
 	
 	};

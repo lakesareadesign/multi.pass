@@ -3,12 +3,12 @@
 	<?php if(isset($subscription->error) || !$subscription->active) : ?>
 	<p class="fl-license-error" style="padding:10px 20px; background: #d54e21; color: #fff;">
 		<?php _e('UPDATES UNAVAILABLE! Please subscribe or enter your license key below to enable automatic updates.', 'fl-builder'); ?>
-		&nbsp;<a style="color: #fff;" href="<?php echo FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-pro', 'utm_source' => 'license-settings-page', 'utm_campaign' => 'license-expired' ) ); ?>" target="_blank"><?php _e('Subscribe Now', 'fl-builder'); ?> &raquo;</a>
+		&nbsp;<a style="color: #fff;" href="<?php echo FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-pro', 'utm_source' => 'license-settings-page', 'utm_campaign' => 'license-expired' ) ); ?>" target="_blank"><?php _e('Subscribe Now', 'fl-builder'); ?> &raquo;</a>
 	</p>
 	<?php elseif(!$subscription->domain->active) : ?>
 	<p class="fl-license-error" style="padding:10px 20px; background: #d54e21; color: #fff;">
 		<?php _e('UPDATES UNAVAILABLE! Your subscription is active but this domain has been deactivated. Please reactivate this domain in your account to enable automatic updates.', 'fl-builder'); ?>
-		&nbsp;<a style="color: #fff;" href="https://www.wpbeaverbuilder.com/my-account/?utm_medium=bb-pro&utm_source=license-settings-page&utm_campaign=license-deactivated" target="_blank"><?php _e('Visit Account', 'fl-builder'); ?> &raquo;</a>
+		&nbsp;<a style="color: #fff;" href="<?php echo FLBuilderModel::get_store_url( 'my-account', array( 'utm_medium' => 'bb-pro', 'utm_source' => 'license-settings-page', 'utm_campaign' => 'license-deactivated' ) ); ?>" target="_blank"><?php _e('Visit Account', 'fl-builder'); ?> &raquo;</a>
 	</p>
 	<?php endif; ?>
 
@@ -31,7 +31,7 @@
 	<?php endif; ?>
 
 	<p>
-		<?php echo sprintf( __( 'Enter your <a%s>license key</a> to enable remote updates and support.', 'fl-builder' ), ' href="https://www.wpbeaverbuilder.com/my-account/?utm_medium=bb-pro&utm_source=license-settings-page&utm_campaign=license-key-link" target="_blank"' ) ?>
+		<?php echo sprintf( __( 'Enter your <a%s>license key</a> to enable remote updates and support.', 'fl-builder' ), ' href="' . FLBuilderModel::get_store_url( 'my-account', array( 'utm_medium' => 'bb-pro', 'utm_source' => 'license-settings-page', 'utm_campaign' => 'license-key-link' ) ) . '" target="_blank"' ) ?>
 	</p>
 	
 	<?php if(is_multisite()) : ?>

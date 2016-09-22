@@ -49,6 +49,7 @@ class FLCtaModule extends FLBuilderModule {
 			'icon_position'		=> $this->settings->btn_icon_position,
 			'icon_animation'	=> $this->settings->btn_icon_animation,
 			'link'              => $this->settings->btn_link,
+			'link_nofollow'     => $this->settings->btn_link_nofollow,
 			'link_target'       => $this->settings->btn_link_target,
 			'padding'           => $this->settings->btn_padding,
 			'style'             => $this->settings->btn_style,
@@ -274,6 +275,18 @@ FLBuilder::register_module('FLCtaModule', array(
 						),
 						'preview'       => array(
 							'type'          => 'none'
+						)
+					),
+					'btn_link_nofollow' => array(
+						'type'          	=> 'select',
+						'label' 	        => __('Link No Follow', 'fl-builder'),
+						'default'       => 'no',
+						'options' 			=> array(
+							'yes' 				=> __('Yes', 'fl-builder'),
+							'no' 				=> __('No', 'fl-builder'),
+						),
+						'preview'       	=> array(
+							'type'          	=> 'none'
 						)
 					)
 				)

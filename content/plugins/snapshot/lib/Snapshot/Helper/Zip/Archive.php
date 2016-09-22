@@ -36,8 +36,7 @@ class Snapshot_Helper_Zip_Archive extends Snapshot_Helper_Zip_Abstract {
 			}
 		}
 
-		$this->_zip->close();
-		return true;
+		return $this->_zip->close();
 	}
 
 	public function has ($path) {

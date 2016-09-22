@@ -33,13 +33,17 @@
 						</h3>
 					</div>
 					<div class="box-content">
-						<?php $table = new WD_Audit_Table();
-						$table->prepare_items();
-						$table->display();
-						?>
+						<?php
+						$table = new WD_Audit_Table();
+						$table->display_tablenav( 'top' ); ?>
+						<div id="audit-table-content">
+							<i class="wdv-icon wdv-icon-fw wdv-icon-refresh spin"></i> <?php _e( "Loading events...", wp_defender()->domain ) ?>
+						</div>
 					</div>
 				</div>
-				<?php $table->display_tablenav( 'bottom' ) ?>
+				<div id="audit-table-nav">
+
+				</div>
 				<section id="setup-email-report" class="dev-box setup-email-report">
 					<div class="box-title">
 						<h3><?php _e( "Automatic Report", wp_defender()->domain ) ?>

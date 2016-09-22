@@ -17,12 +17,19 @@
 			onSliderLoad: function() { 
 				$('.fl-node-<?php echo $id; ?> .fl-content-slider-wrapper').addClass('fl-content-slider-loaded'); 
 			},
+			onSlideBefore: function(ele, oldIndex, newIndex) {
+				$('.fl-node-<?php echo $id; ?> .fl-content-slider-navigation a').addClass('disabled');
+				$('.fl-node-<?php echo $id; ?> .bx-viewport > .bx-controls .bx-pager-link').addClass('disabled');
+			},
 			onSlideAfter: function( ele, oldIndex, newIndex ) {
 				$( '.fl-node-<?php echo $id; ?> .fl-slide-' + oldIndex + ' iframe[src*="youtube"]' ).each( function(){
 					var src = $( this ).attr( 'src' );
 					$( this ).attr( 'src', '' );
 					$( this ).attr( 'src', src );
 				} );
+
+				$('.fl-node-<?php echo $id; ?> .fl-content-slider-navigation a').removeClass('disabled');
+				$('.fl-node-<?php echo $id; ?> .bx-viewport > .bx-controls .bx-pager-link').removeClass('disabled');
 			}
 		});
 	   

@@ -58,7 +58,7 @@
 
 				<?php if ( true === FL_BUILDER_LITE ) : ?>
 				<div class="fl-builder-modules-cta">
-					<a href="#" onclick="window.open('<?php echo FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'modules-panel-cta' ) ); ?>');" target="_blank"><i class="fa fa-external-link-square"></i> Get more time-saving features, modules, and expert support.</a>
+					<a href="#" onclick="window.open('<?php echo FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'modules-panel-cta' ) ); ?>');" target="_blank"><i class="fa fa-external-link-square"></i> Get more time-saving features, modules, and expert support.</a>
 				</div>
 				<?php endif; ?>
 

@@ -18,10 +18,22 @@ class Snapshot_Helper_String {
 		$base = pathinfo($string, PATHINFO_FILENAME);
 		$ext = pathinfo($string, PATHINFO_EXTENSION);
 
-		$out = bin2hex(self::_apply_codec($base));
+		$out = Snapshot_Helper_String::conceal_string($base);
 		if (!empty($ext)) $out .= '.' . $ext;
 
 		return $out;
+	}
+
+	/**
+	 * General string concealment method
+	 *
+	 * @param string $string String to conceal
+	 *
+	 * @return string Concealed string
+	 */
+	public static function conceal_string ($string) {
+		if (empty($string)) return '';
+		return bin2hex(self::_apply_codec($string));
 	}
 
 	/**
@@ -39,10 +51,22 @@ class Snapshot_Helper_String {
 		$name = pathinfo($string, PATHINFO_FILENAME);
 		$ext = pathinfo($string, PATHINFO_EXTENSION);
 
-		$out = self::_apply_codec(hex2bin($name));
+		$out = Snapshot_Helper_String::reveal_string($name);
 		if (!empty($ext)) $out .= '.' . $ext;
 
 		return $out;
+	}
+
+	/**
+	 * General string revealing method
+	 *
+	 * @param string $string String to reveal
+	 *
+	 * @return string Revealed string
+	 */
+	public static function reveal_string ($string) {
+		if (empty($string)) return '';
+		return self::_apply_codec(hex2bin($string));
 	}
 
 	/**

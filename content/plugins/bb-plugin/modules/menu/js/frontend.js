@@ -19,7 +19,7 @@
 		this._initMenu();
 
 		// check if viewport is resizing
-		$( window ).on( 'resize', function( e ){
+		$( window ).on( 'resize', $.proxy( function( e ){
 
 			var width = $( window ).width();
 			
@@ -30,7 +30,7 @@
 		    	this.currentBrowserWidth = width;
 			}
 
-		}.bind( this ) );
+		}, this ) );
 
 	};
 
@@ -61,10 +61,10 @@
 		 */
  		_resizeDebounce: function(){	
  			clearTimeout( this.resizeTimer );
- 			this.resizeTimer = setTimeout( function() {
+ 			this.resizeTimer = setTimeout( $.proxy( function() {
  				this._initMenu();
  				this._clickOrHover();
- 			}.bind( this ), 250 );
+ 			}, this ), 250 );
  
  		},
 
@@ -105,7 +105,7 @@
 		 * @return void
 		 */
 		_menuOnClick: function(){
-			$( this.wrapperClass ).off().on( 'click', '.fl-has-submenu-container', function( e ){
+			$( this.wrapperClass ).off().on( 'click', '.fl-has-submenu-container', $.proxy( function( e ){
 
 				var $link 	 = $( e.target ).parents( '.fl-has-submenu' ).first(),
 					$subMenu = $link.children( '.sub-menu' ).first(),
@@ -135,7 +135,7 @@
 				$subMenu.slideToggle();
 				$link.toggleClass( 'fl-active' );
 				
-			}.bind( this ) );
+			}, this ) );
 
 		},
 
@@ -172,7 +172,7 @@
 		_submenuOnRight: function(){
 
 			$( this.wrapperClass )
-				.on( 'mouseenter', '.fl-has-submenu', function( e ){
+				.on( 'mouseenter', '.fl-has-submenu', $.proxy( function( e ){
 
 					if( $ ( e.currentTarget ).find('.sub-menu').length === 0 ) {
 						return;
@@ -209,10 +209,10 @@
 							$link.addClass('fl-menu-submenu-right');
 						}
 					}
-				}.bind( this ) )
-				.on( 'mouseleave', '.fl-has-submenu', function( e ){
+				}, this ) )
+				.on( 'mouseleave', '.fl-has-submenu', $.proxy( function( e ){
 					$( e.currentTarget ).removeClass( 'fl-menu-submenu-right' );
-				}.bind( this ) );
+				}, this ) );
 			
 		},
 

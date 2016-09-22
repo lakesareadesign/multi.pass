@@ -45,13 +45,14 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 */ 
 		static private function define_constants()
 		{
-			define('FL_BUILDER_VERSION', '1.8.5');
+			define('FL_BUILDER_VERSION', '1.8.6');
 			define('FL_BUILDER_FILE', trailingslashit(dirname(dirname(__FILE__))) . 'fl-builder.php');
 			define('FL_BUILDER_DIR', plugin_dir_path(FL_BUILDER_FILE));
 			define('FL_BUILDER_URL', plugins_url('/', FL_BUILDER_FILE));
 			define('FL_BUILDER_LITE', false);
-			define('FL_BUILDER_SUPPORT_URL', 'https://www.wpbeaverbuilder.com/support/');
-			define('FL_BUILDER_UPGRADE_URL', 'https://www.wpbeaverbuilder.com/');
+			define('FL_BUILDER_SUPPORT_URL', 'https://www.wpbeaverbuilder.com/support/'); // Deprecated, do not use.
+			define('FL_BUILDER_UPGRADE_URL', 'https://www.wpbeaverbuilder.com/'); // Deprecated, do not use.
+			define('FL_BUILDER_STORE_URL', 'https://www.wpbeaverbuilder.com/');
 			define('FL_BUILDER_DEMO_URL', 'http://demos.wpbeaverbuilder.com');
 			define('FL_BUILDER_OLD_DEMO_URL', 'http://demos.fastlinemedia.com');
 			define('FL_BUILDER_DEMO_CACHE_URL', 'http://demos.wpbeaverbuilder.com/wp-content/uploads/bb-plugin/cache/');

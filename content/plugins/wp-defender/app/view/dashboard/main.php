@@ -39,7 +39,7 @@
 						//blacklist widget
 						$widget = WD_Widget_Manager::get_instance()->display( 'WD_Blacklist_Widget' );
 						//backup
-						$widget = WD_Widget_Manager::get_instance()->display( 'WD_Backup_Widget' );
+						//$widget = WD_Widget_Manager::get_instance()->display( 'WD_Backup_Widget' );
 						?>
 						<section class="dev-box setup-scan">
 							<div class="box-title">

@@ -52,7 +52,7 @@ final class FLBuilderAdmin {
 
 			// Check for multisite.
 			if(is_multisite()) {
-				$url = FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-pro', 'utm_source' => 'plugins-admin-page', 'utm_campaign' => 'no-multisite-support' ) );
+				$url = FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-pro', 'utm_source' => 'plugins-admin-page', 'utm_campaign' => 'no-multisite-support' ) );
 				self::show_activate_error( sprintf( __( 'This version of the <strong>Page Builder</strong> plugin is not compatible with WordPress Multisite. <a%s>Please upgrade</a> to the Multisite version of this plugin.', 'fl-builder' ), ' href="' . $url . '" target="_blank"' ) );
 			}
 			
@@ -175,7 +175,7 @@ final class FLBuilderAdmin {
 	static public function render_plugin_action_links($actions)
 	{
 		if(FL_BUILDER_LITE === true) {
-			$url = FLBuilderModel::get_upgrade_url( array( 'utm_medium' => 'bb-lite', 'utm_source' => 'plugins-admin-page', 'utm_campaign' => 'plugins-admin-upgrade' ) );
+			$url = FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-lite', 'utm_source' => 'plugins-admin-page', 'utm_campaign' => 'plugins-admin-upgrade' ) );
 			$actions[] = '<a href="' . $url . '" style="color:#3db634;" target="_blank">' . _x( 'Upgrade', 'Plugin action link label.', 'fl-builder' ) . '</a>';
 		}
 

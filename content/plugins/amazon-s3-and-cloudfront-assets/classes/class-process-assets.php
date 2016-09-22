@@ -18,6 +18,11 @@ class AS3CF_Process_Assets {
 	protected $save_on_shutdown = false;
 
 	/**
+	 * @var array|bool
+	 */
+	protected $batches = false;
+
+	/**
 	 * AS3CF_Process_Assets constructor.
 	 *
 	 * @param Amazon_S3_And_CloudFront_Assets         $as3cf
@@ -58,13 +63,15 @@ class AS3CF_Process_Assets {
 	 * @return array
 	 */
 	public function to_process() {
-		$batches = $this->background_process->get_batches();
+		if ( false === $this->batches ) {
+			$this->batches = $this->background_process->get_batches();
+		}
 
 		$to_process = array();
 
-		if ( ! empty( $batches ) ) {
+		if ( ! empty( $this->batches ) ) {
 			$to_process = array_reduce(
-				$batches,
+				$this->batches,
 				array( $this, 'flatten_batches' ),
 				array()
 			);
@@ -96,9 +103,11 @@ class AS3CF_Process_Assets {
 		$region   = $this->as3cf->get_setting( 'region' );
 		$s3client = $this->as3cf->get_s3client( $region );
 
-		$count         = 0;
-		$batch_limit   = apply_filters( 'as3cf_assets_file_process_batch_limit', 500 );
-		$time_limit    = apply_filters( 'as3cf_assets_file_process_batch_time_limit', 20 ); // Seconds
+		$count           = 0;
+		$batch_limit     = apply_filters( 'as3cf_assets_file_process_batch_limit', 100 );
+		$time_limit      = apply_filters( 'as3cf_assets_file_process_batch_time_limit', 10 ); // Seconds
+		$throttle_period = 1000000 * apply_filters( 'as3cf_assets_seconds_between_file_uploads', 0 ); // Microseconds
+
 		$finish_time   = time() + $time_limit;
 		$files_copied  = 0;
 		$files_removed = 0;
@@ -166,6 +175,9 @@ class AS3CF_Process_Assets {
 			}
 
 			unset( $files_to_process[ $key ] );
+
+			// Let the server breathe a little.
+			usleep( $throttle_period );
 		}
 
 		// If we have copied files to S3 update our saved files array

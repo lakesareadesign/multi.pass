@@ -200,6 +200,7 @@ class FLContentSliderModule extends FLBuilderModule {
 				'icon_position'     => isset( $slide->btn_icon_position ) ? $slide->btn_icon_position : 'before',
 				'icon_animation'    => isset( $slide->btn_icon_animation ) ? $slide->btn_icon_animation : 'before',
 				'link'              => $slide->link,
+				'link_nofollow'		=> isset( $slide->link_nofollow ) ? $slide->link_nofollow : 'no',
 				'link_target'       => $slide->link_target,
 				'padding'           => $slide->btn_padding,
 				'style'             => ( isset( $slide->btn_3d ) && $slide->btn_3d ) ? 'gradient' : $slide->btn_style,
@@ -628,6 +629,18 @@ FLBuilder::register_settings_form('content_slider_slide', array(
 							'options'       => array(
 								'_self'         => __('Same Window', 'fl-builder'),
 								'_blank'        => __('New Window', 'fl-builder')
+							)
+						),
+						'link_nofollow'          => array(
+							'type'          => 'select',
+							'label'         => __('Link No Follow', 'fl-builder'),
+							'default'       => 'no',
+							'options' 		=> array(
+								'yes' 			=> __('Yes', 'fl-builder'),
+								'no' 			=> __('No', 'fl-builder'),
+							),
+							'preview'       => array(
+								'type'          => 'none'
 							)
 						)
 					)

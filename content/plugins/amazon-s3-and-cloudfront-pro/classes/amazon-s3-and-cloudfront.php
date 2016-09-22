@@ -3856,4 +3856,21 @@ class Amazon_S3_And_CloudFront extends AWS_Plugin_Base {
 
 		return $path;
 	}
+
+	/**
+	 * Update site option.
+	 *
+	 * @param string $option
+	 * @param mixed  $value
+	 * @param bool   $autoload
+	 *
+	 * @return bool
+	 */
+	public function update_site_option( $option, $value, $autoload = true ) {
+		if ( is_multisite() ) {
+			return update_site_option( $option, $value );
+		}
+
+		return update_option( $option, $value, $autoload );
+	}
 }

@@ -46,7 +46,7 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 	 * @return array
 	 */
 	public static function get_all_tables ($include_other=true) {
-		$all_tables = is_multisite() && $include_other
+		$all_tables = apply_filters('snapshot-queue-tableset-full', (is_multisite() && $include_other), $include_other)
 			? self::get_all_database_tables_ms() // Include others on MS - we want all
 			: Snapshot_Helper_Utility::get_database_tables() // Yeah, let's go with selection
 		;
@@ -191,10 +191,22 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 	 */
 	public function get_chunk_size () {
 		if (!empty($this->_chunk_size)) return $this->_chunk_size;
+
+		if (defined('SNAPSHOT_TABLESET_CHUNK_SIZE') && is_numeric(SNAPSHOT_TABLESET_CHUNK_SIZE)) {
+			$size = intval(SNAPSHOT_TABLESET_CHUNK_SIZE);
+			if ($size) return $size;
+		}
+
+		$fallback = parent::get_chunk_size();
+		if (defined('SNAPSHOT_TABLESET_FALLBACK_CHUNK_SIZE') && is_numeric(SNAPSHOT_TABLESET_FALLBACK_CHUNK_SIZE)) {
+			$size = intval(SNAPSHOT_TABLESET_FALLBACK_CHUNK_SIZE);
+			if ($size) $fallback = $size;
+		}
+
 		$config = WPMUDEVSnapshot::instance()->config_data['config'];
 		return !empty($config['segmentSize'])
 			? $config['segmentSize']
-			: parent::get_chunk_size()
+			: $fallback
 		;
 	}
 

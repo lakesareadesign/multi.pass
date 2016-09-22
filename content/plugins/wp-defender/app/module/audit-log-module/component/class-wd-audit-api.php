@@ -173,11 +173,12 @@ class WD_Audit_API extends WD_Component {
 		$data['site_url'] = network_site_url();
 		$data['order_by'] = $order_by;
 		$data['order']    = $order;
+		$data['timezone'] = get_option('gmt_offset');
 		$response         = $component->wpmudev_call( 'https://' . self::$end_point . '/logs', $data, array(
-			'method'  => 'GET',
-			'timeout' => 20,
+			'method'    => 'GET',
+			'timeout'   => 20,
 			//'sslverify' => false,
-			'headers' => array(
+			'headers'   => array(
 				'apikey' => WD_Utils::get_dev_api()
 			)
 		), true );

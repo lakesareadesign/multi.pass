@@ -150,6 +150,31 @@ class Snapshot_View_Full_Backup {
 	}
 
 	/**
+	 * Checks if current page is snapshot full backups admin page
+	 *
+	 * @return bool
+	 */
+	public function is_current_admin_page () {
+		if (!is_admin() && !is_network_admin()) return false; // Not admin
+
+		$idx = $this->get_page_idx();
+		if (!$idx) return false; // No page
+
+		$screen = function_exists('get_current_screen')
+			? get_current_screen()
+			: false
+		;
+		if (empty($screen) || !is_object($screen) || empty($screen->id)) return false; // We don't know yet
+
+		$sfx = is_multisite() && is_network_admin()
+			? '-network'
+			: ''
+		;
+
+		return in_array($screen->id, array($idx, "{$idx}{$sfx}"));
+	}
+
+	/**
 	 * Decide on what actual pages should be rendering
 	 */
 	public function render_page () {
@@ -164,6 +189,10 @@ class Snapshot_View_Full_Backup {
 		}
 
 		if (!empty($page)) $this->_include($page);
+
+		// Reset any cached API errors, so we show full,
+		// errorless interface on subsequent page reloads if possible
+		$this->_model->remote()->reset_api_caches();
 	}
 
 	/**

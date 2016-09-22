@@ -316,6 +316,7 @@ if ( isset( $_GET[ 'quick_setup' ] ) ) {
 						   $course_object	 = $course_obj->get_course();
 
 						   $style = ''; //( 'alternate' == $style ) ? '' : 'alternate';
+						   $published_units_count = $course_obj->get_published_units_count( $course->ID );
 						   ?>
 					<tr id='user-<?php echo $course_object->ID; ?>' class="<?php echo $style; ?> course-row">
 						<th scope='row' class='check-column'>
@@ -330,7 +331,7 @@ if ( isset( $_GET[ 'quick_setup' ] ) ) {
 							<div class="column-course-units visible-small visible-extra-small">
 								<strong><?php _e( 'Units', 'cp' ); ?>:</strong>
 								<?php echo $course_obj->get_units( '', 'any', true ); ?> <?php _e( 'Units', 'cp' ); ?>,
-								<?php echo $course_obj->get_units( '', 'publish', true ); ?> Published
+								<?php echo $published_units_count; ?> Published
 							</div>
 							<div class="column-course-students visible-small visible-extra-small">
 								<strong><?php _e( 'Students', 'cp' ); ?>:</strong>
@@ -372,7 +373,7 @@ if ( isset( $_GET[ 'quick_setup' ] ) ) {
 						</td>
 						<td class="column-units <?php echo $style; ?>">
 							<?php echo $course_obj->get_units( '', 'any', true ); ?> <?php _e( 'Units', 'cp' ); ?><br/>
-							<?php echo $course_obj->get_units( '', 'publish', true ); ?> <?php _e( 'Published', 'cp' ); ?>
+							<?php echo $published_units_count; ?> <?php _e( 'Published', 'cp' ); ?>
 						</td>
 						<td class="center column-students <?php echo $style; ?>"><?php if ( $can_update || $my_course ) { ?>
 								<a href="<?php echo admin_url( 'admin.php?page=course_details&tab=students&course_id=' . $course_object->ID ); ?>"><?php } ?><?php echo $course_obj->get_number_of_students(); ?><?php if ( $can_update || $my_course ) { ?></a> <?php } ?>

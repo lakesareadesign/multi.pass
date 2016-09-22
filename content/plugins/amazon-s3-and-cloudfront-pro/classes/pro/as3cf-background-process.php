@@ -64,6 +64,9 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 			update_site_option( $key, $this->data );
 		}
 
+		// Clean out data so that new data isn't prepended with closed session's data.
+		$this->data = array();
+
 		return $this;
 	}
 
@@ -121,6 +124,9 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 	 * the process is not already running.
 	 */
 	public function maybe_handle() {
+		// Don't lock up other requests while processing
+		session_write_close();
+
 		if ( $this->is_process_running() ) {
 			// Background process already running
 			wp_die();
@@ -292,10 +298,20 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 	protected function handle() {
 		$this->lock_process();
 
+		/**
+		 * Number of seconds to sleep between batches. Defaults to 0 seconds, minimum 0.
+		 */
+		$throttle_seconds = apply_filters( 'as3cf_seconds_between_batches', 0 );
+
 		do {
 			$batch = $this->get_batch();
 
 			foreach ( $batch->data as $key => $value ) {
+				if ( $this->time_exceeded() || $this->memory_exceeded() ) {
+					// Batch limits reached
+					break;
+				}
+
 				$task = $this->task( $value );
 
 				if ( false !== $task ) {
@@ -304,10 +320,8 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 					unset( $batch->data[ $key ] );
 				}
 
-				if ( $this->time_exceeded() || $this->memory_exceeded() ) {
-					// Batch limits reached
-					break;
-				}
+				// Let the server breathe a little.
+				sleep( $throttle_seconds );
 			}
 
 			// Update or delete current batch

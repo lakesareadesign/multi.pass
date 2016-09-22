@@ -1,8 +1,13 @@
 Plugin Name: WP Defender
 Author: Hoang Ngo, Aaron Edwards
-Tested up to: 4.2.2
+Tested up to: 4.6.1
 
 Change Log:
+
+1.1.3
+----------------------------------------------------------------------
+- Improvement: Audit Logging now ajax based.
+- Fixed: minor bug fixes & some UI/UX improvements
 
 1.1.2 - 2016-24-08
 ----------------------------------------------------------------------
@@ -90,4 +95,4 @@ Change Log:
 - First release
 
 
-133620-1472790831-au
+133620-1474567082-au

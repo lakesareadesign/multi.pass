@@ -49,7 +49,7 @@ class ChangeAdminTest extends Hardener_Test {
 			$this->assertTrue( empty( get_user_meta( 1, 'meta3', true ) ) );
 			$this->assertTrue( empty( get_user_meta( 1, 'meta4', true ) ) );
 
-			$this->assertEquals( 1, get_user_meta( $new_user_id, 'meta1', true ) );
+			$this->assertEquals( 1, get_user_meta( $new_user_id, 'meta1', true ) );	  	 	   	 		 		 				
 			$this->assertEquals( 2, get_user_meta( $new_user_id, 'meta2', true ) );
 			$this->assertEquals( 3, get_user_meta( $new_user_id, 'meta3', true ) );
 			$this->assertEquals( 4, get_user_meta( $new_user_id, 'meta4', true ) );

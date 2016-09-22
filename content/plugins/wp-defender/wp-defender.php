@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Defender
  * Plugin URI: https://premium.wpmudev.org/project/wp-defender/
- * Version:     1.1.2
+ * Version:     1.1.3
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
@@ -210,7 +210,7 @@ class WP_Defender {
 			//include the rest controller
 			$controllers = array(
 				'admin'  => new WD_Admin_Controller(),
-				'backup' => new WD_Backup_Controller(),
+				//'backup' => new WD_Backup_Controller(),
 			);
 			//store for later use
 			$this->global['controllers'] = $controllers;

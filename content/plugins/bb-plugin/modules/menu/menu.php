@@ -5,6 +5,11 @@
  */
 class FLMenuModule extends FLBuilderModule {
 
+	/**
+	 * @property $fl_builder_page_id
+	 */
+	public static $fl_builder_page_id;
+
 	/** 
 	 * @method __construct
 	 */  
@@ -17,6 +22,9 @@ class FLMenuModule extends FLBuilderModule {
 			'partial_refresh'	=> true,
 			'editor_export' 	=> false
 		));
+		
+		add_action( 'pre_get_posts', 		__CLASS__ . '::set_pre_get_posts_query', 10, 2 );
+		add_filter( 'nav_menu_css_class', 	__CLASS__ . '::render_menu_classes', 10, 2 );
 	}
 
 	public static function _get_menus(){
@@ -73,6 +81,32 @@ class FLMenuModule extends FLBuilderModule {
 			}
 
 		}
+	}
+
+	public static function set_pre_get_posts_query( $query ) 
+	{
+	    if ( ! is_admin() && $query->is_main_query() ) {
+	    	self::$fl_builder_page_id = $query->queried_object_id;
+	    }
+	    
+	}
+
+	public static function render_menu_classes( $classes = array(), $menu_item = false ) 
+	{
+		//Check if already have the class
+	    if (! in_array( 'current-menu-item', $classes ) ) {
+	    	
+	    	//Check if a menu is the current page
+	        if ( self::$fl_builder_page_id == $menu_item->object_id ) {
+	        	$classes[] = 'current-menu-item';
+
+	        	if ($menu_item->object == 'page') {
+	        		$classes[] = 'current_page_item';
+	        	}
+	        }
+	    }
+
+	    return $classes;
 	}
 }
 

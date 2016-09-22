@@ -138,6 +138,7 @@ class FLCalloutModule extends FLBuilderModule {
 				'icon_position'     => $this->settings->btn_icon_position,
 				'icon_animation'	=> $this->settings->btn_icon_animation,
 				'link'              => $this->settings->link,
+				'link_nofollow'		=> $this->settings->link_nofollow,
 				'link_target'       => $this->settings->link_target,
 				'padding'           => $this->settings->btn_padding,
 				'style'             => $this->settings->btn_style,
@@ -465,6 +466,18 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'options'       => array(
 							'_self'         => __('Same Window', 'fl-builder'),
 							'_blank'        => __('New Window', 'fl-builder')
+						),
+						'preview'       => array(
+							'type'          => 'none'
+						)
+					),
+					'link_nofollow'          => array(
+						'type'          => 'select',
+						'label'         => __('Link No Follow', 'fl-builder'),
+						'default'       => 'no',
+						'options' 		=> array(
+							'yes' 			=> __('Yes', 'fl-builder'),
+							'no' 			=> __('No', 'fl-builder'),
 						),
 						'preview'       => array(
 							'type'          => 'none'

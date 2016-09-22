@@ -38,6 +38,9 @@ if ( ! class_exists( 'Snapshot_Helper_Session' ) ) {
 			if ( ( file_exists( $this->sessionFileFull ) ) && ( $this->force_clear == false ) ) {
 				$data = file_get_contents( $this->sessionFileFull );
 				if ( $data ) {
+					if (defined('SNAPSHOT_SESSION_PROTECT_DATA') && SNAPSHOT_SESSION_PROTECT_DATA) {
+						$data = Snapshot_Helper_String::reveal_string($data);
+					}
 					if ( is_serialized( $data ) ) {
 						$this->data = unserialize( $data );
 					}
@@ -62,6 +65,11 @@ if ( ! class_exists( 'Snapshot_Helper_Session' ) ) {
 			}
 
 			$data = serialize( $this->data );
+
+			if (defined('SNAPSHOT_SESSION_PROTECT_DATA') && SNAPSHOT_SESSION_PROTECT_DATA) {
+				$data = Snapshot_Helper_String::conceal_string($data);
+			}
+
 			return (bool)file_put_contents( $this->sessionFileFull, $data );
 		}
 

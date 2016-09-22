@@ -15,7 +15,7 @@
 			$source = $model->get_file_source();
 			?>
 			<?php _e( "Compare your file with the original file in the WordPress repository. Pieces highlighted in red will be removed when you patch the file, and pieces highlighted in green will be added.", wp_defender()->domain ) ?>
-			<pre><code><?php echo $source ?></code></pre>
+			<pre><code><?php echo htmlentities($source) ?></code></pre>
 			<script type="text/javascript">
 				jQuery(function ($) {
 					$('pre code').each(function (i, block) {

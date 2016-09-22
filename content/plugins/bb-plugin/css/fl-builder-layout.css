@@ -107,6 +107,17 @@
 	right: 0;
 	top: 0px;
 }
+.fl-row-bg-video .fl-bg-video iframe {
+	pointer-events: none;
+	width: 100vw;
+  	height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
+  	min-height: 100vh;
+  	min-width: 177.77vh; /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
+  	position: absolute;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+}
 .fl-bg-video-fallback {
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
@@ -586,11 +597,21 @@
 	-moz-box-shadow: none !important;
 	-webkit-box-shadow: none !important;
 }
+.admin-bar .mfp-wrap .mfp-close,
+.admin-bar .mfp-wrap .mfp-close:active,
+.admin-bar .mfp-wrap .mfp-close:hover,
+.admin-bar .mfp-wrap .mfp-close:focus {
+	top: 32px!important;
+}
 img.mfp-img {
 	padding: 0;
 }
 .mfp-counter {
 	display: none;
+}
+
+.mfp-wrap .mfp-preloader.fa {
+	font-size: 30px;
 }
 
 /* Form Fields

@@ -109,7 +109,7 @@ class AuthV2Query extends Signer implements Signable
 		$this->string_to_sign = "POST\n$host_header\n$request_uri\n$canonical_query_string";
 
 		// Hash the AWS secret key and generate a signature for the request.
-		$query['Signature'] = base64_encode(hash_hmac('sha256', $this->string_to_sign, $this->secret_key, true));	     	 	 				 	 	
+		$query['Signature'] = base64_encode(hash_hmac('sha256', $this->string_to_sign, $this->secret_key, true));
 
 		// Generate the querystring from $query
 		$this->querystring = $this->util->to_query_string($query);

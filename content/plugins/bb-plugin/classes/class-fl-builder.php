@@ -321,6 +321,9 @@ final class FLBuilder {
 		wp_register_script('jquery-waypoints',      $js_url . 'jquery.waypoints.min.js', array('jquery'), $ver, true);
 		wp_register_script('jquery-wookmark',       $js_url . 'jquery.wookmark.min.js', array('jquery'), $ver, true);
 		wp_register_script('yui3',       			$js_url . 'yui3.js', array(), $ver, true);
+
+		wp_register_script('youtube-player', 		'https://www.youtube.com/iframe_api', array(), $ver, true);
+		wp_register_script('vimeo-player', 			'https://player.vimeo.com/api/player.js', array(), $ver, true);		
 	}
 
 	/**
@@ -385,6 +388,10 @@ final class FLBuilder {
 				}
 				else if($row->settings->bg_type == 'video') {
 					wp_enqueue_script('jquery-imagesloaded');
+					if ( $row->settings->bg_video_source == 'video_service' ) {
+						wp_enqueue_script('youtube-player');
+						wp_enqueue_script('vimeo-player');
+					}
 				}
 			}
 
@@ -519,6 +526,8 @@ final class FLBuilder {
 			wp_enqueue_script('editor');
 			wp_enqueue_script('quicktags');
 			wp_enqueue_script('json2');
+			wp_enqueue_script('youtube-player');
+			wp_enqueue_script('vimeo-player');
 			wp_enqueue_script('jquery-ui-droppable');
 			wp_enqueue_script('jquery-ui-draggable');
 			wp_enqueue_script('jquery-ui-slider');
@@ -1414,7 +1423,7 @@ final class FLBuilder {
 
 			$vid_data = FLBuilderModel::get_row_bg_data($row);
 
-			if($vid_data || $row->settings->bg_video_source == 'video_url') {
+			if($vid_data || in_array($row->settings->bg_video_source, array('video_url', 'video_service'))) {
 				$template_file = self::locate_template_file(
 					apply_filters( 'fl_builder_row_video_bg_template_base', 'row-video', $row ),
 					apply_filters( 'fl_builder_row_video_bg_template_slug', '', $row )
@@ -2035,9 +2044,17 @@ final class FLBuilder {
 		$css .= '.fl-module-content { margin: '. $global_settings->module_margins .'px; }';
 		
 		// Default page heading
-		if(!$global_settings->show_default_heading && !empty($global_settings->default_heading_selector)) {
-			$css .= '.page ' . $global_settings->default_heading_selector . ' { display:none; }';
-			$css .= '.single-fl-builder-template ' . $global_settings->default_heading_selector . ' { display:none; }';
+		if ( ! $global_settings->show_default_heading && ! empty( $global_settings->default_heading_selector ) ) {
+			$heading_selector = esc_attr( $global_settings->default_heading_selector );
+
+			// If the value starts with `body` or `.fl-builder` selector, we use custom selectors
+			if ( 0 === strpos( $heading_selector, 'body' ) || 0 === strpos( $heading_selector, '.fl-builder' ) ) {
+				$css .= $heading_selector;
+			} else {
+				$css .= '.page ' . $heading_selector . ', .single-fl-builder-template ' . $heading_selector;
+			}
+
+			$css .= ' { display:none; }';
 		}
 
 		return $css;

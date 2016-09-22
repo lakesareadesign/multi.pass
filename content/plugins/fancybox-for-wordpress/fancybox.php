@@ -2,10 +2,10 @@
 /*
 Plugin Name: FancyBox for WordPress
 Plugin URI: https://wordpress.org/plugins/fancybox-for-wordpress/
-Description: Integrates <a href="http://fancybox.net/">FancyBox</a> by <a href="http://klade.lv/">Janis Skarnelis</a> into WordPress.
-Version: 3.0.6
-Author: Jos&eacute; Pardilla
-Author URI: http://twitter.com/moskis
+Description: Integrates FancyBox by Janis Skarnelis into WordPress.
+Version: 3.0.12
+Author: Colorlib
+Author URI: https://colorlib.com/
 
  * FancyBox is Copyright (c) 2008 - 2010 Janis Skarnelis
  * Dual licensed under the MIT and GPL licenses:
@@ -20,7 +20,7 @@ Author URI: http://twitter.com/moskis
  * Constants
  */
 
-define( 'FBFW_VERSION', '3.0.6' );
+define( 'FBFW_VERSION', '3.0.12' );
 define( 'FBFW_PATH', plugin_dir_path(__FILE__) );
 define( 'FBFW_URL', plugin_dir_url(__FILE__) );
 
@@ -157,9 +157,9 @@ function mfbfw_register_scripts() {
 	}
 
 	// Register scripts
-	wp_register_script('fancybox', FBFW_URL . 'fancybox/jquery.fancybox.js', $jquery, '1.3.4', $footer ); // Main Fancybox script
-	wp_register_script('jqueryeasing', FBFW_URL . 'js/jquery.easing.1.3.min.js', false, '1.3', $footer ); // Easing animations script
-	wp_register_script('jquerymousewheel', FBFW_URL . 'js/jquery.mousewheel.3.0.4.pack.js', false, '3.0.4', $footer ); // Mouse wheel support script
+	wp_register_script('fancybox', FBFW_URL . 'fancybox/jquery.fancybox.js', $jquery, '1.3.8', $footer ); // Main Fancybox script
+	wp_register_script('jqueryeasing', FBFW_URL . 'js/jquery.easing.min.js', false, '1.4', $footer ); // Easing animations script
+	wp_register_script('jquerymousewheel', FBFW_URL . 'js/jquery.mousewheel.pack.js', false, '3.1.13', $footer ); // Mouse wheel support script
 
 
 }

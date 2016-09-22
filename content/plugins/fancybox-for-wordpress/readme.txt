@@ -1,30 +1,45 @@
 === FancyBox for WordPress ===
-Contributors: moskis
-Tags: fancybox, lightbox, jquery, gallery, image, images, photo, photos, picture, pictures
+Contributors: silkalns
+Tags: fancybox, lightbox, jquery, gallery, image, images, photo, photos, picture, pictures, zoom
 Requires at least: 3.4
-Tested up to: 4.1
-Stable tag: 3.0.6
+Tested up to: 4.6
+Stable tag: 3.0.12
 License: GPL/MIT
 
-Seamlessly integrates FancyBox into your blog: Upload, activate, and you're done. Additional configuration optional.
+Seamlessly integrates FancyBox lightbox into your WordPress blog: Upload, activate, and you're done. Additional configuration optional.
 
 
 == Description ==
 
 Seamlessly integrates FancyBox into your blog: Upload, activate, and you're done. Additional configuration optional.
 
-You can easely customize almost anything you can think about fancybox: the border, margin width and color, zoom speed, animation type, close button position, overlay color and opacity and even more advanced option like several options to group images into galleries, and more...
+You can easily customize almost anything you can think about fancybox lightbox: the border, margin width and color, zoom speed, animation type, close button position, overlay color and opacity and even more advanced option like several options to group images into galleries, and more...
 
-By default, the plugin will use jQuery to apply [FancyBox](http://fancybox.net/) to ANY thumbnails that link directly to an image. This includes posts, the sidebar, etc, so you can activate it and it will be applied automatically.
+By default, the plugin will use jQuery to apply FancyBox to ANY thumbnails that link directly to an image. This includes posts, the sidebar, etc, so you can activate it and it will be applied automatically.
 
 = Demo =
 
-You can see the plugin working on [this blog](http://blog.moskis.net/2012/01/20/teclado-apple-en-windows-7/) although there's nothing amazing to see, just a FancyBox simple implementation, that's the point ;) You can take a look at the code if you're curious, though.
+You can see the plugin working on a <a href="http://blog.moskis.net/2012/01/20/teclado-apple-en-windows-7/" target="_blank">this blog</a> although there's nothing amazing to see, just a FancyBox simple implementation, that's the point ;) You can take a look at the code if you're curious, though.
 
+= Further Reading =
+
+This plugin is developed and maintained by Colorlib. Which is well know for their free <a href="https://colorlib.com/wp/themes/" rel="friend" target="_blank"></a>WordPress themes. However, now they are looking to extend their presence in plugin development and believe that FancyBox lightbox is a great way to start.
+
+If you are new to WordPress and want to lear more we have got you covered. Colorlib will teach you have to <a href="https://colorlib.com/" rel="friend">start a blog</a> or <a href="https://colorlib.com/wp/how-to-make-a-website/" rel="friend">create a website</a> and much more. If you are already familiar with WordPress you likely want to learn how to make it faster and more reliable. That's when you want to look into hosting and more specifically <a href="http://colorlib.com/wp/wordpress-hosting" rel="friend">WordPress hosting</a>.
+
+If you enjoy using FancyBox lightbox for WordPress please leave a [positive feedback](https://wordpress.org/support/plugin/fancybox-for-wordpress/reviews/?filter=5). We are committed to make it the best lightbox plugin for WordPress.
 
 == Changelog ==
 
-This changelog is for the WordPress plugin. For the Fancybox main changelog go to its [home page](http://fancybox.net/changelog/).
+= 3.0.12 =
+
+Fixed errors causes by WordPress SVN.
+
+= 3.0.7 =
+
+* Updated Fancybox library
+* Updated other libraries this plugins depends on such as jQuery easing and jQuery Mousewheel
+* Tested plugin with WordPress 4.6
 
 = 3.0.6 =
 * Fixes to JavaScript code for showing and hiding elements as they are needed in Settings page. (Thanks to jono55 for reporting)
@@ -193,7 +208,7 @@ Fixes the Revert options button and wrong version number on settings page. Also 
 
 1. Upload the `fancybox-for-wordpress` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. That's it, [FancyBox](http://fancybox.net/) will be automatically applied to all your image links and galleries.
+3. That's it, FancyBox will be automatically applied to all your image links and galleries.
 4. If you want to customize a bit the look and feel of FancyBox, go to the Options Page under General Options in the WordPress Admin panel
 
 

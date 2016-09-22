@@ -1472,6 +1472,9 @@
     background-image: url("img/defender-mini.png");
     background-repeat: no-repeat;
     background-position: top right;
+    .wd-new-events-alert {
+      margin: 0 0 30px 0;
+    }
     .wd-error {
       a {
         float: none;
@@ -1501,7 +1504,15 @@
         }
       }
     }
+    #audit-table-content {
+      position: relative;
+      .tablenav {
+        height: auto;
+        margin: 0 0 30px 0;
+      }
+    }
     .wd-audit-filter {
+      margin: 0 0 30px 0;
       form {
         strong {
           font-family: 'Roboto Condensed', 'Roboto', sans-serif;
@@ -1530,7 +1541,7 @@
           margin-right: 10px;
         }
         .wd-audit-user-filter {
-          float:left;
+          float: left;
           display: inline-block;
           min-width: 30%;
           margin-bottom: 20px;
@@ -1567,13 +1578,16 @@
         .wd-audit-date-filter {
           float: left;
           display: inline-block;
+          margin-bottom: 20px;
+          position: relative;
           div {
             float: left;
-            width: 30%;
+            width: 60%;
             position: relative;
             color: #477B92;
             input[type="text"] {
               padding-left: 35px;
+              margin: 0;
 
             }
             i {
@@ -1582,30 +1596,37 @@
               top: 10px;
               left: 7px;
             }
+            margin-right: 15px;
           }
           label:nth-child(3) {
             margin-right: 0;
           }
-        }
-        @media only screen and (max-width: 880px) {
-          .wd-audit-filter {
-            width: 100%;
+          a {
+            margin-top: 5px;
           }
         }
         .wd-event-filter {
           display: inline-block;
+          max-width: 82%;
           p {
             padding: 0;
           }
-          label {
-            float: none;
+          .event {
             display: inline-block;
-            font-size: 15px;
-            color: #477B92;
-            font-weight: 400;
-            margin: 0 10px 0 0;
-            padding-left: 0;
-            padding-right: 0;
+            label {
+              float: none;
+              display: inline-block;
+              font-size: 15px;
+              color: #477B92;
+              font-weight: 400;
+              margin: 0 10px 0 0;
+              padding-left: 0;
+              padding-right: 0;
+            }
+            input[type="checkbox"] {
+              margin-top: 0;
+              margin-bottom: 0;
+            }
           }
         }
         button {
@@ -1613,6 +1634,7 @@
         }
       }
     }
+
     .wd-well.blue {
       margin-bottom: 0;
     }
@@ -1643,9 +1665,10 @@
       }
       td:nth-child(1) {
         width: 40%;
-        padding-right: 10px;
+        padding-right: 20px;
       }
       td:nth-child(2) {
+        padding-right: 20px;
         strong {
           color: #555555;
           font-size: 13px;
@@ -1661,6 +1684,7 @@
       td:nth-child(3), td:nth-child(4) {
         width: 12%;
         color: #19B4CF;
+        padding-right: 20px;
       }
       td:nth-child(4) {
         width: 8%;
@@ -1669,6 +1693,7 @@
       td:nth-child(5) {
         color: #19B4CF;
         width: 11%;
+        padding-right: 20px;
       }
       td:nth-child(6) {
         width: 15%;
@@ -1730,6 +1755,116 @@
         }
       }
     }
+  }
+
+  @media only screen and (max-width: 980px) {
+    .wd-audit-logging {
+      .wd-audit-filter {
+        form {
+          .wd-audit-user-filter, .wd-audit-date-filter {
+            width: 100%;
+            label {
+              width: 19%;
+              display: inline-block;
+              float: left;
+            }
+          }
+          .wd-audit-user-filter {
+            .user-search {
+              width: 78%;
+              float: left;
+              .input-box {
+                width: 100%;
+                #wd_user_id {
+                  width: 100%;
+                }
+              }
+            }
+          }
+          .wd-audit-date-filter {
+            div {
+              width: 78%;
+              float: left;
+              margin: 0;
+            }
+          }
+          .wd-audit-event-context {
+            > label {
+              width: 19%;
+              display: inline-block;
+              float: left;
+            }
+            .wd-event-filter {
+              width: 78%;
+              float: left;
+              .event {
+                display: block;
+                float: left;
+                width: 33%;
+              }
+              .event:nth-child(3n+4) {
+                clear: both;
+              }
+            }
+          }
+        }
+      }
+    }
+    @media only screen and (max-width: 600px) {
+      .wd-audit-logging {
+        .wd-audit-filter {
+          form {
+            .wd-audit-user-filter, .wd-audit-date-filter {
+              width: 100%;
+              label {
+                width: 100%;
+                float: none;
+              }
+            }
+            .wd-audit-user-filter {
+              .user-search {
+                width: 100%;
+                float: none;
+                padding-left: 10px;
+                padding-right: 10px;
+              }
+            }
+            .wd-audit-date-filter {
+              div {
+                width: 100%;
+                float: none;
+                padding: 0 10px;
+                i {
+                  left: 17px;
+                }
+              }
+            }
+            .wd-audit-event-context {
+              > label {
+                width: 100%;
+                float: none;
+                margin: 0 0 10px;
+              }
+              .wd-event-filter {
+                width: 100%;
+                max-width: 100%;
+                padding: 0 10px;
+                .event {
+                  width: 50%;
+                }
+                .event:nth-child(3n+4) {
+                  clear: none;
+                }
+                .event:nth-child(2n+3) {
+                  clear: both;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
   }
 
   /*
@@ -1972,8 +2107,15 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
       text-align: center;
     }
   }
-  .ui-datepicker-today, .ui-datepicker-current-day {
-    background: #f4f4f4;
+  .ui-datepicker-today {
+    background: #FFF5D5;
+    a {
+      color: #777;
+
+    }
+  }
+  .ui-datepicker-current-day {
+    background: #E1F6FF;
     a {
       color: #777;
 

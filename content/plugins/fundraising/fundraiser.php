@@ -3,7 +3,7 @@
 Plugin Name: Fundraising
 Plugin URI: http://premium.wpmudev.org/project/fundraising/
 Description: Create a fundraising page for any purpose or project.
-Version: 2.6.4.4
+Version: 2.6.4.5
 Text Domain: wdf
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
@@ -183,6 +183,7 @@ class WDF {
 			add_action( 'media_upload_pledges', array(&$this,'media_pledges'));
 			add_action( 'media_upload_donate_button', array(&$this,'media_donate_button'));
 			add_action( 'media_upload_progress_bar', array(&$this,'media_progress_bar'));
+			add_action( 'wp_update_post', array(&$this,'wp_insert_post') );
 			add_action( 'wp_insert_post', array(&$this,'wp_insert_post') );
 			add_action( 'before_delete_post', array(&$this,'before_delete_post') );
 

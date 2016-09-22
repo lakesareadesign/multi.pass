@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Deals with managed (full) backups restoration
+ */
 class Snapshot_Helper_Restore {
 
 	private $_archive;
@@ -42,7 +45,10 @@ class Snapshot_Helper_Restore {
 	public function get_manifest () {
 		if (!empty($this->_manifest)) return $this->_manifest;
 
-		if (empty($this->_archive)) return false;
+		if (empty($this->_archive)) {
+			Snapshot_Helper_Log::warn("Unable to fetch manifest from unknown archive.");
+			return false;
+		}
 		$zip = Snapshot_Helper_Zip::get($this->_archive);
 
 		$root = $this->_get_root();
@@ -52,7 +58,10 @@ class Snapshot_Helper_Restore {
 		if (file_exists($manifest_path)) @unlink($manifest_path);
 
 		$status = $zip->extract_specific($root, array($manifest_file));
-		if (empty($status)) return false;
+		if (empty($status)) {
+			Snapshot_Helper_Log::warn("Unable to extract manifest.");
+			return false;
+		}
 
 		$this->_manifest = Snapshot_Model_Manifest::consume($manifest_path);
 
@@ -62,7 +71,10 @@ class Snapshot_Helper_Restore {
 	}
 
 	public function get_intermediate_destination () {
-		if (empty($this->_seed)) return false;
+		if (empty($this->_seed)) {
+			Snapshot_Helper_Log::info("Unable determine intermediate location from unknown seed.");
+			return false;
+		}
 		return $this->_get_path($this->_seed);
 	}
 
@@ -85,10 +97,14 @@ class Snapshot_Helper_Restore {
 	}
 
 	public function clear () {
+		Snapshot_Helper_Log::info("Starting post-restoration cleanup");
+
 		$this->_session->data = array();
 		$this->_session->save_session();
 
 		Snapshot_Helper_Utility::recursive_rmdir($this->get_intermediate_destination());
+
+		Snapshot_Helper_Log::info("Post-restoration cleanup complete");
 
 		return true;
 	}
@@ -110,7 +126,10 @@ class Snapshot_Helper_Restore {
 			if (!is_callable(array($this, $method))) continue;
 
 			$status = call_user_func_array(array($this, $method), array($queue));
+			break;
 		}
+
+		if ($this->is_done()) Snapshot_Helper_Log::info("Restoration from queues complete");
 
 		return $status;
 	}
@@ -151,12 +170,16 @@ class Snapshot_Helper_Restore {
 		}
 
 		if ($status) {
+			Snapshot_Helper_Log::info("Restored fileset chunk {$chunk}");
+
 			$chunk += 1;
 			$done = !!($start + $chunk_size >= count($all_files));
 
+			if ($done) Snapshot_Helper_Log::info("Fileset restoration complete");
+
 			$this->_set_session_value('fileset', 'chunk', $chunk);
 			$this->_set_session_value('fileset', 'done', $done);
-		}
+		} else Snapshot_Helper_Log::warn("There has been an issue restoring fileset chunk {$chunk}");
 
 		return $status;
 	}
@@ -183,15 +206,20 @@ class Snapshot_Helper_Restore {
 		$status = true;
 		$db = new Snapshot_Model_Database_Backup;
 
+		do_action('snapshot-full_backups-restore-tables', $all_tables, $tables);
+
 		foreach ($all_tables as $table_file) {
 			$table = basename($table_file);
 			if (in_array($table, $tables)) continue;
+
+			Snapshot_Helper_Log::info("Begin restoring table: {$table}");
 
 			$sql = file_get_contents($table_file);
 			$db->restore_databases($sql);
 
 			if (count($db->errors)) {
 				$status = false;
+				Snapshot_Helper_Log::error("There has been an error restoring {$table}");
 			} else {
 				if ($this->_postprocess_table($table)) {
 					$tables[] = $table;
@@ -199,9 +227,9 @@ class Snapshot_Helper_Restore {
 					if (count($tables) === count($all_tables)) {
 						if ($this->_postprocess_global_tables()) {
 							$this->_set_session_value('tableset', 'done', true);
-						}
+						} else Snapshot_Helper_Log::warn("There has been an issue prostprocessing global tables");
 					}
-				}
+				} else Snapshot_Helper_Log::warn("There has been an issue prostprocessing table {$table}");
 			}
 			break; // Do one table at the time
 		}
@@ -254,11 +282,17 @@ class Snapshot_Helper_Restore {
 	private function _extract () {
 		$fullpath = $this->get_intermediate_destination();
 
-		if (empty($fullpath)) return false; // Something went wrong
+		if (empty($fullpath)) {
+			Snapshot_Helper_Log::warn("Unable to determine the intermediate location for restoring.");
+			return false; // Something went wrong
+		}
 		if (is_dir($fullpath)) return false; // Already extracted
 
 		wp_mkdir_p($fullpath);
-		if (!is_dir($fullpath)) return false; // Couldn't create
+		if (!is_dir($fullpath)) {
+			Snapshot_Helper_Log::warn("Unable to create intermediate location: {$fullpath}");
+			return false; // Couldn't create
+		}
 
 		$zip = Snapshot_Helper_Zip::get($this->_archive);
 		return $zip->extract($fullpath);
@@ -287,6 +321,7 @@ class Snapshot_Helper_Restore {
 
 			$this->_queues[$raw['type']] = $queue;
 		}
+		if (!empty($this->_queues)) ksort($this->_queues); // Sort queues, fileset coming before tableset alphabetically
 
 		return $this->_queues;
 	}
