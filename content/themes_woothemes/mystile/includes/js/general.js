@@ -3,8 +3,8 @@
 /*-----------------------------------------------------------------------------------*/
 jQuery(document).ready(function($){
 
-	// Fix dropdowns in touch devices
-	if ( jQuery( 'html' ).hasClass( 'touch' ) ) {
+	// Fix dropdowns in Android devices
+	if ( /Android/i.test( navigator.userAgent ) && jQuery( window ).width() > 769 ) {
 		$( '.nav li:has(ul)' ).doubleTapToGo();
 	}
 

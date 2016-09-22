@@ -68,7 +68,7 @@ D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-vi
 text!upfront/templates/popup.html
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/fonts.js
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/modal.js
-text!upfront/templates/region_edit_panel.html
+text!upfront/templates/bg_setting.html
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/modal-bg-setting.js
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/settings/settings-item.js
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/settings/settings-panel.js
@@ -100,6 +100,10 @@ D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-vi
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/region/region-panel-item-expand-lock.js
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/region/region-fixed-edit-position.js
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/region/region-fixed-panels.js
+text!upfront/templates/region_edit_panel.html
+D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/region/region-bg-setting.js
+D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/region/region-bg-setting-fixed.js
+D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/region/region-bg-setting-lightbox.js
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/region.js
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/commands/commands.js
 D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/upfront-views-editor/commands/command.js
@@ -404,4 +408,4 @@ D:/vagrant/www/html/upfront/wp-content/themes/upfront/scripts/upfront/plugins.js
 main.js
 
 
-133620-1473364921-au
+133620-1474567166-au

@@ -36,7 +36,7 @@
 .upfront-icon-button.re-edit {
 	background: #515b65; /* Old browsers */
 	background: -moz-linear-gradient(-45deg,  #515b65 47%, #454e56 49%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(47%,#515b65), color-stop(49%,#454e56)); /* Chrome,Safari4+ */	     	 		 		  	 		 	
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(47%,#515b65), color-stop(49%,#454e56)); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(-45deg,  #515b65 47%,#454e56 49%); /* Chrome10+,Safari5.1+ */
 	background: -o-linear-gradient(-45deg,  #515b65 47%,#454e56 49%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(-45deg,  #515b65 47%,#454e56 49%); /* IE10+ */
@@ -177,4 +177,4 @@
 }
 
 
-/* 133620-1473364921-au */
+/* 133620-1474567166-au */

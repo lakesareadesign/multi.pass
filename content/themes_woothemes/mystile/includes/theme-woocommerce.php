@@ -316,7 +316,7 @@ add_action('mystile_homepage_content', 'mystile_recent_products', 30);
 function mystile_product_categories() {
 	global $woo_options;
 	$params = apply_filters( 'mystile_homepage_product_categories_params', 'number=""' );
-	if (class_exists('woocommerce') && $woo_options[ 'woo_homepage_product_categories' ] == "true" ) {
+	if (class_exists('woocommerce') && isset( $woo_options[ 'woo_homepage_product_categories' ] ) && $woo_options[ 'woo_homepage_product_categories' ] == "true" ) {
 		echo '<h1>'.__('Product Categories', 'woothemes').'</h1>';
 		echo do_shortcode('[product_categories '. $params .']');
 		woocommerce_reset_loop(); // can be removed post WooCommerce 1.6.4
@@ -325,7 +325,7 @@ function mystile_product_categories() {
 
 function mystile_featured_products() {
 	global $woo_options;
-	if (class_exists('woocommerce') && $woo_options[ 'woo_homepage_featured_products' ] == "true" ) {
+	if (class_exists('woocommerce') && isset( $woo_options[ 'woo_homepage_featured_products' ] ) && $woo_options[ 'woo_homepage_featured_products' ] == "true" ) {
 		echo '<h1>'.__('Featured Products', 'woothemes').'</h1>';
 		$featuredproductsperpage = $woo_options['woo_homepage_featured_products_perpage'];
 		echo do_shortcode('[featured_products per_page="'.$featuredproductsperpage.'"]');
@@ -334,7 +334,7 @@ function mystile_featured_products() {
 
 function mystile_recent_products() {
 	global $woo_options;
-	if (class_exists('woocommerce') && $woo_options[ 'woo_homepage_products' ] == "true" ) {
+	if (class_exists('woocommerce') && isset( $woo_options[ 'woo_homepage_products' ] ) && $woo_options[ 'woo_homepage_products' ] == "true" ) {
 		echo '<h1>'.__('Recent Products', 'woothemes').'</h1>';
 		$productsperpage = $woo_options['woo_homepage_products_perpage'];
 		echo do_shortcode('[recent_products per_page="'.$productsperpage.'"]');

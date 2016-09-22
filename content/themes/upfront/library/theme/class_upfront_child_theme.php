@@ -1451,7 +1451,10 @@ VRT;
 	 * @return int
 	 */
 	public static function import_slider_image ($filepath) {
-		return self::$instance->_import_slider_image($filepath);
+		return !empty(self::$instance)
+			? self::$instance->_import_slider_image($filepath)
+			: 0
+		;
 	}
 
 }

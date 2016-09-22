@@ -15,11 +15,11 @@ if ( ! function_exists( 'wp' ) && ! empty( $_SERVER['SCRIPT_FILENAME'] ) && base
  */
 	get_header();
 	global $woo_options;
-	
+
 ?>
 
-    <?php if ( $woo_options[ 'woo_homepage_banner' ] == "true" ) { ?>
-    	
+    <?php if ( isset( $woo_options[ 'woo_homepage_banner' ] ) && $woo_options[ 'woo_homepage_banner' ] == "true" ) { ?>
+
     	<div class="homepage-banner">
     		<?php
 				if ( $woo_options[ 'woo_homepage_banner' ] == "true" ) { $banner = $woo_options['woo_homepage_banner_path']; }
@@ -29,30 +29,30 @@ if ( ! function_exists( 'wp' ) && ! empty( $_SERVER['SCRIPT_FILENAME'] ) && base
     		<h1><span><?php echo $woo_options['woo_homepage_banner_headline']; ?></span></h1>
     		<div class="description"><?php echo wpautop($woo_options['woo_homepage_banner_standfirst']); ?></div>
     	</div>
-    	
+
     <?php } ?>
-    
+
     <div id="content" class="col-full <?php if ( $woo_options[ 'woo_homepage_banner' ] == "true" ) echo 'with-banner'; ?> <?php if ( $woo_options[ 'woo_homepage_sidebar' ] == "false" ) echo 'no-sidebar'; ?>">
-    
+
     	<?php woo_main_before(); ?>
-    
-		<section id="main" class="col-left">  
-		
-		<?php mystile_homepage_content(); ?>		
-		
+
+		<section id="main" class="col-left">
+
+		<?php mystile_homepage_content(); ?>
+
 		<?php woo_loop_before(); ?>
-		
-		<?php if ( $woo_options[ 'woo_homepage_blog' ] == "true" ) { 
+
+		<?php if ( isset( $woo_options[ 'woo_homepage_blog' ] ) && $woo_options[ 'woo_homepage_blog' ] == "true" ) {
 			$postsperpage = $woo_options['woo_homepage_blog_perpage'];
 		?>
-		
+
 		<?php
-			
+
 			$the_query = new WP_Query( array( 'posts_per_page' => $postsperpage ) );
-			
+
         	if ( have_posts() ) : $count = 0;
         ?>
-        
+
 			<?php /* Start the Loop */ ?>
 			<?php while ( $the_query->have_posts() ) : $the_query->the_post(); $count++; ?>
 
@@ -64,32 +64,32 @@ if ( ! function_exists( 'wp' ) && ! empty( $_SERVER['SCRIPT_FILENAME'] ) && base
 					get_template_part( 'content', get_post_format() );
 				?>
 
-			<?php 
-				endwhile; 
+			<?php
+				endwhile;
 				// Reset Post Data
 				wp_reset_postdata();
 			?>
-			
-			
+
+
 
 		<?php else : ?>
-        
+
             <article <?php post_class(); ?>>
                 <p><?php _e( 'Sorry, no posts matched your criteria.', 'woothemes' ); ?></p>
             </article><!-- /.post -->
-        
+
         <?php endif; ?>
-        
+
         <?php } // End query to see if the blog should be displayed ?>
-        
+
         <?php woo_loop_after(); ?>
-		                
+
 		</section><!-- /#main -->
-		
+
 		<?php woo_main_after(); ?>
 
-        <?php if ( $woo_options[ 'woo_homepage_sidebar' ] == "true" ) get_sidebar(); ?>
+        <?php if ( isset( $woo_options[ 'woo_homepage_sidebar' ] ) && $woo_options[ 'woo_homepage_sidebar' ] == "true" ) get_sidebar(); ?>
 
     </div><!-- /#content -->
-		
+
 <?php get_footer(); ?>

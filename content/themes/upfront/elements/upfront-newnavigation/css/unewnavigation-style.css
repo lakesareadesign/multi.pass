@@ -337,5 +337,10 @@ div.upfront-navigation div[data-style="burger"] ul.sub-menu {
   display:block;
 }
 
+/* breakpoint menu */
+div.upfront-breakpoint-navigation {
+	display: none;
+}
 
-/* 133620-1473364921-au */
+
+/* 133620-1474567166-au */
