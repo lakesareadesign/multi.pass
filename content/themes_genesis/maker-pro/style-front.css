@@ -1,0 +1,208 @@
+/* Front Page Widgets
+ * ========================================================================== */
+
+.widget-area {
+	margin-bottom: 40px;
+}
+
+.flexible-widgets .widget {
+	margin-bottom: 20px;
+}
+
+.flexible-widgets .widget:last-child {
+	margin-bottom: 0;
+}
+
+[class^="front-page-"]:last-child .widget-area:last-child {
+	margin-bottom: 0;
+}
+
+@media only screen and (min-width: 800px) {
+
+	.widget-area {
+		margin-bottom: 80px;
+	}
+
+	.flexible-widgets,
+	.flexible-widgets .featured-content.widget .widget-wrap {
+		margin-left: -10px;
+		margin-right: -10px;
+		width: calc( 100% + 20px );
+		display: inline-block;
+	}
+
+	.flexible-widgets .widget,
+	.flexible-widgets .featured-content.widget > .entry {
+		float: left;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+	.flexible-widgets.widget-fourths .widget {
+		width: 25%;
+	}
+
+	.flexible-widgets.widget-halves .widget {
+		width: 50%;
+	}
+
+	.flexible-widgets.widget-thirds .widget {
+		width: 33.33%;
+	}
+
+	.flexible-widgets.widget-halves .widget:nth-child(even),
+	.flexible-widgets.widget-thirds .widget:nth-child(3n+1),
+	.flexible-widgets.widget-fourths .widget:nth-child(4n+1) {
+		clear: left;
+	}
+
+}
+
+/* Front Page 1
+ * ========================================================================== */
+
+.front-page-1 {
+	margin: 40px auto;
+}
+
+/* Front Page 2
+ * ========================================================================== */
+
+.front-page-2 {
+	overflow: hidden;
+	display: inline-block;
+	width: 100%;
+}
+
+.front-page-2 .widget-area {
+	margin-bottom: 60px;
+}
+
+
+.front-page-2 .featured-content article.entry {
+  position: relative;
+  padding: 0;
+}
+
+.front-page-2 .featured-content article a {
+  margin: 0;
+	display: block;
+}
+
+.front-page-2 article:after {
+  content: " ";
+  position: absolute;
+  display: block;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 50%;
+  background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  z-index: 2;
+  pointer-events: none;
+}
+
+.front-page-2 article .entry-header {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 3;
+}
+
+.front-page-2 article .entry-header .entry-title {
+  margin: 0;
+}
+
+.front-page-2 article .entry-header a {
+  color: #fff;
+  padding: 20px;
+  width: 100%;
+  display: block;
+}
+
+.front-page-2 .widget-area {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+
+	position: relative;
+}
+
+
+/* Front Page 3
+ * ========================================================================== */
+
+.front-page-3 .widget-area {
+ 	margin-bottom: 60px;
+}
+
+
+/* Front Page 6
+ * ========================================================================== */
+
+.front-page-6 .widgettitle {
+	 color: #57e5ae;
+}
+
+@media only screen and (min-width: 800px) {
+
+	.front-page-6 .widget {
+	 	margin-left: 1.5625%;
+	 	padding-left: 32.291666666667%;
+		position: relative;
+	}
+
+	.front-page-6 .widgettitle {
+		position: absolute;
+		left: 0;
+		width: 32.291666666667%;
+		padding-right: 40px;
+	}
+
+}
+
+
+/* Front Page 8
+ * ========================================================================== */
+
+.front-page-8 .featuredpage .alignleft,
+.front-page-8 .featuredpage .alignright {
+	width: 100%;
+	margin: 0 auto 20px;
+}
+
+
+@media only screen and (min-width: 800px) {
+
+	.front-page-8 .flexible-widgets .widget {
+		margin-bottom: 60px;
+	}
+
+	.front-page-8 .flexible-widgets .widget:last-child {
+		margin-bottom: 0;
+	}
+
+	.front-page-8 .featuredpage .alignleft,
+	.front-page-8 .featuredpage .alignright {
+		max-width: 63.4%;
+	}
+
+	.front-page-8 .featuredpage .alignleft {
+		margin-left: -13.4%;
+		margin-right: 7.6822916667%;
+	}
+
+	.front-page-8 .featuredpage .alignright {
+		margin-right: -13.4%;
+		margin-left: 7.6822916667;
+	}
+
+}

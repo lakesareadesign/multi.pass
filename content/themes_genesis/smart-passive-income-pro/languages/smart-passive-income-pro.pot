@@ -1,0 +1,187 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Smart Passive Income Pro\n"
+"POT-Creation-Date: 2016-08-16 09:58-0400\n"
+"PO-Revision-Date: 2016-08-16 09:57-0400\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: front-page.php:60
+msgid "Main Content"
+msgstr ""
+
+#: functions.php:42 functions.php:43
+msgid "Menu"
+msgstr ""
+
+#: functions.php:82
+msgid "After Header Menu"
+msgstr ""
+
+#: functions.php:82
+msgid "Footer Menu"
+msgstr ""
+
+#: functions.php:127
+msgid ""
+"By [post_author_posts_link] on [post_date] [post_comments zero=\"0\" one="
+"\"1\" more=\"%\"][post_edit]"
+msgstr ""
+
+#: functions.php:163
+msgid "Search for..."
+msgstr ""
+
+#: functions.php:239
+msgid "Front Page 1"
+msgstr ""
+
+#: functions.php:240
+msgid "The first section on the front page."
+msgstr ""
+
+#: functions.php:244
+msgid "Front Page 2"
+msgstr ""
+
+#: functions.php:245
+msgid "The second section on the front page."
+msgstr ""
+
+#: functions.php:249
+msgid "Front Page 3 - Top"
+msgstr ""
+
+#: functions.php:250
+msgid "The top half of the third section on the front page."
+msgstr ""
+
+#: functions.php:254
+msgid "Front Page 3 - Bottom"
+msgstr ""
+
+#: functions.php:255
+msgid "The bottom half of the third section on the front page."
+msgstr ""
+
+#: functions.php:259
+msgid "Front Page 4"
+msgstr ""
+
+#: functions.php:260
+msgid "The fourth section on the front page."
+msgstr ""
+
+#: functions.php:264
+msgid "Footer Banner"
+msgstr ""
+
+#: functions.php:265
+msgid "A sitewide section just above the footer section."
+msgstr ""
+
+#: functions.php:269
+msgid "Footer Widgets"
+msgstr ""
+
+#: functions.php:270
+msgid "This is the footer section."
+msgstr ""
+
+#: lib/customize.php:94
+msgid "Front Page Background Image"
+msgstr ""
+
+#: lib/customize.php:97
+msgid ""
+"Use the included default image or personalize your site by uploading your "
+"own image."
+msgstr ""
+
+#: lib/customize.php:98
+msgid "The default image is "
+msgstr ""
+
+#: lib/customize.php:99
+msgid "2000 pixels wide and 833 pixels tall."
+msgstr ""
+
+#: lib/customize.php:121
+msgid ""
+"Change the default primary color including links, primary buttons, etc..."
+msgstr ""
+
+#: lib/customize.php:122
+msgid "Primary Color"
+msgstr ""
+
+#: lib/customize.php:143
+msgid ""
+"Change the background color of the Front Page 1 section, Footer Banner "
+"section, and menus."
+msgstr ""
+
+#: lib/customize.php:144
+msgid "Secondary Color"
+msgstr ""
+
+#: lib/customize.php:166
+msgid "Change the default background color for the \"Front Page - 3\" section."
+msgstr ""
+
+#: lib/customize.php:167
+msgid "Front Page 3 - Background Color"
+msgstr ""
+
+#: lib/customize.php:188
+msgid "Front Page 2 - Background Image"
+msgstr ""
+
+#: lib/customize.php:199
+msgid "Post and Page Images"
+msgstr ""
+
+#: lib/customize.php:200
+msgid ""
+"Choose if you would like to display the featured image above the content."
+msgstr ""
+
+#: lib/customize.php:218
+msgid "Show featured image above post content?"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Smart Passive Income Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/smart-passive-income/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"With its friendly typography and bold design, Smart Passive Income Pro gives "
+"a welcoming and familiar face to your online platform."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
+msgstr ""

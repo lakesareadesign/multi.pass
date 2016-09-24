@@ -5,7 +5,7 @@
 	Author: Restored 316 Designs // Lauren Gaige
 	Author URI: http://www.restored316designs.com/
 	Copyright: Copyright (c) 2015, Restored 316 LLC, Released 3/11/2015
-	Version: 1.0.4
+	Version: 1.0.5
 
 	Template: genesis
 	Template Version: 2.0.1
@@ -298,18 +298,13 @@ iframe,
 img,
 object,
 video,
+.featured-content img.entry-image,
 .wp-caption {
 	max-width: 100%;
 }
 
 img {
 	height: auto;
-}
-
-.featured-content img,
-.gallery img {
-	border: none !important;
-	width: auto; /* IE8 */
 }
 
 /* Forms
@@ -1920,6 +1915,7 @@ a.more-link:hover {
 	font-family: 'EB Garamond', serif;
 	font-size: 13px;
 	margin: 40px 0;
+	overflow: hidden;
 	text-transform: uppercase;
 }
 

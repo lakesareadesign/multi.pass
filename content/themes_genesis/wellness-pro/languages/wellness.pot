@@ -1,0 +1,183 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Wellness Pro\n"
+"POT-Creation-Date: 2016-07-06 09:29-0400\n"
+"PO-Revision-Date: 2016-07-06 09:27-0400\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: front-page.php:73
+msgid "Main Content"
+msgstr ""
+
+#: functions.php:42 functions.php:43
+msgid "Menu"
+msgstr ""
+
+#: functions.php:106
+msgid "Skip to footer"
+msgstr ""
+
+#: functions.php:114
+msgid "After Header Menu"
+msgstr ""
+
+#: functions.php:114
+msgid "Footer Menu"
+msgstr ""
+
+#: functions.php:211 functions.php:266
+msgid "Before Footer"
+msgstr ""
+
+#: functions.php:222 functions.php:271
+msgid "Footer"
+msgstr ""
+
+#: functions.php:231
+msgid "Sticky Message"
+msgstr ""
+
+#: functions.php:232
+msgid "This is the sticky message section that appears on the front page."
+msgstr ""
+
+#: functions.php:236
+msgid "Front Page 1"
+msgstr ""
+
+#: functions.php:237
+msgid "This is the front page 1 section."
+msgstr ""
+
+#: functions.php:241
+msgid "Front Page 2"
+msgstr ""
+
+#: functions.php:242
+msgid "This is the front page 2 section."
+msgstr ""
+
+#: functions.php:246
+msgid "Front Page 3"
+msgstr ""
+
+#: functions.php:247
+msgid "This is the front page 3 section."
+msgstr ""
+
+#: functions.php:251
+msgid "Front Page 4"
+msgstr ""
+
+#: functions.php:252
+msgid "This is the front page 4 section."
+msgstr ""
+
+#: functions.php:256
+msgid "Front Page 5"
+msgstr ""
+
+#: functions.php:257
+msgid "This is the front page 5 section."
+msgstr ""
+
+#: functions.php:261
+msgid "Front Page 6"
+msgstr ""
+
+#: functions.php:262
+msgid "This is the front page 6 section."
+msgstr ""
+
+#: functions.php:267
+msgid "This is the before footer section."
+msgstr ""
+
+#: functions.php:272
+msgid "This is the footer section."
+msgstr ""
+
+#: lib/customize.php:55
+msgid ""
+"Use the included default images or personalize your site by uploading your "
+"own images.<br /><br />The default images are <strong>1800 pixels wide and "
+"1000 pixels tall</strong>."
+msgstr ""
+
+#: lib/customize.php:56
+msgid "Front Page Background Images"
+msgstr ""
+
+#: lib/customize.php:72
+#, php-format
+msgid "Featured Section %s Image:"
+msgstr ""
+
+#: lib/customize.php:95
+msgid ""
+"Change the default color for post meta links, the hover color for linked "
+"titles, menu links, and more."
+msgstr ""
+
+#: lib/customize.php:96
+msgid "Link Color"
+msgstr ""
+
+#: lib/customize.php:116
+msgid ""
+"Change the default hover color for buttons, sub-menu links, footer links, "
+"and other accents."
+msgstr ""
+
+#: lib/customize.php:117
+msgid "Accent Color"
+msgstr ""
+
+#: lib/customize.php:128
+msgid "Post and Page Images"
+msgstr ""
+
+#: lib/customize.php:129
+msgid ""
+"Choose if you would like to display the featured image above the content on "
+"single posts and pages."
+msgstr ""
+
+#: lib/customize.php:148
+msgid "Show featured image on posts and pages?"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Wellness Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/wellness/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "A holistic theme solution for your Genesis-powered site."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
+msgstr ""

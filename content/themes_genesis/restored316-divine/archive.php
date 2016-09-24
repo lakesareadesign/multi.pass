@@ -44,7 +44,7 @@ function divine_archive_grid() {
 //* Display Category Description
 add_action( 'genesis_before_loop', 'display_category_archives_description');
 function display_category_archives_description () {
-	echo category_description( '$category-ID' );
+	echo category_description( '$category-id' );
 }
 
 //* Remove the post meta function
