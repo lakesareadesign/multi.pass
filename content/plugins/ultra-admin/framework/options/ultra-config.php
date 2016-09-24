@@ -82,7 +82,7 @@
         // This is where your data is stored in the database and also becomes your global variable name.
         'display_name'         => 'Ultra Admin',
         // Name that appears at the top of your panel
-        'display_version'      => '6.3',
+        'display_version'      => '6.4',
         // Version that appears at the top of your panel
         'menu_type'            => $menu_type,
         //Specify if the admin menu should appear or not. Options: menu or submenu (Under appearance only)
@@ -930,7 +930,10 @@
                     $ultra_color_thumbs[$colorid]['img'] = ReduxFramework::$_url . '../../images/assets/'.$colorid.'.jpg';
                 }
 
-
+                //plugins_url('/', __FILE__)."../../images/logo.png"
+                $modbaseurl = plugins_url('/', __FILE__);
+                $modbaseurl = str_replace("framework/options/","",$modbaseurl);
+                
     Redux::setSection( $opt_name, array(
         'id'         => 'pick-theme',
                 'title' => __('Pick Theme', 'ultra_framework'),
@@ -1245,7 +1248,7 @@
                         'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Logo', 'ultra_framework'),
                         'subtitle' => __('Upload your own logo of 230px (width) * 69px (height)', 'ultra_framework'),
-                        'default' => array('url' => plugins_url('/', __FILE__)."../../images/logo.png")
+                        'default' => array('url' => $modbaseurl."images/logo.png")
                     ),
                     array(
                         'id' => 'logo_folded',
@@ -1255,7 +1258,7 @@
                         'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Collapsed Menu Logo', 'ultra_framework'),
                         'subtitle' => __('Upload your own logo of 46px (width) * 69px (height)', 'ultra_framework'),
-                        'default' => array('url' => plugins_url('/', __FILE__)."../../images/logo-folded.png")
+                        'default' => array('url' => $modbaseurl."images/logo-folded.png")
                     ),
 
 
@@ -1266,7 +1269,7 @@
                         'readonly' => false,
                         'title' => __('Login Page Logo', 'ultra_framework'),
                         'subtitle' => __('Upload your login page logo.', 'ultra_framework'),
-                        'default' => array('url' => plugins_url('/', __FILE__)."../../images/login-logo.png")
+                        'default' => array('url' => $modbaseurl."images/login-logo.png")
                     ),
                     
                     array(
@@ -1277,7 +1280,7 @@
                         'compiler' => 'true',
                         'title' => __('Favicon', 'ultra_framework'),
                         'subtitle' => __('image that will be used as favicon (16px x 16px).', 'ultra_framework'),
-                        'default' => array('url' => plugins_url('/', __FILE__)."../../images/favicon.png")
+                        'default' => array('url' => $modbaseurl."images/favicon.png")
                     ),
                     array(
                         'id' => 'iphone_icon',
@@ -1287,7 +1290,7 @@
                         'compiler' => 'true',
                         'title' => __('Apple Iphone Icon', 'ultra_framework'),
                         'subtitle' => __('Apple Iphone Icon (57px x 57px).', 'ultra_framework'),
-                        'default' => array('url' => plugins_url('/', __FILE__)."../../images/apple-touch-icon-57-precomposed.png")
+                        'default' => array('url' => $modbaseurl."images/apple-touch-icon-57-precomposed.png")
                     ),
                     array(
                         'id' => 'iphone_icon_retina',
@@ -1297,7 +1300,7 @@
                         'compiler' => 'true',
                         'title' => __('Apple Iphone Retina Icon', 'ultra_framework'),
                         'subtitle' => __('Apple Iphone Retina Icon (114px x 114px).', 'ultra_framework'),
-                        'default' => array('url' => plugins_url('/', __FILE__)."../../images/apple-touch-icon-114-precomposed.png")
+                        'default' => array('url' => $modbaseurl."images/apple-touch-icon-114-precomposed.png")
                     ),
                     array(
                         'id' => 'ipad_icon',
@@ -1307,7 +1310,7 @@
                         'compiler' => 'true',
                         'title' => __('Apple iPad Icon', 'ultra_framework'),
                         'subtitle' => __('Apple Iphone Retina Icon (72px x 72px).', 'ultra_framework'),
-                        'default' => array('url' => plugins_url('/', __FILE__)."../../images/apple-touch-icon-72-precomposed.png")
+                        'default' => array('url' => $modbaseurl."images/apple-touch-icon-72-precomposed.png")
                     ),
                     array(
                         'id' => 'ipad_icon_retina',
@@ -1317,7 +1320,7 @@
                         'compiler' => 'true',
                         'title' => __('Apple iPad Retina Icon', 'ultra_framework'),
                         'subtitle' => __('Apple iPad Retina Icon (144px x 144px).', 'ultra_framework'),
-                        'default' => array('url' => plugins_url('/', __FILE__)."../../images/apple-touch-icon-144-precomposed.png")
+                        'default' => array('url' => $modbaseurl."images/apple-touch-icon-144-precomposed.png")
                     ),
                 ),
     ) );
@@ -1494,7 +1497,7 @@
                         'preview_media' => true,
                         'default' => array(
                             'background-color' => '#744d90',
-                            'background-image' => plugins_url('/', __FILE__)."../../images/login-bg.png",
+                            'background-image' => $modbaseurl."images/login-bg.png",
                         )
                     ),
                     

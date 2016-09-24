@@ -2185,7 +2185,7 @@ td.plugin-title strong, td.post-title strong{
 	background: #ffffff;
 	border-color: transparent;
 	color: #f95e44;
-	margin-top:23px;
+	margin-top:0px;
 }
 
 .upload-plugin .wp-upload-form .wp-admin input[type=file]{

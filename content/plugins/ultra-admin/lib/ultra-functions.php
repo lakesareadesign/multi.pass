@@ -336,7 +336,7 @@ function ultra_admin_css()
 {
     global $ultra_css_ver;
 
-    $url = plugins_url('/', __FILE__).'../'.$ultra_css_ver.'/ultra-admin.css';
+    $url = plugins_url('/', __FILE__).'../'.$ultra_css_ver.'/ultra-admin.min.css';
     wp_deregister_style('ultra-admin', $url);
     wp_register_style('ultra-admin', $url);
     wp_enqueue_style('ultra-admin');
