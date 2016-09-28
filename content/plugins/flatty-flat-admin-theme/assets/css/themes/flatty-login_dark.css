@@ -2,15 +2,25 @@
 LOGIN
 ---------------------------------------*/
 body.login {
-   background-color: #333;
-   background: -webkit-linear-gradient(225deg, #45484d 0%,#000000 100%);
-   background: linear-gradient(-135deg, #45484d 0%,#000000 100%);
+    background-color: #333;
+    background: -webkit-linear-gradient(225deg, #45484d 0%,#000000 100%);
+    background: linear-gradient(-135deg, #45484d 0%,#000000 100%);
+    min-height: 100vh;
 }
 
 .login form {
     border-top: solid 5px #607D8B;
     box-shadow: 0 20px 50px rgba(0,0,0,0.2);
     padding: 2rem 3rem;
+}
+
+.login * {
+    margin:auto;
+}
+
+#login {
+    width:100%;
+    max-width:400px;
 }
 
 #login form p {
@@ -54,3 +64,8 @@ body.login {
 .login form input[type=checkbox]:checked {
     background-color: #1abc9c;
 }
+
+#loginform div.g-recaptcha {
+    margin: 10px 0 20px -15px;
+}
+

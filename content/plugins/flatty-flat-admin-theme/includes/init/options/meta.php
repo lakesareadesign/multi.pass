@@ -1,5 +1,4 @@
 <?php
-
 /*///////////////////////////////////////////////////////////////////////////WORDPRESS META*/
 if (get_option('flatty_wordpress_remove_generator') == true) {
 		function flatty_wordpress_disable_version() {

@@ -7,10 +7,6 @@ TOPBAR
     margin: -20px 0 20px -20px;
 }
 
-body.admin-color-fresh #wpadminbar {
-    background: rgba(80, 80, 80, 0.5);
-}
-
 #wpadminbar * {
     font: 400 11px/32px "Open Sans",sans-serif;
 }

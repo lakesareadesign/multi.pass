@@ -22,6 +22,28 @@ class Snapshot_Helper_Log {
 	}
 
 	/**
+	 * Start the logging action
+	 *
+	 * Clears the log in implicit logging environment.
+	 * Used by controllers to indicate the action log start.
+	 *
+	 * @return bool
+	 */
+	public static function start () {
+		$status = true;
+
+		// Only clear the log if the logging is implicitly enabled
+		if (Snapshot_Controller_Full_Log::get()->is_implicitly_enabled()) {
+			$status = self::get()->clear_log();
+
+			if (!empty($status)) self::info('Log file cleared');
+			else self::warn('Unable to clear log file');
+		}
+
+		return $status;
+	}
+
+	/**
 	 * Logs error message
 	 *
 	 * @param string $msg Message
@@ -134,6 +156,30 @@ class Snapshot_Helper_Log {
 	 */
 	public function get_default_level () {
 		return Snapshot_Helper_Log::LEVEL_DEFAULT;
+	}
+
+	/**
+	 * Gets log file contents
+	 *
+	 * @return string
+	 */
+	public function get_log () {
+		$file = $this->_get_log_file();
+		if (empty($file) || !is_readable($file)) return '';
+
+		return file_get_contents($file);
+	}
+
+	/**
+	 * Clears log file contents
+	 *
+	 * @return bool
+	 */
+	public function clear_log () {
+		$file = $this->_get_log_file();
+		if (empty($file) || !is_readable($file)) return false;
+
+		return false !== file_put_contents($file, '');
 	}
 
 	/**

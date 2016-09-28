@@ -213,7 +213,8 @@ class Snapshot_View_Full_Backup {
 		wp_enqueue_style('snapshot-admin', $root . '/css/snapshots-admin-styles.css', false, $version);
 		wp_enqueue_style('snapshot-full_backup-admin', $root . '/css/snapshots-full_backup-admin.css', false, $version);
 
-		wp_enqueue_script('snapshot-full_backup-admin', $root . '/js/snapshot-full_backup-admin.js', array('jquery'), $version);
+		add_thickbox();
+		wp_enqueue_script('snapshot-full_backup-admin', $root . '/js/snapshot-full_backup-admin.js', array('jquery', 'thickbox'), $version);
 		wp_localize_script('snapshot-full_backup-admin', '_snp_vars', array(
 			'l10n' => array(
 				'generic_error' => __('Aw shucks, something went wrong :( Instead of the beautiful response we expected, we got this:', SNAPSHOT_I18N_DOMAIN),

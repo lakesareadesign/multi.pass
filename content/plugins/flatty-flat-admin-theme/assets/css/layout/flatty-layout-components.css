@@ -24,12 +24,12 @@ textarea {
     background-color: #fff;
     box-shadow: none;
     color: #555;
-    font-family: 'Source Sans Pro', 'Open Sans', sans-serif;
     outline: 0;
     transition: .2s border-color ease-in-out;
 }
 
-input[type=checkbox] {
+input[type=checkbox],
+input[type=radio] {
   border: 1px solid #b4b9be;
 }
 
@@ -125,8 +125,7 @@ select:focus {
 }
 
 input[type=checkbox]:checked {
-    background-color:#1abc9c;
-    border:solid 2px #1abc9c;
+    border:solid 2px;
 }
 
 .admin-color-sunrise input[type=checkbox]:checked {
@@ -205,7 +204,6 @@ input[type=checkbox]:checked {
 
 input[type=checkbox]:checked:before {
     margin: -4px 0 0 -5px;
-    color: #fff;
 }
 
 input[type=number].tiny-text {

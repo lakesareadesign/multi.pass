@@ -57,14 +57,6 @@ function flatty_styles() {
 	wp_register_style('flatty-themes', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/page/flatty-page-themes.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-themes');
 
-	if (get_option('flatty_login_style') === 'light') {
-		wp_register_style('flatty-login_light', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/themes/flatty-login_light.css'), null, FLATTY_VERSION, 'screen');
-		wp_enqueue_style('flatty-login_light');
-	} elseif(get_option('flatty_login_style') === 'dark') {
-		wp_register_style('flatty-login_dark', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/themes/flatty-login_dark.css'), null, FLATTY_VERSION, 'screen');
-		wp_enqueue_style('flatty-login_dark');
-	}
-
 	wp_register_style('flatty-options', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/page/flatty-page-flatty-options.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-options');
 
@@ -73,17 +65,15 @@ function flatty_styles() {
 	wp_enqueue_style('flatty-mediaqueries');
 
 	//THEME
-	if (get_option('flatty_light_style') == true) {
-		wp_register_style('flatty-light', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/themes/light.css'), null, FLATTY_VERSION, 'screen');
-		wp_enqueue_style('flatty-light');
-	} else {
-		wp_register_style('flatty-default', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/themes/default.css'), null, FLATTY_VERSION, 'screen');
-		wp_enqueue_style('flatty-default');
+	wp_register_style('flatty-default', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/themes/default.css'), null, FLATTY_VERSION, 'screen');
+	wp_enqueue_style('flatty-default');
+
+	//LOGIN
+	if (get_option('flatty_login_style') !== 'custom_css') {
+		wp_register_style('flatty-login', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/themes/flatty-login.css'), null, FLATTY_VERSION, 'screen');
+		wp_enqueue_style('flatty-login');
 	}
 
-	//EXTERNALS
-	wp_enqueue_style('flatty-font', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600,700');
-	wp_enqueue_style('flatty-icons', '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
 
 //END
 }

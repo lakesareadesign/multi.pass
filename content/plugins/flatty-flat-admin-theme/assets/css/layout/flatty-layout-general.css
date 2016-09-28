@@ -31,3 +31,15 @@ ul.striped>:nth-child(odd)
 {
     background-color: #fff
 }
+
+/*--------------------------------------
+ARTICLE EDITOR
+---------------------------------------*/
+#wp-content-editor-tools {
+  background:#fff;
+  background: linear-gradient(to top, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%);
+}
+
+.mce-toolbar .mce-ico {
+  color: #607D8B!important;
+}

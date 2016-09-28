@@ -11,7 +11,7 @@ function dashboard_init() {
 	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_plugins");
 	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_activity");
 	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_right_now");
-
+	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_welcome_panel");
 }
 
 add_action("admin_init","dashboard_init");
@@ -26,17 +26,17 @@ function options_main_dashboard() {
 
 	        <div class="page-title">
 	            <img src="<?php echo plugins_url(FLATTY_PLUGIN_URL . 'assets/flatty-logo.png') ?>" class="flatty-logo"/>
-	            <div class="header">Dashboard</div>
+	            <div class="header"><?php _e('Dashboard', 'flatty-flat-admin-theme' ); ?></div>
 	        </div>
 
 			<div id="widgets-box" class="postbox flatty">
 				<div class="title">
-                    <i class="fa fa-object-group" style="background-color: #8da6a6;"></i>
-                    <span>Widgets</span>
+                    <i class="dashicons dashicons-schedule" style="background-color: #8da6a6;"></i>
+                    <span><?php _e('Widgets', 'flatty-flat-admin-theme' ); ?></span>
                 </div>
 
 				<div class="option">
-					<label for="flatty_wp_hide_dashboard_quickpress">Remove Quick Press</label>
+					<label for="flatty_wp_hide_dashboard_quickpress"><?php _e('Remove "Quick Press"', 'flatty-flat-admin-theme' ); ?></label>
 					<input
 						type="checkbox"
 						name="flatty_wp_hide_dashboard_quickpress"
@@ -47,7 +47,7 @@ function options_main_dashboard() {
 				</div>
 
 				<div class="option">
-					<label for="flatty_wp_hide_dashboard_drafts">Remove Recent drafts</label>
+					<label for="flatty_wp_hide_dashboard_drafts"><?php _e('Remove "Recent Drafts"', 'flatty-flat-admin-theme' ); ?></label>
 					<input
 						type="checkbox"
 						name="flatty_wp_hide_dashboard_drafts"
@@ -58,7 +58,7 @@ function options_main_dashboard() {
 				</div>
 
 				<div class="option">
-					<label for="flatty_wp_hide_dashboard_primary">Remove Wordpress News</label>
+					<label for="flatty_wp_hide_dashboard_primary"><?php _e('Remove "Wordpress News"', 'flatty-flat-admin-theme' ); ?></label>
 					<input
 						type="checkbox"
 						name="flatty_wp_hide_dashboard_primary"
@@ -69,7 +69,7 @@ function options_main_dashboard() {
 				</div>
 
 				<div class="option">
-					<label for="flatty_wp_hide_dashboard_activity">Remove Wordpress Activity</label>
+					<label for="flatty_wp_hide_dashboard_activity"><?php _e('Remove "Wordpress Activity"', 'flatty-flat-admin-theme' ); ?></label>
 					<input
 						type="checkbox"
 						name="flatty_wp_hide_dashboard_activity"
@@ -80,7 +80,7 @@ function options_main_dashboard() {
 				</div>
 
 				<div class="option">
-					<label for="flatty_wp_hide_dashboard_right_now">Remove Wordpress 'At a glance'</label>
+					<label for="flatty_wp_hide_dashboard_right_now"><?php _e('Remove "Wordpress at a glance"', 'flatty-flat-admin-theme' ); ?></label>
 					<input
 						type="checkbox"
 						name="flatty_wp_hide_dashboard_right_now"
@@ -91,7 +91,7 @@ function options_main_dashboard() {
 				</div>
 
 				<div class="option">
-					<label for="flatty_wp_hide_dashboard_links">Remove Wordpress incoming links</label>
+					<label for="flatty_wp_hide_dashboard_links"><?php _e('Remove "Wordpress Incoming Links"', 'flatty-flat-admin-theme' ); ?></label>
 					<input
 						type="checkbox"
 						name="flatty_wp_hide_dashboard_links"
@@ -101,19 +101,18 @@ function options_main_dashboard() {
 					/>
 				</div>
 
-            </div>
-
-			<div id="widgets-box" class="postbox flatty">
-				<div class="title">
-                    <i class="fa fa-info" style="background-color: #6aa1d4;"></i>
-                    <span>Custom Support Widget</span>
-                </div>
-
 				<div class="option">
-					<label for="flatty_wp_hide_dashboard_plugins">Coming soon...</label>
+					<label for="flatty_wp_hide_dashboard_welcome_panel"><?php _e('Remove Welcome Panel', 'flatty-flat-admin-theme' ); ?></label>
+					<input
+						type="checkbox"
+						name="flatty_wp_hide_dashboard_welcome_panel"
+						id="flatty_wp_hide_dashboard_welcome_panel"
+						value='1'
+						<?php checked(1, get_option('flatty_wp_hide_dashboard_welcome_panel')); ?>
+					/>
 				</div>
 
-			</div>
+            </div>
 
 		</div>
 
@@ -122,7 +121,7 @@ function options_main_dashboard() {
 				settings_fields('flatty_dashboard');
 				submit_button('', 'primary large flatty-button-update');
 			?>
-			<div class="flatty-single">*Don't forget to save changes</div>
+			<div class="flatty-single"><?php _e('*Don\'t forget to save changes', 'flatty-flat-admin-theme' ); ?></div>
 		</div>
 
 	</form>

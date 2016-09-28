@@ -198,6 +198,9 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 
 		if (!$this->_is_backup_processing_ready()) return false;
 
+		// Signal intent - starting action
+		Snapshot_Helper_Log::start();
+
 		Snapshot_Helper_Log::note("Backup ready to start", "Cron");
 
 		$idx = $this->_get_backup_type();

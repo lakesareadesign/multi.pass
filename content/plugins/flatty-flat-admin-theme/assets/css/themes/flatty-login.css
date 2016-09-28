@@ -1,0 +1,80 @@
+/*--------------------------------------
+LOGIN
+---------------------------------------*/
+body.login {
+    min-height: 100vh;
+}
+.login form {
+    box-sizing: border-box;
+    padding: 30px 42px;
+    max-width: 355px;
+    margin: 20px auto!important;
+}
+.login * {
+    margin:auto;
+}
+#login {
+    width:100%;
+    max-width:400px;
+    padding: 4% 0 0;
+}
+#login form p {
+    margin-bottom: 1rem;
+}
+.login label {
+    font-size: 1.8rem;
+    font-weight: 300;
+}
+
+.login form .input {
+    padding: 0.3rem 1rem;
+    border: none;
+    box-shadow: none;
+}
+
+.login form .forgetmenot {
+    margin-bottom: 0;
+    margin-top: 3px;
+}
+
+.login form .forgetmenot label {
+    font-size: 0.9rem;
+    line-height: initial;
+    font-weight: 500;
+}
+
+.login #nav, .login #backtoblog {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    padding: 0;
+    width: 49%;
+    margin: 3rem 0!important;
+    font-weight: 600;
+    text-align: center;
+}
+
+#loginform div.g-recaptcha {
+    margin: 10px 0 20px -15px;
+}
+
+.login #login_error, .login .message {
+    box-sizing: border-box;
+    max-width: 355px;
+    margin: auto!important;
+}
+
+.flatty-login-footer {
+    display:block;
+    position:fixed;
+    box-sizing: border-box;
+    left:0;
+    bottom:0;
+    width:100%;
+    padding:10px 0;
+    text-align: center;
+    font-size:12px;
+    font-weight: 700;
+    background-color:#555;
+    color:#fff;
+}

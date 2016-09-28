@@ -1,5 +1,4 @@
 <?php
-
 ///////////////HIDE DASHBOARD WIDGETS
 function flatty_hide_dashboard_widgets(){
 	if (get_option('flatty_wp_hide_dashboard_quickpress') == true) {
@@ -33,6 +32,10 @@ function flatty_hide_dashboard_widgets(){
 	if (get_option('flatty_wp_hide_dashboard_right_now') == true) {
 		remove_meta_box( 'dashboard_right_now', 'dashboard', 'normal' ); //Right Now
 	};
+
+	if (get_option('flatty_wp_hide_dashboard_welcome_panel') !== '') {
+		echo '<style> #welcome-panel {display:none}</style>';
+	}
 
 }
 

@@ -28,6 +28,7 @@ var cdMain;
             });
 
             this.tips_stop_propogation();
+            this.delete_first_collapse();
         },
         /**
          * Hides/shows element with given ID.
@@ -178,6 +179,24 @@ var cdMain;
             jQuery('.cd-tip *').click(function (e) {
                 e.stopPropagation();
             });
+        },
+
+        delete_first_collapse: function () {
+
+            var $adminmenu = $('#adminmenu'),
+                $collapses;
+
+            if (!$adminmenu.length) {
+                return;
+            }
+
+            $collapses = $adminmenu.find('> li').filter('#collapse-menu');
+
+            if ($collapses.length < 2) {
+                return;
+            }
+
+            $collapses.filter(':not(:last-of-type)').remove();
         }
     };
 

@@ -2,6 +2,19 @@
 
 class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 
+	/**
+	 * Implicitly enabled logging flag
+	 *
+	 * Used to determine if the logging has been
+	 * explicitly disabled by the user.
+	 *
+	 * If it wasn't, we will assume that the logging is
+	 * implicitly enabled.
+	 *
+	 * @since v3.0.2-beta-1
+	 */
+	const LOG_IMPLICIT = null;
+
 	private static $_instance;
 
 	public static function get () {
@@ -16,20 +29,90 @@ class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 	}
 
 	/**
+	 * Checks to see whether the logging is enabled in any way
+	 *
+	 * Checks both implicit and explicit enabling
+	 *
+	 * @since v3.0.2-beta-1
+	 *
+	 * @return bool
+	 */
+	public function is_enabled () {
+		return (bool)apply_filters(
+			'snapshot-full_backups-log_enabled',
+			$this->is_explicitly_enabled() || $this->is_implicitly_enabled()
+		);
+	}
+
+
+	/**
+	 * Checks to see whether the logging has been *explicitly* enabled by the user
+	 *
+	 * @uses config['full_log_enable']
+	 * @since v3.0.2-beta-1
+	 *
+	 * @return bool
+	 */
+	public function is_explicitly_enabled () {
+		return (bool)apply_filters(
+			'snapshot-full_backups-log_enabled-explicit',
+			(bool)$this->_model->get_config('full_log_enable', false)
+		);
+	}
+
+	/**
+	 * Checks to see whether the logging has been *implicitly* enabled
+	 *
+	 * Logging is implicitly enabled when there has been no user action
+	 *
+	 * @uses config['full_log_enable']
+	 * @since v3.0.2-beta-1
+	 *
+	 * @return bool
+	 */
+	public function is_implicitly_enabled () {
+		$enabled = $this->_model->get_config('full_log_enable', Snapshot_Controller_Full_Log::LOG_IMPLICIT);
+		return (bool)apply_filters(
+			'snapshot-full_backups-log_enabled-implicit',
+			Snapshot_Controller_Full_Log::LOG_IMPLICIT === $enabled // Check if we're implicitly enabled
+		);
+	}
+
+	/**
 	 * Dispatches logging according to settings
 	 *
 	 * Either stored, and/or defaults
-	 *
-	 * @uses config['full_log_enable']
-	 * @uses config['full_log_setup']
 	 *
 	 * @return bool
 	 */
 	public function dispatch_logging () {
 		$updated = false;
 
-		$enabled = (bool)$this->_model->get_config('full_log_enable', false);
-		if (!$enabled) return $updated; // Logging not enabled, continue
+		$explicit = $this->is_explicitly_enabled();
+		$implicit = !$explicit && $this->is_implicitly_enabled();
+
+		if (!(bool)$explicit && !$implicit) return $updated; // Logging explicitly disabled, continue
+
+		$updated = $implicit
+			? $this->_spawn_implicit_log_config()
+			: $this->_spawn_saved_log_config()
+		;
+
+		return (bool)$updated;
+	}
+
+	/**
+	 * Spawns the logs from saved config.
+	 *
+	 * Used when the log setup has been explicitly enabled in settings.
+	 *
+	 * @uses config['full_log_setup']
+	 * @since v3.0.2-beta-1
+	 *
+	 * @return bool
+	 */
+	protected function _spawn_saved_log_config () {
+		$updated = false;
 
 		$log_setup = $this->_model->get_config('full_log_setup', array());
 		$log = Snapshot_Helper_Log::get();
@@ -48,8 +131,33 @@ class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 			define($const, $level);
 			$updated = true;
 		}
+	}
 
-		return $updated;
+
+	/**
+	 * Spawns the logs from implicit (default) config.
+	 *
+	 * Used when the log setup has *NOT* been explicitly enabled in settings.
+	 *
+	 * @since v3.0.2-beta-1
+	 *
+	 * @return bool
+	 */
+	protected function _spawn_implicit_log_config () {
+		$updated = false;
+
+		$log = Snapshot_Helper_Log::get();
+		$known_sections = $log->get_known_sections();
+
+		foreach ($known_sections as $section => $name) {
+			$const = $log->get_section_constant_name($section);
+			if (defined($const)) continue; // Already defined, let's not error
+
+			$level = Snapshot_Helper_Log::LEVEL_DEFAULT;
+
+			define($const, $level);
+			$updated = true;
+		}
 	}
 
 	/**

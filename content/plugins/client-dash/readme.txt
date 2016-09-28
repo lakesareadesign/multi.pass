@@ -4,7 +4,7 @@ Contributors: BrashRebel, joelworsham
 Tags: client, portal, dashboard, admin, users, webmaster
 Requires at least: 3.8.0
 Tested up to: 4.5.2
-Stable tag: 1.6.11
+Stable tag: 1.6.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,11 @@ Using this plugin is very simple. All you have to do is:
 7. Client Dash has a few addons available, and many more to come!
 
 == Changelog ==
+
+= 1.6.12 =
+* Fix conflict with plugin "Menu Icons".
+* Repair broken menu links feature.
+* Improved admin notices infastructure.
 
 = 1.6.11 =
 * Fix potential admin theme PHP notice.
@@ -265,6 +270,9 @@ Using this plugin is very simple. All you have to do is:
 * Adds dashboard widgets for each new submenu page.
 
 == Upgrade Notice ==
+
+= 1.6.12 =
+* IMPORTANT conflict fix with "Menu Icons" plugin. Please update in order to restore proper Client Dash menu functionality
 
 = 1.6.2 =
 * Please update to fix a small widget issue on installation.

@@ -31,7 +31,7 @@ $code = sprintf(
 );
 
 // Remove linebreaks to avoid JS errors
-$code = str_replace( array("\r", "\n"), '', $code );							 			 	 	 		  
+$code = str_replace( array("\r", "\n"), '', $code );
 
 ?>
 <script>

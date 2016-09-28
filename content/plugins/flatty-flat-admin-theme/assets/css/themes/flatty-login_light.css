@@ -5,18 +5,24 @@ body.login {
     background-color: #f5f5f5;
     background: -webkit-linear-gradient(225deg, #45484d 0%,#000000 100%);
     background: linear-gradient(-135deg, #f5f5f5 0%,#fff 100%);
+    min-height: 100vh;
 }
-
 .login form {
     border-top: solid 5px #607D8B;
     box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     padding: 2rem 3rem;
 }
-
+.login * {
+    margin:auto;
+}
+#login {
+    width:100%;
+    max-width:400px;
+    padding: 4% 0 0;
+}
 #login form p {
     margin-bottom: 1rem;
 }
-
 .login label {
     font-size: 1.8rem;
     font-weight: 300;
@@ -53,4 +59,8 @@ body.login {
 
 .login form input[type=checkbox]:checked {
     background-color: #1abc9c;
+}
+
+#loginform div.g-recaptcha {
+    margin: 10px 0 20px -15px;
 }

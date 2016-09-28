@@ -393,10 +393,174 @@ Sfb.BackupItem = $.extend({}, ElementSelector, {
 });
 */
 
+/**
+ * Deals with the logging section
+ *
+ * @type {Object}
+ */
+Sfb.Logs = {
+
+	/**
+	 * Log enable/disable toggle
+	 *
+	 * @type {ElementSelector}
+	 */
+	Toggler: $.extend({}, ElementSelector, {
+
+		element_selector: '#log-enable',
+
+		/**
+		 * Toggles logging level sections on log enable/disable
+		 *
+		 * Also sets log levels to default on logging disable
+		 */
+		handle_enable: function () {
+			var $toggle = Sfb.Logs.Toggler.get_elements(),
+				state = $toggle.is(":checked"),
+				dflt = $toggle.attr('data-default')
+			;
+
+			if (state) $(".snapshot-settings.log-levels").show();
+			else {
+				$(".snapshot-settings.log-levels")
+					.hide()
+					.find('input[type="radio"]')
+						.attr("checked", false)
+					.end()
+					.find('input[type="radio"][value="' + dflt + '"]')
+						.attr("checked", true)
+				;
+			}
+		},
+
+		/**
+		 * Initializes toggler click listener
+		 *
+		 * @param {object} $el jQuery node
+		 */
+		initialize_listener: function ($el) {
+			$el
+				.off("click.snapshot")
+				.on("click.snapshot", this.handle_enable)
+			;
+		},
+
+		/**
+		 * Initializes log enable/disable toggle
+		 *
+		 * @return {Boolean}
+		 */
+		run: function () {
+			this.initialize_listeners();
+			this.handle_enable();
+			return true;
+		}
+	}),
+
+	/**
+	 * Log viewer toggle
+	 *
+	 * @type {ElementSelector}
+	 */
+	Viewer: $.extend({}, ElementSelector, {
+
+		element_selector: 'a[href="#view-log-file"]',
+
+		/**
+		 * Refreshing period.
+		 *
+		 * This is how long the results will stay before we attempt reload.
+		 * Set to false-ish value in integer context to disable
+		 * results refreshing altogether.
+		 *
+		 * @type {Number}
+		 */
+		ttl: 120000,
+
+		/**
+		 * Handles log viewer spawning clicks
+		 *
+		 * @param {Object} e Event
+		 *
+		 * @return {Boolean}
+		 */
+		handle_view: function (e) {
+			var $trigger = Sfb.Logs.Viewer.get_elements(),
+				title = $trigger.attr("title") || "Snapshot Logs",
+				tmout = false, ttl = 0
+			;
+
+			tb_show(title, ajaxurl + '?action=snapshot-full_backup-get_log&TB_iframe=true');
+
+			ttl = Sfb.Logs.Viewer.ttl ? parseInt(Sfb.Logs.Viewer.ttl, 10) : 0;
+
+			if (ttl) {
+				// First `setTimeout` is to move this off of exec stack
+				setTimeout(function () {
+					$("#TB_window")
+						.off('thickbox:iframe:loaded.snapshot')
+						.on('thickbox:iframe:loaded.snapshot', function () {
+							// When the content loads, set up a ticker to reload after a bit
+							tmout = setTimeout(function () {
+								var frm = $("#TB_iframeContent").get(0) || {};
+								if (!frm.contentWindow) return false;
+
+								frm.contentWindow.location.reload(true);
+							}, ttl);
+						})
+					;
+					$('body')
+						.off('thickbox:removed.snapshot')
+						.on('thickbox:removed.snapshot', function () {
+						clearTimeout(tmout);
+					});
+				});
+			}
+
+			return Sfb.Util.stop_prop(e);
+		},
+
+		/**
+		 * Initializes log viewer click listener
+		 *
+		 * @param {object} $el jQuery node
+		 */
+		initialize_listener: function ($el) {
+			$el
+				.off("click.snapshot")
+				.on("click.snapshot", this.handle_view)
+			;
+		},
+
+		/**
+		 * Initializes log enable/disable toggle
+		 *
+		 * @return {Boolean}
+		 */
+		run: function () {
+			this.initialize_listeners();
+			return true;
+		}
+	}),
+
+	/**
+	 * Initializes the whole log section JS
+	 *
+	 * @return {Boolean}
+	 */
+	run: function () {
+		Sfb.Logs.Toggler.run();
+		Sfb.Logs.Viewer.run();
+
+		return true;
+	}
+};
+
 window.Sfb = Sfb;
 
 $(function () {
 	Sfb.Notice.run();
+	Sfb.Logs.run();
 });
 
 })(jQuery);

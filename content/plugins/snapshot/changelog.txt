@@ -5,6 +5,11 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.0.2
+----------------------------------------------------------------------
+- New: add managed backups implicit logging.
+- New: add managed backups log viewer.
+
 3.0.1
 ----------------------------------------------------------------------
 - New: auto-expand failed preflight checks for restore.
@@ -359,4 +364,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-133620-1474567070-au
+133620-1475035820-au

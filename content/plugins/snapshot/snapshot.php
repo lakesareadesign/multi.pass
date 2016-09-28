@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Snapshot
-Version: 3.0.1
+Version: 3.0.2
 Description: This plugin allows you to take quick on-demand backup snapshots of your working WordPress database. You can select from the default WordPress tables as well as custom plugin tables within the database structure. All snapshots are logged, and you can restore the snapshot as needed.
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org/
@@ -91,7 +91,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			$this->plugin_url  = plugin_dir_url( __FILE__ );
 
 			$this->DEBUG                         = false;
-			$this->_settings['SNAPSHOT_VERSION'] = '3.0.1';
+			$this->_settings['SNAPSHOT_VERSION'] = '3.0.2';
 
 			if ( is_multisite() ) {
 				$this->_settings['SNAPSHOT_MENU_URL'] = network_admin_url() . 'admin.php?page=';
@@ -2110,6 +2110,11 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			if ( ! isset( $this->config_data['config']['zipLibrary'] ) ) {
 				$this->config_data['config']['zipLibrary'] = 'ZipArchive';
 			}
+			// Let's see if we should attempt forcing the ZIP library
+			if (defined('SNAPSHOT_FORCE_ZIP_LIBRARY') && SNAPSHOT_FORCE_ZIP_LIBRARY) {
+				if ('pclzip' === SNAPSHOT_FORCE_ZIP_LIBRARY) $this->config_data['config']['zipLibrary'] = 'PclZip';
+				else $this->config_data['config']['zipLibrary'] = 'ZipArchive';
+			}
 			if ( ( $this->config_data['config']['zipLibrary'] == 'ZipArchive' ) && ( ! class_exists( 'ZipArchive' ) ) ) {
 				$this->config_data['config']['zipLibrary'] = 'PclZip';
 			}
@@ -2408,6 +2413,15 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				$this->config_data['version'] = $this->_settings['SNAPSHOT_VERSION'];
 				$this->save_config();
 			}
+
+			/**
+			 * Fires when config data has been loaded
+			 *
+			 * Can be used to manipulate the loaded data on the fly.
+			 *
+			 * @since 3.0.2-beta-1
+			 */
+			do_action('snapshot-config-loaded');
 		}
 
 

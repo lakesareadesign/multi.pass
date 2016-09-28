@@ -2,37 +2,59 @@
 SITE NAME
 ---------------------------------------*/
 .flatty-site-name {
-    display: block;
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 10px 20px 40px 20px;
-    font-size: 60px;
-    line-height: 60px;
-    font-weight: 300;
-    color: #fff;
-    text-align: center;
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px 40px;
+  font-size: 50px;
+  line-height: 50px;
+  font-weight: 300;
+  color: #fff;
+  text-align: center;
+  z-index: 2;
 }
 
 .flatty-site-name.small {
-    font-size: 40px;
-    padding: 10px 20px 20px 20px;
+  font-size:20px;
+  font-weight: 600;
+  line-height: 20px;
 }
 
 .admin-color-light .flatty-site-name {
     color:#333;
+    background-color: #fff;
 }
 
 /*--------------------------------------
-LOGIN
+FLATTY CUSTOM FOOTER
 ---------------------------------------*/
-.flatty-login-footer {
-    display:block;
-    position:relative;
-    width:100%;
-    text-align: center;
-    color:#ccc;
-    font-weight:600;
+.flatty-custom-footer {
+    display:flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    position:absolute;
+    box-sizing: border-box;
+    padding:10px 20px;
+    bottom:0;
+    right:0;
+    width: calc(100% - 180px);
+    font-size:100%;
+    margin-left: 180px;
+    margin-right: 20px;
+    z-index: 9;
+}
+
+.flatty-custom-footer-item {
+    display: flex;
+    position: relative;
+    font-size:100%;
+    color: #aaa;
+    margin-left:20px;
+}
+
+.flatty-custom-footer-item i {
+    margin-right:8px;
 }
 
 @media only screen and (max-width: 960px) {
@@ -42,7 +64,6 @@ LOGIN
     }
 
 }
-
 @media only screen and (max-width: 782px) {
     .flatty-top-bar-logo {
         display: none;
@@ -74,12 +95,6 @@ LOGIN
 
     .flatty-site-name {
         display: none;
-        /*
-        padding: 1rem;
-        font-size: 30px;
-        line-height: 30px;
-        margin-bottom:10px;
-        */
     }
 
 }

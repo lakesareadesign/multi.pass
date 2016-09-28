@@ -32,6 +32,7 @@ MEDIA QUERY
 @media only screen and (max-width: 960px) {
   .auto-fold #wpcontent {
     max-width: calc(100vw - 50px);
+    z-index: initial;
   }
 
   .auto-fold #wpfooter {
@@ -40,6 +41,7 @@ MEDIA QUERY
 }
 
 @media only screen and (max-width: 782px) {
+
     #wpbody {
         padding-top:46px;
     }
@@ -59,11 +61,11 @@ MEDIA QUERY
 
     #adminmenumain {
         top:0;
+        display: block!important;
     }
 
   .auto-fold #wpcontent {
     padding: 0 10px;
-    margin-top:46px!important;
     margin-left: 0px!important;
     max-width: 100vw;
   }
@@ -74,5 +76,9 @@ MEDIA QUERY
 
    table.widefat {
        margin:0;
+   }
+
+   .flatty-support-box {
+     display: none!important;
    }
 }

@@ -40,7 +40,6 @@ RIGHT SIDEBAR
 ---------------------------------------*/
 #side-sortables .postbox .inside,
 #side-sortables .stuffbox .inside {
-    padding: 0 20px;
     line-height: 1.4rem;
     font-size: 1rem;
 }
@@ -416,20 +415,4 @@ POST IMAGE
 #set-post-thumbnail,
 #remove-post-thumbnail {
   padding:0 20px;
-}
-
-/*--------------------------------------
-ARTICLE EDITOR
----------------------------------------*/
-#wp-content-editor-tools {
-  background-color:transparent;
-}
-
-.mce-toolbar-grp {
-  border: none!important;
-  background: #F7F7F7!important;
-}
-
-.mce-toolbar .mce-ico {
-  color: #607D8B!important;
 }

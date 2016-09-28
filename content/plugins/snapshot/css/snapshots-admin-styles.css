@@ -49,7 +49,7 @@ table.snapshot-item-archives-table th.column-notes { width: 10%; }
 .snapshot-wrap table.widefat th.snapshot-col-interval, table.snapshot-item-archives-table th.column-interval { width: 13%; }
 .snapshot-wrap table.widefat th.snapshot-col-size, table.snapshot-item-archives-table th.column-size { width: 10%; }
 .snapshot-wrap table.widefat th.snapshot-col-logs, table.snapshot-item-archives-table th.column-logs { width: 10%; }
-.snapshot-wrap table.widefat th.snapshot-col-destination, table.snapshot-item-archives-table th.column-destination { width: 7%; }
+.snapshot-wrap table.widefat th.snapshot-col-destination, table.snapshot-item-archives-table th.column-destination { width: 7%; }	     	 	 				 	 	
 table.snapshot-item-archives-table th.column-file { width: 20%; }
 .snapshot-wrap table.widefat th.snapshot-col-status, table.snapshot-item-archives-table th.column-status { width: 10%; }
 
@@ -250,4 +250,4 @@ tr.snapshot-log-item {
 }
 
 
-/* 133620-1474567070-au */
+/* 133620-1475035820-au */

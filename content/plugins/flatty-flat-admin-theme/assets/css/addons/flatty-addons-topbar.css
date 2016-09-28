@@ -2,35 +2,19 @@
 FLATTY TOP BAR
 ---------------------------------------*/
 .flatty-top-bar {
-    display:block;
+    display:flex;
+    align-items: center;
     position:relative;
+    box-sizing: border-box;
+    padding:0 20px;
     top:0;
+    left:0;
     right:30px;
     width:100%;
-    text-align:right;
-    font-size:1.3rem;
+    height: 70px;
+    font-size:120%;
     color:#fff;
     z-index: 9;
-}
-
-.flatty-top-bar a {
-    display:inline-block;
-    position:relative;
-    color:inherit;
-    padding:25px 20px;
-}
-
-.flatty-top-bar a i {
-    position:relative;
-    padding-right:0.5rem;
-}
-
-.flatty-top-bar a:hover {
-    opacity:0.8;
-}
-
-.admin-color-light .flatty-top-bar {
-    color:#333;
 }
 
 /*--------------------------------------
@@ -38,13 +22,86 @@ FLATTY TOP BAR LOGO
 ---------------------------------------*/
 .flatty-top-bar-logo {
     display:block;
-    position:absolute;
-    top:10px;
-    left:30px;
-    max-height: 50px;
+    position:relative;
+    max-height: 40px;
     z-index: 9;
 }
 
 .flatty-top-bar-logo img {
-    height:50px;
+    height:40px;
+}
+
+/*--------------------------------------
+FLATTY TOP BAR SITENAME
+---------------------------------------*/
+.flatty-site-name-topbar {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    margin-left: 20px;
+    font-size:100%;
+}
+
+/*--------------------------------------
+FLATTY TOP BAR SUPPORT BOX
+---------------------------------------*/
+.flatty-topbar-box {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.flatty-topbar-box-name {
+    display: block;
+    font-size:90%;
+    font-weight: 600;
+    margin-bottom:8px;
+}
+
+.flatty-topbar-box-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.flatty-topbar-box-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:0 10px;
+}
+/*--------------------------------------
+FLATTY TOP BAR ITEMS
+---------------------------------------*/
+.flatty-top-bar .flatty-top-bar-wrapper {
+    display: flex;
+    align-items:center;
+    flex-grow:0;
+    justify-content: flex-end;
+    margin-left:auto;
+}
+.flatty-top-bar-button,
+.flatty-top-bar a {
+    display:inline-block;
+    position:relative;
+    color:inherit;
+    padding:0 20px;
+    cursor: pointer;
+    -webkit-user-select:none;
+    user-select:none;
+}
+.flatty-top-bar-button:hover {
+    opacity:0.8;
+}
+.flatty-top-bar i {
+    position:relative;
+    top:-1px;
+    font-weight: 300;
+    padding-right:0.5rem;
+}
+.admin-color-light .flatty-top-bar {
+    color:#fff;
+    background-color: #04a4cc;
 }

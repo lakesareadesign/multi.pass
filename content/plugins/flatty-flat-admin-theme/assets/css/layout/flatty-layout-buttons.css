@@ -21,10 +21,6 @@ BUTTONS
   transform: translateY(-2px);
 }
 
-.wp-core-ui p .button {
-  vertical-align:top;
-}
-
 .wp-core-ui .button.button-primary.button-hero,
 .button.button-hero {
   box-shadow:none;

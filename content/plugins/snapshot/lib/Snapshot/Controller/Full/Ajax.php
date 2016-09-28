@@ -34,6 +34,7 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 
 		add_action('wp_ajax_snapshot-full_backup-download', array($this, 'json_download_backup'));
 		add_action('wp_ajax_snapshot-full_backup-delete', array($this, 'json_delete_backup'));
+		add_action('wp_ajax_snapshot-full_backup-get_log', array($this, 'json_get_log'));
 
 		add_action('wp_ajax_snapshot-full_backup-reload', array($this, 'json_reload_backups'));
 
@@ -52,6 +53,21 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 */
 	public function deactivate () {
 		delete_site_option(self::OPTIONS_FLAG);
+	}
+
+	/**
+	 * Outputs log file content
+	 */
+	public function json_get_log () {
+		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die; // Only some users can reload
+
+		$response = __('Your log file is empty', SNAPSHOT_I18N_DOMAIN);
+		$content = Snapshot_Helper_Log::get()->get_log();
+		if (!empty($content)) {
+			$response = '<textarea readonly style="width:100%; height:100%">' . esc_textarea($content) . '</textarea>';
+		}
+
+		die($response);
 	}
 
 	/**
@@ -255,6 +271,9 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 			: true
 		;
 
+		// Signal intent - starting action
+		Snapshot_Helper_Log::start();
+
 		if (!WP_Filesystem($credentials)) {
 			wp_send_json(array(
 				'task' => 'clearing',
@@ -337,6 +356,9 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 */
 	public function json_start_backup () {
 		if (!$this->_is_backup_processing_ready()) die;
+
+		// Signal intent - starting action
+		Snapshot_Helper_Log::start();
 
 		$idx = $this->_get_backup_type();
 		$this->_start_backup($idx);

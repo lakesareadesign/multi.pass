@@ -1,14 +1,5 @@
 jQuery(function() {
     var ajaxurl = window.ajaxurl;
-    jQuery('.w3tc-widget-ps-view-all').click(function() {
-        window.open('admin.php?page=w3tc_dashboard&w3tc_test_pagespeed_results&_wpnonce=' + jQuery(this).metadata().nonce, 'pagespeed_results', 'width=800,height=600,status=no,toolbar=no,menubar=no,scrollbars=yes');
-
-        return false;
-    });
-
-    jQuery('.w3tc-widget-ps-refresh').click(function() {
-        document.location.href = 'admin.php?page=w3tc_dashboard&w3tc_widget_pagespeed_force=1';
-    });
 
     jQuery(document).ready(function() {
         var forumLoading = jQuery('#w3tc_latest').find('div.inside:visible').find('.widget-loading');
@@ -73,12 +64,6 @@ jQuery(function() {
 
         jQuery('#buy-w3-service').live('click', function() {
             alert('Do not forget to fill out the support form after purchasing.');
-        });
-        var nr_widget = jQuery('#new-relic-widget');
-        nr_widget.find('div.top-five').hide();
-        nr_widget.find('h5').click(function () {
-            jQuery(this).find('div').toggleClass('close');
-            jQuery(this).parents('.wrapper').find("div.top-five").toggle();
         });
     });
 });

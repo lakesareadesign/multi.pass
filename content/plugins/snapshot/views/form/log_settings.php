@@ -1,6 +1,6 @@
 <?php
 	$log = Snapshot_Helper_Log::get();
-	$enabled = $model->get_config('full_log_enable', false);
+	$enabled = Snapshot_Controller_Full_Log::get()->is_enabled();
 	$log_settings = $model->get_config('full_log_setup', array());
 	$default_level = !empty($enabled)
 		? $log->get_default_level()
@@ -63,34 +63,10 @@
 				</div>
 			</fieldset>
 		<?php } ?>
+		<div class="log-actions">
+			<a href="#view-log-file" title="<?php esc_attr_e('Managed Backups Log', SNAPSHOT_I18N_DOMAIN); ?>">
+				<?php esc_html_e('View your log file', SNAPSHOT_I18N_DOMAIN); ?>
+			</a>
+		</div>
 	</div>
 </div>
-<script>
-;(function ($) {
-
-	function check_log_setup () {
-		var $toggle = $("#log-enable"),
-			state = $toggle.is(":checked"),
-			dflt = $toggle.attr('data-default')
-		;
-
-		if (state) $(".snapshot-settings.log-levels").show();
-		else {
-			$(".snapshot-settings.log-levels")
-				.hide()
-				.find('input[type="radio"]')
-					.attr("checked", false)
-				.end()
-				.find('input[type="radio"][value="' + dflt + '"]')
-					.attr("checked", true)
-			;
-		}
-	}
-
-	$(function () {
-		$(document).on("change", '#log-enable', check_log_setup);
-		check_log_setup();
-	});
-
-})(jQuery);
-</script>
