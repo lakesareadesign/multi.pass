@@ -1,0 +1,5 @@
+Great people who contributed to this plugin :
+
+Developers:
+- Benjamin Denis: contact@wpadminui.net / @wpcloudy
+- Mickael Gris: mickael.gris@gmail.com / @mickaelgris

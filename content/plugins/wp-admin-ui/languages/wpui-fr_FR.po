@@ -1,0 +1,2063 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Admin UI\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-cloudy\n"
+"POT-Creation-Date: 2016-08-11 11:09+0200\n"
+"PO-Revision-Date: 2016-08-11 11:12+0200\n"
+"Last-Translator: \n"
+"Language-Team: Benjamin DENIS <contact@wpadminui.net>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.2\n"
+"X-Poedit-KeywordsList: __;_e;_x;esc_attr__\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: inc/admin/admin.php:34 inc/admin/admin.php:350 inc/admin/adminbar.php:22
+msgid "Login"
+msgstr "Ecran de connexion"
+
+#: inc/admin/admin.php:35 inc/admin/admin.php:360 inc/admin/adminbar.php:28
+msgid "Global"
+msgstr "Global"
+
+#: inc/admin/admin.php:36 inc/admin/admin.php:370 inc/admin/adminbar.php:34
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: inc/admin/admin.php:37 inc/admin/admin.php:380 inc/admin/adminbar.php:40
+msgid "Admin Menu"
+msgstr "Menu d'admin"
+
+#: inc/admin/admin.php:38 inc/admin/admin.php:392 inc/admin/adminbar.php:46
+msgid "Admin Bar"
+msgstr "Barre d'admin"
+
+#: inc/admin/admin.php:39 inc/admin/admin.php:402 inc/admin/adminbar.php:52
+msgid "Editor"
+msgstr "Editeur"
+
+#: inc/admin/admin.php:40
+msgid "Media Library"
+msgstr "Bibliothèque de médias"
+
+#: inc/admin/admin.php:41 inc/admin/admin.php:470 inc/admin/adminbar.php:64
+msgid "Profil"
+msgstr "Profil"
+
+#: inc/admin/admin.php:42 inc/admin/adminbar.php:70
+msgid "Role Manager"
+msgstr "Rôles"
+
+#: inc/admin/admin.php:43
+msgid "Import / Export / Reset settings"
+msgstr "Import / Export / Réinitialisation des paramètres"
+
+#: inc/admin/admin.php:43 inc/admin/admin.php:561
+msgid "Import / Export / Reset"
+msgstr "Importer / Exporter / Réinitialiser"
+
+#: inc/admin/admin.php:77
+msgid "Display"
+msgstr "Affichage"
+
+#: inc/admin/admin.php:78
+msgid "Advanced"
+msgstr "Avancé"
+
+#: inc/admin/admin.php:79
+msgid "Updates"
+msgstr "Mises à jour"
+
+#: inc/admin/admin.php:80
+msgid "Front"
+msgstr "Front"
+
+#: inc/admin/admin.php:81
+msgid "Debug"
+msgstr "Debug"
+
+#: inc/admin/admin.php:172
+msgid "Base"
+msgstr "Basique"
+
+#: inc/admin/admin.php:173
+msgid "Filters"
+msgstr "Filtres"
+
+#: inc/admin/admin.php:226
+msgid "Import / Export Settings"
+msgstr "Paramètres Import / Export"
+
+#: inc/admin/admin.php:227
+msgid "Import / Export WP Admin UI settings from site to site"
+msgstr "Importer / Exporter les paramètres WP Admin UI d'un site à un autre"
+
+#: inc/admin/admin.php:230
+msgid "Export Settings"
+msgstr "Exporter Paramètres"
+
+#: inc/admin/admin.php:232
+msgid ""
+"Export the plugin settings for this site as a .json file. This allows you to "
+"easily import the configuration into another site."
+msgstr ""
+"Exporter les paramètres du plugin pour ce site comme un fichier JSON. Cela "
+"vous permet d'importer facilement votre configuration dans un autre site "
+"WordPress."
+
+#: inc/admin/admin.php:237
+msgid "Export"
+msgstr "Exporter"
+
+#: inc/admin/admin.php:244
+msgid "Import Settings"
+msgstr "Importer Paramètres"
+
+#: inc/admin/admin.php:246
+msgid ""
+"Import the plugin settings from a .json file. This file can be obtained by "
+"exporting the settings on another site using the form above."
+msgstr ""
+"Importer les paramètres du plugin depuis un fichier JSON. Ce fichier peut "
+"être obtenu en exportant les paramètres depuis un autre site en utilisant le "
+"formulaire ci-dessus."
+
+#: inc/admin/admin.php:254
+msgid "Import"
+msgstr "Importer"
+
+#: inc/admin/admin.php:261
+msgid "Reset All Settings"
+msgstr "Tout réinitialiser"
+
+#: inc/admin/admin.php:263
+msgid ""
+"<strong>WARNING:</strong> Delete all options related to WP Admin UI in your "
+"database."
+msgstr ""
+"<strong>AVERTISSEMENT:</strong> Supprime toutes les options liées à WP Admin "
+"UI de votre base de données."
+
+#: inc/admin/admin.php:268
+msgid "Reset settings"
+msgstr "Réinitialiser les paramètres"
+
+#: inc/admin/admin.php:289 inc/admin/adminbar.php:16
+msgid "WP Admin UI"
+msgstr "WP Admin UI"
+
+#: inc/admin/admin.php:293
+msgid "PRO"
+msgstr "PRO"
+
+#: inc/admin/admin.php:303
+msgid ""
+"The ultimate plugin to customize, manage and optimize your WordPress backend!"
+msgstr ""
+"Le plugin ultime pour personnaliser, gérer et optimiser l'administration "
+"WordPress!"
+
+#: inc/admin/admin.php:306
+msgid "You like WP Admin UI? Don't forget to rate it 5 stars!"
+msgstr "Vous aimez WP Admin UI ? N'oubliez pas de nous noter 5 étoiles !"
+
+#: inc/admin/admin.php:335
+msgid "Follow us on Twitter!"
+msgstr "Suivez-nous sur Twitter !"
+
+#: inc/admin/admin.php:337
+msgid "Our website"
+msgstr "Notre site web"
+
+#: inc/admin/admin.php:339
+msgid "Knowledge base"
+msgstr "Base de connaissances"
+
+#: inc/admin/admin.php:351
+msgid "Custom logo, custom background image, custom css..."
+msgstr "Logo, image d'arrière plan et feuille de styles personnalisés..."
+
+#: inc/admin/admin.php:352 inc/admin/admin.php:362 inc/admin/admin.php:372
+#: inc/admin/admin.php:382 inc/admin/admin.php:394 inc/admin/admin.php:404
+#: inc/admin/admin.php:415 inc/admin/admin.php:438 inc/admin/admin.php:462
+#: inc/admin/admin.php:472 inc/admin/admin.php:483 inc/admin/admin.php:506
+#: inc/admin/admin.php:531 inc/admin/admin.php:553 inc/admin/admin.php:563
+msgid "Manage"
+msgstr "Gérer"
+
+#: inc/admin/admin.php:361
+msgid "Custom footer credits, remove screen options, revisions..."
+msgstr ""
+"Crédits du pied de page perso, supprimer l'onglet Options de l'écran, "
+"révisions..."
+
+#: inc/admin/admin.php:371
+msgid "Remove widgets, remove welcome panel..."
+msgstr "Supprimer widgets, panneau de bienvenue..."
+
+#: inc/admin/admin.php:381
+msgid "Hide menus/submenus, reorder them with drag and drop..."
+msgstr "Masquer menus/sous-menus, réordonner les en glisser-déposer..."
+
+#: inc/admin/admin.php:393
+msgid "Remove items in admin bar..."
+msgstr "Supprimer des items de la barre d'admin..."
+
+#: inc/admin/admin.php:403
+msgid "Full TinyMCE, add new buttons, add quicktags..."
+msgstr "TinyMCE complet, ajouter de nouveaux boutons, ajout de quicktags..."
+
+#: inc/admin/admin.php:413 inc/admin/admin.php:424 inc/admin/adminbar.php:83
+msgid "Metaboxes"
+msgstr "Metaboxes"
+
+#: inc/admin/admin.php:414
+msgid "Hide metaboxes from your custom post types..."
+msgstr "Masquer les metaboxes de vos types d'articles personnalisés..."
+
+#: inc/admin/admin.php:425
+msgid "Hide metaboxes..."
+msgstr "Masquer metaboxes..."
+
+#: inc/admin/admin.php:426 inc/admin/admin.php:449 inc/admin/admin.php:494
+#: inc/admin/admin.php:517 inc/admin/admin.php:542
+msgid "Get it"
+msgstr "Obtenir"
+
+#: inc/admin/admin.php:436 inc/admin/admin.php:447 inc/admin/adminbar.php:89
+msgid "Columns"
+msgstr "Colonnes"
+
+#: inc/admin/admin.php:437 inc/admin/admin.php:448
+msgid "Hide columns from list view, add post ID column..."
+msgstr "Masquer des colonnes de la vue liste, ajouter la colonne ID du post..."
+
+#: inc/admin/admin.php:460 inc/admin/adminbar.php:58
+msgid "Library"
+msgstr "Bibliothèque média"
+
+#: inc/admin/admin.php:461
+msgid "JPEG quality, add filters type (PDF, DOCX...)"
+msgstr "Qualité JPEG, ajout des filtres par type (PDF, DOCX...)"
+
+#: inc/admin/admin.php:471
+msgid "Color scheme, add custom field in profil..."
+msgstr "Schémas de couleurs, ajout de champs personnalisés dans le Profil..."
+
+#: inc/admin/admin.php:481 inc/admin/admin.php:492 inc/admin/adminbar.php:95
+msgid "Plugins"
+msgstr "Extensions"
+
+#: inc/admin/admin.php:482
+msgid "Remove WP SEO notifications, WPML Ads, WooThemes updater..."
+msgstr ""
+"Supprimer les notifications de WP SEO, WooThemes Updater plugin, et les "
+"publicités de WPML..."
+
+#: inc/admin/admin.php:493
+msgid "Remove WP SEO notifications, WPML Ads, WooThemes updater plugin..."
+msgstr ""
+"Supprimer les notifications de WP SEO, WooThemes Updater plugin, et les "
+"publicités de WPML..."
+
+#: inc/admin/admin.php:504 inc/admin/admin.php:515 inc/admin/adminbar.php:101
+msgid "Themes"
+msgstr "Thèmes"
+
+#: inc/admin/admin.php:505 inc/admin/admin.php:516
+msgid "Create your own admin theme, or choose a preset one."
+msgstr "Créez votre propre thème d'admin, ou choisissez un prédéfini."
+
+#: inc/admin/admin.php:529 inc/admin/admin.php:540
+msgid "Mails"
+msgstr "Mails"
+
+#: inc/admin/admin.php:530 inc/admin/admin.php:541
+msgid "Optimize WP Mails"
+msgstr "Optimiser Mails WP"
+
+#: inc/admin/admin.php:551
+msgid "Role manager"
+msgstr "Rôles"
+
+#: inc/admin/admin.php:552
+msgid "Apply WP Admin UI settings to specific roles."
+msgstr "Appliquer les paramètres de WP Admin UI à certains rôles."
+
+#: inc/admin/admin.php:562
+msgid "Import / export WP Admin UI settings from site to site."
+msgstr "Importer / Exporter les paramètres WP Admin UI d'un site à un autre"
+
+#: inc/admin/admin.php:648
+msgid "Login settings"
+msgstr "Paramètres de l'écran de connexion"
+
+#: inc/admin/admin.php:655
+msgid "Custom login CSS"
+msgstr "CSS personnalisée pour l'écran de connexion"
+
+#: inc/admin/admin.php:663
+msgid "Custom logo url"
+msgstr "URL du logo personnalisée"
+
+#: inc/admin/admin.php:671
+msgid "Custom logo (recommanded width: 320px, height: 75px"
+msgstr "Logo personnalisé (taille recommandée : 320px de large, 75px de haut)"
+
+#: inc/admin/admin.php:679
+msgid "Custom logo title"
+msgstr "Infobulle du logo"
+
+#: inc/admin/admin.php:687
+msgid "Custom background image"
+msgstr "Image d'arrière plan personnalisée"
+
+#: inc/admin/admin.php:695 inc/admin/admin.php:1915
+msgid "Always checked remember me"
+msgstr "Toujours cocher Se souvenir de moi"
+
+#: inc/admin/admin.php:703 inc/admin/admin.php:1931
+msgid "Remove error message for security"
+msgstr "Supprimer les messages d'erreur par sécurité"
+
+#: inc/admin/admin.php:711 inc/admin/admin.php:1947
+msgid "Disable Shake Effect if wrong login"
+msgstr "Désactiver l’effet de secousse si login faux"
+
+#: inc/admin/admin.php:719
+msgid "Redirect users to a specific url after logout"
+msgstr "Rediriger les utilisateurs vers une url spécifique après déconnexion"
+
+#: inc/admin/admin.php:727
+msgid "Redirect users to a specific url after registration"
+msgstr "Rediriger les utilisateurs vers une url spécifique après l'inscription"
+
+#: inc/admin/admin.php:735
+msgid "Disable login by email for users"
+msgstr "Désactiver la connexion par email pour les utilisateurs"
+
+#: inc/admin/admin.php:784 inc/admin/admin.php:4199
+msgid "Custom admin CSS"
+msgstr "Feuille de styles perso pour l'admin"
+
+#: inc/admin/admin.php:792 inc/admin/admin.php:2005 inc/admin/admin.php:4200
+msgid "Remove WordPress version in footer"
+msgstr "Supprimer la version de WordPress dans le pied de page"
+
+#: inc/admin/admin.php:800 inc/admin/admin.php:4201
+msgid "Custom WordPress version in footer"
+msgstr "Version de WordPress personnalisée dans le pied de page"
+
+#: inc/admin/admin.php:808 inc/admin/admin.php:2029 inc/admin/admin.php:4202
+msgid "Remove WordPress credits in footer"
+msgstr "Supprimer les crédits WordPress du pied de page"
+
+#: inc/admin/admin.php:816 inc/admin/admin.php:4203
+msgid "Custom WordPress credits in footer"
+msgstr "Crédits WordPress personnalisé dans le pied de page"
+
+#: inc/admin/admin.php:824 inc/admin/admin.php:4204
+msgid "Custom favicon in admin"
+msgstr "Favicon personnalisé dans l'admin"
+
+#: inc/admin/admin.php:832 inc/admin/admin.php:2063 inc/admin/admin.php:4205
+msgid "Remove help tab"
+msgstr "Supprimer l'onglet Aide"
+
+#: inc/admin/admin.php:840 inc/admin/admin.php:2079 inc/admin/admin.php:4206
+msgid "Remove screen options tab"
+msgstr "Supprimer l'onglet Options de l'écran"
+
+#: inc/admin/admin.php:848 inc/admin/admin.php:4225
+msgid "Disable Open Sans loading from Google"
+msgstr "Désactiver le chargement d'Open Sans depuis Google"
+
+#: inc/admin/admin.php:856
+msgid "Define a new avatar for comments"
+msgstr "Définir un nouvel avatar pour les commentaires"
+
+#: inc/admin/admin.php:864 inc/admin/admin.php:2111 inc/admin/admin.php:4208
+msgid "Hide autogenerated password message"
+msgstr "Masquer \"Vous utilisez un mot de passe auto généré\""
+
+#: inc/admin/admin.php:872 inc/admin/admin.php:4209
+msgid "Number of items per page in list view (default 20)"
+msgstr "Nombre d'items par page dans les vues listes (défaut 20)"
+
+#: inc/admin/admin.php:880
+msgid "Define default view mode in view list"
+msgstr "Définir le mode d’affichage par défaut dans la vue liste"
+
+#: inc/admin/admin.php:888 inc/admin/admin.php:4211
+msgid "Disable file editor for themes and plugins"
+msgstr "Désactiver l'éditeur de fichiers de thèmes et plugins"
+
+#: inc/admin/admin.php:896 inc/admin/admin.php:4212
+msgid "Disable Plugin and Theme Update, and Installation"
+msgstr "Désactiver les mises à jours et l'installation de thèmes et plugins"
+
+#: inc/admin/admin.php:904
+msgid "Block WordPress admin for specific user roles"
+msgstr "Bloquer l’admin de WordPress pour des rôles d’utilisateurs spécifiques"
+
+#: inc/admin/admin.php:912 inc/admin/admin.php:4207
+msgid "Disable WordPress updates notifications"
+msgstr "Désactiver les notifications de mises à jour WordPress"
+
+#: inc/admin/admin.php:920 inc/admin/admin.php:4214
+msgid "Disable all updates"
+msgstr "Désactiver toutes les mises à jour"
+
+#: inc/admin/admin.php:928 inc/admin/admin.php:4215
+msgid "Disable core updates"
+msgstr "Désactiver les mises à jour du core"
+
+#: inc/admin/admin.php:936 inc/admin/admin.php:4216
+msgid "Disable core development updates"
+msgstr "Désactiver les mises à jour du core (dev)"
+
+#: inc/admin/admin.php:944 inc/admin/admin.php:4217
+msgid "Disable minor core updates"
+msgstr "Désactiver les mises à jour mineures du core"
+
+#: inc/admin/admin.php:952 inc/admin/admin.php:4218
+msgid "Disable major core updates"
+msgstr "Désactiver les mises à jour majeures du core"
+
+#: inc/admin/admin.php:960 inc/admin/admin.php:4219
+msgid "Enable automatic updates on Versioning Control System (GIT/SVN)"
+msgstr ""
+"Activer les mises à jour automatiques sur des systèmes de contrôle de "
+"versions (GIT/SVN)"
+
+#: inc/admin/admin.php:968 inc/admin/admin.php:4220
+msgid "Disable automatic updates for all plugins"
+msgstr "Désactiver les mises à jour automatiques pour tous les plugins"
+
+#: inc/admin/admin.php:976 inc/admin/admin.php:4221
+msgid "Disable automatic updates for all themes"
+msgstr "Désactiver les mises à jour automatiques pour tous les thèmes"
+
+#: inc/admin/admin.php:984 inc/admin/admin.php:4222
+msgid "Disable automatic updates for all translations"
+msgstr "Désactiver les mises à jour automatiques pour tous les traductions"
+
+#: inc/admin/admin.php:992 inc/admin/admin.php:4223
+msgid "Disable update emails notifications"
+msgstr "Désactiver les notifications par mail des mises à jour"
+
+#: inc/admin/admin.php:1000
+msgid "Disable Emoji support for old browsers"
+msgstr "Désactiver le support des Emoji pour les anciens navigateurs"
+
+#: inc/admin/admin.php:1008 inc/admin/admin.php:2390
+msgid "Disable JSON REST API"
+msgstr "Désactiver l’API REST JSON"
+
+#: inc/admin/admin.php:1016 inc/admin/admin.php:2406
+msgid "Disable XML RPC"
+msgstr "Désactiver XML RPC"
+
+#: inc/admin/admin.php:1024 inc/admin/admin.php:2422
+msgid "Disable JS/CSS concatenation"
+msgstr "Désactiver la concaténation JS/CSS"
+
+#: inc/admin/admin.php:1033
+msgid "Dashboard settings"
+msgstr "Paramètres du Tableau de bord"
+
+#: inc/admin/admin.php:1040 inc/admin/admin.php:2464 inc/admin/admin.php:4229
+msgid "Remove Welcome Panel"
+msgstr "Supprimer le Panneau de bienvenue"
+
+#: inc/admin/admin.php:1048 inc/admin/admin.php:4230
+msgid "Display Dashboard in a single column"
+msgstr "Afficher le tableau de bord en une seule colonne"
+
+#: inc/admin/admin.php:1056 inc/admin/admin.php:4231
+msgid "Remove dashboard widgets"
+msgstr "Supprimer les widgets du Tableau de bord"
+
+#: inc/admin/admin.php:1064
+msgid ""
+"Disable drag and drop for dashboard widgets (block disabling widgets from "
+"Screen options too)"
+msgstr ""
+"Désactiver le glisser-déposer des widgets du Tableau de bord (cela bloquera "
+"la désactivation des widgets depuis l'onglet Options d'écran)"
+
+#: inc/admin/admin.php:1072 inc/admin/admin.php:2572 inc/admin/admin.php:4233
+msgid "Display all custom post types in At a glance dashboard widget"
+msgstr ""
+"Afficher les types d'articles personnalisés dans le widget D'un coup d'oeil "
+"dans le Tableau de bord"
+
+#: inc/admin/admin.php:1080 inc/admin/admin.php:2588 inc/admin/admin.php:4234
+msgid "Display number of users in At a glance dashboard widget"
+msgstr ""
+"Afficher le nombre d'utilisateurs dans le widget D'un coup d'oeil du Tableau "
+"de bord"
+
+#: inc/admin/admin.php:1088
+msgid "Display your custom widget title"
+msgstr "Afficher votre titre de widget perso"
+
+#: inc/admin/admin.php:1096
+msgid "Display your custom widget"
+msgstr "Afficher votre widget perso"
+
+#: inc/admin/admin.php:1105
+msgid "Admin menu settings"
+msgstr "Paramètres des menus d'admin"
+
+#: inc/admin/admin.php:1112 inc/admin/admin.php:4238
+msgid "Menu Structure"
+msgstr "Structure du menu"
+
+#: inc/admin/admin.php:1120 inc/admin/admin.php:4239
+msgid "Display all settings in menu"
+msgstr "Afficher Tous les paramètres dans le menu"
+
+#: inc/admin/admin.php:1129
+msgid "Admin bar settings"
+msgstr "Paramètres de la barre d'admin"
+
+#: inc/admin/admin.php:1136 inc/admin/admin.php:2769 inc/admin/admin.php:4242
+msgid "Remove WordPress logo in admin bar"
+msgstr "Supprimer le logo WordPress dans la barre d'admin"
+
+#: inc/admin/admin.php:1144 inc/admin/admin.php:4243
+msgid "Custom logo in admin bar"
+msgstr "Logo personnalisé dans l'admin bar"
+
+#: inc/admin/admin.php:1152 inc/admin/admin.php:2794 inc/admin/admin.php:4244
+msgid "Remove Site Name in admin bar"
+msgstr "Supprimer le nom du site dans la barre d'admin"
+
+#: inc/admin/admin.php:1160 inc/admin/admin.php:2810 inc/admin/admin.php:4245
+msgid "Remove My Account in admin bar"
+msgstr "Supprimer Mon compte dans la barre d'admin"
+
+#: inc/admin/admin.php:1168 inc/admin/admin.php:4246
+msgid "Remove Menu Toggle in admin bar"
+msgstr "Supprimer Masquer menu dans la barre d'admin"
+
+#: inc/admin/admin.php:1176 inc/admin/admin.php:2842 inc/admin/admin.php:4247
+msgid "Remove Edit in admin bar"
+msgstr "Supprimer Editer dans la barre d'admin"
+
+#: inc/admin/admin.php:1184 inc/admin/admin.php:2874 inc/admin/admin.php:4248
+msgid "Remove View in admin bar"
+msgstr "Supprimer Voir dans la barre d'admin"
+
+#: inc/admin/admin.php:1192 inc/admin/admin.php:2858 inc/admin/admin.php:4249
+msgid "Remove Preview in admin bar"
+msgstr "Supprimer Prévisualiser dans la barre d'admin"
+
+#: inc/admin/admin.php:1200 inc/admin/admin.php:2890 inc/admin/admin.php:4250
+msgid "Remove Comments in admin bar"
+msgstr "Supprimer Commentaires dans la barre d'admin"
+
+#: inc/admin/admin.php:1208 inc/admin/admin.php:2906 inc/admin/admin.php:4251
+msgid "Remove New Content in admin bar"
+msgstr "Supprimer Nouveau dans la barre d'admin"
+
+#: inc/admin/admin.php:1216 inc/admin/admin.php:2922 inc/admin/admin.php:4252
+msgid "Remove View Site in admin bar"
+msgstr "Supprimer Voir le site dans la barre d'admin"
+
+#: inc/admin/admin.php:1224 inc/admin/admin.php:2938 inc/admin/admin.php:4253
+msgid "Remove Updates in admin bar"
+msgstr "Supprimer Mises à jour dans la barre d'admin"
+
+#: inc/admin/admin.php:1232 inc/admin/admin.php:2954 inc/admin/admin.php:4254
+msgid "Remove customize in admin bar"
+msgstr "Supprimer Personnaliser dans la barre d'admin"
+
+#: inc/admin/admin.php:1240 inc/admin/admin.php:2970 inc/admin/admin.php:4255
+msgid "Remove search in admin bar"
+msgstr "Supprimer Recherche dans la barre d'admin"
+
+#: inc/admin/admin.php:1248 inc/admin/admin.php:2986 inc/admin/admin.php:4256
+msgid "Remove Howdy in admin bar"
+msgstr "Supprimer Salutations de la barre d'admin"
+
+#: inc/admin/admin.php:1256 inc/admin/admin.php:3002 inc/admin/admin.php:4257
+msgid "Remove WP Admin UI in admin bar"
+msgstr "Supprimer WP Admin UI de la barre d'admin"
+
+#: inc/admin/admin.php:1264 inc/admin/admin.php:3018 inc/admin/admin.php:4258
+msgid "Disable admin bar in front-end"
+msgstr "Désactiver la barre d'admin en front-end"
+
+#: inc/admin/admin.php:1273
+msgid "Editor settings"
+msgstr "Paramètres d'éditeur"
+
+#: inc/admin/admin.php:1280 inc/admin/admin.php:4261
+msgid "Enable Full TinyMCE by default"
+msgstr "Activer l'éditeur TinyMCE complet par défaut"
+
+#: inc/admin/admin.php:1288 inc/admin/admin.php:3051 inc/admin/admin.php:4262
+msgid "Add Font Size select"
+msgstr "Ajouter la liste déroulante Taille de la police"
+
+#: inc/admin/admin.php:1296 inc/admin/admin.php:3067 inc/admin/admin.php:4263
+msgid "Add Font Family select"
+msgstr "Ajouter la liste déroulante Famille de Police"
+
+#: inc/admin/admin.php:1304 inc/admin/admin.php:4264
+msgid "Add custom Fonts select"
+msgstr "Ajouter la liste déroulante Polices personnalisées"
+
+#: inc/admin/admin.php:1312 inc/admin/admin.php:3099 inc/admin/admin.php:4265
+msgid "Add Formats select (styles)"
+msgstr "Ajouter la liste déroulante Formats (styles)"
+
+#: inc/admin/admin.php:1320 inc/admin/admin.php:1328 inc/admin/admin.php:4266
+msgid "Remove Get Shortlink button"
+msgstr "Supprimer le bouton Obtenir le lien court"
+
+#: inc/admin/admin.php:1336 inc/admin/admin.php:4267
+msgid "Add New Document button"
+msgstr "Ajouter bouton Nouveau document"
+
+#: inc/admin/admin.php:1344 inc/admin/admin.php:4268
+msgid "Add Cut button"
+msgstr "Ajouter bouton Couper"
+
+#: inc/admin/admin.php:1352 inc/admin/admin.php:4269
+msgid "Add Copy button"
+msgstr "Ajouter bouton Copier"
+
+#: inc/admin/admin.php:1360 inc/admin/admin.php:4270
+msgid "Add Paste button"
+msgstr "Ajouter bouton Coller"
+
+#: inc/admin/admin.php:1368 inc/admin/admin.php:4271
+msgid "Add Backcolor button"
+msgstr "Ajouter le bouton Surlignage"
+
+#: inc/admin/admin.php:1376 inc/admin/admin.php:3211 inc/admin/admin.php:4272
+msgid "Remove Insert Media in Media Modal"
+msgstr "Supprimer Insérer Média dans la modal Media"
+
+#: inc/admin/admin.php:1384 inc/admin/admin.php:3227 inc/admin/admin.php:4273
+msgid "Remove Upload Files in Media Modal"
+msgstr "Supprimer Mettre en ligne dans la modal Media"
+
+#: inc/admin/admin.php:1392 inc/admin/admin.php:3243 inc/admin/admin.php:4274
+msgid "Remove Media Library in Media Modal"
+msgstr "Supprimer Bibliothèque des médias dans la modal Media"
+
+#: inc/admin/admin.php:1400 inc/admin/admin.php:3259 inc/admin/admin.php:4275
+msgid "Remove Create Gallery in Media Modal"
+msgstr "Supprimer Créer galerie dans la modal Media"
+
+#: inc/admin/admin.php:1408 inc/admin/admin.php:3275 inc/admin/admin.php:4276
+msgid "Remove Create Playlist in Media Modal"
+msgstr "Supprimer Créer Playlist dans la modal Media"
+
+#: inc/admin/admin.php:1416 inc/admin/admin.php:3291 inc/admin/admin.php:4277
+msgid "Remove Set Featured Image in Media Modal"
+msgstr "Supprimer Définir comme image à la une dans la modal Media"
+
+#: inc/admin/admin.php:1424 inc/admin/admin.php:3307 inc/admin/admin.php:4278
+msgid "Remove Insert From URL in Media Modal"
+msgstr "Supprimer Insérer depuis une URL dans la modal Media"
+
+#: inc/admin/admin.php:1432 inc/admin/admin.php:4279
+msgid "Add \"p\" quicktags in Text Editor"
+msgstr "Ajouter la balise Paragraphe dans la vue Texte de l'éditeur"
+
+#: inc/admin/admin.php:1440 inc/admin/admin.php:4280
+msgid "Add \"hr\" quicktags in Text Editor"
+msgstr "Ajouter la balise HR dans la vue Texte de l'éditeur"
+
+#: inc/admin/admin.php:1448 inc/admin/admin.php:4281
+msgid "Add \"pre\" quicktags in Text Editor"
+msgstr "Ajouter la balise PRE dans la vue Texte de l'éditeur"
+
+#: inc/admin/admin.php:1456 inc/admin/admin.php:4282
+msgid "Disable formatting_shortcuts in Text Editor"
+msgstr "Désactiver le formatage des raccourcis dans l'éditeur"
+
+#: inc/admin/admin.php:1464 inc/admin/admin.php:4283
+msgid "Set a default image alignment in Text Editor"
+msgstr "Définir un alignement d'image par défaut dans l'éditeur de texte"
+
+#: inc/admin/admin.php:1472 inc/admin/admin.php:4284
+msgid "Set a default link type on images in Text Editor"
+msgstr ""
+"Définir un type de lien par défaut sur les images dans l'éditeur de texte"
+
+#: inc/admin/admin.php:1480 inc/admin/admin.php:4285
+msgid "Set a default image size in Text Editor"
+msgstr "Définir une taille d'image par défaut dans l'éditeur de texte"
+
+#: inc/admin/admin.php:1489
+msgid "Profil settings"
+msgstr "Paramètres du Profil"
+
+#: inc/admin/admin.php:1496 inc/admin/admin.php:3467 inc/admin/admin.php:4318
+msgid "Remove Disable the visual editor when writing"
+msgstr "Supprimer Désactiver l'éditeur visuel lors de l'écriture"
+
+#: inc/admin/admin.php:1504 inc/admin/admin.php:3483 inc/admin/admin.php:4319
+msgid "Remove Admin Color Scheme"
+msgstr "Supprimer les schémas de couleurs"
+
+#: inc/admin/admin.php:1512 inc/admin/admin.php:4320
+msgid "Set a default admin color scheme"
+msgstr "Définir un schéma de couleur d'admin par défaut"
+
+#: inc/admin/admin.php:1520 inc/admin/admin.php:3680 inc/admin/admin.php:4321
+msgid "Remove Enable Keyboard Shortcuts for comment moderation"
+msgstr ""
+"Supprimer Activer les raccourcis claviers pour la modération des commentaires"
+
+#: inc/admin/admin.php:1528 inc/admin/admin.php:3696 inc/admin/admin.php:4322
+msgid "Remove Show Toolbar when viewing site"
+msgstr "Supprimer Afficher la barre d'outils lors de la visualisation du site"
+
+#: inc/admin/admin.php:1537 inc/admin/admin.php:3712
+msgid "Add Facebook field in user profil"
+msgstr "Ajouter le champ Facebook dans le profil utilisateur"
+
+#: inc/admin/admin.php:1545 inc/admin/admin.php:3728
+msgid "Add Twitter field in user profil"
+msgstr "Ajouter le champ Twitter dans le profil utilisateur"
+
+#: inc/admin/admin.php:1553 inc/admin/admin.php:3744
+msgid "Add Instagram field in user profil"
+msgstr "Ajouter le champ Instagram dans le profil utilisateur"
+
+#: inc/admin/admin.php:1561 inc/admin/admin.php:3760
+msgid "Add LinkedIn field in user profil"
+msgstr "Ajouter le champ LinkedIn dans le profil utilisateur"
+
+#: inc/admin/admin.php:1587 inc/admin/admin.php:4297
+msgid "Define JPG image quality (default 90%)"
+msgstr "Définir la qualité d'image JPG (défaut 90%)"
+
+#: inc/admin/admin.php:1595
+msgid "Clean filenames when uploading files to WordPress"
+msgstr "Nettoyer les noms de fichiers lors l'envoi de fichiers dans WordPress"
+
+#: inc/admin/admin.php:1603 inc/admin/admin.php:4299
+msgid "Allow SVG file in media library"
+msgstr "Autoriser les fichiers SVG dans la Bibliothèque de médias"
+
+#: inc/admin/admin.php:1611 inc/admin/admin.php:3821 inc/admin/admin.php:4300
+msgid "Add URL column in media library"
+msgstr "Ajouter la colonne URL dans la Bibliothèque de médias"
+
+#: inc/admin/admin.php:1619 inc/admin/admin.php:3838
+msgid "Add dimensions column in media library"
+msgstr "Ajouter la colonne dimensions dans la Bibliothèque de médias"
+
+#: inc/admin/admin.php:1627 inc/admin/admin.php:3855 inc/admin/admin.php:4302
+msgid "Add EXIF metadata column in media library"
+msgstr "Ajouter la colonne metadata EXIF dans la Bibliothèque de médias"
+
+#: inc/admin/admin.php:1635 inc/admin/admin.php:3872 inc/admin/admin.php:4303
+msgid "Add ID column in media library"
+msgstr "Ajouter la colonne ID dans la Bibliothèque de médias"
+
+#: inc/admin/admin.php:1643 inc/admin/admin.php:4304
+msgid "Add PDF filtering to media library"
+msgstr "Ajouter le filtrage PDF dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1651 inc/admin/admin.php:4305
+msgid "Add ZIP filtering to media library"
+msgstr "Ajouter le filtrage ZIP dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1659 inc/admin/admin.php:4306
+msgid "Add RAR filtering to media library"
+msgstr "Ajouter le filtrage RAR dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1667 inc/admin/admin.php:4307
+msgid "Add 7Z filtering to media library"
+msgstr "Ajouter le filtrage 7Z dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1675 inc/admin/admin.php:4308
+msgid "Add TAR filtering to media library"
+msgstr "Ajouter le filtrage TAR dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1683 inc/admin/admin.php:4309
+msgid "Add SWF filtering to media library"
+msgstr "Ajouter le filtrage SWF dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1691 inc/admin/admin.php:4310
+msgid "Add DOC filtering to media library"
+msgstr "Ajouter le filtrage DOC dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1699 inc/admin/admin.php:4311
+msgid "Add DOCX filtering to media library"
+msgstr "Ajouter le filtrage DOCX dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1707 inc/admin/admin.php:4312
+msgid "Add PPT filtering to media library"
+msgstr "Ajouter le filtrage PPT dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1715 inc/admin/admin.php:4313
+msgid "Add PPTX filtering to media library"
+msgstr "Ajouter le filtrage PPTX dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1723 inc/admin/admin.php:4314
+msgid "Add XLS filtering to media library"
+msgstr "Ajouter le filtrage XLS dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1731 inc/admin/admin.php:4315
+msgid "Add XLSX filtering to media library"
+msgstr "Ajouter le filtrage XLSX dans la bibliothèque des médias"
+
+#: inc/admin/admin.php:1740
+msgid "Roles settings"
+msgstr "Paramètres des Rôles"
+
+#: inc/admin/admin.php:1747
+msgid "&nbsp;"
+msgstr "&nbsp;"
+
+#: inc/admin/admin.php:1809
+msgid "<p>Customize your login screen</p>"
+msgstr "<p>Personnaliser votre Ecran de Connexion</p>"
+
+#: inc/admin/admin.php:1818
+msgid "<p>Customize your Dashboard</p>"
+msgstr "<p>Personnaliser votre Tableau de bord</p>"
+
+#: inc/admin/admin.php:1823
+msgid ""
+"<p>Drag each item into the order you prefer.<br />Click the arrow on the "
+"right of the item to reveal submenus.<br />Check an item to <strong>HIDE</"
+"strong> in WP admin.<br /><strong>NOTE:</strong> Admin Menu Settings does "
+"not apply to this specific page to avoid conflicts.<br /><span style=\"color:"
+"red\"><strong>WARNING:</strong> Be careful if you hide WP Admin UI menu for "
+"admins too!</span></p>"
+msgstr ""
+"<p>Faites glisser chaque élément dans l'ordre que vous préférez.<br>Cliquez "
+"sur la flèche à droite de l'élément pour révéler des sous-menus.<br>Cochez "
+"un élément à <strong>Masquer</strong> dans l'admin WP.<br><strong>Remarque :"
+"</strong> Les réglages du menu d'admin ne s'appliquent pas à cette page "
+"spécifique pour éviter des conflits.<br><span style=\"color:red"
+"\"><strong>Avertissement :</strong> Soyez prudent si vous masquez le menu WP "
+"Admin UI pour les admins aussi !</span></p>"
+
+#: inc/admin/admin.php:1828
+msgid "<p>Customize your Admin bar</p>"
+msgstr "<p>Personnaliser votre Barre d'Admin</p>"
+
+#: inc/admin/admin.php:1833
+msgid "<p>Customize TINY MCE Editor</p>"
+msgstr "<p>Personnaliser l'éditeur TINY MCE</p>"
+
+#: inc/admin/admin.php:1838
+msgid "<p>Manage Profil</p>"
+msgstr "<p>Gérer le Profil</p>"
+
+#: inc/admin/admin.php:1843
+msgid "<p>Customize your Media Library</p>"
+msgstr "<p>Personnaliser votre Bibliothèque des Médias</p>"
+
+#: inc/admin/admin.php:1848
+msgid "<p>Apply settings for specific Roles</p>"
+msgstr "<p>Appliquez les paramètres à des rôles spécifiques</p>"
+
+#: inc/admin/admin.php:1869
+msgid "Link URL when you click on the logo, default WordPress.org"
+msgstr "URL du lien quand vous cliquez sur le logo, défaut, WordPress.org"
+
+#: inc/admin/admin.php:1879
+msgid "Image URL of your custom logo"
+msgstr "URL de l'image de votre logo"
+
+#: inc/admin/admin.php:1889
+msgid "Default: Powered by WordPress.org"
+msgstr "Défaut: Propulsé par WordPress.org"
+
+#: inc/admin/admin.php:1957
+msgid "Eg: http://example.com/"
+msgstr "Ex: http://example.com/"
+
+#: inc/admin/admin.php:1965
+msgid "Eg: http://example.com/thank-you"
+msgstr "Ex: http://example.com/merci"
+
+#: inc/admin/admin.php:1979
+msgid "Disable login by Email for users"
+msgstr "Désactiver la connexion par email pour les utilisateurs"
+
+#: inc/admin/admin.php:2095
+msgid "Remove WordPress update notifications"
+msgstr "Supprimer les notifications de mises à jour WordPress"
+
+#: inc/admin/admin.php:2121
+msgid "Users who have defined their own settings will be overwritten"
+msgstr ""
+"Les utilisateurs qui ont défini leurs propres paramètres seront effacés"
+
+#: inc/admin/admin.php:2142
+msgid "List view mode (default)"
+msgstr "Mode vue liste (défaut)"
+
+#: inc/admin/admin.php:2142
+msgid "Users who have defined their own settings will NOT be overwritten"
+msgstr ""
+"Les utilisateurs qui ont défini leurs propres paramètres ne seront PAS "
+"effacés"
+
+#: inc/admin/admin.php:2150
+msgid "Excerpt view mode"
+msgstr "Mode vue extrait"
+
+#: inc/admin/admin.php:2166
+msgid "Disable file editor"
+msgstr "Désactiver l'éditeur de fichiers"
+
+#: inc/admin/admin.php:2182
+msgid "Disable file modifications"
+msgstr "Désactiver les modifications de fichiers"
+
+#: inc/admin/admin.php:2198
+msgid "Block WordPress backend for specific roles"
+msgstr "Bloquer l’admin de WordPress pour des rôles utilisateurs spécifiques"
+
+#: inc/admin/admin.php:2198
+msgid ""
+"Don't forget to assign this option to specific user roles in the Role "
+"manager page"
+msgstr ""
+"N'oubliez pas d'assigner cette option à des rôles utilisateurs spécifiques "
+"dans la page Rôle du plugin"
+
+#: inc/admin/admin.php:2214
+msgid "Disable all WordPress updates"
+msgstr "Désactiver toutes les mises à jour WP"
+
+#: inc/admin/admin.php:2230 inc/admin/admin.php:2246
+msgid "Disable WordPress core updates"
+msgstr "Désactiver les mises à jour du core"
+
+#: inc/admin/admin.php:2262
+msgid "Disable WordPress core minor updates"
+msgstr "Désactiver les mises à jour mineures du core"
+
+#: inc/admin/admin.php:2278
+msgid "Disable WordPress core major updates"
+msgstr "Désactiver les mises à jour majeures du core"
+
+#: inc/admin/admin.php:2294
+msgid "Enable core updates on a VCS"
+msgstr "Activer les mises à jour du core sur un SCV (GIT/SVN)"
+
+#: inc/admin/admin.php:2310
+msgid "Disable all plugins updates"
+msgstr "Désactiver les mises à jour des plugins"
+
+#: inc/admin/admin.php:2326
+msgid "Disable all themes updates"
+msgstr "Désactiver les mises à jour des thèmes"
+
+#: inc/admin/admin.php:2342
+msgid "Disable all translations updates"
+msgstr "Désactiver les mises à jour des traductions"
+
+#: inc/admin/admin.php:2358
+msgid "Disable emails notifications"
+msgstr "Désactiver les notifications par mail"
+
+#: inc/admin/admin.php:2374
+msgid "Disable Emoji support for old browsers (improve performances)"
+msgstr ""
+"Désactiver le support des Emoji pour les anciens navigateurs (améliore les "
+"performances)"
+
+#: inc/admin/admin.php:2374
+msgid ""
+"Emojis will still continue to work with modern browsers. This setting "
+"applies to every user/visitor in front AND backend."
+msgstr ""
+"Les Emojis continueront de fonctionner avec les navigateurs modernes. Ces "
+"paramètres s'appliquent à l'ensemble des utilisateurs/visiteurs du site, "
+"front ET backend."
+
+#: inc/admin/admin.php:2406
+msgid "Disable XML RPC is strongly recommended for security reasons!"
+msgstr ""
+"Désactiver XML RPC est fortement recommandé pour des raisons de sécurité !"
+
+#: inc/admin/admin.php:2438
+msgid "Disable Open Sans"
+msgstr "Désactiver Open Sans"
+
+#: inc/admin/admin.php:2448
+msgid "Enter your avatar url"
+msgstr "URL de l'image de votre avatar"
+
+#: inc/admin/admin.php:2480
+msgid "Display dashboard widgets in a single column"
+msgstr "Afficher les widgets du Tableau de bord en une seule colonne"
+
+#: inc/admin/admin.php:2530
+msgid "You need to Refresh in order to initialize the dashboard widgets list."
+msgstr ""
+"Vous devez d'abord Rafraichir pour générer la liste des widgets du Tableau "
+"de bord."
+
+#: inc/admin/admin.php:2556
+msgid "Disable Drag and drop for dashboard widgets"
+msgstr "Désactiver le glisser / déposer des widgets dans le Tableau de bord"
+
+#: inc/admin/admin.php:2598
+msgid "My widget title"
+msgstr "Mon titre de widget"
+
+#: inc/admin/admin.php:2691 inc/admin/admin.php:2720
+msgid "Enter your own menu name"
+msgstr "Entrez votre propre nom de menu"
+
+#: inc/admin/admin.php:2752
+msgid "Display all settings (required manage_options capability)"
+msgstr "Afficher Tous les paramètres (requiert la capacité manage_options)"
+
+#: inc/admin/admin.php:2779
+msgid "Recommended size: 32x32 pixels"
+msgstr "Taille recommandée: 32x32 pixels"
+
+#: inc/admin/admin.php:2826
+msgid "Remove Menu Toggle (hamburger icon in responsive mode)"
+msgstr "Supprimer Masquer Menu (icône hamburger en mode responsive)"
+
+#: inc/admin/admin.php:3035
+msgid "Enable full TinyMCE by default"
+msgstr "Activer l'éditeur TinyMCE complet par défaut"
+
+#: inc/admin/admin.php:3083
+msgid "Add Custom Fonts select"
+msgstr "Ajouter la liste déroulante Polices personnalisées"
+
+#: inc/admin/admin.php:3115
+msgid "Remove Get shortlink button"
+msgstr "Supprimer le bouton Obtenir le lien court"
+
+#: inc/admin/admin.php:3131
+msgid " Add New Document button"
+msgstr "Ajouter bouton Nouveau document"
+
+#: inc/admin/admin.php:3147
+msgid " Add Cut button"
+msgstr "Ajouter bouton Couper"
+
+#: inc/admin/admin.php:3163
+msgid " Add Copy button"
+msgstr "Ajouter bouton Copier"
+
+#: inc/admin/admin.php:3179
+msgid " Add Paste button"
+msgstr "Ajouter bouton Coller"
+
+#: inc/admin/admin.php:3195
+msgid " Add Backcolor button"
+msgstr "Ajouter le bouton Surlignage"
+
+#: inc/admin/admin.php:3323
+msgid "Add Paragraph tag in text editor"
+msgstr "Ajouter la balise Paragraphe dans la vue Texte de l'éditeur"
+
+#: inc/admin/admin.php:3339
+msgid "Add HR tag in text editor"
+msgstr "Ajouter la balise HR dans la vue Texte de l'éditeur"
+
+#: inc/admin/admin.php:3355
+msgid "Add PRE tag in text editor"
+msgstr "Ajouter la balise PRE dans la vue Texte de l'éditeur"
+
+#: inc/admin/admin.php:3371
+msgid "Disable WP formatting shortcuts in text editor"
+msgstr "Désactiver le formatage des raccourcis dans l'éditeur"
+
+#: inc/admin/admin.php:3387
+msgid "Left"
+msgstr "Gauche"
+
+#: inc/admin/admin.php:3390
+msgid "Center"
+msgstr "Centre"
+
+#: inc/admin/admin.php:3393
+msgid "Right"
+msgstr "Droite"
+
+#: inc/admin/admin.php:3396 inc/admin/admin.php:3422 inc/admin/admin.php:3509
+msgid "None"
+msgstr "Aucun"
+
+#: inc/admin/admin.php:3413
+msgid "File"
+msgstr "Fichier"
+
+#: inc/admin/admin.php:3416
+msgid "Custom"
+msgstr "Personnalisé"
+
+#: inc/admin/admin.php:3419
+msgid "Post"
+msgstr "Article"
+
+#: inc/admin/admin.php:3502
+msgid ""
+"<strong>WARNING:</strong> To apply color scheme properly, set in the role "
+"manager, what role should apply this setting, then define the default color "
+"scheme and save. If a user has already changed its color scheme, it will be "
+"erased by the selected one."
+msgstr ""
+"<strong>ATTENTION:</strong> Pour appliquer le schéma de couleur proprement, "
+"définissez dans la page Rôle, quels rôles doivent appliquer ce paramètre, "
+"puis appliquez un schéma de couleur par défaut et sauvegardez. Si un "
+"utilisateur a déjà modifier son schéma de couleur, celui ci sera effacé par "
+"le nouveau sélectionné."
+
+#: inc/admin/admin.php:3517
+msgid "Default"
+msgstr "Défaut"
+
+#: inc/admin/admin.php:3525
+msgid "Light"
+msgstr "Light"
+
+#: inc/admin/admin.php:3533
+msgid "Blue"
+msgstr "Blue"
+
+#: inc/admin/admin.php:3541
+msgid "Coffee"
+msgstr "Coffee"
+
+#: inc/admin/admin.php:3549
+msgid "Ectoplasm"
+msgstr "Ectoplasm"
+
+#: inc/admin/admin.php:3557
+msgid "Midnight"
+msgstr "Midnight"
+
+#: inc/admin/admin.php:3565
+msgid "Ocean"
+msgstr "Ocean"
+
+#: inc/admin/admin.php:3573
+msgid "Sunrise"
+msgstr "Sunrise"
+
+#: inc/admin/admin.php:3581 inc/functions/options-profil.php:85
+msgid "WPUI Algua"
+msgstr "WPUI Algua"
+
+#: inc/admin/admin.php:3589 inc/functions/options-profil.php:93
+msgid "WPUI Dark"
+msgstr "WPUI Dark"
+
+#: inc/admin/admin.php:3597 inc/functions/options-profil.php:101
+msgid "WPUI Teal"
+msgstr "WPUI Teal"
+
+#: inc/admin/admin.php:3605 inc/functions/options-profil.php:109
+msgid "WPUI Ice"
+msgstr "WPUI Ice"
+
+#: inc/admin/admin.php:3613 inc/functions/options-profil.php:117
+msgid "WPUI Army"
+msgstr "WPUI Army"
+
+#: inc/admin/admin.php:3621 inc/functions/options-profil.php:125
+msgid "WPUI Bayonne"
+msgstr "WPUI Bayonne"
+
+#: inc/admin/admin.php:3629 inc/functions/options-profil.php:133
+msgid "WPUI Fashion"
+msgstr "WPUI Fashion"
+
+#: inc/admin/admin.php:3637 inc/functions/options-profil.php:141
+msgid "WPUI Cafe"
+msgstr "WPUI Cafe"
+
+#: inc/admin/admin.php:3712
+msgid ""
+"Use get_the_author_meta('wpui-facebook'); to retreive this value in front-end"
+msgstr ""
+"Utilisez get_the_author_meta('wpui-facebook'); pour récupérer la valeur en "
+"front-end"
+
+#: inc/admin/admin.php:3728
+msgid ""
+"Use get_the_author_meta('wpui-twitter'); to retreive this value in front-end"
+msgstr ""
+"Utilisez get_the_author_meta('wpui-twitter'); pour récupérer la valeur en "
+"front-end"
+
+#: inc/admin/admin.php:3744
+msgid ""
+"Use get_the_author_meta('wpui-instagram'); to retreive this value in front-"
+"end"
+msgstr ""
+"Utilisez get_the_author_meta('wpui-instagram'); pour récupérer la valeur en "
+"front-end"
+
+#: inc/admin/admin.php:3760
+msgid ""
+"Use get_the_author_meta('wpui-linkedin'); to retreive this value in front-end"
+msgstr ""
+"Utilisez get_the_author_meta('wpui-linkedin'); pour récupérer la valeur en "
+"front-end"
+
+#: inc/admin/admin.php:3771
+msgid "Existing images must be regenerate to apply new image quality."
+msgstr ""
+"Les images existantes doivent être régénérées pour appliquer les nouveaux "
+"paramètres d'image."
+
+#: inc/admin/admin.php:3787
+msgid "Clean filenames when upload files to media library"
+msgstr ""
+"Nettoyer les noms de fichiers lors de l'envoi de fichiers dans la "
+"Bibliothèque de médias"
+
+#: inc/admin/admin.php:3804
+msgid "Allow SVG file in media library (can present a security risk)"
+msgstr ""
+"Autoriser les fichiers SVG dans la Bibliothèque de médias (peut présenter un "
+"risque pour la sécurité)"
+
+#: inc/admin/admin.php:3892 inc/admin/admin.php:3918 inc/admin/admin.php:3944
+#: inc/admin/admin.php:3970 inc/admin/admin.php:3996 inc/admin/admin.php:4022
+#: inc/admin/admin.php:4048 inc/admin/admin.php:4074 inc/admin/admin.php:4100
+#: inc/admin/admin.php:4126 inc/admin/admin.php:4152 inc/admin/admin.php:4178
+msgid ""
+"This option can not be changed because it's bypassed by a plugin, a mu-"
+"plugin or your theme."
+msgstr ""
+"Cette option ne peut être appliquée car elle est déjà surpassée par un "
+"plugin, un mu-plugin ou votre thème."
+
+#: inc/admin/admin.php:3896
+msgid "Add PDF filter"
+msgstr "Ajouter le filtre PDF"
+
+#: inc/admin/admin.php:3922
+msgid "Add ZIP filter"
+msgstr "Ajouter le filtre ZIP"
+
+#: inc/admin/admin.php:3948
+msgid "Add RAR filter"
+msgstr "Ajouter le filtre RAR"
+
+#: inc/admin/admin.php:3974
+msgid "Add 7Z filter"
+msgstr "Ajouter le filtre 7Z"
+
+#: inc/admin/admin.php:4000
+msgid "Add TAR filter"
+msgstr "Ajouter le filtre TAR"
+
+#: inc/admin/admin.php:4026
+msgid "Add SWF filter"
+msgstr "Ajouter le filtre SWF"
+
+#: inc/admin/admin.php:4052
+msgid "Add DOC filter"
+msgstr "Ajouter le filtre DOC"
+
+#: inc/admin/admin.php:4078
+msgid "Add DOCX filter"
+msgstr "Ajouter le filtre DOCX"
+
+#: inc/admin/admin.php:4104
+msgid "Add PPT filter"
+msgstr "Ajouter le filtre PPT"
+
+#: inc/admin/admin.php:4130
+msgid "Add PPTX filter"
+msgstr "Ajouter le filtre PPTX"
+
+#: inc/admin/admin.php:4156
+msgid "Add XLS filter"
+msgstr "Ajouter le filtre XLS"
+
+#: inc/admin/admin.php:4182
+msgid "Add XLSX filter"
+msgstr "Ajouter le filtre XLSX"
+
+#: inc/admin/admin.php:4210
+msgid "Define default view mode in list view (default list view mode)"
+msgstr ""
+"Définir le mode d'affichage par défaut dans les vues listes (mode de vue par "
+"défaut)"
+
+#: inc/admin/admin.php:4213
+msgid "Block WordPress admin for user roles"
+msgstr "Bloquer l’admin de WordPress pour des rôles d’utilisateurs spécifiques"
+
+#: inc/admin/admin.php:4224
+msgid "Disable JS concatenation"
+msgstr "Désactiver la concaténation JS"
+
+#: inc/admin/admin.php:4226
+msgid "Enable custom avatar"
+msgstr "Activer l'avatar personnalisé"
+
+#: inc/admin/admin.php:4232
+msgid "Disable drag and drop for dashboard widgets"
+msgstr "Désactiver le glisser / déposer des widgets dans le Tableau de bord"
+
+#: inc/admin/admin.php:4235
+msgid "Display a custom widget in Dashboard"
+msgstr "Afficher un widget personnalisé dans le Tableau de bord"
+
+#: inc/admin/admin.php:4288
+msgid "Remove metaboxes"
+msgstr "Supprimer les metaboxes"
+
+#: inc/admin/admin.php:4291
+msgid "Remove columns"
+msgstr "Supprimer les colonnes"
+
+#: inc/admin/admin.php:4292
+msgid "Show post ID column"
+msgstr "Afficher la colonne ID du post"
+
+#: inc/admin/admin.php:4293
+msgid "Show Thumbnail column"
+msgstr "Afficher la colonne miniature"
+
+#: inc/admin/admin.php:4294
+msgid "Show Page Template column"
+msgstr "Afficher la colonne template de page"
+
+#: inc/admin/admin.php:4298
+msgid "Clean filenames when uploading files to media library"
+msgstr "Nettoyer les noms de fichiers lors l'envoi de fichiers dans WordPress"
+
+#: inc/admin/admin.php:4301
+msgid "Add Dimensions column in media library"
+msgstr "Ajouter la colonne dimensions dans la Bibliothèque de médias"
+
+#: inc/admin/admin.php:4323
+msgid "Add Facebook field in Profil"
+msgstr "Ajouter le champ Facebook dans le profil utilisateur"
+
+#: inc/admin/admin.php:4324
+msgid "Add Twitter field in Profil"
+msgstr "Ajouter le champ Twitter dans le profil utilisateur"
+
+#: inc/admin/admin.php:4325
+msgid "Add Instagram field in Profil"
+msgstr "Ajouter le champ Instagram dans le profil utilisateur"
+
+#: inc/admin/admin.php:4326
+msgid "Add LinkedIn field in Profil"
+msgstr "Ajouter le champ LinkedIn dans le profil utilisateur"
+
+#: inc/admin/admin.php:4329
+msgid "Remove WP SEO columns in list view"
+msgstr "Supprimer les colonnes WP SEO dans la vue liste"
+
+#: inc/admin/admin.php:4330
+msgid "Remove WP SEO in admin bar"
+msgstr "Supprimer WP SEO de la barre d'admin"
+
+#: inc/admin/admin.php:4331
+msgid "Move WP SEO Metabox to low position"
+msgstr "Déplacer la metaboxe WP SEO vers le bas"
+
+#: inc/admin/admin.php:4332
+msgid "Remove WP SEO admin notices"
+msgstr "Supprimer les notices d'admin de WP SEO"
+
+#: inc/admin/admin.php:4333
+msgid "Remove WPML advert in publish metabox"
+msgstr "Supprimer la publicité WPML dans la metaboxe Publier"
+
+#: inc/admin/admin.php:4334
+msgid "Remove WPML in admin bar"
+msgstr "Supprimer WPML dans la barre d'admin"
+
+#: inc/admin/admin.php:4335
+msgid "Remove WPML in dashboard widget"
+msgstr "Supprimer le widget WPML du Tableau de bord"
+
+#: inc/admin/admin.php:4336
+msgid "Remove Install the WooThemes Updater plugin"
+msgstr "Supprimer la notification Installer le plugin WooThemes Updater"
+
+#: inc/admin/admin.php:4337
+msgid "Enable field label visibility in Gravity Forms"
+msgstr "Activez la visibilité du label des champs dans Gravity Forms"
+
+#: inc/admin/admin.php:4338
+msgid "Disable Just in Time messages from Jetpack"
+msgstr "Supprimez les messages de notification Jetpack 'Just in Time'"
+
+#: inc/admin/admin.php:4341
+msgid "Enable custom admin Themes"
+msgstr "Activez les thèmes d'admin personnalisés"
+
+#: inc/admin/admin.php:4373
+msgid "Toggle All"
+msgstr "Tout sélectionner"
+
+#: inc/admin/adminbar.php:76
+msgid "Import / Export"
+msgstr "Import / Export"
+
+#: inc/admin/adminbar.php:107
+msgid "License"
+msgstr "Licence"
+
+#: inc/admin/pointers.php:32
+msgid ""
+"Before starting: define which roles to apply settings using Role Manager "
+"page."
+msgstr ""
+"Avant de commencer: définissez à quels rôles utilisateurs doivent "
+"s'appliquer chaque paramètre via la page Rôles."
+
+#: inc/functions/options-admin-bar.php:324
+msgid "Howdy,"
+msgstr "Salutations,"
+
+#: inc/functions/options-admin-menu.php:100
+msgid "All Settings"
+msgstr "Tous les paramètres"
+
+#: inc/functions/options-dashboard.php:165
+msgid " Users"
+msgstr "Utilisateurs"
+
+#: inc/functions/options-dashboard.php:205
+msgid "My custom widget"
+msgstr "Mon widget perso"
+
+#: inc/functions/options-import-export.php:58
+msgid "Please upload a valid .json file"
+msgstr "Veuillez uploader un fichier JSON valide"
+
+#: inc/functions/options-import-export.php:62
+msgid "Please upload a file to import"
+msgstr "Uploader un fichier à importer SVP"
+
+#: inc/functions/options-login.php:163
+msgid "Your credentials are incorrect"
+msgstr "Vos identifiants sont incorrects"
+
+#: inc/functions/options-media-library.php:161
+msgid "EXIF"
+msgstr "EXIF"
+
+#: inc/functions/options-media-library.php:170
+#: inc/functions/options-media-library.php:173
+msgid " second"
+msgstr "seconde"
+
+#: inc/functions/options-media-library.php:177
+msgid " seconds"
+msgstr "secondes"
+
+#: inc/functions/options-media-library.php:217
+msgid "ID"
+msgstr "ID"
+
+#: inc/functions/options-media-library.php:399
+msgid "PDFs"
+msgstr "PDFs"
+
+#: inc/functions/options-media-library.php:399
+msgid "Manage PDFs"
+msgstr "Gérer PDFs"
+
+#: inc/functions/options-media-library.php:402
+msgid "ZIPs"
+msgstr "ZIPs"
+
+#: inc/functions/options-media-library.php:402
+msgid "Manage ZIPs"
+msgstr "Gérer ZIPs"
+
+#: inc/functions/options-media-library.php:405
+msgid "RARs"
+msgstr "RARs"
+
+#: inc/functions/options-media-library.php:405
+msgid "Manage RARs"
+msgstr "Gérer RARs"
+
+#: inc/functions/options-media-library.php:408
+msgid "7Zs"
+msgstr "7Zs"
+
+#: inc/functions/options-media-library.php:408
+msgid "Manage 7Zs"
+msgstr "Gérer 7Zs"
+
+#: inc/functions/options-media-library.php:411
+msgid "TARs"
+msgstr "TARs"
+
+#: inc/functions/options-media-library.php:411
+msgid "Manage TARs"
+msgstr "Gérer TARs"
+
+#: inc/functions/options-media-library.php:414
+msgid "SWFs"
+msgstr "SWFs"
+
+#: inc/functions/options-media-library.php:414
+msgid "Manage SWFs"
+msgstr "Gérer SWFs"
+
+#: inc/functions/options-media-library.php:417
+msgid "DOCs"
+msgstr "DOCs"
+
+#: inc/functions/options-media-library.php:417
+msgid "Manage DOCs"
+msgstr "Gérer DOCs"
+
+#: inc/functions/options-media-library.php:420
+msgid "DOCXs"
+msgstr "DOCXs"
+
+#: inc/functions/options-media-library.php:420
+msgid "Manage DOCXs"
+msgstr "Gérer DOCXs"
+
+#: inc/functions/options-media-library.php:423
+msgid "PPTs"
+msgstr "PPTs"
+
+#: inc/functions/options-media-library.php:423
+msgid "Manage PPTs"
+msgstr "Gérer PPTs"
+
+#: inc/functions/options-media-library.php:426
+msgid "PPTXs"
+msgstr "PPTXs"
+
+#: inc/functions/options-media-library.php:426
+msgid "Manage PPTXs"
+msgstr "Gérer PPTXs"
+
+#: inc/functions/options-media-library.php:429
+msgid "XLSs"
+msgstr "XLSs"
+
+#: inc/functions/options-media-library.php:429
+msgid "Manage XLSs"
+msgstr "Gérer XLSs"
+
+#: inc/functions/options-media-library.php:432
+msgid "XLSXs"
+msgstr "XLSXs"
+
+#: inc/functions/options-media-library.php:432
+msgid "Manage XLSXs"
+msgstr "Gérer XLSXs"
+
+#: inc/functions/options-profil.php:203
+msgid "Facebook URL"
+msgstr "Facebook URL"
+
+#: inc/functions/options-profil.php:227
+msgid "Twitter URL"
+msgstr "Twitter URL"
+
+#: inc/functions/options-profil.php:251
+msgid "Instagram URL"
+msgstr "Instagram URL"
+
+#: inc/functions/options-profil.php:275
+msgid "LinkedIn URL"
+msgstr "LinkedIn URL"
+
+#: wpadminui.php:183
+msgid "Settings"
+msgstr "Paramètres"
+
+#: wpadminui.php:239
+msgid "Revisions"
+msgstr "Révisions"
+
+#: wpadminui.php:243
+msgid "Comments"
+msgstr "Commentaires"
+
+#~ msgid "Import / Export settings"
+#~ msgstr "Paramètres Import / Export"
+
+#~ msgid "Media Library settings"
+#~ msgstr "Paramètres de la Bibliothèque de médias ?"
+
+#~ msgid "Apply settings to specific roles:"
+#~ msgstr "Appliquer les paramètres à des rôles spécifiques :"
+
+#~ msgid ""
+#~ "<p>Drag each item into the order you prefer.<br />Click the arrow on the "
+#~ "right of the item to reveal submenus.<br />Check an item to <strong>HIDE</"
+#~ "strong> in WP admin.</p>"
+#~ msgstr ""
+#~ "<p>Glisser-déposer chaque item dans l'ordre souhaité.<br />Cliquez sur la "
+#~ "flèche dans le coin supérieur droit de l'item pour afficher les sous-"
+#~ "menus.<br />Cochez un item pour <strong>MASQUER</strong> ce dernier de "
+#~ "l'admin WP.</p>"
+
+#~ msgid "Custom logo"
+#~ msgstr "Logo personnalisé"
+
+#~ msgid "Custom login CSS?"
+#~ msgstr "CSS personnalisée pour l'écran de connexion"
+
+#~ msgid "Custom logo url?"
+#~ msgstr "URL du logo personnalisé ?"
+
+#~ msgid "Custom logo?"
+#~ msgstr "Logo personnalisé ?"
+
+#~ msgid "Custom logo title?"
+#~ msgstr "Titre (infobulle) du logo personnalisée ?"
+
+#~ msgid "Custom background image?"
+#~ msgstr "Image d'arrière plan personnalisée ?"
+
+#~ msgid "Always checked remember me?"
+#~ msgstr "Toujours cocher Se souvenir de moi ?"
+
+#~ msgid "Remove error message for security?"
+#~ msgstr "Supprimer les messages d'erreur par sécurité ?"
+
+#~ msgid "Custom admin CSS?"
+#~ msgstr "Feuille de styles perso pour l'admin ?"
+
+#~ msgid "Remove WordPress version in footer?"
+#~ msgstr "Supprimer la version de WordPress dans le pied de page ?"
+
+#~ msgid "Custom WordPress version in footer?"
+#~ msgstr "Version de WordPress personnalisée dans le pied de page ?"
+
+#~ msgid "Remove WordPress credits in footer?"
+#~ msgstr "Supprimer les crédits WordPress du pied de page ?"
+
+#~ msgid "Custom WordPress credits in footer?"
+#~ msgstr "Crédits WordPress personnalisé dans le pied de page ?"
+
+#~ msgid "Custom favicon in admin?"
+#~ msgstr "Favicon personnalisé dans l'admin ?"
+
+#~ msgid "Remove help tab?"
+#~ msgstr "Supprimer l'onglet Aide ?"
+
+#~ msgid "Remove screen options tab?"
+#~ msgstr "Supprimer l'onglet Options de l'écran ?"
+
+#~ msgid "Disable Open Sans loading from Google?"
+#~ msgstr "Désactiver le chargement d'Open Sans depuis Google ?"
+
+#~ msgid "Hide autogenerated password message?"
+#~ msgstr "Masquer \"Vous utilisez un mot de passe auto généré\" ?"
+
+#~ msgid "Number of items per page in list view? (default 20)"
+#~ msgstr "Nombre d'items par page dans les vues listes (défaut 20)"
+
+#~ msgid "Disable file editor for themes and plugins?"
+#~ msgstr "Désactiver l'éditeur de fichiers de thèmes et plugins ?"
+
+#~ msgid "Disable Plugin and Theme Update, and Installation?"
+#~ msgstr ""
+#~ "Désactiver les mises à jours et l'installation de thèmes et plugins ?"
+
+#~ msgid "Disable WordPress updates notifications?"
+#~ msgstr "Désactiver les notifications de mises à jour WordPress ?"
+
+#~ msgid "Disable all updates?"
+#~ msgstr "Désactiver toutes les mises à jour ?"
+
+#~ msgid "Disable core updates?"
+#~ msgstr "Désactiver les mises à jour du core ?"
+
+#~ msgid "Disable core development updates?"
+#~ msgstr "Désactiver les mises à jour du core (dev) ?"
+
+#~ msgid "Disable minor core updates?"
+#~ msgstr "Désactiver les mises à jour mineures du core ?"
+
+#~ msgid "Disable major core updates?"
+#~ msgstr "Désactiver les mises à jour majeures du core ?"
+
+#~ msgid "Enable automatic updates on Versioning Control System (GIT/SVN)?"
+#~ msgstr ""
+#~ "Activer les mises à jour automatiques sur des systèmes de contrôle de "
+#~ "versions (GIT/SVN) ?"
+
+#~ msgid "Disable automatic updates for all plugins?"
+#~ msgstr "Désactiver les mises à jour automatiques pour tous les plugins ?"
+
+#~ msgid "Disable automatic updates for all themes?"
+#~ msgstr "Désactiver les mises à jour automatiques pour tous les thèmes ?"
+
+#~ msgid "Disable automatic updates for all translations?"
+#~ msgstr ""
+#~ "Désactiver les mises à jour automatiques pour tous les traductions ?"
+
+#~ msgid "Disable update emails notifications?"
+#~ msgstr "Désactiver les notifications par mail des mises à jour ?"
+
+#~ msgid "Disable JS concatenation?"
+#~ msgstr "Désactiver la concaténation JS ?"
+
+#~ msgid "Remove Welcome Panel?"
+#~ msgstr "Supprimer le Panneau de bienvenue"
+
+#~ msgid "Remove dashboard widgets?"
+#~ msgstr "Supprimer les widgets du Tableau de bord"
+
+#~ msgid "Display all settings in menu?"
+#~ msgstr "Afficher Tous les paramètres dans le menu ?"
+
+#~ msgid "Remove WordPress logo in admin bar?"
+#~ msgstr "Supprimer le logo WordPress dans la barre d'admin"
+
+#~ msgid "Remove Site Name in admin bar?"
+#~ msgstr "Supprimer le nom du site dans la barre d'admin ?"
+
+#~ msgid "Remove My Account in admin bar?"
+#~ msgstr "Supprimer Mon compte dans la barre d'admin ?"
+
+#~ msgid "Remove Menu Toggle in admin bar?"
+#~ msgstr "Supprimer Masquer menu dans la barre d'admin ?"
+
+#~ msgid "Remove Edit in admin bar?"
+#~ msgstr "Supprimer Editer dans la barre d'admin"
+
+#~ msgid "Remove View in admin bar?"
+#~ msgstr "Supprimer Voir dans la barre d'admin ?"
+
+#~ msgid "Remove Preview in admin bar?"
+#~ msgstr "Supprimer Prévisualiser dans la barre d'admin ?"
+
+#~ msgid "Remove Comments in admin bar?"
+#~ msgstr "Supprimer Commentaires dans la barre d'admin ?"
+
+#~ msgid "Remove New Content in admin bar?"
+#~ msgstr "Supprimer Nouveau dans la barre d'admin ?"
+
+#~ msgid "Remove View Site in admin bar?"
+#~ msgstr "Supprimer Voir le site dans la barre d'admin ?"
+
+#~ msgid "Remove Updates in admin bar?"
+#~ msgstr "Supprimer Mises à jour dans la barre d'admin ?"
+
+#~ msgid "Remove customize in admin bar?"
+#~ msgstr "Supprimer Personnaliser dans la barre d'admin ?"
+
+#~ msgid "Remove search in admin bar?"
+#~ msgstr "Supprimer Recherche dans la barre d'admin"
+
+#~ msgid "Disable admin bar in front-end?"
+#~ msgstr "Désactiver la barre d'admin en front-end ?"
+
+#~ msgid "Enable Full TinyMCE by default?"
+#~ msgstr "Activer l'éditeur TinyMCE complet par défaut ?"
+
+#~ msgid "Add Font Size select?"
+#~ msgstr "Ajouter la liste déroulante Taille de la police ?"
+
+#~ msgid "Add Font Family select?"
+#~ msgstr "Ajouter la liste déroulante Famille de Police ?"
+
+#~ msgid "Add custom Fonts select?"
+#~ msgstr "Ajouter la liste déroulante Polices personnalisées ?"
+
+#~ msgid "Add Formats select (styles)?"
+#~ msgstr "Ajouter la liste déroulante Formats (styles) ?"
+
+#~ msgid "Remove Get Shortlink button?"
+#~ msgstr "Supprimer le bouton Obtenir le lien court ?"
+
+#~ msgid "Add New Document button?"
+#~ msgstr "Ajouter bouton Nouveau document ?"
+
+#~ msgid "Add Cut button?"
+#~ msgstr "Ajouter bouton Couper ?"
+
+#~ msgid "Add Copy button?"
+#~ msgstr "Ajouter bouton Copier ?"
+
+#~ msgid "Add Paste button?"
+#~ msgstr "Ajouter bouton Coller ?"
+
+#~ msgid "Add Backcolor button?"
+#~ msgstr "Ajouter le bouton Surlignage ?"
+
+#~ msgid "Remove Insert Media in Media Modal?"
+#~ msgstr "Supprimer Insérer Média dans la modal Media ?"
+
+#~ msgid "Remove Upload Files in Media Modal?"
+#~ msgstr "Supprimer Mettre en ligne dans la modal Media ?"
+
+#~ msgid "Remove Media Library in Media Modal?"
+#~ msgstr "Supprimer Bibliothèque des médias dans la modal Media ?"
+
+#~ msgid "Remove Create Gallery in Media Modal?"
+#~ msgstr "Supprimer Créer galerie dans la modal Media ?"
+
+#~ msgid "Remove Create Playlist in Media Modal?"
+#~ msgstr "Supprimer Créer Playlist dans la modal Media ?"
+
+#~ msgid "Remove Set Featured Image in Media Modal?"
+#~ msgstr "Supprimer Définir comme image à la une dans la modal Media ?"
+
+#~ msgid "Remove Insert From URL in Media Modal?"
+#~ msgstr "Supprimer Insérer depuis une URL dans la modal Media ?"
+
+#~ msgid "Add \"p\" quicktags in Text Editor?"
+#~ msgstr "Ajouter la balise Paragraphe dans la vue Texte de l'éditeur ?"
+
+#~ msgid "Add \"hr\" quicktags in Text Editor?"
+#~ msgstr "Ajouter la balise HR dans la vue Texte de l'éditeur ?"
+
+#~ msgid "Add \"pre\" quicktags in Text Editor?"
+#~ msgstr "Ajouter la balise PRE dans la vue Texte de l'éditeur ?"
+
+#~ msgid "Remove Disable the visual editor when writing?"
+#~ msgstr "Supprimer Désactiver l'éditeur visuel lors de l'écriture ?"
+
+#~ msgid "Remove Admin Color Scheme?"
+#~ msgstr "Supprimer les schémas de couleurs ?"
+
+#~ msgid "Set a default admin color scheme?"
+#~ msgstr "Définir un schéma de couleur d'admin par défaut ?"
+
+#~ msgid "Remove Enable Keyboard Shortcuts for comment moderation?"
+#~ msgstr ""
+#~ "Supprimer Activer les raccourcis claviers pour la modération des "
+#~ "commentaires ?"
+
+#~ msgid "Remove Show Toolbar when viewing site?"
+#~ msgstr ""
+#~ "Supprimer Afficher la barre d'outils lors de la visualisation du site ?"
+
+#~ msgid "Define JPG image quality (default 90%)?"
+#~ msgstr "Définir la qualité d'image JPG (défaut 90%) ?"
+
+#~ msgid "Add PDF filtering to media library?"
+#~ msgstr "Ajouter le filtrage PDF dans la bibliothèque des médias ?"
+
+#~ msgid "Add ZIP filtering to media library?"
+#~ msgstr "Ajouter le filtrage ZIP dans la bibliothèque des médias ?"
+
+#~ msgid "Add RAR filtering to media library?"
+#~ msgstr "Ajouter le filtrage RAR dans la bibliothèque des médias ?"
+
+#~ msgid "Add 7Z filtering to media library?"
+#~ msgstr "Ajouter le filtrage 7Z dans la bibliothèque des médias ?"
+
+#~ msgid "Add TAR filtering to media library?"
+#~ msgstr "Ajouter le filtrage TAR dans la bibliothèque des médias ?"
+
+#~ msgid "Add SWF filtering to media library?"
+#~ msgstr "Ajouter le filtrage SWF dans la bibliothèque des médias ?"
+
+#~ msgid "Add DOC filtering to media library?"
+#~ msgstr "Ajouter le filtrage DOC dans la bibliothèque des médias ?"
+
+#~ msgid "Add DOCX filtering to media library?"
+#~ msgstr "Ajouter le filtrage DOCX dans la bibliothèque des médias ?"
+
+#~ msgid "Add PPT filtering to media library?"
+#~ msgstr "Ajouter le filtrage PPT dans la bibliothèque des médias ?"
+
+#~ msgid "Add PPTX filtering to media library?"
+#~ msgstr "Ajouter le filtrage PPTX dans la bibliothèque des médias ?"
+
+#~ msgid "Add XLS filtering to media library?"
+#~ msgstr "Ajouter le filtrage XLS dans la bibliothèque des médias ?"
+
+#~ msgid "Add XLSX filtering to media library?"
+#~ msgstr "Ajouter le filtrage XLSX dans la bibliothèque des médias ?"
+
+#~ msgid "Remove WordPress update notifications?"
+#~ msgstr "Supprimer les notifications de mises à jour WordPress ?"
+
+#~ msgid "Disable file editor?"
+#~ msgstr "Désactiver l'éditeur de fichiers ?"
+
+#~ msgid "Disable file modifications?"
+#~ msgstr "Désactiver les modifications de fichiers ?"
+
+#~ msgid "Disable all WordPress updates?"
+#~ msgstr "Désactiver toutes les mises à jour WP ?"
+
+#~ msgid "Disable WordPress core updates?"
+#~ msgstr "Désactiver les mises à jour du core ?"
+
+#~ msgid "Disable WordPress core minor updates?"
+#~ msgstr "Désactiver les mises à jour mineures du core ?"
+
+#~ msgid "Disable WordPress core major updates?"
+#~ msgstr "Désactiver les mises à jour majeures du core ?"
+
+#~ msgid "Enable core updates on a VCS?"
+#~ msgstr "Activer les mises à jour du core sur un SCV (GIT/SVN) ?"
+
+#~ msgid "Disable all plugins updates?"
+#~ msgstr "Désactiver les mises à jour des plugins ?"
+
+#~ msgid "Disable all themes updates?"
+#~ msgstr "Désactiver les mises à jour des thèmes ?"
+
+#~ msgid "Disable all translations updates?"
+#~ msgstr "Désactiver les mises à jour des traductions ?"
+
+#~ msgid "Disable emails notifications?"
+#~ msgstr "Désactiver les notifications par mail ?"
+
+#~ msgid "Disable Open Sans?"
+#~ msgstr "Désactiver Open Sans ?"
+
+#~ msgid "Display all settings (required manage_options capability)?"
+#~ msgstr ""
+#~ "Afficher Tous les paramètres (requiert la capacité manage_options) ?"
+
+#~ msgid "Remove Menu Toggle (hamburger icon in responsive mode)?"
+#~ msgstr "Supprimer Masquer Menu (icône hamburger en mode responsive) ?"
+
+#~ msgid "Enable full TinyMCE by default?"
+#~ msgstr "Activer l'éditeur TinyMCE complet par défaut ?"
+
+#~ msgid "Add Custom Fonts select?"
+#~ msgstr "Ajouter la liste déroulante Polices personnalisées ?"
+
+#~ msgid "Remove Get shortlink button?"
+#~ msgstr "Supprimer le bouton Obtenir le lien court ?"
+
+#~ msgid " Add New Document button?"
+#~ msgstr "Ajouter bouton Nouveau document ?"
+
+#~ msgid " Add Cut button?"
+#~ msgstr "Ajouter bouton Couper ?"
+
+#~ msgid " Add Copy button?"
+#~ msgstr "Ajouter bouton Couper ?"
+
+#~ msgid " Add Paste button?"
+#~ msgstr "Ajouter bouton Coller ?"
+
+#~ msgid " Add Backcolor button?"
+#~ msgstr "Ajouter le bouton Surlignage ?"
+
+#~ msgid "Add Paragraph tag in text editor?"
+#~ msgstr "Ajouter la balise Paragraphe dans la vue Texte de l'éditeur ?"
+
+#~ msgid "Add HR tag in text editor?"
+#~ msgstr "Ajouter la balise HR dans la vue Texte de l'éditeur ?"
+
+#~ msgid "Add PRE tag in text editor?"
+#~ msgstr "Ajouter la balise PRE dans la vue Texte de l'éditeur ?"
+
+#~ msgid "Add PDF filter?"
+#~ msgstr "Ajouter le filtre PDF ?"
+
+#~ msgid "Add ZIP filter?"
+#~ msgstr "Ajouter le filtre ZIP ?"
+
+#~ msgid "Add RAR filter?"
+#~ msgstr "Ajouter le filtre RAR ?"
+
+#~ msgid "Add 7Z filter?"
+#~ msgstr "Ajouter le filtre 7Z ?"
+
+#~ msgid "Add TAR filter?"
+#~ msgstr "Ajouter le filtre TAR ?"
+
+#~ msgid "Add SWF filter?"
+#~ msgstr "Ajouter le filtre SWF ?"
+
+#~ msgid "Add DOC filter?"
+#~ msgstr "Ajouter le filtre DOC ?"
+
+#~ msgid "Add DOCX filter?"
+#~ msgstr "Ajouter le filtre DOCX ?"
+
+#~ msgid "Add PPT filter?"
+#~ msgstr "Ajouter le filtre PPT ?"
+
+#~ msgid "Add PPTX filter?"
+#~ msgstr "Ajouter le filtre PPTX ?"
+
+#~ msgid "Add XLS filter?"
+#~ msgstr "Ajouter le filtre XLS ?"
+
+#~ msgid "Add XLSX filter?"
+#~ msgstr "Ajouter le filtre XLSX ?"
+
+#~ msgid "Remove WP SEO columns in list view?"
+#~ msgstr "Supprimer les colonnes WP SEO dans la vue liste ?"
+
+#~ msgid "Move WP SEO Metabox to low position?"
+#~ msgstr "Déplacer la metaboxe WP SEO vers le bas ?"
+
+#~ msgid "Remove WPML advert in publish metabox?"
+#~ msgstr "Supprimer la publicité WPML dans la metaboxe Publier ?"
+
+#~ msgid "Remove WPML in admin bar?"
+#~ msgstr "Supprimer WPML dans la barre d'admin ?"
+
+#~ msgid "Remove WPML in dashboard widget?"
+#~ msgstr "Supprimer le widget WPML du Tableau de bord ?"
+
+#~ msgid "Remove Install the WooThemes Updater plugin?"
+#~ msgstr "Supprimer la notification Installer le plugin WooThemes Updater ?"
+
+#~ msgid "Get it!"
+#~ msgstr "Acheter!"
+
+#~ msgid "Empty trash automatically after x days? (0 to disable trash feature)"
+#~ msgstr ""
+#~ "Vider la corbeille automatiquement après x jours? (0 pour désactiver la "
+#~ "corbeille)"
+
+#~ msgid "Change default autosave interval? (in seconds, 0 to disable)"
+#~ msgstr ""
+#~ "Modifier l'intervalle par défaut de la sauvegarde automatique ? (en "
+#~ "secondes, 0 pour désactiver)"
+
+#~ msgid "Limit posts revisions? (0 to disable)"
+#~ msgstr "Limiter les révisions d'articles ? (0 pour désactiver)"
+
+#~ msgid "Users who have defined their own settings will not be overwritten"
+#~ msgstr ""
+#~ "Les utilisateurs qui ont défini leurs propres paramètres ne seront pas "
+#~ "supprimés."
+
+#~ msgid "Empty trash automatically after x days?"
+#~ msgstr "Vider la corbeille automatiquement après x jours ?"
+
+#~ msgid "Remove trash in posts, pages, custom post type...?"
+#~ msgstr ""
+#~ "Supprimer la corbeille pour les articles, pages, types d'articles "
+#~ "personnalisés... ?"
+
+#~ msgid "Disable trash feature?"
+#~ msgstr "Désactiver la corbeille ?"
+
+#~ msgid ""
+#~ "<strong>Before starting:</strong> define which roles to apply settings "
+#~ "using Role Manager page."
+#~ msgstr ""
+#~ "<strong>Avant de commencer:</strong> définissez à quels rôles doivent "
+#~ "s'appliquer les paramètres depuis la page Rôle."
