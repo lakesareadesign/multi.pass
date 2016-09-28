@@ -1,0 +1,85 @@
+/*--------------------------------------
+SITE NAME
+---------------------------------------*/
+.flatty-site-name {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 20px 40px 20px;
+    font-size: 60px;
+    line-height: 60px;
+    font-weight: 300;
+    color: #fff;
+    text-align: center;
+}
+
+.flatty-site-name.small {
+    font-size: 40px;
+    padding: 10px 20px 20px 20px;
+}
+
+.admin-color-light .flatty-site-name {
+    color:#333;
+}
+
+/*--------------------------------------
+LOGIN
+---------------------------------------*/
+.flatty-login-footer {
+    display:block;
+    position:relative;
+    width:100%;
+    text-align: center;
+    color:#ccc;
+    font-weight:600;
+}
+
+@media only screen and (max-width: 960px) {
+    .flatty-site-name {
+        padding: 1rem;
+        font-size: 30px;
+    }
+
+}
+
+@media only screen and (max-width: 782px) {
+    .flatty-top-bar-logo {
+        display: none;
+        /*
+        position: relative;
+        top:0;
+        left:0;
+        margin:10px 0;
+        */
+    }
+
+    .flatty-top-bar-logo img {
+        display: block;
+        height:40px;
+        margin:auto;
+    }
+
+    .flatty-top-bar {
+        display: none;
+        /*
+        right:0;
+        text-align:center;
+        */
+    }
+
+    .flatty-top-bar a {
+        padding: 15px 20px;
+    }
+
+    .flatty-site-name {
+        display: none;
+        /*
+        padding: 1rem;
+        font-size: 30px;
+        line-height: 30px;
+        margin-bottom:10px;
+        */
+    }
+
+}

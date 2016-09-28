@@ -1,0 +1,146 @@
+/*--------------------------------------
+NOTICES
+---------------------------------------*/
+.notice,
+div.error,
+div.updated {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  background: #F9F7EA;
+  border-left:none;
+  border-right: solid 4px #03A9F4;
+  box-shadow: none;
+  margin: 10px 0 10px;
+  padding: 10px 20px;
+}
+
+.notice .button,
+div.error .button,
+div.updated .button {
+  padding: 0;
+  color: #C14646;
+  font-size: inherit;
+  font-weight: 600;
+  background-color: transparent;
+  background:none;
+  text-shadow: none;
+  border: none;
+  box-shadow: none;
+  vertical-align: inherit;
+}
+
+.notice .button:hover,
+.notice .button:active,
+.notice .button:focus,
+div.error .button:hover,
+div.error .button:active,
+div.error .button:focus,
+div.updated .button:hover,
+div.updated .button:focus,
+div.updated .button:active {
+  padding: 0;
+  color: #C14646;
+  font-size: inherit;
+  font-weight: 600;
+  background-color: transparent;
+  background:none;
+  text-shadow: none;
+  border: none;
+  box-shadow: none;
+  vertical-align: inherit;
+  text-decoration: underline;
+}
+
+.form-table td .notice p,.notice p,.notice-title,div.error p,div.updated p {
+margin:0;
+padding:0;
+}
+
+.updated a {
+padding-bottom:0;
+}
+
+.notice-large {
+padding:10px 20px;
+}
+
+.notice-title {
+  display:inline-block;
+  color:#23282d;
+  font-size:18px;
+}
+
+.wp-core-ui .notice.is-dismissible {
+  padding-right:38px;
+  position:relative;
+}
+
+.notice-dismiss {
+  position:absolute;
+  top:0;
+  right:1px;
+  border:none;
+  background:0 0;
+  color:#b4b9be;
+  cursor:pointer;
+  margin:0;
+  padding:9px;
+}
+
+.notice-dismiss:focus {
+outline:0;
+box-shadow:0 0 0 1px #5b9dd9,0 0 2px 1px rgba(30,140,190,.8);
+}
+
+.notice-success,div.updated {
+border-right-color:#46b450;
+}
+
+.notice-success.notice-alt {
+background-color:#ecf7ed;
+}
+
+.notice-warning {
+border-right-color:#ffb900;
+}
+
+.notice-warning.notice-alt {
+background-color:#fff8e5;
+}
+
+.notice-error,div.error {
+border-right-color:#dc3232;
+}
+
+.notice-error.notice-alt {
+background-color:#fbeaea;
+}
+
+.notice-info {
+border-right-color:#00a0d2;
+}
+
+.notice-info.notice-alt {
+background-color:#e5f5fa;
+}
+
+.media-upload-form .notice,
+.media-upload-form div.error,
+.wrap .notice,
+.wrap div.error,
+.wrap div.updated {
+    margin: 10px 0px 10px;
+}
+
+.wp-core-ui .notice.is-dismissible {
+  padding-right:46px;
+}
+
+.notice-dismiss {
+  padding:10px;
+}
+
+.error.hidden {
+  display:none!important;
+}

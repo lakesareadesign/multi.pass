@@ -1,0 +1,50 @@
+/*--------------------------------------
+FLATTY TOP BAR
+---------------------------------------*/
+.flatty-top-bar {
+    display:block;
+    position:relative;
+    top:0;
+    right:30px;
+    width:100%;
+    text-align:right;
+    font-size:1.3rem;
+    color:#fff;
+    z-index: 9;
+}
+
+.flatty-top-bar a {
+    display:inline-block;
+    position:relative;
+    color:inherit;
+    padding:25px 20px;
+}
+
+.flatty-top-bar a i {
+    position:relative;
+    padding-right:0.5rem;
+}
+
+.flatty-top-bar a:hover {
+    opacity:0.8;
+}
+
+.admin-color-light .flatty-top-bar {
+    color:#333;
+}
+
+/*--------------------------------------
+FLATTY TOP BAR LOGO
+---------------------------------------*/
+.flatty-top-bar-logo {
+    display:block;
+    position:absolute;
+    top:10px;
+    left:30px;
+    max-height: 50px;
+    z-index: 9;
+}
+
+.flatty-top-bar-logo img {
+    height:50px;
+}

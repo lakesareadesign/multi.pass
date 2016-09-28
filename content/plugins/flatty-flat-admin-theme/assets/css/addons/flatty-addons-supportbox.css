@@ -1,0 +1,175 @@
+/*--------------------------------------
+SUPPORT BOX
+---------------------------------------*/
+#adminmenumain {
+  top:120px;
+}
+
+.flatty-support-box {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  box-sizing: border-box;
+  padding: 10px 10px;
+  width: 160px;
+  max-height: 110px;
+  font-weight: 400;
+  color: #fff;
+  background-color: rgba(241, 241, 241, 0.2);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0.12) 100%);
+  border-top: solid 2px #fff;
+  text-align: left;
+  z-index: 2;
+}
+
+.admin-color-light .flatty-support-box {
+    color:#333;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.flatty-support-box a {
+  color:inherit;
+  font-weight: 600;
+}
+
+.flatty-support-box a:hover {
+  opacity:0.8;
+}
+
+.flatty-support-box .support-name {
+  position:relative;
+  flex-basis: 100%;
+  font-size:1.7rem;
+  line-height: 2rem;
+  font-weight: 300;
+  margin-bottom:15px;
+}
+
+.flatty-support-box .support-website {
+  flex-basis: 33%;
+  text-align: center;
+  font-size:1.4rem;
+  cursor:pointer;
+}
+
+.flatty-support-box .support-email {
+    flex-basis: 33%;
+    text-align: center;
+    font-size:1.4rem;
+    cursor:pointer;
+}
+
+.flatty-support-box .support-phone {
+    flex-basis: 33%;
+    text-align: center;
+    font-size:1.4rem;
+    cursor:pointer;
+}
+
+.flatty-support-box .support-phone .support-phone-hover {
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    font-size:4em;
+    color:#fff;
+    background-color: rgba(0,0,0,.85);
+}
+
+.flatty-support-box .support-phone:active .support-phone-hover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body.folded .flatty-support-box {
+    flex-direction: column;
+    padding: 0;
+    width: 36px;
+    max-height: 120px;
+    justify-content: center;
+}
+
+body.folded .flatty-support-box .support-name {
+    visibility: hidden;
+    width: 36px;
+    height: 30px;
+    line-height: 1em;
+    font-weight: 600;
+    font-size: 30px;
+    text-indent: 8px;
+    margin-bottom: 5px;
+}
+
+body.folded .flatty-support-box .support-name::first-letter {
+  visibility: visible;
+}
+
+body.folded .flatty-support-box .support-website,
+body.folded .flatty-support-box .support-email,
+body.folded .flatty-support-box .support-phone {
+  width:100%;
+  height:16px;
+  padding:0;
+  text-align:center;
+  margin:5px 0;
+}
+
+body.folded .flatty-support-box .support-website i,
+body.folded .flatty-support-box .support-email i {
+  display: inline-block;
+  padding:0;
+  font-size:16px;
+}
+
+@media only screen and (max-width: 960px) {
+  .flatty-support-box {
+    flex-direction: column;
+    padding: 0;
+    width: 36px;
+    max-height: 120px;
+    justify-content: center;
+  }
+
+  .flatty-support-box .support-name {
+    visibility: hidden;
+    width: 36px;
+    height: 30px;
+    line-height: 1em;
+    font-weight: 600;
+    font-size: 30px;
+    text-indent: 8px;
+    margin-bottom: 5px;
+  }
+
+  .flatty-support-box .support-name::first-letter {
+    visibility: visible;
+  }
+
+  .flatty-support-box .support-website,
+  .flatty-support-box .support-email,
+  .flatty-support-box .support-phone {
+    flex-basis: auto;
+    height:16px;
+    padding:0;
+    text-align:center;
+    margin: 5px 0;
+  }
+
+  .flatty-support-box .support-website i,
+  .flatty-support-box .support-email i {
+    display: inline-block;
+    padding:0;
+    font-size:16px;
+  }
+
+}
+
+@media screen and (max-width: 782px) {
+  .flatty-support-box {
+    display:none;
+  }
+
+}

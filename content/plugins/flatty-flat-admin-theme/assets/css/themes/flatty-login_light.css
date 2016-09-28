@@ -1,0 +1,56 @@
+/*--------------------------------------
+LOGIN
+---------------------------------------*/
+body.login {
+    background-color: #f5f5f5;
+    background: -webkit-linear-gradient(225deg, #45484d 0%,#000000 100%);
+    background: linear-gradient(-135deg, #f5f5f5 0%,#fff 100%);
+}
+
+.login form {
+    border-top: solid 5px #607D8B;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    padding: 2rem 3rem;
+}
+
+#login form p {
+    margin-bottom: 1rem;
+}
+
+.login label {
+    font-size: 1.8rem;
+    font-weight: 300;
+}
+
+.login form .input {
+    padding: 0.3rem 1rem;
+    border: none;
+    border-bottom: solid 2px #eee;
+    box-shadow: none;
+}
+
+.login form .forgetmenot {
+    margin-bottom: 0;
+    margin-top: 3px;
+}
+
+.login form .forgetmenot label {
+    font-size: 0.9rem;
+    line-height: initial;
+    font-weight: 500;
+}
+
+.login #nav, .login #backtoblog {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    padding: 0;
+    width: 49.4%;
+    margin: 3rem 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+.login form input[type=checkbox]:checked {
+    background-color: #1abc9c;
+}

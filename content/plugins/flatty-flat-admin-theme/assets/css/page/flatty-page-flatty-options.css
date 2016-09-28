@@ -1,0 +1,181 @@
+/*--------------------------------------
+FLATTY OPTIONS
+---------------------------------------*/
+.flatty-form .page-title {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+}
+
+.page-title .flatty-logo {
+    display: inline-block;
+    position: relative;
+    width:150px;
+    height:80px;
+    margin-right:20px;
+}
+
+.page-title .header {
+    display: inline-block;
+    position: relative;
+    font-size:3rem;
+    line-height: 2rem;
+    font-weight: 300;
+}
+
+.introduction {
+    display:block;
+    position: relative;
+    box-sizing: border-box;
+    width:100%;
+    max-width:350px;
+    margin:50px auto;
+}
+
+.flatty-form {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-around;
+}
+
+.postbox.flatty {
+    position: relative;
+    box-sizing: border-box;
+    flex-basis: 500px;
+    background-color: #FBF9F9;
+    border:none;
+    margin:60px 0;
+}
+
+.postbox.flatty .title {
+    display: block;
+    position: relative;
+    margin-bottom:20px;
+}
+
+.postbox.flatty .title span {
+    display: block;
+    position: relative;
+    width:100%;
+    font-size:1.8rem;
+    font-weight: 300;
+    text-align: center;
+    margin-top:10px;
+}
+
+.postbox.flatty .title i {
+    display: block;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    line-height: 60px;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    margin:-30px auto 0;
+}
+
+.postbox.flatty .logo-uploaded {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 10px;
+    border: solid 1px #eee;
+}
+
+.postbox.flatty .option {
+    display: flex;
+    flex-wrap: wrap;
+    position:relative;
+    align-content: center;
+    align-items: center;
+    min-height: 30px;
+    padding:20px;
+    border-bottom: solid 1px #ECECEC;
+}
+
+.postbox.flatty .option:nth-last-of-type(1) {
+    border-bottom: none;
+}
+
+.postbox.flatty .option label {
+    display: block;
+    position: relative;
+    font-weight: 600;
+    min-width:60px;
+    padding-right:10px;
+}
+
+.postbox.flatty .option input,
+.postbox.flatty .option select {
+  position:relative;
+  flex-basis: auto;
+  flex-grow: 1;
+  max-width: 60%;
+  margin-left: auto;
+}
+
+.postbox.flatty .option input[type=checkbox] {
+    position: relative;
+    flex-grow: 0;
+    margin-left: auto;
+    margin-right:0;
+}
+
+.postbox.flatty .option .flatty-description {
+    display: block;
+    position:relative;
+    flex-basis: 100%;
+    font-size:12px;
+    font-style: italic;
+    margin-top:10px;
+    opacity:0.3;
+    transition:opacity 0.3s;
+    pointer-events: none;
+}
+
+.postbox.flatty .option:hover .flatty-description {
+    opacity: 1;
+}
+
+.postbox.flatty .button-remove {
+    font-size:18px;
+    color:#df3b3b;
+    padding-left:5px;
+    margin-left:auto;
+    cursor:pointer;
+}
+
+.postbox.flatty .option .button {
+    position: relative;
+    margin-left: auto;
+}
+
+.buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis:100%;
+    justify-content: center;
+    margin-top:2rem;
+}
+
+.flatty-single {
+    display:block;
+    position: relative;
+    flex-basis:100%;
+    width:100%;
+    text-align: center;
+}
+
+.flatty-button-update {
+    background: linear-gradient(45deg, rgb(239, 195, 34) 0%,rgb(195, 109, 37) 100%)!important;
+    text-shadow: 0px 1px 1px #000!important;
+}
+
+.flatty-button-update:active {
+    opacity: 0.7;
+}

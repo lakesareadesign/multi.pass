@@ -1,0 +1,12 @@
+/*--------------------------------------
+BROKEN LINK CHECKER
+---------------------------------------*/
+#blc-sidebar {
+  float:none!important;
+  position:absolute!important;
+  right:15px;
+}
+
+#blc-admin-content {
+  float:none!important;
+}

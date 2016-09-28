@@ -1,0 +1,127 @@
+.flatty-support-box {
+  padding: 5px;
+  width: 36px;
+  max-height: 120px;
+}
+
+.flatty-support-box .support-name {
+  visibility: hidden;
+  height: 30px;
+  font-weight: 600;
+  font-size: 30px;
+  text-indent: 5px;
+  margin-bottom: 5px;
+}
+
+.flatty-support-box .support-name::first-letter {
+  visibility: visible;
+}
+
+.flatty-support-box .support-website,
+.flatty-support-box .support-email,
+.flatty-support-box .support-phone {
+  width:100%;
+  flex-grow: 1;
+  height:16px;
+  font-size: 16px;
+  padding:0;
+  text-align:center;
+  margin: 3px 0 5px;
+}
+
+.flatty-support-box .support-website i,
+.flatty-support-box .support-email i {
+  display: inline-block;
+  padding:0;
+  font-size:16px;
+}
+
+.auto-fold #adminmenu {
+    top:0;
+}
+
+#adminmenuback,
+#adminmenuwrap,
+#adminmenu {
+    width:36px!important;
+}
+
+#adminmenu .wp-submenu {
+    left:36px;
+}
+
+#wpcontent {
+    margin-left:36px!important;
+    max-width: calc(100vw - 70px);
+}
+
+
+.auto-fold #wpcontent {
+    margin-left:36px!important;
+}
+
+#adminmenu div.wp-menu-name {
+    visibility: hidden;
+}
+
+#adminmenu div.wp-menu-image {
+    top: 3px;
+}
+
+#adminmenu .wp-has-current-submenu .wp-submenu {
+    display: none;
+}
+
+#collapse-menu {
+    display: none;
+}
+
+/*MOBILE*/
+@media screen and (max-width: 600px) {
+    #adminmenumain {
+        top:46px;
+    }
+
+    #wpadminbar .ab-top-menu>.menupop>.ab-sub-wrapper {
+        width:calc(100% - 60px);
+        left:36px;
+    }
+}
+
+@media screen and (max-width: 782px) {
+    .auto-fold #wpcontent {
+        margin-left:0!important;
+    }
+
+    .auto-fold .wp-responsive-open #adminmenuback,
+    .auto-fold .wp-responsive-open #adminmenu,
+    .auto-fold .wp-responsive-open #adminmenuwrap {
+        display: block;
+        width: 36px;
+
+    }
+
+    .auto-fold #adminmenu .selected .wp-submenu {
+        box-shadow: 5px 5px 30px rgba(0,0,0,.2);
+    }
+
+    .wp-responsive-open #wpbody {
+        right:-70px;
+    }
+
+    #adminmenu div.wp-menu-image {
+        left:6px;
+    }
+
+    .auto-fold .wp-responsive-open #adminmenuback{
+            box-shadow: 5px 5px 30px rgba(0,0,0,.2);
+    }
+
+    .auto-fold #adminmenu .wp-menu-open .wp-submenu {
+        display: none;
+    }
+
+    .auto-fold #adminmenu .selected .wp-submenu {
+        display: block;
+    }
+}

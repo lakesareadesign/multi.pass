@@ -1,0 +1,52 @@
+/*--------------------------------------
+DASHBOARD
+---------------------------------------*/
+.welcome-panel {
+    border:none;
+    margin-top: 0;
+    box-shadow: none;
+}
+
+#dashboard-widgets .postbox {
+    border:none;
+    background-color: #FFFDFD;
+    border: solid 1px #eee;
+    box-shadow: none;
+}
+
+#dashboard-widgets .postbox .hndle,
+#dashboard-widgets .stuffbox .hndle {
+    border-bottom: none;
+}
+
+#dashboard-widgets .postbox .inside,
+#dashboard-widgets .stuffbox .inside {
+    line-height: 1.4rem;
+    font-size: 1rem;
+}
+
+#dashboard-widgets .postbox form .submit {
+    padding-bottom: 10px;
+}
+
+.metabox-holder .postbox-container .empty-container {
+    border: none;
+    height: 241px;
+}
+
+#rg_forms_dashboard {
+    background-color: #728BC5
+}
+
+#rg_forms_dashboard a {
+    color: white
+}
+
+#rg_forms_dashboard a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.screen-per-page {
+  width:auto;
+}

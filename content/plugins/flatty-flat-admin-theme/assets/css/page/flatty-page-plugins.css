@@ -1,0 +1,44 @@
+/*--------------------------------------
+PLUGIN PAGE
+---------------------------------------*/
+.core-updates {
+    padding: 0.3rem 1rem;
+    background-color: rgba(0, 0, 0, 0.05);
+    margin: 0;
+}
+
+.update-core-php h2,
+.update-php h2 {
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin: 1rem 0 0;
+    padding: 0.8rem 0;
+    color: #607D8B;
+    background-color: #fff;
+}
+
+.plugins .active td,
+.plugins .active th,
+tr.active + tr.plugin-update-tr .plugin-update,
+#contextual-help-back,
+.contextual-help-tabs .active,
+.contextual-help-tabs .active a,
+.contextual-help-tabs .active a:hover,
+.theme-overlay .parent-theme {
+    background-color: #e3f4f9
+}
+
+.plugin-card {
+    box-sizing: border-box;
+    float: left;
+    width: 100%!important;
+    background-color: #fff;
+    border: 1px solid #EFEFEF;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    margin: 0 0 20px 0;
+
+}
+
+.plugin-card:nth-child(odd) {
+    margin:0 0 20px;
+}

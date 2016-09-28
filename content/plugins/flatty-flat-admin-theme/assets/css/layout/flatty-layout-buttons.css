@@ -1,0 +1,66 @@
+/*--------------------------------------
+BUTTONS
+---------------------------------------*/
+.wp-core-ui .button {
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  padding: 2px 10px;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0);
+  cursor: pointer;
+  transition:transform .2s, box-shadow .2s, background .2s, background-color .2s;
+}
+
+.wp-core-ui .button-primary:focus,
+.wp-core-ui .button-primary:hover,
+.wp-core-ui .button:focus,
+.wp-core-ui .button:hover {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.wp-core-ui p .button {
+  vertical-align:top;
+}
+
+.wp-core-ui .button.button-primary.button-hero,
+.button.button-hero {
+  box-shadow:none;
+}
+
+.wp-core-ui .button-group.button-large .button,
+.wp-core-ui  .button.button-large {
+  font-size: 1.4rem;
+  height:auto;
+  line-height: initial;
+  padding: 0.4rem 1.5rem;
+}
+
+/*--------------------------------------
+SCREEN READER
+---------------------------------------*/
+.screen-reader-text, .screen-reader-text span, .ui-helper-hidden-accessible {
+    position: absolute!important;
+    margin: -1px;
+    padding: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+    word-wrap: normal!important;
+}
+
+/*--------------------------------------
+SHINY UPDATES COMPATIBILITY
+---------------------------------------*/
+.plugin-card .install-now:before,
+.plugin-card .update-now:before {
+  position:relative;
+  top:2px;
+  margin:0 5px 0 0;
+  color: #ff3b3b!important;
+  text-shadow:none;
+}

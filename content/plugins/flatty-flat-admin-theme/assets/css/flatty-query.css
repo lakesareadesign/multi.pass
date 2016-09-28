@@ -1,0 +1,78 @@
+body.iframe .flatty-top-bar {
+    display:none!important;
+}
+
+body.iframe .flatty-top-bar-logo {
+    display:none!important;
+}
+
+body.iframe .flatty-site-name {
+    display:none!important;
+}
+
+body.iframe .flatty-support-box {
+    display:none!important;
+}
+
+body.iframe:after {
+    display:none!important;
+}
+
+
+/*--------------------------------------
+MEDIA QUERY
+---------------------------------------*/
+@media only screen and (max-width: 1280px) {
+  #wpcontent {
+    max-width: calc(100vw - 120px);
+  }
+
+}
+
+@media only screen and (max-width: 960px) {
+  .auto-fold #wpcontent {
+    max-width: calc(100vw - 50px);
+  }
+
+  .auto-fold #wpfooter {
+      margin-left:55px;
+  }
+}
+
+@media only screen and (max-width: 782px) {
+    #wpbody {
+        padding-top:46px;
+    }
+
+    #wpadminbar {
+        display:block!important;
+        position:fixed;
+        width: 100%;
+        margin: initial;
+        top:0;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    body.admin-color-fresh #wpadminbar {
+        background: rgba(80, 80, 80, 0.9);
+    }
+
+    #adminmenumain {
+        top:0;
+    }
+
+  .auto-fold #wpcontent {
+    padding: 0 10px;
+    margin-top:46px!important;
+    margin-left: 0px!important;
+    max-width: 100vw;
+  }
+
+   .auto-fold #wpfooter {
+       marign-left:0;
+   }
+
+   table.widefat {
+       margin:0;
+   }
+}

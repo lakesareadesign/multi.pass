@@ -1,0 +1,1 @@
+<?php // Nothing cool here

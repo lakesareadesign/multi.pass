@@ -1,0 +1,33 @@
+/*--------------------------------------
+CONTEXT LINKS
+---------------------------------------*/
+#screen-meta {
+    margin: -20px 20px 20px 0;
+    border:none;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+#screen-meta-links {
+    margin: -20px 20px 0 0;
+}
+
+#contextual-help-link-wrap, #screen-options-link-wrap {
+    float: right;
+    height: 30px;
+    margin: 0 0 0 6px;
+    border: none;
+    background: #FFF;
+    box-shadow: 0 3px 20px 0 rgba(0,0,0,.05);
+}
+
+#screen-meta-links .show-settings {
+    background:none;
+    color: #bbb;
+    font-size: 0.8rem;
+    line-height: 1.5rem;
+    padding: 0 0 0 1rem;
+    border: none;
+    border-radius: 0;
+    box-shadow:none;
+    text-shadow:none;
+}

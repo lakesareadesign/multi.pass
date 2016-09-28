@@ -1,0 +1,95 @@
+html {
+  padding: 0;
+  font-size:14px;
+  background-color:#f5f5f5;
+  z-index: 0;
+}
+
+html.wp-toolbar {
+  padding:0;
+}
+
+body {
+  font-size:100%;
+  font-family: 'Source Sans Pro', 'Open Sans', sans-serif;
+  background:none;
+}
+
+a {
+  color: #2980b9;
+  text-decoration: none;
+  transition: none;
+}
+
+a:focus {
+  box-shadow: none !important;
+  text-decoration:none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+ul,
+ol,
+dl {
+  margin-top: 10px;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+#wpcontent {
+  position: relative;
+  top: 0;
+  padding: 20px!important;
+  max-width: calc(100vw - 220px);
+  min-height: 70vh;
+  margin: 0 0 0 160px;
+  background-color: #fff;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+
+#wpfooter {
+    margin-left:300px;
+}
+
+#wpbody {
+    display: block;
+    position: relative;
+    height: 100%;
+    margin: 0;
+}
+
+/*
+.wrap {
+    margin:0;
+}
+*/
+
+.wrap.wp-full-overlay-sidebar {
+  padding:0;
+}
+
+#screen-options-wrap {
+  position:relative;
+  padding:20px;
+}
+
+.metabox-prefs {
+  width:100%;
+  margin:0;
+}
+
+#wp-content-editor-tools {
+    background-color: transparent;
+}
+
+/*--------------------------------------
+FOLDED CONTENT
+---------------------------------------*/
+.folded #wpcontent,
+.folded #wpfooter {
+  max-width: calc(100vw - 100px);
+}
