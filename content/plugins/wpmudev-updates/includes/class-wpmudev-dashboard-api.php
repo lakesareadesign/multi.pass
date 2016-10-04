@@ -216,7 +216,7 @@ class WPMUDEV_Dashboard_Api {
 			$options,
 			array(
 				'timeout' => 15,
-				'sslverify'  => false, // Many hosts have no updated CA bundle.
+				'sslverify'  => WPMUDEV_API_SSLVERIFY,
 				'user-agent' => 'UN Client/' . WPMUDEV_Dashboard::$version,
 			)
 		);
@@ -465,7 +465,7 @@ class WPMUDEV_Dashboard_Api {
 	 * @since  4.1.0
 	 * @return array Array that contains 2 sub-arrays: 'plugins' and 'themes'.
 	 */
-	public function get_core_updates_infos() {
+	public function get_repo_updates_infos() {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		$core_updates = array(
 			'plugins' => array(),
@@ -495,6 +495,25 @@ class WPMUDEV_Dashboard_Api {
 			'site_transient_update_themes',
 			array( WPMUDEV_Dashboard::$site, 'filter_theme_update_count' )
 		);
+
+		// First remove WPMUDEV plugins from the WP update data (for slug conflicts like
+		$local_projects = WPMUDEV_Dashboard::$site->get_cached_projects();
+		foreach ( $local_projects as $id => $update ) {
+			if ( isset( $plugin_data->response[ $update['filename'] ] ) ) {
+				unset( $plugin_data->response[ $update['filename'] ] );
+			}
+			if ( isset( $plugin_data->no_update[ $update['filename'] ] ) ) {
+				unset( $plugin_data->no_update[ $update['filename'] ] );
+			}
+
+			$theme_slug = dirname( $update['filename'] );
+			if ( isset( $theme_data->response[ $theme_slug ] ) ) {
+				unset( $theme_data->response[ $theme_slug ] );
+			}
+			if ( isset( $theme_data->no_update[ $theme_slug ] ) ) {
+				unset( $theme_data->no_update[ $theme_slug ] );
+			}
+		}
 
 		// Extract and collect details we need.
 		if ( isset( $plugin_data->response ) && is_array( $plugin_data->response ) ) {
@@ -772,7 +791,7 @@ class WPMUDEV_Dashboard_Api {
 		}
 
 		// Get a list of pending WP updates of non-WPMUDEV themes/plugins.
-		$core_updates = $this->get_core_updates_infos();
+		$repo_updates = $this->get_repo_updates_infos();
 
 		$response = WPMUDEV_Dashboard::$api->call_auth(
 			'updates',
@@ -783,7 +802,7 @@ class WPMUDEV_Dashboard_Api {
 				'domain' => network_site_url(),
 				'admin_url' => network_admin_url(),
 				'home_url' => network_home_url(),
-				'core_updates' => $core_updates,
+				'repo_updates' => $repo_updates,
 			),
 			'POST'
 		);
@@ -826,17 +845,17 @@ class WPMUDEV_Dashboard_Api {
 			}
 		} else {
 			$this->parse_api_error( $response );
-		}
 
-		/*
-		 * For network errors, set last run to 1 hour in future so it
-		 * doesn't retry every single pageload (in case of server
-		 * connection issues)
-		 */
-		WPMUDEV_Dashboard::$site->set_option(
-			'last_run_updates',
-			time() + HOUR_IN_SECONDS
-		);
+			/*
+			 * For network errors, set last run to 1 hour in future so it
+			 * doesn't retry every single pageload (in case of server
+			 * connection issues)
+			 */
+			WPMUDEV_Dashboard::$site->set_option(
+				'last_run_updates',
+				time() + HOUR_IN_SECONDS
+			);
+		}
 
 		return $res;
 	}

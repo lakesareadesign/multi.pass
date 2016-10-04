@@ -635,36 +635,23 @@ class WPMUDEV_Dashboard_Upgrader {
 			$infos = $this->prepare_dev_upgrade( $pid );
 			if ( ! $infos ) { return false; }
 
-			$filename = $infos['filename'];
+			$filename = ( 'theme' == $infos['type'] ) ? dirname( $infos['filename'] ) : $infos['filename'];
 			$slug = $infos['slug'];
 			$type = $infos['type'];
 		} elseif ( is_string( $pid ) ) {
 			// No need to check if the plugin exists/is installed. WP will check it.
 			list( $type, $filename ) = explode( ':', $pid );
-			$slug = $filename;
+			$slug = ( 'plugin' == $type && false !== strpos( $filename, '/' ) ) ? dirname( $filename ) : $filename;
 		} else {
 			$this->set_error( $pid, 'UPG.07', __( 'Invalid upgrade call', 'wdpmudev' ) );
 			return false;
 		}
 
-		// For plugins_api..
+		// For plugins_api/themes_api..
 		include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+		include_once( ABSPATH . 'wp-admin/includes/theme-install.php' );
 		include_once( ABSPATH . 'wp-admin/includes/file.php' );
-
-		// Save on a bit of bandwidth.
-		$api = plugins_api(
-			'plugin_information',
-			array(
-				'slug' => $slug,
-				'fields' => array( 'sections' => false ),
-			)
-		);
-
-		if ( is_wp_error( $api ) ) {
-			$this->set_error( $pid, 'UPG.02', __( 'No data found', 'wdpmudev' ) );
-			return false;
-		}
 
 		ob_start();
 
@@ -677,10 +664,25 @@ class WPMUDEV_Dashboard_Upgrader {
 		 * WP will refresh local cache via action-hook before the install()
 		 * method is finished. That refresh call must scan the FS again.
 		 */
-		WPMUDEV_Dashboard::$site->before_local_files_change();
+		WPMUDEV_Dashboard::$site->clear_local_file_cache();
 
 		switch ( $type ) {
 			case 'plugin':
+
+				// Save on a bit of bandwidth.
+				$api = plugins_api(
+					'plugin_information',
+					array(
+						'slug' => $slug,
+						'fields' => array( 'sections' => false ),
+					)
+				);
+
+				if ( is_wp_error( $api ) ) {
+					$this->set_error( $pid, 'UPG.02', __( 'No data found', 'wdpmudev' ) );
+					return false;
+				}
+
 				wp_update_plugins();
 
 				$active_blog = is_plugin_active( $filename );
@@ -705,8 +707,22 @@ class WPMUDEV_Dashboard_Upgrader {
 				break;
 
 			case 'theme':
+
+				// Save on a bit of bandwidth.
+				$api = themes_api(
+					'theme_information',
+					array(
+						'slug' => $slug,
+						'fields' => array( 'sections' => false ),
+					)
+				);
+
+				if ( is_wp_error( $api ) ) {
+					$this->set_error( $pid, 'UPG.02', __( 'No data found', 'wdpmudev' ) );
+					return false;
+				}
+
 				wp_update_themes();
-				$filename = dirname( $filename );
 
 				$upgrader = new Theme_Upgrader( $skin );
 				$result = $upgrader->upgrade( $filename );
@@ -737,20 +753,14 @@ class WPMUDEV_Dashboard_Upgrader {
 		} elseif ( is_bool( $result ) && ! $result ) {
 			// $upgrader->upgrade() returned false.
 			// Possibly because WordPress did not find an update for the project.
-			$this->set_error( $pid, 'UPG.05', __( 'Could not find update source', 'wpmudev' ) );
+			$this->set_error( $pid, 'UPG.05', __( 'Could not find update in transient, or filesystem permissions', 'wpmudev' ) );
 			return false;
 		}
 
 		if ( $is_dev ) {
-			WPMUDEV_Dashboard::$site->after_local_files_changed(); //might be overkill
 
-			if ( ! $this->is_async ) {
-				// API call to inform wpmudev site about the change.
-				WPMUDEV_Dashboard::$site->refresh_local_projects( 'remote' );
-			} else {
-				// Only refresh the local project cache, no API call now.
-				WPMUDEV_Dashboard::$site->refresh_local_projects( 'local' );
-			}
+			// API call to inform wpmudev site about the change, as it's a single we can let it do that at the end to avoid multiple pings
+			WPMUDEV_Dashboard::$site->schedule_shutdown_refresh();
 
 			// Check if the update was successful.
 			$project = WPMUDEV_Dashboard::$site->get_project_infos( $pid );
@@ -813,7 +823,7 @@ class WPMUDEV_Dashboard_Upgrader {
 		 * WP will refresh local cache via action-hook before the install()
 		 * method is finished. That refresh call must scan the FS again.
 		 */
-		WPMUDEV_Dashboard::$site->before_local_files_change();
+		WPMUDEV_Dashboard::$site->clear_local_file_cache();
 
 		switch ( $project->type ) {
 			case 'plugin':
@@ -830,13 +840,13 @@ class WPMUDEV_Dashboard_Upgrader {
 		$details = ob_get_clean();
 
 		if ( is_wp_error( $skin->result ) ) {
-			WPMUDEV_Dashboard::$site->refresh_local_projects( 'remote' );
+			WPMUDEV_Dashboard::$site->schedule_shutdown_refresh();
 			$this->set_error( $pid, 'INS.03', $skin->result->get_error_message() );
 			return false;
 		}
 
-		// API call to inform wpmudev site about the change.
-		WPMUDEV_Dashboard::$site->refresh_local_projects( 'remote' );
+		// API call to inform wpmudev site about the change, as it's a single we can let it do that at the end to avoid multiple pings
+		WPMUDEV_Dashboard::$site->schedule_shutdown_refresh();
 
 		// Fetch latest project details.
 		$project = WPMUDEV_Dashboard::$site->get_project_infos( $pid );

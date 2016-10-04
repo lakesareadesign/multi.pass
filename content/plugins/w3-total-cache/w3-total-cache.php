@@ -2,7 +2,7 @@
 /*
 Plugin Name: W3 Total Cache
 Description: The highest rated and most complete WordPress performance plugin. Dramatically improve the speed and user experience of your site. Add browser, page, object and database caching as well as minify and content delivery network (CDN) to WordPress.
-Version: 0.9.5
+Version: 0.9.5.1
 Plugin URI: https://www.w3-edge.com/wordpress-plugins/w3-total-cache/
 Author: Frederick Townes
 Author URI: http://www.linkedin.com/in/fredericktownes
@@ -47,7 +47,11 @@ if ( !defined( 'ABSPATH' ) ) {
 if ( defined( 'WP_INSTALLING' ) && WP_INSTALLING )
 	return;
 
-include dirname( __FILE__ ) . '/lib/EDD/integration.php';
+if ( version_compare( PHP_VERSION, '5.3.0', '<') ) {
+	require_once dirname( __FILE__ ) . '/w3-total-cache-old-php.php';
+	register_activation_hook( __FILE__, 'w3tc_old_php_activate' );
+    return;
+}
 
 if ( !defined( 'W3TC_IN_MINIFY' ) ) {
 	/**
@@ -59,9 +63,6 @@ if ( !defined( 'W3TC_IN_MINIFY' ) ) {
 	if ( defined( 'WP_CLI' ) && WP_CLI )
 		require_once W3TC_DIR . '/Cli.php';
 
-	/**
-	 * Run
-	 */
-	$w3tc_root = new \W3TC\Root_Loader();
-	$w3tc_root->run();
+	// include to prevent syntax error for older php
+	require_once dirname( __FILE__ ) . '/Root_Loader.php';
 }

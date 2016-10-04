@@ -3,7 +3,7 @@
  * Plugin Name: WP Edit
  * Plugin URI: https://wpeditpro.com
  * Description: Ultimate WordPress Content Editing.
- * Version: 3.9
+ * Version: 4.0
  * Author: Josh Lobe
  * Author URI: https://wpeditpro.com
  * License: GPL2
@@ -90,6 +90,11 @@ class wp_edit_class {
 	// Prepare global settings array (for future use)
 	public $wpedit_options_array = array();
 	
+	public $filtered_buttons = array();
+	public $new_plugin_array = array();
+	public $default_buttons_array = array();
+	public $filtered_plugin_buttons = array();
+	
 	/*
 	****************************************************************
 	Class construct
@@ -110,6 +115,8 @@ class wp_edit_class {
 		add_action('admin_init', array($this, 'process_settings_export'));  // Export db options
 		add_action('admin_init', array($this, 'process_settings_import'));  // Import db options 
 		
+		add_action('admin_enqueue_scripts', array($this, 'admin_plugins_page_stylesheet'));
+		
 		add_action('before_wp_tiny_mce', array($this, 'before_wp_tiny_mce'));  // Add dashicons to tinymce
 		add_filter('tiny_mce_before_init', array($this, 'wp_edit_tiny_mce_before_init'));  // Before tinymce initialization
 		add_action('init', array($this, 'wp_edit_init_tinymce'));  // Tinymce initialization
@@ -121,6 +128,21 @@ class wp_edit_class {
 		$plugin_hook   = "in_plugin_update_message-{$plugin_folder}/{$plugin_file}";
 		add_action($plugin_hook, array($this, 'wpedit_plugin_update_cb'), 10, 2);  // Plugin update message
 		add_action('admin_footer', array($this, 'wpedit_plugin_update_js'));  // Plugin update message javascript
+		
+		
+		// Populate this plugin filtered buttons
+		$filter_args = array();
+		$get_filters = apply_filters( 'wp_edit_custom_buttons', $filter_args );
+		$filters_array = array();
+		
+		// If the array set is not empty (filters being applied)
+		if(  ! empty( $get_filters ) ) {
+			foreach( $get_filters as $key => $values ) {
+				
+				$filters_array[] = $values;
+			}
+		}
+		$this->filtered_buttons = $filters_array;
 	}
 	
 	/*
@@ -197,24 +219,28 @@ class wp_edit_class {
 		global $pagenow;
 		global $current_user;
 		$userid = $current_user->ID;
-		
-		// Check if plugin install date is set in database
-		$opt_install = get_option('wp_edit_install');
-		if($opt_install === false) {
 			
-			// Set install date to today
-			update_option('wp_edit_install', date('Y-m-d'));
-		}
+		// If we are only on plugins.php admin page...
+		if($pagenow === 'plugins.php') {
 		
-		// Compare install date with today
-		$date_install = isset($opt_install) ? $opt_install : date('Y-m-d');
+			//******************************************************/
+			// Check 30 day installation notice
+			//******************************************************/
 		
-		// If install date is more than 30 days old...
-		if(strtotime($date_install) < strtotime('-30 days')){
-			
-			// If we are only on plugins.php admin page...
-			if($pagenow === 'plugins.php') {
+			// Check if plugin install date is set in database
+			$opt_install = get_option('wp_edit_install');
+			if($opt_install === false) {
 				
+				// Set install date to today
+				update_option('wp_edit_install', date('Y-m-d'));
+			}
+			
+			// Compare install date with today
+			$date_install = isset($opt_install) ? $opt_install : date('Y-m-d');
+			
+			// If install date is more than 30 days old...
+			if(strtotime($date_install) < strtotime('-30 days')){
+					
 				// If the user clicked to dismiss notice...
 				if ( isset( $_GET['dismiss_wpedit_ug_notice'] ) && 'yes' == $_GET['dismiss_wpedit_ug_notice'] ) {
 					
@@ -230,64 +256,6 @@ class wp_edit_class {
 						
 						global $pagenow;
 						
-						echo '<style type="text/css">';
-						echo '.wpedit_plugins_page_banner {
-							border: 1px solid #d4d4d4;
-							margin: 12px 0;
-							background: #FFF;
-							position: relative;
-							overflow: hidden
-						}
-						.wpedit_plugins_page_banner .text {
-							color: #000;
-							font-size: 15px;
-							line-height: 26px;
-							margin: 18px 18px 14px;
-							float: left;
-							width: auto;
-							max-width: 80%;
-						}
-						.wpedit_plugins_page_banner .text span {
-							font-size: 12px;
-							opacity: 0.7;
-						}
-						.wpedit_plugins_page_banner .button {
-							float: left;
-							border: none; 
-							font-size: 14px;
-							margin: 18px 0 18px 16px;
-							padding: 12px 0;
-							color: #FFF;
-							text-shadow: none;
-							font-weight: bold;
-							background: #0074A2;
-							-moz-border-radius: 3px;
-							border-radius: 3px;
-							-webkit-border-radius: 3px;
-							text-decoration: none;
-							height: 50px;
-							text-align: center;
-							text-transform: uppercase;
-							width: 147px;
-							box-shadow: none;
-							line-height: 26px;
-						}
-						.wpedit_plugins_page_banner .button:hover,
-						.wpedit_plugins_page_banner .button:focus {    
-							background: #222;
-							color: #FFF;
-						}
-						.wpedit_plugins_page_banner .icon {
-							float: right;
-							margin: 12px 8px 8px 0;
-						}
-						.wpedit_plugins_page_banner .close_icon {
-							float: right;
-							margin: 8px;
-							cursor: pointer;
-						}';
-						echo '</style>';
-						
 						echo '<div class="updated" style="padding: 0; margin: 0; border: none; background: none;">
 								<div class="wpedit_plugins_page_banner">
 									<a href="'.$pagenow.'?dismiss_wpedit_ug_notice=yes"><img class="close_icon" title="" src="'. plugins_url( 'images/close_banner.png', __FILE__ ) .'" alt=""/></a>
@@ -298,15 +266,56 @@ class wp_edit_class {
 										It\'s time to consider upgrading <strong>WP Edit</strong> to the <strong>PRO</strong> version.<br />
 										<span>Extend standard plugin functionality with new, enhanced options.</span>
 									</div>
-									<div class="icon">		
-										<img  title="" src="'.plugins_url( 'images/banner.png', __FILE__ ).'" alt=""/>
-									</div>	
 								</div>  
 							</div>';
 					}
 					add_action('admin_notices', 'wpedit_wordpress_version_notice');
 				}
 			}
+		
+			//******************************************************/
+			// Check Custom Buttons API notice
+			//******************************************************/
+			// If the user clicked to dismiss notice...
+			if ( isset( $_GET['dismiss_wpedit_custom_buttons_notice'] ) && 'yes' == $_GET['dismiss_wpedit_custom_buttons_notice'] ) {
+				
+				// Update user meta
+				add_user_meta( $userid, 'ignore_wpedit_custom_buttons_notice', 'yes', true );
+			}
+			
+			// If user meta is not set...
+			if ( !get_user_meta( $userid, 'ignore_wpedit_custom_buttons_notice' ) ) {
+				
+				// Alert plugin update message
+				function wpedit_custom_buttons_notice() {
+					
+					global $pagenow;
+					
+					echo '<div class="updated" style="padding: 0; margin: 0; border: none; background: none;">
+							<div class="wpedit_plugins_page_banner">
+								<a href="'.$pagenow.'?dismiss_wpedit_custom_buttons_notice=yes"><img class="close_icon" title="" src="'. plugins_url( 'images/close_banner.png', __FILE__ ) .'" alt=""/></a>
+								<div class="button_div">
+									<a class="button" target="_blank" href="http://learn.wpeditpro.com/custom-buttons-api/">Learn More</a>				
+								</div>
+								<div class="text">
+									Introducing the WP Edit Custom Buttons API<br />
+									<span>Tell all your favorite plugin/theme developers they can now add their editor buttons to WP Edit and WP Edit Pro.</span>
+								</div>
+							</div>  
+						</div>';
+				}
+				add_action('admin_notices', 'wpedit_custom_buttons_notice');
+			}
+			
+		}
+	}
+	
+	public function admin_plugins_page_stylesheet( $hook ) {
+		
+		if( $hook == 'plugins.php' ) {
+		
+			wp_register_style( 'wp_edit_admin_plugins_page_styles', plugin_dir_url( __FILE__ ) . 'css/admin_plugins_page.css', array() ); // Main Admin Page Script File
+			wp_enqueue_style( 'wp_edit_admin_plugins_page_styles' );
 		}
 	}
 	
@@ -371,6 +380,79 @@ class wp_edit_class {
             <?php 
 			settings_errors(); 
 			$active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'buttons';
+			
+			
+			/******************************************************************************/
+			// Make filtered button comparison; alert users if counts do not match
+			/******************************************************************************/
+			// First; get all buttons saved in database
+			$plugin_buttons = get_option('wp_edit_buttons');
+			$plugin_buttons_string = '';
+			
+			foreach( $plugin_buttons as $key => $button_string ) {
+				
+				if( !empty( $button_string ) )
+					$plugin_buttons_string .= $button_string. ' ';
+			}
+			
+			$plugin_buttons_string = rtrim( $plugin_buttons_string, ' ' );
+			$explode_buttons_string = explode( ' ', $plugin_buttons_string );
+			
+			
+			
+			// Second; get all plugin default buttons
+			$plugin_buttons = $this->global_options_buttons;
+			
+			// Merge all default plugin buttons into single array
+			$all_array = '';
+			foreach($plugin_buttons as $slot_array) {
+				
+				if(!empty($slot_array) && $slot_array != '') {  // Skip containter array if empty
+					$all_array .= $slot_array.' ';  // Create single string of all default plugin buttons
+				}
+			}
+			$all_array = rtrim($all_array, ' ');  // Remove trailing right space
+			$plugin_array = explode(' ', $all_array);  // Explode at spaces to make single array (this is an array of all current plugin buttons)
+			
+			
+			// Third; add filtered buttons to second array
+			$get_filters = $this->filtered_buttons;
+			
+			// If the array set is not empty (filters being applied)
+			if(  ! empty( $get_filters ) ) {
+				foreach( $get_filters as $key => $values ) {
+					
+					$plugin_array[] = $values['button_id'];
+				}
+			}
+			
+			
+			// Create an array of buttons that have been removed
+			$array_diff = array_diff( $explode_buttons_string, $plugin_array );
+			
+			
+			// Fourth; make comparison and alert user if filtered buttons have been removed (deactivated)
+			if( count( $plugin_array ) < count( $explode_buttons_string ) ) {
+				
+				?>
+				<div class="error wpep_info">
+				
+					<p>
+						<?php  _e('The following buttons have been removed:', 'wp_edit_pro'); ?><br />
+						<strong>
+						<?php
+						$buttons = '';
+						foreach( $array_diff as $key => $button ) { $buttons .=  $button . ', '; }
+						$buttons = rtrim( $buttons, ', ' );
+						echo $buttons;
+						?>
+						</strong><br /><br />
+						<?php  _e('These buttons came from a plugin or theme that has been deactivated.', 'wp_edit_pro'); ?><br />
+						<?php  _e('To remove this message; simply visit the "Buttons" tab and save the buttons.', 'wp_edit_pro'); ?><br />
+					</p>
+				</div>
+				<?php
+			}
 			?>
             
             <h2 class="nav-tab-wrapper">  
@@ -412,11 +494,21 @@ class wp_edit_class {
 							
 									<?php
 									$no_tooltips = false;
+									$icons_filter = '';
 									
 									$options_global = get_option('wp_edit_global');
 									if(isset($options_global['disable_fancy_tooltips']) && $options_global['disable_fancy_tooltips'] === '1') {
 										
 										$no_tooltips = true;
+									}
+									
+									// Loop each toolbar and create array of icons (for later comparison)
+									foreach( $options_buttons as $toolbar => $icons ) {
+									
+										if(!empty($icons)) {
+										
+											$icons_filter .= ' ' . $icons;
+										}
 									}
 									
 									// Loop all buttons and create sortable divs
@@ -450,146 +542,146 @@ class wp_edit_class {
 															$tooltip['title'] = 'Bold'; 
 															$tooltip['content'] = '<p>Apply <strong>bold</strong> to editor text.</p>';
 														}
-														if($icon === 'italic') { 
+														else if($icon === 'italic') { 
 															$class = 'dashicons dashicons-editor-italic'; 
 															$title = 'Italic'; 
 															$tooltip['title'] = 'Italic'; 
 															$tooltip['content'] = '<p>Apply <em>italic</em> to editor text.</p>';
 														}
-														if($icon === 'strikethrough') { 
+														else if($icon === 'strikethrough') { 
 															$class = 'dashicons dashicons-editor-strikethrough'; 
 															$title = 'Strikethrough'; 
 															$tooltip['title'] = 'Strikethrough'; 
 															$tooltip['content'] = '<p>Apply <strike>strikethrough</strike> to editor text.</p>';
 														}
-														if($icon === 'bullist') { 
+														else if($icon === 'bullist') { 
 															$class = 'dashicons dashicons-editor-ul'; 
 															$title = 'Bullet List'; 
 															$tooltip['title'] = 'Bullet List'; 
 															$tooltip['content'] = '<p>Create a list of bulleted items.</p>'; 
 														}
-														if($icon === 'numlist') { 
+														else if($icon === 'numlist') { 
 															$class = 'dashicons dashicons-editor-ol'; 
 															$title = 'Numbered List'; 
 															$tooltip['title'] = 'Numbered List'; 
 															$tooltip['content'] = '<p>Create a list of numbered items.</p>'; 
 														}
-														if($icon === 'blockquote') { 
+														else if($icon === 'blockquote') { 
 															$class = 'dashicons dashicons-editor-quote'; 
 															$title = 'Blockquote'; 
 															$tooltip['title'] = 'Blockquote'; 
 															$tooltip['content'] = '<p>Insert a block level quotation.</p>';  
 														}
-														if($icon === 'hr') { 
+														else if($icon === 'hr') { 
 															$class = 'dashicons dashicons-minus'; 
 															$title = 'Horizontal Rule'; 
 															$tooltip['title'] = 'Horizontal Rule'; 
 															$tooltip['content'] = '<p>Insert a horizontal rule.</p>';
 														}
-														if($icon === 'alignleft') { 
+														else if($icon === 'alignleft') { 
 															$class = 'dashicons dashicons-editor-alignleft'; 
 															$title = 'Align Left';
 															$tooltip['title'] = 'Align Left'; 
 															$tooltip['content'] = '<p>Align editor content to the left side of the editor.</p>';
 														}
-														if($icon === 'aligncenter') { 
+														else if($icon === 'aligncenter') { 
 															$class = 'dashicons dashicons-editor-aligncenter'; 
 															$title = 'Align Center'; 
 															$tooltip['title'] = 'Align Center'; 
 															$tooltip['content'] = '<p>Align editor content to the center of the editor.</p>';
 														}
-														if($icon === 'alignright') { 
+														else if($icon === 'alignright') { 
 															$class = 'dashicons dashicons-editor-alignright'; 
 															$title = 'Align Right'; 
 															$tooltip['title'] = 'Align Right'; 
 															$tooltip['content'] = '<p>Align editor content to the right side of the editor.</p>';
 														}
-														if($icon === 'link') { 
+														else if($icon === 'link') { 
 															$class = 'dashicons dashicons-admin-links'; 
 															$title = 'Link'; 
 															$tooltip['title'] = 'Link'; 
 															$tooltip['content'] = '<p>Insert a link around currently selected content.</p>';
 														}
-														if($icon === 'unlink') { 
+														else if($icon === 'unlink') { 
 															$class = 'dashicons dashicons-editor-unlink'; 
 															$title = 'Unlink'; 
 															$tooltip['title'] = 'Unlink'; 
 															$tooltip['content'] = '<p>Remove the link around currently selected content.</p>';
 														}
-														if($icon === 'wp_more') { 
+														else if($icon === 'wp_more') { 
 															$class = 'dashicons dashicons-editor-insertmore'; 
 															$title = 'More'; 
 															$tooltip['title'] = 'More'; 
 															$tooltip['content'] = '<p>Inserts the read_more() WordPress function; commonly used for excerpts.</p>';
 														}
 														
-														if($icon === 'formatselect') { 
+														else if($icon === 'formatselect') { 
 															$title = 'Format Select';
 															$text = 'Paragraph';
 															$tooltip['title'] = 'Paragraph'; 
 															$tooltip['content'] = '<p>Adds the Format Select dropdown button; used to select different styles.</p>';
 														}
-														if($icon === 'underline') { 
+														else if($icon === 'underline') { 
 															$class = 'dashicons dashicons-editor-underline';
 															$title = 'Underline';
 															$tooltip['title'] = 'Underline'; 
 															$tooltip['content'] = '<p>Apply <u>underline</u> to editor text.</p>';
 														}
-														if($icon === 'alignjustify') { 
+														else if($icon === 'alignjustify') { 
 															$class = 'dashicons dashicons-editor-justify';
 															$title = 'Align Full';
 															$tooltip['title'] = 'Align Full'; 
 															$tooltip['content'] = '<p>Align selected content to full width of the page.</p>';
 														}
-														if($icon === 'forecolor') { 
+														else if($icon === 'forecolor') { 
 															$class = 'dashicons dashicons-editor-textcolor';
 															$title = 'Foreground Color';
 															$tooltip['title'] = 'Foreground Color'; 
 															$tooltip['content'] = '<p>Change the foreground color of selected content; commonly used to change text color.</p>';
 														}
-														if($icon === 'pastetext') { 
+														else if($icon === 'pastetext') { 
 															$class = 'dashicons dashicons-editor-paste-text';
 															$title = 'Paste Text';
 															$tooltip['title'] = 'Paste Text'; 
 															$tooltip['content'] = '<p>Paste content as plain text.</p>';
 														}
-														if($icon === 'removeformat') { 
+														else if($icon === 'removeformat') { 
 															$class = 'dashicons dashicons-editor-removeformatting';
 															$title = 'Remove Format';
 															$tooltip['title'] = 'Remove Format'; 
 															$tooltip['content'] = '<p>Remove all current formatting from selected content.</p>';
 														}
-														if($icon === 'charmap') { 
+														else if($icon === 'charmap') { 
 															$class = 'dashicons dashicons-editor-customchar';
 															$title = 'Character Map';
 															$tooltip['title'] = 'Character Map'; 
 															$tooltip['content'] = '<p>Display a characted map used for inserting special characters.</p>';
 														}
-														if($icon === 'outdent') { 
+														else if($icon === 'outdent') { 
 															$class = 'dashicons dashicons-editor-outdent';
 															$title = 'Outdent';
 															$tooltip['title'] = 'Outdent'; 
 															$tooltip['content'] = '<p>Outdent selected content; primary used for paragraph elements.</p>';
 														}
-														if($icon === 'indent') { 
+														else if($icon === 'indent') { 
 															$class = 'dashicons dashicons-editor-indent';
 															$title = 'Indent';
 															$tooltip['title'] = 'Indent'; 
 															$tooltip['content'] = '<p>Indent selected content; primary used for paragraph elements.</p>';
 														}
-														if($icon === 'undo') { 
+														else if($icon === 'undo') { 
 															$class = 'dashicons dashicons-undo';
 															$title = 'Undo';
 															$tooltip['title'] = 'Undo'; 
 															$tooltip['content'] = '<p>Undo last editor action.</p>';
 														}
-														if($icon === 'redo') { 
+														else if($icon === 'redo') { 
 															$class = 'dashicons dashicons-redo';
 															$title = 'Redo';
 															$tooltip['title'] = 'Redo'; 
 															$tooltip['content'] = '<p>Redo last editor action.</p>';
 														}
-														if($icon === 'wp_help') { 
+														else if($icon === 'wp_help') { 
 															$class = 'dashicons dashicons-editor-help';
 															$title = 'Help';
 															$tooltip['title'] = 'Help'; 
@@ -597,245 +689,272 @@ class wp_edit_class {
 														}
 														
 														// WP Buttons not included by default
-														if($icon === 'fontselect') { 
+														else if($icon === 'fontselect') { 
 															$title = 'Font Select'; 
 															$text = 'Font Family'; 
 															$tooltip['title'] = 'Font Select'; 
 															$tooltip['content'] = '<p>Apply various fonts to the editor selection.</p><p>Also displays fonts from Google Fonts options (if activated).</p>';
 														}
-														if($icon === 'fontsizeselect') { 
+														else if($icon === 'fontsizeselect') { 
 															$title = 'Font Size Select'; 
 															$text = 'Font Sizes'; 
 															$tooltip['title'] = 'Font Size Select'; 
 															$tooltip['content'] = '<p>Apply various font sizes to the editor selection.</p><p>Default values can be switched from "pt" to "px" via the Editor tab.</p>';
 														}
-														if($icon === 'styleselect') { 
+														else if($icon === 'styleselect') { 
 															$title = 'Formats'; 
 															$text = 'Formats'; 
 															$tooltip['title'] = 'Formats'; 
 															$tooltip['content'] = '<p>Displays quick access to formats like "Headings", "Inline", "Blocks" and "Alignment".</p><p>Any custom styles created (Styles Tab) will also be shown here.</p>';
 														}
-														if($icon === 'backcolor') { 
+														else if($icon === 'backcolor') { 
 															$title = 'Background Color Picker'; 
 															$text = '<i class="mce-ico mce-i-backcolor"></i>'; 
 															$tooltip['title'] = 'Background Color Picker'; 
 															$tooltip['content'] = '<p>Change the background color of selected content; commonly used for high-lighting text.</p>';
 														}
-														if($icon === 'media') { 
+														else if($icon === 'media') { 
 															$class = 'dashicons dashicons-format-video'; 
 															$title = 'Media'; 
 															$tooltip['title'] = 'Media'; 
 															$tooltip['content'] = '<p>Insert media from an external resource (by link); or embed media content into editor.</p>';
 														}
-														if($icon === 'rtl') { 
+														else if($icon === 'rtl') { 
 															$title = 'Text Direction Right to Left'; 
 															$text = '<i class="mce-ico mce-i-rtl"></i>'; 
 															$tooltip['title'] = 'Text Direction Right to Left'; 
 															$tooltip['content'] = '<p>Forces the text direction from right to left on selected block element.</p>';
 														}
-														if($icon === 'ltr') { 
+														else if($icon === 'ltr') { 
 															$title = 'Text Direction Left to Right'; 
 															$text = '<i class="mce-ico mce-i-ltr"></i>'; 
 															$tooltip['title'] = 'Text Direction Left to Right'; 
 															$tooltip['content'] = '<p>Forces the text direction from left to right on selected block element.</p>';
 														}
-														if($icon === 'table') { 
+														else if($icon === 'table') { 
 															$title = 'Tables'; 
 															$text = '<i class="mce-ico mce-i-table"></i>';
 															$tooltip['title'] = 'Tables'; 
 															$tooltip['content'] = '<p>Insert, edit and modify html tables.</p>';
 														}
-														if($icon === 'anchor') { 
+														else if($icon === 'anchor') { 
 															$title = 'Anchor'; 
 															$text = '<i class="mce-ico mce-i-anchor"></i>'; 
 															$tooltip['title'] = 'Anchor'; 
 															$tooltip['content'] = '<p>Create an anchor link on the page.</p>';
 														}
-														if($icon === 'code') { 
+														else if($icon === 'code') { 
 															$title = 'HTML Code'; 
 															$text = '<i class="mce-ico mce-i-code"></i>';
 															$tooltip['title'] = 'HTML Code'; 
 															$tooltip['content'] = '<p>Displays the html code of the editor content; in a popup window.</p><p>This can be helpful when editing code is necessary, but switching editor views is undesirable.</p><p>Also, the "Code Magic" button provides a much better interface.</p>';
 														}
-														if($icon === 'emoticons') { 
+														else if($icon === 'emoticons') { 
 															$title = 'Emoticons'; 
 															$text = '<i class="mce-ico mce-i-emoticons"></i>'; 
 															$tooltip['title'] = 'Emoticons'; 
 															$tooltip['content'] = '<p>Opens an overlay window with access to common emoticons.</p>';
 														}
-														if($icon === 'inserttime') { 
+														else if($icon === 'inserttime') { 
 															$title = 'Insert Date Time'; 
 															$text = '<i class="mce-ico mce-i-insertdatetime"></i>'; 
 															$tooltip['title'] = 'Insert Date Time'; 
 															$tooltip['content'] = '<p>Inserts the current date and time into the content editor.</p><p>The date format can be adjusted using the "Configuration" tab.</p>';
 														}
-														if($icon === 'wp_page') { 
+														else if($icon === 'wp_page') { 
 															$title = 'Page Break'; 
 															$text = '<i class="mce-ico mce-i-pagebreak"></i>'; 
 															$tooltip['title'] = 'Page Break'; 
 															$tooltip['content'] = '<p>Inserts a page break; which can created "paged" sections of the content.</p>';
 														}
-														if($icon === 'preview') { 
+														else if($icon === 'preview') { 
 															$title = 'Preview'; 
 															$text = '<i class="mce-ico mce-i-preview"></i>'; 
 															$tooltip['title'] = 'Preview'; 
 															$tooltip['content'] = '<p>A quick preview of the editor content.</p>';
 														}
-														if($icon === 'print') { 
+														else if($icon === 'print') { 
 															$title = 'Print'; 
 															$text = '<i class="mce-ico mce-i-print"></i>'; 
 															$tooltip['title'] = 'Print'; 
 															$tooltip['content'] = '<p>Print the editor content directly to a printer.</p>';
 														}
-														if($icon === 'searchreplace') { 
+														else if($icon === 'searchreplace') { 
 															$title = 'Search and Replace'; 
 															$text = '<i class="mce-ico mce-i-searchreplace"></i>'; 
 															$tooltip['title'] = 'Search and Replace'; 
 															$tooltip['content'] = '<p>Search and/or replace the editor content with specific characters.</p>';
 														}
-														if($icon === 'visualblocks') { 
+														else if($icon === 'visualblocks') { 
 															$title = 'Show Blocks'; 
 															$text = '<i class="mce-ico mce-i-visualblocks"></i>'; 
 															$tooltip['title'] = 'Show Blocks'; 
 															$tooltip['content'] = '<p>Shows all block level editor elements with a light border.</p>';
 														}
-														if($icon === 'subscript') { 
+														else if($icon === 'subscript') { 
 															$title = 'Subscript'; 
 															$text = '<i class="mce-ico mce-i-subscript"></i>'; 
 															$tooltip['title'] = 'Subscript'; 
 															$tooltip['content'] = '<p>Adds a <sub>subscript</sub> to selected editor content (mainly used with text).</p>';
 														}
-														if($icon === 'superscript') { 
+														else if($icon === 'superscript') { 
 															$title = 'Superscript'; 
 															$text = '<i class="mce-ico mce-i-superscript"></i>';
 															$tooltip['title'] = 'Superscript'; 
 															$tooltip['content'] = '<p>Adds a <sup>superscript</sup> to selected editor content (mainly used with text).</p>';
 														}
-														if($icon === 'image_orig') { 
+														else if($icon === 'image_orig') { 
 															$class = 'dashicons dashicons-format-image'; 
 															$title = 'Image'; 
 															$tooltip['title'] = 'Image'; 
 															$tooltip['content'] = '<p>Insert images (by link).</p>';
 														}
-														if($icon === 'p_tags_button') { 
+														else if($icon === 'p_tags_button') { 
 															$title = 'Paragraph Tag'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/ptags/p_tag.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Paragraph Tag'; 
 															$tooltip['content'] = '<p>Insert paragraph tags (along with attributes); which will not be removed from the editor.</p>';
 														}
-														if($icon === 'line_break_button') { 
+														else if($icon === 'line_break_button') { 
 															$title = 'Line Break'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/linebreak/line_break.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Line Break'; 
 															$tooltip['content'] = '<p>Insert line breaks; which will not be removed from the editor.</p><p>This is done by adding a class of "none" to the tag.</p>';
 														}
-														if($icon === 'mailto') { 
+														else if($icon === 'mailto') { 
 															$title = 'MailTo Link'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/mailto/mailto.gif);width:20px;height:20px;'; 
 															$tooltip['title'] = 'MailTo Link'; 
 															$tooltip['content'] = '<p>Turns an email address into an active mail link.</p><p>When clicked, it will open the users default mail client to send a message.</p>';
 														}
-														if($icon === 'loremipsum') { 
+														else if($icon === 'loremipsum') { 
 															$title = 'Lorem Ipsum'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/loremipsum/loremipsum.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Lorem Ipsum'; 
 															$tooltip['content'] = '<p>Esaily insert placeholder text into the editor.</p><p>Select from multiple languages; and choose the number of elements to add.</p>';
 														}
-														if($icon === 'shortcodes') { 
+														else if($icon === 'shortcodes') { 
 															$title = 'Shortcodes'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/shortcodes/shortcodes.gif);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Shortcodes'; 
 															$tooltip['content'] = '<p>Gathers all available shortcodes and adds them to a dropdown list; for easy editor insertion.</p><p>Note: The shortcodes gathered here do not include any shortcode attributes.</p><p>If shortcode attributes are necessary, they will need to be entered into the shortcode manually.</p>';
 														}
-														if($icon === 'youTube') { 
+														else if($icon === 'youTube') { 
 															$title = 'YouTube Video'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/youTube/images/youtube.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'YouTube Video'; 
 															$tooltip['content'] = '<p>Browse and insert YouTube videos without ever leaving the editor.</p><p>A custom interface allows browsing YouTube videos directly from the editor.</p>';
 														}
-														if($icon === 'clker') { 
+														else if($icon === 'clker') { 
 															$title = 'Clker Images'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/clker/img/clker.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Clker Images'; 
 															$tooltip['content'] = '<p>Browse and insert images from the Clker.com website.</p>';
 														}
-														if($icon === 'cleardiv') { 
+														else if($icon === 'cleardiv') { 
 															$title = 'Clear Div'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/cleardiv/images/cleardiv.png);width:20px;height:20px;';  
 															$tooltip['title'] = 'Clear Div'; 
 															$tooltip['content'] = '<p>Clear editor divs. Selections include "left", "right" and "both".</p>';
 														}
-														if($icon === 'codemagic') { 
+														else if($icon === 'codemagic') { 
 															$title = 'Code Magic'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/codemagic/images/codemagic.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Code Magic'; 
 															$tooltip['content'] = '<p>An advanced html code editor; view and edit the html code from an overlay window.</p><p>Includes syntax highlighting; search and replace; and proper element spacing.</p><p>This is a great option when editing html code is necessary; but swtiching editor views is undesirable.</p>';
 														}
-														if($icon === 'acheck') { 
+														else if($icon === 'acheck') { 
 															$title = 'Accessibility Checker'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/acheck/img//acheck.png);width:20px;height:20px;';
 															$tooltip['title'] = 'Accessibility Checker'; 
 															$tooltip['content'] = '<p>Checks the editor content for accessibility by other devices.</p>';
 														}
-														if($icon === 'advlink') { 
+														else if($icon === 'advlink') { 
 															$title = 'Insert/Edit Advanced Link'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/advlink/images/advlink.png);width:20px;height:20px;';
 															$tooltip['title'] = 'Insert/Edit Advanced Link'; 
 															$tooltip['content'] = '<p>Insert and edit links; along with various atttributes.</p><p>Populates with all posts and pages; so linking to current content is a one-click process.</p><p>Also includes javascript attributes (onclick, onmouseover, etc.); which can be used for executing javascript functions.</p>';
 														}
-														if($icon === 'advhr') { 
+														else if($icon === 'advhr') { 
 															$title = 'Advanced Horizontal Line'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/advhr/images/advhr.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Advanced Horizontal Line'; 
 															$tooltip['content'] = '<p>Modify various options of the horizontal line; like shadow and width.</p>';
 														}
-														if($icon === 'advimage') { 
+														else if($icon === 'advimage') { 
 															$title = 'Advanced Insert/Edit Image'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/advimage/images//advimage.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Advanced Insert/Edit Image'; 
 															$tooltip['content'] = '<p>Insert/Edit images with more control.</p><p>Define image attributes, image margin, image padding and image border.</p><p>Also includes javascript attributes (onclick, onmouseover, etc.); which can be used for executing javascript functions.</p>';
 														}
-														if($icon === 'formatPainter') { 
+														else if($icon === 'formatPainter') { 
 															$class = 'dashicons dashicons-admin-appearance';
 															$title = 'Format Painter'; 
 															$tooltip['title'] = 'Format Painter'; 
 															$tooltip['content'] = '<p>Copies styling from one element; and applies the same styling to another element.</p>';
 														}
-														if($icon === 'googleImages') { 
+														else if($icon === 'googleImages') { 
 															$title = 'Google Images'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/googleImages/images/googleImages.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Google Images'; 
 															$tooltip['content'] = '<p>Browse and insert Google images without ever leaving the content editor.</p>';
 														}
-														if($icon === 'abbr') { 
+														else if($icon === 'abbr') { 
 															$title = 'Abbreviation';
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/abbr/abbr.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Abbreviation'; 
 															$tooltip['content'] = '<p>Add an abbreviation to selected editor content.</p>';
 														}
-														if($icon === 'imgmap') {
+														else if($icon === 'imgmap') {
 															$title = 'Image Map'; 
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/imgmap/images/imgmap.png);width:20px;height:20px;';  
 															$tooltip['title'] = 'Image Map'; 
 															$tooltip['content'] = '<p>Create an image map from an image.</p><p>Allows multiple "hot spots" on a single image.  Each "hot spot" can link to a different url.</p>';
 														}
-														if($icon === 'columnShortcodes') { 
+														else if($icon === 'columnShortcodes') { 
 															$class = 'dashicons dashicons-schedule';
 															$title = 'Column Shortcodes';
 															$tooltip['title'] = 'Column Shortcodes'; 
 															$tooltip['content'] = '<p>A tool for easily inserting column shortcode templates.</p>';
 														}
-														if($icon === 'nonbreaking') { 
+														else if($icon === 'nonbreaking') { 
 															$title = 'Nonbreaking Space';
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/nonbreaking/nonbreaking.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'Nonbreaking Space'; 
 															$tooltip['content'] = '<p>Insert a nonbreaking space; which will not be removed from the editor.</p>';
 														}
-														if($icon === 'eqneditor') { 
+														else if($icon === 'eqneditor') { 
 															$title = 'CodeCogs Equation Editor';
 															$style='background-image:url('.WPEDIT_PLUGIN_URL.'plugins/eqneditor/img/eqneditor.png);width:20px;height:20px;'; 
 															$tooltip['title'] = 'CodeCogs Equation Editor'; 
 															$tooltip['content'] = '<p>Create complex math equations from a simple interface.</p>';
+														}
+														else {
+						
+															$get_filters = $this->filtered_buttons;
+															
+															// If the array set is not empty (filters being applied)
+															if(  ! empty( $get_filters ) ) {
+																
+																$check_filter = array();
+																foreach( $get_filters as $key => $values ) {
+																	
+																	$check_filter[$values['button_id']] = $values;
+																}
+																
+																// If this button is in filtered array
+																if( array_key_exists( $icon, $check_filter ) ) {
+																	
+																	$array_key = $check_filter[$icon];
+																	
+																	$title = isset( $array_key['tooltip_title'] ) && $array_key['tooltip_title'] !== '' ? $array_key['tooltip_title'] : '';
+																	$class = isset( $array_key['dashicon'] ) && $array_key['dashicon'] !== '' ? $array_key['dashicon'] : '';
+																	$text = isset( $array_key['button_text'] ) && $array_key['button_text'] !== '' ? $array_key['button_text'] : '';
+																	$style = isset( $array_key['custom_icon'] ) && $array_key['custom_icon'] !== '' ? 'background-image:url(' . $array_key['custom_icon'] . ');width:20px;height:20px;' : '';
+																	$tooltip['title'] = isset( $array_key['tooltip_title'] ) && $array_key['tooltip_title'] !== '' ? $array_key['tooltip_title'] : '';
+																	$tooltip['content'] = isset( $array_key['tooltip_content'] ) && $array_key['tooltip_content'] !== '' ? $array_key['tooltip_content'] : '';
+																}
+															}
 														}
 														
 														// Process tooltips
@@ -843,15 +962,105 @@ class wp_edit_class {
 														$tooltip_content = isset($tooltip['content']) ? $tooltip['content'] : '<p>Content not found. Please report to the plugin developer.</p>';
 														
 														// Are we displaying fancy tooltips?
-														
 														$tooltip_att = ($no_tooltips === false) ? 'data-tooltip="<h4 class=\'data_tooltip_title\'>'.htmlspecialchars($tooltip_title).'</h4><hr />'.htmlspecialchars($tooltip_content).'" ' : '';
 														
-														// Display button
-														echo '<div '.$tooltip_att.' id="'.$icon.'" class="ui-state-default draggable '.$class.'" title="'.$title.'"><span style="'.esc_attr($style).'">'.$text.'</span></div>';
+														
+														// ARRAY CHECKING BEFORE DISPLAYING BUTTON FROM DATABASE
+														// This will keep saved filtered buttons from displaying (and removes when user saves); if their parent was deactivated
+					
+														// Create array of default buttons (and filter buttons)
+														$plugin_buttons = $this->global_options_buttons;
+														$check_array = '';
+														
+														foreach( $plugin_buttons as $button ) {
+															if( !empty( $button ) && $button != '' ) {  // Skip containter array if empty
+															
+																$check_array .= $button . ' ';  // Create single string of all default plugin buttons
+															}
+														}
+														
+														$get_filters = $this->filtered_buttons;
+														
+														// If the array set is not empty (filters being applied)
+														if(  ! empty( $get_filters ) ) {
+															foreach( $get_filters as $key => $values ) {
+																
+																$check_array .= $values['button_id'] . ' ';
+															}
+														}
+														
+														$trim_check_array = rtrim( $check_array, ' ' );
+														$explode_check_array = explode( ' ', $trim_check_array );
+														
+														
+														// If button is in active array; display div
+														if( in_array( $icon, $explode_check_array ) ) {
+						
+															// Display button
+															echo '<div '.$tooltip_att.' id="'.$icon.'" class="ui-state-default draggable '.$class.'" title="'.$title.'"><span style="'.esc_attr($style).'">'.$text.'</span></div>';
+														}
+													}
+												}
+												
+												
+												/**************************************/
+												// Button filter for plugins/themes
+												/**************************************/
+												$filter_flag = false;
+												
+												// Create array of saved buttons
+												if( $icons_filter !== '' ) {
+													
+													$trim_filter = trim( $icons_filter );
+													$icons_filter_array = explode( ' ', $trim_filter );
+												}
+												
+												$get_filters = $this->filtered_buttons;
+												
+												// If the array set is not empty (filters being applied)
+												if(  ! empty( $get_filters ) ) {
+													foreach( $get_filters as $key => $values ) {
+														
+														if( ! in_array( $values['button_id'], $icons_filter_array ) ) {
+															
+															$title = isset( $values['tooltip_title'] ) && $values['tooltip_title'] !== '' ? $values['tooltip_title'] : '';
+															$content = isset( $values['tooltip_content'] ) && $values['tooltip_content'] !== '' ? $values['tooltip_content'] : '';
+															$class = isset( $values['dashicon'] ) && $values['dashicon'] !== '' ? $values['dashicon'] : '';
+															$text = isset( $values['button_text'] ) && $values['button_text'] !== '' ? $values['button_text'] : '';
+															$style = isset( $values['custom_icon'] ) && $values['custom_icon'] !== '' ? 'background-image:url(' . $values['custom_icon'] . ');width:20px;height:20px;' : '';
+															$span = $style !== '' ? '<span style="' . $style . '">' . $text . '</span>' : '<span>' . $text . '</span>';
+															$row = isset( $values['editor_row'] ) && $values['editor_row'] !== '' ? $values['editor_row'] : 'tmce_container';
+															
+															/// Filter buttons by row
+															if( $toolbar === $row ) {
+																
+																echo '<div 
+																			data-tooltip="<h4 class=\'data_tooltip_title\'>'.htmlspecialchars( $title ) . '</h4>
+																			<hr /><p>'.htmlspecialchars( $content ).'</p>" 
+																			id="' . $values['button_id'] . '" 
+																			class="ui-state-default draggable new_button ' . $class . '" 
+																			title="' . $title . '">' .  $span . 
+																	'</div>'
+																;
+															}
+															
+															$filter_flag = true;
+														}
 													}
 												}
 											echo '</div>';  // End foreach .sortable
 										}  // End not rows 3 and 4
+									}
+										
+									if( $filter_flag === true ) {
+		
+										echo '<div class="error">';
+											echo '<h4>';
+												_e('New buttons have been added via other plugins (or theme).', 'wp_edit_pro');
+												echo '<br />';
+												_e('Move them to a new location (if desired) and click "Save Buttons".', 'wp_edit_pro');
+											echo '</h4>';
+										echo '</div>';
 									}
 									?>
 								</div>  <!-- End #inside_button_hover -->
@@ -873,6 +1082,9 @@ class wp_edit_class {
 						echo '<input type="button" value="'.__('Reset Buttons', 'wp-edit').'" class="button-primary reset_dd_buttons" />';
 						echo '<input type="submit" name="wpep_reset_buttons" class="button-primary wpep_reset_buttons" style="display:none;" />';
 						
+						// Create nonce
+						wp_nonce_field( 'wpe_save_buttons_opts' );
+						
 					echo '</form>';
 				echo '</div>';
 				
@@ -893,21 +1105,36 @@ class wp_edit_class {
 									<li><a href="#dragdrop"><?php _e('Drag/Drop', 'wp-edit'); ?></a></li>
 									<li><a href="#multiselect"><?php _e('Multi Select', 'wp-edit'); ?></a></li>
 									<li><a href="#reset"><?php _e('Reset', 'wp-edit'); ?></a></li>
+									<li><a href="#custom_api"><?php _e('Custom Buttons API', 'wp-edit'); ?></a></li>
 									</ul>
 									
 									<div id="dragdrop">
-										<p><?php _e('Buttons can be dragged and dropped into desired button rows.', 'wp-edit'); ?></p>
-										<p><?php _e('The "Button Container" is a placeholder for buttons not used in the editor; these buttons will not appear when editing a post or page.', 'wp-edit'); ?></p>
+										<p>
+											<?php _e('Buttons can be dragged and dropped into desired button rows.', 'wp-edit'); ?><br />
+											<?php _e('The "Button Container" is a placeholder for buttons not used in the editor; these buttons will not appear when editing a post or page.', 'wp-edit'); ?>
+                                        </p>
 									</div>
 									<div id="multiselect">
-										<p><?php _e('Buttons may also be selected in quantities; or multiple selections, before being moved.', 'wp-edit'); ?></p>
-										<p><?php _e('Clicking a button will set it as "active"; a yellowish highlight color. Multiple buttons can be clicked and set as "active".', 'wp-edit'); ?></p>
-										<p><?php _e('Clicking and dragging one of the "active" buttons will move the entire "active" selection.', 'wp-edit'); ?></p>
-										<p><?php _e('Clicking outside the button area will remove all currently active button selections.', 'wp-edit'); ?></p>
+										<p>
+											<?php _e('Buttons may also be selected in quantities; or multiple selections, before being moved.', 'wp-edit'); ?>
+                                        </p>
+										<p>
+											<?php _e('Clicking a button will set it as "active"; a yellowish highlight color. Multiple buttons can be clicked and set as "active".', 'wp-edit'); ?><br />
+                                            <?php _e('Clicking and dragging one of the "active" buttons will move the entire "active" selection.', 'wp-edit'); ?><br />
+                                            <?php _e('Clicking outside the button area will remove all currently active button selections.', 'wp-edit'); ?>
+                                        </p>
 									</div>
 									<div id="reset">
-										<p><?php _e('Clicking "Reset Buttons" will restore the editor buttons to their original default values.', 'wp-edit'); ?></p>
-										<p><?php _e('All button rows will get the default WordPress button arrangements; and the extra buttons will be added to the "Button Container".', 'wp-edit'); ?></p>
+										<p>
+											<?php _e('Clicking "Reset Buttons" will restore the editor buttons to their original default values.', 'wp-edit'); ?><br />
+                                            <?php _e('All button rows will get the default WordPress button arrangements; and the extra buttons will be added to the "Button Container".', 'wp-edit'); ?>
+                                        </p>
+									</div>
+									<div id="custom_api">
+										<p>
+											<?php _e('WP Edit now uses a Custom Buttons API which allows other plugin/theme developers to add their editor buttons into the system.', 'wp-edit'); ?><br />
+                                            <?php printf( __('Please direct all your favorite plugin/theme developers to the <a target="_blank" href="%s">Custom Buttons API</a> documentation.', 'wp-edit'), 'http://learn.wpeditpro.com/custom-buttons-api/'); ?>
+                                        </p>
 									</div>
 								</div>
 							</div>
@@ -975,6 +1202,7 @@ class wp_edit_class {
                         </div>
                     </div>
 					<input type="submit" value="<?php _e('Save Global Options', 'wp-edit'); ?>" class="button button-primary" id="submit_global" name="submit_global">
+                    <?php wp_nonce_field( 'wpe_save_global_opts' ); ?>
 					</form>
 					<?php
 				echo '</div>';
@@ -1060,7 +1288,7 @@ class wp_edit_class {
                                 </tbody>
                                 </table>
                                 
-                                <h3><?php _e('Custom Post Types', 'wp-edit'); ?></h3>
+                                <h3><?php _e('Custom Post Type Excerpts', 'wp-edit'); ?></h3>
                                 <table cellpadding="3" style="margin-left:7px;">
                                 <tbody>
                                 <?php
@@ -1085,6 +1313,7 @@ class wp_edit_class {
                     </div>
                             
 					<input type="submit" value="<?php _e('Save General Options', 'wp-edit'); ?>" class="button button-primary" id="submit_general" name="submit_general">
+                    <?php wp_nonce_field( 'wpe_save_general_opts' ); ?>
 					</form>
 					<?php
 				echo '</div>';
@@ -1210,6 +1439,7 @@ class wp_edit_class {
                         </div>
                     </div>
                     <input type="submit" value="<?php _e('Save Posts/Pages Options', 'wp-edit'); ?>" class="button button-primary" id="submit_posts" name="submit_posts">
+                    <?php wp_nonce_field( 'wpe_save_posts_pages_opts' ); ?>
 					</form>
 					<?php
 				echo '</div>';
@@ -1307,6 +1537,7 @@ class wp_edit_class {
                         </div>
                     </div>
                     <input type="submit" value="<?php _e('Save Editor Options', 'wp-edit'); ?>" class="button button-primary" id="submit_editor" name="submit_editor">
+                    <?php wp_nonce_field( 'wpe_save_editor_opts' ); ?>
                 </div>
                 </form>
                 <?php
@@ -1349,6 +1580,7 @@ class wp_edit_class {
                     </div>
                     
                 	<input type="submit" value="Save Extras Options" class="button button-primary" id="submit_extras" name="submit_extras">
+                    <?php wp_nonce_field( 'wpe_save_extras_opts' ); ?>
                 </div>
                 </form>
                 <?php
@@ -1473,6 +1705,7 @@ class wp_edit_class {
                     </div>
                
                 	<input type="submit" value="<?php _e('Save User Specific Options', 'wp-edit'); ?>" class="button button-primary" id="submit_user_specific" name="submit_user_specific">
+                    <?php wp_nonce_field( 'wpe_save_user_specific_opts' ); ?>
                 </div>
                 </form><?php
             }
@@ -1539,7 +1772,7 @@ class wp_edit_class {
                                    <?php _e('In order to completely uninstall the plugin, AND remove all associated database tables, please use the option below.', 'wp-edit'); ?><br />
                                 </p>
                                 <form method="post" action="">
-                                    <?php wp_nonce_field('wp_edit_uninstall_nonce_check','wp_edit_uninstall_nonce'); ?>
+                                    <?php wp_nonce_field('wp_edit_uninstall_nonce_check', 'wp_edit_uninstall_nonce'); ?>
                                     <input id="plugin" name="plugin" type="hidden" value="wp-edit/main.php" />
                                     <input name="uninstall_confirm" id="uninstall_confirm" type="checkbox" value="1" /><label for="uninstall_confirm"></label> <strong><?php _e('Please confirm before proceeding','wp-edit'); ?><br /><br /></strong>
                                     <input class="button-primary" name="uninstall" type="submit" value="<?php _e('Uninstall','wp-edit'); ?>" />
@@ -1553,7 +1786,7 @@ class wp_edit_class {
 			}
 			/*
 			****************************************************************
-			Database Tab
+			About Tab
 			****************************************************************
 			*/
 			else if($active_tab == 'about') {
@@ -1694,6 +1927,66 @@ class wp_edit_class {
                         
                             <p><?php _e('Please take a moment to rate and review this plugin on the WordPress Plugin Repository.', 'wp-edit'); ?></p>
                             <p><a href="https://wordpress.org/plugins/wp-edit/" target="_blank" class="button-primary"><?php _e('Rate Plugin', 'wp-edit'); ?></a></p>
+                            
+                            <?php
+							if ( ! function_exists( 'plugins_api' ) ) {
+								require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+							}
+ 
+							/** Prepare our query */
+							$call_api = plugins_api( 'plugin_information', array( 'slug' => 'wp-edit', 'fields' => array( 'active_installs' => true ) ) );
+						 
+							/** Check for Errors & Display the results */
+							if ( is_wp_error( $call_api ) ) {
+						 
+								echo '<pre>' . print_r( $call_api->get_error_message(), true ) . '</pre>';
+							} 
+							else {
+								
+								echo '<h3>';
+									_e( 'WP Edit Rating Statistics', 'wp_edit_pro' );
+								echo '</h3>';
+								
+								// Get ratings array
+								$ratings = $call_api->ratings;
+						 
+								echo '<table><tbody>';
+									echo '<tr><td>Downloaded:</td><td>' . number_format( $call_api->downloaded ) . ' times</td></tr>';
+									echo '<tr><td>Active Installs:</td><td>' . number_format( $call_api->active_installs ) . '+</td></tr>';
+									echo '<tr><td>Number of Ratings:</td><td>' . $call_api->num_ratings . '</td></tr>';
+								echo '</tbody></table>';
+								echo '<br />';
+						 		
+								// Calculations
+								$total_ratings = $call_api->num_ratings;
+								
+								$five_star = round( ( $ratings[5] / $total_ratings ) * 100 );
+								$four_star = round( ( $ratings[4] / $total_ratings ) * 100 );
+								$three_star = round( ( $ratings[3] / $total_ratings ) * 100 );
+								$two_star = round( ( $ratings[2] / $total_ratings ) * 100 );
+								$one_star = round( ( $ratings[1] / $total_ratings ) * 100 );
+								
+								$overall_stars = number_format( ( $call_api->rating / 20 ), 1 );
+								
+								// Setup plugin star container
+								echo '<div class="plugin_star_container">';
+									echo '<div class="empty-stars"></div>';
+									echo '<div class="full-stars" style="width:' . $call_api->rating . '%"></div>';
+								echo '</div>';
+								
+								echo '<p style="margin:0px 0px 10px;">' . $overall_stars . ' out of 5 stars</p>';
+								
+								// Setup plugin rating table
+								echo '<table class="table table_plugin_ratings"><tbody>';
+									echo '<tr><td>5 stars:</td><td><div class="plugin_rating_container"><div class="plugin_rating_percentage" style="width:' . $five_star . '%;"></div></div>' . $ratings[5] . '</td></tr>';
+									echo '<tr><td>4 stars:</td><td><div class="plugin_rating_container"><div class="plugin_rating_percentage" style="width:' . $four_star . '%;"></div></div>' . $ratings[4] . '</td></tr>';
+									echo '<tr><td>3 stars:</td><td><div class="plugin_rating_container"><div class="plugin_rating_percentage" style="width:' . $three_star . '%;"></div></div>' . $ratings[3] . '</td></tr>';
+									echo '<tr><td>2 stars:</td><td><div class="plugin_rating_container"><div class="plugin_rating_percentage" style="width:' . $two_star . '%;"></div></div>' . $ratings[2] . '</td></tr>';
+									echo '<tr><td>1 star:</td><td><div class="plugin_rating_container"><div class="plugin_rating_percentage" style="width:' . $one_star . '%;"></div></div>' . $ratings[1] . '</td></tr>';
+								echo '</tbody></table>';
+							}
+							?>
+                            
                         </div>
                     </div>
                 </div> 
@@ -1731,6 +2024,14 @@ class wp_edit_class {
 		*/
 		if(isset($_POST['wpep_reset_buttons'])) {
 			
+			// Verify nonce
+			$buttons_opts_nonce = $_REQUEST['_wpnonce'];
+			if ( ! wp_verify_nonce( $buttons_opts_nonce, 'wpe_save_buttons_opts' ) ) {
+				
+				echo 'This request could not be verified.';
+				exit; 
+			}
+			
 			// Check if DB value exists.. if YES, then keep value.. if NO, then replace with protected defaults
 			$options_buttons = $this->global_options_buttons;
 			
@@ -1750,6 +2051,14 @@ class wp_edit_class {
 		}
 		
 		if(isset($_POST['wpep_save_buttons'])) {
+			
+			// Verify nonce
+			$buttons_opts_nonce = $_REQUEST['_wpnonce'];
+			if ( ! wp_verify_nonce( $buttons_opts_nonce, 'wpe_save_buttons_opts' ) ) {
+				
+				echo 'This request could not be verified.';
+				exit; 
+			}
 			
 			if(isset($_POST['get_sorted_array_results']) && ($_POST['get_sorted_array_results'] != '')) {
 				
@@ -1896,6 +2205,20 @@ class wp_edit_class {
 			$all_array = rtrim($all_array, ' ');  // Remove trailing right space
 			$plugin_array = explode(' ', $all_array);  // Explode at spaces to make single array (this is an array of all current plugin buttons)
 			
+			
+			// Get filtered plugin buttons
+			$get_filters = $this->filtered_buttons;
+			
+			// If the array set is not empty (filters being applied)
+			if(  ! empty( $get_filters ) ) {
+				foreach( $get_filters as $key => $values ) {
+					
+					$plugin_array[] = $values['button_id'];
+				}
+			}
+			
+			
+			
 			// Create arrays of user saved buttons
 			global $tot_array;
 			$val_array = array();
@@ -1948,6 +2271,14 @@ class wp_edit_class {
 		****************************************************************
 		*/
 		if(isset($_POST['submit_global'])) {
+			
+			// Verify nonce
+			$global_opts_nonce = $_REQUEST['_wpnonce'];
+			if ( ! wp_verify_nonce( $global_opts_nonce, 'wpe_save_global_opts' ) ) {
+				
+				echo 'This request could not be verified.';
+				exit; 
+			}
 		
 			$options_global = get_option('wp_edit_global');
 			$options_global['jquery_theme'] = isset($_POST['jquery_theme']) ? $_POST['jquery_theme'] : 'smoothness';
@@ -1971,6 +2302,14 @@ class wp_edit_class {
 		****************************************************************
 		*/
 		if(isset($_POST['submit_general'])) {
+			
+			// Verify nonce
+			$general_opts_nonce = $_REQUEST['_wpnonce'];
+			if ( ! wp_verify_nonce( $general_opts_nonce, 'wpe_save_general_opts' ) ) {
+				
+				echo 'This request could not be verified.';
+				exit; 
+			}
 			
 			$options_general = get_option('wp_edit_general');
 			$options_general['linebreak_shortcode'] = isset($_POST['linebreak_shortcode']) ? '1' : '0';
@@ -2016,6 +2355,14 @@ class wp_edit_class {
 		****************************************************************
 		*/
 		if(isset($_POST['submit_posts'])) {
+			
+			// Verify nonce
+			$posts_pages_opts_nonce = $_REQUEST['_wpnonce'];
+			if ( ! wp_verify_nonce( $posts_pages_opts_nonce, 'wpe_save_posts_pages_opts' ) ) {
+				
+				echo 'This request could not be verified.';
+				exit; 
+			}
 			
 			// Delete database revisions
 			if(isset($_POST['submit_posts']) && isset($_POST['delete_revisions'])) {
@@ -2096,6 +2443,14 @@ class wp_edit_class {
 		*/
 		if(isset($_POST['submit_editor'])) {
 			
+			// Verify nonce
+			$editor_opts_nonce = $_REQUEST['_wpnonce'];
+			if ( ! wp_verify_nonce( $editor_opts_nonce, 'wpe_save_editor_opts' ) ) {
+				
+				echo 'This request could not be verified.';
+				exit; 
+			}
+			
 			$options_editor = get_option('wp_edit_editor');
 			
 			$options_editor['editor_add_pre_styles'] = isset($_POST['editor_add_pre_styles']) ? '1' : '0';
@@ -2121,6 +2476,14 @@ class wp_edit_class {
 		*/
 		if(isset($_POST['submit_extras'])) {
 			
+			// Verify nonce
+			$extras_opts_nonce = $_REQUEST['_wpnonce'];
+			if ( ! wp_verify_nonce( $extras_opts_nonce, 'wpe_save_extras_opts' ) ) {
+				
+				echo 'This request could not be verified.';
+				exit; 
+			}
+			
 			$options_extras = get_option('wp_edit_extras');
 			$options_extras['signoff_text'] = isset($_POST['wp_edit_signoff']) ? stripslashes($_POST['wp_edit_signoff']) : 'Please enter text here...';
 			
@@ -2141,6 +2504,14 @@ class wp_edit_class {
 		****************************************************************
 		*/
 		if(isset($_POST['submit_user_specific'])) {
+			
+			// Verify nonce
+			$user_specific_opts_nonce = $_REQUEST['_wpnonce'];
+			if ( ! wp_verify_nonce( $user_specific_opts_nonce, 'wpe_save_user_specific_opts' ) ) {
+				
+				echo 'This request could not be verified.';
+				exit; 
+			}
 			
 			// If User Specific was submitted
 			$post_vars = isset($_POST['wp_edit_user_specific']) ? $_POST['wp_edit_user_specific'] : '';
@@ -2464,12 +2835,56 @@ class wp_edit_class {
 	****************************************************************
 	*/
 	public function wp_edit_init_tinymce() {
+		
+		
+		$options_buttons = get_option('wp_edit_buttons');
+		$default_opts = $this->global_options_buttons;
+
+
+		// Define plugin array of database options for comparison
+		$new_array = '';
+		foreach($options_buttons as $slot_array) {
+			
+			if(!empty($slot_array) && $slot_array != '') {  // Skip containter array if empty
+				$new_array .= $slot_array.' ';  // Create single string of all default plugin buttons
+			}
+		}
+		$new_array = rtrim($new_array, ' ');  // Remove trailing right space
+		$new_plugin_array = explode(' ', $new_array);  // Explode at spaces to make single array (this is an array of all current plugin buttons)
+		$this->new_plugin_array = $new_plugin_array;
+		
+		
+		// Define plugin array of default buttons for comparison
+		$default_array = '';
+		foreach($default_opts as $slot_array) {
+			
+			if(!empty($slot_array) && $slot_array != '') {  // Skip containter array if empty
+				$default_array .= $slot_array.' ';  // Create single string of all default plugin buttons
+			}
+		}
+		$default_array = rtrim($default_array, ' ');  // Remove trailing right space
+		$default_buttons_array = explode(' ', $default_array);  // Explode at spaces to make single array (this is an array of all current plugin buttons)
+		$this->default_buttons_array = $default_buttons_array;
+		
+		
+		// Get filtered plugin buttons array
+		$filtered_plugin_buttons = array();
+		$get_filters = $this->filtered_buttons;
+		// If the array set is not empty (filters being applied)
+		if(  ! empty( $get_filters ) ) {
+			foreach( $get_filters as $key => $values ) {
+				
+				$filtered_plugin_buttons[] = $values['button_id'];
+			}
+		}
+		$this->filtered_plugin_buttons = $filtered_plugin_buttons;
+		
+		
 	
 		// Build extra plugins array
 		add_filter('mce_external_plugins', array($this, 'wp_edit_mce_external_plugins'));
 		
 		// Get options and set appropriate tinymce toolbars
-		$options_buttons = get_option('wp_edit_buttons');
 		foreach ((array)$options_buttons as $key => $value) {
 			
 			// Magic is happening right here...
@@ -2574,6 +2989,10 @@ class wp_edit_class {
 		$default_wp_array_toolbar1 = array('bold','italic','strikethrough','bullist','numlist','blockquote','hr','alignleft','aligncenter','alignright','link','unlink','wp_more');
 		$array_back = array();
 		
+		$new_plugin_array = $this->new_plugin_array;
+		$default_buttons_array = $this->default_buttons_array;
+		$filtered_plugin_buttons = $this->filtered_plugin_buttons;
+		
 		// First, we explode the toolbar in the database
 		$options_toolbar1 = explode(' ', $options_toolbar1);
 		
@@ -2586,11 +3005,21 @@ class wp_edit_class {
 			foreach($array_diff as $array) {
 				
 				// If the button is NOT in the original array (WP buttons), we know it is another plugin or theme button..
-				if(!in_array($array, $default_wp_array_toolbar1)) {
+				if( !in_array( $array, $default_wp_array_toolbar1 ) && !in_array( $array, $new_plugin_array ) ) {
 					
 					// Create the new array of additional buttons to pass back to end of toolbar
 					$array_back[] = $array;
 				}
+			}
+		}
+		
+		// Loop each saved toolbar button
+		foreach( $options_toolbar1 as $key => $value ) {
+			
+			// If button is not a default button (it is a filtered button); and not in filtered plugin buttons (the button was removed when plugin deactivated)
+			if( !in_array( $value, $default_buttons_array ) && !in_array( $value, $filtered_plugin_buttons ) ) { 
+			
+				unset( $options_toolbar1[$key]);
 			}
 		}
 		
@@ -2606,6 +3035,10 @@ class wp_edit_class {
 		$default_wp_array_toolbar2 = array('formatselect','underline','alignjustify','forecolor','pastetext','removeformat','charmap','outdent','indent','undo','redo','wp_help');
 		$array_back = array();
 		
+		$new_plugin_array = $this->new_plugin_array;
+		$default_buttons_array = $this->default_buttons_array;
+		$filtered_plugin_buttons = $this->filtered_plugin_buttons;
+		
 		// First, we explode the toolbar in the database
 		$options_toolbar2 = explode(' ', $options_toolbar2);
 		
@@ -2618,11 +3051,21 @@ class wp_edit_class {
 			foreach($array_diff as $array) {
 				
 				// If the button is NOT in the original array (WP buttons), we know it is another plugin or theme button..
-				if(!in_array($array, $default_wp_array_toolbar2)) {
+				if( !in_array( $array, $default_wp_array_toolbar2 ) && !in_array( $array, $new_plugin_array ) ) {
 					
 					// Create the new array of additional buttons to pass back to end of toolbar
 					$array_back[] = $array;
 				}
+			}
+		}
+		
+		// Loop each saved toolbar button
+		foreach( $options_toolbar2 as $key => $value ) {
+			
+			// If button is not a default button (it is a filtered button); and not in filtered plugin buttons (the button was removed when plugin deactivated)
+			if( !in_array( $value, $default_buttons_array ) && !in_array( $value, $filtered_plugin_buttons ) ) { 
+			
+				unset( $options_toolbar2[$key]);
 			}
 		}
 		

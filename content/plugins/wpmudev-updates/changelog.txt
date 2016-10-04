@@ -5,6 +5,18 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+4.2 - 09/28/2016 - Aaron
+----------------------------------------------------------------------
+- Add support for wp.org repo updates from Hub!
+- Revoke outstanding support access when logging out
+- Optimize remote data refresh calls and duplicate queries
+- Add clearer error messages when logging into localhost installs
+- Don't show update notices on subsite plugin list pages in multisite, like core
+- Fix style issues of update notices for activated plugin in core plugins list
+- Fix premium/wp.org theme slug conflicts
+- Remove premium/wp.org slug conflicts for Hub wp.org updates
+- Update WPMU DEV urls
+
 4.1.2 - 08/17/2016 - Aaron
 ----------------------------------------------------------------------
 - WP 4.6 compatibility fixes
@@ -405,4 +417,4 @@ Added option to disable admin notices.
 Initial Release.
 
 
-133620-1471628117-au
+133620-1475623048-au

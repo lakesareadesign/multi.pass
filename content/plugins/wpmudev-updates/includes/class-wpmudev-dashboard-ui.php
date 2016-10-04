@@ -917,6 +917,9 @@ class WPMUDEV_Dashboard_Ui {
 	public function brand_updates_table() {
 		if ( ! current_user_can( 'update_plugins' ) ) { return; }
 
+		//don't show on per site plugins list, just like core
+		if ( is_multisite() && ! is_network_admin() ) { return; }
+
 		$updates = WPMUDEV_Dashboard::$site->get_option( 'updates_available' );
 		if ( is_array( $updates ) && count( $updates ) ) {
 			foreach ( $updates as $item ) {
@@ -1073,7 +1076,13 @@ class WPMUDEV_Dashboard_Ui {
 			$row_text = __( 'There is a new version of %1$s available on WPMU DEV. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>.', 'wpmudev' );
 		}
 
-		?><tr class="plugin-update-tr" id="<?php echo dirname( $filename ); ?>-update" data-slug="<?php echo dirname( $filename ); ?>" data-plugin="<?php echo esc_attr( $filename ); ?>">
+		if ( is_network_admin() ) {
+			$active_class = is_plugin_active_for_network( $filename ) ? ' active' : '';
+		} else {
+			$active_class = is_plugin_active( $filename ) ? ' active' : '';
+		}
+
+		?><tr class="plugin-update-tr<?php echo $active_class; ?>" id="<?php echo esc_attr( dirname( $filename ) ); ?>-update" data-slug="<?php echo esc_attr( dirname( $filename ) ); ?>" data-plugin="<?php echo esc_attr( $filename ); ?>">
 		<td colspan="3" class="plugin-update colspanchange">
 			<div class="update-message notice inline notice-warning notice-alt">
 				<p>

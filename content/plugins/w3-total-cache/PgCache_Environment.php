@@ -529,7 +529,7 @@ class PgCache_Environment {
 		$cache_dir = Util_Environment::normalize_path( W3TC_CACHE_PAGE_ENHANCED_DIR );
 		$permalink_structure = get_option( 'permalink_structure' );
 
-		$current_user = get_currentuserinfo();
+		$current_user = wp_get_current_user();
 
 		/**
 		 * Auto reject cookies
@@ -1177,7 +1177,7 @@ class PgCache_Environment {
 
 		if ( $w3tc ) {
 			$header_rules .= "    Header set X-Powered-By \"" .
-				Util_Environment::w3tc_header( $config ) . "\"\n";
+				Util_Environment::w3tc_header() . "\"\n";
 		}
 
 		if ( $expires ) {
@@ -1276,7 +1276,7 @@ class PgCache_Environment {
 
 		if ( $w3tc ) {
 			$common_rules .= "    add_header X-Powered-By \"" .
-				Util_Environment::w3tc_header( $config ) . "\";\n";
+				Util_Environment::w3tc_header() . "\";\n";
 		}
 
 		if ( $expires ) {

@@ -4,13 +4,18 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: wpedit, wp edit, editor, buttons, button, add, font, font style, font select, table, tables, visual editor, search, replace, colors, color, anchor, advance, advanced, links, link, popup, javascript, upgrade, update, admin, image, images, citations, preview, html, custom css, borders, pages, posts, colorful, php, php widget, shortcode, shortcodes, style, styles, plugin, login, excerpt, id, post, page, youtube, tinymce
 Requires at least: 3.9
 Tested up to: 4.7
-Stable tag: 3.9
+Stable tag: 4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Take complete control over the WordPress content editor.
 
 == Description ==
+
+= NEW Custom Buttons API =
+WP Edit now uses a custom buttons API which allows other plugin/theme developers to add their editor buttons into the WP Edit button configuration; allowing a WP Edit user to place the plugin/theme buttons into any desired location.
+
+Refer your favorite plugin/theme developers to the [WP Edit Custom Buttons API](http://learn.wpeditpro.com/custom-buttons-api/) documentation to get your favorite buttons added to WP Edit.
 
 = Introduction =
 For a riveting video introduction into the possibilities available with WP Edit; please visit [Jupiter Jim's Marketing Team](http://jupiterjim.club/wordpress/tutorials/change-font-family-font-size-wordpress-4-4-1/).
@@ -88,6 +93,7 @@ OR...
 
 == Frequently asked questions ==
 
+* Nothing at the moment.
 
 == Screenshots ==
 
@@ -97,21 +103,26 @@ OR...
 
 == Changelog ==
 
+= 4.0 =
+* 10/03/2016
+* Added Custom Buttons API; other plugins/themes can add buttons to WP Edit.
+* Added dismissable admin notice for Custom Buttons API (help spread the word!).
+* Added plugin rating statistics to sidebar (Please rate and review).
+* Added nonce fields for every form submission used to save database options.
+* Moved plugins.php page styles to properly enqueue (used for notices).
+
 = 3.9 =
 * 09/05/2016
-
 * Added functionality to enable visual editor on BBPress forums (Editor tab).
 * Fixed strict standards error on wp_widget_rss_output() function (final fix will be done upstream when WordPress 4.7 is released).
 * Adjusted plugin css file.
 
 = 3.8.1 =
-* 05/11/16
-
+* 05/11/2016
 * Removed a stray var_dump() function.
 
 = 3.8 =
-* 05/11/16
-
+* 05/11/2016
 * Added support for WP Edit toolbars in custom post types excerpt areas.
 * Fixed deprecated function.  (htmledit_pre changed to format_for_editor) (main.php ~line 115).
 * Updated introduction video link.
@@ -119,7 +130,7 @@ OR...
 * Increased stable tag version.
 
 = 3.7 =
-* 01/11/16
+* 01/11/2016
 
 * Fixed Feedblitz image loading insecure over https.
 * Fixed WP_PLUGIN_URL constant; switched to using plugins_url() function.
@@ -127,27 +138,27 @@ OR...
 * Updated compatibility version.
 
 = 3.6 = 
-* 12/16/15
+* 12/16/2015
 * Update to be stable with WordPress 4.4.
 
 = 3.5 =
-* 10/02/15
+* 10/02/2015
 * Updated plugin translation code to handle new WordPress language packs.
 * Fixed call to jquery theme only loading over http.  Will now load over https when applicable.
 
 = 3.4 =
-* 08/21/15
+* 08/21/2015
 * Removed PHP Widget option for two reasons:
 * 1 - It presented a potential security risk.  It is recommended to use a plugin dedicated to this functionality.
 * 2 - It used the older PHP construct method.  I could have updated the class; but I think it's better to remove the option entirely.
 
 = 3.3 =
-* 08/10/15
+* 08/10/2015
 * Minor code enhancements to prepare for the WordPress 4.3 release.
 
 = 3.2 =
 
-* 06/12/15
+* 06/12/2015
 * Fixed issue with OptimizePress theme.
 * Added "title" attribute to "Insert/Edit Advanced Link" button.
 * Made minor changes to plugin update message and styling.
@@ -164,7 +175,7 @@ OR...
 
 = 3.0.1 =
 
-* 01/05/15
+* 01/05/2015
 * Fixed security risk with Post/Page Title option.
 
 = 3.0 =
