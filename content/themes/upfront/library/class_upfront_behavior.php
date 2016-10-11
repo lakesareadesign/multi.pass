@@ -34,7 +34,7 @@ class Upfront_CompressionBehavior {
 	 * @return bool
 	 */
 	private function _parse_compression () {
-		if (defined('UPFRONT_COMPRESS_RESPONSE') && UPFRONT_COMPRESS_RESPONSE) return $this->_compression = true;
+		if (defined('UPFRONT_COMPRESS_RESPONSE') && UPFRONT_COMPRESS_RESPONSE) return $this->_compression = true;	     	 		 		  	 		 	
 		else return $this->_compression = $this->get_option('compression');
 	}
 

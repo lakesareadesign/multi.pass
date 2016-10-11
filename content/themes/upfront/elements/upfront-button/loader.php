@@ -12,7 +12,7 @@ function ubutton_init () {
 	add_filter('upfront_l10n', array('Upfront_ButtonView', 'add_l10n_strings'));
 
 	// Expose our JavaScript definitions to the Upfront API
-	upfront_add_layout_editor_entity('ubutton', upfront_relative_element_url('js/ubutton', __FILE__));	     	 		 		  	 		 	
+	upfront_add_layout_editor_entity('ubutton', upfront_relative_element_url('js/ubutton', __FILE__));
 
 	// Add element defaults to data object
 	$ubutton = new Upfront_ButtonView(array());

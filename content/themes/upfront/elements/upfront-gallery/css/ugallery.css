@@ -18,6 +18,11 @@
 	overflow: visible;
 }
 
+.ugallery_border {
+	overflow: hidden;
+	display: block;
+}
+
 .ugallery_item img,
 .ugallery_item a {
 	display: block;
@@ -1091,4 +1096,4 @@ figure.gallery-labels-figure img.mfp-img {
 }
 
 
-/* 133620-1474567166-au */
+/* 133620-1476208087-au */

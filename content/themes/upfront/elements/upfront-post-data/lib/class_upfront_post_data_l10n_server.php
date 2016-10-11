@@ -80,7 +80,7 @@ class Upfront_PostData_L10n_Server implements IUpfront_Server {
 				'fallback_image' => __('Choose', 'upfront'),
 			),
 			'meta' => array(
-				'meta_part_title' => __('Feature Image', 'upfront'),
+				'meta_part_title' => __('Post Meta', 'upfront'),
 			),
 			'post' => array(
 				'date_part_title' => __('Date posted', 'upfront'),
