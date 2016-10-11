@@ -1112,6 +1112,10 @@ form.fl-builder-settings {
 .fl-form-table tbody {
 	border: none;
 }
+.fl-form-table tr,
+.fl-form-table tr:nth-child(even) {
+	background: transparent;	
+}
 .fl-form-table th {
 	border: none !important;
 	background: #fff !important;
@@ -1155,7 +1159,7 @@ form.fl-builder-settings {
 .fl-builder-settings-fields input[type=tel],
 .fl-builder-settings-fields input[type=url],
 .fl-builder-settings-fields select {
-	background-color: #fff;
+	background: #fff;
 	border-color: #dfdfdf;
 	border-style: solid;
 	border-width: 1px;
@@ -1376,6 +1380,9 @@ form.fl-builder-settings {
 	position: absolute;
 	box-shadow: none;
 	-webkit-box-shadow: none;
+}
+.fl-builder-edit .media-frame.hide-menu {
+	visibility: visible;
 }
 
 /* Multiple Photo Fields */

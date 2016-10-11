@@ -101,12 +101,12 @@ class Agm_DZ_UserPages {
 	}
 
 	public function attributes_defaults( $defaults ) {
-		$defaults['disable_scroll'] = false;
+		$defaults['disable_scroll'] = null;
 		return $defaults;
 	}
 
 	public function overrides_process( $overrides, $atts ) {
-		if ( isset( $atts['disable_scroll'] ) ) {
+		if ( isset( $atts['disable_scroll'] ) && null !== $atts['disable_scroll'] ) {
 			$overrides['disable_scroll'] = agm_positive_values( $atts['disable_scroll'] );
 		}
 		return $overrides;

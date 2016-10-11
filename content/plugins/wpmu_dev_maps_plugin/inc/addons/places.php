@@ -53,7 +53,7 @@ class Agm_PlacesAdminPages {
 
 	public function prepare_for_load( $options, $raw ) {
 		$options['show_places'] = isset( $raw['show_places']) ? $raw['show_places'] : 0;
-		$options['places_radius'] = isset( $raw['places_radius']) ? $raw['places_radius'] : 1000;	     	 	 		  		  
+		$options['places_radius'] = isset( $raw['places_radius']) ? $raw['places_radius'] : 1000;
 		$options['place_types'] = isset( $raw['place_types']) ? $raw['place_types'] : array();
 		return $options;
 	}

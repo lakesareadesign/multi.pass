@@ -101,12 +101,16 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 		else {
 			$this->add_meta_box( 'dashboard-performance-disabled', __( 'Performance Report', 'wphb' ), array( $this, 'dashboard_performance_disabled_metabox' ), null, null, 'box-dashboard-left', array( 'box_class' => 'dev-box content-box content-box-one-col-center') );
 		}
-		//$this->add_meta_box( 'dashboard-performance-module', __( 'Performance Report', 'wphb' ), array( $this, 'dashboard_performance_module_metabox' ), array( $this, 'dashboard_performance_module_metabox_header' ), null, 'box-dashboard-left' );
 
 
 		/* Minification */
 		$collection = wphb_minification_get_resources_collection();
-		if ( is_multisite() && is_network_admin() ) {
+		$module = wphb_get_module( 'minify' );
+
+		if ( ! $module->can_execute_php() ) {
+			$this->add_meta_box( 'dashboard/minification/cant-execute-php', __( 'Minification', 'wphb' ), null, null, null, 'box-dashboard-right', array( 'box_class' => 'dev-box content-box content-box-one-col-center') );
+		}
+		elseif ( is_multisite() && is_network_admin() ) {
 			// Minification metabox is different on network admin
 			$this->add_meta_box( 'dashboard/minification/network-module', __( 'Minification', 'wphb' ), null, null, null, 'box-dashboard-right', array( 'box_class' => 'dev-box content-box content-box-one-col-center') );
 		}

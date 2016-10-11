@@ -1,3 +1,27 @@
+<h4>1.8.7 - 10/09/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>The mobile version of the Menu module now collapses when an anchor link is clicked.</li>
+	<li>Added the option to enable audio for YouTube and Vimeo row backgrounds.</li>
+	<li>Added MailerLite support to the Subscribe Form module.</li>
+	<li>Added the fl_builder_is_node_visible filter.</li>
+	<li>Added the fl_builder_form_field_preview_text filter.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed the lightbox not working in the Photo module.</li>
+	<li>Fixed broken slideshow backgrounds when no transition speed is set.</li>
+	<li>Fixed a CSS inheritance issue with the hamburger icon in the Menu module.</li>
+	<li>Fixed CSS compatibility issues with the builder UI in the Paperback theme from Array Themes.</li>
+	<li>Fixed a JS error on the post edit screen when the plugin branding contains a single quote.</li>
+	<li>Fixed the editing capability preventing editing of global templates.</li>
+	<li>Fixed layout CSS/JS 404 errors when the same layout is included on the page twice.</li>
+	<li>Fixed slideshow captions not changing on touch.</li>
+	<li>Fixed photo not removing when the remove link is clicked for the photo field.</li>
+	<li>Fixed a PHP warning with incorrect filter arguments in the Menu module.</li>
+	<li>Fixed SSL issue in IE caused by the YUI3 library.</li>
+</ul>
+
 <h4>1.8.6 - 09/19/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

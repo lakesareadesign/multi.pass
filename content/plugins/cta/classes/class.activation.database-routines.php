@@ -197,6 +197,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 				$wpdb->get_results( "ALTER TABLE {$table_name} ADD `list_id` mediumint(20) NOT NULL" );
 			}
 		}
+
 	}
 
 }

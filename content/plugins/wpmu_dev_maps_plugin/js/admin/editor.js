@@ -1,6 +1,6 @@
-/*! Google Maps - v2.9.07
+/*! Google Maps - v2.9.1
  * http://premium.wpmudev.org/project/wordpress-google-maps-plugin
- * Copyright (c) 2015; * Licensed GPLv2+ */
+ * Copyright (c) 2016; * Licensed GPLv2+ */
 /*global window:false */
 /*global document:false */
 /*global wpmUi:false */
@@ -68,6 +68,10 @@ jQuery(function() {
 
 		if ( null === _popup ) {
 			_popup = wpmUi.popup();
+			// Proxy the API to what's being used elsewhere too
+			if (_popup && !_popup.close && _popup.hide) {
+				_popup.close = _popup.hide;
+			}
 		} else {
 			_popup.close();
 		}
@@ -272,6 +276,9 @@ jQuery(function() {
 	 */
 	function updateEditorContents( mapMarker ) {
 		if ( null === wnd ) { return; }
+
+		mapMarker = wpmUi.apply_filters('agm-insert-marker', mapMarker) || '';
+		if (!mapMarker.length) { return false; }
 
 		var text;
 

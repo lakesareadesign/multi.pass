@@ -77,9 +77,10 @@ final class FLBuilderUserTemplates {
 	static public function register_post_type()
 	{
 		// Vars for checking if the templates admin should be public.
-		$admin_enabled 	= FLBuilderModel::user_templates_admin_enabled();
-		$can_edit 		= FLBuilderModel::current_user_has_editing_capability();
-		
+		$admin_enabled 		= FLBuilderModel::user_templates_admin_enabled();
+		$can_edit_global 	= current_user_can( FLBuilderModel::get_global_templates_editing_capability() );
+		$can_edit 			= FLBuilderModel::current_user_has_editing_capability();
+
 		// Register the template post type.
 		register_post_type('fl-builder-template', apply_filters( 'fl_builder_register_template_post_type_args', array(
 			'public'            => $admin_enabled && $can_edit ? true : false,
@@ -108,7 +109,7 @@ final class FLBuilderUserTemplates {
 			'taxonomies'		=> array(
 				'fl-builder-template-category'
 			),
-			'publicly_queryable' 	=> $can_edit,
+			'publicly_queryable' 	=> $can_edit || $can_edit_global,
 			'exclude_from_search'	=> true
 		) ) );
 		
@@ -455,7 +456,7 @@ final class FLBuilderUserTemplates {
 		if ( ! current_user_can( FLBuilderModel::get_global_templates_editing_capability() ) ) {
 			$classes .= ' fl-builder-global-templates-locked';
 		}
-		
+
 		return $classes;
 	}
 

@@ -6,7 +6,7 @@
 .fl-node-<?php echo $col->node; ?> {
 	color: #<?php echo $col->settings->text_color; ?>;
 }
-.fl-builder-content .fl-node-<?php echo $col->node; ?> *:not(input):not(textarea):not(a):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+.fl-builder-content .fl-node-<?php echo $col->node; ?> *:not(input):not(textarea):not(a):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fl-menu-mobile-toggle.hamburger) {
 	color: inherit;
 }
 <?php endif; ?>

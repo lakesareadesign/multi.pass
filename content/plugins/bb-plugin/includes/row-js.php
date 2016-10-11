@@ -25,7 +25,7 @@ YUI({'logExclude': { 'yui': true } }).use('fl-slideshow', function(Y) {
 			stretchy            : true,
 			stretchyType        : 'contain',
 			transition          : '<?php echo $settings->ss_transition; ?>',
-			transitionDuration  : <?php echo $settings->ss_transitionDuration; ?>
+			transitionDuration  : <?php echo !empty($settings->ss_transitionDuration) ? $settings->ss_transitionDuration : 1; ?>
 		});
 	
 	if(oldSlideshow) {

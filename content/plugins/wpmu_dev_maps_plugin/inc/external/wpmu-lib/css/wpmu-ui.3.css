@@ -1079,7 +1079,7 @@
   font-size: 13px;
   text-align: center;
   color: #FFF;
-  text-shadow: 0 0 5px #264d73;
+  text-shadow: 0 0 5px #264c73;
 }
 .wpmui-progress-wrap .wpmui-progress-percent:before {
   content: '';
@@ -1091,8 +1091,8 @@
   border-radius: 5px;
   margin-top: -5px;
   margin-left: -15px;
-  box-shadow: 0 0 8px 4px #264d73;
-  background: #264d73;
+  box-shadow: 0 0 8px 4px #264c73;
+  background: #264c73;
   z-index: -1;
   opacity: .5;
 }
@@ -1156,4 +1156,4 @@
 }
 
 
-/* 133620-1454456271-au */
+/* 133620-1476208394-au */

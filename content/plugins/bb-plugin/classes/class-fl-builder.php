@@ -1867,7 +1867,7 @@ final class FLBuilder {
 	static public function render_css( $include_global = true )
 	{
 		// Delete the old file.
-		FLBuilderModel::delete_asset_cache('css');
+		FLBuilderModel::delete_asset_cache( $include_global ? 'css' : 'css_partial' );
 
 		// Get info on the new file.
 		$nodes 				= FLBuilderModel::get_categorized_nodes();
@@ -2282,7 +2282,7 @@ final class FLBuilder {
 	static public function render_js( $include_global = true )
 	{
 		// Delete the old file.
-		FLBuilderModel::delete_asset_cache('js');
+		FLBuilderModel::delete_asset_cache( $include_global ? 'js' : 'js_partial' );
 
 		// Get info on the new file.
 		$nodes 		   		= FLBuilderModel::get_categorized_nodes();

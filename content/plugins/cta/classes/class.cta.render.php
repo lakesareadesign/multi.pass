@@ -279,7 +279,12 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			$variation_html = do_shortcode($variation_html);
             $doc = new DOMDocument();
-            @$doc->loadHTML( mb_convert_encoding($variation_html, 'HTML-ENTITIES', 'UTF-8'));
+
+            if (!function_exists('mb_convert_encoding')) {
+                @$doc->loadHTML($variation_html);
+            } else {
+                @$doc->loadHTML( mb_convert_encoding($variation_html, 'HTML-ENTITIES', 'UTF-8'));
+            }
 
             foreach($doc->getElementsByTagName('a') as $anchor) {
                 /* skip links with do-not-track in class */
@@ -403,7 +408,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             global $post;
 
             /* Get Variation Selection Nature */
-            self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery', 0 );
+            self::$instance->disable_ajax = CTA_Settings::get_setting('wp-cta-main-disable-ajax-variation-discovery', 0 );
 
             $post_id = self::$instance->obj_id;
 
@@ -1280,7 +1285,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
         function load_shortcode_variation_js( $cta_id, $variation_id = null, $return = false ) {
 
             if ( !isset(self::$instance->disable_ajax) ) {
-                self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery', 0 );
+                self::$instance->disable_ajax = CTA_Settings::get_setting('wp-cta-main-disable-ajax-variation-discovery', 0 );
             }
 
             $script =	"<script type='text/javascript'>";

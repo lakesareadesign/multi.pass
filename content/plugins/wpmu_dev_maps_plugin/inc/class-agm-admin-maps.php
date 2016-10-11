@@ -49,6 +49,15 @@ class AgmAdminMaps {
 			'__return_false',
 			'agm_google_maps_options_page'
 		);
+
+		add_settings_field(
+			'agm_google_maps_default_map_api_key',
+			__( 'Google maps API key', AGM_LANG ),
+			array( $form, 'create_map_api_key_box' ),
+			'agm_google_maps_options_page',
+			'agm_google_maps'
+		);
+
 		add_settings_field(
 			'agm_google_maps_default_height',
 			__( 'Default map height', AGM_LANG ),
@@ -70,6 +79,7 @@ class AgmAdminMaps {
 			'agm_google_maps_options_page',
 			'agm_google_maps'
 		);
+
 		add_settings_field(
 			'agm_google_maps_default_map_zoom',
 			__( 'Default map zoom', AGM_LANG ),
@@ -77,6 +87,7 @@ class AgmAdminMaps {
 			'agm_google_maps_options_page',
 			'agm_google_maps'
 		);
+
 		add_settings_field(
 			'agm_google_maps_default_map_units',
 			__( 'Default map units', AGM_LANG ),
@@ -251,11 +262,13 @@ class AgmAdminMaps {
 	 * Hook Scripts to post editor.
 	 */
 	private function shared_scripts() {
+		$opt = apply_filters( 'agm_google_maps-options', get_option( 'agm_google_maps' ) );
 		$defaults = array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'root_url' => AGM_PLUGIN_URL,
 			'is_multisite' => (int)is_multisite(),
 			'libraries' => array( 'panoramio' ),
+			'maps_api_key' => !empty($opt['map_api_key']) ? $opt['map_api_key'] : '',
 		);
 
 		$vars = apply_filters(

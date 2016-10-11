@@ -117,7 +117,7 @@ class Agm_Map_LocationShortcode extends AgmAddonBase {
 
 			// Create and store the map in DB.
 			$model = $this->map_model();
-			$map_id = $model->autocreate_map( false, false, false, $address, $post_id, $args );
+			$map_id = $model->autocreate_map( false, false, false, $address, $post_id, $args );	     	 	 		  		  
 
 			if ( ! $map_id ) {
 				$this->admin_note( __( 'Could not create map from shortcode', AGM_LANG ) );

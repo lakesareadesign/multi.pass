@@ -142,9 +142,6 @@ if (!class_exists('Leads_Manager')) {
         public static function display_ui() {
             global $wpdb;
 
-            /* Load only our scripts */
-            Inbound_Compatibility::inbound_compatibilities_mode();
-
             /* listen for and display notications */
             self::display_notifications();
             /* display header */
@@ -852,7 +849,7 @@ if (!class_exists('Leads_Manager')) {
 
 
             //handle posted data
-            $ids      = $_POST['data']['ids'];
+            $ids      = json_decode(stripslashes($_POST['data']['ids']));
             $limit    = $_POST['data']['limit'];
             $offset   = $_POST['data']['offset'];
             $total    = $_POST['data']['total'];

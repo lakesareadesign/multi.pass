@@ -411,7 +411,24 @@ $this->sections[] = array(
 				'add_text'		=> __('Add New URL','ultimatemember'),
 				'required'		=> array( 'accessible', '=', 2 ),
 		),
-
+ 		array(
+                'id'       		=> 'home_page_accessible',
+                'type'     		=> 'switch',
+                'title'   		=> __( 'Allow Homepage to be accessible','ultimatemember' ),
+				'default' 		=> 1,
+				'on'			=> __('Yes','ultimatemember'),
+				'off'			=> __('No','ultimatemember'),
+				'required'		=> array( 'accessible', '=', 2 ),
+        ),
+ 		array(
+                'id'       		=> 'category_page_accessible',
+                'type'     		=> 'switch',
+                'title'   		=> __( 'Allow Category pages to be accessible','ultimatemember' ),
+				'default' 		=> 1,
+				'on'			=> __('Yes','ultimatemember'),
+				'off'			=> __('No','ultimatemember'),
+				'required'		=> array( 'accessible', '=', 2 ),
+        ),
         array(
                 'id'       		=> 'wpadmin_login',
                 'type'     		=> 'switch',
@@ -721,7 +738,7 @@ $this->sections[] = array(
 										  '{login_url}'  . "\r\n\r\n" .
 										  'Your account e-mail: {email}' . "\r\n" .
 										  'Your account username: {username}' . "\r\n" .
-										  'Set your account passowrd: {password_reset_link}' . "\r\n\r\n" .
+										  'Set your account password: {password_reset_link}' . "\r\n\r\n" .
 										  'If you have any problems, please contact us at {admin_email}'  . "\r\n\r\n" .
 										  'Thanks,' . "\r\n" .
 										  '{site_name}',
@@ -825,7 +842,7 @@ $this->sections[] = array(
                 'type'     => 'switch',
                 'title'    => __( 'Password Reset Email','ultimatemember' ),
 				'default'  => 1,
-				'desc' 	   => __('Whether to send the user an email when he request to reset password (Recommended, please keep on)','ultimatemember'),
+				'desc' 	   => __('Whether to send an email when users changed their password (Recommended, please keep on)','ultimatemember'),
         ),
 
         array(

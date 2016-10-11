@@ -69,11 +69,16 @@ class WP_Hummingbird_Admin {
 	 * Add all the menu pages in admin for the plugin
 	 */
 	public function add_menu_pages() {
+		$module = wphb_get_module( 'minify' );
+
 		if ( ! is_multisite() ) {
 			$this->pages['wphb'] = new WP_Hummingbird_Dashboard_Page( 'wphb', __( 'Hummingbird', 'wphb' ), __( 'Hummingbird', 'wphb' ), false, false );
 			$this->pages['wphb-dashboard'] = new WP_Hummingbird_Dashboard_Page( 'wphb', __( 'Dashboard', 'wphb' ), __( 'Dashboard', 'wphb' ), 'wphb' );
 			$this->pages['wphb-performance'] = new WP_Hummingbird_Performance_Report_Page( 'wphb-performance', __( 'Performance Report', 'wphb' ), __( 'Performance Report', 'wphb' ), 'wphb' );
-			$this->pages['wphb-minification'] = new WP_Hummingbird_Minification_Page( 'wphb-minification', __( 'Minification', 'wphb' ), __( 'Minification', 'wphb' ), 'wphb' );
+
+			if ( $module->can_execute_php() ) {
+				$this->pages['wphb-minification'] = new WP_Hummingbird_Minification_Page( 'wphb-minification', __( 'Minification', 'wphb' ), __( 'Minification', 'wphb' ), 'wphb' );
+			}
 			$this->pages['wphb-caching'] = new WP_Hummingbird_Caching_Page( 'wphb-caching', __( 'Browser Caching', 'wphb' ), __( 'Browser Caching', 'wphb' ), 'wphb' );
 			$this->pages['wphb-gzip'] = new WP_Hummingbird_GZIP_Page( 'wphb-gzip', __( 'GZIP Compression', 'wphb' ), __( 'GZIP Compression', 'wphb' ), 'wphb' );
 			$this->pages['wphb-uptime'] = new WP_Hummingbird_Uptime_Page( 'wphb-uptime', __( 'Uptime Monitoring', 'wphb' ), __( 'Uptime', 'wphb' ), 'wphb' );
@@ -82,18 +87,20 @@ class WP_Hummingbird_Admin {
 		else {
 			$minify = wphb_get_setting( 'minify' );
 
-			if (
-				( 'super-admins' === $minify && is_super_admin() )
-				|| ( true === $minify )
-			) {
-				$this->pages['wphb-minification'] = new WP_Hummingbird_Minification_Page( 'wphb-minification', __( 'Minification', 'wphb' ), __( 'Hummingbird', 'wphb' ), false );
-			}
-			elseif ( isset( $_GET['page'] ) && 'wphb-minification' === $_GET['page'] ) {
-				// Minification is off, and is a network, let's redirect to network admin
-				$url = network_admin_url( 'admin.php?page=wphb#wphb-box-dashboard-minification-network-module' );
-				$url = add_query_arg( 'minify-instructions', 'true', $url );
-				wp_redirect( $url );
-				exit;
+			if ( $module->can_execute_php() ) {
+				if (
+					( 'super-admins' === $minify && is_super_admin() )
+					|| ( true === $minify )
+				) {
+					$this->pages['wphb-minification'] = new WP_Hummingbird_Minification_Page( 'wphb-minification', __( 'Minification', 'wphb' ), __( 'Hummingbird', 'wphb' ), false );
+				}
+				elseif ( isset( $_GET['page'] ) && 'wphb-minification' === $_GET['page'] ) {
+					// Minification is off, and is a network, let's redirect to network admin
+					$url = network_admin_url( 'admin.php?page=wphb#wphb-box-dashboard-minification-network-module' );
+					$url = add_query_arg( 'minify-instructions', 'true', $url );
+					wp_redirect( $url );
+					exit;
+				}
 			}
 
 		}

@@ -382,6 +382,22 @@ class WP_Hummingbird_Admin_AJAX {
 				$settings['cloudflare-connected'] = true;
 				wphb_update_settings( $settings );
 
+				// Try to auto select domain
+				$site_url = network_site_url();
+				$site_url = rtrim( preg_replace( '/^https?:\/\//', '', $site_url ), '/' );
+				$plucked_zones = wp_list_pluck( $zones, 'label' );
+				$found = preg_grep( '/.*' . $site_url . '.*/', $plucked_zones );
+				if ( is_array( $found ) && count( $found ) === 1 && isset( $zones[ key( $found ) ]['value'] ) ) {
+					// Select the domain and cheat this function
+					$zone_found = $zones[ key( $found ) ]['value'];
+					$_POST['formData'] = array(
+						'cloudflare-zone' => $zone_found
+					);
+					$_POST['step'] = 'zone';
+					$_POST['cfData'] = $cfData;
+					$this->cloudflare_connect();
+				}
+
 				wp_send_json_success( array( 'nextStep' => 'zone', 'newData' => $cfData ) );
 				break;
 			}
@@ -412,9 +428,6 @@ class WP_Hummingbird_Admin_AJAX {
 				$cfData['zone'] = $settings['cloudflare-zone'];
 				$cfData['zoneName'] = $settings['cloudflare-zone-name'];
 				$cfData['plan'] = $settings['cloudflare-plan'];
-
-				// Remove Hummingbird caching
-				wphb_unsave_htaccess( 'caching' );
 
 				update_site_option( 'wphb-is-cloudflare', 1 );
 

@@ -75,4 +75,4 @@ class Agm_PostIndexer {
 
 }
 // Post Indexer (http://premium.wpmudev.org/project/post-indexer) integration
-define ('AGM_USE_POST_INDEXER', Agm_PostIndexer::has_post_indexer(), true);
+define( 'AGM_USE_POST_INDEXER', Agm_PostIndexer::has_post_indexer() );

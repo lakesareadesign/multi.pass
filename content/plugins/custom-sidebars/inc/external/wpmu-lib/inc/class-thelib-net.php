@@ -169,7 +169,7 @@ class TheLib_Net extends TheLib {
 		header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
 		header( 'Cache-Control: private', false ); // required for certain browsers
 		header( 'Content-type: application/json' );
-		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );							 			 	 	 		  
 		header( 'Content-Transfer-Encoding: binary' );
 		header( 'Content-Length: ' . strlen( $contents ) );
 

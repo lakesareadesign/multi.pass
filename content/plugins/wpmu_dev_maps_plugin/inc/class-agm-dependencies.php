@@ -68,8 +68,8 @@ if ( ! is_admin() ) { // Doesn't work on admin
 				'front'
 			);
 
-			lib3()->ui->add( AGM_PLUGIN_URL . 'js/loader.min.js', 'front' );
-			lib3()->ui->add( AGM_PLUGIN_URL . 'js/user/google-maps.min.js', 'front' );
+			lib3()->ui->add( AGM_PLUGIN_URL . 'js/loader.min.js', 'all' );
+			lib3()->ui->add( AGM_PLUGIN_URL . 'js/user/google-maps.min.js', 'all' );
 
 			do_action( 'agm-user-scripts' );
 		}
@@ -78,11 +78,13 @@ if ( ! is_admin() ) { // Doesn't work on admin
 		 * Introduces plugins_url() as root variable (global).
 		 */
 		public static function js_data_object() {
+			$opt = apply_filters( 'agm_google_maps-options', get_option( 'agm_google_maps' ) );
 			$defaults = array(
 				'ajax_url'     => admin_url( 'admin-ajax.php' ),
 				'root_url'     => AGM_PLUGIN_URL,
 				'is_multisite' => (int) is_multisite(),
 				'libraries'    => array( 'panoramio' ),
+				'maps_api_key' => !empty($opt['map_api_key']) ? $opt['map_api_key'] : '',
 			);
 
 			$vars = apply_filters(

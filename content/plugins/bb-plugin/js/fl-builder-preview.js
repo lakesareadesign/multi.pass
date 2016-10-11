@@ -777,6 +777,11 @@
 					'background-size'       : this.elements.bgSize.val()
 				});
 			}
+			else {
+				this.updateCSSRule(this.classes.content, {
+					'background-image'      : 'none'
+				});
+			}
 		},
 		
 		/**

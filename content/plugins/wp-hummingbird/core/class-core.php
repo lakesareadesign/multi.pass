@@ -104,34 +104,34 @@ class WP_Hummingbird_Core {
 	public function admin_bar_menu( $admin_bar ) {
 		/** @var WP_Hummingbird_Module_Minify $minification_module */
 		$minification_module = wphb_get_module( 'minify' );
+
+		$menu_args = array(
+			'id' => 'wphb',
+			'title' => '<span class="ab-icon"></span><span class="screen-reader-text">Hummingbird</span>',
+			'href' => admin_url( 'admin.php?page=wphb-minification' )
+		);
+
 		if ( $minification_module->is_active() ) {
-			$admin_bar->add_menu( array(
-				'id' => 'wphb',
-				'title' => '<span class="ab-icon"></span><span class="screen-reader-text">Hummingbird</span>',
-				'href' => admin_url( 'admin.php?page=wphb-minification' )
-			));
-
-			if ( ! is_admin() ) {
-
-				if ( isset( $_GET['avoid-minify'] ) ) {
-					$admin_bar->add_menu( array(
-						'id' => 'wphb-page-minify',
-						'title' => __( 'See this page minified', 'wphb' ),
-						'href' => remove_query_arg( 'avoid-minify' ),
-						'parent' => 'wphb'
-					));
-				}
-				else {
-					$admin_bar->add_menu( array(
-						'id' => 'wphb-page-minify',
-						'title' => __( 'See this page unminified', 'wphb' ),
-						'href' => add_query_arg( 'avoid-minify', 'true' ),
-						'parent' => 'wphb'
-					));
-				}
-
+			if ( ! is_admin() && ! isset( $_GET['avoid-minify'] ) ) {
+				$admin_bar->add_menu( $menu_args );
+				$admin_bar->add_menu( array(
+					'id' => 'wphb-page-minify',
+					'title' => __( 'See this page unminified', 'wphb' ),
+					'href' => add_query_arg( 'avoid-minify', 'true' ),
+					'parent' => 'wphb'
+				));
 			}
-
+		}
+		else {
+			if ( ! is_admin() && isset( $_GET['avoid-minify'] ) ) {
+				$admin_bar->add_menu( $menu_args );
+				$admin_bar->add_menu( array(
+					'id' => 'wphb-page-minify',
+					'title' => __( 'See this page minified', 'wphb' ),
+					'href' => remove_query_arg( 'avoid-minify' ),
+					'parent' => 'wphb'
+				));
+			}
 		}
 	}
 

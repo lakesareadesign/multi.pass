@@ -1,6 +1,6 @@
-/*! Google Maps - v2.9.07
+/*! Google Maps - v2.9.1
  * http://premium.wpmudev.org/project/wordpress-google-maps-plugin
- * Copyright (c) 2015; * Licensed GPLv2+ */
+ * Copyright (c) 2016; * Licensed GPLv2+ */
 /*global window:false */
 /*global document:false */
 /*global _agm:false */
@@ -75,7 +75,7 @@ window.setTimeout( function init_icon_admin() {
 		var ind;
 
 		// Ignore empty URLs
-		if ( ! url.length ) {
+		if ( ! (url || '').length ) {
 			return false;
 		}
 
@@ -170,7 +170,8 @@ window.setTimeout( function init_icon_admin() {
 
 		frame.on('close',function() {
 			// get selections and save to hidden input plus other AJAX stuff etc.
-			var image = frame.state().get('selection').first().toJSON(),
+			var $image = frame.state().get('selection').first(),
+				image = ($image || {}).toJSON ? $image.toJSON() : {},
 				img_url = image.url;
 
 			maybe_add_url( img_url );

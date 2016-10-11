@@ -39,24 +39,24 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 			wphb_log( 'result: ', 'caching' );
 			wphb_log( $result, 'caching' );
 
-			if ( is_wp_error( $result ) ) {
-				$headers = array();
-			} else {
-				$headers = $result['headers'];
-			}
-
+			$cache_control = wp_remote_retrieve_header( $result, 'cache-control' );
 			$results[ $type ] = false;
-			if ( isset( $headers['cache-control'] )
-				&& preg_match( '/max\-age=([0-9]*)/', $headers['cache-control'], $matches )
-			) {
-				if ( isset( $matches[1] ) ) {
-					$seconds = absint( $matches[1] );
-					$results[ $type ] = $seconds;
+			if ( $cache_control ) {
+				if ( is_array( $cache_control ) ) {
+					// Join the cache control header into a single string
+					$cache_control = join( ' ', $cache_control );
+				}
+				if ( preg_match( '/max\-age=([0-9]*)/', $cache_control, $matches ) ) {
+					if ( isset( $matches[1] ) ) {
+						$seconds = absint( $matches[1] );
+						$results[ $type ] = $seconds;
+					}
 				}
 			}
+
 		}
 
-		do_action( 'wphb_caching_analice_data', $results );
+		do_action( 'wphb_caching_analize_data', $results );
 
 		return $results;
 	}

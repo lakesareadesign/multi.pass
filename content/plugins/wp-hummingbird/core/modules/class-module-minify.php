@@ -124,6 +124,33 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 		if ( isset( $_GET['avoid-minify'] ) || 'wp-login.php' === $pagenow ) {
 			add_filter( 'wp_hummingbird_is_active_module_' . $this->get_slug(), '__return_false' );
 		}
+
+		add_filter( 'wp_hummingbird_is_active_module_' . $this->get_slug(), array( $this, 'should_be_active' ), 20 );
+	}
+
+	public function should_be_active( $is_active ) {
+		if ( ! $this->can_execute_php() ) {
+			return false;
+		}
+
+		return $is_active;
+	}
+
+	/**
+	 * Check if the current PHP version is suitable for minification
+	 */
+	public function can_execute_php() {
+		$minimun = $this->get_php_min_version();
+
+		if ( version_compare( PHP_VERSION, $minimun, '<' ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function get_php_min_version() {
+		return '5.3';
 	}
 
 	public function run() {

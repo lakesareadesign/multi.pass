@@ -1,1140 +1,1072 @@
+# Copyright (C) 2016 WPMU DEV
+# This file is distributed under the same license as the Google Maps package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPMU DEV Maps\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-24 12:19+0100\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Philipp Stracker <philipp@stracker.net>\n"
-"Language-Team: Incsub\n"
-"Language: en\n"
+"Project-Id-Version: Google Maps 2.9.1\n"
+"Report-Msgid-Bugs-To: "
+"http://wordpress.org/support/plugin/wpmu_dev_maps_plugin\n"
+"POT-Creation-Date: 2016-10-10 04:10:27+00:00\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: _e;__;_x;_ex\n"
-"X-Poedit-Basepath: ..\n"
-"X-Generator: Poedit 1.7.1\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: node_modules\n"
-"X-Poedit-SearchPathExcluded-1: release\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: grunt-wp-i18n 0.4.9\n"
 
 #: inc/addons/additional-behaviors.php:47
 msgid "Additional Behaviors"
-msgstr "Additional Behaviors"
+msgstr ""
 
 #: inc/addons/additional-behaviors.php:53
 msgid "Behaviors"
-msgstr "Behaviors"
+msgstr ""
 
 #: inc/addons/additional-behaviors.php:64
 msgid "This is where you can define additional global settings for your maps."
-msgstr "This is where you can define additional global settings for your maps."
+msgstr ""
 
 #: inc/addons/additional-behaviors.php:83
 msgid "Click on item in marker-list opens the detail popup"
-msgstr "Click on item in marker-list opens the detail popup"
+msgstr ""
 
 #: inc/addons/additional-behaviors.php:97
 msgid "Click on directions link scrolls to the directions form"
-msgstr "Click on directions link scrolls to the directions form"
+msgstr ""
 
 #: inc/addons/bp-group-maps.php:173
 msgid "Group Map"
-msgstr "Group Map"
+msgstr ""
 
 #: inc/addons/bp-group-maps.php:263
 msgid "Group map"
-msgstr "Group map"
+msgstr ""
 
 #: inc/addons/bp-group-maps.php:267
 msgid "This group has address:"
-msgstr "This group has address:"
+msgstr ""
 
 #: inc/addons/bp-group-maps.php:272
 msgid "Show group map to:"
-msgstr "Show group map to:"
+msgstr ""
 
-#: inc/addons/bp-group-maps.php:275 inc/class-agm-admin-form-renderer.php:473
+#: inc/addons/bp-group-maps.php:275 inc/class-agm-admin-form-renderer.php:492
 #: views/widget_settings.php:26
 msgid "All"
-msgstr "All"
+msgstr ""
 
 #: inc/addons/bp-group-maps.php:279
 msgid "Members"
-msgstr "Members"
+msgstr ""
 
 #: inc/addons/bp-group-maps.php:283
 msgid "Moderators"
-msgstr "Moderators"
+msgstr ""
 
 #: inc/addons/bp-group-maps.php:291
 msgid "Show separate Group Map tab"
-msgstr "Show separate Group Map tab"
+msgstr ""
 
 #: inc/addons/bp-group-maps.php:299
 msgid "Show map on members list page"
-msgstr "Show map on members list page"
+msgstr ""
 
 #: inc/addons/bp-group-maps.php:308
 msgid "Also show members locations"
-msgstr "Also show members locations"
+msgstr ""
 
 #: inc/addons/bp-group-maps.php:309
 msgid "(requires BuddyPress Profile maps add-on)"
-msgstr "(requires BuddyPress Profile maps add-on)"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:105
 msgid "BuddyPress profile"
-msgstr "BuddyPress profile"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:119
 msgid "Address profile field"
-msgstr "Address profile field"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:126
 msgid "Show map in user profile"
-msgstr "Show map in user profile"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:133
 msgid "Show map in members list"
-msgstr "Show map in members list"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:140
 msgid "Use avatars as map markers"
-msgstr "Use avatars as map markers"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:147
 msgid "Global map with all members"
-msgstr "Global map with all members"
-
-#: inc/addons/bp-profile-maps.php:159
-msgid ""
-"This Add-On required BuddyPress plugin with active <strong>Extended "
-"Profiles</strong> compoennt to work."
 msgstr ""
-"This Add-On required BuddyPress plugin with active <strong>Extended "
-"Profiles</strong> compoennt to work."
 
 #: inc/addons/bp-profile-maps.php:182
 msgid "This profile field holds the address of my users:"
-msgstr "This profile field holds the address of my users:"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:185
 msgid "Please, select a field"
-msgstr "Please, select a field"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:203
 msgid "Do not show in profile"
-msgstr "Do not show in profile"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:204
 msgid "Show map before profile fields"
-msgstr "Show map before profile fields"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:205
 msgid "Show map after profile fields"
-msgstr "Show map after profile fields"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:226
 msgid "Do not show in members list"
-msgstr "Do not show in members list"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:227
 msgid "Show map before members list"
-msgstr "Show map before members list"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:228
 msgid "Show map after members list"
-msgstr "Show map after members list"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:249 inc/addons/user-checkin.php:1932
 #: inc/class-agm-admin-form-renderer.php:32
-#: inc/class-agm-admin-form-renderer.php:263
-#: inc/class-agm-admin-form-renderer.php:340
-#: inc/class-agm-admin-form-renderer.php:365
+#: inc/class-agm-admin-form-renderer.php:282
+#: inc/class-agm-admin-form-renderer.php:359
+#: inc/class-agm-admin-form-renderer.php:384
 msgid "No"
-msgstr "No"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:250 inc/addons/user-checkin.php:1931
 #: inc/class-agm-admin-form-renderer.php:28
-#: inc/class-agm-admin-form-renderer.php:254
-#: inc/class-agm-admin-form-renderer.php:331
-#: inc/class-agm-admin-form-renderer.php:356
+#: inc/class-agm-admin-form-renderer.php:273
+#: inc/class-agm-admin-form-renderer.php:350
+#: inc/class-agm-admin-form-renderer.php:375
 msgid "Yes"
-msgstr "Yes"
-
-#: inc/addons/bp-profile-maps.php:270
-msgid ""
-"Use this shortcode on any page to display a map with all BuddyPress members:"
-"<p><code>[agm_members_map]</code></p><p><code>[agm_all_profiles_map]</code> "
-"(<em>identical to agm_members_map for backwards compatibility</em>)</p>"
 msgstr ""
-"Use this shortcode on any page to display a map with all BuddyPress members:"
-"<p><code>[agm_members_map]</code></p><p><code>[agm_all_profiles_map]</code> "
-"(<em>identical to agm_members_map for backwards compatibility</em>)</p>"
 
 #: inc/addons/bp-profile-maps.php:350
 msgid "BuddyPress XProfile not activated"
-msgstr "BuddyPress XProfile not activated"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:358
 msgid "No address defined"
-msgstr "No address defined"
+msgstr ""
 
 #: inc/addons/bp-profile-maps.php:364
 msgid "No map found for this address"
-msgstr "No map found for this address"
+msgstr ""
 
 #: inc/addons/custom-icons.php:55 inc/addons/custom-icons.php:70
 msgid "Custom icons"
-msgstr "Custom icons"
+msgstr ""
 
 #: inc/addons/custom-icons.php:62
 msgid "Add new icons"
-msgstr "Add new icons"
+msgstr ""
 
 #: inc/addons/custom-icons.php:90
 msgid "Icon"
-msgstr "Icon"
+msgstr ""
 
 #: inc/addons/custom-icons.php:91
 msgid "URL"
-msgstr "URL"
+msgstr ""
 
 #: inc/addons/custom-icons.php:92
 msgid "Width x Height"
-msgstr "Width x Height"
+msgstr ""
 
 #: inc/addons/custom-icons.php:112
 msgid "Icon URL"
-msgstr "Icon URL"
+msgstr ""
 
 #: inc/addons/custom-icons.php:118
 msgid "Add this icon"
-msgstr "Add this icon"
+msgstr ""
 
 #: inc/addons/custom-icons.php:119
 msgid "Enter a valid image URL"
-msgstr "Enter a valid image URL"
+msgstr ""
 
 #: inc/addons/custom-icons.php:125
 msgid "Add icon from media library"
-msgstr "Add icon from media library"
+msgstr ""
 
 #: inc/addons/custom-icons.php:129
 msgid ""
-"Note: All icons will be displayed in full-size on the map. In the editor and "
-"this list the icon-preview is displayed with 32 x 32 pixels."
+"Note: All icons will be displayed in full-size on the map. In the editor "
+"and this list the icon-preview is displayed with 32 x 32 pixels."
 msgstr ""
-"Note: All icons will be displayed in full-size on the map. In the editor and "
-"this list the icon-preview is displayed with 32 x 32 pixels."
 
 #: inc/addons/disable-scroll.php:42
 msgid "Disable scroll"
-msgstr "Disable scroll"
+msgstr ""
 
 #: inc/addons/fb-nearby-friends.php:33
 msgid "Nearby Facebook Friends"
-msgstr "Nearby Facebook Friends"
+msgstr ""
 
 #: inc/addons/fb-nearby-friends.php:39 inc/addons/fb-nearby-friends.php:65
 msgid "Facebook App ID"
-msgstr "Facebook App ID"
+msgstr ""
 
 #: inc/addons/fb-nearby-friends.php:46
 msgid "Scope"
-msgstr "Scope"
+msgstr ""
 
 #: inc/addons/fb-nearby-friends.php:53
 msgid "Set up the App"
-msgstr "Set up the App"
+msgstr ""
 
 #: inc/addons/fb-nearby-friends.php:77
 msgid "Check for friends within "
-msgstr "Check for friends within "
+msgstr ""
 
 #: inc/addons/fb-nearby-friends.php:86
 msgid "meters"
-msgstr "meters"
+msgstr ""
 
 #: inc/addons/fb-nearby-friends.php:91
 msgid "Search for friends in updates and photos for friends within last "
-msgstr "Search for friends in updates and photos for friends within last "
+msgstr ""
 
 #: inc/addons/fb-nearby-friends.php:100
 msgid "months"
-msgstr "months"
+msgstr ""
 
 #: inc/addons/fb-nearby-friends.php:107
 msgid "Follow these steps to set up <em>App ID</em> field"
-msgstr "Follow these steps to set up <em>App ID</em> field"
-
-#: inc/addons/fb-nearby-friends.php:112
-msgid ""
-"<a target=\"_blank\" href=\"https://developers.facebook.com/apps\">Create a "
-"new Facebook App</a>"
 msgstr ""
-"<a target=\"_blank\" href=\"https://developers.facebook.com/apps\">Create a "
-"new Facebook App</a>"
-
-#: inc/addons/fb-nearby-friends.php:119
-#, php-format
-msgid ""
-"Your Facebook App should look similar to this; the ID is displayed in the "
-"top:<br /><img src=\"%s\" width=\"590\" />"
-msgstr ""
-"Your Facebook App should look similar to this; the ID is displayed in the "
-"top:<br /><img src=\"%s\" width=\"590\" />"
 
 #: inc/addons/fix-and-repair.php:12
 msgid ""
-"Use options in this section to repair your Google Maps installation. <em>You "
-"may want to back up your WordPress database first.</em>"
+"Use options in this section to repair your Google Maps installation. "
+"<em>You may want to back up your WordPress database first.</em>"
 msgstr ""
-"Use options in this section to repair your Google Maps installation. <em>You "
-"may want to back up your WordPress database first.</em>"
 
 #: inc/addons/fix-and-repair.php:16 inc/addons/fix-and-repair.php:53
 #: inc/addons/fix-and-repair.php:85 inc/addons/fix-and-repair.php:161
 msgid "Please, wait..."
-msgstr "Please, wait..."
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:17
 msgid "Click here to reset all options to their defaults on this blog"
-msgstr "Click here to reset all options to their defaults on this blog"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:18 inc/addons/fix-and-repair.php:55
 #: inc/addons/fix-and-repair.php:87 inc/addons/fix-and-repair.php:163
 msgid "Success"
-msgstr "Success"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:19 inc/addons/fix-and-repair.php:56
 #: inc/addons/fix-and-repair.php:88 inc/addons/fix-and-repair.php:164
 msgid "Failure"
-msgstr "Failure"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:20
 msgid "Your page will automatically reload in 3s"
-msgstr "Your page will automatically reload in 3s"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:23
 msgid "All individual map options will be preserved."
-msgstr "All individual map options will be preserved."
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:54
 msgid "Click here to fix missing tables on this blog"
-msgstr "Click here to fix missing tables on this blog"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:59
 msgid "Use this option if you suspect that your database table is missing"
-msgstr "Use this option if you suspect that your database table is missing"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:84
 msgid ""
 "This will delete ALL maps on this blog. Are you definitely sure you want to "
 "do this?"
 msgstr ""
-"This will delete ALL maps on this blog. Are you definitely sure you want to "
-"do this?"
 
 #: inc/addons/fix-and-repair.php:86
 msgid "Click here to delete ALL maps on this blog"
-msgstr "Click here to delete ALL maps on this blog"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:91
 msgid ""
 "Use this option to remove ALL tables from this blog <em>(<b>Warning:</b> "
 "this option is irreversible)</em>"
 msgstr ""
-"Use this option to remove ALL tables from this blog <em>(<b>Warning:</b> "
-"this option is irreversible)</em>"
 
 #: inc/addons/fix-and-repair.php:117
 msgid "Click here to rebuild your BuddyPress members profile maps"
-msgstr "Click here to rebuild your BuddyPress members profile maps"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:118
-msgid ""
-"Rebuild all profile maps <em>(<b>Warning:</b> this will take a while)</em>"
+msgid "Rebuild all profile maps <em>(<b>Warning:</b> this will take a while)</em>"
 msgstr ""
-"Rebuild all profile maps <em>(<b>Warning:</b> this will take a while)</em>"
 
 #: inc/addons/fix-and-repair.php:119
 msgid "Please hold on while the old location buffers are purged"
-msgstr "Please hold on while the old location buffers are purged"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:120
 msgid "Processing profiles... "
-msgstr "Processing profiles... "
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:121
 msgid "All done!"
-msgstr "All done!"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:162
 msgid "Click here to update the map shortcode on this blog"
-msgstr "Click here to update the map shortcode on this blog"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:173
 msgid "Nothing needs to be fixed"
-msgstr "Nothing needs to be fixed"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:174
-#, php-format
 msgid ""
 "In this blog there is no post or page that uses the old map shortcode "
 "<code>[%s]</code>"
 msgstr ""
-"In this blog there is no post or page that uses the old map shortcode "
-"<code>[%s]</code>"
 
 #: inc/addons/fix-and-repair.php:180
-#, php-format
 msgid ""
 "Use this option after you changed the map shortcode in the \"Options\" tab "
-"above. This will change all <code>[%s]</code> shortcodes to <code>[%s]</"
-"code> in <strong>%d</strong> pages/posts (including revisions and "
-"unpublished posts)."
+"above. This will change all <code>[%s]</code> shortcodes to "
+"<code>[%s]</code> in <strong>%d</strong> pages/posts (including revisions "
+"and unpublished posts)."
 msgstr ""
-"Use this option after you changed the map shortcode in the \"Options\" tab "
-"above. This will change all <code>[%s]</code> shortcodes to <code>[%s]</"
-"code> in <strong>%d</strong> pages/posts (including revisions and "
-"unpublished posts)."
 
 #: inc/addons/fix-and-repair.php:222
 msgid "Fixes and repairs"
-msgstr "Fixes and repairs"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:228
 msgid "Reset all options to defaults"
-msgstr "Reset all options to defaults"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:235
 msgid "Fix missing table"
-msgstr "Fix missing table"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:242
 msgid "Clear the table"
-msgstr "Clear the table"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:249
 msgid "Rename map shortcode"
-msgstr "Rename map shortcode"
+msgstr ""
 
 #: inc/addons/fix-and-repair.php:258
 msgid "Rebuild BuddyPress profile maps"
-msgstr "Rebuild BuddyPress profile maps"
+msgstr ""
 
 #: inc/addons/geotag-bp.php:98
 msgid "Address"
-msgstr "Address"
+msgstr ""
 
 #: inc/addons/geotag-wp.php:46
 msgid "Geotag my posts"
-msgstr "Geotag my posts"
+msgstr ""
 
 #: inc/addons/geotag-wp.php:53
 msgid "Geotagging metabox"
-msgstr "Geotagging metabox"
+msgstr ""
 
 #: inc/addons/geotag-wp.php:64
 msgid "Show geotagging metabox for"
-msgstr "Show geotagging metabox for"
+msgstr ""
 
 #: inc/addons/geotag-wp.php:84
 msgid "Location"
-msgstr "Location"
+msgstr ""
 
 #: inc/addons/geotag-wp.php:241
 msgid "Read more"
-msgstr "Read more"
+msgstr ""
 
 #: inc/addons/kml-uploader.php:73
 msgid "KML files"
-msgstr "KML files"
+msgstr ""
 
 #: inc/addons/kml-uploader.php:79
 msgid "Existing KML files"
-msgstr "Existing KML files"
+msgstr ""
 
 #: inc/addons/kml-uploader.php:86
 msgid "Upload a KML file"
-msgstr "Upload a KML file"
+msgstr ""
 
 #: inc/addons/kml-uploader.php:96
 msgid "<em>No KML files.</em>"
-msgstr "<em>No KML files.</em>"
+msgstr ""
 
 #: inc/addons/kml-uploader.php:116
 msgid "Only files with .kml and .kmz extension are allowed."
-msgstr "Only files with .kml and .kmz extension are allowed."
+msgstr ""
 
 #: inc/addons/kml-uploader.php:117
 msgid "Upload"
-msgstr "Upload"
+msgstr ""
 
 #: inc/addons/loading-message.php:127
 msgid "Map loading message"
-msgstr "Map loading message"
+msgstr ""
 
 #: inc/addons/loading-message.php:133
 msgid "Add loading message to these maps"
-msgstr "Add loading message to these maps"
-
-#: inc/addons/loading-message.php:143
-msgid ""
-"You add the loading message in your shortcodes with <code>loading_message="
-"\"My message\"</code> shortcode attribute. You can also specify loading "
-"messages for your other maps here."
 msgstr ""
-"You add the loading message in your shortcodes with <code>loading_message="
-"\"My message\"</code> shortcode attribute. You can also specify loading "
-"messages for your other maps here."
 
 #: inc/addons/loading-message.php:154
 msgid "Auto-generated maps loading message"
-msgstr "Auto-generated maps loading message"
+msgstr ""
 
 #: inc/addons/loading-message.php:159 inc/addons/responsive-maps.php:138
 msgid "BuddyPress member directory map"
-msgstr "BuddyPress member directory map"
+msgstr ""
 
 #: inc/addons/loading-message.php:164
 msgid "All maps loading message"
-msgstr "All maps loading message"
+msgstr ""
 
 #: inc/addons/loading-message.php:171
 msgid "Use map tiles caching"
-msgstr "Use map tiles caching"
+msgstr ""
 
 #: inc/addons/loading-message.php:176
 msgid "Map is loading, please hold on"
-msgstr "Map is loading, please hold on"
+msgstr ""
 
 #: inc/addons/localize-maps.php:29
 msgid "Localization"
-msgstr "Localization"
+msgstr ""
 
 #: inc/addons/localize-maps.php:35
 msgid "Languages"
-msgstr "Languages"
+msgstr ""
 
 #: inc/addons/localize-maps.php:46
 msgid "Select your language"
-msgstr "Select your language"
+msgstr ""
 
 #: inc/addons/localize-maps.php:49
 msgid "Browser detect (default)"
-msgstr "Browser detect (default)"
+msgstr ""
 
 #: inc/addons/localize-maps.php:79
 msgid "Arabic"
-msgstr "Arabic"
+msgstr ""
 
 #: inc/addons/localize-maps.php:80 inc/addons/localize-maps.php:92
 msgid "Basque"
-msgstr "Basque"
+msgstr ""
 
 #: inc/addons/localize-maps.php:81
 msgid "Bulgarian"
-msgstr "Bulgarian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:82
 msgid "Bengali"
-msgstr "Bengali"
+msgstr ""
 
 #: inc/addons/localize-maps.php:83
 msgid "Catalan"
-msgstr "Catalan"
+msgstr ""
 
 #: inc/addons/localize-maps.php:84
 msgid "Czech"
-msgstr "Czech"
+msgstr ""
 
 #: inc/addons/localize-maps.php:85
 msgid "Danish"
-msgstr "Danish"
+msgstr ""
 
 #: inc/addons/localize-maps.php:86
 msgid "German"
-msgstr "German"
+msgstr ""
 
 #: inc/addons/localize-maps.php:87
 msgid "Greek"
-msgstr "Greek"
+msgstr ""
 
 #: inc/addons/localize-maps.php:88
 msgid "English"
-msgstr "English"
+msgstr ""
 
 #: inc/addons/localize-maps.php:89
 msgid "English (Australian)"
-msgstr "English (Australian)"
+msgstr ""
 
 #: inc/addons/localize-maps.php:90
 msgid "English (Great Britain)"
-msgstr "English (Great Britain)"
+msgstr ""
 
 #: inc/addons/localize-maps.php:91
 msgid "Spanish"
-msgstr "Spanish"
+msgstr ""
 
 #: inc/addons/localize-maps.php:93
 msgid "Farsi"
-msgstr "Farsi"
+msgstr ""
 
 #: inc/addons/localize-maps.php:94
 msgid "Finnish"
-msgstr "Finnish"
+msgstr ""
 
 #: inc/addons/localize-maps.php:95
 msgid "Filipino"
-msgstr "Filipino"
+msgstr ""
 
 #: inc/addons/localize-maps.php:96
 msgid "French"
-msgstr "French"
+msgstr ""
 
 #: inc/addons/localize-maps.php:97
 msgid "Galician"
-msgstr "Galician"
+msgstr ""
 
 #: inc/addons/localize-maps.php:98
 msgid "Gujarati"
-msgstr "Gujarati"
+msgstr ""
 
 #: inc/addons/localize-maps.php:99
 msgid "Hindi"
-msgstr "Hindi"
+msgstr ""
 
 #: inc/addons/localize-maps.php:100
 msgid "Croatian"
-msgstr "Croatian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:101
 msgid "Hungarian"
-msgstr "Hungarian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:102
 msgid "Indonesian"
-msgstr "Indonesian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:103
 msgid "Italian"
-msgstr "Italian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:104
 msgid "Hebrew"
-msgstr "Hebrew"
+msgstr ""
 
 #: inc/addons/localize-maps.php:105
 msgid "Japanese"
-msgstr "Japanese"
+msgstr ""
 
 #: inc/addons/localize-maps.php:106
 msgid "Kannada"
-msgstr "Kannada"
+msgstr ""
 
 #: inc/addons/localize-maps.php:107
 msgid "Korean"
-msgstr "Korean"
+msgstr ""
 
 #: inc/addons/localize-maps.php:108
 msgid "Lithuanian"
-msgstr "Lithuanian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:109
 msgid "Latvian"
-msgstr "Latvian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:110
 msgid "Malayalam"
-msgstr "Malayalam"
+msgstr ""
 
 #: inc/addons/localize-maps.php:111
 msgid "Marathi"
-msgstr "Marathi"
+msgstr ""
 
 #: inc/addons/localize-maps.php:112
 msgid "Dutch"
-msgstr "Dutch"
+msgstr ""
 
 #: inc/addons/localize-maps.php:113
 msgid "Norwegian"
-msgstr "Norwegian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:114
 msgid "Polish"
-msgstr "Polish"
+msgstr ""
 
 #: inc/addons/localize-maps.php:115
 msgid "Portuguese"
-msgstr "Portuguese"
+msgstr ""
 
 #: inc/addons/localize-maps.php:116
 msgid "Portuguese (Brazil)"
-msgstr "Portuguese (Brazil)"
+msgstr ""
 
 #: inc/addons/localize-maps.php:117
 msgid "Portuguese (Portugal)"
-msgstr "Portuguese (Portugal)"
+msgstr ""
 
 #: inc/addons/localize-maps.php:118
 msgid "Romanian"
-msgstr "Romanian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:119
 msgid "Russian"
-msgstr "Russian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:120
 msgid "Slovak"
-msgstr "Slovak"
+msgstr ""
 
 #: inc/addons/localize-maps.php:121
 msgid "Slovenian"
-msgstr "Slovenian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:122
 msgid "Serbian"
-msgstr "Serbian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:123
 msgid "Swedish"
-msgstr "Swedish"
+msgstr ""
 
 #: inc/addons/localize-maps.php:124
 msgid "Tagalog"
-msgstr "Tagalog"
+msgstr ""
 
 #: inc/addons/localize-maps.php:125
 msgid "Tamil"
-msgstr "Tamil"
+msgstr ""
 
 #: inc/addons/localize-maps.php:126
 msgid "Telugu"
-msgstr "Telugu"
+msgstr ""
 
 #: inc/addons/localize-maps.php:127
 msgid "Thai"
-msgstr "Thai"
+msgstr ""
 
 #: inc/addons/localize-maps.php:128
 msgid "Turkish"
-msgstr "Turkish"
+msgstr ""
 
 #: inc/addons/localize-maps.php:129
 msgid "Ukrainian"
-msgstr "Ukrainian"
+msgstr ""
 
 #: inc/addons/localize-maps.php:130
 msgid "Vietnamese"
-msgstr "Vietnamese"
+msgstr ""
 
 #: inc/addons/localize-maps.php:131
 msgid "Chinese (simplified)"
-msgstr "Chinese (simplified)"
+msgstr ""
 
 #: inc/addons/localize-maps.php:132
 msgid "Chinese (traditional)"
-msgstr "Chinese (traditional)"
+msgstr ""
 
 #: inc/addons/location-shortcode.php:92 inc/addons/location-shortcode.php:123
 msgid "Could not create map from shortcode"
-msgstr "Could not create map from shortcode"
+msgstr ""
 
 #: inc/addons/places.php:63
 msgid "Accounting"
-msgstr "Accounting"
+msgstr ""
 
 #: inc/addons/places.php:64
 msgid "Airport"
-msgstr "Airport"
+msgstr ""
 
 #: inc/addons/places.php:65
 msgid "Amusement park"
-msgstr "Amusement park"
+msgstr ""
 
 #: inc/addons/places.php:66
 msgid "Aquarium"
-msgstr "Aquarium"
+msgstr ""
 
 #: inc/addons/places.php:67
 msgid "Art gallery"
-msgstr "Art gallery"
+msgstr ""
 
 #: inc/addons/places.php:68
 msgid "ATM"
-msgstr "ATM"
+msgstr ""
 
 #: inc/addons/places.php:69
 msgid "Bakery"
-msgstr "Bakery"
+msgstr ""
 
 #: inc/addons/places.php:70
 msgid "Bank"
-msgstr "Bank"
+msgstr ""
 
 #: inc/addons/places.php:71
 msgid "Bar"
-msgstr "Bar"
+msgstr ""
 
 #: inc/addons/places.php:72
 msgid "Beauty salon"
-msgstr "Beauty salon"
+msgstr ""
 
 #: inc/addons/places.php:73
 msgid "Bicycle store"
-msgstr "Bicycle store"
+msgstr ""
 
 #: inc/addons/places.php:74
 msgid "Book store"
-msgstr "Book store"
+msgstr ""
 
 #: inc/addons/places.php:75
 msgid "Bowling alley"
-msgstr "Bowling alley"
+msgstr ""
 
 #: inc/addons/places.php:76
 msgid "Bus station"
-msgstr "Bus station"
+msgstr ""
 
 #: inc/addons/places.php:77
 msgid "Cafe"
-msgstr "Cafe"
+msgstr ""
 
 #: inc/addons/places.php:78
 msgid "Campground"
-msgstr "Campground"
+msgstr ""
 
 #: inc/addons/places.php:79
 msgid "Car dealer"
-msgstr "Car dealer"
+msgstr ""
 
 #: inc/addons/places.php:80
 msgid "Car rental"
-msgstr "Car rental"
+msgstr ""
 
 #: inc/addons/places.php:81
 msgid "Car repair"
-msgstr "Car repair"
+msgstr ""
 
 #: inc/addons/places.php:82
 msgid "Car wash"
-msgstr "Car wash"
+msgstr ""
 
 #: inc/addons/places.php:83
 msgid "Casino"
-msgstr "Casino"
+msgstr ""
 
 #: inc/addons/places.php:84
 msgid "Cemetery"
-msgstr "Cemetery"
+msgstr ""
 
 #: inc/addons/places.php:85
 msgid "Church"
-msgstr "Church"
+msgstr ""
 
 #: inc/addons/places.php:86
 msgid "City hall"
-msgstr "City hall"
+msgstr ""
 
 #: inc/addons/places.php:87
 msgid "Clothing store"
-msgstr "Clothing store"
+msgstr ""
 
 #: inc/addons/places.php:88
 msgid "Convenience store"
-msgstr "Convenience store"
+msgstr ""
 
 #: inc/addons/places.php:89
 msgid "Courthouse"
-msgstr "Courthouse"
+msgstr ""
 
 #: inc/addons/places.php:90
 msgid "Dentist"
-msgstr "Dentist"
+msgstr ""
 
 #: inc/addons/places.php:91
 msgid "Department store"
-msgstr "Department store"
+msgstr ""
 
 #: inc/addons/places.php:92
 msgid "Doctor"
-msgstr "Doctor"
+msgstr ""
 
 #: inc/addons/places.php:93
 msgid "Electrician"
-msgstr "Electrician"
+msgstr ""
 
 #: inc/addons/places.php:94
 msgid "Electronics store"
-msgstr "Electronics store"
+msgstr ""
 
 #: inc/addons/places.php:95
 msgid "Embassy"
-msgstr "Embassy"
+msgstr ""
 
 #: inc/addons/places.php:96
 msgid "Establishment"
-msgstr "Establishment"
+msgstr ""
 
 #: inc/addons/places.php:97
 msgid "Finance"
-msgstr "Finance"
+msgstr ""
 
 #: inc/addons/places.php:98
 msgid "Fire station"
-msgstr "Fire station"
+msgstr ""
 
 #: inc/addons/places.php:99
 msgid "Florist"
-msgstr "Florist"
+msgstr ""
 
 #: inc/addons/places.php:100
 msgid "Food"
-msgstr "Food"
+msgstr ""
 
 #: inc/addons/places.php:101
 msgid "Funeral home"
-msgstr "Funeral home"
+msgstr ""
 
 #: inc/addons/places.php:102
 msgid "Furniture store"
-msgstr "Furniture store"
+msgstr ""
 
 #: inc/addons/places.php:103
 msgid "Gas station"
-msgstr "Gas station"
+msgstr ""
 
 #: inc/addons/places.php:104
 msgid "General contractor"
-msgstr "General contractor"
+msgstr ""
 
 #: inc/addons/places.php:105
 msgid "Grocery or supermarket"
-msgstr "Grocery or supermarket"
+msgstr ""
 
 #: inc/addons/places.php:106
 msgid "Gym"
-msgstr "Gym"
+msgstr ""
 
 #: inc/addons/places.php:107
 msgid "Hair care"
-msgstr "Hair care"
+msgstr ""
 
 #: inc/addons/places.php:108
 msgid "Hardware store"
-msgstr "Hardware store"
+msgstr ""
 
 #: inc/addons/places.php:109
 msgid "Health"
-msgstr "Health"
+msgstr ""
 
 #: inc/addons/places.php:110
 msgid "Hindu temple"
-msgstr "Hindu temple"
+msgstr ""
 
 #: inc/addons/places.php:111
 msgid "Home goods store"
-msgstr "Home goods store"
+msgstr ""
 
 #: inc/addons/places.php:112
 msgid "Hospital"
-msgstr "Hospital"
+msgstr ""
 
 #: inc/addons/places.php:113
 msgid "Insurance agency"
-msgstr "Insurance agency"
+msgstr ""
 
 #: inc/addons/places.php:114
 msgid "Jewelry store"
-msgstr "Jewelry store"
+msgstr ""
 
 #: inc/addons/places.php:115
 msgid "Laundry"
-msgstr "Laundry"
+msgstr ""
 
 #: inc/addons/places.php:116
 msgid "Lawyer"
-msgstr "Lawyer"
+msgstr ""
 
 #: inc/addons/places.php:117
 msgid "Library"
-msgstr "Library"
+msgstr ""
 
 #: inc/addons/places.php:118
 msgid "Liquor store"
-msgstr "Liquor store"
+msgstr ""
 
 #: inc/addons/places.php:119
 msgid "Local government office"
-msgstr "Local government office"
+msgstr ""
 
 #: inc/addons/places.php:120
 msgid "Locksmith"
-msgstr "Locksmith"
+msgstr ""
 
 #: inc/addons/places.php:121
 msgid "Lodging"
-msgstr "Lodging"
+msgstr ""
 
 #: inc/addons/places.php:122
 msgid "Meal delivery"
-msgstr "Meal delivery"
+msgstr ""
 
 #: inc/addons/places.php:123
 msgid "Meal takeaway"
-msgstr "Meal takeaway"
+msgstr ""
 
 #: inc/addons/places.php:124
 msgid "Mosque"
-msgstr "Mosque"
+msgstr ""
 
 #: inc/addons/places.php:125
 msgid "Movie rental"
-msgstr "Movie rental"
+msgstr ""
 
 #: inc/addons/places.php:126
 msgid "Movie theater"
-msgstr "Movie theater"
+msgstr ""
 
 #: inc/addons/places.php:127
 msgid "Moving company"
-msgstr "Moving company"
+msgstr ""
 
 #: inc/addons/places.php:128
 msgid "Museum"
-msgstr "Museum"
+msgstr ""
 
 #: inc/addons/places.php:129
 msgid "Night club"
-msgstr "Night club"
+msgstr ""
 
 #: inc/addons/places.php:130
 msgid "Painter"
-msgstr "Painter"
+msgstr ""
 
 #: inc/addons/places.php:131
 msgid "Park"
-msgstr "Park"
+msgstr ""
 
 #: inc/addons/places.php:132
 msgid "Parking"
-msgstr "Parking"
+msgstr ""
 
 #: inc/addons/places.php:133
 msgid "Pet store"
-msgstr "Pet store"
+msgstr ""
 
 #: inc/addons/places.php:134
 msgid "Pharmacy"
-msgstr "Pharmacy"
+msgstr ""
 
 #: inc/addons/places.php:135
 msgid "Physiotherapist"
-msgstr "Physiotherapist"
+msgstr ""
 
 #: inc/addons/places.php:136
 msgid "Place of worship"
-msgstr "Place of worship"
+msgstr ""
 
 #: inc/addons/places.php:137
 msgid "Plumber"
-msgstr "Plumber"
+msgstr ""
 
 #: inc/addons/places.php:138
 msgid "Police"
-msgstr "Police"
+msgstr ""
 
 #: inc/addons/places.php:139
 msgid "Post office"
-msgstr "Post office"
+msgstr ""
 
 #: inc/addons/places.php:140
 msgid "Real estate agency"
-msgstr "Real estate agency"
+msgstr ""
 
 #: inc/addons/places.php:141
 msgid "Restaurant"
-msgstr "Restaurant"
+msgstr ""
 
 #: inc/addons/places.php:142
 msgid "Roofing contractor"
-msgstr "Roofing contractor"
+msgstr ""
 
 #: inc/addons/places.php:143
 msgid "RV park"
-msgstr "RV park"
+msgstr ""
 
 #: inc/addons/places.php:144
 msgid "School"
-msgstr "School"
+msgstr ""
 
 #: inc/addons/places.php:145
 msgid "Shoe store"
-msgstr "Shoe store"
+msgstr ""
 
 #: inc/addons/places.php:146
 msgid "Shopping mall"
-msgstr "Shopping mall"
+msgstr ""
 
 #: inc/addons/places.php:147
 msgid "Spa"
-msgstr "Spa"
+msgstr ""
 
 #: inc/addons/places.php:148
 msgid "Stadium"
-msgstr "Stadium"
+msgstr ""
 
 #: inc/addons/places.php:149
 msgid "Storage"
-msgstr "Storage"
+msgstr ""
 
 #: inc/addons/places.php:150
 msgid "Store"
-msgstr "Store"
+msgstr ""
 
 #: inc/addons/places.php:151
 msgid "Subway station"
-msgstr "Subway station"
+msgstr ""
 
 #: inc/addons/places.php:152
 msgid "Synagogue"
-msgstr "Synagogue"
+msgstr ""
 
 #: inc/addons/places.php:153
 msgid "Taxi stand"
-msgstr "Taxi stand"
+msgstr ""
 
 #: inc/addons/places.php:154
 msgid "Train station"
-msgstr "Train station"
+msgstr ""
 
 #: inc/addons/places.php:155
 msgid "Travel agency"
-msgstr "Travel agency"
+msgstr ""
 
 #: inc/addons/places.php:156
 msgid "University"
-msgstr "University"
+msgstr ""
 
 #: inc/addons/places.php:157
 msgid "Veterinary care"
-msgstr "Veterinary care"
+msgstr ""
 
 #: inc/addons/places.php:158
 msgid "Zoo"
-msgstr "Zoo"
+msgstr ""
 
 #: inc/addons/responsive-maps.php:103
 msgid "Responsive maps"
-msgstr "Responsive maps"
+msgstr ""
 
 #: inc/addons/responsive-maps.php:109
 msgid "Make these maps responsive"
-msgstr "Make these maps responsive"
+msgstr ""
 
 #: inc/addons/responsive-maps.php:118
 msgid ""
@@ -1142,25 +1074,20 @@ msgid ""
 "<code>is_responsive=\"yes|no\"</code> shortcode attribute. You can also "
 "specify which ones of your maps should always be responsive."
 msgstr ""
-"You can toggle the responsive flag in your shortcodes with "
-"<code>is_responsive=\"yes|no\"</code> shortcode attribute. You can also "
-"specify which ones of your maps should always be responsive."
 
 #: inc/addons/responsive-maps.php:130
 msgid "Auto-generated maps"
-msgstr "Auto-generated maps"
+msgstr ""
 
 #: inc/addons/responsive-maps.php:146
 msgid ""
 "All my maps <small>(except the ones I manually exclude with "
 "<code>is_responsive=\"no\"</code> shortcode attribute)</small>"
 msgstr ""
-"All my maps <small>(except the ones I manually exclude with "
-"<code>is_responsive=\"no\"</code> shortcode attribute)</small>"
 
 #: inc/addons/responsive-maps.php:154
 msgid "Respect shortcode width attribute, if set"
-msgstr "Respect shortcode width attribute, if set"
+msgstr ""
 
 #: inc/addons/responsive-maps.php:155
 msgid ""
@@ -1168,335 +1095,291 @@ msgid ""
 "to scale relative to their original size, rather then expanding the full "
 "width of parent element."
 msgstr ""
-"If set, this option will force your maps with width shortcode attribute set "
-"to scale relative to their original size, rather then expanding the full "
-"width of parent element."
 
 #: inc/addons/traffic-overlay.php:58
 msgid "Show traffic"
-msgstr "Show traffic"
+msgstr ""
 
 #: inc/addons/user-checkin.php:778
 msgid "Guest"
-msgstr "Guest"
+msgstr ""
 
 #: inc/addons/user-checkin.php:783
-#, php-format
 msgid "By %1$s, on %2$s"
-msgstr "By %1$s, on %2$s"
+msgstr ""
 
 #: inc/addons/user-checkin.php:785
 msgid "j F, Y (G:i)"
-msgstr "j F, Y (G:i)"
+msgstr ""
 
 #: inc/addons/user-checkin.php:803 inc/addons/user-checkin.php:1006
 msgid "Edit"
-msgstr "Edit"
+msgstr ""
 
 #: inc/addons/user-checkin.php:919
 msgid "Google Maps: Checkins"
-msgstr "Google Maps: Checkins"
+msgstr ""
 
 #: inc/addons/user-checkin.php:924
 msgid "Check in my location"
-msgstr "Check in my location"
+msgstr ""
 
 #: inc/addons/user-checkin.php:928
 msgid "Never submit my location"
-msgstr "Never submit my location"
+msgstr ""
 
 #: inc/addons/user-checkin.php:929
 msgid "Always ask me before submitting my location"
-msgstr "Always ask me before submitting my location"
+msgstr ""
 
 #: inc/addons/user-checkin.php:930
 msgid "Submit my location and don´t ask me"
-msgstr "Submit my location and don´t ask me"
+msgstr ""
 
 #: inc/addons/user-checkin.php:935
 msgid "Default privacy setting"
-msgstr "Default privacy setting"
+msgstr ""
 
 #: inc/addons/user-checkin.php:938
 msgid "Only I can see my location"
-msgstr "Only I can see my location"
+msgstr ""
 
 #: inc/addons/user-checkin.php:939
 msgid "Only logged in users can see my location"
-msgstr "Only logged in users can see my location"
+msgstr ""
 
 #: inc/addons/user-checkin.php:940
 msgid "Everybody can see my location"
-msgstr "Everybody can see my location"
+msgstr ""
 
 #: inc/addons/user-checkin.php:945
 msgid "My locations"
-msgstr "My locations"
+msgstr ""
 
 #: inc/addons/user-checkin.php:991 inc/addons/user-checkin.php:1038
 msgid "Count"
-msgstr "Count"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1000 inc/addons/user-checkin.php:1743
 msgid "Only me"
-msgstr "Only me"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1001 inc/addons/user-checkin.php:1744
 msgid "Logged in users"
-msgstr "Logged in users"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1002 inc/addons/user-checkin.php:1745
 msgid "Everybody"
-msgstr "Everybody"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1008 inc/addons/user-checkin.php:1750
-#: inc/class-agm-admin-maps.php:287 inc/class-agm-admin-maps.php:301
-#: inc/class-agm-admin-maps.php:306 inc/class-agm-admin-maps.php:347
+#: inc/class-agm-admin-maps.php:300 inc/class-agm-admin-maps.php:314
+#: inc/class-agm-admin-maps.php:319 inc/class-agm-admin-maps.php:360
 msgid "Delete"
-msgstr "Delete"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1009
 msgid "Don´t delete"
-msgstr "Don´t delete"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1016
 msgid "Lat"
-msgstr "Lat"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1020
 msgid "Long"
-msgstr "Long"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1024 inc/addons/user-checkin.php:1731
-#: inc/class-agm-admin-maps.php:345
+#: inc/class-agm-admin-maps.php:358
 msgid "Title"
-msgstr "Title"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1028 inc/addons/user-checkin.php:1735
 msgid "Description"
-msgstr "Description"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1032
 msgid "Last modified"
-msgstr "Last modified"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1036
 msgid "created on"
-msgstr "created on"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1043
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1044 inc/addons/user-checkin.php:1751
-#: inc/class-agm-admin-maps.php:307
+#: inc/class-agm-admin-maps.php:320
 msgid "Cancel"
-msgstr "Cancel"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1245
 msgid "User check-ins"
-msgstr "User check-ins"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1252 inc/class-agm-admin-maps.php:33
 msgid "Overview"
-msgstr "Overview"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1260
 msgid "Allow check-ins"
-msgstr "Allow check-ins"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1268
 msgid "Checkin details"
-msgstr "Checkin details"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1286
 msgid "Checkin limits"
-msgstr "Checkin limits"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1294
 msgid "Map defaults"
-msgstr "Map defaults"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1310 inc/addons/user-checkin.php:1314
 msgid "Shortcode"
-msgstr "Shortcode"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1311
 msgid ""
 "Try to collect the user location on the page without displaying a map. No "
 "options available."
 msgstr ""
-"Try to collect the user location on the page without displaying a map. No "
-"options available."
-
-#: inc/addons/user-checkin.php:1317
-#, php-format
-msgid ""
-"Display a google map with the specified locations. The shortcode supports "
-"all options of the <code>[%s]</code> shortcode. Additionally these options "
-"are available:"
-msgstr ""
-"Display a google map with the specified locations. The shortcode supports "
-"all options of the <code>[%s]</code> shortcode. Additionally these options "
-"are available:"
 
 #: inc/addons/user-checkin.php:1324
 msgid ""
-"<code>user=\"1,2\"</code>: (Filter) Show locations of these users by user-ID."
+"<code>user=\"1,2\"</code>: (Filter) Show locations of these users by "
+"user-ID."
 msgstr ""
-"<code>user=\"1,2\"</code>: (Filter) Show locations of these users by user-ID."
 
 #: inc/addons/user-checkin.php:1325
 msgid ""
 "<code>role=\"admin,editor\"</code>: (Filter) Show locations of users in "
 "these roles."
 msgstr ""
-"<code>role=\"admin,editor\"</code>: (Filter) Show locations of users in "
-"these roles."
 
 #: inc/addons/user-checkin.php:1326
 msgid ""
-"<code>group=\"group1,group2\"</code>: (Filter, BuddyPress) Show locations of "
-"users in these groups."
+"<code>group=\"group1,group2\"</code>: (Filter, BuddyPress) Show locations "
+"of users in these groups."
 msgstr ""
-"<code>group=\"group1,group2\"</code>: (Filter, BuddyPress) Show locations of "
-"users in these groups."
 
 #: inc/addons/user-checkin.php:1327
 msgid ""
 "<code>guest=\"true\"</code>: (Filter) True additionally shows locations of "
 "guests. False will only show locations of registred users."
 msgstr ""
-"<code>guest=\"true\"</code>: (Filter) True additionally shows locations of "
-"guests. False will only show locations of registred users."
 
 #: inc/addons/user-checkin.php:1328
 msgid ""
-"<code>last_hour=\"24\"</code>: (Filter, time) Show locations that were added "
-"or updated within the last X hours."
+"<code>last_hour=\"24\"</code>: (Filter, time) Show locations that were "
+"added or updated within the last X hours."
 msgstr ""
-"<code>last_hour=\"24\"</code>: (Filter, time) Show locations that were added "
-"or updated within the last X hours."
 
 #: inc/addons/user-checkin.php:1329
 msgid ""
 "<code>automatic=\"true\"</code>: Try to collect the user location on page "
 "load (same as <code>[agm_add_checkin]</code>."
 msgstr ""
-"<code>automatic=\"true\"</code>: Try to collect the user location on page "
-"load (same as <code>[agm_add_checkin]</code>."
 
 #: inc/addons/user-checkin.php:1330
 msgid ""
 "<code>show_button=\"true\"</code>: Add a button below the map that allows "
 "the user to manually submit his location."
 msgstr ""
-"<code>show_button=\"true\"</code>: Add a button below the map that allows "
-"the user to manually submit his location."
 
 #: inc/addons/user-checkin.php:1332
-msgid ""
-"If no filter is defined then all locations will be displayed on the map."
+msgid "If no filter is defined then all locations will be displayed on the map."
 msgstr ""
-"If no filter is defined then all locations will be displayed on the map."
 
 #: inc/addons/user-checkin.php:1361
 msgid "Collect location data in the background"
-msgstr "Collect location data in the background"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1364
 msgid "Never (disable this feature)"
-msgstr "Never (disable this feature)"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1365
 msgid "One checkin per user"
-msgstr "One checkin per user"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1366
 msgid "On every page"
-msgstr "On every page"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1367
 msgid "Manual via shortcode [agm_add_checkin]"
-msgstr "Manual via shortcode [agm_add_checkin]"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1369
 msgid ""
 "Location data is only collected with user agreement.<br />Guests will be "
-"asked to submit the location on each visit. Logged-in users can additionally "
-"choose to always or never submit their location."
+"asked to submit the location on each visit. Logged-in users can "
+"additionally choose to always or never submit their location."
 msgstr ""
-"Location data is only collected with user agreement.<br />Guests will be "
-"asked to submit the location on each visit. Logged-in users can additionally "
-"choose to always or never submit their location."
 
 #: inc/addons/user-checkin.php:1376
 msgid "Only logged in users can check-in their location"
-msgstr "Only logged in users can check-in their location"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1383
 msgid "Guests can check-in their location"
-msgstr "Guests can check-in their location"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1403
 msgid "Only save the location"
-msgstr "Only save the location"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1410
 msgid "Users can edit locations and add additional information"
-msgstr "Users can edit locations and add additional information"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1412
 msgid ""
-"Logged in users can optionaly enter a title and description for their check-"
-"ins and edit the location details later."
+"Logged in users can optionaly enter a title and description for their "
+"check-ins and edit the location details later."
 msgstr ""
-"Logged in users can optionaly enter a title and description for their check-"
-"ins and edit the location details later."
 
 #: inc/addons/user-checkin.php:1434
 msgid "Checkins are linked to the current post/page"
-msgstr "Checkins are linked to the current post/page"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1436
 msgid ""
-"When activated all checkins are linked to the current post or page.<br /"
-">Only works on single pages, not on special pages like search results, "
+"When activated all checkins are linked to the current post or page.<br "
+"/>Only works on single pages, not on special pages like search results, "
 "archive or front page."
 msgstr ""
-"When activated all checkins are linked to the current post or page.<br /"
-">Only works on single pages, not on special pages like search results, "
-"archive or front page."
 
 #: inc/addons/user-checkin.php:1443
 msgid "Enable geotaging of comments"
-msgstr "Enable geotaging of comments"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1445
 msgid ""
-"When activated there will be a new checkbox to <code>Geotag this comment</"
-"code> in the comment form."
+"When activated there will be a new checkbox to <code>Geotag this "
+"comment</code> in the comment form."
 msgstr ""
-"When activated there will be a new checkbox to <code>Geotag this comment</"
-"code> in the comment form."
 
 #: inc/addons/user-checkin.php:1464
 msgid "Max number of checkins to keep for a single user"
-msgstr "Max number of checkins to keep for a single user"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1469
 msgid ""
-"When a new location is checked-in and the limit is reached an older location "
-"will be removed from the users collection.<br />A high value can result in a "
-"longer loading time of maps. Value between 1-100"
+"When a new location is checked-in and the limit is reached an older "
+"location will be removed from the users collection.<br />A high value can "
+"result in a longer loading time of maps. Value between 1-100"
 msgstr ""
-"When a new location is checked-in and the limit is reached an older location "
-"will be removed from the users collection.<br />A high value can result in a "
-"longer loading time of maps. Value between 1-100"
 
 #: inc/addons/user-checkin.php:1475
 msgid "Max anonyoumous guest checkins to keep"
-msgstr "Max anonyoumous guest checkins to keep"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1480
 msgid ""
@@ -1504,845 +1387,751 @@ msgid ""
 "location will be removed from the guest collection.<br />A high value can "
 "result in a longer loading time of maps. Value between 1-1000"
 msgstr ""
-"When a new location is checked-in and the limit is reached the oldest "
-"location will be removed from the guest collection.<br />A high value can "
-"result in a longer loading time of maps. Value between 1-1000"
 
 #: inc/addons/user-checkin.php:1486
 msgid "Catch double check-ins that are closer than"
-msgstr "Catch double check-ins that are closer than"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1491
 msgid ""
 "When a user checks-in a new location, the plugin will not save the location "
-"when it is closer than this distance to an already checked-in location.<br /"
-">Only the locations of the current user are checked. Value between 1-100"
+"when it is closer than this distance to an already checked-in location.<br "
+"/>Only the locations of the current user are checked. Value between 1-100"
 msgstr ""
-"When a user checks-in a new location, the plugin will not save the location "
-"when it is closer than this distance to an already checked-in location.<br /"
-">Only the locations of the current user are checked. Value between 1-100"
 
 #: inc/addons/user-checkin.php:1509
 msgid "Show maps without markers"
-msgstr "Show maps without markers"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1511
 msgid ""
-"Choose if a map that contains no location markers should be displayed or not."
-"<br />If an empty map is displayed the map center is undefined by default, "
-"so you should provide a default position (e.g. via the \"<code>Where am I?</"
-"code>\" or \"<code>Center map on location</code>\" AddOn)."
+"Choose if a map that contains no location markers should be displayed or "
+"not.<br />If an empty map is displayed the map center is undefined by "
+"default, so you should provide a default position (e.g. via the "
+"\"<code>Where am I?</code>\" or \"<code>Center map on location</code>\" "
+"AddOn)."
 msgstr ""
-"Choose if a map that contains no location markers should be displayed or not."
-"<br />If an empty map is displayed the map center is undefined by default, "
-"so you should provide a default position (e.g. via the \"<code>Where am I?</"
-"code>\" or \"<code>Center map on location</code>\" AddOn)."
 
 #: inc/addons/user-checkin.php:1741
 msgid "Visible for"
-msgstr "Visible for"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1752
 msgid "Save"
-msgstr "Save"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1929
 msgid "Submit location?"
-msgstr "Submit location?"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1930
 msgid "The webpage wants to know where you are. Send your location?"
-msgstr "The webpage wants to know where you are. Send your location?"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1933
 msgid "Don´t ask me again."
-msgstr "Don´t ask me again."
+msgstr ""
 
 #: inc/addons/user-checkin.php:1934
 msgid "Sending your location..."
-msgstr "Sending your location..."
+msgstr ""
 
 #: inc/addons/user-checkin.php:1935
 msgid "Location saved!"
-msgstr "Location saved!"
+msgstr ""
 
 #: inc/addons/user-checkin.php:1936
 msgid "Submit my current location"
-msgstr "Submit my current location"
+msgstr ""
 
 #: inc/addons/where-am-i.php:30
 msgid "Where am I?"
-msgstr "Where am I?"
+msgstr ""
 
 #: inc/addons/where-am-i.php:36
 msgid "Behavior"
-msgstr "Behavior"
+msgstr ""
 
 #: inc/addons/where-am-i.php:43
 msgid "Appearance"
-msgstr "Appearance"
+msgstr ""
 
 #: inc/addons/where-am-i.php:57
 msgid "I want to automatically show visitor locations on all my maps"
-msgstr "I want to automatically show visitor locations on all my maps"
+msgstr ""
 
 #: inc/addons/where-am-i.php:58
 msgid "Visitor location will be automatically added to all your maps"
-msgstr "Visitor location will be automatically added to all your maps"
+msgstr ""
 
 #: inc/addons/where-am-i.php:62
 msgid ""
 "I want to specify which maps will show visitor location using a shortcode "
 "attribute"
 msgstr ""
-"I want to specify which maps will show visitor location using a shortcode "
-"attribute"
 
 #: inc/addons/where-am-i.php:63
 msgid ""
 "You can display visitor location on your maps by adding "
 "<code>visitor_location=&quot;yes&quot;</code> to your shortcodes"
 msgstr ""
-"You can display visitor location on your maps by adding "
-"<code>visitor_location=&quot;yes&quot;</code> to your shortcodes"
 
 #: inc/addons/where-am-i.php:72
 msgid "Automatically center map to visitor location"
-msgstr "Automatically center map to visitor location"
+msgstr ""
 
 #: inc/addons/where-am-i.php:80
 msgid "Automatically add visitor location to the marker list for my map"
-msgstr "Automatically add visitor location to the marker list for my map"
+msgstr ""
 
 #: inc/addons/where-am-i.php:81
 msgid ""
-"Default behavior is to add the visitor location to the map only. Enable this "
-"option if you want to include it in the marker list as well."
+"Default behavior is to add the visitor location to the map only. Enable "
+"this option if you want to include it in the marker list as well."
 msgstr ""
-"Default behavior is to add the visitor location to the map only. Enable this "
-"option if you want to include it in the marker list as well."
 
 #: inc/addons/where-am-i.php:87 inc/addons/where-am-i.php:182
 msgid "This is you"
-msgstr "This is you"
+msgstr ""
 
 #: inc/addons/where-am-i.php:88
 msgid "Visitor marker label"
-msgstr "Visitor marker label"
+msgstr ""
 
 #: inc/addons/where-am-i.php:94
 msgid "Visitor marker icon"
-msgstr "Visitor marker icon"
+msgstr ""
 
 #: inc/addons/where-am-i.php:97
 msgid "Leave empty to use default icon"
-msgstr "Leave empty to use default icon"
+msgstr ""
 
 #: inc/class-agm-admin-form-renderer.php:58
 msgid "ROADMAP"
-msgstr "ROADMAP"
+msgstr ""
 
 #: inc/class-agm-admin-form-renderer.php:59
 msgid "SATELLITE"
-msgstr "SATELLITE"
+msgstr ""
 
 #: inc/class-agm-admin-form-renderer.php:60
 msgid "HYBRID"
-msgstr "HYBRID"
+msgstr ""
 
 #: inc/class-agm-admin-form-renderer.php:61
 msgid "TERRAIN"
-msgstr "TERRAIN"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:73 inc/class-agm-maps-widget.php:56
-msgid "Earth"
-msgstr "Earth"
+#: inc/class-agm-admin-form-renderer.php:80
+msgid "Get your API key <a href=\"%s\" target=\"_blank\">here</a>"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:74 inc/class-agm-maps-widget.php:57
-msgid "Continent"
-msgstr "Continent"
-
-#: inc/class-agm-admin-form-renderer.php:75 inc/class-agm-maps-widget.php:58
-msgid "Region"
-msgstr "Region"
-
-#: inc/class-agm-admin-form-renderer.php:76 inc/class-agm-maps-widget.php:59
-msgid "Nearby Cities"
-msgstr "Nearby Cities"
-
-#: inc/class-agm-admin-form-renderer.php:77 inc/class-agm-maps-widget.php:60
-msgid "City Plan"
-msgstr "City Plan"
-
-#: inc/class-agm-admin-form-renderer.php:78 inc/class-agm-maps-widget.php:61
-msgid "Details"
-msgstr "Details"
-
-#: inc/class-agm-admin-form-renderer.php:99
-msgid "Advanced"
-msgstr "Advanced"
-
-#: inc/class-agm-admin-form-renderer.php:101
+#: inc/class-agm-admin-form-renderer.php:85
 msgid ""
-"<div>Please note, these titles are only approximations, but generally fit "
-"the description.</div>"
+"(you can also research a bit more in <a href=\"%s\" "
+"target=\"_blank\">official Google documentation</a> pages)"
 msgstr ""
-"<div>Please note, these titles are only approximations, but generally fit "
-"the description.</div>"
 
-#: inc/class-agm-admin-form-renderer.php:116
+#: inc/class-agm-admin-form-renderer.php:92 inc/class-agm-maps-widget.php:57
+msgid "Earth"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:93 inc/class-agm-maps-widget.php:58
+msgid "Continent"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:94 inc/class-agm-maps-widget.php:59
+msgid "Region"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:95 inc/class-agm-maps-widget.php:60
+msgid "Nearby Cities"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:96 inc/class-agm-maps-widget.php:61
+msgid "City Plan"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:97 inc/class-agm-maps-widget.php:62
+msgid "Details"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:118
+msgid "Advanced"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:135
 msgid "Basic mode"
-msgstr "Basic mode"
-
-#: inc/class-agm-admin-form-renderer.php:117
-msgid "<div>Please input the numeric zoom value.</div>"
-msgstr "<div>Please input the numeric zoom value.</div>"
-
-#: inc/class-agm-admin-form-renderer.php:155
-msgid "Metric"
-msgstr "Metric"
-
-#: inc/class-agm-admin-form-renderer.php:156
-msgid "Imperial"
-msgstr "Imperial"
-
-#: inc/class-agm-admin-form-renderer.php:164
-msgid "<div>These units will be used to express distances for directions</div>"
 msgstr ""
-"<div>These units will be used to express distances for directions</div>"
 
-#: inc/class-agm-admin-form-renderer.php:170
-msgid "Small"
-msgstr "Small"
-
-#: inc/class-agm-admin-form-renderer.php:171
-msgid "Medium"
-msgstr "Medium"
-
-#: inc/class-agm-admin-form-renderer.php:172
-msgid "Thumbnail"
-msgstr "Thumbnail"
-
-#: inc/class-agm-admin-form-renderer.php:173
-msgid "Square"
-msgstr "Square"
+#: inc/class-agm-admin-form-renderer.php:136
+msgid "<div>Please input the numeric zoom value.</div>"
+msgstr ""
 
 #: inc/class-agm-admin-form-renderer.php:174
+msgid "Metric"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:175
+msgid "Imperial"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:183
+msgid "<div>These units will be used to express distances for directions</div>"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:189
+msgid "Small"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:190
+msgid "Medium"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:191
+msgid "Thumbnail"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:192
+msgid "Square"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:193
 msgid "Mini Square"
-msgstr "Mini Square"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:195 inc/class-agm-admin-maps.php:368
+#: inc/class-agm-admin-form-renderer.php:214 inc/class-agm-admin-maps.php:381
 msgid "Left"
-msgstr "Left"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:205 inc/class-agm-admin-maps.php:369
+#: inc/class-agm-admin-form-renderer.php:224 inc/class-agm-admin-maps.php:382
 msgid "Center"
-msgstr "Center"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:215 inc/class-agm-admin-maps.php:370
+#: inc/class-agm-admin-form-renderer.php:234 inc/class-agm-admin-maps.php:383
 msgid "Right"
-msgstr "Right"
-
-#: inc/class-agm-admin-form-renderer.php:230
-msgid ""
-"<p>You can use this box to add some quick style changes, to better blend "
-"maps appearance with your themes.</p>"
 msgstr ""
-"<p>You can use this box to add some quick style changes, to better blend "
-"maps appearance with your themes.</p>"
-
-#: inc/class-agm-admin-form-renderer.php:234
-msgid ""
-"<p>You may want to set styles for some of these selectors: <code>."
-"agm_mh_info_title</code>, <code>.agm_mh_info_body</code>, <code>a."
-"agm_mh_marker_item_directions</code>, <code>.agm_mh_marker_list</code>, "
-"<code>.agm_mh_marker_item</code>, <code>.agm_mh_marker_item_content</code></"
-"p>"
-msgstr ""
-"<p>You may want to set styles for some of these selectors: <code>."
-"agm_mh_info_title</code>, <code>.agm_mh_info_body</code>, <code>a."
-"agm_mh_marker_item_directions</code>, <code>.agm_mh_marker_list</code>, "
-"<code>.agm_mh_marker_item</code>, <code>.agm_mh_marker_item_content</code></"
-"p>"
-
-#: inc/class-agm-admin-form-renderer.php:281
-msgid "(Default)"
-msgstr "(Default)"
-
-#: inc/class-agm-admin-form-renderer.php:295
-msgid ""
-"When the map is not displayed on your page then try to use the alternative "
-"shortcode <code>[agm_map]</code>."
-msgstr ""
-"When the map is not displayed on your page then try to use the alternative "
-"shortcode <code>[agm_map]</code>."
 
 #: inc/class-agm-admin-form-renderer.php:300
-msgid ""
-"<strong>Tipp:</strong> After changing the shortcode use the Add-on \"Fixes "
-"and repairs\" and check the status of \"Rename map shortcode\". If required "
-"this tool will automatically update all your pages and posts to use the new "
-"shortcode."
+msgid "(Default)"
 msgstr ""
-"<strong>Tipp:</strong> After changing the shortcode use the Add-on \"Fixes "
-"and repairs\" and check the status of \"Rename map shortcode\". If required "
-"this tool will automatically update all your pages and posts to use the new "
-"shortcode."
 
-#: inc/class-agm-admin-form-renderer.php:376
+#: inc/class-agm-admin-form-renderer.php:395
 msgid "My posts have latitude/longitude fields"
-msgstr "My posts have latitude/longitude fields"
-
-#: inc/class-agm-admin-form-renderer.php:377
-msgid "Latitude field name:"
-msgstr "Latitude field name:"
-
-#: inc/class-agm-admin-form-renderer.php:380
-msgid "Longitude field name:"
-msgstr "Longitude field name:"
-
-#: inc/class-agm-admin-form-renderer.php:383
-msgid "My posts have an address field"
-msgstr "My posts have an address field"
-
-#: inc/class-agm-admin-form-renderer.php:384
-msgid "Address field name(s):"
-msgstr "Address field name(s):"
-
-#: inc/class-agm-admin-form-renderer.php:392
-msgid "Discard old map when my custom fields value change"
-msgstr "Discard old map when my custom fields value change"
-
-#: inc/class-agm-admin-form-renderer.php:398
-msgid ""
-"(A new map will be automatically created, using the defaults you specified "
-"above )"
 msgstr ""
-"(A new map will be automatically created, using the defaults you specified "
-"above )"
+
+#: inc/class-agm-admin-form-renderer.php:396
+msgid "Latitude field name:"
+msgstr ""
 
 #: inc/class-agm-admin-form-renderer.php:399
+msgid "Longitude field name:"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:402
+msgid "My posts have an address field"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:403
+msgid "Address field name(s):"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:411
+msgid "Discard old map when my custom fields value change"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:417
+msgid ""
+"(A new map will be automatically created, using the defaults you specified "
+"above )"
+msgstr ""
+
+#: inc/class-agm-admin-form-renderer.php:418
 msgid "Associate the new map to post:"
-msgstr "Associate the new map to post:"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:401
+#: inc/class-agm-admin-form-renderer.php:420
 msgid "Automatically show the map:"
-msgstr "Automatically show the map:"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:415
-#, php-format
+#: inc/class-agm-admin-form-renderer.php:434
 msgid ""
 "If previous option is set to \"Yes\", the new map will be shown %s the post "
 "body"
 msgstr ""
-"If previous option is set to \"Yes\", the new map will be shown %s the post "
-"body"
 
-#: inc/class-agm-admin-form-renderer.php:426
-#, php-format
-msgid ""
-"The Google Map plugin adds a &quot;Add Map&quot; icon to your visual editor. "
-"Once you&apos;ve created your new map it is inserted into write Post / Page "
-"area as shortcode which looks like this: <code>[%s id=\"1\"]</code>."
-msgstr ""
-"The Google Map plugin adds a &quot;Add Map&quot; icon to your visual editor. "
-"Once you&apos;ve created your new map it is inserted into write Post / Page "
-"area as shortcode which looks like this: <code>[%s id=\"1\"]</code>."
-
-#: inc/class-agm-admin-form-renderer.php:437
-msgid ""
-"It also adds a widget so you can add maps to your sidebar (see Appearance "
-"&gt; Widgets)."
-msgstr ""
-"It also adds a widget so you can add maps to your sidebar (see Appearance "
-"&gt; Widgets)."
-
-#: inc/class-agm-admin-form-renderer.php:448
-#, php-format
-msgid ""
-"For more detailed instructions on how to use refer to <a target=\"_blank\" "
-"href=\"%s\">Google Maps Installation and Use instructions</a>."
-msgstr ""
-"For more detailed instructions on how to use refer to <a target=\"_blank\" "
-"href=\"%s\">Google Maps Installation and Use instructions</a>."
-
-#: inc/class-agm-admin-form-renderer.php:478
+#: inc/class-agm-admin-form-renderer.php:497
 msgid "Active"
-msgstr "Active"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:483
+#: inc/class-agm-admin-form-renderer.php:502
 msgid "Inactive"
-msgstr "Inactive"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:495
+#: inc/class-agm-admin-form-renderer.php:514
 msgid "Add-on name"
-msgstr "Add-on name"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:496
+#: inc/class-agm-admin-form-renderer.php:515
 msgid "Add-on description"
-msgstr "Add-on description"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:541
+#: inc/class-agm-admin-form-renderer.php:560
 msgid "Deactivate"
-msgstr "Deactivate"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:549
+#: inc/class-agm-admin-form-renderer.php:568
 msgid "Activate"
-msgstr "Activate"
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:555
+#: inc/class-agm-admin-form-renderer.php:574
 msgid "Requires "
-msgstr "Requires "
+msgstr ""
 
-#: inc/class-agm-admin-form-renderer.php:567
+#: inc/class-agm-admin-form-renderer.php:586
 msgid "Example:"
-msgstr "Example:"
+msgstr ""
 
 #: inc/class-agm-admin-help.php:30 inc/class-agm-admin-maps.php:48
 msgid "Options"
-msgstr "Options"
+msgstr ""
 
-#: inc/class-agm-admin-help.php:33
-msgid "This is where you can set up your Google Maps default settings."
-msgstr "This is where you can set up your Google Maps default settings."
-
-#: inc/class-agm-admin-help.php:39 inc/class-agm-admin-maps.php:140
+#: inc/class-agm-admin-help.php:39 inc/class-agm-admin-maps.php:151
 msgid "Custom fields"
-msgstr "Custom fields"
-
-#: inc/class-agm-admin-help.php:42
-msgid ""
-"This is where you can set up auto-creation of new Google Maps, triggered by "
-"your existing location custom fields."
 msgstr ""
-"This is where you can set up auto-creation of new Google Maps, triggered by "
-"your existing location custom fields."
 
-#: inc/class-agm-admin-help.php:49 inc/class-agm-admin-maps.php:174
+#: inc/class-agm-admin-help.php:49 inc/class-agm-admin-maps.php:185
 msgid "Add-ons"
-msgstr "Add-ons"
-
-#: inc/class-agm-admin-help.php:52
-msgid ""
-"These are the optional additions for your GoogleMaps. Activate or deactivate "
-"them as needed."
 msgstr ""
-"These are the optional additions for your GoogleMaps. Activate or deactivate "
-"them as needed."
 
-#: inc/class-agm-admin-help.php:62 inc/class-agm-admin-maps.php:215
-#: inc/class-agm-admin-maps.php:289
+#. Plugin Name of the plugin/theme
 msgid "Google Maps"
-msgstr "Google Maps"
+msgstr ""
 
 #: inc/class-agm-admin-help.php:66
 msgid "Project page"
-msgstr "Project page"
+msgstr ""
 
 #: inc/class-agm-admin-help.php:71
 msgid "Installation and instructions page"
-msgstr "Installation and instructions page"
+msgstr ""
 
 #: inc/class-agm-admin-help.php:76
 msgid "Support forum"
-msgstr "Support forum"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:54
+#: inc/class-agm-admin-maps.php:55
+msgid "Google maps API key"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:63
 msgid "Default map height"
-msgstr "Default map height"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:61
+#: inc/class-agm-admin-maps.php:70
 msgid "Default map width"
-msgstr "Default map width"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:68
+#: inc/class-agm-admin-maps.php:77
 msgid "Default map type"
-msgstr "Default map type"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:75
+#: inc/class-agm-admin-maps.php:85
 msgid "Default map zoom"
-msgstr "Default map zoom"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:82
+#: inc/class-agm-admin-maps.php:93
 msgid "Default map units"
-msgstr "Default map units"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:89
+#: inc/class-agm-admin-maps.php:100
 msgid "Default image size"
-msgstr "Default image size"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:96
+#: inc/class-agm-admin-maps.php:107
 msgid "Default image limit"
-msgstr "Default image limit"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:103
+#: inc/class-agm-admin-maps.php:114
 msgid "Default map alignment"
-msgstr "Default map alignment"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:110
+#: inc/class-agm-admin-maps.php:121
 msgid "Snapping"
-msgstr "Snapping"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:117
+#: inc/class-agm-admin-maps.php:128
 msgid "Directions Snapping"
-msgstr "Directions Snapping"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:124
+#: inc/class-agm-admin-maps.php:135
 msgid "Additional CSS"
-msgstr "Additional CSS"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:131
+#: inc/class-agm-admin-maps.php:142
 msgid "Change shortcode"
-msgstr "Change shortcode"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:146
+#: inc/class-agm-admin-maps.php:157
 msgid "Use custom Post Meta fields support"
-msgstr "Use custom Post Meta fields support"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:153
+#: inc/class-agm-admin-maps.php:164
 msgid "Map custom fields"
-msgstr "Map custom fields"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:160
+#: inc/class-agm-admin-maps.php:171
 msgid "When these fields are found, I want to"
-msgstr "When these fields are found, I want to"
-
-#: inc/class-agm-admin-maps.php:284
-msgid "Loading maps... please wait"
-msgstr "Loading maps... please wait"
-
-#: inc/class-agm-admin-maps.php:285 inc/class-agm-admin-maps.php:351
-msgid "Insert this map"
-msgstr "Insert this map"
-
-#: inc/class-agm-admin-maps.php:286
-msgid "Preview/Edit"
-msgstr "Preview/Edit"
-
-#: inc/class-agm-admin-maps.php:288 inc/class-agm-admin-maps.php:326
-msgid "Add Map"
-msgstr "Add Map"
-
-#: inc/class-agm-admin-maps.php:290
-msgid "Next &raquo;"
-msgstr "Next &raquo;"
-
-#: inc/class-agm-admin-maps.php:291
-msgid "&laquo; Prev"
-msgstr "&laquo; Prev"
-
-#: inc/class-agm-admin-maps.php:292
-msgid "Existing maps"
-msgstr "Existing maps"
-
-#: inc/class-agm-admin-maps.php:293
-msgid "Preview and edit map"
-msgstr "Preview and edit map"
-
-#: inc/class-agm-admin-maps.php:294
-msgid "No existing maps"
-msgstr "No existing maps"
-
-#: inc/class-agm-admin-maps.php:295
-msgid "New map"
-msgstr "New map"
-
-#: inc/class-agm-admin-maps.php:296
-msgid "Advanced mode"
-msgstr "Advanced mode"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:297
-msgid ""
-"Advanced mode: Merge several maps into one new map or to delete multiple maps"
+msgid "Loading maps... please wait"
 msgstr ""
-"Advanced mode: Merge several maps into one new map or to delete multiple maps"
 
-#: inc/class-agm-admin-maps.php:298
-msgid "Creates a new map containing all markers of the selected maps"
-msgstr "Creates a new map containing all markers of the selected maps"
+#: inc/class-agm-admin-maps.php:298 inc/class-agm-admin-maps.php:364
+msgid "Insert this map"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:299
-msgid "Exit advanced mode"
-msgstr "Exit advanced mode"
+msgid "Preview/Edit"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:300
-msgid "Merge"
-msgstr "Merge"
-
-#: inc/class-agm-admin-maps.php:302
-msgid "Create a new map that can be inserted into this post or page"
-msgstr "Create a new map that can be inserted into this post or page"
+#: inc/class-agm-admin-maps.php:301 inc/class-agm-admin-maps.php:339
+msgid "Add Map"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:303
-msgid "You have not created any maps yet."
-msgstr "You have not created any maps yet."
+msgid "Next &raquo;"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:304
-msgid "Do you want to permanently delete this map?"
-msgstr "Do you want to permanently delete this map?"
+msgid "&laquo; Prev"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:305
-msgid "Do you want to permanently delete all selected maps?"
-msgstr "Do you want to permanently delete all selected maps?"
-
-#: inc/class-agm-admin-maps.php:327 views/widget_settings.php:42
-msgid "Create new map"
-msgstr "Create new map"
-
-#: inc/class-agm-admin-maps.php:342 inc/class-agm-dependencies.php:60
-msgid ""
-"There was an error geocoding your location. Check the address and try again"
+msgid "Existing maps"
 msgstr ""
-"There was an error geocoding your location. Check the address and try again"
 
-#: inc/class-agm-admin-maps.php:343
-msgid "Please type in the location"
-msgstr "Please type in the location"
+#: inc/class-agm-admin-maps.php:306
+msgid "Preview and edit map"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:344
-msgid "Add Marker"
-msgstr "Add Marker"
+#: inc/class-agm-admin-maps.php:307
+msgid "No existing maps"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:346
-msgid "Body"
-msgstr "Body"
+#: inc/class-agm-admin-maps.php:308
+msgid "New map"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:348
-msgid "Save changes"
-msgstr "Save changes"
+#: inc/class-agm-admin-maps.php:309
+msgid "Advanced mode"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:349
-msgid "All changes saved!"
-msgstr "All changes saved!"
+#: inc/class-agm-admin-maps.php:310
+msgid ""
+"Advanced mode: Merge several maps into one new map or to delete multiple "
+"maps"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:350
-msgid "Sending data..."
-msgstr "Sending data..."
+#: inc/class-agm-admin-maps.php:311
+msgid "Creates a new map containing all markers of the selected maps"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:352
-msgid "Map not saved"
-msgstr "Map not saved"
+#: inc/class-agm-admin-maps.php:312
+msgid "Exit advanced mode"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:353
-msgid "Please give this map a name"
-msgstr "Please give this map a name"
+#: inc/class-agm-admin-maps.php:313
+msgid "Merge"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:354
-msgid "Please save the map first"
-msgstr "Please save the map first"
+#: inc/class-agm-admin-maps.php:315
+msgid "Create a new map that can be inserted into this post or page"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:355
-msgid "Go back"
-msgstr "Go back"
+#: inc/class-agm-admin-maps.php:316
+msgid "You have not created any maps yet."
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:317
+msgid "Do you want to permanently delete this map?"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:318
+msgid "Do you want to permanently delete all selected maps?"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:340 views/widget_settings.php:42
+msgid "Create new map"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:355 inc/class-agm-dependencies.php:60
+msgid "There was an error geocoding your location. Check the address and try again"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:356
-msgid "Enter map title here"
-msgstr "Enter map title here"
+msgid "Please type in the location"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:357
-msgid "Map options"
-msgstr "Map options"
-
-#: inc/class-agm-admin-maps.php:358
-msgid ""
-"Use Map Options to change map size, appearance, alignment and image strip"
+msgid "Add Marker"
 msgstr ""
-"Use Map Options to change map size, appearance, alignment and image strip"
 
 #: inc/class-agm-admin-maps.php:359
-msgid "Drop Marker"
-msgstr "Drop Marker"
-
-#: inc/class-agm-admin-maps.php:360
-msgid ""
-"Tipp: For best map quality <strong>zoom in</strong> to place your markers "
-"before saving"
+msgid "Body"
 msgstr ""
-"Tipp: For best map quality <strong>zoom in</strong> to place your markers "
-"before saving"
 
 #: inc/class-agm-admin-maps.php:361
-msgid "Associate map with this post"
-msgstr "Associate map with this post"
+msgid "Save changes"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:362
-msgid "This map is already associated with these"
-msgstr "This map is already associated with these"
+msgid "All changes saved!"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:363
+msgid "Sending data..."
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:365
+msgid "Map not saved"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:366
+msgid "Please give this map a name"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:367
+msgid "Please save the map first"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:368
+msgid "Go back"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:369
+msgid "Enter map title here"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:370
+msgid "Map options"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:371
+msgid "Use Map Options to change map size, appearance, alignment and image strip"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:372
+msgid "Drop Marker"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:373
+msgid ""
+"Tipp: For best map quality <strong>zoom in</strong> to place your markers "
+"before saving"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:374
+msgid "Associate map with this post"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:375
+msgid "This map is already associated with these"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:376
 msgid ""
 "Associating a map with a post allows for using this map in advanced ways - "
 "to show it dynamically in the sidebar widget, or in an advanced mashup"
 msgstr ""
-"Associating a map with a post allows for using this map in advanced ways - "
-"to show it dynamically in the sidebar widget, or in an advanced mashup"
-
-#: inc/class-agm-admin-maps.php:364
-msgid "Map size"
-msgstr "Map size"
-
-#: inc/class-agm-admin-maps.php:365
-msgid "Use default size"
-msgstr "Use default size"
-
-#: inc/class-agm-admin-maps.php:366
-msgid "Map Appearance"
-msgstr "Map Appearance"
-
-#: inc/class-agm-admin-maps.php:367
-msgid "Map Alignment"
-msgstr "Map Alignment"
-
-#: inc/class-agm-admin-maps.php:371 views/widget_settings.php:68
-msgid "Show map"
-msgstr "Show map"
-
-#: inc/class-agm-admin-maps.php:372
-msgid "Show posts"
-msgstr "Show posts"
-
-#: inc/class-agm-admin-maps.php:373 views/widget_settings.php:71
-msgid "Show marker list"
-msgstr "Show marker list"
-
-#: inc/class-agm-admin-maps.php:374
-msgid "Images strip settings"
-msgstr "Images strip settings"
-
-#: inc/class-agm-admin-maps.php:375 views/widget_settings.php:74
-msgid "Show images strip"
-msgstr "Show images strip"
-
-#: inc/class-agm-admin-maps.php:376
-msgid "Use image size"
-msgstr "Use image size"
 
 #: inc/class-agm-admin-maps.php:377
-msgid "Panoramio overlay"
-msgstr "Panoramio overlay"
+msgid "Map size"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:378
-msgid "Show Panoramio overlay"
-msgstr "Show Panoramio overlay"
+msgid "Use default size"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:379
-msgid "Restrict Panoramio overlay photos to this tag"
-msgstr "Restrict Panoramio overlay photos to this tag"
+msgid "Map Appearance"
+msgstr ""
 
 #: inc/class-agm-admin-maps.php:380
+msgid "Map Alignment"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:384 views/widget_settings.php:68
+msgid "Show map"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:385
+msgid "Show posts"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:386 views/widget_settings.php:71
+msgid "Show marker list"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:387
+msgid "Images strip settings"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:388 views/widget_settings.php:74
+msgid "Show images strip"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:389
+msgid "Use image size"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:390
+msgid "Panoramio overlay"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:391
+msgid "Show Panoramio overlay"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:392
+msgid "Restrict Panoramio overlay photos to this tag"
+msgstr ""
+
+#: inc/class-agm-admin-maps.php:393
 msgid "Leave this field empty for no tag restrictions"
-msgstr "Leave this field empty for no tag restrictions"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:381
+#: inc/class-agm-admin-maps.php:394
 msgid "Show this many images"
-msgstr "Show this many images"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:382
+#: inc/class-agm-admin-maps.php:395
 msgid "Add location:"
-msgstr "Add location:"
+msgstr ""
 
-#: inc/class-agm-admin-maps.php:383
+#: inc/class-agm-admin-maps.php:396
 msgid "Apply"
-msgstr "Apply"
+msgstr ""
 
 #: inc/class-agm-dependencies.php:58
 msgid "Close"
-msgstr "Close"
+msgstr ""
 
 #: inc/class-agm-dependencies.php:59
 msgid "Get Directions"
-msgstr "Get Directions"
+msgstr ""
 
 #: inc/class-agm-dependencies.php:61
 msgid "Please, enter values for both point A and point B"
-msgstr "Please, enter values for both point A and point B"
+msgstr ""
 
 #: inc/class-agm-dependencies.php:62
 msgid "Directions"
-msgstr "Directions"
+msgstr ""
 
 #: inc/class-agm-dependencies.php:63
 msgid "Posts"
-msgstr "Posts"
+msgstr ""
 
 #: inc/class-agm-dependencies.php:64
 msgid "Show All"
-msgstr "Show All"
+msgstr ""
 
 #: inc/class-agm-dependencies.php:65
 msgid "Hide"
-msgstr "Hide"
+msgstr ""
 
 #: inc/class-agm-dependencies.php:66
 msgid "Oops, we couldn't calculate the directions"
-msgstr "Oops, we couldn't calculate the directions"
+msgstr ""
+
+#: inc/external/wpmu-lib/inc/class-thelib-ui.php:517
+msgid "Dismiss this notice."
+msgstr ""
 
 #: views/plugin_settings.php:2
 msgid "Google Maps Plugin Options"
-msgstr "Google Maps Plugin Options"
+msgstr ""
 
 #: views/plugin_settings.php:11
 msgid "Save Changes"
-msgstr "Save Changes"
+msgstr ""
 
 #: views/widget_settings.php:2
 msgid "Title:"
-msgstr "Title:"
+msgstr ""
 
 #: views/widget_settings.php:7
 msgid "Map size:"
-msgstr "Map size:"
+msgstr ""
 
 #: views/widget_settings.php:14
 msgid "Use map(s) from:"
-msgstr "Use map(s) from:"
+msgstr ""
 
 #: views/widget_settings.php:18
 msgid "Current posts"
-msgstr "Current posts"
+msgstr ""
 
 #: views/widget_settings.php:22
 msgid "All posts"
-msgstr "All posts"
+msgstr ""
 
 #: views/widget_settings.php:30
 msgid "Random map"
-msgstr "Random map"
+msgstr ""
 
 #: views/widget_settings.php:34
 msgid "Use this map:"
-msgstr "Use this map:"
+msgstr ""
 
 #: views/widget_settings.php:36
 msgid "Select one"
-msgstr "Select one"
+msgstr ""
 
 #: views/widget_settings.php:46
 msgid "Custom query"
-msgstr "Custom query"
+msgstr ""
 
 #: views/widget_settings.php:50
 msgid ""
-"This is a network query <small>(requires <a href=\"http://premium.wpmudev."
-"org/project/post-indexer\">Post Indexer</a> plugin) - only \"tag=...\" "
-"supported</small>"
+"This is a network query <small>(requires <a "
+"href=\"http://premium.wpmudev.org/project/post-indexer\">Post Indexer</a> "
+"plugin) - only \"tag=...\" supported</small>"
 msgstr ""
-"This is a network query <small>(requires <a href=\"http://premium.wpmudev."
-"org/project/post-indexer\">Post Indexer</a> plugin) - only \"tag=...\" "
-"supported</small>"
 
 #: views/widget_settings.php:53
 msgid "Learn more about custom queries"
-msgstr "Learn more about custom queries"
+msgstr ""
 
 #: views/widget_settings.php:57
 msgid "Show:"
-msgstr "Show:"
+msgstr ""
 
 #: views/widget_settings.php:60
 msgid "Show as one map"
-msgstr "Show as one map"
+msgstr ""
 
 #: views/widget_settings.php:77
 msgid "Show posts in markers"
-msgstr "Show posts in markers"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://premium.wpmudev.org/project/wordpress-google-maps-plugin"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Easily embed, customize, and use Google maps on your WordPress site - in "
+"posts, pages or as an easy to use widget, display local images and let your "
+"site visitors get directions in seconds."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WPMU DEV"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://premium.wpmudev.org"
+msgstr ""

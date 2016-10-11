@@ -33,6 +33,7 @@ data-fallback="<?php if ( isset( $row->settings->bg_video_fallback_src ) ) echo 
 <?php if ( isset( $row->settings->bg_video_service_url ) ) : ?>
 data-<?php echo $video_data['type']; ?>="<?php echo $row->settings->bg_video_service_url; ?>" 
 data-video-id="<?php echo $video_data['video_id']; ?>"
+data-enable-audio="<?php echo $row->settings->bg_video_audio; ?>"
 <?php endif; ?>>
 <div class="fl-bg-video-player"></div>
 </div>

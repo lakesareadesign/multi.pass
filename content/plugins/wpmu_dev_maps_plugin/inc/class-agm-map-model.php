@@ -805,6 +805,9 @@ class AgmMapModel {
 		$post_ids = apply_filters( 'agm-save-post-ids', $post_ids, $data );
 		$map_options = apply_filters( 'agm-save-options', $map_options, $data );
 
+		// Make sure we fit
+		$data['title'] = substr($data['title'], 0, 50);
+
 		// Return prepped data array
 		return array(
 			'title'    => $data['title'],
@@ -913,7 +916,7 @@ class AgmMapModel {
 		$map['show_map'] = 1;
 		$map['show_markers'] = 1;
 		$map['markers'] = array( $geo );
-		$map['show_posts'] = $args['show_posts'];
+		$map['show_posts'] = !empty($args['show_posts']) ? $args['show_posts'] : false;
 
 		if ( $do_associate ) {
 			$map['post_ids'] = array("{$associated_post_id}");

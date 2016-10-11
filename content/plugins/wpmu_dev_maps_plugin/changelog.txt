@@ -4,11 +4,20 @@ Author: Ve Bailovity (Incsub), Philipp Stracker (Incsub)
 Change Log:
 ----------------------------------------------------------------------
 
+2.9.1
+----------------------------------------------------------------------
+- Fix: add maps API key support.
+- Fix: update deprecated CDN path for cluster images.
+- Fix: integration function existence checks.
+- Fix: maps editor and insertion issue in some scenarios.
+- Fix: maps scroll disabling behavior.
+- Fix: maps title sanitization improvement.
+
 2.9.0.8
 ----------------------------------------------------------------------
 - Fix Google Maps Settings page in WordPress 4.3.5 and higher
 - Fix a bug caused by incomplete maps in cache
-       
+
 2.9.0.7
 ----------------------------------------------------------------------
 - Fix rendering issue in some browsers (e.g. Chrome 39)
@@ -270,4 +279,4 @@ Change Log:
 - Saving maps in Street View
 
 
-133620-1454456271-au
+133620-1476208394-au

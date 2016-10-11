@@ -249,7 +249,7 @@ FLBuilder::register_settings_form('row', array(
 									'fields'        => array('bg_video_url_mp4', 'bg_video_url_webm')
 								),
 								'video_service' 	=> array(
-									'fields' 			=> array('bg_video_service_url')
+									'fields' 			=> array('bg_video_service_url', 'bg_video_audio')
 								)
 							),
 							'preview'         => array(
@@ -294,6 +294,18 @@ FLBuilder::register_settings_form('row', array(
 							'help'          => __('A video from Youtube or Vimeo to use as the background of this row. Most modern browsers support this format.', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'refresh'
+							)
+						),
+						'bg_video_audio'	=> array(
+							'type'          	=> 'select',
+							'label'         	=> __('Enable Audio', 'fl-builder'),
+							'default'       	=> 'no',
+							'options'       	=> array(
+								'no'     			=> __('No', 'fl-builder'),
+								'yes'       		=> __('Yes', 'fl-builder')
+							),
+							'preview'         	=> array(
+								'type'          	=> 'refresh'
 							)
 						),
 						'bg_video_fallback' => array(

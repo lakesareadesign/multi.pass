@@ -85,6 +85,11 @@ final class FLBuilderServices {
 			'name'              => 'MailChimp',
 			'class'             => 'FLBuilderServiceMailChimp'
 		),
+		'mailerlite'        => array(
+			'type'              => 'autoresponder',
+			'name'              => 'MailerLite',
+			'class'             => 'FLBuilderServiceMailerLite'
+		),
 		'mailpoet'          => array(
 			'type'              => 'autoresponder',
 			'name'              => 'MailPoet',

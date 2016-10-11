@@ -37,6 +37,26 @@
 			}else {
 				$ultimatemember->access->redirect_handler = $ultimatemember->access->set_referer( $redirect, "global" );
 			}
+
+			// Disallow access in homepage
+			if( is_front_page() || is_home() ){
+				$home_page_accessible = um_get_option("home_page_accessible");
+				if( $home_page_accessible == 0 ){
+					$ultimatemember->access->redirect_handler = $ultimatemember->access->set_referer( $redirect, "global" );
+
+					wp_redirect( $ultimatemember->access->redirect_handler ); exit;
+				}
+				
+			}
+
+			// Disallow access in category pages
+			if( is_category() ){
+				$category_page_accessible = um_get_option("category_page_accessible");
+				if( $category_page_accessible == 0 ){
+					$ultimatemember->access->redirect_handler = $ultimatemember->access->set_referer( $redirect, "global" );
+					wp_redirect( $ultimatemember->access->redirect_handler ); exit;
+				}
+			}
 		}
 
 
@@ -537,6 +557,8 @@
 		}
 
 		$args = $ultimatemember->access->get_meta( $um_post_id );
+
+
 		extract( $args );
 
 		// Check for parent page's custom access settings
@@ -712,7 +734,7 @@
 			}
 		}
 
-		if( um_is_core_page('user') && ! is_user_logged_in() && ! empty( $access_redirect ) ){
+		if( um_is_core_page('user') && ! is_user_logged_in() && ! empty( $access_redirect ) && isset( $args['custom_access_settings'] ) && $args['custom_access_settings'] != 0  ){
 		  		$ultimatemember->access->allow_access = false;
 		  		$access_redirect = $ultimatemember->access->set_referer( $access_redirect, "user_page" );
 				$ultimatemember->access->redirect_handler = esc_url( $access_redirect );

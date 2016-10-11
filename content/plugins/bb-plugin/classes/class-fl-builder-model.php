@@ -210,6 +210,9 @@ final class FLBuilderModel {
 				if ( isset( $_POST['fl_builder_data']['settings'] ) ) {
 					$_POST['fl_builder_data']['settings'] = FLBuilderUtils::modsec_fix_decode( $_POST['fl_builder_data']['settings'] );
 				}
+				if ( isset( $_POST['fl_builder_data']['node_settings'] ) ) {
+					$_POST['fl_builder_data']['node_settings'] = FLBuilderUtils::modsec_fix_decode( $_POST['fl_builder_data']['node_settings'] );
+				}
 				
 				$data = FLBuilderUtils::json_decode_deep( wp_unslash( $_POST['fl_builder_data'] ) );
 				
@@ -684,13 +687,14 @@ final class FLBuilderModel {
 	 */
 	static public function delete_asset_cache( $type = false )
 	{
-		$info = self::get_asset_info();
+		$info  = self::get_asset_info();
+		$types = $type ? array( $type ) : array( 'css', 'css_partial', 'js', 'js_partial' );
 
-		if ( ( $type == 'css' || ! $type ) && file_exists( $info['css'] ) ) {
-			unlink( $info['css'] );
-		}
-		if ( ( $type == 'js' || ! $type ) && file_exists( $info['js'] ) ) {
-			unlink( $info['js'] );
+		foreach ( $types as $type ) {
+			
+			if ( isset( $info[ $type ] ) && file_exists( $info[ $type ] ) ) {
+				unlink( $info[ $type ] );
+			}
 		}
 	}
 
@@ -3756,7 +3760,7 @@ final class FLBuilderModel {
 
 		}
 
-		return $is_visible;
+		return apply_filters( 'fl_builder_is_node_visible', $is_visible, $node );
 	}
 
 	/**

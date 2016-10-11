@@ -389,7 +389,7 @@ if ( defined( 'BP_PLUGIN_DIR' ) ) :
 					$member_ids[] = bp_get_member_user_id();
 				}
 			}
-			bp_rewind_members();
+			if (function_exists('bp_rewind_members')) bp_rewind_members();
 
 			echo '' . $this->show_users_on_map( $member_ids, $overrides );
 		}

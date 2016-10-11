@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the WP Hummingbird package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Hummingbird 1.3.3\n"
+"Project-Id-Version: WP Hummingbird 1.3.4.1\n"
 "Report-Msgid-Bugs-To: https://wpmudev.org\n"
-"POT-Creation-Date: 2016-09-02 07:02:46+00:00\n"
+"POT-Creation-Date: 2016-10-07 06:41:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,11 +24,11 @@ msgstr ""
 msgid "Settings Updated"
 msgstr ""
 
-#: admin/class-admin-ajax.php:392
+#: admin/class-admin-ajax.php:408
 msgid "Please, select a CloudFlare zone. Normally, this is your website"
 msgstr ""
 
-#: admin/class-admin-ajax.php:403
+#: admin/class-admin-ajax.php:419
 msgid "The selected zone is not valid"
 msgstr ""
 
@@ -40,61 +40,63 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:73 admin/class-admin.php:89 admin/class-admin.php:104
+#: admin/class-admin.php:75 admin/class-admin.php:95 admin/class-admin.php:111
 #: admin/views/dashboard/welcome/meta-box.php:4
 #: admin/views/membership-modal.php:21
 #: admin/views/performance/module-resume-meta-box.php:7
 msgid "Hummingbird"
 msgstr ""
 
-#: admin/class-admin.php:74 admin/class-admin.php:105
+#: admin/class-admin.php:76 admin/class-admin.php:112
 msgid "Dashboard"
 msgstr ""
 
-#: admin/class-admin.php:75 admin/class-admin.php:106
+#: admin/class-admin.php:77 admin/class-admin.php:113
 #: admin/class-dashboard-page.php:90 admin/class-dashboard-page.php:95
 #: admin/class-dashboard-page.php:96 admin/class-dashboard-page.php:99
-#: admin/class-dashboard-page.php:102 admin/class-dashboard-page.php:375
+#: admin/class-dashboard-page.php:102 admin/class-dashboard-page.php:379
 #: admin/class-performance-page.php:65
 #: admin/views/dashboard/performance/disabled-meta-box.php:5
 #: admin/views/dashboard/performance/no-membership-meta-box.php:5
 msgid "Performance Report"
 msgstr ""
 
-#: admin/class-admin.php:76 admin/class-admin.php:89
-#: admin/class-dashboard-page.php:111 admin/class-dashboard-page.php:121
-#: admin/class-dashboard-page.php:124 admin/class-dashboard-page.php:312
+#: admin/class-admin.php:80 admin/class-admin.php:95
+#: admin/class-dashboard-page.php:111 admin/class-dashboard-page.php:115
+#: admin/class-dashboard-page.php:125 admin/class-dashboard-page.php:128
+#: admin/class-dashboard-page.php:316
 #: admin/views/dashboard/cloudflare/meta-box.php:35
+#: admin/views/dashboard/minification/cant-execute-php-meta-box.php:5
 #: admin/views/dashboard/minification/network-module-meta-box.php:5
 #: admin/views/dashboard-minification-disabled-meta-box.php:5
 #: admin/views/minification/enqueued-files-empty-meta-box.php:5
 msgid "Minification"
 msgstr ""
 
-#: admin/class-admin.php:77 admin/class-admin.php:107
-#: admin/class-dashboard-page.php:131 admin/class-dashboard-page.php:134
-#: admin/class-dashboard-page.php:229
+#: admin/class-admin.php:82 admin/class-admin.php:114
+#: admin/class-dashboard-page.php:135 admin/class-dashboard-page.php:138
+#: admin/class-dashboard-page.php:233
 #: admin/views/dashboard/caching/disabled-meta-box.php:5
 msgid "Browser Caching"
 msgstr ""
 
-#: admin/class-admin.php:78 admin/class-admin.php:108
-#: admin/class-dashboard-page.php:140 admin/class-dashboard-page.php:143
-#: admin/class-dashboard-page.php:337
+#: admin/class-admin.php:83 admin/class-admin.php:115
+#: admin/class-dashboard-page.php:144 admin/class-dashboard-page.php:147
+#: admin/class-dashboard-page.php:341
 #: admin/views/dashboard/gzip/disabled-meta-box.php:5
 msgid "GZIP Compression"
 msgstr ""
 
-#: admin/class-admin.php:79 admin/class-admin.php:109
-#: admin/class-dashboard-page.php:152 admin/class-dashboard-page.php:236
+#: admin/class-admin.php:84 admin/class-admin.php:116
+#: admin/class-dashboard-page.php:156 admin/class-dashboard-page.php:240
 #: admin/views/dashboard/uptime/disabled-meta-box.php:5
 #: admin/views/dashboard/uptime/no-membership-meta-box.php:5
 msgid "Uptime Monitoring"
 msgstr ""
 
-#: admin/class-admin.php:79 admin/class-admin.php:109
-#: admin/class-dashboard-page.php:155 admin/class-dashboard-page.php:158
-#: admin/class-dashboard-page.php:161 admin/class-uptime-page.php:17
+#: admin/class-admin.php:84 admin/class-admin.php:116
+#: admin/class-dashboard-page.php:159 admin/class-dashboard-page.php:162
+#: admin/class-dashboard-page.php:165 admin/class-uptime-page.php:17
 #: admin/class-uptime-page.php:20 admin/class-uptime-page.php:23
 #: admin/class-uptime-page.php:176
 #: admin/views/dashboard/uptime/module-meta-box.php:5
@@ -142,13 +144,13 @@ msgstr ""
 msgid "Enable Caching"
 msgstr ""
 
-#: admin/class-caching-page.php:151 admin/class-dashboard-page.php:206
+#: admin/class-caching-page.php:151 admin/class-dashboard-page.php:210
 #: admin/views/caching/summary-meta-box.php:31
 #: admin/views/dashboard/caching/module-meta-box.php:20
 msgid "Caching is enabled"
 msgstr ""
 
-#: admin/class-caching-page.php:151 admin/class-dashboard-page.php:206
+#: admin/class-caching-page.php:151 admin/class-dashboard-page.php:210
 #: admin/views/caching/summary-meta-box.php:35
 #: admin/views/dashboard/caching/module-meta-box.php:24
 msgid "Caching is enabled but you aren't using our recommended value"
@@ -164,7 +166,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: admin/class-dashboard-page.php:84 admin/class-dashboard-page.php:182
+#: admin/class-dashboard-page.php:84 admin/class-dashboard-page.php:186
 msgid "Welcome %s"
 msgstr ""
 
@@ -172,11 +174,11 @@ msgstr ""
 msgid "Performance test in progress"
 msgstr ""
 
-#: admin/class-dashboard-page.php:115 admin/class-dashboard-page.php:118
+#: admin/class-dashboard-page.php:119 admin/class-dashboard-page.php:122
 msgid "File check in progress"
 msgstr ""
 
-#: admin/class-dashboard-page.php:165 admin/class-dashboard-page.php:468
+#: admin/class-dashboard-page.php:169 admin/class-dashboard-page.php:472
 msgid "Image Optimization"
 msgstr ""
 
@@ -612,6 +614,13 @@ msgstr ""
 #: admin/views/dashboard/gzip/module-meta-box.php:23
 #: admin/views/gzip/summary-meta-box.php:32
 msgid "Gzip compression is %s for %s"
+msgstr ""
+
+#: admin/views/dashboard/minification/cant-execute-php-meta-box.php:9
+msgid ""
+"Hummingbird's minification engine requires at least <strong>PHP "
+"5.3</strong> and above. You'll need to update your PHP to a newer version "
+"to use this feature."
 msgstr ""
 
 #: admin/views/dashboard/minification/network-module-meta-box.php:8
@@ -1336,11 +1345,11 @@ msgid "Cloudflare"
 msgstr ""
 
 #: core/class-core.php:119
-msgid "See this page minified"
+msgid "See this page unminified"
 msgstr ""
 
-#: core/class-core.php:127
-msgid "See this page unminified"
+#: core/class-core.php:130
+msgid "See this page minified"
 msgstr ""
 
 #: core/modules/class-module-cloudflare.php:339

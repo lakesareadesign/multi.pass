@@ -1,9 +1,13 @@
+/*! Google Maps - v2.9.1
+ * http://premium.wpmudev.org/project/wordpress-google-maps-plugin
+ * Copyright (c) 2016; * Licensed GPLv2+ */
 /*! Google Maps - v2.9.07
  * http://premium.wpmudev.org/project/wordpress-google-maps-plugin
  * Copyright (c) 2015; * Licensed GPLv2+ */
 /*global window:false */
 /*global document:false */
 /*global _agm:false */
+/*global jQuery:false */
 
 /**
  * Asynchrounously load Google Maps API.
@@ -45,8 +49,11 @@ function loadGoogleMaps () {
 
 	var protocol = '',
 		language = '',
+		src 	= '',
 		script = document.createElement("script"),
-		libs = _agm.libraries.join(",");
+		libs = _agm.libraries.join(","),
+		api_key = ((window || {})._agm || {}).maps_api_key || false
+	;
 
 	try { protocol = document.location.protocol; }
 	catch (ex) { protocol = 'http:'; }
@@ -56,8 +63,14 @@ function loadGoogleMaps () {
 		catch (ex) { language = ''; }
 	}
 	script.type = "text/javascript";
-	script.src = protocol +
-		"//maps.google.com/maps/api/js?v=3&libraries=" +
+
+	if (api_key) {
+		api_key = "&key=" + api_key;
+	}
+
+	src = "//maps.google.com/maps/api/js?v=3" + api_key + "&libraries=";
+
+	script.src = protocol +  src +
 		libs +
 		"&sensor=false" +
 		language +
@@ -65,4 +78,4 @@ function loadGoogleMaps () {
 	document.body.appendChild(script);
 }
 
-jQuery( window ).load( loadGoogleMaps );
+jQuery( window ).on( 'load', loadGoogleMaps );

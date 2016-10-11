@@ -5762,7 +5762,7 @@
 			}
 			if(valid) {
 			
-				if(typeof preview !== 'undefined') {
+				if(typeof preview !== 'undefined' && typeof previewText !== 'undefined') {
 				
 					if(previewText.indexOf('fa fa-') > -1) {
 						previewText = '<i class="' + previewText + '"></i>';
@@ -6171,6 +6171,9 @@
 			if ( 'undefined' != typeof data.settings ) {
 				data.settings = FLBuilder._ajaxModSecFix( data.settings );
 			}
+			if ( 'undefined' != typeof data.node_settings ) {
+				data.node_settings = FLBuilder._ajaxModSecFix( data.node_settings );
+			}
 			
 			// Store the data in a single variable to avoid conflicts.
 			data = { fl_builder_data: data };
@@ -6282,13 +6285,19 @@
 			
 			if ( FLBuilderConfig.modSecFix && 'undefined' != typeof btoa ) {
 				
-				for ( prop in settings ) {
+				if ( 'string' == typeof settings ) {
+					settings = btoa( settings );
+				}
+				else {
 					
-					if ( 'string' == typeof settings[ prop ] ) {
-						settings[ prop ] = btoa( settings[ prop ] );
-					}
-					else if( 'object' == typeof settings[ prop ] ) {
-						settings[ prop ] = FLBuilder._ajaxModSecFix( settings[ prop ] );
+					for ( prop in settings ) {
+					
+						if ( 'string' == typeof settings[ prop ] ) {
+							settings[ prop ] = btoa( settings[ prop ] );
+						}
+						else if( 'object' == typeof settings[ prop ] ) {
+							settings[ prop ] = FLBuilder._ajaxModSecFix( settings[ prop ] );
+						}
 					}
 				}
 			}

@@ -138,13 +138,19 @@ final class FLBuilderUtils {
 	{
 		if ( defined( 'FL_BUILDER_MODSEC_FIX' ) && FL_BUILDER_MODSEC_FIX ) {
 			
-			foreach ( $settings as $key => $value ) {
+			if ( is_string( $settings ) ) {
+				$settings = wp_slash( base64_decode( $settings ) );
+			}
+			else {
 				
-				if ( is_string( $settings[ $key ] ) ) {
-					$settings[ $key ] = wp_slash( base64_decode( $value ) );
-				}
-				else if ( is_array( $settings[ $key ] ) ) {
-					$settings[ $key ] = self::modsec_fix_decode( $settings[ $key ] );
+				foreach ( $settings as $key => $value ) {
+					
+					if ( is_string( $settings[ $key ] ) ) {
+						$settings[ $key ] = wp_slash( base64_decode( $value ) );
+					}
+					else if ( is_array( $settings[ $key ] ) ) {
+						$settings[ $key ] = self::modsec_fix_decode( $settings[ $key ] );
+					}
 				}
 			}
 		}

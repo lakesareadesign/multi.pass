@@ -472,6 +472,7 @@
 			var playerWrap	= $(this),
 				videoId 	= playerWrap.data('video-id'),
 				videoPlayer = playerWrap.find('.fl-bg-video-player'),
+				enableAudio = playerWrap.data('enable-audio'),
 				player;
 
 			if ( videoId ) {
@@ -483,7 +484,12 @@
 							videoId: videoId,
 							events: {
 								onReady: function(event) {
-									event.target.mute();
+									if ( "no" === enableAudio ) {
+										event.target.mute();
+									}
+									else if ("yes" === enableAudio && event.target.isMuted ) {
+										event.target.unMute();	
+									}
 									
 									// Store an instance to a parent
 									playerWrap.data('YTPlayer', player);
@@ -538,6 +544,7 @@
 			var playerWrap	= $(this),
 				videoId 	= playerWrap.data('video-id'),
 				videoPlayer = playerWrap.find('.fl-bg-video-player'),
+				enableAudio = playerWrap.data('enable-audio'),
 				player,
 				width = playerWrap.outerWidth();
 
@@ -550,7 +557,13 @@
 				});
 
 				playerWrap.data('VMPlayer', player);
-				player.setVolume(0);
+				if ( "no" === enableAudio ) {
+					player.setVolume(0);
+				}
+				else if ("yes" === enableAudio ) {
+					player.setVolume(1);
+				}
+				
 				player.play();
 			}
 		},
