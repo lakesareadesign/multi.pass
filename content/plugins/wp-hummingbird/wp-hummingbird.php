@@ -1,7 +1,7 @@
 <?php
 /**
 Plugin Name: WP Hummingbird
-Version: 1.3.4.1
+Version: 1.3.5
 Plugin URI:  https://premium.wpmudev.org/project/1081721/
 Description: Hummingbird zips through your site finding new ways to make it load faster, from file compression and minification to browser caching – because when it comes to pagespeed, every millisecond counts.
 Author: WPMU DEV
@@ -31,7 +31,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-define( 'WPHB_VERSION', '1.3.4.1' );
+define( 'WPHB_VERSION', '1.3.5' );
 /**
  * Class WP_Hummingbird
  *
@@ -76,7 +76,9 @@ class WP_Hummingbird {
 		$this->includes();
 		$this->init();
 
-		$this->maybe_upgrade();
+		if ( is_admin() ) {
+			WP_Hummingbird_Installer::maybe_upgrade();
+		}
 
 		$this->load_textdomain();
 
@@ -117,6 +119,8 @@ class WP_Hummingbird {
 	private function includes() {
 		// Core files
 		/** @noinspection PhpIncludeInspection */
+		include_once( wphb_plugin_dir() . 'core/class-installer.php' );
+		/** @noinspection PhpIncludeInspection */
 		include_once( wphb_plugin_dir() . 'core/class-core.php' );
 		/** @noinspection PhpIncludeInspection */
 		include_once( wphb_plugin_dir() . 'core/integration.php' );
@@ -141,10 +145,6 @@ class WP_Hummingbird {
 		// Dashboard Shared UI Library
 		require_once( wphb_plugin_dir() . 'externals/shared-ui/plugin-ui.php');
 
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			// Load AJAX files
-		}
-
 		//load dashboard notice
 		global $wpmudev_notices;
 		$wpmudev_notices[] = array(
@@ -161,75 +161,6 @@ class WP_Hummingbird {
 		);
 		/** @noinspection PhpIncludeInspection */
 		include_once( wphb_plugin_dir() . '/externals/dash-notice/wpmudev-dash-notification.php' );
-
-	}
-
-	public function maybe_upgrade() {
-		if ( defined( 'WPHB_ACTIVATING' ) ) {
-			// Avoid to execute this over an over in same thread execution
-			return;
-		}
-
-		if ( defined( 'WPHB_UPGRADING' ) && WPHB_UPGRADING ) {
-			return;
-		}
-
-		$version = get_site_option( 'wphb_version' );
-
-		if ( false === $version ) {
-			wphb_activate();
-			if ( ! is_multisite() ) {
-				wphb_activate_blog();
-			}
-		}
-
-		if ( is_multisite() ) {
-			$blog_version = get_option( 'wphb_version' );
-			if ( false === $blog_version ) {
-				wphb_activate_blog();
-			}
-		}
-
-		if ( $version != WPHB_VERSION ) {
-
-			define( 'WPHB_UPGRADING', true );
-
-			if ( version_compare( $version, '1.0-RC-7', '<' ) ) {
-				delete_site_option( 'wphb-server-type' );
-			}
-
-			if ( version_compare( $version, '1.1', '<' ) ) {
-				$options = wphb_get_settings();
-				$defaults = wphb_get_default_settings();
-
-				if ( isset ( $options['caching_expiry_css/javascript'] ) ) {
-					$options['caching_expiry_css'] = $options['caching_expiry_css/javascript'];
-					$options['caching_expiry_javascript'] = $options['caching_expiry_css/javascript'];
-					unset( $options['caching_expiry_css/javascript'] );
-				}
-				else {
-					$options['caching_expiry_css'] = $defaults['caching_expiry_css'];
-					$options['caching_expiry_javascript'] = $defaults['caching_expiry_javascript'];
-				}
-
-				wphb_update_settings( $options );
-				$module = new WP_Hummingbird_Module_Caching( 'caching', 'caching' );
-				$module->get_analysis_data( true );
-			}
-
-			if ( version_compare( $version, '1.1.1', '<' ) ) {
-				$options = wphb_get_setting( 'network_version' );
-				if ( empty( $options ) ) {
-					wphb_update_settings( wphb_get_default_settings() );
-				}
-			}
-
-			if ( version_compare( $version, '1.3', '<' ) ) {
-				wphb_has_cloudflare( true );
-			}
-
-			update_site_option( 'wphb_version', WPHB_VERSION );
-		}
 
 	}
 
@@ -301,95 +232,26 @@ function wphb_plugin_dir() {
 	return trailingslashit( plugin_dir_path( __FILE__ ) );
 }
 
+
 /**
  * Activate the plugin
  */
 function wphb_activate() {
-	if ( ! defined( 'WPHB_ACTIVATING' ) ) {
-		define( 'WPHB_ACTIVATING', true );
+	if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
+		include_once( 'core/class-installer.php' );
 	}
-
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-core.php' );
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-settings.php' );
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-cache.php' );
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-modules.php' );
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'core/class-abstract-module.php' );
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'core/modules/class-module-uptime.php' );
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'core/modules/class-module-cloudflare.php' );
-
-	wphb_include_file_cache_class();
-
-	$model = wphb_get_model();
-	$model->create_minification_chart_table();
-
-	// Check if Uptime is active in the server
-	if ( WP_Hummingbird_Module_Uptime::is_remotely_enabled() ) {
-		WP_Hummingbird_Module_Uptime::enable_locally();
-	}
-	else {
-		WP_Hummingbird_Module_Uptime::disable_locally();
-	}
-
-	if ( wphb_is_member() ) {
-		// Try to get a performance report
-		wphb_performance_init_scan();
-		wphb_performance_set_doing_report( true );
-	}
-
-	update_site_option( 'wphb_version', WPHB_VERSION );
-
-	wphb_has_cloudflare( true );
-
+	WP_Hummingbird_Installer::activate();
 }
 register_activation_hook( __FILE__, 'wphb_activate' );
-
-function wphb_activate_blog() {
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-core.php' );
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-cache.php' );
-	wphb_include_file_cache_class();
-
-	// Create cache folders
-	$created = WP_Hummingbird_Cache_File::create_cache_folder();
-
-	$model = wphb_get_model();
-	$model->create_minification_chart_table();
-
-	if ( ! $created ) {
-		// Something went wrong
-		update_option( 'wphb_cache_folder_error', true );
-	}
-	else {
-		delete_option( 'wphb_cache_folder_error' );
-	}
-
-	update_option( 'wphb_version', WPHB_VERSION );
-}
-
-
 
 
 /**
  * Deactivate the plugin
  */
 function wphb_deactivate() {
-	wphb_flush_cache( false );
-	delete_site_option( 'wphb_version' );
-	delete_option( 'wphb_cache_folder_error' );
-	delete_option( 'wphb-minification-check-files' );
-	delete_site_option( 'wphb-last-report' );
-	delete_site_option( 'wphb-last-report-score' );
-	delete_site_option( 'wphb-server-type' );
-	delete_site_transient( 'wphb-uptime-last-report' );
-	delete_site_option( 'wphb-is-cloudflare' );
-	wphb_cloudflare_disconnect();
+	if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
+		include_once( 'core/class-installer.php' );
+	}
+	WP_Hummingbird_Installer::deactivate();
 }
 register_deactivation_hook( __FILE__, 'wphb_deactivate' );

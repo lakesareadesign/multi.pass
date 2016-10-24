@@ -87,7 +87,45 @@ final class NF_Display_Render
         if( empty( $form_fields ) ){
             echo __( 'No Fields Found.', 'ninja-forms' );
         } else {
+
+            // TODO: Replace unique field key checks with a refactored model/factory.
+            $unique_field_keys = array();
+            $form_cache = get_option( 'nf_form_' . $form_id, false );
+            $cache_updated = false;
+
             foreach ($form_fields as $field) {
+
+                $field_id = $field->get_id();
+
+                /*
+                 * Duplicate field check.
+                 * TODO: Replace unique field key checks with a refactored model/factory.
+                 */
+                $field_key = $field->get_setting( 'key' );
+                if( in_array( $field_key, $unique_field_keys ) || '' == $field_key ){
+
+                    // Delete the field.
+                    Ninja_Forms()->request( 'delete-field' )->data( array( 'field_id' => $field_id ) )->dispatch();
+
+                    // Remove the field from cache.
+                    if( $form_cache ) {
+                        if( isset( $form_cache[ 'fields' ] ) ){
+                            foreach( $form_cache[ 'fields' ] as $cached_field_key => $cached_field ){
+                                if( ! isset( $cached_field[ 'id' ] ) ) continue;
+                                if( $field_id != $cached_field[ 'id' ] ) continue;
+
+                                // Flag cache to update.
+                                $cache_updated = true;
+
+                                unset( $form_cache[ 'fields' ][ $cached_field_key ] ); // Remove the field.
+                            }
+                        }
+                    }
+
+                    continue; // Skip the duplicate field.
+                }
+                array_push( $unique_field_keys, $field_key ); // Log unique key.
+                /* END Duplicate field check. */
 
                 $field_type = $field->get_settings('type');
 
@@ -158,8 +196,8 @@ final class NF_Display_Render
                         do_shortcode( $settings['value'] );
                         $ob = ob_get_clean();
 
-                        if( $ob ){
-                            $settings['value'] = $ob;
+                        if( ! $ob ) {
+                            $settings['value'] = do_shortcode( $settings['value'] );
                         }
                     }
                 }
@@ -183,7 +221,13 @@ final class NF_Display_Render
 
                 $fields[] = apply_filters( 'ninja_forms_localize_field_settings_' . $field_type, $settings, $form );
             }
+
+            if( $cache_updated ) {
+                update_option('nf_form_' . $form_id, $form_cache); // Update form cache without duplicate fields.
+            }
         }
+
+        $fields = apply_filters( 'ninja_forms_display_fields', $fields );
 
         // Output Form Container
         do_action( 'ninja_forms_before_container', $form_id, $form->get_settings(), $form_fields );
@@ -307,6 +351,7 @@ final class NF_Display_Render
 
                 if( 'list' == $field[ 'settings' ][ 'parentType' ] && isset( $field['settings'][ 'options' ] ) && is_array( $field['settings'][ 'options' ] ) ){
                     $field['settings'][ 'options' ] = apply_filters( 'ninja_forms_render_options', $field['settings'][ 'options' ], $field['settings'] );
+                    $field['settings'][ 'options' ] = apply_filters( 'ninja_forms_render_options_' . $field['settings'][ 'type' ], $field['settings'][ 'options' ], $field['settings'] );
                 }
 
                 if (isset($field['settings']['default'])) {
@@ -321,8 +366,8 @@ final class NF_Display_Render
                         do_shortcode( $field['settings']['value'] );
                         $ob = ob_get_clean();
 
-                        if( $ob ){
-                            $field['settings']['value'] = $ob;
+                        if( ! $ob ) {
+                            $field['settings']['value'] = do_shortcode( $field['settings']['value'] );
                         }
                     }
                 }
@@ -387,15 +432,15 @@ final class NF_Display_Render
 
         switch( Ninja_Forms()->get_setting( 'opinionated_styles' ) ) {
             case 'light':
-                wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-light.css' );
+                wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-light.css', array( 'dashicons' ) );
                 wp_enqueue_style( 'nf-font-awesome', $css_dir . 'font-awesome.min.css'       );
                 break;
             case 'dark':
-                wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-dark.css' );
+                wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-dark.css', array( 'dashicons' )  );
                 wp_enqueue_style( 'nf-font-awesome', $css_dir . 'font-awesome.min.css'      );
                 break;
             default:
-                wp_enqueue_style( 'nf-display',      $css_dir . 'display-structure.css'     );
+                wp_enqueue_style( 'nf-display',      $css_dir . 'display-structure.css', array( 'dashicons' ) );
         }
 
         if( $is_preview || self::form_uses_recaptcha( $form_id ) ) {

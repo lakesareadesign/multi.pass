@@ -202,6 +202,10 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 			}
 		}
 
+		if ( isset( $_GET['view-export-form'] ) ) {
+			$this->view( 'minification/export-form' );
+		}
+
 		$args = compact( 'collection', 'styles_rows', 'scripts_rows', 'selector_filter' );
 		$this->view( 'minification/enqueued-files-meta-box', $args );
 	}

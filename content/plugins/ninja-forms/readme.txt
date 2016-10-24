@@ -3,7 +3,7 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, wpnzach,
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation, form administration,
 Requires at least: 4.4
 Tested up to: 4.6.1
-Stable tag: 3.0.7
+Stable tag: 3.0.11
 License: GPLv2 or later
 
 Drag and drop fields in an intuitive UI to create create contact forms, email subscription forms, order forms, payment forms, send emails and more!
@@ -102,13 +102,78 @@ For help and video tutorials, please visit our website: [Ninja Forms Documentati
 
 == Upgrade Notice ==
 
-= 3.0.7 (06 October 2016) =
+= 3.0.11 (18 October 2016) =
+
+*Bugs:*
+
+* Fixed a bug with overly strict error catching that might stall form submission.
 
 *Changes:*
 
-* Added background processing for publishing long forms to avoid timeout errors.
+* Updated field validation to not check required settings on unknown field types.
+* Added a process to remove empty fields without field keys.
 
 == Changelog ==
+
+= 3.0.11 (18 October 2016) =
+
+*Bugs:*
+
+* Fixed a bug with overly strict error catching that might stall form submission.
+
+*Changes:*
+
+* Updated field validation to not check required settings on unknown field types.
+* Added a process to remove empty fields without field keys.
+
+= 3.0.10 (18 October 2016) =
+
+*Bugs:*
+
+* Fixed a bug with non-visible fields generating empty HTML on display.
+* Fixed a bug with dashicons not showing for non-logged in users.
+* Fixed a bug with converting fields with 'inside' labels.
+* Fixed a bug with showing custom columns in submissions per-form.
+* Fixed a bug with field IDs not properly being updated on form publish.
+* Fixed a bug with the country field not displaying the country list in the form.
+* Fixed a bug with formatting of textareas and merge tags.
+* Fixed a bug with displaying calculation values for checkboxes and merge tags.
+* Fixed a bug with duplicate fields breaking the builder and form display.
+* Fixed a bug with consistency and form cache data for the builder and form display.
+
+*Changes:*
+
+* Added a hook in the JavaScript for the Pikaday datepicker.
+* Removed the Submission Post Type from the Admin Bar display.
+* Excluded the Submission Post Type from public query.
+* Added better error reporting for 500 Internal Server Errors for troubleshooting.
+* Added a cleanup routine for duplicate fields in forms.
+
+= 3.0.9 (12 October 2016) =
+
+*Bugs:*
+
+* Fixed a bug with loading the form builder form cache.
+
+= 3.0.8 (11 October 2016) =
+
+*Changes:*
+
+* Fixed a typo in the Submission Date Filter.
+* Added a filter (ninja_forms_display_fields) for removing fields form display.
+* Added a check for misconfigured shortcodes that break output.
+
+*Bugs:*
+
+* Fixed a bug with exporting list fields in submissions.
+* Fixed a bug with outputting extra text on the submission submenu.
+* Fixed a bug with importing checkbox lists and default values.
+* Fixed a bug with imported forms that contain HTML in fields.
+* Fixed a bug with date field formatting.
+* Fixed a bug with the builder drawer not scrolling to the top when opened.
+* Fixed a bug with using hidden fields in calculations.
+* Fixed a bug with refreshing newsletter lists in form actions.
+* Fixed a bug with field calculation values in merge tags.
 
 = 3.0.7 (06 October 2016) =
 

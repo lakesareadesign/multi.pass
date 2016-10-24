@@ -1,6 +1,10 @@
 <div class="wrap">
 
-	<?php if(isset($subscription->error) || !$subscription->active) : ?>
+	<?php if(isset($subscription->error) && 'connection' == $subscription->error) : ?>
+	<p class="fl-license-error" style="padding:10px 20px; background: #d54e21; color: #fff;">
+		<?php _e('ERROR! We were unable to connect to the update server. If the issue persists, please contact your host and let them know your website cannot connect to updates.wpbeaverbuilder.com.', 'fl-builder'); ?>
+	</p>
+	<?php elseif(isset($subscription->error) || !$subscription->active) : ?>
 	<p class="fl-license-error" style="padding:10px 20px; background: #d54e21; color: #fff;">
 		<?php _e('UPDATES UNAVAILABLE! Please subscribe or enter your license key below to enable automatic updates.', 'fl-builder'); ?>
 		&nbsp;<a style="color: #fff;" href="<?php echo FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-pro', 'utm_source' => 'license-settings-page', 'utm_campaign' => 'license-expired' ) ); ?>" target="_blank"><?php _e('Subscribe Now', 'fl-builder'); ?> &raquo;</a>

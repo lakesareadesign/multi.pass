@@ -409,7 +409,7 @@ final class FLUpdater {
 	{
 		$request      = wp_remote_get($url);
 		$error        = new stdClass();
-		$error->error = true;
+		$error->error = 'connection';
 
 		if(is_wp_error($request)) {
 			return $error;

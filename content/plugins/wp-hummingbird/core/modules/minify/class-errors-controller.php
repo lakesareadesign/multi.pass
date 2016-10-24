@@ -27,7 +27,7 @@ class WP_Hummingbird_Minification_Errors_Controller {
 		/**
 		 * Filter the minification errors
 		 */
-		return apply_filters( 'wphb_minification_errors', get_option( 'wphb-minification-errors', $default ) );	  	 	   	 		 		 		 	
+		return apply_filters( 'wphb_minification_errors', get_option( 'wphb-minification-errors', $default ) );
 	}
 
 	/**

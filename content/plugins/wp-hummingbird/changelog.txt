@@ -4,6 +4,10 @@ Tested up to: 4.6.1
 
 Change Log:
 
+1.3.5 - 2016-10-24
+----------------------------------------------------------------------
+- New: Divi 3.0 integration
+
 1.3.4.1 - 2016-10-07
 ----------------------------------------------------------------------
 - Fixed: Minification was always enabled in some sites.
@@ -123,4 +127,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1476208423-au
+133620-1477325013-au

@@ -1,3 +1,9 @@
+<h4>1.8.7.1 - 10/13/2016</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a bug with row and column text colors not working in 1.8.7.</li>
+</ul>
+
 <h4>1.8.7 - 10/09/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

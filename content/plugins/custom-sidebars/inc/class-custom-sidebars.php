@@ -35,7 +35,7 @@ class CustomSidebars {
 	 * URL to the documentation/info page of the pro plugin
 	 * @var  string
 	 */
-	static public $pro_url = 'http://premium.wpmudev.org/project/custom-sidebars-pro/';
+	static public $pro_url = 'https://premium.wpmudev.org/project/custom-sidebars-pro/';
 
 	/**
 	 * Flag that specifies if the page is loaded in accessibility mode.
@@ -872,8 +872,13 @@ class CustomSidebars {
 		if ( ! isset( $a['name'] ) || ! isset( $b['name'] ) ) {
 			return 0;
 		}
-		$a_name = mb_strtolower($a['name']);
-		$b_name = mb_strtolower($b['name']);
+		if ( function_exists( 'mb_strtolower' ) ) {
+			$a_name = mb_strtolower($a['name']);
+			$b_name = mb_strtolower($b['name']);
+		} else {
+			$a_name = strtolower($a['name']);
+			$b_name = strtolower($b['name']);
+		}
 		if ( $a_name == $b_name ) {
 			return 0;
 		}
