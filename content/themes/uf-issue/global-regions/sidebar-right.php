@@ -1,5 +1,5 @@
 <?php
-$sidebar_right_container = ( !empty($region_container) ? $region_container : "main-area" );
+$sidebar_right_container = ( !empty($region_container) ? $region_container : "block-content" );
 $sidebar_right_sub = ( !empty($region_sub) ? $region_sub: "right" );
 
 /* START_REGION_OUTPUT */
@@ -316,7 +316,7 @@ $sidebar_right->add_element("Uwidget", array (
          'use_padding' => 'yes',
          'row' => 15,
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -558,7 +558,7 @@ $sidebar_right->add_element("Uwidget", array (
       (array)(array(
          'use_padding' => 'yes',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',

@@ -300,7 +300,6 @@ $main->add_element("PostData", array (
       (array)(array(
          'use_padding' => 'yes',
          'row' => 4,
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '10',
          'bottom_padding_num' => '10',
@@ -391,6 +390,11 @@ $main->add_element("PostData", array (
       ),
       'current_preset' => 'default',
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -414,7 +418,7 @@ $main->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'lock_padding',
         ),
       ),
     ),
@@ -519,7 +523,6 @@ $main->add_element("PostData", array (
       (array)(array(
          'use_padding' => 'yes',
          'row' => 4,
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '0',
          'bottom_padding_num' => '0',
@@ -595,6 +598,11 @@ $main->add_element("PostData", array (
       ),
       'current_preset' => 'default',
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -617,7 +625,7 @@ $main->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'lock_padding',
         ),
       ),
     ),
@@ -832,7 +840,6 @@ $main->add_element("PostData", array (
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '20',
          'top_padding_num' => '20',
@@ -931,6 +938,11 @@ $main->add_element("PostData", array (
       ),
       'current_preset' => 'default',
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -954,7 +966,7 @@ $main->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'lock_padding',
         ),
       ),
     ),
@@ -1108,7 +1120,7 @@ $main->add_element("PostData", array (
       (array)(array(
          'use_padding' => 'yes',
       )),
-       'current_property' => 'lock_padding',
+       'current_property' => 'use_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -1197,6 +1209,11 @@ $main->add_element("PostData", array (
           'col' => 7,
         ),
       ),
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => '',
       'new_line' => true,
       'breakpoint' =>
       array (
@@ -1208,7 +1225,7 @@ $main->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'hide',
+          0 => 'lock_padding',
         ),
         'mobile' =>
         array (
@@ -1671,6 +1688,11 @@ $main->add_element("PostData", array (
       ),
       'current_preset' => 'default',
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -1692,7 +1714,7 @@ $main->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'lock_padding',
         ),
       ),
     ),
@@ -1726,6 +1748,11 @@ $main->add_element("PostData", array (
       'current_preset' => 'default',
       'preset' => 'default',
       'row' => 3611,
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => '',
       'new_line' => true,
       'breakpoint' =>
       array (
@@ -1748,7 +1775,7 @@ $main->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'lock_padding',
         ),
       ),
     ),
@@ -1781,6 +1808,11 @@ $main->add_element("PostData", array (
       ),
       'current_preset' => 'default',
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => '',
       'new_line' => true,
       'breakpoint' =>
       array (
@@ -1803,7 +1835,7 @@ $main->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'lock_padding',
         ),
       ),
     ),

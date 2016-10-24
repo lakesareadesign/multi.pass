@@ -213,6 +213,7 @@ $home_slider->add_element("Button", array (
          'preset' => 'button-logo',
       )),
     )),
+    'current_preset' => 'button-logo',
   ),
   'row' => 6,
   'sticky' => false,
@@ -233,8 +234,12 @@ $home_slider->add_element("Button", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -257,6 +262,10 @@ $home_slider->add_element("Button", array (
       'hide' => 1,
       'row' => 63,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

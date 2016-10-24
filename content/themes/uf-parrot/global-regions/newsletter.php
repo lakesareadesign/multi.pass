@@ -173,6 +173,9 @@ $newsletter->add_element("Code", array (
     'padding_slider' => '10',
     'preset' => 'default',
     'use_padding' => 'yes',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -490,6 +493,8 @@ $newsletter->add_group(array (
   'bottom_padding_num' => '10',
   'lock_padding' => '',
   'top_padding_slider' => '40',
+  'left_padding_num' => '10',
+  'right_padding_num' => '10',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1070,6 +1075,9 @@ $newsletter->add_element("Code", array (
     'padding_slider' => '10',
     'preset' => 'default',
     'use_padding' => 'yes',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,

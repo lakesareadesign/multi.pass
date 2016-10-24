@@ -616,6 +616,8 @@ $main->add_element("PlainTxt", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => 10,
+    'right_padding_num' => 10,
   ),
   'row' => 6,
   'sticky' => false,

@@ -1,5 +1,5 @@
 <?php
-$sidebar_left_container = ( !empty($region_container) ? $region_container : "main-area" );
+$sidebar_left_container = ( !empty($region_container) ? $region_container : "block-content" );
 $sidebar_left_sub = ( !empty($region_sub) ? $region_sub: "right" );
 
 /* START_REGION_OUTPUT */
@@ -42,6 +42,10 @@ $sidebar_left = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => 'rgba(0,0,0,0)',
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
 )
 			);
 
@@ -166,7 +170,7 @@ $sidebar_left->add_element("Uwidget", array (
       (array)(array(
          'use_padding' => 'yes',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -296,6 +300,8 @@ $sidebar_left->add_group(array (
   'row' => 39,
   'href' => '{{upfront:home_url}}/contact/',
   'linkTarget' => false,
+  'left_padding_num' => '15',
+  'right_padding_num' => '15',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -477,6 +483,8 @@ $sidebar_left->add_element("Uimage", array (
     'lock_padding' => '',
     'top_padding_use' => 'yes',
     'top_padding_slider' => '35',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -883,6 +891,9 @@ $sidebar_left->add_element("Uimage", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,

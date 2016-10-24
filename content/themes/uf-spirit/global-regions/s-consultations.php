@@ -264,12 +264,12 @@ $s_consultations->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -336,65 +336,6 @@ $s_consultations->add_element("Uspacer", array (
   ),
 ));
 
-$s_consultations->add_element("Uspacer", array (
-  'columns' => '5',
-  'margin_left' => '0',
-  'margin_right' => '0',
-  'margin_top' => '0',
-  'margin_bottom' => '0',
-  'class' => 'module-1453737722414-1158 upfront-module-spacer',
-  'id' => 'module-1453737722414-1158',
-  'options' =>
-  array (
-    'type' => 'UspacerModel',
-    'view_class' => 'UspacerView',
-    'class' => 'c24',
-    'has_settings' => 0,
-    'id_slug' => 'uspacer',
-    'element_id' => 'spacer-object-1453737722413-1982',
-    'preset' => 'default',
-  ),
-  'row' => 6,
-  'sticky' => false,
-  'default_hide' => 1,
-  'hide' => 1,
-  'toggle_hide' => 0,
-  'wrapper_id' => 'wrapper-1453737722414-1277',
-  'new_line' => true,
-  'wrapper_breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'edited' => true,
-      'clear' => true,
-      'order' => 2,
-      'col' => 5,
-    ),
-    'mobile' =>
-    array (
-      'col' => 5,
-    ),
-    'current_property' =>
-    array (
-      0 => 'col',
-    ),
-  ),
-  'breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'edited' => true,
-      'hide' => 0,
-      'left' => 0,
-      'col' => 5,
-    ),
-    'current_property' =>
-    array (
-      0 => 'col',
-    ),
-  ),
-));
-
 $s_consultations->add_element("PlainTxt", array (
   'columns' => '11',
   'margin_left' => '0',
@@ -432,6 +373,8 @@ $s_consultations->add_element("PlainTxt", array (
       )),
     )),
     'row' => 10,
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -444,7 +387,7 @@ $s_consultations->add_element("PlainTxt", array (
     'tablet' =>
     array (
       'edited' => true,
-      'col' => 7,
+      'col' => 12,
       'order' => 2,
       'clear' => false,
     ),
@@ -452,12 +395,12 @@ $s_consultations->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -466,7 +409,7 @@ $s_consultations->add_element("PlainTxt", array (
     array (
       'edited' => true,
       'left' => 1,
-      'col' => 7,
+      'col' => 12,
       'order' => 0,
       'top' => 0,
       'row' => 16,

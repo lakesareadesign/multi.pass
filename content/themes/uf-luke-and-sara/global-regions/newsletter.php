@@ -116,6 +116,7 @@ $newsletter->add_element("Code", array (
          'bottom_padding_use' => 'yes',
          'bottom_padding_num' => '30',
          'bottom_padding_slider' => '30',
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
@@ -125,11 +126,15 @@ $newsletter->add_element("Code", array (
          'bottom_padding_slider' => '10',
          'row' => 16,
       )),
+       'current_property' => 'use_padding',
     )),
     'preset' => 'default',
     'padding_slider' => '10',
     'row' => 7,
     'use_padding' => 'yes',
+    'current_preset' => 'default',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -144,15 +149,19 @@ $newsletter->add_element("Code", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -173,6 +182,10 @@ $newsletter->add_element("Code", array (
       'order' => 0,
       'top' => 0,
       'row' => 8,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -204,6 +217,11 @@ $newsletter->add_group(array (
   'lock_padding' => '',
   'version' => '1.0.0',
   'background_default' => 'color',
+  'left_padding_num' => '10',
+  'right_padding_num' => '10',
+  'origin_position_y' => 50,
+  'origin_position_x' => 50,
+  'background_size_percent' => 100,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -211,15 +229,19 @@ $newsletter->add_group(array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -241,6 +263,10 @@ $newsletter->add_group(array (
       'order' => 0,
       'top' => 0,
       'row' => 30,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -338,11 +364,13 @@ $newsletter->add_element("Uimage", array (
        'tablet' =>
       (array)(array(
          'row' => 35,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
          'row' => 25,
       )),
+       'current_property' => 'use_padding',
     )),
     'breakpoint_presets' =>
     (array)(array(
@@ -351,6 +379,7 @@ $newsletter->add_element("Uimage", array (
          'preset' => 'default',
       )),
     )),
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -372,8 +401,12 @@ $newsletter->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -397,6 +430,10 @@ $newsletter->add_element("Uimage", array (
       'top' => 0,
       'row' => 25,
       'hide' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1451186748784-1281',
@@ -529,10 +566,17 @@ $newsletter->add_element("Code", array (
       (array)(array(
          'row' => 18,
       )),
-       'current_property' => 'bottom_padding_num',
+       'current_property' => 'use_padding',
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
     )),
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'current_preset' => 'default',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -553,8 +597,12 @@ $newsletter->add_element("Code", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -575,6 +623,10 @@ $newsletter->add_element("Code", array (
       'order' => 0,
       'top' => 0,
       'row' => 18,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1451186748784-1281',

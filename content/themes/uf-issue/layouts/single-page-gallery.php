@@ -844,30 +844,40 @@ $main = upfront_create_region(
 
 $main->add_element("Uspacer", array (
   'columns' => '2',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1472863543532-1367 upfront-module-spacer',
   'id' => 'module-1472863543532-1367',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1472863543532-1676',
     'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1472863543532-1676',
     'current_preset' => 'default',
     'preset' => 'default',
   ),
-  'wrapper_id' => 'wrapper-1472863543532-1299',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
-  'edited' => true,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1472863543532-1299',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
       'edited' => true,
+      'col' => 2,
+    ),
+    'mobile' =>
+    array (
+      'col' => 2,
     ),
     'current_property' =>
     array (
@@ -889,23 +899,29 @@ $main->add_element("Uspacer", array (
 
 $main->add_element("Uspacer", array (
   'columns' => '1',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1472864267315-1295 upfront-module-spacer',
   'id' => 'module-1472864267315-1295',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1472864267315-1031',
     'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1472864267315-1031',
     'current_preset' => 'default',
     'preset' => 'default',
   ),
-  'wrapper_id' => 'wrapper-1472864267314-1648',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 1,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1472864267314-1648',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -914,6 +930,10 @@ $main->add_element("Uspacer", array (
       'edited' => true,
       'clear' => true,
       'order' => 1,
+      'col' => 1,
+    ),
+    'mobile' =>
+    array (
       'col' => 1,
     ),
     'current_property' =>
@@ -940,8 +960,10 @@ $main->add_element("Uspacer", array (
 $main->add_element("Ugallery", array (
   'columns' => '20',
   'margin_left' => '0',
+  'margin_right' => '0',
   'margin_top' => '0',
-  'class' => 'upfront-ugallery_module',
+  'margin_bottom' => '0',
+  'class' => 'module-1472863530562-1898',
   'id' => 'module-1472863530562-1898',
   'options' =>
   array (
@@ -956,7 +978,8 @@ $main->add_element("Ugallery", array (
     array (
       0 =>
       (array)(array(
-         'id' => '234377',
+         'id' => 234390,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-tech-190x190-3621.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-tech.jpg',
          'sizes' =>
         (array)(array(
@@ -1044,14 +1067,9 @@ $main->add_element("Ugallery", array (
            'left' => 48,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-tech-190x190-3621.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1472863530561-1851',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-tech.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-tech.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1070,6 +1088,10 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1472863530561-1851',
+         'urlType' => 'image',
          'cropPosition' =>
         (array)(array(
            'top' => 0,
@@ -1081,7 +1103,8 @@ $main->add_element("Ugallery", array (
       )),
       1 =>
       (array)(array(
-         'id' => '234378',
+         'id' => 234391,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-work-190x190-5476.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-work.jpg',
          'sizes' =>
         (array)(array(
@@ -1171,14 +1194,9 @@ $main->add_element("Ugallery", array (
            'left' => 47,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-work-190x190-5476.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1472863530561-1851',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-work.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-work.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1197,13 +1215,18 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1472863530561-1851',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/img-work.jpg',
          'imageLinkTarget' => '',
       )),
       2 =>
       (array)(array(
-         'id' => '234379',
+         'id' => 234392,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-coffee-190x190-4764.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-coffee.jpg',
          'sizes' =>
         (array)(array(
@@ -1293,14 +1316,9 @@ $main->add_element("Ugallery", array (
            'left' => 47,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-coffee-190x190-4764.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1472863530561-1851',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-coffee.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-coffee.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1319,13 +1337,18 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1472863530561-1851',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/img-coffee.jpg',
          'imageLinkTarget' => '',
       )),
       3 =>
       (array)(array(
-         'id' => '234380',
+         'id' => 234393,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-creativity-190x190-8708.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-creativity.jpg',
          'sizes' =>
         (array)(array(
@@ -1416,14 +1439,9 @@ $main->add_element("Ugallery", array (
            'left' => 47,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-creativity-190x190-8708.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1472863530561-1851',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-creativity.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-creativity.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1442,13 +1460,18 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1472863530561-1851',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/img-creativity.jpg',
          'imageLinkTarget' => '',
       )),
       4 =>
       (array)(array(
-         'id' => '234382',
+         'id' => 234394,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-blur-190x190-2051.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-blur.jpg',
          'sizes' =>
         (array)(array(
@@ -1539,14 +1562,9 @@ $main->add_element("Ugallery", array (
            'left' => 47,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-blur-190x190-2051.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1472863530561-1851',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-blur.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-blur.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1565,13 +1583,18 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1472863530561-1851',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/img-blur.jpg',
          'imageLinkTarget' => '',
       )),
       5 =>
       (array)(array(
-         'id' => '234383',
+         'id' => 234395,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-mobile-190x190-3923.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-mobile.jpg',
          'sizes' =>
         (array)(array(
@@ -1661,14 +1684,9 @@ $main->add_element("Ugallery", array (
            'left' => 47,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-mobile-190x190-3923.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1472863530561-1851',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-mobile.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-mobile.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1687,13 +1705,18 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1472863530561-1851',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/img-mobile.jpg',
          'imageLinkTarget' => '',
       )),
       6 =>
       (array)(array(
-         'id' => '234384',
+         'id' => 234396,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-wireless-190x190-3103.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-wireless.jpg',
          'sizes' =>
         (array)(array(
@@ -1783,14 +1806,9 @@ $main->add_element("Ugallery", array (
            'left' => 44,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-wireless-190x190-3103.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1472863530561-1851',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-wireless.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-wireless.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1809,13 +1827,18 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1472863530561-1851',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/img-wireless.jpg',
          'imageLinkTarget' => '',
       )),
       7 =>
       (array)(array(
-         'id' => '234385',
+         'id' => 234397,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-inspiration-190x190-1389.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-inspiration.jpg',
          'sizes' =>
         (array)(array(
@@ -1905,14 +1928,9 @@ $main->add_element("Ugallery", array (
            'left' => 47,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-inspiration-190x190-1389.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1472863530561-1851',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-inspiration.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-inspiration.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1931,6 +1949,10 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1472863530561-1851',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/img-inspiration.jpg',
          'imageLinkTarget' => '',
@@ -1979,7 +2001,108 @@ $main->add_element("Ugallery", array (
     ),
     'lightbox_active_area_bg' => 'rgba(255,255,255,1)',
     'lightbox_overlay_bg' => 'rgba(0,0,0,0.2)',
-    'styles' => '',
+    'styles' => '
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-gallery {
+    transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-close {
+    width: 48px !important;
+    height: 48px !important;
+    cursor: pointer;
+    top: 15px !important;
+    right: 15px !important;
+    border-radius: 100%;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    background: url("//vowels.dev/wp-content/themes/uf-issue/ui/sprite.png") no-repeat center transparent;
+    background-image: url("//vowels.dev/wp-content/themes/uf-issue/ui/sprite.svg"), none;
+    background-position: -216px -536px;
+    color: transparent;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .glb-content-container {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .glb-content-container .mfp-img {
+    width: 100% !important;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .glb-caption-container {
+    min-height: 65px;
+    position: relative;
+    margin-top: 0;
+    padding: 20px;
+    background: #ufc8;
+    transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-title {
+    padding-right: 80px;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-title, .mfp-title p {
+    color: #373d3c;
+    font: 300 18px/25px "Lato", sans-serif;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-counter {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    color: #ufc2 !important;
+    font: 300 18px/20px "Lato", sans-serif;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-arrow-left, .mfp-arrow-right {
+    height: 48px;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-arrow-left {
+    left: 10%;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-arrow-right {
+    right: 10%;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-arrow-left:before, .mfp-arrow-right:before {
+    width: 48px;
+    height: 48px;
+    margin-top: 0;
+    border: 0;
+    background: url("//vowels.dev/wp-content/themes/uf-issue/ui/sprite.png") no-repeat center transparent;
+    background-image: url("//vowels.dev/wp-content/themes/uf-issue/ui/sprite.svg"), none;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-arrow-left:before {
+    background-position: -376px -536px;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-arrow-right:before {
+    background-position: -536px -536px;
+}
+
+.gallery-ugallery-object-1472863530561-1851-lightbox .mfp-arrow-left:after,
+.mfp-arrow-right:after {
+    display: none;
+}',
     'element_id' => 'ugallery-object-1472863530561-1851',
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -2027,9 +2150,12 @@ $main->add_element("Ugallery", array (
       )),
     )),
   ),
-  'row' => 48,
+  'row' => 6,
+  'sticky' => false,
+  'default_hide' => 0,
+  'hide' => 0,
+  'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1472863540987-1823',
-  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2039,15 +2165,15 @@ $main->add_element("Ugallery", array (
       'order' => 1,
       'edited' => true,
     ),
-    'current_property' =>
-    array (
-      0 => 'edited',
-    ),
     'mobile' =>
     array (
       'clear' => true,
       'col' => 7,
       'order' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2059,7 +2185,7 @@ $main->add_element("Ugallery", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
     'mobile' =>
     array (
@@ -2070,23 +2196,29 @@ $main->add_element("Ugallery", array (
 
 $main->add_element("Uspacer", array (
   'columns' => '1',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1472864270680-1850 upfront-module-spacer',
   'id' => 'module-1472864270680-1850',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1472864270680-1671',
     'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1472864270680-1671',
     'current_preset' => 'default',
     'preset' => 'default',
   ),
-  'wrapper_id' => 'wrapper-1472864270679-1450',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 1,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1472864270679-1450',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2094,6 +2226,10 @@ $main->add_element("Uspacer", array (
       'edited' => true,
       'clear' => false,
       'order' => 1,
+      'col' => 1,
+    ),
+    'mobile' =>
+    array (
       'col' => 1,
     ),
     'current_property' =>
@@ -2119,29 +2255,39 @@ $main->add_element("Uspacer", array (
 
 $main->add_element("Uspacer", array (
   'columns' => '2',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1472863545656-1788 upfront-module-spacer',
   'id' => 'module-1472863545656-1788',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1472863545656-1370',
     'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1472863545656-1370',
     'current_preset' => 'default',
     'preset' => 'default',
   ),
-  'wrapper_id' => 'wrapper-1472863545656-1378',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
-  'edited' => true,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1472863545656-1378',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
       'edited' => true,
+      'col' => 2,
+    ),
+    'mobile' =>
+    array (
+      'col' => 2,
     ),
     'current_property' =>
     array (

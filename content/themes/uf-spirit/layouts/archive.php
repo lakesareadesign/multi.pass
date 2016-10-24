@@ -106,6 +106,19 @@ $region_5->add_element("PlainTxt", array (
     'anchor' => '',
     'preset' => 'default',
     'row' => 14,
+    'current_preset' => 'default',
+    'breakpoint' =>
+    (array)(array(
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -130,6 +143,10 @@ $region_5->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -146,6 +163,10 @@ $region_5->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -212,6 +233,7 @@ $region_3->add_element("Uspacer", array (
     'id_slug' => 'uspacer',
     'element_id' => 'spacer-object-1453424059004-1273',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -272,6 +294,19 @@ $region_3->add_element("PlainTxt", array (
     'row' => 12,
     'top_padding_use' => 'yes',
     'top_padding_slider' => '15',
+    'current_preset' => 'breadcrumbs',
+    'breakpoint' =>
+    (array)(array(
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -295,6 +330,10 @@ $region_3->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -311,6 +350,10 @@ $region_3->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -332,6 +375,7 @@ $region_3->add_element("Uspacer", array (
     'id_slug' => 'uspacer',
     'element_id' => 'spacer-object-1453424061271-1309',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -414,6 +458,7 @@ $archive_content->add_element("Uspacer", array (
     'id_slug' => 'uspacer',
     'element_id' => 'spacer-object-1453424064056-1123',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -460,6 +505,9 @@ $archive_content->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'large',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'featured_image',
@@ -499,6 +547,7 @@ $archive_content->add_element("Posts", array (
     'content_length' => '25',
     'resize_featured' => '1',
     'gravatar_size' => 200,
+    'preset' => 'archive',
     'post-part-date_posted' => '<div class="uposts-part date_posted"><span class="date date-day">{{date_1}}</span><span class="date date-month">{{date_2}}</span></div>',
     'post-part-author' => '<div class="uposts-part author">
 	Written By <a href="{{url}}">{{name}}</a></div>',
@@ -541,18 +590,39 @@ $archive_content->add_element("Posts", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
-    'preset' => 'archive',
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
       (array)(array(
          'preset' => 'archive',
       )),
+       'tablet' =>
+      (array)(array(
+         'preset' => 'archive-for-tablets',
+      )),
+       'mobile' =>
+      (array)(array(
+         'preset' => 'archive-for-mobiles',
+      )),
     )),
     'row' => 227,
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
     'top_padding_slider' => '30',
+    'current_preset' => 'archive',
+    'breakpoint' =>
+    (array)(array(
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+    )),
+    'theme_style' => '',
   ),
   'row' => 6,
   'sticky' => false,
@@ -574,6 +644,10 @@ $archive_content->add_element("Posts", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -590,6 +664,10 @@ $archive_content->add_element("Posts", array (
       'left' => 0,
       'top' => 0,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -611,6 +689,7 @@ $archive_content->add_element("Uspacer", array (
     'id_slug' => 'uspacer',
     'element_id' => 'spacer-object-1453424066451-1627',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,

@@ -408,6 +408,7 @@ $main->add_element("Ugallery", array (
       0 =>
       (array)(array(
          'id' => 2715,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-1-250x250-2080.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/949845122gallery-1.jpg',
          'sizes' =>
         (array)(array(
@@ -497,14 +498,9 @@ $main->add_element("Ugallery", array (
            'left' => 63,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-1-250x250-2080.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1459949278569-1312',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-1.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-1.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => '<h5 class="nosortable"><span>Sed diam nonummy nibh euismod</span></h5>',
          'alt' => '',
@@ -523,6 +519,10 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1459949278569-1312',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/gallery-1.jpg',
          'imageLinkTarget' => '',
@@ -530,6 +530,7 @@ $main->add_element("Ugallery", array (
       1 =>
       (array)(array(
          'id' => 2716,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-2-250x250-7943.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/319644766gallery-2.jpg',
          'sizes' =>
         (array)(array(
@@ -619,14 +620,9 @@ $main->add_element("Ugallery", array (
            'left' => 62,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-2-250x250-7943.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1459949278569-1312',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-2.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-2.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => '<h5 class="nosortable"><span rel="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; font-weight: normal; line-height: 17px; text-align: justify; text-transform: none;" data-verified="redactor">Mirum est notare quam littera gothica</span><br></h5>',
          'alt' => '',
@@ -645,6 +641,10 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1459949278569-1312',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/gallery-2.jpg',
          'imageLinkTarget' => '',
@@ -652,6 +652,7 @@ $main->add_element("Ugallery", array (
       2 =>
       (array)(array(
          'id' => 2717,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-3-250x250-1251.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/1917948972gallery-3.jpg',
          'sizes' =>
         (array)(array(
@@ -741,14 +742,9 @@ $main->add_element("Ugallery", array (
            'left' => 62,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-3-250x250-1251.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1459949278569-1312',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-3.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-3.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => '<h5 class="nosortable">Fiant sollemnes in futurum</h5>',
          'alt' => '',
@@ -767,6 +763,10 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1459949278569-1312',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/gallery-3.jpg',
          'imageLinkTarget' => '',
@@ -774,6 +774,7 @@ $main->add_element("Ugallery", array (
       3 =>
       (array)(array(
          'id' => 2718,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-4-250x250-1124.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/368393788gallery-4.jpg',
          'sizes' =>
         (array)(array(
@@ -863,14 +864,9 @@ $main->add_element("Ugallery", array (
            'left' => 62,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-4-250x250-1124.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1459949278569-1312',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-4.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-4.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => '<h5 class="nosortable">Consectetuer adipiscing elit<br></h5>',
          'alt' => '',
@@ -889,14 +885,19 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1459949278569-1312',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/gallery-4.jpg',
          'imageLinkTarget' => '',
       )),
       4 =>
       (array)(array(
-         'id' => 2719,
-         'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/1394411563gallery-5.jpg',
+         'id' => 3474,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-5-250x250-5808.jpg',
+         'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/gallery-5.jpg',
          'sizes' =>
         (array)(array(
            'thumbnail' =>
@@ -985,14 +986,9 @@ $main->add_element("Ugallery", array (
            'left' => 62,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-5-250x250-5808.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1459949278569-1312',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-5.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-5.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => '<h5 class="nosortable">Eodem modo typi</h5>',
          'alt' => '',
@@ -1011,6 +1007,10 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1459949278569-1312',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/gallery-5.jpg',
          'imageLinkTarget' => '',
@@ -1018,6 +1018,7 @@ $main->add_element("Ugallery", array (
       5 =>
       (array)(array(
          'id' => 2720,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-6-250x250-2414.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/1268716390gallery-6.jpg',
          'sizes' =>
         (array)(array(
@@ -1107,14 +1108,9 @@ $main->add_element("Ugallery", array (
            'left' => 0,
            'top' => 82,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-6-250x250-2414.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1459949278569-1312',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-6.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-6.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => '<h5 class="nosortable"><span rel="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; font-weight: normal; line-height: 17px; text-align: justify; text-transform: none;" data-verified="redactor">Claritas est etiam processus</span><br></h5>',
          'alt' => '',
@@ -1133,6 +1129,10 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1459949278569-1312',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/gallery-6.jpg',
          'imageLinkTarget' => '',
@@ -1140,6 +1140,7 @@ $main->add_element("Ugallery", array (
       6 =>
       (array)(array(
          'id' => 2721,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-7-250x250-6914.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/319406660gallery-7.jpg',
          'sizes' =>
         (array)(array(
@@ -1229,14 +1230,9 @@ $main->add_element("Ugallery", array (
            'left' => 62,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/gallery-7-250x250-6914.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1459949278569-1312',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-7.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/gallery-7.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => '<h5 class="nosortable"><span rel="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; font-weight: normal; line-height: 17px; text-align: justify; text-transform: none;" data-verified="redactor">Typi non habent claritatem</span><br></h5>',
          'alt' => '',
@@ -1255,6 +1251,10 @@ $main->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1459949278569-1312',
+         'urlType' => 'image',
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/single-page-gallery/gallery-7.jpg',
          'imageLinkTarget' => '',
@@ -1418,4 +1418,4 @@ $main->add_element("Uspacer", array (
 
 $regions->add($main);
 
-if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer.php');
+if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer.php');	  	 				  	 	  		 	 

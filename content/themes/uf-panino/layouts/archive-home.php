@@ -151,6 +151,7 @@ $main_navigation->add_element("PlainTxt", array (
          'preset' => 'brand-menu-mobile',
       )),
     )),
+    'current_preset' => 'u-brand-menu-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -356,13 +357,13 @@ $main_navigation->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 4071,
+         'menu-item-db-id' => 4605,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Our Story',
          'menu-item-url' => '#ourStory',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4071',
+         'menu-item-object-id' => '4605',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -374,13 +375,13 @@ $main_navigation->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 4072,
+         'menu-item-db-id' => 4608,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Menu',
          'menu-item-url' => '#menu',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4072',
+         'menu-item-object-id' => '4608',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -392,13 +393,13 @@ $main_navigation->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 4073,
+         'menu-item-db-id' => 4611,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4073',
+         'menu-item-object-id' => '4611',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -410,13 +411,13 @@ $main_navigation->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 4074,
+         'menu-item-db-id' => 4615,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Gallery',
          'menu-item-url' => '#gallery',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4074',
+         'menu-item-object-id' => '4615',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -428,13 +429,13 @@ $main_navigation->add_element("Unewnavigation", array (
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 4075,
+         'menu-item-db-id' => 4617,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Find Us',
          'menu-item-url' => '#ourLocation',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4075',
+         'menu-item-object-id' => '4617',
          'menu-item-target' => '',
          'menu-item-position' => 5,
          'link' =>
@@ -537,6 +538,11 @@ $main_navigation->add_element("Unewnavigation", array (
          'preset' => 'main-nav-reversed',
       )),
     )),
+    'bottom_padding_use' => 'yes',
+    'bottom_padding_slider' => '15',
+    'top_padding_use' => 'yes',
+    'top_padding_slider' => '15',
+    'current_preset' => 'main-nav-reversed',
   ),
   'row' => 6,
   'sticky' => false,
@@ -756,6 +762,7 @@ $home_our_story->add_element("PlainTxt", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'u-section-title-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -893,7 +900,7 @@ $home_our_story->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<h2 class="">We don\'t just love coffee -&nbsp;<span>we live and breath it</span><span>.</span></h2><p class="">Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.&nbsp;Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse. Lorem ipsum dolor sit amet lorem unim ad minim veniam ledgre me lius ii legunt saepiusud exerci tation ullamcorper suscipit, lorem ipsum dolor sit amet.</p>',
+    'content' => '<h2 class="">We don\'t just love coffee -&nbsp;we live and breathe it.</h2><p class="">Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.&nbsp;Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse. Lorem ipsum dolor sit amet lorem unim ad minim veniam ledgre me lius ii legunt saepiusud exerci tation ullamcorper suscipit, lorem ipsum dolor sit amet.</p>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1426158229524-1137',
     'class' => 'c24 upfront-plain_txt',
@@ -949,6 +956,7 @@ $home_our_story->add_element("PlainTxt", array (
          'preset' => 'u-paragraph-m',
       )),
     )),
+    'current_preset' => 'u-paragraph-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1103,6 +1111,7 @@ $home_our_story->add_element("PlainTxt", array (
          'preset' => 'u-paragraph-m',
       )),
     )),
+    'current_preset' => 'u-paragraph-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1330,6 +1339,7 @@ $home_our_story->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'u-image-rounded-m',
@@ -1368,6 +1378,7 @@ $home_our_story->add_element("Uimage", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'u-image-rounded-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1569,6 +1580,7 @@ $home_our_story->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'u-image-rounded-m',
@@ -1611,6 +1623,7 @@ $home_our_story->add_element("Uimage", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'u-image-rounded-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1817,6 +1830,7 @@ $home_our_story->add_element("Button", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'button-circle',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2162,6 +2176,7 @@ $home_our_story->add_element("Button", array (
     'top_padding_slider' => '70',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '70',
+    'current_preset' => 'button-anchor',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2507,6 +2522,7 @@ $home_special_menu->add_element("Utabs", array (
          'preset' => 'special-menu-tabs',
       )),
     )),
+    'current_preset' => 'special-menu-tabs',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2641,6 +2657,7 @@ $home_special_menu->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => false,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -2686,6 +2703,11 @@ $home_special_menu->add_element("Uimage", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'use_padding' => 'yes',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'anchor' => '',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2796,6 +2818,7 @@ $home_special_menu->add_element("Button", array (
     'padding_slider' => '15',
     'padding_number' => '15',
     'anchor' => '',
+    'current_preset' => 'button-social-facebook',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2882,6 +2905,7 @@ $home_special_menu->add_element("PlainTxt", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'u-script-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2980,6 +3004,7 @@ $home_special_menu->add_element("Button", array (
     'padding_slider' => '15',
     'padding_number' => '15',
     'anchor' => '',
+    'current_preset' => 'button-social-twitter',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3071,6 +3096,7 @@ $home_special_menu->add_element("PlainTxt", array (
          'preset' => 'u-script-m',
       )),
     )),
+    'current_preset' => 'u-script-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3412,6 +3438,7 @@ $home_special_menu->add_element("Button", array (
     'top_padding_slider' => '70',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '70',
+    'current_preset' => 'button-anchor',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3741,6 +3768,7 @@ $home_gallery->add_element("PlainTxt", array (
       )),
        'current_property' => 'top_padding_num',
     )),
+    'current_preset' => 'u-section-title-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3885,7 +3913,8 @@ $home_gallery->add_element("Ugallery", array (
     array (
       0 =>
       (array)(array(
-         'id' => '30',
+         'id' => 4356,
+         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-1-145x145-9686.jpg',
          'srcFull' => '{{upfront:style_url}}/images/archive-home/gallery-img-1.jpg',
          'sizes' =>
         (array)(array(
@@ -3969,14 +3998,9 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 70,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-1-145x145-9686.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1426161275973-1113',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-1.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-1.jpg',
          'title' => 'Image caption',
          'caption' => 'Image description',
          'alt' => '',
@@ -3988,17 +4012,21 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 0,
            'top' => 0,
         )),
-         'cropPosition' =>
-        (array)(array(
-           'top' => 0,
-           'left' => 73,
-        )),
-         'linkTarget' => '',
          'imageLink' =>
         (array)(array(
            'type' => 'image',
            'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-1.jpg',
            'target' => '',
+        )),
+         'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1426161275973-1113',
+         'urlType' => 'image',
+         'cropPosition' =>
+        (array)(array(
+           'top' => 0,
+           'left' => 73,
         )),
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/archive-home/gallery-img-1.jpg',
@@ -4006,7 +4034,8 @@ $home_gallery->add_element("Ugallery", array (
       )),
       1 =>
       (array)(array(
-         'id' => '31',
+         'id' => 4357,
+         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-2-145x145-4966.jpg',
          'srcFull' => '{{upfront:style_url}}/images/archive-home/gallery-img-2.jpg',
          'sizes' =>
         (array)(array(
@@ -4090,14 +4119,9 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 70,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-2-145x145-4966.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1426161275973-1113',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-2.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-2.jpg',
          'title' => 'Image caption',
          'caption' => 'Image description',
          'alt' => '',
@@ -4109,17 +4133,21 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 0,
            'top' => 0,
         )),
-         'cropPosition' =>
-        (array)(array(
-           'top' => 0,
-           'left' => 73,
-        )),
-         'linkTarget' => '',
          'imageLink' =>
         (array)(array(
            'type' => 'image',
            'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-2.jpg',
            'target' => '',
+        )),
+         'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1426161275973-1113',
+         'urlType' => 'image',
+         'cropPosition' =>
+        (array)(array(
+           'top' => 0,
+           'left' => 73,
         )),
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/archive-home/gallery-img-2.jpg',
@@ -4127,7 +4155,8 @@ $home_gallery->add_element("Ugallery", array (
       )),
       2 =>
       (array)(array(
-         'id' => '32',
+         'id' => 4358,
+         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-3-145x145-6457.jpg',
          'srcFull' => '{{upfront:style_url}}/images/archive-home/gallery-img-3.jpg',
          'sizes' =>
         (array)(array(
@@ -4211,14 +4240,9 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 70,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-3-145x145-6457.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1426161275973-1113',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-3.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-3.jpg',
          'title' => 'Image caption',
          'caption' => 'Image description',
          'alt' => '',
@@ -4230,17 +4254,21 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 0,
            'top' => 0,
         )),
-         'cropPosition' =>
-        (array)(array(
-           'top' => 0,
-           'left' => 73,
-        )),
-         'linkTarget' => '',
          'imageLink' =>
         (array)(array(
            'type' => 'image',
            'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-3.jpg',
            'target' => '',
+        )),
+         'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1426161275973-1113',
+         'urlType' => 'image',
+         'cropPosition' =>
+        (array)(array(
+           'top' => 0,
+           'left' => 73,
         )),
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/archive-home/gallery-img-3.jpg',
@@ -4248,7 +4276,8 @@ $home_gallery->add_element("Ugallery", array (
       )),
       3 =>
       (array)(array(
-         'id' => '33',
+         'id' => 4359,
+         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-4-145x145-9253.jpg',
          'srcFull' => '{{upfront:style_url}}/images/archive-home/gallery-img-4.jpg',
          'sizes' =>
         (array)(array(
@@ -4332,14 +4361,9 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 70,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-4-145x145-9253.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1426161275973-1113',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-4.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-4.jpg',
          'title' => 'Image caption',
          'caption' => 'Image description',
          'alt' => '',
@@ -4351,17 +4375,21 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 0,
            'top' => 0,
         )),
-         'cropPosition' =>
-        (array)(array(
-           'top' => 0,
-           'left' => 73,
-        )),
-         'linkTarget' => '',
          'imageLink' =>
         (array)(array(
            'type' => 'image',
            'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-4.jpg',
            'target' => '',
+        )),
+         'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1426161275973-1113',
+         'urlType' => 'image',
+         'cropPosition' =>
+        (array)(array(
+           'top' => 0,
+           'left' => 73,
         )),
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/archive-home/gallery-img-4.jpg',
@@ -4369,7 +4397,8 @@ $home_gallery->add_element("Ugallery", array (
       )),
       4 =>
       (array)(array(
-         'id' => '34',
+         'id' => 4360,
+         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-5-145x145-7755.jpg',
          'srcFull' => '{{upfront:style_url}}/images/archive-home/gallery-img-5.jpg',
          'sizes' =>
         (array)(array(
@@ -4453,14 +4482,9 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 70,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-5-145x145-7755.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1426161275973-1113',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-5.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-5.jpg',
          'title' => 'Image caption',
          'caption' => 'Image description',
          'alt' => '',
@@ -4472,17 +4496,21 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 0,
            'top' => 0,
         )),
-         'cropPosition' =>
-        (array)(array(
-           'top' => 0,
-           'left' => 73,
-        )),
-         'linkTarget' => '',
          'imageLink' =>
         (array)(array(
            'type' => 'image',
            'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-5.jpg',
            'target' => '',
+        )),
+         'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1426161275973-1113',
+         'urlType' => 'image',
+         'cropPosition' =>
+        (array)(array(
+           'top' => 0,
+           'left' => 73,
         )),
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/archive-home/gallery-img-5.jpg',
@@ -4490,7 +4518,8 @@ $home_gallery->add_element("Ugallery", array (
       )),
       5 =>
       (array)(array(
-         'id' => '35',
+         'id' => 4361,
+         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-6-145x145-2902.jpg',
          'srcFull' => '{{upfront:style_url}}/images/archive-home/gallery-img-6.jpg',
          'sizes' =>
         (array)(array(
@@ -4574,14 +4603,9 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 70,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-6-145x145-2902.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1426161275973-1113',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-6.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-6.jpg',
          'title' => 'Image caption',
          'caption' => 'Image description',
          'alt' => '',
@@ -4593,17 +4617,21 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 0,
            'top' => 0,
         )),
-         'cropPosition' =>
-        (array)(array(
-           'top' => 0,
-           'left' => 73,
-        )),
-         'linkTarget' => '',
          'imageLink' =>
         (array)(array(
            'type' => 'image',
            'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-6.jpg',
            'target' => '',
+        )),
+         'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1426161275973-1113',
+         'urlType' => 'image',
+         'cropPosition' =>
+        (array)(array(
+           'top' => 0,
+           'left' => 73,
         )),
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/archive-home/gallery-img-6.jpg',
@@ -4611,7 +4639,8 @@ $home_gallery->add_element("Ugallery", array (
       )),
       6 =>
       (array)(array(
-         'id' => '36',
+         'id' => 4362,
+         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-7-145x145-7839.jpg',
          'srcFull' => '{{upfront:style_url}}/images/archive-home/gallery-img-7.jpg',
          'sizes' =>
         (array)(array(
@@ -4695,14 +4724,9 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 70,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-7-145x145-7839.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1426161275973-1113',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-7.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-7.jpg',
          'title' => 'Image caption',
          'caption' => 'Image description',
          'alt' => '',
@@ -4714,17 +4738,21 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 0,
            'top' => 0,
         )),
-         'cropPosition' =>
-        (array)(array(
-           'top' => 0,
-           'left' => 73,
-        )),
-         'linkTarget' => '',
          'imageLink' =>
         (array)(array(
            'type' => 'image',
            'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-7.jpg',
            'target' => '',
+        )),
+         'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1426161275973-1113',
+         'urlType' => 'image',
+         'cropPosition' =>
+        (array)(array(
+           'top' => 0,
+           'left' => 73,
         )),
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/archive-home/gallery-img-7.jpg',
@@ -4732,7 +4760,8 @@ $home_gallery->add_element("Ugallery", array (
       )),
       7 =>
       (array)(array(
-         'id' => '37',
+         'id' => 4363,
+         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-8-145x145-5358.jpg',
          'srcFull' => '{{upfront:style_url}}/images/archive-home/gallery-img-8.jpg',
          'sizes' =>
         (array)(array(
@@ -4816,14 +4845,9 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 70,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-8-145x145-5358.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1426161275973-1113',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-8.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-8.jpg',
          'title' => 'Image caption',
          'caption' => 'Image description',
          'alt' => '',
@@ -4835,17 +4859,21 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 0,
            'top' => 0,
         )),
-         'cropPosition' =>
-        (array)(array(
-           'top' => 0,
-           'left' => 73,
-        )),
-         'linkTarget' => '',
          'imageLink' =>
         (array)(array(
            'type' => 'image',
            'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-8.jpg',
            'target' => '',
+        )),
+         'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1426161275973-1113',
+         'urlType' => 'image',
+         'cropPosition' =>
+        (array)(array(
+           'top' => 0,
+           'left' => 73,
         )),
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/archive-home/gallery-img-8.jpg',
@@ -4853,7 +4881,8 @@ $home_gallery->add_element("Ugallery", array (
       )),
       8 =>
       (array)(array(
-         'id' => '38',
+         'id' => 4364,
+         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-9-145x145-1380.jpg',
          'srcFull' => '{{upfront:style_url}}/images/archive-home/gallery-img-9.jpg',
          'sizes' =>
         (array)(array(
@@ -4937,14 +4966,9 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 70,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/archive-home/gallery-img-9-145x145-1380.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1426161275973-1113',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-9.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-9.jpg',
          'title' => 'Image caption',
          'caption' => 'Image description',
          'alt' => '',
@@ -4956,17 +4980,21 @@ $home_gallery->add_element("Ugallery", array (
            'left' => 0,
            'top' => 0,
         )),
-         'cropPosition' =>
-        (array)(array(
-           'top' => 0,
-           'left' => 73,
-        )),
-         'linkTarget' => '',
          'imageLink' =>
         (array)(array(
            'type' => 'image',
            'url' => '{{upfront:style_url}}/images/archive-home/gallery-img-9.jpg',
            'target' => '',
+        )),
+         'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1426161275973-1113',
+         'urlType' => 'image',
+         'cropPosition' =>
+        (array)(array(
+           'top' => 0,
+           'left' => 73,
         )),
          'imageLinkType' => 'image',
          'imageLinkUrl' => '{{upfront:style_url}}/images/archive-home/gallery-img-9.jpg',
@@ -5065,6 +5093,7 @@ $home_gallery->add_element("Ugallery", array (
       )),
     )),
     'thumbSidePadding' => 35,
+    'current_preset' => 'fancy',
   ),
   'row' => 6,
   'sticky' => false,
@@ -5217,6 +5246,7 @@ $home_gallery->add_element("PlainTxt", array (
          'preset' => 'u-paragraph-m',
       )),
     )),
+    'current_preset' => 'u-paragraph-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -5522,6 +5552,9 @@ $home_gallery->add_element("Button", array (
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '70',
     'padding_slider' => '15',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'current_preset' => 'button-anchor',
   ),
   'row' => 6,
   'sticky' => false,
@@ -5972,6 +6005,7 @@ $home_contacts->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => false,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -6022,6 +6056,7 @@ $home_contacts->add_element("Uimage", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -6287,6 +6322,9 @@ $home_contacts->add_group(array (
   'top_padding_slider' => '15',
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '15',
+  'left_padding_num' => '15',
+  'right_padding_num' => '15',
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -6383,6 +6421,7 @@ $home_contacts->add_element("PlainTxt", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'u-brand-title-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -6407,6 +6446,10 @@ $home_contacts->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -6426,6 +6469,10 @@ $home_contacts->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1446094563957-1599',
@@ -6474,6 +6521,7 @@ $home_contacts->add_element("PlainTxt", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -6498,6 +6546,10 @@ $home_contacts->add_element("PlainTxt", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -6517,6 +6569,10 @@ $home_contacts->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1446094563957-1599',
@@ -6569,6 +6625,7 @@ $home_contacts->add_element("PlainTxt", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'u-bullets-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -6593,6 +6650,10 @@ $home_contacts->add_element("PlainTxt", array (
       'order' => 3,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -6613,6 +6674,10 @@ $home_contacts->add_element("PlainTxt", array (
       'order' => 0,
       'top' => 0,
       'row' => 4,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1446094563957-1599',
@@ -6660,6 +6725,7 @@ $home_contacts->add_element("PlainTxt", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -6684,6 +6750,10 @@ $home_contacts->add_element("PlainTxt", array (
       'order' => 4,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -6703,6 +6773,10 @@ $home_contacts->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1446094563957-1599',
@@ -7001,6 +7075,10 @@ $home_contacts->add_element("Button", array (
       )),
     )),
     'padding_slider' => '15',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'anchor' => '',
+    'current_preset' => 'button-anchor',
   ),
   'row' => 6,
   'sticky' => false,

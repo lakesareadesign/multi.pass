@@ -1056,7 +1056,6 @@ $social_footer->add_element("PlainTxt", array (
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '0',
          'bottom_padding_num' => '0',

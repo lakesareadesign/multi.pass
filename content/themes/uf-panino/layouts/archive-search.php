@@ -129,6 +129,7 @@ $content->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-23011',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -198,8 +199,9 @@ $content->add_element("PlainTxt", array (
        'tablet' =>
       array (
       ),
-       'current_property' => 'lock_padding',
+       'current_property' => 'use_padding',
     )),
+    'current_preset' => 'u-section-title-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -224,7 +226,7 @@ $content->add_element("PlainTxt", array (
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -270,6 +272,7 @@ $content->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-13591',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -308,6 +311,7 @@ $content->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-98245',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -365,7 +369,9 @@ $content->add_element("Uwidget", array (
          'row' => 14,
          'top_padding_use' => true,
          'top_padding_num' => 40,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'top_padding_use' => true,
     'top_padding_num' => 65,
@@ -379,6 +385,7 @@ $content->add_element("Uwidget", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -404,7 +411,7 @@ $content->add_element("Uwidget", array (
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -451,6 +458,7 @@ $content->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-17513',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -489,6 +497,7 @@ $content->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-33660',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -535,6 +544,9 @@ $content->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'medium',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'featured_image',
@@ -570,7 +582,9 @@ $content->add_element("Posts", array (
     'tags_limit' => 3,
     'comment_count_hide' => 0,
     'content_length' => '15',
-    'resize_featured' => '1',
+    'resize_featured' =>
+    array (
+    ),
     'gravatar_size' => 200,
     'preset' => 'list',
     'post-part-date_posted' => '<div class="post-meta">
@@ -621,6 +635,7 @@ $content->add_element("Posts", array (
       (array)(array(
          'theme_style' => '',
          'row' => 400,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
@@ -652,6 +667,7 @@ $content->add_element("Posts", array (
          'preset' => 'list-mobile',
       )),
     )),
+    'current_preset' => 'list',
   ),
   'row' => 6,
   'sticky' => false,
@@ -677,7 +693,7 @@ $content->add_element("Posts", array (
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -724,6 +740,7 @@ $content->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-92630',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,

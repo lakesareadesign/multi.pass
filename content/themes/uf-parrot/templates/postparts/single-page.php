@@ -7,7 +7,7 @@ ob_clean();
 
 //***** author
 ?><a class="post_author" href="%author_url%"><?php _e('Posted by', 'parrot'); ?> %author%</a><?php
-$templates["author"] = ob_get_contents();
+$templates["author"] = ob_get_contents();	  	     	  		     	 
 ob_clean();
 
 //***** title

@@ -7,7 +7,7 @@
     transition: opacity .25s;
     width: 40px;
 }
-.upfront-region-container-main-slider .upfront-default-slider-nav-prev:before, .upfront-region-container-main-slider .upfront-default-slider-nav-next:before {	  	 				  	 	  		 	 
+.upfront-region-container-main-slider .upfront-default-slider-nav-prev:before, .upfront-region-container-main-slider .upfront-default-slider-nav-next:before {
     background: url("UPFRONT_THEME_BASE/ui/gillie-sprite_v2.png") no-repeat;
     background: url("UPFRONT_THEME_BASE/ui/gillie-sprite_v2.svg"), none;
     content: "";
@@ -48,4 +48,4 @@
 }
 
 
-/* 133620-1473364727-ai */
+/* 133620-1477324800-au */

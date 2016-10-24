@@ -109,6 +109,9 @@ $footer->add_group(array (
   'bottom_padding_slider' => '50',
   'edited' => true,
   'row' => '',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1010,7 +1013,6 @@ $footer->add_element("PlainTxt", array (
        'tablet' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '10',
          'bottom_padding_num' => '10',
@@ -1019,7 +1021,6 @@ $footer->add_element("PlainTxt", array (
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '10',
          'bottom_padding_num' => '10',
@@ -1138,13 +1139,13 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 3240,
+         'menu-item-db-id' => 4122,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
-         'menu-item-title' => 'Terms & Conditions',
+         'menu-item-title' => 'Terms &amp; Conditions',
          'menu-item-url' => '{{upfront:home_url}}/terms/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '3240',
+         'menu-item-object-id' => '4122',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -1152,19 +1153,17 @@ $footer->add_element("Unewnavigation", array (
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/terms/',
            'target' => '',
-           'object' => 'page',
-           'object_id' => 1756,
         )),
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 3241,
+         'menu-item-db-id' => 4123,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Privacy Policy',
          'menu-item-url' => '{{upfront:home_url}}/privacy/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '3241',
+         'menu-item-object-id' => '4123',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -1222,16 +1221,14 @@ $footer->add_element("Unewnavigation", array (
        'tablet' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '40',
          'bottom_padding_num' => '40',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '40',
          'bottom_padding_num' => '40',

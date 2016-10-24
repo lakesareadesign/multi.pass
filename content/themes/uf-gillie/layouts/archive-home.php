@@ -1,7 +1,7 @@
 <?php
 $layout_version = '1.0.0';
 
-if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'header.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'header.php');	  	 				  	 	  		 	 
+if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'header.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'header.php');
 
 $slider_callout = upfront_create_region(
 			array (
@@ -88,6 +88,8 @@ $slider_callout->add_group(array (
   'anchor' => '',
   'bottom_padding_use' => 'yes',
   'bottom_padding_slider' => '40',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -1877,6 +1879,8 @@ $about->add_group(array (
   'anchor' => '',
   'bottom_padding_use' => 'yes',
   'bottom_padding_slider' => '50',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2890,6 +2894,9 @@ $banners_top->add_element("Uimage", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => 10,
+    'right_padding_num' => 10,
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -3247,6 +3254,9 @@ $main_callout->add_group(array (
   'background_image_ratio' => 0.39000000000000001332267629550187848508358001708984375,
   'background_repeat' => 'no-repeat',
   'background_position' => '-105% 50%',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -4963,6 +4973,9 @@ $banners_bottom->add_element("Uimage", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => 10,
+    'right_padding_num' => 10,
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -5121,6 +5134,9 @@ $banners_bottom->add_element("Uimage", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => 10,
+    'right_padding_num' => 10,
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -5333,6 +5349,9 @@ $callouts->add_group(array (
   'row' => 54,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>

@@ -153,12 +153,12 @@ $s_training->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -272,7 +272,7 @@ $s_training->add_element("Uspacer", array (
   array (
     'tablet' =>
     array (
-      'col' => 10,
+      'col' => 12,
     ),
     'mobile' =>
     array (
@@ -373,12 +373,12 @@ $s_training->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>

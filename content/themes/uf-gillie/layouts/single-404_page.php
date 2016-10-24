@@ -142,6 +142,9 @@ $cover_404->add_group(array (
   'top_padding_slider' => '325',
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '10',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>

@@ -109,6 +109,8 @@ $region_5->add_element("PlainTxt", array (
          'row' => 5,
       )),
     )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -131,6 +133,10 @@ $region_5->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -149,6 +155,10 @@ $region_5->add_element("PlainTxt", array (
       'order' => 0,
       'edited' => true,
       'row' => 5,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -298,6 +308,10 @@ $region_3->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -314,6 +328,10 @@ $region_3->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -463,6 +481,9 @@ $archive_content->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'large',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'featured_image',
@@ -502,6 +523,7 @@ $archive_content->add_element("Posts", array (
     'content_length' => '25',
     'resize_featured' => '1',
     'gravatar_size' => 200,
+    'preset' => 'archive',
     'post-part-date_posted' => '<div class="uposts-part date_posted"><span class="date date-day">{{date_1}}</span><span class="date date-month">{{date_2}}</span></div>',
     'post-part-author' => '<div class="uposts-part author">
 	By <a href="{{url}}">{{name}}</a></div>',
@@ -543,7 +565,6 @@ $archive_content->add_element("Posts", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
-    'preset' => 'archive',
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -555,6 +576,7 @@ $archive_content->add_element("Posts", array (
     'top_padding_slider' => '30',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
+    'current_preset' => 'archive',
   ),
   'row' => 6,
   'sticky' => false,
@@ -578,6 +600,10 @@ $archive_content->add_element("Posts", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -594,6 +620,10 @@ $archive_content->add_element("Posts", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

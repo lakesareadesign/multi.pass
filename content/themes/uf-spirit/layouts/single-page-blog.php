@@ -173,7 +173,7 @@ $services_title->add_element("PlainTxt", array (
     'right_padding_num' => '15',
     'anchor' => '',
   ),
-  'row' => 21,
+  'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
@@ -185,15 +185,19 @@ $services_title->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -213,6 +217,10 @@ $services_title->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 10,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -401,6 +409,10 @@ $services_content->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -417,6 +429,10 @@ $services_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -521,6 +537,9 @@ $services_content->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'uf_post_featured_image',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'featured_image',
@@ -560,6 +579,7 @@ $services_content->add_element("Posts", array (
     'content_length' => '25',
     'resize_featured' => '1',
     'gravatar_size' => 200,
+    'preset' => 'default',
     'post-part-date_posted' => '<div class="uposts-part date_posted"><span class="date date-day">{{date_1}}</span><span class="date date-month">{{date_2}}</span></div>',
     'post-part-author' => '<div class="uposts-part author">
 	Written By <a href="{{url}}">{{name}}</a></div>',
@@ -599,7 +619,6 @@ $services_content->add_element("Posts", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
-    'preset' => 'default',
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -611,6 +630,7 @@ $services_content->add_element("Posts", array (
     'top_padding_slider' => '30',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -634,6 +654,10 @@ $services_content->add_element("Posts", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -650,6 +674,10 @@ $services_content->add_element("Posts", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

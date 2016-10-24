@@ -2856,7 +2856,7 @@ $categories->add_group(array (
     array (
       'clear' => true,
       'col' => 6,
-      'order' => 3,
+      'order' => 4,
       'edited' => true,
     ),
     'mobile' =>
@@ -3180,7 +3180,7 @@ $categories->add_group(array (
     array (
       'clear' => false,
       'col' => 6,
-      'order' => 4,
+      'order' => 5,
       'edited' => true,
     ),
     'mobile' =>
@@ -3504,7 +3504,7 @@ $categories->add_group(array (
     array (
       'clear' => true,
       'col' => 6,
-      'order' => 5,
+      'order' => 6,
       'edited' => true,
     ),
     'mobile' =>
@@ -3908,7 +3908,7 @@ $categories->add_element("Uimage", array (
     array (
       'clear' => false,
       'col' => 2,
-      'order' => 6,
+      'order' => 7,
       'edited' => true,
     ),
     'mobile' =>
@@ -3973,7 +3973,7 @@ $categories->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 7,
+      'order' => 8,
       'col' => 4,
     ),
     'mobile' =>
@@ -3982,7 +3982,7 @@ $categories->add_element("Uspacer", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>

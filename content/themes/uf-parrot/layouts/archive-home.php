@@ -92,6 +92,11 @@ $index_header = upfront_create_region(
   'bottom_bg_padding_num' => 0,
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'background_default' => 'hide',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'background_size_percent' => '100',
+  'background_size' => '100%',
 )
 			);
 
@@ -165,13 +170,17 @@ $index_header->add_element("Uspacer", array (
     'tablet' =>
     array (
       'clear' => true,
-      'order' => 0,
+      'order' => 2,
       'edited' => true,
       'col' => 4,
     ),
     'mobile' =>
     array (
       'col' => 4,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -221,9 +230,13 @@ $index_header->add_element("Uspacer", array (
     'mobile' =>
     array (
       'clear' => true,
-      'order' => 0,
+      'order' => 2,
       'edited' => true,
       'col' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -289,6 +302,7 @@ $index_header->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -358,15 +372,19 @@ $index_header->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 4,
-      'order' => 0,
+      'order' => 3,
       'clear' => false,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 0,
+      'order' => 3,
       'clear' => false,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -499,13 +517,17 @@ $index_header->add_element("Uspacer", array (
     'tablet' =>
     array (
       'clear' => false,
-      'order' => 0,
+      'order' => 4,
       'edited' => true,
       'col' => 4,
     ),
     'mobile' =>
     array (
       'col' => 4,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -554,9 +576,13 @@ $index_header->add_element("Uspacer", array (
     'mobile' =>
     array (
       'clear' => false,
-      'order' => 0,
+      'order' => 4,
       'edited' => true,
       'col' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -663,15 +689,19 @@ $index_header->add_element("PlainTxt", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 1,
+      'order' => 5,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 1,
+      'order' => 5,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -803,13 +833,17 @@ $index_header->add_element("Uspacer", array (
     'tablet' =>
     array (
       'clear' => true,
-      'order' => 2,
+      'order' => 6,
       'edited' => true,
       'col' => 2,
     ),
     'mobile' =>
     array (
       'col' => 2,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -859,9 +893,13 @@ $index_header->add_element("Uspacer", array (
     'mobile' =>
     array (
       'clear' => true,
-      'order' => 2,
+      'order' => 6,
       'edited' => true,
       'col' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -952,15 +990,19 @@ $index_header->add_element("Button", array (
     array (
       'edited' => true,
       'col' => 4,
-      'order' => 2,
+      'order' => 7,
       'clear' => false,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 2,
+      'order' => 7,
       'clear' => false,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1020,9 +1062,13 @@ $index_header->add_element("Uspacer", array (
     'mobile' =>
     array (
       'clear' => false,
-      'order' => 2,
+      'order' => 8,
       'edited' => true,
       'col' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1072,9 +1118,13 @@ $index_header->add_element("Uspacer", array (
     'mobile' =>
     array (
       'clear' => true,
-      'order' => 3,
+      'order' => 9,
       'edited' => true,
       'col' => 2,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1117,21 +1167,28 @@ $index_header->add_group(array (
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '10',
   'lock_padding' => '',
+  'left_padding_num' => '10',
+  'right_padding_num' => '10',
+  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
       'edited' => true,
       'col' => 3,
-      'order' => 3,
+      'order' => 8,
       'clear' => false,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 3,
-      'order' => 3,
+      'order' => 10,
       'clear' => false,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1516,13 +1573,17 @@ $index_header->add_element("Uspacer", array (
     'tablet' =>
     array (
       'clear' => false,
-      'order' => 3,
+      'order' => 9,
       'edited' => true,
       'col' => 3,
     ),
     'mobile' =>
     array (
       'col' => 3,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1571,9 +1632,13 @@ $index_header->add_element("Uspacer", array (
     'mobile' =>
     array (
       'clear' => false,
-      'order' => 3,
+      'order' => 11,
       'edited' => true,
       'col' => 2,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1685,6 +1750,7 @@ $devices->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1747,15 +1813,19 @@ $devices->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2287,6 +2357,9 @@ $index_intro->add_element("Code", array (
     'padding_slider' => '10',
     'preset' => 'default',
     'use_padding' => 'yes',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -3437,6 +3510,7 @@ $index_features->add_element("Button", array (
          'preset' => 'parrot-btn-2',
       )),
     )),
+    'current_preset' => 'parrot-btn-2',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3671,6 +3745,16 @@ $index_video = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/archive-home/video.jpg',
   'background_image_ratio' => 0.66000000000000003,
   'version' => '1.0.0',
+  'background_default' => 'hide',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'background_size_percent' => '100',
+  'background_position' => '50% 50%',
+  'background_size' => '100%',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
 )
 			);
 
@@ -3876,6 +3960,7 @@ $index_video->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',

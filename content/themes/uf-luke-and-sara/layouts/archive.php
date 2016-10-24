@@ -81,6 +81,8 @@ $title_area->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -105,6 +107,10 @@ $title_area->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -121,6 +127,10 @@ $title_area->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -155,6 +165,8 @@ $title_area->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -179,6 +191,10 @@ $title_area->add_element("PlainTxt", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -195,6 +211,10 @@ $title_area->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -329,12 +349,16 @@ $content->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 0,
+      'order' => 1,
       'col' => 1,
     ),
     'mobile' =>
     array (
       'col' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -398,15 +422,19 @@ $content->add_element("Uwidget", array (
     array (
       'edited' => true,
       'col' => 10,
-      'order' => 0,
+      'order' => 2,
       'clear' => false,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -424,6 +452,10 @@ $content->add_element("Uwidget", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -459,12 +491,16 @@ $content->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 0,
+      'order' => 3,
       'col' => 1,
     ),
     'mobile' =>
     array (
       'col' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -581,23 +617,22 @@ $content->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'large',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'featured_image',
-      1 => 'gravatar',
-      2 => 'title',
-      3 => 'date_posted',
-      4 => 'author',
-      5 => 'categories',
+      1 => 'title',
+      2 => 'content',
+      3 => 'read_more',
     ),
     'enabled_post_parts' =>
     array (
-      0 => 'date_posted',
-      1 => 'author',
-      2 => 'gravatar',
-      3 => 'featured_image',
-      4 => 'title',
-      5 => 'categories',
+      0 => 'featured_image',
+      1 => 'title',
+      2 => 'content',
+      3 => 'read_more',
     ),
     'default_parts' =>
     array (
@@ -620,7 +655,7 @@ $content->add_element("Posts", array (
     'content_length' => 120,
     'resize_featured' => '1',
     'gravatar_size' => '68',
-    'preset' => 'archives',
+    'preset' => 'default',
     'post-part-date_posted' => '<div class="uposts-part date_posted"><span class="date">{{date_1}}</span> <span class="time">{{date_2}}</span> <span class="time">{{date_3}}</span> &middot;</div>',
     'post-part-author' => '<div class="uposts-part author">
 	By <a href="{{url}}">{{name}}</a></div>',
@@ -677,7 +712,7 @@ $content->add_element("Posts", array (
       )),
        'desktop' =>
       (array)(array(
-         'preset' => 'archives',
+         'preset' => 'default',
       )),
     )),
     'breakpoint' =>
@@ -691,6 +726,7 @@ $content->add_element("Posts", array (
          'row' => 226,
       )),
     )),
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -703,14 +739,18 @@ $content->add_element("Posts", array (
     'tablet' =>
     array (
       'col' => 12,
-      'order' => 1,
+      'order' => 4,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -732,6 +772,10 @@ $content->add_element("Posts", array (
       'order' => 0,
       'edited' => true,
       'row' => 226,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

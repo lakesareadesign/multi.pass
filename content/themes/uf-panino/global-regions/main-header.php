@@ -54,6 +54,7 @@ $main_header->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-2090',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -112,6 +113,7 @@ $main_header->add_element("PlainTxt", array (
        'mobile' =>
       (array)(array(
          'theme_style' => '',
+         'use_padding' => 'yes',
       )),
        'current_property' => 'use_padding',
     )),
@@ -139,6 +141,7 @@ $main_header->add_element("PlainTxt", array (
          'preset' => 'brand-menu-mobile',
       )),
     )),
+    'current_preset' => 'u-brand-menu-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -203,6 +206,7 @@ $main_header->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-47598',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -241,6 +245,7 @@ $main_header->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-89068',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -292,6 +297,7 @@ $main_header->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-75664',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -344,13 +350,13 @@ $main_header->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 4106,
+         'menu-item-db-id' => 4604,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Our Story',
          'menu-item-url' => '{{upfront:home_url}}/our-story/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4106',
+         'menu-item-object-id' => '4604',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -362,13 +368,13 @@ $main_header->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 4107,
+         'menu-item-db-id' => 4606,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Menu',
          'menu-item-url' => '{{upfront:home_url}}/our-menu/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4107',
+         'menu-item-object-id' => '4606',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -380,13 +386,13 @@ $main_header->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 4108,
+         'menu-item-db-id' => 4610,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4108',
+         'menu-item-object-id' => '4610',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -398,13 +404,13 @@ $main_header->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 4109,
+         'menu-item-db-id' => 4613,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Gallery',
          'menu-item-url' => '{{upfront:home_url}}/our-gallery/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4109',
+         'menu-item-object-id' => '4613',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -416,13 +422,13 @@ $main_header->add_element("Unewnavigation", array (
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 4110,
+         'menu-item-db-id' => 4616,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Find Us',
          'menu-item-url' => '{{upfront:home_url}}/our-location/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4110',
+         'menu-item-object-id' => '4616',
          'menu-item-target' => '',
          'menu-item-position' => 5,
          'link' =>
@@ -471,6 +477,7 @@ $main_header->add_element("Unewnavigation", array (
          'is_floating' => 'no',
          'top_padding_use' => true,
          'top_padding_num' => 20,
+         'use_padding' => 'yes',
       )),
        'tablet' =>
       (array)(array(
@@ -487,7 +494,7 @@ $main_header->add_element("Unewnavigation", array (
          'top_padding_num' => 20,
          'use_padding' => 'yes',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'panino-main-menu',
@@ -501,7 +508,7 @@ $main_header->add_element("Unewnavigation", array (
     ),
     'anchor' => '',
     'theme_style' => '',
-    'row' => 9,
+    'row' => 5,
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'use_padding' => 'yes',
@@ -525,6 +532,11 @@ $main_header->add_element("Unewnavigation", array (
          'preset' => 'main-nav-reversed',
       )),
     )),
+    'current_preset' => 'main-nav-reversed',
+    'bottom_padding_use' => 'yes',
+    'bottom_padding_slider' => '15',
+    'top_padding_use' => 'yes',
+    'top_padding_slider' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -590,6 +602,7 @@ $main_header->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867942-71208',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,

@@ -164,6 +164,8 @@ $feat_image->add_element("PostData", array (
     'top_padding_slider' => '0',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -237,10 +239,18 @@ $feat_image->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'use_padding' => 'yes',
@@ -262,6 +272,10 @@ $feat_image->add_element("PostData", array (
           'left' => 0,
           'col' => 7,
           'order' => 0,
+        ),
+        'current_property' =>
+        array (
+          0 => 'col',
         ),
       ),
     ),
@@ -444,6 +458,8 @@ $feat_image->add_element("PostData", array (
       array (
       ),
     )),
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -521,10 +537,18 @@ $feat_image->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 6,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
@@ -551,7 +575,7 @@ $feat_image->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'hide',
+          0 => 'col',
         ),
       ),
     ),
@@ -779,10 +803,18 @@ $feat_image->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 6,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
@@ -810,7 +842,7 @@ $feat_image->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'col',
         ),
       ),
     ),
@@ -1067,10 +1099,18 @@ $feat_image->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
@@ -1089,6 +1129,10 @@ $feat_image->add_element("PostData", array (
           'left' => 0,
           'col' => 7,
           'order' => 0,
+        ),
+        'current_property' =>
+        array (
+          0 => 'col',
         ),
       ),
     ),
@@ -1495,8 +1539,9 @@ $feat_image->add_element("PostData", array (
       )),
        'current_property' => 'bottom_padding_num',
     )),
+    'current_preset' => 'count-only-region',
   ),
-  'row' => 6,
+  'row' => 4,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
@@ -1562,10 +1607,18 @@ $feat_image->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
@@ -1585,6 +1638,10 @@ $feat_image->add_element("PostData", array (
           'left' => 0,
           'col' => 7,
           'order' => 0,
+        ),
+        'current_property' =>
+        array (
+          0 => 'col',
         ),
       ),
     ),
@@ -1803,6 +1860,9 @@ $post_area->add_element("PostData", array (
          'use_padding' => 'yes',
       )),
     )),
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
+    'current_preset' => 'content-only',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1826,6 +1886,10 @@ $post_area->add_element("PostData", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -1842,6 +1906,10 @@ $post_area->add_element("PostData", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'objects' =>
@@ -1868,10 +1936,18 @@ $post_area->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
@@ -1898,7 +1974,7 @@ $post_area->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'col',
         ),
       ),
     ),
@@ -1943,7 +2019,7 @@ $post_area->add_element("Uspacer", array (
 ));
 
 $post_area->add_element("Uspacer", array (
-  'columns' => '2',
+  'columns' => '3',
   'margin_left' => '0',
   'margin_right' => '0',
   'margin_top' => '0',
@@ -1971,17 +2047,17 @@ $post_area->add_element("Uspacer", array (
   array (
     'tablet' =>
     array (
-      'col' => 2,
+      'col' => 3,
     ),
     'mobile' =>
     array (
-      'col' => 2,
+      'col' => 3,
     ),
   ),
 ));
 
 $post_area->add_element("PostData", array (
-  'columns' => '20',
+  'columns' => '18',
   'margin_left' => '0',
   'margin_right' => '0',
   'margin_top' => '0',
@@ -2112,6 +2188,7 @@ $post_area->add_element("PostData", array (
     'top_padding_slider' => '15',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '15',
+    'current_preset' => 'categories-only',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2135,6 +2212,10 @@ $post_area->add_element("PostData", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -2152,12 +2233,16 @@ $post_area->add_element("PostData", array (
       'col' => 7,
       'order' => 0,
     ),
+    'current_property' =>
+    array (
+      0 => 'col',
+    ),
   ),
   'objects' =>
   array (
     0 =>
     array (
-      'columns' => '20',
+      'columns' => '18',
       'margin_left' => '0',
       'margin_right' => '0',
       'margin_top' => '0',
@@ -2176,13 +2261,21 @@ $post_area->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
-      'row' => 8,
+      'row' => 24,
       'new_line' => true,
       'breakpoint' =>
       array (
@@ -2200,13 +2293,17 @@ $post_area->add_element("PostData", array (
           'col' => 7,
           'order' => 0,
         ),
+        'current_property' =>
+        array (
+          0 => 'col',
+        ),
       ),
     ),
   ),
 ));
 
 $post_area->add_element("Uspacer", array (
-  'columns' => '2',
+  'columns' => '3',
   'margin_left' => '0',
   'margin_right' => '0',
   'margin_top' => '0',
@@ -2233,11 +2330,11 @@ $post_area->add_element("Uspacer", array (
   array (
     'tablet' =>
     array (
-      'col' => 2,
+      'col' => 3,
     ),
     'mobile' =>
     array (
-      'col' => 2,
+      'col' => 3,
     ),
   ),
 ));
@@ -2646,6 +2743,7 @@ $post_area->add_element("PostData", array (
          'use_padding' => 'yes',
       )),
     )),
+    'current_preset' => 'comments-with-count-and-form',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2669,6 +2767,10 @@ $post_area->add_element("PostData", array (
       'order' => 3,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -2685,6 +2787,10 @@ $post_area->add_element("PostData", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'objects' =>
@@ -2711,10 +2817,18 @@ $post_area->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'new_line' => true,
@@ -2740,7 +2854,7 @@ $post_area->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'col',
         ),
       ),
     ),
@@ -2765,10 +2879,18 @@ $post_area->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 2,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 2,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
@@ -2795,7 +2917,7 @@ $post_area->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'col',
         ),
       ),
     ),
@@ -2820,10 +2942,18 @@ $post_area->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 3,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 3,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
@@ -2850,7 +2980,7 @@ $post_area->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'col',
         ),
       ),
     ),

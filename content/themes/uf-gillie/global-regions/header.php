@@ -1,6 +1,6 @@
 <?php
 /* START_REGION_OUTPUT */
-$region_2c9fbe = upfront_create_region(
+$region_b1dd92 = upfront_create_region(
 			array (
   'name' => 'header',
   'title' => 'header',
@@ -62,7 +62,7 @@ $region_2c9fbe = upfront_create_region(
 )
 			);
 
-$region_2c9fbe->add_element("PlainTxt", array (
+$region_b1dd92->add_element("PlainTxt", array (
   'columns' => '24',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -191,7 +191,7 @@ $region_2c9fbe->add_element("PlainTxt", array (
   ),
 ));
 
-$region_2c9fbe->add_element("Unewnavigation", array (
+$region_b1dd92->add_element("Unewnavigation", array (
   'columns' => '24',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -210,31 +210,31 @@ $region_2c9fbe->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 3242,
+         'menu-item-db-id' => 4124,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Home',
          'menu-item-url' => '{{upfront:home_url}}',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '3242',
+         'menu-item-object-id' => '4124',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
         (array)(array(
-           'type' => 'homepage',
+           'type' => 'entry',
            'url' => '{{upfront:home_url}}',
            'target' => '',
         )),
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 3243,
+         'menu-item-db-id' => 4125,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Free Stuff',
          'menu-item-url' => '{{upfront:home_url}}/free-stuff/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '3243',
+         'menu-item-object-id' => '4125',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -242,19 +242,17 @@ $region_2c9fbe->add_element("Unewnavigation", array (
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/free-stuff/',
            'target' => '',
-           'object' => 'page',
-           'object_id' => 68,
         )),
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 3244,
+         'menu-item-db-id' => 4126,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Testimonials',
          'menu-item-url' => '{{upfront:home_url}}/testimonials/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '3244',
+         'menu-item-object-id' => '4126',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -262,19 +260,17 @@ $region_2c9fbe->add_element("Unewnavigation", array (
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/testimonials/',
            'target' => '',
-           'object' => 'page',
-           'object_id' => 65,
         )),
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 3245,
+         'menu-item-db-id' => 4127,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Gallery',
          'menu-item-url' => '{{upfront:home_url}}/gallery/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '3245',
+         'menu-item-object-id' => '4127',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -286,13 +282,13 @@ $region_2c9fbe->add_element("Unewnavigation", array (
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 3246,
+         'menu-item-db-id' => 4128,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '3246',
+         'menu-item-object-id' => '4128',
          'menu-item-target' => '',
          'menu-item-position' => 5,
          'link' =>
@@ -300,19 +296,17 @@ $region_2c9fbe->add_element("Unewnavigation", array (
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/blog/',
            'target' => '',
-           'object' => 'page',
-           'object_id' => 265,
         )),
       )),
       5 =>
       (array)(array(
-         'menu-item-db-id' => 3247,
+         'menu-item-db-id' => 4129,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '3247',
+         'menu-item-object-id' => '4129',
          'menu-item-target' => '',
          'menu-item-position' => 6,
          'link' =>
@@ -324,13 +318,13 @@ $region_2c9fbe->add_element("Unewnavigation", array (
       )),
       6 =>
       (array)(array(
-         'menu-item-db-id' => 3248,
+         'menu-item-db-id' => 4130,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '3248',
+         'menu-item-object-id' => '4130',
          'menu-item-target' => '',
          'menu-item-position' => 7,
          'link' =>
@@ -386,9 +380,8 @@ $region_2c9fbe->add_element("Unewnavigation", array (
          'top_padding_slider' => '20',
          'top_padding_num' => '20',
          'row' => 8,
-         'lock_padding' => '',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -398,7 +391,6 @@ $region_2c9fbe->add_element("Unewnavigation", array (
          'top_padding_num' => '20',
          'left_padding_num' => '',
          'right_padding_num' => '',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '20',
          'row' => -2,
@@ -462,6 +454,6 @@ $region_2c9fbe->add_element("Unewnavigation", array (
   ),
 ));
 
-$regions->add($region_2c9fbe);
+$regions->add($region_b1dd92);
 
 /* END_REGION_OUTPUT */

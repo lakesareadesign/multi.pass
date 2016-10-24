@@ -122,7 +122,6 @@ $main->add_element("Uspacer", array (
   'hide' => 0,
   'toggle_hide' => 0,
   'wrapper_id' => 'wrapper-1461009814859-1147',
-  'edited' => true,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -241,7 +240,6 @@ $main->add_element("PostData", array (
   'hide' => 0,
   'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1461009640900-1518',
-  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -308,22 +306,19 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'clear' => true,
-          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'clear' => true,
-          'order' => 1,
-        ),
-        'current_property' =>
-        array (
-          0 => 'order',
         ),
       ),
       'current_preset' => 'default',
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -344,7 +339,7 @@ $main->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'col',
+          0 => 'lock_padding',
         ),
       ),
     ),
@@ -376,7 +371,6 @@ $main->add_element("Uspacer", array (
   'hide' => 0,
   'toggle_hide' => 0,
   'wrapper_id' => 'wrapper-1461009818080-1227',
-  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -415,7 +409,6 @@ $main->add_element("Uspacer", array (
   'hide' => 0,
   'toggle_hide' => 0,
   'wrapper_id' => 'wrapper-1461010235846-1373',
-  'edited' => true,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -544,7 +537,6 @@ $main->add_element("PostData", array (
   'hide' => 0,
   'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1461010115229-1475',
-  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -612,22 +604,19 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'clear' => true,
-          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'clear' => true,
-          'order' => 1,
-        ),
-        'current_property' =>
-        array (
-          0 => 'order',
         ),
       ),
       'current_preset' => 'default',
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -650,7 +639,7 @@ $main->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'col',
+          0 => 'lock_padding',
         ),
       ),
     ),
@@ -682,7 +671,6 @@ $main->add_element("Uspacer", array (
   'hide' => 0,
   'toggle_hide' => 0,
   'wrapper_id' => 'wrapper-1461010239148-1761',
-  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -698,7 +686,7 @@ $main->add_element("Uspacer", array (
 
 $regions->add($main);
 
-if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'featured-articles.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'featured-articles.php');
+if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'featured-articles.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'featured-articles.php');	  	 				  		  		    
 
 if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'social-footer.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'social-footer.php');
 

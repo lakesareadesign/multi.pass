@@ -158,7 +158,6 @@ $cover_page->add_element("PostData", array (
        'tablet' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '140',
          'top_padding_num' => '140',
@@ -167,7 +166,7 @@ $cover_page->add_element("PostData", array (
          'bottom_padding_num' => '0',
          'row' => 33,
       )),
-       'current_property' => 'top_padding_num',
+       'current_property' => 'use_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -369,6 +368,11 @@ $cover_page->add_element("PostData", array (
       ),
       'preset' => 'default',
       'current_preset' => 'default',
+      'top_padding_num' => 10,
+      'left_padding_num' => 10,
+      'right_padding_num' => 10,
+      'bottom_padding_num' => 10,
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -391,7 +395,7 @@ $cover_page->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'lock_padding',
         ),
       ),
     ),
@@ -791,15 +795,28 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
       'row' => 122,
       'current_preset' => 'default',
+      'top_padding_num' => 10,
+      'left_padding_num' => 10,
+      'right_padding_num' => 10,
+      'bottom_padding_num' => 10,
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -822,7 +839,7 @@ $main->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'hide',
         ),
       ),
     ),

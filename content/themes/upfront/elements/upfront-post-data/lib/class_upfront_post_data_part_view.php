@@ -32,7 +32,12 @@ abstract class Upfront_Post_Data_PartView extends Upfront_PostPart_View {
 		$this->_post = $post;
 		$this->_editor = $editor;
 
-		$post_parts = self::get_default_parts($this->_data);
+		// Allow compat layer to force only needed parts
+		$post_parts = apply_filters('upfront-override_post_parts', false, $post->post_type);
+		if (empty($post_parts)) {
+			$post_parts = self::get_default_parts($this->_data);
+		}
+
 		//$disabled_post_parts = !empty($this->_data['hidden_parts']) ? $this->_data['hidden_parts'] : array();
 		$parts = array();
 		foreach ($post_parts as $part) {

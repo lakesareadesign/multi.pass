@@ -6,6 +6,7 @@ class UpfrontAjax_AdminTest  extends WP_UnitTestCase {
 
 	public function test_reset_all_drops_menus () {
 		$child = Upfront_ChildTheme::get_instance();
+		if (!($child instanceof Upfront_ChildTheme)) return false;
 		$menus = json_decode($child->get_theme_settings()->get('menus'), true);
 		foreach ($menus as $menu) {
 			if (empty($menu['slug'])) continue; // We don't know what this is

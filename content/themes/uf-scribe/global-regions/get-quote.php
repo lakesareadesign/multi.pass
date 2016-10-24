@@ -67,7 +67,6 @@ $get_quote->add_element("Uspacer", array (
   'hide' => 0,
   'toggle_hide' => 0,
   'wrapper_id' => 'wrapper-1455121008605-1781',
-  'edited' => true,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -102,6 +101,8 @@ $get_quote->add_group(array (
   'top_padding_slider' => '45',
   'bottom_padding_use' => 'yes',
   'bottom_padding_slider' => '30',
+  'left_padding_num' => '15',
+  'right_padding_num' => '15',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -117,6 +118,10 @@ $get_quote->add_group(array (
       'col' => 7,
       'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -134,6 +139,10 @@ $get_quote->add_group(array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -163,6 +172,21 @@ $get_quote->add_element("PlainTxt", array (
     'row' => 7,
     'preset' => 'default',
     'use_padding' => 'yes',
+    'breakpoint' =>
+    (array)(array(
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -241,6 +265,21 @@ $get_quote->add_element("PlainTxt", array (
     'row' => 5,
     'preset' => 'default',
     'use_padding' => 'yes',
+    'breakpoint' =>
+    (array)(array(
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -518,9 +557,18 @@ $get_quote->add_element("Button", array (
        'tablet' =>
       (array)(array(
          'row' => 14,
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
       )),
     )),
     'use_padding' => 'yes',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -780,7 +828,6 @@ $get_quote->add_element("Uspacer", array (
   'hide' => 0,
   'toggle_hide' => 0,
   'wrapper_id' => 'wrapper-1455121011505-1981',
-  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>

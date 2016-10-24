@@ -102,6 +102,7 @@ $home_header->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => false,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -124,7 +125,7 @@ $home_header->add_element("Uimage", array (
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'row' => 17,
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
@@ -145,19 +146,19 @@ $home_header->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -213,7 +214,7 @@ $home_header->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 0,
+      'order' => 2,
       'col' => 5,
     ),
     'mobile' =>
@@ -356,15 +357,19 @@ $home_header->add_element("Button", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -382,6 +387,10 @@ $home_header->add_element("Button", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -575,8 +584,12 @@ $main_area->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -597,6 +610,10 @@ $main_area->add_element("PlainTxt", array (
       'order' => 0,
       'top' => 0,
       'row' => 15,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -733,7 +750,7 @@ $main_area->add_element("PlainTxt", array (
     'is_edited' => true,
     'padding_slider' => '15',
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -778,8 +795,12 @@ $main_area->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -799,6 +820,10 @@ $main_area->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -990,8 +1015,12 @@ $main_area->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1012,6 +1041,10 @@ $main_area->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1288,6 +1321,8 @@ $region_4->add_element("PlainTxt", array (
          'row' => 11,
       )),
     )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1301,15 +1336,19 @@ $region_4->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1331,6 +1370,10 @@ $region_4->add_element("PlainTxt", array (
       'order' => 0,
       'top' => 0,
       'row' => 10,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1505,15 +1548,19 @@ $region_4->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1533,6 +1580,10 @@ $region_4->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1683,6 +1734,8 @@ $region_8->add_element("PlainTxt", array (
       )),
        'current_property' => 'top_padding_num',
     )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1697,15 +1750,19 @@ $region_8->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1726,6 +1783,10 @@ $region_8->add_element("PlainTxt", array (
       'order' => 0,
       'top' => 0,
       'row' => 9,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1931,6 +1992,7 @@ $region_11_a->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'circle-image',
@@ -2001,12 +2063,12 @@ $region_11_a->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 3,
-      'order' => 1,
+      'order' => 2,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2069,7 +2131,7 @@ $region_11_a->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 1,
+      'order' => 3,
       'col' => 2,
     ),
     'current_property' =>
@@ -2147,7 +2209,7 @@ $region_11_a->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => false,
@@ -2155,6 +2217,9 @@ $region_11_a->add_group(array (
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '15',
   'version' => '1.0.0',
+  'left_padding_num' => '15',
+  'right_padding_num' => '15',
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2168,12 +2233,12 @@ $region_11_a->add_group(array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2208,7 +2273,7 @@ $region_11_a->add_group(array (
     ),
     'current_property' =>
     array (
-      0 => 'bottom_padding_num',
+      0 => 'col',
     ),
   ),
 ));
@@ -2237,7 +2302,7 @@ $region_11_a->add_element("PlainTxt", array (
     'row' => 22,
     'padding_slider' => '15',
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -2282,15 +2347,19 @@ $region_11_a->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 9,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2310,6 +2379,10 @@ $region_11_a->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1452648933642-1587',
@@ -2386,15 +2459,19 @@ $region_11_a->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 9,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2415,6 +2492,10 @@ $region_11_a->add_element("PlainTxt", array (
       'order' => 0,
       'top' => 0,
       'row' => 6,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1452648933642-1587',
@@ -2659,6 +2740,7 @@ $region_11_b->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'circle-image',
@@ -2878,6 +2960,8 @@ $region_11_b->add_group(array (
   'top_padding_slider' => '15',
   'row' => 35,
   'version' => '1.0.0',
+  'left_padding_num' => '15',
+  'right_padding_num' => '15',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2960,7 +3044,7 @@ $region_11_b->add_element("PlainTxt", array (
     'row' => 23,
     'padding_slider' => '15',
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -3012,8 +3096,12 @@ $region_11_b->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3033,6 +3121,10 @@ $region_11_b->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453357159591-1789',
@@ -3108,7 +3200,7 @@ $region_11_b->add_element("PlainTxt", array (
     'tablet' =>
     array (
       'edited' => true,
-      'col' => 12,
+      'col' => 9,
       'order' => 1,
       'clear' => true,
     ),
@@ -3116,8 +3208,12 @@ $region_11_b->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3137,6 +3233,10 @@ $region_11_b->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453357159591-1789',
@@ -3283,6 +3383,10 @@ $region_9->add_element("Code", array (
       )),
        'current_property' => 'top_padding_num',
     )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3297,7 +3401,7 @@ $region_9->add_element("Code", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
@@ -3306,6 +3410,10 @@ $region_9->add_element("Code", array (
       'col' => 7,
       'order' => 0,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3326,6 +3434,10 @@ $region_9->add_element("Code", array (
       'order' => 0,
       'row' => 8,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -3412,6 +3524,8 @@ $region_9->add_element("PlainTxt", array (
     'row' => 11,
     'padding_slider' => '15',
     'preset' => 'default',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3425,7 +3539,7 @@ $region_9->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
@@ -3434,6 +3548,10 @@ $region_9->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3453,6 +3571,10 @@ $region_9->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -3592,6 +3714,8 @@ $region_9->add_element("PlainTxt", array (
     'row' => 6,
     'padding_slider' => '15',
     'preset' => 'default',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3605,7 +3729,7 @@ $region_9->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
@@ -3614,6 +3738,10 @@ $region_9->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3633,6 +3761,10 @@ $region_9->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -3832,6 +3964,10 @@ $region_9->add_element("Code", array (
     'script' => '/* Your code here */',
     'padding_slider' => '15',
     'preset' => 'default',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3845,7 +3981,7 @@ $region_9->add_element("Code", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
     'mobile' =>
@@ -3854,6 +3990,10 @@ $region_9->add_element("Code", array (
       'col' => 7,
       'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3873,6 +4013,10 @@ $region_9->add_element("Code", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

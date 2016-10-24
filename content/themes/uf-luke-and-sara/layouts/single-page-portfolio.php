@@ -500,7 +500,7 @@ $platinum->add_element("Ugallery", array (
     array (
       0 =>
       (array)(array(
-         'id' => '1942',
+         'id' => 190,
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-1.jpg',
          'sizes' =>
         (array)(array(
@@ -625,7 +625,7 @@ $platinum->add_element("Ugallery", array (
       )),
       1 =>
       (array)(array(
-         'id' => '1971',
+         'id' => 191,
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-2.jpg',
          'sizes' =>
         (array)(array(
@@ -749,7 +749,7 @@ $platinum->add_element("Ugallery", array (
       )),
       2 =>
       (array)(array(
-         'id' => '1972',
+         'id' => 192,
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-3.jpg',
          'sizes' =>
         (array)(array(
@@ -873,7 +873,7 @@ $platinum->add_element("Ugallery", array (
       )),
       3 =>
       (array)(array(
-         'id' => '1973',
+         'id' => 193,
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-4.jpg',
          'sizes' =>
         (array)(array(
@@ -997,7 +997,7 @@ $platinum->add_element("Ugallery", array (
       )),
       4 =>
       (array)(array(
-         'id' => '1974',
+         'id' => 194,
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-5.jpg',
          'sizes' =>
         (array)(array(
@@ -1121,7 +1121,7 @@ $platinum->add_element("Ugallery", array (
       )),
       5 =>
       (array)(array(
-         'id' => '1975',
+         'id' => 195,
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-6.jpg',
          'sizes' =>
         (array)(array(
@@ -1689,7 +1689,7 @@ $premium->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 'yes',
+  'use_padding' => 0,
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => 'yes',
@@ -1697,6 +1697,7 @@ $premium->add_group(array (
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '10',
   'row' => 76,
+  'background_default' => 'hide',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2378,7 +2379,7 @@ $premium->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 'yes',
+  'use_padding' => 0,
   'background_type' => 'color',
   'anchor' => '',
   'theme_style' => '_default',
@@ -2391,6 +2392,7 @@ $premium->add_group(array (
   'bottom_padding_use' => 0,
   'bottom_padding_slider' => '0',
   'lock_padding' => '',
+  'background_default' => 'hide',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -3289,7 +3291,7 @@ $premium->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 'yes',
+  'use_padding' => 0,
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => 'yes',
@@ -3300,6 +3302,7 @@ $premium->add_group(array (
   'top_padding_slider' => '45',
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '10',
+  'background_default' => 'hide',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>

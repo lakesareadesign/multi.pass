@@ -1,6 +1,6 @@
 <?php
 /* START_REGION_OUTPUT */
-$region_cf14db = upfront_create_region(
+$region_96d071 = upfront_create_region(
 			array (
   'name' => 'header',
   'title' => 'Header',
@@ -50,7 +50,7 @@ $region_cf14db = upfront_create_region(
 )
 			);
 
-$region_cf14db->add_element("Uimage", array (
+$region_96d071->add_element("Uimage", array (
   'columns' => '5',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -140,7 +140,7 @@ $region_cf14db->add_element("Uimage", array (
          'bottom_padding_slider' => '20',
          'bottom_padding_num' => '20',
       )),
-       'current_property' => 'top_padding_num',
+       'current_property' => 'use_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -154,6 +154,10 @@ $region_cf14db->add_element("Uimage", array (
          'row' => 8,
       )),
     )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -168,14 +172,14 @@ $region_cf14db->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 2,
-      'order' => 0,
+      'order' => 1,
       'clear' => false,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 2,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'current_property' =>
@@ -210,324 +214,118 @@ $region_cf14db->add_element("Uimage", array (
   ),
 ));
 
-$region_cf14db->add_element("Uspacer", array (
-  'columns' => '1',
-  'margin_left' => '0',
-  'margin_right' => '0',
-  'margin_top' => '0',
-  'margin_bottom' => '0',
-  'class' => 'module-1458671756705-1325 upfront-module-spacer',
-  'id' => 'module-1458671756705-1325',
-  'options' =>
-  array (
-    'type' => 'UspacerModel',
-    'view_class' => 'UspacerView',
-    'class' => 'c24 upfront-object-spacer',
-    'has_settings' => 0,
-    'id_slug' => 'uspacer',
-    'element_id' => 'spacer-object-1458671756704-1063',
-    'preset' => 'default',
-  ),
-  'row' => 6,
-  'sticky' => false,
-  'default_hide' => 1,
-  'hide' => 1,
-  'toggle_hide' => 0,
-  'wrapper_id' => 'wrapper-1458671756704-1682',
-  'wrapper_breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'col' => 1,
-      'edited' => true,
-    ),
-    'mobile' =>
-    array (
-      'edited' => true,
-      'clear' => false,
-      'order' => 1,
-      'col' => 3,
-    ),
-    'current_property' =>
-    array (
-      0 => 'edited',
-    ),
-  ),
-  'breakpoint' =>
-  array (
-    'mobile' =>
-    array (
-      'edited' => true,
-      'hide' => 0,
-      'left' => 0,
-      'col' => 3,
-    ),
-    'current_property' =>
-    array (
-      0 => 'edited',
-    ),
-    'tablet' =>
-    array (
-      'edited' => true,
-    ),
-  ),
-));
-
-$region_cf14db->add_group(array (
+$region_96d071->add_element("PlainTxt", array (
   'columns' => '19',
   'margin_left' => '0',
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => '',
-  'id' => 'module-group-1455114776572-1425',
-  'type' => 'ModuleGroup',
-  'wrapper_id' => 'wrapper-1443739453490-1392',
-  'original_col' => 16,
-  'top_padding_num' => 0,
-  'bottom_padding_num' => 0,
-  'edited' => true,
-  'use_padding' => 'yes',
-  'row' => 20,
-  'wrapper_breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'edited' => true,
-      'col' => 10,
-      'order' => 1,
-      'clear' => false,
-    ),
-    'mobile' =>
-    array (
-      'edited' => true,
-      'col' => 2,
-      'order' => 1,
-      'clear' => false,
-    ),
-    'current_property' =>
-    array (
-      0 => 'edited',
-    ),
-  ),
-  'breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'left' => 0,
-      'top' => 0,
-      'col' => 10,
-      'edited' => true,
-      'row' => 7,
-      'use_padding' => 'yes',
-      'lock_padding' => '',
-      'top_padding_use' => 'yes',
-      'top_padding_slider' => '0',
-      'top_padding_num' => '0',
-      'bottom_padding_use' => 'yes',
-      'bottom_padding_slider' => '0',
-      'bottom_padding_num' => '0',
-    ),
-    'current_property' =>
-    array (
-      0 => 'top_padding_num',
-    ),
-    'mobile' =>
-    array (
-      'left' => 0,
-      'top' => 0,
-      'col' => 2,
-      'edited' => true,
-      'use_padding' => 'yes',
-      'lock_padding' => '',
-      'top_padding_use' => 'yes',
-      'top_padding_slider' => '0',
-      'top_padding_num' => '0',
-      'row' => 12,
-    ),
-  ),
-));
-
-$region_cf14db->add_element("Code", array (
-  'columns' => '19',
-  'margin_left' => '0',
-  'margin_right' => '0',
-  'margin_top' => '0',
-  'margin_bottom' => '0',
-  'class' => 'module-1414149945932-1667',
-  'id' => 'module-1414149945932-1667',
+  'class' => 'module-1467220053497-1794',
+  'id' => 'module-1467220053497-1794',
   'options' =>
   array (
-    'type' => 'CodeModel',
-    'view_class' => 'CodeView',
-    'class' => 'c24 upfront-code_element-object',
-    'has_settings' => 0,
-    'id_slug' => 'upfront-code_element',
-    'fallbacks' =>
-    (array)(array(
-       'markup' => '<b>Enter your markup here...</b>',
-       'style' => '/* Your styles here */',
-       'script' => '/* Your code here */',
-    )),
+    'view_class' => 'PlainTxtView',
+    'id_slug' => 'plain_text',
+    'content' => '<p class="" style="text-align: right;"><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"></span><span class="upfront_theme_color_2" data-verified="redactor" data-redactor-tag="span" data-redactor-class="upfront_theme_color_2"><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"><a target="_blank" data-upfront-link-type="external" href="http://twitter.com">T</a></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space">​&nbsp;</span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space"></span><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"><a href="http://facebook.com" target="_blank" data-upfront-link-type="external">E</a></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space">​&nbsp;</span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space"></span><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"><a href="http://pinterest.com" target="_blank" data-upfront-link-type="external">P</a></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space">​&nbsp;</span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space"></span><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"><a href="http://youtube.com" target="_blank" data-upfront-link-type="external">Y</a></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space">​&nbsp;</span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space"></span><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"><a href="http://instagram.com" target="_blank" data-upfront-link-type="external">I</a></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space">​</span></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space"></span></p>',
+    'type' => 'PlainTxtModel',
+    'element_id' => 'text-object-1467220053496-1563',
+    'class' => 'c24 upfront-plain_txt',
+    'has_settings' => 1,
+    'preset' => 'social-icons',
+    'padding_slider' => '15',
+    'top_padding_num' => '15',
+    'bottom_padding_num' => '0',
+    'use_padding' => 'yes',
     'usingNewAppearance' => true,
-    'element_id' => 'upfront-code_element-object-1414149945930-1617',
-    'code_selection_type' => 'Create',
-    'markup' => '<ul class="share-wrapper">
-    <li class="share-item item-twitter">
-        <a href="http://twitter.com" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="-223 1635 35 35" class="icon icon-static icon-twitter-stroke">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-twitter-stroke"></use>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="-223 1475 35 35" class="icon icon-hover icon-twitter-color">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-twitter-color"></use>
-            </svg>
-        </a>
-    </li>
-    <li class="share-item item-facebook">
-        <a href="http://facebook.com" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="-63 995 35 35" class="icon icon-static icon-facebook-stroke">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-facebook-stroke"></use>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="-63 835 35 35" class="icon icon-hover icon-facebook-color">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-facebook-color"></use>
-            </svg>
-        </a>
-    </li>
-    <li class="share-item item-pinterest">
-        <a href="http://pinterest.com" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="-63 1155 35 35" class="icon icon-static icon-pinterest-stroke">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-pinterest-stroke"></use>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="-223 1155 35 35" class="icon icon-hover icon-pinterest-color">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-pinterest-color"></use>
-            </svg>
-        </a>
-    </li>
-    <li class="share-item item-youtube">
-        <a href="http://youtube.com" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="-63 1475 35 35" class="icon icon-static icon-youtube-stroke">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-youtube-stroke"></use>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="-63 1315 35 35" class="icon icon-hover icon-youtube-color">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-youtube-color"></use>
-            </svg>
-        </a>
-    </li>
-    <li class="share-item item-instagram">
-        <a href="http://instagram.com" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="97 835 35 35" class="icon icon-static icon-instagram-stroke">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-instagram-stroke"></use>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="-63 1635 35 35" class="icon icon-hover icon-instagram-color">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-instagram-color"></use>
-            </svg>
-        </a>
-    </li>
-</ul>',
-    'style' => 'ul.share-wrapper {
-    list-style-type: none;
-    height: 15px;
-    padding: 0px;
-    margin: 0px -5px 0px 0px;
-    text-align: right;
-}
-
-li.share-item {
-    display: inline-block;
-    margin: 0 5px;
-    height: 30px;
-}
-
-li.share-item .icon-hover {
-    display: none;
-}
-
-li.share-item:hover .icon-static {
-    display: none;
-}
-
-li.share-item:hover .icon-hover {
-    display: block;
-}
-
-li.share-item a {
-    display: block;
-    width: 100%;
-    height: 100%;
-}',
-    'script' => '/* Your code here */',
+    'is_edited' => true,
+    'lock_padding' => '',
+    'top_padding_use' => 'yes',
+    'top_padding_slider' => '15',
+    'bottom_padding_use' => 'yes',
+    'bottom_padding_slider' => '0',
     'row' => 9,
+    'padding_number' => '15',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'anchor' => '',
+    'breakpoint_presets' =>
+    (array)(array(
+       'desktop' =>
+      (array)(array(
+         'preset' => 'social-icons',
+      )),
+    )),
     'breakpoint' =>
     (array)(array(
        'tablet' =>
       (array)(array(
-         'row' => 25,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
        'mobile' =>
       (array)(array(
-         'row' => 17,
-         'top_padding_use' => true,
-         'top_padding_num' => 20,
+         'use_padding' => 'yes',
+         'row' => 12,
       )),
     )),
-    'top_padding_num' => 20,
-    'bottom_padding_num' => '15',
-    'padding_slider' => '15',
-    'preset' => 'default',
-    'top_padding_use' => 'yes',
-    'use_padding' => 'yes',
+    'theme_style' => '',
+    'current_preset' => 'social-icons',
   ),
   'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
   'toggle_hide' => 1,
-  'wrapper_id' => 'wrapper-1455114780214-1949',
-  'new_line' => true,
+  'wrapper_id' => 'wrapper-1443739453490-1392',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
-      'col' => 10,
-      'clear' => true,
-      'order' => 1,
       'edited' => true,
+      'col' => 10,
+      'order' => 2,
+      'clear' => false,
     ),
     'mobile' =>
     array (
-      'col' => 2,
-      'clear' => true,
-      'order' => 1,
       'edited' => true,
+      'col' => 5,
+      'order' => 3,
+      'clear' => false,
+    ),
+    'current_property' =>
+    array (
+      0 => 'edited',
     ),
   ),
   'breakpoint' =>
   array (
     'tablet' =>
     array (
-      'edited' => true,
-      'left' => 0,
+      'edited' => false,
       'col' => 10,
-      'top' => 0,
-      'row' => 25,
+      'left' => 0,
       'order' => 0,
       'hide' => 1,
     ),
     'mobile' =>
     array (
-      'edited' => false,
+      'edited' => true,
+      'col' => 5,
       'left' => 0,
-      'col' => 2,
-      'row' => 16,
-      'top' => 0,
       'order' => 0,
+      'row' => 12,
       'hide' => 1,
     ),
+    'current_property' =>
+    array (
+      0 => 'edited',
+    ),
   ),
-  'group' => 'module-group-1455114776572-1425',
+  'close_wrapper' => false,
 ));
 
-$region_cf14db->add_element("Unewnavigation", array (
+$region_96d071->add_element("Unewnavigation", array (
   'columns' => '19',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -546,13 +344,13 @@ $region_cf14db->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 1748,
+         'menu-item-db-id' => 1959,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Home',
          'menu-item-url' => '{{upfront:home_url}}',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1748',
+         'menu-item-object-id' => '1959',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -564,13 +362,13 @@ $region_cf14db->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 1749,
+         'menu-item-db-id' => 1960,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Services',
          'menu-item-url' => '{{upfront:home_url}}/services/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1749',
+         'menu-item-object-id' => '1960',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -582,13 +380,13 @@ $region_cf14db->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 1750,
+         'menu-item-db-id' => 1961,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1750',
+         'menu-item-object-id' => '1961',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -600,13 +398,13 @@ $region_cf14db->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 1751,
+         'menu-item-db-id' => 1962,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Gallery',
          'menu-item-url' => '{{upfront:home_url}}/gallery/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1751',
+         'menu-item-object-id' => '1962',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -618,13 +416,13 @@ $region_cf14db->add_element("Unewnavigation", array (
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 1752,
+         'menu-item-db-id' => 1963,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'News',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1752',
+         'menu-item-object-id' => '1963',
          'menu-item-target' => '',
          'menu-item-position' => 5,
          'link' =>
@@ -636,13 +434,13 @@ $region_cf14db->add_element("Unewnavigation", array (
       )),
       5 =>
       (array)(array(
-         'menu-item-db-id' => 1753,
+         'menu-item-db-id' => 1965,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1753',
+         'menu-item-object-id' => '1965',
          'menu-item-target' => '',
          'menu-item-position' => 6,
          'link' =>
@@ -686,7 +484,6 @@ $region_cf14db->add_element("Unewnavigation", array (
        'tablet' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '20',
          'top_padding_num' => '20',
@@ -694,11 +491,10 @@ $region_cf14db->add_element("Unewnavigation", array (
          'bottom_padding_slider' => '0',
          'bottom_padding_num' => '0',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '0',
          'bottom_padding_num' => '0',
@@ -707,36 +503,19 @@ $region_cf14db->add_element("Unewnavigation", array (
          'top_padding_num' => '20',
       )),
     )),
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
   'toggle_hide' => 1,
-  'wrapper_id' => 'wrapper-1455114780249-1986',
-  'new_line' => true,
-  'wrapper_breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'edited' => true,
-      'col' => 10,
-      'order' => 0,
-      'clear' => true,
-    ),
-    'mobile' =>
-    array (
-      'edited' => true,
-      'col' => 2,
-      'order' => 0,
-      'clear' => true,
-    ),
-  ),
+  'wrapper_id' => 'wrapper-1443739453490-1392',
   'breakpoint' =>
   array (
     'tablet' =>
     array (
-      'edited' => true,
+      'edited' => false,
       'left' => 0,
       'col' => 10,
       'order' => 0,
@@ -746,14 +525,17 @@ $region_cf14db->add_element("Unewnavigation", array (
     array (
       'edited' => true,
       'left' => 0,
-      'col' => 2,
+      'col' => 5,
       'order' => 0,
       'top' => 0,
     ),
+    'current_property' =>
+    array (
+      0 => 'edited',
+    ),
   ),
-  'group' => 'module-group-1455114776572-1425',
 ));
 
-$regions->add($region_cf14db);
+$regions->add($region_96d071);
 
 /* END_REGION_OUTPUT */

@@ -477,6 +477,9 @@ $main->add_element("Uimage", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => 10,
+    'right_padding_num' => 10,
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -702,7 +705,7 @@ $main->add_element("PlainTxt", array (
     'element_id' => 'object-1459865897650-1632',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'preset' => 'center',
+    'preset' => 'block-heading',
     'padding_slider' => '10',
     'top_padding_num' => '10',
     'bottom_padding_num' => '0',
@@ -810,6 +813,8 @@ $main->add_group(array (
   'anchor' => '',
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '10',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
   'breakpoint' =>
   array (
     'tablet' =>
@@ -839,7 +844,7 @@ $main->add_group(array (
     ),
     'current_property' =>
     array (
-      0 => 'bottom_padding_num',
+      0 => 'col',
     ),
   ),
 ));
@@ -932,7 +937,7 @@ $main->add_element("PlainTxt", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -954,7 +959,7 @@ $main->add_element("PlainTxt", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459927499318-1862',
@@ -1051,7 +1056,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1073,7 +1078,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459927499318-1862',
@@ -1165,7 +1170,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1187,7 +1192,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459927499318-1862',
@@ -1424,6 +1429,9 @@ $main->add_element("Uimage", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => 10,
+    'right_padding_num' => 10,
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -1758,6 +1766,8 @@ $main->add_group(array (
   'background_position_x' => 50,
   'background_type' => 'color',
   'anchor' => '',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
   'breakpoint' =>
   array (
     'tablet' =>
@@ -1787,7 +1797,7 @@ $main->add_group(array (
     ),
     'current_property' =>
     array (
-      0 => 'bottom_padding_num',
+      0 => 'col',
     ),
   ),
 ));
@@ -1880,7 +1890,7 @@ $main->add_element("PlainTxt", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1902,7 +1912,7 @@ $main->add_element("PlainTxt", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459930446202-1404',
@@ -1998,7 +2008,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2020,7 +2030,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459930446202-1404',
@@ -2112,7 +2122,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2134,7 +2144,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459930446202-1404',
@@ -2333,6 +2343,9 @@ $main->add_element("Uimage", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => 10,
+    'right_padding_num' => 10,
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -2658,6 +2671,8 @@ $main->add_group(array (
   'lock_padding' => '',
   'top_padding_use' => 'yes',
   'top_padding_slider' => '20',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
   'breakpoint' =>
   array (
     'tablet' =>
@@ -2686,7 +2701,7 @@ $main->add_group(array (
     ),
     'current_property' =>
     array (
-      0 => 'bottom_padding_num',
+      0 => 'col',
     ),
   ),
 ));
@@ -2779,7 +2794,7 @@ $main->add_element("PlainTxt", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2801,7 +2816,7 @@ $main->add_element("PlainTxt", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459930599529-1780',
@@ -2899,7 +2914,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2921,7 +2936,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459930599529-1780',
@@ -3015,7 +3030,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3037,7 +3052,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459930599529-1780',
@@ -3236,6 +3251,9 @@ $main->add_element("Uimage", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => 10,
+    'right_padding_num' => 10,
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -3342,7 +3360,7 @@ $main->add_element("PlainTxt", array (
     'element_id' => 'object-1459930055447-1690',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'preset' => 'center',
+    'preset' => 'default',
     'padding_slider' => '10',
     'top_padding_num' => '40',
     'bottom_padding_num' => '0',
@@ -3561,6 +3579,8 @@ $main->add_group(array (
   'lock_padding' => '',
   'top_padding_use' => 'yes',
   'top_padding_slider' => '20',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
   'breakpoint' =>
   array (
     'tablet' =>
@@ -3679,7 +3699,7 @@ $main->add_element("PlainTxt", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3701,7 +3721,7 @@ $main->add_element("PlainTxt", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459930622456-1522',
@@ -3799,7 +3819,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3821,7 +3841,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459930622456-1522',
@@ -3915,7 +3935,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3937,7 +3957,7 @@ $main->add_element("Button", array (
     ),
     'current_property' =>
     array (
-      0 => 'edited',
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1459930622456-1522',

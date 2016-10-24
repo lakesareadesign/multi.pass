@@ -469,7 +469,7 @@ function upfront_get_attachment_image_lazy ($attachment_id, $ref_size = 'full') 
 		$alt = trim(strip_tags( $attachment->post_excerpt )); // If not, Use the Caption
 	if ( empty($alt) )
 		$alt = trim(strip_tags( $attachment->post_title )); // Finally, use the title
-	$out = '<img class="upfront-image-lazy" src="' . get_template_directory_uri() . '/img/blank.gif" width="' . $ref_src[1] . '" height="' . $ref_src[2] . '" alt="' . $alt . '" ';
+	$out = '<img class="upfront-image-lazy" src="' . get_template_directory_uri() . '/img/blank.gif" width="' . $ref_src[1] . '" height="' . $ref_src[2] . '" alt="' . $alt . '" ';	     	 		 		  	 		 	
 	if ( isset( $imagedata['sizes'] ) ) {
 		foreach ( $imagedata['sizes'] as $size => $data ) {
 			$src = wp_get_attachment_image_src($attachment_id, $size);

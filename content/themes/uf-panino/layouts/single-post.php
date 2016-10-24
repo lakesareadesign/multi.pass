@@ -83,6 +83,9 @@ $page_header->add_element("PlainTxt", array (
     'padding_slider' => '15',
     'preset' => 'default',
     'use_padding' => 'yes',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -107,6 +110,10 @@ $page_header->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -125,6 +132,10 @@ $page_header->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -339,6 +350,9 @@ $main->add_element("PostData", array (
          'preset' => 'default',
       )),
     )),
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -362,6 +376,10 @@ $main->add_element("PostData", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -378,6 +396,10 @@ $main->add_element("PostData", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'objects' =>
@@ -403,14 +425,10 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',
@@ -432,6 +450,7 @@ $main->add_element("PostData", array (
           'left' => 0,
           'col' => 7,
           'order' => 0,
+          'hide' => 0,
         ),
         'current_property' =>
         array (
@@ -490,14 +509,10 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 2,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 2,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',
@@ -518,6 +533,7 @@ $main->add_element("PostData", array (
           'left' => 0,
           'col' => 7,
           'order' => 0,
+          'hide' => 0,
         ),
         'current_property' =>
         array (
@@ -577,14 +593,10 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 3,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 3,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',
@@ -605,6 +617,7 @@ $main->add_element("PostData", array (
           'left' => 0,
           'col' => 7,
           'order' => 0,
+          'hide' => 0,
         ),
         'current_property' =>
         array (
@@ -827,6 +840,7 @@ $main->add_element("PostData", array (
     'static-comments_pagination-line-height' => '1',
     'static-comments_pagination-font-color' => '#ufc3',
     'static-comment_form-use-typography' => 'yes',
+    'current_preset' => 'no-count-and-no-pagination',
   ),
   'row' => 6,
   'sticky' => false,
@@ -850,6 +864,10 @@ $main->add_element("PostData", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -866,6 +884,10 @@ $main->add_element("PostData", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'objects' =>
@@ -890,14 +912,10 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',
@@ -946,14 +964,10 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 2,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 2,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',

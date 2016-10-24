@@ -88,6 +88,8 @@ $cover_left->add_group(array (
   'background_position_x' => 50,
   'background_type' => 'color',
   'anchor' => '',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (

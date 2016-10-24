@@ -81,6 +81,8 @@ $news_title->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -105,6 +107,10 @@ $news_title->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -121,6 +127,10 @@ $news_title->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -240,6 +250,9 @@ $news_content->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'large',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'featured_image',
@@ -278,7 +291,7 @@ $news_content->add_element("Posts", array (
     'comment_count_hide' => 0,
     'content_length' => '54',
     'resize_featured' => '1',
-    'gravatar_size' => 200,
+    'gravatar_size' => '68',
     'preset' => 'default',
     'post-part-date_posted' => '<div class="uposts-part date_posted">
     <span class="date">{{date_1}}</span> <span class="time">{{date_2}}</span>, <span class="time">{{date_3}}</span></div>',
@@ -334,6 +347,7 @@ $news_content->add_element("Posts", array (
          'preset' => 'default',
       )),
     )),
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -357,6 +371,10 @@ $news_content->add_element("Posts", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -373,6 +391,10 @@ $news_content->add_element("Posts", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

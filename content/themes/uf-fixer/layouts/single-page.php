@@ -446,6 +446,9 @@ $main->add_element("PostData", array (
       )),
        'current_property' => 'lock_padding',
     )),
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
+    'current_preset' => 'title-and-content',
   ),
   'row' => 6,
   'sticky' => false,
@@ -469,6 +472,10 @@ $main->add_element("PostData", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -485,6 +492,10 @@ $main->add_element("PostData", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'objects' =>
@@ -509,18 +520,19 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'use_padding' => 'yes',
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'new_line' => true,
       'breakpoint' =>
       array (
@@ -566,18 +578,19 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 2,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 2,
-          'clear' => true,
         ),
       ),
       'use_padding' => 'yes',
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -644,6 +657,6 @@ $main->add_element("Uspacer", array (
 
 $regions->add($main);
 
-if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'prefooter.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'prefooter.php');	     	 		 		  		 	 	
+if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'prefooter.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'prefooter.php');
 
 if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer.php');

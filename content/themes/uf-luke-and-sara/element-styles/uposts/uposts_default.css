@@ -19,16 +19,13 @@
     text-transform: capitalize;
 }
 .uposts-object li .gravatar {
-    width: 68px;
-    height: 68px;
-    border: 1px solid #01bc9d;
     display: none;
 }
 .uposts-object li .gravatar, .uposts-object li .gravatar img {
     display: block;
-    border-radius: 100px;
-    -moz-border-radius: 100px;
-    -webkit-border-radius: 100px;
+    border-radius: 100%;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
 }
 .uposts-object li .gravatar img {
     width: 100%;
@@ -48,7 +45,6 @@
     display: block;
     position: relative;
     margin-top: 30px;
-    /*margin-bottom: 115px;*/
     text-align: center;
 }
 .uf-pagination .page-numbers {
@@ -112,4 +108,4 @@
 }
 
 
-/* 133620-1461298997-au */
+/* 133620-1477324819-au */

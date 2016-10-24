@@ -454,7 +454,7 @@ $featured_articles->add_element("Posts", array (
          'use_padding' => 'yes',
          'row' => 56,
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',

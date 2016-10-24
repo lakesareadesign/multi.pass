@@ -59,19 +59,10 @@ $footer_search->add_element("Uwidget", array (
     'element_id' => 'uwidget-object-1419136432354-1665',
     'selected_widget' => 'search-2',
     'anchor' => '',
-    'widget_specific_fields' =>
-    (array)(array(
-       'widget-search--title' =>
-      (array)(array(
-         'label' => 'Title: ',
-         'name' => 'title',
-         'type' => 'text',
-         'value' => '',
-      )),
-    )),
+    'widget_specific_fields' => false,
     'title' => '',
     'row' => 9,
-    'theme_style' => '_default',
+    'theme_style' => '',
     'breakpoint' =>
     (array)(array(
        'tablet' =>
@@ -79,28 +70,34 @@ $footer_search->add_element("Uwidget", array (
          'row' => 15,
          'top_padding_use' => true,
          'top_padding_num' => 35,
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'lock_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
       )),
     )),
     'current_widget' => 'search-2',
-    'current_widget_specific_settings' =>
-    (array)(array(
-       'widget-search--title' =>
-      (array)(array(
-         'label' => 'Title: ',
-         'name' => 'title',
-         'type' => 'text',
-         'value' => '',
-      )),
-    )),
+    'current_widget_specific_settings' => false,
     'padding_slider' => '15',
     'top_padding_num' => 30,
     'bottom_padding_num' => '15',
     'top_padding_use' => true,
     'use_padding' => 'yes',
-    'lock_padding' => 0,
+    'lock_padding' => '',
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'usingNewAppearance' => true,
+    'breakpoint_presets' =>
+    (array)(array(
+       'desktop' =>
+      (array)(array(
+         'preset' => 'default',
+      )),
+    )),
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -108,6 +105,7 @@ $footer_search->add_element("Uwidget", array (
   'hide' => 0,
   'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1419136561911-1320',
+  'new_line' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -115,14 +113,18 @@ $footer_search->add_element("Uwidget", array (
       'edited' => true,
       'col' => 12,
       'clear' => true,
-      'order' => 0,
+      'order' => 1,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
       'clear' => true,
-      'order' => 0,
+      'order' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -146,45 +148,8 @@ $footer_search->add_element("Uwidget", array (
   ),
 ));
 
-$footer_search->add_element("Uspacer", array (
-  'columns' => '5',
-  'margin_left' => '0',
-  'margin_right' => '0',
-  'margin_top' => '0',
-  'margin_bottom' => '0',
-  'class' => 'module-1453894131-94336 upfront-module-spacer',
-  'id' => 'module-1453894131-94336',
-  'options' =>
-  array (
-    'type' => 'UspacerModel',
-    'view_class' => 'UspacerView',
-    'class' => 'c24',
-    'has_settings' => 0,
-    'id_slug' => 'uspacer',
-    'element_id' => 'spacer-object-1453894131-1849',
-    'preset' => 'default',
-  ),
-  'row' => 6,
-  'sticky' => false,
-  'default_hide' => 1,
-  'hide' => 0,
-  'toggle_hide' => 0,
-  'wrapper_id' => 'wrapper-1453894131-63699',
-  'wrapper_breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'col' => 5,
-    ),
-    'mobile' =>
-    array (
-      'col' => 5,
-    ),
-  ),
-));
-
 $footer_search->add_element("PlainTxt", array (
-  'columns' => '5',
+  'columns' => '8',
   'margin_left' => '0',
   'margin_right' => '0',
   'margin_top' => '0',
@@ -214,11 +179,14 @@ $footer_search->add_element("PlainTxt", array (
          'row' => 22,
          'top_padding_use' => true,
          'top_padding_num' => 30,
+         'use_padding' => 'yes',
       )),
        'tablet' =>
       (array)(array(
          'row' => 10,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'padding_slider' => '15',
     'top_padding_num' => 40,
@@ -238,6 +206,7 @@ $footer_search->add_element("PlainTxt", array (
          'preset' => 'footer-text',
       )),
     )),
+    'current_preset' => 'footer-text',
   ),
   'row' => 6,
   'sticky' => false,
@@ -259,7 +228,11 @@ $footer_search->add_element("PlainTxt", array (
       'edited' => true,
       'col' => 7,
       'clear' => true,
-      'order' => 1,
+      'order' => 2,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -285,172 +258,112 @@ $footer_search->add_element("PlainTxt", array (
   ),
 ));
 
-$footer_search->add_element("Code", array (
-  'columns' => '6',
+$footer_search->add_element("PlainTxt", array (
+  'columns' => '8',
   'margin_left' => '0',
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1419136216949-1468',
-  'id' => 'module-1419136216949-1468',
+  'class' => 'module-1467221690262-1474',
+  'id' => 'module-1467221690262-1474',
   'options' =>
   array (
-    'type' => 'CodeModel',
-    'view_class' => 'CodeView',
-    'class' => 'c24 upfront-code_element-object',
-    'has_settings' => 0,
-    'id_slug' => 'upfront-code_element',
-    'fallbacks' =>
+    'view_class' => 'PlainTxtView',
+    'id_slug' => 'plain_text',
+    'content' => '<p class="" style="text-align: right;"><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"></span><span class="upfront_theme_color_2" data-verified="redactor" data-redactor-tag="span" data-redactor-class="upfront_theme_color_2"><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"><a target="_blank" data-upfront-link-type="external" href="http://twitter.com">T</a></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space">​&nbsp;</span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space"></span><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"><a href="http://facebook.com" target="_blank" data-upfront-link-type="external">E</a></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space">​&nbsp;</span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space"></span><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"><a href="http://pinterest.com" target="_blank" data-upfront-link-type="external">P</a></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space">​&nbsp;</span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space"></span><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"><a href="http://youtube.com" target="_blank" data-upfront-link-type="external">Y</a></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space">​&nbsp;</span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space"></span><span class="uf_font_icon" style="font-size: 27px; top: 0px;" rel="font-size: 27px; top: 0px;" data-verified="redactor" data-redactor-tag="span" data-redactor-style="font-size: 27px; top: 0px;"><a href="http://instagram.com" target="_blank" data-upfront-link-type="external">I</a></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space">​</span></span><span class="redactor-invisible-space" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-invisible-space"></span></p>',
+    'type' => 'PlainTxtModel',
+    'element_id' => 'object-1467221690262-1087',
+    'class' => 'c24 upfront-plain_txt',
+    'has_settings' => 1,
+    'preset' => 'social-icons',
+    'padding_slider' => '15',
+    'top_padding_num' => '40',
+    'bottom_padding_num' => '20',
+    'use_padding' => 'yes',
+    'usingNewAppearance' => true,
+    'is_edited' => true,
+    'lock_padding' => '',
+    'top_padding_use' => 'yes',
+    'top_padding_slider' => '40',
+    'bottom_padding_use' => 'yes',
+    'bottom_padding_slider' => '20',
+    'row' => 9,
+    'padding_number' => '15',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'anchor' => '',
+    'breakpoint_presets' =>
     (array)(array(
-       'markup' => '<b>Enter your markup here...</b>',
-       'style' => '/* Your styles here */',
-       'script' => '/* Your code here */',
-    )),
-    'element_id' => 'object-1419136216950-1875',
-    'code_selection_type' => 'Create',
-    'markup' => '<ul class="share-wrapper">
-    <li class="share-item item-twitter">
-        <a href="http://twitter.com" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="-223 1635 35 35" class="icon icon-static icon-twitter-stroke">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-twitter-stroke"></use>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="-223 1475 35 35" class="icon icon-hover icon-twitter-color">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-twitter-color"></use>
-            </svg>
-        </a>
-    </li>
-    <li class="share-item item-facebook" target="_blank">
-        <a href="http://facebook.com">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="-63 995 35 35" class="icon icon-static icon-facebook-stroke">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-facebook-stroke"></use>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="-63 835 35 35" class="icon icon-hover icon-facebook-color">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-facebook-color"></use>
-            </svg>
-        </a>
-    </li>
-    <li class="share-item item-pinterest">
-        <a href="http://pinterest.com" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="-63 1155 35 35" class="icon icon-static icon-pinterest-stroke">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-pinterest-stroke"></use>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="-223 1155 35 35" class="icon icon-hover icon-pinterest-color">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-pinterest-color"></use>
-            </svg>
-        </a>
-    </li>
-    <li class="share-item item-youtube">
-        <a href="http://youtube.com" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="-63 1475 35 35" class="icon icon-static icon-youtube-stroke">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-youtube-stroke"></use>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="-63 1315 35 35" class="icon icon-hover icon-youtube-color">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-youtube-color"></use>
-            </svg>
-        </a>
-    </li>
-    <li class="share-item item-instagram">
-        <a href="http://instagram.com" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="97 835 35 35" class="icon icon-static icon-instagram-stroke">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-instagram-stroke"></use>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="-63 1635 35 35" class="icon icon-hover icon-instagram-color">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{upfront:style_url}}/ui/sprites.svg#icon-instagram-color"></use>
-            </svg>
-        </a>
-    </li>
-</ul>',
-    'style' => '/* Your styles here */
-ul.share-wrapper {
-    height: 35px;
-    list-style-type: none;
-    margin: 0;
-    text-align: center;
-}
-
-li.share-item {
-    display: inline-block;
-    margin: 0 5px;
-    height: 35px;
-}
-
-li.share-item .icon-hover {
-    display: none;
-}
-
-li.share-item:hover .icon-static {
-    display: none;
-}
-
-li.share-item:hover .icon-hover {
-    display: block;
-}
-
-li.share-item a {
-    display: block;
-    width: 100%;
-    height: 100%;
-}',
-    'script' => '/* Your code here */',
-    'row' => 16,
-    'breakpoint' =>
-    (array)(array(
-       'mobile' =>
+       'desktop' =>
       (array)(array(
-         'row' => 18,
+         'preset' => 'social-icons',
       )),
        'tablet' =>
       (array)(array(
-         'row' => 17,
+         'preset' => 'social-icons-mobile',
       )),
     )),
-    'padding_slider' => '15',
-    'top_padding_num' => 30,
-    'bottom_padding_num' => '15',
-    'preset' => 'default',
-    'top_padding_use' => true,
-    'use_padding' => 'yes',
+    'breakpoint' =>
+    (array)(array(
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+    )),
+    'theme_style' => '',
+    'current_preset' => 'social-icons',
   ),
   'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
   'toggle_hide' => 1,
-  'wrapper_id' => 'wrapper-1419136223309-1214',
+  'wrapper_id' => 'wrapper-1467221696258-1910',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
-      'edited' => true,
+      'edited' => false,
       'col' => 12,
+      'order' => 3,
       'clear' => true,
-      'order' => 1,
     ),
     'mobile' =>
     array (
-      'edited' => true,
+      'edited' => false,
       'col' => 7,
+      'order' => 3,
       'clear' => true,
-      'order' => 2,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
   array (
     'tablet' =>
     array (
-      'edited' => true,
+      'edited' => false,
       'left' => 0,
       'col' => 12,
-      'top' => 0,
-      'row' => 17,
+      'order' => 0,
     ),
     'mobile' =>
     array (
-      'edited' => true,
+      'edited' => false,
       'left' => 0,
       'col' => 7,
-      'row' => 18,
-      'top' => 0,
+      'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

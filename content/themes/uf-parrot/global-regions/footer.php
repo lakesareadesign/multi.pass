@@ -111,6 +111,8 @@ $footer_column->add_group(array (
   'anchor' => '',
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '10',
+  'left_padding_num' => '10',
+  'right_padding_num' => '10',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -267,13 +269,13 @@ $footer_column->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 1720,
+         'menu-item-db-id' => 16,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Home',
          'menu-item-url' => '{{upfront:home_url}}',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1720',
+         'menu-item-object-id' => '16',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -285,13 +287,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 1721,
+         'menu-item-db-id' => 17,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Features',
          'menu-item-url' => '{{upfront:home_url}}/features/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1721',
+         'menu-item-object-id' => '17',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -303,13 +305,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 1722,
+         'menu-item-db-id' => 18,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Download',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1722',
+         'menu-item-object-id' => '18',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -321,13 +323,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 1723,
+         'menu-item-db-id' => 19,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1723',
+         'menu-item-object-id' => '19',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -474,6 +476,9 @@ $footer_column->add_group(array (
   'top_padding_slider' => '10',
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '10',
+  'left_padding_num' => '10',
+  'right_padding_num' => '10',
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -630,13 +635,13 @@ $footer_column->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 1724,
+         'menu-item-db-id' => 20,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'BlackBerry',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1724',
+         'menu-item-object-id' => '20',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -648,13 +653,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 1725,
+         'menu-item-db-id' => 21,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'iPhone',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1725',
+         'menu-item-object-id' => '21',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -666,13 +671,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 1726,
+         'menu-item-db-id' => 22,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Android',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1726',
+         'menu-item-object-id' => '22',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -911,6 +916,9 @@ $footer->add_group(array (
   'version' => '1.0.0',
   'bottom_padding_num' => '10',
   'row' => 16,
+  'left_padding_num' => '10',
+  'right_padding_num' => '10',
+  'lock_padding' => 0,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -1008,7 +1016,8 @@ $footer->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 3,
-      'order' => 0,
+      'order' => 1,
+      'clear' => true,
     ),
     'mobile' =>
     array (
@@ -1016,6 +1025,10 @@ $footer->add_element("PlainTxt", array (
       'col' => 3,
       'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1037,6 +1050,10 @@ $footer->add_element("PlainTxt", array (
       'order' => 0,
       'top' => 0,
       'row' => 9,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1444613391306-1229',
@@ -1061,13 +1078,13 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 1727,
+         'menu-item-db-id' => 23,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1727',
+         'menu-item-object-id' => '23',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -1156,7 +1173,8 @@ $footer->add_element("Unewnavigation", array (
     array (
       'edited' => false,
       'col' => 3,
-      'order' => 0,
+      'order' => 2,
+      'clear' => true,
     ),
     'mobile' =>
     array (
@@ -1164,6 +1182,10 @@ $footer->add_element("Unewnavigation", array (
       'col' => 3,
       'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1186,6 +1208,10 @@ $footer->add_element("Unewnavigation", array (
       'order' => 0,
       'top' => 0,
       'row' => 28,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1444613391306-1229',
@@ -1265,6 +1291,9 @@ $footer->add_group(array (
   'version' => '1.0.0',
   'bottom_padding_num' => '10',
   'row' => 26,
+  'left_padding_num' => '10',
+  'right_padding_num' => '10',
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1421,13 +1450,13 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 1728,
+         'menu-item-db-id' => 24,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact Us',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1728',
+         'menu-item-object-id' => '24',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -1439,13 +1468,13 @@ $footer->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 1729,
+         'menu-item-db-id' => 25,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Facebook',
          'menu-item-url' => 'http://facebook.com/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1729',
+         'menu-item-object-id' => '25',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -1457,13 +1486,13 @@ $footer->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 1730,
+         'menu-item-db-id' => 26,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Twitter',
          'menu-item-url' => 'http://twitter.com',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1730',
+         'menu-item-object-id' => '26',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -2076,6 +2105,6 @@ $footer_column1->add_element("Uspacer", array (
   ),
 ));
 
-$regions->add($footer_column1);	  	     	  		     	 
+$regions->add($footer_column1);
 
 /* END_REGION_OUTPUT */

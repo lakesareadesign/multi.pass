@@ -35,7 +35,7 @@ $archive_header = upfront_create_region(
   'background_position_y' => '50',
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/archive/archive-header.jpg',
-  'background_image_ratio' => 0.34999999999999997779553950749686919152736663818359375,
+  'background_image_ratio' => 0.34999999999999998,
   'version' => '1.0.0',
 )
 			);
@@ -46,7 +46,7 @@ $archive_header->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1449776145-67402 upfront-module-spacer',
+  'class' => 'module-1449776145-67402',
   'id' => 'module-1449776145-67402',
   'options' =>
   array (
@@ -104,7 +104,7 @@ $archive_header->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -113,8 +113,8 @@ $archive_header->add_element("PlainTxt", array (
     'breakpoint' =>
     (array)(array(
        'tablet' =>
-      (array)(array(
-      )),
+      array (
+      ),
        'current_property' => 'use_padding',
        'mobile' =>
       (array)(array(
@@ -190,7 +190,7 @@ $archive_header->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1449776145-77349 upfront-module-spacer',
+  'class' => 'module-1449776145-77349',
   'id' => 'module-1449776145-77349',
   'options' =>
   array (
@@ -283,7 +283,7 @@ $content->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1453872698266-1344 upfront-module-spacer',
+  'class' => 'module-1453872698266-1344',
   'id' => 'module-1453872698266-1344',
   'options' =>
   array (
@@ -340,6 +340,9 @@ $content->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'medium',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'date_posted',
@@ -377,6 +380,7 @@ $content->add_element("Posts", array (
     'content_length' => '16',
     'resize_featured' => '1',
     'gravatar_size' => 200,
+    'preset' => 'archive-posts',
     'post-part-date_posted' => '<div class="uposts-part date_posted"><span class="datetime">{{datetime}}</span></div>',
     'post-part-author' => '<div class="uposts-part author">
 	By <a href="{{url}}">{{name}}</a></div>',
@@ -412,13 +416,12 @@ $content->add_element("Posts", array (
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'usingNewAppearance' => true,
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
-    'preset' => 'archive-posts',
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -487,7 +490,7 @@ $content->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1453872702505-1080 upfront-module-spacer',
+  'class' => 'module-1453872702505-1080',
   'id' => 'module-1453872702505-1080',
   'options' =>
   array (
@@ -582,6 +585,7 @@ $content_right->add_element("Uwidget", array (
     'view_class' => 'UwidgetView',
     'class' => 'c24 upfront-widget',
     'has_settings' => 1,
+    'preset' => 'default',
     'widget' => 'search-2',
     'usingNewAppearance' => true,
     'element_id' => 'uwidget-object-1419735025531-1952',
@@ -615,7 +619,7 @@ $content_right->add_element("Uwidget", array (
     )),
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
-    'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -668,7 +672,7 @@ $content_right->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1449776145-56836 upfront-module-spacer',
+  'class' => 'module-1449776145-56836',
   'id' => 'module-1449776145-56836',
   'options' =>
   array (
@@ -715,6 +719,7 @@ $content_right->add_element("Uwidget", array (
     'view_class' => 'UwidgetView',
     'class' => 'c24 upfront-widget',
     'has_settings' => 1,
+    'preset' => 'default',
     'widget' => 'WP_Widget_Archives',
     'usingNewAppearance' => true,
     'element_id' => 'uwidget-object-1419736278040-1160',
@@ -780,7 +785,7 @@ $content_right->add_element("Uwidget", array (
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
-    'preset' => 'default',
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -833,7 +838,7 @@ $content_right->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1449776145-68254 upfront-module-spacer',
+  'class' => 'module-1449776145-68254',
   'id' => 'module-1449776145-68254',
   'options' =>
   array (
@@ -869,4 +874,4 @@ $regions->add($content_right);
 
 if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'get-quote.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'get-quote.php');
 
-if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer-search.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer-search.php');	     	 			  	 	 	 	 
+if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer-search.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer-search.php');

@@ -182,6 +182,7 @@ $content->add_element("PlainTxt", array (
          'preset' => 'u-section-title-m',
       )),
     )),
+    'current_preset' => 'u-section-title-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -203,6 +204,10 @@ $content->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -221,6 +226,10 @@ $content->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -327,6 +336,9 @@ $content->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'medium',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'featured_image',
@@ -362,7 +374,9 @@ $content->add_element("Posts", array (
     'tags_limit' => 3,
     'comment_count_hide' => 0,
     'content_length' => '15',
-    'resize_featured' => '1',
+    'resize_featured' =>
+    array (
+    ),
     'gravatar_size' => 200,
     'preset' => 'list',
     'post-part-date_posted' => '<div class="post-meta">
@@ -372,7 +386,8 @@ $content->add_element("Posts", array (
     'post-part-author' => '        <div class="uposts-part author">
             Author: <a href="{{url}}">{{name}}</a>
         </div>
-    </div><!-- end post-meta -->',
+    </div><!-- end post-meta -->
+</div><!-- end post-content-wrapper -->',
     'post-part-gravatar' => '<div class="uposts-part gravatar">
 	{{gravatar}}
 </div>',
@@ -382,9 +397,10 @@ $content->add_element("Posts", array (
     'post-part-featured_image' => '<div class="uposts-part thumbnail" data-resize="{{resize}}">
     <a href="{{permalink}}">{{thumbnail}}</a>
 </div>',
-    'post-part-title' => '<div class="uposts-part title">
-    <h3><a href="{{permalink}}" title="{{title}}">{{title}}</a></h3>
-</div>',
+    'post-part-title' => '<div class="post-content-wrapper">
+    <div class="uposts-part title">
+        <h3><a href="{{permalink}}" title="{{title}}">{{title}}</a></h3>
+    </div>',
     'post-part-content' => '<div class="uposts-part content">
 	{{content}}
 </div>',
@@ -441,6 +457,7 @@ $content->add_element("Posts", array (
          'preset' => 'list-mobile',
       )),
     )),
+    'current_preset' => 'list',
   ),
   'row' => 6,
   'sticky' => false,
@@ -464,6 +481,10 @@ $content->add_element("Posts", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -482,6 +503,10 @@ $content->add_element("Posts", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

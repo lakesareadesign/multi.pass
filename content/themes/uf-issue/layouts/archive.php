@@ -126,6 +126,9 @@ $breadcrumbs->add_element("PlainTxt", array (
          'use_padding' => 'yes',
       )),
     )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => '',
   ),
   'row' => 6,
   'sticky' => false,
@@ -782,7 +785,7 @@ $block_title->add_element("Uwidget", array (
       (array)(array(
          'use_padding' => 'yes',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -1117,18 +1120,16 @@ $block_content->add_element("Posts", array (
        'tablet' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '0',
          'top_padding_num' => '0',
          'row' => 168,
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
          'row' => 266,
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '0',
          'top_padding_num' => '0',

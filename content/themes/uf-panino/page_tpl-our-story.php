@@ -7,7 +7,7 @@
  */
 
 the_post();
-$layout = Upfront_Output::get_layout(array('specificity' => 'single-page-our-story'));	   	 	  	    			    
+$layout = Upfront_Output::get_layout(array('specificity' => 'single-page-our-story'));
 
 get_header();
 echo $layout->apply_layout();

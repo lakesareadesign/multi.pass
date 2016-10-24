@@ -121,23 +121,40 @@ $s_retreats->add_element("Uspacer", array (
 
 $s_retreats->add_element("Uspacer", array (
   'columns' => '13',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1454039946233-1315 upfront-module-spacer',
   'id' => 'module-1454039946233-1315',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1454039946232-1162',
     'class' => 'c24',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1454039946232-1162',
     'preset' => 'default',
   ),
-  'wrapper_id' => 'wrapper-1454039946233-1755',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1454039946233-1755',
   'new_line' => true,
+  'wrapper_breakpoint' =>
+  array (
+    'tablet' =>
+    array (
+      'col' => 12,
+    ),
+    'mobile' =>
+    array (
+      'col' => 7,
+    ),
+  ),
 ));
 
 $s_retreats->add_element("PlainTxt", array (
@@ -230,12 +247,12 @@ $s_retreats->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -455,12 +472,12 @@ $s_retreats->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>

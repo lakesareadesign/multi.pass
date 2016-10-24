@@ -135,6 +135,7 @@ $main->add_element("PlainTxt", array (
          'preset' => 'u-section-title-m',
       )),
     )),
+    'current_preset' => 'u-section-title-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -148,15 +149,19 @@ $main->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 3,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -176,6 +181,10 @@ $main->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -309,6 +318,7 @@ $main->add_element("Uwidget", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -322,15 +332,19 @@ $main->add_element("Uwidget", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -351,6 +365,10 @@ $main->add_element("Uwidget", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -457,6 +475,9 @@ $main->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'medium',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'featured_image',
@@ -566,6 +587,7 @@ $main->add_element("Posts", array (
     )),
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
+    'current_preset' => 'grid',
   ),
   'row' => 6,
   'sticky' => false,
@@ -579,15 +601,19 @@ $main->add_element("Posts", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -609,6 +635,10 @@ $main->add_element("Posts", array (
       'order' => 0,
       'row' => 177,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

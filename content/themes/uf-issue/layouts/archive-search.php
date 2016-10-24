@@ -669,6 +669,9 @@ $block_title->add_element("Uimage", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -802,7 +805,7 @@ $block_title->add_element("Uwidget", array (
       (array)(array(
          'use_padding' => 'yes',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -1147,7 +1150,7 @@ $block_content->add_element("Posts", array (
     (array)(array(
        'tablet' =>
       (array)(array(
-         'preset' => 'default',
+         'preset' => 'posts-default-tablet',
       )),
        'desktop' =>
       (array)(array(

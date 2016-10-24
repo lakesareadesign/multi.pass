@@ -624,6 +624,8 @@ $main->add_element("PlainTxt", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => 10,
+    'right_padding_num' => 10,
   ),
   'row' => 6,
   'sticky' => false,
@@ -783,6 +785,9 @@ $main->add_group(array (
   'background_image_ratio' => 0.39000000000000001332267629550187848508358001708984375,
   'background_repeat' => 'no-repeat',
   'background_position' => '-105% 50%',
+  'left_padding_num' => 10,
+  'right_padding_num' => 10,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -838,7 +843,7 @@ $main->add_group(array (
     ),
     'current_property' =>
     array (
-      0 => 'bottom_padding_num',
+      0 => 'col',
     ),
   ),
 ));
@@ -1967,6 +1972,8 @@ $main->add_element("PlainTxt", array (
       )),
     )),
     'current_preset' => 'default',
+    'left_padding_num' => 10,
+    'right_padding_num' => 10,
   ),
   'row' => 6,
   'sticky' => false,
