@@ -17,7 +17,7 @@ include_once( get_stylesheet_directory() . '/lib/output.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'Digital Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/digital/' );
-define( 'CHILD_THEME_VERSION', '1.0.3' );
+define( 'CHILD_THEME_VERSION', '1.0.4' );
 
 //* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'digital_scripts_styles' );
@@ -172,7 +172,7 @@ function digital_author_box_gravatar( $size ) {
 add_filter( 'genesis_comment_list_args', 'digital_comments_gravatar' );
 function digital_comments_gravatar( $args ) {
 
-	$args['avatar_size'] = 120;
+	$args['avatar_size'] = 60;
 
 	return $args;
 

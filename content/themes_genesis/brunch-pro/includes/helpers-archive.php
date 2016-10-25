@@ -24,7 +24,13 @@ defined( 'ABSPATH' ) || exit;
  * @return bool True if we're on any page which displays multiple entries.
  */
 function brunch_pro_is_plural() {
-	return is_archive() || is_search() || genesis_is_blog_template();
+	if ( brunch_pro_blog_page_is_grid_enabled() ) {
+		$is_plural = is_archive() || is_search() || genesis_is_blog_template();
+	} else {
+		$is_plural = ( is_archive() || is_search() ) && ! genesis_is_blog_template();
+	}
+
+	return $is_plural;
 }
 
 /**

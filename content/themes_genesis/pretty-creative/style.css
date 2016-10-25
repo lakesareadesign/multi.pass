@@ -1,11 +1,11 @@
 /*
 Theme Name: Pretty Creative
-Theme URI: http://my.studiopress.com/themes/pretty-creative/
+Theme URI: http://PrettyDarnCute.com 
 Description: A feminine WordPress theme designed with creatives in mind.   
 Author: Lindsey Riel  
 Author URI: http://www.prettydarncute.com/  
 Template: genesis  
-Template Version: 2.1.2  
+Template Version: 2.1.3
 Tags: feminine, pink, black, white, gray, creative, clean, organized, recipes, web designer, portfolio, ecommerce, pretty, retina ready, landing page, genesis, portfolio, testimonials, reviews, color customizer, customize
 
 */
@@ -912,16 +912,35 @@ th {
 --------------------------------------------- */
 
 .search-form {
+	border: 1px solid #ddd;
 	overflow: hidden;
+}
+
+.genesis-nav-menu .search-form {
+	border: 0;
 }
 
 .site-header .search-form {
 	margin-top: 12px;
 }
 
-.entry-content .search-form,
+.entry-content .search-form {
+	padding: 4px;
+	width: 50%;
+}
+
 .site-header .search-form {
 	width: 50%;
+}
+
+.search input[type="submit"] {
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	position: absolute;
+	width: 1px;
 }
 
 .genesis-nav-menu .search input[type="submit"],
@@ -1386,6 +1405,22 @@ input:focus:-ms-input-placeholder { color:transparent; } /* oldIE ;) */
 	line-height: 0;
 	text-transform: uppercase;
 	vertical-align: middle;
+}
+
+.search-form input[type="submit"] {
+	background: transparent;
+	clip: inherit;
+	color: #2c2c2c;
+	content: "\f179";
+	font-size: 17px;
+	font-family: "dashicons";
+	height: 32px;
+	outline: none;
+	position: absolute;
+	right: 10px;
+	top: 0px;
+	width: 24px;
+	-webkit-font-smoothing: antialiased;
 }
 
 .genesis-nav-menu .search-form input[type="submit"] {
@@ -1895,9 +1930,9 @@ div.gform_wrapper .gform_footer input[type="submit"] {
 
 .share-after {
 	border-top: 1px solid #ddd;
-	height: 40px ;
+	height: 30px ;
 	line-height: 40px;
-	padding-bottom: 35px;
+	padding-bottom: 0px;
 	padding-top: 25px;
 	text-align: center;
 }
@@ -2131,9 +2166,13 @@ div.easyrecipe div.ERSSavePrint .ERSSaveBtnSpan .ERSSaveBtn {
 	text-transform: uppercase;
 }
 
-.sidebar .widget.enews-widget {
-	background-color: #fff3f2;
-	padding: 40px;
+.widget.enews-widget {
+    background-color: #fff3f2;
+    padding: 40px;
+}
+
+.prettycreative-home .enews-widget {
+	background-color: transparent;
 }
 
 .enews-widget input,
@@ -2427,6 +2466,13 @@ div.easyrecipe div.ERSSavePrint .ERSSaveBtnSpan .ERSSaveBtn {
 
 /* # Content Area
 ---------------------------------------------------------------------------------------------------- */
+
+/* ## Error 404
+--------------------------------------------- */
+
+.error404 .search-form {
+	margin-bottom: 40px;
+}
 
 /* ## Entries
 --------------------------------------------- */

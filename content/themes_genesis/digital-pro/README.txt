@@ -49,3 +49,8 @@ CHANGELOG
 * Current menu item highlight
 * Add rems to genesis-accessibility
 * Change font to Lora
+
+= 1.0.4 =
+* Update avatar sizing
+* Remove deprecated theme tags
+* Fix journal markup output

@@ -5,9 +5,9 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 1.0.2
+	Version: 1.0.4
 
-	Tags: develop, black, red, white, one-column, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
+	Tags: black, red, white, one-column, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
 
 	Template: genesis
 	Template Version: 2.2.3
@@ -475,7 +475,8 @@ button.small,
 input[type="button"].small,
 input[type="reset"].small,
 input[type="submit"].small,
-.button.small {
+.button.small,
+.entry-content .button.small {
 	padding: 8px 16px;
 }
 
@@ -1748,27 +1749,17 @@ p.entry-meta {
 ---------------------------------------------------------------------------------------------------- */
 
 .fadein {
-	-webkit-animation-name: fadeIn;
-	animation-name: fadeIn;
-	-webkit-animation-duration: 1s;
-	animation-duration: 1s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
+	-webkit-animation: fadein 2s forwards;
+       -moz-animation: fadein 2s forwards;
+        -ms-animation: fadein 2s forwards;
+         -o-animation: fadein 2s forwards;
+            animation: fadein 2s forwards;
 }
 
-.hidden {
+.js .ns-hidden {
+	opacity: 0;
 	visibility: hidden;
 	-webkit-animation: none;
-}
-
-@-webkit-keyframes fadeIn {
-	0% { opacity: 0; }
-	100%{ opacity: 1; }
-}
-
-@keyframes fadeIn {
-	0%{ opacity: 0; }
-	100%{ opacity: 1; }
 }
 
 /* Pagination

@@ -18,6 +18,15 @@ Please visit http://www.shaybocks.com/support or http://my.studiopress.com/suppo
 
 === Changelog ===
 
+= 2.1.1 =
+
+Removed Simmer from recommended plugins.
+
+= 2.1.0 =
+
+This release changes the way the archive grid settings work by introducing a checkbox to enable or disable it on the Genesis blog page template.
+It also updates TGMPA to the latest stable version (2.6.1).
+
 = 2.0.1 =
 
 This release fixes a few bugs that found their way in during the 2.0.0 development cycle. The following items have been fixed:

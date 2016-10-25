@@ -33,9 +33,9 @@ function whitespace_theme_setting_defaults() {
 			'posts_nav'                 => 'prev-next',
 			'site_layout'               => 'full-width-content',
 		) );
-		
+
 		if ( function_exists( 'GenesisResponsiveSliderInit' ) ) {
-		
+
 			genesis_update_settings( array(
 				'location_horizontal'             => 'left',
 				'location_vertical'               => 'top',
@@ -51,42 +51,9 @@ function whitespace_theme_setting_defaults() {
 				'slideshow_title_show'            => 1,
 				'slideshow_width'                 => '1200',
 			), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
-		
+
 		}
-	
-	} else {
-	
-		_genesis_update_settings( array(
-			'blog_cat_num'              => 6,
-			'content_archive'           => 'full',
-			'content_archive_limit'     => 150,
-			'content_archive_thumbnail' => 0,
-			'image_alignment'           => '',
-			'image_size'                => 'entry-image',
-			'posts_nav'                 => 'prev-next',
-			'site_layout'               => 'full-width-content',
-		) );
-		
-		if ( function_exists( 'GenesisResponsiveSliderInit' ) ) {
-				
-			_genesis_update_settings( array(
-				'location_horizontal'             => 'left',
-				'location_vertical'               => 'top',
-				'posts_num'                       => '5',
-				'slideshow_arrows'                => 1,
-				'slideshow_excerpt_content_limit' => '100',
-				'slideshow_excerpt_content'       => 'full',
-				'slideshow_excerpt_width'         => '40',
-				'slideshow_excerpt_show'          => 1,
-				'slideshow_height'                => '400',
-				'slideshow_more_text'             => __( 'Continue Reading&hellip;', 'ranmaker-default' ),
-				'slideshow_pager'                 => 0,
-				'slideshow_title_show'            => 1,
-				'slideshow_width'                 => '1200',
-			), GENESIS_RESPONSIVE_SLIDER_SETTINGS_FIELD );
-		
-		}
-	
+
 	}
 
 	update_option( 'posts_per_page', 6 );
@@ -94,8 +61,8 @@ function whitespace_theme_setting_defaults() {
 }
 
 //* Set Genesis Responsive Slider defaults
-add_filter( 'genesis_responsive_slider_settings_defaults', 'rainmaker_responsive_slider_defaults' );
-function rainmaker_responsive_slider_defaults( $defaults ) {
+add_filter( 'genesis_responsive_slider_settings_defaults', 'whitespace_responsive_slider_defaults' );
+function whitespace_responsive_slider_defaults( $defaults ) {
 
 	$args = array(
 		'location_horizontal'             => 'left',

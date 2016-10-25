@@ -17,7 +17,7 @@ include_once( get_stylesheet_directory() . '/lib/output.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'Aspire Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/aspire/' );
-define( 'CHILD_THEME_VERSION', '1.1.2' );
+define( 'CHILD_THEME_VERSION', '1.1.3' );
 
 //* Enqueue Scripts
 add_action( 'wp_enqueue_scripts', 'aspire_enqueue_scripts_styles' );
@@ -71,6 +71,9 @@ if (!function_exists('loop_columns')) {
 		return 4; // 4 products per row
 	}
 }
+
+// WooCommerce | Display 30 products per page.
+add_filter( 'loop_shop_per_page', create_function( '$cols', 'return 30;' ), 20 );
 
 //* Add viewport meta tag for mobile browsers
 add_theme_support( 'genesis-responsive-viewport' );

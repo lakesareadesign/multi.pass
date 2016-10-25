@@ -36,4 +36,11 @@ CHANGELOG
 = 1.0.2 =
 * Adjust mobile menu button ID
 * Improve skip links
+
+= 1.0.3 =
+* Add rems to genesis-accessibility
 * Adjust paginated mobile layout
+* Update After Entry fadein
+
+= 1.0.4 =
+* Update color customizer text

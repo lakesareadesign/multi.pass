@@ -23,9 +23,16 @@ LOCALIZATION
 The Milan Pro theme is translation ready.  More information about the translation process can be found here:http://codex.wordpress.org/Translating_WordPress/
 
 SUPPORT
+This is a third-party theme by Themetry.
+
 Please visit https://themetry.com/support/ for theme support. Find the setup guide at https://themetry.com/docs/milan-setup/
 
 CHANGELOG
 
-= 1.0 =
+= 1.0.1 =
+* Add styles for pingbacks and trackbacks
+* Add styles for eNews widgets (and any other form widget)
+* Fix Masonry bug on archive pages
+
+= 1.0.0 =
 * Initial release

@@ -4,7 +4,7 @@
  * Description: This is the Brunch Pro child theme created for the Genesis Framework.
  * Author:      Shay Bocks
  * Author URI:  http://shaybocks.com/
- * Version:     2.0.1
+ * Version:     2.1.1
  *
  * Tags: black, white, one-column, two-columns, three-columns, fixed-width, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, customizer
  *
@@ -1202,13 +1202,16 @@ Plugins
 }
 
 .enews-widget input {
-	border: 1px solid #000;
-	clear: none;
-	display: inline;
-	float: left;
-	margin-bottom: 0;
-	padding: 14px 20px;
-	width: 61.8%;
+    border: 1px solid #000;
+    clear: none;
+    display: inline;
+    float: left;
+    margin-bottom: 10px;
+    padding: 14px 20px;
+}
+
+.enews-widget input[type="email"] {
+    width: 61.8%;
 }
 
 .enews-widget input[type="submit"] {
@@ -2480,7 +2483,7 @@ Media Queries
 	.genesis-nav-menu .sub-menu .sub-menu .sub-menu a {
 		padding-left: 40px;
 	}
-	
+
 	.site-header .widget-area, .site-header .widget-area .genesis-nav-menu {
 	 width: 100%;
 	}

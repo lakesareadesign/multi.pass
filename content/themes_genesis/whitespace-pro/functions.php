@@ -14,13 +14,13 @@ require_once( get_stylesheet_directory() . '/lib/customize.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'Whitespace Pro Theme' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/whitespace/' );
-define( 'CHILD_THEME_VERSION', '1.0.1' );
+define( 'CHILD_THEME_VERSION', '1.0.3' );
 
 //* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'whitespace_scripts_styles' );
 function whitespace_scripts_styles() {
 
-	wp_enqueue_script( 'mobile-first-responsive-menu', get_bloginfo( 'stylesheet_directory' ) . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
+	wp_enqueue_script( 'mobile-first-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
 
 	wp_enqueue_style( 'dashicons' );
 	wp_enqueue_style( 'google-fonts', '//fonts.googleapis.com/css?family=Lato:400,700|Neuton:400|Playfair+Display:400italic', array(), CHILD_THEME_VERSION );
@@ -51,6 +51,9 @@ add_image_size( 'entry-image', 720, 300, TRUE );
 //* Unregister the header right widget area
 unregister_sidebar( 'header-right' );
 
+//* Rename menus
+add_theme_support( 'genesis-menus', array( 'primary' => __( 'Header Menu', 'whitespace' ), 'secondary' => __( 'After Header Menu', 'whitespace' ) ) );
+
 //* Reposition the primary navigation menu
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
 add_action( 'genesis_header', 'genesis_do_nav', 12 );
@@ -58,6 +61,14 @@ add_action( 'genesis_header', 'genesis_do_nav', 12 );
 //* Remove output of primary navigation right extras
 remove_filter( 'genesis_nav_items', 'genesis_nav_right', 10, 2 );
 remove_filter( 'wp_nav_menu_items', 'genesis_nav_right', 10, 2 );
+
+//* Remove navigation meta box
+add_action( 'genesis_theme_settings_metaboxes', 'whitespace_remove_genesis_metaboxes' );
+function whitespace_remove_genesis_metaboxes( $_genesis_theme_settings_pagehook ) {
+
+    remove_meta_box( 'genesis-theme-settings-nav', $_genesis_theme_settings_pagehook, 'main' );
+
+}
 
 //* Unregister layout settings
 genesis_unregister_layout( 'content-sidebar' );
@@ -75,6 +86,8 @@ add_action( 'customize_register', 'whitespace_customize_register', 16 );
 function whitespace_customize_register( $wp_customize ) {
 
 	$wp_customize->remove_control( 'genesis_posts_nav' );
+	
+	$wp_customize->remove_section( 'genesis_layout' );
 	
 }
 
@@ -137,15 +150,6 @@ function whitespace_read_more_link() {
 
 	return '';
 	
-}
-
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'whitespace_remove_comment_form_allowed_tags' );
-function whitespace_remove_comment_form_allowed_tags( $defaults ) {
-	
-	$defaults['comment_notes_after'] = '';
-	return $defaults;
-
 }
 
 //* Modify the size of the Gravatar in the author box

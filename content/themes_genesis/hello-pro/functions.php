@@ -1,4 +1,5 @@
 <?php
+
 //* Start the engine
 require_once( get_template_directory() . '/lib/init.php' );
 
@@ -11,7 +12,7 @@ load_child_theme_textdomain( 'hello_pro', apply_filters( 'child_theme_textdomain
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', __( 'Hello Pro', 'hello_pro' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/hello' );
-define( 'CHILD_THEME_VERSION', '1.2.0' );
+define( 'CHILD_THEME_VERSION', '1.5.1' );
 
 //* Add HTML5 markup structure
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
@@ -19,19 +20,21 @@ add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list'
 //* Add viewport meta tag for mobile browsers
 add_theme_support( 'genesis-responsive-viewport' );
 
-//* Enqueue Scripts
+//* Enqueue Styles and Scripts
 add_action( 'wp_enqueue_scripts', 'hello_pro_load_scripts' );
 function hello_pro_load_scripts() {
 
-	wp_enqueue_script( 'hello-pro-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
-        
-        if ( is_front_page() ){
-            wp_enqueue_script( 'theme-custom-scripts', get_stylesheet_directory_uri() . '/js/custom-scripts.js', array('jquery'), '1.0.0' );
-        }
-	
 	wp_enqueue_style( 'dashicons' );
 
 	wp_enqueue_style( 'google-font', '//fonts.googleapis.com/css?family=Comfortaa:400,700|Lato:400,300,300italic,400italic,700,700italic', array(), CHILD_THEME_VERSION );
+
+	wp_enqueue_script( 'hello-pro-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0', true );
+
+	wp_enqueue_script( 'hello-pro-debounce', get_stylesheet_directory_uri() . '/js/debounce.js', array( 'jquery' ), '1.0.0', true );
+
+	if ( is_front_page() ) {
+		wp_enqueue_script( 'theme-custom-scripts', get_stylesheet_directory_uri() . '/js/custom-scripts.js', array( 'hello-pro-debounce' ), '1.0.0', true );
+	}
 
 }
 
@@ -39,15 +42,14 @@ function hello_pro_load_scripts() {
 include_once( get_stylesheet_directory() . '/demo-functions.php' );
 
 //* Theme Image Sizes
-add_image_size( 'featured', 300, 100, TRUE );
-add_image_size( 'portfolio', 300, 200, TRUE );
-add_image_size( 'full', 1140, 250, TRUE );
+add_image_size( 'featured', 300, 100, true );
+add_image_size( 'portfolio', 300, 200, true );
 
 //* Add support for additional color style options
 add_theme_support( 'genesis-style-selector', array(
-    'hello-pro-green' => __( 'Hello Green', 'hello_pro' ),
-    'hello-pro-orange'  => __( 'Hello Orange', 'hello_pro' ),
-    'hello-pro-purple' => __( 'Hello Purple', 'hello_pro' ),
+	'hello-pro-green' => __( 'Hello Green', 'hello_pro' ),
+	'hello-pro-orange'  => __( 'Hello Orange', 'hello_pro' ),
+	'hello-pro-purple' => __( 'Hello Purple', 'hello_pro' ),
 ) );
 
 //* Unregister layout settings
@@ -62,15 +64,17 @@ unregister_sidebar( 'sidebar-alt' );
 remove_action( 'genesis_entry_header', 'genesis_post_info', 12 );
 add_action( 'genesis_entry_header', 'genesis_post_info', 5 );
 
-//* Add CSS class if admin bar is visible 
+//* Add CSS class if admin bar is visible
 add_action( 'genesis_after_header', 'hello_pro_add_adminclass_js'  );
-function hello_pro_add_adminclass_js(){
-    if ( is_admin_bar_showing() ){
-        echo '<script type="text/javascript">'."\n";
-        echo 'jQuery(document).ready(function($) {'."\n"; 
-        echo '$(".site-header").addClass("admin-loggedin");'."\n";
-        echo '});</script>'."\n";
-    }
+function hello_pro_add_adminclass_js() {
+
+	if ( is_admin_bar_showing() ) {
+		echo '<script type="text/javascript">'."\n";
+		echo 'jQuery(document).ready(function($) {'."\n";
+		echo '$(".site-header").addClass("admin-loggedin");'."\n";
+		echo '});</script>'."\n";
+	}
+
 }
 
 //* Add support for custom header
@@ -85,9 +89,9 @@ add_theme_support( 'custom-header', array(
 add_action( 'wp_enqueue_scripts', 'hello_pro_add_sticky_nav_script' );
 function hello_pro_add_sticky_nav_script() {
 
-    global $wp_registered_sidebars;
-    if ( isset( $wp_registered_sidebars['header-right'] ) ) {
-        wp_enqueue_script( 'sticky-nav-script', get_stylesheet_directory_uri() . '/js/sticky-nav.js', array('jquery'), '1.0.0' );   
+	global $wp_registered_sidebars;
+	if ( isset( $wp_registered_sidebars['header-right'] ) ) {
+		wp_enqueue_script( 'sticky-nav-script', get_stylesheet_directory_uri() . '/js/sticky-nav.js', array('hello-pro-debounce'), '1.0.0', true );
 	}
 
 }
@@ -150,19 +154,19 @@ function hello_pro_portfolio_post_type() {
 
 		)
 	);
-	
+
 }
 
 //* Add Portfolio Type Taxonomy to columns
 add_filter( 'manage_taxonomies_for_portfolio_columns', 'hello_pro_portfolio_columns' );
 function hello_pro_portfolio_columns( $taxonomies ) {
 
-    $taxonomies[] = 'portfolio-type';
-    return $taxonomies;
+	$taxonomies[] = 'portfolio-type';
+	return $taxonomies;
 
 }
 
-//* Change the number of portfolio items 
+//* Change the number of portfolio items
 add_action( 'pre_get_posts', 'hello_pro_portfolio_items' );
 function hello_pro_portfolio_items( $query ) {
 
@@ -177,24 +181,15 @@ add_filter( 'genesis_post_info', 'hello_pro_portfolio_post_info_meta' );
 add_filter( 'genesis_post_meta', 'hello_pro_portfolio_post_info_meta' );
 function hello_pro_portfolio_post_info_meta( $output ) {
 
-     if( 'portfolio' == get_post_type() )
-        return '';
+	 if( 'portfolio' == get_post_type() )
+		return '';
 
-    return $output;
+	return $output;
 
 }
 
 //* Add support for 3-column footer widgets
 add_theme_support( 'genesis-footer-widgets', 3 );
-
-//* Customize footer
-remove_action( 'genesis_footer', 'genesis_do_footer' );
-add_action( 'genesis_footer', 'hello_pro_custom_footer' );
-function hello_pro_custom_footer() {
-	?>
-	<p>Copyright &copy;2016 &middot; <a href="https://thebrandid.com/product/hello-wordpress-theme/">Hello</a>, a <a href="http://www.studiopress.com/">Genesis Framework</a> <a href="http://wordpress.org/">WordPress</a> theme from <a target="_blank" href="https://thebrandid.com">brandiD</a></p>
-	<?php
-}
 
 //* Register widget areas
 genesis_register_sidebar( array(

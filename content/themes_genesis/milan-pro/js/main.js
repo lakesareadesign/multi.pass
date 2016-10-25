@@ -116,9 +116,10 @@ jQuery( document ).ready( function() {
 	/* Masonry for archive pages */
 
 	if ( jQuery( 'body' ).hasClass( 'archive' ) ) {
-		jQuery( '#article-wrap' ).masonry( {
-			// options
-			itemSelector : '.entry'
+		jQuery( '#article-wrap' ).imagesLoaded( function() {
+			jQuery( '#article-wrap' ).masonry({
+				itemSelector: '.entry'
+			});
 		});
 		
 		// When Jetpack Infinite scroll posts have loaded

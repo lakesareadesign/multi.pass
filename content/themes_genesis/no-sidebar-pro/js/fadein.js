@@ -1,18 +1,33 @@
-jQuery(function( $ ){
-	
-	$('.hidden').each(function(){
-		
-		$(this).waypoint( function(direction) {
-	
-			$(this.element).removeClass('hidden');
-		
-		}, {
-		  
-		  offset: '75%',
-		  triggerOnce: true
-		  
-		});
-		
-	});
+jQuery(document).ready(function( $ ) {
+
+	// Add js body class when javascript is enabled
+	$( 'body' ).addClass( 'js' );
+
+	var $animation_elements = $( '.after-entry' );
+	var $window = $( window );
+
+	function check_view() {
+		var window_height = $window.height();
+		var window_top_position = $window.scrollTop();
+		var window_bottom_position = ( window_top_position*.80 + window_height );
+
+	$.each( $animation_elements, function() {
+		var $element = $( this );
+		var element_height = $element.outerHeight();
+		var element_top_position = $element.offset().top;
+		var element_bottom_position = ( element_top_position + element_height );
+
+		//check to see if this current container is within viewport
+		if ( ( element_bottom_position >= window_top_position ) && ( element_top_position <= window_bottom_position ) ) {
+			$element.removeClass( 'ns-hidden' );
+			$element.addClass( 'fadein' );
+		}
+
+	  });
+
+	}
+
+	$window.on( 'scroll resize', check_view );
+	$window.trigger( 'scroll' );
 
 });

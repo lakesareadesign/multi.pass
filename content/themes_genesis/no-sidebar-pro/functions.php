@@ -17,7 +17,7 @@ include_once( get_stylesheet_directory() . '/lib/output.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'No Sidebar Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/no-sidebar/' );
-define( 'CHILD_THEME_VERSION', '1.0.2' );
+define( 'CHILD_THEME_VERSION', '1.0.4' );
 
 //* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'ns_scripts_styles' );
@@ -40,7 +40,7 @@ function ns_scripts_styles() {
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 
 //* Add accessibility support
-add_theme_support( 'genesis-accessibility', array( '404-page', 'drop-down-menu', 'headings', 'search-form', 'skip-links' ) );
+add_theme_support( 'genesis-accessibility', array( '404-page', 'drop-down-menu', 'headings', 'rems', 'search-form', 'skip-links' ) );
 
 //* Add viewport meta tag for mobile browsers
 add_theme_support( 'genesis-responsive-viewport' );

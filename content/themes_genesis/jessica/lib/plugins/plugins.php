@@ -69,8 +69,7 @@ function wsm_register_required_plugins() {
 	$config = array(
 		'domain'       		=> $theme_text_domain,         	// Text domain - likely want to be the same as your theme.
 		'default_path' 		=> '',                         	// Default absolute path to pre-packaged plugins
-		'parent_menu_slug' 	=> 'themes.php', 				// Default parent menu slug
-		'parent_url_slug' 	=> 'themes.php', 				// Default parent URL slug
+		'parent_slug' 		=> 'themes.php', 				// Default parent menu/url slug
 		'menu'         		=> 'install-required-plugins', 	// Menu slug
 		'has_notices'      	=> true,                       	// Show admin notices or not
         'dismissable'  		=> true,                    	// If false, a user cannot dismiss the nag message.

@@ -119,6 +119,7 @@ function whitespace_customizer_register() {
 		'whitespace_accent_color',
 		array(
 			'default' => whitespace_customizer_get_default_accent_color(),
+			'sanitize_callback' => 'sanitize_hex_color',
 		)
 	);
 
@@ -138,6 +139,7 @@ function whitespace_customizer_register() {
 		'whitespace_highlight_color',
 		array(
 			'default' => whitespace_customizer_get_default_highlight_color(),
+			'sanitize_callback' => 'sanitize_hex_color',
 		)
 	);
 

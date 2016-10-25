@@ -38,6 +38,8 @@ function aspire_css() {
 
 	$css .= ( aspire_customizer_get_default_accent_color() !== $color ) ? sprintf( '
 		a,
+		.genesis-nav-menu a:focus,
+		.genesis-nav-menu a:hover,
 		.entry-title a:hover,
 		.image-section a:hover,
 		.image-section .featured-content .entry-title a:hover,
@@ -55,8 +57,9 @@ function aspire_css() {
 		.widget .button,
 		.front-page-2 .image-section,
 		.popular,
-		body.woocommerce span.onsale,
-		body.woocommerce ul.products li.product .onsale {
+		.genesis-nav-menu .sub-menu a:hover,
+		.genesis-nav-menu .sub-menu li.current-menu-item > a,
+		.footer-widgets .enews-widget input[type="submit"] {
 			background-color: %1$s;
 		}
 

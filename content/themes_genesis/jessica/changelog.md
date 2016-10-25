@@ -1,5 +1,18 @@
 # Jessica Changelog
 
+## 1.3.1 - 02 Aug 2016
+* Change CSS for Genesis E-News Widget compatibility  
+* Fix WooCommerce coupon code CSS bug in cart      
+* Update Soliloquy plugin install script                
+
+### Files Modified
+* /style.css   
+* /style-rtl.css   
+* /lib/languages/*  
+* /lib/plugins/plugins.php  
+
+---
+
 ## 1.3.0 - 07 Mar 2016
 * Change Genesis Simple Sidebar related logic to be compatible with Genesis 2.2.7    
 * Update Soliloquy plugin install script                

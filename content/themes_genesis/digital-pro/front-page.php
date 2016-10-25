@@ -53,13 +53,6 @@ function digital_front_page_genesis_meta() {
 
 		//* Add front-page body class
 		add_filter( 'body_class', 'digital_body_class' );
-		function digital_body_class( $classes ) {
-
-			$classes[] = 'front-page';
-
-			return $classes;
-
-		}
 
 		//* Force full width content layout
 		add_filter( 'genesis_site_layout', '__genesis_return_full_width_content' );
@@ -84,15 +77,31 @@ function digital_front_page_genesis_meta() {
 
 			//* Remove the default Genesis loop
 			remove_action( 'genesis_loop', 'genesis_do_loop' );
-
-			//* Remove .site-inner
-			add_filter( 'genesis_markup_site-inner', '__return_null' );
-			add_filter( 'genesis_markup_content-sidebar-wrap_output', '__return_false' );
-			add_filter( 'genesis_markup_content', '__return_null' );
+			
+			//* Add front-page-loop body class
+			add_filter( 'body_class', 'digital_loop_body_class' );
 
 		}
 
 	}
+
+}
+
+//* Add front-page body class
+function digital_body_class( $classes ) {
+
+	$classes[] = 'front-page';
+
+	return $classes;
+
+}
+
+//* Add front-page-loop body class
+function digital_loop_body_class( $classes ) {
+
+	$classes[] = 'front-page-loop';
+
+	return $classes;
 
 }
 

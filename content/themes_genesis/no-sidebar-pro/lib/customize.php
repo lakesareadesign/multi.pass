@@ -61,7 +61,7 @@ function ns_customizer_register() {
 			$wp_customize,
 			'ns_link_color',
 			array(
-				'description' => __( 'Change the default color for links.', 'no-sidebar' ),
+				'description' => __( 'Change the default hover color for links in menus, footer content, widgets, and more.', 'no-sidebar' ),
 			    'label'       => __( 'Link Color', 'no-sidebar' ),
 			    'section'     => 'colors',
 			    'settings'    => 'ns_link_color',
@@ -82,7 +82,7 @@ function ns_customizer_register() {
 			$wp_customize,
 			'ns_accent_color',
 			array(
-				'description' => __( 'Change the default color for button hovers.', 'no-sidebar' ),
+				'description' => __( 'Change the default hover color for buttons.', 'no-sidebar' ),
 			    'label'       => __( 'Accent Color', 'no-sidebar' ),
 			    'section'     => 'colors',
 			    'settings'    => 'ns_accent_color',

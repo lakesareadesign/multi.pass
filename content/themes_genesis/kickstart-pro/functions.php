@@ -17,12 +17,12 @@ include_once( get_stylesheet_directory() . '/lib/output.php' );
 // Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'Kickstart Pro' );
 define( 'CHILD_THEME_URL', 'http://demo.leanthemes.co/kickstart' );
-define( 'CHILD_THEME_VERSION', '1.3.4' );
+define( 'CHILD_THEME_VERSION', '1.3.6' );
 
 add_action( 'wp_enqueue_scripts', 'kickstart_fonts_scripts' );
 // Enqueue fonts
 function kickstart_fonts_scripts() {
-	wp_enqueue_style( 'font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css', array(), '4.6.1' );
+	wp_enqueue_style( 'font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', array(), '4.6.3' );
 	wp_enqueue_style( 'google-font-open-sans', '//fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic', array(), CHILD_THEME_VERSION );
 
 	wp_enqueue_script( 'kickstart-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menu.js', array( 'jquery' ), CHILD_THEME_VERSION, true );

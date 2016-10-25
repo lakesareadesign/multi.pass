@@ -38,7 +38,7 @@ function prettycreative_do_taxonomy_title_description() {
 	?>
 
 	<div class="archive-description taxonomy-description clearfix">
-		<div class="alignleft"><?php echo $headline; echo $intro_text; ?></div>
+		<div class="alignleft"><h1><?php $current_category = single_cat_title("", true); ?></h1><?php echo category_description( $category_id ); ?> </div>
 		<div class="alignright">
 			<form id="category-select" class="category-select" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
 

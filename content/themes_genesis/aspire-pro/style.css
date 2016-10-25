@@ -5,7 +5,7 @@
 	Author: Appfinite
 	Author URI: http://www.appfinite.com/
 
-	Version: 1.1.2
+	Version: 1.1.4
 
 	Tags: black, white, blue, green, orange, pink, one-column, two-columns, responsive-layout, custom-header, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, rtl-language-support
 
@@ -15,7 +15,6 @@
 	License: GPL-2.0+
 	License URI: http://www.opensource.org/licenses/gpl-license.php 
 */
-
 
 /* # Table of Contents
 - HTML5 Reset
@@ -309,6 +308,11 @@ h5 {
 h6 {
 	font-size: 16px;
 	font-size: 1.6rem;
+}
+
+.bolder {
+	font-weight: 700;
+	text-transform: uppercase;
 }
 
 /* ## Objects
@@ -1089,12 +1093,6 @@ img.alignright,
 	margin-bottom: 16px;
 	margin-right: 10px;
 	padding: 16px 14px;
-	width: 30%;
-}
-
-.sidebar .enews-widget input, 
-.footer-widgets .enews-widget input {
-	width: 55%;	
 }
 
 .sidebar .enews-widget input[type="submit"],
@@ -1107,6 +1105,10 @@ img.alignright,
 	color: #fff;
 	margin: 0;
 	/*width: 100%;*/
+}
+
+.footer-widgets .enews-widget input[type="submit"] {
+	background: #fa5738;
 }
 
 .enews-widget input:hover[type="submit"],
@@ -1124,6 +1126,10 @@ img.alignright,
 	border-radius: 8px;
 	margin-bottom: 10px;
 	padding: 20px 0px 5px;
+}
+
+.front-page-2 .enews-widget input {
+	width: 30%;
 }
 
 /* ## Jetpack
@@ -1510,9 +1516,9 @@ Site Navigation
 	/*background-attachment: fixed;*/
 	background-position: 50% 0;
 	background-repeat: no-repeat;
-	/*-webkit-background-size: cover;
+	-webkit-background-size: cover;
 	-moz-background-size:    cover;
-	background-size:         cover;*/
+	background-size:         cover;
 }
 
 .front-page-1 {
@@ -1988,7 +1994,7 @@ li.comment { }
 	background-color: #000;
 	clear: both;
 	font-size: 18px;
-	text-align: center;
+	/*text-align: center;*/
 }
 
 .footer-widgets .wrap {
@@ -2101,6 +2107,17 @@ li.comment { }
 	font-size: 15px;
 	font-weight: 400;
 	letter-spacing: 0;
+}
+
+.plan-list {
+	margin: 0 0 20px;
+	overflow: hidden;
+}
+
+.plan-list li,
+.entry-content .plan-list li {
+	list-style: none;
+	margin: 0 0 20px;
 }
 
 
@@ -2956,7 +2973,7 @@ div.pp_default .pp_bottom .pp_right {
 	.plan {
 		float: none;
 		margin: 0 auto 40px;
-		width: 75%;
+		width: 90%;
 	}
 	
 	.popular {

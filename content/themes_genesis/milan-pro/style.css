@@ -5,7 +5,7 @@
  Author:       Themetry
  Author URI:   https://themetry.com
  Template:     genesis
- Version:      1.0.0
+ Version:      1.0.1
  License:      GNU General Public License v2 or later
  License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  Text Domain: milan
@@ -1316,20 +1316,44 @@ a:hover {
 	
 	.search-form input[type=submit]:hover,
 	.footer-widgets .search-form input[type=search],
-	.footer-widgets .search-form input[type=submit] {
+	.footer-widgets .search-form input[type=submit],
+	.footer-widgets form:not(.search-form) input[type=text],
+	.footer-widgets form:not(.search-form) input[type=email] {
 		color: #fff;
 	}
 
-.footer-widgets .search-form {
+.footer-widgets .search-form,
+.footer-widgets form:not(.search-form) input[type=text],
+.footer-widgets form:not(.search-form) input[type=email] {
 	background: #222;
 }
 
-	.footer-widgets .search-form input[type=submit] {
-		border-color: #000;
-	}
+.footer-widgets .search-form input[type=submit] {
+	border-color: #000;
+}
 
 .widget_calendar tbody td {
 	text-align: center;
+}
+
+.widget input[type=text],
+.widget input[type=email] {
+	margin-bottom: 1em;
+	width: 100%;
+}
+
+.enews p:last-child {
+	margin-top: 1.5em;
+}
+
+.footer-widgets form:not(.search-form) input[type=submit] {
+	border-color: #fff;
+	color: #fff;
+}
+
+.footer-widgets form:not(.search-form) input[type=submit]:hover {
+	background: #fff;
+	color: #000;
 }
 
 /*--------------------------------------------------------------
@@ -1612,6 +1636,27 @@ a.comment-reply-login:hover {
 	right: -17.5px;
 	text-align: center;
 	width: 35px;
+}
+
+.pingback {
+	margin-bottom: 3em;
+	position: relative;
+}
+
+.pingback .comment-content p {
+	margin: -1em 0 3em;
+}
+
+.pingback .comment-content {
+	padding: 0 0 0 1em;
+}
+
+.pingback .comment-meta {
+	left: 1em;
+}
+
+.pingback .reply {
+	display: none;
 }
 
 /* === Comment Form === */

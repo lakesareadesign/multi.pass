@@ -5,7 +5,6 @@ add_action( 'genesis_footer', 'ns_single_scripts', 7 );
 function ns_single_scripts() {
 
 	wp_enqueue_script( 'ns-fadein', get_bloginfo( 'stylesheet_directory' ) . '/js/fadein.js', array( 'jquery' ), '1.0.0' );
-	wp_enqueue_script( 'ns-waypoints', get_bloginfo( 'stylesheet_directory' ) . '/js/jquery.waypoints.min.js', array( 'jquery' ), '1.0.0' );
 
 }
 
@@ -28,7 +27,7 @@ add_action( 'genesis_after_entry', 'ns_after_entry_widget', 9 );
 function ns_after_entry_widget() {
 
 	genesis_widget_area( 'after-entry', array(
-		'before' => '<div class="after-entry fadein hidden">',
+		'before' => '<div class="after-entry ns-hidden">',
 		'after'  => '</div>',
 	) );
 

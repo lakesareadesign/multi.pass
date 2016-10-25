@@ -5,9 +5,9 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 1.0.3
+	Version: 1.0.4
 
-	Tags: black, red, white, one-column, two-columns, left-sidebar, right-sidebar, responsive-layout, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
+	Tags: one-column, two-columns, left-sidebar, right-sidebar, custom-colors, custom-header, custom-menu, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
 
 	Template: genesis
 	Template Version: 2.2
@@ -808,9 +808,7 @@ th {
 }
 
 .comment .avatar {
-	height: 60px;
 	margin: 0 16px 24px 0;
-	width: 60px;
 }
 
 /* Genesis
@@ -1266,6 +1264,7 @@ a[rel~="attachment"]:hover,
 
 .site-header {
 	background-color: #fff;
+	border-bottom: 1px solid transparent;
 	padding: 28px 30px;
 	position: fixed;
 	top: 0;	
@@ -1274,7 +1273,7 @@ a[rel~="attachment"]:hover,
 }
 
 .site-header.shrink {
-	border-bottom: 1px solid #eee;
+	border-color: #eee;
 	padding: 18px 30px;
 }
 

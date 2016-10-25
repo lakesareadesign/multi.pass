@@ -17,7 +17,7 @@ require_once( get_stylesheet_directory() . '/lib/jetpack.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'Milan Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/milan/' );
-define( 'CHILD_THEME_VERSION', '1.0.0' );
+define( 'CHILD_THEME_VERSION', '1.0.1' );
 
 //* Enqueue Google Fonts
 add_action( 'wp_enqueue_scripts', 'milan_fonts' );

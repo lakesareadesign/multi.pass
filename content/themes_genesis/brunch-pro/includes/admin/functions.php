@@ -13,9 +13,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'tgmpa_register',        'brunch_pro_register_required_plugins' );
-add_action( 'admin_head-post.php',   'brunch_pro_remove_widgeted_editor' );
-add_action( 'admin_enqueue_scripts', 'brunch_pro_load_admin_styles' );
+add_action( 'tgmpa_register',              'brunch_pro_register_required_plugins' );
+add_action( 'admin_enqueue_scripts',       'brunch_pro_load_admin_styles' );
+add_action( 'admin_head-post.php',         'brunch_pro_remove_widgeted_editor' );
+add_action( 'post_submitbox_misc_actions', 'brunch_pro_admin_meta_box_view' );
+add_action( 'save_post',                   'brunch_pro_admin_meta_save' );
 
 /**
  * Register the required plugins for this theme.
@@ -38,11 +40,6 @@ function brunch_pro_register_required_plugins() {
 		array(
 			'name'      => 'Simple Social Icons',
 			'slug'      => 'simple-social-icons',
-			'required'  => false,
-		),
-		array(
-			'name'      => 'Simmer',
-			'slug'      => 'simmer',
 			'required'  => false,
 		),
 		array(
@@ -111,7 +108,7 @@ function brunch_pro_load_admin_styles() {
  * @return bool
  */
 function brunch_pro_using_widgeted_template( $templates = array() ) {
-	if ( ! isset( $_REQUEST['post'] ) ) {
+	if ( ! isset( $_REQUEST['post'] ) ) { // Input var okay.
 		return false;
 	}
 
@@ -120,7 +117,7 @@ function brunch_pro_using_widgeted_template( $templates = array() ) {
 	}
 
 	foreach ( (array) $templates as $template ) {
-		if ( get_page_template_slug( absint( $_REQUEST['post'] ) ) === $template ) {
+		if ( get_page_template_slug( absint( $_REQUEST['post'] ) ) === $template ) { // Input var okay.
 			return true;
 		}
 	}
@@ -156,4 +153,91 @@ function brunch_pro_widgeted_admin_notice() {
 			esc_url( admin_url( '/widgets.php' ) )
 		)
 	);
+}
+
+/**
+ * Output the content of our metabox.
+ *
+ * @since  1.0.0
+ * @access public
+ *
+ * @param WP_Post $post Post object.
+ * @return void
+ */
+function brunch_pro_admin_meta_box_view( WP_Post $post ) {
+	if ( get_page_template_slug( $post->ID ) !== 'page_blog.php' ) {
+		return;
+	}
+
+	$type = get_post_type_object( $post->post_type );
+
+	if ( ! is_object( $type ) ) {
+		return;
+	}
+
+	if ( current_user_can( $type->cap->edit_post, $post->ID ) ) {
+		$enable = brunch_pro_blog_page_is_grid_enabled( $post->ID );
+		require_once untrailingslashit( get_stylesheet_directory() ) . '/includes/admin/views/meta-box.php';
+	}
+}
+
+/**
+ * Determine if the request to save data should be allowed to proceed.
+ *
+ * @since  1.0.0
+ * @access protected
+ * @param  int $post_id Post ID.
+ * @return bool Whether or not this is a valid request to save our data.
+ */
+function _brunch_pro_admin_meta_validate_request( $post_id ) {
+	if ( 'POST' !== $_SERVER['REQUEST_METHOD'] ) { // Input var okay.
+		return false;
+	}
+
+	$auto = defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE;
+	$ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+	$cron = defined( 'DOING_CRON' ) && DOING_CRON;
+
+	if ( $auto || $ajax || $cron ) {
+		return false;
+	}
+
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return false;
+	}
+
+	$nonce = 'brunch_pro_metabox_nonce';
+
+	if ( ! isset( $_POST[ $nonce ] ) ) { // Input var okay.
+		return false;
+	}
+
+	if ( ! wp_verify_nonce( sanitize_key( $_POST[ $nonce ] ), 'save_brunch_pro_metabox' ) ) { // Input var okay.
+		return false;
+	}
+
+	// @link http://make.marketpress.com/multilingualpress/2014/10/how-to-disable-broken-save_post-callbacks/
+	if ( is_multisite() && ms_is_switched() ) {
+		return false;
+	}
+
+	return wp_unslash( $_POST ); // Input var okay.
+}
+
+/**
+ * Callback function for saving our meta box data.
+ *
+ * @since  1.0.0
+ * @access public
+ * @param  int $post_id Post ID.
+ * @return bool Whether or not data has been saved.
+ */
+function brunch_pro_admin_meta_save( $post_id ) {
+	if ( ! $valid_request = _brunch_pro_admin_meta_validate_request( $post_id ) ) {
+		return false;
+	}
+
+	$value = empty( $valid_request['_brunch_pro_enable_blog_grid'] ) ? 'no' : 'yes';
+
+	return (bool) update_post_meta( $post_id, '_brunch_pro_enable_blog_grid', $value );
 }

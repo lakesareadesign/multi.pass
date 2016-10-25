@@ -23,6 +23,30 @@ add_action( 'genesis_before_entry', 'brunch_pro_archive_maybe_remove_meta',    1
 add_action( 'genesis_before_entry', 'brunch_pro_archive_maybe_move_image',     10 );
 
 /**
+ * Check to see if the current blog page has the blog grid layout enabled.
+ *
+ * @since  1.0.0
+ * @return bool true if the grid is enabled, false otherwise.
+ */
+function brunch_pro_blog_page_is_grid_enabled( $post_id = false ) {
+	static $enabled;
+
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	if ( null === $enabled ) {
+		$enabled = get_post_meta( $post_id, '_brunch_pro_enable_blog_grid', true );
+
+		if ( empty( $enabled ) ) {
+			$enabled = 'yes';
+		}
+	}
+
+	return 'yes' === $enabled;
+}
+
+/**
  * Add the archive grid filter to the main loop.
  *
  * @since  1.0.0
@@ -31,7 +55,7 @@ add_action( 'genesis_before_entry', 'brunch_pro_archive_maybe_move_image',     1
  * @return bool true if the filter has been added, false otherwise.
  */
 function brunch_pro_blog_page_maybe_add_grid() {
-	if ( ! genesis_is_blog_template() ) {
+	if ( ! genesis_is_blog_template() || ! brunch_pro_blog_page_is_grid_enabled() ) {
 		return false;
 	}
 
@@ -51,7 +75,7 @@ function brunch_pro_blog_page_maybe_add_grid() {
  * @return bool true if the filter has been removed, false otherwise.
  */
 function brunch_pro_blog_page_maybe_remove_grid() {
-	if ( ! genesis_is_blog_template() ) {
+	if ( ! genesis_is_blog_template() || ! brunch_pro_blog_page_is_grid_enabled() ) {
 		return false;
 	}
 

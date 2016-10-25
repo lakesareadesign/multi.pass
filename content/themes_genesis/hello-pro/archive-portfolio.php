@@ -1,6 +1,6 @@
 <?php
 /**
- * This file adds the custom portfolio post type archive template to the Personal Branding Theme.
+ * This file adds the custom portfolio post type archive template to the Hello Theme.
  *
  * @author brandiD
  * @package Personal Branding
@@ -25,18 +25,19 @@ remove_action( 'genesis_entry_content', 'genesis_do_post_image', 8 );
 //* Add portfolio body class to the head
 add_filter( 'body_class', 'hello_pro_add_portfolio_body_class' );
 function hello_pro_add_portfolio_body_class( $classes ) {
-   $classes[] = 'hello-pro-portfolio';
-   return $classes;
+
+	$classes[] = 'hello-pro-portfolio';
+	return $classes;
+
 }
 
 //* Add the featured image after post title
 add_action( 'genesis_entry_header', 'hello_pro_portfolio_grid' );
 function hello_pro_portfolio_grid() {
 
-    if ( $image = genesis_get_image( 'format=url&size=portfolio' ) ) {
-        printf( '<div class="portfolio-featured-image"><a href="%s" rel="bookmark"><img src="%s" alt="%s" /></a></div>', get_permalink(), $image, the_title_attribute( 'echo=0' ) );
-
-    }
+	if ( $image = genesis_get_image( 'format=url&size=portfolio' ) ) {
+		printf( '<div class="portfolio-featured-image"><a href="%s" rel="bookmark"><img src="%s" alt="%s" /></a></div>', get_permalink(), $image, the_title_attribute( 'echo=0' ) );
+	}
 
 }
 
