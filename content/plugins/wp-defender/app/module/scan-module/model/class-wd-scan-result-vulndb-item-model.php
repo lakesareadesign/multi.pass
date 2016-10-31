@@ -12,10 +12,10 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 
 	public function __wakeup() {
 		if ( $this->type == 'theme' ) {
-			$this->delete_tooltip      = __( "Delete this theme", wp_defender()->domain );
+			$this->delete_tooltip      = esc_html__( "Delete this theme", wp_defender()->domain );
 			$this->delete_confirm_text = 'delete_theme_confirm_msg';
 		} elseif ( $this->type == 'plugin' ) {
-			$this->delete_tooltip      = __( "Delete this plugin", wp_defender()->domain );
+			$this->delete_tooltip      = esc_html__( "Delete this plugin", wp_defender()->domain );
 			$this->delete_confirm_text = 'delete_plugin_confirm_msg';
 		}
 	}
@@ -35,7 +35,7 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 	public function get_name() {
 		switch ( $this->type ) {
 			case 'wordpress':
-				return __( "WordPress Vulnerability", wp_defender()->domain );
+				return esc_html__( "WordPress Vulnerability", wp_defender()->domain );
 				break;
 			case 'plugin':
 				$plugins = get_plugins();
@@ -84,7 +84,7 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 			return $version;
 		}
 
-		return sprintf( __( "Version: %s", wp_defender()->domain ), $version );
+		return sprintf( esc_html__( "Version: %s", wp_defender()->domain ), $version );
 	}
 
 	/**
@@ -98,9 +98,9 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 		$html = '';
 		foreach ( $this->detail as $key => $row ) {
 			$html .= '<i class="wd-text-warning wdv-icon wdv-icon-fw wdv-icon-exclamation-sign"></i> <strong>' . $row['title'] . '</strong>';
-			$html .= '<span> - ' . __( "Vulnerability type", wp_defender()->domain ) . ':' . $row['vuln_type'] . '</span>';
+			$html .= '<span> - ' . esc_html__( "Vulnerability type", wp_defender()->domain ) . ':' . $row['vuln_type'] . '</span>';
 			if ( ! empty( $row['fixed_in'] ) ) {
-				$html .= '<span> - ' . sprintf( __( "This bug has been fixed in version %s", wp_defender()->domain ), $row['fixed_in'] ) . '</span>';
+				$html .= '<span> - ' . sprintf( esc_html__( "This bug has been fixed in version %s", wp_defender()->domain ), $row['fixed_in'] ) . '</span>';
 			}
 			$html .= "<span class='blank-line'></span>";
 		}
@@ -215,9 +215,9 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 			$output
 		);
 
-		$resolve_note = '<p>' . __( "There’s a newer version available that fixes this issue. We recommend updating to the latest release.", wp_defender()->domain ) . '</p>';
+		$resolve_note = '<p>' . esc_html__( "There’s a newer version available that fixes this issue. We recommend updating to the latest release.", wp_defender()->domain ) . '</p>';
 		if ( $this->type == 'wordpress' ) {
-			$wp_update_form = '<a href="' . admin_url( 'update-core.php' ) . '" class="button button-small">' . __( "Update Now", wp_defender()->domain ) . '</a>';
+			$wp_update_form = '<a href="' . admin_url( 'update-core.php' ) . '" class="button button-small">' . esc_html__( "Update Now", wp_defender()->domain ) . '</a>';
 			$output         = str_replace( '{{resolve_form}}', $wp_update_form, $output );
 		} elseif ( is_array( $this->object ) ) {
 			wp_update_plugins();
@@ -232,17 +232,17 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 					$plugin_update_form .= '<input type="hidden" name="plugin" value="' . $key . '">';
 					$plugin_update_form .= '<input type="hidden" name="slug" value="' . $plugin->slug . '">';
 					$plugin_update_form .= '<button type="submit" class="button button-small wd-button">';
-					$plugin_update_form .= __( "Update", wp_defender()->domain );
+					$plugin_update_form .= esc_html__( "Update", wp_defender()->domain );
 					$plugin_update_form .= '</button></form>';
 					break;
 				}
 			}
 
 			if ( empty( $plugin_update_form ) ) {
-				$resolve_note .= '<p>' . __( "It seems your plugin is a premium plugin, please visit the plugin page for more information.", wp_defender()->domain ) . '</p>';
-				$plugin_update_form .= '<a target="_blank" href="' . $this->object['PluginURI'] . '" class="button wd-button button-small">' . __( "Visit plugin page", wp_defender()->domain ) . '</a>';
+				$resolve_note .= '<p>' . esc_html__( "It seems your plugin is a premium plugin, please visit the plugin page for more information.", wp_defender()->domain ) . '</p>';
+				$plugin_update_form .= '<a target="_blank" href="' . $this->object['PluginURI'] . '" class="button wd-button button-small">' . esc_html__( "Visit plugin page", wp_defender()->domain ) . '</a>';
 			}
-			$output = str_replace( '{{delete_button_text}}', __( "Delete plugin", wp_defender()->domain ), $output );
+			$output = str_replace( '{{delete_button_text}}', esc_html__( "Delete plugin", wp_defender()->domain ), $output );
 
 			//$resolve_note .= $plugin_update_form;
 			$output = str_replace( '{{resolve_form}}', $plugin_update_form, $output );
@@ -257,7 +257,7 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 					$theme_update_form .= '<input type="hidden" name="action" value="wd_resolve_update_theme">';
 					$theme_update_form .= '<input type="hidden" name="theme" value="' . $key . '">';
 					$theme_update_form .= '<button type="submit" class="button button-small wd-button">';
-					$theme_update_form .= __( "Update", wp_defender()->domain );
+					$theme_update_form .= esc_html__( "Update", wp_defender()->domain );
 					$theme_update_form .= '</button></form>';
 					break;
 				}
@@ -266,12 +266,12 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 			if ( empty( $theme_update_form ) ) {
 				//this mean premium
 				//todo check if this is wpmudev
-				$resolve_note .= '<p>' . __( "It seems your theme is a premium theme, please visit the theme page for more information.", wp_defender()->domain ) . '</p>';
+				$resolve_note .= '<p>' . esc_html__( "It seems your theme is a premium theme, please visit the theme page for more information.", wp_defender()->domain ) . '</p>';
 				$theme = wp_get_theme( $this->name );
 				$uri   = $theme->get( 'ThemeURI' );
-				$theme_update_form .= '<a target="_blank" href="' . $uri . '" class="button wd-button button-small">' . __( "Visit theme page", wp_defender()->domain ) . '</a>';
+				$theme_update_form .= '<a target="_blank" href="' . $uri . '" class="button wd-button button-small">' . esc_html__( "Visit theme page", wp_defender()->domain ) . '</a>';
 			}
-			$output = str_replace( '{{delete_button_text}}', __( "Delete theme", wp_defender()->domain ), $output );
+			$output = str_replace( '{{delete_button_text}}', esc_html__( "Delete theme", wp_defender()->domain ), $output );
 
 			//$resolve_note .= $theme_update_form;
 			$output = str_replace( '{{resolve_form}}', $theme_update_form, $output );
@@ -350,9 +350,9 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 						<div class="col span_3_of_12">
 							<strong>
 								<?php if ( $this->type == 'plugin' ): ?>
-									<?php _e( "Plugin name: ", wp_defender()->domain ) ?>
+									<?php esc_html_e( "Plugin name: ", wp_defender()->domain ) ?>
 								<?php elseif ( $this->type == 'theme' ): ?>
-									<?php _e( "Theme name: ", wp_defender()->domain ) ?>
+									<?php esc_html_e( "Theme name: ", wp_defender()->domain ) ?>
 								<?php endif; ?>
 							</strong>
 						</div>
@@ -363,7 +363,7 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 				<?php endif; ?>
 				<div class="group">
 					<div class="col span_3_of_12">
-						<strong><?php _e( "Version: ", wp_defender()->domain ) ?></strong>
+						<strong><?php esc_html_e( "Version: ", wp_defender()->domain ) ?></strong>
 					</div>
 					<div class="col span_9_of_12">
 						{{version}}
@@ -371,7 +371,7 @@ class WD_Scan_Result_VulnDB_Item_Model extends WD_Scan_Result_Item_Model {
 				</div>
 				<div class="group">
 					<div class="col span_3_of_12">
-						<strong><?php _e( "Vulnerability: ", wp_defender()->domain ) ?></strong>
+						<strong><?php esc_html_e( "Vulnerability: ", wp_defender()->domain ) ?></strong>
 					</div>
 					<div class="col span_9_of_12">
 						{{vulnerability}}

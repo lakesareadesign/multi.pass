@@ -281,6 +281,8 @@ class WD_Component {
 	}
 
 	/**
+	 * Logging function, write to db or file depend on server. Only use when development only
+	 *
 	 * @param $message
 	 * @param string $level
 	 */
@@ -361,7 +363,7 @@ class WD_Component {
 	}
 
 	/**
-	 *
+	 * use only in dev
 	 */
 	public function dump_log_from_mem() {
 		if ( isset( wp_defender()->global['memory_stream'] ) ) {
@@ -507,6 +509,7 @@ class WD_Component {
 			$post_vars['body']           = $body_args;
 			$post_vars['body']['domain'] = $domain;
 			$post_vars['timeout']        = 30;
+			$post_vars['httpversion']    = '1.1';
 
 			$headers = isset( $post_vars['headers'] ) ? $post_vars['headers'] : array();
 
@@ -519,7 +522,6 @@ class WD_Component {
 			$response = wp_remote_request( $end_point,
 				apply_filters( 'wd_wpmudev_call_request_args',
 					$post_vars ) );
-			//$this->log( var_export( $response, true ), self::ERROR_LEVEL_DEBUG, 'blacklist' );
 			if ( is_wp_error( $response ) ) {
 				return $response;
 			}
@@ -532,9 +534,6 @@ class WD_Component {
 				'OK' !== wp_remote_retrieve_response_message( $response )
 				OR 200 !== wp_remote_retrieve_response_code( $response )
 			) {
-				$this->log( "Contacting DEV API fail " . PHP_EOL . var_export( $response, true ), self::ERROR_LEVEL_ERROR, 'error' );
-				$this->log( var_export( $post_vars, true ), self::ERROR_LEVEL_ERROR, 'error' );
-
 				return new WP_Error( wp_remote_retrieve_response_code( $response ), wp_remote_retrieve_response_message( $response ) );
 			} else {
 				$data = wp_remote_retrieve_body( $response );
@@ -543,7 +542,7 @@ class WD_Component {
 			}
 		} else {
 			return new WP_Error( 'dashboard_required',
-				sprintf( __( "WPMU DEV Dashboard will be required for this action. Please visit <a href=\"%s\">here</a> and install the WPMU DEV Dashboard", wp_defender()->domain )
+				sprintf( esc_html__( "WPMU DEV Dashboard will be required for this action. Please visit <a href=\"%s\">here</a> and install the WPMU DEV Dashboard", wp_defender()->domain )
 					, 'https://premium.wpmudev.org/project/wpmu-dev-dashboard/' ) );
 		}
 	}
@@ -598,7 +597,7 @@ class WD_Component {
 	public static function convert_size( $size ) {
 		$unit = array( 'b', 'kb', 'mb', 'gb', 'tb', 'pb' );
 		if ( $size == false ) {
-			return __( "N/A", wp_defender()->domain );
+			return esc_html__( "N/A", wp_defender()->domain );
 		}
 
 		return @round( $size / pow( 1024, ( $i = floor( log( $size, 1024 ) ) ) ), 2 ) . ' ' . $unit[ $i ];

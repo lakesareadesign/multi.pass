@@ -42,7 +42,6 @@ class WD_Admin_Controller extends WD_Controller {
 	}
 
 	public function settings_save() {
-
 		if ( ! WD_Utils::check_permission() ) {
 			return;
 		}
@@ -65,7 +64,7 @@ class WD_Admin_Controller extends WD_Controller {
 				WD_Utils::update_setting( $key, $val );
 			}
 		}
-		$this->flash( 'updated', __( "WP Defender’s settings have been updated", wp_defender()->domain ) );
+		$this->flash( 'updated', esc_html__( "WP Defender’s settings have been updated", wp_defender()->domain ) );
 		wp_redirect( network_admin_url( 'admin.php?page=wdf-settings' ) );
 		exit;
 	}
@@ -97,7 +96,7 @@ class WD_Admin_Controller extends WD_Controller {
 		if ( strlen( trim( $username ) ) == 0 ) {
 			wp_send_json( array(
 				'status' => 0,
-				'error'  => __( "The username can't be empty!", wp_defender()->domain )
+				'error'  => esc_html__( "The username can't be empty!", wp_defender()->domain )
 			) );
 		}
 
@@ -128,14 +127,14 @@ class WD_Admin_Controller extends WD_Controller {
 				<?php if ( is_object( $user ) ): ?>
 					<div class="wd-recipient">
 						<?php echo get_avatar( $user->ID, 24 ) ?>
-						<p><?php echo WD_Utils::get_display_name( $user->ID ) ?></p>&nbsp;&nbsp;
+						<p><?php echo esc_html( WD_Utils::get_display_name( $user->ID ) ) ?></p>&nbsp;&nbsp;
 						<?php if ( get_current_user_id() == $user->ID ): ?>
 							<span class="wd-badge wd-badge-grey">
-								<?php _e( "You", wp_defender()->domain ) ?>
+								<?php esc_html_e( "You", wp_defender()->domain ) ?>
 							</span>
 						<?php endif; ?>&nbsp;&nbsp;
 						<a data-id="<?php echo esc_attr( $user->ID ) ?>" class="wd-remove-recipient"
-						   href="#"><?php _e( "Remove", wp_defender()->domain ) ?></a>
+						   href="#"><?php esc_html_e( "Remove", wp_defender()->domain ) ?></a>
 					</div>
 				<?php endif; ?>
 			<?php endforeach; ?>
@@ -165,7 +164,7 @@ class WD_Admin_Controller extends WD_Controller {
 		foreach ( $query->get_results() as $row ) {
 			$results[] = array(
 				'id'    => $row->user_login,
-				'label' => '<span class="name title">' . WD_Utils::get_full_name( $row->user_email ) . '</span> <span class="email">' . $row->user_email . '</span>',
+				'label' => '<span class="name title">' . esc_html( WD_Utils::get_full_name( $row->user_email ) ) . '</span> <span class="email">' . esc_html( $row->user_email ) . '</span>',
 				'thumb' => WD_Utils::get_avatar_url( get_avatar( $row->user_email ) )
 			);
 		}
@@ -197,9 +196,9 @@ class WD_Admin_Controller extends WD_Controller {
 	public function menu_order( $menu_order ) {
 		global $submenu;
 		if ( isset( $submenu['wp-defender'] ) ) {
-			$defender_menu       = $submenu['wp-defender'];
+			$defender_menu = $submenu['wp-defender'];
 			//$defender_menu[6][4] = 'wd-menu-hide';
-			$defender_menu[0][0] = __( "Dashboard", wp_defender()->domain );
+			$defender_menu[0][0] = esc_html__( "Dashboard", wp_defender()->domain );
 			$settings            = $defender_menu[1];
 			unset( $defender_menu[1] );
 			$defender_menu[]        = $settings;
@@ -212,17 +211,17 @@ class WD_Admin_Controller extends WD_Controller {
 
 	public function admin_menu() {
 		$cap        = is_multisite() ? 'manage_network_options' : 'manage_options';
-		$menu_title = __( "Defender%s", wp_defender()->domain );
+		$menu_title = esc_html__( "Defender%s", wp_defender()->domain );
 		if ( ( $count = WD_Utils::get_setting( 'info->issues_count', 0 ) ) == 0 ) {
 			$menu_title = sprintf( $menu_title, ' <span class="update-plugins wd-issue-indicator-sidebar"></span>' );
 		} else {
-			$menu_title = sprintf( $menu_title, ' <span class="update-plugins wd-issue-indicator-sidebar count-' . $count . '"><span>' . ( $count > 99 ? '99+' : $count ) . '</span></span>' );
+			$menu_title = sprintf( $menu_title, ' <span class="update-plugins wd-issue-indicator-sidebar count-' . $count . '"><span>' . ( $count > 99 ? '99+' : $count ) . '</span></span>' );	  	 	   	 		 		 				
 		}
-		add_menu_page( __( "Defender", wp_defender()->domain ), $menu_title, $cap, 'wp-defender', array(
+		add_menu_page( esc_html__( "Defender", wp_defender()->domain ), $menu_title, $cap, 'wp-defender', array(
 			&$this,
 			'main_admin_page'
 		), $this->get_menu_icon() );
-		add_submenu_page( 'wp-defender', __( "Settings", wp_defender()->domain ), __( "Settings", wp_defender()->domain ), $cap, 'wdf-settings', array(
+		add_submenu_page( 'wp-defender', esc_html__( "Settings", wp_defender()->domain ), esc_html__( "Settings", wp_defender()->domain ), $cap, 'wdf-settings', array(
 			&$this,
 			'settings_page'
 		) );

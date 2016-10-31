@@ -240,7 +240,7 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 		$this->current_action = '';
 		$this->log            = '<!-- result will show -->';
 		$this->title          = date_i18n( WD_Utils::get_date_time_format() );
-		$this->message        = '<i class="wdv-icon wdv-icon-fw wdv-icon-refresh spin"></i>' . __( "Initializing...", wp_defender()->domain );
+		$this->message        = '<i class="wdv-icon wdv-icon-fw wdv-icon-refresh spin"></i>' . esc_html__( "Initializing...", wp_defender()->domain );
 	}
 
 	/**
@@ -378,10 +378,10 @@ class WD_Scan_Result_Model extends WD_Post_Model {
 	 */
 	public static function get_system_type_label( $type ) {
 		$labels = array(
-			self::TYPE_CORE   => __( "WordPress Core", wp_defender()->domain ),
-			self::TYPE_FILE   => __( "Other", wp_defender()->domain ),
-			self::TYPE_PLUGIN => __( "Plugin", wp_defender()->domain ),
-			self::TYPE_THEME  => __( "Theme", wp_defender()->domain )
+			self::TYPE_CORE   => esc_html__( "WordPress Core", wp_defender()->domain ),
+			self::TYPE_FILE   => esc_html__( "Other", wp_defender()->domain ),
+			self::TYPE_PLUGIN => esc_html__( "Plugin", wp_defender()->domain ),
+			self::TYPE_THEME  => esc_html__( "Theme", wp_defender()->domain )
 		);
 
 		return isset( $labels[ $type ] ) ? $labels[ $type ] : null;

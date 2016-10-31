@@ -198,7 +198,9 @@ WDefender.hardener = function (el) {
         }
     }
 
-    $('.wd-according').wd_according();
+    if ($('.wd-according').size() > 0) {
+        $('.wd-according').wd_according();
+    }
 
     function init() {
         listen_to_url();

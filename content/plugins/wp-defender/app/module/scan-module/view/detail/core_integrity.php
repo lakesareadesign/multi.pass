@@ -8,7 +8,7 @@
 		<section class="dev-box setup-scan">
 			<div class="box-title">
 				<h3>
-					<?php _e( "File Comparison", wp_defender()->domain ) ?>
+					<?php esc_html_e( "File Comparison", wp_defender()->domain ) ?>
 				</h3>
 			</div>
 			<div class="box-content">
@@ -17,7 +17,7 @@
 				$yours   = file_get_contents( $model->name );
 				if ( ! is_wp_error( $orinial ) ):
 					?>
-					<?php _e( "Compare your file with the original file in the WordPress repository. Pieces highlighted in red will be removed when you patch the file, and pieces highlighted in green will be added.", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Compare your file with the original file in the WordPress repository. Pieces highlighted in red will be removed when you patch the file, and pieces highlighted in green will be added.", wp_defender()->domain ) ?>
 					<pre><code><?php echo WD_Utils::text_diff( $yours, $orinial ) ?></code></pre>
 					<script type="text/javascript">
 						jQuery(function ($) {
@@ -38,7 +38,7 @@
 		<section class="dev-box setup-scan">
 			<div class="box-title">
 				<h3>
-					<?php _e( "Automate Resolve", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Automate Resolve", wp_defender()->domain ) ?>
 				</h3>
 			</div>
 			<div class="box-content">
@@ -55,7 +55,7 @@
 						<input type="hidden" name="id" value="<?php echo $model->id ?>">
 						<?php wp_nonce_field( 'wd_resolve_core_integrity', 'wd_resolve_nonce' ) ?>
 						<button type="submit" class="button wd-button block">
-							<?php _e( "Download and Patch", wp_defender()->domain ) ?>
+							<?php esc_html_e( "Download and Patch", wp_defender()->domain ) ?>
 						</button>
 					</form>
 				<?php endif; ?>

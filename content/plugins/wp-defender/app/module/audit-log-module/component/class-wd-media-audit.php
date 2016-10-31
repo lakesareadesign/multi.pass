@@ -14,7 +14,7 @@ class WD_Media_Audit extends WD_Event_Abstract {
 				'level'        => self::LOG_LEVEL_INFO,
 				'event_type'   => $this->type,
 				'action_type'  => self::ACTION_UPLOADED,
-				'text'         => sprintf( __( "%s uploaded a file: \"%s\" to Media Library", wp_defender()->domain ), '{{wp_user}}', '{{file_path}}' ),
+				'text'         => sprintf( esc_html__( "%s uploaded a file: \"%s\" to Media Library", wp_defender()->domain ), '{{wp_user}}', '{{file_path}}' ),
 				'program_args' => array(
 					'file_path'  => array(
 						'callable' => 'get_post_meta',
@@ -38,7 +38,7 @@ class WD_Media_Audit extends WD_Event_Abstract {
 				'level'        => self::LOG_LEVEL_INFO,
 				'action_type'  => WD_Audit_API::ACTION_UPDATED,
 				'event_type'   => $this->type,
-				'text'         => sprintf( __( "%s updated a file: \"%s\" from Media Library", wp_defender()->domain ), '{{wp_user}}', '{{file_path}}' ),
+				'text'         => sprintf( esc_html__( "%s updated a file: \"%s\" from Media Library", wp_defender()->domain ), '{{wp_user}}', '{{file_path}}' ),
 				'program_args' => array(
 					'file_path' => array(
 						'callable' => 'get_post_meta',
@@ -62,7 +62,7 @@ class WD_Media_Audit extends WD_Event_Abstract {
 				'level'        => self::LOG_LEVEL_INFO,
 				'action_type'  => WD_Audit_API::ACTION_DELETED,
 				'event_type'   => $this->type,
-				'text'         => sprintf( __( "%s deleted a file: \"%s\" from Media Library", wp_defender()->domain ), '{{wp_user}}', '{{file_path}}' ),
+				'text'         => sprintf( esc_html__( "%s deleted a file: \"%s\" from Media Library", wp_defender()->domain ), '{{wp_user}}', '{{file_path}}' ),
 				'program_args' => array(
 					'file_path' => array(
 						'callable' => 'get_post_meta',
@@ -86,7 +86,7 @@ class WD_Media_Audit extends WD_Event_Abstract {
 
 	public function dictionary() {
 		return array(
-			self::ACTION_UPLOADED => __( "Uploaded", wp_defender()->domain )
+			self::ACTION_UPLOADED => esc_html__( "Uploaded", wp_defender()->domain )
 		);
 	}
 }

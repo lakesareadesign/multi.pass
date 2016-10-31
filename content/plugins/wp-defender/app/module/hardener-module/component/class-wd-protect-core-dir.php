@@ -12,7 +12,7 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 
 	public function on_creation() {
 		$this->id         = 'protect_core_dir';
-		$this->title      = __( 'Prevent Information Disclosure', wp_defender()->domain );
+		$this->title      = esc_html__( 'Prevent Information Disclosure', wp_defender()->domain );
 		$this->can_revert = true;
 		$this->init_check_rules();
 
@@ -85,14 +85,14 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 			$include_path = ABSPATH . WPINC . '/';
 			if ( ! file_exists( $include_path . '.htaccess' ) ) {
 				if ( ! @file_put_contents( $include_path . '.htaccess', '', LOCK_EX ) ) {
-					return new WP_Error( 'cant_write', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $include_path . '.htaccess' ) );
+					return new WP_Error( 'cant_write', sprintf( esc_html__( "Can't write to the file %s", wp_defender()->domain ), $include_path . '.htaccess' ) );
 				}
 			}
 
 			$content_path = WP_CONTENT_DIR . '/';
 			if ( ! file_exists( $content_path . '.htaccess' ) ) {
 				if ( ! @file_put_contents( $content_path . '.htaccess', '', LOCK_EX ) ) {
-					return new WP_Error( 'cant_write', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $content_path . '.htaccess' ) );
+					return new WP_Error( 'cant_write', sprintf( esc_html__( "Can't write to the file %s", wp_defender()->domain ), $content_path . '.htaccess' ) );
 				}
 			}
 		}
@@ -183,7 +183,7 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 					'element' => $this->apache_output()
 				) );
 			} else {
-				$this->output_error( 'write_permission', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $htaccess_path ) );
+				$this->output_error( 'write_permission', sprintf( esc_html__( "Can't write to the file %s", wp_defender()->domain ), $htaccess_path ) );
 			}
 		} else {
 			if ( @file_put_contents( $htaccess_path, $content, LOCK_EX ) ) {
@@ -191,7 +191,7 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 
 				return true;
 			} else {
-				return new WP_Error( 'write_permission', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $htaccess_path ) );
+				return new WP_Error( 'write_permission', sprintf( esc_html__( "Can't write to the file %s", wp_defender()->domain ), $htaccess_path ) );
 			}
 		}
 	}
@@ -201,7 +201,7 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 		$htacces_path = ABSPATH . '.htaccess';
 		if ( ! file_exists( $htacces_path ) ) {
 			if ( ! file_put_contents( $htacces_path, '', LOCK_EX ) ) {
-				$this->output_error( 'cant_write', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $htacces_path ) );
+				$this->output_error( 'cant_write', sprintf( esc_html__( "Can't write to the file %s", wp_defender()->domain ), $htacces_path ) );
 			}
 		}
 
@@ -233,7 +233,7 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 					'done'    => $this->check(),
 				) );
 			} else {
-				$this->output_error( 'write_permission', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $htacces_path ) );
+				$this->output_error( 'write_permission', sprintf( esc_html__( "Can't write to the file %s", wp_defender()->domain ), $htacces_path ) );
 			}
 		} else {
 			//cant be here
@@ -515,11 +515,11 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 			<div class="wd-clearfix"></div>
 
 			<div id="<?php echo $this->id ?>" class="wd-rule-content">
-				<h4 class="tl"><?php _e( "Overview", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "Overview", wp_defender()->domain ) ?></h4>
 
-				<p><?php _e( "Often servers are incorrectly configured, and can allow an attacker to get access to sensitive information that can be used in attacks. WP Defender can help you prevent that disclosure.", wp_defender()->domain ) ?></p>
+				<p><?php esc_html_e( "Often servers are incorrectly configured, and can allow an attacker to get access to sensitive information that can be used in attacks. WP Defender can help you prevent that disclosure.", wp_defender()->domain ) ?></p>
 
-				<h4 class="tl"><?php _e( "How To Fix", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
 
 				<div class="wd-error wd-hide">
 
@@ -575,17 +575,17 @@ location ~* ^$wp_content/.*\.(txt|md|exe|sh|bak|inc|pot|po|mo|log|sql)$ {
 ";
 		?>
 		<div class="group wd-no-margin">
-			<p><?php _e( "For NGINX servers:", wp_defender()->domain ) ?></p>
+			<p><?php esc_html_e( "For NGINX servers:", wp_defender()->domain ) ?></p>
 			<ol>
 				<li>
-					<?php _e( "Copy the generated code into your site specific .conf file usually located in a subdirectory under /etc/nginx/... or /usr/local/nginx/conf/...", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Copy the generated code into your site specific .conf file usually located in a subdirectory under /etc/nginx/... or /usr/local/nginx/conf/...", wp_defender()->domain ) ?>
 				</li>
 				<li>
 					<?php _e( "Add the code above inside the <strong>server</strong> section in the file, right before the php location block. Looks something like:", wp_defender()->domain ) ?>
 					<pre>location ~ \.php$ {</pre>
 				</li>
 				<li>
-					<?php _e( "Reload NGINX.", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Reload NGINX.", wp_defender()->domain ) ?>
 				</li>
 			</ol>
 			<p><?php sprintf( __( "Still having trouble? <a target='_blank' href=\"%s\">Open a support ticket</a>.", wp_defender()->domain ), 'https://premium.wpmudev.org/forums/forum/support#question' ) ?></p>
@@ -608,7 +608,7 @@ location ~* ^$wp_content/.*\.(txt|md|exe|sh|bak|inc|pot|po|mo|log|sql)$ {
 		<div class="wd-well">
 			<?php if ( $this->check() ): ?>
 				<p>
-					<?php _e( "Both directories are protected.", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Both directories are protected.", wp_defender()->domain ) ?>
 				</p>
 			<?php else: ?>
 				<p>

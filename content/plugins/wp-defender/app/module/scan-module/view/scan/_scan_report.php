@@ -10,9 +10,9 @@ if ( $controller->has_flash( 'success' ) ): ?>
 	<section class="dev-box scan-reports">
 		<div class="box-title">
 			<h3>
-				<?php _e( "Reports", wp_defender()->domain ) ?>
+				<?php esc_html_e( "Reports", wp_defender()->domain ) ?>
 				<a class="button button-grey button-small wd-pull-right"
-				   href="<?php echo network_admin_url( 'admin.php?page=wdf-settings' ) ?>"><?php _e( "Configure", wp_defender()->domain ) ?></a>
+				   href="<?php echo network_admin_url( 'admin.php?page=wdf-settings' ) ?>"><?php esc_html_e( "Configure", wp_defender()->domain ) ?></a>
 			</h3>
 		</div>
 		<div class="box-content">
@@ -21,12 +21,12 @@ if ( $controller->has_flash( 'success' ) ): ?>
 					<div class="group">
 						<div class="col span_6_of_12 tl">
 							<strong class="wd-issues-count"><?php echo count( $res ) ?></strong>
-							<strong><?php _e( "Issues Found", wp_defender()->domain ); ?></strong>
+							<strong><?php esc_html_e( "Issues Found", wp_defender()->domain ); ?></strong>
 						</div>
 						<div class="col span_6_of_12 tr">
-							<label for="wd_filter_by_type"><?php _e( "File Type", wp_defender()->domain ) ?></label>
+							<label for="wd_filter_by_type"><?php esc_html_e( "File Type", wp_defender()->domain ) ?></label>
 							<select id="wd_filter_by_type">
-								<option value="all"><?php _e( "All", wp_defender()->domain ) ?></option>
+								<option value="all"><?php esc_html_e( "All", wp_defender()->domain ) ?></option>
 								<option value="<?php echo WD_Scan_Result_Model::TYPE_CORE ?>">
 									<?php echo WD_Scan_Result_Model::get_system_type_label( WD_Scan_Result_Model::TYPE_CORE ) ?>
 								</option>
@@ -53,13 +53,13 @@ if ( $controller->has_flash( 'success' ) ): ?>
 								<thead>
 								<tr>
 									<th>
-										<?php _e( "Suspicious File", wp_defender()->domain ) ?>
+										<?php esc_html_e( "Suspicious File", wp_defender()->domain ) ?>
 									</th>
 									<th class="issue-type">
-										<?php _e( "Type", wp_defender()->domain ) ?>
+										<?php esc_html_e( "Type", wp_defender()->domain ) ?>
 									</th>
 									<th>
-										<?php _e( "Issue", wp_defender()->domain ) ?>
+										<?php esc_html_e( "Issue", wp_defender()->domain ) ?>
 									</th>
 									<th></th>
 								</tr>
@@ -134,19 +134,19 @@ if ( $controller->has_flash( 'success' ) ): ?>
 							?>
 							<br/>
 							<div class="wd-success wd-left">
-								<?php _e( "Congratulations! Everything is just fine.", wp_defender()->domain ) ?>
+								<?php esc_html_e( "Congratulations! Everything is just fine.", wp_defender()->domain ) ?>
 							</div>
 							<table id="wd-scan-result-table" width="100%" class="wd-hide">
 								<thead>
 								<tr>
 									<th>
-										<?php _e( "Suspicious File", wp_defender()->domain ) ?>
+										<?php esc_html_e( "Suspicious File", wp_defender()->domain ) ?>
 									</th>
 									<th class="issue-type">
-										<?php _e( "Type", wp_defender()->domain ) ?>
+										<?php esc_html_e( "Type", wp_defender()->domain ) ?>
 									</th>
 									<th>
-										<?php _e( "Issue", wp_defender()->domain ) ?>
+										<?php esc_html_e( "Issue", wp_defender()->domain ) ?>
 									</th>
 									<th></th>
 								</tr>
@@ -168,7 +168,7 @@ if ( $controller->has_flash( 'success' ) ): ?>
 			<div class="scan-result">
 				<div class="box-title">
 					<h3>
-						<?php _e( "Ignored Files", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Ignored Files", wp_defender()->domain ) ?>
 					</h3>
 				</div>
 				<div class="box-content">
@@ -176,13 +176,13 @@ if ( $controller->has_flash( 'success' ) ): ?>
 						<thead>
 						<tr>
 							<th>
-								<?php _e( "File", wp_defender()->domain ) ?>
+								<?php esc_html_e( "File", wp_defender()->domain ) ?>
 							</th>
 							<th class="issue-type">
-								<?php _e( "Type", wp_defender()->domain ) ?>
+								<?php esc_html_e( "Type", wp_defender()->domain ) ?>
 							</th>
 							<th>
-								<?php _e( "Issue", wp_defender()->domain ) ?>
+								<?php esc_html_e( "Issue", wp_defender()->domain ) ?>
 							</th>
 							<th></th>
 						</tr>
@@ -245,12 +245,12 @@ if ( $controller->has_flash( 'success' ) ): ?>
 		<div class="box-title">
 			<span class="close">X</span>
 
-			<h3><?php _e( "Automatic Scans", wp_defender()->domain ) ?></h3>
+			<h3><?php esc_html_e( "Automatic Scans", wp_defender()->domain ) ?></h3>
 		</div>
 		<div class="box-content">
-			<p><?php _e( "Did you know you can run these scans automatically? You can set them to run daily, weekly or monthly and have the reports emailed to you or your client’s inboxes.", wp_defender()->domain ) ?></p>
+			<p><?php esc_html_e( "Did you know you can run these scans automatically? You can set them to run daily, weekly or monthly and have the reports emailed to you or your client’s inboxes.", wp_defender()->domain ) ?></p>
 			<a href="<?php echo network_admin_url( 'admin.php?page=wdf-schedule-scan' ) ?>"
-			   class="button wd-button"><?php _e( "Setup Automatic Scans", wp_defender()->domain ) ?></a>
+			   class="button wd-button"><?php esc_html_e( "Setup Automatic Scans", wp_defender()->domain ) ?></a>
 		</div>
 	</section>
 	<script type="text/javascript">

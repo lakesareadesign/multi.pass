@@ -3,7 +3,7 @@
 Plugin Name: Network Plugin Auditor
 Plugin URI: http://wordpress.org/support/plugin/network-plugin-auditor
 Description: Adds columns to your Network Admin on the Sites, Themes and Plugins pages to show which of your sites have each plugin and theme activated.  Now you can easily determine which plugins and themes are used on your network sites and which can be safely removed.
-Version: 1.10
+Version: 1.10.1
 Author: Katherine Semel
 Author URI: http://bonsaibudget.com/
 Network: true
@@ -141,7 +141,6 @@ class NetworkPluginAuditor {
         echo $output;
     }
 
-
     /* Themes Page Functions ******************************************************/
 
     function add_themes_column( $column_details ) {
@@ -173,7 +172,6 @@ class NetworkPluginAuditor {
                     if ( ! isset( $blog_id ) || $blog_id == '' ) {
                         continue;
                     }
-
                     $output .= '<li>' . self::get_theme_link( $blog_id, 'blog' ) . '</li>';
                 }
 
@@ -203,7 +201,6 @@ class NetworkPluginAuditor {
 
         echo $output;
     }
-
 
     /* Sites Page Functions *******************************************************/
 
@@ -267,7 +264,6 @@ class NetworkPluginAuditor {
         if ( $column_name == 'active_theme' ) {
             // Get the active theme for this blog_id
             $output .= '<ul><li>' . self::get_theme_link( $blog_id, 'theme' ) . '</li></ul>';
-
         }
 
         echo $output;
@@ -296,19 +292,26 @@ class NetworkPluginAuditor {
         global $wpdb;
         $blog_list = array();
 
-        $args = array(
-            'limit'  => 10000 // use the wp_is_large_network upper limit
-        );
-
         if ( function_exists( 'get_sites' ) && function_exists( 'wp_is_large_network' ) ) {
+            // number for get_sites(), uses the wp_is_large_network upper limit
+        	$args = apply_filters( 'npa_get_network_blog_list_args', array( 
+        	                                                               'number' => 10000 
+        	                                                        	) );
+            
             // If wp_is_large_network() returns TRUE, get_sites() will return an empty array.
             // By default wp_is_large_network() returns TRUE if there are 10,000 or more sites in your network.
             // This can be filtered using the wp_is_large_network filter.
             if ( ! wp_is_large_network() ) {
-                $blog_list = get_sites();
-            }
+                $blog_list = get_sites( $args );
+        	}
 
         } else if ( function_exists( 'wp_get_sites' ) && function_exists( 'wp_is_large_network' ) ) {
+            // limit for wp_get_sites(), uses the wp_is_large_network upper limit
+        	$args = apply_filters( 'npa_get_network_blog_list_args', array( 
+        	                                                               'network_id' => null, // all networks
+        	                                                               'limit' => 10000 
+        	                                                        	) );
+
             // If wp_is_large_network() returns TRUE, wp_get_sites() will return an empty array.
             // By default wp_is_large_network() returns TRUE if there are 10,000 or more sites or users in your network.
             // This can be filtered using the wp_is_large_network filter.
@@ -327,7 +330,6 @@ class NetworkPluginAuditor {
             }
         }
 
-        //error_log( print_r( $blog_list, true ) );
         return $blog_list;
     }
 
@@ -505,7 +507,7 @@ class NetworkPluginAuditor {
         return $active_theme;
     }
 
-    static function get_theme_link( $blog_id, $display='blog_name' ) {
+    static function get_theme_link( $blog_id, $display='blog' ) {
         $output = '';
 
         $blog_details = get_blog_details( $blog_id, true );

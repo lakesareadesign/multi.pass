@@ -11,7 +11,7 @@ if ( $res['count'] > 0 ) {
 		<tbody>
 		<tr>
 			<td width="40%">
-				<?php _e( "WordPress Core Integrity", wp_defender()->domain ) ?>
+				<?php esc_html_e( "WordPress Core Integrity", wp_defender()->domain ) ?>
 			</td>
 			<td width="40%" class="tc wd-count">
 				<?php
@@ -23,7 +23,7 @@ if ( $res['count'] > 0 ) {
 			<td width="20%" class="tc">
 				<?php
 				if ( $res['core_integrity'] > 0 ) {
-					echo '<a href="' . network_admin_url( 'admin.php?page=wdf-scan' ) . '" class="button button-small button-light">' . __( "Fix Issue", wp_defender()->domain ) . '</a>';
+					echo '<a href="' . network_admin_url( 'admin.php?page=wdf-scan' ) . '" class="button button-small button-light">' . esc_html__( "Fix Issue", wp_defender()->domain ) . '</a>';
 				} else {
 					echo '<i class="dev-icon dev-icon-radio_checked"></i>';
 				}
@@ -32,7 +32,7 @@ if ( $res['count'] > 0 ) {
 		</tr>
 		<tr>
 			<td width="40%">
-				<?php _e( "Plugins & Themes vulnerability", wp_defender()->domain ) ?>
+				<?php esc_html_e( "Plugins & Themes vulnerability", wp_defender()->domain ) ?>
 			</td>
 			<td width="40%" class="tc wd-count">
 				<?php
@@ -44,7 +44,7 @@ if ( $res['count'] > 0 ) {
 			<td width="20%" class="tc">
 				<?php
 				if ( $res['vulndb'] > 0 ) {
-					echo '<a href="' . network_admin_url( 'admin.php?page=wdf-scan' ) . '" class="button button-small button-light">' . __( "Fix Issue", wp_defender()->domain ) . '</a>';
+					echo '<a href="' . network_admin_url( 'admin.php?page=wdf-scan' ) . '" class="button button-small button-light">' . esc_html__( "Fix Issue", wp_defender()->domain ) . '</a>';
 				} else {
 					echo '<i class="dev-icon dev-icon-radio_checked"></i>';
 				}
@@ -53,7 +53,7 @@ if ( $res['count'] > 0 ) {
 		</tr>
 		<tr>
 			<td width="40%">
-				<?php _e( "Suspicious Code", wp_defender()->domain ) ?>
+				<?php esc_html_e( "Suspicious Code", wp_defender()->domain ) ?>
 			</td>
 			<td width="40%" class="tc wd-count">
 				<?php
@@ -65,7 +65,7 @@ if ( $res['count'] > 0 ) {
 			<td width="20%" class="tc">
 				<?php
 				if ( $res['file_suspicious'] > 0 ) {
-					echo '<a href="' . network_admin_url( 'admin.php?page=wdf-scan' ) . '" class="button button-small button-light">' . __( "Fix Issue", wp_defender()->domain ) . '</a>';
+					echo '<a href="' . network_admin_url( 'admin.php?page=wdf-scan' ) . '" class="button button-small button-light">' . esc_html__( "Fix Issue", wp_defender()->domain ) . '</a>';
 				} else {
 					echo '<i class="dev-icon dev-icon-radio_checked"></i>';
 				}
@@ -81,7 +81,7 @@ if ( $res['count'] > 0 ) {
 	?>
 	<div class="wd-success tl">
 		<i class="dev-icon dev-icon-radio_checked"></i>
-		<?php _e( "No malware or harmful code detected.", wp_defender()->domain ) ?>
+		<?php esc_html_e( "No malware or harmful code detected.", wp_defender()->domain ) ?>
 	</div>
 	<?php
 }

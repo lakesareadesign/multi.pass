@@ -2,7 +2,7 @@
 	<div class="wp-defender">
 		<div class="group">
 			<div class="col span_6_of_12">
-				<h2 class="tl wd-title"><?php _e( "Debug Info", wp_defender()->domain ) ?></h2>
+				<h2 class="tl wd-title"><?php esc_html_e( "Debug Info", wp_defender()->domain ) ?></h2>
 			</div>
 			<div class="col span_6_of_12 float-r tr">
 				<div>
@@ -12,7 +12,7 @@
 						<?php wp_nonce_field( 'wd_cleanup_log', 'wd_debug_nonce' ) ?>
 
 						<button type="submit" class="button wd-button button-small button-cta">
-							<?php _e( "Cleanup", wp_defender()->domain ) ?>
+							<?php esc_html_e( "Cleanup", wp_defender()->domain ) ?>
 						</button>
 					</form>
 				</div>
@@ -22,7 +22,7 @@
 		<div class="vertical-tabs">
 			<section class="tab">
 				<input type="radio" name="tab_group1" id="tab_1" checked/>
-				<label for="tab_1"><?php _e( "Scan Data", wp_defender()->domain ) ?></label>
+				<label for="tab_1"><?php esc_html_e( "Scan Data", wp_defender()->domain ) ?></label>
 
 				<div class="content">
 					<div class="group">
@@ -33,27 +33,27 @@
 							</p>
 
 							<p>
-								<strong><?php _e( "Progress: " ) ?></strong>
+								<strong><?php esc_html_e( "Progress: " ) ?></strong>
 								<?php echo is_object( $model ) ? $model->get_percent() : 0 ?>%
 							</p>
 
 							<p>
-								<strong><?php _e( "Total files: " ) ?></strong>
+								<strong><?php esc_html_e( "Total files: " ) ?></strong>
 								<?php echo $model->total_files ?>
 							</p>
 
 							<p>
-								<strong><?php _e( "Current index: " ) ?></strong>
+								<strong><?php esc_html_e( "Current index: " ) ?></strong>
 								<?php echo $model->current_index ?>
 							</p>
 
 							<p>
-								<strong><?php _e( "Start time: " ) ?></strong>
+								<strong><?php esc_html_e( "Start time: " ) ?></strong>
 								<?php echo date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $model->execute_time['start'] ); ?>
 							</p>
 
 							<p>
-								<strong><?php _e( "Last modified time: " ) ?></strong>
+								<strong><?php esc_html_e( "Last modified time: " ) ?></strong>
 
 								<?php
 								if ( is_object( $model ) ) {
@@ -63,38 +63,38 @@
 							</p>
 							<?php if ( $model->status == WD_Scan_Result_Model::STATUS_COMPLETE ): ?>
 								<p>
-									<strong><?php _e( "Complete: " ) ?></strong>
+									<strong><?php esc_html_e( "Complete: " ) ?></strong>
 									<?php echo date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $model->execute_time['end'] ); ?>
 								</p>
 							<?php endif; ?>
 							<hr/>
 							<p>
-								<strong><?php _e( "Total Core Files: " ) ?></strong>
+								<strong><?php esc_html_e( "Total Core Files: " ) ?></strong>
 								<?php echo count( $core_files ) ?>
 							</p>
 
 							<p>
-								<strong><?php _e( "Fraging Files: " ) ?></strong>
+								<strong><?php esc_html_e( "Fraging Files: " ) ?></strong>
 								<?php echo count( $frag_files ) ?>
 							</p>
 
 							<p>
-								<strong><?php _e( "Total Contents Files: " ) ?></strong>
+								<strong><?php esc_html_e( "Total Contents Files: " ) ?></strong>
 								<?php echo count( $content_files ) ?>
 							</p>
 
 							<p>
-								<strong><?php _e( "Large file cache: " ) ?></strong>
+								<strong><?php esc_html_e( "Large file cache: " ) ?></strong>
 								<?php var_export( WD_Utils::get_cache( 'wd_large_data' ) ) ?>
 							</p>
 						</div>
 						<div class="col span_6_of_12">
 							<h3>
-								<?php _e( "Memory Info" ) ?>
+								<?php esc_html_e( "Memory Info" ) ?>
 							</h3>
 
 							<p>
-								<strong><?php _e( "CPU usage: " ) ?></strong>
+								<strong><?php esc_html_e( "CPU usage: " ) ?></strong>
 								<?php
 								$loaded = sys_getloadavg();
 								echo $loaded[0]
@@ -102,21 +102,21 @@
 							</p>
 
 							<p>
-								<strong><?php _e( "CPU core: " ) ?></strong>
+								<strong><?php esc_html_e( "CPU core: " ) ?></strong>
 								<?php
 								echo WD_Utils::get_cpu_cores();
 								?>
 							</p>
 
 							<p>
-								<strong><?php _e( "Memory usage: " ) ?></strong>
+								<strong><?php esc_html_e( "Memory usage: " ) ?></strong>
 								<?php
 								echo $controller->convert_size( memory_get_usage() )
 								?>
 							</p>
 
 							<p>
-								<strong><?php _e( "Peak Memory usage: " ) ?></strong>
+								<strong><?php esc_html_e( "Peak Memory usage: " ) ?></strong>
 								<?php
 								echo $controller->convert_size( memory_get_peak_usage() )
 								?>
@@ -134,7 +134,7 @@
 
 							?>
 							<h3>
-								<?php echo sprintf( __( "Result VulnDB (%s)" ), count( $res ) ) ?>
+								<?php echo sprintf( esc_html__( "Result VulnDB (%s)" ), count( $res ) ) ?>
 							</h3>
 							<?php foreach ( $res as $item ): ?>
 								<strong><?php echo $item->get_name(); ?></strong>
@@ -146,7 +146,7 @@
 							$res = $model->get_result_by_type( WD_Scan_Result_Model::TYPE_CORE );
 							?>
 							<h3>
-								<?php echo sprintf( __( "Result Core Integrity (%s)" ), count( $res ) ) ?>
+								<?php echo sprintf( esc_html__( "Result Core Integrity (%s)" ), count( $res ) ) ?>
 							</h3>
 							<?php foreach ( $res as $item ): ?>
 								<strong><?php echo $item->get_name(); ?></strong>
@@ -158,7 +158,7 @@
 							$res = $model->get_result_by_type( WD_Scan_Result_Model::TYPE_FILE, 0 );
 							?>
 							<h3>
-								<?php echo sprintf( __( "Result Suspicious Scan (%s)" ), count( $res ) ) ?>
+								<?php echo sprintf( esc_html__( "Result Suspicious Scan (%s)" ), count( $res ) ) ?>
 							</h3>
 							<?php foreach ( $res as $item ): ?>
 								<strong><?php echo $item->get_name(); ?></strong>

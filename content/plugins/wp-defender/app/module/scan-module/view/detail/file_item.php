@@ -3,7 +3,7 @@
 		<section class="dev-box">
 			<div class="box-title">
 				<h3>
-					<?php printf( __( "View Source %s", wp_defender()->domain ), $model->get_sub() ) ?>
+					<?php printf( esc_html__( "View Source %s", wp_defender()->domain ), $model->get_sub() ) ?>
 				</h3>
 			</div>
 			<div class="box-content">
@@ -48,7 +48,7 @@
 		<section class="dev-box setup-scan">
 			<div class="box-title">
 				<h3>
-					<?php _e( "Navigate", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Navigate", wp_defender()->domain ) ?>
 				</h3>
 			</div>
 			<div class="box-content">

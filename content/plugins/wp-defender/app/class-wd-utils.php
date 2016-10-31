@@ -5,6 +5,8 @@
  * @author: Hoang Ngo
  */
 class WD_Utils {
+	private static $settings = array();
+
 	/**
 	 * @param $key
 	 * @param string $default
@@ -12,11 +14,14 @@ class WD_Utils {
 	 * @return mixed|void
 	 */
 	public static function get_setting( $key, $default = '' ) {
-		$settings = get_site_option( 'wp_defender', array() );
+		/*if ( empty( self::$settings ) ) {
+			self::$settings = get_site_option( 'wp_defender', array() );
+		}*/
+		self::$settings = get_site_option( 'wp_defender', array() );
 
 		$keys    = explode( '->', $key );
 		$keys    = array_map( 'trim', $keys );
-		$setting = self::arr_get_value( $key, $settings, $default );
+		$setting = self::arr_get_value( $key, self::$settings, $default );
 
 		if ( ( is_array( $setting ) && empty( $setting ) ) || ( ! is_array( $setting ) && strlen( $setting ) == 0 ) ) {
 			//load default
@@ -93,9 +98,6 @@ class WD_Utils {
 	 * @return array
 	 */
 	public static function get_dir_tree( $path, $include_file = true, $include_dir = true, $exclude = array(), $include = array(), $is_recursive = true, $max_size = false ) {
-		if ( ! class_exists( 'WD_Dir_Tree', false ) ) {
-			include WP_PLUGIN_DIR . '/wp-defender/app/component/class-wd-dir-tree.php';
-		}
 		$tv = new WD_Dir_Tree( $path, $include_file, $include_dir, $include, $exclude, $is_recursive );
 		if ( $max_size != false ) {
 			$tv->max_filesize = $max_size;
@@ -149,9 +151,9 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 			//'exclude_file_extension'                             => self::exclude_extensions(),
 			'max_file_size'                                      => 10,
 			/*'files_chunk'                          => array(
-				'label'       => __( "Maximum amount of files the plugin can handle at a time", wp_defender()->domain ),
+				'label'       => esc_html__( "Maximum amount of files the plugin can handle at a time", wp_defender()->domain ),
 				'value'       => '500',
-				'description' => __( "If your site has heavily traffic, lowering this amount (50-200) will improve performance and resource usage. If not, leave by default or larger.", wp_defender()->domain )
+				'description' => esc_html__( "If your site has heavily traffic, lowering this amount (50-200) will improve performance and resource usage. If not, leave by default or larger.", wp_defender()->domain )
 			)*/
 			'always_notify'                                      => 0
 		) );
@@ -495,7 +497,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 */
 	public static function get_display_name( $user_id = null ) {
 		if ( ! is_user_logged_in() && is_null( $user_id ) ) {
-			return __( "Guest", wp_defender()->domain );
+			return esc_html__( "Guest", wp_defender()->domain );
 		}
 
 		if ( is_null( $user_id ) ) {
@@ -516,11 +518,6 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 * @return bool|string
 	 */
 	public static function is_wpmudev_dashboard_installed() {
-		global $wpmudev_un;
-		if ( $wpmudev_un instanceof WPMUDEV_Dashboard ) {
-			return $wpmudev_un->version;
-		}
-
 		//check if this is new
 		if ( class_exists( 'WPMUDEV_Dashboard' ) ) {
 			return WPMUDEV_Dashboard::$version;
@@ -538,12 +535,9 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 				//this is version 4+
 				//instanize once
 				WPMUDEV_Dashboard::instance();
-				$membership_type = WPMUDEV_Dashboard::$api->get_membership_type( $dummy );
-				if ( $membership_type == 'full' ) {
-					$api_key = WPMUDEV_Dashboard::$api->get_key();
+				$api_key = WPMUDEV_Dashboard::$api->get_key();
 
-					return $api_key;
-				}
+				return $api_key;
 			} else {
 				global $wpmudev_un;
 				$api_key = $wpmudev_un->get_apikey();
@@ -613,7 +607,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 
 		if ( empty( $fullname ) ) {
 			if ( ! is_user_logged_in() ) {
-				return __( "Guest", wp_defender()->domain );
+				return esc_html__( "Guest", wp_defender()->domain );
 			}
 			$userdata = get_userdata( get_current_user_id() );
 
@@ -643,11 +637,9 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 		$end_point = "https://premium.wpmudev.org/api/defender/v1/scan-results";
 		$data      = WD_Utils::prepare_api_result();
 		$component = new WD_Component();
-		$component->log( var_export( $data, true ), WD_Component::ERROR_LEVEL_DEBUG, 'api_submit' );
-		$result = $component->wpmudev_call( $end_point, $data, array(
+		$result    = $component->wpmudev_call( $end_point, $data, array(
 			'method' => 'POST'
 		) );
-		$component->log( var_export( $result, true ), WD_Component::ERROR_LEVEL_DEBUG, 'api_submit' );
 		self::update_setting( 'flag->need_submit_to_api', false );
 		self::update_setting( 'flag->submit_asap', false );
 	}
@@ -726,9 +718,9 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 			);
 		}
 		$labels = array(
-			'core_integrity'   => __( "WordPress Core Integrity", wp_defender()->domain ),
-			'vulnerability_db' => __( "Plugins & Themes vulnerability", wp_defender()->domain ),
-			'file_suspicious'  => __( "Suspicious Code", wp_defender()->domain )
+			'core_integrity'   => esc_html__( "WordPress Core Integrity", wp_defender()->domain ),
+			'vulnerability_db' => esc_html__( "Plugins & Themes vulnerability", wp_defender()->domain ),
+			'file_suspicious'  => esc_html__( "Suspicious Code", wp_defender()->domain )
 		);
 		$data   = array(
 			'domain'       => network_home_url(),
@@ -745,6 +737,8 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 					'day'          => $scan_schedule['day'],
 					'frequency'    => $scan_schedule['frequency']
 				),
+				'audit_enabled'      => self::get_setting( 'audit_log->enabled', 0 ),
+				'audit_page_url'     => network_admin_url( 'admin.php?page=wdf-logging' ),
 				'labels'             => $labels,
 				'scan_page_url'      => network_admin_url( 'admin.php?page=wdf-scan' ),
 				'hardener_page_url'  => network_admin_url( 'admin.php?page=wdf-hardener' ),
@@ -845,7 +839,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 * @since 1.0.4
 	 */
 	public static function cache( $key, $value, $expiry = null, $store_type = 'serialize' ) {
-		if ( $expiry == null ) {
+		if ( $expiry === null ) {
 			//we willc ache in 1 week
 			$expiry = HOUR_IN_SECONDS * 24 * 7;
 		}
@@ -885,7 +879,6 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 			}
 			$id     = 'wdfc_' . $key;
 			$result = update_option( $id, $value, false );
-
 			//we need to add timeout too, count from now
 			$clear_id = 'wdfc_time_' . $key;
 			update_option( $clear_id, strtotime( '+ ' . $expiry . ' seconds' ), false );
@@ -997,6 +990,9 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 		} else {
 			$id = 'wdfc_' . $key;
 			delete_option( $id );
+			$clear_id = 'wdfc_time_' . $key;
+			delete_option( $clear_id );
+
 		}
 	}
 
@@ -1006,13 +1002,13 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 			$since = 0;
 		}
 		$chunks = array(
-			array( 60 * 60 * 24 * 365, __( "year" ) ),
-			array( 60 * 60 * 24 * 30, __( "month" ) ),
-			array( 60 * 60 * 24 * 7, __( "week" ) ),
-			array( 60 * 60 * 24, __( 'day' ) ),
-			array( 60 * 60, __( "hour" ) ),
-			array( 60, __( "minute" ) ),
-			array( 1, __( "second" ) )
+			array( 60 * 60 * 24 * 365, esc_html__( "year" ) ),
+			array( 60 * 60 * 24 * 30, esc_html__( "month" ) ),
+			array( 60 * 60 * 24 * 7, esc_html__( "week" ) ),
+			array( 60 * 60 * 24, esc_html__( 'day' ) ),
+			array( 60 * 60, esc_html__( "hour" ) ),
+			array( 60, esc_html__( "minute" ) ),
+			array( 1, esc_html__( "second" ) )
 		);
 
 		for ( $i = 0, $j = count( $chunks ); $i < $j; $i ++ ) {

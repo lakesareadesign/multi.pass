@@ -11,7 +11,7 @@ class WD_Security_Key extends WD_Hardener_Abstract {
 
 	public function on_creation() {
 		$this->id         = 'wd_security_key';
-		$this->title      = __( 'Update old security keys', wp_defender()->domain );
+		$this->title      = esc_html__( 'Update old security keys', wp_defender()->domain );
 		$this->can_revert = false;
 		$this->days_check = apply_filters( 'wd/security_key_days_check', 30 );
 
@@ -74,7 +74,7 @@ class WD_Security_Key extends WD_Hardener_Abstract {
 		if ( ! is_writable( WD_Utils::retrieve_wp_config_path() ) ) {
 			wp_send_json( array(
 				'status' => 0,
-				'error'  => __( "Your wp-config.php isn't writable", wp_defender()->domain )
+				'error'  => esc_html__( "Your wp-config.php isn't writable", wp_defender()->domain )
 			) );
 		}
 
@@ -314,23 +314,23 @@ class WD_Security_Key extends WD_Hardener_Abstract {
 			<div class="wd-clearfix"></div>
 
 			<div id="<?php echo $this->id ?>" class="wd-rule-content">
-				<h4 class="tl"><?php _e( "Overview", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "Overview", wp_defender()->domain ) ?></h4>
 
-				<p><?php _e( "We recommend changing your security keys every 60 days.", wp_defender()->domain ) ?></p>
+				<p><?php esc_html_e( "We recommend changing your security keys every 60 days.", wp_defender()->domain ) ?></p>
 
 				<form method="post" id="update_security_keys_remind_days">
-					<div><?php _e( "Remind me to change my security keys every", wp_defender()->domain ) ?>
+					<div><?php esc_html_e( "Remind me to change my security keys every", wp_defender()->domain ) ?>
 						<select class="security_keys_remind_days">
 							<option
-								value="30 days" <?php selected( '30 days', WD_Utils::get_setting( $this->get_setting_key( 'remind_interval' ), '60 days' ) ) ?>><?php _e( '30 Days', wp_defender()->domain ) ?></option>
+								value="30 days" <?php selected( '30 days', WD_Utils::get_setting( $this->get_setting_key( 'remind_interval' ), '60 days' ) ) ?>><?php esc_html_e( '30 Days', wp_defender()->domain ) ?></option>
 							<option
-								value="60 days" <?php selected( '60 days', WD_Utils::get_setting( $this->get_setting_key( 'remind_interval' ), '60 days' ) ) ?>><?php _e( '60 Days', wp_defender()->domain ) ?></option>
+								value="60 days" <?php selected( '60 days', WD_Utils::get_setting( $this->get_setting_key( 'remind_interval' ), '60 days' ) ) ?>><?php esc_html_e( '60 Days', wp_defender()->domain ) ?></option>
 							<option
-								value="90 days" <?php selected( '90 days', WD_Utils::get_setting( $this->get_setting_key( 'remind_interval' ), '60 days' ) ) ?>><?php _e( '90 Days', wp_defender()->domain ) ?></option>
+								value="90 days" <?php selected( '90 days', WD_Utils::get_setting( $this->get_setting_key( 'remind_interval' ), '60 days' ) ) ?>><?php esc_html_e( '90 Days', wp_defender()->domain ) ?></option>
 							<option
-								value="6 months" <?php selected( '6 months', WD_Utils::get_setting( $this->get_setting_key( 'remind_interval' ), '60 days' ) ) ?>><?php _e( '6 Months', wp_defender()->domain ) ?></option>
+								value="6 months" <?php selected( '6 months', WD_Utils::get_setting( $this->get_setting_key( 'remind_interval' ), '60 days' ) ) ?>><?php esc_html_e( '6 Months', wp_defender()->domain ) ?></option>
 							<option
-								value="1 year" <?php selected( '1 year', WD_Utils::get_setting( $this->get_setting_key( 'remind_interval' ), '60 days' ) ) ?>><?php _e( '1 Year', wp_defender()->domain ) ?></option>
+								value="1 year" <?php selected( '1 year', WD_Utils::get_setting( $this->get_setting_key( 'remind_interval' ), '60 days' ) ) ?>><?php esc_html_e( '1 Year', wp_defender()->domain ) ?></option>
 						</select>
 						<?php if ( $this->check() ): ?>
 							<input type="hidden" name="security_keys_remind_days" value="60 days">
@@ -338,7 +338,7 @@ class WD_Security_Key extends WD_Hardener_Abstract {
 							       value="<?php echo $this->generate_ajax_action( 'update_interval' ) ?>">
 							<?php echo $this->generate_nonce_field( 'update_interval' ) ?>
 							<button type="submit" class="button button-primary">
-								<?php _e( "Update", wp_defender()->domain ) ?>
+								<?php esc_html_e( "Update", wp_defender()->domain ) ?>
 							</button>
 							<i class="wdv-icon wdv-icon-fw wdv-icon-ok-sign wd-hide"></i>
 							<i class="wdv-icon wdv-icon-fw wdv-icon-refresh spin wd-hide"></i>
@@ -346,7 +346,7 @@ class WD_Security_Key extends WD_Hardener_Abstract {
 					</div>
 				</form>
 
-				<h4 class="tl"><?php _e( "How To Fix", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
 
 				<div class="wd-well">
 					<?php if ( ( $this->check() ) === false ): ?>
@@ -357,11 +357,11 @@ class WD_Security_Key extends WD_Hardener_Abstract {
 							<input type="hidden" name="security_keys_remind_days" value="60 days">
 							<?php echo $this->generate_nonce_field( 'generate' ) ?>
 							<button class="button wd-button" type="submit">
-								<?php _e( "Regenerate Security Keys", wp_defender()->domain ) ?>
+								<?php esc_html_e( "Regenerate Security Keys", wp_defender()->domain ) ?>
 							</button>
 						</form>
 					<?php else: ?>
-						<?php printf( __( "Your salt keys are %d days old. You are fine for now.", wp_defender()->domain ), floor( $this->days_ago() ) ) ?>
+						<?php printf( esc_html__( "Your salt keys are %d days old. You are fine for now.", wp_defender()->domain ), floor( $this->days_ago() ) ) ?>
 					<?php endif; ?>
 				</div>
 				<?php echo $this->ignore_button() ?>

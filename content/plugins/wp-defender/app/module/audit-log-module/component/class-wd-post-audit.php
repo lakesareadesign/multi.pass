@@ -35,13 +35,6 @@ class WD_Post_Audit extends WD_Event_Abstract {
 				'event_type'  => 'content',
 				'action_type' => WD_Audit_API::ACTION_UPDATED,
 			),
-			'post_updated1'          => array(
-				'args'        => array( 'post_ID', 'post_after', 'post_before' ),
-				'level'       => self::LOG_LEVEL_INFO,
-				'callback'    => array( 'WD_Post_Audit', 'post_updated_callback' ),
-				'event_type'  => 'content',
-				'action_type' => WD_Audit_API::ACTION_UPDATED,
-			),
 			'transition_post_status' => array(
 				'args'         => array( 'new_status', 'old_status', 'post' ),
 				'level'        => self::LOG_LEVEL_INFO,
@@ -75,25 +68,25 @@ class WD_Post_Audit extends WD_Event_Abstract {
 				),
 				'text'         => array(
 					array(
-						sprintf( __( "%s published %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
+						sprintf( esc_html__( "%s published %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
 						'{{new_status}}',
 						'publish',
 						'=='
 					),
 					array(
-						sprintf( __( "%s pending %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
+						sprintf( esc_html__( "%s pending %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
 						'{{new_status}}',
 						'pending',
 						'=='
 					),
 					array(
-						sprintf( __( "%s drafted %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
+						sprintf( esc_html__( "%s drafted %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
 						'{{new_status}}',
 						'draft',
 						'=='
 					),
 					array(
-						sprintf( __( "%s changed %s \"%s\" status from %s to %s", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}', '{{old_status}}', '{{new_status}}' ),
+						sprintf( esc_html__( "%s changed %s \"%s\" status from %s to %s", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}', '{{old_status}}', '{{new_status}}' ),
 						'{{new_status}}',
 						'{{new_status}}',
 						'=='
@@ -118,7 +111,7 @@ class WD_Post_Audit extends WD_Event_Abstract {
 				'level'        => self::LOG_LEVEL_INFO,
 				'event_type'   => 'content',
 				'action_type'  => WD_Audit_API::ACTION_DELETED,
-				'text'         => sprintf( __( "%s deleted %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
+				'text'         => sprintf( esc_html__( "%s deleted %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
 				'program_args' => array(
 					'post'            => array(
 						'callable' => 'get_post',
@@ -166,7 +159,7 @@ class WD_Post_Audit extends WD_Event_Abstract {
 				'level'        => self::LOG_LEVEL_INFO,
 				'action_type'  => WD_Audit_API::ACTION_RESTORED,
 				'event_type'   => 'content',
-				'text'         => sprintf( __( "%s untrashed %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
+				'text'         => sprintf( esc_html__( "%s untrashed %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
 				'program_args' => array(
 					'post'            => array(
 						'callable' => 'get_post',
@@ -196,7 +189,7 @@ class WD_Post_Audit extends WD_Event_Abstract {
 				'level'        => self::LOG_LEVEL_INFO,
 				'action_type'  => WD_Audit_API::ACTION_TRASHED,
 				'event_type'   => 'content',
-				'text'         => sprintf( __( "%s trashed %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
+				'text'         => sprintf( esc_html__( "%s trashed %s \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label}}', '{{post_title}}' ),
 				'program_args' => array(
 					'post'            => array(
 						'callable' => 'get_post',
@@ -222,57 +215,31 @@ class WD_Post_Audit extends WD_Event_Abstract {
 				'context'      => '{{post_type_label}}',
 			),
 			'update_postmeta'        => array(
-				'args'         => array( 'meta_id', 'object_id', 'meta_key', 'meta_value' ),
-				'level'        => self::LOG_LEVEL_INFO,
-				'action_type'  => WD_Audit_API::ACTION_UPDATED,
-				'event_type'   => 'meta',
-				'text'         => sprintf( __( "%s updated %s meta %s", wp_defender()->domain ), '{{wp_user}}', '{{post_type_label_lower}}', '{{meta_key}}' ),
-				/*'text'         => array(
-					array(
-						sprintf( __( "%s changed user %s meta %s to \"%s\"", wp_defender()->domain ), '{{wp_user}}', '{{username}}', '{{meta_key}}', '{{meta_value}}' ),
-						'{{meta_key}}',
-						array(
-							'nickname',
-							'first_name',
-							'last_name',
-							'description'
-						),
-						'in'
-					)
-				),*/
-				'program_args' => array(
-					'post'                  => array(
-						'callable' => 'get_post',
-						'params'   => array(
-							'{{object_id}}'
-						),
-					),
-					'post_type_label'       => array(
-						'callable'        => 'get_post_type_object',
-						'params'          => array(
-							'{{post->post_type}}'
-						),
-						'result_property' => 'labels->singular_name'
-					),
-					'post_type_label_lower' => array(
-						'callable' => 'strtolower',
-						'params'   => array(
-							'{{post_type_label}}'
-						),
-					),
-				),
-				'context'      => '{{post->post_title}}',
-				'false_when'   => array(
-					array(
-						'{{meta_key}}',
-						array(
-							'_edit_lock',
-							'_edit_last'
-						)
-					),
-				),
-			)
+				'args'        => array( 'meta_id', 'object_id', 'meta_key', 'meta_value' ),
+				'callback'    => array( 'WD_Post_Audit', 'update_postmeta_callback' ),
+				'level'       => self::LOG_LEVEL_INFO,
+				'action_type' => WD_Audit_API::ACTION_UPDATED,
+				'event_type'  => 'meta',
+			),
 		);
+	}
+
+	public static function update_postmeta_callback() {
+		$args    = func_get_args();
+		$meta_id = $args[1]['meta_id'];
+		$post_id = $args[1]['object_id'];
+		$key     = $args[1]['meta_key'];
+		$value   = $args[1]['meta_value'];
+		if ( WD_Audit_API::is_xss_positive( $value ) ) {
+			$post      = get_post( $post_id );
+
+			return array(
+				sprintf( esc_html__( "Suspicious meta found %s. Update to %s.", wp_defender()->domain ), esc_textarea( $value ), $key ),
+				$post->post_title
+			);
+		}
+
+		return false;
 	}
 
 	public static function post_updated_callback() {
@@ -321,7 +288,7 @@ class WD_Post_Audit extends WD_Event_Abstract {
 				unset( $post_before['post_status'] );
 				if ( serialize( $post_before ) != serialize( $post_after ) ) {
 					return array(
-						sprintf( __( "%s updated %s \"%s\"", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $post_type->labels->singular_name, $post_after['post_title'] ),
+						sprintf( esc_html__( "%s updated %s \"%s\"", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $post_type->labels->singular_name, $post_after['post_title'] ),
 						$post_type->labels->singular_name
 					);
 				}
@@ -329,7 +296,7 @@ class WD_Post_Audit extends WD_Event_Abstract {
 		} else {
 			if ( is_null( $post_before ) ) {
 				return array(
-					sprintf( __( "%s added new %s \"%s\"", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $post_type->labels->singular_name, $post->post_title ),
+					sprintf( esc_html__( "%s added new %s \"%s\"", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $post_type->labels->singular_name, $post->post_title ),
 					$post_type->labels->singular_name
 				);
 			}
@@ -374,7 +341,7 @@ class WD_Post_Audit extends WD_Event_Abstract {
 
 		if ( count( array_udiff( $post_after, $post_before, array( 'WD_Post_Audit', 'compare_post' ) ) ) ) {
 			return array(
-				sprintf( __( "%s updated %s \"%s\"", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $post_type->labels->singular_name, $post_after['post_title'] ),
+				sprintf( esc_html__( "%s updated %s \"%s\"", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $post_type->labels->singular_name, $post_after['post_title'] ),
 				$post_type->labels->singular_name
 			);
 		}

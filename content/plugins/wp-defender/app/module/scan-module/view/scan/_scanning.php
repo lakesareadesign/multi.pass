@@ -1,8 +1,8 @@
 <section class="dev-box scan-reports">
 	<div class="box-title">
-		<h3><?php _e( "Scan Reports", wp_defender()->domain ) ?>
+		<h3><?php esc_html_e( "Scan Reports", wp_defender()->domain ) ?>
 			<a class="button button-light button-small wd-scan-toggle-log"
-			   href="#"><?php _e( "Show Log", wp_defender()->domain ) ?></a>
+			   href="#"><?php esc_html_e( "Show Log", wp_defender()->domain ) ?></a>
 		</h3>
 	</div>
 	<?php if ( $model->status == WD_Scan_Result_Model::STATUS_ERROR ): ?>
@@ -13,9 +13,9 @@
 	<div class="box-content">
 		<div class="scanning">
 			<div class="wd-well">
-				<h3><?php _e( "Running New Scan", wp_defender()->domain ) ?></h3>
+				<h3><?php esc_html_e( "Running New Scan", wp_defender()->domain ) ?></h3>
 
-				<p class="tc"><?php _e( "This scan is running in the background and will continue to run if you navigate away or close your browser. Check back in a few minutes to see your results.", wp_defender()->domain ) ?></p>
+				<p class="tc"><?php esc_html_e( "This scan is running in the background and will continue to run if you navigate away or close your browser. Check back in a few minutes to see your results.", wp_defender()->domain ) ?></p>
 				<br/>
 
 				<div
@@ -32,7 +32,7 @@
 						<button type="submit" class="button button-grey button-small">
 							<input type="hidden" name="action" value="wd_cancel_scan">
 							<?php wp_nonce_field( 'wd_cancel_scan', 'wd_scan_nonce' ) ?>
-							<?php _e( "Cancel Scan", wp_defender()->domain ) ?>
+							<?php esc_html_e( "Cancel Scan", wp_defender()->domain ) ?>
 						</button>
 					</form>
 					<form method="post" id="secret_key_scanning">
@@ -46,7 +46,7 @@
 </section>
 <section class="dev-box wd-hide">
 	<div class="box-title">
-		<h3><?php _e( "File scanned", wp_defender()->domain ) ?></h3>
+		<h3><?php esc_html_e( "File scanned", wp_defender()->domain ) ?></h3>
 	</div>
 	<div class="box-content">
 		<div class="wd-scan-log">

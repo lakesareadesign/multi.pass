@@ -13,7 +13,7 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 
 	public function on_creation() {
 		$this->id         = 'db_prefix';
-		$this->title      = __( 'Change default database prefix', wp_defender()->domain );
+		$this->title      = esc_html__( 'Change default database prefix', wp_defender()->domain );
 		$this->can_revert = true;
 
 		$this->add_action( 'admin_footer', 'print_scripts' );
@@ -123,7 +123,6 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 		}
 
 		$results = $wpdb->get_col( $wpdb->prepare( "SHOW TABLES LIKE %s", $prefix . '%' ) );
-
 		$results = array_unique( $results );
 
 		return $results;
@@ -140,19 +139,39 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 	private function validate_environment() {
 		$wp_config_path = WD_Utils::retrieve_wp_config_path();
 		if ( ! is_writable( $wp_config_path ) ) {
-			$this->output_error( 0, __( "Your wp-config.php is not writable", wp_defender()->domain ) );
+			$this->output_error( 0, esc_html__( "Your wp-config.php is not writable", wp_defender()->domain ) );
 		}
 
 		if ( ! function_exists( 'file' ) || ! function_exists( 'file_get_contents' ) || ! function_exists( 'file_put_contents' ) ) {
-			$this->output_error( 1, sprintf( __( "This plugin will require these functions % enabled on your server", wp_defender()->domain ), 'file, file_get_contents, file_put_contents' ) );
+			$this->output_error( 1, sprintf( esc_html__( "This plugin will require these functions % enabled on your server", wp_defender()->domain ), 'file, file_get_contents, file_put_contents' ) );
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param $prefix
+	 *
+	 * @return bool|WP_Error
+	 */
+	public function validate( $prefix ) {
+		if ( empty( $prefix ) ) {
+			return new WP_Error( esc_html__( "Your prefix can't be empty!", wp_defender()->domain ) );
+		}
+
+		if ( preg_match( '|[^a-z0-9_]|i', $prefix ) ) {
+			return new WP_Error( esc_html__( "Table prefix can only contain numbers, letters, and underscores.", wp_defender()->domain ) );
+		}
+
+		$tables = $this->get_tables( $prefix );
+		if ( $tables ) {
+			return new WP_Error( esc_html__( "This prefix is already in use. Please choose a different prefix.", wp_defender()->domain ) );
 		}
 
 		return true;
 	}
 
 	public function process() {
-		$this->log( 'Start updating db prefix', self::ERROR_LEVEL_DEBUG );
-
 		if ( ! WD_Utils::check_permission() ) {
 			return;
 		}
@@ -168,7 +187,7 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 		if ( empty( $prefix ) ) {
 			wp_send_json( array(
 				'status' => 0,
-				'error'  => __( "Your prefix can't be empty!", wp_defender()->domain )
+				'error'  => esc_html__( "Your prefix can't be empty!", wp_defender()->domain )
 			) );
 		}
 
@@ -182,17 +201,15 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 		if ( preg_match( '|[^a-z0-9_]|i', $prefix ) ) {
 			wp_send_json( array(
 				'status' => 0,
-				'error'  => __( "Table prefix can only contain numbers, letters, and underscores.", wp_defender()->domain )
+				'error'  => esc_html__( "Table prefix can only contain numbers, letters, and underscores.", wp_defender()->domain )
 			) );
 		}
 
 		$tables = $this->get_tables( $prefix );
 		if ( $tables ) { //a table already using this
-			$this->output_error( 'conflict', __( "This prefix is already in use. Please choose a different prefix.", wp_defender()->domain ) );
+			$this->output_error( 'conflict', esc_html__( "This prefix is already in use. Please choose a different prefix.", wp_defender()->domain ) );
 		}
 
-		$this->log( 'All the validation fine, backup wp-config.php', self::ERROR_LEVEL_DEBUG );
-		//todo backup hashing
 		WD_Utils::update_setting( $this->get_setting_key( 'start' ), 1 );
 		$this->update_table_prefix( $prefix );
 		$this->update_table_data( $prefix );
@@ -217,7 +234,6 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 	 * @return string
 	 */
 	public function update_table_prefix( $prefix, $old_prefix = null ) {
-		$this->log( 'Started rename tables', self::ERROR_LEVEL_DEBUG );
 		global $wpdb;
 		if ( is_null( $old_prefix ) ) {
 			$old_prefix = $wpdb->prefix;
@@ -227,12 +243,8 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 
 		foreach ( $tables as $table ) {
 			$new_table_name = str_replace( $old_prefix, $prefix, $table );
-			$this->log( sprintf( 'RENAME table %s to %s', $table, $new_table_name ), self::ERROR_LEVEL_DEBUG );
 			$sql = "RENAME TABLE `{$table}` TO `{$new_table_name}`";
 			if ( $wpdb->query( $sql ) === false ) {
-				$this->log( __( 'RENAME table %s to %s error, message :%s query:%s', $table, $new_table_name, $wpdb->last_error, $wpdb->last_query ), self::ERROR_LEVEL_DEBUG );
-				//revert here
-
 				if ( $this->is_ajax() ) {
 					$this->output_error( 'alter_error', $wpdb->last_error );
 				} else {
@@ -241,7 +253,6 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 			}
 			$this->renamed_table[] = $table;
 		}
-		$this->log( 'End rename tables successfully', self::ERROR_LEVEL_DEBUG );
 
 		return true;
 	}
@@ -260,15 +271,13 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 		$config_content = file_get_contents( $path );
 		$config_content = preg_replace( '/(\$table_prefix\s*=\s*)([\'"]).+?\\2(\s*;)/', "\${1}'$prefix'\${3}", $config_content );
 		//write back
-		$this->log( 'start update wp-config.php', self::ERROR_LEVEL_DEBUG );
 		if ( ! file_put_contents( $path, $config_content, LOCK_EX ) ) {
 			if ( $this->is_ajax() ) {
-				$this->output_error( 'cant_write', __( "It seems the wp-config.php file is currently using by another process or isn't writeable.", wp_defender()->domain ) );
+				$this->output_error( 'cant_write', esc_html__( "It seems the wp-config.php file is currently using by another process or isn't writeable.", wp_defender()->domain ) );
 			} else {
 				return false;
 			}
 		}
-		$this->log( 'end update wp-config.php', self::ERROR_LEVEL_DEBUG );
 
 		return true;
 	}
@@ -281,7 +290,6 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 	 * @return string
 	 */
 	public function update_table_data( $prefix, $old_prefix = null ) {
-		$this->log( 'Started update tables data', self::ERROR_LEVEL_DEBUG );
 		global $wpdb;
 		if ( is_null( $old_prefix ) ) {
 			$old_prefix = $wpdb->prefix;
@@ -301,10 +309,7 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 					}
 					$sql = "UPDATE `{$prefix}{$blog_id}_options` SET option_name=%s WHERE option_name=%s";
 					$sql = $wpdb->prepare( $sql, $prefix . $blog_id . '_user_roles', $old_prefix . $blog_id . '_user_roles' );
-					$this->log( sprintf( 'Fixing option %s', $prefix . $blog_id . '_user_roles' ), self::ERROR_LEVEL_DEBUG );
 					if ( $wpdb->query( $sql ) == false ) {
-						$this->log( sprintf( 'Fixing option %s error, message %s sql', $prefix . $blog_id . '_user_roles error', $wpdb->last_error, $sql ), self::ERROR_LEVEL_DEBUG );
-
 						return $this->output_error( 'sql_error', $wpdb->last_error );
 					}
 				}
@@ -313,7 +318,6 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 		//now update the main blog
 		$sql = "UPDATE `{$prefix}options` SET option_name=%s WHERE option_name=%s";
 		$sql = $wpdb->prepare( $sql, $prefix . 'user_roles', $old_prefix . 'user_roles' );
-		$this->log( sprintf( 'Fixing option %s', $old_prefix . 'user_roles' ), self::ERROR_LEVEL_DEBUG );
 		$wpdb->query( $sql );
 		//we will need to update the prefix inside user meta, or we will get issue with permission
 		$sql  = "SELECT * FROM {$prefix}usermeta";
@@ -324,15 +328,11 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 				$new_name   = $prefix . $clean_name;
 				$sql        = $wpdb->prepare( "UPDATE `{$prefix}usermeta` SET meta_key=%s WHERE meta_key=%s", $new_name, $row['meta_key'] );
 				//run the updater
-				$this->log( sprintf( 'Fixing usermeta %s to %s', $row['meta_key'], $new_name ), self::ERROR_LEVEL_DEBUG );
 				if ( $wpdb->query( $sql ) === false ) {
-					$this->log( sprintf( 'Fixing usermeta %s to %s error. Message: %s', $row['meta_key'], $new_name, $wpdb->last_error ), self::ERROR_LEVEL_DEBUG );
-
 					return $this->output_error( 'sql_error', $wpdb->last_error );
 				}
 			}
 		}
-		$this->log( 'End database update', self::ERROR_LEVEL_DEBUG );
 
 		return true;
 	}
@@ -344,11 +344,11 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 			<div class="wd-clearfix"></div>
 
 			<div id="<?php echo $this->id ?>" class="wd-rule-content">
-				<h4 class="tl"><?php _e( "Overview", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "Overview", wp_defender()->domain ) ?></h4>
 
-				<p><?php _e( "When you first install WordPress on a new database, the default settings start with wp_ as the prefix to anything that gets stored in the tables. This makes it easier for hackers to perform SQL injection attacks if they find a code vulnerability. It’s good practice to come up with a unique prefix to protect yourself from this. Please backup your database before changing the prefix.", wp_defender()->domain ) ?></p>
+				<p><?php esc_html_e( "When you first install WordPress on a new database, the default settings start with wp_ as the prefix to anything that gets stored in the tables. This makes it easier for hackers to perform SQL injection attacks if they find a code vulnerability. It’s good practice to come up with a unique prefix to protect yourself from this. Please backup your database before changing the prefix.", wp_defender()->domain ) ?></p>
 
-				<h4 class="tl"><?php _e( "How To Fix", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
 
 				<div class="wd-error wd-hide">
 
@@ -357,7 +357,7 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 				<div class="wd-well">
 					<?php if ( is_multisite() && get_blog_count() >= 100 ):
 						?>
-						<?php _e( "Unfortunately it's not safe to do this via a plugin for larger WordPress Multisite installs. You can ignore this step, or follow a tutorial online on how to use a scalable tool like WP-CLI.", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Unfortunately it's not safe to do this via a plugin for larger WordPress Multisite installs. You can ignore this step, or follow a tutorial online on how to use a scalable tool like WP-CLI.", wp_defender()->domain ) ?>
 					<?php else: ?>
 
 						<?php if ( $this->check() ): ?>
@@ -366,7 +366,7 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 							printf( __( "Your prefix is <strong>%s</strong> and is unique." ), $wpdb->base_prefix ) ?>
 						<?php else: ?>
 							<p>
-								<?php _e( "We recommend using a different prefix to protect your database. Ensure you backup your database before changing the prefix.", wp_defender()->domain ) ?>
+								<?php esc_html_e( "We recommend using a different prefix to protect your database. Ensure you backup your database before changing the prefix.", wp_defender()->domain ) ?>
 							</p>
 
 							<form method="post" class="form-button-inline" id="db_prefix_form">
@@ -381,7 +381,7 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 									</div>
 									<div class="col span_2_of_12">
 										<button type="submit" class="button wd-button">
-											<?php _e( "Update", wp_defender()->domain ) ?>
+											<?php esc_html_e( "Update", wp_defender()->domain ) ?>
 										</button>
 									</div>
 								</div>

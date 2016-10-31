@@ -4,7 +4,7 @@
 			<div class="wd-issue-detail">
 				<section id="header">
 					<h1 class="tl">
-						<?php _e( "Review Changes", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Review Changes", wp_defender()->domain ) ?>
 					</h1>
 				</section>
 				<section>

@@ -9,13 +9,18 @@
 class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 	public function on_creation() {
 		$this->id         = 'wp_plugin_theme_version';
-		$this->title      = __( 'Update plugins & themes to latest versions', wp_defender()->domain );
+		$this->title      = esc_html__( 'Update plugins & themes to latest versions', wp_defender()->domain );
 		$this->can_revert = true;
 
 		$this->add_action( 'admin_footer', 'print_scripts' );
 		$this->add_ajax_action( 'wd_get_plugin_changelog', 'get_changelog' );
 		$this->add_ajax_action( 'wd_listen_pt_version', 'listen_pt_version' );
 		$this->add_ajax_action( 'wd_update_theme', 'update_theme' );
+		$this->add_action( 'upgrader_process_complete', 'submit_to_api_when_things_updated', 10, 2 );
+	}
+
+	public function submit_to_api_when_things_updated() {
+		WD_Utils::flag_for_submitting();
 	}
 
 	/**
@@ -155,7 +160,7 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 			}
 		}
 
-		return __( "N/A", wp_defender()->domain );
+		return esc_html__( "N/A", wp_defender()->domain );
 	}
 
 	public function get_theme_changelog( $slug, $base ) {
@@ -179,7 +184,6 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 		}
 
 		$response = maybe_unserialize( wp_remote_retrieve_body( $raw_response ) );
-		//var_dump( $response );
 	}
 
 	/**
@@ -348,9 +352,9 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 			<div class="wd-clearfix"></div>
 
 			<div id="<?php echo $this->id ?>" class="wd-rule-content">
-				<h4 class="tl"><?php _e( "Overview", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "Overview", wp_defender()->domain ) ?></h4>
 
-				<p><?php _e( "Updates to plugins and themes often include critical security updates, new features and a happier life for all, so we recommend you stick to the latest versions and update regularly.", wp_defender()->domain ) ?></p>
+				<p><?php esc_html_e( "Updates to plugins and themes often include critical security updates, new features and a happier life for all, so we recommend you stick to the latest versions and update regularly.", wp_defender()->domain ) ?></p>
 
 				<div class="wd-error wd-hide">
 
@@ -387,7 +391,7 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 										<input type="hidden" name="plugin" value="<?php echo $item['base'] ?>">
 										<input type="hidden" name="slug" value="<?php echo $item['slug'] ?>">
 										<button type="submit" class="button button-small button-secondary wd-button">
-											<?php _e( "Update", wp_defender()->domain ) ?>
+											<?php esc_html_e( "Update", wp_defender()->domain ) ?>
 										</button>
 									</form>
 								</div>
@@ -414,7 +418,7 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 										<input type="hidden" name="action" value="wd_update_theme">
 										<input type="hidden" name="theme" value="<?php echo $item['base'] ?>">
 										<button type="submit" class="button button-small button-secondary wd-button">
-											<?php _e( "Update", wp_defender()->domain ) ?>
+											<?php esc_html_e( "Update", wp_defender()->domain ) ?>
 										</button>
 									</form>
 								</div>
@@ -427,13 +431,13 @@ class WD_Plugin_Theme_Version extends WD_Hardener_Abstract {
 				<div class="wd-clearfix"></div>
 				<br/>
 
-				<h4 class="tl"><?php _e( "How To Fix", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
 
 				<div class="wd-well">
 					<?php if ( $this->check() ): ?>
-						<?php _e( "All of your plugins & themes are up to date.", wp_defender()->domain ) ?>
+						<?php esc_html_e( "All of your plugins & themes are up to date.", wp_defender()->domain ) ?>
 					<?php else: ?>
-						<p><?php _e( "Update each version individually and be sure to check the changelog in case of major changes. It’s safe practice to update one at a time, and check your website front end for any breakages as you go.", wp_defender()->domain ) ?></p>
+						<p><?php esc_html_e( "Update each version individually and be sure to check the changelog in case of major changes. It’s safe practice to update one at a time, and check your website front end for any breakages as you go.", wp_defender()->domain ) ?></p>
 					<?php endif; ?>
 				</div>
 				<?php echo $this->ignore_button() ?>

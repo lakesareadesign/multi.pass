@@ -4,7 +4,17 @@ Tested up to: 4.6.1
 
 Change Log:
 
-1.1.3
+1.1.4.1 - 2016-31-10
+----------------------------------------------------------------------
+- Fixed: Fatal error when PHP extension sockets is not enabled
+
+1.1.4 - 2016-31-10
+----------------------------------------------------------------------
+- Improvement: Audit logging now detects file changes in WordPress core.
+- Fixed: Updating via WordPress core now syncs better with the Hub.
+- Fixed: Some compatibility fixes for PHP 5.2.
+
+1.1.3 - 2016-20-09
 ----------------------------------------------------------------------
 - Improvement: Audit Logging now ajax based.
 - Fixed: minor bug fixes & some UI/UX improvements
@@ -95,4 +105,4 @@ Change Log:
 - First release
 
 
-133620-1474567082-au
+133620-1477949994-au

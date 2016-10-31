@@ -9,7 +9,7 @@
 class WD_Plugin_Theme_Editor extends WD_Hardener_Abstract {
 	public function on_creation() {
 		$this->id         = 'plugin_theme_editor';
-		$this->title      = __( "Disable the file editor", wp_defender()->domain );
+		$this->title      = esc_html__( "Disable the file editor", wp_defender()->domain );
 		$this->can_revert = true;
 
 		$this->add_action( 'admin_footer', 'print_scripts' );
@@ -186,7 +186,7 @@ class WD_Plugin_Theme_Editor extends WD_Hardener_Abstract {
 		}
 
 		if ( ! is_writeable( $path ) ) {
-			$this->output_error( 'cant_write', __( "Your wp-config.php isn't writable", wp_defender()->domain ) );
+			$this->output_error( 'cant_write', esc_html__( "Your wp-config.php isn't writable", wp_defender()->domain ) );
 		}
 
 		$config    = file( $path );
@@ -197,13 +197,13 @@ class WD_Plugin_Theme_Editor extends WD_Hardener_Abstract {
 				unset( $config[ $hook_line[1] ] );
 			} else {
 				//hmm, key defined, but we cant find in wp-config.php, so it must be somewhere
-				$this->output_error( 'cant_revert', __( "You already have ​*DISALLOW_FILE_EDIT*​ defined as true somewhere other than your `wp-config.php` file which means the file editor can’t be disabled. Please find and remove this line of code manually and try this fix again.", wp_defender()->domain ) );
+				$this->output_error( 'cant_revert', esc_html__( "You already have ​*DISALLOW_FILE_EDIT*​ defined as true somewhere other than your `wp-config.php` file which means the file editor can’t be disabled. Please find and remove this line of code manually and try this fix again.", wp_defender()->domain ) );
 			}
 		} elseif ( defined( 'DISALLOW_FILE_EDIT' ) && constant( 'DISALLOW_FILE_EDIT' ) == false ) {
 			//keys somewhere but false
 			if ( $hook_line == - 1 ) {
 				//hmm, key defined, but we cant find in wp-config.php, so it must be somewhere
-				$this->output_error( 'cant_revert', __( "You already have ​*DISALLOW_FILE_EDIT*​ defined as true somewhere other than your `wp-config.php` file which means the file editor can’t be disabled. Please find and remove this line of code manually and try this fix again.", wp_defender()->domain ) );
+				$this->output_error( 'cant_revert', esc_html__( "You already have ​*DISALLOW_FILE_EDIT*​ defined as true somewhere other than your `wp-config.php` file which means the file editor can’t be disabled. Please find and remove this line of code manually and try this fix again.", wp_defender()->domain ) );
 			} else {
 				$line                 = "define( 'DISALLOW_FILE_EDIT', true );" . PHP_EOL;
 				$config[ $hook_line ] = $line;
@@ -235,11 +235,11 @@ class WD_Plugin_Theme_Editor extends WD_Hardener_Abstract {
 			<div class="wd-clearfix"></div>
 
 			<div id="<?php echo $this->id ?>" class="wd-rule-content">
-				<h4 class="tl"><?php _e( "Overview", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "Overview", wp_defender()->domain ) ?></h4>
 
-				<p><?php _e( "WordPress comes with a file editor built into the system. This means that anyone with access to your login information can edit your plugin and theme files. We recommend disabling the editor.", wp_defender()->domain ) ?></p>
+				<p><?php esc_html_e( "WordPress comes with a file editor built into the system. This means that anyone with access to your login information can edit your plugin and theme files. We recommend disabling the editor.", wp_defender()->domain ) ?></p>
 
-				<h4 class="tl"><?php _e( "How To Fix", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
 
 				<div class="wd-error wd-hide">
 
@@ -263,25 +263,25 @@ class WD_Plugin_Theme_Editor extends WD_Hardener_Abstract {
 		?>
 		<?php if ( $this->check( $config_path ) ): ?>
 			<p>
-				<?php _e( "The file editor is disabled.", wp_defender()->domain ) ?>
+				<?php esc_html_e( "The file editor is disabled.", wp_defender()->domain ) ?>
 			</p>
 			<form id="plugin_theme_editor_frm" method="post">
 				<?php $this->generate_nonce_field( 'disable_editor' ) ?>
 				<input type="hidden" name="action"
 				       value="<?php echo $this->generate_ajax_action( 'revert_disable_editor' ) ?>">
 				<button type="submit"
-				        class="button button-grey"><?php _e( "Revert", wp_defender()->domain ) ?></button>
+				        class="button button-grey"><?php esc_html_e( "Revert", wp_defender()->domain ) ?></button>
 			</form>
 		<?php else: ?>
 			<p>
-				<?php _e( "We will disable access to the file editor for you. You can enable it again anytime.", wp_defender()->domain ) ?>
+				<?php esc_html_e( "We will disable access to the file editor for you. You can enable it again anytime.", wp_defender()->domain ) ?>
 			</p>
 			<form id="plugin_theme_editor_frm" method="post">
 				<?php $this->generate_nonce_field( 'disable_editor' ) ?>
 				<input type="hidden" name="action"
 				       value="<?php echo $this->generate_ajax_action( 'disable_editor' ) ?>">
 				<button type="submit"
-				        class="button wd-button"><?php _e( "Disable File Editor", wp_defender()->domain ) ?></button>
+				        class="button wd-button"><?php esc_html_e( "Disable File Editor", wp_defender()->domain ) ?></button>
 			</form>
 		<?php endif; ?>
 		<?php

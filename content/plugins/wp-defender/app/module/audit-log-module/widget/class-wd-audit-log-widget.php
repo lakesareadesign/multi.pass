@@ -20,13 +20,10 @@ class WD_Audit_Log_Widget extends WD_Controller {
 			$this->render( 'widget/activate', array(), true );
 		} else {
 			//get the amount
-			$logs = WD_Audit_API::get_logs( array(
-				'date_from' => date( 'Y-m-d', strtotime( '-24 hours' ) ),
-				'date_to'   => date( 'Y-m-d', time() ),
-			) );
+			$logs = WD_Audit_API::get_summary();
 
 			$this->render( 'widget/log', array(
-				'total' => is_wp_error( $logs ) ? $logs : $logs['total_items']
+				'total' => is_wp_error( $logs ) ? $logs : $logs['count']
 			), true );
 		}
 	}

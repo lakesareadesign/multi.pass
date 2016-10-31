@@ -1,0 +1,61 @@
+/* cookie stuff */
+        function setCookie(name,value,days) {
+          if (days) {
+            var date = new Date(); 
+            date.setTime(date.getTime()+(days*24*60*60*1000));
+            var expires = "; expires="+date.toGMTString();
+          }
+          else var expires = "";
+          document.cookie = name+"="+value+expires+"; path=/";
+        } 
+         
+        function getCookie(name) {
+          var nameEQ = name + "=";
+          
+          var ca = document.cookie.split(";");
+          for(var i=0;i < ca.length;i++) {
+            var c = ca[i]; 
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+          }
+          return null;
+        }
+
+        function eraseCookie(name) {setCookie(name,"",-1);}
+
+        var last_tab = getCookie("apc_<?php echo $this->option_group; ?>last");
+        if (last_tab) {
+           var last_tab = last_tab;
+        }else{
+           var last_tab = null;
+        } 
+        jQuery(document).ready(function() {  
+          function show_tab(li){
+            if (!jQuery(li).hasClass("active_tab")){
+              //hide all
+              jQuery(".setingstab").hide();
+              jQuery(".panel_menu li").removeClass("active_tab");
+              tab  = jQuery(li).find("a").attr("href");
+              jQuery(li).addClass("active_tab");
+              jQuery(tab).fadeIn( "slow");
+              setCookie("apc_<?php echo $this->option_group; ?>last",tab);
+            }
+          }
+          //hide all
+          jQuery(".setingstab").hide();
+      
+          //set first_tab as active if no cookie found
+          if (last_tab == null){
+            jQuery(".panel_menu li:first").addClass("active_tab");
+            var tab  = jQuery(".panel_menu li:first a").attr("href");
+            jQuery(tab).fadeIn( "slow");
+          }else{
+            show_tab(jQuery('[href="' + last_tab + '"]').parent());
+          }
+      
+          //bind click on menu action to show the right tab.
+          jQuery(".panel_menu li").bind("click", function(event){
+            event.preventDefault()
+            show_tab(jQuery(this));
+
+          });

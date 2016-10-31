@@ -15,7 +15,7 @@
 					<form method="post">
 						<?php wp_nonce_field( 'wd_retry_scan', 'wd_scan_nonce' ) ?>
 						<button type="submit" class="button button-secondary">
-							<?php _e( "Try again", wp_defender()->domain ) ?>
+							<?php esc_html_e( "Try again", wp_defender()->domain ) ?>
 						</button>
 					</form>
 					</p>

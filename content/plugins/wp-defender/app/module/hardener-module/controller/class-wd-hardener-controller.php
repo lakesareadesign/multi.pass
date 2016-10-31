@@ -140,7 +140,7 @@ class WD_Hardener_Controller extends WD_Controller {
 	 */
 	public function admin_menu() {
 		$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
-		add_submenu_page( 'wp-defender', __( "Hardener", wp_defender()->domain ), __( "Hardener", wp_defender()->domain ), $cap, 'wdf-hardener', array(
+		add_submenu_page( 'wp-defender', esc_html__( "Hardener", wp_defender()->domain ), esc_html__( "Hardener", wp_defender()->domain ), $cap, 'wdf-hardener', array(
 			$this,
 			'display_main'
 		) );

@@ -3,16 +3,16 @@
 		<div class="wp-defender">
 			<div class="wd-settings">
 				<section id="header">
-					<h1 class="tl"><?php _e( "Setup Automatic Scans", wp_defender()->domain ) ?></h1>
+					<h1 class="tl"><?php esc_html_e( "Setup Automatic Scans", wp_defender()->domain ) ?></h1>
 				</section>
 				<section class="dev-box setup-scan">
 					<div class="box-title">
-						<h3><?php _e( "Setup Automatic Scans", wp_defender()->domain ) ?>
+						<h3><?php esc_html_e( "Setup Automatic Scans", wp_defender()->domain ) ?>
 							<?php
 							if ( WD_Utils::get_setting( 'scan->auto_scan', false ) == false ) {
-								$tooltip = __( "Activate Automatic Scans", wp_defender()->domain );
+								$tooltip = esc_html__( "Activate Automatic Scans", wp_defender()->domain );
 							} else {
-								$tooltip = __( "Deactivate Automatic Scans", wp_defender()->domain );
+								$tooltip = esc_html__( "Deactivate Automatic Scans", wp_defender()->domain );
 							}
 							?>
 							<span
@@ -37,7 +37,7 @@
 							</a>
 						</div>
 						<p>
-							<?php _e( "We recommend setting up WP Defender to automatically and regularly scan your website and email you reports. You can choose the frequency and time of day depending on your website traffic patterns.", wp_defender()->domain ) ?>
+							<?php esc_html_e( "We recommend setting up WP Defender to automatically and regularly scan your website and email you reports. You can choose the frequency and time of day depending on your website traffic patterns.", wp_defender()->domain ) ?>
 						</p>
 
 						<div class="next-run-information">
@@ -50,7 +50,7 @@
 						<div class="wd-well">
 							<form method="post" id="setup-scan-form">
 								<label>
-									<?php _e( "Scan my website", wp_defender()->domain ) ?>
+									<?php esc_html_e( "Scan my website", wp_defender()->domain ) ?>
 								</label>
 								<select name="frequency">
 									<?php foreach ( $controller->get_frequently() as $key => $val ): ?>
@@ -63,7 +63,7 @@
 
 								<div class="day-container">
 									<label>
-										<?php _e( "on", wp_defender()->domain ) ?>
+										<?php esc_html_e( "on", wp_defender()->domain ) ?>
 									</label>
 									<select name="day">
 										<?php foreach ( $controller->get_days_of_week() as $val ): ?>
@@ -76,7 +76,7 @@
 								</div>
 								<div class="time-container wd-inline">
 									<label>
-										<?php _e( "at", wp_defender()->domain ) ?>
+										<?php esc_html_e( "at", wp_defender()->domain ) ?>
 									</label>
 									<select name="time">
 										<?php foreach ( $controller->get_times() as $key => $val ): ?>
@@ -94,9 +94,9 @@
 								<button class="button wd-button">
 									<?php
 									if ( WD_Utils::get_setting( 'scan->auto_scan' ) ) {
-										_e( "Update", wp_defender()->domain );
+										esc_html_e( "Update", wp_defender()->domain );
 									} else {
-										_e( "Activate", wp_defender()->domain );
+										esc_html_e( "Activate", wp_defender()->domain );
 									}
 									?>
 								</button>

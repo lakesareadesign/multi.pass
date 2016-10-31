@@ -29,12 +29,12 @@ class WD_Audit_Table extends WP_List_Table {
 	 */
 	function get_columns() {
 		$columns = array(
-			'col_summary' => __( 'Summary', wp_defender()->domain ),
-			'col_date'    => __( 'Date', wp_defender()->domain ),
-			'col_type'    => __( 'Event Context', wp_defender()->domain ),
-			'col_action'  => __( "Action", wp_defender()->domain ),
-			'col_ip'      => __( 'IP Address', wp_defender()->domain ),
-			'col_user'    => __( 'User', wp_defender()->domain ),
+			'col_summary' => esc_html__( 'Summary', wp_defender()->domain ),
+			'col_date'    => esc_html__( 'Date', wp_defender()->domain ),
+			'col_type'    => esc_html__( 'Event Context', wp_defender()->domain ),
+			'col_action'  => esc_html__( "Action", wp_defender()->domain ),
+			'col_ip'      => esc_html__( 'IP Address', wp_defender()->domain ),
+			'col_user'    => esc_html__( 'User', wp_defender()->domain ),
 		);
 
 		return $columns;
@@ -114,7 +114,7 @@ class WD_Audit_Table extends WP_List_Table {
 	public function column_col_summary( $item ) {
 		$msg = WD_Audit_API::liveable_audit_log( $item['msg'] );
 		if ( is_plugin_active_for_network( wp_defender()->slug ) && $item['blog_id'] < 1 ) {
-			$msg .= ( '<br/>' . sprintf( __( "Blog %s", wp_defender()->domain ), get_site_url( $item['blog_id'] ) ) );
+			$msg .= ( '<br/>' . sprintf( esc_html__( "Blog %s", wp_defender()->domain ), get_site_url( $item['blog_id'] ) ) );
 		}
 		$msg .= ( isset( $item['count'] ) ? ' (' . $item['count'] . ')' : null );
 
@@ -139,14 +139,14 @@ class WD_Audit_Table extends WP_List_Table {
 		if ( is_array( $item['timestamp'] ) ) {
 			sort( $item['timestamp'] );
 			?>
-			<strong><?php echo esc_html( WD_Utils::time_since( $item['timestamp'][1] ) . __( " ago", wp_defender()->domain ) ) ?></strong>
+			<strong><?php echo esc_html( WD_Utils::time_since( $item['timestamp'][1] ) . esc_html__( " ago", wp_defender()->domain ) ) ?></strong>
 			<small><?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $item['timestamp'][0] ) ) ) ) ) ?>
 				&nbsp;<?php esc_attr_e( "to", wp_defender()->domain ) ?>&nbsp;
 				<?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $item['timestamp'][1] ) ) ) ) ) ?></small>
 			<?php
 		} else {
 			?>
-			<strong><?php echo esc_html( WD_Utils::time_since( $item['timestamp'] ) . __( " ago", wp_defender()->domain ) ) ?></strong>
+			<strong><?php echo esc_html( WD_Utils::time_since( $item['timestamp'] ) . esc_html__( " ago", wp_defender()->domain ) ) ?></strong>
 			<small><?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $item['timestamp'] ) ) ) ) ) ?></small>
 			<?php
 		}
@@ -180,7 +180,7 @@ class WD_Audit_Table extends WP_List_Table {
 			<small>
 				<?php printf( '<a class="audit-nav" href="%s">%s</a>',
 					$this->build_filter_url( 'user_id', 0 ),
-					__( "Guest", wp_defender()->domain )
+					esc_html__( "Guest", wp_defender()->domain )
 				) ?>
 			</small>
 		<?php else: ?>
@@ -251,11 +251,11 @@ class WD_Audit_Table extends WP_List_Table {
 			?>
 			<?php if ( $is_filter == false ): ?>
 				<div class="wd-well blue wd-well-small">
-					<?php _e( "Defender hasn’t detected any events yet. When he does, they’ll appear here!", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Defender hasn’t detected any events yet. When he does, they’ll appear here!", wp_defender()->domain ) ?>
 				</div>
 			<?php else: ?>
 				<div class="wd-well blue wd-well-small">
-					<?php _e( "Defender couldn't find any logs matching your filters.", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Defender couldn't find any logs matching your filters.", wp_defender()->domain ) ?>
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
@@ -313,7 +313,7 @@ class WD_Audit_Table extends WP_List_Table {
 								<!--<select>
 									<option>All IP</option>
 								</select>-->
-								<label><?php _e( "Users", wp_defender()->domain ) ?></label>
+								<label><?php esc_html_e( "Users", wp_defender()->domain ) ?></label>
 								<input name="user_id" id="wd_user_id" class="user-search"
 								       data-empty-msg="<?php esc_attr_e( "We did not find an admin user with this name...", wp_defender()->domain ) ?>"
 								       placeholder="<?php esc_attr_e( "Type a user’s name", wp_defender()->domain ) ?>"
@@ -321,21 +321,17 @@ class WD_Audit_Table extends WP_List_Table {
 
 							</div>
 							<div class="wd-audit-date-filter">
-								<label><?php _e( "Date", wp_defender()->domain ) ?></label>
+								<label><?php esc_html_e( "Date", wp_defender()->domain ) ?></label>
 								<div>
 									<i class="wdv-icon wdv-icon-fw wdv-icon-calendar"></i>
 									<input name="date_from" id="wd_range_from" type="text" class="wd-calendar"
 									       value="<?php echo $from ?>">
 								</div>
-								<!--<a class="button button-small button-grey wd-date-prev"
-								   href="#"><?php /*_e( "Previous Day", wp_defender()->domain ) */ ?></a>
-								<a class="button button-small button-grey wd-date-next"
-								   href="#"><?php /*_e( "Next Day", wp_defender()->domain ) */ ?></a>-->
 							</div>
 						</div>
 						<div class="wd-clearfix"></div>
 						<div class="wd-audit-event-context col span_12_of_12">
-							<label><?php _e( "Event Contexts", wp_defender()->domain ) ?></label>
+							<label><?php esc_html_e( "Event Contexts", wp_defender()->domain ) ?></label>
 							<div class="wd-event-filter">
 								<?php foreach ( WD_Audit_API::get_event_type() as $event ): ?>
 									<div class="event">
@@ -351,7 +347,7 @@ class WD_Audit_Table extends WP_List_Table {
 						<div class="wd-clearfix"></div>
 						<!--<div class="col span_12_of_12">
 							<button type="submit"
-							        class="button button-grey"><?php /*_e( "Apply Filter", wp_defender()->domain ) */ ?></button>
+							        class="button button-grey"><?php /*esc_html_e( "Apply Filter", wp_defender()->domain ) */ ?></button>
 						</div>-->
 					</form>
 				</div>

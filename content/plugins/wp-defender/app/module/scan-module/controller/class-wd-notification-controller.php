@@ -90,8 +90,8 @@ class WD_Notification_Controller extends WD_Controller {
 		<table width="100%" style="text-align: left;border-collapse: collapse">
 			<thead>
 			<tr style="border-bottom: 1px solid #EEEEEE">
-				<th style="padding:7px 0"><?php _e( "File", wp_defender()->domain ) ?></th>
-				<th style="padding:7px 0"><?php _e( "Issue", wp_defender()->domain ) ?></th>
+				<th style="padding:7px 0"><?php esc_html_e( "File", wp_defender()->domain ) ?></th>
+				<th style="padding:7px 0"><?php esc_html_e( "Issue", wp_defender()->domain ) ?></th>
 			</tr>
 			</thead>
 			<tbody>

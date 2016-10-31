@@ -73,7 +73,7 @@ class WD_Scan_Api extends WD_Component {
 			}
 			$res = sprintf( __( "Automatic scans have been enabled. Expect your next report on <strong>%s</strong> to <strong>%s</strong> %s", wp_defender()->domain ),
 				date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), WD_Utils::get_setting( 'scan->next_runtime' ) ),
-				implode( ', ', $emails ), ' <a href="' . network_admin_url( 'admin.php?page=wdf-settings#email-recipients-frm' ) . '">' . __( "edit", wp_defender()->domain ) . '</a>' );
+				implode( ', ', $emails ), ' <a href="' . network_admin_url( 'admin.php?page=wdf-settings#email-recipients-frm' ) . '">' . esc_html__( "edit", wp_defender()->domain ) . '</a>' );
 
 			return '<p class="wd-no-margin"><i class=\"dev-icon dev-icon-tick\"></i>' . $res . '</p>';
 		}
@@ -201,7 +201,9 @@ class WD_Scan_Api extends WD_Component {
 		if ( ! is_null( $wp_local_package ) && count( explode( '_', $wp_local_package ) ) == 2 ) {
 			$locale = $wp_local_package;
 		}
-
+		if ( ! function_exists( 'get_core_checksums' ) ) {
+			include_once ABSPATH . 'wp-admin/includes/update.php';
+		}
 		$checksum = get_core_checksums( $wp_version, $locale );
 		if ( $checksum == false ) {
 			return $checksum;
@@ -262,7 +264,7 @@ class WD_Scan_Api extends WD_Component {
 
 		if ( count( $models ) && $force == false ) {
 			//we having on going process
-			return new WP_Error( 'record_exists', __( "A scan is already in progress", wp_defender()->domain ) );
+			return new WP_Error( 'record_exists', esc_html__( "A scan is already in progress", wp_defender()->domain ) );
 		}
 
 		$model = new WD_Scan_Result_Model();
@@ -310,7 +312,7 @@ class WD_Scan_Api extends WD_Component {
 		list( $content_files, $wp_installs ) = self::is_nested_wp_install( $content_files );
 		if ( count( $wp_installs ) ) {
 			//we need to warn about this
-			$alerts = __( "Please note the nested WP install on your site will not be scanned. Install WP Defender there to scan separately.", wp_defender()->domain );
+			$alerts = esc_html__( "Please note the nested WP install on your site will not be scanned. Install WP Defender there to scan separately.", wp_defender()->domain );
 			//self::log( var_export( $wp_installs, true ), self::ERROR_LEVEL_DEBUG, 'nested' );
 			//$alerts = array_merge( $alerts, $wp_installs );
 			WD_Utils::cache( self::ALERT_NESTED_WP, $alerts );
@@ -361,7 +363,7 @@ class WD_Scan_Api extends WD_Component {
 					WD_Utils::remove_cache( self::CACHE_CONTENT_FILES_FRAG );
 					if ( count( $wp_installs ) ) {
 						//we need to warn about this
-						$alerts = __( "Please note the nested WP install on your site will not be scanned. Install WP Defender there to scan separately.", wp_defender()->domain );
+						$alerts = esc_html__( "Please note the nested WP install on your site will not be scanned. Install WP Defender there to scan separately.", wp_defender()->domain );
 						//self::log( var_export( $wp_installs, true ), self::ERROR_LEVEL_DEBUG, 'nested' );
 						//$alerts = array_merge( $alerts, $wp_installs );
 						WD_Utils::cache( self::ALERT_NESTED_WP, $alerts );
@@ -783,9 +785,9 @@ class WD_Scan_Api extends WD_Component {
 	 */
 	public static function get_frequently() {
 		return apply_filters( 'scan_schedule_frequently', array(
-			'1'  => __( "Daily", wp_defender()->domain ),
-			'7'  => __( "Weekly", wp_defender()->domain ),
-			'30' => __( "Monthly", wp_defender()->domain )
+			'1'  => esc_html__( "Daily", wp_defender()->domain ),
+			'7'  => esc_html__( "Weekly", wp_defender()->domain ),
+			'30' => esc_html__( "Monthly", wp_defender()->domain )
 		) );
 	}
 

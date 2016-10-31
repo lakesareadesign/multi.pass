@@ -21,7 +21,7 @@ class WD_Schedule_Scan_Controller extends WD_Controller {
 	 */
 	public function admin_menu() {
 		$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
-		add_submenu_page( 'wp-defender', __( "Automated Scans", wp_defender()->domain ), __( "Automated Scans", wp_defender()->domain ), $cap, 'wdf-schedule-scan', array(
+		add_submenu_page( 'wp-defender', esc_html__( "Automated Scans", wp_defender()->domain ), esc_html__( "Automated Scans", wp_defender()->domain ), $cap, 'wdf-schedule-scan', array(
 			$this,
 			'display_main'
 		) );
@@ -43,7 +43,7 @@ class WD_Schedule_Scan_Controller extends WD_Controller {
 		if ( ! empty( $email ) && ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
 			wp_send_json( array(
 				'status' => 0,
-				'error'  => __( "Please enter a valid email address", wp_defender()->domain )
+				'error'  => esc_html__( "Please enter a valid email address", wp_defender()->domain )
 			) );
 		}*/
 		//all good here
@@ -60,7 +60,7 @@ class WD_Schedule_Scan_Controller extends WD_Controller {
 		WD_Scan_Api::update_next_run( true );
 		wp_send_json( array(
 			'status'  => 1,
-			'message' => __( "Congratulations. Your scan schedule is saved.", wp_defender()->domain )
+			'message' => esc_html__( "Congratulations. Your scan schedule is saved.", wp_defender()->domain )
 		) );
 	}
 
@@ -79,9 +79,9 @@ class WD_Schedule_Scan_Controller extends WD_Controller {
 		$is_active = WD_Utils::get_setting( 'scan->auto_scan', 0 );
 		WD_Utils::update_setting( 'scan->auto_scan', ! $is_active );
 		if ( WD_Utils::get_setting( 'scan->auto_scan', false ) == false ) {
-			$tooltip = __( "Activate Automatic Scans", wp_defender()->domain );
+			$tooltip = esc_html__( "Activate Automatic Scans", wp_defender()->domain );
 		} else {
-			$tooltip = __( "Deactivate Automatic Scans", wp_defender()->domain );
+			$tooltip = esc_html__( "Deactivate Automatic Scans", wp_defender()->domain );
 		}
 		WD_Utils::do_submitting( true );
 		wp_send_json( array(

@@ -12,7 +12,7 @@ class WD_Core_Audit extends WD_Event_Abstract {
 		return array(
 			'switch_theme'              => array(
 				'args'        => array( 'new_name' ),
-				'text'        => sprintf( __( "%s activated theme: %s", wp_defender()->domain ), '{{wp_user}}', '{{new_name}}' ),
+				'text'        => sprintf( esc_html__( "%s activated theme: %s", wp_defender()->domain ), '{{wp_user}}', '{{new_name}}' ),
 				'level'       => self::LOG_LEVEL_NOTICE,
 				'event_type'  => $this->type,
 				'context'     => self::CONTEXT_THEME,
@@ -20,7 +20,7 @@ class WD_Core_Audit extends WD_Event_Abstract {
 			),
 			'activated_plugin'          => array(
 				'args'         => array( 'plugin' ),
-				'text'         => sprintf( __( "%s activated plugin: %s, version %s", wp_defender()->domain ), '{{wp_user}}', '{{plugin_name}}', '{{plugin_version}}' ),
+				'text'         => sprintf( esc_html__( "%s activated plugin: %s, version %s", wp_defender()->domain ), '{{wp_user}}', '{{plugin_name}}', '{{plugin_version}}' ),
 				'level'        => self::LOG_LEVEL_NOTICE,
 				'event_type'   => $this->type,
 				'action_type'  => self::ACTION_ACTIVATED,
@@ -50,7 +50,7 @@ class WD_Core_Audit extends WD_Event_Abstract {
 			),
 			'deleted_plugin'            => array(
 				'args'        => array( 'plugin_file', 'deleted' ),
-				'text'        => sprintf( __( "%s deleted plugin: %s", wp_defender()->domain ), '{{wp_user}}', '{{plugin_file}}' ),
+				'text'        => sprintf( esc_html__( "%s deleted plugin: %s", wp_defender()->domain ), '{{wp_user}}', '{{plugin_file}}' ),
 				'level'       => self::LOG_LEVEL_NOTICE,
 				'action_type' => self::ACTION_DEACTIVATED,
 				'event_type'  => $this->type,
@@ -58,7 +58,7 @@ class WD_Core_Audit extends WD_Event_Abstract {
 			),
 			'deactivated_plugin'        => array(
 				'args'         => array( 'plugin' ),
-				'text'         => sprintf( __( "%s deactivated plugin: %s, version %s", wp_defender()->domain ), '{{wp_user}}', '{{plugin_name}}', '{{plugin_version}}' ),
+				'text'         => sprintf( esc_html__( "%s deactivated plugin: %s, version %s", wp_defender()->domain ), '{{wp_user}}', '{{plugin_name}}', '{{plugin_version}}' ),
 				'level'        => self::LOG_LEVEL_NOTICE,
 				'action_type'  => self::ACTION_DEACTIVATED,
 				'event_type'   => $this->type,
@@ -98,6 +98,20 @@ class WD_Core_Audit extends WD_Event_Abstract {
 				'action_type' => 'update',
 				'event_type'  => $this->type,
 				'callback'    => array( 'WD_Core_Audit', 'process_content_changed' ),
+			),
+			'wd_checksum/new_file'      => array(
+				'args'        => array( 'file' ),
+				'action_type' => 'file_added',
+				'event_type'  => $this->type,
+				'context'     => self::CONTEXT_CORE,
+				'text'        => sprintf( esc_html__( 'A new file added, path %s', wp_defender()->domain ), '{{file}}' )
+			),
+			'wd_checksum_file_modified' => array(
+				'args'        => array( 'file' ),
+				'action_type' => 'file_modified',
+				'event_type'  => $this->type,
+				'context'     => self::CONTEXT_CORE,
+				'text'        => sprintf( esc_html__( 'A file has been modified, path %s', wp_defender()->domain ), '{{file}}' )
 			)
 		);
 	}
@@ -109,7 +123,7 @@ class WD_Core_Audit extends WD_Event_Abstract {
 		$file   = $args[1]['file'];
 
 		return array(
-			sprintf( __( '%s updated file %s of %s %s', wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $file, $type, $object ),
+			sprintf( esc_html__( '%s updated file %s of %s %s', wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $file, $type, $object ),
 			$type == 'plugin' ? self::CONTEXT_PLUGIN : self::CONTEXT_THEME
 		);
 	}
@@ -118,7 +132,7 @@ class WD_Core_Audit extends WD_Event_Abstract {
 		global $wp_version;
 
 		return array(
-			sprintf( __( "%s updated WordPress to %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $wp_version ),
+			sprintf( esc_html__( "%s updated WordPress to %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $wp_version ),
 			self::CONTEXT_CORE
 		);
 	}
@@ -129,12 +143,12 @@ class WD_Core_Audit extends WD_Event_Abstract {
 			foreach ( $options['themes'] as $t ) {
 				$theme = wp_get_theme( $t );
 				if ( is_object( $theme ) ) {
-					$texts[] = sprintf( __( "%s to %s", wp_defender()->domain ), $theme->Name, $theme->get( 'Version' ) );
+					$texts[] = sprintf( esc_html__( "%s to %s", wp_defender()->domain ), $theme->Name, $theme->get( 'Version' ) );
 				}
 			}
 			if ( count( $texts ) ) {
 				return array(
-					sprintf( __( "%s updated themes: %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), implode( ', ', $texts ) ),
+					sprintf( esc_html__( "%s updated themes: %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), implode( ', ', $texts ) ),
 					self::CONTEXT_THEME
 				);
 			} else {
@@ -145,12 +159,12 @@ class WD_Core_Audit extends WD_Event_Abstract {
 			foreach ( $options['plugins'] as $t ) {
 				$plugin = get_plugin_data( WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $t );
 				if ( is_array( $plugin ) && isset( $plugin['Name'] ) && ! empty( $plugin['Name'] ) ) {
-					$texts[] = sprintf( __( "%s to %s", wp_defender()->domain ), $plugin['Name'], $plugin['Version'] );
+					$texts[] = sprintf( esc_html__( "%s to %s", wp_defender()->domain ), $plugin['Name'], $plugin['Version'] );
 				}
 			}
 			if ( count( $texts ) ) {
 				return array(
-					sprintf( __( "%s updated plugins: %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), implode( ', ', $texts ) ),
+					sprintf( esc_html__( "%s updated plugins: %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), implode( ', ', $texts ) ),
 					self::CONTEXT_PLUGIN
 				);
 			} else {
@@ -167,7 +181,7 @@ class WD_Core_Audit extends WD_Event_Abstract {
 				$version = $theme->get( 'Version' );
 
 				return array(
-					sprintf( __( "%s updated theme: %s, version %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $name, $version ),
+					sprintf( esc_html__( "%s updated theme: %s, version %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $name, $version ),
 					self::CONTEXT_THEME
 				);
 			} else {
@@ -181,7 +195,7 @@ class WD_Core_Audit extends WD_Event_Abstract {
 				$version = $data['Version'];
 
 				return array(
-					sprintf( __( "%s updated plugin: %s, version %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $name, $version ),
+					sprintf( esc_html__( "%s updated plugin: %s, version %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $name, $version ),
 					self::CONTEXT_PLUGIN
 				);
 			} else {
@@ -197,9 +211,14 @@ class WD_Core_Audit extends WD_Event_Abstract {
 		if ( is_object( $upgrader->skin->api ) ) {
 			$name    = $upgrader->skin->api->name;
 			$version = $upgrader->skin->api->version;
-		} elseif ( ! empty( $upgrader->skin->result ) && isset( $upgrader->skin->result['destination_name'] ) ) {
-			$name = $upgrader->skin->result['destination_name'];
-			$version = __( "unknown", wp_defender()->domain );
+		} elseif ( ! empty( $upgrader->skin->result ) ) {
+			if ( is_array( $upgrader->skin->result ) && isset( $upgrader->skin->result['destination_name'] ) ) {
+				$name    = $upgrader->skin->result['destination_name'];
+				$version = esc_html__( "unknown", wp_defender()->domain );
+			} elseif ( is_object( $upgrader->skin->result ) && property_exists( $upgrader->skin->result, 'destination_name' ) ) {
+				$name    = $upgrader->skin->result->destination_name;
+				$version = esc_html__( "unknown", wp_defender()->domain );
+			}
 		}
 
 		if ( ! isset( $name ) ) {
@@ -208,13 +227,13 @@ class WD_Core_Audit extends WD_Event_Abstract {
 
 		if ( isset( $upgrader->skin->api->preview_url ) ) {
 			return array(
-				sprintf( __( "%s installed theme: %s, version %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $name, $version ),
+				sprintf( esc_html__( "%s installed theme: %s, version %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $name, $version ),
 				self::CONTEXT_THEME,
 				self::ACTION_INSTALLED
 			);
 		} else {
 			return array(
-				sprintf( __( "%s installed plugin: %s, version %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $name, $version ),
+				sprintf( esc_html__( "%s installed plugin: %s, version %s", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $name, $version ),
 				self::CONTEXT_PLUGIN,
 				self::ACTION_INSTALLED
 			);
@@ -244,13 +263,15 @@ class WD_Core_Audit extends WD_Event_Abstract {
 
 	public function dictionary() {
 		return array(
-			self::ACTION_DEACTIVATED => __( "deactivated", wp_defender()->domain ),
-			self::ACTION_UPGRADED    => __( "upgraded", wp_defender()->domain ),
-			self::ACTION_ACTIVATED   => __( "activated", wp_defender()->domain ),
-			self::ACTION_INSTALLED   => __( "installed", wp_defender()->domain ),
-			self::CONTEXT_THEME      => __( "theme", wp_defender()->domain ),
-			self::CONTEXT_PLUGIN     => __( "plugin", wp_defender()->domain ),
-			self::CONTEXT_CORE       => __( "WordPress", wp_defender()->domain )
+			self::ACTION_DEACTIVATED => esc_html__( "deactivated", wp_defender()->domain ),
+			self::ACTION_UPGRADED    => esc_html__( "upgraded", wp_defender()->domain ),
+			self::ACTION_ACTIVATED   => esc_html__( "activated", wp_defender()->domain ),
+			self::ACTION_INSTALLED   => esc_html__( "installed", wp_defender()->domain ),
+			self::CONTEXT_THEME      => esc_html__( "theme", wp_defender()->domain ),
+			self::CONTEXT_PLUGIN     => esc_html__( "plugin", wp_defender()->domain ),
+			self::CONTEXT_CORE       => esc_html__( "WordPress", wp_defender()->domain ),
+			'file_added'             => esc_html__( "File Added", wp_defender()->domain ),
+			'file_modified'          => esc_html__( "File Modified", wp_defender()->domain )
 		);
 	}
 }

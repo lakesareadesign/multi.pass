@@ -32,13 +32,11 @@ class WD_Blacklist_Widget extends WD_Controller {
 		), true );
 		if ( is_wp_error( $result ) ) {
 			//this mean error when firing to API
-			$this->log( var_export( $result, true ), self::ERROR_LEVEL_DEBUG, 'blacklist' );
 			$this->status = self::STATUS_ERROR;
 			$this->error  = $result->get_error_message();
 
 			return;
 		}
-		$this->log( 'backlist call' . var_export( $result, true ), self::ERROR_LEVEL_DEBUG, 'blacklist' );
 
 		$response_code = wp_remote_retrieve_response_code( $result );
 		$body          = wp_remote_retrieve_body( $result );
@@ -62,9 +60,8 @@ class WD_Blacklist_Widget extends WD_Controller {
 			if ( isset( $body['message'] ) ) {
 				$this->error = $body['message'];
 			} else {
-				$this->error = __( "Something wrong happened, please try again.", wp_defender()->domain );
+				$this->error = esc_html__( "Something wrong happened, please try again.", wp_defender()->domain );
 			}
-			$this->log( var_export( $result, true ), self::ERROR_LEVEL_DEBUG, 'blacklist' );
 		}
 	}
 
@@ -111,7 +108,6 @@ class WD_Blacklist_Widget extends WD_Controller {
 		$response_code = wp_remote_retrieve_response_code( $result );
 		$body          = wp_remote_retrieve_body( $result );
 		$body          = json_decode( $body, true );
-		$this->log( var_export( $result, true ), self::ERROR_LEVEL_DEBUG, 'blacklist' );
 		if ( $response_code !== 200 ) {
 			wp_send_json( array(
 				'status' => 0,

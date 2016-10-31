@@ -7,7 +7,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 
 	public function on_creation() {
 		$this->id          = 'protect_upload_dir';
-		$this->title       = __( "Prevent PHP execution", wp_defender()->domain );
+		$this->title       = esc_html__( "Prevent PHP execution", wp_defender()->domain );
 		$this->can_revert  = false;
 		$this->check_cache = null;
 		$this->init_check_rules();
@@ -129,7 +129,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 			if ( file_put_contents( $htaccess_path, $content, LOCK_EX ) ) {
 				return true;
 			} else {
-				$this->output_error( 'write_permission', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $htaccess_path ) );
+				$this->output_error( 'write_permission', sprintf( esc_html__( "Can't write to the file %s", wp_defender()->domain ), $htaccess_path ) );
 			}
 		}
 	}
@@ -146,7 +146,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 			$will_add     = implode( PHP_EOL, $will_add );
 			$will_add     = preg_replace( "/\n+/", "\n", $will_add );
 			if ( ! file_put_contents( $htacces_path, PHP_EOL . $will_add, FILE_APPEND | LOCK_EX ) ) {
-				$this->output_error( 'write_permission', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $htacces_path ) );
+				$this->output_error( 'write_permission', sprintf( esc_html__( "Can't write to the file %s", wp_defender()->domain ), $htacces_path ) );
 			}
 		}
 
@@ -160,7 +160,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 			$will_add     = implode( PHP_EOL, $will_add );
 			$will_add     = preg_replace( "/\n+/", "\n", $will_add );
 			if ( ! file_put_contents( $htacces_path, PHP_EOL . $will_add, FILE_APPEND | LOCK_EX ) ) {
-				$this->output_error( 'write_permission', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $htacces_path ) );
+				$this->output_error( 'write_permission', sprintf( esc_html__( "Can't write to the file %s", wp_defender()->domain ), $htacces_path ) );
 			}
 		}
 
@@ -177,7 +177,7 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 			$will_add = implode( PHP_EOL, $will_add );
 			$will_add = preg_replace( "/\n+/", "\n", $will_add );
 			if ( ! file_put_contents( $htacces_path, PHP_EOL . $will_add, FILE_APPEND | LOCK_EX ) ) {
-				$this->output_error( 'write_permission', sprintf( __( "Can't write to the file %s", wp_defender()->domain ), $htacces_path ) );
+				$this->output_error( 'write_permission', sprintf( esc_html__( "Can't write to the file %s", wp_defender()->domain ), $htacces_path ) );
 			}
 		}
 		//if come here, means everythng ok
@@ -288,11 +288,11 @@ class WD_Prevent_PHP_Execution extends WD_Protect_Core_Dir {
 			<div class="wd-clearfix"></div>
 
 			<div id="<?php echo $this->id ?>" class="wd-rule-content">
-				<h4 class="tl"><?php _e( "OVERVIEW", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "OVERVIEW", wp_defender()->domain ) ?></h4>
 
-				<p><?php _e( "By default, a plugin/theme vulnerability could allow a PHP file to get uploaded into your site's directories and in turn execute harmful scripts that can wreak havoc on your website. Prevent this altogether by disabling direct PHP execution in directories that don't require it.", wp_defender()->domain ) ?></p>
+				<p><?php esc_html_e( "By default, a plugin/theme vulnerability could allow a PHP file to get uploaded into your site's directories and in turn execute harmful scripts that can wreak havoc on your website. Prevent this altogether by disabling direct PHP execution in directories that don't require it.", wp_defender()->domain ) ?></p>
 
-				<h4 class="tl"><?php _e( "How To Fix", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
 
 				<div class="wd-error wd-hide">
 
@@ -346,17 +346,17 @@ location ~* ^$wp_content/.*\.php$ {
 ";
 		?>
 		<div class="group wd-no-margin">
-			<p><?php _e( "For NGINX servers:", wp_defender()->domain ) ?></p>
+			<p><?php esc_html_e( "For NGINX servers:", wp_defender()->domain ) ?></p>
 			<ol>
 				<li>
-					<?php _e( "Copy the generated code into your site specific .conf file usually located in a subdirectory under /etc/nginx/... or /usr/local/nginx/conf/...", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Copy the generated code into your site specific .conf file usually located in a subdirectory under /etc/nginx/... or /usr/local/nginx/conf/...", wp_defender()->domain ) ?>
 				</li>
 				<li>
-					<?php _e( "Add the code above inside the <strong>server</strong> section in the file, right before the php location block. Looks something like:", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Add the code above inside the <strong>server</strong> section in the file, right before the php location block. Looks something like:", wp_defender()->domain ) ?>
 					<pre>location ~ \.php$ {</pre>
 				</li>
 				<li>
-					<?php _e( "Reload NGINX.", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Reload NGINX.", wp_defender()->domain ) ?>
 				</li>
 			</ol>
 			<p><?php sprintf( __( "Still having trouble? <a target='_blank' href=\"%s\">Open a support ticket</a>.", wp_defender()->domain ), 'https://premium.wpmudev.org/forums/forum/support#question' ) ?></p>
@@ -379,11 +379,11 @@ location ~* ^$wp_content/.*\.php$ {
 		<div class="wd-well">
 			<?php if ( $this->check() ): ?>
 				<p>
-					<?php _e( "PHP execution is locked down.", wp_defender()->domain ) ?>
+					<?php esc_html_e( "PHP execution is locked down.", wp_defender()->domain ) ?>
 				</p>
 			<?php else: ?>
 				<p>
-					<?php _e( "We will place .htaccess files into each of these directories to prevent PHP execution.", wp_defender()->domain ) ?>
+					<?php esc_html_e( "We will place .htaccess files into each of these directories to prevent PHP execution.", wp_defender()->domain ) ?>
 				</p>
 			<?php endif; ?>
 			<form id="protect_upload_dir_frm" method="post">

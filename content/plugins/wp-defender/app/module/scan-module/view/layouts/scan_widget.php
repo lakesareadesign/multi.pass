@@ -2,10 +2,10 @@
 	<section class="dev-box scan-reports scan-widget">
 		<div class="box-title">
 			<h3>
-				<?php _e( "Scan Report", wp_defender()->domain ) ?>
+				<?php esc_html_e( "Scan Report", wp_defender()->domain ) ?>
 				<span class="tr">
 				<a class="button button-light button-small"
-				   href="<?php echo network_admin_url( 'admin.php?page=wdf-settings' ) ?>"><?php _e( "Configure", wp_defender()->domain ) ?></a>
+				   href="<?php echo network_admin_url( 'admin.php?page=wdf-settings' ) ?>"><?php esc_html_e( "Configure", wp_defender()->domain ) ?></a>
 				</span>
 			</h3>
 		</div>
@@ -24,13 +24,13 @@
 					$frequency_text = '';
 					switch ( $automate_scan['frequency'] ) {
 						case 1:
-							$frequency_text = __( "daily", wp_defender()->domain );
+							$frequency_text = esc_html__( "daily", wp_defender()->domain );
 							break;
 						case 7:
-							$frequency_text = __( "weekly", wp_defender()->domain );
+							$frequency_text = esc_html__( "weekly", wp_defender()->domain );
 							break;
 						case 30:
-							$frequency_text = __( "monthly", wp_defender()->domain );
+							$frequency_text = esc_html__( "monthly", wp_defender()->domain );
 							break;
 					}
 					if ( $is_active ) {
@@ -45,7 +45,7 @@
 					<input type="hidden" name="action" value="wd_start_a_scan">
 					<?php wp_nonce_field( 'wd_start_a_scan', 'wd_scan_nonce' ) ?>
 					<button type="submit" class="button button-cta wd-button">
-						<?php _e( "Run New Scan", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Run New Scan", wp_defender()->domain ) ?>
 					</button>
 				</form>
 				<div class="wd-clearfix"></div>

@@ -50,7 +50,7 @@ class WD_Resolve_Controller extends WD_Controller {
 	public function admin_menu() {
 		$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
 		if ( WD_Utils::http_get( 'page' ) == 'wdf-issue-detail' ) {
-			add_submenu_page( 'wp-defender', __( "Detail Information", wp_defender()->domain ), __( "Detail Information", wp_defender()->domain ), $cap, 'wdf-issue-detail', array(
+			add_submenu_page( 'wp-defender', esc_html__( "Detail Information", wp_defender()->domain ), esc_html__( "Detail Information", wp_defender()->domain ), $cap, 'wdf-issue-detail', array(
 				$this,
 				'display_main'
 			) );
@@ -144,7 +144,7 @@ class WD_Resolve_Controller extends WD_Controller {
 		if ( ! is_object( $item ) ) {
 			wp_send_json( array(
 				'status' => 0,
-				'error'  => __( "Can't find the issue needing to be fixed.", wp_defender()->domain )
+				'error'  => esc_html__( "Can't find the issue needing to be fixed.", wp_defender()->domain )
 			) );
 		}
 		$type = WD_Utils::http_post( 'type' );

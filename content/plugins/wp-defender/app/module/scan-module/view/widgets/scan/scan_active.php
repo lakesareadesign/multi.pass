@@ -1,10 +1,10 @@
 <div class="wd-scan">
 	<section class="dev-box scanning">
 		<div class="box-title">
-			<h3><?php _e( "Scan", wp_defender()->domain ) ?></h3>
+			<h3><?php esc_html_e( "Scan", wp_defender()->domain ) ?></h3>
 		</div>
 		<div class="box-content tc">
-			<p><?php _e( "This scan is running in the background and you can check back any time to see its progress.", wp_defender()->domain ) ?></p>
+			<p><?php esc_html_e( "This scan is running in the background and you can check back any time to see its progress.", wp_defender()->domain ) ?></p>
 
 			<div
 				class="wd-progress <?php echo $model->status !== WD_Scan_Result_Model::STATUS_PAUSE ? 'animate' : null ?>">

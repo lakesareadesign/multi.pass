@@ -1,6 +1,6 @@
 <section class="dev-box">
 	<div class="box-title">
-		<h3><?php _e( "Scan", wp_defender()->domain ) ?></h3>
+		<h3><?php esc_html_e( "Scan", wp_defender()->domain ) ?></h3>
 	</div>
 	<div class="box-content">
 		<div class="tc">
@@ -9,11 +9,11 @@
 			<br/>
 
 			<p>
-				<?php _e( "Defender can scan your WordPress core integrity looking for file changes and injected code. Often hackers and bots try to change WP Core without you noticing so it’s a good idea to check it!", wp_defender()->domain ) ?>
+				<?php esc_html_e( "Defender can scan your WordPress core integrity looking for file changes and injected code. Often hackers and bots try to change WP Core without you noticing so it’s a good idea to check it!", wp_defender()->domain ) ?>
 			</p>
 			<br/>
 			<a href="https://premium.wpmudev.org/"
-			   class="button wd-button button-cta"><?php _e( "Upgrade Membership", wp_defender()->domain ) ?></a>
+			   class="button wd-button button-cta"><?php esc_html_e( "Upgrade Membership", wp_defender()->domain ) ?></a>
 
 			<div class="wd-clearfix"></div>
 			<br/>

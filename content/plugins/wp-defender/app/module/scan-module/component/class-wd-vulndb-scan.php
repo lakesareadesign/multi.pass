@@ -9,7 +9,7 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 	public $name = '';
 
 	public function init() {
-		$this->name               = __( "Vulnerability scan", wp_defender()->domain );
+		$this->name               = esc_html__( "Vulnerability scan", wp_defender()->domain );
 		$this->percentable        = false;
 		$this->dashboard_required = true;
 	}
@@ -24,7 +24,7 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 
 		set_time_limit( 0 );
 		//init the message first
-		$this->model->message = __( "Checking for any published vulnerabilities your plugins & themes...", wp_defender()->domain );
+		$this->model->message = esc_html__( "Checking for any published vulnerabilities your plugins & themes...", wp_defender()->domain );
 		$this->model->save();
 
 		$result = $this->scan();
@@ -39,7 +39,7 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 			if ( count( $result['wordpress'] ) ) {
 				$item       = new WD_Scan_Result_VulnDB_Item_Model();
 				$item->id   = uniqid();
-				$item->name = __( "WordPress Vulnerability", wp_defender()->domain );
+				$item->name = esc_html__( "WordPress Vulnerability", wp_defender()->domain );
 				$item->type = 'wordpress';
 				$detail     = array();
 				foreach ( $result['wordpress'] as $bug ) {
@@ -209,7 +209,6 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 			}
 		} else {
 			$data = wp_remote_retrieve_body( $response );
-			$this->log( var_export( $data, true ) );
 
 			return json_decode( $data, true );
 		}

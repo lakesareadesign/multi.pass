@@ -4,19 +4,19 @@
 			<?php do_action( 'wd_hardener_layout_top' ) ?>
 			<div class="wd-hardener">
 				<section id="header">
-					<h1 class="tl"><?php _e( "Hardening", wp_defender()->domain ) ?></h1>
+					<h1 class="tl"><?php esc_html_e( "Hardening", wp_defender()->domain ) ?></h1>
 				</section>
 				<section class="dev-box wd-hardener-summary">
 					<div class="box-title">
-						<h3><?php _e( "Summary", wp_defender()->domain ) ?></h3>
+						<h3><?php esc_html_e( "Summary", wp_defender()->domain ) ?></h3>
 					</div>
 					<div class="box-content">
 						<h2 class="tl wd-title">
 							<?php
 							if ( count( $issues ) == 0 ) {
-								_e( "All Issues Resolved. Legendary!", wp_defender()->domain );
+								esc_html_e( "All Issues Resolved. Legendary!", wp_defender()->domain );
 							} else {
-								printf( __( "You have a few security risks, %s!", wp_defender()->domain ), WD_Utils::get_display_name() );
+								printf( esc_html__( "You have a few security risks, %s!", wp_defender()->domain ), WD_Utils::get_display_name() );
 							} ?>
 						</h2>
 
@@ -27,7 +27,7 @@
 										<strong><?php echo count( $issues ) ?></strong>
 
 										<div class="wd-footer">
-											<?php _e( "Issues", wp_defender()->domain ) ?>
+											<?php esc_html_e( "Issues", wp_defender()->domain ) ?>
 										</div>
 									</div>
 									<div class="wd-indicator green">
@@ -35,7 +35,7 @@
 
 										<div class="wd-footer">
 											<?php
-											_e( "Resolved", wp_defender()->domain );
+											esc_html_e( "Resolved", wp_defender()->domain );
 											?>
 										</div>
 									</div>
@@ -45,7 +45,7 @@
 							</div>
 						</div>
 						<div class="wd-clearfix"></div>
-						<?php _e( "Start fixing any outstanding security risks in the Issues list below.", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Start fixing any outstanding security risks in the Issues list below.", wp_defender()->domain ) ?>
 						<div class="wd-clearfix"></div>
 					</div>
 				</section>

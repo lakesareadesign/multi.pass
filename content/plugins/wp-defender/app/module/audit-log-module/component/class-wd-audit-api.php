@@ -24,7 +24,7 @@ class WD_Audit_API extends WD_Component {
 		//return self::submit_to_local( $data );
 
 		$component = new WD_Component();
-		$ret       = $component->wpmudev_call( 'https://' . self::$end_point . '/logs/add_multiple', $data, array(
+		$ret       = $component->wpmudev_call( 'http://' . self::$end_point . '/logs/add_multiple', $data, array(
 			'method'  => 'POST',
 			'timeout' => 1,
 			//'sslverify' => false,
@@ -34,13 +34,37 @@ class WD_Audit_API extends WD_Component {
 		), true );
 	}
 
+	public static function get_suspicious_pattern() {
+		return array(
+			'xss_simple'    => '/((\%3C)|<)((\%2F)|\/)*[a-z0-9\%]+((\%3E)|>)/i',
+			'xss_img'       => '/((\%3C)|<)((\%69)|i|(\%49))((\%6D)|m|(\%4D))((\%67)|g|(\%47))[^\n]+((\%3E)|>)/i',
+			//'xss_catch_all' => '/((\%3C)|<)[^\n]+((\%3E)|>)/'
+		);
+	}
+
+	/**
+	 * @param $string
+	 *
+	 * @return bool
+	 */
+	public static function is_xss_positive( $string ) {
+		if ( ! is_string( $string ) ) {
+			return false;
+		}
+		foreach ( self::get_suspicious_pattern() as $pattern ) {
+			if ( preg_match( $pattern, $string ) == true ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * create a new socket
 	 */
 	public static function open_socket() {
 		if ( ! isset( wp_defender()->global['sockets'] ) ) {
-			$start = new DateTime();
-			//$fp = fsockopen( 'ssl://' . WD_Audit_API::$end_point, 443, $err, $errstr );
 			$fp = @stream_socket_client( 'ssl://' . WD_Audit_API::$end_point . ':443', $errno, $errstr,
 				3, // timeout should be ignored when ASYNC
 				STREAM_CLIENT_ASYNC_CONNECT );
@@ -49,9 +73,6 @@ class WD_Audit_API extends WD_Component {
 				//socket_set_nonblock( $fp );
 				wp_defender()->global['sockets'][] = $fp;
 			}
-			$end       = new DateTime();
-			$component = new WD_Component();
-			$component->log( 'time for create socket ' . $end->diff( $start )->format( '%s' ) );
 		}
 	}
 
@@ -86,11 +107,9 @@ class WD_Audit_API extends WD_Component {
 		$component = new WD_Component();
 		if ( ( $socket_ready = stream_select( $r, $sks, $e, 1 ) ) === false ) {
 			//this case error happen
-			$component->log( 'socket error' );
 
 			return false;
 		} elseif ( $socket_ready == 0 ) {
-			$component->log( 'no socket ready' );
 
 			return self::_submit_by_socket_check_later( $data, $sockets );
 		}
@@ -110,6 +129,7 @@ class WD_Audit_API extends WD_Component {
 		$header .= "Connection: close\r\n\r\n";
 
 		fputs( $fp, "POST " . $uri . "  HTTP/1.1\r\n" );
+		stream_set_timeout( $fp, 3 );
 		fputs( $fp, $header . $vars );
 
 		fclose( $fp );
@@ -148,11 +168,11 @@ class WD_Audit_API extends WD_Component {
 
 	public static function dictionary() {
 		return array(
-			self::ACTION_TRASHED  => __( "trashed", wp_defender()->domain ),
-			self::ACTION_UPDATED  => __( "updated", wp_defender()->domain ),
-			self::ACTION_DELETED  => __( "deleted", wp_defender()->domain ),
-			self::ACTION_ADDED    => __( "created", wp_defender()->domain ),
-			self::ACTION_RESTORED => __( "restored", wp_defender()->domain ),
+			self::ACTION_TRASHED  => esc_html__( "trashed", wp_defender()->domain ),
+			self::ACTION_UPDATED  => esc_html__( "updated", wp_defender()->domain ),
+			self::ACTION_DELETED  => esc_html__( "deleted", wp_defender()->domain ),
+			self::ACTION_ADDED    => esc_html__( "created", wp_defender()->domain ),
+			self::ACTION_RESTORED => esc_html__( "restored", wp_defender()->domain ),
 		);
 	}
 
@@ -173,12 +193,12 @@ class WD_Audit_API extends WD_Component {
 		$data['site_url'] = network_site_url();
 		$data['order_by'] = $order_by;
 		$data['order']    = $order;
-		$data['timezone'] = get_option('gmt_offset');
-		$response         = $component->wpmudev_call( 'https://' . self::$end_point . '/logs', $data, array(
-			'method'    => 'GET',
-			'timeout'   => 20,
+		$data['timezone'] = get_option( 'gmt_offset' );
+		$response         = $component->wpmudev_call( 'http://' . self::$end_point . '/logs', $data, array(
+			'method'  => 'GET',
+			'timeout' => 20,
 			//'sslverify' => false,
-			'headers'   => array(
+			'headers' => array(
 				'apikey' => WD_Utils::get_dev_api()
 			)
 		), true );
@@ -197,8 +217,41 @@ class WD_Audit_API extends WD_Component {
 			return $results;
 		}
 
-		return new WP_Error( 'retrieve_data_error', sprintf( __( "Whoops, Defender had trouble loading up your event log. You can try a <a href='%s'class=''>​quick refresh</a>​ of this page or check back again later.", wp_defender()->domain ),
+		return new WP_Error( 'retrieve_data_error', sprintf( esc_html__( "Whoops, Defender had trouble loading up your event log. You can try a <a href='%s'class=''>​quick refresh</a>​ of this page or check back again later.", wp_defender()->domain ),
 			network_admin_url( 'admin.php?page=wdf-logging' ) ) );
+	}
+
+	/**
+	 * @return array|mixed|object|WP_Error
+	 */
+	public static function get_summary() {
+		$data['timezone'] = get_option( 'gmt_offset' );
+		$data['site_url'] = network_site_url();
+		$component        = new WD_Component();
+		$response         = $component->wpmudev_call( 'https://' . self::$end_point . '/logs/summary', $data, array(
+			'method'  => 'GET',
+			'timeout' => 20,
+			//'sslverify' => false,
+			'headers' => array(
+				'apikey' => WD_Utils::get_dev_api()
+			)
+		), true );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
+			$body    = wp_remote_retrieve_body( $response );
+			$results = json_decode( $body, true );
+			if ( $results['status'] == 'error' ) {
+				return new WP_Error( 'log_summary_error', $results['message'] );
+			}
+
+			return $results;
+		}
+
+		return new WP_Error( 'retrieve_data_error', sprintf( esc_html__( "Whoops, Defender had trouble loading up your event log. You can try a <a href='%s'class=''>​quick refresh</a>​ of this page or check back again later.", wp_defender()->domain ),
+			network_admin_url( 'admin.php?page=wp-defender' ) ) );
 	}
 
 	public static function sort_logs( $a, $b ) {

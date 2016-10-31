@@ -2,9 +2,9 @@
 	<section class="dev-box">
 		<div class="box-title">
 			<h3>
-				<?php _e( "Hardening", wp_defender()->domain ) ?>
+				<?php esc_html_e( "Hardening", wp_defender()->domain ) ?>
 				<a class="button button-light button-small wd-button-widget float-r"
-				   href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener' ) ?>"><?php _e( "View List", wp_defender()->domain ) ?></a>
+				   href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener' ) ?>"><?php esc_html_e( "View List", wp_defender()->domain ) ?></a>
 			</h3>
 		</div>
 		<div class="box-content">
@@ -24,7 +24,7 @@
 			<?php else: ?>
 				<div class="wd-success wd-left">
 					<i class="dev-icon dev-icon-radio_checked"></i>
-					<?php _e( "Your website is well protected against hackers and bots.", wp_defender()->domain ) ?>
+					<?php esc_html_e( "Your website is well protected against hackers and bots.", wp_defender()->domain ) ?>
 				</div>
 			<?php endif; ?>
 		</div>

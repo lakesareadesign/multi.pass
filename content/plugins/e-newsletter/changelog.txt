@@ -5,6 +5,9 @@ Lead developer: Maniu
 Contributors: Cole, Andrey
 
 == Changelog ==
+= 2.7.3.6 =
+* Hustle integration support
+
 = 2.7.3.5 =
 * Improved compatibily with Fusion Core
 * Fixed Editor for other roles than "Admin"
@@ -477,4 +480,4 @@ Contributors: Cole, Andrey
 * Initial Release;
 
 
-133620-1462466935-au
+133620-1477949962-au

@@ -30,7 +30,7 @@ class WD_Comment_Audit extends WD_Event_Abstract {
 				'event_type'  => $this->type,
 				'action_type' => self::ACTION_FLOOD,
 				'context'     => self::CONTEXT_COMMENT,
-				'text'        => sprintf( __( "User %s flooded comment", wp_defender()->domain ), '{{wp_user}}' ),
+				'text'        => sprintf( esc_html__( "User %s flooded comment", wp_defender()->domain ), '{{wp_user}}' ),
 			),
 			'deleted_comment'           => array(
 				'args'        => array( 'comment_ID' ),
@@ -93,10 +93,10 @@ class WD_Comment_Audit extends WD_Event_Abstract {
 
 	public function dictionary() {
 		return array(
-			self::ACTION_DUPLICATED => __( "Duplicated", wp_defender()->domain ),
-			self::ACTION_SPAMMED    => __( "Spammed", wp_defender()->domain ),
-			self::ACTION_UNSPAMMED  => __( "Unspammed", wp_defender()->domain ),
-			self::CONTEXT_COMMENT   => __( "Comment", wp_defender()->domain )
+			self::ACTION_DUPLICATED => esc_html__( "Duplicated", wp_defender()->domain ),
+			self::ACTION_SPAMMED    => esc_html__( "Spammed", wp_defender()->domain ),
+			self::ACTION_UNSPAMMED  => esc_html__( "Unspammed", wp_defender()->domain ),
+			self::CONTEXT_COMMENT   => esc_html__( "Comment", wp_defender()->domain )
 		);
 	}
 
@@ -107,7 +107,7 @@ class WD_Comment_Audit extends WD_Event_Abstract {
 		$post            = get_post( $comment_data['comment_post_ID'] );
 		$post_type       = get_post_type_object( $post->post_type );
 		$post_type_label = strtolower( $post_type->labels->singular_name );
-		$text            = sprintf( __( "User %s submitted a duplicate comment on %s \"%s\"", wp_defender()->domain ), is_user_logged_in() ? WD_Utils::get_user_name( get_current_user_id() ) : $comment_data['comment_author'], $post_type_label, $post->post_title );
+		$text            = sprintf( esc_html__( "User %s submitted a duplicate comment on %s \"%s\"", wp_defender()->domain ), is_user_logged_in() ? WD_Utils::get_user_name( get_current_user_id() ) : $comment_data['comment_author'], $post_type_label, $post->post_title );
 
 		return array( $text, $post_type_label );
 	}
@@ -125,9 +125,9 @@ class WD_Comment_Audit extends WD_Event_Abstract {
 		$post_type_label = strtolower( $post_type->labels->singular_name );
 		$text            = false;
 		if ( $old_stat == 'unapproved' && $new_stat == 'approved' ) {
-			$text = sprintf( __( "%s approved comment ID %s from %s, on %s \"%s\"", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $comment->comment_ID, $comment->comment_author, $post_type_label, $post->post_title );
+			$text = sprintf( esc_html__( "%s approved comment ID %s from %s, on %s \"%s\"", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $comment->comment_ID, $comment->comment_author, $post_type_label, $post->post_title );
 		} elseif ( $new_stat == 'unapproved' && $old_stat == 'approved' ) {
-			$text = sprintf( __( "%s unapproved comment ID %s from %s, on %s \"%s\"", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $comment->comment_ID, $comment->comment_author, $post_type_label, $post->post_title );
+			$text = sprintf( esc_html__( "%s unapproved comment ID %s from %s, on %s \"%s\"", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ), $comment->comment_ID, $comment->comment_author, $post_type_label, $post->post_title );
 		}
 
 		return array( $text, $post_type_label );
@@ -159,16 +159,16 @@ class WD_Comment_Audit extends WD_Event_Abstract {
 				if ( $comment_approved === 'spam' ) {
 					$comment_status = 'spam';
 				} elseif ( $comment_approved === 1 ) {
-					$comment_status = __( "approved", wp_defender()->domain );
+					$comment_status = esc_html__( "approved", wp_defender()->domain );
 				} else {
-					$comment_status = __( "pending approval", wp_defender()->domain );
+					$comment_status = esc_html__( "pending approval", wp_defender()->domain );
 				}
 				if ( $comment['comment_parent'] == 0 ) {
-					$text = sprintf( __( "%s commented on %s \"%s\" - comment status: %s", wp_defender()->domain ),
+					$text = sprintf( esc_html__( "%s commented on %s \"%s\" - comment status: %s", wp_defender()->domain ),
 						$comment['comment_author'], $post_type_label, $post->post_title, $comment_status );
 				} else {
 					$parent_comment = get_comment( $comment['comment_parent'] );
-					$text           = sprintf( __( "%s replied to %s's comment on %s \"%s\" - comment status: %s", wp_defender()->domain ),
+					$text           = sprintf( esc_html__( "%s replied to %s's comment on %s \"%s\" - comment status: %s", wp_defender()->domain ),
 						$comment['comment_author'], $parent_comment->comment_author, $post_type_label, $post->post_title, $comment_status );
 				}
 				break;
@@ -176,41 +176,41 @@ class WD_Comment_Audit extends WD_Event_Abstract {
 				if ( $comment_approved === 'spam' ) {
 					$comment_status = 'spam';
 				} elseif ( $comment_approved === 1 ) {
-					$comment_status = __( "approved", wp_defender()->domain );
+					$comment_status = esc_html__( "approved", wp_defender()->domain );
 				} else {
-					$comment_status = __( "pending approval", wp_defender()->domain );
+					$comment_status = esc_html__( "pending approval", wp_defender()->domain );
 				}
 				if ( $comment['comment_parent'] == 0 ) {
-					$text = sprintf( __( "%s commented on %s \"%s\" - comment status: %s", wp_defender()->domain ),
+					$text = sprintf( esc_html__( "%s commented on %s \"%s\" - comment status: %s", wp_defender()->domain ),
 						$comment['comment_author'], $post_type_label, $post->post_title, $comment_status );
 				} else {
 					$parent_comment = get_comment( $comment['comment_parent'] );
-					$text           = sprintf( __( "%s replied to %s's comment on %s \"%s\" - comment status: %s", wp_defender()->domain ),
+					$text           = sprintf( esc_html__( "%s replied to %s's comment on %s \"%s\" - comment status: %s", wp_defender()->domain ),
 						$comment['comment_author'], $parent_comment->comment_author, $post_type_label, $post->post_title, $comment_status );
 				}
 				break;
 			case 'deleted_comment':
-				$text = sprintf( __( "%s deleted comment ID %s, comment author: %s on %s \"%s\"", wp_defender()->domain ),
+				$text = sprintf( esc_html__( "%s deleted comment ID %s, comment author: %s on %s \"%s\"", wp_defender()->domain ),
 					WD_Utils::get_user_name( get_current_user_id() ), $comment_id, $comment['comment_author'], $post_type_label, $post->post_title );
 				break;
 			case 'trash_comment':
-				$text = sprintf( __( "%s trashed comment ID %s, comment author: %s on %s \"%s\"", wp_defender()->domain ),
+				$text = sprintf( esc_html__( "%s trashed comment ID %s, comment author: %s on %s \"%s\"", wp_defender()->domain ),
 					WD_Utils::get_user_name( get_current_user_id() ), $comment_id, $comment['comment_author'], $post_type_label, $post->post_title );
 				break;
 			case 'untrash_comment':
-				$text = sprintf( __( "%s untrashed comment ID %s, comment author: %s on %s \"%s\"", wp_defender()->domain ),
+				$text = sprintf( esc_html__( "%s untrashed comment ID %s, comment author: %s on %s \"%s\"", wp_defender()->domain ),
 					WD_Utils::get_user_name( get_current_user_id() ), $comment_id, $comment['comment_author'], $post_type_label, $post->post_title );
 				break;
 			case 'spam_comment':
-				$text = sprintf( __( "%s marked comment ID %s, comment author: %s on %s \"%s\" as spam", wp_defender()->domain ),
+				$text = sprintf( esc_html__( "%s marked comment ID %s, comment author: %s on %s \"%s\" as spam", wp_defender()->domain ),
 					WD_Utils::get_user_name( get_current_user_id() ), $comment_id, $comment['comment_author'], $post_type_label, $post->post_title );
 				break;
 			case 'unspam_comment':
-				$text = sprintf( __( "%s unmarked comment ID %s, comment author: %s on %s \"%s\" as spam", wp_defender()->domain ),
+				$text = sprintf( esc_html__( "%s unmarked comment ID %s, comment author: %s on %s \"%s\" as spam", wp_defender()->domain ),
 					WD_Utils::get_user_name( get_current_user_id() ), $comment_id, $comment['comment_author'], $post_type_label, $post->post_title );
 				break;
 			case 'edit_comment':
-				$text = sprintf( __( "%s edited comment ID %s, comment author: %s on %s \"%s\"", wp_defender()->domain ),
+				$text = sprintf( esc_html__( "%s edited comment ID %s, comment author: %s on %s \"%s\"", wp_defender()->domain ),
 					WD_Utils::get_user_name( get_current_user_id() ), $comment_id, $comment['comment_author'], $post_type_label, $post->post_title );
 				break;
 			default:

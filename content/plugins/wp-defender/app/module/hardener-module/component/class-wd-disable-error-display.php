@@ -10,7 +10,7 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 
 	public function on_creation() {
 		$this->id         = 'disable_error_display';
-		$this->title      = __( "Hide error reporting", wp_defender()->domain );
+		$this->title      = esc_html__( "Hide error reporting", wp_defender()->domain );
 		$this->can_revert = true;
 
 		$this->add_action( 'admin_footer', 'print_scripts' );
@@ -163,7 +163,7 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 		if ( ! is_writable( WD_Utils::retrieve_wp_config_path() ) ) {
 			wp_send_json( array(
 				'status' => 0,
-				'error'  => __( "Your wp-config.php isn't writable", wp_defender()->domain )
+				'error'  => esc_html__( "Your wp-config.php isn't writable", wp_defender()->domain )
 			) );
 		}
 
@@ -171,7 +171,7 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 			$this->after_processed();
 			wp_send_json( array(
 				'status'  => 1,
-				'message' => __( "All PHP errors are hidden.", wp_defender()->domain )
+				'message' => esc_html__( "All PHP errors are hidden.", wp_defender()->domain )
 			) );
 		} else {
 			$this->output_error( 'cant_writable', $res->get_error_message() );
@@ -195,12 +195,10 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 		$config        = file( $path );
 		$error_display = $this->is_display_on( $path );
 		if ( $error_display > 0 ) {
-			$this->log( 'DEBUG on, turning WP_DEBUG_DISPLAY off' );
 			//this cae, mean admin want to tracking something, we don't turn of the debug
 			$config[ $error_display ] = 'define("WP_DEBUG_DISPLAY",false);' . PHP_EOL;
 		} elseif ( ( $debug_on = $this->is_debug_on( $path ) ) != false ) {
 			//this case, we need to turn the debug off
-			$this->log( 'DEBUG on, cant fount WP_DEBUG_DISPLAY, turn debug off ' );
 			$config[ $debug_on ] = 'define("WP_DEBUG",false);' . PHP_EOL;
 		}
 
@@ -208,7 +206,7 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 			return true;
 		}
 
-		return new WP_Error( 'cant_writable', __( "Your wp-config.php isn't writable", wp_defender()->domain ) );
+		return new WP_Error( 'cant_writable', esc_html__( "Your wp-config.php isn't writable", wp_defender()->domain ) );
 	}
 
 	public function display() {
@@ -218,28 +216,28 @@ class WD_Disable_Error_Display extends WD_Hardener_Abstract {
 			<div class="wd-clearfix"></div>
 
 			<div id="<?php echo $this->id ?>" class="wd-rule-content">
-				<h4 class="tl"><?php _e( "Overview", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "Overview", wp_defender()->domain ) ?></h4>
 
-				<p><?php _e( "In addition to hiding error logs, developers often use the built-in front-end PHP and scripts error debugging feature, which displays code errors on the front-end. This provides hackers yet another way to find loopholes in your site's security.", wp_defender()->domain ) ?></p>
+				<p><?php esc_html_e( "In addition to hiding error logs, developers often use the built-in front-end PHP and scripts error debugging feature, which displays code errors on the front-end. This provides hackers yet another way to find loopholes in your site's security.", wp_defender()->domain ) ?></p>
 
-				<h4 class="tl"><?php _e( "How To Fix", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
 
 				<div class="wd-error wd-hide">
 
 				</div>
 				<div class="wd-well">
 					<?php if ( $this->check() ): ?>
-						<?php _e( "All PHP errors are hidden..", wp_defender()->domain ) ?>
+						<?php esc_html_e( "All PHP errors are hidden..", wp_defender()->domain ) ?>
 					<?php else: ?>
 						<p>
-							<?php _e( "We will add the necessary code to prevent these errors displaying.", wp_defender()->domain ) ?>
+							<?php esc_html_e( "We will add the necessary code to prevent these errors displaying.", wp_defender()->domain ) ?>
 						</p>
 						<form id="disable_error_display_frm" method="post">
 							<?php $this->generate_nonce_field( 'disable_error_display' ) ?>
 							<input type="hidden" name="action"
 							       value="<?php echo $this->generate_ajax_action( 'disable_error_display' ) ?>">
 							<button type="submit"
-							        class="button wd-button"><?php _e( "DISABLE ERROR DEBUGGING", wp_defender()->domain ) ?></button>
+							        class="button wd-button"><?php esc_html_e( "DISABLE ERROR DEBUGGING", wp_defender()->domain ) ?></button>
 						</form>
 					<?php endif; ?>
 				</div>

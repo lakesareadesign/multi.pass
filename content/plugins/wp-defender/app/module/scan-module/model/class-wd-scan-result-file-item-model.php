@@ -13,13 +13,13 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 		$location    = $this->determine_location();
 
 		if ( $location == 'theme' ) {
-			$this->delete_tooltip      = __( "Delete this theme", wp_defender()->domain );
+			$this->delete_tooltip      = esc_html__( "Delete this theme", wp_defender()->domain );
 			$this->delete_confirm_text = 'delete_theme_confirm_msg';
 		} elseif ( $location == 'plugin' ) {
-			$this->delete_tooltip      = __( "Delete this plugin", wp_defender()->domain );
+			$this->delete_tooltip      = esc_html__( "Delete this plugin", wp_defender()->domain );
 			$this->delete_confirm_text = 'delete_plugin_confirm_msg';
 		} elseif ( empty( $location ) ) {
-			$this->delete_tooltip      = __( "Delete this file", wp_defender()->domain );
+			$this->delete_tooltip      = esc_html__( "Delete this file", wp_defender()->domain );
 			$this->delete_confirm_text = 'delete_confirm_msg';
 		}
 	}
@@ -37,7 +37,7 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 	}
 
 	public function get_detail() {
-		return '<img class="text-warning" src="' . wp_defender()->get_plugin_url() . 'assets/img/robot.png' . '"/> <strong>' . __( "Suspicious function found", wp_defender()->domain ) . '</strong>' . $this->get_suspicious_gauge();
+		return '<img class="text-warning" src="' . wp_defender()->get_plugin_url() . 'assets/img/robot.png' . '"/> <strong>' . esc_html__( "Suspicious function found", wp_defender()->domain ) . '</strong>' . $this->get_suspicious_gauge();
 	}
 
 	public function get_type() {
@@ -46,11 +46,11 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 
 	private function get_suspicious_gauge() {
 		if ( $this->score <= 26 ) {
-			return '<span class="wd-suspicious-light">' . __( "Low", wp_defender()->domain ) . '</span>';
+			return '<span class="wd-suspicious-light">' . esc_html__( "Low", wp_defender()->domain ) . '</span>';
 		} elseif ( $this->score <= 35 ) {
-			return '<span class="wd-suspicious-medium">' . __( "Medium", wp_defender()->domain ) . '</span>';
+			return '<span class="wd-suspicious-medium">' . esc_html__( "Medium", wp_defender()->domain ) . '</span>';
 		} elseif ( $this->score > 35 ) {
-			return '<span class="wd-suspicious-strong">' . __( "High", wp_defender()->domain ) . '</span>';
+			return '<span class="wd-suspicious-strong">' . esc_html__( "High", wp_defender()->domain ) . '</span>';
 		}
 	}
 
@@ -120,7 +120,7 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 				$model = WD_Scan_Api::get_last_scan();
 				$model->delete_item_from_result( $this->id );
 			} else {
-				return new WP_Error( 'cant_remove', sprintf( __( "We can't remove the file %s, this might be caused by lack of permissions, please remove the file manually.", wp_defender()->domain ), $this->name ) );
+				return new WP_Error( 'cant_remove', sprintf( esc_html__( "We can't remove the file %s, this might be caused by lack of permissions, please remove the file manually.", wp_defender()->domain ), $this->name ) );
 			}
 		}
 	}
@@ -200,7 +200,7 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 				if ( ! is_null( $plugin ) ) {
 					$html   = sprintf( __( "Suspicious code has been found in the file <strong>%s</strong>, which is in the plugin <a target='_blank' href=\"%s\">%s</a>. We recommend re-downloading <a target='_blank' href=\"%s\">%s</a> and replacing your existing files with a newer version, just to be on the safe side. ", wp_defender()->domain ),
 						$this->get_sub(), $plugin['PluginURI'], $plugin['Name'], $plugin['PluginURI'], $plugin['Name'] );
-					$output = str_replace( '{{delete_button_text}}', __( "Delete this plugin", wp_defender()->domain ), $output );
+					$output = str_replace( '{{delete_button_text}}', esc_html__( "Delete this plugin", wp_defender()->domain ), $output );
 				}
 				break;
 			case 'theme':
@@ -208,14 +208,14 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 				if ( ! is_null( $theme ) ) {
 					$html   = sprintf( __( "Suspicious code has been found in the file  <strong>%s</strong>, which inside the theme  <a target='_blank' href=\"%s\">%s</a>. We recommend re-downloading  <a target='_blank' href=\"%s\">%s</a> and replacing your existing files with a newer version, just to be on the safe side. ", wp_defender()->domain ),
 						$this->get_sub(), $theme->get( 'ThemeURI' ), $theme->Name, $theme->get( 'ThemeURI' ), $theme->Name );
-					$output = str_replace( '{{delete_button_text}}', __( "Delete this theme", wp_defender()->domain ), $output );
+					$output = str_replace( '{{delete_button_text}}', esc_html__( "Delete this theme", wp_defender()->domain ), $output );
 				}
 				break;
 			case 'mu_plugin':
 				$data = array_values( get_plugin_data( $this->name ) );
 				$data = array_filter( $data );
 				if ( empty( $data ) ) {
-					$html = __( "This file does’nt seem to belong to any of your themes or plugins. We recommend isolating or removing it. ", wp_defender()->domain );
+					$html = esc_html__( "This file does’nt seem to belong to any of your themes or plugins. We recommend isolating or removing it. ", wp_defender()->domain );
 				} else {
 					//this has some data, if we can't determine plugin name & url, show info
 					$name = $data['Name'];
@@ -224,7 +224,7 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 						$html = sprintf( __( "Suspicious code has been found in the file <strong>%s</strong>, which is in the plugin <strong>%s</strong>.  We recommend re-downloading <strong>%s</strong> and replacing your existing files with a newer version, just to be on the safe side. ", wp_defender()->domain ),
 							$this->get_sub(), $name, $name );
 					} else {
-						$html = __( "This file does’nt seem to belong to any of your themes or plugins. We recommend isolating or removing it. ", wp_defender()->domain );
+						$html = esc_html__( "This file does’nt seem to belong to any of your themes or plugins. We recommend isolating or removing it. ", wp_defender()->domain );
 					}
 
 				}
@@ -232,10 +232,10 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 		}
 		//if still here, means doesnt theme, but injection
 		if ( empty( $html ) ) {
-			$html = __( "This file does’nt seem to belong to any of your themes or plugins. We recommend isolating or removing it. ", wp_defender()->domain );
+			$html = esc_html__( "This file does’nt seem to belong to any of your themes or plugins. We recommend isolating or removing it. ", wp_defender()->domain );
 		}
 		//just in case the delete text doesnt replace
-		$output       = str_replace( '{{delete_button_text}}', __( "Delete this file", wp_defender()->domain ), $output );
+		$output       = str_replace( '{{delete_button_text}}', esc_html__( "Delete this file", wp_defender()->domain ), $output );
 		$html         = '<p>' . $html . '</p>';
 		$warning_line = '';
 		if ( $this->score <= 26 ) {
@@ -298,7 +298,7 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 			<div class="wd-scan-resolve-dialog">
 				<div class="group">
 					<div class="col span_3_of_12">
-						<strong><?php _e( "Location: ", wp_defender()->domain ) ?></strong>
+						<strong><?php esc_html_e( "Location: ", wp_defender()->domain ) ?></strong>
 					</div>
 					<div class="col span_9_of_12">
 						{{location}}
@@ -306,7 +306,7 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 				</div>
 				<div class="group">
 					<div class="col span_3_of_12">
-						<strong><?php _e( "Size: ", wp_defender()->domain ) ?></strong>
+						<strong><?php esc_html_e( "Size: ", wp_defender()->domain ) ?></strong>
 					</div>
 					<div class="col span_9_of_12">
 						{{size}}
@@ -314,7 +314,7 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 				</div>
 				<div class="group">
 					<div class="col span_3_of_12">
-						<strong><?php echo __( "Date added/modified: " ) ?></strong>
+						<strong><?php echo esc_html__( "Date added/modified: " ) ?></strong>
 					</div>
 					<div class="col span_9_of_12">
 						{{date}}
@@ -334,7 +334,7 @@ class WD_Scan_Result_File_Item_Model extends WD_Scan_Result_Item_Model {
 							<button type="submit" data-confirm-button="<?php echo 'ignore_confirm_btn' ?>"
 							        data-confirm="<?php echo 'ignore_confirm_msg' ?>" data-type="ignore"
 							        class="button button-grey button-small">
-								<?php _e( "Ignore File", wp_defender()->domain ) ?>
+								<?php esc_html_e( "Ignore File", wp_defender()->domain ) ?>
 							</button>&nbsp;
 						<?php endif; ?>
 						<?php if ( $this->can_delete() ): ?>

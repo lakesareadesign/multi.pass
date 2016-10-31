@@ -4,14 +4,14 @@
 
 		<p>
 			<?php
-			_e( "Give your website a performance boost with WP Hummingbird!", wp_defender()->domain )
+			esc_html_e( "Give your website a performance boost with WP Hummingbird!", wp_defender()->domain )
 			?>
 		</p>
 		<form method="post" id="wd_install_humming">
 			<?php wp_nonce_field( 'wd_install_humming', 'wd_humming_widget' ) ?>
 			<input type="hidden" name="action" value="wd_install_humming">
 			<button type="submit" class="button button-grey block">
-				<?php _e( "Install", wp_defender()->domain ) ?>
+				<?php esc_html_e( "Install", wp_defender()->domain ) ?>
 			</button>
 		</form>
 	</div>

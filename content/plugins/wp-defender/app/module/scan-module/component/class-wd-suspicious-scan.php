@@ -16,7 +16,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 	protected $tokens_is_php = array();
 
 	public function init() {
-		$this->name               = __( "Suspicious file scan", wp_defender()->domain );
+		$this->name               = esc_html__( "Suspicious file scan", wp_defender()->domain );
 		$this->percentable        = true;
 		$this->dashboard_required = true;
 		$this->total_files        = WD_Scan_Api::get_content_files();
@@ -109,7 +109,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 		ini_set( 'memory_limit', - 1 );
 
 		if ( WD_Utils::get_cache( self::RECOUNT_TOTAL ) == 0 ) {
-			$this->model->message = __( "Analyzing WordPress content files…", wp_defender()->domain );
+			$this->model->message = esc_html__( "Analyzing WordPress content files…", wp_defender()->domain );
 			//include the count
 			$this->model->result_core_integrity = array_filter( $this->model->result_core_integrity );
 			$this->model->total_files           = $this->model->total_files + count( $this->model->result_core_integrity );
@@ -118,8 +118,8 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 		}
 
 		//many case this is error, so we have to rebind the message
-		if ( $this->model->message != __( "Analyzing WordPress content files…", wp_defender()->domain ) ) {
-			$this->model->message = __( "Analyzing WordPress content files…", wp_defender()->domain );
+		if ( $this->model->message != esc_html__( "Analyzing WordPress content files…", wp_defender()->domain ) ) {
+			$this->model->message = esc_html__( "Analyzing WordPress content files…", wp_defender()->domain );
 			$this->model->save();
 		}
 
@@ -148,7 +148,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 					sleep( 3 );
 					if ( $cpu_count > 55 ) {
 						$this->model->status  = WD_Scan_Result_Model::STATUS_ERROR;
-						$this->model->message = __( "Your server resource usage is too close to your limit. Please try again in 15 minutes.", wp_defender()->domain );
+						$this->model->message = esc_html__( "Your server resource usage is too close to your limit. Please try again in 15 minutes.", wp_defender()->domain );
 						$this->model->save();
 
 						return;
@@ -160,16 +160,11 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 				}
 			}
 
-			//$this->log( 'before memory ' . $this->convert_size( memory_get_usage() ), self::ERROR_LEVEL_DEBUG, 'scan' );
-			//$this->log( 'before cpu' . $this->get_cpu_usage(), self::ERROR_LEVEL_DEBUG, 'cpu' );
-			$this->log( 'start file ' . $file, self::ERROR_LEVEL_DEBUG, 'scan' );
-
 			/**
 			 * we need to check if this is still processing, and fault
 			 */
 			$tried_check = array_count_values( $this->try_attempt );
 			if ( isset( $tried_check[ $file ] ) && $tried_check[ $file ] >= 3 ) {
-				$this->log( $file, self::ERROR_LEVEL_DEBUG, 'broken' );
 				//skip this
 				//todo index this
 				$this->file_scanned[] = $file;
@@ -243,6 +238,10 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 	 * @return bool|WD_Scan_Result_File_Item_Model
 	 */
 	public function _scan_a_file( $file ) {
+		if ( ! file_exists( $file ) ) {
+			return;
+		}
+
 		$content             = $this->read_file_content( $file );
 		$item                = true;
 		$this->tokens        = null;
@@ -275,9 +274,6 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 				//$this->log( 'done detect suspicious function', self::ERROR_LEVEL_INFO, 'scan' );
 			} catch ( Exception $e ) {
 				//unlock
-				$log = $e->getMessage() . PHP_EOL;
-				$log .= $e->getTraceAsString();
-				$this->log( $log, self::ERROR_LEVEL_ERROR, 'error' );
 				delete_option( 'wd_scan_lock' );
 
 				return;

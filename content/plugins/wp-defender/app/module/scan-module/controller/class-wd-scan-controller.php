@@ -17,6 +17,7 @@ class WD_Scan_Controller extends WD_Controller {
 		}
 		$this->add_action( 'wp_loaded', 'maybe_schedule_cron' );
 		$this->add_action( 'wp_loaded', 'retry_scan' );
+		$this->add_action( 'wp_loaded', 'listen_files_changed' );
 		$this->add_action( 'admin_enqueue_scripts', 'load_scripts' );
 		$this->add_action( 'wd_scanning_hook', 'process_a_scan' );
 		$this->add_action( 'wd_scan_completed', 'remove_history' );
@@ -26,6 +27,10 @@ class WD_Scan_Controller extends WD_Controller {
 		$this->add_ajax_action( 'wd_query_scan_progress', 'check_status' );
 		$this->add_ajax_action( 'wd_start_a_scan', 'start_a_scan' );
 		$this->add_ajax_action( 'wd_cancel_scan', 'cancel_scan' );
+	}
+
+	public function listen_files_changed() {
+		new WD_Detect_File_Change();
 	}
 
 	/**
@@ -74,7 +79,7 @@ class WD_Scan_Controller extends WD_Controller {
 		$model = WD_Scan_Api::get_last_scan();
 		if ( is_object( $model ) && $model->status == WD_Scan_Result_Model::STATUS_ERROR ) {
 			$model->status  = WD_Scan_Result_Model::STATUS_PROCESSING;
-			$model->message = __( "Continuing...", wp_defender()->domain );
+			$model->message = esc_html__( "Continuing...", wp_defender()->domain );
 			$model->save();
 			//force to check again
 		}
@@ -287,7 +292,7 @@ class WD_Scan_Controller extends WD_Controller {
 			$last_updated = $model->get_raw_post()->post_modified;
 			//if the last time is about 20 mins, ignore the lock
 			if ( strtotime( '+20 minutes', strtotime( $last_updated ) ) < current_time( 'timestamp' ) ) {
-				$this->log( 'lock take so long, ignore', self::ERROR_LEVEL_DEBUG, 'lock' );
+
 			} else {
 				return false;
 			}
@@ -508,15 +513,15 @@ class WD_Scan_Controller extends WD_Controller {
 			}
 
 			wp_localize_script( 'wp-defender', 'wd_scanning', array(
-				'show_log'                  => __( "Show Log", wp_defender()->domain ),
-				'hide_log'                  => __( "Hide Log", wp_defender()->domain ),
-				'ignore_confirm_msg'        => __( "Just a reminder, by ignoring this file Defender will leave it alone and won't warn you about it again unless it changes. You can add it back to the issues list any time.", wp_defender()->domain ),
-				'delete_confirm_msg'        => __( "Deleting this file will remove it from your WordPress installation. Make sure you have a backup of your website before continuing, doing this could break your website.", wp_defender()->domain ),
-				'delete_plugin_confirm_msg' => __( "Deleting this plugin will remove it from your WordPress installation. Make sure you have a backup of your website before continuing.", wp_defender()->domain ),
-				'delete_theme_confirm_msg'  => __( "Deleting this theme will remove it from your WordPress installation. Make sure you have a backup of your website before continuing.", wp_defender()->domain ),
-				'cancel_confirm_btn'        => __( "Cancel", wp_defender()->domain ),
-				'delete_confirm_btn'        => __( "Delete", wp_defender()->domain ),
-				'ignore_confirm_btn'        => __( "Ignore", wp_defender()->domain ),
+				'show_log'                  => esc_html__( "Show Log", wp_defender()->domain ),
+				'hide_log'                  => esc_html__( "Hide Log", wp_defender()->domain ),
+				'ignore_confirm_msg'        => esc_html__( "Just a reminder, by ignoring this file Defender will leave it alone and won't warn you about it again unless it changes. You can add it back to the issues list any time.", wp_defender()->domain ),
+				'delete_confirm_msg'        => esc_html__( "Deleting this file will remove it from your WordPress installation. Make sure you have a backup of your website before continuing, doing this could break your website.", wp_defender()->domain ),
+				'delete_plugin_confirm_msg' => esc_html__( "Deleting this plugin will remove it from your WordPress installation. Make sure you have a backup of your website before continuing.", wp_defender()->domain ),
+				'delete_theme_confirm_msg'  => esc_html__( "Deleting this theme will remove it from your WordPress installation. Make sure you have a backup of your website before continuing.", wp_defender()->domain ),
+				'cancel_confirm_btn'        => esc_html__( "Cancel", wp_defender()->domain ),
+				'delete_confirm_btn'        => esc_html__( "Delete", wp_defender()->domain ),
+				'ignore_confirm_btn'        => esc_html__( "Ignore", wp_defender()->domain ),
 				'strings'                   => $strings
 			) );
 			WDEV_Plugin_Ui::load( wp_defender()->get_plugin_url() . 'shared-ui/', false );
@@ -533,7 +538,7 @@ class WD_Scan_Controller extends WD_Controller {
 	 */
 	public function admin_menu() {
 		$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
-		add_submenu_page( 'wp-defender', __( "Scan", wp_defender()->domain ), __( "Scan", wp_defender()->domain ), $cap, 'wdf-scan', array(
+		add_submenu_page( 'wp-defender', esc_html__( "Scan", wp_defender()->domain ), esc_html__( "Scan", wp_defender()->domain ), $cap, 'wdf-scan', array(
 			$this,
 			'display_main'
 		) );

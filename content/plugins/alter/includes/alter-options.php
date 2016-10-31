@@ -4,19 +4,28 @@
  */
 $blog_email = get_option('admin_email');
 $blog_from_name = get_option('blogname');
-if(is_serialized(get_option(ALTER_OPTIONS_SLUG))) {
-    $alter_get_options = unserialize(get_option(ALTER_OPTIONS_SLUG));
+
+function is_wps_single() {
+   if(!is_multisite())
+	return true;
+   elseif(is_multisite() && !defined('NETWORK_ADMIN_CONTROL'))
+	return true;
+   else return false;
+}
+
+if(is_wps_single()) {
+  $alter_get_options = (is_serialized(get_option(ALTER_OPTIONS_SLUG))) ? unserialize(get_option(ALTER_OPTIONS_SLUG)) : get_option(ALTER_OPTIONS_SLUG);
 }
 else {
-    $alter_get_options = get_option(ALTER_OPTIONS_SLUG);
+  $alter_get_options = (is_serialized(get_site_option(ALTER_OPTIONS_SLUG))) ? unserialize(get_site_option(ALTER_OPTIONS_SLUG)) : get_site_option(ALTER_OPTIONS_SLUG);
 }
 
 //get dashboard widgets
-if(is_serialized(get_option(ALTER_WIDGETS_LISTS_SLUG))) {
-    $dash_widgets_list = unserialize(get_option(ALTER_WIDGETS_LISTS_SLUG));
+if(is_wps_single()) {
+  $dash_widgets_list = (is_serialized(get_option(ALTER_WIDGETS_LISTS_SLUG))) ? unserialize(get_option(ALTER_WIDGETS_LISTS_SLUG)) : get_option(ALTER_WIDGETS_LISTS_SLUG);
 }
 else {
-    $dash_widgets_list = get_option(ALTER_WIDGETS_LISTS_SLUG);
+  $dash_widgets_list = (is_serialized(get_site_option(ALTER_WIDGETS_LISTS_SLUG))) ? unserialize(get_site_option(ALTER_WIDGETS_LISTS_SLUG)) : get_site_option(ALTER_WIDGETS_LISTS_SLUG);
 }
 
 $alter_dash_widgets = array();
@@ -28,11 +37,21 @@ if(!empty($dash_widgets_list)) {
 $alter_dash_widgets['welcome_panel'] = "Welcome Panel";
 
 //get adminbar items
-if(is_serialized(get_option(ALTER_ADMINBAR_LISTS_SLUG))) {
-    $adminbar_items = unserialize(get_option(ALTER_ADMINBAR_LISTS_SLUG));
+if(is_wps_single()) {
+  $adminbar_items = (is_serialized(get_option(ALTER_ADMINBAR_LISTS_SLUG))) ? unserialize(get_option(ALTER_ADMINBAR_LISTS_SLUG)) : get_option(ALTER_ADMINBAR_LISTS_SLUG);
 }
 else {
-    $adminbar_items = get_option(ALTER_ADMINBAR_LISTS_SLUG);
+  $adminbar_items = (is_serialized(get_site_option(ALTER_ADMINBAR_LISTS_SLUG))) ? unserialize(get_site_option(ALTER_ADMINBAR_LISTS_SLUG)) : get_site_option(ALTER_ADMINBAR_LISTS_SLUG);
+}
+
+//get all admin users
+$user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
+if(isset($user_query) && !empty($user_query)) {
+    if ( ! empty( $user_query->results ) ) {
+        foreach ( $user_query->results as $user_detail ) {
+            $admin_users[$user_detail->ID] = $user_detail->display_name;
+        }
+    }
 }
 
 $panel_tabs = array(
@@ -52,6 +71,19 @@ $panel_fields[] = array(
     'name' => __( 'General Options', 'alter' ),
     'type' => 'openTab'
 );
+
+$panel_fields[] = array(
+    'name' => __( 'Enable/Disable admin pages styles', 'alter' ),
+    'type' => 'title',
+    );
+
+$panel_fields[] = array(
+    'name' => __( 'Disable Alter styles for login page.', 'alter' ),
+    'id' => 'disable_admin_pages_styles',
+    'type' => 'checkbox',
+    'desc' => __( 'Check to disable custom admin styles.', 'alter' ),
+    'default' => false,
+    );
 
 $panel_fields[] = array(
     'name' => __( 'Choose design type', 'alter' ),
@@ -124,7 +156,7 @@ $panel_fields[] = array(
     'type' => 'multicheck',
     'desc' => __( 'Select whichever you want to remove.', 'alter' ),
     'options' => array(
-        '1' => __( 'Wordpress Help tab.', 'alter' ),					
+        '1' => __( 'Wordpress Help tab.', 'alter' ),
         '2' => __( 'Screen Options.', 'alter' ),
         '3' => __( 'Wordpress update notifications.', 'alter' ),
     ),
@@ -163,6 +195,29 @@ $panel_fields[] = array(
     );
 
 $panel_fields[] = array(
+    'name' => __( 'Menu Customization options', 'alter' ),
+    'type' => 'title',
+    );
+
+$panel_fields[] = array(
+        'name' => __( 'Menu display', 'alter' ),
+        'id' => 'show_all_menu_to_admin',
+        'type' => 'radio',
+    'options' => array(
+        '1' => __( 'Show all Menu links to all admin users', 'alter' ),
+        '2' => __( 'Show all Menu links to specific admin users', 'alter' ),
+    ),
+    );
+
+$panel_fields[] = array(
+    'name' => __( 'Select Privilege users', 'alter' ),
+    'id' => 'privilege_users',
+    'type' => 'multicheck',
+    'desc' => __( 'Select admin users who can have access to all menu items.', 'alter' ),
+    'options' => $admin_users,
+    );
+
+$panel_fields[] = array(
     'name' => __( 'Custom CSS', 'alter' ),
     'type' => 'title',
     );
@@ -179,6 +234,13 @@ $panel_fields[] = array(
     'name' => __( 'Login Options', 'alter' ),
     'type' => 'openTab'
     );
+
+    if($alter_get_options['disable_styles_login'] == 1) {
+      $panel_fields[] = array(
+          'desc' => __( 'Login page styles are disabled. Your customization would not work. Please enable it to display Alter custom styles.', 'alter' ),
+          'type' => 'note'
+          );
+    }
 
 $panel_fields[] = array(
     'name' => __( 'Disable Alter styles for login page.', 'alter' ),
@@ -384,7 +446,7 @@ if(!empty($alter_dash_widgets) && is_array($alter_dash_widgets)) {
         'type' => 'multicheck',
         'desc' => __( 'Select whichever you want to remove.', 'alter' ),
         'options' => $alter_dash_widgets,
-        );	
+        );
 }
 
 
@@ -483,10 +545,17 @@ $panel_fields[] = array(
     'type' => 'openTab'
 );
 
+if($alter_get_options['disable_admin_pages_styles'] == 1) {
+  $panel_fields[] = array(
+      'desc' => __( 'Admin styles are disabled. Your customization would not work. Please enable it to display Alter custom styles.', 'alter' ),
+      'type' => 'note'
+      );
+}
+
 $panel_fields[] = array(
     'name' => __( 'Primary button colors', 'alter' ),
     'type' => 'title',
-    );	
+    );
 
 $panel_fields[] = array(
     'name' => __( 'Button background  color', 'alter' ),
@@ -551,7 +620,7 @@ $panel_fields[] = array(
 $panel_fields[] = array(
     'name' => __( 'Secondary button colors', 'alter' ),
     'type' => 'title',
-    );	
+    );
 
 $panel_fields[] = array(
     'name' => __( 'Button background color', 'alter' ),
@@ -611,7 +680,7 @@ $panel_fields[] = array(
     'id' => 'sec_button_hover_text_color',
     'type' => 'wpcolor',
     'default' => '#ffffff',
-    );	
+    );
 
 $panel_fields[] = array(
     'name' => __( 'Metabox Colors', 'alter' ),
@@ -699,6 +768,13 @@ $panel_fields[] = array(
     'type' => 'openTab'
     );
 
+    if($alter_get_options['disable_admin_pages_styles'] == 1) {
+      $panel_fields[] = array(
+          'desc' => __( 'Admin styles are disabled. Your customization would not work. Please enable it to display Alter custom styles.', 'alter' ),
+          'type' => 'note'
+          );
+    }
+
 $panel_fields[] = array(
     'name' => __( 'Admin menu width', 'alter' ),
     'id' => 'admin_menu_width',
@@ -725,32 +801,46 @@ $panel_fields[] = array(
     'id' => 'sub_nav_wrap_color',
     'type' => 'wpcolor',
     'default' => '#121d28',
-    );	
-
-$panel_fields[] = array(
-    'name' => __( 'Menu hover color', 'alter' ),
-    'id' => 'hover_menu_color',
-    'type' => 'wpcolor',
-    'default' => '#121d28',
-    );	
-
-$panel_fields[] = array(
-    'name' => __( 'Active Menu color', 'alter' ),
-    'id' => 'active_menu_color',
-    'type' => 'wpcolor',
-    'default' => '#379392',
-    );	
+    );
 
 $panel_fields[] = array(
     'name' => __( 'Menu text color', 'alter' ),
     'id' => 'nav_text_color',
     'type' => 'wpcolor',
     'default' => '#8aa0a0',
-    );	
+    );
+
+$panel_fields[] = array(
+    'name' => __( 'Menu hover color', 'alter' ),
+    'id' => 'hover_menu_color',
+    'type' => 'wpcolor',
+    'default' => '#121d28',
+    );
 
 $panel_fields[] = array(
     'name' => __( 'Menu hover text color', 'alter' ),
     'id' => 'menu_hover_text_color',
+    'type' => 'wpcolor',
+    'default' => '#ffffff',
+    );
+
+$panel_fields[] = array(
+    'name' => __( 'Active Menu color', 'alter' ),
+    'id' => 'active_menu_color',
+    'type' => 'wpcolor',
+    'default' => '#379392',
+    );
+
+$panel_fields[] = array(
+    'name' => __( 'Active Menu text color', 'alter' ),
+    'id' => 'menu_active_text_color',
+    'type' => 'wpcolor',
+    'default' => '#ffffff',
+    );
+
+$panel_fields[] = array(
+    'name' => __( 'Active submenu text color', 'alter' ),
+    'id' => 'submenu_active_text_color',
     'type' => 'wpcolor',
     'default' => '#ffffff',
     );

@@ -28,15 +28,15 @@ div#wpadminbar li#wp-admin-bar-alter_admin_title {
 
 .quicklinks li.alter_admin_title a { <?php if($this->aof_options['logo_top_margin'] != 0) echo 'margin-top:-' . $this->aof_options['logo_top_margin'] . 'px !important;'; if($this->aof_options['logo_bottom_margin'] != 0) echo 'margin-top:' . $this->aof_options['logo_bottom_margin'] . 'px !important;'; ?>}
 .quicklinks li.alter_admin_title a{ margin-left:20px !important; outline:none; border:none; }
-<?php 
+<?php
 $admin_logo = $this->aof_options['admin_logo'];
 $admin_logo_url = (is_numeric($admin_logo)) ? $this->alter_get_image_url($admin_logo) : $admin_logo;
 if(!empty($admin_logo_url)){ ?>
 .quicklinks li.alter_admin_title a, .quicklinks li.alter_admin_title a:hover, .quicklinks li.alter_admin_title a:focus {
-    background:url(<?php echo $admin_logo_url;  ?>) left 4px no-repeat !important; text-indent:-9999px !important; width: auto; 
+    background:url(<?php echo $admin_logo_url;  ?>) left 4px no-repeat !important; text-indent:-9999px !important; width: auto;
 }
 <?php } ?>
- 
+
 /* Buttons */
 .wp-core-ui .button,.wp-core-ui .button-secondary{color:<?php echo $this->aof_options['sec_button_text_color']; ?>;background:<?php echo $this->aof_options['sec_button_color']; ?>;}
 .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover { color:<?php echo $this->aof_options['sec_button_hover_text_color']; ?>;background:<?php echo $this->aof_options['sec_button_hover_color']; ?>;text-shadow: none;-webkit-box-shadow: none;moz-box-shadow: none;box-shadow: none;}
@@ -66,8 +66,8 @@ if(!empty($admin_logo_url)){ ?>
             margin-left: <?php echo $wp_content_margin . 'px'; ?>;
             <?php } ?>
         }
-        #adminmenu .wp-submenu { 
-            <?php if(is_rtl()) echo 'right: ' . $admin_menu_width . 'px'; else echo 'left: ' . $admin_menu_width . 'px'; ?>; 
+        #adminmenu .wp-submenu {
+            <?php if(is_rtl()) echo 'right: ' . $admin_menu_width . 'px'; else echo 'left: ' . $admin_menu_width . 'px'; ?>;
         }
         .quicklinks li.alter_admin_title {
             width: <?php echo $admin_menu_width . 'px'; ?> !important;
@@ -83,15 +83,19 @@ if(!empty($admin_logo_url)){ ?>
         .quicklinks li.alter_admin_title {
             width: 230px !important;
         }
-  <?php } 
+  <?php }
   if(!empty($this->aof_options['menu_separator_color'])) {
   ?>
 #adminmenu li.wp-menu-separator { background-color: <?php echo $this->aof_options['menu_separator_color']; ?>; }
   <?php } ?>
 #adminmenuback, #adminmenuwrap, #adminmenu { background: <?php echo $this->aof_options['nav_wrap_color']; ?>;}
 #adminmenu div.wp-menu-image:before, #adminmenu a, #adminmenu .wp-submenu a, #collapse-menu, #collapse-button div:after { color: <?php echo $this->aof_options['nav_text_color']; ?>; }
-#adminmenu li:hover div.wp-menu-image:before { color: <?php echo $this->aof_options['menu_hover_text_color']; ?>; }
-#adminmenu li.menu-top:hover, #adminmenu li.menu-top a:hover, #adminmenu li.opensub>a.menu-top, #adminmenu li>a.menu-top:focus { background: <?php echo $this->aof_options['hover_menu_color']; ?>; color: <?php echo $this->aof_options['menu_hover_text_color']; ?>; }
+#adminmenu li.menu-top:hover, #adminmenu li.menu-top a:hover, #adminmenu li.opensub>a.menu-top, #adminmenu li>a.menu-top:focus { background: <?php echo $this->aof_options['hover_menu_color']; ?>; color: <?php echo $this->aof_options['menu_hover_text_color']; ?>;}
+
+#adminmenu li a:focus div.wp-menu-image:before, #adminmenu li.opensub div.wp-menu-image:before, #adminmenu li:hover div.wp-menu-image:before,
+#adminmenu .opensub .wp-submenu li.current a, #adminmenu .wp-submenu li.current, #adminmenu .wp-submenu li.current a, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a {color: <?php echo $this->aof_options['menu_hover_text_color']; ?>;}
+#adminmenu li.wp-has-current-submenu > a.menu-top, #adminmenu li.wp-has-current-submenu div.wp-menu-image:before,
+#adminmenu li.wp-has-current-submenu:hover > a.menu-top, #adminmenu li.wp-has-current-submenu:hover div.wp-menu-image:before { color: <?php echo $this->aof_options['menu_active_text_color']; ?>;}
 
 #adminmenu .wp-submenu-head, #adminmenu a.menu-top { <?php if(is_rtl()) echo 'padding: 5px 10px 5px 0'; else echo'padding: 5px 0 5px 10px'; ?> }
 .folded #wpcontent, .folded #wpfooter {<?php if(is_rtl()) echo 'margin-right: '; else echo 'margin-left: '; ?>78px; }
@@ -128,20 +132,20 @@ div.updated a:hover { color: <?php echo $this->aof_options['msgbox_link_hover_co
 
 
 <?php if($this->aof_options['design_type'] == 1) { ?>
-.wp-core-ui .button-primary, #wpadminbar, .postbox,.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button, .wp-core-ui .button-secondary, .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover, #wpadminbar .menupop .ab-sub-wrapper, #wpadminbar .shortlink-input, .theme-browser .theme, .wrap .add-new-h2, .wrap .page-title-action,.wrap .add-new-h2:hover, .wrap .page-title-action:hover, .wrap .add-new-h2:active { 
+.wp-core-ui .button-primary, #wpadminbar, .postbox,.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button, .wp-core-ui .button-secondary, .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover, #wpadminbar .menupop .ab-sub-wrapper, #wpadminbar .shortlink-input, .theme-browser .theme, .wrap .add-new-h2, .wrap .page-title-action,.wrap .add-new-h2:hover, .wrap .page-title-action:hover, .wrap .add-new-h2:active {
 	-webkit-box-shadow: none !important;
 	-moz-box-shadow: none !important;
 	box-shadow: none !important;
 	border: none !important;
                     text-shadow: none !important;
 }
-input[type=checkbox], input[type=radio], #update-nag, .update-nag, .wp-list-table, .widefat, input[type=email], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=url], select, textarea, #adminmenu .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu, .folded #adminmenu a.wp-has-current-submenu:focus+.wp-submenu, .mce-toolbar .mce-btn-group .mce-btn.mce-listbox, .wp-color-result, .widget-top, .widgets-holder-wrap { 
+input[type=checkbox], input[type=radio], #update-nag, .update-nag, .wp-list-table, .widefat, input[type=email], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=url], select, textarea, #adminmenu .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu, .folded #adminmenu a.wp-has-current-submenu:focus+.wp-submenu, .mce-toolbar .mce-btn-group .mce-btn.mce-listbox, .wp-color-result, .widget-top, .widgets-holder-wrap {
 	-webkit-box-shadow: none !important;
 	-moz-box-shadow: none !important;
 	box-shadow: none !important;
-} 
+}
 body #dashboard-widgets .postbox form .submit { padding: 10px 0 !important; }
-<?php } 
+<?php }
 echo $this->aof_options['admin_page_custom_css'];
 ?>
 </style>

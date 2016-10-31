@@ -8,7 +8,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 	public $delete_confirm_text;
 
 	public function __wakeup() {
-		$this->delete_tooltip      = __( "Delete this file", wp_defender()->domain );
+		$this->delete_tooltip      = esc_html__( "Delete this file", wp_defender()->domain );
 		$this->delete_confirm_text = 'delete_confirm_msg';
 	}
 
@@ -49,9 +49,9 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 	public function get_detail() {
 		$detail = $this->detail;
 		if ( $detail['is_added'] == true ) {
-			return '<strong>' . esc_html( __( "Unknown file in WordPress core", wp_defender()->domain ) ) . '</strong>';
+			return '<strong>' . esc_html( esc_html__( "Unknown file in WordPress core", wp_defender()->domain ) ) . '</strong>';
 		} else {
-			return '<strong>' . esc_html( __( "This WordPress core file appears modified", wp_defender()->domain ) ) . '</strong>';
+			return '<strong>' . esc_html( esc_html__( "This WordPress core file appears modified", wp_defender()->domain ) ) . '</strong>';
 		}
 	}
 
@@ -96,7 +96,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 
 			$model->delete_item_from_result( $this->id );
 		} else {
-			return new WP_Error( 'cant_unlink', __( "It appears Defender cannot delete these files, tarnation! You should try and delete them yourself via FTP, cPanel file manager or however you access your server, or ask your hosting support to do it for you.", wp_defender()->domain ) );
+			return new WP_Error( 'cant_unlink', esc_html__( "It appears Defender cannot delete these files, tarnation! You should try and delete them yourself via FTP, cPanel file manager or however you access your server, or ask your hosting support to do it for you.", wp_defender()->domain ) );
 		}
 	}
 
@@ -121,7 +121,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 			return true;
 		}
 
-		return new WP_Error( 'cant_write', sprintf( __( "It seems the %s file is currently using by another process or isn't writeable.", wp_defender()->domain ), $this->get_sub() ) );
+		return new WP_Error( 'cant_write', sprintf( esc_html__( "It seems the %s file is currently using by another process or isn't writeable.", wp_defender()->domain ), $this->get_sub() ) );
 	}
 
 	/**
@@ -159,7 +159,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 			foreach ( $groups as $item_result ) {
 				if ( $item_result instanceof WD_Scan_Result_File_Item_Model ) {
 					//this mean suspicious found
-					$error_msg = __( "Something fishy is going on here. This file isn’t a WordPress core file and has suspicious content. We recommend replacing or isolating it right away!", wp_defender()->domain );
+					$error_msg = esc_html__( "Something fishy is going on here. This file isn’t a WordPress core file and has suspicious content. We recommend replacing or isolating it right away!", wp_defender()->domain );
 				}
 			}
 		}
@@ -167,7 +167,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 			$resolve_note = $this->_get_instruction();
 			$output       = str_replace( '{{resolve_note}}', $resolve_note, $output );
 		} elseif ( empty( $error_msg ) ) {
-			$output = str_replace( '{{resolve_note}}', '<p>' . __( "We found this file floating around in your WordPress file list but it's not required by your current WP Version. As far as we can tell it's harmless (probably from an older WP install) so you can either delete it or ignore it, up to you! (please be sure to make a backup before you do start deleting files).", wp_defender()->domain ) . '</p>', $output );
+			$output = str_replace( '{{resolve_note}}', '<p>' . esc_html__( "We found this file floating around in your WordPress file list but it's not required by your current WP Version. As far as we can tell it's harmless (probably from an older WP install) so you can either delete it or ignore it, up to you! (please be sure to make a backup before you do start deleting files).", wp_defender()->domain ) . '</p>', $output );
 		} else {
 			$error_msg = '<p>' . $error_msg . '</p>';
 			$output    = str_replace( '{{resolve_note}}', $error_msg, $output );
@@ -179,7 +179,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 	private function _get_instruction() {
 		ob_start();
 		?>
-		<p><?php _e( "Don't you know Defender can automate resolving this for you, just in one click. Please note that this will
+		<p><?php esc_html_e( "Don't you know Defender can automate resolving this for you, just in one click. Please note that this will
 			update your file content permanently.", wp_defender()->domain ) ?></p>
 		<?php
 		return ob_get_clean();
@@ -230,7 +230,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 				}
 
 				if ( ! copy( $tmp, $path . $wp_version . '.zip' ) ) {
-					return new WP_Error( 'cant_copy', sprintf( __( "Please make sure the folder %s writeable", wp_defender()->domain ), $path ) );
+					return new WP_Error( 'cant_copy', sprintf( esc_html__( "Please make sure the folder %s writeable", wp_defender()->domain ), $path ) );
 				}
 				@unlink( $tmp );
 			}
@@ -254,7 +254,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 				return $content;
 			}
 
-			return new WP_Error( 'generic', __( "An unexpected error happened. Please try again", wp_defender()->domain ) );
+			return new WP_Error( 'generic', esc_html__( "An unexpected error happened. Please try again", wp_defender()->domain ) );
 		} else {
 			//no global locale, means this is enUS
 			$rev_path = $this->get_sub();
@@ -339,7 +339,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 			<div class="wd-scan-resolve-dialog">
 				<div class="group">
 					<div class="col span_3_of_12">
-						<strong><?php _e( "Location: ", wp_defender()->domain ) ?></strong>
+						<strong><?php esc_html_e( "Location: ", wp_defender()->domain ) ?></strong>
 					</div>
 					<div class="col span_9_of_12">
 						{{location}}
@@ -347,7 +347,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 				</div>
 				<div class="group">
 					<div class="col span_3_of_12">
-						<strong><?php _e( "Size: ", wp_defender()->domain ) ?></strong>
+						<strong><?php esc_html_e( "Size: ", wp_defender()->domain ) ?></strong>
 					</div>
 					<div class="col span_9_of_12">
 						{{size}}
@@ -355,7 +355,7 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 				</div>
 				<div class="group">
 					<div class="col span_3_of_12">
-						<strong><?php echo( $this->detail['is_added'] == true ? __( "Date added: " ) : __( "Date modified:" ) ) ?></strong>
+						<strong><?php echo( $this->detail['is_added'] == true ? esc_html__( "Date added: " ) : esc_html__( "Date modified:" ) ) ?></strong>
 					</div>
 					<div class="col span_9_of_12">
 						{{date}}
@@ -373,24 +373,24 @@ class WD_Scan_Result_Core_Item_Model extends WD_Scan_Result_Item_Model {
 						<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>"/>
 						<?php if ( $this->can_automate_resolve() && !$this->detail['is_added'] ): ?>
 							<button data-type="resolve_ci" class="button wd-button button-small"
-							        type="submit"><?php _e( "Restore File", wp_defender()->domain ) ?></button>
+							        type="submit"><?php esc_html_e( "Restore File", wp_defender()->domain ) ?></button>
 							<a href="<?php echo network_admin_url( 'admin.php?page=wdf-issue-detail&id=' . $id ) ?>"
 							   class="button wd-button button-secondary button-small">
-								<?php _e( "Review changes", wp_defender()->domain ) ?>
+								<?php esc_html_e( "Review changes", wp_defender()->domain ) ?>
 							</a>
 						<?php endif; ?>
 						<?php if ( $this->can_ignore() ): ?>
 							<button type="submit" data-confirm="<?php echo 'ignore_confirm_msg' ?>"
 							        data-confirm-button="<?php echo 'ignore_confirm_btn' ?>" data-type="ignore"
 							        class="button button-grey button-small">
-								<?php _e( "Ignore File", wp_defender()->domain ) ?>
+								<?php esc_html_e( "Ignore File", wp_defender()->domain ) ?>
 							</button>&nbsp;
 						<?php endif; ?>
 						<?php if ( $this->can_delete() ): ?>
 							<button data-type="delete" data-confirm-button="<?php echo 'delete_confirm_btn' ?>"
 							        data-confirm="<?php echo 'delete_confirm_msg' ?>" type="submit"
 							        class="button button-red button-small">
-								<?php _e( "Delete File", wp_defender()->domain ) ?>
+								<?php esc_html_e( "Delete File", wp_defender()->domain ) ?>
 							</button>
 						<?php endif; ?>
 					</form>

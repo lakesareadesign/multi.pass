@@ -9,7 +9,7 @@
 class WD_Disable_Ping_Back extends WD_Hardener_Abstract {
 	public function on_creation() {
 		$this->id         = 'disable_ping_back';
-		$this->title      = __( "Disable trackbacks and pingbacks", wp_defender()->domain );
+		$this->title      = esc_html__( "Disable trackbacks and pingbacks", wp_defender()->domain );
 		$this->can_revert = true;
 
 		$this->add_action( 'admin_footer', 'print_scripts' );
@@ -146,12 +146,12 @@ class WD_Disable_Ping_Back extends WD_Hardener_Abstract {
 			<div class="wd-clearfix"></div>
 
 			<div id="<?php echo $this->id ?>" class="wd-rule-content">
-				<h4 class="tl"><?php _e( "Overview", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "Overview", wp_defender()->domain ) ?></h4>
 
-				<p><?php _e( "Pingbacks notify a website when it has been mentioned by another website, like a form of courtesy communication. However, these notifications can be sent to any website willing to receive them, opening you up to DDoS attacks, which can take your website down in seconds and fill your posts with spam comments.", wp_defender()->domain ) ?></p>
+				<p><?php esc_html_e( "Pingbacks notify a website when it has been mentioned by another website, like a form of courtesy communication. However, these notifications can be sent to any website willing to receive them, opening you up to DDoS attacks, which can take your website down in seconds and fill your posts with spam comments.", wp_defender()->domain ) ?></p>
 
 				<div class="wd-clearfix"></div>
-				<h4 class="tl"><?php _e( "How To Fix", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
 
 				<div class="wd-error wd-hide">
 
@@ -170,25 +170,25 @@ class WD_Disable_Ping_Back extends WD_Hardener_Abstract {
 		?>
 		<?php if ( $this->check() ): ?>
 			<p>
-				<?php _e( 'Trackbacks and pingbacks are turned off.', wp_defender()->domain ) ?>
+				<?php esc_html_e( 'Trackbacks and pingbacks are turned off.', wp_defender()->domain ) ?>
 			</p>
 			<form id="disable_ping_back_frm" method="post">
 				<?php $this->generate_nonce_field( 'disable_ping_back' ) ?>
 				<input type="hidden" name="action"
 				       value="<?php echo $this->generate_ajax_action( 'disable_ping_back' ) ?>">
 				<button type="submit"
-				        class="button button-grey"><?php _e( "Revert", wp_defender()->domain ) ?></button>
+				        class="button button-grey"><?php esc_html_e( "Revert", wp_defender()->domain ) ?></button>
 			</form>
 		<?php else: ?>
 			<p>
-				<?php _e( "We will turn off trackbacks and pingbacks in your WordPress settings area.", wp_defender()->domain ) ?>
+				<?php esc_html_e( "We will turn off trackbacks and pingbacks in your WordPress settings area.", wp_defender()->domain ) ?>
 			</p>
 			<form id="disable_ping_back_frm" method="post">
 				<?php $this->generate_nonce_field( 'disable_ping_back' ) ?>
 				<input type="hidden" name="action"
 				       value="<?php echo $this->generate_ajax_action( 'disable_ping_back' ) ?>">
 				<button type="submit"
-				        class="button wd-button"><?php _e( "Disable Pingbacks", wp_defender()->domain ) ?></button>
+				        class="button wd-button"><?php esc_html_e( "Disable Pingbacks", wp_defender()->domain ) ?></button>
 			</form>
 		<?php endif; ?>
 		<?php

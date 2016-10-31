@@ -155,7 +155,7 @@ class WD_View extends WD_Component {
 			}
 			$path = $base_path . $path . '.php';
 			if ( ! file_exists( $path ) ) {
-				return new WP_Error( 'not_exists', __( "The view " . $path . " doesn't exists", wp_defender()->domain ) );
+				return new WP_Error( 'not_exists', esc_html__( "The view " . $path . " doesn't exists", wp_defender()->domain ) );
 			}
 		}
 

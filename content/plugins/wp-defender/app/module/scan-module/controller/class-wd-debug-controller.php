@@ -19,7 +19,7 @@ class WD_Debug_Controller extends WD_Controller {
 
 	public function admin_menu() {
 		$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
-		add_submenu_page( 'wp-defender', __( "Debug", wp_defender()->domain ), __( "Debug", wp_defender()->domain ), $cap, 'wdf-debug', array(
+		add_submenu_page( 'wp-defender', esc_html__( "Debug", wp_defender()->domain ), esc_html__( "Debug", wp_defender()->domain ), $cap, 'wdf-debug', array(
 			$this,
 			'display_main'
 		) );

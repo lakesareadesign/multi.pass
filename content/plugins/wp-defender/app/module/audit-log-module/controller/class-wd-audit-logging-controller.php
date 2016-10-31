@@ -4,6 +4,8 @@
  * @author: Hoang Ngo
  */
 class WD_Audit_Logging_Controller extends WD_Controller {
+	public $warning = false;
+
 	const CACHE_THEME_TRANSIENT = 'wd_cache_theme_transient';
 
 	public function __construct() {
@@ -13,6 +15,7 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			$this->add_action( 'admin_menu', 'admin_menu', 12 );
 		}
 		$this->add_action( 'admin_enqueue_scripts', 'load_scripts' );
+
 		//cache for theme deleted
 		$this->add_ajax_action( 'wd_toggle_audit_log', 'toggle_audit' );
 		if ( WD_Utils::get_setting( 'audit_log->enabled', 0 ) == 1 ) {
@@ -24,6 +27,48 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			$this->add_action( 'wd_audit_send_report', 'send_report_email' );
 			$this->add_action( 'wp_loaded', 'listen_for_plugins_themes_content' );
 			$this->add_ajax_action( 'wd_audit_get_events', 'get_events_ajax' );
+			$this->add_action( 'wp_loaded', 'udp_check', 999 );
+		}
+	}
+
+	public function udp_check() {
+		if ( defined( 'WD_DONT_CHECK_UDP' ) && constant( 'WD_DONT_CHECK_UDP' ) == true ) {
+			return;
+		}
+
+		if ( WD_Utils::get_cache( 'udp_status', null ) !== null ) {
+			return;
+		}
+
+		$socket_ip    = '54.82.203.19';
+		$socket_ports = array(
+			80,
+			3244
+		);
+
+		foreach ( $socket_ports as $socket_port ) {
+			$socket = @stream_socket_client( 'udp://' . $socket_ip . ':' . $socket_port, $errno, $errstr,
+				1,
+				STREAM_CLIENT_ASYNC_CONNECT );
+
+			fwrite( $socket, json_encode( array(
+				'site_url' => network_site_url(),
+				'apikey'   => WD_Utils::get_dev_api()
+			) ) );
+			@fclose( $socket );
+		}
+
+		$ret = $this->wpmudev_call( 'http://' . $socket_ip . '/udp_status', array(
+			'site_url' => network_site_url()
+		), array(
+			'headers' => array(
+				'apikey' => WD_Utils::get_dev_api()
+			),
+			'timeout' => 1
+		) );
+
+		if ( is_array( $ret ) && isset( $ret['status'] ) ) {
+			WD_Utils::cache( 'udp_status', $ret['status'], HOUR_IN_SECONDS * 1 );
 		}
 	}
 
@@ -72,6 +117,10 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 	}
 
 	public function listen_for_plugins_themes_content() {
+		if ( ! isset( $_SERVER['REQUEST_METHOD'] ) ) {
+			return;
+		}
+
 		if ( $_SERVER['REQUEST_METHOD'] != 'POST' ) {
 			return;
 		}
@@ -196,8 +245,8 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 					network_admin_url( 'admin.php?page=wdf-logging' ) ) . '</p>';
 			$table .= '<table style="width: 100%;"  border="0" cellpadding="0" cellspacing="0">';
 			$table .= '<thead><tr>';
-			$table .= '<th style="padding-bottom: 5px;">' . '<span style="width:100%;display:inline-block;border-bottom: solid 1px #EEEEEE;padding-bottom: 10px">' . __( "Event Type", wp_defender()->domain ) . ' </span></th>';
-			$table .= '<th style="padding-bottom: 5px;">' . '<span style="width:100%;display:inline-block;border-bottom: solid 1px #EEEEEE;padding-bottom: 10px">' . __( "Action Summaries", wp_defender()->domain ) . '</span></th>';
+			$table .= '<th style="padding-bottom: 5px;">' . '<span style="width:100%;display:inline-block;border-bottom: solid 1px #EEEEEE;padding-bottom: 10px">' . esc_html__( "Event Type", wp_defender()->domain ) . ' </span></th>';
+			$table .= '<th style="padding-bottom: 5px;">' . '<span style="width:100%;display:inline-block;border-bottom: solid 1px #EEEEEE;padding-bottom: 10px">' . esc_html__( "Action Summaries", wp_defender()->domain ) . '</span></th>';
 			$table .= '</tr></thead>';
 			$table .= '<tbody>';
 			foreach ( $email_data as $row => $val ) {
@@ -218,12 +267,12 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			$table .= '<p>' . sprintf( __( "View the full report <a href=\"%s\">here</a>.", wp_defender()->domain ),
 					network_admin_url( 'admin.php?page=wdf-logging' ) ) . '</p>';
 		} else {
-			$table = '<p>' . sprintf( __( "There were no events logged for %s", wp_defender()->domain ), network_site_url() ) . '</p>';
+			$table = '<p>' . sprintf( esc_html__( "There were no events logged for %s", wp_defender()->domain ), network_site_url() ) . '</p>';
 		}
 
 		$template = $this->render( 'email_template', array(
 			'message' => $table,
-			'subject' => sprintf( __( "Audit Log Report for %s", wp_defender()->domain ), network_site_url() )
+			'subject' => sprintf( esc_html__( "Audit Log Report for %s", wp_defender()->domain ), network_site_url() )
 		), false );
 
 		foreach ( $recipients as $user_id ) {
@@ -246,7 +295,7 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			foreach ( $params as $key => $val ) {
 				$template = str_replace( '{' . $key . '}', $val, $template );
 			}
-			wp_mail( $email, sprintf( __( "Audit Log Report for %s", wp_defender()->domain ), network_site_url() ), $template, $headers );
+			wp_mail( $email, sprintf( esc_html__( "Audit Log Report for %s", wp_defender()->domain ), network_site_url() ), $template, $headers );
 		}
 		//reqqueue
 		wp_clear_scheduled_hook( 'wd_audit_send_report' );
@@ -313,7 +362,7 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 		}
 		$html = sprintf( __( "Audit Logging has been enabled. Expect your next report on <strong>%s</strong> to <strong>%s</strong> %s", wp_defender()->domain ),
 			date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_send ),
-			implode( ', ', $emails ), ' <a href="' . network_admin_url( 'admin.php?page=wdf-settings#email-recipients-frm' ) . '">' . __( "edit", wp_defender()->domain ) . '</a>' );
+			implode( ', ', $emails ), ' <a href="' . network_admin_url( 'admin.php?page=wdf-settings#email-recipients-frm' ) . '">' . esc_html__( "edit", wp_defender()->domain ) . '</a>' );
 
 		return $html;
 	}
@@ -325,7 +374,6 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 		}
 
 		if ( count( $data ) ) {
-			$start = new DateTime();
 			/**
 			 * if data is more than one, means various event happened at once, we will need to group each by type
 			 * and submit at bulk
@@ -358,32 +406,30 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			}
 
 			if ( WD_Audit_API::submit_to_api_socket( $data ) == false ) {
-				$this->log( 'socket fail', self::ERROR_LEVEL_DEBUG, 'socket' );
 				//fallback to curl
 				WD_Audit_API::submit_to_api( $data );
 			}
-
-			$end = new DateTime();
-			$this->log( 'time in shutdown (second) ' . implode( ';;', $socket_log ) . $end->diff( $start )->format( '%s' ) );
 		}
 
 		unset( wp_defender()->global['events_queue'] );
 	}
 
 	public function setup_events() {
-		//we don't setup event when in CRON
+		//we only queue for
 		if ( defined( 'DOING_CRON' ) && constant( 'DOING_CRON' ) == true ) {
-			return;
+			$events_class = array(
+				new WD_Core_Audit()
+			);
+		} else {
+			$events_class = array(
+				new WD_Users_Audit(),
+				new WD_Media_Audit(),
+				new WD_Core_Audit(),
+				new WD_Options_Audit(),
+				new WD_Comment_Audit(),
+				new WD_Post_Audit(),
+			);
 		}
-
-		$events_class = array(
-			new WD_Users_Audit(),
-			new WD_Media_Audit(),
-			new WD_Core_Audit(),
-			new WD_Options_Audit(),
-			new WD_Comment_Audit(),
-			new WD_Post_Audit(),
-		);
 
 		//we will build up the dictionary here
 		$dictionary  = WD_Audit_API::dictionary();
@@ -418,7 +464,9 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 
 		if ( WD_Utils::get_setting( 'audit_log->enabled', 0 ) == 0 ) {
 			WD_Utils::update_setting( 'audit_log->enabled', 1 );
+			WD_Utils::flag_for_submitting();
 		} else {
+			WD_Utils::flag_for_submitting();
 			WD_Utils::update_setting( 'audit_log->enabled', 0 );
 		}
 		wp_send_json( array(
@@ -436,7 +484,7 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 
 	public function admin_menu() {
 		$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
-		add_submenu_page( 'wp-defender', __( "Audit Logging", wp_defender()->domain ), __( "Audit Logging", wp_defender()->domain ), $cap, 'wdf-logging', array(
+		add_submenu_page( 'wp-defender', esc_html__( "Audit Logging", wp_defender()->domain ), esc_html__( "Audit Logging", wp_defender()->domain ), $cap, 'wdf-logging', array(
 			$this,
 			'display_main'
 		) );
@@ -473,8 +521,8 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			wp_enqueue_style( 'wp-defender' );
 			$data = array(
 				'date_format'              => WD_Utils::convert_date_format_jQuery( WD_Audit_API::get_date_format() ),
-				'load_event_text_singular' => __( "Load %s new event", wp_defender()->domain ),
-				'load_event_text_plural'   => __( "Load %s new events", wp_defender()->domain ),
+				'load_event_text_singular' => esc_html__( "Load %s new event", wp_defender()->domain ),
+				'load_event_text_plural'   => esc_html__( "Load %s new events", wp_defender()->domain ),
 			);
 			if ( WD_Utils::http_get( 'user_id', false ) !== false ) {
 				$user_id = WD_Utils::http_get( 'user_id' );

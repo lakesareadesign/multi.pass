@@ -8,7 +8,7 @@ class WD_Options_Audit extends WD_Event_Abstract {
 
 	public function get_hooks() {
 		return array(
-			'update_option'      => array(
+			'update_option' => array(
 				'args'        => array( 'option', 'old_value', 'value' ),
 				'callback'    => array( 'WD_Options_Audit', 'process_options' ),
 				'level'       => self::LOG_LEVEL_ERROR,
@@ -45,7 +45,7 @@ class WD_Options_Audit extends WD_Event_Abstract {
 			$new = implode( ', ', $new );
 		}
 
-		$text = sprintf( __( "%s update network option %s from %s to %s", wp_defender()->domain ),
+		$text = sprintf( esc_html__( "%s update network option %s from %s to %s", wp_defender()->domain ),
 			WD_Utils::get_user_name( get_current_user_id() ), $option_human_read, $old, $new );
 
 		return array( $text, self::CONTEXT_SETTINGS );
@@ -55,13 +55,11 @@ class WD_Options_Audit extends WD_Event_Abstract {
 	 * @return bool|string
 	 */
 	public static function process_options() {
-		$args   = func_get_args();
-		$option = $args[1]['option'];
-		$old    = $args[1]['old_value'];
-		$new    = $args[1]['value'];
-
+		$args              = func_get_args();
+		$option            = $args[1]['option'];
+		$old               = $args[1]['old_value'];
+		$new               = $args[1]['value'];
 		$option_human_read = self::key_to_human_name( $option );
-
 		if ( $old == $new ) {
 			return false;
 		}
@@ -70,32 +68,42 @@ class WD_Options_Audit extends WD_Event_Abstract {
 			switch ( $option ) {
 				case 'users_can_register':
 					if ( $new == 0 ) {
-						$text = sprintf( __( "%s disabled site registration", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ) );
+						$text = sprintf( esc_html__( "%s disabled site registration", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ) );
 					} else {
-						$text = sprintf( __( "%s opened site registration", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ) );
+						$text = sprintf( esc_html__( "%s opened site registration", wp_defender()->domain ), WD_Utils::get_user_name( get_current_user_id() ) );
 					}
 					break;
 				case 'start_of_week':
 					global $wp_locale;
 					$old_day = $wp_locale->get_weekday( $old );
 					$new_day = $wp_locale->get_weekday( $new );
-					$text    = sprintf( __( "%s update option %s from %s to %s", wp_defender()->domain ),
+					$text    = sprintf( esc_html__( "%s update option %s from %s to %s", wp_defender()->domain ),
 						WD_Utils::get_user_name( get_current_user_id() ), $option_human_read, $old_day, $new_day );
 					break;
 				case 'WPLANG':
 					//no old value here
-					$text = sprintf( __( "%s update option %s to %s", wp_defender()->domain ),
+					$text = sprintf( esc_html__( "%s update option %s to %s", wp_defender()->domain ),
 						WD_Utils::get_user_name( get_current_user_id() ), $option_human_read, $old, $new );
 					break;
 				default:
-					$text = sprintf( __( "%s update option %s from %s to %s", wp_defender()->domain ),
+					$text = sprintf( esc_html__( "%s update option %s from %s to %s", wp_defender()->domain ),
 						WD_Utils::get_user_name( get_current_user_id() ), $option_human_read, $old, $new );
 					break;
 			}
 
 			return array( $text, self::CONTEXT_SETTINGS );
 		} else {
+			if ( WD_Audit_API::is_xss_positive( $new ) ) {
+				$new_value = $new;
+				if ( is_array( $new_value ) ) {
+					$new_value = implode( '', $new_value );
+				}
 
+				return array(
+					sprintf( esc_html__( "Suspicious option found %s. Update to %s.", wp_defender()->domain ), esc_textarea( $new_value ), $option ),
+					self::CONTEXT_SETTINGS
+				);
+			}
 		}
 
 		return false;
@@ -103,94 +111,94 @@ class WD_Options_Audit extends WD_Event_Abstract {
 
 	private static function key_to_human_name( $key ) {
 		$human_read = apply_filters( 'wd_audit_settings_keys', array(
-			'blogname'                      => __( "Site Title", wp_defender()->domain ),
-			'blogdescription'               => __( "Tagline", wp_defender()->domain ),
-			'gmt_offset'                    => __( "Timezone", wp_defender()->domain ),
-			'date_format'                   => __( "Date Format", wp_defender()->domain ),
-			'time_format'                   => __( "Time Format", wp_defender()->domain ),
-			'start_of_week'                 => __( "Week Starts On", wp_defender()->domain ),
-			'timezone_string'               => __( "Timezone", wp_defender()->domain ),
-			'WPLANG'                        => __( "Site Language", wp_defender()->domain ),
-			'siteurl'                       => __( "WordPress Address (URL)", wp_defender()->domain ),
-			'home'                          => __( "Site Address (URL)", wp_defender()->domain ),
-			'admin_email'                   => __( "Email Address", wp_defender()->domain ),
-			'users_can_register'            => __( "Membership", wp_defender()->domain ),
-			'default_role'                  => __( "New User Default Role", wp_defender()->domain ),
-			'default_pingback_flag'         => __( "Default article settings", wp_defender()->domain ),
-			'default_ping_status'           => __( "Default article settings", wp_defender()->domain ),
-			'default_comment_status'        => __( "Default article settings", wp_defender()->domain ),
-			'comments_notify'               => __( "Email me whenever", wp_defender()->domain ),
-			'moderation_notify'             => __( "Email me whenever", wp_defender()->domain ),
-			'comment_moderation'            => __( "Before a comment appears", wp_defender()->domain ),
-			'require_name_email'            => __( "Other comment settings", wp_defender()->domain ),
-			'comment_whitelist'             => __( "Before a comment appears", wp_defender()->domain ),
-			'comment_max_links'             => __( "Comment Moderation", wp_defender()->domain ),
-			'moderation_keys'               => __( "Comment Moderation", wp_defender()->domain ),
-			'blacklist_keys'                => __( "Comment Blacklist", wp_defender()->domain ),
-			'show_avatars'                  => __( "Avatar Display", wp_defender()->domain ),
-			'avatar_rating'                 => __( "Maximum Rating", wp_defender()->domain ),
-			'avatar_default'                => __( "Default Avatar", wp_defender()->domain ),
-			'close_comments_for_old_posts'  => __( "Other comment settings", wp_defender()->domain ),
-			'close_comments_days_old'       => __( "Other comment settings", wp_defender()->domain ),
-			'thread_comments'               => __( "Other comment settings", wp_defender()->domain ),
-			'thread_comments_depth'         => __( "Other comment settings", wp_defender()->domain ),
-			'page_comments'                 => __( "Other comment settings", wp_defender()->domain ),
-			'comments_per_page'             => __( "Other comment settings", wp_defender()->domain ),
-			'default_comments_page'         => __( "Other comment settings", wp_defender()->domain ),
-			'comment_order'                 => __( "Other comment settings", wp_defender()->domain ),
-			'comment_registration'          => __( "Other comment settings", wp_defender()->domain ),
-			'thumbnail_size_w'              => __( "Thumbnail size", wp_defender()->domain ),
-			'thumbnail_size_h'              => __( "Thumbnail size", wp_defender()->domain ),
-			'thumbnail_crop'                => __( "Thumbnail size", wp_defender()->domain ),
-			'medium_size_w'                 => __( "Medium size", wp_defender()->domain ),
-			'medium_size_h'                 => __( "Medium size", wp_defender()->domain ),
-			'medium_large_size_w'           => __( "Medium size", wp_defender()->domain ),
-			'medium_large_size_h'           => __( "Medium size", wp_defender()->domain ),
-			'large_size_w'                  => __( "Large size", wp_defender()->domain ),
-			'large_size_h'                  => __( "Large size", wp_defender()->domain ),
-			'image_default_size'            => __( "", wp_defender()->domain ),
-			'image_default_align'           => __( "", wp_defender()->domain ),
-			'image_default_link_type'       => __( "", wp_defender()->domain ),
-			'uploads_use_yearmonth_folders' => __( "Uploading Files", wp_defender()->domain ),
-			'posts_per_page'                => __( "Blog pages show at most", wp_defender()->domain ),
-			'posts_per_rss'                 => __( "Syndication feeds show the most recent", wp_defender()->domain ),
-			'rss_use_excerpt'               => __( "For each article in a feed, show", wp_defender()->domain ),
-			'show_on_front'                 => __( "Front page displays", wp_defender()->domain ),
-			'page_on_front'                 => __( "Front page", wp_defender()->domain ),
-			'page_for_posts'                => __( "Posts page", wp_defender()->domain ),
-			'blog_public'                   => __( "Search Engine Visibility", wp_defender()->domain ),
-			'default_category'              => __( "Default Post Category", wp_defender()->domain ),
-			'default_email_category'        => __( "Default Mail Category", wp_defender()->domain ),
-			'default_link_category'         => __( "", wp_defender()->domain ),
-			'default_post_format'           => __( "Default Post Format", wp_defender()->domain ),
-			'mailserver_url'                => __( "Mail Server", wp_defender()->domain ),
-			'mailserver_port'               => __( "Port", wp_defender()->domain ),
-			'mailserver_login'              => __( "Login Name", wp_defender()->domain ),
-			'mailserver_pass'               => __( "Password", wp_defender()->domain ),
-			'ping_sites'                    => __( "", wp_defender()->domain ),
-			'permalink_structure'           => __( "Permalink Setting", wp_defender()->domain ),
-			'category_base'                 => __( "Category base", wp_defender()->domain ),
-			'tag_base'                      => __( "Tag base", wp_defender()->domain ),
-			'registrationnotification'      => __( "Registration notification", wp_defender()->domain ),
-			'registration'                  => __( "Allow new registrations", wp_defender()->domain ),
-			'add_new_users'                 => __( "Add New Users", wp_defender()->domain ),
-			'menu_items'                    => __( "Enable administration menus", wp_defender()->domain ),
-			'upload_space_check_disabled'   => __( "Site upload space", wp_defender()->domain ),
-			'blog_upload_space'             => __( "Site upload space", wp_defender()->domain ),
-			'upload_filetypes'              => __( "Upload file types", wp_defender()->domain ),
-			'site_name'                     => __( "Network Title", wp_defender()->domain ),
-			'first_post'                    => __( "First Post", wp_defender()->domain ),
-			'first_page'                    => __( "First Page", wp_defender()->domain ),
-			'first_comment'                 => __( "First Comment", wp_defender()->domain ),
-			'first_comment_url'             => __( "First Comment URL", wp_defender()->domain ),
-			'first_comment_author'          => __( "First Comment Author", wp_defender()->domain ),
-			'welcome_email'                 => __( "Welcome Email", wp_defender()->domain ),
-			'welcome_user_email'            => __( "Welcome User Email", wp_defender()->domain ),
-			'fileupload_maxk'               => __( "Max upload file size", wp_defender()->domain ),
-			//'global_terms_enabled'          => __( "", wp_defender()->domain ),
-			'illegal_names'                 => __( "Banned Names", wp_defender()->domain ),
-			'limited_email_domains'         => __( "Limited Email Registrations", wp_defender()->domain ),
-			'banned_email_domains'          => __( "Banned Email Domains", wp_defender()->domain ),
+			'blogname'                      => esc_html__( "Site Title", wp_defender()->domain ),
+			'blogdescription'               => esc_html__( "Tagline", wp_defender()->domain ),
+			'gmt_offset'                    => esc_html__( "Timezone", wp_defender()->domain ),
+			'date_format'                   => esc_html__( "Date Format", wp_defender()->domain ),
+			'time_format'                   => esc_html__( "Time Format", wp_defender()->domain ),
+			'start_of_week'                 => esc_html__( "Week Starts On", wp_defender()->domain ),
+			'timezone_string'               => esc_html__( "Timezone", wp_defender()->domain ),
+			'WPLANG'                        => esc_html__( "Site Language", wp_defender()->domain ),
+			'siteurl'                       => esc_html__( "WordPress Address (URL)", wp_defender()->domain ),
+			'home'                          => esc_html__( "Site Address (URL)", wp_defender()->domain ),
+			'admin_email'                   => esc_html__( "Email Address", wp_defender()->domain ),
+			'users_can_register'            => esc_html__( "Membership", wp_defender()->domain ),
+			'default_role'                  => esc_html__( "New User Default Role", wp_defender()->domain ),
+			'default_pingback_flag'         => esc_html__( "Default article settings", wp_defender()->domain ),
+			'default_ping_status'           => esc_html__( "Default article settings", wp_defender()->domain ),
+			'default_comment_status'        => esc_html__( "Default article settings", wp_defender()->domain ),
+			'comments_notify'               => esc_html__( "Email me whenever", wp_defender()->domain ),
+			'moderation_notify'             => esc_html__( "Email me whenever", wp_defender()->domain ),
+			'comment_moderation'            => esc_html__( "Before a comment appears", wp_defender()->domain ),
+			'require_name_email'            => esc_html__( "Other comment settings", wp_defender()->domain ),
+			'comment_whitelist'             => esc_html__( "Before a comment appears", wp_defender()->domain ),
+			'comment_max_links'             => esc_html__( "Comment Moderation", wp_defender()->domain ),
+			'moderation_keys'               => esc_html__( "Comment Moderation", wp_defender()->domain ),
+			'blacklist_keys'                => esc_html__( "Comment Blacklist", wp_defender()->domain ),
+			'show_avatars'                  => esc_html__( "Avatar Display", wp_defender()->domain ),
+			'avatar_rating'                 => esc_html__( "Maximum Rating", wp_defender()->domain ),
+			'avatar_default'                => esc_html__( "Default Avatar", wp_defender()->domain ),
+			'close_comments_for_old_posts'  => esc_html__( "Other comment settings", wp_defender()->domain ),
+			'close_comments_days_old'       => esc_html__( "Other comment settings", wp_defender()->domain ),
+			'thread_comments'               => esc_html__( "Other comment settings", wp_defender()->domain ),
+			'thread_comments_depth'         => esc_html__( "Other comment settings", wp_defender()->domain ),
+			'page_comments'                 => esc_html__( "Other comment settings", wp_defender()->domain ),
+			'comments_per_page'             => esc_html__( "Other comment settings", wp_defender()->domain ),
+			'default_comments_page'         => esc_html__( "Other comment settings", wp_defender()->domain ),
+			'comment_order'                 => esc_html__( "Other comment settings", wp_defender()->domain ),
+			'comment_registration'          => esc_html__( "Other comment settings", wp_defender()->domain ),
+			'thumbnail_size_w'              => esc_html__( "Thumbnail size", wp_defender()->domain ),
+			'thumbnail_size_h'              => esc_html__( "Thumbnail size", wp_defender()->domain ),
+			'thumbnail_crop'                => esc_html__( "Thumbnail size", wp_defender()->domain ),
+			'medium_size_w'                 => esc_html__( "Medium size", wp_defender()->domain ),
+			'medium_size_h'                 => esc_html__( "Medium size", wp_defender()->domain ),
+			'medium_large_size_w'           => esc_html__( "Medium size", wp_defender()->domain ),
+			'medium_large_size_h'           => esc_html__( "Medium size", wp_defender()->domain ),
+			'large_size_w'                  => esc_html__( "Large size", wp_defender()->domain ),
+			'large_size_h'                  => esc_html__( "Large size", wp_defender()->domain ),
+			'image_default_size'            => esc_html__( "", wp_defender()->domain ),
+			'image_default_align'           => esc_html__( "", wp_defender()->domain ),
+			'image_default_link_type'       => esc_html__( "", wp_defender()->domain ),
+			'uploads_use_yearmonth_folders' => esc_html__( "Uploading Files", wp_defender()->domain ),
+			'posts_per_page'                => esc_html__( "Blog pages show at most", wp_defender()->domain ),
+			'posts_per_rss'                 => esc_html__( "Syndication feeds show the most recent", wp_defender()->domain ),
+			'rss_use_excerpt'               => esc_html__( "For each article in a feed, show", wp_defender()->domain ),
+			'show_on_front'                 => esc_html__( "Front page displays", wp_defender()->domain ),
+			'page_on_front'                 => esc_html__( "Front page", wp_defender()->domain ),
+			'page_for_posts'                => esc_html__( "Posts page", wp_defender()->domain ),
+			'blog_public'                   => esc_html__( "Search Engine Visibility", wp_defender()->domain ),
+			'default_category'              => esc_html__( "Default Post Category", wp_defender()->domain ),
+			'default_email_category'        => esc_html__( "Default Mail Category", wp_defender()->domain ),
+			'default_link_category'         => esc_html__( "", wp_defender()->domain ),
+			'default_post_format'           => esc_html__( "Default Post Format", wp_defender()->domain ),
+			'mailserver_url'                => esc_html__( "Mail Server", wp_defender()->domain ),
+			'mailserver_port'               => esc_html__( "Port", wp_defender()->domain ),
+			'mailserver_login'              => esc_html__( "Login Name", wp_defender()->domain ),
+			'mailserver_pass'               => esc_html__( "Password", wp_defender()->domain ),
+			'ping_sites'                    => esc_html__( "", wp_defender()->domain ),
+			'permalink_structure'           => esc_html__( "Permalink Setting", wp_defender()->domain ),
+			'category_base'                 => esc_html__( "Category base", wp_defender()->domain ),
+			'tag_base'                      => esc_html__( "Tag base", wp_defender()->domain ),
+			'registrationnotification'      => esc_html__( "Registration notification", wp_defender()->domain ),
+			'registration'                  => esc_html__( "Allow new registrations", wp_defender()->domain ),
+			'add_new_users'                 => esc_html__( "Add New Users", wp_defender()->domain ),
+			'menu_items'                    => esc_html__( "Enable administration menus", wp_defender()->domain ),
+			'upload_space_check_disabled'   => esc_html__( "Site upload space", wp_defender()->domain ),
+			'blog_upload_space'             => esc_html__( "Site upload space", wp_defender()->domain ),
+			'upload_filetypes'              => esc_html__( "Upload file types", wp_defender()->domain ),
+			'site_name'                     => esc_html__( "Network Title", wp_defender()->domain ),
+			'first_post'                    => esc_html__( "First Post", wp_defender()->domain ),
+			'first_page'                    => esc_html__( "First Page", wp_defender()->domain ),
+			'first_comment'                 => esc_html__( "First Comment", wp_defender()->domain ),
+			'first_comment_url'             => esc_html__( "First Comment URL", wp_defender()->domain ),
+			'first_comment_author'          => esc_html__( "First Comment Author", wp_defender()->domain ),
+			'welcome_email'                 => esc_html__( "Welcome Email", wp_defender()->domain ),
+			'welcome_user_email'            => esc_html__( "Welcome User Email", wp_defender()->domain ),
+			'fileupload_maxk'               => esc_html__( "Max upload file size", wp_defender()->domain ),
+			//'global_terms_enabled'          => esc_html__( "", wp_defender()->domain ),
+			'illegal_names'                 => esc_html__( "Banned Names", wp_defender()->domain ),
+			'limited_email_domains'         => esc_html__( "Limited Email Registrations", wp_defender()->domain ),
+			'banned_email_domains'          => esc_html__( "Banned Email Domains", wp_defender()->domain ),
 		) );
 
 		if ( isset( $human_read[ $key ] ) ) {
@@ -206,7 +214,7 @@ class WD_Options_Audit extends WD_Event_Abstract {
 
 	public function dictionary() {
 		return array(
-			self::CONTEXT_SETTINGS => __( "Settings", wp_defender()->domain )
+			self::CONTEXT_SETTINGS => esc_html__( "Settings", wp_defender()->domain )
 		);
 	}
 }

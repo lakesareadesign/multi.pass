@@ -15,7 +15,7 @@ class WD_Backup_Controller extends WD_Controller {
 
 	public function admin_menu() {
 		$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
-		add_submenu_page( 'wp-defender', __( "Backups", wp_defender()->domain ), __( "Backups", wp_defender()->domain ), $cap, 'wdf-backup', array(
+		add_submenu_page( 'wp-defender', esc_html__( "Backups", wp_defender()->domain ), esc_html__( "Backups", wp_defender()->domain ), $cap, 'wdf-backup', array(
 			$this,
 			'display_main'
 		) );

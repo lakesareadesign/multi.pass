@@ -10,7 +10,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 	//public $chunk_size = 200;
 
 	public function init() {
-		$this->name = __( "core integrity scan", wp_defender()->domain );
+		$this->name = esc_html__( "core integrity scan", wp_defender()->domain );
 
 		$this->percentable        = true;
 		$this->dashboard_required = false;
@@ -27,7 +27,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 		}
 
 		if ( count( $this->file_scanned ) == 0 ) {
-			$this->model->message = __( "Analyzing WordPress core files…", wp_defender()->domain );
+			$this->model->message = esc_html__( "Analyzing WordPress core files…", wp_defender()->domain );
 			$this->model->save();
 		}
 
@@ -59,7 +59,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 					sleep( 3 );
 					if ( $cpu_count > 55 ) {
 						$this->model->status  = WD_Scan_Result_Model::STATUS_ERROR;
-						$this->model->message = __( "Your server resource usage is too close to your limit. Please try again in 15 minutes.", wp_defender()->domain );
+						$this->model->message = esc_html__( "Your server resource usage is too close to your limit. Please try again in 15 minutes.", wp_defender()->domain );
 						$this->model->save();
 
 						return;
@@ -104,7 +104,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 					$this->model->result_core_integrity[] = $file;
 				} elseif ( $result === - 1 ) {
 					//this mean no signatures
-					WD_Utils::cache( WD_Scan_Api::ALERT_NO_MD5, __( "There are no available checksums for your WordPress version, the scan will skip the core integrity check.", wp_defender()->domain ) );
+					WD_Utils::cache( WD_Scan_Api::ALERT_NO_MD5, esc_html__( "There are no available checksums for your WordPress version, the scan will skip the core integrity check.", wp_defender()->domain ) );
 					$this->model->current_index = count( $this->total_files );
 					WD_Utils::cache( self::FILE_SCANNED, $this->total_files );
 					$this->model->save();
@@ -147,7 +147,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 	 *
 	 * @return bool|WD_Scan_Result_Core_Item_Model
 	 */
-	private function scan_a_file( $file, $checksum = false ) {
+	public function scan_a_file( $file, $checksum = false ) {
 		//we need to download md5 from wp
 		if ( ( $md5_files = WD_Utils::get_cache( self::CACHE_MD5, false ) ) == false ) {
 			$md5_files = WD_Scan_Api::download_md5_files();
@@ -183,7 +183,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 				$detail = array(
 					'file'     => $file,
 					'is_added' => false,
-					'detail'   => sprintf( __( "File size %s, modified at %s", wp_defender()->domain ), $this->convert_size( filesize( $file ) ), date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), filemtime( $file ) ) ),
+					'detail'   => sprintf( esc_html__( "File size %s, modified at %s", wp_defender()->domain ), $this->convert_size( filesize( $file ) ), date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), filemtime( $file ) ) ),
 					'md5'      => $checksum,
 					'md5_org'  => $ochecksum
 				);
@@ -197,7 +197,7 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 				$detail = array(
 					'file'     => $file,
 					'is_added' => true,
-					'detail'   => sprintf( __( "File size %s, added at %s", wp_defender()->domain ), $this->convert_size( filesize( $file ) ), date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), filemtime( $file ) ) ),
+					'detail'   => sprintf( esc_html__( "File size %s, added at %s", wp_defender()->domain ), $this->convert_size( filesize( $file ) ), date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), filemtime( $file ) ) ),
 				);
 			}
 		}

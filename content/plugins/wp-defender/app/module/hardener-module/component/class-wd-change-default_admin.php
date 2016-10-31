@@ -9,7 +9,7 @@
 class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 	public function on_creation() {
 		$this->id         = 'change_default_admin';
-		$this->title      = __( 'Change default admin user account', wp_defender()->domain );
+		$this->title      = esc_html__( 'Change default admin user account', wp_defender()->domain );
 		$this->can_revert = true;
 
 		$this->add_action( 'admin_footer', 'print_scripts' );
@@ -125,8 +125,6 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 	 * @return bool|string
 	 */
 	public function change_username( $new_user_name ) {
-		//change the username
-		$this->log( 'start changing username from admin to ' . $new_user_name );
 		/**
 		 * we will create another username, which data cloning from admin user
 		 * then we will assign all the content to this new user, then delete the admin user
@@ -149,7 +147,6 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 		) );
 
 		if ( is_multisite() ) {
-			$this->log( 'start update new username into site_admins network meta' );
 			$site_admins = get_site_option( 'site_admins' );
 			if ( is_array( $site_admins ) ) {
 				//replace the admin
@@ -166,96 +163,6 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 		clean_user_cache( $admin_data->ID );
 
 		return true;
-		$is_added = $wpdb->insert( $wpdb->users, array(
-			'user_login'          => $new_user_name,
-			'user_pass'           => $admin_data->user_pass,
-			'user_nicename'       => $admin_data->user_nicename,
-			'user_email'          => $admin_data->user_email,
-			'user_url'            => $admin_data->user_url,
-			'user_registered'     => $admin_data->user_registered,
-			'user_activation_key' => $admin_data->user_activation_key,
-			'user_status'         => $admin_data->user_status,
-			'display_name'        => $admin_data->display_name,
-		) );
-		if ( $is_added == false ) {
-			$this->log( 'Cant create user' . $wpdb->last_error );
-			$this->output_error( 'create_user_error', __( "Can't insert userdata, please try again later.", wp_defender()->domain ) );
-		}
-
-		$new_user_id = $wpdb->insert_id;
-		$this->log( 'new user with id ' . $new_user_id . ' created' );
-		if ( is_multisite() ) {
-			$this->log( 'start update new username into site_admins network meta' );
-			$sql = $wpdb->prepare( "SELECT meta_value FROM " . $wpdb->sitemeta . " WHERE meta_key=%s", 'site_admins' );
-			$val = $wpdb->get_var( $sql );
-			$val = maybe_unserialize( $val );
-			if ( is_array( $val ) ) {
-				//replace the admin
-				$a_key = array_search( strtolower( 'admin' ), array_map( 'strtolower', $val ) );
-				if ( isset( $val[ $a_key ] ) ) {
-					$val[ $a_key ] = $new_user_name;
-					//reupdate
-					$sql = $wpdb->prepare( "UPDATE " . $wpdb->sitemeta . " SET meta_value=%s WHERE meta_key=%s", serialize( $val ), 'site_admins' );
-					if ( $wpdb->query( $sql ) == false ) {
-						$this->output_error( 'cant_update', $wpdb->last_error );
-					}
-				}
-			}
-		}
-		$this->log( 'start to update site content to new id' );
-		$blog_ids = array();
-		if ( is_multisite() ) {
-			//update wholenetwork
-			$blog_ids = $wpdb->get_col( "SELECT blog_id FROM " . $wpdb->blogs );
-			//grant this as super
-			grant_super_admin( $new_user_id );
-		} else {
-			$blog_ids = array( 1 );
-		}
-		$this->log( 'sites will get update: ' . implode( ',', $blog_ids ) );
-		foreach ( $blog_ids as $bid ) {
-			if ( $bid == 1 ) {
-				$prefix = $wpdb->base_prefix;
-			} else {
-				$prefix = $wpdb->base_prefix . $bid . '_';
-			}
-
-			$this->log( 'updating blog ' . $bid );
-
-			//now we need to links all the site content to new useradmin, tables posts,usermeta,comments,links
-			if ( $wpdb->update( $prefix . 'posts', array( 'post_author' => $new_user_id ), array(
-					'post_author' => 1
-				) ) === false
-			) {
-				$this->log( 'update table data ' . $prefix . 'posts fail. Error:' . $wpdb->last_error );
-			}
-
-			if ( $wpdb->update( $prefix . 'usermeta', array( 'user_id' => $new_user_id ), array(
-					'user_id' => 1
-				) ) === false
-			) {
-				$this->log( 'update table data ' . $prefix . 'usermeta fail. Error:' . $wpdb->last_error );
-			}
-			if ( $wpdb->update( $prefix . 'comments', array( 'user_id' => $new_user_id ), array(
-					'user_id' => 1
-				) ) === false
-			) {
-				$this->log( 'update table data ' . $prefix . 'comments fail. Error:' . $wpdb->last_error );
-			}
-
-			if ( $wpdb->update( $prefix . 'links', array( 'link_owner' => $new_user_id ), array(
-					'link_owner' => 1
-				) ) === false
-			) {
-				$this->log( 'update table data ' . $prefix . 'links fail. Error:' . $wpdb->last_error );
-			}
-		}
-
-		//remove the old admin id
-		$sql = "DELETE FROM " . $wpdb->users . " WHERE ID=%d";
-		$wpdb->query( $wpdb->prepare( $sql, 1 ) );
-
-		return $new_user_id;
 	}
 
 	/**
@@ -274,10 +181,10 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 			if ( $this->is_ajax() ) {
 				wp_send_json( array(
 					'status' => 0,
-					'error'  => __( "That username can't be empty!", wp_defender()->domain )
+					'error'  => esc_html__( "That username can't be empty!", wp_defender()->domain )
 				) );
 			} else {
-				return new WP_Error( 'empty_username', __( "That username can't be empty!", wp_defender()->domain ) );
+				return new WP_Error( 'empty_username', esc_html__( "That username can't be empty!", wp_defender()->domain ) );
 			}
 		}
 
@@ -285,10 +192,10 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 			if ( $this->is_ajax() ) {
 				wp_send_json( array(
 					'status' => 0,
-					'error'  => __( "You can't use admin as a username again!", wp_defender()->domain )
+					'error'  => esc_html__( "You can't use admin as a username again!", wp_defender()->domain )
 				) );
 			} else {
-				return new WP_Error( 'admin_again', __( "You can't use admin as a username again!", wp_defender()->domain ) );
+				return new WP_Error( 'admin_again', esc_html__( "You can't use admin as a username again!", wp_defender()->domain ) );
 			}
 		}
 		//sanitized it
@@ -298,10 +205,10 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 			if ( $this->is_ajax() ) {
 				wp_send_json( array(
 					'status' => 0,
-					'error'  => __( "That username is invalid!", wp_defender()->domain )
+					'error'  => esc_html__( "That username is invalid!", wp_defender()->domain )
 				) );
 			} else {
-				return new WP_Error( 'username_invalid', __( "That username is invalid!", wp_defender()->domain ) );
+				return new WP_Error( 'username_invalid', esc_html__( "That username is invalid!", wp_defender()->domain ) );
 			}
 		}
 
@@ -310,10 +217,10 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 			if ( $this->is_ajax() ) {
 				wp_send_json( array(
 					'status' => 0,
-					'error'  => __( "That username already exists!", wp_defender()->domain )
+					'error'  => esc_html__( "That username already exists!", wp_defender()->domain )
 				) );
 			} else {
-				return new WP_Error( 'username_exists', __( "That username already exists!", wp_defender()->domain ) );
+				return new WP_Error( 'username_exists', esc_html__( "That username already exists!", wp_defender()->domain ) );
 			}
 		}
 
@@ -327,11 +234,11 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 			<div class="wd-clearfix"></div>
 
 			<div id="<?php echo $this->id ?>" class="wd-rule-content">
-				<h4 class="tl"><?php _e( "Overview", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "Overview", wp_defender()->domain ) ?></h4>
 
 				<p><?php _e( "If you're using the default <strong>admin</strong> login name, you're giving away an important piece of the puzzle hackers need to hijack your website. Having a default admin user account is bad practice, but one that's easily fixed. Ensure you backup your database before choosing a new username.", wp_defender()->domain ) ?></p>
 
-				<h4 class="tl"><?php _e( "How To Fix", wp_defender()->domain ) ?></h4>
+				<h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
 
 				<div class="wd-error wd-hide">
 
@@ -339,11 +246,11 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 				<div class="wd-well">
 					<?php if ( $this->check() ): ?>
 						<?php
-						_e( "You don’t have a user with username admin.", wp_defender()->domain )
+						esc_html_e( "You don’t have a user with username admin.", wp_defender()->domain )
 						?>
 					<?php else: ?>
 						<p>
-							<?php _e( "Please change the username from admin to something unique.", wp_defender()->domain ) ?>
+							<?php esc_html_e( "Please change the username from admin to something unique.", wp_defender()->domain ) ?>
 						</p>
 
 						<form method="post" id="change_default_admin_frm" class="form-button-inline">
@@ -358,7 +265,7 @@ class WD_Change_Default_Admin extends WD_Hardener_Abstract {
 								</div>
 								<div class="col span_2_of_12">
 									<button type="submit" class="button wd-button">
-										<?php _e( "Update", wp_defender()->domain ) ?>
+										<?php esc_html_e( "Update", wp_defender()->domain ) ?>
 									</button>
 								</div>
 								<div class="wd-clearfix"></div>

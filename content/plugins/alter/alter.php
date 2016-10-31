@@ -3,23 +3,23 @@
 Plugin Name: Alter - White Label Wordpress
 Plugin URI: http://acmeedesign.com
 Description: Alter - White label everything from WordPress. Powered by AcmeeDesign
-Version: 1.0
+Version: 1.1
 Author: AcmeeDesign
 Author URI: http://acmeedesign.com
 Text-Domain: alter
- * 
+ *
 */
 
 /*
 *   ALTER Version
 */
 
-define( 'ALTER_VERSION' , '1.0' );    
+define( 'ALTER_VERSION' , '1.1' );
 
 /*
 *   ALTER Path Constant
 */
-define( 'ALTER_PATH' , dirname(__FILE__) ); 
+define( 'ALTER_PATH' , dirname(__FILE__) );
 
 /*
 *   ALTER URI Constant
@@ -63,7 +63,7 @@ if(!is_multisite()) {
  else {
      $multi_option = true;
  }
-$config = array(    
+$config = array(
     'capability' => 'manage_options',
     'page_title' => __('Alter Settings', 'aof'),
     'menu_title' => __('Alter WLB', 'aof'),
@@ -73,7 +73,7 @@ $config = array(
     'tabs'  => $panel_tabs,
     'fields'    => $panel_fields,
     'multi' => $multi_option //default = false
-  );  
+  );
 
 /*
  * Instantiate the AOF class
@@ -86,4 +86,3 @@ include_once ALTER_PATH . '/includes/alter.widgets.class.php';
 include_once ALTER_PATH . '/includes/alter.menu.class.php';
 include_once ALTER_PATH . '/includes/alter.redirectusers.class.php';
 include_once ALTER_PATH . '/includes/alter-import-export.class.php';
-

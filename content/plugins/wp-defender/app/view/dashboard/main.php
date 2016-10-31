@@ -2,13 +2,13 @@
 	<div class="wpmud">
 		<div class="wp-defender">
 			<section id="header">
-				<h1 class="tl"><?php _e( "Dashboard", wp_defender()->domain ) ?></h1>
+				<h1 class="tl"><?php esc_html_e( "Dashboard", wp_defender()->domain ) ?></h1>
 			</section>
 
 			<div class="wd-dashboard">
 				<section class="dev-box wd-dashboard-intro">
 					<div class="box-title">
-						<h3><?php printf( __( "Welcome, %s!", wp_defender()->domain ), WD_Utils::get_display_name() ) ?>
+						<h3><?php printf( esc_html__( "Welcome, %s!", wp_defender()->domain ), WD_Utils::get_display_name() ) ?>
 							<a href="#" class="wd-hide-dashboard-intro float-r">
 								<i class="dev-icon dev-icon-cross"></i>
 							</a>
@@ -17,14 +17,14 @@
 					<div class="box-content">
 						<div class="group">
 							<div class="col span_8_of_12 float-r">
-								<h2 class="tl"><?php _e( "Oh yeah, it's about to go down!", wp_defender()->domain ) ?></h2>
+								<h2 class="tl"><?php esc_html_e( "Oh yeah, it's about to go down!", wp_defender()->domain ) ?></h2>
 
 								<p>
-									<?php printf( __( "Congratulations, %s! You've just installed the most advanced and easy-to-use WordPress security plugin that will defend you against evil bots, hackers and bad internet-y things. With Defender you can tighten up loopholes in your WordPress security, scan for malicious code, vulnerabilities, and corrupt files as well as set up automatic scans of your site.", wp_defender()->domain ), WD_Utils::get_display_name() ) ?>
+									<?php printf( esc_html__( "Congratulations, %s! You've just installed the most advanced and easy-to-use WordPress security plugin that will defend you against evil bots, hackers and bad internet-y things. With Defender you can tighten up loopholes in your WordPress security, scan for malicious code, vulnerabilities, and corrupt files as well as set up automatic scans of your site.", wp_defender()->domain ), WD_Utils::get_display_name() ) ?>
 								</p>
 
 								<p>
-									<?php printf( __( "Get fixing %s!", wp_defender()->domain ), WD_Utils::get_display_name() ) ?>
+									<?php printf( esc_html__( "Get fixing %s!", wp_defender()->domain ), WD_Utils::get_display_name() ) ?>
 								</p>
 							</div>
 							<div class="wd-clearfix"></div>
@@ -38,17 +38,15 @@
 						$widget = WD_Widget_Manager::get_instance()->display( 'WD_Hardener_Widget' );
 						//blacklist widget
 						$widget = WD_Widget_Manager::get_instance()->display( 'WD_Blacklist_Widget' );
-						//backup
-						//$widget = WD_Widget_Manager::get_instance()->display( 'WD_Backup_Widget' );
 						?>
 						<section class="dev-box setup-scan">
 							<div class="box-title">
-								<h3><?php _e( "Setup Automatic Scans", wp_defender()->domain ) ?>
+								<h3><?php esc_html_e( "Setup Automatic Scans", wp_defender()->domain ) ?>
 									<?php
 									if ( WD_Utils::get_setting( 'scan->auto_scan', false ) == false ) {
-										$tooltip = __( "Activate Automatic Scans", wp_defender()->domain );
+										$tooltip = esc_html__( "Activate Automatic Scans", wp_defender()->domain );
 									} else {
-										$tooltip = __( "Deactivate Automatic Scans", wp_defender()->domain );
+										$tooltip = esc_html__( "Deactivate Automatic Scans", wp_defender()->domain );
 									}
 									?>
 									<span
@@ -73,7 +71,7 @@
 									</a>
 								</div>
 								<p>
-									<?php _e( "We recommend setting up WP Defender to automatically and regularly scan your website and email you reports. You can choose the frequency and time of day depending on your website traffic patterns.", wp_defender()->domain ) ?>
+									<?php esc_html_e( "We recommend setting up WP Defender to automatically and regularly scan your website and email you reports. You can choose the frequency and time of day depending on your website traffic patterns.", wp_defender()->domain ) ?>
 								</p>
 
 								<div class="next-run-information">
@@ -86,7 +84,7 @@
 								<div class="wd-well">
 									<form method="post" id="setup-scan-form">
 										<label>
-											<?php _e( "Scan my website", wp_defender()->domain ) ?>
+											<?php esc_html_e( "Scan my website", wp_defender()->domain ) ?>
 										</label>
 										<div class="wd-clearfix"></div>
 										<select name="frequency">
@@ -126,9 +124,9 @@
 										<button class="button wd-button">
 											<?php
 											if ( WD_Utils::get_setting( 'scan->auto_scan' ) ) {
-												_e( "Update", wp_defender()->domain );
+												esc_html_e( "Update", wp_defender()->domain );
 											} else {
-												_e( "Activate", wp_defender()->domain );
+												esc_html_e( "Activate", wp_defender()->domain );
 											}
 											?>
 										</button>
