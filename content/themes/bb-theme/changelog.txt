@@ -1,3 +1,28 @@
+<h4>1.5.3 - 11/01/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added styling for the tabbed WooCommerce My Account page.</li>
+	<li>The theme skin file is now enqueued using wp_enqueue_style instead of being statically rendered.</li>
+	<li>Google Fonts are now enqueued using wp_enqueue_style instead of being statically rendered.</li>
+	<li>Added the fl_theme_google_fonts_domain filter for changing the Google Fonts domain.</li>
+	<li>Anchor links are now highlighted in the nav when clicked.</li>
+	<li>The mobile menu now closes when an anchor on the same page is clicked.</li>
+	<li>Switching child themes now refreshes the CSS cache.</li>
+	<li>Search form now uses HTML placeholder value.</li>
+	<li>Updated translations.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed PHP 7 compatibility with the LESS parsing library.</li>
+	<li>Fixed empty home_url links.</li>
+	<li>Fixed W3C validator issues with nav elements.</li>
+	<li>Fixed incorrect display of nested submenus in the Custom Menu widget.</li>
+	<li>Fixed the no header/footer template still showing a margin when using the vertical nav header.</li>
+	<li>Fixed header resizing incorrectly when using the boxed layout.</li>
+	<li>Fixed spacing issues with the WooCommerce cart totals section.</li>
+	<li>Fixed missing styling for URL inputs.</li>
+</ul>
+
 <h4>1.5.2 - 07/12/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

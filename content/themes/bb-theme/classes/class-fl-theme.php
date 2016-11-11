@@ -162,6 +162,14 @@ final class FLTheme {
 
 		// Core theme JS
 		wp_enqueue_script('fl-automator', FL_THEME_URL . '/js/theme.js', array(), FL_THEME_VERSION, true);
+		
+		// Skin
+		wp_enqueue_style('fl-automator-skin', FLCustomizer::css_url(), array(), FL_THEME_VERSION);
+
+		// RTL Support
+		if(is_rtl()) {
+			wp_enqueue_style('fl-automator-rtl', FL_THEME_URL . '/css/rtl.css', array(), FL_THEME_VERSION);
+		}
 	}
 
 	/**
@@ -294,8 +302,8 @@ final class FLTheme {
 	 */
 	static public function add_font($name, $variants = array())
 	{
-		$protocol   = self::is_ssl() ? 'https' : 'http';
-		$google_url = $protocol . '://fonts.googleapis.com/css?family=';
+		$google_fonts_domain = apply_filters( 'fl_theme_google_fonts_domain', '//fonts.googleapis.com/' );
+		$google_url = $google_fonts_domain .'css?family=';
 
 		if(isset(self::$fonts[$name])) {
 			foreach((array)$variants as $variant) {
@@ -316,6 +324,7 @@ final class FLTheme {
 	 * Renders the <link> tag for all fonts in the $fonts array.
 	 *
 	 * @since 1.0
+	 * @since 1.5.3 Changed the rendering of fonts from echoing <link> to wp_enqueue_style
 	 * @return void
 	 */
 	static public function render_fonts()
@@ -323,7 +332,10 @@ final class FLTheme {
 		foreach(self::$fonts as $name => $font) {
 			if(!empty($font['url'])) {
 				$subset = apply_filters( 'fl_font_subset', '', $name );
-				echo '<link rel="stylesheet" href="'. $font['url'] . ':'. implode(',', $font['variants']) . $subset .'" />' . "\n";
+				
+				$google_font_url = $font['url'] . ':'. implode(',', $font['variants']) . $subset;
+
+				wp_enqueue_style( 'fl-builder-google-fonts-' . md5( $google_font_url ), $google_font_url, array() );
 			}
 		}
 	}
@@ -337,14 +349,6 @@ final class FLTheme {
 	static public function head()
 	{
 		$settings  = self::get_settings();
-		
-		// Skin
-		echo '<link rel="stylesheet" href="' . FLCustomizer::css_url() . '" />' . "\n";
-
-		// RTL Support
-		if(is_rtl()) {
-			echo '<link rel="stylesheet" href="' . FL_THEME_URL . '/css/rtl.css?ver=' . FL_THEME_VERSION . '" />' . "\n";
-		}
 
 		// CSS
 		if(!empty($settings['fl-css-code']) || FLCustomizer::is_customizer_preview()) {
@@ -374,7 +378,8 @@ final class FLTheme {
 	 */
 	static public function body_class($classes)
 	{
-		$preset = self::get_setting('fl-preset');
+		$preset         = self::get_setting('fl-preset');
+		$header_enabled = apply_filters( 'fl_header_enabled', true );
 		
 		// Preset
 		if ( empty( $preset ) ) {
@@ -391,41 +396,45 @@ final class FLTheme {
 		else {
 			$classes[] = 'fl-fixed-width';
 		}
-
-		// Nav Vertical Left
-		if(self::get_setting('fl-header-layout') == 'vertical-left') {
-			$classes[] = 'fl-nav-vertical fl-nav-vertical-left';
-		}
-
-		// Nav Vertical Right
-		if(self::get_setting('fl-header-layout') == 'vertical-right') {
-			$classes[] = 'fl-nav-vertical fl-nav-vertical-right';
+		
+		// Header classes
+		if ( $header_enabled ) {
+			
+			// Nav Vertical Left
+			if(self::get_setting('fl-header-layout') == 'vertical-left') {
+				$classes[] = 'fl-nav-vertical fl-nav-vertical-left';
+			}
+	
+			// Nav Vertical Right
+			if(self::get_setting('fl-header-layout') == 'vertical-right') {
+				$classes[] = 'fl-nav-vertical fl-nav-vertical-right';
+			}
+	
+			// Nav Left
+			if(self::get_setting('fl-header-layout') == 'left') {
+				$classes[] = 'fl-nav-left';
+			}
+	
+			// Shrink Fixed Header
+			if( (self::get_setting('fl-fixed-header') == 'shrink') && (self::get_setting('fl-header-layout') != 'vertical-left') && (self::get_setting('fl-header-layout') != 'vertical-right') ) {
+				$classes[] = 'fl-shrink';
+			}
+			
+			// Fixed Header
+			if( (self::get_setting('fl-fixed-header') == 'fixed') && (self::get_setting('fl-header-layout') != 'vertical-left') && (self::get_setting('fl-header-layout') != 'vertical-right') ) {
+				$classes[] = 'fl-fixed-header';
+			}
+	
+			// Hide Header Until Scroll
+			if( (self::get_setting('fl-hide-until-scroll-header') == 'enable') && (self::get_setting('fl-fixed-header') == 'hidden') && (self::get_setting('fl-header-layout') != 'vertical-left') && (self::get_setting('fl-header-layout') != 'vertical-right') ) {
+				$classes[] = 'fl-fixed-header';
+				$classes[] = 'fl-scroll-header';
+			}
 		}
 
 		// Footer Parallax Effect
 		if( (self::get_setting('fl-footer-parallax-effect') == 'enable') && (self::get_setting('fl-layout-width') == 'full-width') ) {
 			$classes[] = 'fl-footer-effect';
-		}
-
-		// Nav Left
-		if(self::get_setting('fl-header-layout') == 'left') {
-			$classes[] = 'fl-nav-left';
-		}
-
-		// Shrink Fixed Header
-		if( (self::get_setting('fl-fixed-header') == 'shrink') && (self::get_setting('fl-header-layout') != 'vertical-left') && (self::get_setting('fl-header-layout') != 'vertical-right') ) {
-			$classes[] = 'fl-shrink';
-		}
-
-		// Fixed Header
-		if( (self::get_setting('fl-fixed-header') == 'fixed') && (self::get_setting('fl-header-layout') != 'vertical-left') && (self::get_setting('fl-header-layout') != 'vertical-right') ) {
-			$classes[] = 'fl-fixed-header';
-		}
-
-		// Hide Header Until Scroll
-		if( (self::get_setting('fl-hide-until-scroll-header') == 'enable') && (self::get_setting('fl-fixed-header') == 'hidden') && (self::get_setting('fl-header-layout') != 'vertical-left') && (self::get_setting('fl-header-layout') != 'vertical-right') ) {
-			$classes[] = 'fl-fixed-header';
-			$classes[] = 'fl-scroll-header';
 		}
 
 		// Scroll To Top Button
@@ -446,7 +455,7 @@ final class FLTheme {
 	 */
 	static public function nav_menu_fallback($args)
 	{
-		$url  = current_user_can('edit_theme_options') ? admin_url('nav-menus.php') : home_url();
+		$url  = current_user_can('edit_theme_options') ? admin_url('nav-menus.php') : esc_url( home_url( '/' ) );
 		$url  = apply_filters( 'fl_nav_menu_fallback_url', $url );
 		$text = current_user_can('edit_theme_options') ? __('Choose Menu', 'fl-automator') :  __('Home', 'fl-automator');
 

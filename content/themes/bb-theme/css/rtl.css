@@ -2,7 +2,7 @@
 ----------------------------------------------------------- */
 
 .screen-reader-text {
-    position: absolute !important;
+    position: absolute;
     left: -999em;
 }
 

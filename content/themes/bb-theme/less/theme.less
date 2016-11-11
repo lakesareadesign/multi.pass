@@ -83,13 +83,17 @@ blockquote {
 iframe {
 	max-width: 100%;
 }
+img { 
+	max-width: 100%; 
+	height: auto; 
+}
 
 /* Accessibility
 ----------------------------------------------------------- */
 
 .screen-reader-text {
 	clip: rect(1px, 1px, 1px, 1px);
-	position: absolute !important;
+	position: absolute;
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
@@ -722,8 +726,8 @@ ul.navbar-nav li.mega-menu {
 .fl-icon-facebook-regular:before { content: '\e027'; }
 .fl-icon-facebook.fl-icon-color-branded { color: #3b5997; }
 
-.fl-icon-twitter-circle:before { content: '\e287'; }
-.fl-icon-twitter-regular:before { content: '\e087'; }
+.fl-icon-twitter-circle:before { content: '\e286'; }
+.fl-icon-twitter-regular:before { content: '\e086'; }
 .fl-icon-twitter.fl-icon-color-branded { color: #00aaef; }
 
 .fl-icon-google-circle:before { content: '\e239'; }
@@ -1097,6 +1101,16 @@ a img.aligncenter {
 				margin-bottom: 0;
 			}
 		}
+		&.sub-menu {
+			li {
+				margin: 0;
+				padding: 5px;
+				&:before {
+					content: "\2013";
+					padding-right: 5px;
+				}
+			}
+		}
 	}
 }
 
@@ -1217,6 +1231,7 @@ input[type=week],
 input[type=time],
 input[type=number],
 input[type=search],
+input[type=url],
 textarea {
 	display: block;
 	width: 100%;
@@ -1248,7 +1263,8 @@ input[type=month],
 input[type=week],
 input[type=time],
 input[type=number],
-input[type=search] {
+input[type=search],
+input[type=url] {
 	height: 34px;
 }
 .form-control {
@@ -2131,6 +2147,10 @@ img.mfp-img {
 	.fl-nav-vertical-right .fl-page-footer-wrap {
 		margin-right: @vertical-header-width;
 	}
+	.page-template-tpl-no-header-footer.fl-nav-vertical .fl-page-content {
+		margin-left: 0;
+		margin-right: 0;
+	}
 	ul.navbar-vertical-left li.fl-sub-menu-open > ul.sub-menu,
 	ul.navbar-vertical-left li.mega-menu.fl-sub-menu-open > ul.sub-menu {
 		left: @vertical-header-width;
@@ -2639,7 +2659,8 @@ img.mfp-img {
 	.fl-shrink.fl-fixed-width {
 		.fl-page-bar,
 		.fl-page-header {
-			width: (@content-width+80);
+			max-width: 90%;
+			width: (@content-width+80);			
 		}	
 	}
 
@@ -2649,6 +2670,7 @@ img.mfp-img {
 	.fl-fixed-header.fl-fixed-width {
 		.fl-page-bar,
 		.fl-page-header {
+			max-width: 90%;
 			width: (@content-width+80);
 		}	
 	}

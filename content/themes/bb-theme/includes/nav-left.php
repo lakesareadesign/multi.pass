@@ -4,7 +4,7 @@
 			<div class="fl-page-header-row row">
 				<div class="fl-page-nav-col col-md-8 col-sm-12">
 					<div class="fl-page-nav-wrap">
-						<nav class="fl-page-nav fl-nav navbar navbar-default" role="navigation" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+						<nav class="fl-page-nav fl-nav navbar navbar-default" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".fl-page-nav-collapse">
 								<span><?php FLTheme::nav_toggle_text(); ?></span>
 							</button>
@@ -27,7 +27,7 @@
 				</div>
 				<div class="fl-page-logo-wrap col-md-4 col-sm-12">
 					<div class="fl-page-header-logo" itemscope="itemscope" itemtype="http://schema.org/Organization">
-						<a href="<?php echo home_url(); ?>" itemprop="url"><?php FLTheme::logo(); ?></a>
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url"><?php FLTheme::logo(); ?></a>
 					</div>
 				</div>
 			</div>

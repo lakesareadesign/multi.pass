@@ -11,7 +11,7 @@ Appearance > Theme Settings > Code or create a child theme.
 */
 
 // Defines
-define( 'FL_THEME_VERSION', '1.5.2' );
+define( 'FL_THEME_VERSION', '1.5.3' );
 define( 'FL_THEME_DIR', get_template_directory() );
 define( 'FL_THEME_URL', get_template_directory_uri() );
 
@@ -23,6 +23,7 @@ require_once 'classes/class-fl-theme.php';
 require_once 'classes/class-fl-theme-update.php';
 
 // Theme Actions
+add_action( 'after_switch_theme',    'FLCustomizer::refresh_css' );
 add_action( 'after_setup_theme',     'FLTheme::setup' );
 add_action( 'init',                  'FLTheme::init_woocommerce' );
 add_action( 'wp_enqueue_scripts',    'FLTheme::enqueue_scripts', 999 );

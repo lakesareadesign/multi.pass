@@ -1117,6 +1117,15 @@ final class FLFontFamilies {
 	    "Henny Penny" => array(
 	        "400",
 	    ),
+	    "Heebo" 	  => array(
+	    	"100",
+			"300",
+			"regular",
+			"500",
+			"700",
+			"800",
+			"900"
+	    ),
 	    "Herr Von Muellerhoff" => array(
 	        "400",
 	    ),

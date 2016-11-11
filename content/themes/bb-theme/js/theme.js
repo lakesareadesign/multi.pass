@@ -41,6 +41,12 @@
 				this._setupDropDowns();
 				this._enablePageNavDropDowns();
 			} 
+
+			// Current menu item initializes or click
+			if($('.fl-page-nav ul.menu').length != 0) {
+				$('.fl-page-nav ul.menu').find('.menu-item').on('click', '> a[href*="#"]:not([href="#"])', this._setupCurrentNavItem);
+				this._setupCurrentNavItem();
+			}
 			
 			// Nav Search
 			if($('.fl-page-nav-search').length != 0) {
@@ -237,10 +243,12 @@
 			if( $( '.fl-page-nav .navbar-toggle' ).is( ':visible' ) ) {
 				navItems.off('mouseenter mouseleave');
 				nav.find('> ul > li').has('ul.sub-menu').find('> a').on('click', FLTheme._navItemClickMobile);
+				nav.find('.menu').on('click', '.menu-item > a[href*="#"]', FLTheme._toggleForMobile);
 				subToggles.off('click', FLTheme._navSubMenuToggleClick);
 			}
 			else {
 				nav.find('a').off('click', FLTheme._navItemClickMobile);
+				nav.find('a').off('click', FLTheme._toggleForMobile);
 				nav.removeClass('in').addClass('collapse');
 				navItems.removeClass('fl-mobile-sub-menu-open');
 				navItems.find('a').width(0).width('auto');
@@ -265,14 +273,34 @@
 		 */
 		_navItemClickMobile: function(e)
 		{
-			var parent = $(this).parent();
+			var parent 		= $(this).parent();		
 
 			if(!parent.hasClass('fl-mobile-sub-menu-open')) {
-				e.preventDefault(); 
+				e.preventDefault();
 				parent.addClass('fl-mobile-sub-menu-open');
 			}
 		},
-		
+
+		/**
+		 * Setup and callback for nav item link that exists on a page.
+		 *
+		 * @since 1.5.3
+		 * @access private
+		 * @method _setupCurrentNavItem
+		 * @param {Object|Null} e The event object.
+		 */
+		_setupCurrentNavItem: function(e)
+		{	
+			var nav 		= $('.fl-page-nav .navbar-nav'),
+				targetId 	= typeof e !== 'undefined' ? $(e.target).attr('href') : window.location.hash,
+				currentLink = nav.find('a[href="'+ targetId +'"]');
+
+			if ( currentLink.length > 0 && $('body').find(targetId).length > 0 ) {
+				$( '.current-menu-item' ).removeClass( 'current-menu-item' );
+				currentLink.parent().addClass('current-menu-item');
+			}
+		},
+
 		/**
 		 * Callback for when the mouse leaves an item
 		 * in a nav at desktop sizes.
@@ -378,6 +406,28 @@
 				FLTheme._navItemMouseover.apply( li[0] );
 				
 				e.preventDefault();
+			}
+		},
+
+		/**
+		 * Logic for the menu item  when clicked on mobile.
+		 *
+		 * @since  1.5.3
+		 * @return void
+		 */
+		_toggleForMobile: function( e ){
+			var nav 	= $('.fl-page-nav .fl-page-nav-collapse'),
+				href 	= $(this).attr('href'),
+				targetId = '';
+
+			if ( href !== '#' ) {
+				targetId = href.split('#')[1];
+
+				if ( $('body').find('#'+  targetId).length > 0 ) {
+					e.preventDefault();
+					
+					nav.collapse('hide');
+				}
 			}
 		},
 		
