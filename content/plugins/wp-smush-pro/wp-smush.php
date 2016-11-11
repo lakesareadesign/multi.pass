@@ -4,7 +4,7 @@ Plugin Name: WP Smush Pro
 Plugin URI: http://premium.wpmudev.org/projects/wp-smush-pro/
 Description: Reduce image file sizes, improve performance and boost your SEO using the <a href="https://premium.wpmudev.org/">WPMU DEV</a> WordPress Smush API.
 Author: WPMU DEV
-Version: 2.4.5
+Version: 2.5.2
 Author URI: http://premium.wpmudev.org/
 Textdomain: wp-smushit
 WDP ID: 912164
@@ -31,7 +31,7 @@ WDP ID: 912164
  * Constants
  */
 $prefix  = 'WP_SMUSH_';
-$version = '2.4.5';
+$version = '2.5.2';
 
 //Deactivate the .org version, if pro version is active
 add_action( 'admin_init', 'deactivate_smush_org' );
@@ -61,7 +61,9 @@ $smush_constants = array(
 	'MAX_BYTES'         => 1000000,
 	'PREMIUM_MAX_BYTES' => 32000000,
 	'PREFIX'            => 'wp-smush-',
-	'TIMEOUT'           => $timeout
+	'TIMEOUT'           => $timeout,
+	//If Set to false, WP Smush switch backs to the Old Sync Optimisation
+	'ASYNC'             => true
 );
 
 foreach ( $smush_constants as $const_name => $constant_val ) {
@@ -113,7 +115,7 @@ if ( ! function_exists( 'wp_smush_rating_message' ) ) {
  */
 if ( ! function_exists( 'wp_smush_email_message' ) ) {
 	function wp_smush_email_message( $message ) {
-		$message = "You're awesome for installing %s! Site speed isn't all image optimization though, so we've collected all the best speed resources we know in a single email - just for users of WP Smush!";								 	 	   		   
+		$message = "You're awesome for installing %s! Site speed isn't all image optimization though, so we've collected all the best speed resources we know in a single email - just for users of WP Smush!";
 
 		return $message;
 	}
@@ -176,7 +178,8 @@ if ( is_admin() ) {
 			'id'      => 912164,
 			'name'    => 'WP Smush Pro',
 			'screens' => array(
-				'upload'
+				'upload',
+				'media_page_wp-smush-bulk'
 			)
 		);
 	}
@@ -211,11 +214,11 @@ if ( ! function_exists( 'smush_activated' ) ) {
 			$results = $wpdb->get_var( $wpdb->prepare( $query, 'wp-smpro-smush-data' ) );
 
 			if ( $results ) {
-				update_option( 'wp-smush-install-type', 'existing' );
+				update_site_option( 'wp-smush-install-type', 'existing' );
 			} else {
 				//Check for existing settings
 				if ( false !== get_site_option( WP_SMUSH_PREFIX . 'auto' ) || false !== get_option( WP_SMUSH_PREFIX . 'auto' ) ) {
-					update_option( 'wp-smush-install-type', 'existing' );
+					update_site_option( 'wp-smush-install-type', 'existing' );
 				}
 			}
 

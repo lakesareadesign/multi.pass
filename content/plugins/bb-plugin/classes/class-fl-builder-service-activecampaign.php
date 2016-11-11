@@ -106,7 +106,7 @@ final class FLBuilderServiceActiveCampaign extends FLBuilderService {
 			'class'         => 'fl-builder-service-connect-input',
 			'type'          => 'text',
 			'label'         => __( 'API URL', 'fl-builder' ),
-			'help'          => __( 'Your API url can be found in your ActiveCampaign account under My Settings > API.', 'fl-builder' ),
+			'help'          => __( 'Your API url can be found in your ActiveCampaign account under My Settings > Developer > API.', 'fl-builder' ),
 			'preview'       => array(
 				'type'          => 'none'
 			)
@@ -117,7 +117,7 @@ final class FLBuilderServiceActiveCampaign extends FLBuilderService {
 			'class'         => 'fl-builder-service-connect-input',
 			'type'          => 'text',
 			'label'         => __( 'API Key', 'fl-builder' ),
-			'help'          => __( 'Your API key can be found in your ActiveCampaign account under My Settings > API.', 'fl-builder' ),
+			'help'          => __( 'Your API key can be found in your ActiveCampaign account under My Settings > Developer > API.', 'fl-builder' ),
 			'preview'       => array(
 				'type'          => 'none'
 			)
@@ -151,22 +151,23 @@ final class FLBuilderServiceActiveCampaign extends FLBuilderService {
 			$response['html'] = $this->render_list_type_field( $settings );
 		}
 
+		$lists = $api->api( 'list/list?ids=all' );
+		$render_type_html 	= $this->render_list_field( $lists, $settings );
+
 		if ( isset($post_data['list_type']) || isset($settings->list_type) ) {
 			$list_type = isset($post_data['list_type']) ? $post_data['list_type'] : $settings->list_type;
 
 			if ( !empty($list_type) && $list_type == 'form' ) {
 				$forms = $api->api( 'form/getforms' );
-				$response['html'] .= $this->render_form_field( $forms, $settings );
+				$render_type_html = $this->render_form_field( $forms, $settings );
 			}
-			else {
-				$lists = $api->api( 'list/list?ids=all' );
-				$response['html'] .= $this->render_list_field( $lists, $settings );
-			}
-		} 
-		else {
-			$lists = $api->api( 'list/list?ids=all' );
-			$response['html'] .= $this->render_list_field( $lists, $settings );
-		}		
+		}
+		
+		$response['html'] .= $render_type_html;
+
+		if ( !isset($post_data['list_type']) ) {
+			$response['html'] .= $this->render_tags_field( $settings );
+		}
 		
 		return $response;
 	}
@@ -266,6 +267,33 @@ final class FLBuilderServiceActiveCampaign extends FLBuilderService {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Render markup for the tags field. 
+	 *
+	 * @since 1.8.8
+	 * @param object $settings Saved module settings.
+	 * @return string The markup for the tags field.
+	 * @access private
+	 */
+	private function render_tags_field ( $settings )
+	{
+		ob_start();
+
+		FLBuilder::render_settings_field( 'tags', array(
+			'row_class'     => 'fl-builder-service-connect-row',
+			'class'         => 'fl-builder-service-connect-input',
+			'type'          => 'text',
+			'default' 		=> '',
+			'label'         => _x( 'Tags', 'A comma separated list of tags.', 'fl-builder' ),
+			'help'          => __( 'A comma separated list of tags.', 'fl-builder' ),
+			'preview'       => array(
+				'type'          => 'none'
+			)
+		),$settings);
+
+		return ob_get_clean();
+	}
+
 	/** 
 	 * Subscribe an email address to ActiveCampaign.
 	 *
@@ -311,6 +339,11 @@ final class FLBuilderServiceActiveCampaign extends FLBuilderService {
 				if ( isset( $names[1] ) ) {
 					$data['last_name'] = $names[1];
 				}
+			}
+
+			// Tags
+			if ( isset($settings->tags) && !empty($settings->tags) ) {
+				$data['tags'] = $settings->tags;
 			}
 			
 			// Subscribe

@@ -305,7 +305,7 @@ final class FLBuilder {
 		wp_register_style('yui3',           		$css_url . 'yui3.css', array(), $ver);
 		
 		// Register icon CDN CSS
-		wp_register_style('font-awesome',           'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css', array(), $ver);
+		wp_register_style('font-awesome',           'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', array(), $ver);
 		wp_register_style('foundation-icons',       'https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css', array(), $ver);
 
 		// Register additional JS
@@ -848,13 +848,22 @@ final class FLBuilder {
 	 *
 	 * @since 1.7
 	 * @param array|string $args An array or string of args to be passed to a new instance of WP_Query.
+	 * @param int $site_id The ID of a site on a network to pull the query from.
 	 * @return void
 	 */
-	static public function render_query( $args )
+	static public function render_query( $args, $site_id = null )
 	{
+		global $blog_id;
 		global $post;
 		global $wp_query;
 		
+		// Pull from a site on the network?
+		if ( $site_id && is_multisite() ) {
+			$original_blog_id = $blog_id;
+			switch_to_blog( $site_id );
+		}
+		
+		// Get the post and query.
 		$original_post 	= $post;
 		$wp_query  		= new WP_Query( $args );
 		$post_data 		= FLBuilderModel::get_post_data();
@@ -901,6 +910,11 @@ final class FLBuilder {
 		
 		// Reset the global query.
 		wp_reset_query();
+		
+		// Reset the site data?
+		if ( $site_id && is_multisite() ) {
+			switch_to_blog( $original_blog_id );
+		}
 	}
 
 	/**
@@ -1718,7 +1732,7 @@ final class FLBuilder {
 		$rendered_settings = self::render_settings(array(
 			'class' 	=> 'fl-builder-module-settings fl-builder-'. $type .'-settings',
 			'attrs' 	=> 'data-node="'. $node_id .'" data-parent="'. $parent_id .'" data-type="'. $type .'"',
-			'title' 	=> sprintf( _x( '%s Settings', '%s stands for module name.', 'fl-builder' ), $module->name ),
+			'title' 	=> sprintf( '%s ' . __( 'Settings', 'fl-builder' ), $module->name ),
 			'tabs'  	=> $module->form,
 			'resizable' => true
 		), $settings);

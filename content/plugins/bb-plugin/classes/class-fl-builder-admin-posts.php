@@ -123,7 +123,7 @@ final class FLBuilderAdminPosts {
 	{
 		global $post;
 			
-		if ( current_user_can( 'edit_post', $post->ID ) && wp_check_post_lock( $post->ID ) === false ) {
+		if ( 'trash' != $post->post_status && current_user_can( 'edit_post', $post->ID ) && wp_check_post_lock( $post->ID ) === false ) {
 			
 			$post_types = FLBuilderModel::get_post_types();
 

@@ -125,13 +125,15 @@ class Snapshot_Model_Full_Backup extends Snapshot_Model_Full_Abstract {
 	 *
 	 * Proxies the Remote schedule update method
 	 *
+	 * @param int $timestamp Optional last backup timestamp (to be passed on verbatim)
+	 *
 	 * @return bool
 	 */
-	public function update_remote_schedule () {
+	public function update_remote_schedule ($timestamp=false) {
 		$frequency = $this->get_frequency();
 		$time = $this->get_schedule_time();
 
-		return $this->_storage->update_schedule($frequency, $time);
+		return $this->_storage->update_schedule($frequency, $time, $timestamp);
 	}
 
 

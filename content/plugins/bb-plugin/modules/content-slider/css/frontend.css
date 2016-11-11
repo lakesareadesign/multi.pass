@@ -147,3 +147,8 @@ body.rtl .fl-module-content-slider .bx-viewport {
 .bx-controls a.disabled {
 	pointer-events: none;
 }
+
+/* IE Fixes */
+.fl-builder-ie-11 .fl-content-slider-navigation {
+	z-index: 55;
+}

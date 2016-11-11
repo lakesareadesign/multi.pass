@@ -1,3 +1,11 @@
+Version 3.0.6 / (30.10.2016)
+============================
+- [New]: 15 sample sliders added as public sample sliders to sliders list
+- [Improvement]: Displaying appropriate notices if Master Slider requirements are not met
+- [Improvement]: Simplifying the procedure of activating and deactivating licenses
+- [Improvement]: Adding compatibility with WordPress 4.6 in loading text domains
+- [Fix]: Minor bugs fixed
+
 Version 3.0.4 / (16.08.2016)
 ============================
 - [Fix]: Addressed as issue with adding custom css class name to slides in post slider
@@ -5,7 +13,7 @@ Version 3.0.4 / (16.08.2016)
 
 Version 3.0.0 / (15.08.2016)
 ============================
-- [New]: Introducing overlay layers, now you can add animated layers over the slider too.
+- [New]: Introducing overlay layers. Now you can add animated layers over the slider too.
 - [New]: Introducing masked layer, this feature gives you the ability of masking layers to achieve fresh looking animations.
 - [New]: Introducing smart layer actions, now it is possible to add "show layer", "hide layer" or "toggle layer" actions to the layers.
 - [New]: Introducing sample sliders store. Now, "direct buyers" of Master Slider are able to access to weekly new sample sliders right from their websites. Master Slider will auto fetches new sample sliders from Master server. All you have to do is adding your purchase key in Master Slider > Setting page to enable the "automatic update" and "Live Sample Sliders" feature.

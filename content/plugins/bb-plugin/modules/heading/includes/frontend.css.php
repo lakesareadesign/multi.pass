@@ -13,7 +13,8 @@
 <?php if(!empty($settings->color)) : ?>
 .fl-node-<?php echo $id; ?> <?php echo $settings->tag; ?>.fl-heading a,
 .fl-node-<?php echo $id; ?> <?php echo $settings->tag; ?>.fl-heading .fl-heading-text,
-.fl-node-<?php echo $id; ?> <?php echo $settings->tag; ?>.fl-heading .fl-heading-text * {
+.fl-node-<?php echo $id; ?> <?php echo $settings->tag; ?>.fl-heading .fl-heading-text *,
+.fl-row .fl-col .fl-node-<?php echo $id; ?> <?php echo $settings->tag; ?>.fl-heading .fl-heading-text {
 	color: #<?php echo $settings->color; ?>;
 }
 <?php endif; ?>

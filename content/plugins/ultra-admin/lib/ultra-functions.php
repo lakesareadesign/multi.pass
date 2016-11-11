@@ -972,5 +972,12 @@ function ultra_remove_help_tabs() {
     $screen->remove_help_tabs();
 }
 
+add_filter('admin_title', 'ultra_admin_title_update', 10, 2);
+
+function ultra_admin_title_update($admin_title, $title)
+{
+    return get_bloginfo('name').' &bull; '.$title;
+}
+
 
 ?>

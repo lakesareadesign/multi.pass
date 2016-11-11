@@ -94,7 +94,7 @@ class FLMenuModule extends FLBuilderModule {
 	public static function render_menu_classes( $classes = array(), $menu_item = false ) 
 	{
 		//Check if already have the class
-	    if (! in_array( 'current-menu-item', $classes ) ) {
+	    if ( ! in_array( 'current-menu-item', $classes ) ) {
 	    	
 	    	//Check if a menu is the current page
 	        if ( self::$fl_builder_page_id == $menu_item->object_id ) {
@@ -465,7 +465,6 @@ class FL_Menu_Module_Walker extends Walker_Nav_Menu {
 
     function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
-        global $wp_query;
         $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
         $class_names = $value = '';

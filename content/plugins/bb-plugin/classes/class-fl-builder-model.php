@@ -2220,6 +2220,7 @@ final class FLBuilderModel {
 		// Run module update method.
 		$class					= get_class(self::$modules[$type]);
 		$instance				= new $class();
+		$instance->node 		= $module_node_id;
 		$instance->settings		= $settings;
 		$settings				= $instance->update($settings);
 
@@ -2352,6 +2353,7 @@ final class FLBuilderModel {
 		// Run module update method.
 		$class					= get_class(self::$modules[$type]);
 		$instance				= new $class();
+		$instance->node 		= $module_node_id;
 		$instance->settings		= $settings;
 		$settings				= $instance->update($settings);
 
@@ -2407,8 +2409,9 @@ final class FLBuilderModel {
 	static public function process_module_settings($module, $new_settings)
 	{
 		// Get a new node instance to work with.
-		$class	  = get_class(self::$modules[$module->settings->type]);
-		$instance = new $class();
+		$class	        = get_class(self::$modules[$module->settings->type]);
+		$instance       = new $class();
+		$instance->node = $module->node;
 
 		// Run node delete to clear any cache.
 		$instance->settings = $module->settings;
@@ -3848,6 +3851,7 @@ final class FLBuilderModel {
 			
 			$posts = get_posts( array(
 				'post_type' 		=> 'fl-builder-template',
+				'post_status'       => array( 'any', 'trash' ),
 				'posts_per_page' 	=> '-1',
 				'meta_key'			=> '_fl_builder_template_id',
 				'meta_value'		=> $template_id

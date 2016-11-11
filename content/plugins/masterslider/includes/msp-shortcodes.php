@@ -1156,7 +1156,8 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 
 		// add shortcode content if layer type was text or hotspot
 		} else {
-			$layer_content .= ! empty( $content ) ? do_shortcode( wp_unslash( $content ) ) : '';
+            // Note: __( $content ) a workaround for making the text layers translatable by qTranslate plugin
+			$layer_content .= ! empty( $content ) ? do_shortcode( wp_unslash( __( $content ) ) ) : '';
 		}
 
 		// create data-autoplay attr if video autoplay is enabled

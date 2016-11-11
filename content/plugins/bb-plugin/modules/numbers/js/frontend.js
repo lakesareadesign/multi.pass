@@ -20,6 +20,7 @@ var FLBuilderNumber;
 		this.delay 				 = settings.delay;
 		this.breakPoints         = settings.breakPoints;
 		this.currentBrowserWidth = $( window ).width();
+		this.animated            = false;
 
 		// initialize the menu 
 		this._initNumber();
@@ -98,19 +99,23 @@ var FLBuilderNumber;
 
 			var $number = $( this.wrapperClass ).find( '.fl-number-string' ),
 				$string = $number.find( '.fl-number-int' ),
-				current = 0;
+				current = 0,
+				self    = this;
 
-
-		    $string.prop( 'Counter',0 ).animate({
-		        Counter: this.number
-		    }, {
-		        duration: this.speed,
-		        easing: 'swing',
-		        step: function ( now ) {
-		            $string.text( FLBuilderNumber.addCommas( Math.ceil( now ) ) );
-		        }
-		    });
-
+			if ( ! this.animated ) {
+			    $string.prop( 'Counter',0 ).animate({
+			        Counter: this.number
+			    }, {
+			        duration: this.speed,
+			        easing: 'swing',
+			        step: function ( now ) {
+			            $string.text( FLBuilderNumber.addCommas( Math.ceil( now ) ) );
+			        },
+			        complete: function() {
+			        	self.animated = true;
+			        }
+			    });
+			}
 		},
 
 		_triggerCircle: function(){

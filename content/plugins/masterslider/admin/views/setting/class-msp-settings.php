@@ -122,9 +122,9 @@ class MSP_Settings {
 
         if( ! apply_filters( MSWP_SLUG.'_disable_auto_update', 0 ) ) {
             $sections[] = array(
-                'id' => 'msp_envato_license',
-                'title' => __( 'Enable Automatic Update', MSWP_TEXT_DOMAIN ),
-                'desc'  => __( 'To enable automatic update for Master Slider, a valid purchase code is required.', MSWP_TEXT_DOMAIN )
+                'id'    => 'msp_envato_license',
+                'title' => __( 'Activation', MSWP_TEXT_DOMAIN ),
+                'desc'  => __( 'By activating your license you can enable "automatic update" for Master Slider and grant access to premium sample slider. A valid license of Master Slider is required. <a href="http://avt.li/msadl" target="_blank">More about activating and deactivating license</a>.', MSWP_TEXT_DOMAIN )
             );
         }
 

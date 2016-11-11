@@ -13,10 +13,10 @@ function ultra_css_fonts() {
 
     global $ultraadmin;
 
-    $bodyfont = "'Open Sans', Arial, Helvetica, sans-serif";
-    $menufont = "Oswald, Arial, Helvetica, sans-serif ";
-    $buttonfont = "Oswald, Arial, Helvetica, sans-serif ";
-    $headingfont = "Oswald,  Arial, Helvetica, sans-serif";
+    $bodyfont = "'Open Sans', Arial, Helvetica, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif";
+    $menufont = "Oswald, Arial, Helvetica, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif ";
+    $buttonfont = "Oswald, Arial, Helvetica, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif ";
+    $headingfont = "Oswald,  Arial, Helvetica, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif";
 
     $body_letter_spacing = $body_word_spacing = "";
     $heading_letter_spacing = $heading_word_spacing = "";
@@ -50,7 +50,7 @@ function ultra_css_fonts() {
         if (isset($ultraadmin['google_body']['font-backup'])) {
             $bodyfont .= ", " . $ultraadmin['google_body']['font-backup'];
         } else {
-            $bodyfont .= ", sans-serif";
+            $bodyfont .= ", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif";
         }
         if (isset($ultraadmin['google_body']['letter-spacing']) && trim(($ultraadmin['google_body']['letter-spacing']) != "")) {
             $body_letter_spacing = "letter-spacing:" . $ultraadmin['google_body']['letter-spacing'] . "; ";
@@ -81,7 +81,7 @@ function ultra_css_fonts() {
         if (isset($ultraadmin['google_nav']['font-backup'])) {
             $menufont .= ", " . $ultraadmin['google_nav']['font-backup'];
         } else {
-            $menufont .= ", sans-serif";
+            $menufont .= ", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif";
         }
         if (isset($ultraadmin['google_nav']['letter-spacing']) && trim(($ultraadmin['google_nav']['letter-spacing']) != "")) {
             $menu_letter_spacing = "letter-spacing:" . $ultraadmin['google_nav']['letter-spacing'] . "; ";
@@ -112,7 +112,7 @@ function ultra_css_fonts() {
         if (isset($ultraadmin['google_button']['font-backup'])) {
             $buttonfont .= ", " . $ultraadmin['google_button']['font-backup'];
         } else {
-            $buttonfont .= ", sans-serif";
+            $buttonfont .= ", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif";
         }
         if (isset($ultraadmin['google_button']['letter-spacing']) && trim(($ultraadmin['google_button']['letter-spacing']) != "")) {
             $button_letter_spacing = "letter-spacing:" . $ultraadmin['google_button']['letter-spacing'] . "; ";
@@ -143,7 +143,7 @@ function ultra_css_fonts() {
         if (isset($ultraadmin['google_headings']['font-backup'])) {
             $headingfont .= ", " . $ultraadmin['google_headings']['font-backup'];
         } else {
-            $headingfont .= ", sans-serif";
+            $headingfont .= ", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif";
         }
         if (isset($ultraadmin['google_headings']['letter-spacing']) && trim(($ultraadmin['google_headings']['letter-spacing']) != "")) {
             $heading_letter_spacing = "letter-spacing:" . $ultraadmin['google_headings']['letter-spacing'] . "; ";
@@ -161,9 +161,9 @@ function ultra_css_fonts() {
 
 
 //    else if(isset($ultraadmin['standard_body']) && trim($ultraadmin['standard_body']) != ""){ $bodyfont = "".$ultraadmin['standard_body']."";}
-//    if(isset($ultraadmin['google_nav']) && trim($ultraadmin['google_nav']) != ""){ $menufont = "'".$ultraadmin['google_nav']."', sans-serif"; }
+//    if(isset($ultraadmin['google_nav']) && trim($ultraadmin['google_nav']) != ""){ $menufont = "'".$ultraadmin['google_nav']."', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif"; }
 //    else if(isset($ultraadmin['standard_nav']) && trim($ultraadmin['standard_nav']) != ""){ $menufont = "".$ultraadmin['standard_nav']."";}
-//    if(isset($ultraadmin['google_headings']) && trim($ultraadmin['google_headings']) != ""){ $headingfont = "'".$ultraadmin['google_headings']."', sans-serif"; }
+//    if(isset($ultraadmin['google_headings']) && trim($ultraadmin['google_headings']) != ""){ $headingfont = "'".$ultraadmin['google_headings']."', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif"; }
 //    else if(isset($ultraadmin['standard_headings']) && trim($ultraadmin['standard_headings']) != ""){ $headingfont = "".$ultraadmin['standard_headings']."";}
 
 
@@ -186,14 +186,14 @@ function ultra_fonts() {
     if (isset($ultraadmin['google_body']) && sizeof($ultraadmin['google_body']) && trim($ultraadmin['google_body']['font-family']) != "") {
         $font = $ultraadmin['google_body']['font-family'];
         $font = str_replace(", " . $ultraadmin['google_body']['font-backup'], "", $font);
-        $gfont[urlencode($font)] = '"' . urlencode($font) . ':400,300,300italic,400italic,600,600italic,700,700italic:latin,greek-ext,cyrillic,latin-ext,greek,cyrillic-ext,vietnamese"';
+        $gfont[urlencode($font)] = '"' . urlencode($font) . ':400,300,300italic,400italic,600,600italic,700,700italic:latin"';
     }
 
     if (isset($ultraadmin['google_nav']) && sizeof($ultraadmin['google_nav']) && trim($ultraadmin['google_nav']['font-family']) != "" 
         && $ultraadmin['google_nav']['font-family'] != $ultraadmin['google_body']['font-family']) {
         $font = $ultraadmin['google_nav']['font-family'];
         $font = str_replace(", " . $ultraadmin['google_nav']['font-backup'], "", $font);
-        $gfont[urlencode($font)] = '"' . urlencode($font) . ':400,300,300italic,400italic,600,600italic,700,700italic:latin,greek-ext,cyrillic,latin-ext,greek,cyrillic-ext,vietnamese"';
+        $gfont[urlencode($font)] = '"' . urlencode($font) . ':400,300,300italic,400italic,600,600italic,700,700italic:latin"';
     }
 
     if (isset($ultraadmin['google_headings']) && sizeof($ultraadmin['google_headings']) && trim($ultraadmin['google_headings']['font-family']) != "" 
@@ -201,7 +201,7 @@ function ultra_fonts() {
         && $ultraadmin['google_headings']['font-family'] != $ultraadmin['google_nav']['font-family']) {
         $font = $ultraadmin['google_headings']['font-family'];
         $font = str_replace(", " . $ultraadmin['google_headings']['font-backup'], "", $font);
-        $gfont[urlencode($font)] = '"' . urlencode($font) . ':400,300,300italic,400italic,600,600italic,700,700italic:latin,greek-ext,cyrillic,latin-ext,greek,cyrillic-ext,vietnamese"';
+        $gfont[urlencode($font)] = '"' . urlencode($font) . ':400,300,300italic,400italic,600,600italic,700,700italic:latin"';
     }
 
     if (isset($ultraadmin['google_button']) && sizeof($ultraadmin['google_button']) && trim($ultraadmin['google_button']['font-family']) != "" 
@@ -210,7 +210,7 @@ function ultra_fonts() {
         && $ultraadmin['google_button']['font-family'] != $ultraadmin['google_nav']['font-family']) {
         $font = $ultraadmin['google_button']['font-family'];
         $font = str_replace(", " . $ultraadmin['google_button']['font-backup'], "", $font);
-        $gfont[urlencode($font)] = '"' . urlencode($font) . ':400,300,300italic,400italic,600,600italic,700,700italic:latin,greek-ext,cyrillic,latin-ext,greek,cyrillic-ext,vietnamese"';
+        $gfont[urlencode($font)] = '"' . urlencode($font) . ':400,300,300italic,400italic,600,600italic,700,700italic:latin"';
     }
 
     $gfonts = "";

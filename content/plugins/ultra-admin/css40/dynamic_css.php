@@ -164,7 +164,7 @@ echo "#wp-fullscreen-buttons .mce-btn:focus, #wp-fullscreen-buttons .mce-btn:hov
 	."}";
 
 echo ".wrap .add-new-h2, .wrap .page-title-action{"
-	."background: ".$ultraadmin['button-secondary-bg']." !important"
+	."background: ".$ultraadmin['button-secondary-bg']." !important;"
 	."color: ".$ultraadmin['button-text-color']." !important;"
 	."}";
 

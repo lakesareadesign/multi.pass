@@ -91,6 +91,15 @@ function msp_request_remote_sample_sliders( $force_to_fetch = false ) {
         return false;
     }
 
+    if( isset( $_GET['force_fetch'] ) ){
+        $force_to_fetch = true;
+    }
+
+    // try to use cached data
+    if( ! $force_to_fetch && false !== ( $result = get_transient( 'msp_get_remote_sample_sliders' ) ) && ! empty( $result ) ){
+        return $result;
+    }
+
     if ( 'masterslider' == MSWP_SLUG ) {
         if ( '1' == get_option( 'masterslider_is_license_actived', false ) ) {
             $request_body['slider_type'] = 'pro-registered';
@@ -99,11 +108,6 @@ function msp_request_remote_sample_sliders( $force_to_fetch = false ) {
         }
     } else {
         $request_body['slider_type'] = 'free';
-    }
-
-    // try to use cached data
-    if( ! $force_to_fetch && false !== ( $result = get_transient( 'msp_get_remote_sample_sliders' ) ) && ! empty( $result ) ){
-        return $result;
     }
 
     $response = wp_remote_post( 'http://demo.averta.net/themes/lotus/dummy-agency/api/' ,
@@ -146,11 +150,29 @@ function msp_request_remote_sample_sliders( $force_to_fetch = false ) {
  * Function to show premium sliders in "premium sliders" section
  */
 function msp_premium_sliders( $demos ) {
-
     if ( $online_demos = msp_request_remote_sample_sliders() ) {
+
         foreach ( $online_demos as $demo ) {
             if ( 'custom' == $demo['slidertype'] ) {
-                $demos['masterslider_samples_group1'][] = $demo;
+
+                if( ! empty( $demo['published_for'] ) ){
+                    if( 'pro-all' == $demo['published_for'] ){
+                        $demos['masterslider_samples_group1'][] = $demo;
+                    } else {
+                        $demos['masterslider_pro_custom_samples1'][] = $demo;
+                    }
+                } else {
+                    if ( '1' == get_option( 'masterslider_is_license_actived', false ) ) {
+                        $demos['masterslider_pro_custom_samples1'][] = $demo;
+                    } else {
+                        if( ! empty( $demo['disable'] ) && $demo['disable'] ){
+                            $demos['masterslider_pro_custom_samples1'][] = $demo;
+                        } else {
+                            $demos['masterslider_samples_group1'][] = $demo;
+                        }
+                    }
+                }
+
             } elseif( 'post' == $demo['slidertype'] ) {
                 $demos['masterslider_dynamic_group'][] = $demo;
             }

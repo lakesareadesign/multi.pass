@@ -107,7 +107,7 @@ if( ! class_exists('Axiom_Plugin_Updater') ) {
          * @return string   The API URI
          */
         public function get_download_api() {
-            return 'http://support.averta.net/envato/api/?branch=envato&group=items&cat=download-purchase';
+            return 'http://support.averta.net/en/api/?branch=envato&group=items&cat=download-purchase';
         }
 
         /**
@@ -421,6 +421,10 @@ if( ! class_exists('Axiom_Plugin_Updater') ) {
 
             $r = $current->response[ $file ];
 
+            axpp( $file );
+            axpp( $r );
+            axpp( $plugin_data );
+
             // if license is already actived (token is set), add temp download link
             $r->package = msp_get_setting('token', 'msp_envato_license') ? 'temp_package' : '';
 
@@ -444,7 +448,13 @@ if( ! class_exists('Axiom_Plugin_Updater') ) {
             $wp_list_table  = _get_list_table('WP_Plugins_List_Table');
 
             if ( is_network_admin() || !is_multisite() ) {
-                echo '<tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message">';
+                if ( is_network_admin() ) {
+                    $active_class = is_plugin_active_for_network( $file ) ? ' active' : '';
+                } else {
+                    $active_class = is_plugin_active( $file ) ? ' active' : '';
+                }
+
+                echo '<tr class="plugin-update-tr' . $active_class . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-warning notice-alt"><p>';
 
                 if ( ! current_user_can('update_plugins') ){
                     printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>.'),
@@ -452,20 +462,26 @@ if( ! class_exists('Axiom_Plugin_Updater') ) {
                     );
 
                 } else if ( empty( $r->package ) ){
-                    printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>. <em>Please visit %5$ssetting page%6$s to enable automatic update for this plugin.</em>' ),
-                           $plugin_name, esc_url( $details_url ), esc_attr( $plugin_name ),
-                           $r->new_version, '<a href="'.admin_url( 'admin.php?page='. $this->slug.'-setting' ).'">', '</a>'
+                    printf(
+                        __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>. <em>To receive automatic updates, license activation is required. Please visit %5$ssetting page%6$s to activate the license.</em>' ) . ' %7$s',
+                        $plugin_name,
+                        esc_url( $details_url ),
+                        esc_attr( $plugin_name ),
+                        $r->new_version,
+                        '<a href="'.admin_url( 'admin.php?page='. $this->slug.'-setting' ).'">', '</a>',
+                        '<a href="http://docs.averta.net/display/mswpdoc/Master+Slider+Bundled+in+a+Theme" target="_blank">'. __( 'Got Master Slider in theme?' ) . '</a>'
                     );
+
                 } else {
                     printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a> or <a href="%5$s">update now</a>.'),
                            $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version,
-                           wp_nonce_url( self_admin_url("update.php?action={$this->slug}-upgrade&plugin=") . $file, 'upgrade-plugin_' . $file)
+                           wp_nonce_url( self_admin_url("update.php?action={$this->slug}-upgrade&plugin=") . $file, 'upgrade-plugin_' . $file )
                     );
                 }
 
                 do_action( "in_plugin_update_message-{$file}", $plugin_data, $r );
 
-                echo '</div></td></tr>';
+                echo '</p></div></td></tr>';
             }
         }
     }

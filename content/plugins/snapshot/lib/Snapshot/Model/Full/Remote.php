@@ -261,10 +261,11 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 	 *
 	 * @param string $frequency Backup frequency
 	 * @param int $time Backup schedule time increment
+	 * @param int $timestamp Optional last backup timestamp
 	 *
 	 * @return bool
 	 */
-	public function update_schedule ($frequency, $time) {
+	public function update_schedule ($frequency, $time, $timestamp=false) {
 		if (empty($frequency) || !in_array($frequency, array('daily', 'weekly', 'monthly'))) return false;
 		if (!is_numeric($time) || $time < 0 || $time > DAY_IN_SECONDS) return false;
 
@@ -279,13 +280,21 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 			$time = 0;
 		}
 
-		$response = Snapshot_Model_Full_Remote_Api::get()->get_dev_api_response('register-settings', array(
+		// Build our arguments
+		$args = array(
 			'domain' => $domain,
 			'backup_freq' => $frequency,
 			'backup_time' => $time,
 			'backup_limit' => Snapshot_Model_Full_Remote_Storage::get()->get_max_backups_limit(),
 			'local_full_backups' => json_encode($lmodel->get_backups()),
-		));
+		);
+
+		// Also include last backup timestamp, if supplied
+		if (!empty($timestamp) && is_numeric($timestamp)) {
+			$args['last_backup'] = $timestamp;
+		}
+
+		$response = Snapshot_Model_Full_Remote_Api::get()->get_dev_api_response('register-settings', $args);
 		if (is_wp_error($response)) return false;
 
 		return 200 === (int)wp_remote_retrieve_response_code($response);

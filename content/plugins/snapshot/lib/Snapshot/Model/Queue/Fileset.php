@@ -42,6 +42,7 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 		}
 
 		$files = array_slice($all_files, $start, $chunk_size);
+		$files = $this->preprocess_fileset($files, $chunk);
 
 		$info['chunk'] = $chunk + 1;
 		if ($start + $chunk_size >= count($all_files)) $info['done'] = true;
@@ -50,6 +51,77 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 		Snapshot_Helper_Log::note("Fetching [" . count($files) . "] files as chunk {$info['chunk']}", "Queue");
 
 		return $files;
+	}
+
+	/**
+	 * Dispatches the queued files preprocessing
+	 *
+	 * @param array $files Array of file names
+	 * @param int $chunk Current chunk
+	 *
+	 * @return array Preprocessed files
+	 */
+	public function preprocess_fileset ($files, $chunk) {
+		return (array)apply_filters(
+			'snapshot-queue-fileset-preprocess',
+			$this->detect_large_files($files, $chunk),
+			$chunk
+		);
+	}
+
+	/**
+	 * Detects large files in queue chunk
+	 *
+	 * @param array $files Files being preprocessed
+	 * @param int $chunk Current chunk
+	 *
+	 * @return array Preprocessed files
+	 */
+	public function detect_large_files ($files, $chunk) {
+		if (!is_array($files)) return $files;
+
+		$threshold = (float)self::get_size_threshold();
+		if (!$threshold) return $files;
+
+		$result = array();
+		foreach ($files as $file) {
+			$size = filesize($file);
+			if (false !== $size && ($size < 0 || $size > $threshold)) { // Negative size takes care of integer overflow
+				// This file is larger than we expected, we might have issues here
+				Snapshot_Helper_Log::warn("Processing a large file: {$file} ({$size})", "Queue");
+
+				// @TODO Perhaps even drop extremely large files here, maybe
+				// 1 or more GBs and over... Not for now though.
+
+				// Reject oversized files - false by default
+				if (apply_filters('snapshot-queue-fileset-reject_oversized', false, $file, $size, $chunk)) {
+					Snapshot_Helper_Log::warn("Rejecting {$file} because of the size constraint", "Queue");
+					continue;
+				}
+			}
+			$result[] = $file;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Gets the internal "large file" threshold
+	 *
+	 * Zero threshold means unlimited
+	 *
+	 * @return float Threshold, in bytes
+	 */
+	public static function get_size_threshold () {
+		$threshold = 1073741824; // 1Gb
+		if (defined('SNAPSHOT_FILESET_LARGE_FILE_SIZE') && SNAPSHOT_FILESET_LARGE_FILE_SIZE) {
+			$threshold = intval(SNAPSHOT_FILESET_LARGE_FILE_SIZE);
+		}
+
+		return (float)apply_filters(
+			'snapshot-queue-fileset-filesize_threshold',
+			$threshold
+		);
 	}
 
 	public function add_source ($src) {

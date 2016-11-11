@@ -5,6 +5,12 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.0.3
+----------------------------------------------------------------------
+- New: large file detection in managed backups.
+- Fix: updated remote API parameters.
+- Fix: minor string fixes.
+
 3.0.2
 ----------------------------------------------------------------------
 - New: add managed backups implicit logging.
@@ -364,4 +370,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-133620-1475035820-au
+133620-1478823539-au

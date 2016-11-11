@@ -79,7 +79,8 @@
 	text-align: left;
 }
 
-.fl-lightbox-header .fl-builder-settings-fields {
+.fl-lightbox-header .fl-builder-settings-fields,
+.fl-lightbox-controls {
 	right: auto;
 	left: 10px;
 }

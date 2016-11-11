@@ -112,7 +112,7 @@ wpmdb.mst = {
 	}
 
 	function maybe_lock_replace_url() {
-		if ( doing_mst_select_subsite() && 'savefile' !== wpmdb_migration_type() ) {
+		if ( doing_mst_select_subsite() && -1 === $.inArray( wpmdb_migration_type(), [ 'savefile', 'find_replace' ] ) ) {
 			$.wpmdb.do_action( 'wpmdb_lock_replace_url', true );
 		} else {
 			$.wpmdb.do_action( 'wpmdb_lock_replace_url', false );
@@ -231,8 +231,7 @@ wpmdb.mst = {
 
 	function maybe_update_local_url_for_subsite( selected_subsite ) {
 		var new_local_url = original_local_url;
-
-		if ( undefined === selected_subsite ) {
+		if ( undefined === selected_subsite || 'find_replace' === wpmdb_migration_type() ) {
 			return;
 		} else if ( undefined !== selected_subsite.domain_and_path ) {
 			new_local_url = '//' + selected_subsite.domain_and_path;

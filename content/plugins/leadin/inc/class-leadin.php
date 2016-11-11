@@ -103,10 +103,10 @@ class WPLeadIn
 
         $args = array(
             'id' => 'leadin-admin-menu',
-            'title' => '<span class="ab-icon" ' . ($wp_version < 3.8 && !is_plugin_active('mp6/mp6.php') ? ' style="margin-top: 3px;"' : '') . '>' . $leadin_icon . '</span><span class="ab-label">Leadin</span>', // alter the title of existing node
+            'title' => '<span class="ab-icon" ' . ($wp_version < 3.8 && !is_plugin_active('mp6/mp6.php') ? ' style="margin-top: 3px;"' : '') . '>' . $leadin_icon . '</span><span class="ab-label">HubSpot</span>', // alter the title of existing node
             'parent' => FALSE,   // set parent to false to make it a top level (parent) node
             'href' => get_bloginfo('wpurl') . '/wp-admin/admin.php?page=leadin',
-            'meta' => array('title' => 'Leadin')
+            'meta' => array('title' => 'HubSpot')
         );
 
         $wp_admin_bar->add_node($args);

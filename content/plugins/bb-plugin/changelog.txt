@@ -1,3 +1,25 @@
+<h4>1.8.8 - 11/08/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated FontAwesome to 4.7.</li>
+	<li>Add tags support for AWeber and ActiveCampaign.</li>
+	<li>Added the "site" parameter to the fl_builder_insert_layout shortcode for inserting layouts from other sites on a network.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed module settings not loading when the site language is set to Farsi.</li>
+	<li>Fixed HTML validation error with the Icon module.</li>
+	<li>Fixed an error when setting the default editor to HTML using the wp_default_editor filter.</li>
+	<li>Fixed YouTube videos not working when column stacking order is reversed.</li>
+	<li>Fixed Content Slider module's navigation arrows not showing in IE11.</li>
+	<li>Fixed not being able to translate the comments popup link in the Posts module.</li>
+	<li>Fixed long template names not showing ellipses in the content panel.</li>
+	<li>Fixed empty global rows when sending a global row to the trash in wp-admin.</li>
+	<li>Fixed the Posts module breaking the render_query method in certain cases.</li>
+	<li>Fixed the position of the settings lightbox resize icon on RTL sites.</li>
+	<li>Fixed not being able to close accordion submenus in the Menu module.</li>
+</ul>
+
 <h4>1.8.7.1 - 10/13/2016</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>

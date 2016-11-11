@@ -111,7 +111,7 @@
 					$subMenu = $link.children( '.sub-menu' ).first(),
 					$href	 = $link.children('.fl-has-submenu-container').first().find('> a').attr('href');
 
-				if( !$subMenu.is(':visible') ){
+				if( !$subMenu.is(':visible') || $(e.target).hasClass('fl-menu-toggle') ){
 					e.preventDefault();	
 				}
 				else {

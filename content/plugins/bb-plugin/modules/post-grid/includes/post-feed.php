@@ -41,7 +41,7 @@
 					<span class="fl-sep"> | </span>
 				<?php endif; ?>
 				<span class="fl-post-feed-comments">
-					<?php comments_popup_link('0 Comments', '1 Comment', '% Comments'); ?>
+					<?php comments_popup_link(__('0 Comments', 'fl-builder'), __('1 Comment', 'fl-builder'), __('% Comments', 'fl-builder')); ?>
 				</span>
 			<?php endif; ?>
 		</div>

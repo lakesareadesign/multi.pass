@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Snapshot
-Version: 3.0.2
+Version: 3.0.3
 Description: This plugin allows you to take quick on-demand backup snapshots of your working WordPress database. You can select from the default WordPress tables as well as custom plugin tables within the database structure. All snapshots are logged, and you can restore the snapshot as needed.
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org/
@@ -91,7 +91,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			$this->plugin_url  = plugin_dir_url( __FILE__ );
 
 			$this->DEBUG                         = false;
-			$this->_settings['SNAPSHOT_VERSION'] = '3.0.2';
+			$this->_settings['SNAPSHOT_VERSION'] = '3.0.3';
 
 			if ( is_multisite() ) {
 				$this->_settings['SNAPSHOT_MENU_URL'] = network_admin_url() . 'admin.php?page=';
@@ -582,7 +582,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			$this->_messages['success-add']      = __( "The Snapshot has been created.", SNAPSHOT_I18N_DOMAIN );
 			$this->_messages['success-delete']   = __( "The Snapshot has been deleted.", SNAPSHOT_I18N_DOMAIN );
 			$this->_messages['success-restore']  = __( "The Snapshot has been restored.", SNAPSHOT_I18N_DOMAIN );
-			$this->_messages['success-settings'] = __( "Settings have been update.", SNAPSHOT_I18N_DOMAIN );
+			$this->_messages['success-settings'] = __( "Settings have been updated.", SNAPSHOT_I18N_DOMAIN );
 			$this->_messages['success-runonce']  = __( "Item scheduled to run.", SNAPSHOT_I18N_DOMAIN );
 
 			if ( ( isset( $_GET['snapshot-action'] ) ) && ( $_GET['snapshot-action'] == "item-archives" ) ) {
@@ -728,7 +728,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			$this->_messages['success-add']      = __( "The Destination has been added.", SNAPSHOT_I18N_DOMAIN );
 			$this->_messages['success-delete']   = __( "The Destination has been deleted.", SNAPSHOT_I18N_DOMAIN );
 			$this->_messages['success-restore']  = __( "The Destination has been restored.", SNAPSHOT_I18N_DOMAIN );
-			$this->_messages['success-settings'] = __( "Settings have been update.", SNAPSHOT_I18N_DOMAIN );
+			$this->_messages['success-settings'] = __( "Settings have been updated.", SNAPSHOT_I18N_DOMAIN );
 
 			$this->process_snapshot_destination_actions();
 			$this->snapshot_admin_plugin_help();

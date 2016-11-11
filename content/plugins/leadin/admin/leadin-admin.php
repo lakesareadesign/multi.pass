@@ -95,18 +95,7 @@ class WPLeadInAdmin
 
         $leadin_icon = LEADIN_PATH . '/images/leadin-icon-16x16-white.png';
 
-        add_menu_page('Leadin', 'Leadin', $capability, 'leadin', array($this, 'leadin_build_app'), $leadin_icon, '25.100713');
-
-        $slumberMode = get_option('leadin_slumber_mode');
-
-        if (!$slumberMode) {
-            add_submenu_page('leadin', 'Contacts', 'Contacts', 'activate_plugins', 'leadin_contacts', array($this, 'leadin_build_app'));
-            add_submenu_page('leadin', 'Lead Flows', 'Lead Flows', 'activate_plugins', 'leadin_flows', array($this, 'leadin_build_app'));
-            add_submenu_page('leadin', 'Collected Forms', 'Collected Forms', 'activate_plugins', 'leadin_collected_forms', array($this, 'leadin_build_app'));
-            add_submenu_page('leadin', 'Settings', 'Settings', 'activate_plugins', 'leadin_settings', array($this, 'leadin_build_app'));
-
-            $submenu['leadin'][0][0] = 'Dashboard';
-        }
+        add_menu_page('HubSpot', 'HubSpot', $capability, 'leadin', array($this, 'leadin_build_app'), $leadin_icon, '25.100713');
 
         if (!isset($_GET['page']) || $_GET['page'] != ('leadin' || 'leadin_settings' || 'leadin_contacts' || 'leadin_flows' || 'leadin_collected_forms')) {
             if (!get_option('leadin_portalId'))

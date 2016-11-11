@@ -5,6 +5,17 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 2.5.2 =
+
+* Added:
+    * Filter: `wp_smush_image`, Boolean, Whether to Smush image or not
+    * Async Optimisation for Auto Smush on upload ( Set WP_SMUSH_ASYNC to false to turn off async optimisation )
+    * Networkwide settings option in a Multisite ( Do review your network settings after update )
+
+* Fixed:
+    * Double slash in file path causing 403 on some of the sites
+    * Localisation error reported by @talgat ( Thank You :) )
+
 = 2.4.5 =
 
 * Fixed:
@@ -222,4 +233,4 @@ Change Log:
 - First release
 
 
-133620-1471628119-au
+133620-1478823551-au

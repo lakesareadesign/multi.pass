@@ -37,7 +37,7 @@ body, p {
 	font-size: 14px;
 	line-height: 23px;
 	margin: 0 0 23px 0;
-	font-family: "Open Sans",sans-serif;
+	font-family: "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;;
 	color: #666;
 }
 
@@ -46,7 +46,7 @@ body{
 }
 
 h1,h2,h3,h4,h5,h6{
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	color: #333333;
 }
 
@@ -147,7 +147,7 @@ ul{
 	padding: 0;
 	line-height:46px;
 	text-transform: uppercase;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	color: #333333;
 	margin-top:23px;
 	margin-bottom:23px;
@@ -232,7 +232,7 @@ background-color: #1a1a1a; /*@*/
 	font-size:15px;
 	font-weight:300;
 	text-transform: uppercase;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 }
 
 #adminmenu div.wp-menu-name{
@@ -309,7 +309,7 @@ div.wp-menu-image:before{
 	margin-left: 32px;
 	line-height: 40px;
 	margin-bottom:3px;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	font-size: 15px;
 	font-weight: 300;
 	border-left: 3px solid transparent;
@@ -364,7 +364,7 @@ div.wp-menu-image:before{
 	margin-left: 23px;
 	line-height: 40px;
 	margin-bottom:3px;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	font-size: 15px;
 	font-weight: 300;
 	border-left: 3px solid transparent;
@@ -441,7 +441,7 @@ div.wp-menu-image:before{
 	font-size:15px;
 	font-weight:300;
 	text-transform: uppercase;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	color: #a9a9a9;
 }
 
@@ -563,7 +563,7 @@ div.wp-menu-image:before{
 	font-size:17px;
 	font-weight:300;
 	text-transform: uppercase;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	border-bottom: 0px solid #f95e44;
 	padding: 0 23px;
 	background: #f95e44;
@@ -653,12 +653,22 @@ div.wp-menu-image:before{
 	line-height: 36px;
 	font-weight:300;
 	text-transform: uppercase;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 }
 
 .category-tabs{
-	margin: 0 0 2px 0;
-
+	margin: 0 0 0px 0;
+}
+.category-tabs,
+#product_cat-tabs{
+	display: inline-block;
+	width: 100%;
+}
+#product_cat-tabs li{
+	width: auto;
+	max-width: 40%;
+	display: inline-block;
+	margin-bottom: -1px;
 }
 
 .categorydiv div.tabs-panel, .customlinkdiv div.tabs-panel, .posttypediv div.tabs-panel, .taxonomydiv div.tabs-panel, .wp-tab-panel{
@@ -720,7 +730,7 @@ div.wp-menu-image:before{
 	font-size:14px;
 	font-weight:300;
 	text-transform: uppercase;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	padding: 0 23px;
 	margin: 0px;
 }
@@ -731,7 +741,7 @@ div.wp-menu-image:before{
 }
 
 #activity-widget #the-comment-list .comment-item h4{
-	font-family: "Open Sans",sans-serif;
+	font-family: "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;;
 	padding: 0;
 }
 
@@ -828,7 +838,7 @@ div.wp-menu-image:before{
 	font-size:21px;
 	font-weight:300;
 	text-transform: uppercase;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	border-bottom: 0px solid #f95e44;
 	padding: 0 23px;
 	background: #f95e44;
@@ -838,7 +848,7 @@ div.wp-menu-image:before{
 
 .welcome-panel .about-description{
 	padding: 0 23px;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	line-height:23px;
 	font-size:17px;
 	font-weight:300;
@@ -1033,7 +1043,7 @@ form h3, p.submit{
 	-moz-box-shadow: none;
 	-o-box-shadow: none;
 	vertical-align: top;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	font-weight: 300;
 	border-radius: 0px;
 	font-size: 14px;
@@ -1062,7 +1072,7 @@ form h3, p.submit{
 	-o-box-shadow: none;
 	color: #fff;
 	text-decoration: none;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	font-weight: 300;
 	border-radius: 0px;
 	font-size: 15px;
@@ -1119,7 +1129,7 @@ form h3, p.submit{
 	width: 100%;
 	outline: 0;
 	margin: 0;
-	font-family: Oswald, Helvetica, Arial, sans-serif;
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;;
 	background: #ffffff;
 	border: 1px solid #e8e8e8;
 	font-weight: 300;
@@ -1274,7 +1284,7 @@ th.manage-column a, th.sortable a:active, th.sortable a:focus, th.sortable a:hov
 
 .widefat tfoot tr th, .widefat thead tr th, 
 th.manage-column a, th.sortable a{
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	font-weight: 300;
 	font-size: 16px;
 }
@@ -1402,11 +1412,16 @@ a.post-format-icon:hover:before, a.post-state-format:hover:before{
 
 .row-actions {
 	padding-left: 5px;
+	display: block;
+	width: 100%;
+	margin-top: 10px;
 }
-
+.row-actions span.id{
+	color: #757575;
+}
 .row-actions span {
 	margin-left: -5px;
-	margin-bottom: 2px;
+	margin-bottom: 5px;
 	display: inline-block;
 }
 
@@ -1448,7 +1463,7 @@ a.post-format-icon:hover:before, a.post-state-format:hover:before{
 .form-wrap label{
 	font-size: 16px;
 	line-height: 23px;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	font-weight: 300;
 }
 
@@ -1690,7 +1705,7 @@ position: relative;
 	-moz-box-shadow: none;
 	-o-box-shadow: none;
 	-ms-box-shadow: none;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	background-color: #ffffff;
 }
 
@@ -1713,7 +1728,7 @@ position: relative;
 .theme-browser .theme .more-details{
 	border-radius: 0;
 	font-weight: 300;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	background-color: #f95e44;
 	text-shadow: none;
 }
@@ -1884,10 +1899,10 @@ div#widgets-right .widgets-holder-wrap.widget-hover{
 	overflow: hidden;
 	background: #fbfbfb;
 }
-
-.wp-admin select {
+body .tablenav .actions select,
+body .wp-admin select {
 	padding: 8px;
-	line-height: 23px;
+	line-height: 32px;
 	height: auto;
 	vertical-align: middle;
 }
@@ -2081,7 +2096,7 @@ td.plugin-title strong, td.post-title strong{
 	color: #777777;
 	font-size: 17px;
 	font-style: normal;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	font-weight: 300;
 }
 
@@ -2168,7 +2183,7 @@ td.plugin-title strong, td.post-title strong{
 	margin: 0;
 	padding: 42px 0 0;
 	font-style: normal;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	font-weight: 300;
 }
 
@@ -2224,7 +2239,7 @@ td.plugin-title strong, td.post-title strong{
 	height: 69px;
 	line-height: 23px;
 	font-weight: 300;
-	font-family: Oswald, Helvetica, Arial, sans-serif; /*@*/
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;; /*@*/
 	font-size: 16px;
 }
 
@@ -2309,7 +2324,7 @@ html.wp-toolbar{
 }
 
 #wpadminbar {
-	font: 400 14px/40px "Open Sans",sans-serif;
+	font: 400 14px/40px "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;;
 	line-height: 40px;
 	min-width: 600px;
 	z-index: 99999;
@@ -2771,7 +2786,7 @@ logo bg
 	margin-left: 32px;
 	line-height: 40px;
 	margin-bottom: 3px;
-	font-family: Oswald, Helvetica, Arial, sans-serif;
+	font-family: Oswald, Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;;
 	font-size: 15px;
 	font-weight: 300;
 }
@@ -3149,12 +3164,12 @@ input[type=checkbox], input[type=color], input[type=date], input[type=datetime-l
 
 .toplevel_page__ultraoptions .redux_field_th{
 	font-weight: 700;
-	font-family: "Open Sans",sans-serif;
+	font-family: "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;;
 }
 
 .toplevel_page__ultraoptions .redux_field_th span:first-child{
 	font-weight: 400;
-	font-family: "Open Sans",sans-serif;
+	font-family: "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;;
 }
 
 .toplevel_page__ultraoptions .redux-main .wp-picker-container .wp-color-result,

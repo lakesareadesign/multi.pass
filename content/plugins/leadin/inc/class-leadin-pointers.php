@@ -62,7 +62,7 @@ class LI_Pointers
         $id = '#toplevel_page_leadin';
 
         $content = '<h3>' . __('So close...', 'leadin') . '</h3>';
-        $content .= '<p>' . __('Leadin needs just a bit more info to get up and running. Click on \'Complete Setup\' to complete the setup.', 'leadin') . '</p>';
+        $content .= '<p>' . __('HubSpot needs just a bit more info to get up and running. Click on \'Complete Setup\' to complete the setup.', 'leadin') . '</p>';
 
         $opt_arr = array(
             'content' => $content,

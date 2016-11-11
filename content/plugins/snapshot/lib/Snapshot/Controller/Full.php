@@ -261,7 +261,11 @@ class Snapshot_Controller_Full {
 			// Also update remote schedule
 			// This is because we rely on this call to cache the icon status timestamp
 			// https://app.asana.com/0/11140230629075/167863403840660
-			$status = $this->_model->update_remote_schedule();
+			$timestamp = $backup->get_timestamp();
+			$status = $this->_model->update_remote_schedule($timestamp);
+
+			if ($status) Snapshot_Helper_Log::info("Service received our last backup info");
+			else Snapshot_Helper_Log::warn("We encountered an issue commmunicating last backup info to service");
 		}
 
 		return $status;

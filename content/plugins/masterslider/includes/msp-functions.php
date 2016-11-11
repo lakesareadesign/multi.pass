@@ -375,12 +375,13 @@ function msp_the_absolute_media_url( $url ){
     if( ! function_exists( 'msp_get_the_absolute_media_url' ) ){
 
         function msp_get_the_absolute_media_url( $url ){
-            if( ! isset( $url ) || empty( $url ) )    return '';
+            if( empty( $url ) )
+                return '';
 
             if( msp_is_absolute_url( $url ) || msp_contains_upload_dir( $url ) ) return $url;
 
             $uploads = wp_upload_dir();
-            return set_url_scheme( $uploads['baseurl'] . $url );
+            return apply_filters( 'msp_get_the_absolute_media_url', set_url_scheme( $uploads['baseurl'] . $url ) ) ;
         }
 
     }

@@ -1315,7 +1315,9 @@
 					href = FLBuilder._exitUrl;
 				}
 				else {
-					href = href.replace('?fl_builder', '').replace('&fl_builder', '');
+					href = href.replace( '?fl_builder&', '?' );
+					href = href.replace( '?fl_builder', '' );
+					href = href.replace( '&fl_builder', '' );
 				}
 				
 				window.location.href = href;

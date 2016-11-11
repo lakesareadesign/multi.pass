@@ -14,6 +14,11 @@ function msp_get_slider_starter_sections () {
             'desc'  => ''
         ),
         array(
+            'id'  => 'masterslider_pro_custom_samples1',
+            'title' => sprintf( __( 'Premium Sample Sliders %s', MSWP_TEXT_DOMAIN ), '( <a href="'. admin_url('admin.php?page=masterslider-setting') .'" target="_blank">'. __( 'Activation', MSWP_TEXT_DOMAIN ) .'</a> )' ),
+            'desc'  => ''
+        ),
+        array(
             'id' 	=> 'masterslider_dynamic_group',
             'title' => __( 'Dynamic Sliders', MSWP_TEXT_DOMAIN ),
             'desc'  => ''
@@ -25,7 +30,7 @@ function msp_get_slider_starter_sections () {
 
 
 function msp_get_slider_starter_fields () {
-	
+
 	$wc_not_installed = msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ? 'false' : 'true';
 
 	$starters = array();
@@ -142,7 +147,7 @@ function msp_get_slider_starter_fields () {
 			'selected' 	=> '',
 			'screenshot'=> MSWP_AVERTA_ADMIN_URL . '/assets/images/starters/creative-agency.jpg'
 		),
-		
+
 	);
 
 
@@ -203,8 +208,8 @@ function msp_get_slider_starter_fields () {
 			'screenshot'=> MSWP_AVERTA_ADMIN_URL . '/assets/images/starters/post-slider-tabs-right.jpg'
 		)
 	);
-	
-	
+
+
 	return apply_filters( 'masterslider_starter_fields', $starters );
 }
 

@@ -11,7 +11,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  *
  *	if ( !defined( 'BP_EXAMPLE_CONSTANT' ) )
- *		define ( 'BP_EXAMPLE_CONSTANT', 'some value' // or some value without quotes if integer );
+ *		define ( 'BP_EXAMPLE_CONSTANT', 'some value' // or some value without quotes if integer );	     	 	 				 			
  */
 
 /**

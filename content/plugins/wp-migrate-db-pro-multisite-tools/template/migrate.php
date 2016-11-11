@@ -18,6 +18,7 @@ if ( $this->is_valid_licence() ) {
 			<span class="action-text savefile"><?php echo $this->get_string( 'export_subsite_option' ); ?></span>
 			<span class="action-text pull" style="display: none;"><?php echo $this->get_string( 'pull_subsite_option' ); ?></span>
 			<span class="action-text push" style="display: none;"><?php echo $this->get_string( 'push_subsite_option' ); ?></span>
+			<span class="action-text find_replace" style="display:none;"><?php echo $this->get_string( 'find_replace_subsite_option' ); ?></span>
 		</label>
 
 		<div class="indent-wrap expandable-content">

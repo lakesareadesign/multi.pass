@@ -112,8 +112,12 @@ class Master_Slider {
 		// Before init action
 		do_action( 'before_masterslider_init' );
 
-		// Load plugin text domain
-		$this->load_plugin_textdomain();
+		// @Deprecate WP Version 5.0
+        global $wp_version;
+        if ( version_compare( $wp_version, '4.6', '<' ) ) {
+            // Load plugin text domain
+            $this->load_plugin_textdomain();
+        }
 
 		// Init action
 		do_action( 'masterslider_init' );

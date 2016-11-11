@@ -158,6 +158,7 @@ final class FLBuilderServiceAWeber extends FLBuilderService {
 			$account          = $api->getAccount( $account_data['access_token'], $account_data['access_secret'] );
 			$lists            = $account->loadFromUrl( '/accounts/' . $account->id . '/lists' );
 			$response['html'] = $this->render_list_field( $lists, $settings );
+			$response['html'] .= $this->render_tags_field( $settings );
 		} 
 		catch ( AWeberException $e ) {
 			$response['error'] = $e->getMessage();
@@ -199,6 +200,32 @@ final class FLBuilderServiceAWeber extends FLBuilderService {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Render markup for the tags field. 
+	 *
+	 * @since 1.8.8
+	 * @param object $settings Saved module settings.
+	 * @return string The markup for the tags field.
+	 * @access private
+	 */
+	private function render_tags_field ( $settings )
+	{
+		ob_start();
+
+		FLBuilder::render_settings_field( 'tags', array(
+			'row_class'     => 'fl-builder-service-connect-row',
+			'class'         => 'fl-builder-service-connect-input',
+			'type'          => 'text',
+			'label'         => _x( 'Tags', 'A comma separated list of tags.', 'fl-builder' ),
+			'help'          => __( 'A comma separated list of tags.', 'fl-builder' ),
+			'preview'       => array(
+				'type'          => 'none'
+			)
+		),$settings);
+
+		return ob_get_clean();
+	}
+
 	/** 
 	 * Subscribe an email address to AWeber.
 	 *
@@ -223,8 +250,12 @@ final class FLBuilderServiceAWeber extends FLBuilderService {
 			$api    = $this->get_api( $account_data['auth_code'] );
 			$data   = array( 
 				'ws.op' => 'create',
-				'email' => $email 
+				'email' => $email,
 			);
+			
+			if ( isset( $settings->tags ) ) {
+				$data['tags'] = array( $settings->tags );
+			}
 			
 			if ( $name ) {
 				$data['name'] = $name;

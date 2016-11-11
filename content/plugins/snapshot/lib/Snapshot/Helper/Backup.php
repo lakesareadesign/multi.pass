@@ -293,6 +293,18 @@ class Snapshot_Helper_Backup {
 	}
 
 	/**
+	 * Fetch backup timestamp
+	 *
+	 * @return int UNIX timestamp
+	 */
+	public function get_timestamp () {
+		return !empty($this->_timestamp)
+			? (int)$this->_timestamp
+			: 0
+		;
+	}
+
+	/**
 	 * Gets the final destination filename.
 	 *
 	 * @return string
@@ -302,7 +314,7 @@ class Snapshot_Helper_Backup {
 
 		if (empty($filename)) {
 			$intermediate_path = $this->get_archive_path($this->_idx);
-			$filename = self::FINAL_PREFIX . '-' . $this->_timestamp . '-' . $this->_idx . '-' . Snapshot_Helper_Utility::get_file_checksum($intermediate_path) . '.zip';
+			$filename = self::FINAL_PREFIX . '-' . $this->get_timestamp() . '-' . $this->_idx . '-' . Snapshot_Helper_Utility::get_file_checksum($intermediate_path) . '.zip';
 		}
 
 		return $filename;

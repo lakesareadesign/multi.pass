@@ -49,7 +49,7 @@ if ( ! class_exists( 'WPSmushNextGenBulk' ) ) {
 				$wpsmushnextgenadmin->resmush_ids = get_option( 'wp-smush-nextgen-resmush-list' );
 			}
 
-			$resmush_count = ! empty( $wpsmushnextgenadmin->resmush_ids ) ? count( $wpsmushnextgenadmin->resmush_ids ) : count( $wpsmushnextgenadmin->resmush_ids = get_option( 'wp-smush-nextgen-resmush-list' ) );
+			$resmush_count = ! empty( $wpsmushnextgenadmin->resmush_ids ) ? count( $wpsmushnextgenadmin->resmush_ids ) : count( $wpsmushnextgenadmin->resmush_ids = get_option( 'wp-smush-nextgen-resmush-list' ) );								 	 	   		   
 			$smushed_count = $wpsmushnextgenstats->get_ngg_images( 'smushed', true );
 
 			$stats['total'] = $wpsmushnextgenstats->total_count();

@@ -24,6 +24,23 @@ class QueueTest extends WP_UnitTestCase {
 		$this->assertNotEquals($set1, $set2);
 	}
 
+	public function test_threshold () {
+		$default = 1024 * 1024 * 1024;
+		$this->assertEquals(Snapshot_Model_Queue_Fileset::get_size_threshold(), $default, 'Default threshold should be 1Gb');
+
+		if (!defined('SNAPSHOT_FILESET_LARGE_FILE_SIZE')) {
+			$defined = 13 * 1024 * 1024;
+			define('SNAPSHOT_FILESET_LARGE_FILE_SIZE', $defined);
+			$this->assertEquals(Snapshot_Model_Queue_Fileset::get_size_threshold(), $defined, 'Defined threshold should be respected');
+		}
+
+		$filtered = $this->_filter_threshold_size();
+		add_filter('snapshot-queue-fileset-filesize_threshold', array($this, '_filter_threshold_size'));
+		$this->assertEquals(Snapshot_Model_Queue_Fileset::get_size_threshold(), $filtered, 'Filtered threshold should be respected');
+	}
+
+	public function _filter_threshold_size () { return 1024 * 1024 * 5; }
+
 	public function test_fileset_is_done () {
 		$queue = new Snapshot_Model_Queue_Fileset($this->_queue);
 		$queue->clear();

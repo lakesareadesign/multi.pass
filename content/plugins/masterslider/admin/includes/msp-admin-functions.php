@@ -219,7 +219,7 @@ if ( ! function_exists( 'axpp' ) ) {
 		} elseif ( $dump ) {
 			echo '<pre>'; var_dump( $expression ); echo '</pre>';
 		} else {
-			echo '<pre>'; print_r ( $expression ); echo '</pre>';
+			echo '<pre style="margin-left:170px;">'; print_r ( $expression ); echo '</pre>';
 		}
 		return true;
 	}

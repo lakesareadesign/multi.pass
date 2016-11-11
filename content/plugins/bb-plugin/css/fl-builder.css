@@ -459,6 +459,8 @@ html.fl-builder-edit {
 }
 .fl-builder-block-template .fl-builder-block-title {
 	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .ui-sortable-helper .fl-builder-block-template-image {
 	display: none !important;

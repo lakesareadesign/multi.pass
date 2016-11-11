@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Snapshot 3.0.2\n"
+"Project-Id-Version: Snapshot 3.0.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/snapshot\n"
-"POT-Creation-Date: 2016-09-27 08:11:37+00:00\n"
+"POT-Creation-Date: 2016-11-01 05:01:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -45,15 +45,15 @@ msgstr ""
 msgid "Monthly Managed Snapshot"
 msgstr ""
 
-#: lib/Snapshot/Helper/Backup.php:81 lib/Snapshot/Helper/Backup.php:331
+#: lib/Snapshot/Helper/Backup.php:81 lib/Snapshot/Helper/Backup.php:343
 msgid "Invalid destination: %s"
 msgstr ""
 
-#: lib/Snapshot/Helper/Backup.php:372
+#: lib/Snapshot/Helper/Backup.php:384
 msgid "Backup path creation failed: %s"
 msgstr ""
 
-#: lib/Snapshot/Helper/Backup.php:373
+#: lib/Snapshot/Helper/Backup.php:385
 msgid "Backup path not writable: %s"
 msgstr ""
 
@@ -888,15 +888,15 @@ msgid ""
 "Destination class!"
 msgstr ""
 
-#: lib/Snapshot/Model/Full/Backup.php:223
+#: lib/Snapshot/Model/Full/Backup.php:225
 msgid "Daily"
 msgstr ""
 
-#: lib/Snapshot/Model/Full/Backup.php:224
+#: lib/Snapshot/Model/Full/Backup.php:226
 msgid "Weekly"
 msgstr ""
 
-#: lib/Snapshot/Model/Full/Backup.php:225
+#: lib/Snapshot/Model/Full/Backup.php:227
 msgid "Monthly"
 msgstr ""
 
@@ -2545,7 +2545,7 @@ msgid "The Snapshot has been restored."
 msgstr ""
 
 #: snapshot.php:585 snapshot.php:731
-msgid "Settings have been update."
+msgid "Settings have been updated."
 msgstr ""
 
 #: snapshot.php:586

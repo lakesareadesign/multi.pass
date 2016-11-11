@@ -81,7 +81,7 @@ class Axiom_Plugin_Check_Update {
 
         $this->request_name     = empty( $item_request_name ) ? $this->slug : $item_request_name;
 
-        // define the alternative API for updating checking
+        // define the alternative API for checking for updates
         add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update') );
 
         // Define the alternative response for information checking

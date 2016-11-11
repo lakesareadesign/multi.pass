@@ -11,7 +11,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		parent::__construct( $plugin_file_path );
 		$this->plugin_slug    = 'wp-migrate-db-pro-multisite-tools';
 		$this->plugin_version = $GLOBALS['wpmdb_meta']['wp-migrate-db-pro-multisite-tools']['version'];
-		if ( ! $this->meets_version_requirements( '1.6.1' ) ) {
+		if ( ! $this->meets_version_requirements( '1.7' ) ) {
 			return;
 		}
 
@@ -41,6 +41,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		add_filter( 'wpmdb_preserved_options', array( $this, 'filter_preserved_options' ), 10, 2 );
 		add_filter( 'wpmdb_preserved_options_data', array( $this, 'filter_preserved_options_data' ), 10, 2 );
 		add_filter( 'wpmdb_get_alter_queries', array( $this, 'filter_get_alter_queries' ) );
+		add_filter( 'wpmdb_replace_site_urls', array( $this, 'filter_replace_site_urls' ) );
 
 		global $wpmdbpro;
 		$this->wpmdbpro = $wpmdbpro;
@@ -231,13 +232,14 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		}
 
 		$strings = array(
-			'migration_failed'        => __( 'Migration failed', 'wp-migrate-db-pro-multisite-tools' ),
-			'please_select_a_subsite' => __( 'Please select a subsite.', 'wp-migrate-db-pro-multisite-tools' ),
-			'please_enter_a_prefix'   => __( 'Please enter a new table prefix.', 'wp-migrate-db-pro-multisite-tools' ),
-			'new_prefix_contents'     => __( 'Please only enter letters, numbers or underscores for the new table prefix.', 'wp-migrate-db-pro-multisite-tools' ),
-			'export_subsite_option'   => __( 'Export a subsite as a single site install', 'wp-migrate-db-pro-multisite-tools' ),
-			'pull_subsite_option'     => __( 'Pull into a specific subsite', 'wp-migrate-db-pro-multisite-tools' ),
-			'push_subsite_option'     => __( 'Push a specific subsite', 'wp-migrate-db-pro-multisite-tools' ),
+			'migration_failed'            => __( 'Migration failed', 'wp-migrate-db-pro-multisite-tools' ),
+			'please_select_a_subsite'     => __( 'Please select a subsite.', 'wp-migrate-db-pro-multisite-tools' ),
+			'please_enter_a_prefix'       => __( 'Please enter a new table prefix.', 'wp-migrate-db-pro-multisite-tools' ),
+			'new_prefix_contents'         => __( 'Please only enter letters, numbers or underscores for the new table prefix.', 'wp-migrate-db-pro-multisite-tools' ),
+			'export_subsite_option'       => __( 'Export a subsite as a single site install', 'wp-migrate-db-pro-multisite-tools' ),
+			'pull_subsite_option'         => __( 'Pull into a specific subsite', 'wp-migrate-db-pro-multisite-tools' ),
+			'push_subsite_option'         => __( 'Push a specific subsite', 'wp-migrate-db-pro-multisite-tools' ),
+			'find_replace_subsite_option' => __( 'Run a find/replace on a specific subsite', 'wp-migrate-db-pro-multisite-tools' ),
 		);
 
 		return $strings;
@@ -546,7 +548,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		$source_site_url        = '//' . untrailingslashit( $this->scheme_less_url( $source_site_url ) );
 		$source_uploads_baseurl = '//' . untrailingslashit( $this->scheme_less_url( $source_uploads_baseurl ) );
 
-		if ( 'savefile' === $intent ) {
+		if ( in_array( $intent, array( 'savefile', 'find_replace' ) ) ) {
 			$target_site_url        = '';
 			$target_uploads_baseurl = '';
 			$target_short_basedir   = '';
@@ -601,6 +603,10 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	 * This is run in response to the wpmdb_finalize_target_table_name filter on the target site.
 	 */
 	public function filter_finalize_target_table_name( $table_name, $intent, $site_details ) {
+		if ( 'find_replace' === $intent ) {
+			return $table_name;
+		}
+
 		$blog_id = $this->selected_subsite();
 
 		if ( 1 > $blog_id ) {
@@ -1047,6 +1053,36 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	}
 
 	/**
+	 * Filters the URLs used by WPMDB_Replace.
+	 *
+	 * @param array $site_urls
+	 *
+	 * @return array
+	 */
+	function filter_replace_site_urls( $site_urls ) {
+		if ( isset( $this->form_data['mst_select_subsite'] ) && '1' === $this->form_data['mst_select_subsite'] ) {
+			$selected_subsite_id = $this->form_data['mst_selected_subsite'];
+
+			$which = ( 'pull' === $this->state_data['intent'] ) ? 'remote' : 'local';
+
+			if ( isset( $this->state_data['site_details'][ $which ]['subsites_info'][ $selected_subsite_id ] ) ) {
+
+				$subsite_base = $this->state_data['site_details'][ $which ]['subsites_info'][ $selected_subsite_id ];
+				$subsite_url  = $subsite_base['site_url'];
+
+				// Use home_url if it's set.
+				if ( isset( $subsite_base['home_url'] ) ) {
+					$subsite_url = $subsite_base['home_url'];
+				}
+
+				$site_urls[ $which ] = $subsite_url;
+			}
+		}
+
+		return $site_urls;
+	}
+
+	/**
 	 * Does the passed subsite (ID) exist?
 	 *
 	 * @param int $blog_id
@@ -1058,13 +1094,18 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 			return false;
 		}
 
-		$blogs = wp_get_sites( array( 'limit' => 0 ) );
+		if ( version_compare( $GLOBALS['wp_version'], '4.6', '>=' ) ) {
+			$blogs = get_sites( array( 'limit' => 0 ) );
+		} else {
+			$blogs = wp_get_sites( array( 'limit' => 0 ) );
+		}
 
 		if ( empty( $blogs ) ) {
 			return false;
 		}
 
 		foreach ( $blogs as $blog ) {
+			$blog = (array) $blog;
 			if ( ! empty( $blog['blog_id'] ) && $blog_id == $blog['blog_id'] ) {
 				return true;
 			}

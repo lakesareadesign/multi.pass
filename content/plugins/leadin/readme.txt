@@ -1,47 +1,45 @@
-=== Contact Forms & Website Analytics by Leadin ===
-Contributors: leadin, sredmond
+=== Contact Forms & Website Analytics by HubSpot (formerly Leadin) ===
+Contributors: leadin, sredmond, HubSpotDev
 Tags:  crm, contacts, lead tracking, click tracking, visitor tracking, analytics, marketing automation, inbound marketing, subscription, marketing, lead generation, mailchimp, constant contact, newsletter, popup, popover, email list, email, contacts database, contact form, forms, form widget, popup form
 Requires at least: 3.7
 Tested up to: 4.6
-Stable tag: 5.5.3
+Stable tag: 6.0.0
 
-Leadin is an easy-to-use contact form and marketing analytics plugin for your website that helps you better understand your website visitors.
+HubSpot Marketing Free is an easy-to-use contact form and marketing analytics plugin for your website that helps you better understand your website visitors.
 
 == Description ==
 
 = Get to know your website visitors =
 
-<a href="https://leadin.hubspot.com" alt="WordPress marketing automation and lead tracking plugin" target="_blank">Leadin</a> is an easy-to-use marketing automation and lead tracking plugin for WordPress that helps you better understand your web site visitors.
+<a href="https://leadin.hubspot.com" alt="WordPress marketing automation and lead tracking plugin" target="_blank">HubSpot Marketing Free</a> is an easy-to-use marketing automation and lead tracking plugin for WordPress that helps you better understand your web site visitors.
 
 [youtube https://www.youtube.com/watch?v=tcMYv2r3ecg]
 
 = Find out who's on your site and what they're doing =
-When someone visits your site, you want to know more about them. What pages they've visited, when they return, and what social networks they’re on. Leadin gives you the details you need to make your next move.
+When someone visits your site, you want to know more about them. What pages they've visited, when they return, and what social networks they’re on. HubSpot gives you the details you need to make your next move.
 
 = More context for your conversations =
-Leadin automatically finds publicly available information about each of your contacts. Details such as location, work history, and company info can give you more context when you reach out.
+HubSpot automatically finds publicly available information about each of your contacts. Details such as location, work history, and company info can give you more context when you reach out.
 
 = Convert more visitors to contacts =
-Use the optional popup form to prevent people from slipping through the cracks. The popup also uses the contact data to intelligently know when to appear.
+Use the optional popup form (lead flow) to prevent people from slipping through the cracks. The popup also uses the contact data to intelligently know when to appear.
 
 = Keep your contacts in sync with your email tool =
-Leadin syncs your contacts to an email list of your choice without replacing any forms.
+HubSpot syncs your contacts to an email list of your choice in MailChimp, without replacing any forms.
 
 = Find out what content and traffic sources convert the best =
 Our simple analytics show you what sources of traffic and content are driving the most contacts. No more complicated Google Analytics reports.
 
 = How does it work? =
 
-1. When you activate the WordPress plugin, Leadin will track each anonymous visitor to your site with a cookie.
-2. Leadin automatically identifies and watches each existing form on your site for submissions.
-3. Once someone fills out any other form on your site, Leadin will identify that person with their email address. and add them to your contact list.
+1. When you activate the WordPress plugin, HubSpot Marketing Free will track each anonymous visitor to your site with a cookie.
+2. HubSpot automatically identifies and watches each existing form on your site for submissions.
+3. Once someone fills out any other form on your site, HubSpot will identify that person with their email address. and add them to your contact list.
 4. You'll also receive an email with a link to the new contact record with all of their visit history. (check the screenshots sections to see it in action)
 
-= Who's using Leadin? =
+= Who's using HubSpot Marketing Free? =
 
-**<a href="http://www.extremeinbound.com/leadin-wordpress-crm-inbound-plugin/" target="_blank">Alan Perlman</a>**: *“I can use Leadin to get a sense of how engaged certain contacts are, and I can learn more about their behavior on my website to better drive the conversation and understand what they’re interested in or looking for.”*
-
-**<a href="http://thewpvalet.com/wordpress-lead-tracking/" target="_blank">Adam W. Warner</a>**: *“…the Leadin plugin has been very useful so far in giving us an idea of the actual visitor paths to our contact forms vs. the paths we’ve intended.”*
+**<a href="http://www.extremeinbound.com/leadin-wordpress-crm-inbound-plugin/" target="_blank">Alan Perlman</a>**: *“I can use HubSpot Marketing Free to get a sense of how engaged certain contacts are, and I can learn more about their behavior on my website to better drive the conversation and understand what they’re interested in or looking for.”*
 
 
 Having trouble? Check out our <a href="https://leadin.hubspot.com/knowledge/">help documentation & support</a>
@@ -50,7 +48,6 @@ Having trouble? Check out our <a href="https://leadin.hubspot.com/knowledge/">he
 
 1. Upload the 'leadin' folder to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Add an email address under 'Leadin' in your settings panel
 
 Having trouble? Check out our <a href="https://leadin.hubspot.com/knowledge/" target="_blank">help documentation & support</a>
 
@@ -60,17 +57,19 @@ Having trouble? Check out our <a href="https://leadin.hubspot.com/knowledge/" ta
 == Screenshots ==
 
 1. See the visit history of each contact.
-2. Get an email notification for every new lead.
-3. Leadin Dashboard shows you where your leads are coming from.
-4. All your contacts stored safely in one place.
-5. Collect more contacts with the pop-up subscribe widget.
+2. Dashboard shows you where your leads are coming from.
+3. All your contacts stored safely in one place.
+4. Collect more contacts with the pop-up subscribe widget.
 
 == Changelog ==
 
-- Current version: 5.5.3
-- Current version release: 2016-09-01
+- Current version: 6.0.0
+- Current version release: 2016-11-10
 
-= 5.5.3 (2016.09.01)
+= 6.0.0 (2016.11.10) =
+- Leadin is now HubSpot Marketing Free - learn more at http://www.hubspot.com/products/marketing/free
+
+= 5.5.3 (2016.09.01) =
 - Clean up remaining deployment issues
 
 = 5.5.1 (2016.08.30) =
