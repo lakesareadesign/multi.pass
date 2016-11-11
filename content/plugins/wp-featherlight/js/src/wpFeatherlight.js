@@ -7,7 +7,7 @@
 (function( window, $, undefined ) {
 	'use strict';
 
-	var $body = $( 'body' );
+	var $body = $( document.body );
 
 	/**
 	 * Checks href targets to see if a given anchor is linking to an image.
@@ -16,7 +16,7 @@
 	 * @return mixed
 	 */
 	function testImages( index, element ) {
-		return /(png|jpg|jpeg|gif|tiff|bmp)$/.test(
+		return /(.png|.jpg|.jpeg|.gif|.tiff|.bmp)$/.test(
 			$( element ).attr( 'href' ).toLowerCase().split( '?' )[0].split( '#' )[0]
 		);
 	}
@@ -30,7 +30,7 @@
 	 * @return void
 	 */
 	function findImages() {
-		$( 'a[href]' ).filter( testImages ).attr( 'data-featherlight', 'image' );
+		$body.find( 'a[href]' ).filter( testImages ).attr( 'data-featherlight', 'image' );
 	}
 
 	/**
@@ -48,11 +48,9 @@
 			$galleryItems = $galleryObj.find( '.tiled-gallery-item a' );
 		}
 
-		if ( ! $galleryItems.attr( 'data-featherlight' ) ) {
-			return;
+		if ( $galleryItems.attr( 'data-featherlight' ) ) {
+			$galleryItems.featherlightGallery();
 		}
-
-		$galleryItems.featherlightGallery();
 	}
 
 	/**
@@ -62,13 +60,11 @@
 	 * @return void
 	 */
 	function findGalleries() {
-		var $gallery = $( '.gallery, .tiled-gallery' );
+		var $gallery = $body.find( '.gallery, .tiled-gallery' );
 
-		if ( 0 === $gallery.length ) {
-			return;
+		if ( 0 !== $gallery.length ) {
+			$.each( $gallery, buildGalleries );
 		}
-
-		$.each( $gallery, buildGalleries );
 	}
 
 	/**

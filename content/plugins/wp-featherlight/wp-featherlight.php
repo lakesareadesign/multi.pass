@@ -1,19 +1,23 @@
 <?php
 /**
  * Plugin Name:  WP Featherlight
- * Plugin URI:   http://www.wpsitecare.com/wp-featherlight/
+ * Plugin URI:   https://www.wpsitecare.com/wp-featherlight/
  * Description:  An ultra lightweight jQuery lightbox for WordPress images and galleries.
- * Version:      0.3.0
+ * Version:      1.0.0
  * Author:       WP Site Care
- * Author URI:   http://www.wpsitecare.com
+ * Author URI:   https://www.wpsitecare.com
  * License:      GPL-2.0+
  * License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:  wp-featherlight
  * Domain Path:  /languages
+ *
+ * @package   WPFeatherlight
+ * @copyright Copyright (c) 2016, WP Site Care
+ * @license   GPL-2.0+
+ * @since     0.1.0
  */
 
-// Prevent direct access.
-defined( 'ABSPATH' ) || exit;
+defined( 'WPINC' ) || die;
 
 // Load the main plugin class.
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-plugin.php';

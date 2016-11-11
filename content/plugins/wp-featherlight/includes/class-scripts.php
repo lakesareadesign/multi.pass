@@ -3,52 +3,73 @@
  * Methods used for filtering and displaying WP Featherlight images.
  *
  * @package   WPFeatherlight\Scripts
- * @author    Robert Neu
- * @copyright Copyright (c) 2015, WP Site Care
+ * @copyright Copyright (c) 2016, WP Site Care
  * @license   GPL-2.0+
  * @since     0.1.0
  */
 
-// Prevent direct access.
-defined( 'ABSPATH' ) || exit;
-
+/**
+ * The main featherlight script and style loader.
+ *
+ * @since 0.1.0
+ */
 class WP_Featherlight_Scripts {
 
+	/**
+	 * Property for storing the script and style suffix.
+	 *
+	 * @since 0.3.0
+	 * @var   string
+	 */
 	protected $suffix;
 
+	/**
+	 * Property for storing the plugin directory URL.
+	 *
+	 * @since 0.3.0
+	 * @var   string
+	 */
 	protected $url;
 
+	/**
+	 * Property for storing the script and style version.
+	 *
+	 * @since 0.3.0
+	 * @var   string
+	 */
 	protected $version;
 
-	public function __construct() {
-		$this->suffix  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$this->url     = wp_featherlight()->get_url();
-		$this->version = wp_featherlight()->get_version();
+	/**
+	 * Set up class properties.
+	 *
+	 * @since  0.1.0
+	 * @param  string $url The absolute URI path to the plugin directory.
+	 * @param  string $version The version to use when loading scripts.
+	 * @return void
+	 */
+	public function __construct( $url, $version ) {
+		$this->suffix  = $this->get_suffix();
+		$this->url     = $url;
+		$this->version = $version;
 	}
 
 	/**
-	 * Get the class running!
+	 * Helper function for getting the script `.min` suffix for minified files.
 	 *
 	 * @since  0.1.0
 	 * @access public
-	 * @return void
+	 * @return string
 	 */
-	public function run() {
-		$this->wp_hooks();
-	}
+	public function get_suffix() {
+		static $suffix;
 
-	/**
-	 * Hook into WordPress.
-	 *
-	 * @since  0.1.0
-	 * @access protected
-	 * @return void
-	 */
-	protected function wp_hooks() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'load_css' ),       20 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'load_js' ),        20 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_disable' ),  10 );
-		add_action( 'body_class',         array( $this, 'script_helpers' ), 10 );
+		if ( null === $suffix ) {
+			$debug   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG;
+			$enabled = (bool) apply_filters( 'wp_featherlight_enable_suffix', ! $debug );
+			$suffix  = $enabled ? '.min' : '';
+		}
+
+		return $suffix;
 	}
 
 	/**
@@ -65,32 +86,17 @@ class WP_Featherlight_Scripts {
 		if ( ! apply_filters( 'wp_featherlight_load_css', true ) ) {
 			return;
 		}
+
 		wp_enqueue_style(
 			'wp-featherlight',
 			"{$this->url}css/wp-featherlight{$this->suffix}.css",
 			array(),
 			$this->version
 		);
-		wp_style_add_data( 'wp-featherlight', 'rtl', 'replace' );
-		wp_style_add_data( 'wp-featherlight', 'suffix', $this->suffix );
-	}
 
-	/**
-	 * Load all required JavaScript files on the front end.
-	 *
-	 * Developers can disable our JS by filtering wp_featherlight_load_js to
-	 * false within their theme or plugin.
-	 *
-	 * @since  0.1.0
-	 * @access public
-	 * @return void
-	 */
-	public function load_js() {
-		if ( ! apply_filters( 'wp_featherlight_load_js', true ) ) {
-			return;
-		}
-		$this->load_packed_js();
-		$this->load_unpacked_js();
+		wp_style_add_data( 'wp-featherlight', 'rtl', 'replace' );
+
+		wp_style_add_data( 'wp-featherlight', 'suffix', $this->suffix );
 	}
 
 	/**
@@ -109,11 +115,32 @@ class WP_Featherlight_Scripts {
 	 * @return bool
 	 */
 	protected function enable_packed_js() {
-		// Never pack JS files if SCRIPT_DEBUG is enabled.
 		if ( empty( $this->suffix ) ) {
 			return false;
 		}
+
 		return apply_filters( 'wp_featherlight_enable_packed_js', true );
+	}
+
+	/**
+	 * Load all required JavaScript files on the front end.
+	 *
+	 * Developers can disable our JS by filtering wp_featherlight_load_js to
+	 * false within their theme or plugin.
+	 *
+	 * @since  0.1.0
+	 * @access public
+	 * @return void
+	 */
+	public function load_js() {
+		if ( ! apply_filters( 'wp_featherlight_load_js', true ) ) {
+			return;
+		}
+		if ( $this->enable_packed_js() ) {
+			$this->load_packed_js();
+		} else {
+			$this->load_unpacked_js();
+		}
 	}
 
 	/**
@@ -126,9 +153,6 @@ class WP_Featherlight_Scripts {
 	 * @return void
 	 */
 	public function load_packed_js() {
-		if ( ! $this->enable_packed_js() ) {
-			return;
-		}
 		wp_enqueue_script(
 			'wp-featherlight',
 			"{$this->url}js/wpFeatherlight.pkgd{$this->suffix}.js",
@@ -146,35 +170,33 @@ class WP_Featherlight_Scripts {
 	 * @return void
 	 */
 	public function load_unpacked_js() {
-		if ( $this->enable_packed_js() ) {
-			return;
-		}
-		$suffix = $this->suffix;
-		$url    = "{$this->url}js/src/";
 		wp_enqueue_script(
 			'jquery-detect-swipe',
-			"{$url}vendor/jquery.detect_swipe{$suffix}.js",
+			"{$this->url}js/src/vendor/jquery.detect_swipe{$this->suffix}.js",
 			array( 'jquery' ),
-			'2.1.1',
+			'2.1.3',
 			true
 		);
+
 		wp_enqueue_script(
 			'featherlight',
-			"{$url}vendor/featherlight{$suffix}.js",
+			"{$this->url}js/src/vendor/featherlight{$this->suffix}.js",
 			array( 'jquery-detect-swipe' ),
-			'1.3.2',
+			'1.5.1',
 			true
 		);
+
 		wp_enqueue_script(
 			'featherlight-gallery',
-			"{$url}vendor/featherlight.gallery{$suffix}.js",
+			"{$this->url}js/src/vendor/featherlight.gallery{$this->suffix}.js",
 			array( 'featherlight' ),
-			'1.3.2',
+			'1.5.1',
 			true
 		);
+
 		wp_enqueue_script(
 			'wp-featherlight',
-			"{$url}wpFeatherlight{$suffix}.js",
+			"{$this->url}js/src/wpFeatherlight{$this->suffix}.js",
 			array( 'featherlight-gallery' ),
 			$this->version,
 			true
@@ -209,7 +231,29 @@ class WP_Featherlight_Scripts {
 		if ( apply_filters( 'wp_featherlight_captions', true ) ) {
 			$classes[] = 'wp-featherlight-captions';
 		}
+
 		return $classes;
 	}
 
+	/**
+	 * Get the class running!
+	 *
+	 * @since  0.1.0
+	 * @access public
+	 * @return void
+	 */
+	public function run() {
+		_deprecated_function( __METHOD__, '1.0.0' );
+	}
+
+	/**
+	 * Hook into WordPress.
+	 *
+	 * @since  0.1.0
+	 * @access protected
+	 * @return void
+	 */
+	protected function wp_hooks() {
+		_deprecated_function( __METHOD__, '1.0.0' );
+	}
 }
