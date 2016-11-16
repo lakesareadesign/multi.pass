@@ -21,7 +21,7 @@
 		<div class="misc-pub-section">
 			<div class="s3-key"><?php echo $this->get_media_action_strings( 'acl' ); ?>:</div>
 			<div class="s3-value">
-				<a id="as3cfpro-toggle-acl" title="<?php echo $s3object['acl']['title']; ?>" data-currentACL="<?php echo $s3object['acl']['acl']; ?>" href="#"><?php echo $s3object['acl']['name']; ?></a>
+				<?php echo $this->get_acl_value_string( $s3object['acl'] ); ?>
 			</div>
 		</div>
 		<?php if ( $user_can_perform_actions && ! $local_file_exists ) : ?>

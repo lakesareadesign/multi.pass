@@ -421,10 +421,6 @@ if( ! class_exists('Axiom_Plugin_Updater') ) {
 
             $r = $current->response[ $file ];
 
-            axpp( $file );
-            axpp( $r );
-            axpp( $plugin_data );
-
             // if license is already actived (token is set), add temp download link
             $r->package = msp_get_setting('token', 'msp_envato_license') ? 'temp_package' : '';
 

@@ -1,4 +1,4 @@
-(function( $, as3cfFindAndReplaceMedia ) {
+(function( $ ) {
 
 	$( document ).ready( function() {
 
@@ -51,12 +51,6 @@
 			return false;
 		} );
 
-		// Setup find and replace modal
-		$( 'body' ).on( 'click', '.s3-actions a', function( e ) {
-			e.preventDefault();
-			as3cfFindAndReplaceMedia.open( $( this ).attr( 'href' ) );
-		} );
-
 	} );
 
-})( jQuery, as3cfFindAndReplaceMedia );
+})( jQuery );

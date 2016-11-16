@@ -1,4 +1,4 @@
-(function( $, _, as3cfFindAndReplaceMedia ) {
+(function( $, _ ) {
 
 	// Local reference to the WordPress media namespace.
 	var media = wp.media;
@@ -33,9 +33,6 @@
 			media.view.Button.prototype.initialize.apply( this, arguments );
 
 			this.controller.on( 'selection:toggle', this.toggleDisabled, this );
-
-			_.bindAll( this, 'findAndReplaceResult' );
-			$( 'body' ).off( 'as3cf-find-and-replace' ).on( 'as3cf-find-and-replace', '.as3cf-find-replace-container', this.findAndReplaceResult );
 		},
 
 		toggleDisabled: function() {
@@ -85,33 +82,13 @@
 				ids: ids
 			};
 
-			if ( 'download' === this.options.action ) {
-				// Don't find and replace URLs for copying to server from S3
-				this.startS3Action();
-				this.fireS3Action( payload );
-
-				return;
-			}
-
-			if ( ids.length > 1 ) {
-				as3cfFindAndReplaceMedia.setBulk( true );
-			}
-
-			as3cfFindAndReplaceMedia.open( null, payload );
+			this.startS3Action();
+			this.fireS3Action( payload );
 		},
 
 		startS3Action: function() {
 			$( '.media-toolbar .spinner' ).css( 'visibility', 'visible' ).show();
 			$( '.media-toolbar-secondary .button' ).addClass( 'disabled' );
-		},
-
-		findAndReplaceResult: function( event, findAndReplace, payload ) {
-			this.startS3Action();
-			as3cfFindAndReplaceMedia.startLoading();
-
-			payload.find_and_replace = findAndReplace;
-
-			this.fireS3Action( payload );
 		},
 
 		fireS3Action: function( payload ) {
@@ -127,8 +104,6 @@
 			this.controller.trigger( 'selection:action:done' );
 			$( '.media-toolbar .spinner' ).hide();
 			$( '.media-toolbar-secondary .button' ).removeClass( 'disabled' );
-			as3cfFindAndReplaceMedia.stopLoading();
-			as3cfFindAndReplaceMedia.close();
 		},
 
 		render: function() {
@@ -195,179 +170,6 @@
 				priority: -60
 			} ).render() );
 
-		}
-	} );
-
-	// Local instance of the Attachment Details TwoColumn used in the edit attachment modal view
-	var wpAttachmentDetailsTwoColumn = media.view.Attachment.Details.TwoColumn;
-
-	media.view.Attachment.Details.TwoColumn = wpAttachmentDetailsTwoColumn.extend( {
-		events: function() {
-			return _.extend( {}, wpAttachmentDetailsTwoColumn.prototype.events, {
-				'click .local-warning': 'confirmS3Removal',
-				'click .s3-actions a.copy': 'confirmFindAndReplace',
-				'click .s3-actions a.remove': 'confirmFindAndReplace',
-				'click #as3cfpro-toggle-acl': 'toggleACL'
-			} );
-		},
-
-		initialize: function() {
-			// Clear up any previous notices
-			$( '.as3cf-notice' ).remove();
-
-			var id = this.model.get( 'id' );
-
-			// If the attachment has been previously selected in a bulk action
-			if ( _.contains( selection_ids, id ) ) {
-				// Get the attachment model
-				var attachment = media.model.Attachment.get( id );
-				var old_url = attachment.attributes.url;
-				var that = this;
-				$.when(
-					// Refresh attachment after S3 actions
-					attachment.fetch()
-				).then( function() {
-					var new_url = attachment.attributes.url;
-					// Check S3 action has been processed
-					if ( old_url !== new_url ) {
-						// Remove attachment from selection
-						selection_ids = _.without( selection_ids, id );
-					}
-
-					// Display attachment view
-					wpAttachmentDetailsTwoColumn.prototype.initialize.apply( that, arguments );
-					// Update the URL just in case it hasn't been updated
-					$( '.attachment-info .settings' ).children( 'label[data-setting="url"]' ).children( 'input' ).val( new_url );
-
-					return;
-				} );
-			}
-
-			wpAttachmentDetailsTwoColumn.prototype.initialize.apply( this, arguments );
-		},
-
-		render: function() {
-
-			// Retrieve the S3 details for the attachment
-			// before we render the view
-			this.fetchS3Details( this.model.get( 'id' ) );
-		},
-
-		fetchS3Details: function( id ) {
-			wp.ajax.send( 'as3cfpro_get_attachment_s3_details', {
-				data: {
-					_nonce: as3cfpro_media.nonces.get_attachment_s3_details,
-					id: id
-				}
-			} ).done( _.bind( this.renderView, this ) );
-		},
-
-		renderView: function( response ) {
-			// Render parent media.view.Attachment.Details
-			wpAttachmentDetailsTwoColumn.prototype.render.apply( this );
-
-			this.renderActionLinks( response );
-			this.renderS3Details( response );
-		},
-
-		renderActionLinks: function( response ) {
-			var links = ( response && response.links ) || [];
-			var $actionsHtml = this.$el.find( '.actions' );
-			var $s3Actions = $( '<div />', {
-				'class': 's3-actions'
-			} );
-
-			var s3Links = [];
-			_( links ).each( function( link ) {
-				s3Links.push( link );
-			} );
-
-			$s3Actions.append( s3Links.join( ' | ' ) );
-			$actionsHtml.append( $s3Actions );
-		},
-
-		confirmS3Removal: function( event ) {
-			if ( ! confirm( as3cfpro_media.strings.local_warning ) ) {
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				return false;
-			}
-		},
-
-		confirmFindAndReplace: function( event ) {
-			event.preventDefault();
-			as3cfFindAndReplaceMedia.open( $( event.target ).attr( 'href' ) );
-		},
-
-		toggleACL: function( event ) {
-			event.preventDefault();
-
-			var toggle = $( '#as3cfpro-toggle-acl' );
-			var currentACL = toggle.attr( 'data-currentACL' );
-			var newACL = as3cfpro_media.settings.private_acl;
-
-			toggle.hide();
-			toggle.after( '<span id="as3cfpro-updating">' + as3cfpro_media.strings.updating_acl + '</span>' );
-
-			if ( currentACL === as3cfpro_media.settings.private_acl ) {
-				newACL = as3cfpro_media.settings.default_acl;
-			}
-
-			wp.ajax.send( 'as3cfpro_update_acl', {
-					data: {
-						_nonce: as3cfpro_media.nonces.update_acl,
-						id: this.model.get( 'id' ),
-						acl: newACL
-					}
-				} )
-				.done( _.bind( this.updateACL, this ) )
-				.fail( _.bind( this.renderACLError, this ) );
-		},
-
-		renderACLError: function() {
-			$( '#as3cfpro-updating' ).remove();
-			$( '#as3cfpro-toggle-acl' ).show();
-			alert( as3cfpro_media.strings.change_acl_error );
-		},
-
-		updateACL: function( response ) {
-			var toggle = $( '#as3cfpro-toggle-acl' );
-
-			$( '#as3cfpro-updating' ).remove();
-
-			toggle.text( response.acl_display );
-			toggle.attr( 'title', response.title );
-			toggle.attr( 'data-currentACL', response.acl );
-			toggle.show();
-		},
-
-		renderS3Details: function( response ) {
-			if ( ! response || ! response.s3object ) {
-				return;
-			}
-			var $detailsHtml = this.$el.find( '.attachment-info .details' );
-			var html = this.generateDetails( response.s3object, [ 'bucket', 'key', 'region', 'acl' ] );
-			$detailsHtml.append( html );
-		},
-
-		generateDetails: function( s3object, keys ) {
-			var html = '';
-
-			_( keys ).each( function( key ) {
-				if ( s3object[ key ] ) {
-
-					html += '<div class="' + key + '"><strong>' + as3cfpro_media.strings[ key ] + ':</strong> ';
-
-					if ( 'acl' === key ) {
-						html += '<a id="as3cfpro-toggle-acl" title="' + s3object[ key ][ 'title' ] + '" data-currentACL="' + s3object[ key ][ 'acl' ] + '" href="#">' + s3object[ key ][ 'name' ] + '</a>';
-					} else {
-						html += s3object[ key ];
-					}
-					html += '</div>';
-				}
-			} );
-
-			return html;
 		}
 	} );
 
@@ -445,26 +247,6 @@
 			return true;
 		} );
 
-		// Setup find and replace modal for list mode bulk actions
-		$( '#posts-filter' ).on( 'submit', function( e ) {
-			if ( $( '#bulk-action-selector-top,#bulk-action-selector-bottom' ).find( 'option:selected[value^="bulk_as3cfpro_"]' ).length ) {
-				if ( 'bulk_as3cfpro_download' === $( '#posts-filter select[name="action"]' ).val() ) {
-					// Don't find and replace URLs for copying to server from S3
-					return;
-				}
-
-				e.preventDefault();
-				as3cfFindAndReplaceMedia.setBulk( true );
-				as3cfFindAndReplaceMedia.open( window.location.origin + window.location.pathname + '?' + $( '#posts-filter' ).serialize() );
-			}
-		} );
-
-		// Setup find and replace modal for list mode
-		$( 'body' ).on( 'click', '.row-actions .as3cfpro_copy a,.row-actions .as3cfpro_remove a', function( e ) {
-			e.preventDefault();
-			as3cfFindAndReplaceMedia.open( $( this ).attr( 'href' ) );
-		} );
-
 	} );
 
-})( jQuery, _, as3cfFindAndReplaceMedia );
+})( jQuery, _ );

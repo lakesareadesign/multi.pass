@@ -11,28 +11,18 @@ defined('ABSPATH') || die;
 if (!class_exists('AcmeeFramework')) {
 
     class AcmeeFramework {
-        protected $config;
+        public $config;
         protected $options_slug;
         private $wps_purchase_data = 'wps_purchase_data';
         public $page_title;
         public $fields_array;
         public $do_not_save;
 
-        function __construct($config) {
-            if(is_array($config)) {
-                $this->config = $config;
-                $this->menu_slug = $config['menu_slug'];
-                $this->option_name = $this->createSlug($config['menu_slug']);
-                $this->panel_tabs = $this->config['tabs'];
-                $this->fields_array = $this->config['fields'];
-            }
+        function __construct() {
+            $this->config = wps_config();
             $this->do_not_save = array('title', 'openTab', 'import', 'export');
 
-            add_action('admin_menu', array($this, 'createOptionsmenu'));
-            add_action( 'after_setup_theme', array($this, 'aofLoaddefault' ));
-            add_action( 'admin_enqueue_scripts', array($this, 'aofAssets'), 99 );
-            add_action('plugins_loaded',array($this, 'SaveSettings'));
-            add_action('aof_the_form',array($this, 'fieldLoop'), 10);
+            add_action('after_setup_theme', array($this, 'aofLoaddefault' ));
             add_action('aof_tab_start', array($this, 'formwrapStart'));
             add_action('aof_tab_start', array($this, 'saveBtn'));
             add_action('aof_tab_close', array($this, 'formwrapEnd'));
@@ -42,45 +32,6 @@ if (!class_exists('AcmeeFramework')) {
             add_action('aof_before_heading', array($this, 'licenseUpdated'));
         }
 
-        function aofAssets($page) {
-
-            global $aof_page;
-            if( $page != $aof_page )
-                return;
-            wp_enqueue_script( 'jquery' );
-            //wp_enqueue_script('jquery-ui-core', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
-            wp_enqueue_script( 'jquery-ui-core' );
-            wp_enqueue_script( 'jquery-ui-sortable' );
-            wp_enqueue_script( 'jquery-ui-slider' );
-            wp_enqueue_style('aofOptions-css', AOF_DIR_URI . 'assets/css/aof-framework.css');
-            wp_enqueue_style('aof-ui-css', AOF_DIR_URI . 'assets/css/jquery-ui.css');
-            wp_enqueue_script( 'responsivetabsjs', AOF_DIR_URI . 'assets/js/easyResponsiveTabs.js', array( 'jquery' ), '', true );
-            // Add the color picker css file
-            wp_enqueue_style( 'wp-color-picker' );
-            wp_enqueue_script( 'aof-scriptjs', AOF_DIR_URI . 'assets/js/script.js', array( 'jquery', 'wp-color-picker' ), false, true );
-
-        }
-
-        /**
-        * Create Options menu
-        */
-        function createOptionsmenu() {
-            global $aof_page;
-            $default = array(
-                'capability' => 'manage_options',
-                'page_title' => __('Acmee Options Page', 'aof'),
-                'menu_title' => __('Acmee Options', 'aof'),
-                'menu_slug' => 'acm_options',
-                'icon_url'   => 'dashicons-art',
-                'position'   => 5,
-                'tabs'  => array(),
-                'fields'    => array(),
-                'multi' => false
-              );
-            $args = array_merge($default, $this->config);
-            $aof_page = add_menu_page( $args['page_title'], $args['menu_title'], $args['capability'], $this->menu_slug, array($this, 'generateFields'), $args['icon_url'] );
-        }
-
         /**
         * Function to generate form fields
         */
@@ -88,91 +39,96 @@ if (!class_exists('AcmeeFramework')) {
             //build form
             echo '<div class="wrap clearfix">';
             do_action('aof_before_heading');
-            echo '<h2>' . $this->config['page_title'] . '</h2>';
+            echo '<h2>';
+            printf( __( '%s Settings', 'wps' ), 'WPShapere' );
+            echo '</h2>';
             do_action('aof_after_heading');
-
             do_action('aof_before_form');
             do_action('aof_the_form');
+            $this->fieldLoop($fields_array);
             do_action('aof_after_form');
 
             echo '</div>'; //close div wrap
         }
 
-        function fieldLoop($fields_array) {
-            //get options data
-            $getoption = $this->aofgetOptions( $this->option_name );
+        public function fieldLoop($config) {
 
-            echo '<div class="loading_form_text">' . __('Loading ...', 'aof') . '</div>';
+            //get options data
+            $getoption = $this->aofgetOptions( WPSHAPERE_OPTIONS_SLUG );
+
+            echo '<div class="loading_form_text">' . __('Loading...', 'wps') . '</div>';
 
             do_action('aof_tab_start');
 
+            $fields_array['tabs'] = $config['wps_fields']['wps_tabs'];
+            $fields_array['fields'] = $config['wps_fields']['wps_fields'];
             echo '<div id="aof_options_tab" class="clearfix">
             <ul class="resp-tabs-list hor_1">';
-            if(is_array($this->panel_tabs) && !empty($this->panel_tabs)) {
-                foreach($this->panel_tabs as $tabkey =>$tabvalue) {
+            if(is_array($fields_array['tabs']) && !empty($fields_array['tabs'])) {
+                foreach($fields_array['tabs'] as $tabkey =>$tabvalue) {
                     echo '<li class="' . $tabkey . '">' . $tabvalue . '</li>';
                 }
             }
             echo '</ul>
             <div class="resp-tabs-container hor_1">';
 
-            foreach($this->fields_array as $field_key => $field_array) {
+            foreach($fields_array['fields'] as $field_key => $field_array) {
                 if(isset($field_array['id']) && !empty($field_array['id'])) {
                     unset($field_meta);
                     $field_meta = array();
                     $field_meta['meta'] = (!empty($getoption[$field_array['id']])) ? $getoption[$field_array['id']] : "";
                     $field_array = array_merge($field_array, $field_meta);
                 }
-                        switch ($field_array['type']) {
-                            case 'openTab' :
-                                $tab_first = ($field_key == 0) ? true : false;
-                                $this->openTab($field_array, $tab_first);
-                                break;
-                            case 'title' :
-                                $this->addTitle($field_array);
-                                break;
-                            case 'note':
-                                $this->addNote($field_array);
-                                break;
-                            case 'text':
-                                $this->addText($field_array);
-                                break;
-                            case 'textarea':
-                                $this->addTextarea($field_array);
-                                break;
-                            case 'checkbox':
-                                $this->addCheckbox($field_array);
-                                break;
-                            case 'multicheck':
-                                $this->addMultiCheckbox($field_array);
-                                break;
-                            case 'radio':
-                                $this->addradio($field_array);
-                                break;
-                            case 'select':
-                                $this->addSelect($field_array);
-                                break;
-                            case 'number':
-                                $this->addNumber($field_array);
-                                break;
-                            case 'typography':
-                                $this->addTypography($field_array);
-                                break;
-                            case 'wpcolor':
-                                $this->addwpColor($field_array);
-                                break;
-                            case 'upload':
-                                $this->addUpload($field_array);
-                                break;
-                            case 'wpeditor':
-                                $this->addwpEditor($field_array);
-                                break;
-                            case 'export':
-                                $this->addExport($field_array);
-                                break;
-                            case 'import':
-                                $this->addImport($field_array);
-                                break;
+                switch ($field_array['type']) {
+                    case 'openTab' :
+                        $tab_first = ($field_key == 0) ? true : false;
+                        $this->openTab($field_array, $tab_first);
+                        break;
+                    case 'title' :
+                        $this->addTitle($field_array);
+                        break;
+                    case 'note':
+                        $this->addNote($field_array);
+                        break;
+                    case 'text':
+                        $this->addText($field_array);
+                        break;
+                    case 'textarea':
+                        $this->addTextarea($field_array);
+                        break;
+                    case 'checkbox':
+                        $this->addCheckbox($field_array);
+                        break;
+                    case 'multicheck':
+                        $this->addMultiCheckbox($field_array);
+                        break;
+                    case 'radio':
+                        $this->addradio($field_array);
+                        break;
+                    case 'select':
+                        $this->addSelect($field_array);
+                        break;
+                    case 'number':
+                        $this->addNumber($field_array);
+                        break;
+                    case 'typography':
+                        $this->addTypography($field_array);
+                        break;
+                    case 'wpcolor':
+                        $this->addwpColor($field_array);
+                        break;
+                    case 'upload':
+                        $this->addUpload($field_array);
+                        break;
+                    case 'wpeditor':
+                        $this->addwpEditor($field_array);
+                        break;
+                    case 'export':
+                        $this->addExport($field_array);
+                        break;
+                    case 'import':
+                        $this->addImport($field_array);
+                        break;
                         }
 
 
@@ -225,7 +181,7 @@ if (!class_exists('AcmeeFramework')) {
             }
      ?>
         <h2><?php echo __('Enter Purchase Code', 'wps'); ?></h2>
-        <form name="enter_license" method="post" action="<?php echo admin_url( 'admin.php?page=' . $this->menu_slug ); ?>">
+        <form name="enter_license" method="post" action="<?php echo admin_url( 'admin.php?page=' . WPSHAPERE_MENU_SLUG ); ?>">
             <input type="text" class="purchase_code" name="purchase_code" value="" size="50" /><br /><br />
             <input type="hidden" name="action" value="license_data" />
             <input type="submit" name="submit" value="Submit" class="button button-primary button-large" />
@@ -242,7 +198,7 @@ if (!class_exists('AcmeeFramework')) {
         function licenseUpdated() {
             if(isset($_GET['status']) && $_GET['status'] == 'license_success') {
                 echo '<div class="license-updated">';
-                echo __('Your Purchase code accepted. Happy customizing WordPress!', 'wps');
+                echo __('Your Purchase code is accepted. Happy customizing WordPress!', 'wps');
                 echo ' <a class="wps-kb" target="_blank" href="http://kb.acmeedesign.com/kbase_categories/wpshapere/">';
                 echo __('Need help?', 'wps');
                 echo '</a>';
@@ -250,9 +206,9 @@ if (!class_exists('AcmeeFramework')) {
             }
         }
 
-        function SaveSettings() {
-            if(isset($_POST['action']) && $_POST['action'] == 'license_data') {
-                $purchase_code = trim($_POST['purchase_code']);
+        function SaveSettings($post) {
+            if(isset($post['action']) && $post['action'] == 'license_data') {
+                $purchase_code = trim($post['purchase_code']);
                 $validate = EnvatoApi2::verifyPurchase( $purchase_code );
                 if ( is_object($validate) ) {
                     $buyer = $validate->buyer;
@@ -261,70 +217,72 @@ if (!class_exists('AcmeeFramework')) {
                     $code = explode('-', $purchase_code);
                     $purchase_data = array($buyer, $item_id, $license_type, $code);
                     update_option( $this->wps_purchase_data, $purchase_data );
-                    wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=license_success' ) );
+                    wp_safe_redirect( admin_url( 'admin.php?page=' . WPSHAPERE_MENU_SLUG . '&status=license_success' ) );
                     exit();
                 }
                 else {
-                    wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=license_fail' ) );
+                    wp_safe_redirect( admin_url( 'admin.php?page=' . WPSHAPERE_MENU_SLUG . '&status=license_fail' ) );
                     exit();
                 }
 
             }
-             if(isset($_POST) && isset($_POST['aof_options_save'])) {
+             if(isset($post) && isset($post['aof_options_save'])) {
 
-                if ( isset($_POST['aof_options_nonce']) && !wp_verify_nonce($_POST['aof_options_nonce'], 'aof_options_form') )
-	return;
+                if ( isset($post['aof_options_nonce']) && !wp_verify_nonce($post['aof_options_nonce'], 'aof_options_form') )
+	               return;
+
                 if($this->getLicense() !== null && strlen($this->getLicense()) == 8) {
-                    if( isset($_POST['aof_import_settings']) && !empty($_POST['aof_import_settings']) ) {
-                        $settings = $_POST['aof_import_settings'];
+                    if( isset($post['aof_import_settings']) && !empty($post['aof_import_settings']) ) {
+                        $settings = $post['aof_import_settings'];
                         if(!empty($settings) && is_serialized($settings)) {
                             $settings = unserialize($settings);
-                            update_option( $this->option_name, $settings );
-                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=success' ) );
+                            update_option( WPSHAPERE_OPTIONS_SLUG, $settings );
+                            wp_safe_redirect( admin_url( 'admin.php?page=' . WPSHAPERE_MENU_SLUG . '&status=success' ) );
                             exit();
                         }
                     }
                     else {
-                        $save_data = array();
-                        if( is_array($this->fields_array) && !empty($this->fields_array) ) {
-                            //loop through the fields array and initialize $save_data variable
-                            foreach($this->fields_array as $field) {
-                                if(isset($field['id']) && !in_array($field['type'], $this->do_not_save)) {
-                                    $post_name = $field['id'];
-                                    if($field['type'] == "multicheck") {
-                                        $multicheck = array();
-                                        $chkbox_values = $_POST[$post_name];
-                                        if(is_array($chkbox_values)) {
-                                            foreach($chkbox_values as $options) {
-                                                $multicheck[] = $options;
-                                            }
-                                        }
-                                        $save_data[$field['id']] = $multicheck;
-                                    }
-                                    elseif($field['type'] == "typography") {
-                                        $typography = array();
-                                        $typo_values = $_POST[$post_name];
-                                        if(is_array($typo_values)) {
-                                            foreach($typo_values as $typo_name => $typo_value) {
-                                                $typography[$typo_name] = $typo_value;
-                                            }
-                                            $save_data[$field['id']] = $typography;
-                                        }
-                                    }
-                                    else {
-                                        $save_data[$field['id']] = (isset($_POST[$post_name])) ? $this->validateInputs($_POST[$post_name]) : "";
-                                    }
-                                }
+                      $save_data = array();
+                      $config = wps_config();
+                      $fields_array['fields'] = $config['wps_fields']['wps_fields'];
+                      if( is_array($fields_array['fields']) && !empty($fields_array['fields']) ) {
+                        //loop through the fields array and initialize $save_data variable
+                        foreach($fields_array['fields'] as $field) {
+                          if(isset($field['id']) && !in_array($field['type'], $this->do_not_save)) {
+                              $post_name = $field['id'];
+                              $post_value = (!empty($post[$post_name])) ? $post[$post_name] : "";
+                              if($field['type'] == "multicheck") {
+                                  $multicheck = array();
+                                  if(is_array($post_value)) {
+                                      foreach($post_value as $options) {
+                                          $multicheck[] = $options;
+                                      }
+                                  }
+                                  $save_data[$field['id']] = $multicheck;
+                              }
+                              elseif($field['type'] == "typography") {
+                                  $typography = array();
+                                  if(is_array($post_value)) {
+                                      foreach($post_value as $typo_name => $typo_value) {
+                                          $typography[$typo_name] = $typo_value;
+                                      }
+                                      $save_data[$field['id']] = $typography;
+                                  }
+                              }
+                              else {
+                                  $save_data[$field['id']] = (isset($post_value)) ? $this->validateInputs($post_value) : "";
+                              }
                             }
+                          }
                         }
 
                         $saved = $this->aofsaveOptions($save_data);
                         if($saved) {
-                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=updated' ) );
+                            wp_safe_redirect( admin_url( 'admin.php?page=' . WPSHAPERE_MENU_SLUG . '&status=updated' ) );
                             exit();
                         }
                         else {
-                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=error' ) );
+                            wp_safe_redirect( admin_url( 'admin.php?page=' . WPSHAPERE_MENU_SLUG . '&status=error' ) );
                             exit();
                         }
 
@@ -356,11 +314,11 @@ if (!class_exists('AcmeeFramework')) {
 
         function aofsaveOptions($save_options) {
             if($this->config['multi'] === true) {
-                update_site_option( $this->option_name, $save_options );
+                update_site_option( WPSHAPERE_OPTIONS_SLUG, $save_options );
                 return true;
             }
             else {
-                update_option( $this->option_name, $save_options );
+                update_option( WPSHAPERE_OPTIONS_SLUG, $save_options );
                 return true;
             }
         }
@@ -452,7 +410,7 @@ if (!class_exists('AcmeeFramework')) {
                     $form_field .= ($meta == $field_key) ? ' selected="selected"' : '';
                     $form_field .= '>' . $field_value .  '</option>';
                 }
-                $form_field .= '</label>';
+                $form_field .= '</select></label>';
             }
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
@@ -512,12 +470,12 @@ if (!class_exists('AcmeeFramework')) {
 
             if(isset($fields['show_color']) && $fields['show_color'] !== false) {
                 //wpcolor
-                $form_field .= __( 'Color', 'aof' ) . '<label><input class="aof-wpcolor ' . $fields['id'] . '" type="text" name="' . $fields['id'] . '[color]" value="' . $color . '"  /></label>';
+                $form_field .= __( 'Color', 'wps' ) . '<label><input class="aof-wpcolor ' . $fields['id'] . '" type="text" name="' . $fields['id'] . '[color]" value="' . $color . '"  /></label>';
             }
 
             if(isset($fields['show_font_weight']) && $fields['show_font_weight'] !== false) {
                 //font weight
-                $form_field .= __( 'Font Weight', 'aof' ) . '<label><select class="aof_font_weight" name="' . $fields['id'] . '[font-weight]">';
+                $form_field .= __( 'Font Weight', 'wps' ) . '<label><select class="aof_font_weight" name="' . $fields['id'] . '[font-weight]">';
                 foreach ($font_weights as $font_weight) {
                     $selected = ( $meta['font-weight'] == $font_weight ) ? " selected=selected" : "";
                     $form_field .='<option value="' . $font_weight . '"' . $selected . '>' . $font_weight . '</option>';
@@ -527,7 +485,7 @@ if (!class_exists('AcmeeFramework')) {
 
             if(isset($fields['show_font_style']) && $fields['show_font_style'] !== false) {
                 //font style
-                $form_field .= __( 'Font Style', 'aof' ) . '<label><select class="aof_font_style" name="' . $fields['id'] . '[font-style]">';
+                $form_field .= __( 'Font Style', 'wps' ) . '<label><select class="aof_font_style" name="' . $fields['id'] . '[font-style]">';
                 foreach ($font_styles as $font_style) {
                     $selected = ( $meta['font-style'] == $font_style ) ? " selected=selected" : "";
                     $form_field .='<option value="' . $font_style . '"' . $selected .'>' . $font_style . '</option>';
@@ -537,7 +495,7 @@ if (!class_exists('AcmeeFramework')) {
 
             if(isset($fields['show_font_size']) && $fields['show_font_size'] !== false) {
                 //font size
-                $form_field .= __( 'Font Size', 'aof' ) . '<label><select class="aof_font_size" name="' . $fields['id'] . '[font-size]">';
+                $form_field .= __( 'Font Size', 'wps' ) . '<label><select class="aof_font_size" name="' . $fields['id'] . '[font-size]">';
                 for($i = 9; $i <= 65; $i++) {
                     $selected = ( $meta['font-size'] == $i ) ? " selected=selected" : "";
                     $form_field .='<option value="' . $i . '"' . $selected . '>' . $i . 'px</option>';
@@ -585,7 +543,7 @@ if (!class_exists('AcmeeFramework')) {
         }
 
         function addExport($fields) {
-            $getoption = $this->aofgetOptions( $this->option_name );
+            $getoption = $this->aofgetOptions( WPSHAPERE_OPTIONS_SLUG );
             if(is_serialized($getoption) === false && is_array($getoption)) {
                 $meta = serialize($getoption);
             }
@@ -610,10 +568,12 @@ if (!class_exists('AcmeeFramework')) {
         }
 
         function saveBtn() {
-            echo '<div class="save_options">
-                <input type="submit" value="Save Changes" class="button button-primary button-large" />' .
-                //<input type="submit" name="aof_reset_options" value="Reset to Defaults" class="button button-secondary button-large" />
-                '</div>';
+          ?>
+            <div class="save_options">
+              <input type="submit" value="<?php _e('Save Changes', 'wps'); ?>" class="button button-primary button-large" />
+              <!-- <input type="submit" name="aof_reset_options" value="Reset to Defaults" class="button button-secondary button-large" /> -->
+            </div>
+          <?php
         }
 
         function fieldWrap($args, $field) {
@@ -682,51 +642,52 @@ if (!class_exists('AcmeeFramework')) {
         * Function to get default options
         */
        function getDefaultOptions() {
-           if( is_array($this->fields_array) && !empty($this->fields_array) ) {
-               foreach($this->fields_array as $field) {
-                        if(isset($field['id']) && !in_array($field['type'], $this->do_not_save)) {
-                            $default_value = ( isset($field['default']) && !empty($field['default']) ) ? $field['default'] : "";
-                            if($field['type'] == "multicheck") {
-                                    $multicheck = array();
-                                    if(is_array($default_value)) {
-                                        foreach($default_value as $options) {
-                                            $multicheck[] = $options;
-                                        }
-                                        $save_data[$field['id']] = $multicheck;
-                                    }
-                                }
-                                elseif($field['type'] == "typography") {
-                                    $typography = array();
-                                    if(is_array($default_value)) {
-                                        foreach($default_value as $typo_name => $typo_value) {
-                                            $typography[$typo_name] = $typo_value;
-                                        }
-                                        $save_data[$field['id']] = $typography;
-                                    }
-                                }
-                                else {
-                                    $save_data[$field['id']] = $default_value;
-                                }
-                        }
-               }
-               return $save_data;
+         $fields_array = $this->config['wps_fields']['wps_fields'];
+         if( is_array($fields_array) && !empty($fields_array) ) {
+           foreach($fields_array as $field) {
+              if(isset($field['id']) && !in_array($field['type'], $this->do_not_save)) {
+                  $default_value = ( isset($field['default']) && !empty($field['default']) ) ? $field['default'] : "";
+                  if($field['type'] == "multicheck") {
+                      $multicheck = array();
+                      if(is_array($default_value)) {
+                          foreach($default_value as $options) {
+                              $multicheck[] = $options;
+                          }
+                          $save_data[$field['id']] = $multicheck;
+                      }
+                    }
+                    elseif($field['type'] == "typography") {
+                      $typography = array();
+                      if(is_array($default_value)) {
+                          foreach($default_value as $typo_name => $typo_value) {
+                              $typography[$typo_name] = $typo_value;
+                          }
+                          $save_data[$field['id']] = $typography;
+                      }
+                    }
+                    else {
+                      $save_data[$field['id']] = $default_value;
+                    }
+              }
            }
-           else return false;
+           return $save_data;
+         }
+         else return false;
        }
 
         /**
         * Function to insert default values
         */
         function aofLoaddefault() {
-            $default_options = $this->aofgetOptions( $this->option_name );
+            $default_options = $this->aofgetOptions( WPSHAPERE_OPTIONS_SLUG );
             if ( false === $default_options || empty($default_options)) {
                 $default_options = $this->getDefaultOptions();
                 if(!empty($default_options)) {
                     if($this->config['multi'] === true) {
-                        add_site_option( $this->option_name, $default_options );
+                        update_site_option( WPSHAPERE_OPTIONS_SLUG, $default_options );
                     }
                     else {
-                        add_option( $this->option_name, $default_options );
+                        update_option( WPSHAPERE_OPTIONS_SLUG, $default_options );
                     }
                 }
             }

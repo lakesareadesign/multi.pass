@@ -1,3 +1,8 @@
+Version 3.1.0 / (13.11.2016)
+============================
+- [Fix]: Addressed a bug that result in a 503 error in admin page for some clients.
+- [Improvement]: Now you can access the sample slider library instantly, and load any sample slider completely on the fly.
+
 Version 3.0.6 / (30.10.2016)
 ============================
 - [New]: 15 sample sliders added as public sample sliders to sliders list

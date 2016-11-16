@@ -30,6 +30,8 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	protected $exclude_dirs;
 	protected $location_versions;
 	private $files;
+	private $files_count;
+	private $files_to_enqueue = array();
 
 	const SETTINGS_KEY = 'as3cf_assets';
 	const SETTINGS_CONSTANT = 'WPOS3_ASSETS_SETTINGS';
@@ -80,6 +82,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		// Serve files
 		add_filter( 'style_loader_src', array( $this, 'serve_css_from_s3' ) );
 		add_filter( 'script_loader_src', array( $this, 'serve_js_from_s3' ) );
+		add_action( 'shutdown', array( $this, 'maybe_save_enqueued_files' ) );
 
 		// AJAX handlers
 		add_action( 'wp_ajax_as3cf-assets-save-bucket', array( $this, 'ajax_save_bucket' ) );
@@ -217,7 +220,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	/**
 	 * Get statistics on a scan's progress
 	 *
-	 * @return array Statistics about the scan's progress
+	 * @return array|float
 	 */
 	private function get_scan_progress() {
 		// We're not scanning or processing, return 0
@@ -225,7 +228,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			return 0;
 		}
 
-		$files = count( $this->get_files() );
+		$files = $this->count_files();
 
 		// Only count unique file copy actions as remove's are generally paired with copy actions and require much less time.
 		$to_process = array_unique(
@@ -699,7 +702,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 		// Active plugins
 		if ( in_array( 'plugins', $locations_in_scope ) ) {
-			$plugins   = $this->get_active_plugins();
+			$plugins   = $this->get_plugins();
 			$locations = array_merge( $locations, $plugins );
 		}
 
@@ -782,58 +785,16 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	}
 
 	/**
-	 * Returns an array of distinct plugins active on a site
+	 * Returns an array of plugins installed
 	 *
 	 * @return array
 	 */
-	function get_active_plugins() {
-		$plugins = array();
+	function get_plugins() {
+		$installed_plugins = array_keys( get_plugins() );
+		$plugins           = array();
+		$plugins_url       = plugins_url();
 
-		// Active plugins for current site
-		$active_plugins = (array) get_option( 'active_plugins', array() );
-		$plugins        = $this->add_active_plugins( $plugins, $active_plugins );
-
-		if ( is_multisite() ) {
-			// Get network activated plugins
-			$network_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
-			$plugins         = $this->add_active_plugins( $plugins, $network_plugins, true );
-
-			$blog_ids = $this->get_blog_ids();
-			foreach ( $blog_ids as $blog_id ) {
-				// Get site specific activated plugins
-				$active_plugins = (array) get_blog_option( $blog_id, 'active_plugins', array() );
-				$plugins        = $this->add_active_plugins( $plugins, $active_plugins );
-			}
-		}
-
-		return array_values( $plugins );
-	}
-
-	/**
-	 * Compare a list of plugins with a distinct list of plugins.
-	 * If a plugin isn't in our list add it to it.
-	 *
-	 * @param array $distinct_plugins
-	 * @param array $plugins_to_add
-	 * @param bool  $networkwide is the plugins list network wide?
-	 *
-	 * @return array
-	 */
-	function add_active_plugins( $distinct_plugins, $plugins_to_add, $networkwide = false ) {
-		$plugin_details = array(
-			'type'    => 'plugins',
-			'exclude' => apply_filters( 'as3cf_assets_plugin_exclude_dirs', $this->get_exclude_dirs() ),
-		);
-
-		$plugins_url = plugins_url();
-
-		foreach ( $plugins_to_add as $key => $value ) {
-			$plugin = ( $networkwide ) ? $key : $value;
-
-			if ( isset( $distinct_plugins[ $plugin ] ) ) {
-				continue;
-			}
-
+		foreach ( $installed_plugins as $plugin ) {
 			$dir = dirname( $plugin );
 
 			if ( '.' === $dir ) {
@@ -841,22 +802,16 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 				continue;
 			}
 
-			$dir  = '/' . $dir;
-			$name = basename( $plugin, '.php' );
-
-			if ( ! file_exists( WP_PLUGIN_DIR . $dir ) ) {
-				// Ignore if plugin directory doesn't exist
-				continue;
-			}
-
-			$plugin_details['path']   = WP_PLUGIN_DIR . $dir;
-			$plugin_details['url']    = $plugins_url . $dir;
-			$plugin_details['object'] = $name;
-
-			$distinct_plugins[ $plugin ] = $plugin_details;
+			$plugins[ $plugin ] = array(
+				'type'    => 'plugins',
+				'exclude' => apply_filters( 'as3cf_assets_plugin_exclude_dirs', $this->get_exclude_dirs() ),
+				'path'    => trailingslashit( WP_PLUGIN_DIR ) . $dir,
+				'url'     => trailingslashit( $plugins_url ) . $dir,
+				'object'  => basename( $plugin, '.php' ),
+			);
 		}
 
-		return $distinct_plugins;
+		return array_values( apply_filters( 'as3cf_assets_plugins_to_scan', $plugins ) );
 	}
 
 	/**
@@ -1176,22 +1131,46 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 		$this->lock_scanning( $location );
 
-		$files_to_save    = array();
-		$files_to_process = array();
-		$files_to_update  = array();
-		$update           = false;
+		$saved_files      = $this->get_saved_files_by_location( $location );
+		$found_files      = $this->get_found_files_by_location( $location, $saved_files );
+		$files_to_process = $this->get_processable_files_by_location( $location, $saved_files, $found_files );
 
-		$saved_files = $this->get_files_by_location( $location );
+		$this->save_files( $found_files );
 
-		$path = trailingslashit( $location['path'] );
-		$url  = trailingslashit( $location['url'] );
+		if ( empty( $found_files ) ) {
+			// Location empty, remove from location versions key
+			$this->remove_location_version( $location );
+		}
 
-		$extensions = $this->get_file_extensions( $location );
-		$exclude    = isset( $location['exclude'] ) ? $location['exclude'] : array();
+		if ( ! empty( $files_to_process ) ) {
+			// Files to process, dispatch batch
+			$this->process_assets->batch_process( $files_to_process );
+		}
 
-		$ignore_hidden_dirs = apply_filters( 'as3cf_assets_ignore_hidden_dirs', true, $location );
+		if ( true === $unlock ) {
+			$this->unlock_scanning( $location );
+		}
+	}
 
-		$location_files = $this->find_files_in_path( $path, $extensions, $exclude, $ignore_hidden_dirs );
+	/**
+	 * Get found files by location.
+	 *
+	 * Finds all files in a location and merges the existing saved data
+	 * for files scanned previously.
+	 *
+	 * @param array $location
+	 * @param array $saved_files
+	 *
+	 * @return array
+	 */
+	private function get_found_files_by_location( $location, $saved_files ) {
+		$path           = trailingslashit( $location['path'] );
+		$url            = trailingslashit( $location['url'] );
+		$extensions     = $this->get_file_extensions( $location );
+		$exclusions     = isset( $location['exclude'] ) ? $location['exclude'] : array();
+		$ignore_hidden  = apply_filters( 'as3cf_assets_ignore_hidden_dirs', true, $location );
+		$location_files = $this->find_files_in_path( $path, $extensions, $exclusions, $ignore_hidden );
+		$found_files    = array();
 
 		foreach ( $location_files as $file => $object ) {
 			$details = array(
@@ -1210,87 +1189,166 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			}
 
 			if ( isset( $saved_files[ $file ] ) ) {
-				// File has already been scanned so use the existing S3 details
 				$details['s3_version'] = $saved_files[ $file ]['s3_version'];
+
 				if ( isset( $saved_files[ $file ]['s3_info'] ) ) {
 					$details['s3_info'] = $saved_files[ $file ]['s3_info'];
 				}
 			}
 
-			if ( $this->is_failure( 'gzip', $file, true ) || $this->is_failure( 'upload', $file, true ) ) {
+			$found_files[ $file ] = $details;
+		}
+
+		return $found_files;
+	}
+
+	/**
+	 * Get processable files by location.
+	 *
+	 * Files are processable if new or modified and are not in the failure queue.
+	 *
+	 * @param array $location
+	 * @param array $saved_files
+	 * @param array $found_files
+	 *
+	 * @return array
+	 */
+	private function get_processable_files_by_location( $location, $saved_files, $found_files ) {
+		$files_processing = $this->process_assets->to_process();
+		$files_to_process = array();
+		$purge_location   = false;
+
+		foreach ( $found_files as $file => $details ) {
+			if ( $this->is_file_processing( $file, $files_processing ) ) {
+				// File already queued for processing, skip
+				continue;
+			}
+
+			if ( ! $this->is_file_processable( $file ) ) {
+				// File in failure queue, skip
+				continue;
+			}
+
+			if ( empty( $details['s3_version'] ) ) {
+				// New file, push to queue
+				$files_to_process = $this->add_to_process_queue( $files_to_process, 'copy', $file, $details );
+			} elseif ( version_compare( $details['s3_version'], $details['local_version'], '!=' ) ) {
+				// File modified, entire location needs purging
+				$purge_location = true;
+
+				break;
+			}
+		}
+
+		if ( $purge_location ) {
+			// Remove and add all location files
+			$files_to_process = $this->remove_and_upload_all_files( $found_files );
+		}
+
+		// Remove files that no longer exist locally
+		$files_to_process = $this->remove_old_files( $files_to_process, $found_files, $saved_files );
+
+		// Add object version prefix, or update if files modified
+		$this->set_object_version_prefix( $location['type'], $location['object'], $purge_location );
+
+		return $files_to_process;
+	}
+
+	/**
+	 * Remove and upload all files in current location.
+	 *
+	 * @param array $found_files
+	 *
+	 * @return array
+	 */
+	private function remove_and_upload_all_files( $found_files ) {
+		$files_to_process = array();
+
+		foreach ( $found_files as $file => $details ) {
+			// Remove previous version from S3
+			if ( ! empty( $details['s3_version'] ) ) {
+				$files_to_process = $this->add_to_process_queue( $files_to_process, 'remove', $file, $details );
+			}
+
+			// Upload new version to S3
+			$files_to_process = $this->add_to_process_queue( $files_to_process, 'copy', $file, $details );
+		}
+
+		return $files_to_process;
+	}
+
+	/**
+	 * Remove files that don't exist locally anymore.
+	 *
+	 * @param array $files_to_process
+	 * @param array $found_files
+	 * @param array $saved_files
+	 *
+	 * @return array
+	 */
+	private function remove_old_files( $files_to_process, $found_files, $saved_files ) {
+		if ( empty( $saved_files ) ) {
+			return $files_to_process;
+		}
+
+		foreach ( $saved_files as $file => $details ) {
+			if ( ! isset( $found_files[ $file ] ) ) {
+				$files_to_process = $this->add_to_process_queue( $files_to_process, 'remove', $file, $details );
+			}
+		}
+
+		return $files_to_process;
+	}
+
+	/**
+	 * Add new action to processing queue.
+	 *
+	 * @param array  $files_to_process
+	 * @param string $action
+	 * @param string $file
+	 * @param array  $details
+	 *
+	 * @return array
+	 */
+	private function add_to_process_queue( $files_to_process, $action, $file, $details ) {
+		switch ( $action ) {
+			case 'copy':
 				$files_to_process[] = array(
 					'action' => 'copy',
 					'file'   => $file,
+					'type'   => $details['type'],
 					'object' => $details['object'],
 				);
-			} elseif (
-				! $this->is_failure( 'gzip', $file ) &&
-				! $this->is_failure( 'upload', $file ) &&
-				version_compare( $details['s3_version'], $details['local_version'], '!=' )
-			) {
-				$update = true;
-			}
-
-			$files_to_save[ $file ]   = $details;
-			$files_to_update[ $file ] = $details;
-		}
-
-		unset( $location_files );
-
-		// File modified, purge entire location
-		if ( $update && ! empty( $files_to_update ) ) {
-			$this->set_object_version_prefix( $location['type'], $location['object'] );
-
-			foreach ( $files_to_update as $file => $details ) {
-				// Copy new version to S3
+				break;
+			case 'remove':
 				$files_to_process[] = array(
-					'action' => 'copy',
-					'file'   => $file,
-					'object' => $details['object'],
+					'action' => 'remove',
+					'url'    => $details['url'],
+					'key'    => $details['s3_info']['key'],
 				);
-
-				// Remove previous version from S3
-				if ( 0 !== $details['s3_version'] && isset( $saved_files[ $file ]['s3_info'] ) ) {
-					$files_to_process[] = array(
-						'action' => 'remove',
-						'url'    => $details['url'],
-						'key'    => $details['s3_info']['key'],
-					);
-				}
-			}
+				break;
 		}
 
-		unset( $files_to_update );
+		return $files_to_process;
+	}
 
-		// Remove files from S3 that don't exist locally anymore
-		if ( ! empty( $saved_files ) ) {
-			foreach ( $saved_files as $file => $details ) {
-				if ( ! isset( $files_to_save[ $file ] ) ) {
-					// File does not exist anymore, or extension not in scope
-					$files_to_process[] = array(
-						'action' => 'remove',
-						'url'    => $details['url'],
-						'key'    => $details['s3_info']['key'],
-					);
-				}
-			}
+	/**
+	 * Remove location version.
+	 *
+	 * @param array $location
+	 */
+	private function remove_location_version( $location ) {
+		$location_versions = $this->get_location_versions();
+
+		if ( empty( $location['object'] ) ) {
+			// Unset location
+			unset( $location_versions[ $location['type'] ] );
+		} else {
+			// Unset object
+			unset( $location_versions[ $location['type'] ][ $location['object'] ] );
 		}
 
-		unset( $saved_files );
-
-		// Save the files array to the db
-		$this->save_files( $files_to_save );
-		unset( $files_to_save );
-
-		if ( ! empty( $files_to_process ) ) {
-			// Save the files to be processed to S3 to the db
-			$this->process_assets->batch_process( $files_to_process );
-			unset( $files_to_process );
-		}
-
-		if ( true === $unlock ) {
-			$this->unlock_scanning( $location );
-		}
+		$this->update_site_option( static::LOCATION_VERSIONS_KEY, $location_versions );
 	}
 
 	/**
@@ -1299,7 +1357,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 * @param array $locations
 	 */
 	private function remove_files_for_redundant_locations( $locations ) {
-		$location_versions     = get_site_option( static::LOCATION_VERSIONS_KEY );
+		$location_versions     = $this->get_location_versions( false );
 		$new_location_versions = $location_versions;
 
 		if ( false === $location_versions ) {
@@ -1700,8 +1758,10 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		// Get all files to remove from the existing bucket
 		$files = $this->get_files();
 
-		if ( $files ) {
-			$this->remove_files_from_s3( $files, $bucket, $region, $log_error );
+		if ( ! empty( $files ) ) {
+			foreach ( $files as $location_files ) {
+				$this->remove_files_from_s3( $location_files, $bucket, $region, $log_error );
+			}
 		}
 
 		// Remove the cached files and scripts
@@ -1765,7 +1825,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 */
 	function get_object_version_prefix( $type, $object ) {
 		if ( is_null( $this->location_versions ) ) {
-			$this->location_versions = get_site_option( static::LOCATION_VERSIONS_KEY );
+			$this->location_versions = $this->get_location_versions( false );
 		}
 
 		if ( isset( $this->location_versions[ $type ][ $object ] ) ) {
@@ -1781,12 +1841,17 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 *
 	 * @param string $type
 	 * @param string $object
+	 * @param bool   $update
 	 *
 	 * @return string
 	 */
-	function set_object_version_prefix( $type, $object ) {
+	public function set_object_version_prefix( $type, $object, $update = false ) {
 		if ( is_null( $this->location_versions ) ) {
-			$this->location_versions = get_site_option( static::LOCATION_VERSIONS_KEY );
+			$this->location_versions = $this->get_location_versions( false );
+		}
+
+		if ( ! $update && isset( $this->location_versions[ $type ][ $object ] ) ) {
+			return $this->location_versions[ $type ][ $object ];
 		}
 
 		$this->location_versions[ $type ][ $object ] = date( 'YmdHis' );
@@ -1822,6 +1887,18 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	}
 
 	/**
+	 * Maybe save enqueued files.
+	 */
+	public function maybe_save_enqueued_files() {
+		if ( empty( $this->files_to_enqueue ) ) {
+			// Nothing to save, return
+			return;
+		}
+
+		$this->save_enqueued_files( array_merge_recursive( $this->get_enqueued_files(), $this->files_to_enqueue ) );
+	}
+
+	/**
 	 * Wrapper for replacing CSS and JS local URLs with S3 URLs
 	 *
 	 * @param string $script_type
@@ -1830,11 +1907,13 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 * @return string
 	 */
 	function serve_from_s3( $script_type, $src ) {
-		if ( ! $this->get_setting( 'enable-addon' ) ) {
+		if ( is_admin() || ! $this->get_setting( 'enable-addon' ) ) {
 			return $src;
 		}
 
-		if ( is_admin() || ! ( $files = $this->get_files() ) ) {
+		$files = $this->get_files();
+
+		if ( ! $files ) {
 			// We haven't scanned any scripts to replace
 			return $src;
 		}
@@ -1854,53 +1933,34 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			}
 		}
 
-		// Get the handle to file mapping array for quicker access to scripts
-		$enqueued_scripts     = get_site_option( self::ENQUEUED_SETTINGS_KEY, array() );
-		$locations_processing = $this->get_locations_processing();
-		$script               = false;
-
 		// Get file absolute path
-		$path = $this->get_file_absolute_path( $src );
+		$path   = $this->get_file_absolute_path( $src );
+		$script = false;
 
-		if ( isset( $enqueued_scripts[ $script_type ][ $path ] ) ) {
-			if ( isset( $files[ $path ] ) ) {
-				$script = $files[ $path ];
-			}
+		// Find file's details.
+		foreach ( $files as $location_files ) {
+			if ( array_key_exists( $path, $location_files ) ) {
+				$details = $location_files[ $path ];
 
-			if ( isset( $files[ $path ] ) && in_array( $files[ $path ]['object'], $locations_processing ) ) {
 				// Location still processing, don't enqueue S3 link
-				return $src;
-			}
-		}
-
-		if ( ! $script ) {
-			// We haven't already process this script and added to the 'enqueued_scripts' mapping
-			$url = explode( '?', $src );
-			$url = $this->get_url_without_scheme( $url[0] );
-
-			$base_url = $this->get_setting( 'base_url', site_url() );
-			$base_url = $this->get_url_without_scheme( $base_url );
-
-			foreach ( $files as $file => $details ) {
-				if ( $script_type !== $details['extension'] ) {
-					continue;
-				}
-
+				$locations_processing = $this->get_locations_processing();
 				if ( in_array( $details['object'], $locations_processing ) ) {
-					// Location still processing, don't enqueue S3 link
-					continue;
+					return $src;
 				}
 
-				if ( $this->match_url_with_file( $url, $details['url'], $base_url ) ) {
-					$script = $details;
+				$script = $details;
 
+				// Is file already enqueued?
+				$enqueued_scripts = $this->get_enqueued_files();
+				if ( ! isset( $enqueued_scripts[ $script_type ][ $path ] ) ) {
 					// Add the script to the 'enqueued_scripts' mapping for the future
-					$enqueued_scripts[ $script_type ][ $file ] = array();
-					$this->update_site_option( self::ENQUEUED_SETTINGS_KEY, $enqueued_scripts );
-					break;
+					$this->files_to_enqueue[ $script_type ][ $path ] = array();
 				}
+
+				break;
 			}
 		}
+		unset( $files, $locations_processing, $enqueued_scripts );
 
 		if ( ! $script || ! isset( $script['s3_info'] ) ) {
 			// This script hasn't been scanned or hasn't been uploaded yet to S3
@@ -1936,7 +1996,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 		if ( isset( $expires ) ) {
 			try {
-				$expires    = time() + $expires;
+				$expires    = time() + apply_filters( 'as3cf_assets_expires', $expires );
 				$secure_url = $this->get_s3client( $region )->getObjectUrl( $bucket, $key, $expires );
 			} catch ( Exception $e ) {
 				return $src;
@@ -1951,6 +2011,17 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		}
 
 		return apply_filters( 'as3cf_assets_file_url', $src );
+	}
+
+	/**
+	 * Get location versions.
+	 *
+	 * @param mixed $default
+	 *
+	 * @return mixed
+	 */
+	protected function get_location_versions( $default = array() ) {
+		return get_site_option( static::LOCATION_VERSIONS_KEY, $default );
 	}
 
 	/**
@@ -1975,6 +2046,32 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		}
 
 		return $locations;
+	}
+
+	/**
+	 * Is file processing.
+	 *
+	 * @param string     $file
+	 * @param null|array $files_processing
+	 *
+	 * @return bool
+	 */
+	public function is_file_processing( $file, $files_processing = null ) {
+		if ( is_null( $files_processing ) ) {
+			$files_processing = $this->process_assets->to_process();
+		}
+
+		foreach ( $files_processing as $file_processing ) {
+			if ( ! isset( $file_processing['file'] ) ) {
+				continue;
+			}
+
+			if ( $file === $file_processing['file'] ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -2004,10 +2101,9 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	private function scripts_served_message() {
 		$css_count = $this->count_scripts_being_served( 'css' );
 		$js_count  = $this->count_scripts_being_served( 'js' );
-		$all_files = $this->get_files();
 		$link      = 'https://deliciousbrains.com/wp-offload-s3/doc/assets-addon/';
 
-		if ( count( $all_files ) > 0 ) {
+		if ( $this->count_files() ) {
 			// Files have been uploaded, but may or may be served
 			if ( 0 === ( $css_count + $js_count ) ) {
 				$more_info_link = $this->dbrains_link( $link, _x( 'Why?', 'Why are css and js assets not serving?', 'as3cf-assets' ), 'serving-urls', true );
@@ -2072,38 +2168,6 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	}
 
 	/**
-	 * Match an enqueued script URL to a file we have stored on S3
-	 *
-	 * @param string  $url      The enqueued src URL without scheme
-	 * @param  string $file_url The current file URL
-	 * @param  string $base_url The base url of the site / network
-	 *
-	 * @return bool
-	 */
-	function match_url_with_file( $url, $file_url, $base_url ) {
-		// Remove the scheme from the current file url
-		$file_url = $this->get_url_without_scheme( $file_url );
-
-		if ( $url === $file_url ) {
-			// Schemeless URLs match, typical for single site installs
-			return true;
-		}
-
-		global $wp_scripts;
-		// Get the base url for the enqueued scripts without scheme
-		$site_base_url = $this->get_url_without_scheme( $wp_scripts->base_url );
-
-		// Replace the files base url with the current sites base url
-		// This is for subsites of a network in multisite
-		$file_url = str_replace( $base_url, $site_base_url, $file_url );
-		if ( $url === $file_url ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Get file absolute path
 	 *
 	 * @param string $url
@@ -2153,30 +2217,64 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			return $this->files;
 		}
 
-		$files          = array();
-		$location_types = array();
+		$files = array();
 
 		// Get all available locations
 		$locations = $this->get_file_locations();
 
 		// Add the files from each location into our files array
 		foreach ( $locations as $location ) {
-			$location_files = $this->get_files_by_location( $location );
+			$location_files = $this->get_saved_files_by_location( $location );
 
-			if ( false !== $location_files ) {
-				$files = array_merge( $files, $location_files );
-				array_push( $location_types, $location['type'] );
+			if ( false === $location_files ) {
+				continue;
 			}
-		}
 
-		// Fetch the old master array if no location-based files are found
-		if ( empty( $files ) ) {
-			return get_site_option( self::FILES_SETTINGS_KEY, array() );
+			$files[ $this->get_location_key( $location ) ] = $location_files;
 		}
 
 		$this->files = $files;
 
 		return $files;
+	}
+
+	/**
+	 * Get location key.
+	 *
+	 * @param array $location
+	 *
+	 * @return string
+	 */
+	public function get_location_key( $location ) {
+		$key = $location['type'];
+
+		if ( ! empty( $location['object'] ) ) {
+			$key .= '.' . $location['object'];
+		}
+
+		return $key;
+	}
+
+	/**
+	 * Count saved files.
+	 *
+	 * @return int
+	 */
+	public function count_files() {
+		if ( ! is_null( $this->files_count ) ) {
+			return $this->files_count;
+		}
+
+		$saved_files = $this->get_files();
+		$count       = 0;
+
+		foreach ( $saved_files as $location_files ) {
+			$count += count( $location_files );
+		}
+
+		$this->files_count = $count;
+
+		return $count;
 	}
 
 	/**
@@ -2186,14 +2284,24 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 *
 	 * @return bool|array
 	 */
-	public function get_files_by_location( $location ) {
-		$location_files = false;
-
-		if ( ! empty( $location['type'] ) ) {
-			$location_files = get_site_option( $this->file_locations_key( $location['type'], $location['object'] ) );
+	public function get_saved_files_by_location( $location ) {
+		if ( empty( $location['type'] ) ) {
+			return false;
 		}
 
-		return $location_files;
+		$location_versions = $this->get_location_versions();
+
+		if ( empty( $location['object'] ) && ! isset( $location_versions[ $location['type'] ] ) ) {
+			// Location has no assets, return
+			return false;
+		}
+
+		if ( ! isset( $location_versions[ $location['type'] ][ $location['object'] ] ) ) {
+			// Object has no assets, return
+			return false;
+		}
+
+		return get_site_option( $this->file_locations_key( $location['type'], $location['object'] ) );
 	}
 
 	/**
@@ -2352,6 +2460,28 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			if ( $failures[ $file ]['count'] < 3 && $failures[ $file ]['timestamp'] <= $expires ) {
 				return true;
 			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * Is file processable.
+	 *
+	 * @param string $file
+	 *
+	 * @return bool
+	 */
+	public function is_file_processable( $file ) {
+		if ( ! $this->is_failure( 'gzip', $file ) && ! $this->is_failure( 'upload', $file ) ) {
+			// File not in failure queue, processable
+			return true;
+		}
+
+		if ( $this->is_failure( 'gzip', $file, true ) || $this->is_failure( 'upload', $file, true ) ) {
+			// File in failure queue but time limit reached, processable
+			return true;
 		}
 
 		return false;
@@ -2608,9 +2738,9 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			$output .= "\r\n";
 		}
 
-		if ( $files = $this->get_files() ) {
+		if ( $count = $this->count_files() ) {
 			$output .= 'Scanned Files: ';
-			$output .= count( $files );
+			$output .= $count;
 			$output .= "\r\n";
 		}
 
@@ -2717,13 +2847,11 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			return false;
 		}
 
-		$files = $this->get_files();
-
-		if ( empty( $files ) ) {
-			return false;
+		if ( $this->count_files() ) {
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**

@@ -130,7 +130,14 @@ class AS3CF_Process_Assets {
 
 					break;
 				case 'copy':
-					if ( ! isset( $saved_files[ $file['file'] ] ) ) {
+					// Ensure location type has been supplied
+					if ( ! isset( $file['type'] ) ) {
+						$file = $this->get_location_type( $file );
+					}
+
+					$location_key = $this->as3cf->get_location_key( $file );
+
+					if ( ! isset( $saved_files[ $location_key ][ $file['file'] ] ) ) {
 						// If for some reason we don't have the file saved
 						// in the scanned files array anymore, don't copy it
 						break;
@@ -141,7 +148,7 @@ class AS3CF_Process_Assets {
 						break;
 					}
 
-					$details   = $saved_files[ $file['file'] ];
+					$details   = $saved_files[ $location_key ][ $file['file'] ];
 					$body      = file_get_contents( $file['file'] );
 					$gzip_body = $this->as3cf->maybe_gzip_file( $file['file'], $details, $body );
 
@@ -154,10 +161,10 @@ class AS3CF_Process_Assets {
 					if ( is_wp_error( $s3_info ) ) {
 						$this->as3cf->handle_failure( $file['file'], 'upload' );
 					} else {
-						$details['s3_version']        = $details['local_version'];
-						$details['s3_info']           = $s3_info;
-						$saved_files[ $file['file'] ] = $details;
+						$details['s3_version'] = $details['local_version'];
+						$details['s3_info']    = $s3_info;
 
+						$saved_files[ $location_key ][ $file['file'] ] = $details;
 						$files_copied++;
 
 						// Maybe remove file from upload failure queue
@@ -182,7 +189,9 @@ class AS3CF_Process_Assets {
 
 		// If we have copied files to S3 update our saved files array
 		if ( $files_copied > 0 ) {
-			$this->as3cf->save_files( $saved_files );
+			foreach ( $saved_files as $location_files ) {
+				$this->as3cf->save_files( $location_files );
+			}
 		}
 
 		// If we have removed files from S3, update enqueued files array
@@ -192,6 +201,29 @@ class AS3CF_Process_Assets {
 
 		// Return remainder of files to process, empty array means all processed.
 		return $files_to_process;
+	}
+
+	/**
+	 * Get location type.
+	 *
+	 * @param array $file
+	 *
+	 * @return array
+	 */
+	protected function get_location_type( $file ) {
+		$files = $this->as3cf->get_files();
+
+		foreach ( $files as $files_location ) {
+			foreach ( $files_location as $path => $details ) {
+				if ( $file['file'] === $path ) {
+					$file['type'] = $details['type'];
+
+					break 2;
+				}
+			}
+		}
+
+		return $file;
 	}
 
 	/**

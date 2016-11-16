@@ -8,24 +8,9 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	protected $messages;
 
 	/**
-	 * @var array
-	 */
-	protected $previous_url_whitelist = array( 'cloudfront', 'domain', 'force-https' );
-
-	/**
 	 * @var AS3CF_Pro_Licences_Updates
 	 */
 	protected $licence;
-
-	/**
-	 * @var AS3CF_Init_Settings_Change
-	 */
-	protected $init_settings_change_request;
-
-	/**
-	 * @var AS3CF_Media_Actions
-	 */
-	protected $media_actions_process;
 
 	/**
 	 * The registered tools
@@ -87,50 +72,34 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 * Enable the complete plugin when compatible
 	 */
 	function enable_plugin() {
-		add_action( 'load-upload.php', array( $this, 'load_media_assets' ), 11 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'load_attachment_assets' ), 11 );
+		add_action( 'load-upload.php', array( $this, 'load_media_pro_assets' ), 11 );
 
-		// Find and replace on settings change
-		add_action( 'as3cf_post_settings_render', array( $this, 'post_settings_render' ) );
-		add_action( 'as3cf_form_hidden_fields', array( $this, 'settings_form_hidden_fields' ) );
-		add_action( 'as3cf_pre_save_settings', array( $this, 'pre_save_settings' ) );
-
-		// Find and replace on media page and attachment page
-		add_action( 'admin_footer-upload.php', array( $this, 'find_and_replace_render' ) );
-		add_action( 'admin_footer-post.php', array( $this, 'find_and_replace_render' ) );
-
-		// pro customisations
+		// Pro customisations
 		add_filter( 'as3cf_settings_page_title', array( $this, 'settings_page_title' ) );
 		add_filter( 'as3cf_settings_tabs', array( $this, 'settings_tabs' ) );
 		add_filter( 'as3cf_lost_files_notice', array( $this, 'lost_files_notice' ) );
+		add_action( 'as3cf_load_attachment_assets', array( $this, 'load_attachment_js' ), 10, 2 );
+		add_filter( 'as3cf_media_action_strings', array( $this, 'media_action_strings' ) );
 
-		// media row actions
+		// Media row actions
 		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'enrich_attachment_model' ), 10, 2 );
 		add_filter( 'media_row_actions', array( $this, 'add_media_row_actions' ), 10, 2 );
 		add_action( 'admin_notices', array( $this, 'maybe_display_media_action_message' ) );
 		add_action( 'admin_init', array( $this, 'process_media_actions' ) );
-		// attachment edit
-		add_action( 'add_meta_boxes', array( $this, 'attachment_s3_meta_box' ) );
 
-		// ajax handlers
+		// Ajax handlers
 		add_action( 'wp_ajax_as3cfpro_process_media_action', array( $this, 'ajax_process_media_action' ) );
-		add_action( 'wp_ajax_as3cfpro_get_attachment_s3_details', array( $this, 'ajax_get_attachment_s3_details' ) );
 		add_action( 'wp_ajax_as3cfpro_update_acl', array( $this, 'ajax_update_acl' ) );
 		add_action( 'wp_ajax_as3cfpro_render_sidebar_tools', array( $this, 'ajax_render_sidebar_tools' ) );
 
 		// Settings link on the plugins page
 		add_filter( 'plugin_action_links', array( $this, 'plugin_actions_settings_link' ), 10, 2 );
+
 		// Diagnostic info
 		add_filter( 'as3cf_diagnostic_info', array( $this, 'diagnostic_info' ) );
 
 		// Include compatibility code for other plugins
 		$this->plugin_compat = new AS3CF_Pro_Plugin_Compatibility( $this );
-
-		// Init settings change request
-		$this->init_settings_change_request = new AS3CF_Init_Settings_Change( $this );
-
-		// Media actions background process
-		$this->media_actions_process = new AS3CF_Media_Actions( $this );
 
 		// Tools
 		add_action( 'as3cf_after_settings', array( $this, 'render_tools_sidebar' ) );
@@ -170,11 +139,8 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		$src = plugins_url( 'assets/css/pro/styles.css', $this->plugin_file_path );
 		wp_enqueue_style( 'as3cf-pro-styles', $src, array( 'as3cf-styles' ), $version );
 
-		$src = plugins_url( 'assets/js/pro/find-replace-settings' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-pro-find-replace-settings', $src, array( 'jquery', 'as3cf-modal' ), $version, true );
-
 		$src = plugins_url( 'assets/js/pro/script' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-pro-script', $src, array( 'jquery', 'underscore', 'as3cf-pro-find-replace-settings' ), $version, true );
+		wp_enqueue_script( 'as3cf-pro-script', $src, array( 'jquery', 'underscore' ), $version, true );
 
 
 		$nonces = array(
@@ -182,9 +148,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		);
 
 		$localized_args = array(
-			'settings' => apply_filters( 'as3cfpro_js_settings', array(
-				'previous_url_whitelist' => $this->previous_url_whitelist,
-			) ),
+			'settings' => apply_filters( 'as3cfpro_js_settings', array() ),
 			'strings'  => apply_filters( 'as3cfpro_js_strings', array() ),
 			'nonces'   => apply_filters( 'as3cfpro_js_nonces', $nonces ),
 		);
@@ -195,9 +159,9 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	}
 
 	/**
-	 * Load the media assets
+	 * Load the media Pro assets
 	 */
-	function load_media_assets() {
+	function load_media_pro_assets() {
 		if ( ! $this->verify_media_actions() ) {
 			return;
 		}
@@ -205,13 +169,8 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		$version = $this->get_asset_version();
 		$suffix  = $this->get_asset_suffix();
 
-		$src = plugins_url( 'assets/css/pro/media.css', $this->plugin_file_path );
-		wp_enqueue_style( 'as3cf-pro-media-styles', $src, array( 'as3cf-modal' ), $version );
-
-		wp_enqueue_script( 'as3cf-pro-find-replace-media' );
-
 		$src = plugins_url( 'assets/js/pro/media' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-pro-media-script', $src, array( 'jquery', 'as3cf-pro-find-replace-media', 'media-views', 'media-grid', 'wp-util' ), $version );
+		wp_enqueue_script( 'as3cf-pro-media-script', $src, array( 'jquery', 'media-views', 'media-grid', 'wp-util' ), $version );
 
 		wp_localize_script( 'as3cf-pro-media-script',
 			'as3cfpro_media',
@@ -233,30 +192,14 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	}
 
 	/**
-	 * Load the attachment assets only when editing an attachment
+	 * Load the attachment JS only when editing an attachment.
 	 *
-	 * @param $hook_suffix
+	 * @param string $version
+	 * @param string $suffix
 	 */
-	function load_attachment_assets( $hook_suffix ) {
-		$version = $this->get_asset_version();
-		$suffix  = $this->get_asset_suffix();
-
-		// Register script for later use
-		$src = plugins_url( 'assets/js/pro/find-replace-media' . $suffix . '.js', $this->plugin_file_path );
-		wp_register_script( 'as3cf-pro-find-replace-media', $src, array( 'jquery', 'as3cf-modal' ), $version );
-
-		global $post;
-		if ( 'post.php' != $hook_suffix || 'attachment' != $post->post_type ) {
-			return;
-		}
-
-		$src = plugins_url( 'assets/css/pro/attachment.css', $this->plugin_file_path );
-		wp_enqueue_style( 'as3cf-pro-attachment-styles', $src, array( 'as3cf-modal' ), $version );
-
-		wp_enqueue_script( 'as3cf-pro-find-replace-media' );
-
+	public function load_attachment_js( $version, $suffix ) {
 		$src = plugins_url( 'assets/js/pro/attachment' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-pro-attachment-script', $src, array( 'jquery', 'as3cf-pro-find-replace-media', 'wp-util' ), $version );
+		wp_enqueue_script( 'as3cf-pro-attachment-script', $src, array( 'jquery', 'wp-util' ), $version );
 
 		wp_localize_script( 'as3cf-pro-attachment-script',
 			'as3cfpro_media',
@@ -279,35 +222,35 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	}
 
 	/**
-	 * Get all strings or a specific string used for the media actions
+	 * Add Pro media action strings.
 	 *
-	 * @param null|string $string
+	 * @param array $strings
 	 *
-	 * @return array|string
+	 * @return array
 	 */
-	function get_media_action_strings( $string = null ) {
-		$strings = array(
-			'copy'               => __( 'Copy to S3', 'amazon-s3-and-cloudfront' ),
-			'remove'             => __( 'Remove from S3', 'amazon-s3-and-cloudfront' ),
-			'download'           => __( 'Copy to Server from S3', 'amazon-s3-and-cloudfront' ),
-			'local_warning'      => __( 'This file does not exist locally so removing it from S3 will result in broken links on your site. Are you sure you want to continue?', 'amazon-s3-and-cloudfront' ),
-			'bulk_local_warning' => __( 'Some files do not exist locally so removing them from S3 will result in broken links on your site. Are you sure you want to continue?', 'amazon-s3-and-cloudfront' ),
-			'bucket'             => _x( 'Bucket', 'Amazon S3 bucket', 'amazon-s3-and-cloudfront' ),
-			'key'                => _x( 'Path', 'Path to file on Amazon S3', 'amazon-s3-and-cloudfront' ),
-			'region'             => _x( 'Region', 'Location of Amazon S3 bucket', 'amazon-s3-and-cloudfront' ),
-			'acl'                => _x( 'Access', 'Access control list of the file on Amazon S3', 'amazon-s3-and-cloudfront' ),
-			'amazon_s3'          => __( 'Amazon S3', 'amazon-s3-and-cloudfront' ),
-			'change_to_private'  => __( 'Click to set as Private on S3', 'amazon-s3-and-cloudfront' ),
-			'change_to_public'   => __( 'Click to set as Public on S3', 'amazon-s3-and-cloudfront' ),
-			'updating_acl'       => __( 'Updating…', 'amazon-s3-and-cloudfront' ),
-			'change_acl_error'   => __( 'There was an error changing the ACL. Make sure the IAM user has permission to change the ACL and try again.', 'amazon-s3-and-cloudfront' ),
-		);
-
-		if ( ! is_null( $string ) ) {
-			return isset( $strings[ $string ] ) ? $strings[ $string ] : '';
-		}
+	public function media_action_strings( $strings ) {
+		$strings['copy']               = __( 'Copy to S3', 'amazon-s3-and-cloudfront' );
+		$strings['remove']             = __( 'Remove from S3', 'amazon-s3-and-cloudfront' );
+		$strings['download']           = __( 'Copy to Server from S3', 'amazon-s3-and-cloudfront' );
+		$strings['local_warning']      = __( 'This file does not exist locally so removing it from S3 will result in broken links on your site. Are you sure you want to continue?', 'amazon-s3-and-cloudfront' );
+		$strings['bulk_local_warning'] = __( 'Some files do not exist locally so removing them from S3 will result in broken links on your site. Are you sure you want to continue?', 'amazon-s3-and-cloudfront' );
+		$strings['change_to_private']  = __( 'Click to set as Private on S3', 'amazon-s3-and-cloudfront' );
+		$strings['change_to_public']   = __( 'Click to set as Public on S3', 'amazon-s3-and-cloudfront' );
+		$strings['updating_acl']       = __( 'Updating…', 'amazon-s3-and-cloudfront' );
+		$strings['change_acl_error']   = __( 'There was an error changing the ACL. Make sure the IAM user has permission to change the ACL and try again.', 'amazon-s3-and-cloudfront' );
 
 		return $strings;
+	}
+
+	/**
+	 * Get ACL value string.
+	 *
+	 * @param array $acl
+	 *
+	 * @return string
+	 */
+	protected function get_acl_value_string( $acl ) {
+		return sprintf( '<a id="as3cfpro-toggle-acl" title="%s" data-currentACL="%s" href="#">%s</a>', $acl['title'], $acl['acl'], $acl['name'] );
 	}
 
 	/**
@@ -335,24 +278,6 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		}
 
 		return implode( ' ', $classes );
-	}
-
-	/**
-	 * Add find and replace modal to settings page
-	 */
-	function post_settings_render() {
-		if ( ! $this->is_pro_plugin_setup() ) {
-			return;
-		}
-
-		$this->render_view( 'find-and-replace-settings' );
-	}
-
-	/**
-	 * Add find and replace hidden form field
-	 */
-	function settings_form_hidden_fields() {
-		echo '<input type="hidden" name="find_replace" value="0" />';
 	}
 
 	/**
@@ -390,42 +315,6 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 */
 	function lost_files_notice( $notice ) {
 		return $notice . ' ' . __( 'Alternatively, use the Media Library bulk action <strong>Copy to Server from S3</strong> to ensure the local files exist.', 'amazon-s3-and-cloudfront' );
-	}
-
-	/**
-	 * Initiate find and replace on settings update.
-	 */
-	function pre_save_settings() {
-		if ( ! isset( $_POST['find_replace'] ) || 0 === (int) $_POST['find_replace'] ) {
-			// Find and replace not required
-			return;
-		}
-
-		$data = array();
-
-		foreach ( $this->previous_url_whitelist as $key ) {
-			$data['previous'][ $key ] = $this->get_setting( $key );
-			$data['new'][ $key ]      = sanitize_text_field( $_POST[ $key ] ); // input var ok
-		}
-
-		$this->notices->add_notice(
-			__( '<strong>WP Offload S3 Find & Replace Running</strong> &mdash; URLs within your content are being updated in the background. This may take a while depending on how many items you have in your Media Library and how much content you have.', 'amazon-s3-and-cloudfront' ),
-			array( 'custom_id' => 'as3cf-notice-running-find-replace', 'flash' => false )
-		);
-
-		// Dispatch background request to process replacements
-		$this->init_settings_change_request->data( $data )->dispatch();
-	}
-
-	/**
-	 * Render find and replace modal
-	 */
-	function find_and_replace_render() {
-		if ( ! $this->is_pro_plugin_setup() ) {
-			return;
-		}
-
-		$this->render_view( 'find-and-replace-media' );
 	}
 
 	/**
@@ -509,244 +398,6 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	}
 
 	/**
-	 * Get the original local URL for attachment
-	 *
-	 * This is a direct copy of wp_get_attachment_url() from /wp-includes/post.php
-	 * as we filter the URL in AS3CF and can't remove this filter using the current implementation
-	 * of globals for class instances.
-	 *
-	 * @param int $post_id
-	 *
-	 * @return bool|mixed|string
-	 */
-	function get_local_attachment_url( $post_id ) {
-		$post_id = (int) $post_id;
-
-		if ( ! $post = get_post( $post_id ) ) {
-			return false;
-		}
-
-		if ( 'attachment' != $post->post_type ) {
-			return false;
-		}
-
-		$url = '';
-		// Get attached file.
-		if ( $file = get_post_meta( $post->ID, '_wp_attached_file', true ) ) {
-			// Get upload directory.
-			if ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) {
-				// Check that the upload base exists in the file location.
-				if ( 0 === strpos( $file, $uploads['basedir'] ) ) {
-					// Replace file location with url location.
-					$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
-				} elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
-					$url = $uploads['baseurl'] . substr( $file, strpos( $file, 'wp-content/uploads' ) + 18 );
-				} else {
-					// It's a newly-uploaded file, therefore $file is relative to the basedir.
-					$url = $uploads['baseurl'] . "/$file";
-				}
-			}
-		}
-
-		/*
-		 * If any of the above options failed, Fallback on the GUID as used pre-2.7,
-		 * not recommended to rely upon this.
-		 */
-		if ( empty( $url ) ) {
-			$url = get_the_guid( $post->ID );
-		}
-
-		if ( empty( $url ) ) {
-			return false;
-		}
-
-		// Set correct domain on multisite subdomain installs
-		if ( is_multisite() ) {
-			$siteurl         = trailingslashit( get_option( 'siteurl' ) );
-			$network_siteurl = trailingslashit( network_site_url() );
-
-			if ( 0 !== strpos( $url, $siteurl ) ) {
-				// URL already using site URL, no replacement needed
-				$url = str_replace( $network_siteurl, $siteurl, $url );
-			}
-		}
-
-		return $url;
-	}
-
-	/**
-	 * Find and replace embedded URLs for an attachment
-	 *
-	 * @param int        $attachment_id
-	 * @param bool       $upload if TRUE then we are swapping local URLs with S3 URLs for an upload,
-	 *                           if FALSE then we are removing/downloading from S3 therefore we are
-	 *                           swapping the S3 URLs with local URLs in content.
-	 * @param array|null $meta attachment meta data
-	 */
-	function find_and_replace_attachment_urls( $attachment_id, $upload = true, $meta = null ) {
-		if ( is_null( $meta ) ) {
-			$meta = wp_get_attachment_metadata( $attachment_id, true );
-		}
-
-		$file_path = get_attached_file( $attachment_id, true );
-
-		$local_url = $this->get_local_attachment_url( $attachment_id );
-		$s3_url    = $this->get_attachment_url( $attachment_id, null, null, $meta, array(), true );
-
-		$old_url = ( $upload ) ? $local_url : $s3_url;
-		$new_url = ( $upload ) ? $s3_url : $local_url;
-
-		$this->find_and_replace_urls( $file_path, $old_url, $new_url, $meta );
-
-		// On legacy MS installs (pre 3.5) we need to also search for attachment GUID
-		// as paths were rewritten to exclude '/wp-content/blogs.dir/'
-		if ( is_multisite() && false !== strpos( $local_url, '/blogs.dir/' ) ) {
-			$old_url = get_the_guid( $attachment_id );
-			$this->find_and_replace_urls( $file_path, $old_url, $new_url, $meta );
-		}
-	}
-
-	/**
-	 * Find and replace embedded URLs
-	 *
-	 * @param string      $file_path base file path
-	 * @param string      $old_url
-	 * @param string      $new_url
-	 * @param array       $meta
-	 * @param string|null $old_filepath - Used when replacing URLs with different filenames
-	 * @param array       $old_meta     - Used when replacing URLs with different filenames
-	 *
-	 */
-	function find_and_replace_urls( $file_path, $old_url, $new_url, $meta = array(), $old_filepath = null, $old_meta = array() ) {
-		if ( empty( $old_url ) || empty( $new_url ) ) {
-			return;
-		}
-
-		$file_name = basename( $file_path );
-
-		$old_filename = $file_name;
-		if ( ! is_null( $old_filepath ) ) {
-			$old_filename = basename( $old_filepath );
-		}
-
-		$find_replace_pairs = array();
-
-		$find_replace_pairs[] = array(
-			'old_path' => $file_path,
-			'old_url'  => $old_url,
-			'new_url'  => $new_url,
-		);
-
-		// do for thumb and image sizes
-		if ( isset( $meta['thumb'] ) && $meta['thumb'] ) {
-			// Replace URLs for legacy thumbnail of image
-			$old_meta_filename = isset( $old_meta['thumb'] ) ? $old_meta['thumb'] : $meta['thumb'];
-
-			$find_replace_pairs[] = array(
-				'old_path' => str_replace( $file_name, $meta['thumb'], $file_path ),
-				'old_url'  => str_replace( $old_filename, $old_meta_filename, $old_url ),
-				'new_url'  => str_replace( $file_name, $meta['thumb'], $new_url ),
-			);
-		} elseif ( ! empty( $meta['sizes'] ) ) {
-			// Replace URLs for intermediate sizes of image
-			foreach ( $meta['sizes'] as $key => $size ) {
-				if ( ! isset( $size['file'] ) ) {
-					continue;
-				}
-				$old_meta_filename = isset( $old_meta['sizes'][$key]['file'] ) ? $old_meta['sizes'][$key]['file'] : $size['file'];
-
-				$find_replace_pairs[] = array(
-					'old_path' => str_replace( $file_name, $size['file'], $file_path ),
-					'old_url'  => str_replace( $old_filename, $old_meta_filename, $old_url ),
-					'new_url'  => str_replace( $file_name, $size['file'], $new_url ),
-				);
-			}
-		}
-
-		$find_replace_pairs = apply_filters( 'as3cf_find_replace_url_pairs', $find_replace_pairs, $file_path, $old_url, $new_url, $meta, $old_filepath, $old_meta );
-
-		// take the pairs and do the magic on the database
-		$this->process_pair_replacement( $find_replace_pairs );
-	}
-
-	/**
-	 * Returns a filtered list of post types that should be excluded from find
-	 * and replace tasks.
-	 *
-	 * @return array Post types to be excluded during find and replace.
-	 */
-	public function get_find_and_replace_post_type_exclusions() {
-		// Set the array of post types to exclude.
-		$post_types = array(
-			'edd_discount',       // Easy Digital Downloads
-			'edd_log',            // Easy Digital Downloads
-			'edd_payment',        // Easy Digital Downloads
-			'shop_coupon',        // WooCommerce
-			'shop_order_refund',  // WooCommerce
-			'shop_webhook',       // WooCommerce
-			'nav_menu_item',      // WordPress
-			'wprss_blacklist',    // WP RSS Aggregator
-			'wprss_feed',         // WP RSS Aggregator
-			'wprss_feed_item',    // WP RSS Aggregator
-		);
-
-		/**
-		 * Filters the find and replace post type exclusions array.
-		 *
-		 * @param array $post_types
-		 */
-		return (array) apply_filters( 'as3cfpro_find_replace_post_type_exclusions', $post_types );
-	}
-
-	/**
-	 * Generate the WHERE clause to determine the posts in scope for URL
-	 * find and replacement.
-	 *
-	 * @return string
-	 */
-	protected function get_where_clause_for_posts_in_scope_for_find_replace() {
-		$where_sql  = '';
-		$exclusions = $this->get_find_and_replace_post_type_exclusions();
-
-		// Exclude post types we know don't need replacing.
-		if ( ! empty( $exclusions ) ) {
-			$exclusions = implode( "','", array_map( 'esc_sql', $exclusions ) );
-			$where_sql  = " WHERE `post_type` NOT IN ( '{$exclusions}' )";
-		}
-
-		return $where_sql;
-	}
-
-	/**
-	 * Perform the find and replace in the database of old and new URLs
-	 *
-	 * Scope of replacement:
-	 *  - wp_posts.post_content
-	 *
-	 * @param array $find_replace_pairs multidimensional array containing pairs of
-	 *                                  old and new URLs for replacement
-	 */
-	function process_pair_replacement( $find_replace_pairs = array() ) {
-		global $wpdb;
-
-		foreach ( $find_replace_pairs as $pair ) {
-			if ( ! isset( $pair['old_url'] ) || ! isset( $pair['new_url'] ) ) {
-				// we need both URLs for the find and replace
-				continue;
-			}
-
-			// // Exclude post types we know don't need replacing.
-			$where_sql = $this->get_where_clause_for_posts_in_scope_for_find_replace();
-
-			// this could be built up with nested replace() but initially keep as is
-			// unless performance and scale becomes an issue after v1.0
-			$post_content_sql = "UPDATE $wpdb->posts SET `post_content` = replace(post_content, '{$pair['old_url']}', '{$pair['new_url']}'){$where_sql};";
-			// run the sql
-			$wpdb->query( $post_content_sql );
-		}
-	}
-
-	/**
 	 * Handle S3 actions applied to attachments via the Backbone JS
 	 * in the media grid and edit attachment modal
 	 */
@@ -761,10 +412,8 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 
 		$ids = array_map( 'intval', $_POST['ids'] ); // input var okay
 
-		$do_find_and_replace = isset( $_POST['find_and_replace'] ) && $_POST['find_and_replace'] ? true : false;
-
 		// process the S3 action for the attachments
-		$return = $this->maybe_do_s3_action( $action, $ids, true, $do_find_and_replace );
+		$return = $this->maybe_do_s3_action( $action, $ids, true );
 
 		$message_html = '';
 
@@ -773,27 +422,6 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		}
 
 		wp_send_json_success( $message_html );
-	}
-
-	/**
-	 * Handle retieving the S3 actions that can be applied to an attachment
-	*/
-	function ajax_get_attachment_s3_details() {
-		if ( ! isset( $_POST['id'] ) ) {
-			return;
-		}
-
-		check_ajax_referer( 'get-attachment-s3-details', '_nonce' );
-
-		$id = intval( $_POST['id'] );
-
-		// get the actions available for the attachment
-		$data = array(
-			'links'    => $this->add_media_row_actions( array(), $id ),
-			's3object' => $this->get_formatted_s3_info( $id ),
-		);
-
-		wp_send_json_success( $data );
 	}
 
 	/*
@@ -851,23 +479,6 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	}
 
 	/**
-	 * Process find and replace attachment
-	 *
-	 * @param array $attachment
-	 * @param array $previous_settings
-	 * @param array $new_settings
-	 */
-	function process_find_replace_attachment( $attachment, $previous_settings, $new_settings ) {
-		$s3_info   = maybe_unserialize( $attachment['meta_value'] );
-		$file_path = get_attached_file( $attachment['post_id'], true );
-		$old_url   = $this->get_custom_attachment_url( $s3_info, $previous_settings );
-		$new_url   = $this->get_custom_attachment_url( $s3_info, $new_settings );
-		$meta      = wp_get_attachment_metadata( $attachment['post_id'], true );
-
-		$this->find_and_replace_urls( $file_path, $old_url, $new_url, $meta );
-	}
-
-	/**
 	 * Get the S3 attachment url, based on the provided URL settings.
 	 *
 	 * @param array $attachment
@@ -905,73 +516,6 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		$response['bulk_local_warning'] = ! file_exists( $file );
 
 		return $response;
-	}
-
-	/**
-	 * Add the S3 meta box to the attachment screen
-	 */
-	function attachment_s3_meta_box() {
-		add_meta_box( 's3-actions', __( 'Amazon S3', 'amazon-s3-and-cloudfront' ), array( $this, 'attachment_s3_actions_meta_box' ), 'attachment', 'side', 'core' );
-	}
-
-	/**
-	 * Return a formatted S3 info with display friendly defaults
-	 *
-	 * @param int        $id
-	 * @param array|null $s3object
-	 *
-	 * @return array
-	 */
-	function get_formatted_s3_info( $id, $s3object = null ) {
-		if ( is_null( $s3object ) ) {
-			if ( ! ( $s3object = $this->get_attachment_s3_info( $id ) ) ) {
-				return false;
-			}
-		}
-
-		$acl = ( isset( $s3object['acl'] ) ) ? $s3object['acl'] : self::DEFAULT_ACL;
-
-		$acl_info = array(
-			'acl'   => $acl,
-			'name'  => $this->get_acl_display_name( $acl ),
-			'title' => $this->get_media_action_strings( 'change_to_private' ),
-		);
-
-		if ( self::PRIVATE_ACL === $acl ) {
-			$acl_info['title'] =  $this->get_media_action_strings( 'change_to_public' );
-		}
-
-		$s3object['acl'] = $acl_info;
-
-		$regions = $this->get_aws_regions();
-
-		if ( isset( $s3object['region'] ) && '' == $s3object['region'] ) {
-			$s3object['region'] = self::DEFAULT_REGION;
-		}
-
-		if ( isset( $regions[ $s3object['region'] ] ) ) {
-			$s3object['region'] = $regions[ $s3object['region'] ];
-		}
-
-		return $s3object;
-	}
-
-	/**
-	 * Render the S3 attachment meta box
-	 */
-	function attachment_s3_actions_meta_box() {
-		global $post;
-		$file = get_attached_file( $post->ID, true );
-
-		$args = array(
-			's3object'                 => $this->get_formatted_s3_info( $post->ID ),
-			'post'                     => $post,
-			'local_file_exists'        => file_exists( $file ),
-			'user_can_perform_actions' => $this->verify_media_actions(),
-			'sendback'                 => 'post.php?post=' . $post->ID . '&action=edit',
-		);
-
-		$this->render_view( 'attachment-metabox', $args );
 	}
 
 	/**
@@ -1127,13 +671,11 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 
 		$sendback = isset( $_GET['sendback'] ) ? $_GET['sendback'] : admin_url( 'upload.php' );
 
-		$do_find_and_replace = isset( $_GET['find_and_replace'] ) && $_GET['find_and_replace'] ? true : false;
-
 		$args = array(
 			'as3cfpro-action' => $action,
 		);
 
-		$result = $this->maybe_do_s3_action( $action, $ids, $doing_bulk_action, $do_find_and_replace );
+		$result = $this->maybe_do_s3_action( $action, $ids, $doing_bulk_action );
 
 		if ( ! $result ) {
 			unset( $args['as3cfpro-action'] );
@@ -1159,20 +701,19 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 * @param array $ids                 attachment IDs
 	 * @param bool  $doing_bulk_action   flag for multiple attachments, if true then we need to
 	 *                                   perform a check for each attachment
-	 * @param bool  $do_find_and_replace flag specifying if we need to run find and replace
 	 *
 	 * @return bool|array on success array with success count and error count
 	 */
-	function maybe_do_s3_action( $action, $ids, $doing_bulk_action, $do_find_and_replace ) {
+	function maybe_do_s3_action( $action, $ids, $doing_bulk_action ) {
 		switch ( $action ) {
 			case 'copy':
-				$result = $this->maybe_upload_attachments_to_s3( $ids, $doing_bulk_action, $do_find_and_replace );
+				$result = $this->maybe_upload_attachments_to_s3( $ids, $doing_bulk_action );
 				break;
 			case 'remove':
-				$result = $this->maybe_delete_attachments_from_s3( $ids, $doing_bulk_action, $do_find_and_replace );
+				$result = $this->maybe_delete_attachments_from_s3( $ids, $doing_bulk_action );
 				break;
 			case 'download':
-				$result = $this->maybe_download_attachments_from_s3( $ids, $doing_bulk_action, $do_find_and_replace );
+				$result = $this->maybe_download_attachments_from_s3( $ids, $doing_bulk_action );
 				break;
 			default:
 				// not one of our actions, remove
@@ -1312,11 +853,10 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 * @param bool  $doing_bulk_action   flag for multiple attachments, if true then we need to
 	 *                                   perform a check for each attachment to make sure the
 	 *                                   file exists locally before uploading to S3
-	 * @param bool  $do_find_and_replace flag specifying if we need to run find and replace
 	 *
 	 * @return bool
 	 */
-	function maybe_upload_attachments_to_s3( $post_ids, $doing_bulk_action = false, $do_find_and_replace = false ) {
+	function maybe_upload_attachments_to_s3( $post_ids, $doing_bulk_action = false ) {
 		$error_count    = 0;
 		$uploaded_count = 0;
 
@@ -1331,31 +871,15 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 			}
 
 			// Upload the attachment to S3
-			$remove_local_file = ! $do_find_and_replace;
-			$result            = $this->upload_attachment_to_s3( $post_id, null, null, $doing_bulk_action, $remove_local_file );
+			$result = $this->upload_attachment_to_s3( $post_id, null, null, $doing_bulk_action );
 
 			if ( is_wp_error( $result ) ) {
 				$error_count++;
 				continue;
 			}
 
-			// Update local URLs in content to S3 URLs
-			if ( $do_find_and_replace ) {
-				global $blog_id;
-
-				$data = array(
-					'action'        => 'copy',
-					'attachment_id' => $post_id,
-					'blog_id'       => $blog_id,
-					'upload'        => true
-				);
-				$this->media_actions_process->push_to_queue( $data );
-			}
-
 			$uploaded_count ++;
 		}
-
-		$this->media_actions_process->save()->dispatch();
 
 		$result = array(
 			'errors' => $error_count,
@@ -1372,11 +896,10 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 * @param bool  $doing_bulk_action   flag for multiple attachments, if true then we need to
 	 *                                   perform a check for each attachment to make sure it has
 	 *                                   been uploaded to S3 before trying to delete it
-	 * @param bool  $do_find_and_replace flag specifying if we need to run find and replace
 	 *
 	 * @return bool
 	 */
-	function maybe_delete_attachments_from_s3( $post_ids, $doing_bulk_action = false, $do_find_and_replace = false ) {
+	function maybe_delete_attachments_from_s3( $post_ids, $doing_bulk_action = false ) {
 		$error_count   = 0;
 		$deleted_count = 0;
 
@@ -1388,32 +911,15 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 				continue;
 			}
 
-			if ( $do_find_and_replace ) {
-				global $blog_id;
-
-				// Push task to background process
-				$data = array(
-					'action'        => 'remove',
-					'attachment_id' => $post_id,
-					'blog_id'       => $blog_id,
-					'upload'        => false,
-				);
-				$this->media_actions_process->push_to_queue( $data );
-			} else {
-				// Delete attachment from S3
-				$this->delete_attachment( $post_id, $doing_bulk_action );
-				if ( $this->get_attachment_s3_info( $post_id ) ) {
-					$error_count++;
-					continue;
-				}
+			// Delete attachment from S3
+			$this->delete_attachment( $post_id, $doing_bulk_action );
+			if ( $this->get_attachment_s3_info( $post_id ) ) {
+				$error_count++;
+				continue;
 			}
 
-			// If here, delete worked, or we can assume Find & Replace plus Delete *will* work.
 			$deleted_count++;
 		}
-
-		// Dispatch background process
-		$this->media_actions_process->save()->dispatch();
 
 		$result = array(
 			'errors' => $error_count,
@@ -1431,11 +937,10 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 *                                   perform a check for each attachment to make sure it has
 	 *                                   been uploaded to S3 and does not exist locally before
 	 *                                   trying to download it
-	 * @param bool  $do_find_and_replace flag specifying if we need to run find and replace
 	 *
 	 * @return bool
 	 */
-	function maybe_download_attachments_from_s3( $post_ids, $doing_bulk_action = false, $do_find_and_replace = false ) {
+	function maybe_download_attachments_from_s3( $post_ids, $doing_bulk_action = false ) {
 		$error_count    = 0;
 		$download_count = 0;
 
@@ -1460,20 +965,8 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 				}
 			}
 
-			// Update S3 URLs in content to local URLs
-			if ( $do_find_and_replace ) {
-				$data = array(
-					'action'        => 'download',
-					'attachment_id' => $post_id,
-					'upload'        => false,
-				);
-				$this->media_actions_process->push_to_queue( $data );
-			}
-
 			$download_count ++;
 		}
-
-		$this->media_actions_process->save()->dispatch();
 
 		$result = array(
 			'errors' => $error_count,
@@ -1482,15 +975,6 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 
 		return $result;
 	}
-
-	/**
-	 * Download attachment and associated files from S3 to local
-	 *
-	 * @param int  $post_id             attachment ID
-	 * @param bool $force_new_s3_client if we are downloading in bulk, force new S3 client
-	 *                                  to cope with possible different regions
-	 */
-
 
 	/**
 	 * Download missing attachment and associated files from S3 to local
@@ -1800,9 +1284,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 			$table_prefixes = $this->get_all_blog_table_prefixes();
 
 			foreach ( $table_prefixes as $blog_id => $table_prefix ) {
-				$where_sql = $this->get_where_clause_for_posts_in_scope_for_find_replace();
-
-				$post_count += $wpdb->get_var( "SELECT COUNT(ID) FROM {$table_prefix}posts {$where_sql}" );
+				$post_count += $wpdb->get_var( "SELECT COUNT(ID) FROM {$table_prefix}posts" );
 			}
 
 			set_site_transient( 'wpos3_post_count', $post_count, 2 * HOUR_IN_SECONDS );

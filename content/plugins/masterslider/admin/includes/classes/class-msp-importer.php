@@ -216,9 +216,39 @@ class MSP_Importer {
 
 				if ( $starter_field = msp_get_slider_starter_field( $_REQUEST['starter_id'] ) ) {
 
-					if ( isset( $starter_field['importdata'] ) && ! empty( $starter_field['importdata'] )  ) {
+                    $import_data = $starter_field['importdata'];
 
-						$this->import_data( $starter_field['importdata'] );
+                    // Retrieve data of current slider remotely if data is not embeded
+                    if( empty( $import_data ) ){
+
+                       global $wp_version;
+
+                        $slider_uid = ! empty( $starter_field['uid'] ) ? $starter_field['uid'] : '';
+
+                        if( ! empty( $slider_uid ) ){
+                            $args = array(
+                                'user-agent' => 'WordPress/'. $wp_version.'; '. get_site_url(),
+                                'timeout'    => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 10 ),
+                                'body'       => array(
+                                    'slider_uid' => $slider_uid
+                                )
+                            );
+
+                            $request = wp_remote_post( 'http://demo.averta.net/themes/lotus/dummy-agency/api/', $args );
+
+                            if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) !== 200 ) {
+                                _e( 'Cannot fetch slider data ..', MSWP_TEXT_DOMAIN );
+                                $import_data = '';
+                            } else {
+                               $import_data = $request['body'];
+                            }
+
+                        }
+
+                    }
+
+					if ( ! empty( $import_data )  ) {
+                        $this->import_data( $import_data );
 						printf( "<script> var redirect_link = '%s';</script>", admin_url( 'admin.php?page='.MSWP_SLUG.'&action=edit&slider_id='.$this->last_new_slider_id. '&fr' ) );
 
 					} else {
@@ -391,11 +421,12 @@ class MSP_Importer {
 		$export_data['buttons_style']  = in_array( 'buttons_style' , $args ) ? msp_get_option( 'buttons_style' , '' ) : '';
 
 
-		$export_json_data = json_encode( $export_data );
-		$export_b64_data  = base64_encode( $export_json_data );
+		if ( $base64 ){
+            $export_json_data = json_encode( $export_data );
+            $export_b64_data  = base64_encode( $export_json_data );
 
-		if ( $base64 )
-			return $export_b64_data;
+            return $export_b64_data;
+        }
 
 		return $export_data;
 	}
@@ -411,7 +442,6 @@ class MSP_Importer {
 	 */
 	function the_slider_export_data ( $slider_id, $args = null, $base64 = true ){
 		$export = $this->get_slider_export_data( $slider_id, $args, $base64 );
-		axpp( $export );
 	}
 
 
@@ -738,19 +768,32 @@ class MSP_Importer {
 			return new WP_Error( 'upload_dir_error', $upload['error'] );
 
 		// fetch the remote url and write it to the placeholder file
-		$headers = wp_get_http( $url, $upload['file'] );
+        $response = wp_remote_get( $url, array(
+            'stream'   => true,
+            'filename' => $upload['file']
+        ) );
 
-		// request failed
-		if ( ! $headers ) {
-			@unlink( $upload['file'] );
-			return new WP_Error( 'import_file_error', __('Remote server did not respond', 'wordpress-importer') );
-		}
+        // request failed
+        if ( is_wp_error( $response ) ) {
+            @unlink( $upload['file'] );
+            return $response;
+        }
 
-		// make sure the fetch was successful
-		if ( $headers['response'] != '200' ) {
-			@unlink( $upload['file'] );
-			return new WP_Error( 'import_file_error', sprintf( __('Remote server returned error response %1$d %2$s', 'wordpress-importer'), esc_html( $headers['response'] ), get_status_header_desc( $headers['response'] ) ) );
-		}
+        $code = (int) wp_remote_retrieve_response_code( $response );
+
+        // make sure the fetch was successful
+        if ( $code !== 200 ) {
+            @unlink( $upload['file'] );
+            return new WP_Error(
+                'import_file_error',
+                sprintf(
+                    __('Remote server returned %1$d %2$s for %3$s', 'wordpress-importer'),
+                    $code,
+                    get_status_header_desc( $code ),
+                    $url
+                )
+            );
+        }
 
 		$filesize = filesize( $upload['file'] );
 

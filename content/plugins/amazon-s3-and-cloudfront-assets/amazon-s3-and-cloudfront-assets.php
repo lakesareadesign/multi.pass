@@ -4,7 +4,7 @@ Plugin Name: WP Offload S3 - Assets Addon
 Plugin URI: http://deliciousbrains.com/wp-offload-s3/#addons
 Description: WP Offload S3 addon to serve your site's JS, CSS and other assets from S3. Requires Pro Upgrade.
 Author: Delicious Brains
-Version: 1.2.1
+Version: 1.2.2
 Author URI: http://deliciousbrains.com
 Network: True
 

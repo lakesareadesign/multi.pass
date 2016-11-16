@@ -39,11 +39,6 @@ class AS3CF_Downloader extends AS3CF_Tool {
 	protected $show_file_size = false;
 
 	/**
-	 * @var bool
-	 */
-	protected $find_replace_upload = false;
-
-	/**
 	 * @var string
 	 */
 	protected $last_processed_key;
@@ -213,7 +208,7 @@ class AS3CF_Downloader extends AS3CF_Tool {
 	}
 
 	/**
-	 * Download the attachment from S3 and start a find and replace of the URLs
+	 * Download the attachment from S3
 	 *
 	 * @param int   $attachment_id
 	 * @param int   $blog_id
@@ -241,11 +236,6 @@ class AS3CF_Downloader extends AS3CF_Tool {
 			'blog_id'       => $blog_id,
 			'upload'        => false,
 		);
-
-		// Do find and replace of S3 with local URLs
-		if ( $this->do_find_replace ) {
-			$this->find_replace_process->push_to_queue( $data );
-		}
 
 		update_site_option( $this->last_processed_key, $data );
 

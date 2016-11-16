@@ -85,7 +85,9 @@ add_action( 'admin_init', 'msp_new_api_compatibility' );
  */
 function msp_request_remote_sample_sliders( $force_to_fetch = false ) {
 
-    $request_body = array();
+    $request_body = array(
+        'ver' => '1.6.0'
+    );
 
     if ( ! defined( 'MSWP_SLUG' ) ) {
         return false;

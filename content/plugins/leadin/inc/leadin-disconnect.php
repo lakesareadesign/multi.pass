@@ -10,15 +10,16 @@ if (is_admin()) {
 
 function leadin_disconnect_ajax()
 {   
-    if (get_option('leadin_slumber_mode')) {
+    if (get_option('leadin_portalId')) {
        delete_option('leadin_portalId');
        delete_option('leadin_slumber_mode');
+       delete_option('leadin_hapikey');
 
        wp_die('{"message": "Success!"}'); 
     } else {
         error_log("Disconnect error");
         header('HTTP/1.0 400 Bad Request');
-        wp_die('{"error": "Leadin must be in slumber mode to disconnect"}');
+        wp_die('{"error": "No leadin_portalId found, cannot disconnect."}');
     }
     
 }

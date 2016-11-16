@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the amazon-s3-and-cloudfront-assets package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-s3-and-cloudfront-assets\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2016-09-19 08:50+0100\n"
+"POT-Creation-Date: 2016-11-14 10:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,112 +17,112 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: classes/amazon-s3-and-cloudfront-assets.php:132
+#: classes/amazon-s3-and-cloudfront-assets.php:135
 msgid "Error getting new key: "
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:133
+#: classes/amazon-s3-and-cloudfront-assets.php:136
 msgid "Error performing manual action: "
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:134
+#: classes/amazon-s3-and-cloudfront-assets.php:137
 msgctxt "Processing manual action"
 msgid "Processing"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:135
-#: classes/amazon-s3-and-cloudfront-assets.php:1987
+#: classes/amazon-s3-and-cloudfront-assets.php:138
+#: classes/amazon-s3-and-cloudfront-assets.php:2084
 msgid "Scanning and uploading files to S3."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:136
-#: classes/amazon-s3-and-cloudfront-assets.php:1989
+#: classes/amazon-s3-and-cloudfront-assets.php:139
+#: classes/amazon-s3-and-cloudfront-assets.php:2086
 msgid "Purging files from S3."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:137
-#: classes/amazon-s3-and-cloudfront-assets.php:1991
+#: classes/amazon-s3-and-cloudfront-assets.php:140
+#: classes/amazon-s3-and-cloudfront-assets.php:2088
 msgid "No CSS or JS is being served because \"Copy & Serve\" is off."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:164
+#: classes/amazon-s3-and-cloudfront-assets.php:167
 msgctxt "Show the Assets settings tab"
 msgid "Assets"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:205
+#: classes/amazon-s3-and-cloudfront-assets.php:208
 #: view/assets-progress.php:3
 msgid "Assets Status"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:890
+#: classes/amazon-s3-and-cloudfront-assets.php:845
 #, php-format
 msgid "AS3CF Assets -  S3 Upload every %d Minutes"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1495
+#: classes/amazon-s3-and-cloudfront-assets.php:1553
 #, php-format
 msgid "File does not exist - %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1507
+#: classes/amazon-s3-and-cloudfront-assets.php:1565
 #, php-format
 msgid "Error uploading %s to S3: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1541
+#: classes/amazon-s3-and-cloudfront-assets.php:1599
 #, php-format
 msgid "Error uploading body to S3: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2013
-#: classes/amazon-s3-and-cloudfront-assets.php:2021
+#: classes/amazon-s3-and-cloudfront-assets.php:2109
+#: classes/amazon-s3-and-cloudfront-assets.php:2117
 msgctxt "Why are css and js assets not serving?"
 msgid "Why?"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2014
+#: classes/amazon-s3-and-cloudfront-assets.php:2110
 #, php-format
 msgid ""
 "CSS and JS files have been uploaded to S3 but none of the files have been "
 "served just yet. %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2017
+#: classes/amazon-s3-and-cloudfront-assets.php:2113
 #, php-format
 msgid "%d JS and %d CSS enqueued files are currently being served. %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2022
+#: classes/amazon-s3-and-cloudfront-assets.php:2118
 #, php-format
 msgid "No CSS or JS files are being served. %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2450
+#: classes/amazon-s3-and-cloudfront-assets.php:2580
 msgid "Gzip Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2451
+#: classes/amazon-s3-and-cloudfront-assets.php:2581
 msgid "There were errors when attempting to compress your assets."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2454
+#: classes/amazon-s3-and-cloudfront-assets.php:2584
 msgid "Minify Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2455
+#: classes/amazon-s3-and-cloudfront-assets.php:2585
 msgid "There were errors when attempting to minify your assets."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2459
+#: classes/amazon-s3-and-cloudfront-assets.php:2589
 msgid "Upload Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2460
+#: classes/amazon-s3-and-cloudfront-assets.php:2590
 msgid "There were errors when attempting to upload your assets to S3."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2696
+#: classes/amazon-s3-and-cloudfront-assets.php:2826
 msgid "Next scan:"
 msgstr ""
 

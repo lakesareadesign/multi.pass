@@ -97,25 +97,11 @@
 		itemsProcessed: false,
 
 		/**
-		 * Are we processing a find and replace before the tool processing
-		 *
-		 * {bool}
-		 */
-		findAndReplace: true,
-
-		/**
 		 * Is the main modal active
 		 *
 		 * {bool}
 		 */
 		progressModalActive: false,
-
-		/**
-		 * Is the redirect modal active
-		 *
-		 * {bool}
-		 */
-		redirectModalActive: false,
 
 		/**
 		 * Percentage of process
@@ -160,13 +146,6 @@
 		contentHeight: 0,
 
 		/**
-		 * HTML of open redirect modal
-		 *
-		 * {object|bool}
-		 */
-		$redirectContent: false,
-
-		/**
 		 * HTML of open modal
 		 *
 		 * {object|bool}
@@ -179,13 +158,6 @@
 		 * {object|bool}
 		 */
 		$progressContentOriginal: false,
-
-		/**
-		 * Copy of redirect modal
-		 *
-		 * {object|bool}
-		 */
-		$redirectContentOriginal: false,
 
 		/**
 		 * Open the tool modal
@@ -221,10 +193,8 @@
 		 */
 		cloneViews: function() {
 			this.$progressContentOriginal = $( '.progress-content' ).clone();
-			this.$redirectContentOriginal = $( '.redirect-content' ).clone();
 
 			$( '.progress-content' ).remove();
-			$( '.redirect-content' ).remove();
 		},
 
 		/**
@@ -257,32 +227,10 @@
 					'display': 'none'
 				} );
 
-			if ( as3cfpro.settings.tools[ this.ID ].find_replace ) {
-				this.showRedirectModal();
-			} else {
-				this.showProgressModal();
-				this.init();
-			}
+			this.showProgressModal();
+			this.init();
 
 			$( '#overlay' ).show();
-		},
-
-		/**
-		 * Start the process with Find and replace
-		 */
-		redirectInit: function() {
-			var self = this;
-			this.findAndReplace = ( 'replace' === $( 'input[name="existing-links"]:checked' ).val() ) ? true : false;
-
-			// Hide redirect modal and show progress modal
-			this.$redirectContent.animate( { 'top': '-' + self.contentHeight + 'px' }, 400, 'swing', function() {
-				$( this ).remove();
-				self.redirectModalActive = false;
-
-				self.showProgressModal();
-			} );
-
-			this.init();
 		},
 
 		/**
@@ -347,37 +295,6 @@
 			$( '.upload-controls .cancel' ).after( '<img src="' + as3cfpro.spinnerUrl + '" alt="" class="upload-progress-ajax-spinner general-spinner" />' );
 
 			this.setupCounter();
-		},
-
-		/**
-		 * Show the redirect progress modal
-		 */
-		showRedirectModal: function() {
-			var self = this;
-
-			self.$redirectContent = self.$redirectContentOriginal.clone();
-			$( '#overlay' ).after( self.$redirectContent );
-
-			if ( as3cfpro.settings.tools[ self.ID ].find_replace_upload ) {
-				self.$redirectContent.removeClass( 'download' );
-				self.$redirectContent.addClass( 'upload' );
-			} else {
-				self.$redirectContent.removeClass( 'upload' );
-				self.$redirectContent.addClass( 'download' );
-			}
-
-			// Display warning when nothing option selected if remove from server setting is on for the tool
-			$( '.redirect-options' ).on( 'change', 'input[name="existing-links"]', function( e ) {
-				if ( 'nothing' === $( this ).val() && ( undefined !== as3cfpro.settings.tools[ self.ID ].remove_local_file && '1' === as3cfpro.settings.tools[ self.ID ].remove_local_file ) ) {
-					$( '.redirect-options .nothing' ).next( '.notice-warning' ).addClass( 'show' );
-				} else {
-					$( '.redirect-options .nothing' ).next( '.notice-warning' ).removeClass( 'show' );
-				}
-			} );
-
-			self.contentHeight = self.$redirectContent.outerHeight();
-			self.$redirectContent.css( 'top', '-' + self.contentHeight + 'px' ).show().animate( { 'top': '0px' } );
-			self.redirectModalActive = true;
 		},
 
 		/**
@@ -727,7 +644,6 @@
 				cache: false,
 				data: {
 					action: self.getAjaxAction( 'process_items' ),
-					find_and_replace: self.findAndReplace,
 					progress: progress,
 					nonce: self.getAjaxNonce( 'process_items' )
 				},
@@ -943,14 +859,13 @@
 			} );
 			this.processCompleted = false;
 			this.progressModalActive = false;
-			this.redirectModalActive = false;
 		},
 
 		/**
 		 * Maybe close the modal and hide the available
 		 */
 		maybeHideOverlay: function() {
-			if ( true === this.redirectModalActive || ( true === this.progressModalActive && true === this.processCompleted ) ) {
+			if ( true === this.progressModalActive && true === this.processCompleted ) {
 				this.hideOverlay();
 			}
 		}
@@ -991,12 +906,6 @@
 			as3cfpro.tool.open( $( this ).parent().attr( 'id' ) );
 		} );
 
-		// Start the Tool
-		$( 'body' ).on( 'click', '.as3cf-start-process', function( e ) {
-			e.preventDefault();
-			as3cfpro.tool.redirectInit();
-		} );
-
 		// Handle Pause / Resumes clicks
 		$( 'body' ).on( 'click', '.pause-resume', function( event ) {
 			as3cfpro.tool.setPauseResumeButton( event );
@@ -1008,7 +917,7 @@
 		} );
 
 		// Close modal
-		$( 'body' ).on( 'click', '.close-progress-content-button, .close-redirect-content-button', function( e ) {
+		$( 'body' ).on( 'click', '.close-progress-content-button', function( e ) {
 			as3cfpro.tool.hideOverlay();
 		} );
 

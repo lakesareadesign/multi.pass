@@ -302,7 +302,7 @@ class AS3CF_Uploader extends AS3CF_Tool {
 	}
 
 	/**
-	 * Upload the attachment to S3 and start a find and replace of the URLs
+	 * Upload the attachment to S3
 	 *
 	 * @param int $attachment_id
 	 * @param int $blog_id
@@ -318,19 +318,7 @@ class AS3CF_Uploader extends AS3CF_Tool {
 			return false;
 		}
 
-		$remove_local_file = ! $this->do_find_replace;
-
-		$s3object = $this->as3cf->upload_attachment_to_s3( $attachment_id, null, null, false, $remove_local_file );
-
-		// Perform find and replace of attachment URLs
-		if ( false === is_wp_error( $s3object ) && true === $this->do_find_replace ) {
-			$data = array(
-				'attachment_id' => $attachment_id,
-				'blog_id'       => $blog_id,
-				'lock_key'      => $this->lock_key,
-			);
-			$this->find_replace_process->push_to_queue( $data );
-		}
+		$s3object = $this->as3cf->upload_attachment_to_s3( $attachment_id, null, null, false );
 
 		// Build error message
 		if ( is_wp_error( $s3object ) ) {

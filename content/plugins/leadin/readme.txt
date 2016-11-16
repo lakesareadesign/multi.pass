@@ -3,7 +3,7 @@ Contributors: leadin, sredmond, HubSpotDev
 Tags:  crm, contacts, lead tracking, click tracking, visitor tracking, analytics, marketing automation, inbound marketing, subscription, marketing, lead generation, mailchimp, constant contact, newsletter, popup, popover, email list, email, contacts database, contact form, forms, form widget, popup form
 Requires at least: 3.7
 Tested up to: 4.6
-Stable tag: 6.0.0
+Stable tag: 6.1.0
 
 HubSpot Marketing Free is an easy-to-use contact form and marketing analytics plugin for your website that helps you better understand your website visitors.
 
@@ -63,8 +63,11 @@ Having trouble? Check out our <a href="https://leadin.hubspot.com/knowledge/" ta
 
 == Changelog ==
 
-- Current version: 6.0.0
-- Current version release: 2016-11-10
+- Current version: 6.1.0
+- Current version release: 2016-11-16
+
+= 6.1.0 (2016.11.16) =
+- Fix an issue where accounts could not be disconnected
 
 = 6.0.0 (2016.11.10) =
 - Leadin is now HubSpot Marketing Free - learn more at http://www.hubspot.com/products/marketing/free

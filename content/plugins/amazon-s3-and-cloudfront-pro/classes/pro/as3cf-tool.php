@@ -95,32 +95,6 @@ abstract class AS3CF_Tool {
 	protected $show_file_size = true;
 
 	/**
-	 * The tool supports a find and replace
-	 *
-	 * @var bool
-	 */
-	protected $find_replace = true;
-
-	/**
-	 * @var AS3CF_Find_Replace
-	 */
-	public $find_replace_process;
-
-	/**
-	 * Control the direction of the find and replace
-	 *
-	 * @var bool
-	 */
-	protected $find_replace_upload = true;
-
-	/**
-	 * Are we processing with find and replace
-	 *
-	 * @var bool
-	 */
-	protected $do_find_replace = false;
-
-	/**
 	 * @var array
 	 */
 	public static $views_rendered = array();
@@ -136,13 +110,7 @@ abstract class AS3CF_Tool {
 	 * @param Amazon_S3_And_CloudFront_Pro $as3cf
 	 */
 	public function __construct( $as3cf ) {
-		$this->as3cf = $as3cf;
-
-		if ( $this->find_replace ) {
-			// Find and replace background process
-			$this->find_replace_process = new AS3CF_Tool_Find_Replace( $this->as3cf );
-		}
-
+		$this->as3cf             = $as3cf;
 		$this->lock_key          = $this->prefix . '_' . $this->tool_key;
 		$this->errors_key_prefix = 'wpos3_tool_errors_';
 		$this->errors_key        = $this->errors_key_prefix . $this->tool_key;
@@ -172,7 +140,6 @@ abstract class AS3CF_Tool {
 
 		// Views
 		add_action( 'as3cf_post_settings_render', array( $this, 'render_modal' ) );
-		add_action( 'as3cf_post_settings_render', array( $this, 'render_find_replace_modal' ) );
 
 		// Assets
 		add_action( 'as3cfpro_load_assets', array( $this, 'load_assets' ) );
@@ -220,9 +187,7 @@ abstract class AS3CF_Tool {
 
 		// Per tool settings
 		$defaults = array(
-			'show_file_size'      => $this->show_file_size,
-			'find_replace'        => $this->find_replace,
-			'find_replace_upload' => $this->find_replace_upload,
+			'show_file_size' => $this->show_file_size,
 		);
 
 		$tool_settings = $this->get_tool_js_settings( $defaults );
@@ -465,10 +430,6 @@ abstract class AS3CF_Tool {
 
 		$this->progress = $_POST['progress'];
 
-		if ( $this->find_replace ) {
-			$this->do_find_replace = $this->as3cf->filter_input( 'find_and_replace', INPUT_POST, FILTER_VALIDATE_BOOLEAN );
-		}
-
 		$batch_limit = apply_filters( 'as3cfpro_' . $this->tool_key . '_batch_limit', 10 ); // number of attachments
 		$batch_time  = apply_filters( 'as3cfpro_' . $this->tool_key . '_batch_time', 10 ); // seconds
 		$batch_count = 0;
@@ -528,11 +489,6 @@ abstract class AS3CF_Tool {
 
 			$queue_count++;
 		} while ( $queue_count < $queues );
-
-		if ( $this->find_replace ) {
-			// Save queue and dispatch background process
-			$this->find_replace_process->save()->dispatch();
-		}
 
 		// Un-hide errors notice if new errors have occurred
 		if ( count( $this->errors ) ) {
@@ -883,16 +839,6 @@ abstract class AS3CF_Tool {
 		if ( ! in_array( 'progress', self::$views_rendered ) ) {
 			$this->as3cf->render_view( 'tool-progress' );
 			self::$views_rendered[] = 'progress';
-		}
-	}
-
-	/**
-	 * Add the redirects modal view to the settings page once
-	 */
-	public function render_find_replace_modal() {
-		if ( $this->find_replace && ! in_array( 'find-replace', self::$views_rendered ) ) {
-			$this->as3cf->render_view( 'tool-find-replace' );
-			self::$views_rendered[] = 'find-replace';
 		}
 	}
 

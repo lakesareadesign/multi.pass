@@ -152,7 +152,8 @@ class AS3CF_Pro_Plugin_Compatibility extends AS3CF_Plugin_Compatibility {
 	 * @return array
 	 */
 	public function compatibility_addon_notice_args( $args ) {
-		$args['class'] = 'as3cf-pro-installer';
+		$args['class']               = 'as3cf-pro-installer';
+		$args['pre_render_callback'] = array( $this->plugin_installer, 'load_installer_assets' );
 
 		return $args;
 	}

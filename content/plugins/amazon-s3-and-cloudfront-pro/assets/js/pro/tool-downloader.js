@@ -39,7 +39,6 @@ var as3cfDeactivatePluginModal = (function( $, as3cfModal ) {
 		$( 'body' ).on( 'click', '.deactivate-plugin [data-download-tool]', function( e ) {
 			var value = $( this ).data( 'download-tool' );
 
-			$( 'input[name=find_replace]' ).val( value );
 			$( '[data-download-tool]' ).prop( 'disabled', true ).siblings( '.spinner' ).css( 'visibility', 'visible' ).show();
 
 			as3cfModal.setLoadingState( true );

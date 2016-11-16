@@ -21,7 +21,6 @@ class Amazon_S3_And_CloudFront_Enable_Media_Replace {
 		add_filter( 'as3cf_get_attached_file', array( $this, 'download_file' ), 10, 4 );
 		add_filter( 'update_attached_file', array( $this, 'maybe_process_s3_replacement' ), 101, 2 );
 		add_filter( 'as3cf_update_attached_file', array( $this, 'process_s3_replacement' ), 10, 2 );
-		add_filter( 'get_attached_file', array( $this, 'pre_replace_store_info' ), 11, 2 );
 		add_filter( 'as3cf_get_attachment_s3_info', array( $this, 'update_file_prefix_on_replace' ), 10, 2 );
 		add_filter( 'as3cf_pre_update_attachment_metadata', array( $this, 'remove_existing_s3_files_before_replace' ), 10, 4 );
 		$this->download_file_wrapper();
@@ -113,41 +112,6 @@ class Amazon_S3_And_CloudFront_Enable_Media_Replace {
 	}
 
 	/**
-	 * Store the original file path and meta for an attachment that is being replaced,
-	 * so we can use it later for find and replace of S3 URLs
-	 *
-	 * EMR: Replace the file, use new file name and update all links
-	 *
-	 * @param string $file
-	 * @param int    $attachment_id
-	 *
-	 * @return string
-	 */
-	function pre_replace_store_info( $file, $attachment_id ) {
-		if ( ! $this->is_replacing_media() ) {
-			return $file;
-		}
-
-		if ( ! $this->should_do_find_and_replace() ) {
-			return $file;
-		}
-
-		if ( ! $this->as3cf->get_attachment_s3_info( $attachment_id ) ) {
-			return $file;
-		}
-
-		// get existing file path before replacing
-		$old_file_path = get_attached_file( $attachment_id, true );
-		// get existing attachment meta before replacing
-		$old_meta = wp_get_attachment_metadata( $attachment_id, true );
-
-		update_post_meta( $attachment_id, 'wpos3_old_file_path', $old_file_path );
-		update_post_meta( $attachment_id, 'wpos3_old_meta', $old_meta );
-
-		return $file;
-	}
-
-	/**
 	 * Process the file replacement on a local only file if we are now
 	 * offloading to S3.
 	 *
@@ -175,7 +139,7 @@ class Amazon_S3_And_CloudFront_Enable_Media_Replace {
 
 	/**
 	 * Allow the Enable Media Replace to use update_attached_file() so it can
-	 * replace the file on S3 and do S3 URL replacement in content where needed.
+	 * replace the file on S3.
 	 *
 	 * @param string $file
 	 * @param int    $attachment_id
@@ -187,30 +151,8 @@ class Amazon_S3_And_CloudFront_Enable_Media_Replace {
 			return $file;
 		}
 
-		// get existing S3 URL before we do the replacing
-		$old_url = $this->as3cf->get_attachment_url( $attachment_id );
-
 		// upload attachment to S3
 		$this->as3cf->upload_attachment_to_s3( $attachment_id, null, $file );
-
-		// if we are doing find and replace
-		if ( $this->should_do_find_and_replace() ) {
-			// get old data
-			$old_file_path = get_post_meta( $attachment_id, 'wpos3_old_file_path', true );
-			$old_meta      = get_post_meta( $attachment_id, 'wpos3_old_meta', true );
-
-			// get new data
-			$file_path = get_attached_file( $attachment_id, true );
-			$meta      = wp_get_attachment_metadata( $attachment_id, true );
-			$new_url   = $this->as3cf->get_attachment_url( $attachment_id );
-
-			// do replaces in content
-			$this->as3cf->find_and_replace_urls( $file_path, $old_url, $new_url, $meta, $old_file_path, $old_meta );
-
-			// clean up cached info
-			delete_post_meta( $attachment_id, 'wpos3_old_file_path' );
-			delete_post_meta( $attachment_id, 'wpos3_old_meta' );
-		}
 
 		return $file;
 	}
@@ -231,33 +173,6 @@ class Amazon_S3_And_CloudFront_Enable_Media_Replace {
 	}
 
 	/**
-	 * Should we do a find and replace after the file replacement
-	 *
-	 * @return bool
-	 */
-	public function should_do_find_and_replace() {
-		$type = filter_input( INPUT_POST, 'replace_type' );
-
-		if ( empty( $type ) ) {
-			return false;
-		}
-
-		$replace_type = sanitize_key( $type );
-
-		if ( 'replace_and_search' === $replace_type ) {
-			// Using setting 'Replace the file, use new file name and update all links'
-			return true;
-		}
-
-		if ( 'replace' === $replace_type && $this->as3cf->get_setting( 'object-versioning' ) ) {
-			// 'Just replace the file' but using object versioning so replace to bust cache
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Update the file prefix in the S3 meta
 	 *
 	 * @param array|string $s3object
@@ -268,11 +183,6 @@ class Amazon_S3_And_CloudFront_Enable_Media_Replace {
 	public function update_file_prefix_on_replace( $s3object, $attachment_id ) {
 		if ( ! $this->is_replacing_media() ) {
 			// Not replacing using EMR
-			return $s3object;
-		}
-
-		if ( ! $this->should_do_find_and_replace() ) {
-			// Not doing a replacement that needs a find and replace
 			return $s3object;
 		}
 
