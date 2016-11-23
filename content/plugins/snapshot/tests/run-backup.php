@@ -48,7 +48,7 @@ class BackupRunTest  extends WP_UnitTestCase {
 		$count = 0;
 		while(!$backup->is_done()) {
 			$status = $backup->process_files();
-			$this->_out('Processing files, batch ' . $count . ': ' . ($status ? 'OK' : 'Error'));	     	 	 				 	 	
+			$this->_out('Processing files, batch ' . $count . ': ' . ($status ? 'OK' : 'Error'));
 			$count++;
 		}
 		$backup->clear();

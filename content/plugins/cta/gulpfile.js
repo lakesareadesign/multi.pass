@@ -17,6 +17,7 @@ var gulp = require('gulp'),
     stripCssComments = require('gulp-strip-css-comments'),
     //phplint = require('phplint').lint,
     package = require('./package.json');
+    zip = require('gulp-zip');
 
 var sharedPath = 'shared/assets/js/frontend/analytics-src/';
 var paths = {
@@ -186,7 +187,7 @@ gulp.task("generateDocs", function() {
 });
 
 /* sync shared folders with `sudo gulp sync` */
-gulp.task('sync', [ 'sync-lp', 'sync-leads', 'sync-pro', 'sync-translations']);
+gulp.task('sync', [ 'sync-lp', 'sync-leads', 'sync-pro', 'zip-translations']);
 gulp.task('sync-lp', function () {
         return gulp.src(['./shared/**']).pipe(gulp.dest('../landing-pages/shared/'));
 });
@@ -198,8 +199,13 @@ gulp.task('sync-pro', function () {
         .pipe(gulp.dest('./../_inbound-now/core/shared/'));
 });
 gulp.task('sync-translations', function () {
-    return gulp.src(['../translations/lang/**.mo'])
+    return gulp.src(['../translations/lang/mo/**.mo'])
         .pipe(gulp.dest('./../_inbound-now/assets/lang'));
+});
+gulp.task('zip-translations', function () {
+    return gulp.src('../translations/lang/mo/**.mo')
+        .pipe(zip('translations.zip'))
+        .pipe(gulp.dest('../translations/'));
 });
 /* end sync */
 

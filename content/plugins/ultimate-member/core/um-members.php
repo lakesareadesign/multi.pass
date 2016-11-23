@@ -84,6 +84,10 @@ class UM_Members {
 
 		// filter all search fields
 		$attrs = apply_filters( 'um_search_fields', $attrs );
+		
+		if( $type == 'select' ){
+		    $attrs = apply_filters( 'um_search_select_fields', $attrs );
+		}
 
 		switch( $type ) {
 
@@ -91,7 +95,7 @@ class UM_Members {
 
 				?>
 
-				<select name="<?php echo $filter; ?>" id="<?php echo $filter; ?>" class="um-s1" style="width: 100%" data-placeholder="<?php echo stripslashes( $attrs['label'] ); ?>">
+				<select name="<?php echo $filter; ?>" id="<?php echo $filter; ?>" class="um-s1" style="width: 100%" data-placeholder="<?php echo __( stripslashes( $attrs['label'] ), 'ultimatemember'); ?>">
 
 					<option></option>
 
@@ -109,7 +113,7 @@ class UM_Members {
 
 					?>
 
-					<option value="<?php echo $opt; ?>" <?php um_select_if_in_query_params( $filter, $opt ); ?>><?php echo $v; ?></option>
+					<option value="<?php echo $opt; ?>" <?php um_select_if_in_query_params( $filter, $opt ); ?>><?php echo __( $v, 'ultimatemember'); ?></option>
 
 					<?php } ?>
 
@@ -123,7 +127,7 @@ class UM_Members {
 
 				?>
 
-				<input type="text"  name="<?php echo $filter; ?>" id="<?php echo $filter; ?>" placeholder="<?php echo isset( $attrs['label'] ) ? $attrs['label'] : ''; ?>" value='<?php echo esc_attr( um_queried_search_value(  $filter, false ) ); ?>' />
+				<input type="text" autocomplete="off" name="<?php echo $filter; ?>" id="<?php echo $filter; ?>" placeholder="<?php echo isset( $attrs['label'] ) ? __( $attrs['label'], 'ultimatemember') : ''; ?>" value='<?php echo esc_attr( um_queried_search_value(  $filter, false ) ); ?>' />
 
 				<?php
 

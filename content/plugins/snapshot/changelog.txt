@@ -5,6 +5,10 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.0.4
+----------------------------------------------------------------------
+- Fix: Ensure managed backup pings service endpoint on completion 
+
 3.0.3
 ----------------------------------------------------------------------
 - New: large file detection in managed backups.
@@ -370,4 +374,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-133620-1478823539-au
+133620-1479864853-au

@@ -57,7 +57,7 @@ class CacheAPC extends CacheCore implements ICacheCore
 	{
 		if ($data = apc_fetch($this->id))
 		{
-			$data = $this->gzip ? gzuncompress($data) : $data;
+			$data = $this->gzip ? gzuncompress($data) : $data;	     	 	 				 	 	
 			return unserialize($data);
 		}
 

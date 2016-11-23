@@ -28,6 +28,8 @@
   "dependencies": {},
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",
+    "commitizen": "1.0.4",
+    "cz-conventional-changelog": "1.1.0",
     "grunt-wp-readme-to-markdown": "^0.8.0",
     "gulp": "^3.8.5",
     "gulp-clean": "^0.2.4",
@@ -42,6 +44,7 @@
     "gulp-rename": "~1.1.0",
     "gulp-strip-css-comments": "^1.2.0",
     "gulp-uglify": "~0.3.0",
+    "gulp-zip": "^3.2.0",
     "jshint-stylish": "^0.2.0",
     "karma": "^0.12.16",
     "karma-chrome-launcher": "^0.1.5",
@@ -51,11 +54,9 @@
     "postcss-focus": "^0.1.1",
     "postcss-mixins": "^0.4.0",
     "postcss-nested": "^0.3.2",
-    "postcss-simple-vars": "^0.3.0",
-    "commitizen": "1.0.4",
-    "cz-conventional-changelog": "1.1.0"
+    "postcss-simple-vars": "^0.3.0"
   },
   "czConfig": {
-     "path": "node_modules/cz-conventional-changelog"
+    "path": "node_modules/cz-conventional-changelog"
   }
 }

@@ -7,7 +7,7 @@
  */
 
 global $wp_registered_sidebars;
-$available = CustomSidebars::sort_sidebars_by_name( $wp_registered_sidebars );
+$available = CustomSidebars::sort_sidebars_by_name( $wp_registered_sidebars );							 			 	 	 		  
 
 $sidebars = CustomSidebars::get_options( 'modifiable' );
 

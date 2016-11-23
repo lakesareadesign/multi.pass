@@ -117,13 +117,7 @@ class WPLeadInAdmin
      */
     function leadin_plugin_settings_link($links)
     {
-        $fullyRegistered = get_option('leadin_hapikey');
-        if ($fullyRegistered) {
-            $url = get_admin_url(get_current_blog_id(), 'admin.php?page=leadin_settings');
-        } else {
-            $url = get_admin_url(get_current_blog_id(), 'admin.php?page=leadin');
-        }
-
+        $url = get_admin_url(get_current_blog_id(), 'admin.php?page=leadin');
         $settings_link = '<a href="' . $url . '">Settings</a>';
         array_unshift($links, $settings_link);
         return $links;

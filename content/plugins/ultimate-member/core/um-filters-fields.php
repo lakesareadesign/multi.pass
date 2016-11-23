@@ -384,3 +384,51 @@
 
 		return $value;
     }
+    
+
+    /**
+     * Returns dropdown/multi-select options from a callback function
+     * @param  $options array
+     * @param  $data array
+     * @return $options array
+     * @uses   hook filter: um_select_dropdown_dynamic_options, um_multiselect_options
+     */
+    add_filter('um_select_dropdown_dynamic_options','um_select_dropdown_dynamic_callback_options', 10, 2);
+    add_filter('um_multiselect_options','um_select_dropdown_dynamic_callback_options', 10, 2);
+    function um_select_dropdown_dynamic_callback_options( $options, $data ){
+        
+        if( isset( $data['custom_dropdown_options_source'] ) && ! empty( $data['custom_dropdown_options_source'] ) ){
+
+        	if( function_exists( $data['custom_dropdown_options_source'] ) ){
+        		$options = call_user_func( $data['custom_dropdown_options_source'] );
+        	}
+        }
+
+    	return $options;
+    }
+
+    /**
+     *
+     * Pair dropdown/multi-select options from a callback function
+     * @param  $value string
+     * @param  $type  string
+     * @param  $data  array
+     * @return $value string
+     * @uses   hook filter: um_profile_field_filter_hook__
+     */
+    add_filter('um_profile_field_filter_hook__select','um_option_match_callback_view_field', 10, 2);
+    add_filter('um_profile_field_filter_hook__multiselect','um_option_match_callback_view_field', 10, 2);
+    add_filter('um_field_select_default_value','um_option_match_callback_view_field', 10, 2);
+    add_filter('um_field_multiselect_default_value','um_option_match_callback_view_field', 10, 2);
+    function um_option_match_callback_view_field( $value, $data ){
+    	global $ultimatemember;
+		
+		if( ! empty( $data['custom_dropdown_options_source'] ) ){
+			return $ultimatemember->fields->get_option_value_from_callback( $value, $data, $data['type'] );
+		}
+
+    	return $value;
+    }
+
+
+

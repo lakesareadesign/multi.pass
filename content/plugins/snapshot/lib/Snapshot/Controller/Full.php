@@ -232,6 +232,12 @@ class Snapshot_Controller_Full {
 		}
 
 		if (!$backup) {
+			// Scenario - unable to load backup directly
+			// This means that we have already wrapped up backup creation and
+			// attempted backup post-processing, which also moves resulting file
+			// to its final destination locally.
+			// Now, to continue with the upload.
+
 			$session = Snapshot_Helper_Backup::get_session($idx);
 			if (empty($session->data['timestamp'])) {
 				Snapshot_Helper_Log::error("There was an error continuing backup finalization");
@@ -241,10 +247,24 @@ class Snapshot_Controller_Full {
 
 			$errors->remove(Snapshot_Model_Full_Error::ERROR_POSTPROCESS); // We're good here
 			Snapshot_Helper_Log::info("Continuing backup finalization");
-			return $this->_model->continue_item_upload($timestamp);
+
+			// Record status, we will be using this
+			$status = $this->_model->continue_item_upload($timestamp);
+
+			if ($status) {
+				// Alright, so the continued upload completed.
+				// Let's notify the service we're done here
+				return $this->_notify_service_about_upload($timestamp);
+			}
+
+			return $status; // Not done yet, so carry on
 		}
+
+		// Default scenario - backup directly loaded
+		// Meaning, we still need to postprocess. So let's get on with it.
 		$backup->clear();
 		$status = $backup->postprocess();
+
 
 		// And now, push it. Aah. Push it good.
 		if ($status) {
@@ -257,17 +277,39 @@ class Snapshot_Controller_Full {
 		if (!empty($status)) {
 			$errors->clear();
 			Snapshot_Helper_Log::info("Backup successfully finalized");
-
-			// Also update remote schedule
-			// This is because we rely on this call to cache the icon status timestamp
-			// https://app.asana.com/0/11140230629075/167863403840660
 			$timestamp = $backup->get_timestamp();
-			$status = $this->_model->update_remote_schedule($timestamp);
-
-			if ($status) Snapshot_Helper_Log::info("Service received our last backup info");
-			else Snapshot_Helper_Log::warn("We encountered an issue commmunicating last backup info to service");
+			$status = $this->_notify_service_about_upload($timestamp); // Carry on with backup notification
+		} else {
+			Snapshot_Helper_Log::info("Postpone backup finalization and service notification");
 		}
 
 		return $status;
 	}
+
+	/**
+	 * Notifies the service about our backup being uploaded
+	 *
+	 * @param int $timestamp UNIX timestamp
+	 *
+	 * @return bool
+	 */
+	protected function _notify_service_about_upload ($timestamp) {
+		Snapshot_Helper_Log::info("Pinging service");
+
+		if (empty($timestamp) || !is_numeric($timestamp)) {
+			Snapshot_Helper_Log::warn("Invalid timestamp, giving up");
+			return false;
+		}
+
+		// Also update remote schedule
+		// This is because we rely on this call to cache the icon status timestamp
+		// https://app.asana.com/0/11140230629075/167863403840660
+		$status = $this->_model->update_remote_schedule($timestamp);
+
+		if ($status) Snapshot_Helper_Log::info("Service received our last backup info");
+		else Snapshot_Helper_Log::warn("We encountered an issue commmunicating last backup info to service");
+
+		return !!$status;
+	}
+
 }
