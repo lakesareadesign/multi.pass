@@ -19,6 +19,17 @@ class FLButtonModule extends FLBuilderModule {
 	}
 
 	/**
+	 * @method enqueue_scripts
+	 */
+	public function enqueue_scripts()
+	{
+		if($this->settings && $this->settings->click_action == 'lightbox') {
+			$this->add_js('jquery-magnificpopup');
+			$this->add_css('jquery-magnificpopup');
+		}
+	}
+
+	/**
 	 * @method update
 	 */
 	public function update( $settings )
@@ -93,6 +104,23 @@ FLBuilder::register_module('FLButtonModule', array(
 							'disable'        => __('Always Visible', 'fl-builder'),
 							'enable'         => __('Fade In On Hover', 'fl-builder')
 						)
+					),	
+					'click_action' => array(
+						'type' 			=> 'select',
+						'label'         => __('Click Action', 'fl-builder'),
+						'default' 		=> 'link',
+						'options' 		=> array(
+							'link' 			=> __('Link', 'fl-builder'),
+							'lightbox' 		=> __('Lightbox', 'fl-builder')
+						),
+						'toggle'  => array(
+							'link'		=> array(
+								'sections' => array('link') 
+							),
+							'lightbox'	=> array(
+								'sections' => array('lightbox')
+							)
+						)	
 					)
 				)
 			),
@@ -127,6 +155,48 @@ FLBuilder::register_module('FLButtonModule', array(
 							'yes' 			=> __('Yes', 'fl-builder'),
 							'no' 			=> __('No', 'fl-builder'),
 						),
+						'preview'       => array(
+							'type'          => 'none'
+						)
+					)
+				)
+			),
+			'lightbox'	=> array(
+				'title'		=> __('Lightbox Content', 'fl-builder'),
+				'fields'        => array(
+					'lightbox_content_type' => array(
+						'type' 				=> 'select',
+						'label' 			=> __('Content Type', 'fl-builder'),
+						'default' 			=> 'html',
+						'options' 			=> array(
+							'html' 				=> __('HTML', 'fl-builder'),
+							'video' 			=> __('Video', 'fl-builder')
+						),
+						'preview'       	=> array(
+							'type'          	=> 'none'
+						),
+						'toggle' 		=> array(
+							'html'			=> array(
+								'fields' 		=> array('lightbox_content_html') 
+							),
+							'video'			=> array( 
+								'fields' 		=> array('lightbox_video_link') 
+							)
+						)
+					),
+					'lightbox_content_html'	=> array(
+						'type'          		=> 'code',
+						'editor'        		=> 'html',
+						'label'         		=> '',
+						'rows'          		=> '19',
+						'preview'       		=> array(
+							'type'          		=> 'none'
+						)
+					),
+					'lightbox_video_link' => array(
+						'type'          => 'text',
+						'label'         => __('Video Link', 'fl-builder'),
+						'placeholder'   => 'https://vimeo.com/122546221',
 						'preview'       => array(
 							'type'          => 'none'
 						)

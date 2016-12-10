@@ -235,9 +235,6 @@ FLBuilder::register_module('FLHeadingModule', array(
 							'custom'        => array(
 								'fields'        => array('r_custom_font_size')
 							)
-						),
-						'preview'         => array(
-							'type'            => 'none'
 						)
 					),
 					'r_custom_font_size' => array(
@@ -246,10 +243,7 @@ FLBuilder::register_module('FLHeadingModule', array(
 						'default'       => '24',
 						'maxlength'     => '3',
 						'size'          => '4',
-						'description'   => 'px',
-						'preview'         => array(
-							'type'            => 'none'
-						)
+						'description'   => 'px'
 					),
 					'r_line_height'     => array(
 						'type'          => 'select',

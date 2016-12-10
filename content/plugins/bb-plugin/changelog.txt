@@ -1,3 +1,34 @@
+<h4>1.9 - 12/06/2016</h4>
+<p>This update adds a number of new features. Be sure to check out <a href="https://www.wpbeaverbuilder.com/beaver-builder-1-9-shasta/">the blog post</a> for detailed info on what was added.</p>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added the ability to drop columns into columns.</li>
+	<li>Added the ability to drag and drop existing columns.</li>
+	<li>Made multiple improvements for more accurate dragging and dropping.</li>
+	<li>Added responsive settings for margins, padding and borders.</li>
+	<li>Added new content page templates.</li>
+	<li>Template images are now loaded via HTTPS.</li>
+	<li>Added the ability to open a lightbox via a button.</li>
+	<li>Added the ability to add an alpha slider to color fields.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed responsive spacing not working when defaults are zeroed out in the global settings.</li>
+	<li>Fixed format select not showing in text editor fields.</li>
+	<li>Fixed incorrect color picker width in third party themes.</li>
+	<li>Fixed incorrect column group positions when dropping an existing module into a row.</li>
+	<li>Fixed multiple issues with responsive margins/padding not working.</li>
+	<li>Fixed a fatal error caused by modules that are no longer registered.</li>
+	<li>Fixed broken modules that have nested forms such as the Accordion module.</li>
+	<li>Fixed live preview issues for nested columns when editing the parent column.</li>
+	<li>Fixed issues with live preview not working correctly for responsive fields.</li>
+	<li>Fixed issues with global responsive margins and padding not working.</li>
+	<li>Fixed issues with equal height columns and nested columns.</li>
+	<li>Fixed Button module lightbox close button jump when placing the mouse over it.</li>
+	<li>Fixed Button module lightbox close button positioning.</li>
+	<li>Fixed drag and drop placeholder animation lag.</li>
+</ul>
+
 <h4>1.8.8 - 11/08/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

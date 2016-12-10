@@ -6,7 +6,7 @@
 .fl-node-<?php echo $col->node; ?> {
 	color: #<?php echo $col->settings->text_color; ?>;
 }
-.fl-builder-content .fl-node-<?php echo $col->node; ?> *:not(input):not(textarea):not(a):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fl-menu-mobile-toggle) {
+.fl-builder-content .fl-node-<?php echo $col->node; ?> *:not(input):not(textarea):not(a):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fl-heading-text):not(.fl-menu-mobile-toggle) {
 	color: inherit;
 }
 <?php endif; ?>
@@ -90,10 +90,7 @@
 <?php if(!empty($col->settings->border_type)) : // Border ?>
 .fl-builder-content .fl-node-<?php echo $col->node; ?> > .fl-col-content {
 	border-style: <?php echo $col->settings->border_type; ?>;
-	border-top-width: <?php echo is_numeric($col->settings->border_top) ? $col->settings->border_top : '0'; ?>px;
-	border-bottom-width: <?php echo is_numeric($col->settings->border_bottom) ? $col->settings->border_bottom : '0'; ?>px;
-	border-left-width: <?php echo is_numeric($col->settings->border_left) ? $col->settings->border_left : '0'; ?>px;
-	border-right-width: <?php echo is_numeric($col->settings->border_right) ? $col->settings->border_right : '0'; ?>px;
+	border-width: 0;
 	<?php if(!empty($col->settings->border_color)) : ?>
 	border-color: #<?php echo $col->settings->border_color; ?>;
 	border-color: rgba(<?php echo implode(',', FLBuilderColor::hex_to_rgb($col->settings->border_color)) ?>, <?php echo $col->settings->border_opacity/100; ?>);

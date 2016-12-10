@@ -23,15 +23,15 @@ FLBuilder::register_settings_form('col', array(
 						'equal_height'  => array(
 							'type'          => 'select',
 							'label'         => __('Equalize Column Heights', 'fl-builder'),
-							'help'   		=> __('Setting this to yes will make all of the columns in this group the same height regardless of how much content is in each of them.', 'fl-builder'),
+							'help'        => __('Setting this to yes will make all of the columns in this group the same height regardless of how much content is in each of them.', 'fl-builder'),
 							'default'       => 'no',
 							'options'       => array(
 								'no'          => __( 'No', 'fl-builder' ),
 								'yes'         => __( 'Yes', 'fl-builder' ),
 							),
 							'toggle'        => array(
-								'yes'         	=> array(
-									'fields'      	=> array('content_alignment')
+								'yes'             => array(
+									'fields'          => array('content_alignment')
 								)
 							),
 							'preview'         => array(
@@ -39,13 +39,13 @@ FLBuilder::register_settings_form('col', array(
 							)
 						),
 						'content_alignment' => array(
-							'type'          	=> 'select',
-							'label'         	=> __('Content Alignment', 'fl-builder'),
-							'default'       	=> 'top',
-							'options'       	=> array(
-								'top'          		=> __( 'Top', 'fl-builder' ),
-								'center'         	=> __( 'Center', 'fl-builder' ),
-								'bottom'         	=> __( 'Bottom', 'fl-builder' ),
+							'type'              => 'select',
+							'label'             => __('Content Alignment', 'fl-builder'),
+							'default'           => 'top',
+							'options'           => array(
+								'top'    => __( 'Top', 'fl-builder' ),
+								'center' => __( 'Center', 'fl-builder' ),
+								'bottom' => __( 'Bottom', 'fl-builder' ),
 							),
 							'preview'         => array(
 								'type'            => 'none'
@@ -294,54 +294,70 @@ FLBuilder::register_settings_form('col', array(
 							)
 						),
 						'border_top'    => array(
-							'type'          => 'text',
-							'label'         => __('Top Width', 'fl-builder'),
-							'default'       => '1',
-							'description'   => 'px',
-							'maxlength'     => '3',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
+							'type'        => 'unit',
+							'label'       => __( 'Top Width', 'fl-builder' ),
+							'default'     => '1',
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'responsive'  => array(
+								'placeholder' => array(
+									'default'    => '0',
+									'medium'     => '',
+									'responsive' => '',
+								)
 							)
 						),
 						'border_bottom' => array(
-							'type'          => 'text',
-							'label'         => __('Bottom Width', 'fl-builder'),
-							'default'       => '1',
-							'description'   => 'px',
-							'maxlength'     => '3',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
+							'type'        => 'unit',
+							'label'       => __( 'Bottom Width', 'fl-builder' ),
+							'default'     => '1',
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'responsive'  => array(
+								'placeholder' => array(
+									'default'    => '0',
+									'medium'     => '',
+									'responsive' => '',
+								)
 							)
 						),
 						'border_left'   => array(
-							'type'          => 'text',
-							'label'         => __('Left Width', 'fl-builder'),
-							'default'       => '1',
-							'description'   => 'px',
-							'maxlength'     => '3',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
+							'type'        => 'unit',
+							'label'       => __( 'Left Width', 'fl-builder' ),
+							'default'     => '1',
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'responsive'  => array(
+								'placeholder' => array(
+									'default'    => '0',
+									'medium'     => '',
+									'responsive' => '',
+								)
 							)
 						),
 						'border_right'  => array(
-							'type'          => 'text',
-							'label'         => __('Right Width', 'fl-builder'),
-							'default'       => '1',
-							'description'   => 'px',
-							'maxlength'     => '3',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
+							'type'        => 'unit',
+							'label'       => __( 'Right Width', 'fl-builder' ),
+							'default'     => '1',
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'responsive'  => array(
+								'placeholder' => array(
+									'default'    => '0',
+									'medium'     => '',
+									'responsive' => '',
+								)
 							)
-						)
-					)
+						),
+					),
 				),
 			)
 		),
@@ -351,108 +367,92 @@ FLBuilder::register_settings_form('col', array(
 				'margins'       => array(
 					'title'         => __('Margins', 'fl-builder'),
 					'fields'        => array(
-						'margin_top'    => array(
-							'type'          => 'text',
-							'label'         => __( 'Top', 'fl-builder' ),
-							'default'       => '',
-							'description'   => 'px',
-							'maxlength'     => '4',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
-							)
+						'margin_top' => array(
+							'type'        => 'unit',
+							'label'       => __( 'Top', 'fl-builder' ),
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'placeholder' => '0',
+							'responsive'  => true
 						),
 						'margin_bottom' => array(
-							'type'          => 'text',
-							'label'         => __( 'Bottom', 'fl-builder' ),
-							'default'       => '',
-							'description'   => 'px',
-							'maxlength'     => '4',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
-							)
+							'type'        => 'unit',
+							'label'       => __( 'Bottom', 'fl-builder' ),
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'placeholder' => '0',
+							'responsive'  => true
 						),
-						'margin_left'   => array(
-							'type'          => 'text',
-							'label'         => __( 'Left', 'fl-builder' ),
-							'default'       => '',
-							'description'   => 'px',
-							'maxlength'     => '4',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
-							)
+						'margin_left' => array(
+							'type'        => 'unit',
+							'label'       => __( 'Left', 'fl-builder' ),
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'placeholder' => '0',
+							'responsive'  => true
 						),
-						'margin_right'  => array(
-							'type'          => 'text',
-							'label'         => __( 'Right', 'fl-builder' ),
-							'default'       => '',
-							'description'   => 'px',
-							'maxlength'     => '4',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
-							)
-						)
-					)
+						'margin_right' => array(
+							'type'        => 'unit',
+							'label'       => __( 'Right', 'fl-builder' ),
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'placeholder' => '0',
+							'responsive'  => true
+						),
+					),
 				),
 				'padding'       => array(
 					'title'         => __('Padding', 'fl-builder'),
 					'fields'        => array(
-						'padding_top'   => array(
-							'type'          => 'text',
-							'label'         => __( 'Top', 'fl-builder' ),
-							'default'       => '',
-							'description'   => 'px',
-							'maxlength'     => '4',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
-							)
+						'padding_top' => array(
+							'type'        => 'unit',
+							'label'       => __( 'Top', 'fl-builder' ),
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'placeholder' => '0',
+							'responsive'  => true
 						),
 						'padding_bottom' => array(
-							'type'          => 'text',
-							'label'         => __( 'Bottom', 'fl-builder' ),
-							'default'       => '',
-							'description'   => 'px',
-							'maxlength'     => '4',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
-							)
+							'type'        => 'unit',
+							'label'       => __( 'Bottom', 'fl-builder' ),
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'placeholder' => '0',
+							'responsive'  => true
 						),
-						'padding_left'  => array(
-							'type'          => 'text',
-							'label'         => __( 'Left', 'fl-builder' ),
-							'default'       => '',
-							'description'   => 'px',
-							'maxlength'     => '4',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
-							)
+						'padding_left' => array(
+							'type'        => 'unit',
+							'label'       => __( 'Left', 'fl-builder' ),
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'placeholder' => '0',
+							'responsive'  => true
 						),
 						'padding_right' => array(
-							'type'          => 'text',
-							'label'         => __( 'Right', 'fl-builder' ),
-							'default'       => '',
-							'description'   => 'px',
-							'maxlength'     => '4',
-							'size'          => '5',
-							'placeholder'   => '0',
-							'preview'         => array(
-								'type'            => 'none'
-							)
-						)
-					)
+							'type'        => 'unit',
+							'label'       => __( 'Right', 'fl-builder' ),
+							'description' => 'px',
+							'preview'     => array(
+								'type' => 'none',
+							),
+							'placeholder' => '0',
+							'responsive'  => true
+						),
+					),
 				),
 				'responsive'    => array(
 					'title'         => __('Responsive Layout', 'fl-builder'),
@@ -533,7 +533,7 @@ FLBuilder::register_settings_form('col', array(
 							'type'          => 'select',
 							'label'         => __('Stacking Order', 'fl-builder'),
 							'help'          => __( 'The order of the columns in this group when they are stacked for small devices.', 'fl-builder' ),
-							'default'		=> 'default',
+							'default'        => 'default',
 							'options'       => array(
 								'default'       => __('Default', 'fl-builder'),
 								'reversed'        => __('Reversed', 'fl-builder'),
@@ -541,7 +541,7 @@ FLBuilder::register_settings_form('col', array(
 							'preview'         => array(
 								'type'            => 'none'
 							)
-						),
+						)
 					)
 				),
 				'visibility'   => array(
@@ -551,14 +551,14 @@ FLBuilder::register_settings_form('col', array(
 							'type'          => 'select',
 							'label'         => __('Display', 'fl-builder'),
 							'options'       => array(
-								''				=> __('Always', 'fl-builder'),
+								''                => __('Always', 'fl-builder'),
 								'logged_out'    => __('Logged Out User', 'fl-builder'),
 								'logged_in'     => __('Logged In User', 'fl-builder'),
 								'0'             => __('Never', 'fl-builder'),
 							),
-							'toggle' 		=> array(
-								'logged_in'		=> array(
-									'fields' 		=> array('visibility_user_capability')
+							'toggle'        => array(
+								'logged_in'        => array(
+									'fields'        => array('visibility_user_capability')
 								)
 							),
 							'preview'         => array(
@@ -566,11 +566,11 @@ FLBuilder::register_settings_form('col', array(
 							)
 						),
 						'visibility_user_capability' => array(
-							'type' 						=> 'text',
-							'label'						=> __('User Capability', 'fl-builder'),
-							'description'  	 			=> sprintf( __( 'Optional. Set the <a%s>capability</a> required for users to view this column.', 'fl-builder' ), ' href="http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table" target="_blank"' ),
-							'preview'         			=> array(
-								'type'            			=> 'none'
+							'type'                        => 'text',
+							'label'                        => __('User Capability', 'fl-builder'),
+							'description'                => sprintf( __( 'Optional. Set the <a%s>capability</a> required for users to view this column.', 'fl-builder' ), ' href="http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table" target="_blank"' ),
+							'preview'                     => array(
+								'type'                        => 'none'
 							),
 						)
 					)

@@ -312,14 +312,14 @@ class MP_Coupons_Addon {
 		$html .= '
 			<div class="mp_cart_resume_item mp_cart_resume_item-coupons">
 				<span class="mp_cart_resume_item_label">' . __( 'Coupon Discounts', 'mp' ) . '</span>
-				<span class="mp_cart_resume_item_amount mp_cart_resume_item_amount-total">-' . mp_format_currency( '', $this->get_total_discount_amt() ) . '</span>
+				<span class="mp_cart_resume_item_amount mp_cart_resume_item_amount-total">' . mp_format_currency( '', $this->get_total_discount_amt() ) . '</span>
 				<ul class="mp_cart_resume_coupons_list">';
 
 		foreach ( $coupons as $coupon ) {
 			$html .= '
 					<li class="mp_cart_coupon">
 						<span class="mp_cart_resume_item_label">' . $coupon->post_title . ( ( $cart->is_editable ) ? ' <a class="mp_cart_coupon_remove_item" href="javascript:mp_coupons.remove(' . $coupon->ID . ', ' . $cart->get_blog_id() . ');">(' . __( 'Remove', 'mp' ) . ')</a>' : '' ) . '</span>
-						<span class="mp_cart_resume_item_amount">-' . $coupon->discount_amt( false ) . '</span>
+						<span class="mp_cart_resume_item_amount">' . $coupon->discount_amt( false ) . '</span>
 					</li><!-- end mp_cart_coupon -->';
 		}
 
@@ -1028,7 +1028,7 @@ class MP_Coupons_Addon {
 	public function product_price( $price, $product ) {
 		$action = mp_get_request_value( 'action' );
 
-		if (
+		/*if (
 			mp_is_shop_page( 'cart' ) ||
 			mp_is_shop_page( 'checkout' ) ||
 			! empty( $_POST['is_cart_page'] ) ||
@@ -1039,7 +1039,7 @@ class MP_Coupons_Addon {
 				$action === 'mp_coupons_apply' ||
 				$action === 'mp_coupons_remove'
 			) )
-		) {
+		) {*/
 			$coupons = $this->get_applied_as_objects();
 
 			foreach ( $coupons as $coupon ) {
@@ -1054,7 +1054,7 @@ class MP_Coupons_Addon {
 					}
 				}
 			}
-		}
+		//}
 
 		return $price;
 	}

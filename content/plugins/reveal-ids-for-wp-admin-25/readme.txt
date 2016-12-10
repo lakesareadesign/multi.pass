@@ -3,7 +3,7 @@ Contributors: Alphawolf
 Donate link: http://www.schloebe.de/donate/
 Tags: reveal, id, wp-admin, hidden, category, post, page, media, links, capability, user, restore, comments, taxonomy, custom posts
 Requires at least: 3.0
-Tested up to: 4.5.999
+Tested up to: 4.7.999
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -53,6 +53,10 @@ None.
 1. Installation finished.
 
 == Changelog ==
+
+= 1.4.7 =
+* WordPress 4.7 compatibility
+* PHP 7 compatibility
 
 = 1.4.6.2 =
 * Added ukrainian localization (Thanks to Alisa Bagrii!)

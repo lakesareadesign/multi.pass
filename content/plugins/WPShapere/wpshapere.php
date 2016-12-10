@@ -3,7 +3,7 @@
 Plugin Name: WPSHAPERE
 Plugin URI: https://codecanyon.net/item/wordpress-admin-theme-wpshapere/8183353
 Description: WPShapere is a wordpress plugin to customize the WordPress Admin theme and elements as your wish. Make WordPress a complete CMS with WPShapere.
-Version: 4.7
+Version: 4.8
 Author: AcmeeDesign Softwares and Solutions
 Author URI: http://acmeedesign.com
 Text-Domain: wps
@@ -15,7 +15,7 @@ Domain Path: /languages
 *   WPSHAPERE Version
 */
 
-define( 'WPSHAPERE_VERSION' , '4.7' );
+define( 'WPSHAPERE_VERSION' , '4.8' );
 
 /*
 *   WPSHAPERE Path Constant

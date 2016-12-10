@@ -1,4 +1,4 @@
-<input type="text" name="<?php echo $name; ?>" value="<?php echo htmlspecialchars($value); ?>" class="text<?php if(isset($field['class'])) echo ' '. $field['class']; if(!isset($field['size'])) echo ' text-full'; ?>" <?php if(isset($field['placeholder'])) echo ' placeholder="'. $field['placeholder'] .'"'; if(isset($field['maxlength'])) echo ' maxlength="'. $field['maxlength'] .'"';  if(isset($field['size'])) echo ' size="'. $field['size'] .'"'; ?> />
+<input type="text" name="<?php echo $name; ?>" value="<?php echo esc_attr($value); ?>" class="text<?php if(isset($field['class'])) echo ' '. $field['class']; if(!isset($field['size'])) echo ' text-full'; ?>" <?php if(isset($field['placeholder'])) echo ' placeholder="'. $field['placeholder'] .'"'; if(isset($field['maxlength'])) echo ' maxlength="'. $field['maxlength'] .'"';  if(isset($field['size'])) echo ' size="'. $field['size'] .'"'; ?> />
 
 <?php
 

@@ -5,6 +5,13 @@ Lead developer: Maniu
 Contributors: Cole, Andrey
 
 == Changelog ==
+= 2.7.3.7 =
+* Added WordPress 4.7 compatibility
+* Improved mail server error handling
+* Fixed cron wait time issues
+* Fixed missing DB table prefix
+* Fixed some newsletter builder issues
+
 = 2.7.3.6 =
 * Hustle integration support
 
@@ -480,4 +487,4 @@ Contributors: Cole, Andrey
 * Initial Release;
 
 
-133620-1477949962-au
+133620-1481397848-au

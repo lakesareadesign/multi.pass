@@ -469,7 +469,7 @@ class MP_Product {
 
 			$json['excerpt'] = mp_get_the_excerpt( $selected_variation->ID, 18 );
 
-			$json['price'] = $variation->display_price( false );
+			$json['price'] = $selected_variation->display_price( false );
 		}
 
 		wp_send_json_success( $json );
@@ -723,7 +723,7 @@ class MP_Product {
 
 		} else {
 
-			$max_max = $this->max_product_quantity( $this->ID, true );
+			$max_max = $this->max_product_quantity( $this->ID, false );
 			extract($this->max_product_quantity( $this->ID, false, true ), EXTR_PREFIX_ALL, "max");
 
 			$max = 'max="' . esc_attr( $max_qty ) . '" ';
@@ -2239,7 +2239,10 @@ class MP_Product {
 		if ( has_post_thumbnail( $post_id ) ) {
 			$img_id  = get_post_thumbnail_id( $id ? $id : $post_id );
 			$img_src = wp_get_attachment_image_src( $img_id, $size );
-			$img_url = array_shift( $img_src );
+
+			if( is_array( $img_url ) ) {
+				$img_url = array_shift( $img_src );
+			}
 		}
 
 		if ( empty( $img_url ) && mp_get_setting( 'show_thumbnail_placeholder' , 1 ) ) {
@@ -2286,12 +2289,12 @@ class MP_Product {
 		$has_stock = false;
 
 		if( $include_cart ) {
-			$cart_quantity = $qty;
+			$cart_quantity = 0;
 			$cart_items	= mp_cart()->get_all_items();
 			if ( isset( $cart_items[ get_current_blog_id() ][ $this->ID ] ) ) {
 				$cart_quantity = (int) $cart_items[ get_current_blog_id() ][ $this->ID ];
 			}
-			$qty = $cart_quantity + 1;
+			$qty = $cart_quantity + $qty;
 		}
 
 		if ( $this->is_variation() ) {

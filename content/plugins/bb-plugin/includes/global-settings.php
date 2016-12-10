@@ -37,19 +37,19 @@ FLBuilder::register_settings_form('global', array(
 					'title'         => __('Rows', 'fl-builder'),
 					'fields'        => array(
 						'row_margins'       => array(
-							'type'              => 'text',
+							'type'              => 'unit',
 							'label'             => __('Margins', 'fl-builder'),
 							'default'           => '0',
-							'maxlength'         => '3',
-							'size'              => '5',
+							'placeholder'       => '0',
+							'responsive'        => true,
 							'description'       => 'px'
 						),
 						'row_padding'       => array(
-							'type'              => 'text',
+							'type'              => 'unit',
 							'label'             => __('Padding', 'fl-builder'),
 							'default'           => '20',
-							'maxlength'         => '3',
-							'size'              => '5',
+							'placeholder'       => '0',
+							'responsive'        => true,
 							'description'       => 'px'
 						),
 						'row_width'         => array(
@@ -59,7 +59,7 @@ FLBuilder::register_settings_form('global', array(
 							'maxlength'         => '4',
 							'size'              => '5',
 							'description'       => 'px',
-							'help'                     => __('All rows will default to this width. You can override this and make a row full width in the settings for each row.', 'fl-builder')
+							'help'              => __('All rows will default to this width. You can override this and make a row full width in the settings for each row.', 'fl-builder')
 						),
 						'row_width_default' => array(
 							'type'    => 'select',
@@ -90,11 +90,11 @@ FLBuilder::register_settings_form('global', array(
 					'title'         => __('Modules', 'fl-builder'),
 					'fields'        => array(
 						'module_margins'    => array(
-							'type'              => 'text',
+							'type'              => 'unit',
 							'label'             => __('Margins', 'fl-builder'),
 							'default'           => '20',
-							'maxlength'         => '3',
-							'size'              => '5',
+							'placeholder'       => '0',
+							'responsive'        => true,
 							'description'       => 'px'
 						)
 					)

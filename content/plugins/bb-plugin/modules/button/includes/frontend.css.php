@@ -136,3 +136,43 @@ if ( ! empty( $settings->bg_hover_color ) ) {
 }
 <?php endif; ?>
 <?php endif; ?>
+
+<?php 
+
+// Click action - lightbox
+if ( isset($settings->click_action) && $settings->click_action == 'lightbox') :
+	if ( 'html' == $settings->lightbox_content_type ) : ?>
+	.fl-node-<?php echo $id; ?>.fl-button-lightbox-content {
+	    background: #fff none repeat scroll 0 0;
+	    margin: 20px auto;
+	    max-width: 600px;
+	    padding: 20px;
+	    position: relative;
+	    width: auto;
+	}
+	.fl-node-<?php echo $id; ?>.fl-button-lightbox-content .mfp-close,
+	.fl-node-<?php echo $id; ?>.fl-button-lightbox-content .mfp-close:hover {
+		top: -10px!important;
+		right: -10px;
+	}
+	<?php endif; ?>
+
+	<?php if ( 'video' == $settings->lightbox_content_type ) : ?>
+	.fl-button-lightbox-wrap .mfp-content {
+		background: #fff;
+	}
+	.fl-button-lightbox-wrap .mfp-iframe-scaler iframe {
+		left: 2%;
+		height: 94%;
+		top: 3%;
+		width: 96%;
+	}
+	.mfp-wrap.fl-button-lightbox-wrap .mfp-close,
+	.mfp-wrap.fl-button-lightbox-wrap .mfp-close:hover {
+		color: #333!important;
+		right: -4px;
+		top: -10px!important;
+	}		
+	<?php endif; ?>
+	
+<?php endif; ?>

@@ -156,8 +156,9 @@
 	function um_change_password_errors_hook( $args ) {
 		global $ultimatemember;
 
-		if ( $_POST[ $ultimatemember->honeypot ] != '' )
+		if ( isset(  $_POST[ $ultimatemember->honeypot ]  ) && $_POST[ $ultimatemember->honeypot ] != '' ){
 			wp_die('Hello, spam bot!');
+		}
 
 		$form_timestamp  = trim($_POST['timestamp']);
 		$live_timestamp  = current_time( 'timestamp' );
@@ -168,7 +169,20 @@
 		if ( $live_timestamp - $form_timestamp < 3 && um_get_option('enable_timebot') == 1 ){
 			wp_die( __('Whoa, slow down! You\'re seeing this message because you tried to submit a form too fast and we think you might be a spam bot. If you are a real human being please wait a few seconds before submitting the form. Thanks!') );
 		}
-		
+
+		$reset_pass_hash = '';
+
+		if( isset( $_REQUEST['act'] ) && $_REQUEST['act']  == 'reset_password' && um_is_core_page('password-reset')  ){
+			$reset_pass_hash = get_user_meta( $args['user_id'], 'reset_pass_hash', true );
+
+		}
+
+		if( !is_user_logged_in() && isset( $args ) && ! um_is_core_page('password-reset') ||  
+			 is_user_logged_in() && isset( $args['user_id'] ) && $args['user_id'] != get_current_user_id() ||
+			!is_user_logged_in() && isset( $_REQUEST['hash'] ) && $reset_pass_hash != $_REQUEST['hash'] && um_is_core_page('password-reset')   
+		){
+			wp_die( __( 'This is not possible for security reasons.','ultimatemember') );
+		}
 
 		if ( isset( $args['user_password'] ) && empty( $args['user_password'] ) ) {
 			$ultimatemember->form->add_error('user_password', __('You must enter a new password','ultimatemember') );

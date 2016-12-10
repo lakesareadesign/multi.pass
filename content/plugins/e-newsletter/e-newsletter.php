@@ -3,7 +3,7 @@
 Plugin Name: E-Newsletter
 Plugin URI: http://premium.wpmudev.org/project/e-newsletter
 Description: The ultimate WordPress email newsletter plugin for WordPress
-Version: 2.7.3.6
+Version: 2.7.3.7
 Text Domain: email-newsletter
 Author: WPMUDEV
 Author URI: http://premium.wpmudev.org
@@ -118,7 +118,6 @@ class Email_Newsletter extends Email_Newsletter_functions {
         add_filter( 'rewrite_rules_array', array( &$this, 'insert_rewrite_rules' ) );
         add_filter( 'query_vars', array( &$this, 'insert_query_vars' ) );
 
-        add_action('plugins_loaded',array(&$this,'set_current_user'), 998);
         add_action('plugins_loaded',array(&$this,'upgrade_check'));
 
         add_action( 'email_newsletter_upgrade_cron',array( &$this, 'upgrade_cron' ) );
@@ -212,16 +211,6 @@ class Email_Newsletter extends Email_Newsletter_functions {
         add_action( 'wp_ajax_confirm_subscibe', array( &$this, 'confirm_subscibe_ajax' ) );
         add_action( 'wp_ajax_nopriv_newsletter_unsubscribe', array( &$this, 'unsubscribe_ajax' ) );
         add_action( 'wp_ajax_newsletter_unsubscribe', array( &$this, 'unsubscribe_ajax' ) );
-    }
-
-    /**
-     * Sets current user
-     */
-    function set_current_user() {
-        global $current_user;
-
-        if(!$current_user)
-            wp_get_current_user();
     }
 
     /**
@@ -379,11 +368,8 @@ class Email_Newsletter extends Email_Newsletter_functions {
             wp_localize_script( 'enewsletter-script', 'enewsletter', $admin_js_options );
         }
 
-        //mp6 icon load
-        if ( $wp_version >= 3.8 ) {
-            wp_register_style( 'enewsletter-mp6', $this->plugin_url . 'email-newsletter-files/css/mp6.css');
-            wp_enqueue_style('enewsletter-mp6');
-        }
+        wp_register_style( 'enewsletter-mp6', $this->plugin_url . 'email-newsletter-files/css/mp6.css');
+        wp_enqueue_style('enewsletter-mp6');
     }
 
     /**
@@ -988,7 +974,7 @@ class Email_Newsletter extends Email_Newsletter_functions {
      *  Public Subscribe on Newsletters
      **/
     function new_subscribe() {
-        global $wpdb, $current_user;
+        global $wpdb;
 
         if(!is_email($_REQUEST['e_newsletter_email'])) {
             $data['message'] = __( 'Please use correct email!', 'email-newsletter' );
@@ -1036,8 +1022,9 @@ class Email_Newsletter extends Email_Newsletter_functions {
      *  Subscribe on Newsletters
      **/
     function subscribe() {
-        global $wpdb, $current_user;
+        global $wpdb;
 
+        $current_user = wp_get_current_user();
         $user_id = $current_user->data->ID;
         $member_data = array();
 
@@ -1072,7 +1059,7 @@ class Email_Newsletter extends Email_Newsletter_functions {
      * Save Subscribes
      **/
     function save_subscribes($type = 'both') {
-        global $current_user;
+        $current_user = wp_get_current_user();
         $member_id = $this->get_members_by_wp_user_id( $current_user->data->ID );
         $remove_old = $type == 'both' ? 1 : 0;
 
@@ -1435,7 +1422,7 @@ class Email_Newsletter extends Email_Newsletter_functions {
 
         $wpdb->query( $wpdb->prepare( "DELETE FROM {$this->tb_prefix}enewsletter_newsletters WHERE newsletter_id = %d", $newsletter_id ) );
         $wpdb->query( $wpdb->prepare( "DELETE FROM {$this->tb_prefix}enewsletter_meta WHERE email_id = %d", $newsletter_id ) );
-        $wpdb->query( $wpdb->prepare( "DELETE A FROM wp_enewsletter_send_members A INNER JOIN wp_enewsletter_send B ON A.send_id = B.send_id WHERE B.newsletter_id = %d", $newsletter_id ) );
+        $wpdb->query( $wpdb->prepare( "DELETE A FROM {$this->tb_prefix}enewsletter_send_members A INNER JOIN wp_enewsletter_send B ON A.send_id = B.send_id WHERE B.newsletter_id = %d", $newsletter_id ) );
         //$wpdb->query( $wpdb->prepare( "DELETE FROM {$this->tb_prefix}enewsletter_send WHERE newsletter_id = %d", $newsletter_id ) );
 
         $this->delete_newsletter_meta($newsletter_id);
@@ -1693,7 +1680,7 @@ class Email_Newsletter extends Email_Newsletter_functions {
                     else
                         $message = __( 'Error when updating DB.', 'email-newsletter' );
                 } else {
-                    if( $sent_status == 'recipients_failed' || $sent_status == 'invalid_address' ) {
+                    if( $sent_status == 'recipients_failed' || $sent_status == 'invalid_address' || strpos($sent_status, 'Recipient address rejected') !== false ) {
                         $result = $this->set_send_email_status( 'bounced', $send_id, $send_member['member_id'], $send_member['wp_only_user_id'], $send_data['newsletter_id'] );
                         if ( $result )
                             $message = 'ok';
@@ -2017,7 +2004,7 @@ class Email_Newsletter extends Email_Newsletter_functions {
         $content = $this->make_email_body($newsletter_id);
         $content = str_replace( "{VIEW_LINK}", '#', $content );
         $content = str_replace( "{UNSUBSCRIBE_URL}", '#', $content );
-        $content = str_replace( "{OPENED_TRACKER}", '<div style="display:none; font-size: 0px; line-height:0px;"><img src="#" width="1" height="1"/></div>', $content );
+        $content = str_replace( "{OPENED_TRACKER}", '<div style="font-size: 0px; line-height:0px; display:none; visibility: hidden;"><img src="#" width="1" height="1"/></div>', $content );
         if($newsletter_data && $content) {
             $subject = '(PREVIEW) '.$newsletter_data['subject'];
             if( $this->settings['bounce_email'] ) {
@@ -2040,8 +2027,6 @@ class Email_Newsletter extends Email_Newsletter_functions {
      * Test smtp settings
      **/
     function test_smtp_ajax(){
-        global $current_user;
-
         @set_time_limit( 0 );
 
         //Send test email on bounces address
@@ -2371,8 +2356,9 @@ class Email_Newsletter extends Email_Newsletter_functions {
     }
 
     function subscribe_widget($show_name = false, $show_groups = true, $subscribe_to_groups = array()) {
-        global $email_newsletter, $current_user;
+        global $email_newsletter;
 
+        $current_user = wp_get_current_user();
         $groups = $this->get_groups(1);
 
         if ( isset($current_user->data->ID) ) {

@@ -672,9 +672,9 @@ class MP_Checkout {
 
 		if ( !mp_cart()->has_items() ) {
 		if ( $disable_cart == '1' ) {
-				return __( '<div class="mp_cart_empty"><h3 class="mp_sub_title">Oops!</h3><p class="mp_cart_empty_message">The cart is disabled.</p></<div><!-- end mp_cart_empty -->', 'mp' );
+				return __( '<div class="mp_cart_empty"><h3 class="mp_sub_title">Oops!</h3><p class="mp_cart_empty_message">The cart is disabled.</p></div><!-- end mp_cart_empty -->', 'mp' );
 			} else {
-				return sprintf( __( '<div class="mp_cart_empty"><h3 class="mp_sub_title">Oops!</h3><p class="mp_cart_empty_message">Looks like you haven\'t added anything your cart. <a href="%s">Let\'s go shopping!</a></p></<div><!-- end mp_cart_empty -->', 'mp' ), mp_store_page_url( 'products', false ) );
+				return sprintf( __( '<div class="mp_cart_empty"><h3 class="mp_sub_title">Oops!</h3><p class="mp_cart_empty_message">Looks like you haven\'t added anything your cart. <a href="%s">Let\'s go shopping!</a></p></div><!-- end mp_cart_empty -->', 'mp' ), mp_store_page_url( 'products', false ) );
 			}
 
 		}
@@ -1274,6 +1274,7 @@ class MP_Checkout {
 						<input type="password" name="mp_login_password" class="mp_form_input">
 					</div><!-- end mp_checkout_field -->
 					<button id="mp-button-checkout-login" type="button" class="mp_button mp_button-medium mp_button-checkout-login">' . __( 'Login', 'mp' ) . '</button>
+                                        <p><a href="' . wp_lostpassword_url( get_permalink() ) . '" title="Lost Password">Lost Password</a>
 				</div><!-- end mp_checkout_column -->
 				';
 			if ( mp_get_setting( 'force_login' ) == false && ! is_user_logged_in() ) {

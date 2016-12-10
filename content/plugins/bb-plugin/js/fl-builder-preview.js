@@ -108,6 +108,24 @@
 		_styleSheet         : null,
 		
 		/**
+		 * An instance of FLStyleSheet for the medium device preview.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @property {FLStyleSheet} _styleSheetMedium
+		 */  
+		_styleSheetMedium   : null,
+		
+		/**
+		 * An instance of FLStyleSheet for the responsive device preview.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @property {FLStyleSheet} _styleSheet
+		 */  
+		_styleSheetResponsive : null,
+		
+		/**
 		 * A timeout object for delaying the current preview refresh.
 		 *
 		 * @since 1.3.3
@@ -151,6 +169,12 @@
 	
 			// Elements and Class Names
 			this._initElementsAndClasses();
+			
+			// Create the preview stylesheets
+			this._createSheets();
+			
+			// Responsive previews
+			this._initResponsivePreviews();
 			
 			// Default field previews
 			this._initDefaultFieldPreviews();
@@ -228,7 +252,7 @@
 				settings        : '.fl-builder-' + this.type + '-settings',
 				settingsHeader  : '.fl-builder-' + this.type + '-settings .fl-lightbox-header',
 				node            : FLBuilder._contentClass + ' .fl-node-' + this.nodeId,
-				content         : FLBuilder._contentClass + ' .fl-node-' + this.nodeId + ' ' + contentClass
+				content         : FLBuilder._contentClass + ' .fl-node-' + this.nodeId + ' > ' + contentClass
 			});
 			
 			// Elements
@@ -241,6 +265,48 @@
 		},
 	
 		/**
+		 * Creates the stylesheets for default, medium 
+		 * and responsive previews.
+		 *
+		 * @since 1.9
+		 * @method _createSheets
+		 */
+		_createSheets: function()
+		{
+			if ( ! this._styleSheet ) {
+				this._styleSheet = new FLStyleSheet( { id : 'fl-builder-preview' } );          
+			}
+			if ( ! this._styleSheetMedium ) {
+				this._styleSheetMedium = new FLStyleSheet( { id : 'fl-builder-preview-medium' } );          
+			}
+			if ( ! this._styleSheetResponsive ) {
+				this._styleSheetResponsive = new FLStyleSheet( { id : 'fl-builder-preview-responsive' } );          
+			}
+		},
+	
+		/**
+		 * Destroys all preview sheets.
+		 *
+		 * @since 1.9
+		 * @method _destroySheets
+		 */
+		_destroySheets: function()
+		{
+			if ( this._styleSheet ) {
+				this._styleSheet.destroy();      
+				this._styleSheet = null;
+			}
+			if ( this._styleSheetMedium ) {
+				this._styleSheetMedium.destroy();      
+				this._styleSheetMedium = null;        
+			}
+			if ( this._styleSheetResponsive ) {
+				this._styleSheetResponsive.destroy();
+				this._styleSheetResponsive = null;
+			}
+		},
+	
+		/**
 		 * Updates a CSS rule for this preview.
 		 *
 		 * @since 1.3.3
@@ -249,15 +315,9 @@
 		 * @param {String} property The CSS property to update.
 		 * @param {String} value The CSS value to update.
 		 */
-		updateCSSRule: function(selector, property, value)
+		updateCSSRule: function( selector, property, value )
 		{
-			// Make sure we have a stylesheet.
-			if(!this._styleSheet) {
-				this._styleSheet = new FLStyleSheet();          
-			}
-			
-			// Update the rule.
-			this._styleSheet.updateRule(selector, property, value);
+			this._styleSheet.updateRule( selector, property, value );
 		},
 	
 		/**
@@ -317,6 +377,70 @@
 		parseFloat: function(value) 
 		{
 			return isNaN(parseFloat(value)) ? 0 : parseFloat(value);
+		},
+		
+		/* Responsive Previews
+		----------------------------------------------------------*/
+	
+		/**
+		 * Initializes logic for responsive previews.
+		 *
+		 * @since 1.9
+		 * @method _initResponsivePreviews
+		 */
+		_initResponsivePreviews: function()
+		{
+			FLBuilder.addHook( 'responsive-editing-switched', $.proxy( this._responsiveEditingSwitched, this ) );
+		},
+		
+		/**
+		 * Destroys responsive preview events.
+		 *
+		 * @since 1.9
+		 * @method _destroyResponsivePreviews
+		 */
+		_destroyResponsivePreviews: function()
+		{
+			FLBuilder.removeHook( 'responsive-editing-switched' );
+		},
+	
+		/**
+		 * Initializes logic for responsive previews.
+		 *
+		 * @since 1.9
+		 * @method _responsiveEditingSwitched
+		 */
+		_responsiveEditingSwitched: function( e, mode )
+		{
+			if ( 'default' == mode ) {
+				this._styleSheetMedium.disable();
+				this._styleSheetResponsive.disable();
+			}
+			else if ( 'medium' == mode ) {
+				this._styleSheetMedium.enable();
+				this._styleSheetResponsive.disable();
+			}
+			else if ( 'responsive' == mode ) {
+				this._styleSheetMedium.disable();
+				this._styleSheetResponsive.enable();
+			}
+		},
+	
+		/**
+		 * Updates a CSS rule for responsive preview.
+		 *
+		 * @since 1.9
+		 * @method updateResponsiveCSSRule
+		 * @param {String} selector The CSS selector to update.
+		 * @param {String} property The CSS property to update.
+		 * @param {String} value The CSS value to update.
+		 */
+		updateResponsiveCSSRule: function( selector, property, value )
+		{
+			var mode     = FLBuilderResponsiveEditing._mode,
+				sheetKey = 'default' == mode ? '' : mode.charAt(0).toUpperCase() + mode.slice(1);
+			
+			this[ '_styleSheet' + sheetKey ].updateRule( selector, property, value );
 		},
 		
 		/* States
@@ -453,14 +577,8 @@
 		 */
 		revert: function() 
 		{
-			// Canel any preview delays or requests.
-			this._cancelDelay();
-			this._cancelPreview();
-			
-			// Remove the preview stylesheet.
-			if(this._styleSheet) {
-				this._styleSheet.remove();
-			}
+			// Clear the preview.
+			this.clear();
 			
 			// Render the layout.
 			if ( this._settingsHaveChanged() ) {
@@ -481,13 +599,13 @@
 			this._cancelDelay();
 			this._cancelPreview();
 			
-			// Remove the preview stylesheet.
-			if(this._styleSheet) {
-				this._styleSheet.remove();
-				this._styleSheet = null;
-			}
+			// Destroy the preview stylesheet.
+			this._destroySheets();
+			
+			// Destroy responsive editing previews.
+			this._destroyResponsivePreviews();
 		},
-		
+
 		/* Node Text Color Settings
 		----------------------------------------------------------*/
 	
@@ -880,6 +998,7 @@
 	
 			}
 		},
+		
 		/**
 		 * Fires when a background overlay color is cleared.
 		 *
@@ -892,7 +1011,7 @@
 		{
 			this.elements.bgOverlayColor.prev('.fl-color-picker-clear').trigger('click');
 		},
-		
+
 		/* Node Border Settings
 		----------------------------------------------------------*/
 	
@@ -910,21 +1029,13 @@
 				borderType              : $(this.classes.settings + ' select[name=border_type]'),
 				borderColor             : $(this.classes.settings + ' input[name=border_color]'),
 				borderColorPicker       : $(this.classes.settings + ' .fl-picker-border_color'),
-				borderOpacity           : $(this.classes.settings + ' input[name=border_opacity]'),
-				borderTopWidth          : $(this.classes.settings + ' input[name=border_top]'),
-				borderBottomWidth       : $(this.classes.settings + ' input[name=border_bottom]'),
-				borderLeftWidth         : $(this.classes.settings + ' input[name=border_left]'),
-				borderRightWidth        : $(this.classes.settings + ' input[name=border_right]')
+				borderOpacity           : $(this.classes.settings + ' input[name=border_opacity]')
 			});
 			
 			// Events
-			this.elements.borderType.on(            'change', $.proxy(this._borderTypeChange, this));
-			this.elements.borderColor.on(           'change', $.proxy(this._borderColorChange, this));
-			this.elements.borderOpacity.on(         'keyup',  $.proxy(this._borderOpacityChange, this));
-			this.elements.borderTopWidth.on(        'keyup',  $.proxy(this._borderWidthChange, this));
-			this.elements.borderBottomWidth.on(     'keyup',  $.proxy(this._borderWidthChange, this));
-			this.elements.borderLeftWidth.on(       'keyup',  $.proxy(this._borderWidthChange, this));
-			this.elements.borderRightWidth.on(      'keyup',  $.proxy(this._borderWidthChange, this));
+			this.elements.borderType.on(    'change', $.proxy(this._borderTypeChange, this));
+			this.elements.borderColor.on(   'change', $.proxy(this._borderColorChange, this));
+			this.elements.borderOpacity.on( 'keyup',  $.proxy(this._borderOpacityChange, this));
 		},
 		
 		/**
@@ -945,7 +1056,7 @@
 			});
 			
 			this.elements.borderColor.trigger('change');
-			this.elements.borderTopWidth.trigger('keyup');
+			this.elements.borderTop.trigger('keyup');
 		},
 		
 		/**
@@ -988,68 +1099,6 @@
 		_borderOpacityChange: function(e)
 		{
 			this.elements.borderColor.trigger('change');
-		},
-		
-		/**
-		 * Get the border widths from a node preview event.
-		 *
-		 * @since 1.3.3
-		 * @access private
-		 * @method _getBorderWidths
-		 * @param {Object} e An event object.
-		 * @return {Object} An object with tblr border widths.
-		 */
-		_getBorderWidths: function(e)
-		{
-			var top     = this.elements.borderTopWidth.val(),
-				bottom  = this.elements.borderBottomWidth.val(),
-				left    = this.elements.borderLeftWidth.val(),
-				right   = this.elements.borderRightWidth.val();
-			
-			if(top === '') {
-				top = this.elements.borderTopWidth.attr('placeholder');
-			}
-			if(bottom === '') {
-				bottom = this.elements.borderBottomWidth.attr('placeholder');
-			}
-			if(left === '') {
-				left = this.elements.borderLeftWidth.attr('placeholder');
-			}
-			if(right === '') {
-				right = this.elements.borderRightWidth.attr('placeholder');
-			}
-			
-			return {
-				top     : this.parseFloat(top),
-				bottom  : this.parseFloat(bottom),
-				left    : this.parseFloat(left),
-				right   : this.parseFloat(right)
-			};
-		},
-		
-		/**
-		 * Fires when the border width fields of 
-		 * a node change.
-		 *
-		 * @since 1.3.3
-		 * @access private
-		 * @method _borderWidthChange
-		 * @param {Object} e An event object.
-		 */
-		_borderWidthChange: function(e)
-		{
-			var widths = this._getBorderWidths();
-			
-			this.elements.borderColor.trigger('change');
-			
-			this.updateCSSRule(this.classes.content, {
-				'border-top-width'      : widths.top + 'px',
-				'border-bottom-width'   : widths.bottom + 'px',
-				'border-left-width'     : widths.left + 'px',
-				'border-right-width'    : widths.right + 'px',
-			});
-			
-			this._positionAbsoluteBgs();
 		},
 		
 		/* Node Class Name Settings
@@ -1098,172 +1147,137 @@
 		----------------------------------------------------------*/
 	
 		/**
-		 * Initializes node margin previews.
+		 * Initializes node responsive dimension previews for things
+		 * like margins, padding and borders.
 		 *
-		 * @since 1.3.3
+		 * @since 1.9
 		 * @access private
-		 * @method _initMargins
+		 * @method _initResponsiveDimensions
 		 */
-		_initMargins: function()
+		_initResponsiveDimensions: function( property )
 		{
-			// Elements
-			$.extend(this.elements, {
-				marginTop       : $(this.classes.settings + ' input[name=margin_top]'),
-				marginBottom    : $(this.classes.settings + ' input[name=margin_bottom]'),
-				marginLeft      : $(this.classes.settings + ' input[name=margin_left]'),
-				marginRight     : $(this.classes.settings + ' input[name=margin_right]')
-			});
+			var elements      = {},
+				dimensions    = [ 'Top', 'Bottom', 'Left', 'Right' ],
+				devices       = [ '', 'Medium', 'Responsive' ],
+				settingsClass = this.classes.settings,
+				elementKey    = '',
+				inputName     = '',
+				i             = null,
+				k             = null;
+				
+			for ( i = 0; i < dimensions.length; i++ ) {
+				
+				for ( k = 0; k < devices.length; k++ ) {
+					
+					elementKey = property + dimensions[ i ] + devices[ k ];
+					inputName  = property + '_' + dimensions[ i ].toLowerCase();
+					
+					if ( '' != devices[ k ] ) {
+						inputName += '_' + devices[ k ].toLowerCase();
+					}
+					
+					elements[ elementKey ] = $( settingsClass + ' input[name=' + inputName + ']');
+					elements[ elementKey ].on( 'keyup', $.proxy( this._responsiveDimensionChange, this, property ) );
+				}
+			}
 			
-			// Events
-			this.elements.marginTop.on(     'keyup', $.proxy(this._marginChange, this));
-			this.elements.marginBottom.on(  'keyup', $.proxy(this._marginChange, this));
-			this.elements.marginLeft.on(    'keyup', $.proxy(this._marginChange, this));
-			this.elements.marginRight.on(   'keyup', $.proxy(this._marginChange, this));
+			$.extend( this.elements, elements );
 		},
 		
 		/**
-		 * Get the margins from a node preview event.
+		 * Get all dimensions from a node preview event.
 		 *
-		 * @since 1.3.3
+		 * @since 1.9
 		 * @access private
-		 * @method _getMargins
-		 * @param {Object} e An event object.
-		 * @return {Object} An object with tblr margin data.
+		 * @method _getDimensions
+		 * @param {String} property
+		 * @return {Object} An object with tblr data.
 		 */
-		_getMargins: function(e)
+		_getDimensions: function( property )
 		{
-			var top     = this.elements.marginTop.val(),
-				bottom  = this.elements.marginBottom.val(),
-				left    = this.elements.marginLeft.val(),
-				right   = this.elements.marginRight.val();
-			
-			if(top === '') {
-				top = this.elements.marginTop.attr('placeholder');
+			var mode          = FLBuilderResponsiveEditing._mode,
+				dimensions    = [ 'Top', 'Bottom', 'Left', 'Right' ],
+				device        = 'default' == mode ? '' : mode.charAt(0).toUpperCase() + mode.slice(1),
+				values        = {},
+				i             = 0;
+				
+			for ( ; i < dimensions.length; i++ ) {
+				values[ dimensions[ i ].toLowerCase() ] = this.elements[ property + dimensions[ i ] + device ].val();
 			}
-			if(bottom === '') {
-				bottom = this.elements.marginBottom.attr('placeholder');
-			}
-			if(left === '') {
-				left = this.elements.marginLeft.attr('placeholder');
-			}
-			if(right === '') {
-				right = this.elements.marginRight.attr('placeholder');
-			}
-			
-			return {
-				top     : this.parseFloat(top),
-				bottom  : this.parseFloat(bottom),
-				left    : this.parseFloat(left),
-				right   : this.parseFloat(right)
-			};
+
+			return this._normalizeDimensionValues( values, property );
 		},
 		
 		/**
-		 * Fires when a margin field of a node changes.
+		 * Fires when a dimension field of a node changes.
 		 *
-		 * @since 1.3.3
+		 * @since 1.9
 		 * @access private
-		 * @method _marginChange
-		 * @param {Object} e An event object.
+		 * @method _responsiveDimensionChange
+		 * @param {String} property
 		 */
-		_marginChange: function(e)
+		_responsiveDimensionChange: function( property )
 		{
-			var margins = this._getMargins();
-			
-			this.updateCSSRule(this.classes.content, {
-				'margin-top'      : margins.top + 'px',
-				'margin-bottom'   : margins.bottom + 'px',
-				'margin-left'     : margins.left + 'px',
-				'margin-right'    : margins.right + 'px',
-			});
-			
+			var newDimensions = this._getDimensions( property ),
+			    newRules      = {},
+			    isBorder      = 'border' == property;
+
+			$.each( newDimensions, function( dir, val ) {
+				newRules[ property + '-' + dir + ( isBorder ? '-width' : '' ) ] = val;
+			} );
+
+			this.updateResponsiveCSSRule( this.classes.content, newRules );
 			this._positionAbsoluteBgs();
 		},
 		
-		/* Node Padding Settings
-		----------------------------------------------------------*/
-	
 		/**
-		 * Initializes node padding previews.
+		 * Normalize CSS dimension values.
 		 *
-		 * @since 1.3.3
+		 * @since 1.9
 		 * @access private
-		 * @method _initPadding
+		 * @method _normalizeDimensionValues
+		 * @param {Object} values Object of margins/paddings/border widths values.
+		 * @param {String} property CSS property to get, can be 'margin', 'padding' or 'border-width'.
+		 * @return {Object} An object of normalized margins/paddings/border widths values with units.
 		 */
-		_initPadding: function()
+		_normalizeDimensionValues: function( values, property )
 		{
-			// Elements
-			$.extend(this.elements, {
-				paddingTop       : $(this.classes.settings + ' input[name=padding_top]'),
-				paddingBottom    : $(this.classes.settings + ' input[name=padding_bottom]'),
-				paddingLeft      : $(this.classes.settings + ' input[name=padding_left]'),
-				paddingRight     : $(this.classes.settings + ' input[name=padding_right]')
-			});
-			
-			// Events
-			this.elements.paddingTop.on(     'keyup', $.proxy(this._paddingChange, this));
-			this.elements.paddingBottom.on(  'keyup', $.proxy(this._paddingChange, this));
-			this.elements.paddingLeft.on(    'keyup', $.proxy(this._paddingChange, this));
-			this.elements.paddingRight.on(   'keyup', $.proxy(this._paddingChange, this));
-		},
-		
-		/**
-		 * Get the padding from a node preview event.
-		 *
-		 * @since 1.3.3
-		 * @access private
-		 * @method _getPadding
-		 * @param {Object} e An event object.
-		 * @return {Object} An object with tblr padding data.
-		 */
-		_getPadding: function(e)
-		{
-			var top     = this.elements.paddingTop.val(),
-				bottom  = this.elements.paddingBottom.val(),
-				left    = this.elements.paddingLeft.val(),
-				right   = this.elements.paddingRight.val();
-			
-			if(top === '') {
-				top = this.elements.paddingTop.attr('placeholder');
+			var parent = this,
+				mode   = FLBuilderResponsiveEditing._mode,
+				device = 'default' == mode ? '' : mode.charAt(0).toUpperCase() + mode.slice(1),
+
+			// Separate property name from property suffix
+			property = property.split( '-' );
+
+			// Set correct property suffix
+			if ( 'undefined' === typeof property[1] ) {
+				property[1] = '';
+			} else {
+				property[1] = property[1].charAt( 0 ).toUpperCase() + property[1].slice( 1 );
 			}
-			if(bottom === '') {
-				bottom = this.elements.paddingBottom.attr('placeholder');
-			}
-			if(left === '') {
-				left = this.elements.paddingLeft.attr('placeholder');
-			}
-			if(right === '') {
-				right = this.elements.paddingRight.attr('placeholder');
-			}
-			
-			return {
-				top     : this.parseFloat(top),
-				bottom  : this.parseFloat(bottom),
-				left    : this.parseFloat(left),
-				right   : this.parseFloat(right)
-			};
-		},
-		
-		/**
-		 * Fires when the padding field of a node changes.
-		 *
-		 * @since 1.3.3
-		 * @access private
-		 * @method _paddingChange
-		 * @param {Object} e An event object.
-		 */
-		_paddingChange: function(e)
-		{
-			var padding = this._getPadding();
-			   
-			this.updateCSSRule(this.classes.content, {
-				'padding-top'      : padding.top + 'px',
-				'padding-bottom'   : padding.bottom + 'px',
-				'padding-left'     : padding.left + 'px',
-				'padding-right'    : padding.right + 'px',
-			});
-			
-			this._positionAbsoluteBgs();
+
+			$.map( values, function( val, key ) {
+				val = val.toLowerCase().replace( /[^a-z0-9%.\-]/g, '' );
+
+				// Fall back to placeholder if the value is empty
+				if ( '' === val ) {
+					var option      = property[0] + key.charAt( 0 ).toUpperCase() + key.slice( 1 ) + property[1] + device,
+					    placeholder = parent.elements[ option ].attr( 'placeholder' );
+
+					if ( placeholder ) {
+						val = placeholder;
+					}
+				}
+
+				// Fall back to pixels when numeric value set
+				if ( null !== val && '' !== val && ! isNaN( val ) ) {
+					val = parseFloat( val ) + 'px';
+				}
+
+				values[ key ] = val;
+			} );
+
+			return values;
 		},
 		
 		/* Absolutely Positioned Backgrounds
@@ -1279,35 +1293,39 @@
 		 */
 		_positionAbsoluteBgs: function()
 		{
+			// @todo  Oliver: Why is this actually needed???
 			var slideshow = this.elements.node.find('.fl-bg-slideshow'),
-				video     = this.elements.node.find('.fl-bg-video'),
-				margins   = null,
-				borders   = null;
-				
-			if(slideshow.length > 0 || video.length > 0) {
-			
-				margins = this._getMargins();
-				borders = this._getBorderWidths();
-				
-				if(slideshow.length > 0) {
-				 
-					this.updateCSSRule(this.classes.node + ' .fl-bg-slideshow', {
-						'top'      : (margins.top + borders.top) + 'px',
-						'bottom'   : (margins.bottom + borders.bottom) + 'px',
-						'left'     : (margins.left + borders.left) + 'px',
-						'right'    : (margins.right + borders.right) + 'px',
-					});
-				
+			    video     = this.elements.node.find('.fl-bg-video'),
+			    margins   = null,
+			    borders   = null,
+			    position  = {
+			    	'top'    : 0,
+			    	'bottom' : 0,
+			    	'left'   : 0,
+			    	'right'  : 0,
+			    };
+
+			if ( slideshow.length > 0 || video.length > 0 ) {
+				margins = this._getDimensions( 'margin' );
+				borders = this._getDimensions( 'border' );
+
+				$.map( position, function( val, key ) {
+					if ( margins[ key ] && borders[ key ] ) {
+						position[ key ] = 'calc(' + margins[ key ] + '+' + borders[ key ] + ')';
+					} else if ( margins[ key ] ) {
+						position[ key ] = margins[ key ];
+					} else if ( borders[ key ] ) {
+						position[ key ] = borders[ key ];
+					}
+				} );
+
+				if ( slideshow.length > 0 ) {
+					this.updateCSSRule( this.classes.node + ' .fl-bg-slideshow', position );
 					FLBuilder._resizeLayout();
 				}
-				if(video.length > 0) {
-				 
-					this.updateCSSRule(this.classes.node + ' .fl-bg-video', {
-						'top'      : (margins.top + borders.top) + 'px',
-						'bottom'   : (margins.bottom + borders.bottom) + 'px',
-						'left'     : (margins.left + borders.left) + 'px',
-						'right'    : (margins.right + borders.right) + 'px',
-					});
+
+				if ( video.length > 0 ) {
+					this.updateCSSRule( this.classes.node + ' .fl-bg-video', position );
 				}
 			}
 		},
@@ -1341,10 +1359,11 @@
 			// Common Elements
 			this._initNodeTextColor();
 			this._initNodeBg();
-			this._initNodeBorder();
 			this._initNodeClassName();
-			this._initMargins();
-			this._initPadding();
+			this._initNodeBorder();
+			this._initResponsiveDimensions( 'border' );
+			this._initResponsiveDimensions( 'margin' );
+			this._initResponsiveDimensions( 'padding' );
 		},
 		
 		/**
@@ -1444,10 +1463,11 @@
 			// Common Elements
 			this._initNodeTextColor();
 			this._initNodeBg();
-			this._initNodeBorder();
 			this._initNodeClassName();
-			this._initMargins();
-			this._initPadding();
+			this._initNodeBorder();
+			this._initResponsiveDimensions( 'border' );
+			this._initResponsiveDimensions( 'margin' );
+			this._initResponsiveDimensions( 'padding' );
 		},
 		
 		/**
@@ -1460,7 +1480,7 @@
 		_colSizeChange: function()
 		{
 			var preview         = this,
-				minWidth        = 10,
+				minWidth        = 8,
 				maxWidth        = 100 - minWidth,
 				size            = parseFloat(this.elements.size.val()),
 				prev            = this.elements.node.prev('.fl-col'),
@@ -1557,7 +1577,7 @@
 		_initModule: function()
 		{
 			this._initNodeClassName();
-			this._initMargins();
+			this._initResponsiveDimensions( 'margin' );
 		},
 		
 		/* Default Field Previews
@@ -1677,6 +1697,10 @@
 				case 'suggest':
 					field.find('.as-values').on('change', callback);
 				break;
+						
+				case 'unit':
+					field.find('input[type=number]').on('keyup', callback);
+				break;
 
 			}
 		},
@@ -1699,6 +1723,10 @@
 				
 				case 'text':
 					field.find('input[type=text]').on('keyup', callback);
+				break;
+				
+				case 'unit':
+					field.find('input[type=number]').on('keyup', callback);
 				break;
 				
 				case 'textarea':
@@ -1974,6 +2002,10 @@
 					field.find( 'input[type=text]' ).on( 'keyup', $.proxy( this._previewCSS, this, preview ) );
 				break;
 				
+				case 'unit':
+					field.find( 'input[type=number]' ).on( 'keyup', $.proxy( this._previewCSS, this, preview ) );
+				break;
+				
 				case 'select':
 					field.find( 'select' ).on( 'change', $.proxy( this._previewCSS, this, preview ) );
 				break;
@@ -1998,7 +2030,8 @@
 			var selector = this._getPreviewSelector( this.classes.node, preview.selector ),
 				property = preview.property,
 				unit     = typeof preview.unit == 'undefined' ? '' : preview.unit,
-				value    = $(e.target).val();
+				input    = $(e.target),
+				value    = input.val();
 				
 			if(unit == '%') {
 				value = parseInt(value)/100;
@@ -2007,7 +2040,12 @@
 				value += unit;
 			}
 			
-			this.updateCSSRule(selector, property, value);
+			if ( input.closest( '.fl-field-responsive-setting' ).length ) {
+				this.updateResponsiveCSSRule( selector, property, value );
+			}
+			else {
+				this.updateCSSRule( selector, property, value );
+			}
 		},
 		
 		/**
@@ -2022,10 +2060,16 @@
 		_previewColor: function(preview, e)
 		{
 			var selector = this._getPreviewSelector( this.classes.node, preview.selector ),
-				val      = $(e.target).val(),
+				input    = $(e.target),
+				val      = input.val(),
 				color    = val === '' ? 'inherit' : '#' + val;
-			
-			this.updateCSSRule(selector, preview.property, color);
+				
+			if ( input.closest( '.fl-field-responsive-setting' ).length ) {
+				this.updateResponsiveCSSRule( selector, preview.property, color );
+			}
+			else {
+				this.updateCSSRule( selector, preview.property, color );
+			}
 		},
 		
 		/**

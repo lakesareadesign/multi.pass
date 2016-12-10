@@ -1095,7 +1095,8 @@ class MP_Cart {
 		 * @param int max qty to display on dropdown
 		 */
 
-		$max_dropdown 			= apply_filters( 'mp_cart/quantity_dropdown/max_default', 10 );
+		//Adding the $id so we can change max quantity depending on product. Usefull for migrations like Appointments+ ;)
+		$max_dropdown 			= apply_filters( 'mp_cart/quantity_dropdown/max_default', 10, $id );
 
 
 		if ( $inventory_tracking && $out_of_stock_purchase !== '1' ) {
@@ -1126,20 +1127,24 @@ class MP_Cart {
 
 		// Build select field attributes
 		$attributes = mp_array_to_attributes( compact( 'name', 'class', 'id' ) );
+		$html = '';
 
-		$html = '
-			<select' . $attributes . '>';
+		if( $max_dropdown > 1 ){
+			$html = '
+				<select' . $attributes . '>';
 
-		if ( $selected >= $max ) {
-			$max = $selected;
-		}
+			if ( $selected >= $max ) {
+				$max = $selected;
+			}
 
-		for ( $i = 1; $i <= $max_dropdown; $i ++ ) {
+			for ( $i = 1; $i <= $max_dropdown; $i ++ ) {
+				$html .= '
+					<option value="' . $i . '" ' . selected( $i, $selected, false ) . '>' . number_format_i18n( $i, 0 ) . '</option>';
+			}
 			$html .= '
-				<option value="' . $i . '" ' . selected( $i, $selected, false ) . '>' . number_format_i18n( $i, 0 ) . '</option>';
+				</select>';
 		}
-		$html .= '
-			</select>';
+		else $html .= '<span class="item-quantity one-allowed">1</span>';
 
 		if ( $echo ) {
 			echo $html;

@@ -10,7 +10,7 @@
 			ed.addCommand('YTPlayerpopup', function() {
 				ed.windowManager.open({
 					url : popUpURL,
-					width : 680,
+					width : 900,
 					height :  jQuery(window).height(),
 					inline : 1
 				});

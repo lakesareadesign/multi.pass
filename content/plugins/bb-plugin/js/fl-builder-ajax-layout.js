@@ -374,18 +374,18 @@
 				
 				// If data.nodeParent is present, we have a new node.
 				if ( this._data.nodeParent ) {
-					
+			
 					// Get sibling rows.
 					if ( this._data.nodeParent.hasClass( 'fl-builder-content' ) ) {
 						siblings = this._data.nodeParent.find( '.fl-row' );
 					}
 					// Get sibling column groups.
 					else if ( this._data.nodeParent.hasClass( 'fl-row-content' ) ) {
-						siblings = this._data.nodeParent.find( '.fl-col-group' );
+						siblings = this._data.nodeParent.find( ' > .fl-col-group' );
 					}
 					// Get sibling modules.
 					else {
-						siblings = this._data.nodeParent.find( '.fl-module' );
+						siblings = this._data.nodeParent.find( ' > .fl-col-group, > .fl-module' );
 					}
 					
 					// Add the new node.
@@ -542,10 +542,12 @@
 		{
 			FLBuilder._setupEmptyLayout();
 			FLBuilder._highlightEmptyCols();
+			FLBuilder._initDropTargets();
 			FLBuilder._initSortables();
 			FLBuilder._resizeLayout();
 			FLBuilder._initMediaElements();
 			FLBuilderLayout.init();
+			FLBuilderResponsiveEditing.refreshPreview();
 			
 			this._body.height( 'auto' );
 		}

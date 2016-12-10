@@ -49,7 +49,7 @@ class Stripe_Object implements ArrayAccess
     } else if ($this->_transientValues->includes($k)) {
       $class = get_class($this);
       $attrs = join(', ', array_keys($this->_values));
-      error_log("Stripe Notice: Undefined property of $class instance: $k.  HINT: The $k attribute was set in the past, however.  It was then wiped when refreshing the object with the result returned by Stripe's API, probably as a result of a save().  The attributes currently available on this object are: $attrs");
+      error_log("Stripe Notice: Undefined property of $class instance: $k.  HINT: The $k attribute was set in the past, however.  It was then wiped when refreshing the object with the result returned by Stripe's API, probably as a result of a save().  The attributes currently available on this object are: $attrs");	     	 	 	    	  
       return null;
     } else {
       $class = get_class($this);

@@ -21,7 +21,7 @@ if ( is_network_admin() ) {
 
 $post_types = (empty($post_types))? array() : $post_types;
 $taxonomies = (empty($taxonomies))? array() : $taxonomies;
-$custom_fields = (empty($custom_fields))? array() : $custom_fields;	     	 	 	  		   
+$custom_fields = (empty($custom_fields))? array() : $custom_fields;
 
 ?>
 

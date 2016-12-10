@@ -12,7 +12,7 @@
 		<?php endif; ?>
 		<?php foreach ( $saved_rows as $saved_row ) : ?>
 		<span class="fl-builder-block fl-builder-block-saved-row<?php if ( $saved_row['global'] ) echo ' fl-builder-block-global'; ?>" data-id="<?php echo $saved_row['id']; ?>">
-			<span class="fl-builder-block-title"><?php echo $saved_row['name']; ?></span>
+			<span class="fl-builder-block-title" title="<?php echo esc_attr( $saved_row['name'] ); ?>"><?php echo $saved_row['name']; ?></span>
 			<?php if ( $saved_row['global'] ) : ?>
 			<div class="fl-builder-badge fl-builder-badge-global">
 				<?php _ex( 'Global', 'Indicator for global node templates.', 'fl-builder' ); ?>
@@ -43,7 +43,7 @@
 		<?php endif; ?>
 		<?php foreach ( $saved_modules as $saved_module ) : ?>
 		<span class="fl-builder-block fl-builder-block-saved-module<?php if ( $saved_module['global'] ) echo ' fl-builder-block-global'; ?>" data-id="<?php echo $saved_module['id']; ?>">
-			<span class="fl-builder-block-title"><?php echo $saved_module['name']; ?></span>
+			<span class="fl-builder-block-title" title="<?php echo esc_attr( $saved_module['name'] ); ?>"><?php echo $saved_module['name']; ?></span>
 			<?php if ( $saved_module['global'] ) : ?>
 			<div class="fl-builder-badge fl-builder-badge-global">
 				<?php _ex( 'Global', 'Indicator for global node templates.', 'fl-builder' ); ?>

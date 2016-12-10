@@ -119,6 +119,7 @@
 		 */
 		open: function(content)
 		{
+			this._node.find('.fl-lightbox').attr( 'style', '' );
 			this._node.show();
 			this._visible = true;
 			

@@ -29,13 +29,13 @@
 		
 		/**
 		 * A jQuery reference to a module element that should be
-		 * added to a new row after it has been rendered.
+		 * added to a new node after it has been rendered.
 		 *
 		 * @since 1.0
 		 * @access private
-		 * @property {Object} _addModuleAfterRowRender
+		 * @property {Object} _addModuleAfterNodeRender
 		 */
-		_addModuleAfterRowRender    : null,
+		_addModuleAfterNodeRender   : null,
 		
 		/**
 		 * An object that holds data for column resizing.
@@ -82,6 +82,16 @@
 		 * @property {Boolean} _dragging
 		 */
 		_dragging                   : false,
+		
+		/**
+		 * The initial scroll top of the window when a drag starts.
+		 * Used to reset the scroll top when a drag is cancelled.
+		 *
+		 * @since 1.0
+		 * @access private
+		 * @property {Boolean} _dragging
+		 */
+		_dragInitialScrollTop       : 0,
 		
 		/**
 		 * The URL to redirect to when a user leaves the builder.
@@ -302,8 +312,10 @@
 			FLBuilder._initOverflowFix();
 			FLBuilder._initScrollbars();
 			FLBuilder._initLightboxes();
+			FLBuilder._initDropTargets();
 			FLBuilder._initSortables();
 			FLBuilder._initStrings();
+			FLBuilder._initTipTips();
 			FLBuilder._bindEvents();
 			FLBuilder._bindOverlayEvents();
 			FLBuilder._setupEmptyLayout();
@@ -482,37 +494,46 @@
 				appendTo: 'body',
 				cursor: 'move',
 				cursorAt: {
-					left: 25, 
+					left: 60, 
 					top: 20
 				},
 				distance: 1,
 				helper: FLBuilder._blockDragHelper,
 				start : FLBuilder._blockDragStart,
 				sort: FLBuilder._blockDragSort,
+				change: FLBuilder._blockDragChange,
+				stop: FLBuilder._blockDragStop,
 				placeholder: 'fl-builder-drop-zone',
 				tolerance: 'intersect'
 			},
-			rowConnections 		= '',
-			moduleConnections 	= '';
-			
-			// Row Connections.
-			if ( 'row' == FLBuilderConfig.userTemplateType )  {
-				rowConnections = FLBuilder._contentClass + ' .fl-row-content';
-			}
-			else {
-				rowConnections = FLBuilder._contentClass + ', ' + 
-							  	 FLBuilder._contentClass + ' .fl-row:not(.fl-node-global) .fl-row-content';
-			}
+			rowConnections 	  = '',
+			moduleConnections = '';
 			
 			// Module Connections.
 			if ( 'row' == FLBuilderConfig.userTemplateType )  {
-				moduleConnections = FLBuilder._contentClass + ' .fl-row-content, ' + 
+				moduleConnections = FLBuilder._contentClass + ' .fl-col-group-drop-target, ' +
+									FLBuilder._contentClass + ' .fl-col-drop-target, ' + 
 							  		FLBuilder._contentClass + ' .fl-col-content';
 			}
 			else {
-				moduleConnections = FLBuilder._contentClass + ', ' + 
-							  		FLBuilder._contentClass + ' .fl-row:not(.fl-node-global) .fl-row-content, ' + 
-							  		FLBuilder._contentClass + ' .fl-col:not(.fl-node-global) .fl-col-content';
+				moduleConnections = FLBuilder._contentClass + ' .fl-row-drop-target, ' + 
+									FLBuilder._contentClass + ' .fl-col-group-drop-target, ' + 
+									FLBuilder._contentClass + ' .fl-col-drop-target, ' + 
+							  		FLBuilder._contentClass + ' .fl-row:not(.fl-node-global) .fl-col-content';
+			}
+			
+			// Row Connections.
+			if ( FLBuilderConfig.nestedColumns ) {
+				rowConnections = moduleConnections;
+			}
+			else if ( 'row' == FLBuilderConfig.userTemplateType )  {
+				rowConnections = FLBuilder._contentClass + ' .fl-col-group-drop-target, ' +
+								 FLBuilder._contentClass + ' .fl-col-drop-target';
+			}
+			else {
+				rowConnections = FLBuilder._contentClass + ' .fl-row-drop-target, ' + 
+								 FLBuilder._contentClass + ' .fl-col-group-drop-target, ' + 
+								 FLBuilder._contentClass + ' .fl-col-drop-target';
 			}
 			
 			// Row layouts from the builder panel.
@@ -524,7 +545,7 @@
 			
 			// Row templates from the builder panel.
 			$('.fl-builder-row-templates').sortable($.extend({}, defaults, {
-				connectWith: FLBuilder._contentClass,
+				connectWith: FLBuilder._contentClass + ' .fl-row-drop-target',
 				items: '.fl-builder-block-row-template',
 				stop: FLBuilder._nodeTemplateDragStop
 			}));
@@ -532,7 +553,7 @@
 			// Saved rows from the builder panel.
 			$('.fl-builder-saved-rows').sortable($.extend({}, defaults, {
 				cancel: '.fl-builder-node-template-actions, .fl-builder-node-template-edit, .fl-builder-node-template-delete',
-				connectWith: FLBuilder._contentClass,
+				connectWith: FLBuilder._contentClass + ' .fl-row-drop-target',
 				items: '.fl-builder-block-saved-row',
 				stop: FLBuilder._nodeTemplateDragStop
 			}));
@@ -559,30 +580,36 @@
 				stop: FLBuilder._nodeTemplateDragStop
 			}));
 			
-			// Row position.
-			$(FLBuilder._contentClass).sortable($.extend({}, defaults, {
-				handle: '.fl-row-overlay .fl-block-overlay-actions .fl-block-move',
+			// Rows
+			$('.fl-row-sortable-proxy').sortable($.extend({}, defaults, {
+				connectWith: FLBuilder._contentClass + ' .fl-row-drop-target',
 				helper: FLBuilder._rowDragHelper,
-				items: '.fl-row',
+				start: FLBuilder._rowDragStart,
 				stop: FLBuilder._rowDragStop
 			}));
 			
-			// Column group position.
-			$(FLBuilder._contentClass + ' .fl-row-content').sortable($.extend({}, defaults, {
-				handle: '.fl-row-overlay .fl-block-overlay-actions .fl-block-move',
-				helper: FLBuilder._rowDragHelper,
-				items: '.fl-col-group',
-				stop: FLBuilder._rowDragStop
+			// Columns
+			$('.fl-col-sortable-proxy').sortable($.extend({}, defaults, {
+				connectWith: moduleConnections,
+				helper: FLBuilder._colDragHelper,
+				start: FLBuilder._colDragStart,
+				stop: FLBuilder._colDragStop
 			}));
 			
-			// Module position.
+			// Modules
 			$(FLBuilder._contentClass + ' .fl-col-content').sortable($.extend({}, defaults, {
 				connectWith: moduleConnections,
 				handle: '.fl-module-overlay .fl-block-overlay-actions .fl-block-move',
 				helper: FLBuilder._moduleDragHelper,
-				items: '.fl-module',
+				items: '.fl-module, .fl-col-group',
+				start: FLBuilder._moduleDragStart,
 				stop: FLBuilder._moduleDragStop
 			}));
+			
+			// Drop targets
+			$(FLBuilder._contentClass + ' .fl-row-drop-target').sortable( defaults );
+			$(FLBuilder._contentClass + ' .fl-col-group-drop-target').sortable( defaults );
+			$(FLBuilder._contentClass + ' .fl-col-drop-target').sortable( defaults );
 		},
 		
 		/**
@@ -621,6 +648,7 @@
 			$('body').delegate('.fl-builder-has-submenu a', 'click', FLBuilder._submenuChildClicked);
 			$('body').delegate('.fl-builder-submenu', 'mouseenter', FLBuilder._submenuMouseenter);
 			$('body').delegate('.fl-builder-submenu', 'mouseleave', FLBuilder._submenuMouseleave);
+			$('body').delegate('.fl-builder-submenu .fl-builder-has-submenu', 'mouseenter', FLBuilder._submenuNestedParentMouseenter);
 			
 			/* Bar */
 			$('.fl-builder-tools-button').on('click', FLBuilder._toolsClicked);
@@ -694,22 +722,28 @@
 			/* Rows */
 			$('body').delegate('.fl-row-overlay .fl-block-remove', 'click', FLBuilder._deleteRowClicked);
 			$('body').delegate('.fl-row-overlay .fl-block-copy', 'click', FLBuilder._rowCopyClicked);
-			$('body').delegate('.fl-row-overlay .fl-block-move', 'mousedown', FLBuilder._blockDragInit);
+			$('body').delegate('.fl-row-overlay .fl-block-move', 'mousedown', FLBuilder._rowDragInit);
 			$('body').delegate('.fl-row-overlay .fl-block-settings', 'click', FLBuilder._rowSettingsClicked);
 			$('body').delegate('.fl-row-overlay', 'click', FLBuilder._rowSettingsClicked);
 			$('body').delegate('.fl-builder-row-settings .fl-builder-settings-save', 'click', FLBuilder._saveSettings);
 			
 			/* Columns */
+			$('body').delegate('.fl-col-overlay .fl-block-move', 'mousedown', FLBuilder._colDragInit);
+			$('body').delegate('.fl-col-overlay .fl-block-remove', 'click', FLBuilder._deleteColClicked);
 			$('body').delegate('.fl-col-overlay', 'click', FLBuilder._colSettingsClicked);
 			$('body').delegate('.fl-builder-col-settings .fl-builder-settings-save', 'click', FLBuilder._saveSettings);
-			$('body').delegate('.fl-col-overlay .fl-block-remove', 'click', FLBuilder._deleteColClicked);
 			
 			/* Columns Submenu */
+			$('body').delegate('.fl-block-col-submenu .fl-block-col-move', 'mousedown', FLBuilder._colDragInit);
 			$('body').delegate('.fl-block-col-submenu .fl-block-col-edit', 'click', FLBuilder._colSettingsClicked);
 			$('body').delegate('.fl-block-col-submenu .fl-block-col-delete', 'click', FLBuilder._deleteColClicked);
-			$('body').delegate('.fl-block-col-submenu .fl-block-col-insert-before', 'click', FLBuilder._insertColBeforeClicked);
-			$('body').delegate('.fl-block-col-submenu .fl-block-col-insert-after', 'click', FLBuilder._insertColAfterClicked);
-			$('body').delegate('.fl-block-col-submenu .fl-block-col-reset', 'click', FLBuilder._resetColumnWidths);
+			$('body').delegate('.fl-block-col-submenu .fl-block-col-reset', 'click', FLBuilder._resetColumnWidthsClicked);
+			$('body').delegate('.fl-block-col-submenu li', 'mouseenter', FLBuilder._showColHighlightGuide);
+			$('body').delegate('.fl-block-col-submenu li', 'mouseleave', FLBuilder._removeColHighlightGuides);
+			
+			/* Columns Submenu (Parent Column) */
+			$('body').delegate('.fl-block-col-submenu .fl-block-col-move-parent', 'mousedown', FLBuilder._colDragInit);
+			$('body').delegate('.fl-block-col-submenu .fl-block-col-edit-parent', 'click', FLBuilder._colSettingsClicked);
 			
 			/* Modules */
 			$('body').delegate('.fl-module-overlay .fl-block-remove', 'click', FLBuilder._deleteModuleClicked);
@@ -906,7 +940,16 @@
 		 */
 		_initTipTips: function()
 		{
-			$('.fl-tip').tipTip();
+			$('.fl-tip:not(.fl-has-tip)').each( function(){
+				var ele = $( this );
+				ele.addClass( 'fl-has-tip' );
+				if ( undefined == ele.attr( 'data-title' ) ) {
+					ele.attr( 'data-title', ele.attr( 'title' ) );
+				}
+			} ).tipTip( {
+				defaultPosition : 'top',
+				delay           : 1500
+			} );
 		},
 		
 		/**
@@ -965,7 +1008,11 @@
 		 */
 		_submenuChildClicked: function( e )
 		{
-			$( this ).closest( '.fl-builder-submenu-open' ).removeClass( 'fl-builder-submenu-open' );
+			var parent = $( this ).parents( '.fl-builder-has-submenu' );
+			
+			if ( ! parent.parents( '.fl-builder-has-submenu' ).length ) {
+				parent.removeClass( 'fl-builder-submenu-open' );	
+			}
 		},
 		
 		/**
@@ -997,11 +1044,42 @@
 		_submenuMouseleave: function( e )
 		{
 			var menu 	= $( this ),
-				timeout = setTimeout( function(){
-					menu.closest( '.fl-builder-submenu-open' ).removeClass( 'fl-builder-submenu-open' );
+				timeout = setTimeout( function() {
+					menu.closest( '.fl-builder-has-submenu' ).removeClass( 'fl-builder-submenu-open' );
 				}, 500 );
 			
 			menu.data( 'timeout', timeout );
+		},
+		
+		/**
+		 * Callback for when the mouse enters the parent
+		 * of a nested submenu.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _submenuNestedParentMouseenter
+		 * @param {Object} e The event object.
+		 */
+		_submenuNestedParentMouseenter: function( e )
+		{
+			var parent 	 = $( this ),
+				submenu  = parent.find( '.fl-builder-submenu' );
+				
+			if( parent.width() + parent.offset().left + submenu.width() > $( window ).width() ) {
+				parent.addClass( 'fl-builder-submenu-right' );
+			}
+		},
+		
+		/**
+		 * Closes all open submenus.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _closeAllSubmenus
+		 */
+		_closeAllSubmenus: function()
+		{
+			$( '.fl-builder-submenu-open' ).removeClass( 'fl-builder-submenu-open' );
 		},
 		
 		/* Bar
@@ -1543,18 +1621,6 @@
 			FLBuilder._layoutSettingsInitCSS();
 					  
 			FLBuilder._initSettingsValidation({
-				module_margins: {
-					required: true,
-					number: true
-				},
-				row_margins: {
-					required: true,
-					number: true
-				},
-				row_padding: {
-					required: true,
-					number: true
-				},
 				row_width: {
 					required: true,
 					number: true
@@ -1593,10 +1659,25 @@
 				FLBuilder.ajax({
 					action: 'save_global_settings',
 					settings: settings
-				}, FLBuilder._updateLayout);
+				}, FLBuilder._saveGlobalSettingsComplete);
 					
 				FLBuilder._lightbox.close();
 			}
+		},
+
+		/**
+		 * Saves the global settings when the save button is clicked.
+		 *
+		 * @since 1.0
+		 * @access private
+		 * @method _saveGlobalSettingsComplete
+		 * @param {String} response
+		 */       
+		_saveGlobalSettingsComplete: function( response )
+		{
+			FLBuilderConfig.global = JSON.parse( response );
+			
+			FLBuilder._updateLayout();
 		},
 		
 		/* Template Selector
@@ -2277,6 +2358,63 @@
 		----------------------------------------------------------*/
 		
 		/**
+		 * Inserts drop targets for nodes such as rows, columns
+		 * and column groups since making those all sortables
+		 * makes sorting really jumpy.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _initDropTargets
+		 */
+		_initDropTargets: function()
+		{
+			var notGlobal = 'row' == FLBuilderConfig.userTemplateType ? '' : ':not(.fl-node-global)',
+				rows      = $( FLBuilder._contentClass + ' .fl-row' ),
+				row       = null,
+				groups    = $( FLBuilder._contentClass + ' .fl-row' + notGlobal ).find( '.fl-col-group' ),
+				group     = null,
+				cols      = null,
+				i         = 0;
+			
+			// Remove old drop targets.
+			$( '.fl-col-drop-target' ).remove();
+			$( '.fl-col-group-drop-target' ).remove();
+			$( '.fl-row-drop-target' ).remove();
+			
+			// Row drop targets.
+			$( FLBuilder._contentClass ).append( '<div class="fl-drop-target fl-row-drop-target"></div>' );
+			rows.prepend( '<div class="fl-drop-target fl-row-drop-target"></div>' );
+			rows.append( '<div class="fl-drop-target fl-drop-target-last fl-row-drop-target fl-row-drop-target-last"></div>' );
+			
+			// Add group drop targets to empty rows.
+			for ( ; i < rows.length; i++ ) {
+				
+				row = rows.eq( i );
+				
+				if ( 0 === row.find( '.fl-col-group' ).length ) {
+					row.find( '.fl-row-content' ).append( '<div class="fl-drop-target fl-col-group-drop-target"></div>' );
+				}
+			}
+			
+			// Loop through the column groups.
+			for ( i = 0; i < groups.length; i++ ) {
+				
+				group = groups.eq( i );
+				cols  = group.find( '> .fl-col' );
+				
+				// Column group drop targets.
+				if ( ! group.hasClass( 'fl-col-group-nested' ) ) {
+					group.append( '<div class="fl-drop-target fl-col-group-drop-target"></div>' );
+					group.append( '<div class="fl-drop-target fl-drop-target-last fl-col-group-drop-target fl-col-group-drop-target-last"></div>' );
+				}
+				
+				// Column drop targets.
+				cols.append( '<div class="fl-drop-target fl-col-drop-target"></div>' );
+				cols.append( '<div class="fl-drop-target fl-drop-target-last fl-col-drop-target fl-col-drop-target-last"></div>' );
+			}
+		},
+		
+		/**
 		 * Returns a helper element for a drag operation.
 		 *
 		 * @since 1.0
@@ -2304,70 +2442,58 @@
 		 * @method _blockDragInit
 		 * @param {Object} e The event object.
 		 */
-		_blockDragInit: function(e)
+		_blockDragInit: function( e )
 		{
-			var target      = $(e.target),
-				item        = null,
-				initialPos  = 0,
-				noHighlight = 'row' == FLBuilderConfig.userTemplateType ? '' : ':not(.fl-node-global)';
+			var target        = $( e.currentTarget ),
+				node          = null,
+				scrollTop     = $( window ).scrollTop(),
+				initialPos    = 0;
 				
 			// Set the _dragEnabled flag.
 			FLBuilder._dragEnabled = true;
 			
-			// Set the item to a module instance.  
-			if(target.closest('.fl-module').length > 0) {
-				item = target.closest('.fl-module');
-			}
-			// Set the item to a row instance.
-			else if(target.closest('.fl-row').length > 0) {
-				item = target.closest('.fl-row');
-			}
-			// Set the item to the first visible row.
-			else if(target.hasClass('fl-builder-block-row') || target.hasClass('fl-builder-block-saved-row')) {
-				$('.fl-row').each(function(){
-					if(item === null && $(this).offset().top - $(window).scrollTop() > 0) {
-						item = $(this);
-					}
-				});
-			}
-			// Set the item to the first visible module.
-			else if(target.hasClass('fl-builder-block-module') || target.hasClass('fl-builder-block-saved-module')) {
+			// Save the initial scroll position.
+			FLBuilder._dragInitialScrollTop = scrollTop;
+			
+			// Get the node to scroll to once the node highlights have affected the body height.
+			if ( target.closest( '[data-node]' ).length > 0 ) {
 				
-				$('.fl-module').each(function(){
-					if(item === null && $(this).offset().top - $(window).scrollTop() > 0) {
-						item = $(this);
+				// Set the node to a node instance being dragged.  
+				node = target.closest( '[data-node]' );
+				
+				// Mark this node as initialized for dragging.
+				node.addClass( 'fl-node-drag-init' );
+			}
+			else if ( target.hasClass( 'fl-builder-block' ) ) {
+				
+				// Set the node to the first visible row instance.
+				$( '.fl-row' ).each( function() {
+					if ( node === null && $( this ).offset().top - scrollTop > 0 ) {
+						node = $( this );
 					}
-				});
+				} );
 			}
 			
-			// Get the initial scroll position of the item.
-			if(item !== null) {
-				initialPos = item.offset().top - $(window).scrollTop();
-			}
-			else {
-				item = target;
-			}
-			
-			// Hide the empty message.
-			$('.fl-builder-empty-message').hide();
-			
-			// Highlight rows.
-			$(FLBuilder._contentClass + ' .fl-row' + noHighlight).addClass('fl-row-highlight');
-			
-			// Highlight modules.
-			if(item.hasClass('fl-module') || item.hasClass('fl-builder-block-module') || item.hasClass('fl-builder-block-saved-module')) {
-				$(FLBuilder._contentClass + ' .fl-col' + noHighlight).addClass('fl-col-highlight');
+			// Get the initial scroll position of the node.
+			if ( node !== null ) {
+				initialPos = node.offset().top - scrollTop;
 			}
 			
 			// Setup the UI for dragging.
+			FLBuilder._highlightRowsAndColsForDrag( target );
+			FLBuilder._adjustColHeightsForDrag();
 			FLBuilder._disableGlobalRows();
 			FLBuilder._closePanel();
 			FLBuilder._destroyOverlayEvents();
 			FLBuilder._removeAllOverlays();
+			FLBuilder._initSortables();
+			$( 'body' ).addClass( 'fl-builder-dragging' );
+			$( '.fl-builder-empty-message' ).hide();
+			$( '.fl-sortable-disabled' ).removeClass( 'fl-sortable-disabled' );
 			
-			// Scroll to the row or module that was dragged.            
-			if(initialPos > 0) {
-				scrollTo(0, item.offset().top - initialPos);
+			// Scroll to the node that is dragging.            
+			if ( initialPos > 0 ) {
+				scrollTo( 0, node.offset().top - initialPos );
 			}
 		},
 		
@@ -2382,12 +2508,11 @@
 		 */
 		_blockDragStart: function(e, ui)
 		{
+			// Let the builder know dragging has started.
 			FLBuilder._dragging = true;
 			
-			// Refresh sortables.
-			$(FLBuilder._contentClass).sortable('refreshPositions');
-			$(FLBuilder._contentClass + ' .fl-row-content').sortable('refreshPositions');
-			$(FLBuilder._contentClass + ' .fl-col-content').sortable('refreshPositions');
+			// Removed the drag init class as we're done with that.
+			$( '.fl-node-drag-init' ).removeClass( 'fl-node-drag-init' );
 		},
 		
 		/**
@@ -2402,16 +2527,23 @@
 		 */
 		_blockDragSort: function(e, ui)
 		{
-			if(typeof ui.placeholder === 'undefined') {
-				return;
-			}
-			
 			var parent = ui.placeholder.parent(),
 				title  = FLBuilderStrings.insert;
 			
+			// Prevent sorting?
+			if ( FLBuilder._blockPreventSort( ui.item, parent ) ) {
+				return;
+			}
+			
 			// Find the placeholder title.
 			if(parent.hasClass('fl-col-content')) {
-				if(ui.item.hasClass('fl-builder-block-module')) {
+				if(ui.item.hasClass('fl-builder-block-row')) {
+					title = ui.item.find('.fl-builder-block-title').text();
+				}
+				else if(ui.item.hasClass('fl-col-sortable-proxy-item')) {
+					title = FLBuilderStrings.column;
+				}
+				else if(ui.item.hasClass('fl-builder-block-module')) {
 					title = ui.item.find('.fl-builder-block-title').text();
 				}
 				else if(ui.item.hasClass('fl-builder-block-saved-module') || ui.item.hasClass('fl-builder-block-module-template')) {
@@ -2421,22 +2553,20 @@
 					title = ui.item.attr('data-name');
 				}
 			}
-			else if(parent.hasClass('fl-row-content')) {
-				if(ui.item.hasClass('fl-builder-block-row')) {
-					title = ui.item.find('.fl-builder-block-title').text();
-				}
-				else {
-					title = FLBuilderStrings.newColumn;
-				}
+			else if(parent.hasClass('fl-col-drop-target')) {
+				title = '';
 			}
-			else if(parent.hasClass('fl-builder-content')) {
+			else if (parent.hasClass('fl-col-group-drop-target')) {
+				title = '';
+			}
+			else if(parent.hasClass('fl-row-drop-target')) {
 				if(ui.item.hasClass('fl-builder-block-row')) {
 					title = ui.item.find('.fl-builder-block-title').text();
 				}
 				else if(ui.item.hasClass('fl-builder-block-saved-row')) {
 					title = ui.item.find('.fl-builder-block-title').text();
 				}
-				else if(ui.item.hasClass('fl-row')) {
+				else if(ui.item.hasClass('fl-row-sortable-proxy-item')) {
 					title = FLBuilderStrings.row;
 				}
 				else {
@@ -2448,12 +2578,98 @@
 			ui.placeholder.html(title);
 			
 			// Add the global class?
-			if ( ui.item.hasClass( 'fl-node-global' ) || ui.item.hasClass( 'fl-builder-block-global' ) ) {
+			if ( ui.item.hasClass( 'fl-node-global' ) || 
+				 ui.item.hasClass( 'fl-builder-block-global' ) || 
+				 $( '.fl-node-dragging' ).hasClass( 'fl-node-global' ) 
+			) {
 				ui.placeholder.addClass( 'fl-builder-drop-zone-global' );
 			}
 			else {
 				ui.placeholder.removeClass( 'fl-builder-drop-zone-global' );
 			}
+		},
+		
+		/**
+		 * Callback that fires when an element that is being
+		 * dragged position changes.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _blockDragChange
+		 * @param {Object} e The event object.
+		 * @param {Object} ui An object with additional info for the drag.
+		 */
+		_blockDragChange: function( e, ui )
+		{
+			ui.placeholder.hide(); 
+			ui.placeholder.fadeIn( 100 ); 
+		},
+		
+		/**
+		 * Prevents sorting of items that shouldn't be sorted into
+		 * specific areas.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _blockPreventSort
+		 * @param {Object} item The item being sorted.
+		 * @param {Object} parent The new parent.
+		 */
+		_blockPreventSort: function( item, parent )
+		{
+			var prevent     = false,
+				isRowBlock  = item.hasClass( 'fl-builder-block-row' ),
+				isCol       = item.hasClass( 'fl-col-sortable-proxy-item' ),
+				isParentCol = parent.hasClass( 'fl-col-content' ),
+				isColTarget = parent.hasClass( 'fl-col-drop-target' ),
+				group       = parent.parents( '.fl-col-group:not(.fl-col-group-nested)' ),
+				nestedGroup = parent.parents( '.fl-col-group-nested' );
+				
+			// Prevent columns in nested columns.
+			if ( ( isRowBlock || isCol ) && isParentCol && nestedGroup.length > 0 ) {
+				prevent = true;
+			}
+			
+			// Prevent 1 column from being nested in an empty column.
+			if ( isParentCol && ! parent.find( '.fl-module, .fl-col' ).length ) {
+			
+				if ( isRowBlock && '1-col' == item.data( 'cols' ) ) {
+					prevent = true;
+				}
+				else if ( isCol ) {
+					prevent = true;
+				}
+			}
+			
+			// Prevent 5 or 6 columns from being nested.
+			if ( isRowBlock && isParentCol && $.inArray( item.data( 'cols' ), [ '5-cols', '6-cols' ] ) > -1 ) {
+				prevent = true;
+			}
+			
+			// Prevent columns with nested columns from being dropped in nested columns.
+			if ( isCol && $( '.fl-node-dragging' ).find( '.fl-col-group-nested' ).length > 0 ) {
+				
+				if ( isParentCol || ( isColTarget && nestedGroup.length > 0 ) ) {
+					prevent = true;
+				}
+			}
+			
+			// Prevent more than 12 columns.
+			if ( isColTarget && group.length > 0 && 0 === nestedGroup.length && group.find( '> .fl-col:visible' ).length > 11 ) {
+				prevent = true;
+			}
+			
+			// Prevent more than 4 nested columns.
+			if ( isColTarget && nestedGroup.length > 0 && nestedGroup.find( '.fl-col:visible' ).length > 3 ) {
+				prevent = true;
+			}
+			
+			// Add the disabled class if we are preventing a sort.
+			if ( prevent ) {
+				parent.addClass( 'fl-sortable-disabled' );
+			}
+			
+			return prevent;
 		},
 		
 		/**
@@ -2465,13 +2681,23 @@
 		 * @param {Object} e The event object.
 		 * @param {Object} ui An object with additional info for the drag.
 		 */
-		_blockDragStop: function(e, ui)
+		_blockDragStop: function( e, ui )
 		{
-			var parent     = ui.item.parent(),
-				initialPos = parent.offset().top - $(window).scrollTop();
+			var scrollTop  = $( window ).scrollTop(),
+				parent     = ui.item.parent(),
+				initialPos = null;
+			
+			// Get the node to scroll to once removing the node highlights affects the body height.
+			if ( parent.hasClass( 'fl-drop-target' ) && parent.closest( '[data-node]' ).length ) {
+				parent = parent.closest( '[data-node]' );
+				initialPos = parent.offset().top - scrollTop;
+			}
+			else {
+				initialPos = parent.offset().top - scrollTop;
+			}
 
-			// Show the panel? 
-			if(parent.hasClass('fl-builder-blocks-section-content')) {
+			// Show the panel if a block was dropped back in.
+			if ( parent.hasClass( 'fl-builder-blocks-section-content' ) ) {
 				FLBuilder._showPanel();
 			}
 			
@@ -2481,10 +2707,11 @@
 			FLBuilder._bindOverlayEvents();
 			FLBuilder._highlightEmptyCols();
 			FLBuilder._enableGlobalRows();
-			$('.fl-builder-empty-message').show();
+			FLBuilder._setupEmptyLayout();
+			$( 'body' ).removeClass( 'fl-builder-dragging' );
 			
 			// Scroll the page back to where it was. 
-			scrollTo(0, parent.offset().top - initialPos);
+			scrollTo( 0, parent.offset().top - initialPos );
 		},
 		
 		/**
@@ -2496,14 +2723,58 @@
 		 */
 		_blockDragCancel: function()
 		{
-			if(FLBuilder._dragEnabled && !FLBuilder._dragging) {
+			if ( FLBuilder._dragEnabled && ! FLBuilder._dragging ) {
 				FLBuilder._dragEnabled = false;
 				FLBuilder._dragging = false;
 				FLBuilder._bindOverlayEvents();
 				FLBuilder._highlightEmptyCols();
 				FLBuilder._enableGlobalRows();
-				$('.fl-builder-empty-message').show();
+				FLBuilder._setupEmptyLayout();
+				$( 'body' ).removeClass( 'fl-builder-dragging' );
+				$( '.fl-node-drag-init' ).removeClass( 'fl-node-drag-init' );
+				$( '.fl-node-dragging' ).removeClass( 'fl-node-dragging' );
+				scrollTo( 0, FLBuilder._dragInitialScrollTop );
 			}
+		},
+		
+		/**
+		 * Reorders a node within its parent.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _reorderNode
+		 * @param {String} nodeId The node ID of the node.
+		 * @param {Number} position The new position.
+		 */     
+		_reorderNode: function( nodeId, position )
+		{
+			FLBuilder.ajax( {
+				action: 'reorder_node',
+				node_id: nodeId,
+				position: position,
+				silent: true
+			} ); 
+		},
+		
+		/**
+		 * Moves a node to a new parent.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _moveNode
+		 * @param {String} newParent The node ID of the new parent.
+		 * @param {String} nodeId The node ID of the node.
+		 * @param {Number} position The new position.
+		 */     
+		_moveNode: function( newParent, nodeId, position )
+		{
+			FLBuilder.ajax({
+				action: 'move_node',
+				new_parent: newParent,
+				node_id: nodeId,
+				position: position,
+				silent: true
+			});
 		},
 		
 		/**
@@ -2517,6 +2788,7 @@
 		{
 			FLBuilder._removeRowOverlays();
 			FLBuilder._removeColOverlays();
+			FLBuilder._removeColHighlightGuides();
 			FLBuilder._removeModuleOverlays();
 			FLBuilder._hideTipTips();
 		},
@@ -2565,38 +2837,93 @@
 				overlayPos = isNaN( overlayPos ) ? 0 : overlayPos;
 				overlay.css( 'bottom', ( margins.bottom + overlayPos ) + 'px' );
 			}
-			
+
 			return overlay;
+		},
+		
+		/**
+		 * Builds the overflow menu for an overlay if necessary.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _buildOverlayOverflowMenu
+		 * @param {Object} overlay The overlay object.
+		 */
+		_buildOverlayOverflowMenu: function( overlay )
+		{
+			var actions       = overlay.find( '.fl-block-overlay-actions' ),
+				original      = actions.data( 'original' ),
+				actionsWidth  = 0,
+				items         = null,
+				itemsWidth    = 0,
+				item          = null,
+				i             = 0,
+				visibleItems  = [],
+				overflowItems = [],
+				menuData      = [],
+				template	  = wp.template( 'fl-overlay-overflow-menu' );
+			
+			// Use the original copy if we have one.
+			if ( undefined != original ) {
+				actions.after( original );
+				actions.remove();
+				actions = original;
+			}
+			
+			// Save a copy of the original actions.
+			actions.data( 'original', actions.clone() );
+
+			// Get the actions width and items.
+			actionsWidth  = actions[0].getBoundingClientRect().width;
+			items         = actions.find( ' > i, > span.fl-builder-has-submenu' );
+			
+			// Find visible and overflow items.
+			for( ; i < items.length; i++ ) {
+				
+				item        = items.eq( i );
+				itemsWidth += item.outerWidth();
+				
+				if ( itemsWidth > actionsWidth ) {
+					overflowItems.push( item );
+					item.remove();
+				}
+				else {
+					visibleItems.push( item );
+				}
+			}
+			
+			// Build the menu if we have overflow items.
+			if ( overflowItems.length > 0 ) {
+				
+				overflowItems.unshift( visibleItems.pop().remove() );
+				
+				for( i = 0; i < overflowItems.length; i++ ) {
+					
+					if ( overflowItems[ i ].is( '.fl-builder-has-submenu' ) ) {
+						menuData.push( {
+							type    : 'submenu',
+							label   : overflowItems[ i ].find( '.fa' ).data( 'title' ),
+							submenu : overflowItems[ i ].find( '.fl-builder-submenu' )[0].outerHTML
+						} );
+					}
+					else {
+						menuData.push( {
+							type      : 'action',
+							label     : overflowItems[ i ].data( 'title' ),
+							className : overflowItems[ i ].removeClass( function( i, c ) { 
+											return c.replace( /fl-block-([^\s]+)/, '' ); 
+										} ).attr( 'class' )
+						} );
+					}
+				}
+				
+				actions.append( template( menuData ) );
+				FLBuilder._initTipTips();
+			}
 		},
 		
 		/* Rows
 		----------------------------------------------------------*/
-		
-		/**
-		 * Adds a dashed border to empty columns.
-		 *
-		 * @since 1.0
-		 * @access private
-		 * @method _highlightEmptyCols
-		 */
-		_highlightEmptyCols: function()
-		{
-			var noHighlight = 'row' == FLBuilderConfig.userTemplateType ? '' : ':not(.fl-node-global)',
-				rows 		= $(FLBuilder._contentClass + ' .fl-row' + noHighlight),
-				cols 		= $(FLBuilder._contentClass + ' .fl-col' + noHighlight);
-			
-			rows.removeClass('fl-row-highlight');
-			cols.removeClass('fl-col-highlight');
-			
-			cols.each(function(){
-				
-				var col = $(this);
-				
-				if(col.find('.fl-module').length === 0) {
-					col.addClass('fl-col-highlight');
-				}
-			});
-		},
 		
 		/**
 		 * Removes all row overlays from the page.
@@ -2625,10 +2952,7 @@
 				return;
 			}
 			
-			var rows = $('.fl-row.fl-node-global');
-			
-			rows.addClass( 'fl-node-disabled' );
-			rows.append( '<div class="fl-node-disabled-overlay"></div>' );
+			$('.fl-row.fl-node-global').addClass( 'fl-node-disabled' );
 		},
 		
 		/**
@@ -2645,7 +2969,6 @@
 			}
 			
 			$( '.fl-node-disabled' ).removeClass( 'fl-node-disabled' );
-			$( '.fl-node-disabled-overlay' ).remove();
 		},
 		
 		/**
@@ -2729,7 +3052,57 @@
 		 */
 		_rowDragHelper: function()
 		{
-			return $('<div class="fl-builder-block-drag-helper" style="width: 190px; height: 45px;">' + FLBuilderStrings.row + '</div>');
+			return $('<div class="fl-builder-block-drag-helper">' + FLBuilderStrings.row + '</div>');
+		},
+		
+		/**
+		 * Initializes dragging for row. Rows themselves aren't sortables
+		 * as nesting that many sortables breaks down quickly and draggable by
+		 * itself is slow. Instead, we are programmatically triggering the drag
+		 * of our helper div that isn't a nested sortable but connected to the 
+		 * sortables in the main layout.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _rowDragInit
+		 * @param {Object} e The event object.
+		 */
+		_rowDragInit: function( e )
+		{
+			var handle = $( e.target ),
+				helper = $( '.fl-row-sortable-proxy-item' ),
+				row    = handle.closest( '.fl-row' );
+			
+			row.addClass( 'fl-node-dragging' );
+			
+			FLBuilder._blockDragInit( e );
+			
+			e.target = helper[ 0 ];
+			
+			helper.trigger( e );
+		},
+		
+		/**
+		 * Callback that fires when dragging starts for a row.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _rowDragStart
+		 * @param {Object} e The event object.
+		 * @param {Object} ui An object with additional info for the drag.
+		 */
+		_rowDragStart: function( e, ui )
+		{
+			var rows = $( FLBuilder._contentClass + ' .fl-row' ),
+				row  = $( '.fl-node-dragging' );
+			
+			if ( 1 === rows.length ) {
+				$( FLBuilder._contentClass ).addClass( 'fl-builder-empty' );
+			}
+			
+			row.hide();
+
+			FLBuilder._blockDragStart( e, ui );
 		},
 		
 		/**
@@ -2741,34 +3114,73 @@
 		 * @param {Object} e The event object.
 		 * @param {Object} ui An object with additional info for the drag.
 		 */
-		_rowDragStop: function(e, ui)
+		_rowDragStop: function( e, ui )
 		{
-			var item   = ui.item,
-				parent = item.parent();
+			var item     = ui.item,
+				parent   = item.parent(),
+				row      = null,
+				group    = null,
+				position = 0;
 				
-			FLBuilder._blockDragStop(e, ui);
-
+			FLBuilder._blockDragStop( e, ui );
+			
 			// A row was dropped back into the row list.
-			if(parent.hasClass('fl-builder-rows')) {
+			if ( parent.hasClass( 'fl-builder-rows' ) ) {
 				item.remove();
 				return;
 			}
+			// A row was dropped back into the sortable proxy.
+			else if ( parent.hasClass( 'fl-row-sortable-proxy' ) ) {
+				$( '.fl-node-dragging' ).removeClass( 'fl-node-dragging' ).show();
+				return;
+			}
 			// Add a new row.
-			else if(item.hasClass('fl-builder-block')) {
+			else if ( item.hasClass( 'fl-builder-block' ) ) {
 			
-				// A row was dropped into another row.
-				if(parent.hasClass('fl-row-content')) {
+				// Cancel the drop if the sortable is disabled?
+				if ( parent.hasClass( 'fl-sortable-disabled' ) ) {
+					item.remove();
+					FLBuilder._showPanel();
+					return;
+				}
+				// A new row was dropped into column.
+				else if ( parent.hasClass( 'fl-col-content' ) ) {
 					FLBuilder._addColGroup(
-						item.closest('.fl-row').attr('data-node'),
-						item.attr('data-cols'), 
-						parent.children('.fl-col-group, .fl-builder-block').index(item)
+						item.closest( '.fl-col' ).attr( 'data-node' ),
+						item.attr( 'data-cols' ), 
+						parent.find( '.fl-module, .fl-col-group, .fl-builder-block' ).index( item )
 					);
 				}
-				// A row was dropped into the main layout.
-				else {  
+				// A new row was dropped next to a column.
+				else if ( parent.hasClass( 'fl-col-drop-target' ) ) {
+					FLBuilder._addCols(
+						parent.closest( '.fl-col' ),
+						parent.hasClass( 'fl-col-drop-target-last' ) ? 'after' : 'before',
+						item.attr( 'data-cols' ),
+						parent.closest( '.fl-col-group-nested' ).length > 0
+					);
+				}
+				// A new row was dropped into a column group position.
+				else if ( parent.hasClass( 'fl-col-group-drop-target' ) ) {
+					
+					group    = item.closest( '.fl-col-group' );
+					position = item.closest( '.fl-row' ).find( '.fl-row-content > .fl-col-group' ).index( group );
+					
+					FLBuilder._addColGroup(
+						item.closest( '.fl-row' ).attr( 'data-node' ),
+						item.attr( 'data-cols' ), 
+						parent.hasClass( 'fl-drop-target-last' ) ? position + 1 : position
+					);
+				}
+				// A row was dropped into a row position.
+				else {
+					
+					row = item.closest( '.fl-row' );
+					position = ! row.length ? 0 : $( FLBuilder._contentClass + ' .fl-row' ).index( row );
+					
 					FLBuilder._addRow(
 						item.attr('data-cols'), 
-						parent.children('.fl-row, .fl-builder-block').index(item)
+						parent.hasClass( 'fl-drop-target-last' ) ? position + 1 : position
 					);
 				}
 
@@ -2779,34 +3191,34 @@
 				FLBuilder._showPanel();
 				
 				// Show the module list.
-				$('.fl-builder-modules').siblings('.fl-builder-blocks-section-title').eq(0).trigger('click');
+				$( '.fl-builder-modules' ).siblings( '.fl-builder-blocks-section-title' ).eq( 0 ).trigger( 'click' );
 			}
 			// Reorder a row.
 			else {
-				FLBuilder._reorderRow(
-					item.attr('data-node'), 
-					parent.children('.fl-row').index(item)
-				);
+				
+				row = $( '.fl-node-dragging' ).removeClass( 'fl-node-dragging' ).show();
+				
+				// Make sure a single row wasn't dropped back into the main layout.
+				if ( ! parent.parent().hasClass( 'fl-builder-content' ) ) {
+				
+					// Move the row in the UI.
+					if ( parent.hasClass( 'fl-drop-target-last' ) ) {
+						parent.parent().after( row );
+					}
+					else {
+						parent.parent().before( row );
+					}
+					
+					// Reorder the row.
+					FLBuilder._reorderNode(
+						row.attr('data-node'), 
+						row.index()
+					);
+				}
+				
+				// Revert the proxy to its parent.
+				$( '.fl-row-sortable-proxy' ).append( ui.item );
 			}
-		},
-		
-		/**
-		 * Reorders a row within the layout.
-		 *
-		 * @since 1.0
-		 * @access private
-		 * @method _reorderRow
-		 * @param {String} node_id The node ID of the row.
-		 * @param {Number} position The new position.
-		 */     
-		_reorderRow: function(node_id, position)
-		{
-			FLBuilder.ajax({
-				action: 'reorder_node',
-				node_id: node_id,
-				position: position,
-				silent: true
-			}); 
 		},
 		
 		/**
@@ -2845,7 +3257,8 @@
 		{
 			var data 	= JSON.parse(response),
 				content = $(FLBuilder._contentClass),
-				rowId   = $(data.html).data('node');
+				rowId   = $(data.html).data('node'),
+				module  = FLBuilder._addModuleAfterNodeRender;
 				
 			// Add new row info to the data.
 			data.nodeParent 	= content;
@@ -2855,15 +3268,10 @@
 			FLBuilder._renderLayout( data, function(){
 				
 				// Add a module to the newly created row.
-				if(FLBuilder._addModuleAfterRowRender !== null) {
-					
-					// Add an existing module. 
-					if(FLBuilder._addModuleAfterRowRender.hasClass('fl-module')) {
-						$('.fl-node-' + rowId + ' .fl-col-content').append(FLBuilder._addModuleAfterRowRender);
-						FLBuilder._reorderModule(FLBuilder._addModuleAfterRowRender);
-					}
-					
-					FLBuilder._addModuleAfterRowRender = null;
+				if(module !== null) {
+					$('.fl-node-' + rowId + ' .fl-col-content').append(module);
+					FLBuilder._reorderModule(module);
+					FLBuilder._addModuleAfterNodeRender = null;
 				}
 			} );
 		},
@@ -2878,8 +3286,7 @@
 		 */
 		_deleteRowClicked: function( e )
 		{
-			var nodeId = $(this).closest('.fl-row-overlay').attr('data-node'),
-				row    = $('.fl-row[data-node='+ nodeId +']'),
+			var row    = $(this).closest('.fl-row'),
 				result = null;
 
 			if(!row.find('.fl-module').length) {
@@ -2973,7 +3380,7 @@
 		_rowSettingsClicked: function( e )
 		{
 			var button = $( this ),
-				nodeId = button.closest( '.fl-row-overlay' ).attr( 'data-node' ),
+				nodeId = button.closest( '.fl-row' ).attr( 'data-node' ),
 				global = button.closest( '.fl-block-overlay-global' ).length > 0;
 			
 			if ( global && 'row' != FLBuilderConfig.userTemplateType ) {
@@ -3020,6 +3427,147 @@
 		----------------------------------------------------------*/
 		
 		/**
+		 * Adds a dashed border to empty columns.
+		 *
+		 * @since 1.0
+		 * @access private
+		 * @method _highlightEmptyCols
+		 */
+		_highlightEmptyCols: function()
+		{
+			var notGlobal = 'row' == FLBuilderConfig.userTemplateType ? '' : ':not(.fl-node-global)',
+				rows 	  = $(FLBuilder._contentClass + ' .fl-row' + notGlobal),
+				cols 	  = $(FLBuilder._contentClass + ' .fl-col' + notGlobal);
+			
+			$( '.fl-row-highlight' ).removeClass('fl-row-highlight');
+			cols.removeClass('fl-col-highlight').find('.fl-col-content').css( 'height', '' );
+			
+			cols.each(function(){
+				
+				var col = $(this);
+				
+				if(col.find('.fl-module, .fl-col').length === 0) {
+					col.addClass('fl-col-highlight');
+				}
+			});
+		},
+		
+		/**
+		 * Sets up dashed borders to show where things can
+		 * be dropped in rows and columns.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _highlightRowsAndColsForDrag
+		 * @param {Object} target The event target for the drag.
+		 */
+		_highlightRowsAndColsForDrag: function( target )
+		{
+			var notGlobal = 'row' == FLBuilderConfig.userTemplateType ? '' : ':not(.fl-node-global)';
+			
+			// Highlight rows.
+			$( FLBuilder._contentClass + ' .fl-row' ).addClass( 'fl-row-highlight' );
+			
+			// Highlight columns.
+			if ( ! target.closest( '.fl-row-overlay' ).length ) {
+				$( FLBuilder._contentClass + ' .fl-col' + notGlobal ).addClass( 'fl-col-highlight' );
+			}
+		},
+		
+		/**
+		 * Adjust the height of columns with modules in them
+		 * to account for the drop zone and keep the layout
+		 * from jumping around. 
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _adjustColHeightsForDrag
+		 */
+		_adjustColHeightsForDrag: function()
+		{
+			var notGlobal = 'row' == FLBuilderConfig.userTemplateType ? '' : '.fl-row:not(.fl-node-global) ',
+				content   = $( FLBuilder._contentClass ),
+				notNested = content.find( notGlobal + '.fl-col-group:not(.fl-col-group-nested) > .fl-col > .fl-col-content' ),
+				nested    = content.find( notGlobal + '.fl-col-group-nested .fl-col-content' ),
+				col       = null,
+				i         = 0;
+				
+			$( '.fl-node-drag-init' ).hide();
+				
+			for ( ; i < nested.length; i++ ) {
+				FLBuilder._adjustColHeightForDrag( nested.eq( i ) );
+			}
+				
+			for ( i = 0; i < notNested.length; i++ ) {
+				FLBuilder._adjustColHeightForDrag( notNested.eq( i ) );
+			}
+			
+			$( '.fl-node-drag-init' ).show();
+		},
+		
+		/**
+		 * Adjust the height of a single column for dragging.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _adjustColHeightForDrag
+		 */
+		_adjustColHeightForDrag: function( col )
+		{
+			if ( col.find( '.fl-module:visible, .fl-col:visible' ).length ) {
+				col.height( col.height() + 45 );
+			}
+		},
+		
+		/**
+		 * Adds a border guide to a column when the column
+		 * actions submenu is open for a module.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _showColHighlightGuide
+		 */
+		_showColHighlightGuide: function()
+		{
+			var li         = $( this ),
+				link       = li.find( 'a' ),
+				col        = li.closest( '.fl-col' ),
+				parentCol  = col.parents( '.fl-col' ),
+				guide      = $( '<div class="fl-col-highlight-guide"></div>' ),
+				guideTop   = null,
+				overlayTop = li.closest( '.fl-block-overlay' ).offset().top;
+				
+			if ( link.hasClass( 'fl-block-col-move-parent' ) || link.hasClass( 'fl-block-col-edit-parent' ) ) {
+				col = parentCol;
+			}
+			if ( col.hasClass( 'fl-col-highlight' ) ) {
+				return;
+			}
+			
+			col.find( '> .fl-col-content' ).append( guide );
+			col.addClass( 'fl-col-has-highlight-guide' );
+			
+			guideTop = guide.offset().top;
+			
+			if ( guideTop > overlayTop ) {
+				guide.css( 'top', ( overlayTop - guideTop + 4 ) + 'px' );
+			}
+		},
+		
+		/**
+		 * Removes all column highlight guides.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _showColHighlightGuide
+		 */
+		_removeColHighlightGuides: function()
+		{
+			$( '.fl-col-has-highlight-guide' ).removeClass( 'fl-col-has-highlight-guide' );
+			$( '.fl-col-highlight-guide' ).remove();
+		},
+		
+		/**
 		 * Shows an overlay with actions when the mouse enters a column.
 		 *
 		 * @since 1.1.9
@@ -3029,13 +3577,25 @@
 		_colMouseenter: function()
 		{
 			var col 	 	  	= $( this ),
+				group           = col.closest( '.fl-col-group' ),
 				global		  	= col.hasClass( 'fl-node-global' ),
 				parentGlobal  	= col.parents( '.fl-node-global' ).length > 0,
-				numCols		  	= col.parents( '.fl-col-group' ).find( '.fl-col' ).length,
-				first   		= 0 === col.index(),
-				last    		= numCols === col.index() + 1,
-				template 		= wp.template( 'fl-col-overlay' );
-
+				numCols		  	= col.closest( '.fl-col-group' ).find( '> .fl-col' ).length,
+				index           = group.find( '> .fl-col' ).index( col ),
+				first   		= 0 === index,
+				last    		= numCols === index + 1,
+				hasChildCols    = col.find( '.fl-col' ).length > 0,
+				parentCol       = col.parents( '.fl-col' ),
+				parentGroup     = parentCol.closest( '.fl-col-group' ),
+				hasParentCol    = parentCol.length > 0,
+				numParentCols	= hasParentCol ? parentGroup.find( '> .fl-col' ).length : 0,
+				parentIndex     = parentGroup.find( '> .fl-col' ).index( parentCol ),
+				parentFirst     = hasParentCol ? 0 === parentIndex : false,
+				parentLast      = hasParentCol ? numParentCols === parentIndex + 1 : false,
+				contentWidth    = col.find( '> .fl-col-content' ).width(),
+				template 		= wp.template( 'fl-col-overlay' ),
+				overlay			= null;
+				
 			if ( FLBuilderConfig.simpleUi ) {
 				return;
 			}
@@ -3045,6 +3605,9 @@
 			else if ( col.find( '.fl-module' ).length > 0 ) {
 				return;
 			}
+			else if ( col.find( '.fl-col' ).length > 0 ) {
+				return;
+			}
 			else if ( ! col.hasClass( 'fl-block-overlay-active' ) ) {
 				
 				// Remove existing overlays.
@@ -3052,12 +3615,21 @@
 				FLBuilder._removeModuleOverlays();
 				
 				// Append the template.
-				FLBuilder._appendOverlay( col, template( {
-					global	: global,
-					numCols	: numCols,
-					first   : first,
-					last   	: last
+				overlay = FLBuilder._appendOverlay( col, template( {
+					global	      : global,
+					numCols	      : numCols,
+					first         : first,
+					last   	      : last,
+					hasChildCols  : hasChildCols,
+					hasParentCol  : hasParentCol,
+					parentFirst   : parentFirst,
+					parentLast    : parentLast,
+					numParentCols : numParentCols,
+					contentWidth  : contentWidth
 				} ) );
+				
+				// Build the overlay overflow menu if needed.
+				FLBuilder._buildOverlayOverflowMenu( overlay );
 				
 				// Init column resizing.
 				FLBuilder._initColDragResizing();
@@ -3082,11 +3654,15 @@
 				isTipTip        = toElement.is('#tiptip_holder'),
 				isTipTipChild   = toElement.closest('#tiptip_holder').length > 0;
 			
-			if(hasModules || isTipTip || isTipTipChild) {
+			if( isTipTip || isTipTipChild ) {
+				return;
+			}
+			if( hasModules ) {
 				return;
 			}
 			
 			FLBuilder._removeColOverlays();
+			FLBuilder._removeColHighlightGuides();
 		},
 		
 		/**
@@ -3106,6 +3682,201 @@
 		},
 		
 		/**
+		 * Returns a helper element for column drag operations.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _colDragHelper
+		 * @return {Object} The helper element.
+		 */
+		_colDragHelper: function()
+		{   
+			return $('<div class="fl-builder-block-drag-helper">' + FLBuilderStrings.column + '</div>');
+		},
+		
+		/**
+		 * Initializes dragging for columns. Columns themselves aren't sortables
+		 * as nesting that many sortables breaks down quickly and draggable by
+		 * itself is slow. Instead, we are programmatically triggering the drag
+		 * of our helper div that isn't a nested sortable but connected to the 
+		 * sortables in the main layout.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _colDragInit
+		 * @param {Object} e The event object.
+		 */
+		_colDragInit: function( e )
+		{
+			var handle = $( e.target ),
+				helper = $( '.fl-col-sortable-proxy-item' ),
+				col    = handle.closest( '.fl-col' );
+				
+			if ( handle.hasClass( 'fl-block-col-move-parent' ) ) {
+				col = col.parents( '.fl-col' );
+			}
+			
+			col.addClass( 'fl-node-dragging' );
+			
+			FLBuilder._blockDragInit( e );
+			FLBuilder._removeColHighlightGuides();
+			
+			e.target = helper[ 0 ];
+			
+			helper.trigger( e );
+		},
+		
+		/**
+		 * Callback that fires when dragging starts for a column.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _colDragStart
+		 * @param {Object} e The event object.
+		 * @param {Object} ui An object with additional info for the drag.
+		 */
+		_colDragStart: function( e, ui )
+		{
+			var col = $( '.fl-node-dragging' );
+			
+			col.hide();
+
+			FLBuilder._resetColumnWidths( col.parent() );
+			FLBuilder._blockDragStart( e, ui );
+		},
+		
+		/**
+		 * Callback that fires when dragging stops for a column.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _colDragStop
+		 * @param {Object} e The event object.
+		 * @param {Object} ui An object with additional info for the drag.
+		 */
+		_colDragStop: function( e, ui )
+		{
+			FLBuilder._blockDragStop( e, ui );
+			
+			var col        = $( '.fl-node-dragging' ).removeClass( 'fl-node-dragging' ).show(),
+				colId      = col.attr( 'data-node' ),
+				newParent  = ui.item.parent(),
+				oldGroup   = col.parent(),
+				oldGroupId = oldGroup.attr( 'data-node' )
+				newGroup   = newParent.closest( '.fl-col-group' ),
+				newGroupId = newGroup.attr( 'data-node' ),
+				newRow     = newParent.closest('.fl-row'),
+				position   = 0;
+			
+			// Cancel the drop if the sortable is disabled?
+			if ( newParent.hasClass( 'fl-sortable-disabled' ) ) {
+				FLBuilder._resetColumnWidths( oldGroup );
+			}
+			// A column was dropped back into the sortable proxy.
+			else if ( newParent.hasClass( 'fl-col-sortable-proxy' ) ) {
+				FLBuilder._resetColumnWidths( oldGroup );
+			}
+			// A column was dropped into a column.
+			else if ( newParent.hasClass( 'fl-col-content' ) ) {
+				
+				// Remove the column.
+				col.remove();
+				
+				// Remove empty old groups (needs to be done here for correct position).
+				if ( 0 === oldGroup.find( '.fl-col' ).length ) {
+					oldGroup.remove();
+				}
+				
+				// Find the new group position.
+				position = newParent.find( '.fl-module, .fl-col-group, .fl-col-sortable-proxy-item' ).index( ui.item );
+				
+				// Add the new group.
+				FLBuilder._addColGroup( newParent.closest( '.fl-col' ).attr('data-node'), colId, position );
+			}
+			// A column was dropped into a column position.
+			else if ( newParent.hasClass( 'fl-col-drop-target' ) ) {
+				
+				// Move the column in the UI.
+				if ( newParent.hasClass( 'fl-col-drop-target-last' ) ) {
+					newParent.parent().after( col );
+				}
+				else {
+					newParent.parent().before( col );
+				}
+				
+				// Reset the UI column widths.
+				FLBuilder._resetColumnWidths( newGroup );
+				
+				// Save the column move via AJAX.
+				if ( oldGroupId == newGroupId ) {
+					FLBuilder.ajax( {
+						action: 'reorder_col',
+						node_id: colId,
+						position: col.index(),
+						silent: true
+					} );
+				}
+				else {
+					FLBuilder.ajax( {
+						action: 'move_col',
+						node_id: colId,
+						new_parent: newGroupId,
+						position: col.index(),
+						resize: [ oldGroupId, newGroupId ],
+						silent: true
+					} );
+				}
+				
+				// Trigger a layout resize.
+				FLBuilder._resizeLayout();
+			}
+			// A column was dropped into a column group position.
+			else if ( newParent.hasClass( 'fl-col-group-drop-target' ) ) {
+				
+				// Remove the column.
+				col.remove();
+				
+				// Remove empty old groups (needs to be done here for correct position).
+				if ( 0 === oldGroup.find( '.fl-col' ).length ) {
+					oldGroup.remove();
+				}
+				
+				// Find the new group position.
+				position = newRow.find( '.fl-row-content > .fl-col-group' ).index( newGroup );
+				position = newParent.hasClass( 'fl-drop-target-last' ) ? position + 1 : position;
+				
+				// Add the new group.
+				FLBuilder._addColGroup( newRow.attr('data-node'), colId, position );
+			}
+			// A column was dropped into a row position.
+			else if ( newParent.hasClass( 'fl-row-drop-target' ) ) {
+				
+				// Remove the column.
+				col.remove();
+				
+				// Find the new row position.
+				position = newParent.closest( '.fl-builder-content' ).find( '.fl-row' ).index( newRow );
+				position = newParent.hasClass( 'fl-drop-target-last' ) ? position + 1 : position;
+				
+				// Add the new row.
+				FLBuilder._addRow( colId, position );
+			}
+				
+			// Remove empty old groups.
+			if ( 0 === oldGroup.find( '.fl-col' ).length ) {
+				oldGroup.remove();
+			}
+			
+			// Revert the proxy to its parent.
+			$( '.fl-col-sortable-proxy' ).append( ui.item );
+			
+			// Finish the drag.
+			FLBuilder._highlightEmptyCols();
+			FLBuilder._initDropTargets();
+			FLBuilder._initSortables();
+		},
+		
+		/**
 		 * Shows the settings lightbox and loads the column settings
 		 * when the column settings button is clicked.
 		 *
@@ -3116,10 +3887,19 @@
 		 */
 		_colSettingsClicked: function(e)
 		{
-			var nodeId = $(this).closest('.fl-col').attr('data-node');
+			var button = $( this ),
+				col    = button.closest('.fl-col'),
+				nodeId = null;
 			
 			if ( FLBuilder._colResizing ) {
 				return;
+			}
+			
+			if ( button.hasClass( 'fl-block-col-edit-parent' ) ) {
+				nodeId = col.parents( '.fl-col' ).data( 'node' );
+			}
+			else {
+				nodeId = col.attr('data-node');
 			}
 			
 			FLBuilder._closePanel();
@@ -3142,27 +3922,32 @@
 		 * @method _colSettingsLoaded
 		 * @param {String} response The JSON response with the HTML for the column settings form.
 		 */
-		_colSettingsLoaded: function(response)
+		_colSettingsLoaded: function( response )
 		{
 			var data 	 = JSON.parse( response ),
 				settings = null,
 				nodeId   = null,
-				col      = null;
+				col      = null,
+				content  = null;
 			
 			FLBuilder._setSettingsFormContent( data.settings );
 			
-			settings = $('.fl-builder-col-settings');
-			nodeId   = settings.data('node');
-			col      = $('.fl-col[data-node="' + nodeId + '"]');
+			settings = $( '.fl-builder-col-settings' );
+			nodeId   = settings.data( 'node' );
+			col      = $( '.fl-col[data-node="' + nodeId + '"]' );
+			content  = col.find( '> .fl-col-content' );
 				
-			if(col.siblings('.fl-col').length === 0) {
-				$(settings).find('#fl-builder-settings-section-general').css('display', 'none');
+			if ( col.siblings( '.fl-col' ).length === 0  ) {
+				$( settings ).find( '#fl-builder-settings-section-general' ).css( 'display', 'none' );
+			}
+			else if( content.width() <= 40 ) {
+				$( '#fl-field-size' ).hide();
 			}
 			
-			FLBuilder.preview = new FLBuilderPreview({ 
+			FLBuilder.preview = new FLBuilderPreview( { 
 				type  : 'col',
 				state : data.state 
-			});
+			} );
 		},
 		
 		/**
@@ -3175,17 +3960,34 @@
 		 */
 		_deleteColClicked: function( e )
 		{
-			var button = $( this ),
-				col    = button.closest( '.fl-col' ),
-				module = button.closest( '.fl-module' ),
-				result = true;
+			var button         = $( this ),
+				col            = button.closest( '.fl-col' ),
+				parentGroup    = col.closest( '.fl-col-group' ),
+				parentCol      = col.parents( '.fl-col' ),
+				hasParentCol   = parentCol.length > 0,
+				parentChildren = parentCol.find( '> .fl-col-content > .fl-module, > .fl-col-content > .fl-col-group' ),
+				siblingCols    = col.siblings( '.fl-col' ),
+				result         = true;
 				
-			if ( module.length > 0 ) {
+			if ( col.find( '.fl-module' ).length > 0 ) {
 				result = confirm( FLBuilderStrings.deleteColumnMessage );	
 			}
+			
+			// Handle deleting of nested columns.
+			if ( hasParentCol && 1 === parentChildren.length ) {
+				
+				if ( 0 === siblingCols.length ) {
+					col = parentCol;
+				}
+				else if ( 1 === siblingCols.length && ! siblingCols.find( '.fl-module' ).length ) {
+					col = parentGroup;
+				}
+			}
+			
 			if ( result ) {
 				FLBuilder._deleteCol( col );
 				FLBuilder._removeAllOverlays();
+				FLBuilder._highlightEmptyCols();
 			}
 			
 			e.stopPropagation();
@@ -3197,7 +3999,7 @@
 		 * @since 1.0
 		 * @access private
 		 * @method _deleteCol
-		 * @param {Object} col A jQuery reference of the column to delete.
+		 * @param {Object} col A jQuery reference of the column to delete (can also be a group).
 		 */
 		_deleteCol: function(col)
 		{
@@ -3207,8 +4009,8 @@
 				width = 0;
 				
 			col.remove();
-			rowCols   = row.find('.fl-col');
-			groupCols = group.find('.fl-col');
+			rowCols   = row.find('.fl-row-content > .fl-col-group > .fl-col');
+			groupCols = group.find(' > .fl-col');
 			
 			if(0 === rowCols.length && 'row' != FLBuilderConfig.userTemplateType) {
 				FLBuilder._deleteRow(row);
@@ -3239,60 +4041,78 @@
 					new_width       : width,
 					silent          : true
 				});
+				
+				FLBuilder._initDropTargets();
+				FLBuilder._initSortables();
 			}
 		},
 		
 		/**
-		 * Inserts a column before another column when the insert
-		 * column before link is clicked.
+		 * Inserts a column (or columns) before or after another column.
 		 *
 		 * @since 1.6.4
 		 * @access private
-		 * @method _insertColBeforeClicked
-		 * @param {Object} e The event object.
-		 */
-		_insertColBeforeClicked: function( e )
-		{
-			FLBuilder._insertCol( $( this ).closest( '.fl-col' ), 'before' );
-			
-			e.stopPropagation();
-		},
-		
-		/**
-		 * Inserts a column after another column when the insert
-		 * column after link is clicked.
-		 *
-		 * @since 1.6.4
-		 * @access private
-		 * @method _insertColAfterClicked
-		 * @param {Object} e The event object.
-		 */
-		_insertColAfterClicked: function( e )
-		{
-			FLBuilder._insertCol( $( this ).closest( '.fl-col' ), 'after' );
-			
-			e.stopPropagation();
-		},
-		
-		/**
-		 * Inserts a column before or after another column.
-		 *
-		 * @since 1.6.4
-		 * @access private
-		 * @method _insertCol
+		 * @method _addCols
 		 * @param {Object} col A jQuery reference of the column to insert before or after.
 		 * @param {String} insert Either before or after.
+		 * @param {String} type The type of column(s) to insert.
+		 * @param {Boolean} nested Whether these columns are nested or not.
 		 */
-		_insertCol: function( col, insert )
+		_addCols: function( col, insert, type, nested )
 		{
+			type   = typeof type == 'undefined' ? '1-col' : type;
+			nested = typeof nested == 'undefined' ? false : nested;
+			
 			FLBuilder.showAjaxLoader();
 			FLBuilder._removeAllOverlays();
 			
 			FLBuilder.ajax( {
-				action          : 'render_new_column',
+				action          : 'render_new_columns',
 				node_id         : col.attr('data-node'),
-				insert 			: insert
-			}, FLBuilder._renderLayout );
+				insert 			: insert,
+				type            : type,
+				nested			: nested ? 1 : 0
+			}, FLBuilder._addColsComplete );
+		},
+		
+		/**
+		 * Adds the HTML for columns to the layout when the AJAX add 
+		 * operation is complete. Adds a module if one is queued to 
+		 * go in a new column.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _addColsComplete
+		 * @param {String} response The JSON response with the HTML for the new column(s).
+		 */     
+		_addColsComplete: function( response )
+		{
+			var data       = JSON.parse( response ),
+				col        = null,
+				moduleData = FLBuilder._addModuleAfterNodeRender,
+				module     = null;
+				
+			// Render the layout.
+			FLBuilder._renderLayout( data, function() {
+					
+				// Add a module to a newly created column.
+				if ( moduleData !== null ) {
+					
+					$( '[data-node="' + moduleData.module.data( 'node' ) + '"]' ).remove()
+					
+					col = $( '[data-node="' + moduleData.colId + '"]' );
+					
+					if ( 'after' == moduleData.position ) {
+						col.next().find( '.fl-col-content' ).append( moduleData.module );
+					}
+					else {
+						col.prev().find( '.fl-col-content' ).append( moduleData.module );
+					}
+					
+					FLBuilder._reorderModule( moduleData.module );
+					FLBuilder._addModuleAfterNodeRender = null;
+				}
+			} );
 		},
 		
 		/**
@@ -3307,12 +4127,20 @@
 		 */
 		_addColGroup: function(nodeId, cols, position)
 		{
+			var parent = $( '.fl-node-' + nodeId );
+			
 			// Show the loader.
 			FLBuilder.showAjaxLoader();
 			
 			// Save the new column group info.
-			FLBuilder._newColGroupParent = $('.fl-node-' + nodeId + ' .fl-row-content');
 			FLBuilder._newColGroupPosition = position;
+			
+			if ( parent.hasClass( 'fl-col' ) ) {
+				FLBuilder._newColGroupParent = parent.find( ' > .fl-col-content' );
+			}
+			else {
+				FLBuilder._newColGroupParent = parent.find( '.fl-row-content' );
+			}
 			
 			// Send the request.
 			FLBuilder.ajax({
@@ -3335,8 +4163,9 @@
 		 */     
 		_addColGroupComplete: function(response)
 		{
-			var data  = JSON.parse(response),
-				colId = $(data.html).find('.fl-col').data('node');
+			var data   = JSON.parse(response),
+				colId  = $(data.html).find('.fl-col').data('node'),
+				module = FLBuilder._addModuleAfterNodeRender;
 				
 			// Add new column group info to the data.
 			data.nodeParent 	= FLBuilder._newColGroupParent;
@@ -3345,16 +4174,16 @@
 			// Render the layout.
 			FLBuilder._renderLayout( data, function(){
 				
+				// Added the nested columns class if needed.
+				if ( data.nodeParent.hasClass( 'fl-col-content' ) ) {
+					data.nodeParent.parents( '.fl-col' ).addClass( 'fl-col-has-cols' );
+				}
+				
 				// Add a module to the newly created column group.
-				if(FLBuilder._addModuleAfterRowRender !== null) {
-					
-					// Add an existing module. 
-					if(FLBuilder._addModuleAfterRowRender.hasClass('fl-module')) {
-						$('.fl-node-' + colId + ' .fl-col-content').append(FLBuilder._addModuleAfterRowRender);
-						FLBuilder._reorderModule(FLBuilder._addModuleAfterRowRender);
-					}
-					
-					FLBuilder._addModuleAfterRowRender = null;
+				if(module !== null) {
+					$('.fl-node-' + colId + ' .fl-col-content').append(module);
+					FLBuilder._reorderModule(module);
+					FLBuilder._addModuleAfterNodeRender = null;
 				}
 			} );
 		},
@@ -3388,15 +4217,17 @@
 		_colDragResizeStart: function( e, ui )
 		{
 			// Setup resize vars.
-			var handle 		= $( ui.helper ),
-				direction 	= '',
-				group		= handle.closest( '.fl-col-group' ),
-				cols 		= group.find( '> .fl-col' ),
-				col 		= handle.closest( '.fl-col' ),
-				sibling 	= null,
-				availWidth  = 100,
-				i 			= 0;
-			
+			var handle 		 = $( ui.helper ),
+				direction 	 = '',
+				resizeParent = handle.hasClass( 'fl-block-col-resize-parent' ),
+				parentCol    = resizeParent ? handle.closest( '.fl-col' ).parents( '.fl-col' ) : null,
+				group		 = resizeParent ? parentCol.parents( '.fl-col-group' ) : handle.closest( '.fl-col-group' ),
+				cols 		 = group.find( '> .fl-col' ),
+				col 		 = resizeParent ? parentCol : handle.closest( '.fl-col' ),
+				sibling 	 = null,
+				availWidth   = 100,
+				i 			 = 0;
+				
 			// Find the direction and sibling.
 			if ( handle.hasClass( 'fl-block-col-resize-e' ) ) {
 				direction = 'e';
@@ -3437,6 +4268,9 @@
 			// Set the resizing flag.
 			FLBuilder._colResizing = true;
 			
+			// Add the body col resize class.
+			$( 'body' ).addClass( 'fl-builder-col-resizing' );
+			
 			// Close the builder panel and destroy overlay events.
 			FLBuilder._closePanel();
 			FLBuilder._destroyOverlayEvents();
@@ -3463,15 +4297,15 @@
 				colRound 		= Math.round( colWidth * 100 ) / 100,
 				siblingWidth	= data.availWidth - colWidth,
 				siblingRound	= Math.round( siblingWidth * 100 ) / 100,
-				minRound		= 10,
-				maxRound		= Math.round( ( data.availWidth - 10 ) * 100 ) / 100;
+				minRound		= 8,
+				maxRound		= Math.round( ( data.availWidth - minRound ) * 100 ) / 100;
 			
 			// Set the min/max width if needed.
-			if ( colRound < 10 ) {
+			if ( colRound < minRound ) {
 				colRound 		= minRound;
 				siblingRound 	= maxRound;
 			}
-			else if ( siblingRound < 10 ) {
+			else if ( siblingRound < minRound ) {
 				colRound 		= maxRound;
 				siblingRound 	= minRound;
 			}
@@ -3505,7 +4339,8 @@
 		 */
 		_colDragResizeStop: function( e, ui )
 		{
-			var data = FLBuilder._colResizeData;
+			var data    = FLBuilder._colResizeData,
+				overlay = FLBuilder._colResizeData.handle.closest( '.fl-block-overlay' );
 			
 			// Hide the feedback divs.
 			FLBuilder._colResizeData.feedbackLeft.hide();
@@ -3521,8 +4356,14 @@
 				silent			: true
 			});
 			
+			// Build the overlay overflow menu if needed.
+			FLBuilder._buildOverlayOverflowMenu( overlay );
+			
 			// Reset the resize data.
 			FLBuilder._colResizeData = null;
+			
+			// Remove the body col resize class.
+			$( 'body' ).removeClass( 'fl-builder-col-resizing' );
 			
 			// Rebind overlay events.
 			FLBuilder._bindOverlayEvents();
@@ -3535,6 +4376,41 @@
 		},
 		
 		/**
+		 * Resets the widths of all columns in a row when the 
+		 * Reset Column Widths button is clicked.
+		 *
+		 * @since 1.6.4
+		 * @access private
+		 * @method _resetColumnWidthsClicked
+		 * @param {Object} e The event object.
+		 */
+		_resetColumnWidthsClicked: function( e )
+		{
+			var group    = $( this ).parents( '.fl-col-group' ).last(),
+				groupIds = [ group.data( 'node' ) ],
+				children = group.find( '.fl-col-group' ),
+				i        = 0;
+				
+			FLBuilder._resetColumnWidths( group );
+				
+			for ( ; i < children.length; i++ ) {
+				FLBuilder._resetColumnWidths( children.eq( i ) );
+				groupIds.push( children.eq( i ).data( 'node' ) );
+			}
+			
+			FLBuilder.ajax({
+				action		: 'reset_col_widths',
+				group_id	: groupIds,
+				silent		: true
+			});
+				
+			FLBuilder.triggerHook( 'col-reset-widths' );
+			FLBuilder._closeAllSubmenus();
+			
+			e.stopPropagation();
+		},
+		
+		/**
 		 * Resets the widths of all columns in a group.
 		 *
 		 * @since 1.6.4
@@ -3542,13 +4418,11 @@
 		 * @method _resetColumnWidths
 		 * @param {Object} e The event object.
 		 */
-		_resetColumnWidths: function( e )
+		_resetColumnWidths: function( group )
 		{
-			var group = $( this ).closest( '.fl-col-group' ),
-				cols  = group.find( '.fl-col' ),
+			var cols  = group.find( ' > .fl-col:visible' ),
 				width = 0;
 			
-			// Get the new width.
 			if ( 6 === cols.length ) {
 				width = 16.65;
 			}
@@ -3559,20 +4433,7 @@
 				width = Math.round( 100 / cols.length * 100 ) / 100;
 			}
 			
-			// Apply it to the columns.
-			cols.css('width', width + '%');
-			
-			// Save the resize data.
-			FLBuilder.ajax({
-				action		: 'reset_col_widths',
-				group_id	: group.data( 'node' ),
-				silent		: true
-			});
-			
-			// Trigger the col-reset-widths hook.
-			FLBuilder.triggerHook( 'col-reset-widths' );
-			
-			e.stopPropagation();
+			cols.css( 'width', width + '%' );
 		},
 		
 		/* Modules
@@ -3591,31 +4452,44 @@
 				moduleName    = module.attr( 'data-name' ),
 				global		  = module.hasClass( 'fl-node-global' ),
 				parentGlobal  = module.parents( '.fl-node-global' ).length > 0,
-				numCols		  = module.parents( '.fl-col-group' ).find( '.fl-col' ).length,
-				parentCol	  = module.parents( '.fl-col' ),
-				parentFirst   = 0 === parentCol.index(),
-				parentLast    = numCols === parentCol.index() + 1,
-				template	  = wp.template( 'fl-module-overlay' );
+				numCols		  = module.closest( '.fl-col-group' ).find( '> .fl-col' ).length,
+				col           = module.closest( '.fl-col' ),
+				colFirst      = 0 === col.index(),
+				colLast       = numCols === col.index() + 1,
+				parentCol     = col.parents( '.fl-col' ),
+				hasParentCol  = parentCol.length > 0,
+				numParentCols = hasParentCol ? parentCol.closest( '.fl-col-group' ).find( '> .fl-col' ).length : 0,
+				parentFirst   = hasParentCol ? 0 === parentCol.index() : false,
+				parentLast    = hasParentCol ? numParentCols === parentCol.index() + 1 : false,
+				contentWidth  = col.find( '> .fl-col-content' ).width(),
+				template	  = wp.template( 'fl-module-overlay' ),
+				overlay       = null;
 				
 			// Remove existing overlays.
 			FLBuilder._removeColOverlays();
 			FLBuilder._removeModuleOverlays();
 			
-			// Don't show if this is a global row in a standard layout.
 			if ( global && parentGlobal && 'row' != FLBuilderConfig.userTemplateType ) {
 				return;
 			}
-			// Show the overlay.
 			else if ( ! module.hasClass( 'fl-block-overlay-active' ) ) {
 				
 				// Append the template.
-				FLBuilder._appendOverlay( module, template( { 
-					global 		: global, 
-					moduleName	: moduleName,
-					numCols		: numCols,
-					parentFirst : parentFirst,
-					parentLast  : parentLast
+				overlay = FLBuilder._appendOverlay( module, template( { 
+					global 		  : global, 
+					moduleName	  : moduleName,
+					numCols		  : numCols,
+					colFirst      : colFirst,
+					colLast       : colLast,
+					hasParentCol  : hasParentCol,
+					numParentCols : numParentCols,
+					parentFirst   : parentFirst,
+					parentLast    : parentLast,
+					contentWidth  : contentWidth
 				} ) );
+				
+				// Build the overlay overflow menu if necessary.
+				FLBuilder._buildOverlayOverflowMenu( overlay );
 				
 				// Init column resizing.
 				FLBuilder._initColDragResizing();
@@ -3644,6 +4518,7 @@
 			}
 			
 			FLBuilder._removeModuleOverlays();
+			FLBuilder._removeColHighlightGuides();
 		},
 		
 		/**
@@ -3678,6 +4553,22 @@
 		},
 		
 		/**
+		 * Callback that fires when dragging starts for a module.
+		 *
+		 * @since 1.9
+		 * @access private
+		 * @method _moduleDragStart
+		 * @param {Object} e The event object.
+		 * @param {Object} ui An object with additional info for the drag.
+		 */
+		_moduleDragStart: function( e, ui )
+		{
+			$( ui.item ).data( 'original-position', ui.item.index() );
+			
+			FLBuilder._blockDragStart( e, ui );
+		},
+		
+		/**
 		 * Callback for when a module drag operation completes.
 		 *
 		 * @since 1.0
@@ -3688,60 +4579,102 @@
 		 */
 		_moduleDragStop: function(e, ui)
 		{
+			FLBuilder._blockDragStop( e, ui );
+			
 			var item     = ui.item,
 				parent   = item.parent(),
+				node     = null,
 				position = 0,
 				parentId = 0;
 			
-			FLBuilder._blockDragStop(e, ui);
-			
 			// A module was dropped back into the module list.
-			if(parent.hasClass('fl-builder-modules') || parent.hasClass('fl-builder-widgets')) {
+			if ( parent.hasClass( 'fl-builder-modules' ) || parent.hasClass( 'fl-builder-widgets' ) ) {
 				item.remove();
 				return;
 			}
 			// A new module was dropped.
-			else if(item.hasClass('fl-builder-block')) {
+			else if ( item.hasClass( 'fl-builder-block' ) ) {
 			
+				// Cancel the drop if the sortable is disabled?
+				if ( parent.hasClass( 'fl-sortable-disabled' ) ) {
+					item.remove();
+					FLBuilder._showPanel();
+					return;
+				}
 				// A new module was dropped into a row position.
-				if(parent.hasClass('fl-builder-content')) {
-					position = parent.children('.fl-row, .fl-builder-block').index(item);
+				else if ( parent.hasClass( 'fl-row-drop-target' ) ) {
+					parent   = item.closest('.fl-builder-content');
 					parentId = 0;
+					node     = item.closest('.fl-row');
+					position = parent.find( '.fl-row' ).index( node );
+				}
+				// A new module was dropped into a column group position.
+				else if ( parent.hasClass( 'fl-col-group-drop-target' ) ) {
+					parent   = item.closest( '.fl-row-content' );
+					parentId = parent.closest( '.fl-row' ).attr( 'data-node' );
+					node     = item.closest( '.fl-col-group' );
+					position = parent.find( ' > .fl-col-group' ).index( node );
 				}
 				// A new module was dropped into a column position.
-				else if(parent.hasClass('fl-row-content')) {
-					position = parent.children('.fl-col-group, .fl-builder-block').index(item);
-					parentId = item.closest('.fl-row').attr('data-node');
+				else if ( parent.hasClass( 'fl-col-drop-target' ) ) {
+					parent   = item.closest( '.fl-col-group' );
+					parentId = parent.attr( 'data-node' );
+					node     = item.closest( '.fl-col' );
+					position = parent.find( ' > .fl-col' ).index( node );
 				}
 				// A new module was dropped into a column.
 				else {
-					position = parent.children('.fl-module, .fl-builder-block').index(item);
-					parentId = item.closest('.fl-col').attr('data-node');
+					position = parent.find( '.fl-module, .fl-col-group, .fl-builder-block' ).index( item );
+					parentId = item.closest( '.fl-col' ).attr( 'data-node' );
+				}
+				
+				// Increment the position?
+				if ( item.closest( '.fl-drop-target-last' ).length ) {
+					position += 1;
 				}
 				
 				// Add the new module.
-				FLBuilder._addModule(parent, parentId, item.attr('data-type'), position, item.attr('data-widget'));
+				FLBuilder._addModule( parent, parentId, item.attr( 'data-type' ), position, item.attr( 'data-widget' ) );
 				
 				// Remove the drag helper.
-				ui.item.remove();
+				item.remove();
 			}
-			// A module was dropped into the main layout.
-			else if(parent.hasClass('fl-builder-content')) {
-				position = parent.children('.fl-row, .fl-module').index(item);
-				FLBuilder._addModuleAfterRowRender = item;
-				FLBuilder._addRow('1-col', position);
+			// Cancel the drop if the sortable is disabled?
+			else if ( parent.hasClass( 'fl-sortable-disabled' ) ) {
+				$( e.target ).append( ui.item );
+				$( e.target ).children().eq( ui.item.data( 'original-position' ) ).before( ui.item );
+				FLBuilder._highlightEmptyCols();
+				return;
+			}
+			// A module was dropped into a row position.
+			else if ( parent.hasClass( 'fl-row-drop-target' ) ) {
+				node     = item.closest( '.fl-row' );
+				position = item.closest( '.fl-builder-content' ).children( '.fl-row' ).index( node );
+				position = item.closest( '.fl-drop-target-last' ).length ? position + 1 : position;
+				FLBuilder._addModuleAfterNodeRender = item;
+				FLBuilder._addRow( '1-col', position );
+				item.remove();
+			}
+			// A module was dropped into a column group position.
+			else if ( parent.hasClass( 'fl-col-group-drop-target' ) ) {
+				node     = item.closest( '.fl-col-group' );
+				position = item.closest( '.fl-row-content ').find( ' > .fl-col-group' ).index( node );
+				position = item.closest( '.fl-drop-target-last' ).length ? position + 1 : position;
+				FLBuilder._addModuleAfterNodeRender = item;
+				FLBuilder._addColGroup( item.closest( '.fl-row' ).attr( 'data-node' ), '1-col', position );
 				item.remove();
 			}
 			// A module was dropped into a column position.
-			else if(parent.hasClass('fl-row-content')) {
-				position = parent.children('.fl-col-group, .fl-module').index(item);
-				FLBuilder._addModuleAfterRowRender = item;
-				FLBuilder._addColGroup(item.closest('.fl-row').attr('data-node'), '1-col', position);
+			else if ( parent.hasClass( 'fl-col-drop-target' ) ) {
+				node     = item.closest( '.fl-col' );
+				position = item.closest( '.fl-col-drop-target-last' ).length ? 'after' : 'before';
+				FLBuilder._addModuleAfterNodeRender = { module: item, colId: node.data( 'node' ), position: position };
+				FLBuilder._addCols( node, position, '1-col', item.closest( '.fl-col-group-nested' ).length > 0 );
 				item.remove();
 			}
 			// A module was dropped into another column.
 			else {
-				FLBuilder._reorderModule(item);
+				FLBuilder._reorderModule( item );
 			}
 			
 			FLBuilder._resizeLayout();
@@ -3759,27 +4692,15 @@
 		{
 			var newParent = module.closest('.fl-col').attr('data-node'),
 				oldParent = module.attr('data-parent'),
-				node_id   = module.attr('data-node'),
+				nodeId    = module.attr('data-node'),
 				position  = module.index();
 				 
 			if(newParent == oldParent) {
-				FLBuilder.ajax({
-					action: 'reorder_node',
-					node_id: node_id,
-					position: position,
-					silent: true
-				});
+				FLBuilder._reorderNode( nodeId, position );
 			}
 			else {
 				module.attr('data-parent', newParent);
-			
-				FLBuilder.ajax({
-					action: 'move_node',
-					new_parent: newParent,
-					node_id: node_id,
-					position: position,
-					silent: true
-				});
+				FLBuilder._moveNode( newParent, nodeId, position );
 			}
 		},
 		
@@ -4040,8 +4961,14 @@
 			FLBuilder.showAjaxLoader();
 			
 			// Save the new module data.
-			FLBuilder._newModuleParent 	 = parent;
-			FLBuilder._newModulePosition = position;
+			if ( parent.hasClass( 'fl-col-group' ) ) {
+				FLBuilder._newModuleParent 	 = null;
+				FLBuilder._newModulePosition = 0;
+			}
+			else {
+				FLBuilder._newModuleParent 	 = parent;
+				FLBuilder._newModulePosition = position;
+			}
 			
 			// Send the request.
 			FLBuilder.ajax({
@@ -4250,19 +5177,21 @@
 		 */ 
 		_nodeTemplateDragStop: function( e, ui )
 		{
+			FLBuilder._blockDragStop( e, ui );
+			
 			var item   		= ui.item,
 				parent 		= item.parent(),
 				parentId	= null,
 				position 	= 0,
+				node        = null,
 				action 		= '',
 				callback	= null;
 			
-			// Stop the drag.
-			FLBuilder._blockDragStop(e, ui);
-			
 			// A saved row was dropped.
 			if ( item.hasClass( 'fl-builder-block-saved-row' ) || item.hasClass( 'fl-builder-block-row-template' ) ) {
-				position = parent.children('.fl-row, .fl-builder-block').index( item );
+				node     = item.closest( '.fl-row' );
+				position = ! node.length ? 0 : $( FLBuilder._contentClass + ' .fl-row' ).index( node );
+				position = parent.hasClass( 'fl-drop-target-last' ) ? position + 1 : position;
 				parentId = null;
 				action	 = 'render_new_row';
 				callback = FLBuilder._addRowComplete;
@@ -4274,15 +5203,29 @@
 				action	 = 'render_new_module';
 				callback = FLBuilder._addModuleComplete;
 				
+				// Cancel the drop if the sortable is disabled?
+				if ( parent.hasClass( 'fl-sortable-disabled' ) ) {
+					item.remove();
+					FLBuilder._showPanel();
+					return;
+				}
 				// Dropped into a row position.
-				if ( parent.hasClass( 'fl-builder-content' ) ) {
-					position = parent.children( '.fl-row, .fl-builder-block' ).index( item );
+				else if ( parent.hasClass( 'fl-row-drop-target' ) ) {
+					parent   = item.closest('.fl-builder-content');
 					parentId = 0;
+					position = parent.find( '.fl-row' ).index( item.closest('.fl-row') );
+				}
+				// Dropped into a column group position.
+				else if ( parent.hasClass( 'fl-col-group-drop-target' ) ) {
+					parent   = item.closest( '.fl-row-content' );
+					parentId = parent.closest( '.fl-row' ).attr( 'data-node' );
+					position = parent.find( ' > .fl-col-group' ).index( item.closest( '.fl-col-group' ) );
 				}
 				// Dropped into a column position.
-				else if ( parent.hasClass( 'fl-row-content' ) ) {
-					position = parent.children( '.fl-col-group, .fl-builder-block' ).index( item );
-					parentId = item.closest( '.fl-row' ).attr( 'data-node' );
+				else if ( parent.hasClass( 'fl-col-drop-target' ) ) {
+					parent   = item.closest('.fl-col-group');
+					position = parent.children('.fl-col').index( item.closest('.fl-col') );
+					parentId = parent.attr('data-node');
 				}
 				// Dropped into a column.
 				else {
@@ -4290,9 +5233,20 @@
 					parentId = item.closest( '.fl-col' ).attr( 'data-node' );
 				}
 				
+				// Increment the position?
+				if ( item.closest( '.fl-drop-target-last' ).length ) {
+					position += 1;
+				}
+				
 				// Save the new module data.
-				FLBuilder._newModuleParent 	 = parent;
-				FLBuilder._newModulePosition = position;
+				if ( parent.hasClass( 'fl-col-group' ) ) {
+					FLBuilder._newModuleParent 	 = null;
+					FLBuilder._newModulePosition = 0;
+				}
+				else {
+					FLBuilder._newModuleParent 	 = parent;
+					FLBuilder._newModulePosition = position;
+				}
 			}
 			
 			// Show the loader.
@@ -5097,7 +6051,8 @@
 					alreadySaved		: FLBuilderStrings.alreadySaved,
 					noPresets			: FLBuilderStrings.noPresets,
 					presetAdded			: FLBuilderStrings.presetAdded,
-				}
+				},
+				mode: 'hsv'
 		    });
 
 			$( FLBuilder.colorPicker ).on( 'presetRemoved presetAdded', function( event, data ) {
@@ -5224,7 +6179,7 @@
 			
 			wrap.addClass('fl-photo-empty');
 			photoField.val('');
-			srcSelect.html('');
+			srcSelect.html('<option value="" selected></option>');
 			srcSelect.trigger('change');
 		},
 		
@@ -6373,8 +7328,9 @@
 		 */  
 		_lightboxClosed: function()
 		{
+			FLBuilder.triggerHook( 'settings-lightbox-closed' );
 			FLBuilder._lightbox.empty();
-			clearTimeout(FLBuilder._lightboxScrollbarTimeout);
+			clearTimeout( FLBuilder._lightboxScrollbarTimeout );
 		},
 		
 		/**

@@ -7,7 +7,14 @@
 	 * @class FLStyleSheet
 	 * @since 1.3.3
 	 */
-	FLStyleSheet = function() {};
+	FLStyleSheet = function( o ) 
+	{
+		if ( 'object' == typeof o ) {
+			$.extend( this, o );
+		}
+		
+		this._createSheet();
+	};
 	
 	/**
 	 * Prototype for new instances.
@@ -16,6 +23,14 @@
 	 * @property {Object} prototype
 	 */ 
 	FLStyleSheet.prototype = {
+		
+		/**
+		 * An ID for the stylesheet element.
+		 *
+		 * @since 1.9
+		 * @property {String} id
+		 */
+		id              : null,
 		
 		/**
 		 * A reference to the stylesheet object.
@@ -46,8 +61,6 @@
 		 */   
 		updateRule: function(selector, property, value)
 		{
-			this._createSheet();
-			
 			var rules   = this._sheet.cssRules ? this._sheet.cssRules : this._sheet.rules,
 				rule    = null,
 				i       = 0;
@@ -91,8 +104,6 @@
 		 */   
 		addRule: function(selector, property, value)
 		{
-			this._createSheet();
-			
 			var styles  = '',
 				i       = '';
 			
@@ -115,13 +126,14 @@
 		},
 		
 		/**
-		 * Remove the stylesheet element from the DOM
-		 * and the stored object reference.
+		 * Completely destroys the sheet by removing the 
+		 * stylesheet element from the DOM and making the
+		 * stored object reference null.
 		 *
-		 * @since 1.3.3
-		 * @method remove
+		 * @since 1.9
+		 * @method destroy
 		 */   
-		remove: function() 
+		destroy: function() 
 		{   
 			if(this._sheetElement) {
 				this._sheetElement.remove();
@@ -130,6 +142,28 @@
 			if(this._sheet) {
 				this._sheet = null;
 			}
+		},
+		
+		/**
+		 * Disables the sheet by removing it from the DOM.
+		 *
+		 * @since 1.9
+		 * @method disable
+		 */   
+		disable: function() 
+		{   
+			this._sheet.disabled = true;
+		},
+		
+		/**
+		 * Enables the sheet by adding it to the DOM.
+		 *
+		 * @since 1.9
+		 * @method enable
+		 */   
+		enable: function() 
+		{
+			this._sheet.disabled = false;
 		},
 		
 		/**
@@ -142,11 +176,13 @@
 		 */
 		_createSheet: function() 
 		{
-			if(!this._sheet) {
+			var id = this.id ? ' id="' + this.id + '"' : '';
 			
-				this._sheetElement = $('<style type="text/css"></style>');
+			if ( ! this._sheet ) {
+			
+				this._sheetElement = $( '<style type="text/css"' + id + '></style>' );
 				
-				$('body').append(this._sheetElement);
+				$( 'body' ).append( this._sheetElement );
 			
 				this._sheet = this._sheetElement[0].sheet;
 			}

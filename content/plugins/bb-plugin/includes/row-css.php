@@ -2,7 +2,7 @@
 .fl-node-<?php echo $row->node; ?> {
 	color: #<?php echo $row->settings->text_color; ?>;
 }
-.fl-builder-content .fl-node-<?php echo $row->node; ?> *:not(input):not(textarea):not(a):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fl-menu-mobile-toggle) {
+.fl-builder-content .fl-node-<?php echo $row->node; ?> *:not(input):not(textarea):not(a):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fl-heading-text):not(.fl-menu-mobile-toggle) {
 	color: inherit;
 }
 <?php endif; ?>
@@ -100,10 +100,7 @@
 <?php if(!empty($row->settings->border_type)) : // Border ?>
 .fl-node-<?php echo $row->node; ?> > .fl-row-content-wrap {
 	border-style: <?php echo $row->settings->border_type; ?>;
-	border-top-width: <?php echo is_numeric($row->settings->border_top) ? $row->settings->border_top : '0'; ?>px;
-	border-bottom-width: <?php echo is_numeric($row->settings->border_bottom) ? $row->settings->border_bottom : '0'; ?>px;
-	border-left-width: <?php echo is_numeric($row->settings->border_left) ? $row->settings->border_left : '0'; ?>px;
-	border-right-width: <?php echo is_numeric($row->settings->border_right) ? $row->settings->border_right : '0'; ?>px;
+	border-width: 0;
 	<?php if(!empty($row->settings->border_color)) : ?>
 	border-color: #<?php echo $row->settings->border_color; ?>;
 	border-color: rgba(<?php echo implode(',', FLBuilderColor::hex_to_rgb($row->settings->border_color)) ?>, <?php echo $row->settings->border_opacity/100; ?>);

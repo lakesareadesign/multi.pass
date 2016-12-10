@@ -196,16 +196,21 @@ final class FLBuilder {
 	 * @param array $buttons The current buttons array.
 	 * @return array
 	 */
-	static public function editor_buttons_2($buttons)
+	static public function editor_buttons_2( $buttons )
 	{
-		if(FLBuilderModel::is_builder_active()) {
+		global $wp_version;
+		
+		if ( FLBuilderModel::is_builder_active() ) {
 
-			array_shift($buttons);
-			array_unshift($buttons, 'fontsizeselect');
-			array_unshift($buttons, 'formatselect');
+			array_shift( $buttons );
+			array_unshift( $buttons, 'fontsizeselect' );
+			
+			if ( version_compare( $wp_version, '4.6.9', '<=' ) ) {
+				array_unshift( $buttons, 'formatselect' );
+			}
 
-			if(($key = array_search('wp_help', $buttons)) !== false) {
-				unset($buttons[$key]);
+			if ( ( $key = array_search( 'wp_help', $buttons ) ) !== false ) {
+				unset( $buttons[ $key ] );
 			}
 		}
 
@@ -545,18 +550,20 @@ final class FLBuilder {
 			
 			// Enqueue individual builder scripts if WP_DEBUG is on.
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				wp_enqueue_script('fl-color-picker',        	$js_url . 'fl-color-picker.js', array(), $ver, true);
-				wp_enqueue_script('fl-lightbox',            	$js_url . 'fl-lightbox.js', array(), $ver, true);
-				wp_enqueue_script('fl-icon-selector',       	$js_url . 'fl-icon-selector.js', array(), $ver, true);
-				wp_enqueue_script('fl-stylesheet',          	$js_url . 'fl-stylesheet.js', array(), $ver, true);
-				wp_enqueue_script('fl-builder',             	$js_url . 'fl-builder.js', array(), $ver, true);
-				wp_enqueue_script('fl-builder-ajax-layout',   	$js_url . 'fl-builder-ajax-layout.js', array(), $ver, true);
-				wp_enqueue_script('fl-builder-preview',     	$js_url . 'fl-builder-preview.js', array(), $ver, true);
-				wp_enqueue_script('fl-builder-services',    	$js_url . 'fl-builder-services.js', array(), $ver, true);
-				wp_enqueue_script('fl-builder-tour',        	$js_url . 'fl-builder-tour.js', array(), $ver, true);
+				wp_enqueue_script('fl-color-picker',        			$js_url . 'fl-color-picker.js', array(), $ver, true);
+				wp_enqueue_script('fl-lightbox',            			$js_url . 'fl-lightbox.js', array(), $ver, true);
+				wp_enqueue_script('fl-icon-selector',       			$js_url . 'fl-icon-selector.js', array(), $ver, true);
+				wp_enqueue_script('fl-stylesheet',          			$js_url . 'fl-stylesheet.js', array(), $ver, true);
+				wp_enqueue_script('fl-builder',             			$js_url . 'fl-builder.js', array(), $ver, true);
+				wp_enqueue_script('fl-builder-ajax-layout',   			$js_url . 'fl-builder-ajax-layout.js', array(), $ver, true);
+				wp_enqueue_script('fl-builder-forced-media-queries', 	$js_url . 'fl-builder-forced-media-queries.js', array(), $ver, true);
+				wp_enqueue_script('fl-builder-preview',     			$js_url . 'fl-builder-preview.js', array(), $ver, true);
+				wp_enqueue_script('fl-builder-responsive-editing', 		$js_url . 'fl-builder-responsive-editing.js', array(), $ver, true);
+				wp_enqueue_script('fl-builder-services',    			$js_url . 'fl-builder-services.js', array(), $ver, true);
+				wp_enqueue_script('fl-builder-tour',        			$js_url . 'fl-builder-tour.js', array(), $ver, true);
 			}
 			else {
-				wp_enqueue_script('fl-builder-min',             $js_url . 'fl-builder.min.js', array(), $ver, true);
+				wp_enqueue_script('fl-builder-min',             		$js_url . 'fl-builder.min.js', array(), $ver, true);
 			}
 
 			/* Additional module styles and scripts */
@@ -704,6 +711,7 @@ final class FLBuilder {
 		if ( FLBuilderModel::is_builder_active() ) {
 
 			$post_id            = $wp_the_query->post->ID;
+			$global_settings	= FLBuilderModel::get_global_settings();
 			$simple_ui			= ! FLBuilderModel::current_user_has_editing_capability();
 			$categories         = FLBuilderModel::get_categorized_modules();
 			$render_panel       = apply_filters( 'fl_builder_render_ui_panel', FLBuilderModel::current_user_has_editing_capability() );
@@ -1186,7 +1194,16 @@ final class FLBuilder {
 		$value              = isset($settings->$name) ? $settings->$name : '';
 		$preview            = isset($field['preview']) ? json_encode($field['preview']) : json_encode(array('type' => 'refresh'));
 		$row_class          = isset($field['row_class']) ? ' ' . $field['row_class'] : '';
+		$responsive         = false;
+		$root_name          = $name;
+		$global_settings    = FLBuilderModel::get_global_settings();
 
+		// Check to see if responsive is enabled for this field (unit field only for now).
+		if ( $global_settings->responsive_enabled && isset( $field['responsive'] ) && ! $is_multiple && 'unit' == $field['type'] ) {
+			$responsive = $field['responsive'];
+		}
+
+		// Render the field.
 		if($is_multiple && $supports_multiple) {
 
 			$values     = $value;
@@ -1530,14 +1547,19 @@ final class FLBuilder {
 	 */
 	static public function render_column_group_attributes( $group )
 	{
-		$cols  = FLBuilderModel::get_nodes( 'column', $group );
-		$attrs = array(
+		$cols   = FLBuilderModel::get_nodes( 'column', $group );
+		$parent = FLBuilderModel::get_node_parent( $group );
+		$attrs  = array(
 			'class' => array(
 				'fl-col-group',
 				'fl-node-' . $group->node
 			),
 			'data-node' => $group->node
 		);
+		
+		if ( 'column' == $parent->type ) {
+			$attrs['class'][] = 'fl-col-group-nested';
+		}
 		
 		foreach( $cols as $col ) {
 			
@@ -1605,7 +1627,7 @@ final class FLBuilder {
 
 		return array(
 			'settings' => $rendered_settings['html'],
-			'state'    => FLBuilderAJAXLayout::render( $node_id )
+			'state'    => FLBuilderAJAXLayout::render( $node->parent )
 		);
 	}
 
@@ -1620,6 +1642,7 @@ final class FLBuilder {
 	{
 		$custom_class = apply_filters( 'fl_builder_column_custom_class', $col->settings->class, $col );
 		$overlay_bgs  = array( 'photo' );
+		$nested       = FLBuilderModel::get_nodes( 'column-group', $col );
 		$attrs        = array(
 			'id'          => $col->settings->id,
 			'class'       => array(
@@ -1633,6 +1656,9 @@ final class FLBuilder {
 		// Classes
 		if ( $col->settings->size <= 50 ) {
 			$attrs['class'][] = 'fl-col-small';
+		}
+		if ( count( $nested ) > 0 ) {
+			$attrs['class'][] = 'fl-col-has-cols';
 		}
 		if ( in_array( $col->settings->bg_type, $overlay_bgs ) && ! empty( $col->settings->bg_overlay_color ) ) {
 			$attrs['class'][] = 'fl-col-bg-overlay';
@@ -1657,15 +1683,21 @@ final class FLBuilder {
 	 */
 	static public function render_modules( $col_id = null )
 	{
-		$modules = FLBuilderModel::get_modules( $col_id );
+		$nodes = FLBuilderModel::get_nodes( null, $col_id );
 		
-		do_action( 'fl_builder_before_render_modules', $modules, $col_id );
+		do_action( 'fl_builder_before_render_modules', $nodes, $col_id );
 
-		foreach ( $modules as $module ) {
-			self::render_module( $module );
+		foreach ( $nodes as $node ) {
+			
+			if ( 'module' == $node->type && FLBuilderModel::is_module_registered( $node->settings->type ) ) {
+				self::render_module( $node );
+			}
+			else if ( 'column-group' == $node->type ) {
+				self::render_column_group( $node );
+			}
 		}
 		
-		do_action( 'fl_builder_after_render_modules', $modules, $col_id );
+		do_action( 'fl_builder_after_render_modules', $nodes, $col_id );
 	}
 
 	/**
@@ -1677,13 +1709,12 @@ final class FLBuilder {
 	 */
 	static public function render_module( $module_id = null )
 	{
-		$module 	= is_object( $module_id ) ? $module_id : FLBuilderModel::get_module( $module_id );
+		$module 	= FLBuilderModel::get_module( $module_id );
 		$settings 	= $module->settings;
 		$id 		= $module->node;
 
 		do_action( 'fl_builder_before_render_module', $module );
 
-		
 		$template_file = self::locate_template_file(
 			apply_filters( 'fl_builder_module_template_base', 'module', $module ),
 			apply_filters( 'fl_builder_module_template_slug', '',  $module )
@@ -1912,6 +1943,9 @@ final class FLBuilder {
 
 			// Instance row padding
 			$css .= self::render_row_padding($row);
+
+			// Instance row border
+			$css .= self::render_row_border($row);
 		}
 		
 		// Loop through the columns.
@@ -1927,6 +1961,9 @@ final class FLBuilder {
 
 			// Instance column padding
 			$css .= self::render_column_padding($col);
+
+			// Instance column border
+			$css .= self::render_column_border($col);
 
 			// Get the modules in this column.
 			$modules = FLBuilderModel::get_modules($col);
@@ -2028,34 +2065,71 @@ final class FLBuilder {
 		if(is_rtl()) {
 			$css .= file_get_contents(FL_BUILDER_DIR . '/css/fl-builder-layout-rtl.css');
 		}
+		
+		// Global node css
+		foreach ( array(
+			array( 'row_margins',    '.fl-row-content-wrap { margin: ' ),
+			array( 'row_padding',    '.fl-row-content-wrap { padding: ' ),
+			array( 'row_width',      '.fl-row-fixed-width { max-width: ' ),
+			array( 'module_margins', '.fl-module-content { margin: ' )
+		) as $data ) {
+			if ( '' !== $global_settings->{ $data[0] } ) {
+				$value = preg_replace( self::regex( 'css_unit' ), '', strtolower( $global_settings->{ $data[0] } ) );
+				$css .= $data[1] . esc_attr( $value );
+				$css .= ( is_numeric( $value ) ) ? ( 'px; }' ) : ( '; }' );
+			}
+		}
 
 		// Responsive layout css
-		if($global_settings->responsive_enabled) {
-			
+		if ( $global_settings->responsive_enabled ) {
+
+			// Medium devices			
 			$css .= '@media (max-width: '. $global_settings->medium_breakpoint .'px) { ';
-			$css .= file_get_contents(FL_BUILDER_DIR . '/css/fl-builder-layout-medium.css');
+
+				// Core medium layout css
+				$css .= file_get_contents(FL_BUILDER_DIR . '/css/fl-builder-layout-medium.css');
+				
+				// Global node medium css
+				foreach ( array(
+					array( 'row_margins_medium',    '.fl-row[data-node] > .fl-row-content-wrap { margin: ' ),
+					array( 'row_padding_medium',    '.fl-row[data-node] > .fl-row-content-wrap { padding: ' ),
+					array( 'module_margins_medium', '.fl-module[data-node] > .fl-module-content { margin: ' )
+				) as $data ) {
+					if ( '' !== $global_settings->{ $data[0] } ) {
+						$value = preg_replace( self::regex( 'css_unit' ), '', strtolower( $global_settings->{ $data[0] } ) );
+						$css .= $data[1] . esc_attr( $value );
+						$css .= ( is_numeric( $value ) ) ? ( 'px; }' ) : ( '; }' );
+					}
+				}
+
 			$css .= ' }';
+
+			// Responsive devices
 			$css .= '@media (max-width: '. $global_settings->responsive_breakpoint .'px) { ';
-			$css .= file_get_contents(FL_BUILDER_DIR . '/css/fl-builder-layout-responsive.css');
 			
-			if ( ! isset( $global_settings->auto_spacing ) || $global_settings->auto_spacing ) {
-				$css .= file_get_contents(FL_BUILDER_DIR . '/css/fl-builder-layout-auto-spacing.css');
-			}
+				// Core responsive layout css
+				$css .= file_get_contents(FL_BUILDER_DIR . '/css/fl-builder-layout-responsive.css');
+				
+				// Auto spacing
+				if ( ! isset( $global_settings->auto_spacing ) || $global_settings->auto_spacing ) {
+					$css .= file_get_contents(FL_BUILDER_DIR . '/css/fl-builder-layout-auto-spacing.css');
+				}
+				
+				// Global node responsive css
+				foreach ( array(
+					array( 'row_margins_responsive',    '.fl-row[data-node] > .fl-row-content-wrap { margin: ' ),
+					array( 'row_padding_responsive',    '.fl-row[data-node] > .fl-row-content-wrap { padding: ' ),
+					array( 'module_margins_responsive', '.fl-module[data-node] > .fl-module-content { margin: ' )
+				) as $data ) {
+					if ( '' !== $global_settings->{ $data[0] } ) {
+						$value = preg_replace( self::regex( 'css_unit' ), '', strtolower( $global_settings->{ $data[0] } ) );
+						$css .= $data[1] . esc_attr( $value );
+						$css .= ( is_numeric( $value ) ) ? ( 'px; }' ) : ( '; }' );
+					}
+				}
 			
 			$css .= ' }';
 		}
-
-		// Global row margins
-		$css .= '.fl-row-content-wrap { margin: '. $global_settings->row_margins .'px; }';
-
-		// Global row padding
-		$css .= '.fl-row-content-wrap { padding: '. $global_settings->row_padding .'px; }';
-
-		// Global row width
-		$css .= '.fl-row-fixed-width { max-width: '. $global_settings->row_width .'px; }';
-
-		// Global module margins
-		$css .= '.fl-module-content { margin: '. $global_settings->module_margins .'px; }';
 		
 		// Default page heading
 		if ( ! $global_settings->show_default_heading && ! empty( $global_settings->default_heading_selector ) ) {
@@ -2091,6 +2165,121 @@ final class FLBuilder {
 	}
 
 	/**
+	 * Regular expressions.
+	 *
+	 * @since 1.9
+	 * @param string $scope What regular expression to return?
+	 * @return string Regular expression.
+	 */
+	static public function regex( $scope )
+	{
+		$regex = array(
+			'css_unit' => '/[^a-z0-9%.\-]/',
+		);
+
+		return ( isset( $regex[ $scope ] ) ) ? $regex[ $scope ] : null;
+	}
+
+	/**
+	 * Renders the CSS spacing and border properties for a node.
+	 *
+	 * @param object $node A generic node object.
+	 * @param string $prop_type One of [ 'padding', 'margin', 'border' ].
+	 * @param string $selector_prefix Optional CSS selector prefix for better overrides.
+	 * @return string A CSS string.
+	 */
+	static public function render_node_spacing( $node = null, $prop_type = '', $selector_prefix = '' )
+	{
+		// Exit early if incorrect parameters		
+		if ( ! is_object( $node ) || empty( $prop_type ) ) {
+			return;
+		}
+
+		$prop_type = strtolower( $prop_type );
+
+		// Ensure type is valid
+		if ( ! in_array( $prop_type, array( 'margin', 'padding', 'border' ), true ) ) {
+			return;
+		}
+
+		$global_settings  = FLBuilderModel::get_global_settings();
+		$settings         = $node->settings;
+		$css              = '';
+		$selector_prefix .= ' .fl-node-' . $node->node;
+
+		// Determine selector suffix to apply spacing to
+		switch ( $node->type ) {
+			case 'row':
+				$selector_suffix = ' > .fl-row-content-wrap';
+				break;
+			case 'column':
+				$selector_suffix = ' > .fl-col-content';
+				break;
+			case 'module':
+				$selector_suffix = ' > .fl-module-content';
+				break;
+		}
+
+		// Create rules for each breakpoint
+		foreach ( array( 'default', 'medium', 'responsive' ) as $breakpoint ) {
+			$breakpoint_css = '';
+			$setting_suffix = ( 'default' !== $breakpoint ) ? '_' . $breakpoint : '';
+
+			// Iterate over each direction
+			foreach ( array( 'top', 'right', 'bottom', 'left' ) as $dir ) {
+				$setting = $prop_type . '_' . $dir . $setting_suffix;
+
+				if ( ! isset( $settings->{ $setting } ) ) {
+					continue;
+				}
+
+				$prop  = $prop_type . '-' . $dir;
+				$value = preg_replace( self::regex( 'css_unit' ), '', strtolower( $settings->{ $setting } ) );
+
+				if ( 'border' === $prop_type ) {
+					
+					if ( empty( $settings->border_type ) ) {
+						continue;
+					}
+					else {
+						$prop .= '-width';
+					}
+				}
+
+				if ( '' !== $value ) {
+					$breakpoint_css .= "\t";
+					$breakpoint_css .= $prop . ':' . esc_attr( $value );
+					$breakpoint_css .= ( is_numeric( trim( $value ) ) ) ? ( 'px;' ) : ( ';' );
+					$breakpoint_css .= "\r\n";
+				}
+			}
+
+			if ( ! empty( $breakpoint_css ) ) {
+				
+				// Build the selector
+				if ( 'default' !== $breakpoint ) {
+					$selector = $selector_prefix . '.fl-' . str_replace( 'column', 'col', $node->type ) . $selector_suffix;
+				}
+				else {
+					$selector = $selector_prefix . $selector_suffix;
+				}
+				
+				// Wrap css in selector
+				$breakpoint_css = $selector . ' {' . "\r\n" . $breakpoint_css . '}' . "\r\n";
+
+				// Wrap css in media query
+				if ( 'default' !== $breakpoint ) {
+					$breakpoint_css = '@media ( max-width: ' . $global_settings->{ $breakpoint . '_breakpoint' } . 'px ) {' . "\r\n" . $breakpoint_css . '}' . "\r\n";
+				}
+
+				$css .= $breakpoint_css;
+			}
+		}
+
+		return $css;
+	}
+
+	/**
 	 * Renders the CSS margins for a row.
 	 *
 	 * @since 1.0
@@ -2099,27 +2288,7 @@ final class FLBuilder {
 	 */
 	static public function render_row_margins($row)
 	{
-		$settings   = $row->settings;
-		$margins    = '';
-		$css        = '';
-
-		if($settings->margin_top != '') {
-			$margins    .= 'margin-top:'    . $settings->margin_top . 'px;';
-		}
-		if($settings->margin_bottom != '') {
-			$margins    .= 'margin-bottom:' . $settings->margin_bottom . 'px;';
-		}
-		if($settings->margin_left != '') {
-			$margins    .= 'margin-left:'   . $settings->margin_left . 'px;';
-		}
-		if($settings->margin_right != '') {
-			$margins    .= 'margin-right:'  . $settings->margin_right . 'px;';
-		}
-		if($margins != '') {
-			$css .= '.fl-node-' . $row->node . ' > .fl-row-content-wrap {' . $margins . '}';
-		}
-
-		return $css;
+		return self::render_node_spacing( $row, 'margin' );
 	}
 
 	/**
@@ -2131,27 +2300,19 @@ final class FLBuilder {
 	 */
 	static public function render_row_padding($row)
 	{
-		$settings = $row->settings;
-		$padding  = '';
-		$css      = '';
+		return self::render_node_spacing( $row, 'padding' );
+	}
 
-		if($settings->padding_top != '') {
-			$padding .= 'padding-top:' . $settings->padding_top . 'px;';
-		}
-		if($settings->padding_bottom != '') {
-			$padding .= 'padding-bottom:' . $settings->padding_bottom . 'px;';
-		}
-		if($settings->padding_left != '') {
-			$padding .= 'padding-left:' . $settings->padding_left . 'px;';
-		}
-		if($settings->padding_right != '') {
-			$padding .= 'padding-right:' . $settings->padding_right . 'px;';
-		}
-		if($padding != '') {
-			$css = '.fl-node-' . $row->node . ' > .fl-row-content-wrap {' . $padding . '}';
-		}
-
-		return $css;
+	/**
+	 * Renders the CSS border widths for a row.
+	 *
+	 * @since 1.9
+	 * @param object $row A row node object.
+	 * @return string The row CSS border-width string.
+	 */
+	static public function render_row_border($row)
+	{
+		return self::render_node_spacing( $row, 'border' );
 	}
 
 	/**
@@ -2163,27 +2324,7 @@ final class FLBuilder {
 	 */
 	static public function render_column_margins($col)
 	{
-		$settings   = $col->settings;
-		$margins    = '';
-		$css        = '';
-
-		if($settings->margin_top != '') {
-			$margins    .= 'margin-top:'    . $settings->margin_top . 'px;';
-		}
-		if($settings->margin_bottom != '') {
-			$margins    .= 'margin-bottom:' . $settings->margin_bottom . 'px;';
-		}
-		if($settings->margin_left != '') {
-			$margins    .= 'margin-left:'   . $settings->margin_left . 'px;';
-		}
-		if($settings->margin_right != '') {
-			$margins    .= 'margin-right:'  . $settings->margin_right . 'px;';
-		}
-		if($margins != '') {
-			$css .= '.fl-node-' . $col->node . ' > .fl-col-content {' . $margins . '}';
-		}
-
-		return $css;
+		return self::render_node_spacing( $col, 'margin' );
 	}
 
 	/**
@@ -2195,27 +2336,19 @@ final class FLBuilder {
 	 */
 	static public function render_column_padding($col)
 	{
-		$settings = $col->settings;
-		$padding  = '';
-		$css      = '';
+		return self::render_node_spacing( $col, 'padding' );
+	}
 
-		if($settings->padding_top != '') {
-			$padding .= 'padding-top:' . $settings->padding_top . 'px;';
-		}
-		if($settings->padding_bottom != '') {
-			$padding .= 'padding-bottom:' . $settings->padding_bottom . 'px;';
-		}
-		if($settings->padding_left != '') {
-			$padding .= 'padding-left:' . $settings->padding_left . 'px;';
-		}
-		if($settings->padding_right != '') {
-			$padding .= 'padding-right:' . $settings->padding_right . 'px;';
-		}
-		if($padding != '') {
-			$css = '.fl-node-' . $col->node . ' > .fl-col-content {' . $padding . '}';
-		}
-
-		return $css;
+	/**
+	 * Renders the CSS border widths for a column.
+	 *
+	 * @since 1.9
+	 * @param object $col A column node object.
+	 * @return string The column CSS border-width string.
+	 */
+	static public function render_column_border($col)
+	{
+		return self::render_node_spacing( $col, 'border', '.fl-builder-content' );
 	}
 
 	/**
@@ -2227,31 +2360,11 @@ final class FLBuilder {
 	 */
 	static public function render_module_margins($module)
 	{
-		$settings  = $module->settings;
-		$margins   = '';
-		$css       = '';
-
-		if($settings->margin_top != '') {
-			$margins .= 'margin-top:' . $settings->margin_top . 'px;';
-		}
-		if($settings->margin_bottom != '') {
-			$margins .= 'margin-bottom:' . $settings->margin_bottom . 'px;';
-		}
-		if($settings->margin_left != '') {
-			$margins .= 'margin-left:' . $settings->margin_left . 'px;';
-		}
-		if($settings->margin_right != '') {
-			$margins .= 'margin-right:' . $settings->margin_right . 'px;';
-		}
-		if($margins != '') {
-			$css = '.fl-node-' . $module->node . ' > .fl-module-content {' . $margins . '}';
-		}
-
-		return $css;
+		return self::render_node_spacing( $module, 'margin' );
 	}
 
 	/**
-	 * Renders the responsive CSS margins for a module.
+	 * Renders the (auto) responsive CSS margins for a module.
 	 *
 	 * @since 1.0
 	 * @param object $module A module node object.
@@ -2259,27 +2372,45 @@ final class FLBuilder {
 	 */
 	static public function render_responsive_module_margins($module)
 	{
-		$global_settings    = FLBuilderModel::get_global_settings();
-		$default            = $global_settings->module_margins;
-		$settings           = $module->settings;
-		$margins            = '';
-		$css                = '';
-
-		if($settings->margin_top != '' && ($settings->margin_top > $default || $settings->margin_top < 0)) {
-			$margins .= 'margin-top:' . $default . 'px;';
+		$global_settings = FLBuilderModel::get_global_settings();
+		$settings        = $module->settings;
+		$margins         = '';
+		$css             = '';
+		
+		// Bail early if we have global responsive margins.
+		if ( '' != $global_settings->module_margins_responsive ) {
+			return $css;	
 		}
-		if($settings->margin_bottom != '' && ($settings->margin_bottom > $default || $settings->margin_bottom < 0)) {
-			$margins .= 'margin-bottom:' . $default . 'px;';
+		
+		// Get the global default margin value to use.
+		if ( '' != $global_settings->module_margins_medium ) {
+			$default = trim( $global_settings->module_margins_medium );
 		}
-		if($settings->margin_left != '' && ($settings->margin_left > $default || $settings->margin_left < 0)) {
-			$margins .= 'margin-left:' . $default . 'px;';
+		else {
+			$default = trim( $global_settings->module_margins );
 		}
-		if($settings->margin_right != '' && ($settings->margin_right > $default || $settings->margin_right < 0)) {
-			$margins .= 'margin-right:' . $default . 'px;';
+		
+		// Set the responsive margin CSS if necessary.
+		foreach ( array( 'top', 'bottom', 'left', 'right' ) as $dimension ) {
+			
+			$responsive = 'margin_' . $dimension . '_responsive';
+			$medium     = 'margin_' . $dimension . '_responsive';
+			$desktop    = 'margin_' . $dimension;
+		
+			if ( '' == $settings->$responsive ) {
+			
+				$value = '' == $settings->$medium ? $settings->$desktop : $settings->$medium;
+				
+				if ( '' != $value && ( $value > $default || $value < 0 ) ) {
+					$margins .= 'margin-' . $dimension . ':' . esc_attr( $default ) . 'px;';
+				}
+			}
 		}
-		if($margins != '') {
-			$css .= '@media (max-width: '. $global_settings->responsive_breakpoint .'px) { ';
-			$css .= '.fl-node-' . $module->node . ' > .fl-module-content {' . $margins . '}';
+		
+		// Set the media query if we have margins.
+		if ( '' !== $margins ) {
+			$css .= '@media (max-width: ' . esc_attr( $global_settings->responsive_breakpoint ) . 'px) { ';
+			$css .= '.fl-node-' . $module->node . ' > .fl-module-content { ' . $margins . ' }';
 			$css .= ' }';
 		}
 

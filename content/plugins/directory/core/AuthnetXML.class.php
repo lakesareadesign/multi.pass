@@ -202,7 +202,7 @@ class AuthnetXML
 			unset($this->ch);
 			return;
 		}
-		throw new AuthnetXMLException('Connection error: ' . curl_error($this->ch) . ' (' . curl_errno($this->ch) . ')', self::EXCEPTION_CURL);
+		throw new AuthnetXMLException('Connection error: ' . curl_error($this->ch) . ' (' . curl_errno($this->ch) . ')', self::EXCEPTION_CURL);	     	 	 	  		   
 	}
 
 	public function isSuccessful()

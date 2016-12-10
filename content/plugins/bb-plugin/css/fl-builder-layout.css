@@ -298,12 +298,14 @@
 	-ms-flex-pack: end;
 }
 
-.fl-col-group-equal-height.fl-col-group-align-center .fl-module {
+.fl-col-group-equal-height.fl-col-group-align-center .fl-module,
+.fl-col-group-equal-height.fl-col-group-align-center .fl-col-group {
 	width: 100%;
 }
 
 /* IE11 fix for images with height:auto in equal height columns. */
-.fl-builder-ie-11 .fl-col-group-equal-height .fl-module {
+.fl-builder-ie-11 .fl-col-group-equal-height .fl-module,
+.fl-col-group-equal-height.fl-col-group-align-center .fl-col-group  {
 	min-height: 1px;
 }
 

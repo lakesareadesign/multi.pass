@@ -23,7 +23,7 @@ $allowed_statuses = array_reverse(array_intersect_key($post_statuses, $allowed_s
 //Are we adding a Listing?
 if (is_page($this->add_listing_page_id)) {
 	//Make an auto-draft so we have a post id to connect attachemnts to. Set global $post_ID so media editor can hook up. Watch the case
-	$post_ID = wp_insert_post( array( 'post_title' => __( 'Auto Draft' ), 'post_type' => $this->post_type, 'post_status' => 'auto-draft' ) );
+	$post_ID = wp_insert_post( array( 'post_title' => __( 'Auto Draft' ), 'post_type' => $this->post_type, 'post_status' => 'auto-draft', 'comment_status' => 'closed', 'ping_status' => 'closed' ) );
 	$listing_data = get_post($post_ID, ARRAY_A );
 	$listing_data['post_title'] = ''; //Have to have a title to insert the auto-save but we don't want it as final.
 	$editing = false;
@@ -60,6 +60,24 @@ $editor_settings =   array(
 $listing_content = (empty( $listing_data['post_content'] ) ) ? '' : $listing_data['post_content'];
 
 wp_enqueue_script('set-post-thumbnail');
+
+add_filter( 'tiny_mce_before_init', 'wpse24113_tiny_mce_before_init' ,10,2);
+function wpse24113_tiny_mce_before_init( $initArray,$editor_id )
+{
+    if($editor_id != 'listingcontent'){
+        return $initArray;
+    }
+    $initArray['setup'] = <<<JS
+[function(ed) {
+    ed.on("change", function (ed) {
+            jQuery('#listingcontent').html(ed.target.getContent());
+        })
+
+}][0]
+JS;
+    return $initArray;
+}
+
 ?>
 <script type="text/javascript" src="<?php echo $this->plugin_url . 'ui-front/js/jquery.tagsinput.min.js'; ?>" ></script>
 <script type="text/javascript" src="<?php echo $this->plugin_url . 'ui-front/js/media-post.js'; ?>" ></script>
@@ -226,3 +244,8 @@ wp_enqueue_script('set-post-thumbnail');
 		<?php //echo do_shortcode('[ct_validate]') ; ?>
 	</form>
 </div>
+<script type="text/javascript">
+	jQuery('input[name="update_classified"]').mousedown( function() {
+		tinyMCE.triggerSave();
+	});
+</script>

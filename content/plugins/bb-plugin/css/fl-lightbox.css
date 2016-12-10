@@ -56,6 +56,9 @@
 .fl-lightbox .fa {
 	font-family: FontAwesome;
 }
+.fl-lightbox .dashicons {
+	font-family: dashicons;
+}
 .fl-lightbox-content-wrap {
 	height: 100%;
 }

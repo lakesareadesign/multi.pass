@@ -99,7 +99,9 @@ final class FLBuilderAJAX {
 		self::add_action( 'delete_node', 'FLBuilderModel::delete_node', array( 'node_id' ) );
 		self::add_action( 'delete_col', 'FLBuilderModel::delete_col', array( 'node_id', 'new_width' ) );
 		self::add_action( 'reorder_node', 'FLBuilderModel::reorder_node', array( 'node_id', 'position' ) );
+		self::add_action( 'reorder_col', 'FLBuilderModel::reorder_col', array( 'node_id', 'position' ) );
 		self::add_action( 'move_node', 'FLBuilderModel::move_node', array( 'node_id', 'new_parent', 'position' ) );
+		self::add_action( 'move_col', 'FLBuilderModel::move_col', array( 'node_id', 'new_parent', 'position', 'resize' ) );
 		self::add_action( 'resize_cols', 'FLBuilderModel::resize_cols', array( 'col_id', 'col_width', 'sibling_id', 'sibling_width' ) );
 		self::add_action( 'reset_col_widths', 'FLBuilderModel::reset_col_widths', array( 'group_id' ) );
 		self::add_action( 'save_settings', 'FLBuilderModel::save_settings', array( 'node_id', 'settings' ) );
@@ -120,7 +122,7 @@ final class FLBuilderAJAX {
 		self::add_action( 'render_new_row', 'FLBuilderAJAXLayout::render_new_row', array( 'cols', 'position', 'template_id', 'template_type' ) );
 		self::add_action( 'copy_row', 'FLBuilderAJAXLayout::copy_row', array( 'node_id' ) );
 		self::add_action( 'render_new_column_group', 'FLBuilderAJAXLayout::render_new_column_group', array( 'node_id', 'cols', 'position' ) );
-		self::add_action( 'render_new_column', 'FLBuilderAJAXLayout::render_new_column', array( 'node_id', 'insert' ) );
+		self::add_action( 'render_new_columns', 'FLBuilderAJAXLayout::render_new_columns', array( 'node_id', 'insert', 'type', 'nested' ) );
 		self::add_action( 'render_new_module', 'FLBuilderAJAXLayout::render_new_module', array( 'parent_id', 'position', 'type', 'template_id', 'template_type' ) );
 		self::add_action( 'copy_module', 'FLBuilderAJAXLayout::copy_module', array( 'node_id' ) );
 		

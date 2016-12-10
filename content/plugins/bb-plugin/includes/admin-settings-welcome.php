@@ -8,13 +8,13 @@ function fl_welcome_utm( $campaign ) {
 	);
 }
 
-$blog_post_url     = FLBuilderModel::get_store_url( 'beaver-builder-1-8-gordon', fl_welcome_utm('settings-welcome-blog-post' ) );
+$blog_post_url     = FLBuilderModel::get_store_url( 'beaver-builder-1-9-shasta', fl_welcome_utm('settings-welcome-blog-post' ) );
 $change_logs_url   = FLBuilderModel::get_store_url( 'change-logs', fl_welcome_utm( 'settings-welcome-change-logs' ) );
 $upgrade_url       = FLBuilderModel::get_store_url( '', fl_welcome_utm( 'settings-welcome-upgrade' ) );
 $support_url       = FLBuilderModel::get_store_url( 'beaver-builder-support', fl_welcome_utm( 'settings-welcome-support' ) );
-$docs_url          = FLBuilderModel::get_store_url( 'knowledge-base', fl_welcome_utm( 'settings-welcome-docs' ) );
 $faqs_url          = FLBuilderModel::get_store_url( 'frequently-asked-questions', fl_welcome_utm( 'settings-welcome-faqs' ) );
 $forums_url        = FLBuilderModel::get_store_url( 'support', fl_welcome_utm( 'settings-welcome-forums' ) );
+$docs_url          = 'http://kb.wpbeaverbuilder.com/';
 	
 ?>
 <div id="fl-welcome-form" class="fl-settings-form">
@@ -68,15 +68,15 @@ $forums_url        = FLBuilderModel::get_store_url( 'support', fl_welcome_utm( '
 
 			<div class="fl-welcome-col">
 
-				<h4><?php _e('What\'s New in Beaver Builder 1.8 Gordon', 'fl-builder'); ?></h4>
+				<h4><?php _e('What\'s New in Beaver Builder 1.9 Shasta', 'fl-builder'); ?></h4>
 
-				<p><?php _e('Beaver Builder 1.8 is out and it\'s has some epic new features:', 'fl-builder'); ?></p>
+				<p><?php _e('Beaver Builder 1.9 is out and it has some epic new features:', 'fl-builder'); ?></p>
 
 				<ul>
-					<li><?php _e('16 new landing page templates are available in the template selector.', 'fl-builder'); ?></li>
-					<li><?php _e('Overhauled Import/Export options and the ability to export single templates.', 'fl-builder'); ?></li>
-					<li><?php _e('Hide rows and modules depending on whether a user is logged in or out.', 'fl-builder'); ?></li>
-					<li><?php _e('Ability to expand settings panels.', 'fl-builder'); ?></li>
+					<li><?php _e('The ability to drag, drop and nest columns.', 'fl-builder'); ?></li>
+					<li><?php _e('A revamped editor with more accurate dragging and dropping.', 'fl-builder'); ?></li>
+					<li><?php _e('Responsive settings for margins, paddings and borders.', 'fl-builder'); ?></li>
+					<li><?php _e('New content page templates available in the template selector.', 'fl-builder'); ?></li>
 				</ul>
 
 				<p><?php printf( __('There\'s a whole lot more, too! Read about everything else on our <a href="%s" target="_blank">update post</a> or <a href="%s" target="_blank">change logs</a>.', 'fl-builder'), $blog_post_url, $change_logs_url ); ?></p>

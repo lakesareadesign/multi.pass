@@ -3,8 +3,8 @@
 Contributors: pupunzi
 Tags: video player, youtube, full background, video, HTML5, flash, mov, jquery, pupunzi, mb.components, cover video, embed, embed videos, embed youtube, embedding, plugin, shortcode, video cover, video HTML5, youtube, youtube embed, youtube player, youtube videos
 Requires at least: 3.0
-Tested up to: 4.5
-Stable tag:  2.0.11
+Tested up to: 4.6
+Stable tag:  3.0.3
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DSHAHSJJCQ53Y
 License: GPLv2 or later
 
@@ -13,22 +13,17 @@ Play any Youtube video as background of your page or as custom player inside an 
 == Description ==
 
 A Chrome-less Youtube® video player that let you play any YouTube® video as background of your WordPress® page or post.
-You can activate it for your home page from the settings panel or on any post or page using the short code as described in the Reference section of the settings.
+You can activate it for your home page from the settings panel (no license needed) or on any post or page using the short code (need the Plus version) as described in the Reference section of the settings.
 
 [youtube http://www.youtube.com/watch?v=lTW937ld02Y]
-
-**From version 1.0 the player is using the Youtube® iframe API displaying the video using the HTML5 VIDEO tag for all the browsers that support it.**
-
-**From version 1.7.6 the plug in is internationalized; available in English, Italian and Spanish (thanks to Andrew Kurtis http://www.webhostinghub.com ).**
 
 
 The mb.YTPlayer doesn't work on any mobile devices (iOs, Android, Windows, etc.) due to restrictions applied by the vendors on media controls via javascript.
 Adding a background image to the body as mobile devices fallback is a good practice and it will also prevent unwanted white flickering on desktop browsers when the video is buffering.
 
 
-
 note:
-If you doesn't want ADs on your background video and you are the owner of it you can disable this on your Youtube channel as explained here: http://candidio.com/blog/how-to-remove-ads-from-your-youtube-videos .
+If you don't want ADs on your background video and you are the owner of it you can disable this on your Youtube channel as explained here: http://candidio.com/blog/how-to-remove-ads-from-your-youtube-videos .
 
 
 * demo: http://pupunzi.com/mb.components/mb.YTPlayer/demo/demo.html
@@ -49,8 +44,8 @@ Extract the zip file and upload the contents to the wp-content/plugins/ director
 == Screenshots ==
 
 1. The settings panel.
-2. You can add a video as background or targeted to a DOM element in any page or post by inserting a shortcode generated via the editor button.
-3. The shortcode editor.
+2. You can add a video as background or targeted to a DOM element in any page or post by inserting a shortcode (Plus version) generated via the editor button.
+3. The shortcode editor (Plus version).
 
 == To set your homepage background video: ==
 
@@ -58,13 +53,11 @@ Extract the zip file and upload the contents to the wp-content/plugins/ director
 2. set the complete YT video url
 3. set all the other parameters as you need.
 
-To remove the video just leave the url blank.
-
-You can also set it by placing a shortcode in the home page via the YTPlayer shortcode window. 
+You can also set it by placing a shortcode in the home page via the YTPlayer shortcode window (Plus version). 
 You can open it by clicking on the YTPlayer button in the top toolbar of the page editor.
 
 == To set a video as background of a post or a page: ==
-Use the editor button or write the below shortcode into the content of your post or page:
+Use the editor button or write the below shortcode into the content of your post or page (Plus version):
 
 [mbYTPlayer url="http://www.youtube.com/watch?v=V2rifmjZuKQ" ratio="4/3" mute="false" loop="true" showcontrols="true" opacity=1]
 
@@ -91,47 +84,15 @@ Adding a background image to the body as mobile devices fallback is a good pract
 
 == Changelog ==
 
-= 2.0.11 =
-* Bug fix: videoID was not defined anymore ad blocked the script.
+= 3.0.3 =
+Bug fix: The mb_notice class bug ($this->name_space) has been fixed.
 
-= 2.0.10 =
-* Bug fix: in some configuration an error was fired: e[i].trim is not a function.
+= 3.0.2 =
+Bug fix: In some cases the notice class did fire an error preventing the plug-in activation.
 
-= 2.0.9 =
-* Bug fix: raster did not work anymore for a problem of path.
+= 3.0.0 =
+* From this release the FREE version of this plug-in allows the display of the background video only on the homepage. If you want to add it on any other page and customize its settings you need a Plus version available from the link in the settings page.
 
-= 2.0.8 =
-* Bug fix: Fixed a bug with the control-bar if not present in the page.
-
-= 2.0.7 =
-* Bug fix: An issue with Safari browser that freeze the video at start should be fixed.
-
-= 2.0.6 =
-* Bug fix: the volume value was not preserved in the settings page.
-
-= 2.0.5 =
-* Update the jquery.mb.YTPlayer.js file with better performances for the initial video start.
-
-= 2.0.4 =
-* Add the text-domain declaration for the translate.wordpress.org.
-
-= 2.0.3 =
-* Bug fix: The loop on webkit browsers randomly failed.
-* Feature: The video now stops just 1.5 seconds from the end (it was 3 sec.).
-
-= 2.0.2 =
-* Bugfix: If the autoPlay option was set to false the player was hidden.
-
-= 2.0.1 =
-* Bugfix: If the control-bar was not displayed there were several javascript errors due to a missed code condition.
-
-= 2.0.0 =
-* Bugfix: updated to the new Google API 3 fixing the display of the poster-frame if used as in-line player.
-
-...
-
-= 0.1 =
-* First release
 
 == Frequently Asked Questions ==
 
@@ -151,4 +112,4 @@ The video quality option is just a suggestion for the Youtube API; the video is 
 To prevent the display of the "play" button provided by the Youtube API the video intentionally stops some seconds before the end; if you are the owner of the video I can suggest to make it a little bit longer (about 3/4 seconds).
 
 = I love your plugin! What can I do to help?
-Creating and supporting this plugin takes up a lot of my free time, therefore I would highly appreciate it if you could take a couple of minutes to write a review. This will help other WordPress users to start using this plugin and keep me motivated to maintain and support it. You can also make a donation to support my work!
+Creating and supporting this plugin takes up a lot of my free time, therefore I would highly appreciate if you could take a couple of minutes to write a review. This will help other WordPress users to start using this plugin and keep me motivated to maintain and support it. You can also make a donation to support my work!

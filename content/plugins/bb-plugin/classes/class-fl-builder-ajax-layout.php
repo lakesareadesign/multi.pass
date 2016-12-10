@@ -155,20 +155,22 @@ final class FLBuilderAJAXLayout {
 	}
 
 	/**
-	 * Renders the layout data for a new column.
+	 * Renders the layout data for a new column or columns.
 	 *
 	 * @since 1.7
 	 * @param string $node_id Node ID of the column to insert before or after.
 	 * @param string $insert Either before or after.
+	 * @param string $type The type of column(s) to insert.
+	 * @param boolean $nested Whether these columns are nested or not.
 	 * @return array
 	 */
-	static public function render_new_column( $node_id, $insert )
+	static public function render_new_columns( $node_id, $insert, $type, $nested )
 	{
-		// Add the column.
-		$col = FLBuilderModel::add_col( $node_id, $insert );
+		// Add the column(s).
+		$group = FLBuilderModel::add_cols( $node_id, $insert, $type, $nested );
 
 		// Return the response.	
-		return self::render( $col->parent );
+		return self::render( $group->node );
 	}
 
 	/**
@@ -215,8 +217,11 @@ final class FLBuilderAJAXLayout {
 				$render_id 	= $row->node;
 			}
 			else if ( $parent->type == 'row' ) {
-				$col 		= FLBuilderModel::get_module_parent( 'column-group', $module );
-				$render_id 	= $col->node;
+				$group 		= FLBuilderModel::get_module_parent( 'column-group', $module );
+				$render_id 	= $group->node;
+			}
+			else if ( $parent->type == 'column-group' ) {
+				$render_id 	= $parent->node;
 			}
 			else {
 				$render_id = $module->node;

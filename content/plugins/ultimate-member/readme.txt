@@ -5,9 +5,9 @@ Contributors: ultimatemember, champsupertramp
 Donate link: 
 Tags: access control, author, authors, author profile, comments, community, communities, conditional fields, conditional logic, conditional menus, content protection, custom fields, file uploads, form builder, front-end login, front-end registration, gravatar, hide wp-admin, login, login page, logged-in users, mandrill, member, members, membership, member directory, online users, profile, profiles, profile builder, registration, restriction, restrict content, role creation, role menus, search filters, sign in, sign up, social network, star ratings, toolbar, user, users, user fields, user profile, user-profile, user profiles, user roles
 Requires at least: 4.1
-Tested up to: 4.6.1
+Tested up to: 4.7
 
-Stable Tag: 1.3.73
+Stable Tag: 1.3.78
 
 License: GNU Version 2 or Any Later Version
 
@@ -59,6 +59,7 @@ Ultimate Member has a range of extensions that allow you to extend the power of 
 * [myCRED](https://ultimatemember.com/extensions/mycred/) - With the myCRED extension you can integrate Ultimate Member with the popular myCRED points management plugin
 * [Notices](https://ultimatemember.com/extensions/notices/) - Alert users to important information using conditional notices
 * [Profile Completeness](https://ultimatemember.com/extensions/profile-completeness/) - Encourage or force users to complete their profiles with the profile completeness extension
+* [Friends](https://ultimatemember.com/extensions/friends/) - Allows users to become friends by sending & accepting/rejecting friend requests
 
 = Free Extensions =
 
@@ -148,6 +149,44 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 16. Screenshot 16
 
 == Changelog ==
+
+= 1.3.78: December 08, 2016 =
+
+* Bugfixes:
+  * Fix menu settings compatibility issue with WP 4.7
+  * Fix mobile class on account delete tab heading
+  * Fixes an issue where tagline shows the current users to all members
+  * Fixes notice on updating WP List Table quick edit
+  * Remove notices
+
+  = 1.3.77: November 30, 2016 =
+
+* Bugfixes:
+  * Fix set and reset password validation.
+  * Remove notices
+
+= 1.3.76: November 30, 2016 =
+
+* Bugfixes:
+  * Fix invalid security notice in set password.
+
+= 1.3.75: November 29, 2016 =
+
+* Bugfixes:
+  * Fix 'Invalid user ID' on profile update
+ 
+= 1.3.74: November 29, 2016 =
+
+* Enhancements:
+  * Improves clear users cache. 
+  * Removes user id from redirect URL on registration process for pending review and email activation statuses.
+
+* Bugfixes:
+  * Fix assigning of role on registration process
+  * Fix change email address in edit mode.
+  * Fix change password validation.
+  * Removes notices when role field is present in the profile form.
+
 
 = 1.3.73: November 17, 2016 =
 

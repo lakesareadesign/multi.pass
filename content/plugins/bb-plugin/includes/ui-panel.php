@@ -41,13 +41,13 @@
 					<?php if($title == __('WordPress Widgets', 'fl-builder')) : ?>
 					<div class="fl-builder-blocks-section-content fl-builder-widgets">
 						<?php foreach($modules as $module) : ?>
-						<span class="fl-builder-block fl-builder-block-module" data-type="widget" data-widget="<?php echo $module->class; ?>"><span class="fl-builder-block-title"><?php echo $module->name; ?></span></span>
+						<span class="fl-builder-block fl-builder-block-module" data-type="widget" data-widget="<?php echo $module->class; ?>"><span class="fl-builder-block-title" title="<?php echo esc_attr( $module->name ); ?>"><?php echo $module->name; ?></span></span>
 						<?php endforeach; ?>
 					</div>
 					<?php else : ?>
 					<div class="fl-builder-blocks-section-content fl-builder-modules">
 						<?php foreach($modules as $module) : ?>
-						<span class="fl-builder-block fl-builder-block-module" data-type="<?php echo $module->slug; ?>"><span class="fl-builder-block-title"><?php echo $module->name; ?></span></span>
+						<span class="fl-builder-block fl-builder-block-module" data-type="<?php echo $module->slug; ?>"><span class="fl-builder-block-title" title="<?php echo esc_attr( $module->name ); ?>"><?php echo $module->name; ?></span></span>
 						<?php endforeach; ?>
 					</div>
 					<?php endif; ?>

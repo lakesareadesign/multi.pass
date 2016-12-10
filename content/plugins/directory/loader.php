@@ -3,7 +3,7 @@
 Plugin Name: Directory
 Plugin URI: http://premium.wpmudev.org/project/wordpress-directory
 Description: Directory - Create full blown directory site.
-Version: 2.2.6.4
+Version: 2.2.6.5
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
 Text Domain: dr_text_domain
@@ -39,7 +39,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 // Define plugin version
-define( 'DR_VERSION', '2.2.6.4' );
+define( 'DR_VERSION', '2.2.6.5' );
 // define the plugin folder url
 define( 'DR_PLUGIN_URL', plugin_dir_url(__FILE__) );
 // define the plugin folder dir
@@ -54,6 +54,36 @@ define( 'DR_CAPTCHA', 'dr_captcha_' );
 // include core files
 //If another version of CustomPress not loaded, load ours.
 if(!class_exists('CustomPress_Core')) include_once 'core/custompress/loader.php';
+
+register_deactivation_hook( __FILE__, function() {
+        //Remove Directory custom post types
+        $ct_custom_post_types = get_site_option( 'ct_custom_post_types' );
+        unset($ct_custom_post_types['directory_listing']);
+        update_site_option( 'ct_custom_post_types', $ct_custom_post_types );
+
+        $ct_custom_post_types = get_option( 'ct_custom_post_types' );
+        unset($ct_custom_post_types['directory_listing']);
+        update_option( 'ct_custom_post_types', $ct_custom_post_types );
+
+        $ct_custom_taxonomies = get_site_option('ct_custom_taxonomies');
+        unset($ct_custom_taxonomies['listing_tag']);
+        update_site_option( 'ct_custom_taxonomies', $ct_custom_taxonomies );
+
+        $ct_custom_taxonomies = get_option('ct_custom_taxonomies');
+        unset($ct_custom_taxonomies['listing_tag']);
+        update_option( 'ct_custom_taxonomies', $ct_custom_taxonomies );
+
+        $ct_custom_taxonomies = get_site_option('ct_custom_taxonomies');
+        unset($ct_custom_taxonomies['listing_category']);
+        update_site_option( 'ct_custom_taxonomies', $ct_custom_taxonomies );
+
+        $ct_custom_taxonomies = get_option('ct_custom_taxonomies');
+        unset($ct_custom_taxonomies['listing_category']);
+        update_option( 'ct_custom_taxonomies', $ct_custom_taxonomies );
+
+        flush_rewrite_rules();
+
+} );
 
 include_once 'core/core.php';
 include_once 'core/functions.php';
