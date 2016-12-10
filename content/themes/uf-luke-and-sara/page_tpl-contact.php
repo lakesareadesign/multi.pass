@@ -7,7 +7,7 @@
  */
 
 the_post();
-$layout = Upfront_Output::get_layout(array('specificity' => 'single-page-contact'));	  	    	    		 				 
+$layout = Upfront_Output::get_layout(array('specificity' => 'single-page-contact'));
 
 get_header();
 echo $layout->apply_layout();

@@ -1,3 +1,9 @@
+<h4>1.5.4 - 12/06/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added Full Width and No Header/Footer templates for posts in WordPress 4.7.</li>
+</ul>
+
 <h4>1.5.3 - 11/01/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

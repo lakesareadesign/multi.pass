@@ -357,13 +357,13 @@ $main_navigation->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 4605,
+         'menu-item-db-id' => 4632,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Our Story',
          'menu-item-url' => '#ourStory',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4605',
+         'menu-item-object-id' => '4632',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -375,13 +375,13 @@ $main_navigation->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 4608,
+         'menu-item-db-id' => 4633,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Menu',
          'menu-item-url' => '#menu',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4608',
+         'menu-item-object-id' => '4633',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -393,13 +393,13 @@ $main_navigation->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 4611,
+         'menu-item-db-id' => 4634,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4611',
+         'menu-item-object-id' => '4634',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -411,13 +411,13 @@ $main_navigation->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 4615,
+         'menu-item-db-id' => 4635,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Gallery',
          'menu-item-url' => '#gallery',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4615',
+         'menu-item-object-id' => '4635',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -429,13 +429,13 @@ $main_navigation->add_element("Unewnavigation", array (
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 4617,
+         'menu-item-db-id' => 4636,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Find Us',
          'menu-item-url' => '#ourLocation',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4617',
+         'menu-item-object-id' => '4636',
          'menu-item-target' => '',
          'menu-item-position' => 5,
          'link' =>

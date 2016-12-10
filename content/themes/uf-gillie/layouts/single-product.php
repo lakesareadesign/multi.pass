@@ -258,10 +258,11 @@ $main->add_element("PostData", array (
         array (
           'col' => 12,
           'use_padding' => 'yes',
+          'hide' => 0,
         ),
         'current_property' =>
         array (
-          0 => 'lock_padding',
+          0 => 'hide',
         ),
         'mobile' =>
         array (
@@ -312,10 +313,11 @@ $main->add_element("PostData", array (
         array (
           'col' => 12,
           'use_padding' => 'yes',
+          'hide' => 0,
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'hide',
         ),
         'mobile' =>
         array (
@@ -366,10 +368,11 @@ $main->add_element("PostData", array (
         array (
           'col' => 12,
           'use_padding' => 'yes',
+          'hide' => 0,
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'hide',
         ),
         'mobile' =>
         array (

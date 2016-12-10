@@ -2,6 +2,7 @@
 
 /*
 Template Name: No Header/Footer
+Template Post Type: post, page
 */
 
 add_filter( 'fl_topbar_enabled', '__return_false' );

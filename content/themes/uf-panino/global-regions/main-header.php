@@ -350,15 +350,15 @@ $main_header->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 4604,
-         'menu-item-parent-id' => '0',
+         'menu-item-db-id' => 220,
+         'menu-item-parent-id' => 0,
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Our Story',
          'menu-item-url' => '{{upfront:home_url}}/our-story/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4604',
+         'menu-item-object-id' => '220',
          'menu-item-target' => '',
-         'menu-item-position' => 1,
+         'menu-item-position' => 0,
          'link' =>
         (array)(array(
            'type' => 'entry',
@@ -368,15 +368,15 @@ $main_header->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 4606,
-         'menu-item-parent-id' => '0',
+         'menu-item-db-id' => 223,
+         'menu-item-parent-id' => 0,
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Menu',
          'menu-item-url' => '{{upfront:home_url}}/our-menu/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4606',
+         'menu-item-object-id' => '223',
          'menu-item-target' => '',
-         'menu-item-position' => 2,
+         'menu-item-position' => 1,
          'link' =>
         (array)(array(
            'type' => 'entry',
@@ -386,15 +386,15 @@ $main_header->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 4610,
-         'menu-item-parent-id' => '0',
+         'menu-item-db-id' => 226,
+         'menu-item-parent-id' => 0,
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4610',
+         'menu-item-object-id' => '226',
          'menu-item-target' => '',
-         'menu-item-position' => 3,
+         'menu-item-position' => 2,
          'link' =>
         (array)(array(
            'type' => 'entry',
@@ -404,15 +404,15 @@ $main_header->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 4613,
-         'menu-item-parent-id' => '0',
+         'menu-item-db-id' => 229,
+         'menu-item-parent-id' => 0,
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Gallery',
          'menu-item-url' => '{{upfront:home_url}}/our-gallery/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4613',
+         'menu-item-object-id' => '229',
          'menu-item-target' => '',
-         'menu-item-position' => 4,
+         'menu-item-position' => 3,
          'link' =>
         (array)(array(
            'type' => 'entry',
@@ -422,19 +422,37 @@ $main_header->add_element("Unewnavigation", array (
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 4616,
-         'menu-item-parent-id' => '0',
+         'menu-item-db-id' => 232,
+         'menu-item-parent-id' => 0,
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Find Us',
          'menu-item-url' => '{{upfront:home_url}}/our-location/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '4616',
+         'menu-item-object-id' => '232',
          'menu-item-target' => '',
-         'menu-item-position' => 5,
+         'menu-item-position' => 4,
          'link' =>
         (array)(array(
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/our-location/',
+           'target' => '',
+        )),
+      )),
+      5 =>
+      (array)(array(
+         'menu-item-db-id' => 403,
+         'menu-item-parent-id' => 0,
+         'menu-item-type' => 'post_type',
+         'menu-item-title' => 'Store',
+         'menu-item-url' => '{{upfront:home_url}}/store/',
+         'menu-item-object' => 'page',
+         'menu-item-object-id' => '31',
+         'menu-item-target' => '',
+         'menu-item-position' => 6,
+         'link' =>
+        (array)(array(
+           'type' => 'entry',
+           'url' => '{{upfront:home_url}}/store/',
            'target' => '',
         )),
       )),
@@ -508,7 +526,7 @@ $main_header->add_element("Unewnavigation", array (
     ),
     'anchor' => '',
     'theme_style' => '',
-    'row' => 5,
+    'row' => 9,
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'use_padding' => 'yes',
@@ -538,7 +556,7 @@ $main_header->add_element("Unewnavigation", array (
     'top_padding_use' => 'yes',
     'top_padding_slider' => '15',
   ),
-  'row' => 6,
+  'row' => 9,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,

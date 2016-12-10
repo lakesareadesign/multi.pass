@@ -347,9 +347,9 @@ $widgets->add_element("Uwidget", array (
     'class' => 'c24 upfront-widget',
     'has_settings' => 1,
     'preset' => 'search-only',
-    'widget' => 'search-2',
+    'widget' => 'woocommerce_product_search-1',
     'element_id' => 'uwidget-object-1460027328779-1485',
-    'current_widget' => 'search-2',
+    'current_widget' => 'woocommerce_product_search-1',
     'current_widget_specific_settings' =>
     (array)(array(
        'widget-search-__i__-title' =>
@@ -372,9 +372,9 @@ $widgets->add_element("Uwidget", array (
     'anchor' => '',
     'current_widget_specific_fields' =>
     (array)(array(
-       'widget-search-__i__-title' =>
+       'widget-woocommerce_product_search-__i__-title' =>
       (array)(array(
-         'label' => 'Title: ',
+         'label' => 'Title',
          'name' => 'title',
          'type' => 'text',
          'value' => '',
@@ -398,9 +398,9 @@ $widgets->add_element("Uwidget", array (
     )),
     'widget_specific_fields' =>
     (array)(array(
-       'widget-search-__i__-title' =>
+       'widget-woocommerce_product_search-__i__-title' =>
       (array)(array(
-         'label' => 'Title: ',
+         'label' => 'Title',
          'name' => 'title',
          'type' => 'text',
          'value' => '',
@@ -424,6 +424,7 @@ $widgets->add_element("Uwidget", array (
       )),
     )),
     'current_preset' => 'search-only',
+    'theme_style' => '',
   ),
   'row' => 6,
   'sticky' => false,

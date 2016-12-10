@@ -48,6 +48,141 @@ $page_header = upfront_create_region(
 )
 			);
 
+$page_header->add_element("Uspacer", array (
+  'columns' => '3',
+  'class' => 'upfront-module-spacer',
+  'id' => 'module-1477318801633-1128',
+  'options' =>
+  array (
+    'type' => 'UspacerModel',
+    'view_class' => 'UspacerView',
+    'element_id' => 'spacer-object-1477318801633-1526',
+    'class' => 'c24 upfront-object-spacer',
+    'has_settings' => 0,
+    'id_slug' => 'uspacer',
+  ),
+  'wrapper_id' => 'wrapper-1477318801633-1925',
+  'default_hide' => 1,
+  'toggle_hide' => 0,
+  'hide' => 0,
+  'edited' => true,
+  'new_line' => true,
+));
+
+$page_header->add_element("Uwidget", array (
+  'columns' => '12',
+  'margin_left' => '0',
+  'margin_top' => '0',
+  'class' => 'upfront-widget_module',
+  'id' => 'module-1477318789575-1699',
+  'options' =>
+  array (
+    'id_slug' => 'uwidget',
+    'type' => 'UwidgetModel',
+    'view_class' => 'UwidgetView',
+    'class' => 'c24 upfront-widget',
+    'has_settings' => 1,
+    'preset' => 'default',
+    'widget' => 'woocommerce_product_search-1',
+    'element_id' => 'uwidget-object-1477318789575-1161',
+    'current_widget' => 'woocommerce_product_search-1',
+    'current_widget_specific_settings' => false,
+    'padding_slider' => '15',
+    'top_padding_num' => '50',
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'bottom_padding_num' => '0',
+    'lock_padding' => '',
+    'use_padding' => 'yes',
+    'usingNewAppearance' => true,
+    'row' => 5,
+    'anchor' => '',
+    'current_preset' => 'default',
+    'current_widget_specific_fields' =>
+    (array)(array(
+       'widget-woocommerce_product_search-__i__-title' =>
+      (array)(array(
+         'label' => 'Title',
+         'name' => 'title',
+         'type' => 'text',
+         'value' => '',
+      )),
+    )),
+    'title' => '',
+    'bottom_padding_use' => 'yes',
+    'bottom_padding_slider' => '0',
+    'top_padding_use' => 'yes',
+    'top_padding_slider' => '50',
+    'widget_specific_fields' =>
+    (array)(array(
+       'widget-woocommerce_product_search-__i__-title' =>
+      (array)(array(
+         'label' => 'Title',
+         'name' => 'title',
+         'type' => 'text',
+         'value' => '',
+      )),
+    )),
+  ),
+  'row' => 5,
+  'wrapper_id' => 'wrapper-1477318794952-1048',
+  'edited' => true,
+  'wrapper_breakpoint' =>
+  array (
+    'tablet' =>
+    array (
+      'clear' => true,
+      'col' => 12,
+      'order' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
+    'mobile' =>
+    array (
+      'clear' => true,
+      'col' => 7,
+      'order' => 1,
+    ),
+  ),
+  'breakpoint' =>
+  array (
+    'tablet' =>
+    array (
+      'col' => 12,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
+    ),
+    'mobile' =>
+    array (
+      'col' => 7,
+    ),
+  ),
+));
+
+$page_header->add_element("Uspacer", array (
+  'columns' => '9',
+  'class' => 'upfront-module-spacer',
+  'id' => 'module-1477318807798-1890',
+  'options' =>
+  array (
+    'type' => 'UspacerModel',
+    'view_class' => 'UspacerView',
+    'element_id' => 'spacer-object-1477318807798-1988',
+    'class' => 'c24 upfront-object-spacer',
+    'has_settings' => 0,
+    'id_slug' => 'uspacer',
+  ),
+  'wrapper_id' => 'wrapper-1477318807797-1477',
+  'default_hide' => 1,
+  'toggle_hide' => 0,
+  'hide' => 0,
+  'edited' => true,
+));
+
 $regions->add($page_header);
 
 $content = upfront_create_region(

@@ -3,7 +3,7 @@
     padding: 60px;
     position: relative;
 }
-.upfront-region-container-request-quote .upfront-module-group:before, .upfront-region-container-request-quote .upfront-output-module-group:before {
+.upfront-region-container-request-quote .upfront-module-group:before, .upfront-region-container-request-quote .upfront-output-module-group:before {	     	 			  	 	 	 	 
     background: url("/wp-content/themes/uf-scribe/ui/scissors.png");
     top: -28px;
     content: "";
@@ -14,4 +14,4 @@
 }
 
 
-/* 133620-1477324839-au */
+/* 133620-1481397524-au */

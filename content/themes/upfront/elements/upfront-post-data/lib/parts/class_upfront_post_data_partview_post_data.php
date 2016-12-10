@@ -162,6 +162,8 @@ class Upfront_Post_Data_PartView_Post_data extends Upfront_Post_Data_PartView {
 				$content = $this->_get_content_part($part, $content);
 			}
 		}
+
+		$content = apply_filters('upfront-postdata_get_markup_after', $content, $this->_post);
 /*
 		$left_indent = !empty($this->_data['left_indent']) && is_numeric($this->_data['left_indent'])
 			? (int)$this->_data['left_indent']

@@ -200,6 +200,10 @@ $content->add_element("PlainTxt", array (
       array (
       ),
        'current_property' => 'use_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
     )),
     'current_preset' => 'u-section-title-m',
   ),
@@ -362,6 +366,7 @@ $content->add_element("Uwidget", array (
        'mobile' =>
       (array)(array(
          'theme_style' => '',
+         'use_padding' => 'yes',
       )),
        'tablet' =>
       (array)(array(
@@ -371,7 +376,7 @@ $content->add_element("Uwidget", array (
          'top_padding_num' => 40,
          'use_padding' => 'yes',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
     )),
     'top_padding_use' => true,
     'top_padding_num' => 65,
@@ -640,6 +645,7 @@ $content->add_element("Posts", array (
        'mobile' =>
       (array)(array(
          'theme_style' => '',
+         'use_padding' => 'yes',
       )),
        'current_property' => 'use_padding',
     )),
@@ -660,7 +666,7 @@ $content->add_element("Posts", array (
       )),
        'tablet' =>
       (array)(array(
-         'preset' => 'list-mobile',
+         'preset' => 'list-tablet',
       )),
        'mobile' =>
       (array)(array(

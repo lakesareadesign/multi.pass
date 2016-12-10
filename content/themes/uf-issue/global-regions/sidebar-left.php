@@ -893,7 +893,7 @@ $sidebar_left->add_element("Uimage", array (
     'current_preset' => 'default',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
-    'lock_padding' => 0,
+    'lock_padding' => '',
   ),
   'row' => 6,
   'sticky' => false,
