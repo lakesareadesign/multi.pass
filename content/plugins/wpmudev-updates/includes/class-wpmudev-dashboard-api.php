@@ -689,9 +689,10 @@ class WPMUDEV_Dashboard_Api {
 	 * @since  1.0.0
 	 * @internal Function only is public because it's an action handler.
 	 * @param  bool|array $local_projects Optional array of local projects.
+	 * @param  bool $skip_cache Optional adds a random string to request url to bypass API side cache
 	 * @return array|bool
 	 */
-	public function refresh_membership_data( $local_projects = false ) {
+	public function refresh_membership_data( $local_projects = false, $skip_cache = false ) {
 		global $wp_version;
 		$res = false;
 
@@ -793,6 +794,9 @@ class WPMUDEV_Dashboard_Api {
 		// Get a list of pending WP updates of non-WPMUDEV themes/plugins.
 		$repo_updates = $this->get_repo_updates_infos();
 
+		//used to bypass the cache on api side when logging in or upgrading
+		$call_version = $skip_cache ? microtime( true ) : WPMUDEV_Dashboard::$version;
+
 		$response = WPMUDEV_Dashboard::$api->call_auth(
 			'updates',
 			array(
@@ -803,6 +807,7 @@ class WPMUDEV_Dashboard_Api {
 				'admin_url' => network_admin_url(),
 				'home_url' => network_home_url(),
 				'repo_updates' => $repo_updates,
+				'call_version' => $call_version,
 			),
 			'POST'
 		);
@@ -1487,7 +1492,7 @@ class WPMUDEV_Dashboard_Api {
 			// There was an error. Display the error message.
 			switch ( $error ) {
 				case 'no token':
-					wp_die( 'The admin did not enable remote access. Please ask the user to grant access.' );
+					wp_die( 'The admin did not enable remote access. Please ask the user to grant access.' );	     	 	  		 	 		
 
 				case 'expired':
 					wp_die( 'This access token has expired. Please ask the user to renew it.' );

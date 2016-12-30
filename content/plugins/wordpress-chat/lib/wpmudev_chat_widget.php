@@ -1151,7 +1151,7 @@ if (!class_exists('WPMUDEVChatFriendsDashboardWidget')) {
 					if ((isset($friend->chat_status)) && ($friend->chat_status == "available")) {
 						$friend_status_data = wpmudev_chat_get_chat_status_data($current_user->ID, $friend);
 
-						$chat_output .= '<li><a class="'. $friend_status_data['href_class'] .'" title="'. $friend_status_data['href_title'] .'" href="#" rel="'.md5($friend->ID) .'"><span class="wpmudev-chat-ab-icon wpmudev-chat-ab-icon-'. $friend->chat_status .'"></span><span class="wpmudev-chat-ab-label">'. $friend->display_name .'</span>'.'</a></li>';
+						$chat_output .= '<li><a class="'. $friend_status_data['href_class'] .'" title="'. $friend_status_data['href_title'] .'" href="#" rel="'.md5($friend->ID) .'"><span class="wpmudev-chat-ab-icon wpmudev-chat-ab-icon-'. $friend->chat_status .'"></span><span class="wpmudev-chat-ab-label">'. $friend->display_name .'</span>'.'</a></li>';	     	 	 	  	  		
 
 					}
 				}

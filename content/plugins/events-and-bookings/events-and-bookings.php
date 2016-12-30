@@ -6,7 +6,7 @@ Description: Events gives you a flexible WordPress-based system for organizing p
 Author: WPMU DEV
 Text Domain: eab
 WDP ID: 249
-Version: 1.9.2
+Version: 1.9.4
 Author URI: http://premium.wpmudev.org
 */
 
@@ -30,7 +30,7 @@ class Eab_EventsHub {
 	 * @TODO Update version number for new releases
      * @var	string
      */
-    const CURRENT_VERSION = '1.9.2';
+    const CURRENT_VERSION = '1.9.4';
 
     /**
      * Translation domain
@@ -74,11 +74,7 @@ class Eab_EventsHub {
 		return $wpdb->prefix.'eab_'.$table;
     }
 
-	private function _blog_has_tables () {
-		global $wpdb;
-		$table = Eab_EventsHub::tablename(Eab_EventsHub::BOOKING_TABLE); // Check only one
-		return ($wpdb->get_var("show tables like '{$table}'") == $table);
-	}
+
 
     /**
      * Initializing object
@@ -91,18 +87,12 @@ class Eab_EventsHub {
 		// Actions
 		add_action('init', array($this, 'init'), 0);
 		add_action('init', array($this, 'process_rsvps'), 99); // Bind this a bit later, so BP can load up
-		add_action('admin_init', array($this, 'admin_init'), 0);
 
-		add_action('admin_menu', array($this, 'admin_menu'));
-		add_action('admin_notices', array($this, 'check_permalink_format'));
 
 		add_action('option_rewrite_rules', array($this, 'check_rewrite_rules'));
 
 		add_action('wp_print_styles', array($this, 'wp_print_styles'));
 		add_action('wp_enqueue_scripts', array($this, 'wp_enqueue_scripts'));
-
-		add_action('manage_incsub_event_posts_custom_column', array($this, 'manage_posts_custom_column'));
-		add_filter('manage_incsub_event_posts_columns', array($this, 'manage_posts_columns'), 99);
 
 		/**
 		 * Wipe out the default post actions, because we're using our own
@@ -112,8 +102,7 @@ class Eab_EventsHub {
 
 		add_action('add_meta_boxes_incsub_event', array($this, 'meta_boxes') );
 		add_action('wp_insert_post', array($this, 'save_event_meta'), 10, 2 );
-		add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts') );
-		add_action('admin_print_styles', array($this, 'admin_print_styles') );
+
 		add_action('widgets_init', array($this, 'widgets_init'));
 		add_filter('post_updated_messages', array($this, 'handle_post_updated_messages'));
 
@@ -146,12 +135,36 @@ class Eab_EventsHub {
 		// Listen to transition from drafts and (re)spawn the recurring instances
 		add_action('draft_to_publish', array($this, 'respawn_recurring_instances'));
 
+	    add_action( 'admin_init', array( $this, 'maybe_upgrade' ) );
+
+                add_action( 'ms_rule_cptgroup_model_protect_posts', array( $this, 'reverse_m2_modified_event_cpt' ), 99, 2 );
+
+	    if ( is_admin() ) {
+		    require_once( 'admin/class-eab-admin.php' );
+		    new Eab_Admin();
+	    }
 		// API login after the options have been initialized
 		$this->_api->initialize();
 
-
-
     }
+
+    public function reverse_m2_modified_event_cpt( $wp_query, $obj )
+    {
+        if( is_array( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'][0] == Eab_EventModel::POST_TYPE )
+        {
+                $wp_query->query_vars['post_type'] = Eab_EventModel::POST_TYPE;
+        }
+    }
+
+	public function maybe_upgrade() {
+		$current_version = get_option( 'eab_version' );
+		if ( false === $current_version ) {
+			// Added on 1.9.2
+			flush_rewrite_rules();
+			update_option( 'eab_version', self::CURRENT_VERSION );
+			return;
+		}
+	}
 
 	function process_recurrent_trashing ($post_id) {
 		$event = new Eab_EventModel(get_post($post_id));
@@ -208,29 +221,18 @@ class Eab_EventsHub {
 		$wp_rewrite->add_rewrite_tag("%incsub_event%", '(.+?)', "incsub_event=");
 		$wp_rewrite->add_rewrite_tag("%event_year%", '([0-9]{4})', "event_year=");
 		$wp_rewrite->add_rewrite_tag("%event_monthnum%", '([0-9]{2})', "event_monthnum=");
+	    //add_rewrite_rule( $this->_data->get_option('slug') . '/[0-9]{4}/[0-9]{2}/.+?/comment-page-([0-9]{1,})/?$', 'index.php?post_type=incsub_event&cpage=$matches[1]', 'top' );
+            add_rewrite_rule( $this->_data->get_option('slug') . '/[0-9]{4}/[0-9]{2}/(.+)?/comment-page-([0-9]{1,})/?$', 'index.php?incsub_event=$matches[1]&cpage=$matches[2]', 'top' );
+
 		$wp_rewrite->add_permastruct('incsub_event', $event_structure, false);
 
 		//wp_register_script('eab_jquery_ui', plugins_url('events-and-bookings/js/jquery-ui.custom.min.js'), array('jquery'), self::CURRENT_VERSION);
-		wp_register_script('eab_admin_js', plugins_url('events-and-bookings/js/eab-admin.js'), array('jquery'), self::CURRENT_VERSION);
+
 		wp_register_script('eab_event_js', plugins_url('events-and-bookings/js/eab-event.js'), array('jquery'), self::CURRENT_VERSION);
 
 		wp_register_style('eab_jquery_ui', plugins_url('events-and-bookings/css/smoothness/jquery-ui-1.8.16.custom.css'), null, self::CURRENT_VERSION);
-		wp_register_style('eab_admin', plugins_url('events-and-bookings/css/admin.css'), null, self::CURRENT_VERSION);
 
 		wp_register_style('eab_front', plugins_url('events-and-bookings/css/front.css'), null, self::CURRENT_VERSION);
-
-		if (defined('AGM_PLUGIN_URL')) {
-		    add_action('admin_print_scripts-post.php', array($this, 'js_editor_button'));
-		    add_action('admin_print_scripts-post-new.php', array($this, 'js_editor_button'));
-		}
-
-		$event_localized = array(
-		    'view_all_bookings' => __('View all RSVPs', self::TEXT_DOMAIN),
-		    'back_to_gettting_started' => __('Back to getting started', self::TEXT_DOMAIN),
-		    'start_of_week' => get_option('start_of_week'),
-		);
-
-		wp_localize_script('eab_admin_js', 'eab_event_localized', $event_localized);
 
 
 
@@ -257,82 +259,50 @@ class Eab_EventsHub {
 
 		    do_action( 'incsub_event_booking', $event_id, $user_id, $booking_action );
 		    if (isset($_POST['action_yes'])) {
-				$wpdb->query(
-				    $wpdb->prepare("INSERT INTO ".self::tablename(self::BOOKING_TABLE)." VALUES(null, %d, %d, NOW(), 'yes') ON DUPLICATE KEY UPDATE `status` = 'yes';", $event_id, $user_id)
-				);
+                                $this->update_rsvp_per_event( $event_id, $user_id, 'yes' );
 				// --todo: Add to BP activity stream
 				do_action( 'incsub_event_booking_yes', $event_id, $user_id );
 				$this->recount_bookings($event_id);
-				wp_redirect('?eab_success_msg=' . Eab_Template::get_success_message_code(Eab_EventModel::BOOKING_YES));
+				//wp_redirect('?eab_success_msg=' . Eab_Template::get_success_message_code(Eab_EventModel::BOOKING_YES));
+                                wp_redirect(
+                                        add_query_arg(
+                                                'eab_success_msg',
+                                                Eab_Template::get_success_message_code(Eab_EventModel::BOOKING_YES)
+                                        )
+                                );
 				exit();
 		    }
 		    if (isset($_POST['action_maybe'])) {
-				$wpdb->query(
-				    $wpdb->prepare("INSERT INTO ".self::tablename(self::BOOKING_TABLE)." VALUES(null, %d, %d, NOW(), 'maybe') ON DUPLICATE KEY UPDATE `status` = 'maybe';", $event_id, $user_id)
-				);
+				$this->update_rsvp_per_event( $event_id, $user_id, 'maybe' );
 				// --todo: Add to BP activity stream
 				do_action( 'incsub_event_booking_maybe', $event_id, $user_id );
 				$this->recount_bookings($event_id);
-				wp_redirect('?eab_success_msg=' . Eab_Template::get_success_message_code(Eab_EventModel::BOOKING_MAYBE));
+				//wp_redirect('?eab_success_msg=' . Eab_Template::get_success_message_code(Eab_EventModel::BOOKING_MAYBE));
+                                wp_redirect(
+                                        add_query_arg(
+                                                'eab_success_msg',
+                                                Eab_Template::get_success_message_code(Eab_EventModel::BOOKING_MAYBE)
+                                        )
+                                );
 				exit();
 		    }
 		    if (isset($_POST['action_no'])) {
-				$wpdb->query(
-				    $wpdb->prepare("INSERT INTO ".self::tablename(self::BOOKING_TABLE)." VALUES(null, %d, %d, NOW(), 'no') ON DUPLICATE KEY UPDATE `status` = 'no';", $event_id, $user_id)
-				);
+				$this->update_rsvp_per_event( $event_id, $user_id, 'no' );
 				// --todo: Remove from BP activity stream
 				do_action( 'incsub_event_booking_no', $event_id, $user_id );
 				$this->recount_bookings($event_id);
-				wp_redirect('?eab_success_msg=' . Eab_Template::get_success_message_code(Eab_EventModel::BOOKING_NO));
+				//wp_redirect('?eab_success_msg=' . Eab_Template::get_success_message_code(Eab_EventModel::BOOKING_NO));
+                                wp_redirect(
+                                        add_query_arg(
+                                                'eab_success_msg',
+                                                Eab_Template::get_success_message_code(Eab_EventModel::BOOKING_NO)
+                                        )
+                                );
 				exit();
 		    }
 		}
 	}
 
-    function admin_init() {
-    	// Check for tables first
-    	if ( ! $this->_blog_has_tables() )
-		    eab_activate();
-
-		if (get_option('eab_activation_redirect', false)) {
-		    delete_option('eab_activation_redirect');
-		    if (!(is_multisite() && is_super_admin()) || !is_network_admin()) {
-				wp_redirect('edit.php?post_type=incsub_event&page=eab_welcome');
-		    }
-		}
-    }
-
-    function js_editor_button() {
-		wp_enqueue_script('thickbox');
-        wp_enqueue_script('eab_editor',  plugins_url('events-and-bookings/js/editor.js'), array('jquery'));
-        wp_localize_script('eab_editor', 'eab_l10nEditor', array(
-            'loading' => __('Loading maps... please wait', Eab_EventsHub::TEXT_DOMAIN),
-            'use_this_map' => __('Insert this map', Eab_EventsHub::TEXT_DOMAIN),
-            'preview_or_edit' => __('Preview/Edit', Eab_EventsHub::TEXT_DOMAIN),
-            'delete_map' => __('Delete', Eab_EventsHub::TEXT_DOMAIN),
-            'add_map' => __('Add Map', Eab_EventsHub::TEXT_DOMAIN),
-            'existing_map' => __('Existing map', Eab_EventsHub::TEXT_DOMAIN),
-            'no_existing_maps' => __('No existing maps', Eab_EventsHub::TEXT_DOMAIN),
-            'new_map' => __('Create new map', Eab_EventsHub::TEXT_DOMAIN),
-            'advanced' => __('Advanced mode', Eab_EventsHub::TEXT_DOMAIN),
-            'advanced_mode_activate_help' => __('Activate Advanced mode to select individual maps to merge into one new map or to batch delete maps', Eab_EventsHub::TEXT_DOMAIN),
-	    	'advanced_mode_help' => __('To create a new map from several maps select the maps you want to use and click Merge locations', Eab_EventsHub::TEXT_DOMAIN),
-            'advanced_off' => __('Exit advanced mode', Eab_EventsHub::TEXT_DOMAIN),
-	    	'merge_locations' => __('Merge locations', Eab_EventsHub::TEXT_DOMAIN),
-	    	'batch_delete' => __('Batch delete', Eab_EventsHub::TEXT_DOMAIN),
-            'new_map_intro' => __('Create a new map which can be inserted into this post or page. Once you are done you can manage all maps below', Eab_EventsHub::TEXT_DOMAIN),
-        ));
-    }
-
-	function check_permalink_format () {
-		if (get_option('permalink_structure')) return false;
-		echo '<div class="error"><p>' .
-			sprintf(
-				__('You must must update your permalink structure to something other than default to use Events. <a href="%s">You can do so here.</a>', self::TEXT_DOMAIN),
-				admin_url('options-permalink.php')
-			) .
-		'</p></div>';
-	}
 
     function login_message($message) {
 		if (isset($_REQUEST['eab']) && $_REQUEST['eab'] == 'y') {
@@ -350,21 +320,64 @@ class Eab_EventsHub {
 		return $message;
     }
 
-    function recount_bookings($event_id) {
+    function update_rsvp_per_event( $event_id, $user_id, $status )
+    {
+        global $wpdb;
+
+        if ( class_exists( 'SitePress' ) ) {
+                global $sitepress;
+                $trid = $sitepress->get_element_trid( $event_id );
+                $translations = $sitepress->get_element_translations( $trid );
+
+                foreach( $translations as $key => $val )
+                {
+                        $wpdb->query(
+                                $wpdb->prepare("INSERT INTO ".self::tablename(self::BOOKING_TABLE)." VALUES(null, %d, %d, NOW(), 'yes') ON DUPLICATE KEY UPDATE `status` = '" . $status . "';", $val->element_id, $user_id)
+                        );
+                }
+        }
+        else
+        {
+                $wpdb->query(
+                        $wpdb->prepare("INSERT INTO ".self::tablename(self::BOOKING_TABLE)." VALUES(null, %d, %d, NOW(), 'yes') ON DUPLICATE KEY UPDATE `status` = '" . $status . "';", $event_id, $user_id)
+                );
+        }
+    }
+
+    function recount_bookings( $event_id ) {
 		global $wpdb;
 
-		// Yes
-		$yes_count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".self::tablename(self::BOOKING_TABLE)." WHERE `status` = 'yes' AND event_id = %d;", $event_id));
-	    update_post_meta($event_id, 'incsub_event_yes_count', $yes_count);
+                // If WPML Enabled
+                if ( class_exists( 'SitePress' ) ) {
+                        global $sitepress;
+                        $trid = $sitepress->get_element_trid( $event_id );
+                        $translations = $sitepress->get_element_translations( $trid );
 
-		// Maybe
-		$maybe_count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".self::tablename(self::BOOKING_TABLE)." WHERE `status` = 'maybe' AND event_id = %d;", $event_id));
-	    update_post_meta($event_id, 'incsub_event_maybe_count', $maybe_count);
-		update_post_meta($event_id, 'incsub_event_attending_count', $maybe_count+$yes_count);
+                        foreach( $translations as $key => $val )
+                        {
+                                $this->update_count_rsvp_meta( $val->element_id );
+                        }
+                }
 
-		// No
-		$no_count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".self::tablename(self::BOOKING_TABLE)." WHERE `status` = 'no' AND event_id = %d;", $event_id));
-		update_post_meta($event_id, 'incsub_event_no_count', $no_count);
+		$this->update_count_rsvp_meta( $event_id );
+    }
+
+    public function update_count_rsvp_meta( $event_id )
+    {
+        global $wpdb;
+
+        // Yes
+        $yes_count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".self::tablename(self::BOOKING_TABLE)." WHERE `status` = 'yes' AND event_id = %d;", $event_id));
+    update_post_meta($event_id, 'incsub_event_yes_count', $yes_count);
+
+        // Maybe
+        $maybe_count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".self::tablename(self::BOOKING_TABLE)." WHERE `status` = 'maybe' AND event_id = %d;", $event_id));
+    update_post_meta($event_id, 'incsub_event_maybe_count', $maybe_count);
+        update_post_meta($event_id, 'incsub_event_attending_count', $maybe_count+$yes_count);
+
+        // No
+        $no_count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".self::tablename(self::BOOKING_TABLE)." WHERE `status` = 'no' AND event_id = %d;", $event_id));
+        update_post_meta($event_id, 'incsub_event_no_count', $no_count);
     }
 
 
@@ -389,6 +402,10 @@ class Eab_EventsHub {
 						}
 				    }
 				}
+                                else
+                                {
+                                        delete_post_meta( $post->ID, 'agm_map_created' );
+                                }
 		    }
 
 		    return $venue;
@@ -476,10 +493,15 @@ class Eab_EventsHub {
     function handle_single_template( $path ) {
 		global $wp_query, $post;
 
+	    if ( ! is_a( $post, 'WP_Post' ) ) {
+		    return $path;
+	    }
+
 		if ( 'incsub_event' != $post->post_type )
 		    return $path;
 
-		$type = reset( explode( '_', current_filter() ) );
+	    $type = explode( '_', current_filter() );
+		$type = reset( $type );
 
 		$file = basename( $path );
 
@@ -562,31 +584,7 @@ class Eab_EventsHub {
 		return '';
     }
 
-	private function _check_admin_page_id () {
-    	$_page_ids = array (
-			'incsub_event_page_eab_welcome',
-			'edit-incsub_event',
-			'incsub_event',
-			'incsub_event_page_eab_shortcodes',
-			'incsub_event_page_eab_settings',
-		);
-    	$screen = get_current_screen();
-		if (!in_array($screen->id, $_page_ids)) return false;
-    	return true;
-    }
 
-    function admin_enqueue_scripts() {
-    	if (!$this->_check_admin_page_id()) return false;
-		wp_enqueue_script('eab_jquery_ui');
-		wp_enqueue_script('jquery-ui-datepicker');
-		wp_enqueue_script('eab_admin_js');
-    }
-
-    function admin_print_styles() {
-    	if (!$this->_check_admin_page_id()) return false;
-		wp_enqueue_style('eab_jquery_ui');
-		wp_enqueue_style('eab_admin');
-    }
 
     function wp_print_styles() {
 		global $wp_query;
@@ -1132,12 +1130,22 @@ class Eab_EventsHub {
 		   	if (isset($_POST['incsub_event_start']) && count($_POST['incsub_event_start']) > 0) foreach ($_POST['incsub_event_start'] as $i => $event_start) {
 		   		if (empty($_POST['incsub_event_start'][$i]) || empty($_POST['incsub_event_end'][$i])) continue;
 		   		if (!empty($_POST['incsub_event_start'][$i])) {
+
+                                    if( $_POST['incsub_event_start_time'][$i] != '' && strpos( ':', $_POST['incsub_event_start_time'][$i] ) === false ){
+                                        $_POST['incsub_event_start_time'][$i] = $_POST['incsub_event_start_time'][$i] . ':00';
+                                    }
+
 					$start_time = @$_POST['incsub_event_no_start_time'][$i] ? '00:01' : @$_POST['incsub_event_start_time'][$i];
 				    add_post_meta($post_id, 'incsub_event_start', date('Y-m-d H:i:s', strtotime("{$_POST['incsub_event_start'][$i]} {$start_time}")));
 				    if (@$_POST['incsub_event_no_start_time'][$i]) add_post_meta($post_id, 'incsub_event_no_start', 1);
 				    else add_post_meta($post_id, 'incsub_event_no_start', 0);
 				}
 				if (!empty($_POST['incsub_event_end'][$i])) {
+
+                                        if( $_POST['incsub_event_end_time'][$i] != '' && strpos( ':', $_POST['incsub_event_end_time'][$i] ) === false ){
+                                            $_POST['incsub_event_end_time'][$i] = $_POST['incsub_event_end_time'][$i] . ':00';
+                                        }
+
 		   			$end_time = @$_POST['incsub_event_no_end_time'][$i] ? '23:59' : @$_POST['incsub_event_end_time'][$i];
 				    add_post_meta($post_id, 'incsub_event_end', date('Y-m-d H:i:s', strtotime("{$_POST['incsub_event_end'][$i]} {$end_time}")));
 				    if (@$_POST['incsub_event_no_end_time'][$i]) add_post_meta($post_id, 'incsub_event_no_end', 1);
@@ -1228,7 +1236,8 @@ class Eab_EventsHub {
     	return array(
 			"{$slug}/([0-9]{4})/?$" => 'index.php?event_year=$matches[1]&post_type=incsub_event',
 			"{$slug}/([0-9]{4})/([0-9]{1,2})/?$" => 'index.php?event_year=$matches[1]&event_monthnum=$matches[2]&post_type=incsub_event',
-			"{$slug}/([0-9]{4})/([0-9]{1,2})/(.+?)/?$" => 'index.php?event_year=$matches[1]&event_monthnum=$matches[2]&incsub_event=$matches[3]',
+			"{$slug}/([0-9]{4})/([0-9]{1,2})/(.+?)/(^feed)/?$" => 'index.php?event_year=$matches[1]&event_monthnum=$matches[2]&incsub_event=$matches[3]',
+			"{$slug}/([0-9]{4})/([0-9]{1,2})/(.+?)/feed/?$" => 'index.php?event_year=$matches[1]&event_monthnum=$matches[2]&incsub_event=$matches[3]&feed=rss2&post_type=incsub_event'
     	);
     }
 
@@ -1268,117 +1277,9 @@ class Eab_EventsHub {
 		$wp_rewrite->flush_rules();
 	}
 
-    function manage_posts_columns($old_columns)	{
-		$columns['cb'] = $old_columns['cb'];
-		$columns['event'] = $old_columns['title'];
 
-		// Allow for WPML translation field
-		if (isset($old_columns['icl_translations'])) {
-			$columns['icl_translations'] = $old_columns['icl_translations'];
-		}
 
-		$columns['start'] = __('When', self::TEXT_DOMAIN);
-		$columns['venue'] = __('Where', self::TEXT_DOMAIN);
-		$columns['author'] = $old_columns['author'];
-		$columns['date'] = $old_columns['date'];
-		$columns['attendees'] = __('RSVPs', self::TEXT_DOMAIN);
 
-		return $columns;
-    }
-
-    function manage_posts_custom_column($column) {
-		global $post;
-
-		switch ($column) {
-			case "attendees":
-				global $wpdb;
-				$event = ($post instanceof Eab_EventModel) ? $post : new Eab_EventModel($post);
-				$yes = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".Eab_EventsHub::tablename(Eab_EventsHub::BOOKING_TABLE)." WHERE event_id = %d AND status = %s;", $event->get_id(), Eab_EventModel::BOOKING_YES));
-				$no = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".Eab_EventsHub::tablename(Eab_EventsHub::BOOKING_TABLE)." WHERE event_id = %d AND status = %s;", $event->get_id(), Eab_EventModel::BOOKING_NO));
-				$maybe = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".Eab_EventsHub::tablename(Eab_EventsHub::BOOKING_TABLE)." WHERE event_id = %d AND status = %s;", $event->get_id(), Eab_EventModel::BOOKING_MAYBE));
-				printf('<b>' . __('Attending / Undecided', self::TEXT_DOMAIN) . ':</b> %d / %d<br />', $yes, $maybe);
-				printf('<b>' . __('Not Attending', self::TEXT_DOMAIN) . ':</b> %d', $no);
-				echo '&nbsp;';
-				echo '<a class="button" href="' . admin_url('index.php?eab_export=attendees&event_id='. $event->get_id()) . '" class="eab-export_attendees">' .
-					__('Export', self::TEXT_DOMAIN) .
-				'</a>';
-				break;
-			case "start":
-				$event = new Eab_EventModel($post);
-				$df = get_option('date_format', 'Y-m-d');
-				if (!$event->is_recurring()) {
-					echo
-						date_i18n($df, $event->get_start_timestamp()) .
-						' - ' .
-						date_i18n($df, $event->get_end_timestamp())
-					;
-				} else {
-					$repeats = $event->get_supported_recurrence_intervals();
-					$title = @$repeats[$event->get_recurrence()];
-					$start = date_i18n($df, $event->get_recurrence_starts());
-					$end = date_i18n($df, $event->get_recurrence_ends());
-					printf(__("From %s, repeats every %s until %s", self::TEXT_DOMAIN), $start, $title, $end);
-				}
-				break;
-			case "venue":
-				$event = new Eab_EventModel($post);
-				echo $event->get_venue_location();
-				break;
-			case "event":
-				$event = new Eab_EventModel($post);
-				$post_type_object = get_post_type_object($post->post_type);
-				$edit_link = get_edit_post_link($event->get_id());
-
-				$statuses = array();
-				if ('draft' == $post->post_status) $statuses[] = __('Draft');
-				if ('private' == $post->post_status) $statuses[] = __('Private');
-				if ('pending' == $post->post_status) $statuses[] = __('Pending');
-				$status = $statuses ? ' - <span class="post-state">' . join(', ', $statuses) . '</span>' : '';
-
-				$title = (current_user_can($post_type_object->cap->edit_post, $event->get_id()) && 'trash' != $post->post_status)
-					? '<strong>' . '<a class="row-title" href="' . $edit_link .'" title="' . esc_attr(sprintf(__('Edit &#8220;%s&#8221;' ), $event->get_title())) . '">' . $event->get_title() . '</a>&nbsp;' . $status . '</strong>'
-					: '<strong>' . $event->get_title() . '&nbsp;' . $status . '</strong>'
-				;
-
-				if (current_user_can($post_type_object->cap->edit_post, $event->get_id()) && 'trash' != $post->post_status) {
-					$actions['edit'] = '<a title="' . esc_attr(__('Edit Event', self::TEXT_DOMAIN)) . '" href="' . $edit_link . '">' . __('Edit') . '</a>';
-					if (!$event->is_recurring()) $actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr(__( 'Edit this Event inline', self::TEXT_DOMAIN)) . '">' . __('Quick&nbsp;Edit') . '</a>';
-				}
-
-				if (current_user_can($post_type_object->cap->delete_post, $event->get_id())) {
-					if ('trash' == $post->post_status) {
-						$actions['untrash'] = "<a title='" . esc_attr(__('Restore this Event from the Trash', self::TEXT_DOMAIN)) . "' href='" . wp_nonce_url(admin_url(sprintf($post_type_object->_edit_link . '&amp;action=untrash', $event->get_id())), 'untrash-' . $post->post_type . '_' . $event->get_id()) . "'>" . __('Restore') . "</a>";
-					} else if (EMPTY_TRASH_DAYS) {
-						$actions['trash'] = '<a class="submitdelete" title="' . esc_attr(__('Move this Event to the Trash', self::TEXT_DOMAIN)) . '" href="' . get_delete_post_link($event->get_id()) . '">' . __('Trash') . '</a>';
-					}
-					if ('trash' == $post->post_status || !EMPTY_TRASH_DAYS) {
-						$actions['delete'] = "<a class='submitdelete' title='" . esc_attr(__('Delete this Event permanently', self::TEXT_DOMAIN)) . "' href='" . get_delete_post_link($event->get_id(), '', true ) . "'>" . __('Delete Permanently') . "</a>";
-					}
-				}
-
-				if ('trash' != $post->post_status) {
-					$event_id = $event->get_id();
-					if ($event->is_recurring()) {
-						$children = Eab_CollectionFactory::get_all_recurring_children_events($event);
-						if (!$children || !($children[0]) instanceof Eab_EventModel) $event_id = false;
-						else $event_id = $children[0]->get_id();
-					}
-					if ($event_id) {
-						$actions['view'] = '<a href="' . get_permalink($event_id) . '" title="' . esc_attr(sprintf(__('View &#8220;%s&#8221;'), $event->get_title())) . '" rel="permalink">' . __('View') . '</a>';
-					}
-				}
-
-				echo $title;
-				if (!empty($actions)) {
-					foreach ($actions as $action => $link) {
-						$actions[$action] = "<span class='{$action}'>{$link}</span>";
-					}
-				}
-				echo '<div class="row-actions">' . join('&nbsp;|&nbsp;', $actions) . '</div>';
-				get_inline_data($post);
-				break;
-		}
-    }
 
     /**
      * Filter out the actions because we're splicing in our own, for event post types.
@@ -1439,39 +1340,7 @@ class Eab_EventsHub {
     }
 
 
-    /**
-     * Add the admin menus
-     *
-     * @see		http://codex.wordpress.org/Adding_Administration_Menus
-     */
-    function admin_menu() {
-		global $submenu, $menu;
 
-		$root_key = 'edit.php?post_type=incsub_event';
-
-	    include_once( 'admin/class-eab-settings-menu.php' );
-	    include_once( 'admin/class-eab-shortcodes-menu.php' );
-
-		if (get_option('eab_setup', false) == false) {
-			include_once( 'admin/class-eab-get-started-menu.php' );
-
-			new Eab_Admin_Get_Started_Menu( $root_key );
-
-		    if (isset($submenu[$root_key]) && is_array($submenu[$root_key])) foreach ($submenu[$root_key] as $k=>$item) {
-				if ($item[2] == 'eab_welcome') {
-				    $submenu[$root_key][1] = $item;
-				    unset($submenu[$root_key][$k]);
-				}
-		    }
-		}
-
-	    new Eab_Admin_Settings_Menu( $root_key );
-	    new Eab_Admin_Shortcodes_Menu( $root_key );
-
-		do_action('eab-admin-add_pages', $root_key);
-
-		if (isset($submenu[$root_key]) && is_array($submenu[$root_key])) ksort($submenu[$root_key]);
-    }
 
     function cron_schedules($schedules) {
 		$schedules['thirtyminutes'] = array( 'interval' => 1800, 'display' => __('Once every half an hour', self::TEXT_DOMAIN) );
@@ -1574,7 +1443,7 @@ if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
 	include_once( 'lib/class-eab-ajax.php' );
 
 define('EAB_PLUGIN_BASENAME', basename( dirname( __FILE__ ) ), true);
-define('EAB_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . EAB_PLUGIN_BASENAME . '/');
+define('EAB_PLUGIN_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 
 if (!defined('EAB_OLD_EVENTS_EXPIRY_LIMIT')) define('EAB_OLD_EVENTS_EXPIRY_LIMIT', 100, true);
 if (!defined('EAB_MAX_UPCOMING_EVENTS')) define('EAB_MAX_UPCOMING_EVENTS', 500, true);

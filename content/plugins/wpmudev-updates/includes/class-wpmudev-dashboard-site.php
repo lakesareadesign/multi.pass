@@ -88,6 +88,13 @@ class WPMUDEV_Dashboard_Site {
 	protected $option_hash = array();
 
 	/**
+	 * Allows specific private ajax actions to work for non-allowed users
+	 *
+	 * @var array Ajax actions that non-allowed users can access
+	 */
+	protected $ajax_allowed_bypasses = array();
+
+	/**
 	 * Flag that is tripped to schedule api refresh right before display output (avoid multiple)
 	 *
 	 * @var bool
@@ -160,6 +167,8 @@ class WPMUDEV_Dashboard_Site {
 		foreach ( $ajax_actions as $action ) {
 			add_action( "wp_ajax_$action", array( $this, 'process_ajax' ) );
 		}
+
+		$this->ajax_allowed_bypasses = array( 'changelog' );
 
 		$nopriv_ajax_actions = array(
 			'wdpunauth',
@@ -618,8 +627,8 @@ class WPMUDEV_Dashboard_Site {
 			);
 		}
 
-		// Do nothing if the user is not allowed to use the Dashboard.
-		if ( ! $this->allowed_user() ) {
+		// Do nothing if the user is not allowed to use the Dashboard. Exception for specific ajax actions
+		if ( ! in_array( $action, $this->ajax_allowed_bypasses ) && ! $this->allowed_user() ) {
 			wp_send_json_error(
 				array( 'message' => __( 'Sorry, you are not allowed to do this.', 'wpmudev' ) )
 			);

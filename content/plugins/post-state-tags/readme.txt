@@ -3,8 +3,8 @@ Contributors: brandbrilliance
 Donate link: http://j.mp/1QvdGgX
 Tags: wp-admin, admin, post state, color, post colours, list, highlight
 Requires at least: 3.8
-Tested up to: 4.6
-Stable tag: 1.1.5
+Tested up to: 4.7
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,9 @@ add_filter( 'bb_pst_lightvalue', 'my_lightvalue', 10, 2 );
 3. Screenshot showing the Settings interface where you can adjust settings like colors, icons 
 
 == Changelog ==
+
+= 1.1.6 =
+* Replace admin url function in settings
 
 = 1.1.5 =
 * Fixed installation bug where icons weren't setup correctly (finally)

@@ -85,7 +85,7 @@ class UB_Blog_Favicons extends WP_List_Table{
 		$order_columns = isset( $_GET["orderby"] ) && $_GET['orderby'] === "d" ? "domain" :  "blog_id";
 
 
-		$q = $wpdb->prepare( "SELECT *  FROM $wpdb->blogs WHERE `public`=1 AND  `deleted`=0 AND `blog_id` != %d ORDER BY $order_columns $order_type  LIMIT %d offset %d", get_current_blog_id(),  $per_page, $offset  );
+		$q = $wpdb->prepare( "SELECT *  FROM $wpdb->blogs WHERE `deleted`=0 AND `blog_id` != %d ORDER BY $order_columns $order_type  LIMIT %d offset %d", get_current_blog_id(),  $per_page, $offset  );
 
 		$total_items = $wpdb->get_row(  "SELECT count(blog_id) as count  FROM $wpdb->blogs WHERE `public`=1 AND `deleted`=0 ", OBJECT );
 		$total_items = $total_items->count;

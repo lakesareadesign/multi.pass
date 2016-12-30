@@ -3,7 +3,7 @@
 Plugin Name: Pretty Plugins
 Plugin URI: http://premium.wpmudev.org/project/pretty-plugins/
 Description: Give your plugin page the look of an app store, with featured images, categories, and amazing search.
-Version: 1.5
+Version: 1.5.2
 Network: true
 Text Domain: wmd_prettyplugins
 Author: WPMU DEV
@@ -144,11 +144,12 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 			trigger_error(sprintf(__('Pretty Plugins only works in multisite configuration. You can read more about it <a href="%s" target="_blank">here</a>.', 'wmd_prettyplugins'), 'http://codex.wordpress.org/Create_A_Network'),E_USER_ERROR);
 		else {
 			//create folder for custom themes
-			if (!$this->plugins_config_version && is_dir($this->plugin_dir_custom)) {
-				mkdir($this->plugin_dir_custom);
-				if (!is_dir($this->plugin_dir_custom.'themes/'))
+			if (!$this->plugins_config_version) {
+				if(!is_dir($this->plugin_dir_custom))
+					mkdir($this->plugin_dir_custom);
+				if(!is_dir($this->plugin_dir_custom.'themes/'))
 					mkdir($this->plugin_dir_custom.'themes/');
-				if (!is_dir($this->plugin_dir_custom).'screenshots/')
+				if(!is_dir($this->plugin_dir_custom.'screenshots/'))
 					mkdir($this->plugin_dir_custom.'screenshots/');
 			}
 
@@ -292,7 +293,7 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 			wp_register_style('wmd-prettyplugins-theme', $this->current_theme_details['dir_url'].'style.css', array(), '7');
 			wp_enqueue_style('wmd-prettyplugins-theme');
 
-			wp_register_script('wmd-prettyplugins-theme', $this->current_theme_details['dir_url'].'theme.js', array('jquery', 'backbone', 'wp-backbone'), '7', true);
+			wp_register_script('wmd-prettyplugins-theme', $this->current_theme_details['dir_url'].'theme.js', array('jquery', 'backbone', 'wp-backbone'), '8', true);
 			wp_enqueue_script('wmd-prettyplugins-theme');
 
 			//used on old theme only?
@@ -311,17 +312,19 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 		}
 		//register scripts and styles for network plugin page
 		elseif($hook == 'plugins.php' && is_network_admin() && (!isset($_GET['plugin_status']) || (isset($_GET['plugin_status']) && $_GET['plugin_status'] != 'mustuse' && $_GET['plugin_status'] != 'dropins'))) {
-			wp_register_style('wmd-prettyplugins-network-admin', $this->plugin_dir_url.'css/network-admin.css');
+			wp_register_style('wmd-prettyplugins-network-admin', $this->plugin_dir_url.'css/network-admin.css', array(), 2);
 			wp_enqueue_style('wmd-prettyplugins-network-admin');
 
 			wp_register_script('wmd-prettyplugins-network-admin', $this->plugin_dir_url.'js/network-admin.js', false, true);
 			wp_enqueue_script('wmd-prettyplugins-network-admin');
 
 			$network_only_plugins = array();
+			if(!apply_filters('wmd_prettyplugins_allow_network_plugins_details_editing', false)) {
 			$plugins = apply_filters('all_plugins', get_plugins());
 			foreach ($plugins as $path => $plugin)
 				if($plugin['Network'])
 					$network_only_plugins[] = $path;
+			}
 
 			$plugins_custom_data_ready = $this->get_converted_plugins_data_for_js($this->get_merged_plugins_custom_data());
 
@@ -365,7 +368,9 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 
 		$plugins_categories = $this->get_merged_plugins_categories();
 
-		$plugins_default_data = apply_filters('all_plugins', get_plugins());
+		if(!function_exists('get_plugins'))
+			require_once ABSPATH.'wp-admin/includes/plugin.php';
+		$plugins_default_data = $plugins ? get_plugins() : apply_filters('all_plugins', get_plugins());
 		$plugins_custom_data = $this->get_merged_plugins_custom_data();
 
 		//remove details for plugins that do not exists
@@ -379,14 +384,19 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 		$this->plugins_data = array(); //this is being set globally because it later can be reused by themes that need variable
 		foreach($plugins_orginal as $plugin_path => $plugin) {
 			//lets see if it is valid plugin
-			if(
+			if(!apply_filters('wmd_prettyplugins_force_plugin_on_list', false, $plugin, $plugin_path, $plugins)) {
+				if($plugins) {
+					if(!in_array($plugin_path, $plugins))
+						continue;
+				}
+				elseif(
 				(isset($plugin['Network']) && $plugin['Network']) ||
 				$plugin_path == 'pretty-plugins/pretty-plugins.php' ||
 				!isset($plugin['Name']) ||
-				is_plugin_active_for_network($plugin_path) ||
-				($plugins && !in_array($plugin_path, $plugins))
+					is_plugin_active_for_network($plugin_path)
 			)
 				continue;
+			}
 
 			$plugin_prepare = $plugin;
 
@@ -469,7 +479,7 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 
 			$plugin_prepare['ActionsValues'] = array_values($plugin_prepare['Actions']);
 
-			$this->plugins_data[$plugin_path] = $plugin_prepare;
+			$this->plugins_data[$plugin_path] = apply_filters('wmd_prettyplugins_plugins_data', $plugin_prepare);
 		}
 
 		uasort($this->plugins_data, array($this,'compare_by_name'));
@@ -574,7 +584,7 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 
 	function network_admin_plugin_action_links($actions, $plugin_file, $plugin_data) {
 		//adds edit details link
-		if(((isset($plugin_data['Network']) && !$plugin_data['Network']) || !isset($plugin_data['Network'])) && (!isset($_GET['plugin_status']) || (isset($_GET['plugin_status']) && $_GET['plugin_status'] != 'mustuse' && $_GET['plugin_status'] != 'dropins')))
+		if(((isset($plugin_data['Network']) && !$plugin_data['Network']) || !isset($plugin_data['Network']) || apply_filters('wmd_prettyplugins_allow_network_plugins_details_editing', false)) && (!isset($_GET['plugin_status']) || (isset($_GET['plugin_status']) && $_GET['plugin_status'] != 'mustuse' && $_GET['plugin_status'] != 'dropins')))
 			array_splice($actions, 1, 0, '<a href="#'.$plugin_file.'" title="'.__('Edit plugin details like title, discription, image and categories', 'wmd_prettyplugins').'" class="edit_details">'.__('Edit Details', 'wmd_prettyplugins').'</a>');
 
 		//changes edit link to edit code for clarity

@@ -198,7 +198,7 @@ class WMD_PrettyThemes_Functions {
 			$possible_data = array('Name', 'Description', 'Categories', 'CustomLink', 'CustomLinkLabel', 'ScreenShot', 'ScreenShotID');
 			$strip_slashes = array('Name', 'Description', 'CustomLinkLabel');
 			foreach ($possible_data as $possible_data_name) {
-				if(in_array($possible_data_name, $strip_slashes))
+				if(in_array($possible_data_name, $strip_slashes) && isset($details[$possible_data_name]))
 					$details[$possible_data_name] = stripslashes($details[$possible_data_name]);
 
 				$details[$possible_data_name] = (isset($details[$possible_data_name]) && !empty($details[$possible_data_name])) ? $details[$possible_data_name] : null;
@@ -294,10 +294,10 @@ class WMD_PrettyThemes_Functions {
 						$theme_category_key = array_search($this->themes_categories_config[$theme_category_key], $this->themes_categories);
 
 					if(isset($themes_categories[$theme_category_key])) {
-						$categories[] = $themes_categories[$theme_category_key];
-						$categories_keys[] = $theme_category_key;
-						$theme['categories'] = implode(', ', $categories);
-						$theme['categories_keys'] = $categories_keys;
+					$categories[] = $themes_categories[$theme_category_key];
+					$categories_keys[] = $theme_category_key;
+					$theme['categories'] = implode(', ', $categories);
+					$theme['categories_keys'] = $categories_keys;
 					}
 				}
 			}

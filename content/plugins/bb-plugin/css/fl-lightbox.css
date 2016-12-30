@@ -114,6 +114,7 @@
 	font-weight: 300 !important;
 	margin: 0 !important;
 	padding: 15px 20px !important;
+	text-align: left!important;
 }
 .fl-lightbox.ui-draggable .fl-lightbox-header {
 	cursor: move;

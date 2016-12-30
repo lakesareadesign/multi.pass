@@ -78,7 +78,7 @@ jQuery(function ($) {
             if( $( '.file-upload-name' ).closest( '.webui-popover' ).length ) {
                 //console.log( $( '.file-upload-name' ).closest( '.webui-popover' ).html() );
                 //$( '.file-upload-name' ).closest( '.webui-popover' ).show();
-                $('.add-file').click();
+                //$('.add-file').click();
             }
         });
 
@@ -150,6 +150,8 @@ jQuery(function ($) {
     });
     $('body').on('click', '.igu-file-delete', function (e) {
         e.preventDefault();
+        var key = 'igu_uploader_' + $(this).closest('section').parent().parent().attr('id');
+        igu_uploader = window[key];
         var id = $(this).data('id');
         var that = $(this);
         var parent = $('#igu-media-file-' + id);

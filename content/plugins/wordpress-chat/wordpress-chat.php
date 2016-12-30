@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/wordpress-chat-plugin
 Description: Provides you with a fully featured chat area either in a post, page, widget or bottom corner of your site. Support BuddyPress Group chat and private chats between logged in users.
 Author: WPMU DEV
 WDP ID: 159
-Version: 2.1.3
+Version: 2.2
 Author URI: http://premium.wpmudev.org
 Text Domain: wordpress_chat
 Domain Path: /languages
@@ -22,9 +22,10 @@ if ( ( ! defined( 'WPMUDEV_CHAT_SHORTINIT' ) ) || ( WPMUDEV_CHAT_SHORTINIT != tr
 	include_once( dirname( __FILE__ ) . '/lib/wpmudev_chat_widget.php' );
 	include_once( dirname( __FILE__ ) . '/lib/wpmudev_chat_buddypress.php' );
 }
+
 if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 	class WPMUDEV_Chat {
-		var $chat_current_version = '2.1.3';
+		var $chat_current_version = '2.2';
 		var $translation_domain = 'wordpress-chat';
 
 		/**
@@ -120,6 +121,10 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 			add_action( 'plugins_loaded', array( &$this, 'plugins_loaded' ) );
 
 			add_action( 'admin_init', array( &$this, 'admin_init' ) );
+
+			//Fix for easy Blogging
+			add_action('current_screen', array( $this, 'enqueue_chat_style') );
+
 			add_action( 'admin_head', array( &$this, 'wp_head' ) );
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ) );
 			add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
@@ -1105,6 +1110,7 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 						'chat_wp_toolbar_show_status'           => 'enabled',
 						'chat_wp_toolbar_show_friends'          => 'enabled',
 						'chat_users_listing'                    => 'disabled',
+						'chat_dashboard'						=> 'enabled',
 						'chat_dashboard_widget'                 => 'disabled',
 						'chat_dashboard_widget_height'          => '',
 						'chat_dashboard_status_widget'          => 'disabled',
@@ -1234,7 +1240,6 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 		 * Here we are loafing both the front-end and admin header hooks. This cuts down on duplicate coding.
 		 */
 		function wp_head() {
-
 			$_SHOW_SITE_CHAT = true;
 
 			if ( is_admin() ) {
@@ -1251,76 +1256,17 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 				wp_print_styles( array_values( $this->_registered_styles ) );
 			}
 			if ( $_SHOW_SITE_CHAT == true ) {
-
+				$site = '';
 				if ( is_multisite() ) {
 					$this->site_content .= $this->chat_network_site_box_container();
-
-					$site_box_height     = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_height', 'network-site' ), array( 'px' ) );
-					$site_box_position_v = $this->get_option( 'box_position_v', 'network-site' );
-					$site_box_position_h = $this->get_option( 'box_position_h', 'network-site' );
-					$site_box_offset_v   = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_offset_v', 'network-site' ), array( 'px' ) );
-					$site_box_offset_h   = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_offset_h', 'network-site' ), array( 'px' ) );
-					$site_box_spacing_h  = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_spacing_h', 'network-site' ), array( 'px' ) );
-
-					$site_box_shadow        = $this->get_option( 'box_shadow_show', 'network-site' );
-					$site_box_shadow_v      = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_v', 'network-site' ), array( 'px' ) );
-					$site_box_shadow_h      = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_h', 'network-site' ), array( 'px' ) );
-					$site_box_shadow_blur   = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_blur', 'network-site' ), array( 'px' ) );
-					$site_box_shadow_spread = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_spread', 'network-site' ), array( 'px' ) );
-					$site_box_shadow_color  = $this->get_option( 'box_shadow_color', 'network-site' );
+					$site = "network-site";
 				}
 
 				if ( empty( $this->site_content ) ) {
 					$this->site_content .= $this->chat_site_box_container();
-
-					$site_box_height     = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_height', 'site' ), array( 'px' ) );
-					$site_box_position_v = $this->get_option( 'box_position_v', 'site' );
-					$site_box_position_h = $this->get_option( 'box_position_h', 'site' );
-					$site_box_offset_v   = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_offset_v', 'site' ), array( 'px' ) );
-					$site_box_offset_h   = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_offset_h', 'site' ), array( 'px' ) );
-					$site_box_spacing_h  = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_spacing_h', 'site' ), array( 'px' ) );
-
-					$site_box_shadow        = $this->get_option( 'box_shadow_show', 'site' );
-					$site_box_shadow_v      = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_v', 'site' ), array( 'px' ) );
-					$site_box_shadow_h      = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_h', 'site' ), array( 'px' ) );
-					$site_box_shadow_blur   = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_blur', 'site' ), array( 'px' ) );
-					$site_box_shadow_spread = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_spread', 'site' ), array( 'px' ) );
-					$site_box_shadow_color  = $this->get_option( 'box_shadow_color', 'site' );
-
+					$site = "site";
 				}
-
-				if ( $site_box_position_h == "left" ) {
-					$site_box_spacing = "0 " . $site_box_spacing_h . ' 0 0';
-				} else {
-					$site_box_spacing = "0 0 0 " . $site_box_spacing_h . '';
-				}
-
-				$site_box_float      = $site_box_position_h;
-				$site_box_position_h = $site_box_position_h . ': ' . $site_box_offset_h . ';';
-
-				$height_offset = 0;
-				if ( $site_box_position_v == "bottom" ) {
-					$border_width = intval( $this->get_option( 'box_border_width', 'site' ) );
-					if ( $border_width > 0 ) {
-						$height_offset = wpmudev_chat_check_size_qualifier( $border_width * 2, array( 'px' ) );
-					}
-				}
-
-				$site_box_position_v = $site_box_position_v . ': ' . $site_box_offset_v . ';';
-
-				echo '<style type="text/css" id="wpmudev-chat-box-site-css">';
-				echo 'div.wpmudev-chat-box.wpmudev-chat-box-site {  margin: 0; padding: 0; position: fixed; ' . $site_box_position_h . ' ' . $site_box_position_v . ' z-index: 10000;  margin: ' . $site_box_spacing . '; padding: 0; ';
-
-				if ( $site_box_shadow == "enabled" ) {
-					echo 'box-shadow: ' .
-					     $site_box_shadow_v . ' ' .
-					     $site_box_shadow_h . ' ' .
-					     $site_box_shadow_blur . ' ' .
-					     $site_box_shadow_spread . ' ' .
-					     $site_box_shadow_color . ' ';
-				}
-				echo ' } ';
-				echo '</style>';
+				echo $this->site_wide_chat_style( $site );
 			}
 
 			// Are we viewing the chat logs?
@@ -1928,9 +1874,6 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 		}
 
 		/**
-		 *
-		 *
-		 * @global    none
 		 *
 		 * @param    none
 		 *
@@ -2858,13 +2801,9 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 						} ?>>
 							<th><label for="wpmudev_chat_dashboard_widget"><?php
 									_e( 'Show Chat Widget on Dashboard', $this->translation_domain ); ?></label></th>
-							<td>
+                            <td>
 								<?php
-								if ( is_network_admin() ) {
-									$item_key = 'chat_network_dashboard_widget';
-								} else {
-									$item_key = 'chat_dashboard_widget';
-								}
+								$item_key = is_network_admin() ? $item_key = 'chat_network_dashboard_widget' : $item_key = 'chat_dashboard_widget';
 								?>
 								<select name="wpmudev_chat_user_settings[<?php echo $item_key; ?>]"
 								        id="wpmudev_chat_dashboard_widget">
@@ -2876,20 +2815,11 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 										echo ' selected="selected" ';
 									} ?>><?php
 										_e( 'Disabled', $this->translation_domain ); ?></option>
-								</select>
-
-								<div
-									id="wpmudev_chat_dashboard_widget_options" <?php if ( $user_meta[ $item_key ] == 'disabled' ) {
-									echo ' style="display:none;" ';
-								} ?>
-								<?php
-								if ( is_network_admin() ) {
-									$item_option_key = 'chat_network_dashboard_widget_height';
-								} else {
-									$item_option_key = 'chat_dashboard_widget_height';
-								}
-								?>
-
+                                </select>
+                                <div id="wpmudev_chat_dashboard_widget_options" <?php echo $user_meta[ $item_key ] == 'disabled' ? ' style="display:none;" ' : ''; ?>
+	                            <?php
+									$item_option_key = is_network_admin() ? 'chat_network_dashboard_widget_height' : 'chat_dashboard_widget_height';
+                                ?>
 								<p>
 									<label
 										for="wpmudev_chat_dashboard_widget_height"><?php _e( 'Height of Chat Widget', $this->translation_domain ); ?></label><br/><input
@@ -2980,10 +2910,10 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 										_e( 'Disabled', $this->translation_domain ); ?></option>
 								</select><br/>
 
-								<div
-									id="wpmudev_chat_dashboard_friends_widget_options" <?php if ( $user_meta[ $item_key ] == 'disabled' ) {
+								<div id="wpmudev_chat_dashboard_friends_widget_options" <?php if ( $user_meta[ $item_key ] == 'disabled' ) {
 									echo ' style="display:none;" ';
 								} ?>
+								>
 								<?php
 								if ( is_network_admin() ) {
 									$item_option_key = 'chat_network_dashboard_friends_widget_height';
@@ -3817,6 +3747,8 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 						$users_list_moderator_avatar_border_color = $chat_session['users_list_background_color'];
 					}
 					if ( $users_list_moderator_avatar_border_color ) {
+						$content .= $CSS_prefix . '.wpmudev-chat-box-moderator div.wpmudev-chat-module-users-list ul.wpmudev-chat-moderators li.wpmudev-chat-user a img {
+						border-color: ' . $users_list_moderator_avatar_border_color . '; }';
 						$content .= $CSS_prefix . ' div.wpmudev-chat-module-users-list ul.wpmudev-chat-moderators li.wpmudev-chat-user a img {
 						border-color: ' . $users_list_moderator_avatar_border_color . '; }';
 					}
@@ -4839,7 +4771,7 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 				}
 
 				//Convert to timezone
-				$date = get_date_from_gmt( $row->timestamp, $row_date_format );
+				$date = $this->get_wp_timestamp( $row->timestamp, $row_date_format );
 
 				//Translate
 				$date = date_i18n( $row_date_format, strtotime( $date ) );
@@ -4856,7 +4788,7 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 					$row_time_format = get_option( 'time_format' );
 				}
 
-				$row_date_time .= '<span class="time">' . get_date_from_gmt( $row->timestamp, $row_time_format ) . '</span>';
+				$row_date_time .= '<span class="time">' . $this->get_wp_timestamp( $row->timestamp, $row_time_format ) . '</span>';
 			}
 			if ( ! empty( $row_date_time ) ) {
 				$row_date_time = "<br />" . $row_date_time;
@@ -4907,6 +4839,35 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 		}
 
 		/**
+		 * Format Time as per the timezone
+         *
+		 * @param    datetime, time format
+		 *
+		 * @return    date / time
+		 */
+		function get_wp_timestamp( $time, $format = 'H:i:s' ) {
+
+			$timezone_str = get_option( 'timezone_string' );
+			$gmt_offset   = get_option( 'gmt_offset' );
+
+			//Get timezone string from offset
+			if ( empty( $timezone_str ) && ! empty( $gmt_offset ) ) {
+				$timezone_str = timezone_name_from_abbr( "", $gmt_offset * 3600, false );
+			}
+
+			if ( class_exists( 'DateTimeZone' ) && function_exists( 'date_default_timezone_get' ) && ! empty( $timezone_str ) ) {
+				$date = new DateTime( $time, new DateTimeZone( date_default_timezone_get() ) );
+				$date->setTimezone( new DateTimeZone( $timezone_str ) );
+				$time = $date->format( $format );
+			} else {
+				$time = date( $format, strtotime( $time ) );
+			}
+
+			return $time;
+
+		}
+
+		/**
 		 *
 		 *
 		 * @global    none
@@ -4950,7 +4911,8 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 
 			if ( $this->use_public_auth( $chat_session ) ) {
 
-				$content .= '<div class="login-message">' . $this->get_option( 'noauth_login_message', $chat_session['session_type'] ) . '</div>';
+				$login_message = ! empty( $chat_session['noauth_login_message'] ) ? $chat_session['noauth_login_message'] : $this->get_option( 'noauth_login_message', $chat_session['session_type'] );
+				$content .= '<div class="login-message">' . $login_message . '</div>';
 
 				$content .= '<div id="chat-login-wrap-' . $chat_session['id'] . '" class="chat-login-wrap">';
 				$content .= '<p class="wpmudev-chat-login-error" style="color: #FF0000; display:none;"></p>';
@@ -7333,6 +7295,73 @@ if ( ! class_exists( 'WPMUDEV_Chat' ) ) {
 			}
 
 			return;
+		}
+
+		/**
+         * Prints the Style for Site wide chat
+         *
+		 * @param string $site
+         *
+		 */
+		function site_wide_chat_style ( $site = '' ) {
+			$site_box_height     = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_height', $site ), array( 'px' ) );
+			$site_box_position_v = $this->get_option( 'box_position_v', $site );
+			$site_box_position_h = $this->get_option( 'box_position_h', $site );
+			$site_box_offset_v   = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_offset_v', $site ), array( 'px' ) );
+			$site_box_offset_h   = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_offset_h', $site ), array( 'px' ) );
+			$site_box_spacing_h  = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_spacing_h', $site ), array( 'px' ) );
+
+			$site_box_shadow        = $this->get_option( 'box_shadow_show', $site );
+			$site_box_shadow_v      = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_v', $site ), array( 'px' ) );
+			$site_box_shadow_h      = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_h', $site ), array( 'px' ) );
+			$site_box_shadow_blur   = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_blur', $site ), array( 'px' ) );
+			$site_box_shadow_spread = wpmudev_chat_check_size_qualifier( $this->get_option( 'box_shadow_spread', $site ), array( 'px' ) );
+			$site_box_shadow_color  = $this->get_option( 'box_shadow_color', $site );
+
+			if ( $site_box_position_h == "left" ) {
+				$site_box_spacing = "0 " . $site_box_spacing_h . ' 0 0';
+			} else {
+				$site_box_spacing = "0 0 0 " . $site_box_spacing_h . '';
+			}
+
+			$site_box_float      = $site_box_position_h;
+			$site_box_position_h = $site_box_position_h . ': ' . $site_box_offset_h . ';';
+
+			$height_offset = 0;
+			if ( $site_box_position_v == "bottom" ) {
+				$border_width = intval( $this->get_option( 'box_border_width', 'site' ) );
+				if ( $border_width > 0 ) {
+					$height_offset = wpmudev_chat_check_size_qualifier( $border_width * 2, array( 'px' ) );
+				}
+			}
+
+			$site_box_position_v = $site_box_position_v . ': ' . $site_box_offset_v . ';';
+
+			echo '<style type="text/css" id="wpmudev-chat-box-site-css">';
+			echo 'div.wpmudev-chat-box.wpmudev-chat-box-site {  margin: 0; padding: 0; position: fixed; ' . $site_box_position_h . ' ' . $site_box_position_v . ' z-index: 10000;  margin: ' . $site_box_spacing . '; padding: 0; ';
+
+			if ( $site_box_shadow == "enabled" ) {
+				echo 'box-shadow: ' .
+				     $site_box_shadow_v . ' ' .
+				     $site_box_shadow_h . ' ' .
+				     $site_box_shadow_blur . ' ' .
+				     $site_box_shadow_spread . ' ' .
+				     $site_box_shadow_color . ' ';
+			}
+			echo ' } ';
+			echo '</style>';
+        }
+
+		/**
+		 * Fix for easy Blogging
+		 */
+		function enqueue_chat_style() {
+			if ( ! ( class_exists( 'Wdeb_AdminPages' ) ) ) {
+				return;
+			}
+			wp_enqueue_style( 'wpmudev-chat-style', plugins_url( '/css/wpmudev-chat-style.css', __FILE__ ), array(), $this->chat_current_version );
+			$site = is_multisite() ? 'network-site' : 'site';
+			$this->site_wide_chat_style( $site );
 		}
 	}
 } // End of class_exists()

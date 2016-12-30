@@ -25,6 +25,12 @@ class Agm_Fbnf_AdminPages {
 			'agm_google_maps-options-plugins_options',
 			array( $this, 'register_settings' )
 		);
+		/*
+		add_action(
+			'admin_notices',
+			array($this, 'admin_notice')
+		);
+		 */
 	}
 
 	public function register_settings() {
@@ -57,8 +63,27 @@ class Agm_Fbnf_AdminPages {
 		);
 	}
 
+	/**
+	 * Notify the admin user about the limitations
+	 */
+	public function admin_notice () {
+		if (!current_user_can('manage_options')) return false;
+		?>
+		<div class="notice notice-warning">
+			<p><?php
+				echo '<b>' . esc_html(__('Note:', AGM_LANG)) . '</b> ';
+				echo sprintf(esc_html(
+					__('Due to the deprecation of the needed features and permissions in Facebook API, the %s add-on will not work for newly created applications.', AGM_LANG)),
+					'&quot;Nearby Facebook Friends&quot;'
+				);
+			?></p>
+		</div>
+		<?php
+	}
+
 	public function create_fb_app_box() {
 		$fb_app_id = $this->_get_options( 'fb_app_id' );
+		$this->admin_notice();
 		?>
 		<input type="text"
 			name="agm_google_maps[fbnf-fb_app_id]"

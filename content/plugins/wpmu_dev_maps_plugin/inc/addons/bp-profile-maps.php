@@ -430,6 +430,78 @@ if ( defined( 'BP_PLUGIN_DIR' ) ) :
 		}
 
 		/**
+		 * Manually fold conflicting markers
+		 *
+		 * In cases when we have multiple profile markers on
+		 * the same location, but no map cluster add-on, we
+		 * use this to fold conflicting marker descriptions into
+		 * one single one.
+		 *
+		 * @param array $markers Markers to fold
+		 *
+		 * @return array Folded markers
+		 */
+		private function _fold_markers ($markers ) {
+			if (empty($markers) || !is_array($markers)) return $markers;
+			$folded = array();
+			$known = array();
+
+			$fold_by_key = apply_filters(
+				'agm_google_maps-bp_profile_map-fold_key',
+				'title'
+			);
+			$default_marker = apply_filters(
+				'agm_google_maps-bp_profile_map-fold_marker',
+				'marker.png'
+			);
+
+			foreach ($markers as $marker) {
+				$fold_key = !empty($marker[$fold_by_key])
+					? $marker[$fold_by_key]
+					: false
+				;
+				// Deal with non-scalar fold keys by
+				// converting them to string first
+				if (is_array($fold_key)) $fold_key = md5(serialize($fold_key));
+
+				if (empty($known[$fold_key])) $known[$fold_key] = array();
+				$known[$fold_key][] = $marker;
+			}
+			foreach ($known as $idx => $list) {
+				if (empty($list)) continue;
+
+				// Nothing to fold here, carry on
+				if (1 === count($list)) {
+					$folded[] = end($list);
+					continue;
+				}
+
+				$tmp = array();
+				$description = '';
+
+				foreach ($list as $mrk) {
+					if (empty($tmp['position'])) {
+						// First folded item, copy and be done with it
+						$tmp = array_merge($tmp, $mrk);
+					}
+					// Handle the cases when profile images are used as marker icons
+					$tmp['icon'] = $default_marker; // As this doesn't make sense anymore
+
+					$description .= '' .
+						(!empty($mrk['body']) ? $mrk['body'] : '') .
+					'';
+				}
+
+				// Let's wrap the body once more so we float properly
+				$tmp['body'] = '<div>' . $description . '</div>';
+
+				$folded[] = $tmp;
+			}
+
+			return $folded;
+		}
+
+		/**
 		 * Creates a map from a list of markers.
 		 */
 		private function _create_map( $markers, $id = false, $overrides = array() ) {
@@ -437,6 +509,12 @@ if ( defined( 'BP_PLUGIN_DIR' ) ) :
 				return false;
 			}
 			$id = $id ? $id : md5( time() . rand() );
+
+			if (!class_exists('Agm_Mc_UserPages')) {
+				// We don't have the map cluster add-on,
+				// so let's collapse the markers manually
+				$markers = $this->_fold_markers($markers);
+			}
 
 			$map = $this->_model->get_map_defaults();
 			$map['defaults'] = $this->_model->get_map_defaults();
@@ -538,7 +616,7 @@ if ( defined( 'BP_PLUGIN_DIR' ) ) :
 					$width = $height = 64;
 					break;
 			}
-			return bp_core_fetch_avatar(
+			$avatar = bp_core_fetch_avatar(
 				array(
 					'object' => 'user',
 					'item_id' => $user_id,
@@ -547,6 +625,13 @@ if ( defined( 'BP_PLUGIN_DIR' ) ) :
 					'html' => $as_html,
 				)
 			);
+
+			// Catch protocol-less avatars
+			if (preg_match('~^//~', $avatar)) {
+				$avatar = preg_replace('~^//~', (is_ssl() ? 'https://' : 'http://'), $avatar);
+			}
+
+			return $avatar;
 		}
 
 		/**

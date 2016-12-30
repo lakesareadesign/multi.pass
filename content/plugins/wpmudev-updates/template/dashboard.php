@@ -65,7 +65,7 @@ foreach ( $data['projects'] as $item ) {
 }
 
 // Render the page header section.
-$page_title = sprintf( __( 'Welcome, %s', 'wpmudev' ), $profile['name'] );	     	 	  		 	 		
+$page_title = sprintf( __( 'Welcome, %s', 'wpmudev' ), $profile['name'] );
 $this->render_header( $page_title );
 
 ?>

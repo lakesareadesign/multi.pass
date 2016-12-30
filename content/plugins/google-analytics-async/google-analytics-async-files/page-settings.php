@@ -90,12 +90,18 @@
                                         echo '<p class="description">'.__( 'Choose correct Google Analytics profile to use for displaying statistics inside WordPress admin panel. Please make sure that this is a profile used for network wide tracking.', $this->text_domain ).'</p>';
                                     }
                                     else {
+                                    if(isset($google_analytics_async_dashboard->error))
+                                        echo '<p class="description">'.$google_analytics_async_dashboard->error.'</p>';
+                                    else
                                         echo '<p class="description">'.__( 'You do not have any Google Analytics profiles to choose from. Please <a href="http://www.google.com/analytics/">create</a> new one.', $this->text_domain ).'</p>';
                                     }
                                 }
                                 else {
                                     echo '<p class="description">'.__( 'You need to login to google with the button above to enable this functionality.', $this->text_domain ).'</p>';
                                 }
+
+                            if(isset($this->current_settings['google_login_failure']))
+                                echo '<p hidden>Last error: '.$this->current_settings['google_login_failure'].'</p>';
                                 ?>
                             </td>
                         </tr>
@@ -124,6 +130,16 @@
 
                     <table class="form-table ga-advanced-tracking">
 
+                        <tr class="ga-anonymize-ip" valign="top">
+                            <th scope="row"><?php _e( 'IP Anonymization', $this->text_domain ); ?></th>
+                            <td>
+                                <label><input type="radio" name="anonymize_ip" value="1" <?php if ( !empty( $this->current_settings['track_settings']['anonymize_ip'] ) ) echo 'checked="checked"'; ?> /> <?php _e( 'Enable', $this->text_domain ) ?></label>
+                                <br />
+                                <label><input type="radio" name="anonymize_ip" value="0" <?php if ( empty( $this->current_settings['track_settings']['anonymize_ip'] ) ) echo 'checked="checked"'; ?> /> <?php _e( 'Disable', $this->text_domain ) ?></label>
+                                <p class="description"><?php _e( 'When enabled, the IP address of the visitor will be anonymized. You can read more about it <a href="https://support.google.com/analytics/answer/2763052?hl=en">here</a>.', $this->text_domain );?>
+                            </td>
+                        </tr>
+
                         <tr class="ga-display-advertising" valign="top">
                             <th scope="row"><?php _e( 'Support Display Advertising', $this->text_domain ); ?></th>
                             <td>
@@ -137,10 +153,10 @@
                         <tr class="ga-tracking-method" valign="top">
                             <th scope="row"><?php _e( 'Tracking Method', $this->text_domain ); ?></th>
                             <td>
-                                <label><input type="radio" name="track_method" value="classic" <?php if ( !isset($this->current_settings['track_settings']['track_method']) || (isset($this->current_settings['track_settings']['track_method']) && $this->current_settings['track_settings']['track_method'] == 'classic') ) echo 'checked="checked"'; ?> /> <?php _e( 'Classic Analytics', $this->text_domain ) ?></label>
+                                <label><input type="radio" name="track_method" value="universal" <?php if ( !isset($this->current_settings['track_settings']['track_method']) || $this->current_settings['track_settings']['track_method'] == 'universal') echo 'checked="checked"'; ?> /> <?php _e( 'Universal Analytics', $this->text_domain ) ?>
+                                <span class="description"><?php _e( 'You can read more about this method <a href="https://support.google.com/analytics/answer/2790010?hl=en-GB&ref_topic=2790009">here</a>.', $this->text_domain ); ?></span></label>
                                 <br />
-                                <label><input type="radio" name="track_method" value="universal" <?php if ( isset($this->current_settings['track_settings']['track_method']) && $this->current_settings['track_settings']['track_method'] == 'universal') echo 'checked="checked"'; ?> /> <?php _e( 'Universal Analytics', $this->text_domain ) ?>
-                            <span class="description"><?php _e( 'You can read more about this method <a href="https://support.google.com/analytics/answer/2790010?hl=en-GB&ref_topic=2790009">here</a>.', $this->text_domain ); ?></span></label>
+                                <label><input type="radio" name="track_method" value="classic" <?php if (isset($this->current_settings['track_settings']['track_method']) && $this->current_settings['track_settings']['track_method'] == 'classic' ) echo 'checked="checked"'; ?> /> <?php _e( 'Classic Analytics', $this->text_domain ) ?></label>
                                 <br />
                                 <label><input type="radio" name="track_method" value="both" <?php if ( isset($this->current_settings['track_settings']['track_method']) && $this->current_settings['track_settings']['track_method'] == 'both' ) echo 'checked="checked"'; ?> /> <?php _e( 'Use both', $this->text_domain ) ?>
                                 <span class="description"><?php _e( 'To use both, you need to have separate tracking code for universal analytics. Please add it here:', $this->text_domain ); ?></span>
@@ -354,13 +370,23 @@
                                 </td>
                             </tr>
 
+                            <tr class="ga-anonymize-ip" valign="top">
+                                <th scope="row"><?php _e( 'IP Anonymization', $this->text_domain ); ?></th>
+                                <td>
+                                    <label><input type="radio" name="anonymize_ip" value="1" <?php if ( !empty( $this->current_settings['track_settings']['anonymize_ip'] ) ) echo 'checked="checked"'; ?> /> <?php _e( 'Enable', $this->text_domain ) ?></label>
+                                    <br />
+                                    <label><input type="radio" name="anonymize_ip" value="0" <?php if ( empty( $this->current_settings['track_settings']['anonymize_ip'] ) ) echo 'checked="checked"'; ?> /> <?php _e( 'Disable', $this->text_domain ) ?></label>
+                                    <p class="description"><?php _e( 'When enabled, the IP address of the visitor will be anonymized. You can read more about it <a href="https://support.google.com/analytics/answer/2763052?hl=en">here</a>.', $this->text_domain );?>
+                                </td>
+                            </tr>
+
                             <tr class="ga-tracking-method" valign="top">
                                 <th scope="row"><?php _e( 'Tracking Method', $this->text_domain ); ?></th>
                                 <td>
-                                    <label><input type="radio" name="track_method" value="classic" <?php if ( !isset($this->current_settings['track_settings']['track_method']) || (isset($this->current_settings['track_settings']['track_method']) && $this->current_settings['track_settings']['track_method'] == 'classic') ) echo 'checked="checked"'; ?> /> <?php _e( 'Classic Analytics', $this->text_domain ) ?></label>
-                                    <br />
-                                    <label><input type="radio" name="track_method" value="universal" <?php if ( isset($this->current_settings['track_settings']['track_method']) && $this->current_settings['track_settings']['track_method'] == 'universal') echo 'checked="checked"'; ?> /> <?php _e( 'Universal Analytics', $this->text_domain ) ?>
+                                    <label><input type="radio" name="track_method" value="universal" <?php if ( !isset($this->current_settings['track_settings']['track_method']) || $this->current_settings['track_settings']['track_method'] == 'universal') echo 'checked="checked"'; ?> /> <?php _e( 'Universal Analytics', $this->text_domain ) ?>
                                     <span class="description"><?php _e( 'You can read more about this method <a href="https://support.google.com/analytics/answer/2790010?hl=en-GB&ref_topic=2790009">here</a>.', $this->text_domain ); ?></span></label>
+                                    <br />
+                                    <label><input type="radio" name="track_method" value="classic" <?php if ( isset($this->current_settings['track_settings']['track_method']) && $this->current_settings['track_settings']['track_method'] == 'classic' ) echo 'checked="checked"'; ?> /> <?php _e( 'Classic Analytics', $this->text_domain ) ?></label>
                                     <br />
                                     <label><input type="radio" name="track_method" value="both" <?php if ( isset($this->current_settings['track_settings']['track_method']) && $this->current_settings['track_settings']['track_method'] == 'both' ) echo 'checked="checked"'; ?> /> <?php _e( 'Use both (beta)', $this->text_domain ) ?>
                                     <span class="description"><?php _e( 'To use both, you need to have separate tracking code for universal analytics. Please add it here:', $this->text_domain ); ?></span>

@@ -8,7 +8,8 @@ function sw_clickAddNew() {
 						.find('input.find').attr('name', 'swtble[' + dt + '][find]').end()
 						.find('input.domain').attr('name','swtble[' + dt + '][domain]').end()
 						.find('input.case').attr('name','swtble[' + dt + '][ignorecase]').end()
-						.find('input.replace').attr('name','swtble[' + dt + '][replace]');
+						.find('input.replace').attr('name','swtble[' + dt + '][replace]').end()
+						.find('select.admin_front').attr('name','swtble[' + dt + '][admin_front]');
 
 	jQuery('div.handlediv').unbind('click').click(sw_toggleRule);
 	jQuery("#entryholder").sortable('refresh');

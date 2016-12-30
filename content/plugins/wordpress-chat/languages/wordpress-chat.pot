@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the WordPress Chat package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WordPress Chat 2.1.3\n"
-"Report-Msgid-Bugs-To: http://premium.wpmudev.org/contact\n"
-"POT-Creation-Date: 2016-08-02 06:24:39+00:00\n"
+"Project-Id-Version: WordPress Chat 2.2\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/wordpress-chat\n"
+"POT-Creation-Date: 2016-12-28 10:16:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,6 +38,92 @@ msgstr ""
 
 #: lib/class_wd_help_tooltips.php:296
 msgid "Help"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:223
+msgid "install"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:230
+msgid "Important updates are available for <strong>%s</strong>. Install the free WPMU DEV Dashboard plugin now for updates and support!"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:232
+msgid "<strong>%s</strong> is almost ready - install the free WPMU DEV Dashboard plugin for updates and support!"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:236
+msgid "Important updates are available for your WPMU DEV plugins/themes. Install the free WPMU DEV Dashboard plugin now for updates and support!"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:238
+msgid "Almost ready - install the free WPMU DEV Dashboard plugin for updates and support!"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:244
+msgid "Install Plugin"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:247
+#: lib/dash-notices/wpmudev-dash-notification.php:288
+msgid "Saving..."
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:248
+#: lib/dash-notices/wpmudev-dash-notification.php:289
+msgid "Dismiss"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:264
+msgid "activate"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:271
+msgid "Important updates are available for <strong>%s</strong>. Activate the WPMU DEV Dashboard to update now!"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:273
+msgid "Just one more step to enable updates and support for <strong>%s</strong>!"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:277
+msgid "Important updates are available for your WPMU DEV plugins/themes. Activate the WPMU DEV Dashboard to update now!"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:279
+msgid "Just one more step - activate the WPMU DEV Dashboard plugin and you're all done!"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:285
+msgid "Activate WPMU DEV Dashboard"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:952
+msgid "We did not find any data for this plugin or theme..."
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:1131
+msgid "%s changelog"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:1161
+msgid "Current"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:1167
+msgid "New"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:1184
+msgid "Version %s"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:1202
+msgid "Show all changes"
+msgstr ""
+
+#: lib/dash-notices/wpmudev-dash-notification.php:1203
+msgid "Hide details"
 msgstr ""
 
 #: lib/wpmudev_chat_admin_panels.php:42
@@ -915,14 +1001,14 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: lib/wpmudev_chat_admin_session_logs.php:315 wordpress-chat.php:3181
+#: lib/wpmudev_chat_admin_session_logs.php:315 wordpress-chat.php:3111
 msgid "Private"
 msgstr ""
 
 #: lib/wpmudev_chat_admin_session_logs.php:343
 #: lib/wpmudev_chat_buddypress.php:127 lib/wpmudev_chat_widget.php:832
 #: lib/wpmudev_chat_widget.php:862 lib/wpmudev_chat_wpadminbar.php:111
-#: lib/wpmudev_chat_wpadminbar.php:145 wordpress-chat.php:1007
+#: lib/wpmudev_chat_wpadminbar.php:145 wordpress-chat.php:1012
 msgid "Chat"
 msgstr ""
 
@@ -935,8 +1021,8 @@ msgid "Show details for this chat session"
 msgstr ""
 
 #: lib/wpmudev_chat_admin_session_logs.php:403
-#: lib/wpmudev_chat_admin_session_messages.php:334 wordpress-chat.php:1181
-#: wordpress-chat.php:4876
+#: lib/wpmudev_chat_admin_session_messages.php:334 wordpress-chat.php:1187
+#: wordpress-chat.php:4808
 msgid "hide"
 msgstr ""
 
@@ -945,8 +1031,8 @@ msgid "Hide entire chat session blocking public view"
 msgstr ""
 
 #: lib/wpmudev_chat_admin_session_logs.php:410
-#: lib/wpmudev_chat_admin_session_messages.php:341 wordpress-chat.php:1182
-#: wordpress-chat.php:4877
+#: lib/wpmudev_chat_admin_session_messages.php:341 wordpress-chat.php:1188
+#: wordpress-chat.php:4809
 msgid "unhide"
 msgstr ""
 
@@ -1062,7 +1148,7 @@ msgstr ""
 msgid "WordPress Chat"
 msgstr ""
 
-#: lib/wpmudev_chat_admin_tinymce.php:261 wordpress-chat.php:4960
+#: lib/wpmudev_chat_admin_tinymce.php:261 wordpress-chat.php:4922
 msgid "Cancel"
 msgstr ""
 
@@ -1090,16 +1176,16 @@ msgstr ""
 msgid "Changes saved."
 msgstr ""
 
-#: lib/wpmudev_chat_buddypress.php:179 wordpress-chat.php:2698
-#: wordpress-chat.php:4601
+#: lib/wpmudev_chat_buddypress.php:179 wordpress-chat.php:2641
+#: wordpress-chat.php:4533
 msgid "Chat Settings"
 msgstr ""
 
-#: lib/wpmudev_chat_buddypress.php:200 wordpress-chat.php:2704
+#: lib/wpmudev_chat_buddypress.php:200 wordpress-chat.php:2647
 msgid "Set Chat status"
 msgstr ""
 
-#: lib/wpmudev_chat_buddypress.php:223 wordpress-chat.php:2731
+#: lib/wpmudev_chat_buddypress.php:223 wordpress-chat.php:2674
 msgid "In Chat Sessions show name as"
 msgstr ""
 
@@ -1108,16 +1194,16 @@ msgid "During chat sessions you are participating in this setting controls how y
 msgstr ""
 
 #: lib/wpmudev_chat_buddypress.php:229 lib/wpmudev_chat_form_sections.php:2736
-#: wordpress-chat.php:2738
+#: wordpress-chat.php:2681
 msgid "Display Name"
 msgstr ""
 
 #: lib/wpmudev_chat_buddypress.php:232 lib/wpmudev_chat_form_sections.php:2739
-#: wordpress-chat.php:2741
+#: wordpress-chat.php:2684
 msgid "User Login"
 msgstr ""
 
-#: lib/wpmudev_chat_buddypress.php:238 wordpress-chat.php:2794
+#: lib/wpmudev_chat_buddypress.php:238 wordpress-chat.php:2737
 msgid "Show Chat WordPress toolbar menu?"
 msgstr ""
 
@@ -1159,9 +1245,9 @@ msgstr ""
 #: lib/wpmudev_chat_form_sections.php:3089 lib/wpmudev_chat_widget.php:91
 #: lib/wpmudev_chat_widget.php:114 lib/wpmudev_chat_widget.php:124
 #: lib/wpmudev_chat_widget.php:134 lib/wpmudev_chat_widget.php:508
-#: wordpress-chat.php:2759 wordpress-chat.php:2779 wordpress-chat.php:2801
-#: wordpress-chat.php:2818 wordpress-chat.php:2834 wordpress-chat.php:2874
-#: wordpress-chat.php:2932 wordpress-chat.php:2976
+#: wordpress-chat.php:2702 wordpress-chat.php:2722 wordpress-chat.php:2744
+#: wordpress-chat.php:2761 wordpress-chat.php:2777 wordpress-chat.php:2813
+#: wordpress-chat.php:2862 wordpress-chat.php:2906
 msgid "Enabled"
 msgstr ""
 
@@ -1203,9 +1289,9 @@ msgstr ""
 #: lib/wpmudev_chat_form_sections.php:3091 lib/wpmudev_chat_widget.php:93
 #: lib/wpmudev_chat_widget.php:116 lib/wpmudev_chat_widget.php:126
 #: lib/wpmudev_chat_widget.php:136 lib/wpmudev_chat_widget.php:510
-#: wordpress-chat.php:2763 wordpress-chat.php:2783 wordpress-chat.php:2805
-#: wordpress-chat.php:2822 wordpress-chat.php:2838 wordpress-chat.php:2878
-#: wordpress-chat.php:2936 wordpress-chat.php:2980
+#: wordpress-chat.php:2706 wordpress-chat.php:2726 wordpress-chat.php:2748
+#: wordpress-chat.php:2765 wordpress-chat.php:2781 wordpress-chat.php:2817
+#: wordpress-chat.php:2866 wordpress-chat.php:2910
 msgid "Disabled"
 msgstr ""
 
@@ -1585,7 +1671,7 @@ msgid "Avatar"
 msgstr ""
 
 #: lib/wpmudev_chat_form_sections.php:925 lib/wpmudev_chat_widget.php:102
-#: lib/wpmudev_chat_widget.php:294 wordpress-chat.php:4957
+#: lib/wpmudev_chat_widget.php:294 wordpress-chat.php:4919
 msgid "Name"
 msgstr ""
 
@@ -2381,7 +2467,7 @@ msgstr ""
 msgid "In Chat Sessions Show Name as"
 msgstr ""
 
-#: lib/wpmudev_chat_form_sections.php:2746 wordpress-chat.php:2772
+#: lib/wpmudev_chat_form_sections.php:2746 wordpress-chat.php:2715
 msgid "Show Chats within WPAdmin"
 msgstr ""
 
@@ -2397,15 +2483,15 @@ msgstr ""
 msgid "User must have <strong>list_users</strong> role capability"
 msgstr ""
 
-#: lib/wpmudev_chat_form_sections.php:2805 wordpress-chat.php:2860
+#: lib/wpmudev_chat_form_sections.php:2805 wordpress-chat.php:2803
 msgid "Show Chat Widget on Dashboard"
 msgstr ""
 
-#: lib/wpmudev_chat_form_sections.php:2824 wordpress-chat.php:2918
+#: lib/wpmudev_chat_form_sections.php:2824 wordpress-chat.php:2848
 msgid "Show Chat Status Widget on Dashboard"
 msgstr ""
 
-#: lib/wpmudev_chat_form_sections.php:2842 wordpress-chat.php:2961
+#: lib/wpmudev_chat_form_sections.php:2842 wordpress-chat.php:2891
 msgid "Show Chat Friends Widget on Dashboard"
 msgstr ""
 
@@ -2634,7 +2720,7 @@ msgid "Checked - Archive Chat Message"
 msgstr ""
 
 #: lib/wpmudev_chat_widget.php:1063 lib/wpmudev_chat_widget.php:1088
-#: wordpress-chat.php:1013
+#: wordpress-chat.php:1018
 msgid "Chat Friends"
 msgstr ""
 
@@ -2662,455 +2748,455 @@ msgstr ""
 msgid "ERROR:"
 msgstr ""
 
-#: wordpress-chat.php:854
+#: wordpress-chat.php:859
 msgid "The Moderator has closed this chat session"
 msgstr ""
 
-#: wordpress-chat.php:855
+#: wordpress-chat.php:860
 msgid "The Moderator has cleared the chat messages"
 msgstr ""
 
-#: wordpress-chat.php:907
+#: wordpress-chat.php:912
 msgid "Chat Logs"
 msgstr ""
 
-#: wordpress-chat.php:927
+#: wordpress-chat.php:932
 msgid "Active Users"
 msgstr ""
 
-#: wordpress-chat.php:937
+#: wordpress-chat.php:942
 msgid "To get started just enter your email address and desired username:"
 msgstr ""
 
-#: wordpress-chat.php:938
+#: wordpress-chat.php:943
 msgid "You must login to participate in chat"
 msgstr ""
 
-#: wordpress-chat.php:1010 wordpress-chat.php:3091
+#: wordpress-chat.php:1015 wordpress-chat.php:3021
 msgid "Chat Status"
 msgstr ""
 
-#: wordpress-chat.php:1042
+#: wordpress-chat.php:1047
 msgid "Available"
 msgstr ""
 
-#: wordpress-chat.php:1043
+#: wordpress-chat.php:1048
 msgid "Unavailable"
 msgstr ""
 
-#: wordpress-chat.php:1044
+#: wordpress-chat.php:1049
 msgid "Away"
 msgstr ""
 
-#: wordpress-chat.php:1069
+#: wordpress-chat.php:1074
 msgid "Your account has been banned from participating in this chat session. Please contact site administrator for more information concerning this ban."
 msgstr ""
 
-#: wordpress-chat.php:1070
+#: wordpress-chat.php:1075
 msgid "Group Chat"
 msgstr ""
 
-#: wordpress-chat.php:1176
+#: wordpress-chat.php:1182
 msgid "Sign out of Google+"
 msgstr ""
 
-#: wordpress-chat.php:1177
+#: wordpress-chat.php:1183
 msgid "Sign out of Facebook"
 msgstr ""
 
-#: wordpress-chat.php:1178
+#: wordpress-chat.php:1184
 msgid "Sign out of Twitter"
 msgstr ""
 
-#: wordpress-chat.php:1180
+#: wordpress-chat.php:1186
 msgid "Please wait..."
 msgstr ""
 
-#: wordpress-chat.php:1184
+#: wordpress-chat.php:1190
 msgid "Entered Chat"
 msgstr ""
 
-#: wordpress-chat.php:1185
+#: wordpress-chat.php:1191
 msgid "Exited Chat"
 msgstr ""
 
-#: wordpress-chat.php:1186
+#: wordpress-chat.php:1192
 msgid "Pending"
 msgstr ""
 
-#: wordpress-chat.php:1187
+#: wordpress-chat.php:1193
 msgid "Declined"
 msgstr ""
 
-#: wordpress-chat.php:1862
+#: wordpress-chat.php:1808
 msgid "You have installed the WordPress Chat plugin. <strong>Please review the <a href=\"%s\">polling interval</a> settings before using</strong>. In most cases the default options will work for your host configuration. However, in some unique cases the polling interval is too frequent and could cause your hosting to shutdown your account. Once you have reviewed and saved the chat settings this message will no longer appear."
 msgstr ""
 
-#: wordpress-chat.php:1867
+#: wordpress-chat.php:1813
 msgid "The WordPress Chat plugin has been upgraded on yor site. <strong>Please review the <a href=\"%s\">polling interval</a> settings before using</strong>. In most cases the default options will work for your host configuration. However in some unique cases the polling interval is too frequent and could cause your hosting to shutdown your account. Once you have reviewed and saved the chat settings this message will no longer appear."
 msgstr ""
 
-#: wordpress-chat.php:1924 wordpress-chat.php:4726
+#: wordpress-chat.php:1870 wordpress-chat.php:4658
 msgid "Disable auto scroll"
 msgstr ""
 
-#: wordpress-chat.php:1925
+#: wordpress-chat.php:1871
 msgid "Enable auto scroll"
 msgstr ""
 
-#: wordpress-chat.php:1964 wordpress-chat.php:2037
+#: wordpress-chat.php:1907 wordpress-chat.php:1980
 msgctxt "page label"
 msgid "Chat"
 msgstr ""
 
-#: wordpress-chat.php:1965 wordpress-chat.php:2038
+#: wordpress-chat.php:1908 wordpress-chat.php:1981
 msgctxt "menu label"
 msgid "Chat"
 msgstr ""
 
-#: wordpress-chat.php:1973 wordpress-chat.php:2056
+#: wordpress-chat.php:1916 wordpress-chat.php:1999
 msgctxt "page label"
 msgid "Settings Site"
 msgstr ""
 
-#: wordpress-chat.php:1974 wordpress-chat.php:2057
+#: wordpress-chat.php:1917 wordpress-chat.php:2000
 msgctxt "menu label"
 msgid "Settings Site"
 msgstr ""
 
-#: wordpress-chat.php:1980 wordpress-chat.php:2073
+#: wordpress-chat.php:1923 wordpress-chat.php:2016
 msgctxt "page label"
 msgid "Settings Dashboard"
 msgstr ""
 
-#: wordpress-chat.php:1981 wordpress-chat.php:2074
+#: wordpress-chat.php:1924 wordpress-chat.php:2017
 msgctxt "menu label"
 msgid "Settings Dashboard"
 msgstr ""
 
-#: wordpress-chat.php:1988 wordpress-chat.php:2081
+#: wordpress-chat.php:1931 wordpress-chat.php:2024
 msgctxt "page label"
 msgid "Settings Common"
 msgstr ""
 
-#: wordpress-chat.php:1989 wordpress-chat.php:2082
+#: wordpress-chat.php:1932 wordpress-chat.php:2025
 msgctxt "menu label"
 msgid "Settings Common"
 msgstr ""
 
-#: wordpress-chat.php:1996 wordpress-chat.php:2089
+#: wordpress-chat.php:1939 wordpress-chat.php:2032
 msgctxt "page label"
 msgid "Session Logs"
 msgstr ""
 
-#: wordpress-chat.php:1997 wordpress-chat.php:2090
+#: wordpress-chat.php:1940 wordpress-chat.php:2033
 msgctxt "menu label"
 msgid "Session Logs"
 msgstr ""
 
-#: wordpress-chat.php:2046
+#: wordpress-chat.php:1989
 msgctxt "page label"
 msgid "Settings Page"
 msgstr ""
 
-#: wordpress-chat.php:2047
+#: wordpress-chat.php:1990
 msgctxt "menu label"
 msgid "Settings Page"
+msgstr ""
+
+#: wordpress-chat.php:2008
+msgctxt "page label"
+msgid "Settings Widget"
+msgstr ""
+
+#: wordpress-chat.php:2009
+msgctxt "menu label"
+msgid "Settings Widget"
 msgstr ""
 
 #: wordpress-chat.php:2065
-msgctxt "page label"
-msgid "Settings Widget"
-msgstr ""
-
-#: wordpress-chat.php:2066
-msgctxt "menu label"
-msgid "Settings Widget"
-msgstr ""
-
-#: wordpress-chat.php:2122
 msgid "Settings have been updated."
 msgstr ""
 
-#: wordpress-chat.php:2124
+#: wordpress-chat.php:2067
 msgid "Chat Session Log has been deleted."
 msgstr ""
 
-#: wordpress-chat.php:2125
+#: wordpress-chat.php:2068
 msgid "Chat Session Logs have been deleted."
 msgstr ""
 
-#: wordpress-chat.php:2126
+#: wordpress-chat.php:2069
 msgid "Chat Session Log has been hidden."
 msgstr ""
 
-#: wordpress-chat.php:2127
+#: wordpress-chat.php:2070
 msgid "Chat Session Logs have been hidden."
 msgstr ""
 
-#: wordpress-chat.php:2128
+#: wordpress-chat.php:2071
 msgid "Chat Session Log has been unhidden."
 msgstr ""
 
-#: wordpress-chat.php:2129
+#: wordpress-chat.php:2072
 msgid "Chat Session Logs have been unhidden."
 msgstr ""
 
-#: wordpress-chat.php:2131
+#: wordpress-chat.php:2074
 msgid "Chat Session Log Message has been deleted."
 msgstr ""
 
-#: wordpress-chat.php:2132
+#: wordpress-chat.php:2075
 msgid "Chat Session Log Messages have been deleted."
 msgstr ""
 
-#: wordpress-chat.php:2133
+#: wordpress-chat.php:2076
 msgid "Chat Session Log Message has been hidden."
 msgstr ""
 
-#: wordpress-chat.php:2134
+#: wordpress-chat.php:2077
 msgid "Chat Session Log Messages have been hidden."
 msgstr ""
 
-#: wordpress-chat.php:2135
+#: wordpress-chat.php:2078
 msgid "Chat Session Log Message has been unhidden."
 msgstr ""
 
-#: wordpress-chat.php:2136
+#: wordpress-chat.php:2079
 msgid "Chat Session Log Messages have been unhidden."
 msgstr ""
 
-#: wordpress-chat.php:2262 wordpress-chat.php:2398
+#: wordpress-chat.php:2205 wordpress-chat.php:2341
 msgid "per Page"
 msgstr ""
 
-#: wordpress-chat.php:2751
+#: wordpress-chat.php:2694
 msgid "Show Chat Status column on<br />Users > All Users listing?"
 msgstr ""
 
-#: wordpress-chat.php:2786
+#: wordpress-chat.php:2729
 msgid "This will disable all Chat functions including WordPress toolbar menu, Dashboard Widgets, etc."
 msgstr ""
 
-#: wordpress-chat.php:2825
+#: wordpress-chat.php:2768
 msgid "Show Your Chat Status on WordPress toolbar menu?"
 msgstr ""
 
-#: wordpress-chat.php:2841
+#: wordpress-chat.php:2784
 msgid "Show Your Chat Friends on WordPress toolbar menu?"
 msgstr ""
 
-#: wordpress-chat.php:2895
+#: wordpress-chat.php:2825
 msgid "Height of Chat Widget"
 msgstr ""
 
-#: wordpress-chat.php:2898 wordpress-chat.php:3000
+#: wordpress-chat.php:2828 wordpress-chat.php:2930
 msgid "Default is"
 msgstr ""
 
-#: wordpress-chat.php:2997
+#: wordpress-chat.php:2927
 msgid "Min Height of Chat Friends Widget"
 msgstr ""
 
-#: wordpress-chat.php:3190
+#: wordpress-chat.php:3120
 msgid "Network"
 msgstr ""
 
-#: wordpress-chat.php:3661
+#: wordpress-chat.php:3591
 msgid "close"
 msgstr ""
 
-#: wordpress-chat.php:3692
+#: wordpress-chat.php:3622
 msgid "No Chat logs found for this session"
 msgstr ""
 
-#: wordpress-chat.php:3718
+#: wordpress-chat.php:3648
 msgid "Return to Chat"
 msgstr ""
 
-#: wordpress-chat.php:4104 wordpress-chat.php:4688
+#: wordpress-chat.php:4036 wordpress-chat.php:4620
 msgid "Logout"
 msgstr ""
 
-#: wordpress-chat.php:4136
+#: wordpress-chat.php:4068
 msgid "Type your message here"
 msgstr ""
 
-#: wordpress-chat.php:4156
+#: wordpress-chat.php:4088
 msgid "Turn chat sound of"
 msgstr ""
 
-#: wordpress-chat.php:4156 wordpress-chat.php:4696
+#: wordpress-chat.php:4088 wordpress-chat.php:4628
 msgid "Turn chat sound off"
 msgstr ""
 
-#: wordpress-chat.php:4159 wordpress-chat.php:4698
+#: wordpress-chat.php:4091 wordpress-chat.php:4630
 msgid "Turn chat sound on"
 msgstr ""
 
-#: wordpress-chat.php:4240
+#: wordpress-chat.php:4172
 msgid "Log in using:"
 msgstr ""
 
-#: wordpress-chat.php:4295
+#: wordpress-chat.php:4227
 msgid "Accept"
 msgstr ""
 
-#: wordpress-chat.php:4295
+#: wordpress-chat.php:4227
 msgid "Decline"
 msgstr ""
 
-#: wordpress-chat.php:4296
+#: wordpress-chat.php:4228
 msgid "has invited you to a private chat"
 msgstr ""
 
-#: wordpress-chat.php:4298
+#: wordpress-chat.php:4230
 msgid "You have been invited to private chat"
 msgstr ""
 
-#: wordpress-chat.php:4591
+#: wordpress-chat.php:4523
 msgid "Minimize Chat"
 msgstr ""
 
-#: wordpress-chat.php:4592
+#: wordpress-chat.php:4524
 msgid "Maximize Chat"
 msgstr ""
 
-#: wordpress-chat.php:4607
+#: wordpress-chat.php:4539
 msgid "Pop out"
 msgstr ""
 
-#: wordpress-chat.php:4611
+#: wordpress-chat.php:4543
 msgid "Pop in"
 msgstr ""
 
-#: wordpress-chat.php:4630
+#: wordpress-chat.php:4562
 msgid "open"
 msgstr ""
 
-#: wordpress-chat.php:4632
+#: wordpress-chat.php:4564
 msgid "closed"
 msgstr ""
 
-#: wordpress-chat.php:4638
+#: wordpress-chat.php:4570
 msgid "Private chat"
 msgstr ""
 
-#: wordpress-chat.php:4640
+#: wordpress-chat.php:4572
 msgid "Group chat"
 msgstr ""
 
-#: wordpress-chat.php:4642
+#: wordpress-chat.php:4574
 msgid "Network Group chat"
 msgstr ""
 
-#: wordpress-chat.php:4686 wordpress-chat.php:4960
+#: wordpress-chat.php:4618 wordpress-chat.php:4922
 msgid "Login"
 msgstr ""
 
-#: wordpress-chat.php:4692
+#: wordpress-chat.php:4624
 msgid "Leave Chat"
 msgstr ""
 
-#: wordpress-chat.php:4697
+#: wordpress-chat.php:4629
 msgid "Sound Off"
 msgstr ""
 
-#: wordpress-chat.php:4699
+#: wordpress-chat.php:4631
 msgid "Sound On"
 msgstr ""
 
-#: wordpress-chat.php:4709
+#: wordpress-chat.php:4641
 msgid "Open Chat"
 msgstr ""
 
-#: wordpress-chat.php:4710
+#: wordpress-chat.php:4642
 msgid "Close Chat"
 msgstr ""
 
-#: wordpress-chat.php:4715
+#: wordpress-chat.php:4647
 msgid "Clear Chat"
 msgstr ""
 
-#: wordpress-chat.php:4721
+#: wordpress-chat.php:4653
 msgid "Archive Chat"
 msgstr ""
 
-#: wordpress-chat.php:4882
+#: wordpress-chat.php:4814
 msgid "Invite user to private chat:"
 msgstr ""
 
-#: wordpress-chat.php:4884
+#: wordpress-chat.php:4816
 msgid "moderate this message"
 msgstr ""
 
-#: wordpress-chat.php:4891
+#: wordpress-chat.php:4823
 msgid "moderate IP address:"
 msgstr ""
 
-#: wordpress-chat.php:4957
+#: wordpress-chat.php:4919
 msgid "Enter Name"
 msgstr ""
 
-#: wordpress-chat.php:4958
+#: wordpress-chat.php:4920
 msgid "Email"
 msgstr ""
 
-#: wordpress-chat.php:4958
+#: wordpress-chat.php:4920
 msgid "Enter Email"
 msgstr ""
 
-#: wordpress-chat.php:5313
+#: wordpress-chat.php:5275
 msgid "missing POST user_info"
 msgstr ""
 
-#: wordpress-chat.php:5324 wordpress-chat.php:5334
+#: wordpress-chat.php:5286 wordpress-chat.php:5296
 msgid "Please provide valid Name and Email."
 msgstr ""
 
-#: wordpress-chat.php:5344
+#: wordpress-chat.php:5306
 msgid "Name already registered. Try something unique"
 msgstr ""
 
-#: wordpress-chat.php:5353
+#: wordpress-chat.php:5315
 msgid "Email already registered. Try something  unique"
 msgstr ""
 
-#: wordpress-chat.php:5455
+#: wordpress-chat.php:5417
 msgid "User has declined the private chat invitation."
 msgstr ""
 
-#: wordpress-chat.php:5537
+#: wordpress-chat.php:5499
 msgid "Invalid auth_hash"
 msgstr ""
 
-#: wordpress-chat.php:5562 wordpress-chat.php:5568 wordpress-chat.php:5576
-#: wordpress-chat.php:5611 wordpress-chat.php:5618 wordpress-chat.php:5626
-#: wordpress-chat.php:5688 wordpress-chat.php:5694 wordpress-chat.php:5703
+#: wordpress-chat.php:5524 wordpress-chat.php:5530 wordpress-chat.php:5538
+#: wordpress-chat.php:5573 wordpress-chat.php:5580 wordpress-chat.php:5588
+#: wordpress-chat.php:5650 wordpress-chat.php:5656 wordpress-chat.php:5665
 msgid "Invalid chat_auth [type]"
 msgstr ""
 
-#: wordpress-chat.php:5595
+#: wordpress-chat.php:5557
 msgid "Not moderator"
 msgstr ""
 
-#: wordpress-chat.php:5653
+#: wordpress-chat.php:5615
 msgid "Invalid chat_session"
 msgstr ""
 
-#: wordpress-chat.php:5662
+#: wordpress-chat.php:5624
 msgid "Invalid chat_id"
 msgstr ""
 
-#: wordpress-chat.php:5670 wordpress-chat.php:5679
+#: wordpress-chat.php:5632 wordpress-chat.php:5641
 msgid "Invalid chat_session_status"
 msgstr ""
 
-#: wordpress-chat.php:5712
+#: wordpress-chat.php:5674
 msgid "not moderator"
 msgstr ""
 
-#: wordpress-chat.php:6357
+#: wordpress-chat.php:6319
 msgid "(P)"
 msgstr ""
 #. Plugin Name of the plugin/theme

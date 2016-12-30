@@ -1,178 +1,101 @@
 <?php
 
+include_once( 'mailchimp-api/3.0/mailchimp-api-3.0.php' );
+
 /**
- * Load the Mailchimp API
+ * Make a ping to MailChimp API
  *
- * @return Mailchimp Object
+ * @return true|WP_Error
  */
-function mailchimp_load_API() {
-	global $mailchimp_sync;
+function mailchimp_30_ping() {
+	$api = mailchimp_load_api_30();
 
-	if ( ! empty( $mailchimp_sync->api ) )
-		return $mailchimp_sync->api;
-
-	require_once( 'mailchimp-api/mailchimp-api.php' );
-	$mailchimp_apikey = get_site_option('mailchimp_apikey');
-
-	$options = array(
-		'timeout' => apply_filters( 'mailchimp_sync_api_timeout', false )
-	);
-
-	$ssl_verifypeer = apply_filters( 'mailchimp_sync_api_ssl_verifypeer', false );
-	if ( $ssl_verifypeer ) {
-		$options['ssl_verifypeer'] = $ssl_verifypeer;
+	if ( is_wp_error( $api ) ) {
+		return $api;
 	}
 
-	$ssl_verifyhost = apply_filters( 'mailchimp_sync_api_ssl_verifyhost', false );
-	if ( $ssl_verifyhost ) {
-		$options['ssl_verifyhost'] = $ssl_verifyhost;
-	}
-
-	$ssl_cainfo = apply_filters( 'mailchimp_sync_api_ssl_cainfo', false );
-	if ( $ssl_cainfo ) {
-		$options['ssl_cainfo'] = $ssl_cainfo;
-	}
-
-	$debug = apply_filters( 'mailchimp_sync_api_debug', false );
-	if ( $debug ) {
-		$options['debug'] = $debug;
-	}
-
-	try {
-		$api = new WPMUDEV_Mailchimp_Sync_API( $mailchimp_apikey, $options );
-	}
-	catch ( Exception $e ) {
-		return new WP_Error( $e->getCode(), $e->getMessage() );
-	}
-
-	// Pinging the server
-	$ping = $api->helper->ping();
-
-	if ( is_wp_error( $ping ) )
-		return $ping;
-
-	$mailchimp_sync->api = $api;
-
-	return $api;
+	$ping = mailchimp_api_30_make_request( 'get', 'lists' );
+	return ! is_wp_error( $ping );
 }
+
 
 /**
  * Subscribe a user to a Mailchimp list
  *
+ * @param string $user_email
+ * @param string $list_id
+ * @param array $options extra data
+ * [
+ *      autopt          boolean
+ *      merge_fields    array [
+ *          FNAME string First Name
+ *          LNAME string Last Name
+ *      ]
+ *      interests       array       List of interests IDs with boolean values
+ *
+ * ]
+ * @return array|WP_Error Result from the server
+ */
+function mailchimp_30_subscribe_user( $user_email, $list_id = '', $options = array() ) {
+	$defaults = array(
+		'autopt' => false,
+		'merge_fields' => array(),
+		'interests' => array()
+	);
+	$options = wp_parse_args( $options, $defaults );
+
+	if ( ! $list_id ) {
+		$list_id = get_site_option( 'mailchimp_mailing_list' );
+	}
+
+	if ( ! $list_id ) {
+		return new WP_Error( 'missing-list-id', __( 'A list is not specified', 'mailchimp' ) );
+	}
+
+	$args = array(
+		'email_address' => $user_email
+	);
+
+	if ( $options['autopt'] ) {
+		$args['status'] = 'subscribed';
+		$args['ip_opt'] = $_SERVER['REMOTE_ADDR'];
+	}
+	else {
+		$args['status'] = 'pending';
+	}
+
+	if ( $options['merge_fields'] ) {
+		$args['merge_fields'] = (object)$options['merge_fields'];
+	}
+
+	if ( $options['interests'] ) {
+		$args['interests'] = (object)$options['interests'];
+	}
+
+	$result = mailchimp_api_30_make_request( 'post', "lists/$list_id/members", $args );
+
+	return $result;
+}
+
+/**
+ * Check if a user is subscribed in the list
+ *
  * @param String $user_email
  * @param String $list_id
- * @param Boolean $autopt
- * @param Array $extra Extra data
- 		Array(
-			'FNAME' => First name,
-			'LNAME' => Last Name
- 		)
- * @return Array Result from the server
+ * @return bool True if the user is subscribed already to the list
  */
-function mailchimp_subscribe_user( $user_email, $list_id, $autopt = false, $merge = array(), $update = false ) {
-
-	$api = mailchimp_load_API();
-
-	if ( is_wp_error( $api ) )
-		return $api;
-
-	$merge_vars = array();
-	if ( $autopt ) {
-		$merge_vars['optin_ip'] = $_SERVER['REMOTE_ADDR'];
-		$merge_vars['optin_time'] = current_time( 'mysql', true );
-	}
-
-	if ( ! empty( $merge ) ) {
-		$merge_vars = array_merge( $merge_vars, $merge );
-	}
-
-	return $api->lists->subscribe( $list_id, array( 'email' => $user_email ), $merge_vars, 'html', ! $autopt, $update );
-
-}
-
-/**
- * Subscribe a list of users
- * @param Array $emails
-	Array(
-		array(
-			'email' => array(
-				'email' => Email
-			)
-			'merge_vars' => array(
-				'FNAME' => First name,
-				'LNAME' => Last name
-			)
-		),
-		...
-	)
- * @param String $list_id
- * @param Boolean $autopt
- * @param Array $merge Array of merge vars
- * @return type
- */
-function mailchimp_bulk_subscribe_users( $emails, $list_id, $autopt = false, $update = false ) {
-	$api = mailchimp_load_API();
-
-	if ( is_wp_error( $api ) )
-		return $api;
-
-	$merge_vars = array();
-	if ( $autopt ) {
-		$merge_vars['optin_ip'] = $_SERVER['REMOTE_ADDR'];
-		$merge_vars['optin_time'] = current_time( 'mysql', true );
-	}
-
-	$results = $api->lists->batchSubscribe( $list_id, $emails, ! $autopt, $update );
-
-	$return = array();
-	$return['added'] = $results['adds'];
-	$return['updated'] = $results['updates'];
-	$return['errors'] = array();
-
-	if ( $results['error_count'] ) {
-		foreach( $results['errors'] as $error ) {
-			$return['errors'][] = new WP_Error( $error['code'], '{' . $error['email']['email'] . '} ' . $error['error'] );
+function mailchimp_30_is_user_subscribed( $user_email, $list_id = '' ) {
+	if ( ! $list_id ) {
+		$list_id = get_site_option( 'mailchimp_mailing_list' );
+		if ( ! $list_id ) {
+			return false;
 		}
 	}
 
-	return $return;
+	$hash = md5( strtolower( $user_email ) );
+	$results = mailchimp_api_30_make_request( 'get', "lists/$list_id/members/$hash" );
 
-}
-
-/**
- * Unsubscribe a list of users
- * @param Array $emails
-	Array(
-		array(
-			'email' => Email
-		),
-		...
-	)
- * @param String $list_id
- * @param Boolean $autopt
- * @param Array $merge Array of merge vars
- * @return type
- */
-function mailchimp_bulk_unsubscribe_users( $emails, $list_id, $delete = false ) {
-	$api = mailchimp_load_API();
-
-	if ( is_wp_error( $api ) )
-		return $api;
-
-	$results = $api->lists->batchUnsubscribe( $list_id, $emails, $delete );
-
-	$return = array();
-	$return['success_count'] = $results['success_count'];
-	$return['errors'] = array();
-
-	if ( $results['error_count'] ) {
-		foreach( $results['errors'] as $error ) {
-			$return['errors'][] = new WP_Error( $error['code'], '{' . $error['email'] . '} ' . $error['error'] );
-		}
-	}
-
-	return $return;
-
+	return ! is_wp_error( $results );
 }
 
 /**
@@ -181,150 +104,274 @@ function mailchimp_bulk_unsubscribe_users( $emails, $list_id, $delete = false ) 
  * @param String $user_email
  * @param String $list_id
  * @param Boolean $delete True if the user is gonna be deleted from the list (not only unsubscribed)
+ *
+ * @return bool|array
  */
-function mailchimp_unsubscribe_user( $user_email, $list_id, $delete = false ) {
+function mailchimp_30_unsubscribe_user( $user_email, $list_id = '', $delete = false ) {
+	if ( ! $list_id ) {
+		$list_id = get_site_option( 'mailchimp_mailing_list' );
+		if ( ! $list_id ) {
+			return false;
+		}
+	}
 
-	$api = mailchimp_load_API();
+	if ( ! $delete ) {
+		$result = mailchimp_30_update_user( $user_email, $list_id, array( 'status' => 'unsubscribed' ) );
+	}
+	else {
+		$hash = md5( strtolower( $user_email ) );
+		$result = mailchimp_api_30_make_request( 'delete', "lists/$list_id/members/$hash" );
+	}
 
-	if ( is_wp_error( $api ) )
-		return $api;
-
-	return $api->lists->unsubscribe( $list_id, array( 'email' => $user_email ), $delete );
+	return ! is_wp_error( $result );
 }
 
 /**
  * Update a user data in a list
- * @param String $user_email
- * @param String $list_id
- * @param Array $merge_vars
- 	Array(
-		'FNAME' => First name,
-		'LNAME' => Last Name
-	)
- */
-function mailchimp_update_user( $user_email, $list_id, $merge_vars ) {
-
-	$api = mailchimp_load_API();
-
-	if ( is_wp_error( $api ) )
-		return $api;
-
-	$merge_vars['update_existing'] = true;
-
-	return $api->lists->updateMember( $list_id, array( 'email' => $user_email ), $merge_vars );
-}
-
-/**
- * Check if a user is subscribed in the list
  *
- * @param String $user_email
- * @param String $list_id
- * @return Boolean. True if the user is subscribed already to the list
+ * @param string $user_email
+ * @param string $list_id
+ * @param array $options extra data
+ * [
+ *      status          string subscribed|unsubscribed|cleaned|pending
+ *      merge_fields    array [
+ *          FNAME string First Name
+ *          LNAME string Last Name
+ *      ]
+ *      interests       array       List of interests IDs with boolean values
+ * ]
+ *
+ * @return array|bool New user data
  */
-function mailchimp_is_user_subscribed( $user_email, $list_id = false ) {
-	if ( ! is_email( $user_email ) )
-		return false;
-
+function mailchimp_30_update_user( $user_email, $list_id, $options ) {
 	if ( ! $list_id ) {
 		$list_id = get_site_option( 'mailchimp_mailing_list' );
-		if ( ! $list_id )
+		if ( ! $list_id ) {
 			return false;
+		}
 	}
 
-	$api = mailchimp_load_API();
-
-	if ( is_wp_error( $api ) )
-		return $api;
-
-	$emails = array(
-		array( 'email' => $user_email )
+	$defaults = array(
+		'merge_fields' => array(),
+		'status' => false,
+		'email_address' => false
 	);
+	$options = wp_parse_args( $options, $defaults );
 
-	$results = $api->lists->memberInfo( $list_id, $emails );
+	$hash = md5( strtolower( $user_email ) );
 
-	if ( is_wp_error( $results ) )
-		return $results;
+	$args = array();
+	if ( $options['merge_fields'] ) {
+		$args['merge_fields'] = $options['merge_fields'];
+	}
 
-	// The subscriber is not on the list
-	if ( empty( $results['success_count'] ) )
-		return false;
+	if ( $options['email_address'] ) {
+		$args['email_address'] = $options['email_address'];
+	}
 
-	// The subscriber is on the list but is not subscribed
-	if ( $results['data'][0]['status'] != 'subscribed' )
-		return false;
+	if ( $options['status'] ) {
+		$args['status'] = $options['status'];
+	}
 
-	return true;
+	$result = mailchimp_api_30_make_request( 'patch', "lists/$list_id/members/$hash", $args );
+	return $result;
 }
-
-
 
 /**
  * Return user data from a list
  *
  * @param String $user_email
  * @param String $list_id
- * @return Array User data / False if the user do not exist
+ * @return array|bool User data / False if the user do not exist
  */
-function mailchimp_get_user_info( $user_email, $list_id ) {
-	if ( ! is_email( $user_email ) )
-		return false;
+function mailchimp_30_get_user_info( $user_email, $list_id = '' ) {
+	if ( ! $list_id ) {
+		$list_id = get_site_option( 'mailchimp_mailing_list' );
+		if ( ! $list_id ) {
+			return false;
+		}
+	}
 
-	$api = mailchimp_load_API();
+	$hash = md5( strtolower( $user_email ) );
 
-	if ( is_wp_error( $api ) )
-		return false;
+	$result = mailchimp_api_30_make_request( 'get', "lists/$list_id/members/$hash" );
+	if ( ! is_wp_error( $result ) ) {
+		return $result;
+	}
+	return false;
+}
 
-	$emails = array(
-		array( 'email' => $user_email )
+/**
+ * Subscribe a list of users
+ * @param array $data List of users and their data
+ * [
+ *      user_email      string      User email
+ *      options         array       List of options.
+ *      [
+ *	       autopt          boolean
+ *	       merge_fields    array [
+ *	           FNAME string First Name
+ *	           LNAME string Last Name
+ *	       ]
+ *	       interests       array       List of interests IDs with boolean values
+ *
+ *	  ]
+ * ]
+ * @return WP_Error|array
+ */
+function mailchimp_30_bulk_subscribe_users( $data, $list_id = '' ) {
+	if ( ! $list_id ) {
+		$list_id = get_site_option( 'mailchimp_mailing_list' );
+	}
+
+	if ( ! $list_id ) {
+		return new WP_Error( 'missing-list-id', __( 'A list is not specified', 'mailchimp' ) );
+	}
+
+	$path = "lists/$list_id/members";
+	$method = 'post';
+
+	$defaults = array(
+		'autopt' => false,
+		'merge_fields' => array(),
+		'interests' => array()
 	);
 
-	$results = $api->lists->memberInfo( $list_id, $emails );
+	$operations = array();
+	foreach ( $data as $row ) {
+		$row_options = wp_parse_args( $row, $defaults );
 
-	if ( is_wp_error( $results ) )
-		return false;
+		$operation = array(
+			'path' => $path,
+			'method' => $method
+		);
 
-	// The subscriber is not on the list
-	if ( empty( $results['success_count'] ) )
-		return false;
+		$operation_args = array(
+			'email_address' => $row['user_email']
+		);
 
-	return $results;
+		if ( $row_options['autopt'] ) {
+			$operation_args['status'] = 'subscribed';
+			$operation_args['ip_opt'] = $_SERVER['REMOTE_ADDR'];
+		}
+		else {
+			$operation_args['status'] = 'pending';
+		}
+
+		if ( $row_options['merge_fields'] ) {
+			$operation_args['merge_fields'] = (object)$row_options['merge_fields'];
+		}
+
+		if ( $row_options['interests'] ) {
+			$operation_args['interests'] = (object)$row_options['interests'];
+		}
+
+		$operation['args'] = $operation_args;
+		$operations[] = $operation;
+	}
+
+	$result = mailchimp_api_30_make_batch_request( $operations );
+
+	return $result;
 }
+
+/**
+ * UnSubscribe a list of users
+ *
+ * @param array $emails List of emails to unsubscribe
+ *
+ * @return WP_Error|array
+ */
+function mailchimp_30_bulk_unsubscribe_users( $emails, $list_id = '', $delete = false ) {
+	if ( ! $list_id ) {
+		$list_id = get_site_option( 'mailchimp_mailing_list' );
+	}
+
+	if ( ! $list_id ) {
+		return new WP_Error( 'missing-list-id', __( 'A list is not specified', 'mailchimp' ) );
+	}
+
+	$operations = array();
+	foreach ( $emails as $email ) {
+		$hash = md5( strtolower( $email ) );
+		if ( $delete ) {
+			$operations[] = array(
+				'path' => "lists/$list_id/members/$hash",
+				'method' => 'delete'
+			);
+		}
+		else {
+			$operations[] = array(
+				'path' => "lists/$list_id/members/$hash",
+				'method' => 'patch',
+				'args' => array(
+					'status' => 'unsubscribed'
+				)
+			);
+		}
+	}
+
+	return mailchimp_api_30_make_batch_request( $operations );
+}
+
+
 
 /**
  * Get the lists of a Mailchimp account
  *
- * @return Array Lists info
+ * @return array Lists info
  */
-function mailchimp_get_lists() {
-	$api = mailchimp_load_API();
+function mailchimp_30_get_lists() {
+	$lists = mailchimp_api_30_make_request( 'get', 'lists' );
+	if ( ! is_wp_error( $lists ) ) {
+		return $lists['lists'];
+	}
+	return array();
+}
 
-	if ( is_wp_error( $api ) )
+
+function mailchimp_30_get_list_groups( $list_id ) {
+	$api = mailchimp_load_api_30();
+
+	if ( is_wp_error( $api ) ) {
 		return array();
+	}
 
-	$lists = $api->lists->getList( array(), 0, 100 );
+	$cached = get_site_transient( 'mailchimp_list_groups_' . $list_id );
+	if ( $cached ) {
+		return $cached;
+	}
+	$groups = mailchimp_api_30_make_request( 'get', "/lists/$list_id/interest-categories" );
 
-	if ( is_wp_error( $lists ) )
-		return array();
-
-	if ( isset( $lists['data'] ) )
-		return $lists['data'];
+	if ( ! is_wp_error( $groups ) ) {
+		set_site_transient( 'mailchimp_list_groups_' . $list_id, $groups['categories'], 60 ); // Save for 60 seconds
+		return $groups['categories'];
+	}
 
 	return array();
 }
 
-function mailchimp_get_list_groups( $list_id ) {
-	$api = mailchimp_load_API();
 
-	if ( is_wp_error( $api ) )
+function mailchimp_30_get_category_interests( $list_id, $category_id ) {
+	$api = mailchimp_load_api_30();
+
+	if ( is_wp_error( $api ) ) {
 		return array();
+	}
 
-	$groups = $api->lists->interestGroupings( $list_id );
+	$cached = get_site_transient( 'mailchimp_category_interests_' . $list_id . '_' . $category_id );
+	if ( $cached ) {
+		return $cached;
+	}
 
-	if ( is_wp_error( $groups ) )
-		return array();
+	$interests = mailchimp_api_30_make_request( 'get', "/lists/$list_id/interest-categories/$category_id/interests" );
 
-	return $groups;
+	if ( ! is_wp_error( $interests ) ) {
+		set_site_transient( 'mailchimp_category_interests_' . $list_id . '_' . $category_id, $interests['interests'], 60 ); // Save for 60 seconds
+		return $interests['interests'];
+	}
 
+	return array();
 }
 
 /**
@@ -332,33 +379,28 @@ function mailchimp_get_list_groups( $list_id ) {
  *
  * @return array Array of groups
  */
-function mailchimp_get_interest_groups() {
+function mailchimp_30_get_interest_groups() {
 	$mailchimp_mailing_list = get_site_option( 'mailchimp_mailing_list', '' );
 	$groups = get_site_option( 'mailchimp_groups', array() );
 
-	$vars = array();
-	$merge_groups = array();
-	if ( ! empty( $groups[ $mailchimp_mailing_list ] ) ) {
+	if ( ! isset( $groups[ $mailchimp_mailing_list ] ) ) {
+		return array();
+	}
+	$groups = $groups[ $mailchimp_mailing_list ];
 
-		foreach ( $groups[ $mailchimp_mailing_list ] as $group_id => $subgroups ) {
-			if ( is_array( $subgroups ) && ! empty( $subgroups ) ) {
-				$merge_groups[] = array(
-					'id' => $group_id,
-					'groups' => $subgroups
-				);
-			}
-			elseif ( ! empty( $subgroups ) ) {
-				$merge_groups[] = array(
-					'id' => $group_id,
-					'groups' => array( $subgroups )
-				);
+	$interests = array();
+	foreach ( $groups as $group_id => $group_value ) {
+		if ( is_array( $group_value ) ) {
+			foreach ( $group_value as $key => $interest_id ) {
+				$interests[$interest_id] = true;
 			}
 		}
-
-		$vars = $merge_groups;
+		elseif ( ! empty( $group_value ) ) {
+			$interests[$group_value] = true;
+		}
 	}
 
-	return $vars;
+	return $interests;
 }
 
 function mailchimp_get_webhooks_settings() {
@@ -378,13 +420,13 @@ function mailchimp_update_webhooks_settings( $new_settings ) {
 }
 
 function mailchimp_get_webhook_url() {
-	return WPMUDEV_MailChimp_Sync_Webhooks::get_callback_url();
+	return WPMUDEV_MailChimp_Sync_Webhooks_30::get_callback_url();
 }
 
 function mailchimp_set_webhooks_rewrite_rules() {
-	WPMUDEV_MailChimp_Sync_Webhooks::add_rewrite_rules();
+	WPMUDEV_MailChimp_Sync_Webhooks_30::add_rewrite_rules();
 }
 
 function mailchimp_is_webhooks_active() {
-	return WPMUDEV_MailChimp_Sync_Webhooks::is_webhooks_active();
+	return WPMUDEV_MailChimp_Sync_Webhooks_30::is_webhooks_active();
 }

@@ -6,6 +6,13 @@ Contributors: Ivan Shaovchev, Andrey Shipilov
 
 == Changelog ==
 
+= 3.1.5.5 =
+* Added IP Anonymization option
+* Improved dashboard stats precision
+* Improved Google API error handling
+* Fixed tracking code issue when using "both" method on site
+* Removed possible duplicates from dashboard stats
+
 = 3.1.5.1 =
 * Fixed Google App compatibility issues
 * Fixed widget notice
@@ -159,4 +166,4 @@ Contributors: Ivan Shaovchev, Andrey Shipilov
 
 
 
-133620-1443654394-au
+133620-1483063246-au

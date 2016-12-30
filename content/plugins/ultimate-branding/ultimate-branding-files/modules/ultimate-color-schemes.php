@@ -123,7 +123,7 @@ if (!class_exists('Ultimate_Color_Schemes')) {
             }
 
             /* Custom scheme */
-            wp_admin_css_color('wpi_custom_scheme', ub_get_option('ucs_color_scheme_name', 'Ultimate'), admin_url('?custom-color-scheme', __FILE__), array(ub_get_option('ucs_admin_menu_background_color', '#45B29D'), ub_get_option('ucs_admin_menu_submenu_background_color', '#334D5C'), ub_get_option('ucs_admin_menu_current_background_color', '#EFC94C'), ub_get_option('ucs_table_view_switch_icon_color', '#45B29D'), ub_get_option('ucs_table_view_switch_icon_hover_color', '#d46f15'), ub_get_option('ucs_table_alternate_row_color', '#E5ECF0')));	   	 		 		 	   		
+            wp_admin_css_color('wpi_custom_scheme', ub_get_option('ucs_color_scheme_name', 'Ultimate'), admin_url('?custom-color-scheme', __FILE__), array(ub_get_option('ucs_admin_menu_background_color', '#45B29D'), ub_get_option('ucs_admin_menu_submenu_background_color', '#334D5C'), ub_get_option('ucs_admin_menu_current_background_color', '#EFC94C'), ub_get_option('ucs_table_view_switch_icon_color', '#45B29D'), ub_get_option('ucs_table_view_switch_icon_hover_color', '#d46f15'), ub_get_option('ucs_table_alternate_row_color', '#E5ECF0')));
         }
 
         function set_custom_color_scheme() {
@@ -252,12 +252,12 @@ if (!class_exists('Ultimate_Color_Schemes')) {
                         'value' => ub_get_option('ucs_table_view_switch_icon_hover_color', '#d46f15')
                     ),
                     'ucs_table_post_comment_icon_color' => array(
-                        'title' => 'Post Comment Icon Hover',
+                        'title' => 'Post Comment Count Hover',
                         'default' => '#45B29D',
                         'value' => ub_get_option('ucs_table_post_comment_icon_color', '#45B29D')
                     ),
                     'ucs_table_post_comment_strong_icon_color' => array(
-                        'title' => 'Post Comment Strong Icon',
+                        'title' => 'Post Comment Count',
                         'default' => '#d46f15',
                         'value' => ub_get_option('ucs_table_post_comment_strong_icon_color', '#d46f15')
                     ),
@@ -359,6 +359,16 @@ if (!class_exists('Ultimate_Color_Schemes')) {
                         'title' => 'Admin Bar Item Hover Background',
                         'default' => '#334D5C',
                         'value' => ub_get_option('ucs_admin_bar_item_hover_background_color', '#334D5C')
+                    ),
+                    'ucs_admin_bar_item_hover_focus_color' => array(
+                        'title' => 'Admin Bar Item Hover Focus Color',
+                        'default' => '#334D5C',
+                        'value' => ub_get_option('ucs_admin_bar_item_hover_focus_color', '#334D5C')
+                    ),
+                    'ucs_admin_bar_item_hover_focus_background' => array(
+                        'title' => 'Admin Bar Item Hover Focus Background',
+                        'default' => '#334D5C',
+                        'value' => ub_get_option('ucs_admin_bar_item_hover_focus_background', '#334D5C')
                     ),
                     'ucs_admin_bar_submenu_icon_color' => array(
                         'title' => 'Admin Bar Submenu Icon and Links',

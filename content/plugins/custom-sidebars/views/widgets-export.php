@@ -16,7 +16,7 @@
 			_e(
 				'This will generate a complete export file containing all ' .
 				'your sidebars and the current sidebar configuration.', 'custom-sidebars'
-			);							 			 	 	 		  
+			);
 			?>
 		</p>
 		<p>

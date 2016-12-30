@@ -55,7 +55,9 @@ li[id^="wp-admin-bar-ub_admin_bar_"]{
         display: none;
     }
 
-
+    #wpadminbar li[id^="wp-admin-bar-ub_admin_bar"]{
+        position: static;
+    }
 
     #wpadminbar li[id^="wp-admin-bar-ub_admin_bar"] a{
         padding: 0 10px !important;
@@ -94,8 +96,8 @@ li[id^="wp-admin-bar-ub_admin_bar_"]{
     #wpadminbar li[id^="wp-admin-bar-ub_admin_bar_"] .dashicons{
         margin: 0;
     }
-    #wpadminbar li[id^="wp-admin-bar-ub_admin_bar_"]
+
 }
 
 
-/* 133620-1441813025-au */
+/* 133620-1483063271-au */

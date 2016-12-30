@@ -95,9 +95,13 @@ class ub_Login_Image {
         $login_image_old = ub_get_option('ub_login_image_url', false);
         $login_image_id = ub_get_option('ub_login_image_id', false);
         $login_image_size = ub_get_option('ub_login_image_size', false);
-        $login_image_width = ub_get_option('ub_login_image_width', false);
-        $login_image_height = ub_get_option('ub_login_image_height', false);
+        $login_image_width = ub_get_option('ub_login_image_width', 64);
+        $login_image_height = ub_get_option('ub_login_image_height', 64);
         $login_image = ub_get_option('ub_login_image', false);
+
+        $login_image_width = 0 === intval( $login_image_width ) ? 64 : $login_image_width;
+        $login_image_height = 0 === intval( $login_image_height ) ? 64 : $login_image_height;
+
         if (isset($login_image_old) && trim($login_image_old) !== '') {
             $login_image = $login_image_old;
         } else {
@@ -109,19 +113,29 @@ class ub_Login_Image {
                 } else {
                     $login_image_src = wp_get_attachment_image_src($login_image_id, $login_image_size, $icon = false);
                 }
-                $login_image = $login_image_src[0];
-                $width = $login_image_src[1];
-                $height = $login_image_src[2];
-            } else if ($login_image) {
-                if ($login_image_width && $login_image_height) {
-                    $width = $login_image_width;
-                    $height = $login_image_height;
-                } else {
 
-                    list($width, $height) = getimagesize( set_url_scheme( $this->get_absolute_url( $login_image ), is_ssl() ? "https" : "http" ) );
+                $login_image = $login_image_src[0];
+                $width = !$login_image_width ?  $login_image_src[1] : $login_image_width;
+                $height = !$login_image_height ?  $login_image_src[2] : $login_image_height;
+
+            } else if ($login_image) {
+                if(  !$login_image_width || !$login_image_height ){
+                    try{
+                        list($width, $height) = getimagesize( set_url_scheme( $this->get_absolute_url( $login_image ), is_ssl() ? "https" : "http" ) );
+                        if( $width )
+                            ub_update_option('ub_login_image_width', $width);
+
+                        if( $height )
+                            ub_update_option('ub_login_image_height', $height);
+
+                    }catch (Exception $e){
+
+                    }
                 }
+
             } else {
                 $response = wp_remote_head(admin_url() . 'images/wordpress-logo.svg');
+
                 if (!is_wp_error($response) && !empty($response['response']['code']) && $response['response']['code'] == '200') {//support for 3.8+
                     $login_image = admin_url() . 'images/wordpress-logo.svg';
                 } else {
@@ -137,6 +151,7 @@ class ub_Login_Image {
 
         $width = empty( $width ) ? "100%" : $width . "px";
         $height = empty( $height ) ? "100%" : $height . "px";
+
         ?>
         <style type="text/css">
             .login h1 a {
@@ -186,11 +201,12 @@ class ub_Login_Image {
 
             wp_redirect('admin.php?page=branding&tab=images');
         } elseif (isset($_POST['wp_login_image'])) {
-            ub_update_option('ub_login_image', $_POST['wp_login_image']);
-            ub_update_option('ub_login_image_id', $_POST['wp_login_image_id']);
-            ub_update_option('ub_login_image_size', $_POST['wp_login_image_size']);
-            ub_update_option('ub_login_image_width', $_POST['wp_login_image_width']);
-            ub_update_option('ub_login_image_height', $_POST['wp_login_image_height']);
+
+            ub_update_option('ub_login_image', filter_input( INPUT_POST,  'wp_login_image', FILTER_SANITIZE_STRING) );
+            ub_update_option('ub_login_image_id', filter_input( INPUT_POST,  'wp_login_image_id', FILTER_SANITIZE_NUMBER_INT) );
+            ub_update_option('ub_login_image_size', filter_input( INPUT_POST,  'wp_login_image_size', FILTER_SANITIZE_STRING) );
+            ub_update_option('ub_login_image_width', filter_input( INPUT_POST,  'wp_login_image_width', FILTER_SANITIZE_NUMBER_FLOAT ) );
+            ub_update_option('ub_login_image_height', filter_input( INPUT_POST, 'wp_login_image_height', FILTER_SANITIZE_NUMBER_FLOAT ) );
         }
 
         return true;
@@ -229,9 +245,12 @@ class ub_Login_Image {
                     $login_image_height = ub_get_option('ub_login_image_height', false);
                     $login_image = ub_get_option('ub_login_image', false);
 
+                    $login_image_width = 0 === intval( $login_image_width ) ? 64 : $login_image_width;
+                    $login_image_height = 0 === intval( $login_image_height ) ? 64 : $login_image_height;
+
                     if (isset($login_image_old) && trim($login_image_old) !== '') {
                         $login_image = $login_image_old;
-                    } else {
+                    } elseif( !$login_image ) {
                         if ($login_image_id) {
                             if (is_multisite() && function_exists('is_plugin_active_for_network') && is_plugin_active_for_network('ultimate-branding/ultimate-branding.php')) {
                                 switch_to_blog(1);
@@ -241,7 +260,7 @@ class ub_Login_Image {
                                 $login_image_src = wp_get_attachment_image_src($login_image_id, $login_image_size, $icon = false);
                             }
                             $login_image = $login_image_src[0];
-                        } else {
+                        } else{
                             $response = wp_remote_head(admin_url() . 'images/wordpress-logo.svg');
                             if (!is_wp_error($response) && !empty($response['response']['code']) && $response['response']['code'] == '200') {//support for 3.8+
                                 $login_image = admin_url() . 'images/wordpress-logo.svg';
@@ -251,7 +270,7 @@ class ub_Login_Image {
                         }
                     }
                     ?>
-                    <img src="<?php echo $login_image . '?' . md5(time()); ?>" />
+                    <img height="<?php echo $login_image_height ?>" width="<?php echo $login_image_width ?>" id="wp_login_image_el" src="<?php echo $login_image . '?' . md5(time()); ?>" />
                     </p>
 
                     <h4><?php _e('Change Image', 'login_image'); ?></h4>
@@ -260,8 +279,18 @@ class ub_Login_Image {
                     <input class="st_upload_button button" id="wp_login_image_button" type="button" value="<?php _e('Browse', 'ub'); ?>" />
                     <input type="hidden" name="wp_login_image_id" id="wp_login_image_id" value="<?php echo esc_attr($login_image_id); ?>" />
                     <input type="hidden" name="wp_login_image_size" id="wp_login_image_size" value="<?php echo esc_attr($login_image_size); ?>" />
-                    <input type="hidden" name="wp_login_image_width" id="wp_login_image_width" value="<?php echo esc_attr($login_image_width); ?>" />
-                    <input type="hidden" name="wp_login_image_height" id="wp_login_image_height" value="<?php echo esc_attr($login_image_height); ?>" />
+                    <p id="wp_login_image_width_wrap" class="<?php echo $login_image_id ? 'hidden' : ''  ?>">
+                        <label for="wp_login_image_width">
+                            <?php _e("Login Image Width", "ub"); ?>
+                            <input type="<?php echo $login_image_id ? 'hidden' : 'number'  ?>" name="wp_login_image_width" id="wp_login_image_width" value="<?php echo esc_attr($login_image_width); ?>" />
+                        </label>
+                    </p>
+                    <p id="wp_login_image_height_wrap" class="<?php echo $login_image_id ? 'hidden' : ''  ?>">
+                        <label for="wp_login_image_height">
+                            <?php _e("Login Image Height", "ub"); ?>
+                            <input type="<?php echo $login_image_id ? 'hidden' : 'number'  ?>" name="wp_login_image_height" id="wp_login_image_height" value="<?php echo esc_attr($login_image_height); ?>" />
+                        </label>
+                    </p>
                 </div>
             </div>
         </div>
@@ -269,6 +298,12 @@ class ub_Login_Image {
         <?php
     }
 
+    protected function get_attachment_by_guid( $guid ){
+        global $wpdb;
+        $table = $wpdb->base_prefix . "posts";
+
+        return $wpdb->get_var( $wpdb->prepare( "SELECT `ID` FROM  $table WHERE `guid`=%s", $guid ) );
+    }
     protected function is_relative( $url ){
         return  ( parse_url($url, PHP_URL_SCHEME) === "" || parse_url($url, PHP_URL_SCHEME) === null );
     }

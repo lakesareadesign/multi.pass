@@ -46,17 +46,24 @@ class ub_favicons {
 
     function __construct() {
 
-	    self::$_default_fav = admin_url() . 'images/wordpress-logo.svg';
+	    self::$_default_fav = admin_url() . 'images/w-logo-blue.png';
 
         // Admin interface
         add_action('ultimatebranding_settings_menu_images', array($this, 'manage_output'));
         add_filter('ultimatebranding_settings_menu_images_process', array($this, 'process'));
 
-        add_action('admin_head', array($this, 'admin_head'));
-        add_action('admin_head', array($this, 'global_head'));
-        add_action('wp_head', array($this, 'global_head'));
+		if( !$this->_supports_site_icon() ){
+			add_action('admin_head', array($this, 'admin_head'));
+			add_action('admin_head', array($this, 'global_head'));
+			add_action('wp_head', array($this, 'global_head'));
+		}else{
+			add_filter("get_site_icon_url", array( $this, "site_icon_url" ), 10, 3);
+		}
 
-        add_action('wp_before_admin_bar_render', array($this, 'change_blavatar_icon'));
+
+		if( $this->_override_site_icon()  )
+        	add_action('wp_before_admin_bar_render', array($this, 'change_blavatar_icon'));
+
 	    add_action("wp_ajax_ub_save_favicon", array($this, "ajax_ub_save_favicon"));
 	    add_action("wp_ajax_ub_reset_favicon", array($this, "ajax_ub_reset_favicon"));
 
@@ -87,9 +94,7 @@ class ub_favicons {
         $v_image_url = parse_url($url);
 
         if (isset($v_image_url['scheme']) && $v_image_url['scheme'] == 'https') {
-            if (!is_ssl()) {
-                $image = str_replace('https', 'http', $image);
-            }
+           // Allow http sites to load https favicons
         } else {
             if (is_ssl()) {
                 $image = str_replace('http', 'https', $image);
@@ -119,10 +124,13 @@ class ub_favicons {
 
             wp_redirect('admin.php?page=branding&tab=images');
         } elseif (isset($_POST['wp_favicon'])) {
-            ub_update_option('ub_favicon', $_POST['wp_favicon']);
-            ub_update_option('ub_favicon_id', $_POST['wp_favicon_id']);
-            ub_update_option('ub_favicon_size', $_POST['wp_favicon_size']);
-            ub_update_option('ub_favicons_use_as_default', $_POST['ub_favicons_use_as_default']);
+
+            ub_update_option('ub_favicon', filter_input( INPUT_POST, 'wp_favicon'));
+            ub_update_option('ub_favicon_id', filter_input( INPUT_POST, 'wp_favicon_id', FILTER_SANITIZE_NUMBER_INT) );
+            ub_update_option('ub_favicon_size', filter_input( INPUT_POST, 'wp_favicon_size', FILTER_SANITIZE_STRING));
+            ub_update_option('ub_favicons_use_as_default', filter_input( INPUT_POST, 'ub_favicons_use_as_default') );
+            ub_update_option('ub_favicons_override_site_icon', filter_input( INPUT_POST, 'ub_favicons_override_site_icon', FILTER_SANITIZE_NUMBER_INT) );
+
         }
 
         return true;
@@ -186,9 +194,17 @@ class ub_favicons {
                             }
                         }
                     }
+
                     ?>
 
-
+					<?php if( $this->_supports_site_icon() ): ?>
+						<p>
+							<label for="ub_favicons_override_site_icon">
+								<input type="checkbox" id="ub_favicons_override_site_icon" value="1" name="ub_favicons_override_site_icon" <?php checked(self::_override_site_icon(), 1); ?>  />
+								<?php _e('Allow favicon defined here to override the site icon defined in <strong>Appearance > Customization</strong> ', "ub"); ?>
+							</label>
+						</p>
+					<?php endif; ?>
 	                <?php if( is_multisite() ): ?>
                         <h4><?php _e('Main site Favicon', 'ub'); ?></h4>
 					<?php else: ?>
@@ -199,6 +215,8 @@ class ub_favicons {
                     <input class="st_upload_button button" id="wp_favicon_button" type="button" value="<?php _e('Browse', 'ub'); ?>" />
                     <input type="hidden" name="favicon_id" id="wp_favicon_id" value="<?php echo esc_attr($favicon_id); ?>" />
                     <input type="hidden" name="wp_favicon_size" id="wp_favicon_size" value="<?php echo esc_attr($favicon_size); ?>" />
+
+
 
 	                <?php  $this->_render_subsites_favicon();  ?>
                 </div>
@@ -243,13 +261,12 @@ class ub_favicons {
     }
 
     function global_head() {
-		global $current_blog;
 
         $favicon_dir = ub_get_option('ub_favicon_dir', false);
         $favicon = ub_get_option('ub_favicon', false);
 
         if ($favicon_dir && file_exists($favicon_dir) || $favicon) {
-            echo '<link rel="shortcut icon" href="' . self::get_favicon($current_blog->blog_id) . '" />';
+            echo '<link rel="shortcut icon" href="' . self::get_favicon( get_current_blog_id() ) . '" />';
         }
     }
 
@@ -260,6 +277,8 @@ class ub_favicons {
 	 */
     function change_blavatar_icon() {
         global $wp_admin_bar;
+
+		if( !isset( $wp_admin_bar->user, $wp_admin_bar->user->blogs ) ) return;
 
         foreach ((array) $wp_admin_bar->user->blogs as $blog) {
 
@@ -324,7 +343,7 @@ class ub_favicons {
 	 *
 	 * @return string
 	 */
-	public static function get_favicon( $blog_id = null, $add_tail = true ){
+	public static function get_favicon( $blog_id = null, $add_tail = false ){
 
 		/**
 		 * If it's the main site return the main fav
@@ -377,6 +396,11 @@ class ub_favicons {
 	 */
 	private static function _use_as_default(){
 		return (bool) ub_get_option("ub_favicons_use_as_default", false);
+	}
+
+
+	private static function _override_site_icon(){
+		return (int) ub_get_option("ub_favicons_override_site_icon", !function_exists("has_site_icon") );
 	}
 
 	/**
@@ -466,6 +490,31 @@ class ub_favicons {
 		}
 
 		return $good_protocol_url;
+	}
+
+	/**
+	 * Checks if current wp install supports site icon
+	 *
+	 * @return bool
+	 */
+	private function _supports_site_icon(){
+		return function_exists("has_site_icon");
+	}
+
+	/**
+	 * Sets site url based on definitions
+	 *
+	 * @param $url
+	 * @param $size
+	 * @param $blog_id
+	 * @return mixed
+	 */
+	function site_icon_url( $url, $size, $blog_id  ){
+		if( !$this->_override_site_icon() ) return $url;
+
+		$blog_id = empty( $blog_id ) ? get_current_blog_id() : $blog_id;
+
+		return self::get_favicon( $blog_id );
 	}
 }
 

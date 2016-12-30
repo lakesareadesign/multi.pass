@@ -24,7 +24,7 @@ class WPMUDEV_MailChimp_Shortcode {
 	public function validate_shortcode( $settings = array() ) {
 		if ( isset( $_POST['submit-subscribe-shortcode-user'] ) ) {
 
-			global $mailchimp_sync;
+			global $mailchimp_sync_api;
 			$errors = array();
 
 			if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'mailchimp_subscribe_user' ) )
@@ -42,7 +42,7 @@ class WPMUDEV_MailChimp_Shortcode {
 				$user['first_name'] = sanitize_text_field( $_POST['subscription-firstname'] );
 				$user['last_name'] = sanitize_text_field( $_POST['subscription-lastname'] );
 
-				$mailchimp_sync->mailchimp_add_user( $user );
+				$mailchimp_sync_api->mailchimp_add_user( $user );
 			}
 
     		$this->errors[ $number ] = $errors;
@@ -114,7 +114,7 @@ class WPMUDEV_MailChimp_Shortcode {
 		$args['button_text'] = $button_text;
 		$args['form_id'] = 'incsub-mailchimp-shortcode-form-' . self::$number;
 		$args['submit_name'] = 'submit-subscribe-shortcode-user';
-		$args['firstname'] = ! empty( $_POST['subscription-firstname'] ) ? stripslashes( $_POST['subscription-firstname'] ) : '';	     	 	   				 	
+		$args['firstname'] = ! empty( $_POST['subscription-firstname'] ) ? stripslashes( $_POST['subscription-firstname'] ) : '';
 		$args['lastname'] = ! empty( $_POST['subscription-lastname'] ) ? stripslashes( $_POST['subscription-lastname'] ) : '';
 		$args['email'] = ! empty( $_POST['subscription-email'] ) ? stripslashes( $_POST['subscription-email'] ) : '';
 

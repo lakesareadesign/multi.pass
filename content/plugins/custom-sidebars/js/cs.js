@@ -1,4 +1,4 @@
-/*! Custom Sidebars - v2.1.17
+/*! Custom Sidebars - v2.1.19
  * https://premium.wpmudev.org/project/custom-sidebars-pro/
  * Copyright (c) 2016; * Licensed GPLv2+ */
 /*global window:false */

@@ -4,7 +4,7 @@ Plugin Name: Lock Posts
 Plugin URI: https://premium.wpmudev.org/project/lock-posts/
 Description: This plugin allows site admin to lock down posts on any blog so that regular ol' users just can't edit them - for example, with a school assignment - stop it from being edited after submission.
 Author: WPMU DEV
-Version: 1.1.6
+Version: 1.1.7
 Text Domain: lock_posts
 Author URI: http://premium.wpmudev.org/
 WDP ID: 83
@@ -198,7 +198,7 @@ class Lock_Posts {
 		$post = get_post( $_GET['post'] );
 		echo '<div class="wrap">';
 		echo '<h2>' . __( 'Post Locked', 'lock_posts' ) . '</h2>';
-		echo '<p>' . sprintf( __( 'The post "%s" has been locked by a Super admin and you aren\'t able to edit it.', 'lock_posts' ), $post->post_title ) . '</p>';
+		echo '<p>' . sprintf( __( 'The post "%s" has been locked by a Super admin and you aren\'t able to edit it.', 'lock_posts' ), $post->post_title ) . '</p>';	     	 	  	   			
 		echo '<p><a href="' . admin_url( 'edit.php?post_type=' . $post->post_type ) . '">&laquo; ' . __( 'Back to Posts List', 'lock_posts' ) . '</a></p>';
 		echo '</div>';
 	}

@@ -1,7 +1,7 @@
 <?php
 
 if ( ! defined( 'WPMUDEV_COPIER_LANG_DOMAIN' ) )
-    define( 'WPMUDEV_COPIER_LANG_DOMAIN', 'wpmudev-copier' );
+    define( 'WPMUDEV_COPIER_LANG_DOMAIN', 'wpmudev-cloner' );
 
 include_once( dirname( __FILE__ ) . '/integration.php' );
 
@@ -265,6 +265,7 @@ if ( ! function_exists( 'copier_get_additional_tables' ) ) {
             'options',
             'postmeta',
             'terms',
+            'termmeta',
             'term_taxonomy',
             'term_relationships',
             'commentmeta',

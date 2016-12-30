@@ -1,3 +1,6 @@
+table.plugins {
+	display: none;
+}
 .edit-category-save-button, .add-category-button {
 	margin: 0 0 0 5px !important;
 }
@@ -25,6 +28,10 @@
 .inline-edit-row fieldset label textarea.plugin_description {
 	height: 6.5em;
 }
+table.plugins .inline-edit-row .spinner {
+	visibility: visible;
+	display: none;
+}
 
 
-/* 133620-1473370910-au */
+/* 133620-1483063264-au */

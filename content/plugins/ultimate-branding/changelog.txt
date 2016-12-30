@@ -1,10 +1,23 @@
 ﻿Plugin Name: Ultimate Branding
-Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve Bailovity (Incsub), Sam Najian (Incsub)
+Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve Bailovity (Incsub), Sam Najian (Incsub), Joseph Fusco (Incsub)
 
 
-Change Log: 
+Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+DATE: 20 Dec, 2016  - VERSION: 1.8.3
+==================================
+- Added: Compatibility with WordPress site icon ( Favicons )
+- Added: Focus color and background color customization for admin menu
+- Fixed: Login image not being able to assign image from external url
+- Fixed: Login image options for height and width
+- Fixed: Issue in text change missing admin_front index while saving
+- Fixed: Issue with undefined index
+- Fixed: Issue with undefined blog_id in global head
+- Fixed: Issue with login image absolute url
+- Fixed: Conflict between admin-icon.css and other font icons
+- Fixed: Minor issue with color schemes
+
 DATE: 4 Sep, 2015  - VERSION: 1.8.2
 ==================================
 - Fixed: Bug in "View Switch Icon" and "View Switch Icon Hover" ( Color Schemes )
@@ -280,4 +293,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-133620-1441813025-au
+133620-1483063271-au

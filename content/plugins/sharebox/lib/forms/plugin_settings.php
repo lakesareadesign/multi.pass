@@ -51,7 +51,7 @@ $('.wdsb-service-item input[name*="services"]').change(function () {
 	var $me = $(this);
 	var $parent = $me.parents('.wdsb-service-item');
 	if ($me.is(":checked")) $parent.removeClass("wdsb-disabled");
-	else if (!$me.is(":checked") && !$parent.is(".wdsb-disabled")) $parent.addClass("wdsb-disabled");	     	 	 			 	   
+	else if (!$me.is(":checked") && !$parent.is(".wdsb-disabled")) $parent.addClass("wdsb-disabled");
 	$("#wdsb-services").sortable("destroy").sortable({
 		"items": "li:not(.wdsb-disabled)"
 	});

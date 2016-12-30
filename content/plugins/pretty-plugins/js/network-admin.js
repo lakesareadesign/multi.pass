@@ -2,20 +2,46 @@ jQuery(document).ready(function() {
 	plugins_details_array = prettyplugins_object_to_array(wmd_pl_na.plugin_details);
 	plugins_categories_array = prettyplugins_object_to_array(wmd_pl_na.plugin_categories);
 
-	holder = jQuery('#bulk-action-form');
+	table = jQuery('table.plugins'); table.show();
+	table_plugin_edit = jQuery('table#inlineedit tr');
+	plugin_edit_wpnonce = table_plugin_edit.find('#_wpnonce').val();
 
-	prettyplugins_load_data();
+	//add column for image
+	table.find('thead tr, tfoot tr').append( '<th scope="col" id="image" class="manage-column column-image">'+wmd_pl_na.image+'</th>' );
 
-	if(wmd_pl_na.js_wp_version > 1) {
-		var refresh;
-		jQuery('.search-plugins').on( 'search keyup input', '#plugin-search-input', function(event) {
-			clearTimeout(refresh);
-			refresh = setTimeout(prettyplugins_load_data_check, 1000);
-		});
-	}
+	plugins_table_array = [];
+
+	//Prepare and add data for each plugin
+	table.find('tbody > tr:not(.plugin-update-tr)').each(function() {
+		plugin_table = jQuery(this);
+		plugin_path = plugin_table.find('th.check-column input').val();
+		if(plugin_path) {
+			plugin_plugin_column = plugin_table.find('td.plugin-title');
+			plugin_description_column = plugin_table.find('td.column-description');
+			if(jQuery.inArray(plugin_path,wmd_pl_na.network_only_plugins) == -1) {
+				plugin_name = plugin_plugin_column.find('strong').text();
+				plugin_description = plugin_description_column.find('p').html();
+
+				plugins_table_array[plugin_path] = {
+				    table : plugin_table,
+				    name : plugin_name,
+				    description : plugin_description,
+				    plugin_column : plugin_plugin_column,
+				    description_column : plugin_description_column
+				};
+				plugin_table.append( '<td class="column-image desc"><img class="plugin-image" width="100" height="75" src="'+wmd_pl_na.theme_url+'images/default_screenshot.png" alt="'+name+'"/></td>' );
+
+				prettyplugins_plugin_add_data(plugin_path);
+			}
+			else {
+				plugin_plugin_column.find('div.row-actions-visible .edit a').text(wmd_pl_na.edit_code);
+				plugin_table.append( '<td class="column-image desc"></td>' );
+			}
+		}
+	});
 
 	//get edit plugin details screen on click
-	holder.on( 'click', 'a.edit_details', function(event) {
+	jQuery('a.edit_details').click(function(event) {
 		event.preventDefault();
 
 		plugin_path = jQuery(this).attr('href').substring(1);
@@ -50,7 +76,7 @@ jQuery(document).ready(function() {
 	});
 
 	//show interface to add category on click
-	holder.on( 'click', 'a.add-category-show-form', function(event) {
+	table.on( 'click', 'a.add-category-show-form', function(event) {
 		event.preventDefault();
 
 		jQuery(this).parent().siblings( ".plugin-category-add-edit-holder" ).toggle().find('.plugin_new_category').focus();
@@ -59,7 +85,7 @@ jQuery(document).ready(function() {
 	});
 
 	//makes adding category work
-	holder.on( 'click', 'a.add-category-button', function(event) {
+	table.on( 'click', 'a.add-category-button', function(event) {
 		event.preventDefault();
 
 		plugin_path = jQuery(this).attr('href').substring(1);
@@ -97,7 +123,7 @@ jQuery(document).ready(function() {
 	});
 
 	//show interface for editing category
-	holder.on( 'click', 'a.edit-category-show-form', function(event) {
+	table.on( 'click', 'a.edit-category-show-form', function(event) {
 		event.preventDefault();
 
 		category_id = jQuery(this).attr('href').substring(1);
@@ -116,7 +142,7 @@ jQuery(document).ready(function() {
 	});
 
 	//makes adding category work
-	holder.on( 'click', 'a.edit-category-save-button', function(event) {
+	table.on( 'click', 'a.edit-category-save-button', function(event) {
 		event.preventDefault();
 
 		plugin_path = jQuery(this).attr('href').substring(1);
@@ -152,7 +178,7 @@ jQuery(document).ready(function() {
 	});
 
 	//cancel plugin editing/adding
-	holder.on( 'click', 'a.category-cancel-button', function(event) {
+	table.on( 'click', 'a.category-cancel-button', function(event) {
 		event.preventDefault();
 
 		plugin_category_div = jQuery(this).parents('.inline-edit-col');
@@ -163,7 +189,7 @@ jQuery(document).ready(function() {
 	});
 
 	//get edit plugin details screen on click
-	holder.on( 'click', 'a.plugin-save', function(event) {
+	table.on( 'click', 'a.plugin-save', function(event) {
 		event.preventDefault();
 
 		plugin_path = jQuery(this).attr('href').substring(1);
@@ -207,7 +233,7 @@ jQuery(document).ready(function() {
 	});
 
 	//cancel plugin editing
-	holder.on( 'click', 'a.plugin-cancel', function(event) {
+	table.on( 'click', 'a.plugin-cancel', function(event) {
 		event.preventDefault();
 
 		plugin_path = jQuery(this).attr('href').substring(1);
@@ -222,7 +248,7 @@ jQuery(document).ready(function() {
 	});
 
 	//handle enter pressing while editing details
-	holder.on( 'keyup keypress', '#plugin-edit', function(event) {
+	table.on( 'keyup keypress', '#plugin-edit', function(event) {
 		var code = event.keyCode || event.which;
 		if (code  == 13) {
 			event.preventDefault();
@@ -236,7 +262,7 @@ jQuery(document).ready(function() {
 	});
 
     var image_uploader;
-    holder.on( 'click', '.plugin_image_upload_button', function(event) {
+    table.on( 'click', '.plugin_image_upload_button', function(event) {
         event.preventDefault();
 
 		plugin_path = jQuery(this).attr('href').substring(1);
@@ -264,66 +290,16 @@ jQuery(document).ready(function() {
         image_uploader.open();
     });
 
-	holder.on( 'change', '.plugin_image_url', function(event) {
+	table.on( 'change', '.plugin_image_url', function(event) {
 		prettyplugins_hide_image_id_edit_button(jQuery(this).parent())
-	});
-
-});
-
-function prettyplugins_load_data_check() {
-	if(jQuery('table.plugins').length) {
-		prettyplugins_load_data_check_running = false;
-		prettyplugins_load_data();
-	}
-	else {
-		setTimeout(prettyplugins_load_data_check, 500);
-	}
-}
-
-function prettyplugins_load_data() {
-	table = jQuery('table.plugins'); table.show();
-	table_plugin_edit = jQuery('table#inlineedit tr');
-	plugin_edit_wpnonce = table_plugin_edit.find('#_wpnonce').val();
-
-	//add column for image
-	table.find('thead tr, tfoot tr').append( '<th scope="col" id="image" class="manage-column column-image">'+wmd_pl_na.image+'</th>' );
-
-	plugins_table_array = [];
-
-	//Prepare and add data for each plugin
-	table.find('tbody > tr:not(.plugin-update-tr)').each(function() {
-		plugin_table = jQuery(this);
-		plugin_path = plugin_table.find('th.check-column input').val();
-		if(plugin_path) {
-			plugin_plugin_column = plugin_table.find('td.plugin-title');
-			plugin_description_column = plugin_table.find('td.column-description');
-			if(jQuery.inArray(plugin_path,wmd_pl_na.network_only_plugins) == -1) {
-				plugin_name = plugin_plugin_column.find('strong').text();
-				plugin_description = plugin_description_column.find('p').html();
-
-				plugins_table_array[plugin_path] = {
-				    table : plugin_table,
-				    name : plugin_name,
-				    description : plugin_description,
-				    plugin_column : plugin_plugin_column,
-				    description_column : plugin_description_column
-				};
-				plugin_table.append( '<td class="column-image desc"><img class="plugin-image" width="100" height="75" src="'+wmd_pl_na.theme_url+'images/default_screenshot.png" alt="'+name+'"/></td>' );
-
-				prettyplugins_plugin_add_data(plugin_path);
-			}
-			else {
-				plugin_plugin_column.find('div.row-actions-visible .edit a').text(wmd_pl_na.edit_code);
-				plugin_table.append( '<td class="column-image desc"></td>' );
-			}
-		}
 	});
 
 	//change colspan for plugin update message
 	table.find('tbody > tr.plugin-update-tr').each(function() {
 		jQuery(this).find('td').attr('colspan', '4');
 	});
-}
+
+});
 
 function prettyplugins_handle_image_id(target, image_id) {
 	if(image_id != null) {

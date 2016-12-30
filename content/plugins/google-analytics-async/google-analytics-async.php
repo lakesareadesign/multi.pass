@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/google-analytics-for-wordpress-mu
 Description: Enables Google Analytics for your site with statistics inside WordPress admin panel. Single and multi site compatible!
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
-Version: 3.1.5.1
+Version: 3.1.5.5
 WDP ID: 51
 License: GNU General Public License (Version 2 - GPLv2)
 */
@@ -105,7 +105,7 @@ class Google_Analytics_Async {
         $this->current_settings = is_network_admin() ? $this->network_settings : $this->settings;
         if(is_multisite() && !is_network_admin() && (!isset($this->network_settings['track_settings']['capability_reports_overwrite']) || (isset($this->network_settings['track_settings']['capability_reports_overwrite']) && !$this->network_settings['track_settings']['capability_reports_overwrite']))) {
             $this->current_settings['track_settings']['minimum_capability_reports'] = isset($this->network_settings['track_settings']['minimum_capability_reports']) ? $this->network_settings['track_settings']['minimum_capability_reports'] : '';
-            $this->current_settings['track_settings']['minimum_role_capability_reports'] = isset($this->network_settings['track_settings']['minimum_role_capability_reports']) ? $this->network_settings['track_settings']['minimum_role_capability_reports'] : '';	     	 	   	  			
+            $this->current_settings['track_settings']['minimum_role_capability_reports'] = isset($this->network_settings['track_settings']['minimum_role_capability_reports']) ? $this->network_settings['track_settings']['minimum_role_capability_reports'] : '';
         }
 
         /* Set plugin directory path */
@@ -223,12 +223,18 @@ class Google_Analytics_Async {
 						<?php endif; ?>
 						_gaq.push(['_setAllowHash', false]);
 					<?php endif; ?>
+                    <?php if ( isset($network_settings['anonymize_ip']) && !empty( $network_settings['anonymize_ip'] ) ): ?>
+                        _gaq.push(['_anonymizeIp']);
+                    <?php endif; ?>
                     <?php do_action('ga_plus_network_tracking_code_add_vars', ''); ?>
 					_gaq.push(['_trackPageview']);
 				<?php endif; ?>
 
                 <?php if ( !is_admin() && !empty( $site_settings['tracking_code'] ) && (!isset( $site_settings['track_method'] ) || $site_settings['track_method'] == 'classic' || $site_settings['track_method'] == 'both') ): ?>
 					_gaq.push(['b._setAccount', '<?php echo $site_settings['tracking_code']; ?>']);
+                    <?php if ( isset($site_settings['anonymize_ip']) && !empty( $site_settings['anonymize_ip'] ) ): ?>
+                        _gaq.push(['b._anonymizeIp']);
+                    <?php endif; ?>
                     <?php do_action('ga_plus_site_tracking_code_add_vars', 'b'); ?>
 					_gaq.push(['b._trackPageview']);
 				<?php endif; ?>
@@ -248,6 +254,9 @@ class Google_Analytics_Async {
         endif;
         if( isset( $network_settings['track_method'] ) && $network_settings['track_method'] == 'both' && isset($network_settings['tracking_code2']) && !empty($network_settings['tracking_code2']) )
             $network_settings['tracking_code'] = $network_settings['tracking_code2'];
+
+        if( isset( $site_settings['track_method'] ) && $site_settings['track_method'] == 'both' && isset($site_settings['tracking_code2']) && !empty($site_settings['tracking_code2']) )
+            $site_settings['tracking_code'] = $site_settings['tracking_code2'];
 
         if (
             (
@@ -274,20 +283,28 @@ class Google_Analytics_Async {
                     <?php else : ?>
                         gaplusu('create', '<?php echo $network_settings['tracking_code']; ?>', 'auto');
                     <?php endif; ?>
-                    gaplusu('send', 'pageview');
 
+                    <?php if ( isset($network_settings['anonymize_ip']) && !empty( $network_settings['anonymize_ip'] ) ): ?>
+                        gaplusu('set', 'anonymizeIp', true);
+                    <?php endif; ?>
                     <?php if ( $network_settings['display_advertising'] ) : ?>
                         gaplusu('require', 'displayfeatures');
                     <?php endif; ?>
+
+                    gaplusu('send', 'pageview');
                 <?php endif; ?>
 
                 <?php if ( !is_admin() && !empty( $site_settings['tracking_code'] ) && (isset( $site_settings['track_method'] ) && ( $site_settings['track_method'] == 'universal' || $site_settings['track_method'] == 'both' )) ): ?>
                     gaplusu('create', '<?php echo $site_settings['tracking_code']; ?>', 'auto', {'name': 'single'});
-                    gaplusu('single.send', 'pageview');
 
+                    <?php if ( isset($site_settings['anonymize_ip']) && !empty( $site_settings['anonymize_ip'] ) ): ?>
+                        gaplusu('single.set', 'anonymizeIp', true);
+                    <?php endif; ?>
                     <?php if ( $site_settings['display_advertising'] ) : ?>
                         gaplusu('single.require', 'displayfeatures');
                     <?php endif; ?>
+
+                    gaplusu('single.send', 'pageview');
                 <?php endif; ?>
             </script>
 

@@ -85,7 +85,7 @@ class WMD_PrettyPlugins_Functions {
 		elseif($get_default && (empty($screenshot_value) || (!empty($screenshot_value) && count(explode('/', $screenshot_value)) == 1 && !file_exists($this->plugin_dir_custom.'screenshots/'.$screenshot_value)))) {
 			if($this->options['plugins_auto_screenshots_wp']) {
 				$plugin_path_parts = explode("/", $plugin_path);
-				$screenshot_value = '//ps.w.org/'.$plugin_path_parts[0].'/assets/icon-256x256.png';
+				$screenshot_value = '//ps.w.org/'.$plugin_path_parts[0].'/assets/icon-128x128.png';
 			}
 			else {
 				global $wp_version;
@@ -190,7 +190,7 @@ class WMD_PrettyPlugins_Functions {
 			else
 				$this->options['theme'] = 'standard/quick-sand';
 
-			$standard_options = array('plugins_link_label' => 'strip_tags', 'plugins_page_title' => 'strip_tags', 'plugins_page_description' => '', 'plugins_auto_screenshots' => '', 'plugins_auto_screenshots_wp' => '', 'setup_mode' => '', 'plugins_hide_descriptions' => '', 'plugins_auto_screenshots_by_name' => '');
+			$standard_options = array('plugins_link_label' => 'strip_tags', 'plugins_page_title' => 'strip_tags', 'plugins_page_description' => '', 'plugins_auto_screenshots' => '', 'plugins_auto_screenshots_wp' => '', 'setup_mode' => '', 'plugins_hide_descriptions' => '', 'plugins_auto_screenshots_by_name' => '');				    	 					 			 
 			foreach ($standard_options as $option => $action) {
 				if(isset($input[$option])) {
 					if($action == 'strip_tags')

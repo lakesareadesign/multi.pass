@@ -463,6 +463,24 @@ if ( ! class_exists( 'Site_Copier_Terms' ) ) {
 				return array( 'term_id' => $term_id, 'term_taxonomy_id' => $tt_id );
 			}
 
+			// Clone term meta for WP >= 4.4
+			if ( function_exists( 'get_term_meta' ) ) {
+				switch_to_blog( $this->source_blog_id );
+				$term_meta = get_term_meta( $term_id );
+				restore_current_blog();
+				foreach ( $term_meta as $meta_key => $meta_value ) {
+					if ( is_array( $meta_value ) && count( $meta_value ) > 1 ) {
+						foreach ( $meta_value as $value ) {
+							add_term_meta( $term_id, $meta_key, maybe_unserialize( $value ), false );
+						}
+					}
+					elseif ( is_array( $meta_value ) && count( $meta_value ) <= 1 ) {
+						update_term_meta( $term_id, $meta_key, maybe_unserialize( $meta_value ) );
+					}
+
+				}
+			}
+
 			/**
 			 * Fires immediately after a new term is created, before the term cache is cleaned.
 			 *

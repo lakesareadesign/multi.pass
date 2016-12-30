@@ -114,12 +114,25 @@ abstract class WpmuDev_CalendarTable {
 			$ret .= "<td {$class_attribute}>{$activity}</td>";
 		}
 
-		if ( $last > $this->start_of_week )
+                $final_last = $last + 1;
+                $final_last = $final_last > 6 ? $final_last - 7 : $final_last;
+                if ( $final_last == $this->start_of_week )
+                {
+                        $ret .= '</tr>';
+                }
+                else
+                {
+                        $cal_diff = 6 - $last + $this->start_of_week;
+                        if( $cal_diff > 6 ) $cal_diff -= 7;
+                        $ret .= '<td class="no-right-border" colspan="' . $cal_diff . '">&nbsp;</td></tr>';
+                }
+
+		/*if ( $last > $this->start_of_week )
 			$ret .= '<td class="no-right-border" colspan="' . (6 - $last + $this->start_of_week) . '">&nbsp;</td></tr>';
 		else if ( $last + 1 == $this->start_of_week )
 			$ret .= '</tr>';
 		else
-			$ret .= '<td class="no-right-border" colspan="' . (6 + $last - $this->start_of_week) . '">&nbsp;</td></tr>';
+			$ret .= '<td class="no-right-border" colspan="' . (6 + $last - $this->start_of_week) . '">&nbsp;</td></tr>';*/
 
 		$ret .= $this->_get_last_row();
 
@@ -372,12 +385,22 @@ class Eab_CalendarTable_EventArchiveCalendar extends Eab_CalendarTable {
 	public function reset_event_info_storage () { $this->_data = array(); }
 
 	public function set_event_info ($event_tstamps, $current_tstamps, $event_info) {
+
+                if( is_multisite() && isset( $event_info['blog_id'] ) ) switch_to_blog( $event_info['blog_id'] );
+
 		$css_classes = $event_info['status_class'];
 		$event_permalink = !empty($event_info['blog_id'])
 			? get_blog_permalink($event_info['blog_id'], $event_info['id'])
 			: get_permalink($event_info['id'])
 		;
-		$tstamp = esc_attr(date_i18n("Y-m-d\TH:i:sO", $current_tstamps['start']));
+
+                $gmt_offset = (float)get_option('gmt_offset');
+                $hour_tz = sprintf('%02d', abs((int)$gmt_offset));
+                $minute_offset = (abs($gmt_offset) - abs((int)$gmt_offset)) * 60;
+                $min_tz = sprintf('%02d', $minute_offset);
+                $timezone = ($gmt_offset > 0 ? '+' : '-') . $hour_tz . $min_tz;
+
+		$tstamp = esc_attr(date_i18n("Y-m-d\TH:i:s{$timezone}", $event_tstamps['start']));
 		$daytime = (int)date("His", $event_tstamps['start']);
 
 		if (!empty($event_info['has_no_start_time'])) {
@@ -406,6 +429,9 @@ class Eab_CalendarTable_EventArchiveCalendar extends Eab_CalendarTable {
 				(!empty($this->_excerpt['show_excerpt']) ? ' <span class="eab-calendar-event_excerpt">' . esc_html($event_info['excerpt']) . '</span>' : '') .
 			'</span>' .
 		'</a>';
+
+                if( is_multisite() && isset( $event_info['blog_id'] ) ) restore_current_blog();
+
 	}
 
 	public function get_event_info_as_string ($day) {
@@ -586,6 +612,15 @@ class Eab_CalendarTable_EventShortcodeCalendar extends Eab_CalendarTable_EventAr
 			? "<h4 {$id_attr}>{$title_link}</h4>"
 			: "<b>{$title_link}</b>"
 		;
+
+                $title = apply_filters(
+                                'eab_calendar_title',
+                                $title,
+                                $position,
+                                $id_attr,
+                                $title_link
+                            );
+
 		return "<tr class='{$row_class}'>" .
 			'<td>' .
 				'<a class="' . $calendar_class . '-navigation-link eab-navigation-prev eab-time_unit-year" href="' .

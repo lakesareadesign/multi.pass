@@ -23,7 +23,6 @@ if (!class_exists("mb_notice")) {
             });
 
             add_action('wp_ajax_mb_ignore_notice', array('mb_notice', 'ignore_notice'));
-//            add_action('upgrader_process_complete', array('mb_notice', 'mb_clear_notice'));
 
             add_action('admin_notices', function () {
                 $this->print_notice();
@@ -31,10 +30,8 @@ if (!class_exists("mb_notice")) {
 
             add_action('admin_init', function () {
                 global $name_space;
-                register_setting($name_space . '-settings-group', $this->name_space . 'g_notice_dismiss');
+                register_setting($name_space . '-settings-group', $name_space . '_notice_dismiss');
             });
-
-//            register_deactivation_hook($this->plugin_file, 'reset_notice');
 
             register_activation_hook($plugin_file, function () {
                 global $name_space;

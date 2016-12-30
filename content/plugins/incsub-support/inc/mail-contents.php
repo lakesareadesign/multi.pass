@@ -141,8 +141,7 @@ function incsub_support_send_emails_on_ticket_reply( $reply_id, $send_emails ) {
 		return;
 
 	if ( empty( $ticket->admin_id ) ) {
-		$plugin = incsub_support();
-		$super_admin = call_user_func( array( $plugin, 'get_main_admin_details' ) );
+		$super_admin = MU_Support_System::get_main_admin_details();
 		incsub_support_send_user_reply_mail( $ticket, $reply );
 		incsub_support_send_admin_reply_mail( $super_admin, $ticket, $reply );
 
@@ -379,7 +378,7 @@ SUPPORT_MESSAGE
 	$content = str_replace( 'SUPPORT_PRIORITY', $args['ticket_priority'], $content );
 	$content = str_replace( 'SUPPORT_LINK', $args['visit_link'], $content );
 	$content = str_replace( 'SUPPORT_USER_NAME', $args['user_nicename'], $content );
-	$content = str_replace( 'SUPPORT_MESSAGE', strip_tags( html_entity_decode( $args['ticket_message'] ) ), $content );
+	$content = str_replace( 'SUPPORT_MESSAGE', strip_tags( html_entity_decode( $args['ticket_message'], ENT_NOQUOTES, 'UTF-8' ) ), $content );
 
 	return $content;
 }

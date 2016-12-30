@@ -216,6 +216,7 @@ class Wdca_CustomAd {
 		$cats_to_ads = !empty($opts['category_ads']) ? $opts['category_ads'] : array();
 		$cats_to_ads = is_array($cats_to_ads) ? $cats_to_ads : array();
 		$categories = get_the_category($post->ID);
+
 		foreach ($categories as $cat) {
 			if (isset($cats_to_ads[$cat->term_id])) foreach ($cats_to_ads[$cat->term_id] as $ad_id) $ad_cat_ids[] = $ad_id;
 		}
@@ -229,6 +230,11 @@ class Wdca_CustomAd {
 		}
 		$ad_cat_ids = array_unique($ad_cat_ids);
 
+		//we will have to check if the cat/tag to ads enabled, but can't find, so we will put a negative here
+		if((count($cats_to_ads)||count($tags_to_ads)) && empty($ad_cat_ids)){
+			$ad_cat_ids[]=-1;
+		}
+
 		$query_args = array(
 			'post__not_in' => self::$_cache_ids,
 			'post_type' => self::POST_TYPE,
@@ -236,6 +242,7 @@ class Wdca_CustomAd {
 			'orderby' => $order,
 			'order' => $by,
 		);
+
 		if ($ad_cat_ids) {
 			$query_args['tax_query'][] = array(
 				'taxonomy' => 'wdca_ad_categories',

@@ -3,7 +3,7 @@ Contributors: wpmudev, Paul Menard, UmeshSingla
 Tags: chat, twitter, facebook, google, shortcode, BuddyPress, widget, chat widget, buddypress group, buddypress friend
 Requires at least: 3.7
 Stable tag: trunk
-Tested up to: 4.5.3
+Tested up to: 4.7
 
 Allow your readers to chat with you
 
@@ -17,6 +17,16 @@ Add a chat to your blog and allow your readers to chat with you.
 2. Chat widget
 
 == ChangeLog ==
+
+= 2.2 =
+
+*Fixed:
+    * Wrong date and time, when server timezone is set other than UTC
+    * Specified User login message not displayed for `noauth_login_message`
+    * Missing div closing tags
+    * Selected Avatar border color not shown on frontend for Moderator and User
+    * Fatal Error with WordPress 4.7
+    * Conflict with Easy Blogging plugin
 
 = 2.1.3 = Umesh Kumar =
 * Fixed:
@@ -461,4 +471,4 @@ Add a chat to your blog and allow your readers to chat with you.
 * Initial release
 
 
-133620-1470955187-au
+133620-1483063277-au

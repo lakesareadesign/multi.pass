@@ -182,7 +182,11 @@ if ( ! class_exists( 'Site_Copier_Settings' ) ) {
                 update_blog_status( get_current_blog_id(), 'deleted', $deleted );
             }
 
-
+			if ( in_array( 'admin_email', $exclude_settings ) ) {
+				$source_admin_email = get_blog_option( $this->source_blog_id, 'admin_email' );
+				update_option( 'admin_email', $source_admin_email );
+				delete_option( 'new_admin_email' );
+			}
 
             // Deprecated
             do_action( 'blog_templates-copy-options', $this->template,$this->source_blog_id, $this->user_id );

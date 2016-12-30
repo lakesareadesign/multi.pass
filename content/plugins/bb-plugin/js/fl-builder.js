@@ -3148,7 +3148,7 @@
 					FLBuilder._addColGroup(
 						item.closest( '.fl-col' ).attr( 'data-node' ),
 						item.attr( 'data-cols' ), 
-						parent.find( '.fl-module, .fl-col-group, .fl-builder-block' ).index( item )
+						parent.find( '> .fl-module, .fl-col-group, .fl-builder-block' ).index( item )
 					);
 				}
 				// A new row was dropped next to a column.
@@ -4624,7 +4624,7 @@
 				}
 				// A new module was dropped into a column.
 				else {
-					position = parent.find( '.fl-module, .fl-col-group, .fl-builder-block' ).index( item );
+					position = parent.find( '> .fl-module, .fl-col-group, .fl-builder-block' ).index( item );
 					parentId = item.closest( '.fl-col' ).attr( 'data-node' );
 				}
 				
@@ -6267,16 +6267,30 @@
 			var wrap           = $(this).closest('.fl-multiple-photos-field'),
 				photosField    = wrap.find('input[type=hidden]'),
 				photosFieldVal = photosField.val(),
-				content        = photosFieldVal === '' ? '[gallery ids="-1"]' : '[gallery ids="'+ JSON.parse(photosFieldVal).join() +'"]',
-				shortcode      = wp.shortcode.next('gallery', content).shortcode,
+				parsedVal      = photosFieldVal === '' ? '' : JSON.parse(photosFieldVal),
 				defaultPostId  = wp.media.gallery.defaults.id,
+				content        = '[gallery ids="-1"]',
+				shortcode      = null,
 				attachments    = null, 
-				selection      = null;
+				selection      = null,
+				i              = null,
+				ids            = [];
+			
+			// Builder the gallery shortcode.
+			if ( 'object' == typeof parsedVal ) {
+				for ( i in parsedVal ) {
+					ids.push( parsedVal[ i ] );
+				}
+				content = '[gallery ids="'+ ids.join() +'"]';
+			}
+			
+			shortcode = wp.shortcode.next('gallery', content).shortcode;
 
 			if(_.isUndefined(shortcode.get('id')) && !_.isUndefined(defaultPostId)) {
 				shortcode.set('id', defaultPostId);
 			}
-
+			
+			// Get the selection object.
 			attachments = wp.media.gallery.attachments(shortcode);
 
 			selection = new wp.media.model.Selection(attachments.models, {
@@ -6289,6 +6303,11 @@
 			// Fetch the query's attachments, and then break ties from the
 			// query to allow for sorting.
 			selection.more().done(function() {
+				
+				if ( ! selection.length ) {
+					FLBuilder._multiplePhotoSelector.setState( 'gallery-library' );
+				}
+				
 				// Break ties with the query.
 				selection.props.set({ query: false });
 				selection.unmirror();

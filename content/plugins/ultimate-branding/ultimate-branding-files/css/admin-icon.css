@@ -9,24 +9,6 @@
 	font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
-	font-family: 'icomoon';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-.icon-wand:before {
-	content: "\e600";
-}
-
 #adminmenu #toplevel_page_branding div.wp-menu-image:before {
   font-family: 'icomoon' !important;
   content: "\e600";
@@ -38,4 +20,4 @@
 
 
 
-/* 133620-1441813025-au */
+/* 133620-1483063271-au */

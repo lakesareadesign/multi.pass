@@ -19,11 +19,11 @@ class Incsub_Mailchimp_Widget extends WP_Widget {
 		/* Widget settings. */
 		$widget_ops = array(
 			'classname' => 'incsub-mailchimp-widget' ,
-			'description' => __( 'This widget allows visitors to subscribe to a Mailchimp email list (set by the network administrator).', MAILCHIMP_LANG_DOMAIN )
+			'description' => __( 'This widget allows visitors to subscribe to a MailChimp email list (set by the network administrator).', MAILCHIMP_LANG_DOMAIN )
 		);
 
 		/* Create the widget. */
-		parent::__construct( 'incsub-mailchimp-widget' , __( 'Mailchimp', MAILCHIMP_LANG_DOMAIN ), $widget_ops );
+		parent::__construct( 'incsub-mailchimp-widget' , __( 'MailChimp', MAILCHIMP_LANG_DOMAIN ), $widget_ops );
 
 		add_filter( 'mailchimp_form_require_field', array( &$this, 'set_require_field' ), 10, 3 );
 		add_filter( 'mailchimp_form_success_redirect', array( &$this, 'set_form_success_redirect' ) );
@@ -43,7 +43,7 @@ class Incsub_Mailchimp_Widget extends WP_Widget {
 	function validate_widget() {
 		if ( isset( $_POST['submit-subscribe-widget-user'] ) ) {
 
-			global $mailchimp_sync;
+			global $mailchimp_sync_api;
 
 			$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 			$errors = array();
@@ -74,7 +74,7 @@ class Incsub_Mailchimp_Widget extends WP_Widget {
 				$user['first_name'] = sanitize_text_field( $_POST['subscription-firstname'] );
 				$user['last_name'] = sanitize_text_field( $_POST['subscription-lastname'] );
 
-				$mailchimp_sync->mailchimp_add_user( $user );
+				$mailchimp_sync_api->mailchimp_add_user( $user );
 
 				if ( ! $doing_ajax ) {
 					$redirect_to = add_query_arg( 'mailchimp-subscribed-' . $number, 'true' ) . '#' . $_form_id;

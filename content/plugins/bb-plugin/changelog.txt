@@ -1,3 +1,27 @@
+<h4>1.9.2 - 12/13/2016</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a bug introduced in 1.9.1 that broke live preview when editing settings.</li>
+	<li>Fixed gallery fields not working when images are saved as part of a template and don't exist on the site.</li>
+</ul>
+
+<h4>1.9.1 - 12/12/2016</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated Google fonts.</li>
+	<li>Updated translations.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed rows and modules not appearing when first added to the page.</li>
+	<li>Fixed column settings dropdown disappearing when the column has a background overlay color.</li>
+	<li>Fixed the button module lightbox opening all lightboxes on the page.</li>
+	<li>Fixed multiple RTL language CSS issues.</li>
+	<li>Fixed row and column text colors affecting select inputs.</li>
+	<li>Fixed CSS conflicts with third party themes and the builder UI.</li>
+	<li>Fixed parallax backgrounds being applied to child rows when inserting layouts via a shortcode.</li>
+</ul>
+
 <h4>1.9 - 12/06/2016</h4>
 <p>This update adds a number of new features. Be sure to check out <a href="https://www.wpbeaverbuilder.com/beaver-builder-1-9-shasta/">the blog post</a> for detailed info on what was added.</p>
 <p><strong>Enhancements</strong></p>

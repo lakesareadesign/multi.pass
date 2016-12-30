@@ -97,8 +97,12 @@ li.link_row h4{
     margin-bottom:10px;
 }
 #wp_login_image{
-    width: 32%;
+    max-width: 32%;
+}
+#wp_login_image_width,
+#wp_login_image_height{
+    width: 60px;
 }
 
 
-/* 133620-1441813025-au */
+/* 133620-1483063271-au */

@@ -49,18 +49,22 @@ class Agm_Rmaps_Pages {
 	}
 
 	public function attribute_defaults( $args ) {
-		$args['is_responsive'] = false;
+		$args['is_responsive'] = null; // Set neutral-ish value as default, so we can fall back
 		return $args;
 	}
 
 	public function process_overrides( $overrides, $args ) {
-		if ( agm_positive_values( $args['is_responsive'] ) ) {
+		// Store the value locally, with neutral fallback
+		$is_resp = isset($args['is_responsive']) ? $args['is_responsive'] : null;
+
+		if ( agm_positive_values($is_resp) ) {
+			// Explicit positive
 			$overrides['is_responsive'] = true;
-		}
-		else if ( agm_negative_values( $args['is_responsive'] ) ) {
+		} else if ( null !== $is_resp && agm_negative_values($is_resp) ) {
+			// Explicit negative
 			$overrides['is_responsive'] = false;
-		}
-		else {
+		} else {
+			// Implicit logic - check settings
 			$opts = $this->_get_options();
 			if ( isset( $opts['auto_assign-all'] ) && $opts['auto_assign-all'] ) {
 				$overrides['is_responsive'] = true;
@@ -71,6 +75,7 @@ class Agm_Rmaps_Pages {
 				$overrides['is_responsive'] = false;
 			}
 		}
+
 		return $overrides;
 	}
 

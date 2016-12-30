@@ -15,7 +15,7 @@
 
 <?php
 foreach ( $plugins as $plugin ) :
-	$aria_action = esc_attr( $plugin['id'] . '-action' );				    	 					 			 
+	$aria_action = esc_attr( $plugin['id'] . '-action' );
 	$aria_name   = esc_attr( $plugin['id'] . '-name' );
 	?>
 

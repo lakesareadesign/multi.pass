@@ -25,7 +25,8 @@ $files_list = apply_filters( 'copier_integration_files', array(
 	'woocommerce',
 	'cookie-notice',
 	'jetpack',
-	'ubermenu'
+	'ubermenu',
+	'revslider'
 ) );
 
 foreach ( $files_list as $file ) {

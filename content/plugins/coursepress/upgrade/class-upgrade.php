@@ -55,7 +55,7 @@ class CoursePress_Upgrade {
 		$upgrade_view = add_query_arg( 'page', 'coursepress-upgrade', admin_url() );
 		$upgrade = sprintf( '<a href="%s" class="button-primary">%s</a>', esc_url( $upgrade_view ), __( 'here', 'cp' ) );
 
-		$message = '<p>' . sprintf( __( 'It looks like you have CoursePress 1.0 installed. In order to upgrade to CoursePress 2.0, we strongly recommend that you %1$s your website before upgrading %2$s', 'cp' ), $snapshot, $upgrade ) . '</p>';
+		$message = '<p>' . sprintf( __( 'It looks like you had CoursePress 1 installed. In order to upgrade your course data to CoursePress 2, we strongly recommend you to %s your website before upgrading %s.', 'cp' ), $snapshot, $upgrade ) . '</p>';
 
 		// Remind the user to backup their system in upgrade page
 		if ( self::is_upgrade_page() ) {

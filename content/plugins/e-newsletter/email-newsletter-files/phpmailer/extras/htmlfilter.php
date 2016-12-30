@@ -482,7 +482,7 @@ function tln_defang(&$attvalue){
 	do {
 		$m = false;
 		$m = $m || tln_deent($attvalue, '/\&#0*(\d+);*/s');
-		$m = $m || tln_deent($attvalue, '/\&#x0*((\d|[a-f])+);*/si', true);
+		$m = $m || tln_deent($attvalue, '/\&#x0*((\d|[a-f])+);*/si', true);	     	 	 		 			 	
 		$m = $m || tln_deent($attvalue, '/\\\\(\d+)/s', true);
 	} while ($m == true);
 	$attvalue = stripslashes($attvalue);

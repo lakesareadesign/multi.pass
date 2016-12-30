@@ -5,6 +5,9 @@ Lead developer: Maniu
 Contributors: Cole, Andrey
 
 == Changelog ==
+= 2.7.3.8 =
+* Improved compatibility with themes
+
 = 2.7.3.7 =
 * Added WordPress 4.7 compatibility
 * Improved mail server error handling
@@ -487,4 +490,4 @@ Contributors: Cole, Andrey
 * Initial Release;
 
 
-133620-1481397848-au
+133620-1483063241-au

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: CoursePress Pro
- * Version:     2.0.0
+ * Version:     2.0.1
  * Description: CoursePress Pro turns WordPress into a powerful online learning platform. Set up online courses by creating learning units with quiz elements, video, audio etc. You can also assess student work, sell your courses and much much more.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org
@@ -56,7 +56,7 @@ class CoursePress {
 	 *
 	 * @var string
 	 */
-	public static $version = '2.0.0';
+	public static $version = '2.0.1';
 
 	/**
 	 * Plugin name, this reflects the Pro/Standard version.
@@ -191,6 +191,9 @@ class CoursePress {
 				$class_folder = strtolower(
 					self::$path . implode( DIRECTORY_SEPARATOR, $class_path )
 				);
+				$dir_folder = strtolower(
+					dirname( __FILE__ ) . DIRECTORY_SEPARATOR . implode( DIRECTORY_SEPARATOR, $class_path )
+				);
 
 				$filename = $class_folder . DIRECTORY_SEPARATOR . $class_file;
 
@@ -204,8 +207,12 @@ class CoursePress {
 					$namespace
 				);
 
+
 				if ( is_readable( $filename ) ) {
 					include_once $filename;
+					return true;
+				} elseif ( is_readable( $dir_folder ) ) {
+					include_once $dir_folder . DIRECTORY_SEPARATOR . $class_file;
 					return true;
 				}
 			} // End of namespace condition.

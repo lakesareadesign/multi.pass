@@ -4,18 +4,14 @@
  */
 class Wdca_AdminPages {
 
-	function Wdca_AdminPages () { $this->__construct(); }
-
-	function __construct () {
-
-	}
+	function __construct () {}
 
 	/**
 	 * Main entry point.
 	 *
 	 * @static
 	 */
-	function serve () {
+	public static function serve () {
 		$me = new Wdca_AdminPages;
 		$me->add_hooks();
 	}
@@ -188,14 +184,16 @@ class Wdca_AdminPages {
 
 	function save_meta () {
 		global $post;
+
 		$post_id = wp_is_post_revision($post);
-		$post_id = $post_id ? $post_id : $post->ID;
+		$post_id = $post_id ? $post_id : (is_object($post) ? $post->ID : false);
+		if (empty($post_id)) return false;
 
 		$opts = get_option('wdca');
 		$opts = $opts ? $opts : array();
 		$opts['prevent_items'] = @$opts['prevent_items'] ? $opts['prevent_items'] : array();
 
-		if (@$_POST['wdca_hide_box']) {
+		if (isset($_POST['wdca_hide_box'])) {
 			$opts['prevent_items'][] = $post_id;
 		} else {
 			$key = array_search($post_id, $opts['prevent_items']);
@@ -230,5 +228,20 @@ class Wdca_AdminPages {
 		add_action('admin_print_scripts-post-new.php', array($this, 'js_editor_button'));
 
 		add_action('wp_ajax_wdca_list_ads', array($this, 'json_list_ads'));
+
+		// Dashboard
+		if (file_exists(WDCA_PLUGIN_BASE_DIR . '/dash-notice/wpmudev-dash-notification.php')) {
+			global $wpmudev_notices;
+			$wpmudev_notices[] = array(
+				'id' => 240,
+				'name' => 'In Post Ads',
+				'screens' => array(
+					'wdca_custom_ad_page_wdca',
+					'wdca_custom_ad_page_wdca-ab',
+				),
+			);
+
+			require_once(WDCA_PLUGIN_BASE_DIR . '/dash-notice/wpmudev-dash-notification.php');
+		}
 	}
 }

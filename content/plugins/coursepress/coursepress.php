@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: CoursePress Pro
- * Version:     2.0.0
+ * Version:     2.0.1
  * Description: CoursePress Pro turns WordPress into a powerful online learning platform. Set up online courses by creating learning units with quiz elements, video, audio etc. You can also assess student work, sell your courses and much much more.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org
@@ -117,21 +117,24 @@ class CoursePressUpgrade {
 		$dir = dirname( __FILE__ );
 		$version_file = $dir . '/' . $version . '/coursepress.php';
 
-		if ( '1.x' == $version ) {
-			// Hooked to 1.x
-			add_action( 'coursepress_before_init_vars', array( __CLASS__, 'before_init_vars' ), 10 );
-			add_action( 'coursepress_init_vars', array( __CLASS__, 'init_vars' ) );
-			// Flush the rewrite rules
-			// @note: While development only: must be removed
-			add_action( 'init', array( __CLASS__, 'cp1_flush_rewrite_rules' ) );
-		} else {
-			// Flush rewrite rules
-			//@note: While devevelopment only, must be removed:
-			add_action( 'init', array( __CLASS__, 'cp2_flush_rewrite_rules' ) );
-		}
-
 		if ( is_readable( $version_file ) ) {
+			if ( '1.x' == $version ) {
+				// Hooked to 1.x
+				add_action( 'coursepress_before_init_vars', array( __CLASS__, 'before_init_vars' ), 10 );
+				add_action( 'coursepress_init_vars', array( __CLASS__, 'init_vars' ) );
+				// Flush the rewrite rules
+				// @note: While development only: must be removed
+				add_action( 'init', array( __CLASS__, 'cp1_flush_rewrite_rules' ) );
+			} else {
+				// Flush rewrite rules
+				//@note: While devevelopment only, must be removed:
+				add_action( 'init', array( __CLASS__, 'cp2_flush_rewrite_rules' ) );
+			}
+
 			include $version_file;
+		} else {
+			$error = sprintf( __( 'Error loading %s v%s plugin!', 'cp' ), 'CoursePress', $version );
+			throw new Exception( $error );
 		}
 	}
 

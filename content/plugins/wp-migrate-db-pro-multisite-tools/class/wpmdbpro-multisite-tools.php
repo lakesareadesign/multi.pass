@@ -11,7 +11,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		parent::__construct( $plugin_file_path );
 		$this->plugin_slug    = 'wp-migrate-db-pro-multisite-tools';
 		$this->plugin_version = $GLOBALS['wpmdb_meta']['wp-migrate-db-pro-multisite-tools']['version'];
-		if ( ! $this->meets_version_requirements( '1.7' ) ) {
+		if ( ! $this->meets_version_requirements( '1.7.1' ) ) {
 			return;
 		}
 
@@ -1095,7 +1095,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		}
 
 		if ( version_compare( $GLOBALS['wp_version'], '4.6', '>=' ) ) {
-			$blogs = get_sites( array( 'limit' => 0 ) );
+			$blogs = get_sites( array( 'number' => false ) );
 		} else {
 			$blogs = wp_get_sites( array( 'limit' => 0 ) );
 		}

@@ -123,7 +123,7 @@ p {
 .size1of1 {
 	width: 100%;
 }
-.clearfix:before, .clearfix:after {	     	 	  			 		 
+.clearfix:before, .clearfix:after {
 	content: " ";
 	display: table;
 }
@@ -151,4 +151,4 @@ p {
 }
 
 
-/* 133620-1472790813-au */
+/* 133620-1483063258-au */

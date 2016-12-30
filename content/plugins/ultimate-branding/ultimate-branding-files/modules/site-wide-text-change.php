@@ -165,7 +165,7 @@ class ub_Site_Wide_Text_Change {
         echo "</td>";
         echo "<td valign='top' class=''>";
         ?>
-        <select  name='<?php echo "swtble[$key][admin_front]" ?>'>
+        <select  name='<?php echo "swtble[$key][admin_front]" ?>' class="admin_front">
             <option <?php selected("both", $table['admin_front']) ?> value="both"><?php _e("Both", "ub"); ?></option>
             <option <?php selected("admin", $table['admin_front']) ?> value="admin"><?php _e("Admin pages only", "ub"); ?></option>
             <option <?php selected("front", $table['admin_front']) ?> value="front"><?php _e("Front-end pages only", "ub"); ?></option>
@@ -236,7 +236,7 @@ class ub_Site_Wide_Text_Change {
         echo "</td>";
         echo "<td valign='top' class=''>";
         ?>
-        <select  name='<?php echo "swtble[$dt][admin_front]" ?>'>
+        <select  name='<?php echo "swtble[$dt][admin_front]" ?>' class="admin_front">
             <option value="both"><?php _e("Both", "ub"); ?></option>
             <option value="admin"><?php _e("Admin pages only", "ub"); ?></option>
             <option value="front"><?php _e("Front pages only", "ub"); ?></option>
@@ -267,6 +267,7 @@ class ub_Site_Wide_Text_Change {
 		if(!empty($_POST['swtble'])) {
 			$save = array();
 			$op = array();
+
 			foreach($_POST['swtble'] as $key => $table) {
 //                htmlentities("what's", ENT_QUOTES, 'UTF-8')
 				if(!in_array($key, $deletekeys) && !empty($table['find'])) {

@@ -130,7 +130,7 @@ class FLPostSliderModule extends FLBuilderModule {
 	 */
 	public function _get_uncropped_url( $id ){
 		$posts = $this->_build_posts_array();
-		return $posts[$id];
+		return $posts[$id];		
 	}
 
 	/**

@@ -609,7 +609,7 @@ UBSTYLE;
 			global $wp_admin_bar;
 			$wproles = ub_get_option("wdcab");
 
-            $hide_from_subscriber = count( $current_user->roles ) === 0 && in_array( "subscriber",  $wproles['wp_menu_roles'] );
+            $hide_from_subscriber = count( $current_user->roles ) === 0 && isset( $wproles['wp_menu_roles'] ) && in_array( "subscriber", (array) $wproles['wp_menu_roles'] );
             if( !is_user_logged_in() || !isset( $wproles['wp_menu_roles'] ) || ( isset( $wproles['wp_menu_roles'], $current_user )
                  && is_array( $wproles['wp_menu_roles'] )
                  && (!current_user_can('manage_network') && ( $hide_from_subscriber || count( array_intersect( $wproles['wp_menu_roles'], (array) $current_user->roles) ) ) )

@@ -147,7 +147,7 @@ foreach ( $history as $stat ) {
 		foreach ($blog_stats_hourly_spam as $time => $count) {
 			$spam_data[] = "[$time, $count]";
 		}
-		echo 'var blog_stats_hourly = [{ label: "Spam", color: 2, data: ['.implode(',', $spam_data).'] }, { label: "Ham", color: 3, data: ['.implode(',', $ham_data).'] }];'."\n";	     	 	  		 		  
+		echo 'var blog_stats_hourly = [{ label: "Spam", color: 2, data: ['.implode(',', $spam_data).'] }, { label: "Ham", color: 3, data: ['.implode(',', $ham_data).'] }];'."\n";
 		?>
 
 		var graph_options_hour = {
@@ -265,7 +265,6 @@ foreach ( $history as $stat ) {
 	});
 </script>
 <div class="wrap">
-	<div class="icon32"><img src="<?php echo plugins_url( '/anti-splog/includes/icon-large.png' ); ?>"/></div>
 	<h2><?php _e( 'Anti-Splog Statistics', 'ust' ) ?></h2>
 
 	<p><?php _e( "These are site creation statistics for your multisite install.", 'ust' ) ?></p>

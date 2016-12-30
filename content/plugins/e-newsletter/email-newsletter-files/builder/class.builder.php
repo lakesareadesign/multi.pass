@@ -35,12 +35,24 @@ class Email_Newsletter_Builder  {
 		if($this->get_customizer_theme() && $builder_id) {
 			$theme_exists = wp_get_theme($this->get_customizer_theme())->exists();
 			if(!$theme_exists) {
+				//fix customizer capabilities users without possibility to use customizer
+				if(!current_user_can( 'edit_theme_options' )) {
+					add_filter('user_has_cap', array( &$this, 'fix_capabilities'), 999, 1);
+				}
+
 				$email_newsletter->register_enewsletter_themes();
 				add_filter( 'allowed_themes', array( &$this, 'allow_enewsletter_themes'));
 
 				add_filter( 'template', array( &$this, 'inject_builder_template'), 999 );
 				add_filter( 'stylesheet', array( &$this, 'inject_builder_stylesheet' ), 999 );
 				add_filter( 'customize_loaded_components', array( &$this, 'customizer_remove_panels') );
+			}
+		}
+
+		if(isset($_REQUEST['customize_changeset_uuid']) && isset($_REQUEST['action']) && $_REQUEST['customize_changeset_uuid'] && defined('DOING_AJAX') && $_REQUEST['action'] == 'builder_do_shortcodes') {
+			//fix customizer capabilities users without possibility to use customizer
+			if(!current_user_can( 'edit_theme_options' )) {
+				add_filter('user_has_cap', array( &$this, 'fix_capabilities'), 999, 1);
 			}
 		}
 	}
@@ -93,11 +105,6 @@ class Email_Newsletter_Builder  {
 			$builder_theme = $this->get_builder_theme();
 
 			if($builder_id && $customizer_theme == $builder_theme) {
-				//fix customizer capabilities users without possibility to use customizer - this is for tinymce
-				if(!current_user_can( 'edit_theme_options' )) {
-					add_filter('user_has_cap', array( &$this, 'fix_capabilities'), 999, 1);
-				}
-
 				//fix for known compatibility problems
 				global $fusion_slider;
 				if(isset($fusion_slider)) {
@@ -115,22 +122,33 @@ class Email_Newsletter_Builder  {
 			$customizer_theme = $this->get_customizer_theme();
 			$builder_theme = $this->get_builder_theme();
 			if($builder_id && $customizer_theme == $builder_theme) {
-				add_filter('user_has_cap', array( &$this, 'fix_capabilities'), 999, 1);
+				//fix for known compatibility problems
+				add_action( 'init', array( &$this, 'cleanup_customizer'), 1 );
 
-				add_action( 'customize_register', array( &$this, 'init_newsletter_builder'),9999 );
 				add_action( 'setup_theme' , array( &$this, 'setup_builder_header_footer' ), 999 );
 				add_filter( 'wp_default_editor', array( &$this, 'force_default_editor' ) );
 				add_filter( 'user_can_richedit', array( &$this, 'force_richedit' ) );
 
-				add_action( 'admin_head', array( &$this, 'prepare_tinymce' ), 1 );
+				add_action( 'admin_head', array( &$this, 'prepare_tinymce' ), 999 );
 
 				add_action( 'template_redirect', array( &$this, 'enable_customizer') );
-
-				//fix for known compatibility problems
-				remove_action('media_buttons', 'new_im_media_buttons',11);
-				remove_action('init', 'new_im_tinymce_addbuttons');
 			}
 		}
+	}
+	function cleanup_customizer() {
+		global $wp_customize;
+
+		remove_all_actions('customize_controls_enqueue_scripts');
+		add_action( 'customize_controls_enqueue_scripts', array( $wp_customize, 'enqueue_control_scripts' ) );
+
+		remove_all_actions('customize_register');
+		add_action('customize_register', array( $wp_customize, 'register_controls' ) );
+		add_action('customize_register', array( $wp_customize, 'register_dynamic_settings' ), 11 );
+
+		add_action( 'customize_register', array( &$this, 'init_newsletter_builder'),9999 );
+
+		remove_action('media_buttons', 'new_im_media_buttons',11);
+		remove_action('init', 'new_im_tinymce_addbuttons');
 	}
 	function fix_capabilities($allcaps) {
 		$allcaps['edit_theme_options'] = true;

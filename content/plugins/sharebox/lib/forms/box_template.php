@@ -35,11 +35,11 @@
 								: wdsb_get_url()
 							;
 							$url = apply_filters('wdsb-url-current_url', ($url ? $url : home_url($wp->request))); // Fix for empty URLs
-							$width = !empty($custom_widths['facebook']) ? (int)$custom_widths['facebook'] : 48;
+							$width = !empty($custom_widths['facebook']) ? (int)$custom_widths['facebook'] : 52;
 							echo '<iframe src="' . WDSB_PROTOCOL . 'www.facebook.com/plugins/like.php?href=' .
 								rawurlencode($fb_url) .
 								'&amp;send=false&amp;layout=box_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=60" ' .
-								'scrolling="no" frameborder="0" style="border:none; width:' . $width . 'px; height:61px;" allowTransparency="true"></iframe>';
+								'scrolling="no" frameborder="0" style="border:none; width:' . $width . 'px; height:42px;" allowTransparency="true"></iframe>';
 							break;
 						case "twitter":
 							if (!in_array('twitter', $skip_script)) echo '<script type="text/javascript" src="' . WDSB_PROTOCOL . 'platform.twitter.com/widgets.js"></script>';

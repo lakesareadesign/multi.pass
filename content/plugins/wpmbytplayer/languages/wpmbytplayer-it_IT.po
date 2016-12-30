@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: mb.YTPlayer background video\n"
-"POT-Creation-Date: 2016-12-03 19:34+0100\n"
-"PO-Revision-Date: 2016-12-06 00:08+0100\n"
+"POT-Creation-Date: 2016-12-12 22:38+0100\n"
+"PO-Revision-Date: 2016-12-12 22:39+0100\n"
 "Last-Translator: Matteo Bicochi <matteo@open-lab.com>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -20,13 +20,13 @@ msgstr ""
 
 #: inc/mb-admin-menu.php:38
 msgid "mb.ideas installed plug-ins"
-msgstr ""
+msgstr "I plug-in di matteo@open-lab.com.ideas installati"
 
-#: mbYTPlayer.php:19
+#: mbYTPlayer.php:24
 msgid "Get your <b>Plus</b> now!"
 msgstr "Scarica una lic <b>Plus</b> ora!"
 
-#: mbYTPlayer.php:217
+#: mbYTPlayer.php:222
 msgid ""
 "<h3>[YTPlayer short code]</h3><p>You need a <b>license key</b> to display a "
 "<b>YTPlayer video</b> using the shortcode.<br> Go to the <b>YTPlayer "
@@ -36,24 +36,24 @@ msgstr ""
 "per visualizzare un <b> YTPlayer  video</b> usando gli shortcode.<br>Vai "
 "alla <b>pagina Impostazioni di YTPlayer</b> per ottenere la licenza</p>"
 
-#: mbYTPlayer.php:270
+#: mbYTPlayer.php:275
 msgid "mb.YTPlayer"
 msgstr "mb.YTPlayer"
 
-#: mbYTPlayer.php:274
+#: mbYTPlayer.php:279
 msgid "From here you can set a background video for your home page."
 msgstr ""
 "Da qui è possibile impostare un video di background per la tua home page."
 
-#: mbYTPlayer.php:282
+#: mbYTPlayer.php:287
 msgid "activate the background video"
 msgstr "Attiva il video di background"
 
-#: mbYTPlayer.php:301
+#: mbYTPlayer.php:306
 msgid "The Youtube vudeo url is:"
 msgstr "La URL del video è:"
 
-#: mbYTPlayer.php:306
+#: mbYTPlayer.php:311
 msgid ""
 "Copy and paste here the URL of the Youtube video you want as your homepage "
 "background. If you add more then one URL comma separated it will be chosen "
@@ -64,35 +64,35 @@ msgstr ""
 "virgola farà sì che ne sarà scelto uno a caso ogni volta che si raggiunge la "
 "pagina."
 
-#: mbYTPlayer.php:312
+#: mbYTPlayer.php:317
 msgid "The page where to show the background video is:"
 msgstr "Mostra il video in:"
 
-#: mbYTPlayer.php:317
+#: mbYTPlayer.php:322
 msgid "Static Homepage"
 msgstr "Home page statica"
 
-#: mbYTPlayer.php:321
+#: mbYTPlayer.php:326
 msgid "Blog index Homepage"
 msgstr "Lista degli articoli"
 
-#: mbYTPlayer.php:325
+#: mbYTPlayer.php:330
 msgid "Both"
 msgstr "Entrambe"
 
-#: mbYTPlayer.php:327
+#: mbYTPlayer.php:332
 msgid "Choose on which page you want the background video to be shown"
 msgstr "Scegli in quale pagina fare vedere il video di background"
 
-#: mbYTPlayer.php:333
+#: mbYTPlayer.php:338
 msgid "Save Changes"
 msgstr "Salva i cambiamenti"
 
-#: mbYTPlayer.php:346
+#: mbYTPlayer.php:351
 msgid "Get your <strong>PLUS</strong> plug-in!"
 msgstr "Passa a <strong>mb.YTPlayer PLUS</strong>!"
 
-#: mbYTPlayer.php:347
+#: mbYTPlayer.php:352
 msgid ""
 "The <strong>mb.YTPlayer PLUS</strong> plug-in enable the advanced settings "
 "panel, add a short-code editor on the post/page editor page and remove the "
@@ -102,48 +102,48 @@ msgstr ""
 "impostazioni avanzate, aggiunge lo short-code editor accessibile dall'editor "
 "di post o pagine e rimuove il water-mark dal video player."
 
-#: mbYTPlayer.php:351
+#: mbYTPlayer.php:356
 msgid "<strong>Go PLUS</strong> for <b>8 EUR</b> Only"
 msgstr "passa a <strong>PLUS</strong> per solo <b>8 EUR</b>"
 
-#: mbYTPlayer.php:359
+#: mbYTPlayer.php:364
 msgid "Thanks for installing <b>mb.YTPlayer</b>!"
 msgstr "Grazie per avere installato <b>mb.YTPlayer</b>!"
 
-#: mbYTPlayer.php:362
+#: mbYTPlayer.php:367
 #, php-format
 msgid "You're using mb.YTPlayer v. <b>%s</b>"
 msgstr "Stai usando mb.YTPlayer  v. <b>%s</b>"
 
-#: mbYTPlayer.php:363
+#: mbYTPlayer.php:368
 msgid "by"
 msgstr "Realizzato da"
 
-#: mbYTPlayer.php:366
+#: mbYTPlayer.php:371
 msgid "Don’t forget to follow me on twitter"
 msgstr "Seguimi su Twitter"
 
-#: mbYTPlayer.php:368
+#: mbYTPlayer.php:373
 msgid "Visit my site"
 msgstr "Il mio sito"
 
-#: mbYTPlayer.php:369
+#: mbYTPlayer.php:374
 msgid "Visit my blog"
 msgstr "Il mio blog"
 
-#: mbYTPlayer.php:373
+#: mbYTPlayer.php:378
 msgid "donate"
 msgstr "Fai una donazione"
 
-#: mbYTPlayer.php:379
+#: mbYTPlayer.php:384
 msgid "Subscribe to my mailing list to stay in touch"
 msgstr "Sottoscrivi la mia mailing list per restare aggiornato"
 
-#: mbYTPlayer.php:384
+#: mbYTPlayer.php:389
 msgid "your email address"
 msgstr "Il tuo indirizzo email"
 
-#: mbYTPlayer.php:385
+#: mbYTPlayer.php:390
 msgid "Subscribe"
 msgstr "Iscriviti"
 

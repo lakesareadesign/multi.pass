@@ -21,7 +21,7 @@
             $table_name = $table['name'];
             $value = $table['prefix.name'];
 
-            $checked = in_array( $value, $additional_tables_previous_selection );
+            $checked = in_array( $value, $additional_tables_previous_selection );							 					 	 	  	
         ?>
         <li>
         	<input type="checkbox" name="additional_tables[]" id="table-<?php echo $value; ?>" <?php checked( $checked ); ?> value="<?php echo $value; ?>" />

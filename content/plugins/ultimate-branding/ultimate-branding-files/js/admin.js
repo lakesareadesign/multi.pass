@@ -15,24 +15,131 @@ jQuery(document).ready(function($)
     var $main_fav_image = $("#ub_main_site_favicon"),
         $main_favicon = $('#wp_favicon'),
         $main_fav_id = $('#wp_favicon_id'),
-        $main_fav_size = $('#wp_favicon_size');
+        $main_fav_size = $('#wp_favicon_size'),
+        $login_image = $('#wp_login_image'),
+        $login_image_el = $('#wp_login_image_el'),
+        $login_image_id = $('#wp_login_image_id'),
+        $login_image_size = $('#wp_login_image_size'),
+        $login_image_width = $('#wp_login_image_width'),
+        $login_image_height = $('#wp_login_image_height'),
+        $login_image_width_wrap = $('#wp_login_image_width_wrap'),
+        $login_image_height_wrap = $('#wp_login_image_height_wrap')
+        ;
 
-    jQuery('#wp_login_image_button').click(function()
+    /**
+     * If login image url is pasted
+     */
+    $login_image.on("paste", function(e){
+        $login_image.unbind( "change" );
+        $login_image.on("change", function(){
+            var $this = $(this),
+                temp = new Image(),
+                $temp = $( temp ),
+                $spinner = $(".spinner").first().clone()
+                ;
+            if( $.trim( $this.val() ) !== "" ){
+                $login_image_el.prop("src", this.value );
+                $login_image_id.val("");
+                $login_image_size.val("");
+                $login_image_width.val("");
+                $login_image_height.val("");
+            }
+
+            temp.src = this.value;
+            $temp.appendTo( "body" ).hide();
+            $login_image_el.after( $spinner );
+            $spinner.show();
+
+            $login_image_height_wrap.after( $spinner );
+
+            temp.onload = function(){
+                $spinner.remove();
+                $login_image_width_wrap.show();
+                $login_image_height_wrap.show();
+                $login_image_height.prop("type", "number").val( this.height );
+                $login_image_width.prop("type", "number").val( this.width );
+                $login_image_el.css({
+                    height: this.height,
+                    width: this.width
+                });
+            };
+
+        });
+
+
+    });
+
+    $login_image_height.on("change", function(){
+        $login_image_el.css("height", this.value);
+    });
+
+    $login_image_width.on("change", function(){
+        $login_image_el.css("width", this.value);
+    });
+
+    $('#wp_login_image_button').click(function()
     {
         wp.media.editor.send.attachment = function(props, attachment)
         {
-            jQuery('#wp_login_image').val(attachment.url);
-            jQuery('#wp_login_image_id').val(attachment.id);
-            jQuery('#wp_login_image_size').val(props.size);
+            var url = props.size && attachment.sizes[props.size] ? attachment.sizes[props.size].url : attachment.url;
+
+            $login_image.val(url);
+            $login_image_el.prop("src", url);
+            $login_image_id.val(attachment.id);
+            $login_image_size.val(props.size);
+            $login_image_height_wrap.hide();
+            $login_image_width_wrap.hide();
+            $login_image_height.prop("type", "hidden");
+            $login_image_width.prop("type", "hidden");
+
+            $login_image_el.css({
+               height: "auto",
+               width: "auto"
+            });
+            var dimensions = props.size ?  attachment.sizes[ props.size ] : false;
+            if( typeof dimensions !== 'undefined' && dimensions !== false ){
+                $login_image_width.val( dimensions.width );
+                $login_image_height.val( dimensions.height );
+            }else{
+                $login_image_width.val( "" );
+                $login_image_height.val( "" );
+            }
         };
 
-        wp.media.string.props = function(props, attachment)
-        {
-            jQuery('#wp_login_image').val(props.url);
-            jQuery('#wp_login_image_id').val("");
-            jQuery('#wp_login_image_size').val("full");
-            jQuery('#wp_login_image_width').val(props.width);
-            jQuery('#wp_login_image_height').val(props.height);
+
+        /**
+         * Sets login image from Url
+         *
+         * @param props
+         * @param attachment
+         * @returns {*}
+         */
+        wp.media.string.props = function(props, attachment){
+            var $spinner = $(".spinner").first().clone(),
+                temp_image = new Image(),
+                $temp_image = $(temp_image),
+                $image = $('#wp_login_image_el'),
+                $url = $('#wp_login_image')
+                ;
+
+            /**
+             * Show loader until the image is fully loaded then place show the actual image
+             */
+            $temp_image.appendTo("body").hide();
+            temp_image.src = props.url;
+
+            if( !$image.find(".spinner").length )
+                $image.before( $spinner.show() );
+
+            $image.hide();
+
+            $temp_image.on("load", function(){
+                $spinner.remove();
+                $temp_image.remove();
+                $image.prop("src", props.url).show();
+            });
+
+            $url.val(props.url);
             return props;
         };
 
@@ -253,10 +360,7 @@ jQuery(document).ready(function($){
         var self = this,
             $input = $( $(this).data("input") );
         $(this).data("editor").getSession().on('change', function () {
-            //console.log(this);
-//            $input.val(editor.getSession().getValue());
             $input.val( $(self).data("editor").getSession().getValue()  );
-            //console.log( $(self).data("editor").getSession().getValue() );
         });
     });
 

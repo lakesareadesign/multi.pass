@@ -219,6 +219,7 @@ html.fl-builder-edit {
 	padding: 7px 10px;
 }
 .fl-builder-bar-title img {
+	display: inline-block!important;
 	height: 30px !important;
 	margin: 0 1px 0 0 !important;
 	vertical-align: middle !important;
@@ -552,12 +553,14 @@ span.fl-builder-block-no-node-templates:hover {
 	line-height: 14px;
 	margin: 10px;
 	padding: 6px 8px 5px;
+	position: relative;
 	text-align: left;
 	text-overflow: ellipsis;
 	text-shadow: none;
 	text-transform: none;
 	white-space: nowrap;
     overflow: hidden;
+    z-index: 10;
 }
 @keyframes fl-builder-drop-zone-pulse {
   0% {
@@ -1328,7 +1331,7 @@ form.fl-builder-settings {
 .fl-lightbox-header .fl-builder-preview-loader {
 	margin: 0;
 	position: absolute;
-	right: 15px;
+	right: 40px;
 	top: 15px;
 }
 
@@ -1391,6 +1394,7 @@ form.fl-builder-settings {
 ------------------------------------------------------ */
 
 .fl-form-table  {
+	background: none transparent;
 	border: none;
 	width: 100%;
 }
@@ -1413,9 +1417,13 @@ form.fl-builder-settings {
 .fl-form-table th label {
 	color: #333;
 }
-.fl-form-table  td {
-	border: none;
+.fl-form-table td {
+	background: #fff !important;
+	border: none !important;
+	font-weight: normal !important;
 	padding: 8px 10px;
+	text-align: left !important;
+	width: auto !important;
 }
 
 /* Settings Fields
@@ -1488,15 +1496,19 @@ form.fl-builder-settings {
 }
 .fl-builder-settings-fields ::-webkit-input-placeholder { /* WebKit browsers */
 	color: #999 !important;
+	font-size: 12px;
 }
 .fl-builder-settings-fields input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
 	color: #999;
+	font-size: 12px;
 }
 .fl-builder-settings-fields ::-moz-placeholder { /* Mozilla Firefox 19+ */
 	color: #999 !important;
+	font-size: 12px;
 }
 .fl-builder-settings-fields input:-ms-input-placeholder { /* Internet Explorer 10+ */
 	color: #999;
+	font-size: 12px;
 }
 .fl-builder-settings-fields label {
 	font-weight: normal;

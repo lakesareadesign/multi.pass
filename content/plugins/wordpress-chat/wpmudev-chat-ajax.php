@@ -60,7 +60,12 @@ if ( $_POST['function'] !== "chat_messages_update" ) {
 	if ( file_exists( ABSPATH . WPINC . '/rest-api.php' ) ) {
 		require( ABSPATH . WPINC . '/rest-api.php' );
 	}
-	if ( file_exists( ABSPATH . WPINC . '/session.php' ) ) {
+
+	//Since WordPress 4.7
+	if ( file_exists( ABSPATH . WPINC . '/class-wp-session-tokens.php' ) ) {
+		require_once( ABSPATH . WPINC . '/class-wp-session-tokens.php' );
+		require_once( ABSPATH . WPINC . '/class-wp-user-meta-session-tokens.php' );
+	} elseif ( file_exists( ABSPATH . WPINC . '/session.php' ) ) {
 		require( ABSPATH . WPINC . '/session.php' );
 	}
 	require( ABSPATH . WPINC . '/meta.php' );
@@ -106,7 +111,11 @@ if ( $_POST['function'] !== "chat_messages_update" ) {
 	unset( $locale_file );
 
 	// Pull in locale data after loading text domain.
-	require_once( ABSPATH . WPINC . '/locale.php' );
+	if ( file_exists( ABSPATH . WPINC . '/class-wp-locale.php' ) ) {
+		require_once( ABSPATH . WPINC . '/class-wp-locale.php' );
+	} elseif ( file_exists( ABSPATH . WPINC . '/locale.php' ) ) {
+		require_once( ABSPATH . WPINC . '/locale.php' );
+	}
 
 	/**
 	 * WordPress Locale object for loading locale domain date and various strings.

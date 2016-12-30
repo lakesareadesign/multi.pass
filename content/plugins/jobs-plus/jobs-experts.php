@@ -3,7 +3,7 @@
  * Plugin Name: Jobs and Experts
  * Plugin URI: https://premium.wpmudev.org/project/jobs-and-experts/
  * Description: Match people with projects to industry professionals – it’s more than your average WordPress jobs board.
- * Version: 1.0.2.3
+ * Version: 1.0.2.4
  * Author:WPMU DEV
  * Author URI: http://premium.wpmudev.org
  * Text Domain: jbp
@@ -67,7 +67,7 @@ class Jobs_Experts {
 	public $domain;
 	public $prefix;
 
-	public $version = "1.0.2.3";
+	public $version = "1.0.2.3-Beta-1";
 	public $db_version = "1.0";
 
 	public $global = array();
@@ -99,8 +99,8 @@ class Jobs_Experts {
 		add_action( 'init', array( &$this, 'dispatch' ) );
 		add_action( 'widgets_init', array( &$this, 'init_widget' ) );
 
-                add_action( 'wp_trash_post', array( &$this, 'delete_je_cache' ) );
-                add_action( 'save_post', array( &$this, 'delete_je_cache' ) );
+		add_action( 'wp_trash_post', array( &$this, 'delete_je_cache' ) );
+		add_action( 'save_post', array( &$this, 'delete_je_cache' ) );
 
 		$this->upgrade();
 		//
@@ -130,7 +130,7 @@ class Jobs_Experts {
 				wp_enqueue_style( 'jobs-single-shortcode' );
 				break;
 			case 'job-form':
-				wp_enqueue_script('jobs-main');
+				wp_enqueue_script( 'jobs-main' );
 				wp_enqueue_style( 'jobs-form-shortcode' );
 				wp_enqueue_script( 'jobs-select2' );
 				wp_enqueue_style( 'jobs-select2' );
@@ -173,8 +173,8 @@ class Jobs_Experts {
 
 	function scripts() {
 		wp_enqueue_script( 'jquery' );
-                wp_register_script( 'jobs-uploader', $this->plugin_url . 'assets/uploader.js', array( 'jquery' ), $this->version );
-                wp_enqueue_script( 'jobs-uploader' );
+		wp_register_script( 'jobs-uploader', $this->plugin_url . 'assets/uploader.js', array( 'jquery' ), $this->version );
+		wp_enqueue_script( 'jobs-uploader' );
 
 		if ( is_admin() ) {
 			wp_enqueue_style( 'jbp_admin', $this->plugin_url . 'assets/css/admin.css', array( 'ig-packed' ), $this->version );
@@ -233,14 +233,16 @@ class Jobs_Experts {
 		}
 	}
 
-        function delete_je_cache( $post_id ) {
+	function delete_je_cache( $post_id ) {
 
-            if( get_post_type( $post_id ) != 'jbp_job' ) return;
+		if ( get_post_type( $post_id ) != 'jbp_job' ) {
+			return;
+		}
 
-            global $wpdb;
-            $query = $wpdb->prepare( "DELETE from `{$wpdb->options}` WHERE option_name LIKE %s;", '%' . $wpdb->esc_like( JE_Job_Model::model()->cache_prefix() ) . '%');
-            $wpdb->query( $query );
-        }
+		global $wpdb;
+		$query = $wpdb->prepare( "DELETE from `{$wpdb->options}` WHERE option_name LIKE %s;", '%' . $wpdb->esc_like( JE_Job_Model::model()->cache_prefix() ) . '%' );
+		$wpdb->query( $query );
+	}
 
 	function date_format_php_to_js( $sFormat ) {
 		switch ( $sFormat ) {
@@ -397,7 +399,7 @@ class Jobs_Experts {
 		$expert_single  = new JE_Expert_Single_Shortcode_Controller();
 		$my_expert      = new JE_My_Expert_Shortcode_Controller();
 		$expert_form    = new JE_Expert_Form_Shortcode_Controller();
-                $expert_search = new JE_Expert_Search_Shortcode_Controller();
+		$expert_search  = new JE_Expert_Search_Shortcode_Controller();
 
 		$contact = new JE_Contact_Shortcode_Controller();
 		$landing = new JE_Landing_Shortcode_Controller();

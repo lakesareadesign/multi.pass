@@ -310,7 +310,7 @@
 		_initParallaxBackground: function()
 		{
 			var row     = $(this),
-				content = row.find('.fl-row-content-wrap'),
+				content = row.find('> .fl-row-content-wrap'),
 				src     = row.data('parallax-image'),
 				loaded  = row.data('parallax-loaded'),
 				img     = new Image();
@@ -641,12 +641,16 @@
 				iframe 		= wrap.find('iframe');
 			
 			if ( vid.length ) {
-				if(vidHeight === '' || vidWidth === '') {
+				if(vidHeight === '' || typeof vidHeight === 'undefined' || vidWidth === '' || typeof vidWidth === 'undefined') {
 					vid.css({
 						'left'      : '0px',
 						'top'       : '0px',
 						'width'     : newWidth + 'px'
 					});
+
+					// Try to set the actual video dimension on 'loadedmetadata' when using URL as video source
+					vid.on('loadedmetadata', FLBuilderLayout._resizeOnLoadedMeta);
+
 				}
 				else {
 					
@@ -674,6 +678,43 @@
 					FLBuilderLayout._resizeYoutubeBgVideo.apply(this);	
 				}				
 			}
+		},
+
+		/**
+		 * Fires when video meta has been loaded. 
+		 * This will be Triggered when width/height attributes were not specified during video background resizing.
+		 *
+		 * @since 1.8.5
+		 * @access private
+		 * @method _resizeOnLoadedMeta
+		 */
+		_resizeOnLoadedMeta: function(){
+			var video 		= $(this),
+				wrapHeight 	= video.parent().outerHeight(),
+				wrapWidth 	= video.parent().outerWidth(),
+				vidWidth 	= video[0].videoWidth,
+				vidHeight 	= video[0].videoHeight,
+				newHeight   = Math.round(vidHeight * wrapWidth/vidWidth),
+				newTop 		= 0;
+
+			if(newHeight < wrapHeight) {
+				newHeight   = wrapHeight;
+				newWidth    = Math.round(vidWidth * wrapHeight/vidHeight);  
+				newLeft     = -((newWidth - wrapWidth)/2);
+			}
+			else {
+				newTop      = -((newHeight - wrapHeight)/2);
+			}
+
+			video.parent().data('width', vidWidth);
+			video.parent().data('height', vidHeight);
+
+			video.css({
+				'left'      : newLeft + 'px',
+				'top'       : newTop + 'px',
+				'width'     : newWidth + 'px',
+				'height' 	: newHeight + 'px'
+			});
 		},
 
 		/**

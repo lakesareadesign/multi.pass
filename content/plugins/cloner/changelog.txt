@@ -9,6 +9,17 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+1.7.7 - 2016-12-19
+----------------------------------------------------------------------
+- Fix: Warnings when copying tables
+- Fix: Fatal error when cloningn Revolution Slider tables
+- Updated WPMU DEV Dashboard notification
+
+1.7.6 - 2016-09-01
+----------------------------------------------------------------------
+- Fixed: Main email was not cloned properly
+- Fixed: Main site tables were not cloned
+
 1.7.5 - 2016-08-29
 ----------------------------------------------------------------------
 - Fixed: Blog title was set empty when cloning a site.
@@ -122,4 +133,4 @@ Change Log:
 - First release
 
 
-133620-1472790792-au
+133620-1483063102-au

@@ -497,6 +497,10 @@ class GAPGoogle_Analytics_Async_Dashboard {
             $token = $this->google_login['token'];
             $token_object = json_decode($token);
 
+            //lets wait a minute before we try to refresh a token after failure
+            if(isset($this->google_login['fail_time']) && $this->google_login['fail_time']+MINUTE_IN_SECONDS < time())
+                return;
+
             if($this->google_login['expire'] < time()) {
 	            $orginal_token = $this->google_login['orginal_token'];
 	            $orginal_token_object = json_decode($orginal_token);
@@ -529,16 +533,32 @@ class GAPGoogle_Analytics_Async_Dashboard {
                         $google_analytics_async->save_options(array('google_login' => $this->google_login), $source);
                     } catch (GAPGoogle_IO_Exception $e) {
                         $token = false;
-                        $google_analytics_async->save_options(array('google_login' => array()), $source);
+                        $this->handle_refesh_token_failure($source, $e);
                     } catch (Exception $e) {
                         $token = false;
-                        $google_analytics_async->save_options(array('google_login' => array()), $source);
+
+                        $this->handle_refesh_token_failure($source, $e);
                     }
                 }
             }
             if($token)
                 $this->google_client->setAccessToken($token);
         }
+    }
+
+    function handle_refesh_token_failure($source, $e) {
+        global $google_analytics_async;
+
+        //lets store reason for failure separately
+        $google_analytics_async->save_options(array('google_login_failure' => $e->getMessage()), $source);
+
+        $this->google_login['fail_time'] = time();
+        $this->google_login['fail_count'] = isset($this->google_login['fail_count']) ? $this->google_login['fail_count']+1 : 1;
+
+        if($this->google_login['fail_count'] < 10)
+            $google_analytics_async->save_options(array('google_login' => $this->google_login), $source);
+        else
+            $google_analytics_async->save_options(array('google_login' => array()), $source);
     }
 
     function prepare_authentication_header($url) {
@@ -581,6 +601,8 @@ class GAPGoogle_Analytics_Async_Dashboard {
             $response_body = wp_remote_retrieve_body($response);
 
             if($this->http_code != 200) {
+                $response = json_decode($response_body);
+                if(isset($response->error->message))
                 $this->error = $response_body;
                 return false;
             }
@@ -1163,6 +1185,7 @@ class GAPGoogle_Analytics_Async_Dashboard {
 
         $return = '';
         $count = 0;
+        $duplicate_check = array();
         foreach ($stats['top_pages'] as $key => $data) {
             $url = $this->get_url_from_google_data($data);
             if(method_exists($dm_map, 'domain_mapping_siteurl')) {
@@ -1178,6 +1201,11 @@ class GAPGoogle_Analytics_Async_Dashboard {
 
             if($post->post_type != 'post')
                 continue;
+
+            if(in_array($postid, $duplicate_check))
+                continue;
+
+            $duplicate_check[] = $postid;
 
             $count ++;
             $return .= '<li><a href="'.(is_ssl() ? 'https://' : 'http://').$url.'">'.$post->post_title.'</a></li>';
@@ -1216,7 +1244,8 @@ class GAPGoogle_Analytics_Async_Dashboard {
         $url_parameters = array(
             'ids' => $this->profile_id,
             'start-date' => $this->start_date,
-            'end-date' => $this->end_date
+            'end-date' => $this->end_date,
+            'samplingLevel' => 'HIGHER_PRECISION'
         );
         if(!empty($max_results))
             $url_parameters['max-results'] = $max_results;

@@ -152,7 +152,7 @@ $time_format = get_option( 'time_format' );
 					<?php esc_html_e( 'Revoke', 'wpmudev' ); ?>
 				</a>
 				<?php endif; ?>
-				<a href="#access-info" rel="dialog" tooltip="<?php esc_attr_e( 'Security details', 'wpmudev' ); ?>" class="tooltip-right tooltip-s button button-text button-small">
+				<a href="#access-info" rel="dialog" tooltip="<?php esc_attr_e( 'Security details', 'wpmudev' ); ?>" class="tooltip-<?php echo is_rtl() ? 'left' : 'right' ?> tooltip-s button button-text button-small">
 					<i class="dev-icon dev-icon-info"></i>
 				</a>
 			</span>

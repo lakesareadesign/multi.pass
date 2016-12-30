@@ -97,7 +97,7 @@ if (!class_exists('Classifieds_Core_Main')):
                                 }
 
                             } else {
-                                $error = __('You do not have enough credits to publish your classified for the selected time period. Please select a shorter period, if available, or purchase more credits. Your ad has been saved as a Draft.', $this->text_domain);
+                                $error = __('You do not have enough credits to publish your classified for the selected time period. Please select a shorter period, if available, or purchase more credits. Your ad has been saved as a Draft.', $this->text_domain);	     	 	 	  	  	 
                                 set_query_var('cf_error', $error);
                             }
                             //$this->process_credits()

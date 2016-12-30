@@ -5,7 +5,7 @@ Plugin URI: https://premium.wpmudev.org/project/anti-splog/
 Description: The ultimate plugin and service to stop and kill splogs in WordPress Multisite and BuddyPress
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
-Version: 2.1.8
+Version: 2.2
 Network: true
 WDP ID: 120
 */
@@ -858,7 +858,7 @@ function ust_blog_updated( $blog_id ) {
 function ust_plug_pages() {
 	global $ust_admin_url, $wp_version;
 
-	$page = add_menu_page( __( 'Anti-Splog', 'ust' ), __( 'Anti-Splog', 'ust' ), 'manage_sites', 'ust', 'ust_admin_moderate', plugins_url( '/anti-splog/includes/icon-small.png' ) );
+	$page = add_menu_page( __( 'Anti-Splog', 'ust' ), __( 'Anti-Splog', 'ust' ), 'manage_sites', 'ust', 'ust_admin_moderate', 'dashicons-shield' );
 	$page = add_submenu_page( 'ust', __( 'Site Moderation', 'ust' ), __( 'Moderation', 'ust' ), 'manage_sites', 'ust', 'ust_admin_moderate' );
 
 	/* Using registered $page handle to hook script load */
@@ -1091,14 +1091,6 @@ function ust_signup_errorcheck( $content ) {
 			$content['errors']->add( 'recaptcha', __( "The reCAPTCHA wasn't entered correctly. Please try again.", 'ust' ) );
 		}
 
-	} else if ( $ust_settings['signup_protect'] == 'asirra' ) {
-
-		require_once( 'includes/asirra.php' );
-		$asirra = new AsirraValidator( $_POST['Asirra_Ticket'] );
-		if ( ! $asirra->passed ) {
-			$content['errors']->add( 'asirra', __( "Please try to correctly identify the cats again.", 'ust' ) );
-		}
-
 	} else if ( $ust_settings['signup_protect'] == 'questions' ) {
 
 		$ust_qa = get_site_option( "ust_qa" );
@@ -1148,14 +1140,6 @@ function ust_signup_errorcheck_bp() {
 
 		if ( ! $resp ) {
 			$bp->signup->errors['recaptcha'] = __( "The reCAPTCHA wasn't entered correctly. Please try again.", 'ust' );
-		}
-
-	} else if ( $ust_settings['signup_protect'] == 'asirra' ) {
-
-		require_once( 'includes/asirra.php' );
-		$asirra = new AsirraValidator( $_POST['Asirra_Ticket'] );
-		if ( ! $asirra->passed ) {
-			$bp->signup->errors['asirra'] = __( "Please try to correctly identify the cats again.", 'ust' );
 		}
 
 	} else if ( $ust_settings['signup_protect'] == 'questions' ) {

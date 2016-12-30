@@ -97,6 +97,8 @@ for($i = 0; $i < count($settings->slides); $i++) {
 		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text, ';
 		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text * ';
 		echo '{ color: #'. $slide->text_color .'; }';
+		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text strong ';
+		echo '{ color: inherit; }';
 	}
 	
 	// Text BG Color
@@ -126,6 +128,8 @@ for($i = 0; $i < count($settings->slides); $i++) {
 			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text, ';
 			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text * ';
 			echo '{ color: #'. $slide->r_text_color .'; }';
+			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text strong ';
+			echo '{ color: inherit; }';
 		}
 		else {
 			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-title, ';

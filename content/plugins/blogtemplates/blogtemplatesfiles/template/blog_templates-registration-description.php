@@ -22,7 +22,7 @@
 
 		<?php
 			foreach ($templates as $tkey => $template) {
-				nbt_render_theme_selection_item( 'description', $tkey, $template, $settings );	     	 	  			 		 
+				nbt_render_theme_selection_item( 'description', $tkey, $template, $settings );
 			}
 		?>
 

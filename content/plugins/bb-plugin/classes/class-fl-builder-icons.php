@@ -7,53 +7,53 @@
  */
 
 final class FLBuilderIcons {
-	
+
 	/**
 	 * An array of data for each icon set.
 	 *
 	 * @since 1.4.6
 	 * @access private
 	 * @var array $sets
-	 */  
+	 */
 	static private $sets = null;
-	
+
 	/**
 	 * Gets an array of data for core and custom icon sets.
 	 *
 	 * @since 1.4.6
 	 * @return array An array of data for each icon set.
-	 */ 
+	 */
 	static public function get_sets()
 	{
 		// Return the sets if already registered.
 		if ( self::$sets ) {
 			return self::$sets;
 		}
-		
+
 		// Check to see if we should pull sets from the main site.
 		if ( is_multisite()) {
-			
+
 			$blog_id		= defined( 'BLOG_ID_CURRENT_SITE' ) ? BLOG_ID_CURRENT_SITE : 1;
 			$enabled_icons	= get_option( '_fl_builder_enabled_icons' );
-			
+
 			if ( empty( $enabled_icons ) ) {
 				switch_to_blog( $blog_id );
 			}
 		}
-		
+
 		// Register the icon sets.
 		self::register_custom_sets();
 		self::register_core_sets();
-		
+
 		// Revert to the current site if we pulled from the main site.
 		if ( is_multisite() && empty( $enabled_icons ) ) {
 			restore_current_blog();
 		}
-		
+
 		// Return the sets.
 		return self::$sets;
 	}
-	
+
 	/**
 	 * Gets an array of data for icon sets of the current
 	 * site on a multisite install.
@@ -66,24 +66,24 @@ final class FLBuilderIcons {
 		if ( ! is_multisite() ) {
 			return self::get_sets();
 		}
-		
+
 		// Store the original sets.
 		$original_sets = self::$sets;
-		
+
 		// Register the icon sets.
 		self::register_custom_sets();
 		self::register_core_sets();
-		
+
 		// Get the new sets.
 		$sets = self::$sets;
-		
+
 		// Revert to the original sets.
 		self::$sets = $original_sets;
-		
+
 		// Return the sets.
 		return $sets;
 	}
-	
+
 	/**
 	 * Remove an icon set from the internal sets array.
 	 *
@@ -97,7 +97,7 @@ final class FLBuilderIcons {
 			unset( self::$sets[ $key ] );
 		}
 	}
-	
+
 	/**
 	 * Get the key for an icon set from the path to an icon set stylesheet.
 	 *
@@ -108,7 +108,7 @@ final class FLBuilderIcons {
 	static public function get_key_from_path( $path )
 	{
 		$sets = self::get_sets();
-		
+
 		foreach ( $sets as $key => $set ) {
 			if ( $path == $set['path'] ) {
 				return $key;
@@ -126,7 +126,7 @@ final class FLBuilderIcons {
 	static private function register_core_sets()
 	{
 		$enabled_icons = FLBuilderModel::get_enabled_icons();
-		$core_sets = array(
+		$core_sets = apply_filters( 'fl_builder_core_icon_sets', array(
 			'font-awesome' => array(
 				'name'	 => 'Font Awesome',
 				'prefix' => 'fa'
@@ -139,9 +139,9 @@ final class FLBuilderIcons {
 				'name'	 => 'WordPress Dashicons',
 				'prefix' => 'dashicons dashicons-before'
 			)
-		);
-		
-		// Add the core sets. 
+		) );
+
+		// Add the core sets.
 		foreach ( $core_sets as $set_key => $set_data ) {
 			if ( is_admin() || in_array( $set_key, $enabled_icons ) ) {
 				self::$sets[ $set_key ] = array(
@@ -151,7 +151,7 @@ final class FLBuilderIcons {
 				);
 			}
 		}
-		
+
 		// Loop through core sets and add icons.
 		foreach ( self::$sets as $set_key => $set_data ) {
 			if ( 'core' == $set_data['type'] ) {
@@ -174,33 +174,33 @@ final class FLBuilderIcons {
 		$enabled_icons = FLBuilderModel::get_enabled_icons();
 		$upload_info   = FLBuilderModel::get_cache_dir( 'icons' );
 		$folders	   = glob( $upload_info['path'] . '*' );
-		
+
 		// Make sure we have an array.
 		if( ! is_array( $folders ) ) {
 			return;
 		}
-		
+
 		// Loop through uploaded sets.
 		foreach ( $folders as $folder ) {
-			
+
 			// Make sure we have a directory.
 			if ( ! is_dir( $folder ) ) {
 				continue;
 			}
-			
+
 			$folder = trailingslashit( $folder );
-			
+
 			// This is an Icomoon font.
 			if ( file_exists( $folder . 'selection.json' ) ) {
-				
+
 				$data = json_decode( file_get_contents( $folder . 'selection.json' ) );
 				$key  = basename( $folder );
 				$url  = str_ireplace( $upload_info['path'], $upload_info['url'], $folder );
-				
+
 				if ( isset( $data->icons ) ) {
-					
+
 					if ( is_admin() || in_array( $key, $enabled_icons ) ) {
-						
+
 						self::$sets[ $key ] = array(
 							'name'		 => $data->metadata->name,
 							'prefix'	 => '',
@@ -210,33 +210,33 @@ final class FLBuilderIcons {
 							'stylesheet' => $url . 'style.css',
 							'icons'		 => array()
 						);
-						
+
 						foreach ( $data->icons as $icon ) {
-							
+
 							$prefs	 = $data->preferences->fontPref;
 							$postfix = isset( $prefs->postfix ) ? $prefs->postfix : '';
-							
+
 							if ( isset( $prefs->selector ) && 'class' == $prefs->selector ) {
 								$selector = trim( str_replace( '.', ' ', $prefs->classSelector ) ) . ' ';
 							}
 							else {
 								$selector = '';
 							}
-							
+
 							self::$sets[ $key ]['icons'][] = $selector . $prefs->prefix . $icon->properties->name . $postfix;
 						}
 					}
-				}				
+				}
 			}
 			// This is a Fontello font.
 			else if ( file_exists( $folder . 'config.json' ) ) {
-				
+
 				$data  = json_decode( file_get_contents( $folder . 'config.json' ) );
 				$key   = basename( $folder );
 				$name  = empty( $data->name ) ? 'Fontello' : $data->name;
 				$url   = str_ireplace( $upload_info['path'], $upload_info['url'], $folder );
 				$style = empty( $data->name ) ? 'fontello' : $data->name;
-				
+
 				// Append the date to the name?
 				if ( empty( $data->name ) ) {
 					$time			= str_replace( 'icon-', '', $key );
@@ -245,11 +245,11 @@ final class FLBuilderIcons {
 					$date			= date( $date_format . ' ' . $time_format );
 					$name		   .= ' (' . $date . ')';
 				}
-				
+
 				if ( isset( $data->glyphs ) ) {
-					
+
 					if ( is_admin() || in_array( $key, $enabled_icons ) ) {
-					
+
 						self::$sets[ $key ] = array(
 							'name'		 => $name,
 							'prefix'	 => '',
@@ -259,7 +259,7 @@ final class FLBuilderIcons {
 							'stylesheet' => $url . 'css/' . $style . '.css',
 							'icons'		 => array()
 						);
-						
+
 						foreach ( $data->glyphs as $icon ) {
 							if ( $data->css_use_suffix ) {
 								self::$sets[ $key ]['icons'][] = $icon->css . $data->css_prefix_text;
@@ -283,14 +283,14 @@ final class FLBuilderIcons {
 	static public function enqueue_all_custom_icons_styles()
 	{
 		$sets = self::get_sets();
-		
+
 		foreach ( $sets as $key => $data ) {
-			
+
 			// Don't enqueue core icons.
 			if ( 'core' == $data['type'] ) {
 				continue;
 			}
-			
+
 			// Enqueue the custom icon styles.
 			self::enqueue_custom_styles_by_key( $key );
 		}
@@ -306,7 +306,7 @@ final class FLBuilderIcons {
 	static public function enqueue_styles_for_module( $module )
 	{
 		$fields = FLBuilderModel::get_settings_form_fields( $module->form );
-		
+
 		foreach ( $fields as $name => $field ) {
 			if ( isset( $field['form'] ) ) {
 				$form = FLBuilderModel::$settings_forms[ $field['form'] ];
@@ -331,7 +331,7 @@ final class FLBuilderIcons {
 	static private function enqueue_styles_for_nested_module_form( $module, $form, $setting )
 	{
 		$fields = FLBuilderModel::get_settings_form_fields( $form );
-		
+
 		foreach ( $fields as $name => $field ) {
 			if ( $field['type'] == 'icon' && ! empty( $module->settings->$setting ) ) {
 				foreach ( $module->settings->$setting as $key => $val ) {
@@ -356,7 +356,9 @@ final class FLBuilderIcons {
 	 */
 	static private function enqueue_styles_for_icon( $icon )
 	{
-		// Is this a core icon? 
+		do_action( 'fl_builder_enqueue_styles_for_icon', $icon );
+
+		// Is this a core icon?
 		if ( stristr( $icon, 'fa-' ) ) {
 			wp_enqueue_style( 'font-awesome' );
 		}
@@ -368,9 +370,9 @@ final class FLBuilderIcons {
 		}
 		// It must be a custom icon.
 		else {
-			
+
 			$sets = self::get_sets();
-			
+
 			foreach ( $sets as $key => $data ) {
 				if ( in_array( $icon, $data['icons'] ) ) {
 					self::enqueue_custom_styles_by_key( $key );
@@ -389,17 +391,19 @@ final class FLBuilderIcons {
 	 */
 	static private function enqueue_custom_styles_by_key( $key )
 	{
-		$sets = self::get_sets();
-		
-		if ( isset( $sets[ $key ] ) ) {
-			
-			$set = $sets[ $key ];
-			
-			if ( 'icomoon' == $set['type'] ) {
-				wp_enqueue_style( $key, $set['stylesheet'], array(), FL_BUILDER_VERSION );
-			}
-			if ( 'fontello' == $set['type'] ) {
-				wp_enqueue_style( $key, $set['stylesheet'], array(), FL_BUILDER_VERSION );
+		if ( apply_filters( 'fl_builder_enqueue_custom_styles_by_key', true, $key ) ) {
+			$sets = self::get_sets();
+
+			if ( isset( $sets[ $key ] ) ) {
+
+				$set = $sets[ $key ];
+
+				if ( 'icomoon' == $set['type'] ) {
+					wp_enqueue_style( $key, $set['stylesheet'], array(), FL_BUILDER_VERSION );
+				}
+				if ( 'fontello' == $set['type'] ) {
+					wp_enqueue_style( $key, $set['stylesheet'], array(), FL_BUILDER_VERSION );
+				}
 			}
 		}
 	}

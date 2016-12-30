@@ -484,7 +484,13 @@ class WPMUDEV_Dashboard_Ui {
 			array(),
 			$script_version
 		);
-
+        if( is_rtl() )
+            wp_enqueue_style(
+                'wpmudev-admin-rtl-css',
+                WPMUDEV_Dashboard::$site->plugin_url . 'css/dashboard-rtl.css',
+                array('wpmudev-admin-css'),
+                $script_version
+            );
 		// Register scripts ===================================================.
 		wp_enqueue_script(
 			'wpmudev-dashboard-modules',
@@ -499,11 +505,18 @@ class WPMUDEV_Dashboard_Ui {
 			'wpmud-' . $this->current_module
 		);
 
-		// Hide all default admin notices from another source on these pages.
+		//this runs at the last possible second to kill all admin notices
+		add_action( 'in_admin_header', array( $this, 'remove_admin_notices' ), 99 );
+	}
+
+	/**
+	 * Hide all default admin notices from another source on these pages.
+	 */
+	public function remove_admin_notices() {
 		remove_all_actions( 'admin_notices' );
 		remove_all_actions( 'network_admin_notices' );
 		remove_all_actions( 'all_admin_notices' );
-	}
+    }
 
 	/**
 	 * Enqueue Dashboard styles on all non-dashboard admin pages.
@@ -834,6 +847,7 @@ class WPMUDEV_Dashboard_Ui {
 	 */
 	public function modify_core_updates_page() {
 		$is_logged_in = WPMUDEV_Dashboard::$api->has_key();
+		$allowed_user = WPMUDEV_Dashboard::$site->allowed_user();
 		$projects = WPMUDEV_Dashboard::$site->get_cached_projects();
 		$themepack = WPMUDEV_Dashboard::$site->get_farm133_themepack();
 
@@ -893,7 +907,7 @@ class WPMUDEV_Dashboard_Ui {
 				var note = '<a href="<?php echo esc_url( $this->page_urls->dashboard_url ); ?>"><?php esc_attr_e( 'Login to WPMU DEV Dashboard', 'wpmudev' ); ?></a> <?php esc_attr_e( 'to update.', 'wpmudev' ) ?>';
 				infos.append('<div class="wpmudev-info">' + note + '</div>');
 
-			<?php } else { ?>
+			<?php } else if ( $allowed_user ) { ?>
 
 				var note = "<?php esc_attr_e( 'Auto-update not possible.', 'wpmudev' ) ?>";
 				if ( url && url.length ) {
@@ -1132,7 +1146,7 @@ class WPMUDEV_Dashboard_Ui {
 		} elseif ( ! empty( $_REQUEST['set_apikey'] ) ) {
 			// User tried to log-in.
 			WPMUDEV_Dashboard::$api->set_key( trim( $_REQUEST['set_apikey'] ) );
-			$result = WPMUDEV_Dashboard::$api->refresh_membership_data();
+			$result = WPMUDEV_Dashboard::$api->refresh_membership_data( false, true );
 
 			if ( ! $result || empty( $result['membership'] ) ) {
 				// Don't logout at this point!

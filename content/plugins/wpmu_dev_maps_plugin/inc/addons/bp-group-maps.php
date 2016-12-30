@@ -187,10 +187,10 @@ if ( defined( 'BP_PLUGIN_DIR' ) ) :
 			}
 
 			// Show separate map page if set so in settings
-			$data = groups_get_groupmeta( $group->id, 'agm-group_map' );
-			if ( empty( $data['map_tab'] ) ) {
-				return false;
-			}
+			//$data = groups_get_groupmeta( $group->id, 'agm-group_map' );
+			//if ( empty( $data['map_tab'] ) ) {
+			//	return false;
+			//}
 
 			// Show group map on members list page if set so in settings
 			$data = groups_get_groupmeta( $group->id, 'agm-group_map' );
@@ -435,11 +435,15 @@ if ( defined( 'BP_PLUGIN_DIR' ) ) :
 			if ( $has_group_marker ) {
 				// Also fix the group title
 				$map['markers'][0]['title'] = $group->name;
-				switch ( $data_overrides['group_details'] ) {
+				$details = isset($data_overrides['group_details'])
+					? $data_overrides['group_details']
+					: false
+				;
+				switch ( $details ) {
 					case 'both':
 					case 'all':
 					case 'full':
-						$map['markers'][0]['body'] = $group->description . '<div class="agm-address">' . $address . '</div>';
+						$map['markers'][0]['body'] = $group->description . '<div class="agm-address">' . $address . '</div>';	     	 	 		  		  
 						break;
 
 					case 'desc':
@@ -467,7 +471,11 @@ if ( defined( 'BP_PLUGIN_DIR' ) ) :
 			if ( ! empty( $data['member_locations'] ) && ! empty( $data_overrides['show_members'] ) && class_exists( 'Agm_Bp_Pm_UserPages' ) ) {
 				$profile = new Agm_Bp_Pm_UserPages();
 				$markers = $map['markers'];
-				$members = groups_get_group_members( $group_id );
+				$members = groups_get_group_members(array(
+					'group_id' => $group_id,
+					'exclude_admins_mods' => false,
+				));
+
 				if ( $members && ! empty( $members['members'] ) ) {
 					foreach ( $members['members'] as $member ) {
 						$marker = $profile->member_to_marker( $member->ID );

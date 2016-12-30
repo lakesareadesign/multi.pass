@@ -479,7 +479,7 @@ if (!class_exists('GUMP')) {
                         $resp[$field_key] = "The <span class=\"$field_class\">$field</span> field needs to contain a valid human name";
                         break;
                     case 'validate_contains':
-                        $resp[$field_key] = "The <span class=\"$field_class\">$field</span> field needs to contain one of these values: " . implode(', ', $param);	     	 		 						  		
+                        $resp[$field_key] = "The <span class=\"$field_class\">$field</span> field needs to contain one of these values: " . implode(', ', $param);
                         break;
                     case 'validate_street_address':
                         $resp[$field_key] = "The <span class=\"$field_class\">$field</span> field needs to be a valid street address";

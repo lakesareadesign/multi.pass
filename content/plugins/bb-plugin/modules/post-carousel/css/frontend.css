@@ -1,6 +1,9 @@
 /* Post Slider */
 
 /* Wrappers */
+body.rtl .fl-module-post-carousel .bx-viewport {
+	direction: ltr;
+}
 .fl-module-post-carousel .bx-wrapper {
 	max-width: 100% !important;
 	margin: 0 auto 40px;

@@ -3,7 +3,7 @@
 Plugin Name: Post State Tags
 Plugin URI: http://wordpress.org/plugins/post-state-tags/
 Description: Make your WordPress post state list stand out with colors and color tags (draft, pending, sticky, etc)
-Version: 1.1.5
+Version: 1.1.6
 Author: BRANDbrilliance
 Author URI: http://www.brandbrilliance.co.za
 License: GPLv2 or later
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 require_once('libraries/colorhsl.php');
 
-const VERSION = '1.1.5';
+const VERSION = '1.1.6';
 
 const TEXT_DOMAIN = 'post-state-tags';
 const ADMIN_PAGE_OPTIONS = 'bb_pst_admin_options';
@@ -603,11 +603,14 @@ add_action('admin_menu', 'bb_pst_admin_menu');
 function bb_pst_view_settings() 
 {
 	global $bb_pst_version;
+
 	?>  
     
 	<div id="post-state-tags-settings-wrap" class="wrap">    
 		<?php screen_icon(); ?>
-		<h2><?php esc_html_e('Post State Tags Settings', TEXT_DOMAIN); ?></h2>  
+		<h2><?php esc_html_e('Post State Tags Settings', TEXT_DOMAIN); ?></h2>
+
+		<?php settings_errors(); ?>
         
 		<div id="poststuff">
 		
@@ -623,7 +626,7 @@ function bb_pst_view_settings()
 								<?php do_settings_sections( SETTINGS_PAGE_DEFAULT ); ?>
 								<?php submit_button(); ?>
 							</form>
-							<form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>?page=bb_pst_admin_options" id="bb-pst-form-reset-to-defaults">
+							<form method="post" action="<?php echo admin_url('options-general.php?page=bb_pst_admin_options') ?>" id="bb-pst-form-reset-to-defaults">
 				        <?php submit_button(__('Reset Settings', TEXT_DOMAIN), 'delete', 'bb-pst-submit-reset', true, array('id' => 'bb-pst-button-reset-to-defaults', 'data-message' => __('Are you sure?', TEXT_DOMAIN))); ?>
 							</form>
 

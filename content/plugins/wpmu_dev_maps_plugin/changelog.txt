@@ -4,6 +4,14 @@ Author: Ve Bailovity (Incsub), Philipp Stracker (Incsub)
 Change Log:
 ----------------------------------------------------------------------
 
+2.9.2
+----------------------------------------------------------------------
+- Add: FB app limitations notice
+- Add: manual marker folding in profile maps
+- Fix: protocol-less avatars for individual BP profiles
+- Fix: BuddyPress deprecation notices
+- Fix: options check shorting out on no dedicated tab setting
+
 2.9.1
 ----------------------------------------------------------------------
 - Fix: add maps API key support.
@@ -279,4 +287,4 @@ Change Log:
 - Saving maps in Street View
 
 
-133620-1476208394-au
+133620-1483063247-au

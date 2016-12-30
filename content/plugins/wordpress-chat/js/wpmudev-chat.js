@@ -654,8 +654,8 @@ var wpmudev_chat = jQuery.extend(wpmudev_chat || {}, {
             return;
         }
 
-        wpmudev_chat_localized['settings']['screen_width'] = jQuery(window).outerWidth(true); //width();
-        wpmudev_chat_localized['settings']['screen_height'] = jQuery(window).outerHeight(true); //height();
+        wpmudev_chat_localized['settings']['screen_width'] = document.body.offsetWidth; //width();
+        wpmudev_chat_localized['settings']['screen_height'] = document.body.offsetHeight; //height();
 
         for (var chat_id in wpmudev_chat.settings['sessions']) {
             var chat_session = wpmudev_chat.settings['sessions'][chat_id];
@@ -761,6 +761,10 @@ var wpmudev_chat = jQuery.extend(wpmudev_chat || {}, {
     chat_session_size_message_list: function () {
 
         for (var chat_id in wpmudev_chat.settings['sessions']) {
+            //If the chat_id is not set
+            if ("undefined" == typeof (chat_id ) || !chat_id) {
+                continue;
+            }
             var chat_session = wpmudev_chat.settings['sessions'][chat_id];
 
             if (!jQuery('div#wpmudev-chat-box-' + chat_id + ' div.wpmudev-chat-module-messages-list').is(":visible"))
@@ -768,16 +772,6 @@ var wpmudev_chat = jQuery.extend(wpmudev_chat || {}, {
 
             var chat_session_current_height = jQuery('#wpmudev-chat-box-' + chat_id).height();
             var chat_session_current_width = jQuery('#wpmudev-chat-box-' + chat_id).width();
-            //console.log('chat_session_size_message_list: chat_id['+chat_id+'] h['+chat_session_current_height+'] w['+chat_session_current_width+']');
-
-//			if (chat_session_current_height > wpmudev_chat_localized['settings']['screen_height']) {
-//				console.log('chat_id: ['+chat_id+'] adjusting height  '+chat_session_current_height+' > '+wpmudev_chat_localized['settings']['screen_height']);
-//				jQuery('#wpmudev-chat-box-'+chat_id).css('max-height', wpmudev_chat_localized['settings']['screen_height']-5);
-//			}
-//			if (chat_session_current_width > wpmudev_chat_localized['settings']['screen_width']) {
-//				console.log('chat_id: ['+chat_id+'] adjusting width  '+chat_session_current_width+' > '+wpmudev_chat_localized['settings']['screen_width']);
-//				jQuery('#wpmudev-chat-box-'+chat_id).css('max-width', wpmudev_chat_localized['settings']['screen_width']-5);
-//			}
 
             var chat_session_wrap_height = 0;
             jQuery('#wpmudev-chat-box-' + chat_id + ' .wpmudev-chat-module').each(function () {

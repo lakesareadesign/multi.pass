@@ -7,6 +7,15 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+1.9.1 - 2016-12-21
+----------------------------------------------------------------------
+- Fix: Capabilities issue in single installations
+
+1.9.0 - 2016-12-19
+----------------------------------------------------------------------
+- Enhance: Updated MailChimp API to 3.0
+- Updated WPMU DEV Dashboard notification
+
 1.8.2 - 2015-08-29
 ----------------------------------------------------------------------
 - Fix: Webhook URL not working on subfolder installation
@@ -170,4 +179,4 @@ http://premium.wpmudev.org/forums/topic/mailchimp-integration#post-249269
 - Initial Release.
 
 
-133620-1472790810-au
+133620-1483063254-au
