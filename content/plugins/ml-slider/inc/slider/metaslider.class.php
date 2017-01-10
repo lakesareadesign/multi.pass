@@ -134,8 +134,8 @@ class MetaSlider {
             'force_no_custom_order' => true,
             'orderby' => 'menu_order',
             'order' => 'ASC',
-            'post_type' => 'attachment',
-            'post_status' => 'inherit',
+            'post_type' => array('attachment', 'ml-slide'),
+            'post_status' => array('inherit', 'publish'),
             'lang' => '', // polylang, ingore language filter
             'suppress_filters' => 1, // wpml, ignore language filter
             'posts_per_page' => -1,
@@ -186,7 +186,7 @@ class MetaSlider {
         if ( $this->get_setting( 'random' ) == 'true' && !is_admin() ) {
             shuffle( $slides );
         }
-        
+
         $this->slides = $slides;
 
         return $this->slides;
@@ -305,14 +305,26 @@ class MetaSlider {
         $script .= "\n            });";
         $script .= $custom_js_after;
         $script .= "\n        };";
-        $script .= "\n        var timer_" . $identifier . " = function() {";
+
+        $timer = "\n        var timer_" . $identifier . " = function() {";
         // this would be the sensible way to do it, but WordPress sometimes converts && to &#038;&
         // window.jQuery && jQuery.isReady ? {$identifier}(window.jQuery) : window.setTimeout(timer_{$identifier}, 1);";
-        $script .= "\n            var slider = !window.jQuery ? window.setTimeout(timer_{$this->identifier}, 100) : !jQuery.isReady ? window.setTimeout(timer_{$this->identifier}, 1) : {$this->identifier}(window.jQuery);";       
-        $script .= "\n        };";
-        $script .= "\n        timer_" . $identifier . "();";
+        $timer .= "\n            var slider = !window.jQuery ? window.setTimeout(timer_{$this->identifier}, 100) : !jQuery.isReady ? window.setTimeout(timer_{$this->identifier}, 1) : {$this->identifier}(window.jQuery);";
+        $timer .= "\n        };";
+        $timer .= "\n        timer_" . $identifier . "();";
 
-        return $script;
+        /*$timer = "\n        var timer_{$this->identifier} = function() {
+            if ( typeof window.jQuery === 'undefined' ) {
+                window.setTimeout(timer_metaslider_{$this->identifier}, 100);
+            } else {
+                window.jQuery(function() { {$this->identifier}(window.jQuery) });
+            }
+        };
+        timer_{$this->identifier}();";*/
+
+        $init = apply_filters("metaslider_timer", $timer, $this->identifier);
+
+        return $script . $init;
     }
 
     /**

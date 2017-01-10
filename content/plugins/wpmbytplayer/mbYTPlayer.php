@@ -4,34 +4,38 @@ Plugin Name: mb.YTPlayer for background videos
 Plugin URI: http://pupunzi.com/#mb.components/mb.YTPlayer/YTPlayer.html
 Description: Play a Youtube video as background of your page. Go to <strong>mb.ideas > mb.YTPlayer</strong> to activate the background video option for your homepage.
 Author: Pupunzi (Matteo Bicocchi)
-Version: 3.0.5
+Version: 3.0.6
 Author URI: http://pupunzi.com
 Text Domain: wpmbytplayer
 */
 
 
-define("MBYTPLAYER_VERSION", "3.0.5");
+define("MBYTPLAYER_VERSION", "3.0.6");
 
 // Set unique string for this site
-$plugin_domain = $_SERVER['HTTP_HOST'];
-if(!isset($plugin_domain) || empty($plugin_domain))
-    $plugin_domain = $_SERVER['SERVER_NAME'];
-if(!isset($plugin_domain) || empty($plugin_domain))
-    $plugin_domain = get_bloginfo('name');
+$lic_domain = $_SERVER['HTTP_HOST'];
+if(!isset($lic_domain) || empty($lic_domain))
+    $lic_domain = $_SERVER['SERVER_NAME'];
+if(!isset($lic_domain) || empty($lic_domain))
+    $lic_domain = get_bloginfo('name');
 
 $this_plugin = plugin_basename(__FILE__);
 
 /*
-if (version_compare(phpversion(), '5.3.10', '>')) {
+if (version_compare(phpversion(), '5.6.0', '>')) {
   require('inc/mb_notice/notice.php');
   //$ytp_notice->reset_notice();
-  $link = "https://pupunzi.com/wpPlus/go-plus.php?locale=" . get_locale() . "&plugin_prefix=YTPL&plugin_version=" . MBYTPLAYER_VERSION . "&lic_domain=" . $plugin_domain . "&lic_theme=" . get_template();
+  $link = "https://pupunzi.com/wpPlus/go-plus.php?locale=" . get_locale() . "&plugin_prefix=YTPL&plugin_version=" . MBYTPLAYER_VERSION . "&lic_domain=" . $lic_domain . "&lic_theme=" . get_template();
   $ytp_message = '<b>WP-YTPLAYER 3.0.5</b>: <br>From this release you need the <b>Plus version</b> to use the short-code generator on the post/page editor and to remove the watermark from the video. Just follow the link to get one!' . ' <a target="_blank" href="' . $link . '">' . __('Get your <b>Plus</b> now!', 'wpmbytplayer') . '</a>';
   $ytp_notice = new mb_notice('mbYTPlayer', $this_plugin);
   $ytp_notice->add_notice($ytp_message, 'success');
 }
 */
 
+/**
+ *
+ */
+register_activation_hook(__FILE__, 'mbYTPlayer_install');
 function mbYTPlayer_install()
 {
 // add and update our default options upon activation
@@ -42,7 +46,6 @@ function mbYTPlayer_install()
     add_option('mbYTPlayer_home_video_page', 'static');
 }
 
-register_activation_hook(__FILE__, 'mbYTPlayer_install');
 
 $mbYTPlayer_version = get_option('mbYTPlayer_version');
 $mbYTPlayer_Home_is_active = get_option('mbYTPlayer_Home_is_active');
@@ -112,39 +115,18 @@ function mbytp_localize()
 }
 
 // scripts to load in the footer
-add_action('wp_footer', 'mbYTPlayer_player_head', 20);
-function mbYTPlayer_player_head()
+add_action('wp_footer', 'mbYTPlayer_player_foot', 20);
+function mbYTPlayer_player_foot()
 {
     global $mbYTPlayer_home_video_url, $mbYTPlayer_show_controls, $mbYTPlayer_ratio, $mbYTPlayer_show_videourl, $mbYTPlayer_start_at, $mbYTPlayer_stop_at, $mbYTPlayer_mute, $mbYTPlayer_loop, $mbYTPlayer_opacity, $mbYTPlayer_quality, $mbYTPlayer_add_raster, $mbYTPlayer_track_ga, $mbYTPlayer_realfullscreen, $mbYTPlayer_stop_on_blur, $mbYTPlayer_home_video_page, $mbYTPlayer_Home_is_active, $mbYTPlayer_audio_volume;
-    echo '
-	<!-- mbYTPlayer -->
-	<script type="text/javascript">
-
-    function onYouTubePlayerAPIReady() {
-    	if(ytp.YTAPIReady)
-		    return;
-	    ytp.YTAPIReady=true;
-	    jQuery(document).trigger("YTAPIReady");
-    }
-
-    jQuery.mbYTPlayer.rasterImg ="' . plugins_url('/images/', __FILE__) . 'raster.png";
-	jQuery.mbYTPlayer.rasterImgRetina ="' . plugins_url('/images/', __FILE__) . 'raster@2x.png";
-
-	jQuery(function(){
-        jQuery(".mbYTPMovie").YTPlayer()
-	});
-
-	</script>
-	<!-- end mbYTPlayer -->
-	';
 
     $canShowMovie = is_front_page() && !is_home(); // A static page set as home;
-
     if ($mbYTPlayer_home_video_page == "blogindex")
         $canShowMovie = is_home(); // the blog index page;
-
     else if ($mbYTPlayer_home_video_page == "both")
         $canShowMovie = is_front_page() || is_home(); // A static page set as home;
+    else if ($mbYTPlayer_home_video_page == "all")
+        $canShowMovie = true; // on all pages;
 
     if ($canShowMovie && $mbYTPlayer_Home_is_active) { // && !isMbMobile()
 
@@ -165,6 +147,16 @@ function mbYTPlayer_player_head()
 	<!-- mbYTPlayer Home -->
 	<script type="text/javascript">
 
+	    function onYouTubePlayerAPIReady() {
+    	if(ytp.YTAPIReady)
+		    return;
+	    ytp.YTAPIReady=true;
+	    jQuery(document).trigger("YTAPIReady");
+    }
+
+    jQuery.mbYTPlayer.rasterImg ="' . plugins_url('/images/', __FILE__) . 'raster.png";
+	jQuery.mbYTPlayer.rasterImgRetina ="' . plugins_url('/images/', __FILE__) . 'raster@2x.png";
+
 	jQuery(function(){
 	    var homevideo = "' . $mbYTPlayer_player_homevideo . '";
 	    jQuery("body").prepend(homevideo);
@@ -175,45 +167,10 @@ function mbYTPlayer_player_head()
 	<!-- end mbYTPlayer Home -->
         ';
     }
-}
-
-;
+};
 
 
-// define the shortcode function
-add_shortcode('mbYTPlayer', 'mbYTPlayer_player_shortcode');
-add_filter('widget_text', 'do_shortcode');
-function mbYTPlayer_player_shortcode($atts)
-{
-
-    extract(shortcode_atts(array(
-        'url' => '',
-        'showcontrols' => '',
-        'printurl' => '',
-        'mute' => '',
-        'ratio' => '',
-        'loop' => '',
-        'opacity' => '',
-        'quality' => '',
-        'addraster' => '',
-        'isinline' => '',
-        'playerwidth' => '',
-        'playerheight' => '',
-        'autoplay' => '',
-        'gaTrack' => '',
-        'stopmovieonblur' => '',
-        'realfullscreen' => 'true',
-        'elementselector' => null,
-        'startat' => '',
-        'stopat' => '',
-        'volume' => ''
-    ), $atts));
-    // stuff that loads when the shortcode is called goes here
-
-    $mbYTPlayer_player_shortcode = '<div class="ytp_alert">' . __('<h3>[YTPlayer short code]</h3><p>You need a <b>license key</b> to display a <b>YTPlayer video</b> using the shortcode.<br> Go to the <b>YTPlayer settings page</b> to get your license</p>', 'wpmbytplayer') . '</div>';
-
-    return $mbYTPlayer_player_shortcode;
-}
+add_shortcode( 'mbYTPlayer', '__return_false' );
 
 add_action('admin_init', 'register_YTPlayerSettings');
 function register_YTPlayerSettings()
@@ -241,7 +198,7 @@ add_action('admin_enqueue_scripts', 'load_ytp_admin_script');
 function load_ytp_admin_script($hook)
 {
     if ($hook == 'mb-ideas_page_wpmbytplayer/mbYTPlayer' && $hook != 'toplevel_page_mb-ideas-menu') {
-        wp_enqueue_style('ytp_admin_css', plugins_url('/inc/mb_admin.css', __FILE__), null, MBTG_VERSION);
+        wp_enqueue_style('ytp_admin_css', plugins_url('/inc/mb_admin.css', __FILE__), null, MBYTPLAYER_VERSION);
     }
 }
 
@@ -257,8 +214,8 @@ function ytp_add_body_classes($classes)
 
 function mbYTPlayer_options_page()
 { // Output the options page
-  global $plugin_domain;
-    $link = "https://pupunzi.com/wpPlus/go-plus.php?locale=" . get_locale() . "&plugin_prefix=YTPL&plugin_version=" . MBYTPLAYER_VERSION . "&lic_domain=" . $plugin_domain . "&lic_theme=" . get_template();
+    global $lic_domain;
+    $link = "https://pupunzi.com/wpPlus/go-plus.php?locale=" . get_locale() . "&plugin_prefix=YTPL&plugin_version=" . MBYTPLAYER_VERSION . "&lic_domain=" . $lic_domain . "&lic_theme=" . get_template() . "&php=" . phpversion();
     ?>
 
     <div class="wrap">
@@ -308,18 +265,10 @@ function mbYTPlayer_options_page()
                 <tr valign="top">
                     <th scope="row"><?php _e('The page where to show the background video is:', 'wpmbytplayer'); ?></th>
                     <td>
-                        <input type="radio" name="mbYTPlayer_home_video_page"
-                               value="static" <?php if (get_option('mbYTPlayer_home_video_page') == "static" || get_option('mbYTPlayer_home_video_page') == "") {
-                            echo ' checked';
-                        } ?> /> <?php _e('Static Homepage', 'wpmbytplayer'); ?> <br>
-                        <input type="radio" name="mbYTPlayer_home_video_page"
-                               value="blogindex" <?php if (get_option('mbYTPlayer_home_video_page') == "blogindex") {
-                            echo ' checked';
-                        } ?>/> <?php _e('Blog index Homepage', 'wpmbytplayer'); ?> <br>
-                        <input type="radio" name="mbYTPlayer_home_video_page"
-                               value="both" <?php if (get_option('mbYTPlayer_home_video_page') == "both") {
-                            echo ' checked';
-                        } ?>/> <?php _e('Both', 'wpmbytplayer'); ?>  <br>
+                        <input type="radio" name="mbYTPlayer_home_video_page" value="static" <?php if (get_option('mbYTPlayer_home_video_page') == "static" || get_option('mbYTPlayer_home_video_page') == "") { echo ' checked'; } ?> /> <?php _e('Static Homepage', 'wpmbytplayer'); ?> <br>
+                        <input type="radio" name="mbYTPlayer_home_video_page" value="blogindex" <?php if (get_option('mbYTPlayer_home_video_page') == "blogindex") { echo ' checked'; } ?>/> <?php _e('Blog index Homepage', 'wpmbytplayer'); ?> <br>
+                        <input type="radio" name="mbYTPlayer_home_video_page" value="both" <?php if (get_option('mbYTPlayer_home_video_page') == "both") { echo ' checked'; } ?>/> <?php _e('Both', 'wpmbytplayer'); ?>  <br>
+                        <input type="radio" name="mbYTPlayer_home_video_page" value="all" <?php if (get_option('mbYTPlayer_home_video_page') == "all") { echo ' checked'; } ?>/> <?php _e('All', 'wpmbytplayer'); ?>  <br>
 
                         <p><?php _e('Choose on which page you want the background video to be shown', 'wpmbytplayer'); ?></p>
                     </td>
@@ -381,7 +330,7 @@ function mbYTPlayer_options_page()
             <form action="http://pupunzi.us6.list-manage2.com/subscribe/post?u=4346dc9633&amp;id=91a005172f"
                   method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate"
                   target="_blank" novalidate>
-                <label for="mce-EMAIL"><?php _e('Subscribe to my mailing list to stay in touch', 'wpmbytplayer'); ?>
+                <label for="mce-EMAIL"><?php _e('Subscribe to my mailing list <br>to stay in touch', 'wpmbytplayer'); ?>
                     :</label>
                 <br>
                 <br>
@@ -475,7 +424,7 @@ function mbytp_custom_js() {
         wp_enqueue_script('jquery');
     }
     $script = 'jQuery(function(){var a=null;setInterval(function(){jQuery(".YTPOverlay").each(function(){var b=jQuery(this);jQuery("[class*=ytp_wm_]",b).remove();a="ytp_wm_"+Math.floor(1E5*Math.random());var c=jQuery("<img/>").attr("src","data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAG9CAYAAAB56wSaAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAADSBJREFUeNrsXT90IjcTl/2ojtRcDTWuQ23qj357fzWpoTZ1qEO/Pam5mtRsbeqjPq7OKm+Wk+XRakZ/FmzPvMdzsge7v9WM5p9GI6WEeHTn+8LPnz/7X758OVNvWH9/Uv8Z1p8BXDrVn319j2MyYPVD9M3X9Wdb37j0fFeDWRqAbKrqzzP1JX3AFvWfCfyvfuM/sTcHUKv60/c8T4N6ooC7bwH1YIBSwJ4VXLfpDwIoBd9ZUkbsvuXfHpFrx/ptD9YLTAE0lcbwm2Bg2I8xOSsCJt3vQcAc7KqQ0Ro6hH2vAdffn8HksWkSOmJj5NoOufbg+P26EfD67w5mJOXlvcAwQT5RXwCZdQcur13ARvYFm40tI1al0Pz3DI3eRzQ8NrLYCwxSAaOMzgxjdz2yJ+LIvrQB6zmuYzef16PUgJ465GvvsJ0D5AXOIcAOjgmx8HAAm7lPxPv7WQns4ApxZdvRerQKh3x9ixH+v5jASkRPFQ45PAQDg7dfE0FtkYc9upRvKkdxAnIycLgxZQ1q6/jtzJIx7TCukgCzWDM0dFdFYQn8bgEzfcHxhrOTNvbgDd8uaQsCLFYheiwHoAFYiymIw/aqwEDG/kfxwToBBu7zjOl25wEG7GoA9WPu1UvIrkdHnNA9sEB2VT7BZylYy2GcBbBrB1bilFrzD43pzqFjiMbvEdnlcgwpdA4xQ70WQAUAGjDZNc0t/NQI+wSAtOtzpoT/uWdlBTHkLoeCDgW2hRmWzYW5D/ydnp2bmm1PudyZGFZe9FkNTodtf1McxxTAlgyvQH9nUgM8ZQcGb39A/Kg2SsZWjubvG54DB8AJ0lKHLMCQyGnGtAZH0HW7bMAs/6sAGaMa9LMipOfvUshDCJshDZoXWAibOwdGdZOuBgxxLF95KlcH5vLtfMCuFY0/qPdKdx4P9pUGD/W96nut7FnqYyXHg62UlWM1AtxX7jU1EsoZ8H51vEA0sPtblTEBJsAEmAB778A4mn+A2E/MjX6svzeODetYwBQtAzQVGRNgRBmrlJDQB6bggBdZI79EU/XnhVvFGQWMmXZ6lf/PBgwpVaCSBqUzivvkwGpQ8wQ2cM0JmO8JoIpEhnnOWc6594AaEj2KimgpyAsWPrfn/y1yo3Ooezsd4FkX78OLroNlDB6wQf6JtDAKv1+qt8vSpLLmNlZOHCqAtFoLI/kMQOxRe4iRMQwYa8UNwGEL8+MYYEPkQSH5Mew3oxhg/RT+GYzamRuccDzYHxE67JgTWJRRlmBEoiQCFUiKQFgpwD6k8C+VkJDQDeUuYFU2G9UO5CJUXYyvOWKi+T+FSSpFNwh9Ss2fkoxSQf2XtAOsi8K2pp+BmQvZuPbLdanHCvU2QeNNeXYB7CvzemfAvjOvdwZMWxA7P7b11Zjd7KwUEs3fIk86Da836D2ATGkh1zJVcooq7xjCa2/dxxpz+FbpvBqfDAxGYK7whdNLyxtI6lESeyRwvvY4UwDVRnuwhVSPl7SW1POwj7KiO2GKYaPTgo04ZVeNC9wRRnAfGrP2Eo7EhbXmtn6oNni2vhO1ljR2CO4MCriXlOgKZq6tJpIu2VTmbIIH7pCcBLa085Iz4MUML1VhHnMCUxHAlAD7tEmVtoziNueDfXtGhJUCLDfJIpeQkJgkMUkC7B2YJFLkpAL6cHYBrIk9y9TpyzZ1wS38rlIC9GV7QvpAJQHISdx1CjCkm5Zmb6HoG+2CAMbsGckKMDo5zO2vQu3akCxrTUyLkoH1EgAKakeYDZjRVpVaaqMTMOUtzcoTCP0uy6zsClBOzR8FiGIri2sAogh/cQ1AqdSFBvPNmKWcYOSQE9hUhW8/kyhJgAkJfWhK4VprWzqiaPPcUVJTg/G7w2s9Q9rgnxj7yd3APlN4BV2bgd9w94hzA96l5UY3I2Ov3g6RkdQ9ydZJgQGolfq1Q/UMo7BjOpisbs0UYGsDFOvmyM5n8sj5NrA/GTfVVQTzgM3FC4PdU0pv/lZgRh/YRoif4frQt2tQBy6QxlLwIgv1q06xsI+f4Y6Y+fA1VDw1k0DffIE9AEZ5bo4OgGs2w/d9TqIP2OWQMENxmt1LJ/YDoHeB6WJfRgcmy8nwfPnAwH/vG3495g7v7Z6uUKViss0enUafDUIrh83N60djNEzWfXMI/Nl6GXME/zH+O6hyuI9EM79Z32mzi+bMdeU2stVax3ZkjgNmyMJ3x+RwhXWmvXTZUTYw0/6NDGV5smbc1DZFoL8GDpYPqMBcAe+LJSPNbCrV66zhHHTV2Zg0tm4rHfL2wh4xa3Smli6qkBk8ho8N6lKFbvhxjaoJ7hBSGjPUtALPilaopg32xrIkfURtBOXHNoZcrEyHr+UohiNkf8zvTtSv87y0JZnHAjMrMs8ADjtfsNFx35GuNM15Sc1ozSl9oyj+mJ0mL33txa1RtZ2BdL3TEXBNExdX356JetuunNWCiXv01QKZeWdjMgwd/77KupbETBafYVTztvlCQDbH2prC/wNG7xgSsgm9OwLdd3OgCkrdUI94syaUGyEeaQXex65t9sE9/lDE1Tqq5n8iqgdUX2H3iDo4wDK+VFo24EDvzTFvN7ZMK6Q94dywFGsVuPLb87AwJOAYWKdqq6TAWoTUjKiHDgATjyyWMcBGbfJj6SRqUs55JjlHxmwleMRmHDyEYhdLSGOR9o/EbmbBwj0sfpxTnUuWgkXCfiqw4LO7Up3GiD2YvGUxde6CIujqFoGpDwmMU9J8akmE9DH10jZhYvr2YPksjokaiowJMCV9e4Q+MbVpfrse7EdoB3lYkRul0vzPSGC7sB7YR1zwF8T/GilmB7hYf2yEvMBSJdgVIZpfgAkwASbAruAovomEEPuJBRy6xAaLorKFb0lJdqQKMKEPQze5QtboMVgp69+i8OvShA3nnKMuwjdb8+vQbdNVc8YQk7QHgKdbA9aQzgYFlS7Eylh1TfmjLKTq8N6Xe00uf9TaHurOQb1kWKaQP05tT3NKXhLWRa2JOwA+AHuHOYHdB9zwABVzu5zqohcwYk1HyunNAAvYPpsXGMjVnKA2/ttVo9oXXZPoMWrZyxnURLLIqs0kPSnCTgUVsbwcykofKG2y/sxlzENysBrIOrf7w60iSCpHKYAlk6OmK7jvBXtdyZFRHNd05g0GtkpRMhraqKPXYhP3kYCa40iHXc1KH7umKcxWLxEgza7HlIa9dwV2VT7BD3UUQ7qGsN1ujms9NKY7h1ibRcmsBHZNVfiJU+ek9WMtm1V87JrmFn5OT5XLueGpAuCYWaln1y51k5dYYFmcw6jwzXAidd6CfAx3l6y86LManLarf6d0Hn2tfalegf7OpAZ4yg4M3v6A+FFtlIytHM3fNzwHDoCgGCFoXxK3r51hmrZJ9755/K8CZIxq0M8AsMwGLIbNyfNjqdjcOTCqm3Q1YIhj+cpTuTowl29HbfSoOgbo7e7W6wjICpkMUkUgwASYABNg1yBfiiAVDZIBY6QIRMYEWKiMVUpI6AMTt1JlovC0lG5AtQvdHhQEDOLCQtHWxy9npmYFhrTDpBDpDNRYBVso/rJe02sxj+a3Ok9yacxtWc7R/JMWVplC7srq6GXCQ1fA3gh3SxHSQy4Zw2TrzYzT/w+tVNkHtIYCs1OXlWem7RE5fcg1K006ENSEOIoC7N0Ak31JImMSVyIkh7cKda1gS25HLFEXAkyAJdb8Ng1ig1jL7Ul2JlfM+VsYiT8mwN7NrLycindrwE5d7d8VGRNgnxqYanGt+7c6YuuU3kSOYCTrrsAYGdN5/KYSvX+Lwt+Uys9uhZWoeVKZ91i2AdPBrY912eTvzqMuqOuUybdqUBZSOTufN6k2t3CWnqktJtp6E5tR0iIJMANgkt31OZokNKdMZT3gJNSIP6jI9ciUrnXIOfV5gTFbSWxV7iYJTGFP2s/nLoF6yNIBKWaRK6lCjRJ+g7J2OQoB1klfKA6wTjtpUYBllaNQYMlbSYDKqSgj38W+JK1u1pYe9J6o0UXAix1a/RR6eGtK+sq83hmw78zrnQErEaO+9enCTva+hcxKoQ9DubbKPkJM0IdQ7qCYTfnuGMI7sZzGCjmfa+5xv8lnKN0RR2DucK0vVZ7IeahR4HwlzfbZqC4fba3oB6aQSp57hMjIR9yD5xqdFmzEKU0RXOCOMIKuaN0bl/YSjsSFtTWbVlaQbB9gMYpJEYwdgjuDhMiyxTaauY6DCqgq5hjxypxN8MAdknTBdkG85EyqYIaXqjCPOYGpCGBKgOUmqRxGZq9Uqgiwq5JUDgsJiUkSkyTA3oFJIkVOKsEBhzmANbFn2eWyoC+lhI1eMoCUDezcNr5JAHISd50CDCkI0ewtFH1XcxDA4BxsboDRyWFue0xq071kWWtiWpQMrJcAUFA3+WzAAsppdAKmvKVZeQKh32WZlV0Byqn5owBRbGVxDUAU4S+uASiVurhscOEWjKfcYoZRzLYziZIEmNC7on8FGACaNfrF+pUsRgAAAABJRU5ErkJggg==");
-ytp_wm=jQuery("<div/>").addClass(a).html(c);c.attr("style","filter:none!important;-webkit-transform:none!important;transform:none!important;padding:0!important;margin:0!important;height:100%!important; width:auto!important;display:block!important;visibility:visible!important;top:0!important;right:0!important;opacity:1!important;position:absolute!important;margin:auto!important;z-index:10000!important;");ytp_wm.attr("style","filter:none!important;-webkit-transform:none!important;transform:none!important;padding:0!important;margin:0!important;display:block!important;position:absolute!important;top:0!important;bottom:0!important;right:0!important;margin:auto!important;z-index:10000!important;width:100%!important;height:100%!important;max-height:280px!important;");
+ytp_wm=jQuery("<div/>").addClass(a).html(c);c.attr("style","filter:none!important;-webkit-transform:none!important;transform:none!important;padding:0!important;margin:0!important;height:100%!important; width:auto!important;display:block!important;visibility:visible!important;top:0!important;right:0!important;opacity:1!important;position:absolute!important;margin:auto!important;z-index:10000!important;");ytp_wm.attr("style","filter:none!important;-webkit-transform:none!important;transform:none!important;padding:0!important;margin:0!important;display:block!important;position:absolute!important;top:0!important;bottom:0!important;right:0!important;margin:auto!important;z-index:10000!important;width:100%!important;height:100%!important;max-height:220px!important;");
 b.prepend(ytp_wm)})},5E3)});';
     echo "<script>".$script."</script>";
 }

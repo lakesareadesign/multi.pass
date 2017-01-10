@@ -5,57 +5,92 @@
  */
 class App_Shortcode_MyAppointments extends App_Shortcode {
 	public function __construct () {
-		$this->_defaults = array(
+		$this->name = __( 'My Appointments', 'appointments' );
+	}
+
+	public function get_defaults() {
+		$_workers = appointments_get_workers();
+		$workers = array(
+			array( 'text' => __( 'Any provider', 'appointments' ), 'value' => '' )
+		);
+		foreach ( $_workers as $worker ) {
+			/** @var Appointments_Worker $worker */
+			$workers[] = array( 'text' => $worker->get_name(), 'value' => $worker->ID );
+		}
+
+		return array(
 			'provider' => array(
+				'type' => 'checkbox',
+				'name' => __( 'Is Provider', 'appointments' ),
 				'value' => 0,
-				'help' => __('Enter 1 if this appointment list belongs to a service provider. Default: "0" (client)', 'appointments'),
-				'example' => '1',
+				'help' => __('Check if this appointment list belongs to a service provider. Default: "0" (client)', 'appointments'),
 			),
 			'provider_id' => array(
-				'value' => 0,
+				'type' => 'select',
+				'name' => __( 'Provider', 'appointments' ),
+				'options' => $workers,
+				'value' => '',
 				'help' => __('Enter the user ID of the provider whose list will be displayed. If ommitted, current service provider will be displayed. Default: "0" (current service provider)', 'appointments'),
-				'example' => '12',
 			),
 			'title' => array(
+				'type' => 'text',
+				'name' => __( 'Title', 'appointments' ),
 				'value' => __('<h3>My Appointments</h3>', 'appointments'),
 				'help' => __('Title text.', 'appointments'),
-				'example' => __('My Appointments', 'appointments'),
 			),
 			'status' => array(
+				'type' => 'text',
+				'name' => __( 'Status', 'appointments' ),
 				'value' => 'paid,confirmed',
 				'help' => __('Which status(es) will be included. Possible values: paid, confirmed, completed, pending, removed, reserved or combinations of them separated with comma.', 'appointments'),
-				'allowed_values' => array('paid', 'confirmed', 'pending', 'completed', 'removed', 'reserved'),
-				'example' => 'paid,confirmed',
 			),
 			'gcal' => array(
+				'type' => 'checkbox',
+				'name' => __( 'Google Calendar Button', 'appointments' ),
 				'value' => 1,
-				'help' => __('Enter 0 to disable Google Calendar button by which clients can add appointments to their Google Calendar after booking the appointment. Default: "1" (enabled - provided that "Add Google Calendar Button" setting is set as Yes)', 'appointments'),
+				'help' => __('Uncheck to disable Google Calendar button by which clients can add appointments to their Google Calendar after booking the appointment. Default: enabled - provided that "Add Google Calendar Button" setting is set as Yes', 'appointments'),
 				'example' => '0',
 			),
 			'order_by' => array(
+				'type' => 'select',
+				'name' => __( 'Order By', 'appointments' ),
+				'options' => array(
+					array( 'text' => 'ID', 'value' => 'ID' ),
+					array( 'text' => 'start', 'value' => 'start' ),
+				),
 				'value' => 'ID',
 				'help' => __('Sort order of the appointments. Possible values: ID, start.', 'appointments'),
-				'example' => 'ID',
 			),
 			'order' => array(
-				'value' => 'ID',
+				'type' => 'select',
+				'name' => __( 'Order', 'appointments' ),
+				'options' => array(
+					array( 'text' => 'Ascendant', 'value' => 'asc' ),
+					array( 'text' => 'Descendant', 'value' => 'desc' ),
+				),
+				'value' => 'asc',
 				'help' => __('Sort order of the appointments. Possible values: asc (ascendant order), desc (descendant order).', 'appointments'),
-				'example' => 'asc',
 			),
 			'allow_cancel' => array(
+				'type' => 'checkbox',
+				'name' => __( 'Allow Cancellation', 'appointments' ),
 				'value' => 0,
-				'help' => __('Enter 1 if you want to allow cancellation of appointments by the client using this table. "Allow client cancel own appointments" setting must also be set as Yes. Default: "0" (Cancellation is not allowed).', 'appointments'),
-				'example' => '1',
+				'help' => __('Check if you want to allow cancellation of appointments by the client using this table. "Allow client cancel own appointments" setting must also be set as Yes. Default: Cancellation is not allowed.', 'appointments'),
 			),
 			'strict' => array(
+				'type' => 'checkbox',
+				'name' => __( 'Strict', 'appointments' ),
 				'value' => 0,
 				'help' => __('Ensure strict matching when searching for appointments to display. The shortcode will, by default, use the widest possible match.', 'appointments'),
-				'example' => '1',
 			),
 
 			'_allow_confirm' => array('value' => 0),
 			'_tablesorter' => array('value' => 1),
-
+			'public' => array(
+				'value' => 0,
+				'help' => __('Allow visitors to view list, default is 0, only logged in users can view list.', 'appointments'),
+				'example' => '1',
+			),
 		);
 	}
 
@@ -67,6 +102,10 @@ class App_Shortcode_MyAppointments extends App_Shortcode {
 		$args = wp_parse_args($args, $this->_defaults_to_args());
 
 		global $bp, $appointments;
+
+		if ( ! $args['public'] && ! apply_filters( 'app_my_appointments_shortcode_public', is_user_logged_in() ) ) {
+			return '';
+		}
 
 		if ( isset( $args['client_id'] ) && get_userdata( $args['client_id'] ) ) {
 			$user_id = absint( $args['client_id'] );
@@ -267,7 +306,7 @@ class App_Shortcode_MyAppointments extends App_Shortcode {
 					else
 						$is_readonly = ' readonly="readonly"';
 
-					$ret .= '<td><input class="app-my-appointments-cancel" type="checkbox" name="app_cancel['.$r->ID.']" '.$is_readonly.' /></td>';
+					$ret .= '<td><input id="cancel-' . $r->ID . '" data-app-id="' . $r->ID . '" class="app-my-appointments-cancel" type="checkbox" name="app_cancel['.$r->ID.']" '.$is_readonly.' /></td>';
 				}
 
 				if ( $args['gcal'] && 'yes' == $appointments->options['gcal'] ) {
@@ -304,61 +343,28 @@ class App_Shortcode_MyAppointments extends App_Shortcode {
 
 		$ret .= '</div>';
 
-		$sorter = 'usLongDate';
-		$dateformat = 'us';
-		// Search for formats where day is at the beginning
-		if ( stripos( str_replace( array('/','-'), '', $appointments->date_format ), 'dmY') !== false ) {
-			$sorter = 'shortDate';
-			$dateformat = 'uk';
-		}
+		wp_enqueue_script( 'app-my-appointments', appointments_plugin_url() . 'js/my-appointments.js', array( 'jquery' ), '', true );
+		wp_localize_script( 'app-my-appointments', 'appMyAppointmentsStrings', array(
+			'aysCancel' => esc_js( __( "Are you sure you want to cancel the selected appointment?", "appointments" ) ),
+			'cancelled' => esc_js( __("Selected appointment cancelled.","appointments") ),
+			'connectionError' => esc_js( __("A connection error occurred.","appointments") ),
+			'nonce' => wp_create_nonce( 'cancel-appointment-' . get_current_user_id() ),
+			'ajaxurl' => admin_url( 'admin-ajax.php' )
+		) );
 
-		// Sort table from front end
-		if ( $args['_tablesorter'] && file_exists( appointments_plugin_dir() . 'js/jquery.tablesorter.min.js' ) )
-			$appointments->add2footer( '
-				$(".my-appointments").tablesorter({
-					dateFormat: "'.$dateformat.'",
-					headers: {
-						2: {
-							sorter:"'.$sorter.'"
-						}
-					}
-				});
-				$("th.my-appointments-gcal,th.my-appointments-confirm,th.my-appointments-cancel").removeClass("header");
-
-				$(".app-my-appointments-cancel").change( function() {
-					if ( $(this).is(":checked") ) {
-						var cancel_box = $(this);
-						if ( !confirm("'. esc_js( __("Are you sure you want to cancel the selected appointment?","appointments") ) .'") ) {
-							cancel_box.attr("checked", false);
-							return false;
-						}
-						else{
-							var cancel_id = $(this).attr("name").replace("app_cancel[","").replace("]","");
-							if (cancel_id) {
-								var cancel_data = {action: "cancel_app", app_id: cancel_id, cancel_nonce: "'. wp_create_nonce() .'"};
-								$.post(_appointments_data.ajax_url, cancel_data, function(response) {
-									if (response && response.error ) {
-										cancel_box.attr("disabled",true);
-										alert(response.error);
-									}
-									else if (response && response.success) {
-										alert("'.esc_js( __("Selected appointment cancelled.","appointments") ).'");
-										cancel_box.closest("tr").css("opacity","0.3");
-										cancel_box.attr("disabled",true);
-									}
-									else {
-										cancel_box.attr("disabled",true);
-										alert("'.esc_js( __("A connection error occurred.","appointments") ).'");
-									}
-								}, "json");
-							}
-						}
-					}
-
-				});'
-			);
-
+		add_action( 'wp_footer', array( $this, 'footer_scripts' ), 100 );
 		return $ret;
+	}
+
+	public function footer_scripts() {
+		?>
+		<script>
+			"use strict"
+			jQuery(document).ready( function() {
+                Appointments.myAppointments();
+			});
+		</script>
+		<?php
 	}
 
 	/**
@@ -375,7 +381,7 @@ class App_Shortcode_MyAppointments extends App_Shortcode {
 
 		if (!is_user_logged_in()) return false; // Logged out users aren't being shown editable stuff, ever.
 
-		$bp_ready = class_exists('App_BuddyPress') && App_BuddyPress::is_ready();
+		$bp_ready = class_exists( 'Appointments_Integration_BuddyPress' ) && Appointments_Integration_BuddyPress::is_ready();
 		$allow_current_user = bp_displayed_user_id() === bp_loggedin_user_id();
 
 		return $bp_ready && $allow_current_user;

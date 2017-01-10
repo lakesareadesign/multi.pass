@@ -23,6 +23,7 @@ class MetaImageSlide extends MetaSlide {
 
     }
 
+
     /**
      * Create a new slide and echo the admin HTML
      */
@@ -57,6 +58,7 @@ class MetaImageSlide extends MetaSlide {
 
                 } else {
 
+                    //$new_slide_id = $this->insert_slide( $attachment_id, 'image', $slider_id );
                     $this->tag_slide_to_slider();
                     $this->add_or_update_or_delete_meta( $slide_id, 'type', 'image' );
 
@@ -224,7 +226,13 @@ class MetaImageSlide extends MetaSlide {
      */
     public function is_valid_image() {
 
-        $meta = wp_get_attachment_metadata( $this->slide->ID );
+        if ( get_post_type( $this->slide->ID ) === 'attachment' ) {
+            $image_id = $this->slide->ID;
+        } else {
+            $image_id = get_post_thumbnail_id( $this->slide->ID );
+        }
+
+        $meta = wp_get_attachment_metadata( $image_id );
 
         $is_valid = isset( $meta['width'], $meta['height'] );
 
@@ -414,7 +422,13 @@ class MetaImageSlide extends MetaSlide {
      */
     private function flex_smart_pad( $atts, $slide ) {
 
-        $meta = wp_get_attachment_metadata( $slide['id'] );
+        if ( get_post_type( $slide['id'] ) === 'attachment' ) {
+            $slide_id = $slide['id'];
+        } else {
+            $slide_id = get_post_thumbnail_id( $slide['id'] );
+        }
+
+        $meta = wp_get_attachment_metadata( $slide_id );
 
         if ( isset( $meta['width'], $meta['height'] ) ) {
 
@@ -426,17 +440,11 @@ class MetaImageSlide extends MetaSlide {
             $new_image_height = $image_height * ( $container_width / $image_width );
 
             if ( $new_image_height < $container_height ) {
-
                 $margin_top_in_px = ( $container_height - $new_image_height ) / 2;
-
                 $margin_top_in_percent = ( $margin_top_in_px / $container_width ) * 100;
-
                 return 'margin-top: ' . $margin_top_in_percent . '%';
-
             } else {
-
                 return 'margin: 0 auto; width: ' . ( $container_height / $new_image_height ) * 100 . '%';
-
             }
 
         }

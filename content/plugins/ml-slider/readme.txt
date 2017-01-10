@@ -3,8 +3,8 @@ Contributors: matchalabs
 Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image slider,flexslider,flex slider,nivoslider,nivo slider,responsive,responsive slides,coinslider,coin slider,slideshow,carousel,responsive slider,vertical slides
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CQ84KC4X8YKW8
 Requires at least: 3.5
-Tested up to: 4.5
-Stable tag: 3.3.6
+Tested up to: 4.7
+Stable tag: 3.3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,7 +43,7 @@ The most popular WordPress slider plugin. Creating slideshows with [Meta Slider]
 * Free basic support (covering installation issues and theme/plugin conflicts)
 * Lightbox support with the [Meta Slider Lightbox](http://wordpress.org/plugins/ml-slider-lightbox/) addon
 
-Upgrade to [Meta Slider Pro](http://www.metaslider.com/upgrade) to add support for:
+Upgrade to [Meta Slider Pro](https://www.metaslider.com/upgrade) to add support for:
 
 * YouTube & Vimeo slides
 * HTML slides
@@ -53,25 +53,6 @@ Upgrade to [Meta Slider Pro](http://www.metaslider.com/upgrade) to add support f
 * Thumbnail Navigation
 * Premium Support
 
-**Translations**
-
-* French (thanks to fb-graphiklab)
-* Spanish (thanks to eltipografico)
-* German (thanks to Rewolve44)
-* Polish (thanks to gordon34)
-* Chinese (thanks to 断青丝 and mamsds)
-* Taiwanese (thanks to 断青丝)
-* Norwegian (thanks to Dreamsoft)
-* Romanian (thanks to Octav Madalin Stanoaia)
-* Japanese (thanks to Dorrie)
-* Persian (thanks to aliamini)
-* Hungarian (thanks to szripio)
-* Croatian
-* Hebrew (thanks to Ahrale)
-* Portuguese (thanks to mauro.mascarenhas)
-* Russian (thanks to asidoryak)
-* Ukrainian (thanks to mister_r)
-
 Read more and thanks to:
 
 * [Flex Slider](http://flexslider.woothemes.com/)
@@ -79,7 +60,7 @@ Read more and thanks to:
 * [Coin Slider](http://workshop.rs/projects/coin-slider/)
 * [Nivo Slider](http://dev7studios.com/nivo-slider/)
 
-Find out more at http://www.metaslider.com
+Find out more at https://www.metaslider.com
 
 Follow us on Twitter: [@wpmetaslider](https://twitter.com/wpmetaslider)
 
@@ -99,7 +80,7 @@ The not so easy way:
 
 == Frequently Asked Questions ==
 
-http://www.metaslider.com/documentation/
+https://www.metaslider.com/documentation/
 
 = How do I include a slideshow in the header of my site? =
 
@@ -124,7 +105,7 @@ Add the 'restrict_to' parameter to the shortcode, eg:
 
 Theme specific instructions:
 
-http://www.metaslider.com/documentation/theme-integration/
+https://www.metaslider.com/documentation/theme-integration/
 
 = It's not working - what can I do? =
 
@@ -134,11 +115,11 @@ http://www.metaslider.com/documentation/troubleshooting/
 
 = Meta Slider is cropping my images in the wrong place - what can I do? =
 
-See www.metaslider.com/documentation/image-cropping/
+See https://www.metaslider.com/documentation/image-cropping/
 
 == Screenshots ==
 
-1. Meta Slider - for live demos see http://www.metaslider.com/examples/
+1. Meta Slider - for live demos see https://www.metaslider.com/examples/
 2. Nivo Slider example
 3. Coin Slider example
 4. Flex Slider example
@@ -147,7 +128,20 @@ See www.metaslider.com/documentation/image-cropping/
 
 == Changelog ==
 
-= 3.3.7 [06/05/15] =
+= 3.4 [04/01/17] =
+
+This is the first in a series of small updates which will eventually allow us to remove restrictions in the plugin which prevent us from implementing certain functionality, including:
+
+- Changing a slide image
+- Using unique captions when the same slide has been added to more than one slideshow
+- Adding the same slide to a slideshow multiple times
+- Duplicating slides and sliders
+- Drafting slides
+- Scheduling slides
+
+We are releasing this update in a number of small stages due to the number of users Meta Slider has. We are being overly cautious to ensure it's a smooth transition. This update does not make any major changes to the current plugin functionality, but it does put in place the "scaffolding" code which we will rely on to implement further updates.
+
+= 3.3.7 [06/05/16] =
 
 * Fix: "Maximum level reached" error when inserting the shortcode for a slideshow into it's own caption. Thanks to Zhouyuan @ Fortinet for reporting this.
 

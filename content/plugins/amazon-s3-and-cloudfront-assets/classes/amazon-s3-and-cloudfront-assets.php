@@ -878,15 +878,14 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 * @param array|null $settings
 	 * @param bool       $scan_after_purge Start the scan again after removal?
 	 */
-	function initiate_remove_files_from_s3( $settings = null, $scan_after_purge = false ) {
+	public function initiate_remove_files_from_s3( $settings = null, $scan_after_purge = false ) {
 		if ( is_null( $settings ) ) {
 			$settings = get_site_option( static::SETTINGS_KEY );
 		}
 
-		$region = isset( $settings['region'] ) ? $settings['region'] : '';
-		$data   = array(
-			'bucket' => $settings['bucket'],
-			'region' => $region,
+		$data = array(
+			'bucket' => isset( $settings['bucket'] ) ? $settings['bucket'] : $this->get_setting( 'bucket' ),
+			'region' => isset( $settings['region'] ) ? $settings['region'] : '',
 		);
 
 		if ( $scan_after_purge ) {

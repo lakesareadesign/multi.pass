@@ -6,6 +6,15 @@ $progress_percent = ( isset( $progress_percent ) ) ? $progress_percent : false;
 ?>
 <div id="<?php echo $id; ?>" class="block <?php echo $tab; ?>" data-tab="<?php echo $tab; ?>">
 	<div class="block-title-wrap <?php echo ( false !== $description ) ? 'with-description' : ''; ?>">
+
+		<?php if ( false !== $progress_percent ): ?>
+			<div class="pie-chart" data-percentage="<?php echo $progress_percent; ?>">
+				<svg viewBox="-100 -100 200 200">
+					<path d="" />
+				</svg>
+			</div>
+		<?php endif; ?>
+
 		<h4><?php echo $title; ?></h4>
 
 		<?php if ( false !== $description ) : ?>
@@ -15,12 +24,6 @@ $progress_percent = ( isset( $progress_percent ) ) ? $progress_percent : false;
 			</div>
 		<?php endif; ?>
 	</div>
-
-	<?php if ( false !== $progress_percent ) : ?>
-		<div class="progress-bar-wrapper <?php echo ( 100 === ( int ) $progress_percent ) ? 'complete' : ''; ?>" data-percentage="<?php echo $progress_percent; ?>">
-			<div class="progress-bar"></div>
-		</div>
-	<?php endif; ?>
 
 	<?php if ( $show_button ) : ?>
 		<a href="#" class="as3cf-pro-tool button"><?php echo $button_title; ?></a>

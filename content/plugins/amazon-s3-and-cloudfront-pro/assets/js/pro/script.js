@@ -173,12 +173,6 @@
 					$( '.as3cf-sidebar.pro' ).prepend( response.data );
 					var hash = getURLHash();
 					toggleSidebarTools( hash );
-
-					$( '.as3cf-sidebar.pro .block .progress-bar-wrapper .progress-bar' ).each( function() {
-						$( this ).animate( {
-							width: $( this ).parent().data( 'percentage' ) + '%'
-						}, 1200 );
-					} );
 				}
 			}
 		} );
@@ -194,6 +188,8 @@
 
 		$( '.as3cf-sidebar.pro .block' ).not( '.' + tab ).hide();
 		$( '.as3cf-sidebar.pro .block.' + tab ).show();
+
+		as3cfpro.tool.renderPieChart();
 	}
 
 	/**
@@ -243,6 +239,7 @@
 			$( '.support-content' ).empty().html( '<p>' + as3cfpro.strings.fetching_license + '</p>' );
 			// Trigger the refresh of the pro tools
 			renderSidebarTools();
+			as3cfpro.tool.renderPieChart();
 			checkLicence( licenceKey );
 		}
 

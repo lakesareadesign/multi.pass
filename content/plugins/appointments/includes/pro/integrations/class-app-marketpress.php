@@ -7,6 +7,18 @@ class Appointments_Integrations_MarketPress {
 			return;
 		}
 
+		// Add MP Default options
+		add_filter( 'appointments_default_options', array( $this, 'default_options' ) );
+
+		// Add settings section
+		add_action( 'appointments_settings_tab-main-section-payments', array( $this, 'show_settings' ) );
+		add_filter( 'app-options-before_save', array( $this, 'save_settings' ) );
+
+
+        if ( ! $this->is_integration_active() ) {
+            return;
+        }
+
 		if ( defined( 'MP_VERSION' ) && version_compare( MP_VERSION, '3.0', '>=' ) ) {
 			require_once( 'marketpress/class_app_mp_bridge.php' );
 			App_MP_Bridge::serve();
@@ -14,13 +26,6 @@ class Appointments_Integrations_MarketPress {
 			require_once( 'marketpress/class_app_mp_bridge_legacy.php' );
 			App_MP_Bridge_Legacy::serve();
 		}
-
-		// Add MP Default options
-		add_filter( 'appointments_default_options', array( $this, 'default_options' ) );
-
-		// Add settings section
-		add_action( 'appointments_settings_tab-main-section-payments', array( $this, 'show_settings' ) );
-		add_filter( 'app-options-before_save', array( $this, 'save_settings' ) );
 	}
 
 	private function is_mp_active() {
@@ -32,7 +37,7 @@ class Appointments_Integrations_MarketPress {
 
 	private function is_integration_active() {
 		$options = appointments_get_options();
-		return $this->is_mp_active() && $options['use_mp'];
+		return $this->is_mp_active() && $options['use_mp'] && $options['payment_required'] === 'yes';
 	}
 
 
@@ -145,6 +150,9 @@ class Appointments_Integrations_MarketPress {
 				add_post_meta( $post_id, 'mp_var_name', array( 0 ) );
 				add_post_meta( $post_id, 'mp_sku', array( 0 ) );
 				add_post_meta( $post_id, 'mp_price', array( 0 ) );
+
+                                // Set a meta to define this is an app mp product
+                                update_post_meta( $post_id, 'mp_app_product', 1 );
 			}
 		}
 

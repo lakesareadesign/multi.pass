@@ -24,7 +24,7 @@
 		<em>
 			<?php
 			$deactivate_url  = $this->get_plugin_action_url( 'deactivate' );
-			$deactivate_link = sprintf( '<a style="text-decoration:none;" href="%s">%s</a>', $deactivate_url, __( 'deactivating', 'amazon-s3-and-cloudfront' ) );
+			$deactivate_link = sprintf( '<a  id="' . $this->plugin_slug . '-install-notice-deactivate" style="text-decoration:none;" href="%s">%s</a>', $deactivate_url, __( 'deactivating', 'amazon-s3-and-cloudfront' ) );
 
 			printf( __( 'You can also remove this message by %s the %s plugin.', 'amazon-s3-and-cloudfront' ), $deactivate_link, $this->plugin_name ); ?>
 		</em>

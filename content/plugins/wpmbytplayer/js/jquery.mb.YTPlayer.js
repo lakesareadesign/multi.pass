@@ -51,8 +51,8 @@ var getYTPVideoID = function( url ) {
 	jQuery.mbYTPlayer = {
 		name: "jquery.mb.YTPlayer",
 		version: "3.0.10",
-		build: "6064",
-		author: "Matteo Bicocchi",
+		build: "6075",
+		author: "Matteo Bicocchi (pupunzi)",
 		apiKey: "",
 		defaults: {
 			containment: "body",
@@ -174,7 +174,7 @@ var getYTPVideoID = function( url ) {
 				};
 				YTPlayer.canGoFullScreen = !( jQuery.browser.msie || jQuery.browser.opera || isIframe() );
 				if( !YTPlayer.canGoFullScreen ) YTPlayer.opt.realfullscreen = false;
-				if( !$YTPlayer.attr( "id" ) ) $YTPlayer.attr( "id", "video_" + new Date().getTime() );
+				if( !$YTPlayer.attr( "id" ) ) $YTPlayer.attr( "id", "ytp_" + new Date().getTime() );
 				var playerID = "mbYTP_" + YTPlayer.id;
 				YTPlayer.isAlone = false;
 				YTPlayer.hasFocus = true;
@@ -266,6 +266,7 @@ var getYTPVideoID = function( url ) {
 				YTPlayer.opt.containment.children().not( "script, style" ).each( function() {
 					if( jQuery( this ).css( "position" ) == "static" ) jQuery( this ).css( "position", "relative" );
 				} );
+
 				if( YTPlayer.isBackground ) {
 					jQuery( "body" ).css( {
 						boxSizing: "border-box"
@@ -323,11 +324,12 @@ var getYTPVideoID = function( url ) {
 				if( jQuery.browser.mobile && !YTPlayer.canPlayOnMobile ) {
 
 					if( YTPlayer.opt.mobileFallbackImage ) {
-						YTPlayer.opt.containment.css( {
+						wrapper.css( {
 							backgroundImage: "url(" + YTPlayer.opt.mobileFallbackImage + ")",
 							backgroundPosition: "center center",
 							backgroundSize: "cover",
-							backgroundRepeat: "no-repeat"
+							backgroundRepeat: "no-repeat",
+							opacity: 1
 						} )
 					};
 
@@ -1830,30 +1832,34 @@ var getYTPVideoID = function( url ) {
 
 			for( var a in YTPAlign ) {
 
-				var al = YTPAlign[ a ].replace( / /g, "" );
+				if( YTPAlign.hasOwnProperty( a ) ) {
 
-				switch( al ) {
+					var al = YTPAlign[ a ].replace( / /g, "" );
 
-					case "top":
-						vid.marginTop = lowest ? -( ( vid.height - win.height ) / 2 ) : 0;
-						break;
+					switch( al ) {
 
-					case "bottom":
-						vid.marginTop = lowest ? 0 : -( vid.height - win.height );
-						break;
+						case "top":
+							vid.marginTop = lowest ? -( ( vid.height - win.height ) / 2 ) : 0;
+							break;
 
-					case "left":
-						vid.marginLeft = 0;
-						break;
+						case "bottom":
+							vid.marginTop = lowest ? 0 : -( vid.height - win.height );
+							break;
 
-					case "right":
-						vid.marginLeft = lowest ? -( vid.width - win.width ) : 0;
-						break;
+						case "left":
+							vid.marginLeft = 0;
+							break;
 
-					default:
-						if( vid.width > win.width )
-							vid.marginLeft = -( ( vid.width - win.width ) / 2 );
-						break;
+						case "right":
+							vid.marginLeft = lowest ? -( vid.width - win.width ) : 0;
+							break;
+
+						default:
+							if( vid.width > win.width )
+								vid.marginLeft = -( ( vid.width - win.width ) / 2 );
+							break;
+					}
+
 				}
 
 			}
@@ -1869,7 +1875,8 @@ var getYTPVideoID = function( url ) {
 			width: vid.width,
 			height: vid.height,
 			marginTop: vid.marginTop,
-			marginLeft: vid.marginLeft
+			marginLeft: vid.marginLeft,
+			maxWidth: "initial"
 		} );
 
 	};

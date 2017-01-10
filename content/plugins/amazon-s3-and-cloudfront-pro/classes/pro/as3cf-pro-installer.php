@@ -29,8 +29,10 @@ class AS3CF_Pro_Installer extends WP_AWS_Compatibility_Check {
 		);
 
 		// Fire up the plugin installer
-		$this->plugin_installer = new AS3CF_Pro_Plugin_Installer( 'installer', $this->plugin_slug, $this->plugin_file_path );
-		$this->plugin_installer->set_plugins_to_install( $this->required_plugins_not_installed() );
+		if ( is_admin() ) {
+			$this->plugin_installer = new AS3CF_Pro_Plugin_Installer( 'installer', $this->plugin_slug, $this->plugin_file_path );
+			$this->plugin_installer->set_plugins_to_install( $this->required_plugins_not_installed() );
+		}
 	}
 
 	/**

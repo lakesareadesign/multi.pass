@@ -13,21 +13,9 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	protected $licence;
 
 	/**
-	 * The registered tools
-	 *
-	 * @var array
+	 * @var AS3CF_Sidebar_Presenter
 	 */
-	public static $tools = array();
-
-	/**
-	 * @var AS3CF_Uploader
-	 */
-	public $legacy_upload;
-
-	/**
-	 * @var AS3CF_Downloader
-	 */
-	public $s3_downloader;
+	private $sidebar;
 
 	/**
 	 * @param string              $plugin_file_path
@@ -45,8 +33,10 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	function init( $plugin_file_path ) {
 		parent::init( $plugin_file_path );
 
-		// licence and updates handler
-		$this->licence = new AS3CF_Pro_Licences_Updates( $this );
+		// Licence and updates handler
+		if ( is_admin() ) {
+			$this->licence = new AS3CF_Pro_Licences_Updates( $this );
+		}
 
 		// add our custom CSS classes to <body>
 		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
@@ -90,7 +80,6 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		// Ajax handlers
 		add_action( 'wp_ajax_as3cfpro_process_media_action', array( $this, 'ajax_process_media_action' ) );
 		add_action( 'wp_ajax_as3cfpro_update_acl', array( $this, 'ajax_update_acl' ) );
-		add_action( 'wp_ajax_as3cfpro_render_sidebar_tools', array( $this, 'ajax_render_sidebar_tools' ) );
 
 		// Settings link on the plugins page
 		add_filter( 'plugin_action_links', array( $this, 'plugin_actions_settings_link' ), 10, 2 );
@@ -101,21 +90,14 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		// Include compatibility code for other plugins
 		$this->plugin_compat = new AS3CF_Pro_Plugin_Compatibility( $this );
 
-		// Tools
-		add_action( 'as3cf_after_settings', array( $this, 'render_tools_sidebar' ) );
+		// Render sidebar
+		$this->sidebar = new AS3CF_Sidebar_Presenter( $this );
+		$this->sidebar->init();
 
-		$this->legacy_upload = new AS3CF_Uploader( $this );
-		$this->legacy_upload->init();
-
-		$this->s3_downloader = new AS3CF_Downloader( $this );
-		$this->s3_downloader->init();
-	}
-
-	/**
-	 * Render the Pro sidebar with tools
-	 */
-	public function render_tools_sidebar() {
-		$this->render_view( 'sidebar' );
+		// Register tools
+		$this->sidebar->register_tool( new AS3CF_Uploader( $this ) );
+		$this->sidebar->register_tool( new AS3CF_Downloader( $this ) );
+		$this->sidebar->register_tool( new AS3CF_Download_And_Remover( $this ) );
 	}
 
 	/**
@@ -142,15 +124,10 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		$src = plugins_url( 'assets/js/pro/script' . $suffix . '.js', $this->plugin_file_path );
 		wp_enqueue_script( 'as3cf-pro-script', $src, array( 'jquery', 'underscore' ), $version, true );
 
-
-		$nonces = array(
-			'render_sidebar_tools' => wp_create_nonce( 'render-sidebar-tools' ),
-		);
-
 		$localized_args = array(
 			'settings' => apply_filters( 'as3cfpro_js_settings', array() ),
 			'strings'  => apply_filters( 'as3cfpro_js_strings', array() ),
-			'nonces'   => apply_filters( 'as3cfpro_js_nonces', $nonces ),
+			'nonces'   => apply_filters( 'as3cfpro_js_nonces', array() ),
 		);
 
 		wp_localize_script( 'as3cf-pro-script', 'as3cfpro', $localized_args );
@@ -1294,51 +1271,18 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	}
 
 	/**
-	 * Register a tool
+	 * Callback to render tool errors.
 	 *
-	 * @param string $tool
+	 * @param string $name
 	 */
-	public function register_tool( $tool ) {
-		if ( ! in_array( $tool, self::$tools ) ) {
-			self::$tools[] = $tool;
-		}
-	}
+	protected function render_tool_errors_callback( $name ) {
+		$tool = $this->sidebar->get_tool( $name );
 
-	/**
-	 * Callback to render the tool errors for the notice
-	 *
-	 * @param string $tool
-	 */
-	protected function tools_error_notice_callback( $tool ) {
-		if ( ! isset( $this->{$tool} ) ) {
+		if ( ! $tool ) {
 			return;
 		}
 
-		$errors = $this->{$tool}->get_errors();
-
-		$this->render_view( 'tool-errors', array( 'errors' => $errors ) );
-	}
-
-	/**
-	 * AJAX callback for rendering the output of the sidebar tool blocks
-	 */
-	public function ajax_render_sidebar_tools() {
-		check_ajax_referer( 'render-sidebar-tools', 'nonce' );
-
-		$tools_html = '';
-
-		foreach( self::$tools as $tool ) {
-			if ( ! isset( $this->{$tool} ) ) {
-				continue;
-			}
-
-			ob_start();
-			$this->{$tool}->render_sidebar_block();
-			$tools_html .= ob_get_contents();
-			ob_end_clean();
-		}
-
-		wp_send_json_success( $tools_html );
+		$this->render_view( 'tool-errors', array( 'errors' => $tool->get_errors() ) );
 	}
 
 }

@@ -209,6 +209,32 @@
 		},
 
 		/**
+		 * Render pie chart for sidebar tool block using simple trigonometry
+		 */
+		renderPieChart: function() {
+			var percentage, path, angle, radius = 100, coords = [];
+
+			percentage = $( '.as3cf-sidebar.pro .pie-chart' ).data( 'percentage' );
+
+			if ( percentage >= 100 ) {
+				$( '.as3cf-sidebar.pro .pie-chart ~ h4' ).addClass( 'completed' );
+			}
+
+			// Return early no pie chart display
+			if ( percentage < 1 || percentage > 99 ) {
+				return;
+			}
+
+			angle = percentage * 3.6;
+			coords[0] = radius * Math.cos( Math.PI * angle / 180 );
+			coords[1] = radius * Math.sin( Math.PI * angle / 180 );
+			path = 'M0,0 L' + radius + ',0 A' + radius + ',' + radius + ' 0 1,1 ' + coords[0] + ',' + coords[1] + ' Z';
+
+			$( '.as3cf-sidebar.pro .pie-chart ~ h4' ).removeClass( 'completed' );
+			$( '.as3cf-sidebar.pro .pie-chart svg path' ).attr( 'd', path );
+		},
+
+		/**
 		 * Open the Tool modal
 		 */
 		openModal: function() {
@@ -447,6 +473,7 @@
 
 			$( '.progress-content .progress-bar' ).width( this.progressPercent + '%' );
 
+			this.renderPieChart();
 			this.updateProgressMessage();
 		},
 
@@ -512,7 +539,7 @@
 		/**
 		 * Refresh the media to upload notice
 		 */
-		updateNotice: function() {
+		updateSidebar: function() {
 			var self = this;
 
 			$.ajax( {
@@ -521,57 +548,68 @@
 				dataType: 'json',
 				cache: false,
 				data: {
-					action: this.getAjaxAction( 'update_notice' ),
-					nonce: this.getAjaxNonce( 'update_notice' )
+					action: 'as3cfpro_update_sidebar',
+					nonce: as3cfpro.nonces.update_sidebar,
+					tool: self.ID
 				},
 				success: function( response ) {
 					if ( true !== response.success || 'undefined' === typeof response.data ) {
 						return;
 					}
 
-					if ( 'undefined' !== typeof response.data.block ) {
-						self.refreshNotice( self.ID, response.data.block );
-						self.animateProgressBars();
-					}
-
-					if ( 'undefined' !== typeof response.data.error_notice ) {
-						var errors_key = as3cfpro.settings.errors_key_prefix + self.ID;
-
-						if ( $( '#' + errors_key ).length ) {
-							self.refreshNotice( errors_key, response.data.error_notice );
-						} else {
-							var tab = $( '#' + self.ID ).attr( 'data-tab' );
-
-							$( '#tab-' + tab ).prepend( response.data.error_notice );
+					$.each( response.data, function( index, value ) {
+						if ( 'undefined' === typeof value.block ) {
+							return;
 						}
-					}
 
-					if ( 'undefined' !== typeof response.data.custom_notices ) {
-						$.each( response.data.custom_notices, function( index, notice ) {
-							self.refreshNotice( notice.id, notice.html );
-						} );
-					}
+						self.renderSidebarBlock( index, value.block );
+						self.renderErrorNotices( index, value.notices );
+					} );
+
+					self.renderPieChart();
 				}
 			} );
 		},
 
 		/**
-		 * Replace a notice in the DOM
+		 * Render sidebar block.
 		 *
 		 * @param {string} id
 		 * @param {string} html
 		 */
-		refreshNotice: function( id, html ) {
-			if ( ! $( '#' + id ).length ) {
+		renderSidebarBlock: function( id, html ) {
+			var $sidebar = $( '.as3cf-sidebar.pro' );
+
+			$sidebar.find( '#' + id ).remove();
+
+			if ( html.length ) {
+				$sidebar.append( html );
+			}
+
+			$sidebar.find( '#' + id ).show();
+		},
+
+		/**
+		 * Render error notices.
+		 *
+		 * @param {string} id
+		 * @param {bool|object} notices
+		 */
+		renderErrorNotices: function( id, notices ) {
+			if ( 'undefined' === typeof notices || false === notices ) {
 				return;
 			}
 
-			var remove_id = id + '-remove';
+			var $notice = $( '#' + as3cfpro.settings.errors_key_prefix + id );
+			var tab = $( '#' + this.ID ).attr( 'data-tab' );
 
-			$( '#' + id ).attr( 'id', remove_id );
-			$( '#' + remove_id ).after( html );
-			$( '#' + remove_id ).remove();
-			$( '#' + id ).show();
+			if ( $notice.length ) {
+				$notice.remove();
+			}
+
+			$.each( notices, function( index, notice ) {
+				$( '#tab-' + tab ).prepend( notice );
+			} );
 		},
 
 		/**
@@ -712,8 +750,7 @@
 					completed: this.itemsProcessed
 				},
 				success: function() {
-					// Refresh upload notices on settings page behind modal
-					self.updateNotice();
+					self.updateSidebar();
 				}
 			} );
 
@@ -859,6 +896,8 @@
 			} );
 			this.processCompleted = false;
 			this.progressModalActive = false;
+
+			as3cfpro.tool.renderPieChart();
 		},
 
 		/**
@@ -898,7 +937,7 @@
 		as3cfpro.tool.openFromURL();
 
 		// Animate sidebar progress bars
-		as3cfpro.tool.animateProgressBars();
+		as3cfpro.tool.renderPieChart();
 
 		// Display Tool Modal
 		$( 'body' ).on( 'click', 'a.as3cf-pro-tool', function( e ) {

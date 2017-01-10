@@ -29,9 +29,14 @@ class MetaSliderImageHelper {
 
         $upload_dir = wp_upload_dir();
 
-        $this->id = $slide_id;
-        $this->url = apply_filters("metaslider_attachment_url", $upload_dir['baseurl'] . "/" . get_post_meta( $slide_id, '_wp_attached_file', true ), $slide_id);
-        $this->path = get_attached_file( $slide_id );
+        if ( get_post_type( $slide_id ) === 'attachment' ) {
+            $this->id = $slide_id;
+        } else {
+            $this->id = get_post_thumbnail_id( $slide_id );
+        }
+
+        $this->url = apply_filters("metaslider_attachment_url", $upload_dir['baseurl'] . "/" . get_post_meta( $this->id, '_wp_attached_file', true ), $this->id);
+        $this->path = get_attached_file( $this->id );
         $this->container_width = $width;
         $this->container_height = $height;
         $this->use_image_editor = $use_image_editor;
@@ -303,15 +308,6 @@ class MetaSliderImageHelper {
 
         // editor will return an error if the path is invalid
         if ( is_wp_error( $image ) ) {
-
-            $capability = apply_filters( 'metaslider_capability', 'edit_others_posts' );
-
-            if ( is_admin() && current_user_can( $capability ) ) {
-                echo '<div id="message" class="error">';
-                echo "<p><strong>ERROR</strong> Slide ID: {$this->id} - <i>" . $image->get_error_message() . "</i></p>";
-                echo "</div>";
-            }
-
             return $this->url;
         }
 

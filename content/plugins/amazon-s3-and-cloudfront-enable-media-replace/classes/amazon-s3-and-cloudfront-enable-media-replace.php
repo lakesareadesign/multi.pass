@@ -23,52 +23,9 @@ class Amazon_S3_And_CloudFront_Enable_Media_Replace {
 		add_filter( 'as3cf_update_attached_file', array( $this, 'process_s3_replacement' ), 10, 2 );
 		add_filter( 'as3cf_get_attachment_s3_info', array( $this, 'update_file_prefix_on_replace' ), 10, 2 );
 		add_filter( 'as3cf_pre_update_attachment_metadata', array( $this, 'remove_existing_s3_files_before_replace' ), 10, 4 );
-		$this->download_file_wrapper();
+		add_filter( 'emr_unfiltered_get_attached_file', '__return_false' );
 
 		load_plugin_textdomain( 'as3cf-enable-media-replace', false, dirname( plugin_basename( $plugin_file_path ) ) . '/languages/' );
-	}
-
-	/**
-	 * Until Enable Media Replace plugin implements the PR so we can use get_attached_file()
-	 * we need to determine if we need to copy the local file back a different way
-	 *
-	 * https://github.com/mansj/enable-media-replace/pull/15
-	 */
-	function download_file_wrapper() {
-		$wp_filter = $GLOBALS['wp_filter'];
-
-		if ( ! empty( $wp_filter['emr_unfiltered_get_attached_file'] ) ) {
-			// once the EMR PR has been merged we can move the following filter hook to the construct
-			// and remove this whole method including doing_enable_media_replace()
-			add_filter( 'emr_unfiltered_get_attached_file', '__return_false' );
-		} else {
-			add_action( 'admin_init', array( $this, 'doing_enable_media_replace' ) );
-		}
-	}
-
-	/**
-	 * A temporary alternative way to determine if the EMR is processing so we can copy back the S3 file
-	 * to the server if the local file does not exist.
-	 *
-	 */
-	function doing_enable_media_replace() {
-		if ( $this->as3cf->plugin_compat->is_ajax() ) {
-			return;
-		}
-
-		if ( ! $this->is_replacing_media() ) {
-			return;
-		}
-
-		$attachment_id = filter_input( INPUT_POST, 'ID', FILTER_VALIDATE_INT );
-
-		if ( empty( $attachment_id ) ) {
-			return;
-		}
-
-		// Manually call get_attached_file() so our filter hooks are triggered,
-		// as EMR runs the method with filters suppressed
-		get_attached_file( $attachment_id );
 	}
 
 	/**

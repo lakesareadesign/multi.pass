@@ -4,7 +4,7 @@ Plugin Name: WP Offload S3 - WooCommerce Addon
 Plugin URI: http://deliciousbrains.com/wp-offload-s3/#woocommerce-addon
 Description: WP Offload S3 addon to integrate WooCommerce with Amazon S3. Requires Pro Upgrade.
 Author: Delicious Brains
-Version: 1.0.5
+Version: 1.0.6
 Author URI: http://deliciousbrains.com
 Network: True
 

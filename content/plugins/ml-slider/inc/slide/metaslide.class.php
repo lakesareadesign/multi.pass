@@ -222,6 +222,34 @@ class MetaSlide {
 
 
     /**
+     * Create a new post for a slide. Tag a featured image to it.
+     *
+     * @since 3.4
+     * @param string $attachment_id - Media File ID to use for the slide
+     * @param string $type - the slide type identifier
+     * @param int $slider_id - the parent slideshow ID
+     * @return int $id - the ID of the newly created slide
+     */
+    /*public function insert_slide($attachment_id, $type, $slider_id) {
+
+        $id = wp_insert_post( array(
+                'post_title' => __( "Slider {$slider_id} - {$type}", "ml-slider" ),
+                'post_status' => 'publish',
+                'post_type' => 'ml-slide'
+            )
+        );
+
+        if ( $attachment_id ) {
+            set_post_thumbnail( $id, $attachment_id );
+        }
+
+        $this->add_or_update_or_delete_meta( $id, 'type', $type );
+
+        return $id;
+
+    }*/
+
+    /**
      * Tag the slide attachment to the slider tax category
      */
     public function tag_slide_to_slider() {
@@ -337,8 +365,8 @@ class MetaSlide {
             'force_no_custom_order' => true,
             'orderby' => 'menu_order',
             'order' => 'DESC',
-            'post_type' => 'attachment',
-            'post_status' => 'inherit',
+            'post_type' => array('attachment', 'ml-slide'),
+            'post_status' => array('inherit', 'publish'),
             'lang' => '', // polylang, ingore language filter
             'suppress_filters' => 1, // wpml, ignore language filter
             'posts_per_page' => 1,

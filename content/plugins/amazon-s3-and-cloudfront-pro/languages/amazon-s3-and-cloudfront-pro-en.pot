@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-s3-and-cloudfront-pro\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2016-11-28 11:16+0000\n"
+"POT-Creation-Date: 2017-01-04 14:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,127 +25,127 @@ msgstr ""
 msgid "S3 and CloudFront"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:214
+#: classes/amazon-s3-and-cloudfront.php:215
 #: view/bucket-setting.php:18
 msgid "defined in wp-config.php"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:851
+#: classes/amazon-s3-and-cloudfront.php:874
 msgid "Upload aborted by filter 'as3cf_pre_upload_attachment'"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:862
+#: classes/amazon-s3-and-cloudfront.php:885
 #, php-format
 msgid "File %s does not exist"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:873
+#: classes/amazon-s3-and-cloudfront.php:896
 #, php-format
 msgid "Mime type %s is not allowed"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:958
+#: classes/amazon-s3-and-cloudfront.php:981
 #, php-format
 msgid "Error uploading %s to S3: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2134
+#: classes/amazon-s3-and-cloudfront.php:2170
 msgid "Cheatin&#8217; eh?"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2138
+#: classes/amazon-s3-and-cloudfront.php:2174
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2144
+#: classes/amazon-s3-and-cloudfront.php:2180
 msgid "No bucket name provided."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2429
+#: classes/amazon-s3-and-cloudfront.php:2439
 msgid "Error Getting Bucket Region"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2430
+#: classes/amazon-s3-and-cloudfront.php:2440
 #, php-format
 msgid "There was an error attempting to get the region of the bucket %s: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2550
+#: classes/amazon-s3-and-cloudfront.php:2560
 msgid ""
 "This is a test file to check if the user has write permission to S3. Delete "
 "me if found."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2582
+#: classes/amazon-s3-and-cloudfront.php:2592
 #, php-format
 msgid ""
 "There was an error attempting to check the permissions of the bucket %s: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2639
+#: classes/amazon-s3-and-cloudfront.php:2649
 msgid "Error creating bucket"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2640
+#: classes/amazon-s3-and-cloudfront.php:2650
 msgid "Bucket name too short."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2641
+#: classes/amazon-s3-and-cloudfront.php:2651
 msgid "Bucket name too long."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2642
+#: classes/amazon-s3-and-cloudfront.php:2652
 msgid ""
 "Invalid character. Bucket names can contain lowercase letters, numbers, "
 "periods and hyphens."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2643
+#: classes/amazon-s3-and-cloudfront.php:2653
 msgid "Error saving bucket"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2644
+#: classes/amazon-s3-and-cloudfront.php:2654
 msgid "Error fetching buckets"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2645
+#: classes/amazon-s3-and-cloudfront.php:2655
 msgid "Error getting URL preview: "
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2646
+#: classes/amazon-s3-and-cloudfront.php:2656
 msgid "The changes you made will be lost if you navigate away from this page"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2647
+#: classes/amazon-s3-and-cloudfront.php:2657
 msgid "Getting diagnostic info..."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2648
+#: classes/amazon-s3-and-cloudfront.php:2658
 msgid "Error getting diagnostic info: "
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2716
+#: classes/amazon-s3-and-cloudfront.php:2726
 msgid "Cheatin' eh?"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2824
+#: classes/amazon-s3-and-cloudfront.php:2834
 msgctxt "Show the media library tab"
 msgid "Media Library"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:2825
+#: classes/amazon-s3-and-cloudfront.php:2835
 msgctxt "Show the support tab"
 msgid "Support"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3041
+#: classes/amazon-s3-and-cloudfront.php:3052
 #, php-format
 msgid ""
 "<strong>WP Offload S3</strong> &mdash; The file %s has been given %s "
 "permissions on Amazon S3."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3060
+#: classes/amazon-s3-and-cloudfront.php:3071
 msgid ""
 "<strong>WP Offload S3 Requirement Missing</strong> &mdash; Looks like you "
 "don't have an image manipulation library installed on this server and "
@@ -153,11 +153,11 @@ msgid ""
 "Please setup GD or ImageMagick."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3723
+#: classes/amazon-s3-and-cloudfront.php:3748
 msgid "Quick Start Guide"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3725
+#: classes/amazon-s3-and-cloudfront.php:3750
 #, php-format
 msgid ""
 "Looks like we don't have write access to this bucket. It's likely that the "
@@ -166,7 +166,7 @@ msgid ""
 "correctly."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3727
+#: classes/amazon-s3-and-cloudfront.php:3752
 #, php-format
 msgid ""
 "Looks like we don't have access to the buckets. It's likely that the user "
@@ -174,39 +174,39 @@ msgid ""
 "Please see our %s for instructions on setting up permissions correctly."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3878
+#: classes/amazon-s3-and-cloudfront.php:3903
 msgid "WP Offload S3 Activation"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3879
+#: classes/amazon-s3-and-cloudfront.php:3904
 msgid ""
 "WP Offload S3 Lite and WP Offload S3 cannot both be active. We've "
 "automatically deactivated WP Offload S3 Lite."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3881
+#: classes/amazon-s3-and-cloudfront.php:3906
 msgid "WP Offload S3 Lite Activation"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3882
+#: classes/amazon-s3-and-cloudfront.php:3907
 msgid ""
 "WP Offload S3 Lite and WP Offload S3 cannot both be active. We've "
 "automatically deactivated WP Offload S3."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:3956
+#: classes/amazon-s3-and-cloudfront.php:3981
 msgid "More info"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:4047
+#: classes/amazon-s3-and-cloudfront.php:4072
 msgid "this doc"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:4049
+#: classes/amazon-s3-and-cloudfront.php:4074
 msgid "WP Offload S3 Feature Removed"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:4050
+#: classes/amazon-s3-and-cloudfront.php:4075
 #, php-format
 msgid ""
 "You had the \"Always non-SSL\" option selected in your settings, but we've "
@@ -217,32 +217,32 @@ msgid ""
 "to the old behavior."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:4078
-#: classes/amazon-s3-and-cloudfront.php:4171
+#: classes/amazon-s3-and-cloudfront.php:4103
+#: classes/amazon-s3-and-cloudfront.php:4196
 msgid "Amazon S3"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:4172
+#: classes/amazon-s3-and-cloudfront.php:4197
 msgctxt "Amazon S3 bucket"
 msgid "Bucket"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:4173
+#: classes/amazon-s3-and-cloudfront.php:4198
 msgctxt "Path to file on Amazon S3"
 msgid "Path"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:4174
+#: classes/amazon-s3-and-cloudfront.php:4199
 msgctxt "Location of Amazon S3 bucket"
 msgid "Region"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:4175
+#: classes/amazon-s3-and-cloudfront.php:4200
 msgctxt "Access control list of the file on Amazon S3"
 msgid "Access"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront.php:4176
+#: classes/amazon-s3-and-cloudfront.php:4201
 msgid "URL"
 msgstr ""
 
@@ -290,24 +290,42 @@ msgstr ""
 
 #: classes/as3cf-plugin-compatibility.php:665
 #: classes/as3cf-plugin-compatibility.php:677
-#: classes/upgrades/as3cf-meta-wp-error.php:72
+#: classes/upgrades/as3cf-meta-wp-error.php:81
 #, php-format
 msgid "There was an error attempting to download the file %s from S3: %s"
 msgstr ""
 
-#: classes/as3cf-upgrade.php:298
+#: classes/as3cf-upgrade-filter-post.php:544
+#, php-format
+msgid ""
+"<strong>Paused Upgrade</strong><br>The find &amp; replace to update URLs has "
+"been paused. %s"
+msgstr ""
+
+#: classes/as3cf-upgrade-filter-post.php:553
+msgid "See our documentation"
+msgstr ""
+
+#: classes/as3cf-upgrade-filter-post.php:556
+#, php-format
+msgid ""
+"%s for details on why we&#8217;re doing this, why it runs slowly, and how to "
+"make it run faster."
+msgstr ""
+
+#: classes/as3cf-upgrade.php:318
 msgid "Pause Update"
 msgstr ""
 
-#: classes/as3cf-upgrade.php:306
+#: classes/as3cf-upgrade.php:326
 msgid "Restart Update"
 msgstr ""
 
-#: classes/as3cf-upgrade.php:310
+#: classes/as3cf-upgrade.php:330
 msgid "Try Run It Again"
 msgstr ""
 
-#: classes/as3cf-upgrade.php:333
+#: classes/as3cf-upgrade.php:353
 #, php-format
 msgid ""
 "<strong>Running %1$s Update%2$s</strong> &mdash; We&#8217;re going through "
@@ -317,14 +335,14 @@ msgid ""
 "performance."
 msgstr ""
 
-#: classes/as3cf-upgrade.php:347
+#: classes/as3cf-upgrade.php:367
 #, php-format
 msgid ""
 "<strong>%1$s Update Paused%2$s</strong> &mdash; Updating Media Library %3$s "
 "has been paused."
 msgstr ""
 
-#: classes/as3cf-upgrade.php:360
+#: classes/as3cf-upgrade.php:380
 #, php-format
 msgid ""
 "<strong>Error Updating %1$s</strong> &mdash; We ran into some errors "
@@ -332,111 +350,111 @@ msgid ""
 "been uploaded to S3. Please check your error log for details. (#%3$d)"
 msgstr ""
 
-#: classes/as3cf-upgrade.php:384
+#: classes/as3cf-upgrade.php:404
 #, php-format
 msgid " (%s%% Complete)"
 msgstr ""
 
-#: classes/as3cf-upgrade.php:495
+#: classes/as3cf-upgrade.php:515
 #: classes/pro/as3cf-background-process.php:406
 #, php-format
 msgid "Every %d Minutes"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:232
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:209
 msgid "Copy to S3"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:233
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:210
 msgid "Remove from S3"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:234
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:211
 msgid "Copy to Server from S3"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:235
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:212
 msgid ""
 "This file does not exist locally so removing it from S3 will result in "
 "broken links on your site. Are you sure you want to continue?"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:236
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:213
 msgid ""
 "Some files do not exist locally so removing them from S3 will result in "
 "broken links on your site. Are you sure you want to continue?"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:237
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:214
 msgid "Click to set as Private on S3"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:238
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:215
 msgid "Click to set as Public on S3"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:239
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:216
 msgid "Updating…"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:240
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:217
 msgid ""
 "There was an error changing the ACL. Make sure the IAM user has permission "
 "to change the ACL and try again."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:303
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:280
 msgctxt "Show the license and support tab"
 msgid "License & Support"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:317
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:294
 msgid ""
 "Alternatively, use the Media Library bulk action <strong>Copy to Server from "
 "S3</strong> to ensure the local files exist."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:793
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:770
 msgid "Edit attachment"
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:812
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:789
 msgid "Media successfully copied to S3."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:813
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:790
 msgid "Media copied to S3 with some errors."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:814
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:791
 msgid "There were errors when copying the media to S3."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:817
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:794
 msgid "Media successfully removed from S3."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:818
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:795
 msgid "Media removed from S3, with some errors."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:819
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:796
 msgid "There were errors when removing the media from S3."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:822
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:799
 msgid "Media successfully downloaded from S3."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:823
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:800
 msgid "Media downloaded from S3, with some errors."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:824
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:801
 msgid "There were errors when downloading the media from S3."
 msgstr ""
 
-#: classes/pro/amazon-s3-and-cloudfront-pro.php:1032
+#: classes/pro/amazon-s3-and-cloudfront-pro.php:1009
 #, php-format
 msgid "There were %s errors downloading files for attachment ID %s from S3"
 msgstr ""
@@ -607,49 +625,49 @@ msgid ""
 "updates."
 msgstr ""
 
-#: classes/pro/as3cf-pro-plugin-compatibility.php:66
+#: classes/pro/as3cf-pro-plugin-compatibility.php:68
 #, php-format
 msgid ""
 "You must have a valid license to install these addons. If you're having "
 "trouble determining whether or not you need the addons, send an email to %s."
 msgstr ""
 
-#: classes/pro/as3cf-pro-plugin-compatibility.php:73
+#: classes/pro/as3cf-pro-plugin-compatibility.php:75
 msgid "support request"
 msgstr ""
 
-#: classes/pro/as3cf-pro-plugin-compatibility.php:76
+#: classes/pro/as3cf-pro-plugin-compatibility.php:78
 #, php-format
 msgid ""
 "If you're having trouble determining whether or not you need the addons, "
 "submit a %s and we'll help you out."
 msgstr ""
 
-#: classes/pro/as3cf-pro-plugin-compatibility.php:98
+#: classes/pro/as3cf-pro-plugin-compatibility.php:100
 msgid "Install & Activate Addon"
 msgstr ""
 
-#: classes/pro/as3cf-pro-plugin-compatibility.php:99
+#: classes/pro/as3cf-pro-plugin-compatibility.php:101
 msgid "Install & Activate Addons"
 msgstr ""
 
-#: classes/pro/as3cf-pro-plugin-compatibility.php:115
+#: classes/pro/as3cf-pro-plugin-compatibility.php:117
 msgid "Addon"
 msgstr ""
 
-#: classes/pro/as3cf-pro-plugin-compatibility.php:127
+#: classes/pro/as3cf-pro-plugin-compatibility.php:129
 msgid ""
 "Unfortunately, your current license does not give you access to the "
 "following addon. You need to upgrade your license to get this addon."
 msgstr ""
 
-#: classes/pro/as3cf-pro-plugin-compatibility.php:128
+#: classes/pro/as3cf-pro-plugin-compatibility.php:130
 msgid ""
 "Unfortunately, your current license does not give you access to the "
 "following addons. You need to upgrade your license to get these addons."
 msgstr ""
 
-#: classes/pro/as3cf-pro-plugin-compatibility.php:135
+#: classes/pro/as3cf-pro-plugin-compatibility.php:137
 msgid "View License Upgrades"
 msgstr ""
 
@@ -683,261 +701,361 @@ msgstr ""
 msgid "%s not installed"
 msgstr ""
 
-#: classes/pro/as3cf-tool.php:210
+#: classes/pro/as3cf-tool.php:271
 #: view/pro/tool-progress.php:19
 msgctxt "Temporarily stop process"
 msgid "Pause"
 msgstr ""
 
-#: classes/pro/as3cf-tool.php:211
+#: classes/pro/as3cf-tool.php:272
 msgctxt "Process finished"
 msgid "Complete"
 msgstr ""
 
-#: classes/pro/as3cf-tool.php:212
+#: classes/pro/as3cf-tool.php:273
 msgctxt "Restart process after it was paused"
 msgid "Resume"
 msgstr ""
 
-#: classes/pro/as3cf-tool.php:213
+#: classes/pro/as3cf-tool.php:274
 msgctxt "Hide process errors"
 msgid "Hide"
 msgstr ""
 
-#: classes/pro/as3cf-tool.php:214
+#: classes/pro/as3cf-tool.php:275
 #: view/pro/tool-progress.php:27
 msgctxt "Show process errors"
 msgid "Show"
 msgstr ""
 
-#: classes/pro/as3cf-tool.php:215
+#: classes/pro/as3cf-tool.php:276
 #: view/pro/tool-progress.php:25
 msgctxt "Process errors"
 msgid "Errors"
 msgstr ""
 
-#: classes/pro/as3cf-tool.php:216
+#: classes/pro/as3cf-tool.php:277
 msgctxt "Process error"
 msgid "Error"
 msgstr ""
 
-#: classes/pro/as3cf-tool.php:303
+#: classes/pro/as3cf-tool.php:366
 msgid "Tool already in progress."
 msgstr ""
 
-#: classes/pro/as3cf-tool.php:404
+#: classes/pro/as3cf-tool.php:467
 msgid "No files to process."
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:91
+#: classes/pro/tools/as3cf-download-and-remover.php:43
+msgid "Begin Removal"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:45
+msgid "Resume Removal"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:49
+msgid "Remove all files from S3"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:51
+msgid ""
+"This tool goes through all your Media Library attachments and deletes files "
+"from S3. If the file doesn't exist on your server, it will download it "
+"before deleting."
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:64
+msgid "Removing Media Library from S3"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:65
+msgctxt "Number of files removed from S3"
+msgid "Files Processed"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:66
+#, php-format
+msgctxt "Number of files out of total removed from S3"
+msgid "%1$d of %2$d Files Removed"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:67
+msgid "Removal completed with some errors"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:68
+msgid "Removal partially completed with some errors"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:69
+msgctxt "The removal is being cancelled"
+msgid "Cancelling removal"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:70
+msgid "Completing current media removal batch"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:71
+msgctxt "The removal has been temporarily stopped"
+msgid "Paused"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:72
+msgctxt "The removal is being paused"
+msgid "Pausing&hellip;"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:73
+msgid "Removal cancellation failed"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:74
+msgctxt "The removal has been cancelled"
+msgid "Removal cancelled"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:75
+msgctxt "The removal is in the last stages"
+msgid "Finalizing removal"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:76
+msgctxt "Confirmation required"
+msgid "Are you sure you want to leave whilst removing from S3?"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:77
+msgctxt "Removal of attachments from S3 did not complete"
+msgid "Removal failed"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:78
+msgctxt "The removal has been temporarily stopped"
+msgid "Removal Paused"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:90
+msgid "Removal Errors"
+msgstr ""
+
+#: classes/pro/tools/as3cf-download-and-remover.php:91
+msgid ""
+"Previous attempts at removing your media library from S3 have resulted in "
+"errors."
+msgstr ""
+
+#: classes/pro/tools/as3cf-downloader.php:80
 msgid "Begin Download"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:93
+#: classes/pro/tools/as3cf-downloader.php:82
 msgid "Resume Download"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:97
+#: classes/pro/tools/as3cf-downloader.php:86
 msgid "Download all files from S3 to server"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:99
+#: classes/pro/tools/as3cf-downloader.php:88
 msgid ""
 "If you've ever had the \"Remove Files From Server\" option on, some Media "
 "Library files are likely missing on your server. You can use this tool to "
 "download any missing files back to your server."
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:112
+#: classes/pro/tools/as3cf-downloader.php:101
 msgid "Downloading Media Library from S3"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:113
+#: classes/pro/tools/as3cf-downloader.php:102
 msgctxt "Number of files downloaded from S3"
 msgid "Files Processed"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:114
+#: classes/pro/tools/as3cf-downloader.php:103
 #, php-format
 msgctxt "Number of files out of total downloaded from S3"
 msgid "%1$d of %2$d Files Downloaded"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:115
+#: classes/pro/tools/as3cf-downloader.php:104
 msgid "Download completed with some errors"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:116
+#: classes/pro/tools/as3cf-downloader.php:105
 msgid "Download partially completed with some errors"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:117
+#: classes/pro/tools/as3cf-downloader.php:106
 msgctxt "The download is being cancelled"
 msgid "Cancelling download"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:118
+#: classes/pro/tools/as3cf-downloader.php:107
 msgid "Completing current media download batch"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:119
+#: classes/pro/tools/as3cf-downloader.php:108
 msgctxt "The download has been temporarily stopped"
 msgid "Paused"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:120
+#: classes/pro/tools/as3cf-downloader.php:109
 msgctxt "The download is being paused"
 msgid "Pausing&hellip;"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:121
+#: classes/pro/tools/as3cf-downloader.php:110
 msgid "Download cancellation failed"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:122
+#: classes/pro/tools/as3cf-downloader.php:111
 msgctxt "The download has been cancelled"
 msgid "Download cancelled"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:123
+#: classes/pro/tools/as3cf-downloader.php:112
 msgctxt "The download is in the last stages"
 msgid "Finalizing download"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:124
+#: classes/pro/tools/as3cf-downloader.php:113
 msgctxt "Confirmation required"
 msgid "Are you sure you want to leave whilst download from S3?"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:125
+#: classes/pro/tools/as3cf-downloader.php:114
 msgctxt "Download of attachments from S3 did not complete"
 msgid "Download failed"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:126
+#: classes/pro/tools/as3cf-downloader.php:115
 msgctxt "The download has been temporarily stopped"
 msgid "Download Paused"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:305
+#: classes/pro/tools/as3cf-downloader.php:310
 msgid "Download Errors"
 msgstr ""
 
-#: classes/pro/tools/as3cf-downloader.php:306
+#: classes/pro/tools/as3cf-downloader.php:311
 msgid ""
 "Previous attempts at downloading your media library from S3 have resulted in "
 "errors."
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:85
+#: classes/pro/tools/as3cf-uploader.php:71
 #: view/pro/tool-progress.php:5
 msgid "Uploading Media Library to S3"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:86
+#: classes/pro/tools/as3cf-uploader.php:72
 msgctxt "Number of files uploaded to S3"
 msgid "Files Uploaded"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:87
+#: classes/pro/tools/as3cf-uploader.php:73
 #, php-format
 msgctxt "Number of files out of total uploaded to S3"
 msgid "%1$d of %2$d Files Uploaded"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:88
+#: classes/pro/tools/as3cf-uploader.php:74
 msgid "Upload completed with some errors"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:89
+#: classes/pro/tools/as3cf-uploader.php:75
 msgid "Upload partially completed with some errors"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:90
+#: classes/pro/tools/as3cf-uploader.php:76
 msgctxt "The upload is being cancelled"
 msgid "Cancelling upload"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:91
+#: classes/pro/tools/as3cf-uploader.php:77
 msgid "Completing current media upload batch"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:92
+#: classes/pro/tools/as3cf-uploader.php:78
 msgctxt "The upload has been temporarily stopped"
 msgid "Paused"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:93
+#: classes/pro/tools/as3cf-uploader.php:79
 msgctxt "The upload is being paused"
 msgid "Pausing&hellip;"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:94
+#: classes/pro/tools/as3cf-uploader.php:80
 msgid "Upload cancellation failed"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:95
+#: classes/pro/tools/as3cf-uploader.php:81
 msgctxt "The upload has been cancelled"
 msgid "Upload cancelled"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:96
+#: classes/pro/tools/as3cf-uploader.php:82
 msgctxt "The upload is in the last stages"
 msgid "Finalizing upload"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:97
+#: classes/pro/tools/as3cf-uploader.php:83
 msgctxt "Confirmation required"
 msgid "Are you sure you want to leave whilst uploading to S3?"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:98
+#: classes/pro/tools/as3cf-uploader.php:84
 msgctxt "Copy of data to S3 did not complete"
 msgid "Upload failed"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:99
+#: classes/pro/tools/as3cf-uploader.php:85
 msgctxt "The upload has been temporarily stopped"
 msgid "Upload Paused"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:189
+#: classes/pro/tools/as3cf-uploader.php:175
 msgid "Unable to reach deliciousbrains.com "
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:190
+#: classes/pro/tools/as3cf-uploader.php:176
 msgid ""
 "We have been unable to retrieve the number of items you can offload. Please "
 "try again later, or contact support if the issue persists."
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:241
+#: classes/pro/tools/as3cf-uploader.php:227
 #, php-format
 msgid "%s%% of your Media Library has been uploaded to S3"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:243
+#: classes/pro/tools/as3cf-uploader.php:229
 msgid "Upload Remaining Now"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:247
+#: classes/pro/tools/as3cf-uploader.php:233
 #, php-format
 msgid "100% of your Media Library has been uploaded to S3, congratulations!"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:260
+#: classes/pro/tools/as3cf-uploader.php:246
 msgid "Your Media Library needs to be uploaded to S3"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:261
+#: classes/pro/tools/as3cf-uploader.php:247
 msgid "Upload Now"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:288
+#: classes/pro/tools/as3cf-uploader.php:274
 msgid "My Account"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:289
+#: classes/pro/tools/as3cf-uploader.php:275
 #, php-format
 msgid ""
 "You've reached your license limit so we've had to stop your upload. To "
@@ -945,70 +1063,63 @@ msgid ""
 "and simply run the uploader again. It will pick up where it stopped."
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:297
+#: classes/pro/tools/as3cf-uploader.php:283
 msgid "Upload has been stopped"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:328
+#: classes/pro/tools/as3cf-uploader.php:314
 #, php-format
 msgid "Could not upload attachment %s to S3 - %s"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:380
+#: classes/pro/tools/as3cf-uploader.php:366
 msgid "Upload Errors"
 msgstr ""
 
-#: classes/pro/tools/as3cf-uploader.php:381
+#: classes/pro/tools/as3cf-uploader.php:367
 msgid ""
 "Previous attempts at uploading your media library have resulted in errors."
 msgstr ""
 
-#: classes/upgrades/as3cf-content-replace-urls.php:43
-msgid "and ensuring that only the local URL exists in post content."
-msgstr ""
-
-#: classes/upgrades/as3cf-content-replace-urls.php:566
-#, php-format
-msgid ""
-"<strong>Running 1.2 Upgrade%1$s</strong><br>A find &amp; replace is running "
-"in the background to update URLs in your content. %2$s"
-msgstr ""
-
-#: classes/upgrades/as3cf-content-replace-urls.php:575
-#, php-format
-msgid ""
-"<strong>Paused 1.2 Upgrade</strong><br>The find &amp; replace to update URLs "
-"in your content has been paused. %s"
-msgstr ""
-
-#: classes/upgrades/as3cf-content-replace-urls.php:584
-msgid "See our documentation"
-msgstr ""
-
-#: classes/upgrades/as3cf-content-replace-urls.php:587
-#, php-format
-msgid ""
-"%s for details on why we&#8217;re doing this, why it runs slowly, and how to "
-"make it run faster."
-msgstr ""
-
-#: classes/upgrades/as3cf-edd-replace-urls.php:28
-msgid "and ensuring that only the local URL exists in EDD post meta."
-msgstr ""
-
-#: classes/upgrades/as3cf-file-sizes.php:37
+#: classes/upgrades/as3cf-file-sizes.php:48
 msgid ""
 "and updating the metadata with the sizes of files that have been removed "
 "from the server. This will allow us to serve the correct size for media "
 "items and the total space used in Multisite subsites."
 msgstr ""
 
-#: classes/upgrades/as3cf-meta-wp-error.php:38
+#: classes/upgrades/as3cf-filter-edd.php:39
+msgid "and ensuring that only the local URL exists in EDD post meta."
+msgstr ""
+
+#: classes/upgrades/as3cf-filter-post-content.php:39
+msgid "and ensuring that only the local URL exists in post content."
+msgstr ""
+
+#: classes/upgrades/as3cf-filter-post-content.php:48
+#, php-format
+msgid ""
+"<strong>Running Content Upgrade%1$s</strong><br>A find &amp; replace is "
+"running in the background to update URLs in your post content. %2$s"
+msgstr ""
+
+#: classes/upgrades/as3cf-filter-post-excerpt.php:39
+msgid "and ensuring that only the local URL exists in post excerpts."
+msgstr ""
+
+#: classes/upgrades/as3cf-filter-post-excerpt.php:48
+#, php-format
+msgid ""
+"<strong>Running Excerpts Upgrade%1$s</strong><br>A find &amp; replace is "
+"running in the background to update URLs in your post excerpts. %2$s"
+msgstr ""
+
+#: classes/upgrades/as3cf-meta-wp-error.php:49
 msgid ""
 "and rebuilding the metadata for attachments that may have been corrupted."
 msgstr ""
 
-#: classes/upgrades/as3cf-region-meta.php:36
+#: classes/upgrades/as3cf-region-meta.php:47
 msgid ""
 "and updating the metadata with the bucket region it is served from. This "
 "will allow us to serve your files from the proper S3 region subdomain <span "
@@ -1092,14 +1203,14 @@ msgstr ""
 msgid "The %s plugin has been deactivated."
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:134
+#: vendor/deliciousbrains/base.php:144
 msgid ""
 "<strong>Could not connect to deliciousbrains.com</strong> &mdash; You will "
 "not receive update notifications or be able to activate your license until "
 "this is fixed."
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:141
+#: vendor/deliciousbrains/base.php:151
 #, php-format
 msgid ""
 "We've detected that <code>WP_HTTP_BLOCK_EXTERNAL</code> is enabled and the "
@@ -1109,7 +1220,7 @@ msgid ""
 "\" target=\"_blank\">More information</a>"
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:145
+#: vendor/deliciousbrains/base.php:155
 #, php-format
 msgid ""
 "This issue is often caused by an improperly configured SSL server (https). "
@@ -1117,23 +1228,23 @@ msgid ""
 "on your server</a>, but if you need a quick fix you can:%2$s"
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:145
+#: vendor/deliciousbrains/base.php:155
 msgid "Temporarily disable SSL for connections to deliciousbrains.com"
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:197
+#: vendor/deliciousbrains/base.php:207
 msgid ""
 "<strong>Delicious Brains API is Down — </strong>Unfortunately we're "
 "experiencing some problems with our server."
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:201
+#: vendor/deliciousbrains/base.php:211
 #, php-format
 msgctxt "ex. 2 hours ago"
 msgid "%s ago"
 msgstr ""
 
-#: vendor/deliciousbrains/base.php:206
+#: vendor/deliciousbrains/base.php:216
 msgid "Here's the most recent update on its status"
 msgstr ""
 
@@ -1414,7 +1525,7 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
-#: view/cloudfront-setting.php:4
+#: view/cloudfront-setting.php:7
 #: view/deprecated-domain-setting.php:49
 msgid "Invalid character. Letters, numbers, periods and hyphens are allowed."
 msgstr ""

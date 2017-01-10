@@ -25,7 +25,7 @@ $prefix = $this->get_plugin_prefix_slug();
 						'prefix'                 => $prefix,
 						'selected_bucket'        => $selected_bucket,
 						'selected_bucket_prefix' => $selected_bucket_prefix,
-						'tr_class'               => 'as3cf-border-bottom',
+						'tr_class'               => "as3cf-border-bottom {$prefix}-bucket-setting",
 						'after_bucket_content'   => $after_bucket_content,
 					)
 				);
@@ -102,7 +102,7 @@ $prefix = $this->get_plugin_prefix_slug();
 							<?php echo $this->assets_more_info_link( 'path' ); ?>
 						</p>
 						<?php $args = $this->get_setting_args( 'object-prefix' ); ?>
-						<p class="as3cf-setting enable-script-object-prefix <?php echo ( $this->get_setting( 'enable-script-object-prefix' ) ) ? '' : 'hide'; // xss ok ?>">
+						<p class="as3cf-setting <?php echo $prefix; ?>-enable-script-object-prefix <?php echo ( $this->get_setting( 'enable-script-object-prefix' ) ) ? '' : 'hide'; // xss ok ?>">
 							<input type="text" name="object-prefix" value="<?php echo esc_attr( $this->get_setting( 'object-prefix' ) ); ?>" size="30" <?php echo $args['disabled_attr']; ?>/>
 						</p>
 					</td>
@@ -116,7 +116,7 @@ $prefix = $this->get_plugin_prefix_slug();
 						<?php echo $args['setting_msg']; ?>
 						<h4><?php _e( 'Force HTTPS', 'as3cf-assets' ) ?></h4>
 
-						<p class="object-prefix-desc">
+						<p class="force-https-desc">
 							<?php _e( "By default we use HTTPS when the request is HTTPS and regular HTTP when the request is HTTP, but you may want to force the use of HTTPS always, regardless of the request.", 'as3cf-assets' ); ?>
 							<?php echo $this->assets_more_info_link( 'force-https' ); ?>
 						</p>
@@ -214,7 +214,7 @@ $prefix = $this->get_plugin_prefix_slug();
 							<?php echo $this->assets_more_info_link( 'webhook' ); ?>
 						</p>
 
-						<div class="as3cf-setting enable-custom-endpoint <?php echo ( $this->get_setting( 'enable-custom-endpoint' ) ) ? '' : 'hide'; // xss ok ?>">
+						<div class="as3cf-setting <?php echo $prefix; ?>-enable-custom-endpoint <?php echo ( $this->get_setting( 'enable-custom-endpoint' ) ) ? '' : 'hide'; // xss ok ?>">
 							<p>
 								<em class="custom-endpoint-url"><?php echo esc_url( home_url( '/?' . $this->custom_endpoint . '=' ) ); ?><span class="display-custom-endpoint-key"><?php echo $key; ?></span></em>
 								<em class="custom-endpoint-url-generating"><?php _e( 'Generating new unique URL', 'as3cf-assets' ); ?>&hellip;</em>

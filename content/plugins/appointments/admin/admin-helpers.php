@@ -50,13 +50,10 @@ function _appointments_get_user_dismissed_notices( $user_id ) {
  * @return bool|string
  */
 function _appointments_get_view_path( $name ) {
-	$file = appointments_plugin_dir() . 'admin/views/' . $name . '.php';
-	$file = apply_filters( 'appointments_admin_view_path', $file );
-	if ( is_file( $file ) ) {
-		return $file;
-	}
+	if( !function_exists('appointments_get_view_path') )
+	include_once( appointments_plugin_dir() . 'includes/helpers.php' );
 
-	return false;
+	return appointments_get_view_path( $name );
 }
 
 /**

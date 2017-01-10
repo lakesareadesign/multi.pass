@@ -92,8 +92,8 @@
 			} );
 		}
 
-		fileNameInput.val( attachment.title ).attr( 'placeholder', fileNamePlaceholder );
-		fileUrlInput.val( output ).attr( 'placeholder', fileUrlPlaceholder );
+		fileNameInput.val( attachment.title ).attr( 'placeholder', fileNamePlaceholder ).trigger( 'change' );
+		fileUrlInput.val( output ).attr( 'placeholder', fileUrlPlaceholder ).trigger( 'change' );
 	}
 
 	// Replace WooCommerce upload file click handler

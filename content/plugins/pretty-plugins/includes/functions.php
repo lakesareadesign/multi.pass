@@ -190,7 +190,7 @@ class WMD_PrettyPlugins_Functions {
 			else
 				$this->options['theme'] = 'standard/quick-sand';
 
-			$standard_options = array('plugins_link_label' => 'strip_tags', 'plugins_page_title' => 'strip_tags', 'plugins_page_description' => '', 'plugins_auto_screenshots' => '', 'plugins_auto_screenshots_wp' => '', 'setup_mode' => '', 'plugins_hide_descriptions' => '', 'plugins_auto_screenshots_by_name' => '');				    	 					 			 
+			$standard_options = array('plugins_link_label' => 'strip_tags', 'plugins_page_title' => 'strip_tags', 'plugins_page_description' => '', 'plugins_auto_screenshots' => '', 'plugins_auto_screenshots_wp' => '', 'setup_mode' => '', 'plugins_hide_descriptions' => '', 'plugins_auto_screenshots_by_name' => '');
 			foreach ($standard_options as $option => $action) {
 				if(isset($input[$option])) {
 					if($action == 'strip_tags')

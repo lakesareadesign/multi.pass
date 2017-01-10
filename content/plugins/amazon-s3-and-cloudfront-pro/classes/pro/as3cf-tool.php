@@ -1,13 +1,4 @@
 <?php
-/**
- * Tool
- *
- * @package     amazon-s3-and-cloudfront-pro
- * @subpackage  Classes/Tool
- * @copyright   Copyright (c) 2016, Delicious Brains
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       1.1
- */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * AS3CF_Tool Class
  *
  * This class defines standards for any Tools
- *
- * @since 1.1
  */
 abstract class AS3CF_Tool {
 
@@ -37,6 +26,11 @@ abstract class AS3CF_Tool {
 	 * @var string
 	 */
 	protected $tab = 'media';
+
+	/**
+	 * @var int
+	 */
+	protected $priority = 0;
 
 	/**
 	 * @var string
@@ -95,6 +89,13 @@ abstract class AS3CF_Tool {
 	protected $show_file_size = true;
 
 	/**
+	 * Cache the total attachments in the Media Library
+	 *
+	 * @var array
+	 */
+	protected static $total_attachments = array();
+
+	/**
 	 * @var array
 	 */
 	public static $views_rendered = array();
@@ -115,8 +116,6 @@ abstract class AS3CF_Tool {
 		$this->errors_key_prefix = 'wpos3_tool_errors_';
 		$this->errors_key        = $this->errors_key_prefix . $this->tool_key;
 		$this->tool_slug         = str_replace( array( ' ', '_' ), '-', $this->tool_key );
-
-		$this->as3cf->register_tool( $this->tool_key );
 	}
 
 	/**
@@ -124,7 +123,7 @@ abstract class AS3CF_Tool {
 	 */
 	public function init() {
 		// Load sidebar block
-		add_action( 'as3cfpro_sidebar', array( $this, 'render_sidebar_block' ) );
+		add_action( 'as3cfpro_sidebar', array( $this, 'render_sidebar_block' ), $this->priority );
 
 		// JS data
 		add_filter( 'as3cfpro_js_settings', array( $this, 'add_js_settings' ) );
@@ -136,7 +135,6 @@ abstract class AS3CF_Tool {
 		add_action( 'wp_ajax_as3cfpro_calculate_items_' . $this->tool_key, array( $this, 'ajax_calculate_items' ) );
 		add_action( 'wp_ajax_as3cfpro_process_items_' . $this->tool_key, array( $this, 'ajax_process_items' ) );
 		add_action( 'wp_ajax_as3cfpro_finish_' . $this->tool_key, array( $this, 'ajax_finish_process' ) );
-		add_action( 'wp_ajax_as3cfpro_update_notice_' . $this->tool_key, array( $this, 'ajax_update_notice' ) );
 
 		// Views
 		add_action( 'as3cf_post_settings_render', array( $this, 'render_modal' ) );
@@ -146,7 +144,29 @@ abstract class AS3CF_Tool {
 	}
 
 	/**
-	 * Add the tool to the sidebar
+	 * Priority
+	 *
+	 * @param int $priority
+	 *
+	 * @return $this
+	 */
+	public function priority( $priority ) {
+		$this->priority = $priority;
+
+		return $this;
+	}
+
+	/**
+	 * Get tools key.
+	 *
+	 * @return string
+	 */
+	public function get_tool_key() {
+		return $this->tool_key;
+	}
+
+	/**
+	 * Render sidebar block.
 	 */
 	public function render_sidebar_block() {
 		if ( $this->is_processing() ) {
@@ -157,12 +177,53 @@ abstract class AS3CF_Tool {
 		$args = $this->get_sidebar_notice_args();
 
 		if ( false !== $args ) {
-
 			$args['id']  = $this->tool_key;
 			$args['tab'] = $this->tab;
 
 			$this->as3cf->render_view( 'sidebar-block', $args );
 		}
+	}
+
+	/**
+	 * Get sidebar block.
+	 *
+	 * @return string
+	 */
+	public function get_sidebar_block() {
+		ob_start();
+		$this->render_sidebar_block();
+		$block = ob_get_contents();
+		ob_end_clean();
+
+		return $block;
+	}
+
+	/**
+	 * Get error notices.
+	 *
+	 * @return bool|array
+	 */
+	public function get_error_notices() {
+		$notice = $this->as3cf->notices->find_notice_by_id( $this->errors_key );
+
+		if ( ! $notice ) {
+			return false;
+		}
+
+		$data = array();
+
+		ob_start();
+		$this->as3cf->render_view( 'notice', $notice );
+		$data['error_notice'] = ob_get_contents();
+		ob_end_clean();
+
+		$custom_notices = $this->get_custom_notices_to_update();
+
+		if ( ! empty( $custom_notices ) ) {
+			$data['custom_notices'] = $custom_notices;
+		}
+
+		return $data;
 	}
 
 	/**
@@ -287,7 +348,9 @@ abstract class AS3CF_Tool {
 	 * @return array
 	 */
 	protected function get_ajax_initiate_data() {
-		return array();
+		return array(
+			'error_count' => 0,
+		);
 	}
 
 	/**
@@ -518,37 +581,6 @@ abstract class AS3CF_Tool {
 	}
 
 	/**
-	 * Handle refreshing of sidebar notice after process has finished
-	 */
-	public function ajax_update_notice() {
-		check_ajax_referer( 'update-notice-' . $this->tool_slug, 'nonce' );
-
-		ob_start();
-		$this->render_sidebar_block();
-		$sidebar_block_html = ob_get_contents();
-		ob_end_clean();
-
-		$data = array( 'block' => $sidebar_block_html );
-
-		$notice = $this->as3cf->notices->find_notice_by_id( $this->errors_key );
-		if ( $notice ) {
-			ob_start();
-			$this->as3cf->render_view( 'notice', $notice );
-			$tool_error_notice_html = ob_get_contents();
-			ob_end_clean();
-			$data['error_notice'] = $tool_error_notice_html;
-		}
-
-		$custom_notices = $this->get_custom_notices_to_update();
-
-		if ( ! empty( $custom_notices ) ) {
-			$data['custom_notices'] = $custom_notices;
-		}
-
-		wp_send_json_success( $data );
-	}
-
-	/**
 	 * Allow child classes to inject custom notices to be updated in the DOM
 	 *
 	 * @return array
@@ -602,19 +634,24 @@ abstract class AS3CF_Tool {
 	/**
 	 * Get the total of attachments in the media library
 	 *
-	 * @param $prefix table prefix for multisite support
+	 * @param string $prefix table prefix for multisite support
 	 *
 	 * @return mixed
 	 */
 	protected function get_total_attachments( $prefix ) {
+		if ( isset( self::$total_attachments[ $prefix ] ) ) {
+			return self::$total_attachments[ $prefix ];
+		}
+
 		global $wpdb;
+
 		$sql = "SELECT COUNT(*)
 				FROM `{$prefix}posts`
 				WHERE `{$prefix}posts`.`post_type` = 'attachment'";
 
-		$total = $wpdb->get_var( $sql );
+		self::$total_attachments[ $prefix ] = (int) $wpdb->get_var( $sql );
 
-		return $total;
+		return self::$total_attachments[ $prefix ];
 	}
 
 	/**
@@ -820,7 +857,7 @@ abstract class AS3CF_Tool {
 				'only_show_on_tab'  => $this->tab,
 				'custom_id'         => $this->errors_key,
 				'user_capabilities' => array( 'as3cfpro', 'is_plugin_setup' ),
-				'show_callback'     => array( 'as3cfpro', 'tools_error_notice_callback' ),
+				'show_callback'     => array( 'as3cfpro', 'render_tool_errors_callback' ),
 				'callback_args'     => array( $this->tool_key ),
 			);
 

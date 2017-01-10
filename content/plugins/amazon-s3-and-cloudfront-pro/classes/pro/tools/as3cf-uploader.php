@@ -24,23 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AS3CF_Uploader extends AS3CF_Tool {
 
 	/**
-	 * @var Amazon_S3_And_CloudFront_Pro
-	 */
-	protected $as3cf;
-
-	/**
 	 * @var string
 	 */
-	protected $tool_key = 'legacy_upload';
-
-	/**
-	 * AS3CF_Uploader constructor.
-	 *
-	 * @param Amazon_S3_And_CloudFront_Pro $as3cf
-	 */
-	public function __construct( $as3cf ) {
-		parent::__construct( $as3cf );
-	}
+	protected $tool_key = 'uploader';
 
 	/**
 	 * Initialize Downloader

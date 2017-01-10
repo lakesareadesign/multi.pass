@@ -39,16 +39,26 @@ class Delicious_Brains_API_Base extends Delicious_Brains_API {
 	 */
 	function __construct( Delicious_Brains_API_Plugin $plugin ) {
 		$this->plugin   = $plugin;
-
-		$home_url = home_url( '', 'http' );
-		if ( $this->plugin->is_network_activated ) {
-			// Make sure always use the network URL in API communication
-			$home_url = network_home_url( '', 'http' );
-		}
-
-		$this->home_url = untrailingslashit( $home_url );
+		$this->home_url = $this->get_home_url();
 
 		parent::__construct();
+	}
+
+	/**
+	 * Get home URL.
+	 *
+	 * @return string
+	 */
+	private function get_home_url() {
+		$home_url = get_option( 'home' );
+
+		if ( is_multisite() && $this->plugin->is_network_activated ) {
+			// Make sure always use the network URL in API communication
+			$current_site = get_current_site();
+			$home_url     = 'http://' . $current_site->domain;
+		}
+
+		return untrailingslashit( set_url_scheme( $home_url, 'http' ) );
 	}
 
 	/**

@@ -42,7 +42,7 @@ class Appointments_Admin_Settings_Page {
 		$sections = array(
 			'main' => array(
 				'time' => __( 'Time', 'appointments' ),
-				'accesibility' => __( 'Accesibility', 'appointments' ),
+				'accesibility' => __( 'Accessibility', 'appointments' ),
 				'display' => __( 'Display', 'appointments' ),
 				'payments' => __( 'Payments', 'appointments' ),
 				'notifications' => __( 'Notifications', 'appointments' ),
@@ -358,7 +358,6 @@ class Appointments_Admin_Settings_Page {
 
 		$options["log_emails"]				= $_POST["log_emails"];
 
-		$options['use_cache'] 				= $_POST['use_cache'];
 		$options['disable_js_check_admin']	= isset( $_POST['disable_js_check_admin'] );
 		$options['disable_js_check_frontend']	= isset( $_POST['disable_js_check_frontend'] );
 

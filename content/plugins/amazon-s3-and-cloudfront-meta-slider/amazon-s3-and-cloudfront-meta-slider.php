@@ -4,7 +4,7 @@ Plugin Name: WP Offload S3 - Meta Slider Addon
 Plugin URI: http://deliciousbrains.com/wp-offload-s3/#meta-slider-addon
 Description: WP Offload S3 addon to integrate Meta Slider with Amazon S3. Requires Pro Upgrade.
 Author: Delicious Brains
-Version: 1.0.1
+Version: 1.0.2
 Author URI: http://deliciousbrains.com
 Network: True
 
@@ -45,10 +45,9 @@ function as3cf_meta_slider_init( $aws ) {
 		return;
 	}
 
-	global $as3cfmeta_slider;
+	global $as3cfmeta_slider, $as3cf;
 	$abspath = dirname( __FILE__ );
 	require_once $abspath . '/classes/amazon-s3-and-cloudfront-meta-slider.php';
-	$as3cfmeta_slider = new Amazon_S3_And_CloudFront_Meta_Slider( __FILE__ );
+	$as3cfmeta_slider = new Amazon_S3_And_CloudFront_Meta_Slider( __FILE__, $as3cf );
 }
-
 add_action( 'aws_init', 'as3cf_meta_slider_init', 12 );

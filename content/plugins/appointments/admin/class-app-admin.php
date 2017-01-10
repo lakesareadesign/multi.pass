@@ -179,20 +179,13 @@ class Appointments_Admin {
 		}
 
 		wp_enqueue_script( 'jquery-colorpicker', $appointments->plugin_url . '/js/colorpicker.js', array('jquery'), $appointments->version);
-		wp_enqueue_script( 'jquery-datepick', $appointments->plugin_url . '/js/jquery.datepick.min.js', array('jquery'), $appointments->version);
+		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_enqueue_script( 'app-multi-datepicker', appointments_plugin_url() . 'admin/js/admin-multidatepicker.js', array( 'jquery-ui-datepicker' ), appointments_get_db_version(), true );
+		wp_enqueue_style( 'app-jquery-ui', appointments_plugin_url() . 'admin/css/jquery-ui/jquery-ui.min.css', array(), appointments_get_db_version() );
+		wp_add_inline_style( 'app-jquery-ui', '.ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {background:#333;color:#FFF}');
 		wp_enqueue_script( 'jquery-multiselect', $appointments->plugin_url . '/js/jquery.multiselect.min.js', array('jquery-ui-core','jquery-ui-widget', 'jquery-ui-position'), $appointments->version);
 		// Make a locale check to update locale_error flag
-		$date_check = $appointments->to_us( date_i18n( $appointments->safe_date_format(), strtotime('today') ) );
 
-		// Localize datepick only if not defined otherwise
-		if (
-			!(defined('APP_FLAG_SKIP_DATEPICKER_L10N') && APP_FLAG_SKIP_DATEPICKER_L10N)
-			&&
-			$file = $appointments->datepick_localfile()
-		) {
-			//if ( !$this->locale_error ) wp_enqueue_script( 'jquery-datepick-local', $this->plugin_url . $file, array('jquery'), $this->version);
-			wp_enqueue_script( 'jquery-datepick-local', $appointments->plugin_url . $file, array('jquery'), $appointments->version);
-		}
 		if ( empty($appointments->options["disable_js_check_admin"]) )
 			wp_enqueue_script( 'app-js-check', $appointments->plugin_url . '/js/js-check.js', array('jquery'), $appointments->version);
 
@@ -287,7 +280,7 @@ class Appointments_Admin {
 		}
 
 		// Check for duplicate shortcodes for a visited page
-		if ( isset( $_GET['post'] ) && $_GET['post'] && $appointments->has_duplicate_shortcode( $_GET['post'] ) ) {
+		if ( isset( $_GET['post'] ) && $_GET['post'] && $this->has_duplicate_shortcode( $_GET['post'] ) ) {
 			echo '<div class="error"><p>' .
 			     __('<b>[Appointments+]</b> More than one instance of services, service providers, confirmation, Paypal or login shortcodes on the same page may cause problems.</p>', 'appointments' ).
 			     '</div>';
@@ -298,7 +291,7 @@ class Appointments_Admin {
 		$dismiss_id_c = get_user_meta( $current_user->ID, 'app_dismiss_confirmation_lacking', true );
 		if ( $dismiss_id_c )
 			$dismissed_c = true;
-		if ( !$dismissed_c && isset( $_GET['post'] ) && $_GET['post'] && $appointments->confirmation_shortcode_missing( $_GET['post'] ) ) {
+		if ( !$dismissed_c && isset( $_GET['post'] ) && $_GET['post'] && $this->confirmation_shortcode_missing( $_GET['post'] ) ) {
 			echo '<div class="error"><p>' .
 			     __('<b>[Appointments+]</b> Confirmation shortcode [app_confirmation] is always required to complete an appointment.', 'appointments') .
 			     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a title="'.__('Dismiss this notice for this session', 'appointments').'" href="' . $_SERVER['REQUEST_URI'] . '&app_dismiss_confirmation_lacking=1"><small>'.__('Dismiss', 'appointments').'</small></a>'.
@@ -308,24 +301,6 @@ class Appointments_Admin {
 		return $r;
 	}
 
-
-
-	function transactions () {
-		App_Template::admin_transactions_list();
-	}
-
-	function shortcodes_page () {
-		global $appointments;
-		?>
-		<div class="wrap">
-			<div class="icon32" style="margin:10px 0 0 0"><img src="<?php echo $appointments->plugin_url . '/images/general.png'; ?>" /></div>
-			<h2><?php echo __('Appointments+ Shortcodes','appointments'); ?></h2>
-			<div class="metabox-holder columns-2">
-				<?php if (file_exists(APP_PLUGIN_DIR . '/includes/support/app-shortcodes.php')) include(APP_PLUGIN_DIR . '/includes/support/app-shortcodes.php'); ?>
-			</div>
-		</div>
-		<?php
-	}
 
 	function faq_page () {
 		global $appointments;
@@ -350,14 +325,12 @@ class Appointments_Admin {
 
 		include_once( APP_PLUGIN_DIR . '/admin/pages/class-admin-appointments-page.php' );
 		include_once( APP_PLUGIN_DIR . '/admin/pages/class-admin-settings-page.php' );
+		include_once( APP_PLUGIN_DIR . '/admin/pages/class-admin-transactions-page.php' );
 		include_once( APP_PLUGIN_DIR . '/admin/pages/class-admin-export-import-settings.php' );
-		$appointments_page = new Appointments_Admin_Appointments_Page();
-		$appointments_pages['appointments'] = $appointments_page;
-		$appointments_page = new Appointments_Admin_Settings_Page();
-		$appointments_pages['settings'] = $appointments_page;
+		$appointments_pages['appointments'] = new Appointments_Admin_Appointments_Page();
+		$appointments_pages['settings'] = new Appointments_Admin_Settings_Page();
+		$appointments_pages['transactions'] = new Appointments_Admin_Transactions_Page();
 
-		add_submenu_page('appointments', __('Transactions','appointments'), __('Transactions','appointments'), App_Roles::get_capability('manage_options', App_Roles::CTX_PAGE_TRANSACTIONS), "app_transactions", array(&$this,'transactions'));
-		add_submenu_page('appointments', __('Shortcodes','appointments'), __('Shortcodes','appointments'), App_Roles::get_capability('manage_options', App_Roles::CTX_PAGE_SHORTCODES), "app_shortcodes", array(&$this,'shortcodes_page'));
 		add_submenu_page('appointments', __('FAQ','appointments'), __('FAQ','appointments'), App_Roles::get_capability('manage_options', App_Roles::CTX_PAGE_FAQ), "app_faq", array(&$this,'faq_page'));
 		// Add datepicker to appointments page
 
@@ -371,6 +344,38 @@ class Appointments_Admin {
 
 		// Read Location, Service, Worker
 		$appointments->get_lsw();
+	}
+
+	/**
+	 * Check if there are more than one shortcodes for certain shortcode types
+	 * @since 1.0.5
+	 * @return bool
+	 */
+	function has_duplicate_shortcode( $post_id ) {
+		$post = get_post( $post_id );
+		if ( is_object( $post) && $post && strpos( $post->post_content, '[app_' ) !== false ) {
+			if ( substr_count( $post->post_content, '[app_services' ) > 1 || substr_count( $post->post_content, '[app_service_providers' ) > 1
+			     || substr_count( $post->post_content, '[app_confirmation' ) > 1 || substr_count( $post->post_content, '[app_paypal' ) > 1
+			     || substr_count( $post->post_content, '[app_login' ) > 1 ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Check if confirmation shortcode missing
+	 * @since 1.2.5
+	 * @return bool
+	 */
+	function confirmation_shortcode_missing( $post_id ) {
+		$post = get_post( $post_id );
+		if ( is_object( $post) && $post && strpos( $post->post_content, '[app_' ) !== false ) {
+			if ( !substr_count( $post->post_content, '[app_confirmation' )
+			     && ( substr_count( $post->post_content, '[app_monthly' ) || substr_count( $post->post_content, '[app_schedule' ) ) )
+				return true;
+		}
+		return false;
 	}
 
 }

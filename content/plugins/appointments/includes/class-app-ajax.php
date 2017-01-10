@@ -7,7 +7,6 @@ class Appointments_AJAX {
 	public $_google_user_cache = null;
 
 	public function __construct() {
-		global $appointments;
 		add_action( 'wp_ajax_nopriv_app_paypal_ipn', array(&$this, 'handle_paypal_return')); // Send Paypal to IPN function
 
 		add_action( 'wp_ajax_inline_edit', array( &$this, 'inline_edit' ) ); 			// Add/edit appointments
@@ -21,15 +20,69 @@ class Appointments_AJAX {
 		add_action( 'wp_ajax_post_confirmation', array( &$this, 'post_confirmation' ) ); 		// Do after final confirmation
 		add_action( 'wp_ajax_nopriv_post_confirmation', array( &$this, 'post_confirmation' ) ); // Do after final confirmation
 
-		add_action( 'wp_ajax_cancel_app', array( $appointments, 'cancel' ) ); 							// Cancel appointment from my appointments
-		add_action( 'wp_ajax_nopriv_cancel_app', array( $appointments, 'cancel' ) );
+		add_action( 'wp_ajax_cancel_user_app', array( $this, 'cancel_user_app' ) );
+		add_action( 'wp_ajax_nopriv_cancel_user_app', array( $this, 'cancel_user_app' ) );
 
 		add_action( 'wp_ajax_services_load_thumbnail', array( $this, 'load_service_thumbnail' ) );
 		add_action( 'wp_ajax_nopriv_services_load_thumbnail', array( $this, 'load_service_thumbnail' ) );
+
+		add_filter( 'app-export-columns', array( $this, 'app_export_columns' ) );
 	}
 
 	public function load_service_thumbnail() {
 		wp_send_json_success( array( 'hello' ) );
+	}
+
+	public function cancel_user_app() {
+		$user_id = get_current_user_id();
+		$options = appointments_get_options();
+		$app_id = absint( $_POST['app_id'] );
+		check_ajax_referer( 'cancel-appointment-' . $user_id, 'cancel_nonce' );
+
+		if ( 'yes' != $options['allow_cancel'] ) {
+			wp_send_json_error( esc_js(__('Cancellation of appointments is disabled. Please contact website admin.','appointments') ) );
+		}
+
+		$app = appointments_get_appointment( $app_id );
+		if ( ! $app ) {
+			die();
+		}
+
+		// Check if user is the real owner of this appointment to prevent malicious attempts
+		$owner = false;
+
+		// First try to find from database
+		if ( $user_id ) {
+			// User is logged in
+			if ( $app->user && $app->user == $user_id ) {
+				$owner = true;
+			}
+		}
+
+		// Then check cookie. Check is not so strict here, as he couldn't be seeing that cancel checkbox in the first place
+		if ( ! $owner && isset( $_COOKIE["wpmudev_appointments"] ) ) {
+			$apps = unserialize( stripslashes( $_COOKIE["wpmudev_appointments"] ) );
+			if ( is_array( $apps ) && in_array( $app_id, $apps ) ) {
+				$owner = true;
+			}
+		}
+
+		// Addons may want to do something here
+		$owner = apply_filters( 'app_cancellation_owner', $owner, $app_id );
+
+		if ( !$owner ) {
+			wp_send_json_error( esc_js(__('There is an issue with this appointment. Please refresh the page and try again. If problem persists, please contact website admin.','appointments') ) );
+		}
+
+		$appointments = appointments();
+		if ( appointments_update_appointment_status( $app_id, 'removed' ) ) {
+			$appointments->log( sprintf( __('Client %s cancelled appointment with ID: %s','appointments'), $appointments->get_client_name( $app_id ), $app_id ) );
+			appointments_send_cancel_notification( $app_id );
+			do_action('app-appointments-appointment_cancelled', $app_id);
+			wp_send_json_success();
+		}
+
+		wp_send_json_error( esc_js(__('Appointment could not be cancelled. Please refresh the page and try again.','appointments') ) );
 	}
 
 	/**
@@ -98,6 +151,7 @@ class Appointments_AJAX {
 		$update_result = $insert_result = false;
 		if ( $app ) {
 			// Update
+			$data['datetime'] = strtotime( $data['date'] . ' ' . $data['time'] . ':00' );
 			$update_result = appointments_update_appointment( $app_id, $data );
 			if ( $resend && 'removed' != $data['status'] ) {
 				appointments_send_confirmation( $app_id );
@@ -105,6 +159,7 @@ class Appointments_AJAX {
 
 		} else {
 			// Insert
+			$data['date'] = strtotime( $data['date'] . ' ' . $data['time'] . ':00' );
 			if ( ! $resend ) {
 				add_filter( 'appointments_send_confirmation', '__return_false', 50 );
 			}
@@ -153,298 +208,77 @@ class Appointments_AJAX {
 
 	// Edit or create appointments
 	function inline_edit() {
-		global $appointments;
-		$safe_date_format = $appointments->safe_date_format();
-		// Make a locale check to update locale_error flag
-		$date_check = $appointments->to_us( date_i18n( $safe_date_format, strtotime('today') ) );
+		$appointments = appointments();
 
-		global $wpdb;
-		$app_id = $_POST["app_id"];
-		$end_datetime = '';
+		$app_id = absint( $_POST["app_id"] );
+		$app = false;
 		if ( $app_id ) {
 			$app = appointments_get_appointment( $app_id );
-			$start_date_timestamp = date("Y-m-d", strtotime($app->start));
-			if ( $appointments->locale_error ) {
-				$start_date = date( $safe_date_format, strtotime( $app->start ) );
-			} else {
-				$start_date = date_i18n( $safe_date_format, strtotime( $app->start ) );
-			}
+		}
 
-			$start_time = date_i18n( $appointments->time_format, strtotime( $app->start ) );
+		if ( $app ) {
+			$start_date_timestamp = date( "Y-m-d", $app->get_start_timestamp() );
 			$end_datetime = date_i18n( $appointments->datetime_format, strtotime( $app->end ) );
+
 			// Is this a registered user?
 			if ( $app->user ) {
-				$name = get_user_meta( $app->user, 'app_name', true );
-				if ( $name )
-					$app->name = $app->name && !(defined('APP_USE_LEGACY_ADMIN_USERDATA_OVERRIDES') && APP_USE_LEGACY_ADMIN_USERDATA_OVERRIDES) ? $app->name : $name;
+				$fields = array( 'name', 'email', 'phone', 'address', 'city' );
 
-				$email = get_user_meta( $app->user, 'app_email', true );
-				if ( $email )
-					$app->email = $app->email && !(defined('APP_USE_LEGACY_ADMIN_USERDATA_OVERRIDES') && APP_USE_LEGACY_ADMIN_USERDATA_OVERRIDES) ? $app->email : $email;
-
-				$phone = get_user_meta( $app->user, 'app_phone', true );
-				if ( $phone )
-					$app->phone = $app->phone && !(defined('APP_USE_LEGACY_ADMIN_USERDATA_OVERRIDES') && APP_USE_LEGACY_ADMIN_USERDATA_OVERRIDES) ? $app->phone : $phone;
-
-				$address = get_user_meta( $app->user, 'app_address', true );
-				if ( $address )
-					$app->address = $app->address && !(defined('APP_USE_LEGACY_ADMIN_USERDATA_OVERRIDES') && APP_USE_LEGACY_ADMIN_USERDATA_OVERRIDES) ? $app->address : $address;
-
-				$city = get_user_meta( $app->user, 'app_city', true );
-				if ( $city )
-					$app->city = $app->city && !(defined('APP_USE_LEGACY_ADMIN_USERDATA_OVERRIDES') && APP_USE_LEGACY_ADMIN_USERDATA_OVERRIDES) ? $app->city : $city;
+				// Fill up the fields
+				foreach ( $fields as $field ) {
+					$value = get_user_meta( $app->user, 'app_' . $field, true );
+					if ( $value ) {
+						$app->$field = $value;
+					}
+				}
 			}
 		} else {
-			$app = new stdClass(); // This means insert a new app object
-			$app->ID = 0;
-			// Set other fields to default so that we don't get notice messages
-			$app->user = $app->location = $app->worker = 0;
-			$app->created = $app->end = $app->name = $app->email = $app->phone = $app->address = $app->city = $app->status = $app->sent = $app->sent_worker = $app->note = '';
+			$app = array(
+				'ID' => 0,
+				'user' => 0,
+				'worker' => 0,
+				'location' => 0,
+				'service' => appointments_get_services_min_id(),
+				'price' => $appointments->get_price()
+			);
 
+			// @TODO Remove this shit
 			// Get first service and its price
-			$app->service = appointments_get_services_min_id();
-			$_REQUEST['app_service_id'] = $app->service;
+			$_REQUEST['app_service_id'] = $app['service'];
 			$_REQUEST['app_provider_id'] = 0;
-			$app->price = $appointments->get_price( );
 
-			// Select time as next 1 hour
-			$start_time = date_i18n( $appointments->time_format, intval(($appointments->local_time + 60*$appointments->get_min_time())/3600)*3600 );
+			$app = new Appointments_Appointment( $app );
 
-			$start_date_timestamp = date("Y-m-d", $appointments->local_time + 60*$appointments->get_min_time());
 			// Set start date as now + 60 minutes.
-			if ( $appointments->locale_error ) {
-				$start_date = date( $safe_date_format, $appointments->local_time + 60*$appointments->get_min_time() );
-			}
-			else {
-				$start_date = date_i18n( $safe_date_format, $appointments->local_time + 60*$appointments->get_min_time() );
-			}
+			$current_time = current_time( 'timestamp' );
+			$start_date_timestamp = date( "Y-m-d", $current_time + 60 * $appointments->get_min_time() );
+			$end_datetime = '';
 		}
 
-		$html = '';
-		$html .= '<tr class="inline-edit-row inline-edit-row-post quick-edit-row-post">';
-
-		$columns = isset( $_POST['columns'] ) ? absint( $_POST['columns'] ) : absint( $_POST['col_len'] );
-		$html .= isset($_POST['col_len']) && is_numeric($_POST['col_len'])
-			? '<td colspan="' . $columns . '" class="colspanchange">'
-			: '<td colspan="6" class="colspanchange">'
-		;
-
-		$html .= '<fieldset class="inline-edit-col-left" style="width:33%">';
-		$html .= '<div class="inline-edit-col">';
-		$html .= '<h4>'.__('CLIENT', 'appointments').'</h4>';
-		/* user */
-		$html .= '<label>';
-		$html .= '<span class="title">'.__('User', 'appointments'). '</span>';
-		$html .= wp_dropdown_users( array( 'show_option_all'=>__('Not registered user','appointments'), 'show'=>'user_login', 'echo'=>0, 'selected' => $app->user, 'name'=>'user' ) );
-		$html .= '</label>';
-		/* Client name */
-		$html .= '<label>';
-		$html .= '<span class="title">'.$appointments->get_field_name('name'). '</span>';
-		$html .= '<span class="input-text-wrap">';
-		$html .= '<input type="text" name="cname" class="ptitle" value="' . esc_attr(stripslashes($app->name)) . '" />';
-		$html .= '</span>';
-		$html .= '</label>';
-		/* Client email */
-		$html .= '<label>';
-		$html .= '<span class="title">'.$appointments->get_field_name('email'). '</span>';
-		$html .= '<span class="input-text-wrap">';
-		$html .= '<input type="text" name="email" class="ptitle" value="' . esc_attr($app->email) . '" />';
-		$html .= '</span>';
-		$html .= '</label>';
-		/* Client Phone */
-		$html .= '<label>';
-		$html .= '<span class="title">'.$appointments->get_field_name('phone'). '</span>';
-		$html .= '<span class="input-text-wrap">';
-		$html .= '<input type="text" name="phone" class="ptitle" value="' . esc_attr(stripslashes($app->phone)) . '" />';
-		$html .= '</span>';
-		$html .= '</label>';
-		/* Client Address */
-		$html .= '<label>';
-		$html .= '<span class="title">'.$appointments->get_field_name('address'). '</span>';
-		$html .= '<span class="input-text-wrap">';
-		$html .= '<input type="text" name="address" class="ptitle" value="' . esc_attr(stripslashes($app->address)) . '" />';
-		$html .= '</span>';
-		$html .= '</label>';
-		/* Client City */
-		$html .= '<label>';
-		$html .= '<span class="title">'.$appointments->get_field_name('city'). '</span>';
-		$html .= '<span class="input-text-wrap">';
-		$html .= '<input type="text" name="city" class="ptitle" value="' . esc_attr(stripslashes($app->city)) . '" />';
-		$html .= '</span>';
-		$html .= '</label>';
-		$html .= apply_filters('app-appointments_list-edit-client', '', $app);
-		$html .= '</div>';
-		$html .= '</fieldset>';
-
-		$html .= '<fieldset class="inline-edit-col-center" style="width:28%">';
-		$html .= '<div class="inline-edit-col">';
-		$html .= '<h4>'.__('SERVICE', 'appointments').'</h4>';
-		/* Services */
-		$services = appointments_get_services();
-		$html .= '<label>';
-		$html .= '<span class="title">'.__('Name', 'appointments'). '</span>';
-		$html .= '<select name="service">';
-		if ( $services ) {
-			foreach ( $services as $service ) {
-				$html .= '<option value="' . esc_attr($service->ID) . '"'.selected( $app->service, $service->ID, false ).'>'. stripslashes( $service->name ) . '</option>';
-			}
-		}
-		$html .= '</select>';
-		$html .= '</label>';
-		/* Workers */
+		$column_length = isset( $_POST['col_len'] ) && is_numeric( $_POST['col_len'] ) ? absint( $_POST['col_len'] ) : 6;
+		$columns = isset( $_POST['columns'] ) ? absint( $_POST['columns'] ) : $column_length;
+		$dropdown_users = wp_dropdown_users( array(
+			'show_option_all' => __( 'Not registered user', 'appointments' ),
+			'show'            => 'user_login',
+			'echo'            => 0,
+			'selected'        => $app->user,
+			'name'            => 'user'
+		) );
 		$workers = appointments_get_workers();
-		$html .= '<label>';
-		$html .= '<span class="title">'.__('Provider', 'appointments'). '</span>';
-		$html .= '<select name="worker">';
-		// Always add an "Our staff" field
-		$html .= '<option value="0">'. __('No specific provider', 'appointments') . '</option>';
-		if ( $workers ) {
-			foreach ( $workers as $worker ) {
-				if ( $app->worker == $worker->ID ) {
-					$sel = ' selected="selected"';
-				}
-				else
-					$sel = '';
-				$html .= '<option value="' . esc_attr($worker->ID) . '"'.$sel.'>'. appointments_get_worker_name( $worker->ID, false ) . '</option>';
-			}
-		}
-		$html .= '</select>';
-		$html .= '</label>';
-		/* Price */
-		$html .= '<label>';
-		$html .= '<span class="title">'.__('Price', 'appointments'). '</span>';
-		$html .= '<span class="input-text-wrap">';
-		$html .= '<input type="text" name="price" style="width:50%" class="ptitle" value="' . esc_attr($app->price) . '" />';
-		$html .= '</span>';
-		$html .= '</label>';
-		$html .= '</label>';
-		$html .= apply_filters('app-appointments_list-edit-services', '', $app);
-		$html .= '</div>';
-		$html .= '</fieldset>';
 
-		$html .= '<fieldset class="inline-edit-col-right" style="width:38%">';
-		$html .= '<div class="inline-edit-col">';
-		$html .= '<h4>'.__('APPOINTMENT', 'appointments').'</h4>';
-		/* Created - Don't show for a new app */
-		if ( $app_id ) {
-			$html .= '<label>';
-			$html .= '<span class="title">'.__('Created', 'appointments'). '</span>';
-			$html .= '<span class="input-text-wrap" style="height:26px;padding-top:4px;">';
-			$html .= date_i18n( $appointments->datetime_format, strtotime($app->created) );
-			$html .= '</span>';
-			$html .= '</label>';
-		}
-		/* Start */
-		$html .= '<label style="float:left;width:65%">';
-		$html .= '<span class="title">'.__('Start', 'appointments'). '</span>';
-		$html .= '<span class="input-text-wrap" >';
-		$html .= '<input type="text" name="date" class="datepicker" size="12" value="' . esc_attr($start_date) . '" data-timestamp="' . esc_attr($start_date_timestamp) . '"  />';
-		$html .= '</label>';
-		$html .= '<label style="float:left;width:30%; padding-left:5px;">';
+		$user_fields = array( 'name', 'email', 'phone', 'address', 'city' );
+
+		$options = appointments_get_options();
 
 		// Check if an admin min time (time base) is set. @since 1.0.2
-		if ( isset( $appointments->options["admin_min_time"] ) && $appointments->options["admin_min_time"] )
-			$min_time = $appointments->options["admin_min_time"];
-		else
-			$min_time = $appointments->get_min_time();
-
+		$min_time = $options["admin_min_time"] ? $options["admin_min_time"] : $appointments->get_min_time();
 		$min_secs = 60 * apply_filters( 'app_admin_min_time', $min_time );
-		$html .= '<select name="time" >';
-		for ( $t=0; $t<3600*24; $t=$t+$min_secs ) {
-			$s = array();
-			$dhours = $appointments->secs2hours( $t ); // Hours in 08:30 format
 
-			$s[] = $dhours == $start_time
-				? 'selected="selected"'
-				: ''
-			;
-			$s[] = 'value="' . esc_attr($appointments->secs2hours($t, 'H:i')) . '"';
+		$services = appointments_get_services();
 
-			$html .= '<option ' . join(' ', array_values(array_filter($s))) . '>';
-			$html .= $dhours;
-			$html .= '</option>';
-		}
-		$html .= '</select>';
-		$html .= '</span>';
-		$html .= '</label>';
-		$html .= '<div style="clear:both; height:0"></div>';
-		/* End - Don't show for a new app */
-		if ( $app_id ) {
-			$html .= '<label style="margin-top:8px">';
-			$html .= '<span class="title">'.__('End', 'appointments'). '</span>';
-			$html .= '<span class="input-text-wrap" style="height:26px;padding-top:4px;">';
-			$html .= $end_datetime;
-			$html .= '</span>';
-			$html .= '</label>';
-		}
-		/* Note */
-		$html .= '<label>';
-		$html .= '<span class="title">'.$appointments->get_field_name('note'). '</span>';
-		$html .= '<textarea name="note" cols="22" rows=1">';
-		$html .= esc_textarea(stripslashes($app->note));
-		$html .= '</textarea>';
-		$html .= '</label>';
-		/* Status */
-		//$statuses = $this->get_statuses();
-		$statuses = App_Template::get_status_names();
-		$html .= '<label>';
-		$html .= '<span class="title">'.__('Status', 'appointments'). '</span>';
-		$html .= '<span class="input-text-wrap">';
-		$html .= '<select name="status">';
-		if ( $statuses ) {
-			foreach ( $statuses as $status => $status_name ) {
-				if ( $app->status == $status )
-					$sel = ' selected="selected"';
-				else
-					$sel = '';
-				$html .= '<option value="'.$status.'"'.$sel.'>'. $status_name . '</option>';
-			}
-		}
-		$html .= '</select>';
-		$html .= '</span>';
-		$html .= '</label>';
-		/* Confirmation email */
-		// Default is "checked" for a new appointment
-		if ( $app_id ) {
-			$c = '';
-			$text = __('(Re)send confirmation email', 'appointments');
-		}
-		else {
-			$c = ' checked="checked"';
-			$text = __('Send confirmation email', 'appointments');
-		}
-
-		$html .= '<label>';
-		$html .= '<span class="title">'.__('Confirm','appointments').'</span>';
-		$html .= '<span class="input-text-wrap">';
-		$html .= '<input type="checkbox" name="resend" value="1" '.$c.' />&nbsp;' .$text;
-		$html .= '</span>';
-		$html .= '</label>';
-
-		$html .= '</div>';
-		$html .= '</fieldset>';
-		/* General fields required for save and cancel */
-		$html .= '<p class="submit inline-edit-save">';
-		$html .= '<a href="javascript:void(0)" title="'._x('Cancel', 'Drop current action', 'appointments').'" class="button-secondary cancel alignleft">'._x('Cancel', 'Drop current action', 'appointments').'</a>';
-		if ( 'reserved' == $app->status ) {
-			$js = 'style="display:none"';
-			$title = __('GCal reserved appointments cannot be edited here. Edit them in your Google calendar.', 'appointments');
-		}
-		else {
-			$js = 'href="javascript:void(0)"';
-			$title = __('Click to save or update', 'appointments');
-		}
-		$html .= '<a '.$js.' title="' . esc_attr($title) . '" class="button-primary save alignright">'.__('Save / Update','appointments').'</a>';
-		$html .= '<img class="waiting" style="display:none;" src="'.admin_url('images/wpspin_light.gif').'" alt="">';
-		$html .= '<input type="hidden" name="app_id" value="' . esc_attr($app->ID) . '">';
-		$html .= '<span class="error" style="display:none"></span>';
-		$html .= '<br class="clear">';
-		$html .= '</p>';
-
-		$html .= '</td>';
-		$html .= '</tr>';
-
-		die( json_encode( array( 'result'=>$html)));
+		ob_start();
+		include( appointments_plugin_dir() . 'admin/views/inline-edit.php' );
+		wp_send_json( array( 'result' => ob_get_clean() ) );
 
 	}
 
@@ -463,7 +297,7 @@ class Appointments_AJAX {
 			)));
 		}
 
-		global $wpdb, $current_user;
+		global $current_user;
 
 		$values = explode( ":", $_POST["value"] );
 		$location = $values[0];
@@ -528,7 +362,9 @@ class Appointments_AJAX {
 			: $user_name
 		;
 		$name_check = apply_filters( "app_name_check", true, $name );
-		if (!$name_check) $appointments->json_die( 'name' );
+		if ( ! $name_check ) {
+			$appointments->json_die( 'name' );
+		}
 
 		$email = $user_email;
 		if ( ! empty( $_POST['app_email'] ) ) {
@@ -538,28 +374,36 @@ class Appointments_AJAX {
 			}
 		}
 
-		if ($appointments->options["ask_email"] && !is_email($email)) $appointments->json_die( 'email' );
+		if ( $appointments->options["ask_email"] && ! is_email( $email ) ) {
+			$appointments->json_die( 'email' );
+		}
 
 		$phone = !empty($_POST['app_phone'])
 			? sanitize_text_field($_POST["app_phone"])
 			: ''
 		;
 		$phone_check = apply_filters("app_phone_check", true, $phone);
-		if (!$phone_check) $appointments->json_die('phone');
+		if ( ! $phone_check ) {
+			$appointments->json_die( 'phone' );
+		}
 
 		$address = !empty($_POST['app_address'])
 			? sanitize_text_field($_POST["app_address"])
 			: ''
 		;
 		$address_check = apply_filters("app_address_check", true, $address);
-		if (!$address_check) $appointments->json_die('address');
+		if ( ! $address_check ) {
+			$appointments->json_die( 'address' );
+		}
 
 		$city = !empty($_POST['app_city'])
 			? sanitize_text_field($_POST["app_city"])
 			: ''
 		;
 		$city_check = apply_filters("app_city_check", true, $city);
-		if (!$city_check) $appointments->json_die( 'city' );
+		if ( ! $city_check ) {
+			$appointments->json_die( 'city' );
+		}
 
 		$note = !empty($_POST['app_note'])
 			? sanitize_text_field($_POST["app_note"])
@@ -579,21 +423,45 @@ class Appointments_AJAX {
 		$service_result = appointments_get_service( $service );
 
 		$duration = false;
-		if ($service_result !== null) $duration = $service_result->duration;
-		if (!$duration) $duration = $appointments->get_min_time(); // In minutes
+		if ( $service_result !== null ) {
+			$duration = $service_result->duration;
+		}
+		if ( ! $duration ) {
+			// In minutes
+			$duration = $appointments->get_min_time();
+		}
 
 		$duration = apply_filters( 'app_post_confirmation_duration', $duration, $service, $worker, $user_id );
 
-		if ($appointments->is_busy($start,  $start + ($duration * 60), $appointments->get_capacity())) {
-			die(json_encode(array(
+		$args = array(
+			'worker_id' => $worker,
+			'service_id' => $service,
+			'location_id' => $location
+		);
+		$is_busy = apppointments_is_range_busy( $start, $start + ( $duration * 60 ), $args );
+		if ( $is_busy ) {
+			die( json_encode( array(
 				"error" => apply_filters(
 					'app_booked_message',
-					__('We are sorry, but this time slot is no longer available. Please refresh the page and try another time slot. Thank you.', 'appointments')
+					__( 'We are sorry, but this time slot is no longer available. Please refresh the page and try another time slot. Thank you.', 'appointments' )
 				),
-			)));
+			) ) );
 		}
 
-		$status = apply_filters('app_post_confirmation_status', $status, $price, $service, $worker, $user_id);
+		// Try to assign to first worker available
+		$workers = appointments_get_all_workers();
+		foreach ( $workers as $worker ) {
+			$args['worker_id'] = $worker->ID;
+			$is_busy = apppointments_is_range_busy( $start, $start + ( $duration * 60 ), $args );
+			if ( ! $is_busy ) {
+				$worker = $worker->ID;
+			}
+		}
+
+
+		unset( $args );
+
+		$status = apply_filters('app_post_confirmation_status', $status, $price, $service, $worker, $user_id );
 
 		$args = array(
 			'user'     => $user_id,
@@ -612,6 +480,26 @@ class Appointments_AJAX {
 			'duration' => $duration
 		);
 
+		/**
+		 * Allow to filter arguments that will be passed to appointment insertion
+		 *
+		 * Return WP_Error or true to avoid appointment insert
+		 *
+		 * @param bool
+		 * @param array $args List of arguments that will be used to insert the appointment
+		 * @param array $_REQUEST Request list coming from form screen
+		 */
+		$args = apply_filters( 'appointments_post_confirmation_args', $args );
+
+		/**
+		 * Allow to filter errors in confirmation form right before the appointment is added
+		 *
+		 * Return WP_Error or true to avoid appointment insert
+		 *
+		 * @param bool
+		 * @param array $args List of arguments that will be used to insert the appointment
+		 * @param array $_REQUEST Request list coming from form screen
+		 */
 		$error = apply_filters( 'appointments_post_confirmation_error', false, $args, $_REQUEST );
 		if ( is_wp_error( $error ) ) {
 			wp_send_json( array( 'error' => $error->get_error_message() ) );
@@ -645,8 +533,6 @@ class Appointments_AJAX {
 			appointments_send_notification( $insert_id );
 		}
 
-
-
 		// GCal button
 		if (isset($appointments->options["gcal"]) && 'yes' == $appointments->options["gcal"] && $gcal) {
 			$gcal_url = $appointments->gcal( $service, $start, $start + ($duration * 60 ), false, $address, $city );
@@ -659,10 +545,10 @@ class Appointments_AJAX {
 			'variation' => null,
 		);
 		$additional = apply_filters('app-appointment-appointment_created', $additional, $insert_id, $post_id, $service, $worker, $start, $end);
-		$mp = isset($additional['mp']) ? $additional['mp'] : 0;
-		$variation = isset($additional['variation']) ? $additional['variation'] : 0;
+		$mp = isset( $additional['mp'] ) ? $additional['mp'] : 0;
+		$variation = isset( $additional['variation'] ) ? $additional['variation'] : 0;
 
-		$gcal_same_window = !empty($appointments->options["gcal_same_window"]) ? 1 : 0;
+		$gcal_same_window = ! empty( $appointments->options["gcal_same_window"] ) ? 1 : 0;
 
 		if (isset( $appointments->options["payment_required"] ) && 'yes' == $appointments->options["payment_required"]) {
 			die(json_encode(array(
@@ -775,7 +661,24 @@ class Appointments_AJAX {
 					$amount = $_POST['mc_gross'];
 					$currency = $_POST['mc_currency'];
 
-					$appointments->record_transaction($_POST['custom'], $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], '');
+
+					$args = array(
+						'paypal_ID' => $_POST['txn_id'],
+						'stamp' => $timestamp,
+						'total_amount' => $amount,
+						'currency' => $currency,
+						'status' => $_POST['payment_status'],
+						'note' => '',
+					);
+
+					$transaction = appointments_get_transaction( $_POST['custom'] );
+					if ( ! $transaction ) {
+						appointments_update_transaction( $_POST['custom'], $args );
+					}
+					else {
+						appointments_insert_transaction( $args );
+					}
+
 					if ( ! appointments_update_appointment_status( $_POST['custom'], 'paid' ) ) {
 						// Something wrong. Warn admin
 						$message = sprintf( __('Paypal confirmation arrived, but status could not be changed for some reason. Please check appointment with ID %s', 'appointments'), $_POST['custom'] );
@@ -790,7 +693,22 @@ class Appointments_AJAX {
 					$amount = $_POST['mc_gross'];
 					$currency = $_POST['mc_currency'];
 
-					$appointments->record_transaction($_POST['custom'], $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], $note);
+					$args = array(
+						'paypal_ID' => $_POST['txn_id'],
+						'stamp' => $timestamp,
+						'total_amount' => $amount,
+						'currency' => $currency,
+						'status' => $_POST['payment_status'],
+						'note' => $note,
+					);
+
+					$transaction = appointments_get_transaction( $_POST['custom'] );
+					if ( ! $transaction ) {
+						appointments_update_transaction( $_POST['custom'], $args );
+					}
+					else {
+						appointments_insert_transaction( $args );
+					}
 					break;
 
 				case 'Refunded':
@@ -799,7 +717,22 @@ class Appointments_AJAX {
 					$amount = $_POST['mc_gross'];
 					$currency = $_POST['mc_currency'];
 
-					$appointments->record_transaction($_POST['custom'], $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], $note);
+					$args = array(
+						'paypal_ID' => $_POST['txn_id'],
+						'stamp' => $timestamp,
+						'total_amount' => $amount,
+						'currency' => $currency,
+						'status' => $_POST['payment_status'],
+						'note' => $note,
+					);
+
+					$transaction = appointments_get_transaction( $_POST['custom'] );
+					if ( ! $transaction ) {
+						appointments_update_transaction( $_POST['custom'], $args );
+					}
+					else {
+						appointments_insert_transaction( $args );
+					}
 					break;
 
 				case 'Denied':
@@ -808,7 +741,22 @@ class Appointments_AJAX {
 					$amount = $_POST['mc_gross'];
 					$currency = $_POST['mc_currency'];
 
-					$appointments->record_transaction($_POST['custom'], $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], $note);
+					$args = array(
+						'paypal_ID' => $_POST['txn_id'],
+						'stamp' => $timestamp,
+						'total_amount' => $amount,
+						'currency' => $currency,
+						'status' => $_POST['payment_status'],
+						'note' => $note,
+					);
+
+					$transaction = appointments_get_transaction( $_POST['custom'] );
+					if ( ! $transaction ) {
+						appointments_update_transaction( $_POST['custom'], $args );
+					}
+					else {
+						appointments_insert_transaction( $args );
+					}
 
 					break;
 
@@ -830,8 +778,22 @@ class Appointments_AJAX {
 					$amount = $_POST['mc_gross'];
 					$currency = $_POST['mc_currency'];
 
-					// Save transaction.
-					$appointments->record_transaction($_POST['custom'], $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], $note);
+					$args = array(
+						'paypal_ID' => $_POST['txn_id'],
+						'stamp' => $timestamp,
+						'total_amount' => $amount,
+						'currency' => $currency,
+						'status' => $_POST['payment_status'],
+						'note' => $note,
+					);
+
+					$transaction = appointments_get_transaction( $_POST['custom'] );
+					if ( ! $transaction ) {
+						appointments_update_transaction( $_POST['custom'], $args );
+					}
+					else {
+						appointments_insert_transaction( $args );
+					}
 
 					break;
 
@@ -1045,6 +1007,21 @@ class Appointments_AJAX {
 			$value = appointments_get_worker_name( $value );
 	}
 
+	/**
+	 * Control csv columns
+	 * @since 1.9.4.1
+	 */
+	function app_export_columns( $cols ){
 
+		// Do not include the Location column in the export CSV if the add-on is not active
+		if( !class_exists( 'App_Locations_LocationsWorker' ) ){
+			foreach( $cols as $key => $col ) {
+				if( $col == 'location' ) unset( $cols[ $key ] );
+			}
+		}
+
+		return $cols;
+
+	}
 
 }

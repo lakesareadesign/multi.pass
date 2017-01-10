@@ -4,7 +4,7 @@ Contributors: pupunzi
 Tags: video player, youtube, full background, video, HTML5, flash, mov, jquery, pupunzi, mb.components, cover video, embed, embed videos, embed youtube, embedding, plugin, shortcode, video cover, video HTML5, youtube, youtube embed, youtube player, youtube videos
 Requires at least: 3.0
 Tested up to: 4.6
-Stable tag:  3.0.5
+Stable tag:  3.0.6
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DSHAHSJJCQ53Y
 License: GPLv2 or later
 
@@ -36,6 +36,28 @@ This plug in has been tested successfully on:
 * Chrome 11+, Firefox 7+, Opera 9+    on Mac OsX, Windows and Linux
 * Safari 5+    on Mac OsX
 * IE7+    on Windows (via Adobe Flash player)
+
+with the Plus version you'll get:
+
+     Remove the water-mark from the video.
+     Activate all the advanced features:
+			 Fallback image url
+			 Set the opacity
+			 Set the quality
+			 Set the aspect ratio
+			 Set the seconds the video should start at
+			 Set the seconds the video should end at
+			 Show the control bar
+			 Choose the full screen behavior
+			 Set the audio volume
+			 Choose if the video should start mute or not
+			 Choose if the video should loop
+			 Add the raster image
+			 Track the video views on Google Analytics
+			 Choose if the player should pause if the windows blur
+     Activate the short-code editor that let you add any YTPlayer video on any page of your site.
+     Use the YTPlayer to display a clean Youtube video player (via short-code).
+     Set the YTPlayer as background of any element of your page (via short-code).
 
 == Installation ==
 
@@ -83,6 +105,9 @@ The mb.YTPlayer doesn't work on any mobile devices (iOs, Android, Windows, etc.)
 Adding a background image to the body as mobile devices fallback is a good practice and it will also prevent unwanted white flickering on desktop browsers when the video is buffering.
 
 == Changelog ==
+
+= 3.0.6 =
+New feature: Added a new option to set the background video on all pages.
 
 = 3.0.5 =
 Bug fix: The plug-in crashed with Wordpress version previous of 4.3.0.

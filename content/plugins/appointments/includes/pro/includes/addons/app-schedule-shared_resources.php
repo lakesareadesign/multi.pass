@@ -128,10 +128,9 @@ class App_Schedule_SharedResources {
 	private function _get_booked_appointments_for_period ($service_ids, $period) {
 		$start    = date( 'Y-m-d H:i:s', $period->get_start() );
 		$end      = date( 'Y-m-d H:i:s', $period->get_end() );
-		$services = join( ',', array_filter( array_map( 'intval', $service_ids ) ) );
 
 		$args = array(
-			'service' => $services,
+			'service' => $service_ids,
 			'date_query' => array(
 				array(
 					'field' => 'end',

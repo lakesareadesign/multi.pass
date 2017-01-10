@@ -1,6 +1,6 @@
 <?php
 /**
- * Created mb.ideas.
+ * Created by mb.ideas.
  * User: pupunzi
  * Date: 19/11/16
  * Time: 15:07
@@ -19,13 +19,14 @@ if (!class_exists("mb_notice")) {
             $this->id = 0;
 
             add_action('admin_enqueue_scripts', function () {
-                $this->load_mb_admin_script($this->name_space);
+              global $name_space;
+              self::load_mb_admin_script($name_space);
             });
 
             add_action('wp_ajax_mb_ignore_notice', array('mb_notice', 'ignore_notice'));
 
             add_action('admin_notices', function () {
-                $this->print_notice();
+                self::print_notice();
             });
 
             add_action('admin_init', function () {
@@ -40,13 +41,13 @@ if (!class_exists("mb_notice")) {
 
         }
 
-        function add_notice($mbtg_message, $class)
+        public function add_notice($mbtg_message, $class)
         {
             array_push($this->notices, array("id" => $this->name_space . $this->id, "message" => $mbtg_message, "class" => $class));
             $this->id++;
         }
 
-        function print_notice()
+        public function print_notice()
         {
 
             $opt = get_option($this->name_space . '_notice_dismiss');
@@ -60,7 +61,7 @@ if (!class_exists("mb_notice")) {
             }
         }
 
-        function ignore_notice()
+        public static function ignore_notice()
         {
             $name_space = $_POST["name_space"];
             $notice_id = $_POST["notice_id"];
@@ -78,12 +79,12 @@ if (!class_exists("mb_notice")) {
         }
 
 
-        function reset_notice()
+        public function reset_notice()
         {
             update_option($this->name_space . '_notice_dismiss', '[]');
         }
 
-        function load_mb_admin_script($name_space)
+        public static function load_mb_admin_script($name_space)
         {
             wp_register_script('mb_notice', plugins_url('mb.notice.js', __FILE__), array('jquery'), "1.0", true, 1000);
             $data = array(

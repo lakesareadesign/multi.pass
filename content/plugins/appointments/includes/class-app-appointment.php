@@ -22,6 +22,9 @@ class Appointments_Appointment {
 	public $gcal_updated = '';
 
 	public function __construct( $appointment ) {
+		if ( is_array( $appointment ) ) {
+			$appointment = (object) $appointment;
+		}
 		foreach ( get_object_vars( $appointment ) as $key => $value ) {
 			$this->$key = $this->_sanitize_field( $key, $value );
 		}
@@ -90,13 +93,11 @@ class Appointments_Appointment {
 	}
 
 	public function get_formatted_start_date() {
-		$appointments = appointments();
-		return mysql2date( $appointments->datetime_format, $this->start );
+		return mysql2date( appointments_get_date_format( 'full' ), $this->start );
 	}
 
 	public function get_formatted_created_date() {
-		$appointments = appointments();
-		return mysql2date( $appointments->datetime_format, $this->created );
+		return mysql2date( appointments_get_date_format( 'full' ), $this->created );
 	}
 
 	public function get_service_name() {
@@ -107,6 +108,58 @@ class Appointments_Appointment {
 	public function get_client_name() {
 		$appointments = appointments();
 		return $appointments->get_client_name( $this->ID );
+	}
+
+	/**
+	 * Return start date in YYYY-MM-DD format
+	 *
+	 * @return false|string
+	 */
+	public function get_start_date() {
+		if ( ! $this->start ) {
+			return '';
+		}
+		return date( 'Y-m-d', strtotime( $this->start ) );
+	}
+
+	/**
+	 * Return start time in HH:MM format
+	 *
+	 * @return false|string
+	 */
+	public function get_start_time() {
+		if ( ! $this->start ) {
+			return '';
+		}
+		return date( 'H:i', strtotime( $this->start ) );
+	}
+
+	/**
+	 * Return end date in YYYY-MM-DD format
+	 *
+	 * @return false|string
+	 */
+	public function get_end_date() {
+		if ( ! $this->end ) {
+			return '';
+		}
+		return date( 'Y-m-d', strtotime( $this->end ) );
+	}
+
+	/**
+	 * Return end time in HH:MM format
+	 *
+	 * @return false|string
+	 */
+	public function get_end_time() {
+		if ( ! $this->end ) {
+			return '';
+		}
+		return date( 'H:i', strtotime( $this->end ) );
+	}
+
+	public function get_start_timestamp() {
+		return strtotime( $this->start );
 	}
 
 	public function get_email() {
@@ -136,7 +189,6 @@ class Appointments_Appointment {
 
 		return $email;
 	}
-
 
 }
 
@@ -473,8 +525,10 @@ function appointments_update_appointment( $app_id, $args ) {
 	global $wpdb, $appointments;
 
 	$old_appointment = appointments_get_appointment( $app_id );
-	if ( ! $old_appointment )
+	if ( ! $old_appointment ) {
 		return false;
+	}
+
 
 	$fields = array(
 		'user' => '%d',
@@ -881,7 +935,10 @@ function appointments_get_appointments( $args = array() ) {
 			}
 
 			// Parse every Date query
-			foreach ( $date_queries as $date_query ) {
+			foreach ( $date_queries as $key => $date_query ) {
+				if ( 'condition' === $key ) {
+					continue;
+				}
 				$date_query = _appointments_parse_date_query( $date_query );
 				if ( $date_query ) {
 					$date_query_where[] = $wpdb->prepare( $date_query['field'] . $date_query['compare'] . "%s", $date_query['value'] );

@@ -3,7 +3,7 @@
 Plugin Name: Pretty Plugins
 Plugin URI: http://premium.wpmudev.org/project/pretty-plugins/
 Description: Give your plugin page the look of an app store, with featured images, categories, and amazing search.
-Version: 1.5.2
+Version: 1.5.3
 Network: true
 Text Domain: wmd_prettyplugins
 Author: WPMU DEV
@@ -293,7 +293,7 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 			wp_register_style('wmd-prettyplugins-theme', $this->current_theme_details['dir_url'].'style.css', array(), '7');
 			wp_enqueue_style('wmd-prettyplugins-theme');
 
-			wp_register_script('wmd-prettyplugins-theme', $this->current_theme_details['dir_url'].'theme.js', array('jquery', 'backbone', 'wp-backbone'), '8', true);
+			wp_register_script('wmd-prettyplugins-theme', $this->current_theme_details['dir_url'].'theme.js', array('jquery', 'backbone', 'wp-backbone'), '9', true);
 			wp_enqueue_script('wmd-prettyplugins-theme');
 
 			//used on old theme only?
@@ -564,7 +564,7 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 	}
 
 	function setup_mode_welcome_notice() {
-		echo '<div class="updated fade"><p>'.sprintf(__('Pretty Plugins is currently in "Setup Mode". This reminder will disappear after configuring the plugin and setting Setup Mode to "False" <a href="%s">here</a>. You can modify the details for every plugin in your network <a href="%s">here</a>, and see how the "Plugins" page looks like for all network sites <a href="%s">here</a>.', 'wmd_prettyplugins'), admin_url('network/settings.php?page=pretty-plugins.php'), admin_url('network/plugins.php'), admin_url('admin.php?page=pretty-plugins.php'), add_query_arg('prettyplugins_action', 'remove_notice')).'</a></p></div>';
+		echo '<div class="updated fade"><p>'.sprintf(__('Pretty Plugins is currently in "Setup Mode". This reminder will disappear after configuring the plugin and setting Setup Mode to "False" <a href="%s">here</a>. You can modify the details for every plugin in your network <a href="%s">here</a>, and see how the "Plugins" page looks like for all network sites <a href="%s">here</a>.', 'wmd_prettyplugins'), admin_url('network/settings.php?page=pretty-plugins.php'), admin_url('network/plugins.php'), admin_url('admin.php?page=pretty-plugins.php'), add_query_arg('prettyplugins_action', 'remove_notice')).'</a></p></div>';				    	 					 			 
 	}
 
 	function plugin_page_notice() {

@@ -17,12 +17,20 @@ class Appointments_Upgrader {
 			$this->upgrade_1_7_1();
 		}
 
-		if ( version_compare( $saved_version, '1.7.2-beta1', '<' ) ) {
-			$this->upgrade_1_7_2_beta1();
-		}
-
 		if ( version_compare( $saved_version, '1.9.4', '<' ) ) {
 			$this->upgrade_1_9_4();
+		}
+
+		if ( version_compare( $saved_version, '1.9.4.1', '<' ) ) {
+			$this->upgrade_1_9_4();
+		}
+
+		if ( version_compare( $saved_version, '1.9.4.2', '<' ) ) {
+			$this->upgrade_1_9_4_2();
+		}
+
+		if ( version_compare( $saved_version, '1.9.4.3', '<' ) ) {
+			$this->upgrade_1_9_4_3();
 		}
 
 		update_option( 'app_db_version', $new_version );
@@ -71,11 +79,6 @@ class Appointments_Upgrader {
 		}
 	}
 
-	private function upgrade_1_7_2_beta1() {
-		$appointments = appointments();
-		$gcal_api = $appointments->get_gcal_api();
-		$gcal_api->maybe_sync();
-	}
 
 	private function upgrade_1_9_4() {
 		global $wpdb;
@@ -87,13 +90,16 @@ class Appointments_Upgrader {
 			$rows[ $key ]->hours = maybe_unserialize( $row->hours );
 		}
 
-		$time_format = get_option( 'time_format' );
 		foreach ( $rows as $key => $row ) {
 			if ( ! is_array( $row->hours ) ) {
 				continue;
 			}
 
 			foreach ( $row->hours as $day_of_week => $values ) {
+				if ( ! isset( $values['start'] ) ) {
+					continue;
+				}
+
 				$start = $values['start'];
 				$end = $values['end'];
 				if ( is_array( $start ) ) {
@@ -149,5 +155,28 @@ class Appointments_Upgrader {
 		}
 
 		appointments_clear_cache();
+	}
+
+	private function upgrade_1_9_4_2() {
+		// Delete cache table
+		global $wpdb;
+		$table = $wpdb->prefix . 'app_cache';
+		$wpdb->query( "DROP TABLE IF EXISTS $table" );
+	}
+
+	private function upgrade_1_9_4_3() {
+		// Move paddings to general options
+		$service_paddings = get_option( 'appointments_services_padding', array() );
+		$options = appointments_get_options();
+		if ( ! empty( $service_paddings ) ) {
+			$options['service_padding'] = $service_paddings;
+		}
+
+		$worker_paddings = get_option( 'appointments_workers_padding', array() );
+		if ( ! empty( $worker_paddings ) ) {
+			$options['worker_padding'] = $worker_paddings;
+		}
+
+		appointments_update_options( $options );
 	}
 }

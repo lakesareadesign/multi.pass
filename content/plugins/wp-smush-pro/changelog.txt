@@ -5,12 +5,24 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 2.5.3 =
+
+* Fixed:
+    * Show a Smush progress message in Grid view for Auto Smush
+      ( A lot of people reported it as Auto Smush not working, which works in background though )
+    * Translation domain was incorrect for few strings
+    * Translation: Load translation domain in main plugin file
+    * Include image size `medium_large` in smush list
+    * Error: Cannot use string offset as an array
+    * Error in PNG to JPG conversion ( Pro Feature ), added check for mime_content_type function
+    * Pro Status not recognised
+
 = 2.5.2 =
 
 * Added:
     * Filter: `wp_smush_image`, Boolean, Whether to Smush image or not
     * Async Optimisation for Auto Smush on upload ( Set WP_SMUSH_ASYNC to false to turn off async optimisation )
-    * Networkwide settings option in a Multisite ( Do review your network settings after update )
+    * Networkwide settings option in a Multisite
 
 * Fixed:
     * Double slash in file path causing 403 on some of the sites
@@ -233,4 +245,4 @@ Change Log:
 - First release
 
 
-133620-1478823551-au
+133620-1484013221-au

@@ -4,6 +4,9 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.5.3 =
+* Fixed plugin searching issues in network admin panel
+
 = 1.5.2 =
 * Fixed plugin searching issues in 3 Eight theme
 
@@ -43,4 +46,4 @@ Lead developer: Maniu
 * Initial Release
 
 
-133620-1483063264-au
+133620-1484013214-au

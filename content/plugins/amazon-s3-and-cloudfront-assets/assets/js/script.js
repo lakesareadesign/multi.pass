@@ -24,7 +24,7 @@
 	function toggleGzipNotice() {
 		var $notice = $( '#as3cf-cdn-gzip-notice' );
 
-		if ( 'cloudfront' === $( '#tab-assets input[name="domain"]:checked' ).val() && $( '#enable-gzip' ).is( ':checked' ) ) {
+		if ( 'cloudfront' === $( '#tab-assets input[name="domain"]:checked' ).val() && $( '#as3cf-assets-enable-gzip' ).is( ':checked' ) ) {
 			$notice.show();
 		} else {
 			$notice.hide();
@@ -39,7 +39,7 @@
 		$nextScan.html( nextScanText );
 
 		var showTimestamp = false;
-		if ( $( '#enable-cron' ).is( ':checked' ) && $( '#enable-addon' ).is( ':checked' ) && $nextScan.html() ) {
+		if ( $( '#as3cf-assets-enable-cron' ).is( ':checked' ) && $( '#as3cf-assets-enable-addon' ).is( ':checked' ) && $nextScan.html() ) {
 			showTimestamp = true;
 		}
 
@@ -131,7 +131,7 @@
 	}
 
 	$( document ).ready( function() {
-		$( '.as3cf-setting.enable-custom-endpoint' ).on( 'click', '#refresh-url', function( e ) {
+		$( '.as3cf-setting.as3cf-assets-enable-custom-endpoint' ).on( 'click', '#refresh-url', function( e ) {
 			e.preventDefault();
 			toggleCustomUrl( false );
 
@@ -194,7 +194,7 @@
 		} );
 
 		toggleGzipNotice();
-		$assetsTab.on( 'change', 'input[name="domain"], #enable-gzip-wrap', function( e ) {
+		$assetsTab.on( 'change', 'input[name="domain"], #as3cf-assets-enable-gzip-wrap', function( e ) {
 			toggleGzipNotice();
 		} );
 

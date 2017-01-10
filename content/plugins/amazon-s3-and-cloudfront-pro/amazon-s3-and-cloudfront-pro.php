@@ -4,7 +4,7 @@ Plugin Name: WP Offload S3
 Plugin URI:  http://deliciousbrains.com/wp-offload-s3/
 Description: Speed up your WordPress site by offloading your media and assets to Amazon S3 & CloudFront.
 Author: Delicious Brains
-Version: 1.2.3
+Version: 1.3
 Author URI: http://deliciousbrains.com/
 Network: True
 Text Domain: amazon-s3-and-cloudfront
@@ -25,7 +25,7 @@ Domain Path: /languages/
 
 require_once dirname( __FILE__ ) . '/version.php';
 
-$aws_plugin_version_required = '1.0';
+$aws_plugin_version_required = '1.0.1';
 
 require_once dirname( __FILE__ ) . '/classes/wp-aws-compatibility-check.php';
 require_once dirname( __FILE__ ) . '/classes/pro/as3cf-pro-installer.php';
@@ -59,14 +59,16 @@ function as3cf_pro_init( $aws ) {
 	require_once $abspath . '/include/functions.php';
 	require_once $abspath . '/classes/as3cf-error.php';
 	require_once $abspath . '/classes/as3cf-upgrade.php';
+	require_once $abspath . '/classes/as3cf-upgrade-filter-post.php';
 	require_once $abspath . '/classes/upgrades/as3cf-region-meta.php';
 	require_once $abspath . '/classes/upgrades/as3cf-file-sizes.php';
 	require_once $abspath . '/classes/upgrades/as3cf-meta-wp-error.php';
 	require_once $abspath . '/classes/as3cf-filter.php';
 	require_once $abspath . '/classes/filters/as3cf-local-to-s3.php';
 	require_once $abspath . '/classes/filters/as3cf-s3-to-local.php';
-	require_once $abspath . '/classes/upgrades/as3cf-content-replace-urls.php';
-	require_once $abspath . '/classes/upgrades/as3cf-edd-replace-urls.php';
+	require_once $abspath . '/classes/upgrades/as3cf-filter-edd.php';
+	require_once $abspath . '/classes/upgrades/as3cf-filter-post-content.php';
+	require_once $abspath . '/classes/upgrades/as3cf-filter-post-excerpt.php';
 	require_once $abspath . '/classes/as3cf-notices.php';
 	require_once $abspath . '/classes/as3cf-stream-wrapper.php';
 	require_once $abspath . '/classes/as3cf-plugin-compatibility.php';
@@ -77,9 +79,11 @@ function as3cf_pro_init( $aws ) {
 	require_once $abspath . '/classes/pro/amazon-s3-and-cloudfront-pro.php';
 	require_once $abspath . '/classes/pro/as3cf-pro-plugin-compatibility.php';
 	require_once $abspath . '/classes/pro/as3cf-pro-utils.php';
+	require_once $abspath . '/classes/pro/as3cf-sidebar-presenter.php';
 	require_once $abspath . '/classes/pro/as3cf-tool.php';
 	require_once $abspath . '/classes/pro/tools/as3cf-uploader.php';
 	require_once $abspath . '/classes/pro/tools/as3cf-downloader.php';
+	require_once $abspath . '/classes/pro/tools/as3cf-download-and-remover.php';
 	require_once $abspath . '/classes/pro/as3cf-async-request.php';
 	require_once $abspath . '/classes/pro/as3cf-background-process.php';
 	$as3cf = new Amazon_S3_And_CloudFront_Pro( __FILE__, $aws );

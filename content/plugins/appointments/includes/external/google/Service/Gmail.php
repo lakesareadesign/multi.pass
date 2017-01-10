@@ -1120,7 +1120,7 @@ class Google_Service_Gmail_UsersMessages_Resource extends Google_Service_Resourc
   {
     $params = array('userId' => $userId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Gmail_ListMessagesResponse");		   		 	  		  	 	 	
+    return $this->call('list', array($params), "Google_Service_Gmail_ListMessagesResponse");
   }
 
   /**

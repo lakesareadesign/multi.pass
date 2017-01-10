@@ -24,14 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AS3CF_Downloader extends AS3CF_Tool {
 
 	/**
-	 * @var Amazon_S3_And_CloudFront_Pro
-	 */
-	protected $as3cf;
-
-	/**
 	 * @var string
 	 */
-	protected $tool_key = 's3_downloader';
+	protected $tool_key = 'downloader';
 
 	/**
 	 * @var bool
@@ -44,13 +39,9 @@ class AS3CF_Downloader extends AS3CF_Tool {
 	protected $last_processed_key;
 
 	/**
-	 * AS3CF_Downloader constructor.
-	 *
-	 * @param Amazon_S3_And_CloudFront_Pro $as3cf
+	 * @var bool
 	 */
-	public function __construct( $as3cf ) {
-		parent::__construct( $as3cf );
-	}
+	protected static $deactivate_prompt_rendered = false;
 
 	/**
 	 * Initialize Downloader
@@ -60,9 +51,7 @@ class AS3CF_Downloader extends AS3CF_Tool {
 
 		$this->last_processed_key = 'wpos3_tool_' . $this->tool_key . '_last_id';
 
-		// Plugin deactivation prompt
-		add_action( 'load-plugins.php', array( $this, 'deactivate_plugin_assets' ) );
-		add_action( 'admin_footer', array( $this, 'deactivate_plugin_modal' ) );
+		$this->maybe_render_deactivate_prompt();
 	}
 
 	/**
@@ -218,17 +207,23 @@ class AS3CF_Downloader extends AS3CF_Tool {
 	protected function handle_attachment( $attachment_id, $blog_id ) {
 		// Copy back S3 file to local, only when files don't exist locally
 		$result = $this->as3cf->download_attachment_from_s3( $attachment_id, true, true );
-
 		$return = true;
+
 		if ( is_wp_error( $result ) ) {
-			// Build error message
-			$errors = $result->get_error_data();
+			$this->progress['error_count']++;
 
-			$this->errors = array_merge( $this->errors, $errors );
+			if ( $this->progress['error_count'] <= 100 ) {
+				// Build error message
+				$errors = $result->get_error_data();
 
-			$this->process_errors[ $blog_id ][ $attachment_id ] = $errors;
+				$this->errors = array_merge( $this->errors, $errors );
+
+				$this->process_errors[ $blog_id ][ $attachment_id ] = $errors;
+			}
 
 			$return = false;
+		} elseif ( method_exists( $this, 'handle_attachment_success' ) ) {
+			$this->handle_attachment_success( $attachment_id );
 		}
 
 		$data = array(
@@ -256,13 +251,27 @@ class AS3CF_Downloader extends AS3CF_Tool {
 	}
 
 	/**
-	 * Register the modal for plugin deactivation
+	 * Maybe render deactivate plugin prompt.
 	 */
-	public function deactivate_plugin_assets() {
+	public function maybe_render_deactivate_prompt() {
+		if ( self::$deactivate_prompt_rendered ) {
+			return;
+		}
+
 		if ( ! $this->as3cf->get_setting( 'remove-local-file' ) ) {
 			return;
 		}
 
+		add_action( 'load-plugins.php', array( $this, 'deactivate_plugin_assets' ) );
+		add_action( 'admin_footer', array( $this, 'deactivate_plugin_modal' ) );
+
+		self::$deactivate_prompt_rendered = true;
+	}
+
+	/**
+	 * Register the modal for plugin deactivation
+	 */
+	public function deactivate_plugin_assets() {
 		$version   = $this->as3cf->get_asset_version();
 		$suffix    = $this->as3cf->get_asset_suffix();
 		$file_path = $this->as3cf->get_plugin_file_path();
@@ -286,10 +295,6 @@ class AS3CF_Downloader extends AS3CF_Tool {
 	public function deactivate_plugin_modal() {
 		global $pagenow;
 		if ( 'plugins.php' !== $pagenow ) {
-			return;
-		}
-
-		if ( ! $this->as3cf->get_setting( 'remove-local-file' ) ) {
 			return;
 		}
 

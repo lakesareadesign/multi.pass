@@ -35,7 +35,7 @@ class App_Users_AdditionalFields {
 
 
 		// Display additional notes
-		add_filter('app-appointments_list-edit-client', array($this, 'display_inline_data'), 10, 2);
+		add_action('app-appointments_list-edit-client', array($this, 'display_inline_data'), 10, 2);
 
 
 		// Email filters
@@ -68,7 +68,15 @@ class App_Users_AdditionalFields {
 
 		// This will be triggered once the appointment is updated
 		add_action( 'wpmudev_appointments_update_appointment_result', array( $this, 'update_additional_fields' ), 2, 2 );
+
+		// Add default options
+        add_action( 'appointments_default_options', array( $this, 'default_options' ) );
 	}
+
+	public function default_options( $defaults ) {
+		$defaults['additional_fields'] = array();
+		return $defaults;
+    }
 
 	/**
 	 * Validate the submitted additional fields but do not save them
@@ -120,6 +128,9 @@ class App_Users_AdditionalFields {
 	 */
 	private function _are_editable() {
 		$options = appointments_get_options();
+		if ( is_multisite() && is_super_admin() ) {
+			return true;
+		}
 		return ! empty( $options['additional_fields-admin_edit'] );
 	}
 
@@ -226,16 +237,17 @@ class App_Users_AdditionalFields {
 	 *
 	 * @return string
 	 */
-	public function display_inline_data( $form, $app ) {
+	public function display_inline_data( $deprecated, $app ) {
 		$fields = $this->_get_additional_fields();
 		if ( empty( $fields ) ) {
-			return $form;
+			return;
 		}
 
 		$disabled = disabled( $this->_are_editable(), false, false );
 
 		$app_meta = $this->_get_appointment_meta( $app->ID );
 
+		$form = '';
 		foreach ( $fields as $field ) {
 			$value = ! empty( $app_meta[ $field->name ] ) ? esc_attr( $app_meta[ $field->name ] ) : '';
 
@@ -256,7 +268,7 @@ class App_Users_AdditionalFields {
 		}
 
 		if ( ! $this->_are_editable() ) {
-			return $form;
+			echo $form;
 		}
 
 		$form .=<<<EO_ADMIN_JS
@@ -282,7 +294,7 @@ class App_Users_AdditionalFields {
 })(jQuery);
 </script>
 EO_ADMIN_JS;
-		return $form;
+		echo $form;
 	}
 
 	public function inject_additional_columns ($cols) {
@@ -454,10 +466,10 @@ $(document).ajaxSend(function(e, xhr, opts) {
 		$fields = !empty($this->_data['additional_fields']) ? $this->_data['additional_fields'] : array();
 		$admin_edit = !empty($this->_data['additional_fields-admin_edit']) ? 'checked="checked"' : '';
 		?>
-		<div class="api_detail">
+		<div class="">
 			<h3><?php _e( 'Additional Fields', 'appointments' ); ?></h3>
 			<table class="form-table">
-				<tr valign="top" class="api_detail" <?php echo $style?>>
+				<tr valign="top" class="" <?php echo $style?>>
 					<th scope="row" ><?php _e('Additional fields', 'appointments')?></th>
 					<td colspan="2">
 						<div id="app-additional_fields">
@@ -565,7 +577,7 @@ $(document).ajaxSend(function(e, xhr, opts) {
 				border-radius: 3px;
 				padding: 1em;
 				margin-bottom: 1em;
-				width: 40%;
+				width: 98%;
 			}
 			.app-field .app-additional_fields-remove {
 				display: block;
@@ -628,4 +640,20 @@ if (!function_exists('app_additional_fields_expand')) {
 			: $text
 		;
 	}
+}
+
+/**
+ * Get an appointment additional fields values
+ *
+ * @param int $app_id
+ *
+ * @return array|mixed
+ */
+function appointments_get_app_additional_fields( $app_id ) {
+	$fields = appointments_get_appointment_meta( $app_id, 'additional_fields' );
+	if ( empty( $fields ) || ! is_array( $fields ) ) {
+		return array();
+	}
+
+	return $fields;
 }
