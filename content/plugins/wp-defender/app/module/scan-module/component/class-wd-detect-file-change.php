@@ -35,14 +35,13 @@ class WD_Detect_File_Change extends WD_Component {
 	private $need_break;
 
 	public function __construct() {
-		$this->load_last_md5();
-		$this->last_check = WD_Utils::get_cache( self::LAST_CHECK, null );
-		$this->status     = WD_Utils::get_cache( self::CHECK_STATUS );
 		$this->maybe_queue_check();
 		$this->add_action( 'wd_check_checksum', 'do_checksum' );
 	}
 
 	public function do_checksum() {
+		$this->status = WD_Utils::get_cache( self::CHECK_STATUS );
+
 		if ( ! in_array( $this->status, array(
 			self::STATUS_PROCESS_CONTENT,
 			self::STATUS_PROCESS_WP,
@@ -69,7 +68,7 @@ class WD_Detect_File_Change extends WD_Component {
 		if ( $this->status != self::STATUS_CREATE_CHECKSUM ) {
 			return;
 		}
-
+		$this->load_last_md5();
 		$this->all_files = WD_Utils::get_cache( self::CHECKSUM_ALL_FILES, array() );
 		$checksum        = array();
 		foreach ( $this->all_files as $file ) {
@@ -158,6 +157,13 @@ class WD_Detect_File_Change extends WD_Component {
 	}
 
 	private function maybe_queue_check() {
+		if ( $this->is_cron_scheduled() ) {
+			return;
+		}
+
+		$this->last_check = WD_Utils::get_cache( self::LAST_CHECK, null );
+		$this->status     = WD_Utils::get_cache( self::CHECK_STATUS );
+
 		$can_queue = false;
 		if ( ! is_null( $this->status ) && $this->status != self::STATUS_COMPLETED && $this->is_cron_scheduled() == false ) {
 			//is already queue, and running but the cron is out
@@ -171,6 +177,7 @@ class WD_Detect_File_Change extends WD_Component {
 				$can_queue = true;
 			}
 		}
+
 		if ( $can_queue == false ) {
 			return false;
 		}
@@ -181,7 +188,7 @@ class WD_Detect_File_Change extends WD_Component {
 	private function is_cron_scheduled() {
 		$crons = _get_cron_array();
 		foreach ( (array) $crons as $timestamp => $cron ) {
-			if ( isset( $cron['wd_checksum'] ) ) {
+			if ( isset( $cron['wd_check_checksum'] ) ) {
 				return true;
 			}
 		}

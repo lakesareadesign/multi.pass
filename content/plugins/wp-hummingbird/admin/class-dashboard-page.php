@@ -48,9 +48,7 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 
 		if ( 'minification' === $type ) {
 			// Minification scan
-			if ( wphb_is_cache_folder_created() ) {
-				wphb_minification_init_scan();
-			}
+			wphb_minification_init_scan();
 			wp_redirect( remove_query_arg( array( 'run', '_wpnonce' ) ) );
 			exit;
 		}
@@ -112,12 +110,9 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 		}
 		elseif ( is_multisite() && is_network_admin() ) {
 			// Minification metabox is different on network admin
-			$this->add_meta_box( 'dashboard/minification/network-module', __( 'Minification', 'wphb' ), null, null, null, 'box-dashboard-right', array( 'box_class' => 'dev-box content-box content-box-one-col-center') );
+			$this->add_meta_box( 'dashboard/minification/network-module', __( 'Minification', 'wphb' ), array( $this, 'dashboard_minification_network_module_metabox' ), null, null, 'box-dashboard-right', array( 'box_class' => 'dev-box content-box content-box-one-col-center') );
 		}
 		else {
-			if ( ! wphb_is_cache_folder_created() ) {
-				$this->add_meta_box( 'dashboard-minification-error', __( 'File check in progress', 'wphb' ), array( $this, 'dashboard_minification_checking_files_metabox' ), null, null, 'box-dashboard-right' );
-			}
 			if ( wphb_minification_is_checking_files() ) {
 				$this->add_meta_box( 'dashboard-minification-checking-files', __( 'File check in progress', 'wphb' ), array( $this, 'dashboard_minification_checking_files_metabox' ), null, null, 'box-dashboard-right' );
 			}
@@ -290,17 +285,17 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 
 		$original_size_styles = array_sum( wp_list_pluck( $collection['styles'], 'original_size' ) );
 		$original_size_scripts = array_sum( wp_list_pluck( $collection['scripts'], 'original_size' ) );
-		$original_size = number_format( ( $original_size_scripts + $original_size_styles ) / 100, 1 );
+		$original_size = number_format_i18n( $original_size_scripts + $original_size_styles, 1 );
 
 		$compressed_size_styles = array_sum( wp_list_pluck( $collection['styles'], 'compressed_size' ) );
 		$compressed_size_scripts = array_sum( wp_list_pluck( $collection['scripts'], 'compressed_size' ) );
-		$compressed_size = number_format( ( $compressed_size_scripts + $compressed_size_styles ) / 100, 1 );
+		$compressed_size = number_format_i18n( $compressed_size_scripts + $compressed_size_styles, 1 );
 
 		if ( ( $original_size_scripts + $original_size_styles ) <= 0 ) {
 			$percentage = 0;
 		}
 		else {
-			$percentage = 100 - ( ( ( $compressed_size_scripts + $compressed_size_styles ) * 100 ) / ( $original_size_scripts + $original_size_styles ) );
+			$percentage = 100 - ( ( $compressed_size * 100 ) / $original_size );
 		}
 		$percentage = number_format_i18n( $percentage, 2 );
 
@@ -309,6 +304,14 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 
 		$args = compact( 'enqueued_files', 'original_size', 'compressed_size', 'compressed_size_scripts', 'compressed_size_styles', 'percentage' );
 		$this->view( 'dashboard-minification-module-meta-box', $args );
+	}
+
+	public function dashboard_minification_network_module_metabox() {
+		$args = array(
+			'use_cdn' => wphb_get_setting( 'use_cdn' ),
+			'use_cdn_disabled' => ! wphb_is_member(),
+		);
+		$this->view( 'dashboard/minification/network-module-meta-box', $args );
 	}
 
 	public function dashboard_minification_module_metabox_header() {

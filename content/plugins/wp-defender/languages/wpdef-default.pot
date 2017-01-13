@@ -1,37 +1,27 @@
-# Copyright (C) 2016 WP Defender
-# This file is distributed under the same license as the WP Defender package.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-defender 1.0.0\n"
+"Project-Id-Version: wp-defender 1.1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-21 03:15+0000\n"
+"POT-Creation-Date: 2017-01-11 04:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: app/class-wd-component.php:547
-#, php-format
-msgid ""
-"WPMU DEV Dashboard will be required for this action. Please visit <a href="
-"\"%s\">here</a> and install the WPMU DEV Dashboard"
-msgstr ""
-
-#: app/class-wd-component.php:602
-msgid "N/A"
-msgstr ""
-
-#: app/class-wd-utils.php:118
+#: app/class-wd-utils.php:123
 msgid "Scan of {SITE_URL} complete. {ISSUES_COUNT} issues found."
 msgstr ""
 
-#: app/class-wd-utils.php:119
+#: app/class-wd-utils.php:124
 msgid ""
 "Hi {USER_NAME},\n"
 "\n"
@@ -41,16 +31,12 @@ msgid ""
 "{ISSUES_COUNT} issues that you should take a closer look at!\n"
 "{ISSUES_LIST}\n"
 "\n"
-"<a href=\"{SCAN_PAGE_LINK}\">Follow me back to the lair and let's get you "
-"patched\n"
-"    up.</a>\n"
-"\n"
 "Stay Safe,\n"
 "WP Defender\n"
 "Official WPMU DEV Superhero"
 msgstr ""
 
-#: app/class-wd-utils.php:132
+#: app/class-wd-utils.php:134
 msgid ""
 "Hi {USER_NAME},\n"
 "\n"
@@ -65,54 +51,6 @@ msgid ""
 "Stay safe,\n"
 "WP Defender\n"
 "Official WPMU DEV Superhero"
-msgstr ""
-
-#: app/class-wd-utils.php:495 app/class-wd-utils.php:605
-msgid "Guest"
-msgstr ""
-
-#: app/class-wd-utils.php:718
-msgid "WordPress Core Integrity"
-msgstr ""
-
-#: app/class-wd-utils.php:719
-msgid "Plugins & Themes vulnerability"
-msgstr ""
-
-#: app/class-wd-utils.php:720
-msgid "Suspicious Code"
-msgstr ""
-
-#: app/class-wd-utils.php:1000
-msgid "year"
-msgstr ""
-
-#: app/class-wd-utils.php:1001
-msgid "month"
-msgstr ""
-
-#: app/class-wd-utils.php:1002
-msgid "week"
-msgstr ""
-
-#: app/class-wd-utils.php:1003
-msgid "day"
-msgstr ""
-
-#: app/class-wd-utils.php:1004
-msgid "hour"
-msgstr ""
-
-#: app/class-wd-utils.php:1005
-msgid "minute"
-msgstr ""
-
-#: app/class-wd-utils.php:1006
-msgid "second"
-msgstr ""
-
-#: app/class-wd-view.php:158
-msgid "The view "
 msgstr ""
 
 #: interface/class-wd-hardener-abstract.php:243

@@ -36,8 +36,8 @@ class WD_Audit_API extends WD_Component {
 
 	public static function get_suspicious_pattern() {
 		return array(
-			'xss_simple'    => '/((\%3C)|<)((\%2F)|\/)*[a-z0-9\%]+((\%3E)|>)/i',
-			'xss_img'       => '/((\%3C)|<)((\%69)|i|(\%49))((\%6D)|m|(\%4D))((\%67)|g|(\%47))[^\n]+((\%3E)|>)/i',
+			'xss_simple' => '/((\%3C)|<)((\%2F)|\/)*[a-z0-9\%]+((\%3E)|>)/i',
+			'xss_img'    => '/((\%3C)|<)((\%69)|i|(\%49))((\%6D)|m|(\%4D))((\%67)|g|(\%47))[^\n]+((\%3E)|>)/i',
 			//'xss_catch_all' => '/((\%3C)|<)[^\n]+((\%3E)|>)/'
 		);
 	}

@@ -81,7 +81,7 @@ class CoursePress_Admin_Courses {
 			'units' => __( 'Units', 'cp' ),
 			'students' => __( 'Students', 'cp' ),
 			'certificates' => __( 'Certified', 'cp' ),
-			'status' => __( 'Status', 'cp' ),
+			'status' => __( 'Status', 'CP' ),
 		) );
 
 		// Remove date column
@@ -335,13 +335,13 @@ class CoursePress_Admin_Courses {
 		?>
 		<script type="text/html" id="tmpl-coursepress-courses-delete-one">
 				<div class="notice notice-warning">
-					<p><span class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></span> <?php _e( 'Deleting course <b>{{{data.names}}}</b>, please wait!', 'cp' ); ?></p>
+					<p><span class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></span> <?php _e( sprintf( 'Deleting course %s, please wait!', '<b>{{{data.names}}}</b>'), 'cp' ); ?></p>
 					<p><?php _e( 'This page will be reloaded shortly.', 'cp' ); ?></p>
 				</div>
 			</script>
 			<script type="text/html" id="tmpl-coursepress-courses-delete-more">
 				<div class="notice notice-warning">
-					<p><span class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></span><?php _e( 'Deleting {{{data.size}}} courses, please wait!', 'cp' ); ?></p>
+					<p><span class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></span><?php _e( __( 'Deleting %s courses, please wait!', '{{{data.size}}}' ), 'cp' ); ?></p>
 					<p><?php _e( 'This page will be reloaded shortly.', 'cp' ); ?></p>
 					<p><?php _e( 'Deleted courses:', 'cp' ) ?></p>
 					{{{data.names}}}
@@ -349,7 +349,7 @@ class CoursePress_Admin_Courses {
 			</script>
 			<script type="text/html" id="tmpl-coursepress-courses-duplicate">
 				<div class="notice notice-warning">
-					<p><span class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></span> <?php _e( 'Duplicating course <b>{{{data.names}}}</b>, please wait!', 'cp' ); ?></p>
+					<p><span class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></span> <?php _e( __( 'Duplicating course %s, please wait!', '<b>{{{data.names}}}</b>' ), 'cp' ); ?></p>
 					<p><?php _e( 'This page will be reloaded shortly.', 'cp' ); ?></p>
 				</div>
 			</script>

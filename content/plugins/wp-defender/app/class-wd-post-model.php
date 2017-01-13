@@ -54,6 +54,10 @@ class WD_Post_Model extends WD_Model {
 		return $this->relations;
 	}
 
+	/**
+	 * @param array $fields
+	 * @param bool $refresh
+	 */
 	public function save( $fields = array(), $refresh = true ) {
 		if ( $this->exist ) {
 			$id = $this->update( $fields );
@@ -61,7 +65,9 @@ class WD_Post_Model extends WD_Model {
 			$id = $this->insert( $fields );
 		}
 		if ( $refresh == true ) {
+			$this->switch_to_main();
 			$model = $this->find( $id );
+			$this->restore_blog();
 			$this->import( $model->export() );
 		}
 	}
@@ -75,11 +81,13 @@ class WD_Post_Model extends WD_Model {
 		$this->before_insert();
 		list( $post_data, $post_meta ) = $this->prepare_data( $fields );
 		//insert to post data
+		$this->switch_to_main();
 		$id = wp_insert_post( $post_data, true );
 		//add post meta
 		foreach ( $post_meta as $key => $meta ) {
 			update_post_meta( $id, $key, $meta );
 		}
+		$this->restore_blog();
 		$this->after_insert();
 
 		return $id;
@@ -97,15 +105,15 @@ class WD_Post_Model extends WD_Model {
 		);
 		$post_meta = array();
 		foreach ( $rels as $rel ) {
-			$prop = $rel['prop'];
-			if ( ! empty( $fields ) && in_array( $prop, $fields ) ) {
-				//pass it
-				continue;
-			}
+			$prop    = $rel['prop'];
 			$wp_prop = $rel['wp'];
 			if ( $rel['type'] == 'native' ) {
 				$post_data[ $wp_prop ] = $this->$prop;
 			} else {
+				if ( ! empty( $fields ) && ! in_array( $prop, $fields ) ) {
+					//default all post field will get update, only meta can exclude
+					continue;
+				}
 				$post_meta[ $wp_prop ] = $this->$prop;
 			}
 		}
@@ -119,11 +127,13 @@ class WD_Post_Model extends WD_Model {
 	protected function update( $fields = array() ) {
 		$this->before_update();
 		list( $post_data, $post_meta ) = $this->prepare_data( $fields );
+		$this->switch_to_main();
 		wp_update_post( $post_data );
 		//add post meta
 		foreach ( $post_meta as $key => $meta ) {
 			update_post_meta( $post_data['ID'], $key, $meta );
 		}
+		$this->restore_blog();
 		$this->after_update();
 
 		return $post_data['ID'];
@@ -138,6 +148,7 @@ class WD_Post_Model extends WD_Model {
 	 * @since 1.0
 	 */
 	public function find( $id ) {
+		$this->switch_to_main();
 		$post = get_post( $id );
 		if ( ! is_object( $post ) || ! $post instanceof WP_Post ) {
 			return null;
@@ -149,6 +160,7 @@ class WD_Post_Model extends WD_Model {
 
 		//start binding
 		$model = self::bind( $post, $model );
+		$this->restore_blog();
 
 		return $model;
 	}
@@ -160,6 +172,7 @@ class WD_Post_Model extends WD_Model {
 	 * @since 1.0
 	 */
 	public function find_by_slug( $slug ) {
+		$this->switch_to_main();
 		$args    = array(
 			'name'        => $slug,
 			'post_type'   => self::get_table(),
@@ -174,6 +187,7 @@ class WD_Post_Model extends WD_Model {
 
 			return $model;
 		}
+		$this->restore_blog();
 
 		return null;
 	}
@@ -185,6 +199,7 @@ class WD_Post_Model extends WD_Model {
 	 * @since 1.0
 	 */
 	public function find_by_attributes( $params = array(), $addition_params = array() ) {
+		$this->switch_to_main();
 		$model      = self::make( get_class( $this ) );
 		$rels       = $model->get_relations();
 		$args       = array(
@@ -225,14 +240,15 @@ class WD_Post_Model extends WD_Model {
 		$args = array_merge( $args, $addition_params );
 
 		$results = get_posts( $args );
-
 		if ( count( $results ) ) {
 			$post = array_shift( $results );
 
 			$ret = self::bind( $post, $model );
+			$this->restore_blog();
 
 			return $ret;
 		}
+		$this->restore_blog();
 
 		return null;
 	}
@@ -274,10 +290,13 @@ class WD_Post_Model extends WD_Model {
 					$wp_prop          = str_replace( 'post_author', 'author', $wp_prop );
 					$args[ $wp_prop ] = $val;
 				} elseif ( $relation['type'] == 'wp_meta' ) {
-					$meta         = array(
+					$meta = array(
 						'key'   => $relation['wp'],
 						'value' => $val
 					);
+					if ( is_array( $val ) ) {
+						$meta['compare'] = 'in';
+					}
 					$meta_query[] = $meta;
 				}
 			}
@@ -288,7 +307,7 @@ class WD_Post_Model extends WD_Model {
 		}
 
 		$args = array_merge( $args, $addition_params );
-
+		$this->switch_to_main();
 		$query = new WP_Query( $args );
 
 		$wp_query = $query;
@@ -298,6 +317,7 @@ class WD_Post_Model extends WD_Model {
 				$data[] = self::bind( $post, self::make( get_class( $this ) ) );
 			}
 		}
+		$this->restore_blog();
 
 		return $data;
 	}
@@ -311,8 +331,13 @@ class WD_Post_Model extends WD_Model {
 		return $counts->publish + $counts->draft;
 	}
 
+	/**
+	 * delete
+	 */
 	public function delete() {
+		$this->switch_to_main();
 		wp_delete_post( $this->id, true );
+		$this->restore_blog();
 	}
 
 	/**
@@ -335,12 +360,12 @@ class WD_Post_Model extends WD_Model {
 					$model->$prop = $post->$wp_prop;
 					break;
 				case 'wp_meta':
-					$model->$prop = isset( $metas[ $wp_prop ] ) ? @array_shift( array_values( $metas[ $wp_prop ] ) ) : null;
+					$v            = array_values( (array) @$metas[ $wp_prop ] );
+					$model->$prop = isset( $metas[ $wp_prop ] ) ? @array_shift( $v ) : null;
 					break;
 			}
 		}
 		$model->exist = true;
-
 		$model->after_load();
 
 		return $model;
@@ -358,7 +383,9 @@ class WD_Post_Model extends WD_Model {
 	 */
 	public function get_raw_post() {
 		if ( ! is_object( $this->_raw ) && $this->exist ) {
+			$this->switch_to_main();
 			$this->_raw = get_post( $this->id );
+			$this->restore_blog();
 		}
 
 		return $this->_raw;
@@ -454,5 +481,17 @@ class WD_Post_Model extends WD_Model {
 		}
 
 		return self::$_models[ $class_name ];
+	}
+
+	private function switch_to_main() {
+		if ( WD_Utils::is_plugin_network_activated() ) {
+			switch_to_blog( 1 );
+		}
+	}
+
+	private function restore_blog() {
+		if ( WD_Utils::is_plugin_network_activated() ) {
+			restore_current_blog();
+		}
 	}
 }

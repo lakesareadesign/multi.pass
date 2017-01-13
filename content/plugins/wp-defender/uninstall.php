@@ -7,10 +7,6 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 }
 
-$options_name = 'wp_defender';
-delete_option( $options_name );
-delete_site_option( $options_name );
-
 //require needed files
 $path = dirname( __FILE__ );
 include_once $path . DIRECTORY_SEPARATOR . 'wp-defender.php';
@@ -21,11 +17,11 @@ WD_Scan_Api::clear_cache();
 //cache cleared, now we have to remove htaccess
 $hardeners = WD_Hardener_Module::find_controller( 'hardener' );
 $hardeners->load_modules();
-$rules     = $hardeners->get_loaded_modules();
+$rules = $hardeners->get_loaded_modules();
 
 foreach ( $rules as $rule ) {
 	if ( $rule->id == 'protect_core_dir' ) {
-		$rule->revert(null,true);
+		$rule->revert( null, true );
 	}
 
 	//remove htaccess content from wp-content and wp-includes
@@ -49,3 +45,9 @@ foreach ( $rules as $rule ) {
 		}
 	}
 }
+$options_name = 'wp_defender';
+if ( function_exists( 'delete_site_option' ) ) {
+	delete_site_option( $options_name );
+}
+
+delete_option( 'wd_lockdown_settings' );

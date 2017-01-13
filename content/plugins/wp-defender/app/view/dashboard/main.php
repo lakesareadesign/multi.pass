@@ -138,6 +138,11 @@
 					<div class="col span_6_of_12 float-r">
 						<?php $widget = WD_Widget_Manager::get_instance()->display( 'WD_Scan_Widget' ); ?>
 						<?php $widget = WD_Widget_Manager::get_instance()->display( 'WD_Audit_Log_Widget' ); ?>
+						<?php
+						if ( version_compare( phpversion(), '5.3', '>=' ) ) {
+							$widget = WD_Widget_Manager::get_instance()->display( 'WD_Lockout_Widget' );
+						}
+						?>
 					</div>
 				</div>
 			</div>

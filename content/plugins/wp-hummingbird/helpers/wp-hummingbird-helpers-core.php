@@ -21,95 +21,6 @@ function wphb_include_sources_collector() {
 	include_once( wphb_plugin_dir() . 'core/modules/minify/class-sources-collector.php' );
 }
 
-function wphb_include_file_cache_class() {
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'core/modules/minify/class-file.php' );
-}
-
-
-/**
- * Get the instance of the model class
- *
- * @return WP_Hummingbird_Model instance
- */
-function wphb_get_model() {
-	/** @noinspection PhpIncludeInspection */
-	include_once( wphb_plugin_dir() . 'core/class-model.php' );
-
-	return WP_Hummingbird_Model::get_instance();
-}
-
-/**
- * Get all the chart data for a give URL
- *
- * @param string $url
- *
- * @return array|bool|mixed
- */
-function wphb_get_chart( $url ) {
-	$chart = new WP_Hummingbird_Minification_Chart();
-	$chart->set_chart_url( $url );
-
-	return $chart->chart();
-}
-
-/**
- * Prepare the chart data for Javascript
- *
- * @param array Chart data
- *
- * @return string JSON chart data
- */
-function wphb_prepare_chart_data_for_javascript( $data, $groups ) {
-	return WP_Hummingbird_Minification_Chart::prepare_for_javascript( $data, $groups );
-}
-
-/**
- * Filter all the chart data
- *
- * The condition will sset what are we filtering by. Possible values
- * are styles and scripts or false to filter core data
- *
- * @param array $data Chart data
- * @param bool|string $condition styles|scripts or false for core
- *
- * @return array Filtered data
- */
-function wphb_filter_chart_data( $data, $condition = false ) {
-	// If condition is set to false, let's get the Core area
-	if ( ! $condition ) {
-		$data['header']['themes'] = array();
-		$data['header']['plugins'] = array();
-
-		$data['footer']['themes'] = array();
-		$data['footer']['plugins'] = array();
-	}
-	else {
-		$data['header']['themes'] = array_intersect_key( $data['header']['themes'], array( $condition => 'true' ) );
-		$data['header']['plugins'] = array_intersect_key( $data['header']['plugins'], array( $condition => 'true' ) );
-		$data['header']['core'] = array();
-
-		$data['footer']['themes'] = array_intersect_key( $data['footer']['themes'], array( $condition => 'true' ) );
-		$data['footer']['plugins'] = array_intersect_key( $data['footer']['plugins'], array( $condition => 'true' ) );
-		$data['footer']['core'] = array();
-	}
-
-	return $data;
-}
-
-/**
- * Prepare a URL for chart class
- *
- * @param string $url
- *
- * @return string Prepared URL
- */
-function wphb_sanitize_chart_url( $url ) {
-	$url = trailingslashit( preg_replace( '/https?\:\/\//', '', $url ) );
-
-	return $url;
-}
-
 
 /**
  * Return the server type (Apache, NGINX...)
@@ -271,6 +182,7 @@ function wphb_unsave_htaccess( $module ) {
 
 function wphb_log( $message, $module ) {
 	if ( defined( 'WPHB_DEBUG_LOG' ) ) {
+		// @TODO: Change the file folder
 		$date = current_time( 'mysql' );
 		if ( ! is_string( $message ) ) {
 			$message = print_r( $message, true );
@@ -281,9 +193,9 @@ function wphb_log( $message, $module ) {
 		}
 
 		$message = '[' . $date . '] ' . $message;
-		$cache_dir = wphb_get_cache_dir();
-		$file = $cache_dir . $module . '.log';
-		file_put_contents( $file, $message . "\n", FILE_APPEND );
+//		$cache_dir = wphb_get_cache_dir();
+//		$file = $cache_dir . $module . '.log';
+//		file_put_contents( $file, $message . "\n", FILE_APPEND );
 	}
 }
 
@@ -311,6 +223,8 @@ function wphb_uninstall() {
 		delete_option( $name );
 
 	delete_option( 'wphb_process_queue' );
+	delete_transient( 'wphb-minification-errors' );
+	delete_option( 'wphb-minify-server-errors' );
 
 	delete_option( 'wphb_settings' );
 	delete_site_option( 'wphb_settings' );
@@ -318,11 +232,6 @@ function wphb_uninstall() {
 	delete_site_option( 'wphb_version' );
 
 	delete_site_option( 'wphb-is-cloudflare' );
-
-	// @TODO Delete cache folder (full)
-
-	$table = $wpdb->base_prefix . 'minification_chart';
-	$wpdb->query( "DROP TABLE $table" );
 }
 
 function wphb_membership_modal( $text ) {
@@ -376,14 +285,16 @@ function wphb_enqueue_admin_scripts() {
 		'chartNonce' => wp_create_nonce( 'wphb-chart' ),
 		'finishedCheckURLsLink' => wphb_get_admin_menu_url( 'minification' ),
 		'toggleMinificationNonce' => wp_create_nonce( 'wphb-toggle-minification' ),
-		'discardAlert' => __( 'Are you sure? All your changes will be lost', 'wphb' )
+		'discardAlert' => __( 'Are you sure? All your changes will be lost', 'wphb' ),
+		'advancedSettingsNonce' => wp_create_nonce( 'wphb-minification-advanced' )
 	);
 	wp_localize_script( 'wphb-admin', 'wphbMinificationStrings', $i10n );
 
 
 	$i10n = array(
 		'removeWelcomeBoxNonce' => wp_create_nonce( 'wphb-remove-welcome-box' ),
-		'activateMinificationNonce' => wp_create_nonce( 'wphb-activate-minification' )
+		'activateMinificationNonce' => wp_create_nonce( 'wphb-activate-minification' ),
+		'advancedSettingsNonce' => wp_create_nonce( 'wphb-minification-advanced' )
 	);
 	wp_localize_script( 'wphb-admin', 'wphbDashboardStrings', $i10n );
 
@@ -442,7 +353,6 @@ function wphb_performance_get_last_report() {
 
 /**
  * Wrapper function for WP_Hummingbird_Module_Performance::refresh_report()
- * @return bool|mixed|void
  */
 function wphb_performance_refresh_report() {
 	WP_Hummingbird_Module_Performance::refresh_report();

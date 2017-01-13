@@ -43,7 +43,8 @@ class WD_Widget_Manager extends WD_Component {
 			'WD_Performance_Widget',
 			'WD_Audit_Log_Widget',
 			'WD_Hardener_Widget',
-			'WD_Scan_Widget'
+			'WD_Scan_Widget',
+			'WD_Lockout_Widget'
 		);
 
 		foreach ( $widgets as $widget ) {

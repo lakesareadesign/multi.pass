@@ -70,6 +70,16 @@
             open: function() {
                 $( '#wphb-upgrade-membership-modal-link').trigger( 'click' );
             }
+        },
+
+        post: function( data, module ) {
+            data.action = 'wphb_ajax';
+            data.module = module;
+            return $.ajax({
+                url: ajaxurl,
+                method: 'POST',
+                data: data
+            });
         }
     };
 

@@ -90,6 +90,12 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 			<span><strong><?php _ex( 'Zone', 'CloudFlare Zone', 'wphb' ); ?>:</strong> {{ data.zoneName }}</span>
 			<span><strong><?php _ex( 'Plan', 'CloudFlare Plan', 'wphb' ); ?>:</strong> {{ data.plan }}</span>
 		</p>
+		<hr>
+		<p class="cloudflare-clear-cache-text"><?php _e( 'Made changes to your website? Use Purge Cache button to clear CloudFlare\'s cache', 'wphb' ); ?></p class="cloudflare-clear-cache-text">
+		<p class="cloudflare-clear-cache">
+			<input type="submit" class="button button-grey" value="<?php esc_attr_e( 'Purge Cache', 'wphb' ); ?>">
+			<span class="spinner cloudflare-spinner"></span>
+		</p>
 	</div>
 </script>
 

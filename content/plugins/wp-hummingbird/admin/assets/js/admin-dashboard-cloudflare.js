@@ -12,12 +12,33 @@
 
             this.renderStep( this.currentStep );
 
+            $('body').on( 'click', '.cloudflare-clear-cache .button', function(e ) {
+                e.preventDefault();
+                this.purgeCache.apply( $(e.target), [this] );
+            }.bind(this));
+
+        },
+
+        purgeCache: function( self ) {
+            var data = {
+                action: 'cloudflare_purge_cache'
+            };
+
+            var $button = this;
+            $button.attr( 'disabled', true );
+            self.showSpinner();
+            $.post( ajaxurl, data )
+                .always( function() {
+                    $button.removeAttr( 'disabled' );
+                    self.hideSpinner();
+                });
         },
 
         renderStep: function( step ) {
             var template = WPHB_Admin.DashboardCloudFlare.template( '#cloudflare-step-' + step );
             var content = template( this.data );
             var self = this;
+
 
             if ( content ) {
                 this.currentStep = step;

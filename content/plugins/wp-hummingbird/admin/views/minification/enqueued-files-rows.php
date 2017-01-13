@@ -1,4 +1,4 @@
-<tr class="wphb-minification-row" data-filter="<?php echo $item['handle'] . ' ' . strtolower( $ext ); ?>" data-filter-secondary="<?php echo esc_attr( $filter ); ?>">
+<tr class="wphb-minification-row" data-filter="<?php echo $item['handle'] . ' ' . strtolower( $ext ); ?>" data-filter-secondary="<?php echo esc_attr( $filter ); echo 'OTHER' === $ext ? 'other' : ''?>">
 	<td class="wphb-minification-td-filename">
 		<span class="wphb-filename-extension wphb-filename-extension-<?php echo strtolower( $ext ); ?>"><?php echo $ext; ?></span>
 		<div class="wphb-filename-info">
@@ -41,11 +41,6 @@
 					<span tooltip="<?php _e( 'Footer', 'wphb' ); ?>"></span>
 					<i class="dev-icon dev-icon-pos_footer"></i>
 				</label>
-				<input type="radio" class="toggle-position-header" id="wphb-minification-position-header-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" name="<?php echo $base_name; ?>[position]" value="header" <?php checked( $position, 'header' ); ?> />
-				<label for="wphb-minification-position-header-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>">
-					<span tooltip="<?php _e( 'Header', 'wphb' ); ?>"></span>
-					<i class="dev-icon dev-icon-pos_header"></i>
-				</label>
 				<input type="radio" class="toggle-position-default" id="wphb-minification-position-default-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" name="<?php echo $base_name; ?>[position]" value="" <?php checked( empty( $position ) ); ?> />
 				<label for="wphb-minification-position-default-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>">
 					<span tooltip="<?php _e( 'Original', 'wphb' ); ?>"></span>
@@ -61,7 +56,7 @@
 			</div>
 		<?php else: ?>
 			<span class="wphb-pills">
-				<?php _e( 'No info', 'wphb' ); ?>
+				<?php _e( 'Pending', 'wphb' ); ?>
 			</span>
 		<?php endif; ?>
 	</td>

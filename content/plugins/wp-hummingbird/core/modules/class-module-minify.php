@@ -1,117 +1,54 @@
 <?php
 
-
-require_once( 'minify/class-sources-group.php' );
-require_once( 'minify/class-chart.php' );
 require_once( 'minify/class-uri-rewriter.php' );
 require_once( 'minify/class-errors-controller.php' );
+require_once( 'minify/class-minify-sources-collector.php' );
+
+// New files
+include_once( 'minify/class-minify-group.php' );
+include_once( 'minify/class-minify-groups-list.php' );
 
 class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 
-
 	/**
-	 * Sources that are going to be moved to footer
+	 * List of groups to be processed at the end of the request
 	 *
 	 * @var array
 	 */
-	private $to_footer = array(
-		'styles' => array(),
-		'scripts' => array()
-	);
-
-	private $done_handles = array(
-		'styles' => array(),
-		'scripts' => array()
-	);
+	private $group_queue = array();
 
 	/**
-	 * Save all the minified groups that
-	 * are already enqueued so they are not
-	 * repeated
-	 *
-	 * @var array
-	 */
-	private $done_minified = array(
-		'styles' => array(),
-		'scripts' => array()
-	);
-
-	/**
-	 * Sources that are going to be moved to header
-	 *
-	 * @var array
-	 */
-	private $to_header = array(
-		'styles' => array(),
-		'scripts' => array()
-	);
-
-	/**
-	 * The list of sources that we are going to manage
-	 *
-	 * @var array
-	 */
-	private $to_do_list = array(
-		'styles' => array(),
-		'scripts' => array()
-	);
-
-	/**
-	 * Save all resource that we have finished with
-	 *
-	 * @var array
-	 */
-	private $done_list = array(
-		'styles' => array(),
-		'scripts' => array()
-	);
-
-	/**
-	 * Handles that will be processed by WP
-	 *
-	 * @var array
-	 */
-	private $return_to_wp = array(
-		'styles' => array(),
-		'scripts' => array()
-	);
-
-	/**
-	 * Number that helps to numerate scripts handled by WP Hummingbird
-	 *
-	 * @var int
-	 */
-	private static $minified_counter = 0;
-
-	/**
-	 * Collector object. It will gather information
-	 * about all sources that finds
-	 *
 	 * @var WP_Hummingbird_Sources_Collector
 	 */
-	private $collector;
-
-	/**
-	 * The object that collects all data related to chart
-	 *
-	 * @var WP_Hummingbird_Minification_Chart
-	 */
-	private $chart = null;
-
-	/**
-	 * Saves the resources that are pending to be processed
-	 *
-	 * @var array
-	 */
-	public $process_queue = array(
-		'styles' => array(),
-		'scripts' => array()
-	);
+	public $sources_collector;
 
 	/**
 	 * @var WP_Hummingbird_Minification_Errors_Controller
 	 */
 	public $errors_controller;
+
+	/**
+	 * Counter that will name scripts/styles slugs
+	 *
+	 * @var int
+	 */
+	private static $counter = 0;
+
+	public $done = array(
+		'scripts' => array(),
+		'styles' => array()
+	);
+
+	public $to_footer = array(
+		'styles' => array(),
+		'scripts' => array()
+	);
+
+
+	public function __construct( $slug, $name ) {
+		parent::__construct( $slug, $name );
+		self::$counter = 0;
+	}
 
 	/**
 	 * Initializes Minify module
@@ -120,12 +57,29 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 		global $pagenow;
 
 		$this->errors_controller = new WP_Hummingbird_Minification_Errors_Controller();
+		$this->sources_collector = new WP_Hummingbird_Sources_Collector();
 
 		if ( isset( $_GET['avoid-minify'] ) || 'wp-login.php' === $pagenow ) {
 			add_filter( 'wp_hummingbird_is_active_module_' . $this->get_slug(), '__return_false' );
 		}
 
 		add_filter( 'wp_hummingbird_is_active_module_' . $this->get_slug(), array( $this, 'should_be_active' ), 20 );
+
+		add_action( 'before_delete_post', array( $this, 'on_delete_post' ), 10 );
+	}
+
+	/**
+	 * Delete files attached to a minify group
+	 */
+	public function on_delete_post( $post_id ) {
+		$group = WP_Hummingbird_Module_Minify_Group::get_instance_by_post_id( $post_id );
+
+		if ( is_a( $group, 'WP_Hummingbird_Module_Minify_Group'  ) && $group->file_id ) {
+			if ( $group->get_file_path() ) {
+				wp_delete_file( $group->get_file_path() );
+			}
+			wp_cache_delete( 'wphb_minify_groups' );
+		}
 	}
 
 	public function should_be_active( $is_active ) {
@@ -134,6 +88,19 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 		}
 
 		return $is_active;
+	}
+
+	/**
+	 * Check if Hummingbird is currently checking files
+	 *
+	 * @return bool
+	 */
+	public static function is_checking_files() {
+		$checking_files = get_option( 'wphb-minification-check-files', 0 );
+		if ( $checking_files )
+			return true;
+
+		return false;
 	}
 
 	/**
@@ -156,35 +123,50 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 	public function run() {
 		global $wp_customize;
 
-		// Init the chart data collector
-		$this->chart = new WP_Hummingbird_Minification_Chart();
-
-		add_action( 'activate_plugin', array( $this, 'on_plugin_or_theme_activation' ) );
-		add_action( 'deactivate_plugin', array( $this, 'on_plugin_or_theme_activation' ) );
-		add_action( 'switch_theme', array( $this, 'on_plugin_or_theme_activation' ) );
+		add_action( 'init', array( $this, 'register_cpts' ) );
 
 		if ( is_admin() || is_customize_preview() || is_a( $wp_customize, 'WP_Customize_Manager' ) ) {
 			return;
 		}
 
-		wphb_include_sources_collector();
-
-		// Init the collector
-		$this->collector = new WP_Hummingbird_Sources_Collector();
-
-
 		// Only minify on front
 		add_filter( 'print_styles_array', array( $this, 'filter_styles' ), 5 );
 		add_filter( 'print_scripts_array', array( $this, 'filter_scripts' ), 5 );
-		add_action( 'wp_head', array( $this, 'print_styles' ), 900 );
-		add_action( 'wp_head', array( $this, 'print_scripts' ), 900 );
-		add_action( 'wp_print_footer_scripts', array( $this, 'print_late_resources' ), 900 );
+		//add_action( 'wp_head', array( $this, 'print_styles' ), 900 );
+		//add_action( 'wp_head', array( $this, 'print_scripts' ), 900 );
+		//add_action( 'wp_print_footer_scripts', array( $this, 'print_late_resources' ), 900 );
 
-		add_action( 'shutdown', array( $this, 'save_data' ) );
+		add_action( 'shutdown', array( $this, 'process_queue' ) );
 	}
 
-	public function on_plugin_or_theme_activation() {
-		self::clear_cache( false );
+	/**
+	 * Register a new CPT for Assets groups
+	 */
+	public static function register_cpts() {
+		$labels = array(
+			'name' => 'WPHB Minify Groups',
+			'singular_name' => 'WPHB Minify Group'
+		);
+
+		$args = array(
+			'labels'             => $labels,
+			'description'        => 'WPHB Minify Groups (internal use)',
+			'public'             => false,
+			'publicly_queryable' => false,
+			'show_ui'            => false,
+			'show_in_menu'       => false,
+			'query_var'          => false,
+			'rewrite'            => false,
+			'capability_type'    => 'post',
+			'has_archive'        => false,
+			'hierarchical'       => false,
+			'supports'           => array()
+		);
+		register_post_type( 'wphb_minify_group', $args );
+	}
+
+	public function get_queue_to_process() {
+		return $this->group_queue;
 	}
 
 	/**
@@ -210,54 +192,6 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 	}
 
 	/**
-	 * Print footer sources
-	 */
-	function print_late_resources() {
-		$this->print_styles();
-		$this->print_scripts();
-	}
-
-	/**
-	 * Print styles only those handled by WP Hummingbird
-	 */
-	function print_styles() {
-		$this->print_enqueues( 'styles' );
-	}
-
-	/**
-	 * Print scripts only those handled by WP Hummingbird
-	 */
-	function print_scripts() {
-		$this->print_enqueues( 'scripts' );
-	}
-
-	/**
-	 * Print sources
-	 *
-	 * Print sources based on our to-do list that we have gathered before
-	 *
-	 * @param string $type styles|scripts
-	 */
-	public function print_enqueues( $type ) {
-		global $wp_styles, $wp_scripts;
-
-		$to_do = $this->to_do_list[ $type ];
-
-		if ( $type == 'styles' ) {
-			$wp_sources = $wp_styles;
-		}
-		else {
-			$wp_sources = $wp_scripts;
-		}
-
-		foreach ( $to_do as $key => $handle ) {
-			$wp_sources->do_item( $handle );
-			$this->done_list[ $type ][ $key ] = $this->to_do_list[ $type ][ $key ];
-			unset( $this->to_do_list[ $type ][ $key ] );
-		}
-	}
-
-	/**
 	 * Filter the sources
 	 *
 	 * We'll collect those styles/scripts that are going to be
@@ -270,282 +204,202 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 	 * @return array List of handles that will be processed by WordPress
 	 */
 	function filter_enqueues_list( $handles, $type ) {
-		$init_time = $this->microtime_float();
-		$original_handles = $handles;
+		if ( ! $this->is_active() ) {
+			// Minification not active, return the handles
+			return $handles;
+		}
 
-		// Sometimes handles are passed twice, let's remove those that we have processed already
-		if ( $intersect = array_intersect( $handles, $this->done_handles[ $type ] ) ) {
-			foreach ( $intersect as $item ) {
-				unset( $handles[ array_search( $item, $handles ) ] );
-			}
+		if ( $this->errors_controller->is_server_error() ) {
+			// there seem to be an error in our severs, do not minify
+			return $handles;
 		}
 
 		if ( $type == 'styles' ) {
 			global $wp_styles;
-			$wp_sources = $wp_styles;
+			$wp_dependencies = $wp_styles;
 		}
 		elseif( $type == 'scripts' ) {
 			global $wp_scripts;
-			$wp_sources = $wp_scripts;
+			$wp_dependencies = $wp_scripts;
 		}
 		else {
 			// What is this?
 			return $handles;
 		}
 
-		if ( ! $this->is_active() ) {
+		if ( empty( $handles ) ) {
+			//  Nothing to do
 			return $handles;
 		}
 
+		// Collect the handles information to use in admin later
+		foreach ( $handles as $key => $handle ) {
+			if ( isset ( $wp_dependencies->registered[ $handle ] ) && ! empty( $wp_dependencies->registered[ $handle ]->src ) ) {
+				$this->sources_collector->add_to_collection( $wp_dependencies->registered[ $handle ], $type );
+			}
+
+			// If we aren't in footer, remove handles that need to go to footer
+			if ( ! self::is_in_footer() && isset ( $wp_dependencies->registered[ $handle ]->extra['group'] ) && $wp_dependencies->registered[ $handle ]->extra['group'] ) {
+				unset( $handles[ $key ] );
+			}
+		}
+
+		$return_to_wp = array();
 
 		if ( self::is_in_footer() && ! empty( $this->to_footer[ $type ] ) ) {
-			// We have some gift from the header
-			$handles = array_unique( array_merge( $this->to_footer[ $type ], $handles ) );
-		}
-		elseif ( ! self::is_in_footer() && ! empty( $this->to_header[ $type ] ) ) {
-			// We have some gift from the footer
-			$handles = array_unique( array_merge( $this->to_header[ $type ], $handles ) );
+			// Header sent us some handles to be moved to footer
+			$handles = array_unique( array_merge( $handles, $this->to_footer[ $type ] ) );
 		}
 
-		if ( empty( $handles ) ) {
-			return $handles;
+		// Group dependencies by attributes like args, extra, etc
+		$_groups = $this->group_dependencies_by_attributes( $handles, $wp_dependencies, $type );
+
+
+		// Create a Groups list object
+		$groups_list = new WP_Hummingbird_Module_Minify_Groups_List( $type );
+		array_map(array( $groups_list, 'add_group' ), $_groups );
+
+		unset( $_groups );
+
+		$this->attach_inline_attribute( $groups_list, $wp_dependencies );
+
+		if ( 'scripts' === $type ) {
+			$this->attach_scripts_localization( $groups_list, $wp_dependencies );
 		}
 
-		// Group the sources by externals and extras
-		$groups = $this->group_sources_by_externals( $handles, $wp_sources->registered, $type );
-		$groups = $this->_group_groups_by_extras( $groups, $wp_sources, $type );
-
-		$all_groups = array();
-		foreach ( $groups as $group ) {
-
-			$extras = isset( $group['extra'] ) ? $group['extra'] : array();
-			$obj_group = new WP_Hummingbird_Sources_Group( $type, $group['sources'], $extras );
-			$obj_group->set_must_minify( $group['minify'] );
-			$obj_group->set_must_combine( $group['combine'] );
-			$obj_group->set_externals( $group['externals'] );
-			$obj_group->set_position( $group['position'] );
-
-			foreach ( $group['sources'] as $_source ) {
-				$obj_group->add_source( $_source );
-			}
-
-			$all_groups[] = $obj_group;
-
-		}
-
-
-		unset( $groups );
-
-		// We'll add here groups that need to be processed
-		$process_queue = array();
-
-		foreach ( $all_groups as $group ) {
-			/** @var WP_Hummingbird_Sources_Group $group */
-			$sources = $group->get_sources();
-
-			if ( empty( $sources ) )
-				continue;
-
-			$process = true;
-			$process_but_save = false;
-
-			if ( ! $group->must_minify() && ! $group->must_combine() ) {
-				$this->return_to_wp[ $type ] = array_merge( $this->return_to_wp[ $type ], $group->get_handles() );
-				$process = false;
-				$process_but_save = true;
-			}
-
-
-			// Get the versions hash for this group
-			// so we can compare and decide if refresh cache or not
-			$group_sources_vers_hash = $group->get_versions_hash();
-
-			// Search the option where we save the data (not the content)
-			$cache_info = $group->get_cache_info();
-
-
-			$group_src = '';
-			if ( $cache_info ) {
-				$expire = $cache_info['expires'];
-				$cached_vers_hash = $cache_info['ver_hash'];
-
-				$is_expired = ( time() > $expire ) || ( $cached_vers_hash != $group_sources_vers_hash );
-				if ( ! $is_expired && ! empty( $cache_info['src'] ) ) {
-					// Do not minify, we have already the cached source
-					$process = false;
-					$group_src = $cache_info['src'];
+		// Time to split the groups if we're not combining some of them
+		foreach ( $groups_list->get_groups() as $group ) {
+			/** @var WP_Hummingbird_Module_Minify_Group $group */
+			$dont_enqueue_list = $group->get_dont_enqueue_list();
+			if ( $dont_enqueue_list ) {
+				// There are one or more handles that should not be enqueued
+				$group->remove_handles( $dont_enqueue_list );
+				if ( 'styles' === $type ) {
+					wp_dequeue_style( $dont_enqueue_list );
 				}
 				else {
-					// Cache expired, let's delete the file
-					$group->delete_cache_file();
-					$group->delete_cache_info();
-					$this->chart->delete_group( $group->get_cache_key() );
+					wp_dequeue_script( $dont_enqueue_list );
 				}
 			}
 
+			$dont_combine_list = $group->get_dont_combine_list();
+			if ( $dont_combine_list ) {
+				// There are one or more handles that should not be combined
+				/** @var WP_Hummingbird_Module_Minify_Group $group */
+				$handles = $group->get_handles();
+				// Here we'll save sources that don't need to be minified/combine
+				// Then we'll extract those handles from the group and we'll create
+				// a new group for them keeping the groups order
+				$group_combine = array();
+				foreach ( $handles as $handle ) {
+					$combine_resource = $group->should_do_handle( $handle, 'combine' );
+					$group_combine[ $handle ] = $combine_resource ? 1 : 0;
+				}
 
-			if ( $process ) {
-				// Minify the files
-				$process_queue[ $group->get_cache_key() ] = $group;
+				// Now split groups if needed based on combine value
+				// We need to keep always the order, ALWAYS
+				// This will save the new splitted group structure
+				$splitted_group = array();
 
-				// Add data to chart
-				if ( is_front_page() ) {
-					foreach ( $group->get_handles() as $group_handle ) {
-						$registered = $wp_sources->registered[ $group_handle ];
-						$this->chart->add_source( $group->get_cache_key(), $group->get_position(), $type, $registered->src );
+				$last_status = null;
+				foreach ( $group_combine as $handle => $status ) {
+
+					// Last minify status will be the first one by default
+					if ( is_null( $last_status ) ) {
+						$last_status = $status;
 					}
-				}
-			}
 
-			if ( ! $process_but_save && ( ! $group_src || is_wp_error( $group_src ) ) ) {
-				// Something happened! Return these handles to WP
-				// @TODO: Log the error
-				$this->return_to_wp[ $type ] = array_merge( $this->return_to_wp[ $type ], $group->get_handles() );
-				$this->done_handles[ $type ] = array_merge( $this->done_handles[ $type ], $group->get_handles() );
-			}
-			elseif ( $process_but_save ) {
-				$group_handles = $group->get_handles();
+					// Set the splitted groups to the last element
+					end( $splitted_group );
+					if ( $last_status === $status ) {
+						$current_key = key( $splitted_group );
+						if ( ! $current_key ) {
+							// Current key can be NULL, set to 0
+							$current_key = 0;
+						}
 
-				// Save collection for future reference
-				foreach ( $group_handles as $group_handle ) {
-					$registered = $wp_sources->registered[ $group_handle ];
-					$registered->original_size = $group->get_original_size( $group_handle );
-					$registered->compressed_size = $group->get_compressed_size( $group_handle );
-					$registered->group_key = $group->get_cache_key();
-					$this->collector->add_to_collection( $registered, $type );
+						if ( ! isset( $splitted_group[ $current_key ] ) || ! is_array( $splitted_group[ $current_key ] ) ) {
+							$splitted_group[ $current_key ] = array();
+						}
+
+						$splitted_group[ $current_key ][] = $handle;
+					}
+					else {
+						// Create a new group
+						$splitted_group[] = array( $handle );
+					}
+
+
+					$last_status = $status;
 				}
+
+				// Split the group!
+				$groups_list->split_group( $group->hash, $splitted_group );
+			}
+		}
+
+
+		// Set the groups handles, as we need all of them before processing
+		foreach ( $groups_list->get_groups() as $group ) {
+			$group->group_id = 'wphb-' . ++self::$counter;
+			foreach ( $group->get_handles() as $handle ) {
+				$this->done[ $type ][] = $handle;
+			}
+		}
+
+		// Parse dependencies, load files and mark groups as ready,process or only-handles
+		// Watch out! Groups must not be changed after this point
+		$groups_list->preprocess_groups();
+
+		foreach ( $groups_list->get_groups() as $group ) {
+			$group_status = $groups_list->get_group_status( $group->hash );
+			$deps = $groups_list->get_group_dependencies( $group->hash );
+
+			if ( 'ready' == $group_status ) {
+				// The group has its file and is ready to be enqueued
+				$group->enqueue( self::is_in_footer(), $deps );
+				$return_to_wp = array_merge( $return_to_wp, array( $group->group_id ) );
 			}
 			else {
-				// Is the group already enqueued?
-				$group->set_group_src( $group_src );
-				$group_hash = $group->get_srcs_hash();
+				// The group has not yet a file attached or it cannot be processed
+				// for some reason
+				foreach ( $group->get_handles() as $handle ) {
+					$new_id = $group->enqueue_one_handle( $handle, self::is_in_footer(), $deps );
+					$return_to_wp = array_merge( $return_to_wp, array( $new_id ) );
+				}
 
-				if ( ! in_array( $group_hash, $this->done_minified[ $type ] ) ) {
-					$group_handles = $group->get_handles();
-
-					self::$minified_counter++;
-					$new_handle = 'wphb-' . self::$minified_counter;
-					$group->enqueue( $new_handle, self::is_in_footer() );
-
-					// Save this group as enqueued
-					$this->done_minified[ $type ][] = $group->get_srcs_hash();
-
-					$this->to_do_list[ $type ][] = $new_handle;
-
-					// Save collection for future reference
-					foreach ( $group_handles as $group_handle ) {
-						$registered = $wp_sources->registered[ $group_handle ];
-						$registered->original_size = $group->get_original_size( $group_handle );
-						$registered->compressed_size = $group->get_compressed_size( $group_handle );
-						$registered->group_key = $group->get_cache_key();
-						$this->collector->add_to_collection( $registered, $type );
-
-						$this->done_handles[ $type ][] = $group_handle;
+				if ( 'process' == $group_status ) {
+					// Add the group to the queue to be processed later
+					if ( $group->should_process_group() ) {
+						$this->group_queue[] = $group;
 					}
+
 				}
 			}
-
 		}
 
-		if ( ! empty( $process_queue ) ) {
-			$this->process_queue[ $type ] = array_merge( $this->process_queue[ $type ], $process_queue );
-		}
-
-		$finish_time = $this->microtime_float();
-		$duration = ( $finish_time - $init_time );
-
-		// Try to sort the returned array the same way that we get it at the beginning
-		$new_return_to_wp = array();
-		foreach ( $original_handles as $key => $handle ) {
-			if ( array_search( $handle, $this->return_to_wp[ $type ] ) !== false ) {
-				$new_return_to_wp[ $key ] = $handle;
-			}
-		}
-
-		$this->return_to_wp[ $type ] = $new_return_to_wp;
-
-		$this->return_to_wp[ $type ] = array();
-
-		return $new_return_to_wp;
-
+		return $return_to_wp;
 	}
 
 	/**
-	 * @return float
-	 */
-	function microtime_float() {
-		list($usec, $sec) = explode(" ", microtime());
-		return ((float)$usec + (float)$sec);
-	}
-
-	/**
+	 * Group dependencies by alt, title, rtl, conditional and args attributes
+	 *
 	 * @param $handles
-	 * @param $registered
-	 * @param string $type scripts|styles
+	 * @param $wp_dependencies
 	 *
 	 * @return array
 	 */
-	function group_sources_by_externals( $handles, $registered, $type = 'styles' ) {
-		$resources_group = array();
+	private function group_dependencies_by_attributes( $handles, $wp_dependencies, $type ) {
+		$groups = array();
+		$prev_differentiators_hash = false;
 
-		// This var will tell us during teh loop if we marked
-		// last resource to minify later
-		$last_minify_status = -1;
-		$last_combine_status = -1;
-
-		$i = 0;
-		$files_in_group = 0;
-		$options = wphb_get_settings();
-
-		/**
-		 * Filter the max number of files in a group
-		 *
-		 * @var int $options['max_files_in_group']
-		 */
-		$max_files_in_group = apply_filters( 'wphb_max_files_in_group', $options['max_files_in_group'] );
-
-		// This loop iterates over the handles
-		// It creates a group for every X resources that we are going to minify
-		// If it finds a resource that we don't want to minify,
-		// It creates a new group and starts again
 		foreach ( $handles as $handle ) {
-
-			if ( ! isset( $registered[ $handle ] ) ) {
-				$this->return_to_wp[ $type ][] = $handle;
-				continue;
-			}
-
-			$source_url = $registered[ $handle ]->src;
-
-			// By default we're going to try to minify it
-			$minify_resource = true;
-
-			/**
-			 * Filter the resource (blocked or not)
-			 *
-			 * @usedby wphb_filter_resource_block()
-			 *
-			 * @var bool false
-			 * @var string $handle Source slug
-			 * @var string $source_url Source URL
-			 * @var string $type scripts|styles
-			 */
-			$block_resource = apply_filters( 'wphb_block_resource', false, $handle, $type, $source_url, $registered );
-			if ( $block_resource ) {
-				$item = $registered[ $handle ];
-				$item->original_size = false;
-				$item->compressed_size = false;
-				$item->group_key = '';
-				$this->collector->add_to_collection( $item, $type );
-				$this->errors_controller->clear_handle_error( $handle, $type );
+			$registered_dependency = isset( $wp_dependencies->registered[ $handle ] ) ? $wp_dependencies->registered[ $handle ] : false;
+			if ( ! $registered_dependency ) {
 				continue;
 			}
 
 			if ( ! self::is_in_footer() ) {
-				$send_resource_to_footer = false;
-				if ( isset( $registered[ $handle ]->extra['group'] ) && 1 == $registered[ $handle ]->extra['group'] )
-					$send_resource_to_footer = true;
-
 				/**
 				 * Filter the resource (move to footer)
 				 *
@@ -553,181 +407,170 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 				 *
 				 * @var bool $send_resource_to_footer
 				 * @var string $handle Source slug
-				 * @var string $source_url Source URL
 				 * @var string $type scripts|styles
+				 * @var string $source_url Source URL
 				 */
-				$send_resource_to_footer = apply_filters( 'wphb_send_resource_to_footer', $send_resource_to_footer, $handle, $type, $source_url );
-				if ( $send_resource_to_footer ) {
+				if ( apply_filters( 'wphb_send_resource_to_footer', false, $handle, $type, $wp_dependencies->registered[ $handle ]->src ) ) {
+					// Move this to footer, do not take this handle in account for this iteration
 					$this->to_footer[ $type ][] = $handle;
 					continue;
 				}
-
 			}
-			else {
-				/**
-				 * Filter the resource (move to header)
-				 *
-				 * @var bool false
-				 * @var string $handle Source slug
-				 * @var string $source_url Source URL
-				 * @var string $type scripts|styles
-				 */
-				$send_resource_to_header = apply_filters( 'wphb_send_resource_to_header', false, $minify_resource, $handle, $type, $source_url );
-				if ( $send_resource_to_header ) {
-					// It should have been processed on header
-					continue;
+
+			// We'll group by these extras $wp_style->extras and $wp_style->args (args is no more than a string, confusing)
+			// If previous group has the same values, we'll add this dep it to that group
+			// otherwise, a new group will be created
+			$group_extra_differentiators = array( 'alt', 'title', 'rtl', 'conditional' );
+			$group_differentiators = array( 'args' );
+
+			// We'll create a hash for all differentiators
+			$differentiators_hash = array();
+			foreach ( $group_extra_differentiators as $differentiator ) {
+				if ( isset( $registered_dependency->extra[ $differentiator ] ) ) {
+					if ( is_bool( $registered_dependency->extra[ $differentiator ] ) && $registered_dependency->extra[ $differentiator ] ) {
+						$differentiators_hash[] = 'true';
+					}
+					elseif ( is_bool( $registered_dependency->extra[ $differentiator ] ) && ! $registered_dependency->extra[ $differentiator ] ) {
+						$differentiators_hash[] = 'false';
+					}
+					else {
+						$differentiators_hash[] = (string)$registered_dependency->extra[ $differentiator ];
+					}
+				}
+				else {
+					$differentiators_hash[] = '';
 				}
 			}
 
-			$is_external_source = ! $this->is_local_source( $source_url );
-
-			/**
-			 * Filter the resource (minify or not)
-			 *
-			 * @usedby wphb_filter_resource_minify()
-			 *
-			 * @var bool $minify_resource
-			 * @var string $handle Source slug
-			 * @var string $source_url Source URL
-			 * @var string $type scripts|styles
-			 */
-			$minify_resource = apply_filters( 'wphb_minify_resource', $minify_resource, $handle, $type, $source_url );
-			$minify_resource = (bool) $minify_resource;
-
-			$files_in_group++;
-
-
-			/**
-			 * Filter the resource (combine or not)
-			 *
-			 * @usedby wphb_filter_resource_combine()
-			 *
-			 * @var bool false
-			 * @var string $handle Source slug
-			 * @var string $source_url Source URL
-			 * @var string $type scripts|styles
-			 */
-			$combine_resource = apply_filters( 'wphb_combine_resource', true, $handle, $type, $source_url );
-			if ( ! $combine_resource ) {
-				// If we want to keep the position or not combine it, let's create a new group only for it
-				$i++;
-				$last_minify_status = null;
-				$last_combine_status = null;
-				$files_in_group = 0;
-			}
-			elseif ( ( $last_minify_status != $minify_resource ) || ( $last_combine_status != $combine_resource ) || $files_in_group >= $max_files_in_group ) {
-				// If last status is different from the current one, create a new group
-				// OR we have too many files for this group
-				$i++;
-				// Reset the number of files in the same group
-				$files_in_group = 0;
+			foreach ( $group_differentiators as $differentiator ) {
+				if ( isset( $registered_dependency->$differentiator ) ) {
+					if ( is_bool( $registered_dependency->$differentiator ) && $registered_dependency->$differentiator ) {
+						$differentiators_hash[] = 'true';
+					}
+					elseif ( is_bool( $registered_dependency->$differentiator ) && ! $registered_dependency->$differentiator ) {
+						$differentiators_hash[] = 'false';
+					}
+					else {
+						$differentiators_hash[] = (string)$registered_dependency->$differentiator;
+					}
+				}
+				else {
+					$differentiators_hash[] = '';
+				}
 			}
 
-			$resources_group[ $i ]['minify'] = $minify_resource;
-			$resources_group[ $i ]['combine'] = $combine_resource;
+			$differentiators_hash = implode( '-', $differentiators_hash );
 
-			// List of externals in this group
-			if ( ! isset( $resources_group[ $i ]['externals'] ) ) {
-				$resources_group[ $i ]['externals'] = array();
-			}
+			// Now compare the hash with the previous one
+			// If they are the same, do not create a new group
+			if ( $differentiators_hash !== $prev_differentiators_hash ) {
+				$new_group = new WP_Hummingbird_Module_Minify_Group();
+				$new_group->set_type( $type );
+				foreach ( $registered_dependency->extra as $key => $value ) {
+					$new_group->add_extra( $key, $value );
+				}
 
-			if ( $is_external_source ) {
-				$resources_group[ $i ]['externals'] = array_merge( $resources_group[ $i ]['externals'], array( $handle ) );
-			}
+				// We'll treat this later
+				$new_group->delete_extra( 'after' );
 
-			// List of sources in this group
-			if ( empty( $resources_group[ $i ]['sources'] ) )
-				$resources_group[ $i ]['sources'] = array();
+				$new_group->set_args( $registered_dependency->args );
 
-			$resources_group[ $i ]['sources'][] = $handle;
-			if ( self::is_in_footer() ) {
-				$resources_group[ $i ]['position'] = 'footer';
+				if ( $registered_dependency->src ) {
+					$new_group->add_handle( $handle, $registered_dependency->src );
+
+					// Add dependencies
+					$new_group->add_handle_dependency( $handle, $wp_dependencies->registered[ $handle ]->deps );
+				}
+
+
+				$groups[] = $new_group;
 			}
 			else {
-				$resources_group[ $i ]['position'] = 'header';
+				end( $groups );
+				$last_key = key( $groups );
+				$groups[ $last_key ]->add_handle( $handle, $registered_dependency->src );
+				// Add dependencies
+				$groups[ $last_key ]->add_handle_dependency( $handle, $registered_dependency->deps );
+				reset( $groups );
 			}
 
-			$last_minify_status = $minify_resource;
-			$last_combine_status = $combine_resource;
+			$prev_differentiators_hash = $differentiators_hash;
 
 		}
 
-		return $resources_group;
+		// Remove group without handles
+		$return = array();
+		foreach ( $groups as $key => $group ) {
+			if ( $group->get_handles() ) {
+				$return[ $key ] = $group;
+			}
+		}
+
+		return $return;
 	}
 
 	/**
-	 * Regroup groups by extras
+	 * Attach inline scripts/styles to groups
 	 *
-	 * @internal
+	 * Extract all deps that has inline scripts/styles (added by wp_add_inline_script/style functions)
+	 * then it will add those extras to the groups
 	 *
-	 * @param array $groups
-	 * @param $wp_sources
-	 *
-	 * @return array
+	 * @param WP_Hummingbird_Module_Minify_Groups_List $groups_list
+	 * @param $wp_dependencies
 	 */
-	private function _group_groups_by_extras( $groups, $wp_sources, $type ) {
-		$resources_groups = array();
+	private function attach_inline_attribute( &$groups_list, $wp_dependencies ) {
+		$registered = $wp_dependencies->registered;
+		$extras = wp_list_pluck( $registered, 'extra' );
+		$after = wp_list_pluck( array_filter( $extras, array( $this, '_filter_after_after_attribute' ) ), 'after' );
 
-		foreach ( $groups as $group ) {
-			// Group by extras
-			$group_sources = $this->_group_handles_by_extra( $group['sources'], $wp_sources, $type );
-			foreach ( $group_sources as $key => $handles ) {
-				$resources_groups[] = array(
-					'minify' => $group['minify'],
-					'combine' => $group['combine'],
-					'externals' => $group['externals'],
-					'extra' => maybe_unserialize( $key ),
-					'sources' => $handles,
-					'position' => $group['position']
-				);
-			}
-		}
-
-		return $resources_groups;
+		array_map( function( $group ) use ( $groups_list, $after ) {
+			/** @var WP_Hummingbird_Module_Minify_Group $group */
+			array_map( function( $handle ) use ( $after, $group ) {
+				if ( isset( $after[ $handle ] ) ) {
+					// Add!
+					$group->add_after( $after[ $handle ] );
+				}
+			}, $group->get_handles() );
+		}, $groups_list->get_groups() );
 	}
 
 	/**
-	 * Group handles by extras
+	 * Attach localization scripts to groups
+	 *
+	 * @param WP_Hummingbird_Module_Minify_Groups_List $groups_list
+	 * @param $wp_dependencies
+	 */
+	private function attach_scripts_localization( &$groups_list, $wp_dependencies ) {
+		$registered = $wp_dependencies->registered;
+		$extra = wp_list_pluck( $registered, 'extra' );
+		$data = wp_list_pluck( array_filter( $extra, function($a) {
+			if ( isset ( $a['data'] ) ) {
+				return $a['data'];
+			}
+			return false;
+		} ), 'data' );
+
+		array_map( function( $group ) use ( $groups_list, $data ) {
+			/** @var WP_Hummingbird_Module_Minify_Group $group */
+			array_map( function( $handle ) use ( $data, $group ) {
+				if ( isset( $data[ $handle ] ) ) {
+					// Add!
+					$group->add_data( $data[ $handle ] );
+				}
+			}, $group->get_handles() );
+		}, $groups_list->get_groups() );
+	}
+
+	/**
+	 * Filter a list of dependencies returning their 'after' attribute inside 'extra' list
 	 *
 	 * @internal
-	 *
-	 * @param array $handles
-	 * @param $wp_sources WP_Styles or WP_Scripts WP Object list
-	 *
-	 * @return array
 	 */
-	private function _group_handles_by_extra( $handles, $wp_sources, $type ) {
-		$bundles = array();
-
-		foreach ( $handles as $handle ) {
-			if ( ! isset( $wp_sources->registered[ $handle ] ) ) {
-				$this->return_to_wp[ $type ][] = $handle;
-				continue;
-			}
-
-			$source = $wp_sources->registered[ $handle ];
-			$extras = $source->extra;
-
-			if ( is_a( $wp_sources, 'WP_Styles' ) ) {
-				$extras['media'] = is_string( $source->args ) ? $source->args : 'all';
-			}
-
-			unset( $extras['suffix'] );
-			unset( $extras['rtl'] );
-			unset( $extras['data'] );
-
-			// Default scripts are not assigned 'group', so we use the original 'deps->args' value
-			if ( is_a( $wp_sources, 'WP_Scripts' ) && empty( $extra['group'] ) && is_int( $wp_sources->args ) ) {
-				$extras['group'] = $wp_sources->args;
-			}
-
-			ksort( $extras );
-
-			$key = maybe_serialize( $extras );
-			$bundles[ $key ][] = $handle;
+	public function _filter_after_after_attribute( $a ) {
+		if ( isset ( $a['after'] ) ) {
+			return $a['after'];
 		}
-
-		return $bundles;
+		return false;
 	}
 
 
@@ -741,60 +584,17 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 	}
 
 	/**
-	 * Return if the source is from the current site
-	 * or an external one
-	 *
-	 * @param string $src Source URL
-	 *
-	 * @return bool
+	 * Process the queue: Minify and combine files
 	 */
-	public static function is_local_source( $src ) {
-		// Check if the URL is an external one
-		$home_url = home_url();
+	public function process_queue() {
+		$queue = $this->get_queue_to_process();
+		$this->sources_collector->save_collection();
 
-		// Add scheme to src if it does not exist
-		if ( 0 === strpos( $src, '//' ) )
-			$src = 'http:' . $src;
-
-		$parsed_site_url = parse_url( $home_url );
-		$parsed_src = parse_url( $src );
-
-		if ( ! $parsed_src ) {
-			// Probably not local but who knows
-			return false;
+		if ( empty( $queue ) ) {
+			return;
 		}
 
-		// '/wp-includes/js' are locals
-		if ( empty( $parsed_src['host'] ) && strpos( $parsed_src['path'], '/' ) === 0 )
-			return true;
-
-		// Hosts match
-		if ( ! empty( $parsed_src['host'] ) && $parsed_src['host'] === $parsed_site_url['host'] )
-			return true;
-
-		// Not local
-		return false;
-
-	}
-
-	/**
-	 * Save all the collected information
-	 */
-	public function save_data() {
-		if ( ! empty( $this->process_queue['styles'] ) ) {
-			// Save the queue to process it soon
-			wphb_minification_add_items_to_process_queue( $this->process_queue['styles'] );
-		}
-		if ( ! empty( $this->process_queue['scripts'] ) ) {
-			wphb_minification_add_items_to_process_queue( $this->process_queue['scripts'] );
-		}
-
-		// Process the chart data
-		if ( count( $this->chart->get_sources() ) > 0 ) {
-			$this->chart->save_chart_data( $this->chart->get_sources() );
-		}
-
-
+		$this->add_items_to_persistent_queue( $queue );
 
 		// Process the queue
 		if ( get_transient( 'wphb-processing' ) ) {
@@ -802,34 +602,208 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			return;
 		}
 
-		set_transient( 'wphb-processing', true, 5 );
-
-		$queue = wphb_minification_get_pending_process_queue();
-
-		if ( ! empty( $queue ) ) {
-
-			foreach ( $queue as $key => $item ) {
-				if ( ! is_a( $item, 'WP_Hummingbird_Sources_Group' ) )
-					continue;
-
-				/** @var WP_Hummingbird_Sources_Group $item */
-				$item->process_group();
-
-				wphb_minification_delete_item_from_process_queue( $key );
+		set_transient( 'wphb-processing', true, 60 );
+		// Process 4 groups max in a request
+		$count = 0;
+		foreach ( $queue as $key => $item ) {
+			if ( $count >= 4 ) {
+				break;
 			}
+			if ( ! is_a( $item, 'WP_Hummingbird_Module_Minify_Group' ) )
+				continue;
 
+			/** @var WP_Hummingbird_Module_Minify_Group $item */
+			if ( $item->should_generate_file() ) {
+				$result = $item->process_group();
+				if ( is_wp_error( $result ) ) {
+					$this->errors_controller->add_server_error( $result );
+				}
+			}
+			$this->remove_item_from_persistent_queue( $item->hash );
+			$count++;
+		}
+		delete_transient( 'wphb-processing' );
+	}
+
+	/**
+	 * Save a list of groups to a persistent option in database
+	 *
+	 * If a timeout happens during groups processing, we won't loose
+	 * the data needed to process the rest of groups
+	 *
+	 * @param array $items
+	 */
+	private function add_items_to_persistent_queue( $items ) {
+		$current_queue = $this->get_pending_persistent_queue();
+		if ( empty( $current_queue ) ) {
+			add_option( 'wphb_process_queue', $items, null, false );
+		} else {
+			update_option( 'wphb_process_queue', array_merge( $items, $current_queue ) );
+		}
+	}
+
+	/**
+	 * Remove a group from the persistent queue
+	 *
+	 * @param string $hash
+	 */
+	private function remove_item_from_persistent_queue( $hash ) {
+		$queue = $this->get_pending_persistent_queue();
+		$items = wp_list_filter( $queue, array( 'hash' => $hash ) );
+		if ( ! $items ) {
+			return;
 		}
 
+		$keys = array_keys( $items );
+		foreach ( $keys as $key ) {
+			unset( $queue[ $key ] );
+		}
+
+		$queue = array_values( $queue );
+
+		if ( empty( $queue ) ) {
+			$this->delete_pending_persistent_queue();
+			return;
+		}
+
+		update_option( 'wphb_process_queue', $queue );
+	}
+
+	/**
+	 * Get the list of groups that are yet pending to be processed
+	 */
+	public function get_pending_persistent_queue() {
+		return get_option( 'wphb_process_queue', array() );
+	}
+
+	/**
+	 * Deletes the persistent queue completely
+	 */
+	public function delete_pending_persistent_queue() {
+		delete_option( 'wphb_process_queue' );
+	}
+
+	/**
+	 * Clear the module cache
+	 */
+	public static function clear_cache( $reset_settings = true ) {
+		global $wpdb;
+
+		// Clear all the cached groups data
+		$option_names = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT option_name FROM $wpdb->options
+				WHERE option_name LIKE %s
+				OR option_name LIKE %s
+				OR option_name LIKE %s
+				OR option_name LIKE %s",
+				'%wphb-min-scripts%',
+				'%wphb-scripts%',
+				'%wphb-min-styles%',
+				'%wphb-styles%'
+			)
+		);
+
+		foreach ( $option_names as $name ) {
+			delete_option( $name );
+		}
+
+		WP_Hummingbird_Sources_Collector::clear_collection();
+
+		$groups = WP_Hummingbird_Module_Minify_Group::get_minify_groups();
+
+		foreach ( $groups as $group ) {
+			$path = get_post_meta( $group->ID, 'path', true );
+			if ( $path ) {
+				wp_delete_file( $path );
+			}
+			wp_delete_post( $group->ID );
+			wp_cache_delete( 'wphb_minify_groups' );
+		}
+
+		if ( $reset_settings ) {
+			// Reset the minification settings
+			$options = wphb_get_settings();
+			$default_options = wphb_get_default_settings();
+			$options['block'] = $default_options['block'];
+			$options['dont_minify'] = $default_options['dont_minify'];
+			$options['dont_combine'] = $default_options['dont_combine'];
+			$options['position'] = $default_options['position'];
+			wphb_update_settings( $options );
+		}
+
+		// Clear the pending process queue
+		self::clear_pending_process_queue();
+
+		update_option( 'wphb-minification-check-files', 0 );
+
+		WP_Hummingbird_Minification_Errors_Controller::clear_errors();
+	}
+
+	public static function clear_pending_process_queue() {
+		delete_option( 'wphb_process_queue' );
 		delete_transient( 'wphb-processing' );
-
 	}
 
+	/**
+	 * Initializes the scanning process
+	 */
+	public static function init_scan() {
+		wphb_clear_minification_cache( false );
 
+		// Activate minification if is not
+		wphb_toggle_minification( true );
 
-	public static function log( $message ) {
-		wphb_log( $message, 'minification' );
+		// Calculate URLs to Check
+		$args = array(
+			'orderby'        => 'rand',
+			'posts_per_page' => '1',
+			'ignore_sticky_posts' => true,
+			'post_status' => 'publish'
+		);
+
+		$urls = array();
+
+		$urls[] = home_url();
+
+		$post_types = get_post_types();
+		$post_types = array_diff( $post_types, array( 'attachment', 'nav_menu_item', 'revision' ) );
+
+		foreach ( $post_types as $post_type ) {
+			$args['post_type'] = $post_type;
+			$posts = get_posts( $args );
+			if ( $posts ) {
+				$urls[] = get_permalink( $posts[0] );
+			}
+
+			$post_type_archive_link = get_post_type_archive_link( $post_type );
+			if ( $post_type_archive_link )
+				$urls[] = $post_type_archive_link;
+		}
+
+		if ( get_option( 'show_on_front' ) && $post = get_post( get_option( 'page_for_posts' ) ) ) {
+			$urls[] = get_permalink( $post->ID );
+		}
+
+		$urls = array_unique( $urls );
+
+		$urls_list = array();
+		// Duplicate every URL 4 times. This will be enough to generate all the files for most of the sites
+		for ( $i = 0; $i < 4; $i++ ) {
+			$urls_list = array_merge( $urls_list, $urls );
+		}
+
+		sort( $urls_list );
+		$urls = $urls_list;
+
+		$args = array(
+			'on' => current_time( 'timestamp' ),
+			'urls_list' => $urls,
+			'urls_done' => array()
+		);
+
+		update_option( 'wphb-minification-check-files', $args );
 	}
-
 
 	/**
 	 * This function send a request to a URL in the site
@@ -872,207 +846,8 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 		return $result;
 	}
 
-	/**
-	 * Clear the module cache
-	 */
-	public static function clear_cache( $reset_settings = true ) {
-		global $wpdb;
-
-		// Clear all the collected sources
-		wphb_include_sources_collector();
-		WP_Hummingbird_Sources_Collector::clear_collection();
-
-		// Clear all the cached groups data
-		$option_names = $wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT option_name FROM $wpdb->options
-				WHERE option_name LIKE %s
-				OR option_name LIKE %s
-				OR option_name LIKE %s
-				OR option_name LIKE %s",
-				'%wphb-min-scripts%',
-				'%wphb-scripts%',
-				'%wphb-min-styles%',
-				'%wphb-styles%'
-			)
-		);
-
-		foreach ( $option_names as $name )
-			delete_option( $name );
-
-		if ( $reset_settings ) {
-			// Reset the minification settings
-			$options = wphb_get_settings();
-			$default_options = wphb_get_default_settings();
-			$options['block'] = $default_options['block'];
-			$options['dont_minify'] = $default_options['dont_minify'];
-			$options['dont_combine'] = $default_options['dont_combine'];
-			$options['position'] = $default_options['position'];
-			wphb_update_settings( $options );
-		}
-
-		// Clear all the cached files
-		wphb_include_file_cache_class();
-		WP_Hummingbird_Cache_File::clear_files();
-
-		// Clear the pending process queue
-		self::clear_pending_process_queue();
-
-		// Clear the chart data
-		$model = wphb_get_model();
-
-		$urls = $model->get_chart_urls();
-		foreach ( $urls as $url ) {
-			wp_cache_delete( wphb_sanitize_chart_url( $url . '_chart_data' ), 'wphb' );
-		}
-
-		$model->delete_chart();
-
-		update_option( 'wphb-minification-check-files', 0 );
-
-		WP_Hummingbird_Minification_Errors_Controller::clear_errors();
-	}
-
-
-	public static function clear_pending_process_queue() {
-		delete_option( 'wphb_process_queue' );
-		delete_transient( 'wphb-processing' );
-	}
-
-	public static function clear_cache_group( $group_key ) {
-		if ( ! $group_key )
-			return;
-
-		// Delete the source group
-		delete_option( $group_key );
-
-		// Now clear the group from the chart too
-		$model = wphb_get_model();
-		$group_data = $model->get_chart_group_data( $group_key );
-
-		if ( $group_data ) {
-			// Get all URLs for that group so we can clean the chart cache
-			$urls = wp_list_pluck( $group_data, 'url' );
-			$urls = array_unique( $urls );
-			foreach ( $urls as $url ) {
-				wp_cache_delete( $url . '_chart_data', 'wphb' );
-			}
-
-			$model->delete_chart_group( $group_key );
-		}
-	}
-
-	public static function init_scan() {
-		wphb_clear_minification_cache( false );
-
-		// Activate minification if is not
-		wphb_toggle_minification( true );
-
-		// Calculate URLs to Check
-		$args = array(
-			'orderby'        => 'rand',
-			'posts_per_page' => '1',
-			'ignore_sticky_posts' => true,
-			'post_status' => 'publish'
-		);
-
-		$urls = array();
-
-		$urls[] = home_url();
-
-		$post_types = get_post_types();
-		$post_types = array_diff( $post_types, array( 'attachment', 'nav_menu_item', 'revision' ) );
-
-		foreach ( $post_types as $post_type ) {
-			$args['post_type'] = $post_type;
-			$posts = get_posts( $args );
-			if ( $posts ) {
-				$urls[] = get_permalink( $posts[0] );
-			}
-
-			$post_type_archive_link = get_post_type_archive_link( $post_type );
-			if ( $post_type_archive_link )
-				$urls[] = $post_type_archive_link;
-		}
-
-		if ( get_option( 'show_on_front' ) && $post = get_post( get_option( 'page_for_posts' ) ) ) {
-			$urls[] = get_permalink( $post->ID );
-		}
-
-		$urls = array_unique( $urls );
-
-		$args = array(
-			'on' => current_time( 'timestamp' ),
-			'urls_list' => $urls,
-			'urls_done' => array()
-		);
-
-		update_option( 'wphb-minification-check-files', $args );
-	}
-
-	/**
-	 * Get the current list of files to be processed
-	 *
-	 * @return mixed|void
-	 */
-	public static function get_pending_process_queue() {
-		return get_option( 'wphb_process_queue', array() );
-	}
-
-	/**
-	 * Check if Hummingbird is currently checking files
-	 *
-	 * @return bool
-	 */
-	public static function is_checking_files() {
-		$checking_files = get_option( 'wphb-minification-check-files', 0 );
-		if ( $checking_files )
-			return true;
-
-		return false;
-	}
-
-	/**
-	 * Add items to be processed to the queue
-	 *
-	 * @param array $items List of items to be added
-	 */
-	public static function add_items_to_process_queue( $items ) {
-		$current_queue = wphb_minification_get_pending_process_queue();
-		if ( empty( $current_queue ) ) {
-			add_option( 'wphb_process_queue', $items, null, false );
-		} else {
-			update_option( 'wphb_process_queue', array_merge( $items, $current_queue ) );
-		}
-	}
-
-
-	/**
-	 * Delete a single item from the process queue
-	 *
-	 * @param $key
-	 */
-	public static function delete_item_from_process_queue( $key ) {
-		$queue = wphb_minification_get_pending_process_queue();
-		if ( ! isset( $queue[ $key ] ) ) {
-			return;
-		}
-
-		unset( $queue[ $key ] );
-
-		if ( empty( $queue ) ) {
-			wphb_delete_pending_process_queue();
-			return;
-		}
-
-		update_option( 'wphb_process_queue', $queue );
-
-	}
-
-
-	public static function update_errors( $errors ) {
-		update_option( 'wphb-minification-errors', $errors );
-	}
-
-
 }
+
+
+
+

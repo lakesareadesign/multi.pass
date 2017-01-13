@@ -26,7 +26,6 @@ class WP_Hummingbird_Core {
 		if ( ( is_multisite() && ( ( 'super-admins' === $minify && is_super_admin() ) || ( true === $minify ) ) )
 		     || ( ! is_multisite() && current_user_can( wphb_get_admin_capability() ) ) ) {
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 100 );
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
 
 	}
@@ -47,6 +46,7 @@ class WP_Hummingbird_Core {
 		 */
 		$modules = apply_filters( 'wp_hummingbird_modules', array(
 			'minify' =>     __( 'Minify', 'wphb' ),
+			'minifynew' =>     __( 'Minify New', 'wphb' ),
 			'gzip' =>       'Gzip',
 			'caching' =>    __( 'Caching', 'wphb' ),
 			'performance' => __( 'Performance', 'wphb' ),
@@ -72,7 +72,7 @@ class WP_Hummingbird_Core {
 		$class_name = 'WP_Hummingbird_Module_' . ucfirst( $module );
 
 		// Default modules files
-		$filename = wphb_plugin_dir() . 'core/modules/class-module-' . $module . '.php';
+		$filename = wphb_plugin_dir() . 'core/modules/class-module-' . $module . '.php';;
 		if ( file_exists( $filename ) ) {
 			include_once $filename;
 		}
@@ -82,7 +82,6 @@ class WP_Hummingbird_Core {
 
 			/** @var WP_Hummingbird_Module $module_obj */
 			if ( $module_obj->is_active() ) {
-				$this->modules[ $module ] = $module_obj;
 				$module_obj->run();
 			}
 
@@ -90,10 +89,6 @@ class WP_Hummingbird_Core {
 		}
 	}
 
-	public function enqueue_scripts() {
-		wp_enqueue_style( 'wphb-fonts', wphb_plugin_url() . 'admin/assets/css/wphb-font.css', array() );
-		wp_add_inline_style( 'wphb-fonts', '#wp-admin-bar-wphb > a > .ab-icon:before { font-family: "wphb"; content: "\e900"; }' );
-	}
 
 
 	/**
@@ -107,7 +102,7 @@ class WP_Hummingbird_Core {
 
 		$menu_args = array(
 			'id' => 'wphb',
-			'title' => '<span class="ab-icon"></span><span class="screen-reader-text">Hummingbird</span>',
+			'title' => 'Hummingbird',
 			'href' => admin_url( 'admin.php?page=wphb-minification' )
 		);
 

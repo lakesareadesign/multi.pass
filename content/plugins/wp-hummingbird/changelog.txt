@@ -4,6 +4,22 @@ Tested up to: 4.6.1
 
 Change Log:
 
+1.4.1 - 2016-01-12
+----------------------------------------------------------------------
+- Fix: Upgrade process was triggered too early provoking a fatal error when Smart Crawler was active
+- Fix: Minify Group warning
+- Fix: Error when WPMUDEV Dashboard was not activated
+
+1.4 - 2016-01-10
+----------------------------------------------------------------------
+- New: Brand new minification engine
+- New: Minified files are now processed in WPMUDEV's servers
+- New: Users can use WPMUDEV's CDN to store minified files
+- New: Clear CloudFlare cache feature
+- Fix: PHP code in stylesheets could potentially be exposed
+- Enhancement: stylesheets with @import directives are not minified anymore due to multiple issues that were causing
+- Some admin styles improvements
+
 1.3.5 - 2016-10-24
 ----------------------------------------------------------------------
 - New: Divi 3.0 integration
@@ -127,4 +143,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1477325013-au
+133620-1484344680-au

@@ -1,14 +1,14 @@
 <?php
 /**
  * Plugin Name: CoursePress Pro
- * Version:     2.0.1
+ * Version:     2.0.2
  * Description: CoursePress Pro turns WordPress into a powerful online learning platform. Set up online courses by creating learning units with quiz elements, video, audio etc. You can also assess student work, sell your courses and much much more.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org
  * Plugin URI:  http://premium.wpmudev.org/project/coursepress/
  * License:     GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * TextDomain:  cp
+ * Text Domain: CP_TD
  * Domain Path: /language/
  * Build Time:  2016-04-07T13:37:59.644Z
  * WDP ID:      913071
@@ -56,7 +56,7 @@ class CoursePress {
 	 *
 	 * @var string
 	 */
-	public static $version = '2.0.1';
+	public static $version = '2.0.2';
 
 	/**
 	 * Plugin name, this reflects the Pro/Standard version.
@@ -99,6 +99,10 @@ class CoursePress {
 	 * @since  2.0.0
 	 */
 	public static function init() {
+		/**
+		 * Translate plugin name
+		 */
+		self::$name = _x( 'CoursePress Pro', 'plugin name', 'cp' ); // Translated by grunt.
 		// Initialise the autoloader.
 		spl_autoload_register( array( __CLASS__, 'class_loader' ) );
 
@@ -188,11 +192,11 @@ class CoursePress {
 				// Build the path to the class file.
 				array_shift( $class_path ); // Remove the first element (namespace-string).
 				array_unshift( $class_path, $namespace_folder );
-				$class_folder = strtolower(
-					self::$path . implode( DIRECTORY_SEPARATOR, $class_path )
+				$class_folder = self::$path . strtolower(
+					implode( DIRECTORY_SEPARATOR, $class_path )
 				);
-				$dir_folder = strtolower(
-					dirname( __FILE__ ) . DIRECTORY_SEPARATOR . implode( DIRECTORY_SEPARATOR, $class_path )
+				$dir_folder = dirname( __FILE__ ) . strtolower(
+					DIRECTORY_SEPARATOR . implode( DIRECTORY_SEPARATOR, $class_path )
 				);
 
 				$filename = $class_folder . DIRECTORY_SEPARATOR . $class_file;
@@ -206,7 +210,6 @@ class CoursePress {
 					$class,
 					$namespace
 				);
-
 
 				if ( is_readable( $filename ) ) {
 					include_once $filename;
@@ -263,13 +266,17 @@ class CoursePress {
 	 *
 	 * @since 2.0.0
 	 **/
-	private static function register_cp_theme_directory () {
+	private static function register_cp_theme_directory() {
 		$theme_directories = apply_filters( 'coursepress_theme_directory_array', array(
 				self::$path . 'themes/'
 			)
 		);
-		foreach( $theme_directories as $theme_directory ) {
-			register_theme_directory($theme_directory);
+		foreach ( $theme_directories as $theme_directory ) {
+			register_theme_directory( $theme_directory );
 		}
+	}
+
+	public static function get_file() {
+		return self::$file;
 	}
 }

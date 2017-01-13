@@ -1,5 +1,14 @@
 <div class="wphb-table-wrapper complex">
 
+	<?php if ( $is_server_error ): ?>
+		<div class="wphb-notice wphb-notice-error wphb-notice-box can-close">
+			<span class="close"></span>
+			<span class="wphb-icon wphb-icon-left"><i class="wdv-icon wdv-icon-fw wdv-icon-warning-sign"></i></span>
+			<p><?php printf( __( 'It seems that we are having problems in our servers. Minification will be turned off for %d minutes', 'wphb' ), $error_time_left ); ?></p>
+			<p><?php echo $server_errors[0]->get_error_message(); ?></p></p>
+		</div>
+	<?php endif; ?>
+
 	<div id="wphb-minification-filter" class="wphb-block-content-grey">
 		<div class="wphb-minification-filter-block" id="wphb-minification-filter-block-search">
 			<h3 class="wphb-block-title"><?php _e( 'Filter', 'wphb' ); ?></h3>
@@ -11,6 +20,7 @@
 					<label for="wphb-secondary-filter" class="screen-reader-text"><?php _e( 'Filter plugin or theme.', 'wphb' ); ?></label>
 					<select name="wphb-secondary-filter" id="wphb-secondary-filter">
 						<option value=""><?php esc_html_e( 'All', 'wphb' ); ?></option>
+						<option value="other"><?php esc_html_e( 'Others', 'wphb' ); ?></option>
 						<?php foreach ( $selector_filter as $secondary_filter ): ?>
 							<option value="<?php echo esc_attr( $secondary_filter ); ?>"><?php echo esc_html( $secondary_filter ); ?></option>
 						<?php endforeach; ?>
@@ -67,11 +77,6 @@
 							<label for="filter-position-footer">
 								<span tooltip="<?php _e( 'Footer', 'wphb' ); ?>"></span>
 								<i class="dev-icon dev-icon-pos_footer"></i>
-							</label>
-							<input type="radio" id="filter-position-header" data-toggles="header" name="filter-position" value="header" <?php checked( false ); ?> />
-							<label for="filter-position-header">
-								<span tooltip="<?php _e( 'Header', 'wphb' ); ?>"></span>
-								<i class="dev-icon dev-icon-pos_header"></i>
 							</label>
 							<input type="radio" id="filter-position-default" data-toggles="default" name="filter-position" value="" <?php checked( true ); ?> />
 							<label for="filter-position-default">

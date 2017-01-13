@@ -145,7 +145,10 @@ class WD_Post_Audit extends WD_Event_Abstract {
 					array(
 						'{{post->post_type}}',
 						array(
-							'attachment'
+							'attachment',
+							'wdscan_result',
+							'wd_iplockout_log',
+							'wd_ip_lockout'
 						)
 					),
 					array(
@@ -231,7 +234,7 @@ class WD_Post_Audit extends WD_Event_Abstract {
 		$key     = $args[1]['meta_key'];
 		$value   = $args[1]['meta_value'];
 		if ( WD_Audit_API::is_xss_positive( $value ) ) {
-			$post      = get_post( $post_id );
+			$post = get_post( $post_id );
 
 			return array(
 				sprintf( esc_html__( "Suspicious meta found %s. Update to %s.", wp_defender()->domain ), esc_textarea( $value ), $key ),
@@ -259,6 +262,17 @@ class WD_Post_Audit extends WD_Event_Abstract {
 			//usually, wp wll append :trash to the post name, so this case we just return
 			return false;
 		}
+
+		$expclude_post_type = array(
+			'wdscan_result',
+			'wd_iplockout_log',
+			'wd_ip_lockout'
+		);
+
+		if ( in_array( $post->post_type, $expclude_post_type ) ) {
+			return false;
+		}
+
 		$post_type = get_post_type_object( $post->post_type );
 		if ( ! is_object( $post_type ) ) {
 			return false;

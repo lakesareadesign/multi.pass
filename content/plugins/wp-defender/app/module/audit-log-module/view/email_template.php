@@ -1,805 +1,609 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width">
 	<title><?php echo $subject ?></title>
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet" type="text/css">
-	<style type="text/css">
-		body, #bodyTable, #bodyCell {
-			height: 100% !important;
-			margin: 0;
-			padding: 0;
-			width: 100% !important;
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
+	<style>
+		a.plugin-brand:hover {
+			color: #e23717 !important;
 		}
 
-		table {
-			border-collapse: collapse;
-		}
-
-		img, a img {
-			border: 0;
-			outline: none;
-			text-decoration: none;
-		}
-
-		h1, h2, h3, h4, h5, h6 {
-			margin: 0px;
-			padding: 0;
-		}
-
-		h4 {
-			padding-bottom: 5px;
-			line-height: 125%;
-			font-size: 20px;
-			color: #333333 !important;
-		}
-
-		#templateBody strong {
-			font-weight: 400 !important;
-			color: #333333 !important;
-		}
-
-		p {
-			margin: 0 0 1em;
-			padding: 0;
-		}
-
-		a {
-			word-wrap: break-word;
-		}
-
-		.ReadMsgBody {
-			width: 100%;
-		}
-
-		.ExternalClass {
-			width: 100%;
-		}
-
-		.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
-			line-height: 100%;
-		}
-
-		table, td {
-			mso-table-lspace: 0pt;
-			mso-table-rspace: 0pt;
-		}
-
-		#outlook a {
-			padding: 0;
-		}
-
-		img {
-			-ms-interpolation-mode: bicubic;
-		}
-
-		body, table, td, p, a, li, blockquote {
-			-ms-text-size-adjust: 100%;
-			-webkit-text-size-adjust: 100%;
-		}
-
-		.mcnImage {
-			vertical-align: bottom;
-		}
-
-		.mcnImageCardBlockInner {
-			width: 600px;
-			max-width: 100%;
-			overflow: hidden;
-			white-space: nowrap;
-		}
-
-		.mcnImageCardBlockInner img {
-			max-width: 100% !important;
-		}
-
-		.mcnTextContent img {
-			height: auto !important;
-		}
-
-		.socialIconsWrapper {
-			display: inline;
-		}
-
-		.footerContainer hr {
-			width: 50px;
-			margin-left: 0px;
-			border: 1px solid #ddd;
-		}
-
-		#templateContainer {
-			border: 0;
-		}
-
-		h1 {
-			color: #15485F !important;
-			display: block;
-			font-family: 'Roboto', Arial, sans-serif;
-			font-size: 32px;
-			font-style: normal;
-			font-weight: bold;
-			line-height: 120%;
-			letter-spacing: -0.04em;
-			margin: 0 0 20px;
-			text-transform: uppercase;
-			text-align: center;
-		}
-
-		h2 {
-			color: #15485F !important;
-			display: block;
-			font-family: 'Roboto', Arial, sans-serif;
-			font-size: 20px;
-			font-style: normal;
-			font-weight: bold;
-			line-height: 100%;
-			letter-spacing: -0.04em;
-			margin: 2em 0 1em;
-			text-align: left;
-		}
-
-		h3 {
-			color: #15485F !important;
-			display: block;
-			font-family: 'Roboto', Arial, sans-serif;
-			font-size: 18px;
-			font-style: normal;
-			font-weight: normal;
-			line-height: 125%;
-			letter-spacing: -1px;
-			margin: 2em 0 1em;
-			text-align: right;
-		}
-
-		h4 {
-			color: #555555 !important;
-			display: block;
-			font-family: 'Roboto', Arial, sans-serif;
-			font-size: 20px;
-			font-style: normal;
-			font-weight: normal;
-			line-height: 125%;
-			letter-spacing: normal;
-			margin: 0;
-			text-align: left;
-		}
-
-		#templatePreheader {
-			background-color: #EDEFED;
-			border-top: 0;
-			border-bottom: 0;
-		}
-
-		.preheaderContainer .mcnTextContent, .preheaderContainer .mcnTextContent p {
-			color: #555555;
-			font-family: 'Roboto', Arial, sans-serif;
-			font-size: 16px;
-			line-height: 125%;
-			text-align: left;
-		}
-
-		.preheaderContainer .mcnTextContent a {
-			color: #555555;
-			font-weight: normal;
-			text-decoration: none;
-		}
-
-		#templateHeader {
-			background-color: #3d464d;
-			border-top: 0;
-			border-bottom: 0;
-		}
-
-		.headerContainer .mcnTextContent, .headerContainer .mcnTextContent p {
-			color: #555555;
-			font-family: 'Roboto', Arial, sans-serif;
-			font-size: 16px;
-			line-height: 100%;
-			text-align: center;
-		}
-
-		.headerContainer .mcnTextContent a {
-			color: #555555;
-			font-weight: normal;
-			text-decoration: none;
-		}
-
-		#templateBody {
-			background-color: #FFFFFF;
-			border-top: 0;
-			border-bottom: 0;
-		}
-
-		.bodyContainer .mcnTextContent, .bodyContainer .mcnTextContent p {
-			color: #555555;
-			font-family: 'Roboto', Arial, sans-serif;
-			font-size: 16px;
-			line-height: 150%;
-			text-align: left;
-			font-weight: 300;
-		}
-
-		.bodyContainer .mcnTextContent a {
-			color: #00AECC;
-			font-weight: normal;
-			text-decoration: underline;
-		}
-
-		#templateColumns {
-			background-color: #FFFFFF;
-			border-top: 0;
-			border-bottom: 0;
-		}
-
-		.leftColumnContainer .mcnTextContent, .leftColumnContainer .mcnTextContent p {
-			color: #606060;
-			font-family: 'Roboto', Arial, sans-serif;
-			font-size: 14px;
-			line-height: 150%;
-			text-align: left;
-		}
-
-		.leftColumnContainer .mcnTextContent a {
-			color: #333333;
-			font-weight: normal;
-			text-decoration: none;
-		}
-
-		.rightColumnContainer .mcnTextContent, .rightColumnContainer .mcnTextContent p {
-			color: #606060;
-			font-family: 'Roboto', Arial, sans-serif;
-			font-size: 14px;
-			line-height: 150%;
-			text-align: left;
-		}
-
-		.rightColumnContainer .mcnTextContent a {
-			color: #333333;
-			font-weight: normal;
-			text-decoration: none;
-		}
-
-		#templateFooter {
-			background-color: #EDEFED;
-			border-top: 0;
-			border-bottom: 0;
-		}
-
-		.footerContainer .mcnTextContent, .footerContainer .mcnTextContent p {
-			color: #333333;
-			font-family: 'Roboto', Arial, sans-serif;
-			font-size: 18px;
-			line-height: 150%;
-			text-align: left;
-		}
-
-		.footerContainer .mcnTextContent a {
-			color: #333333;
-			font-weight: normal;
-			text-decoration: none;
-		}
-
-		#offCanvas {
-			background-color: #FFFFFF;
-			padding-bottom: 100px;
-		}
-
-		.colophon p {
-			margin-top: 1em;
-		}
-
-		.colophon p, .colophon a {
-			text-transform: uppercase;
-			color: #333333;
-			font-weight: normal;
-			font-size: 12px;
-			font-family: 'Roboto', Arial, sans-serif;
-		}
-
-		@media only screen and (max-width: 480px) {
-			body, table, td, p, a, li, blockquote {
-				-webkit-text-size-adjust: none !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			body {
-				width: 100% !important;
-				min-width: 100% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[id=bodyCell] {
-				padding: 10px !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			table[class=mcnTextContentContainer] {
-				width: 100% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			table[class=mcnBoxedTextContentContainer] {
-				width: 100% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			table[class=mcpreview-image-uploader] {
-				width: 100% !important;
-				display: none !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			img[class=mcnImage] {
-				width: 100% !important;
-				max-width: 100% !important;
-				position: relative !important;
-				left: 0 !important;
-				right: 0 !important;
-				top: 0 !important;
-				bottom: 0 !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			a[class=hasAbsoluteChild] {
-				height: auto !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			table[class=mcnImageGroupContentContainer] {
-				width: 100% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=mcnImageGroupContent] {
-				padding: 9px !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=mcnImageGroupBlockInner] {
-				padding-bottom: 0 !important;
-				padding-top: 0 !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			tbody[class=mcnImageGroupBlockOuter] {
-				padding-bottom: 9px !important;
-				padding-top: 9px !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			table[class=mcnCaptionTopContent], table[class=mcnCaptionBottomContent] {
-				width: 100% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			table[class=mcnCaptionLeftTextContentContainer], table[class=mcnCaptionRightTextContentContainer], table[class=mcnCaptionLeftImageContentContainer], table[class=mcnCaptionRightImageContentContainer], table[class=mcnImageCardLeftTextContentContainer], table[class=mcnImageCardRightTextContentContainer] {
-				width: 50% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=mcnImageCardLeftImageContent], td[class=mcnImageCardRightImageContent] {
-				padding-right: 18px !important;
-				padding-left: 18px !important;
-				padding-bottom: 0 !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=mcnImageCardBottomImageContent] {
-				padding-bottom: 9px !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=mcnImageCardTopImageContent] {
-				padding-top: 18px !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			table[class=mcnCaptionLeftContentOuter] td[class=mcnTextContent], table[class=mcnCaptionRightContentOuter] td[class=mcnTextContent] {
-				padding-top: 9px !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=mcnCaptionBlockInner] table[class=mcnCaptionTopContent]:last-child td[class=mcnTextContent] {
-				padding-top: 18px !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=mcnBoxedTextContentColumn] {
-				padding-left: 18px !important;
-				padding-right: 18px !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=columnsContainer] {
-				display: block !important;
-				max-width: 600px !important;
-				width: 100% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=mcnTextContent] {
-				padding-right: 18px !important;
-				padding-left: 18px !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			table[id=templateContainer], table[id=templatePreheader], table[id=templateHeader], table[id=templateColumns], table[class=templateColumn], table[id=templateBody], table[id=templateFooter] {
-				max-width: 600px !important;
-				width: 100% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			h1 {
-				font-size: 22px !important;
-				line-height: 125% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			h2 {
-				font-size: 20px !important;
-				line-height: 125% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			h3 {
-				font-size: 18px !important;
-				line-height: 125% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			h4 {
-				font-size: 16px !important;
-				line-height: 125% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			table[class=mcnBoxedTextContentContainer] td[class=mcnTextContent], td[class=mcnBoxedTextContentContainer] td[class=mcnTextContent] p {
-				font-size: 18px !important;
-				line-height: 125% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			table[id=templatePreheader] {
-				display: block !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=preheaderContainer] td[class=mcnTextContent], td[class=preheaderContainer] td[class=mcnTextContent] p {
-				font-size: 14px !important;
-				line-height: 115% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=headerContainer] td[class=mcnTextContent], td[class=headerContainer] td[class=mcnTextContent] p {
-				font-size: 18px !important;
-				line-height: 125% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=bodyContainer] td[class=mcnTextContent], td[class=bodyContainer] td[class=mcnTextContent] p {
-				font-size: 18px !important;
-				line-height: 125% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=leftColumnContainer] td[class=mcnTextContent], td[class=leftColumnContainer] td[class=mcnTextContent] p {
-				font-size: 18px !important;
-				line-height: 125% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=rightColumnContainer] td[class=mcnTextContent], td[class=rightColumnContainer] td[class=mcnTextContent] p {
-				font-size: 18px !important;
-				line-height: 125% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=footerContainer] td[class=mcnTextContent], td[class=footerContainer] td[class=mcnTextContent] p {
-				font-size: 14px !important;
-				line-height: 115% !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			td[class=footerContainer] a[class=utilityLink] {
-				display: block !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			#mainLogo {
-				width: 100px !important;
-				height: auto !important;
-			}
-		}
-
-		@media only screen and (max-width: 480px) {
-			.socialIconsWrapper {
-				display: block !important;
-			}
+		table.top-content td a:hover {
+			color: #ff5c28 !important;
 		}
 	</style>
 </head>
-<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
-<center>
 
-	<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable"
-	       bgcolor="#FFFFFF">
-		<tr>
-			<td align="center" valign="top" id="bodyCell" bgcolor="#EDEFED"
-			    style="padding:35px 20px 20px;border-top:0;">
+<body
+	style="-moz-box-sizing: border-box; -ms-text-size-adjust: 100%; -webkit-box-sizing: border-box; -webkit-text-size-adjust: 100%; Margin: 0; background-color: #e9ebe7; box-sizing: border-box; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; min-width: 100%; padding: 0; text-align: left; width: 100% !important;">
+<style>
+	@media only screen {
+		html {
+			min-height: 100%;
+			background: #f3f3f3;
+		}
+	}
 
-				<!-- BEGIN TEMPLATE // -->
-				<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateContainer">
-					<tr>
-						<td align="center" valign="top">
+	@media only screen and (max-width: 596px) {
+		.small-float-center {
+			margin: 0 auto !important;
+			float: none !important;
+			text-align: center !important;
+		}
 
-							<!-- BEGIN PREHEADER // -->
-							<table border="0" cellpadding="0" cellspacing="0" width="600" id="templatePreheader">
-								<tr>
-									<td valign="top" class="preheaderContainer" style="padding-top:0px;">
-										<table border="0" cellpadding="0" cellspacing="0" width="100%"
-										       class="mcnTextBlock">
-											<tbody class="mcnTextBlockOuter">
-											<tr>
-												<td valign="top" class="mcnTextBlockInner">
+		.small-text-center {
+			text-align: center !important;
+		}
 
-													<table align="left" border="0" cellpadding="0" cellspacing="0"
-													       width="600" class="mcnTextContentContainer">
-														<tbody>
-														<tr>
-															<td valign="top" class="mcnTextContent"
-															    style="padding-top:0px; padding-right: 0px; padding-bottom: 0px; padding-left: 18px;">
-																<!-- Not used -->
-															</td>
-														</tr>
-														</tbody>
-													</table>
+		.small-text-left {
+			text-align: left !important;
+		}
 
-												</td>
-											</tr>
-											</tbody>
-										</table>
+		.small-text-right {
+			text-align: right !important;
+		}
+	}
 
-										<table border="0" cellpadding="0" cellspacing="0" width="100%"
-										       class="mcnCaptionBlock">
-											<tbody class="mcnCaptionBlockOuter">
-											<tr>
-												<td class="mcnCaptionBlockInner" valign="top" style="padding:0 0 45px;">
+	@media only screen and (max-width: 596px) {
+		.hide-for-large {
+			display: block !important;
+			width: auto !important;
+			overflow: visible !important;
+			max-height: none !important;
+			font-size: inherit !important;
+			line-height: inherit !important;
+		}
+	}
 
-													<table border="0" cellpadding="0" cellspacing="0"
-													       class="mcnCaptionRightContentOuter" width="100%">
-														<tbody>
-														<tr>
-															<td valign="top" class="mcnCaptionRightContentInner"
-															    style="padding:0px 0px;">
-																<table align="left" border="0" cellpadding="0"
-																       cellspacing="0"
-																       class="mcnCaptionRightImageContentContainer">
-																	<tbody>
-																	<tr>
-																		<td class="mcnCaptionRightImageContent"
-																		    valign="top">
-																			<a href="https://premium.wpmudev.org/blog/"
-																			   style="display:block;"><img alt="News"
-																			                               src="https://gallery.mailchimp.com/53a1e972a043d1264ed082a5b/images/419f156a-1d24-40a0-b233-9d12fb9bd75a.png"
-																			                               width="100%"
-																			                               height="100%"
-																			                               id="mainLogo"></a>
-																		</td>
-																	</tr>
-																	</tbody>
-																</table>
+	@media only screen and (max-width: 596px) {
+		table.body table.container .hide-for-large,
+		table.body table.container .row.hide-for-large {
+			display: table !important;
+			width: 100% !important;
+		}
+	}
 
-																<table class="mcnCaptionRightTextContentContainer"
-																       align="right" border="0" cellpadding="0"
-																       cellspacing="0" width="400">
-																	<tbody>
-																	<tr>
-																		<td valign="top" class="mcnTextContent"
-																		    style="padding:25px 0 0 0 ;">
-																			<!-- Not used -->
-																		</td>
-																	</tr>
-																	</tbody>
-																</table>
-															</td>
-														</tr>
-														</tbody>
-													</table>
+	@media only screen and (max-width: 596px) {
+		table.body table.container .callout-inner.hide-for-large {
+			display: table-cell !important;
+			width: 100% !important;
+		}
+	}
 
-												</td>
-											</tr>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-							</table>
-							<!-- // END PREHEADER -->
+	@media only screen and (max-width: 596px) {
+		table.body table.container .show-for-large {
+			display: none !important;
+			width: 0;
+			mso-hide: all;
+			overflow: hidden;
+		}
+	}
 
-						</td>
-					</tr>
-					<tr>
-						<td align="center" valign="top">
+	@media only screen and (max-width: 596px) {
+		table.body img {
+			width: auto;
+			height: auto;
+		}
 
-							<table width="100%"
-							       style="table-layout: fixed;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: #FFFFFF !important;">
-								<tr>
-									<td style="width:100%;padding-top: 50px;padding-right: 50px;padding-bottom: 29px;padding-left: 50px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #555555;font-family: 'Roboto', Arial, sans-serif;font-size: 16px;line-height: 150%;text-align: left;font-weight: 300;">
-										<?php echo $message ?>
-									</td>
-								</tr>
-							</table>
+		table.body center {
+			min-width: 0 !important;
+		}
 
-						</td>
-					</tr>
-					<tr>
-						<td align="center" valign="top">
+		table.body .container {
+			width: 95% !important;
+		}
 
-							<!-- BEGIN FOOTER // -->
-							<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateFooter">
-								<tr>
-									<td valign="top" class="footerContainer">
-										<table border="0" cellpadding="0" cellspacing="0" width="100%"
-										       class="mcnTextBlock">
-											<tbody class="mcnTextBlockOuter">
-											<tr>
-												<td valign="top" class="mcnTextBlockInner">
+		table.body .columns,
+		table.body .column {
+			height: auto !important;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+			padding-left: 16px !important;
+			padding-right: 16px !important;
+		}
 
-													<table align="left" border="0" cellpadding="0" cellspacing="0"
-													       width="600" class="mcnTextContentContainer">
-														<tbody>
-														<tr>
+		table.body .columns .column,
+		table.body .columns .columns,
+		table.body .column .column,
+		table.body .column .columns {
+			padding-left: 0 !important;
+			padding-right: 0 !important;
+		}
 
-															<td valign="top" class="mcnTextContent"
-															    style="padding-top:60px; padding-bottom: 30px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #555555;font-family: 'Roboto', Arial, sans-serif;font-size: 15px;line-height: 150%;text-align: left;font-weight: 300;">
-																<div style="text-align: left;">
-																	<hr>
-																	<p class="null"
-																	   style="display:inline;color:#00AECC;font-weight:normal;margin-right:20px;vertical-align:middle;letter-spacing:-1px">
-																		Let’s get social!</p>
+		table.body .collapse .columns,
+		table.body .collapse .column {
+			padding-left: 0 !important;
+			padding-right: 0 !important;
+		}
 
-																	<div class="socialIconsWrapper">
-																		<a href="https://twitter.com/wpmudev"
-																		   style="line-height: 20.7999992370605px;display:inline-block;vertical-align:middle;"
-																		   target="_blank">
-																			<img align="none" height="30"
-																			     src="https://gallery.mailchimp.com/53a1e972a043d1264ed082a5b/images/8325849f-33ea-4f55-ad1d-755b9a9c1213.png"
-																			     style="opacity: 0.9; width: 30px; height: 30px; margin: 0px;"
-																			     width="30">
-																		</a>&nbsp;
-																		<a href="https://www.youtube.com/user/wpmudev"
-																		   target="_blank"
-																		   style="display:inline-block;vertical-align:middle;">
-																			<img align="none" height="30"
-																			     src="https://gallery.mailchimp.com/53a1e972a043d1264ed082a5b/images/f76829b2-08f5-4fd6-ac4e-0426e8f81326.png"
-																			     style="width: 30px; height: 30px; margin: 0px;"
-																			     width="30">
-																		</a>&nbsp;
-																		<a href="https://www.facebook.com/wpmudev"
-																		   style="line-height: 1.6em;display:inline-block;vertical-align:middle;"
-																		   target="_blank">
-																			<img align="none" height="30"
-																			     src="https://gallery.mailchimp.com/53a1e972a043d1264ed082a5b/images/c1a1144c-3257-481f-8b60-ffbdc846f18d.png"
-																			     style="width: 30px; height: 30px; margin: 0px;"
-																			     width="30">
-																		</a>&nbsp;
-																		<a href="https://plus.google.com/+wpmuorg/"
-																		   target="_blank"
-																		   style="display:inline-block;vertical-align:middle;">
-																			<img align="none" height="30"
-																			     src="https://gallery.mailchimp.com/53a1e972a043d1264ed082a5b/images/afc08b31-056f-4c0f-89bc-68b5e9b35091.png"
-																			     style="width: 30px; height: 30px; margin: 0px;"
-																			     width="30">
-																		</a>&nbsp;
-																		<span
-																			style="line-height:1.6em">&nbsp;&nbsp;</span>
-																	</div>
-																</div>
-															</td>
+		td.small-1,
+		th.small-1 {
+			display: inline-block !important;
+			width: 8.33333% !important;
+		}
 
-															<td align="right" valign="top" style="padding-top:30px;">
-																<a href="https://premium.wpmudev.org/blog/"
-																   style="display:block;">
-																	<img
-																		src="https://gallery.mailchimp.com/53a1e972a043d1264ed082a5b/images/7d2039b2-a660-45db-b1d1-c211cb766441.gif"
-																		alt="WPMU DEV Super Heroes" class="mcnImage">
-																</a>
-															</td>
-														</tr>
-														</tbody>
-													</table>
+		td.small-2,
+		th.small-2 {
+			display: inline-block !important;
+			width: 16.66667% !important;
+		}
 
-												</td>
-											</tr>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-							</table>
-							<!-- // END FOOTER -->
+		td.small-3,
+		th.small-3 {
+			display: inline-block !important;
+			width: 25% !important;
+		}
 
-						</td>
-					</tr>
-				</table>
-				<!-- // END TEMPLATE -->
+		td.small-4,
+		th.small-4 {
+			display: inline-block !important;
+			width: 33.33333% !important;
+		}
 
-			</td>
-		</tr>
-		<tr>
-			<td align="center" valign="top" id="offCanvas" style="padding:0 0 50px;">
-				<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateContainer">
+		td.small-5,
+		th.small-5 {
+			display: inline-block !important;
+			width: 41.66667% !important;
+		}
+
+		td.small-6,
+		th.small-6 {
+			display: inline-block !important;
+			width: 50% !important;
+		}
+
+		td.small-7,
+		th.small-7 {
+			display: inline-block !important;
+			width: 58.33333% !important;
+		}
+
+		td.small-8,
+		th.small-8 {
+			display: inline-block !important;
+			width: 66.66667% !important;
+		}
+
+		td.small-9,
+		th.small-9 {
+			display: inline-block !important;
+			width: 75% !important;
+		}
+
+		td.small-10,
+		th.small-10 {
+			display: inline-block !important;
+			width: 83.33333% !important;
+		}
+
+		td.small-11,
+		th.small-11 {
+			display: inline-block !important;
+			width: 91.66667% !important;
+		}
+
+		td.small-12,
+		th.small-12 {
+			display: inline-block !important;
+			width: 100% !important;
+		}
+
+		.columns td.small-12,
+		.column td.small-12,
+		.columns th.small-12,
+		.column th.small-12 {
+			display: block !important;
+			width: 100% !important;
+		}
+
+		table.body td.small-offset-1,
+		table.body th.small-offset-1 {
+			margin-left: 8.33333% !important;
+			Margin-left: 8.33333% !important;
+		}
+
+		table.body td.small-offset-2,
+		table.body th.small-offset-2 {
+			margin-left: 16.66667% !important;
+			Margin-left: 16.66667% !important;
+		}
+
+		table.body td.small-offset-3,
+		table.body th.small-offset-3 {
+			margin-left: 25% !important;
+			Margin-left: 25% !important;
+		}
+
+		table.body td.small-offset-4,
+		table.body th.small-offset-4 {
+			margin-left: 33.33333% !important;
+			Margin-left: 33.33333% !important;
+		}
+
+		table.body td.small-offset-5,
+		table.body th.small-offset-5 {
+			margin-left: 41.66667% !important;
+			Margin-left: 41.66667% !important;
+		}
+
+		table.body td.small-offset-6,
+		table.body th.small-offset-6 {
+			margin-left: 50% !important;
+			Margin-left: 50% !important;
+		}
+
+		table.body td.small-offset-7,
+		table.body th.small-offset-7 {
+			margin-left: 58.33333% !important;
+			Margin-left: 58.33333% !important;
+		}
+
+		table.body td.small-offset-8,
+		table.body th.small-offset-8 {
+			margin-left: 66.66667% !important;
+			Margin-left: 66.66667% !important;
+		}
+
+		table.body td.small-offset-9,
+		table.body th.small-offset-9 {
+			margin-left: 75% !important;
+			Margin-left: 75% !important;
+		}
+
+		table.body td.small-offset-10,
+		table.body th.small-offset-10 {
+			margin-left: 83.33333% !important;
+			Margin-left: 83.33333% !important;
+		}
+
+		table.body td.small-offset-11,
+		table.body th.small-offset-11 {
+			margin-left: 91.66667% !important;
+			Margin-left: 91.66667% !important;
+		}
+
+		table.body table.columns td.expander,
+		table.body table.columns th.expander {
+			display: none !important;
+		}
+
+		table.body .right-text-pad,
+		table.body .text-pad-right {
+			padding-left: 10px !important;
+		}
+
+		table.body .left-text-pad,
+		table.body .text-pad-left {
+			padding-right: 10px !important;
+		}
+
+		table.menu {
+			width: 100% !important;
+		}
+
+		table.menu td,
+		table.menu th {
+			width: auto !important;
+			display: inline-block !important;
+		}
+
+		table.menu.vertical td,
+		table.menu.vertical th,
+		table.menu.small-vertical td,
+		table.menu.small-vertical th {
+			display: block !important;
+		}
+
+		table.menu[align="center"] {
+			width: auto !important;
+		}
+
+		table.button.small-expand,
+		table.button.small-expanded {
+			width: 100% !important;
+		}
+
+		table.button.small-expand table,
+		table.button.small-expanded table {
+			width: 100%;
+		}
+
+		table.button.small-expand table a,
+		table.button.small-expanded table a {
+			text-align: center !important;
+			width: 100% !important;
+			padding-left: 0 !important;
+			padding-right: 0 !important;
+		}
+
+		table.button.small-expand center,
+		table.button.small-expanded center {
+			min-width: 0;
+		}
+	}
+
+	@media screen and (max-width: 596px) {
+		/* results list */
+		table.results-list thead th {
+			line-height: 34px !important;
+		}
+
+		/* top */
+		table.top-content td {
+			text-align: center !important;
+		}
+
+		/* related */
+		table.related table.related-items .columns {
+			padding-right: 0 !important;
+			padding-bottom: 15px !important;
+			padding-left: 0 !important;
+		}
+
+		table.related table.related-items .columns.last {
+			padding-bottom: 0 !important;
+		}
+
+		table.related a.related-item .plugin-info {
+			vertical-align: middle !important;
+		}
+
+		/* company info */
+		table.company-info .columns {
+			padding-right: 0 !important;
+			padding-left: 0 !important;
+		}
+
+		table.company-info .columns.last {
+			padding: 15px 0 0 !important;
+		}
+
+		table.company-info .logo,
+		table.company-info .logo-link,
+		table.company-info .logo img {
+			text-align: left !important;
+		}
+	}
+
+	@media screen and (max-width: 540px) {
+		/* hero */
+		table.hero table.hero-content {
+			width: 100%;
+		}
+
+		table.hero td.hero-title h1,
+		table.hero td.hero-title h2 {
+			padding: 0 !important;
+			text-align: center !important;
+		}
+
+		table.hero td.hero-image {
+			display: none;
+		}
+	}
+</style>
+<table class="body"
+       style="Margin: 0; background: #f3f3f3; background-color: #e9ebe7; border-collapse: collapse; border-spacing: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; height: 100%; line-height: 26px; margin: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;">
+	<tbody>
+	<tr style="padding: 0; text-align: left; vertical-align: top;">
+		<td class="center" align="center" valign="top"
+		    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-wrap: break-word;">
+
+			<center style="min-width: 600px; width: 100%;">
+
+				<table class="container"
+				       style="Margin: 0 auto; background: #fefefe; background-color: #fff; border-collapse: collapse; border-spacing: 0; margin: 0 auto; padding: 0; text-align: inherit; vertical-align: top; width: 600px;">
 					<tbody>
-					<tr>
-						<td align="center" valign="top">
-							<a href="https://premium.wpmudev.org/blog/" style="display:block;">
-								<img
-									src="https://gallery.mailchimp.com/53a1e972a043d1264ed082a5b/images/12584994-1cac-4632-8af1-31b03d2ca22b.png"
-									alt="" width="125" height="80"></a>
-						</td>
-					</tr>
-					<tr>
-						<td align="center" valign="top">
-							<a href="https://premium.wpmudev.org/&quot;><img alt=""
-							src="https://gallery.mailchimp.com/53a1e972a043d1264ed082a5b/images/5b8432e0-9a06-45f5-a559-764897c6982f.png"
-							width="100" height="23" style="max-width:100px;"></a>
-						</td>
-					</tr>
-					<tr>
-						<td align="center" valign="top" class="colophon">
-							<!-- Not used -->
+					<tr style="padding: 0; text-align: left; vertical-align: top;">
+						<td style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-wrap: break-word;">
+							<!-- end top -->
+							<table class="wrapper hero" align="left"
+							       style="background-color: #e9ebe7; border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;">
+								<tbody>
+								<tr style="padding: 0; text-align: left; vertical-align: top;">
+									<td class="wrapper-inner hero-inner"
+									    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 20px 0 0; text-align: left; vertical-align: top; word-wrap: break-word;">
+
+										<table class="hero-content" align="left"
+										       style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top;">
+											<tbody>
+											<tr style="padding: 0; text-align: left; vertical-align: top;">
+												<td class="hero-title"
+												    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 0; padding-bottom: 18px; text-align: left; vertical-align: bottom; word-wrap: break-word;">
+													<h2 style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 30px; font-weight: 700; line-height: 1em; margin: 0; margin-bottom: 0; padding: 0; padding-left: 9px; text-align: left; text-transform: uppercase; word-wrap: normal;"><?php _e( "Audit Update From", wp_defender()->domain ) ?></h2>
+													<h1 class="plugin-brand"
+													    style="Margin: 0; Margin-bottom: 0; color: #ff5c28; font-family: Helvetica, Arial, sans-serif; font-size: 60px; font-weight: 700; line-height: 1em; margin: 0; margin-bottom: 0; padding: 0; padding-left: 6px; text-align: left; text-transform: uppercase; word-wrap: normal;">
+														<?php _e("Defender!",wp_defender()->domain) ?></h1>
+												</td>
+												<td class="hero-image"
+												    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-wrap: break-word;">
+													<a href="https://premium.wpmudev.org/"
+													   style="Margin: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;"><img
+															src="<?php echo wp_defender()->get_plugin_url() ?>assets/email-images/hero-defender.png"
+															alt="Defender"
+															style="-ms-interpolation-mode: bicubic; border: none; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;"></a>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+										<!-- end hero-content -->
+
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							<!-- end hero -->
+							<?php echo $message ?>
+							<!-- end main -->
+
+							<table class="related" align="center"
+							       style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;">
+								<tbody>
+								<tr style="padding: 0; text-align: left; vertical-align: top;">
+									<td class="related-inner"
+									    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; border-top: 2px solid #e9ebe7; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 15px 30px 15px 40px; text-align: left; vertical-align: top; word-wrap: break-word;">
+										<table
+											style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top;">
+											<tbody>
+											<tr style="padding: 0; text-align: left; vertical-align: top;">
+												<td class="related-items-title brand" align="left"
+												    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #3eb4e4; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 0; padding-bottom: 10px; text-align: left; vertical-align: top; word-wrap: break-word;">
+													<?php esc_html_e( "Related plugins worth giving a try", wp_defender()->domain ) ?>
+												</td>
+											</tr>
+											<tr style="padding: 0; text-align: left; vertical-align: top;">
+												<td style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-wrap: break-word;">
+													<table class="related-items row collapse" align="center"
+													       style="border-collapse: collapse; border-spacing: 0; display: table; padding: 0; position: relative; text-align: left; vertical-align: top; width: 100%;">
+														<tbody>
+														<tr style="padding: 0; text-align: left; vertical-align: top;">
+															<th class="small-12 large-6 columns first" align="left"
+															    valign="top"
+															    style="Margin: 0 auto; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0 auto; padding: 0; padding-bottom: 0; padding-left: 0; padding-right: 0; text-align: left; width: 298px;">
+																<a class="related-item plugin-link"
+																   href="https://premium.wpmudev.org/project/wp-hummingbird/"
+																   style="Margin: 0; color: #555555; display: table; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; line-height: 20px; margin: 0; padding: 0; text-align: left; text-decoration: none;">
+																	<img
+																		src="<?php echo wp_defender()->get_plugin_url() ?>assets/email-images/plugin-hummingbird.png"
+																		alt="Hummingbird" class="plugin-image"
+																		style="-ms-interpolation-mode: bicubic; border: none; clear: both; display: table-cell; max-width: 100%; outline: none; text-decoration: none; width: auto;">
+																	<span class="plugin-info"
+																	      style="display: table-cell; padding-left: 10px; vertical-align: bottom;">
+                                              <span><?php esc_html_e( "Optimize your site with", wp_defender()->domain ) ?></span>
+                                              <span class="plugin-title hummingbird"
+                                                    style="color: #febd30; display: block;"><strong><?php esc_html_e( "Hummingbird", wp_defender()->domain ) ?></strong></span>
+                                              </span>
+																</a>
+															</th>
+															<th class="small-12 large-6 columns last" align="left"
+															    valign="top"
+															    style="Margin: 0 auto; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0 auto; padding: 0; padding-bottom: 0; padding-left: 0; padding-right: 0; text-align: left; width: 298px;">
+																<a class="related-item plugin-link"
+																   href="https://premium.wpmudev.org/project/snapshot/"
+																   style="Margin: 0; color: #555555; display: table; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; line-height: 20px; margin: 0; padding: 0; text-align: left; text-decoration: none;">
+																	<img
+																		src="<?php echo wp_defender()->get_plugin_url() ?>assets/email-images/plugin-snapshot.png"
+																		alt="Snapshot"
+																		class="plugin-image"
+																		style="-ms-interpolation-mode: bicubic; border: none; clear: both; display: table-cell; max-width: 100%; outline: none; text-decoration: none; width: auto;">
+																	<span class="plugin-info"
+																	      style="display: table-cell; padding-left: 10px; vertical-align: bottom;">
+                                              <span><?php esc_html_e( "Back up your hard work with", wp_defender()->domain ) ?></span>
+                                              <span class="plugin-title snapshot"
+                                                    style="color: #642486; display: block;"><strong><?php _e( "Snapshot", wp_defender()->domain ) ?></strong></span>
+                                              </span>
+																</a>
+															</th>
+															<th class="expander"
+															    style="Margin: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;"></th>
+														</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+										<!-- end related-inner -->
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							<!-- end related -->
+
+							<table class="company-info" align="left" valign="middle"
+							       style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;">
+								<tbody>
+								<tr style="padding: 0; text-align: left; vertical-align: top;">
+									<td class="company-info-inner"
+									    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; border-top: 2px solid #e9ebe7; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 40px; text-align: left; vertical-align: top; word-wrap: break-word;">
+										<table class="company-info-content row collapse" align="left" valign="top"
+										       style="border-collapse: collapse; border-spacing: 0; display: table; padding: 0; position: relative; text-align: left; vertical-align: top; width: 100%;">
+											<tbody>
+											<tr style="padding: 0; text-align: left; vertical-align: top;">
+												<th class="small-12 large-8 columns first copy" align="left"
+												    style="Margin: 0 auto; color: #707070; font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: normal; line-height: 20px; margin: 0 auto; padding: 0; padding-bottom: 0; padding-left: 0; padding-right: 0; text-align: left; width: 394.66667px;">
+													<p style="Margin: 0; Margin-bottom: 0; color: #707070; font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: normal; line-height: 20px; margin: 0; margin-bottom: 0; padding: 0; text-align: left;">
+														Copyright © Incsub, All rights reserved.</p>
+													<p style="Margin: 0; Margin-bottom: 0; color: #707070; font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: normal; line-height: 20px; margin: 0; margin-bottom: 0; padding: 0; text-align: left;">
+														Incsub PO box 163 Albert Park, Victoria 3206 Australia</p>
+												</th>
+												<th class="small-12 large-4 columns last logo" align="right"
+												    style="Margin: 0 auto; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0 auto; padding: 0; padding-bottom: 0; padding-left: 0; padding-right: 0; text-align: right; width: 201.33333px;">
+													<a href="https://premium.wpmudev.org" class="logo-link"
+													   style="Margin: 0; color: #555555; display: inline-block; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: right; text-decoration: none;">
+														<img
+															src="<?php echo wp_defender()->get_plugin_url() ?>assets/email-images/wpmudev-logo.png"
+															alt="WPMU DEV"
+															style="-ms-interpolation-mode: bicubic; border: none; clear: both; display: inline-block; max-width: 100%; outline: none; text-align: right; text-decoration: none; width: auto;">
+													</a>
+												</th>
+												<th class="expander"
+												    style="Margin: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;"></th>
+											</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							<!-- end company-info -->
+
+							<table class="wrapper social" align="center"
+							       style="background-color: #e9ebe7; border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;">
+								<tbody>
+								<tr style="padding: 0; text-align: left; vertical-align: top;">
+									<td class="wrapper-inner social-inner"
+									    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 40px 60px 20px; text-align: left; vertical-align: top; word-wrap: break-word;">
+
+										<table class="social-content" align="center"
+										       style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top;">
+											<tbody>
+											<tr style="padding: 0; text-align: left; vertical-align: top;">
+												<td class="social-content-inner"
+												    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 0; text-align: center; vertical-align: top; word-wrap: break-word;">
+													<a href="https://plus.google.com/+wpmuorg/" target="_blank"
+													   class="gplus"
+													   style="Margin: 0; color: #555555; display: inline-block; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; margin-right: 4px; padding: 0; text-align: left; text-decoration: none;"><img
+															src="<?php echo wp_defender()->get_plugin_url() ?>assets/email-images/icon-gplus.png"
+															alt="WPMU DEV on Google+"
+															style="-ms-interpolation-mode: bicubic; border: none; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;"></a>
+													<a href="https://twitter.com/wpmudev" target="_blank"
+													   class="twitter"
+													   style="Margin: 0; color: #555555; display: inline-block; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; margin-right: 4px; padding: 0; text-align: left; text-decoration: none;"><img
+															src="<?php echo wp_defender()->get_plugin_url() ?>assets/email-images/icon-twitter.png"
+															alt="WPMU DEV on Twitter"
+															style="-ms-interpolation-mode: bicubic; border: none; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;"></a>
+													<a href="https://www.facebook.com/wpmudev" target="_blank"
+													   class="facebook"
+													   style="Margin: 0; color: #555555; display: inline-block; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; margin-right: 0; padding: 0; text-align: left; text-decoration: none;"><img
+															src="<?php echo wp_defender()->get_plugin_url() ?>assets/email-images/icon-facebook.png"
+															alt="WPMU DEV on Facebook"
+															style="-ms-interpolation-mode: bicubic; border: none; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;"></a>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+										<!-- end social-content -->
+
+									</td>
+								</tr>
+								</tbody>
+							</table>
 						</td>
 					</tr>
 					</tbody>
 				</table>
+				<!-- end main container -->
 
-				<div style="display:none; white-space:nowrap; font:15px courier; line-height:0;">
-					&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-					&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-					&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				</div>
+			</center>
 
-			</td>
-		</tr>
-	</table>
-
-</center>
+		</td>
+	</tr>
+	</tbody>
+</table>
+<!-- end body -->
 </body>
 </html>

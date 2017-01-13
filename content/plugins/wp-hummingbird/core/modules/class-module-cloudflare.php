@@ -86,6 +86,8 @@ class WP_Hummingbird_Module_Cloudflare extends WP_Hummingbird_Module {
 		return wphb_get_setting( 'cloudflare-plan' );
 	}
 
+
+
 	/**
 	 * Tries to set the same caching rules in CF
 	 */
@@ -352,6 +354,15 @@ class WP_Hummingbird_Module_Cloudflare extends WP_Hummingbird_Module {
 			return $result;
 		}
 
+		return $result->result->value;
+	}
+
+	public function purge_cache() {
+		$zone = wphb_get_setting( 'cloudflare-zone' );
+		$api = wphb_get_api();
+		$api->cloudflare->set_auth_email( wphb_get_setting( 'cloudflare-email' ) );
+		$api->cloudflare->set_auth_key( wphb_get_setting( 'cloudflare-api-key' ) );
+		$result = $api->cloudflare->purge_cache( $zone );
 		return $result->result->value;
 	}
 

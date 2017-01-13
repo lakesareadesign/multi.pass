@@ -273,6 +273,7 @@ class NF_Abstracts_ModelFactory
             $actions = $model_shell->find($form_id, $where);
 
             foreach ($actions as $action) {
+                $action->get_setting( 'type' ); // Pre-load the type of action for usort()
                 $this->_actions[$action->get_id()] = $action;
             }
         }

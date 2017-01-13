@@ -79,21 +79,21 @@ class CoursePress_Data_Shortcode_CourseTemplate {
 
 		extract( shortcode_atts( array(
 			'course_id' => CoursePress_Helper_Utility::the_course( true ),
-			'course_full_text' => __( 'Course Full', 'cp' ),
-			'course_expired_text' => __( 'Not available', 'cp' ),
-			'enrollment_finished_text' => __( 'Enrollments Finished', 'cp' ),
-			'enrollment_closed_text' => __( 'Enrollments Closed', 'cp' ),
-			'enroll_text' => __( 'Enroll Now!', 'cp' ),
-			'signup_text' => __( 'Enroll Now!', 'cp' ),
-			'details_text' => __( 'Details', 'cp' ),
-			'prerequisite_text' => __( 'Pre-requisite Required', 'cp' ),
-			'passcode_text' => __( 'Passcode Required', 'cp' ),
-			'not_started_text' => __( 'Not Available', 'cp' ),
 			'access_text' => __( 'Start Learning', 'cp' ),
+			'class' => '',
 			'continue_learning_text' => __( 'Continue Learning', 'cp' ),
+			'course_expired_text' => __( 'Not available', 'cp' ),
+			'course_full_text' => __( 'Course Full', 'cp' ),
+			'details_text' => __( 'Details', 'cp' ),
+			'enrollment_closed_text' => __( 'Enrollments Closed', 'cp' ),
+			'enrollment_finished_text' => __( 'Enrollments Finished', 'cp' ),
+			'enroll_text' => __( 'Enroll Now!', 'cp' ),
 			'instructor_text' => __( 'Access Course', 'cp' ),
 			'list_page' => false,
-			'class' => '',
+			'not_started_text' => __( 'Not Available', 'cp' ),
+			'passcode_text' => __( 'Passcode Required', 'cp' ),
+			'prerequisite_text' => __( 'Pre-requisite Required', 'cp' ),
+			'signup_text' => __( 'Enroll Now!', 'cp' ),
 		), $atts, 'course_join_button' ) );
 
 		$course_id = (int) $course_id;
@@ -705,8 +705,7 @@ class CoursePress_Data_Shortcode_CourseTemplate {
 
 				if ( $heading_visible && ! empty( $page['modules'] ) ) {
 					$preview_class = ( $free_show && ! $enrolled && ! empty( $preview['structure'][ $unit_id ] ) && is_array( $preview['structure'][ $unit_id ] ) ) ? $free_class : '';
-					$content .= '<div class="unit-page-title-wrapper ' . $preview_class . '">';
-
+					$content .= '<div class="unit-page-title-wrapper ' . esc_attr( $preview_class ) . '">';
 					$content .= '<div class="unit-page-title">' . $page_title . '</div>';
 					if ( $free_show && ! $enrolled && ! empty( $preview['structure'][ $unit_id ] ) && is_array( $preview['structure'][ $unit_id ] ) ) {
 						$content .= '<div class="unit-page-link"><a href="' . esc_url( $page_link ) . '">' . $free_text . '</a></div>';
@@ -1334,11 +1333,11 @@ class CoursePress_Data_Shortcode_CourseTemplate {
 
 		extract( shortcode_atts( array(
 			'course_id' => in_the_loop() ? get_the_ID() : false,
-			'month' => false,
-			'year' => false,
-			'pre' => __( '&laquo; Previous', 'cp' ),
-			'next' => __( 'Next &raquo;', 'cp' ),
 			'date_indicator' => 'indicator_light_block',
+			'month' => false,
+			'next' => __( 'Next &raquo;', 'cp' ),
+			'pre' => __( '&laquo; Previous', 'cp' ),
+			'year' => false,
 		), $atts, 'course_calendar' ) );
 
 		if ( ! empty( $course_id ) ) {
@@ -1389,26 +1388,26 @@ class CoursePress_Data_Shortcode_CourseTemplate {
 		$atts = CoursePress_Helper_Utility::sanitize_recursive(
 			shortcode_atts(
 				array(
-					'status' => 'publish',
-					'instructor' => '', // Note, one or the other
-					'instructor_msg' => __( 'The Instructor does not have any courses assigned yet.', 'cp' ),
-					'student' => '', // If both student and instructor is specified only student will be used
-					'student_msg' => __( 'You are not enrolled in any courses. <a href="%s">See available courses.</a>', 'cp' ),
-					'dashboard' => false,
+					'completed_label' => __( 'Completed courses', 'cp' ),
 					'context' => 'all', // <blank>, enrolled, completed
-					'limit' => - 1,
-					'order' => 'ASC',
-					'manage_label' => __( 'Manage Courses', 'cp' ),
 					'current_label' => __( 'Current Courses', 'cp' ),
+					'dashboard' => false,
+					'facilitator_label' => __( 'Facilitated Courses', 'cp' ),
+					'facilitator' => '',
 					'future_label' => __( 'Starting soon', 'cp' ),
 					'incomplete_label' => __( 'Incomplete courses', 'cp' ),
-					'completed_label' => __( 'Completed courses', 'cp' ),
+					'instructor_msg' => __( 'The Instructor does not have any courses assigned yet.', 'cp' ),
+					'instructor' => '', // Note, one or the other
+					'limit' => - 1,
+					'manage_label' => __( 'Manage Courses', 'cp' ),
+					'order' => 'ASC',
 					'past_label' => __( 'Past courses', 'cp' ),
-					'suggested_label' => __( 'Suggested courses', 'cp' ),
-					'facilitator' => '',
-					'facilitator_label' => __( 'Facilitated Courses', 'cp' ),
-					'suggested_msg' => __( 'You are not enrolled in any courses.<br />Here are a few you might like, or <a href="%s">see all available courses.</a>', 'cp' ),
 					'show_labels' => false,
+					'status' => 'publish',
+					'student_msg' => __( 'You are not enrolled in any courses. <a href="%s">See available courses.</a>', 'cp' ),
+					'student' => '', // If both student and instructor is specified only student will be used
+					'suggested_label' => __( 'Suggested courses', 'cp' ),
+					'suggested_msg' => __( 'You are not enrolled in any courses.<br />Here are a few you might like, or <a href="%s">see all available courses.</a>', 'cp' ),
 				),
 				$atts,
 				'course_page'
@@ -1522,7 +1521,7 @@ class CoursePress_Data_Shortcode_CourseTemplate {
 
 				if ( ! empty( $courses ) ) {
 					$counter += count( $courses );
-					$content .=  CoursePress_Template_Course::course_list_table( $courses );
+					$content .= CoursePress_Template_Course::course_list_table( $courses );
 				}
 			} else {
 				foreach ( $courses as $course ) {
@@ -1542,7 +1541,7 @@ class CoursePress_Data_Shortcode_CourseTemplate {
 
 			switch ( $context ) {
 				case 'enrolled': case 'current': case 'all':
-						$label = $atts['current_label'];
+							$label = $atts['current_label'];
 					break;
 				case 'future':
 					$label = $atts['future_label'];

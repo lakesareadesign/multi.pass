@@ -171,13 +171,13 @@ class CoursePress_View_Admin_Setting_General {
 							</tr>
 
 							<tr valign="top" class="break">
-								<th scope="row">' . esc_html__( 'Student Dashboard Slug', 'cp' ) . '</th>
+								<th scope="row">' . esc_html__( 'Student Settings Slug', 'cp' ) . '</th>
 								<td>' . trailingslashit( esc_url( home_url() ) ) . '
 									&nbsp;<input type="text" name="coursepress_settings[slugs][student_settings]" id="student_settings_slug" value="' . esc_attr( CoursePress_Core::get_setting( 'slugs/student_settings', 'student-settings' ) ) . '" />&nbsp;/
 								</td>
 							</tr>
 							<tr valign="top">
-								<th scope="row">' . esc_html__( 'Student Dashboard Page', 'cp' ) . '</th>
+								<th scope="row">' . esc_html__( 'Student Settings Page', 'cp' ) . '</th>
 								<td>' .
 									$page_dropdowns['student_settings'] .
 									'<p class="description">' . sprintf( __( 'Select page where you have %s shortcode or any other set of %s. Please note that slug for the page set above will not be used if "Use virtual page" is not selected.', 'cp' ), '<input type="text" readonly="readonly" class="cp-sc-box" value="[cp_pages page=&quot;student_settings&quot;]" />', '<a target="_blank" href="' . admin_url( 'admin.php?page=' . $_GET['page'] . '&tab=shortcodes' ) . '">' . __( 'shortcodes', 'cp' ) . '</a>' ) . '</p>

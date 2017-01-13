@@ -128,9 +128,6 @@ WP Defender here, reporting back from the front.
 I\'ve finished scanning {SITE_URL} for vulnerabilities and I found {ISSUES_COUNT} issues that you should take a closer look at!
 {ISSUES_LIST}
 
-<a href="{SCAN_PAGE_LINK}">Follow me back to the lair and let\'s get you patched
-    up.</a>
-
 Stay Safe,
 WP Defender
 Official WPMU DEV Superhero', wp_defender()->domain ),
@@ -313,6 +310,21 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 */
 	public static function http_post( $key, $default = false ) {
 		return self::arr_get_value( $key, $_POST, $default );
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function is_plugin_network_activated() {
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		}
+
+		if ( is_plugin_active_for_network( wp_defender()->slug ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

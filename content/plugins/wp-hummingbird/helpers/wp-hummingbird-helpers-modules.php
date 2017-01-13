@@ -16,10 +16,10 @@ function wphb_get_modules() {
  *
  * @param string $module Module slug
  *
- * @return object
+ * @return WP_Hummingbird_Module|bool
  */
 function wphb_get_module( $module ) {
-	return isset( wp_hummingbird()->core->modules[ $module ] ) ? wp_hummingbird()->core->modules[ $module ] : false;;
+	return isset( wp_hummingbird()->core->modules[ $module ] ) ? wp_hummingbird()->core->modules[ $module ] : false;
 }
 
 /**
@@ -52,43 +52,34 @@ function wphb_minification_maybe_stop_checking_files() {
  * This collection is displayed in minification admin page
  */
 function wphb_minification_get_resources_collection() {
-	wphb_include_sources_collector();
-	return WP_Hummingbird_Sources_Collector::get_collection();
+	$collection = WP_Hummingbird_Sources_Collector::get_collection();
+	$posts = WP_Hummingbird_Module_Minify_Group::get_minify_groups();
+	foreach ( $posts as $post ) {
+		$group = WP_Hummingbird_Module_Minify_Group::get_instance_by_post_id( $post->ID );
+		if ( ! $group ) {
+			continue;
+		}
+		foreach ( $group->get_handles() as $handle ) {
+			if ( isset( $collection[ $group->type ][ $handle ] ) ) {
+				$collection[ $group->type ][ $handle ]['original_size'] = $group->get_handle_original_size( $handle );
+				$collection[ $group->type ][ $handle ]['compressed_size'] = $group->get_handle_compressed_size( $handle );
+			}
+		}
+	}
+
+	return $collection;
 }
 
-
-/**
- * Wrapper function for WP_Hummingbird_Module_Minify::get_pending_process_queue();
- *
- * @return array|bool
- */
-function wphb_minification_get_pending_process_queue() {
-	return WP_Hummingbird_Module_Minify::get_pending_process_queue();
+function wphb_use_minify_cdn() {
+	return apply_filters( 'wphb_use_minify_cdn', false );
 }
+
 
 /**
  * Wrapper function for WP_Hummingbird_Module_Minify::init_scan()
  */
 function wphb_minification_init_scan() {
 	WP_Hummingbird_Module_Minify::init_scan();
-}
-
-/**
- * Wrapper function for WP_Hummingbird_Module_Minify::add_items_to_process_queue();
- *
- * @param array $items
- */
-function wphb_minification_add_items_to_process_queue( $items ) {
-	WP_Hummingbird_Module_Minify::add_items_to_process_queue( $items );
-}
-
-/**
- * Wrapper function for WP_Hummingbird_Module_Minify::delete_item_from_process_queue()
- *
- * @param $key
- */
-function wphb_minification_delete_item_from_process_queue( $key ) {
-	WP_Hummingbird_Module_Minify::delete_item_from_process_queue( $key );
 }
 
 /**
@@ -134,8 +125,6 @@ function wphb_uptime_enable() {
 
 /**
  * Enable Uptime remotely
- *
- * @return array|mixed|object|WP_Error
  */
 function wphb_uptime_disable() {
 	WP_Hummingbird_Module_Uptime::disable();
@@ -143,7 +132,6 @@ function wphb_uptime_disable() {
 
 /**
  * Wrapper function for WP_Hummingbird_Module_Uptime::refresh_report()
- * @return bool|mixed|void
  */
 function wphb_uptime_refresh_report() {
 	WP_Hummingbird_Module_Uptime::refresh_report();

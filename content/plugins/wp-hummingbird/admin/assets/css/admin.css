@@ -19,6 +19,9 @@
 /* ****************************************************************************
  * 1. EXTEND/OVERRIDE WPMUDEV DASHBOARD/WP STYLES
  */
+.wpmud .button:hover {
+	background:#FFE900 !important;
+}
 .wpmud .spinner.standalone {
 	float: none;
 	margin: 0;
@@ -354,6 +357,17 @@
 .wpmud .cloudflare-step p.cloudflare-submit {
 	float:right;
 }
+.wpmud .cloudflare-step p.cloudflare-clear-cache {
+	float:left;
+	margin-bottom:0;
+}
+.wpmud .cloudflare-step hr {
+	margin-top:20px;
+	margin-bottom:20px;
+}
+.wpmud .cloudflare-step p.cloudflare-clear-cache-text {
+	text-align:left;
+}
 .wpmud #cloudflare-how-to-title {
 	float:left;
 	line-height: 40px;
@@ -372,6 +386,11 @@
 
 
 /* Buttons */
+.wrap-wp-hummingbird .button,
+.wrap-wp-hummingbird button {
+	-webkit-transition: all .3s ease;
+    transition: all .3s ease;
+}
 .wrap-wp-hummingbird .button-with-cta {
 	padding: 12px 20px 11px;
 }
@@ -573,6 +592,17 @@
 .wpmud .wphb-label-notice-inline {
 	display: inline-block;
 }
+.wpmud .wphb-label-disabled {
+	background: #F2F2F2;
+    border-radius: 20px;
+    color: #C0C0C0;
+    display: inline-block;
+    font: 500 12px/20px 'Roboto', Arial, sans-serif;
+    min-width: 120px;
+    padding: 5px;
+    text-align: center;
+    text-transform: uppercase;
+}
 
 /* Icons */
 .wpmud .wphb-icon {
@@ -582,6 +612,24 @@
 	display: block;
 	float: left;
 }
+
+/* Pro feature callout */
+.wpmud .pro-callout a {
+	color:#5ba396;
+	border:1px solid #5ba396;
+	-webkit-border-radius:25px;
+	-moz-border-radius:25px;
+	border-radius:25px;
+	text-transform: uppercase;
+	padding:5px 10px;
+	line-height:40px;
+}
+
+.wpmud .pro-callout a:hover {
+	background: #5ba396;
+	color:white;
+}
+
 
 /* ****************************************************************************
  * 2. COMMON/GENERAL STYLES
@@ -984,8 +1032,62 @@
 }
 
 /* Toggles */
+.wpmud .toggle .toggle-label {
+	text-align: left;
+}
 .wpmud .toggle-group {
 	display: inline-block;
+}
+.wpmud .toggle .toggle-checkbox:checked:disabled + .toggle-label {
+	background: transparent;
+}
+.wpmud .toggle .toggle-checkbox:checked:disabled + .toggle-label:before {
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+}
+.wpmud .toggle .toggle-checkbox:checked:disabled + .toggle-label:after {
+	margin-left: 1px;
+}
+.wpmud .toggle-item.bordered {
+	border-top: 1px solid #E6E6E6;
+	padding-top: 30px;
+}
+.wpmud .toggle-item.space-top {
+	margin: 30px 0 0;
+}
+.wpmud .toggle-item.space-top-small {
+	margin: 15px 0 0;
+}
+.wpmud .toggle-item label {
+	text-align: left;
+}
+.wpmud .toggle-item .toggle-item-group {
+	display: table;
+	width: 100%;
+}
+.wpmud .toggle-item .toggle-info,
+.wpmud .toggle-item .toggle-actions {
+	display: table-cell;
+}
+.wpmud .toggle-item .toggle-item-title {
+	color: #555;
+	font: 400 15px/20px 'Roboto', Arial, sans-serif;
+    margin: 0;
+}
+.wpmud .toggle-item .toggle-item-description {
+	color: #888;
+	font: 400 13px/22px 'Roboto', Arial, sans-serif;
+	margin: 10px 0;
+}
+.wpmud .toggle-item .toggle-item-description:last-child {
+	margin-bottom: 0;
+}
+.wpmud .toggle-item .toggle-actions {
+	padding-left: 30px;
+	vertical-align: middle;
+	text-align: right;
 }
 
 /* ****************************************************************************
@@ -1278,7 +1380,7 @@
 }
 .wphb-progress[value]::-webkit-progress-value {
 	animation: wphb-animate-progress-bar 2s linear infinite;
-	background-image: -webkit-linear-gradient(135deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);	  	 	   	 		 		 		 	
+	background-image: -webkit-linear-gradient(135deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);
     background-image: -o-linear-gradient(135deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);
     background-image: linear-gradient(135deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);
   	background-color: #FECF2F;
@@ -1830,6 +1932,12 @@
 	margin-bottom:30px;
 }
 
+#wphb-box-minification-advanced-settings .toggle-item-description {
+	font-size:13px;
+	line-height:22px;
+	font-weight: 400;
+}
+
 /* ****************************************************************************
  * 7. BROWSER CACHING
  */
@@ -1889,6 +1997,10 @@
 .wpmud .uptime-chart svg g g text:last-of-type {
 	fill: #1ABC9C;
 	font-weight: 500;
+}
+
+.wrap-wp-hummingbird .button-cta-green:hover {
+	box-shadow: none;
 }
 
 /* ****************************************************************************
@@ -2368,4 +2480,4 @@
 }
 
 
-/* 133620-1477325013-au */
+/* 133620-1484344680-au */

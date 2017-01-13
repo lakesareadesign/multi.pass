@@ -19,7 +19,9 @@ function wphb_get_settings() {
 }
 
 /**
- * @param $option_nameReturn a single WP Hummingbird setting
+ * @param string $option_name Return a single WP Hummingbird setting
+ *
+ * @return mixed
  */
 function wphb_get_setting( $option_name ) {
 	$settings = wphb_get_settings();
@@ -40,12 +42,12 @@ function wphb_get_default_settings() {
 		'minify' => false,
 		'caching' => false,
 		'uptime' => false,
+		'minify_cdn' => false,
 
 		// Only for multisites. Toggles minification in a subsite
 		// By default is true as if 'minify' is set to false, this option has no meaning
 		'minify-blog' => true,
 
-		'max_files_in_group' => 10,
 		'block' => array( 'scripts' => array(), 'styles' => array() ),
 		'dont_minify' => array( 'scripts' => array(), 'styles' => array() ),
 		'dont_combine' => array( 'scripts' => array(), 'styles' => array() ),
@@ -63,6 +65,8 @@ function wphb_get_default_settings() {
 		'cloudflare-plan' => false,
 		'cloudflare-page-rules' => array(),
 		'cloudflare-caching-expiry' => 691200,
+
+		'use_cdn' => false
 	);
 
 	/**

@@ -83,10 +83,14 @@ function wphb_minify_module_status( $current ) {
 add_filter( 'wphb_get_server_type', 'wphb_set_user_server_type' );
 function wphb_set_user_server_type( $type ) {
 	$user_type = get_user_meta( get_current_user_id(), 'wphb-server-type', true );
-
 	if ( $user_type ) {
 		$type = $user_type;
 	}
-
 	return $type;
+}
+
+
+add_filter( 'wphb_use_minify_cdn', 'wphb_set_use_cdn' );
+function wphb_set_use_cdn( $use_cdn ) {
+	return wphb_get_setting( 'use_cdn' );
 }

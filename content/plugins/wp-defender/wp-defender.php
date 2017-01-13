@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Defender
  * Plugin URI: https://premium.wpmudev.org/project/wp-defender/
- * Version:     1.1.4.1
+ * Version:     1.1.5
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
@@ -77,7 +77,7 @@ class WP_Defender {
 	/**
 	 * @var string
 	 */
-	public $db_version = '1.0.3';
+	public $db_version = '1.0.4';
 
 	/**
 	 * @var string
@@ -199,7 +199,8 @@ class WP_Defender {
 			)
 		);
 		/** @noinspection PhpIncludeInspection */
-		include_once( $this->get_plugin_path() . 'dash-notice/wpmudev-dash-notification.php' );
+		include_once( $this->plugin_path . 'dash-notice/wpmudev-dash-notification.php' );
+		//including vendor here
 	}
 
 	/**
@@ -209,14 +210,17 @@ class WP_Defender {
 		$this->register_post_type();
 		$module_manager = new WD_Module_Manager();
 		$module_manager->attach( WD_Hardener_Module::get_instance() );
+		//$module_manager->attach( WD_System_Tweak_Module::get_instance() );
 		$module_manager->attach( WD_Scan_Module::get_instance() );
+		//$module_manager->attach( WD_Bee_Scan_Module::get_instance() );
 		$module_manager->attach( WD_Audit_Log_Module::get_instance() );
+		$module_manager->attach( WD_IP_Lockout_Module::get_instance() );
 		//listen to membership status
 		$this->global['module_manager'] = $module_manager;
 		if ( is_admin() || is_network_admin() ) {
 			//include the rest controller
 			$controllers = array(
-				'admin'  => new WD_Admin_Controller(),
+				'admin' => new WD_Admin_Controller(),
 				//'backup' => new WD_Backup_Controller(),
 			);
 			//store for later use
@@ -224,6 +228,11 @@ class WP_Defender {
 		}
 		//now inits the widgets, this will lookup all the widgets in over plugin scope, in modules and outside
 		WD_Widget_Manager::get_instance()->prepare_widgets();
+
+		if ( get_option( 'defender_init' ) == 1 ) {
+			do_action( 'defender_activated' );
+			delete_option( 'defender_init' );
+		}
 	}
 
 	public function register_post_type() {
@@ -359,6 +368,7 @@ wp_defender();
 function wp_defender_activate() {
 	//settle settings
 	WD_Utils::settle_settings();
+	update_option( 'defender_init', 1 );
 }
 
 register_activation_hook( __FILE__, 'wp_defender_activate' );

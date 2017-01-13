@@ -53,11 +53,12 @@ class CoursePress_View_Admin_Setting_BasicCertificate {
 
 	public static function return_content( $content, $slug, $tab ) {
 		$is_enabled = CoursePress_Core::get_setting( 'basic_certificate/enabled', true );
+		$is_enabled = cp_is_true( $is_enabled );
+		$use_cp_default = CoursePress_Core::get_setting( 'basic_certificate/use_cp_default', false );
 		$cert_background = CoursePress_Core::get_setting( 'basic_certificate/background_image' );
-		$cert_padd_top = CoursePress_Core::get_setting( 'basic_certificate/padding/top' );
-		$cert_padd_bottom = CoursePress_Core::get_setting( 'basic_certificate/padding/bottom' );
-		$cert_padd_left = CoursePress_Core::get_setting( 'basic_certificate/padding/left' );
-		$cert_padd_right = CoursePress_Core::get_setting( 'basic_certificate/padding/right' );
+		$cert_margin_top = CoursePress_Core::get_setting( 'basic_certificate/margin/top' );
+		$cert_margin_left = CoursePress_Core::get_setting( 'basic_certificate/margin/left' );
+		$cert_margin_right = CoursePress_Core::get_setting( 'basic_certificate/margin/right' );
 		$cert_orientation = CoursePress_Core::get_setting( 'basic_certificate/orientation', 'L' );
 		$allowed_extensions = CoursePress_Helper_Utility::get_image_extensions();
 
@@ -72,17 +73,44 @@ class CoursePress_View_Admin_Setting_BasicCertificate {
 		<h3 class="hndle" style="cursor:auto;">
 			<span><?php esc_html_e( 'Certificate Options', 'cp' ); ?></span>
 		</h3>
-		<div class="inside">
+        <div class="inside">
+<?php
+		$certificate_link = add_query_arg(
+			array(
+				'action' => 'edit',
+				'nonce' => wp_create_nonce( 'cp_certificate_preview' ),
+				'course_id' => 0,
+			),
+			admin_url( 'post.php' )
+		);
+		printf(
+			'<a href="%s" target="_blank" class="button button-certificate %s">%s</a>',
+			esc_url( $certificate_link ),
+			esc_attr( $is_enabled? '':'hidden' ),
+			esc_html__( 'Preview', 'cp' )
+		);
+
+?>
 			<table class="form-table compressed">
 				<tbody id="items">
 					<tr>
 						<td><label>
 							<input type="checkbox"
-								<?php checked( cp_is_true( $is_enabled ) ); ?>
+								<?php checked( $is_enabled ); ?>
 								name="coursepress_settings[basic_certificate][enabled]"
 								class="certificate_enabled"
 								value="1" />
 							<?php esc_html_e( 'Enable Basic Certificate', 'cp' ); ?>
+						</label></td>
+					</tr>
+                    <tr class="use-cp-default <?php echo $is_enabled? '':'hidden'; ?>">
+						<td><label>
+							<input type="checkbox"
+								<?php checked( cp_is_true( $use_cp_default ) ); ?>
+								name="coursepress_settings[basic_certificate][use_cp_default]"
+								class="certificate_default"
+								value="1" />
+							<?php esc_html_e( 'Use default CoursePress  Certificate', 'cp' ); ?>
 						</label></td>
 					</tr>
 				</tbody>
@@ -90,7 +118,7 @@ class CoursePress_View_Admin_Setting_BasicCertificate {
 		</div>
 
 		<!-- Certificate Layout -->
-		<div class="certificate-details" style="display: none">
+		<div class="certificate-details hidden">
 		<h3 class="hndle" style="cursor:auto;">
 			<span><?php esc_html_e( 'Certificate Layout', 'cp' ); ?></span>
 		</h3>
@@ -168,45 +196,26 @@ class CoursePress_View_Admin_Setting_BasicCertificate {
 
 			<tr>
 				<th>
-					<?php esc_html_e( 'Content Padding', 'cp' ); ?><br />
+					<?php esc_html_e( 'Content Margin', 'cp' ); ?><br />
 				</th>
 				<td>
 					<span><?php esc_html_e( 'Top', 'cp' ); ?></span>
-					<input type="text"
-						size="6"
-						style="width: 80px;"
-						class="padding_top"
-						name="coursepress_settings[basic_certificate][padding][top]"
-						value="<?php echo esc_attr( $cert_padd_top ); ?>" />
-
-					<span><?php esc_html_e( 'Bottom', 'cp' ); ?></span>
-					<input type="text"
-						size="6"
-						style="width: 80px;"
-						class="padding_bottom"
-						name="coursepress_settings[basic_certificate][padding][bottom]
-						" value="<?php echo esc_attr( $cert_padd_bottom ); ?>" />
+					<input type="number"
+						class="margin_top small-text"
+						name="coursepress_settings[basic_certificate][margin][top]"
+						value="<?php echo esc_attr( $cert_margin_top ); ?>" />
 
 					<span><?php esc_html_e( 'Left', 'cp' ); ?></span>
-					<input type="text"
-						size="6"
-						style="width: 80px;"
-						class="padding_left"
-						name="coursepress_settings[basic_certificate][padding][left]"
-						value="<?php echo esc_attr( $cert_padd_left ); ?>" />
+					<input type="number"
+						class="margin_left small-text"
+						name="coursepress_settings[basic_certificate][margin][left]"
+						value="<?php echo esc_attr( $cert_margin_left ); ?>" />
 
 					<span><?php esc_html_e( 'Right', 'cp' ); ?></span>
-					<input type="text"
-						size="6"
-						style="width: 80px;"
-						class="padding_right"
-						name="coursepress_settings[basic_certificate][padding][right]"
-						value="<?php echo esc_attr( $cert_padd_right ); ?>" />
-					<br />
-
-					<span class="description">
-						<?php esc_html_e( 'Can be any CSS units. E.g. "0.2em"', 'cp' ); ?>
-					</span>
+					<input type="number"
+						class="margin_right small-text"
+						name="coursepress_settings[basic_certificate][margin][right]"
+						value="<?php echo esc_attr( $cert_margin_right ); ?>" />
 				</td>
 			</tr>
 
@@ -240,13 +249,13 @@ class CoursePress_View_Admin_Setting_BasicCertificate {
 
 	public static function default_certificate_content() {
 		$msg = __(
-			'%1$s %2$s
+			'<h2>%1$s %2$s</h2>
 			has successfully completed the course
 
-			%3$s
+			<h3>%3$s</h3>
 
-			Date: %4$s
-			Certificate no.: %5$s', 'cp'
+			<h4>Date: %4$s</h4>
+			<small>Certificate no.: %5$s</small>', 'cp'
 		);
 
 		$default_certification_content = sprintf(
@@ -322,6 +331,12 @@ The %5$s Team', 'cp');
 		} else {
 			$post_settings['basic_certificate']['enabled'] = false;
 		}
+
+		/**
+		 * default
+		 */
+		$use_cp_default = isset( $post_settings['basic_certificate']['use_cp_default'] );
+		$post_settings['basic_certificate']['use_cp_default'] = $use_cp_default;
 
 		$post_settings = CoursePress_Helper_Utility::sanitize_recursive( $post_settings );
 

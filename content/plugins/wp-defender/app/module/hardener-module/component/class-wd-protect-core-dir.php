@@ -18,6 +18,30 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 
 		$this->add_action( 'admin_footer', 'print_scripts' );
 		$this->add_ajax_action( $this->generate_ajax_action( 'apply_htaccess' ), 'process' );
+		$this->fix_robots_txt();
+	}
+
+	protected function fix_robots_txt() {
+		//we only need to append if the
+		$version = get_option( 'wd_db_version' );
+
+		if ( version_compare( $version, wp_defender()->db_version, '<' ) ) {
+			if ( $this->check_rule_by_request( self::PROTECT_ENUM, 'wp-content' ) ) {
+				//we need to append the robots txt exclusion if this already get applied
+				$rules        = '<Files robots.txt>' . PHP_EOL . 'Allow from all' . PHP_EOL . '</Files>';
+				$htacces_path = ABSPATH . '.htaccess';
+				if ( file_exists( $htacces_path ) ) {
+					$content  = file_get_contents( $htacces_path );
+					$old_rule = '<FilesMatch "\.(txt|md|exe|sh|bak|inc|pot|po|mo|log|sql)$">' . PHP_EOL .
+					            'Order allow,deny' . PHP_EOL .
+					            'Deny from all' . PHP_EOL .
+					            '</FilesMatch>';
+					$content  = str_replace( $old_rule, $old_rule . PHP_EOL . $rules, $content );
+					file_put_contents( $htacces_path, $content, LOCK_EX );
+					update_option( 'wd_db_version', wp_defender()->db_version );
+				}
+			}
+		}
 	}
 
 	protected function init_check_rules() {
@@ -391,6 +415,9 @@ class WD_Protect_Core_Dir extends WD_Hardener_Abstract {
 					'Order allow,deny',
 					'Deny from all',
 					'</FilesMatch>',
+					'<Files robots.txt>',
+					'Allow from all',
+					'</Files>',
 				);
 			case self::PREVENT_PHP_ACCESS:
 				return array(

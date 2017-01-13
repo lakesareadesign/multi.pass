@@ -20,18 +20,20 @@ class WP_Hummingbird_Admin_AJAX {
 		add_action( 'wp_ajax_caching_clear_cache', array( $this, 'clear_caching_cache' ) );
 		add_action( 'wp_ajax_caching_write_htaccess', array( $this, 'write_caching_htaccess' ) );
 		add_action( 'wp_ajax_gzip_write_htaccess', array( $this, 'write_gzip_htaccess' ) );
-		add_action( 'wp_ajax_chart_switch_chart_area', array( $this, 'switch_chart_area' ) );
 
 		add_action( 'wp_ajax_cloudflare_connect', array( $this, 'cloudflare_connect' ) );
 		add_action( 'wp_ajax_cloudflare_set_expiry', array( $this, 'cloudflare_set_expiry' ) );
+		add_action( 'wp_ajax_cloudflare_purge_cache', array( $this, 'cloudflare_purge_cache' ) );
 	}
 
 	public function process() {
-		if ( ! isset( $_REQUEST['module_action'] ) || ! isset( $_REQUEST['module'] ) )
+		if ( ! isset( $_REQUEST['module_action'] ) || ! isset( $_REQUEST['module'] ) ) {
 			wp_send_json_error();
+		}
 
-		if ( ! isset( $_REQUEST['wphb_nonce'] ) || ! isset( $_REQUEST['nonce_name'] ) )
+		if ( ! isset( $_REQUEST['wphb_nonce'] ) || ! isset( $_REQUEST['nonce_name'] ) ) {
 			wp_send_json_error();
+		}
 
 		check_ajax_referer( $_REQUEST['nonce_name'], 'wphb_nonce' );
 
@@ -194,6 +196,35 @@ class WP_Hummingbird_Admin_AJAX {
 		die();
 	}
 
+	public function dashboard_toggle_use_cdn( $data ) {
+		$this->minification_toggle_use_cdn( $data );
+	}
+
+	public function minification_toggle_use_cdn( $data ) {
+		$value = ( 'true' === $data['value'] );
+		wphb_update_setting( 'use_cdn', $value );
+
+		if ( is_multisite() && ! current_user_can( 'manage_network' ) ) {
+			die();
+		}
+
+		if ( ! is_multisite() && ! current_user_can( 'manage_options' ) ) {
+			die();
+		}
+
+		// Clear the files
+		$groups = WP_Hummingbird_Module_Minify_Group::get_minify_groups();
+		foreach ( $groups as $group ) {
+			$path = get_post_meta( $group->ID, 'path', true );
+			if ( $path ) {
+				wp_delete_file( $path );
+			}
+			wp_delete_post( $group->ID );
+		}
+		wp_cache_delete( 'wphb_minify_groups' );
+		die();
+	}
+
 	/**
 	 * Get all the URLs that the Minification Check Files button should process
 	 */
@@ -298,54 +329,6 @@ class WP_Hummingbird_Admin_AJAX {
 		wphb_save_htaccess( 'caching' );
 	}
 
-	public function switch_chart_area() {
-		check_ajax_referer( 'wphb-chart', 'wphb_nonce' );
-
-		if ( ! current_user_can( wphb_get_admin_capability() ) )
-			wp_send_json_error();
-
-		$area = $_REQUEST['data']['area'];
-
-		$chart = wphb_get_chart( get_home_url() );
-		$data = $chart['data'];
-
-		if ( $area == 'all' ) {
-			$sources = $chart['sources_number'];
-		}
-		elseif ( $area == 'core' ) {
-			$data = wphb_filter_chart_data( $data, false );
-			$sources = array( 'header' => count( $data['header']['core'] ), 'footer' => count( $data['footer']['core'] ) );
-		}
-		else {
-			$data = wphb_filter_chart_data( $data, $area );
-
-			$sources = array( 'header' => 0, 'footer' => 0 );
-			if ( isset( $data['header']['themes'][ $area ] ) ) {
-				$sources['header'] += count( $data['header']['themes'][ $area ] );
-			}
-
-			if ( isset( $data['footer']['themes'][ $area ] ) ) {
-				$sources['footer'] += count( $data['footer']['themes'][ $area ] );
-			}
-
-			if ( isset( $data['header']['plugins'][ $area ] ) ) {
-				$sources['header'] += count( $data['header']['plugins'][ $area ] );
-			}
-
-			if ( isset( $data['footer']['plugins'][ $area ] ) ) {
-				$sources['footer'] += count( $data['footer']['plugins'][ $area ] );
-			}
-		}
-
-		$data_header = WP_Hummingbird_Minification_Chart::prepare_for_javascript( $data['header'], $data['groups'] );
-		$data_footer = WP_Hummingbird_Minification_Chart::prepare_for_javascript( $data['footer'], $data['groups'] );
-		$data = array(
-			'header' => json_decode( $data_header ),
-			'footer' => json_decode( $data_footer )
-		);
-
-		wp_send_json_success( array( 'chartData' => $data, 'sourcesNumber' => $sources ) );
-	}
 
 	public function cloudflare_connect() {
 		$form_data = $_POST['formData'];
@@ -451,6 +434,13 @@ class WP_Hummingbird_Admin_AJAX {
 
 		$cf->set_caching_expiration( $value );
 
+		die();
+	}
+
+	public function cloudflare_purge_cache() {
+		/** @var WP_Hummingbird_Module_Cloudflare $cf */
+		$cf = wphb_get_module( 'cloudflare' );
+		$cf->purge_cache();
 		die();
 	}
 

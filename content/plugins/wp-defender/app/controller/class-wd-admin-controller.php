@@ -215,7 +215,7 @@ class WD_Admin_Controller extends WD_Controller {
 		if ( ( $count = WD_Utils::get_setting( 'info->issues_count', 0 ) ) == 0 ) {
 			$menu_title = sprintf( $menu_title, ' <span class="update-plugins wd-issue-indicator-sidebar"></span>' );
 		} else {
-			$menu_title = sprintf( $menu_title, ' <span class="update-plugins wd-issue-indicator-sidebar count-' . $count . '"><span>' . ( $count > 99 ? '99+' : $count ) . '</span></span>' );	  	 	   	 		 		 				
+			$menu_title = sprintf( $menu_title, ' <span class="update-plugins wd-issue-indicator-sidebar count-' . $count . '"><span>' . ( $count > 99 ? '99+' : $count ) . '</span></span>' );
 		}
 		add_menu_page( esc_html__( "Defender", wp_defender()->domain ), $menu_title, $cap, 'wp-defender', array(
 			&$this,

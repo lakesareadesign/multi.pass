@@ -7,34 +7,21 @@
 		<h2 class="title"><?php _e( 'Reduce your page load time!', 'wphb' ); ?></h2>
 
 		<div class="content">
-			<?php if ( ! wphb_is_cache_folder_created() ) : ?>
-				<?php
-					$this->show_notice(
-						'cache-folder-error',
-						sprintf(
-							__( 'Cache folder creation failed. You need to manually create the folder %s for minification to work', 'wphb' ),
-							'<p><i>' . wphb_get_cache_dir() . '</i></p>'
-						),
-						'error'
-					);
-				?>
-			<?php else: ?>
-				<p><?php echo sprintf( __( 'Hummingbird\'s Minification engine can combine and minify the files your website outputs when a <br> user visits your website. The less requests your visitors have to make to your server, the <br> better. <strong>Let\'s check to see what we can optimise, %s!</strong>', 'wphb' ), $user ); ?></p>
-				<a id="check-files" class="button button-app button-content-cta" href="#check-files-modal" rel="dialog"><?php _e( 'Check files', 'wphb' ); ?></a>
+			<p><?php echo sprintf( __( 'Hummingbird\'s Minification engine can combine and minify the files your website outputs when a <br> user visits your website. The less requests your visitors have to make to your server, the <br> better. <strong>Let\'s check to see what we can optimise, %s!</strong>', 'wphb' ), $user ); ?></p>
+			<a id="check-files" class="button button-app button-content-cta" href="#check-files-modal" rel="dialog"><?php _e( 'Check files', 'wphb' ); ?></a>
 
-				<dialog class="wphb-modal wphb-progress-modal no-close" id="check-files-modal" title="<?php _e( 'Checking files', 'wphb' ); ?>">
-					<div class="wphb-block-test" id="check-files-modal-content">
-						<div class="wphb-progress">
-							<div class="wphb-progress-bar wphb-progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100" style="width:100%;">
-								<span class="wphb-progress-bar-text"><?php _e( 'Test in progress...', 'wphb' ); ?></span>
-							</div>
-						</div><!-- end wphb-progress -->
-						<div class="wphb-progress-state">
-							<span class="wphb-progress-state-text"><?php _e( 'Check Files is running in the background, you can check back anytime to see progress...', 'wphb' ); ?></span>
-						</div><!-- end wphb-progress-state -->
-					</div><!-- end wphb-block-test -->
-				</dialog><!-- end check-files-modal -->
-			<?php endif; ?>
+			<dialog class="wphb-modal wphb-progress-modal no-close" id="check-files-modal" title="<?php _e( 'Checking files', 'wphb' ); ?>">
+				<div class="wphb-block-test" id="check-files-modal-content">
+					<div class="wphb-progress">
+						<div class="wphb-progress-bar wphb-progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100" style="width:100%;">
+							<span class="wphb-progress-bar-text"><?php _e( 'Test in progress...', 'wphb' ); ?></span>
+						</div>
+					</div><!-- end wphb-progress -->
+					<div class="wphb-progress-state">
+						<span class="wphb-progress-state-text"><?php _e( 'Check Files is running in the background, you can check back anytime to see progress...', 'wphb' ); ?></span>
+					</div><!-- end wphb-progress-state -->
+				</div><!-- end wphb-block-test -->
+			</dialog><!-- end check-files-modal -->
 		</div><!-- end content -->
 
 	</div><!-- end wphb-block-entry-content -->

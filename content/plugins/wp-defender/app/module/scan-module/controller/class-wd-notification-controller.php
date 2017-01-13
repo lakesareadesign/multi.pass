@@ -30,6 +30,7 @@ class WD_Notification_Controller extends WD_Controller {
 		if ( empty( $recipients ) ) {
 			return;
 		}
+
 		foreach ( $recipients as $user_id ) {
 			$user = get_user_by( 'id', $user_id );
 			if ( ! is_object( $user ) ) {
@@ -51,6 +52,14 @@ class WD_Notification_Controller extends WD_Controller {
 				$email_content = WD_Utils::get_setting( 'completed_scan_email_content_success' );
 			} else {
 				$email_content = WD_Utils::get_setting( 'completed_scan_email_content_error' );
+				//we need to replace the current email with the new one
+				$old = "<a href=\"{SCAN_PAGE_LINK}\">Follow me back to the lair and let's get you patched up.<\/a>";
+				$old = str_replace( ' ', '[\n\r\s]+', $old );
+				$old = "/$old/";
+				if ( preg_match( $old, $email_content ) ) {
+					$email_content = preg_replace( $old, '', $email_content );
+					WD_Utils::update_setting( 'completed_scan_email_content_error', $email_content );
+				}
 			}
 			$email_content = apply_filters( 'wd_notification_email_content_before', $email_content, $model );
 			foreach ( $params as $key => $val ) {
@@ -61,7 +70,7 @@ class WD_Notification_Controller extends WD_Controller {
 			$email_content = wpautop( stripslashes( $email_content ) );
 			$email_content = apply_filters( 'wd_notification_email_content_after', $email_content, $model );
 
-			$email_template = $this->render( 'email_template', array(
+			$email_template = $this->render( 'email-template', array(
 				'subject' => $subject,
 				'message' => $email_content
 			), false );
@@ -87,24 +96,56 @@ class WD_Notification_Controller extends WD_Controller {
 	private function issues_list_html( $model ) {
 		ob_start();
 		?>
-		<table width="100%" style="text-align: left;border-collapse: collapse">
-			<thead>
-			<tr style="border-bottom: 1px solid #EEEEEE">
-				<th style="padding:7px 0"><?php esc_html_e( "File", wp_defender()->domain ) ?></th>
-				<th style="padding:7px 0"><?php esc_html_e( "Issue", wp_defender()->domain ) ?></th>
+		<table class="results-list"
+		       style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top;">
+			<thead class="results-list-header" style="border-bottom: 2px solid #ff5c28;">
+			<tr style="padding: 0; text-align: left; vertical-align: top;">
+				<th class="result-list-label-title"
+				    style="Margin: 0; color: #ff5c28; font-family: Helvetica, Arial, sans-serif; font-size: 22px; font-weight: 700; line-height: 48px; margin: 0; padding: 0; text-align: left; width: 35%;"><?php esc_html_e( "File", wp_defender()->domain ) ?></th>
+				<th class="result-list-data-title"
+				    style="Margin: 0; color: #ff5c28; font-family: Helvetica, Arial, sans-serif; font-size: 22px; font-weight: 700; line-height: 48px; margin: 0; padding: 0; text-align: left;"><?php esc_html_e( "Issue", wp_defender()->domain ) ?></th>
 			</tr>
 			</thead>
-			<tbody>
-			<?php foreach ( $model->get_results() as $item ): ?>
-				<tr style="border-bottom: 1px solid #EEEEEE">
-					<td style="padding:7px 0" width="40%" class="file-path">
-						<strong><?php echo $item->get_name() ?></strong>
-						<span><?php echo $item->get_sub() ?></span>
-					</td>
-					<td style="padding:7px 0" width="45%"><?php echo $item->get_detail() ?></td>
-				</tr>
+			<tbody class="results-list-content">
+			<?php foreach ( $model->get_results() as $k => $item ): ?>
+				<?php if ( $k == 0 ): ?>
+					<tr style="padding: 0; text-align: left; vertical-align: top;">
+						<td class="result-list-label"
+						    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; hyphens: auto; line-height: 28px; margin: 0; padding: 20px 5px; text-align: left; vertical-align: top; word-wrap: break-word;"><?php echo $item->get_name() ?>
+							<span
+								style="display: inline-block; font-weight: 400; width: 100%;"><?php echo $item->get_sub() ?></span>
+						</td>
+						<td class="result-list-data"
+						    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; hyphens: auto; line-height: 28px; margin: 0; padding: 20px 5px; text-align: left; vertical-align: top; word-wrap: break-word;"><?php echo $item->get_detail() ?></td>
+					</tr>
+				<?php else: ?>
+					<tr style="padding: 0; text-align: left; vertical-align: top;">
+						<td class="result-list-label <?php echo $k > 0 ? " bordered" : null ?>"
+						    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; border-top: 2px solid #ff5c28; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; hyphens: auto; line-height: 28px; margin: 0; padding: 20px 5px; text-align: left; vertical-align: top; word-wrap: break-word;"><?php echo $item->get_name() ?>
+							<span
+								style="display: inline-block; font-weight: 400; width: 100%;"><?php echo $item->get_sub() ?></span>
+						</td>
+						<td class="result-list-data <?php echo $k > 0 ? " bordered" : null ?>"
+						    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; border-top: 2px solid #ff5c28; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; hyphens: auto; line-height: 28px; margin: 0; padding: 20px 5px; text-align: left; vertical-align: top; word-wrap: break-word;"><?php echo $item->get_detail() ?></td>
+					</tr>
+				<?php endif; ?>
 			<?php endforeach; ?>
 			</tbody>
+			<tfoot class="results-list-footer">
+			<tr style="padding: 0; text-align: left; vertical-align: top;">
+				<td colspan="2"
+				    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 10px 0 0; text-align: left; vertical-align: top; word-wrap: break-word;">
+					<p style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; margin-bottom: 0; padding: 0 0 24px; text-align: left;">
+						<a class="plugin-brand" href="<?php echo network_admin_url( 'admin.php?page=wdf-scan' ) ?>"
+						   style="Margin: 0; color: #ff5c28; display: inline-block; font: inherit; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;"><?php esc_html_e( "Let’s get your site patched up.", wp_defender()->domain ) ?>
+							<img class="icon-arrow-right"
+							     src="<?php echo wp_defender()->get_plugin_url() ?>assets/email-images/icon-arrow-right-defender.png"
+							     alt="Arrow"
+							     style="-ms-interpolation-mode: bicubic; border: none; clear: both; display: inline-block; margin: -2px 0 0 5px; max-width: 100%; outline: none; text-decoration: none; vertical-align: middle; width: auto;"></a>
+					</p>
+				</td>
+			</tr>
+			</tfoot>
 		</table>
 		<?php
 		return ob_get_clean();

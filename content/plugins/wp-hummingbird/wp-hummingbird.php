@@ -1,8 +1,8 @@
 <?php
 /**
 Plugin Name: WP Hummingbird
-Version: 1.3.5
-Plugin URI:  https://premium.wpmudev.org/project/1081721/
+Version: 1.4.1
+Plugin URI:  https://premium.wpmudev.org/project/wp-hummingbird/
 Description: Hummingbird zips through your site finding new ways to make it load faster, from file compression and minification to browser caching – because when it comes to pagespeed, every millisecond counts.
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
@@ -31,7 +31,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-define( 'WPHB_VERSION', '1.3.5' );
+define( 'WPHB_VERSION', '1.4.1' );
 /**
  * Class WP_Hummingbird
  *
@@ -77,13 +77,21 @@ class WP_Hummingbird {
 		$this->init();
 
 		if ( is_admin() ) {
-			WP_Hummingbird_Installer::maybe_upgrade();
+			add_action( 'admin_init', array( 'WP_Hummingbird_Installer', 'maybe_upgrade' ) );
+
+			if ( is_multisite() ) {
+				add_action( 'admin_init', array( 'WP_Hummingbird_Installer', 'maybe_upgrade_blog' ) );
+			}
 		}
 
 		$this->load_textdomain();
 
 		add_action( 'init', array( $this, 'maybe_clear_all_cache' ) );
 
+		// This file should not exist in tyhe official release. Just for development.
+		if ( defined( 'WPHB_SAMPLE_DEV' ) && file_exists( wphb_plugin_dir() . '/sample-dev/sample-dev.php' ) ) {
+			include_once( wphb_plugin_dir() . '/sample-dev/sample-dev.php' );
+		}
 	}
 
 	public function maybe_clear_all_cache() {
@@ -197,7 +205,7 @@ function wphb_get_current_user_info() {
 	$current_user = wp_get_current_user();
 
 	if ( !($current_user instanceof WP_User) )
-    	return false;
+		return false;
 
 	if ( ! empty( $current_user->user_firstname ) ) { // First we try to grab user First Name
 		$display_name = $current_user->user_firstname;

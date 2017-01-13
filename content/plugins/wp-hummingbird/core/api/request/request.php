@@ -230,7 +230,7 @@ abstract class WP_Hummingbird_API_Request {
 		$this->sign_request();
 
 		$url = add_query_arg( $this->get_args, $url );
-		if ( 'post' != $method && 'patch' != $method ) {
+		if ( 'post' != $method && 'patch' != $method && 'delete' != $method ) {
 			$url = add_query_arg( $data, $url );
 		}
 
@@ -251,6 +251,7 @@ abstract class WP_Hummingbird_API_Request {
 
 		switch ( strtolower( $method ) ) {
 			case 'patch':
+			case 'delete':
  			case 'post': {
 			    if ( is_array( $data ) ) {
 				    $args['body'] = array_merge( $data, $this->post_args );

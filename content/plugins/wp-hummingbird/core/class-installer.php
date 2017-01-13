@@ -40,10 +40,6 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			/** @noinspection PhpIncludeInspection */
 			include_once( wphb_plugin_dir() . 'core/modules/class-module-cloudflare.php' );
 
-			wphb_include_file_cache_class();
-
-			$model = wphb_get_model();
-			$model->create_minification_chart_table();
 
 			// Check if Uptime is active in the server
 			if ( WP_Hummingbird_Module_Uptime::is_remotely_enabled() ) {
@@ -72,21 +68,6 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-core.php' );
 			/** @noinspection PhpIncludeInspection */
 			include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-cache.php' );
-			wphb_include_file_cache_class();
-
-			// Create cache folders
-			$created = WP_Hummingbird_Cache_File::create_cache_folder();
-
-			$model = wphb_get_model();
-			$model->create_minification_chart_table();
-
-			if ( ! $created ) {
-				// Something went wrong
-				update_option( 'wphb_cache_folder_error', true );
-			}
-			else {
-				delete_option( 'wphb_cache_folder_error' );
-			}
 
 			update_option( 'wphb_version', WPHB_VERSION );
 		}
@@ -174,8 +155,53 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 					wphb_has_cloudflare( true );
 				}
 
+				if ( version_compare( $version, '1.4', '<' ) ) {
+					self::upgrade_1_4();
+				}
+
 				update_site_option( 'wphb_version', WPHB_VERSION );
 			}
+		}
+
+		/**
+		 * Upgrades a single blog in a multisite
+		 */
+		public static function maybe_upgrade_blog() {
+			// 1.3.9 is the first version when blog upgrades are executed
+			$version = get_option( 'wphb_version', '1.3.9' );
+
+			if ( $version === WPHB_VERSION ) {
+				return;
+			}
+
+			if ( version_compare( $version, '1.4', '<' ) ) {
+				self::upgrade_1_4();
+			}
+
+			update_option( 'wphb_version', WPHB_VERSION );
+		}
+
+		private static function upgrade_1_4() {
+			global $wpdb;
+
+			//Drop chart table
+			$chart_table = $wpdb->prefix . 'minification_chart';
+			$wpdb->query( "DROP TABLE $chart_table" );
+			if ( ! function_exists( 'wphb_clear_minification_cache' ) ) {
+				include_once wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-cache.php';
+			}
+
+			wphb_clear_minification_cache();
+
+			// Move all those assets in header to default position
+			$options = wphb_get_settings();
+			$options['position'];
+
+			unset( $options['max_files_in_group'] );
+
+			wphb_update_settings( $options );
+
+			delete_option( 'wphb_cache_folder_error' );
 		}
 	}
 }

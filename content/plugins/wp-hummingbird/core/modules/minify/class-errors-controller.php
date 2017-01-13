@@ -12,8 +12,65 @@ class WP_Hummingbird_Minification_Errors_Controller {
 	 */
 	private $errors;
 
+	/**
+	 * Saves the errors coming from our servers
+	 *
+	 * @var array
+	 */
+	private $server_errors = array();
+
 	public function __construct() {
 		$this->errors = $this->get_errors();
+		$this->server_errors = $this->get_server_errors();
+	}
+
+	/**
+	 * Retrieve the list of errors coming from the server
+	 *
+	 * @return array|mixed
+	 */
+	public function get_server_errors() {
+		$errors =  get_transient( 'wphb-minify-server-errors' );
+		if ( ! $errors || ! is_array( $errors ) ) {
+			return array();
+		}
+		return $errors;
+	}
+
+	/**
+	 * Add an error coming from server
+	 *
+	 * @param $error
+	 */
+	public function add_server_error( $error ) {
+		$this->server_errors[] = $error;
+		set_transient( 'wphb-minify-server-errors', $this->server_errors, 7200 ); // save for 2 hours
+	}
+
+
+	/**
+	 * Check if there's an error in the server
+	 * This function should be used to stop minification
+	 * if there have been too many errors
+	 */
+	public function is_server_error() {
+		// More than 2 errors is too many
+		return ( count( $this->server_errors ) > 2 );
+	}
+
+	/**
+	 * Return the server errors time left (the time to delete the transient)
+	 * in minutes
+	 */
+	public function server_error_time_left() {
+		if ( ! $this->is_server_error() ) {
+			return 0;
+		}
+		$timeout = get_option( '_transient_timeout_wphb-minify-server-errors', false );
+		if ( ! $timeout ) {
+			return 0;
+		}
+		return ceil( ( $timeout - time() ) / 60 );
 	}
 
 	/**
@@ -56,6 +113,7 @@ class WP_Hummingbird_Minification_Errors_Controller {
 	 */
 	public static function clear_errors() {
 		delete_option( 'wphb-minification-errors' );
+		delete_option( 'wphb-minify-server-errors' );
 	}
 
 	/**

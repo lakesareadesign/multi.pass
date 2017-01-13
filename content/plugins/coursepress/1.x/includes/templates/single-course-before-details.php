@@ -33,5 +33,5 @@ echo do_shortcode( '[course_instructors show_label="yes" label_element="h2" labe
 
 <?php
 // Course Structure
-echo do_shortcode( '[course_structure show_label="yes" label_element="h2" label_delimeter="" show_title="no" show_divider="yes"]' );									   	 	   		
+echo do_shortcode( '[course_structure show_label="yes" label_element="h2" label_delimeter="" show_title="no" show_divider="yes"]' );
 ?>

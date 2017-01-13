@@ -17,12 +17,25 @@
 				</div>
 			<?php endif; ?>
 
-			<label for="wphb-activate-minification"></label>
+			<label for="wphb-activate-minification"><span class="screen-reader-text"><?php _e( 'Select users that can minify in this network', 'wphb' ); ?></span></label>
 			<select name="wphb-activate-minification" id="wphb-activate-minification">
 				<option value="false" <?php selected( wphb_get_setting( 'minify' ), false ); ?>><?php _e( 'Deactivate completely', 'wphb' ); ?></option>
 				<option value="true" <?php selected( wphb_get_setting( 'minify' ), true ); ?>><?php _e( 'Blog Admins can minify', 'wphb' ); ?></option>
 				<option value="super-admins" <?php selected( wphb_get_setting( 'minify' ), 'super-admins' ); ?>><?php _e( 'Only Super Admins can minify', 'wphb' ); ?></option>
 			</select>
+			<div class="toggle-item space-top-small">
+				<div class="toggle-item-group">
+					<label for="use_cdn"><?php _e( 'Store my files on the WPMU DEV CDN', 'wphb' ); ?></label>
+					<div class="toggle-actions">
+						<span class="toggle" tooltip="<?php _e( 'Enable WPMU DEV CDN', 'wphb' ); ?>">
+							<input type="checkbox" class="toggle-checkbox" name="use_cdn" id="use_cdn" <?php checked( $use_cdn ); ?> <?php disabled( $use_cdn_disabled ); ?>>
+							<label for="use_cdn" class="toggle-label"></label>
+						</span>
+					</div><!-- end toggle-actions -->
+				</div>
+			</div>
+
+
 		</div><!-- end content -->
 
 

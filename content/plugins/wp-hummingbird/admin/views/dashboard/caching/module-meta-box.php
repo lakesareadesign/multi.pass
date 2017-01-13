@@ -47,7 +47,7 @@
 
 	<?php if ( $cf_active ): ?>
 		<div class="wphb-dashboard-caching-cloudflare-box">
-			<p><?php _e( 'Since you have CloudFlare enabled, the setting belowwill override caching expiry for all file types', 'wphb' ); ?></p>
+			<p><?php _e( 'Since you have CloudFlare enabled, the setting below will override caching expiry for all file types', 'wphb' ); ?></p>
 			<table class="list-table hover-effect wphb-table stack caching-table">
 				<thead>
 				<tr class="wphb-caching-summary-item-heading">

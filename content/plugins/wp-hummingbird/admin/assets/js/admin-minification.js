@@ -44,6 +44,25 @@
                 $('.wphb-discard').attr( 'disabled', false );
             });
 
+            $('#use_cdn').change( function() {
+                var data = {
+                    wphb_nonce: self.strings.advancedSettingsNonce,
+                    nonce_name: 'wphb-minification-advanced',
+                    module_action: 'toggle_use_cdn',
+                    data: {
+                        value: $(this).is(':checked')
+                    }
+                };
+                WPHB_Admin.utils.post( data, self.module )
+                    .always( function() {
+                        var notice = $('#wphb-notice-minification-advanced-settings-updated');
+                        notice.slideDown();
+                        setTimeout( function() {
+                            notice.slideUp();
+                        }, 5000 );
+                    });
+            });
+
             this.$disableMinification.change( function() {
                 var value = $(this).is(':checked');
 

@@ -97,6 +97,8 @@ final class NF_Display_Render
             }
         }
 
+        if( ! apply_filters( 'ninja_forms_display_show_form', true, $form_id, $form ) ) return;
+
         $currency = $form->get_setting( 'currency', Ninja_Forms()->get_setting( 'currency' ) );
         $currency_symbol = Ninja_Forms::config( 'CurrencySymbol' );
         $form->update_setting( 'currency_symbol', ( isset( $currency_symbol[ $currency ] ) ) ? $currency_symbol[ $currency ] : '' );
@@ -517,19 +519,7 @@ final class NF_Display_Render
         $js_dir  = Ninja_Forms::$url . 'assets/js/min/';
         $css_dir = Ninja_Forms::$url . 'assets/css/';
 
-
-        switch( Ninja_Forms()->get_setting( 'opinionated_styles' ) ) {
-            case 'light':
-                wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-light.css', array( 'dashicons' ) );
-                wp_enqueue_style( 'nf-font-awesome', $css_dir . 'font-awesome.min.css'       );
-                break;
-            case 'dark':
-                wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-dark.css', array( 'dashicons' )  );
-                wp_enqueue_style( 'nf-font-awesome', $css_dir . 'font-awesome.min.css'      );
-                break;
-            default:
-                wp_enqueue_style( 'nf-display',      $css_dir . 'display-structure.css', array( 'dashicons' ) );
-        }
+        self::enqueue_styles_display( $css_dir );
 
         if( $is_preview || in_array( $form_id, self::$form_uses_recaptcha ) ) {
             $recaptcha_lang = Ninja_Forms()->get_setting('recaptcha_lang');
@@ -590,6 +580,26 @@ final class NF_Display_Render
         do_action( 'ninja_forms_enqueue_scripts', array( 'form_id' => $form_id ) );
 
         do_action( 'nf_display_enqueue_scripts' );
+    }
+
+	/**
+	 * Enqueue NF frontend basic display styles.
+	 *
+	 * @param string $css_dir
+	 */
+    public static function enqueue_styles_display( $css_dir ) {
+	    switch( Ninja_Forms()->get_setting( 'opinionated_styles' ) ) {
+		    case 'light':
+			    wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-light.css', array( 'dashicons' ) );
+			    wp_enqueue_style( 'nf-font-awesome', $css_dir . 'font-awesome.min.css'       );
+			    break;
+		    case 'dark':
+			    wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-dark.css', array( 'dashicons' )  );
+			    wp_enqueue_style( 'nf-font-awesome', $css_dir . 'font-awesome.min.css'      );
+			    break;
+		    default:
+			    wp_enqueue_style( 'nf-display',      $css_dir . 'display-structure.css', array( 'dashicons' ) );
+	    }
     }
 
     protected static function load_template( $file_name = '' )

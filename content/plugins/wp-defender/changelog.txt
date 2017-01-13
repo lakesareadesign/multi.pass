@@ -4,6 +4,11 @@ Tested up to: 4.6.1
 
 Change Log:
 
+1.1.5 - 2017-11-01
+----------------------------------------------------------------------
+- Added: IP Lockouts. Defender can now protect your login area from brute force attacks, monitor 404 errors and automatically lockout any unwanted behavior. It can also permanently ban specific IP addresses and receive email notifications when lockouts occur.
+- Fixed: Minor bug fixes and improvements.
+
 1.1.4.1 - 2016-31-10
 ----------------------------------------------------------------------
 - Fixed: Fatal error when PHP extension sockets is not enabled
@@ -105,4 +110,4 @@ Change Log:
 - First release
 
 
-133620-1477949994-au
+133620-1484344676-au

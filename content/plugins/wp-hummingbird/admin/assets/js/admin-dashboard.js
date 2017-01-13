@@ -48,6 +48,25 @@
                     });
             });
 
+            $('#use_cdn').change( function() {
+                var data = {
+                    wphb_nonce: self.strings.advancedSettingsNonce,
+                    nonce_name: 'wphb-minification-advanced',
+                    module_action: 'toggle_use_cdn',
+                    data: {
+                        value: $(this).is(':checked')
+                    }
+                };
+                WPHB_Admin.utils.post( data, self.module )
+                    .always( function() {
+                        var notice = $('#wphb-notice-minification-settings-updated');
+                        notice.slideDown();
+                        setTimeout( function() {
+                            notice.slideUp();
+                        }, 5000 );
+                    }); 
+            });
+
             $('.wphb-performance-report-item').click( function( e ) {
                 var url = $(this).data( 'performance-url' );
                 if ( url ) {

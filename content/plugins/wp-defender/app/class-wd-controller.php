@@ -75,13 +75,13 @@ class WD_Controller extends WD_Component {
 	 * @param $flash
 	 */
 	public function flash( $key, $flash ) {
-		if ( is_user_logged_in() ) {
-			$key .= '_' . get_current_user_id();
+		if ( ! is_user_logged_in() ) {
+			return;
 		}
 
-		$flashes         = get_site_option( 'wd_flash_data', array() );
+		$flashes         = get_user_meta( get_current_user_id(), 'wd_flash_data', true );
 		$flashes[ $key ] = $flash;
-		update_site_option( 'wd_flash_data', $flashes );
+		update_user_meta( get_current_user_id(), 'wd_flash_data', $flashes );
 	}
 
 	/**
@@ -92,11 +92,11 @@ class WD_Controller extends WD_Component {
 	 * @return bool
 	 */
 	public function has_flash( $key ) {
-		if ( is_user_logged_in() ) {
-			$key .= '_' . get_current_user_id();
+		if ( ! is_user_logged_in() ) {
+			return false;
 		}
 
-		$flashes = get_site_option( 'wd_flash_data', array() );
+		$flashes = get_user_meta( get_current_user_id(), 'wd_flash_data', true );
 
 		return isset( $flashes[ $key ] );
 	}
@@ -107,16 +107,16 @@ class WD_Controller extends WD_Component {
 	 * @return bool
 	 */
 	public function get_flash( $key ) {
-		if ( is_user_logged_in() ) {
-			$key .= '_' . get_current_user_id();
+		if ( ! is_user_logged_in() ) {
+			return;
 		}
 
-		$flashes = get_site_option( 'wd_flash_data', array() );
+		$flashes = get_user_meta( get_current_user_id(), 'wd_flash_data', true );
 
 		$flash = isset( $flashes[ $key ] ) ? $flashes[ $key ] : false;
 		if ( $flash !== false ) {
 			unset( $flashes[ $key ] );
-			update_site_option( 'wd_flash_data', $flashes );
+			update_user_meta( get_current_user_id(), 'wd_flash_data', $flashes );
 		}
 
 		return $flash;

@@ -1,34 +1,27 @@
-# Copyright (C) 2016 WPMU DEV
+# Copyright (C) 2017 WPMU DEV
 # This file is distributed under the same license as the WP Hummingbird package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Hummingbird 1.3.5\n"
+"Project-Id-Version: WP Hummingbird 1.4.1\n"
 "Report-Msgid-Bugs-To: https://wpmudev.org\n"
-"POT-Creation-Date: 2016-10-24 10:20:21+00:00\n"
+"POT-Creation-Date: 2017-01-12 11:09:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "X-Generator: grunt-wp-i18n 0.5.4\n"
 
-#: admin/abstract-class-admin-page.php:55
-#: admin/views/dashboard-minification-error-meta-box.php:4
-msgid ""
-"Unable to create cache directory. Minification will not work, you need to "
-"create the folder manually %s"
-msgstr ""
-
-#: admin/abstract-class-admin-page.php:230
+#: admin/abstract-class-admin-page.php:216
 msgid "Settings Updated"
 msgstr ""
 
-#: admin/class-admin-ajax.php:408
+#: admin/class-admin-ajax.php:391
 msgid "Please, select a CloudFlare zone. Normally, this is your website"
 msgstr ""
 
-#: admin/class-admin-ajax.php:419
+#: admin/class-admin-ajax.php:402
 msgid "The selected zone is not valid"
 msgstr ""
 
@@ -52,9 +45,9 @@ msgid "Dashboard"
 msgstr ""
 
 #: admin/class-admin.php:77 admin/class-admin.php:113
-#: admin/class-dashboard-page.php:90 admin/class-dashboard-page.php:95
-#: admin/class-dashboard-page.php:96 admin/class-dashboard-page.php:99
-#: admin/class-dashboard-page.php:102 admin/class-dashboard-page.php:379
+#: admin/class-dashboard-page.php:88 admin/class-dashboard-page.php:93
+#: admin/class-dashboard-page.php:94 admin/class-dashboard-page.php:97
+#: admin/class-dashboard-page.php:100 admin/class-dashboard-page.php:382
 #: admin/class-performance-page.php:65
 #: admin/views/dashboard/performance/disabled-meta-box.php:5
 #: admin/views/dashboard/performance/no-membership-meta-box.php:5
@@ -62,9 +55,9 @@ msgid "Performance Report"
 msgstr ""
 
 #: admin/class-admin.php:80 admin/class-admin.php:95
-#: admin/class-dashboard-page.php:111 admin/class-dashboard-page.php:115
-#: admin/class-dashboard-page.php:125 admin/class-dashboard-page.php:128
-#: admin/class-dashboard-page.php:316
+#: admin/class-dashboard-page.php:109 admin/class-dashboard-page.php:113
+#: admin/class-dashboard-page.php:120 admin/class-dashboard-page.php:123
+#: admin/class-dashboard-page.php:319
 #: admin/views/dashboard/cloudflare/meta-box.php:35
 #: admin/views/dashboard/minification/cant-execute-php-meta-box.php:5
 #: admin/views/dashboard/minification/network-module-meta-box.php:5
@@ -74,29 +67,29 @@ msgid "Minification"
 msgstr ""
 
 #: admin/class-admin.php:82 admin/class-admin.php:114
-#: admin/class-dashboard-page.php:135 admin/class-dashboard-page.php:138
-#: admin/class-dashboard-page.php:233
+#: admin/class-dashboard-page.php:130 admin/class-dashboard-page.php:133
+#: admin/class-dashboard-page.php:228
 #: admin/views/dashboard/caching/disabled-meta-box.php:5
 msgid "Browser Caching"
 msgstr ""
 
 #: admin/class-admin.php:83 admin/class-admin.php:115
-#: admin/class-dashboard-page.php:144 admin/class-dashboard-page.php:147
-#: admin/class-dashboard-page.php:341
+#: admin/class-dashboard-page.php:139 admin/class-dashboard-page.php:142
+#: admin/class-dashboard-page.php:344
 #: admin/views/dashboard/gzip/disabled-meta-box.php:5
 msgid "GZIP Compression"
 msgstr ""
 
 #: admin/class-admin.php:84 admin/class-admin.php:116
-#: admin/class-dashboard-page.php:156 admin/class-dashboard-page.php:240
+#: admin/class-dashboard-page.php:151 admin/class-dashboard-page.php:235
 #: admin/views/dashboard/uptime/disabled-meta-box.php:5
 #: admin/views/dashboard/uptime/no-membership-meta-box.php:5
 msgid "Uptime Monitoring"
 msgstr ""
 
 #: admin/class-admin.php:84 admin/class-admin.php:116
-#: admin/class-dashboard-page.php:159 admin/class-dashboard-page.php:162
-#: admin/class-dashboard-page.php:165 admin/class-uptime-page.php:17
+#: admin/class-dashboard-page.php:154 admin/class-dashboard-page.php:157
+#: admin/class-dashboard-page.php:160 admin/class-uptime-page.php:17
 #: admin/class-uptime-page.php:20 admin/class-uptime-page.php:23
 #: admin/class-uptime-page.php:176
 #: admin/views/dashboard/uptime/module-meta-box.php:5
@@ -144,13 +137,13 @@ msgstr ""
 msgid "Enable Caching"
 msgstr ""
 
-#: admin/class-caching-page.php:151 admin/class-dashboard-page.php:210
+#: admin/class-caching-page.php:151 admin/class-dashboard-page.php:205
 #: admin/views/caching/summary-meta-box.php:31
 #: admin/views/dashboard/caching/module-meta-box.php:20
 msgid "Caching is enabled"
 msgstr ""
 
-#: admin/class-caching-page.php:151 admin/class-dashboard-page.php:210
+#: admin/class-caching-page.php:151 admin/class-dashboard-page.php:205
 #: admin/views/caching/summary-meta-box.php:35
 #: admin/views/dashboard/caching/module-meta-box.php:24
 msgid "Caching is enabled but you aren't using our recommended value"
@@ -166,19 +159,19 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: admin/class-dashboard-page.php:84 admin/class-dashboard-page.php:186
+#: admin/class-dashboard-page.php:82 admin/class-dashboard-page.php:181
 msgid "Welcome %s"
 msgstr ""
 
-#: admin/class-dashboard-page.php:92
+#: admin/class-dashboard-page.php:90
 msgid "Performance test in progress"
 msgstr ""
 
-#: admin/class-dashboard-page.php:119 admin/class-dashboard-page.php:122
+#: admin/class-dashboard-page.php:117
 msgid "File check in progress"
 msgstr ""
 
-#: admin/class-dashboard-page.php:169 admin/class-dashboard-page.php:472
+#: admin/class-dashboard-page.php:164 admin/class-dashboard-page.php:475
 msgid "Image Optimization"
 msgstr ""
 
@@ -194,20 +187,22 @@ msgstr ""
 msgid "Enable GZIP"
 msgstr ""
 
-#: admin/class-minification-page.php:155 admin/class-minification-page.php:158
+#: admin/class-minification-page.php:154
+msgid ""
+"Your new minify settings have been saved. Simply refresh your homepage and "
+"Hummingbird will minify and serve your newly compressed files."
+msgstr ""
+
+#: admin/class-minification-page.php:196 admin/class-minification-page.php:199
 msgid "Enqueued Files"
 msgstr ""
 
-#: admin/class-minification-page.php:159 admin/class-minification-page.php:351
-msgid "Output (Header)"
+#: admin/class-minification-page.php:203 admin/class-minification-page.php:370
+msgid "Advanced Settings"
 msgstr ""
 
-#: admin/class-minification-page.php:160 admin/class-minification-page.php:357
-msgid "Output (Footer)"
-msgstr ""
-
-#: admin/class-minification-page.php:269 admin/class-minification-page.php:270
-#: admin/class-minification-page.php:271
+#: admin/class-minification-page.php:311 admin/class-minification-page.php:312
+#: admin/class-minification-page.php:313
 msgid "OTHER"
 msgstr ""
 
@@ -486,7 +481,7 @@ msgstr ""
 #: admin/views/caching/summary-meta-box.php:63
 #: admin/views/dashboard/caching/module-meta-box.php:50
 msgid ""
-"Since you have CloudFlare enabled, the setting belowwill override caching "
+"Since you have CloudFlare enabled, the setting below will override caching "
 "expiry for all file types"
 msgstr ""
 
@@ -502,12 +497,12 @@ msgstr ""
 
 #: admin/views/caching/summary-meta-box.php:77
 #: admin/views/dashboard/caching/module-meta-box.php:63
-#: helpers/wp-hummingbird-helpers-core.php:504
-#: helpers/wp-hummingbird-helpers-core.php:530
-#: helpers/wp-hummingbird-helpers-core.php:674
-#: helpers/wp-hummingbird-helpers-core.php:678
-#: helpers/wp-hummingbird-helpers-core.php:682
-#: helpers/wp-hummingbird-helpers-core.php:686
+#: helpers/wp-hummingbird-helpers-core.php:414
+#: helpers/wp-hummingbird-helpers-core.php:440
+#: helpers/wp-hummingbird-helpers-core.php:584
+#: helpers/wp-hummingbird-helpers-core.php:588
+#: helpers/wp-hummingbird-helpers-core.php:592
+#: helpers/wp-hummingbird-helpers-core.php:596
 msgid "8 days"
 msgstr ""
 
@@ -584,6 +579,16 @@ msgstr ""
 msgid "CloudFlare is connected and being controlled by Hummingbird"
 msgstr ""
 
+#: admin/views/dashboard/cloudflare/meta-box.php:94
+msgid ""
+"Made changes to your website? Use Purge Cache button to clear CloudFlare's "
+"cache"
+msgstr ""
+
+#: admin/views/dashboard/cloudflare/meta-box.php:96
+msgid "Purge Cache"
+msgstr ""
+
 #: admin/views/dashboard/gzip/disabled-meta-box.php:8
 #: admin/views/wphb-gzip-page.php:3
 msgid ""
@@ -608,6 +613,7 @@ msgstr ""
 
 #: admin/views/dashboard/gzip/module-meta-box.php:12
 #: admin/views/gzip/summary-meta-box.php:22
+#: admin/views/minification/advanced-settings.php:14
 msgid "Enabled"
 msgstr ""
 
@@ -640,6 +646,10 @@ msgid ""
 "on your Network."
 msgstr ""
 
+#: admin/views/dashboard/minification/network-module-meta-box.php:20
+msgid "Select users that can minify in this network"
+msgstr ""
+
 #: admin/views/dashboard/minification/network-module-meta-box.php:22
 msgid "Deactivate completely"
 msgstr ""
@@ -650,6 +660,16 @@ msgstr ""
 
 #: admin/views/dashboard/minification/network-module-meta-box.php:24
 msgid "Only Super Admins can minify"
+msgstr ""
+
+#: admin/views/dashboard/minification/network-module-meta-box.php:28
+#: admin/views/minification/advanced-settings.php:30
+msgid "Store my files on the WPMU DEV CDN"
+msgstr ""
+
+#: admin/views/dashboard/minification/network-module-meta-box.php:30
+#: admin/views/minification/advanced-settings.php:35
+msgid "Enable WPMU DEV CDN"
 msgstr ""
 
 #: admin/views/dashboard/performance/disabled-meta-box.php:8
@@ -673,7 +693,6 @@ msgstr ""
 
 #: admin/views/dashboard/performance/module-error-meta-box.php:6
 #: admin/views/dashboard/uptime/error-meta-box.php:6
-#: admin/views/dashboard-minification-error-meta-box.php:5
 #: admin/views/performance/summary-meta-box.php:12
 #: admin/views/uptime/meta-box.php:8
 msgid "Support"
@@ -727,7 +746,7 @@ msgstr ""
 
 #: admin/views/dashboard/performance/running-test-meta-box.php:10
 #: admin/views/dashboard-minification-checking-files-meta-box.php:10
-#: admin/views/minification/enqueued-files-empty-meta-box.php:29
+#: admin/views/minification/enqueued-files-empty-meta-box.php:17
 #: admin/views/performance/running-test-meta-box.php:10
 msgid "Test in progress..."
 msgstr ""
@@ -839,7 +858,7 @@ msgid "Checking enqueued files"
 msgstr ""
 
 #: admin/views/dashboard-minification-checking-files-meta-box.php:14
-#: admin/views/minification/enqueued-files-empty-meta-box.php:33
+#: admin/views/minification/enqueued-files-empty-meta-box.php:21
 msgid ""
 "Check Files is running in the background, you can check back anytime to see "
 "progress..."
@@ -939,17 +958,41 @@ msgid ""
 "Dashboard plugin & <a href=\"%s\">login</a>!"
 msgstr ""
 
+#: admin/views/minification/advanced-settings-header.php:4
+msgid "Try Pro Features free"
+msgstr ""
+
+#: admin/views/minification/advanced-settings.php:2
+msgid "Settings updated"
+msgstr ""
+
+#: admin/views/minification/advanced-settings.php:8
+msgid "Super-minify my files"
+msgstr ""
+
+#: admin/views/minification/advanced-settings.php:9
+msgid ""
+"Compress your files up to 2x more than regular optimization and reduce your "
+"page load speed even further."
+msgstr ""
+
+#: admin/views/minification/advanced-settings.php:16
+msgid "Enable Super-minify my files"
+msgstr ""
+
+#: admin/views/minification/advanced-settings.php:31
+msgid ""
+"By default we minify your files via our API and then send back to your "
+"server. With this setting enabled we will host your files on WPMU DEV's "
+"secure and hyper fast CDN which will mean less load on your server and a "
+"fast visitor experience."
+msgstr ""
+
 #: admin/views/minification/enqueued-files-empty-meta-box.php:7
 msgid "Reduce your page load time!"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-empty-meta-box.php:15
-msgid ""
-"Cache folder creation failed. You need to manually create the folder %s for "
-"minification to work"
-msgstr ""
-
-#: admin/views/minification/enqueued-files-empty-meta-box.php:22
+#: admin/views/minification/enqueued-files-empty-meta-box.php:10
 msgid ""
 "Hummingbird's Minification engine can combine and minify the files your "
 "website outputs when a <br> user visits your website. The less requests "
@@ -957,16 +1000,21 @@ msgid ""
 "check to see what we can optimise, %s!</strong>"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-empty-meta-box.php:23
+#: admin/views/minification/enqueued-files-empty-meta-box.php:11
 msgid "Check files"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-empty-meta-box.php:25
+#: admin/views/minification/enqueued-files-empty-meta-box.php:13
 msgid "Checking files"
 msgstr ""
 
 #: admin/views/minification/enqueued-files-meta-box-footer.php:2
 msgid "Re-Check Files"
+msgstr ""
+
+#: admin/views/minification/enqueued-files-meta-box-footer.php:5
+#: admin/views/minification/enqueued-files-meta-box-header.php:12
+msgid "Discard Changes"
 msgstr ""
 
 #: admin/views/minification/enqueued-files-meta-box-footer.php:6
@@ -978,95 +1026,96 @@ msgstr ""
 msgid "Disable Minification"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box-header.php:12
-msgid "Discard Changes"
+#: admin/views/minification/enqueued-files-meta-box.php:7
+msgid ""
+"It seems that we are having problems in our servers. Minification will be "
+"turned off for %d minutes"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:5
+#: admin/views/minification/enqueued-files-meta-box.php:14
 msgid "Filter"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:6
+#: admin/views/minification/enqueued-files-meta-box.php:15
 msgid "Filter plugin or theme, or search by name or extension (js/css/other)."
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:11
+#: admin/views/minification/enqueued-files-meta-box.php:20
 msgid "Filter plugin or theme."
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:13
+#: admin/views/minification/enqueued-files-meta-box.php:22
 msgid "All"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:21
-#: admin/views/minification/enqueued-files-meta-box.php:22
-msgid "Search files"
-msgstr ""
-
-#: admin/views/minification/enqueued-files-meta-box.php:30
-msgid "Bulk Update"
+#: admin/views/minification/enqueued-files-meta-box.php:23
+msgid "Others"
 msgstr ""
 
 #: admin/views/minification/enqueued-files-meta-box.php:31
+#: admin/views/minification/enqueued-files-meta-box.php:32
+msgid "Search files"
+msgstr ""
+
+#: admin/views/minification/enqueued-files-meta-box.php:40
+msgid "Bulk Update"
+msgstr ""
+
+#: admin/views/minification/enqueued-files-meta-box.php:41
 msgid "Update all files in the list below with these settings."
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:38
-#: admin/views/minification/enqueued-files-meta-box.php:94
+#: admin/views/minification/enqueued-files-meta-box.php:48
+#: admin/views/minification/enqueued-files-meta-box.php:99
 msgid "Include"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:39
+#: admin/views/minification/enqueued-files-meta-box.php:49
 #: admin/views/minification/enqueued-files-rows.php:14
 msgid "Include/Exclude file"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:46
-#: admin/views/minification/enqueued-files-meta-box.php:95
-#: core/class-core.php:49
+#: admin/views/minification/enqueued-files-meta-box.php:56
+#: admin/views/minification/enqueued-files-meta-box.php:100
+#: core/class-core.php:48
 msgid "Minify"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:47
+#: admin/views/minification/enqueued-files-meta-box.php:57
 #: admin/views/minification/enqueued-files-rows.php:22
 msgid "Reduce file size"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:54
-#: admin/views/minification/enqueued-files-meta-box.php:96
+#: admin/views/minification/enqueued-files-meta-box.php:64
+#: admin/views/minification/enqueued-files-meta-box.php:101
 msgid "Combine"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:55
+#: admin/views/minification/enqueued-files-meta-box.php:65
 #: admin/views/minification/enqueued-files-rows.php:30
 msgid "Merge with other files"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:63
-#: admin/views/minification/enqueued-files-meta-box.php:97
+#: admin/views/minification/enqueued-files-meta-box.php:73
+#: admin/views/minification/enqueued-files-meta-box.php:102
 msgid "Position"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:68
+#: admin/views/minification/enqueued-files-meta-box.php:78
 #: admin/views/minification/enqueued-files-rows.php:41
 msgid "Footer"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:73
+#: admin/views/minification/enqueued-files-meta-box.php:83
 #: admin/views/minification/enqueued-files-rows.php:46
-msgid "Header"
-msgstr ""
-
-#: admin/views/minification/enqueued-files-meta-box.php:78
-#: admin/views/minification/enqueued-files-rows.php:51
 msgid "Original"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:93
+#: admin/views/minification/enqueued-files-meta-box.php:98
 msgid "File Details"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-meta-box.php:98
+#: admin/views/minification/enqueued-files-meta-box.php:103
 msgid "Size Reduction"
 msgstr ""
 
@@ -1074,23 +1123,8 @@ msgstr ""
 msgid "<strong>Error:</strong> %s"
 msgstr ""
 
-#: admin/views/minification/enqueued-files-rows.php:64
-msgid "No info"
-msgstr ""
-
-#: admin/views/minification/output-footer-meta-box.php:1
-#: admin/views/minification/output-header-meta-box.php:1
-msgid "Header chart filter"
-msgstr ""
-
-#: admin/views/minification/output-footer-meta-box.php:3
-#: admin/views/minification/output-header-meta-box.php:3
-msgid "Show all"
-msgstr ""
-
-#: admin/views/minification/output-footer-meta-box.php:4
-#: admin/views/minification/output-header-meta-box.php:4
-msgid "Core"
+#: admin/views/minification/enqueued-files-rows.php:59
+msgid "Pending"
 msgstr ""
 
 #: admin/views/notice.php:4
@@ -1332,6 +1366,10 @@ msgstr ""
 msgid "Unknown Error"
 msgstr ""
 
+#: core/class-core.php:49
+msgid "Minify New"
+msgstr ""
+
 #: core/class-core.php:51
 msgid "Caching"
 msgstr ""
@@ -1344,15 +1382,15 @@ msgstr ""
 msgid "Cloudflare"
 msgstr ""
 
-#: core/class-core.php:119
+#: core/class-core.php:114
 msgid "See this page unminified"
 msgstr ""
 
-#: core/class-core.php:130
+#: core/class-core.php:125
 msgid "See this page minified"
 msgstr ""
 
-#: core/modules/class-module-cloudflare.php:339
+#: core/modules/class-module-cloudflare.php:341
 msgid "Invalid CloudFlare expiration value"
 msgstr ""
 
@@ -1369,169 +1407,166 @@ msgid ""
 "open a ticket with our support heroes"
 msgstr ""
 
-#: core/modules/minify/class-sources-group.php:473
-msgid "Minification Error: Incorrect type for the group"
+#: core/modules/minify/class-minify-group.php:763
+msgid "The extension of this file is not allowed"
 msgstr ""
 
-#: core/modules/minify/class-sources-group.php:526
-#: core/modules/minify/class-sources-group.php:610
-msgid ""
-"It looks like this file is empty or there was an error trying to get its "
-"content."
+#: core/modules/minify/class-minify-group.php:810
+msgid "It looks like this file is empty"
 msgstr ""
 
-#: core/modules/minify/class-sources-group.php:552
-msgid "Javascript compression failed: %s"
+#: core/modules/minify/class-minify-group.php:841
+msgid "@import directive is not allowed in stylesheets"
 msgstr ""
 
-#: core/modules/minify/class-sources-group.php:585
-msgid "Minification failed."
+#: core/modules/minify/class-minify-group.php:856
+msgid "Hummingbird could not parse the content of this file"
 msgstr ""
 
-#: core/modules/minify/class-sources-group.php:622
-msgid "Error saving compressed file"
+#: core/modules/minify/class-minify-group.php:892
+msgid "Minify callback does not exist"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:379
+#: helpers/wp-hummingbird-helpers-core.php:288
 msgid "Are you sure? All your changes will be lost"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:491
+#: helpers/wp-hummingbird-helpers-core.php:401
 msgid "1 hour"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:492
-#: helpers/wp-hummingbird-helpers-core.php:518
+#: helpers/wp-hummingbird-helpers-core.php:402
+#: helpers/wp-hummingbird-helpers-core.php:428
 msgid "3 hours"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:493
-#: helpers/wp-hummingbird-helpers-core.php:519
+#: helpers/wp-hummingbird-helpers-core.php:403
+#: helpers/wp-hummingbird-helpers-core.php:429
 msgid "4 hours"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:494
-#: helpers/wp-hummingbird-helpers-core.php:520
+#: helpers/wp-hummingbird-helpers-core.php:404
+#: helpers/wp-hummingbird-helpers-core.php:430
 msgid "5 hours"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:495
+#: helpers/wp-hummingbird-helpers-core.php:405
 msgid "6 hours"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:496
-#: helpers/wp-hummingbird-helpers-core.php:522
+#: helpers/wp-hummingbird-helpers-core.php:406
+#: helpers/wp-hummingbird-helpers-core.php:432
 msgid "12 hours"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:497
-#: helpers/wp-hummingbird-helpers-core.php:523
+#: helpers/wp-hummingbird-helpers-core.php:407
+#: helpers/wp-hummingbird-helpers-core.php:433
 msgid "16 hours"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:498
-#: helpers/wp-hummingbird-helpers-core.php:524
+#: helpers/wp-hummingbird-helpers-core.php:408
+#: helpers/wp-hummingbird-helpers-core.php:434
 msgid "20 hours"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:499
-#: helpers/wp-hummingbird-helpers-core.php:525
+#: helpers/wp-hummingbird-helpers-core.php:409
+#: helpers/wp-hummingbird-helpers-core.php:435
 msgid "1 day"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:500
-#: helpers/wp-hummingbird-helpers-core.php:526
+#: helpers/wp-hummingbird-helpers-core.php:410
+#: helpers/wp-hummingbird-helpers-core.php:436
 msgid "2 days"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:501
-#: helpers/wp-hummingbird-helpers-core.php:527
+#: helpers/wp-hummingbird-helpers-core.php:411
+#: helpers/wp-hummingbird-helpers-core.php:437
 msgid "3 days"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:502
-#: helpers/wp-hummingbird-helpers-core.php:528
+#: helpers/wp-hummingbird-helpers-core.php:412
+#: helpers/wp-hummingbird-helpers-core.php:438
 msgid "4 days"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:503
-#: helpers/wp-hummingbird-helpers-core.php:529
+#: helpers/wp-hummingbird-helpers-core.php:413
+#: helpers/wp-hummingbird-helpers-core.php:439
 msgid "5 days"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:505
-#: helpers/wp-hummingbird-helpers-core.php:531
+#: helpers/wp-hummingbird-helpers-core.php:415
+#: helpers/wp-hummingbird-helpers-core.php:441
 msgid "16 days"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:506
-#: helpers/wp-hummingbird-helpers-core.php:532
+#: helpers/wp-hummingbird-helpers-core.php:416
+#: helpers/wp-hummingbird-helpers-core.php:442
 msgid "24 days"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:507
-#: helpers/wp-hummingbird-helpers-core.php:533
+#: helpers/wp-hummingbird-helpers-core.php:417
+#: helpers/wp-hummingbird-helpers-core.php:443
 msgid "1 month"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:508
-#: helpers/wp-hummingbird-helpers-core.php:534
+#: helpers/wp-hummingbird-helpers-core.php:418
+#: helpers/wp-hummingbird-helpers-core.php:444
 msgid "2 months"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:509
+#: helpers/wp-hummingbird-helpers-core.php:419
 msgid "3 months"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:510
-#: helpers/wp-hummingbird-helpers-core.php:535
+#: helpers/wp-hummingbird-helpers-core.php:420
+#: helpers/wp-hummingbird-helpers-core.php:445
 msgid "6 months"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:511
-#: helpers/wp-hummingbird-helpers-core.php:536
+#: helpers/wp-hummingbird-helpers-core.php:421
+#: helpers/wp-hummingbird-helpers-core.php:446
 msgid "1 year"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:517
+#: helpers/wp-hummingbird-helpers-core.php:427
 msgid "2 hours"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:521
+#: helpers/wp-hummingbird-helpers-core.php:431
 msgid "8 hours"
 msgstr ""
 
-#: helpers/wp-hummingbird-helpers-core.php:650
+#: helpers/wp-hummingbird-helpers-core.php:560
 msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: helpers/wp-hummingbird-helpers-core.php:653
+#: helpers/wp-hummingbird-helpers-core.php:563
 msgid "%d month"
 msgid_plural "%d months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: helpers/wp-hummingbird-helpers-core.php:656
+#: helpers/wp-hummingbird-helpers-core.php:566
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: helpers/wp-hummingbird-helpers-core.php:659
+#: helpers/wp-hummingbird-helpers-core.php:569
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: helpers/wp-hummingbird-helpers-core.php:662
+#: helpers/wp-hummingbird-helpers-core.php:572
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: helpers/wp-hummingbird-helpers-core.php:665
+#: helpers/wp-hummingbird-helpers-core.php:575
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] ""
@@ -1542,7 +1577,7 @@ msgid "WP Hummingbird"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "https://premium.wpmudev.org/project/1081721/"
+msgid "https://premium.wpmudev.org/project/wp-hummingbird/"
 msgstr ""
 
 #. Description of the plugin/theme

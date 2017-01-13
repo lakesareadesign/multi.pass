@@ -47,22 +47,6 @@ abstract class WP_Hummingbird_Admin_Page {
 
 	}
 
-	public function notices() {
-		if ( get_option( 'wphb_cache_folder_error' ) ) {
-			if ( ! wphb_is_cache_folder_created() ) {
-				$this->show_notice(
-					'cache-folder-error',
-					sprintf( __( 'Unable to create cache directory. Minification will not work, you need to create the folder manually %s', 'wphb' ), '<code>' . wphb_get_cache_dir() . '</code>' ),
-					'error',
-					true
-				);
-			}
-			else {
-				delete_option( 'wphb_cache_folder_error' );
-			}
-		}
-	}
-
 	/**
 	 * Load an admin view
 	 */
@@ -109,6 +93,8 @@ abstract class WP_Hummingbird_Admin_Page {
 		add_action( 'admin_notices', array(  $this, 'notices' ) );
 		add_action( 'network_admin_notices', array(  $this, 'notices' ) );
 	}
+
+	public function notices() {}
 
 
 	/**

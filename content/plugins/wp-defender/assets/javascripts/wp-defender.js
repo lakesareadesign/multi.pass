@@ -6,6 +6,7 @@ jQuery(function ($) {
     WDefender.resolve();
     WDefender.dashboard();
     WDefender.audit_logging();
+    WDefender.ip_lockout();
 
     WDefender.settings();
     $('.wd-dismiss').click(function (e) {
@@ -152,6 +153,31 @@ jQuery.fn.wd_according = function (options) {
 };
 
 window.WDefender = window.WDefender || {};
+
+WDefender.ip_lockout = function (el) {
+    var $ = jQuery;
+    $('.toggle-ip-protect').click(function (e) {
+        e.preventDefault();
+        var that = $(this);
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                action: 'ip_protection_toggle',
+                type: that.data('type')
+            },
+            beforeSend: function () {
+                that.attr('disabled', 'disabled');
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    var html = data.value;
+                    that.replaceWith(html);
+                }
+            }
+        })
+    })
+}
 
 WDefender.hardener = function (el) {
     var $ = jQuery;

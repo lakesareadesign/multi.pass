@@ -27,48 +27,6 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			$this->add_action( 'wd_audit_send_report', 'send_report_email' );
 			$this->add_action( 'wp_loaded', 'listen_for_plugins_themes_content' );
 			$this->add_ajax_action( 'wd_audit_get_events', 'get_events_ajax' );
-			$this->add_action( 'wp_loaded', 'udp_check', 999 );
-		}
-	}
-
-	public function udp_check() {
-		if ( defined( 'WD_DONT_CHECK_UDP' ) && constant( 'WD_DONT_CHECK_UDP' ) == true ) {
-			return;
-		}
-
-		if ( WD_Utils::get_cache( 'udp_status', null ) !== null ) {
-			return;
-		}
-
-		$socket_ip    = '54.82.203.19';
-		$socket_ports = array(
-			80,
-			3244
-		);
-
-		foreach ( $socket_ports as $socket_port ) {
-			$socket = @stream_socket_client( 'udp://' . $socket_ip . ':' . $socket_port, $errno, $errstr,
-				1,
-				STREAM_CLIENT_ASYNC_CONNECT );
-
-			fwrite( $socket, json_encode( array(
-				'site_url' => network_site_url(),
-				'apikey'   => WD_Utils::get_dev_api()
-			) ) );
-			@fclose( $socket );
-		}
-
-		$ret = $this->wpmudev_call( 'http://' . $socket_ip . '/udp_status', array(
-			'site_url' => network_site_url()
-		), array(
-			'headers' => array(
-				'apikey' => WD_Utils::get_dev_api()
-			),
-			'timeout' => 1
-		) );
-
-		if ( is_array( $ret ) && isset( $ret['status'] ) ) {
-			WD_Utils::cache( 'udp_status', $ret['status'], HOUR_IN_SECONDS * 1 );
 		}
 	}
 
@@ -241,39 +199,121 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 		uasort( $email_data, array( &$this, 'sort_email_data' ) );
 		//now we create a table
 		if ( count( $email_data ) ) {
-			$table = '<p>' . sprintf( __( "{USER_NAME}, here's a quick summary of your audit events for {SITE_URL}! View the full report <a href=\"%s\">here</a>.", wp_defender()->domain ),
-					network_admin_url( 'admin.php?page=wdf-logging' ) ) . '</p>';
-			$table .= '<table style="width: 100%;"  border="0" cellpadding="0" cellspacing="0">';
-			$table .= '<thead><tr>';
-			$table .= '<th style="padding-bottom: 5px;">' . '<span style="width:100%;display:inline-block;border-bottom: solid 1px #EEEEEE;padding-bottom: 10px">' . esc_html__( "Event Type", wp_defender()->domain ) . ' </span></th>';
-			$table .= '<th style="padding-bottom: 5px;">' . '<span style="width:100%;display:inline-block;border-bottom: solid 1px #EEEEEE;padding-bottom: 10px">' . esc_html__( "Action Summaries", wp_defender()->domain ) . '</span></th>';
-			$table .= '</tr></thead>';
-			$table .= '<tbody>';
-			foreach ( $email_data as $row => $val ) {
-				$table .= '<tr>';
-				$table .= '<td valign="top"  style="padding: 5px;vertical-align: top;border-bottom: solid 1px #EEEEEE">' . '<span>' . ucfirst( WD_Audit_API::get_action_text( $row ) ) . '</span>' . '</td>';
-				$table .= '<td style="padding: 5px;border-bottom: solid 1px #EEEEEE">';
-				foreach ( $val as $k => $v ) {
-					if ( $k == 'count' ) {
-						continue;
-					}
-					$table .= '<span style="display: block;padding-bottom: 5px">' . ucwords( WD_Audit_API::get_action_text( $k ) ) . ': ' . $v . '</span>';
-				}
-				$table .= '</td>';
-				$table .= '</tr>';
-			}
-			$table .= '</tbody>';
-			$table .= '</table><br/>';
-			$table .= '<p>' . sprintf( __( "View the full report <a href=\"%s\">here</a>.", wp_defender()->domain ),
-					network_admin_url( 'admin.php?page=wdf-logging' ) ) . '</p>';
+			ob_start();
+			?>
+            <table class="wrapper main" align="center"
+                   style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;">
+                <tbody>
+                <tr style="padding: 0; text-align: left; vertical-align: top;">
+                    <td class="wrapper-inner main-inner"
+                        style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 40px; text-align: left; vertical-align: top; word-wrap: break-word;">
+
+                        <table class="main-intro"
+                               style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top;">
+                            <tbody>
+                            <tr style="padding: 0; text-align: left; vertical-align: top;">
+                                <td class="main-intro-content"
+                                    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-wrap: break-word;">
+                                    <h3 style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 32px; font-weight: normal; line-height: 32px; margin: 0; margin-bottom: 0; padding: 0 0 28px; text-align: left; word-wrap: normal;"><?php _e( "Hi {USER_NAME},", wp_defender()->domain ) ?></h3>
+                                    <p style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; margin-bottom: 0; padding: 0 0 24px; text-align: left;">
+										<?php printf( __( "It’s WP Defender here, reporting from the frontline with a quick update on what’s been happening at <a href=\"%s\">%s</a>.", wp_defender()->domain ), site_url(), site_url() ) ?></p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="results-list"
+                               style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top;">
+                            <thead class="results-list-header" style="border-bottom: 2px solid #ff5c28;">
+                            <tr style="padding: 0; text-align: left; vertical-align: top;">
+                                <th class="result-list-label-title"
+                                    style="Margin: 0; color: #ff5c28; font-family: Helvetica, Arial, sans-serif; font-size: 22px; font-weight: 700; line-height: 48px; margin: 0; padding: 0; text-align: left; width: 35%;">
+									<?php _e( "Event Type", wp_defender()->domain ) ?>
+                                </th>
+                                <th class="result-list-data-title"
+                                    style="Margin: 0; color: #ff5c28; font-family: Helvetica, Arial, sans-serif; font-size: 22px; font-weight: 700; line-height: 48px; margin: 0; padding: 0; text-align: left;">
+									<?php _e( "Action Summaries", wp_defender()->domain ) ?>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="results-list-content">
+							<?php $count = 0; ?>
+							<?php foreach ( $email_data as $key => $row ): ?>
+                                <tr style="padding: 0; text-align: left; vertical-align: top;">
+									<?php if ( $count == 0 ) {
+										$style = '-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; hyphens: auto; line-height: 28px; margin: 0; padding: 20px 5px; text-align: left; vertical-align: top; word-wrap: break-word;';
+									} else {
+										$style = '-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; border-top: 2px solid #ff5c28; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; hyphens: auto; line-height: 28px; margin: 0; padding: 20px 5px; text-align: left; vertical-align: top; word-wrap: break-word;';
+									} ?>
+                                    <td class="result-list-label bordered"
+                                        style="<?php echo $style ?>">
+										<?php echo ucfirst( WD_Audit_API::get_action_text( strtolower( $key ) ) ) ?>
+                                    </td>
+                                    <td class="result-list-data bordered"
+                                        style="<?php echo $style ?>">
+										<?php foreach ( $row as $i => $v ): ?>
+											<?php if ( $i == 'count' ) {
+												continue;
+											} ?>
+                                            <span
+                                                    style="display: inline-block; font-weight: 400; width: 100%;">
+												<?php echo ucwords( WD_Audit_API::get_action_text( strtolower( $i ) ) ) ?>
+                                                : <?php echo $v ?>
+											</span>
+										<?php endforeach; ?>
+                                    </td>
+                                </tr>
+								<?php $count ++; ?>
+							<?php endforeach; ?>
+                            </tbody>
+                            <tfoot class="results-list-footer">
+                            <tr style="padding: 0; text-align: left; vertical-align: top;">
+                                <td colspan="2"
+                                    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 10px 0 0; text-align: left; vertical-align: top; word-wrap: break-word;">
+                                    <p style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; margin-bottom: 0; padding: 0 0 24px; text-align: left;">
+                                        <a class="plugin-brand"
+                                           href="<?php echo network_admin_url( 'admin.php?page=wdf-logging' ) ?>"
+                                           style="Margin: 0; color: #ff5c28; display: inline-block; font: inherit; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">You
+                                            can fiew the full audit report for your site here. <img
+                                                    class="icon-arrow-right"
+                                                    src="<?php echo wp_defender()->get_plugin_url() ?>assets/email-images/icon-arrow-right-defender.png"
+                                                    alt="Arrow"
+                                                    style="-ms-interpolation-mode: bicubic; border: none; clear: both; display: inline-block; margin: -2px 0 0 5px; max-width: 100%; outline: none; text-decoration: none; vertical-align: middle; width: auto;"></a>
+                                    </p>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                        <table class="main-signature"
+                               style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top;">
+                            <tbody>
+                            <tr style="padding: 0; text-align: left; vertical-align: top;">
+                                <td class="main-signature-content"
+                                    style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-wrap: break-word;">
+                                    <p style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; margin-bottom: 0; padding: 0 0 24px; text-align: left;">
+                                        Stay stafe,</p>
+                                    <p class="last-item"
+                                       style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; margin-bottom: 0; padding: 0; text-align: left;">
+                                        WP Defender <br><strong>WPMU DEV Security Hero</strong></p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+			<?php
+			$table = ob_get_clean();
 		} else {
 			$table = '<p>' . sprintf( esc_html__( "There were no events logged for %s", wp_defender()->domain ), network_site_url() ) . '</p>';
 		}
 
 		$template = $this->render( 'email_template', array(
 			'message' => $table,
-			'subject' => sprintf( esc_html__( "Audit Log Report for %s", wp_defender()->domain ), network_site_url() )
+			'subject' => sprintf( esc_html__( "Here’s what’s been happening at %s", wp_defender()->domain ), network_site_url() )
 		), false );
+
 
 		foreach ( $recipients as $user_id ) {
 			$user = get_user_by( 'id', $user_id );
@@ -295,7 +335,7 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			foreach ( $params as $key => $val ) {
 				$template = str_replace( '{' . $key . '}', $val, $template );
 			}
-			wp_mail( $email, sprintf( esc_html__( "Audit Log Report for %s", wp_defender()->domain ), network_site_url() ), $template, $headers );
+			wp_mail( $email, sprintf( esc_html__( "Here’s what’s been happening at %s", wp_defender()->domain ), network_site_url() ), $template, $headers );
 		}
 		//reqqueue
 		wp_clear_scheduled_hook( 'wd_audit_send_report' );

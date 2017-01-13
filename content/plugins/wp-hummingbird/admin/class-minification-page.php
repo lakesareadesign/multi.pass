@@ -52,9 +52,10 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 				);
 				if ( $diff ) {
 					foreach ( $diff as $diff_handle ) {
-						$changed_group = WP_Hummingbird_Sources_Collector::get_group_from_handle( $diff_handle, $type );
-						if ( $changed_group )
-							$changed_groups[] = $changed_group;
+						$_groups = WP_Hummingbird_Module_Minify_Group::get_groups_from_handle( $diff_handle, $type );
+						if ( $_groups ) {
+							$changed_groups = array_merge( $changed_groups, $_groups );
+						}
 					}
 				}
 
@@ -72,9 +73,10 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 				);
 				if ( $diff ) {
 					foreach ( $diff as $diff_handle ) {
-						$changed_group = WP_Hummingbird_Sources_Collector::get_group_from_handle( $diff_handle, $type );
-						if ( $changed_group )
-							$changed_groups[] = $changed_group;
+						$_groups = WP_Hummingbird_Module_Minify_Group::get_groups_from_handle( $diff_handle, $type );
+						if ( $_groups ) {
+							$changed_groups = array_merge( $changed_groups, $_groups );
+						}
 					}
 				}
 
@@ -92,9 +94,10 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 				);
 				if ( $diff ) {
 					foreach ( $diff as $diff_handle ) {
-						$changed_group = WP_Hummingbird_Sources_Collector::get_group_from_handle( $diff_handle, $type );
-						if ( $changed_group )
-							$changed_groups[] = $changed_group;
+						$_groups = WP_Hummingbird_Module_Minify_Group::get_groups_from_handle( $diff_handle, $type );
+						if ( $_groups ) {
+							$changed_groups = array_merge( $changed_groups, $_groups );
+						}
 					}
 				}
 
@@ -107,9 +110,10 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 				}
 				if ( $diff = array_diff_key( $current_options['position'][ $type ], $options['position'][ $type ] ) ) {
 					foreach ( $diff as $diff_handle ) {
-						$changed_group = WP_Hummingbird_Sources_Collector::get_group_from_handle( $diff_handle, $type );
-						if ( $changed_group )
-							$changed_groups[] = $changed_group;
+						$_groups = WP_Hummingbird_Module_Minify_Group::get_groups_from_handle( $diff_handle, $type );
+						if ( $_groups ) {
+							$changed_groups = array_merge( $changed_groups, $_groups );
+						}
 					}
 				}
 				$diff = array_merge(
@@ -118,22 +122,58 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 				);
 				if ( $diff ) {
 					foreach ( $diff as $diff_handle => $position) {
-						$changed_group = WP_Hummingbird_Sources_Collector::get_group_from_handle( $diff_handle, $type );
-						if ( $changed_group )
-							$changed_groups[] = $changed_group;
+						$_groups = WP_Hummingbird_Module_Minify_Group::get_groups_from_handle( $diff_handle, $type );
+						if ( $_groups ) {
+							$changed_groups = array_merge( $changed_groups, $_groups );
+						}
 					}
 				}
 			}
 		}
 
-
-		$changed_groups = array_unique( $changed_groups );
-
 		// Delete those groups
-		foreach ( $changed_groups as $group_key )
-			wphb_delete_minification_cache_group( $group_key );
+		foreach ( $changed_groups as $group ) {
+			/** @var WP_Hummingbird_Module_Minify_Group $group */
+			$group->delete_file();
+		}
+
 
 		return $options;
+	}
+
+	/**
+	 * Render the page
+	 */
+	public function render() {
+		?>
+
+		<div id="container" class="wrap wrap-wp-hummingbird wrap-wp-hummingbird-page <?php echo 'wrap-' . $this->slug; ?>">
+
+			<?php
+			if ( isset( $_GET['updated'] ) ) :
+				$this->show_notice( 'updated', __( 'Your new minify settings have been saved. Simply refresh your homepage and Hummingbird will minify and serve your newly compressed files.', 'wphb' ), 'success' );
+			endif;
+
+			$this->render_header();
+
+			$this->render_inner_content();
+			?>
+
+		</div><!-- end container -->
+
+		<script>
+            jQuery(document).ready( function() {
+                WPHB_Admin.getModule( 'notices' );
+            });
+
+            // Avoid moving dashboard notice under h2
+            var wpmuDash = document.getElementById( 'wpmu-install-dashboard' );
+            if ( wpmuDash )
+                wpmuDash.className = wpmuDash.className + " inline";
+
+            jQuery( 'div.updated, div.error' ).addClass( 'inline' );
+		</script>
+		<?php
 	}
 
 	/**
@@ -151,28 +191,24 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 	public function register_meta_boxes() {
 		$collection = wphb_minification_get_resources_collection();
 		$module = wphb_get_module( 'minify' );
+
 		if ( ( empty( $collection['styles'] ) && empty( $collection['scripts'] ) ) || wphb_minification_is_checking_files() || ! $module->is_active() ) {
 			$this->add_meta_box( 'minification/enqueued-files-empty', __( 'Enqueued Files', 'wphb' ), array( $this, 'enqueued_files_empty_metabox' ), null, null, 'box-enqueued-files-empty', array( 'box_class' => 'dev-box content-box content-box-one-col-center') );
 		}
 		else {
 			$this->add_meta_box( 'minification/enqueued-files', __( 'Enqueued Files', 'wphb' ), array( $this, 'enqueued_files_metabox' ), null, null, 'main', array( 'box_content_class' => 'box-content no-side-padding', 'box_footer_class' => 'box-footer') );
-			$this->add_meta_box( 'minification/output-header', __( 'Output (Header)', 'wphb' ), array( $this, 'output_header_metabox' ), array( $this, 'output_header_header_metabox' ), null, 'main-2' );
-			$this->add_meta_box( 'minification/output-footer', __( 'Output (Footer)', 'wphb' ), array( $this, 'output_footer_metabox' ), array( $this, 'output_header_footer_metabox' ), null, 'main-2' );
+		}
+
+		if ( ! is_multisite() ) {
+			$this->add_meta_box( 'minification/advanced-settings', __( 'Advanced Settings', 'wphb' ), array( $this, 'advanced_settings_metabox' ), array( $this, 'advanced_settings_metabox_header' ), null, 'main', array( 'box_content_class' => 'box-content', 'box_footer_class' => 'box-footer') );
 		}
 	}
 
 	public function enqueued_files_empty_metabox() {
 		// Get current user name
-		//$user = wp_get_current_user();
-		//$user = $user->user_nicename;
 		$user = wphb_get_current_user_info();
 		$checking_files = wphb_minification_is_checking_files();
 		$this->view( 'minification/enqueued-files-empty-meta-box', array( 'user' => $user, 'checking_files' => $checking_files ) );
-	}
-
-	public function enqueue_scripts( $hook ) {
-		parent::enqueue_scripts( $hook );
-		wp_enqueue_script( 'wphb-google-chart', "https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['sankey']}]}" );
 	}
 
 
@@ -202,11 +238,17 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 			}
 		}
 
+		/** @var WP_Hummingbird_Module_Minify $module */
+		$module = wphb_get_module( 'minify' );
+		$is_server_error = $module->errors_controller->is_server_error();
+		$server_errors = $module->errors_controller->get_server_errors();
+		$error_time_left = $module->errors_controller->server_error_time_left();
+
 		if ( isset( $_GET['view-export-form'] ) ) {
 			$this->view( 'minification/export-form' );
 		}
 
-		$args = compact( 'collection', 'styles_rows', 'scripts_rows', 'selector_filter' );
+		$args = compact( 'collection', 'styles_rows', 'scripts_rows', 'selector_filter', 'is_server_error', 'server_errors', 'error_time_left' );
 		$this->view( 'minification/enqueued-files-meta-box', $args );
 	}
 
@@ -255,10 +297,10 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 			$base_name = $type . '[' . $item['handle'] . ']';
 
 			if ( isset ( $item['original_size'] ) )
-				$original_size = number_format( $item['original_size'] / 1000 , 1 );
+				$original_size = $item['original_size'];
 
 			if ( isset( $item['compressed_size'] ) )
-				$compressed_size = number_format( $item['compressed_size'] / 1000 , 1 );
+				$compressed_size = $item['compressed_size'];
 
 			$site_url = str_replace( array( 'http://', 'https://' ), '', get_option('siteurl') );
 			$rel_src = str_replace( array( 'http://', 'https://', $site_url ), '', $item['src'] );
@@ -312,50 +354,21 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		return $content;
 	}
 
-	private function _get_output_data() {
-		$chart = wphb_get_chart( get_home_url() );
-		$data = $chart['data'];
-
-		$themes_header = array_unique( array_keys( $data['header']['themes'] ) );
-		$themes_footer = array_unique( array_keys( $data['footer']['themes'] ) );
-
-		$plugins_header = array_unique( array_keys( $data['header']['plugins'] ) );
-		$plugins_footer = array_unique( array_keys( $data['footer']['plugins'] ) );
-		$options = array_merge( $themes_header, $themes_footer, $plugins_header, $plugins_footer );
-
-		$height_header = 50 * ( isset( $chart['sources_number']['header'] ) ? $chart['sources_number']['header'] : 1 );
-		$height_footer = 50 * ( isset( $chart['sources_number']['footer'] ) ? $chart['sources_number']['footer'] : 1 );
-
-		$data_header = wphb_prepare_chart_data_for_javascript( $chart['data']['header'], $chart['data']['groups'] );
-		$data_footer = wphb_prepare_chart_data_for_javascript( $chart['data']['footer'], $chart['data']['groups'] );
-
-		return compact(
-			'options',
-			'height_header',
-			'height_footer',
-			'data_header',
-			'data_footer'
+	function advanced_settings_metabox() {
+		$settings = wphb_get_settings();
+		$args = array(
+			'use_cdn' => $settings['use_cdn'],
+			'disabled' => ! wphb_is_member(),
+			'super_minify' => wphb_is_member()
 		);
+		$this->view( 'minification/advanced-settings', $args );
 	}
 
-	public function output_header_metabox() {
-		$this->view( 'minification/output-header-meta-box', $this->_get_output_data() );
+	function advanced_settings_metabox_header() {
+		$args = array(
+			'is_member' => wphb_is_member(),
+			'title' => __( 'Advanced Settings', 'wphb' )
+		);
+		$this->view( 'minification/advanced-settings-header', $args );
 	}
-
-	public function output_footer_metabox() {
-		$this->view( 'minification/output-footer-meta-box', $this->_get_output_data() );
-	}
-
-	public function output_header_header_metabox() {
-		?>
-			<h3><?php _e( 'Output (Header)', 'wphb' ); ?> <span id="output-spinner-header" class="spinner" style="margin-top:20px;"></span></h3>
-		<?php
-	}
-
-	public function output_header_footer_metabox() {
-		?>
-			<h3><?php _e( 'Output (Footer)', 'wphb' ); ?> <span id="output-spinner-footer" class="spinner" style="margin-top:20px;"></span></h3>
-		<?php
-	}
-
 }

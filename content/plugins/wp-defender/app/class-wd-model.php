@@ -101,7 +101,7 @@ class WD_Model extends WD_Component {
 		$rules = array();
 		foreach ( $this->rules as $key => $row ) {
 			if ( count( $row ) == 2 ) {
-				if ( $row[1] == $this->scenario ) {
+				if ( $row['scenario'] == $this->scenario ) {
 					$rules[ $key ] = $row[0];
 				}
 			} elseif ( count( $row ) == 1 ) {

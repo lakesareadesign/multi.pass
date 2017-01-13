@@ -1,7 +1,4 @@
 <?php
-/**
- * Class: WD_Plugin_Theme_Version
- */
 
 /**
  * @author: Hoang Ngo

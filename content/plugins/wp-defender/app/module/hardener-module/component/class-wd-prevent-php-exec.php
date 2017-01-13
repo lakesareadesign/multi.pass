@@ -352,7 +352,7 @@ location ~* ^$wp_content/.*\.php$ {
 					<?php esc_html_e( "Copy the generated code into your site specific .conf file usually located in a subdirectory under /etc/nginx/... or /usr/local/nginx/conf/...", wp_defender()->domain ) ?>
 				</li>
 				<li>
-					<?php esc_html_e( "Add the code above inside the <strong>server</strong> section in the file, right before the php location block. Looks something like:", wp_defender()->domain ) ?>
+					<?php _e( "Add the code above inside the <strong>server</strong> section in the file, right before the php location block. Looks something like:", wp_defender()->domain ) ?>
 					<pre>location ~ \.php$ {</pre>
 				</li>
 				<li>
