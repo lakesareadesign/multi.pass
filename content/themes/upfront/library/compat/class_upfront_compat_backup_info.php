@@ -87,12 +87,12 @@ class Upfront_Compat_Backup_Info {
 	}
 
 	/**
-	 * Check if we have Dashbaord plugin alive and active
+	 * Check if we have Dashboard plugin alive and active
 	 *
 	 * @return bool
 	 */
 	private function _has_dashboard () {
-		if (!class_exists('WPMUDEV_Dashboard')) return false;
+		if (false === Upfront_Compat::has_dashboard()) return false;
 
 		if (!empty(WPMUDEV_Dashboard::$site) && is_callable(array(WPMUDEV_Dashboard::$site, 'allowed_user'))) {
 			return WPMUDEV_Dashboard::$site->allowed_user();

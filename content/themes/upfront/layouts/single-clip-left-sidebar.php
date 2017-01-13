@@ -1,6 +1,6 @@
 <?php
 /*
-Layout File, at least one main region must be added;	     	 		 		  	 		 	
+Layout File, at least one main region must be added;
  */
 
 $type = 'clip';

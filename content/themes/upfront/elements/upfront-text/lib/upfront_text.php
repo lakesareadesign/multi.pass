@@ -165,4 +165,10 @@ class Upfront_PlainTxtView extends Upfront_Object {
 	public static function export_content ($export, $object) {
 		return upfront_get_property_value('content', $object);
 	}
+
+	public static function add_styles_scripts () {
+		//Front script
+		upfront_add_element_script('utext', array('js/utext-front.js', dirname(__FILE__)));
+
+	}
 }

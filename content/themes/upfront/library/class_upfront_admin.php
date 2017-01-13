@@ -60,7 +60,7 @@ class Upfront_Admin
 		global $menu, $submenu;
 
 		if (Upfront_Permissions::current( Upfront_Permissions::SEE_USE_DEBUG ) || Upfront_Permissions::current( Upfront_Permissions::MODIFY_RESTRICTIONS )) {
-			add_menu_page( __("General Settings", Upfront::TextDomain), __("Upfront", Upfront::TextDomain), "manage_options",  self::$menu_slugs['main'], null, "", 58);
+			add_menu_page( __("General Settings", Upfront::TextDomain), __("Upfront", Upfront::TextDomain), "manage_options",  self::$menu_slugs['main'], null, "", 58);	     	 		 		  	 		 	
 		}
 
         new Upfront_Admin_General();
