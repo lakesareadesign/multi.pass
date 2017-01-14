@@ -12,7 +12,7 @@ function bbs_child_theme_setup() {
     //* Child theme (do not remove)
     define( 'CHILD_THEME_NAME', 'Gallery Pro' );
     define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/gallery/' );
-    define( 'CHILD_THEME_VERSION', '1.0.0' );
+    define( 'CHILD_THEME_VERSION', '1.1' );
 
     // Genesis Framework
     include_once( get_template_directory() . '/lib/init.php' );
@@ -142,23 +142,6 @@ function bbs_add_footer_menu() {
 
 }
 
-
-/**
-* Blog
-*
-*/
-
-add_action( 'genesis_entry_footer', 'bbs_add_excerpt_below_limited_content' );
-function bbs_add_excerpt_below_limited_content() {
-
-  $post = get_post( get_the_ID() );
-  $excerpt = $post->post_excerpt;
-
-  if ( is_singular() || empty( $excerpt ) )
-		return;
-
-  echo '<div class="manual-excerpt">' . $excerpt . '</div></div>';
-}
 
 /**
 * Footer

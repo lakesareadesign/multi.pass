@@ -5,7 +5,7 @@
  *
  */
 
-$hide_hero = bbs_cf( 'bbs-hide-post-hero' );
+$hide_hero = bbs_cf( 'bbs-hide-post-header' );
 
 if ( $hide_hero == '' ) {
 		add_action( 'genesis_after_header', 'bbs_single_post_header' );
@@ -31,7 +31,7 @@ function bbs_single_post_header() {
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
 		echo '<div class="hero flexible-widget-area bg bg-scrim text-center" style="background-image: url(' . $image[0] . ');"><div class="wrap">';
 		genesis_entry_header_markup_open();
-	  genesis_do_post_title();
+	  	genesis_do_post_title();
 		genesis_post_info();
 		genesis_entry_header_markup_close();
 		echo '</div></div>';

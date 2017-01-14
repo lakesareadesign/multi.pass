@@ -8,6 +8,8 @@
  * @copyright    Copyright (c) 2015, Restored 316 LLC, Released 02/03/2016
  * @license      GPL-2.0+
  */
+ 
+//* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent.
 
 //* Adds a CSS class to the body element
 add_filter( 'body_class', 'archives_body_class' );

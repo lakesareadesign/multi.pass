@@ -29,6 +29,6 @@ genesis_register_sidebar( array(
 genesis_register_sidebar( array(
 	'id'			=> 'cta-widget',
 	'name'			=> __( 'CTA Widget', 'glam' ),
-	'description'	=> __( 'This is the widget area above the header', 'glam' ),
+	'description'	=> __( 'This is the call to action widget.', 'glam' ),
 ) );
 

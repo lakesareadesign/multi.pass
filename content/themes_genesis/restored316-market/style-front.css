@@ -1,0 +1,190 @@
+/*
+	Theme Name: Market Theme
+	Theme URI: http://restored316designs.com/themes
+	Description: A mobile responsive and HTML5 feminine WordPress theme built for the Genesis Framework by Lauren Gaige of Restored 316.
+	Author: Restored 316 Designs // Lauren Gaige
+	Author URI: http://www.restored316designs.com/
+	Copyright: Copyright (c) 2015, Restored 316 LLC, Released 05/03/2016
+
+	Template: genesis
+	Template Version: 2.0.1
+
+	License: GPL-2.0+
+	License URI: http://www.opensource.org/licenses/gpl-license.php
+*/
+
+
+/* Front Page
+---------------------------------------------------------------------------------------------------- */
+
+.front-page .entry-header {
+	margin-bottom: 0;
+}
+
+.front-page p:last-child,
+.front-page .widget:last-child {
+	border: none;
+}
+
+.front-page .icon {
+	color: #f87da9;
+    display: block;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.front-page .widget-area h3 {
+	color: #7d947d;
+	font-family: 'IM Fell English', serif;
+	font-size: 30px;
+	letter-spacing: 2px;
+	text-align: center;
+	text-transform: uppercase;
+	margin: 0;
+}
+
+.front-page .site-inner .widget-title {
+	color: #7d947d;
+	margin: 0;
+}
+
+.front-page .featured-content .entry {
+	padding: 0;
+}
+
+.front-page .featured-content .entry {
+	position: relative;
+}
+
+.front-page-1 .featured-content .entry-header {
+	background: #fff;
+	margin: 0 20%;
+	padding: 15px;
+	position: absolute;
+	top: 35%;
+	left: 0;
+	width: 60%;
+}
+
+.front-page-1 .featured-content .entry-header .entry-title a {
+	font-family: "Gentium Basic", serif;
+	font-size: 17px;
+	letter-spacing: 2px;
+	line-height: 20px;
+	margin: 0;
+	overflow: visible;
+	text-align: center;
+	text-transform: uppercase;
+	width: 100%;
+}
+
+.front-page-1 .featured-content .entry-header h2 {
+	margin: 0;
+}
+
+.front-page .blog .entry {
+	float: left;
+	padding: 1%;
+	width: 33.333%;
+}
+
+.front-page .blog .entry-title {
+	font-size: 20px;
+}
+
+/* Flexible Widgets
+--------------------------------------------- */
+
+.flexible-widgets .widget {
+	float: left;
+	margin-bottom: 0;
+	padding: 2% 1%;
+}
+
+.flexible-widgets .widget:first-child {
+	border: none;
+	margin-bottom: 30px;
+	padding: 0;
+	text-align: center;
+}
+
+.flexible-widgets.widget-full .widget,
+.flexible-widgets.widget-area .widget:nth-of-type(1),
+.flexible-widgets.widget-halves.uneven .widget:last-of-type {
+	width: 100%;
+}
+
+.flexible-widgets.widget-fourths .widget {
+	width: 25%;
+}
+
+.flexible-widgets.widget-halves .widget {
+	width: 50%;
+}
+
+.flexible-widgets.widget-thirds .widget {
+	width: 33.33%;
+}
+
+.flexible-widgets.widget-halves .widget:nth-child(even),
+.flexible-widgets.widget-thirds .widget:nth-child(3n+2),
+.flexible-widgets.widget-fourths .widget:nth-child(4n+2) {
+	padding-right: 1%;
+	clear: left;
+}
+
+/* Front Page Areas
+--------------------------------------------- */
+
+.front-page-1,
+.front-page-2,
+.front-page-3,
+.front-page-4,
+.front-page-5 {
+	overflow: hidden;
+	text-align: center;	
+}
+
+/* Journal
+--------------------------------------------- */
+
+.journal .widget-title {
+	text-align: center;
+}
+
+/* Media Queries
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 800px) {
+
+	.flexible-widgets.widget-fourths .widget,
+	.flexible-widgets.widget-halves .widget,
+	.flexible-widgets.widget-thirds .widget,
+	.front-page-2 .flexible-widgets.widget-halves .widget,
+	.front-page-2 .widget {
+		float: none;
+		width: 100%;
+	}
+
+	.flexible-widgets .widget {
+		border: none;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	.front-page .blog .entry {
+		width: 48%;
+	}
+
+
+}
+
+@media only screen and (max-width: 500px) {
+	
+	.front-page .blog .entry {
+		float: none;
+		width: 100%;
+	}
+
+
+}

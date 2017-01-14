@@ -9,6 +9,8 @@
  * @license      GPL-2.0+
  */
 
+//* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent. 
+
 //* Start the engine
 require_once( get_template_directory() . '/lib/init.php' );
 
@@ -79,7 +81,7 @@ genesis_unregister_layout( 'sidebar-sidebar-content' );
 //* Unregister secondary sidebar
 unregister_sidebar( 'sidebar-alt' );
 
-//* Reposition the secondary navigation
+//* Reposition the primary navigation
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
 add_action( 'genesis_before', 'genesis_do_nav' );
 
@@ -126,8 +128,8 @@ function glam_social_icons($menu, $args) {
 }
 
 //* Hooks widget area before content
-add_action( 'genesis_before_content', 'savory_cta_widget', 2  );
-function savory_cta_widget() {
+add_action( 'genesis_before_content', 'glam_cta_widget', 2  );
+function glam_cta_widget() {
 
     genesis_widget_area( 'cta-widget', array(
 		'before' => '<div class="cta-widget widget-area"><div class="wrap">',
@@ -140,7 +142,7 @@ function savory_cta_widget() {
 add_filter( 'genesis_post_info', 'glam_post_info_filter' );
 function glam_post_info_filter( $post_info ) {
 
-	$post_info = '[post_categories before="in "] on [post_date format="d/m/y"]';
+	$post_info = '[post_categories before="in "] on [post_date format="m/d/y"]';
     return $post_info;
 
 }

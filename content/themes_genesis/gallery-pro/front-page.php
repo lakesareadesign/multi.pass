@@ -67,22 +67,22 @@ function bbs_front_page_widgets_1() {
 	$front_page_image_2 = get_option( 'bbs_front_page_image_2', sprintf( '%s/images/front-page-image-2.jpg', get_stylesheet_directory_uri() ) );
 
 	genesis_widget_area( 'front-page-1', array(
-		'before' => '<div class="front-page-1 flexible-widget-area bg bg-scrim" style="background-image: url(' . $front_page_image_1 . ')"><div class="wrap">',
+		'before' => '<div id="front-page-1" class="front-page-1 flexible-widget-area bg bg-scrim" style="background-image: url(' . $front_page_image_1 . ')"><div class="wrap">',
 		'after'  => '</div></div>',
 	) );
 
 	genesis_widget_area( 'front-page-2', array(
-		'before' => '<div class="front-page-2 flexible-widget-area"><div class="wrap"><div class="flexible-widgets widget-area' . bbs_widget_area_class( 'front-page-2' ) . '">',
+		'before' => '<div id="front-page-2" class="front-page-2 flexible-widget-area"><div class="wrap"><div class="flexible-widgets widget-area' . bbs_widget_area_class( 'front-page-2' ) . '">',
 		'after'  => '</div></div></div>',
 	) );
 
 	genesis_widget_area( 'front-page-3', array(
-		'before' => '<div class="front-page-3 flexible-widget-area bg bg-scrim" style="background-image: url(' . $front_page_image_2 . ')"><div class="wrap">',
+		'before' => '<div id="front-page-3" class="front-page-3 flexible-widget-area bg bg-scrim" style="background-image: url(' . $front_page_image_2 . ')"><div class="wrap">',
 		'after'  => '</div></div>',
 	) );
 
 	genesis_widget_area( 'front-page-4', array(
-		'before' => '<div class="front-page-4 flexible-widget-area"><div class="wrap"><div class="flexible-widgets widget-area' . bbs_widget_area_class( 'front-page-4' ) . '">',
+		'before' => '<div id="front-page-4" class="front-page-4 flexible-widget-area"><div class="wrap"><div class="flexible-widgets widget-area' . bbs_widget_area_class( 'front-page-4' ) . '">',
 		'after'  => '</div></div></div>',
 	) );
 
@@ -97,7 +97,7 @@ function bbs_front_page_widgets_2() {
 	$front_page_image_3 = get_option( 'bbs_front_page_image_3', sprintf( '%s/images/front-page-image-3.jpg', get_stylesheet_directory_uri() ) );
 
 	genesis_widget_area( 'front-page-5', array(
-		'before' => '<div class="front-page-5 hero flexible-widget-area bg bg-scrim" style="background-image: url(' . $front_page_image_3 . ')"><div class="wrap"><div class="flexible-widgets widget-area' . bbs_widget_area_class( 'front-page-5' ) . '">',
+		'before' => '<div id="front-page-5" class="front-page-5 hero flexible-widget-area bg bg-scrim" style="background-image: url(' . $front_page_image_3 . ')"><div class="wrap"><div class="flexible-widgets widget-area' . bbs_widget_area_class( 'front-page-5' ) . '">',
 		'after'  => '</div></div></div>',
 	) );
 

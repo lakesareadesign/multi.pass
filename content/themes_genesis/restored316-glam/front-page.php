@@ -9,6 +9,8 @@
  * @license      GPL-2.0+
  */
  
+//* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent.
+ 
 //* Add widget support for homepage. If no widgets active, display the default loop.
 add_action( 'genesis_meta', 'glam_home_genesis_meta' );
 function glam_home_genesis_meta() {
@@ -16,7 +18,7 @@ function glam_home_genesis_meta() {
 	if ( is_active_sidebar( 'home-top-slider' ) || is_active_sidebar( 'home-flexible' ) ) {
 
 		add_action( 'genesis_before_content_sidebar_wrap', 'glam_home_sections', 1 );
-		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_content_sidebar' );
+		//add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_content_sidebar' );
 		add_filter( 'body_class', 'glam_add_home_body_class' );
 		
 		//* Remove default loop & sidebar (remove the // symbols in front of the next two lines to remove the default blog loop and sidebar from the home page of Glam.)

@@ -5,7 +5,7 @@
 	Author: Restored 316 Designs // Lauren Gaige
 	Author URI: http://www.restored316designs.com/
 	Copyright: Copyright (c) 2015, Restored 316 LLC, Released 02/03/2016
-	Version: 1.0.1
+	Version: 1.0.2
 
 	Template: genesis
 	Template Version: 2.0.1
@@ -13,6 +13,8 @@
 	License: GPL-2.0+
 	License URI: http://www.opensource.org/licenses/gpl-license.php
 */
+
+/* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent.
 
 /* Table of Contents
 
@@ -1584,14 +1586,13 @@ Content Area
 }
 
 .home-flexible .widget .entry-title {
-	font-family: 'Montserrat', sans-serif;
-	font-style: normal;
-	font-size: 10px;
+	background: #F9F9F9;
+	font-size: 16px;
 	margin: 0 10%;
 	padding: 13px 25px;
 	position: absolute;
 	text-align: center;
-	top: 55%;
+	top: 40%;
 	left: 0;
 	width: 80%;
 }
@@ -2243,7 +2244,7 @@ Media Queries
 
 }
 
-@media only screen and (max-width: 1250px) {
+@media only screen and (max-width: 1255px) {
 
 	.site-container {
 		max-width: 1000px;
@@ -2535,7 +2536,7 @@ Media Queries
 		float: right;
 		font: normal 16px/1 'dashicons';
 		height: 16px;
-		padding: 16px 20px;
+		padding: 5px;
 		right: 0;
 		text-align: right;
 		z-index: 9999;
@@ -2675,3 +2676,5 @@ Media Queries
     }
 
 }
+
+/* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent.
