@@ -63,6 +63,7 @@ $footer_column->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-11954',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -189,7 +190,9 @@ $footer_column->add_element("PlainTxt", array (
        'mobile' =>
       (array)(array(
          'row' => 8,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -202,6 +205,7 @@ $footer_column->add_element("PlainTxt", array (
     'right_padding_num' => '10',
     'top_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
+    'current_preset' => 'plaintxt-title-footer-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -269,13 +273,13 @@ $footer_column->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 16,
+         'menu-item-db-id' => 17,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Home',
          'menu-item-url' => '{{upfront:home_url}}',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '16',
+         'menu-item-object-id' => '17',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -287,13 +291,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 17,
+         'menu-item-db-id' => 18,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Features',
          'menu-item-url' => '{{upfront:home_url}}/features/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '17',
+         'menu-item-object-id' => '18',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -305,13 +309,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 18,
+         'menu-item-db-id' => 19,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Download',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '18',
+         'menu-item-object-id' => '19',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -323,13 +327,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 19,
+         'menu-item-db-id' => 20,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '19',
+         'menu-item-object-id' => '20',
          'menu-item-target' => '',
          'menu-item-position' => 4,
          'link' =>
@@ -374,7 +378,7 @@ $footer_column->add_element("Unewnavigation", array (
          'width' => 570,
          'use_padding' => 'yes',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'parrot-footer-1',
@@ -401,6 +405,7 @@ $footer_column->add_element("Unewnavigation", array (
     'top_padding_slider' => '0',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
+    'current_preset' => 'parrot-footer-nav-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -555,7 +560,9 @@ $footer_column->add_element("PlainTxt", array (
        'mobile' =>
       (array)(array(
          'row' => 9,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -568,6 +575,7 @@ $footer_column->add_element("PlainTxt", array (
     'right_padding_num' => '10',
     'top_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
+    'current_preset' => 'plaintxt-title-footer-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -635,13 +643,13 @@ $footer_column->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 20,
+         'menu-item-db-id' => 21,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'BlackBerry',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '20',
+         'menu-item-object-id' => '21',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -653,13 +661,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 21,
+         'menu-item-db-id' => 22,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'iPhone',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '21',
+         'menu-item-object-id' => '22',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -671,13 +679,13 @@ $footer_column->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 22,
+         'menu-item-db-id' => 23,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Android',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '22',
+         'menu-item-object-id' => '23',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -723,7 +731,7 @@ $footer_column->add_element("Unewnavigation", array (
       (array)(array(
          'use_padding' => 'yes',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'parrot-footer-2',
@@ -750,6 +758,7 @@ $footer_column->add_element("Unewnavigation", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'current_preset' => 'parrot-footer-nav-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -816,6 +825,7 @@ $footer_column->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-51238',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -989,7 +999,9 @@ $footer->add_element("PlainTxt", array (
        'mobile' =>
       (array)(array(
          'row' => 9,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -1002,6 +1014,7 @@ $footer->add_element("PlainTxt", array (
     'right_padding_num' => '10',
     'top_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
+    'current_preset' => 'plaintxt-title-footer-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1078,13 +1091,13 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 23,
+         'menu-item-db-id' => 24,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '23',
+         'menu-item-object-id' => '24',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -1132,7 +1145,7 @@ $footer->add_element("Unewnavigation", array (
          'width' => 315,
          'use_padding' => 'yes',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'parrot-footer-3',
@@ -1159,6 +1172,7 @@ $footer->add_element("Unewnavigation", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'current_preset' => 'parrot-footer-nav-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1235,6 +1249,7 @@ $footer->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-35553',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1369,7 +1384,9 @@ $footer->add_element("PlainTxt", array (
        'mobile' =>
       (array)(array(
          'row' => 8,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -1382,6 +1399,7 @@ $footer->add_element("PlainTxt", array (
     'right_padding_num' => '10',
     'top_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
+    'current_preset' => 'plaintxt-title-footer-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1450,13 +1468,13 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 24,
+         'menu-item-db-id' => 25,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact Us',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '24',
+         'menu-item-object-id' => '25',
          'menu-item-target' => '',
          'menu-item-position' => 1,
          'link' =>
@@ -1468,13 +1486,13 @@ $footer->add_element("Unewnavigation", array (
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 25,
+         'menu-item-db-id' => 26,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Facebook',
          'menu-item-url' => 'http://facebook.com/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '25',
+         'menu-item-object-id' => '26',
          'menu-item-target' => '',
          'menu-item-position' => 2,
          'link' =>
@@ -1486,13 +1504,13 @@ $footer->add_element("Unewnavigation", array (
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 26,
+         'menu-item-db-id' => 27,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Twitter',
          'menu-item-url' => 'http://twitter.com',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '26',
+         'menu-item-object-id' => '27',
          'menu-item-target' => '',
          'menu-item-position' => 3,
          'link' =>
@@ -1540,7 +1558,7 @@ $footer->add_element("Unewnavigation", array (
          'width' => 315,
          'use_padding' => 'yes',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
     )),
     'menu_id' => false,
     'menu_slug' => 'parrot-footer-4',
@@ -1567,6 +1585,7 @@ $footer->add_element("Unewnavigation", array (
     'top_padding_slider' => '0',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
+    'current_preset' => 'parrot-footer-nav-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1635,6 +1654,7 @@ $footer->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-30541',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1732,6 +1752,7 @@ $footer_column1->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-4128',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1771,6 +1792,7 @@ $footer_column1->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-49957',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1823,6 +1845,7 @@ $footer_column1->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-70274',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1892,12 +1915,11 @@ $footer_column1->add_element("PlainTxt", array (
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '30',
          'bottom_padding_num' => '30',
       )),
-       'current_property' => 'bottom_padding_num',
+       'current_property' => 'use_padding',
     )),
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -1919,6 +1941,7 @@ $footer_column1->add_element("PlainTxt", array (
          'preset' => 'plaintxt-title-footer-m',
       )),
     )),
+    'current_preset' => 'plaintxt-title-footer-m',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1983,6 +2006,7 @@ $footer_column1->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-33746',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2021,6 +2045,7 @@ $footer_column1->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-41704',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2072,6 +2097,7 @@ $footer_column1->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-14007',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,

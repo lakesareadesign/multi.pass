@@ -11,7 +11,7 @@ $download_wrap = upfront_create_region(
   'allow_sidebar' => true,
 ),
 			array (
-  'row' => 11,
+  'row' => 8,
   'breakpoint' =>
   (array)(array(
      'tablet' =>
@@ -61,6 +61,7 @@ $download_wrap->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121362-88223',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -99,6 +100,7 @@ $download_wrap->add_element("Uspacer", array (
     'id_slug' => 'uspacer',
     'element_id' => 'spacer-object-1453467612372-1719',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -158,6 +160,7 @@ $download_wrap->add_element("Uspacer", array (
     'id_slug' => 'uspacer',
     'element_id' => 'spacer-object-1453467654638-1391',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -239,7 +242,9 @@ $download_wrap->add_element("Button", array (
        'mobile' =>
       (array)(array(
          'row' => 8,
+         'use_padding' => 'yes',
       )),
+       'current_property' => 'use_padding',
     )),
     'theme_style' => '',
     'anchor' => '',
@@ -251,6 +256,7 @@ $download_wrap->add_element("Button", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'current_preset' => 'parrot-btn-3',
   ),
   'row' => 6,
   'sticky' => false,
@@ -324,6 +330,7 @@ $download_wrap->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121362-14357',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,

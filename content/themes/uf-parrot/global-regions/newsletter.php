@@ -58,6 +58,7 @@ $newsletter->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-57863',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -118,6 +119,7 @@ $newsletter->add_element("Code", array (
     padding: 12px;
     border-right-width: 0;
     display: table-cell;
+    border-radius: 4px 0 0 4px;
 }
 .newsletter-form input[type="email"]:focus {
     outline: 0;
@@ -166,6 +168,11 @@ $newsletter->add_element("Code", array (
          'top_padding_use' => true,
          'top_padding_num' => 55,
       )),
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'lock_padding',
     )),
     'top_padding_use' => true,
     'top_padding_num' => 40,
@@ -175,7 +182,8 @@ $newsletter->add_element("Code", array (
     'use_padding' => 'yes',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
-    'lock_padding' => 0,
+    'lock_padding' => '',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -240,6 +248,7 @@ $newsletter->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-34415',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -278,6 +287,7 @@ $newsletter->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-13169',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -338,7 +348,6 @@ $newsletter->add_element("PlainTxt", array (
       (array)(array(
          'row' => 11,
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '25',
          'top_padding_num' => '25',
@@ -349,7 +358,7 @@ $newsletter->add_element("PlainTxt", array (
          'top_padding_num' => 20,
          'row' => 13,
       )),
-       'current_property' => 'top_padding_num',
+       'current_property' => 'use_padding',
     )),
     'border_style' => 'none',
     'border_width' => 1,
@@ -367,6 +376,7 @@ $newsletter->add_element("PlainTxt", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -433,6 +443,7 @@ $newsletter->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-20029',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -599,6 +610,15 @@ $newsletter->add_element("Button", array (
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
+    'current_preset' => 'parrot-blackberry-sm',
+    'breakpoint' =>
+    (array)(array(
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -694,6 +714,15 @@ $newsletter->add_element("Button", array (
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
+    'current_preset' => 'parrot-apple-sm',
+    'breakpoint' =>
+    (array)(array(
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -781,6 +810,11 @@ $newsletter->add_element("Button", array (
       (array)(array(
          'row' => 9,
       )),
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'use_padding',
     )),
     'anchor' => '',
     'top_padding_num' => '0',
@@ -795,6 +829,7 @@ $newsletter->add_element("Button", array (
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
+    'current_preset' => 'parrot-android-sm',
   ),
   'row' => 6,
   'sticky' => false,
@@ -861,6 +896,7 @@ $newsletter->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-14986',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -899,6 +935,7 @@ $newsletter->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-92971',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -938,6 +975,7 @@ $newsletter->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-1801',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -989,6 +1027,7 @@ $newsletter->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-4084',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1064,12 +1103,11 @@ $newsletter->add_element("Code", array (
          'top_padding_use' => true,
          'top_padding_num' => 30,
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '0',
          'bottom_padding_num' => '0',
       )),
-       'current_property' => 'bottom_padding_num',
+       'current_property' => 'lock_padding',
     )),
     'bottom_padding_num' => '10',
     'padding_slider' => '10',
@@ -1077,7 +1115,8 @@ $newsletter->add_element("Code", array (
     'use_padding' => 'yes',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
-    'lock_padding' => 0,
+    'lock_padding' => '',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1141,6 +1180,7 @@ $newsletter->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450121214-72958',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,

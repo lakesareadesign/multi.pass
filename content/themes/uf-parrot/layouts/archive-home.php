@@ -79,7 +79,7 @@ $index_header = upfront_create_region(
   'background_style' => 'parallax',
   'background_position_y' => '50',
   'background_position_x' => '50',
-  'background_image' => '{{upfront:style_url}}/images/archive-home/parrot-homepage (3).jpg',
+  'background_image' => '{{upfront:style_url}}/images/archive-home/parrot-homepage.jpg',
   'background_image_ratio' => 0.66000000000000003,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
@@ -1705,25 +1705,25 @@ $devices->add_element("Uimage", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1429888605674-1565',
-  'id' => 'module-1429888605674-1565',
+  'class' => 'module-1478276708763-1367',
+  'id' => 'module-1478276708763-1367',
   'options' =>
   array (
-    'src' => '{{upfront:style_url}}/images/archive-home/slide-devices (2)-760x285-9997.png',
-    'srcFull' => '{{upfront:style_url}}/images/archive-home/slide-devices (2).png',
-    'srcOriginal' => '{{upfront:style_url}}/images/archive-home/slide-devices (2).png',
+    'src' => '{{upfront:style_url}}/images/archive-home/slide-devices-(1)-757x284-9221.png',
+    'srcFull' => '{{upfront:style_url}}/images/archive-home/slide-devices-(1).png',
+    'srcOriginal' => '{{upfront:style_url}}/images/archive-home/slide-devices-(1).png',
     'image_title' => '',
     'alternative_text' => '',
     'include_image_caption' => true,
-    'image_caption' => 'My awesome image caption',
+    'image_caption' => '<p>My awesome image caption</p>',
     'caption_position' => false,
     'caption_alignment' => false,
     'caption_trigger' => 'always_show',
     'image_status' => 'ok',
     'size' =>
     (array)(array(
-       'width' => 760,
-       'height' => 285,
+       'width' => 757,
+       'height' => 284,
     )),
     'fullSize' =>
     (array)(array(
@@ -1732,23 +1732,23 @@ $devices->add_element("Uimage", array (
     )),
     'position' =>
     (array)(array(
-       'top' => 0,
-       'left' => -150,
+       'top' => -16.5,
+       'left' => -151.5,
     )),
-    'marginTop' => 0,
+    'marginTop' => 16.5,
     'element_size' =>
     (array)(array(
        'width' => 1060,
-       'height' => 285,
+       'height' => 317,
     )),
     'rotation' => 0,
     'color' => '#ffffff',
     'background' => '#000000',
     'captionBackground' => '0',
-    'image_id' => '130',
+    'image_id' => '1715',
     'align' => 'center',
     'stretch' => false,
-    'vstretch' => true,
+    'vstretch' => false,
     'quick_swap' => false,
     'is_locked' => true,
     'gifImage' => 0,
@@ -1768,60 +1768,41 @@ $devices->add_element("Uimage", array (
        'url' => '',
        'target' => false,
     )),
-    'usingNewAppearance' => true,
-    'element_id' => 'image-1429888605672-1663',
-    'row' => 78,
-    'breakpoint' =>
-    (array)(array(
-       'mobile' =>
-      (array)(array(
-         'row' => 38,
-         'top_padding_use' => true,
-         'top_padding_num' => 60,
-      )),
-       'tablet' =>
-      (array)(array(
-         'row' => 62,
-         'top_padding_use' => true,
-         'top_padding_num' => 95,
-         'use_padding' => 'yes',
-      )),
-       'current_property' => 'use_padding',
-    )),
-    'top_padding_use' => true,
-    'top_padding_num' => 95,
-    'bottom_padding_num' => '10',
-    'theme_style' => '',
-    'use_padding' => 'yes',
-    'lock_padding' => '',
+    'element_id' => 'image-1478276708761-1578',
     'padding_slider' => '10',
-    'padding_number' => '10',
+    'top_padding_num' => '95',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
-    'anchor' => '',
+    'bottom_padding_num' => '10',
+    'lock_padding' => '',
+    'use_padding' => 'yes',
+    'usingNewAppearance' => true,
+    'valign' => 'center',
+    'isDotAlign' => true,
+    'row' => 76,
+    'top_padding_use' => 'yes',
+    'top_padding_slider' => '95',
   ),
   'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
   'toggle_hide' => 1,
-  'wrapper_id' => 'wrapper-1429889196620-1244',
+  'wrapper_id' => 'wrapper-1478276741873-1698',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
-      'edited' => true,
-      'col' => 12,
-      'order' => 2,
       'clear' => true,
+      'col' => 12,
+      'order' => 1,
     ),
     'mobile' =>
     array (
-      'edited' => true,
-      'col' => 7,
-      'order' => 2,
       'clear' => true,
+      'col' => 7,
+      'order' => 1,
     ),
     'current_property' =>
     array (
@@ -1832,21 +1813,15 @@ $devices->add_element("Uimage", array (
   array (
     'tablet' =>
     array (
-      'edited' => true,
-      'left' => 0,
       'col' => 12,
-      'order' => 0,
-      'row' => 46,
-      'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
     'mobile' =>
     array (
-      'edited' => true,
-      'left' => 0,
       'col' => 7,
-      'order' => 0,
-      'row' => 29,
-      'top' => 0,
     ),
   ),
 ));
