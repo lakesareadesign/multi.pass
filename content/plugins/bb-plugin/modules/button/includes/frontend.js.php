@@ -9,7 +9,7 @@
 		<?php if ($settings->lightbox_content_type == 'html') : ?>
 		type: 'inline',
 		items: {
-			src: '.fl-node-<?php echo $id; ?> .fl-button-lightbox-content'
+			src: $('.fl-node-<?php echo $id; ?> .fl-button-lightbox-content')[0]
 		},
 		<?php endif; ?>
 		closeBtnInside: true,

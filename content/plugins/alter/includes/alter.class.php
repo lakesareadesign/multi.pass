@@ -9,15 +9,14 @@ defined('ABSPATH') || die;
 
 if (!class_exists('ALTER')) {
 
-    class ALTER
-    {
-	private $wp_df_menu;
-	private $wp_df_submenu;
-                    public $aof_options;
+  class ALTER
+  {
+  	private $wp_df_menu;
+  	private $wp_df_submenu;
+    public $aof_options;
 
-	function __construct()
-	{
-      //add_action('plugins_loaded', array($this, 'alter_load_textdomain'));
+  	function __construct()
+  	{
       $this->aof_options = $this->alter_get_option_data(ALTER_OPTIONS_SLUG);
       add_action('admin_menu', array($this, 'wps_sub_menus'));
 	    add_action('admin_init', array($this, 'initialize_defaults'), 19);
@@ -35,6 +34,8 @@ if (!class_exists('ALTER')) {
           if ( ! has_action( 'login_enqueue_scripts', array($this, 'alter_login_assets') ) )
           add_action('login_enqueue_scripts', array($this, 'alter_login_assets'), 10);
           add_action('login_head', array($this, 'alterLogincss'));
+          //add_action('login_header', array($this, 'alter_login_form_wrap_start'), 1);
+          //add_action('login_footer', array($this, 'alter_login_form_wrap_close'), 1);
       }
 
       if($this->aof_options['disable_admin_pages_styles'] != 1) {
@@ -55,7 +56,7 @@ if (!class_exists('ALTER')) {
       add_action( 'activated_plugin', array($this, 'alter_activated' ));
       add_action( 'aof_before_heading', array($this, 'alter_welcome_msg'));
 
-	}
+   }
 
   /*
   * Redirect to settings page after plugin activation
@@ -68,7 +69,7 @@ if (!class_exists('ALTER')) {
 
   function alter_welcome_msg() {
      if(isset($_GET['status']) && $_GET['status'] == "alter-activated") {
-         echo '<h1 style="line-height: 1.2em;font-size: 2.8em;font-weight: 400;">' . __('Welcome to Alter ', 'alter') . ALTER_VERSION . '</h1>';
+         echo '<h1 style="line-height: 1.2em;font-size: 2.8em;font-weight: 400;">' . __('Welcome to ', 'alter') . 'Alter' . ALTER_VERSION . '</h1>';
          echo '<div class="alter_kb_link"><a target="_blank" href="http://kb.acmeedesign.com/kbase_categories/alter-white-label-wordpress-plugin/">';
          echo __('Visit Knowledgebase', 'alter');
          echo '</a></div>';
@@ -133,6 +134,28 @@ if (!class_exists('ALTER')) {
       add_filter('gettext', array($this, 'change_admin_texts'), 99999, 3);
 	}
 
+  function alter_login_form_wrap_start() {
+    echo '<div class="alter-form-container">
+    <div class="form-bg"></div>';
+  }
+
+  function alter_login_form_wrap_close() {
+    echo '<div class="clear"></div></div>';
+    ?>
+    <script type="text/javascript">
+      jQuery(document).ready(function(){
+          //jQuery("#user_login").attr("placeholder", "<?php echo __( "Username or Email Address" ); ?>");
+          //jQuery("#user_email").attr("placeholder", "<?php echo __( "Email Address" ) ?>");
+          //jQuery("#user_pass").attr("placeholder", "<?php echo __( "Password" ) ?>");
+          jQuery( "#user_login" ).before( "<div class='alter-icon-login'></div>" );
+          jQuery( "#user_email" ).before( "<div class='alter-icon-email'></div>" );
+          jQuery( "#user_pass" ).before( "<div class='alter-icon-pwd'></div>" );
+          jQuery( "#login h1 a" ).after( "<div class='alter-heading'>ALTER White Label Branding Plugin!</div>" );
+      });
+    </script>
+    <?php
+  }
+
 	public function alter_login_assets()
 	{
       echo "<link rel='stylesheet' id='alter-login-css'  href='" . admin_url('admin-ajax.php') . "?action=alterLogincss' type='text/css' media='all' />";
@@ -142,15 +165,16 @@ if (!class_exists('ALTER')) {
 
 	public function alter_main_assets($nowpage)
 	{
-    //echo '<pre>'; print_r($nowpage); '</pre>';
       wp_enqueue_script('jquery');
+      wp_enqueue_script( 'jquery-ui-sortable' );
 	    wp_enqueue_style('alterAdmin-css', ALTER_DIR_URI . 'assets/css/alter.styles.css', '', ALTER_VERSION);
 	    if($nowpage == 'toplevel_page_alter-options') {
         wp_enqueue_script( 'alter-livepreview', ALTER_DIR_URI . 'assets/js/live-preview.js', array( 'jquery' ), '', true );
 	    }
-      if($nowpage == 'alter-wlb_page_alter_add_dash_widgets' || $nowpage == 'alter-wlb_page_alter_change_text' || $nowpage == 'alter-wlb_page_alter_redirect_users' || $nowpage == 'alter-wlb_page_admin_menu_management') {
+      if($nowpage == 'alter_page_alter_add_dash_widgets' || $nowpage == 'alter_page_alter_change_text' || $nowpage == 'alter_page_alter_redirect_users' || $nowpage == 'alter_page_admin_menu_management') {
         wp_enqueue_script( 'alter-repeater', ALTER_DIR_URI . 'assets/js/jquery.repeater.js', array( 'jquery' ), '', true );
         wp_enqueue_script( 'alter-scriptjs', ALTER_DIR_URI . 'assets/js/script.js', array( 'jquery' ), '', true );
+        wp_enqueue_script( 'alter-sortjs', ALTER_DIR_URI . 'assets/js/sortjs.js', array( 'jquery' ), '', true );
       }
 
 	}
@@ -190,9 +214,10 @@ if (!class_exists('ALTER')) {
 	    //remove wp version
 	    add_filter( 'update_footer', array($this, 'alter_remove_wp_version'), 99);
 
-	    //prevent access to wpshapere menu for non-superadmin
+	    //prevent access to Alter menu for non-superadmin
 	    if( (!current_user_can('manage_network')) && defined('NETWORK_ADMIN_CONTROL') ){
-		if($screen->id == "toplevel_page_wpshapere-options" || $screen->id == "wpshapere-options_page_wps_admin_menuorder" || $screen->id == "wpshapere-options_page_wps_impexp_settings") {
+		if($screen->id == "toplevel_page_alter-options" || $screen->id == "alter_page_admin_menu_management" || $screen->id == "alter_page_alter_change_text"
+  || $screen->id == "alter_page_alter_impexp_settings") {
 		    wp_die("<div style='width:70%; margin: 30px auto; padding:30px; background:#fff'><h4>Sorry, you don't have sufficient previlege to access to this page!</h4></div>");
 		    exit();
 		}
@@ -399,9 +424,9 @@ if (!class_exists('ALTER')) {
 	{
       global $wp_admin_bar;
       if(isset($this->aof_options['remove_adminbar_items']) && !empty($this->aof_options['remove_adminbar_items'])){
-              foreach ($this->aof_options['remove_adminbar_items'] as $hide_bar_menu) {
-                      $wp_admin_bar->remove_menu($hide_bar_menu);
-              }
+          foreach ($this->aof_options['remove_adminbar_items'] as $hide_bar_menu) {
+                  $wp_admin_bar->remove_menu($hide_bar_menu);
+          }
       }
 	}
 

@@ -397,8 +397,7 @@
 				fallbackTag = '',
 				videoTag	= null,
 				mp4Tag    	= null,
-				webmTag    	= null,
-				playerTag 	= wrap.find('.fl-bg-video-player');	
+				webmTag    	= null;	
 				
 			// Return if the video has been loaded for this row.
 			if ( loaded ) {

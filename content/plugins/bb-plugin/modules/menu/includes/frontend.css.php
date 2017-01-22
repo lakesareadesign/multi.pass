@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 	$spacing          = $settings->horizontal_spacing > 10 ? $settings->horizontal_spacing : 10;
 	$padding_vertical = $settings->vertical_spacing > 10 ? $settings->vertical_spacing : 10;
-	$padding 		  = !empty( $settings->horizontal_spacing ) ? $settings->horizontal_spacing : 0; 
+	$padding 		  = !empty( $settings->horizontal_spacing ) ? $settings->horizontal_spacing : 0;
 	$width 			  = ( $padding + 14 );
 	$height 		  = ceil( ( ( $padding * 2 ) + 14 ) * 0.65 );
 ?>
@@ -10,7 +10,7 @@
 
 <?php //overall styling of the menu / submenu ?>
 
-.fl-node-<?php echo $id; ?> .fl-menu .menu, .fl-node-<?php echo $id; ?> .fl-menu .menu li{
+.fl-node-<?php echo $id; ?> .fl-menu .menu, .fl-node-<?php echo $id; ?> .fl-menu .menu > li{
 	<?php 
 	
 		$menu_raw_color = !empty( $settings->menu_bg_color ) ? $settings->menu_bg_color : 'transparent';
@@ -35,7 +35,7 @@
 
 <?php if( !empty( $settings->submenu_bg_color ) || $settings->drop_shadow == 'yes' ) : ?>
 .fl-node-<?php echo $id; ?> .fl-menu .sub-menu{
-	<?php 
+	<?php
 
 		$submenu_raw_color = !empty( $settings->submenu_bg_color ) ? $settings->submenu_bg_color : 'transparent';
 		$submenu_opacity   = !empty( $settings->submenu_bg_opacity ) ? $settings->submenu_bg_opacity : '0';
@@ -57,7 +57,7 @@
 <?php if( $global_settings->responsive_enabled && $settings->drop_shadow == 'yes' ) : ?>
 	@media ( min-width: <?php echo $global_settings->responsive_breakpoint ?>px ) {
 		.fl-node-<?php echo $id; ?> .fl-menu .sub-menu{
-			<?php 
+			<?php
 				echo '-webkit-box-shadow: 0 1px 20px rgba(0,0,0,0.1);';
 				echo '-ms-box-shadow: 0 1px 20px rgba(0,0,0,0.1);';
 				echo 'box-shadow: 0 1px 20px rgba(0,0,0,0.1);';
@@ -162,7 +162,7 @@
 
 	.fl-node-<?php echo $id; ?> .fl-menu li{
 		border-top: 1px solid transparent;
-	}	
+	}
 	.fl-node-<?php echo $id; ?> .fl-menu li:first-child{
 		border-top: none;
 	}
@@ -225,7 +225,7 @@
 
 			<?php if( !empty( $settings->menu_align ) && $settings->menu_align != 'default' ) : ?>
 				.fl-node-<?php echo $id; ?> .fl-menu .menu{
-					<?php 
+					<?php
 						if( in_array( $settings->menu_align, array( 'left', 'right' ) ) ) {
 							echo 'float: '. $settings->menu_align .';';
 						} elseif( $settings->menu_align == 'center' ) {
@@ -252,7 +252,8 @@
 		<?php // if menu is horizontal or vertical ?>
 		<?php if( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) ) : ?>
 
-			.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu:hover > .sub-menu{
+			.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu:hover > .sub-menu,
+			.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu.focus > .sub-menu{
 				display: block;
 				visibility: visible;
 				opacity: 1;
@@ -330,7 +331,7 @@
 
 		<?php if( !empty( $settings->menu_align ) && $settings->menu_align != 'default' ) : ?>
 			.fl-node-<?php echo $id; ?> .fl-menu .menu{
-				<?php 
+				<?php
 					if( in_array( $settings->menu_align, array( 'left', 'right' ) ) ) {
 						echo 'float: '. $settings->menu_align .';';
 					} elseif( $settings->menu_align == 'center' ) {
@@ -365,7 +366,8 @@
 					transform: translateY( -2px ) rotate( -45deg );
 		}
 
-		.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu:hover > .sub-menu{
+		.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu:hover > .sub-menu,
+		.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu.focus > .sub-menu{
 			display: block;
 			visibility: visible;
 			opacity: 1;
@@ -431,14 +433,18 @@
 
 <?php if( !empty( $settings->link_hover_bg_color ) || $settings->link_hover_color ) : ?>
 .fl-node-<?php echo $id; ?> .menu > li > a:hover,
+.fl-node-<?php echo $id; ?> .menu > li > a:focus,
 .fl-node-<?php echo $id; ?> .menu > li > .fl-has-submenu-container:hover > a,
+.fl-node-<?php echo $id; ?> .menu > li > .fl-has-submenu-container.focus > a,
 .fl-node-<?php echo $id; ?> .sub-menu > li > a:hover,
+.fl-node-<?php echo $id; ?> .sub-menu > li > a:focus,
 .fl-node-<?php echo $id; ?> .sub-menu > li > .fl-has-submenu-container:hover > a,
+.fl-node-<?php echo $id; ?> .sub-menu > li > .fl-has-submenu-container.focus > a,
 .fl-node-<?php echo $id; ?> .menu > li.current-menu-item > a,
 .fl-node-<?php echo $id; ?> .menu > li.current-menu-item > .fl-has-submenu-container > a,
 .fl-node-<?php echo $id; ?> .sub-menu > li.current-menu-item > a,
 .fl-node-<?php echo $id; ?> .sub-menu > li.current-menu-item > .fl-has-submenu-container > a{
-	<?php 
+	<?php
 		if( !empty( $settings->link_hover_bg_color ) ) {
 			echo 'background-color: #'. $settings->link_hover_bg_color .';';
 		}
@@ -452,15 +458,19 @@
 <?php if( !empty( $settings->link_hover_color ) ) : ?>
 		<?php if( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && in_array( $settings->submenu_hover_toggle, array( 'arrows', 'none' ) ) ) || ( $settings->menu_layout == 'accordion' && $settings->submenu_click_toggle == 'arrows' ) ) : ?>
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-arrows .fl-has-submenu-container:hover > .fl-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-arrows .fl-has-submenu-container.focus > .fl-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-arrows li.current-menu-item >.fl-has-submenu-container > .fl-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-none .fl-has-submenu-container:hover > .fl-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-none .fl-has-submenu-container.focus > .fl-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-none li.current-menu-item >.fl-has-submenu-container > .fl-menu-toggle:before{
 			border-color: #<?php echo $settings->link_hover_color ?>;
 		}
 		<?php elseif( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && $settings->submenu_hover_toggle == 'plus' ) || ( $settings->menu_layout == 'accordion' && $settings->submenu_click_toggle == 'plus' ) ) : ?>
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus .fl-has-submenu-container:hover > .fl-menu-toggle:before,
+		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus .fl-has-submenu-container.focus > .fl-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus li.current-menu-item > .fl-has-submenu-container > .fl-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus .fl-has-submenu-container:hover > .fl-menu-toggle:after,
+		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus .fl-has-submenu-container.focus > .fl-menu-toggle:after,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus li.current-menu-item > .fl-has-submenu-container > .fl-menu-toggle:after{
 			border-color: #<?php echo $settings->link_hover_color ?>;
 		}
@@ -508,7 +518,7 @@
 
 <?php // separators =================================================================// ?>
 <?php if( isset( $settings->show_separator ) && $settings->show_separator == 'yes' ) : ?>
-	<?php 
+	<?php
 
 		$separator_raw_color = !empty( $settings->separator_color ) ? $settings->separator_color : '000000';
 		$separator_opacity   = !empty( $settings->separator_opacity ) ? $settings->separator_opacity : '100';
@@ -527,7 +537,7 @@
 <?php if( isset( $settings->mobile_toggle ) && $settings->mobile_toggle != 'expanded' ) : ?>
 	<?php if( !empty( $settings->menu_align ) && $settings->menu_align != 'default' ) : ?>
 		.fl-node-<?php echo $id; ?> .fl-menu-mobile-toggle{
-			<?php 
+			<?php
 				if( in_array( $settings->menu_align, array( 'left', 'right' ) ) ) {
 					echo 'float: '. $settings->menu_align .';';
 				}
@@ -536,7 +546,7 @@
 	<?php endif; ?>
 
 	.fl-node-<?php echo $id; ?> .fl-menu-mobile-toggle{
-		<?php 
+		<?php
 			if( !empty( $settings->text_size ) ) {
 				echo 'font-size: '. $settings->text_size .'px;';
 			}
@@ -554,10 +564,10 @@
 			}
 
 		?>
-		border-color: rgba( 0,0,0,0.1 ); 
+		border-color: rgba( 0,0,0,0.1 );
 	}
 	.fl-node-<?php echo $id; ?> .fl-menu-mobile-toggle rect{
-		<?php 
+		<?php
 			if( !empty( $settings->link_color ) ) {
 				echo 'fill: #'. $settings->link_color .';';
 			}
@@ -565,7 +575,7 @@
 	}
 	.fl-node-<?php echo $id; ?> .fl-menu-mobile-toggle:hover,
 	.fl-node-<?php echo $id; ?> .fl-menu-mobile-toggle.fl-active{
-		<?php 
+		<?php
 			if( !empty( $settings->link_hover_color ) ) {
 				echo 'color: #'. $settings->link_hover_color .';';
 			}
@@ -577,7 +587,7 @@
 
 	.fl-node-<?php echo $id; ?> .fl-menu-mobile-toggle:hover rect,
 	.fl-node-<?php echo $id; ?> .fl-menu-mobile-toggle.fl-active rect{
-		<?php 
+		<?php
 			if( !empty( $settings->link_hover_color ) ) {
 				echo 'fill: #'. $settings->link_hover_color .';';
 			}

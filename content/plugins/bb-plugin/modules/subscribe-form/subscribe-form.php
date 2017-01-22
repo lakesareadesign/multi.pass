@@ -36,6 +36,7 @@ class FLSubscribeFormModule extends FLBuilderModule {
 	{
 		$name       		= isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : false;
 		$email      		= isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : false;
+		$recaptcha     		= isset( $_POST['recaptcha'] ) ? $_POST['recaptcha'] : false;
 		$node_id    		= isset( $_POST['node_id'] ) ? sanitize_text_field( $_POST['node_id'] ) : false;
 		$template_id    	= isset( $_POST['template_id'] ) ? sanitize_text_field( $_POST['template_id'] ) : false;
 		$template_node_id   = isset( $_POST['template_node_id'] ) ? sanitize_text_field( $_POST['template_node_id'] ) : false;
@@ -45,9 +46,9 @@ class FLSubscribeFormModule extends FLBuilderModule {
 			'message'   		=> false,
 			'url'       		=> false
 		);
-		
+
 		if ( $email && $node_id ) {
-			
+		
 			// Get the module settings.
 			if ( $template_id ) {
 				$post_id  = FLBuilderModel::get_node_template_post_id( $template_id );
@@ -58,27 +59,47 @@ class FLSubscribeFormModule extends FLBuilderModule {
 				$module   = FLBuilderModel::get_module( $node_id );
 				$settings = $module->settings;
 			}
-			
-			// Subscribe.
-			$instance = FLBuilderServices::get_service_instance( $settings->service );
-			$response = $instance->subscribe( $settings, $email, $name );
-			
-			// Check for an error from the service.
-			if ( $response['error'] ) {
-				$result['error'] = $response['error'];
-			}
-			// Setup the success data.
-			else {
+
+			// Validate reCAPTCHA first if enabled
+			if ( $recaptcha ) {
 				
-				$result['action'] = $settings->success_action;
-				
-				if ( 'message' == $settings->success_action ) {
-					$result['message']  = $settings->success_message;
+				if ( !empty($settings->recaptcha_secret_key) && !empty($settings->recaptcha_site_key) ) {
+					if ( version_compare( phpversion(), '5.3', '>=' ) ) {
+						include $module->dir . 'includes/validate-recaptcha.php';
+					}
+					else {
+						$result['error'] = false;
+					}
 				}
 				else {
-					$result['url']  = $settings->success_url;
+					$result['error'] = __('Your reCAPTCHA Site or Secret Key is missing!', 'fl-builder');
 				}
 			}
+			
+			if ( ! $result['error'] ) {
+
+				// Subscribe.
+				$instance = FLBuilderServices::get_service_instance( $settings->service );
+				$response = $instance->subscribe( $settings, $email, $name );
+				
+				// Check for an error from the service.
+				if ( $response['error'] ) {
+					$result['error'] = $response['error'];
+				}
+				// Setup the success data.
+				else {
+					
+					$result['action'] = $settings->success_action;
+					
+					if ( 'message' == $settings->success_action ) {
+						$result['message']  = $settings->success_message;
+					}
+					else {
+						$result['url']  = $settings->success_url;
+					}
+				}
+			}
+			
 		}
 		else {
 			$result['error'] = __( 'There was an error subscribing. Please try again.', 'fl-builder' );
@@ -325,5 +346,42 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 				)
 			)
 		)
+	),
+	'reCAPTCHA'	=> array(
+		'title'         => __( 'reCAPTCHA', 'fl-builder' ),
+		'sections'      => array(
+			'recaptcha_general' => array(
+				'title'         => '',
+				'fields'        => array(
+					'show_recaptcha'     => array(
+						'type'          => 'select',
+						'label'         => __( 'reCAPTCHA Field', 'fl-builder' ),
+						'default'       => 'hide',
+						'options'       => array(
+							'show'          => __( 'Show', 'fl-builder' ),
+							'hide'          => __( 'Hide', 'fl-builder' ),
+						),
+						'help' 			=> __('If you want to show this field, please provide valid Site and Secret Keys.', 'fl-builder')
+					),
+					'recaptcha_site_key'	=> array(
+						'type'					=> 'text',
+						'label' 				=> __('Site Key', 'fl-builder'),
+						'default'       		=> '',
+						'preview'      		 	=> array(
+							'type'          		=> 'none'
+						)
+					),
+					'recaptcha_secret_key'	=> array(
+						'type'					=> 'text',
+						'label' 				=> __('Secret Key', 'fl-builder'),
+						'default'       		=> '',
+						'preview'       		=> array(
+							'type'          		=> 'none'
+						)						
+					)
+				),
+			)
+		),
+		'description'   => sprintf( __( 'Please register keys for your website at the <a%s>Google Admin Console</a>', 'fl-builder' ), ' href="https://www.google.com/recaptcha/admin" target="_blank"' ),
 	)
 ));

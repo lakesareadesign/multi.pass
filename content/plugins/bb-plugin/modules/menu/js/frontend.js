@@ -15,7 +15,7 @@
 		this.breakPoints         = settings.breakPoints;
 		this.currentBrowserWidth = $( window ).width();
 
-		// initialize the menu 
+		// initialize the menu
 		this._initMenu();
 
 		// check if viewport is resizing
@@ -43,7 +43,7 @@
 
 		/**
 		 * Check if the screen size fits a mobile viewport.
-		 * 
+		 *
 		 * @since  1.6.1
 		 * @return bool
 		 */
@@ -59,7 +59,7 @@
 		 * @since  1.6.1
 		 * @return void
 		 */
- 		_resizeDebounce: function(){	
+ 		_resizeDebounce: function(){
  			clearTimeout( this.resizeTimer );
  			this.resizeTimer = setTimeout( $.proxy( function() {
  				this._initMenu();
@@ -80,6 +80,7 @@
 		 * @return void
 		 */
 		_initMenu: function(){
+			this._menuOnFocus();
 
 			if( this._isMobile() || this.type == 'accordion' ){
 				
@@ -89,7 +90,7 @@
 
 			} else {
 				$( this.wrapperClass ).off( 'click' );
-				this._submenuOnRight();	
+				this._submenuOnRight();
 			}
 
 			if( this.mobileToggle != 'expanded' ){
@@ -99,8 +100,26 @@
 		},
 
 		/**
+		 * Adds a focus class to menu elements similar to be used similar to CSS :hover psuedo event
+		 *
+		 * @since  1.9.0
+		 * @return void
+		 */
+		_menuOnFocus: function(){
+			$( this.nodeClass ).off('focus').on( 'focus', 'a', $.proxy( function( e ){
+				var $menuItem	= $( e.target ).parents( '.menu-item' ).first(),
+					$parents	= $( e.target ).parentsUntil( this.wrapperClass );
+				
+				$('.fl-menu .focus').removeClass('focus');
+				
+				$menuItem.addClass('focus');
+				$parents.addClass('focus');
+			}, this ) );
+		},
+
+		/**
 		 * Logic for submenu toggling on accordions or mobile menus (vertical, horizontal)
-		 * 
+		 *
 		 * @since  1.6.1
 		 * @return void
 		 */
@@ -111,8 +130,9 @@
 					$subMenu = $link.children( '.sub-menu' ).first(),
 					$href	 = $link.children('.fl-has-submenu-container').first().find('> a').attr('href');
 
-				if( !$subMenu.is(':visible') || $(e.target).hasClass('fl-menu-toggle') ){
-					e.preventDefault();	
+				if( !$subMenu.is(':visible') || $(e.target).hasClass('fl-menu-toggle') 
+					|| ($subMenu.is(':visible') && (typeof $href === 'undefined' || $href == '#')) ){
+					e.preventDefault();
 				}
 				else {
 					window.location.href = $href;
@@ -122,14 +142,14 @@
 				if ($(this.wrapperClass).hasClass('fl-menu-accordion-collapse')) {
 					if ( !$link.parents('.menu-item').hasClass('fl-active') ) {
 						$('.fl-active', this.wrapperClass).not($link).removeClass('fl-active');
-						$('.sub-menu', this.wrapperClass).not($subMenu).slideUp('normal');		
+						$('.sub-menu', this.wrapperClass).not($subMenu).slideUp('normal');
 					}
 					else if ($link.parents('.menu-item').hasClass('fl-active') && $link.parent('.sub-menu').length) {
 						var $mainMenuParent = $( e.target ).parents( '.fl-has-submenu.fl-active' ).last(),
 							$activeSubMenu  = $mainMenuParent.children( '.sub-menu' ).last();
 						
 						$('.fl-active', this.wrapperClass).not($link).not($mainMenuParent).removeClass('fl-active');
-						$('.sub-menu', this.wrapperClass).not($subMenu).not($activeSubMenu).slideUp('normal');	
+						$('.sub-menu', this.wrapperClass).not($subMenu).not($activeSubMenu).slideUp('normal');
 					}
 				}
 				
@@ -193,7 +213,7 @@
 					} else if( $( 'body' ).hasClass( 'rtl' ) ) {
 						
 						subMenuPos = $parent.is( '.sub-menu' ) ?
-									 $parent.offset().left - subMenuWidth: 
+									 $parent.offset().left - subMenuWidth:
 									 $link.offset().left - subMenuWidth;
 						
 						if( subMenuPos <= 0 ) {
@@ -203,7 +223,7 @@
 					} else {
 						
 						subMenuPos = $parent.is( '.sub-menu' ) ?
-									 $parent.offset().left + $parent.width() + subMenuWidth : 
+									 $parent.offset().left + $parent.width() + subMenuWidth :
 									 $link.offset().left + subMenuWidth;
 
 						if( subMenuPos > winWidth ) {
@@ -256,10 +276,10 @@
 								    }, 1000, function() {
 								        window.location.hash = $targetID;
 								    });
-								}, 500);								
+								}, 500);
 							});
-						}							
-					}					
+						}
+					}
 				});
 			} else {
 				$wrapper.find( '.fl-menu-mobile-toggle' ).removeClass( 'fl-active' );

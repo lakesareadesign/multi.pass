@@ -1015,7 +1015,14 @@ class WYSIJA_help_mailer extends acymailingPHPMailer {
 			}
 
 			$mytracker=WYSIJA::get_permalink($modelConf->getValue($page_id),$args);
-			$urls[$results[0][$i]] = str_replace($url,$mytracker,$results[0][$i]);
+
+			// overwrite unsubscribe link when sending with Elastic Email
+			if(strpos($email_url, '[unsubscribe_link]')!==false){
+			  $mailer_host = $modelConf->getValue('smtp_host');
+			  $mytracker = (preg_match('/elastic/i', $mailer_host)) ? "{unsubscribe:{$mytracker}}" : $mytracker;
+            }
+
+            $urls[$results[0][$i]] = str_replace($url,$mytracker,$results[0][$i]);
 		}
 		$email->body = str_replace(array_keys($urls),$urls,$email->body);
 

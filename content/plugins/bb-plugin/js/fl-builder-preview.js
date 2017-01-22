@@ -735,7 +735,9 @@
 				bgPosition                  : $(this.classes.settings + ' select[name=bg_position]'),
 				bgAttachment                : $(this.classes.settings + ' select[name=bg_attachment]'),
 				bgSize                      : $(this.classes.settings + ' select[name=bg_size]'),
+				bgVideoSource               : $(this.classes.settings + ' select[name=bg_video_source]'),
 				bgVideo                     : $(this.classes.settings + ' input[name=bg_video]'),
+				bgVideoServiceUrl           : $(this.classes.settings + ' input[name=bg_video_service_url]'),
 				bgVideoFallbackSrc          : $(this.classes.settings + ' select[name=bg_video_fallback_src]'),
 				bgSlideshowSource           : $(this.classes.settings + ' select[name=ss_source]'),
 				bgSlideshowPhotos           : $(this.classes.settings + ' input[name=ss_photos]'),
@@ -757,6 +759,7 @@
 			this.elements.bgPosition.on(            'change', $.proxy(this._bgPhotoChange, this));
 			this.elements.bgAttachment.on(          'change', $.proxy(this._bgPhotoChange, this));
 			this.elements.bgSize.on(                'change', $.proxy(this._bgPhotoChange, this));
+			this.elements.bgVideoServiceUrl.on(   	'change', $.proxy(this._bgVideoChange, this));
 			this.elements.bgSlideshowSource.on(     'change', $.proxy(this._bgSlideshowChange, this));
 			this.elements.bgSlideshowPhotos.on(     'change', $.proxy(this._bgSlideshowChange, this));
 			this.elements.bgSlideshowFeedUrl.on(    'keyup',  $.proxy(this._bgSlideshowChange, this));
@@ -814,9 +817,7 @@
 			// Video
 			else if(val == 'video') {
 				this.elements.bgColor.trigger('change');
-				if (this.elements.bgVideo.val() != '') {
-					this.preview();
-				}
+				this._bgVideoChange();				
 			}
 			
 			// Slideshow
@@ -899,6 +900,47 @@
 				this.updateCSSRule(this.classes.content, {
 					'background-image'      : 'none'
 				});
+			}
+		},
+
+		/**
+		 * Fires when the background video field of 
+		 * a node changes.
+		 *
+		 * @since 1.9.2
+		 * @access private
+		 * @method _bgVideoChange
+		 * @param {Object} e An event object.
+		 */
+		_bgVideoChange: function(e)
+		{
+			var eles        	= this.elements,
+				source 			= eles.bgVideoSource.val(),
+				video 			= eles.bgVideo.val(),
+				videoUrl		= eles.bgVideoServiceUrl.val(),
+				youtubePlayer 	= 'https://www.youtube.com/iframe_api',
+				vimeoPlayer		= 'https://player.vimeo.com/api/player.js',
+				scriptTag  		= $( '<script>' );
+
+			// Only load the required API script library
+			if(source == 'video_service' && videoUrl != '') {
+				if (/^(?:(?:(?:https?:)?\/\/)?(?:www.)?(?:youtu(?:be.com|.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i.test(videoUrl)
+					&& $( 'script[src*="youtube.com"' ).length < 1) {
+					scriptTag.attr('src', youtubePlayer);
+				}
+				else if(/^(http\:\/\/|https\:\/\/)?(www\.)?(vimeo\.com\/)([0-9]+)$/.test(videoUrl) 
+					&& $( 'script[src*="vimeo.com"' ).length < 1) {
+					scriptTag.attr('src', vimeoPlayer);
+				}
+				
+				scriptTag
+					.attr('type', 'text/javascript')
+					.appendTo('head');
+
+				this.delay(500, $.proxy(this.preview, this));
+			}
+			else if(video != '') {
+				this.preview();
 			}
 		},
 		

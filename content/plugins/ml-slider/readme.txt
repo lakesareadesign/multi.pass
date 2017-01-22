@@ -4,7 +4,7 @@ Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image sli
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CQ84KC4X8YKW8
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 3.3.7
+Stable tag: 3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,10 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Administration panel - selecting slides
 
 == Changelog ==
+
+= 3.4.1 [16/01/17] =
+
+* Workaround/Fix: Don't use WP_Image_Editor to load admin slide thumbnails, use wp_get_attachment_image_src instead. Attempts to fix white screen issues affecting some users. Related: https://core.trac.wordpress.org/ticket/36534
 
 = 3.4 [04/01/17] =
 

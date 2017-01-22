@@ -6017,9 +6017,10 @@
 					
 					$(prefix + inputArray[i] + suffix)[func]();
 					
-					if ( '#fl-field-' == prefix && 'code' == $( prefix + inputArray[i] ).data( 'type' ) ) {
-						$( prefix + inputArray[i] ).data( 'editor' ).resize();
-					}
+					// Resize code editor fields.
+					$( prefix + inputArray[i] ).parent().find( '.fl-field[data-type="code"]' ).each( function() {
+						$( this ).data( 'editor' ).resize();
+					} );
 				}
 			}
 		},

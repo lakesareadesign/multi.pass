@@ -50,6 +50,9 @@ final class FLBuilderIcons {
 			restore_current_blog();
 		}
 
+		// Filter the sets
+		self::$sets = apply_filters( 'fl_builder_icon_sets', self::$sets );
+
 		// Return the sets.
 		return self::$sets;
 	}
@@ -155,7 +158,9 @@ final class FLBuilderIcons {
 		// Loop through core sets and add icons.
 		foreach ( self::$sets as $set_key => $set_data ) {
 			if ( 'core' == $set_data['type'] ) {
-				$icons = json_decode( file_get_contents( FL_BUILDER_DIR . 'json/' . $set_key . '.json' ) );
+				$config_path = apply_filters( 'fl_builder_core_icon_set_config', FL_BUILDER_DIR . 'json/' . $set_key . '.json', $set_data );
+
+				$icons = json_decode( file_get_contents( $config_path ) );
 				self::$sets[ $set_key ]['icons'] = $icons;
 			}
 		}

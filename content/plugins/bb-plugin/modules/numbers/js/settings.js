@@ -10,6 +10,9 @@
 			
 			form.find('select[name=layout]').on('change', this._toggleMaxNumber);
 			form.find('select[name=number_type]').on('change', this._toggleMaxNumber);
+
+			this._validateNumber();
+			form.find('input[name=number]').bind('keyup mouseup', this._validateNumber);
 		},
 		
 		_toggleMaxNumber: function()
@@ -28,6 +31,14 @@
 			else {
 				maxNumber.hide();
 			}
+		},
+
+		_validateNumber: function()
+		{
+			var form		= $('.fl-builder-settings'),
+				numberInput = form.find('input[name=number]');
+
+				numberInput.val( numberInput.val().replace(/[^0-9\.]/g,'') );
 		}
 	});
 

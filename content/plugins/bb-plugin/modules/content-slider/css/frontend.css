@@ -75,6 +75,9 @@ body.rtl .fl-module-content-slider .bx-viewport {
 .fl-slide-mobile-photo {
 	display: none;
 }
+.fl-slide-mobile-photo-img  {
+	width: 100%;
+}
 
 /* Title and Text Position */
 .fl-slide-content {

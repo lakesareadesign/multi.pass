@@ -3,7 +3,7 @@
 Plugin Name: Alter - White Label Wordpress
 Plugin URI: http://acmeedesign.com
 Description: Alter - White label everything from WordPress. Powered by AcmeeDesign
-Version: 1.1
+Version: 1.2
 Author: AcmeeDesign
 Author URI: http://acmeedesign.com
 Text-Domain: alter
@@ -14,7 +14,7 @@ Text-Domain: alter
 *   ALTER Version
 */
 
-define( 'ALTER_VERSION' , '1.1' );
+define( 'ALTER_VERSION' , '1.2' );
 
 /*
 *   ALTER Path Constant
@@ -44,41 +44,43 @@ if(is_multisite())
 
 
 //AOF Framework Implementation
-require_once( ALTER_PATH . '/includes/acmee-framework/acmee-framework.php' );
 require_once( ALTER_PATH . '/includes/alter-options.php' );
 
 /*
  * Main configuration for AOF class
- * put 'multi' => false for customizing the single or entire multi-site network admin panel as single super admin
- * put 'multi' => true for giving access to all blog admins to customizing their own blog individually
- *  (works only for multisite network install)
  */
 
-if(!is_multisite()) {
-    $multi_option = false;
+if(!function_exists('aof_config')) {
+  function aof_config() {
+    if(!is_multisite()) {
+        $multi_option = false;
+    }
+     elseif(is_multisite() && !defined('NETWORK_ADMIN_CONTROL')) {
+         $multi_option = false;
+     }
+     else {
+         $multi_option = true;
+     }
+
+     /* Stop editing after this */
+     $aof_fields = get_aof_options();
+     $config = array(
+         'multi' => $multi_option, //default = false
+         'aof_fields' => $aof_fields,
+       );
+
+       return $config;
+  }
 }
- elseif(is_multisite() && !defined('NETWORK_ADMIN_CONTROL')) {
-     $multi_option = false;
- }
- else {
-     $multi_option = true;
- }
-$config = array(
-    'capability' => 'manage_options',
-    'page_title' => __('Alter Settings', 'aof'),
-    'menu_title' => __('Alter WLB', 'aof'),
-    'menu_slug' => 'alter-options',
-    'icon_url'   => 'dashicons-art',
-    'position'   => 3,
-    'tabs'  => $panel_tabs,
-    'fields'    => $panel_fields,
-    'multi' => $multi_option //default = false
-  );
 
-/*
- * Instantiate the AOF class
- */
-$aof_instance = new AcmeeFramework($config);
+//Implement main settings
+require_once( ALTER_PATH . '/main-settings.php' );
+
+function aof_load_textdomain()
+{
+   load_plugin_textdomain('alter', false, dirname( plugin_basename( __FILE__ ) )  . '/languages' );
+}
+add_action('plugins_loaded', 'aof_load_textdomain');
 
 include_once ALTER_PATH . '/includes/fa-icons.class.php';
 include_once ALTER_PATH . '/includes/alter.class.php';

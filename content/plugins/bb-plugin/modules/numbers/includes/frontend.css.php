@@ -20,7 +20,7 @@
 
 
 <?php if( isset( $settings->layout ) && $settings->layout == 'circle' ) : ?>
-	.fl-node-<?php echo $id ?> .fl-number-text{
+	.fl-node-<?php echo $id ?> .fl-number .fl-number-text{
 		position: absolute;
 		top: 50%;
 		left: 50%;

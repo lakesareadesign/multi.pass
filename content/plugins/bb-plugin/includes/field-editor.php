@@ -58,7 +58,7 @@ else {
 			tinymce.init(editorProps);
 		}
 		if(typeof quicktags != 'undefined') {                
-			quicktags({id : editorId});
+			quicktags({id : editorId, buttons : 'strong,em,link,block,del,ins,img,ul,ol,li,code,close'});
 			QTags._buttonsInit();
 		}
 		

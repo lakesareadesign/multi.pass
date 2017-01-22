@@ -313,15 +313,13 @@ class WYSIJA_help_wp_tools extends WYSIJA_object{
 		if ( ! is_object( $post ) || ! is_a( $post, 'WP_Post' ) ) {
 			return array();
 		}
-
-		return wp_get_post_terms( $post->ID, get_object_taxonomies( $post->post_type ), array( 'fields' => 'ids' ) );
+		return array_map(function($category) { return $category->cat_ID; }, get_the_category($post->ID));
 	}
 
 	function get_post_categories( $post = null ) {
-		if ( ! is_array( $post ) ) {
+		if ( ! is_array( $post ) || empty($post['ID'] )) {
 			return array();
 		}
-
-		return wp_get_post_terms( $post['ID'], get_object_taxonomies( $post['post_type'] ), array( 'fields' => 'names' ) );
+		return array_map(function($category) { return $category->name; }, get_the_category($post['ID']));
 	}
 }

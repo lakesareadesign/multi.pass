@@ -233,6 +233,7 @@ final class FLBuilderTemplateDataExporter {
 			// Build the template object.
 			$template             = new StdClass();
 			$template->name       = $post->post_title;
+			$template->slug       = $post->post_name;
 			$template->index      = $index++;
 			$template->type       = FLBuilderModel::get_user_template_type( $post->ID );
 			$template->global     = false;
@@ -241,13 +242,6 @@ final class FLBuilderTemplateDataExporter {
 			$template->nodes      = FLBuilderModel::generate_new_node_ids( FLBuilderModel::get_layout_data( 'published', $post->ID ) );
 			$template->settings   = FLBuilderModel::get_layout_settings( 'published', $post->ID );
 			
-			// Get the template thumbnail.
-			if ( has_post_thumbnail( $post->ID ) ) {
-				$attachment_image_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-				$image_src            = apply_filters( 'fl_builder_exporter_template_thumb_src', $attachment_image_src[0] );
-				$template->image      = $image_src;
-			}
-			
 			// Get the template categories.
 			$categories = wp_get_post_terms( $post->ID, 'fl-builder-template-category' );
 			
@@ -255,10 +249,15 @@ final class FLBuilderTemplateDataExporter {
 				$template->categories['uncategorized'] = 'Uncategorized';
 			}
 			else {
-				
 				foreach ( $categories as $category ) {
 					$template->categories[ $category->slug ] = $category->name;
 				}
+			}
+			
+			// Get the template thumbnail.
+			if ( has_post_thumbnail( $post->ID ) ) {
+				$attachment_image_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
+				$template->image      = apply_filters( 'fl_builder_exporter_template_thumb_src', $attachment_image_src[0], $post, $template );
 			}
 			
 			// Add the template to the templates array.

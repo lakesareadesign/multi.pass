@@ -22,6 +22,13 @@
   border-bottom: 1px dotted gray;
 }
 
+.form-table textarea {
+  margin-top: 20px;
+  padding: 10px;
+  background: #f3f3f3;
+  font-size: 18px;
+}
+
 .submit {
   text-align: right;
 }

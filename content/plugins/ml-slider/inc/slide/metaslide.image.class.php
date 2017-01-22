@@ -117,8 +117,7 @@ class MetaImageSlide extends MetaSlide {
     protected function get_admin_slide() {
 
         // get some slide settings
-        $imageHelper = new MetaSliderImageHelper( $this->slide->ID, 150, 150, 'false', $this->use_wp_image_editor() );
-        $thumb       = $imageHelper->get_image_url();
+        $thumb       = $this->get_thumb();
         $slide_label = apply_filters( "metaslider_image_slide_label", __( "Image Slide", "ml-slider" ), $this->slide, $this->settings );
 
         // slide row HTML

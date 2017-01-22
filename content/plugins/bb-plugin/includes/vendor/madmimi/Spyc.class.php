@@ -106,7 +106,7 @@ class Spyc {
  * @return array
  */
   public function load ($input) {
-    return $this->__loadString($input);
+    return $this->_loadString($input);
   }
 
  /**
@@ -115,7 +115,7 @@ class Spyc {
  * @return array
  */
   public function loadFile ($file) {
-    return $this->__load($file);
+    return $this->_load($file);
   }
 
   /**
@@ -135,7 +135,7 @@ class Spyc {
      */
   public static function YAMLLoad($input) {
     $Spyc = new Spyc;
-    return $Spyc->__load($input);
+    return $Spyc->_load($input);
   }
 
   /**
@@ -159,7 +159,7 @@ class Spyc {
      */
   public static function YAMLLoadString($input) {
     $Spyc = new Spyc;
-    return $Spyc->__loadString($input);
+    return $Spyc->_loadString($input);
   }
 
   /**
@@ -376,12 +376,12 @@ class Spyc {
 
 // LOADING FUNCTIONS
 
-  private function __load($input) {
+  private function _load($input) {
     $Source = $this->loadFromSource($input);
     return $this->loadWithSource($Source);
   }
 
-  private function __loadString($input) {
+  private function _loadString($input) {
     $Source = $this->loadFromString($input);
     return $this->loadWithSource($Source);
   }

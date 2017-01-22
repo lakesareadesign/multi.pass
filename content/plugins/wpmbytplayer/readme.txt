@@ -4,7 +4,7 @@ Contributors: pupunzi
 Tags: video player, youtube, full background, video, HTML5, flash, mov, jquery, pupunzi, mb.components, cover video, embed, embed videos, embed youtube, embedding, plugin, shortcode, video cover, video HTML5, youtube, youtube embed, youtube player, youtube videos
 Requires at least: 3.0
 Tested up to: 4.6
-Stable tag:  3.0.6
+Stable tag:  3.0.7
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DSHAHSJJCQ53Y
 License: GPLv2 or later
 
@@ -16,6 +16,8 @@ A Chrome-less Youtube® video player that let you play any YouTube® video as ba
 You can activate it for your home page from the settings panel (no license needed) or on any post or page using the short code (need the Plus version) as described in the Reference section of the settings.
 
 [youtube http://www.youtube.com/watch?v=lTW937ld02Y]
+
+If you prefer to use a Vimeo video you can take a look at mb.VimeoPlayer: https://wordpress.org/plugins/wp-vimeoplayer/
 
 
 The mb.YTPlayer doesn't work on any mobile devices (iOs, Android, Windows, etc.) due to restrictions applied by the vendors on media controls via javascript.
@@ -105,6 +107,9 @@ The mb.YTPlayer doesn't work on any mobile devices (iOs, Android, Windows, etc.)
 Adding a background image to the body as mobile devices fallback is a good practice and it will also prevent unwanted white flickering on desktop browsers when the video is buffering.
 
 == Changelog ==
+
+= 3.0.7 =
+New feature: Added the videos thumbnails in the plug-in options page.
 
 = 3.0.6 =
 New feature: Added a new option to set the background video on all pages.

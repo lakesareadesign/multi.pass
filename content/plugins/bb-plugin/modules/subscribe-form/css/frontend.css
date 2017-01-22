@@ -16,3 +16,10 @@
 	float: left;
 	width: 33.33%;
 }
+.fl-subscribe-form-inline .fl-form-recaptcha {
+	clear: both;
+	float: none;
+	margin: 0;
+	padding-top: 15px;
+	width: auto;
+}

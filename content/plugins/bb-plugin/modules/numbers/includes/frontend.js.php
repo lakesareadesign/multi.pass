@@ -1,5 +1,6 @@
 <?php 
-	
+	global $wp_locale;
+
 	// set defaults
 	$layout = isset( $settings->layout ) ? $settings->layout : 'default';
 	$type   = isset( $settings->number_type ) ? $settings->number_type : 'percent';
@@ -7,6 +8,8 @@
 	$number = !empty( $settings->number ) && is_numeric( $settings->number ) ? $settings->number : 100;
 	$max    = !empty( $settings->max_number ) && is_numeric( $settings->max_number ) ? $settings->max_number : $number;
 	$delay  = !empty( $settings->delay ) && is_numeric( $settings->delay ) ? $settings->delay : 1;
+	$format_decimal = isset( $wp_locale ) ? $wp_locale->number_format['decimal_point'] : '.';
+	$format_thousands = isset( $wp_locale ) ? $wp_locale->number_format['thousands_sep'] : ',';
 
  ?>
 
@@ -22,6 +25,7 @@
 	    	max: <?php echo $max ?>,
 	    	speed: <?php echo $speed ?>,
 	    	delay: <?php echo $delay ?>,
+	    	format: { decimal: '<?php echo $format_decimal ?>', thousands_sep: '<?php echo $format_thousands ?>' }
 	    });
 
 	});

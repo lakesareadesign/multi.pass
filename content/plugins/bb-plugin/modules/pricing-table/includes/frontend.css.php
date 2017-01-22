@@ -33,7 +33,7 @@ for($i = 0; $i < count($settings->pricing_columns); $i++) :
 
 /*Pricing Box Highlight*/
 <?php if ($settings->highlight == 'price') : ?>
-.fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-price {
+.fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-price {
 	background: #<?php echo $pricing_column->column_background; ?>;
 	color: #<?php echo $pricing_column->column_color; ?>;
 }

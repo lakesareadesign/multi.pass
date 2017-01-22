@@ -24,7 +24,7 @@ class FLMenuModule extends FLBuilderModule {
 		));
 		
 		add_action( 'pre_get_posts', 		__CLASS__ . '::set_pre_get_posts_query', 10, 2 );
-		add_filter( 'nav_menu_css_class', 	__CLASS__ . '::render_menu_classes', 10, 2 );
+		add_filter( 'wp_nav_menu_objects',  __CLASS__ . '::sort_nav_objects', 10, 2 );
 	}
 
 	public static function _get_menus(){
@@ -85,28 +85,44 @@ class FLMenuModule extends FLBuilderModule {
 
 	public static function set_pre_get_posts_query( $query ) 
 	{
-	    if ( ! is_admin() && $query->is_main_query() ) {
+		if ( ! is_admin() && $query->is_main_query() ) {
 	    	self::$fl_builder_page_id = $query->queried_object_id;
 	    }
-	    
 	}
 
-	public static function render_menu_classes( $classes = array(), $menu_item = false ) 
+	public static function sort_nav_objects( $sorted_menu_items, $args )
 	{
-		//Check if already have the class
-	    if ( ! in_array( 'current-menu-item', $classes ) ) {
-	    	
-	    	//Check if a menu is the current page
-	        if ( self::$fl_builder_page_id == $menu_item->object_id ) {
-	        	$classes[] = 'current-menu-item';
+		$menu_items = array();
+		$parent_items = array();
 
-	        	if ($menu_item->object == 'page') {
-	        		$classes[] = 'current_page_item';
-	        	}
-	        }
-	    }
+		foreach ( $sorted_menu_items as $key => $menu_item ) {
+			$classes = (array) $menu_item->classes;
 
-	    return $classes;
+			// Setup classes for current menu item.
+			if ( $menu_item->object_id == self::$fl_builder_page_id ) {
+				$parent_items[$menu_item->object_id] = $menu_item->menu_item_parent;
+				
+				if ( ! in_array( 'current-menu-item', $classes ) ) {
+					$classes[] = 'current-menu-item';
+
+					if ($menu_item->object == 'page') {
+		        		$classes[] = 'current_page_item';
+		        	}
+				}
+			}
+			$menu_item->classes = $classes;
+			$menu_items[ $key ] = $menu_item;
+		}
+		
+		// Setup classes for parent's current item.
+		foreach ( $menu_items as $key => $sorted_item ) {
+			if ( in_array( $sorted_item->db_id, $parent_items ) && ! in_array( 'current-menu-parent', (array) $sorted_item->classes) ) {
+				$menu_items[ $key ]->classes[] = 'current-menu-ancestor';
+				$menu_items[ $key ]->classes[] = 'current-menu-parent';
+			}
+		}
+
+		return $menu_items;
 	}
 }
 
@@ -486,7 +502,6 @@ class FL_Menu_Module_Walker extends Walker_Nav_Menu {
         $item_output .= $args->before;
         $item_output .= '<a'. $attributes .'>';
         $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
-        $item_output .= !empty( $item->description ) ? '<small>' . $item->description . '</small>' : '';
         $item_output .= '</a>';
 
         if( $args->has_children ){

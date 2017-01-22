@@ -77,7 +77,7 @@ final class FLBuilderAutoSuggest {
 			break;
 		}
 		
-		return isset($data) ? json_encode($data) : '';
+		return isset( $data ) ? str_replace( "'", '&#39;', json_encode( $data ) ) : '';
 	}
 	
 	/**
@@ -149,7 +149,7 @@ final class FLBuilderAutoSuggest {
 			$posts = $wpdb->get_results("SELECT ID, post_title FROM {$wpdb->posts} WHERE ID IN ({$ids}) ORDER BY FIELD(ID, {$ids})");
 			
 			foreach($posts as $post) {
-				$data[] = array('name' => esc_attr( $post->post_title ), 'value' => $post->ID);
+				$data[] = array('name' => $post->post_title, 'value' => $post->ID);
 			}
 		}
 		
@@ -198,7 +198,7 @@ final class FLBuilderAutoSuggest {
 			));
 		
 			foreach($cats as $cat) {
-				$data[] = array('name' => esc_attr( $cat->name ), 'value' => $cat->term_id);
+				$data[] = array('name' => $cat->name, 'value' => $cat->term_id);
 			}
 		}
 		

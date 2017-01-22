@@ -67,7 +67,8 @@ class UM_ADDON_system_info {
 		
 		// Identify Hosting Provider
 		 	$host 		= um_get_host();
-
+           
+           um_fetch_user( get_current_user_id() );
 		?>
 		
 		<div class="wrap">
@@ -103,6 +104,12 @@ Host:						<?php echo $host . "\n"; ?>
 --- User Browser ---
 
 <?php echo $browser ; ?>
+
+---- Current User Details --
+
+<?php $user = wp_get_current_user(); ?>
+UM Role: <?php echo um_user('role'). "\n"; ?>
+WP Role: <?php echo $user->roles ? $user->roles[0] : false; echo  "\n"; ?>
 
 --- WordPress Configurations ---
 
@@ -317,6 +324,8 @@ FSOCKOPEN:                			<?php echo ( function_exists( 'fsockopen' ) ) ? 'Yo
 cURL:                     				<?php echo ( function_exists( 'curl_init' ) ) ? 'Your server supports cURL.' : 'Your server does not support cURL.'; ?><?php echo "\n"; ?>
 SOAP Client:              			<?php echo ( class_exists( 'SoapClient' ) ) ? 'Your server has the SOAP Client enabled.' : 'Your server does not have the SOAP Client enabled.'; ?><?php echo "\n"; ?>
 SUHOSIN:                  			<?php echo ( extension_loaded( 'suhosin' ) ) ? 'Your server has SUHOSIN installed.' : 'Your server does not have SUHOSIN installed.'; ?><?php echo "\n"; ?>
+GD Library:                  			<?php echo ( extension_loaded( 'gd' ) && function_exists('gd_info') ) ? 'PHP GD library is installed on your web server.' : 'PHP GD library is NOT installed on your web server.'; ?><?php echo "\n"; ?>
+Mail:                  			        <?php echo ( function_exists('mail') ) ? 'PHP mail function exist on your web server.' : 'PHP mail function doesn\'t exist on your web server.'; ?><?php echo "\n"; ?>
 
 
 --- Session Configurations ---

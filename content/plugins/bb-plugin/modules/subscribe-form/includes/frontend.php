@@ -2,16 +2,26 @@
 	
 	<?php if ( 'show' == $settings->show_name ) : ?>
 	<div class="fl-form-field">
-		<input type="text" name="fl-subscribe-form-name" placeholder="<?php _ex( 'Name', 'First and last name.', 'fl-builder' ); ?>" />
+		<input type="text" name="fl-subscribe-form-name" placeholder="<?php _ex( 'Name', 'First and last name.', 'fl-builder' ); ?>" aria-label="name" />
 		<div class="fl-form-error-message"><?php _e( 'Please enter your name.', 'fl-builder' ); ?></div>
 	</div>
 	<?php endif; ?>
 
 	<div class="fl-form-field">
-		<input type="email" name="fl-subscribe-form-email" placeholder="<?php _e( 'Email Address', 'fl-builder' ); ?>" />
+		<input type="email" name="fl-subscribe-form-email" placeholder="<?php _e( 'Email Address', 'fl-builder' ); ?>" aria-label="email address" />
 		<div class="fl-form-error-message"><?php _e( 'Please enter a valid email address.', 'fl-builder' ); ?></div>
 	</div>
 	
+	<?php if ( 'stacked' == $settings->layout && 'show' == $settings->show_recaptcha && (isset($settings->recaptcha_site_key) && !empty($settings->recaptcha_site_key)) ) : 
+		$site_lang = substr( get_locale(), 0, 2 );
+	?>
+	<div class="fl-form-field fl-form-recaptcha">
+		<div class="fl-form-error-message"><?php _e( 'Please check the captcha to verify you are not a robot.', 'fl-builder' ); ?></div>
+		<div class="g-recaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"></div>
+        <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $site_lang; ?>"></script>
+   	</div>
+	<?php endif; ?>
+
 	<div class="fl-form-button" data-wait-text="<?php esc_attr_e( 'Please Wait...', 'fl-builder' ); ?>">
 	<?php
 	
@@ -38,6 +48,16 @@
 	
 	?>
 	</div>
+	
+	<?php if ( 'inline' == $settings->layout && 'show' == $settings->show_recaptcha && (isset($settings->recaptcha_site_key) && !empty($settings->recaptcha_site_key)) ) : 
+		$site_lang = substr( get_locale(), 0, 2 );
+	?>
+	<div class="fl-form-field fl-form-recaptcha">
+		<div class="fl-form-error-message"><?php _e( 'Please check the captcha to verify you are not a robot.', 'fl-builder' ); ?></div>
+		<div class="g-recaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"></div>
+        <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $site_lang; ?>"></script>
+   	</div>
+	<?php endif; ?>
 	
 	<div class="fl-form-error-message"><?php _e( 'Something went wrong. Please check your entries and try again.', 'fl-builder' ); ?></div>
 	

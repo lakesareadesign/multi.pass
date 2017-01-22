@@ -2,195 +2,152 @@
 
 /*
  * AcmeeFramework
- * @author   KannanC
+ * @author   AcmeeDesign
  * @url     http://acmeedesign.com
 */
 
 defined('ABSPATH') || die;
 
 if (!class_exists('AcmeeFramework')) {
-    
+
     class AcmeeFramework {
-        protected $config;
+        public $config;
         protected $options_slug;
-        private $wps_purchase_data = 'wps_purchase_data';
+        private $aof_purchase_data = 'aof_purchase_data';
+        private $product_code = '17567303';
         public $page_title;
         public $fields_array;
         public $do_not_save;
-                
-        function __construct($config) {
-            if(is_array($config)) {
-                $this->config = $config;
-                $this->menu_slug = $config['menu_slug'];
-                $this->option_name = $this->createSlug($config['menu_slug']);
-                $this->panel_tabs = $this->config['tabs'];
-                $this->fields_array = $this->config['fields'];
-            }
+
+        function __construct() {
+            $this->config = aof_config();
             $this->do_not_save = array('title', 'openTab', 'import', 'export');
-            
-            add_action('admin_menu', array($this, 'createOptionsmenu'));
-            add_action( 'after_setup_theme', array($this, 'aofLoaddefault' ));
-            add_action( 'admin_enqueue_scripts', array($this, 'aofAssets'), 99 );
-            add_action('plugins_loaded',array($this, 'SaveSettings'));
-            add_action('aof_the_form',array($this, 'fieldLoop'), 10);
+
+            add_action('after_setup_theme', array($this, 'aofLoaddefault' ));
             add_action('aof_tab_start', array($this, 'formwrapStart'));
             add_action('aof_tab_start', array($this, 'saveBtn'));
             add_action('aof_tab_close', array($this, 'formwrapEnd'));
             add_action('aof_tab_close', array($this, 'saveBtn'));
+            add_action('aof_the_form',array($this, 'licenseValidate'), 9);
             add_action('aof_after_heading', array($this, 'adminNotices'));
             add_action('aof_before_heading', array($this, 'licenseUpdated'));
         }
-        
-        function aofAssets($page) {
-            
-            global $aof_page;
-            if( $page != $aof_page && $page != "alter-wlb_page_alter_change_text" && $page != "alter-wlb_page_alter_add_dash_widgets" )
-                return;
-            wp_enqueue_script( 'jquery' );
-            wp_enqueue_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
-            wp_enqueue_script( 'jquery-ui-slider' );
-            wp_enqueue_style('aofOptions-css', AOF_DIR_URI . 'assets/css/aof-framework.css');
-            wp_enqueue_style('aof-ui-css', AOF_DIR_URI . 'assets/css/jquery-ui.css');
-            wp_enqueue_script( 'responsivetabsjs', AOF_DIR_URI . 'assets/js/easyResponsiveTabs.js', array( 'jquery' ), '', true );
-            // Add the color picker css file       
-            wp_enqueue_style( 'wp-color-picker' ); 
-            wp_enqueue_script( 'scriptjs', AOF_DIR_URI . 'assets/js/script.js', array( 'jquery', 'wp-color-picker' ), false, true );
-        
-        }
-        
-        /**
-        * Create Options menu
-        */  
-        function createOptionsmenu() {
-            global $aof_page;
-            $default = array(
-                'capability' => 'manage_options',
-                'page_title' => __('Acmee Options Page', 'aof'),
-                'menu_title' => __('Acmee Options', 'aof'),
-                'menu_slug' => 'acm_options',
-                'icon_url'   => 'dashicons-art',
-                'position'   => 5,
-                'tabs'  => array(),
-                'fields'    => array(),
-                'multi' => false
-              );
-            $args = array_merge($default, $this->config);
-            $aof_page = add_menu_page( $args['page_title'], $args['menu_title'], $args['capability'], $this->menu_slug, array($this, 'generateFields'), $args['icon_url'], $args['position'] );
-        }        
-        
+
         /**
         * Function to generate form fields
-        */  
+        */
         function generateFields($fields_array) {
             //build form
-            echo '<div class="wrap clearfix">'; 
+            echo '<div class="wrap clearfix">';
             do_action('aof_before_heading');
-            echo '<h2>' . $this->config['page_title'] . '</h2>';
+            echo '<h2>';
+            printf( __( '%s Settings', 'alter' ), 'Alter' );
+            echo '</h2>';
             do_action('aof_after_heading');
-            
             do_action('aof_before_form');
-            do_action('aof_the_form');          
-            do_action('aof_after_form');      
-            
+            do_action('aof_the_form');
+            $this->fieldLoop($fields_array);
+            do_action('aof_after_form');
+
             echo '</div>'; //close div wrap
         }
-        
-        function fieldLoop($fields_array) {
-            //get options data
-            $getoption = $this->aofgetOptions( $this->option_name );
 
-            echo '<div class="loading_form_text">' . __('Loading ...', 'aof') . '</div>';
-           
+        public function fieldLoop($config) {
+
+            //get options data
+            $getoption = $this->aofgetOptions( ALTER_OPTIONS_SLUG );
+
+            echo '<div class="loading_form_text">' . __('Loading...', 'alter') . '</div>';
+
             do_action('aof_tab_start');
-                       
+
+            $fields_array['tabs'] = $config['aof_fields']['aof_tabs'];
+            $fields_array['fields'] = $config['aof_fields']['aof_fields'];
             echo '<div id="aof_options_tab" class="clearfix">
             <ul class="resp-tabs-list hor_1">';
-            if(is_array($this->panel_tabs) && !empty($this->panel_tabs)) {
-                foreach($this->panel_tabs as $tabkey =>$tabvalue) {
+            if(is_array($fields_array['tabs']) && !empty($fields_array['tabs'])) {
+                foreach($fields_array['tabs'] as $tabkey =>$tabvalue) {
                     echo '<li class="' . $tabkey . '">' . $tabvalue . '</li>';
                 }
             }
             echo '</ul>
             <div class="resp-tabs-container hor_1">';
 
-            foreach($this->fields_array as $field_key => $field_array) {
+            foreach($fields_array['fields'] as $field_key => $field_array) {
                 if(isset($field_array['id']) && !empty($field_array['id'])) {
                     unset($field_meta);
                     $field_meta = array();
                     $field_meta['meta'] = (!empty($getoption[$field_array['id']])) ? $getoption[$field_array['id']] : "";
-                    $field_array = array_merge($field_array, $field_meta); 
+                    $field_array = array_merge($field_array, $field_meta);
                 }
-                        switch ($field_array['type']) {
-                            case 'openTab' :
-                                $tab_first = ($field_key == 0) ? true : false;
-                                $this->openTab($field_array, $tab_first);
-                                break;
-                            case 'title' :
-                                $this->addTitle($field_array);
-                                break;
-                            case 'note':
-                                $this->addNote($field_array);
-                                break;
-                            case 'text':
-                                $this->addText($field_array);
-                                break;
-                            case 'textarea':
-                                $this->addTextarea($field_array);
-                                break;
-                            case 'checkbox':
-                                $this->addCheckbox($field_array);
-                                break;
-                            case 'multicheck':
-                                $this->addMultiCheckbox($field_array);
-                                break;
-                            case 'radio':
-                                $this->addradio($field_array);
-                                break;
-                            case 'select':
-                                $this->addSelect($field_array);
-                                break;
-                            case 'number':
-                                $this->addNumber($field_array);
-                                break;
-                            case 'typography':
-                                $this->addTypography($field_array);
-                                break;
-                            case 'wpcolor':
-                                $this->addwpColor($field_array);
-                                break;
-                            case 'upload':
-                                $this->addUpload($field_array);
-                                break;
-                            case 'wpeditor':
-                                $this->addwpEditor($field_array);
-                                break;
-//                            case 'repeater':
-//                                $this->addRepeater($field_array);
-//                                break;
-                            case 'export':
-                                $this->addExport($field_array);
-                                break;
-                            case 'import':
-                                $this->addImport($field_array);
-                                break;
+                switch ($field_array['type']) {
+                    case 'openTab' :
+                        $tab_first = ($field_key == 0) ? true : false;
+                        $this->openTab($field_array, $tab_first);
+                        break;
+                    case 'title' :
+                        $this->addTitle($field_array);
+                        break;
+                    case 'note':
+                        $this->addNote($field_array);
+                        break;
+                    case 'text':
+                        $this->addText($field_array);
+                        break;
+                    case 'textarea':
+                        $this->addTextarea($field_array);
+                        break;
+                    case 'checkbox':
+                        $this->addCheckbox($field_array);
+                        break;
+                    case 'multicheck':
+                        $this->addMultiCheckbox($field_array);
+                        break;
+                    case 'radio':
+                        $this->addradio($field_array);
+                        break;
+                    case 'select':
+                        $this->addSelect($field_array);
+                        break;
+                    case 'number':
+                        $this->addNumber($field_array);
+                        break;
+                    case 'typography':
+                        $this->addTypography($field_array);
+                        break;
+                    case 'wpcolor':
+                        $this->addwpColor($field_array);
+                        break;
+                    case 'upload':
+                        $this->addUpload($field_array);
+                        break;
+                    case 'wpeditor':
+                        $this->addwpEditor($field_array);
+                        break;
+                    case 'export':
+                        $this->addExport($field_array);
+                        break;
+                    case 'import':
+                        $this->addImport($field_array);
+                        break;
                         }
-                        
-                        
+
+
 
             } // foreach
-            
-            
+
+
             echo '</div>
         </div>'; //close div aof_options_tab
-            
-            do_action('aof_tab_close');     
-            
+
+            do_action('aof_tab_close');
+
         }
-        
+
         function licenseValidate() {
             //verify purchase code
             $valid_license = $this->validatePurchase();
-            if(!empty($valid_license) && count($valid_license[3]) == 5 && $valid_license[1] == 8183353)
+            if(!empty($valid_license) && count($valid_license[3]) == 5 && $valid_license[1] == $this->product_code)
                 return;
             else {
                 $this->enterPurchaseCode();
@@ -199,16 +156,16 @@ if (!class_exists('AcmeeFramework')) {
         }
 
         function validatePurchase() {
-            $purchase_data = get_option($this->wps_purchase_data);
+            $purchase_data = get_option($this->aof_purchase_data);
             return $purchase_data;
         }
-        
+
         function getLicense() {
             $code = $this->validatePurchase();
             if(!empty($code)) {
                 return $code[3][0];
             }
-            else 
+            else
                 return null;
         }
 
@@ -218,12 +175,14 @@ if (!class_exists('AcmeeFramework')) {
     <?php
     if(isset($_GET['status']) && $_GET['status'] == 'license_fail') {
                 echo '<div class="notice error">';
-                echo __('Invalid Purchase code! Or the envato server may be down. Please try again later.', 'wps');
+                echo __('Invalid Purchase code! Or the envato server may be down. ', 'alter');
+                echo __('Or your server may not support wordpress remote get method. Please open a support ticket at ', 'alter');
+                echo '<a href="http://acmeedesign.com/support">http://acmeedesign.com/support</a>';
                 echo '</div>';
             }
      ?>
-        <h2><?php echo __('Enter Purchase Code', 'wps'); ?></h2>
-        <form name="enter_license" method="post" action="<?php echo admin_url( 'admin.php?page=' . $this->menu_slug ); ?>">
+        <h2><?php echo __('Enter Purchase Code', 'alter'); ?></h2>
+        <form name="enter_license" method="post" action="<?php echo admin_url( 'admin.php?page=' . ALTER_MENU_SLUG ); ?>">
             <input type="text" class="purchase_code" name="purchase_code" value="" size="50" /><br /><br />
             <input type="hidden" name="action" value="license_data" />
             <input type="submit" name="submit" value="Submit" class="button button-primary button-large" />
@@ -231,119 +190,115 @@ if (!class_exists('AcmeeFramework')) {
         <br />
         <a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-" target="_blank">How to find your purchase code?</a>
         <?php
-        
+
         ?>
 </div>
     <?php
         }
-        
+
         function licenseUpdated() {
             if(isset($_GET['status']) && $_GET['status'] == 'license_success') {
                 echo '<div class="license-updated">';
-                echo __('Your Purchase code accepted. Happy customizing WordPress!', 'wps');
-                echo ' <a class="wps-kb" target="_blank" href="http://kb.acmeedesign.com/kbase_categories/wpshapere/">';
-                echo __('Need help?', 'wps');
+                echo __('Your Purchase code is accepted. Happy customizing WordPress!', 'alter');
+                echo ' <a class="alter-kb" target="_blank" href="http://kb.acmeedesign.com/kbase_categories/alter-white-label-wordpress-plugin/">';
+                echo __('Need help?', 'alter');
                 echo '</a>';
                 echo '</div>';
             }
         }
-        
-        function SaveSettings() {
-            if(isset($_POST['action']) && $_POST['action'] == 'license_data') {
-                $purchase_code = trim($_POST['purchase_code']);
+
+        function SaveSettings($post) {
+            if(isset($post['action']) && $post['action'] == 'license_data') {
+                $purchase_code = trim($post['purchase_code']);
                 $validate = EnvatoApi2::verifyPurchase( $purchase_code );
                 if ( is_object($validate) ) {
                     $buyer = $validate->buyer;
                     $item_id = $validate->item_id;
                     $license_type = $validate->licence;
                     $code = explode('-', $purchase_code);
-                    $purchase_data = array($buyer, $item_id, $license_type, $code);
-                    update_option( $this->wps_purchase_data, $purchase_data );
-                    wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=license_success' ) ); 
-                    exit();
+                    if($item_id == $this->product_code) {
+                      $purchase_data = array($buyer, $item_id, $license_type, $code);
+                      update_option( $this->aof_purchase_data, $purchase_data );
+                      wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&status=license_success' ) );
+                      exit();
+                    }
+                    else {
+                      wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&status=license_fail' ) );
+                      exit();
+                    }
                 }
                 else {
-                    wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=license_fail' ) ); 
+                    wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&status=license_fail' ) );
                     exit();
                 }
 
             }
-             if(isset($_POST) && isset($_POST['aof_options_save'])) {
-                 
-                if ( isset($_POST['aof_options_nonce']) && !wp_verify_nonce($_POST['aof_options_nonce'], 'aof_options_form') )
-	return;
-                //if($this->getLicense() !== null && strlen($this->getLicense()) == 8) {
-                    if( isset($_POST['aof_import_settings']) && !empty($_POST['aof_import_settings']) ) {
-                        $settings = $_POST['aof_import_settings'];
+             if(isset($post) && isset($post['aof_options_save'])) {
+
+                if ( isset($post['aof_options_nonce']) && !wp_verify_nonce($post['aof_options_nonce'], 'aof_options_form') )
+	               return;
+
+                if($this->getLicense() !== null && strlen($this->getLicense()) == 8) {
+                    if( isset($post['aof_import_settings']) && !empty($post['aof_import_settings']) ) {
+                        $settings = $post['aof_import_settings'];
                         if(!empty($settings) && is_serialized($settings)) {
                             $settings = unserialize($settings);
-                            update_option( $this->option_name, $settings );
-                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=success' ) ); 
-                            exit();		
+                            update_option( ALTER_OPTIONS_SLUG, $settings );
+                            wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&status=success' ) );
+                            exit();
                         }
                     }
                     else {
-                        $save_data = array();
-                        if( is_array($this->fields_array) && !empty($this->fields_array) ) {
-                            //loop through the fields array and initialize $save_data variable
-                            foreach($this->fields_array as $field) {
-                                if(isset($field['id']) && !in_array($field['type'], $this->do_not_save)) {
-                                    $post_name = $field['id'];
-                                    if($field['type'] == "multicheck") {
-                                        $multicheck = array();
-                                        $chkbox_values = (isset($_POST[$post_name]) && !empty($_POST[$post_name])) ? $_POST[$post_name] : "";
-                                        if(is_array($chkbox_values)) {
-                                            foreach($chkbox_values as $options) {
-                                                $multicheck[] = $options;
-                                            }
-                                        }
-                                        $save_data[$field['id']] = $multicheck;
-                                    }
-                                    elseif($field['type'] == "typography") {
-                                        $typography = array();
-                                        $typo_values = (isset($_POST[$post_name]) && !empty($_POST[$post_name])) ? $_POST[$post_name] : "";
-                                        if(is_array($typo_values)) {
-                                            foreach($typo_values as $typo_name => $typo_value) {
-                                                $typography[$typo_name] = $typo_value;
-                                            }
-                                            $save_data[$field['id']] = $typography;
-                                        }
-                                    }
-                                    elseif($field['type'] == "repeater") {
-                                        $repeater = array();
-                                        $repeater_array = (isset($_POST[$post_name]) && !empty($_POST[$post_name])) ? $_POST[$post_name] : "";
-                                        if(is_array($repeater_array)) {
-                                            foreach($repeater_array as $repeaters ) {
-                                                $repeater[] = $repeaters;
-                                            }
-                                            $save_data[$field['id']] = $repeater;
-                                        }
-                                    }
-                                    else {
-                                        $save_data[$field['id']] = (isset($_POST[$post_name])) ? $this->validateInputs($_POST[$post_name]) : "";
-                                    }
-                                }
+                      $save_data = array();
+                      $config = aof_config();
+                      $fields_array['fields'] = $config['aof_fields']['aof_fields'];
+                      if( is_array($fields_array['fields']) && !empty($fields_array['fields']) ) {
+                        //loop through the fields array and initialize $save_data variable
+                        foreach($fields_array['fields'] as $field) {
+                          if(isset($field['id']) && !in_array($field['type'], $this->do_not_save)) {
+                              $post_name = $field['id'];
+                              $post_value = (!empty($post[$post_name])) ? $post[$post_name] : "";
+                              if($field['type'] == "multicheck") {
+                                  $multicheck = array();
+                                  if(is_array($post_value)) {
+                                      foreach($post_value as $options) {
+                                          $multicheck[] = $options;
+                                      }
+                                  }
+                                  $save_data[$field['id']] = $multicheck;
+                              }
+                              elseif($field['type'] == "typography") {
+                                  $typography = array();
+                                  if(is_array($post_value)) {
+                                      foreach($post_value as $typo_name => $typo_value) {
+                                          $typography[$typo_name] = $typo_value;
+                                      }
+                                      $save_data[$field['id']] = $typography;
+                                  }
+                              }
+                              else {
+                                  $save_data[$field['id']] = (isset($post_value)) ? $this->validateInputs($post_value) : "";
+                              }
                             }
+                          }
                         }
-                        
-                        $to_be_saved = apply_filters( 'aof_save_data', $save_data );
-                        
-                        $saved = $this->aofsaveOptions($to_be_saved);
+
+                        $saved = $this->aofsaveOptions($save_data);
                         if($saved) {
-                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=updated' ) ); 
+                            wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&status=updated' ) );
                             exit();
                         }
                         else {
-                            wp_safe_redirect( admin_url( 'admin.php?page=' . $this->menu_slug . '&status=error' ) ); 
+                            wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&status=error' ) );
                             exit();
                         }
 
                     }
-               // }
-                	
+                }
+
             }//aof options save
         }
-        
+
         function aofgetOptions($option_id) {
             if($this->config['multi'] === true) {
                 if(is_serialized(get_site_option( $option_id ))) {
@@ -363,54 +318,53 @@ if (!class_exists('AcmeeFramework')) {
             }
             return $get_options;
         }
-        
+
         function aofsaveOptions($save_options) {
             if($this->config['multi'] === true) {
-                update_site_option( $this->option_name, $save_options );
+                update_site_option( ALTER_OPTIONS_SLUG, $save_options );
                 return true;
             }
             else {
-                update_option( $this->option_name, $save_options );
+                update_option( ALTER_OPTIONS_SLUG, $save_options );
                 return true;
             }
         }
-        
+
         function openTab($fields, $tab_first) {
             if($tab_first) {
                 $output = '<div>';
                 if(!empty($fields['name'])) $output .= '<h2>' . $fields['name'] . '</h2>';
             }
-            else { 
+            else {
                 $output = '</div><div>';
                 if(!empty($fields['name'])) $output .= '<h2>' . $fields['name'] . '</h2>';
             }
             echo $output;
         }
-        
+
         function addTitle($fields) {
             echo '<h3>' . $fields['name'] . '</h3>';
         }
-        
+
         function addNote($fields) {
             $output = '<p class="description">' . $fields['desc'] . '</p>';
             echo $output;
         }
-        
-        function addText($fields, $repeater="") {
+
+        function addText($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
-            $name = (is_array($repeater)) ? $fields['id'] . "[" . $repeater[0] . "]['" . $repeater[1] . "']['" . $repeater[2] . "']" : $fields['id'];
-            $form_field = '<input id="' . $fields['id'] . '" class="regular-text ' . $fields['id'] . '" type="text" name="' . $name . '" value="' . $meta . '"  />';
+            $form_field = '<input id="' . $fields['id'] . '" class="regular-text ' . $fields['id'] . '" type="text" name="' . $fields['id'] . '" value="' . $meta . '"  />';
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         function addTextarea($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             $form_field = '<textarea id="' . $fields['id'] . '" class="regular-text ' . $fields['id'] . '" name="' . $fields['id'] . '" rows="10">' . $meta . '</textarea>';
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         //single checkbox
         function addCheckbox($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
@@ -420,9 +374,9 @@ if (!class_exists('AcmeeFramework')) {
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         //multi checkboxes
-        function addMultiCheckbox($fields) {        
+        function addMultiCheckbox($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             if(isset($fields['options'])) {
                 $form_field = "";
@@ -438,8 +392,8 @@ if (!class_exists('AcmeeFramework')) {
                 echo $output;
             }
         }
-        
-        function addradio($fields) { 
+
+        function addradio($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             if(isset($fields['options'])) {
                 $form_field = "";
@@ -453,7 +407,7 @@ if (!class_exists('AcmeeFramework')) {
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         function addSelect($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             if(isset($fields['options'])) {
@@ -461,14 +415,14 @@ if (!class_exists('AcmeeFramework')) {
                 foreach($fields['options'] as $field_key => $field_value) {
                     $form_field .= '<option value="' . $field_key . '"';
                     $form_field .= ($meta == $field_key) ? ' selected="selected"' : '';
-                    $form_field .= '>' . $field_value .  '</option>';                    
+                    $form_field .= '>' . $field_value .  '</option>';
                 }
-                $form_field .= '</label>';
+                $form_field .= '</select></label>';
             }
             $output = $this->fieldWrap($fields, $form_field);
-            echo $output;            
+            echo $output;
         }
-        
+
         function addNumber($fields) {
             $default = array(
                 'default' => '1',
@@ -491,9 +445,9 @@ if (!class_exists('AcmeeFramework')) {
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         function addTypography($fields) {
-            $meta = (isset($fields['meta'])) ? $fields['meta'] : ""; 
+            $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             $font_type = isset($meta['font-type']) ? $meta['font-type'] : "";
             $color = isset($meta['color']) ? $meta['color'] : "";
             $gfonts = new AOFgfonts();
@@ -501,11 +455,11 @@ if (!class_exists('AcmeeFramework')) {
             $safe_fonts = array('Arial' => 'Arial, Helvetica, sans-serif', 'Arial Black' => '&quot;Arial Black&quot;, Gadget, sans-serif', 'Comic Sans' => '&quot;Comic Sans MS&quot;, cursive, sans-serif', 'Courier New' => '&quot;Courier New&quot;, Courier, monospace', 'Georgia' => 'Georgia, serif', 'Lucida Sans Unicode' => '&quot;Lucida Sans Unicode&quot;, &quot;Lucida Grande&quot;, sans-serif');
             $font_weights = array( 'normal', 'lighter', 'bold', 'bolder', '100', '200', '300', '400', '500', '600', '700', '800', '900' );
             $font_styles = array('normal', 'italic');
-            
+
             //print_r($gfonts_lists);
             $form_field = '<div class="aof_typography">';
             if(isset($fields['show_font_family']) && $fields['show_font_family'] !== false) {
-                $form_field .='<label>' . __( 'Font Family', 'aof' ) . '<select class="aof_font_family" name="' . $fields['id'] . '[font-family]">';
+                $form_field .='<label>' . __( 'Font Family', 'alter' ) . '<select class="aof_font_family" name="' . $fields['id'] . '[font-family]">';
                 $form_field .='<optgroup label="Web Safe Fonts" class="safe">';
                 foreach ($safe_fonts as $sfontname => $sfontvalue) {
                     $selected = ( htmlentities($meta['font-family']) == $sfontvalue ) ? " selected=selected" : "";
@@ -520,35 +474,35 @@ if (!class_exists('AcmeeFramework')) {
                 $form_field .='</optgroup>';
                 $form_field .='</select><input type="hidden" class="aof-font-type" name="' . $fields['id'] . '[font-type]" value="' . $font_type . '" /></label>';
             }
-            
+
             if(isset($fields['show_color']) && $fields['show_color'] !== false) {
                 //wpcolor
-                $form_field .= __( 'Color', 'aof' ) . '<label><input class="aof-wpcolor ' . $fields['id'] . '" type="text" name="' . $fields['id'] . '[color]" value="' . $color . '"  /></label>';
+                $form_field .= __( 'Color', 'alter' ) . '<label><input class="aof-wpcolor ' . $fields['id'] . '" type="text" name="' . $fields['id'] . '[color]" value="' . $color . '"  /></label>';
             }
-            
+
             if(isset($fields['show_font_weight']) && $fields['show_font_weight'] !== false) {
                 //font weight
-                $form_field .= __( 'Font Weight', 'aof' ) . '<label><select class="aof_font_weight" name="' . $fields['id'] . '[font-weight]">';
+                $form_field .= __( 'Font Weight', 'alter' ) . '<label><select class="aof_font_weight" name="' . $fields['id'] . '[font-weight]">';
                 foreach ($font_weights as $font_weight) {
                     $selected = ( $meta['font-weight'] == $font_weight ) ? " selected=selected" : "";
                     $form_field .='<option value="' . $font_weight . '"' . $selected . '>' . $font_weight . '</option>';
                 }
                 $form_field .='</select></label>';
             }
-            
+
             if(isset($fields['show_font_style']) && $fields['show_font_style'] !== false) {
                 //font style
-                $form_field .= __( 'Font Style', 'aof' ) . '<label><select class="aof_font_style" name="' . $fields['id'] . '[font-style]">';
+                $form_field .= __( 'Font Style', 'alter' ) . '<label><select class="aof_font_style" name="' . $fields['id'] . '[font-style]">';
                 foreach ($font_styles as $font_style) {
                     $selected = ( $meta['font-style'] == $font_style ) ? " selected=selected" : "";
                     $form_field .='<option value="' . $font_style . '"' . $selected .'>' . $font_style . '</option>';
                 }
                 $form_field .='</select></label>';
             }
-            
+
             if(isset($fields['show_font_size']) && $fields['show_font_size'] !== false) {
                 //font size
-                $form_field .= __( 'Font Size', 'aof' ) . '<label><select class="aof_font_size" name="' . $fields['id'] . '[font-size]">';
+                $form_field .= __( 'Font Size', 'alter' ) . '<label><select class="aof_font_size" name="' . $fields['id'] . '[font-size]">';
                 for($i = 9; $i <= 65; $i++) {
                     $selected = ( $meta['font-size'] == $i ) ? " selected=selected" : "";
                     $form_field .='<option value="' . $i . '"' . $selected . '>' . $i . 'px</option>';
@@ -559,15 +513,14 @@ if (!class_exists('AcmeeFramework')) {
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
-        function addwpColor($fields, $repeater = false) {
+
+        function addwpColor($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
-            $name = (is_array($repeater)) ? $fields['id'] . '[' . $repeater[0] . '][' . $repeater[1] . ']' : $fields['id'];
-            $form_field = '<input id="' . $fields['id'] . '" class="aof-wpcolor ' . $fields['id'] . '" type="text" name="' . $name . '" value="' . $meta . '"  />';
+            $form_field = '<input id="' . $fields['id'] . '" class="aof-wpcolor ' . $fields['id'] . '" type="text" name="' . $fields['id'] . '" value="' . $meta . '"  />';
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
+
         function addwpEditor($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             echo '<div class="field_wrap">';
@@ -581,11 +534,12 @@ if (!class_exists('AcmeeFramework')) {
             echo '</div></div>';
 
         }
-        
+
         function addUpload($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             $attachment_url = (is_numeric($meta)) ? $this->getAttachmenturl($meta) : $meta;
-            $form_field = '<div id ="' . $fields['id'] . '" class="thumbnail aof-image-preview">';
+            $form_field = '
+                <div id ="' . $fields['id'] . '" class="thumbnail aof-image-preview">';
             if((!empty($meta))) {
                 $form_field .=  '<i class="dashicons dashicons-no-alt img-remove"></i>';
                 $form_field .=  '<image class="imgpreview_' . $fields['id'] .'" src="' . $attachment_url . '" />';
@@ -594,87 +548,9 @@ if (!class_exists('AcmeeFramework')) {
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }
-        
-        function addRepeater($fields) {
-            $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
-            $repeater_fields = $fields['repeater_fields'];
-            if(is_array($repeater_fields) && !empty($repeater_fields)) {
-                //foreach ($meta as )
-                echo '<div id="alt-repeater">
-                                            <div data-repeater-list="' . $fields['id'] . '">';
-//                if(!empty($meta) && is_array($meta)) {
-//                    foreach($meta as $meta_field_key => $meta_field_value) {                        
-//                        echo '<div data-repeater-item="">';
-//                        foreach($meta_field_value as $repeater_key => $repeater_value) {
-//                            $name_data = array($meta_field_key, $repeater_key); 
-//                            $this->createFields($rep_fields, $name_data);
-//                        }
-//                        echo '<button type="button" class="r-btnRemove button action" data-repeater-delete="">Remove</button>';
-//                        echo '</div>'; //repeater item
-//                    }
-//                }
-                
-                echo '<div data-repeater-item="">';
-                foreach ($repeater_fields as $rep_fields) {
-                    $i = 0;
-                    $name_data = array('0', $i, $rep_fields['id']);                    
-                    $this->createFields($rep_fields, $name_data);
-                    $i++;
-                }
-                echo '<button type="button" class="r-btnRemove button action" data-repeater-delete="">Remove</button>';
-                echo '</div>'; //repeater item
-                echo '</div>
-                                    <div class="text-group">
-                                                <button type="button" class="button button-primary alt-text-add" data-repeater-create="">Add text</button>
-                                            </div>
-                                    </div>';
-            }
-        }
-        
-        function createFields($the_field, $name_data) {
-            //create repeater fields
-            switch ($the_field['type']) {
-                case 'title' :
-                    $this->addTitle($the_field, $name_data);
-                    break;
-                case 'note':
-                    $this->addNote($the_field, $name_data);
-                    break;
-                case 'text':
-                    $this->addText($the_field, $name_data);
-                    break;
-                case 'textarea':
-                    $this->addTextarea($the_field, $name_data);
-                    break;
-                case 'checkbox':
-                    $this->addCheckbox($the_field, $name_data);
-                    break;
-                case 'multicheck':
-                    $this->addMultiCheckbox($the_field, $name_data);
-                    break;
-                case 'radio':
-                    $this->addradio($the_field, $name_data);
-                    break;
-                case 'select':
-                    $this->addSelect($the_field, $name_data);
-                    break;
-                case 'number':
-                    $this->addNumber($the_field, $name_data);
-                    break;
-                case 'typography':
-                    $this->addTypography($the_field, $name_data);
-                    break;
-                case 'wpcolor':
-                    $this->addwpColor($the_field, $name_data);
-                    break;
-                case 'upload':
-                    $this->addUpload($the_field, $name_data);
-                    break;
-            }
-        }
-                
+
         function addExport($fields) {
-            $getoption = $this->aofgetOptions( $this->option_name );
+            $getoption = $this->aofgetOptions( ALTER_OPTIONS_SLUG );
             if(is_serialized($getoption) === false && is_array($getoption)) {
                 $meta = serialize($getoption);
             }
@@ -683,35 +559,37 @@ if (!class_exists('AcmeeFramework')) {
             }
             else {
                 $meta = "";
-            }            
+            }
             $export_options = array();
             $export_options['name'] = $fields['name'];
             $export_options['id'] = $fields['id'];
             $export_options['meta'] = $meta;
             $this->addTextarea($export_options);
         }
-        
+
         function addImport($fields) {
             $import_options = array();
             $import_options['name'] = $fields['name'];
             $import_options['id'] = "aof_import_settings";
             $this->addTextarea($import_options);
         }
-        
+
         function saveBtn() {
-            echo '<div class="save_options">
-                <input type="submit" value="Save Changes" class="button button-primary button-large" />' .
-                //<input type="submit" name="aof_reset_options" value="Reset to Defaults" class="button button-secondary button-large" />   			
-                '</div>';
+          ?>
+            <div class="save_options">
+              <input type="submit" value="<?php _e('Save Changes', 'alter'); ?>" class="button button-primary button-large" />
+              <!-- <input type="submit" name="aof_reset_options" value="Reset to Defaults" class="button button-secondary button-large" /> -->
+            </div>
+          <?php
         }
-        
+
         function fieldWrap($args, $field) {
             if(isset($args['id']) && !empty($args['id'])) {
                 $label = $args['id'];
             }
             else {
                 $label = $this->createSlug($args['name']);
-            }            
+            }
             $output = '<div class="field_wrap">';
             $output .= '<div class="label"><label for="' . $label . '">' . $args['name'] . '</label></div>';
             $output .= '<div class="field_content">';
@@ -722,17 +600,17 @@ if (!class_exists('AcmeeFramework')) {
             $output .= '</div></div>';
             return $output;
         }
-        
+
         function formwrapStart() {
             echo '<form method="post" name="aof_options_framework" class="aof_options_framework clearfix" id="aof_options_framework" action="" enctype="multipart/form-data">';
         }
-        
+
         function formwrapEnd() {
             echo '<input type="hidden" name="aof_options_save" value="saveoptions" />';
             wp_nonce_field( 'aof_options_form', 'aof_options_nonce' );
             echo '</form>';
         }
-        
+
         function validateInputs($data, $type = NULL) {
             if($type == "text") {
                $output = sanitize_text_field( $data );
@@ -745,14 +623,14 @@ if (!class_exists('AcmeeFramework')) {
             }
             return $output;
         }
-        
+
         function createSlug($arg) {
             $slug = trim(strtolower($arg));
             $slug = str_replace(' ', '_', $slug);
             $slug = preg_replace('/[^a-zA-Z0-9]/', '_', $slug);
             return $slug;
         }
-        
+
         function getAttachmenturl($attc_id, $size='full') {
             global $switched, $wpdb;
             $imageAttachment = "";
@@ -764,78 +642,79 @@ if (!class_exists('AcmeeFramework')) {
                 }
                 else $imageAttachment = wp_get_attachment_image_src( $attc_id, $size );
                 return $imageAttachment[0];
-            } 
+            }
         }
-        
+
         /**
         * Function to get default options
         */
        function getDefaultOptions() {
-           if( is_array($this->fields_array) && !empty($this->fields_array) ) {
-               foreach($this->fields_array as $field) {
-                        if(isset($field['id']) && !in_array($field['type'], $this->do_not_save)) {
-                            $default_value = ( isset($field['default']) && !empty($field['default']) ) ? $field['default'] : "";
-                            if($field['type'] == "multicheck") {
-                                    $multicheck = array();
-                                    if(is_array($default_value)) {
-                                        foreach($default_value as $options) {
-                                            $multicheck[] = $options;
-                                        }
-                                        $save_data[$field['id']] = $multicheck;
-                                    }
-                                }
-                                elseif($field['type'] == "typography") {
-                                    $typography = array();
-                                    if(is_array($default_value)) {
-                                        foreach($default_value as $typo_name => $typo_value) {
-                                            $typography[$typo_name] = $typo_value;
-                                        }
-                                        $save_data[$field['id']] = $typography;
-                                    }
-                                }
-                                else {
-                                    $save_data[$field['id']] = $default_value;
-                                }
-                        }
-               }
-               return $save_data;
+         $fields_array = $this->config['aof_fields']['aof_fields'];
+         if( is_array($fields_array) && !empty($fields_array) ) {
+           foreach($fields_array as $field) {
+              if(isset($field['id']) && !in_array($field['type'], $this->do_not_save)) {
+                  $default_value = ( isset($field['default']) && !empty($field['default']) ) ? $field['default'] : "";
+                  if($field['type'] == "multicheck") {
+                      $multicheck = array();
+                      if(is_array($default_value)) {
+                          foreach($default_value as $options) {
+                              $multicheck[] = $options;
+                          }
+                          $save_data[$field['id']] = $multicheck;
+                      }
+                    }
+                    elseif($field['type'] == "typography") {
+                      $typography = array();
+                      if(is_array($default_value)) {
+                          foreach($default_value as $typo_name => $typo_value) {
+                              $typography[$typo_name] = $typo_value;
+                          }
+                          $save_data[$field['id']] = $typography;
+                      }
+                    }
+                    else {
+                      $save_data[$field['id']] = $default_value;
+                    }
+              }
            }
-           else return false;
+           return $save_data;
+         }
+         else return false;
        }
-        
+
         /**
         * Function to insert default values
-        */  
+        */
         function aofLoaddefault() {
-            $default_options = $this->aofgetOptions( $this->option_name );
+            $default_options = $this->aofgetOptions( ALTER_OPTIONS_SLUG );
             if ( false === $default_options || empty($default_options)) {
                 $default_options = $this->getDefaultOptions();
                 if(!empty($default_options)) {
                     if($this->config['multi'] === true) {
-                        update_site_option( $this->option_name, $default_options );
+                        update_site_option( ALTER_OPTIONS_SLUG, $default_options );
                     }
                     else {
-                        update_option( $this->option_name, $default_options );
+                        update_option( ALTER_OPTIONS_SLUG, $default_options );
                     }
                 }
             }
 
         }
-        
+
         /**
         * Function to show notices for plugin actions
-        */  
+        */
         function adminNotices() {
             if( isset($_GET['status']) && $_GET['status'] == "updated") {
-                $message = __( 'Settings saved.', 'aof');
+                $message = __( 'Settings saved.', 'alter');
                 echo "<div class='updated'><p>{$message}</p></div>";
             }
             if( isset($_GET['status']) && $_GET['status'] == "error") {
-                $message = __( 'Error: Settings not saved.', 'aof');
+                $message = __( 'Error: Settings not saved.', 'alter');
                 echo "<div class='error'><p>{$message}</p></div>";
             }
         }
- 
+
 
     }
 }

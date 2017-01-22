@@ -35,6 +35,7 @@ class FLContactFormModule extends FLBuilderModule {
 
 		$subject 			= (isset($_POST['subject']) ? $_POST['subject'] : __('Contact Form Submission', 'fl-builder'));
 		$mailto 			= get_option('admin_email');
+		$response 			= array('error' => true, 'message' => __( 'Message failed. Please try again.', 'fl-builder' ));
 		
 		if ( $node_id ) {
 
@@ -53,6 +54,24 @@ class FLContactFormModule extends FLBuilderModule {
 				$mailto   = $settings->mailto_email;
 			}
 
+			// Validate reCAPTCHA if enabled
+			if ( isset($settings->recaptcha_toggle) && $settings->recaptcha_toggle == 'show' ) {
+				if ( !empty($settings->recaptcha_secret_key) && !empty($settings->recaptcha_site_key) ) {
+					if ( version_compare( phpversion(), '5.3', '>=' ) ) {
+						include $module->dir . 'includes/validate-recaptcha.php';
+					}
+					else {
+						$response['error'] = false;
+					}
+				}
+				else {
+					$response = array('error' => true, 'message' => __('Your reCAPTCHA Site or Secret Key is missing!', 'fl-builder'));
+				}
+			}
+			else {
+				$response['error'] = false;
+			}
+
 			$fl_contact_from_email = (isset($_POST['email']) ? sanitize_email($_POST['email']) : null);
 			$fl_contact_from_name = (isset($_POST['name']) ? $_POST['name'] : null);
 			
@@ -68,13 +87,13 @@ class FLContactFormModule extends FLBuilderModule {
 
 			$template .= __('Message', 'fl-builder') . ": \r\n" . $_POST['message'];
 
-			// Double check the mailto email is proper and send
-			if ($mailto) {
+			// Double check the mailto email is proper and no validation error found, then send.
+			if ( $mailto && $response['error'] === false ) {
 				wp_mail($mailto, $subject, $template);
-				die('1');
-			} else {
-				die($mailto);
+				$response['message'] = __('Sent!', 'fl-builder');				
 			}
+
+			wp_send_json($response);
 		}
 	}
 
@@ -368,6 +387,43 @@ FLBuilder::register_module('FLContactFormModule', array(
 				)
 			)
 		)
+	),
+	'reCAPTCHA'	=> array(
+		'title'         => __( 'reCAPTCHA', 'fl-builder' ),
+		'sections'      => array(
+			'recaptcha_general' => array(
+				'title'         => '',
+				'fields'        => array(
+					'recaptcha_toggle' => array(
+						'type' 			=> 'select',
+						'label' 		=> 'reCAPTCHA Field',
+						'default'       => 'hide',
+						'options'       => array(
+							'show'      => __('Show', 'fl-builder'),
+							'hide'      => __('Hide', 'fl-builder'),
+						),
+						'help' 			=> __('If you want to show this field, please provide valid Site and Secret Keys.', 'fl-builder')
+					),
+					'recaptcha_site_key'		=> array(
+						'type'			=> 'text',
+						'label' 		=> __('Site Key', 'fl-builder'),
+						'default'       => '',
+						'preview'       => array(
+							'type'          => 'none'
+						)
+					),
+					'recaptcha_secret_key'	=> array(
+						'type'			=> 'text',
+						'label' 		=> __('Secret Key', 'fl-builder'),
+						'default'       => '',
+						'preview'       => array(
+							'type'          => 'none'
+						)						
+					)
+				),
+			)
+		),
+		'description'   => sprintf( __( 'Please register keys for your website at the <a%s>Google Admin Console</a>.', 'fl-builder' ), ' href="https://www.google.com/recaptcha/admin" target="_blank"' ),
 	)  
 ));
 

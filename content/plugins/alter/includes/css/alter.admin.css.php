@@ -93,7 +93,8 @@ if(!empty($admin_logo_url)){ ?>
 #adminmenu li.menu-top:hover, #adminmenu li.menu-top a:hover, #adminmenu li.opensub>a.menu-top, #adminmenu li>a.menu-top:focus { background: <?php echo $this->aof_options['hover_menu_color']; ?>; color: <?php echo $this->aof_options['menu_hover_text_color']; ?>;}
 
 #adminmenu li a:focus div.wp-menu-image:before, #adminmenu li.opensub div.wp-menu-image:before, #adminmenu li:hover div.wp-menu-image:before,
-#adminmenu .opensub .wp-submenu li.current a, #adminmenu .wp-submenu li.current, #adminmenu .wp-submenu li.current a, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a {color: <?php echo $this->aof_options['menu_hover_text_color']; ?>;}
+#adminmenu .opensub .wp-submenu li.current a, #adminmenu .wp-submenu li.current, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a {color: <?php echo $this->aof_options['menu_hover_text_color']; ?>;}
+#adminmenu .wp-submenu li.current a {color: <?php echo $this->aof_options['submenu_active_text_color']; ?>;}
 #adminmenu li.wp-has-current-submenu > a.menu-top, #adminmenu li.wp-has-current-submenu div.wp-menu-image:before,
 #adminmenu li.wp-has-current-submenu:hover > a.menu-top, #adminmenu li.wp-has-current-submenu:hover div.wp-menu-image:before { color: <?php echo $this->aof_options['menu_active_text_color']; ?>;}
 

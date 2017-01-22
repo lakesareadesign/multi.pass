@@ -1,3 +1,38 @@
+<h4>1.9.4 - 01/18/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a bug with font fields introduced in 1.9.3.</li>
+</ul>
+
+<h4>1.9.3 - 01/17/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Accessibility enhancements to Accordion, Contact Form, Content Slider, Icon, Menu, Post Carousel, Post Slider, Subscribe Form and Tabs modules. Thanks to John Russell (@laubsterboy) for the contribution!</li>
+	<li>Added reCAPTCHA support to the Subscribe Form and Contact Form modules.</li>
+	<li>Vimeo and YouTube scripts are now only loaded in the builder UI when a video from those services is present.</li>
+	<li>Removed the Read More button from the text editor in the builder UI as it does not work with builder layouts.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed global rows and modules not working after being duplicated under Tools > Duplicate Layout.</li>
+	<li>Fixed SSL mixed content issues with the Slideshow module.</li>
+	<li>Fixed the thumbnail navigation in the Slideshow module not showing on touch enabled desktops.</li>
+	<li>Fixed Menu module showing category descriptions for WooCommerce product categories.</li>
+	<li>Fixed issues with empty parent links in the Menu module.</li>
+	<li>Fixed Menu module not adding current-menu-item class when loaded from a template.</li>
+	<li>Fixed Menu module sub-menu background color being overridden by the menu background color.</li>
+	<li>Fixed a PHP warning in the Post Slider module with random ordering when using an offset.</li>
+	<li>Fixed IE layout issue with top aligned full height rows.</li>
+	<li>Fixed fonts with numbers in their names not working in font fields.</li>
+	<li>Fixed PHP warnings with Madmimi and MailerLite.</li>
+	<li>Fixed Maps module trying to open the Google Maps app in the Facebook Messenger app.</li>
+	<li>Fixed issues with autoplaying videos in the Content Slider module.</li>
+	<li>Fixed posts with double quotes in their names breaking suggest fields.</li>
+	<li>Fixed Number Counter modules in Tabs modules not displaying correctly.</li>
+	<li>Fixed row text color overriding colors set in the Pricing Table module.</li>
+	<li>Fixed Button module popup content being duplicated when rendered inside a Content Slider module via shortcode.</li>
+</ul>
+
 <h4>1.9.2 - 12/13/2016</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>

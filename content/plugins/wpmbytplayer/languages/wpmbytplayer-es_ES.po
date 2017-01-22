@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: mb.YTPlayer background video\n"
-"POT-Creation-Date: 2016-11-24 21:04+0100\n"
-"PO-Revision-Date: 2016-11-24 21:06+0100\n"
+"POT-Creation-Date: 2017-01-08 19:21+0100\n"
+"PO-Revision-Date: 2017-01-08 19:22+0100\n"
 "Last-Translator: Matteo Bicochi <matteo@open-lab.com>\n"
 "Language-Team: Open Lab srl <info@open-lab.com>\n"
 "Language: es\n"
@@ -18,39 +18,28 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: mbYTPlayer.php:17
-msgid "purchase a license"
-msgstr "comprar una licencia"
+#: inc/mb-admin-menu.php:38
+msgid "mb.ideas installed plug-ins"
+msgstr "mb.ideas plug-ins instalados"
 
-#: mbYTPlayer.php:217
-msgid ""
-"<h3>[YTPlayer short code]</h3><p>You need a <b>license key</b> to display a "
-"<b>YTPlayer video</b> using the shortcode.<br> Go to the <b>YTPlayer "
-"settings page</b> to get your license</p>"
-msgstr ""
-"<h3> [YTPlayer short code] </h3><p> Se necesita una <b>clave de licencia</b> "
-"para visualizar un <b>video YTPlayer</b> utilizando el shortcode. <br> Ir a "
-"la <b>página</b> de <b>configuración YTPlayer</b> para obtener su licencia </"
-"p>"
-
-#: mbYTPlayer.php:277
+#: mbYTPlayer.php:224
 msgid "mb.YTPlayer"
 msgstr "mb.YTPlayer"
 
-#: mbYTPlayer.php:278
+#: mbYTPlayer.php:228
 msgid "From here you can set a background video for your home page."
 msgstr ""
 "Desde aquí se puede establecer un fondo de vídeo para tu página de inicio."
 
-#: mbYTPlayer.php:282
+#: mbYTPlayer.php:236
 msgid "activate the background video"
 msgstr "﻿activar el vídeo de fondo"
 
-#: mbYTPlayer.php:291
+#: mbYTPlayer.php:255
 msgid "The Youtube vudeo url is:"
 msgstr "﻿La url vudeo Youtube es:"
 
-#: mbYTPlayer.php:296
+#: mbYTPlayer.php:260
 msgid ""
 "Copy and paste here the URL of the Youtube video you want as your homepage "
 "background. If you add more then one URL comma separated it will be chosen "
@@ -60,35 +49,39 @@ msgstr ""
 "inicio fondo. Adición de más de una URL separados por comas que se elegirá "
 "uno al azar cada vez que llegue a la página."
 
-#: mbYTPlayer.php:302
+#: mbYTPlayer.php:266
 msgid "The page where to show the background video is:"
 msgstr "﻿La página en la que muestra el vídeo de fondo es:"
 
-#: mbYTPlayer.php:307
+#: mbYTPlayer.php:268
 msgid "Static Homepage"
 msgstr "Página de inicio estática"
 
-#: mbYTPlayer.php:311
+#: mbYTPlayer.php:269
 msgid "Blog index Homepage"
 msgstr "Índice de blog Página principal"
 
-#: mbYTPlayer.php:315
+#: mbYTPlayer.php:270
 msgid "Both"
 msgstr "Ambos"
 
-#: mbYTPlayer.php:317
+#: mbYTPlayer.php:271
+msgid "All"
+msgstr "Todas las páginas"
+
+#: mbYTPlayer.php:273
 msgid "Choose on which page you want the background video to be shown"
 msgstr "﻿Elige en qué página desea que el vídeo de fondo que se muestra"
 
-#: mbYTPlayer.php:323
+#: mbYTPlayer.php:279
 msgid "Save Changes"
 msgstr "Guardar Cambios"
 
-#: mbYTPlayer.php:335
+#: mbYTPlayer.php:295
 msgid "Get your <strong>PLUS</strong> plug-in!"
 msgstr "¡Obtén tu <strong>PLUS</strong> plug-in!"
 
-#: mbYTPlayer.php:336
+#: mbYTPlayer.php:296
 msgid ""
 "The <strong>mb.YTPlayer PLUS</strong> plug-in enable the advanced settings "
 "panel, add a short-code editor on the post/page editor page and remove the "
@@ -98,267 +91,229 @@ msgstr ""
 "avanzada del panel, agrega un editor de código corto en la página del editor "
 "de posts/páginas y quitar la marca de agua del reproductor de vídeo."
 
-#: mbYTPlayer.php:340
+#: mbYTPlayer.php:300
 msgid "<strong>Go PLUS</strong> for <b>8 EUR</b> Only"
 msgstr "¡Obtén tu <strong>PLUS</strong> plug-in por sólo <b>8 EUR</b>"
 
-#: mbYTPlayer.php:348
+#: mbYTPlayer.php:313
 msgid "Thanks for installing <b>mb.YTPlayer</b>!"
 msgstr "Gracias por instalar <b>mb.YTPlayer!</b>"
 
-#: mbYTPlayer.php:351
+#: mbYTPlayer.php:316
 #, php-format
 msgid "You're using mb.YTPlayer v. <b>%s</b>"
 msgstr "Estás usando mb.YTPlayer <b>v.%s</b>"
 
-#: mbYTPlayer.php:352
+#: mbYTPlayer.php:317
 msgid "by"
 msgstr "Por"
 
-#: mbYTPlayer.php:355
+#: mbYTPlayer.php:320
 msgid "Don’t forget to follow me on twitter"
 msgstr "No te olvides de seguirme en Twitter"
 
-#: mbYTPlayer.php:357
+#: mbYTPlayer.php:322
 msgid "Visit my site"
 msgstr "Visita mi sitio"
 
-#: mbYTPlayer.php:358
+#: mbYTPlayer.php:323
 msgid "Visit my blog"
 msgstr "Visita mi  Blog"
 
-#: mbYTPlayer.php:359
+#: mbYTPlayer.php:327
 msgid "donate"
 msgstr "Donar"
 
-#: mbYTPlayer.php:365
-msgid "Subscribe to my mailing list to stay in touch"
-msgstr "Suscríbete a mi lista de correo para estar en contacto"
+#: mbYTPlayer.php:333
+msgid "Subscribe to my mailing list <br>to stay in touch"
+msgstr "Suscribirse a mi lista de correo <br> para mantenerse en contacto"
 
-#: mbYTPlayer.php:370
+#: mbYTPlayer.php:338
 msgid "your email address"
 msgstr "su dirección de correo electrónico"
 
-#: mbYTPlayer.php:371
+#: mbYTPlayer.php:339
 msgid "Subscribe"
 msgstr "Suscribirse"
 
-#: ytptinymce/ytplayertinymce.php:29
-msgid "mb.YTPlayer short code generator"
-msgstr "generador de shortcode mb.YTPlayer"
+#~ msgid "purchase a license"
+#~ msgstr "comprar una licencia"
 
-#: ytptinymce/ytplayertinymce.php:104
-msgid "mb.YTPlayer video parameters:"
-msgstr "Parámetros video mb.YTPlayer:"
+#~ msgid ""
+#~ "<h3>[YTPlayer short code]</h3><p>You need a <b>license key</b> to display "
+#~ "a <b>YTPlayer video</b> using the shortcode.<br> Go to the <b>YTPlayer "
+#~ "settings page</b> to get your license</p>"
+#~ msgstr ""
+#~ "<h3> [YTPlayer short code] </h3><p> Se necesita una <b>clave de licencia</"
+#~ "b> para visualizar un <b>video YTPlayer</b> utilizando el shortcode. <br> "
+#~ "Ir a la <b>página</b> de <b>configuración YTPlayer</b> para obtener su "
+#~ "licencia </p>"
 
-#: ytptinymce/ytplayertinymce.php:106
-msgid "Video url"
-msgstr "Url del vídeo"
+#~ msgid "Subscribe to my mailing list to stay in touch"
+#~ msgstr "Suscríbete a mi lista de correo para estar en contacto"
 
-#: ytptinymce/ytplayertinymce.php:108
-msgid "YouTube video URLs (comma separated)"
-msgstr "URL de video de YouTube (separadas por comas)"
+#~ msgid "mb.YTPlayer short code generator"
+#~ msgstr "generador de shortcode mb.YTPlayer"
 
-#: ytptinymce/ytplayertinymce.php:112
-msgid "Opacity"
-msgstr "Opacidad"
+#~ msgid "mb.YTPlayer video parameters:"
+#~ msgstr "Parámetros video mb.YTPlayer:"
 
-#: ytptinymce/ytplayertinymce.php:123
-msgid "YouTube video opacity"
-msgstr "Opacidad vídeo YouTube"
+#~ msgid "Video url"
+#~ msgstr "Url del vídeo"
 
-#: ytptinymce/ytplayertinymce.php:127
-msgid "Quality"
-msgstr "Calidad"
+#~ msgid "YouTube video URLs (comma separated)"
+#~ msgstr "URL de video de YouTube (separadas por comas)"
 
-#: ytptinymce/ytplayertinymce.php:129 ytptinymce/ytplayertinymce.php:143
-msgid "auto detect"
-msgstr "Auto detectar"
+#~ msgid "Opacity"
+#~ msgstr "Opacidad"
 
-#: ytptinymce/ytplayertinymce.php:130
-msgid "small"
-msgstr "Pequeño"
+#~ msgid "YouTube video opacity"
+#~ msgstr "Opacidad vídeo YouTube"
 
-#: ytptinymce/ytplayertinymce.php:131
-msgid "medium"
-msgstr "Mediano"
+#~ msgid "Quality"
+#~ msgstr "Calidad"
 
-#: ytptinymce/ytplayertinymce.php:132
-msgid "large"
-msgstr "Grande"
+#~ msgid "auto detect"
+#~ msgstr "Auto detectar"
 
-#: ytptinymce/ytplayertinymce.php:133
-msgid "hd720"
-msgstr "HD720"
+#~ msgid "small"
+#~ msgstr "Pequeño"
 
-#: ytptinymce/ytplayertinymce.php:134
-msgid "hd1080"
-msgstr "HD1080"
+#~ msgid "medium"
+#~ msgstr "Mediano"
 
-#: ytptinymce/ytplayertinymce.php:135
-msgid "highres"
-msgstr "Highres"
+#~ msgid "large"
+#~ msgstr "Grande"
 
-#: ytptinymce/ytplayertinymce.php:137
-msgid "YouTube video quality"
-msgstr "calidad de vídeo YouTube"
+#~ msgid "hd720"
+#~ msgstr "HD720"
 
-#: ytptinymce/ytplayertinymce.php:141 ytptinymce/ytplayertinymce.php:161
-msgid "Aspect ratio"
-msgstr "Relación de aspecto"
+#~ msgid "hd1080"
+#~ msgstr "HD1080"
 
-#: ytptinymce/ytplayertinymce.php:144 ytptinymce/ytplayertinymce.php:163
-msgid "4/3"
-msgstr "4/3"
+#~ msgid "highres"
+#~ msgstr "Highres"
 
-#: ytptinymce/ytplayertinymce.php:145 ytptinymce/ytplayertinymce.php:164
-msgid "16/9"
-msgstr "16/9"
+#~ msgid "YouTube video quality"
+#~ msgstr "calidad de vídeo YouTube"
 
-#: ytptinymce/ytplayertinymce.php:147
-msgid "YouTube video aspect ratio"
-msgstr "Relación de aspecto video de YouTube"
+#~ msgid "Aspect ratio"
+#~ msgstr "Relación de aspecto"
 
-#: ytptinymce/ytplayertinymce.php:148
-msgid "If \"auto\" the plug in will try to get it from Youtube"
-msgstr "Si \"auto\" el plugin tratará de obtenerlo de Youtube"
+#~ msgid "4/3"
+#~ msgstr "4/3"
 
-#: ytptinymce/ytplayertinymce.php:152
-msgid "Is inline"
-msgstr "Está en línea"
+#~ msgid "16/9"
+#~ msgstr "16/9"
 
-#: ytptinymce/ytplayertinymce.php:154
-msgid "Show the player inline"
-msgstr "Mostrar el reproductor en línea"
+#~ msgid "YouTube video aspect ratio"
+#~ msgstr "Relación de aspecto video de YouTube"
 
-#: ytptinymce/ytplayertinymce.php:158
-msgid "Player width"
-msgstr "Ancho del reproductor"
+#~ msgid "If \"auto\" the plug in will try to get it from Youtube"
+#~ msgstr "Si \"auto\" el plugin tratará de obtenerlo de Youtube"
 
-#: ytptinymce/ytplayertinymce.php:160
-msgid "Set the width of the inline player"
-msgstr "Establecer el ancho del reproductor en línea"
+#~ msgid "Is inline"
+#~ msgstr "Está en línea"
 
-#: ytptinymce/ytplayertinymce.php:166
-msgid "To get the suggested height for the player"
-msgstr "Para obtener la altura sugerida para el reproductor"
+#~ msgid "Show the player inline"
+#~ msgstr "Mostrar el reproductor en línea"
 
-#: ytptinymce/ytplayertinymce.php:168
-msgid "Player height"
-msgstr "Altura reproductor"
+#~ msgid "Player width"
+#~ msgstr "Ancho del reproductor"
 
-#: ytptinymce/ytplayertinymce.php:170
-msgid "Set the height of the inline player"
-msgstr "Ajuste la altura del reproductor en línea"
+#~ msgid "Set the width of the inline player"
+#~ msgstr "Establecer el ancho del reproductor en línea"
 
-#: ytptinymce/ytplayertinymce.php:175
-msgid "Element selector"
-msgstr "selector de elementos"
+#~ msgid "To get the suggested height for the player"
+#~ msgstr "Para obtener la altura sugerida para el reproductor"
 
-#: ytptinymce/ytplayertinymce.php:177
-msgid "Set the ID or the css class of the element where you want the player"
-msgstr ""
-"Establecer la ID o la clase CSS del elemento en el que desea el jugador"
+#~ msgid "Player height"
+#~ msgstr "Altura reproductor"
 
-#: ytptinymce/ytplayertinymce.php:181
-msgid "Show controls"
-msgstr "Mostrar controles"
+#~ msgid "Set the height of the inline player"
+#~ msgstr "Ajuste la altura del reproductor en línea"
 
-#: ytptinymce/ytplayertinymce.php:183
-msgid "show controls for this player"
-msgstr "Mostrar los controles para este reproductor"
+#~ msgid "Element selector"
+#~ msgstr "selector de elementos"
 
-#: ytptinymce/ytplayertinymce.php:186
-msgid "Full screen"
-msgstr "Pantalla completa"
+#~ msgid "Set the ID or the css class of the element where you want the player"
+#~ msgstr ""
+#~ "Establecer la ID o la clase CSS del elemento en el que desea el jugador"
 
-#: ytptinymce/ytplayertinymce.php:188
-msgid "Full screen containment is the screen"
-msgstr "Contención de pantalla completa es la pantalla"
+#~ msgid "Show controls"
+#~ msgstr "Mostrar controles"
 
-#: ytptinymce/ytplayertinymce.php:192
-msgid "Full screen containment is the browser window"
-msgstr "Contención de pantalla completa es la ventana del navegador"
+#~ msgid "show controls for this player"
+#~ msgstr "Mostrar los controles para este reproductor"
 
-#: ytptinymce/ytplayertinymce.php:195
-msgid "Show YouTube® link"
-msgstr "Mostrar enlace de YouTube ®"
+#~ msgid "Full screen"
+#~ msgstr "Pantalla completa"
 
-#: ytptinymce/ytplayertinymce.php:197
-msgid "Show the link to the original YouTube® video"
-msgstr "mostrar el enlace al vídeo de YouTube® original"
+#~ msgid "Full screen containment is the screen"
+#~ msgstr "Contención de pantalla completa es la pantalla"
 
-#: ytptinymce/ytplayertinymce.php:201
-msgid "Autoplay"
-msgstr "Auto reproducir"
+#~ msgid "Full screen containment is the browser window"
+#~ msgstr "Contención de pantalla completa es la ventana del navegador"
 
-#: ytptinymce/ytplayertinymce.php:203
-msgid "The player starts on page load"
-msgstr "El reproductor comienza al cargar la página"
+#~ msgid "Show YouTube® link"
+#~ msgstr "Mostrar enlace de YouTube ®"
 
-#: ytptinymce/ytplayertinymce.php:207
-msgid "Start at"
-msgstr "Iniciar en"
+#~ msgid "Show the link to the original YouTube® video"
+#~ msgstr "mostrar el enlace al vídeo de YouTube® original"
 
-#: ytptinymce/ytplayertinymce.php:209
-msgid "Set the seconds you want the player starts at"
-msgstr "Establecer los segundos en que desea que el jugador comience"
+#~ msgid "Autoplay"
+#~ msgstr "Auto reproducir"
 
-#: ytptinymce/ytplayertinymce.php:213
-msgid "Stop at"
-msgstr "detener en"
+#~ msgid "The player starts on page load"
+#~ msgstr "El reproductor comienza al cargar la página"
 
-#: ytptinymce/ytplayertinymce.php:215
-msgid "Set the seconds you want the player stops at"
-msgstr "Establecer los segundos en que desea que el jugador se detenga"
+#~ msgid "Start at"
+#~ msgstr "Iniciar en"
 
-#: ytptinymce/ytplayertinymce.php:219
-msgid "Audio volume"
-msgstr "Volumen de audio"
+#~ msgid "Set the seconds you want the player starts at"
+#~ msgstr "Establecer los segundos en que desea que el jugador comience"
 
-#: ytptinymce/ytplayertinymce.php:221
-msgid "Set the audio volume (from 0 to 100)"
-msgstr "Ajuste el volumen del vídeo (de 0 a 100)"
+#~ msgid "Stop at"
+#~ msgstr "detener en"
 
-#: ytptinymce/ytplayertinymce.php:225
-msgid "Mute video"
-msgstr "Silenciar vídeo"
+#~ msgid "Set the seconds you want the player stops at"
+#~ msgstr "Establecer los segundos en que desea que el jugador se detenga"
 
-#: ytptinymce/ytplayertinymce.php:227
-msgid "Mute the audio of the video"
-msgstr "silenciar el audio del video"
+#~ msgid "Audio volume"
+#~ msgstr "Volumen de audio"
 
-#: ytptinymce/ytplayertinymce.php:231
-msgid "Loop video"
-msgstr "Volver a reproducir el video"
+#~ msgid "Set the audio volume (from 0 to 100)"
+#~ msgstr "Ajuste el volumen del vídeo (de 0 a 100)"
 
-#: ytptinymce/ytplayertinymce.php:233
-msgid "Loop the video once ended"
-msgstr "Volver a reproducir el video una vez que terminó"
+#~ msgid "Mute video"
+#~ msgstr "Silenciar vídeo"
 
-#: ytptinymce/ytplayertinymce.php:237
-msgid "Add raster"
-msgstr "Añadir efecto de trama"
+#~ msgid "Mute the audio of the video"
+#~ msgstr "silenciar el audio del video"
 
-#: ytptinymce/ytplayertinymce.php:239
-msgid "Add a raster effect"
-msgstr "añadir un efecto de trama"
+#~ msgid "Loop video"
+#~ msgstr "Volver a reproducir el video"
 
-#: ytptinymce/ytplayertinymce.php:243
-msgid "Pause on window blur"
-msgstr "Pausa el jugador si las ventanas desdibujan"
+#~ msgid "Loop the video once ended"
+#~ msgstr "Volver a reproducir el video una vez que terminó"
 
-#: ytptinymce/ytplayertinymce.php:245
-msgid "Pause the player on window blur"
-msgstr "pausar el reproductor en la ventana de desenfoque"
+#~ msgid "Add raster"
+#~ msgstr "Añadir efecto de trama"
 
-#: ytptinymce/ytplayertinymce.php:249
-msgid "Add Google Analytics"
-msgstr "Utilice Google Analytics"
+#~ msgid "Add a raster effect"
+#~ msgstr "añadir un efecto de trama"
 
-#: ytptinymce/ytplayertinymce.php:251
-msgid "Add the event \"play\" on Google Analytics track"
-msgstr "agregar el evento \"play\" en la pista de Google Analytics"
+#~ msgid "Pause on window blur"
+#~ msgstr "Pausa el jugador si las ventanas desdibujan"
+
+#~ msgid "Pause the player on window blur"
+#~ msgstr "pausar el reproductor en la ventana de desenfoque"
+
+#~ msgid "Add Google Analytics"
+#~ msgstr "Utilice Google Analytics"
+
+#~ msgid "Add the event \"play\" on Google Analytics track"
+#~ msgstr "agregar el evento \"play\" en la pista de Google Analytics"
 
 #~ msgid "A license key is needed"
 #~ msgstr "Se necesita una clave de licencia"

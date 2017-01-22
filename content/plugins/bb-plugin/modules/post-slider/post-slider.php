@@ -6,6 +6,11 @@
 class FLPostSliderModule extends FLBuilderModule {
 
 	/**
+	 * @property $query
+	 */
+	public $query = null;
+
+	/**
 	 * @method __construct
 	 */
 	public function __construct()
@@ -90,17 +95,11 @@ class FLPostSliderModule extends FLBuilderModule {
 			// check if we have selected posts
 			if( empty( $this->settings->posts_post ) ){
 
-				// if not, create a default query with it
-				$settings = !empty( $this->settings ) ? $this->settings : new stdClass();			
-				// set WP_Query "fields" arg as 'ids' to return less information
-				$settings->fields = 'ids';
+				// get the current query object
+				$query = $this->get_query();
 
-				// Get the query data.
-				$query = FLBuilderLoop::query( $settings );
-				
-				// build the post_slides array with post id's and featured image url's
-				foreach( $query->posts as $key => $id ){
-					$this->post_slides[ $id ] = $this->get_full_img_src( $id );
+				foreach( $query->posts as $key => $post ){
+					$this->post_slides[ $post->ID ] = $this->get_full_img_src( $post->ID );
 				}
 
 			} else{
@@ -131,6 +130,23 @@ class FLPostSliderModule extends FLBuilderModule {
 	public function _get_uncropped_url( $id ){
 		$posts = $this->_build_posts_array();
 		return $posts[$id];		
+	}
+
+	/**
+	 * Render post slider query based from the settings
+	 * @since 	1.9.3
+	 * @return 	object The query results
+	 */
+	public function get_query(){
+		// if not, create a default query with it
+		$settings = !empty( $this->settings ) ? $this->settings : new stdClass();			
+		
+		if ( ! $this->query ) {
+			// Get the new query data.
+			$this->query = FLBuilderLoop::query( $settings );
+		}
+
+		return $this->query;
 	}
 
 	/**

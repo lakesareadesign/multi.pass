@@ -31,8 +31,10 @@
 				waitText    	= this.button.closest( '.fl-form-button' ).data( 'wait-text' ),
 				name        	= this.form.find( 'input[name=fl-subscribe-form-name]' ),
 				email       	= this.form.find( 'input[name=fl-subscribe-form-email]' ),
+				recaptcha 		= this.form.find( '.g-recaptcha' ),
 				re          	= /\S+@\S+\.\S+/,
-				valid       	= true;
+				valid       	= true,
+				ajaxData 		= null;
 				
 			e.preventDefault();
 
@@ -49,6 +51,18 @@
 				email.siblings( '.fl-form-error-message' ).show();
 				valid = false;
 			}
+			if ( recaptcha.length > 0 && typeof grecaptcha !== 'undefined' ) {
+				if ( grecaptcha.getResponse() == '' ) {
+					recaptcha.addClass( 'fl-form-error' );
+					recaptcha.siblings( '.fl-form-error-message' ).show();
+					valid = false;
+				}
+				else {
+					recaptcha.removeClass( 'fl-form-error' );
+					recaptcha.siblings( '.fl-form-error-message' ).hide();
+				}
+				
+			}
 			
 			if ( valid ) {
 				
@@ -57,7 +71,7 @@
 				this.button.data( 'original-text', buttonText );
 				this.button.addClass( 'fl-form-button-disabled' );
 				
-				$.post( FLBuilderLayoutConfig.paths.wpAjaxUrl, {
+				ajaxData = {
 					action  			: 'fl_builder_subscribe_form_submit',
 					name    			: name.val(),
 					email   			: email.val(),
@@ -65,7 +79,13 @@
 					template_id 		: templateId,
 					template_node_id 	: templateNodeId,
 					node_id 			: nodeId
-				}, $.proxy( this._submitFormComplete, this ) );
+				};
+
+				if ( typeof grecaptcha !== 'undefined' ) {
+					ajaxData.recaptcha = grecaptcha.getResponse();
+				}
+
+				$.post( FLBuilderLayoutConfig.paths.wpAjaxUrl, ajaxData, $.proxy( this._submitFormComplete, this ) );
 			}
 		},
 		

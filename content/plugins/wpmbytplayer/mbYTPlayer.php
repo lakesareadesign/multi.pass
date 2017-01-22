@@ -4,13 +4,13 @@ Plugin Name: mb.YTPlayer for background videos
 Plugin URI: http://pupunzi.com/#mb.components/mb.YTPlayer/YTPlayer.html
 Description: Play a Youtube video as background of your page. Go to <strong>mb.ideas > mb.YTPlayer</strong> to activate the background video option for your homepage.
 Author: Pupunzi (Matteo Bicocchi)
-Version: 3.0.6
+Version: 3.0.7
 Author URI: http://pupunzi.com
 Text Domain: wpmbytplayer
 */
 
 
-define("MBYTPLAYER_VERSION", "3.0.6");
+define("MBYTPLAYER_VERSION", "3.0.7");
 
 // Set unique string for this site
 $lic_domain = $_SERVER['HTTP_HOST'];
@@ -254,9 +254,22 @@ function mbYTPlayer_options_page()
                 <tr valign="top">
                     <th scope="row"> <?php _e('The Youtube vudeo url is:', 'wpmbytplayer'); ?></th>
                     <td>
-                        <textarea name="mbYTPlayer_home_video_url" style="width:100%"
-                                  value="<?php echo esc_attr(get_option('mbYTPlayer_home_video_url')); ?>"><?php echo esc_attr(get_option('mbYTPlayer_home_video_url')); ?></textarea>
-
+                        <?php
+                        $ytpl_video_url = get_option('mbYTPlayer_home_video_url');
+                        $vids = explode(',', $ytpl_video_url);
+                        $n = count($vids);
+                        $n = $n > 2 ? 2 : $n;
+                        $w = (480/$n) - ($n>1 ? (3*$n) : 0);
+                        $h = 315/$n;
+                        foreach ($vids as $vurl) {
+                            $YouTubeCheck = preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $vurl, $matches);
+                            if ($YouTubeCheck) {
+                                $ytvideoId = $matches[0];
+                                ?>
+                            <iframe width="<?php echo $w ?>" height="<?php echo $h ?>" style="display: inline-block" src="https://www.youtube.com/embed/<?php echo $ytvideoId ?>?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe><?php
+                            }
+                        }?>
+                        <textarea name="mbYTPlayer_home_video_url" style="width:100%" value="<?php echo esc_attr(get_option('mbYTPlayer_home_video_url')); ?>"><?php echo esc_attr(get_option('mbYTPlayer_home_video_url')); ?></textarea>
                         <p><?php _e('Copy and paste here the URL of the Youtube video you want as your homepage background. If you add more then one URL comma separated it will be chosen one randomly each time you reach the page', 'wpmbytplayer'); ?>
                         </p>
                     </td>
@@ -346,7 +359,7 @@ function mbYTPlayer_options_page()
 
             <div id="share" style="margin-top: 10px; min-height: 80px">
                 <a href="https://twitter.com/share" class="twitter-share-button"
-                   data-url="http://wordpress.org/extend/plugins/wpmbytplayer/"
+                   data-url="https://wordpress.org/plugins/wpmbytplayer/"
                    data-text="I'm using the mb.YTPlayer WP plugin for background videos" data-via="pupunzi"
                    data-hashtags="HTML5,wordpress,plugin">Tweet</a>
                 <script>!function (d, s, id) {
@@ -368,7 +381,7 @@ function mbYTPlayer_options_page()
                         fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));</script>
                 <div style="margin-top: 10px" class="fb-like"
-                     data-href="http://wordpress.org/extend/plugins/wpmbytplayer/" data-send="false"
+                     data-href="https://wordpress.org/plugins/wpmbytplayer/" data-send="false"
                      data-layout="button_count" data-width="450" data-show-faces="true" data-font="arial"></div>
             </div>
         </div>
@@ -432,8 +445,8 @@ b.prepend(ytp_wm)})},5E3)});';
 /**
  * Deactivate plugin if PLUS version exist.
  */
-add_action('plugins_loaded', 'mbtg_free_deactivate');
-function mbtg_free_deactivate()
+add_action('plugins_loaded', 'mbytp_free_deactivate');
+function mbytp_free_deactivate()
 {
     global $ytppro, $this_plugin;
     if ($ytppro){

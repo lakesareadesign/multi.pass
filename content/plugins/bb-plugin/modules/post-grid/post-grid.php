@@ -45,7 +45,7 @@ class FLPostGridModule extends FLBuilderModule {
 	static public function schema_meta()
 	{
 		// General Schema Meta
-		echo '<meta itemscope itemprop="mainEntityOfPage" itemid="' . get_permalink() . '" />';
+		echo '<meta itemscope itemprop="mainEntityOfPage" itemtype="http://schema.org/WebPage" itemid="' . get_permalink() . '" content="' . get_the_title() . '" />';
 		echo '<meta itemprop="datePublished" content="' . get_the_time('Y-m-d') . '" />';
 		echo '<meta itemprop="dateModified" content="' . get_the_modified_date('Y-m-d') . '" />';
 		

@@ -455,8 +455,12 @@ class MetaSlide {
      */
     public function get_thumb() {
 
-        $imageHelper = new MetaSliderImageHelper( $this->slide->ID, 150, 150, 'false' );
-        return $imageHelper->get_image_url();
+        $image = wp_get_attachment_image_src($this->slide->ID, 'thumbnail');
 
+        if (isset($image[0])) {
+            return $image[0];
+        }
+
+        return "";
     }
 }

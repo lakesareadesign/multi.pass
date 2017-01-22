@@ -11,16 +11,16 @@ body.login{background-color:<?php echo $this->aof_options['login_bg_color'] . ' 
 html, body.login:after { display: block; clear: both; }
 body.login-action-register { position: relative }
 body.login-action-login, body.login-action-lostpassword { position: fixed }
-.login h1 a { 
+.login h1 a {
 <?php if(!empty($login_logo)) { ?>
 width: 100%;
-background: url(<?php echo $login_logo; ?>) center center no-repeat; 
+background: url(<?php echo $login_logo; ?>) center center no-repeat;
 <?php if($this->aof_options['admin_logo_resize']) { ?>
-background-size: <?php echo $this->aof_options['admin_logo_size_percent']; ?>%;	
+background-size: <?php echo $this->aof_options['admin_logo_size_percent']; ?>%;
 <?php }
 } ?>
 height:<?php echo $this->aof_options['admin_logo_height']; ?>px; margin: 0 auto 20px; }
-div#login { background: <?php if($this->aof_options['login_divbg_transparent'] ==1) echo 'transparent'; else echo $this->aof_options['login_divbg_color']; ?>; margin-top: <?php echo $this->aof_options['login_form_margintop']; ?>px; padding: 18px 0 }
+div#login { background: <?php if($this->aof_options['login_divbg_transparent'] ==1) echo 'transparent'; else echo $this->aof_options['login_divbg_color']; ?>; margin-top: <?php echo $this->aof_options['login_form_margintop']; ?>%; padding: 18px 0 }
 body.interim-login div#login {width: 95% !important; height: auto }
 .login label, .login form, .login form p { color: <?php echo $this->aof_options['form_text_color']; ?> !important }
 .login a { text-decoration: underline; color: <?php echo $this->aof_options['form_link_color']; ?> !important }
@@ -30,7 +30,7 @@ form#loginform .button-primary, form#registerform .button-primary, .button-prima
 form#loginform .button-primary.focus,form#loginform .button-primary.hover,form#loginform .button-primary:focus,form#loginform .button-primary:hover, form#registerform .button-primary.focus, form#registerform .button-primary.hover,form#registerform .button-primary:focus,form#registerform .button-primary:hover { background: <?php echo $this->aof_options['pry_button_hover_color']; ?> !important;border-color:<?php echo $this->aof_options['pry_button_hover_border_color']; ?> !important; }
 <?php if($this->aof_options['login_divbg_transparent'] == 1) { ?>.login #backtoblog, .login #nav { margin : 0; padding: 0 } .login form { padding-top: 2px !important}<?php } ?>
 
-.login form input.input { background: <?php if(!empty($this->aof_options['login_inputs_bg_color'])) echo $this->aof_options['login_inputs_bg_color']; else echo '#324148' ?> url(<?php echo ALTER_DIR_URI; ?>assets/images/login-sprite.png) no-repeat; 
+.login form input.input { background: <?php if(!empty($this->aof_options['login_inputs_bg_color'])) echo $this->aof_options['login_inputs_bg_color']; else echo '#324148' ?> url(<?php echo ALTER_DIR_URI; ?>assets/images/login-sprite.png) no-repeat;
         padding: 9px 0 9px 38px !important; font-size: 16px !important; line-height: 1; outline: none !important; border: none !important;
 color: <?php if(!empty($this->aof_options['login_inputs_text_color'])) echo $this->aof_options['login_inputs_text_color']; else echo '#e5e5e5' ?>;
 border:1px solid #101010; box-shadow: 0 0 2px #222;
@@ -51,8 +51,8 @@ div.updated a:hover, .login #login_error a:hover, .login .message a:hover { colo
 
 .login_footer_content { padding: 40px 0; text-align:center; }
 .footer_content { }
-<?php if($this->aof_options['hide_backtoblog'] == 1) echo '#backtoblog { display:none !important; }'; 
-if($this->aof_options['hide_remember'] == 1) echo 'p.forgetmenot { display:none !important; }'; 
+<?php if($this->aof_options['hide_backtoblog'] == 1) echo '#backtoblog { display:none !important; }';
+if($this->aof_options['hide_remember'] == 1) echo 'p.forgetmenot { display:none !important; }';
 
 if($this->aof_options['design_type'] == 2) { ?>
 .wp-core-ui .button,.wp-core-ui .button-secondary {border-color:<?php echo $this->aof_options['sec_button_border_color']; ?>;-webkit-box-shadow:inset 0 1px 0 <?php echo $this->aof_options['sec_button_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.08);box-shadow:inset 0 1px 0 <?php echo $this->aof_options['sec_button_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.08);}
@@ -62,7 +62,7 @@ if($this->aof_options['design_type'] == 2) { ?>
 <?php }
 if($this->aof_options['design_type'] == 1) {
 ?>
-.login .message, .button-primary, .wp-core-ui .button-primary { 
+.login .message, .button-primary, .wp-core-ui .button-primary {
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     box-shadow: none !important;
@@ -88,8 +88,8 @@ echo $this->aof_options['login_custom_css']; ?>
 	body.login {
 		background-size: auto;
 	}
-	body.login-action-login, body.login-action-lostpassword { 
-		position: relative; 
+	body.login-action-login, body.login-action-lostpassword {
+		position: relative;
 	}
 }
 </style>

@@ -325,8 +325,15 @@ class UM_User {
 	 *
 	 */
 	function auto_login( $user_id, $rememberme = 0 ) {
-		wp_set_current_user($user_id);
-		wp_set_auth_cookie($user_id, $rememberme );
+		
+		wp_set_current_user( $user_id );
+		
+		wp_set_auth_cookie( $user_id, $rememberme );
+		
+		$user = get_user_by('ID', $user_id );
+		
+		do_action( 'wp_login', $user->user_login, $user );
+
 	}
 
 	/***
@@ -798,7 +805,7 @@ class UM_User {
 		foreach($actions as $id => $arr ) {
 			$url = add_query_arg('um_action', $id );
 			$url = add_query_arg('uid', um_profile_id(), $url );
-			$items[] = '<a href="' . $url .'" class="real_url">' . $arr['label'] . '</a>';
+			$items[] = '<a href="' . $url .'" class="real_url '.$id.'-item">' . $arr['label'] . '</a>';
 		}
 		return $items;
 	}

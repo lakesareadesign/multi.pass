@@ -51,7 +51,7 @@ var getYTPVideoID = function( url ) {
 	jQuery.mbYTPlayer = {
 		name: "jquery.mb.YTPlayer",
 		version: "3.0.10",
-		build: "6075",
+		build: "6079",
 		author: "Matteo Bicocchi (pupunzi)",
 		apiKey: "",
 		defaults: {
@@ -1805,14 +1805,14 @@ var getYTPVideoID = function( url ) {
 		//data.optimizeDisplay = YTPlayer.isPlayer ? false : data.optimizeDisplay;
 
 		if( YTPlayer.opt.optimizeDisplay ) {
-			var abundance = YTPlayer.isPlayer ? 0 : 200;
+			var abundance = YTPlayer.isPlayer ? 0 : 80;
 			var win = {};
 			var el = YTPlayer.wrapper;
 
 			win.width = el.outerWidth();
-			win.height = el.outerHeight();
+			win.height = el.outerHeight() + abundance;
 
-			vid.width = win.width + abundance;
+			vid.width = win.width;
 			vid.height = YTPlayer.opt.ratio == "16/9" ? Math.ceil( vid.width * ( 9 / 16 ) ) : Math.ceil( vid.width * ( 3 / 4 ) );
 
 			vid.marginTop = -( ( vid.height - win.height ) / 2 );
@@ -1822,7 +1822,7 @@ var getYTPVideoID = function( url ) {
 
 			if( lowest ) {
 
-				vid.height = win.height + abundance;
+				vid.height = win.height;
 				vid.width = YTPlayer.opt.ratio == "16/9" ? Math.floor( vid.height * ( 16 / 9 ) ) : Math.floor( vid.height * ( 4 / 3 ) );
 
 				vid.marginTop = 0;
@@ -1843,7 +1843,7 @@ var getYTPVideoID = function( url ) {
 							break;
 
 						case "bottom":
-							vid.marginTop = lowest ? 0 : -( vid.height - win.height );
+							vid.marginTop = lowest ? 0 : -( vid.height - ( win.height ) );
 							break;
 
 						case "left":

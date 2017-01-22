@@ -434,6 +434,7 @@ html.fl-builder-edit {
 .fl-builder-block-template-image {
 	margin: 5px 0 10px;
 	max-width: 100%;
+	border: 1px solid #dfdfdf;
 }
 .fl-builder-block-template .fl-builder-block-title {
 	display: block;
@@ -1388,6 +1389,12 @@ form.fl-builder-settings {
 .fl-builder-settings-tab-description {
 	background: #f5f5f5;
 	padding: 10px 15px;
+}
+.fl-builder-settings-tab-description a {
+	text-decoration: underline !important;
+}
+.fl-builder-settings-tab-description a:hover {
+	color: #333;
 }
 
 /* Settings Tables

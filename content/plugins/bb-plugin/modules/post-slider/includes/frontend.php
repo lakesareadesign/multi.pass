@@ -4,7 +4,7 @@
 add_filter('fl_builder_loop_query_args', array($module, 'remove_pagination_args'), 10 );
 
 // Get the query data.
-$query = FLBuilderLoop::query( $settings );
+$query = $module->get_query();
 
 // Remove filter to prevent breaking other modules
 remove_filter('fl_builder_loop_query_args', array($module, 'remove_pagination_args'), 10);
@@ -16,7 +16,7 @@ if( $query->have_posts() ) :
 
 	<div class="fl-post-slider" itemscope="itemscope" itemtype="http://schema.org/Blog">
 		<div class="fl-post-slider-wrapper">
-			
+
 			<?php
 
 				while( $query->have_posts() ) {
@@ -33,9 +33,9 @@ if( $query->have_posts() ) :
 
 	// Render the navigation.
 	if( $settings->navigation == 'yes' && $query->have_posts() ) : ?>
-		<div class="fl-post-slider-navigation">
-			<a class="slider-prev" href="#"><div class="fl-post-slider-svg-container"><?php include FL_BUILDER_DIR .'img/svg/arrow-left.svg'; ?></div></a>
-			<a class="slider-next" href="#"><div class="fl-post-slider-svg-container"><?php include FL_BUILDER_DIR .'img/svg/arrow-right.svg'; ?></div></a>
+		<div class="fl-post-slider-navigation" aria-label="post slider buttons">
+			<a class="slider-prev" href="#" aria-label="previous" aria-role="button"><div class="fl-post-slider-svg-container"><?php include FL_BUILDER_DIR .'img/svg/arrow-left.svg'; ?></div></a>
+			<a class="slider-next" href="#" aria-label="next" aria-role="button"><div class="fl-post-slider-svg-container"><?php include FL_BUILDER_DIR .'img/svg/arrow-right.svg'; ?></div></a>
 		</div>
 	<?php endif; ?>
 	</div>

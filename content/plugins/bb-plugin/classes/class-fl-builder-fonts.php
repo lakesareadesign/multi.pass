@@ -129,10 +129,10 @@ final class FLBuilderFonts {
 
 		if( array_key_exists( $font['family'], $system_fonts ) ){
 
-			$css .= 'font-family: '. $font['family'] .','. $system_fonts[ $font['family'] ]['fallback'] .';';
+			$css .= 'font-family: "'. $font['family'] .'",'. $system_fonts[ $font['family'] ]['fallback'] .';';
 
 		} else {
-			$css .= 'font-family: '. $font['family'] .';';
+			$css .= 'font-family: "'. $font['family'] .'";';
 		}
 
 		if ( 'regular' == $font['weight'] ) {

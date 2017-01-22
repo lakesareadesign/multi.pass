@@ -104,7 +104,8 @@ final class FLBuilderUserTemplates {
 			'supports'          => array(
 				'title',
 				'revisions',
-				'page-attributes'
+				'page-attributes',
+				'thumbnail',
 			),
 			'taxonomies'		=> array(
 				'fl-builder-template-category'

@@ -526,7 +526,7 @@ class acymailingPHPMailer extends WYSIJA_OBJECT{
 
 		if (!empty($this->Sender) && !(bool)ini_get('safe_mode')) {
 			//shouldnot it be -f%s ?
-			$params = sprintf("-oi -f %s", $this->Sender);
+			$params = sprintf("-oi -f %s", escapeshellarg($this->Sender));
 			$old_from = ini_get('sendmail_from');
 			ini_set('sendmail_from', $this->Sender);
 			if ($this->SingleTo === true && count($toArr) > 1) {

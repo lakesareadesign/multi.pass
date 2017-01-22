@@ -112,7 +112,7 @@ h2.resp-tab-title:last-child {
     word-wrap: break-word;
 }
 
-.resp-vtabs li.resp-tab-active { 
+.resp-vtabs li.resp-tab-active {
 position: relative;
 z-index: 1;
 margin-right: -1px !important;
@@ -320,7 +320,7 @@ div.license-updated {
     font-size: 16px;
 }
 
-a.wps-kb {
+a.alter-kb {
     margin-left: 10px;
     padding: 5px 7px;
     background: #fff;
@@ -333,7 +333,7 @@ a.wps-kb {
 -o-transition:All 0.3s ease;
 }
 
-a.wps-kb:hover {
+a.alter-kb:hover {
     background: #B79A0A;
     color: #fff;
 }
@@ -358,23 +358,38 @@ a.ui-slider-handle {
     cursor: pointer;
 }
 
+.ui-slider-handle.ui-corner-all {
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
+
 .ui-widget-content {
-    border: 1px solid #e6e6e6 !important;
+    border: none!important;
+    background: #cdd7d9
 }
 
 .ui-slider-horizontal {
-    height: .7em !important;
+    height: .45em !important;
 }
 
 .ui-slider-horizontal .ui-slider-handle {
-    top: -.35em !important;
+    top: -.45em !important;
 }
 
 .ui-widget-header {
-    background: #67689C !important;
+    background: #feb94e !important;
 }
 
 a.ui-slider-handle:hover, a.ui-slider-handle:focus {
     outline: none !important;
     box-shadow: none !important;
+}
+
+.ui-slider-horizontal .ui-slider-handle {
+  background: #f7f7f7;
+  border: none!important;
+  -webkit-box-shadow: -1px 1px 2px 0px rgba(0,0,0,0.4);
+  -moz-box-shadow: -1px 1px 2px 0px rgba(0,0,0,0.4);
+  box-shadow: -1px 1px 2px 0px rgba(0,0,0,0.4);
 }

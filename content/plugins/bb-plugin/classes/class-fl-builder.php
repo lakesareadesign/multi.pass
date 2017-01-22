@@ -64,6 +64,7 @@ final class FLBuilder {
 		add_filter('body_class',                                   __CLASS__ . '::body_class');
 		add_filter('wp_default_editor',                            __CLASS__ . '::default_editor');
 		add_filter('mce_css',                                      __CLASS__ . '::add_editor_css');
+		add_filter('mce_buttons',                                  __CLASS__ . '::editor_buttons');
 		add_filter('mce_buttons_2',                                __CLASS__ . '::editor_buttons_2');
 		add_filter('mce_external_plugins',                         __CLASS__ . '::editor_external_plugins', 9999);
 		add_filter('tiny_mce_before_init',                         __CLASS__ . '::editor_font_sizes');
@@ -190,6 +191,24 @@ final class FLBuilder {
 	}
 
 	/**
+	 * Filter text editor buttons for the first row
+	 *
+	 * @since 1.0
+	 * @param array $buttons The current buttons array.
+	 * @return array
+	 */
+	static public function editor_buttons( $buttons )
+	{
+		if ( FLBuilderModel::is_builder_active() ) {
+			if ( ( $key = array_search( 'wp_more', $buttons ) ) !== false ) {
+				unset( $buttons[ $key ] );
+			}
+		}
+
+		return $buttons;
+	}
+
+	/**
 	 * Add additional buttons to the text editor.
 	 *
 	 * @since 1.0
@@ -302,6 +321,7 @@ final class FLBuilder {
 		$ver     = FL_BUILDER_VERSION;
 		$css_url = plugins_url('/css/', FL_BUILDER_FILE);
 		$js_url  = plugins_url('/js/', FL_BUILDER_FILE);
+		$min     = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
 
 		// Register additional CSS
 		wp_register_style('fl-slideshow',           $css_url . 'fl-slideshow.css', array('yui3'), $ver);
@@ -314,7 +334,7 @@ final class FLBuilder {
 		wp_register_style('foundation-icons',       'https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css', array(), $ver);
 
 		// Register additional JS
-		wp_register_script('fl-slideshow',          $js_url . 'fl-slideshow.js', array('yui3'), $ver, true);
+		wp_register_script('fl-slideshow',          $js_url . 'fl-slideshow' . $min . '.js', array('yui3'), $ver, true);
 		wp_register_script('fl-gallery-grid',       $js_url . 'fl-gallery-grid.js', array('jquery'), $ver, true);
 		wp_register_script('jquery-bxslider',       $js_url . 'jquery.bxslider.min.js', array('jquery-easing', 'jquery-fitvids'), $ver, true);
 		wp_register_script('jquery-easing',         $js_url . 'jquery.easing.1.3.js', array('jquery'), '1.3', true);
@@ -394,8 +414,15 @@ final class FLBuilder {
 				else if($row->settings->bg_type == 'video') {
 					wp_enqueue_script('jquery-imagesloaded');
 					if ( $row->settings->bg_video_source == 'video_service' ) {
-						wp_enqueue_script('youtube-player');
-						wp_enqueue_script('vimeo-player');
+						
+						$video_data = FLBuilderUtils::get_video_data($row->settings->bg_video_service_url);
+
+						if( $video_data['type'] == 'youtube' ) {
+							wp_enqueue_script('youtube-player');
+						}
+						else if($video_data['type'] == 'vimeo') {
+							wp_enqueue_script('vimeo-player');
+						}
 					}
 				}
 			}
@@ -531,8 +558,6 @@ final class FLBuilder {
 			wp_enqueue_script('editor');
 			wp_enqueue_script('quicktags');
 			wp_enqueue_script('json2');
-			wp_enqueue_script('youtube-player');
-			wp_enqueue_script('vimeo-player');
 			wp_enqueue_script('jquery-ui-droppable');
 			wp_enqueue_script('jquery-ui-draggable');
 			wp_enqueue_script('jquery-ui-slider');
@@ -1191,12 +1216,17 @@ final class FLBuilder {
 		$is_multiple        = isset($field['multiple']) && $field['multiple'] === true;
 		$supports_multiple  = $field['type'] != 'editor' && $field['type'] != 'photo' && $field['type'] != 'service';
 		$settings           = ! $settings ? new stdClass() : $settings;
-		$value              = isset($settings->$name) ? $settings->$name : '';
 		$preview            = isset($field['preview']) ? json_encode($field['preview']) : json_encode(array('type' => 'refresh'));
 		$row_class          = isset($field['row_class']) ? ' ' . $field['row_class'] : '';
 		$responsive         = false;
 		$root_name          = $name;
 		$global_settings    = FLBuilderModel::get_global_settings();
+		$value              = isset($settings->$name) ? $settings->$name : '';
+		
+		// Use a default value if not set in the settings.
+		if ( ! isset( $settings->$name ) && isset( $field['default'] ) ) {
+			$value = $field['default'];
+		}
 
 		// Check to see if responsive is enabled for this field (unit field only for now).
 		if ( $global_settings->responsive_enabled && isset( $field['responsive'] ) && ! $is_multiple && 'unit' == $field['type'] ) {
@@ -1764,7 +1794,7 @@ final class FLBuilder {
 			'class' 	=> 'fl-builder-module-settings fl-builder-'. $type .'-settings',
 			'attrs' 	=> 'data-node="'. $node_id .'" data-parent="'. $parent_id .'" data-type="'. $type .'"',
 			'title' 	=> sprintf( '%s ' . __( 'Settings', 'fl-builder' ), $module->name ),
-			'tabs'  	=> $module->form,
+			'tabs'  	=> apply_filters( 'fl_builder_render_module_settings', $module->form, $module ),
 			'resizable' => true
 		), $settings);
 		

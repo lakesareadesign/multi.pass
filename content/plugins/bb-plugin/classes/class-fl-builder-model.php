@@ -3260,6 +3260,7 @@ final class FLBuilderModel {
 		$post_id	  = self::get_post_id();
 		$post		  = get_post($post_id);
 		$current_user = wp_get_current_user();
+		$template_id  = false;
 
 		// Duplicate the post.
 		$data = array(
@@ -3268,7 +3269,7 @@ final class FLBuilderModel {
 			'post_author'	 => $current_user->ID,
 			'post_content'	 => $post->post_content,
 			'post_excerpt'	 => $post->post_excerpt,
-			'post_name'		 => $post->post_name,
+			'post_name'		 => $post->post_name . '-copy',
 			'post_parent'	 => $post->post_parent,
 			'post_password'	 => $post->post_password,
 			'post_status'	 => 'draft',
@@ -3289,8 +3290,15 @@ final class FLBuilderModel {
 			$sql = "INSERT INTO {$wpdb->postmeta} (post_id, meta_key, meta_value) ";
 
 			foreach($post_meta as $meta_info) {
-				$meta_key	  = $meta_info->meta_key;
-				$meta_value	  = addslashes($meta_info->meta_value);
+				$meta_key = $meta_info->meta_key;
+				
+				if ( $meta_key == '_fl_builder_template_id' ) {
+					$meta_value = self::generate_node_id();
+				}
+				else {
+					$meta_value = addslashes($meta_info->meta_value);
+				}
+
 				$sql_select[] = "SELECT {$new_post_id}, '{$meta_key}', '{$meta_value}'";
 			}
 
@@ -3316,8 +3324,20 @@ final class FLBuilderModel {
 		// Generate new node ids.
 		$data = self::generate_new_node_ids($data);
 
+		// Update template ID and template node ID		
+		$template_id = get_post_meta( $new_post_id, '_fl_builder_template_id', true );
+		if ( $template_id ) {
+			foreach ( $data as $node_id => $node ) {
+				$data[ $node_id ]->template_id = $template_id;
+				$data[ $node_id ]->template_node_id = $node_id;
+			}
+		}
+
 		// Save the duplicated layout data.
 		self::update_layout_data($data, 'published', $new_post_id);
+
+		// Also update draft data
+		self::update_layout_data($data, 'draft', $new_post_id);
 
 		// Return the new post id.
 		return $new_post_id;
@@ -3870,7 +3890,7 @@ final class FLBuilderModel {
 				}
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -4511,7 +4531,12 @@ final class FLBuilderModel {
 	 */
 	static public function set_node_template_default_type( $post_id, $post, $update )
 	{
+		$post_data = self::get_post_data();
+		
 		if ( $update || 'fl-builder-template' != $post->post_type ) {
+			return;
+		}
+		if ( isset( $post_data['fl_action'] ) && 'duplicate_post' == $post_data['fl_action'] ) {
 			return;
 		}
 		
@@ -4997,7 +5022,7 @@ final class FLBuilderModel {
 				}
 			}
 			
-			if ( strstr( $template->image, '://' ) ) {
+			if ( strstr( $template->image, '://' ) || strstr( $template->image, ';base64,' ) ) {
 				$image = $template->image;
 			}
 			else {
