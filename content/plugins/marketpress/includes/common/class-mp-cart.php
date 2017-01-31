@@ -557,7 +557,7 @@ class MP_Cart {
 
 				case 'qty' :
 					if ( $this->is_editable ) {
-						if ( $product->is_download() && mp_get_setting( 'download_order_limit' ) == '1' ) {
+						if ( ( $product->is_download() && mp_get_setting( 'download_order_limit' ) == '1' ) || get_post_meta( $product->ID, 'mp_app_product', true ) == 1 || get_post_meta( $product->post_parent, 'mp_app_product', true ) ) {
 							$column_html = $product->qty;
 						} else {
 							$column_html = $this->dropdown_quantity( array(
@@ -1129,7 +1129,7 @@ class MP_Cart {
 		$attributes = mp_array_to_attributes( compact( 'name', 'class', 'id' ) );
 		$html = '';
 
-		if( $max_dropdown > 1 ){
+		if( $max_dropdown > 1 || $max > 1 ){
 			$html = '
 				<select' . $attributes . '>';
 
@@ -1137,7 +1137,7 @@ class MP_Cart {
 				$max = $selected;
 			}
 
-			for ( $i = 1; $i <= $max_dropdown; $i ++ ) {
+			for ( $i = 1; $i <= $max; $i ++ ) {
 				$html .= '
 					<option value="' . $i . '" ' . selected( $i, $selected, false ) . '>' . number_format_i18n( $i, 0 ) . '</option>';
 			}
@@ -1235,6 +1235,8 @@ class MP_Cart {
 
 		$disable_cart = mp_get_setting( 'disable_cart', 0 );
 
+		$page_id = get_the_ID();
+
 		if ( mp_get_setting( 'disable_cart' ) == '1' || mp_get_setting( 'disable_minicart' ) == '1' ) {
 			return;
 		}
@@ -1249,7 +1251,7 @@ class MP_Cart {
 		if ( $cart_needed && ! mp_doing_ajax() ) {
 			//show floating cart
 		} else {
-			if ( ( ! mp_is_shop_page() || mp_is_shop_page( 'cart' ) || mp_is_shop_page( 'checkout' ) ) && ! mp_doing_ajax() ) {
+			if ( ( ! mp_is_shop_page( $page_id ) || mp_is_shop_page( 'cart' ) || mp_is_shop_page( 'checkout' ) ) && ! mp_doing_ajax() ) {
 				return;
 			}
 		}

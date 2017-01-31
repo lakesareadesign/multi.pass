@@ -1,7 +1,7 @@
 <?php
 $type = 'cidfont0';
 $name = 'KozMinPro-Regular-Acro';
-$displayname = 'Kozuka Mincho Pro (Japanese Serif)';									   	 	   		
+$displayname = 'Kozuka Mincho Pro (Japanese Serif)';
 $desc = array(
 	'Ascent' => 880,
 	'Descent' => -120,

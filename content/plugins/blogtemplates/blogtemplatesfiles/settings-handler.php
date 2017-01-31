@@ -88,7 +88,7 @@ class NBT_Plugin_Settings_Handler {
 		foreach( $current_settings['templates'] as $key => $template ) {
             $options = $template['options'];
             unset( $current_settings['templates'][ $key ]['options'] );
-            $current_settings['templates'][ $key ] = array_merge( $current_settings['templates'][ $key ], $options );
+            $current_settings['templates'][ $key ] = array_merge( $current_settings['templates'][ $key ], $options );	     	 	  			 		 
         }
 
         $this->settings = wp_parse_args( $current_settings, $this->get_default_settings() );

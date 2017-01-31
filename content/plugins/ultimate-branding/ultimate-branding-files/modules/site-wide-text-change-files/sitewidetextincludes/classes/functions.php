@@ -31,7 +31,7 @@ if(!function_exists('set_swt_dir')) {
 		} elseif( defined( 'WP_PLUGIN_DIR' ) && file_exists( WP_PLUGIN_DIR . '/site-wide-text-change/' . basename( $base ) ) ) {
 			$swt_dir = trailingslashit( WP_PLUGIN_DIR . '/site-wide-text-change' );
 		} else {
-			$swt_dir = trailingslashit( WP_PLUGIN_DIR . '/site-wide-text-change' );	   	 		 		 	   		
+			$swt_dir = trailingslashit( WP_PLUGIN_DIR . '/site-wide-text-change' );
 		}
 	}
 

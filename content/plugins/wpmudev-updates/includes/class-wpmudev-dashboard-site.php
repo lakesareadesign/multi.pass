@@ -172,12 +172,6 @@ class WPMUDEV_Dashboard_Site {
 
 		$nopriv_ajax_actions = array(
 			'wdpunauth',
-			'wdpupdate',
-			'wdpupdate-batch',
-			'wdpupdate-cancel',
-			'wdpupdate-status',
-			'wdpreport',
-			'wdplogout',
 		);
 		foreach ( $nopriv_ajax_actions as $action ) {
 			add_action( "wp_ajax_$action", array( $this, 'nopriv_process_ajax' ) );
@@ -423,11 +417,6 @@ class WPMUDEV_Dashboard_Site {
 
 		foreach ( $flags as $flag => $default_val ) {
 			if ( ! defined( $flag ) ) { define( $flag, $default_val ); }
-		}
-
-		if ( WPMUDEV_API_DEBUG && WPMUDEV_API_DEBUG_ALL ) {
-			// This marks a new request.
-			error_log( '[WPMUDEV] ========== API debugging enabled ==========' );
 		}
 	}
 
@@ -937,104 +926,6 @@ class WPMUDEV_Dashboard_Site {
 					 * - staff    .. Name of the user who loggs in.
 					 */
 					WPMUDEV_Dashboard::$api->authenticate_remote_access();
-					break;
-
-				case 'wdpupdate':
-					/*
-					 * Required HEADER values:
-					 * - wdp-auth
-					 * Required POST params:
-					 * - pid .. single ID
-					 */
-
-					// Will `die()` if authentication fails.
-					$args = array( 'action', 'pid' ); // Authentication: $action . $pid.
-					WPMUDEV_Dashboard::$api->validate_hash( $args );
-
-					$success = WPMUDEV_Dashboard::$upgrader->upgrade( $pid );
-
-					if ( $success ) {
-						$this->send_json_success();
-					} else {
-						$err = WPMUDEV_Dashboard::$upgrader->get_error();
-						$this->send_json_error( $err );
-					}
-					break;
-
-				case 'wdpupdate-batch':
-					/*
-					 * Required HEADER values:
-					 * - wdp-auth
-					 * Required POST params:
-					 * - pid .. comma-separated list
-					 */
-
-					// Will `die()` if authentication fails.
-					$args = array( 'action', 'pids' ); // Authentication: $action . $pids.
-					WPMUDEV_Dashboard::$api->validate_hash( $args );
-
-					// Will send a json-ajax response and `die()`.
-					WPMUDEV_Dashboard::$upgrader->async_upgrade( $pids );
-					break;
-
-				case 'wdpupdate-cancel':
-					/*
-					 * Required HEADER values:
-					 * - wdp-auth
-					 */
-
-					$args = array( 'action' ); // Authentication: $action.
-					WPMUDEV_Dashboard::$api->validate_hash( $args );
-
-					// Will send a json-ajax response and `die()`.
-					WPMUDEV_Dashboard::$upgrader->async_upgrade_cancel();
-
-					$this->send_json_success();
-					break;
-
-				case 'wdpupdate-status':
-					/*
-					 * Required HEADER values:
-					 * - wdp-auth
-					 */
-
-					$args = array( 'action' ); // Authentication: $action.
-					WPMUDEV_Dashboard::$api->validate_hash( $args );
-
-					$state = WPMUDEV_Dashboard::$upgrader->async_upgrade_status();
-
-					$this->send_json_success( $state );
-					break;
-
-				case 'wdpreport':
-					/*
-					 * Required HEADER values:
-					 * - wdp-auth
-					 */
-
-					// Will `die()` if authentication fails.
-					$args = array( 'action' ); // Authentication: $action.
-					WPMUDEV_Dashboard::$api->validate_hash( $args );
-
-					// Simply refresh the membership details.
-					WPMUDEV_Dashboard::$api->refresh_membership_data();
-
-					$this->send_json_success();
-					break;
-
-				case 'wdplogout':
-					/*
-					 * Required HEADER values:
-					 * - wdp-auth
-					 */
-
-					// Will `die()` if authentication fails.
-					$args = array( 'action' ); // Authentication: $action.
-					WPMUDEV_Dashboard::$api->validate_hash( $args );
-
-					$this->logout( false );
-
-					$this->send_json_success();
 					break;
 
 				default:

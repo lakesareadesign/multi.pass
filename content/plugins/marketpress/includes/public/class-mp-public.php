@@ -160,6 +160,11 @@ class MP_Public {
 					'product_tag'
 				) ) );
 		} else {
+
+			if( get_post_type( $page ) == MP_Product::get_post_type() ){
+				return true;
+			}
+
 			$page = (array) $page;
 
 			return ( in_array( get_post_meta( get_the_ID(), '_mp_store_page', true ), $page ) );
@@ -589,13 +594,13 @@ class MP_Public {
 			$buffer    = '';
 			$filesize  = filesize( $tmp );
 			$length    = $filesize;
-			list( $fileext, $filetype ) = wp_check_filetype( $tmp );
+			@list( $fileext, $filetype ) = wp_check_filetype( $tmp );
 
 			if ( empty( $filetype ) ) {
 				$filetype = 'application/octet-stream';
 			}
 
-			ob_clean(); //kills any buffers set by other plugins
+			if ( ob_get_contents() ) ob_end_clean(); //kills any buffers set by other plugins
 
 			if ( isset( $_SERVER['HTTP_RANGE'] ) ) {
 //partial download headers

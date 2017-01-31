@@ -258,6 +258,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             }
 
+
             /* let them improve or alter the dataset */
             $cta_obj = apply_filters( 'wp_cta_obj', $cta_obj );
 
@@ -337,11 +338,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
                 $anchor->setAttribute('href', $link['url']);
 
-                //$variation_html = str_replace('&amp;', '&' , $variation_html );
-                //$variation_html = str_replace('&amp;', '&' , $variation_html );
-
-                //$variation_html = str_replace( $href, $link['url'], $variation_html);
-
             }
 
             $doc->saveHTML();
@@ -351,6 +347,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
             foreach($doc->getElementsByTagName('body')->item(0)->childNodes as $element) {
                 $variation_html .= $doc->saveXML($element, LIBXML_NOEMPTYTAG);
             }
+
+            /* remove cdata */
+            $variation_html = str_replace('<![CDATA[' , '' , $variation_html);
+            $variation_html = str_replace(']]>' , '' , $variation_html);
 
             return $variation_html;
         }
@@ -1163,6 +1163,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 return $content;
             }
 
+            /* Remove Additional Filters */
+            remove_filter( 'the_content', array( $this, 'add_cta_to_post_content'), apply_filters('cta_the_content_priority', 5) );
+
             self::$instance->cta_template = self::$instance->build_cta_content();
 
             if (self::$instance->cta_content_placement=='above') {
@@ -1325,13 +1328,17 @@ if ( !class_exists( 'CTA_Render' ) ) {
             echo '<link rel="stylesheet" href="'.$template_path.'/style.css">';
             echo '<link rel="stylesheet" href="'.$site_url.'/wp-content/plugins/cta/shared/shortcodes/css/frontend-render.css">';
 
-            do_action('wp_head');
-            wp_print_styles();
+            do_action('wp_head' );
 
+            wp_print_styles();
+            echo '<style type="text/css">';
+            echo 'body .wp_cta_container { margin-top:50px !important; }';
+            echo '</style>';
             echo '</head>';
 
             echo '<body style="backgorund-image:none;background-color:#fff;width:100%;">';
             echo '<div id="cta-preview-container" style="margin:auto;">';
+
             if ( isset($_GET['post_id'] ) || isset($_GET['wp-cta-variation-id']) ) {
                 echo do_shortcode('[cta id="'.$cta_id.'" vid="'.intval($_GET['wp-cta-variation-id']).'"]');
             } else {
@@ -1342,9 +1349,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             if (!isset($_GET['inbound-preview']) && is_user_logged_in()) { ?>
                 <script type="text/javascript">
-                    jQuery(document).ready(function($) {
-                        //jQuery('#cta-preview-container').cta_center();
-                    });
 
                     /* add jquery function to center cta in preview mode */
                     jQuery.fn.cta_center = function () {

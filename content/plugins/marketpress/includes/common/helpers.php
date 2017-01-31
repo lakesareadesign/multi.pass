@@ -161,8 +161,11 @@ if ( ! function_exists( 'mp_filter_email' ) ) :
 		$all_countries = mp_countries();
 		foreach ( $types as $type => $label ) {
 			$states = mp_get_states( $order->get_meta( "mp_{$type}_info->country" ) );
+			$city = $order->get_meta( "mp_{$type}_info->city" );
+			$zip = $order->get_meta( "mp_{$type}_info->zip" );
 
-			if( $type != "shipping" || !mp()->download_only_cart( mp_cart() ) ) {
+			if( $type != "shipping" || !$cart->is_download_only() ) {
+
 				$shipping_billing_info .= '<td><strong>' . $label . '</strong><br /><br />' . "\n";
 				$shipping_billing_info .= $order->get_name( $type ) . "<br />\n";
 				$shipping_billing_info .= $order->get_meta( "mp_{$type}_info->company_name" ) . "<br />\n";
@@ -180,7 +183,10 @@ if ( ! function_exists( 'mp_filter_email' ) ) :
 					$country = $all_countries[$country];
 				}
 
-				$shipping_billing_info .= $order->get_meta( "mp_{$type}_info->city" ) . ', ' . $state . ' ' . $order->get_meta( "mp_{$type}_info->zip" ) . ' ' . $country . "<br /><br />\n";
+				if( ! empty( $city ) && ! empty( $state ) &&  ! empty( $zip ) && ! empty( $country ) ) {
+					$shipping_billing_info .= $order->get_meta( "mp_{$type}_info->city" ) . ', ' . $state . ' ' . $order->get_meta( "mp_{$type}_info->zip" ) . ' ' . $country . "<br /><br />\n";
+				}
+
 				$shipping_billing_info .= $order->get_meta( "mp_{$type}_info->email" ) . "<br />\n";
 
 				if ( $order->get_meta( "mp_{$type}_info->phone" ) ) {
@@ -1357,6 +1363,10 @@ if ( ! function_exists( 'mp_get_store_caps' ) ) :
 
 			$pt = get_post_type_object( $pt_slug );
 			foreach ( $pt->cap as $cap ) {
+				if( $cap == "read" ) {
+					continue;
+				}
+
 				$store_caps[ $cap ] = $cap;
 			}
 		}

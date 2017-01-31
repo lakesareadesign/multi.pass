@@ -11,7 +11,7 @@ WDP ID:
 */
 
 /*
-Copyright 2007-2013 Incsub (http://incsub.com)
+Copyright 2007-2017 Incsub (http://incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -35,10 +35,10 @@ class ub_global_header_content {
 
 	function __construct() {
 
-		add_action( 'ultimatebranding_settings_menu_header', array(&$this, 'global_header_content_site_admin_options') );
-		add_filter( 'ultimatebranding_settings_menu_header_process', array(&$this, 'update_global_header_options'), 10, 1 );
+		add_action( 'ultimatebranding_settings_menu_header', array( &$this, 'global_header_content_site_admin_options' ) );
+		add_filter( 'ultimatebranding_settings_menu_header_process', array( &$this, 'update_global_header_options' ), 10, 1 );
 
-		add_action('wp_head', array(&$this, 'global_header_content_output'));
+		add_action( 'wp_footer', array( &$this, 'global_header_content_output' ) );
 	}
 
 	function ub_global_header_content() {
@@ -54,7 +54,7 @@ class ub_global_header_content {
 
 		ub_update_option( 'global_header_content' , $global_header_content );
 
-		if($status === false) {
+		if ( $status === false ) {
 			return $status;
 		} else {
 			return true;
@@ -62,46 +62,55 @@ class ub_global_header_content {
 	}
 
 	function global_header_content_output() {
-		$global_header_content = ub_get_option('global_header_content');
+		$global_header_content = ub_get_option( 'global_header_content' );
 		if ( $global_header_content == 'empty' ) {
 			$global_header_content = '';
 		}
-		if ( !empty( $global_header_content ) ) {
-			echo stripslashes( $global_header_content );
+		if ( empty( $global_header_content ) ) {
+			return;
 		}
+?>
+<script type="text/javascript">
+	var node = document.createElement("div");
+	var att = document.createAttribute("id");
+	att.value = "ub_global_header_content";
+	node.setAttributeNode(att);
+	node.innerHTML = <?php echo json_encode( stripslashes( $global_header_content ) ); ?>;
+	document.getElementsByTagName("body")[0].insertBefore(node,document.getElementsByTagName("body")[0].firstChild);
+</script>
+<?php
 	}
 
 	function global_header_content_site_admin_options() {
 
 		global $wpdb, $wp_roles, $current_user, $global_header_content_settings_page;
 
-		$global_header_content = ub_get_option('global_header_content');
+		$global_header_content = ub_get_option( 'global_header_content' );
 		if ( $global_header_content == 'empty' ) {
 			$global_header_content = '';
 		}
 
 		?>
-			<div class="postbox">
+            <div class="postbox">
 			<h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Global Header Content', 'ub' ) ?></span></h3>
-			<div class="inside">
-				<table class="form-table">
-					<tr valign="top">
-						<th scope="row"><?php _e('Header Content', 'ub') ?></th>
-						<td>
+            <div class="inside">
+                <table class="form-table">
+                    <tr valign="top">
+						<th scope="row"><?php _e( 'Header Content', 'ub' ) ?></th>
+                        <td>
 							<?php
-							$args = array("textarea_name" => "global_header_content", "textarea_rows" => 5);
-							wp_editor( stripslashes( $global_header_content ), "global_header_content", $args );
+							$args = array( 'textarea_name' => 'global_header_content', 'textarea_rows' => 5 );
+							wp_editor( stripslashes( $global_header_content ), 'global_header_content', $args );
 							?>
-		                	<br />
-							<?php _e('What is added here will be shown on every blog or site in your network. You can add tracking code, embeds, etc.', 'ub') ?>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
+                            <br />
+							<?php _e( 'What is added here will be shown on every blog or site in your network. You can add tracking code, embeds, etc.', 'ub' ) ?>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
 		<?php
 	}
-
 }
 
 $ub_globalheadertext = new ub_global_header_content();

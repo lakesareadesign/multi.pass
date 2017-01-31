@@ -7,6 +7,11 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+2.8.5 - 2017-01-27
+----------------------------------------------------------------------
+- Fixed: Gravity Forms 2.1 integration
+- Enhance: Moved template selector inline CSS/JS to their own files
+
 2.8.4 - 2016-12-19
 ----------------------------------------------------------------------
 - Updated WPMU DEV Dashboard Notification
@@ -396,4 +401,4 @@ templates in Blogs Directory list
 - Bug fix: blog template admin email exported to new blogs
 
 
-133620-1483063258-au
+133620-1485823032-au

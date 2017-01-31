@@ -279,16 +279,16 @@ class ub_Login_Image {
                     <input class="st_upload_button button" id="wp_login_image_button" type="button" value="<?php _e('Browse', 'ub'); ?>" />
                     <input type="hidden" name="wp_login_image_id" id="wp_login_image_id" value="<?php echo esc_attr($login_image_id); ?>" />
                     <input type="hidden" name="wp_login_image_size" id="wp_login_image_size" value="<?php echo esc_attr($login_image_size); ?>" />
-                    <p id="wp_login_image_width_wrap" class="<?php echo $login_image_id ? 'hidden' : ''  ?>">
+                    <p id="wp_login_image_width_wrap" class="<?php echo !$login_image_id ? 'hidden' : ''  ?>">
                         <label for="wp_login_image_width">
                             <?php _e("Login Image Width", "ub"); ?>
-                            <input type="<?php echo $login_image_id ? 'hidden' : 'number'  ?>" name="wp_login_image_width" id="wp_login_image_width" value="<?php echo esc_attr($login_image_width); ?>" />
+                            <input type="<?php echo !$login_image_id ? 'hidden' : 'number'  ?>" name="wp_login_image_width" id="wp_login_image_width" value="<?php echo esc_attr($login_image_width); ?>" />
                         </label>
                     </p>
-                    <p id="wp_login_image_height_wrap" class="<?php echo $login_image_id ? 'hidden' : ''  ?>">
+                    <p id="wp_login_image_height_wrap" class="<?php echo !$login_image_id ? 'hidden' : ''  ?>">
                         <label for="wp_login_image_height">
                             <?php _e("Login Image Height", "ub"); ?>
-                            <input type="<?php echo $login_image_id ? 'hidden' : 'number'  ?>" name="wp_login_image_height" id="wp_login_image_height" value="<?php echo esc_attr($login_image_height); ?>" />
+                            <input type="<?php echo !$login_image_id ? 'hidden' : 'number'  ?>" name="wp_login_image_height" id="wp_login_image_height" value="<?php echo esc_attr($login_image_height); ?>" />
                         </label>
                     </p>
                 </div>

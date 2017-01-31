@@ -109,27 +109,29 @@ class MP_Order {
 	protected function _convert_legacy_cart( $items ) {
 		$cart = new MP_Cart( false );
 
-		if( !empty($items) && ( is_array($items) || is_object($items) ) ){
+		if( !empty( $items ) && ( is_array( $items ) || is_object( $items ) ) ) {
 			foreach ( $items as $product_id => $variations ) {
-				foreach ( $variations as $variation_id => $product ) {
-					$item = new MP_Product( $product_id );
-					$item->set_price( array(
-						'regular' => (float) $product['price'],
-						'lowest'  => (float) $product['price'],
-						'highest' => (float) $product['price'],
-						'sale'    => array(
-							'amount'     => false,
-							'start_date' => false,
-							'end_date'   => false,
-							'days_left'  => false,
-						),
-					) );
+				if( !empty( $variations ) && is_array( $variations ) ) {
+					foreach ( $variations as $variation_id => $product ) {
+						$item = new MP_Product( $product_id );
+						$item->set_price( array(
+							'regular' => (float) $product['price'],
+							'lowest'  => (float) $product['price'],
+							'highest' => (float) $product['price'],
+							'sale'    => array(
+								'amount'     => false,
+								'start_date' => false,
+								'end_date'   => false,
+								'days_left'  => false,
+							),
+						) );
 
-					if ( isset( $product['download'] ) ) {
-						$cart->download_count[ $product_id ] = mp_arr_get_value( 'download->downloaded', $product, 0 );
+						if ( isset( $product['download'] ) ) {
+							$cart->download_count[ $product_id ] = mp_arr_get_value( 'download->downloaded', $product, 0 );
+						}
+
+						$cart->add_item( $product_id, $product['quantity'] );
 					}
-
-					$cart->add_item( $product_id, $product['quantity'] );
 				}
 			}
 		}
@@ -1150,6 +1152,11 @@ class MP_Order {
 			$_item->get_price();
 		}
 
+		$order_shipping = mp_get_post_value( 'shipping' );
+		if( isset( $order_shipping['special_instructions'] ) ){
+			$shipping_info['special_instructions'] = $order_shipping['special_instructions'];
+		}
+
 		// Save cart info
 		update_post_meta( $this->ID, 'mp_cart_info', $cart );
 		update_post_meta( $this->ID, 'mp_cart_items', $cart->export_to_array() );
@@ -1201,7 +1208,7 @@ class MP_Order {
 					// Flag product as out of stock - @version 2.9.5.8
 					wp_update_post( array(
 						'ID'          => $item->ID,
-						'post_status' => 'out_of_stock'
+						'post_status' => 'draft'
 					) );
 				}
 			}
@@ -1439,7 +1446,13 @@ class MP_Order {
 	 *
 	 * @param bool $echo Optional, whether to echo or return. Defaults to echo.
 	 */
-	public function tracking_url( $echo = true ) {
+	public function tracking_url( $echo = true, $blog_id = false ) {
+
+		if( $blog_id !== false ) {
+			$current_blog_id = get_current_blog_id();
+			switch_to_blog( $blog_id );
+		}
+
 		$url = trailingslashit( mp_store_page_url( 'order_status', false ) . $this->get_id() );
 
 		$user_id = get_current_user_id();
@@ -1469,6 +1482,10 @@ class MP_Order {
 		 * @param MP_Order $this The current order object.
 		 */
 		$url = apply_filters( 'mp_order/status_url', $url, $this );
+
+		if( $blog_id !== false ) {
+			switch_to_blog( $current_blog_id );
+		}
 
 		if ( $echo ) {
 			echo $url;

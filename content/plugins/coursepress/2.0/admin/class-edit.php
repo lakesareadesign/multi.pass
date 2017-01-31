@@ -22,6 +22,7 @@ class CoursePress_Admin_Edit {
 			return;
 		}
 
+		do_action( 'coursepress_admin_render_page' );
 		/**
 		 * Free version can add only one course
 		 */
@@ -390,7 +391,7 @@ class CoursePress_Admin_Edit {
 		$setup_class = ( (int) CoursePress_Data_Course::get_setting( $course_id, 'setup_marker', 0 ) === 6 ) || ( (int) CoursePress_Data_Course::get_setting( $course_id, 'setup_marker', 0 ) === 0 ) ? $setup_class . ' setup_marker' : $setup_class;
 
 		$content = '
-			<div class="step-title step-1">' . esc_html__( 'Step 1 – Course Overview', 'cp' ) . '
+			<div class="step-title step-1">' . esc_html__( 'Step 1 &ndash; Course Overview', 'cp' ) . '
 				<div class="status ' . $setup_class . '"></div>
 			</div>
 			<div class="step-content step-1">
@@ -483,7 +484,7 @@ class CoursePress_Admin_Edit {
 		$setup_class = CoursePress_Data_Course::get_setting( $course_id, 'setup_step_2', '' );
 		$setup_class = (int) CoursePress_Data_Course::get_setting( $course_id, 'setup_marker', 0 ) === 1 ? $setup_class . ' setup_marker' : $setup_class;
 		$content = '
-			<div class="step-title step-2">' . esc_html__( 'Step 2 – Course Details', 'cp' ) . '
+			<div class="step-title step-2">' . esc_html__( 'Step 2 &ndash; Course Details', 'cp' ) . '
 				<div class="status ' . $setup_class . '"></div>
 			</div>
 			<div class="step-content step-2">
@@ -543,6 +544,16 @@ class CoursePress_Admin_Edit {
 						</label>
 				</div>';
 
+		/**
+		 * duration column
+		 */
+		$display_duration = CoursePress_Data_Course::get_setting( $course_id, 'structure_show_duration', true );
+		$display_duration = cp_is_true( $display_duration );
+		$display_duration_class = 'hidden';
+		if ( $display_duration ) {
+			$display_duration_class = '';
+		}
+
 		// Course Structure
 		$content .= '
 				<div class="wide">
@@ -567,7 +578,7 @@ class CoursePress_Admin_Edit {
 									<th class="column-course-structure">' . esc_html__( 'Course Structure', 'cp' ) . ' <small>' . esc_html__( 'Units and Pages with Modules selected will automatically be visible (only selected Modules accessible).', 'cp' ) . '</small></th>
 									<th class="column-show">' . esc_html__( 'Show', 'cp' ) . '</th>
 									<th class="column-free-preview">' . esc_html__( 'Free Preview', 'cp' ) . '</th>
-									<th class="column-time">' . esc_html__( 'Time', 'cp' ) . '</th>
+									<th class="column-time '.esc_attr( $display_duration_class ).'">' . esc_html__( 'Time', 'cp' ) . '</th>
 								</tr>
 								<tr class="break"><th colspan="4"></th></tr>
 							</thead>
@@ -577,7 +588,7 @@ class CoursePress_Admin_Edit {
 									<th class="column-course-structure">' . esc_html__( 'Course Structure', 'cp' ) . '</th>
 									<th class="column-show">' . esc_html__( 'Show', 'cp' ) . '</th>
 									<th class="column-free-preview">' . esc_html__( 'Free Preview', 'cp' ) . '</th>
-									<th class="column-time">' . esc_html__( 'Time', 'cp' ) . '</th>
+                                    <th class="column-time '.esc_attr( $display_duration_class ) .'">' . esc_html__( 'Time', 'cp' ) . '</th>
 								</tr>
 							</tfoot>
 							<tbody>';
@@ -609,7 +620,7 @@ class CoursePress_Admin_Edit {
 									<td>' . $status . $unit['unit']->post_title . '</td>
 									<td><input type="checkbox" name="meta_structure_visible_units[' . $unit['unit']->ID . ']" value="1" ' . $unit_view_checked . '/></td>
 									<td><input type="checkbox" name="meta_structure_preview_units[' . $unit['unit']->ID . ']" value="1" ' . $unit_preview_checked . '/></td>
-									<td>' . $estimations['unit']['estimation'] . '</td>
+									<td class="column-time '.esc_attr( $display_duration_class ) .'">' . self::sanitize_duration_display( $estimations['unit']['estimation'] ) . '</td>
 								</tr>
 			';
 
@@ -628,12 +639,13 @@ class CoursePress_Admin_Edit {
 				$page_preview_checked = isset( $preview_pages[ $page_key ] ) && '' != $preview_pages[ $page_key ] ? CoursePress_Helper_Utility::checked( $preview_pages[ $page_key ] ) : '';
 				$alt = $count % 2 ? 'even' : 'odd';
 				$duration = ! empty( $estimations['pages'][ $key ]['estimation'] ) ? $estimations['pages'][ $key ]['estimation'] : '';
+				$duration = self::sanitize_duration_display( $duration );
 				$content .= '
 								<tr class="page page-' . $key . ' treegrid-' . $count . ' treegrid-parent-' . $unit_parent . ' ' . $draft_class . ' ' . $alt . '" data-unitid="'. $unit['unit']->ID . '" data-pagenumber="'. $key . '">
 									<td>' . $page_title . '</td>
 									<td><input type="checkbox" name="meta_structure_visible_pages[' . $page_key . ']" value="1" ' . $page_view_checked . '/></td>
 									<td><input type="checkbox" name="meta_structure_preview_pages[' . $page_key . ']" value="1" ' . $page_preview_checked . '/></td>
-									<td>' . $duration . '</td>
+									<td class="column-time '.esc_attr( $display_duration_class ) .'">' . $duration . '</td>
 								</tr>
 				';
 
@@ -660,18 +672,15 @@ class CoursePress_Admin_Edit {
 									<td>' . $module_title . '</td>
 									<td><input type="checkbox" name="meta_structure_visible_modules[' . $mod_key . ']" value="1" ' . $mod_view_checked . '/></td>
 									<td><input type="checkbox" name="meta_structure_preview_modules[' . $mod_key . ']" value="1" ' . $mod_preview_checked . '/></td>
-									<td>' . CoursePress_Data_Module::get_time_estimation( $module->ID, '1:00', true ) . '</td>
+									<td class="column-time '.esc_attr( $display_duration_class ) .'">' . self::sanitize_duration_display( CoursePress_Data_Module::get_time_estimation( $module->ID, '1:00', true ) ) . '</td>
 								</tr>
 					';
-
 				}
 			}
 		}
-
 		$content .= '
 							</tbody>
 						</table>
-
 					</div>
 				</div>
 		';
@@ -701,7 +710,7 @@ class CoursePress_Admin_Edit {
 		$can_assign_instructor = CoursePress_Data_Capabilities::can_assign_course_instructor( $course_id );
 
 		$content = '
-			<div class="step-title step-3">' . esc_html__( 'Step 3 – Instructors and Facilitators', 'cp' ) . '
+			<div class="step-title step-3">' . esc_html__( 'Step 3 &ndash; Instructors and Facilitators', 'cp' ) . '
 				<div class="status ' . $setup_class . '"></div>
 			</div>
 			<div class="step-content step-3">
@@ -861,7 +870,7 @@ class CoursePress_Admin_Edit {
 		$setup_class = CoursePress_Data_Course::get_setting( $course_id, 'setup_step_4', '' );
 		$setup_class = (int) CoursePress_Data_Course::get_setting( $course_id, 'setup_marker', 0 ) === 3 ? $setup_class . ' setup_marker' : $setup_class;
 		$content = '
-			<div class="step-title step-4">' . esc_html__( 'Step 4 – Course Dates', 'cp' ) . '
+			<div class="step-title step-4">' . esc_html__( 'Step 4 &ndash; Course Dates', 'cp' ) . '
 				<div class="status ' . $setup_class . '"></div>
 			</div>
 			<div class="step-content step-4">
@@ -949,7 +958,7 @@ class CoursePress_Admin_Edit {
 		$setup_class = CoursePress_Data_Course::get_setting( $course_id, 'setup_step_5', '' );
 		$setup_class = (int) CoursePress_Data_Course::get_setting( $course_id, 'setup_marker', 0 ) === 4 ? $setup_class . ' setup_marker' : $setup_class;
 		$content = '
-			<div class="step-title step-5">' . esc_html__( 'Step 5 – Classes, Discussion & Workbook', 'cp' ) . '
+			<div class="step-title step-5">' . esc_html__( 'Step 5 &ndash; Classes, Discussion & Workbook', 'cp' ) . '
 				<div class="status ' . $setup_class . '"></div>
 			</div>
 			<div class="step-content step-5">
@@ -1030,7 +1039,7 @@ class CoursePress_Admin_Edit {
 		$payment_tagline = ! $disable_payment ? __( ' & Course Cost', 'cp' ) : '';
 
 		$content = '
-			<div class="step-title step-6">' . esc_html( sprintf( __( 'Step 6 – Enrollment%s', 'cp' ), $payment_tagline ) ) . '
+			<div class="step-title step-6">' . esc_html( sprintf( __( 'Step 6 &ndash; Enrollment%s', 'cp' ), $payment_tagline ) ) . '
 				<div class="status ' . $setup_class . '"></div>
 			</div>
 			<div class="step-content step-6">
@@ -1131,7 +1140,7 @@ class CoursePress_Admin_Edit {
 				$install_message = sprintf( '<p>%s</p> <a href="%s">%s MarketPress</a>',
 					__( 'To start selling your course, please install and activate MarketPress here:', 'cp' ),
 					esc_url_raw( admin_url( 'admin.php?page=coursepress_settings&tab=extensions' ) ),
-					__( 'Activate', 'cp' ) );
+				__( 'Activate', 'cp' ) );
 			} else {
 				$install_message = sprintf( '<p>%s</p>', __( 'Please contact your administrator to enable MarketPress for your site.', 'cp' ) );
 			}
@@ -1221,7 +1230,7 @@ class CoursePress_Admin_Edit {
 		$completion_content = htmlspecialchars_decode( $completion_content );
 
 		$content = '<div class="step-title step-7">'
-			. esc_html( 'Step 7 - Course Completion', 'cp' )
+			. esc_html( 'Step 7 &ndash; Course Completion', 'cp' )
 			. '<div class="status '. $setup_class . '"></div>'
 			. '</div>';
 
@@ -1277,7 +1286,7 @@ class CoursePress_Admin_Edit {
 		// Fail info
 		$failed_title = CoursePress_Data_Course::get_setting( $course_id, 'course_failed_title', __( 'Sorry, you did not pass this course!', 'cp' ) );
 		$failed_content = sprintf( '<p>%s</p><p>%s</p>',
-			__( 'Unfortunately, you didn’t pass COURSE_NAME.', 'cp' ),
+			__( 'Unfortunately, you didn\'t pass COURSE_NAME.', 'cp' ),
 			__( 'Better luck next time!', 'cp' )
 		);
 		$failed_content = CoursePress_Data_Course::get_setting( $course_id, 'course_failed_content', $failed_content );
@@ -1438,6 +1447,13 @@ class CoursePress_Admin_Edit {
 					$html = CoursePress_Data_Course::get_setting( $course_id, 'basic_certificate_layout' );
 					$html = apply_filters( 'coursepress_basic_certificate_html', $html, $course_id, get_current_user_id() );
 					$use_cp_default = false;
+				} else {
+					$background = CoursePress_Core::get_setting( 'basic_certificate/background_image' );
+					$orientation = CoursePress_Core::get_setting( 'basic_certificate/orientation', 'L' );
+					$margins  = CoursePress_Core::get_setting( 'basic_certificate/margin' );
+					foreach ( $margins as $margin => $value ) {
+						$margins[ $margin ] = $value;
+					}
 				}
 				$userdata = get_userdata( get_current_user_id() );
 				$course = get_post( $course_id );
@@ -1567,5 +1583,23 @@ class CoursePress_Admin_Edit {
 		if ( isset( $wp_meta_boxes[ $page ] ) ) {
 			unset( $wp_meta_boxes[ $page ] );
 		}
+	}
+
+	/**
+	 * Helper to format time.
+	 *
+	 * @since 2.0.3
+	 *
+	 * @param string $duration current duration.
+	 * @return Formated duration.
+	 */
+	private static function sanitize_duration_display( $duration ) {
+		if ( preg_match( '/^[0:]+$/', $duration ) ) {
+			$duration = '';
+		}
+		if ( empty( $duration ) ) {
+			$duration = '&ndash;';
+		}
+		return $duration;
 	}
 }

@@ -1,10 +1,17 @@
 ﻿Plugin Name: Ultimate Branding
-Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve Bailovity (Incsub), Sam Najian (Incsub), Joseph Fusco (Incsub)
+Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve Bailovity (Incsub), Sam Najian (Incsub), Joseph Fusco (Incsub), Marcin Pietrzak (Incsub)
 
 
 Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+
+DATE: 22 Jan, 2017  - VERSION: 1.8.3.1
+==================================
+- Added: Parse shortcodes in header & footer.
+- Fixed: Issue with favicon on multisite.
+- Fixed: Issue with global header.
+
 DATE: 20 Dec, 2016  - VERSION: 1.8.3
 ==================================
 - Added: Compatibility with WordPress site icon ( Favicons )
@@ -293,4 +300,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-133620-1483063271-au
+133620-1485823039-au

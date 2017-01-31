@@ -8,6 +8,7 @@ class CoursePress_Admin_Courses {
 	public static function init() {
 		global $pagenow, $typenow;
 
+		do_action( 'coursepress_admin_render_page' );
 		self::$post_type = $post_type = CoursePress_Data_Course::get_post_type_name();
 		self::$date_format = get_option( 'date_format' );
 
@@ -81,7 +82,7 @@ class CoursePress_Admin_Courses {
 			'units' => __( 'Units', 'cp' ),
 			'students' => __( 'Students', 'cp' ),
 			'certificates' => __( 'Certified', 'cp' ),
-			'status' => __( 'Status', 'CP' ),
+			'status' => __( 'Status', 'cp' ),
 		) );
 
 		// Remove date column
@@ -335,7 +336,7 @@ class CoursePress_Admin_Courses {
 		?>
 		<script type="text/html" id="tmpl-coursepress-courses-delete-one">
 				<div class="notice notice-warning">
-					<p><span class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></span> <?php _e( sprintf( 'Deleting course %s, please wait!', '<b>{{{data.names}}}</b>'), 'cp' ); ?></p>
+					<p><span class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></span> <?php _e( sprintf( 'Deleting course %s, please wait!', '<b>{{{data.names}}}</b>' ), 'cp' ); ?></p>
 					<p><?php _e( 'This page will be reloaded shortly.', 'cp' ); ?></p>
 				</div>
 			</script>

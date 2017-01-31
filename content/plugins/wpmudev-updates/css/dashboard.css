@@ -369,6 +369,16 @@
 	font-weight: 400;
 	font-size: 14px;
 }
+.wpmud #login .buttons .button-text:hover:not(:focus):not(:active):not(.wph-button):not(#collapse-button):not([tooltip]) {
+	background-color: transparent;
+	color: #666666;
+}
+.wpmud #login .buttons .button-text:active, .wpmud #login .buttons .button-text:focus {
+	color: #666666;
+	transform: none;
+	-moz-transform: none;
+	-webkit-transform: none;
+}
 .wpmud #login .right {
 	float: right;
 }
@@ -950,4 +960,4 @@
 }
 
 
-/* 133620-1483063281-au */
+/* 133620-1485823041-au */

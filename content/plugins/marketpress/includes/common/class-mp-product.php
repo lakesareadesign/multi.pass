@@ -576,7 +576,7 @@ class MP_Product {
 				$reason = "inventory";
 		}
 
-		if ( is_numeric( $per_order_limit ) && $per_order_limit > 0 && ( $per_order_limit < $inventory || !is_numeric($inventory) ) ) {
+		if ( is_numeric( $per_order_limit ) && $per_order_limit > 0 && ( $per_order_limit < $inventory || !is_numeric( $inventory ) || $product->is_variation() ) ) {
 			$max = $per_order_limit;
 			$reason = "order";
 		}
@@ -1452,7 +1452,7 @@ class MP_Product {
 	 * @param double $price
 	 */
 	public function manage_price_tax( $price ) {
-		$tax_rate = mp_get_setting( 'tax->rate', '' );
+		$tax_rate = mp_tax_rate();
 		$tax_inclusive = mp_get_setting( 'tax->tax_inclusive', 0 );
 		$include_tax_to_price = mp_get_setting( 'tax->include_tax', 1 );
 		$special_tax = get_post_meta( $this->ID, 'charge_tax', true );
@@ -2240,7 +2240,7 @@ class MP_Product {
 			$img_id  = get_post_thumbnail_id( $id ? $id : $post_id );
 			$img_src = wp_get_attachment_image_src( $img_id, $size );
 
-			if( is_array( $img_url ) ) {
+			if( is_array( $img_src ) ) {
 				$img_url = array_shift( $img_src );
 			}
 		}

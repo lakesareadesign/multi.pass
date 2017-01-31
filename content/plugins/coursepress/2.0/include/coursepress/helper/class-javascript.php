@@ -202,19 +202,19 @@ class CoursePress_Helper_JavaScript {
 			$localize_array['unit_builder_form']['messages']['saving_unit'] = __( 'Unit is saving now...', 'cp' );
 			$localize_array['unit_builder_form']['messages']['successfully_saved'] = __( 'Unit was successfully saved!', 'cp' );
 			$localize_array['unit_builder_form']['messages']['error_while_saving'] = __( 'Something went wrong. Unit was not saved!', 'cp' );
+			$localize_array['unit_builder']['question_type'] = array(
+				'single' => __( 'Single Choice', 'cp' ),
+				'multiple' => __( 'Multiple Choice', 'cp' ),
+				'short' => __( 'Short Answer', 'cp' ),
+				'long' => __( 'Long Answer', 'cp' ),
+				'selectable' => __( 'Selectable Choice', 'cp' ),
+			);
 			$localize_array['unit_builder_form']['messages']['adding_module'] = __( 'Wait, module adding now...', 'cp' );
-
 			$localize_array['unit_l8n'] = array(
-				'question_type' => array(
-					'single' => __( 'Single Choice', 'cp' ),
-					'multiple' => __( 'Multiple Choice', 'cp' ),
-					'short_answer' => __( 'Short Answer', 'cp' ),
-					'long_answer' => __( 'Long Answer', 'cp' ),
-				),
 				'pre_answers' => array(
 					'a' => __( 'Answer A', 'cp' ),
 					'b' => __( 'Answer B', 'cp' ),
-				)
+				),
 			);
 		}
 
@@ -499,7 +499,7 @@ class CoursePress_Helper_JavaScript {
 			'server_error' => __( 'An unexpected error occur while processing. Please try again.', 'cp' ),
 			'module_error' => array(
 				'required' => __( 'You need to complete this module!', 'cp' ),
-				'normal_required' => __( 'You need to complete all required modules!', 'pc' ),
+				'normal_required' => __( 'You need to complete all required modules!', 'cp' ),
 				'participate' => __( 'Your participation to the discussion is required!', 'cp' ),
 				'passcode_required' => __( 'Enter PASSCODE!', 'cp' ),
 				'invalid_passcode' => __( 'Invalid PASSCODE!', 'cp' ),

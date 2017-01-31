@@ -196,11 +196,11 @@ gulp.task('sync-leads', function () {
 });
 gulp.task('sync-pro', function () {
     return gulp.src(['./shared/**'])
-        .pipe(gulp.dest('./../_inbound-now/core/shared/'));
+        .pipe(gulp.dest('./../inbound-pro/core/shared/'));
 });
 gulp.task('sync-translations', function () {
     return gulp.src(['../translations/lang/mo/**.mo'])
-        .pipe(gulp.dest('./../_inbound-now/assets/lang'));
+        .pipe(gulp.dest('./../inbound-pro/assets/lang'));
 });
 gulp.task('zip-translations', function () {
     return gulp.src('../translations/lang/mo/**.mo')
