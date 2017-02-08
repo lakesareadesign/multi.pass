@@ -1,3 +1,6 @@
+/* Atmosphere Pro Front Page
+Loaded on the front page */
+
 /* Front Page
 ---------------------------------------------------------------------------------------------------- */
 
@@ -77,6 +80,7 @@
 --------------------------------------------- */
 
 .front-page-1 {
+	background-color: #34313b;
 	display: table;
 	overflow: hidden;
 	padding: 80px;
@@ -364,7 +368,7 @@
 		font-size: 36px;
 		font-size: 3.6rem;
 	}
-	
+
 	.front-page-3 .featured-content .entry {
 		padding-left: 7.5%;
 		padding-right: 7.5%;
@@ -398,7 +402,7 @@
 		margin-bottom: 60px;
 		text-align: left;
 	}
-	
+
 	.front-page-3 .featured-content a.alignleft .entry-image,
 	.front-page-3 .featured-content a.alignright .entry-image {
 		height: auto;

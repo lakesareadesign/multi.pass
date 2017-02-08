@@ -35,7 +35,7 @@
 	<wp:base_site_url>http://demo.studiopress.com/</wp:base_site_url>
 	<wp:base_blog_url>http://demo.studiopress.com/news</wp:base_blog_url>
 
-	<wp:author><wp:author_id>94</wp:author_id><wp:author_login>lmancke</wp:author_login><wp:author_email>lauren@copyblogger.com</wp:author_email><wp:author_display_name><![CDATA[Lauren Mancke]]></wp:author_display_name><wp:author_first_name><![CDATA[Lauren]]></wp:author_first_name><wp:author_last_name><![CDATA[Mancke]]></wp:author_last_name></wp:author>
+	<wp:author><wp:author_id>94</wp:author_id><wp:author_login>lmancke</wp:author_login><wp:author_email>demo-comments@studiopress.com</wp:author_email><wp:author_display_name><![CDATA[Lauren Mancke]]></wp:author_display_name><wp:author_first_name><![CDATA[Lauren]]></wp:author_first_name><wp:author_last_name><![CDATA[Mancke]]></wp:author_last_name></wp:author>
 	<wp:author><wp:author_id>1</wp:author_id><wp:author_login>admin</wp:author_login><wp:author_email>demo-comments@studiopress.com</wp:author_email><wp:author_display_name><![CDATA[Brian Gardner]]></wp:author_display_name><wp:author_first_name><![CDATA[Brian]]></wp:author_first_name><wp:author_last_name><![CDATA[Gardner]]></wp:author_last_name></wp:author>
 
 	<wp:category><wp:term_id>2</wp:term_id><wp:category_nicename>category-1</wp:category_nicename><wp:category_parent></wp:category_parent><wp:cat_name><![CDATA[Category #1]]></wp:cat_name><wp:category_description><![CDATA[This is an sample category description, which can be used to boost SEO rankings.  Make sure you enabled this from the Edit Category screen in your dashboard.]]></wp:category_description></wp:category>

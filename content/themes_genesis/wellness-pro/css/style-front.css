@@ -1,0 +1,150 @@
+/* Wellness Pro Front Page
+Loaded on the front page */
+
+/* Front Page
+---------------------------------------------------------------------------------------------------- */
+
+.front-page .site-inner {
+	max-width: 100%;
+	padding: 0;
+}
+
+/* Sticky Message
+--------------------------------------------- */
+
+.sticky-message {
+	background-color: #fff;
+	box-shadow: 0 0 5px rgba(0,0,0,0.2);
+	display: none;
+	font-size: 15px;
+	font-weight: 700;
+	padding: 15px 20px;
+	position: fixed;
+	text-align: center;
+	width: 100%;
+	z-index: 9999;
+}
+
+.sticky-message a {
+	border-bottom: 1px solid #e36344;
+	color: #000;
+	padding-bottom: 1px;
+	text-decoration: none;
+}
+
+.sticky-message a:focus,
+.sticky-message a:hover {
+	color: #e36344;
+}
+
+.sticky-message a.dismiss {
+	border-bottom: 0;
+	position: absolute;
+	right: 20px;
+	top: 18px;
+}
+
+/* Front Page Sections
+--------------------------------------------- */
+
+.image-section {
+	background-attachment: fixed;
+	background-color: #fff;
+	background-position: 50% 0;
+	background-repeat: no-repeat;
+	-webkit-background-size: cover;
+	-moz-background-size:    cover;
+	background-size:         cover;
+}
+
+.image-section .flexible-widgets .widget {
+	margin-bottom: 60px;
+}
+
+.image-section .flexible-widgets .wrap {
+	padding: 140px 0 120px;
+}
+
+.image-section .widget-wrap {
+	background: #fff;
+	padding: 20px 40px;
+	position: relative;
+}
+
+.image-section .flexible-widgets.widget-full .widget_text {
+	margin: 0 auto 40px;
+	max-width: 600px;
+	text-align: center;
+}
+
+.image-section .widget-wrap:before,
+.image-section .widget-wrap:after {
+	box-sizing: border-box;
+	border-style: solid;
+	border-color: transparent;
+	border-width: 20px;
+	content: '';
+	display: block;
+	left: 0;
+	position: absolute;
+	width: 100%;
+}
+
+.image-section .widget-wrap:before {
+	border-top-width: 0;
+	border-bottom-color: #fff;
+	top: -20px;
+}
+
+.image-section .widget-wrap:after {
+	border-bottom-width: 0;
+	border-top-color: #fff;
+	bottom: -20px;
+}
+
+.front-page-2,
+.front-page-4,
+.front-page-6 {
+	background-color: #fff;
+}
+
+.front-page .content .featured-content .entry {
+	text-align: center;
+}
+
+.front-page .content .featured-content a.alignnone {
+	margin: 0 -20px 20px;
+	max-width: none;
+}
+
+.front-page .content .featured-content a.alignnone img {
+	width: 100%;
+}
+
+
+/* Media Queries
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 1200px) {
+
+	.front-page .image-section {
+		background-attachment: scroll !important;
+	}
+
+}
+
+@media only screen and (max-width: 860px) {
+
+	.front-page .content .featured-content a.alignnone {
+		margin: 0 auto 20px;
+	}
+
+}
+
+@media only screen and (max-width: 600px) {
+
+	.admin-bar .sticky-message {
+		top: 0;
+	}
+
+}

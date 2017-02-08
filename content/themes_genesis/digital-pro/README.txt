@@ -33,7 +33,7 @@ Please visit http://my.studiopress.com/help/ for theme support.
 
 CHANGELOG
 
-= 1.0 =
+= 1.0.0 =
 * Initial release
 
 = 1.0.1 =
@@ -54,3 +54,21 @@ CHANGELOG
 * Update avatar sizing
 * Remove deprecated theme tags
 * Fix journal markup output
+
+= 1.1.0 =
+* Add WooCommerce Support
+* Modify file structure
+* Update documentation
+* Add contrast detection to the customizer
+* Update responsive menu
+* Update text domain
+
+= 1.1.1 =
+* Fix focus styling on search form
+* Update conditional for adding matchHeight to WooCommerce pages
+* Fix minor styling issue for WooCommerce
+* Update mobile menu submenu label
+* Load Backstretch scripts in footer
+
+= 1.1.2 =
+* Fix error thrown when WooCommerce was inactive

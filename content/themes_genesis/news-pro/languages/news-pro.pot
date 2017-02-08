@@ -1,0 +1,150 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: News Pro 3.2.1\n"
+"POT-Creation-Date: 2017-01-26 15:11-0500\n"
+"PO-Revision-Date: 2017-01-26 15:11-0500\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: front-page.php:92
+msgid "Main Content"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+#: functions.php:44
+msgid "News Pro"
+msgstr ""
+
+#: functions.php:82
+msgid "Menu"
+msgstr ""
+
+#: functions.php:83
+msgid "Submenu"
+msgstr ""
+
+#: functions.php:116
+msgid "Before Header Menu"
+msgstr ""
+
+#: functions.php:116
+msgid "After Header Menu"
+msgstr ""
+
+#: functions.php:163
+msgid "Home - Top"
+msgstr ""
+
+#: functions.php:164
+msgid "This is the top section of the homepage."
+msgstr ""
+
+#: functions.php:168
+msgid "Home - Middle Left"
+msgstr ""
+
+#: functions.php:169
+msgid "This is the middle left section of the homepage."
+msgstr ""
+
+#: functions.php:173
+msgid "Home - Middle Right"
+msgstr ""
+
+#: functions.php:174
+msgid "This is the middle right section of the homepage."
+msgstr ""
+
+#: functions.php:178
+msgid "Home - Bottom"
+msgstr ""
+
+#: functions.php:179
+msgid "This is the bottom section of the homepage."
+msgstr ""
+
+#: lib/customize.php:38
+msgid ""
+"Change the color for links, the hover color for linked titles, and more."
+msgstr ""
+
+#: lib/customize.php:39
+msgid "Link Color"
+msgstr ""
+
+#: lib/customize.php:60
+msgid "Change the hover color for links in the footer widgets and footer area."
+msgstr ""
+
+#: lib/customize.php:61
+msgid "Footer Link Color"
+msgstr ""
+
+#: lib/customize.php:81
+msgid "Change the hover color for buttons and more."
+msgstr ""
+
+#: lib/customize.php:82
+msgid "Accent Color"
+msgstr ""
+
+#: lib/theme-defaults.php:65 lib/theme-defaults.php:97
+msgid "Continue Reading&hellip;"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:54
+#, php-format
+msgid ""
+"Please install and activate <a href=\"https://wordpress.org/plugins/genesis-"
+"connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> "
+"to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:68
+msgid "install and activate Genesis Connect for WooCommerce"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:70
+#, php-format
+msgid "Please %s to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:87
+msgid "Previous Page"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:88
+msgid "Next Page"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/news/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"When you have readers and customers who are always hungry for more, deliver "
+"it in style with the publishing powerhouse News theme."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
+msgstr ""

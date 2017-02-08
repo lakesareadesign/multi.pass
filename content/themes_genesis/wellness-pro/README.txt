@@ -5,7 +5,7 @@ INSTALL
 1. Upload the Wellness Pro theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the Wellness theme.
-4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/setup/wellness-pro-theme/.
+4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/documentation/wellness-pro-theme/.
 
 WIDGET AREAS
 Header Right - This is the widgeted area that appears after the title area section of the header.
@@ -29,5 +29,29 @@ Please visit http://my.studiopress.com/help/ for theme support.
 
 CHANGELOG
 
-= 1.0 =
+= 1.0.0 =
 * Initial release
+
+= 1.0.1 =
+* Widen Author Pro archive pages
+* Image section background image scroll
+* Move Sticky Message hook to front page conditional
+* Remove deprecated theme tags
+
+= 1.0.2 =
+* Update documentation
+
+= 1.1.0 =
+* Add WooCommerce support and styling
+* Update file structure
+* Update responsive menu
+* Update text domain
+
+= 1.1.1 =
+* Fix focus styling issue on search form submit button
+* Fix minor WooCommerce styling issues
+* Update conditionals for loading matchHeight on WooCommerce pages
+* Update mobile menu submenu label
+
+= 1.1.2 =
+* Fix error thrown when WooCommerce was inactive

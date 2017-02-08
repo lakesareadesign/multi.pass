@@ -1,20 +1,23 @@
 <?php
 /**
- * This file adds the Home Page to the Workstation Pro Theme.
+ * Workstation Pro.
  *
- * @author StudioPress
+ * This file adds the front page to the Workstation Pro Theme.
+ *
  * @package Workstation
- * @subpackage Customizations
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    http://my.studiopress.com/themes/workstation/
  */
 
-//* Filter the homepage site description
+// Filter the homepage site description.
 add_filter( 'genesis_seo_description', 'workstation_seo_description', 10, 2 );
 function workstation_seo_description( $description, $inside ) {
 
-    $inside = esc_html( get_bloginfo( 'description' ) );
-    $description = sprintf( '<h2 class="site-description">%s</h2>', $inside );
+	$inside = esc_html( get_bloginfo( 'description' ) );
+	$description = sprintf( '<h2 class="site-description">%s</h2>', $inside );
 
-    return $description;
+	return $description;
 
 }
 
@@ -22,45 +25,49 @@ add_action( 'genesis_meta', 'workstation_front_page_genesis_meta' );
 /**
  * Add widget support for homepage. If no widgets active, display the default loop.
  *
+ * @since 1.0.0
  */
 function workstation_front_page_genesis_meta() {
 
 	if ( is_active_sidebar( 'front-page-1' ) || is_active_sidebar( 'front-page-2' ) || is_active_sidebar( 'front-page-3' ) || is_active_sidebar( 'front-page-4' ) ) {
 
-		//* Add front-page body class
+		// Add front-page body class.
 		add_filter( 'body_class', 'workstation_body_class' );
-		function workstation_body_class( $classes ) {
 
-   			$classes[] = 'front-page';
-
-  			return $classes;
-  
-		}
-
-		//* Force full width content layout
+		// Force full width content layout.
 		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
 
-		//* Remove breadcrumbs
+		// Remove breadcrumbs.
 		remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs');
 
-		//* Remove the default Genesis loop
+		// Remove the default Genesis loop.
 		remove_action( 'genesis_loop', 'genesis_do_loop' );
 
-		//* Add the rest of front page widgets
+		// Add the rest of front page widgets.
 		add_action( 'genesis_loop', 'workstation_front_page_widgets' );
 
 	}
 
 }
 
+// Define front-page body class.
+function workstation_body_class( $classes ) {
+
+	$classes[] = 'front-page';
+
+	return $classes;
+
+}
+
+// Output the front page widget areas.
 function workstation_front_page_widgets() {
 
 	$image_section_1 = get_option( '1-workstation-image', sprintf( '%s/images/bg-1.jpg', get_stylesheet_directory_uri() ) );
 
 	$image_section_2 = get_option( '2-workstation-image', sprintf( '%s/images/bg-2.jpg', get_stylesheet_directory_uri() ) );
 
-	if ( ! empty( $image_section_1 ) ) {	
-		echo '<div class="image-section-1"></div>';	
+	if ( ! empty( $image_section_1 ) ) {
+		echo '<div class="image-section-1"></div>';
 	}
 
 	genesis_widget_area( 'front-page-1', array(
@@ -89,4 +96,5 @@ function workstation_front_page_widgets() {
 
 }
 
+// Run the Genesis loop.
 genesis();

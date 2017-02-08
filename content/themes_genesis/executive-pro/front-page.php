@@ -1,16 +1,20 @@
 <?php
 /**
- * This file adds the Home Page to the Executive Pro Theme.
+ * Executive Pro.
  *
- * @author StudioPress
- * @package Executive Pro
- * @subpackage Customizations
+ * This file adds the front page to the Executive Pro Theme.
+ *
+ * @package Executive
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    http://my.studiopress.com/themes/executive/
  */
- 
+
 add_action( 'genesis_meta', 'executive_home_genesis_meta' );
 /**
- * Add widget support for homepage. If no widgets active, display the default loop.
+ * Add widget support for the front page. If no widgets active, display the default loop.
  *
+ * @since 3.0.0
  */
 function executive_home_genesis_meta() {
 
@@ -22,10 +26,13 @@ function executive_home_genesis_meta() {
 		add_filter( 'body_class', 'executive_add_home_body_class' );
 
 	}
-	
+
 }
 
+// Widget areas to output on the front page.
 function executive_home_sections() {
+
+	echo '<h2 class="screen-reader-text">' . __( 'Main Content', 'executive-pro' ) . '</h2>';
 
 	genesis_widget_area( 'home-slider', array(
 		'before' => '<div class="home-slider widget-area">',
@@ -46,15 +53,17 @@ function executive_home_sections() {
 		'before' => '<div class="home-middle widget-area">',
 		'after'  => '</div>',
 	) );
-	
+
 }
 
-//* Add body class to home page		
+// Add body class to home page.
 function executive_add_home_body_class( $classes ) {
 
 	$classes[] = 'executive-pro-home';
-	return $classes;
 	
+	return $classes;
+
 }
 
+// Run the Genesis loop.
 genesis();

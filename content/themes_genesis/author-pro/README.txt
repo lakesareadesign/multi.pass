@@ -5,7 +5,7 @@ INSTALL
 1. Upload the Author Pro theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the Author Pro theme.
-4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/setup/author-pro-theme/.
+4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/documentation/author-pro-theme/.
 
 WIDGET AREAS
 Primary Sidebar - This is the primary sidebar if you are using the Content/Sidebar or Sidebar/Content Site Layout option.
@@ -25,8 +25,25 @@ The Author Pro theme is translation ready.  More information about the translati
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
 
-= 1.0 =
+CHANGELOG
+
+= 1.0.0 =
 * Initial release
 
-= 1.1 =
+= 1.1.0 =
 * Add Accessibility support
+
+= 1.1.1 =
+* Remove deprecated theme tags
+* Update documentation
+
+= 1.2.0 =
+* Add color contrast detection to the customizer
+* Add new responsive menu script
+* Add WooCommerce support
+* Update file structure
+* Update documentation
+* Update text domain
+
+= 1.2.1 =
+* Fix error thrown when WooCommerce was inactive

@@ -5,7 +5,7 @@ INSTALL
 1. Upload the Daily Dish Pro theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the Daily Dish Pro theme.
-4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/setup/daily-dish-theme/.
+4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/documentation/daily-dish-theme/.
 
 WIDGET AREAS
 Before Header - This is the before header widget area.
@@ -31,6 +31,9 @@ Please visit http://my.studiopress.com/help/ for theme support.
 
 CHANGELOG
 
+= 1.0.0 =
+* Initial release
+
 = 1.0.1 =
 * Update font, remove top border
 
@@ -45,3 +48,19 @@ CHANGELOG
 * Remove IE8 image fix
 * Update widget area descriptions
 * Remove obsolete comments filter
+
+= 1.1.0 =
+* Add color selection to customizer
+* Add accessibility
+* Add new responsive menu script
+* Add WooCommerce support
+* Remove deprecated theme tags
+* Update documentation
+* Update avatar sizing
+* Update mobile styles for padding
+* Update file structure
+* Update text domain
+* Update logo size for retina devices
+
+= 1.1.1 =
+* Fix error thrown when WooCommerce was inactive

@@ -1,0 +1,862 @@
+/* Infinity Pro Front Page
+Loaded on the front page */
+
+/* Front Page
+---------------------------------------------------------------------------------------------------- */
+
+.front-page .site-inner {
+	margin-top: 0;
+	max-width: 100%;
+	padding-top: 0;
+}
+
+.front-page .site-header {
+	background-color: transparent;
+	border-bottom: 1px solid transparent;
+}
+
+.front-page .white .site-header,
+.header-image.front-page .site-header {
+	background-color: #fff;
+	border-bottom: 1px solid #eee;
+}
+
+.front-page .offscreen-content-icon button,
+.front-page .site-title a,
+.front-page .site-title a:hover,
+.front-page .site-title a:focus {
+	color: #fff;
+}
+
+@media only screen and (min-width:800px) {
+	.front-page .nav-primary .genesis-nav-menu a {
+		color: #fff;
+	}
+}
+
+.front-page .offscreen-content button,
+.front-page .offscreen-content-icon button {
+	background-color: transparent;
+}
+
+.front-page .white .offscreen-content button,
+.front-page .white .offscreen-content-icon button {
+	background-color: #fff;
+}
+
+.front-page .genesis-nav-menu .sub-menu a,
+.front-page .white .genesis-nav-menu a,
+.front-page .white .offscreen-content-icon button,
+.front-page .white .site-title a,
+.header-image.front-page .genesis-nav-menu a,
+.header-image.front-page .genesis-nav-menu .sub-menu a,
+.header-image.front-page .offscreen-content-icon button {
+	color: #000;
+}
+
+.front-page .genesis-nav-menu a:hover,
+.front-page .genesis-nav-menu a:focus,
+.front-page .offscreen-content-icon button:hover,
+.front-page .offscreen-content-icon button:focus,
+.front-page .white .genesis-nav-menu a:hover,
+.front-page .white .genesis-nav-menu a:focus {
+	color: #d43c67;
+}
+
+.front-page.full-width-content .content {
+	border-right: none;
+	max-width: 100%;
+	padding: 0;
+}
+
+.front-page .content .entry {
+	background: none;
+}
+
+.front-page .widget p.thirty {
+	margin-bottom: 30px;
+}
+
+.front-page img {
+	vertical-align: top;
+}
+
+
+/* Front Page Sections
+---------------------------------------------------------------------------------------------------- */
+
+.front-page-1,
+.front-page-3,
+.front-page-5,
+.front-page-7 {
+	background-position: center center;
+	background-repeat: no-repeat;
+	-webkit-background-size: cover;
+	-moz-background-size:    cover;
+	background-size:         cover;
+}
+
+.front-page-2,
+.front-page-3,
+.front-page-4,
+.front-page-5,
+.front-page-6,
+.front-page-7 {
+	border-top: 73px solid transparent;
+	margin-top: -73px;
+	-webkit-background-clip: padding-box;
+	-moz-background-clip:    padding;
+	background-clip:         padding-box;
+	position: relative;
+	z-index: 9;
+}
+
+.front-page-1 .wrap,
+.front-page-2 .wrap,
+.front-page-3 .wrap,
+.front-page-4 .wrap,
+.front-page-5 .wrap,
+.front-page-6 .wrap,
+.front-page-7 .wrap {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 1280px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.front-page-2 .widget-title,
+.front-page-3 .widget-title,
+.front-page-4 .widget-title,
+.front-page-5 .widget-title,
+.front-page-6 .widget-title,
+.front-page-7 .widget-title {
+	font-family: 'Cormorant Garamond', serif;
+	font-size: 48px;
+	font-size: 4.8rem;
+	font-weight: 400;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+
+/* Front Page 1
+---------------------------------------------------------------------------------------------------- */
+
+.front-page-1 {
+	height: 100vh;
+}
+
+.front-page-1 {
+	display: table;
+	overflow: hidden;
+	padding: 73px 0;
+	table-layout: fixed;
+	text-align: center;
+	width: 100%;
+}
+
+.front-page-1 .widget-area {
+	display: table-cell;
+	padding-top: 20px;
+	vertical-align: middle;
+	width: 100%;
+}
+
+.front-page-1 .widget {
+	margin-bottom: 40px;
+}
+
+.front-page-1,
+.front-page-1 a,
+.front-page-1 p,
+.front-page-1 .featured-content .entry-title a,
+.front-page-1 .widget-title {
+	color: #fff;
+}
+
+.front-page-1 a {
+	border-bottom: 1px solid #fff;
+}
+
+.front-page-1 a:hover,
+.front-page-1 a:focus,
+.front-page-1 .featured-content .entry-meta a:hover,
+.front-page-1 .featured-content .entry-meta a:focus,
+.front-page-1 .featured-content .entry-title a:hover,
+.front-page-1 .featured-content .entry-title a:focus {
+	color: #ccc;
+}
+
+.front-page-1 a:hover,
+.front-page-1 a:focus {
+	border-bottom: 1px solid #ccc;
+}
+
+.front-page-1 a.button {
+	border-bottom: none;
+}
+
+.front-page-1 .widget-title {
+	font-family: 'Cormorant Garamond', serif;
+	font-size: 96px;
+	font-size: 9.6rem;
+	font-weight: 400;
+	letter-spacing: -2px;
+	margin-bottom: -10px;
+	text-transform: none;
+}
+
+.front-page-1 p {
+	font-size: 22px;
+	font-size: 2.2rem;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+
+.front-page-1 p:last-child {
+	margin-bottom: 0;
+}
+
+.front-page-1 button:focus,
+.front-page-1 button:hover,
+.front-page-1 input:focus[type="button"],
+.front-page-1 input:hover[type="button"],
+.front-page-1 input:focus[type="reset"],
+.front-page-1 input:hover[type="reset"],
+.front-page-1 input:focus[type="submit"],
+.front-page-1 input:hover[type="submit"],
+.front-page-1 .textwidget a.button:focus,
+.front-page-1 .textwidget a.button:hover {
+	background-color: #fff;
+	border: none;
+	color: #000;
+}
+
+
+/* Front Page 2
+---------------------------------------------------------------------------------------------------- */
+
+.front-page-2 {
+	padding-bottom: 180px;
+	padding-top: 170px;
+	text-align: center;
+}
+
+.front-page-2 .widget-full .wrap {
+	max-width: 960px;
+}
+
+.front-page-2 p {
+	font-size: 30px;
+	font-size: 3rem;
+	line-height: 1.75;
+}
+
+.front-page-2 p:last-child {
+	margin-bottom: 0;
+}
+
+.front-page-2 button:focus,
+.front-page-2 button:hover,
+.front-page-2 input:focus[type="button"],
+.front-page-2 input:hover[type="button"],
+.front-page-2 input:focus[type="reset"],
+.front-page-2 input:hover[type="reset"],
+.front-page-2 input:focus[type="submit"],
+.front-page-2 input:hover[type="submit"],
+.front-page-2 .textwidget a.button:focus,
+.front-page-2 .textwidget a.button:hover {
+	background-color: #000;
+	border: none;
+	color: #fff;
+}
+
+
+/* Front Page 3
+---------------------------------------------------------------------------------------------------- */
+
+.front-page-3 {
+	background-color: #666;
+	color: #fff;
+	padding-bottom: 180px;
+	padding-top: 170px;
+	text-align: center;
+}
+
+.front-page-3 .widget-full .wrap {
+	max-width: 960px;
+}
+
+.front-page-3,
+.front-page-3 a,
+.front-page-3 p,
+.front-page-3 .featured-content .entry-title a,
+.front-page-3 .widget-title {
+	color: #fff;
+}
+
+.front-page-3 a {
+	border-bottom: 1px solid #fff;
+}
+
+.front-page-3 a:hover,
+.front-page-3 a:focus,
+.front-page-3 .featured-content .entry-meta a:hover,
+.front-page-3 .featured-content .entry-meta a:focus,
+.front-page-3 .featured-content .entry-title a:hover,
+.front-page-3 .featured-content .entry-title a:focus {
+	color: #ccc;
+}
+
+.front-page-3 a:hover,
+.front-page-3 a:focus {
+	border-bottom: 1px solid #ccc;
+}
+
+.front-page-3 a.button,
+.front-page-3 .featured-content .entry-header::after {
+	border-bottom: none;
+}
+
+.front-page-3 p {
+	font-size: 30px;
+	font-size: 3rem;
+	line-height: 1.75;
+}
+
+.front-page-3 p:last-child {
+	margin-bottom: 0;
+}
+
+
+/* Front Page 4
+---------------------------------------------------------------------------------------------------- */
+
+.front-page-4 {
+	padding-bottom: 180px;
+	padding-top: 170px;
+	text-align: center;
+}
+
+.front-page-4 .widget-full .wrap {
+	max-width: 960px;
+}
+
+.front-page-4 p {
+	font-size: 30px;
+	font-size: 3rem;
+	line-height: 1.75;
+}
+
+.front-page-4 p:last-child {
+	margin-bottom: 0;
+}
+
+.front-page-4 button:focus,
+.front-page-4 button:hover,
+.front-page-4 input:focus[type="button"],
+.front-page-4 input:hover[type="button"],
+.front-page-4 input:focus[type="reset"],
+.front-page-4 input:hover[type="reset"],
+.front-page-4 input:focus[type="submit"],
+.front-page-4 input:hover[type="submit"],
+.front-page-4 .textwidget a.button:focus,
+.front-page-4 .textwidget a.button:hover {
+	background-color: #000;
+	border: none;
+	color: #fff;
+}
+
+
+/* Front Page 5
+---------------------------------------------------------------------------------------------------- */
+
+.front-page-5 {
+	background-color: #666;
+	color: #fff;
+	padding-bottom: 180px;
+	padding-top: 170px;
+	text-align: center;
+}
+
+.front-page-5 .widget-full .wrap {
+	max-width: 960px;
+}
+
+.front-page-5,
+.front-page-5 a,
+.front-page-5 p,
+.front-page-5 .featured-content .entry-title a,
+.front-page-5 .widget-title {
+	color: #fff;
+}
+
+.front-page-5 a {
+	border-bottom: 1px solid #fff;
+}
+
+.front-page-5 a:hover,
+.front-page-5 a:focus,
+.front-page-5 .featured-content .entry-meta a:hover,
+.front-page-5 .featured-content .entry-meta a:focus,
+.front-page-5 .featured-content .entry-title a:hover,
+.front-page-5 .featured-content .entry-title a:focus {
+	color: #ccc;
+}
+
+.front-page-5 a:hover,
+.front-page-5 a:focus {
+	border-bottom: 1px solid #ccc;
+}
+
+.front-page-5 a.button,
+.front-page-5 .featured-content .entry-header::after {
+	border-bottom: none;
+}
+
+.front-page-5 p {
+	font-size: 30px;
+	font-size: 3rem;
+	line-height: 1.75;
+}
+
+.front-page-5 p:last-child {
+	margin-bottom: 0;
+}
+
+
+/* Front Page 6
+---------------------------------------------------------------------------------------------------- */
+
+.front-page-6 {
+	padding-bottom: 180px;
+	padding-top: 170px;
+	text-align: center;
+}
+
+.front-page-6 .widget-full .wrap {
+	max-width: 960px;
+}
+
+.front-page-6 p {
+	font-size: 30px;
+	font-size: 3rem;
+	line-height: 1.75;
+}
+
+.front-page-6 p:last-child {
+	margin-bottom: 0;
+}
+
+.front-page-6 button:focus,
+.front-page-6 button:hover,
+.front-page-6 input:focus[type="button"],
+.front-page-6 input:hover[type="button"],
+.front-page-6 input:focus[type="reset"],
+.front-page-6 input:hover[type="reset"],
+.front-page-6 input:focus[type="submit"],
+.front-page-6 input:hover[type="submit"],
+.front-page-6 .textwidget a.button:focus,
+.front-page-6 .textwidget a.button:hover {
+	background-color: #000;
+	border: none;
+	color: #fff;
+}
+
+
+/* Front Page 7
+---------------------------------------------------------------------------------------------------- */
+
+.front-page-7 {
+	background-color: #666;
+	color: #fff;
+	padding-bottom: 180px;
+	padding-top: 170px;
+	text-align: center;
+}
+
+.front-page-7 .widget-full .wrap {
+	max-width: 960px;
+}
+
+.front-page-7,
+.front-page-7 a,
+.front-page-7 p,
+.front-page-7 .featured-content .entry-title a,
+.front-page-7 .widget-title {
+	color: #fff;
+}
+
+.front-page-7 a {
+	border-bottom: 1px solid #fff;
+}
+
+.front-page-7 a:hover,
+.front-page-7 a:focus,
+.front-page-7 .featured-content .entry-meta a:hover,
+.front-page-7 .featured-content .entry-meta a:focus,
+.front-page-7 .featured-content .entry-title a:hover,
+.front-page-7 .featured-content .entry-title a:focus {
+	color: #ccc;
+}
+
+.front-page-7 a:hover,
+.front-page-7 a:focus {
+	border-bottom: 1px solid #ccc;
+}
+
+.front-page-7 a.button,
+.front-page-7 .featured-content .entry-header::after {
+	border-bottom: none;
+}
+
+.front-page-7 p {
+	font-size: 30px;
+	font-size: 3rem;
+	line-height: 1.75;
+}
+
+.front-page-7 p:last-child {
+	margin-bottom: 0;
+}
+
+
+/* Flexible Widgets
+---------------------------------------------------------------------------------------------------- */
+
+.flexible-widgets .widget {
+	float: left;
+	margin-bottom: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.flexible-widgets.widget-full .widget {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.flexible-widgets .widget:last-of-type {
+	margin-bottom: 0;
+}
+
+.flexible-widgets.widget-full .widget,
+.flexible-widgets.widget-area .widget:nth-of-type(1),
+.flexible-widgets.widget-halves.uneven .widget:last-of-type {
+	width: 100%;
+}
+
+.flexible-widgets.widget-fourths .widget {
+	width: 25%;
+}
+
+.flexible-widgets.widget-halves .widget {
+	width: 50%;
+}
+
+.flexible-widgets.widget-thirds .widget {
+	width: 33.33%;
+}
+
+.flexible-widgets.widget-halves .widget:nth-child(even),
+.flexible-widgets.widget-thirds .widget:nth-child(3n+2),
+.flexible-widgets.widget-fourths .widget:nth-child(4n+2) {
+	clear: left;
+}
+
+
+/* Content Boxes
+---------------------------------------------------------------------------------------------------- */
+
+.front-page .content-box {
+	padding: 50px 40px 60px;
+}
+
+.front-page .solid-section .content-box {
+	background-color: #f5f5f5;
+}
+
+.front-page .content-box h4 {
+	font-family: 'Raleway', sans-serif;
+	font-size: 14px;
+	font-size: 1.4rem;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+
+.front-page .content-box p {
+	font-size: 18px;
+	font-size: 1.8rem;
+	line-height: 1.625;
+	margin-bottom: 0;
+}
+
+.content-box .icon {
+	font-size: 30px;
+}
+
+
+/* Team Overlay
+---------------------------------------------------------------------------------------------------- */
+
+.featuredpage .team-member a.aligncenter,
+.featuredpage .team-member a.alignleft,
+.featuredpage .team-member a.alignnone,
+.featuredpage .team-member a.alignright {
+	display: block;
+	margin: 0;
+}
+
+.featuredpage .team-member.entry {
+	color: #fff;
+	padding: 0;
+	position: relative;
+}
+
+.featuredpage .team-member .entry-content {
+	background-color: #000;
+	clear: both;
+	padding: 20px;
+	position: relative;
+	z-index: 10;
+}
+
+.featuredpage .team-member .entry-header {
+	background-color: rgba(0,0,0,0.8);
+	bottom: 0;
+	display: block;
+	left: 0;
+	opacity: 0;
+	-ms-filter: "alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 0;
+}
+
+.featuredpage .team-member .entry-header:after {
+	border-width: 0;
+	padding-bottom: 0;
+}
+
+.featuredpage .team-member.entry:hover .entry-header,
+.featuredpage .team-member.entry:focus .entry-header,
+.featuredpage .team-member.entry.focused .entry-header {
+	background-color: rgba(0,0,0,0.8);
+	opacity: 1;
+	-ms-filter: "alpha(Opacity=1)";
+	filter: alpha(opacity=1);
+}
+
+.featuredpage .team-member .entry-header a {
+	display: table-cell;
+	padding: 20px;
+	position: relative;
+	transform: translateY( 10px );
+	transition: transform .4s ease-in-out;
+	vertical-align: middle;
+	z-index: 3;
+}
+
+.featuredpage .team-member .entry-header.position-top a {
+	padding-top: 45px;
+	vertical-align: top;
+}
+
+.featuredpage .team-member:hover .entry-header a,
+.featuredpage .team-member:focus .entry-header a,
+.featuredpage .team-member.focused .entry-header a {
+	transform: translateY( 0 );
+}
+
+.featuredpage .team-member .entry-title a,
+.featuredpage .team-member .more-link:hover,
+.featuredpage .team-member .more-link:focus {
+	color: #fff;
+}
+
+.featuredpage .team-member .entry-title {
+	display: table;
+	font-size: 27px;
+	font-size: 2.7rem;
+	height: 100%;
+	margin-bottom: 10px;
+	overflow: hidden;
+	width: 100%;
+}
+
+.featuredpage .team-member .entry-title a:focus .team-name {
+	border-bottom: 1px #fff dotted;
+}
+
+.featuredpage .team-member p,
+.featuredpage .team-member .entry-title .team-title {
+	color: #fff;
+	font-size: 22px;
+	font-size: 2.2rem;
+	font-weight: 400;
+}
+
+.featuredpage .team-member .entry-title .team-title {
+	display: block;
+	padding-top: 10px;
+}
+
+.front-page-6 .flexible-widgets.widget-halves.uneven .featuredpage.widget:last-of-type {
+	float: none;
+	margin: 0 auto;
+	max-width: 50%;
+}
+
+
+/* Fadeup Effect
+---------------------------------------------------------------------------------------------------- */
+
+.js .fadeup-effect {
+	opacity: 0;
+	overflow: hidden;
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-timing-function: ease-in-out;
+}
+
+@-webkit-keyframes fadeInUp {
+	from { opacity: 0; -webkit-transform: translateY(20px); }
+	to { opacity: 1; -webkit-transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+	from { opacity: 0; transform: translateY(20px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+.fadeInUp {
+	-webkit-animation-name: fadeInUp;
+	animation-name: fadeInUp;
+}
+
+
+/* Media Queries
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 800px) {
+
+	.front-page .site-inner {
+		margin-top: 0;
+		padding: 0;
+	}
+
+	.front-page .offscreen-content-icon button,
+	.front-page .site-title a,
+	.front-page .site-title a:hover,
+	.front-page .site-title a:focus {
+		color: #000;
+	}
+
+	.front-page-1,
+	.front-page-2,
+	.front-page-3,
+	.front-page-4,
+	.front-page-5,
+	.front-page-6,
+	.front-page-7 {
+		padding-bottom: 150px;
+		padding-top: 150px;
+	}
+
+	.front-page-1 {
+		height: auto;
+	}
+
+	.front-page-1 .widget-area {
+		padding-top: 0;
+	}
+
+	.front-page-2 .wrap,
+	.front-page-3 .wrap,
+	.front-page-4 .wrap,
+	.front-page-5 .wrap,
+	.front-page-6 .wrap,
+	.front-page-7 .wrap {
+		padding-left: 5%;
+		padding-right: 5%
+	}
+
+	.flexible-widgets.widget-halves .widget,
+	.flexible-widgets.widget-thirds .widget,
+	.front-page-6 .flexible-widgets.widget-area .widget:nth-of-type(1) {
+		float: none;
+		width: 100%;
+	}
+
+	.flexible-widgets .widget {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.flexible-widgets.widget-fourths .widget,
+	.front-page-6 .flexible-widgets.widget-halves .widget,
+	.front-page-6 .flexible-widgets.widget-halves.uneven .widget:last-of-type,
+	.front-page-6 .flexible-widgets.widget-thirds .widget {
+		float: left;
+		padding-left: 10px;
+		padding-right: 10px;
+		width: 50%;
+	}
+
+	.front-page-6 .flexible-widgets.widget-thirds .widget {
+		clear: none;
+	}
+
+	.front-page-6 .flexible-widgets.widget-thirds .widget:nth-child(2n) {
+		clear: left;
+	}
+
+}
+
+@media only screen and (max-width: 600px) {
+
+	.flexible-widgets.widget-fourths .widget,
+	.front-page-6 .flexible-widgets.widget-thirds .widget,
+	.front-page-6 .flexible-widgets.widget-halves .widget,
+	.front-page-6 .flexible-widgets.widget-halves.uneven .widget:last-of-type {
+		float: none;
+		padding-left: 0;
+		padding-right: 0;
+		width: 100%;
+	}
+
+	.front-page-1,
+	.front-page-2,
+	.front-page-3,
+	.front-page-4,
+	.front-page-5,
+	.front-page-6,
+	.front-page-7 {
+		padding-bottom: 100px;
+		padding-top: 100px;
+	}
+
+	.front-page-2 p,
+	.front-page-3 p,
+	.front-page-4 p,
+	.front-page-5 p,
+	.front-page-6 p,
+	.front-page-7 p {
+		font-size: 24px;
+		font-size: 2.4rem;
+		line-height: 1.75;
+	}
+
+	.front-page-1 .widget-title {
+		font-size: 60px;
+		font-size: 6rem;
+		margin-bottom: 20px;
+	}
+
+}

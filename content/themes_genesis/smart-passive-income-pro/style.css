@@ -5,15 +5,17 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 1.0.1
+	Version: 1.1.1
 
-	Tags: one-column, two-columns, left-sidebar, right-sidebar, accessibility-ready, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, flexible-header, footer-widgets
+	Tags: one-column, two-columns, left-sidebar, right-sidebar, accessibility-ready, custom-colors, custom-header, custom-menu, e-commerce, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, flexible-header, footer-widgets
 
 	Template: genesis
 	Template Version: 2.2.3
 
 	License: GPL-2.0+
 	License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+	Text Domain: smart-passive-income-pro
 */
 
 
@@ -218,6 +220,11 @@ hr {
 	margin: 20px 0;
 }
 
+mark {
+	background-color: #eee;
+	color: #000;
+}
+
 b,
 strong {
 	font-weight: 700;
@@ -228,6 +235,11 @@ cite,
 em,
 i {
 	font-style: italic;
+}
+
+mark {
+	background: #ddd;
+	color: #000;
 }
 
 blockquote {
@@ -422,7 +434,6 @@ textarea {
 	font-size: 1.6rem;
 	font-weight: 700;
 	padding: 16px;
-	text-transform: uppercase;
 	width: 100%;
 }
 
@@ -485,7 +496,7 @@ input:hover[type="submit"],
 .front-page-4 .more-link:hover,
 .image .more-link:focus,
 .image .more-link:hover,
-.site-container a.button:focus, 
+.site-container a.button:focus,
 .site-container a.button:hover {
 	background-color: #009946;
 	color: #fff;
@@ -603,6 +614,7 @@ th:first-child {
 	overflow: hidden;
 	position: absolute !important;
 	width: 1px;
+	word-wrap: normal !important;
 }
 
 .genesis-nav-menu .search input[type="submit"]:focus,
@@ -631,7 +643,7 @@ th:first-child {
 }
 
 .more-link {
-    position: relative;
+	position: relative;
 }
 
 
@@ -676,7 +688,7 @@ th:first-child {
 	width: 100%;
 }
 
-/* ### Primary Sidebar */
+/* Primary Sidebar */
 
 .sidebar-primary {
 	float: right;
@@ -1166,6 +1178,7 @@ img.alignright,
 	margin-left: 0;
 }
 
+
 /* Plugins
 ---------------------------------------------------------------------------------------------------- */
 
@@ -1586,6 +1599,7 @@ img.alignright,
 	text-decoration: underline;
 }
 
+
 /* Content Area
 ---------------------------------------------------------------------------------------------------- */
 
@@ -1763,7 +1777,7 @@ p.entry-meta a:focus {
 .sidebar .featured-content a.alignright ~ .entry-header .entry-comments-link,
 .single .after-entry .featured-content a.alignleft ~ .entry-header .entry-comments-link,
 .single .after-entry .featured-content a.alignright ~ .entry-header .entry-comments-link {
-    float: none;
+	float: none;
 }
 
 /* Pagination
@@ -2043,7 +2057,7 @@ p.entry-meta a:focus {
 
 	.content,
 	.js .genesis-nav-menu .sub-menu a,
-	.js .genesis-nav-menu .sub-menu, 
+	.js .genesis-nav-menu .sub-menu,
 	.sidebar-primary {
 		width: 100%;
 	}
@@ -2082,13 +2096,17 @@ p.entry-meta a:focus {
 		min-height: auto;
 	}
 
-	.js nav.nav-primary,
-	.js .site-header nav  {
+	nav.genesis-responsive-menu {
 		display: none;
 		position: relative;
 	}
 
-	.js .site-header nav .wrap {
+	.genesis-skip-link .skip-link-hidden {
+		display: none;
+		visibility: hidden;
+	}
+
+	.site-header nav.genesis-responsive-menu .wrap {
 		padding: 0;
 	}
 
@@ -2096,8 +2114,8 @@ p.entry-meta a:focus {
 		display: block;
 	}
 
-	.site-container button.sub-menu-toggle,
-	.site-container .menu-toggle {
+	.menu-toggle,
+	.sub-menu-toggle {
 		background: transparent;
 		border-width: 0;
 		color: #fff;
@@ -2108,19 +2126,29 @@ p.entry-meta a:focus {
 		visibility: visible;
 	}
 
-	.site-container .menu-toggle {
-		background-color: #fff;
-		color: #333;
+	.menu-toggle:focus,
+	.menu-toggle:hover,
+	.sub-menu-toggle:focus,
+	.sub-menu-toggle:hover {
+		background: transparent;
+		color: #0e763c;
 	}
-	
-	.site-container button.sub-menu-toggle.sub-menu-toggle:focus,
-	.site-container button.sub-menu-toggle.sub-menu-toggle:hover {
-		background: #b4151b;
+
+	.site-container .nav-primary .sub-menu-toggle {
+		background: transparent !important;
+	}
+
+	.site-container .nav-primary .sub-menu-toggle:focus,
+	.site-container .nav-primary .sub-menu-toggle:hover {
+		background: #b4151b !important;
 		border-width: 0;
+		color: #fff;
 	}
 
 	.menu-toggle {
+		background-color: transparent;
 		border-top: 1px solid #eee;
+		color: #333;
 		line-height: 20px;
 		position: relative;
 		right: 0;
@@ -2128,25 +2156,29 @@ p.entry-meta a:focus {
 		z-index: 1000;
 	}
 
-	.sub-menu-toggle {
-		background: transparent;
-		border-radius: 0;
-		color: #fff;
+	.site-container > .menu-toggle {
+		background-color: #fff !important;
+		color: #333;
 	}
 
-	.js .site-container .site-header .menu-toggle {
-		background: transparent;
+	.sub-menu-toggle {
+		background: transparent !important;
+		border-radius: 0;
+		color: #fff !important;
+	}
+
+	.site-container .site-header .menu-toggle {
+		background: transparent !important;
 		border: 0;
 		color: #fff;
 	}
 
-	.js .site-container .site-header .menu-toggle:focus,
-	.js .site-container .site-header .menu-toggle:hover {
-		color: rgba(255,255,255,.6);
+	.site-header .menu-toggle:focus,
+	.site-header .menu-toggle:hover {
+		color: rgba(255,255,255,.6) !important;
 	}
 
-	.menu-toggle:before,
-	.menu-toggle.activated:before {
+	.menu-toggle:before {
 		margin-right: 10px;
 		text-rendering: auto;
 		-webkit-transform: translate(0, 0);
@@ -2166,24 +2198,30 @@ p.entry-meta a:focus {
 	.sub-menu-toggle:before {
 		display: inline-block;
 		text-rendering: auto;
-		-webkit-transform: translate(0, 0);
-		-ms-transform:     translate(0, 0);
-		transform:         translate(0, 0);
+		-webkit-transform: rotate( 0 );
+		-ms-transform:     rotate( 0 );
+		transform:         rotate( 0 );
+		-webkit-transition: transform .25s ease;
+		-ms-transition:     transform .25s ease;
+		transition:         transform .25s ease;
+
 	}
 
-	.sub-menu-toggle.activated:before {
-		content: "\f142";
+	.sub-menu-toggle.activated::before {
+		-webkit-transform: rotate( 180deg );
+		-ms-transform:     rotate( 180deg );
+		transform:         rotate( 180deg );
 	}
 
-	.js .nav-primary .genesis-nav-menu > li:before {
+	.nav-primary .genesis-nav-menu > li:before {
 		display: none;
 	}
 
-	.js .nav-primary .genesis-nav-menu {
+	.nav-primary .genesis-nav-menu {
 		position: relative;
 	}
 
-	.js .nav-primary .genesis-nav-menu:before {
+	.nav-primary .genesis-nav-menu:before {
 		background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
 		background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
 		background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
@@ -2198,50 +2236,74 @@ p.entry-meta a:focus {
 		z-index: 1;
 	}
 
-	.js .genesis-nav-menu .sub-menu a {
-		background: rgba( 0,0,0,.1);
+	.site-header .genesis-responsive-menu .genesis-nav-menu .sub-menu,
+	.site-header .genesis-responsive-menu .genesis-nav-menu .sub-menu a {
+		background: transparent !important;
+		color: #fff;
 	}
 
-	.js .nav-primary .genesis-nav-menu .menu-item,
-	.js .site-header .genesis-nav-menu .menu-item {
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu .menu-item a {
+		background: rgba( 0,0,0,.1);
+		padding-left: 20px;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu .sub-menu a {
+		padding-left: 40px;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu .sub-menu .sub-menu a {
+		padding-left: 60px;
+	}
+
+	.site-header .genesis-responsive-menu .genesis-nav-menu .sub-menu a:focus,
+	.site-header .genesis-responsive-menu .genesis-nav-menu .sub-menu a:hover {
+		color: #fff;
+		text-decoration: underline;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .menu-item {
 		display: block;
 		float: none;
-		margin: 1px 0;
+		margin: 0;
 		position: relative;
 		text-align: left;
 	}
 
-	.js .nav-primary .genesis-nav-menu a span[itemprop="description"] {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item.current-menu-item > a,
+	.spi-customized .genesis-responsive-menu .genesis-nav-menu .menu-item.current-menu-item > a {
+		background-color: transparent;
+	}
+
+	.genesis-responsive-menu.nav-primary .genesis-nav-menu a span[itemprop="description"] {
 		display: none;
 	}
 
-	.js .genesis-nav-menu .menu-item:focus,
-	.js .genesis-nav-menu .menu-item:hover {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item:focus,
+	.genesis-responsive-menu .genesis-nav-menu .menu-item:hover {
 		position: relative;
 	}
 
-	.js .nav-primary .genesis-nav-menu .menu-item a,
-	.js .site-header .genesis-nav-menu .menu-item a {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item a {
 		border: none;
 		padding: 12px;
 		width: 100%;
 	}
 
-	.js .genesis-nav-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu {
 		border: none;
 	}
 
-	.js .genesis-nav-menu .menu-item > a:focus ul.sub-menu,
-	.js .genesis-nav-menu .menu-item > a:focus ul.sub-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item > a:focus ul.sub-menu,
+	.genesis-responsive-menu .genesis-nav-menu .menu-item > a:focus ul.sub-menu .sub-menu {
 		left: 0;
 		margin-left: 0;
 	}
 
-	.js .genesis-nav-menu > .menu-item-has-children > a:after {
+	.genesis-responsive-menu .genesis-nav-menu > .menu-item-has-children > a:after {
 		content: none;
 	}
 
-	.js .genesis-nav-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu {
 		clear: both;
 		display: none;
 		margin: 0;
@@ -2250,26 +2312,8 @@ p.entry-meta a:focus {
 		width: 100%;
 	}
 
-	.js .genesis-nav-menu .sub-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu .sub-menu {
 		margin: 0;
-	}
-
-	.js nav button:hover,
-	.js .menu-toggle:hover {
-		background-color: #fff;
-		color: #000;
-	}
-
-	.js nav button:focus,
-	.js .menu-toggle:focus {
-		background-color: #fff;
-		color: #009946;
-	}
-
-	.js .sub-menu-toggle:focus,
-	.js .sub-menu-toggle:hover {
-		background: transparent;
-		color: #fff;
 	}
 
 	.widget-area.flexible-widgets.widget-fourths .widget {

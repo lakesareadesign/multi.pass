@@ -1,10 +1,13 @@
 <?php
 /**
- * This file adds the Home Page to the Daily Dish Pro Child Theme.
+ * Daily Dish Pro.
  *
- * @author StudioPress
+ * This file adds the front page to the Daily Dish Pro Theme.
+ *
  * @package Daily Dish Pro
- * @subpackage Customizations
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    http://my.studiopress.com/themes/daily-dish/
  */
 
 add_action( 'genesis_meta', 'daily_dish_home_genesis_meta' );
@@ -16,30 +19,35 @@ function daily_dish_home_genesis_meta() {
 
 	if ( is_active_sidebar( 'home-top' ) || is_active_sidebar( 'home-middle' ) || is_active_sidebar( 'home-bottom' ) ) {
 
-		// Force content-sidebar layout setting
-		add_filter( 'genesis_site_layout', '__genesis_return_content_sidebar' );
+		// Force content-sidebar layout setting.
+		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_content_sidebar' );
 
-		// Add daily-dish-home body class
+		// Add daily-dish-home body class.
 		add_filter( 'body_class', 'daily_dish_body_class' );
 
-		// Remove the default Genesis loop
+		// Remove the default Genesis loop.
 		remove_action( 'genesis_loop', 'genesis_do_loop' );
 
-		// Add homepage widgets
+		// Add homepage widgets.
 		add_action( 'genesis_loop', 'daily_dish_homepage_widgets' );
 
 	}
 
 }
 
+// Define daily-dish-home body class.
 function daily_dish_body_class( $classes ) {
 
 	$classes[] = 'daily-dish-home';
-	return $classes;
 	
+	return $classes;
+
 }
 
+// Output the front page widget areas.
 function daily_dish_homepage_widgets() {
+
+echo '<h2 class="screen-reader-text">' . __( 'Main Content', 'daily-dish-pro' ) . '</h2>';
 
 	genesis_widget_area( 'home-top', array(
 		'before' => '<div class="home-top widget-area">',
@@ -58,4 +66,5 @@ function daily_dish_homepage_widgets() {
 
 }
 
+// Run the Genesis loop.
 genesis();

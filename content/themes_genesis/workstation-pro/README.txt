@@ -5,7 +5,7 @@ INSTALL
 1. Upload the Workstation Pro theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the Workstation Pro theme.
-4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/setup/workstation-pro-theme/.
+4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/documentation/workstation-pro-theme/.
 
 WIDGET AREAS
 Primary Sidebar - This is the primary sidebar if you are using the Content/Sidebar or Sidebar/Conent Site Layout option.
@@ -22,7 +22,9 @@ The Workstation Pro theme is translation ready.  More information about the tran
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
 
-= 1.0 =
+CHANGELOG
+
+= 1.0.0 =
 * Initial release
 
 = 1.0.1 =
@@ -37,3 +39,20 @@ Please visit http://my.studiopress.com/help/ for theme support.
 * Update menu order and names in admin
 * Update responsive-menu.js for combined menus
 * Add small button style
+
+= 1.0.3 =
+* Remove deprecated theme tags
+* Update documentation
+
+= 1.1.0 =
+* Move color selection to the customizer
+* Add accessibility
+* Add new responsive menu script
+* Add WooCommerce support
+* Update file structure
+* Update docs standards
+* Update text domain
+* Update logo size for retina devices
+
+= 1.1.1 =
+* Fix error thrown when WooCommerce was inactive

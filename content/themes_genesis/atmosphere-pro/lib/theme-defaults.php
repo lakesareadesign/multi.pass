@@ -1,7 +1,21 @@
 <?php
+/**
+ * Atmosphere Pro.
+ *
+ * This file adds the default theme settings to the Atmosphere Pro Theme.
+ *
+ * @package Atmosphere
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    http://my.studiopress.com/themes/atmosphere/
+ */
 
-//* Atmosphere Theme Setting Defaults
 add_filter( 'genesis_theme_settings_defaults', 'atmosphere_theme_defaults' );
+/**
+ * Updates theme settings on reset.
+ *
+ * @since 1.0.0
+ */
 function atmosphere_theme_defaults( $defaults ) {
 
 	$defaults['blog_cat_num']              = 6;
@@ -15,8 +29,12 @@ function atmosphere_theme_defaults( $defaults ) {
 
 }
 
-//* Atmosphere Theme Setup
 add_action( 'after_switch_theme', 'atmosphere_theme_setting_defaults' );
+/**
+ * Updates theme settings on activation.
+ *
+ * @since 1.0.0
+ */
 function atmosphere_theme_setting_defaults() {
 
 	if ( function_exists( 'genesis_update_settings' ) ) {
@@ -29,15 +47,19 @@ function atmosphere_theme_setting_defaults() {
 			'posts_nav'                 => 'numeric',
 			'site_layout'               => 'full-width-content',
 		) );
-		
-	} 
+
+	}
 
 	update_option( 'posts_per_page', 6 );
 
 }
 
-//* Simple Social Icon Defaults
 add_filter( 'simple_social_default_styles', 'atmosphere_social_default_styles' );
+/**
+ * Updates Simple Social Icon settings on activation.
+ *
+ * @since 1.0.0
+ */
 function atmosphere_social_default_styles( $defaults ) {
 
 	$args = array(
@@ -49,9 +71,9 @@ function atmosphere_social_default_styles( $defaults ) {
 		'icon_color_hover'       => '#ffffff',
 		'size'                   => 40,
 		);
-		
+
 	$args = wp_parse_args( $args, $defaults );
-	
+
 	return $args;
-	
+
 }

@@ -1,3 +1,6 @@
+/* Smart Passive Income Pro Front Page
+Loaded on the front page */
+
 /* Front Page
 ---------------------------------------------------------------------------------------------------- */
 
@@ -230,11 +233,20 @@
 
 }
 
+@media only screen and (max-width: 420px) {
+
+	.front-page .content .featured-content .entry-comments-link {
+		float: none;
+		display: block;
+	}
+
+}
+
 @media print {
 
 	.front-page-2.widget-full .widget_text {
 		float: none;
 		margin: 0;
-	}	
+	}
 
 }

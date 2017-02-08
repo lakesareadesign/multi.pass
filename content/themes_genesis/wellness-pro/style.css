@@ -5,83 +5,86 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 1.0.0
+	Version: 1.1.2
 
-	Tags: develop, black, red, white, one-column, two-columns, left-sidebar, right-sidebar, responsive-layout, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
+	Tags: one-column, two-columns, left-sidebar, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, e-commerce, featured-images, flexible-header, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
 	Template: genesis
 	Template Version: 2.2.7
 
 	License: GPL-2.0+
 	License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+	Text Domain: wellness-pro
+*/
+
+/* Table of Contents
+	- HTML5 Reset
+		- Wellnessline Normalize
+		- Box Sizing
+		- Float Clearing
+	- Defaults
+		- Typographical Elements
+		- Headings
+		- Objects
+		- Gallery
+		- Forms
+		- Tables
+		- Screen Reader Text
+	- Structure and Layout
+		- Site Containers
+		- Column Widths and Positions
+		- Column Classes
+	- Common Classes
+		- Avatar
+		- Genesis
+		- Search Form
+		- Titles
+		- WordPress
+	- Widgets
+		- Flexible Widgets
+		- Featured Content
+	- Plugins
+		- Genesis Author Pro / Portfolio Pro
+		- Genesis eNews Extended
+		- Jetpack
+		- WP Instagram
+	- Skip Links
+	- Site Header
+		- Title Area
+	- Site Navigation
+		- Accessible Menu
+		- Site Header Navigation
+		- After Header Navigation
+		- Footer Navigation
+	- Content Area
+		- Entries
+		- Entry Meta
+		- Pagination
+		- Comments
+	- Sidebar
+	- Before Footer
+	- Footer Widgets
+	- Site Footer
+	- Media Queries
+		- Max-width: 1340px
+		- Max-width: 1200px
+		- Max-width: 1023px
+		- Max-width: 860px
+	- Print Styles
 */
 
 
-/* # Table of Contents
-- HTML5 Reset
-	- Wellnessline Normalize
-	- Box Sizing
-	- Float Clearing
-- Defaults
-	- Typographical Elements
-	- Headings
-	- Objects
-	- Gallery
-	- Forms
-	- Tables
-	- Screen Reader Text
-- Structure and Layout
-	- Site Containers
-	- Column Widths and Positions
-	- Column Classes
-- Common Classes
-	- Avatar
-	- Genesis
-	- Search Form
-	- Titles
-	- WordPress
-- Widgets
-	- Flexible Widgets
-	- Featured Content
-- Plugins
-	- Genesis eNews Extended
-	- Jetpack
-- Skip Links
-- Site Header
-	- Title Area
-- Site Navigation
-	- Accessible Menu
-	- Site Header Navigation
-	- After Header Navigation
-	- Footer Navigation
-- Content Area
-	- Entries
-	- Entry Meta
-	- Pagination
-	- Comments
-- Sidebar
-- Before Footer
-- Footer Widgets
-- Site Footer
-- Media Queries
-	- Max-width: 1340px
-	- Max-width: 1200px
-	- Max-width: 1023px
-	- Max-width: 860px
-- Print Styles
-*/
-
-
-/* # HTML5 Reset
+/* HTML5 Reset
 ---------------------------------------------------------------------------------------------------- */
 
-/* ## Baseline Normalize
+/* Baseline Normalize
 --------------------------------------------- */
 /* normalize.css v3.0.1 | MIT License | git.io/normalize */
 
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background:0 0}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:700}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{height:auto}input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:700}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}
 
-/* ## Box Sizing
+/* Box Sizing
 --------------------------------------------- */
 
 html,
@@ -98,7 +101,7 @@ input[type="search"]{
 }
 
 
-/* ## Float Clearing
+/* Float Clearing
 --------------------------------------------- */
 
 .author-box:before,
@@ -139,10 +142,10 @@ input[type="search"]{
 }
 
 
-/* # Defaults
+/* Defaults
 ---------------------------------------------------------------------------------------------------- */
 
-/* ## Typographical Elements
+/* Typographical Elements
 --------------------------------------------- */
 
 html {
@@ -226,6 +229,11 @@ i {
 	font-style: italic;
 }
 
+mark {
+	background: #ddd;
+	color: #000;
+}
+
 blockquote {
 	font-family: 'Arbutus Slab', serif;
 	margin: 40px;
@@ -252,7 +260,12 @@ cite {
 	text-transform: uppercase;
 }
 
-/* ## Headings
+mark {
+	background: #f5f5f5;
+	color: #000;
+}
+
+/* Headings
 --------------------------------------------- */
 
 h1,
@@ -297,7 +310,7 @@ h6 {
 	font-size: 1.6rem;
 }
 
-/* ## Objects
+/* Objects
 --------------------------------------------- */
 
 embed,
@@ -317,7 +330,7 @@ figure {
 	margin: 0;
 }
 
-/* ## Gallery
+/* Gallery
 --------------------------------------------- */
 
 .gallery {
@@ -388,7 +401,7 @@ figure {
 	border: 1px solid #999;
 }
 
-/* ## Forms
+/* Forms
 --------------------------------------------- */
 
 input,
@@ -541,7 +554,7 @@ input[type="search"]::-webkit-search-results-button {
 	border-bottom-color: #5da44f;
 }
 
-/* ## Tables
+/* Tables
 --------------------------------------------- */
 
 table {
@@ -550,7 +563,7 @@ table {
 	line-height: 2;
 	margin-bottom: 40px;
 	width: 100%;
-	word-break: break-word;
+	word-break: break-all;
 }
 
 tbody {
@@ -577,18 +590,19 @@ th:first-child {
 	padding-left: 0;
 }
 
-/* ## Screen Reader Text
+/* Screen Reader Text
 --------------------------------------------- */
 
 .screen-reader-text,
 .screen-reader-text span,
 .screen-reader-shortcut {
-	position: absolute !important;
 	clip: rect(0, 0, 0, 0);
 	height: 1px;
 	width: 1px;
 	border: 0;
+	position: absolute !important;
 	overflow: hidden;
+	word-wrap: normal !important;
 }
 
 .screen-reader-text:focus,
@@ -614,10 +628,10 @@ th:first-child {
 }
 
 
-/* # Structure and Layout
+/* Structure and Layout
 ---------------------------------------------------------------------------------------------------- */
 
-/* ## Site Containers
+/* Site Containers
 --------------------------------------------- */
 
 .site-inner,
@@ -636,10 +650,10 @@ th:first-child {
 	max-width: 880px;
 }
 
-/* ## Column Widths and Positions
+/* Column Widths and Positions
 --------------------------------------------- */
 
-/* ### Content */
+/* Content */
 
 .content {
 	float: right;
@@ -654,7 +668,7 @@ th:first-child {
 	width: 100%;
 }
 
-/* ### Primary Sidebar */
+/* Primary Sidebar */
 
 .sidebar-primary {
 	float: right;
@@ -665,7 +679,7 @@ th:first-child {
 	float: left;
 }
 
-/* ## Column Classes
+/* Column Classes
 --------------------------------------------- */
 /* Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css */
 
@@ -722,10 +736,10 @@ th:first-child {
 }
 
 
-/* # Common Classes
+/* Common Classes
 ---------------------------------------------------------------------------------------------------- */
 
-/* ## Avatar
+/* Avatar
 --------------------------------------------- */
 
 .avatar {
@@ -746,7 +760,7 @@ th:first-child {
 	margin: 0 16px 24px 0;
 }
 
-/* ## Genesis
+/* Genesis
 --------------------------------------------- */
 
 .breadcrumb {
@@ -771,6 +785,10 @@ th:first-child {
 	padding: 60px;
 }
 
+.archive-title + p {
+	margin-top: 20px;
+}
+
 .archive-description p:last-child,
 .author-box p:last-child {
 	margin-bottom: 0;
@@ -781,11 +799,12 @@ th:first-child {
 	text-align: center;
 }
 
-/* ## Search Form
+/* Search Form
 --------------------------------------------- */
 
 .search-form {
 	overflow: hidden;
+	position: relative;
 }
 
 .entry-content .search-form,
@@ -815,7 +834,16 @@ th:first-child {
 	width: 1px;
 }
 
-/* ## Titles
+.widget_search input[type="submit"]:focus {
+	border-left: 1px solid #ddd;
+	box-shadow: none;
+	padding: 17px 23px;
+	right: 2px;
+	top: 2px;
+}
+
+
+/* Titles
 --------------------------------------------- */
 
 .entry-title {
@@ -847,6 +875,10 @@ th:first-child {
 	text-transform: uppercase;
 }
 
+.archive-title {
+	margin-bottom: 0;
+}
+
 .large-title {
 	font-size: 44px;
 	font-size: 4.4rem;
@@ -857,7 +889,7 @@ th:first-child {
 	color: #e36344;
 }
 
-/* ## WordPress
+/* WordPress
 --------------------------------------------- */
 
 a.aligncenter img {
@@ -927,7 +959,7 @@ img.alignright,
 }
 
 
-/* # Widgets
+/* Widgets
 ---------------------------------------------------------------------------------------------------- */
 
 .widget {
@@ -1011,7 +1043,7 @@ img.alignright,
 	clear: left;
 }
 
-/* ## Featured Content
+/* Featured Content
 --------------------------------------------- */
 
 .featured-content .entry {
@@ -1029,21 +1061,26 @@ img.alignright,
 }
 
 
-/* # Plugins
+/* Plugins
 ---------------------------------------------------------------------------------------------------- */
 
-/* ## Genesis Author Pro
+/* Genesis Author Pro / Portfolio Pro
 --------------------------------------------- */
 
 .featured-content .book-featured-text-banner {
-	background-color: #5da44f; 
+	background-color: #5da44f;
 }
 
-.post-type-archive-books .site-inner {
+.archive.genesis-author-pro .site-inner,
+.archive.genesis-pro-portfolio .site-inner {
 	max-width: 1280px;
 }
 
-/* ## Genesis eNews Extended
+.single-books .book-details .button-book {
+	margin-bottom: 20px;
+}
+
+/* Genesis eNews Extended
 --------------------------------------------- */
 
 .sidebar .enews-widget,
@@ -1086,14 +1123,14 @@ img.alignright,
 	margin-top: 24px;
 }
 
-/* ## Jetpack
+/* Jetpack
 --------------------------------------------- */
 
 #wpstats {
 	display: none;
 }
 
-/* ## WP Instagram
+/* WP Instagram
 --------------------------------------------- */
 
 .before-footer .widget-full .null-instagram-feed {
@@ -1113,7 +1150,7 @@ img.alignright,
 	margin-bottom: -8px;
 }
 
-/* # Skip Links
+/* Skip Links
 ---------------------------------------------------------------------------------------------------- */
 
 .genesis-skip-link {
@@ -1133,7 +1170,7 @@ img.alignright,
 }
 
 
-/* # Site Header
+/* Site Header
 ---------------------------------------------------------------------------------------------------- */
 
 .site-header {
@@ -1144,7 +1181,7 @@ img.alignright,
 	padding: 20px 0;
 }
 
-/* ## Title Area
+/* Title Area
 --------------------------------------------- */
 
 .title-area {
@@ -1207,7 +1244,7 @@ img.alignright,
 	text-indent: -9999px;
 }
 
-/* ## Widget Area
+/* Widget Area
 --------------------------------------------- */
 
 .site-header .widget-area {
@@ -1217,7 +1254,7 @@ img.alignright,
 }
 
 
-/* # Site Navigation
+/* Site Navigation
 ---------------------------------------------------------------------------------------------------- */
 
 .genesis-nav-menu {
@@ -1351,7 +1388,7 @@ img.alignright,
 	padding-bottom: 20px;
 }
 
-/* ## Accessible Menu
+/* Accessible Menu
 --------------------------------------------- */
 
 .menu .menu-item:focus {
@@ -1387,7 +1424,7 @@ img.alignright,
 	visibility: hidden;
 }
 
-/* ## Site Header Navigation
+/* Site Header Navigation
 --------------------------------------------- */
 
 .site-header .genesis-nav-menu a {
@@ -1398,7 +1435,7 @@ img.alignright,
 	margin-left: 0;
 }
 
-/* ## After Header Navigation
+/* After Header Navigation
 --------------------------------------------- */
 
 .nav-primary {
@@ -1406,7 +1443,7 @@ img.alignright,
 	border-top: 1px solid #eee;
 }
 
-/* ## Footer Navigation
+/* Footer Navigation
 --------------------------------------------- */
 
 .site-footer .genesis-nav-menu {
@@ -1418,10 +1455,10 @@ img.alignright,
 }
 
 
-/* # Content Area
+/* Content Area
 ---------------------------------------------------------------------------------------------------- */
 
-/* ## Entries
+/* Entries
 --------------------------------------------- */
 
 .entry {
@@ -1444,7 +1481,8 @@ img.alignright,
 }
 
 .featured-content .entry-header::after,
-.post-type-archive-books .entry-header::after {
+.post-type-archive-books .entry-header::after,
+.post-type-archive-portfolio .entry-header::after {
 	display: none;
 }
 
@@ -1472,7 +1510,7 @@ img.alignright,
 	color: #eee;
 }
 
-/* ## Entry Meta
+/* Entry Meta
 --------------------------------------------- */
 
 p.entry-meta,
@@ -1527,7 +1565,7 @@ p.book-author {
 	margin: 0 6px 0 2px;
 }
 
-/* ## Pagination
+/* Pagination
 --------------------------------------------- */
 
 .pagination {
@@ -1562,7 +1600,7 @@ p.book-author {
 	color: #fff;
 }
 
-/* ## Comments
+/* Comments
 --------------------------------------------- */
 
 .comment-respond,
@@ -1623,7 +1661,7 @@ p.book-author {
 }
 
 
-/* # Sidebar
+/* Sidebar
 ---------------------------------------------------------------------------------------------------- */
 
 .sidebar {
@@ -1638,7 +1676,7 @@ p.book-author {
 }
 
 
-/* # Before Footer
+/* Before Footer
 ---------------------------------------------------------------------------------------------------- */
 
 .before-footer {
@@ -1651,7 +1689,7 @@ p.book-author {
 }
 
 
-/* # Footer Widgets
+/* Footer Widgets
 ---------------------------------------------------------------------------------------------------- */
 
 .footer-widgets {
@@ -1677,7 +1715,7 @@ p.book-author {
 }
 
 
-/* # Site Footer
+/* Site Footer
 ---------------------------------------------------------------------------------------------------- */
 
 .site-footer {
@@ -1695,7 +1733,7 @@ p.book-author {
 }
 
 
-/* # Media Queries
+/* Media Queries
 ---------------------------------------------------------------------------------------------------- */
 
 @media only screen and (max-width: 1340px) {
@@ -1748,13 +1786,13 @@ p.book-author {
 
 	.content,
 	.js .genesis-nav-menu .sub-menu a,
-	.js .genesis-nav-menu .sub-menu, 
+	.js .genesis-nav-menu .sub-menu,
 	.sidebar-primary,
 	.site-header .widget-area,
 	.title-area {
 		width: 100%;
 	}
-	
+
 	.site-header .widget-area {
 		margin-top: 20px;
 	}
@@ -1783,21 +1821,18 @@ p.book-author {
 		margin: 16px auto;
 	}
 
-	.js nav.nav-primary,
-	.js .site-header nav  {
+	nav.genesis-responsive-menu  {
 		display: none;
 		position: relative;
+		top: 0;
 	}
 
-	.js .site-header nav .wrap {
-		padding: 0;
-	}
-
-	.js nav.nav-primary {
+	nav.nav-primary.genesis-responsive-menu {
 		border-width: 0;
+		padding-bottom: 20px;
 	}
 
-	.js nav.pagination {
+	nav.pagination {
 		display: block;
 	}
 
@@ -1812,12 +1847,14 @@ p.book-author {
 		text-align: center;
 		visibility: visible;
 	}
-	
+
 	.menu-toggle:hover,
 	.menu-toggle:focus,
 	.sub-menu-toggle:hover,
 	.sub-menu-toggle:focus {
+		background: #fff;
 		border-width: 0;
+		color: #e36344;
 	}
 
 	.menu-toggle {
@@ -1828,13 +1865,9 @@ p.book-author {
 		width: 100%;
 	}
 
-	.menu-toggle:before,
-	.menu-toggle.activated:before {
+	.menu-toggle::before {
 		margin-right: 10px;
 		text-rendering: auto;
-		-webkit-transform: translate(0, 0);
-		-ms-transform:     translate(0, 0);
-		transform:         translate(0, 0);
 	}
 
 	.sub-menu-toggle {
@@ -1849,17 +1882,21 @@ p.book-author {
 	.sub-menu-toggle:before {
 		display: inline-block;
 		text-rendering: auto;
-		-webkit-transform: translate(0, 0);
-		-ms-transform:     translate(0, 0);
-		transform:         translate(0, 0);
+		-webkit-transform: rotate( 0 );
+		-ms-transform:     rotate( 0 );
+		transform:         rotate( 0 );
+		-webkit-transition: transform .25s ease;
+		-ms-transition:     transform .25s ease;
+		transition:         transform .25s ease;
 	}
 
 	.sub-menu-toggle.activated:before {
-		content: "\f142";
+		-webkit-transform: rotate( 180deg );
+		-ms-transform:     rotate( 180deg );
+		transform:         rotate( 180deg );
 	}
 
-	.js .nav-primary .genesis-nav-menu .menu-item,
-	.js .site-header .genesis-nav-menu .menu-item {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item {
 		display: block;
 		float: none;
 		margin: 1px 0;
@@ -1867,44 +1904,48 @@ p.book-author {
 		text-align: left;
 	}
 
-	.js .genesis-nav-menu .menu-item:hover {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item:hover {
 		position: relative;
 	}
 
-	.js .nav-primary .genesis-nav-menu .menu-item a,
-	.js .site-header .genesis-nav-menu .menu-item a {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item a {
 		background-color: #fff;
 		border: none;
 		color: #000;
-		padding: 12px 0;
+		padding: 12px 8px;
 		width: 100%;
 	}
 
-	.js .genesis-nav-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item a:focus,
+	.genesis-responsive-menu .genesis-nav-menu .menu-item a:hover {
+		color: #e36344;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu {
 		border: none;
 	}
 
-	.js .genesis-nav-menu .sub-menu:after,
-	.js .genesis-nav-menu .sub-menu:before {
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu:after,
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu:before {
 		display: none;
 	}
 
-	.js .genesis-nav-menu > .menu-item:hover > .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu > .menu-item:hover > .sub-menu {
 		left: auto;
 		margin-left: 0;
 	}
 
-	.js .genesis-nav-menu .menu-item > a:focus ul.sub-menu,
-	.js .genesis-nav-menu .menu-item > a:focus ul.sub-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item > a:focus ul.sub-menu,
+	.genesis-responsive-menu .genesis-nav-menu .menu-item > a:focus ul.sub-menu .sub-menu {
 		left: 0;
 		margin-left: 0;
 	}
 
-	.js .genesis-nav-menu > .menu-item-has-children > a:after {
+	.genesis-responsive-menu .genesis-nav-menu > .menu-item-has-children > a:after {
 		content: none;
 	}
 
-	.js .genesis-nav-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu {
 		clear: both;
 		display: none;
 		margin: 0;
@@ -1914,21 +1955,8 @@ p.book-author {
 		width: 100%;
 	}
 
-	.js .genesis-nav-menu .sub-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu .sub-menu {
 		margin: 0;
-	}
-
-	.js nav button:hover,
-	.js .menu-toggle:hover,
-	.js .nav-primary {
-		background-color: #fff;
-		color: #000;
-	}
-
-	.js nav button:focus,
-	.js .menu-toggle:focus {
-		background-color: #fff;
-		color: #e36344;
 	}
 
 	.flexible-widgets.widget-fourths .widget,
@@ -2012,7 +2040,7 @@ p.book-author {
 }
 
 
-/* # Print Styles
+/* Print Styles
 ---------------------------------------------------------------------------------------------------- */
 
 @media print {

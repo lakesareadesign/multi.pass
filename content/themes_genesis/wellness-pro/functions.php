@@ -10,52 +10,86 @@
  * @link    http://my.studiopress.com/themes/wellness/
  */
 
-//* Start the engine
+// Start the engine.
 include_once( get_template_directory() . '/lib/init.php' );
 
-//* Setup Theme
+// Setup Theme.
 include_once( get_stylesheet_directory() . '/lib/theme-defaults.php' );
 
-//* Set Localization (do not remove)
-load_child_theme_textdomain( 'wellness', apply_filters( 'child_theme_textdomain', get_stylesheet_directory() . '/languages', 'wellness' ) );
+// Set Localization (do not remove).
+add_action( 'after_setup_theme', 'wellness_localization_setup' );
+function wellness_localization_setup(){
+	load_child_theme_textdomain( 'wellness-pro', get_stylesheet_directory() . '/languages' );
+}
 
-//* Add Image upload and Color select to WordPress Theme Customizer
+// Add the theme's helper functions.
+include_once( get_stylesheet_directory() . '/lib/helper-functions.php' );
+
+// Add Image upload and Color select to WordPress Theme Customizer.
 require_once( get_stylesheet_directory() . '/lib/customize.php' );
 
-//* Include Customizer CSS
+// Include Customizer CSS.
 include_once( get_stylesheet_directory() . '/lib/output.php' );
 
-//* Child theme (do not remove)
+// Add the required WooCommerce setup functions.
+include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-setup.php' );
+
+// Add the Customizer CSS for the WooCommerce.
+include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-output.php' );
+
+// Include notice to install Genesis Connect for WooCommerce.
+include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.php' );
+
+// Child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Wellness Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/wellness-pro/' );
-define( 'CHILD_THEME_VERSION', '1.0.0' );
+define( 'CHILD_THEME_VERSION', '1.1.2' );
 
-//* Enqueue Scripts and Styles
+// Enqueue Scripts and Styles.
 add_action( 'wp_enqueue_scripts', 'wellness_enqueue_scripts_styles' );
 function wellness_enqueue_scripts_styles() {
 
 	wp_enqueue_style( 'wellness-fonts', '//fonts.googleapis.com/css?family=Open+Sans:400,700|Arbutus+Slab', array(), CHILD_THEME_VERSION );
 	wp_enqueue_style( 'dashicons' );
 
-	wp_enqueue_script( 'wellness-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0', true );
-	$output = array(
-		'mainMenu' => __( 'Menu', 'wellness' ),
-		'subMenu'  => __( 'Menu', 'wellness' ),
+	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+	wp_enqueue_script( 'wellness-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menus' . $suffix . '.js', array( 'jquery' ), CHILD_THEME_VERSION, true );
+	wp_localize_script(
+		'wellness-responsive-menu',
+		'genesis_responsive_menu',
+		wellness_responsive_menu_settings()
 	);
-	wp_localize_script( 'wellness-responsive-menu', 'WellnessL10n', $output );
 
 }
 
-//* Add HTML5 markup structure
+// Define our responsive menu settings.
+function wellness_responsive_menu_settings() {
+
+	$settings = array(
+		'mainMenu'    => __( 'Menu', 'wellness-pro' ),
+		'subMenu'     => __( 'Submenu', 'wellness-pro' ),
+		'menuClasses' => array(
+			'combine' => array(
+				'.nav-header',
+				'.nav-primary',
+			),
+		),
+	);
+
+	return $settings;
+
+}
+
+// Add HTML5 markup structure.
 add_theme_support( 'html5', array( 'caption', 'comment-form', 'comment-list', 'gallery', 'search-form' ) );
 
-//* Add Accessibility support
+// Add Accessibility support.
 add_theme_support( 'genesis-accessibility', array( '404-page', 'drop-down-menu', 'headings', 'rems', 'search-form', 'skip-links' ) );
 
-//* Add viewport meta tag for mobile browsers
+// Add viewport meta tag for mobile browsers.
 add_theme_support( 'genesis-responsive-viewport' );
 
-//* Add support for custom header
+// Add support for custom header.
 add_theme_support( 'custom-header', array(
 	'width'           => 600,
 	'height'          => 160,
@@ -64,38 +98,36 @@ add_theme_support( 'custom-header', array(
 	'flex-height'     => true,
 ) );
 
-//* Add support for custom background
+// Add support for custom background.
 add_theme_support( 'custom-background' );
 
-//* Add support for after entry widget
+// Add support for after entry widget.
 add_theme_support( 'genesis-after-entry-widget-area' );
 
-//* Add Image Sizes
+// Add Image Sizes.
 add_image_size( 'author-pro-image', 640, 640, TRUE );
 add_image_size( 'featured-image', 640, 640, TRUE );
 add_image_size( 'featured-image-large', 1000, 1000, TRUE );
 
-//* Remove secondary sidebar
+// Remove secondary sidebar.
 unregister_sidebar( 'sidebar-alt' );
 
-//* Remove site layouts
+// Remove site layouts.
 genesis_unregister_layout( 'content-sidebar-sidebar' );
 genesis_unregister_layout( 'sidebar-content-sidebar' );
 genesis_unregister_layout( 'sidebar-sidebar-content' );
 
-//* Remove output of primary navigation right extras
+// Remove output of primary navigation right extras.
 remove_filter( 'genesis_nav_items', 'genesis_nav_right', 10, 2 );
 remove_filter( 'wp_nav_menu_items', 'genesis_nav_right', 10, 2 );
 
-//* Remove navigation meta box
+// Remove navigation meta box.
 add_action( 'genesis_theme_settings_metaboxes', 'wellness_remove_genesis_metaboxes' );
 function wellness_remove_genesis_metaboxes( $_genesis_theme_settings_pagehook ) {
-
 	remove_meta_box( 'genesis-theme-settings-nav', $_genesis_theme_settings_pagehook, 'main' );
-
 }
 
-//* Remove skip link for primary navigation and add skip link for footer widgets
+// Remove skip link for primary navigation and add skip link for footer widgets.
 add_filter( 'genesis_skip_links_output', 'wellness_skip_links_output' );
 function wellness_skip_links_output( $links ) {
 
@@ -103,21 +135,21 @@ function wellness_skip_links_output( $links ) {
 	array_splice( $new_links, 3 );
 
 	if ( is_active_sidebar( 'flex-footer' ) ) {
-		$new_links['footer'] = __( 'Skip to footer', 'wellness' );
+		$new_links['footer'] = __( 'Skip to footer', 'wellness-pro' );
 	}
 
 	return array_merge( $new_links, $links );
 
 }
 
-//* Rename primary and secondary navigation menus
-add_theme_support( 'genesis-menus' , array( 'primary' => __( 'After Header Menu', 'wellness' ), 'secondary' => __( 'Footer Menu', 'wellness' ) ) );
+// Rename primary and secondary navigation menus.
+add_theme_support( 'genesis-menus', array( 'primary' => __( 'After Header Menu', 'wellness-pro' ), 'secondary' => __( 'Footer Menu', 'wellness-pro' ) ) );
 
-//* Reposition the secondary navigation menu
+// Reposition the secondary navigation menu.
 remove_action( 'genesis_after_header', 'genesis_do_subnav' );
 add_action( 'genesis_footer', 'genesis_do_subnav', 5 );
 
-//* Reduce the secondary navigation menu to one level depth
+// Reduce the secondary navigation menu to one level depth.
 add_filter( 'wp_nav_menu_args', 'wellness_secondary_menu_args' );
 function wellness_secondary_menu_args( $args ) {
 
@@ -131,7 +163,7 @@ function wellness_secondary_menu_args( $args ) {
 
 }
 
-//* Add featured image on single post
+// Add featured image on single post.
 add_action( 'genesis_entry_content', 'wellness_featured_image', 1 );
 function wellness_featured_image() {
 
@@ -152,15 +184,13 @@ function wellness_featured_image() {
 
 }
 
-//* Modify size of the Gravatar in the author box
+// Modify size of the Gravatar in the author box.
 add_filter( 'genesis_author_box_gravatar_size', 'wellness_author_box_gravatar' );
 function wellness_author_box_gravatar( $size ) {
-
 	return 90;
-
 }
 
-//* Modify size of the Gravatar in the entry comments
+// Modify size of the Gravatar in the entry comments.
 add_filter( 'genesis_comment_list_args', 'wellness_comments_gravatar' );
 function wellness_comments_gravatar( $args ) {
 
@@ -170,7 +200,7 @@ function wellness_comments_gravatar( $args ) {
 
 }
 
-//* Setup widget counts
+// Setup widget counts.
 function wellness_count_widgets( $id ) {
 
 	global $sidebars_widgets;
@@ -181,6 +211,7 @@ function wellness_count_widgets( $id ) {
 
 }
 
+// Set the widget class for flexible widgets.
 function wellness_widget_area_class( $id ) {
 
 	$count = wellness_count_widgets( $id );
@@ -195,7 +226,7 @@ function wellness_widget_area_class( $id ) {
 		$class .= ' widget-fourths';
 	} elseif ( $count % 2 == 1 ) {
 		$class .= ' widget-halves uneven';
-	} else {	
+	} else {
 		$class .= ' widget-halves';
 	}
 
@@ -203,71 +234,71 @@ function wellness_widget_area_class( $id ) {
 
 }
 
-//* Add the before footer widget area
+// Add the before footer widget area.
 add_action( 'genesis_before_footer', 'wellness_before_footer_widget' );
 function wellness_before_footer_widget() {
 
 	genesis_widget_area( 'before-footer', array(
-		'before' => '<div id="before-footer" class="before-footer"><h2 class="genesis-sidebar-title screen-reader-text">' . __( 'Before Footer', 'wellness' ) . '</h2><div class="flexible-widgets widget-area ' . wellness_widget_area_class( 'before-footer' ) . '"><div class="wrap">',
+		'before' => '<div id="before-footer" class="before-footer"><h2 class="genesis-sidebar-title screen-reader-text">' . __( 'Before Footer', 'wellness-pro' ) . '</h2><div class="flexible-widgets widget-area ' . wellness_widget_area_class( 'before-footer' ) . '"><div class="wrap">',
 		'after'  => '</div></div></div>',
 	) );
 
 }
 
-//* Add the flexible footer widget area
+// Add the flexible footer widget area.
 add_action( 'genesis_before_footer', 'wellness_footer_widgets' );
 function wellness_footer_widgets() {
 
 	genesis_widget_area( 'flex-footer', array(
-		'before' => '<div id="footer" class="flex-footer footer-widgets"><h2 class="genesis-sidebar-title screen-reader-text">' . __( 'Footer', 'wellness' ) . '</h2><div class="flexible-widgets widget-area ' . wellness_widget_area_class( 'flex-footer' ) . '"><div class="wrap">',
+		'before' => '<div id="footer" class="flex-footer footer-widgets"><h2 class="genesis-sidebar-title screen-reader-text">' . __( 'Footer', 'wellness-pro' ) . '</h2><div class="flexible-widgets widget-area ' . wellness_widget_area_class( 'flex-footer' ) . '"><div class="wrap">',
 		'after'  => '</div></div></div>',
 	) );
 
 }
 
-//* Register widget areas
+// Register widget areas.
 genesis_register_sidebar( array(
 	'id'          => 'sticky-message',
-	'name'        => __( 'Sticky Message', 'wellness' ),
-	'description' => __( 'This is the sticky message section that appears on the front page.', 'wellness' ),
+	'name'        => __( 'Sticky Message', 'wellness-pro' ),
+	'description' => __( 'This is the sticky message section that appears on the front page.', 'wellness-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-1',
-	'name'        => __( 'Front Page 1', 'wellness' ),
-	'description' => __( 'This is the front page 1 section.', 'wellness' ),
+	'name'        => __( 'Front Page 1', 'wellness-pro' ),
+	'description' => __( 'This is the front page 1 section.', 'wellness-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-2',
-	'name'        => __( 'Front Page 2', 'wellness' ),
-	'description' => __( 'This is the front page 2 section.', 'wellness' ),
+	'name'        => __( 'Front Page 2', 'wellness-pro' ),
+	'description' => __( 'This is the front page 2 section.', 'wellness-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-3',
-	'name'        => __( 'Front Page 3', 'wellness' ),
-	'description' => __( 'This is the front page 3 section.', 'wellness' ),
+	'name'        => __( 'Front Page 3', 'wellness-pro' ),
+	'description' => __( 'This is the front page 3 section.', 'wellness-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-4',
-	'name'        => __( 'Front Page 4', 'wellness' ),
-	'description' => __( 'This is the front page 4 section.', 'wellness' ),
+	'name'        => __( 'Front Page 4', 'wellness-pro' ),
+	'description' => __( 'This is the front page 4 section.', 'wellness-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-5',
-	'name'        => __( 'Front Page 5', 'wellness' ),
-	'description' => __( 'This is the front page 5 section.', 'wellness' ),
+	'name'        => __( 'Front Page 5', 'wellness-pro' ),
+	'description' => __( 'This is the front page 5 section.', 'wellness-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-6',
-	'name'        => __( 'Front Page 6', 'wellness' ),
-	'description' => __( 'This is the front page 6 section.', 'wellness' ),
+	'name'        => __( 'Front Page 6', 'wellness-pro' ),
+	'description' => __( 'This is the front page 6 section.', 'wellness-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'before-footer',
-	'name'        => __( 'Before Footer', 'wellness' ),
-	'description' => __( 'This is the before footer section.', 'wellness' ),
+	'name'        => __( 'Before Footer', 'wellness-pro' ),
+	'description' => __( 'This is the before footer section.', 'wellness-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'flex-footer',
-	'name'        => __( 'Footer', 'wellness' ),
-	'description' => __( 'This is the footer section.', 'wellness' ),
+	'name'        => __( 'Footer', 'wellness-pro' ),
+	'description' => __( 'This is the footer section.', 'wellness-pro' ),
 ) );

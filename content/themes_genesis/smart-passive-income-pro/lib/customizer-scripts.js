@@ -6,15 +6,15 @@
  * @package Smart Passive Income Pro
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://www.studiopress.com/
  */
+
 (function($) {
 
     var primary = '#0e763c',
         secondary = '#b4151b',
         frontPage = '#3677aa';
 
-    //* Update Primary color
+    // Update Primary color.
     wp.customize( 'spi_primary_color', function( value ) {
         
         value.bind( function( newval ) {
@@ -27,7 +27,24 @@
             var css  = 'a, \
                 .spi-customized .entry-title a:focus, \
                 .spi-customized .entry-title a:hover, \
-                .spi-customized.js .menu-toggle:focus { \
+                .spi-customized .menu-toggle:focus, \
+                .spi-customized .menu-toggle:hover, \
+                .spi-customized .sub-menu-toggle:focus, \
+                .spi-customized .sub-menu-toggle:hover, \
+                .spi-customized.woocommerce ul.products li.product h3:hover, \
+                .spi-customized.woocommerce ul.products li.product .price, \
+                .woocommerce div.product p.price, \
+                .woocommerce div.product span.price, \
+                .woocommerce div.product .woocommerce-tabs ul.tabs li a:hover, \
+                .woocommerce div.product .woocommerce-tabs ul.tabs li a:focus \
+                .woocommerce ul.products li.product h3:hover, \
+                .woocommerce ul.products li.product .price, \
+                .woocommerce .woocommerce-breadcrumb a:hover, \
+                .woocommerce .woocommerce-breadcrumb a:focus, \
+                .woocommerce .widget_layered_nav ul li.chosen a:before, \
+                .woocommerce .widget_layered_nav_filters ul li a:before, \
+                .woocommerce-info:before, \
+                .woocommerce-message:before { \
                     color: ' + newval + '; \
                 } \
                 .spi-customized button, \
@@ -41,13 +58,30 @@
                 .spi-customized.single .content .entry-comments-link, \
                 .spi-customized.page-template-page_blog .content .entry-comments-link,\
                 .spi-customized .site-container a.button, \
-                .spi-customized .color .more-link { \
+                .spi-customized .color .more-link, \
+                .woocommerce a.button, \
+                .woocommerce a.button.alt, \
+                .woocommerce button.button, \
+                .woocommerce button.button.alt, \
+                .woocommerce input.button, \
+                .woocommerce input.button.alt, \
+                .woocommerce input.button[type="submit"], \
+                .woocommerce input[type="submit"], \
+                .woocommerce #respond input#submit, \
+                .woocommerce #respond input#submit.alt, \
+                .woocommerce.widget_price_filter .ui-slider .ui-slider-handle, \
+                .woocommerce.widget_price_filter .ui-slider .ui-slider-range { \
                     background-color: ' + newval + '; \
                 } \
                 .spi-customized.archive .content .entry-comments-link:after, \
                 .spi-customized.single .content .entry-comments-link:after, \
                 .spi-customized.page-template-page_blog .content .entry-comments-link:after { \
                     border-left-color: ' + newval + '; \
+                } \
+                .woocommerce-error, \
+                .woocommerce-info, \
+                .woocommerce-message { \
+                    border-top-color: ' + newval + '; \
                 } \
                 .spi-customized button, \
                 .spi-customized input[type="button"], \
@@ -57,7 +91,17 @@
                 .spi-customized.single .content p.entry-meta .entry-comments-link > a, \
                 .spi-customized.page-template-page_blog .content p.entry-meta .entry-comments-link > a, \
                 .spi-customized .site-container a.button, \
-                .spi-customized .color .more-link { \
+                .spi-customized .color .more-link, \
+                .woocommerce a.button, \
+                .woocommerce a.button.alt, \
+                .woocommerce button.button, \
+                .woocommerce button.button.alt, \
+                .woocommerce input.button, \
+                .woocommerce input.button.alt, \
+                .woocommerce input.button[type="submit"], \
+                .woocommerce input[type="submit"], \
+                .woocommerce #respond input#submit, \
+                .woocommerce #respond input#submit.alt { \
                     color: ' + spi_color_contrast( newval ) + '; \
                 } \
                 .spi-customized button:focus, \
@@ -71,7 +115,27 @@
                 .spi-customized .site-container a.button:focus, \
                 .spi-customized .site-container a.button:hover, \
                 .spi-customized .color .more-link:focus, \
-                .spi-customized .color .more-link:hover { \
+                .spi-customized .color .more-link:hover, \
+                .woocommerce a.button:hover, \
+                .woocommerce a.button:focus, \
+                .woocommerce a.button.alt:hover, \
+                .woocommerce a.button.alt:focus, \
+                .woocommerce button.button:hover, \
+                .woocommerce button.button:focus, \
+                .woocommerce button.button.alt:hover, \
+                .woocommerce button.button.alt:focus, \
+                .woocommerce input.button:hover, \
+                .woocommerce input.button:focus, \
+                .woocommerce input.button.alt:hover, \
+                .woocommerce input.button.alt:focus, \
+                .woocommerce input.button[type="submit"]:hover, \
+                .woocommerce input.button[type="submit"]:focus, \
+                .woocommerce input[type="submit"]:hover, \
+                .woocommerce input[type="submit"]:focus, \
+                .woocommerce #respond input#submit:hover, \
+                .woocommerce #respond input#submit:focus, \
+                .woocommerce #respond input#submit.alt:hover, \
+                .woocommerce #respond input#submit.alt:focus { \
                     background-color: ' + spi_color_brightness( newval, '+', 20 ) + '; \
                     color: ' + spi_color_contrast( newval ) + '; \
                 } \
@@ -82,13 +146,10 @@
 
             $( "#spi-customizer-primary-preview" ).empty().append( css );
 
-            if( primary === newval ) {
-                $("#spi-customizer-primary-preview").empty();
-            }
         });
     });
 
-    //* Update the secondary color
+    // Update the secondary color.
     wp.customize( 'spi_secondary_color', function( value ) {
         value.bind( function( newval ) {
             if ( $( '#spi-customizer-secondary-preview' ).length == 0 ) {
@@ -102,11 +163,8 @@
                 .spi-customized .genesis-nav-menu .sub-menu, \
                 .spi-customized .nav-primary .genesis-nav-menu > li.current-menu-item:before, \
                 .spi-customized .nav-primary .genesis-nav-menu > li:hover:before, \
-                .spi-customized .nav-primary .genesis-nav-menu li.current-menu-item a, \
                 .spi-customized .nav-primary, \
                 .spi-customized .sidebar .enews-widget .widget-title, \
-                .spi-customized .site-container button.sub-menu-toggle.sub-menu-toggle:focus, \
-                .spi-customized .site-container button.sub-menu-toggle.sub-menu-toggle:hover, \
                 .spi-customized .site-container .nav-primary .genesis-nav-menu > li a:focus, \
                 .spi-customized .site-container .nav-primary .genesis-nav-menu > li a:hover { \
                     background-color: ' + newval + '; \
@@ -129,17 +187,27 @@
                 .spi-customized .nav-primary .genesis-nav-menu > li.current-menu-item:before, \
                 .spi-customized .nav-primary .genesis-nav-menu > li:hover:before, \
                 .spi-customized .sidebar .enews-widget .widget-title, \
-                .spi-customized .site-container button.sub-menu-toggle, \
+                .spi-customized .site-inner button.sub-menu-toggle, \
                 .spi-customized .site-container .nav-primary .genesis-nav-menu > li a:focus, \
-                .spi-customized .site-container .nav-primary .genesis-nav-menu > li a:hover { \
+                .spi-customized .site-container .nav-primary .genesis-nav-menu > li a:hover, \
+                .spi-customized .site-inner .sub-menu-toggle, \
+                .spi-customized .sub-menu-toggle:focus, \
+                .spi-customized .sub-menu-toggle:hover { \
                     color: ' + spi_color_contrast( newval ) + '; \
                 } \
                 .spi-customized .genesis-nav-menu .sub-menu a { \
                     border-color: ' + spi_color_brightness( newval, '-', 20 ) + '; \
                 } \
-                .spi-customized .site-container .nav-primary .genesis-nav-menu > li .sub-menu a:hover { \
+                .spi-customized .site-container .nav-primary .genesis-nav-menu > li .sub-menu a:hover, \
+                .woocommerce span.onsale { \
                     background-color: ' + spi_color_brightness( newval, '-', 20 ) + '; \
                     color: ' + spi_color_contrast( newval ) + '; \
+                } \
+                .spi-customized .site-container .nav-primary .sub-menu-toggle, \
+                .spi-customized .site-container .nav-primary .sub-menu-toggle:focus, \
+                .spi-customized .site-container .nav-primary .sub-menu-toggle:hover { \
+                    background-color: ' + spi_color_brightness( newval, '-', 20 ) + ' !important; \
+                    color: ' + spi_color_contrast( newval ) + ' !important; \
                 }';
 
             if ( newval === '#ffffff' ) {
@@ -166,20 +234,17 @@
 
             $( "#spi-customizer-secondary-preview" ).empty().append( css );
 
-            if( secondary === newval ) {
-                $("#spi-customizer-secondary-preview").empty();
-            }
         });
     });
 
-    //* Update the Front Page 2 Background
+    // Update the Front Page 2 Background.
 	wp.customize( 'spi_front_page_2_bg_image', function( value ) {
         value.bind( function( newval ) {
         	$( '.front-page-2' ).css( 'background-image', 'url(' + newval + ')' );
         });
     });
 
-    //* Update the Front Page 3 Widget areas background color
+    // Update the Front Page 3 Widget areas background color.
     wp.customize( 'spi_home_widget_3_background', function( value ) {
         value.bind( function( newval ) {
             if ( $( '#spi-customizer-front-page' ).length == 0 ) {
@@ -245,7 +310,7 @@
         });
     });
 
-    //* Determine the contrast setting
+    // Determine the contrast setting.
     function spi_color_contrast( color ) {
     
         var hexcolor = color.replace( '#', '' );
@@ -260,13 +325,13 @@
 
     }
 
-    //* Helper function to generate hexdecimal
+    // Helper function to generate hexdecimal.
     function hexdec( hexString ) {
         hexString = (hexString + '').replace(/[^a-f0-9]/gi, '')
         return parseInt(hexString, 16)
     }
 
-    //* Calculate Color Brightness
+    // Calculate Color Brightness.
     function spi_color_brightness( color, op, change ) {
 
         var hexcolor = color.replace( '#', '' );

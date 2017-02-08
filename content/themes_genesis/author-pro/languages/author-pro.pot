@@ -1,0 +1,163 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Author Pro 1.1.1\n"
+"POT-Creation-Date: 2017-01-29 21:39-0500\n"
+"PO-Revision-Date: 2017-01-29 21:39-0500\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#. Theme Name of the plugin/theme
+#: functions.php:44
+msgid "Author Pro"
+msgstr ""
+
+#: functions.php:72
+msgid "Menu"
+msgstr ""
+
+#: functions.php:73
+msgid "Submenu"
+msgstr ""
+
+#: functions.php:128
+msgid "Header Menu"
+msgstr ""
+
+#: functions.php:128
+msgid "After Header Menu"
+msgstr ""
+
+#: functions.php:152
+msgid "Skip to secondary navigation"
+msgstr ""
+
+#: functions.php:212
+msgid "Front Page 1"
+msgstr ""
+
+#: functions.php:213
+msgid "This is the front page 1 section."
+msgstr ""
+
+#: functions.php:217
+msgid "Front Page 2"
+msgstr ""
+
+#: functions.php:218
+msgid "This is the front page 2 section."
+msgstr ""
+
+#: functions.php:222
+msgid "Front Page 3"
+msgstr ""
+
+#: functions.php:223
+msgid "This is the front page 3 section."
+msgstr ""
+
+#: functions.php:227
+msgid "Front Page 4"
+msgstr ""
+
+#: functions.php:228
+msgid "This is the front page 4 section."
+msgstr ""
+
+#: functions.php:232
+msgid "Front Page 5"
+msgstr ""
+
+#: functions.php:233
+msgid "This is the front page 5 section."
+msgstr ""
+
+#: lib/customize.php:36
+msgid "Light Color"
+msgstr ""
+
+#: lib/customize.php:37
+msgid ""
+"Change the light background color for areas such as the secondary navigation "
+"and sidebar."
+msgstr ""
+
+#: lib/customize.php:57
+msgid "Dark Color"
+msgstr ""
+
+#: lib/customize.php:58
+msgid ""
+"Change the dark background color for areas such as submenus, the header on "
+"mobile, and footer widgets."
+msgstr ""
+
+#: lib/customize.php:78
+msgid "Accent Color"
+msgstr ""
+
+#: lib/customize.php:79
+msgid ""
+"Change the default accent color for links, numeric pagination, and "
+"highlighted menu items."
+msgstr ""
+
+#: lib/theme-defaults.php:63 lib/theme-defaults.php:95
+msgid "Continue Reading&hellip;"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:53
+#, php-format
+msgid ""
+"Please install and activate <a href=\"https://wordpress.org/plugins/genesis-"
+"connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> "
+"to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:67
+msgid "install and activate Genesis Connect for WooCommerce"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:69
+#, php-format
+msgid "Please %s to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:76
+msgid "Previous Page"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:77
+msgid "Next Page"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/author/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Further your following by showcasing your published work with a better "
+"online library."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
+msgstr ""

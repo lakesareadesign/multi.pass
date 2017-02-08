@@ -5,70 +5,70 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 1.0.4
+	Version: 1.1.2
 
-	Tags: one-column, two-columns, left-sidebar, right-sidebar, custom-colors, custom-header, custom-menu, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
+	Tags: one-column, two-columns, left-sidebar, right-sidebar, custom-colors, custom-header, custom-menu,  e-commerce, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
 
 	Template: genesis
 	Template Version: 2.2
 
 	License: GPL-2.0+
-	License URI: http://www.opensource.org/licenses/gpl-license.php 
+	License URI: http://www.opensource.org/licenses/gpl-license.php
+
+	Text Domain: digital-pro
 */
 
 /* Table of Contents
-- Imports
-- HTML5 Reset
-	- Baseline Normalize
-	- Box Sizing
-	- Float Clearing
-- Defaults
-	- Typographical Elements
-	- Headings
-	- Objects
-	- Gallery
-	- Forms
-	- Column Classes
-	- Tables
-	- Screen Reader Text
-- Structure and Layout
-	- Site Container
-	- Site Inner
-- Common Classes
-	- Avatar
-	- Genesis
-	- Search Form
-	- Titles
-	- WordPress
-- Widgets
-	- Featured Content
-- Plugins
-	- Genesis eNews Extended
-	- Genesis Simple Share
-	- Jetpack
-- Skip Links
-- Site Header
-	- Site Title and Description
-- Site Navigation
-	- Accessible Menu
-	- Primary Navigation
-	- Secondary Navigation
-	- Responsive Navigation
-- Content Area
-	- Entries
-	- Intro Text
-	- Entry Meta
-	- After Entry
-	- Pagination
-	- Sidebar	
-	- Comments
-- Footer Widgets
-- Site Footer
-- Fadeup Effect
-- Media Queries
-	- Min-width: 801px
-	- Max-width: 800px
-	- Max-width: 600px
+	- HTML5 Reset
+		- Baseline Normalize
+		- Box Sizing
+		- Float Clearing
+	- Defaults
+		- Typographical Elements
+		- Headings
+		- Objects
+		- Gallery
+		- Forms
+		- Column Classes
+		- Tables
+		- Screen Reader Text
+	- Structure and Layout
+		- Site Container
+		- Site Inner
+	- Common Classes
+		- Avatar
+		- Genesis
+		- Search Form
+		- Titles
+		- WordPress
+	- Widgets
+		- Featured Content
+	- Plugins
+		- Genesis eNews Extended
+		- Genesis Simple Share
+		- Jetpack
+	- Skip Links
+	- Site Header
+		- Site Title and Description
+	- Site Navigation
+		- Accessible Menu
+		- Primary Navigation
+		- Secondary Navigation
+	- Content Area
+		- Entries
+		- Intro Text
+		- Entry Meta
+		- After Entry
+		- Pagination
+		- Sidebar
+		- Comments
+	- Footer Widgets
+	- Site Footer
+	- Fadeup Effect
+	- Media Queries
+		- Min-width: 801px
+		- Max-width: 800px
+		- Max-width: 600px
 */
 
 
@@ -139,12 +139,12 @@ input[type="search"] {
 --------------------------------------------- */
 
 html {
-    font-size: 62.5%; /* 10px browser default */
+	font-size: 62.5%; /* 10px browser default */
 }
 
 /* Chrome fix */
 body > div {
-    font-size: 1.6rem;
+	font-size: 1.6rem;
 }
 
 body {
@@ -230,6 +230,11 @@ i {
 	font-style: italic;
 }
 
+mark {
+	background-color: #ddd;
+	color: #000;
+}
+
 blockquote {
 	margin: 40px;
 }
@@ -253,7 +258,6 @@ hr {
 	margin: 0 0 40px;
 	padding-top: 20px;
 }
-
 
 /* Headings
 --------------------------------------------- */
@@ -533,14 +537,21 @@ input:focus[type="submit"],
 .button:hover,
 .entry-content a.button:focus,
 .entry-content a.button:hover,
+.footer-widgets-1 button,
+.footer-widgets-1 button,
+.footer-widgets-1 input[type="button"],
+.footer-widgets-1 input[type="reset"],
+.footer-widgets-1 input[type="submit"],
+.footer-widgets-1 .entry-content a.button,
+.footer-widgets-1 .textwidget a.button,
 .textwidget a.button:focus,
 .textwidget a.button:hover {
 	background-color: #232525;
 	border: none;
 	color: #fff;
+	text-align: center;
 	text-decoration: none;
 }
-
 
 .footer-widgets button:focus,
 .footer-widgets button:hover,
@@ -550,6 +561,8 @@ input:focus[type="submit"],
 .footer-widgets input:hover[type="reset"],
 .footer-widgets input:focus[type="submit"],
 .footer-widgets input:hover[type="submit"],
+.footer-widgets .entry-content a.button:focus,
+.footer-widgets .entry-content a.button:hover,
 .footer-widgets .textwidget a.button:focus,
 .footer-widgets .textwidget a.button:hover {
 	background-color: #fff;
@@ -604,13 +617,13 @@ input[type="search"]::-webkit-search-results-button {
 	float: left;
 	margin-left: 2.564102564102564%;
 }
-	
+
 .one-half,
 .three-sixths,
 .two-fourths {
 	width: 48.717948717948715%;
 }
-	
+
 .one-third,
 .two-sixths {
 	width: 31.623931623931625%;
@@ -620,19 +633,19 @@ input[type="search"]::-webkit-search-results-button {
 .two-thirds {
 	width: 65.81196581196582%;
 }
-	
+
 .one-fourth {
 	width: 23.076923076923077%;
 }
-	
+
 .three-fourths {
 	width: 74.35897435897436%;
 }
-	
+
 .one-sixth {
 	width: 14.52991452991453%;
 }
-	
+
 .five-sixths {
 	width: 82.90598290598291%;
 }
@@ -686,6 +699,7 @@ th {
 	overflow: hidden;
 	position: absolute !important;
 	width: 1px;
+	word-wrap: normal !important;
 }
 
 .genesis-nav-menu .search input[type="submit"]:focus,
@@ -706,7 +720,7 @@ th {
 }
 
 .more-link {
-    position: relative;
+	position: relative;
 }
 
 
@@ -718,10 +732,10 @@ th {
 
 .site-container {
 	-webkit-animation: fadein 1s;
-       -moz-animation: fadein 1s;
-        -ms-animation: fadein 1s;
-         -o-animation: fadein 1s;
-            animation: fadein 1s;
+	-moz-animation:    fadein 1s;
+	-ms-animation:     fadein 1s;
+	-o-animation:      fadein 1s;
+	animation:         fadein 1s;
 }
 
 .digital-landing .site-container {
@@ -861,6 +875,7 @@ th {
 
 .search-form {
 	overflow: hidden;
+	position: relative;
 }
 
 .search-form input {
@@ -875,6 +890,31 @@ th {
 	padding: 0;
 	position: absolute;
 	width: 1px;
+}
+
+.widget_search .search-form input[type="submit"]:focus {
+	border-radius: 0;
+	margin-top: 0;
+	padding: 17px 20px;
+	right: 0;
+	top: 0;
+}
+
+.error404 .content .search-form {
+	margin-bottom: 40px;
+}
+
+.error404 .content .search-form input[type="search"] {
+	margin-right: 10px;
+	outline-offset: -1px;
+	width: auto;
+}
+
+.error404 .content .search-form input[type="submit"] {
+	height: auto;
+	padding: 20px;
+	position: static;
+	width: auto;
 }
 
 /* Titles
@@ -1075,7 +1115,7 @@ a[rel~="attachment"]:hover,
 	border-width: 0;
 }
 
-.featured-content.widget .entry {	
+.featured-content.widget .entry {
 	padding-bottom: 60px;
 }
 
@@ -1267,7 +1307,7 @@ a[rel~="attachment"]:hover,
 	border-bottom: 1px solid transparent;
 	padding: 28px 30px;
 	position: fixed;
-	top: 0;	
+	top: 0;
 	width: 100%;
 	z-index: 999;
 }
@@ -1420,6 +1460,12 @@ a[rel~="attachment"]:hover,
 	opacity: 1;
 }
 
+.menu-toggle,
+.sub-menu-toggle {
+	display: none;
+	visibility: hidden;
+}
+
 /* Primary Navigation
 --------------------------------------------- */
 
@@ -1451,15 +1497,6 @@ a[rel~="attachment"]:hover,
 	padding: 0;
 	margin-left: 10px;
 	margin-right: 10px;
-}
-
-/* Responsive Navigation
---------------------------------------------- */
-
-.sub-menu-toggle,
-.menu-toggle {
-	display: none;
-	visibility: hidden;
 }
 
 
@@ -1931,26 +1968,26 @@ p.form-submit,
 	opacity: 0;
 	overflow: hidden;
 	-webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-    -webkit-animation-timing-function: ease-in-out;
-    animation-timing-function: ease-in-out;
+	animation-duration:         1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode:         both;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-timing-function:         ease-in-out;
 }
 
 @-webkit-keyframes fadeInUp {
     from { opacity: 0; -webkit-transform: translateY(20px); }
     to { opacity: 1; -webkit-transform: translateY(0); }
-} 
+}
 
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
-} 
+}
 
 .fadeInUp {
-    -webkit-animation-name: fadeInUp;
-    animation-name: fadeInUp;
+	-webkit-animation-name: fadeInUp;
+	animation-name:         fadeInUp;
 }
 
 
@@ -1963,7 +2000,7 @@ p.form-submit,
 		display: -webkit-flex;
 		display: -ms-flexbox;
 		display: flex;
-		 
+
 		-webkit-flex-wrap: wrap;
 		-ms-flex-wrap: wrap;
 		flex-wrap: wrap;
@@ -1991,11 +2028,21 @@ p.form-submit,
 		width: 100%;
 	}
 
-	.site-header {
+	.footer-widgets-1,
+	.footer-widgets-2,
+	.footer-widgets-3,
+	.site-footer,
+	.site-inner {
+		padding: 8%;
+	}
+
+	.site-header,
+	.site-header.shrink {
 		position: inherit;
 		text-align: center;
+		padding: 20px 8%;
 	}
-	
+
 	.header-image .nav-primary:not(button) {
 		background: #fff;
 		margin-top: 0;
@@ -2010,128 +2057,135 @@ p.form-submit,
 	.title-area {
 		float: none;
 	}
-	
+
 	.js .nav-primary .sub-menu a {
 		background: none;
 		border: none;
 	}
 
-	.js nav {
+	/* Genesis Responsive Menus */
+	.js .site-header nav .wrap {
+		padding: 0;
+	}
+
+	nav.genesis-responsive-menu {
 		display: none;
 		position: relative;
 	}
 
-	.js nav .wrap {
-		padding: 0;
-	}
-
-	.js nav.pagination {
-		display: block;
+	.genesis-skip-link .skip-link-hidden {
+		display: none;
+		visibility: hidden;
 	}
 
 	.menu-toggle,
 	.sub-menu-toggle {
-		background: none;
-		border-radius: 0;
 		border-width: 0;
-		color: #1e1e1e;
+		background: transparent;
+		color: #232525;
 		display: block;
 		margin: 0 auto;
+		outline-offset: -1px;
 		overflow: hidden;
 		text-align: center;
 		visibility: visible;
 	}
-	
-	.menu-toggle:hover,
+
 	.menu-toggle:focus,
-	.sub-menu-toggle:hover,
-	.sub-menu-toggle:focus {
-		background: none;
+	.menu-toggle:hover,
+	.sub-menu-toggle:focus,
+	.sub-menu-toggle:hover {
+		background: transparent;
+		color: #e85555;
 		border-width: 0;
 	}
 
 	.menu-toggle {
-		padding-bottom: 0;
-		padding-top: 10px;
+		line-height: 20px;
+		margin-top: 10px;
+		padding: 10px 30px;
 		position: relative;
-		right: 0;
 		z-index: 1000;
 		width: 100%;
 	}
 
-	.menu-toggle:before,
-	.menu-toggle.activated:before {
-		color: #1e1e1e;
-		content: "\f130";
-		display: inline-block;
-		font: normal 20px/1 'ionicons';
-		margin: 0 auto;
-		padding-right: 10px;
+	.menu-toggle::before {
+		font-size: 2em;
+		margin-right: 10px;
 		text-rendering: auto;
-		-webkit-transform: translate(0, 0);
-		-ms-transform:     translate(0, 0);
-		transform:         translate(0, 0);
 		vertical-align: middle;
 	}
 
 	.sub-menu-toggle {
 		float: right;
-		padding: 8px 18px;
+		padding: 14px 10px 13px;
 		position: absolute;
 		right: 0;
 		top: 0;
 		z-index: 100;
 	}
 
-	.sub-menu-toggle:before {
-		content: "\f3d0";
+	.sub-menu-toggle::before {
 		display: inline-block;
-		font: normal 16px/1 'ionicons';
 		text-rendering: auto;
-		-webkit-transform: translate(0, 0);
-		-ms-transform:     translate(0, 0);
-		transform:         translate(0, 0);
+		-webkit-transform: rotate( 0 );
+		-ms-transform:     rotate( 0 );
+		transform:         rotate( 0 );
+		-webkit-transition: transform .25s ease-in-out;
+		-ms-transition:     transform .25s ease-in-out;
+		transition:         transform .25s ease-in-out;
 	}
 
-	.sub-menu-toggle.activated:before {
-		content: "\f3d8";
+	.sub-menu-toggle.activated::before {
+		-webkit-transform: rotate( 180deg );
+		-ms-transform:     rotate( 180deg );
+		transform:         rotate( 180deg );
 	}
 
-	.js .genesis-nav-menu .menu-item {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item {
 		display: block;
 		float: none;
-		margin-top: 1px;
-		margin-bottom: 1px;
 		position: relative;
 		text-align: left;
 	}
 
-	.js .genesis-nav-menu .menu-item:hover {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item:focus,
+	.genesis-responsive-menu .genesis-nav-menu .menu-item:hover {
 		position: relative;
 	}
 
-	.js .genesis-nav-menu .menu-item a {
+	.genesis-responsive-menu .genesis-nav-menu a:focus,
+	.genesis-responsive-menu .genesis-nav-menu a:hover {
+		color: #e85555;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .menu-item a:focus {
+		outline: thin solid #ddd;
+		outline-offset: -1px;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .menu-item a {
 		border: none;
-		padding: 10px;
+		margin-bottom: 1px;
+		padding: 16px 0 16px 10px;
 		width: 100%;
 	}
 
-	.js .genesis-nav-menu .menu-item a:hover,
-	.js .genesis-nav-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu {
 		border: none;
 	}
 
-	.js .genesis-nav-menu .menu-item > a:focus ul.sub-menu,
-	.js .genesis-nav-menu .menu-item > a:focus ul.sub-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item > a:focus ul.sub-menu,
+	.genesis-responsive-menu .genesis-nav-menu .menu-item > a:focus ul.sub-menu .sub-menu {
 		left: 0;
 		margin-left: 0;
 	}
 
-	.js .genesis-nav-menu > .menu-item-has-children > a:after {
+	.genesis-responsive-menu .genesis-nav-menu > .menu-item-has-children > a::after {
 		content: none;
 	}
 
-	.js .genesis-nav-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu {
 		clear: both;
 		display: none;
 		margin: 0;
@@ -2141,31 +2195,13 @@ p.form-submit,
 		width: 100%;
 	}
 
-	.js .genesis-nav-menu .sub-menu .sub-menu {
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu .sub-menu {
 		margin: 0;
-	}
-
-	.js .genesis-nav-menu .sub-menu a {
-		border: none;
-	}
-
-	.js nav button:hover,
-	.js .menu-toggle:hover,
-	.js .nav-primary {
-		color: #1e1e1e;
-	}
-
-	.js nav button:focus,
-	.js .menu-toggle:focus {
-		color: #e85555;
 	}
 
 	.content {
 		margin-bottom: 0;
 		margin-top: 0;
-		padding-bottom: 8%;
-		padding-left: 5%;
-		padding-right: 5%;
 	}
 
 	.page .entry-header,
@@ -2203,19 +2239,9 @@ p.form-submit,
 	}
 
 	.footer-widgets-1,
-	.footer-widgets-2,
-	.footer-widgets-3 {
-		padding: 8% 5%;
-	}
-
-	.footer-widgets-1,
 	.page .entry-header,
 	.single .entry-header {
 		text-align: left;
-	}
-
-	.site-footer {
-		padding: 20px;
 	}
 
 }
@@ -2243,7 +2269,7 @@ p.form-submit,
 	.gallery-columns-9 .gallery-item {
 		width: 100%;
 	}
-	
+
 	.five-sixths,
 	.four-sixths,
 	.one-fourth,

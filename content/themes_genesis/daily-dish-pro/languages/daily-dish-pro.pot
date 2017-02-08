@@ -1,0 +1,160 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Daily Dish Pro 1.1.1\n"
+"POT-Creation-Date: 2017-01-29 17:34-0500\n"
+"PO-Revision-Date: 2017-01-29 17:33-0500\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: front-page.php:50
+msgid "Main Content"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+#: functions.php:44
+msgid "Daily Dish Pro"
+msgstr ""
+
+#: functions.php:69
+msgid "Menu"
+msgstr ""
+
+#: functions.php:70
+msgid "Submenu"
+msgstr ""
+
+#: functions.php:126
+msgid "Before Header Menu"
+msgstr ""
+
+#: functions.php:126
+msgid "After Header Menu"
+msgstr ""
+
+#: functions.php:231
+msgid "Before Header"
+msgstr ""
+
+#: functions.php:232
+msgid "Widgets in this section will display before the header on every page."
+msgstr ""
+
+#: functions.php:236
+msgid "Home - Top"
+msgstr ""
+
+#: functions.php:237
+msgid "Widgets in this section will display at the top of the homepage."
+msgstr ""
+
+#: functions.php:241
+msgid "Home - Middle"
+msgstr ""
+
+#: functions.php:242
+msgid "Widgets in this section will display in the middle of the homepage."
+msgstr ""
+
+#: functions.php:246
+msgid "Home - Bottom"
+msgstr ""
+
+#: functions.php:247
+msgid "Widgets in this section will display at the bottom of the homepage."
+msgstr ""
+
+#: functions.php:251
+msgid "Before Footer Widgets"
+msgstr ""
+
+#: functions.php:252
+msgid ""
+"Widgets in this section will display before the footer widgets on every page."
+msgstr ""
+
+#: functions.php:256
+msgid "After Footer"
+msgstr ""
+
+#: functions.php:257
+msgid "Widgets in this section will display at the bottom of every page."
+msgstr ""
+
+#: lib/customize.php:36
+msgid ""
+"Change the color for links, menu links on a light background, the hover "
+"color for linked titles, and more."
+msgstr ""
+
+#: lib/customize.php:37
+msgid "Link Color"
+msgstr ""
+
+#: lib/customize.php:57
+msgid ""
+"Change the color for button hovers, menu links on a dark background, and "
+"more."
+msgstr ""
+
+#: lib/customize.php:58
+msgid "Accent Color"
+msgstr ""
+
+#: lib/theme-defaults.php:65 lib/theme-defaults.php:97
+msgid "Continue Reading&hellip;"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:53
+#, php-format
+msgid ""
+"Please install and activate <a href=\"https://wordpress.org/plugins/genesis-"
+"connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> "
+"to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:67
+msgid "install and activate Genesis Connect for WooCommerce"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:69
+#, php-format
+msgid "Please %s to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:86
+msgid "Previous Page"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:87
+msgid "Next Page"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/daily-dish/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Mobile Responsive & Tastefully Simple"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
+msgstr ""

@@ -1,7 +1,21 @@
 <?php
+/**
+ * Digital Pro.
+ *
+ * This file adds the default settings to the Digital Pro Theme.
+ *
+ * @package Digital
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    http://my.studiopress.com/themes/digital/
+ */
 
-//* Digital Theme Setting Defaults
 add_filter( 'genesis_theme_settings_defaults', 'digital_theme_defaults' );
+/**
+ * Updates theme settings on reset.
+ *
+ * @since 1.0.0
+ */
 function digital_theme_defaults( $defaults ) {
 
 	$defaults['blog_cat_num']              = 3;
@@ -17,14 +31,18 @@ function digital_theme_defaults( $defaults ) {
 
 }
 
-//* Digital Theme Setup
 add_action( 'after_switch_theme', 'digital_theme_setting_defaults' );
+/**
+ * Updates theme settings on activation.
+ *
+ * @since 1.0.0
+ */
 function digital_theme_setting_defaults() {
 
 	if ( function_exists( 'genesis_update_settings' ) ) {
 
 		genesis_update_settings( array(
-			'blog_cat_num'              => 3,	
+			'blog_cat_num'              => 3,
 			'content_archive'           => 'full',
 			'content_archive_limit'     => 160,
 			'content_archive_thumbnail' => 1,
@@ -40,8 +58,12 @@ function digital_theme_setting_defaults() {
 
 }
 
-//* Simple Social Icon Defaults
 add_filter( 'simple_social_default_styles', 'digital_social_default_styles' );
+/**
+ * Updates Simple Social Icon settings on activation.
+ *
+ * @since 1.0.0
+ */
 function digital_social_default_styles( $defaults ) {
 
 	$args = array(

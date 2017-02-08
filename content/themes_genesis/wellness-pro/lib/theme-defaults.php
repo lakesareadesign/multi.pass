@@ -12,10 +12,10 @@
 
 add_filter( 'genesis_theme_settings_defaults', 'wellness_theme_defaults' );
 /**
-* Updates theme settings on reset.
-*
-* @since 1.0.0
-*/
+ * Updates theme settings on reset.
+ *
+ * @since 1.0.0
+ */
 function wellness_theme_defaults( $defaults ) {
 
 	$defaults['blog_cat_num']              = 6;
@@ -33,10 +33,10 @@ function wellness_theme_defaults( $defaults ) {
 
 add_action( 'after_switch_theme', 'wellness_theme_setting_defaults' );
 /**
-* Updates theme settings on activation.
-*
-* @since 1.0.0
-*/
+ * Updates theme settings on activation.
+ *
+ * @since 1.0.0
+ */
 function wellness_theme_setting_defaults() {
 
 	if ( function_exists( 'genesis_update_settings' ) ) {
@@ -51,8 +51,8 @@ function wellness_theme_setting_defaults() {
 			'posts_nav'                 => 'prev-next',
 			'site_layout'               => 'full-width-content',
 		) );
-		
-	} 
+
+	}
 
 	update_option( 'posts_per_page', 6 );
 

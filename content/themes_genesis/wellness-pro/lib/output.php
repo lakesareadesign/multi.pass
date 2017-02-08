@@ -12,11 +12,11 @@
 
 add_action( 'wp_enqueue_scripts', 'wellness_css' );
 /**
-* Checks the settings for the link color, and accent color.
-* If any of these value are set the appropriate CSS is output.
-*
-* @since 1.0.0
-*/
+ * Checks the settings for the link color, and accent color.
+ * If any of these value are set the appropriate CSS is output.
+ *
+ * @since 1.0.0
+ */
 function wellness_css() {
 
 	$handle  = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
@@ -43,21 +43,6 @@ function wellness_css() {
 
 	}
 
-	//* Calculate Color Contrast
-	function wellness_color_contrast( $color ) {
-	
-		$hexcolor = str_replace( '#', '', $color );
-
-		$red   = hexdec( substr( $hexcolor, 0, 2 ) );
-		$green = hexdec( substr( $hexcolor, 2, 2 ) );
-		$blue  = hexdec( substr( $hexcolor, 4, 2 ) );
-
-		$luminosity = ( ( $red * 0.2126 ) + ( $green * 0.7152 ) + ( $blue * 0.0722 ) );
-
-		return ( $luminosity > 128 ) ? '#333333' : '#ffffff';
-
-	}
-
 	$css .= ( wellness_customizer_get_default_link_color() !== $color_link ) ? sprintf( '
 
 		a,
@@ -73,8 +58,12 @@ function wellness_css() {
 		.genesis-nav-menu .sub-menu .current-menu-item > a:hover,
 		.genesis-nav-menu a:focus,
 		.genesis-nav-menu a:hover,
-		.js .menu-toggle:focus,
-		.js nav button:focus {
+		.genesis-responsive-menu .genesis-nav-menu .menu-item a:focus,
+		.genesis-responsive-menu .genesis-nav-menu .menu-item a:hover,
+		.menu-toggle:hover,
+		.menu-toggle:focus,
+		.sub-menu-toggle:hover,
+		.sub-menu-toggle:focus {
 			color: %1$s;
 		}
 

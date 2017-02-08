@@ -1,44 +1,54 @@
 <?php
 /**
- * This file adds the Home Page to the Magazine Pro Child Theme.
+ * Magazine Pro.
  *
- * @author StudioPress
- * @package Magazine Pro
- * @subpackage Customizations
+ * This file adds the front page to the Magazine Pro Theme.
+ *
+ * @package Magazine
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    http://my.studiopress.com/themes/magazine/
  */
 
 add_action( 'genesis_meta', 'magazine_home_genesis_meta' );
 /**
  * Add widget support for homepage. If no widgets active, display the default loop.
  *
+ * @since 3.0.0
  */
 function magazine_home_genesis_meta() {
 
 	if ( is_active_sidebar( 'home-top' ) || is_active_sidebar( 'home-middle' ) || is_active_sidebar( 'home-bottom' ) ) {
 
-		// Force content-sidebar layout setting
+		// Force content-sidebar layout setting.
 		add_filter( 'genesis_site_layout', '__genesis_return_content_sidebar' );
 
-		// Add magazine-home body class
+		// Add magazine-home body class.
 		add_filter( 'body_class', 'magazine_body_class' );
 
-		// Remove the default Genesis loop
+		// Remove the default Genesis loop.
 		remove_action( 'genesis_loop', 'genesis_do_loop' );
 
-		// Add homepage widgets
+		// Add homepage widgets.
 		add_action( 'genesis_loop', 'magazine_homepage_widgets' );
 
 	}
+
 }
 
+// Add body class to front page.
 function magazine_body_class( $classes ) {
 
 	$classes[] = 'magazine-home';
-	return $classes;
 	
+	return $classes;
+
 }
 
+// Output the widget areas for the front page.
 function magazine_homepage_widgets() {
+
+	echo '<h2 class="screen-reader-text">' . __( 'Main Content', 'magazine-pro' ) . '</h2>';
 
 	genesis_widget_area( 'home-top', array(
 		'before' => '<div class="home-top widget-area">',
@@ -57,4 +67,5 @@ function magazine_homepage_widgets() {
 
 }
 
+// Run the Genesis loop.
 genesis();

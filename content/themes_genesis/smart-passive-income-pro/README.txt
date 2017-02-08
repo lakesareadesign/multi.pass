@@ -25,8 +25,23 @@ Please visit http://my.studiopress.com/help/ for theme support.
 
 CHANGELOG
 
-= 1.0 =
+= 1.0.0 =
 * Initial release
 
 = 1.0.1 =
 * Add comment bubble style to blog page template
+
+= 1.0.2 =
+* Add front page comment styling below 420px
+* Remove uppercase from inputs to improve usability
+
+= 1.1.0 =
+* Add WooCommerce support and styling
+* Update file structure
+* Update documentation
+* Update responsive menu
+
+= 1.1.1 =
+* Update conditional check for matchHeight on WooCommerce pages
+* Fix minor styling bugs for WooCommerce
+* Update mobile menu submenu label

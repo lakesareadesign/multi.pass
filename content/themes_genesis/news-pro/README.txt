@@ -5,7 +5,7 @@ INSTALL
 1. Upload the News Pro theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the News Pro theme.
-4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/setup/news/.
+4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/documentation/news/.
 
 WIDGET AREAS
 Primary Sidebar - This is the primary sidebar if you are using the Content/Sidebar, Sidebar/Content, Content/Sidebar/Sidebar, Sidebar/Sidebar/Content or Sidebar/Content/Sidebar Site Layout option.
@@ -34,10 +34,47 @@ Please visit http://my.studiopress.com/help/ for theme support.
 
 CHANGELOG
 
+= 3.0.0 =
+* Version initial release
+
 = 3.0.1 =
 * Remove rem units
 
 = 3.0.2 =
 * Add theme setting defaults
 * Improve Genesis Responsive Slider styles
-* Add Mobile Menu
+* Add responsive menu
+
+= 3.1 =
+* Update theme setting defaults
+* Update responsive menu
+* Use theme supports for after entry widget
+* HTML5 Galleries
+* Remove unused google font
+
+= 3.1.1 =
+* Remove obsolete comments filter
+* Remove IE8 CSS fix for images
+* Add hr tag styling
+* Add small and disabled button styles
+* Update menu names and order in admin
+
+= 3.1.2 =
+* Update Screenshot
+* Update eNews Widget styling
+* Remove deprecated theme tags
+* Update documentation
+
+= 3.2.0 =
+* Move color selection to the customizer
+* Add accessibility
+* Add new responsive menu script
+* Add WooCommerce support
+* Update media queries
+* Update file structure
+* Update docs standards
+* Update text domain
+* Update logo size for retina devices
+
+= 3.2.1 =
+* Fix error thrown when WooCommerce was inactive

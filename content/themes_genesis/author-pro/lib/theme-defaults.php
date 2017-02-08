@@ -1,16 +1,21 @@
 <?php
-
 /**
- * Setup Theme.
+ * Author Pro.
  *
- * @package Author Pro
+ * This file adds the default theme settings to the Author Pro Theme.
+ *
+ * @package Author
  * @author  StudioPress
+ * @license GPL-2.0+
  * @link    http://my.studiopress.com/themes/author/
- * @license GPL2-0+
  */
 
-//* Author Theme Setting Defaults
 add_filter( 'genesis_theme_settings_defaults', 'author_theme_defaults' );
+/**
+ * Updates theme settings on reset.
+ *
+ * @since 1.0.0
+ */
 function author_theme_defaults( $defaults ) {
 
 	$defaults['blog_cat_num']              = 6;
@@ -24,8 +29,12 @@ function author_theme_defaults( $defaults ) {
 
 }
 
-//* Author Theme Setup
 add_action( 'after_switch_theme', 'author_theme_setting_defaults' );
+/**
+ * Updates theme settings on activation.
+ *
+ * @since 1.0.0
+ */
 function author_theme_setting_defaults() {
 
 	if( function_exists( 'genesis_update_settings' ) ) {
@@ -51,7 +60,7 @@ function author_theme_setting_defaults() {
 				'slideshow_excerpt_width'         => '60',
 				'slideshow_excerpt_show'          => 1,
 				'slideshow_height'                => '400',
-				'slideshow_more_text'             => __( 'Continue Reading&hellip;', 'author' ),
+				'slideshow_more_text'             => __( 'Continue Reading&hellip;', 'author-pro' ),
 				'slideshow_pager'                 => 1,
 				'slideshow_title_show'            => 1,
 				'slideshow_width'                 => '1080',
@@ -65,8 +74,12 @@ function author_theme_setting_defaults() {
 
 }
 
-//* Set Genesis Responsive Slider defaults
 add_filter( 'genesis_responsive_slider_settings_defaults', 'author_responsive_slider_defaults' );
+/**
+ * Updates Genesis Responsive Slider settings on activation.
+ *
+ * @since 1.0.0
+ */
 function author_responsive_slider_defaults( $defaults ) {
 
 	$args = array(
@@ -79,20 +92,24 @@ function author_responsive_slider_defaults( $defaults ) {
 		'slideshow_excerpt_width'         => '60',
 		'slideshow_excerpt_show'          => 1,
 		'slideshow_height'                => '400',
-		'slideshow_more_text'             => __( 'Continue Reading&hellip;', 'modern-studio' ),
+		'slideshow_more_text'             => __( 'Continue Reading&hellip;', 'author-pro' ),
 		'slideshow_pager'                 => 1,
 		'slideshow_title_show'            => 1,
 		'slideshow_width'                 => '1080',
 	);
 
 	$args = wp_parse_args( $args, $defaults );
-	
+
 	return $args;
-	
+
 }
 
-//* Simple Social Icon Defaults
 add_filter( 'simple_social_default_styles', 'author_social_default_styles' );
+/**
+* Updates Simple Social Icon settings on activation.
+*
+* @since 1.0.0
+*/
 function author_social_default_styles( $defaults ) {
 
 	$args = array(
@@ -104,9 +121,9 @@ function author_social_default_styles( $defaults ) {
 		'icon_color_hover'       => '#ffffff',
 		'size'                   => 40,
 	);
-		
+
 	$args = wp_parse_args( $args, $defaults );
-	
+
 	return $args;
-	
+
 }

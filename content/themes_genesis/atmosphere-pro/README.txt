@@ -32,7 +32,7 @@ Please visit http://my.studiopress.com/help/ for theme support.
 
 CHANGELOG
 
-= 1.0 =
+= 1.0.0 =
 * Initial release
 
 = 1.0.1 =
@@ -47,3 +47,26 @@ CHANGELOG
 * Adjust mobile menu button ID
 * Improve skip links
 * Add rems to genesis-accessibility
+
+= 1.0.4 =
+* Update avatar sizing
+* Update eNews Widget styling
+* Remove deprecated theme tags
+* Update documentation
+
+= 1.1.0 =
+* Update responsive menu
+* Add WooCommerce support and styling
+* Modified folder structure
+* Add contrast detection to the customizer
+* Update responsive menu
+* Update text domain
+
+= 1.1.1 =
+* Fix issue with submit button focusing in search form
+* Fix conditional check for loading matchHeight
+* Fix disabled button styling for WooCommerce
+* Update mobile menu submenu label
+
+= 1.1.2 =
+* Fix error thrown when WooCommerce was inactive
