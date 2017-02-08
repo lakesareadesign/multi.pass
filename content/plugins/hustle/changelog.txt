@@ -1,0 +1,89 @@
+Plugin Name: Hustle
+Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio (Incsub), Leighton Sapir (Incsub), Irene Mitchell (Incsub)
+
+Change Log:
+----------------------------------------------------------------------
+2.0.0 - 2017-02-02
+----------------------------------------------------------------------
+- Add: Major redesign for better user experience.
+- Add: New Custom Content module.
+- Add: New Opt-in module wizard.
+- Add: New Dashboard page.
+- Add: New Settings page.
+- Add: New top conversions table.
+- Add: New top conversions graph.
+- Add: Grouped color in palette customization.
+- Add: Optional action button to custom URL in Custom Content module.
+- Add: Opt-in module can be used as shortcode in Custom Content module.
+- Add: Choices of auto responsive size or custom size for Custom Content.
+- Add: Separated save button when creating or editing module.
+- Add: Categories criteria in Display Conditions.
+- Add: Tags criteria in Display Conditions.
+- Add: Posts criteria in Display Conditions.
+- Add: Pages criteria in Display Conditions.
+- Add: Modules Overview in Dashboard.
+- Improved module preview.
+- Improved list of modules behavior.
+
+- Fix: Pop up on exiting page.
+- Fix: PHP fatal error in certain condition.
+- Fix: PHP 5.3 compatibility.
+- Fix: Does not accept emails with "-" in the domain.
+- Fix: Email registration issue.
+- Fix: Overlapping elements in IE11.
+- Fix: 'close button acts as never seen again' not working.
+
+----------------------------------------------------------------------
+1.1.2 - 2016-11-03
+----------------------------------------------------------------------
+Add: Sync existing subscriptions in local collection to eNewsletter
+
+
+1.1.1 - 2016-10-28
+----------------------------------------------------------------------
+Add: e-Newsletter integration
+Fix: In and out animations for Slide-ins
+
+1.1 - 2016-10-25
+----------------------------------------------------------------------
+Add: Local data collection feature
+Add: Download local subscriptions data as CSV
+Add: Infusionsoft integration
+Add: Mad Mimi integration
+
+Fix: Exit intent after scrolling the page
+Fix: Popup success message not hiding if no out animation is added
+Fix: Issue with title CSS selector
+Fix: Message editor not working in some browser versions
+
+1.0.2 - 2016-09-22
+----------------------------------------------------------------------
+Add: GetResponse integration
+Add: Sendy integration
+Add: New feature to trigger Pop Ups & Slide Ins on click
+Add: New feature to trigger Pop Ups & Slide Ins on AdBlock detection
+Add: New feature to trigger Pop Ups & Slide Ins on User Leave Intent
+Add: Redesigned Trigger interface for Pop Ups & Slide Ins
+Add: Form input animation control options
+
+Fix: Pop Up and Slide In closing-opening animations
+
+
+1.0.1 - 2016-09-08
+----------------------------------------------------------------------
+- Add: Constant Contact integration
+- Add: MailChimp Interest Group integration
+- Add: Image style options
+- Add: Style amendments and field icon animations
+
+- Fix: Conditional adding of templates in frontend
+- Fix: After content not working in Upfront
+- Fix: Styling issues in admin and frontend
+
+
+1.0 - 2016-08-16
+----------------------------------------------------------------------
+- First public release
+
+
+133620-1486520004-ai

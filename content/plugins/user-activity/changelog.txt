@@ -1,0 +1,47 @@
+Plugin Name: User Activity
+Author: WPMUDEV
+
+Change Log:
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+1.1 - 2014-04-08
+----------------------------------------------------------------------
+- Added lang domain function
+- Removed old language files
+- Removed deprecated notice
+- More little improvements
+
+1.0.6 - 03/06/2013
+----------------------------------------------------------------------
+- Added more stats: today, 7 days and 30 days, based on activity per user
+- Added new table for activity loggin
+- Activity with more than 30 days old is now removed
+
+1.0.5 - 27/05/2013
+----------------------------------------------------------------------
+- Added styling for settings page
+- The table was not being created when activating the plugin.
+
+1.0.4 - 02/24/2011
+----------------------------------------------------------------------
+- singlesite support
+
+1.0.3 - 01/06/2011
+----------------------------------------------------------------------
+- 3.1+ compatibility update
+
+1.0.2 - 06/01/2010
+----------------------------------------------------------------------
+- 3.0+ compatibility update
+
+1.0.1 - 03/02/2009
+----------------------------------------------------------------------
+- Added site admin check.
+
+1.0.0 - 06/30/2007
+----------------------------------------------------------------------
+- Initial Release.
+
+
+133620-1486520794-ai

@@ -1,0 +1,42 @@
+----------------------------------------------------------------------
+Comment Indexer
+Authors: Paul Menard (Incsub)
+----------------------------------------------------------------------
+
+= 1.0.9.1 = 
+2013:04/25:
+- XSS prevention patches
+
+= 1.0.9 = 
+2012/08/12: Added support for Trash/Untrash comments.
+
+= 1.0.8 =
+2012/08/07: Compatibility update for WordPress 3.1
+Update Notifications script added
+Bug fixes
+
+= 1.0.6 =
+* Compatibility update for WordPress 3.1
+* Bug fixes.
+
+= 1.0.5 =
+* Minor bug fixes.
+
+= 1.0.4 =
+* Minor bug fixes.
+
+= 1.0.3 =
+* Adding Update Notifications Support
+
+= 1.0.2 =
+* Fixed comment_auther type.
+
+= 1.0.1 =
+* Fixed duplicate comments issue.
+
+= 1.0.0 =
+* Initial Release.
+
+
+
+133620-1486520475-ai
