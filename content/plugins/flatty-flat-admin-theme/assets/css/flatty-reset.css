@@ -1,11 +1,11 @@
 html {
   padding: 0;
   font-size:14px;
-  background-color:#f5f5f5;
   z-index: 0;
 }
 html.wp-toolbar {
   padding:0;
+  background-color:#f5f5f5;
 }
 body {
     height:initial!important;
@@ -38,8 +38,9 @@ dl {
   position: relative;
   top: 0;
   padding: 20px!important;
-  max-width: calc(100vw - 220px);
+  max-width: calc(100vw - 240px);
   min-height: 70vh;
+  height: auto!important;
   margin: 0 0 0 160px;
   background-color: #fff;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
@@ -50,6 +51,10 @@ dl {
   margin:0!important;
   box-shadow:0;
 }
+#wpfooter.fullwidth {
+  margin-left:0!important;
+}
+
 #wpfooter {
   padding: 10px 40px 10px 20px;
 }
@@ -72,6 +77,13 @@ dl {
 }
 #wp-content-editor-tools {
     background-color: transparent;
+}
+body.ninja-forms-app #nf-builder {
+  top:70px!important;
+}
+
+body.ninja-forms-app .flatty-custom-footer {
+  display: none!important;
 }
 /*--------------------------------------
 FOLDED CONTENT

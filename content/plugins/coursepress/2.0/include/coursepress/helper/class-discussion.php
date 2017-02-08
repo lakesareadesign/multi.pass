@@ -147,7 +147,7 @@ class CoursePress_Helper_Discussion {
 			$unit = get_post( $comment_post->post_parent );
 			$course = get_post( $unit->post_parent );
 			$base_url = CoursePress_Core::get_slug( 'courses/', true ) . $course->post_name;
-			$url = $base_url . '/' . CoursePress_Core::get_slug( 'unit/' ) . $unit->post_name;									   	 	   		
+			$url = $base_url . '/' . CoursePress_Core::get_slug( 'unit/' ) . $unit->post_name;
 			$url .= '#comment-' . $comment_id;
 		}
 		return $url;

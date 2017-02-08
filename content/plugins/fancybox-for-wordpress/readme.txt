@@ -2,8 +2,8 @@
 Contributors: silkalns
 Tags: fancybox, lightbox, jquery, gallery, image, images, photo, photos, picture, pictures, zoom
 Requires at least: 3.4
-Tested up to: 4.6
-Stable tag: 3.0.12
+Tested up to: 4.7
+Stable tag: 3.0.13
 License: GPL/MIT
 
 Seamlessly integrates FancyBox lightbox into your WordPress blog: Upload, activate, and you're done. Additional configuration optional.
@@ -23,9 +23,9 @@ You can see the plugin working on a <a href="http://blog.moskis.net/2012/01/20/t
 
 = Further Reading =
 
-This plugin is developed and maintained by Colorlib. Which is well know for their free <a href="https://colorlib.com/wp/themes/" rel="friend" target="_blank"></a>WordPress themes. However, now they are looking to extend their presence in plugin development and believe that FancyBox lightbox is a great way to start.
+This plugin is developed and maintained by Colorlib. Which is well know for their free <a href="https://colorlib.com/wp/themes/" target="_blank"></a>WordPress themes. However, now they are looking to extend their presence in plugin development and believe that FancyBox lightbox is a great way to start.
 
-If you are new to WordPress and want to lear more we have got you covered. Colorlib will teach you have to <a href="https://colorlib.com/" rel="friend">start a blog</a> or <a href="https://colorlib.com/wp/how-to-make-a-website/" rel="friend">create a website</a> and much more. If you are already familiar with WordPress you likely want to learn how to make it faster and more reliable. That's when you want to look into hosting and more specifically <a href="http://colorlib.com/wp/wordpress-hosting" rel="friend">WordPress hosting</a>.
+If you are new to WordPress and want to lear more we have got you covered. Colorlib will teach you have to <a href="https://colorlib.com/">start a blog</a> or <a href="https://colorlib.com/wp/how-to-make-a-website/">create a website</a> and much more. If you are already familiar with WordPress you likely want to learn how to make it faster and more reliable. That's when you want to look into hosting and more specifically <a href="http://colorlib.com/wp/wordpress-hosting">WordPress hosting</a>.
 
 If you enjoy using FancyBox lightbox for WordPress please leave a [positive feedback](https://wordpress.org/support/plugin/fancybox-for-wordpress/reviews/?filter=5). We are committed to make it the best lightbox plugin for WordPress.
 

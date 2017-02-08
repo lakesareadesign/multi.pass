@@ -3,6 +3,7 @@
 function dashboard_init() {
 
 	//DASHBOARD WIDGETS
+	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_recent_comments");
 	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_quickpress");
 	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_drafts");
 	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_primary");
@@ -11,7 +12,6 @@ function dashboard_init() {
 	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_plugins");
 	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_activity");
 	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_right_now");
-	register_setting("flatty_dashboard", "flatty_wp_hide_dashboard_welcome_panel");
 }
 
 add_action("admin_init","dashboard_init");
@@ -34,6 +34,17 @@ function options_main_dashboard() {
                     <i class="dashicons dashicons-schedule" style="background-color: #8da6a6;"></i>
                     <span><?php _e('Widgets', 'flatty-flat-admin-theme' ); ?></span>
                 </div>
+
+                <div class="option">
+					<label for="flatty_wp_hide_dashboard_recent_comments"><?php _e('Remove "Recent Comments"', 'flatty-flat-admin-theme' ); ?></label>
+					<input
+						type="checkbox"
+						name="flatty_wp_hide_dashboard_recent_comments"
+						id="flatty_wp_hide_dashboard_recent_comments"
+						value='1'
+						<?php checked(1, get_option('flatty_wp_hide_dashboard_recent_comments')); ?>
+					/>
+				</div>
 
 				<div class="option">
 					<label for="flatty_wp_hide_dashboard_quickpress"><?php _e('Remove "Quick Press"', 'flatty-flat-admin-theme' ); ?></label>
@@ -98,17 +109,6 @@ function options_main_dashboard() {
 						id="flatty_wp_hide_dashboard_links"
 						value='1'
 						<?php checked(1, get_option('flatty_wp_hide_dashboard_links')); ?>
-					/>
-				</div>
-
-				<div class="option">
-					<label for="flatty_wp_hide_dashboard_welcome_panel"><?php _e('Remove Welcome Panel', 'flatty-flat-admin-theme' ); ?></label>
-					<input
-						type="checkbox"
-						name="flatty_wp_hide_dashboard_welcome_panel"
-						id="flatty_wp_hide_dashboard_welcome_panel"
-						value='1'
-						<?php checked(1, get_option('flatty_wp_hide_dashboard_welcome_panel')); ?>
 					/>
 				</div>
 

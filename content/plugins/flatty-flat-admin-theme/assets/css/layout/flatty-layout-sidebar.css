@@ -1,3 +1,10 @@
 #adminmenu {
     margin-top:0;
 }
+
+#adminmenu .wp-submenu .wp-submenu-head {
+	font-size: 20px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    background-color: #f5f5f5;
+}

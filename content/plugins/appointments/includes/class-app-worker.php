@@ -93,6 +93,10 @@ function appointments_get_worker( $worker_id ) {
 		return false;
 	}
 
+	if ( is_a( $worker_id, 'Appointments_Worker' ) ) {
+		$worker_id = $worker_id->ID;
+	}
+
 	$table = appointments_get_table( 'workers' );
 
 	$worker = wp_cache_get( $worker_id, 'app_workers' );
@@ -233,10 +237,8 @@ function appointments_insert_worker( $args = array() ) {
 	$r = $wpdb->insert( $table, $insert, $insert_wildcards );
 
 	if ( $r ) {
-		appointments_delete_worker_cache( $ID );
 
 		// Set default working hours
-		$wh_table = appointments_get_table( 'wh' );
 		$ex_table = appointments_get_table( 'exceptions' );
 
 		// Insert the default working hours and holidays to the worker's working hours
@@ -256,6 +258,10 @@ function appointments_insert_worker( $args = array() ) {
 				);
 			}
 		}
+
+		appointments_delete_worker_cache( $ID );
+
+		do_action( 'appointments_insert_worker', $ID );
 
 		return true;
 	}
@@ -682,6 +688,8 @@ function appointments_delete_worker( $worker_id ) {
 
 	if ( $result ) {
 		appointments_delete_worker_cache( $worker_id );
+
+		do_action( 'appointments_delete_worker', $worker_id );
 		return true;
 	}
 
@@ -1111,6 +1119,7 @@ function appointments_is_worker_holiday( $worker_id, $start, $end, $location = f
 	if ( ! $worker ) {
 		$worker_exceptions = array();
 		$exceptions = appointments_get_worker_exceptions( $worker, 'closed', $location );
+
 		if ( is_object( $exceptions ) ) {
 			$worker_exceptions = explode( ',', $exceptions->days );
 		}

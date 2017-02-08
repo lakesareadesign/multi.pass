@@ -2,8 +2,10 @@
 /*
 Plugin Name: Flatty - UI Admin Theme
 Plugin URI: http://www.michelemarri.me
-Version: 1.2.4
-Description: <strong>The professional Wordpress Admin theme</strong> that we all need in 2016+.
+Text Domain: flatty-flat-admin-theme
+Domain Path: /lang
+Version: 1.3.4
+Description: <strong>The professional Wordpress Admin theme</strong> that we all need in 2017+.
 Author: michelemarri
 Author URI: http://www.michelemarri.me
 License: GPLv2 or later
@@ -31,13 +33,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 //DEFINE
 require_once( dirname( __FILE__ ) . '/includes/init/define.php' );
 if ( ! defined( 'FLATTY_VERSION' ) ) {
-	define( 'FLATTY_VERSION', '1.2.4' );
+	define( 'FLATTY_VERSION', '1.3.4' );
 }
 
-add_action('plugins_loaded', 'flatty_load_textdomain');
 function flatty_load_textdomain() {
-	load_plugin_textdomain( 'flatty-flat-admin-theme', false, dirname( plugin_basename(__FILE__) ) . '/lang/' );
+	load_plugin_textdomain( 'flatty-flat-admin-theme', false, dirname( plugin_basename(__FILE__) ) . '/lang' );
 }
+add_action('plugins_loaded', 'flatty_load_textdomain');
 
 // REGISTER STYLES
 require_once( dirname( __FILE__ ) . '/includes/register/styles.php' );
@@ -60,15 +62,14 @@ require_once( dirname( __FILE__ ) . '/includes/init/action_links.php' );
 // LOAD FLATTY MENU
 require_once( dirname( __FILE__ ) . '/includes/menu/menu-main.php' );
 require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-login.php' );
-require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-branding.php' );
-require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-theme.php' );
 require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-dashboard.php' );
+require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-branding.php' );
+require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-postspages.php' );
 
 // LOAD FLATTY OPTIONS PAGE
 require_once( dirname( __FILE__ ) . '/includes/pages/introduction.php' );
 require_once( dirname( __FILE__ ) . '/includes/pages/main_login.php' );
-require_once( dirname( __FILE__ ) . '/includes/pages/main_theme.php' );
-require_once( dirname( __FILE__ ) . '/includes/pages/main_branding.php' );
 require_once( dirname( __FILE__ ) . '/includes/pages/main_dashboard.php' );
-
+require_once( dirname( __FILE__ ) . '/includes/pages/main_branding.php' );
+require_once( dirname( __FILE__ ) . '/includes/pages/main_postspages.php' );
 ?>

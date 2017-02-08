@@ -1,44 +1,35 @@
 <?php
 ///////////////HIDE DASHBOARD WIDGETS
 function flatty_hide_dashboard_widgets(){
+	global $wp_meta_boxes;
+
+	if (get_option('flatty_wp_hide_dashboard_recent_comments') == true) {
+		unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments']); //Recent comments
+	}
 	if (get_option('flatty_wp_hide_dashboard_quickpress') == true) {
-		remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' ); //Quick Press widget
+		unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']); //Quick Press widget
 	}
-
 	if (get_option('flatty_wp_hide_dashboard_drafts') == true) {
-		remove_meta_box( 'dashboard_recent_drafts', 'dashboard', 'side' ); //Recent Drafts
+		unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_recent_drafts']); //Recent Drafts
 	};
-
 	if (get_option('flatty_wp_hide_dashboard_primary') == true) {
-		remove_meta_box( 'dashboard_primary', 'dashboard', 'side' ); //WordPress.com Blog
+		unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']); //WordPress.com Blog
 	};
-
 	if (get_option('flatty_wp_hide_dashboard_news') == true) {
-		remove_meta_box( 'dashboard_secondary', 'dashboard', 'side' ); //Other WordPress News
+		unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']); //Other WordPress News
 	};
-
 	if (get_option('flatty_wp_hide_dashboard_links') == true) {
-		remove_meta_box( 'dashboard_incoming_links', 'dashboard', 'normal' ); //Incoming Links
+		unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links']); //Incoming Links
 	};
-
 	if (get_option('flatty_wp_hide_dashboard_plugins') == true) {
-		remove_meta_box( 'dashboard_plugins', 'dashboard', 'normal' ); //Plugins
+		unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins']); //Plugins
 	};
-
 	if (get_option('flatty_wp_hide_dashboard_activity') == true) {
-		remove_meta_box( 'dashboard_activity', 'dashboard', 'side' ); //Activity
+		unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_activity']); //Activity
 	};
-
 	if (get_option('flatty_wp_hide_dashboard_right_now') == true) {
-		remove_meta_box( 'dashboard_right_now', 'dashboard', 'normal' ); //Right Now
+		unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now']); //Right Now
 	};
-
-	if (get_option('flatty_wp_hide_dashboard_welcome_panel') !== '') {
-		echo '<style> #welcome-panel {display:none}</style>';
-	}
-
 }
-
 add_action( 'wp_dashboard_setup', 'flatty_hide_dashboard_widgets' );
-
 ?>

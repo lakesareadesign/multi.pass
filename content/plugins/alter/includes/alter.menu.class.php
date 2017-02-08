@@ -47,7 +47,7 @@ if (!class_exists('ALTERADMINMENU')) {
         {
             wp_enqueue_style( 'dashicons' );
             wp_enqueue_style('font-awesome', ALTER_DIR_URI . 'assets/font-awesome/css/font-awesome.min.css', '', ALTER_VERSION);
-            if($nowpage == 'alter-wlb_page_admin_menu_management') {
+            if($nowpage == 'alter_page_admin_menu_management') {
                 wp_enqueue_script('jquery-ui-sortable');
                 wp_enqueue_script( 'alter-sortable', ALTER_DIR_URI . 'assets/js/sortjs.js', array( 'jquery' ), '', true );
                 wp_enqueue_style('iconPicker-css', ALTER_DIR_URI . 'assets/icon-picker/css/icon-picker.css', '', ALTER_VERSION);

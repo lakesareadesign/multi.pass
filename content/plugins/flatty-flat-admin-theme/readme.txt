@@ -2,8 +2,8 @@
 Contributors: Michele Marri
 Tags: flatty, flat theme, google recaptcha, recaptcha, security, login security, admin theme, custom logo, admin logo, wordpress custom, custom admin theme, professional wordpress, custom login, theme, clean admin, clean, minimalistic, wordpress admin, backend, backend theme, admin theme, custom admin, custom admin theme, flat, material, flatty, whitelabeling, white label, custom logo, custom wordpress, customize, custom login css, custom css
 Requires at least: 4.0
-Tested up to: 4.6
-Stable tag: 1.2.4
+Tested up to: 4.7.2
+Stable tag: 1.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,9 +34,6 @@ Made with love in Italy.
 * Use the new simplified Flatty’s Top Bar
 * Display your site name in the admin area
 
-= Plugins Suggested =
-Single page plugin install -> <a href="https://wordpress.org/plugins/shiny-updates/" target="_blank">Shiny Updates</a>
-
 = Tested with =
 - Jetpack
 - Akismet
@@ -45,6 +42,7 @@ Single page plugin install -> <a href="https://wordpress.org/plugins/shiny-updat
 - Woocommerce
 - Broken link checker
 - Divi Theme
+- Ninja Forms
 
 == Installation ==
 Just hit 'Install Now' or download the plugin and copy to the plugins directory, then click “Activate”.
@@ -76,6 +74,30 @@ I would greatly appreciate it if you kindly give me some feedback on this ;)
 
 == Changelog ==
 
+= 1.3.4 =
+* New - Translation to Italian
+* New - Option to make Flatty's topbar fixed
+
+= 1.3.3 =
+* New - Compatibility with Ninja Forms
+
+= 1.3.2 =
+* Fixed - Stupid SVN bugs
+
+= 1.3.0 =
+* Changed - Pages names
+* New - Custom text in the custom footer
+* New - Posts & Pages settings
+* New - Ability to remove meta boxes from posts & pages
+* New - Now you can force removal of the Wordpress toolbar from the front-end
+* New - Custom Topbar background color
+* New - Custom Topbar background image
+* Removed - Flatty's new post styling removed (newer version coming soon)
+* Removed - Option to disable welcome screen
+* Fixed - Woocommerce status widget
+* Fixed - Removing wordpress meta tags
+* Fixed - Worpdress body content height fix
+
 = 1.2.4 =
 * Wtf - I hate SVN
 * Fixed - Stupid svn didn’t added login css
@@ -83,9 +105,9 @@ I would greatly appreciate it if you kindly give me some feedback on this ;)
 = 1.2.3 =
 * Fixed - Show/Hide sidebar button now change state
 * Fixed - Bug on loading login css
-* Added - Now you can add a custom background to the login screen
-* Added - Click on profile icon in Flatty's topbar now link to profile page
-* Added - Option to remove Welcome Panel in the dashboard
+* New - Now you can add a custom background to the login screen
+* New - Click on profile icon in Flatty's topbar now link to profile page
+* New - Option to remove Welcome Panel in the dashboard
 
 = 1.2.2 =
 * Fixed - Login themes screenshots
@@ -94,10 +116,10 @@ I would greatly appreciate it if you kindly give me some feedback on this ;)
 * Fixed - Upgrading fix
 
 = 1.2.0 =
-* Added - New login themes area
-* Added - New login themes
-* Added - Custom css on login page
-* Added - Button to open last article/page
+* New - New login themes area
+* New - New login themes
+* New - Custom css on login page
+* New - Button to open last article/page
 * Fixed - Css on checkboxes
 
 = 1.1.3 =

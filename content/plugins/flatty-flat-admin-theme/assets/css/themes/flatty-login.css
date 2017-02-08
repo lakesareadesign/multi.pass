@@ -27,6 +27,7 @@ body.login {
 }
 
 .login form .input {
+    width: 300px;
     padding: 0.3rem 1rem;
     border: none;
     box-shadow: none;

@@ -6,8 +6,8 @@ add_action( 'admin_menu', 'menu_sub_branding' );
 function menu_sub_branding() {
 	add_submenu_page (
 	'menu_main', //parent
-	'Branding Settings', 	//titolo pagina
-	'Branding settings', //titolo menu
+	__('Branding', 'flatty-flat-admin-theme' ), 	//titolo pagina
+	__('Branding', 'flatty-flat-admin-theme' ), //titolo menu
 	'manage_options', //permessi
 	'menu_sub_branding', //slug
 	'options_main_branding'); //funzione

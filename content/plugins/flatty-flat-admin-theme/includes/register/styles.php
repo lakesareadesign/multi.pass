@@ -46,11 +46,6 @@ function flatty_styles() {
 	wp_register_style('flatty-dashboard', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/page/flatty-page-dashboard.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-dashboard');
 
-	if (get_option('flatty_post_style') != true) {
-		wp_register_style('flatty-article', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/page/flatty-page-article.css'), null, FLATTY_VERSION, 'screen');
-		wp_enqueue_style('flatty-article');
-	}
-
 	wp_register_style('flatty-plugins', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/page/flatty-page-plugins.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-plugins');
 
@@ -60,13 +55,23 @@ function flatty_styles() {
 	wp_register_style('flatty-options', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/page/flatty-page-flatty-options.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-options');
 
-	//MEDIAQUERIES
-	wp_register_style('flatty-mediaqueries', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/flatty-query.css'), null, FLATTY_VERSION, 'screen');
-	wp_enqueue_style('flatty-mediaqueries');
-
 	//THEME
 	wp_register_style('flatty-default', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/themes/default.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-default');
+
+	//FIXED TOPBAR
+	if (get_option('flatty_use_flatty_topbar') == true && get_option('flatty_fixed_topbar') == true) {
+		wp_register_style('flatty-fixed-topbar', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/addons/flatty-addons-topbar-fixed.css'), null, FLATTY_VERSION, 'screen');
+		wp_enqueue_style('flatty-fixed-topbar');
+	}
+
+	//PLUGINS
+	wp_register_style('flatty-color-picker', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/vendor/color-picker.min.css'), null, FLATTY_VERSION, 'screen');
+	wp_enqueue_style('flatty-color-picker');
+
+	//MEDIAQUERIES
+	wp_register_style('flatty-mediaqueries', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/flatty-query.css'), null, FLATTY_VERSION, 'screen');
+	wp_enqueue_style('flatty-mediaqueries');
 
 	//LOGIN
 	if (get_option('flatty_login_style') !== 'custom_css') {

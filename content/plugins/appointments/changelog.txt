@@ -1,3 +1,23 @@
+2017-02-06 - 2.0.2
+-------------------------------
+- Fixed: Monthly calendar was displaying as available worker holidays
+- Fixed: Working hours in user profile was not properly saved, giving warnings in front
+- Fixed: Appointment worker was not properly set on front end
+
+2017-01-25 - 2.0.1
+-------------------------------
+- New: Filter for weekly schedule headers
+- Fixed: When week started in Sunday, monthly calendar was wrongly displayed
+- Fixed: All monthly calendar slots appeared as busy in some cases
+- Fixed: Warning when updating an appointment and status was not changed
+- Fixed: A post could not be assigned to a Service when Services Description addon was activated
+- Fixed: Services were not saved when some of the addons were activated
+- Fixed: Warning when getting working hours
+- Fixed: Fatal error in Tetris addon
+- Fixed: Locations selector was not displayed when Paddings Add-on was active
+- Enhance: Better cookies management
+- Enhance: Workers/Services admin screen UX
+
 2017-01-04 - 2.0
 -------------------------------
 - Fixed: Stripe does not set appointments to confirmed after payment received
@@ -715,4 +735,4 @@ V1.0.0:
 - Initial release
 
 
-133620-1484013204-au
+133620-1486515942-au

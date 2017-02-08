@@ -9,65 +9,123 @@ if (window.jQuery) {
       showLoginLinkTitle();
       showRecaptchaConfig();
       showCustomFooterConfig();
+      showCustomBackgroundColor();
 
       function showTopBarProfile() {
           if(jQuery('#flatty_use_flatty_topbar').prop( "checked")){
-              jQuery("#flatty_topbar_addons").removeClass("flatty-disabled");
+              jQuery("#flatty_topbar_addons").show();
           } else {
-              jQuery("#flatty_topbar_addons").addClass("flatty-disabled");
+              jQuery("#flatty_topbar_addons").hide();
           }
       }
 
       function showSiteName() {
           if(jQuery('#flatty_show_sitename').prop( "checked")){
-              jQuery("#option_flatty_show_sitename").removeClass("flatty-disabled");
+              jQuery("#option_flatty_show_sitename").show();
           } else {
-              jQuery("#option_flatty_show_sitename").addClass("flatty-disabled");
+              jQuery("#option_flatty_show_sitename").hide();
           }
       }
 
       function showCustomerServiceBox() {
           if(jQuery('#flatty_show_customer_service_box').prop( "checked")){
-              jQuery("#info_customer_service_box").removeClass("flatty-disabled");
+              jQuery("#info_customer_service_box").show();
           } else {
-              jQuery("#info_customer_service_box").addClass("flatty-disabled");
+              jQuery("#info_customer_service_box").hide();
           }
       }
 
       function showCustomerServiceBoxWidget() {
         if(jQuery('#flatty_where_customer_service_box').val() === 'widget') {
-          jQuery("#info_customer_service_box_widget").removeClass("flatty-disabled");
+          jQuery("#info_customer_service_box_widget").show();
         } else {
-          jQuery("#info_customer_service_box_widget").addClass("flatty-disabled");
+          jQuery("#info_customer_service_box_widget").hide();
         }
       }
 
       function showLoginLinkTitle() {
         if(jQuery('#flatty_login_custom-link').length > 0) {
           if(jQuery('#flatty_login_custom-link').val().length !== 0){
-              jQuery("#login-link-title").removeClass("flatty-disabled");
+              jQuery("#login-link-title").show();
           } else {
-              jQuery("#login-link-title").addClass("flatty-disabled");
+              jQuery("#login-link-title").hide();
           }
         }
       }
 
       function showRecaptchaConfig() {
         if(jQuery('#flatty_login_recaptcha-use').prop( "checked")){
-            jQuery("#google-recaptcha-config").removeClass("flatty-disabled");
+            jQuery("#google-recaptcha-config").show();
         } else {
-            jQuery("#google-recaptcha-config").addClass("flatty-disabled");
+            jQuery("#google-recaptcha-config").hide();
         }
       }
 
       function showCustomFooterConfig() {
         if(jQuery('#flatty_wp_flatty_footer_show').prop( "checked")){
-            jQuery("#flatty_custom_footer").removeClass("flatty-disabled");
+            jQuery("#flatty_custom_footer").show();
         } else {
-            jQuery("#flatty_custom_footer").addClass("flatty-disabled");
+            jQuery("#flatty_custom_footer").hide();
         }
       }
 
+      function showCustomBackgroundColor() {
+        if(jQuery('#flatty_topbar_background_custom').prop( "checked")){
+            jQuery("#custom_background_color").show();
+        } else {
+            jQuery("#custom_background_color").hide();
+        }
+      }
+
+      jQuery('#flatty_topbar_background_color').on('click', function(){
+        var picker = new CP(document.querySelector('#flatty_topbar_background_color'));
+        picker.on("change", function(color) {
+            this.target.value = '#' + color;
+            jQuery('.flatty-top-bar').css({"background-color": "#" + color});
+        });
+      });
+
+  ////////////////////////////////////////////////////////////////////CUSTOM BACKGROUND IMAGE\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+      jQuery('#button-upload_background_image').on('click', function(){
+          uploadCustomBackgroundImage();
+      });
+
+      jQuery('#button-remove_background_image').on('click', function(){
+          jQuery('#button-remove_background_image').hide(); //hide itself
+
+          jQuery('#button-upload_background_image').show();
+          jQuery('#flatty_topbar_background_image').val('');
+          jQuery('#flatty_topbar_background_image').hide();
+      });
+
+  ///////////////////////////////CUSTOM BACKGROUND IMAGE FUNCTION\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  function uploadCustomBackgroundImage() {
+      var file_frame;
+      event.preventDefault();
+      if ( file_frame ) {
+        file_frame.open();
+        return;
+      }
+
+      file_frame = wp.media.frames.file_frame = wp.media({
+        title: 'Add custom background image',
+        button: {
+          text: 'Use this as background'
+        },
+        multiple: false
+      });
+
+      file_frame.on( 'select', function() {
+        attachment = file_frame.state().get('selection').first().toJSON();
+
+        jQuery('#flatty_topbar_background_image').val(attachment.url);
+
+        jQuery('#button-remove_background_image').show();
+        jQuery('#button-upload_background_image').hide();
+      });
+
+      file_frame.open();
+  }
 
   ///////////////////////////////CHECKS\\\\\\\\\\\\\\\\\\\\\\\\\\\\
       jQuery('#flatty_use_flatty_topbar').on('click', function(){
@@ -84,9 +142,9 @@ if (window.jQuery) {
 
       jQuery('#flatty_where_customer_service_box').on('change', function(){
         if(jQuery('#flatty_where_customer_service_box').val() === 'widget') {
-          jQuery("#info_customer_service_box_widget").removeClass("flatty-disabled");
+          jQuery("#info_customer_service_box_widget").show();
         } else {
-          jQuery("#info_customer_service_box_widget").addClass("flatty-disabled");
+          jQuery("#info_customer_service_box_widget").hide();
         }
       });
 
@@ -102,15 +160,21 @@ if (window.jQuery) {
         showCustomFooterConfig();
       });
 
+      jQuery('#flatty_topbar_background_custom').on('click', function(){
+        showCustomBackgroundColor();
+      });
+
   ///////////////////////////////ACTIONS\\\\\\\\\\\\\\\\\\\\\\\\\\\\
       jQuery('#flatty-hide-menu').on('click', function(){
         if(jQuery('#adminmenumain').css('display') == 'none') {
           jQuery('#adminmenumain').removeClass('hidden');
           jQuery('#wpcontent').removeClass('fullwidth');
+          jQuery('#wpfooter').removeClass('fullwidth');
           jQuery('#flatty-hide-menu').html('<i class="dashicons dashicons-editor-expand"></i>Hide Sidebar');
         } else {
           jQuery('#adminmenumain').addClass('hidden');
           jQuery('#wpcontent').addClass('fullwidth');
+          jQuery('#wpfooter').addClass('fullwidth');
           jQuery('.mce-toolbar-grp').addClass('fullwidth');
           jQuery('#flatty-hide-menu').html('<i class="dashicons dashicons-editor-expand"></i>Show Sidebar');
         }
@@ -300,6 +364,16 @@ if (window.jQuery) {
 
       file_frame.open();
   }
+
+  ////////////////////////////////////////////////////////////////////LOGO UPLOAD\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  jQuery('.flatty-subscribe').on('click', function(){
+    jQuery.ajax({
+      url: ajaxurl,
+      data: {
+          action: 'flatty_subscribe_notice'
+      }
+    })
+  });
 
 
   ///END WINDOW LOAD

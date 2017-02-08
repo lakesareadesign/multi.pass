@@ -4,6 +4,11 @@ Author: Javier Marquez (Incsub), Philipp Stracker (Incsub), Marcin Pietrzak (Inc
 Change Log:
 ----------------------------------------------------------------------
 
+2.1.2.0 ( 2017-xx-xx )
+- Fixed a problem with empty selectors.
+- Remove unnecessary http header - it is only needed when we run cs-explains.
+- Update Dash notice.
+
 2.1.1.9 ( 2016-12-29 )
 - Fixed export problem, when two or more widget has the same name.
 - Fixed problem with import widgets created before Custom Sidebars plugin was installed.
@@ -305,4 +310,4 @@ Change Log:
 - Initial release
 
 
-133620-1483063239-au
+133620-1486515978-au

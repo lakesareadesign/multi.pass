@@ -3,7 +3,7 @@
 Plugin Name: Alter - White Label Wordpress
 Plugin URI: http://acmeedesign.com
 Description: Alter - White label everything from WordPress. Powered by AcmeeDesign
-Version: 1.2
+Version: 2.0
 Author: AcmeeDesign
 Author URI: http://acmeedesign.com
 Text-Domain: alter
@@ -14,7 +14,7 @@ Text-Domain: alter
 *   ALTER Version
 */
 
-define( 'ALTER_VERSION' , '1.2' );
+define( 'ALTER_VERSION' , '2.0' );
 
 /*
 *   ALTER Path Constant

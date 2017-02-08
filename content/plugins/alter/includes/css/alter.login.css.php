@@ -20,14 +20,16 @@ background-size: <?php echo $this->aof_options['admin_logo_size_percent']; ?>%;
 <?php }
 } ?>
 height:<?php echo $this->aof_options['admin_logo_height']; ?>px; margin: 0 auto 20px; }
-div#login { background: <?php if($this->aof_options['login_divbg_transparent'] ==1) echo 'transparent'; else echo $this->aof_options['login_divbg_color']; ?>; margin-top: <?php echo $this->aof_options['login_form_margintop']; ?>%; padding: 18px 0 }
+div#login { background: <?php if($this->aof_options['login_divbg_transparent'] ==1) echo 'transparent'; else echo $this->aof_options['login_divbg_color']; ?>;
+margin-top: <?php if($this->aof_options['login_form_margintop'] < 20) echo $this->aof_options['login_form_margintop'] . "%"; else echo "7%"; ?>; padding: 18px 0 }
 body.interim-login div#login {width: 95% !important; height: auto }
 .login label, .login form, .login form p { color: <?php echo $this->aof_options['form_text_color']; ?> !important }
 .login a { text-decoration: underline; color: <?php echo $this->aof_options['form_link_color']; ?> !important }
 .login a:focus, .login a:hover { color: <?php echo $this->aof_options['form_link_hover_color']; ?> !important; }
 .login form { background: <?php if($this->aof_options['login_divbg_transparent'] == 1) echo 'transparent'; else echo $this->aof_options['login_formbg_color']; ?> !important; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none;<?php if($this->aof_options['login_divbg_transparent'] != 1) echo 'border-bottom: 1px solid ' .$this->aof_options['form_border_color'] . ';'; if($this->aof_options['login_divbg_transparent'] == 1) echo  'padding: 26px 0px 30px !important'; else echo 'padding: 26px 24px 30px !important'; ?> }
 form#loginform .button-primary, form#registerform .button-primary, .button-primary { background:<?php echo $this->aof_options['pry_button_color']; ?> !important; border:none !important; color: <?php echo $this->aof_options['pry_button_text_color']; ?> !important; text-shadow: none;}
-form#loginform .button-primary.focus,form#loginform .button-primary.hover,form#loginform .button-primary:focus,form#loginform .button-primary:hover, form#registerform .button-primary.focus, form#registerform .button-primary.hover,form#registerform .button-primary:focus,form#registerform .button-primary:hover { background: <?php echo $this->aof_options['pry_button_hover_color']; ?> !important;border-color:<?php echo $this->aof_options['pry_button_hover_border_color']; ?> !important; }
+form#loginform .button-primary.focus,form#loginform .button-primary.hover,form#loginform .button-primary:focus,form#loginform .button-primary:hover, form#registerform .button-primary.focus, form#registerform .button-primary.hover,form#registerform .button-primary:focus,form#registerform .button-primary:hover { background: <?php echo $this->aof_options['pry_button_hover_color']; ?> !important;
+<?php if(!empty($this->aof_options['pry_button_hover_border_color'])) echo "border-color:" . $this->aof_options['pry_button_hover_border_color'] . "!important;"; ?> }
 <?php if($this->aof_options['login_divbg_transparent'] == 1) { ?>.login #backtoblog, .login #nav { margin : 0; padding: 0 } .login form { padding-top: 2px !important}<?php } ?>
 
 .login form input.input { background: <?php if(!empty($this->aof_options['login_inputs_bg_color'])) echo $this->aof_options['login_inputs_bg_color']; else echo '#324148' ?> url(<?php echo ALTER_DIR_URI; ?>assets/images/login-sprite.png) no-repeat;
@@ -55,10 +57,14 @@ div.updated a:hover, .login #login_error a:hover, .login .message a:hover { colo
 if($this->aof_options['hide_remember'] == 1) echo 'p.forgetmenot { display:none !important; }';
 
 if($this->aof_options['design_type'] == 2) { ?>
-.wp-core-ui .button,.wp-core-ui .button-secondary {border-color:<?php echo $this->aof_options['sec_button_border_color']; ?>;-webkit-box-shadow:inset 0 1px 0 <?php echo $this->aof_options['sec_button_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.08);box-shadow:inset 0 1px 0 <?php echo $this->aof_options['sec_button_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.08);}
+.wp-core-ui .button,.wp-core-ui .button-secondary {
+  <?php if(!empty($this->aof_options['sec_button_border_color'])) echo "border-color:" . $this->aof_options['sec_button_border_color'] . ";" ?>
+<?php if(!empty($this->aof_options['sec_button_border_color'])) echo "-webkit-box-shadow:inset 0 1px 0 " . $this->aof_options['sec_button_shadow_color'] . ",0 1px 0 rgba(0,0,0,.08);"; ?>
+box-shadow:inset 0 1px 0 <?php echo $this->aof_options['sec_button_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.08);
+}
 .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover {border-color:<?php echo $this->aof_options['sec_button_hover_border_color']; ?>; -webkit-box-shadow:inset 0 1px 0 <?php echo $this->aof_options['sec_button_hover_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.08);box-shadow:inset 0 1px 0 <?php echo $this->aof_options['sec_button_hover_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.08);}
 .wp-core-ui .button-primary, .wp-core-ui .button-primary-disabled, .wp-core-ui .button-primary.disabled, .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary[disabled] {border-color:<?php echo $this->aof_options['pry_button_border_color']; ?> !important;-webkit-box-shadow:inset 0 1px 0 <?php echo $this->aof_options['pry_button_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.15) !important; box-shadow: inset 0 1px 0 <?php echo $this->aof_options['pry_button_shadow_color']; ?>, 0 1px 0 rgba(0,0,0,.15) !important;}
-.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button-primary.active,.wp-core-ui .button-primary.active:focus,.wp-core-ui .button-primary.active:hover,.wp-core-ui .button-primary:active {border-color:<?php echo $this->aof_options['pry_button_hover_border_color']; ?> !important;-webkit-box-shadow:inset 0 1px 0 <?php echo $this->aof_options['pry_button_hover_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.15) !important; box-shadow: inset 0 1px 0 <?php echo $this->aof_options['pry_button_hover_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.15) !important;}
+.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button-primary.active,.wp-core-ui .button-primary.active:focus,.wp-core-ui .button-primary.active:hover,.wp-core-ui .button-primary:active {<?php if(!empty($this->aof_options['pry_button_hover_border_color'])) echo "border-color:" . $this->aof_options['pry_button_hover_border_color'] . "!important;"; ?>-webkit-box-shadow:inset 0 1px 0 <?php echo $this->aof_options['pry_button_hover_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.15) !important; box-shadow: inset 0 1px 0 <?php echo $this->aof_options['pry_button_hover_shadow_color']; ?>,0 1px 0 rgba(0,0,0,.15) !important;}
 <?php }
 if($this->aof_options['design_type'] == 1) {
 ?>

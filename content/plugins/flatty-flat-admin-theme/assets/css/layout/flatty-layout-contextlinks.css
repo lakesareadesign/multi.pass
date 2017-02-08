@@ -16,8 +16,8 @@ CONTEXT LINKS
     height: 30px;
     margin: 0 0 0 6px;
     border: none;
-    background: #FFF;
-    box-shadow: 0 3px 20px 0 rgba(0,0,0,.05);
+    background: #f5f5f5;
+    box-shadow: none;
 }
 
 #screen-meta-links .show-settings {

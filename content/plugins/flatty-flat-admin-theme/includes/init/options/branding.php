@@ -16,11 +16,30 @@ function flatty_display_site_name(){
 }
 add_action('admin_head','flatty_display_site_name' );
 
+function flatty_hide_wordpress_toolbar(){
+	if (get_option('flatty_hide_worpdress_toolbar_frontend') == true) {
+		add_filter('show_admin_bar', '__return_false');
+		echo '<style type="text/css">tr.show-admin-bar{display:none!important}</style>';
+	};
+}
+add_action( 'admin_head', 'flatty_hide_wordpress_toolbar' );
+
 ///////////////USE FLATTY TOPBAR
 function flatty_use_flatty_topbar(){
+
+	if (get_option('flatty_topbar_background_custom') == true) { 
+		if (get_option('flatty_topbar_background_color') !== '') { 
+			$custom_bkg_color = 'background-color:' . get_option('flatty_topbar_background_color') . ';';
+		}
+		if (get_option('flatty_topbar_background_image') !== '') { 
+			$custom_bkg_image_url = get_option('flatty_topbar_background_image');
+			$custom_bkg_image = "background-image:url(' ". $custom_bkg_image_url ." '); background-size:cover; background-repeat:no-repeat; background-position:center; background-blend-mode: overlay;";
+		}
+	}
+
 	if (get_option('flatty_use_flatty_topbar') == true) {
-		echo '<style> #wpadminbar {display: none;} </style>';
-		echo '<div class="flatty-top-bar">';
+		echo '<style type="text/css">#wpadminbar{display: none;}</style>';
+		echo '<div class="flatty-top-bar" style=" ' . $custom_bkg_color . $custom_bkg_image .' ">';
 
 		///CHECK CUSTOM LOGO
 		if (get_option('flatty_custom_logo') !== '' && get_option('flatty_hide_custom_logo') == false) {
@@ -69,8 +88,7 @@ function flatty_use_flatty_topbar(){
 
 		///INSERT RIGHT WRAPPER
 		echo '<div class="flatty-top-bar-wrapper">';
-
-		$pagelink = get_page_link( $post = false, $leavename = false, $sample = false );
+		$pagelink = get_permalink();
 
 		echo '
 			<div class="flatty-top-bar-button" id="flatty-hide-menu"><i class="dashicons dashicons-editor-expand"></i>' . __( "Hide Sidebar", "flatty-flat-admin-theme" ) . '</div>
@@ -109,7 +127,6 @@ function flatty_use_flatty_topbar(){
 }
 add_action( 'admin_head', 'flatty_use_flatty_topbar' );
 
-
 ///////////////SHOW CUSTOMER SERVICE BOX PANEL
 function flatty_display_support_box_panel(){
 	if (get_option('flatty_show_customer_service_box') == true && get_option('flatty_where_customer_service_box') === 'panel') {
@@ -147,8 +164,6 @@ add_action('admin_head','flatty_display_support_box_panel' );
 add_action('wp_dashboard_setup','flatty_display_support_box_widget' );
 function flatty_display_support_box_widget(){
 	if (get_option('flatty_show_customer_service_box') == true && get_option('flatty_where_customer_service_box') === 'widget') {
-		wp_register_style('flatty-addons-supportbox-widget', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/addons/flatty-addons-supportbox-widget.css'), null, FLATTY_VERSION, 'screen');
-		wp_enqueue_style('flatty-addons-supportbox-widget');
 
 		$customer_widget_title = get_option('flatty_show_customer_service_box_widget_title');
 
@@ -184,6 +199,82 @@ function flatty_display_custom_favicon(){
 add_action('login_head', 'flatty_display_custom_favicon');
 add_action('admin_head', 'flatty_display_custom_favicon');
 
+///////////////USE SYSTEM FONT
+function flatty_use_system_font(){
+	if (get_option('flatty_system_font') == false) {
+		wp_enqueue_style('flatty-font', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600,700');
+		echo '<style> body{font-family:"Source Sans Pro", -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif} </style>';
+	}
+}
+add_action( 'admin_head', 'flatty_use_system_font' );
+
+///////////////HIDE WORDPRESS TOPBAR LOGO
+function flatty_hide_wp_topbar_logo(){
+	if (get_option('flatty_wp_hide_topbar_logo') == true) {
+		echo '<style> #wp-admin-bar-wp-logo{display: none!important;} </style>';
+	}
+}
+add_action( 'admin_head', 'flatty_hide_wp_topbar_logo' );
+
+///////////////ENABLE FOLDED SIDEBAR
+add_action( 'admin_head', 'flatty_enable_folded_sidebar' );
+function flatty_enable_folded_sidebar(){
+	if (get_option('flatty_sidebar_folded') == true) {
+	echo '<script type="text/javascript">
+			jQuery(document).ready( function($) {
+				jQuery("body").addClass("folded");
+			});
+         </script>';
+	}
+}
+
+///////////////FOOTER OPTIONS
+if (get_option('flatty_wp_flatty_footer_show') == true) {
+
+	function flatty_wp_flatty_remove_footer(){
+		echo '<style> #wpfooter {display:none;}</style>';
+	}
+	add_action('admin_head', 'flatty_wp_flatty_remove_footer');
+
+	function flatty_custom_footer() {
+		echo '<div class="flatty-custom-footer">';
+
+			if (get_option('flatty_wp_flatty_footer_custom_text') !== '') {
+				$custom_text = get_option('flatty_wp_flatty_footer_custom_text');
+				echo '<div class="flatty-custom-footer-item"><i class="dashicons dashicons-info"></i>' . $custom_text . '</div>';
+			}
+
+			if (get_option('flatty_wp_flatty_footer_show_wordpress') == true) {
+				$blogversion = get_bloginfo('version');
+				echo '<div class="flatty-custom-footer-item"><i class="dashicons dashicons-wordpress-alt"></i>' . $blogversion . '</div>';
+			}
+
+			if (get_option('flatty_wp_flatty_footer_show_mysql') == true) {
+				$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD );
+				$mysql_server = explode( '-', mysqli_get_server_info( $mysqli ) );
+				$mysqli->close();
+				echo '<div class="flatty-custom-footer-item"><i style="font-style:italic; font-weight:700;">MYSQL</i>' . $mysql_server[0] . '</div>';
+			}
+
+			if (get_option('flatty_wp_flatty_footer_show_php') == true) {
+				echo '<div class="flatty-custom-footer-item"><i style="font-style:italic; font-weight:700;">PHP</i>' . phpversion() . '</div>';
+			}
+
+			if (get_option('flatty_wp_flatty_footer_show_server_protocol') == true) {
+				echo '<div class="flatty-custom-footer-item"><i class="dashicons dashicons-admin-site"></i>' . $_SERVER['SERVER_PROTOCOL'] . '</div>';
+			}
+
+			if (get_option('flatty_wp_flatty_footer_show_server_address') == true) {
+				echo '<div class="flatty-custom-footer-item"><i style="font-style:italic; font-weight:700;">IP</i>' . $_SERVER['SERVER_ADDR'] . '</div>';
+			}
+
+			if (get_option('flatty_wp_flatty_footer_show_server_software') == true) {
+				echo '<div class="flatty-custom-footer-item"><i style="font-style:italic; font-weight:700;">INFO</i>' . $_SERVER['SERVER_SOFTWARE'] . '</div>';
+			}
 
 
+		echo '</div>';
+	}
+	add_action('admin_footer', 'flatty_custom_footer');
+}
 ?>

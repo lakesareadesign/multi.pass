@@ -158,7 +158,6 @@ if (!class_exists('ALTER')) {
 
 	public function alter_login_assets()
 	{
-      echo "<link rel='stylesheet' id='alter-login-css'  href='" . admin_url('admin-ajax.php') . "?action=alterLogincss' type='text/css' media='all' />";
       wp_enqueue_script("jquery");
       wp_enqueue_script( 'loginjs-js', ALTER_DIR_URI . 'assets/js/loginjs.js', array( 'jquery' ), '', true );
 	}

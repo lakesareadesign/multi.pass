@@ -7,7 +7,7 @@ add_action( 'admin_menu', 'menu_main' );
 function menu_main() {
 	add_menu_page(
 	'Flatty - Admin Theme', //titolo pagina
-	'Flatty', //titolo menu
+	__('Flatty', 'flatty-flat-admin-theme' ), //titolo menu
 	'manage_options', //permessi
 	'menu_main', //slug
 	'introduction', //funzione

@@ -310,16 +310,26 @@ class WYSIJA_help_wp_tools extends WYSIJA_object{
 	}
 
 	function get_post_category_ids( $post = null ) {
-		if ( ! is_object( $post ) || ! is_a( $post, 'WP_Post' ) ) {
-			return array();
-		}
-		return array_map(function($category) { return $category->cat_ID; }, get_the_category($post->ID));
+      if ( ! is_object( $post ) || ! is_a( $post, 'WP_Post' ) ) {
+        return array();
+      }
+      $post_categories = get_the_category($post->ID);
+      $post_categories_ids = array();
+      foreach ($post_categories as $post_category) {
+        $post_categories_ids[] = $post_category->cat_ID;
+      }
+      return $post_categories_ids;
 	}
 
 	function get_post_categories( $post = null ) {
-		if ( ! is_array( $post ) || empty($post['ID'] )) {
-			return array();
-		}
-		return array_map(function($category) { return $category->name; }, get_the_category($post['ID']));
+      if ( ! is_array( $post ) || empty($post['ID'] )) {
+        return array();
+      }
+      $post_categories = get_the_category($post['ID']);
+      $post_categories_names = array();
+      foreach ($post_categories as $post_category) {
+        $post_categories_names[] = $post_category->name;
+      }
+      return $post_categories_names;
 	}
 }
