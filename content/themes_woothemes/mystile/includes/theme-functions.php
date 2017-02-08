@@ -252,6 +252,20 @@ if (!function_exists( 'woo_subscribe_connect')) {
 		} // End woo_comment_form_fields()
 	}
 
+	/*-----------------------------------------------------------------------------------*/
+	/* WooCommerce Cart Nav */
+	/*-----------------------------------------------------------------------------------*/
+
+		add_action( 'mystile_cart_nav' , 'mystile_cart_nav', 10 );
+
+		function mystile_cart_nav() {
+			global $woocommerce;
+
+			woocommerce_cart_link();
+			printf( '<li class="checkout"><a href="%s">%s</a></li>', esc_url ($woocommerce->cart->get_checkout_url() ), __( 'Checkout', 'woothemes' ) );
+		} // End mystile_get_cart_nav()
+
+
 /*-----------------------------------------------------------------------------------*/
 /* Comment Form Settings */
 /*-----------------------------------------------------------------------------------*/

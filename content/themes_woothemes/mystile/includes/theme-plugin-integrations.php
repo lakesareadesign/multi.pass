@@ -17,3 +17,7 @@ if ( class_exists( 'Woothemes_Sensei' ) ) {
 	require_once( get_template_directory() . '/includes/integrations/sensei/template.php' );
 	require_once( get_template_directory() . '/includes/integrations/sensei/functions.php' );
 }
+
+if ( class_exists( 'WC_Catalog_Visibility_Compatibility' ) ) {
+	require_once( get_template_directory() . '/includes/integrations/woocommerce-catalog-visibility-options/setup.php' );
+}
