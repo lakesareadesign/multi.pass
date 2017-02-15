@@ -27,7 +27,8 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 		}
 
 		if ( count( $this->file_scanned ) == 0 ) {
-			$this->model->message = esc_html__( "Analyzing WordPress core files…", wp_defender()->domain );
+			$this->model->message        = esc_html__( "Analyzing WordPress core files…", wp_defender()->domain );
+			$this->model->current_action = 'core_scan';
 			$this->model->save();
 		}
 
@@ -54,6 +55,9 @@ class WD_Core_Integrity_Scan extends WD_Scan_Abstract {
 		$cpu_count    = 0;
 		$tmp_checksum = WD_Utils::get_cache( WD_Scan_Api::CACHE_TMP_MD5, array() );
 		foreach ( $files_need_scan as $file ) {
+			if ( ! is_file( $file ) ) {
+				continue;
+			}
 			if ( $this->cpu_reach_threshold() ) {
 				if ( $this->is_ajax() ) {
 					sleep( 3 );

@@ -58,7 +58,7 @@
 
 							<tr>
 
-								<th><?php _e('Most Conversions', Opt_In::TEXT_DOMAIN); ?></th>
+								<th><?php _e('Most Conversions (All Time)', Opt_In::TEXT_DOMAIN); ?></th>
 
 								<td><?php echo $most_conversions; ?></td>
 

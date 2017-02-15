@@ -113,6 +113,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 			//include the count
 			$this->model->result_core_integrity = array_filter( $this->model->result_core_integrity );
 			$this->model->total_files           = $this->model->total_files + count( $this->model->result_core_integrity );
+			$this->model->current_action        = 'content';
 			$this->model->save();
 			WD_Utils::cache( self::RECOUNT_TOTAL, 1 );
 		}
@@ -143,6 +144,9 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 		$cpu_count    = 0;
 		$tmp_checksum = WD_Utils::get_cache( WD_Scan_Api::CACHE_TMP_MD5, array() );
 		foreach ( $files as $file ) {
+			if ( ! is_file( $file ) ) {
+				continue;
+			}
 			if ( $this->cpu_reach_threshold() ) {
 				if ( $this->is_ajax() ) {
 					sleep( 3 );

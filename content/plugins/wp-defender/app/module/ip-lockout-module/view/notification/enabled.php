@@ -57,7 +57,7 @@
 			<div class="columns">
 				<div class="column is-one-third">
 					<label>
-						<?php esc_html_e( "Email Recipients", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Email recipients", wp_defender()->domain ) ?>
 					</label>
 					<span class="sub">
 						<?php esc_html_e( "Choose which of your website's users will receive scan report results via email.", wp_defender()->domain ) ?>

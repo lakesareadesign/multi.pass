@@ -29,7 +29,7 @@
             <div class="columns">
                 <div class="column is-one-third">
                     <label for="login_protection_login_attempt">
-						<?php esc_html_e( "Lockout Threshold", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Lockout threshold", wp_defender()->domain ) ?>
                     </label>
                     <span class="sub">
                         <?php esc_html_e( "Specify how many failed login attempts within a specific time period will trigger a lockout.", wp_defender()->domain ) ?>
@@ -50,7 +50,7 @@
             <div class="columns">
                 <div class="column is-one-third">
                     <label for="login_protection_lockout_timeframe">
-						<?php esc_html_e( "Lockout Time", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Lockout time", wp_defender()->domain ) ?>
                     </label>
                     <span class="sub">
                                         <?php esc_html_e( "Choose how long you’d like to ban the locked out user for.", wp_defender()->domain ) ?>

@@ -2,7 +2,7 @@
 /*
 Plugin Name: Instagram Slider Widget
 Plugin URI: http://instagram.jrwebstudio.com/
-Version: 1.3.3
+Version: 1.4.0
 Description: Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public Instagram user and up to 18 images from a hashtag.
 Author: jetonr
 Author URI: http://jrwebstudio.com/
@@ -14,17 +14,27 @@ License: GPLv2 or later
  */
 add_action( 'widgets_init', array( 'JR_InstagramSlider', 'register_widget' ) );
 
+if ( !ini_get( 'max_execution_time' ) || ini_get( 'max_execution_time' ) < 300 ) {
+
+	ini_set( 'max_execution_time', 300 );
+
+	$disabled = explode( ',', ini_get( 'disable_functions' ) );
+	if ( !in_array( 'set_time_limit', $disabled ) ) {
+		set_time_limit( 300 );
+	}
+}
+
 /**
  * JR_InstagramSlider Class
  */
 class JR_InstagramSlider extends WP_Widget {
-	
+
 	/**
 	 * Plugin version, used for cache-busting of style and script file references.
 	 *
 	 * @var     string
 	 */
-	const VERSION = '1.3.3';	
+	const VERSION = '1.4.0';	
 	
 	/**
 	 * Initialize the plugin by registering widget and loading public scripts
@@ -34,8 +44,8 @@ class JR_InstagramSlider extends WP_Widget {
 		
 		// Widget ID and Class Setup
 		parent::__construct( 'jr_insta_slider', __( 'Instagram Slider', 'jrinstaslider' ), array(
-				'classname' => 'jr-insta-slider',
-				'description' => __( 'A widget that displays a slider with instagram images ', 'jrinstaslider' ) 
+			'classname' => 'jr-insta-slider',
+			'description' => __( 'A widget that displays a slider with instagram images ', 'jrinstaslider' ) 
 			) 
 		);
 
@@ -53,15 +63,15 @@ class JR_InstagramSlider extends WP_Widget {
 		
 		// Enqueue Plugin Styles and scripts for admin pages
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue' ) );
-		
-		// Action when attachments are deleted
-		add_action( 'delete_attachment', array( $this, 'delete_wp_attachment' ) );
-		
+
 		// Ajax action to unblock images from widget 
-		add_action( 'wp_ajax_jr_unblock_images', array( $this, 'unblock_images' ) );
+		add_action( 'wp_ajax_jr_delete_insta_dupes', array( $this, 'delete_dupes' ) );
 
 		// Add new attachment field desctiptions
 		add_filter( 'attachment_fields_to_edit', array( $this, 'insta_attachment_fields' ) , 10, 2 );
+
+		// Add action for single cron events
+		add_action( 'jr_insta_cron', array( $this, 'jr_cron_trigger' ), 10 , 3 );
 	}
 
 	/**
@@ -70,11 +80,11 @@ class JR_InstagramSlider extends WP_Widget {
 	public static function register_widget() {
 		register_widget( __CLASS__ );
 		register_sidebar( array(
-	        'name' => __( 'Instagram Slider - Shortcode Generator', 'jrinstaslider' ),
-	        'id' => 'jr-insta-shortcodes',
-	        'description' => __( "1. Drag Instagram Slider widget here. 2. Fill in the fields and hit save. 3. Copy the shortocde generated at the bottom of the widget form and use it on posts or pages.", 'jrinstaslider' )
-	    	) 
-	    );
+			'name' => __( 'Instagram Slider - Shortcode Generator', 'jrinstaslider' ),
+			'id' => 'jr-insta-shortcodes',
+			'description' => __( "1. Drag Instagram Slider widget here. 2. Fill in the fields and hit save. 3. Copy the shortocde generated at the bottom of the widget form and use it on posts or pages.", 'jrinstaslider' )
+			) 
+		);
 	}
 	
 	/**
@@ -101,7 +111,6 @@ class JR_InstagramSlider extends WP_Widget {
 		wp_enqueue_style( 'jr-insta-admin-styles', plugins_url( 'assets/css/jr-insta-admin.css', __FILE__ ), array(), self::VERSION );
 
 		wp_enqueue_script( 'jr-insta-admin-script', plugins_url( 'assets/js/jr-insta-admin.js', __FILE__ ), array( 'jquery' ), self::VERSION, true );
-				
 	}
 	
 	/**
@@ -110,9 +119,9 @@ class JR_InstagramSlider extends WP_Widget {
 	 * @return mixed
 	 */
 	public function widget( $args, $instance ) {
-		
+
 		extract( $args );
-		
+
 		//Our variables from the widget settings.
 		$title = apply_filters( 'widget_title', $instance['title'] );
 		
@@ -122,12 +131,12 @@ class JR_InstagramSlider extends WP_Widget {
 		if ( $title ) {
 			echo $before_title . $title . $after_title;
 		}
-		
+
 		do_action( 'jr_instagram', $instance );
-		
+
 		echo $after_widget;		
 	}
-	
+
 	/**
 	 * Update the widget settings 
 	 *
@@ -137,13 +146,12 @@ class JR_InstagramSlider extends WP_Widget {
 	 * @return array
 	 */
 	public function update( $new_instance, $instance ) {
-				
+
 		$instance['title']            = strip_tags( $new_instance['title'] );
 		$instance['search_for']       = $new_instance['search_for'];
 		$instance['username']         = $new_instance['username'];
 		$instance['hashtag']          = $new_instance['hashtag'];
 		$instance['blocked_users']    = $new_instance['blocked_users'];
-		$instance['source']           = $new_instance['source'];
 		$instance['attachment']       = $new_instance['attachment'];
 		$instance['template']         = $new_instance['template'];
 		$instance['images_link']      = $new_instance['images_link'];
@@ -161,6 +169,7 @@ class JR_InstagramSlider extends WP_Widget {
 		$instance['caption_words']    = $new_instance['caption_words'];
 		$instance['slidespeed']       = $new_instance['slidespeed'];
 		$instance['description']      = $new_instance['description'];
+		$instance['support_author']   = $new_instance['support_author'];
 		
 		return $instance;
 	}
@@ -179,7 +188,6 @@ class JR_InstagramSlider extends WP_Widget {
 			'username'         => '',
 			'hashtag'          => '',
 			'blocked_users'    => '',
-			'source'           => 'instagram',
 			'attachment' 	   => 0,
 			'template'         => 'slider',
 			'images_link'      => 'image_url',
@@ -196,11 +204,12 @@ class JR_InstagramSlider extends WP_Widget {
 			'animation'        => 'slide',
 			'caption_words'    => 100,
 			'slidespeed'       => 7000,
-			'description'      => array( 'username', 'time','caption' )
-		);
+			'description'      => array( 'username', 'time','caption' ),
+			'support_author'   => 0
+			);
 		
 		$instance = wp_parse_args( (array) $instance, $defaults );
-			
+
 		?>
 		<div class="jr-container">
 			<p>
@@ -212,93 +221,34 @@ class JR_InstagramSlider extends WP_Widget {
 				<span class="jr-search-for-container"><label class="jr-seach-for"><input type="radio" id="<?php echo $this->get_field_id( 'search_for' ); ?>" name="<?php echo $this->get_field_name( 'search_for' ); ?>" value="username" <?php checked( 'username', $instance['search_for'] ); ?> /> <?php _e( 'Username:', 'jrinstaslider' ); ?></label> <input id="<?php echo $this->get_field_id( 'username' ); ?>" class="inline-field-text" name="<?php echo $this->get_field_name( 'username' ); ?>" value="<?php echo $instance['username']; ?>" /></span>
 				<span class="jr-search-for-container"><label class="jr-seach-for"><input type="radio" id="<?php echo $this->get_field_id( 'search_for' ); ?>" name="<?php echo $this->get_field_name( 'search_for' ); ?>" value="hashtag" <?php checked( 'hashtag', $instance['search_for'] ); ?> /> <?php _e( 'Hashtag:', 'jrinstaslider' ); ?></label> <input id="<?php echo $this->get_field_id( 'hashtag' ); ?>" class="inline-field-text" name="<?php echo $this->get_field_name( 'hashtag' ); ?>" value="<?php echo $instance['hashtag']; ?>" /> <small><?php _e('without # sign', 'jrinstaslider'); ?></small></span>
 			</p>
-			<p class="<?php if ( 'username' != $instance['search_for'] ) echo 'hidden'; ?>">
-				<strong><?php _e( 'Source:', 'jrinstaslider' ); ?></strong><br>
-				<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'source' ); ?>" name="<?php echo $this->get_field_name( 'source' ); ?>" value="instagram" <?php checked( 'instagram', $instance['source'] ); ?> /> <?php _e( 'Instagram', 'jrinstaslider' ); ?></label>  
-				<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'source' ); ?>" name="<?php echo $this->get_field_name( 'source' ); ?>" value="media_library" <?php checked( 'media_library', $instance['source'] ); ?> /> <?php _e( 'WP Media Library', 'jrinstaslider' ); ?></label>
-				<?php
-
-					$saved_images = 0;
-					$username     = '';
-					
-					if ( 'instagram' == $instance['source'] ) { 
-						$media_option_class = 'hide-media-library';
-						$insta_option_class = '';
-
-					} else {
-						$media_option_class = '';
-						$insta_option_class = 'hide-instagram';
-					}
-
-					if ( isset( $instance['username'] ) && ( !empty( $instance['username'] ) ) ) {
-						$username = $instance['username'];
-						$savedinsta_args = array(
-							'post_type'      => 'attachment',
-							'post_status'    => 'inherit',
-							'post_mime_type' => 'image',
-							'posts_per_page' => -1,
-							'orderby'		 => 'rand',
-							'no_found_rows'  => true,
-							'meta_query'     => array(
-								array(
-									'key'     => 'jr_insta_username',
-									'value'   => $instance['username'],
-									'compare' => '='
-								),
-							),
-						);
-						$savedinsta   = new WP_Query( $savedinsta_args );
-						$saved_images = $savedinsta->post_count;
-					}
-
-					if ( $saved_images <= 0 ) {
-						echo '<span class="jr-description jr-media-library-option '.$media_option_class.'"><strong>WP Media Library</strong> will not show any images for '. $username .' because there are no saved images yet!</span>';
-					} else {
-						echo '<span class="jr-description jr-media-library-option '.$media_option_class.'"><strong>WP Media Library</strong> can display up to <strong>'. $saved_images .'</strong> images that are saved in media library for <strong>'. $username.'</strong>!<br> This option will NOT check for new images on Instagram!</span>';
-					}
-					echo '<span class="jr-description jr-instagram-option '.$insta_option_class.'"><strong>Instagram</strong> can display up to <strong>12</strong> images for <strong>'. $username .'</strong>!<br> This option will check for new images on Instagram!</span>';
-				?>
-			</p>
-	        <p class="<?php if ( 'hashtag' != $instance['search_for'] ) echo 'hidden'; ?>">
-	            <label for="<?php echo $this->get_field_id( 'blocked_users' ); ?>"><?php _e( 'Block Users', 'jrinstaslider' ); ?>:</label>
+			<p class="<?php if ( 'hashtag' != $instance['search_for'] ) echo 'hidden'; ?>">
+				<label for="<?php echo $this->get_field_id( 'blocked_users' ); ?>"><?php _e( 'Block Users', 'jrinstaslider' ); ?>:</label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'blocked_users' ); ?>" name="<?php echo $this->get_field_name( 'blocked_users' ); ?>" value="<?php echo $instance['blocked_users']; ?>" />
 				<span class="jr-description"><?php _e( 'Enter usernames separated by commas whose images you don\'t want to show', 'jrinstaslider' ); ?></span>
-	        </p>
-	        <p class="<?php if ( 'instagram' != $instance['source'] || 'username' != $instance['search_for'] ) echo 'hidden'; ?>">
-	            <strong><label for="<?php echo $this->get_field_id( 'attachment' ); ?>"><?php _e( 'Save and Display Images from Media Library:', 'jrinstaslider' ); ?></label></strong>
-	            <input class="widefat" id="<?php echo $this->get_field_id( 'attachment' ); ?>" name="<?php echo $this->get_field_name( 'attachment' ); ?>" type="checkbox" value="1" <?php checked( '1', $instance['attachment'] ); ?> />
-	        	<br><span class="jr-description"><?php _e( 'It is recommended you check the field above because images displayed directly from Instagram server will affect your site loading time!', 'jrinstaslider') ?></span>
-	        </p>	        
+			</p>
+			<p class="<?php if ( 'username' != $instance['search_for'] ) echo 'hidden'; ?>"><strong><?php _e( 'Save and Display Images from Media Library: ', 'jrinstaslider' ); ?></strong>
+				<label class="switch" for="<?php echo $this->get_field_id( 'attachment' ); ?>">
+					<input class="widefat" id="<?php echo $this->get_field_id( 'attachment' ); ?>" name="<?php echo $this->get_field_name( 'attachment' ); ?>" type="checkbox" value="1" <?php checked( '1', $instance['attachment'] ); ?> /><span class="slider round"></span></label>
+					<br><span class="jr-description"><?php _e( ' Turn on to save Instagram Images into WordPress media library.', 'jrinstaslider') ?></span>
+					<?php 		
+					if ( isset ( $instance['username'] ) && !empty($instance['username'] ) ) {
+						echo '<br><button class="button action jr-delete-instagram-dupes" type="button" data-username="'.$instance['username'].'"><strong>Remove</strong> duplicate images for <strong>'.$instance['username'].'</strong></button><span class="jr-spinner"></span>';
+						echo '<br><br><strong><span class="deleted-dupes-info"></span></strong>';
+						wp_nonce_field( 'jr_delete_instagram_dupes', 'delete_insta_dupes_nonce' );
+					}				
+					?>	        
+			</p>	        
 			<p>
 				<label  for="<?php echo $this->get_field_id( 'images_number' ); ?>"><strong><?php _e( 'Number of images to show:', 'jrinstaslider' ); ?></strong>
 					<input  class="small-text" id="<?php echo $this->get_field_id( 'images_number' ); ?>" name="<?php echo $this->get_field_name( 'images_number' ); ?>" value="<?php echo $instance['images_number']; ?>" />
 				</label>
 			</p>
-			<p class="<?php if ( 'instagram' != $instance['source'] ) echo 'hidden'; ?>">
+			<p>
 				<label  for="<?php echo $this->get_field_id( 'refresh_hour' ); ?>"><strong><?php _e( 'Check for new images every:', 'jrinstaslider' ); ?></strong>
 					<input  class="small-text" id="<?php echo $this->get_field_id( 'refresh_hour' ); ?>" name="<?php echo $this->get_field_name( 'refresh_hour' ); ?>" value="<?php echo $instance['refresh_hour']; ?>" />
 					<span><?php _e('hours', 'jrinstaslider'); ?></span>
 				</label>
-			</p>			
-			<?php 		
-				$user_opt = get_option( 'jr_insta_'. md5( $instance['username'] ) );
-				if ( isset( $user_opt['deleted_images'] ) && ( !empty( $user_opt['deleted_images'] ) && ( $instance['source'] == 'instagram' ) && ( $instance['attachment'] ) && ( 'username' == $instance['search_for'] ) ) ) {
-					$deleted_count = count( $user_opt['deleted_images'] );
-					echo '<div class="blocked-wrap">';
-					wp_nonce_field( 'jr_unblock_instagram_image', 'unblock_images_nonce' );
-					echo "<strong>{$instance['username']}</strong> has <strong class='blocked-count-nr'>{$deleted_count}</strong> blocked images! ";
-					echo "<a href='#' class='blocked-images-toggle'>[ + Open ]</a>";
-					echo '<div class="blocked-images hidden">';
-						echo '<ul>';
-							foreach ( $user_opt['deleted_images'] as $id => $image ) {
-								echo "<li class='blocked-column' data-id='{$id}'><span class='blocked-imgcontainer'><span class='jr-allow-yes dashicons dashicons-yes'></span><img src='{$image}'></span></li>";
-							}
-						echo '</ul>';
-					echo '</div>';
-					echo "<span class='jr-description'>You can unblock instagram images by clicking the ones you want to have on the media library.</span>";
-					echo '</div>';
-				} 
-			?>
+			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'template' ); ?>"><strong><?php _e( 'Template', 'jrinstaslider' ); ?></strong>
 					<select class="widefat" name="<?php echo $this->get_field_name( 'template' ); ?>" id="<?php echo $this->get_field_id( 'template' ); ?>">
@@ -339,8 +289,8 @@ class JR_InstagramSlider extends WP_Widget {
 					<select class="widefat" name="<?php echo $this->get_field_name( 'images_link' ); ?>" id="<?php echo $this->get_field_id( 'images_link' ); ?>">
 						<option value="image_url" <?php selected( $instance['images_link'], 'image_url', true); ?>><?php _e( 'Instagram Image', 'jrinstaslider' ); ?></option>
 						<option class="<?php if ( 'hashtag' == $instance['search_for'] ) echo 'hidden'; ?>" value="user_url" <?php selected( $instance['images_link'], 'user_url', true); ?>><?php _e( 'Instagram Profile', 'jrinstaslider' ); ?></option>
-						<option class="<?php if ( ( !$instance['attachment'] && 'instagram' == $instance['source'] ) || 'hashtag' == $instance['search_for'] ) echo 'hidden'; ?>" value="local_image_url" <?php selected( $instance['images_link'], 'local_image_url', true); ?>><?php _e( 'Locally Saved Image', 'jrinstaslider' ); ?></option>
-						<option class="<?php if ( ( !$instance['attachment'] && 'instagram' == $instance['source'] ) || 'hashtag' == $instance['search_for'] ) echo 'hidden'; ?>" value="attachment" <?php selected( $instance['images_link'], 'attachment', true); ?>><?php _e( 'Attachment Page', 'jrinstaslider' ); ?></option>
+						<option class="<?php if ( ( !$instance['attachment'] ) || 'hashtag' == $instance['search_for'] ) echo 'hidden'; ?>" value="local_image_url" <?php selected( $instance['images_link'], 'local_image_url', true); ?>><?php _e( 'Locally Saved Image', 'jrinstaslider' ); ?></option>
+						<option class="<?php if ( ( !$instance['attachment'] ) || 'hashtag' == $instance['search_for'] ) echo 'hidden'; ?>" value="attachment" <?php selected( $instance['images_link'], 'attachment', true); ?>><?php _e( 'Attachment Page', 'jrinstaslider' ); ?></option>
 						<option value="custom_url" <?php selected( $instance['images_link'], 'custom_url', true ); ?>><?php _e( 'Custom Link', 'jrinstaslider' ); ?></option>
 						<option value="none" <?php selected( $instance['images_link'], 'none', true); ?>><?php _e( 'None', 'jrinstaslider' ); ?></option>
 					</select>  
@@ -375,60 +325,68 @@ class JR_InstagramSlider extends WP_Widget {
 						<label for="<?php echo $this->get_field_id( 'image_link_class' ); ?>"><?php _e( 'Image Link class', 'jrinstaslider' ); ?>:</label>
 						<input class="widefat" id="<?php echo $this->get_field_id( 'image_link_class' ); ?>" name="<?php echo $this->get_field_name( 'image_link_class' ); ?>" value="<?php echo $instance['image_link_class']; ?>" />
 						<span class="jr-description"><?php _e( 'Usefull if you are using jQuery lightbox plugins to open links', 'jrinstaslider' ); ?></span>
-
 					</p>
-			        <p>
-			            <strong><label for="<?php echo $this->get_field_id( 'no_pin' ); ?>"><?php _e( 'Turn off Pinning:', 'jrinstaslider' ); ?></label></strong>
-			            <input class="widefat" id="<?php echo $this->get_field_id( 'no_pin' ); ?>" name="<?php echo $this->get_field_name( 'no_pin' ); ?>" type="checkbox" value="1" <?php checked( '1', $instance['no_pin'] ); ?> />
-			        	<br><span class="jr-description"><?php _e( 'Enable or Disable pinning for Pinterest on all images from this widget!', 'jrinstaslider') ?></span>
-			        </p>					
+					<p><strong><?php _e( 'Disable Pinning:', 'jrinstaslider' ); ?></strong>
+						<label class="switch" for="<?php echo $this->get_field_id( 'no_pin' ); ?>">
+							<input class="widefat" id="<?php echo $this->get_field_id( 'no_pin' ); ?>" name="<?php echo $this->get_field_name( 'no_pin' ); ?>" type="checkbox" value="1" <?php checked( '1', $instance['no_pin'] ); ?> /><span class="slider round"></span></label>
+							<br><span class="jr-description"><?php _e( 'Disable pinning for Pinterest on all images from this widget!', 'jrinstaslider') ?></span>        
+						</p>			
+					</div>
+					<div class="jr-slider-options <?php if ( 'thumbs' == $instance['template'] || 'thumbs-no-border' == $instance['template'] ) echo 'hidden'; ?>">
+						<h4 class="jr-advanced-title"><?php _e( 'Advanced Slider Options', 'jrinstaslider'); ?></h4>
+						<p>
+							<?php _e( 'Slider Navigation Controls:', 'jrinstaslider' ); ?><br>
+							<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'controls' ); ?>" name="<?php echo $this->get_field_name( 'controls' ); ?>" value="prev_next" <?php checked( 'prev_next', $instance['controls'] ); ?> /> <?php _e( 'Prev & Next', 'jrinstaslider' ); ?></label>  
+							<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'controls' ); ?>" name="<?php echo $this->get_field_name( 'controls' ); ?>" value="numberless" <?php checked( 'numberless', $instance['controls'] ); ?> /> <?php _e( 'Dotted', 'jrinstaslider' ); ?></label>
+							<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'controls' ); ?>" name="<?php echo $this->get_field_name( 'controls' ); ?>" value="none" <?php checked( 'none', $instance['controls'] ); ?> /> <?php _e( 'No Navigation', 'jrinstaslider' ); ?></label>
+						</p>
+						<p>
+							<?php _e( 'Slider Animation:', 'jrinstaslider' ); ?><br>
+							<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'animation' ); ?>" name="<?php echo $this->get_field_name( 'animation' ); ?>" value="slide" <?php checked( 'slide', $instance['animation'] ); ?> /> <?php _e( 'Slide', 'jrinstaslider' ); ?></label>  
+							<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'animation' ); ?>" name="<?php echo $this->get_field_name( 'animation' ); ?>" value="fade" <?php checked( 'fade', $instance['animation'] ); ?> /> <?php _e( 'Fade', 'jrinstaslider' ); ?></label>
+						</p>
+						<p>
+							<label  for="<?php echo $this->get_field_id( 'caption_words' ); ?>"><?php _e( 'Number of words in caption:', 'jrinstaslider' ); ?>
+								<input class="small-text" id="<?php echo $this->get_field_id( 'caption_words' ); ?>" name="<?php echo $this->get_field_name( 'caption_words' ); ?>" value="<?php echo $instance['caption_words']; ?>" />
+							</label>
+						</p>					
+						<p>
+							<label  for="<?php echo $this->get_field_id( 'slidespeed' ); ?>"><?php _e( 'Slide Speed:', 'jrinstaslider' ); ?>
+								<input class="small-text" id="<?php echo $this->get_field_id( 'slidespeed' ); ?>" name="<?php echo $this->get_field_name( 'slidespeed' ); ?>" value="<?php echo $instance['slidespeed']; ?>" />
+								<span><?php _e('milliseconds', 'jrinstaslider'); ?></span>
+								<span class='jr-description'><?php _e('1000 milliseconds = 1 second', 'jrinstaslider'); ?></span>
+							</label>
+						</p>					
+						<p>
+							<label for="<?php echo $this->get_field_id('description'); ?>"><?php _e( 'Slider Text Description:', 'jrinstaslider' ); ?></label>
+							<select size=3 class='widefat' id="<?php echo $this->get_field_id('description'); ?>" name="<?php echo $this->get_field_name('description'); ?>[]" multiple="multiple">
+								<option class="<?php if ( 'hashtag' == $instance['search_for'] ) echo 'hidden'; ?>" value='username' <?php $this->selected( $instance['description'], 'username' ); ?>><?php _e( 'Username', 'jrinstaslider'); ?></option>
+								<option value='time'<?php $this->selected( $instance['description'], 'time' ); ?>><?php _e( 'Time', 'jrinstaslider'); ?></option> 
+								<option value='caption'<?php $this->selected( $instance['description'], 'caption' ); ?>><?php _e( 'Caption', 'jrinstaslider'); ?></option> 
+							</select>
+							<span class="jr-description"><?php _e( 'Hold ctrl and click the fields you want to show/hide on your slider. Leave all unselected to hide them all. Default all selected.', 'jrinstaslider') ?></span>
+						</p>					
+					</div>
 				</div>
-				<div class="jr-slider-options <?php if ( 'thumbs' == $instance['template'] || 'thumbs-no-border' == $instance['template'] ) echo 'hidden'; ?>">
-					<h4 class="jr-advanced-title"><?php _e( 'Advanced Slider Options', 'jrinstaslider'); ?></h4>
-					<p>
-						<?php _e( 'Slider Navigation Controls:', 'jrinstaslider' ); ?><br>
-						<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'controls' ); ?>" name="<?php echo $this->get_field_name( 'controls' ); ?>" value="prev_next" <?php checked( 'prev_next', $instance['controls'] ); ?> /> <?php _e( 'Prev & Next', 'jrinstaslider' ); ?></label>  
-						<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'controls' ); ?>" name="<?php echo $this->get_field_name( 'controls' ); ?>" value="numberless" <?php checked( 'numberless', $instance['controls'] ); ?> /> <?php _e( 'Dotted', 'jrinstaslider' ); ?></label>
-						<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'controls' ); ?>" name="<?php echo $this->get_field_name( 'controls' ); ?>" value="none" <?php checked( 'none', $instance['controls'] ); ?> /> <?php _e( 'No Navigation', 'jrinstaslider' ); ?></label>
-					</p>
-					<p>
-						<?php _e( 'Slider Animation:', 'jrinstaslider' ); ?><br>
-						<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'animation' ); ?>" name="<?php echo $this->get_field_name( 'animation' ); ?>" value="slide" <?php checked( 'slide', $instance['animation'] ); ?> /> <?php _e( 'Slide', 'jrinstaslider' ); ?></label>  
-						<label class="jr-radio"><input type="radio" id="<?php echo $this->get_field_id( 'animation' ); ?>" name="<?php echo $this->get_field_name( 'animation' ); ?>" value="fade" <?php checked( 'fade', $instance['animation'] ); ?> /> <?php _e( 'Fade', 'jrinstaslider' ); ?></label>
-					</p>
-					<p>
-						<label  for="<?php echo $this->get_field_id( 'caption_words' ); ?>"><?php _e( 'Number of words in caption:', 'jrinstaslider' ); ?>
-							<input class="small-text" id="<?php echo $this->get_field_id( 'caption_words' ); ?>" name="<?php echo $this->get_field_name( 'caption_words' ); ?>" value="<?php echo $instance['caption_words']; ?>" />
-						</label>
-					</p>					
-					<p>
-						<label  for="<?php echo $this->get_field_id( 'slidespeed' ); ?>"><?php _e( 'Slide Speed:', 'jrinstaslider' ); ?>
-							<input class="small-text" id="<?php echo $this->get_field_id( 'slidespeed' ); ?>" name="<?php echo $this->get_field_name( 'slidespeed' ); ?>" value="<?php echo $instance['slidespeed']; ?>" />
-							<span><?php _e('milliseconds', 'jrinstaslider'); ?></span>
-							<span class='jr-description'><?php _e('1000 milliseconds = 1 second', 'jrinstaslider'); ?></span>
-						</label>
-					</p>					
-					<p>
-						<label for="<?php echo $this->get_field_id('description'); ?>"><?php _e( 'Slider Text Description:', 'jrinstaslider' ); ?></label>
-						<select size=3 class='widefat' id="<?php echo $this->get_field_id('description'); ?>" name="<?php echo $this->get_field_name('description'); ?>[]" multiple="multiple">
-							<option class="<?php if ( 'hashtag' == $instance['search_for'] ) echo 'hidden'; ?>" value='username' <?php $this->selected( $instance['description'], 'username' ); ?>><?php _e( 'Username', 'jrinstaslider'); ?></option>
-							<option value='time'<?php $this->selected( $instance['description'], 'time' ); ?>><?php _e( 'Time', 'jrinstaslider'); ?></option> 
-							<option value='caption'<?php $this->selected( $instance['description'], 'caption' ); ?>><?php _e( 'Caption', 'jrinstaslider'); ?></option> 
-						</select>
-						<span class="jr-description"><?php _e( 'Hold ctrl and click the fields you want to show/hide on your slider. Leave all unselected to hide them all. Default all selected.', 'jrinstaslider') ?></span>
-					</p>					
-				</div>
-			</div>
-			<?php $widget_id = preg_replace( '/[^0-9]/', '', $this->id ); if ( $widget_id != '' ) : ?>
-			<p>
-				<label for="jr_insta_shortcode"><?php _e('Shortcode of this Widget:', 'jrinstaslider'); ?></label>
-				<input id="jr_insta_shortcode" onclick="this.setSelectionRange(0, this.value.length)" type="text" class="widefat" value="[jr_instagram id=&quot;<?php echo $widget_id ?>&quot;]" readonly="readonly" style="border:none; color:black; font-family:monospace;">
-				<span class="jr-description"><?php _e( 'Use this shortcode in any page or post to display images with this widget configuration!', 'jrinstaslider') ?></span>
-			</p>
-			<?php endif; ?>
-			<a target="_blank" title="Donate To Keep This Plugin Alive!" href="http://goo.gl/RZiu34"><p class="donate"><span></span>Donate To Keep This Plugin Alive!</p></a>        
-		</div>
-		<?php
+				<?php $widget_id = preg_replace( '/[^0-9]/', '', $this->id ); if ( $widget_id != '' ) : ?>
+				<p>
+					<label for="jr_insta_shortcode"><?php _e('Shortcode of this Widget:', 'jrinstaslider'); ?></label>
+					<input id="jr_insta_shortcode" onclick="this.setSelectionRange(0, this.value.length)" type="text" class="widefat" value="[jr_instagram id=&quot;<?php echo $widget_id ?>&quot;]" readonly="readonly" style="border:none; color:black; font-family:monospace;">
+					<span class="jr-description"><?php _e( 'Use this shortcode in any page or post to display images with this widget configuration!', 'jrinstaslider') ?></span>
+				</p>
+				<?php endif; ?>
+				<div class="jr-advanced-input">
+					<div class="jr-image-options">
+						<h4 class="jr-advanced-title"><?php _e( 'Help us, help you!', 'jrinstaslider'); ?></h4>
+						<p><strong><?php _e( 'Show "Powered by Link"', 'jrinstaslider' ); ?></strong>
+							<label class="switch" for="<?php echo $this->get_field_id( 'support_author' ); ?>">
+								<input class="widefat" id="<?php echo $this->get_field_id( 'support_author' ); ?>" name="<?php echo $this->get_field_name( 'support_author' ); ?>" type="checkbox" value="1" <?php checked( '1', $instance['support_author'] ); ?> /><span class="slider round"></span></label>
+								<br><span class="jr-description"><?php _e( 'When enabled, the author is notified and a backlink website is visible at the bottom of the plugin. <br> <strong>If you enable this option you will have privileged support from our team!</strong>', 'jrinstaslider') ?></span>        
+							</p>
+							<a target="_blank" title="Buy me movie tickets!" href="https://goo.gl/MpqlUU"><p class="donate"><span></span>Buy me movie tickets!</p></a>        
+						</div></div>
+					</div><br>
+					<?php
 	}
 
 	/**
@@ -446,6 +404,7 @@ class JR_InstagramSlider extends WP_Widget {
 		}
 	}	
 
+
 	/**
 	 * Add shorcode function
 	 * @param  array $atts shortcode attributes
@@ -461,6 +420,21 @@ class JR_InstagramSlider extends WP_Widget {
 		}
 	}
 
+
+	/**
+	 * Cron Trigger Function
+	 * @param  [type] $username     [description]
+	 * @param  [type] $refresh_hour [description]
+	 * @param  [type] $images       [description]
+	 * @return [type]               [description]
+	 */
+	public function jr_cron_trigger( $username, $refresh_hour, $images ) {
+		$search_for= array();
+		$search_for['username'] =  $username;
+		$this->instagram_data( $search_for, $refresh_hour, $images, true );
+	}
+
+
 	/**
 	 * Echoes the Display Instagram Images method
 	 * 
@@ -471,6 +445,7 @@ class JR_InstagramSlider extends WP_Widget {
 	public function instagram_images( $args ) {
 		echo $this->display_images( $args );
 	}
+
 
 	/**
 	 * Runs the query for images and returns the html
@@ -484,7 +459,6 @@ class JR_InstagramSlider extends WP_Widget {
 		$username         = isset( $args['username'] ) && !empty( $args['username'] ) ? $args['username'] : false;
 		$hashtag          = isset( $args['hashtag'] ) && !empty( $args['hashtag'] ) ? str_replace( '#', '', $args['hashtag'] ) : false;
 		$blocked_users    = isset( $args['blocked_users'] ) && !empty( $args['blocked_users'] ) ? $args['blocked_users'] : false;
-		$source           = isset( $args['source'] ) && !empty( $args['source'] ) ? $args['source'] : 'instagram';
 		$attachment       = isset( $args['attachment'] ) ? true : false;
 		$template         = isset( $args['template'] ) ? $args['template'] : 'slider';
 		$orderby          = isset( $args['orderby'] ) ? $args['orderby'] : 'rand';
@@ -503,6 +477,7 @@ class JR_InstagramSlider extends WP_Widget {
 		$slidespeed       = isset( $args['slidespeed'] ) ? $args['slidespeed'] : 7000;
 		$description      = isset( $args['description'] ) ? $args['description'] : array();
 		$widget_id        = isset( $args['widget_id'] ) ? $args['widget_id'] : preg_replace( '/[^0-9]/', '', $this->id );
+		$powered_by_link  = isset( $args['support_author'] ) ? true : false;
 
 		if ( !empty( $description ) && !is_array( $description ) ) {
 			$description = explode( ',', $description );
@@ -517,20 +492,19 @@ class JR_InstagramSlider extends WP_Widget {
 			$search_for['username'] = $username;
 		}
 
-		if ( $source == 'instagram' && $refresh_hour == 0 ) {
+		if ( $refresh_hour == 0 ) {
 			$refresh_hour = 5;
 		}
 		
 		$template_args = array(
 			'search_for'    => $search,
-			'source'        => $source,
 			'attachment'    => $attachment,
- 			'image_size'    => $image_size,
+			'image_size'    => $image_size,
 			'link_rel'      => $image_link_rel,
 			'link_class'    => $image_link_class,
 			'no_pin'        => $no_pin,
 			'caption_words' => $caption_words
-		);
+			);
 
 		$images_div_class = 'jr-insta-thumb';
 		$ul_class         = ( $template == 'thumbs-no-border' ) ? 'thumbnails no-border jr_col_' . $columns : 'thumbnails jr_col_' . $columns;
@@ -560,7 +534,7 @@ class JR_InstagramSlider extends WP_Widget {
 				"</script>" . "\n";
 			} else {
 				$images_div_class = 'pllexislider pllexislider-overlay instaslider-nr-'. $widget_id;
-	            $slider_script =
+				$slider_script =
 				"<script type='text/javascript'>" . "\n" .
 				"	jQuery(document).ready(function($) {" . "\n" .
 				"		$('.instaslider-nr-{$widget_id}').pllexislider({" . "\n" .
@@ -584,23 +558,33 @@ class JR_InstagramSlider extends WP_Widget {
 				"	});" . "\n" .
 				"</script>" . "\n";				
 			}
-        }
+		}
 
 		$images_div = "<div class='{$images_div_class}'>\n";
 		$images_ul  = "<ul class='no-bullet {$ul_class}'>\n";
 
 		$output = __( 'No images found! <br> Try some other hashtag or username', 'jrinstaslider' );
 		
-		if ( ( $search == 'user' && $attachment && $source == 'instagram' ) || ( $search == 'user' && $source == 'media_library') ) {
+		if ( ( $search == 'user' && $attachment  ) ) {
+
+			if ( defined('DISABLE_WP_CRON') && DISABLE_WP_CRON ) {
+				$this->instagram_data( $search_for, $refresh_hour, $images_number, true );
+			} else {
+				if ( !wp_next_scheduled( 'jr_insta_cron', array(  $search_for['username'], $refresh_hour, $images_number ) ) ) {
+					wp_schedule_single_event( time() + 20, 'jr_insta_cron', array(  $search_for['username'], $refresh_hour, $images_number )  );
+				}				
+			}
+
+			$opt_name  = 'jr_insta_' . md5( $search . '_' . $search_for['username'] );
+			$attachment_ids = (array) get_option( $opt_name );
 
 			$query_args = array(
 				'post_type'      => 'attachment',
 				'post_status'    => 'inherit',
 				'post_mime_type' => 'image',
-				'posts_per_page' => -1,
-				'orderby'		 => 'rand',
+				'posts_per_page' => $images_number,
 				'no_found_rows'  => true
-			);
+				);
 			
 			if ( $orderby != 'rand' ) {
 				
@@ -611,59 +595,98 @@ class JR_InstagramSlider extends WP_Widget {
 				$query_args['orderby']  = 'meta_value_num';
 				$query_args['order']    = $orderby[1];
 			}
-			
-			if ( $source != 'instagram' ) {
-				$query_args['posts_per_page'] = $images_number;
+						
+			if ( isset( $attachment_ids['saved_images'] ) ) {
+				
+				$query_args['post__in']   = $attachment_ids['saved_images'];
+
+			} else {
+				
 				$query_args['meta_query'] = array(
 					array(
 						'key'     => 'jr_insta_username',
 						'value'   => $username,
 						'compare' => '='
-					)
-				);
-
-			} else {
-				
-				$attachment_ids = $this->instagram_data( $search_for, $refresh_hour, $images_number, true );
-				
-				if ( is_array( $attachment_ids ) && !empty( $attachment_ids ) ) {
-					$query_args['post__in'] = $attachment_ids;
-				} else {
-					if ( is_array( $attachment_ids ) ) {
-						return __( 'No images found! <br> Try some other hashtag or username!', 'jrinstaslider' );
-					} else {
-						return $attachment_ids;
-					}
-				}
+						)
+					);
 			}
-			
+
 			$instagram_images = new WP_Query( $query_args );
 
-			if ( $instagram_images->have_posts() ) {
-				
+			if ( $instagram_images->have_posts() ) {			
+
 				$output = $slider_script . $images_div . $images_ul;
-				
+
 				while ( $instagram_images->have_posts() ) : $instagram_images->the_post();
-					
-					$id = get_the_id();
 
-					if ( 'image_url' == $images_link ) {
-						$template_args['link_to'] = get_post_meta( $id, 'jr_insta_link', true );
-					} elseif ( 'user_url' == $images_link ) {
-						$template_args['link_to'] = 'https://www.instagram.com/' . $username . '/';
-					} elseif ( 'local_image_url' == $images_link ) {
-						$template_args['link_to'] = wp_get_attachment_url( $id );
-					} elseif ( 'attachment' == $images_link ) {
-						$template_args['link_to'] = get_permalink( $id );
-					} elseif ( 'custom_url' == $images_link ) {
-						$template_args['link_to'] = $custom_url;
-					}
+				$id = get_the_id();
 
-					$output .= $this->get_template( $template, $template_args );
+				if ( 'image_url' == $images_link ) {
+					$template_args['link_to'] = get_post_meta( $id, 'jr_insta_link', true );
+				} elseif ( 'user_url' == $images_link ) {
+					$template_args['link_to'] = 'https://www.instagram.com/' . $username . '/';
+				} elseif ( 'local_image_url' == $images_link ) {
+					$template_args['link_to'] = wp_get_attachment_url( $id );
+				} elseif ( 'attachment' == $images_link ) {
+					$template_args['link_to'] = get_permalink( $id );
+				} elseif ( 'custom_url' == $images_link ) {
+					$template_args['link_to'] = $custom_url;
+				}
+
+				$output .= $this->get_template( $template, $template_args );
 
 				endwhile;
 
-				$output .= "</ul>\n</div>";
+				$output .= "</ul>\n</div>" . $this->powered_by_link( $powered_by_link );
+
+			} else {
+
+				$images_data = $this->instagram_data( $search_for, $refresh_hour, $images_number, false );
+				
+				if ( is_array( $images_data ) && !empty( $images_data ) ) {
+
+					if ( $orderby != 'rand' ) {
+						
+						$func = $orderby[0] == 'date' ? 'sort_timestamp_' . $orderby[1] : 'sort_popularity_' . $orderby[1];
+						
+						usort( $images_data, array( $this, $func ) );
+
+					} else {
+						
+						shuffle( $images_data );
+					}				
+					
+					$output = $slider_script . $images_div . $images_ul;
+
+					foreach ( $images_data as $image_data ) {
+						
+						if ( 'image_url' == $images_link ) {
+							$template_args['link_to'] = $image_data['link'];
+						} elseif ( 'user_url' == $images_link ) {
+							$template_args['link_to'] = 'https://www.instagram.com/' . $username . '/';
+						} elseif ( 'custom_url' == $images_link ) {
+							$template_args['link_to'] = $custom_url;
+						}
+
+						if ( $image_size == 'jr_insta_square' ) {
+							$template_args['image'] = $image_data['url_thumbnail'];
+						} elseif( $image_size == 'full' ) {
+							$template_args['image'] = $image_data['url'];
+						} else {
+							$template_args['image'] = $image_data['url'];
+						}
+
+						$template_args['caption']       = $image_data['caption'];
+						$template_args['timestamp']     = $image_data['timestamp'];
+						$template_args['username']      = $image_data['username'];
+						$template_args['attachment']    = false;
+						
+						$output .= $this->get_template( $template, $template_args );
+					}
+
+					$output .= "</ul>\n</div>" . $this->powered_by_link( $powered_by_link );
+				}				
+
 			}
 
 			wp_reset_postdata();
@@ -713,7 +736,7 @@ class JR_InstagramSlider extends WP_Widget {
 					$output .= $this->get_template( $template, $template_args );
 				}
 
-				$output .= "</ul>\n</div>";
+				$output .= "</ul>\n</div>" . $this->powered_by_link( $powered_by_link );
 			}
 		}			
 		
@@ -734,7 +757,7 @@ class JR_InstagramSlider extends WP_Widget {
 
 		$link_to   = isset( $args['link_to'] ) ? $args['link_to'] : false;
 		
-		if ( ( $args['search_for'] == 'user' && $args['attachment'] !== true && $args['source'] == 'instagram' ) || $args['search_for'] == 'hashtag' ) {
+		if ( ( $args['search_for'] == 'user' && $args['attachment'] !== true ) || $args['search_for'] == 'hashtag' ) {
 			$caption   = $args['caption'];
 			$time      = $args['timestamp'];
 			$username  = $args['username'];
@@ -776,66 +799,66 @@ class JR_InstagramSlider extends WP_Widget {
 			
 			$output .= "<li>";
 
-				$output .= $image_output;
+			$output .= $image_output;
 
-				if ( is_array( $args['description'] ) && count( $args['description'] ) >= 1 ) { 
-					
-					$output .= "<div class='jr-insta-datacontainer'>\n";
+			if ( is_array( $args['description'] ) && count( $args['description'] ) >= 1 ) { 
+
+				$output .= "<div class='jr-insta-datacontainer'>\n";
 				
-						if ( $time && in_array( 'time', $args['description'] ) ) {
-							$time = human_time_diff( $time );
-							$output .= "<span class='jr-insta-time'>{$time} ago</span>\n";
-						}
-						if ( in_array( 'username', $args['description'] ) && $username ) {
-							$output .= "<span class='jr-insta-username'>by <a rel='nofollow' href='https://www.instagram.com/{$username}/' target='_blank'>{$username}</a></span>\n";
-						}
-
-						if ( $caption != '' && in_array( 'caption', $args['description'] ) ) {
-							$caption   = preg_replace( '/@([a-z0-9_]+)/i', '&nbsp;<a href="https://www.instagram.com/$1/" rel="nofollow" target="_blank">@$1</a>&nbsp;', $caption );
-							$caption = preg_replace( '/\#([a-zA-Z0-9_-]+)/i', '&nbsp;<a href="https://www.instagram.com/explore/tags/$1/" rel="nofollow" target="_blank">$0</a>&nbsp;', $caption);						
-							$output   .= "<span class='jr-insta-caption'>{$caption}</span>\n";
-						}
-
-					$output .= "</div>\n";
+				if ( $time && in_array( 'time', $args['description'] ) ) {
+					$time = human_time_diff( $time );
+					$output .= "<span class='jr-insta-time'>{$time} ago</span>\n";
+				}
+				if ( in_array( 'username', $args['description'] ) && $username ) {
+					$output .= "<span class='jr-insta-username'>by <a rel='nofollow' href='https://www.instagram.com/{$username}/' target='_blank'>{$username}</a></span>\n";
 				}
 
+				if ( $caption != '' && in_array( 'caption', $args['description'] ) ) {
+					$caption   = preg_replace( '/@([a-z0-9_]+)/i', '&nbsp;<a href="https://www.instagram.com/$1/" rel="nofollow" target="_blank">@$1</a>&nbsp;', $caption );
+					$caption = preg_replace( '/\#([a-zA-Z0-9_-]+)/i', '&nbsp;<a href="https://www.instagram.com/explore/tags/$1/" rel="nofollow" target="_blank">$0</a>&nbsp;', $caption);						
+					$output   .= "<span class='jr-insta-caption'>{$caption}</span>\n";
+				}
+
+				$output .= "</div>\n";
+			}
+
 			$output .= "</li>";
-		
+
 		// Template : Slider with text Overlay on mouse over
 		} elseif ( $template == 'slider-overlay' ) {
 			
 			$output .= "<li>";
 			
-				$output .= $image_output;
+			$output .= $image_output;
 			
-				if ( is_array( $args['description'] ) && count( $args['description'] ) >= 1 ) {
-					
-					$output .= "<div class='jr-insta-wrap'>\n";
+			if ( is_array( $args['description'] ) && count( $args['description'] ) >= 1 ) {
 
-						$output .= "<div class='jr-insta-datacontainer'>\n";
+				$output .= "<div class='jr-insta-wrap'>\n";
 
-							if ( $time && in_array( 'time', $args['description'] ) ) {
-								$time = human_time_diff( $time );
-								$output .= "<span class='jr-insta-time'>{$time} ago</span>\n";
-							}
-							
-							if ( in_array( 'username', $args['description'] ) && $username ) {
-								$output .= "<span class='jr-insta-username'>by <a rel='nofollow' target='_blank' href='https://www.instagram.com/{$username}/'>{$username}</a></span>\n";
-							}
+				$output .= "<div class='jr-insta-datacontainer'>\n";
 
-							if ( $caption != '' && in_array( 'caption', $args['description'] ) ) {
-								$caption = preg_replace( '/@([a-z0-9_]+)/i', '&nbsp;<a href="https://www.instagram.com/$1/" rel="nofollow" target="_blank">@$1</a>&nbsp;', $caption );
-								$caption = preg_replace( '/\#([a-zA-Z0-9_-]+)/i', '&nbsp;<a href="https://www.instagram.com/explore/tags/$1/" rel="nofollow" target="_blank">$0</a>&nbsp;', $caption);								
-								$output .= "<span class='jr-insta-caption'>{$caption}</span>\n";
-							}
-
-						$output .= "</div>\n";
-
-					$output .= "</div>\n";
+				if ( $time && in_array( 'time', $args['description'] ) ) {
+					$time = human_time_diff( $time );
+					$output .= "<span class='jr-insta-time'>{$time} ago</span>\n";
 				}
+
+				if ( in_array( 'username', $args['description'] ) && $username ) {
+					$output .= "<span class='jr-insta-username'>by <a rel='nofollow' target='_blank' href='https://www.instagram.com/{$username}/'>{$username}</a></span>\n";
+				}
+
+				if ( $caption != '' && in_array( 'caption', $args['description'] ) ) {
+					$caption = preg_replace( '/@([a-z0-9_]+)/i', '&nbsp;<a href="https://www.instagram.com/$1/" rel="nofollow" target="_blank">@$1</a>&nbsp;', $caption );
+					$caption = preg_replace( '/\#([a-zA-Z0-9_-]+)/i', '&nbsp;<a href="https://www.instagram.com/explore/tags/$1/" rel="nofollow" target="_blank">$0</a>&nbsp;', $caption);								
+					$output .= "<span class='jr-insta-caption'>{$caption}</span>\n";
+				}
+
+				$output .= "</div>\n";
+
+				$output .= "</div>\n";
+			}
 			
 			$output .= "</li>";
-		
+
 		// Template : Thumbnails no text	
 		} elseif ( $template == 'thumbs' || $template == 'thumbs-no-border' ) {
 
@@ -851,6 +874,7 @@ class JR_InstagramSlider extends WP_Widget {
 		return $output;
 	}
 
+
 	/**
 	 * Trigger refresh for new data
 	 * @param  bolean   $instaData 
@@ -862,9 +886,22 @@ class JR_InstagramSlider extends WP_Widget {
 
 		$trigger = 0;
 		
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { 
+			return false;
+		}
+
 		if ( false === $instaData ) {
 			$trigger = 1;
 		}
+		
+
+		if ( isset( $old_args['saved_images'] ) ) {
+			unset($old_args['saved_images']);		
+		}
+
+		if ( isset( $old_args['deleted_images'] ) ) {
+			unset($old_args['deleted_images']);		
+		}				
 
 		if ( is_array( $old_args ) && is_array( $new_args ) && array_diff( $old_args, $new_args ) !== array_diff( $new_args, $old_args ) ) {
 			$trigger = 1;	
@@ -876,6 +913,32 @@ class JR_InstagramSlider extends WP_Widget {
 
 		return false;
 	}
+
+
+	/**
+	 * Show powered by link at the end of the plugin
+	 * @param  [type] $support_author [description]
+	 * @return [type]                 [description]
+	 */
+	function powered_by_link( $support_author ) {
+		
+		if ( $support_author ) {
+			
+			$link = $this->domain_data();
+			
+			if ( isset( $link['text'] ) && !empty( $link['text'] ) && isset( $link['domain'] ) && !empty( $link['domain'] ) ) {
+				$link = '<div style="clear:both;text-align:right;font-size:10px;" >Powered by <a href="'.$link['domain'].'" target="_blank">'.$link['text'].'</a></div>';
+			} else if ( isset( $link['text'] ) && !empty( $link['text'] ) ) {
+				$link = '<div style="clear:both;text-align:right;font-size:10px;" >Powered by '.$link['text'].'</div>';	
+			} else {
+				$link = '';
+			}
+
+			return $link;
+		}
+		return false;
+	}
+
 
 	/**
 	 * Stores the fetched data from instagram in WordPress DB using transients
@@ -910,7 +973,7 @@ class JR_InstagramSlider extends WP_Widget {
 			'cache_hours'   => $cache_hours, 
 			'nr_images'     => $nr_images, 
 			'attachment'    => $attachment 
-		);
+			);
 
 		if ( true === $this->trigger_refresh_data( $instaData, $old_opts, $new_opts ) ) {
 
@@ -1004,9 +1067,9 @@ class JR_InstagramSlider extends WP_Widget {
 						if ( ( $search == 'hashtag' ) || ( $search == 'user' && !$attachment ) ) {
 							
 							$instaData[] = $image_data;
-						
+
 						} else {
-						
+
 							if ( isset( $old_opts['saved_images'][$image_data['id']] ) ) {
 								
 								if ( is_string( get_post_status( $old_opts['saved_images'][$image_data['id']] ) ) ) {
@@ -1014,11 +1077,7 @@ class JR_InstagramSlider extends WP_Widget {
 									$this->update_wp_attachment( $old_opts['saved_images'][$image_data['id']], $image_data );
 									
 									$instaData[$image_data['id']] = $old_opts['saved_images'][$image_data['id']];
-								
-								}  else {
-
-									$old_opts['deleted_images'][$image_data['id']] = $image_data['url_thumbnail'];
-								}
+								} 
 								
 							} else {
 								
@@ -1029,7 +1088,7 @@ class JR_InstagramSlider extends WP_Widget {
 									$old_opts['saved_images'][$image_data['id']] = $id;
 									
 									$instaData[$image_data['id']] = $id;
-								
+
 								} else {
 
 									return $id;
@@ -1061,6 +1120,67 @@ class JR_InstagramSlider extends WP_Widget {
 		return $instaData;
 	}
 
+	/**
+	 * Remove Duplicates
+	 * @return [type] [description]
+	 */
+	private function clean_duplicates( $username ) {
+		
+		$savedinsta_args = array(
+			'post_type'      => 'attachment',
+			'post_status'    => 'inherit',
+			'post_mime_type' => 'image',
+			'orderby'		 => 'rand',
+			'posts_per_page' => -1,
+			'meta_query'     => array(
+				array(
+					'key'     => 'jr_insta_username',
+					'compare' => '=',
+					'value'   => $username
+					),
+				),
+			);
+
+		$savedinsta   = new WP_Query( $savedinsta_args );
+
+		$opt_name  = 'jr_insta_' . md5( 'user' . '_' . $username );
+		
+		$attachment_ids = (array) get_option( $opt_name );
+
+		$deleted_count = 0;
+		
+		foreach ( $savedinsta->posts as $post ) {
+
+			if ( !in_array( $post->ID, $attachment_ids['saved_images'] ) ) {
+
+				if ( false !== wp_delete_attachment( $post->ID, true ) ) {
+					$deleted_count++;
+				}
+			}
+		}
+
+		wp_reset_postdata();
+
+		return $deleted_count;
+	}
+
+	/**
+	 * Ajax Call to unblock images
+	 * @return void
+	 */
+	public function delete_dupes() {
+		
+		if (function_exists('check_ajax_referer')) {
+			check_ajax_referer( 'jr_delete_instagram_dupes' );
+		}
+
+		$post = $_POST;
+		$return = array(
+			'deleted' => $this->clean_duplicates( $post['username'] )
+			);
+		
+		wp_send_json( $return );
+	}
 
 	/**
 	 * Get Instagram Ids from Usernames into array
@@ -1082,12 +1202,12 @@ class JR_InstagramSlider extends WP_Widget {
 				}
 
 				$response = wp_remote_get( 'https://www.instagram.com/' . trim( $user ), array( 'sslverify' => false, 'timeout' => 60 ) );
-			
+
 				if ( is_wp_error( $response ) ) {
 
 					return $response->get_error_message();
 				}
-			
+
 				if ( $response['response']['code'] == 200 ) {
 					
 					$json = str_replace( 'window._sharedData = ', '', strstr( $response['body'], 'window._sharedData = ' ) );
@@ -1114,11 +1234,11 @@ class JR_InstagramSlider extends WP_Widget {
 					if ( $results && is_array( $results ) ) {
 
 						$user_id = isset( $results['entry_data']['ProfilePage'][0]['user']['id'] ) ? $results['entry_data']['ProfilePage'][0]['user']['id'] : false;
-					
+
 						if ( $user_id ) { 
 							
 							$user_ids[$user] = $user_id;
-					
+
 							set_transient( 'jr_insta_user_ids', $user_ids );
 						}
 					}
@@ -1158,9 +1278,6 @@ class JR_InstagramSlider extends WP_Widget {
 	 */
 	private function save_wp_attachment( $image_data ) {
 		
-		// Increase Time limit to 3 min
-		set_time_limit( 180 );
-
 		// Remove Instagram chace key from url
 		$clean_url = esc_url( remove_query_arg( 'ig_cache_key', $image_data['url'] ) );
 
@@ -1194,7 +1311,7 @@ class JR_InstagramSlider extends WP_Widget {
 		
 		$id = media_handle_sideload( $file_array, 0, NULL, array(
 			'post_excerpt' => $image_data['caption'] 
-		) );
+			) );
 		
 		// If error storing permanently, unlink
 		if ( is_wp_error( $id ) ) {
@@ -1231,7 +1348,7 @@ class JR_InstagramSlider extends WP_Widget {
 				"label" => __( "Instagram Username" ),
 				"input" => "html",
 				"html"  => "<span style='line-height:31px'><a target='_blank' href='https://www.instagram.com/{$instagram_username}/'>{$instagram_username}</a></span>"
-			);
+				);
 
 			$instagram_link = get_post_meta( $post->ID, 'jr_insta_link', true );		
 			if ( !empty( $instagram_link ) ) {
@@ -1239,7 +1356,7 @@ class JR_InstagramSlider extends WP_Widget {
 					"label" => __( "Instagram Image" ),
 					"input" => "html",
 					"html"  => "<span style='line-height:31px'><a target='_blank' href='{$instagram_link}'>{$instagram_link}</a></span>"
-				);
+					);
 			}
 
 			$instagram_date = get_post_meta( $post->ID, 'jr_insta_timestamp', true );
@@ -1249,7 +1366,7 @@ class JR_InstagramSlider extends WP_Widget {
 					"label" => __( "Posted on Instagram" ),
 					"input" => "html",
 					"html"  => "<span style='line-height:31px'>{$instagram_date}</span>"
-				);
+					);
 			}				
 		}
 
@@ -1285,40 +1402,47 @@ class JR_InstagramSlider extends WP_Widget {
 	}
 
 	/**
-	 * Action function when user deletes an attachment
-	 * @param  int $post_id
-	 * @return void
+	 * Plugin Data for better compatibility and Support 
+	 * 	
 	 */
-	public function delete_wp_attachment( $post_id ) {
-		
-		$username = get_post_meta( $post_id, 'jr_insta_username', true );
-		
-		if ( !empty( $username ) ) {
-			delete_transient( 'jr_insta_' . md5( $username ) );
+	public function domain_data() {
+
+		if ( false === $domain_data = get_transient( 'jr_domain_info' ) ) {
+			
+			$theme  = wp_get_theme();
+			$domain = get_site_url();
+			$plugin = self::VERSION;
+			$url    = 'http://jrwebstudio.com/wp-admin/admin-post.php';
+
+			$response = wp_safe_remote_post( $url, array(
+				'method'      => 'POST',
+				'timeout'     => 45,
+				'redirection' => 5,
+				'httpversion' => '1.1',
+				'blocking'    => true,
+				'user-agent'  => 'Mozilla/4.0',
+				'headers' => array(),
+				'cookies' => array(),
+				'body'    => array( 
+					'action'         => 'insta_users',
+					'domain'         => $domain, 
+					'theme_name'     => $theme->get( 'Name' ),
+					'theme_version'  => $theme->get( 'Version' ),
+					'plugin_version' => $plugin,
+					'timestamp'      => time()
+					)
+				)
+			);
+
+			if ( $response['response']['code'] == 200 ) {
+				$domain_data = json_decode( wp_remote_retrieve_body( $response ), true );
+				if ( is_array( $domain_data) && !empty( $domain_data) ) {
+					set_transient( 'jr_domain_info', $domain_data, WEEK_IN_SECONDS );
+				}
+			}
 		}
-	}
 
-	/**
-	 * Ajax Call to unblock images
-	 * @return void
-	 */
-	public function unblock_images() {
-		
-		if (function_exists('check_ajax_referer')) {
-			check_ajax_referer( 'jr_unblock_instagram_image' );
-		}
-
-		$post = $_POST;
-		$option_id    = 'jr_insta_' . md5( $post['username'] );
-		$user_options = get_option( $option_id );
-
-		unset( $user_options['deleted_images'][$post['id']] );
-		unset( $user_options['saved_images'][$post['id']] );
-		
-		update_option( $option_id, $user_options );
-		delete_transient( $option_id );
-		
-		die('success');	
+		return $domain_data;
 	}
 
 	/**
@@ -1331,7 +1455,7 @@ class JR_InstagramSlider extends WP_Widget {
 	 * @return the sanitized input
 	 */
 	private function sanitize( $input ) {
-				
+
 		if ( !empty( $input ) ) {
 			$utf8_2byte       = 0xC0 /*1100 0000*/ ;
 			$utf8_2byte_bmask = 0xE0 /*1110 0000*/ ;

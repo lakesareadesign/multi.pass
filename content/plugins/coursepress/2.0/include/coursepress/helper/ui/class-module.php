@@ -216,31 +216,37 @@ class CoursePress_Helper_UI_Module {
 				'title' => __( 'Multiple Choice', 'cp' ),
 				'mode' => 'input',
 				'icon' => 'default',
+				'dashicon' => 'list-view',
 			),
 			self::INPUT_SINGLE_CHOICE => array(
 				'title' => __( 'Single Choice', 'cp' ),
 				'mode' => 'input',
 				'icon' => 'default',
+				'dashicon' => 'editor-ul',
 			),
 			self::INPUT_SELECT_CHOICE => array(
 				'title' => __( 'Selectable', 'cp' ),
 				'mode' => 'input',
 				'icon' => 'default',
+				'dashicon' => 'menu',
 			),
 			self::INPUT_SHORT_TEXT => array(
 				'title' => __( 'Short Answer', 'cp' ),
 				'mode' => 'input',
 				'icon' => 'default',
+				'dashicon' => 'editor-textcolor',
 			),
 			self::INPUT_LONG_TEXT => array(
 				'title' => __( 'Long Answer', 'cp' ),
 				'mode' => 'input',
 				'icon' => 'default',
+				'dashicon' => 'editor-alignleft',
 			),
 			self::INPUT_UPLOAD => array(
 				'title' => __( 'File Upload', 'cp' ),
 				'mode' => 'input',
 				'icon' => 'default',
+				'dashicon' => 'upload',
 			),
 			self::INPUT_QUIZ => array(
 				'title' => __( 'Quiz', 'cp' ),
@@ -272,6 +278,7 @@ class CoursePress_Helper_UI_Module {
 				'title' => __( 'Text', 'cp' ),
 				'mode' => 'output',
 				'icon' => 'default',
+				'dashicon' => 'media-text',
 			),
 			self::OUTPUT_CHAT => array(
 				'title' => __( 'Chat', 'cp' ),
@@ -283,38 +290,36 @@ class CoursePress_Helper_UI_Module {
 				'mode' => 'output',
 				'excerpt' => 'hidden',
 				'icon' => 'default',
+				'dashicon' => 'format-image',
 			),
 			self::OUTPUT_VIDEO => array(
 				'title' => __( 'Video', 'cp' ),
 				'mode' => 'output',
 				'excerpt' => 'hidden',
 				'icon' => 'default',
+				'dashicon' => 'video-alt3',
 			),
 			self::OUTPUT_AUDIO => array(
 				'title' => __( 'Audio', 'cp' ),
 				'mode' => 'output',
 				'excerpt' => 'hidden',
 				'icon' => 'default',
+				'dashicon' => 'format-audio',
 			),
 			self::OUTPUT_DOWNLOAD => array(
 				'title' => __( 'File Download', 'cp' ),
 				'mode' => 'output',
 			// 'excerpt' => 'hidden',
 				'icon' => 'default',
+				'dashicon' => 'media-text',
 			),
 			self::OUTPUT_ZIPPED_OBJECT => array(
 				'title' => __( 'Zipped Object', 'cp' ),
 				'mode' => 'output',
 			// 'excerpt' => 'hidden',
 				'icon' => 'default',
+				'dashicon' => 'media-archive',
 			),
-			// self::OUTPUT_SECTION => array(
-			// 'title' => __( 'Section Break', 'cp' ),
-			// 'mode' => 'output',
-			// 'excerpt' => 'hidden',
-			// 'body' => 'hidden',
-			// 'icon' => 'default',
-			// ),
 			self::OUTPUT_DISCUSSION => array(
 				'title' => __( 'Discussion', 'cp' ),
 				'mode' => 'output',
@@ -933,14 +938,18 @@ class CoursePress_Helper_UI_Module {
 							"class": "wide",
 							"items": [
 								{
+									"title": "' . __( 'Multiple Choice', 'cp' ) .'",
 									"type": "action",
-									"class": "quiz-action-button multiple wide",
-									"action": "multiple"
+									"class": "input-element module-input-checkbox quiz-action-button multiple wide",
+									"action": "multiple",
+									"dashicon": "list-view"
 								},
 								{
+									"title": "' . __( 'Single Choice', 'cp' ) .'",
 									"type": "action",
-									"class": "quiz-action-button single wide",
-									"action": "single"
+									"class": "input-element module-input-radio quiz-action-button single wide",
+									"action": "single",
+									"dashicon": "editor-ul"
 								}
 							]
 						},
@@ -976,23 +985,29 @@ class CoursePress_Helper_UI_Module {
 					"components": [
 						{
 							"label": "' . __( 'Form elements', 'cp' ) . '",
-							"description": "' . __( 'Add all the elements for your form here', 'cp' ) .'",
+							"description": "' . __( 'Add all the elements for your form here', 'cp' ) . '",
 							"class": "wide",
 							"items": [
 								{
+									"title": "' . __( 'Short Answer', 'cp' ) .'",
 									"type": "action",
-									"class": "form-action-button short wide",
-									"action": "short"
+									"class": "input-element form-action-button short wide",
+									"action": "short",
+									"dashicon": "editor-textcolor"
 								},
 								{
+									"title": "' . __( 'Long Answer', 'cp' ) .'",
 									"type": "action",
-									"class": "form-action-button long wide",
-									"action": "long"
+									"class": "input-element form-action-button long wide",
+									"action": "long",
+									"dashicon": "editor-alignleft"
 								},
 								{
+									"title": "' . __( 'Selectable', 'cp' ) .'",
 									"type": "action",
-									"class": "form-action-button selectable wide",
-									"action": "selectable"
+									"class": "input-element form-action-button selectable wide",
+									"action": "selectable",
+									"dashicon": "menu"
 								}
 							]
 						},

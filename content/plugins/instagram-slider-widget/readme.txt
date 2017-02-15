@@ -3,7 +3,7 @@ Contributors: jetonr
 Tags: instagram, slider, widget, images
 Donate link: http://goo.gl/RZiu34
 Requires at least: 3.5
-Tested up to: 4.5.2
+Tested up to: 4.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,18 +14,17 @@ Instagram Slider Widget is a responsive slider widget that shows 12 latest image
 
 
 = Features =
-* Images from instagram are imported as wordpress attachments
+* Images from Instagram are imported as WordPress attachments
 * Display Images in Slider or Thumbnails
-* No Api Key Needed
-* Link images to user profile, image url, locally saved image, attachment url, custom url or none
-* Sort images Randomily, Popularity, Date
+* No API Key Needed
+* Link images to user profile, image URL, locally saved image, attachment URL, custom URL or none
+* Sort images Randomly, Popularity, Date
 * For more info visit http://instagram.jrwebstudio.com
 
 = Where can I get support =
-I will try to respond on wordpress.org asap but for faster reposnse use the link bellow
-* http://support.jrwebstudio.com/product/instagram-slider-widget/
+I will try to respond to all on plugin support forum but users showing back-link on their website will be more privileged!
 
-= If you liked this plugin. Please rate it =
+= If you like this plugin. Rate it and Donate =
 
 == Installation ==
 
@@ -38,6 +37,7 @@ I will try to respond on wordpress.org asap but for faster reposnse use the link
 = Requirements =
 * PHP 5.2.0 or later
 * Wordpress 3.5 or later
+* WordPress Cron must be enabled
 
 == Screenshots ==
 1. Frontend Widget Slider
@@ -45,6 +45,12 @@ I will try to respond on wordpress.org asap but for faster reposnse use the link
 3. Backend Configuration
 
 == Changelog ==
+= 1.4.0 =
+* Fixed the issue where duplicate images were being inserted into Media Library
+* Added a button in widget to remove previously created duplicate images
+* Simplified the options to save images into media library
+* Added an option to show backlink to help plugin development
+
 = 1.3.3 =
 * Fixed notification error message.
 

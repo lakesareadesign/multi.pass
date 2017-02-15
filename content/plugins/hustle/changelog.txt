@@ -3,8 +3,12 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 
 Change Log:
 ----------------------------------------------------------------------
-2.0.0 - 2017-02-02
+2.0.1 - 2017-02-08
+- Add: Consistent color assignment for modules in top 5 conversion graph.
+- Changed: Top 5 conversion table is now sorted by conversions in the last 30 days.
+
 ----------------------------------------------------------------------
+2.0.0 - 2017-02-02
 - Add: Major redesign for better user experience.
 - Add: New Custom Content module.
 - Add: New Opt-in module wizard.
@@ -32,6 +36,7 @@ Change Log:
 - Fix: Email registration issue.
 - Fix: Overlapping elements in IE11.
 - Fix: 'close button acts as never seen again' not working.
+
 
 ----------------------------------------------------------------------
 1.1.2 - 2016-11-03
@@ -86,4 +91,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1486520004-ai
+133620-1487198324-au

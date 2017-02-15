@@ -33,7 +33,7 @@ class WD_Options_Audit extends WD_Event_Abstract {
 
 		$option_human_read = self::key_to_human_name( $option );
 
-		if ( $old == $new ) {
+		if ( $old === $new ) {
 			return false;
 		}
 

@@ -31,7 +31,7 @@
 .pllexislider .pllex-direction-nav li a { line-height: normal; overflow: hidden; display: block; border: 0 }
 .pllexislider .pllex-direction-nav li a:focus { outline: 0 }
 .pllexislider .pllex-direction-nav li:first-child { float: left; margin-right: 0; border-left: 0; border-right: 1px solid gray;  }
-.pllexislider .pllex-direction-nav li { list-style:none; float: right; margin: 0; border-right: 0; border-left: 1px solid #1e1e1e; }
+.pllexislider .pllex-direction-nav li { list-style:none; float: right; margin: 0; border-right: 0; border-left: 1px solid #1e1e1e; padding: 0; border-top: 0; border-bottom: 0; }
 .pllexislider .pllex-direction-nav .pllex-next:before, 
 .pllexislider .pllex-direction-nav .pllex-prev:before { font-family: Arial,Helvetica,sans-serif; display: inline-block; padding: 0 4px 1px; speak: none; color: #fff; font-size: 18px; text-shadow: 0 2px 0 rgba(0, 0, 0, 1); }
 .pllexislider .pllex-direction-nav .pllex-next:before { content: '\25BA'; }

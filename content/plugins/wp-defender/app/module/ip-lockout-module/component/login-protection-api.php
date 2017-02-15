@@ -47,11 +47,7 @@ class Login_Protection_Api extends \WD_Component {
 			'order'      => 'DESC',
 			'orderby'    => 'ID'
 		) );
-		/*var_dump( date( 'Y-m-d H:i:s', $after ) );
-		foreach ( $logs as $log ) {
-			var_dump( date( 'Y-m-d H:i:s', $log->date ) );
-		}
-		die;*/
+
 		$attempt = count( $logs );
 		if ( ! is_object( $model ) ) {
 			//no record, create one
@@ -61,7 +57,7 @@ class Login_Protection_Api extends \WD_Component {
 		}
 
 		$model->attempt = $attempt;
-		if ( $model->attempt >= $settings->login_protection_login_attempt ) {
+		if ( $model->attempt >= $settings->login_protection_login_attempt || $force == true ) {
 			$model->status          = IP_Model::STATUS_BLOCKED;
 			$model->release_time    = strtotime( '+ ' . $settings->login_protection_lockout_duration . ' seconds' );
 			$model->lockout_message = $settings->login_protection_lockout_message;

@@ -20,13 +20,13 @@
                 </div>
 			<?php else: ?>
                 <div class="well well-blue well-medium intro">
-					<?php esc_html_e( "404 Detected is enabled. There a no lockouts logged yet.", wp_defender()->domain ) ?>
+					<?php esc_html_e( "404 Detection is enabled. There are no lockouts logged yet.", wp_defender()->domain ) ?>
                 </div>
 			<?php endif; ?>
             <div class="columns">
                 <div class="column is-one-third">
                     <label for="detect_404_threshold">
-						<?php esc_html_e( "Lockout Threshold", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Lockout threshold", wp_defender()->domain ) ?>
                     </label>
                     <span class="sub">
                                         <?php esc_html_e( "Specify how many 404 errors within a specific time period will trigger a lockout.", wp_defender()->domain ) ?>
@@ -46,7 +46,7 @@
             <div class="columns">
                 <div class="column is-one-third">
                     <label for="login_protection_lockout_timeframe">
-						<?php esc_html_e( "Lockout Time", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Lockout time", wp_defender()->domain ) ?>
                     </label>
                     <span class="sub">
                                         <?php esc_html_e( "Choose how long you’d like to ban the locked out user for.", wp_defender()->domain ) ?>

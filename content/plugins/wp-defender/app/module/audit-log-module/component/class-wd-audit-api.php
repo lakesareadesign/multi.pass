@@ -24,7 +24,7 @@ class WD_Audit_API extends WD_Component {
 		//return self::submit_to_local( $data );
 
 		$component = new WD_Component();
-		$ret       = $component->wpmudev_call( 'http://' . self::$end_point . '/logs/add_multiple', $data, array(
+		$ret       = $component->wpmudev_call( 'https://' . self::$end_point . '/logs/add_multiple', $data, array(
 			'method'  => 'POST',
 			'timeout' => 1,
 			//'sslverify' => false,
@@ -120,19 +120,18 @@ class WD_Audit_API extends WD_Component {
 		$uri  = '/logs/add_multiple';
 		$vars = http_build_query( $data );
 
-		# compose HTTP request header
-		$header = "Host: " . WD_Audit_API::$end_point . "\r\n";
-		$header .= "User-Agent: WPMUDEV Audit Logging\r\n";
-		$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-		$header .= "Content-Length: " . strlen( $vars ) . "\r\n";
-		$header .= 'apikey:' . WD_Utils::get_dev_api() . "\r\n";
-		$header .= "Connection: close\r\n\r\n";
-
-		fputs( $fp, "POST " . $uri . "  HTTP/1.1\r\n" );
-		stream_set_timeout( $fp, 3 );
-		fputs( $fp, $header . $vars );
-
-		fclose( $fp );
+		fwrite( $fp, "POST " . $uri . "  HTTP/1.1\r\n" );
+		fwrite( $fp, "Host: " . WD_Audit_API::$end_point . "\r\n" );
+		fwrite( $fp, "Content-Type: application/x-www-form-urlencoded\r\n" );
+		fwrite( $fp, "Content-Length: " . strlen( $vars ) . "\r\n" );
+		fwrite( $fp, "apikey:" . WD_Utils::get_dev_api() . "\r\n" );
+		fwrite( $fp, "Connection: close\r\n" );
+		fwrite( $fp, "\r\n" );
+		fwrite( $fp, $vars );
+		socket_set_timeout( $fp, 5 );
+		while ( ! feof( $fp ) ) {
+			$component->log( fgets( $fp, 1024 ),self::ERROR_LEVEL_DEBUG,'sockets' );
+		}
 
 		return true;
 	}
@@ -144,16 +143,15 @@ class WD_Audit_API extends WD_Component {
 		$vars = http_build_query( $data );
 
 		# compose HTTP request header
-		$header = "Host: " . WD_Audit_API::$end_point . "\r\n";
-		$header .= "User-Agent: WPMUDEV Audit Logging\r\n";
-		$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-		$header .= "Content-Length: " . strlen( $vars ) . "\r\n";
-		$header .= 'apikey:' . WD_Utils::get_dev_api() . "\r\n";
-		$header .= "Connection: close\r\n\r\n";
 
-		fputs( $fp, "POST " . $uri . "  HTTP/1.1\r\n" );
-		fputs( $fp, $header . $vars );
-		$return = fread( $fp, 1000 );
+		fwrite( $fp, "POST " . $uri . "  HTTP/1.1\r\n" );
+		fwrite( $fp, "Host: " . WD_Audit_API::$end_point . "\r\n" );
+		fwrite( $fp, "Content-Type: application/x-www-form-urlencoded\r\n" );
+		fwrite( $fp, "Content-Length: " . strlen( $vars ) . "\r\n" );
+		fwrite( $fp, "apikey:" . WD_Utils::get_dev_api() . "\r\n" );
+		fwrite( $fp, "Connection: close\r\n" );
+		fwrite( $fp, "\r\n" );
+		fwrite( $fp, $vars );
 		fclose( $fp );
 
 		//now check the http header
@@ -333,5 +331,53 @@ class WD_Audit_API extends WD_Component {
 		$parts = parse_url( $url );
 
 		return $parts['host'] . ( isset( $parts['part'] ) ? $parts['part'] : null );
+	}
+
+	/**
+	 * @param $timestamp
+	 *
+	 * @return false|int
+	 */
+	public static function local_to_utc( $timestring ) {
+		$tz = get_option( 'timezone_string' );
+		if ( ! $tz ) {
+			$gmt_offset = get_option( 'gmt_offset' );
+			if ( $gmt_offset == 0 ) {
+				return strtotime( $timestring );
+			}
+			$tz = self::get_timezone_string( $gmt_offset );
+		}
+
+		if ( ! $tz ) {
+			$tz = 'UTC';
+		}
+
+		$timezone = new \DateTimeZone( $tz );
+		$time     = new \DateTime( $timestring, $timezone );
+
+		return $time->getTimestamp();
+	}
+
+	/**
+	 * @param $timezone
+	 *
+	 * @return false|string
+	 */
+	public static function get_timezone_string( $timezone ) {
+		$timezone = explode( '.', $timezone );
+		if ( isset( $timezone[1] ) ) {
+			$timezone[1] = 30;
+		} else {
+			$timezone[1] = '00';
+		}
+		$offset = implode( ':', $timezone );
+		list( $hours, $minutes ) = explode( ':', $offset );
+		$seconds = $hours * 60 * 60 + $minutes * 60;
+		$tz      = timezone_name_from_abbr( '', $seconds, 1 );
+		if ( $tz === false ) {
+			$tz = timezone_name_from_abbr( '', $seconds, 0 );
+		}
+
+		return $tz;
 	}
 }

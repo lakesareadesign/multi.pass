@@ -16,9 +16,9 @@
 
 							<th><?php _e('Rate', Opt_In::TEXT_DOMAIN); ?></th>
 
-							<th><?php _e('Week', Opt_In::TEXT_DOMAIN); ?></th>
+							<th><?php _e('7 Days', Opt_In::TEXT_DOMAIN); ?></th>
 
-							<th><?php _e('Month', Opt_In::TEXT_DOMAIN); ?></th>
+							<th><?php _e('30 Days', Opt_In::TEXT_DOMAIN); ?></th>
 
 							<th><?php _e('All Time', Opt_In::TEXT_DOMAIN); ?></th>
 
@@ -37,7 +37,7 @@
 
 								<td><?php echo $data['week']; ?></td>
 
-								<td><?php echo $data['month']; ?></td>
+								<td class="c-current"><?php echo $data['month']; ?></td>
 
 								<td><?php echo $data['all']; ?></td>
 

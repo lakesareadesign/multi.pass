@@ -12,7 +12,7 @@
 			}
 		});
 
-		// Hide Refresh hour if source is wp media library
+		// Modify options based on template selections
 		$('body').on('change', '.jr-container select[id$="template"]', function(e){
 			var template = $(this);
 			if ( template.val() == 'thumbs' || template.val() == 'thumbs-no-border' ) {
@@ -28,7 +28,6 @@
 		$('body').on('change', '.jr-container input:radio[id$="search_for"]', function(e){
 			var search_for = $(this);
 			if ( search_for.val() != 'username' ) {
-				search_for.closest('.jr-container').find('input[id$="source"]').closest('p').animate({opacity: 'hide' , height: 'hide'}, 200);
 				search_for.closest('.jr-container').find('[id$="attachment"]:checkbox').closest('p').animate({opacity: 'hide' , height: 'hide'}, 200);
 				search_for.closest('.jr-container').find('select[id$="images_link"] option[value="local_image_url"]').animate({opacity: 'hide' , height: 'hide'}, 200);
 				search_for.closest('.jr-container').find('select[id$="images_link"] option[value="user_url"]').animate({opacity: 'hide' , height: 'hide'}, 200);			
@@ -38,10 +37,7 @@
 				search_for.closest('.jr-container').find('input[id$="blocked_users"]').closest('p').animate({opacity: 'show' , height: 'show'}, 200);
 
 			} else {
-				search_for.closest('.jr-container').find('input[id$="source"]').closest('p').animate({opacity: 'show' , height: 'show'}, 200);
-				if ( search_for.closest('.jr-container').find('input:radio[id$="source"]:checked').val() == 'instagram' ) {
-					search_for.closest('.jr-container').find('[id$="attachment"]:checkbox').closest('p').animate({opacity: 'show' , height: 'show'}, 200);
-				}
+				search_for.closest('.jr-container').find('[id$="attachment"]:checkbox').closest('p').animate({opacity: 'show' , height: 'show'}, 200);				
 				search_for.closest('.jr-container').find('select[id$="images_link"] option[value="local_image_url"]').animate({opacity: 'show' , height: 'show'}, 200);
 				search_for.closest('.jr-container').find('select[id$="images_link"] option[value="user_url"]').animate({opacity: 'show' , height: 'show'}, 200);			
 				search_for.closest('.jr-container').find('select[id$="images_link"] option[value="attachment"]').animate({opacity: 'show' , height: 'show'}, 200);		
@@ -49,30 +45,6 @@
 				search_for.closest('.jr-container').find('select[id$="description"] option[value="username"]').animate({opacity: 'show' , height: 'show'}, 200);
 				search_for.closest('.jr-container').find('input[id$="blocked_users"]').closest('p').animate({opacity: 'hide' , height: 'hide'}, 200);
 
-			}
-		});
-
-		// Hide Refresh hour if source is wp media library
-		$('body').on('change', '.jr-container input:radio[id$="source"]', function(e){
-			var source = $(this);
-			if ( source.val() != 'instagram' ) {
-				source.closest('.jr-container').find('input[id$="refresh_hour"]').closest('p').animate({opacity: 'hide' , height: 'hide'}, 200);
-				source.closest('.jr-container').find('select[id$="image_size"]').closest('p').animate({opacity: 'show' , height: 'show'}, 200);
-				source.closest('.jr-container').find('.jr-media-library-option').animate({opacity: 'show' , height: 'show'}, 200);
-				source.closest('.jr-container').find('.jr-instagram-option').animate({opacity: 'hide' , height: 'hide'}, 200);
-				source.closest('.jr-container').find('.blocked-wrap').animate({opacity: 'hide' , height: 'hide'}, 200);
-				source.closest('.jr-container').find('input[id$="attachment"]').closest('p').animate({opacity: 'hide' , height: 'hide'}, 200);
-				source.closest('.jr-container').find('select[id$="images_link"] option[value="local_image_url"]').animate({opacity: 'show' , height: 'show'}, 200);
-				source.closest('.jr-container').find('select[id$="images_link"] option[value="user_url"]').animate({opacity: 'show' , height: 'show'}, 200);			
-				source.closest('.jr-container').find('select[id$="images_link"] option[value="attachment"]').animate({opacity: 'show' , height: 'show'}, 200);		
-				source.closest('.jr-container').find('select[id$="images_link"]').val('image_url');
-			} else {
-				source.closest('.jr-container').find('input[id$="refresh_hour"]').closest('p').animate({opacity: 'show' , height: 'show'}, 200);
-				source.closest('.jr-container').find('input[id$="attachment"]').closest('p').animate({opacity: 'show' , height: 'show'}, 200);
-				source.closest('.jr-container').find('.jr-media-library-option').animate({opacity: 'hide' , height: 'hide'}, 200);
-				source.closest('.jr-container').find('.jr-instagram-option').animate({opacity: 'show' , height: 'show'}, 200);
-				source.closest('.jr-container').find('.blocked-wrap').animate({opacity: 'show' , height: 'show'}, 200);
-				$('.jr-container input:checkbox[id$="attachment"]').trigger('change');
 			}
 		});
 	
@@ -104,45 +76,33 @@
 			}
 			advanced_container.toggle();
 		});
-
-		// Toggle blocked images
-		$('body').on('click', '.blocked-images-toggle', function(e){
-			e.preventDefault();
-			var blocked_container = $(this).next();
-			
-			if ( blocked_container.is(':hidden') ) {
-				$(this).html('[ - Close ]');
-			} else {
-				$(this).html('[ + Open ]');
-			}
-			blocked_container.toggle();
-		});		
 		
 		// Remove blocked images with ajax
-		$('body').on('click', '.jr-container .blocked-images .blocked-column', function(e){
-			var li = $(this),
-				id = li.data('id'),
-				username  = li.closest('.jr-container').find('input[id$="username"]').val(),
-				counter   = li.closest('.jr-container').find('.blocked-count-nr'),
-				ajaxNonce = li.closest('.jr-container').find('input[name=unblock_images_nonce]').val();
-			
+		$('body').on('click', '.jr-container .jr-delete-instagram-dupes', function(e){
+			e.preventDefault();
+			var $this  = $(this),
+				username  = $(this).data("username"),
+				ajaxNonce = $(this).closest('.jr-container').find('input[name=delete_insta_dupes_nonce]').val();
+
 			$.ajax({
 				type: 'POST',
 				url: ajaxurl,
 				data: {
-					action: 'jr_unblock_images',
+					action: 'jr_delete_insta_dupes',
 					username : username,
-					id : id,
 					_ajax_nonce: ajaxNonce
 				},
-				success: function(data, textStatus, XMLHttpRequest) {
-					if ( data == 'success' ) {
-						li.fadeOut( "slow", function() {
-							$(this).remove();	
-							counter.html(parseInt(counter.html(), 10) - 1);
-						});
-					}
+				beforeSend: function () {
+					$this.prop('disabled', true);
+					$this.closest('.jr-container').find('.jr-spinner').addClass( 'spinner' ).css({'visibility':'visible','float':'none'});
 				},
+				success: function(data, textStatus, XMLHttpRequest) {
+					$this.closest('.jr-container').find('.deleted-dupes-info').text( 'Removed Duplicates: '+  data.deleted);
+				},
+				complete: function () {
+					$this.prop('disabled', false);
+					$this.closest('.jr-container').find('.jr-spinner').addClass( 'spinner' ).css({'visibility':'hidden','float':'none'});
+				},				
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					//console.log(XMLHttpRequest.responseText);
 				}

@@ -300,6 +300,9 @@ a.cancel-link:hover
 {
 	color: #1cb8ea;
 }
+.enrolment-container-div .bbm-modal span.fa-circle-o-notch {
+    float: right;
+}
 
 .bbm-modal form#student-settings label
 {
@@ -320,6 +323,53 @@ a.cancel-link:hover
 {
 	width: 70%;
 }
+
+.bbm-modal form#student-settings input[type=checkbox]
+{
+	width: auto;
+}
+
+.bbm-modal form#student-settings span#password-strength {
+	width: auto;
+    margin: 0;
+}
+
+#password-strength {
+	background-color: #eee;
+	border: 1px solid #ddd;
+	color: #23282d;
+	padding: 3px 5px;
+	text-align: center;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	opacity: 0;
+}
+
+#password-strength.short {
+	background-color: #f1adad;
+	border-color: #e35b5b;
+	opacity: 1;
+}
+
+#password-strength.bad {
+	background-color: #fbc5a9;
+	border-color: #f78b53;
+	opacity: 1;
+}
+
+#password-strength.good {
+	background-color: #ffe399;
+	border-color: #ffc733;
+	opacity: 1;
+}
+
+#password-strength.strong {
+	background-color: #c1e1b9;
+	border-color: #83c373;
+	opacity: 1;
+}
+
 
 button:hover,
 input[type="button"]:hover,
@@ -2866,7 +2916,6 @@ li.current_page_item a{
 
 .unit-archive-course-complete {
 	background-image: none;
-	color: #ffffff;
 	display: block;
 	font-size: 20px;
 	font-weight: normal;
@@ -3110,6 +3159,12 @@ LATEST COURSES WIDGET
     margin-top: 5px;
 }
 
+/**
+ * required label
+ */
+.cp .module-header .is-mandatory {
+	float: none;
+}
 
 /*
 RESPONSIVE
@@ -3253,12 +3308,23 @@ RESPONSIVE
 		width: 100% !important;
 	}
 
-
+	.video_player iframe,
+	.video_player,
+	.course-video {
+		height: 240px;
+	}
+	.course-video {
+		min-height: 240px;
+	}
 }
 
 @media screen and ( max-width: 750px ) {
-
-	.course-video{
+	.video_player iframe,
+	.video_player,
+	.course-video {
+		height: 380px;
+	}
+	.course-video {
 		width: 100%;
 	}
 	.entry-content-excerpt{
@@ -3295,8 +3361,6 @@ RESPONSIVE
 		padding-left: 3%
 	}
 
-
-
 	.post-type-archive-course article.type-course h1,
 	.post-type-archive-course article.type-course .entry-content p,
 	header{
@@ -3317,11 +3381,18 @@ RESPONSIVE
 	.right-content{
 		width: 100%;
 	}
-
 	.right-content img{
 		width: 100%;
+	}
+	.video_player iframe,
+	.video_player,
+	.course-video {
+		height: 240px;
+	}
+	.course-video {
+		min-height: 240px;
 	}
 }
 
 
-/* 133620-1486515961-au */
+/* 133620-1487198302-au */

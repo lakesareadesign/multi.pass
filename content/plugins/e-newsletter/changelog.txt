@@ -5,6 +5,10 @@ Lead developer: Maniu
 Contributors: Cole, Andrey
 
 == Changelog ==
+= 2.7.3.9 =
+* Fixed sorting issue on newsletter page
+* Fixed compatibility with Black Studio TinyMCE widget
+
 = 2.7.3.8 =
 * Improved compatibility with themes
 
@@ -490,4 +494,4 @@ Contributors: Cole, Andrey
 * Initial Release;
 
 
-133620-1483063241-au
+133620-1487198320-au

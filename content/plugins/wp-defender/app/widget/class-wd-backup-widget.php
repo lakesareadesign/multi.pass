@@ -5,7 +5,7 @@
  */
 class WD_Backup_Widget extends WD_Controller {
 	public function __construct() {
-		$this->add_ajax_action( 'wd_install_snapshot', 'install_snapshot' );	  	 	   	 		 		 				
+		$this->add_ajax_action( 'wd_install_snapshot', 'install_snapshot' );
 	}
 
 	public function install_snapshot() {

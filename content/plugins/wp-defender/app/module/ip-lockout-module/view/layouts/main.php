@@ -2,7 +2,7 @@
 	<div class="wpmud">
 		<div class="wp-defender" id="container">
 			<section id="header">
-				<h1 class="tl"><?php esc_html_e( "IP Lockout", wp_defender()->domain ) ?></h1>
+				<h1 class="tl"><?php esc_html_e( "IP Lockouts", wp_defender()->domain ) ?></h1>
 			</section>
 			<?php if ( isset( $errors ) && count( $errors ) ): ?>
 				<div class="well well-error well-medium intro">
@@ -29,7 +29,7 @@
 									<?php if ( $settings->login_protection == false && $settings->detect_404 == false ): ?>
 										&ndash;
 									<?php else: ?>
-										<?php echo count( \WP_Defender\IP_Lockout\Component\Login_Protection_Api::get_all_lockouts( 'midnight yesterday' ) ) ?>
+										<?php echo count( \WP_Defender\IP_Lockout\Component\Login_Protection_Api::get_all_lockouts( '-24 hours' ) ) ?>
 									<?php endif; ?>
 								</h1>
 								<p class="tl intro"><?php _e( "Lockouts in the past 24 hours", wp_defender()->domain ) ?></p>

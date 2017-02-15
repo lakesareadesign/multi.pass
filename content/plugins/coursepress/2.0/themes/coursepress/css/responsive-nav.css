@@ -126,9 +126,6 @@
         padding: 0 15px;
     }
 
-    .video_player iframe,
-    .video_player { height: 240px;}
-
     #mobile_menu:last-child,
     .mobile_menu:last-child{
         display: none !important;
@@ -159,4 +156,4 @@
 }
 
 
-/* 133620-1486515961-au */
+/* 133620-1487198302-au */

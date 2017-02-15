@@ -338,8 +338,10 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			wp_mail( $email, sprintf( esc_html__( "Here’s what’s been happening at %s", wp_defender()->domain ), network_site_url() ), $template, $headers );
 		}
 		//reqqueue
+		$today_midnight = WD_Audit_API::local_to_utc( 'today midnight' );
 		wp_clear_scheduled_hook( 'wd_audit_send_report' );
-		wp_schedule_single_event( strtotime( '+' . WD_Utils::get_setting( 'audit_log->report_email_frequent', 7 ) . ' days' ), 'wd_audit_send_report' );
+		wp_schedule_single_event( strtotime( '+' . WD_Utils::get_setting( 'audit_log->report_email_frequent', 7 ) . ' days', $today_midnight ), 'wd_audit_send_report' );
+		WD_Utils::update_setting( 'audit_log->next_report_time', strtotime( '+' . WD_Utils::get_setting( 'audit_log->report_email_frequent', 7 ) . ' days' ) );
 	}
 
 	public function sort_email_data( $a, $b ) {
@@ -355,19 +357,20 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			return;
 		}
 
-		$frequency = WD_Utils::http_post( 'frequency', null );
-		$next_send = null;
+		$frequency      = WD_Utils::http_post( 'frequency', null );
+		$next_send      = null;
+		$today_midnight = WD_Audit_API::local_to_utc( 'today midnight' );
 		if ( ! is_null( $frequency ) ) {
 			WD_Utils::update_setting( 'audit_log->report_email_frequent', $frequency );
 			WD_Utils::update_setting( 'audit_log->report_email', 1 );
 			wp_clear_scheduled_hook( 'wd_audit_send_report' );
-			$next_send = strtotime( '+' . $frequency . ' days', strtotime( 'today midnight' ) );
+			$next_send = strtotime( '+' . $frequency . ' days', $today_midnight );
 			wp_schedule_single_event( $next_send, 'wd_audit_send_report' );
 		} elseif ( WD_Utils::get_setting( 'audit_log->report_email' ) == 0 ) {
 			//this mean turn on
 			WD_Utils::update_setting( 'audit_log->report_email', 1 );
 			wp_clear_scheduled_hook( 'wd_audit_send_report' );
-			$next_send = strtotime( '+' . WD_Utils::get_setting( 'audit_log->report_email_frequent', 7 ) . ' days', strtotime( 'today midnight' ) );
+			$next_send = strtotime( '+' . WD_Utils::get_setting( 'audit_log->report_email_frequent', 7 ) . ' days', $today_midnight );
 			wp_schedule_single_event( $next_send, 'wd_audit_send_report' );
 		} else {
 			WD_Utils::update_setting( 'audit_log->report_email', 0 );
@@ -400,8 +403,18 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			$user     = get_user_by( 'id', $user_id );
 			$emails[] = $user->user_email;
 		}
+		$tz = get_option( 'timezone_string' );
+		if ( ! $tz ) {
+			$gmt_offset = get_option( 'gmt_offset' );
+			$tz         = WD_Audit_API::get_timezone_string( $gmt_offset );
+		}
+		$timezone = new DateTimeZone( $tz );
+		$date     = new DateTime( null, $timezone );
+		$date->setTimestamp( $next_send );
+		//var_dump( $date->format( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ) );
+		//var_dump( date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_send ) );
 		$html = sprintf( __( "Audit Logging has been enabled. Expect your next report on <strong>%s</strong> to <strong>%s</strong> %s", wp_defender()->domain ),
-			date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_send ),
+			$date->format( WD_Utils::get_date_time_format() ),
 			implode( ', ', $emails ), ' <a href="' . network_admin_url( 'admin.php?page=wdf-settings#email-recipients-frm' ) . '">' . esc_html__( "edit", wp_defender()->domain ) . '</a>' );
 
 		return $html;

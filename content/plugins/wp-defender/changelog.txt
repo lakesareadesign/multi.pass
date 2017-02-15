@@ -4,6 +4,15 @@ Tested up to: 4.6.1
 
 Change Log:
 
+1.1.6 - 2017-13-02
+----------------------------------------------------------------------
+- Fixed: Collapse Menu button shows bigger font and in all caps
+- Fixed: Missing strings in translation (.pot) file
+- Fixed: Audit logging reports not using correct timezone.
+- Fixed: DB prefix replacing all instances of “wp” if it's used multiple times (ie wp_mytable_wp_subtext)
+- Fixed: Auto ban users who log in with the “admin" username not working.
+- Some other minor enhancements/fixes
+
 1.1.5 - 2017-11-01
 ----------------------------------------------------------------------
 - Added: IP Lockouts. Defender can now protect your login area from brute force attacks, monitor 404 errors and automatically lockout any unwanted behavior. It can also permanently ban specific IP addresses and receive email notifications when lockouts occur.
@@ -110,4 +119,4 @@ Change Log:
 - First release
 
 
-133620-1484344676-au
+133620-1487198338-au

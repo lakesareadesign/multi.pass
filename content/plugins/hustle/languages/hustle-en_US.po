@@ -1124,11 +1124,11 @@ msgstr ""
 msgid "New Custom Content"
 msgstr ""
 
-#: inc/hustle-custom-content-admin.php:53, inc/hustle-dashboard-data.php:64, inc/opt-in-admin.php:433
+#: inc/hustle-custom-content-admin.php:53, inc/hustle-dashboard-data.php:74, inc/opt-in-admin.php:433
 msgid "POP UP"
 msgstr ""
 
-#: inc/hustle-custom-content-admin.php:54, inc/hustle-dashboard-data.php:65, inc/opt-in-admin.php:434
+#: inc/hustle-custom-content-admin.php:54, inc/hustle-dashboard-data.php:75, inc/opt-in-admin.php:434
 msgid "SLIDE IN"
 msgstr ""
 
@@ -1156,15 +1156,15 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: inc/hustle-dashboard-data.php:63, inc/opt-in-admin.php:432
+#: inc/hustle-dashboard-data.php:73, inc/opt-in-admin.php:432
 msgid "AFTER CONTENT"
 msgstr ""
 
-#: inc/hustle-dashboard-data.php:66, inc/opt-in-admin.php:435
+#: inc/hustle-dashboard-data.php:76, inc/opt-in-admin.php:435
 msgid "Shortcode"
 msgstr ""
 
-#: inc/hustle-dashboard-data.php:67, inc/opt-in-admin.php:436
+#: inc/hustle-dashboard-data.php:77, inc/opt-in-admin.php:436
 msgid "Widget"
 msgstr ""
 

@@ -705,8 +705,7 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     .wp-defender table tbody span.lockout-widget-stats {
       color: #555555;
       font-size: 20px;
-      font-weight: 500;
-      font-family: "Roboto Condensed"; }
+      font-weight: 500; }
   .wp-defender .wd-scan .no-scan h2 {
     font-size: 30pt;
     font-family: 'Roboto Condensed', 'Roboto', sans-serif; }
@@ -1481,6 +1480,13 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     background-position: 0 0; }
   to {
     background-position: 60px 0; } }
+.wpmud button#collapse-button {
+  text-transform: none;
+  font-family: inherit;
+  font-weight: normal;
+  font-size: inherit; }
+
+/*# sourceMappingURL=wp-defender.css.map */
 
 
-/* 133620-1484344676-au */
+/* 133620-1487198338-au */

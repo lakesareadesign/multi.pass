@@ -24,7 +24,8 @@ class WD_Vulndb_Scan extends WD_Scan_Abstract {
 
 		set_time_limit( 0 );
 		//init the message first
-		$this->model->message = esc_html__( "Checking for any published vulnerabilities your plugins & themes...", wp_defender()->domain );
+		$this->model->message        = esc_html__( "Checking for any published vulnerabilities your plugins & themes...", wp_defender()->domain );
+		$this->model->current_action = 'vuln';
 		$this->model->save();
 
 		$result = $this->scan();

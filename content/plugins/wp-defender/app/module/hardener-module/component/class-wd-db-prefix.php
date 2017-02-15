@@ -45,53 +45,53 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 
 	public function print_scripts() {
 		?>
-		<script type="text/javascript">
-			jQuery(function ($) {
-				$('#db_prefix_form').submit(function (e) {
-					var that = $(this);
-					var parent = $(this).closest('.wd-hardener-rule');
-					$.ajax({
-						type: 'POST',
-						url: ajaxurl,
-						data: that.serialize(),
-						beforeSend: function () {
-							that.find('button').attr('disabled', 'disabled');
-							that.find('button').css({
-								'cursor': 'progress'
-							});
-						},
-						success: function (data) {
-							that.find('button').removeAttr('disabled');
-							that.find('button').css({
-								'cursor': 'pointer'
-							});
+        <script type="text/javascript">
+            jQuery(function ($) {
+                $('#db_prefix_form').submit(function (e) {
+                    var that = $(this);
+                    var parent = $(this).closest('.wd-hardener-rule');
+                    $.ajax({
+                        type: 'POST',
+                        url: ajaxurl,
+                        data: that.serialize(),
+                        beforeSend: function () {
+                            that.find('button').attr('disabled', 'disabled');
+                            that.find('button').css({
+                                'cursor': 'progress'
+                            });
+                        },
+                        success: function (data) {
+                            that.find('button').removeAttr('disabled');
+                            that.find('button').css({
+                                'cursor': 'pointer'
+                            });
 
-							if (data.status == 0) {
-								$('#db_prefix .wd-error').html(data.error).removeClass('wd-hide');
-							} else {
-								$('#db_prefix .wd-error').html('').addClass('wd-hide');
-								that.closest('div').html(data.message);
-								//moving to the success queue
-								parent.hide(500, function () {
-									var div = parent.detach();
-									div.prependTo($('.wd-hardener-success'));
-									div.find('.rule-title').removeClass('issue').addClass('fixed').find('button').hide();
-									div.find('i.dashicons-flag').replaceWith($('<i class="wdv-icon wdv-icon-fw wdv-icon-ok"/>'));
-									div.find('.form-ignore').addClass('wd-hide');
-									div.show(500, function () {
-										/*	$('html, body').animate({
-										 scrollTop: div.find('.rule-title').offset().top
-										 }, 1000);*/
-									});
-								});
-								$('body').trigger('after_an_issue_resolved', -1);
-							}
-						}
-					})
-					return false;
-				})
-			})
-		</script>
+                            if (data.status == 0) {
+                                $('#db_prefix .wd-error').html(data.error).removeClass('wd-hide');
+                            } else {
+                                $('#db_prefix .wd-error').html('').addClass('wd-hide');
+                                that.closest('div').html(data.message);
+                                //moving to the success queue
+                                parent.hide(500, function () {
+                                    var div = parent.detach();
+                                    div.prependTo($('.wd-hardener-success'));
+                                    div.find('.rule-title').removeClass('issue').addClass('fixed').find('button').hide();
+                                    div.find('i.dashicons-flag').replaceWith($('<i class="wdv-icon wdv-icon-fw wdv-icon-ok"/>'));
+                                    div.find('.form-ignore').addClass('wd-hide');
+                                    div.show(500, function () {
+                                        /*	$('html, body').animate({
+                                         scrollTop: div.find('.rule-title').offset().top
+                                         }, 1000);*/
+                                    });
+                                });
+                                $('body').trigger('after_an_issue_resolved', -1);
+                            }
+                        }
+                    })
+                    return false;
+                })
+            })
+        </script>
 		<?php
 	}
 
@@ -242,8 +242,8 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 		$tables = $this->get_tables();
 
 		foreach ( $tables as $table ) {
-			$new_table_name = str_replace( $old_prefix, $prefix, $table );
-			$sql = "RENAME TABLE `{$table}` TO `{$new_table_name}`";
+			$new_table_name = substr_replace( $table, $prefix, 0, strlen( $old_prefix ) );
+			$sql            = "RENAME TABLE `{$table}` TO `{$new_table_name}`";
 			if ( $wpdb->query( $sql ) === false ) {
 				if ( $this->is_ajax() ) {
 					$this->output_error( 'alter_error', $wpdb->last_error );
@@ -339,22 +339,22 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 
 	public function display() {
 		?>
-		<div class="wd-hardener-rule">
+        <div class="wd-hardener-rule">
 			<?php echo $this->get_rule_title(); ?>
-			<div class="wd-clearfix"></div>
+            <div class="wd-clearfix"></div>
 
-			<div id="<?php echo $this->id ?>" class="wd-rule-content">
-				<h4 class="tl"><?php esc_html_e( "Overview", wp_defender()->domain ) ?></h4>
+            <div id="<?php echo $this->id ?>" class="wd-rule-content">
+                <h4 class="tl"><?php esc_html_e( "Overview", wp_defender()->domain ) ?></h4>
 
-				<p><?php esc_html_e( "When you first install WordPress on a new database, the default settings start with wp_ as the prefix to anything that gets stored in the tables. This makes it easier for hackers to perform SQL injection attacks if they find a code vulnerability. It’s good practice to come up with a unique prefix to protect yourself from this. Please backup your database before changing the prefix.", wp_defender()->domain ) ?></p>
+                <p><?php esc_html_e( "When you first install WordPress on a new database, the default settings start with wp_ as the prefix to anything that gets stored in the tables. This makes it easier for hackers to perform SQL injection attacks if they find a code vulnerability. It’s good practice to come up with a unique prefix to protect yourself from this. Please backup your database before changing the prefix.", wp_defender()->domain ) ?></p>
 
-				<h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
+                <h4 class="tl"><?php esc_html_e( "How To Fix", wp_defender()->domain ) ?></h4>
 
-				<div class="wd-error wd-hide">
+                <div class="wd-error wd-hide">
 
-				</div>
+                </div>
 
-				<div class="wd-well">
+                <div class="wd-well">
 					<?php if ( is_multisite() && get_blog_count() >= 100 ):
 						?>
 						<?php esc_html_e( "Unfortunately it's not safe to do this via a plugin for larger WordPress Multisite installs. You can ignore this step, or follow a tutorial online on how to use a scalable tool like WP-CLI.", wp_defender()->domain ) ?>
@@ -365,34 +365,34 @@ class WD_DB_Prefix extends WD_Hardener_Abstract {
 							global $wpdb;
 							printf( __( "Your prefix is <strong>%s</strong> and is unique." ), $wpdb->base_prefix ) ?>
 						<?php else: ?>
-							<p>
+                            <p>
 								<?php esc_html_e( "We recommend using a different prefix to protect your database. Ensure you backup your database before changing the prefix.", wp_defender()->domain ) ?>
-							</p>
+                            </p>
 
-							<form method="post" class="form-button-inline" id="db_prefix_form">
+                            <form method="post" class="form-button-inline" id="db_prefix_form">
 								<?php echo wp_nonce_field( 'change_db_prefix', '_wdnonce' ) ?>
-								<input type="hidden" name="action"
-								       value="<?php echo $this->generate_ajax_action( 'db_prefix_change' ) ?>">
+                                <input type="hidden" name="action"
+                                       value="<?php echo $this->generate_ajax_action( 'db_prefix_change' ) ?>">
 
-								<div class="group">
-									<div class="col span_10_of_12">
-										<input name="new_db_prefix" type="text"
-										       placeholder="<?php esc_attr_e( "New prefix", wp_defender()->domain ) ?>">
-									</div>
-									<div class="col span_2_of_12">
-										<button type="submit" class="button wd-button">
+                                <div class="group">
+                                    <div class="col span_10_of_12">
+                                        <input name="new_db_prefix" type="text"
+                                               placeholder="<?php esc_attr_e( "New prefix", wp_defender()->domain ) ?>">
+                                    </div>
+                                    <div class="col span_2_of_12">
+                                        <button type="submit" class="button wd-button">
 											<?php esc_html_e( "Update", wp_defender()->domain ) ?>
-										</button>
-									</div>
-								</div>
-								<div class="wd-clearfix"></div>
-							</form>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="wd-clearfix"></div>
+                            </form>
 						<?php endif; ?>
 					<?php endif; ?>
-				</div>
+                </div>
 				<?php echo $this->ignore_button() ?>
-			</div>
-		</div>
+            </div>
+        </div>
 		<?php
 	}
 

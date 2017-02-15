@@ -27,18 +27,28 @@ class Hustle_Dashboard_Data
     var $color = 0;
     var $types = array();
     var  $colors = array(
-        "#FFDB00",
-        "#00EAFF",
-        "#AA00FF",
-        "#FF7F00",
-        "#BFFF00",
-        "#0095FF",
-        "#FF00AA",
-        "#FFD400",
-        "#EDB9B9",
-        "#B9D7ED",
-        "#E7E9B9",
-        "#DCB9ED"
+		'#FF0000',
+		'#FFFF00',
+		'#00EAFF',
+		'#AA00FF',
+		'#FF7F00',
+		'#BFFF00',
+		'#0095FF',
+		'#FF00AA',
+		'#FFD400',
+		'#6AFF00',
+		'#0040FF',
+		'#EDB9B9',
+		'#B9D7ED',
+		'#E7E9B9',
+		'#DCB9ED',
+		'#B8EDE0',
+		'#8F2323',
+		'#2362BF',
+		'#8F6A23',
+		'#6B238F',
+		'#4F8F23',
+		'#000000',
     );
 
     var  $conversion_data;
@@ -67,6 +77,13 @@ class Hustle_Dashboard_Data
             'widget' => __("Widget", Opt_In::TEXT_DOMAIN)
         );
 
+		$active_optins = array();
+		$end_day = strtotime( 'now' );
+		$first_day = $end_day - ( MONTH_IN_SECONDS + DAY_IN_SECONDS );
+		$last_week = $end_day - WEEK_IN_SECONDS;
+		$first_month = date( 'Ymd', $first_day );
+		$last_month = date( 'Ymd', $end_day );
+		$most_conversions = array();
 
         foreach ( array_merge( $this->optins, $this->custom_contents ) as $key => $optin ) {
 
@@ -86,6 +103,9 @@ class Hustle_Dashboard_Data
                 continue;
             }
 
+			$daily_chart = array();
+			$has_today = false;
+			$has_firstday = false;
             foreach ( $types as $type_key => $type ) {
                 if( !$optin->has_type( $type_key ) ) continue; // make sure this module has the type
 
@@ -95,13 +115,11 @@ class Hustle_Dashboard_Data
                     $this->data_exists = true;
                 }
 
-
-
                 $conversion_array = $type_stats->conversion_data;
 
-                if( $this->color >= count( $this->colors ) ) $this->color = 0;
-
                 if( !isset( $this->optins_conversions[ $optin->optin_name ] ) ) {
+					$active_optins[ $optin->optin_name ] = $optin;
+
                     $this->optins_conversions[ $optin->optin_name ] = array(
                         'week' => 0,
                         'month' => 0,
@@ -109,113 +127,112 @@ class Hustle_Dashboard_Data
                         'total_views' => 0,
                         'rate' => 0.0,
                         'chart_data' => array(),
-                        'color' => $this->colors[$this->color++],
+                        'color' => '',
                         "module_type" => $optin->module_type
                     );
+
                 }
 
                 foreach ( $conversion_array as $item ) {
 
                     $conversion_data = json_decode( $item->meta_value );
+					$datetime = $conversion_data->date;
+					$month = date( 'Ymd', $datetime );
+					$day = date( 'Ymd', $datetime );
 
-                    // Check if this particular conversion log is from today
-                    if( date('Ymd') == date( 'Ymd', $conversion_data->date ) ) {
-                        $this->conversions_today++;
-                        // No need to do more date calculations, we know its from the current week and month too
-                        $this->optins_conversions[ $optin->optin_name ]['week']++;
-                        $this->optins_conversions[ $optin->optin_name ]['month']++;
-                    } else if( date("W") == date("W", $conversion_data->date ) ) {
-                        $this->optins_conversions[ $optin->optin_name ]['week']++;
-                    } else if( date("m") == date("m", $conversion_data->date ) ) {
+					if ( $month >= $first_month && $month <= $last_month ) {
 						$this->optins_conversions[ $optin->optin_name ]['month']++;
-                    }
 
-					// includes current month and the previous month
-                    if( date("m") == date("m", $conversion_data->date )
-						|| date("m",strtotime(date("m")."-1 month")) == date("m", $conversion_data->date )
-					) {
-                        $day_timestamp = floor( $conversion_data->date / 86400 ) * 86400; // to set all conversions of the same day in a single timestamp
-                        $day_timestamp *= 1000; // chartjs uses millisecond timestamp
-                        $key = false;
-                        for ($i = 0; $i < count($this->optins_conversions[$optin->optin_name]['chart_data']); $i++ ) {
-                            if( $this->optins_conversions[$optin->optin_name]['chart_data'][$i]['x'] == $day_timestamp ) {
-                                $key = $i;
-                                break;
-                            }
-                        }
-                        if( $key === false ) {
-                            array_push( $this->optins_conversions[ $optin->optin_name ]['chart_data'], array( 'x' => $day_timestamp, 'y' => 1 ) );
-                        } else {
-                            $this->optins_conversions[ $optin->optin_name ]['chart_data'][$key]['y']++;
-                        }
+						if ( $datetime >= $last_week ) {
+							$this->optins_conversions[ $optin->optin_name ]['week']++;
+						}
 
-                    }
+						$daily = date( 'Ymd', $datetime );
+						$offset = array( 'x' => $datetime * 1000, 'y' => 1 );
+
+						if ( isset( $daily_chart[ $daily ] ) ) {
+							$daily_chart[ $daily ]['y']++;
+						} else {
+							$daily_chart[ $daily ] = $offset;
+						}
+
+						if ( date( 'Ymd', $first_day ) == $day ) {
+							$has_firstday = true;
+						}
+
+						if ( $day == date( 'Ymd', $end_day ) ) {
+							$has_today = true;
+							$this->conversions_today++;
+						}
+					}
+
+					if ( ! isset( $most_conversions[ $optin->optin_name ] ) ) {
+						$most_conversions[ $optin->optin_name ] = 0;
+					}
+					$most_conversions[ $optin->optin_name ]++;
 
                     $this->optins_conversions[ $optin->optin_name ]['all']++;
 
                 }
 
-				$chart_data = $this->optins_conversions[ $optin->optin_name ]['chart_data'];
-				if ( count($chart_data) ) {
-					$new_chart_data = array();
-					$has_previous = false;
-					$has_today = false;
-					$today_timestamp = strtotime(date("Y-m-d")) * 1000;
-					$previous_month_timestamp = strtotime( date("Y-m-d") . " -1 month" ) * 1000;
-					foreach( $chart_data as $data ){
-						if ( $data["x"] == $today_timestamp ) {
-							$has_today = true;
-						}
-						if ( $data["x"] == $previous_month_timestamp ) {
-							$has_previous = true;
-						}
-					}
-					if ( !$has_today ) {
-						$dummy_today = array( "x" => $today_timestamp, "y" => 0 );
-						array_push($this->optins_conversions[ $optin->optin_name ]['chart_data'], $dummy_today );
-					}
-					if ( !$has_previous ) {
-						$dummy_previous = array( "x" => $previous_month_timestamp, "y" => 0 );
-						array_unshift($this->optins_conversions[ $optin->optin_name ]['chart_data'], $dummy_previous );
-					}
-				}
-
-
                 $this->optins_conversions[ $optin->optin_name ]['total_views'] += $type_stats->views_count;
 
             }
 
-            $this->optins_conversions[ $optin->optin_name ]['rate'] = $this->optins_conversions[ $optin->optin_name ]['total_views'] ? round( ( $this->optins_conversions[ $optin->optin_name ]['all'] / $this->optins_conversions[ $optin->optin_name ]['total_views'] ) * 100, 2 ) : 0;
+			$daily_chart = array_filter( array_values( $daily_chart ) );
+			// Set the beginning date if no beginning date found
+			if ( ! $has_firstday ) {
+				array_unshift( $daily_chart, array( 'x' => $first_day * 1000, 'y' => 0 ) );
+			}
 
+			$this->optins_conversions[ $optin->optin_name ]['chart_data'] = $daily_chart;
+
+            $this->optins_conversions[ $optin->optin_name ]['rate'] = $this->optins_conversions[ $optin->optin_name ]['total_views'] ? round( ( $this->optins_conversions[ $optin->optin_name ]['all'] / $this->optins_conversions[ $optin->optin_name ]['total_views'] ) * 100, 2 ) : 0;
         }
 
-        $best_optins = array();
-        $amount = 1;
-        do {
-            $most_conversions = -1; // setting this to -1 to include optins with no conversion
-			$most_views = -1;
-            $to_move = null;
-            foreach ($this->optins_conversions as $optin_name => $conversions) {
-                if ($conversions['all'] > $most_conversions) {
-                    $most_conversions = $conversions['all'];
-                    $to_move = $optin_name;
-                } elseif ( $conversions['all'] == $most_conversions ) {
-					// if same conversion value, let's battle this one with views
-					if ( $conversions['total_views'] > $most_views ) {
-						$most_views = $conversions['total_views'];
-						$to_move = $optin_name;
-					}
-				}
+		if ( ! empty( $most_conversions ) ) {
+			$values = array_values( $most_conversions );
+			$max = max( $values );
+			$this->most_converted_optin = array_search( $max, $most_conversions );
+		}
+		// Sort conversions per month
+		uasort( $this->optins_conversions, array( __CLASS__, 'uasort' ) );
+		$data = array_reverse( $this->optins_conversions );
 
-            }
-            if( $to_move != null ) {
-                $best_optins[ $to_move ] = $this->optins_conversions[ $to_move ];
-                unset($this->optins_conversions[ $to_move ]);
-                if( $this->most_converted_optin == '-' ) $this->most_converted_optin = $to_move;
-                $amount++;
-            }
-        }while( $amount <= 5 && $to_move != null );
+		$best_optins = array();
+		$amount = 1;
+		$this->color = (int) get_option( 'hustle_color_index', 0 );
 
-        $this->conversion_data = $best_optins;
+		foreach ( $data as $optin_name => $conversions ) {
+			if ( $amount > 5 ) continue;
+
+			if( $this->color >= count( $this->colors ) ) $this->color = 0;
+
+			$optin = $active_optins[ $optin_name ];
+			$color = $optin->get_meta( 'graph_color' );
+
+			if ( empty( $color ) ) {
+				$color = $this->colors[ $this->color ];
+				$optin->update_meta( 'graph_color', $color );
+				$this->color++;
+			}
+
+			$conversions['color'] = $color;
+			$best_optins[ $optin_name ] = $conversions;
+			$amount++;
+		}
+		// Update color index
+		update_option( 'hustle_color_index', $this->color );
+		$this->conversion_data = $best_optins;
     }
+
+	public static function uasort( $a, $b ) {
+		if ( $a['month'] == $b['month'] ) {
+			return 0;
+		} elseif ( $a['month'] > $b['month'] ) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
 }
