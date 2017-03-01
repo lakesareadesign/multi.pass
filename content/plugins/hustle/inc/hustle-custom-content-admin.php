@@ -18,6 +18,7 @@ class Hustle_Custom_Content_Admin extends Opt_In
         add_action( 'admin_head', array( $this, "hide_unwanted_submenus" ) );
         add_action("current_screen", array( $this, "set_proper_current_screen_for_new_page" ) );
         add_filter("hustle_optin_vars", array( $this, "register_current_json" ) );
+		add_action( 'admin_notices', array( $this, "show_legacy_popup_notice" ) );
     }
 
     function register_admin_menu(){
@@ -34,6 +35,23 @@ class Hustle_Custom_Content_Admin extends Opt_In
         remove_submenu_page( 'inc_optins', 'inc_hustle_custom_content&amp;id=-1' );
     }
 
+	/**
+     * Shows admin notice for CC migrated from Wordpress Popup
+     *
+     * @since 2.0.2
+     */
+	function show_legacy_popup_notice() {
+		$has_legacy_migrated = (bool) get_option( "hustle_popup_migrated", false );
+		$is_dismissed = (bool) get_option( "hustle_legacy_notice_dismissed", false );
+		if ( Opt_In_Utils::_is_free() && $has_legacy_migrated && !$is_dismissed && isset($_GET['page']) && $_GET['page'] == "inc_hustle_custom_content" ) {
+		?>
+		<div id="hustle-legacy-popup-notice" class="notice notice-success is-dismissible" data-nonce="<?php echo wp_create_nonce('inc_cc_legacy_popup_notice'); ?>">
+			<p><?php _e( 'Hustle features all-new animations and variations! To check out what’s new, start editing your pop-ups.', Opt_In::TEXT_DOMAIN ); ?></p>
+		</div>
+		<?php
+		}
+	}
+
     /**
      * Renders Hustle Custom Content page (listing)
      *
@@ -41,14 +59,24 @@ class Hustle_Custom_Content_Admin extends Opt_In
      */
     function render_custom_content(){
         if( isset( $_GET['id'] ) && ( "-1" === $_GET['id'] || 0 !== intval( $_GET['id'] ) ) ){
-            $this->render("admin/new-custom-content", array(
-
-            ));
+			$all_cc = Hustle_Custom_Content_Collection::instance()->get_all( null );
+			$total_cc = count($all_cc);
+			foreach($all_cc as $existing_cc) {
+				if ( $existing_cc->legacy ) $total_cc--;
+			}
+			if ( Opt_In_Utils::is_hustle_free( 'cc' ) && '-1' === $_GET['id'] && $total_cc >= 1 ) {
+				$this->render( 'admin/new-free-info', array(
+					'page_title' => __( 'Custom Content', Opt_In::TEXT_DOMAIN ),
+				));
+			} else {
+				$this->render("admin/new-custom-content", array());
+			}
         }else{
+
             $this->render("admin/custom-content", array(
                 'add_new_url' => admin_url("admin.php?page=inc_hustle_custom_content&id=-1"),
                 "custom_contents" => Hustle_Custom_Content_Collection::instance()->get_all( null ),
-                "legacy_popups" => self::$legacy_popups->get_all(),
+              //  "legacy_popups" => self::$legacy_popups->get_all(),
                 "types" => array(
                     'popup' => __('POP UP', Opt_In::TEXT_DOMAIN),
                     'slide_in' => __('SLIDE IN', Opt_In::TEXT_DOMAIN)
@@ -135,12 +163,18 @@ class Hustle_Custom_Content_Admin extends Opt_In
 
         if( $this->_is_edit()  ){
             $cc = Hustle_Custom_Content_Model::instance()->get( filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT) );
+			$all_cc = Hustle_Custom_Content_Collection::instance()->get_all( null );
+			$total_cc = count($all_cc);
+			foreach($all_cc as $existing_cc) {
+				if ( $existing_cc->legacy ) $total_cc--;
+			}
             $current_array['current'] = array(
                 "content" => $cc->get_data(),
                 "design" => $cc->get_design()->to_array(),
                 "popup" => $cc->get_popup()->to_array(),
                 "slide_in" => $cc->get_slide_in()->to_array(),
-                "magic_bar" => $cc->get_magic_bar()->to_array()
+                "magic_bar" => $cc->get_magic_bar()->to_array(),
+                "is_cc_limited" => (int) ( Opt_In_Utils::is_hustle_free( 'cc' ) && '-1' === $_GET['id'] && $total_cc >= 1 )
             );
         }
 

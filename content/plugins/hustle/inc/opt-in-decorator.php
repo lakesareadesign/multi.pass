@@ -40,15 +40,22 @@ class Opt_In_Decorator extends Opt_In
             'link_color' => '.wpoi-hustle .wpoi-message p a',
             'content_color' => '.wpoi-hustle .wpoi-message, .wpoi-hustle .wpoi-message p',
             'link_hover_color' => '.wpoi-hustle .wpoi-message p a:hover',
+            'link_active_color' => '.wpoi-hustle .wpoi-message p a:active, .wpoi-hustle .wpoi-message p a:focus',
             'form_background' => '.wpoi-hustle .wpoi-form',
             'fields_background' => '.wpoi-hustle form .wpoi-element',
+            'fields_hover_background' => '.wpoi-hustle form .wpoi-element:hover',
+            'fields_active_background' => '.wpoi-hustle form .wpoi-element:active, .wpoi-hustle form .wpoi-element:focus',
             'label_color' => '.wpoi-hustle form label, .wpoi-hustle form label span, .wpoi-hustle form wpoi-icon',
             'button_background' => '.wpoi-hustle form button',
             'button_label' => '.wpoi-hustle form button',
             'fields_color' => '.wpoi-hustle form > .wpoi-element input',
+            'fields_hover_color' => '.wpoi-hustle form > .wpoi-element input:hover',
+            'fields_active_color' => '.wpoi-hustle form > .wpoi-element input:active, .wpoi-hustle form > .wpoi-element input:focus',
             'error_color' => '.wpoi-hustle form .i-error, .wpoi-hustle form .i-error + span',
             'button_hover_background' => '.wpoi-hustle form button:hover',
+            'button_active_background' => '.wpoi-hustle form button:active, .wpoi-hustle form button:focus',
             'button_hover_label' => '.wpoi-hustle form button:hover',
+            'button_active_label' => '.wpoi-hustle form button:active, .wpoi-hustle form button:focus',
             'checkmark_color' => '.wpoi-hustle .wpoi-success-message .wpoi-icon',
             'success_color' => '.wpoi-hustle .wpoi-success-message .wpoi-content, .wpoi-hustle .wpoi-success-message .wpoi-content p',
             'close_color' => 'a.inc-opt-close-popup',
@@ -56,6 +63,7 @@ class Opt_In_Decorator extends Opt_In
             'overlay_background' => '.wpoi-popup-overlay',
             'close_hover_color' => 'a.inc-opt-close-popup:hover, a.inc-opt-close-popup:active, a.inc-opt-close-popup:focus',
             'nsa_hover_color' => '.wpoi-nsa > a:hover, .wpoi-nsa > a.inc_opt_never_see_again:hover',
+            'nsa_active_color' => '.wpoi-nsa > a:active, .wpoi-nsa > a.inc_opt_never_see_again:active, .wpoi-nsa > a:focus, .wpoi-nsa > a.inc_opt_never_see_again:focus',
             'radio_background' => '.wpoi-hustle form .wpoi-mcg-option input[type="radio"] + label:before',
             'radio_checked_background' => '.wpoi-hustle form .wpoi-mcg-option input[type="radio"] + label:after',
             'checkbox_background' => '.wpoi-hustle form .wpoi-mcg-option input[type="checkbox"] + label:before',
@@ -94,8 +102,6 @@ class Opt_In_Decorator extends Opt_In
         $success_tick_color = "#1FC5B6"; // hardcoding for now
         $styles .= ($prefix . ".wpoi-success-icon path { fill: $success_tick_color }" );
 
-//        $styles = str_replace("}", "} " . '.inc_optin_' . $this->_optin->id, $styles);
-
         // main container dropshadow
 		// check not needed for Optin
         // if( $this->_optin->design->borders->drop_shadow )
@@ -114,17 +120,16 @@ class Opt_In_Decorator extends Opt_In
             $styles .= ($prefix . $stylable_elements['fields_background'] . "{border-radius: 0px;}");
         }
 
-        $styles = str_replace(",", ", " . '.inc_optin_' . $this->_optin->id, $styles);
-//        $styles = $this->_str_replace_last( '.inc_optin_' . $this->_optin->id, " ", $styles );
-
+        $styles = preg_replace("/,[^0-9]/", ", " . '.inc_optin_' . $this->_optin->id, $styles);
 
         //Popup border radius
         if( $this->_optin->design->borders->rounded_corners )
             $styles .= ( " .wpmui-popup" . trim( $prefix )  . "{border-radius:" . $this->_optin->design->borders->corners_radius ."px;}"  );
 
         // Custom styles
-        $styles .= Opt_In::prepare_css($this->_optin->design->css, $prefix );
-
+		if ( (bool)$this->_optin->design->customize_css ) {
+			$styles .= Opt_In::prepare_css($this->_optin->design->css, $prefix );
+		}
 
         return $styles;
     }

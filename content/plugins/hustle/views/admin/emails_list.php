@@ -4,11 +4,11 @@
 
 		<div class="wpoi-complete-mask"></div>
 
-		<div class="wpoi-complete-wrap">
+		<div class="wpoi-complete-wrap row">
 
-			<div class="row">
+			<div class="col-xs-12">
 
-				<section class="dev-box content-box">
+				<section class="box">
 
 					<div class="box-title">
 
@@ -24,9 +24,9 @@
 
 							<div class="wpoi-emails-list-header">
 
-								<div class="wpoi-list-fname"><?php _e('First Name', Opt_In::TEXT_DOMAIN); ?></div>
+								<div class="wpoi-list-fname"><?php _e('First name', Opt_In::TEXT_DOMAIN); ?></div>
 
-								<div class="wpoi-list-lname"><?php _e('Last Name', Opt_In::TEXT_DOMAIN); ?></div>
+								<div class="wpoi-list-lname"><?php _e('Last name', Opt_In::TEXT_DOMAIN); ?></div>
 
 								<div class="wpoi-list-email"><?php _e('Email', Opt_In::TEXT_DOMAIN); ?></div>
 

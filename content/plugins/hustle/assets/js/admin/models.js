@@ -154,7 +154,11 @@ Optin.Models.Design_Model = Hustle.get("Models.M").extend({
         css: "",
         on_submit: "success_message", // success_message|page_redirect
         on_submit_page_id: "",
-        input_icons: "animated_icon" // possible values no_icon|none_animated_icon|animated_icon
+        input_icons: "animated_icon", // possible values no_icon|none_animated_icon|animated_icon,
+		on_success: 'remain',
+		on_success_time: 0,
+		on_success_unit: 's',
+		customize_css: false
     },
     initialize: function(data){
         _.extend( this, data );

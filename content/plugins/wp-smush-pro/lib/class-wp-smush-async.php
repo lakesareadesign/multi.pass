@@ -8,11 +8,11 @@
  *
  * @copyright (c) 2016, Incsub (http://incsub.com)
  */
-require_once 'wp-async-task.php';
+require_once 'wp-async-task-smush.php';
 
 if ( ! class_exists( 'WpSmushAsync' ) ) {
 
-	class WpSmushAsync extends WP_Async_Task {
+	class WpSmushAsync extends WP_Async_Task_Smush {
 
 		protected $argument_count = 2;
 		protected $priority = 12;
@@ -49,7 +49,6 @@ if ( ! class_exists( 'WpSmushAsync' ) ) {
 
 		/**
 		 * Run the async task action
-		 * @todo: Add a check for image
 		 * @todo: See if auto smush is enabled or not
 		 * @todo: Check if async is enabled or not
 		 */
@@ -67,7 +66,7 @@ if ( ! class_exists( 'WpSmushAsync' ) ) {
 
 	}
 
-	class WpSmushEditorAsync extends WP_Async_Task {
+	class WpSmushEditorAsync extends WP_Async_Task_Smush {
 
 		protected $argument_count = 2;
 		protected $priority = 12;
@@ -96,7 +95,7 @@ if ( ! class_exists( 'WpSmushAsync' ) ) {
 
 			//Store the image path
 			$data['filepath'] = !empty( $data[1] ) ? $data[1] : '';
-			$data['wp-action'] = !empty( $data['action'] ) ? $data['action'] : '';								 	 	   		   
+			$data['wp-action'] = !empty( $data['action'] ) ? $data['action'] : '';
 			unset( $data['action'], $data[1] );
 
 			return $data;

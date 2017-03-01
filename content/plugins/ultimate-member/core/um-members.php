@@ -170,10 +170,14 @@ class UM_Members {
 		}
 
 		$query_args['paged'] = $members_page;
+
+		if( ! um_user('can_view_all') && is_user_logged_in() ){
+			unset( $query_args );
+		}
 		
 		$users = new WP_User_Query( $query_args );
 		
-		$array['users'] = array_unique( $users->results );
+		$array['users'] = isset( $users->results ) && ! empty( $users->results ) ? array_unique( $users->results ) : array();
 
 		$array['total_users'] = (isset( $max_users ) && $max_users && $max_users <= $users->total_users ) ? $max_users : $users->total_users;
 

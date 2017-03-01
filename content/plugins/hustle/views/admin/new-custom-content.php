@@ -1,6 +1,6 @@
 <div class="hustle-two wph-custom-content">
 
-	<div id="container" class="wrap">
+	<div id="container" class="container-980">
 
 		<header id="header">
 
@@ -8,13 +8,13 @@
 
 		</header>
 
-		<section>
+		<section id="cc-wizard">
 
 			<div class="row">
 
-				<section class="col-full">
+				<section class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-					<div class="dev-box content-box">
+					<div class="box content-box">
 
 						<div class="box-title">
 
@@ -32,7 +32,7 @@
 
 						</div>
 
-					</div><!-- .dev-box -->
+					</div>
 
 				</section>
 

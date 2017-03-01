@@ -79,7 +79,7 @@ class Hustle_Dashboard_Data
 
 		$active_optins = array();
 		$end_day = strtotime( 'now' );
-		$first_day = $end_day - ( MONTH_IN_SECONDS + DAY_IN_SECONDS );
+		$first_day = strtotime( "-1 month" );
 		$last_week = $end_day - WEEK_IN_SECONDS;
 		$first_month = date( 'Ymd', $first_day );
 		$last_month = date( 'Ymd', $end_day );

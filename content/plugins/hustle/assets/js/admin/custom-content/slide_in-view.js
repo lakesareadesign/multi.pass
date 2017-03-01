@@ -23,11 +23,13 @@ Hustle.define("Custom_Content.Slide_In_View", function($, doc, win){
             }, this.model.toJSON() ) ) );
 
             this.$(".wph-trigger").html( this.display_triggers_view.$el );
-            this.$(".wph-conditions").replaceWith(  this.conditions_view.$el );
+			this.$(".wph-conditions").replaceWith(  this.conditions_view.$el );
+			if ( _.isFalse(this.model.enabled) ) this.$el.find("#wph-slide-in-condition-labels").hide();
             return this;
         },
         toggle_panel: function( model ){
-            this.$(".wph-flex.wph-flex--column.wph-flex--gray").toggleClass("open closed");
+            this.$(".switch-wrap").toggleClass("open closed");
+			this.$el.find("#wph-slide-in-condition-labels").toggle();
         },
         update_slide_in_position_label: function(e){
             this.$("#wpoi-slide_in-position-label").text( optin_vars.messages.positions[this.model.get('position')] );

@@ -168,10 +168,11 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 		$date_to   = date( 'Y-m-d', $date_to );
 
 		$logs = WD_Audit_API::get_logs( array(
-			'date_from' => $date_from,
-			'date_to'   => $date_to,
+			'date_from' => $date_from . ' 0:00:00',
+			'date_to'   => $date_to . ' 23:59:59',
 			//no paging
-			'paged'     => - 1
+			'paged'     => - 1,
+			//'no_group_item' => 1
 		) );
 
 		$data       = $logs['data'];
@@ -272,9 +273,9 @@ class WD_Audit_Logging_Controller extends WD_Controller {
                                     style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; hyphens: auto; line-height: 26px; margin: 0; padding: 10px 0 0; text-align: left; vertical-align: top; word-wrap: break-word;">
                                     <p style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; margin-bottom: 0; padding: 0 0 24px; text-align: left;">
                                         <a class="plugin-brand"
-                                           href="<?php echo network_admin_url( 'admin.php?page=wdf-logging' ) ?>"
-                                           style="Margin: 0; color: #ff5c28; display: inline-block; font: inherit; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">You
-                                            can fiew the full audit report for your site here. <img
+                                           href="<?php echo network_admin_url( 'admin.php?page=wdf-logging&date_from=' . date( 'm/d/Y', strtotime( $date_from ) ) . '&date_to=' . date( 'm/d/Y', strtotime( $date_to ) ) ) ?>"
+                                           style="Margin: 0; color: #ff5c28; display: inline-block; font: inherit; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;"><?php _e( "You can fiew the full audit report for your site here.", wp_defender()->domain ) ?>
+                                            <img
                                                     class="icon-arrow-right"
                                                     src="<?php echo wp_defender()->get_plugin_url() ?>assets/email-images/icon-arrow-right-defender.png"
                                                     alt="Arrow"
@@ -592,7 +593,9 @@ class WD_Audit_Logging_Controller extends WD_Controller {
 			}
 			wp_localize_script( 'wp-defender', 'audit_logging', $data );
 			wp_enqueue_script( 'wp-defender' );
-			wp_enqueue_script( 'jquery-ui-datepicker' );
+			wp_enqueue_script( 'momentjs', wp_defender()->get_plugin_url() . 'assets/moment/moment.min.js' );
+			wp_enqueue_script( 'daterangepicker', wp_defender()->get_plugin_url() . 'assets/bootstrap-daterangepicker/daterangepicker.js' );
+			wp_enqueue_style( 'daterangepicker', wp_defender()->get_plugin_url() . 'assets/bootstrap-daterangepicker/daterangepicker.css' );
 		}
 	}
 

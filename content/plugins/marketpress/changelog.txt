@@ -4,6 +4,13 @@ Author: Marko Miljus (Incsub), Aaron Edwards (Incsub), Hoang Ngo (Incsub), Jonat
 Change Log:
 ----------------------------------------------------------------------
 
+3.2.2
+----------------------------------------------------------------------
+
+- Fixed: PHP 7.1 Compatibility
+- Tweaked: Bulk edit sets price to 0
+- Tweaked: Global currency option missing in Store Network Settings
+
 3.2.1
 ----------------------------------------------------------------------
 
@@ -1006,4 +1013,4 @@ Adding notice for deprecated gateways Cubepoints, Bitpay, iDEAL, Skrill, Google 
 - Initial Release
 
 
-133620-1485823024-au
+133620-1488397664-au

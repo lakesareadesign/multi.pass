@@ -1,8 +1,8 @@
 <script id="wpoi-settings-display-triggers-tpl" type="text/template">
 
-	<div class="wph-triggers">
+	<div class="tabs">
 
-		<ul class="wph-triggers--tabs">
+		<ul class="tabs-header">
 
 			<li class="<# if( trigger === 'time' ){ #>current<# } #>">
 
@@ -54,11 +54,11 @@
 
 			</li>
 
-		</ul><!-- .wph-triggers--tabs -->
+		</ul><!-- .tabs-header -->
 
-		<div class="wph-triggers--content">
+		<div class="tabs-body">
 
-			<div id="wpoi-triggers-{{type}}-time" class="wph-triggers--option<# if( trigger === 'time' ){ #> current<# } #>">
+			<div id="wpoi-triggers-{{type}}-time" class="tabs-content<# if( trigger === 'time' ){ #> current<# } #>">
 
 				<div class="wph-label--radio">
 
@@ -88,7 +88,7 @@
 
 					<div class="wph-input--number">
 
-						<input type="number" min="0" max="" step="1" value="{{on_time_delay}}" data-attribute="on_time_delay">
+						<input type="number" min="0" step="1" value="{{on_time_delay}}" data-attribute="on_time_delay">
 
 					</div>
 
@@ -104,7 +104,7 @@
 
 			</div><!-- Time -->
 
-			<div id="wpoi-triggers-{{type}}-scroll" class="wph-triggers--option<# if( trigger === 'scrolled' || trigger === 'scroll' ){ #> current<# } #>">
+			<div id="wpoi-triggers-{{type}}-scroll" class="tabs-content<# if( trigger === 'scrolled' || trigger === 'scroll' ){ #> current<# } #>">
 
 				<div class="wph-label--mix">
 
@@ -146,7 +146,7 @@
 
 			</div><!-- Scroll -->
 
-			<div id="wpoi-triggers-{{type}}-click" class="wph-triggers--option<# if( trigger === 'click' ){ #> current<# } #>">
+			<div id="wpoi-triggers-{{type}}-click" class="tabs-content<# if( trigger === 'click' ){ #> current<# } #>">
 
 				<label for="wpoi-{{type}}-click-selector" class="wph-label--alt"><?php _e("Trigger after user clicks on existing element with this ID or Class", Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -154,7 +154,7 @@
 
 			</div><!-- Click -->
 
-			<div id="wpoi-triggers-{{type}}-exit_intent" class="wph-triggers--option<# if( trigger === 'exit_intent' ){ #> current<# } #>">
+			<div id="wpoi-triggers-{{type}}-exit_intent" class="tabs-content<# if( trigger === 'exit_intent' ){ #> current<# } #>">
 
 				<div class="wph-label--toggle">
 
@@ -184,11 +184,11 @@
 
 			</div><!-- Exit Intent -->
 
-			<div id="wpoi-triggers-{{type}}-adblock" class="wph-triggers--option {{_.class( trigger === 'adblock' , 'current' )}}">
+			<div id="wpoi-triggers-{{type}}-adblock" class="tabs-content {{_.class( trigger === 'adblock' , 'current' )}}">
 
 				<div class="wph-label--toggle">
 
-					<label for="wpoi-{{type}}-trigger-on-adblock" class="wph-label--alt"><?php _e("Trigger when AdBlock is detected", Opt_In::TEXT_DOMAIN); ?></label>
+					<label for="wpoi-{{type}}-trigger-on-adblock"><?php _e("Trigger when AdBlock is detected", Opt_In::TEXT_DOMAIN); ?></label>
 
 					<span class="toggle">
 
@@ -201,17 +201,29 @@
 
 				<div class="wph-label--radio wpoi-popup-trigger-on-adblock-option" style="display: <# if( _.isTrue( on_adblock )  ){ #>block<# }else{ #>none<# } #>">
 
-					<label for="wpoi-{{type}}-trigger-on-adblock-immediately" class="wph-label--alt"><?php _e("Trigger immediately", Opt_In::TEXT_DOMAIN); ?></label>
+					<label for="wpoi-{{type}}-trigger-on-adblock-immediately"><?php _e("Trigger immediately", Opt_In::TEXT_DOMAIN); ?></label>
 
-					<input type="radio" id="wpoi-{{type}}-trigger-on-adblock-immediately" value="false" name="wpoi-{{type}}-trigger-on-adblock-delayed" data-attribute="on_adblock_delayed" {{_.checked(on_adblock_delayed, false )}}>
+					<div class="wph-input--radio">
+
+						<input type="radio" id="wpoi-{{type}}-trigger-on-adblock-immediately" value="false" name="wpoi-{{type}}-trigger-on-adblock-delayed" data-attribute="on_adblock_delayed" {{_.checked(on_adblock_delayed, false )}}>
+
+						<label for="wpoi-{{type}}-trigger-on-adblock-immediately" class="wph-icon i-check"></label>
+
+					</div>
 
 				</div>
 
 				<div class="wph-label--mix wpoi-popup-trigger-on-adblock-option" style="display: <# if( _.isTrue( on_adblock )  ){ #>block<# }else{ #>none<# } #>">
 
-					<label for="wpoi-{{type}}-trigger-on-adblock-delayed" class="wph-label--alt"><?php _e("Trigger after", Opt_In::TEXT_DOMAIN); ?></label>
+					<label for="wpoi-{{type}}-trigger-on-adblock-delayed"><?php _e("Trigger after", Opt_In::TEXT_DOMAIN); ?></label>
 
-					<input type="radio" id="wpoi-{{type}}-trigger-on-adblock-delayed" value="true" name="wpoi-{{type}}-trigger-on-adblock-delayed" data-attribute="on_adblock_delayed" {{_.checked(on_adblock_delayed, true )}}>
+					<div class="wph-input--radio">
+
+						<input type="radio" id="wpoi-{{type}}-trigger-on-adblock-delayed" value="true" name="wpoi-{{type}}-trigger-on-adblock-delayed" data-attribute="on_adblock_delayed" {{_.checked(on_adblock_delayed, true )}}>
+
+						<label class="wph-icon i-check" for="wpoi-{{type}}-trigger-on-adblock-delayed"></label>
+
+					</div>
 
 					<div class="wph-input--number">
 
@@ -229,8 +241,8 @@
 
 			</div><!-- AdBlock Use -->
 
-		</div><!-- .wph-triggers--content -->
+		</div><!-- .tabs-body -->
 
-	</div><!-- .wph-triggers -->
+	</div><!-- .tabs -->
 
 </script>

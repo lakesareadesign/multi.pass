@@ -187,7 +187,7 @@ class Opt_In_Mad_Mimi extends Opt_In_Provider_Abstract implements  Opt_In_Provid
             ),
             "wrapper" => array(
                 "id" => "wpoi-get-lists",
-                "class" => "wpoi-get-lists",
+                "class" => "block-notification",
                 "type" => "wrapper",
                 "elements" => array(
                     "api_key" => array(

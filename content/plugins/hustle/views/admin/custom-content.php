@@ -1,10 +1,10 @@
 <div id="hustle-cc-listings" class="hustle-two">
 
-	<div id="container<?php if ( count( $custom_contents ) !== 0 ) : echo ' full'; endif; ?>" class="wrap">
+	<div id="container"<?php if ( count( $custom_contents ) !== 0 ) : echo ' class="container-980"'; endif; ?>>
 
-		<header id="header"<?php if ( ( $legacy_popups && false ) && ( count( $custom_contents ) === 0 ) ) : echo ' class="no-margin-btm"'; endif;?>>
+		<header id="header"<?php if ( ( count( $custom_contents ) === 0 ) ) : echo ' class="no-margin-btm"'; endif;?>>
 
-			<h1><?php _e('CUSTOM CONTENT', Opt_In::TEXT_DOMAIN); ?><a class="wph-button wph-button--small wph-button--gray wph-button--fleft mobile-hidden" href="<?php echo esc_url( $add_new_url ); ?>"><?php _e('New Custom Content', Opt_In::TEXT_DOMAIN); ?></a></h1>
+			<h1><?php _e('CUSTOM CONTENT', Opt_In::TEXT_DOMAIN); ?><a class="wph-button wph-button--small wph-button--gray wph-button--inline" href="<?php echo esc_url( $add_new_url ); ?>"><?php _e('New Custom Content', Opt_In::TEXT_DOMAIN); ?></a></h1>
 
 		</header>
 
@@ -14,7 +14,7 @@
 
 				<?php if ( count( $custom_contents ) === 0 ){ ?>
 
-					<div class="flex-row">
+					<div class="row">
 
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -28,7 +28,7 @@
 
 								<div class="box-content">
 
-									<div class="flex-row">
+									<div class="row">
 
 										<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
@@ -60,13 +60,13 @@
 
 				<?php } ?>
 
-				<?php if( $legacy_popups && false ): ?>
+				<?php /*if( $legacy_popups && false ): ?>
 
 					<h4><?php _e('Custom Content Modules', Opt_In::TEXT_DOMAIN); ?></h4>
 
-				<?php endif; ?>
+				<?php endif;*/ ?>
 
-				<div class="flex-row">
+				<div class="row">
 
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -83,7 +83,7 @@
 
 			</section>
 
-			<?php if( $legacy_popups && false ): ?>
+			<?php /*if( $legacy_popups && false ): ?>
 
 				<section id="wph-ccontent--migration">
 
@@ -93,7 +93,7 @@
 
 				</section>
 
-			<?php endif; ?>
+			<?php endif;*/ ?>
 
 		</section>
 

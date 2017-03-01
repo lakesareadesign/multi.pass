@@ -13,10 +13,6 @@ class Opt_In_Front_Ajax {
         // When optin form is submitted
         add_action("wp_ajax_inc_opt_submit_opt_in", array( $this, "submit_optin" ));
         add_action("wp_ajax_nopriv_inc_opt_submit_opt_in", array( $this, "submit_optin" ));
-
-
-
-
     }
 
 

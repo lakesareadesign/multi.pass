@@ -21,6 +21,7 @@ class Hustle_Custom_Content_Admin_Ajax
         add_action("wp_ajax_hustle_custom_content_toggle_type_activity", array( $this, "toggle_type_activity" ));
         add_action("wp_ajax_hustle_custom_content_toggle_test_activity", array( $this, "toggle_test_activity" ));
         add_action("wp_ajax_hustle_custom_content_delete", array( $this, "delete" ));
+        add_action("wp_ajax_hustle_custom_content_dismiss_legacy_notice", array( $this, "dismiss_legacy_notice" ));
         add_action("wp_ajax_hustle_CC_parse_content", array( $this, "parse_content" ));
     }
 
@@ -124,6 +125,12 @@ class Hustle_Custom_Content_Admin_Ajax
         else
             wp_send_json_error( __("Error deleting", Opt_In::TEXT_DOMAIN)  );
     }
+
+	function dismiss_legacy_notice() {
+		Opt_In_Utils::validate_ajax_call( "inc_cc_legacy_popup_notice" );
+		update_option("hustle_legacy_notice_dismissed", true);
+		wp_send_json_success();
+	}
 
     function parse_content(){
         $html = filter_input( INPUT_GET, 'html' );

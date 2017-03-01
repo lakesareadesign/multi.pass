@@ -1111,7 +1111,9 @@ class UM_Fields {
 		if ( ( $visibility == 'view' && $this->set_mode == 'register' ) || 
 			( isset( $data['editable'] ) && $data['editable'] == 0 && $this->set_mode == 'profile' ) ){
 				
-				$disabled = ' disabled="disabled" ';
+				if( ! current_user_can('manage_options') ){
+					$disabled = ' disabled="disabled" ';
+				}
 
 				if ( isset( $data['public'] ) && $data['public'] == '-2' && $data['roles'] ){
 					if ( in_array( $ultimatemember->query->get_role_by_userid( get_current_user_id() ), $data['roles'] ) ){
@@ -1792,7 +1794,10 @@ class UM_Fields {
 						$output .= $this->field_label($label, $key, $data);
 						}
 
-						$output .= '<div class="um-field-area">';
+						$output .= '<div class="um-field-area '.( isset(  $this->field_icons ) && $this->field_icons == 'field' ? 'um-field-area-has-icon':'' ).' ">';
+						if ( isset( $icon ) && $icon && isset( $this->field_icons ) && $this->field_icons == 'field' ) {
+							$output .= '<div class="um-field-icon"><i class="'.$icon.'"></i></div>';
+						}
 						
 						$has_parent_option = false;
 						$disabled_by_parent_option = '';
@@ -1946,10 +1951,16 @@ class UM_Fields {
 						$output .= $this->field_label($label, $key, $data);
 						}
 
+						$field_icon = false;
+						$field_icon_output = '';
+
 						$use_keyword = apply_filters('um_multiselect_option_value', 0, $data['type'] );
 
-						$output .= '<div class="um-field-area">';
-
+						$output .= '<div class="um-field-area '.( isset(  $this->field_icons ) && $this->field_icons == 'field' ? 'um-field-area-has-icon':'' ).' ">';
+						if ( isset( $icon ) && $icon && isset( $this->field_icons ) && $this->field_icons == 'field' ) {
+							$output .= '<div class="um-field-icon"><i class="'.$icon.'"></i></div>';
+						}
+						
 						$output .= '<select  '.$disabled.' multiple="multiple" name="'.$key.'[]" id="'.$key.'" data-maxsize="'. $max_selections . '" data-validate="'.$validate.'" data-key="'.$key.'" class="'.$this->get_class($key, $data, $class).' um-user-keyword_'.$use_keyword.'" style="width: 100%" data-placeholder="'.$placeholder.'">';
 
 						
@@ -2521,9 +2532,12 @@ class UM_Fields {
 			default:
 
 				$output .= '<div class="um-field' . $classes . '"' . $conditional . ' data-key="'.$key.'">';
+					
+						if ( isset( $data['label'] ) || isset( $data['icon'] ) && ! empty( $data['icon'] ) ) {
 
-						if ( isset( $data['label'] ) ) {
-							$output .= $this->field_label($label, $key, $data);
+							if( ! isset( $data['label'] ) ) $data['label'] = '';
+
+							$output .= $this->field_label( $data['label'], $key, $data);
 						}
 						
 						$res = $this->field_value( $key, $default, $data );
@@ -2580,7 +2594,7 @@ class UM_Fields {
 
 				$output .= '<div class="um-field' . $classes . '"' . $conditional . ' data-key="'.$key.'">';
 
-						if ( isset( $data['label'] ) ) {
+						if ( isset( $data['label'] ) || isset( $data['icon'] ) && ! empty( $data['icon'] ) ) {
 							$output .= $this->field_label($label, $key, $data);
 						}
 

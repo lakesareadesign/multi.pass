@@ -1,0 +1,81 @@
+/* ****************************************************************************
+ * COMPONENT: TABLES
+ */
+.wpmud {
+
+	.wds-table {
+	    border: 0;
+	    border-spacing: 0;
+	    border-collapse: collapse;
+	    width: 100%;
+	}
+
+	// Data Tables
+	.wds-data-table {
+		border: 1px solid #E5E5E5;
+	    border-collapse: collapse;
+	    border-spacing: 0;
+	    color: $color--grey;
+	    width: 100%;
+
+	    > thead {
+	    	border-bottom: 1px solid #E5E5E5;
+	    }
+
+	    > tfoot {
+	    	border-top: 1px solid #E5E5E5;
+	    }
+
+	    > thead th,
+	    > tfoot th {
+	    	font: 700 15px/20px $font--alt;
+	    	padding: $space--s $space--xs;
+			text-transform: uppercase;
+	    }
+
+	    > tbody td {
+			font-size: 13px;
+			line-height: 20px;
+			padding: $space--m $space--xs;
+			vertical-align: top;
+		}
+
+	    th,
+	    td {
+	    	text-align: left;
+	    }
+
+	    .label {
+	    	width: 75%;
+	    }
+
+	    .result {
+	    	width: 25%;
+	    }
+
+	    .data-small {
+	    	padding: $space--xs;
+	    }
+
+	    // Inverted table
+	    &-inverse {
+	    	.label {
+	    		width: 25%;
+	    	}
+	    	.result {
+	    		width: 75%;
+	    	}
+
+	    	// Large inverted table
+	    	&-large {
+	    		.label {
+		    		width: 40%;
+		    	}
+		    	.result {
+		    		width: 60%;
+		    	}
+	    	}
+	    }
+	}
+
+}

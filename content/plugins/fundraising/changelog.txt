@@ -5,6 +5,10 @@ Contributors: Cole Stevenson, Jose Jaureguiberry
 
 == Changelog ==
 
+= 2.6.4.7 =
+Fixed BuddyPress compatibility issues
+Fixed manual payment country field issues
+
 = 2.6.4.6 =
 Removed PHP 4 constructor
 
@@ -283,4 +287,4 @@ New custom template structure for your theme
 Addition of several action and filter hooks for external plugins or theme function files.
 
 
-133620-1478823531-au
+133620-1488397652-au

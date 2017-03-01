@@ -1,24 +1,24 @@
 <script id="wpoi-wizard-design_structure_template" type="text/template">
 
-    <div class="wph-flex--side wph-flex--title">
+	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-        <h5><?php _e('Structure', Opt_In::TEXT_DOMAIN); ?></h5>
+		<h5><?php _e('Structure', Opt_In::TEXT_DOMAIN); ?></h5>
 
-    </div>
+	</div>
 
-    <div class="wph-flex--box">
+	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-        <label class="wph-label--alt wph-label--border"><?php _e('Select form layout that is most suited for your opt-in', Opt_In::TEXT_DOMAIN); ?></label>
+        <label class="wph-label--border"><?php _e('Select form layout that is most suited for your opt-in', Opt_In::TEXT_DOMAIN); ?></label>
 
-        <div id="optin_form_location" class="wph-margin--40b">
+        <div id="optin_form_location">
 
-            <div class="wpoi-wrapper wpoi-form-design-wrap">
+            <div class="wpoi-form-design-wrap">
 
                 <div class="wpoi-form-design">
 
                     <label for="wpoi-form_location_one" class="wpoi-form-design-one"></label>
 
-                    <div class="wph-input--radio_block">
+                    <div class="wph-input--radio">
 
                         <input type="radio" id="wpoi-form_location_one" name="location" value="0" data-attribute="form_location" {{_.checked(form_location, "0")}}>
 
@@ -32,7 +32,7 @@
 
                     <label for="wpoi-form_location_two" class="wpoi-form-design-two"></label>
 
-                    <div class="wph-input--radio_block">
+                    <div class="wph-input--radio">
 
                         <input type="radio" id="wpoi-form_location_two" name="location" value="1" {{_.checked(form_location, "1")}} data-attribute="form_location" >
 
@@ -46,7 +46,7 @@
 
                     <label for="wpoi-form_location_three" class="wpoi-form-design-three"></label>
 
-                    <div class="wph-input--radio_block">
+                    <div class="wph-input--radio">
 
                         <input type="radio" id="wpoi-form_location_three" name="location" value="2" {{_.checked(form_location, "2")}} data-attribute="form_location" >
 
@@ -60,7 +60,7 @@
 
                     <label for="wpoi-form_location_four" class="wpoi-form-design-four"></label>
 
-                    <div class="wph-input--radio_block">
+                    <div class="wph-input--radio">
 
                         <input type="radio" id="wpoi-form_location_four" name="location" value="3" {{_.checked(form_location, "3")}} data-attribute="form_location" >
 
@@ -74,17 +74,15 @@
 
         </div><!-- Optin Form Location -->
 
-        <label class="wph-label--alt wph-label--border"><?php _e('Choose image location', Opt_In::TEXT_DOMAIN); ?></label>
+        <label class="wph-label--border"><?php _e('Choose image location', Opt_In::TEXT_DOMAIN); ?></label>
 
-        <div id="optin_image_location" class="wph-margin--40b">
+        <div id="optin_image_location">
 
-            <div class="wph-flex--box">
+            <div class="tabs">
 
-                <div class="wph-triggers">
+                <ul class="tabs-header">
 
-                    <ul class="wph-triggers--tabs wph-triggers--nomargin">
-
-                        <li {{_.add_class(image_location ==  "left", "current")  }}>
+                    <li {{_.add_class(image_location ==  "left", "current")  }}>
 
                         <label for="optin-image-location-left">
 
@@ -94,9 +92,9 @@
 
                         </label>
 
-                        </li>
+                    </li>
 
-                        <li {{_.add_class(image_location ==  "right", "current")  }}>
+                    <li {{_.add_class(image_location ==  "right", "current")  }}>
 
                         <label for="optin-image-location-right">
 
@@ -106,85 +104,75 @@
 
                         </label>
 
-                        </li>
+                    </li>
 
-                        <# if( form_location == 0 ){ #>
+                    <# if( form_location == 0 ){ #>
 
-                            <li {{_.add_class(image_location ==  "above", "current")  }}>
+                        <li {{_.add_class(image_location ==  "above", "current")  }}>
 
                             <label for="optin-image-location-above">
 
-                                <?php _e( "Above Content", Opt_In::TEXT_DOMAIN ); ?>
+                                <?php _e( "Above content", Opt_In::TEXT_DOMAIN ); ?>
 
                                 <input type="radio" id="optin-image-location-above" name="optin-image-location" data-attribute="image_location" value="above" {{_.checked(image_location, "above")}} >
 
                             </label>
 
-                            </li>
+                        </li>
 
-                            <# } #>
+                    <# } #>
 
-                                <# if( form_location == 0 ){ #>
+                    <# if( form_location == 0 ){ #>
 
-                                    <li {{_.add_class(image_location ==  "below", "current")  }}>
+                    	<li {{_.add_class(image_location ==  "below", "current")  }}>
 
-                                    <label for="optin-image-location-bellow">
+                    		<label for="optin-image-location-bellow">
 
-                                        <?php _e( "Below Content", Opt_In::TEXT_DOMAIN ); ?>
+                    			<?php _e( "Below content", Opt_In::TEXT_DOMAIN ); ?>
 
-                                        <input class="<# if( form_location == 1 || form_location == 2 || form_location == 3){ #>wpoi-hidden<# } #>" type="radio" name="optin-image-location" data-attribute="image_location" id="optin-image-location-bellow" value="below" {{_.checked(image_location, "below")}}>
+                    			<input class="<# if( form_location == 1 || form_location == 2 || form_location == 3){ #>wpoi-hidden<# } #>" type="radio" name="optin-image-location" data-attribute="image_location" id="optin-image-location-bellow" value="below" {{_.checked(image_location, "below")}}>
 
-                                    </label>
+                    		</label>
 
-                                    </li>
+                    	</li>
 
-                                    <# } #>
+                    <# } #>
 
-                    </ul>
-
-                </div>
+                </ul>
 
             </div>
 
         </div><!-- Optin Image Location -->
 
-        <label class="wph-label--alt wph-label--border"><?php _e('Additional information fields', Opt_In::TEXT_DOMAIN); ?></label>
+        <label class="wph-label--border"><?php _e('Additional information fields', Opt_In::TEXT_DOMAIN); ?></label>
 
-        <div id="optin_optional_elements" class="wph-flex wph-flex--row wph-margin--20b">
+        <div id="optin_optional_elements">
 
-            <div class="wph-flex--box">
+            <div id="wph-optin--fname">
 
-                <div class="wph-label--checkbox inline">
+                <div class="wph-input--checkbox">
 
-                    <label for="optin_fname"><?php _e( "First Name Field", Opt_In::TEXT_DOMAIN ); ?></label>
+                    <input type="checkbox" id="optin_fname" name="first_name" value="first_name" {{ _.checked( _.contains(elements, 'first_name'), true )  }}>
 
-                    <div class="wph-input--checkbox">
-
-                        <input type="checkbox" id="optin_fname" name="first_name" value="first_name" {{ _.checked( _.contains(elements, 'first_name'), true )  }}>
-
-                        <label for="optin_fname" class="wph-icon i-check"></label>
-
-                    </div>
+                    <label for="optin_fname" class="wph-icon i-check"></label>
 
                 </div>
+
+                <label for="optin_fname"><?php _e( "First Name Field", Opt_In::TEXT_DOMAIN ); ?></label>
 
             </div>
 
-            <div class="wph-flex--box">
+            <div id="wph-optin--lname">
 
-                <div class="wph-label--checkbox inline">
+                <div class="wph-input--checkbox">
 
-                    <label for="optin_lname"><?php _e( "Last Name Field", Opt_In::TEXT_DOMAIN ); ?></label>
+                    <input type="checkbox" id="optin_lname" name="last_name" value="last_name" {{ _.checked( _.contains(elements, 'last_name'), true )  }} >
 
-                    <div class="wph-input--checkbox">
-
-                        <input type="checkbox" id="optin_lname" name="last_name" value="last_name" {{ _.checked( _.contains(elements, 'last_name'), true )  }} >
-
-                        <label for="optin_lname" class="wph-icon i-check"></label>
-
-                    </div>
+                    <label for="optin_lname" class="wph-icon i-check"></label>
 
                 </div>
+
+                <label for="optin_lname"><?php _e( "Last Name Field", Opt_In::TEXT_DOMAIN ); ?></label>
 
             </div>
 

@@ -79,7 +79,10 @@ class WD_Controller extends WD_Component {
 			return;
 		}
 
-		$flashes         = get_user_meta( get_current_user_id(), 'wd_flash_data', true );
+		$flashes = get_user_meta( get_current_user_id(), 'wd_flash_data', true );
+		if ( ! is_array( $flashes ) ) {
+			$flashes = array();
+		}
 		$flashes[ $key ] = $flash;
 		update_user_meta( get_current_user_id(), 'wd_flash_data', $flashes );
 	}

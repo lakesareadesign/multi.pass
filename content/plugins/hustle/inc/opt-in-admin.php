@@ -167,7 +167,7 @@ class Opt_In_Admin{
               'error' => __("Error", Opt_In::TEXT_DOMAIN),
               'ok' => __("Ok", Opt_In::TEXT_DOMAIN),
               'sure_to_delete' => __("Are you sure you want to delete this optin?", Opt_In::TEXT_DOMAIN ),
-              'something_went_wrong' => __("Something went wrong. Please try again.", Opt_In::TEXT_DOMAIN ),
+              'something_went_wrong' => '<label class="wph-label--notice"><span>' . __("Something went wrong. Please try again.", Opt_In::TEXT_DOMAIN ) . '</span></label>',
               'positions' => array(
                   'top_left' => __("Top Left", Opt_In::TEXT_DOMAIN ),
                   'top_center' => __("Top Center", Opt_In::TEXT_DOMAIN ),
@@ -259,7 +259,7 @@ class Opt_In_Admin{
                 'model' => array(
                     "defaults" => array(
                         "optin_name" => '',
-                        "optin_title" => __("Subscribe to our Newsletter", Opt_In::TEXT_DOMAIN),
+                        "optin_title" => __("eg. Get 50% Early-bird Special", Opt_In::TEXT_DOMAIN),
                         "optin_message" => __("Please fill in the form and submit to subscribe", Opt_In::TEXT_DOMAIN),
                         "success_message" => __("Congratulations! You have been subscribed to {name}", Opt_In::TEXT_DOMAIN)
                     ),
@@ -339,6 +339,9 @@ class Opt_In_Admin{
 
         $optin_vars['is_free'] = (int) Opt_In::is_free();
 
+		$total_optins = count(Opt_In_Collection::instance()->get_all_optins( null ));
+		$optin_vars['is_limited'] = (int) ( Opt_In_Utils::_is_free( 'opt-ins' ) && ! $this->_is_edit() && $total_optins >= 1 );
+
         if(isset( $_GET['page'] ) && $_GET['page'] != 'inc_optins') wp_enqueue_script( 'wp-color-picker-alpha', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/vendor/wp-color-picker-alpha.min.js', array( 'wp-color-picker' ), '1.2.2', true );
         wp_register_script( 'optin_admin_scripts', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/admin.min.js', array( 'jquery', 'backbone', 'jquery-effects-core' ), $this->_hustle->get_const_var( "VERSION" ), true );
         wp_localize_script( 'optin_admin_scripts', 'optin_vars', $optin_vars );
@@ -402,18 +405,24 @@ class Opt_In_Admin{
         if( !$this->has_optin( ) ) $optin_id = filter_input( INPUT_GET, "optin", FILTER_VALIDATE_INT );
 
         $provider = filter_input( INPUT_GET, "provider" );
+		$total_optins = count(Opt_In_Collection::instance()->get_all_optins( null ));
 
-        $this->_hustle->render( "/admin/wpoi-wizard", array(
-            "is_edit" => $this->_is_edit(),
-            "optin" => $optin_id ? Opt_In_Model::instance()->get( $optin_id ) : $optin_id,
-            "providers" => $this->_hustle->get_providers(),
-            "animations" => $this->_hustle->get_animations(),
-            'countries' => $this->_hustle->get_countries(),
-            'widgets_page_url' => get_admin_url(null, "widgets.php"),
-            'selected_provider' => $provider,
-            "save_nonce" => wp_create_nonce("hustle_save_optin")
-        ));
-
+		if ( Opt_In_Utils::_is_free( 'opt-ins' ) && ! $this->_is_edit() && $total_optins >= 1 ) {
+			$this->_hustle->render( 'admin/new-free-info', array(
+				'page_title' => __( 'Opt-ins', Opt_In::TEXT_DOMAIN ),
+			));
+		} else {
+			$this->_hustle->render( "/admin/wpoi-wizard", array(
+				"is_edit" => $this->_is_edit(),
+				"optin" => $optin_id ? Opt_In_Model::instance()->get( $optin_id ) : $optin_id,
+				"providers" => $this->_hustle->get_providers(),
+				"animations" => $this->_hustle->get_animations(),
+				'countries' => $this->_hustle->get_countries(),
+				'widgets_page_url' => get_admin_url(null, "widgets.php"),
+				'selected_provider' => $provider,
+				"save_nonce" => wp_create_nonce("hustle_save_optin")
+			));
+		}
     }
 
     /**

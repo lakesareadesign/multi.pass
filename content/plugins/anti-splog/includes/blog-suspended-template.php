@@ -44,7 +44,7 @@ if ( isset( $_POST['wp-submit'] ) && ! get_option( 'ust_email_sent' ) ) {
 		$review_url      = $ust_admin_url . "&tab=splogs&bid=$blog_id";
 		$message_headers = "MIME-Version: 1.0\n" . "From: $user_email\n" . "Content-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 		$subject         = sprintf( __( 'Splog Review Request: %s', 'ust' ), get_bloginfo( 'url' ) );
-		$message         = sprintf( __( "Someone is disputing the spam status for the blog %s (%s).\nHere is their reason:\n_______________________\n\n%s\n\n_______________________\n", 'ust' ), get_bloginfo( 'name' ), get_bloginfo( 'url' ), $reason );	     	 	  		 		  
+		$message         = sprintf( __( "Someone is disputing the spam status for the blog %s (%s).\nHere is their reason:\n_______________________\n\n%s\n\n_______________________\n", 'ust' ), get_bloginfo( 'name' ), get_bloginfo( 'url' ), $reason );
 		$message .= sprintf( __( "Review: %s\n", 'ust' ), $review_url );
 		wp_mail( $admin_email, $subject, $message, $message_headers );
 

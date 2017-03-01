@@ -6,13 +6,13 @@ Description: Events gives you a flexible WordPress-based system for organizing p
 Author: WPMU DEV
 Text Domain: eab
 WDP ID: 249
-Version: 1.9.4
+Version: 1.9.5
 Author URI: http://premium.wpmudev.org
 */
 
  /*
-Authors - S H Mohanjith (Incsub), Ve Bailovity (Incsub), Ignacio (Incsub)
-Contributors - Ashok Kumar Nath (WPMU DEV), Hoang Ngo (WPMU DEV), Hakan Evin
+Authors - S H Mohanjith (Incsub), Ve Bailovity (Incsub), Ignacio (Incsub), Ashok Kumar Nath (WPMU DEV)
+Contributors - Hoang Ngo (WPMU DEV), Hakan Evin
  */
 
 /**
@@ -30,7 +30,7 @@ class Eab_EventsHub {
 	 * @TODO Update version number for new releases
      * @var	string
      */
-    const CURRENT_VERSION = '1.9.4';
+    const CURRENT_VERSION = '1.9.5';
 
     /**
      * Translation domain
@@ -332,14 +332,14 @@ class Eab_EventsHub {
                 foreach( $translations as $key => $val )
                 {
                         $wpdb->query(
-                                $wpdb->prepare("INSERT INTO ".self::tablename(self::BOOKING_TABLE)." VALUES(null, %d, %d, NOW(), 'yes') ON DUPLICATE KEY UPDATE `status` = '" . $status . "';", $val->element_id, $user_id)
+                                $wpdb->prepare("INSERT INTO ".self::tablename(self::BOOKING_TABLE)." VALUES(null, %d, %d, NOW(), '$status') ON DUPLICATE KEY UPDATE `status` = '" . $status . "';", $val->element_id, $user_id)
                         );
                 }
         }
         else
         {
                 $wpdb->query(
-                        $wpdb->prepare("INSERT INTO ".self::tablename(self::BOOKING_TABLE)." VALUES(null, %d, %d, NOW(), 'yes') ON DUPLICATE KEY UPDATE `status` = '" . $status . "';", $event_id, $user_id)
+                        $wpdb->prepare("INSERT INTO ".self::tablename(self::BOOKING_TABLE)." VALUES(null, %d, %d, NOW(), '$status') ON DUPLICATE KEY UPDATE `status` = '" . $status . "';", $event_id, $user_id)
                 );
         }
     }

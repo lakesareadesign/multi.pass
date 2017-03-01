@@ -261,7 +261,11 @@ class Hustle_Custom_Content_Model extends Hustle_Model
         if( !empty( $_conditions ) ){
             foreach( $_conditions as $condition_key => $args ){
                 $conditions[$condition_key] = Hustle_Condition_Factory::build( $condition_key, $args );
-                $conditions[$condition_key]->set_type( $type );
+
+				if ( is_object( $conditions[ $condition_key ] ) && method_exists( $conditions[ $condition_key ], 'set_type' ) ) {
+					$conditions[$condition_key]->set_type( $type );
+				}
+
             }
         }
 

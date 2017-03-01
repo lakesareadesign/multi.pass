@@ -3,7 +3,36 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 
 Change Log:
 ----------------------------------------------------------------------
+
+2.0.2 - 2017-03-01
+----------------------------------------------------------------------
+- Add: ActiveCampaign provider.
+- Add: Opt-in success message control options.
+- Add: Custom Content name checker.
+- Improved Display Settings for all modules, hide condition labels if not enabled.
+- Improved Dashboard responsive styles.
+- Improved Dashboard Modules Overview Widget responsive styles.
+- Improved Dashboard Welcome Back Widget responsive styles
+- Improved Dashboard Stats Widget responsive styles
+
+- Fix: Default overlay background not transparent on opt-in modules.
+- Fix: The lines overlap chart on dashboard page.
+- Fix: Border picking up the hover property from links. 
+- Fix: No Way to Change Featured Image  
+- Fix: Typo in Custom Content Display Setting panel
+- Fix: Typo in Opt In Editor in test mode
+- Fix: Initial welcome message should only be displayed once in dashboard page.
+- Fix: Close button not working on New Welcome Dashboard
+- Fix: Custom content popup triggers, the input number isn't working for "Time" trigger.
+- Fix: Opt-in Wizard Custom CSS, styles are being applied regardless of toggle button status.
+- Fix: Opt-in overlay mask background color doesn't applies correctly.
+- Fix: Opt-in, prevent closing button from showing if opt-in displays "after content" or as "widget" or as "shortcode".
+- Fix: Opt-ins successful message does not show if set to Auto Close.
+- Fix: Opt-in some custom colors are not working.
+- Fix: Opt-in, on wizard the wysiwyg editor is overlapping other options.
+
 2.0.1 - 2017-02-08
+----------------------------------------------------------------------
 - Add: Consistent color assignment for modules in top 5 conversion graph.
 - Changed: Top 5 conversion table is now sorted by conversions in the last 30 days.
 
@@ -91,4 +120,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1487198324-au
+133620-1488397654-au

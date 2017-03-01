@@ -14,6 +14,7 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 
 	protected $tokens;
 	protected $tokens_is_php = array();
+	protected static $signatures = array();
 
 	public function init() {
 		$this->name               = esc_html__( "Suspicious file scan", wp_defender()->domain );
@@ -71,18 +72,24 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 	 * @return mixed
 	 */
 	private function get_patterns( $key ) {
+		//lookup cache internal first
+		if ( isset( self::$signatures[ $key ] ) && ! empty( self::$signatures[ $key ] ) ) {
+			return self::$signatures[ $key ];
+		}
+
 		$cache = WD_Utils::get_cache( self::CACHE_SIGNATURES, false );
-		if ( $cache !== false && ! is_wp_error( $cache ) ) {
+		if ( $cache != false && ! is_wp_error( $cache ) ) {
 			$defender_signatures = $cache;
 		} else {
 			$api_endpoint        = "https://premium.wpmudev.org/api/defender/v1/signatures";
 			$defender_signatures = $this->wpmudev_call( $api_endpoint, array(), array(
 				'method' => 'GET'
 			) );
-			WD_Utils::cache( self::CACHE_SIGNATURES, $defender_signatures, 900 );
 		}
 
 		if ( ! is_wp_error( $defender_signatures ) ) {
+			WD_Utils::cache( self::CACHE_SIGNATURES, $defender_signatures, 900, 'serialize', true );
+			self::$signatures = $defender_signatures;
 			//cache
 			if ( isset( $defender_signatures[ $key ] ) ) {
 				return $defender_signatures[ $key ];
@@ -145,6 +152,9 @@ class WD_Suspicious_Scan extends WD_Scan_Abstract {
 		$tmp_checksum = WD_Utils::get_cache( WD_Scan_Api::CACHE_TMP_MD5, array() );
 		foreach ( $files as $file ) {
 			if ( ! is_file( $file ) ) {
+				$this->file_scanned[] = $file;
+
+				$this->model->current_index += 1;
 				continue;
 			}
 			if ( $this->cpu_reach_threshold() ) {

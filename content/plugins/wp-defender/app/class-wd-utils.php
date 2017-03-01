@@ -850,7 +850,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 	 * @return bool
 	 * @since 1.0.4
 	 */
-	public static function cache( $key, $value, $expiry = null, $store_type = 'serialize' ) {
+	public static function cache( $key, $value, $expiry = null, $store_type = 'serialize', $force_option = false ) {
 		if ( $expiry === null ) {
 			//we willc ache in 1 week
 			$expiry = HOUR_IN_SECONDS * 24 * 7;
@@ -859,7 +859,7 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 		//if this is w3total cache, need to fallback to site transient, so they can cache
 		$group = 'wp_defender';
 
-		if ( wp_using_ext_object_cache() && ! defined( 'W3TC' ) ) {
+		if ( wp_using_ext_object_cache() && ! defined( 'W3TC' ) && $force_option == false ) {
 			if ( is_array( $value ) && mb_strlen( serialize( $value ), '8bit' ) >= 1000000 ) {
 				//this mean value is very large
 				//first we need to remove all current cache for this key
@@ -1072,6 +1072,41 @@ Official WPMU DEV Superhero', wp_defender()->domain ),
 		}
 
 		return preg_replace( $pattern, $replace, $dateString );
+	}
+
+	/**
+	 * A shorhand function to get user IP
+	 * @return mixed|string
+	 */
+	public static function get_user_ip() {
+		$client      = isset( $_SERVER['HTTP_CLIENT_IP'] ) ? $_SERVER['HTTP_CLIENT_IP'] : null;
+		$forward     = isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : null;
+		$remote      = $_SERVER['REMOTE_ADDR'];
+		$client_real = isset( $_SERVER['HTTP_X_REAL_IP'] ) ? $_SERVER['HTTP_X_REAL_IP'] : null;
+		if ( filter_var( $client, FILTER_VALIDATE_IP ) ) {
+			return $client;
+		} elseif ( filter_var( $client_real, FILTER_VALIDATE_IP ) ) {
+			return $client_real;
+		} elseif ( ! empty( $forward ) ) {
+			$forward = explode( ',', $forward );
+			$ip      = array_shift( $forward );
+			$ip      = trim( $ip );
+			if ( filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+				return $ip;
+			}
+		}
+
+		return $remote;
+	}
+
+	public static function get_wd_upload_dir() {
+		$upload_dirs = wp_upload_dir();
+		$dir         = $upload_dirs['basedir'] . DIRECTORY_SEPARATOR . 'wp-defender/';
+		if ( ! is_dir( $dir ) ) {
+			wp_mkdir_p( $dir );
+		}
+
+		return $dir;
 	}
 
 	public static function exclude_extensions() {

@@ -2613,7 +2613,7 @@ if ( ! function_exists( 'mp_product' ) ) {
 			if ( $content == 'excerpt' ) {
 				$return .= ( $variation ) ? mp_get_the_excerpt( $variation_id, apply_filters( 'mp_get_the_excerpt_length', 18 ), true ) : $product->excerpt();
 			} else {
-				$return .= ( $variation ) ? $variation->content( false ) : $product->content( false );
+				$return .= ( !$product->post_content && $variation ) ? $product->get_variation()->post_content : $product->post_content;
 			}
 
 			$return .= '
@@ -3168,10 +3168,10 @@ endif;
 
 if ( ! function_exists( 'mp_get_plugin_slug' ) ) {
 	function mp_get_plugin_slug() {
-		if ( MP_LITE ) {
-			return 'wordpress-ecommerce/marketpress.php';
-		} else {
+		if ( file_exists( dirname( __FILE__ ) . '/includes/admin/dash-notice/wpmudev-dash-notification.php' ) ) {
 			return 'marketpress/marketpress.php';
+		} else {
+			return 'wordpress-ecommerce/marketpress.php';
 		}
 	}
 }

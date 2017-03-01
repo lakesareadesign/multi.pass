@@ -25,6 +25,7 @@ class Opt_In_Admin_Ajax {
         add_action("wp_ajax_inc_opt_delete_optin", array( $this, "delete_optin" ));
         add_action("wp_ajax_inc_optin_get_email_lists", array( $this, "get_subscriptions_list" ));
         add_action("wp_ajax_inc_optin_export_subscriptions", array( $this, "export_subscriptions" ));
+        add_action("wp_ajax_persist_new_welcome_close", array( $this, "persist_new_welcome_close" ));
     }
 
     /**
@@ -313,6 +314,17 @@ class Opt_In_Admin_Ajax {
         else
             wp_send_json_error( __("Failed to fetch subscriptions", Opt_In::TEXT_DOMAIN) );
     }
+
+	/**
+     * Save persistent choice of closing new welcome notice on dashboard
+     *
+     * @since 2.0.2
+     */
+	function persist_new_welcome_close() {
+		Opt_In_Utils::validate_ajax_call( "hustle_new_welcome_notice" );
+		update_option("hustle_new_welcome_notice_dismissed", true);
+		wp_send_json_success();
+	}
 
 
     function export_subscriptions(){

@@ -50,8 +50,8 @@ class Hustle_Custom_Content_Decorator
             "cta_hover_color" => ".wph-modal .wph-modal--cta:hover, .wph-modal .wph-modal--message a.wph-modal--cta:hover, .wph-cc-shortcode .wph-cc-shortcode--cta:hover, .wph-cc-shortcode .wph-cc-shortcode--message a.wph-cc-shortcode--cta:hover",
             "cta_active_color" => ".wph-modal .wph-modal--cta:active, .wph-modal .wph-modal--message a.wph-modal--cta:active, .wph-cc-shortcode .wph-cc-shortcode--cta:active, .wph-cc-shortcode .wph-cc-shortcode--message a.wph-cc-shortcode--cta:active",
             "border_static_color" => ".wph-modal.wph-modal--cabriolet section, .wph-modal.wph-modal--simple .wph-modal--content, .wph-modal.wph-modal--minimal .wph-modal--content, .wph-cc-shortcode.wph-cc-shortcode--cabriolet section, .wph-cc-shortcode.wph-cc-shortcode--simple .wph-cc-shortcode--content, .wph-cc-shortcode.wph-cc-shortcode--minimal .wph-cc-shortcode--content",
-            "border_hover_color" => ".wph-modal.wph-modal--cabriolet section:hover, .wph-modal.wph-modal--simple .wph-modal--content:hover, .wph-modal.wph-modal--minimal .wph-modal--content:hover, .wph-cc-shortcode.wph-cc-shortcode--cabriolet section:hover, .wph-cc-shortcode.wph-cc-shortcode--simple .wph-cc-shortcode--content:hover, .wph-cc-shortcode.wph-cc-shortcode--minimal .wph-cc-shortcode--content:hover",
-            "border_active_color" => ".wph-modal.wph-modal--cabriolet section:active, .wph-modal.wph-modal--simple .wph-modal--content:active, .wph-modal.wph-modal--minimal .wph-modal--content:active, .wph-cc-shortcode.wph-cc-shortcode--cabriolet section:active, .wph-cc-shortcode.wph-cc-shortcode--simple .wph-cc-shortcode--content:active, .wph-cc-shortcode.wph-cc-shortcode--minimal .wph-cc-shortcode--content:active",
+            //"border_hover_color" => ".wph-modal.wph-modal--cabriolet section:hover, .wph-modal.wph-modal--simple .wph-modal--content:hover, .wph-modal.wph-modal--minimal .wph-modal--content:hover, .wph-cc-shortcode.wph-cc-shortcode--cabriolet section:hover, .wph-cc-shortcode.wph-cc-shortcode--simple .wph-cc-shortcode--content:hover, .wph-cc-shortcode.wph-cc-shortcode--minimal .wph-cc-shortcode--content:hover",
+            //"border_active_color" => ".wph-modal.wph-modal--cabriolet section:active, .wph-modal.wph-modal--simple .wph-modal--content:active, .wph-modal.wph-modal--minimal .wph-modal--content:active, .wph-cc-shortcode.wph-cc-shortcode--cabriolet section:active, .wph-cc-shortcode.wph-cc-shortcode--simple .wph-cc-shortcode--content:active, .wph-cc-shortcode.wph-cc-shortcode--minimal .wph-cc-shortcode--content:active",
             "border_radius" => ".wph-modal.wph-modal--cabriolet section, .wph-modal.wph-modal--simple .wph-modal--content, .wph-modal.wph-modal--minimal .wph-modal--content, .wph-cc-shortcode.wph-cc-shortcode--cabriolet section, .wph-cc-shortcode.wph-cc-shortcode--simple .wph-cc-shortcode--content, .wph-cc-shortcode.wph-cc-shortcode--minimal .wph-cc-shortcode--content",
             "border_weight" => ".wph-modal.wph-modal--cabriolet section, .wph-modal.wph-modal--simple .wph-modal--content, .wph-modal.wph-modal--minimal .wph-modal--content, .wph-cc-shortcode.wph-cc-shortcode--cabriolet section, .wph-cc-shortcode.wph-cc-shortcode--simple .wph-cc-shortcode--content, .wph-cc-shortcode.wph-cc-shortcode--minimal .wph-cc-shortcode--content",
             "border_type" => ".wph-modal.wph-modal--cabriolet section, .wph-modal.wph-modal--simple .wph-modal--content, .wph-modal.wph-modal--minimal .wph-modal--content, .wph-cc-shortcode.wph-cc-shortcode--cabriolet section, .wph-cc-shortcode.wph-cc-shortcode--simple .wph-cc-shortcode--content, .wph-cc-shortcode.wph-cc-shortcode--minimal .wph-cc-shortcode--content",
@@ -112,7 +112,7 @@ class Hustle_Custom_Content_Decorator
         if( $this->_cc->design->border ){
             $border_tpl = " %s%s {border:%dpx %s %s; }";
             $border_radius_tpl = " %s%s {border-radius:%dpx; }";
-            foreach( array( 'border_static_color', 'border_hover_color', 'border_active_color' ) as $i => $key ){
+            foreach( array( 'border_static_color' ) as $i => $key ){
 				foreach( explode(", ", $stylable_elements[ $key ]) as $s ){
 					if ( preg_match("/wph-cc-shortcode/", $s) ) {
 						$styles .= sprintf( $border_tpl, $cc_prefix, $s, $this->_cc->design->border_weight,  $this->_cc->design->border_type, $this->_cc->design->{$key} );
@@ -233,7 +233,8 @@ class Hustle_Custom_Content_Decorator
          * @var $condition Opt_In_Condition_Abstract
          */
         foreach( $conditions as $condition ){
-            $label = $condition->label();
+            $label = is_object( $condition ) && method_exists( $condition, 'label' ) ? $condition->label() : '';
+
             if( !empty( $label ) )
             $labels[] = $label;
             unset( $label );

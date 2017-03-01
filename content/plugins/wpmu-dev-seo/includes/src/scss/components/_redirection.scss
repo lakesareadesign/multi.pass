@@ -1,0 +1,141 @@
+/* ****************************************************************************
+ * COMPONENT: REDIRECTION
+ */
+.wpmud {
+	.wds-redirections {
+
+		&-table {
+
+			tr {
+				td,
+				th {
+					padding: $space--xs;
+					text-align: left;
+
+					&:first-child {
+						padding-left: $space;
+					}
+					&:last-child {
+						padding-right: $space;
+					}
+				}
+			}
+
+			thead {
+				background-color: #eee;
+
+				th {
+					border-bottom: none;
+					font-weight: 400;
+					width: 40%;
+
+					&.selector {
+						width: 5%;
+					}
+
+					&.type {
+						width: 15%;
+					}
+				}
+			}
+
+			tbody {
+				td {
+					line-height: 20px;
+				}
+
+				tr {
+					&:first-child {
+						td {
+							padding-top: $space;
+						}
+					}
+					&:last-child {
+						td {
+							padding-bottom: $space;
+						}
+					}
+				}
+			}
+
+			.wds-checkbox {
+				margin: 0;
+			}
+
+			.wds-redirection {
+				&_item {
+
+					&-destination {
+						width: 40%;
+
+						.wds-field {
+							margin: 0;
+							padding: 8px $space--s;
+						}
+					}
+
+					&-source {
+						float: left;
+					}
+
+					&-separator {
+						float: right;
+					}
+
+				}
+			}
+
+		}
+
+		&_item {
+			&-wrapper {
+				border-top: 2px solid $color--light;
+				margin-top: $space--s;
+				padding-top: $space--s;
+
+				&:first-child {
+					margin-top: 0;
+					margin-top: 0;
+					padding-top: 0;
+				}
+			}
+
+			.wds-redirection {
+				&-source,
+				&-separator,
+				&-destination {
+					display: block;
+					float: left;
+				}
+
+				&-source {
+					line-height: 40px;
+					width: 40%;
+				}
+
+				&-separator {
+					line-height: 38px;
+					margin: 0 $space--s;
+				}
+
+				&-destination {
+					width: 50%;
+
+					.wds-field {
+						margin-bottom: 0;
+					}
+				}
+			}
+
+			&-delete {
+				clear: both;
+				display: block;
+
+				.wds-label-inline-right {
+					margin-left: $space--xxs;
+				}
+			}
+		}
+
+	}
+}

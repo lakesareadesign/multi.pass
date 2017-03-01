@@ -2,17 +2,17 @@
 
 	<div class="box-content">
 
-		<div class="flex-row">
+		<div class="row">
 
 			<div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
 
-				<table class="wph-table wph-module--stats">
+				<table class="wph-table wph-table--fixed" cellpadding="0" cellspacing="0">
 
 					<thead>
 
 						<tr>
 
-							<th class="wph-stats--name"><?php _e('Module Name', Opt_In::TEXT_DOMAIN); ?></th>
+							<th colspan="2" class="wph-table--name"><?php _e('Module Name', Opt_In::TEXT_DOMAIN); ?></th>
 
 							<th><?php _e('Rate', Opt_In::TEXT_DOMAIN); ?></th>
 
@@ -27,21 +27,23 @@
 					</thead>
 
 					<tbody>
+
 						<?php foreach ( $conversion_data as $module_name => $data ):  ?>
 
 							<tr>
 
-								<td class="wph-stats--name"><i style="background-color: <?php echo $data['color']; ?>;"></i> <span class="wpoi-tooltip tooltip-left" tooltip="<?php echo $data['module_type']; ?>"><i class="wph-icon i-<?php echo $data['module_type']; ?>"></i></span> <?php echo $module_name; ?></td>
+								<td class="wph-table--name" colspan="2"><i style="background-color: <?php echo $data['color']; ?>;"></i> <!--<span class="wpoi-tooltip tooltip-left" tooltip="<?php echo $data['module_type']; ?>">--><i class="wph-icon i-<?php echo $data['module_type']; ?>"></i><!--</span>--> <?php echo $module_name; ?></td>
 
-								<td><?php echo $data['rate']; ?>%</td>
+								<td data-title="<?php _e('Rate', Opt_In::TEXT_DOMAIN); ?>"><?php echo $data['rate']; ?>%</td>
 
-								<td><?php echo $data['week']; ?></td>
+								<td data-title="<?php _e('7 Days', Opt_In::TEXT_DOMAIN); ?>"><?php echo $data['week']; ?></td>
 
-								<td class="c-current"><?php echo $data['month']; ?></td>
+								<td class="c-current" data-title="<?php _e('30 Days', Opt_In::TEXT_DOMAIN); ?>"><?php echo $data['month']; ?></td>
 
-								<td><?php echo $data['all']; ?></td>
+								<td data-title="<?php _e('All Time', Opt_In::TEXT_DOMAIN); ?>"><?php echo $data['all']; ?></td>
 
 							</tr>
+
 						<?php endforeach; ?>
 
 					</tbody>

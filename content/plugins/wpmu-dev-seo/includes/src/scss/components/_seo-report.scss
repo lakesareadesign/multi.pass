@@ -1,0 +1,257 @@
+/* ****************************************************************************
+ * COMPONENT: SEO REPORT
+ */
+.wpmud {
+
+	.wds-seo_service-results {
+	
+		// Overview
+		.wds-overview {
+			@extend .cf;
+
+			&-item {
+				border-bottom: 1px solid $color--light;
+				border-left: 1px solid $color--light;
+				color: #4A4A4A;
+				font: 400 15px/35px $font;
+				float: left;
+				padding: $space;
+				text-align: center;
+				width: 50%;
+
+				&:nth-child(odd) {
+					border-left: none;
+				}
+
+				span,
+				strong {
+					display: inline-block;
+					vertical-align: middle;
+				}
+
+				strong {
+					font-size: 30px;
+					font-weight: 700;
+					margin-right: $space--xs;
+				}
+			}
+		}
+
+		// Breakdown
+		.wds-breakdown {
+			> h4 {
+				color: $color--grey;
+				font: 400 20px/26px $font--alt;
+				margin: 0 0 $space--m;
+				padding: $space $space 0;
+				text-align: left;
+			}
+		}
+
+		// Sitemap
+		.wds-sitemap {
+			p {
+				border-bottom-color: #F4F4F4;
+				border-top: 2px solid #F4F4F4;
+			}
+			.info {
+				@extend .cf;
+				display: block;
+				margin-top: $space--xs;
+			}
+		}
+
+		// Issues
+		.wds-service-issue,
+		.wds-service-no_issue,
+		.wds-sitemap {
+			@extend .cf;
+
+			p {
+				border-bottom: 2px solid transparent;
+				color: #4A4A4A;
+				font: 400 15px/40px $font;
+				margin: 0;
+				padding: $space--m $space;
+
+				&:last-of-type:last-child {
+					border-bottom: 0;
+				}
+			}
+
+			.wds-fix,
+			.wds-update-sitemap {
+				float: right;
+			}
+
+		}
+
+		.wds-service-no_issue {
+			.wds-crawl-result {
+				line-height: 30px;
+				font-size: 15px;
+				border-radius: 5px;
+				padding: 15px 30px 15px 60px;
+			}
+			.wds-crawl-result p {
+				padding: 0;
+			}
+			.wds-crawl-result.wds-crawl-success {
+				color: #333;
+				background: #D1F1EA;
+				position: relative;
+			}
+			.wds-crawl-result.wds-crawl-success::before {
+				position: absolute;
+				display: block;
+				top: 25px;
+				left: 30px;
+				content: " ";
+				height: 20px;
+				width: 20px;
+				border-radius: 100%;
+				text-align: center;
+				color: #D1F1EA;
+				background: url(../images/wpmudev-icon-tick.svg); /* 00BD9C */
+			}
+		}
+
+		.wds-service-issue {
+			p {
+				background: #FF6C6A;
+				border-bottom-color: #fff;
+				color: #fff;
+			}
+		}
+
+		// Issues details
+		.wds-issue-items {
+			display: none;
+
+			.wds-issue-item {
+				@extend .cf;
+				border-top: 2px solid #F4F4F4;
+				padding: $space--s $space;
+
+				&:first-of-type {
+					border-top: 0;
+				}
+
+				&-part {
+					float: left;
+					font: 400 15px/42px $font;
+					width: 18%;
+
+					&,
+					a {
+						color: #4A4A4A;
+					}
+
+					> a,
+					&.wds-issue-actions > a {
+						&:hover {
+							color: #00B4D1;
+						}
+					}
+
+					&.wds-issue-occurences {
+						margin-right: 2%;
+					}
+
+					&.wds-issue-path {
+						width: 60%;
+					}
+					
+					&.wds-issue-actions {
+						margin-left: 2%;
+						position: relative;
+						text-align: right;
+
+						> a {
+							color: #D8D8D8;
+							display: inline-block;
+							font-size: 36px;
+							line-height: 20px;
+							vertical-align: top;
+						}
+					}
+				}
+			}
+
+			header {
+				@extend .cf;
+				padding: $space--xs $space;
+
+				.wds-issue-item {
+					&-part {
+						text-transform: uppercase;
+
+						&.wds-issue-path {
+							width: 80%;
+						}
+					}
+				}
+			}
+
+			// Actions
+			.wds-issue-actions {
+				&-options {
+					background: #fff;
+					border: 1px solid #ededed;
+					border-radius: 5px;
+					display: none;
+					min-width: 215px;
+					position: absolute;
+					right: 0;
+					z-index: 1;
+
+					ul {
+						box-shadow: 0 0 5px rgba(0,0,0,.1);
+						margin: 0;
+						padding: $space--m $space;
+						position: relative;
+						text-align: left;
+					}
+
+					li {
+						border-top: 1px solid #eee;
+						margin: $space--s 0 0;
+						padding: $space--s 0 0;
+
+						&,
+						a {
+							color: #6D6D6D;
+							font: 400 15px/20px $font;
+							white-space: nowrap;
+						}
+
+						i.wds-icon {
+							height: 20px;
+							vertical-align: middle;
+						}
+
+						&.heading {
+							border-top: 0;
+							font: 700 15px/20px $font--alt;
+							margin: 0;
+							padding: 0;
+							text-transform: uppercase;
+
+							.wdv-icon {
+								color: #d8d8d8;
+								float: right;
+
+								&:hover {
+									color: #6D6D6D;
+									cursor: pointer;
+								}
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+	}
+}

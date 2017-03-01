@@ -2,7 +2,7 @@
 
 	<div class="wph-conditions--side">
 
-		<label class="wph-label--alt"><?php _e('Available Conditions', Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e('Available conditions', Opt_In::TEXT_DOMAIN); ?></label>
 
 		<div class="wph-conditions--items"></div>
 
@@ -10,7 +10,7 @@
 
 	<div class="wph-conditions--box">
 
-		<label class="wph-label--alt"><?php _e("Conditions in-use", Opt_In::TEXT_DOMAIN ); ?></label>
+		<label><?php _e("Conditions in-use", Opt_In::TEXT_DOMAIN ); ?></label>
 
 		<div class="wph-conditions--items">
 
@@ -48,7 +48,7 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Shows the {{type_name}} if the user has only seen it less than a specific number of times.", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Shows the {{type_name}} if the user has only seen it less than a specific number of times.", Opt_In::TEXT_DOMAIN); ?></label>
 
 	</div>
 
@@ -74,7 +74,7 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Shows the Pop Up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Shows the Pop Up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></label>
 
 	</div>
 
@@ -92,7 +92,7 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Hides the Pop Up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Hides the Pop Up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></label>
 
 	</div>
 
@@ -110,7 +110,7 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Shows the {{type_name}} if the user is on a certain URL.", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Shows the {{type_name}} if the user is on a certain URL.", Opt_In::TEXT_DOMAIN); ?></label>
 
 	</div>
 
@@ -130,7 +130,7 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Shows the {{type_name}} if the user is not on a certain URL.", Opt_In::TEXT_DOMAIN) ?></label>
+		<label><?php _e("Shows the {{type_name}} if the user is not on a certain URL.", Opt_In::TEXT_DOMAIN) ?></label>
 
 	</div>
 
@@ -150,7 +150,7 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Shows the {{type_name}} if the user is in a certain country.", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Shows the {{type_name}} if the user is in a certain country.", Opt_In::TEXT_DOMAIN); ?></label>
 
 	</div>
 
@@ -172,7 +172,7 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Shows the {{type_name}} if the user is not in a certain country.", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Shows the {{type_name}} if the user is not in a certain country.", Opt_In::TEXT_DOMAIN); ?></label>
 
 	</div>
 
@@ -198,11 +198,11 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
 
-		<div class="wph-triggers">
+		<div class="tabs">
 
-			<ul class="wph-triggers--tabs wph-triggers--xsmargin">
+			<ul class="tabs-header">
 
 				<li class="{{_.class( filter_type == "except", "current" )}}">
 
@@ -242,11 +242,11 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
 
-		<div class="wph-triggers">
+		<div class="tabs">
 
-			<ul class="wph-triggers--tabs wph-triggers--xsmargin">
+			<ul class="tabs-header">
 
 				<li class="{{_.class( filter_type == "except", "current" )}}">
 
@@ -286,11 +286,11 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
 
-		<div class="wph-triggers">
+		<div class="tabs">
 
-			<ul class="wph-triggers--tabs wph-triggers--xsmargin">
+			<ul class="tabs-header">
 
 				<li class="{{_.class( filter_type == "except", "current" )}}">
 
@@ -331,11 +331,11 @@
 
 	<div class="rule-description">
 
-		<label class="wph-label--alt"><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
 
-		<div class="wph-triggers">
+		<div class="tabs">
 
-			<ul class="wph-triggers--tabs wph-triggers--xsmargin">
+			<ul class="tabs-header">
 
 				<li class="{{_.class( filter_type == "except", "current" )}}">
 

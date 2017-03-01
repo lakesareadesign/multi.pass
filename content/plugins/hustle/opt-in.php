@@ -3,7 +3,7 @@
 Plugin Name: Hustle
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 2.0.1
+Version: 2.0.2
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020
@@ -41,7 +41,7 @@ if( !class_exists( "Opt_In" ) ):
 
 class Opt_In extends Opt_In_Static{
 
-    const VERSION = "2.0.1";
+    const VERSION = "2.0.2";
 
     const TEXT_DOMAIN = "hustle";
 
@@ -61,6 +61,12 @@ class Opt_In extends Opt_In_Static{
             "name" => "AWeber",
             "file_name" => "opt-in-aweber.php",
             "class_name" => "Opt_In_Aweber"
+        ),
+       array(
+            "id" => "activecampaign",
+            "name" => "ActiveCampaign",
+            "file_name" => "opt-in-activecampaign.php",
+            "class_name" => "Opt_In_Activecampaign"
         ),
         array(
             "id" => "campaignmonitor",
@@ -104,14 +110,6 @@ class Opt_In extends Opt_In_Static{
             "file_name" => "opt-in-infusion-soft.php",
             "class_name" => "Opt_In_Infusion_Soft"
         ),
-/** @note: for 2.0.1 release. Require's further testing
-        array(
-            "id" => "activecampaign",
-            "name" => "ActiveCampaign",
-            "file_name" => "opt-in-activecampaign.php",
-            "class_name" => "Opt_In_Activecampaign"
-        ),
-**/
     );
 
     /**
@@ -593,12 +591,14 @@ $hustle->set_email_services( $email_services );
 
 $optin_front = new Opt_In_Front( $hustle );
 
+// Legacy Popups
+$legacy_popups = new Hustle_Legacy_Popups();
+
 if( is_admin() ){
     $optin_admin = new Opt_In_Admin( $hustle, $email_services  );
     new Opt_In_Admin_Ajax( $hustle, $optin_admin );
 
-    $legacy_popups = new Hustle_Legacy_Popups();
-    new Hustle_Legacy_Popups_Ajax( $legacy_popups );
+	$popup_update = new Hustle_Legacy_Popups_Admin( $hustle );
 
     $hustle_dashboard_admin = new Hustle_Dashboard_Admin( $email_services );
 
@@ -625,4 +625,8 @@ if ( file_exists( Opt_In::$plugin_path . 'lib/wpmudev-dashboard/wpmudev-dash-not
         ),
     );
     require_once Opt_In::$plugin_path . 'lib/wpmudev-dashboard/wpmudev-dash-notification.php';
+}
+
+if( is_admin() && Opt_In_Utils::_is_free() ) {
+    require_once Opt_In::$plugin_path . 'lib/free-dashboard/module.php';
 }

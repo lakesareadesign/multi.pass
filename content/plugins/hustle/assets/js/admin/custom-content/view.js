@@ -21,7 +21,8 @@ Hustle.define("Custom_Content.View", function($, doc, win){
             "click #finish-setup" : "save_and_finish",
             "click .wph-preview--eye.wph-button": "open_preview",
             "click .wph-js-cancel-design-changes" : "cancel_changes",
-            "click .wph-js-back" : "go_back"
+            "click .wph-js-back" : "go_back",
+			"click .wph-triggers--options label": "handle_triggers"
 
         },
         init: function( opts ){
@@ -44,6 +45,14 @@ Hustle.define("Custom_Content.View", function($, doc, win){
             this.render_message_box();
             return this.render();
         },
+		handle_triggers: function(e){
+			var $this = $(e.target),
+				$selected_li = $this.closest('li'),
+				$siblings = $selected_li.siblings()
+			;
+			$siblings.removeClass('current');
+			$selected_li.addClass('current');
+		},
         update_initial_state: function(){
             _.extend( this.initial_data, {
                 content: this.content_view.model.toJSON(),
@@ -59,6 +68,8 @@ Hustle.define("Custom_Content.View", function($, doc, win){
             //this.$(".wph-js-cancel-design-changes").attr("disabled", false);
         }, 50),
         render: function(){
+			$(doc).on('click', '#hustle-legacy-popup-notice button.notice-dismiss', this.dismiss_legacy_popup_notice);
+			
 			this.content_view.delegateEvents();			
 			this.design_view.delegateEvents();			
             this.$("#wph-ccontent--designtab .wph-toggletabs--content")
@@ -99,6 +110,18 @@ Hustle.define("Custom_Content.View", function($, doc, win){
 		_get_shortcode_id: function(){
 			return this.model.get("optin_name").trim().toLowerCase().replace(/\s+/g, "-");
 		},
+		dismiss_legacy_popup_notice: function(e){
+			var $this = $(e.target).closest("#hustle-legacy-popup-notice"),
+                nonce = $this.data("nonce");
+			$.ajax({
+                url: ajaxurl,
+                type: "POST",
+                data: {
+                    action: "hustle_custom_content_dismiss_legacy_notice",
+                    _ajax_nonce: nonce
+                }
+            });
+		},
         _save: function( $btn ){
             var  button_width = ( $btn.next().hasClass('wph-button-finish') ) ? $btn.outerWidth() + 1 : $btn.outerWidth();
             return $.ajax({
@@ -115,10 +138,10 @@ Hustle.define("Custom_Content.View", function($, doc, win){
                     magic_bar: this.magic_bar.model.toJSON(),
 					shortcode_id: this._get_shortcode_id()
                 },
-                complete: function(){
-                    $btn.animate({ width: button_width })
-                        .attr( "disabled", false )
-                        .find( ".spinner-container" ).remove();
+                complete: function(d){
+                    $btn.attr( "disabled", false )
+						.removeClass( "wph-button-next--loading" )
+                        .removeClass( "wph-button-save--loading" );
                 }
             });
         },
@@ -129,13 +152,20 @@ Hustle.define("Custom_Content.View", function($, doc, win){
 			if ( !this.validate() ) return;
 			
             var self = this,
-                $this = this.$(e.target),
-                $spinner = $("<span class='spinner-container'><span class='button-spinner'></span></span>"),
-                button_width = $this.outerWidth();
+                $this = this.$(e.target).closest("button");
+                // $spinner = $("<span class='spinner-container'><span class='button-spinner'></span></span>"),
+                // button_width = $this.outerWidth();
 
-            $this.append( $spinner )
-                .animate( { width: button_width + ( button_width * 0.2 ) })
-                .attr("disabled", true);
+            // $this.append( $spinner )
+                // .animate( { width: button_width + ( button_width * 0.2 ) })
+                // .attr("disabled", true);
+			
+			$this.attr("disabled", true);
+			if ( $this.is("#save-and-next") ) {
+				$this.addClass("wph-button-save--loading");
+			} else {
+				$this.addClass("wph-button-next--loading");
+			}
 			
             // disable sibling too
             $this.siblings().each(function(){
@@ -172,14 +202,15 @@ Hustle.define("Custom_Content.View", function($, doc, win){
 			if ( !this.validate() ) return;
 			
             var self = this,
-				$this = this.$(e.target),
-                $spinner = $("<span class='spinner-container'><span class='button-spinner'></span></span>"),
-                button_width = $this.outerWidth(),
+				$this = this.$(e.target).closest("button"),
                 is_new = parseInt($this.data("id")) == -1 ? true: false;
 
-            $this.append( $spinner )
-                .animate( { width: button_width + ( button_width * 0.2 ) })
-                .attr("disabled", true);
+            $this.attr("disabled", true);
+			if ( $this.is("#save-and-finish") ) {
+				$this.addClass("wph-button-save--loading");
+			} else {
+				$this.addClass("wph-button-next--loading");
+			}
 				
             // disable sibling too
             $this.siblings().each(function(){
@@ -220,9 +251,14 @@ Hustle.define("Custom_Content.View", function($, doc, win){
 		validate: function() {
 			// Validating cta_url
 			var success = true,
-				cta_url = this.design_view.model.get("cta_url")
+				cta_url = this.design_view.model.get("cta_url"),
+				opt_name = this.$( '[data-attribute="optin_name"]' )
 			;
-			
+
+			if ( ! opt_name.val() ){
+				//@todo: add some error highlighter or indicator
+				success = false;
+			}
 			// do not validate url for now
 			// if ( cta_url ) {
 				// var elm = document.createElement('input'),

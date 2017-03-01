@@ -10,9 +10,9 @@
 
         <label class="wph-label--alt wph-label--border"><?php _e('Choose what to do after form submission', Opt_In::TEXT_DOMAIN); ?></label>
 
-        <div class="wph-triggers">
+        <div class="tabs">
 
-            <ul class="wph-triggers--tabs wph-triggers--xsmargin">
+            <ul class="tabs-header">
 
                 <li {{_.add_class(on_submit === "success_message", "current" )}}>
 
@@ -32,7 +32,7 @@
 
             </ul>
 
-            <div class="wph-triggers--content">
+            <div class="tabs-body">
                 <div class="{{_.class(on_submit != "page_redirect", 'hidden')}}">
                 <?php _e('Choose page to redirect to after submit', Opt_In::TEXT_DOMAIN); ?>
                 <select class="wpmuiSelect" data-attribute='on_submit_page_id'>

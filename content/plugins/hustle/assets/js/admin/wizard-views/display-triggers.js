@@ -4,7 +4,7 @@
     Optin.View.Display_Triggers = Backbone.View.extend($.extend( true, {}, Optin.View.Template_Mixin, {
         template: Optin.template("wpoi-wizard-settings-triggers-template"),
         events: {
-            'click .wph-triggers--tabs label': "change_tab"
+            'click .tabs-header label': "change_tab"
         },
         initialize: function( opts ){
             this.el = opts.el;
@@ -30,8 +30,8 @@
                 $this_tab = $this.parent("li"),
                 $this_content = this.$( $this.attr("href")),
                 $radio = $this.find("input[type='radio']");
-            this.$(".wph-triggers--tabs li").removeClass("current");
-            this.$(".wph-triggers--option").removeClass("current");
+            this.$(".tabs-header li").removeClass("current");
+            this.$(".tabs-content").removeClass("current");
 
             $this_tab.addClass("current");
             $this_content.addClass("current");

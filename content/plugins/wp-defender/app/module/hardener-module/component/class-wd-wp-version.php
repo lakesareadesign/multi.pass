@@ -92,7 +92,7 @@ class WD_WP_Version extends WD_Hardener_Abstract {
 								<strong><?php esc_html_e( "Current Version", wp_defender()->domain ) ?></strong>
 
 								<div class="wd-clearfix"></div>
-								<span><?php echo $this->wp_version ?></span>
+								<span class="<?php echo $this->check()?'ok':null ?>"><?php echo $this->wp_version ?></span>
 							</div>
 							<div class="col span_6_of_12 wd-version-sub">
 								<strong><?php esc_html_e( "Latest Version", wp_defender()->domain ) ?></strong>

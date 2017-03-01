@@ -22,6 +22,8 @@ Hustle.define("Custom_Content.Module", function($){
     (function(){
 
         if( _.indexOf( ['hustle_page_inc_hustle_custom_content_new', 'hustle_page_inc_hustle_custom_content_edit'], pagenow )  === -1  ) return;
+		
+		if ( parseInt(optin_vars.current.is_cc_limited) ) return;
 
         var View = Hustle.get("Custom_Content.View"),
             Content_View = Hustle.get("Custom_Content.Content_View"),
@@ -48,7 +50,7 @@ Hustle.define("Custom_Content.Module", function($){
         window.popup_model = popup_model;
         window.slide_in_model = slide_in_model;
         window.magic_bar_model = magic_bar_model;
-
+		
         return new View({
             model: content_model,
             content_view: new Content_View({ model: content_model, design_model: design_model }),

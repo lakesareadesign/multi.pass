@@ -1,0 +1,52 @@
+/* ****************************************************************************
+ * PAGE: DASHBOARD
+ */
+.wpmud {
+
+	.box-dashboard {
+			
+		// Improve SEO mEtabox
+		&-improve-seo {
+			position: relative;
+
+			&:before {
+				background: url('../images/smartCrawl_sprite.png') no-repeat 0 0;
+				background-image: url('../images/smartCrawl_sprite.svg'), none; 
+				background-position: -129px -22px;
+				content: '';
+				height: 190px;
+				position: absolute;
+				top: -190px;
+				right: 65px;
+				width: 115px;
+
+				@media screen and (max-width: 1240px) {
+					display: none;
+				}
+			}
+		}
+
+		// SEO Moz
+		&-seo-moz-stats {
+			.copy-moz {
+				margin-top: $space--m;
+			}
+			.linkscape {
+				display: inline-block;
+				margin-left: $space--xs;
+				vertical-align: middle;
+			}
+		}
+		
+		// Sitemaps
+		&-sitemap-settings {
+			.box-content {
+				> p {
+					margin-bottom: $space--xs;
+				}
+			}
+		}
+
+	}
+
+}

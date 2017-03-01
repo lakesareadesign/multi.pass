@@ -100,7 +100,8 @@ Hustle.define("Dashboard.View", function($, doc, win){
             return this.render();
         },
         render: function(){
-            $("li.wph-triggers--overview label").on('click', this.toggle_overview);
+            $(".tabs-header li label").on('click', this.toggle_overview);
+            $(".can-close .wph-icon.i-close").on('click', this.close);
             
             var canvas = $("#conversions_chart");
             if( !canvas.length ) return;
@@ -149,7 +150,24 @@ Hustle.define("Dashboard.View", function($, doc, win){
         },
 		close: function(e){
 			e.preventDefault();
-			var $parent_section = $(e.target).closest('.content-box').remove();
+			// var $parent_section = $(e.target).closest('.content-box').remove();
+			var $parent_container = $(e.target).closest('.row'),
+				$parent_section = $(e.target).closest('#wph-welcome'),
+				nonce = $parent_section.data("nonce")
+			;
+			$parent_container.slideToggle(300, function(){
+				$.ajax({
+					url: ajaxurl,
+					type: "POST",
+					data: {
+						action: "persist_new_welcome_close",
+						_ajax_nonce: nonce
+					},
+					complete: function(d){
+						$parent_container.remove();
+					}
+				});
+			});
 		},
 		toggle_overview: function(e){
 			e.preventDefault();
@@ -160,7 +178,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 			
 			$(".wph-modules-overview").not($target).removeClass("current");
 			$target.addClass("current");
-			$("li.wph-triggers--overview").not($li).removeClass("current");
+			$(".tabs-header li").not($li).removeClass("current");
 			$li.addClass("current");
 		}
     });

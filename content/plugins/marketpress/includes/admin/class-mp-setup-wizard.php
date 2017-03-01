@@ -686,7 +686,7 @@ class MP_Setup_Wizard {
 				&$this,
 				'determine_is_use_paymentgateway'
 			), 10, 4 );
-			add_filter( 'wpmudev_metabox/after_settings_metabox_saved', array( &$this, 'maybe_save_manual_payment' ) );
+			add_filter( 'wpmudev_metabox/after_settings_metabox_saved', array( &$this, 'maybe_save_manual_payment' ) );	     	 	 	    	  
 		}
 	}
 

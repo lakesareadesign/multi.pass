@@ -12,7 +12,7 @@
 
         <div class="row">
 
-            <section class="dev-box content-box">
+            <section class="box content-box">
 
                 <div class="box-title">
 

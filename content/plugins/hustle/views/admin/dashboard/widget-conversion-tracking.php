@@ -1,4 +1,4 @@
-<div id="wpoi-box-dashboard-optins" class="dev-box content-box">
+<div id="wpoi-box-dashboard-optins" class="box">
 
 	<div class="box-title">
 
@@ -8,9 +8,9 @@
 
 	<div class="box-content">
 
-		<img class="wph-img--soon" src="<?php echo Opt_In::$plugin_url ?>assets/img/hero/wph-icon.png">
+		<div class="wph-img--soon"></div>
 
-		<h6 class="wph-text--center"><?php _e('Track performance of your modules, get scheduled conversion reports delivered to your e-mail & heaps more.', Opt_In::TEXT_DOMAIN); ?></h6>
+		<h6><?php _e('Track performance of your modules, get scheduled conversion reports delivered to your e-mail & heaps more.', Opt_In::TEXT_DOMAIN); ?></h6>
 
 	</div>
 

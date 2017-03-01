@@ -1,29 +1,34 @@
-=== Crazyegg Heatmap Tracking ===
+=== Crazy Egg ===
 Contributors: crazyegg
-Tags: crazyegg, traffic, tracking, clicktracking
-Requires at least: 2.0.2
-Tested up to: 4.1
-Stable tag: 1.1
+Tags: analytics, click, crazyegg, crazy egg, heat maps, heatmap, heatmaps, marketing, reports, tracking, traffic, visitor recordings
+Requires at least: 2.7
+Tested up to: 4.7.2
 
-The official Crazyegg.com heatmap tracking plugin for Wordpress.
+The easiest, free way to add your Crazy Egg tracking script to your WordPress site. The official Crazy Egg Plugin for WordPress.
 
 == Description ==
-
-This plugin enables Crazyegg.com heatmap tracking on your WordPress site, with a limited amount of configuration.
+Crazy Egg is a free plugin that allows you to painlessly add Crazy Egg's tracking script to your WordPress site. The tracking script lets Crazy Egg track your visitors.
 
 == Installation ==
-
-1. Upload the `crazyegg-heatmap-tracking` directory into the `/wp-content/plugins/` directory on your server.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Using the "WordPress *General* Settings" menu, navigate to Crazyegg Heatmap Tracking and enter your Crazyegg.com Account Number.
+1. Install Crazy Egg through the [WordPress.org](https://www.wordpress.org) plugin repository or by [uploading the files to your server](http://www.wpbeginner.com/beginners-guide/step-by-step-guide-to-install-a-wordpress-plugin-for-beginners/).
+2. [Sign])https://app.crazyegg.com/login) into your Crazy Egg account and copy your [tracking script](https://app.crazyegg.com/instructions).
+3. Click the Crazy Egg tab in the left admin menu.
+4. Paste your tracking script in the provided field and click Save Changes.
 
 == Frequently Asked Questions ==
+= Do I need a Crazy Egg account? =
+Yes, a Crazy Egg account is needed. You can sign up for a free trial at [crazyegg.com](https://www.crazyegg.com).
 
-= Do I have to have Wordpress newer than 2.7? =
+= Do I need a different script for Recordings? =
+If you've signed up for Snapshots and Recordings, you'll only need to install this plugin once.
 
-This plugin should be compatible with all older versions of WordPress up until plugins were first introduced.
+== Screenshots ==
+1. Quick, simple and easy way of installing Crazy Egg on your WordPress site.
 
 == Changelog ==
+= 2.0 =
+* New Admin Menu added.
+* Plugin uses full tracking script instead of Account Number.
 
 = 1.1 =
 * New domain added for tracking script.
@@ -32,6 +37,4 @@ This plugin should be compatible with all older versions of WordPress up until p
 * The first version of this plugin.
 
 == Upgrade Notice ==
-
-= 1.0 =
-This is needed.
+Note: This upgrade will require that you copy and paste your tracking script into the provided field. Your WordPress site will not track if this step is skipped.

@@ -9,7 +9,7 @@
 
 	<div class="row">
 
-		<section class="dev-box content-box can-open">
+		<section class="box content-box can-open">
 
 			<div class="box-title">
 
@@ -111,7 +111,7 @@
 
 												<span class="wpoi-media-options-title f-left"><?php _e("OPTIONS", Opt_In::TEXT_DOMAIN) ?></span>
 
-												<i class="dev-icon dev-icon-cross"></i>
+												<i class="wph-icon i-close"></i>
 
 											</div>
 
@@ -143,7 +143,7 @@
 
 	<div class="row">
 
-		<section class="dev-box content-box can-open wpoi-preview-container">
+		<section class="box content-box can-open wpoi-preview-container">
 
 			<div class="box-title">
 
@@ -329,7 +329,7 @@
 
 			<div class="row">
 
-				<section class="dev-box content-box can-open">
+				<section class="box content-box can-open">
 
 					<div class="box-title">
 
@@ -395,7 +395,7 @@
 
 			<div class="row">
 
-				<section class="dev-box content-box can-open">
+				<section class="box content-box can-open">
 
 					<div class="box-title">
 
@@ -450,7 +450,7 @@
 
 		<div class="col-half">
 
-			<section class="dev-box content-box can-open">
+			<section class="box content-box can-open">
 
 				<div class="box-title">
 

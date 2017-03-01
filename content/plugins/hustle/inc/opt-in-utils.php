@@ -208,4 +208,33 @@ class Opt_In_Utils
         if( !self::is_user_allowed() || !check_ajax_referer( $action ) )
             wp_send_json_error( __("Invalid request, you are not allowed to make this request", Opt_In::TEXT_DOMAIN) );
     }
+
+	/**
+	 * Verify if current version is FREE
+	 **/
+	public static function _is_free() {
+		$is_free = ! file_exists( Opt_In::$plugin_path . 'lib/wpmudev-dashboard/wpmudev-dash-notification.php' );
+
+		return $is_free;
+	}
+
+	/**
+	 * Verify if current version is free
+	 **/
+	public static function is_hustle_free( $type = 'opt-ins' ) {
+		$is_free = self::_is_free();
+
+		if ( $is_free ) {
+			if ( 'opt-ins' == $type ) {
+				$optins = Opt_In_Collection::instance()->get_all_optins( null );
+				$is_free = count( $optins ) > 1;
+			} else {
+				// For CC
+				$cc = Hustle_Custom_Content_Collection::instance()->get_all( null );
+				$is_free = count( $cc ) > 1;
+			}
+		}
+
+		return $is_free;
+	}
 }

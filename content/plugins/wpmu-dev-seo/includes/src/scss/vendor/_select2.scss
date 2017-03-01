@@ -1,0 +1,111 @@
+/* ****************************************************************************
+ * LIBRARY: SELECT2
+ */
+.wpmud {
+
+	.select2-container {
+
+		.select2-selection--multiple {
+			background-color: transparent;
+			border: none;
+			border-radius: 0;
+			min-height: $space--l;
+
+			.select2-selection__rendered {
+				display: block;
+				max-height: $space--l;
+				padding: 0 $space--xxs;
+			}
+
+			.select2-selection__choice {
+				background-color: $color--light--alt;
+				border: 1px solid $color--grey--alt;
+				border-radius: 2px;
+				font: 300 14px/20px $font;
+				margin: 4px;
+				padding: $space--xxs $space--xs;
+
+				&:first-child {
+					margin-left: 0;
+				}
+
+				&__remove{
+					color: $color--dark;
+					float: right;
+					margin: 0 0 0 $space--xxs;
+				}
+			}
+
+		}
+
+		&.select2-container--focus {
+			.select2-selection--multiple {
+				border: none;
+			}
+		}
+
+		.select2-search--inline {
+			margin: 0;
+
+			input {
+				margin: 8px 0;
+			}
+		}
+
+		&.wds-multiselect {
+			&:hover,
+			&:focus {
+				border-color: $color--grey--light;
+			}
+		}
+
+		.select2-results__option {
+			&--highlighted[aria-selected] {
+				background-color: $color--cta;
+				color: #414042;
+			}
+
+			&[aria-selected=true] {
+				background-color: $color--success--alt;
+				color: #fff;
+			}
+		}
+
+	}
+
+	// Dropdown
+	.select2-dropdown {
+		border: none;
+	}
+
+	// Results
+	.select2-results {
+		border: 1px solid $color--grey--light;
+		border-top: none;
+		border-radius: 0 0 4px 4px;
+		margin: 0 -1px;
+
+		&__option {
+			font: 300 14px/20px $font;
+			margin: $space--xxs 0 0;
+			padding: $space--xxs $space--xs;
+
+			&:first-child {
+				margin-top: 0;
+			}
+		}
+
+		> .select2-results__options {
+			padding: $space--xxs 0;
+		}
+	}
+
+	.select-container--open {
+		border-radius: 4px 4px 0 0;
+
+		&:hover {
+			border-color: $color--grey--light;
+		}
+	}
+
+}

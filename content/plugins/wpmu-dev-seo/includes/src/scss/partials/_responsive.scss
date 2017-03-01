@@ -1,0 +1,134 @@
+/* ****************************************************************************
+ * COMMON RESPONSIVE TWEAKS
+ */
+.wpmud {
+
+	// WPMUDEV Dashboard
+	.row {
+		.col {
+			&-third,
+			&-two-third,
+			&-half,
+			&-quarter,
+			&-three-quarters {
+				@include bp(desktop-small) {
+					display: block;
+					margin-top: $space;
+					padding: 0;
+					width: 100%;
+
+					&:first-child {
+						margin-top: 0;
+					}
+				}
+			}
+		}
+	}
+
+	// Box
+	.dev-box {
+		
+		.box-title {
+
+			@include bp(phone-large) {
+				padding: $space--s $space;
+			}
+
+			.toggle-troup {
+				@include bp(tablet) {
+					margin-top: 0;
+				}
+			}
+
+			h3,
+			.buttons,
+			.actions,
+			.extra {
+				@include bp(phone-large) {
+					float: none;
+					display: block;
+				}
+			}
+
+			.buttons,
+			.actions,
+			.extra {
+				@include bp(phone-large) {
+					margin-top: $space--s;
+				}
+			}
+
+			h3 {
+				@include bp(phone-large) {
+					line-height: 1em;
+				}
+			}
+		}
+
+	}
+
+	// Common
+	.wrap-wds {
+
+		#header {
+
+			@include bp(desktop-small) {
+				h1,
+				.actions {
+					display: block;
+					float: none;
+				}
+				.actions {
+					margin-top: $space--s;
+					margin-bottom: $space--xxs;
+				}
+			}
+
+		}
+
+	}
+
+	// Content Box
+	.content-box {
+
+		// Two Cols
+		&-two-cols {
+
+			// Image on left
+			&-image-left {
+
+
+				@include bp(desktop) {
+
+					.wds-block-entry {
+						text-align: center;
+
+						// Image
+						&-image {
+							float: none;
+							margin-bottom: $space;
+
+							.wds-image {
+								margin: 0 auto;
+							}
+						}
+
+						// Content
+						&-content {
+							margin: 0;
+
+							.title {
+								text-align: center;
+							}
+						}
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+}

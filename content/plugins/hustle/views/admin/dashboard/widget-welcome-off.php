@@ -2,7 +2,7 @@
 
 	<div class="box-content">
 
-		<div class="flex-row">
+		<div class="row">
 
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 

@@ -21,33 +21,43 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
             link_color: '.wpoi-hustle .wpoi-message p a',
             content_color: '.wpoi-hustle .wpoi-message, .wpoi-hustle .wpoi-message p',
             link_hover_color: '.wpoi-hustle .wpoi-message p a:hover',
+            link_active_color: '.wpoi-hustle .wpoi-message p a:active, .wpoi-hustle .wpoi-message p a:focus',
             form_background: '.wpoi-hustle .wpoi-form',
             fields_background: '.wpoi-hustle form .wpoi-element',
+            fields_hover_background: '.wpoi-hustle form .wpoi-element:hover',
+            fields_active_background: '.wpoi-hustle form .wpoi-element:active, .wpoi-hustle form .wpoi-element:focus',
             label_color: '.wpoi-hustle form label, .wpoi-hustle form label span, .wpoi-hustle form wpoi-icon',
             button_background: '.wpoi-hustle form button',
             button_label: '.wpoi-hustle form button',
             fields_color: '.wpoi-hustle form > .wpoi-element input',
+            fields_hover_color: '.wpoi-hustle form > .wpoi-element input:hover',
+            fields_active_color: '.wpoi-hustle form > .wpoi-element input:active, .wpoi-hustle form > .wpoi-element input:focus',
             error_color: '.wpoi-hustle form .i-error, .wpoi-hustle form .i-error + span',
-            button_hover_background: '.wpoi-hustle form button:hover:not(:focus):not(:active), .wpoi-hustle form button:active, .wpoi-hustle form button:focus',
-            button_hover_label: '.wpoi-hustle form button:hover:not(:focus):not(:active)',
+            button_hover_background: '.wpoi-hustle form button:hover',
+            button_active_background: '.wpoi-hustle form button:active, .wpoi-hustle form button:focus',
+            button_hover_label: '.wpoi-hustle form button:hover',
+            button_active_label: '.wpoi-hustle form button:active, .wpoi-hustle form button:focus',
             checkmark_color: '.wpoi-hustle .wpoi-success-message .wpoi-icon',
             success_color: '.wpoi-hustle .wpoi-success-message .wpoi-content, .wpoi-hustle .wpoi-success-message .wpoi-content p',
             close_color: 'a.inc-opt-close-popup',
             nsa_color: '.wpoi-nsa > a, .wpoi-nsa > a.inc_opt_never_see_again',
             overlay_background: '.wpoi-popup-overlay',
-            close_hover_color: 'a.inc-opt-close-popup:hover, a.inc-opt-close-popup:active, a.inc-opt-close-popup:focus',
+            close_hover_color: 'a.inc-opt-close-popup:hover',
             nsa_hover_color: '.wpoi-nsa > a:hover, .wpoi-nsa > a.inc_opt_never_see_again:hover',
+            nsa_active_color: '.wpoi-nsa > a:active, .wpoi-nsa > a.inc_opt_never_see_again:active, .wpoi-nsa > a:focus, .wpoi-nsa > a.inc_opt_never_see_again:focus',
             radio_background: '.wpoi-hustle form .wpoi-mcg-option input[type="radio"] + label:before',
             radio_checked_background: '.wpoi-hustle form .wpoi-mcg-option input[type="radio"]:checked + label:after',
             checkbox_background: '.wpoi-hustle form .wpoi-mcg-option input[type="checkbox"] + label:before',
             checkbox_checked_color: '.wpoi-hustle form .wpoi-mcg-option input[type="checkbox"]:checked + label:before',
             mcg_title_color: '.wpoi-hustle form .wpoi-mcg-list-name, .wpoi-hustle .wpoi-submit-failure',
-            mcg_label_color: '.wpoi-hustle form .wpoi-mcg-option input[type="checkbox"] + label, .wpoi-hustle form .wpoi-mcg-option input[type="radio"] + label'
+            mcg_label_color: '.wpoi-hustle form .wpoi-mcg-option input[type="checkbox"] + label, .wpoi-hustle form .wpoi-mcg-option input[type="radio"] + label',
+            close_active_color: 'a.inc-opt-close-popup:active, a.inc-opt-close-popup:focus',
         },
         events: {
             'click .wph-preview--eye': "open_preview",
             "change #optin_color_palettes": "update_color_palette",
             "submit form.wpoi-form-wrap": "cancel_dummy_optin_submit",
+			"change #optin-active-css": "toggleCustomCSS",
             "click #optin_apply_custom_css": 'apply_custom_css',
             "click .wph-triggers--options label": 'handle_triggers',
             "mouseenter .wpoi-stylable-element": "highlight_stylable_element",
@@ -55,7 +65,11 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
             "click .wpoi-stylable-element": "insert_stylable_element",
             "change #optin_fname": "update_optional_elements",
             "change #optin_lname": "update_optional_elements",
-			'change #optin_customize_color_palette': '_toggleColorScheme'
+			'change #optin_customize_color_palette': '_toggleColorScheme',
+			'change [name="on_success"]': 'updateMeta',
+			'change [name="on_success_time"]': 'updateMeta',
+			'change [name="on_success_unit"]': 'updateMeta',
+			'change .wysiwyg-tab': 'toggleSuccessMessageFields'
         },
         stylables: {
             ".wpoi-hustle .wpoi-optin ": "Opt-in Container",
@@ -110,7 +124,7 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
 			var json_data = this.model.toJSON();
 			json_data.wph_disabled = '';
 			if ( this.model.get('borders.fields_style') === 'joined' ) {
-				json_data.wph_disabled = 'wph-disabled';
+				json_data.wph_disabled = 'disabled';
 			}
             this.$("#wph-optin--shapes").html( this.shapes_tpl( json_data  ) );
 			Hustle.Events.trigger("view.rendered", this.$("#wph-optin--shapes"));
@@ -448,6 +462,13 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
 				customColor = $('#optin_customize_color_palette');
 			colorSelector.prop('disabled', customColor.is( ':checked' ) );
 		},
+		toggleCustomCSS: function(e) {
+			var input = $(e.currentTarget),
+				isOn = input.is(':checked'),
+				holder =this.$('#wph-css-holder');
+			holder[ isOn ? 'removeClass' : 'addClass']('hidden');
+			input.closest('label.wph-label--border').toggleClass('toggle-off');
+		},
         apply_custom_css: function(e){
             if( e ) {
                 e.preventDefault();
@@ -466,7 +487,7 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
                 data: {
                     action: 'inc_opt_prepare_custom_css',
                     css: css_string,
-                    _ajax_nonce: $("#optin_apply_custom_css").data("nonce"),
+                    _ajax_nonce: $("#optin_custom_css").data("nonce"),
                     optin_id: optin_vars.current.data.optin_id
                 },
                 success: function(res){
@@ -646,6 +667,18 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
 			
 			if ( !this.success_editor ) this.success_editor = tinymce.get("success_message");
 			this.model.set("success_message", this.success_editor.getContent());
+		},
+		updateMeta: function( e ) {
+			var input = $( e.currentTarget ),
+				input_name = input.attr( 'name' );
+			this.model.set( input_name, input.val() );
+		},
+		toggleSuccessMessageFields: function( e ) {
+			var tab = $( e.currentTarget ),
+				is_visible = 'success_message' === tab.val(),
+				container = $( '#wpoi-success-message-fields');
+
+			container[ is_visible ? 'removeClass' : 'addClass']('hidden');
 		}
     }));
 

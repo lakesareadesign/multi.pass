@@ -176,7 +176,7 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
             ),
             "wrapper" => array(
                 "id" => "wpoi-get-lists",
-                "class" => "wpoi-get-lists",
+                "class" => "block-notification",
                 "type" => "wrapper",
                 "elements" => array(
                     "consumer_key" => array(

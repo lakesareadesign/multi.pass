@@ -53,6 +53,7 @@ class Hustle_Settings_Admin
             "enews_sync_state_toggle_nonce" => wp_create_nonce( "optin_sync_toggle" ),
             "enews_sync_setup_nonce" => wp_create_nonce( "optin_sync_setup" ),
             "modules" => Hustle_Collection::instance()->get_all_modules( null ),
+            "custom_contents" => array(),
             "modules_state_toggle_nonce" => wp_create_nonce( "hustle_modules_toggle" ),
             "is_e_newsletter_active" => $this->_hustle->get_e_newsletter()->is_plugin_active(),
             "email_services" => $this->_email_services,

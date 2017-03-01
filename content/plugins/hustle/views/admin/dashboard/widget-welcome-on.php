@@ -2,7 +2,7 @@
 
 	<div class="box-content">
 
-		<div class="flex-row">
+		<div class="row">
 
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
@@ -36,7 +36,7 @@
 
 				<div class="content-374">
 
-					<table class="wph-table wph-dashboard--stats">
+					<table class="wph-table wph-table--fixed wph-dashboard--stats">
 
 						<tbody>
 

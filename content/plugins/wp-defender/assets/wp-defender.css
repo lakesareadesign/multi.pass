@@ -405,6 +405,8 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
   .wp-defender .wd-version-sub span {
     color: #FF6D6D;
     font-weight: bold; }
+  .wp-defender .wd-version-sub span.ok {
+    color: #1ABC9C; }
   .wp-defender .wd-version-sub:nth-child(2) span {
     color: #555; }
   .wp-defender .wd-indicators {
@@ -1112,7 +1114,8 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
           margin-right: 15px; }
           .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div input[type="text"] {
             padding-left: 35px;
-            margin: 0; }
+            margin: 0;
+            min-width: 230px; }
           .wp-defender .wd-audit-logging .wd-audit-filter form .wd-audit-date-filter div i {
             position: absolute;
             font-size: 20px;
@@ -1432,40 +1435,14 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
     box-shadow: none; }
 
 .wd-hide {
-  display: none; }
+  display: none !important; }
 
 .wd-calendar {
-  background-color: white;
-  margin-top: 10px;
-  padding: 10px;
+  display: none;
   border: solid 1px #ddd; }
-  .wd-calendar .ui-datepicker-header {
-    width: 100%;
-    font-family: "Roboto Condensed", sans-serif; }
-    .wd-calendar .ui-datepicker-header .ui-datepicker-prev {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      cursor: pointer; }
-    .wd-calendar .ui-datepicker-header .ui-datepicker-next {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer; }
-    .wd-calendar .ui-datepicker-header .ui-datepicker-title {
-      text-align: center; }
-  .wd-calendar .ui-datepicker-calendar {
-    margin-top: 10px;
-    border-top: 1px solid #ddd;
-    padding-top: 10px; }
-    .wd-calendar .ui-datepicker-calendar th, .wd-calendar .ui-datepicker-calendar td {
-      padding: 5px; }
-      .wd-calendar .ui-datepicker-calendar th a, .wd-calendar .ui-datepicker-calendar td a {
-        display: block;
-        width: 100%;
-        height: 100%; }
-    .wd-calendar .ui-datepicker-calendar td {
-      text-align: center; }
+  .wd-calendar .today {
+    background: #FFF5D5;
+    color: #777; }
   .wd-calendar .ui-datepicker-today {
     background: #FFF5D5; }
     .wd-calendar .ui-datepicker-today a {
@@ -1486,7 +1463,12 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
   font-weight: normal;
   font-size: inherit; }
 
+.wd-calendar .left {
+  float: left; }
+.wd-calendar .right {
+  float: right; }
+
 /*# sourceMappingURL=wp-defender.css.map */
 
 
-/* 133620-1487198338-au */
+/* 133620-1488397688-au */

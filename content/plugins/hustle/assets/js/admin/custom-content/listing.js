@@ -13,7 +13,20 @@ Hustle.define("Custom_Content.Listing", function($, doc, win){
         },
         delete_confirmations: {},
         initialize: function(){
+			$(doc).on('click', '#hustle-legacy-popup-notice button.notice-dismiss', this.dismiss_legacy_popup_notice);
         },
+		dismiss_legacy_popup_notice: function(e){
+			var $this = $(e.target).closest("#hustle-legacy-popup-notice"),
+                nonce = $this.data("nonce");
+			$.ajax({
+                url: ajaxurl,
+                type: "POST",
+                data: {
+                    action: "hustle_custom_content_dismiss_legacy_notice",
+                    _ajax_nonce: nonce
+                }
+            });
+		},
         toggle_accordion: function(e){
             if( _.indexOf( ['wph-accordion--animate_buttons', 'wph-icon i-arrow'], e.target.className  ) === -1 ) return;
 

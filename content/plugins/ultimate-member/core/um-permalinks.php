@@ -255,6 +255,17 @@ class UM_Permalinks {
 		if( $generate_slug && $update_slug == false && $profile_slug  ){
 				return $this->profile_permalink( $profile_slug );
 		}
+
+		// Reset cache
+		if( $update_slug == true ){
+		
+			$user_id = um_user('ID');
+		
+			delete_option( "um_cache_userdata_{$user_id}" );
+		
+			um_fetch_user( $user_id );
+		
+		}
 	
 		// Username
 		if ( $permalink_base == 'user_login' ) {
@@ -379,6 +390,10 @@ class UM_Permalinks {
 			$permalink_base = um_get_option('permalink_base');
 
 			$user_in_url = '';
+
+			$full_name = str_replace("'", "", $full_name );
+			$full_name = str_replace("&", "", $full_name );
+			$full_name = str_replace("/", "", $full_name );
 
 			switch( $permalink_base )
 			{

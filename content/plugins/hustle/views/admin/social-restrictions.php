@@ -1,6 +1,6 @@
 <div class="hustle-two">
 
-	<div id="container" class="wrap">
+	<div id="container">
 
 		<header id="header">
 

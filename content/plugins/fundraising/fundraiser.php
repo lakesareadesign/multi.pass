@@ -3,7 +3,7 @@
 Plugin Name: Fundraising
 Plugin URI: http://premium.wpmudev.org/project/fundraising/
 Description: Create a fundraising page for any purpose or project.
-Version: 2.6.4.6
+Version: 2.6.4.7
 Text Domain: wdf
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
@@ -895,7 +895,7 @@ class WDF {
 
 		$process_payment = false;
 		global $wdf_gateway_active_plugins;
-		$skip_gateway_form = (isset($_SESSION['wdf_gateway']) && method_exists($wdf_gateway_active_plugins[$_SESSION['wdf_gateway']], 'skip_form') ? $wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form() : (isset($_SESSION['wdf_gateway']) && isset($wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form) ? $wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form : false));
+		$skip_gateway_form = (isset($_SESSION['wdf_gateway']) && method_exists($wdf_gateway_active_plugins[$_SESSION['wdf_gateway']], 'skip_form') ? $wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form() : (isset($_SESSION['wdf_gateway']) && isset($wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form) ? $wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form : false));	     	 	 				 			
 
 		if( isset($_POST['wdf_send_donation']) && $skip_gateway_form === true)
 			$process_payment = true;

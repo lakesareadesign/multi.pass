@@ -1,51 +1,53 @@
 <script type="text/template" id="hustle-media-holder-tpl">
-    <div class="wph-media--holder">
 
-        <button class="wph-button wph-media--add {{_.class(!!image, 'hidden')}}"><?php _e('Click to Add Image', Opt_In::TEXT_DOMAIN); ?></button>
+	<div class="wph-media--holder">
 
-        <div class="wph-media--options {{_.class(!image, 'hidden')}}" >
+		<button class="wph-media--add {{_.class(!!image, 'hidden')}}"><span class="dashicons dashicons-format-image"></span><?php _e('Click to Add Image', Opt_In::TEXT_DOMAIN); ?></button>
 
-            <button class="wph-button wph-button--dots">
+		<div class="wph-media--options {{_.class(!image, 'hidden')}}" >
 
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+			<button class="wph-button wph-button--dots">
 
-            </button>
+				<span class="dot"></span>
+				<span class="dot"></span>
+				<span class="dot"></span>
 
-            <div class="wph-media--list" >
+			</button>
 
-                <div class="svg-triangle hidden">
+			<div class="wph-media--list" >
 
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+				<div class="svg-triangle hidden">
 
-                        <polygon points="10,10 0,10 5,5 "></polygon>
+					<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
 
-                    </svg>
+						<polygon points="10,10 0,10 5,5 "></polygon>
 
-                </div>
+					</svg>
 
-                <ul class="wph-media--items hidden">
+				</div>
 
-                    <div class="wph-media--title">
+				<ul class="wph-media--items hidden">
 
-                        <span class="f-left"><?php _e('OPTIONS', Opt_In::TEXT_DOMAIN); ?></span>
+					<div class="wph-media--title">
 
-                        <i class="dev-icon dev-icon-cross"></i>
+						<span class="f-left"><?php _e('OPTIONS', Opt_In::TEXT_DOMAIN); ?></span>
 
-                    </div>
+						<i class="wph-icon i-close"></i>
 
-                    <li><a class="wpoi-swap-image-button" href="#"><span class="dashicons dashicons-format-gallery"></span><?php _e("Swap Image", Opt_In::TEXT_DOMAIN) ?></a></li>
+					</div>
 
-                    <li><a class="wpoi-delete-image-button" href="#"><span class="dashicons dashicons-trash"></span><?php _e("Delete Image", Opt_In::TEXT_DOMAIN) ?></a></li>
+					<li><a class="wpoi-swap-image-button" href="#"><span class="dashicons dashicons-format-gallery"></span><?php _e("Swap Image", Opt_In::TEXT_DOMAIN) ?></a></li>
 
-                </ul>
+					<li><a class="wpoi-delete-image-button" href="#"><span class="dashicons dashicons-trash"></span><?php _e("Delete Image", Opt_In::TEXT_DOMAIN) ?></a></li>
 
-            </div>
+				</ul>
 
-        </div><!-- .wph-media--options -->
+			</div>
 
-        <div class="wph-media--preview" style="background-image: url({{image}});"></div>
+		</div>
 
-    </div><!-- wph-media--holder -->
+		<div class="wph-media--preview" style="background-image: url({{image}});"></div>
+
+	</div>
+
 </script>

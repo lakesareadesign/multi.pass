@@ -1,0 +1,1911 @@
+# Copyright (C) 2017 WPMU DEV
+# This file is distributed under the same license as the SmartCrawl 2.0 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: SmartCrawl 2.0 2.0-beta-11\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpmu-dev-seo\n"
+"POT-Creation-Date: 2017-02-23 09:01:13+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: grunt-wp-i18n1.0.0\n"
+
+#: includes/admin/admin.php:122
+msgid "Error: options page not found."
+msgstr ""
+
+#: includes/admin/admin.php:194 includes/admin/metabox.php:86
+#: includes/admin/settings/dashboard.php:23
+#: includes/admin/templates/quick-edit-title.php:4
+msgid "SmartCrawl"
+msgstr ""
+
+#: includes/admin/admin.php:222
+msgid ""
+"This site discourages search engines from indexing the pages, which will "
+"affect your SEO efforts. <a href=\"%s\">You can fix this here</a>"
+msgstr ""
+
+#: includes/admin/core/service/class_wds_seo_service.php:163
+#: includes/admin/core/service/class_wds_uptime_service.php:66
+msgid "Unspecified error"
+msgstr ""
+
+#: includes/admin/core/service/class_wds_seo_service.php:172
+#: includes/admin/core/service/class_wds_uptime_service.php:77
+msgid "Manage"
+msgstr ""
+
+#: includes/admin/core/settings.php:216
+msgid "Insert Macro"
+msgstr ""
+
+#: includes/admin/core/settings.php:225
+msgid "Connecting..."
+msgstr ""
+
+#: includes/admin/core/settings.php:226
+msgid "Parsing results..."
+msgstr ""
+
+#: includes/admin/core/settings.php:227
+msgid "It appears something went wrong with communicating with the service"
+msgstr ""
+
+#: includes/admin/core/settings.php:228
+#: includes/admin/templates/dashboard-dialog-seo_service-run.php:17
+msgid "Checking the site ..."
+msgstr ""
+
+#: includes/admin/core/settings.php:229
+msgid "Still working ..."
+msgstr ""
+
+#: includes/admin/core/settings.php:230
+msgid "Waiting for service response ..."
+msgstr ""
+
+#: includes/admin/core/settings.php:231
+msgid "Request queued, waiting ..."
+msgstr ""
+
+#: includes/admin/core/settings.php:247
+msgid "Add Keyword Group"
+msgstr ""
+
+#: includes/admin/core/settings.php:248
+#: includes/admin/templates/autolinks-settings.php:153
+#: includes/admin/templates/autolinks-settings.php:162
+msgid "Custom Keywords"
+msgstr ""
+
+#: includes/admin/core/settings.php:249
+msgid "Link To"
+msgstr ""
+
+#: includes/admin/core/settings.php:250
+msgid "Add Keywords separated by comma"
+msgstr ""
+
+#: includes/admin/core/settings.php:251
+msgid "Add URL to link Custom Keywords"
+msgstr ""
+
+#: includes/admin/core/settings.php:252
+msgid "e.g. Cats, Kittens, Felines"
+msgstr ""
+
+#: includes/admin/core/settings.php:253
+msgid "e.g. http://cats.com"
+msgstr ""
+
+#: includes/admin/core/settings.php:254
+msgid "There's no custom keywords defined just yet. Why not add some?"
+msgstr ""
+
+#: includes/admin/core/settings.php:271
+msgid "Add Posts, Pages &amp; CPTs"
+msgstr ""
+
+#: includes/admin/core/settings.php:272
+msgid "Loading post items, please hold on..."
+msgstr ""
+
+#: includes/admin/core/settings.php:273
+msgid "Jump to page:"
+msgstr ""
+
+#: includes/admin/core/settings.php:274
+msgid "Total Pages:"
+msgstr ""
+
+#: includes/admin/core/settings.php:352
+msgid "Settings updated"
+msgstr ""
+
+#: includes/admin/core/settings.php:356
+msgid " &amp; W3 Total Cache Page Cache flushed"
+msgstr ""
+
+#: includes/admin/core/settings.php:359
+msgid " &amp; WP Super Cache flushed"
+msgstr ""
+
+#: includes/admin/metabox.php:37
+msgid "{TOTAL_LEFT} characters left"
+msgstr ""
+
+#: includes/admin/metabox.php:38
+msgid "Over {MAX_COUNT} characters ({CURRENT_COUNT})"
+msgstr ""
+
+#: includes/admin/metabox.php:39
+msgid ""
+"Over {MAX_COUNT} characters ({CURRENT_COUNT}) - make sure your SEO title is "
+"shorter"
+msgstr ""
+
+#: includes/admin/metabox.php:61
+msgid "NO ODP (Block Open Directory Project description of the page)"
+msgstr ""
+
+#: includes/admin/metabox.php:62
+msgid "NO YDIR (Don't display the Yahoo! Directory titles and abstracts)"
+msgstr ""
+
+#: includes/admin/metabox.php:63 includes/admin/metabox.php:187
+msgid "No Archive"
+msgstr ""
+
+#: includes/admin/metabox.php:64 includes/admin/metabox.php:188
+msgid "No Snippet"
+msgstr ""
+
+#: includes/admin/metabox.php:67
+msgid "Automatic prioritization"
+msgstr ""
+
+#: includes/admin/metabox.php:68
+msgid "1 - Highest priority"
+msgstr ""
+
+#: includes/admin/metabox.php:70
+msgid "High priority (root pages default)"
+msgstr ""
+
+#: includes/admin/metabox.php:72
+msgid "Secondary priority (subpages default)"
+msgstr ""
+
+#: includes/admin/metabox.php:73
+msgid "Medium priority"
+msgstr ""
+
+#: includes/admin/metabox.php:77
+msgid "Lowest priority"
+msgstr ""
+
+#: includes/admin/metabox.php:152 includes/admin/templates/metabox.php:94
+#: includes/admin/templates/quick-edit-title.php:6
+msgid "Title Tag"
+msgstr ""
+
+#: includes/admin/metabox.php:154
+msgid "Robots Meta"
+msgstr ""
+
+#: includes/admin/metabox.php:167
+msgid "Redirects to %s"
+msgstr ""
+
+#: includes/admin/metabox.php:185
+msgid "No ODP"
+msgstr ""
+
+#: includes/admin/metabox.php:186
+msgid "No YDIR"
+msgstr ""
+
+#: includes/admin/seomoz/dashboard-widget.php:39
+#: includes/admin/settings/seomoz.php:24
+#: includes/admin/templates/seomoz-settings.php:10
+#: includes/admin/templates/seomoz-settings.php:18
+msgid "Moz"
+msgstr ""
+
+#: includes/admin/seomoz/dashboard-widget.php:51
+msgid "<p>Moz credentials not properly set up.</p>"
+msgstr ""
+
+#: includes/admin/seomoz/dashboard-widget.php:63
+msgid "Unable to retrieve data from the Moz API. Error: %s."
+msgstr ""
+
+#: includes/admin/seomoz/results.php:45
+msgid "SEOmoz URL Metrics"
+msgstr ""
+
+#: includes/admin/settings/autolinks.php:99
+msgid "Limit values must be numeric"
+msgstr ""
+
+#: includes/admin/settings/autolinks.php:135
+#: includes/admin/settings/settings.php:149
+#: includes/admin/templates/autolinks-settings.php:5
+#: includes/admin/templates/autolinks-settings.php:11
+#: includes/admin/templates/autolinks-settings.php:228
+#: includes/core/class_wds_settings.php:38
+msgid "Automatic Links"
+msgstr ""
+
+#: includes/admin/settings/autolinks.php:136
+msgid "SmartCrawl Wizard: Automatic Links"
+msgstr ""
+
+#: includes/admin/settings/autolinks.php:306
+msgid "Comments"
+msgstr ""
+
+#: includes/admin/settings/autolinks.php:309
+msgid "Process only single posts and pages"
+msgstr ""
+
+#: includes/admin/settings/autolinks.php:310
+msgid "Process RSS feeds"
+msgstr ""
+
+#: includes/admin/settings/autolinks.php:311
+msgid "Case sensitive matching"
+msgstr ""
+
+#: includes/admin/settings/autolinks.php:312
+msgid "Prevent duplicate links"
+msgstr ""
+
+#: includes/admin/settings/autolinks.php:313
+msgid "Open links in new tab/window"
+msgstr ""
+
+#: includes/admin/settings/autolinks.php:314
+msgid "Autolinks nofollow"
+msgstr ""
+
+#: includes/admin/settings/dashboard.php:24
+msgid "Dashboard"
+msgstr ""
+
+#: includes/admin/settings/dashboard.php:25
+msgid "SmartCrawl Wizard: Dashboard"
+msgstr ""
+
+#: includes/admin/settings/dashboard.php:79
+msgid ""
+"We just updated your sitemap adding %1$d new items, for a total of %2$d. "
+"Please, re-crawl your site"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:119
+#: includes/admin/settings/settings.php:147
+#: includes/admin/templates/onpage-settings.php:7
+#: includes/admin/templates/onpage-settings.php:42
+#: includes/admin/templates/onpage-settings.php:822
+msgid "Title & Meta"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:120
+msgid "SmartCrawl Wizard: Title & Meta"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:159
+msgid "Your title seems to be a bit on the long side, consider trimming it"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:162
+msgid "Your description seems to be a bit on the long side, consider trimming it"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:271
+msgid "Date of the post/page"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:272
+msgid "Title of the post/page"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:273
+msgid "Site's name"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:274
+msgid "Site's tagline / description"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:275
+msgid "Post/page excerpt (or auto-generated if it does not exist)"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:276
+msgid "Post/page excerpt (without auto-generation)"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:277
+msgid "Current tag/tags"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:278
+msgid "Post categories (comma separated)"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:279
+msgid "Category description"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:280
+msgid "Tag description"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:281
+msgid "Term description"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:282
+msgid "Term name"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:283
+msgid "Post/page modified time"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:284
+msgid "Post/page ID"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:285
+msgid "Post/page author's 'nicename'"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:286
+msgid "Post/page author's userid"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:287
+msgid "Current search phrase"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:288
+msgid "Current time"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:289
+msgid "Current date"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:290
+msgid "Current month"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:291
+msgid "Current year"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:292
+msgid "Current page number (i.e. page 2 of 4)"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:293
+msgid "Current page total"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:294
+msgid "Current page number"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:295
+msgid "Attachment caption"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:296
+#: includes/admin/settings/onpage.php:298
+msgid "Current page number, spelled out as numeral in English"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:297
+msgid "Current page total, spelled out as numeral in English"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:311
+#: includes/admin/settings/onpage.php:380
+#: includes/admin/templates/metabox.php:146
+msgid "Noindex"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:312
+#: includes/admin/settings/onpage.php:381
+#: includes/admin/templates/metabox.php:155
+msgid "Nofollow"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:313
+msgid "Leave the first page alone, but apply to subsequent pages"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:384
+msgid "No"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:385
+#: includes/admin/settings/sitemap.php:147
+#: includes/admin/settings/sitemap.php:187
+msgid "Yes"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:389
+#: includes/admin/settings/sitemap.php:143
+msgid "Google"
+msgstr ""
+
+#: includes/admin/settings/onpage.php:390
+#: includes/admin/settings/sitemap.php:144
+msgid "Bing"
+msgstr ""
+
+#: includes/admin/settings/redirections.php:93
+#: includes/admin/templates/redirections-settings.php:24
+msgid "Redirections"
+msgstr ""
+
+#: includes/admin/settings/redirections.php:94
+msgid "SmartCrawl Wizard: Redirections"
+msgstr ""
+
+#: includes/admin/settings/seomoz.php:25
+#: includes/admin/templates/seomoz-settings.php:5
+msgid "SmartCrawl Wizard: Moz"
+msgstr ""
+
+#: includes/admin/settings/settings.php:80
+#: includes/admin/settings/settings.php:150
+#: includes/admin/templates/settings-settings.php:11
+#: includes/admin/templates/settings-settings.php:230
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/settings/settings.php:81
+msgid "SmartCrawl Wizard: Settings"
+msgstr ""
+
+#: includes/admin/settings/settings.php:108
+msgid "Super Admin"
+msgstr ""
+
+#: includes/admin/settings/settings.php:109
+#: includes/admin/settings/settings.php:110
+#: includes/admin/settings/settings.php:111
+#: includes/admin/settings/settings.php:112
+msgid "%s (and up)"
+msgstr ""
+
+#: includes/admin/settings/settings.php:109
+msgid "Site Admin"
+msgstr ""
+
+#: includes/admin/settings/settings.php:110
+msgid "Editor"
+msgstr ""
+
+#: includes/admin/settings/settings.php:111
+msgid "Author"
+msgstr ""
+
+#: includes/admin/settings/settings.php:112
+msgid "Contributor"
+msgstr ""
+
+#: includes/admin/settings/settings.php:148
+#: includes/admin/sitemaps-dashboard-widget.php:34
+#: includes/admin/templates/dashboard-settings.php:72
+#: includes/admin/templates/sitemap-settings.php:5
+#: includes/admin/templates/sitemap-settings.php:11
+#: includes/admin/templates/sitemap-settings.php:249
+msgid "Sitemaps"
+msgstr ""
+
+#: includes/admin/settings/sitemap.php:86
+msgid "Sitemap"
+msgstr ""
+
+#: includes/admin/settings/sitemap.php:87
+msgid "SmartCrawl Wizard: Sitemap"
+msgstr ""
+
+#: includes/admin/settings/sitemap.php:150
+msgid "All pages"
+msgstr ""
+
+#: includes/admin/settings/sitemap.php:151
+msgid "Home page"
+msgstr ""
+
+#: includes/admin/settings/sitemap.php:164
+#: includes/admin/settings/sitemap.php:168
+msgid "No META tag will be added"
+msgstr ""
+
+#: includes/admin/shared-ui/plugin-ui.php:49
+msgid "Nothing found"
+msgstr ""
+
+#: includes/admin/shared-ui/plugin-ui.php:50
+msgid "Okay, we saved your changes!"
+msgstr ""
+
+#: includes/admin/shared-ui/plugin-ui.php:51
+msgid "Oops, we could not do this..."
+msgstr ""
+
+#: includes/admin/shared-ui/plugin-ui.php:225
+msgid "Saving"
+msgstr ""
+
+#: includes/admin/shared-ui/plugin-ui.php:254
+#: includes/external/dash/wpmudev-dash-notification.php:248
+#: includes/external/dash/wpmudev-dash-notification.php:289
+msgid "Dismiss"
+msgstr ""
+
+#: includes/admin/sitemaps-dashboard-widget.php:48
+msgid "It was last updated on %s, at %s."
+msgstr ""
+
+#: includes/admin/sitemaps-dashboard-widget.php:48
+msgid "Your sitemap hasn't been updated recently."
+msgstr ""
+
+#: includes/admin/sitemaps-dashboard-widget.php:49
+msgid "Update sitemap now"
+msgstr ""
+
+#: includes/admin/sitemaps-dashboard-widget.php:50
+msgid "Force search engines notification"
+msgstr ""
+
+#: includes/admin/sitemaps-dashboard-widget.php:51
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:178
+msgid "Updating..."
+msgstr ""
+
+#: includes/admin/sitemaps-dashboard-widget.php:52
+msgid "Done updating the sitemap, please hold on..."
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:11
+#: includes/admin/templates/onpage-settings.php:42
+#: includes/admin/templates/seomoz-settings.php:10
+#: includes/admin/templates/settings-settings.php:11
+#: includes/admin/templates/sitemap-settings.php:11
+msgid "Your network admin prevented access to '%s', please move onto next step."
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:18
+msgid ""
+"Sometimes you want to always link certain key words to a page on your blog "
+"or even a whole new site all together. This section lets you set those key "
+"words and links. "
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:33
+msgid "Link Inserts"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:37
+msgid "Insert links in"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:38
+msgid "Choose where to insert automatic links"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:55
+msgid "Link to"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:56
+msgid "Choose content you want to convert to links"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:76
+#: includes/admin/templates/sitemap-settings.php:106
+msgid "Excludes"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:80
+msgid "Exclude Keywords"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:82
+msgid "Paste in the keywords you wish to exclude and separate them by commas"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:86
+msgid "Excude Posts, Pages & CPTs"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:88
+msgid ""
+"Paste in the IDs, slugs or titles for the post/pages you wish to exclude "
+"and separate them by commas"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:96
+msgid "Additional Settings"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:101
+msgid "Allow autolinks to empty taxonomies"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:116
+msgid "Prevent linking in heading tags"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:158
+msgid "Example:"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:159
+msgid ""
+"WPMU DEV, plugins, themes, http://premium.wpmudev.org/<br>WordPress News, "
+"http://wpmu.org/"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:173
+msgid "Minimum Title Length"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:177
+msgid "Minimum post title length"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:180
+#: includes/admin/templates/autolinks-settings.php:187
+msgid "Characters"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:181
+msgid "Shorter Post Titles will not be converted to links."
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:184
+msgid "Minimum taxonomy title length"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:188
+msgid "Shorter Taxonomy Titles will not be converted to links."
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:195
+msgid "Autolink Limits"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:199
+msgid "Maximum autolinks number limit"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:202
+msgid "This is the maximum number of autolinks that will be added to your posts."
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:205
+msgid "Maximum single autolink occurrence"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:208
+msgid "This is a number of single link replacement occurrences."
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:218
+#: includes/admin/templates/onpage-settings.php:812
+#: includes/admin/templates/redirections-settings.php:118
+#: includes/admin/templates/settings-settings.php:220
+#: includes/admin/templates/sitemap-settings.php:239
+msgid "Save Settings"
+msgstr ""
+
+#: includes/admin/templates/autolinks-settings.php:228
+#: includes/admin/templates/onpage-settings.php:822
+#: includes/admin/templates/seomoz-settings.php:18
+#: includes/admin/templates/settings-settings.php:230
+#: includes/admin/templates/sitemap-settings.php:249
+msgid "You've chosen not to set up '%s', please move onto next step."
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:7
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:36
+msgid "Run SEO analysis of your site"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:20
+msgid ""
+"Let our servers run a comprehensive scan of your entire website & compile a "
+"list of suggestions on how you can improve the SEO of your website."
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:23
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:211
+msgid "Run SEO analysis"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:70
+msgid "Total Discovered URLs"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:83
+msgid "Newly Discovered URLs"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:89
+msgid "Invisible URLs"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:102
+msgid "URLs in the Sitemap"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:120
+msgid ""
+"Some parts of your site were too slow to respond and were not included in "
+"our crawl."
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:127
+msgid "We have found a few issues with URLs:"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:132
+msgid "URLs that result in server error (500 etc)"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:140
+msgid "URLs that result in soft error (404 etc)"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:148
+msgid "URLs that have multiple re-directs"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:160
+msgid "Your latest crawl revealed no SEO issues, well done!"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:164
+msgid "Please, have a look into the displayed messages and re-crawl your site."
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:175
+msgid "%d URLs are not in the Sitemap"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:179
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:182
+msgid "Update Sitemap"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:180
+msgid "Sitemap updated, please hold on..."
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:186
+msgid ""
+"This number might not be indicative of an actual issue on your site. These "
+"URLs could also be things that don't make sense to be found in the sitemap, "
+"such as date archives."
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_seo.php:188
+msgid "Show"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_uptime.php:8
+msgid "Uptime"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_uptime.php:13
+msgid "Install %s for more info."
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-has_dashboard-service_uptime.php:13
+msgid "Hummingbird"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-not_installed-service_seo.php:9
+msgid "Install WPMU DEV Dashboard"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-not_installed-service_seo.php:20
+msgid "Download WPMU DEV Dashboard"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-not_installed-service_uptime.php:3
+msgid "Quickly check your site performance"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-not_installed-service_uptime.php:6
+msgid "This service requires an active WPMU DEV Membership, get one today!"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-not_installed-service_uptime.php:9
+msgid "Update Membership"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-not_logged_in-service_seo.php:9
+#: includes/admin/templates/dashboard-dialog-not_logged_in-service_seo.php:25
+msgid "Upgrade Membership"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-not_logged_in-service_seo.php:19
+msgid "Access to 140+ plugins & Upfront themes"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-not_logged_in-service_seo.php:20
+msgid "Access to security, backups, SEO and performance services"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-not_logged_in-service_seo.php:21
+msgid "24/7 expert WordPress support"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-not_logged_in-service_seo.php:26
+msgid ""
+"Already a member? You need to <a href=\"%s\">download</a> the WPMU DEV "
+"Plugin & <a href=\"%s\">login</a>!"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-seo_service-run.php:10
+msgid "SEO analysis in progress"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-seo_service-run.php:29
+msgid ""
+"A full scan can take quite a while, especially if you have a large "
+"site!<br>Feel free to close this page; we'll send an e-mail to %s once the "
+"results are in."
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-seo_service-run.php:35
+msgid "your DEV account email"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-seo_service-run.php:44
+msgid "You can change that e-mail address if you want, on your DEV account page"
+msgstr ""
+
+#: includes/admin/templates/dashboard-dialog-seo_service-run.php:45
+msgid "here"
+msgstr ""
+
+#: includes/admin/templates/dashboard-report-issue.php:5
+msgid "Fix"
+msgstr ""
+
+#: includes/admin/templates/dashboard-report-issue.php:27
+msgid "Link Location"
+msgstr ""
+
+#: includes/admin/templates/dashboard-report-issue.php:48
+#: includes/admin/templates/redirections-settings.php:10
+msgid "Enter re-direct URL"
+msgstr ""
+
+#: includes/admin/templates/dashboard-report-issue.php:60
+#: includes/admin/templates/redirections-settings.php:17
+msgid "Save"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:7
+#: includes/admin/templates/dashboard-settings.php:12
+#: includes/admin/templates/dashboard-settings.php:16
+#: includes/admin/templates/dashboard-settings.php:20
+#: includes/admin/templates/dashboard-settings.php:25
+msgid "Settings Updated"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:29
+msgid "Welcome to SmartCrawl"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:31
+msgid ""
+"Ahoy Cap'n! Welcome to SmartCrawl. This plugin will help you improve the "
+"SEO of your website and get better"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:33
+msgid "Search Results Rankings across various search engines."
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:76
+#: includes/admin/templates/sitemap-settings.php:35
+msgid "Path to the XML Sitemap"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:82
+#: includes/admin/templates/sitemap-settings.php:39
+msgid "URL to the XML Sitemap"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:97
+msgid "Manually improve SEO"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:101
+msgid "Manually improve your site's SEO by configuring various settings."
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:103
+msgid ""
+"We recommend by starting with Title & Meta as it is generally considered "
+"the most valuable area and most likely to be indexed."
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:106
+msgid "Configure SEO"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:117
+msgid "Titles & Meta"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:124
+#: includes/admin/templates/onpage-settings.php:60
+#: includes/admin/templates/onpage-settings.php:63
+msgid "Homepage"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:125
+#: includes/admin/templates/dashboard-settings.php:142
+#: includes/admin/templates/dashboard-settings.php:152
+#: includes/admin/templates/dashboard-settings.php:166
+#: includes/admin/templates/dashboard-settings.php:177
+#: includes/admin/templates/dashboard-settings.php:184
+#: includes/admin/templates/dashboard-settings.php:191
+#: includes/admin/templates/dashboard-settings.php:198
+#: includes/admin/templates/dashboard-settings.php:205
+msgid "Edit"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:151
+#: includes/admin/templates/onpage-settings.php:279
+#: includes/admin/templates/onpage-settings.php:281
+msgid "Post Categories"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:176
+#: includes/admin/templates/onpage-settings.php:345
+#: includes/admin/templates/onpage-settings.php:347
+msgid "Post Tags"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:183
+#: includes/admin/templates/onpage-settings.php:411
+#: includes/admin/templates/onpage-settings.php:413
+msgid "Author Archive"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:190
+msgid "Date Archive"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:197
+#: includes/admin/templates/onpage-settings.php:542
+#: includes/admin/templates/onpage-settings.php:544
+msgid "Search Page"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:204
+#: includes/admin/templates/onpage-settings.php:608
+#: includes/admin/templates/onpage-settings.php:610
+msgid "404 Page"
+msgstr ""
+
+#: includes/admin/templates/dashboard-settings.php:225
+msgid "SEO Moz Stats"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:21
+msgid "temp title"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:27
+msgid "temp description"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:37
+msgid "Preview:"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:50
+msgid "mins"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:52
+msgid "More videos &raquo;"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:68
+msgid "Cached"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:68
+msgid "Similar"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:98
+msgid "Up to %d characters recommended"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:106
+#: includes/admin/templates/quick-edit-robots.php:5
+msgid "Meta Description"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:110
+msgid "%d characters maximum"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:118
+msgid "Meta keywords"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:121
+msgid "I want to use post tags in addition to my keywords"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:124
+msgid "News Keywords"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:128
+msgid "Separate keywords with commas"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:129
+msgid ""
+"If you enable using tags, post tags will be merged in with any other "
+"keywords you enter in the text box."
+msgstr ""
+
+#: includes/admin/templates/metabox.php:137
+msgid "Meta Robots"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:141
+#: includes/admin/templates/metabox.php:144
+msgid "Index"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:150
+#: includes/admin/templates/metabox.php:153
+msgid "Follow"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:159
+msgid "Advanced"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:177
+msgid "<code>meta</code> robots settings for this page."
+msgstr ""
+
+#: includes/admin/templates/metabox.php:185
+msgid "Canonical URL"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:199
+msgid "301 Redirect"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:213
+msgid "Sitemap Priority"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:232
+msgid "The priority given to this page in the XML sitemap."
+msgstr ""
+
+#: includes/admin/templates/metabox.php:250
+#: includes/admin/templates/onpage-og-title.php:11
+msgid "OpenGraph Title"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:260
+#: includes/admin/templates/onpage-og-description.php:11
+msgid "OpenGraph Description"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:269
+#: includes/admin/templates/onpage-og-images.php:11
+msgid "OpenGraph Images"
+msgstr ""
+
+#: includes/admin/templates/metabox.php:276
+#: includes/admin/templates/onpage-og-images.php:19
+msgid "Add image"
+msgstr ""
+
+#: includes/admin/templates/onpage-og-master.php:2
+msgid "OpenGraph"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:5
+msgid "Browse Macros"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:10
+msgid "Supported Macros"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:15
+#: includes/admin/templates/onpage-settings.php:21
+msgid "Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:16
+#: includes/admin/templates/onpage-settings.php:22
+msgid "Gets Replaced By"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:48
+msgid ""
+"Here you can change the Title & Description meta tags for various areas of "
+"your website. Title & Description meta tags are generally held to be the "
+"most valuable and most likely to be indexed, so special attention to those. "
+"You may either use normal text or dynamic macros."
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:72
+msgid "Page Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:83
+msgid "Page Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:94
+msgid "Page Keywords"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:98
+msgid "Comma-separated keywords, e.g."
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:98
+msgid "word1, word2"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:112
+msgid "Main Blog Archive<br> Meta Robots"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:131
+msgid ""
+"Please note, the Meta Robot settings are only relevant for Homepages that "
+"use Static Page."
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:137
+#: includes/admin/templates/onpage-settings.php:140
+msgid ""
+"You seem to be using a static front page. You can tweak its SEO settings "
+"using the SmartCrawl metabox in your Page editor."
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:172
+#: includes/admin/templates/onpage-settings.php:219
+msgid "%s Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:183
+#: includes/admin/templates/onpage-settings.php:230
+msgid "%s Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:247
+msgid "%s Meta Robots"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:288
+msgid "Category Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:299
+msgid "Category Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:316
+msgid "Category Meta Robots"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:354
+msgid "Tag Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:365
+msgid "Tag Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:382
+msgid "Tag Meta Robots"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:420
+msgid "Author Archive Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:431
+msgid "Author Archive <br> Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:448
+msgid "Author Archive <br> Meta Robots"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:476
+#: includes/admin/templates/onpage-settings.php:478
+msgid "Date Archives"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:485
+msgid "Date Archives Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:496
+msgid "Date Archives <br> Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:513
+msgid "Date Archives <br> Meta Robots"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:551
+msgid "Search Page Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:562
+msgid "Search Page Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:579
+msgid "Search Page <br> Meta Robots"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:617
+msgid "404 Page Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:628
+msgid "404 Page Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:644
+#: includes/admin/templates/onpage-settings.php:646
+msgid "BuddyPress Groups"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:653
+msgid "BuddyPress Group Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:664
+msgid "BuddyPress Group<br> Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:681
+#: includes/admin/templates/onpage-settings.php:683
+msgid "BuddyPress Profile"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:690
+msgid "BuddyPress Profile Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:701
+msgid "BuddyPress Profile<br> Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:718
+#: includes/admin/templates/onpage-settings.php:720
+msgid "MarketPress"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:727
+msgid "Marketplace Base Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:738
+msgid "Marketplace Base<br> Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:749
+msgid "Marketplace Categories<br> Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:760
+msgid "Marketplace Categories<br> Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:771
+msgid "Marketplace Tags<br> Title"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:782
+msgid "Marketplace Tags<br> Meta Description"
+msgstr ""
+
+#: includes/admin/templates/onpage-settings.php:800
+msgid "Title & Meta Example"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:3
+msgid "Add new redirection"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:6
+msgid "Enter old URL"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:29
+msgid "Here you will find a list of active redirections on your site."
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:43
+msgid "Active Redirections"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:46
+msgid "Add new"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:57
+msgid "Old URL"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:58
+msgid "Redirect URL"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:59
+msgid "Type"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:85
+#: includes/admin/templates/settings-settings.php:63
+msgid "Permanent (301)"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:86
+#: includes/admin/templates/settings-settings.php:67
+msgid "Temporary (302)"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:96
+msgid "No active redirections"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:100
+msgid "Action:"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:103
+msgid "No action selected"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:104
+msgid "Delete"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:105
+msgid "Change to 301"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:106
+msgid "Change to 302"
+msgstr ""
+
+#: includes/admin/templates/redirections-settings.php:110
+msgid "Apply Action"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:4
+#: includes/admin/templates/seomoz-dashboard-widget.php:66
+#: includes/admin/templates/urlmetrics-metabox.php:5
+msgid "Metric"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:5
+#: includes/admin/templates/seomoz-dashboard-widget.php:67
+msgid "Value"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:11
+msgid "Domain mozRank"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:12
+msgid "Measure of the mozRank %s of the domain in the Linkscape index"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:15
+#: includes/admin/templates/seomoz-dashboard-widget.php:49
+#: includes/admin/templates/urlmetrics-metabox.php:18
+msgid "10-point score:"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:18
+#: includes/admin/templates/seomoz-dashboard-widget.php:52
+#: includes/admin/templates/urlmetrics-metabox.php:18
+msgid "Raw score:"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:24
+msgid "Domain Authority"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:31
+msgid "External Links to Homepage"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:32
+msgid ""
+"The number of external (from other subdomains), juice passing links %s to "
+"the target URL in the Linkscape index"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:38
+msgid "Links to Homepage"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:39
+msgid ""
+"The number of internal and external, juice and non-juice passing links %s "
+"to the target URL in the Linkscape index"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:45
+msgid "Homepage mozRank"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:46
+msgid "Measure of the mozRank %s of the homepage URL in the Linkscape index"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:58
+msgid "Homepage Authority"
+msgstr ""
+
+#: includes/admin/templates/seomoz-dashboard-widget.php:71
+msgid ""
+"For posts / pages specific metrics refer to the Moz URL metrics module on "
+"the Edit Post / Page screen"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:5
+msgid "SmartCrawl Settings"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:18
+msgid ""
+"Here you can add your SEO Moz API details & configure additional plugin "
+"settings."
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:33
+msgid "SEO Moz Account"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:36
+msgid ""
+"<a href=\"http://moz.com/products/api\" target=\"_blank\">Sign-up for a "
+"free account</a> to gain access to reports that will tell you how your site "
+"stacks up against the competition with all of the important SEO measurement "
+"tools - ranking, links, and much more."
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:38
+msgid "Access ID"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:41
+msgid "Secret Key"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:48
+msgid "Default Redirection type"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:78
+msgid "Activate plugin section"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:81
+msgid ""
+"Use this option if you would like to quickly disable one of the SmartCrawl "
+"sections. eg:<br> You want to quickly switch off Automatic Links. Usually "
+"you would want to have all enabled."
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:106
+msgid "Show metaboxes to users"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:111
+msgid "Show SEO metabox to role"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:135
+msgid "Within SEO metabox, show 301 redirection to role"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:159
+msgid "Show Moz metabox to roles"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:190
+msgid "Site Owner Permissions"
+msgstr ""
+
+#: includes/admin/templates/settings-settings.php:193
+msgid ""
+"Use this section to chose what sections of this plugin will be accessible "
+"to Site Admins on your Network."
+msgstr ""
+
+#: includes/admin/templates/sitemap-buddypress-settings.php:3
+msgid "BuddyPress"
+msgstr ""
+
+#: includes/admin/templates/sitemap-buddypress-settings.php:7
+msgid "BuddyPress sitemaps integration."
+msgstr ""
+
+#: includes/admin/templates/sitemap-buddypress-settings.php:18
+msgid "Include BuddyPress groups in my sitemaps"
+msgstr ""
+
+#: includes/admin/templates/sitemap-buddypress-settings.php:19
+msgid "Enabling this option will add all your BuddyPress groups to your sitemap."
+msgstr ""
+
+#: includes/admin/templates/sitemap-buddypress-settings.php:30
+msgid "Exclude these groups from my sitemap."
+msgstr ""
+
+#: includes/admin/templates/sitemap-buddypress-settings.php:57
+msgid "Include BuddyPress profiles in my sitemaps."
+msgstr ""
+
+#: includes/admin/templates/sitemap-buddypress-settings.php:58
+msgid "Enabling this option will add all your BuddyPress profiles to your sitemap."
+msgstr ""
+
+#: includes/admin/templates/sitemap-buddypress-settings.php:69
+msgid "Exclude profiles with these roles from my sitemap."
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:17
+msgid ""
+"Here we will help you create a site map which are used to help search "
+"engines find all of the information on your site."
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:32
+#: includes/core/class_wds_settings.php:41
+msgid "XML Sitemap"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:45
+msgid "Search Engines"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:50
+msgid "Google site verification code"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:56
+msgid "Bing site verification code"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:63
+msgid "Add verification code to"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:81
+msgid "Automatically notify search engines when my sitemap updates"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:112
+msgid "Exclude Post Types"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:129
+msgid "Exclude Taxonomies"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:149
+msgid "Options"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:163
+msgid "Include image items with the sitemap"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:164
+msgid "Enabling this option will considerably increase plugin memory consumption."
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:181
+msgid "Include stylesheet with the generated sitemap"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:182
+msgid "Stylesheet does not affect your sitemap functionality in any way."
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:199
+msgid "Show dashboard widget"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:200
+msgid ""
+"Enabling this option will add an Admin Dashboard widget that displays your "
+"sitemap information."
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:217
+msgid "Disable automatic sitemap updates"
+msgstr ""
+
+#: includes/admin/templates/sitemap-settings.php:218
+msgid ""
+"Enable this option if you wish to update your sitemaps manually (by using "
+"the Dashboard widget or visiting this page) only."
+msgstr ""
+
+#: includes/admin/templates/sitemaps-dashboard-widget.php:3
+msgid "Your sitemap contains <a href=\"%s\" target=\"_blank\"><b>%d</b> items</a>."
+msgstr ""
+
+#: includes/admin/templates/sitemaps-dashboard-widget.php:16
+msgid "Last notified on %s, at %s."
+msgstr ""
+
+#: includes/admin/templates/sitemaps-dashboard-widget.php:16
+msgid "Not notified"
+msgstr ""
+
+#: includes/admin/templates/sitemaps-dashboard-widget.php:24
+msgid "<div>Search engines haven't been recently updated</div>"
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:2
+msgid "SmartCrawl Settings "
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:7
+msgid "SEO Title"
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:7
+msgid "The SEO title is used on the archive page for this term."
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:8
+msgid "SEO Description"
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:8
+msgid ""
+"The SEO description is used for the meta description on the archive page "
+"for this term."
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:9
+msgid "Canonical"
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:9
+msgid "The canonical link is shown on the archive page for this term."
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:11
+msgid "Index this %s"
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:12
+msgid "Noindex this %s"
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:14
+msgid "Follow this %s"
+msgstr ""
+
+#: includes/admin/templates/term-additions-form.php:15
+msgid "Nofollow this %s"
+msgstr ""
+
+#: includes/admin/templates/underscore-postlist-selector.php:1
+msgid "Choose Posts, Pages & Custom Post Types to exclude"
+msgstr ""
+
+#: includes/admin/templates/urlmetrics-metabox.php:9
+msgid "External Links"
+msgstr ""
+
+#: includes/admin/templates/urlmetrics-metabox.php:13
+msgid "Links"
+msgstr ""
+
+#: includes/admin/templates/urlmetrics-metabox.php:17
+msgid "mozRank"
+msgstr ""
+
+#: includes/admin/templates/urlmetrics-metabox.php:21
+msgid "Page Authority"
+msgstr ""
+
+#: includes/admin/templates/urlmetrics-metabox.php:26
+msgid "Moz Linkscape API"
+msgstr ""
+
+#: includes/core/class_wds_controller_sitemap.php:67
+msgid "The sitemap file was not found."
+msgstr ""
+
+#: includes/core/class_wds_logger.php:42
+msgid "Debug (verbose procedural data)"
+msgstr ""
+
+#: includes/core/class_wds_logger.php:43
+msgid "Info (verbose informal data)"
+msgstr ""
+
+#: includes/core/class_wds_logger.php:44
+msgid "Notice (attention might be needed)"
+msgstr ""
+
+#: includes/core/class_wds_logger.php:45
+msgid "Warning (something non-critical went wrong)"
+msgstr ""
+
+#: includes/core/class_wds_logger.php:46
+msgid "Error (critical issue)"
+msgstr ""
+
+#: includes/core/class_wds_model_user.php:103
+msgid "Anonymous"
+msgstr ""
+
+#: includes/core/class_wds_settings.php:39
+msgid "Title & Meta Optimization"
+msgstr ""
+
+#: includes/core/class_wds_settings.php:40
+msgid "Moz Report"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:223
+msgid "install"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:230
+msgid ""
+"Important updates are available for <strong>%s</strong>. Install the free "
+"WPMU DEV Dashboard plugin now for updates and support!"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:232
+msgid ""
+"<strong>%s</strong> is almost ready - install the free WPMU DEV Dashboard "
+"plugin for updates and support!"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:236
+msgid ""
+"Important updates are available for your WPMU DEV plugins/themes. Install "
+"the free WPMU DEV Dashboard plugin now for updates and support!"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:238
+msgid ""
+"Almost ready - install the free WPMU DEV Dashboard plugin for updates and "
+"support!"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:244
+msgid "Install Plugin"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:247
+#: includes/external/dash/wpmudev-dash-notification.php:288
+msgid "Saving..."
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:264
+msgid "activate"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:271
+msgid ""
+"Important updates are available for <strong>%s</strong>. Activate the WPMU "
+"DEV Dashboard to update now!"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:273
+msgid "Just one more step to enable updates and support for <strong>%s</strong>!"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:277
+msgid ""
+"Important updates are available for your WPMU DEV plugins/themes. Activate "
+"the WPMU DEV Dashboard to update now!"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:279
+msgid ""
+"Just one more step - activate the WPMU DEV Dashboard plugin and you're all "
+"done!"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:285
+msgid "Activate WPMU DEV Dashboard"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:952
+msgid "We did not find any data for this plugin or theme..."
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:1131
+msgid "%s changelog"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:1161
+msgid "Current"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:1167
+msgid "New"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:1184
+msgid "Version %s"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:1202
+msgid "Show all changes"
+msgstr ""
+
+#: includes/external/dash/wpmudev-dash-notification.php:1203
+msgid "Hide details"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "SmartCrawl 2.0"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://premium.wpmudev.org/project/wpmu-dev-seo/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Every SEO option that a site requires, in one easy bundle."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WPMU DEV"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://premium.wpmudev.org"
+msgstr ""

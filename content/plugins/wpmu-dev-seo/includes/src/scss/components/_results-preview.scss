@@ -1,0 +1,48 @@
+/* ****************************************************************************
+ * COMPONENT: RESULTS PREVIEW
+ */
+.wpmud {
+	.wds-preview {
+		background: #fff;
+		border: 1px solid #DFDFDF;
+		max-width: 670px;
+		padding: $space;
+
+		* {
+			font-family: Arial, sans-serif;
+			font-weight: 400;
+			letter-spacing: initial;
+			text-align: left;
+		}
+
+		&-title {
+			h3 {
+				font-size: 18px;
+				line-height: 21px;
+				margin: 0;
+				text-transform: none;
+
+				a {
+					color: #1a0dab;
+				}
+			}
+		}
+
+		&-url {
+			font-size: 14px;
+			line-height: 16px;
+			margin-bottom: 2px;
+
+			a {
+				color: #006621;
+			}
+		}
+
+		&-meta {
+			color: #545454;
+			font-size: 13px;
+			line-height: 18px;
+		}
+
+	}
+}

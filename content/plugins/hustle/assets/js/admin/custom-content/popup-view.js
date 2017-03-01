@@ -21,10 +21,12 @@ Hustle.define("Custom_Content.Popup_View", function($, doc, win){
 
             this.$(".wph-trigger").html( this.display_triggers_view.$el );
             this.$(".wph-conditions").replaceWith(  this.conditions_view.$el );
+			if ( _.isFalse(this.model.enabled) ) this.$el.find("#wph-popup-condition-labels").hide();
             return this;
         },
         toggle_panel: function( model ){
-            this.$(".wph-flex.wph-flex--column.wph-flex--gray").toggleClass("open closed");
+            this.$(".switch-wrap").toggleClass("open closed");
+			this.$el.find("#wph-popup-condition-labels").toggle();
         },
         update_conditions_label: function( conditions_view ){
            $('#wph-popup-condition-labels').html( conditions_view.get_all_conditions_labels() );

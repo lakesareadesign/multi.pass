@@ -1,0 +1,147 @@
+/* ****************************************************************************
+ * GLOBAL/GENERIC
+ */
+.wpmud {
+
+	// Notices
+	.notice,
+	div.error,
+	div.updated {
+		text-align: left;
+	}
+	#wpbody-content {
+		> .error,
+		> .updated {
+			margin: $space $space--m $space 0;
+		}
+	}
+
+	// Images
+	.wds-image {
+		display: block;
+		height: auto;
+		max-width: 100%;
+
+		&-center {
+			margin-right: auto;
+			margin-left: auto;
+		}
+
+		&-standalone {
+			margin-bottom: $space;
+		}
+	}
+
+	// Lists
+	.wds-listing {
+		margin: 0;
+
+		li {
+			font: 400 15px/21px $font;
+			margin-top: $space--m;
+			margin-bottom: 0;
+
+			&:first-child {
+				margin-top: 0;
+			}
+
+			strong {
+				font-weight: 500;
+			}
+
+			&.cta-alt {
+				&:before {
+					color: #BE1E2D;
+				}
+			}
+		}
+
+		&.bold {
+			li {
+				font-weight: 500;
+			}
+		}
+
+		// Ordered list
+		&-ordered {
+			padding-left: $space--m;
+		}
+
+		.wds-listing-label {
+			color: $color--grey;
+			font: 400 20px/26px $font--alt;
+			margin-bottom: $space--s;
+		}
+
+	}
+	.wds-list-label {
+		color: #bababa;
+	}
+	.wds-list-label,
+	.dev-box .box-content p.wds-list-label {
+		margin: 0 0 $space--xxs;
+	}
+
+	// Text/Typo
+	.wds-pre {
+		border-left: none;
+
+		&-inline {
+			display: inline-block;
+			margin: 0;
+			font-style: italic;
+		}
+	}
+	.wds-title-alt {
+		font-size: 30px;
+		font-weight: 400;
+		line-height: 40px;
+		max-width: none;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+		text-transform: none;
+		white-space: nowrap;
+	}
+	.wds-page-desc {
+		color: #444;
+		font-family: 'Open Sans', Arial, sans-serif;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	// Uptime Message
+	.uptime-message {
+		@extend .cf;
+
+		> * {
+			float: left;
+			line-height: 40px;
+			margin-right: 10px;
+		}
+
+		.wds-dashicons-box-title {
+			margin: 0 10px 0 0;
+			height: 40px;
+		}
+
+		.uptime {
+			> span {
+				display: block;
+			}
+
+			&-result {
+				font-size: 22px;
+				font-weight: 700;
+				line-height: 26px;
+			}
+
+			&-label {
+				color: #bfbfbf;
+				font: 400 13px/14px $font--alt;
+				text-transform: uppercase;
+			}
+		}
+	}
+
+}

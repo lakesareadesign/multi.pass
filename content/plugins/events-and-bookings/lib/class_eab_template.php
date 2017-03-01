@@ -238,7 +238,9 @@ class Eab_Template {
 
 		$content = '<div class="eab-add_attendance-container">';
 
-		$content .= '<fieldset class="eab-add_attendance">';
+		//$content .= '<div id="eab-bookings-response"></div>';
+
+                $content .= '<fieldset class="eab-add_attendance">';
 		$content .= '<legend>' . __('Add user', Eab_EventsHub::TEXT_DOMAIN) . '</legend>';
 
 		$content .= '<label>' . __('User email', Eab_EventsHub::TEXT_DOMAIN) . '</label>&nbsp;';
@@ -268,6 +270,7 @@ class Eab_Template {
 
 		//$content = Eab_Template::get_admin_attendance_addition_form($event, $statuses); // Moved to actual bookings areas
 
+                $content = '';
 		$content .= '<h4>'. __($status_name, Eab_EventsHub::TEXT_DOMAIN). '</h4>';
 		$content .= '<ul class="eab-guest-list">';
 
@@ -372,7 +375,7 @@ class Eab_Template {
 		if( trim( $data->get_option('paypal_email') ) != '' ) {
 
 			$content .= $data->get_option('paypal_sandbox')
-				? '<form action="https://sandbox.paypal.com/cgi-bin/webscr" method="post">'
+				? '<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">'
 				: '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">'
 			;
 			$content .= '<input type="hidden" name="business" value="' . $data->get_option('paypal_email') . '" />';

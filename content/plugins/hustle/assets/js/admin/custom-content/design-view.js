@@ -28,8 +28,8 @@ Hustle.define("Custom_Content.Design_View", function($, doc, win){
             cta_hover_color: ".wph-modal .wph-modal--cta:hover, .wph-modal .wph-modal--message a.wph-modal--cta:hover",
             cta_active_color: ".wph-modal .wph-modal--cta:active, .wph-modal .wph-modal--message a.wph-modal--cta:active",
             border_static_color: ".wph-modal.wph-modal--cabriolet section, .wph-modal.wph-modal--simple .wph-modal--content, .wph-modal.wph-modal--minimal .wph-modal--content",
-            border_hover_color: ".wph-modal.wph-modal--cabriolet section:hover, .wph-modal.wph-modal--simple .wph-modal--content:hover, .wph-modal.wph-modal--minimal .wph-modal--content:hover",
-            border_active_color: ".wph-modal.wph-modal--cabriolet section:active, .wph-modal.wph-modal--simple .wph-modal--content:active, .wph-modal.wph-modal--minimal .wph-modal--content:active",
+            //border_hover_color: ".wph-modal.wph-modal--cabriolet section:hover, .wph-modal.wph-modal--simple .wph-modal--content:hover, .wph-modal.wph-modal--minimal .wph-modal--content:hover",
+            //border_active_color: ".wph-modal.wph-modal--cabriolet section:active, .wph-modal.wph-modal--simple .wph-modal--content:active, .wph-modal.wph-modal--minimal .wph-modal--content:active",
             border_radius: ".wph-modal.wph-modal--cabriolet section, .wph-modal.wph-modal--simple .wph-modal--content, .wph-modal.wph-modal--minimal .wph-modal--content",
             border_weight: ".wph-modal.wph-modal--cabriolet section, .wph-modal.wph-modal--simple .wph-modal--content, .wph-modal.wph-modal--minimal .wph-modal--content",
             border_type: ".wph-modal.wph-modal--cabriolet section, .wph-modal.wph-modal--simple .wph-modal--content, .wph-modal.wph-modal--minimal .wph-modal--content",
@@ -108,7 +108,7 @@ Hustle.define("Custom_Content.Design_View", function($, doc, win){
             if( _.isTrue( data.border ) ){
                 var border_tpl = Hustle.create_template( " {{el}} {border:{{weight}}px {{type}} {{color}}; }" ),
                     border_radius_tpl = Hustle.create_template( " {{el}} {border-radius:{{radius}}px; }" ) ;
-                _(['border_static_color', 'border_hover_color', 'border_active_color']).each(function(key, i){
+                _(['border_static_color']).each(function(key, i){
                     styles += border_tpl({
                         el: this.stylable_elements.result( key ),
                         weight: data.border_weight,

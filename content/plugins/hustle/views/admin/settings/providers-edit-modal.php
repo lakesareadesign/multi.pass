@@ -4,7 +4,7 @@
 
 	<div class="hustle-two">
 
-		<div class="dev-box content-box can-close">
+		<div class="box content-box can-close">
 
 			<div class="box-title">
 

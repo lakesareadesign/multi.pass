@@ -7,11 +7,11 @@
 ?>
 <div id="hustle-optin-listing" class="hustle-two">
 
-	<div id="container<?php if ( count( $optins ) !== 0 ){ echo ' full'; } ?>" class="wpoi-listing-page">
+	<div id="container" class="<?php if ( count( $optins ) !== 0 ){ echo 'container-980 '; } ?>wpoi-listing-page">
 
 		<header id="header">
 
-			<h1><?php _e("Opt-ins", Opt_In::TEXT_DOMAIN); ?><a class="wph-button wph-button--small wph-button--gray wph-button--fleft mobile-hidden" href="<?php echo esc_url( $add_new_url ); ?>"><?php _e('New Opt-In', Opt_In::TEXT_DOMAIN); ?></a></h1>
+			<h1><?php _e("Opt-ins", Opt_In::TEXT_DOMAIN); ?><a class="wph-button wph-button--small wph-button--gray wph-button--inline" href="<?php echo esc_url( $add_new_url ); ?>"><?php _e('New Opt-In', Opt_In::TEXT_DOMAIN); ?></a></h1>
 
 		</header>
 
@@ -19,7 +19,7 @@
 
 			<?php if ( count( $optins ) === 0 ){ ?>
 
-				<div class="flex-row">
+				<div class="row">
 
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -33,7 +33,7 @@
 
 							<div class="box-content">
 
-								<div class="flex-row">
+								<div class="row">
 
 									<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
@@ -65,7 +65,7 @@
 
 			<?php } else { ?>
 
-				<div class="flex-row">
+				<div class="row">
 
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -81,8 +81,7 @@
 									$keep_open = true;
 
 								if ( !$keep_open && $updated_optin && $optin->id === $updated_optin->id )
-									$keep_open = true;
-								?>
+									$keep_open = true; ?>
 
 								<li class="wph-accordions--item<?php echo $keep_open? ' wph-accordion--open' : ' wph-accordion--closed'; ?>">
 
@@ -102,9 +101,9 @@
 
 										<div class="wph-accordion--buttons">
 
-											<a class="wph-button wph-button--small wph-button--gray" href="<?php echo $optin->decorated->get_edit_url('') . '&tab=design'; ?>"><?php _e('Edit', Opt_In::TEXT_DOMAIN); ?></a>
+											<a class="wph-button wph-button--inline wph-button--small wph-button--gray" href="<?php echo $optin->decorated->get_edit_url('') . '&tab=design'; ?>"><?php _e('Edit', Opt_In::TEXT_DOMAIN); ?></a>
 
-											<a class="wph-button wph-button--small wph-button--red hustle-delete-optin" data-nonce="<?php echo wp_create_nonce('inc_opt_delete_optin'); ?>" data-id="<?php echo esc_attr( $optin->id ); ?>" ><?php _e('Delete', Opt_In::TEXT_DOMAIN); ?></a>
+											<a class="wph-button wph-button--inline wph-button--small wph-button--red hustle-delete-optin" data-nonce="<?php echo wp_create_nonce('inc_opt_delete_optin'); ?>" data-id="<?php echo esc_attr( $optin->id ); ?>" ><?php _e('Delete', Opt_In::TEXT_DOMAIN); ?></a>
 
 										</div>
 
@@ -126,31 +125,31 @@
 
 										</div>
 
-										<table class="wph-table wph-table--listings">
+										<table class="wph-table wph-table--fixed">
 
 											<thead>
 
 												<tr>
 
-													<th class="wph-module--name"><?php _e("Opt-in Type", Opt_In::TEXT_DOMAIN); ?></th>
+													<th class="wph-module--name"><?php _e("Opt-in type", Opt_In::TEXT_DOMAIN); ?></th>
 
-													<th class="wph-module--display"><?php _e("Display Environments", Opt_In::TEXT_DOMAIN); ?></th>
+													<th class="wph-module--display"><?php _e("Display conditions", Opt_In::TEXT_DOMAIN); ?></th>
 
 													<th class="wph-module--views"><?php _e("Views", Opt_In::TEXT_DOMAIN); ?></th>
 
 													<th class="wph-module--conversions"><?php _e('Conversions', Opt_In::TEXT_DOMAIN); ?></th>
 
-													<th class="wph-module--rates"><?php _e('Conversions rate', Opt_In::TEXT_DOMAIN); ?></th>
+													<th class="wph-module--rates"><?php _e('Conversion rate', Opt_In::TEXT_DOMAIN); ?></th>
 
 													<th class="wph-module--admin">
 
-														<?php _e('Admin Test', Opt_In::TEXT_DOMAIN); ?>
+														<?php _e('Admin test', Opt_In::TEXT_DOMAIN); ?>
 
-														<span class="wpoi-tooltip tooltip-right" tooltip="<?php esc_attr_e('Allows logged-in Admins to test the appearance & functionality of the Opt-In before Activating it.', Opt_In::TEXT_DOMAIN) ?>">
+														<!--<span class="wpoi-tooltip tooltip-right" tooltip="<?php esc_attr_e('Allows logged-in Admins to test the appearance & functionality of the Opt-In before Activating it.', Opt_In::TEXT_DOMAIN) ?>">
 
 															<span class="dashicons dashicons-editor-help wpoi-icon-info"></span>
 
-														</span>
+														</span>-->
 
 													</th>
 
@@ -164,7 +163,7 @@
 
 												<tr>
 
-													<th class="wph-module--name"><?php echo $type; ?></th>
+													<th class="wph-module--name"><span><?php echo $type; ?></span></th>
 
 													<td class="wph-module--display">
 
@@ -186,7 +185,7 @@
 
 													<td class="wph-module--admin" data-title="<?php _e('Admin Test', Opt_In::TEXT_DOMAIN); ?>">
 
-														<span class="toggle test-mode">
+														<span class="toggle toggle-alt test-mode">
 
 															<input id="optin-testmode-active-state-<?php echo esc_attr($type_key) ."-". esc_attr( $optin->id );  ?>" data-nonce="<?php echo wp_create_nonce('inc_opt_toggle_type_test_mode'); ?>" class="toggle-checkbox wpoi-testmode-active-state" type="checkbox" data-type="<?php echo esc_attr($type_key); ?>" data-id="<?php echo esc_attr($optin->id);  ?>" <?php checked( (bool) $optin->is_test_type_active( $type_key ), true ); ?>  >
 

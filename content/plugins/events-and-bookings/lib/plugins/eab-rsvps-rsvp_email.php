@@ -17,7 +17,7 @@ class Eab_Events_RsvpEmail_Codec extends Eab_Macro_Codec {
 	}
 
 	public function expand ($str, $filter=false) {
-		return apply_filters('eab-events-rsvp_email-codec-expand', parent::expand($str, $filter), $this->_event);	     	 	 			 		 	
+		return apply_filters('eab-events-rsvp_email-codec-expand', parent::expand($str, $filter), $this->_event);
 	}
 
 }

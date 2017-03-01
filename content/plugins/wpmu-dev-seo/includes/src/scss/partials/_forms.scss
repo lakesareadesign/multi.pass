@@ -1,0 +1,319 @@
+/* ****************************************************************************
+ * FORMS
+ */
+.wpmud {
+
+	// Generic
+	input[type="number"],
+	input[type="url"] {
+		background: #FFF;
+		border: 1px solid $color--grey--light;
+		border-radius: 4px;
+		box-shadow: none;
+		color: #999;
+		display: block;
+		font: 500 15px/25px $font;
+		margin: 0px 0px $space--s 0px;
+		max-width: 100%;
+		padding: 7px $space--s 6px;
+		transition-property: background, color, border-color;
+		transition-duration: 0.3s;
+		width: 100%;
+
+		&:focus {
+			border-color: #BBB;
+			color: #3D464D;
+
+			@include form-placeholder() {
+				transition: opacity 0.3s 0.4s ease;
+				opacity: 0.25;
+			}
+		}
+
+		&:hover:not(:focus) {
+			color: #3D464D;
+		}
+
+		&:disabled {
+			background: #F6F6F6 !important;
+			color: #AAA !important;
+			border-color: $color--grey--light !important;
+			cursor: default;
+		}
+
+		@include form-placeholder() {
+			position: relative;
+			top: 0;
+		} 
+	}
+
+	.wds-checkbox,
+	.wds-radio {
+		box-shadow: none;
+		line-height: $space--m;
+		height: $space--m;
+		min-width: $space--m;
+		width: $space--m;
+
+		&:focus {
+			border-color: $color--success--alt--light;
+		}
+
+		&-width-label {
+			margin-right: 0;
+		}
+
+	}
+
+	// Checkbox
+	.wds-checkbox {
+		border-radius: 4px;
+
+		&:before {
+			color: $color--success--alt--light;
+			height: 18px;
+			line-height: 20px;
+			margin: 0 0 0 -2px;
+			width: 18px;
+		}
+
+		&:checked {
+			border-color: $color--success--alt--light;
+
+			&:before {
+				color: $color--success--alt--light;
+				height: 18px;
+				line-height: 20px;
+				margin: 0 0 0 -2px;
+				width: 18px;
+			}
+		}
+	}
+
+	// Radio
+	.wds-radio {
+		margin-top: 0;
+
+		&:checked {
+
+			&:before {
+				background-color: $color--success--alt--light;
+				height: $space--xs;
+				line-height: $space--m;
+				width: $space--xs;
+			}
+
+		}
+	}
+
+	.wds-fieldset-legend,
+	.wds-label {
+		color: #BABABA;
+		display: block;
+		font-size: 15px;
+		line-height: 20px;
+		margin-bottom: 5px;
+		padding: 0;
+		text-transform: capitalize;
+		transition: color .4s;
+	}
+
+	// Fieldset
+	.wds-fieldset {
+		margin-top: $space--m;
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&-standalone {
+			margin-bottom: $space--m;
+		}
+
+		&-grey {
+			color: #4A4A4A;
+		}
+
+	}
+
+	// Label
+	.wds-label {
+		&:hover {
+			color: #808080;
+		}
+
+		&.link {
+			color: #19B4CF;
+			display: inline-block;
+			margin: 0;
+			text-transform: none;
+		}
+
+		&-inline {
+			display: inline-block;
+
+			&-left {
+				margin: 0 $space--s 0 0;
+			}
+
+			&-right {
+				margin: 0 0 0 $space--s;
+				max-width: 450px;
+			}
+		}
+
+		&-description {
+			color: #808080;
+			display: block;
+			font-size: 13px;
+		}
+
+		&-radio {
+			color: #4A4A4A;
+		}
+	}
+	
+	// Legend
+	.wds-field-legend {
+		color: #808080;
+		display: block;
+		font-size: 13px;
+		line-height: 18px;
+	}
+
+
+	// Groups
+	.wds-group-field {
+		.wds-field,
+		.wds-select,
+		.wds-textarea {
+			margin-bottom: $space--xxs;
+		}
+
+		&.has-field-label {
+			.wds-field {
+				display: inline-block;
+				width: auto;
+			}
+		}
+
+		.wds-field-label {
+			color: #808080;
+			font: 400 15px/20px $font;
+		} 
+
+	}
+
+	// Fieldset Fields
+	.wds-fieldset-fields {
+		margin-top: $space--s;
+
+		&-group {
+			margin: $space--xxs 0 0;
+
+			> p {
+				display: inline-block;
+				margin: 0 $space--m $space--xs 0 !important;
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+
+			.wds-label-inline-right {
+				margin-left: $space--xxs;
+			}
+		}
+	}
+
+	// Table Fields
+	.wds-table-fields {
+
+		@extend .cf;
+
+		&-group {
+			margin-top: $space--m;
+
+			&:first-child {
+				margin-top: 0;
+			}
+		}
+
+		.label,
+		.fields {
+			display: block;
+			float: left;
+		}
+
+		.label {
+			margin-top: $space--xs;
+			width: 20%;
+
+			&-width-options {
+				margin-top: $space--xxs;
+			}
+
+			&-long {
+				margin-top: 2px;
+			}
+
+			.wds-label {
+				margin-bottom: 0;
+			}
+		}
+
+		.fields {
+			width: 80%;
+
+			&-with-legend {
+
+				.wds-field {
+					margin-bottom: $space--xxs;
+				}
+
+				&-large {
+
+					.wds-field {
+						margin-bottom: $space--xs;
+					}
+
+				}
+
+			}
+
+			&.has-trigger-button {
+				position: relative;
+			}
+
+		}
+
+		.note {
+			background-color: #f5f5f5;
+			border-radius: 3px;
+			clear: both;
+			padding: $space--m;
+			text-align: center;
+			width: 100%;
+
+			p {
+				color: #4A4A4A;
+				font-weight: 400;
+				margin: 0;
+				line-height: 20px;
+			}
+
+			.wdv-icon {
+				color: $color--grey;
+				font-size: 20px;
+				vertical-align: top;
+			}
+		}
+
+	}
+
+	.wds-code-label {
+		display: block;
+		margin-bottom: 5px;
+	}
+
+}

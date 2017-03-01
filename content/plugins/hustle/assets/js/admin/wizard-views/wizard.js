@@ -18,22 +18,50 @@ Hustle.define("Optin.Wizard", function($){
 			$('.wph-toggletabs').not($panel).removeClass('wph-toggletabs--open');
             $panel.toggleClass("wph-toggletabs--closed wph-toggletabs--open");
         },
+		validate: function() {
+			var errors = 0;
+
+			
+			if ( ! this.$('#optin_new_name' ).val() ) {
+				errors++;
+			}
+			if ( ! this.$('#optin_new_provider_name').val()
+				&& ( ! this.$('#wpoi-test-mode-setup').is(':checked')
+					&& ! this.$('#wpoi-save-to-local').is(':checked') ) ) {
+				errors++;
+			}
+
+			return errors;
+		},
         save: function(e){
             e.preventDefault();
 			Hustle.Events.trigger("Optin.save");
+ 
             var errors = [],
-                me = this,
-                $this = this.$(e.target),
+				me = this,
+                $this = this.$(e.target).closest("button"),
                 nonce = $this.data("nonce"),
                 id = Optin.step.services.model.get("optin_id") || -1,
-                is_new = id == -1 ? true: false,
-                $spinner = $("<span class='spinner-container'><span class='button-spinner'></span></span>"),
-                button_width = ( $this.next().hasClass('wph-button-finish') ) ? $this.outerWidth() + 1 : $this.outerWidth();
+                is_new = id == -1 ? true: false;
+                // $spinner = $("<span class='spinner-container'><span class='button-spinner'></span></span>"),
+                // button_width = ( $this.next().hasClass('wph-button-finish') ) ? $this.outerWidth() + 1 : $this.outerWidth();
 
-            $this.attr( "disabled", false )
-                .append( $spinner )
-                .animate( { width: button_width + ( button_width * 0.15 ) })
-                .attr("disabled", true);
+			if ( this.validate() > 0 ) {
+				return;
+			}
+
+            // $this.attr( "disabled", false )
+                // .append( $spinner )
+                // .animate( { width: button_width + ( button_width * 0.15 ) })
+                // .attr("disabled", true);
+			
+			$this.attr("disabled", true);
+			if ( $this.hasClass("wph-button-next") || $this.hasClass("wph-button-finish") ) {
+				$this.addClass("wph-button-next--loading");
+			} else {
+				$this.addClass("wph-button-save--loading");
+			}
+			$this.siblings().attr("disabled", true);
 
             $.ajax({
                 type: "POST",
@@ -48,9 +76,10 @@ Hustle.define("Optin.Wizard", function($){
                     provider_args: Optin.step.services.provider_args.toJSON()
                 },
                 complete: function(){
-                    $this.animate({ width: button_width })
-                        .attr( "disabled", false )
-                        .find( ".spinner-container" ).remove();
+                    $this.attr( "disabled", false )
+                        .removeClass( "wph-button-next--loading" )
+                        .removeClass( "wph-button-save--loading" );
+					$this.siblings().attr("disabled", false);
                     if ( $this.hasClass("wph-button-next") ) me.next(e);
                     if ( $this.hasClass("wph-button-finish") ) me.finish_setup(e);
                 },

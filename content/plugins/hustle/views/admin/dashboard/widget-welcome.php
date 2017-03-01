@@ -1,4 +1,4 @@
-<div id="wph-welcome" class="box can-close">
+<div id="wph-welcome" class="box can-close" data-nonce="<?php echo wp_create_nonce('hustle_new_welcome_notice'); ?>">
 
 	<div class="box-title">
 
@@ -10,7 +10,7 @@
 
 	<div class="box-content">
 
-		<div class="flex-row">
+		<div class="row">
 
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 

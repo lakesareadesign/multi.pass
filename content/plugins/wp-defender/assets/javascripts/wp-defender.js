@@ -242,7 +242,7 @@ WDefender.audit_logging = function () {
 
     function load_events() {
         if (jq('#audit-table-content').size() > 0) {
-            _load_events('action=wd_audit_get_events');
+            _load_events(_get_form_data(jq('.wd-audit-filter form')));
 
             jq('body').on('click', '.audit-nav', function (e) {
                 e.preventDefault();
@@ -321,6 +321,15 @@ WDefender.audit_logging = function () {
                 if (jq(this).attr('type') == 'checkbox') {
                     if (jq(this).prop('checked') == true) {
                         data.push(jq(this).attr('name') + '=' + jq(this).val());
+                    }
+                } else if (jq(this).attr('name') == 'date_from') {
+                    var val = jq(this).val();
+                    val = val.split(' - ');
+                    if (val.length == 2) {
+                        data.push('date_from=' + val[0]);
+                        data.push('date_to=' + val[1])
+                    } else {
+                        data.push('date_from=' + val);
                     }
                 } else {
                     data.push(jq(this).attr('name') + '=' + jq(this).val());
@@ -422,7 +431,7 @@ WDefender.audit_logging = function () {
                     lsiten_to_new_event();
                 }
             })
-        }, 15000);
+        }, 20000);
     }
 
     function toggle_status() {
@@ -552,69 +561,54 @@ WDefender.audit_logging = function () {
         toggle_email_report();
         listening_to_user_filter();
         if (jq('.wd-calendar').size() > 0) {
-            jq('#wd_range_from').datepicker({
-                'maxDate': 0,
-                'dateFormat': audit_logging.date_format,
-                beforeShow: function (input, inst) {
-                    jq('#ui-datepicker-div').removeClass(function () {
-                        return 'wd-calendar'
-                    });
-                    jq('#ui-datepicker-div').addClass('wd-calendar');
+            var start = moment().subtract(7, 'days');
+            var end = moment();
+            var maxDate = end;
+            var minDate = moment().subtract(90, 'days');
+            jq('#wd_range_from').daterangepicker({
+                //startDate: start,
+                //endDate: end,
+                autoApply: true,
+                maxDate: maxDate,
+                minDate: minDate,
+                showDropdowns: false,
+                applyClass: 'wd-hide',
+                cancelClass: 'wd-hide',
+                alwaysShowCalendars: true,
+                opens: 'center',
+                dateLimit: {
+                    days: 14
                 },
-                onClose: function (selectedDate) {
-                    //rebind_date();
-                    //maybe_enable_next();
-                    var query = _get_form_data(jq('.wd-audit-filter form'));
-                    if (state == 1) {
-                        _load_events(query);
-                    }
+                locale: {
+                    "format": "MM/DD/YYYY",
+                    "separator": " - "
+                },
+                template: '<div class="daterangepicker wd-calendar dropdown-menu"> ' +
+                '<div class="ranges"> ' +
+                '<div class="range_inputs"> ' +
+                '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
+                '<button class="cancelBtn" type="button"></button> ' +
+                '</div> ' +
+                '</div> ' +
+                '<div class="calendar left"> ' +
+                '<div class="calendar-table"></div> ' +
+                '</div> ' +
+                '<div class="calendar right"> ' +
+                '<div class="calendar-table"></div> ' +
+                '</div> ' +
+                '</div>',
+                showCustomRangeLabel: false,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    '7 Days': [moment().subtract(6, 'days'), moment()],
+                    '30 Days': [moment().subtract(29, 'days'), moment()]
+                }
+            }).on('apply.daterangepicker', function (ev, picker) {
+                var query = _get_form_data(jq('.wd-audit-filter form'));
+                if (state == 1) {
+                    _load_events(query);
                 }
             });
-            var prev_button = jq('.wd-date-prev');
-            var next_button = jq('.wd-date-next');
-            var current_date = jq('#wd_range_from').datepicker("getDate");
-            var today = new Date();
-            current_date = new Date(current_date);
-            var prev_date = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate() - 1);
-            var next_date = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate() + 1);
-            maybe_enable_next();
-            prev_button.click(function (e) {
-                e.preventDefault();
-                if (state == 0) {
-                    return;
-                }
-                jq('#wd_range_from').datepicker("setDate", prev_date);
-                rebind_date();
-                jq('.wd-audit-filter form').submit();
-                maybe_enable_next();
-            })
-
-            next_button.click(function (e) {
-                e.preventDefault();
-                if (state == 0 || jq(this).attr('disabled') != undefined) {
-                    return;
-                }
-                jq('#wd_range_from').datepicker("setDate", next_date);
-                rebind_date();
-                jq('.wd-audit-filter form').submit();
-                maybe_enable_next();
-            })
-
-            function rebind_date() {
-                current_date = jq('#wd_range_from').datepicker("getDate");
-                prev_date = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate() - 1);
-                next_date = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate() + 1);
-            }
-
-            function maybe_enable_next() {
-                if (current_date.getMonth() == today.getMonth()
-                    && current_date.getYear() == today.getYear()
-                    && current_date.getDay() == today.getDay()) {
-                    next_button.attr('disabled', 'disabled');
-                } else {
-                    next_button.removeAttr('disabled');
-                }
-            }
         }
 
         toggle_audit_log();

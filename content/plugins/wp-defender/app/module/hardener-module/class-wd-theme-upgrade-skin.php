@@ -14,7 +14,7 @@ class WD_Theme_Upgrade_Skin extends Theme_Upgrader_Skin {
 	 * @param array $args
 	 */
 	public function __construct( $args = array() ) {
-		$defaults = array( 'url' => '', 'theme' => '', 'nonce' => '', 'title' => esc_html__( 'Update Theme' ) );
+		$defaults = array( 'url' => '', 'theme' => '', 'nonce' => '', 'title' => esc_html__( 'Update Theme' ) );	  	 	   	 		 		 				
 		$args     = wp_parse_args( $args, $defaults );
 
 		$this->theme = $args['theme'];

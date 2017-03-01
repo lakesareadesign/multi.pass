@@ -148,7 +148,7 @@ class Subscribe_By_Email_Shortcode {
 
 	        		<?php $email = isset( $_POST['subscription-email'] ) ? $_POST['subscription-email'] : ''; ?>
 	        		<div class="sbe-shortcode-form-field-title"><?php _e( 'Email address', INCSUB_SBE_LANG_DOMAIN ); ?></div>
-		        	<input type="email" class="sbe-shortcode-form-field sbe-shortcode-email-field sbe-form-field"  name="subscription-email" placeholder="<?php _e( 'ex: someone@mydomain.com', INCSUB_SBE_LANG_DOMAIN ); ?>" value="<?php echo $email; ?>"><br/>
+		        	<input type="email" class="sbe-shortcode-form-field sbe-shortcode-email-field sbe-form-field"  name="subscription-email" placeholder="<?php _e( 'ex: someone@mydomain.com', INCSUB_SBE_LANG_DOMAIN ); ?>" value="<?php echo esc_attr( $email ); ?>"><br/>
 
 		        	<?php if ( ! empty( $extra_fields ) ): ?>
 		        		<?php foreach ( $extra_fields as $key => $value ): ?>
@@ -186,6 +186,18 @@ class Subscribe_By_Email_Shortcode {
 
 					<?php do_action( 'sbe_shortcode_after_fields' ); ?>
 		        </form>
+                        <style>
+                                .sbe-shortcode-subscribe-form {
+                                        padding:15px;
+                                        color:<?php echo $textcolor; ?>;
+                                        background-color:<?php echo $bgcolor; ?>;
+                                        box-sizing:border-box;
+                                        width:<?php echo $width; ?>;
+                                        <?php if ( $center == 'true' ): ?>
+                                                margin:0 auto;
+                                        <?php endif; ?>
+                                }
+                        </style>
 
 			<?php
 		}

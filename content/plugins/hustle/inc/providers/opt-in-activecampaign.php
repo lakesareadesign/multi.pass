@@ -188,7 +188,7 @@ if( !class_exists("Opt_In_Activecampaign") ):
                 ),
                 "wrapper" => array(
                     "id" => "wpoi-get-lists",
-                    "class" => "wpoi-get-lists",
+                    "class" => "block-notification",
                     "type" => "wrapper",
                     "elements" => array(
                         "api_key" => array(
@@ -204,7 +204,7 @@ if( !class_exists("Opt_In_Activecampaign") ):
                             "name" => "refresh_activecampaign_lists",
                             "type" => "button",
                             "value" => __("Get Lists"),
-                            'class' => "optin_refresh_provider_details"
+                            'class' => "wph-button wph-button--filled wph-button--gray optin_refresh_provider_details"
                         ),
                     )
                 ),

@@ -1,0 +1,92 @@
+/* ****************************************************************************
+ * COMPONENT: LISTS
+ */
+.wpmud {
+
+	// Links list
+	.wds-links-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		// Item
+		&-item {
+			margin: 0;
+			outline: 0;
+			position: relative;
+			width: 100%;
+
+			&-link {
+				border-collapse: collapse;
+			    border-spacing: 0;
+			    color: #aaa;
+				display: table;
+				font-size: 15px;
+				font-weight: 400;
+				line-height: 28px;
+				width: 100%;
+
+				&:hover {
+					color: #aaa;
+
+					.wds-links-list-item-edit {
+						color: #19B4CF;
+						opacity: 1;
+					}
+				}
+			}
+
+			&-label,
+			&-edit {
+				cursor: pointer;
+				display: table-cell;
+				vertical-align: middle;
+			}
+
+			&-edit {
+				opacity: 0;
+				text-align: right;
+				text-decoration: underline;
+				transition: opacity .4s;
+			}
+		}
+
+		// Group
+		&-group {
+			display: table;
+			overflow: hidden;
+			width: 100%;
+
+			.wds-links-list {
+				display: table-cell;
+				padding: $space--xxs $space--m;
+				width: 50%;
+
+				&:first-child {
+					border-right: 1px solid #F4F4F4;
+					padding-left: 0;
+				}
+			}
+		}
+	}
+
+	// Table list
+	.list-table {
+
+		@include bp(tablet) {
+
+			> thead,
+			> tbody {
+				> tr {
+					> th,
+					> td {
+						width: 100%;
+					}
+				}
+			}
+
+		}
+
+	}
+
+}

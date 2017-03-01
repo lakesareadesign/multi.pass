@@ -5,7 +5,7 @@
 ?>
 <div id="wph-dashboard" class="hustle-two">
 
-	<div id="container" class="wrap">
+	<div id="container" class="container-1146">
 
 		<header id="header">
 
@@ -15,41 +15,79 @@
 
 		<section>
 
-			<div class="flex-row">
+			<div class="row">
 
-				<div class="col-xs-12">
+				<?php
 
-					<?php if ( !( (bool) $data->active_modules ) ) :
+					$new_welcome_notice_dismissed = (bool) get_option( "hustle_new_welcome_notice_dismissed", false );
 
-						$this->render("admin/dashboard/widget-welcome" );
+					if ( !( (bool) $data->active_modules ) && !$new_welcome_notice_dismissed ) : ?>
 
-					endif; ?>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-					<?php if ( !$is_free  ) : ?>
+						<?php $this->render("admin/dashboard/widget-welcome" ); ?>
 
-						<?php if ( $data->active_modules ) :
+					</div>
 
-							$this->render("admin/dashboard/widget-welcome-on", array( 'data_exists' => $data_exists, 'types' => $types, 'conversions' => $conversions, 'active_modules' => $active_modules, 'most_conversions' => $most_conversions ) );
+				<?php endif; ?>
 
-						endif; ?>
+				<?php if ( $data->active_modules ) : ?>
 
-						<?php if( count( $conversion_data ) ) :
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-							$this->render("admin/dashboard/widget-module-stats", array( 'conversion_data' => $conversion_data ) );
+						<?php $this->render("admin/dashboard/widget-welcome-on", array( 'data_exists' => $data_exists, 'types' => $types, 'conversions' => $conversions, 'active_modules' => $active_modules, 'most_conversions' => $most_conversions ) ); ?>
 
-						endif; ?>
+					</div>
 
-					<?php endif; ?>
+				<?php endif; ?>
 
-				</div>
+				<?php if( count( $conversion_data ) ) : ?>
+
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+						<?php $this->render("admin/dashboard/widget-module-stats", array( 'conversion_data' => $conversion_data ) ); ?>
+
+					</div>
+
+				<?php endif; ?>
 
 			</div>
 
-			<?php if ( ( $data->active_modules ) || ( 0 !== $data->all_modules ) ) : ?>
+			<div class="row">
 
-				<div class="flex-row">
+				<?php if ( !$data->active_modules ) : ?>
 
-					<section class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+					<section class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+						<?php if ( ( count($data->optins) > 0 ) && ( count($data->custom_contents) > 0 ) ) { ?>
+
+							<?php
+							$this->render( "admin/dashboard/widget-module-edit", array(
+								"total_optins" => count($data->optins),
+								"optins" => $data->active_optin_modules,
+								"inactive" => $data->inactive_optin_modules,
+								"total_custom_contents" => count($data->custom_contents),
+								"custom_contents" => $data->active_cc_modules,
+								"inactive_cc" => $data->inactive_cc_modules,
+							) ); ?>
+
+						<?php } else { ?>
+
+							<?php $this->render("admin/dashboard/widget-module-setup", array( 'has_optins' => $has_optins, 'has_custom_content' => $has_custom_content, 'has_social_sharing' => $has_social_sharing, 'has_social_rewards' => $has_social_rewards ) ); ?>
+
+						<?php }?>
+
+					</section>
+
+					<section class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+						<?php $this->render("admin/dashboard/widget-conversion-tracking"); ?>
+
+					</section>
+
+				<?php else : ?>
+
+					<section class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
 						<?php
 						$this->render( "admin/dashboard/widget-module-edit", array(
@@ -63,45 +101,17 @@
 
 					</section>
 
-				</div>
+					<!--<section class="col-xs-12 col-sm-12 col-md-6 col-lg-6">-->
 
-			<?php elseif ( ( ! $data->active_modules ) || ( $is_free && 0 !== $data->all_modules ) || ( $is_free ) ) : ?>
+						<?php //$this->render("admin/dashboard/widget-conversion-report"); ?>
 
-				<div class="flex-row">
+						<?php //$this->render("admin/dashboard/widget-conversion-tracking"); ?>
 
-					<?php if ( ! $data->active_modules ) : ?>
+					<!--</section>-->
 
-						<section class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+				<?php endif; ?>
 
-							<?php $this->render("admin/dashboard/widget-module-setup", array( 'has_optins' => $has_optins, 'has_custom_content' => $has_custom_content, 'has_social_sharing' => $has_social_sharing, 'has_social_rewards' => $has_social_rewards ) ); ?>
-
-						</section>
-
-					<?php endif; ?>
-
-					<?php if ( $is_free && 0 !== $data->all_modules ) : ?>
-
-						<section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-
-							<?php $this->render("admin/dashboard/widget-conversion-report"); ?>
-
-						</section>
-
-					<?php endif; ?>
-
-					<?php if ( $is_free ): ?>
-
-						<section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-
-							<?php $this->render("admin/dashboard/widget-conversion-tracking"); ?>
-
-						</section>
-
-					<?php endif; ?>
-
-				</div>
-
-			<?php endif; ?>
+			</div>
 
 		</section>
 

@@ -8,7 +8,7 @@
 
 	<div class="box-content">
 
-		<div class="flex-row">
+		<div class="row">
 
 			<div class="col-xs-12">
 
@@ -24,7 +24,7 @@
 
 								<td class="wph-dashstep--icon">
 
-									<div class="wph-dashstep--optins"></div>
+									<div class="wph-icon i-optin"></div>
 
 								</td>
 
@@ -51,7 +51,7 @@
 
 								<td class="wph-dashstep--icon">
 
-									<div class="wph-dashstep--ccontent"></div>
+									<div class="wph-icon i-magic"></div>
 
 								</td>
 
@@ -81,7 +81,7 @@
 
 								<td class="wph-dashstep--icon">
 
-									<div class="wph-dashstep--ssharing"></div>
+									<div class="wph-icon i-sharing"></div>
 
 								</td>
 
@@ -108,7 +108,7 @@
 
 								<td class="wph-dashstep--icon">
 
-									<div class="wph-dashstep--srewards"></div>
+									<div class="wph-icon i-rewards"></div>
 
 								</td>
 

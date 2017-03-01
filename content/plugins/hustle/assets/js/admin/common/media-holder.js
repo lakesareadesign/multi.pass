@@ -12,7 +12,7 @@ Hustle.define("Media_Holder", function(){
         events: {
             "click .wph-media--add": "open",
             "click .wph-button--dots": "toggle_options",
-            "click .dev-icon-cross": "toggle_options",
+            "click .i-close": "toggle_options",
             "click .wpoi-swap-image-button": "swap_image",
             "click .wpoi-delete-image-button": "delete_image"
         },

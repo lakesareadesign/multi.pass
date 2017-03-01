@@ -1,0 +1,59 @@
+/* ****************************************************************************
+ * ICONS
+ */
+.wpmud {
+	
+	.wds-dashicons {
+		color: #808080;
+		font-size: 22px;
+		height: 22px;
+		opacity: .5;
+		width: 22px;
+
+		&-link {
+			font-size: 24px;
+			height: 24px;
+			width: 24px;
+			transition: all .4s;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+
+		&-box-title {
+			margin: -5px 10px 0 0;
+			vertical-align: middle;
+		}
+	}
+
+	.wds-icon {
+		background: url('../images/smartCrawl_sprite.png') no-repeat 0 0;
+		background-image: url('../images/smartCrawl_sprite.svg'), none;
+
+		&-inline {
+			display: inline-block;
+
+			&-left {
+				margin-right: $space--s;
+			}
+
+			&-right {
+				margin-left: $space--s;
+			}
+		}
+
+		&-redirect {
+			background-position: -30px -30px;
+			height: 16px;
+			width: 18px;
+		}
+
+		&-list {
+			background-position: -30px -76px;
+			height: 16px;
+			width: 18px;
+		}
+	}
+
+}

@@ -1,0 +1,242 @@
+/* ****************************************************************************
+ * DASHBOARD STYLES OVERRIDE
+ */
+.wpmud {
+
+	// Header
+	#header {
+
+		~ .sub-header {
+			margin-top: $space;
+			margin-bottom: $space;
+		}
+
+	}
+
+	// Box
+	.dev-box {
+		padding: 0;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		// Box Title
+		.box-title {
+			clear: both;
+			height: inherit;
+			margin: 0;
+			padding: 0 $space;
+
+			@extend .cf;
+
+			h3 {
+				float: left;
+			}
+
+			.buttons {
+				&.left {
+					float: left;
+					margin: $space--xs 0 0 $space--m;
+				}
+			}
+		}
+
+		// Box Content
+		.box-content {
+			padding: $space;
+			word-wrap: break-word;
+
+			&.no-padding {
+				padding: 0;
+			}
+
+			&.no-vertical-padding {
+				padding-top: 0;
+				padding-bottom: 0;
+			}
+
+			&.no-side-padding {
+				padding-right: 0;
+				padding-left: 0;
+			}
+
+			p {
+				margin-bottom: $space--m;
+
+				&:last-of-type:last-child {
+					margin-bottom: 0;
+				}
+			}
+
+			.wds-standalone-bottom {
+				margin-bottom: 0;
+			}
+
+			> *:last-child {
+				margin-bottom: 0;
+			}
+
+			.buttons {
+				margin-top: $space--m;
+
+				&.buttons-on-left {
+					text-align: left;
+				}
+
+				&.buttons-on-right {
+					text-align: right;
+				}
+			}
+		}
+
+		// Box Footer
+		.box-footer {
+			margin-top: 0;
+			padding: 0 $space $space $space;
+
+			&.bordered-top {
+				border-top: 2px solid $color--light;
+				padding-top: $space;;
+			}
+
+			&.modal {
+				margin-top: $space;
+				padding: 0;
+			}
+
+			&.buttons {
+
+				// Select
+				.select-wrapper {
+					display: inline-block;
+
+					> * {
+						display: inline-block;
+					}
+
+					> label {
+						float: left;
+						line-height: 43px;
+						margin: 0 $space--s 0 0;
+						padding: 0;
+						vertical-align: middle;
+					}
+				}
+
+				// Button
+				.button,
+				input[type="submit"] {
+					display: inline-block;
+					margin-left: $space--m;
+
+					&:first-child {
+						margin-left: 0;
+					}
+				}
+
+			}
+		}
+
+	}
+
+	// Modal
+	.wds-modal {
+		* {
+			box-sizing: border-box;
+		}
+
+		.box {
+			padding: 0;
+
+			.title {
+				margin: 0;
+				padding: 0 $space;
+			}
+
+			.content {
+				padding: $space;
+			}
+		}
+	}
+
+	// Forms
+	form {
+
+		> div {
+
+			&.buttons {
+				text-align: center;
+			}
+
+		}
+
+		.vertical-tabs {
+			padding: 0;
+		}
+
+	}
+
+	// Vertical Tabs
+	.vertical-tabs {
+
+		> .tab {
+
+			> .wds-content-tabs {
+				padding: 0;
+			}
+
+			> label {
+				color: #BABABA;
+				font: 400 15px/20px $font--alt;
+				padding: $space--m;
+			}
+
+			input[type="radio"]:checked + label {
+				color: $color--grey;
+			}
+
+		}
+
+		.wds-content-tabs {
+
+			.tab-title {
+				font-weight: 400;
+				font-size: 18px;
+				line-height: 24px;
+				margin: 0;
+				max-width: 100%;
+				padding: 18px 30px;
+			}
+
+			&-inner {
+				padding: $space--m;
+			}
+
+		}
+
+	}
+
+	.row-inside-form {
+		margin-bottom: $space;
+		padding: 0;
+	}
+
+	.wds-footer-text {
+		margin-top: $space--m;
+		text-align: left;
+	}
+
+	.wds-group {
+		margin-bottom: $space--s;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.block-section-footer {
+		margin-top: $space;
+	}
+
+}

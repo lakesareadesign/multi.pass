@@ -4,80 +4,93 @@
 * @var $this Opt_In_Admin
  */
 ?>
+
 <div class="box-title">
 
-    <h3><?php _e('e-Newsletter Integration', Opt_In::TEXT_DOMAIN); ?></h3>
+	<h3><?php _e('e-Newsletter Integration', Opt_In::TEXT_DOMAIN); ?></h3>
 
 </div>
 
 <div class="box-content">
 
-    <h6 class="wph-text--center"><?php _e('Set up e-mail list syncing with e-Newsletter plugin.', Opt_In::TEXT_DOMAIN); ?></h6>
+	<div class="row">
 
-    <table class="wph-table wph-settings--enewsletter">
+		<div class="col-xs-12">
 
-        <thead>
+			<h6 class="alt"><?php _e('Set up e-mail list syncing with E-Newsletter plugin.', Opt_In::TEXT_DOMAIN); ?></h6>
 
-        <tr>
+			<table class="wph-table">
 
-            <th class="wph-enews--list" colspan="2"><?php _e('Opt-in Lists', Opt_In::TEXT_DOMAIN); ?></th>
+				<thead>
 
-            <th class="wph-enews--sync"><?php _e('Sync', Opt_In::TEXT_DOMAIN); ?></th>
+					<tr>
 
-        </tr>
+						<th class="wph-enews--list" colspan="2"><?php _e('Opt-in Lists', Opt_In::TEXT_DOMAIN); ?></th>
 
-        </thead>
+						<th class="wph-enews--sync"><?php _e('Sync', Opt_In::TEXT_DOMAIN); ?></th>
 
-        <tbody>
+					</tr>
 
-	        <?php foreach( $optins as $optin ): ?>
+				</thead>
 
-	        	<?php if( is_null( $optin->get_sync_with_e_newsletter() ) && $this->get_e_newsletter()->get_groups() !== array() ): ?>
+				<tbody>
 
-		        	<tr>
+					<?php foreach( $optins as $optin ) : ?>
 
-		        		<td class="wph-enews--list" data-title="Opt-in List" colspan="2"><?php echo $optin->optin_name; ?></td>
+						<?php if( is_null( $optin->get_sync_with_e_newsletter() ) && $this->get_e_newsletter()->get_groups() !== array() ): ?>
 
-		        		<td class="wph-enews--setup" data-title="Sync">
+							<tr>
 
-			        		<a href="#0" class="wph-button wph-button--small wph-button--gray optin-enews-sync-setup" data-nonce="<?php echo $enews_sync_setup_nonce; ?>" data-id="<?php echo esc_attr( $optin->id ) ?>" ><?php _e("Setup", Opt_In::TEXT_DOMAIN); ?></a>
+								<td class="wph-enews--list" data-title="Opt-in List" colspan="2"><?php echo $optin->optin_name; ?></td>
 
-		        		</td>
+								<td class="wph-enews--setup" data-title="Sync">
 
-		        	</tr>
+									<a href="#0" class="wph-button wph-button--small wph-button--gray optin-enews-sync-setup" data-nonce="<?php echo $enews_sync_setup_nonce; ?>" data-id="<?php echo esc_attr( $optin->id ) ?>" ><?php _e("Setup", Opt_In::TEXT_DOMAIN); ?></a>
 
-		        <?php else : ?>
+								</td>
 
-		        	<tr class="<?php echo $this->get_e_newsletter()->get_groups() !== array() ? 'wph-enews--editable' : ''; ?>">
+							</tr>
 
-		        		<td class="wph-enews--list" data-title="Opt-in List"><?php echo $optin->optin_name; ?></td>
+						<?php else : ?>
 
+							<tr class="<?php echo $this->get_e_newsletter()->get_groups() !== array() ? 'wph-enews--editable' : ''; ?>">
 
-		        		<td class="wph-enews--edit" data-title="Edit">
-                            <?php if( $this->get_e_newsletter()->get_groups() !== array() ): ?>
-			        		    <a href=#0"" class="wph-button wph-button--small wph-button--gray optin-enews-sync-edit" data-nonce="<?php echo $enews_sync_setup_nonce; ?>" data-id="<?php echo esc_attr( $optin->id ) ?>" ><?php _e("Edit", Opt_In::TEXT_DOMAIN); ?></a>
-                            <?php endif; ?>
-		        		</td>
+								<td class="wph-enews--list" data-title="Opt-in List"><?php echo $optin->optin_name; ?></td>
 
-		        		<td class="wph-enews--sync" data-title="Sync">
+								<td class="wph-enews--edit" data-title="Edit">
 
-			        		<span class="toggle">
+									<?php if( $this->get_e_newsletter()->get_groups() !== array() ) : ?>
 
-				        		<input id="optin-enews-sync-state-<?php echo esc_attr( $optin->id ) ?>" class="toggle-checkbox optin-enews-sync-toggle" type="checkbox" data-nonce="<?php echo $enews_sync_state_toggle_nonce; ?>" data-id="<?php echo esc_attr( $optin->id ) ?>" <?php checked( true, $optin->sync_with_e_newsletter ); ?> >
+										<a href=#0"" class="wph-button wph-button--small wph-button--gray optin-enews-sync-edit" data-nonce="<?php echo $enews_sync_setup_nonce; ?>" data-id="<?php echo esc_attr( $optin->id ) ?>" ><?php _e("Edit", Opt_In::TEXT_DOMAIN); ?></a>
 
-				        		<label class="toggle-label" for="optin-enews-sync-state-<?php echo esc_attr( $optin->id ) ?>"></label>
+									<?php endif; ?>
 
-				        	</span>
+								</td>
 
-		        		</td>
+								<td class="wph-enews--sync" data-title="Sync">
 
-		        	</tr>
+									<span class="toggle">
 
-		        <?php endif; ?>
+										<input id="optin-enews-sync-state-<?php echo esc_attr( $optin->id ) ?>" class="toggle-checkbox optin-enews-sync-toggle" type="checkbox" data-nonce="<?php echo $enews_sync_state_toggle_nonce; ?>" data-id="<?php echo esc_attr( $optin->id ) ?>" <?php checked( true, $optin->sync_with_e_newsletter ); ?> >
 
-			<?php endforeach; ?>
+										<label class="toggle-label" for="optin-enews-sync-state-<?php echo esc_attr( $optin->id ) ?>"></label>
 
-		</tbody>
+									</span>
 
-    </table>
+								</td>
+
+							</tr>
+
+						<?php endif; ?>
+
+					<?php endforeach; ?>
+
+				</tbody>
+
+			</table>
+
+		</div>
+
+	</div>
+
 </div>

@@ -171,15 +171,25 @@
 
    // Sticky eye icon
    (function (){
-	   $(window).scroll(function(){
-			var distanceFromTop = $(document).scrollTop();
-			
-			if (distanceFromTop >= $('.wph-sticky--base').height()){
-				$('.wph-preview--eye').fadeIn(400).addClass('wph-sticky--element');
-			} else {
-				$('.wph-preview--eye').fadeIn(400).removeClass('wph-sticky--element');
-			}
-		});
+	   function sticky_relocate(){
+		   var window_top = $(window).scrollTop();
+		   var div_top = $(".wph-sticky--anchor");
+
+		   if ( ! div_top.length ) return;
+
+			div_top = div_top.offset().top;
+		   if (window_top > div_top) {
+			   $(".wph-preview--eye").addClass("wph-sticky--element");
+			   $(".wph-sticky--anchor").height($(".wph-preview--eye").outerHeight());
+		   } else {
+			   $(".wph-preview--eye").removeClass("wph-sticky--element");
+			   $(".wph-sticky--anchor").height(0);
+		   }
+	   }
+	   $(function(){
+		   $(window).scroll(sticky_relocate);
+		   sticky_relocate();
+	   });
    }());
 
 }( jQuery, document ));

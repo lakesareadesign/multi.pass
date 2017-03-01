@@ -4,6 +4,17 @@ Tested up to: 4.6.1
 
 Change Log:
 
+1.2 - 2017-02-27
+
+- Added: New Hardening Rule (PHP version)
+- Improvement: Audit Logging now allows date range selection.
+- Improvement: IP Lockouts now allow IP ranges in whitelist/blacklist.
+- Improvement: IP Lockouts now can import/export whitelist/backlist.
+- Fixed: IP Lockouts email notification text on permanent IP ban.
+
+1.1.6.1 - 2017-21-02
+- Fixed: Cache issue causing multiple requests to API endpoint when scanning suspicious files.
+
 1.1.6 - 2017-13-02
 ----------------------------------------------------------------------
 - Fixed: Collapse Menu button shows bigger font and in all caps
@@ -119,4 +130,4 @@ Change Log:
 - First release
 
 
-133620-1487198338-au
+133620-1488397688-au

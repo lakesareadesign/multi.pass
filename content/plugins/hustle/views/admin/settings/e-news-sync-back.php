@@ -1,68 +1,83 @@
 <script id="wpoi-e-newsletter-box-back" type="text/template">
 
+	<div class="box-title">
 
-    <div class="box-title">
+		<h3><?php _e('{{optin_name}} - Setup', Opt_In::TEXT_DOMAIN); ?></h3>
 
-        <h3><?php _e('{{optin_name}} - Setup', Opt_In::TEXT_DOMAIN); ?></h3>
+	</div>
 
-    </div>
+	<div class="box-content">
 
-    <div class="box-content">
+		<div class="row">
 
-        <h6 class="wph-text--center"><?php _e('Add <strong>{{optin_name}}</strong> e-mails to these e-Newsletter groups:', Opt_In::TEXT_DOMAIN); ?></h6>
+			<div class="col-xs-12">
 
-        <table class="wph-table wph-settings--enewsletter wph-enews--setup">
+				<h6><?php _e('Add <strong>{{optin_name}}</strong> e-mails to these E-Newsletter groups:', Opt_In::TEXT_DOMAIN); ?></h6>
 
-            <thead>
+				<table class="wph-table wph-table--alt"><!-- wph-settings--enewsletter wph-enews--setup -->
 
-            <tr>
+					<thead>
 
-                <th colspan="2"><?php _e('e-Newsletter Groups', Opt_In::TEXT_DOMAIN); ?></th>
+						<tr>
 
-            </tr>
+							<th colspan="2"><?php _e('E-newsletter Groups', Opt_In::TEXT_DOMAIN); ?></th>
 
-            </thead>
+						</tr>
 
-            <tbody>
+					</thead>
 
+					<tbody>
 
-            <# _.each( groups, function( group, index ) { #>
-                <tr>
+						<# _.each( groups, function( group, index ) { #>
 
-                    <td colspan="2">
+							<tr>
 
-                        <label for="wpoi-e-newsletter-group-{{group.group_id}}">{{group.group_name}} <span class="description">({{group.type}})</span></label>
+								<td colspan="2">
 
-                        <input value="{{group.group_id}}" id="wpoi-e-newsletter-group-{{group.group_id}}" class="wpoi-e-newsletter-group" type="checkbox" {{_.checked(group.selected, true)}} >
+									<label for="wpoi-e-newsletter-group-{{group.group_id}}">{{group.group_name}} <span class="description">({{group.type}})</span></label>
 
-                    </td>
+									<div class="wph-input--checkbox">
 
-                </tr>
-            <# }); #>
-            </tbody>
+										<input value="{{group.group_id}}" id="wpoi-e-newsletter-group-{{group.group_id}}" class="wpoi-e-newsletter-group" type="checkbox" {{_.checked(group.selected, true)}} >
 
-            <tfoot>
+										<label for="wpoi-e-newsletter-group-{{group.group_id}}" class="wph-icon i-check"></label>
 
-            <tr>
+									</div>
 
-                <td class="wph-enews--cancelsetup">
+								</td>
 
-                    <a href="#0" class="wph-button wph-button--gray optin-enews-sync-cancel"><?php _e("Cancel", Opt_In::TEXT_DOMAIN); ?></a>
+							</tr>
 
-                </td>
+						<# }); #>
 
-                <td class="wph-enews--savesetup">
+					</tbody>
 
-                    <a href="#0" class="wph-button wph-button--blue wph-button--filled optin-enews-sync-save" data-id="{{optin_id}}" data-nonce="{{save_nonce}}" ><?php _e("Save Settings", Opt_In::TEXT_DOMAIN); ?></a>
+					<tfoot>
 
-                </td>
+						<tr>
 
-            </tr>
+							<td class="wph-enews--cancelsetup">
 
-            </tfoot>
+								<a href="#0" class="wph-button wph-button--inline wph-button--gray optin-enews-sync-cancel"><?php _e("Cancel", Opt_In::TEXT_DOMAIN); ?></a>
 
-        </table>
+							</td>
 
+							<td class="wph-enews--savesetup">
 
-</div>
+								<a href="#0" class="wph-button wph-button--inline wph-button--filled wph-button--blue optin-enews-sync-save" data-id="{{optin_id}}" data-nonce="{{save_nonce}}" ><?php _e("Save Settings", Opt_In::TEXT_DOMAIN); ?></a>
+
+							</td>
+
+						</tr>
+
+					</tfoot>
+
+				</table>
+
+			</div>
+
+		</div>
+
+	</div>
+
 </script>

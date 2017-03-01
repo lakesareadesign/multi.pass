@@ -15,7 +15,6 @@ class Opt_In_Activecampaign_Api
         $this->_key = $api_key;
     }
 
-
     /**
      * Sends request to the endpoint url with the provided $action
      *
@@ -105,6 +104,7 @@ class Opt_In_Activecampaign_Api
                 array_push($res2,$value);
             }
         }
+
         return $res2;
     }
 
@@ -116,7 +116,13 @@ class Opt_In_Activecampaign_Api
      */
     public function subscribe( $list, array $data ){
 
-        $res =  $this->_post( 'contact_add', $data );
+        if ( (int) $list > 0 ) {
+            $data['p'] = array( $list => $list );
+            $data['status'] = array( $list => 1 );
+            $res = $this->_post( 'contact_sync', $data );
+        } else {
+            $res = $this->_post( 'contact_add', $data );
+        }
 
         return empty( $res ) ? __("Successful subscription", Opt_In::TEXT_DOMAIN) : $res;
     }

@@ -54,9 +54,9 @@ class WD_Audit_Table extends WP_List_Table {
 	 * prepare logs data
 	 */
 	function prepare_items() {
-		$date_format = WD_Audit_API::get_date_format();
+		$date_format = 'm/d/Y';
 		$attributes  = array(
-			'date_from'   => date( $date_format, current_time( 'timestamp' ) ),
+			'date_from'   => date( $date_format, strtotime( '-7 days', current_time( 'timestamp' ) ) ),
 			'date_to'     => date( $date_format, current_time( 'timestamp' ) ),
 			'user_id'     => '',
 			'event_type'  => '',
@@ -68,14 +68,14 @@ class WD_Audit_Table extends WP_List_Table {
 		$params      = array();
 		foreach ( $attributes as $att => $value ) {
 			$params[ $att ] = WD_Utils::http_get( $att, $value );
-			if ( $att == 'date_from' ) {
+			if ( $att == 'date_to' || $att == 'date_from' ) {
 				$df_object      = DateTime::createFromFormat( $date_format, $params[ $att ] );
 				$params[ $att ] = $df_object->format( 'Y-m-d' );
 			}
 		}
-
-		$params['date_to']   = trim( $params['date_from'] . ' 23:59:59' );
 		$params['date_from'] = trim( $params['date_from'] . ' 00:00:00' );
+		$params['date_to']   = trim( $params['date_to'] ) . ' 23:59:59';
+
 		if ( ! empty( $params['user_id'] ) ) {
 			if ( ! filter_var( $params['user_id'], FILTER_VALIDATE_INT ) ) {
 				$user_id = username_exists( $params['user_id'] );
@@ -88,6 +88,8 @@ class WD_Audit_Table extends WP_List_Table {
 		}
 
 		$params['paged'] = $this->get_pagenum();
+
+		$params = array_filter( $params );
 
 		$result = WD_Audit_API::get_logs( $params, WD_Utils::http_get( 'order_by', 'timestamp' ), WD_Utils::http_get( 'order', 'desc' ) );
 		if ( is_wp_error( $result ) ) {
@@ -139,15 +141,15 @@ class WD_Audit_Table extends WP_List_Table {
 		if ( is_array( $item['timestamp'] ) ) {
 			sort( $item['timestamp'] );
 			?>
-			<strong><?php echo esc_html( WD_Utils::time_since( $item['timestamp'][1] ) . esc_html__( " ago", wp_defender()->domain ) ) ?></strong>
-			<small><?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $item['timestamp'][0] ) ) ) ) ) ?>
-				&nbsp;<?php esc_attr_e( "to", wp_defender()->domain ) ?>&nbsp;
+            <strong><?php echo esc_html( WD_Utils::time_since( $item['timestamp'][1] ) . esc_html__( " ago", wp_defender()->domain ) ) ?></strong>
+            <small><?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $item['timestamp'][0] ) ) ) ) ) ?>
+                &nbsp;<?php esc_attr_e( "to", wp_defender()->domain ) ?>&nbsp;
 				<?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $item['timestamp'][1] ) ) ) ) ) ?></small>
 			<?php
 		} else {
 			?>
-			<strong><?php echo esc_html( WD_Utils::time_since( $item['timestamp'] ) . esc_html__( " ago", wp_defender()->domain ) ) ?></strong>
-			<small><?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $item['timestamp'] ) ) ) ) ) ?></small>
+            <strong><?php echo esc_html( WD_Utils::time_since( $item['timestamp'] ) . esc_html__( " ago", wp_defender()->domain ) ) ?></strong>
+            <small><?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $item['timestamp'] ) ) ) ) ) ?></small>
 			<?php
 		}
 
@@ -170,31 +172,31 @@ class WD_Audit_Table extends WP_List_Table {
 	public function column_col_user( $item ) {
 		ob_start();
 		?>
-		<div>
+        <div>
 			<?php
 			echo get_avatar( $item['user_id'], 30 );
 			?>
-		</div>
-		<div>
+        </div>
+        <div>
 		<?php if ( $item['user_id'] == 0 ): ?>
-			<small>
+            <small>
 				<?php printf( '<a class="audit-nav" href="%s">%s</a>',
 					$this->build_filter_url( 'user_id', 0 ),
 					esc_html__( "Guest", wp_defender()->domain )
 				) ?>
-			</small>
+            </small>
 		<?php else: ?>
-			<small><?php printf( '<a class="audit-nav" href="%s">%s</a>',
+            <small><?php printf( '<a class="audit-nav" href="%s">%s</a>',
 					$this->build_filter_url( 'user_id', $item['user_id'] ),
 					WD_Utils::get_display_name( $item['user_id'] )
 				) ?></small>
-			<span>
+            <span>
 				<?php
 				$user = get_user_by( 'id', $item['user_id'] );
 				echo ucwords( implode( $user->roles, '<br/>' ) );
 				?>
 			</span>
-			</div>
+            </div>
 		<?php endif; ?>
 		<?php
 		return ob_get_clean();
@@ -208,27 +210,27 @@ class WD_Audit_Table extends WP_List_Table {
 		?>
 		<?php
 		if ( is_wp_error( $this->error ) ):?>
-			<div class="wd-error">
+            <div class="wd-error">
 				<?php echo $this->error->get_error_message() ?>
-			</div>
+            </div>
 		<?php elseif
 		( count( $this->items ) > 0
 		): ?>
 			<?php $this->display_tablenav( 'bottom' ); ?>
-			<table id="wd-audit-table" class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
-				<thead>
-				<tr>
+            <table id="wd-audit-table" class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
+                <thead>
+                <tr>
 					<?php $this->print_column_headers(); ?>
-				</tr>
-				</thead>
+                </tr>
+                </thead>
 
-				<tbody id="the-list"<?php
+                <tbody id="the-list"<?php
 				if ( $singular ) {
 					echo " data-wp-lists='list:$singular'";
 				} ?>>
 				<?php $this->display_rows_or_placeholder(); ?>
-				</tbody>
-			</table>
+                </tbody>
+            </table>
 		<?php else: ?>
 			<?php
 			$is_filter = false;
@@ -250,13 +252,13 @@ class WD_Audit_Table extends WP_List_Table {
 			}
 			?>
 			<?php if ( $is_filter == false ): ?>
-				<div class="wd-well blue wd-well-small">
+                <div class="wd-well blue wd-well-small">
 					<?php esc_html_e( "Defender hasn’t detected any events yet. When he does, they’ll appear here!", wp_defender()->domain ) ?>
-				</div>
+                </div>
 			<?php else: ?>
-				<div class="wd-well blue wd-well-small">
+                <div class="wd-well blue wd-well-small">
 					<?php esc_html_e( "Defender couldn't find any logs matching your filters.", wp_defender()->domain ) ?>
-				</div>
+                </div>
 			<?php endif; ?>
 		<?php endif; ?>
 		<?php
@@ -301,68 +303,69 @@ class WD_Audit_Table extends WP_List_Table {
 			} else {
 				$total_items = 0;
 			}
-			$from = esc_attr( WD_Utils::http_get( 'date_from', date( WD_Audit_API::get_date_format(), strtotime( 'today midnight', current_time( 'timestamp' ) ) ) ) );
+			$from = esc_attr( WD_Utils::http_get( 'date_from', date( 'm/d/Y', strtotime( 'today midnight', strtotime( '-7 days', current_time( 'timestamp' ) ) ) ) ) );
+			$to   = esc_attr( WD_Utils::http_get( 'date_to', date( 'm/d/Y', current_time( 'timestamp' ) ) ) );
 
 			?>
-			<div class="wd-well wd-audit-filter">
-				<div class="group">
-					<form method="get" action="<?php echo network_admin_url( 'admin.php?page=wdf-logging' ) ?>">
-						<input type="hidden" name="page" value="wdf-logging">
-						<div class="col span_12_of_12">
-							<div class="wd-audit-user-filter">
-								<!--<select>
+            <div class="wd-well wd-audit-filter">
+                <div class="group">
+                    <form method="get" action="<?php echo network_admin_url( 'admin.php?page=wdf-logging' ) ?>">
+                        <input type="hidden" name="page" value="wdf-logging">
+                        <div class="col span_12_of_12">
+                            <div class="wd-audit-user-filter">
+                                <!--<select>
 									<option>All IP</option>
 								</select>-->
-								<label><?php esc_html_e( "Users", wp_defender()->domain ) ?></label>
-								<input name="user_id" id="wd_user_id" class="user-search"
-								       data-empty-msg="<?php esc_attr_e( "We did not find an admin user with this name...", wp_defender()->domain ) ?>"
-								       placeholder="<?php esc_attr_e( "Type a user’s name", wp_defender()->domain ) ?>"
-								       type="search"/>
+                                <label><?php esc_html_e( "Users", wp_defender()->domain ) ?></label>
+                                <input name="user_id" id="wd_user_id" class="user-search"
+                                       data-empty-msg="<?php esc_attr_e( "We did not find an admin user with this name...", wp_defender()->domain ) ?>"
+                                       placeholder="<?php esc_attr_e( "Type a user’s name", wp_defender()->domain ) ?>"
+                                       type="search"/>
 
-							</div>
-							<div class="wd-audit-date-filter">
-								<label><?php esc_html_e( "Date", wp_defender()->domain ) ?></label>
-								<div>
-									<i class="wdv-icon wdv-icon-fw wdv-icon-calendar"></i>
-									<input name="date_from" id="wd_range_from" type="text" class="wd-calendar"
-									       value="<?php echo $from ?>">
-								</div>
-							</div>
-						</div>
-						<div class="wd-clearfix"></div>
-						<div class="wd-audit-event-context col span_12_of_12">
-							<label><?php esc_html_e( "Event Contexts", wp_defender()->domain ) ?></label>
-							<div class="wd-event-filter">
+                            </div>
+                            <div class="wd-audit-date-filter">
+                                <label><?php esc_html_e( "Date", wp_defender()->domain ) ?></label>
+                                <div>
+                                    <i class="wdv-icon wdv-icon-fw wdv-icon-calendar"></i>
+                                    <input name="date_from" id="wd_range_from" type="text" class="wd-calendar"
+                                           value="<?php echo $from ?> - <?php echo $to ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wd-clearfix"></div>
+                        <div class="wd-audit-event-context col span_12_of_12">
+                            <label><?php esc_html_e( "Event Contexts", wp_defender()->domain ) ?></label>
+                            <div class="wd-event-filter">
 								<?php foreach ( WD_Audit_API::get_event_type() as $event ): ?>
-									<div class="event">
-										<input id="chk_<?php echo $event ?>" type="checkbox" name="event_type[]"
+                                    <div class="event">
+                                        <input id="chk_<?php echo $event ?>" type="checkbox" name="event_type[]"
 											<?php echo in_array( $event, WD_Utils::http_get( 'event_type', WD_Audit_API::get_event_type() ) ) ? 'checked="checked"' : null ?>
-											   value="<?php echo $event ?>">
-										<label
-											for="chk_<?php echo $event ?>"><?php echo esc_html( ucwords( str_replace( '_', ' ', $event ) ) ) ?></label>
-									</div>
+                                               value="<?php echo $event ?>">
+                                        <label
+                                                for="chk_<?php echo $event ?>"><?php echo esc_html( ucwords( str_replace( '_', ' ', $event ) ) ) ?></label>
+                                    </div>
 								<?php endforeach; ?>
-							</div>
-						</div>
-						<div class="wd-clearfix"></div>
-						<!--<div class="col span_12_of_12">
+                            </div>
+                        </div>
+                        <div class="wd-clearfix"></div>
+                        <!--<div class="col span_12_of_12">
 							<button type="submit"
 							        class="button button-grey"><?php /*esc_html_e( "Apply Filter", wp_defender()->domain ) */ ?></button>
 						</div>-->
-					</form>
-				</div>
-			</div>
+                    </form>
+                </div>
+            </div>
 			<?php if ( $total_items > 0 ): ?>
 
-				<div class="tablenav <?php echo esc_attr( $which ); ?>">
+                <div class="tablenav <?php echo esc_attr( $which ); ?>">
 					<?php
 					$this->pagination( $which );
 					?>
 
-					<div class="wd-clearfix"></div>
-				</div>
-				<br/>
-				<br/>
+                    <div class="wd-clearfix"></div>
+                </div>
+                <br/>
+                <br/>
 			<?php endif; ?>
 			<?php
 		} elseif ( 'bottom' == $which ) {
@@ -370,13 +373,13 @@ class WD_Audit_Table extends WP_List_Table {
 				return;
 			}
 			?>
-			<div class="tablenav <?php echo esc_attr( $which ); ?>">
+            <div class="tablenav <?php echo esc_attr( $which ); ?>">
 				<?php
 				$this->pagination( $which );
 				?>
 
-				<br class="clear"/>
-			</div>
+                <br class="clear"/>
+            </div>
 			<?php
 		}
 	}

@@ -271,7 +271,7 @@ class WD_Core_Audit extends WD_Event_Abstract {
 			self::CONTEXT_PLUGIN     => esc_html__( "plugin", wp_defender()->domain ),
 			self::CONTEXT_CORE       => esc_html__( "WordPress", wp_defender()->domain ),
 			'file_added'             => esc_html__( "File Added", wp_defender()->domain ),
-			'file_modified'          => esc_html__( "File Modified", wp_defender()->domain )
+			'File_modified'          => esc_html__( "File Modified", wp_defender()->domain )
 		);
 	}
 }

@@ -1,90 +1,89 @@
 <?php
 /*
-Plugin Name: Crazyegg-Heatmap-Tracking
-Plugin URI: http://www.crazyegg.com/
-Description: Enables Crazyegg.com heatmap tracking on your WordPress site.
-Version: 1.1
-Author: Crazyegg
+Plugin Name: Crazy Egg
+Plugin URI: http://www.crazyegg.com
+Description: The easiest way to add the Crazy Egg tracking script to your WordPress blog!
+Version: 2.0
+Author: Crazy Egg
 Author URI: http://www.crazyegg.com
 License: GPL
 */
 
-/* Puts code on Wordpress pages */
-add_action('wp_footer', 'crazyegg_tracking_code');
+class CrazyEgg {
+  var $longName = 'Crazy Egg for WordPress Options';
+  var $shortName = 'Crazy Egg';
+  var $uniqueID = 'crazyegg-heatmap-tracking';
 
-/* Runs when plugin is activated */
-register_activation_hook(__FILE__, 'cht_install');
-
-/* Runs on plugin deactivation*/
-register_deactivation_hook(__FILE__, 'cht_remove' );
-
-if (is_admin()) {
-  /* Call the html code */
-  add_action('admin_menu', 'cht_admin_menu');
-
-  function cht_admin_menu() {
-    add_options_page('Crazyegg Heatmap Tracking', 'Crazyegg Heatmap Tracking', 'administrator', 'crazyegg-heatmap-tracking', 'cht_html_page');
+  function __construct() {
+    register_deactivation_hook(__FILE__, array( $this, 'delete_option' ) );
+    add_action( 'wp_head', array( $this, 'add_script' ) );
+    if ( is_admin() ) {
+      add_action( 'admin_menu', array( $this, 'admin_menu_page' ) );
+      add_action( 'admin_init', array( $this, 'register_settings' ) );
+      add_filter( 'plugin_action_links_'.plugin_basename( __FILE__ ), array( $this, 'add_settings_link' ) );
+      add_action( 'wp_loaded', array( $this, 'migration_check' ) );
+    }
   }
-}
 
-function cht_install() {
-  /* Creates new database field */
-  add_option("cht_account_number", '', '', 'yes');
-}
-
-function cht_remove() {
-  /* Deletes the database field */
-  delete_option('cht_account_number');
-}
-
-function cht_html_page() {
-?>
-<div class="wrap">
-  <div id="icon-plugins" class="icon32"></div>
-  <h2>Crazyegg Heatmap Tracking</h2>
-  <form method="POST" action="options.php">
-    <?php wp_nonce_field('update-options'); ?>
-    <table class="form-table">
-      <tr valign="top">
-        <th scope="row">
-          <label for="cht_account_number">Account Number</label>
-        </th>
-        <td>
-          <input id="cht_account_number" name="cht_account_number" value="<?php echo get_option('cht_account_number'); ?>" class="regular-text" />
-          <span class="description">(ex. 00111111)</span>
-        </td>
-      </tr>
-    </table>
-    <p style="width: 80%;">This is your numerical CrazyEgg account ID, it is 8 digits long. The easy way to find it is by logging in to your CrazyEgg account and clicking the "What's my code" link located at the top of your Dashboard.</p>
-    <p style="width: 80%;">Or it would be shown to you immediately after creating a Snapshot on your Dashboard.</p>
-    <p><a href="http://www.crazyegg.com" target="_blank">http://www.crazyegg.com</a></p>
-    <input type="hidden" name="action" value="update" />
-    <input type="hidden" name="page_options" value="cht_account_number" />
-    <p class="submit">
-      <input class="button-primary" type="submit" name="Save" value="<?php _e('Save'); ?>" />
-    </p>
-  </form>
-</div>
-<?php
-}
-
-function crazyegg_tracking_code() {
-  $account_number = get_option("cht_account_number");
-  if (!empty($account_number)) {
-
-    $account_path = str_pad($account_number, 8, "0", STR_PAD_LEFT);
-    $account_path = substr($account_path,0,4).'/'.substr($account_path,4,8);
-    $account_path = "pages/scripts/".$account_path.".js";
-
-    $script_host = "script.crazyegg.com";
-
-    echo '<script type="text/javascript">
-setTimeout(function(){var a=document.createElement("script");
-var b=document.getElementsByTagName(\'script\')[0];
-a.src=document.location.protocol+"//'.$script_host.'/'.$account_path.'";
-a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
-</script>
-';
+  public function delete_option() {
+    delete_option('crazy_egg_tracking_script');
   }
+
+  public function add_script() {
+    echo get_option('crazy_egg_tracking_script');
+  }
+
+  public function admin_menu_page() {
+    add_menu_page(
+      $this->longName,
+      $this->shortName,
+      'administrator',
+      $this->uniqueID,
+      array( $this, 'admin_options'),
+      plugins_url('images/icon.png', __FILE__)
+    );
+  }
+
+  public function register_settings() {
+    register_setting( 'crazy-egg-options', 'crazy_egg_tracking_script' );
+  }
+
+  public function admin_options() {
+    include 'views/options.php';
+  }
+
+  public function add_settings_link( $links ) {
+    $settings_link = array( '<a href="admin.php?page=crazyegg-heatmap-tracking">Settings'.'</a>' );
+    return array_merge( $links, $settings_link );
+  }
+
+  public function migration_check() {
+    $accountNumber = get_option("cht_account_number");
+
+    if ($accountNumber) {
+      $accountPath = str_pad($accountNumber, 8, "0", STR_PAD_LEFT);
+      $accountPath = substr($accountPath,0,4).'/'.substr($accountPath,4,8);
+      $accountPath = "pages/scripts/".$accountPath.".js";
+      $scriptHost = "script.crazyegg.com";
+
+      $migrationScript = '<script type="text/javascript">
+        setTimeout(function(){var a=document.createElement("script");
+        var b=document.getElementsByTagName(\'script\')[0];
+        a.src=document.location.protocol+"//'.$scriptHost.'/'.$accountPath.'";
+        a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+        </script>
+      ';
+
+        update_option('crazy_egg_tracking_script', $migrationScript);
+        delete_option('cht_account_number');
+      }
+    }
+  }
+
+add_action( 'init', 'CrazyEggForWordPress' );
+function CrazyEggForWordPress() {
+  global $CrazyEggForWordPress;
+
+  $CrazyEggForWordPress = new CrazyEgg();
 }
 ?>

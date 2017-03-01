@@ -1,0 +1,72 @@
+.og-image.item img {
+	max-width: 100%;
+}
+.og-images .item {
+	width: 100px;
+	float: left;
+	height: 100px;
+	overflow: hidden;
+	position: relative;
+	text-align: center;
+	border: 2px dashed #eee;
+	margin-right: 5px;
+}
+.og-images .item:hover {
+	background: #f0f0f0;
+}
+.item.og-image a.remove-action {
+	display: none;
+}
+.item.og-image:hover a.remove-action {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	height: 24px;
+	line-height: 24px;
+	width: 24px;
+	display: block;
+	background: #D0021B;
+	color: white;
+	border-radius: 24px;
+	text-align: center;
+	font-size: 24px;
+	text-decoration: none;
+}
+.fields.og-images .add-action-wrapper a {
+	font-size: 50px;
+	color: #bada55;
+	text-decoration: none;
+	line-height: 100px;
+}
+
+/**
+ * Toggleable fieldsets
+ *
+ * As used by OpenGraph
+ */
+fieldset.toggleable .inside {
+	display: block;
+}
+fieldset.toggleable legend:after {
+	content: " [-]";
+}
+fieldset.toggleable.inactive .inside {
+	display: none;
+}
+fieldset.toggleable.inactive legend:after {	     	 	 	  		 		
+	content: " [+]";
+}
+fieldset.toggleable legend {
+	cursor: pointer;
+	color: #BABABA;
+	font-size: 15px;
+	font-weight: 500;
+	font-family: 'Roboto', sans-serif;
+	transition: color .4s;
+}
+fieldset.toggleable legend:hover {
+	color: #808080;
+}
+
+
+/* 133620-1488397678-au */

@@ -1,16 +1,16 @@
 <script id="wpoi-custom-content-content-tpl" type="text/template">
 
-	<div id="wph-ccontent--name" class="wph-flex wph-flex--row wph-margin--40b">
+	<div id="wph-ccontent--name" class="row">
 
-		<div class="wph-flex--side wph-flex--title">
+		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
 			<h5><?php _e('Name', Opt_In::TEXT_DOMAIN); ?></h5>
 
 		</div>
 
-		<div class="wph-flex--box">
+		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-			<label class="wph-label--alt wph-label--border"><?php _e('Choose a name for your Custom Content module.', Opt_In::TEXT_DOMAIN); ?></label>
+			<label class="wph-label--border"><?php _e('Choose a name for your Custom Content module.', Opt_In::TEXT_DOMAIN); ?></label>
 
 			<input type="text" class="wph-input" placeholder="<?php esc_attr_e('Enter name...', Opt_In::TEXT_DOMAIN); ?>" value="{{optin_name}}" data-attribute="optin_name">
 
@@ -18,29 +18,31 @@
 
 	</div><!-- #wph-ccontent--name -->
 
-	<div id="wph-ccontent--content" class="wph-flex wph-flex--row wph-margin--30b">
+	<div id="wph-ccontent--content" class="row">
 
-		<div class="wph-flex--side wph-flex--title">
+		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
 			<h5><?php _e('The Content', Opt_In::TEXT_DOMAIN); ?></h5>
+
+			<div class="wph-sticky--anchor"></div>
 
 			<button class="wph-preview--eye wph-button"><i class="wph-icon i-eye"></i></button>
 
 		</div>
 
-		<div class="wph-flex--box">
+		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-			<label class="wph-label--alt wph-label--border"><?php _e('Add your Custom Content below. You may use shortcodes from other modules.', Opt_In::TEXT_DOMAIN); ?></label>
+			<label class="wph-label--border"><?php _e('Add your Custom Content below. You may use shortcodes from other modules.', Opt_In::TEXT_DOMAIN); ?></label>
 
-			<div class="wph-flex wph-flex--row wph-margin--30b">
+			<div class="row">
 
-				<div class="wph-flex--box">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
 					<input type="text" class="wph-input" placeholder="<?php esc_attr_e('Title (optional)', Opt_In::TEXT_DOMAIN); ?>" value="{{optin_title}}" data-attribute="optin_title">
 
 				</div>
 
-				<div class="wph-flex--box">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
 					<input type="text" class="wph-input" placeholder="<?php esc_attr_e('Subtitle (optional)', Opt_In::TEXT_DOMAIN); ?>" value="{{subtitle}}" data-attribute="subtitle">
 
@@ -48,9 +50,9 @@
 
 			</div>
 
-			<div class="wph-flex wph-flex--row wph-sticky--base">
+			<div id="wph-ccontent--msg" class="row">
 
-				<div class="wph-flex--box">
+				<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
 					<div class="wph-ccontent--textarea">
 
@@ -58,32 +60,46 @@
 								'textarea_name' => 'optin_message',
 								'textarea_rows' => 9,
 								'media_buttons' => true,
-								'teeny' => true
+								'teeny' => true,
+								'tinymce' => array(
+									'height' => 167,
+								),
 						)); ?>
 
 					</div>
 
 				</div>
 
-				<div class="wph-flex--side">
+				<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
 					<div class="wph-media--holder"></div>
 
-					<div class="wph-label--special_checkbox">
+					<div class="tabs">
+						<ul class="wph-triggers--options tabs-header">
 
-						<input type="radio" name="image_position" id="image_position_left" data-attribute="image_position" data-model="design_model"  {{_.checked(image_position, "left")}} value="left">
+							<li class="{{'left' === image_position?'current':''}}">
 
-						<label for="image_position_left"><i class="wph-icon i-image"></i><i class="wph-icon i-text"></i></label>
+								<input type="radio" name="image_position" id="image_position_left" data-attribute="image_position" data-model="design_model"  {{_.checked(image_position, "left")}} value="left">
 
-						<input type="radio" name="image_position" id="image_position_right" data-attribute="image_position" data-model="design_model"  value="right" {{_.checked(image_position, "right")}}>
+								<label for="image_position_left"><i class="wph-icon i-image"></i><i class="wph-icon i-text"></i></label>
 
-						<label for="image_position_right"><i class="wph-icon i-text"></i><i class="wph-icon i-image"></i></label>
+							</li>
 
-					</div><!-- .wph-label--special_checkbox -->
+							<li class="{{'right' === image_position?'current':''}}">
+
+								<input type="radio" name="image_position" id="image_position_right" data-attribute="image_position" data-model="design_model"  value="right" {{_.checked(image_position, "right")}}>
+
+								<label for="image_position_right"><i class="wph-icon i-text"></i><i class="wph-icon i-image"></i></label>
+
+							</li>
+
+						</ul>
+
+					</div>
 
 					<div class="wph-label--checkbox">
 
-						<label class="wph-label--alt" for="hide_image_on_mobile"><?php _e('Hide image on mobile', Opt_In::TEXT_DOMAIN); ?></label>
+						<label for="hide_image_on_mobile"><?php _e('Hide image on mobile', Opt_In::TEXT_DOMAIN); ?></label>
 
 						<div class="wph-input--checkbox">
 
@@ -108,17 +124,17 @@
 
 <script id="wpoi-custom-content-design-tpl" type="text/template">
 
-	<div id="wph-ccontent--optional" class="wph-flex wph-flex--row wph-margin--40b">
+	<div id="wph-ccontent--optional" class="row">
 
-		<div class="wph-flex--side wph-flex--title"></div>
+		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"></div>
 
-		<div class="wph-flex--box">
+		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-			<label class="wph-label--alt wph-label--border"><?php _e('Call to action button (optional).', Opt_In::TEXT_DOMAIN); ?></label>
+			<label class="wph-label--border"><?php _e('Call to action button (optional)', Opt_In::TEXT_DOMAIN); ?></label>
 
-			<div class="wph-flex wph-flex--row">
+			<div class="row">
 
-				<div class="wph-flex--box">
+				<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
 					<label class="wph-label--alt"><?php _e('Label', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -126,7 +142,7 @@
 
 				</div>
 
-				<div class="wph-flex--box">
+				<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
 					<label class="wph-label--alt"><?php _e('URL', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -134,7 +150,7 @@
 
 				</div>
 
-				<div class="wph-flex--box">
+				<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
 					<label class="wph-label--alt"><?php _e('Link target', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -155,223 +171,207 @@
 
 	</div><!-- #wph-ccontent--optional -->
 
-	<div id="wph-ccontent--design" class="wph-flex wph-flex--row wph-margin--30b wph-border--bottom">
+	<div id="wph-ccontent--design" class="row">
 
-		<div class="wph-flex--side wph-flex--title">
+		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
 			<h5><?php _e('Colors & Design', Opt_In::TEXT_DOMAIN); ?></h5>
 
 		</div>
 
-		<div class="wph-flex--box">
+		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-			<label class="wph-label--alt wph-label--border"><?php _e('Customize the appearance of your message.', Opt_In::TEXT_DOMAIN); ?></label>
+			<label class="wph-label--border"><?php _e('Customize the appearance of your message.', Opt_In::TEXT_DOMAIN); ?></label>
 
 			<h4><?php _e('Message Box', Opt_In::TEXT_DOMAIN); ?></h4>
 
-			<div id="wph-ccontent--basic">
+			<label><?php _e('Select a style to use:', Opt_In::TEXT_DOMAIN); ?></label>
 
-				<div class="wph-flex wph-flex--column wph-margin--20b">
+			<div id="wph-ccontent--palette">
 
-					<label class="wph-label--alt"><?php _e('Select a style to use:', Opt_In::TEXT_DOMAIN); ?></label>
+				<select data-attribute="style" class="wpmuiSelect">
 
-					<div class="wph-flex wph-flex--row">
+					<option value="cabriolet" {{_.selected(style, "cabriolet")}} >Cabriolet</option>
+					<option value="simple" {{_.selected(style, "simple")}} >Simple</option>
+					<option value="minimal" {{_.selected(style, "minimal")}} >Minimal</option>
 
-						<div class="wph-flex--box">
+				</select>
 
-							<select data-attribute="style" class="wpmuiSelect">
+				<div class="wph-label--checkbox">
 
-								<option value="cabriolet" {{_.selected(style, "cabriolet")}} >Cabriolet</option>
-								<option value="simple" {{_.selected(style, "simple")}} >Simple</option>
-								<option value="minimal" {{_.selected(style, "minimal")}} >Minimal</option>
+					<label class="wph-label--alt" for="customize_colors"><?php _e('Customize Colors', Opt_In::TEXT_DOMAIN); ?></label>
 
-							</select>
+					<div class="wph-input--checkbox">
 
-						</div>
+						<input type="checkbox" {{_.checked(customize_colors, true)}} data-attribute="customize_colors" id="customize_colors" value="1">
 
-						<div class="wph-flex--box">
-
-							<div class="wph-label--checkbox">
-
-								<label class="wph-label--alt" for="customize_colors"><?php _e('Customize Colors', Opt_In::TEXT_DOMAIN); ?></label>
-
-								<div class="wph-input--checkbox">
-
-									<input type="checkbox" {{_.checked(customize_colors, true)}} data-attribute="customize_colors" id="customize_colors" value="1">
-
-									<label class="wph-icon i-check" for="customize_colors"></label>
-
-								</div>
-
-							</div>
-
-						</div>
+						<label class="wph-icon i-check" for="customize_colors"></label>
 
 					</div>
 
 				</div>
 
-				<div class="wph-flex wph-flex--column wph-flex--gray wph-padding--25_sides wph-padding--25_bottom wph-margin--30b {{_.class(_.isFalse( customize_colors ), 'hidden')}}" >
+			</div>
 
-					<h4><?php _e('Basic', Opt_In::TEXT_DOMAIN); ?></h4>
+			<div id="wph-ccontent--custom_colors" class="{{_.class(_.isFalse( customize_colors ), 'hidden')}}" >
 
-					<div class="wph-flex wph-flex--row">
+				<h4><?php _e('Basic', Opt_In::TEXT_DOMAIN); ?></h4>
 
-						<div class="wph-flex--box">
+				<div class="ocp-basic-content row">
 
-							<label class="wph-label--alt"><?php _e('Main Background', Opt_In::TEXT_DOMAIN); ?></label>
+					<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-							<div class="wph-pickers wph-pickers--single" style="z-index: 991;">
+						<label class="wph-label--alt"><?php _e('Main background', Opt_In::TEXT_DOMAIN); ?></label>
 
-								<div class="wph-pickers--color">
+						<div class="wph-pickers wph-pickers--single">
 
-									<input type="text" class="wph-color-picker" id="main_bg_color" value="{{main_bg_color}}" data-attribute="main_bg_color" data-alpha="true">
+							<div class="wph-pickers--color">
 
-								</div>
-
-							</div>
-
-						</div><!-- Main Background -->
-
-						<div class="wph-flex--box">
-
-							<label class="wph-label--alt"><?php _e('Title Color', Opt_In::TEXT_DOMAIN); ?></label>
-
-							<div class="wph-pickers wph-pickers--single" style="z-index: 991;">
-
-								<div class="wph-pickers--color">
-
-									<input type="text" class="wph-color-picker" id="" value="{{title_color}}" data-attribute="title_color" data-alpha="true">
-
-								</div>
+								<input type="text" class="wph-color-picker" id="main_bg_color" value="{{main_bg_color}}" data-attribute="main_bg_color" data-alpha="true">
 
 							</div>
 
-						</div><!-- Title Color -->
+						</div>
 
-						<div class="wph-flex--box">
+					</div><!-- Main Background -->
 
-							<label class="wph-label--alt"><?php _e('Subtitle Color', Opt_In::TEXT_DOMAIN); ?></label>
+					<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-							<div class="wph-pickers wph-pickers--single" style="z-index: 991;">
+						<label class="wph-label--alt"><?php _e('Title color', Opt_In::TEXT_DOMAIN); ?></label>
 
-								<div class="wph-pickers--color">
+						<div class="wph-pickers wph-pickers--single">
 
-									<input type="text" class="wph-color-picker" id="" value="{{subtitle_color}}" data-attribute="subtitle_color" data-alpha="true">
+							<div class="wph-pickers--color">
 
-								</div>
-
-							</div>
-
-						</div><!-- Subtitle Color -->
-
-					</div>
-
-					<div class="wph-flex wph-flex--row">
-
-						<div class="wph-flex--box">
-
-							<label class="wph-label--alt"><?php _e('Link Color', Opt_In::TEXT_DOMAIN); ?></label>
-
-							<div class="wph-pickers" style="z-index: 99;">
-
-								<div class="wph-pickers--color">
-
-									<input type="text" class="wph-color-picker" id="" value="{{link_static_color}}" data-attribute="link_static_color">
-
-									<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Static State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
-
-								</div>
-
-								<div class="wph-pickers--color">
-
-									<input type="text" class="wph-color-picker" id="" value="{{link_hover_color}}" data-attribute="link_hover_color">
-
-									<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Hover State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
-
-								</div>
-
-								<div class="wph-pickers--color">
-
-									<input type="text" class="wph-color-picker" id="" value="{{link_active_color}}" data-attribute="link_active_color">
-
-									<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Active State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
-
-								</div>
+								<input type="text" class="wph-color-picker" id="" value="{{title_color}}" data-attribute="title_color" data-alpha="true">
 
 							</div>
 
-						</div><!-- Link Color -->
+						</div>
 
-						<div class="wph-flex--box">
+					</div><!-- Title Color -->
 
-							<label class="wph-label--alt"><?php _e('CTA Background', Opt_In::TEXT_DOMAIN); ?></label>
+					<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-							<div class="wph-pickers" style="z-index: 99;">
+						<label class="wph-label--alt"><?php _e('Subtitle color', Opt_In::TEXT_DOMAIN); ?></label>
 
-								<div class="wph-pickers--color">
+						<div class="wph-pickers wph-pickers--single">
 
-									<input type="text" class="wph-color-picker" id="" value="{{cta_static_background}}" data-attribute="cta_static_background">
+							<div class="wph-pickers--color">
 
-									<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Static State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
-
-								</div>
-
-								<div class="wph-pickers--color">
-
-									<input type="text" class="wph-color-picker" id="" value="{{cta_hover_background}}" data-attribute="cta_hover_background">
-
-									<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Hover State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
-
-								</div>
-
-								<div class="wph-pickers--color">
-
-									<input type="text" class="wph-color-picker" id="" value="{{cta_active_background}}" data-attribute="cta_active_background">
-
-									<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Active State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
-
-								</div>
+								<input type="text" class="wph-color-picker" id="" value="{{subtitle_color}}" data-attribute="subtitle_color" data-alpha="true">
 
 							</div>
 
-						</div><!-- CTA Background -->
+						</div>
 
-						<div class="wph-flex--box wph-label--block">
+					</div><!-- Subtitle Color -->
 
-							<label class="wph-label--alt"><?php _e('CTA Color', Opt_In::TEXT_DOMAIN); ?></label>
+				</div>
 
-							<div class="wph-pickers" style="z-index: 99;">
+				<div class="ocp-basic-other row">
 
-								<div class="wph-pickers--color">
+					<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-									<input type="text" class="wph-color-picker" id="" value="{{cta_static_color}}" data-attribute="cta_static_color">
+						<label class="wph-label--alt"><?php _e('Link Color', Opt_In::TEXT_DOMAIN); ?></label>
 
-									<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Static State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
+						<div class="wph-pickers">
 
-								</div>
+							<div class="wph-pickers--color">
 
-								<div class="wph-pickers--color">
+								<input type="text" class="wph-color-picker" id="" value="{{link_static_color}}" data-attribute="link_static_color">
 
-									<input type="text" class="wph-color-picker" id="" value="{{cta_hover_color}}" data-attribute="cta_hover_color">
-
-									<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Hover State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
-
-								</div>
-
-								<div class="wph-pickers--color">
-
-									<input type="text" class="wph-color-picker" id="" value="{{cta_active_color}}" data-attribute="cta_active_color">
-
-									<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Active State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
-
-								</div>
+								<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Static State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
 
 							</div>
 
-						</div><!-- CTA Color -->
+							<div class="wph-pickers--color">
 
-					</div>
+								<input type="text" class="wph-color-picker" id="" value="{{link_hover_color}}" data-attribute="link_hover_color">
+
+								<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Hover State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
+
+							</div>
+
+							<div class="wph-pickers--color">
+
+								<input type="text" class="wph-color-picker" id="" value="{{link_active_color}}" data-attribute="link_active_color">
+
+								<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Active State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
+
+							</div>
+
+						</div>
+
+					</div><!-- Link Color -->
+
+					<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+						<label class="wph-label--alt"><?php _e('CTA Background', Opt_In::TEXT_DOMAIN); ?></label>
+
+						<div class="wph-pickers">
+
+							<div class="wph-pickers--color">
+
+								<input type="text" class="wph-color-picker" id="" value="{{cta_static_background}}" data-attribute="cta_static_background">
+
+								<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Static State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
+
+							</div>
+
+							<div class="wph-pickers--color">
+
+								<input type="text" class="wph-color-picker" id="" value="{{cta_hover_background}}" data-attribute="cta_hover_background">
+
+								<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Hover State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
+
+							</div>
+
+							<div class="wph-pickers--color">
+
+								<input type="text" class="wph-color-picker" id="" value="{{cta_active_background}}" data-attribute="cta_active_background">
+
+								<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Active State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
+
+							</div>
+
+						</div>
+
+					</div><!-- CTA Background -->
+
+					<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+						<label class="wph-label--alt"><?php _e('CTA Color', Opt_In::TEXT_DOMAIN); ?></label>
+
+						<div class="wph-pickers">
+
+							<div class="wph-pickers--color">
+
+								<input type="text" class="wph-color-picker" id="" value="{{cta_static_color}}" data-attribute="cta_static_color">
+
+								<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Static State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
+
+							</div>
+
+							<div class="wph-pickers--color">
+
+								<input type="text" class="wph-color-picker" id="" value="{{cta_hover_color}}" data-attribute="cta_hover_color">
+
+								<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Hover State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
+
+							</div>
+
+							<div class="wph-pickers--color">
+
+								<input type="text" class="wph-color-picker" id="" value="{{cta_active_color}}" data-attribute="cta_active_color">
+
+								<span class="wph-pickers--tip" tooltip="<?php esc_attr_e('Active State Color', Opt_In::TEXT_DOMAIN ); ?>"></span>
+
+							</div>
+
+						</div>
+
+					</div><!-- CTA Color -->
 
 				</div>
 
@@ -379,9 +379,9 @@
 
 			<div id="wph-ccontent--border">
 
-				<div class="wph-label--checkbox margin">
+				<div class="wph-label--checkbox">
 
-					<label class="wph-label--alt" for="modal_border"><?php _e('Border', Opt_In::TEXT_DOMAIN); ?></label>
+					<label for="modal_border"><?php _e('Border', Opt_In::TEXT_DOMAIN); ?></label>
 
 					<div class="wph-input--checkbox">
 
@@ -393,9 +393,13 @@
 
 				</div>
 
-				<div class="wph-flex wph-flex--row wph-flex--gray wph-padding--25 wph-margin--30b {{_.class( _.isFalse( border ) , 'hidden')}}">
+			</div>
 
-					<div class="wph-flex--box">
+			<div id="wph-ccontent--border_settings" class="{{_.class( _.isFalse( border ) , 'hidden')}}">
+
+				<div class="row">
+
+					<div class="col-eq">
 
 						<label class="wph-label--alt"><?php _e('Radius', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -407,7 +411,7 @@
 
 					</div>
 
-					<div class="wph-flex--box">
+					<div class="col-eq">
 
 						<label class="wph-label--alt"><?php _e('Weight', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -419,7 +423,7 @@
 
 					</div>
 
-					<div class="wph-flex--box">
+					<div class="col-eq">
 
 						<label class="wph-label--alt"><?php _e('Type', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -435,9 +439,9 @@
 
 					</div>
 
-					<div class="wph-flex--box">
+					<div class="col-eq">
 
-						<label class="wph-label--alt"><?php _e('Border Color', Opt_In::TEXT_DOMAIN); ?></label>
+						<label class="wph-label--alt"><?php _e('Border color', Opt_In::TEXT_DOMAIN); ?></label>
 
 						<div class="wph-pickers wph-pickers--single" style="z-index: 10;">
 
@@ -457,9 +461,9 @@
 
 			<div id="wph-ccontent--shadow">
 
-				<div class="wph-label--checkbox margin">
+				<div class="wph-label--checkbox">
 
-					<label class="wph-label--alt" for="modal_shadow"><?php _e('Drop Shadow', Opt_In::TEXT_DOMAIN); ?></label>
+					<label for="modal_shadow"><?php _e('Drop Shadow', Opt_In::TEXT_DOMAIN); ?></label>
 
 					<div class="wph-input--checkbox">
 
@@ -471,9 +475,13 @@
 
 				</div>
 
-				<div class="wph-flex wph-flex--row wph-flex--gray wph-padding--25 wph-margin--30b {{_.class( _.isFalse( drop_shadow ) , 'hidden')}}">
+			</div>
 
-					<div class="wph-flex--box">
+			<div id="wph-ccontent--shadow_settings" class="{{_.class( _.isFalse( drop_shadow ) , 'hidden')}}">
+
+				<div class="row">
+
+					<div class="col-eq">
 
 						<label class="wph-label--alt"><?php _e('X-offset', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -485,7 +493,7 @@
 
 					</div>
 
-					<div class="wph-flex--box">
+					<div class="col-eq">
 
 						<label class="wph-label--alt"><?php _e('Y-offset', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -497,7 +505,7 @@
 
 					</div>
 
-					<div class="wph-flex--box">
+					<div class="col-eq">
 
 						<label class="wph-label--alt"><?php _e('Blur', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -509,7 +517,7 @@
 
 					</div>
 
-					<div class="wph-flex--box">
+					<div class="col-eq">
 
 						<label class="wph-label--alt"><?php _e('Spread', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -521,7 +529,7 @@
 
 					</div>
 
-					<div class="wph-flex--box">
+					<div class="col-eq">
 
 						<label class="wph-label--alt"><?php _e('Color', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -541,9 +549,9 @@
 
 			</div><!-- #wph-ccontent--shadow -->
 
-			<div id="wph-ccontent--custom_size" class="wph-margin--30b">
+			<div id="wph-ccontent--customsize">
 
-				<div class="wph-label--checkbox margin">
+				<div class="wph-label--checkbox">
 
 					<label class="wph-label--alt" for="customize_size"><?php _e('Use custom size (if selected, Pop Up won\'t be responsive)', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -557,35 +565,31 @@
 
 				</div>
 
-				<div class="wph-flex wph-flex--row wph-flex--gray wph-padding--25 wph-js-custom-size-panel {{_.class( _.isFalse( customize_size ) , 'hidden')}}" id="">
+			</div>
 
-					<div class="wph-flex--side_100">
+			<div id="wph-ccontent--customsize_settings" class="{{_.class( _.isFalse( customize_size ) , 'hidden')}}">
 
-						<div class="wph-label--block">
+				<div class="row">
 
-							<label class="wph-label--alt"><?php _e('Width', Opt_In::TEXT_DOMAIN); ?></label>
+					<div class="col-eq">
 
-							<div class="wph-input--number wph-input--number_100">
+						<label class="wph-label--alt"><?php _e('Width', Opt_In::TEXT_DOMAIN); ?></label>
 
-								<input type="number" id="" min="0" max="500" step="1" value="{{custom_width}}" data-attribute="custom_width">
+						<div class="wph-input--number">
 
-							</div>
+							<input type="number" id="" min="0" max="500" step="1" value="{{custom_width}}" data-attribute="custom_width">
 
 						</div>
 
 					</div>
 
-					<div class="wph-flex--box">
+					<div class="col-eq">
 
-						<div class="wph-label--block">
+						<label class="wph-label--alt"><?php _e('Height', Opt_In::TEXT_DOMAIN); ?></label>
 
-							<label class="wph-label--alt"><?php _e('Height', Opt_In::TEXT_DOMAIN); ?></label>
+						<div class="wph-input--number">
 
-							<div class="wph-input--number wph-input--number_100">
-
-								<input type="number" id="" min="0" max="500" step="1" value="{{custom_height}}" data-attribute="custom_height">
-
-							</div>
+							<input type="number" id="" min="0" max="500" step="1" value="{{custom_height}}" data-attribute="custom_height">
 
 						</div>
 
@@ -593,49 +597,41 @@
 
 				</div>
 
-			</div><!-- #wph-ccontent--custom_size -->
+			</div><!-- #wph-ccontent--customsize -->
 
 		</div>
 
 	</div><!-- #wph-ccontent--design -->
 
-	<div id="wph-ccontent--css" class="wph-flex wph-flex--row wph-margin--30b">
+	<div id="wph-ccontent--css" class="row">
 
-		<div class="wph-flex--side wph-flex--title">
+		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
 			<h5><?php _e('Custom CSS', Opt_In::TEXT_DOMAIN); ?></h5>
 
 		</div>
 
-		<div class="wph-flex--box">
+		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-			<div class="wph-flex wph-flex--row wph-flex--header">
+			<label class="wph-label--border{{_.class( _.isFalse( customize_css ), ' toggle-off' )}}">
 
-				<div class="wph-flex--box">
+				<span class="toggle">
 
-					<div class="wph-label--toggle">
+					<input id="toggle-cc-css" class="toggle-checkbox" type="checkbox" value="1" data-attribute="customize_css" {{_.checked( _.isTrue( customize_css ), true )}} >
 
-						<label class="wph-label--alt"><?php _e('Use custom CSS for this opt-in', Opt_In::TEXT_DOMAIN); ?></label>
+					<label class="toggle-label" for="toggle-cc-css"></label>
 
-						<span class="toggle">
+				</span>
 
-							<input id="toggle-cc-css" class="toggle-checkbox" type="checkbox" value="1" data-attribute="customize_css" {{_.checked( _.isTrue( customize_css ), true )}} >
+				<?php _e('Use custom CSS for this opt-in', Opt_In::TEXT_DOMAIN); ?>
 
-							<label class="toggle-label" for="toggle-cc-css"></label>
+			</label>
 
-						</span>
+			<div id="wph-css-holder" class="{{_.class( _.isFalse( customize_css ), 'hidden' )}}">
 
-					</div>
+				<label><?php _e('Available CSS Selectors (click to add):', Opt_In::TEXT_DOMAIN); ?></label>
 
-				</div>
-
-			</div>
-
-			<div class="wph-flex wph-flex--column wph-flex--animated wph-border--top wph-padding--25_top wph-margin--20t {{_.class( _.isTrue( customize_css ), 'open' )}} ">
-
-				<label class="wph-label--alt"><?php _e('Available CSS Selectors (click to add):', Opt_In::TEXT_DOMAIN); ?></label>
-
-				<div class="wpoi-css-selectors wpoi-wrap cf">
+				<div class="wpoi-css-selectors">
 
 					<div class="wpoi-css-selectors-wrap">
 
@@ -675,15 +671,29 @@
 
 		<div class="row">
 
-			<div class="col-half">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
 				<button  class="wph-button wph-button--filled wph-button--gray wph-js-cancel-design-changes"><?php _e('Cancel', Opt_In::TEXT_DOMAIN); ?></button>
+
 			</div>
 
-			<div class="col-half">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
-				<button data-id="<?php echo isset(  $_GET['id'] ) ? $_GET['id']: '-1'; ?>" data-nonce="<?php echo wp_create_nonce('hustle_custom_content_save'); ?>" class="wph-button wph-button-save wph-button--filled wph-button--blue" id="save-and-next"><?php _e('Save Changes', Opt_In::TEXT_DOMAIN); ?></button>
+				<button data-id="<?php echo isset(  $_GET['id'] ) ? $_GET['id']: '-1'; ?>" data-nonce="<?php echo wp_create_nonce('hustle_custom_content_save'); ?>" class="wph-button wph-button-save wph-button--filled wph-button--blue" id="save-and-next">
 
-				<button data-id="<?php echo isset(  $_GET['id'] ) ? $_GET['id']: '-1'; ?>" data-nonce="<?php echo wp_create_nonce('hustle_custom_content_save'); ?>" class="wph-button wph-button--filled wph-button--gray" id="next-step"><?php _e('Next Step', Opt_In::TEXT_DOMAIN); ?></button>
+					<span class="off-action"><?php _e('Save Changes', Opt_In::TEXT_DOMAIN); ?></span>
+
+					<span class="on-action"><?php _e('Saving...', Opt_In::TEXT_DOMAIN); ?></span>
+
+				</button>
+
+				<button data-id="<?php echo isset(  $_GET['id'] ) ? $_GET['id']: '-1'; ?>" data-nonce="<?php echo wp_create_nonce('hustle_custom_content_save'); ?>" class="wph-button wph-button--filled wph-button--gray" id="next-step">
+
+					<span class="off-action"><?php _e('Next Step', Opt_In::TEXT_DOMAIN); ?></span>
+
+					<span class="on-action"><?php _e('Saving...', Opt_In::TEXT_DOMAIN); ?></span>
+
+				</button>
 
 			</div>
 

@@ -18,6 +18,13 @@ class Lockout_Controller extends \WD_Controller {
 	public function __construct() {
 		//exec lockouts if needed
 		$this->maybe_lockouts();
+		$this->maybe_export();
+
+		/**
+		 * due to a know bug of WP 4.7.2, some applicat will be fail at ext check, this is a workaround and will
+		 * be remove after 4.7.3
+		 */
+		$this->add_filter( 'wp_check_filetype_and_ext', 'wp_check_filetype_and_ext', 10, 4 );
 
 		if ( is_multisite() ) {
 			$this->add_action( 'network_admin_menu', 'admin_menu', 12 );
@@ -46,6 +53,8 @@ class Lockout_Controller extends \WD_Controller {
 		 * saving settings, all page
 		 */
 		$this->add_action( 'wp_loaded', 'save_settings' );
+
+		$this->add_ajax_action( 'wd_import_ips', 'import_ips' );
 		/**
 		 * post type
 		 */
@@ -82,11 +91,13 @@ class Lockout_Controller extends \WD_Controller {
 		/**
 		 * storing log for auth fail
 		 */
-		$ip = $_SERVER['REMOTE_ADDR'];
+		$ip = \WD_Utils::get_user_ip();
 
-		$whitelist = $settings->get_ip_whitelist();
-		//whitelist wpmudev checkup
-		$whitelist = array_merge( $whitelist, apply_filters( 'ip_lockout_default_whitelist_ip', array(
+		if ( $settings->isWhitelist( $ip ) ) {
+			return;
+		}
+
+		$arr = apply_filters( 'ip_lockout_default_whitelist_ip', array(
 			'192.241.148.185',
 			'104.236.132.222',
 			'192.241.140.159',
@@ -96,12 +107,11 @@ class Lockout_Controller extends \WD_Controller {
 			'54.221.174.186',
 			'54.236.233.244',
 			array_key_exists( 'SERVER_ADDR', $_SERVER ) ? $_SERVER['SERVER_ADDR'] : $_SERVER['LOCAL_ADDR']
-		) ) );
-
-		if ( in_array( $ip, $whitelist ) ) {
-			//this ip white list,w e dont need to check other
+		) );
+		if ( in_array( $ip, $arr ) ) {
 			return;
 		}
+
 		$user_agent = $_SERVER['HTTP_USER_AGENT'];
 		/*$this->log( $user_agent, self::ERROR_LEVEL_DEBUG, 'useragent' );
 		$this->log( $_SERVER['REQUEST_URI'], self::ERROR_LEVEL_DEBUG, 'uri' );*/
@@ -130,6 +140,184 @@ class Lockout_Controller extends \WD_Controller {
 		}
 		$this->add_action( 'clean_up_old_log', 'clean_up_old_log' );
 		$this->add_action( 'send_lockout_report', 'send_lockout_report' );
+	}
+
+	/**
+	 * @param $data
+	 * @param $file
+	 * @param $filename
+	 * @param $mimes
+	 *
+	 * @return array
+	 */
+	public function wp_check_filetype_and_ext( $data, $file, $filename, $mimes ) {
+		$proper_filename = false;
+
+		// Do basic extension validation and MIME mapping
+		$wp_filetype = wp_check_filetype( $filename, $mimes );
+		$ext         = $wp_filetype['ext'];
+		$type        = $wp_filetype['type'];
+
+		// We can't do any further validation without a file to work with
+		if ( ! file_exists( $file ) ) {
+			return compact( 'ext', 'type', 'proper_filename' );
+		}
+
+		// We're able to validate images using GD
+		if ( $type && 0 === strpos( $type, 'image/' ) && function_exists( 'getimagesize' ) ) {
+
+			// Attempt to figure out what type of image it actually is
+			$imgstats = @getimagesize( $file );
+
+			// If getimagesize() knows what kind of image it really is and if the real MIME doesn't match the claimed MIME
+			if ( ! empty( $imgstats['mime'] ) && $imgstats['mime'] != $type ) {
+				/**
+				 * Filters the list mapping image mime types to their respective extensions.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param  array $mime_to_ext Array of image mime types and their matching extensions.
+				 */
+				$mime_to_ext = apply_filters( 'getimagesize_mimes_to_exts', array(
+					'image/jpeg' => 'jpg',
+					'image/png'  => 'png',
+					'image/gif'  => 'gif',
+					'image/bmp'  => 'bmp',
+					'image/tiff' => 'tif',
+				) );
+
+				// Replace whatever is after the last period in the filename with the correct extension
+				if ( ! empty( $mime_to_ext[ $imgstats['mime'] ] ) ) {
+					$filename_parts = explode( '.', $filename );
+					array_pop( $filename_parts );
+					$filename_parts[] = $mime_to_ext[ $imgstats['mime'] ];
+					$new_filename     = implode( '.', $filename_parts );
+
+					if ( $new_filename != $filename ) {
+						$proper_filename = $new_filename; // Mark that it changed
+					}
+					// Redefine the extension / MIME
+					$wp_filetype = wp_check_filetype( $new_filename, $mimes );
+					$ext         = $wp_filetype['ext'];
+					$type        = $wp_filetype['type'];
+				}
+			}
+		}
+
+		/**
+		 * Filters the "real" file type of the given file.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $wp_check_filetype_and_ext File data array containing 'ext', 'type', and
+		 *                                          'proper_filename' keys.
+		 * @param string $file Full path to the file.
+		 * @param string $filename The name of the file (may differ from $file due to
+		 *                                          $file being in a tmp directory).
+		 * @param array $mimes Key is the file extension with value as the mime type.
+		 */
+		return compact( 'ext', 'type', 'proper_filename' );
+	}
+
+	public function import_ips() {
+		if ( ! \WD_Utils::check_permission() ) {
+			return false;
+		}
+
+		$id = \WD_Utils::http_post( 'file' );
+		if ( ! is_object( get_post( $id ) ) ) {
+			wp_send_json( array(
+				'status' => 0,
+				'err'    => __( "Your file is invalid!", wp_defender()->domain )
+			) );
+		}
+		$file = get_attached_file( $id );
+		if ( ! is_file( $file ) ) {
+			wp_send_json( array(
+				'status' => 0,
+				'err'    => __( "Your file is invalid!", wp_defender()->domain )
+			) );
+		}
+
+		if ( ! ( $data = $this->verify_import_file( $file ) ) ) {
+			wp_send_json( array(
+				'status' => 0,
+				'err'    => __( "Your file content is invalid!", wp_defender()->domain )
+			) );
+		}
+		$settings = new Settings_Model();
+		//all good, start to import
+		foreach ( $data as $line ) {
+			$settings->add_ip_to_list( $line[0], $line[1] );
+		}
+		$this->flash( 'success', __( "Your whitelist/blacklist has been successfully imported.", wp_defender()->domain ) );
+		wp_send_json( array(
+			'status' => 1
+		) );
+	}
+
+	private function verify_import_file( $file ) {
+		$fp   = fopen( $file, 'r' );
+		$data = array();
+		while ( ( $line = fgetcsv( $fp ) ) !== false ) {
+
+			if ( count( $line ) != 2 ) {
+				return false;
+			}
+
+			if ( ! in_array( $line[1], array( 'whitelist', 'blacklist' ) ) ) {
+				return false;
+			}
+			$ips = explode( '-', $line[0] );
+			foreach ( $ips as $ip ) {
+				$ip = trim( $ip );
+				if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+					return false;
+				}
+				$data[] = $line;
+			}
+
+		}
+		fclose( $file );
+
+		return $data;
+	}
+
+	public function maybe_export() {
+		if ( \WD_Utils::http_get( 'page' ) == 'wdf-ip-lockout' && \WD_Utils::http_get( 'view' ) == 'export' ) {
+			if ( ! \WD_Utils::check_permission() ) {
+				return;
+			}
+
+			if ( ! wp_verify_nonce( \WD_Utils::http_get( '_wpnonce' ), 'defipexport' ) ) {
+				return;
+			}
+			$setting = new Settings_Model();
+			$data    = array();
+			foreach ( $setting->get_ip_blacklist() as $ip ) {
+				$data[] = array(
+					'ip'   => $ip,
+					'type' => 'blacklist'
+				);
+			}
+			foreach ( $setting->get_ip_whitelist() as $ip ) {
+				$data[] = array(
+					'ip'   => $ip,
+					'type' => 'whitelist'
+				);
+			}
+			$fp = fopen( 'php://memory', 'w' );
+			foreach ( $data as $fields ) {
+				fputcsv( $fp, $fields );
+			}
+			$filename = 'wdf-ips-export-' . date( 'ymdHis' ) . '.csv';
+			fseek( $fp, 0 );
+			header( 'Content-Type: text/csv' );
+			header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
+			// make php send the generated csv lines to the browser
+			fpassthru( $fp );
+			exit();
+		}
 	}
 
 	public function settle_settings() {
@@ -400,9 +588,9 @@ class Lockout_Controller extends \WD_Controller {
 		}
 
 		$ip = $_SERVER['REMOTE_ADDR'];
-		if ( in_array( $ip, $settings->get_ip_whitelist() ) ) {
+		if ( $settings->isWhitelist( $ip ) ) {
 			return;
-		} elseif ( in_array( $ip, $settings->get_ip_blacklist() ) ) {
+		} elseif ( $settings->isBlacklist( $ip ) ) {
 			$this->template = false;
 			$this->render( 'locked', array(
 				'message' => $settings->ip_lockout_message
@@ -566,6 +754,11 @@ class Lockout_Controller extends \WD_Controller {
 		wp_enqueue_script( 'def-lockout-logs', wp_defender()->get_plugin_url() . 'app/module/ip-lockout-module/assets/js/script.js', array(
 			'jquery'
 		) );
+		wp_enqueue_script( 'def-notify', wp_defender()->get_plugin_url() . 'app/module/ip-lockout-module/assets/js/notify.min.js', array(
+			'jquery'
+		) );
+
+		wp_enqueue_media();
 		$settings = new Settings_Model();
 		$this->render( 'blacklist/enabled', array(
 			'settings' => $settings
@@ -743,6 +936,7 @@ class Lockout_Controller extends \WD_Controller {
 	public function load_scripts() {
 		if ( $this->is_in_page() ) {
 			\WDEV_Plugin_Ui::load( wp_defender()->get_plugin_url() . 'shared-ui/', false );
+			remove_filter( 'admin_body_class', array( 'WDEV_Plugin_Ui', 'admin_body_class' ) );
 			wp_enqueue_style( 'lockdown', wp_defender()->get_plugin_url() . 'app/module/ip-lockout-module/assets/css/styles.css' );
 		}
 	}

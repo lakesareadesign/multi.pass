@@ -80,7 +80,57 @@ class Settings_Model extends \WD_Option_Model {
 		$arr = array_filter( explode( PHP_EOL, $this->ip_whitelist ) );
 		$arr = array_map( 'trim', $arr );
 
+		//whitelist wpmudev checkup
 		return $arr;
+	}
+
+	/**
+	 * @param $ip
+	 *
+	 * @return bool
+	 */
+	public function isWhitelist( $ip ) {
+		$whitelist = $this->get_ip_whitelist();
+		foreach ( $whitelist as $wip ) {
+			$ips = explode( '-', $wip );
+			if ( count( $ips ) == 1 && trim( $wip ) == $ip ) {
+				return true;
+			} elseif ( count( $ips ) == 2 ) {
+				$high = sprintf( "%u", ip2long( $ips[1] ) );
+				$low  = sprintf( "%u", ip2long( $ips[0] ) );
+
+				$cip = sprintf( "%u", ip2long( $ip ) );
+				if ( $high >= $cip && $cip >= $low ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param $ip
+	 *
+	 * @return bool
+	 */
+	public function isBlacklist( $ip ) {
+		$blacklist = $this->get_ip_blacklist();
+		foreach ( $blacklist as $wip ) {
+			$ips = explode( '-', $wip );
+			if ( count( $ips ) == 1 && trim( $wip ) == $ip ) {
+				return true;
+			} elseif ( count( $ips ) == 2 ) {
+				$high = sprintf( "%u", ip2long( $ips[1] ) );
+				$low  = sprintf( "%u", ip2long( $ips[0] ) );
+				$cip  = sprintf( "%u", ip2long( $ip ) );
+				if ( $high >= $cip && $cip >= $low ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -146,7 +196,7 @@ class Settings_Model extends \WD_Option_Model {
 			$blacklist = explode( PHP_EOL, $blacklist );
 			foreach ( $blacklist as $k => $ip ) {
 				$ip = trim( $ip );
-				if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) === false ) {
+				if ( $this->validate_ip( $ip ) === false ) {
 					unset( $blacklist[ $k ] );
 					$remove_ips[] = $ip;
 				}
@@ -159,7 +209,7 @@ class Settings_Model extends \WD_Option_Model {
 			$whitelist = explode( PHP_EOL, $whitelist );
 			foreach ( $whitelist as $k => $ip ) {
 				$ip = trim( $ip );
-				if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) === false ) {
+				if ( $this->validate_ip( $ip ) === false ) {
 					unset( $whitelist[ $k ] );
 					$remove_ips[] = $ip;
 				}
@@ -171,5 +221,31 @@ class Settings_Model extends \WD_Option_Model {
 		if ( ! empty( $remove_ips ) && count( $remove_ips ) ) {
 			wp_defender()->global['false_ips'] = $remove_ips;
 		}
+	}
+
+	/**
+	 * $ip an be single ip, or a range like xxx.xxx.xxx.xxx - xxx.xxx.xxx.xxx or a using network subnet mask
+	 *
+	 * @param $ip
+	 *
+	 * @return bool
+	 */
+	private function validate_ip( $ip ) {
+		if ( ( ! stristr( $ip, '-' ) || ! stristr( $ip, '/' ) ) && filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+
+			return true;
+		} elseif ( stristr( $ip, '-' ) ) {
+			$ips = explode( '-', $ip );
+			foreach ( $ips as $ip ) {
+				if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+					return false;
+				}
+			}
+			if ( sprintf( "%u", ip2long( $ips[1] ) ) - sprintf( "%u", ip2long( $ips[0] ) ) > 0 ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

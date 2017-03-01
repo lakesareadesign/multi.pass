@@ -31,7 +31,10 @@ class Opt_In_Meta_Design extends Hustle_Meta{
         "css" => "",
         "input_icons" => "animated_icon", // possible values no_icon|none_animated_icon|animated_icon,
         "on_submit" => "success_message", // success_message|page_redirect
-        "on_submit_page_id" =>  ""
+        "on_submit_page_id" =>  "",
+		'on_success' => 'remain',
+		'on_success_time' => 0,
+		'on_success_unit' => 's',
     );
 
     function __construct( array $data, Hustle_Model $model  ){

@@ -8,17 +8,17 @@
 
 	<div class="box-content">
 
-		<div class="flex-row">
+		<div class="row">
 
 			<div class="col-xs-12">
 
-				<div class="wph-triggers">
+				<div class="tabs">
 
-					<ul class="wph-triggers--tabs wph-triggers--nomargin">
+					<ul class="tabs-header">
 
-						<li class="wph-triggers--overview current">
+						<li class="current">
 
-							<label for="">
+							<label>
 
 								<?php _e('Opt-ins', Opt_In::TEXT_DOMAIN); ?> (<?php echo $total_optins; ?>)
 
@@ -28,9 +28,9 @@
 
 						</li>
 
-						<li class="wph-triggers--overview">
+						<li>
 
-							<label for="">
+							<label>
 
 								<?php _e('Custom Content', Opt_In::TEXT_DOMAIN); ?> (<?php echo $total_custom_contents; ?>)
 
@@ -48,7 +48,7 @@
 
 		</div>
 
-		<div class="flex-row">
+		<div class="row">
 
 			<div id="wph-optins-overview" class="wph-modules-overview col-xs-12 current">
 

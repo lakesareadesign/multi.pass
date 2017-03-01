@@ -1,0 +1,74 @@
+/* ****************************************************************************
+ * COMPONENT: KEYWORDS
+ */
+.wpmud {
+
+	.wds-keyword-pairs {
+
+		.wds-group-field {
+			clear: none;
+			float: left;
+			margin-left: 1%;
+			width: 48%;
+
+			&:first-child {
+				margin-left: 0;
+			}
+		}
+
+		.wds-keyword-pair,
+		.wds-keyword-pair-new {
+			@extend .cf;
+			margin-top: 20px;
+			position: relative;
+
+			&:first-child {
+				margin-top: 0;
+			}
+		}
+
+		.wds-keyword-pair-new {
+			border-top: 2px solid $color--light;
+			padding-top: $space--m;
+
+			.wds-overlay {
+			    background: rgba(255,255,255,.7);
+				bottom: 0;
+				height: 100%;
+				left: 0;
+				margin: 0;
+				position: absolute;
+				right: 0;
+				text-align: center;
+				top: 0;
+				width: 100%;
+
+				.button {
+					margin-top: -20px;
+					position: relative;
+					top: 50%;
+				}
+			}
+
+		}
+
+		.wds-pair-remove {
+			color: #D0021B;
+			margin-top: -12px;
+			position: absolute;
+			right: 0;
+			top: 50%;
+
+			&:hover {
+				color: $color--cta;
+			}
+
+			.wdv-icon {
+				height: 24px;
+				width: 24px;
+			}
+		}
+
+	}
+
+}

@@ -4,11 +4,15 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
-1.7.7 - 2016-01-18
+2.0 - 2017-02-23
 ----------------------------------------------------------------------
-- Allow for filterable canonical URLs.
-- Add just-in-time post type recognition.
-- Fix: use current local time for timestamp items generation.
+- New: whole new interface
+- Add: OpenGraph support
+- Add: SEO Audit service support
+
+- Fix: deprecated constructors usage
+- Fix: W3TC object cache conflict issue
+- Fix: multiple anonymous post types rendering issue
 
 1.7.6 - 2015-08-25
 ----------------------------------------------------------------------
@@ -348,4 +352,4 @@ exist yet
 - Initial Release.
 
 
-133620-1453183802-au
+133620-1488397678-au

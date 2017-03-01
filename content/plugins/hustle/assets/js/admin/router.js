@@ -14,25 +14,27 @@ var Inc_Opt_Router = Backbone.Router.extend({
         var f = function() {
             if( !Optin.step.model  )
                 Optin.step.model = new Optin.Model( optin_vars.current.data );
+			
+			if ( ! parseInt(optin_vars.is_limited) ) {
+				var Email_Services_Tab = Hustle.get("Optin.Email_Services_Tab");
+				if( !Optin.step.services  ){
+					var Provider_Args = Hustle.get("Models.M");
+					Optin.step.services = new Email_Services_Tab({ model: Optin.step.model, provider_args: new Provider_Args( optin_vars.current.provider_args ) });
+				}
 
-            var Email_Services_Tab = Hustle.get("Optin.Email_Services_Tab");
-            if( !Optin.step.services  ){
-                var Provider_Args = Hustle.get("Models.M");
-                Optin.step.services = new Email_Services_Tab({ model: Optin.step.model, provider_args: new Provider_Args( optin_vars.current.provider_args ) });
-            }
+				var Design_Tab = Hustle.get("Optin.Design_Tab");
+				if( !Optin.step.design  )
+					Optin.step.design =  new  Design_Tab({ model: new Optin.Models.Design_Model( optin_vars.current.design ), optin: Optin.step.model });
 
-            var Design_Tab = Hustle.get("Optin.Design_Tab");
-            if( !Optin.step.design  )
-                Optin.step.design =  new  Design_Tab({ model: new Optin.Models.Design_Model( optin_vars.current.design ), optin: Optin.step.model });
+				var Display_Tab = Hustle.get("Optin.Display_Tab");
+				if( !Optin.step.display )
+					Optin.step.display = new Display_Tab({ model: new Optin.Models.Settings_Model( optin_vars.current.settings ) });
 
-            var Display_Tab = Hustle.get("Optin.Display_Tab");
-            if( !Optin.step.display )
-                Optin.step.display = new Display_Tab({ model: new Optin.Models.Settings_Model( optin_vars.current.settings ) });
-
-            if( !Optin.step.wizard ){
-                var Wizard = Hustle.get("Optin.Wizard");
-                Optin.step.wizard = new Wizard();
-            }
+				if( !Optin.step.wizard ){
+					var Wizard = Hustle.get("Optin.Wizard");
+					Optin.step.wizard = new Wizard();
+				}
+			}
 
             callback.apply(router, arguments);
         };

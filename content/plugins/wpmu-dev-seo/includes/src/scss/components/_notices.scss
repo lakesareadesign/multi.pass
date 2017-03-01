@@ -1,0 +1,118 @@
+/* ****************************************************************************
+ * COMPONENT: NOTICES
+ */
+.wpmud {
+
+	.wds-notice {
+		border-radius: 5px;
+		color: #fff;
+		font: 400 15px/18px $font;
+		margin: $space--s 0;
+		padding: $space--xs $space--s;
+		position: relative;
+		text-align: center;
+		text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+		width: 100%;
+
+		&-success {
+			background-color: $color--success;
+		}
+
+		&-error {
+			background-color: $color--error;
+		}
+
+		&-warning {
+			background-color: $color--warning;
+		}
+
+		// Message/Text
+		p {
+			color: #fff;
+			margin: 0 0 $space--xs;
+			padding: 0;
+
+			&:last-of-type {
+				margin: 0;
+			}
+
+			a {
+				color: #fff;
+				font-weight: 500;
+
+				&:hover {
+					color: #eaeaea;
+				}
+			}
+		}
+
+		// Icons
+		.wds-icon,
+		.wds-icon .wdv-icon {
+			font-size: 22px;
+			height: 22px;
+			line-height: 22px;
+			width: 22px;
+		}
+
+		// With close
+		&.can-close {
+			.close {
+				cursor: pointer;
+			    display: block;
+			    height: 22px;
+			    line-height: 22px;
+			    margin: 0;
+			    position: absolute;
+			    right: $space--xs;
+			    text-shadow: none;
+			    top: $space--xs;
+			    width: 22px;
+			}
+
+			&:after {
+				bottom: 0;
+				color: #fff;
+			    content: "\79";
+			    font-style: normal;
+			    font-weight: normal;
+			    font-variant: normal;
+			    font-family: 'WPMU-DEV-App-Icons';
+			    font-size: 22px;
+			    -webkit-font-smoothing: antialiased;
+			    -moz-osx-font-smoothing: grayscale;
+			    left: 0;
+			    line-height: 22px;
+			    opacity: 0.8;
+			    position: absolute;
+			    right: 0;
+			    speak: none;
+			    text-align: center;
+			    text-transform: none;
+			    top: 0;
+			    transition: opacity 0.3s;
+			}
+
+			&:hover {
+				&:after {
+					opacity: 1;
+				}
+			}
+		}
+
+		// Notice as "box"
+		&-box {
+			margin: $space--m 0 $space--l;
+			padding: $space;
+
+			p {
+				a {
+					font-weight: 700;
+					text-decoration: underline;
+				}
+			}
+		}
+
+	}
+
+}

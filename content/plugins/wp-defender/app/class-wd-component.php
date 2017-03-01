@@ -291,12 +291,7 @@ class WD_Component {
 			return;
 		}
 
-		$server = WD_Utils::determine_server( content_url( 'index.php' ) );
-		if ( $server == 'apache' ) {
-			$is_apache = true;
-		} else {
-			$is_apache = false;
-		}
+		$is_apache = true;
 		//create log string
 		if ( is_null( $level ) ) {
 			$log = $message;
@@ -406,12 +401,7 @@ class WD_Component {
 	 * @return array
 	 */
 	public static function get_log_index() {
-		$server = WD_Utils::determine_server( content_url( 'index.php' ) );
-		if ( $server == 'apache' ) {
-			$is_apache = true;
-		} else {
-			$is_apache = false;
-		}
+		$is_apache = true;
 
 		$result = array();
 		if ( $is_apache ) {
@@ -437,13 +427,8 @@ class WD_Component {
 	 * remove all logs
 	 */
 	public function remove_logs() {
-		$server = WD_Utils::determine_server( content_url( 'index.php' ) );
-		if ( $server == 'apache' ) {
-			$is_apache = true;
-		} else {
-			$is_apache = false;
-		}
-		$indexes = $this->get_log_index();
+		$is_apache = true;
+		$indexes   = $this->get_log_index();
 		foreach ( $indexes as $index ) {
 			if ( $is_apache ) {
 				unlink( $index );
@@ -518,10 +503,11 @@ class WD_Component {
 			) );
 
 			$post_vars = array_merge( $post_vars, $request_args );
-
+			$this->log( $end_point, self::ERROR_LEVEL_DEBUG, 'request' );
 			$response = wp_remote_request( $end_point,
 				apply_filters( 'wd_wpmudev_call_request_args',
 					$post_vars ) );
+
 			if ( is_wp_error( $response ) ) {
 				return $response;
 			}
@@ -537,8 +523,13 @@ class WD_Component {
 				return new WP_Error( wp_remote_retrieve_response_code( $response ), wp_remote_retrieve_response_message( $response ) );
 			} else {
 				$data = wp_remote_retrieve_body( $response );
+				$data = json_decode( $data, true );
+				//this mostly come to our server and back, should not be false
+				if ( $data == false ) {
+					return new WP_Error( 0, __( "There is an issue with API endpoint, please try again later!", wp_defender()->domain ) );
+				}
 
-				return json_decode( $data, true );
+				return $data;
 			}
 		} else {
 			return new WP_Error( 'dashboard_required',

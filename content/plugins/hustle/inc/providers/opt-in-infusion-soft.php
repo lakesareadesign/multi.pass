@@ -173,7 +173,7 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
             ),
             "wrapper" => array(
                 "id" => "wpoi-get-lists",
-                "class" => "wpoi-get-lists",
+                "class" => "block-notification",
                 "type" => "wrapper",
                 "elements" => array(
                     "app_name" => array(

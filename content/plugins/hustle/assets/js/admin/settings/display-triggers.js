@@ -4,7 +4,7 @@ Hustle.define("Settings.Display_Triggers_View", function( $, doc, win ){
     return Hustle.View.extend(_.extend({}, Hustle.get("Mixins.Model_Updater"), {
         template: Optin.template("wpoi-settings-display-triggers-tpl"),
         events: {
-            'click .wph-triggers--tabs label': "change_tab"
+            'click .tabs-header label': "change_tab"
         },
         init: function( opts ){
             this.type = opts.type;
@@ -27,8 +27,8 @@ Hustle.define("Settings.Display_Triggers_View", function( $, doc, win ){
                 $this_tab = $this.parent("li"),
                 $this_content = this.$( $this.attr("href")),
                 $radio = $this.find("input[type='radio']");
-            this.$(".wph-triggers--tabs li").removeClass("current");
-            this.$(".wph-triggers--option").removeClass("current");
+            this.$(".tabs-header li").removeClass("current");
+            this.$(".tabs-content").removeClass("current");
 
             $this_tab.addClass("current");
             $this_content.addClass("current");

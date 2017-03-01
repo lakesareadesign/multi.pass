@@ -1,0 +1,22 @@
+/* ****************************************************************************
+ * PAGE: TITLE & META
+ */
+
+// Macros Modal
+#wds-show-supported-macros {
+	max-height: 520px;
+	overflow-y: scroll;
+}
+
+.wpmud {
+	// Note
+	.note {
+		float: left;
+		margin: $space--m 0;
+	}
+}
+.wds-preview {
+	&.wds-preview-loading {
+		opacity: .7;
+	}
+}

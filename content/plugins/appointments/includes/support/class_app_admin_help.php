@@ -32,7 +32,7 @@ class App_AdminHelp {
 	private function _set_up_sidebar () {
 		$this->_sidebar = '<h4>' . __('Appointments+', 'appointments') . '</h4>';
 		if (defined('WPMUDEV_REMOVE_BRANDING') && constant('WPMUDEV_REMOVE_BRANDING')) {
-			$this->_sidebar .= '<p>' . __('Lets you accept appointments from front end and manage or create them from admin side.', 'appointments') . '</p>';		   		 	  		  	 	 	
+			$this->_sidebar .= '<p>' . __('Lets you accept appointments from front end and manage or create them from admin side.', 'appointments') . '</p>';
 		} else {
 				$this->_sidebar .= '<ul>' .
 					'<li><a href="http://premium.wpmudev.org/project/appointments-plus/" target="_blank">' . __('Project page', 'appointments') . '</a></li>' .

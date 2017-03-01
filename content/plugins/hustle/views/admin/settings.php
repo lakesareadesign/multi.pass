@@ -5,7 +5,7 @@
 ?>
 <div id="hustle-settings" class="hustle-two">
 
-	<div id="container<?php if ( count( $optins ) === 0 && count( $custom_contents ) === 0 ) echo ' full'; ?>" class="wrap">
+	<div id="container"<?php if ( count( $optins ) === 0 && count( $custom_contents ) === 0 ) : ''; else : echo ' class="container-980"'; endif; ?>>
 
 		<header id="header">
 
@@ -17,7 +17,7 @@
 
 			<?php if ( count( $optins ) === 0 && count( $custom_contents ) === 0 ) : ?>
 
-				<div class="flex-row">
+				<div class="row">
 
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -31,7 +31,7 @@
 
 							<div class="box-content">
 
-								<div class="flex-row">
+								<div class="row">
 
 									<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
@@ -65,9 +65,9 @@
 
 				<div class="row">
 <!--				-->
-<!--				<section class="col-half">-->
+<!--				<section class="col-xs-12 col-sm-12 col-md-12 col-lg-6">-->
 <!--					-->
-<!--					<div id="providers-edit-box" class="dev-box content-box">-->
+<!--					<div id="providers-edit-box" class="box content-box">-->
 <!---->
 <!--						--><?php //$this->render( "admin/settings/providers-edit", array(
 //							"services" => $email_services,
@@ -82,11 +82,11 @@
 <!---->
 <!--				</section>-->
 
-					<section class="col-half">
+					<section class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 
 						<?php if ( $is_e_newsletter_active ){ ?>
 
-							<div id="enews-sync-box" class="dev-box content-box">
+							<div id="enews-sync-box" class="box content-box">
 
 								<?php $this->render( "admin/settings/e-news-sync-front", array(
 									"optins" => $optins,
@@ -100,7 +100,7 @@
 
 						<?php } ?>
 
-						<div class="dev-box content-box" id="modules-activity">
+						<div class="box content-box" id="modules-activity">
 
 							<?php
 								$this->render( "admin/settings/modules", array(

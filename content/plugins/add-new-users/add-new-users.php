@@ -1,13 +1,19 @@
 <?php
 /*
 Plugin Name: Add New Users
-Plugin URI: http://premium.wpmudev.org/project/add-new-users
+Plugin URI: http://premium.wpmudev.org/project/add-new-users/
 Description: Allows you to bulk create new users on a site and add them to a blog, including the facility to set their role and password on the new site.
-Author: Andrew Billits, Ulrich Sossou
-Version: 1.0.7
+Author: WPMU DEV
+Version: 1.0.8
 Text Domain: add_new_users
 Author URI: http://premium.wpmudev.org
 WDP ID: 114
+*/
+
+/*
+Copyright 2009-2014 Incsub (http://incsub.com)
+Author - Ulrich Sossou
+Contributors - Andrew Billits
 */
 
 /**
@@ -33,14 +39,6 @@ class Add_New_Users {
 	 *
 	 **/
 	var $fields = '';
-
-	/**
-	 * PHP4 Constructor
-	 *
-	 **/
-	function Add_New_Users() {
-		__construct();
-	}
 
 	/**
 	 * PHP5 Constructor
@@ -477,7 +475,7 @@ class Add_New_Users {
 
 }
 
-$add_new_users =& new Add_New_Users;
+$add_new_users = new Add_New_Users;
 
 /**
  * Show notification if WPMUDEV Update Notifications plugin is not installed
@@ -489,6 +487,6 @@ if ( !function_exists( 'wdp_un_check' ) ) {
 
 	function wdp_un_check() {
 		if ( !class_exists( 'WPMUDEV_Update_Notifications' ) && current_user_can( 'edit_users' ) )
-			echo '<div class="error fade"><p>' . __('Please install the latest version of <a href="http://premium.wpmudev.org/project/update-notifications/" title="Download Now &raquo;">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href="http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/">More information &raquo;</a>', 'wpmudev') . '</a></p></div>';	     	 	  		  		 
+			echo '<div class="error fade"><p>' . __('Please install the latest version of <a href="http://premium.wpmudev.org/project/update-notifications/" title="Download Now &raquo;">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href="http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/">More information &raquo;</a>', 'wpmudev') . '</a></p></div>';
 	}
 }

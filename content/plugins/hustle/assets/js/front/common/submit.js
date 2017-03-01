@@ -89,9 +89,26 @@
                         window.location.replace( optin.design.page_redirect_url );
                     }else{
                         $formParent.find(".wpoi-success-message").addClass("wpoi-show-message");
-                        _.delay(function(){
-                            $(self).closest(".inc_optin").find(".inc-opt-close-popup").trigger("click");
-                        }, 3000);
+
+						if ( optin.design.hasOwnProperty('on_success') && 'autoclose' === optin.design.on_success ) {
+							var on_success_time = parseInt( optin.design.on_success_time ),
+								on_success_unit = optin.design.on_success_unit;
+
+							if ( 'm' === on_success_unit ) {
+								on_success_time *= 60;
+							}
+
+							on_success_time *= 1000;
+							_.delay(function(){
+								var popup_close = $(self).closest(".inc_optin").find(".inc-opt-close-popup");
+
+								if ( popup_close.length > 0 ) {
+									popup_close.trigger("click");
+								} else {
+									$formParent.find( '.wpoi-success-message' ).removeClass( 'wpoi-show-message' );
+								}
+							}, on_success_time );
+						}
                     }
 
                 }else{
@@ -111,5 +128,14 @@
 
     });
 
+	var closeSuccessContent = function() {
+		var target = $(this),
+			parentDiv = target.parents( '.wpoi-hustle' ),
+			$form = $( 'form', parentDiv ),
+			$successDiv = $( '.wpoi-success-message', parentDiv );
+		$successDiv.removeClass( 'wpoi-show-message' );
+	};
+
+	$(document).on( 'click', '.wpoi-success-close', closeSuccessContent );
 
 }(jQuery));

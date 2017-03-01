@@ -1,8 +1,8 @@
 <?php
 
-	/***
-	***	@submit account page changes
-	***/
+	/**
+	 * Submit account page changes
+	 */
 	add_action('um_submit_account_details','um_submit_account_details');
 	function um_submit_account_details( $args ) {
 		global $ultimatemember;
@@ -20,7 +20,9 @@
 		}
 
 		$arr_fields = array();
-		$secure_fields = get_user_meta( um_user('ID'), 'um_account_secure_fields', true );
+		$account_fields =  get_user_meta( um_user('ID'), 'um_account_secure_fields', true );
+		$secure_fields = apply_filters('um_secure_account_fields', $account_fields , um_user('ID') );
+		
 		if( isset( $secure_fields  ) ){
 			foreach ( $secure_fields as $tab_key => $fields ) {
 				if( isset( $fields ) ){
@@ -30,6 +32,7 @@
 				}
 			}
 		}
+
  
         $changes = array();
 		foreach( $_POST as $k => $v ) {
@@ -87,9 +90,9 @@
 
 	}
 
-	/***
-	***	@validate for errors in account page
-	***/
+	/**
+	 * Validate for errors in account form
+	 */
 	add_action('um_submit_account_errors_hook','um_submit_account_errors_hook');
 	function um_submit_account_errors_hook( $args ) {
 		global $ultimatemember;
@@ -185,9 +188,9 @@
 
 	}
 
-	/***
-	***	@hidden inputs for account page
-	***/
+	/**
+	 * Hidden inputs for account form
+	 */
 	add_action('um_account_page_hidden_fields','um_account_page_hidden_fields');
 	function um_account_page_hidden_fields( $args ) {
 		global $ultimatemember;
@@ -203,9 +206,9 @@
 
 	}
 
-	/***
-	***	@display tab "Delete"
-	***/
+	/**
+	 * Display "Delete" tab
+	 */
 	add_action('um_account_tab__delete', 'um_account_tab__delete');
 	function um_account_tab__delete( $info ) {
 		global $ultimatemember;
@@ -235,9 +238,9 @@
 
 	}
 
-	/***
-	***	@display tab "Privacy"
-	***/
+	/**
+	 * Display "Privacy" tab
+	 */
 	add_action('um_account_tab__privacy', 'um_account_tab__privacy');
 	function um_account_tab__privacy( $info ) {
 		global $ultimatemember;
@@ -265,9 +268,9 @@
 
 	}
 
-	/***
-	***	@display tab "General"
-	***/
+	/**
+	 * Display "General" tab
+	 */
 	add_action('um_account_tab__general', 'um_account_tab__general');
 	function um_account_tab__general( $info ) {
 		global $ultimatemember;
@@ -295,9 +298,9 @@
 
 	}
 
-	/***
-	***	@display tab "Password"
-	***/
+	/**
+	 * Display "Password" tab
+	 */
 	add_action('um_account_tab__password', 'um_account_tab__password');
 	function um_account_tab__password( $info ) {
 		global $ultimatemember;
@@ -325,9 +328,9 @@
 
 	}
 
-	/***
-	***	@display tab "Notifications"
-	***/
+	/**
+	 * Display "Notifications" tab
+	 */
 	add_action('um_account_tab__notifications', 'um_account_tab__notifications');
 	function um_account_tab__notifications( $info ) {
 		global $ultimatemember;
@@ -361,9 +364,9 @@
 
 	}
 
-	/***
-	***	@display account photo and username
-	***/
+	/**
+	 * Display account photo and username in mobile
+	 */
 	add_action('um_account_user_photo_hook__mobile', 'um_account_user_photo_hook__mobile');
 	function um_account_user_photo_hook__mobile( $args ) {
 		global $ultimatemember;
@@ -386,9 +389,9 @@
 
 	}
 
-	/***
-	***	@display account photo and username
-	***/
+	/**
+	 * Display account photo and username
+	 */
 	add_action('um_account_user_photo_hook', 'um_account_user_photo_hook');
 	function um_account_user_photo_hook( $args ) {
 		global $ultimatemember;
@@ -421,9 +424,9 @@
 
 	}
 
-	/***
-	***	@display account page tabs
-	***/
+	/**
+	 * Display account page tabs
+	 */
 	add_action('um_account_display_tabs_hook', 'um_account_display_tabs_hook');
 	function um_account_display_tabs_hook( $args ) {
 		global $ultimatemember;
@@ -472,5 +475,17 @@
 			</ul>
 
 		<?php
+
+	}
+
+	/**
+	 *  Update account fields to secure the account submission
+	 */
+	add_action('wp_footer','um_account_secure_registered_fields');
+	function um_account_secure_registered_fields(){
+		global $ultimatemember;
+
+		$secure_fields = $ultimatemember->account->register_fields;
+		update_user_meta( um_user('ID'), 'um_account_secure_fields', $secure_fields );
 
 	}

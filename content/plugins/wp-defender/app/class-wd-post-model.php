@@ -361,7 +361,7 @@ class WD_Post_Model extends WD_Model {
 					break;
 				case 'wp_meta':
 					$v            = array_values( (array) @$metas[ $wp_prop ] );
-					$model->$prop = isset( $metas[ $wp_prop ] ) ? @array_shift( $v ) : null;	  	 	   	 		 		 				
+					$model->$prop = isset( $metas[ $wp_prop ] ) ? @array_shift( $v ) : null;
 					break;
 			}
 		}

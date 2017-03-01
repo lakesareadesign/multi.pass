@@ -159,7 +159,7 @@ class Opt_In_ConstantContact extends Opt_In_Provider_Abstract  implements  Opt_I
             ),
             "wrapper" => array(
                 "id" => "wpoi-get-lists",
-                "class" => "wpoi-get-lists",
+                "class" => "block-notification",
                 "type" => "wrapper",
                 "elements" => array(
                     "consumer_key" => array(
