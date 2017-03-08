@@ -47,9 +47,6 @@ class CustomSidebarsEditor extends CustomSidebars {
 				array( $this, 'handle_ajax' )
 			);
 
-
-			// === Pro only: Custom column and Quick-Edit.
-
 			// Add a custom column to post list.
 			$posttypes = self::get_post_types( 'objects' );
 			foreach ( $posttypes as $pt ) {
@@ -75,7 +72,6 @@ class CustomSidebarsEditor extends CustomSidebars {
 				'admin_footer',
 				array( $this, 'post_quick_edit_js' )
 			);
-
 
 		}
 	}
@@ -235,7 +231,7 @@ class CustomSidebarsEditor extends CustomSidebars {
 		}
 
 		// Populate the sidebar object.
-		if ( ! CSB_IS_PRO || 'insert' == $action || self::wpml_is_default_lang()  ) {
+		if ( 'insert' == $action || self::wpml_is_default_lang() ) {
 			$sidebar['name'] = $sb_name;
 			$sidebar['description'] = $sb_desc;
 		} else {
@@ -281,11 +277,9 @@ class CustomSidebarsEditor extends CustomSidebars {
 		$req->data = $sidebar;
 		$req->action = $action;
 
-
-		// PRO: Allow user to translate sidebar name/description via WPML.
+		// Allow user to translate sidebar name/description via WPML.
 		self::wpml_update( $sidebars );
 		$req->data = self::wpml_translate( $sidebar );
-
 
 		return $req;
 	}
@@ -391,7 +385,6 @@ class CustomSidebarsEditor extends CustomSidebars {
 		);
 
 		$raw_authors = array();
-
 		$raw_authors = get_users(
 			array(
 				'order_by' => 'display_name',
@@ -399,7 +392,6 @@ class CustomSidebarsEditor extends CustomSidebars {
 				'who' => 'authors',
 			)
 		);
-
 
 		// Collect required data for all posttypes.
 		$posttypes = array();
@@ -456,8 +448,7 @@ class CustomSidebarsEditor extends CustomSidebars {
 			);
 		}
 
-
-		// Pro only: Build a list of authors.
+		// Build a list of authors.
 		$authors = array();
 		foreach ( $raw_authors as $user ) {
 			$sel_archive = @$defaults['author_archive'][ @$user->ID ];
@@ -468,7 +459,6 @@ class CustomSidebarsEditor extends CustomSidebars {
 			);
 		}
 		$req->authors = $authors;
-
 
 		$req->replaceable = $defaults['modifiable'];
 		$req->posttypes = $posttypes;
@@ -514,7 +504,6 @@ class CustomSidebarsEditor extends CustomSidebars {
 		);
 
 		$raw_authors = array();
-
 		$raw_authors = get_users(
 			array(
 				'order_by' => 'display_name',
@@ -522,7 +511,6 @@ class CustomSidebarsEditor extends CustomSidebars {
 				'who' => 'authors',
 			)
 		);
-
 
 		// == Update the options
 
@@ -597,11 +585,9 @@ class CustomSidebarsEditor extends CustomSidebars {
 				}
 			}
 
-
 			// Author settings.
 			foreach ( $raw_authors as $user ) {
 				$key = $user->ID;
-
 				if (
 					is_array( @$data['arc-aut'][ $sb_id ] ) &&
 					in_array( $key, $data['arc-aut'][ $sb_id ] )
@@ -614,7 +600,6 @@ class CustomSidebarsEditor extends CustomSidebars {
 					unset( $options['author_archive'][ $key ][ $sb_id ] );
 				}
 			}
-
 		}
 
 		$req->message = sprintf(
@@ -760,11 +745,7 @@ class CustomSidebarsEditor extends CustomSidebars {
 		self::set_post_meta( $post_id, $data );
 	}
 
-
-	//
-	// ========== PRO: WPML support.
-	//
-
+	// ========== WPML support.
 
 	/**
 	 * Updates the WPML string register with the current sidebar string so the
@@ -896,10 +877,9 @@ class CustomSidebarsEditor extends CustomSidebars {
 
 
 	//
-	// ========== PRO: Custom column an Quick-Edit fields for post list.
+	// ========== Custom column an Quick-Edit fields for post list.
 	// http://shibashake.com/wordpress-theme/expand-the-wordpress-quick-edit-menu
 	//
-
 
 	/**
 	 * Adds a custom column to post-types that support custom sidebars.
@@ -1023,5 +1003,4 @@ class CustomSidebarsEditor extends CustomSidebars {
 		</script>
 		<?php
 	}
-
 };

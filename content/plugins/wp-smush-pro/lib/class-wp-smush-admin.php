@@ -12,9 +12,6 @@
 //Include Bulk UI
 require_once WP_SMUSH_DIR . 'lib/class-wp-smush-ui.php';
 
-//Include Bulk UI
-require_once WP_SMUSH_DIR . 'lib/class-wp-smush-dir.php';
-
 //Load Shared UI
 if ( ! class_exists( 'WDEV_Plugin_Ui' ) ) {
 	require_once WP_SMUSH_DIR . 'assets/shared-ui/plugin-ui.php';
@@ -276,7 +273,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 		 * Add Bulk option settings page
 		 */
 		function screen() {
-			global $admin_page_suffix, $wpsmush_dir;
+			global $admin_page_suffix;
 
 			//Bulk Smush Page for each site
 			$admin_page_suffix = add_media_page( 'Bulk WP Smush', 'WP Smush', 'edit_others_posts', 'wp-smush-bulk', array(
@@ -767,11 +764,14 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 		/**
 		 * Check bulk sent count, whether to allow further smushing or not
 		 *
+		 * @param bool $reset To hard reset the transient
+		 * @param string $key Transient Key - bulk_sent_count/dir_sent_count
+		 *
 		 * @return bool
 		 */
-		function check_bulk_limit( $reset = false ) {
+		function check_bulk_limit( $reset = false, $key = 'bulk_sent_count' ) {
 
-			$transient_name = WP_SMUSH_PREFIX . 'bulk_sent_count';
+			$transient_name = WP_SMUSH_PREFIX . $key;
 
 			//Do not go through this, if we need to reset
 			if ( ! $reset ) {
@@ -1928,7 +1928,7 @@ if ( ! class_exists( 'WpSmushitAdmin' ) ) {
 
 			$settings_link = '<a href="' . $settings_link . '" title="' . esc_html__( "Review your setting now.", "wp-smushit" ) . '">';
 			$upgrade_link  = '<a href="' . esc_url( $upgrade_url ) . '" title="' . esc_html__( "WP Smush Pro", "wp-smushit" ) . '">';
-			$message_s     = sprintf( esc_html__( "Welcome to the newest version of WP Smush! In this update we've added the ability to bulk smush images in directories outside your uploads folder.", 'wp-smushit' ), WP_SMUSH_VERSION, '<strong>', '</strong>' );								 	 	   		   
+			$message_s     = sprintf( esc_html__( "Welcome to the newest version of WP Smush! In this update we've added the ability to bulk smush images in directories outside your uploads folder.", 'wp-smushit' ), WP_SMUSH_VERSION, '<strong>', '</strong>' );
 
 			//Message for network admin
 			$message_s .= is_multisite() ? sprintf( esc_html__( " And as a multisite user, you can manage %sSmush settings%s globally across all sites!", 'wp-smushit' ), $settings_link, '</a>' ) : '';

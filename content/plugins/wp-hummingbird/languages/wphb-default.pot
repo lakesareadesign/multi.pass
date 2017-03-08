@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the WP Hummingbird package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Hummingbird 1.4.1\n"
+"Project-Id-Version: WP Hummingbird 1.4.2\n"
 "Report-Msgid-Bugs-To: https://wpmudev.org\n"
-"POT-Creation-Date: 2017-01-12 11:09:03+00:00\n"
+"POT-Creation-Date: 2017-03-02 12:37:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -563,29 +563,34 @@ msgstr ""
 msgid "Click 'View API Key' button and copy your API identifier."
 msgstr ""
 
-#: admin/views/dashboard/cloudflare/meta-box.php:68
+#: admin/views/dashboard/cloudflare/meta-box.php:70
+#: admin/views/gzip/summary-meta-box-header.php:2
+msgid "Re-Check"
+msgstr ""
+
+#: admin/views/dashboard/cloudflare/meta-box.php:74
 msgid "Select the domain that matches this website"
 msgstr ""
 
-#: admin/views/dashboard/cloudflare/meta-box.php:70
+#: admin/views/dashboard/cloudflare/meta-box.php:76
 msgid "Select domain"
 msgstr ""
 
-#: admin/views/dashboard/cloudflare/meta-box.php:77
+#: admin/views/dashboard/cloudflare/meta-box.php:83
 msgid "Enable CloudFlare"
 msgstr ""
 
-#: admin/views/dashboard/cloudflare/meta-box.php:87
+#: admin/views/dashboard/cloudflare/meta-box.php:94
 msgid "CloudFlare is connected and being controlled by Hummingbird"
 msgstr ""
 
-#: admin/views/dashboard/cloudflare/meta-box.php:94
+#: admin/views/dashboard/cloudflare/meta-box.php:101
 msgid ""
 "Made changes to your website? Use Purge Cache button to clear CloudFlare's "
 "cache"
 msgstr ""
 
-#: admin/views/dashboard/cloudflare/meta-box.php:96
+#: admin/views/dashboard/cloudflare/meta-box.php:103
 msgid "Purge Cache"
 msgstr ""
 
@@ -918,10 +923,6 @@ msgstr ""
 
 #: admin/views/gzip/enabled-meta-box.php:2
 msgid "Looks like gzip has been successfully setup, nice!"
-msgstr ""
-
-#: admin/views/gzip/summary-meta-box-header.php:2
-msgid "Re-Check"
 msgstr ""
 
 #: admin/views/gzip/summary-meta-box.php:3
@@ -1408,7 +1409,7 @@ msgid ""
 msgstr ""
 
 #: core/modules/minify/class-minify-group.php:763
-msgid "The extension of this file is not allowed"
+msgid "This file included in your output can't be minified or combined"
 msgstr ""
 
 #: core/modules/minify/class-minify-group.php:810
@@ -1600,12 +1601,12 @@ msgctxt "Connect to CloufFlare button text"
 msgid "Connect"
 msgstr ""
 
-#: admin/views/dashboard/cloudflare/meta-box.php:90
+#: admin/views/dashboard/cloudflare/meta-box.php:97
 msgctxt "CloudFlare Zone"
 msgid "Zone"
 msgstr ""
 
-#: admin/views/dashboard/cloudflare/meta-box.php:91
+#: admin/views/dashboard/cloudflare/meta-box.php:98
 msgctxt "CloudFlare Plan"
 msgid "Plan"
 msgstr ""

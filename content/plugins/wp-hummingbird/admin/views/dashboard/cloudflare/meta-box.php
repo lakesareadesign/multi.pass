@@ -64,18 +64,25 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 <script type="text/template" id="cloudflare-step-zone">
 	<div class="cloudflare-step">
 		<form action="" method="post" id="cloudflare-zone">
-			<p>
-				<label for="cloudflare-zone"><?php _e( 'Select the domain that matches this website', 'wphb' ); ?></label>
-				<select name="cloudflare-zone" id="cloudflare-zone">
-					<option value=""><?php _e( 'Select domain', 'wphb' ); ?></option>
-					<# for ( i in data.zones ) { #>
-						<option value="{{ data.zones[i].value }}">{{{ data.zones[i].label }}}</option>
-					<# } #>
-				</select>
-			<p class="cloudflare-submit">
-				<span class="spinner cloudflare-spinner"></span>
-				<input type="submit" class="button button-app button-content-cta" value="<?php esc_attr_e( 'Enable CloudFlare', 'wphb' ); ?>">
-			</p>
+			<# if ( ! data.zones.length ) { #>
+				<p>It appears you have no active zones available. Double check your domain has been added to CloudFlare and try again.</p>
+				<p class="cloudflare-submit">
+					<a href="<?php echo esc_url( wphb_get_admin_menu_url( 'dashboard' ) ); ?>&reload=<?php echo time(); ?>#wphb-box-dashboard-cloudflare" class="button button-app button-content-cta"><?php esc_html_e( 'Re-Check', 'wphb' ); ?></a>
+				</p>
+			<# } else { #>
+				<p>
+					<label for="cloudflare-zone"><?php _e( 'Select the domain that matches this website', 'wphb' ); ?></label>
+					<select name="cloudflare-zone" id="cloudflare-zone">
+						<option value=""><?php _e( 'Select domain', 'wphb' ); ?></option>
+						<# for ( i in data.zones ) { #>
+							<option value="{{ data.zones[i].value }}">{{{ data.zones[i].label }}}</option>
+						<# } #>
+					</select>
+				<p class="cloudflare-submit">
+					<span class="spinner cloudflare-spinner"></span>
+					<input type="submit" class="button button-app button-content-cta" value="<?php esc_attr_e( 'Enable CloudFlare', 'wphb' ); ?>">
+				</p>
+			<# } #>
 			<div class="clear"></div>
 		</form>
 	</div>

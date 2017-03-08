@@ -267,6 +267,7 @@ if ( ! class_exists( 'WpSmushBulkUi' ) ) {
 			//For Basic User, Show advanced settings in a separate box
 			if ( ! $WpSmush->validate_install() ) {
 				echo $div_end;
+				do_action('wp_smush_before_advanced_settings');
 				//Network settings wrapper
 				if( is_multisite() && is_network_admin() ) {
 					$class = get_site_option( WP_SMUSH_PREFIX . 'networkwide', 1 ) ? '' : ' hidden'; ?>
@@ -503,7 +504,7 @@ if ( ! class_exists( 'WpSmushBulkUi' ) ) {
 		 */
 		function ui() {
 
-			global $WpSmush, $wpsmushit_admin, $wpsmush_settings;
+			global $WpSmush, $wpsmushit_admin;
 
 			if( !$WpSmush->validate_install() ) {
 				//Reset Transient
@@ -591,8 +592,8 @@ if ( ! class_exists( 'WpSmushBulkUi' ) ) {
 			<div class="box-content">
 				<p class="wp-smush-promo-content roboto-medium">You can now get Smush Pro... for FREE!</p>
 				<p class="wp-smush-promo-content wp-smush-promo-content-2 roboto-medium">No obligation, no contracts, no
-					catches. You'll get Smush Pro plus 100+ WPMU DEV plugins, Defender, Hummingbird & 24/7 WP support
-					for absolutely nothing for 14 days.</p>
+					catches. You'll get Smush Pro plus 100+ WPMU DEV plugins, Defender, Hummingbird & 24/7 WP support.
+					Try it today absolutely free.</p>
 				<span class="wp-smush-pro-cta tc">
 					<a href="<?php echo esc_url( $upgrade_url ); ?>"
 					   class="button button-cta button-green" target="_blank">FIND OUT MORE</a>
@@ -676,7 +677,7 @@ if ( ! class_exists( 'WpSmushBulkUi' ) ) {
 						<span class="wp-smush-notice-text"><?php
 							printf( _n( "%s, you have %s%s%d%s image%s that needs smushing!", "%s, you have %s%s%d%s images%s that need smushing!", $wpsmushit_admin->remaining_count, "wp-smushit" ), $wpsmushit_admin->get_user_name(), '<strong>', '<span class="wp-smush-remaining-count">', $wpsmushit_admin->remaining_count, '</span>', '</strong>' );
 							if( !$WpSmush->validate_install() ) {
-								printf( '<br />' . esc_html__("You can %sUpgrade to Pro%s to bulk smush all your images with one click.", "wp-smushit") .'<br />', '<a href="' . esc_url( $upgrade_url ). '" target="_blank" title="' . esc_html__("WP Smush Pro", "wp-smushit") . '">', '</a>' );
+								printf( '<br />' . esc_html__("%sUpgrade to Pro%s to bulk smush all your images with one click.", "wp-smushit") .'<br />', '<a href="' . esc_url( $upgrade_url ). '" target="_blank" title="' . esc_html__("WP Smush Pro", "wp-smushit") . '">', '</a>' );
 								esc_html_e("Free users can smush 50 images with each click.", "wp-smushit");
 							 }?>
 						</span>

@@ -1,7 +1,7 @@
 @font-face {
 	font-family: 'ico-cp';
 	src:url( 'fonts/cp_icon.eot' );
-	src:url( 'fonts/cp_icon.eot?#iefix' ) format( 'embedded-opentype' ),
+	src:url( 'fonts/cp_icon.eot?#iefix' ) format( 'embedded-opentype' ),									   	 	   		
 		url( 'fonts/cp_icon.ttf' ) format( 'truetype' ),
 		url( 'fonts/cp_icon.woff' ) format( 'woff' ),
 		url( 'fonts/cp_icon.svg#icomoon' ) format( 'svg' );
@@ -37,4 +37,4 @@
 }
 
 
-/* 133620-1487198302-au */
+/* 133620-1488933198-au */

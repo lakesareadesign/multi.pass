@@ -152,7 +152,6 @@ class CoursePress_Admin_Edit {
 	}
 
 	public static function get_tabs() {
-
 		// Make it a filter so we can add more tabs easily
 		self::$tabs = apply_filters( self::$slug . '_tabs', self::$tabs );
 
@@ -369,19 +368,52 @@ class CoursePress_Admin_Edit {
 	 * @return string WP Editor.
 	 */
 	private static function get_wp_editor( $editor_id, $editor_name, $editor_content = '', $args = array() ) {
+		wp_enqueue_script( 'post' );
+		$_wp_editor_expand = $_content_editor_dfw = false;
+
+		$post_type = CoursePress_Data_Course::get_post_type_name();
+		global $is_IE;
+
+		if (
+			! wp_is_mobile()
+			&& ! ( $is_IE && preg_match( '/MSIE [5678]/', $_SERVER['HTTP_USER_AGENT'] ) )
+			&& apply_filters( 'wp_editor_expand', true, $post_type )
+		) {
+
+			wp_enqueue_script( 'editor-expand' );
+			$_content_editor_dfw = true;
+			$_wp_editor_expand = ( get_user_setting( 'editor_expand', 'on' ) === 'on' );
+		}
+
+		if ( wp_is_mobile() ) {
+			wp_enqueue_script( 'jquery-touch-punch' );
+		}
+
+		/** This filter is documented in wp-includes/class-wp-editor.php  */
+		add_filter( 'teeny_mce_plugins', array( __CLASS__, 'teeny_mce_plugins' ) );
+
 		$defaults = array(
+			'_content_editor_dfw' => $_content_editor_dfw,
+			'drag_drop_upload' => true,
+			'tabfocus_elements' => 'content-html,save-post',
 			'textarea_name' => $editor_name,
 			'editor_class' => 'cp-editor cp-course-overview',
 			'media_buttons' => false,
+			'editor_height' => 300,
 			'tinymce' => array(
-				'height' => '300',
+				'resize' => false,
+				'wp_autoresize_on' => $_wp_editor_expand,
+				'add_unload_trigger' => false,
 			),
 		);
 		$args = wp_parse_args( $args, $defaults );
 		$args = apply_filters( 'coursepress_element_editor_args', $args, $editor_name, $editor_id );
+
 		ob_start();
 		wp_editor( $editor_content, $editor_id, $args );
-		$editor_html = ob_get_clean();
+		$editor_html = sprintf( '<div class="postarea%s">', $_wp_editor_expand? ' wp-editor-expand':'' );
+		$editor_html .= ob_get_clean();
+		$editor_html .= '</div>';
 		return $editor_html;
 	}
 
@@ -414,7 +446,8 @@ class CoursePress_Admin_Edit {
 		$content .= apply_filters( 'coursepress_course_setup_step_1_after_title', '', $course_id );
 
 		// Course Excerpt / Short Overview
-		$editor_content = ! empty( self::$current_course ) ? htmlspecialchars_decode( self::$current_course->post_excerpt ) : '';
+		$editor_content = ! empty( self::$current_course ) ? self::$current_course->post_excerpt : '';
+		$editor_content = htmlspecialchars_decode( $editor_content, true );
 		$editor_html = self::get_wp_editor( 'courseExcerpt', 'course_excerpt', $editor_content, array( 'teeny' => true ) );
 
 		$content .= '
@@ -507,7 +540,7 @@ class CoursePress_Admin_Edit {
 		);
 
 		// Course Description
-		$editor_content = ! empty( self::$current_course ) ? htmlspecialchars_decode( self::$current_course->post_content ) : '';
+		$editor_content = ! empty( self::$current_course ) ? self::$current_course->post_content : '';
 		$args = array(
 			'media_buttons' => true,
 		);
@@ -569,6 +602,11 @@ class CoursePress_Admin_Edit {
 						<label class="checkbox">
 							<input type="checkbox" name="meta_structure_show_duration" ' . CoursePress_Helper_Utility::checked( CoursePress_Data_Course::get_setting( $course_id, 'structure_show_duration', true ) ) . ' />
 							<span>' . esc_html__( 'Display Time Estimates for Units and Lessons', 'cp' ) . '</span>
+						</label>
+						<label class="checkbox">
+							<input type="checkbox" name="meta_structure_show_empty_units" ' . CoursePress_Helper_Utility::checked( CoursePress_Data_Course::get_setting( $course_id, 'structure_show_empty_units', false ) ) . ' />
+							<span>' . esc_html__( 'Show units without modules', 'cp' ) . '</span>
+							<p class="description">'.esc_html__( 'By default unit without modules is not displayed, even if it is selected below.', 'cp' ).'</p>
 						</label>
 
 
@@ -985,29 +1023,32 @@ class CoursePress_Admin_Edit {
 					</label>
 				</div>';
 
-		$content .= '
-				<div class="wide">
-					<label>' .
-					esc_html__( 'Course Discussion', 'cp' ) . '
-					</label>
-					<p class="description">' . esc_html__( 'If checked, students can post questions and receive answers at a course level. A \'Discusssion\' menu item is added for the student to see ALL discussions occuring from all class members and instructors.', 'cp' ) . '</p>
-					<label class="checkbox">
-						<input type="checkbox" name="meta_allow_discussion" ' . CoursePress_Helper_Utility::checked( CoursePress_Data_Course::get_setting( $course_id, 'allow_discussion', false ) ) . ' />
-						<span>' . esc_html__( 'Allow course discussion', 'cp' ) . '</span>
-					</label>
-				</div>';
-
-		$content .= '
-				<div class="wide">
-					<label>' .
-					esc_html__( 'Student Workbook', 'cp' ) . '
-					</label>
-					<p class="description">' . esc_html__( 'If checked, students can see their progress and grades.', 'cp' ) . '</p>
-					<label class="checkbox">
-						<input type="checkbox" name="meta_allow_workbook" ' . CoursePress_Helper_Utility::checked( CoursePress_Data_Course::get_setting( $course_id, 'allow_workbook', false ) ) . ' />
-						<span>' . esc_html__( 'Show student workbook', 'cp' ) . '</span>
-					</label>
-				</div>';
+		$checkboxes = array(
+			array(
+				'meta_key' => 'allow_discussion',
+				'title' => __( 'Course Discussion', 'cp' ),
+				'description' => __( 'If checked, students can post questions and receive answers at a course level. A \'Discusssion\' menu item is added for the student to see ALL discussions occuring from all class members and instructors.', 'cp' ),
+				'label' => __( 'Allow course discussion', 'cp' ),
+				'default' => false,
+			),
+			array(
+				'meta_key' => 'allow_workbook',
+				'title' => __( 'Student Workbook', 'cp' ),
+				'description' => __( 'If checked, students can see their progress and grades.', 'cp' ),
+				'label' => __( 'Show student workbook', 'cp' ),
+				'default' => false,
+			),
+			array(
+				'meta_key' => 'allow_grades',
+				'title' => __( 'Student grades', 'cp' ),
+				'description' => __( 'If checked, students can see their grades.', 'cp' ),
+				'label' => __( 'Show student grades', 'cp' ),
+				'default' => false,
+			),
+		);
+		foreach ( $checkboxes as $one ) {
+			$content .= CoursePress_Helper_UI::course_edit_checkbox( $one, $course_id );
+		}
 
 		/**
 		 * Add additional fields.
@@ -1078,17 +1119,21 @@ class CoursePress_Admin_Edit {
 
 		$courses = CoursePress_Data_Instructor::get_accessable_courses( wp_get_current_user(), true );
 
-		$saved_settings = CoursePress_Data_Course::get_setting( $course_id, 'enrollment_prerequisite', array() );
-		if ( ! is_array( $saved_settings ) ) {
-			$saved_settings = array( $saved_settings );
-		}
+		$saved_settings = CoursePress_Data_Course::get_prerequisites( $course_id );
 
 		foreach ( $courses as $course ) {
-			$post_id = $course->ID;
-			if ( $post_id !== $course_id ) {
-				$selected_item = in_array( $post_id, $saved_settings ) ? 'selected="selected"' : '';
-				$content .= '<option value="' . $post_id . '" ' . $selected_item . '>' . $course->post_title . '</option>';
+			/**
+			 * exclude current course
+			 */
+			if ( $course_id == $course->ID ) {
+				continue;
 			}
+			$content .= sprintf(
+				'<option value="%s" %s>%s</option>',
+				esc_attr( $course->ID ),
+				selected( in_array( $course->ID, $saved_settings ), true, false ),
+				esc_html( apply_filters( 'the_title', $course->post_title ) )
+			);
 		}
 
 		$content .= '
@@ -1116,18 +1161,15 @@ class CoursePress_Admin_Edit {
 		$is_paid = ! empty( $paid_checked );
 
 		if ( ! $disable_payment ) {
-			$content .= '
-				<hr class="separator" />
-				<div class="wide">
-					<label>' .
-						esc_html__( 'Course Payment', 'cp' ) . '
-					</label>
-					<p class="description">' . esc_html__( 'Payment options for your course. Additional plugins are required and settings vary depending on the plugin.', 'cp' ) . '</p>
-					<label class="checkbox narrow">
-						<input type="checkbox" name="meta_payment_paid_course" ' . $paid_checked . ' />
-						<span>' . esc_html__( 'This is a paid course', 'cp' ) . '</span>
-					</label>
-				</div>';
+			$one = array(
+				'meta_key' => 'payment_paid_course',
+				'title' => __( 'Course Payment', 'cp' ),
+				'description' => __( 'Payment options for your course. Additional plugins are required and settings vary depending on the plugin.', 'cp' ),
+				'label' => __( 'This is a paid course', 'cp' ),
+				'default' => false,
+			);
+			$content .= '<hr class="separator" />';
+			$content .= CoursePress_Helper_UI::course_edit_checkbox( $one, $course_id );
 		}
 
 		/**
@@ -1343,11 +1385,17 @@ class CoursePress_Admin_Edit {
 			esc_attr( $class ),
 			esc_html__( 'Preview', 'cp' )
 		);
-		$content .= '<label>';
-		$content .= '<input type="checkbox" name="meta_basic_certificate" value="1" '. checked( 1, $value, false ) . ' /> '. __( 'Override course certificate.', 'cp' )
+		/**
+		 * Override Course Certificate
+		 */
+		$one = array(
+			'meta_key' => 'basic_certificate',
+			'description' => __( 'Use this field to override general course certificate setting.', 'cp' ),
+			'label' => __( 'Override course certificate.', 'cp' ),
+			'default' => false,
+		);
+		$content .= CoursePress_Helper_UI::course_edit_checkbox( $one, $course_id );
 
-			. '</label>'
-			. '<p class="description">' . __( 'Use this field to override general course certificate setting.', 'cp' ) . '</p>';
 		$content .= sprintf( '<div class="options %s">', cp_is_true( $value )? '':'hidden' );
 		$content .= '<label for="meta_basic_certificate_layout">' . __( 'Certificate Content', 'cp' ) . '</label>'
 			. '<p class="description" style="float:left;">' . __( 'Useful tokens: ', 'cp' ) . implode( ', ', $field_keys ) . '</p>'
@@ -1523,8 +1571,8 @@ class CoursePress_Admin_Edit {
 					CoursePress_View_Admin_Setting_BasicCertificate::default_certificate_content()
 				);
 			}
+			$html = stripslashes( $html );
 			$html = CoursePress_Helper_Utility::replace_vars( $html, $vars );
-
 			// Set PDF args
 			$args = array(
 				'title' => __( 'Course Completion Certificate', 'cp' ),
@@ -1602,5 +1650,19 @@ class CoursePress_Admin_Edit {
 			return '&ndash;';
 		}
 		return $duration;
+	}
+
+	/**
+	 * Add tinymce plugins
+	 *
+	 * @since 2.0.5
+	 *
+	 * @param array $plugins An array of teenyMCE plugins.
+	 * @return array The list of teenyMCE plugins.
+	 */
+	public static function teeny_mce_plugins( $plugins ) {
+		$plugins[] = 'paste';
+		$plugins[] = 'wpautoresize';
+		return $plugins;
 	}
 }

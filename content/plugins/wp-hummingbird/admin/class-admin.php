@@ -203,8 +203,8 @@ class WP_Hummingbird_Admin {
 
 		// If we are in minification page, we should redirect when checking files is finished
 		$screen = get_current_screen();
-		$performance_screen_id = $this->pages['wphb-performance']->page_id;
-		$dashboard_screen_id = $this->pages['wphb']->page_id;
+		$performance_screen_id = isset( $this->pages['wphb-performance'] ) && isset( $this->pages['wphb-performance']->page_id ) ? $this->pages['wphb-performance']->page_id : false;
+		$dashboard_screen_id = isset( $this->pages['wphb'] ) && isset( $this->pages['wphb']->page_id ) ? $this->pages['wphb']->page_id : false;
 
 
 		$redirect = '';

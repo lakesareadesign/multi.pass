@@ -28,7 +28,7 @@ class WP_Hummingbird_Module_Performance extends WP_Hummingbird_Module {
 	public static function get_last_report() {
 
 		if ( ! wphb_is_member() ) {
-			return new WP_Error( 'performance-membership', __( 'You need to be a WPMU DEV Member', 'wphb' ) );	  	 	   	 		 		 		 	
+			return new WP_Error( 'performance-membership', __( 'You need to be a WPMU DEV Member', 'wphb' ) );
 		}
 
 		$report = get_site_option( 'wphb-last-report' );

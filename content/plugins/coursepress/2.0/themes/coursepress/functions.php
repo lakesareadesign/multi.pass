@@ -172,26 +172,36 @@ add_action( 'wp_enqueue_scripts', 'coursepress_scripts' );
 if ( ! function_exists( 'coursepress_scripts' ) ) :
 
 	function coursepress_scripts() {
+		/**
+		 * setup version
+		 */
+		$version = '';
+		if ( class_exists( 'CoursePress' ) ) {
+			$version = CoursePress::$version;
+		} else {
+			$theme = wp_get_theme();
+			$version = $theme->get( 'Version' );
+		}
 
 		wp_enqueue_style(
 			'coursepress-style',
 			get_stylesheet_uri(),
 			array(),
-			CoursePress::$version
+			$version
 		);
 
 		wp_enqueue_style(
 			'coursepress-responsive-navigation',
 			get_template_directory_uri() . '/css/responsive-nav.css',
 			array(),
-			CoursePress::$version
+			$version
 		);
 
 		wp_enqueue_script(
 			'coursepress-navigation',
 			get_template_directory_uri() . '/js/navigation.js',
 			array(),
-			CoursePress::$version,
+			$version,
 			true
 		);
 
@@ -199,7 +209,7 @@ if ( ! function_exists( 'coursepress_scripts' ) ) :
 			'coursepress-responsive-navigation',
 			get_template_directory_uri() . '/js/responsive-nav.min.js',
 			array(),
-			CoursePress::$version,
+			$version,
 			true
 		);
 
@@ -207,7 +217,7 @@ if ( ! function_exists( 'coursepress_scripts' ) ) :
 			'coursepress-general',
 			get_template_directory_uri() . '/js/script.js',
 			array(),
-			CoursePress::$version,
+			$version,
 			true
 		);
 
@@ -215,7 +225,7 @@ if ( ! function_exists( 'coursepress_scripts' ) ) :
 			'coursepress-skip-link-focus-fix',
 			get_template_directory_uri() . '/js/skip-link-focus-fix.js',
 			array(),
-			CoursePress::$version,
+			$version,
 			true
 		);
 

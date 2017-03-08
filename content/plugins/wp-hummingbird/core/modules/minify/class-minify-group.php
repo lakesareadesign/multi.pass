@@ -469,7 +469,7 @@ class WP_Hummingbird_Module_Minify_Group {
 	 * @return array
 	 */
 	public function get_handles() {
-		return $this->handles;
+		return is_array( $this->handles ) ? $this->handles : array();
 	}
 
 	/**
@@ -755,12 +755,12 @@ class WP_Hummingbird_Module_Minify_Group {
 			}
 
 			$pathinfo = pathinfo( $src );
-			if ( ! in_array( $pathinfo['extension'], array( 'js', 'css' ) ) ) {
+			if ( ! isset( $pathinfo['extension'] ) || ( isset( $pathinfo['extension'] ) && ! in_array( $pathinfo['extension'], array( 'js', 'css' ) ) ) ) {
 				$minify_module->errors_controller->add_error(
 					$handle,
 					$this->type,
 					'wrong-extension',
-					__( 'The extension of this file is not allowed', 'wphb' ),
+					__( 'This file included in your output can\'t be minified or combined', 'wphb' ),
 					array( 'minify', 'combine' ), // Disallow minification/concat
 					array( 'minify', 'combine' ) // Disable minification/concat switchers
 				);
@@ -1116,9 +1116,11 @@ class WP_Hummingbird_Module_Minify_Group {
 		if ( 'scripts' == $this->type ) {
 			$wp_sources = wp_scripts();
 
+			wp_dequeue_script( $this->group_id );
+			wp_deregister_script( $this->group_id );
 			wp_enqueue_script(
 				$this->group_id,
-				$this->get_group_src(),
+				set_url_scheme( $this->get_group_src() ),
 				$dependencies,
 				null,
 				$in_footer
@@ -1171,9 +1173,11 @@ class WP_Hummingbird_Module_Minify_Group {
 		elseif ( 'styles' == $this->type ) {
 			$wp_sources = wp_styles();
 
+			wp_dequeue_style( $this->group_id );
+			wp_deregister_style( $this->group_id );
 			wp_enqueue_style(
 				$this->group_id,
-				$this->get_group_src(),
+				set_url_scheme( $this->get_group_src() ),
 				$dependencies,
 				null,
 				$this->get_args()
@@ -1187,7 +1191,7 @@ class WP_Hummingbird_Module_Minify_Group {
 
 			// Make sure that single handles from this group are not enqueued
 			foreach ( $this->get_handles() as $handle ) {
-				$this->simulate_dequeue_asset( $handle );
+//				$this->simulate_dequeue_asset( $handle );
 
 				// It could have been enqueued with a different ID by this group before
 				// This would mostly happen during Unit Testing, we can remove it safely
@@ -1220,18 +1224,24 @@ class WP_Hummingbird_Module_Minify_Group {
 	 * but will change the slug
 	 */
 	public function enqueue_one_handle( $handle, $in_footer, $dependencies = array() ) {
-		$new_id = $this->group_id . '-' . $handle;
+		if ( count( $this->get_handles() ) === 1 ) {
+			$new_id = $this->group_id;
+		}
+		else {
+			$new_id = $this->group_id . '-' . $handle;
+		}
+
 		if ( 'scripts' == $this->type ) {
 			$wp_sources = wp_scripts();
 
 			// Just in case, we'll dequeue all possibilities
 			foreach ( $this->get_handles() as $_handle ) {
-				$this->simulate_dequeue_asset( $_handle );
+				//$this->simulate_dequeue_asset( $_handle );
 			}
 
 			wp_enqueue_script(
 				$new_id,
-				$this->get_handle_url( $handle ),
+				set_url_scheme( $this->get_handle_url( $handle ) ),
 				$dependencies,
 				null,
 				$in_footer
@@ -1272,14 +1282,15 @@ class WP_Hummingbird_Module_Minify_Group {
 		}
 		elseif ( 'styles' == $this->type ) {
 			$wp_sources = wp_styles();
+
 			// Just in case, we'll dequeue all possibilities
 			foreach ( $this->get_handles() as $_handle ) {
-				$this->simulate_dequeue_asset( $_handle );
+//				$this->simulate_dequeue_asset( $_handle );
 			}
 
 			wp_enqueue_style(
 				$new_id,
-				$this->get_handle_url( $handle ),
+				set_url_scheme( $this->get_handle_url( $handle ) ),
 				$dependencies,
 				null,
 				$this->get_args()

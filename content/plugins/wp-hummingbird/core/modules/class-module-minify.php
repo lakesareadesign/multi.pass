@@ -241,6 +241,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			// If we aren't in footer, remove handles that need to go to footer
 			if ( ! self::is_in_footer() && isset ( $wp_dependencies->registered[ $handle ]->extra['group'] ) && $wp_dependencies->registered[ $handle ]->extra['group'] ) {
 				unset( $handles[ $key ] );
+				$this->to_footer[ $type ][] = $handle;
 			}
 		}
 
@@ -267,6 +268,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			$this->attach_scripts_localization( $groups_list, $wp_dependencies );
 		}
 
+
 		// Time to split the groups if we're not combining some of them
 		foreach ( $groups_list->get_groups() as $group ) {
 			/** @var WP_Hummingbird_Module_Minify_Group $group */
@@ -283,6 +285,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			}
 
 			$dont_combine_list = $group->get_dont_combine_list();
+
 			if ( $dont_combine_list ) {
 				// There are one or more handles that should not be combined
 				/** @var WP_Hummingbird_Module_Minify_Group $group */
@@ -311,7 +314,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 
 					// Set the splitted groups to the last element
 					end( $splitted_group );
-					if ( $last_status === $status ) {
+					if ( $last_status === $status && $status !== 0 ) {
 						$current_key = key( $splitted_group );
 						if ( ! $current_key ) {
 							// Current key can be NULL, set to 0
@@ -338,11 +341,17 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			}
 		}
 
-
 		// Set the groups handles, as we need all of them before processing
 		foreach ( $groups_list->get_groups() as $group ) {
-			$group->group_id = 'wphb-' . ++self::$counter;
-			foreach ( $group->get_handles() as $handle ) {
+			$handles = $group->get_handles();
+			if ( count( $handles ) === 1 ) {
+				// Just one handle, let's keep the handle name as the group ID
+				$group->group_id = $handles[0];
+			}
+			else {
+				$group->group_id = 'wphb-' . ++self::$counter;
+			}
+			foreach ( $handles as $handle ) {
 				$this->done[ $type ][] = $handle;
 			}
 		}
@@ -350,6 +359,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 		// Parse dependencies, load files and mark groups as ready,process or only-handles
 		// Watch out! Groups must not be changed after this point
 		$groups_list->preprocess_groups();
+
 
 		foreach ( $groups_list->get_groups() as $group ) {
 			$group_status = $groups_list->get_group_status( $group->hash );

@@ -4,13 +4,24 @@ Tested up to: 4.6.1
 
 Change Log:
 
-1.4.1 - 2016-01-12
+1.4.2 - 2017-03-02
+----------------------------------------------------------------------
+- Fix: MarketPress incompatibility
+- Fix: In some cases, assets were not moved to footer
+- Fix: Assets were always combined if some of them were marked as "not combined" in the same group
+- Fix: Keep handle name when only one handle is enqueued in a group for better compatibility with wp_script_is function
+- Fix: add_inline_scripts/styles did not work for plugins that inject inlines too late
+- Fix: Sometimes assets are not enqueued under https if the site is SSL
+- Enhance: CloudFlare box - Show a message if there are no zones available
+- Some other minor fixes/improvements
+
+1.4.1 - 2017-01-12
 ----------------------------------------------------------------------
 - Fix: Upgrade process was triggered too early provoking a fatal error when Smart Crawler was active
 - Fix: Minify Group warning
 - Fix: Error when WPMUDEV Dashboard was not activated
 
-1.4 - 2016-01-10
+1.4 - 2017-01-10
 ----------------------------------------------------------------------
 - New: Brand new minification engine
 - New: Minified files are now processed in WPMUDEV's servers
@@ -143,4 +154,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1484344680-au
+133620-1488933239-au
