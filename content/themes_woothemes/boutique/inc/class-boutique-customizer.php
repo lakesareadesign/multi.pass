@@ -56,7 +56,6 @@ class Boutique_Customizer {
 			'storefront_footer_text_color'           => '#777777',
 			'storefront_accent_color'                => '#7c7235',
 			'storefront_button_alt_background_color' => '#7c7235',
-			'storefront_background_color'            => '#303030',
 			'storefront_button_background_color'     => '#eeeeee',
 			'background_color'                       => '#303030',
 		) );
@@ -143,7 +142,8 @@ class Boutique_Customizer {
 				background-color: ' . storefront_adjust_color_brightness( '#ffffff', -4 ) . ';
 			}
 
-			#order_review, #payment .payment_methods li .payment_box {
+			#order_review, #payment .payment_methods li .payment_box,
+			#payment .place-order {
 				background-color: #fafafa;
 			}
 
