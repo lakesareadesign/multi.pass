@@ -173,7 +173,7 @@ class Amazon_S3_And_CloudFront_Enable_Media_Replace {
 
 		// Update the file prefix to generate new object versioning string
 		$prefix   = $this->as3cf->get_file_prefix( $time );
-		$filename = basename( $s3object['key'] );
+		$filename = wp_basename( $s3object['key'] );
 
 		$s3object['key'] = $prefix . $filename;
 

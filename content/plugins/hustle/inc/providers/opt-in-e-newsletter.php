@@ -35,12 +35,19 @@ class Opt_In_E_Newsletter
      */
     public function subscribe( array $data,  array $groups = array() ){
         $data['is_hustle'] = true;
+		$e_newsletter = $this->_email_newsletter;
 
         if( !$this->is_member( $data['member_email'] ) ){
-            $insert_data = $this->_email_newsletter->create_update_member_user( "",  $data, 1 );
+            $insert_data = $e_newsletter->create_update_member_user( "",  $data, 1 );
 
-            if( isset( $insert_data['results'] ) && in_array( "member_inserted", (array) $insert_data['results'] )  )
-                $this->_email_newsletter->add_members_to_groups( $insert_data['member_id'], $groups );
+            if( isset( $insert_data['results'] ) && in_array( "member_inserted", (array) $insert_data['results'] )  ) {
+				$e_newsletter->add_members_to_groups( $insert_data['member_id'], $groups );
+
+				if( isset( $e_newsletter->settings['subscribe_newsletter'] ) && $e_newsletter->settings['subscribe_newsletter'] ) {
+					$send_details = $e_newsletter->add_send_email_info( $e_newsletter->settings['subscribe_newsletter'], $insert_data['member_id'], 0, 'waiting_send' );
+					$e_newsletter->send_email_to_member($send_details['send_id']);
+				}
+			}
         }
 
         return new WP_Error("member_exists", __("Member exists", Opt_In::TEXT_DOMAIN), $data);

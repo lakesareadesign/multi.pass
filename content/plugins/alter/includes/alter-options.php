@@ -45,6 +45,7 @@ function get_aof_options() {
   }
 
   //get all admin users
+   //enabling this makes bbpress menu items disappear
   $user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
   if(isset($user_query) && !empty($user_query)) {
       if ( ! empty( $user_query->results ) ) {

@@ -196,7 +196,7 @@ class Settings_Model extends \WD_Option_Model {
 			$blacklist = explode( PHP_EOL, $blacklist );
 			foreach ( $blacklist as $k => $ip ) {
 				$ip = trim( $ip );
-				if ( $this->validate_ip( $ip ) === false ) {
+				if ( $this->validate_ip( $ip ) === false || ($ip == \WD_Utils::get_user_ip()) ) {
 					unset( $blacklist[ $k ] );
 					$remove_ips[] = $ip;
 				}

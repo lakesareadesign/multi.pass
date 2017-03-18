@@ -49,7 +49,7 @@
 										<?php
 										$model = \WP_Defender\IP_Lockout\Component\Login_Protection_Api::get_last_lockout();
 										if ( is_object( $model ) ) {
-											$last_lockout_text = get_date_from_gmt( date( 'Y-m-d H:i:s', $model->date ), \WD_Utils::get_date_time_format() );
+											$last_lockout_text = get_date_from_gmt( date( 'Y-m-d H:i:s', $model->date ), \WD_Utils::get_date_time_format() );	  	 	   	 		 		 				
 											echo ucfirst( $last_lockout_text );
 										} else {
 											esc_html_e( "Never", wp_defender()->domain );

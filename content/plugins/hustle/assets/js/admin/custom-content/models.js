@@ -87,8 +87,10 @@ Hustle.define( "Custom_Content.Models",  function(){
                 if( _.isEmpty( this.get('conditions') ) && _.isArray( this.get('conditions') )  )
                     this.conditions = {};
 
-                this.set( 'conditions', new Backbone.Model( this.conditions ) );
+				var hModel = Hustle.get("Model");
+                this.set( 'conditions', new hModel( this.conditions ) );
             }
+			this.on( 'change', this.user_has_change, this );
 
         }
     });

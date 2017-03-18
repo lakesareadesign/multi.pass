@@ -4,7 +4,7 @@ Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image sli
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CQ84KC4X8YKW8
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 3.4
+Stable tag: 3.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,9 +128,17 @@ See https://www.metaslider.com/documentation/image-cropping/
 
 == Changelog ==
 
-= 3.4.1 [16/01/17] =
+= 3.5 [13/03/17] =
+
+* New slides will now be added as a new post type (ml-slide) (existing slideshows and slides will be unaffected)
+* Workaround/Fix: Don't use WP_Image_Editor to load slide images that are missing metadata (invalid images)
+* Fix: Load admin JavaScript in footer
+* New: Add "metaslider_after_resize_image" action
+
+= 3.4.2 [16/01/17] =
 
 * Workaround/Fix: Don't use WP_Image_Editor to load admin slide thumbnails, use wp_get_attachment_image_src instead. Attempts to fix white screen issues affecting some users. Related: https://core.trac.wordpress.org/ticket/36534
+* Fix: Load admin JavaScript in footer
 
 = 3.4 [04/01/17] =
 

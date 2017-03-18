@@ -70,4 +70,27 @@ class AS3CF_Pro_Utils {
 
 		return $keys;
 	}
+
+	/**
+	 * Recursively collapses an empty array structure.
+	 *
+	 * @param $array
+	 *
+	 * @return mixed
+	 */
+	public static function array_prune_recursive( $array ) {
+		if ( ! is_array( $array ) ) {
+			return $array;
+		}
+
+		foreach ( $array as $key => &$value ) {
+			$value = self::array_prune_recursive( $value );
+
+			if ( empty ( $value ) && ! is_numeric( $value ) ) {
+				unset( $array[ $key ] );
+			}
+		}
+
+		return $array;
+	}
 }

@@ -21,7 +21,7 @@
 					<textarea name="ip_blacklist" id="ip_blacklist"
                               rows="8"><?php echo $settings->ip_blacklist ?></textarea>
                     <span class="form-help">
-						<?php _e( "One IP address per line and IPv4 format only.", wp_defender()->domain ) ?>
+						<?php _e( "One IP address per line and IPv4 format only. IP ranges are accepted in format xxx.xxx.xxx.xxx-xxx.xxx.xxx.xxx", wp_defender()->domain ) ?>
 					</span>
                 </div>
             </div>
@@ -60,7 +60,7 @@
 					<textarea name="ip_whitelist" id="ip_whitelist"
                               rows="8"><?php echo $settings->ip_whitelist ?></textarea>
                     <span class="form-help">
-						<?php _e( "One IP address per line and IPv4 format only.", wp_defender()->domain ) ?>
+						<?php _e( "One IP address per line and IPv4 format only. IP ranges are accepted in format xxx.xxx.xxx.xxx-xxx.xxx.xxx.xxx", wp_defender()->domain ) ?>
 					</span>
                 </div>
             </div>

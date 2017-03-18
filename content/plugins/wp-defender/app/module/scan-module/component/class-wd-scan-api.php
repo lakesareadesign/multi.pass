@@ -255,14 +255,8 @@ class WD_Scan_Api extends WD_Component {
 	 */
 	public static function create_scan_record( $force = false ) {
 		//check if we having any on going
-		$models = WD_Scan_Result_Model::model()->find_all( array(
-			'status' => array(
-				WD_Scan_Result_Model::STATUS_PROCESSING,
-				WD_Scan_Result_Model::STATUS_ERROR
-			)
-		) );
-
-		if ( count( $models ) && $force == false ) {
+		$active_scan = self::get_active_scan();
+		if ( is_object( $active_scan ) && $force == false ) {
 			//we having on going process
 			return new WP_Error( 'record_exists', esc_html__( "A scan is already in progress", wp_defender()->domain ) );
 		}

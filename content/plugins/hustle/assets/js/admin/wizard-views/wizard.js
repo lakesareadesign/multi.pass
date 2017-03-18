@@ -9,7 +9,7 @@ Hustle.define("Optin.Wizard", function($){
             "click .next-button button.wph-button-finish": "save",
             "click .wph-toggletabs--title.can-open": "toggle_section",
             "click .js-wph-optin-cancel": "cancel",
-            "click .js-wph-optin-back": "back"
+            "click .js-wph-optin-back": "back",
         },
         toggle_section: function(e){
             var $this = this.$(e.target),
@@ -76,6 +76,8 @@ Hustle.define("Optin.Wizard", function($){
                     provider_args: Optin.step.services.provider_args.toJSON()
                 },
                 complete: function(){
+					Optin.hasChanges = false;
+
                     $this.attr( "disabled", false )
                         .removeClass( "wph-button-next--loading" )
                         .removeClass( "wph-button-save--loading" );
@@ -88,6 +90,7 @@ Hustle.define("Optin.Wizard", function($){
                     if( !res.success ) return;
 
                     Optin.step.services.model.set("optin_id", res.data );
+					Optin.hasChanges = false;
                 }
             });
 

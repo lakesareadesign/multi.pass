@@ -92,7 +92,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
     function get_data(){
         return array_merge( (array) $this->_data, array(
             "subtitle" => $this->subtitle,
-            "content" => $this->content
+            "content" => $this->content,
         ));
     }
 
@@ -133,16 +133,16 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      * @return false|int|WP_Error
      */
     function toggle_state( $environment = null ){
-
-        if( is_null( $environment ) )
-            return parent::toggle_state( $environment );
+        if( is_null( $environment ) ) {
+			return parent::toggle_state( $environment );
+		}
 
         if( in_array( $environment, $this->types ) ) { // we are toggling state of a specific environment
 
             $prev_value = $this->{$environment}->to_object();
             $prev_value->enabled = !isset( $prev_value->enabled ) || "false" === $prev_value->enabled ? "true": "false";
             return $this->update_meta( $environment,  json_encode( $prev_value ) );
-        }else{
+        } else{
             return new WP_Error("Invalid_env", "Invalid environment . " . $environment);
         }
 
@@ -155,7 +155,58 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      * @return mixed|void
      */
     function get_content(){
-        return apply_filters("the_content", $this->optin_message );
+		global $wp_filter;
+
+		$the_content_filters = false;
+		$callback_list = array();
+
+		if ( ! empty( $wp_filter['the_content'] ) && ! empty( $wp_filter['the_content']->callbacks ) ) {
+			$the_content_filters = $wp_filter['the_content'];
+			$callbacks = $wp_filter['the_content']->callbacks;
+
+			$allowed_filters = array(
+				'wptexturize',
+				'wpautop',
+				'shortcode_unautop',
+				'prepend_attachment',
+				'wp_make_content_images_responsive',
+				'capital_P_dangit',
+				'do_shortcode',
+				'convert_smilies',
+			);
+
+			/**
+			 * Filter the list of allowed filters to be executed at CC content.
+			 *
+			 * @since 2.0.3
+			 *
+			 * @param (array) $allowed_filters		The list of allowed filters.
+			 **/
+			$allowed_filters = apply_filters( 'hustle_cc_allowed_filters', $allowed_filters );
+
+			foreach ( $callbacks as $priority => $callback ) {
+				foreach ( $callback as $filter_name => $filter_callback ) {
+					if ( ! in_array( $filter_name, $allowed_filters ) &&
+						! preg_match( '%run_shortcode|autoembed%', $filter_name ) ) {
+						unset( $wp_filter['the_content']->callbacks[ $priority ][ $filter_name ] );
+					}
+
+					// Set back the callback list
+					$callback_list[ $priority ][ $filter_name ] = $filter_callback;
+				}
+			}
+		}
+
+		$message = apply_filters( 'the_content', $this->optin_message );
+
+		/**
+		 * Restore original `the_content` filter list **/
+		if ( ! empty( $the_content_filters ) ) {
+			$the_content_filters->callbacks = $callback_list;
+			$wp_filter['the_content'] = $the_content_filters;
+		}
+
+		return $message;
     }
 
     function get_module_type(){
@@ -200,7 +251,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 
         if( !$settings->enabled ) false;
         $_conditions = $settings->get_conditions();
-
+		$skip_all_cpt = false;
 		if( !empty( $_conditions ) ) {
 
 			if ( is_singular() || is_front_page() ) {
@@ -210,13 +261,20 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 				// unset not needed post_type
 				if ( $post->post_type == 'post' ) {
 					unset($_conditions->pages);
+					$skip_all_cpt = true;
 				} elseif ( $post->post_type == 'page' ) {
 					unset($_conditions->posts);
+					$skip_all_cpt = true;
+				} else {
+					// unset posts and pages since this is CPT
+					unset($_conditions->posts);
+					unset($_conditions->pages);
 				}
 			} else {
 				// unset posts and pages
 				unset($_conditions->posts);
 				unset($_conditions->pages);
+				$skip_all_cpt = true;
 				// unset not needed taxonomy
 				if ( is_category() ) {
 					unset($_conditions->tags);
@@ -227,9 +285,19 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 			}
 			// $display is TRUE if all conditions were met
 			foreach ($_conditions as $condition_key => $args) {
-                $condition = Hustle_Condition_Factory::build($condition_key, $args);
-				$condition->set_type($type);
-				$display = ( $display && $condition->is_allowed($this) );
+				// only cpt have 'post_type' and 'post_type_label' properties
+				if ( isset($args['post_type']) && isset($args['post_type_label']) ) {
+					if ( $skip_all_cpt || $post->post_type != $args['post_type'] ) {
+						continue;
+					}
+					$condition = Hustle_Condition_Factory::build('cpt', $args);
+				} else {
+					$condition = Hustle_Condition_Factory::build($condition_key, $args);
+				}
+				if ( $condition ) {
+					$condition->set_type($type);
+					$display = ( $display && $condition->is_allowed($this) );
+				}
             }
         }
 
@@ -260,7 +328,12 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 		$_conditions = wp_parse_args($settings->get_conditions(), $_conditions);
         if( !empty( $_conditions ) ){
             foreach( $_conditions as $condition_key => $args ){
-                $conditions[$condition_key] = Hustle_Condition_Factory::build( $condition_key, $args );
+				// only cpt have 'post_type' and 'post_type_label' properties
+				if ( isset($args['post_type']) && isset($args['post_type_label']) ) {
+					$conditions[$condition_key] = Hustle_Condition_Factory::build( 'cpt', $args );
+				} else {
+					$conditions[$condition_key] = Hustle_Condition_Factory::build( $condition_key, $args );
+				}
 
 				if ( is_object( $conditions[ $condition_key ] ) && method_exists( $conditions[ $condition_key ], 'set_type' ) ) {
 					$conditions[$condition_key]->set_type( $type );

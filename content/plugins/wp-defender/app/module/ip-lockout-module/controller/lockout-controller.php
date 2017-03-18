@@ -112,7 +112,7 @@ class Lockout_Controller extends \WD_Controller {
 			return;
 		}
 
-		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		//$user_agent = $_SERVER['HTTP_USER_AGENT'];
 		/*$this->log( $user_agent, self::ERROR_LEVEL_DEBUG, 'useragent' );
 		$this->log( $_SERVER['REQUEST_URI'], self::ERROR_LEVEL_DEBUG, 'uri' );*/
 		if ( $settings->login_protection ) {
@@ -335,7 +335,7 @@ class Lockout_Controller extends \WD_Controller {
 			$settings->report_receipts[] = get_current_user_id();
 			$settings->save();
 		}
-		$ip = $_SERVER['REMOTE_ADDR'];
+		$ip = \WD_Utils::get_user_ip();
 		if ( ! in_array( $ip, $settings->get_ip_whitelist() ) ) {
 			$settings->add_ip_to_list( $ip, 'whitelist' );
 		}
@@ -507,7 +507,7 @@ class Lockout_Controller extends \WD_Controller {
 	 *
 	 */
 	public function clear_attempt_stats() {
-		$ip    = $_SERVER['REMOTE_ADDR'];
+		$ip    = \WD_Utils::get_user_ip();
 		$model = IP_Model::model()->find_by_attributes( array(
 			'ip' => $ip
 		) );
@@ -529,7 +529,7 @@ class Lockout_Controller extends \WD_Controller {
 				'empty_password'
 			) )
 		) {
-			$ip    = $_SERVER['REMOTE_ADDR'];
+			$ip    = \WD_Utils::get_user_ip();
 			$model = IP_Model::model()->find_by_attributes( array(
 				'ip' => $ip
 			) );
@@ -587,7 +587,7 @@ class Lockout_Controller extends \WD_Controller {
 			die;
 		}
 
-		$ip = $_SERVER['REMOTE_ADDR'];
+		$ip = \WD_Utils::get_user_ip();
 		if ( $settings->isWhitelist( $ip ) ) {
 			return;
 		} elseif ( $settings->isBlacklist( $ip ) ) {
@@ -615,6 +615,11 @@ class Lockout_Controller extends \WD_Controller {
 		if ( is_404() ) {
 			$settings = new Settings_Model();
 
+			if ( is_user_logged_in() && current_user_can( 'edit_posts' ) ) {
+				//we wont track 404 error if they can edit post
+				return;
+			}
+
 			if ( $settings->detect_404_logged == false && is_user_logged_in() ) {
 				return;
 			}
@@ -628,7 +633,7 @@ class Lockout_Controller extends \WD_Controller {
 			$ext               = pathinfo( $uri, PATHINFO_EXTENSION );
 			$ext               = trim( $ext );
 			$model             = new Log_Model();
-			$model->ip         = $_SERVER['REMOTE_ADDR'];
+			$model->ip         = \WD_Utils::get_user_ip();
 			$model->user_agent = $_SERVER['HTTP_USER_AGENT'];
 			//$model->log        = sprintf( esc_html__( "Request for file %s which doesn't exist", wp_defender()->domain ), $_SERVER['REQUEST_URI'] );
 			$model->log  = $_SERVER['REQUEST_URI'];
@@ -649,7 +654,7 @@ class Lockout_Controller extends \WD_Controller {
 	 */
 	public function logging_fail_login( $username ) {
 		$model             = new Log_Model();
-		$model->ip         = $_SERVER['REMOTE_ADDR'];
+		$model->ip         = \WD_Utils::get_user_ip();
 		$model->user_agent = $_SERVER['HTTP_USER_AGENT'];
 		$model->log        = sprintf( esc_html__( "Failed login attempt with username %s", wp_defender()->domain ), $username );
 		$model->date       = time();

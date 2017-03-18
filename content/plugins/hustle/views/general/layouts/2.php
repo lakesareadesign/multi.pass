@@ -64,7 +64,7 @@
 
 											<label>
 
-												<i class="wpoi-icon i-user"></i>
+												<i class="wphi-font wphi-user"></i>
 
 												<span><?php esc_attr_e('First Name', Opt_In::TEXT_DOMAIN) ?></span>
 
@@ -82,7 +82,7 @@
 
 											<label>
 
-												<i class="wpoi-icon i-user"></i>
+												<i class="wphi-font wphi-user"></i>
 
 												<span><?php esc_attr_e('Last Name', Opt_In::TEXT_DOMAIN) ?></span>
 
@@ -104,7 +104,7 @@
 
 							<label>
 
-								<i class="wpoi-icon i-email"></i>
+								<i class="wphi-font wphi-email"></i>
 
 								<span><?php esc_attr_e('E-mail', Opt_In::TEXT_DOMAIN) ?></span>
 

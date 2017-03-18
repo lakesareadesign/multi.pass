@@ -312,7 +312,7 @@ class Amazon_S3_And_CloudFront_WooCommerce {
 
 			if ( ! isset( $url['host'] ) ) {
 				$file_path = wp_get_attachment_url( $attachment_id );
-				$filename  = basename( $file_path );
+				$filename  = wp_basename( $file_path );
 			}
 
 			// File not on S3, trigger WooCommerce saved download method

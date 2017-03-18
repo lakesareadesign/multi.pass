@@ -3,7 +3,7 @@
 Plugin Name: Hustle
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 2.0.2
+Version: 2.0.3.1
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020
@@ -86,6 +86,12 @@ class Opt_In extends Opt_In_Static{
             "file_name" => "opt-in-constantcontact-loader.php",
             "class_name" => "Opt_In_ConstantContact"
         ),
+		array(
+			'id' => 'convertkit',
+			'name' => 'ConvertKit',
+			'file_name' => 'opt-in-convertkit.php',
+			'class_name' => 'Opt_In_ConvertKit',
+		),
         array(
             "id" => "getresponse",
             "name" => "GetResponse",
@@ -317,7 +323,9 @@ class Opt_In extends Opt_In_Static{
         if( file_exists( $template_file ) ){
             include $template_file;
         }else{
-            include( self::$template_path . $Opt_In_To_Be_File_Name . '.php' );
+			$template_path = self::$template_path . $Opt_In_To_Be_File_Name . '.php';
+
+			if ( file_exists( $template_path ) ) include( $template_path );
         }
 
         if($return){

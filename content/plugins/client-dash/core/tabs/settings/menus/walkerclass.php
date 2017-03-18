@@ -171,11 +171,6 @@ class Walker_Nav_Menu_Edit_CD extends Walker_Nav_Menu {
 			$img_class = ' dashicons dashicons-admin-generic';
 		}
 
-		// Potential broken urls
-		if ( ! $item->url ) {
-			$item->url = ClientDash_Core_Page_Settings_Tab_Menus::get_lost_url( $item );
-		}
-
 		ob_start();
 		?>
 	<li id="menu-item-<?php echo $item->ID; ?>" class="<?php echo implode( ' ', $classes ); ?>">

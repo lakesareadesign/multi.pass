@@ -1,8 +1,7 @@
 <?php
 $selected_bucket        = $this->get_setting( 'bucket' );
 $selected_bucket_prefix = $this->get_object_prefix( 'enable-script-object-prefix' );
-
-$prefix = $this->get_plugin_prefix_slug();
+$prefix                 = $this->get_plugin_prefix_slug();
 ?>
 <div id="tab-assets" data-prefix="<?php echo $prefix; ?>" class="aws-content as3cf-tab<?php echo ( $selected_bucket ) ? ' as3cf-has-bucket' : ''; // xss ok ?>">
 	<?php

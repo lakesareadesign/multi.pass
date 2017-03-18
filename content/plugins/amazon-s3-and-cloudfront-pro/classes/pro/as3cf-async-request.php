@@ -18,7 +18,7 @@ abstract class AS3CF_Async_Request {
 	protected $identifier;
 
 	/**
-	 * @var object
+	 * @var Amazon_S3_And_CloudFront
 	 */
 	protected $as3cf;
 
@@ -30,7 +30,7 @@ abstract class AS3CF_Async_Request {
 	/**
 	 * Initiate new async request
 	 *
-	 * @param object $as3cf Instance of calling class
+	 * @param Amazon_S3_And_CloudFront $as3cf Instance of calling class
 	 */
 	public function __construct( $as3cf ) {
 		$this->as3cf      = $as3cf;

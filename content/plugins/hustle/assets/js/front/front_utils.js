@@ -318,7 +318,7 @@ var Optin = Optin || {};
     });
 
     $(document).on('focus', '.wpoi-optin input.required', function(){
-        $(this).next('label').find('i.wpoi-icon').removeClass('i-error');
+        $(this).next('label').find('i.wphi-font').removeClass('i-error');
     });
 
     /**
@@ -331,7 +331,7 @@ var Optin = Optin || {};
      * @return html
      */
     Optin.render_provider_args = function( optin_data ){
-        if( _.isEmpty( optin_data.provider_args ) ) return "";
+        if( _.isEmpty( optin_data.provider_args ) || _.isEmpty( optin_data.data.optin_provider ) ) return "";
 
         var provider_args_tpl = Optin.template( "optin-" + optin_data.data.optin_provider + "-args"  );
         return provider_args_tpl( optin_data.provider_args )
@@ -406,5 +406,4 @@ var Optin = Optin || {};
 
         checking_adblock = true;
     }
-
 }(jQuery, document));

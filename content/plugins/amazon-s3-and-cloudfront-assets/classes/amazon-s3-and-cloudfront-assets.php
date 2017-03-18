@@ -1,5 +1,7 @@
 <?php
 
+use DeliciousBrains\WP_Offload_S3_Assets\Tools\Process_Assets;
+
 class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 	protected $theme_url;
@@ -60,8 +62,6 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		// UI Setup filters
 		add_filter( 'as3cf_settings_tabs', array( $this, 'settings_tabs' ) );
 		add_action( 'as3cf_after_settings', array( $this, 'settings_page' ) );
-		add_action( 'as3cf_after_settings', array( $this, 'sidebar_block' ) );
-		add_action( 'as3cf_assets_sidebar', array( $this, 'render_progress_block' ) );
 
 		// Custom theme & plugin support filter
 		add_filter( 'as3cf_get_asset', array( $this, 'get_asset' ) );
@@ -90,9 +90,6 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		add_action( 'wp_ajax_as3cf-assets-manual-save-bucket', array( $this, 'ajax_save_bucket' ) );
 		add_action( 'wp_ajax_as3cf-assets-get-buckets', array( $this, 'ajax_get_buckets' ) );
 		add_action( 'wp_ajax_as3cf-assets-generate-key', array( $this, 'ajax_generate_key' ) );
-		add_action( 'wp_ajax_as3cf-assets-manual-scan', array( $this, 'ajax_manual_scan' ) );
-		add_action( 'wp_ajax_as3cf-assets-manual-purge', array( $this, 'ajax_manual_purge' ) );
-		add_action( 'wp_ajax_as3cf-assets-get-progress', array( $this, 'ajax_get_progress' ) );
 
 		add_filter( 'plugin_action_links', array( $this, 'plugin_actions_settings_link' ), 10, 2 );
 		add_filter( 'as3cf_diagnostic_info', array( $this, 'diagnostic_info' ) );
@@ -113,6 +110,9 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 		// Purge S3 assets on upgrade, if required
 		new AS3CF_Assets_Upgrade( $this );
+
+		// Register tools
+		$this->sidebar->register_tool( new Process_Assets( $this ), 'background' );
 	}
 
 	/**
@@ -126,17 +126,13 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		wp_enqueue_style( 'as3cf-assets-styles', $src, array( 'as3cf-styles' ), $version );
 
 		$src = plugins_url( 'assets/js/script' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-assets-script', $src, array( 'jquery', 'wp-util', 'as3cf-script' ), $version, true );
+		wp_enqueue_script( 'as3cf-assets-script', $src, array( 'jquery', 'as3cf-pro-sidebar' ), $version, true );
 
 		wp_localize_script( 'as3cf-assets-script',
 			'as3cf_assets',
 			array(
 				'strings'      => array(
 					'generate_key_error' => __( 'Error getting new key: ', 'as3cf-assets' ),
-					'manual_error'       => __( 'Error performing manual action: ', 'as3cf-assets' ),
-					'processing'         => _x( 'Processing', 'Processing manual action', 'as3cf-assets' ),
-					'scanning'           => __( 'Scanning and uploading files to S3.', 'as3cf-assets' ),
-					'purging'            => __( 'Purging files from S3.', 'as3cf-assets' ),
 					'copy_not_enabled'   => __( 'No CSS or JS is being served because "Copy & Serve" is off.', 'as3cf-assets' ),
 				),
 				'nonces'       => array(
@@ -145,9 +141,6 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 					'save_bucket'   => wp_create_nonce( 'as3cf-assets-save-bucket' ),
 					'get_buckets'   => wp_create_nonce( 'as3cf-assets-get-buckets' ),
 					'generate_key'  => wp_create_nonce( 'as3cf-assets-generate-key' ),
-					'manual_scan'   => wp_create_nonce( 'as3cf-assets-manual-scan' ),
-					'manual_purge'  => wp_create_nonce( 'as3cf-assets-manual-purge' ),
-					'get_progress'  => wp_create_nonce( 'as3cf-assets-get-progress' ),
 				),
 				'redirect_url' => $this->get_plugin_page_url( array( 'as3cf-assets-manual' => '1' ) ),
 			)
@@ -184,45 +177,11 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	}
 
 	/**
-	 * Display the sidebar for the addon
-	 */
-	public function sidebar_block() {
-		$this->render_view( 'sidebar' );
-	}
-
-	/**
-	 * Display the progress bar block for the addon
-	 */
-	public function render_progress_block() {
-		// Plugin is setup, do not show the sidebar
-		if ( ! parent::is_plugin_setup() ) {
-			return;
-		}
-
-		// Get our progress so far in scanning
-		$progress = $this->get_scan_progress();
-
-		$args = array(
-			'id'               => 'assets-progress',
-			'tab'              => $this->default_tab,
-			'title'            => __( 'Assets Status', 'as3cf-assets' ),
-			'description'      => $this->sidebar_description_text(),
-			'copy_enabled'     => (bool) $this->get_setting( 'enable-addon' ),
-			'progress_percent' => $progress,
-			'next_scan'        => $this->get_next_scan_text(),
-			'scan_allowed'     => $this->scan_allowed(),
-			'purge_allowed'    => $this->purge_allowed(),
-		);
-
-		$this->render_view( 'assets-progress', $args );
-	}
-
-	/**
 	 * Get statistics on a scan's progress
 	 *
 	 * @return array|float
 	 */
-	private function get_scan_progress() {
+	public function get_scan_progress() {
 		// We're not scanning or processing, return 0
 		if ( ! $this->is_scanning() && ! $this->is_processing() ) {
 			return 0;
@@ -512,17 +471,18 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	}
 
 	/**
-	 * Is the addon setup to copy and serve files?
+	 * Is plugin enabled?
 	 *
 	 * @return bool
 	 */
-	function is_plugin_setup() {
-		$setup = false;
+	public function is_plugin_enabled() {
+		$enabled = false;
+
 		if ( (bool) $this->get_setting( 'enable-addon' ) ) {
-			$setup = parent::is_plugin_setup();
+			$enabled = $this->is_plugin_setup();
 		}
 
-		return $setup;
+		return $enabled;
 	}
 
 	/**
@@ -657,7 +617,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	}
 
 	/**
-	 * Return an associative array of details for WP Core, theme and plugins
+	 * Return an associative array of details for WP Core, theme and plugins.
 	 *
 	 * @return array
 	 */
@@ -721,11 +681,11 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	}
 
 	/**
-	 * Returns an array of distinct themes and child themes active on a site
+	 * Returns an array of distinct themes and child themes active on a site.
 	 *
 	 * @return array
 	 */
-	function get_active_themes() {
+	protected function get_active_themes() {
 		$themes = array();
 
 		$themes = $this->add_active_theme( $themes );
@@ -866,7 +826,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	/**
 	 * Initiate an async request to scan files for S3
 	 */
-	function initiate_scan_files_for_s3() {
+	public function initiate_scan_files_for_s3() {
 		$this->unlock_all_scanning_locations();
 
 		$this->scan_files_for_s3_request->dispatch();
@@ -895,45 +855,6 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		// Clear the script cache and remove files from S3
 		// so we always copy and serve scripts from the new bucket
 		$this->remove_files_from_s3_request->data( $data )->dispatch();
-	}
-
-	/**
-	 * AJAX handler for manual scan now button
-	 */
-	function ajax_manual_scan() {
-		check_ajax_referer( 'as3cf-assets-manual-scan', '_nonce' );
-
-		$this->initiate_scan_files_for_s3();
-
-		$this->end_ajax( array( 'success' => 1 ) );
-	}
-
-	/**
-	 * AJAX handler for manual purge button
-	 */
-	function ajax_manual_purge() {
-		check_ajax_referer( 'as3cf-assets-manual-purge', '_nonce' );
-
-		$this->initiate_remove_files_from_s3();
-
-		$this->end_ajax( array( 'success' => 1 ) );
-	}
-
-	public function ajax_get_progress() {
-		check_ajax_referer( 'as3cf-assets-get-progress', '_nonce' );
-
-		$progress = $this->get_scan_progress();
-
-		$this->end_ajax( array(
-			'progress'      => $progress,
-			'is_scanning'   => $this->is_scanning(),
-			'is_purging'    => $this->is_purging(),
-			'is_processing' => $this->is_processing(),
-			'description'   => $this->sidebar_description_text(),
-			'next_scan'     => $this->get_next_scan_text(),
-			'scan_allowed'  => $this->scan_allowed(),
-			'purge_allowed' => $this->purge_allowed(),
-		) );
 	}
 
 	/**
@@ -1081,7 +1002,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 * Scan the files we need to copy to S3 and maybe remove from S3
 	 */
 	public function scan_files_for_s3() {
-		if ( ! $this->is_plugin_setup() ) {
+		if ( ! $this->is_plugin_enabled() ) {
 			return;
 		}
 
@@ -1399,7 +1320,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		foreach ( $removed_locations as $type => $objects ) {
 			foreach ( $objects as $object => $version ) {
 				$files_to_process = array();
-				$removed_files    = get_site_option( $this->file_locations_key( $type, $object ) );
+				$removed_files    = get_site_option( $this->file_locations_key( $type, $object ), array() );
 
 				foreach ( $removed_files as $file => $details ) {
 					if ( ! empty( $details['s3_version'] ) && ! empty( $details['s3_info'] ) ) {
@@ -1779,8 +1700,9 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		}
 
 		// Clear failure notices
-		$this->notices->remove_notice_by_id( 'assets_gzip_failure' );
-		$this->notices->remove_notice_by_id( 'assets_minify_failure' );
+		foreach ( array( 'gzip', 'minify', 'upload' ) as $type ) {
+			$this->notices->remove_notice_by_id( "assets_{$type}_failure" );
+		}
 
 		$this->unlock_purging();
 
@@ -2074,53 +1996,6 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	}
 
 	/**
-	 * Get message contents for displaying info message in sidebar.
-	 *
-	 * @return string Message content
-	 */
-	private function sidebar_description_text() {
-		if ( $this->is_scanning() || $this->is_processing() ) {
-			$message = __( 'Scanning and uploading files to S3.', 'as3cf-assets' );
-		} elseif ( $this->is_purging() ) {
-			$message = __( 'Purging files from S3.', 'as3cf-assets' );
-		} elseif ( ! (bool) $this->get_setting( 'enable-addon' ) ) {
-			$message = __( 'No CSS or JS is being served because "Copy & Serve" is off.', 'as3cf-assets' );
-		} else {
-			$message = $this->scripts_served_message();
-		}
-
-		return $message;
-	}
-
-	/**
-	 * Get message contents for scripts being served or not
-	 *
-	 * @return string Message content
-	 */
-	private function scripts_served_message() {
-		$css_count = $this->count_scripts_being_served( 'css' );
-		$js_count  = $this->count_scripts_being_served( 'js' );
-		$link      = 'https://deliciousbrains.com/wp-offload-s3/doc/assets-addon/';
-
-		if ( $this->count_files() ) {
-			// Files have been uploaded, but may or may be served
-			if ( 0 === ( $css_count + $js_count ) ) {
-				$more_info_link = $this->dbrains_link( $link, _x( 'Why?', 'Why are css and js assets not serving?', 'as3cf-assets' ), 'serving-urls', true );
-				$message        = sprintf( __( 'CSS and JS files have been uploaded to S3 but none of the files have been served just yet. %s', 'as3cf-assets' ), $more_info_link );
-			} else {
-				$more_info_link = $this->more_info_link( $link, 'serving-urls' );
-				$message        = sprintf( __( '%d JS and %d CSS enqueued files are currently being served. %s', 'as3cf-assets' ), $js_count, $css_count, $more_info_link );
-			}
-		} else {
-			// No files have been uploaded or are being served
-			$more_info_link = $this->dbrains_link( $link, _x( 'Why?', 'Why are css and js assets not serving?', 'as3cf-assets' ), 'serving-urls', true );
-			$message        = sprintf( __( 'No CSS or JS files are being served. %s', 'as3cf-assets' ), $more_info_link );
-		}
-
-		return $message;
-	}
-
-	/**
 	 * Get failures
 	 *
 	 * @param string $type
@@ -2176,9 +2051,19 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	public function get_file_absolute_path( $url ) {
 		global $wp_scripts;
 
-		$base_path = untrailingslashit( ABSPATH );
-		$base_url  = untrailingslashit( $this->get_url_without_scheme( $wp_scripts->base_url ) );
-		$url       = $this->get_url_without_scheme( preg_replace( '@\?.*@', '', $url ) );
+		$url = $this->maybe_fix_local_subsite_url( $url );
+		$url = $this->get_url_without_scheme( preg_replace( '@\?.*@', '', $url ) );
+
+		$content_url = $this->maybe_fix_local_subsite_url( $wp_scripts->content_url );
+		$content_url = $this->get_url_without_scheme( $content_url );
+
+		if ( 0 === strpos( $url, $content_url ) ) {
+			$base_path = untrailingslashit( WP_CONTENT_DIR );
+			$base_url  = untrailingslashit( $content_url );
+		} else {
+			$base_path = untrailingslashit( ABSPATH );
+			$base_url  = untrailingslashit( $this->get_url_without_scheme( $wp_scripts->base_url ) );
+		}
 
 		return str_replace( $base_url, $base_path, $url );
 	}
@@ -2812,48 +2697,6 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	}
 
 	/**
-	 * Returns text to be displayed in Next Scan block.
-	 *
-	 * @return string
-	 */
-	private function get_next_scan_text() {
-		if ( ! $this->is_plugin_setup() ) {
-			return '';
-		}
-
-		$next_scan_time = wp_next_scheduled( $this->scanning_cron_hook );
-		$next_scan      = empty( $next_scan_time ) ? '' : esc_html__( 'Next scan:', 'as3cf-assets' ) . date( ' M d, Y @ H:i', $next_scan_time );
-
-		return $next_scan;
-	}
-
-	/**
-	 * Can a scan be performed?
-	 *
-	 * @return bool
-	 */
-	private function scan_allowed() {
-		return $this->is_plugin_setup();
-	}
-
-	/**
-	 * Can a purge be performed?
-	 *
-	 * @return bool
-	 */
-	private function purge_allowed() {
-		if ( ! parent::is_plugin_setup() ) {
-			return false;
-		}
-
-		if ( $this->count_files() ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Get array of extensions to scan and upload.
 	 *
 	 * @param array $location
@@ -2867,5 +2710,14 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		$extensions = apply_filters( 'as3cf_assets_file_extensions', $extensions, $location );
 
 		return $extensions;
+	}
+
+	/**
+	 * Get next scan time.
+	 *
+	 * @return false|int
+	 */
+	public function get_next_scan_time() {
+		return wp_next_scheduled( $this->scanning_cron_hook );
 	}
 }

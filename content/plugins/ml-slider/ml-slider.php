@@ -5,7 +5,7 @@
  * Plugin Name: Meta Slider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.4.1
+ * Version:     3.5
  * Author:      Matcha Labs
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -31,7 +31,7 @@ class MetaSliderPlugin {
     /**
      * @var string
      */
-    public $version = '3.4.1';
+    public $version = '3.5';
 
 
     /**
@@ -252,7 +252,7 @@ class MetaSliderPlugin {
                 'publicly_queryable' => false,
                 'show_in_nav_menus' => false,
                 'show_ui' => $show_ui,
-                'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments'),
+                'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt'),
                 'labels' => array(
                     'name' => 'Meta Slides'
                 )
@@ -496,11 +496,11 @@ class MetaSliderPlugin {
         wp_enqueue_media();
 
         // plugin dependencies
-        wp_enqueue_script( 'jquery-ui-core', array( 'jquery' ) );
-        wp_enqueue_script( 'jquery-ui-sortable', array( 'jquery', 'jquery-ui-core' ) );
-        wp_enqueue_script( 'metaslider-colorbox', METASLIDER_ASSETS_URL . 'colorbox/jquery.colorbox-min.js', array( 'jquery' ), METASLIDER_VERSION );
-        wp_enqueue_script( 'metaslider-tipsy', METASLIDER_ASSETS_URL . 'tipsy/jquery.tipsy.js', array( 'jquery' ), METASLIDER_VERSION );
-        wp_enqueue_script( 'metaslider-admin-script', METASLIDER_ASSETS_URL . 'metaslider/admin.js', array( 'jquery', 'metaslider-tipsy', 'media-upload' ), METASLIDER_VERSION );
+        wp_enqueue_script( 'jquery-ui-core' );
+        wp_enqueue_script( 'jquery-ui-sortable' );
+        wp_enqueue_script( 'metaslider-admin-script', METASLIDER_ASSETS_URL . 'metaslider/admin.js', array( 'jquery' ), METASLIDER_VERSION, true );
+        wp_enqueue_script( 'metaslider-colorbox', METASLIDER_ASSETS_URL . 'colorbox/jquery.colorbox-min.js', array( 'jquery' ), METASLIDER_VERSION, true );
+        wp_enqueue_script( 'metaslider-tipsy', METASLIDER_ASSETS_URL . 'tipsy/jquery.tipsy.js', array( 'jquery' ), METASLIDER_VERSION, true );
 
         wp_dequeue_script( 'link' ); // WP Posts Filter Fix (Advanced Settings not toggling)
         wp_dequeue_script( 'ai1ec_requirejs' ); // All In One Events Calendar Fix (Advanced Settings not toggling)

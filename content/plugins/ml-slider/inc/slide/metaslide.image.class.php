@@ -39,28 +39,19 @@ class MetaImageSlide extends MetaSlide {
 
         if ( is_array( $selection ) && count( $selection ) && $slider_id > 0 ) {
 
-            foreach ( $selection as $slide_id ) {
+            foreach ( $selection as $attachment_id ) {
 
-                $this->set_slide( $slide_id );
-                $this->set_slider( $slider_id );
-
-                if ( $this->slide_exists_in_slideshow( $slider_id, $slide_id ) ) {
-
-                    echo "<tr><td colspan='2'>ID: {$slide_id} \"" . get_the_title( $slide_id ) . "\" - " . __( "Failed to add slide. Slide already exists in slideshow.", 'ml-slider' ) . "</td></tr>";
-
-                } else if ( ! $this->slide_is_unassigned_or_image_slide( $slider_id, $slide_id ) ) {
-
-                    echo "<tr><td colspan='2'>ID: {$slide_id} \"" . get_the_title( $slide_id ) . "\" - " . __( "Failed to add slide. Slide is not of type 'image'.", 'ml-slider' ) . "</td></tr>";
-
-                } else if ( ! wp_attachment_is_image( $slide_id ) ) {
+                if ( ! wp_attachment_is_image( $attachment_id ) ) {
 
                     echo "<tr><td colspan='2'>ID: {$slide_id} \"" . get_the_title( $slide_id ) . "\" - " . __( "Failed to add slide. Slide is not an image.", 'ml-slider' ) . "</td></tr>";
 
                 } else {
 
-                    //$new_slide_id = $this->insert_slide( $attachment_id, 'image', $slider_id );
+                    $new_slide_id = $this->insert_slide( $attachment_id, 'image', $slider_id );
+
+                    $this->set_slide( $new_slide_id );
+                    $this->set_slider( $slider_id );
                     $this->tag_slide_to_slider();
-                    $this->add_or_update_or_delete_meta( $slide_id, 'type', 'image' );
 
                     // override the width and height to kick off the AJAX image resizing on save
                     $this->settings['width'] = 0;

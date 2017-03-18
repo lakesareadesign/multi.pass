@@ -33,7 +33,22 @@ class Hustle_Custom_Content_Front
 
 		add_shortcode(self::SHORTCODE, array( $this, "shortcode" ), 10, 2);
 
+		add_filter( 'hustle_front_handler', array( $this, 'has_cc' ) );
+
     }
+
+	/**
+	 * Check if current page has renderable opt-ins.
+	 **/
+	function has_cc( $return ) {
+		$found = ! empty( $this->_module_handles );
+
+		if ( $found ) {
+			$return = $found;
+		}
+
+		return $return;
+	}
 
     function register_modules( $modules ){
         wp_localize_script('optin_front', 'Hustle_Custom_Contents', $this->_module_handles);
@@ -74,7 +89,6 @@ class Hustle_Custom_Content_Front
             $magic_bar = $this->_module_handles[$handle]["magic_bar"] = $module->get_magic_bar()->to_array();
             $this->_module_handles[$handle]["should_display"] = $module->get_types_display_conditions();
             $this->_styles .= $module->get_decorated()->get_styles();
-
 
             if(
                 ( isset( $popup['triggers'], $popup['triggers']['trigger'] ) && $popup['triggers']['trigger'] === "adblock" && in_array( $popup['triggers']['on_adblock'], array(1, "1", "true", true, "on") ) ) ||
@@ -120,9 +134,18 @@ class Hustle_Custom_Content_Front
      * @since 2.0
      */
     function add_modal_template(){
+		if ( empty( $this->_module_handles ) ) {
+			return;
+		}
+
         $this->_hustle->render("general/modal" );
     }
+
 	function add_shortcode_template(){
+		if ( empty( $this->_module_handles ) ) {
+			return;
+		}
+
 		$this->_hustle->render("general/layouts/cc_shortcode" );
 	}
 

@@ -1,6 +1,20 @@
+Hustle.define("Model", function() {
+	"use strict";
+
+	return Backbone.Model.extend({
+		initialize: function() {
+			this.on( 'change', this.user_has_change, this );
+			Backbone.Model.prototype.initialize.apply( this, arguments );
+		},
+		user_has_change: function() {
+			Optin.hasChanges = true;
+		}
+	});
+});
+
 Hustle.define("Models.M", function(){
     "use strict";
-    return Backbone.Model.extend({
+    return Hustle.get("Model").extend({
             toJSON: function(){
                 var json = _.clone(this.attributes);
                 for(var attr in json) {
@@ -169,6 +183,7 @@ Optin.Models.Design_Model = Hustle.get("Models.M").extend({
         if( ! ( this.get('borders') instanceof Backbone.Model ) ){
             this.set( 'borders', new Optin.Models.Borders_Model( this.borders ) );
         }
+		this.on( 'change', this.user_has_change, this );
     }
 });
 
@@ -197,22 +212,20 @@ Optin.Models.Settings_After_Content = Hustle.get("Models.M").extend({
             /**
              * Make sure conditions is not an array
              */
+
+			var model = Hustle.get('Model');
+
             if( _.isEmpty( this.get('conditions') ) && _.isArray( this.get('conditions') )  ) {
-				this.set( 'conditions', new Backbone.Model( {} ) );
+				this.set( 'conditions', new model );
 			} else {
-				this.set( 'conditions', new Backbone.Model( this.get('conditions') ) );
+				this.set( 'conditions', new model( this.get('conditions') ) );
 			}
         }
-
-        //_.each(old_conditions, _.bind(function( con, i ){
-        //        if( this.has( con ) )
-        //            this.unset( con, {silent: true} );
-        //}, this));
-
+		this.on( 'change', this.user_has_change, this );
     }
 });
 
-Optin.Models.Settings_Popup_Model = Backbone.Model.extend({
+Optin.Models.Settings_Popup_Model = Hustle.get("Model").extend({
     defaults:{
         enabled: false,
         animation_in: "",
@@ -258,17 +271,20 @@ Optin.Models.Settings_Popup_Model = Backbone.Model.extend({
             /**
              * Make sure conditions is not an array
              */
+			var model = Hustle.get('Model');
+
             if( _.isEmpty( this.get('conditions') ) && _.isArray( this.get('conditions') )  ) {
-				this.set( 'conditions', new Backbone.Model( {} ) );
+				this.set( 'conditions', new model );
 			} else {
-				this.set( 'conditions', new Backbone.Model( this.get('conditions') ) );
+				this.set( 'conditions', new model( this.get('conditions') ) );
 			}
         }
+		this.on( 'change', this.user_has_change, this );
 
     }
 });
 
-Optin.Models.Settings_Slide_In_Model = Backbone.Model.extend({
+Optin.Models.Settings_Slide_In_Model = Hustle.get("Model").extend({
     defaults:{
         enabled: false,
         appear_after: "time", // scrolled | time | click | exit_intent | adblock
@@ -313,12 +329,15 @@ Optin.Models.Settings_Slide_In_Model = Backbone.Model.extend({
             /**
              * Make sure conditions is not an array
              */
+			var model = Hustle.get("Model");
+
             if( _.isEmpty( this.get('conditions') ) && _.isArray( this.get('conditions') )  ) {
-				this.set( 'conditions', new Backbone.Model( {} ) );
+				this.set( 'conditions', new model );
 			} else {
-				this.set( 'conditions', new Backbone.Model( this.get('conditions') ) );
+				this.set( 'conditions', new model( this.get('conditions') ) );
 			}
         }
+		this.on( 'change', this.user_has_change, this);
 
     }
 });
@@ -351,13 +370,14 @@ Optin.Models.Settings_Model = Hustle.get("Models.M").extend({
         if( ! ( this.get('slide_in') instanceof Backbone.Model ) ){
             this.set( 'slide_in', new Optin.Models.Settings_Slide_In_Model( this.get('slide_in') ) );
         }
+		this.on( 'change', this.user_has_change, this );
     }
 
 });
 
 Hustle.define("Models.Trigger", function(){
     "use strict";
-   return  Backbone.Model.extend({
+   return  Hustle.get("Model").extend({
        defaults:{
            trigger: "time", // time | scroll | click | exit_intent | adblock
            on_time: "immediately", // immediately|time

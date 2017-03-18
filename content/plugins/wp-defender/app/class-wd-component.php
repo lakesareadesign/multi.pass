@@ -456,13 +456,7 @@ class WD_Component {
 	 * @return string
 	 */
 	public function get_log( $path ) {
-		$server = WD_Utils::determine_server( content_url( 'index.php' ) );
-		if ( $server == 'apache' ) {
-			$is_apache = true;
-		} else {
-			$is_apache = false;
-		}
-
+		$is_apache = true;
 		if ( $is_apache ) {
 			return file_get_contents( $path );
 		} else {

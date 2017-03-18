@@ -20,7 +20,9 @@
         init: function( opts ){
             this.type = opts.type;
             this.id = this.type + "-" + this.condition_id;
-            this.template =  Optin.template('wpoi-condition-' + this.condition_id );
+            this.template =  ( typeof this.cpt !== 'undefined' )
+				? Optin.template('wpoi-condition-post_type')
+				: Optin.template('wpoi-condition-' + this.condition_id );
 
             /**
              * Defines type_name and condition_name based on type and id so that it can be used in the template later on
@@ -80,7 +82,7 @@
         update_attribute: function(attribute, val){
             this.data = this.model.get( this.condition_id  );
             this.data[ attribute ] = val;
-            this.model.set(this.condition_id , this.data );
+			this.model.set(this.condition_id , this.data );
             this.model.trigger("change", val);
         },
         get_attribute: function(attribute){
@@ -257,6 +259,65 @@
 
         }
     }));
+	
+	/**
+     * Custom Post Types
+     */
+	_.each( optin_vars.post_types, function( cpt_details, cpt ) {
+		var cpt_name = cpt_details.label.toLowerCase();
+		Optin.View.Conditions[cpt_details.label] = Condition_Base.extend(_.extend( {}, Toggle_Button_Toggler_Mixin, {
+			condition_id: cpt_details.label,
+			title: cpt_details.label,
+			label: optin_vars.messages.condition_labels.posts,
+			cpt: true,
+			defaults: {
+				filter_type: "only", // except | only
+				selected_cpts: [],
+				post_type: cpt,
+				post_type_label: cpt_details.label,
+			},
+			on_init: function(){
+				this.listenTo(this.model, "change", this.render );
+				this.update_label();
+			},
+			get_header: function(){
+				this.update_label();
+				this.trigger("change:update_label", this);
+				if( _.contains(  this.get_attribute( "selected_cpts" ), "all" ) )
+					return this.get_attribute("filter_type") === "only" ? optin_vars.messages.condition_labels.all + " " + cpt_name : optin_vars.messages.condition_labels.no + " " + cpt_name;
+
+				if( this.get_attribute( "selected_cpts" ).length ) {
+					return ( this.get_attribute("filter_type") === "only" ? optin_vars.messages.condition_labels.only_on_these_posts : optin_vars.messages.condition_labels.except_these_posts ).replace("{number}",  this.get_attribute( "selected_cpts" ).length ).replace("posts", cpt_name);
+				} else {
+					return ( this.get_attribute("filter_type") === "only" ) ? optin_vars.messages.condition_labels.no + " " + cpt_name : optin_vars.messages.condition_labels.all + " " + cpt_name;
+				}
+			},
+			update_label: function(){
+				if ( this.get_attribute( "selected_cpts" ).length && !_.contains(  this.get_attribute( "selected_cpts" ), "all" ) ) {
+					this.label = ( this.get_attribute("filter_type") === "only" ? optin_vars.messages.condition_labels.number_posts : optin_vars.messages.condition_labels.except_these_posts ).replace("{number}",  this.get_attribute( "selected_cpts" ).length ? this.get_attribute( "selected_cpts" ).length : 0 ).replace("posts", cpt_name);
+				} else {
+					if( _.contains(  this.get_attribute( "selected_cpts" ), "all" ) ) {
+						this.label =  this.get_attribute("filter_type") === "only" ? optin_vars.messages.condition_labels.all + " " + cpt_name : optin_vars.messages.condition_labels.no + " " + cpt_name;
+					} else {
+						this.label =  this.get_attribute("filter_type") === "only" ? optin_vars.messages.condition_labels.no + " " + cpt_name : optin_vars.messages.condition_labels.all + " " + cpt_name;
+					}
+				}
+			},
+			body: function(){
+				return this.template( this.get_data() );
+			},
+			rendered: function(){
+				this.$('.js-wpoi-select').wpmuiSelect({
+					tags: "true",
+					width : "100%",
+					createTag: function(){ return false; }
+				})
+				.on('select2:selecting', either_all_or_others )
+				.on('select2:selecting', reanable_scroll )
+				.on('select2:unselect', reanable_scroll);
+			}
+		}) );
+	});
 
     /**
      * Categories

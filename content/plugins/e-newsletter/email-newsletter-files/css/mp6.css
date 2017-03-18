@@ -10,7 +10,7 @@
 }
 #adminmenu #toplevel_page_newsletters-settings div.wp-menu-image:before,
 #adminmenu #toplevel_page_newsletters-dashboard div.wp-menu-image:before,
-#adminmenu #toplevel_page_newsletters-subscribes div.wp-menu-image:before,
+#adminmenu #toplevel_page_newsletters-subscribes div.wp-menu-image:before,	     	 	 		 			 	
 #adminmenu #toplevel_page_newsletters div.wp-menu-image:before {
   font-family: 'custom_dashicons_enewsletter' !important;
   content: "\e600";
@@ -24,4 +24,4 @@
 }
 
 
-/* 133620-1487198320-au */
+/* 133620-1489858552-au */

@@ -76,10 +76,11 @@ class Hustle_Custom_Content_Admin_Ajax
 
         $result = $cc->toggle_state( $type );
 
-        if( $result && !is_wp_error( $result ) )
-            wp_send_json_success( __("Successful") );
-        else
-            wp_send_json_error( $result->get_error_message() );
+        if( $result && !is_wp_error( $result ) ) {
+			wp_send_json_success( __("Successful") );
+		} else {
+			wp_send_json_error( $result->get_error_message() );
+		}
     }
 
     /**

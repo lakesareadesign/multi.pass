@@ -68,8 +68,9 @@
          */
         $(doc).on("click", ".inc_opt_hustle_shortcode_trigger", function(e){
             e.preventDefault();
-            if( $(this).data("id") == optin.data.optin_id && $(this).data("type") == "popup" )
-                popup.display();
+            if( $(this).data("id") == optin.data.optin_id ) {
+				popup.display();
+			}
         });
     };
 

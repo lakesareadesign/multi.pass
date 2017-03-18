@@ -282,8 +282,9 @@ if (!class_exists('AcmeeFramework')) {
                             }
                           }
                         }
-
-                        $saved = $this->aofsaveOptions($save_data);
+                        $saved_data = $this->aofgetOptions(ALTER_OPTIONS_SLUG);
+                        $data = array_merge($saved_data, $save_data);
+                        $saved = $this->aofsaveOptions($data);
                         if($saved) {
                             wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&status=updated' ) );
                             exit();

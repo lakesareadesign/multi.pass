@@ -70,13 +70,9 @@ class WD_PHP_Version extends WD_Hardener_Abstract {
 
                 <div class="wd-well">
 					<?php if ( ( $res_check = $this->check() ) === true ): ?>
-						<?php esc_html_e( "Your PHP version is okay.", wp_defender()->domain ) ?>
+						<?php esc_html_e( "Your PHP version is up to date. Your PHP version can be upgraded by your hosting provider or System Administrator. Please contact them for assistance.", wp_defender()->domain ) ?>
 					<?php else: ?>
-						<?php if ( is_wp_error( $res_check ) ): ?>
-                            <p class="text-error"><?php echo $res_check->get_error_message() ?></p>
-						<?php else: ?>
-
-						<?php endif; ?>
+						<?php esc_html_e( "Your PHP version can be upgraded by your hosting provider or System Administrator. Please contact them for assistance.", wp_defender()->domain ) ?>
 					<?php endif; ?>
                 </div>
 				<?php echo $this->ignore_button() ?>

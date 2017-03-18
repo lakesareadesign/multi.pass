@@ -3,7 +3,7 @@
 
     function validate_form( $form, is_test ){
         var requireds = $form.find(".required"),
-            $icon = $('<i class="wpoi-icon i-error"></i>'),
+            $icon = $('<i class="wphi-font wphi-error"></i>'),
             errors = [];
         $('.wpoi-field-error').remove();
         requireds.each(function(){
@@ -13,15 +13,15 @@
             if( is_test ){
                 //$icon = $icon.clone().addClass( error_class ).attr("title", inc_opt.l10n.test_cant_submit );
                 //$this.after( $icon );
-                $this.next('label').find('i.wpoi-icon').addClass('i-error');
+                $this.next('label').find('i.wphi-font').addClass('wphi-error');
                 errors.push( $this );
                 return errors;
             }
 
             if( _.isEmpty( this.value ) || ( $this.is("[type='email']") && !this.value.trim().match( /^[\S]+\@[a-zA-Z0-9\-]+\.[\S]{2,}$/gi ) ) ){
                 //$icon = $icon.clone().addClass( error_class ).attr("title", $this.data("error") );
-                //$this.next('label').find('i.i-email').after($icon);
-                $this.next('label').find('i.wpoi-icon').addClass('i-error');
+                //$this.next('label').find('i.wphi-email').after($icon);
+                $this.next('label').find('i.wphi-font').addClass('wphi-error');
                 errors.push( $this );
             }else{
                 $("." + error_class).remove();
@@ -112,6 +112,9 @@
                     }
 
                 }else{
+					var message = res.data ? res.data.pop() : inc_opt.l10n.submit_failure;
+					$failure.html( message ? message : inc_opt.l10n.submit_failure );
+
                     $form.after( $failure );
                 }
             },

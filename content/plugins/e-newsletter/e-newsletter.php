@@ -3,7 +3,7 @@
 Plugin Name: E-Newsletter
 Plugin URI: http://premium.wpmudev.org/project/e-newsletter
 Description: The ultimate WordPress email newsletter plugin for WordPress
-Version: 2.7.3.9
+Version: 2.7.4.0
 Text Domain: email-newsletter
 Author: WPMUDEV
 Author URI: http://premium.wpmudev.org
@@ -332,12 +332,12 @@ class Email_Newsletter extends Email_Newsletter_functions {
             wp_enqueue_script( 'jquery_tooltips' );
 
             //including JS scripts for progressbar
-            wp_register_script( 'jquery_ui_widget', $this->plugin_url . 'email-newsletter-files/js/ui.widget.js' );
-            wp_enqueue_script( 'jquery_ui_widget' );
+            //wp_register_script( 'jquery_ui_widget', $this->plugin_url . 'email-newsletter-files/js/ui.widget.js' );
+            wp_enqueue_script( 'jquery-ui-widget' );
 
             //including JS scripts for progressbar
-            wp_register_script( 'jquery_progressbar', $this->plugin_url . 'email-newsletter-files/js/jquery.ui.progressbar.js' );
-            wp_enqueue_script( 'jquery_progressbar' );
+            //wp_register_script( 'jquery_progressbar', $this->plugin_url . 'email-newsletter-files/js/jquery.ui.progressbar.js' );
+            wp_enqueue_script( 'jquery-ui-progressbar' );
 
             // Including CSS file
             wp_register_style( 'enewsletter-style', $this->plugin_url . 'email-newsletter-files/css/admin.css' );
@@ -1798,12 +1798,12 @@ class Email_Newsletter extends Email_Newsletter_functions {
                     if($send_member['member_id']) {
                         $member_data = $this->get_member( $send_member['member_id'] );
                         $bounce_id = $send_member['member_id'];
-                        $bounce_hash = md5( 'Hash of bounce member_id='. $bounce_id . ', send_id='. $send_id );
+                        $bounce_hash = md5( 'Hash of bounce member_id='. $bounce_id . ', send_id='. $send_member['send_id'] );
                     }
                     elseif($send_member['wp_only_user_id']) {
                         $member_data = $this->get_wp_user_only( $send_member['wp_only_user_id'] );
                         $bounce_id = $send_member['wp_only_user_id'];
-                        $bounce_hash = md5( 'Hash of bounce wp_only_user_id='. $bounce_id . ', send_id='. $send_id );
+                        $bounce_hash = md5( 'Hash of bounce wp_only_user_id='. $bounce_id . ', send_id='. $send_member['send_id'] );
                     }
 
                     $send_data = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$this->tb_prefix}enewsletter_send WHERE send_id = %d",  $send_member['send_id'] ), "ARRAY_A");
@@ -1828,7 +1828,7 @@ class Email_Newsletter extends Email_Newsletter_functions {
 
                             $from_domain = explode('@',$newsletter_data['from_email']);
                             $from_domain = isset($from_domain[1]) ? '@'.$from_domain : '';
-                            $options['message_id'] = 'Newsletters-' . $bounce_id . '-' . $send_id . '-'. $bounce_hash;
+                            $options['message_id'] = 'Newsletters-' . $bounce_id . '-' . $send_member['send_id'] . '-'. $bounce_hash;
 
                             $sent_status = $this->send_email( $newsletter_data['from_name'], $newsletter_data['from_email'], $member_data["member_email"], $newsletter_data["subject"], $contents, $options );
                             if( $sent_status === true ) {

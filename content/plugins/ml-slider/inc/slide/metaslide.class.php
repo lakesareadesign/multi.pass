@@ -230,7 +230,7 @@ class MetaSlide {
      * @param int $slider_id - the parent slideshow ID
      * @return int $id - the ID of the newly created slide
      */
-    /*public function insert_slide($attachment_id, $type, $slider_id) {
+    public function insert_slide($attachment_id, $type, $slider_id) {
 
         $id = wp_insert_post( array(
                 'post_title' => __( "Slider {$slider_id} - {$type}", "ml-slider" ),
@@ -247,7 +247,7 @@ class MetaSlide {
 
         return $id;
 
-    }*/
+    }
 
     /**
      * Tag the slide attachment to the slider tax category
@@ -455,9 +455,13 @@ class MetaSlide {
      */
     public function get_thumb() {
 
-        $image = wp_get_attachment_image_src($this->slide->ID, 'thumbnail');
+        if ( get_post_type( $this->slide->ID ) == 'attachment' ) {
+            $image = wp_get_attachment_image_src( $this->slide->ID, 'thumbnail');
+        } else {
+            $image = wp_get_attachment_image_src( get_post_thumbnail_id( $this->slide->ID ) , 'thumbnail');
+        }
 
-        if (isset($image[0])) {
+        if ( isset( $image[0] ) ) {
             return $image[0];
         }
 

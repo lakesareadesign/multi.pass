@@ -184,13 +184,16 @@ class Hustle_Legacy_Popups
 			$height = intval( $size['height'] );
 		}
 
+		$show_image_on_mobile = (bool) get_post_meta( $popup_id, 'po_image_mobile', true );
+		$hide_image_on_mobile = ( $show_image_on_mobile ) ? false : true;
+
 		$metas = array(
 			'border' => get_post_meta( $popup_id, 'po_round_corners', true ),
 			'border_radius' => $border_radius,
 			'image' => get_post_meta( $popup_id, 'po_image', true ),
-			'hide_image_on_mobile' => get_post_meta( $popup_id, 'po_image_mobile', true ),
 			'image_location' => get_post_meta( $popup_id, 'po_image_pos', true ),
 			'image_position' => get_post_meta( $popup_id, 'po_image_pos', true ),
+			'hide_image_on_mobile' => $hide_image_on_mobile,
 			'cta_label' => get_post_meta( $popup_id, 'po_cta_label', true ),
 			'cta_url' => get_post_meta( $popup_id, 'po_cta_link', true ),
 			'style' => get_post_meta( $popup_id, 'po_style', true ),
@@ -204,6 +207,7 @@ class Hustle_Legacy_Popups
 			'custom_height' => intval( $height ),
 			'custom_width' => intval( $width ),
 		);
+
 
 		$custom_css = get_post_meta( $popup_id, 'po_custom_css', true );
 

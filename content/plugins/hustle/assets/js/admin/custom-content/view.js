@@ -124,6 +124,7 @@ Hustle.define("Custom_Content.View", function($, doc, win){
 		},
         _save: function( $btn ){
             var  button_width = ( $btn.next().hasClass('wph-button-finish') ) ? $btn.outerWidth() + 1 : $btn.outerWidth();
+ 
             return $.ajax({
                 url: ajaxurl,
                 type: "POST",
@@ -142,6 +143,8 @@ Hustle.define("Custom_Content.View", function($, doc, win){
                     $btn.attr( "disabled", false )
 						.removeClass( "wph-button-next--loading" )
                         .removeClass( "wph-button-save--loading" );
+
+					Optin.hasChanges = false;
                 }
             });
         },
@@ -187,6 +190,7 @@ Hustle.define("Custom_Content.View", function($, doc, win){
 							})
 						}, 300);
                     }
+				Optin.hasChanges = false;
             });
 
 
@@ -231,6 +235,7 @@ Hustle.define("Custom_Content.View", function($, doc, win){
 						})
 					}, 300);
                 }
+				Optin.hasChanges = false;
             });
         },
         finish_setup: function(e){

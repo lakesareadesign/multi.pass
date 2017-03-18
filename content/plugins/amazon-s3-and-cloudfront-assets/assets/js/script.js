@@ -1,12 +1,5 @@
-(function( $, wp ) {
+(function( $ ) {
 	var $assetsTab = $( '#tab-assets' );
-	var $assetsSidebar = $( '#assets-progress' );
-	var $progressBarWrapper = $( '#assets-progress .progress-bar-wrapper' );
-	var $progressDescription = $( '#assets-progress .block-description' );
-	var $progressBar = $( '#assets-progress .progress-bar' );
-	var $nextScan = $( '#assets-progress .next-scan' );
-	var lastProgress = 0;
-	var myInterval;
 
 	/**
 	 * Show the custom URL after generating a new security key
@@ -29,105 +22,6 @@
 		} else {
 			$notice.hide();
 		}
-	}
-
-	/**
-	 * Display the next scan text only if the addon and cron is enabled
-	 * and there is a next scan timestamp.
-	 */
-	function updateNextScan( nextScanText ) {
-		$nextScan.html( nextScanText );
-
-		var showTimestamp = false;
-		if ( $( '#as3cf-assets-enable-cron' ).is( ':checked' ) && $( '#as3cf-assets-enable-addon' ).is( ':checked' ) && $nextScan.html() ) {
-			showTimestamp = true;
-		}
-
-		$nextScan.toggleClass( 'hide', ! showTimestamp );
-	}
-
-	/**
-	 * Update progress data.
-	 */
-	function checkProgress() {
-		var data = {
-			_nonce: as3cf_assets.nonces.get_progress,
-			action: 'as3cf-assets-get-progress'
-		};
-
-		$.ajax( {
-			url: ajaxurl,
-			type: 'POST',
-			dataType: 'JSON',
-			data: data,
-			success: function( result ) {
-				updateProgress( result );
-			}
-		} );
-	}
-
-	/**
-	 * Update or hide progress bar and status text.
-	 */
-	function updateProgress( result ) {
-		// We've reached the end, remove the progress bar etc.
-		if ( true !== result.is_scanning && true !== result.is_purging && true !== result.is_processing ) {
-			// Hide the progress bar
-			$progressBarWrapper.hide();
-
-			// Re-enable the buttons as a user can now run a different action
-			updateProgressButtons( false, result );
-
-			// Reset last progress
-			lastProgress = 0;
-			fillProgressBar( 0, $progressBar );
-		} else {
-			// Show the progress bar
-			$progressBarWrapper.show();
-
-			// Disable the buttons as a user should not run a different action
-			updateProgressButtons( true, result );
-
-			if ( lastProgress !== result.progress ) {
-				fillProgressBar( result.progress, $progressBar );
-			}
-
-			// Assign our last progress value so we can check it next go-around
-			lastProgress = result.progress;
-		}
-
-		// Always update our description text to reflect current status.
-		$progressDescription.html( result.description );
-
-		// Maybe show next scan date/time.
-		updateNextScan( result.next_scan );
-	}
-
-	function updateProgressButtons( disable, info ) {
-		if ( disable ) {
-			// Disable the buttons as a user should not run a different action
-			$( '.as3cf-manual-button' ).addClass( 'disabled' );
-		} else {
-			// Re-enable the buttons as a user can now run a different action
-			$( '.as3cf-manual-button' ).removeClass( 'disabled' );
-		}
-
-		// But both scan and purge buttons could be disabled for other reasons.
-		if ( true !== info.scan_allowed ) {
-			$( '#as3cf-assets-manual-scan' ).addClass( 'disabled' );
-		}
-		if ( true !== info.purge_allowed ) {
-			$( '#as3cf-assets-manual-purge' ).addClass( 'disabled' );
-		}
-	}
-
-	/**
-	 * Fill progress bar
-	 */
-	function fillProgressBar( percentage, object ) {
-		$( object ).animate( {
-			width: percentage + '%'
-		}, 1200 );
 	}
 
 	$( document ).ready( function() {
@@ -161,56 +55,40 @@
 			} );
 		} );
 
-		$assetsSidebar.on( 'click', '.as3cf-manual-button', function( e ) {
-			e.preventDefault();
-
-			if ( $( this ).hasClass( 'disabled' ) ) {
-				return;
-			}
-
-			// Disable buttons and show progress.
-			lastProgress = 0;
-			$( '.as3cf-manual-button' ).addClass( 'disabled' );
-			fillProgressBar( 0, $progressBar );
-			$progressBarWrapper.show();
-
-			var action = $( this ).attr( 'id' );
-			var nonceName = action.replace( /-/g, '_' );
-			nonceName = nonceName.replace( 'as3cf_assets_', '' );
-
-			// Initiate the action.
-			wp.ajax.send( action, {
-				data: {
-					_nonce: as3cf_assets.nonces[ nonceName ]
-				}
-			} );
-
-			// Update the description text
-			if ( 'manual_scan' === nonceName ) {
-				$progressDescription.html( as3cf_assets.strings.scanning );
-			} else if ( 'manual_purge' === nonceName ) {
-				$progressDescription.html( as3cf_assets.strings.purging );
-			}
-		} );
-
 		toggleGzipNotice();
 		$assetsTab.on( 'change', 'input[name="domain"], #as3cf-assets-enable-gzip-wrap', function( e ) {
 			toggleGzipNotice();
 		} );
 
-		// If we have a progress element, run our progress bar functions
-		if ( 1 === $progressBarWrapper.data( 'scanning' ) ||
-		     1 === $progressBarWrapper.data( 'purging' ) ||
-		     1 === $progressBarWrapper.data( 'processing' )
-		) {
-			// Disable buttons and show progress.
-			lastProgress = 0;
-			$( '.as3cf-manual-button' ).addClass( 'disabled' );
-			$progressBarWrapper.show();
-			fillProgressBar( $progressBarWrapper.data( 'percentage' ), $progressBar );
-		}
+		// Update sidebar tool on status change
+		$( '#process_assets' ).on( 'status-change', function( event, status ) {
+			var $block = $( event.target );
+			var $purge = $block.find( '#as3cf-assets-manual-purge' );
+			var $scan = $block.find( '#as3cf-assets-manual-scan' );
 
-		// Set an interval count to keep checking
-		myInterval = setInterval( checkProgress, 5000 );
+			if ( status.is_queued || ! status.purge_allowed ) {
+				$purge.addClass( 'disabled' );
+			} else {
+				$purge.removeClass( 'disabled' );
+			}
+
+			if ( status.is_queued || ! status.scan_allowed ) {
+				$scan.addClass( 'disabled' );
+			} else {
+				$scan.removeClass( 'disabled' );
+			}
+
+			$block.find( '.next-scan' ).html( status.next_scan );
+		} );
+
+		// Listen to scan
+		$( '.as3cf-sidebar' ).on( 'click', '.background-tool .button.scan', {
+			action: 'start'
+		}, as3cfpro.Sidebar.handleManualAction );
+
+		// Listen to purge
+		$( '.as3cf-sidebar' ).on( 'click', '.background-tool .button.purge', {
+			action: 'purge'
+		}, as3cfpro.Sidebar.handleManualAction );
 	} );
-})( jQuery, wp );
+})( jQuery );

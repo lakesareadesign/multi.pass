@@ -12,7 +12,7 @@
 
 			<# if ( image && style === "simple" ){ #>
 
-				<figure class='wph-modal--image{{_.class( _.isTrue( hide_image_on_mobile ), " mobile-hidden" )}}<# if( ( !cta_label || !cta_url ) && !optin_message && !optin_title && !subtitle && style === "simple" ) { #>_full<# } #>'>
+				<figure class='wph-modal--image<# if( ( !cta_label || !cta_url ) && !optin_message && !optin_title && !subtitle && style === "simple" ) { #>_full<# } #>{{_.class( _.isTrue( hide_image_on_mobile ), " mobile-hidden" )}}'>
 
 					<img src="{{image}}">
 
@@ -28,7 +28,7 @@
 
 				<# if( optin_title || subtitle || style === "cabriolet" ){ #>
 
-					<header<# if ( ( !cta_label || !cta_url ) && !_.isTrue( types[type].add_never_see_link ) && !optin_message && style === "simple"){ #> class="wph-modal--nocontent"<# } #>>
+					<header<# if ( ( !cta_label || !cta_url ) && !_.isTrue( types[type].add_never_see_link ) && !optin_message && style === "simple"){ #> class="wph-modal--nocontent"<# } #><# if ( ( !optin_title && !subtitle ) && style === "cabriolet" ){ #> class="wph-modal--nocontent"<# } #>>
 
 						<# if(optin_title){ #>
 
@@ -58,7 +58,7 @@
 
 						<# if ( image && style !== "simple" ){ #>
 
-							<figure class='wph-modal--image{{_.class( _.isTrue( hide_image_on_mobile ), " mobile-hidden" )}}<# if ( (!optin_message && style === "minimal") ) { #>_full<# } #><# if( (!cta_label || !cta_url) && !optin_message && style === "cabriolet" ) { #>_full<# } #>'>
+							<figure class='wph-modal--image<# if ( (!optin_message && style === "minimal") ) { #>_full<# } #><# if( (!cta_label || !cta_url) && !optin_message && style === "cabriolet" ) { #>_full<# } #>{{_.class( _.isTrue( hide_image_on_mobile ), " mobile-hidden" )}}'>
 
 								<img src="{{image}}">
 
@@ -112,7 +112,7 @@
 
 			<# if ( ( (cta_label && cta_url) || _.isTrue( types[type].add_never_see_link ) ) && style === "minimal" ) { #>
 
-				<footer>
+				<footer<# if (_.isTrue( types[type].add_never_see_link) && (!cta_label || !cta_url)){ #> class="wph-modal--has_nsam"<# } #><# if ((cta_label && cta_url) && (_.isFalse( types[type].add_never_see_link))){ #> class="wph-modal--has_cta"<# } #><# if ((cta_label && cta_url) && _.isTrue( types[type].add_never_see_link )){ #> class="wph-modal--has_both"<# } #>>
 
 					<# if ( _.isTrue( types[type].add_never_see_link ) ){ #>
 

@@ -16,8 +16,8 @@ class Hustle_Custom_Content_Front_Ajax
     }
 
     function log_view(){
-
-        $data = $_REQUEST['data'];
+		$data = json_decode( file_get_contents( 'php://input' ) );
+		$data = get_object_vars( $data );
 
         $id = is_array( $data ) ?  $data['id'] : null;
         $type = is_array( $data ) ?  $data['type'] : null;
@@ -46,8 +46,8 @@ class Hustle_Custom_Content_Front_Ajax
     }
 
     function log_conversion(){
-
-        $data = $_REQUEST['data'];
+		$data = json_decode( file_get_contents( 'php://input' ) );
+		$data = get_object_vars( $data );
 
         $id = is_array( $data ) ?  $data['id'] : null;
         $type = is_array( $data ) ?  $data['type'] : null;

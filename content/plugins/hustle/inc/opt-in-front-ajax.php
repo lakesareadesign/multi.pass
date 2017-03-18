@@ -93,8 +93,9 @@ class Opt_In_Front_Ajax {
         if( is_wp_error( $api_result )  )
             $collected_errs_messages = $api_result->get_error_messages();
 
-        if( is_wp_error( $local_save )  )
+        if( is_wp_error( $local_save )  ) {
             $collected_errs_messages = array_merge( $collected_errs_messages, $local_save->get_error_messages() );
+		}
 
         if( $collected_errs_messages !== array()  ){
             wp_send_json_error( $collected_errs_messages);

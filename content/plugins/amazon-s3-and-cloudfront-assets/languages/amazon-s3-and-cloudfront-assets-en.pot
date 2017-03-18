@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-s3-and-cloudfront-assets\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2017-01-04 14:54+0000\n"
+"POT-Creation-Date: 2017-03-14 12:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,108 +22,57 @@ msgid "Error getting new key: "
 msgstr ""
 
 #: classes/amazon-s3-and-cloudfront-assets.php:136
-msgid "Error performing manual action: "
-msgstr ""
-
-#: classes/amazon-s3-and-cloudfront-assets.php:137
-msgctxt "Processing manual action"
-msgid "Processing"
-msgstr ""
-
-#: classes/amazon-s3-and-cloudfront-assets.php:138
-#: classes/amazon-s3-and-cloudfront-assets.php:2083
-msgid "Scanning and uploading files to S3."
-msgstr ""
-
-#: classes/amazon-s3-and-cloudfront-assets.php:139
-#: classes/amazon-s3-and-cloudfront-assets.php:2085
-msgid "Purging files from S3."
-msgstr ""
-
-#: classes/amazon-s3-and-cloudfront-assets.php:140
-#: classes/amazon-s3-and-cloudfront-assets.php:2087
+#: classes/tools/process-assets.php:118
 msgid "No CSS or JS is being served because \"Copy & Serve\" is off."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:167
+#: classes/amazon-s3-and-cloudfront-assets.php:160
 msgctxt "Show the Assets settings tab"
 msgid "Assets"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:208
-#: view/assets-progress.php:3
-msgid "Assets Status"
-msgstr ""
-
-#: classes/amazon-s3-and-cloudfront-assets.php:845
+#: classes/amazon-s3-and-cloudfront-assets.php:805
 #, php-format
 msgid "AS3CF Assets -  S3 Upload every %d Minutes"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1552
+#: classes/amazon-s3-and-cloudfront-assets.php:1473
 #, php-format
 msgid "File does not exist - %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1564
+#: classes/amazon-s3-and-cloudfront-assets.php:1485
 #, php-format
 msgid "Error uploading %s to S3: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1598
+#: classes/amazon-s3-and-cloudfront-assets.php:1519
 #, php-format
 msgid "Error uploading body to S3: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2108
-#: classes/amazon-s3-and-cloudfront-assets.php:2116
-msgctxt "Why are css and js assets not serving?"
-msgid "Why?"
-msgstr ""
-
-#: classes/amazon-s3-and-cloudfront-assets.php:2109
-#, php-format
-msgid ""
-"CSS and JS files have been uploaded to S3 but none of the files have been "
-"served just yet. %s"
-msgstr ""
-
-#: classes/amazon-s3-and-cloudfront-assets.php:2112
-#, php-format
-msgid "%d JS and %d CSS enqueued files are currently being served. %s"
-msgstr ""
-
-#: classes/amazon-s3-and-cloudfront-assets.php:2117
-#, php-format
-msgid "No CSS or JS files are being served. %s"
-msgstr ""
-
-#: classes/amazon-s3-and-cloudfront-assets.php:2579
+#: classes/amazon-s3-and-cloudfront-assets.php:2464
 msgid "Gzip Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2580
+#: classes/amazon-s3-and-cloudfront-assets.php:2465
 msgid "There were errors when attempting to compress your assets."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2583
+#: classes/amazon-s3-and-cloudfront-assets.php:2468
 msgid "Minify Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2584
+#: classes/amazon-s3-and-cloudfront-assets.php:2469
 msgid "There were errors when attempting to minify your assets."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2588
+#: classes/amazon-s3-and-cloudfront-assets.php:2473
 msgid "Upload Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2589
+#: classes/amazon-s3-and-cloudfront-assets.php:2474
 msgid "There were errors when attempting to upload your assets to S3."
-msgstr ""
-
-#: classes/amazon-s3-and-cloudfront-assets.php:2825
-msgid "Next scan:"
 msgstr ""
 
 #: classes/class-minify.php:356
@@ -148,6 +97,52 @@ msgstr ""
 
 #: classes/class-upgrade.php:182
 msgid "A purge and re-scan has been initiated."
+msgstr ""
+
+#: classes/tools/process-assets.php:95
+msgid "Assets Status"
+msgstr ""
+
+#: classes/tools/process-assets.php:104
+msgctxt "Scan the filesystem for files to upload to S3"
+msgid "Scan Now"
+msgstr ""
+
+#: classes/tools/process-assets.php:114
+#: view/process-assets.php:40
+msgid "Scanning and uploading files to S3."
+msgstr ""
+
+#: classes/tools/process-assets.php:116
+#: view/process-assets.php:44
+msgid "Purging files from S3."
+msgstr ""
+
+#: classes/tools/process-assets.php:139
+#: classes/tools/process-assets.php:147
+msgctxt "Why are css and js assets not serving?"
+msgid "Why?"
+msgstr ""
+
+#: classes/tools/process-assets.php:140
+#, php-format
+msgid ""
+"CSS and JS files have been uploaded to S3 but none of the files have been "
+"served just yet. %s"
+msgstr ""
+
+#: classes/tools/process-assets.php:143
+#, php-format
+msgid "%d JS and %d CSS enqueued files are currently being served. %s"
+msgstr ""
+
+#: classes/tools/process-assets.php:148
+#, php-format
+msgid "No CSS or JS files are being served. %s"
+msgstr ""
+
+#: classes/tools/process-assets.php:165
+msgid "Next scan:"
 msgstr ""
 
 #: classes/wp-aws-compatibility-check.php:323
@@ -227,138 +222,133 @@ msgstr ""
 msgid "The %s plugin has been deactivated."
 msgstr ""
 
-#: view/assets-progress.php:32
-msgctxt "Scan the filesystem for files to upload to S3"
-msgid "Scan Now"
-msgstr ""
-
-#: view/assets-progress.php:36
-msgctxt "Remove all files from S3"
-msgid "Purge"
-msgstr ""
-
 #: view/minify-excludes-setting.php:7
 msgid "Invalid character. Only normal file path characters are allowed."
 msgstr ""
 
-#: view/settings.php:22
+#: view/process-assets.php:45
+msgctxt "Remove all files from S3"
+msgid "Purge"
+msgstr ""
+
+#: view/settings.php:21
 msgid "Having issues with web fonts not loading?"
 msgstr ""
 
-#: view/settings.php:34
+#: view/settings.php:33
 msgid "Enable/Disable the addon"
 msgstr ""
 
-#: view/settings.php:43
+#: view/settings.php:42
 msgid "Copy & Serve"
 msgstr ""
 
-#: view/settings.php:46
+#: view/settings.php:45
 msgid "Copy assets to S3 and rewrite URLs for enqueued CSS & JS scripts."
 msgstr ""
 
-#: view/settings.php:52
+#: view/settings.php:51
 msgid "Scanning"
 msgstr ""
 
-#: view/settings.php:61
+#: view/settings.php:60
 msgid "Automatic Scanning"
 msgstr ""
 
-#: view/settings.php:64
+#: view/settings.php:63
 #, php-format
 msgid ""
 "Files will be scanned every %d minutes, new and changed files will be "
 "uploaded to S3 and missing files will be removed."
 msgstr ""
 
-#: view/settings.php:74
+#: view/settings.php:73
 msgid "File Extensions"
 msgstr ""
 
-#: view/settings.php:76
+#: view/settings.php:75
 msgid "Comma separated list of file extensions to scan for and upload to S3."
 msgstr ""
 
-#: view/settings.php:85
+#: view/settings.php:84
 msgid "File URLs"
 msgstr ""
 
-#: view/settings.php:98
+#: view/settings.php:97
 msgid "Path"
 msgstr ""
 
-#: view/settings.php:101
+#: view/settings.php:100
 msgid "Useful if you're using a bucket for other things."
 msgstr ""
 
-#: view/settings.php:117
+#: view/settings.php:116
 msgid "Force HTTPS"
 msgstr ""
 
-#: view/settings.php:120
+#: view/settings.php:119
 msgid ""
 "By default we use HTTPS when the request is HTTPS and regular HTTP when the "
 "request is HTTP, but you may want to force the use of HTTPS always, "
 "regardless of the request."
 msgstr ""
 
-#: view/settings.php:126
+#: view/settings.php:125
 msgid "Advanced Options"
 msgstr ""
 
-#: view/settings.php:139
+#: view/settings.php:138
 msgid "Minify"
 msgstr ""
 
-#: view/settings.php:142
+#: view/settings.php:141
 msgid "Reduce CSS and JS file size by removing unnecessary data."
 msgstr ""
 
-#: view/settings.php:158
+#: view/settings.php:157
 msgid "Exclude Files From Minify"
 msgstr ""
 
-#: view/settings.php:161
+#: view/settings.php:160
 msgid "List of files to be excluded from minify. One per line."
 msgstr ""
 
-#: view/settings.php:179
+#: view/settings.php:178
 msgid "Gzip"
 msgstr ""
 
-#: view/settings.php:182
+#: view/settings.php:181
 msgid "Compress assets to reduce overall file size."
 msgstr ""
 
-#: view/settings.php:186
+#: view/settings.php:185
 msgid ""
 "<strong>Warning</strong> &mdash; If you are using a CDN which supports "
 "automatic compression, you should turn off this option. Enabling compression "
 "within your CDN will reduce server load."
 msgstr ""
 
-#: view/settings.php:209
+#: view/settings.php:208
 msgid "Webhook"
 msgstr ""
 
-#: view/settings.php:213
+#: view/settings.php:212
 msgid "Initiate a scan using a URL."
 msgstr ""
 
-#: view/settings.php:220
-#: view/settings.php:225
+#: view/settings.php:219
+#: view/settings.php:224
 msgid "Generating new unique URL"
 msgstr ""
 
-#: view/settings.php:222
+#: view/settings.php:221
 msgid "Initiate a purge and scan using a URL."
 msgstr ""
 
-#: view/settings.php:228
+#: view/settings.php:227
 msgid "Generate New URL"
 msgstr ""
 
-#: view/settings.php:237
+#: view/settings.php:236
 msgid "Save Changes"
 msgstr ""

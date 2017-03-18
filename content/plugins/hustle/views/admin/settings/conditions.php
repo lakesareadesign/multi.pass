@@ -238,6 +238,50 @@
 
 </script>
 
+<script id="wpoi-condition-post_type" type="text/template">
+
+	<div class="rule-description">
+
+		<label><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
+
+		<div class="tabs">
+
+			<ul class="tabs-header">
+
+				<li class="{{_.class( filter_type == "except", "current" )}}">
+
+					<label for="{{type}}-filter_type-{{post_type}}-except"><?php _e("All {{post_type_label}} Except", Opt_In::TEXT_DOMAIN); ?></label>
+
+					<input type="radio" value="except" data-attribute="filter_type" id="{{type}}-filter_type-{{post_type}}-except" name="{{type}}-filter_type-{{post_type}}" {{_.checked(filter_type, 'except')}}>
+
+				</li>
+
+				<li class="{{_.class( filter_type == "only", "current" )}}" >
+
+					<label for="{{type}}-filter_type-{{post_type}}-only"><?php _e("Only These {{post_type_label}}", Opt_In::TEXT_DOMAIN); ?></label>
+
+					<input type="radio" value="only" data-attribute="filter_type" id="{{type}}-filter_type-{{post_type}}-only" name="{{type}}-filter_type-{{post_type}}" {{_.checked(filter_type, 'only')}}>
+
+				</li>
+
+			</ul>
+
+		</div>
+
+	</div>
+
+	<div class="rule-form">
+
+		<select name="" class="js-wpoi-select none-wpmu" id="{{type}}-filter_type-{{post_type}}" data-val="{{selected_cpts}}" multiple="multiple" data-attribute="selected_cpts" placeholder="<?php esc_attr_e( '', Opt_In::TEXT_DOMAIN ); ?>" >
+
+			<# _.each( optin_vars.post_types[post_type].data, function( post ) {  #><option value="{{post.id}}" {{_.selected( _.contains(selected_cpts, post.id.toString() ), true )}} > {{post.text}} </option><# }); #>
+
+		</select>
+
+	</div>
+
+</script>
+
 <script id="wpoi-condition-pages" type="text/template">
 
 	<div class="rule-description">

@@ -75,7 +75,6 @@ class Opt_In_Geo
      */
     private function _get_geo_services() {
         static $Geo_service = null;
-
         if ( null === $Geo_service ) {
             $Geo_service = array();
 
@@ -116,13 +115,14 @@ class Opt_In_Geo
      */
     private function _get_service($type = null ) {
         $service = false;
+
         if ( null === $type ) {
 
             $remote_ip_url = apply_filters("wpoi-remote-ip-url", "");
             if (  !empty( $remote_ip_url )  ) {
                 $type = '';
             } else {
-                $type = 'hostip';
+                $type = 'freegeo';
             }
         }
 
@@ -140,6 +140,7 @@ class Opt_In_Geo
             );
         } else {
             $geo_service = $this->_get_geo_services();
+
             $service = @$geo_service[ $type ];
         }
 
@@ -211,10 +212,11 @@ class Opt_In_Geo
             return $this->_update_ip_county_map( $ip, "localhost" );
 
         $country_ip_map = $this->_get_ip_county_map();
-
-        if( isset( $country_ip_map[ $ip ] ) )
-            return $country_ip_map[ $ip ];
-
+        if( isset( $country_ip_map[ $ip ] ) ) {
+			if ( !empty( $country_ip_map[ $ip ] ) ) {
+				return $country_ip_map[ $ip ];
+			}
+		}
         $service = $this->_get_service();
         $country = $this->_country_from_api( $ip, $service );
 

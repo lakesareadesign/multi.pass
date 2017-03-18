@@ -1,37 +1,36 @@
 (function( $ ) {
-    /**
-     * Render inline optins ( after_content )
-     */
-    $(".inc_opt_after_content_wrap").each(function () {
-        var $this = $(this),
-            id = $this.data("id");
+	if( inc_opt.is_upfront ) return;
 
-        if( !id ) return;
+	Optin = window.Optin || {};
+	Optin.AfterContent = function() {
+		var $this = $(this),
+			optin_id = $this.data( 'id' ),
+			optin, html;
 
-        var optin = _.find(Optins, function (opt) {
-            return id == opt.data.optin_id;
+		optin = _.find(Optins, function (opt) {
+            return optin_id == opt.data.optin_id;
         });
 
+		$this.data('handle', _.findKey(Optins, optin));
+		$this.data('type', 'after_content');
 
-        if (!optin) return;
+		$this.html( Optin.render_optin(optin) );
 
-        $this.data("handle", _.findKey(Optins, optin));
-        $this.data("type", "after_content");
+		if (optin.settings.after_content.animate
+			&& 'true' == optin.settings.after_content.animate ) {
 
-        if ( !_.isTrue( optin.settings.after_content.display ) ) return;
+            $this.addClass(optin.settings.after_content.animation);
 
-        var html = Optin.render_optin( optin );
-        Optin.handle_scroll( $this, "after_content", optin );
+			_.delay(function() {
+				$this.addClass('wpoi-show');
+			}, 750 );
+        }
 
-        $this.html(html);
-        // add provider args
+		// add provider args
         $this.find(".wpoi-provider-args").html( Optin.render_provider_args( optin )  );
 
-        $(document).trigger("wpoi:display", ["after_content", $this, optin ]);
+		$(document).trigger("wpoi:display", ["after_content", $this, optin ]);
 
-        if (optin.settings.after_content.animate && optin.settings.after_content.animate == "true") {
-            $this.addClass(optin.settings.after_content.animation);
-        }
-    });
+	};
 
 }(jQuery));

@@ -1,5 +1,13 @@
 <?php
 
+use DeliciousBrains\WP_Offload_S3\Pro\Integration_Manager;
+use DeliciousBrains\WP_Offload_S3\Pro\Integrations\Advanced_Custom_Fields;
+use DeliciousBrains\WP_Offload_S3\Pro\Sidebar_Presenter;
+use DeliciousBrains\WP_Offload_S3\Pro\Tools\Download_And_Remover;
+use DeliciousBrains\WP_Offload_S3\Pro\Tools\Downloader;
+use DeliciousBrains\WP_Offload_S3\Pro\Tools\Remove_Local_Files;
+use DeliciousBrains\WP_Offload_S3\Pro\Tools\Uploader;
+
 class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 
 	/**
@@ -13,15 +21,23 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	protected $licence;
 
 	/**
-	 * @var AS3CF_Sidebar_Presenter
+	 * @var Integration_Manager
 	 */
-	private $sidebar;
+	protected $integrations;
+
+	/**
+	 * @var Sidebar_Presenter
+	 */
+	protected $sidebar;
 
 	/**
 	 * @param string              $plugin_file_path
 	 * @param Amazon_Web_Services $aws aws plugin
 	 */
-	function __construct( $plugin_file_path, $aws ) {
+	public function __construct( $plugin_file_path, $aws ) {
+		$this->integrations = Integration_Manager::get_instance();
+		$this->sidebar      = Sidebar_Presenter::get_instance( $this );
+
 		parent::__construct( $plugin_file_path, $aws );
 	}
 
@@ -30,7 +46,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 *
 	 * @param string $plugin_file_path
 	 */
-	function init( $plugin_file_path ) {
+	public function init( $plugin_file_path ) {
 		parent::init( $plugin_file_path );
 
 		// Licence and updates handler
@@ -47,13 +63,14 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		// so we don't disable the license and updates functionality when disabled
 		if ( self::is_compatible() ) {
 			$this->enable_plugin();
+			$this->enable_integrations();
 		}
 	}
 
 	/**
 	 * aws_admin_menu event handler.
 	 */
-	function aws_admin_menu() {
+	public function aws_admin_menu() {
 		global $as3cf;
 		add_action( 'load-' . $as3cf->hook_suffix, array( $this, 'load_assets' ), 11 );
 	}
@@ -61,7 +78,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	/**
 	 * Enable the complete plugin when compatible
 	 */
-	function enable_plugin() {
+	public function enable_plugin() {
 		add_action( 'load-upload.php', array( $this, 'load_media_pro_assets' ), 11 );
 
 		// Pro customisations
@@ -90,14 +107,18 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		// Include compatibility code for other plugins
 		$this->plugin_compat = new AS3CF_Pro_Plugin_Compatibility( $this );
 
-		// Render sidebar
-		$this->sidebar = new AS3CF_Sidebar_Presenter( $this );
-		$this->sidebar->init();
-
 		// Register tools
-		$this->sidebar->register_tool( new AS3CF_Uploader( $this ) );
-		$this->sidebar->register_tool( new AS3CF_Downloader( $this ) );
-		$this->sidebar->register_tool( new AS3CF_Download_And_Remover( $this ) );
+		$this->sidebar->register_tool( new Uploader( $this ) );
+		$this->sidebar->register_tool( new Downloader( $this ) );
+		$this->sidebar->register_tool( new Download_And_Remover( $this ) );
+		$this->sidebar->register_tool( new Remove_Local_Files( $this ), 'background' );
+	}
+
+	/**
+	 * Enable integrations.
+	 */
+	public function enable_integrations() {
+		$this->integrations->register_integration( 'acf', new Advanced_Custom_Fields( $this ) );
 	}
 
 	/**
@@ -428,6 +449,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 			'acl'         => $acl,
 			'acl_display' => $this->get_acl_display_name( $acl ),
 			'title'       => $title,
+			'url'         => $this->get_attachment_url( $id ),
 		);
 
 		if ( is_wp_error( $update ) ) {
@@ -505,12 +527,35 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 			return false;
 		}
 
-		if ( ! current_user_can( apply_filters( 'as3cfpro_media_actions_capability', 'manage_options' ) ) ) {
-			// Abort if the user doesn't have desired capabilities
-			return false;
+		return $this->user_can_use_media_actions();
+	}
+
+	/**
+	 * Check if the given user can use on-demand S3 media actions.
+	 *
+	 * @param null|int|WP_User $user  User to check. Defaults to current user.
+	 *
+	 * @return bool
+	 */
+	public function user_can_use_media_actions( $user = null ) {
+		$user = $user ? $user : wp_get_current_user();
+
+		if ( user_can( $user, 'use_as3cf_media_actions' ) ) {
+			return true;
 		}
 
-		return true;
+		/**
+		 * The default capability for using on-demand S3 media actions.
+		 *
+		 * @param string $capability Registered capability identifier
+		 */
+		$capability = apply_filters( 'as3cfpro_media_actions_capability', 'manage_options' );
+
+		if ( user_can( $user, $capability ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -984,7 +1029,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 
 		foreach ( $file_paths as $file_path ) {
 			if ( ! file_exists( $file_path ) ) {
-				$file_name   = basename( $file_path );
+				$file_name   = wp_basename( $file_path );
 				$downloads[] = array(
 					'Key'    => $prefix . $file_name,
 					'SaveAs' => $file_path,
@@ -1282,7 +1327,10 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 			return;
 		}
 
-		$this->render_view( 'tool-errors', array( 'errors' => $tool->get_errors() ) );
+		$this->render_view( 'tool-errors', array(
+			'tool'   => $name,
+			'errors' => $tool->get_errors(),
+		) );
 	}
 
 }

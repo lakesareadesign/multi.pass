@@ -49,7 +49,7 @@ if (!class_exists('ALTER')) {
 
 	    add_action( 'admin_bar_menu', array($this, 'update_avatar_size'), 99 );
 	    add_action('plugins_loaded',array($this, 'save_change_texts'));
-      add_action( 'aof_save_data', array($this, 'save_additional_data'));
+      add_action('aof_save_data', array($this, 'save_additional_data'));
 	    add_action('login_footer', array($this, 'login_footer_content'));
 
 	    add_action('wp_head', array($this, 'frontendActions'), 99999);
@@ -374,7 +374,8 @@ if (!class_exists('ALTER')) {
           if(!empty($_POST['change_text'])) {
               $repeater_array = $_POST['change_text'];
                   foreach($repeater_array as $repeaters ) {
-                      if(!empty($repeaters['find']) && !empty($repeaters['replace'])) {
+                      //if(!empty($repeaters['find']) && !empty($repeaters['replace'])) {
+                      if(!empty($repeaters['find'])) {
                           $repeater['change_text'][] = $repeaters;
                       }
                   }

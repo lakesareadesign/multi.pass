@@ -39,6 +39,21 @@
         }
     });
 
+	/**
+	 * Key var to listen user changes before triggering
+	 * navigate away message.
+	 **/
+	Optin.hasChanges = false;
+	Optin.user_change = function() {
+		Optin.hasChanges = true;
+	};
+
+	window.onbeforeunload = function() {
+		if ( Optin.hasChanges ) {
+			return optin_vars.messages.dont_navigate_away;
+		}
+	};
+
     /**
      * Pure object to store each step's template
      * @type {{}|*}
@@ -57,10 +72,6 @@
         $(".wpoi-tabs-wrap > div").eq(step).show();
 
         Optin.step.current = step;
-
-        window.onbeforeunload = function() {
-            return optin_vars.messages.dont_navigate_away;
-        };
     };
 
     Optin.step.get_current_step = function(){

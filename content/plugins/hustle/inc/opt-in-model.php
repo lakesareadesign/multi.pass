@@ -336,7 +336,12 @@ class Opt_In_Model extends Hustle_Model
 
         if( !empty( $_conditions ) ){
             foreach( $_conditions as $condition_key => $args ){
-                $conditions[$condition_key] = Hustle_Condition_Factory::build( $condition_key, $args );
+				// only cpt have 'post_type' and 'post_type_label' properties
+				if ( isset($args['post_type']) && isset($args['post_type_label']) ) {
+					$conditions[$condition_key] = Hustle_Condition_Factory::build( 'cpt', $args );
+				} else {
+					$conditions[$condition_key] = Hustle_Condition_Factory::build( $condition_key, $args );
+				}
                 if( $conditions[$condition_key] ) $conditions[$condition_key]->set_type( $type );
             }
         }

@@ -162,9 +162,9 @@ class AS3CF_Minify {
 	 */
 	public function is_file_prefixed( $details ) {
 		$key      = $details['s3_info']['key'];
-		$pathinfo = pathinfo( $key );
-		$filename = preg_replace( '@\.min$@', '', $pathinfo['filename'] );
-		$filename .= '.min.' . $pathinfo['extension'];
+		$ext      = pathinfo( $key, PATHINFO_EXTENSION );
+		$filename = preg_replace( '@\.min$@', '', wp_basename( $key, ".$ext" ) );
+		$filename .= '.min.' . $ext;
 
 		if ( false === strpos( $key, $filename ) ) {
 			return true;
@@ -231,10 +231,10 @@ class AS3CF_Minify {
 	 * @return string
 	 */
 	public function prefix_key( $key ) {
-		$pathinfo = pathinfo( $key );
-		$filename = $pathinfo['filename'] . '.min.' . $pathinfo['extension'];
+		$ext  = pathinfo( $key, PATHINFO_EXTENSION );
+		$name = wp_basename( $key, ".$ext" );
 
-		return str_replace( $pathinfo['basename'], $filename, $key );
+		return str_replace( "$name.$ext", "$name.min.$ext", $key );
 	}
 
 	/**

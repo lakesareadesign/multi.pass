@@ -21,6 +21,7 @@ class Opt_In_Meta_Settings extends Hustle_Meta{
         "after_content" => array(),
         "popup" => array(),
         "slide_in" => array(),
+        "shortcode" => array(),
         "widget" => array()
     );
 
@@ -76,6 +77,7 @@ class Opt_In_Meta_Settings extends Hustle_Meta{
                 "after_content" => $this->get_after_content()->to_array(),
                 "popup" => $this->get_popup()->to_array(),
                 "slide_in" => $this->get_slide_in()->to_array(),
+                "shortcode" => $this->get_shortcode()->to_array(),
                 "widget" => $this->get_widget()->to_array()
             );
 

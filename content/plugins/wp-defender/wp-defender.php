@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Defender
  * Plugin URI: https://premium.wpmudev.org/project/wp-defender/
- * Version:     1.2
+ * Version:     1.3
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
@@ -217,7 +217,7 @@ class WP_Defender {
 		$module_manager->attach( WD_IP_Lockout_Module::get_instance() );
 		//listen to membership status
 		$this->global['module_manager'] = $module_manager;
-		if ( is_admin() || is_network_admin() ) {
+		if ( is_admin() || is_network_admin() || WD_Utils::http_get( 'wpmudev-hub', false ) != false ) {
 			//include the rest controller
 			$controllers = array(
 				'admin' => new WD_Admin_Controller(),

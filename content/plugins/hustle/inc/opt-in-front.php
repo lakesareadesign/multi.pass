@@ -36,7 +36,6 @@ class Opt_In_Front
 
         add_filter("the_content", array($this, "show_after_page_post_content"), 2, 99);
 
-
         add_shortcode(self::SHORTCODE, array( $this, "shortcode" ), 10, 2);
     }
 
@@ -47,13 +46,13 @@ class Opt_In_Front
     function register_scripts()
     {
 
-        if( is_customize_preview() ) return;
+        if( is_customize_preview() || ! $this->has_optins() ) {
+			return;
+		}
 
         /**
          * Register popup requirements
          */
-//        lib3()->ui->add( TheLib_Ui::MODULE_CORE );
-//        lib3()->ui->add( TheLib_Ui::MODULE_ANIMATION );
 
         wp_register_script('optin_front', $this->_hustle->get_static_var(  "plugin_url" ) . 'assets/js/front.min.js', array('jquery', 'underscore'), '1.1',  $this->_hustle->get_const_var(  "VERSION" ), false);
 		wp_register_script( 'optin_front_fitie', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/vendor/fitie/fitie.js', array(), $this->_hustle->get_const_var( "VERSION" ), false );
@@ -80,18 +79,27 @@ class Opt_In_Front
         do_action("hustle_register_scripts");
         wp_enqueue_script('optin_front');
         wp_enqueue_script('optin_front_fitie');
-		add_filter( 'script_loader_tag', function( $tag, $handle ) {
-            if ( $handle === 'optin_front_fitie' ) {
-                $tag = "<!--[if IE]>$tag<![endif]-->";
-            }
-            return $tag;
-        }, 10, 2 );
+		add_filter( 'script_loader_tag', array($this, "handle_specific_script"), 10, 2 );
     }
+
+	/**
+     * Handling specific scripts for each scenario
+     *
+     */
+	function handle_specific_script( $tag, $handle ) {
+		if ( $handle == 'optin_front_fitie' ) {
+			$tag = "<!--[if IE]>". $tag ."<![endif]-->";
+		}
+		return $tag;
+	}
 
     function register_styles()
     {
-        wp_register_style('optin_front', $this->_hustle->get_static_var(  "plugin_url" )  . 'assets/css/front.css', array( 'dashicons' ), $this->_hustle->get_const_var(  "VERSION" ) );
+		if ( ! $this->has_optins() ) {
+			return;
+		}
 
+        wp_register_style('optin_front', $this->_hustle->get_static_var(  "plugin_url" )  . 'assets/css/front.css', array( 'dashicons' ), $this->_hustle->get_const_var(  "VERSION" ) );
 
         wp_enqueue_style('optin_form_front');
         wp_enqueue_style('optin_front');
@@ -119,6 +127,41 @@ class Opt_In_Front
             if( !$optin->display ) continue;
             $handle = $this->_get_unique_id();
             $settings = $optin->get_frontend_settings($post, $categories_array, $tags_array);
+
+			/**
+			 * Include only active opt-in to optimize performance. **/
+			$included = false;
+
+			if ( ( ! empty( $settings->after_content ) && empty( $settings->after_content ) )
+				|| ( ! empty( $settings->popup ) && ! empty( $settings->popup['enabled'] ) )
+				|| ( ! empty( $settings->slide_in ) && ( ! empty( $settings->slide_in['enabled'] ) || 'false' == $settings->slide_in['enabled'] ) )
+				|| ( ! empty( $settings->widget ) && ! empty( $settings->widget['display'] ) )
+				|| ( ! empty( $settings->shortcode ) && ! empty( $settings->shortcode['display'] ) ) ) {
+				$included = true;
+			}
+
+			if ( ! $included ) {
+				// Don't bother iterating if none are enabled.
+				continue;
+			}
+
+            if( $optin->provider_args )
+                $this->_args_layouts[ $handle ] = $optin->optin_provider;
+
+            if( ( $settings->popup['appear_after'] === "adblock" && isset( $settings->popup["trigger_on_adblock"] ) &&  $settings->popup["trigger_on_adblock"] === "true" )
+                || (   $settings->slide_in['appear_after'] === "adblock" && isset( $settings->slide_in["trigger_on_adblock"] ) &&  $settings->slide_in["trigger_on_adblock"] === "true" ) )
+                $enque_adblock_detector = true;
+
+			if ( empty( $settings->after_content['enabled'] ) ) {
+				unset($settings->after_content);
+			}
+			if ( empty( $settings->popup['enabled'] ) ) {
+				unset( $settings->popup );
+			}
+			if ( empty( $settings->slide_in['enabled'] ) || 'false' == $settings->slide_in['enabled'] ) {
+				unset( $settings->slide_in );
+			}
+
             $this->_optin_handles[$handle]["settings"] = $settings;
             $this->_optin_handles[$handle]["design"] = $optin->get_design()->to_object();
             $this->_optin_handles[$handle]["data"] = $optin->get_data();
@@ -129,17 +172,20 @@ class Opt_In_Front
 
             $this->_optin_layouts[ $handle ] = $this->_optin_handles[$handle]["design"]->form_location;
 
-            if( $optin->provider_args )
-                $this->_args_layouts[ $handle ] = $optin->optin_provider;
-
-            if( ( $settings->popup['appear_after'] === "adblock" && isset( $settings->popup["trigger_on_adblock"] ) &&  $settings->popup["trigger_on_adblock"] === "true" )
-                || (   $settings->slide_in['appear_after'] === "adblock" && isset( $settings->slide_in["trigger_on_adblock"] ) &&  $settings->slide_in["trigger_on_adblock"] === "true" ) )
-                $enque_adblock_detector = true;
         }
 
         if( $enque_adblock_detector )
             wp_enqueue_script('hustle_front_ads', $this->_hustle->get_static_var(  "plugin_url" ) . 'assets/js/ads.js', array(),'1.0', $this->_hustle->get_const_var(  "VERSION" ), false);
     }
+
+	/**
+	 * Check if current page has renderable opt-ins.
+	 **/
+	function has_optins() {
+		$has_optins = ! empty( $this->_optin_handles );
+
+		return apply_filters( 'hustle_front_handler', $has_optins );
+	}
 
     /**
      * Returns array of terms ids based on $post and $tax
@@ -160,6 +206,13 @@ class Opt_In_Front
      * @return string
      */
     function show_after_page_post_content( $content ){
+		/**
+		 * Return the content immediately if there are no renderable opt-ins.
+		 **/
+		if ( empty( $this->_optin_handles ) ) {
+			return $content;
+		}
+
         global $post;
 
         $optins = Opt_In_Collection::instance()->get_all_optins();
@@ -220,6 +273,10 @@ class Opt_In_Front
      * @since 1.0
      */
     function add_layout_templates(){
+		if ( ! $this->has_optins() ) {
+			return;
+		}
+
         foreach( $this->_get_registered_layouts() as $layout_no ){
             $this->_hustle->render("general/layouts/" . $layout_no );
         }

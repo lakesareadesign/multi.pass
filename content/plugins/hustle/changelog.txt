@@ -4,6 +4,34 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 Change Log:
 ----------------------------------------------------------------------
 
+2.0.3.1 - 2017-03-16
+----------------------------------------------------------------------
+- Fix: Custom content slide-in not showing on frontend.
+
+2.0.3 - 2017-03-15
+----------------------------------------------------------------------
+- Add: ConvertKit integration.
+- Add: Custom post type support.
+- Add: Auto-enable Opt-in shortcode and widget when creating new one
+- Improved structure, events and performance when showing modals.
+- Improved UI by using sprites instead of icon fonts.
+
+- Fix: In a specific Country display condition is not working.
+- Fix: Slide in Trigger shortcode button doesn't work.
+- Fix: Page scrolled option on optin.
+- Fix: Minify issue conflict with W3 Total Cache.
+- Fix: MailChimp lists have a hover effect.
+- Fix: Custom content form submission.
+- Fix: Popup overflowed height.
+- Fix: Never see again option behavior.
+- Fix: Issues with Hustle on mobile.
+- Fix: Extra content showing on hustle custom content.
+- Fix: E-newsletter integration issues.
+- Fix: Hustle breaks Backer Theme.
+- Fix: On Opt-in listing, shortcode toggle not saved persistently.
+- Fix: Unsaved content warning after saving individual creation steps.
+- Fix: Youtube continues to play when popup is closed.
+
 2.0.2 - 2017-03-01
 ----------------------------------------------------------------------
 - Add: ActiveCampaign provider.
@@ -120,4 +148,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1488397654-au
+133620-1489858554-au

@@ -16,6 +16,7 @@ class MetaSliderImageHelper {
     private $url;
     private $path; // path to attachment on server
     private $use_image_editor;
+    private $slide_id;
 
     /**
      * Constructor
@@ -31,8 +32,10 @@ class MetaSliderImageHelper {
 
         if ( get_post_type( $slide_id ) === 'attachment' ) {
             $this->id = $slide_id;
+            $this->slide_id = $slide_id;
         } else {
             $this->id = get_post_thumbnail_id( $slide_id );
+            $this->slide_id = $slide_id;
         }
 
         $this->url = apply_filters("metaslider_attachment_url", $upload_dir['baseurl'] . "/" . get_post_meta( $this->id, '_wp_attached_file', true ), $this->id);
@@ -41,6 +44,14 @@ class MetaSliderImageHelper {
         $this->container_height = $height;
         $this->use_image_editor = $use_image_editor;
         $this->set_crop_type($crop_type);
+
+        $meta = wp_get_attachment_metadata( $this->id );
+
+        $is_valid = isset( $meta['width'], $meta['height'] );
+
+        if ( ! $is_valid ) {
+            $this->use_image_editor = false;
+        }
     }
 
 
@@ -336,6 +347,8 @@ class MetaSliderImageHelper {
         $backup_sizes["resized-{$dest_size['width']}x{$dest_size['height']}"] = $saved;
         update_post_meta( $this->id, '_wp_attachment_backup_sizes', $backup_sizes );
 
+        do_action( "metaslider_after_resize_image", $this->id, $dest_size['width'], $dest_size['height'], $saved );
+
         $url = str_replace( basename( $this->url ), basename( $saved['path'] ), $this->url );
 
         return $url;
@@ -348,11 +361,9 @@ class MetaSliderImageHelper {
      * @return array
      */
     private function get_crop_position() {
-
-        $crop_position = get_post_meta( $this->id, 'ml-slider_crop_position', true );
+        $crop_position = get_post_meta( $this->slide_id, 'ml-slider_crop_position', true );
 
         if ( $crop_position ) {
-
             $parts = explode( "-", $crop_position );
 
             if ( isset( $parts[0], $parts[1] ) ) {
@@ -360,8 +371,6 @@ class MetaSliderImageHelper {
             }
         }
 
-        // default
         return array('center', 'center');
-
     }
 }

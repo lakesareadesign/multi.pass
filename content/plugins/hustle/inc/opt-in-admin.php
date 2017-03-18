@@ -31,7 +31,44 @@ class Opt_In_Admin{
 
         }
 
+		add_filter( 'w3tc_save_options', array( $this, 'filter_w3tc_save_options' ), 10, 1 );
+
     }
+
+	// force reject minify for hustle js and css
+	function filter_w3tc_save_options( $config ) {
+
+		// reject js
+		$defined_rejected_js = $config['new_config']->get("minify.reject.files.js");
+		$reject_js = array(
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/admin.min.js',
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/ad.js',
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/front.min.js'
+		);
+		foreach( $reject_js as $r_js ) {
+			if ( !in_array( $r_js, $defined_rejected_js ) ) {
+				array_push($defined_rejected_js, $r_js);
+			}
+		}
+		$config['new_config']->set("minify.reject.files.js", $defined_rejected_js);
+
+		// reject css
+		$defined_rejected_css = $config['new_config']->get("minify.reject.files.css");
+		$reject_css = array(
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/front.css',
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/admin.css',
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/modal.css',
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/optin.css',
+		);
+		foreach( $reject_css as $r_css ) {
+			if ( !in_array( $r_css, $defined_rejected_css ) ) {
+				array_push($defined_rejected_css, $r_css);
+			}
+		}
+		$config['new_config']->set("minify.reject.files.css", $defined_rejected_css);
+
+		return $config;
+	}
 
     /**
      * Removes unnesesary editor plugins
@@ -117,12 +154,7 @@ class Opt_In_Admin{
         wp_enqueue_script(  'optin_admin_select2' );
 
         wp_enqueue_script(  'optin_admin_fitie' );
-        add_filter( 'script_loader_tag', function( $tag, $handle ) {
-            if ( $handle === 'optin_admin_fitie' ) {
-                $tag = "<!--[if IE]>$tag<![endif]-->";
-            }
-            return $tag;
-        }, 10, 2 );
+        add_filter( 'script_loader_tag', array($this, "handle_specific_script"), 10, 2 );
 
         $tags = array_map(array($this, "terms_to_select2_data"), get_categories(array(
             "hide_empty" =>false,
@@ -157,6 +189,30 @@ class Opt_In_Admin{
         $allPages->id = "all";
         $allPages->text = __("ALL PAGES", Opt_In::TEXT_DOMAIN);
         array_unshift($pages, $allPages);
+
+		/**
+         * Add all custom post types
+         */
+		$post_types = array();
+		$cpts = get_post_types( array(
+			'public'   => true,
+		   '_builtin' => false
+		), 'objects' );
+		foreach( $cpts as $cpt ) {
+			$cpt_array['name'] = $cpt->name;
+			$cpt_array['label'] = $cpt->label;
+			$cpt_array['data'] = array_map(array($this, "posts_to_select2_data"), get_posts(array(
+				'numberposts' => -1,
+				'post_type' => $cpt->name
+			)));
+			// all posts under this custom post type
+			$allCPTPosts = new stdClass();
+			$allCPTPosts->id = "all";
+			$allCPTPosts->text = __("ALL ", Opt_In::TEXT_DOMAIN) . $cpt->label;
+			array_unshift($cpt_array['data'], $allCPTPosts);
+
+			$post_types[$cpt->name] = $cpt_array;
+		}
 
         $optin_vars = array(
             'messages' => array(
@@ -222,6 +278,8 @@ class Opt_In_Admin{
                     'not_in_a_country' => __("Not in specific countries", Opt_In::TEXT_DOMAIN ),
                     'posts' => __("On certain posts", Opt_In::TEXT_DOMAIN ),
                     'all_posts' => __("All posts", Opt_In::TEXT_DOMAIN ),
+                    'all' => __("All", Opt_In::TEXT_DOMAIN ),
+                    'no' => __("No", Opt_In::TEXT_DOMAIN ),
                     'no_posts' => __("No posts", Opt_In::TEXT_DOMAIN ),
                     'only_on_these_posts' => __("Only {number} posts", Opt_In::TEXT_DOMAIN ),
                     'number_posts' => __("{number} posts", Opt_In::TEXT_DOMAIN ),
@@ -293,6 +351,9 @@ class Opt_In_Admin{
 				),
                 "activecampaign" => array(
                     "enter_url" => __("Please enter your ActiveCampaign URL", Opt_In::TEXT_DOMAIN)
+                ),
+				"convertkit" => array(
+                    "enter_api_secret" => __("Please enter your API Secret key from ConvertKit", Opt_In::TEXT_DOMAIN)
                 )
             ),
             'url' => get_home_url(),
@@ -302,11 +363,19 @@ class Opt_In_Admin{
             "cats" => $cats,
             "tags" => $tags,
             "posts" => $posts,
+            "post_types" => $post_types,
             "pages" => $pages,
             'is_edit' => $this->_is_edit(),
             'current' => array(
                 "data" => "",
-                "settings" => '',
+                "settings" => array(
+					"shortcode" => array(
+						"enabled" => "true"
+					),
+					"widget" => array(
+						"enabled" => "true"
+					)
+				),
                 'design' => '',
                 'provider_args' => ''
             ),
@@ -360,6 +429,17 @@ class Opt_In_Admin{
     private function _is_edit(){
         return  (bool) filter_input(INPUT_GET, "optin", FILTER_VALIDATE_INT);
     }
+
+	/**
+     * Handling specific scripts for each scenario
+     *
+     */
+	function handle_specific_script( $tag, $handle ) {
+		if ( $handle === 'optin_admin_fitie' ) {
+			$tag = "<!--[if IE]>$tag<![endif]-->";
+		}
+		return $tag;
+	}
 
     /**
      * Registers admin menu page

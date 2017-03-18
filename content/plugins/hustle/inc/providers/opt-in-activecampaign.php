@@ -47,7 +47,7 @@ if( !class_exists("Opt_In_Activecampaign") ):
         /**
          * @param $username
          * @param $api_key
-         * @return Opt_In_Mad_Mimi_Api
+         * @return Opt_In_Activecampaign_Api
          */
         protected static function api( $url, $api_key ){
 
@@ -223,7 +223,7 @@ if( !class_exists("Opt_In_Activecampaign") ):
 
 
         public static function add_values_to_previous_optins( $option, $optin  ){
-            if( $optin->optin_provider !== "mad_mimi" ) return $option;
+            if( $optin->optin_provider !== "activecampaign" ) return $option;
 
             if( $option['id'] === "optin_username_id" && isset( $optin->provider_args->username ) ){
                 $option['elements']['optin_username_field']['value'] = $optin->provider_args->username;
@@ -240,7 +240,7 @@ if( !class_exists("Opt_In_Activecampaign") ):
          * @return bool
          */
         public static function show_selected_list(  $val, $optin  ){
-            if( $optin->optin_provider !== Opt_In_Mad_Mimi::ID ) return true;
+            if( $optin->optin_provider !== Opt_In_Activecampaign::ID ) return true;
             return false;
         }
 
@@ -250,12 +250,12 @@ if( !class_exists("Opt_In_Activecampaign") ):
          * @param $optin Opt_In_Model
          */
         public static function render_selected_list( $optin ){
-            if( $optin->optin_provider !== Opt_In_Mad_Mimi::ID || !$optin->optin_mail_list ) return;
+            if( $optin->optin_provider !== Opt_In_Activecampaign::ID || !$optin->optin_mail_list ) return;
             printf( __("Selected audience list: %s (Press the GET LISTS button to update value)", Opt_In::TEXT_DOMAIN), $optin->optin_mail_list );
         }
     }
 
-    add_filter("wpoi_optin_filter_optin_options",  array( "Opt_In_Mad_Mimi", "add_values_to_previous_optins" ), 10, 2 );
-    add_filter("wpoi_optin_mad_mimi_show_selected_list",  array( "Opt_In_Mad_Mimi", "show_selected_list" ), 10, 2 );
-    add_action("wpoi_optin_show_selected_list_after",  array( "Opt_In_Mad_Mimi", "render_selected_list" ) );
+    add_filter("wpoi_optin_filter_optin_options",  array( "Opt_In_Activecampaign", "add_values_to_previous_optins" ), 10, 2 );
+    add_filter("wpoi_optin_activecampaign_show_selected_list",  array( "Opt_In_Activecampaign", "show_selected_list" ), 10, 2 );
+    add_action("wpoi_optin_show_selected_list_after",  array( "Opt_In_Activecampaign", "render_selected_list" ) );
 endif;

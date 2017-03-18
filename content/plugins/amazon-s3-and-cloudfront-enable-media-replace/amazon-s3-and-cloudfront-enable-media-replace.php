@@ -4,7 +4,7 @@ Plugin Name: WP Offload S3 - Enable Media Replace Addon
 Plugin URI: http://deliciousbrains.com/wp-offload-s3/#enable-media-replace-addon
 Description: WP Offload S3 addon to integrate Enable Media Replace with Amazon S3. Requires Pro Upgrade.
 Author: Delicious Brains
-Version: 1.0.3
+Version: 1.0.4
 Author URI: http://deliciousbrains.com
 Network: True
 

@@ -310,6 +310,7 @@ abstract class Hustle_Model extends Hustle_Data
      */
     private function _meets_conditions( $post, $optin_type ){
 		$display = true;
+		$skip_all_cpt = false;
 		$_conditions = $this->settings->{$optin_type}->conditions;
         if( !count( $_conditions ) || !isset($post) ) return true;
 
@@ -320,13 +321,20 @@ abstract class Hustle_Model extends Hustle_Data
 			// unset not needed post_type
 			if ( $post->post_type == 'post' ) {
 				unset($_conditions->pages);
+				$skip_all_cpt = true;
 			} elseif ( $post->post_type == 'page' ) {
 				unset($_conditions->posts);
+				$skip_all_cpt = true;
+			} else {
+				// unset posts and pages since this is CPT
+				unset($_conditions->posts);
+				unset($_conditions->pages);
 			}
 		} else {
 			// unset posts and pages
 			unset($_conditions->posts);
 			unset($_conditions->pages);
+			$skip_all_cpt = true;
 			// unset not needed taxonomy
 			if ( is_category() ) {
 				unset($_conditions->tags);
@@ -335,11 +343,22 @@ abstract class Hustle_Model extends Hustle_Data
 				unset($_conditions->categories);
 			}
 		}
-        foreach( $_conditions as $condition_key => $args ){
-            $condition_class = Hustle_Condition_Factory::build( $condition_key, $args );
-            $condition_class->set_type( $optin_type );
-            $display = ( $display && $condition_class->is_allowed($this) );
-        }
+		// $display is TRUE if all conditions were met
+		foreach ($_conditions as $condition_key => $args) {
+			// only cpt have 'post_type' and 'post_type_label' properties
+			if ( isset($args['post_type']) && isset($args['post_type_label']) ) {
+				if ( $skip_all_cpt || $post->post_type != $args['post_type'] ) {
+					continue;
+				}
+				$condition_class = Hustle_Condition_Factory::build('cpt', $args);
+			} else {
+				$condition_class = Hustle_Condition_Factory::build($condition_key, $args);
+			}
+			if ( $condition_class ) {
+				$condition_class->set_type($optin_type);
+				$display = ( $display && $condition_class->is_allowed($this) );
+			}
+		}
 
         return $display;
     }

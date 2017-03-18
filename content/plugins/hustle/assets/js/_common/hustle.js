@@ -107,7 +107,7 @@
                 var compiled;
                 return function ( data ) {
                     compiled = compiled || _.template( document.getElementById( id ).innerHTML, null, _template_options );
-                    return compiled( data );
+                    return compiled( data ).replace("/*<![CDATA[*/", "").replace("/*]]>*/", "");
                 };
             }),
             create_template = _.memoize(function( str ){
@@ -166,7 +166,9 @@
             consts = (function(){
                 return {
                     Never_See_Aagain_Prefix: "hustle_never_see_again-",
-                    Module_Show_Count: "hustle_module_show_count-"
+                    Module_Show_Count: "hustle_module_show_count-",
+					Slide_Cookie_Prefix: 'hustle_slide_in_prefix-',
+					Slide_Cookie_Hide_All: 'hustle_slide_in_hide_all-'
                 };
             }());
 

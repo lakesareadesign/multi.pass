@@ -7,7 +7,6 @@
 
 			var toggle = $( '#as3cfpro-toggle-acl' );
 			var currentACL = toggle.attr( 'data-currentACL' );
-			var currentACLText = toggle.text();
 			var newACL = as3cfpro_media.settings.private_acl;
 
 			toggle.hide();
@@ -25,6 +24,7 @@
 				}
 			} ).done( function( response ) {
 				$( '#as3cfpro-updating' ).remove();
+				$( '#attachment_url' ).val( response.url );
 
 				toggle.text( response.acl_display );
 				toggle.attr( 'title', response.title );

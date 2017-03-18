@@ -8,7 +8,7 @@
 
 		<div class="wpoi-element">
 
-			<i class="wpoi-icon i-check"></i>
+			<i class="wphi-font wphi-check"></i>
 
 		</div>
 		<div class="wpoi-element">

@@ -2,7 +2,7 @@
 /*
  * Plugin Name: Client Dash
  * Description: Creating a more intuitive admin interface for clients.
- * Version: 1.6.12
+ * Version: 1.6.13
  * Author: Kyle Maurer & Joel Worsham
  * Author URI: http://realbigmarketing.com
  * Plugin URI: http://clientdash.io
@@ -10,6 +10,9 @@
 
 // Require the functions class first so we can extend it
 include_once( plugin_dir_path( __FILE__ ) . 'core/functions.php' );
+
+define( 'CLIENTDASH_URI', plugin_dir_url( __FILE__ ) );
+define( 'CLIENTDASH_DIR', plugin_dir_path( __FILE__ ) );
 
 /**
  * Class ClientDash
@@ -31,7 +34,7 @@ class ClientDash extends ClientDash_Functions {
 	 *
 	 * @since Client Dash 1.5
 	 */
-	protected static $version = '1.6.12';
+	protected static $version = '1.6.13';
 
 	/**
 	 * The path to the plugin.
@@ -330,7 +333,7 @@ class ClientDash extends ClientDash_Functions {
 
 		// Register and enqueue our scripts / styles
 		add_action( 'admin_init', array( $this, 'register_scripts' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 100 );
 
 		// Save our color scheme and then use it
 		add_action( 'admin_init', array( $this, 'save_admin_colors' ) );
@@ -393,7 +396,7 @@ class ClientDash extends ClientDash_Functions {
 		// The main script for Client Dash
 		wp_register_script(
 			'cd-main',
-			plugin_dir_url( __FILE__ ) . 'assets/js/clientdash.min.js',
+			CLIENTDASH_URI . 'assets/js/clientdash.min.js',
 			array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-effects-shake' ),
 			WP_DEBUG == false ? self::$version : time()
 		);
@@ -403,7 +406,7 @@ class ClientDash extends ClientDash_Functions {
 		// The main stylesheet for Client Dash
 		wp_register_style(
 			'cd-main',
-			plugins_url( 'assets/css/clientdash.min.css', __FILE__ ),
+			CLIENTDASH_URI . 'assets/css/clientdash.min.css',
 			array(),
 			WP_DEBUG == false ? self::$version : time()
 		);
@@ -832,28 +835,18 @@ class ClientDash extends ClientDash_Functions {
 	 */
 	public function admin_notices() {
 
-		$dismissed_notices = get_option( 'cd_dismissed_notices' );
-
-		if ( isset( $_GET['cd_dismiss_notice'] ) ) {
-
-			$notice_ID = $_GET['cd_dismiss_notice'];
-
-			if ( ! in_array( $notice_ID, $dismissed_notices ) ) {
-				$dismissed_notices[] = $notice_ID;
-				update_option( 'cd_dismissed_notices', $dismissed_notices );
-			}
-		}
-
 		// ==============================================================================
 		// Notice for after visiting the dashboard when told to from Settings -> Widgets
 		// ==============================================================================
 		if ( isset( $_GET['cd_update_dash'] ) ) {
-
-			add_settings_error( '', '', sprintf(
-				__( 'Great! Thanks! Now you can return to the settings %shere%s.', 'clientdash' ),
-				'<a href="' . $this->get_settings_url( 'widgets' ) . '">',
-				'</a>'
-			), 'updated cd' );
+			?>
+			<div class="updated">
+				<p>
+					Great! Thanks! Now you can return to the settings <a
+						href="<?php echo $this->get_settings_url( 'widgets' ); ?>">here</a>.
+				</p>
+			</div>
+			<?php
 		}
 
 		// ==============================================================================
@@ -869,32 +862,17 @@ class ClientDash extends ClientDash_Functions {
 		}
 
 		if ( $existing_roles != $cd_existing_roles && current_user_can( 'manage_options' ) ) {
-
-			add_settings_error( '', '', sprintf(
-				__( 'It seems that there are either new roles, or some roles have been deleted, or the roles have been
-					modified in some other way. Please visit the %sDisplay Settings%s and confirm that
+			?>
+			<div class="error">
+				<p>
+					It seems that there are either new roles, or some roles have been deleted, or the roles have been
+					modified in some other way. Please visit the <a
+						href="<?php echo $this->get_settings_url( 'display' ); ?>">Display Settings</a> and confirm that
 					the role display settings are still to your liking. (this message will go away once you hit "Save
-					Changes" on the display settings page).', 'clientdash' ),
-				'<a href="' . $this->get_settings_url( 'display' ) . '">',
-				'</a>'
-			), 'error cd' );
-		}
-
-		// ==============================================================================
-		// Notice for conflict with Menu Icons plugin.
-		// ==============================================================================
-		if ( class_exists( 'Menu_Icons' ) && ! in_array( 'menu_icons', $dismissed_notices ) ) {
-
-			add_settings_error( '', '', sprintf(
-				__( 'Warning: Client Dash has known conflicts with the plugin Menu Icons. Some of these issues have been addressed in this version of Client Dash. You may need to go back to the menus page to fix any broken menus. %sDismiss%s', 'clientdash' ),
-				'<a href="' . add_query_arg( 'cd_dismiss_notice', 'menu_icons', $_SERVER['REQUEST_URI'] ) . '">',
-				'</a>' ), 'error cd' );
-		}
-
-		$current_screen = get_current_screen();
-
-		if ( ! $current_screen || $current_screen->parent_base != 'options-general' ) {
-			settings_errors();
+					Changes" on the display settings page).
+				</p>
+			</div>
+			<?php
 		}
 
 		// Ensure option is always unset (except right before the initial checking)

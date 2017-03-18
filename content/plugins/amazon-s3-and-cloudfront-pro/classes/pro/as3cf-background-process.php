@@ -15,6 +15,16 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 	protected $start_time = 0;
 
 	/**
+	 * @var int
+	 */
+	const STATUS_CANCELLED = 1;
+
+	/**
+	 * @var int;
+	 */
+	const STATUS_PAUSED = 2;
+
+	/**
 	 * Initiate new background process
 	 *
 	 * @param object $as3cf Instance of calling class
@@ -23,7 +33,7 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 		parent::__construct( $as3cf );
 
 		add_action( $this->identifier . '_cron', array( $this, 'handle_cron_healthcheck' ) );
-		add_filter( 'cron_schedules', array( $this, 'schedule_cron_healthcheck' ) );
+		add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
 	}
 
 	/**
@@ -32,8 +42,7 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 	 * @return array|WP_Error
 	 */
 	public function dispatch() {
-		// Schedule the cron healthcheck
-		$this->as3cf->schedule_event( $this->identifier . '_cron', $this->identifier . '_cron_interval' );
+		$this->schedule_cron_healthcheck();
 
 		// Perform remote post
 		parent::dispatch();
@@ -87,7 +96,7 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 	}
 
 	/**
-	 * Delete queue
+	 * Delete job.
 	 *
 	 * @param string $key
 	 *
@@ -97,6 +106,77 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 		delete_site_option( $key );
 
 		return $this;
+	}
+
+	/**
+	 * Delete entire job queue.
+	 */
+	public function delete_all() {
+		$batches = $this->get_batches();
+
+		foreach ( $batches as $batch ) {
+			$this->delete( $batch->key );
+		}
+
+		delete_site_option( $this->get_status_key() );
+	}
+
+	/**
+	 * Cancel job on next batch.
+	 */
+	public function cancel() {
+		if ( $this->is_process_running() ) {
+			update_site_option( $this->identifier . '_status', self::STATUS_CANCELLED );
+		} else {
+			$this->delete_all();
+		}
+	}
+
+	/**
+	 * Has the process been cancelled?
+	 *
+	 * @return bool
+	 */
+	public function is_cancelled() {
+		$status = get_site_option( $this->get_status_key(), 0 );
+
+		if ( absint( $status ) === self::STATUS_CANCELLED ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Pause job on next batch.
+	 */
+	public function pause() {
+		update_site_option( $this->get_status_key(), self::STATUS_PAUSED );
+	}
+
+	/**
+	 * Is the job paused?
+	 *
+	 * @return bool
+	 */
+	public function is_paused() {
+		$status = get_site_option( $this->get_status_key(), 0 );
+
+		if ( absint( $status ) === self::STATUS_PAUSED ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Resume job.
+	 */
+	public function resume() {
+		delete_site_option( $this->get_status_key() );
+
+		$this->schedule_cron_healthcheck();
+		$this->dispatch();
 	}
 
 	/**
@@ -118,6 +198,15 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 	}
 
 	/**
+	 * Get the status key.
+	 *
+	 * @return string
+	 */
+	protected function get_status_key() {
+		return $this->identifier . '_status';
+	}
+
+	/**
 	 * Maybe process queue
 	 *
 	 * Checks whether data exists within the queue and that
@@ -129,6 +218,18 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 
 		if ( $this->is_process_running() ) {
 			// Background process already running
+			wp_die();
+		}
+
+		if ( $this->is_cancelled() ) {
+			$this->delete_all();
+
+			wp_die();
+		}
+
+		if ( $this->is_paused() ) {
+			$this->clear_cron_healthcheck();
+
 			wp_die();
 		}
 
@@ -177,7 +278,7 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 	 * Check whether the current process is already running
 	 * in a background process.
 	 */
-	protected function is_process_running() {
+	public function is_process_running() {
 		if ( get_site_transient( $this->identifier . '_process_lock' ) ) {
 			// Process already running
 			return true;
@@ -382,18 +483,17 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 	 * performed, or, call parent::complete().
 	 */
 	protected function complete() {
-		// Unschedule the cron healthcheck
-		$this->as3cf->clear_scheduled_event( $this->identifier . '_cron' );
+		$this->clear_cron_healthcheck();
 	}
 
 	/**
-	 * Schedule cron healthcheck
+	 * Add cron schedules.
 	 *
 	 * @param $schedules
 	 *
 	 * @return mixed
 	 */
-	public function schedule_cron_healthcheck( $schedules ) {
+	public function cron_schedules( $schedules ) {
 		$interval = apply_filters( $this->identifier . '_cron_interval', 5 );
 
 		if ( property_exists( $this, 'cron_interval' ) ) {
@@ -410,7 +510,21 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 	}
 
 	/**
-	 * Handle cron healthcheck
+	 * Schedule cron health check.
+	 */
+	protected function schedule_cron_healthcheck() {
+		$this->as3cf->schedule_event( $this->identifier . '_cron', $this->identifier . '_cron_interval' );
+	}
+
+	/**
+	 * Clear cron health check.
+	 */
+	protected function clear_cron_healthcheck() {
+		$this->as3cf->clear_scheduled_event( $this->identifier . '_cron' );
+	}
+
+	/**
+	 * Handle cron health check
 	 *
 	 * Restart the background process if not already running
 	 * and data exists in the queue.

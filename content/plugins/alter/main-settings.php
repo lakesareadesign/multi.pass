@@ -49,5 +49,7 @@ function generateFields() {
 add_action('plugins_loaded', 'SaveSettings');
 function SaveSettings() {
   global $aof_options;
-  $aof_options->SaveSettings($_POST);
+  if($_POST) {
+    $aof_options->SaveSettings($_POST);
+  }
 }

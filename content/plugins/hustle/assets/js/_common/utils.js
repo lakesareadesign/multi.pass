@@ -181,7 +181,7 @@ if( typeof Backbone !== "undefined")
 
         return function ( data ) {
             compiled = compiled || _.template( $( '#' + id ).html(), null, options );
-            return compiled( data );
+            return compiled( data ).replace("/*<![CDATA[*/", "").replace("/*]]>*/", "");
         };
     });
 
