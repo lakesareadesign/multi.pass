@@ -4,7 +4,7 @@
  * Description: This is the Cookd Pro child theme created for the Genesis Framework.
  * Author:      Shay Bocks
  * Author URI:  http://feastdesignco.com/
- * Version:     1.0.1
+ * Version:     1.0.2
  *
  * Tags: black, white, one-column, two-columns, three-columns, fixed-width, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, customizer
  *
@@ -42,7 +42,6 @@
 		- User Profile
 	- Plugins
 		- Genesis eNews Extended
-		- Genesis Simple Filters
 		- Genesis Simple Share
 		- Gravity Forms
 		- WooCommerce
@@ -1367,46 +1366,6 @@ Plugins
 }
 
 
-/* Genesis Simple Filters
---------------------------------------------- */
-
-.cookd .gsf-filters-wrap {
-	background: #fafafa;
-	padding: 37px;
-}
-
-.cookd .gsf-heading {
-	color: #222;
-	text-transform: lowercase;
-}
-
-.cookd .block-name {
-	color: #50575f;
-	font-size: 15px;
-	font-weight: 600;
-}
-
-.cookd #gsf-filters-list .gsf-btn {
-	color: #50575f;
-	font-size: 13px;
-}
-
-.cookd .gsf-post .entry-header h2 a {
-	color: #fff;
-	font-family: "Source Sans Pro", sans-serif;
-	font-size: 13px;
-	font-style: normal;
-	font-weight: 400;
-	text-transform: uppercase;
-}
-
-.cookd .gsf-post .entry-header h2 a:hover {
-	background: transparent;
-	border: 0;
-	color: #fff;
-}
-
-
 /* Genesis Simple Share
 --------------------------------------------- */
 
@@ -1689,6 +1648,7 @@ div.gform_wrapper .gform_footer input[type="submit"] {
 .cookd .heart-this-wrap .heart-this:hover {
 	background: none;
 	border: 0;
+	display: block;
 	font-size: 13px;
 	font-style: normal;
 	font-weight: 400;
@@ -2827,7 +2787,8 @@ Media Queries
 	}
 
 	.nav-primary,
-	.nav-secondary {
+	.nav-secondary,
+	.nav-header {
 		display: none;
 		position: relative;
 	}
@@ -2912,6 +2873,12 @@ Media Queries
 		clear: none;
 		margin-left: 2.564102564102564%;
 		width: 48.717948717948715%;
+	}
+
+	.product.first {
+		clear: both;
+		margin-left: 0%;
+		width: 100%;
 	}
 
 	.odd {

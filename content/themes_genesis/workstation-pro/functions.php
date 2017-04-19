@@ -43,7 +43,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', __( 'Workstation Pro', 'workstation-pro' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/workstation/' );
-define( 'CHILD_THEME_VERSION', '1.1.1' );
+define( 'CHILD_THEME_VERSION', '1.1.2' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'workstation_enqueue_scripts_styles' );
@@ -130,7 +130,7 @@ remove_filter( 'genesis_nav_items', 'genesis_nav_right', 10, 2 );
 remove_filter( 'wp_nav_menu_items', 'genesis_nav_right', 10, 2 );
 
 // Remove navigation meta box.
-add_action( 'genesis_theme_settings_metaboxes', 'worksation_remove_genesis_metaboxes' );
+add_action( 'genesis_theme_settings_metaboxes', 'workstation_remove_genesis_metaboxes' );
 function workstation_remove_genesis_metaboxes( $_genesis_theme_settings_pagehook ) {
     remove_meta_box( 'genesis-theme-settings-nav', $_genesis_theme_settings_pagehook, 'main' );
 }

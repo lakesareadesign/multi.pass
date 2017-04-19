@@ -4,7 +4,7 @@
 	Description: Stylish online publishing has never been so easy than with the bright, magazine-style frame and amazing flexibility of the Lifestyle theme.
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
-	Version: 3.2.2
+	Version: 3.2.3
 
 	Tags: one-column, two-columns, three-columns, left-sidebar, right-sidebar, custom-menu, e-commerce, featured-images, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
 
@@ -1202,7 +1202,8 @@ img#wpstats {
 .genesis-nav-menu li > a:hover,
 .genesis-nav-menu a:focus,
 .genesis-nav-menu a:hover,
-.genesis-nav-menu .current-menu-item > a {
+.genesis-nav-menu .current-menu-item > a,
+.site-header .genesis-nav-menu .current-menu-item > a {
 	background-color: #fff;
 	color: #767673;
 }
@@ -1222,7 +1223,10 @@ img#wpstats {
 
 .genesis-nav-menu .sub-menu a,
 .genesis-nav-menu .sub-menu a:focus,
-.genesis-nav-menu .sub-menu a:hover {
+.genesis-nav-menu .sub-menu a:hover,
+.site-header .genesis-nav-menu .sub-menu a,
+.site-header .genesis-nav-menu .sub-menu a:focus,
+.site-header .genesis-nav-menu .sub-menu a:hover {
 	background-color: #fafafa;
 	color: #767673;
 	font-size: 12px;
@@ -1234,7 +1238,9 @@ img#wpstats {
 }
 
 .genesis-nav-menu .sub-menu a:focus,
-.genesis-nav-menu .sub-menu a:hover {
+.genesis-nav-menu .sub-menu a:hover,
+.site-header .genesis-nav-menu .sub-menu a:focus,
+.site-header .genesis-nav-menu .sub-menu a:hover {
 	background-color: #eeeee8;
 	color: #222;
 }
@@ -1264,34 +1270,6 @@ img#wpstats {
 	display: inline-block;
 	float: right;
 	list-style-type: none;
-	padding: 20px 0;
-}
-
-.genesis-nav-menu > .right > a {
-	background: none;
-	color: #767673;
-	display: inline;
-	padding: 0;
-}
-
-.genesis-nav-menu > .right > a:focus,
-.genesis-nav-menu > .right > a:hover {
-	color: #27968b;
-}
-
-.genesis-nav-menu > .rss > a {
-	margin-left: 48px;
-}
-
-.genesis-nav-menu > .search {
-	padding: 0;
-}
-
-.genesis-nav-menu .search-form input[type="search"] {
-	background-position: 12px 12px;
-	font-size: 12px;
-	font-size: 1.2rem;
-	padding: 12px 12px 12px 44px;
 }
 
 /* Site Header Navigation
@@ -1854,7 +1832,7 @@ p.subscribe-to-comments {
 	}
 
 	nav.genesis-responsive-menu {
-		background: #fff;
+		background-color: #fff;
 		display: none;
 		position: relative;
 	}
@@ -1940,11 +1918,21 @@ p.subscribe-to-comments {
 		text-align: left;
 	}
 
-	.genesis-responsive-menu .genesis-nav-menu .menu-item a {
+	.genesis-responsive-menu .genesis-nav-menu .menu-item a,
+	.site-header .genesis-responsive-menu .genesis-nav-menu .menu-item a {
 		border: 0;
 		padding: 16px 20px;
 		margin-bottom: 1px;
 		width: 100%;
+	}
+
+	.nav-secondary.genesis-responsive-menu .genesis-nav-menu .menu-item a {
+		color: #767673;
+	}
+
+	.nav-secondary.genesis-responsive-menu .genesis-nav-menu .menu-item a:focus,
+	.nav-secondary.genesis-responsive-menu .genesis-nav-menu .menu-item a:hover {
+		color: #222;
 	}
 
 	.genesis-responsive-menu .genesis-nav-menu .menu-item:focus,
@@ -1983,6 +1971,41 @@ p.subscribe-to-comments {
 
 	.genesis-responsive-menu .genesis-nav-menu .sub-menu .sub-menu {
 		margin: 0;
+	}
+	
+	.site-header .menu-toggle,
+	.site-header .sub-menu-toggle,
+	.site-header .genesis-nav-menu .sub-menu a {
+		color: #fff;
+	}
+
+	.site-header .menu-toggle:hover,
+	.site-header .sub-menu-toggle:hover {
+		color: #ddd;
+	}
+
+	.site-header .menu-toggle:focus,
+	.site-header .sub-menu-toggle:focus {
+		color: #fff;
+		outline: thin dotted currentcolor;
+	}
+
+	.site-header .genesis-responsive-menu a:focus,
+	.site-header .genesis-responsive-menu a:hover ,
+	.site-header .genesis-nav-menu .current-menu-item > a,	
+	.site-header .genesis-nav-menu .sub-menu a:focus,
+	.site-header .genesis-nav-menu .sub-menu a:hover {
+		color: #ddd;
+		text-decoration: underline;
+	}
+
+	.site-header nav.genesis-responsive-menu,
+	.site-header .genesis-responsive-menu a:focus,
+	.site-header .genesis-responsive-menu a:hover,
+	.site-header .genesis-responsive-menu .current-menu-item > a,
+	.site-header .genesis-responsive-menu .genesis-nav-menu,
+	.site-header .genesis-responsive-menu .genesis-nav-menu .sub-menu a {
+		background-color: transparent;
 	}
 
 	.entry-meta .entry-tags {

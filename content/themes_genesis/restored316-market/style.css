@@ -5,7 +5,7 @@
 	Author: Restored 316 Designs // Lauren Gaige
 	Author URI: http://www.restored316designs.com/
 	Copyright: Copyright (c) 2015, Restored 316 LLC, Released 05/03/2016
-	Version: 1.0.0
+	Version: 1.0.1
 
 	Template: genesis
 	Template Version: 2.0.1
@@ -1370,11 +1370,20 @@ div.gform_wrapper .gform_footer input[type="submit"] {
 	font-family: 'Gentium Basic', serif;
 	font-weight: 400;
 	font-size: 10px;
+	text-align: center;
 	text-transform: uppercase;
 }
 
 .woocommerce form .form-row textarea {
 	height: 50px !important;
+}
+
+.woocommerce div.product .product_title {
+	text-align: center;
+}
+
+figure.woocommerce-product-gallery__wrapper {
+	margin: 0px;
 }
 
 /* # Site Header

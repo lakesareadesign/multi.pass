@@ -186,7 +186,7 @@
 	'use strict';
 
 	var $document = $( document ),
-		$navs     = $( 'nav' );
+		$navs     = $( '.nav-primary,.nav-secondary' );
 
 	/**
 	 * Debounce a window resize event.
@@ -216,7 +216,7 @@
 	}
 
 	function showHideNav() {
-		$( '.menu-toggle, .sub-menu-toggle' ).on( 'click', function() {
+		$navs.add( '.menu-toggle, .sub-menu-toggle' ).on( 'click', function() {
 			var $that = $( this );
 			$that.toggleClass( 'active' );
 			$that.next( 'nav, .sub-menu' ).slideToggle( 'slow' );
@@ -226,16 +226,18 @@
 	function reflowNavs() {
 		if ( isHidden( $navs ) ) {
 			$navs.removeAttr( 'style' );
-			$( '.sub-menu-toggle, .menu-toggle' ).removeClass( 'active' );
+			$navs.add( '.sub-menu-toggle, .menu-toggle' ).removeClass( 'active' );
 		}
 	}
 
 	function navInit() {
-		addNavToggles();
-		showHideNav();
-		debouncedResize(function() {
-			reflowNavs();
-		})();
+		if ( 0 !== $navs.length ) {
+			addNavToggles();
+			showHideNav();
+			debouncedResize(function() {
+				reflowNavs();
+			})();
+		}
 	}
 
 	$document.ready(function() {

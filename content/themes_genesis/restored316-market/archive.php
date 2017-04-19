@@ -52,7 +52,7 @@ function market_no_post_image() {
 add_action( 'genesis_entry_header', 'market_archive_grid', 9 );
 function market_archive_grid() {
 
-    if ( $image = genesis_get_image( 'format=url&size=blog-square-featured' ) ) {
+    if ( $image = genesis_get_image( 'format=url&size=square-entry-image' ) ) {
         printf( '<div class="market-featured-image"><a href="%s" rel="bookmark"><img src="%s" alt="%s" /></a></div>', get_permalink(), $image, the_title_attribute( 'echo=0' ) );
 
     }

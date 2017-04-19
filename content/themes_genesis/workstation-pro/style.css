@@ -5,7 +5,7 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 1.1.1
+	Version: 1.1.2
 
 	Template: genesis
 	Template Version: 2.2.0
@@ -1887,12 +1887,6 @@ p.entry-meta {
 		width: 100%;
 	}
 
-	.site-header .menu-toggle,
-	.site-header .sub-menu-toggle {
-		background-color: #fff;
-		color: #222;
-	}
-
 	.menu-toggle::before {
 		margin-right: 10px;
 		text-rendering: auto;
@@ -1927,6 +1921,10 @@ p.entry-meta {
 		transform:         rotate( 180deg );
 	}
 
+	.genesis-responsive-menu .genesis-nav-menu {
+		background-color: #222;
+	}
+
 	.genesis-responsive-menu .genesis-nav-menu .menu-item {
 		display: block;
 		float: none;
@@ -1949,10 +1947,6 @@ p.entry-meta {
 		margin-top: 1px;
 		padding: 20px;
 		width: 100%;
-	}
-
-	.genesis-responsive-menu.nav-primary .genesis-nav-menu .menu-item a {
-		color: #222;
 	}
 
 	.genesis-responsive-menu .genesis-nav-menu .menu-item a:focus,

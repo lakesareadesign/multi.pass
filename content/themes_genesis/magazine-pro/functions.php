@@ -43,7 +43,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', __( 'Magazine Pro', 'magazine-pro' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/magazine/' );
-define( 'CHILD_THEME_VERSION', '3.2.2' );
+define( 'CHILD_THEME_VERSION', '3.2.3' );
 
 // Enqueue required fonts, scripts, and styles.
 add_action( 'wp_enqueue_scripts', 'magazine_enqueue_scripts' );

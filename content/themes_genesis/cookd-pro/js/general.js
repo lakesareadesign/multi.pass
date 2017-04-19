@@ -186,7 +186,7 @@
 	'use strict';
 
 	var $document = $( document ),
-		$navs     = $( '.nav-primary, .nav-secondary' );
+		$navs     = $( '.nav-primary, .nav-secondary, .nav-header' );
 
 	/**
 	 * Debounce a window resize event.

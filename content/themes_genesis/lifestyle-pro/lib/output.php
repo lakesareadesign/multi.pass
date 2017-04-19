@@ -64,16 +64,10 @@ function lifestyle_custom_css() {
 			color: %2$s;
 		}
 
-		.site-footer a:focus,
-		.site-footer a:hover {
-			color: %3$s;
-		}
-
-		.genesis-nav-menu a,
-		.genesis-nav-menu > .right > a:focus,
-		.genesis-nav-menu > .right > a:hover,
 		.site-description,
 		.site-footer a,
+		.site-header .menu-toggle,
+		.site-header .sub-menu-toggle,
 		.site-header .widget-area a,
 		.site-header .widget-area,
 		.site-header .widget-title,
@@ -81,6 +75,31 @@ function lifestyle_custom_css() {
 		.site-title a:focus,
 		.site-title a:hover {
 			color: %2$s;
+		}
+
+		.site-footer a:focus,
+		.site-footer a:hover,
+		.site-header .menu-toggle:focus,
+		.site-header .menu-toggle:hover,
+		.site-header .sub-menu-toggle:focus,
+		.site-header .sub-menu-toggle:hover {
+			color: %3$s;
+		}
+
+		@media only screen and (max-width: 767px) {
+
+			.site-header .genesis-nav-menu .current-menu-item > a,
+			.site-header .genesis-responsive-menu .sub-menu a {
+				color: %2$s;
+			}
+
+			.site-header .genesis-responsive-menu a:focus,
+			.site-header .genesis-responsive-menu a:hover,
+			.site-header .genesis-responsive-menu .current-menu-item > a:hover,
+			.site-header .genesis-responsive-menu .sub-menu a:focus,
+			.site-header .genesis-responsive-menu .sub-menu a:hover {
+				color: %3$s;
+			}
 		}
 
 		', $color_accent, lifestyle_color_contrast( $color_accent ), lifestyle_change_brightness( $color_accent ) ) : '';

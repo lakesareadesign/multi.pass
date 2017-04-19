@@ -96,3 +96,13 @@ function market_responsive_slider_defaults( $defaults ) {
 	return $args;
 	
 }
+
+//* Set option to show posts on front page after switching themes
+add_action( 'after_switch_theme', 'market_theme_reading_defaults' );
+function market_theme_reading_defaults() {
+	if ( 'posts' != get_option( 'show_on_front' ) ) {
+	
+		update_option( 'show_on_front', 'posts' );
+	
+	}
+}

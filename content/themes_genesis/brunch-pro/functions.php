@@ -14,7 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 
 define( 'CHILD_THEME_NAME', 'Brunch Pro Theme' );
-define( 'CHILD_THEME_VERSION', '2.1.1' );
+define( 'CHILD_THEME_VERSION', '2.1.2' );
 define( 'CHILD_THEME_URL', 'http://shaybocks.com/brunch-pro/' );
 define( 'CHILD_THEME_DEVELOPER', 'Shay Bocks' );
 

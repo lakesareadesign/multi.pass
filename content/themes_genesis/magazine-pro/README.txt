@@ -77,3 +77,7 @@ CHANGELOG
 
 = 3.2.2 =
 * Fix error thrown when WooCommerce was inactive
+
+= 3.2.3 =
+* Fix landing page template header
+* Standardize mobile menu customizer colors

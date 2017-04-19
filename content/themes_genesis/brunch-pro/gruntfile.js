@@ -1,14 +1,17 @@
 module.exports = function( grunt ) {
 	'use strict';
 
-	require('load-grunt-tasks')(grunt);
+	require( 'load-grunt-tasks' )( grunt );
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 
 		makepot: {
 			options: {
-				exclude: ['node_modules/.*'],
+				exclude: [
+					'node_modules/.*',
+					'includes/vendor/class-tgm-plugin-activation.php'
+				],
 				domainPath: '/languages',
 				type: 'wp-theme',
 				processPot: function( pot, options ) {
@@ -26,7 +29,7 @@ module.exports = function( grunt ) {
 				}
 			},
 			files: {
-				src: [ '**/*.php' ],
+				src: [ '**/*.php' ]
 			}
 		},
 
@@ -36,7 +39,11 @@ module.exports = function( grunt ) {
 				updateDomains: ['all']
 			},
 			files: {
-				src: [ '**/*.php', '!node_modules/**/*.php' ],
+				src: [
+					'**/*.php',
+					'!node_modules/**/*.php',
+					'!includes/vendor/class-tgm-plugin-activation.php'
+				]
 			}
 		},
 
@@ -62,7 +69,7 @@ module.exports = function( grunt ) {
 			},
 			files: {
 				expand: true,
-				src: [ '**/*.php', '!node_modules/**/*.php' ],
+				src: [ '**/*.php', '!node_modules/**/*.php' ]
 			}
 		},
 
@@ -95,15 +102,15 @@ module.exports = function( grunt ) {
 				files: [ '**/*.php' ],
 				tasks: 'makepot',
 				options: {
-					spawn: false,
+					spawn: false
 				}
 			}
 		}
 
 	});
 
-	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('check', ['checktextdomain']);
-	grunt.registerTask('build', ['addtextdomain', 'makepot']);
+	grunt.registerTask( 'default', ['watch'] );
+	grunt.registerTask( 'check', ['checktextdomain'] );
+	grunt.registerTask( 'build', ['addtextdomain', 'makepot'] );
 
 };

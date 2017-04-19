@@ -24,10 +24,13 @@ include_once( get_stylesheet_directory() . '/lib/output.php' );
 //* Add Widget Spaces
 require_once( get_stylesheet_directory() . '/lib/widgets.php' );
 
+//* Install Plugins
+require_once( get_stylesheet_directory() . '/lib/plugins/tgm-plugin-activation/register-plugins.php' );
+
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'Market' );
 define( 'CHILD_THEME_URL', 'http://restored316designs.com' );
-define( 'CHILD_THEME_VERSION', '1.0.0' );
+define( 'CHILD_THEME_VERSION', '1.0.1' );
 
 //* Loads Responsive Menu, Google Fonts, Icons, and other scripts
 add_action( 'wp_enqueue_scripts', 'market_enqueue_scripts' );
@@ -316,4 +319,12 @@ if (!function_exists('loop_columns')) {
 	function loop_columns() {
 		return 3; // 3 products per row
 	}
+}
+
+//* Add WooCommerce Gallery Options
+add_action( 'after_setup_theme', 'market_woo_gallery' );
+function market_woo_gallery() {
+	add_theme_support( 'wc-product-gallery-zoom' );
+	add_theme_support( 'wc-product-gallery-lightbox' );
+	add_theme_support( 'wc-product-gallery-slider' );
 }

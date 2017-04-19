@@ -70,18 +70,18 @@ function magazine_custom_css() {
 		.nav-primary .sub-menu a:focus,
 		.nav-primary .sub-menu a:hover,
 		.nav-primary .genesis-nav-menu .current-menu-item > a,
-		.sub-menu-toggle:focus,
-		.sub-menu-toggle:hover {
+		.nav-primary .sub-menu-toggle:focus,
+		.nav-primary .sub-menu-toggle:hover {
 			color: %1$s;
 		}
 
 		@media only screen and (max-width: 840px) {
 			nav.nav-primary .sub-menu-toggle:focus,
 			nav.nav-primary .sub-menu-toggle:hover,
-			.genesis-responsive-menu .genesis-nav-menu a:focus,
-			.genesis-responsive-menu .genesis-nav-menu a:hover,
-			.genesis-responsive-menu .genesis-nav-menu .sub-menu a:focus,
-			.genesis-responsive-menu .genesis-nav-menu .sub-menu a:hover,
+			nav.nav-primary.genesis-responsive-menu .genesis-nav-menu a:focus,
+			nav.nav-primary.genesis-responsive-menu .genesis-nav-menu a:hover,
+			nav.nav-primary.genesis-responsive-menu .genesis-nav-menu .sub-menu a:focus,
+			nav.nav-primary.genesis-responsive-menu .genesis-nav-menu .sub-menu a:hover,
 			#genesis-mobile-nav-primary:focus,
 			#genesis-mobile-nav-primary:hover {
 				color: %1$s;
@@ -102,7 +102,11 @@ function magazine_custom_css() {
 		.genesis-nav-menu a:hover,
 		.genesis-nav-menu .current-menu-item > a,
 		.genesis-nav-menu .sub-menu .current-menu-item > a:focus,
-		.genesis-nav-menu .sub-menu .current-menu-item > a:hover {
+		.genesis-nav-menu .sub-menu .current-menu-item > a:hover,
+		.menu-toggle:focus,
+		.menu-toggle:hover,
+		.sub-menu-toggle:focus,
+		.sub-menu-toggle:hover {
 			color: %1$s;
 		}
 		', $color_link ) : '';

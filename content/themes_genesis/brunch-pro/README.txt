@@ -18,6 +18,11 @@ Please visit http://www.shaybocks.com/support or http://my.studiopress.com/suppo
 
 === Changelog ===
 
+= 2.1.2 =
+
+* Fixed a JS error that happened when no menus were set
+* Improved translations for TGMPA strings
+
 = 2.1.1 =
 
 Removed Simmer from recommended plugins.

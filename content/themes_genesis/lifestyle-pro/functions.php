@@ -43,7 +43,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', __( 'Lifestyle Pro', 'lifestyle-pro' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/lifestyle/' );
-define( 'CHILD_THEME_VERSION', '3.2.2' );
+define( 'CHILD_THEME_VERSION', '3.2.3' );
 
 // Add HTML5 markup structure.
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );

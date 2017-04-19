@@ -78,3 +78,6 @@ CHANGELOG
 
 = 3.2.2 =
 * Fix error thrown when WooCommerce was inactive
+
+= 3.2.3 =
+* Fix mobile menu color issue

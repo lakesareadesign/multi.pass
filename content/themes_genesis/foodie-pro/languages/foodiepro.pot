@@ -1,0 +1,696 @@
+# Copyright (C) 2016 Shay Bocks
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Foodie Pro Theme 2.1.8\n"
+"Report-Msgid-Bugs-To: http://shaybocks.com/\n"
+"POT-Creation-Date: 2016-11-28 20:10:51+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Shay Bocks (http://shaybocks.com)\n"
+"Language-Team: Shay Bocks (http://shaybocks.com)\n"
+"X-Generator: grunt-wp-i18n 0.5.3\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_  "
+"noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1"
+",2;\n"
+"X-Textdomain-Support: yes\n"
+
+#: functions.php:184
+msgid "Read More"
+msgstr ""
+
+#: functions.php:197
+msgid "Comments"
+msgstr ""
+
+#: functions.php:213
+msgid "Copyright"
+msgstr ""
+
+#: functions.php:214
+msgid "by"
+msgstr ""
+
+#: functions.php:216
+msgid "Built on the "
+msgstr ""
+
+#: functions.php:217
+msgid "Powered by "
+msgstr ""
+
+#: includes/admin/functions.php:61
+msgid "Install Required Plugins"
+msgstr ""
+
+#: includes/admin/functions.php:62
+msgid "Install Plugins"
+msgstr ""
+
+#: includes/admin/functions.php:63
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: includes/admin/functions.php:64
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: includes/admin/functions.php:65
+msgid "Foodie Pro requires the following plugin: %1$s."
+msgid_plural "Foodie Pro requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:66
+msgid "Foodie Pro recommends the following plugin: %1$s."
+msgid_plural "Foodie Pro recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:67
+msgid ""
+"Sorry, but you do not have the correct permissions to install the %s "
+"plugin. Contact the administrator of this site for help on getting the "
+"plugin installed."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to install the %s "
+"plugins. Contact the administrator of this site for help on getting the "
+"plugins installed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:68
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:69
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:70
+msgid ""
+"Sorry, but you do not have the correct permissions to activate the %s "
+"plugin. Contact the administrator of this site for help on getting the "
+"plugin activated."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to activate the %s "
+"plugins. Contact the administrator of this site for help on getting the "
+"plugins activated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:71
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:72
+msgid ""
+"Sorry, but you do not have the correct permissions to update the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"updated."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to update the %s "
+"plugins. Contact the administrator of this site for help on getting the "
+"plugins updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:73
+msgid "Install Plugin Now"
+msgid_plural "Install Plugins Now"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:74
+msgid "Activate Plugin Now"
+msgid_plural "Activate Plugins now"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/functions.php:75
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: includes/admin/functions.php:76
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: includes/admin/functions.php:77
+msgid "All plugins installed and activated successfully. %s"
+msgstr ""
+
+#: includes/admin/functions.php:160
+msgid ""
+"The normal editor is disabled because you're using a widgeted page "
+"template. You need to <a href=\"%s\">use widgets</a> to edit this page."
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:56
+msgid "Colors"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:57
+msgid "You can customize your theme colors by changing any of the options below."
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:82
+msgid "Typography"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:83
+msgid ""
+"You can customize your fonts here. For best results, we recommend using no "
+"more than two unique font families."
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:93
+msgid " Family"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:109
+msgid " Weight"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:126
+msgid " Size"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:142
+msgid " Style"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:153
+#: includes/widgets/foodie-featured-posts.php:342
+msgid "Full Width"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:154
+#: includes/widgets/foodie-featured-posts.php:343
+msgid "One Half"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:155
+#: includes/widgets/foodie-featured-posts.php:344
+msgid "One Third"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:156
+#: includes/widgets/foodie-featured-posts.php:345
+msgid "One Fourth"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:157
+#: includes/widgets/foodie-featured-posts.php:346
+msgid "One Sixth"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:162
+msgid "Archive Grid Display:"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:172
+msgid "Display The Title?"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:181
+msgid "Display The Entry Info?"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:190
+msgid "Display The Content?"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:199
+msgid "Display The Entry Meta?"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:207
+#: includes/widgets/foodie-featured-posts.php:412
+msgid "After Title"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:208
+#: includes/widgets/foodie-featured-posts.php:411
+msgid "Before Title"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:209
+#: includes/widgets/foodie-featured-posts.php:413
+msgid "After Content"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:214
+msgid "Featured Image Placement:"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:239
+msgid "Main Background Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:245
+msgid "Container Background Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:251
+msgid "Accent Background Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:257
+msgid "Action Background Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:263
+msgid "Site Title Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:269
+msgid "Menu Background Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:275
+msgid "Menu Link Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:281
+msgid "Menu Link Hover Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:287
+msgid "Text Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:293
+msgid "Border Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:299
+msgid "Title Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:305
+msgid "Secondary Text Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:311
+msgid "Accent Text Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:317
+msgid "Action Text Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:323
+msgid "Link Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:329
+msgid "Link Hover Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:335
+msgid "Button Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:341
+msgid "Button Hover Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:347
+msgid "Button Text Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:353
+msgid "Button Hover Text Color"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:375
+msgid "Body Font"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:383
+msgid "Accent Font"
+msgstr ""
+
+#: includes/customizer/customizer-settings.php:391
+msgid "Heading Font"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:18
+msgid "Standard Fonts"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:20
+msgid "Google Fonts"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:125
+msgid "All"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:126
+msgid "Cyrillic"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:127
+msgid "Cyrillic Extended"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:128
+msgid "Devanagari"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:129
+msgid "Greek"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:130
+msgid "Greek Extended"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:131
+msgid "Khmer"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:132
+msgid "Latin"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:133
+msgid "Latin Extended"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:134
+msgid "Vietnamese"
+msgstr ""
+
+#: includes/widgeted-areas.php:58
+msgid "Before Header"
+msgstr ""
+
+#: includes/widgeted-areas.php:59
+msgid "This is the section before the header."
+msgstr ""
+
+#: includes/widgeted-areas.php:63
+msgid "Home Top"
+msgstr ""
+
+#: includes/widgeted-areas.php:64
+msgid "This is the home top section."
+msgstr ""
+
+#: includes/widgeted-areas.php:68
+msgid "Home Middle"
+msgstr ""
+
+#: includes/widgeted-areas.php:69
+msgid "This is the home middle section."
+msgstr ""
+
+#: includes/widgeted-areas.php:73
+msgid "Home Bottom"
+msgstr ""
+
+#: includes/widgeted-areas.php:74
+msgid "This is the home bottom section."
+msgstr ""
+
+#: includes/widgeted-areas.php:78
+msgid "Post Bottom"
+msgstr ""
+
+#: includes/widgeted-areas.php:79
+msgid "This is the after entry section."
+msgstr ""
+
+#: includes/widgeted-areas.php:83
+msgid "Recipes Top"
+msgstr ""
+
+#: includes/widgeted-areas.php:84
+msgid "This is the recipes top section."
+msgstr ""
+
+#: includes/widgeted-areas.php:88
+msgid "Recipes Bottom"
+msgstr ""
+
+#: includes/widgeted-areas.php:89
+msgid "This is the recipes bottom section."
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:54
+msgid "By"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:57
+msgid "[Read More...]"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:59
+msgid "More Posts from this Category"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:64
+msgid "Displays featured posts with thumbnails"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:71
+msgid "Foodie Pro - Featured Posts"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:182
+msgid "(no title)"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:333
+#: includes/widgets/foodie-featured-posts.php:382
+msgid "Title"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:340
+msgid "Grid Columns"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:355
+msgid "Category"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:362
+msgid "All Categories"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:369
+msgid "Number of Posts to Show"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:374
+msgid "Number of Posts to Offset"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:379
+msgid "Order By"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:381
+msgid "Date"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:383
+msgid "Parent"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:384
+msgid "ID"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:385
+msgid "Comment Count"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:386
+msgid "Random"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:391
+msgid "Sort Order"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:393
+msgid "Descending (3, 2, 1)"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:394
+msgid "Ascending (1, 2, 3)"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:400
+msgid "Exclude Previously Displayed Posts?"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:408
+msgid "Show Image"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:410
+msgid "Don't Show an Image"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:418
+msgid "Image Size"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:431
+msgid "Image Alignment"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:433
+#: includes/widgets/foodie-featured-posts.php:497
+msgid "None"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:434
+#: includes/widgets/foodie-featured-posts.php:498
+msgid "Left"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:435
+#: includes/widgets/foodie-featured-posts.php:499
+msgid "Right"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:436
+msgid "Center"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:446
+msgid "Show Post Title"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:451
+msgid "Show Post Info"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:456
+msgid "Content Type"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:458
+msgid "Show Content"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:459
+msgid "Show Excerpt"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:460
+msgid "Show Content Limit"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:461
+msgid "No Content"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:464
+msgid "Limit content to"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:466
+msgid "characters"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:471
+msgid "More Text (if applicable)"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:481
+msgid "Show Author Gravatar"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:485
+msgid "Gravatar Size"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:487
+msgid "Small (45px)"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:488
+msgid "Medium (65px)"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:489
+msgid "Large (85px)"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:490
+msgid "Extra Large (125px)"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:495
+msgid "Gravatar Alignment"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:509
+msgid "Show Category Archive Link"
+msgstr ""
+
+#: includes/widgets/foodie-featured-posts.php:513
+msgid "Link Text"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Foodie Pro Theme"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "This is the Foodie Pro child theme created for the Genesis Framework."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Shay Bocks"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://shaybocks.com/"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Landing"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Recipe Index"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:194
+msgctxt "font style"
+msgid "Serif"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:198
+msgctxt "font style"
+msgid "Sans Serif"
+msgstr ""
+
+#: includes/vendor/customizer-library/extensions/fonts.php:202
+msgctxt "font style"
+msgid "Monospaced"
+msgstr ""

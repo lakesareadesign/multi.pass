@@ -56,3 +56,6 @@ CHANGELOG
 
 = 1.1.1 =
 * Fix error thrown when WooCommerce was inactive
+
+= 1.1.2 =
+* Update responsive menu colors

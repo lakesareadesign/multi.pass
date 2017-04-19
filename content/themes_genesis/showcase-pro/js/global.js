@@ -1,38 +1,36 @@
 jQuery( function ( $ ) {
 
-	// FitVids
-	$('.site-inner').fitVids();
+	// Add header class to body after 10px
+	$(window).bind( 'load scroll', function() {
 
-	// Testimonial Slider
-    if( $('.testimonial-slider').length ) {
+		if ( $(window).scrollTop() > 10 ) {
 
-        $('.testimonial-slider').bxSlider({
-            controls: false,
-            nextText: '',
-            prevText: '',
-            auto: true,
-            pause: 7000,
-            adaptiveHeight: true,
-        });
+			$( 'body' ).addClass( 'header-scroll' );
 
-    }
+		} else {
 
-	$('.js-scroll-to-link').click(function() {
+			$( 'body' ).removeClass( 'header-scroll' );
 
-		if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+		}
+
+	});
+
+	$( 'div[class^="front-page-"] a[href*=#]:not([href=#])' ).click(function() {
+
+		if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
 
 			var target = $(this.hash);
-			target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+			target = target.length ? target : $( '[name=' + this.hash.slice(1) + ']' );
 
 			if (target.length) {
 
-				$('html, body').animate({
+				$( 'html,body' ).animate({
 					scrollTop: target.offset().top
-				}, 500);
+				}, 1000);
 
 				return false;
-			}
 
+			}
 		}
 
 	});

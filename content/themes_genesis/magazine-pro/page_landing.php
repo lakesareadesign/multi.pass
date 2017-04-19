@@ -4,6 +4,8 @@
  *
  * This file adds the landing page template to the Magazine Pro Theme.
  *
+ * Template Name: Landing
+ *
  * @package Magazine
  * @author  StudioPress
  * @license GPL-2.0+

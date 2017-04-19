@@ -9,8 +9,6 @@
  * @license      GPL-2.0+
  */
 
-//* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent.
-
 //* Remove the breadcrumb navigation
 remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
 
@@ -44,7 +42,7 @@ function divine_archive_grid() {
 //* Display Category Description
 add_action( 'genesis_before_loop', 'display_category_archives_description');
 function display_category_archives_description () {
-	echo category_description( '$category-id' );
+	echo category_description( '$category_id' );
 }
 
 //* Remove the post meta function
