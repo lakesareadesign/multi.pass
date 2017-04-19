@@ -34,14 +34,12 @@ if (!class_exists('ALTER')) {
           if ( ! has_action( 'login_enqueue_scripts', array($this, 'alter_login_assets') ) )
           add_action('login_enqueue_scripts', array($this, 'alter_login_assets'), 10);
           add_action('login_head', array($this, 'alterLogincss'));
-          //add_action('login_header', array($this, 'alter_login_form_wrap_start'), 1);
-          //add_action('login_footer', array($this, 'alter_login_form_wrap_close'), 1);
+          add_action('login_header', array($this, 'alter_login_form_wrap_start'), 1);
+          add_action('login_footer', array($this, 'alter_login_form_wrap_close'), 1);
       }
 
-      if($this->aof_options['disable_admin_pages_styles'] != 1) {
-  	    add_action( 'admin_enqueue_scripts', array($this, 'alter_main_assets'), 99999 );
-        add_action('admin_head', array($this, 'alterMaincss'), 999);
-      }
+	    add_action( 'admin_enqueue_scripts', array($this, 'alter_main_assets'), 99999 );
+      add_action('admin_head', array($this, 'alterMaincss'), 999);
 
 	    add_filter('login_headerurl', array($this, 'alter_login_url'));
 	    add_filter('login_headertitle', array($this, 'alter_login_title'));
@@ -49,6 +47,7 @@ if (!class_exists('ALTER')) {
 
 	    add_action( 'admin_bar_menu', array($this, 'update_avatar_size'), 99 );
 	    add_action('plugins_loaded',array($this, 'save_change_texts'));
+      add_action('alter_data_saved',array($this, 'get_admin_users'));
       add_action('aof_save_data', array($this, 'save_additional_data'));
 	    add_action('login_footer', array($this, 'login_footer_content'));
 
@@ -144,13 +143,9 @@ if (!class_exists('ALTER')) {
     ?>
     <script type="text/javascript">
       jQuery(document).ready(function(){
-          //jQuery("#user_login").attr("placeholder", "<?php echo __( "Username or Email Address" ); ?>");
-          //jQuery("#user_email").attr("placeholder", "<?php echo __( "Email Address" ) ?>");
-          //jQuery("#user_pass").attr("placeholder", "<?php echo __( "Password" ) ?>");
-          jQuery( "#user_login" ).before( "<div class='alter-icon-login'></div>" );
-          jQuery( "#user_email" ).before( "<div class='alter-icon-email'></div>" );
-          jQuery( "#user_pass" ).before( "<div class='alter-icon-pwd'></div>" );
-          jQuery( "#login h1 a" ).after( "<div class='alter-heading'>ALTER White Label Branding Plugin!</div>" );
+        jQuery( "#user_login" ).before( "<div class='alter-icon-login'></div>" );
+        jQuery( "#user_email" ).before( "<div class='alter-icon-email'></div>" );
+        jQuery( "#user_pass" ).before( "<div class='alter-icon-pwd'></div>" );
       });
     </script>
     <?php
@@ -158,23 +153,28 @@ if (!class_exists('ALTER')) {
 
 	public function alter_login_assets()
 	{
-      wp_enqueue_script("jquery");
-      wp_enqueue_script( 'loginjs-js', ALTER_DIR_URI . 'assets/js/loginjs.js', array( 'jquery' ), '', true );
+    wp_enqueue_script("jquery");
+    wp_enqueue_script( 'loginjs-js', ALTER_DIR_URI . 'assets/js/loginjs.js', array( 'jquery' ), '', true );
 	}
 
 	public function alter_main_assets($nowpage)
 	{
-      wp_enqueue_script('jquery');
-      wp_enqueue_script( 'jquery-ui-sortable' );
-	    wp_enqueue_style('alterAdmin-css', ALTER_DIR_URI . 'assets/css/alter.styles.css', '', ALTER_VERSION);
-	    if($nowpage == 'toplevel_page_alter-options') {
-        wp_enqueue_script( 'alter-livepreview', ALTER_DIR_URI . 'assets/js/live-preview.js', array( 'jquery' ), '', true );
-	    }
-      if($nowpage == 'alter_page_alter_add_dash_widgets' || $nowpage == 'alter_page_alter_change_text' || $nowpage == 'alter_page_alter_redirect_users' || $nowpage == 'alter_page_admin_menu_management') {
-        wp_enqueue_script( 'alter-repeater', ALTER_DIR_URI . 'assets/js/jquery.repeater.js', array( 'jquery' ), '', true );
-        wp_enqueue_script( 'alter-scriptjs', ALTER_DIR_URI . 'assets/js/script.js', array( 'jquery' ), '', true );
-        wp_enqueue_script( 'alter-sortjs', ALTER_DIR_URI . 'assets/js/sortjs.js', array( 'jquery' ), '', true );
-      }
+    wp_enqueue_script('jquery');
+    wp_enqueue_script( 'jquery-ui-sortable' );
+
+    if($nowpage == 'alter_page_alter_add_dash_widgets' || $nowpage == 'alter_page_alter_change_text' || $nowpage == 'alter_page_alter_redirect_users' || $nowpage == 'alter_page_admin_menu_management') {
+      wp_enqueue_script( 'alter-repeater', ALTER_DIR_URI . 'assets/js/jquery.repeater.js', array( 'jquery' ), '', true );
+      wp_enqueue_script( 'alter-scriptjs', ALTER_DIR_URI . 'assets/js/script.js', array( 'jquery' ), '', true );
+      wp_enqueue_script( 'alter-sortjs', ALTER_DIR_URI . 'assets/js/sortjs.js', array( 'jquery' ), '', true );
+    }
+
+    if(isset($this->aof_options['disable_admin_pages_styles']) && $this->aof_options['disable_admin_pages_styles'] == 1)
+      return;
+
+    wp_enqueue_style('alterAdmin-css', ALTER_DIR_URI . 'assets/css/alter.styles.css', '', ALTER_VERSION);
+    if($nowpage == 'toplevel_page_alter-options') {
+      wp_enqueue_script( 'alter-livepreview', ALTER_DIR_URI . 'assets/js/live-preview.js', array( 'jquery' ), '', true );
+    }
 
 	}
 
@@ -185,29 +185,35 @@ if (!class_exists('ALTER')) {
 
 	public function alterMaincss()
 	{
+    if(isset($this->aof_options['disable_admin_pages_styles']) && $this->aof_options['disable_admin_pages_styles'] == 1)
+    return;
 	  include_once( ALTER_PATH . '/includes/css/alter.admin.css.php' );
 	}
 
 	public function generalFns() {
+    $screen = "";
+    if(function_exists('get_current_screen')) {
 	    $screen = get_current_screen();
-      $admin_general_options_data = ( !empty($this->aof_options['admin_generaloptions']) ) ? $this->aof_options['admin_generaloptions'] : "";
-      $admin_generaloptions = (is_serialized( $admin_general_options_data )) ? unserialize( $admin_general_options_data ) : $admin_general_options_data;
-	    if(!empty($admin_generaloptions)) {
-        foreach($admin_generaloptions as $general_opt) {
-          if(isset($screen) && $general_opt == 1) {
-                  $screen->remove_help_tabs();
-          }
-          elseif($general_opt == 2) {
-                  add_filter('screen_options_show_screen', '__return_false');
-          }
-          elseif($general_opt == 3) {
-                  remove_action('admin_notices', 'update_nag', 3);
-          }
-          elseif($general_opt == 4) {
-                  remove_submenu_page('index.php', 'update-core.php');
-          }
+    }
+    $admin_general_options_data = ( !empty($this->aof_options['admin_generaloptions']) ) ? $this->aof_options['admin_generaloptions'] : "";
+    $admin_generaloptions = (is_serialized( $admin_general_options_data )) ? unserialize( $admin_general_options_data ) : $admin_general_options_data;
+    if(!empty($admin_generaloptions)) {
+      foreach($admin_generaloptions as $general_opt) {
+        if(isset($screen) && !empty($screen) && $general_opt == 1) {
+          $screen->remove_help_tabs();
         }
-	    }
+        elseif($general_opt == 2) {
+          add_filter('screen_options_show_screen', '__return_false');
+        }
+        elseif($general_opt == 3) {
+          remove_action('admin_notices', 'update_nag', 3);
+          remove_submenu_page('index.php', 'update-core.php');
+        }
+        elseif($general_opt == 4) {
+          echo '<style type="text/css">.plugin-update-tr{ display:none}</style>';
+        }
+      }
+    }
 	    //footer contents
 	    add_filter( 'admin_footer_text', array($this, 'alter_custom_footer_content') );
 	    //remove wp version
@@ -215,11 +221,11 @@ if (!class_exists('ALTER')) {
 
 	    //prevent access to Alter menu for non-superadmin
 	    if( (!current_user_can('manage_network')) && defined('NETWORK_ADMIN_CONTROL') ){
-		if($screen->id == "toplevel_page_alter-options" || $screen->id == "alter_page_admin_menu_management" || $screen->id == "alter_page_alter_change_text"
-  || $screen->id == "alter_page_alter_impexp_settings") {
-		    wp_die("<div style='width:70%; margin: 30px auto; padding:30px; background:#fff'><h4>Sorry, you don't have sufficient previlege to access to this page!</h4></div>");
-		    exit();
-		}
+    		if($screen->id == "toplevel_page_alter-options" || $screen->id == "alter_page_admin_menu_management" || $screen->id == "alter_page_alter_change_text"
+      || $screen->id == "alter_page_alter_impexp_settings") {
+    		    wp_die("<div style='width:70%; margin: 30px auto; padding:30px; background:#fff'><h4>Sorry, you don't have sufficient previlege to access to this page!</h4></div>");
+    		    exit();
+    		}
 	    }
 
 	}
@@ -263,9 +269,9 @@ if (!class_exists('ALTER')) {
 	    //add options page to sort and remove admin menus.
       add_submenu_page( 'alter-options', __('Change Text', 'alter'), __('Change Text', 'alter'), 'manage_options', 'alter_change_text', array($this, 'alterChangetext') );
 
-	    //Remove wpshapere menu
+	    //Remove Alter menu
 	    if( defined('HIDE_ALTER_OPTION_LINK') || (!current_user_can('manage_network')) && defined('NETWORK_ADMIN_CONTROL') )
-		    remove_menu_page('wpshapere-options');
+		    remove_menu_page('alter-options');
 	}
 
   function alterChangetext() {
@@ -399,6 +405,7 @@ if (!class_exists('ALTER')) {
 
 	public function login_footer_content()
 	{
+    if($this->aof_options['disable_styles_login'] != 1) {
       $login_footer_content = $this->aof_options['login_footer_content'];
       echo '<div class="login_footer_content">';
       echo '<div class="footer_content">';
@@ -407,6 +414,7 @@ if (!class_exists('ALTER')) {
       }
       echo '</div>';
       echo '</div>';
+    }
 	}
 
 	public function alter_custom_footer_content()
@@ -606,7 +614,63 @@ if (!class_exists('ALTER')) {
     $this->updateOption(ALTER_ADMINBAR_LISTS_SLUG,$adminbar_nodes);
   }
 
-	public function frontendActions()
+  /* Convert hexdec color string to rgb(a) string */
+  function alter_hex2rgba($color, $opacity = false) {
+
+  	$default = 'rgb(0,0,0)';
+
+  	//Return default if no color provided
+  	if(empty($color))
+      return $default;
+
+  	//Sanitize $color if "#" is provided
+    if ($color[0] == '#' ) {
+    	$color = substr( $color, 1 );
+    }
+
+    //Check if color has 6 or 3 characters and get values
+    if (strlen($color) == 6) {
+        $hex = array( $color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5] );
+    } elseif ( strlen( $color ) == 3 ) {
+        $hex = array( $color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2] );
+    } else {
+        return $default;
+    }
+
+    //Convert hexadec to rgb
+    $rgb =  array_map('hexdec', $hex);
+
+    //Check if opacity is set(rgba or rgb)
+    if($opacity){
+    	if(abs($opacity) > 1)
+    		$opacity = 1.0;
+    	$output = 'rgba('.implode(",",$rgb).','.$opacity.')';
+    } else {
+    	$output = 'rgb('.implode(",",$rgb).')';
+    }
+
+    //Return rgb(a) color string
+    return $output;
+  }
+
+  function get_admin_users() {
+    if(isset($_POST) && isset($_POST['aof_options_save'])) {
+      $admin_users = "";
+      $user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
+      if(isset($user_query) && !empty($user_query)) {
+          if ( ! empty( $user_query->results ) ) {
+              foreach ( $user_query->results as $user_detail ) {
+                  $admin_users[$user_detail->ID] = $user_detail->display_name;
+              }
+          }
+      }
+      if(!empty($admin_users)) {
+        update_option(ALTER_ADMIN_USERS_SLUG, $admin_users);
+      }
+    }
+  }
+
+	function frontendActions()
 	{
     //remove admin bar
     if($this->aof_options['hide_admin_bar'] == 1) {
@@ -651,9 +715,9 @@ if(!empty($admin_logo_url)){ ?>
 	    }
 	}
 
-                    public function hideupdateNotices() {
-                            echo '<style>.update-nag, .updated, .notice { display: none; }</style>';
-                    }
+  public function hideupdateNotices() {
+    echo '<style>.update-nag, .updated, .notice { display: none; }</style>';
+  }
 
 	public static function deleteOptions()
 	{

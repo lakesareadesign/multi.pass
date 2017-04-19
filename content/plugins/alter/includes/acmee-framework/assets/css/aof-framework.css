@@ -364,9 +364,9 @@ a.ui-slider-handle {
   -webkit-border-radius: 50%;
 }
 
-.ui-widget-content {
+.resp-tab-content .field_content .ui-widget-content {
     border: none!important;
-    background: #cdd7d9
+    background: #cdd7d9 !important;
 }
 
 .ui-slider-horizontal {

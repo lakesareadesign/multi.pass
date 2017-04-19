@@ -25,8 +25,8 @@ function aofAssets($page) {
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script( 'jquery-ui-sortable' );
     wp_enqueue_script( 'jquery-ui-slider' );
-    wp_enqueue_style('aofOptions-css', ALTER_DIR_URI . 'includes/acmee-framework/assets/css/aof-framework.css');
     wp_enqueue_style('aof-ui-css', ALTER_DIR_URI . 'includes/acmee-framework/assets/css/jquery-ui.css');
+    wp_enqueue_style('aofOptions-css', ALTER_DIR_URI . 'includes/acmee-framework/assets/css/aof-framework.css');
     wp_enqueue_script( 'responsivetabsjs', ALTER_DIR_URI . 'includes/acmee-framework/assets/js/easyResponsiveTabs.js', array( 'jquery' ), '', true );
     // Add the color picker css file
     wp_enqueue_style( 'wp-color-picker' );

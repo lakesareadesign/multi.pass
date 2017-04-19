@@ -285,6 +285,10 @@ if (!class_exists('AcmeeFramework')) {
                         $saved_data = $this->aofgetOptions(ALTER_OPTIONS_SLUG);
                         $data = array_merge($saved_data, $save_data);
                         $saved = $this->aofsaveOptions($data);
+
+                        //action processed after data saved.
+                        do_action('alter_data_saved');
+
                         if($saved) {
                             wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&status=updated' ) );
                             exit();
@@ -578,7 +582,7 @@ if (!class_exists('AcmeeFramework')) {
         function saveBtn() {
           ?>
             <div class="save_options">
-              <input type="submit" value="<?php _e('Save Changes', 'alter'); ?>" class="button button-primary button-large" />
+              <input type="submit" name="alter_submit" value="<?php _e('Save Changes', 'alter'); ?>" class="button button-primary button-large" />
               <!-- <input type="submit" name="aof_reset_options" value="Reset to Defaults" class="button button-secondary button-large" /> -->
             </div>
           <?php
@@ -686,9 +690,9 @@ if (!class_exists('AcmeeFramework')) {
         /**
         * Function to insert default values
         */
-        function aofLoaddefault() {
+        function aofLoaddefault($reset=false) {
             $default_options = $this->aofgetOptions( ALTER_OPTIONS_SLUG );
-            if ( false === $default_options || empty($default_options)) {
+            if ( false === $default_options || empty($default_options) || $reset === true) {
                 $default_options = $this->getDefaultOptions();
                 if(!empty($default_options)) {
                     if($this->config['multi'] === true) {

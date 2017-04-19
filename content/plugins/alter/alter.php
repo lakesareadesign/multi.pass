@@ -2,8 +2,8 @@
 /*
 Plugin Name: Alter - White Label Wordpress
 Plugin URI: http://acmeedesign.com
-Description: Alter - White label everything from WordPress. Powered by AcmeeDesign
-Version: 1.2
+Description: White label branding for WordPress. Turn WordPress to your own software!
+Version: 2.0
 Author: AcmeeDesign
 Author URI: http://acmeedesign.com
 Text-Domain: alter
@@ -14,7 +14,7 @@ Text-Domain: alter
 *   ALTER Version
 */
 
-define( 'ALTER_VERSION' , '1.2' );
+define( 'ALTER_VERSION' , '2.0' );
 
 /*
 *   ALTER Path Constant
@@ -32,6 +32,7 @@ define( 'ALTER_DIR_URI' , plugin_dir_url(__FILE__) );
 define( 'ALTER_OPTIONS_SLUG' , 'alter_options' );
 define( 'ALTER_WIDGETS_LISTS_SLUG' , 'alter_active_widgets_list' );
 define( 'ALTER_ADMINBAR_LISTS_SLUG' , 'alter_adminbar_list' );
+define( 'ALTER_ADMIN_USERS_SLUG' , 'alter_admin_users' );
 
 /*
 *       Enabling Global Customization for Multi-site installation.
@@ -42,6 +43,7 @@ if(is_multisite())
     define('NETWORK_ADMIN_CONTROL', true);
 // Delete the above two lines to enable customization per blog
 
+/* Stop editing after this */
 
 //AOF Framework Implementation
 require_once( ALTER_PATH . '/includes/alter-options.php' );
@@ -62,7 +64,6 @@ if(!function_exists('aof_config')) {
          $multi_option = true;
      }
 
-     /* Stop editing after this */
      $aof_fields = get_aof_options();
      $config = array(
          'multi' => $multi_option, //default = false
@@ -87,4 +88,5 @@ include_once ALTER_PATH . '/includes/alter.class.php';
 include_once ALTER_PATH . '/includes/alter.widgets.class.php';
 include_once ALTER_PATH . '/includes/alter.menu.class.php';
 include_once ALTER_PATH . '/includes/alter.redirectusers.class.php';
+include_once ALTER_PATH . '/includes/alter.themes.class.php';
 include_once ALTER_PATH . '/includes/alter-import-export.class.php';

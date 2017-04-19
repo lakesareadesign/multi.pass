@@ -19,8 +19,10 @@ if (!class_exists('ALTERADMINMENU')) {
             add_action('admin_init', array($this, 'alter_customize_menu'), 999);
             add_action( 'admin_enqueue_scripts', array($this, 'load_menu_assets'), 999 );
             add_action('plugins_loaded', array($this, 'save_menu_data'));
-            add_filter('custom_menu_order', array($this, 'alter_reorder_menu'));
-            add_filter('menu_order', array($this, 'alter_reorder_menu'));
+            if(empty($this->aof_options['disable_menu_customize']) && $this->aof_options['disable_menu_customize'] != 1) {
+              add_filter('custom_menu_order', array($this, 'alter_reorder_menu'));
+              add_filter('menu_order', array($this, 'alter_reorder_menu'));
+            }
             add_action('admin_head', array($this, 'alterMenucss'), 998);
         }
 
@@ -45,6 +47,8 @@ if (!class_exists('ALTERADMINMENU')) {
 
         function load_menu_assets($nowpage)
         {
+          if(!empty($this->aof_options['disable_menu_customize']) && $this->aof_options['disable_menu_customize'] == 1)
+              return;
             wp_enqueue_style( 'dashicons' );
             wp_enqueue_style('font-awesome', ALTER_DIR_URI . 'assets/font-awesome/css/font-awesome.min.css', '', ALTER_VERSION);
             if($nowpage == 'alter_page_admin_menu_management') {
@@ -69,6 +73,13 @@ if (!class_exists('ALTERADMINMENU')) {
 
         function alter_admin_menu_management()
         {
+          if(!empty($this->aof_options['disable_menu_customize']) && $this->aof_options['disable_menu_customize'] == 1) {
+            echo '<div style="background:#ff3131;color:#ffffff;padding:25px;margin:25px 15px;">Alter menu customization is disabled. To enable menu customization ';
+            echo '<a style="color:#262d25" href="' . admin_url() . 'admin.php?page=alter-options"><strong>';
+            echo __('Click here ', 'alter');
+            echo '</strong></a></div>';
+              return;
+          }
             ?>
             <div class="wrap alter-wrap">
                 <h2><?php _e('Manage Admin Menu', 'alter'); ?></h2>
@@ -224,21 +235,24 @@ if (!class_exists('ALTERADMINMENU')) {
         }
 
         function alter_reorder_menu($menu_ord) {
-            if(isset($this->aof_options['custom_admin_menu']) && !empty($this->aof_options['custom_admin_menu'])) {
-                if (!$menu_ord) return true;
-                $alter_admin_menu = $this->aof_options['custom_admin_menu']['top_level_menu'];
-                $alter_menu_order = array();
-                foreach ( $alter_admin_menu as $alter_menu_value) {
-                    $alter_menu_order[] =$alter_menu_value['menu_slug'];
-                }
-                return $alter_menu_order;
-            }
-            else {
-                return array(
-                    'index.php',
-                    'separator1',
-                );
-            }
+          if(!empty($this->aof_options['disable_menu_customize']) && $this->aof_options['disable_menu_customize'] == 1)
+              return;
+
+          if(isset($this->aof_options['custom_admin_menu']) && !empty($this->aof_options['custom_admin_menu'])) {
+              if (!$menu_ord) return true;
+              $alter_admin_menu = $this->aof_options['custom_admin_menu']['top_level_menu'];
+              $alter_menu_order = array();
+              foreach ( $alter_admin_menu as $alter_menu_value) {
+                  $alter_menu_order[] =$alter_menu_value['menu_slug'];
+              }
+              return $alter_menu_order;
+          }
+          else {
+              return array(
+                  'index.php',
+                  'separator1',
+              );
+          }
         }
 
         function alter_reorder_menu_key() {
@@ -255,86 +269,102 @@ if (!class_exists('ALTERADMINMENU')) {
         }
 
         function alter_customize_menu() {
-            if(!isset($this->aof_options['custom_admin_menu']))
-                return;
 
-            global $menu, $submenu;
+          if(!empty($this->aof_options['disable_menu_customize']) && $this->aof_options['disable_menu_customize'] == 1)
+              return;
 
-            $current_user_role = parent::alter_get_user_role();
-            $current_user_id = get_current_user_id();
-            $alter_menu_access = $this->aof_options['show_all_menu_to_admin'];
-            $alter_privilege_users = (isset($this->aof_options['privilege_users']) && !empty($this->aof_options['privilege_users'])) ? $this->aof_options['privilege_users'] : "";
-            $alter_toplv_menu_data = (isset($this->aof_options['custom_admin_menu']['top_level_menu']) && !empty($this->aof_options['custom_admin_menu']['top_level_menu'])) ? $this->aof_options['custom_admin_menu']['top_level_menu'] : "";
-            $alter_sublv_menu_data = (isset($this->aof_options['custom_admin_menu']['sub_level_menu']) && !empty($this->aof_options['custom_admin_menu']['sub_level_menu'])) ? $this->aof_options['custom_admin_menu']['sub_level_menu'] : "";
+          if(!isset($this->aof_options['custom_admin_menu']))
+              return;
 
-            if(isset($menu) && !empty($menu)){
-                foreach ($menu as $menu_key => &$menu_value) {
-                    $top_level_menu_slug = parent::alter_clean_slug($menu_value[2]);
-                    $hide_for_roles_for_top = isset($this->aof_options['custom_admin_menu']['top_level_menu'][$top_level_menu_slug]['hide_for']) ?
-                            $this->aof_options['custom_admin_menu']['top_level_menu'][$top_level_menu_slug]['hide_for'] : "";
-                    $menu_icon_class = (isset($alter_toplv_menu_data[$top_level_menu_slug]['menu_icon']) && !empty($alter_toplv_menu_data[$top_level_menu_slug]['menu_icon'])) ? parent::alter_get_icon_class($alter_toplv_menu_data[$top_level_menu_slug]['menu_icon']) : "";
+          global $menu, $submenu;
 
-                    //customize top level menu
-                    if($menu_value[4] != 'wp-menu-separator' && !preg_match("/separator/i",$menu_value[4])) {
-                      if(isset($menu_value[5]) && $menu_value[5] != "toplevel_page_jetpack") { //if list ID removed, jetpack v4.3.2 or higher could not load its settings using list ID
-                        $menu_value[5] = ""; //removing list ID in order to override icons set by other plugins
-                      }
-                      if(is_super_admin()) {
-                          if(!empty($alter_menu_access) && $alter_menu_access == 2 && !empty($alter_privilege_users) && !in_array($current_user_id, $alter_privilege_users) && !empty($hide_for_roles_for_top) && is_array($hide_for_roles_for_top) && array_key_exists($current_user_role, $hide_for_roles_for_top))
-                              unset($menu[$menu_key]);
-                      }
-                      // elseif(is_multisite() && !is_super_admin()) {
-                      //     if(!empty($hide_for_roles_for_top) && is_array($hide_for_roles_for_top) && array_key_exists($current_user_role, $hide_for_roles_for_top)) {
-                      //         unset($menu[$menu_key]);
-                      //     }
-                      // }
-                      else {
-                          if(!empty($hide_for_roles_for_top) && is_array($hide_for_roles_for_top) && array_key_exists($current_user_role, $hide_for_roles_for_top)) {
-                              unset($menu[$menu_key]);
-                          }
-                      }
+          $current_user_role = parent::alter_get_user_role();
+          $current_user_id = get_current_user_id();
+          $alter_menu_access = $this->aof_options['show_all_menu_to_admin'];
+          $alter_privilege_users = (!empty($this->aof_options['privilege_users'])) ? $this->aof_options['privilege_users'] : "";
+          $alter_toplv_menu_data = (!empty($this->aof_options['custom_admin_menu']['top_level_menu'])) ? $this->aof_options['custom_admin_menu']['top_level_menu'] : "";
+          $alter_sublv_menu_data = (!empty($this->aof_options['custom_admin_menu']['sub_level_menu'])) ? $this->aof_options['custom_admin_menu']['sub_level_menu'] : "";
 
-                      if(isset($alter_toplv_menu_data[$top_level_menu_slug]['menu_title']) && !empty($alter_toplv_menu_data[$top_level_menu_slug]['menu_title'])) {
-                          $menu_value[0] = trim($alter_toplv_menu_data[$top_level_menu_slug]['menu_title']);
-                      }
+          if(isset($menu) && !empty($menu)){
+              foreach ($menu as $menu_key => &$menu_value) {
+                  $top_level_menu_slug = parent::alter_clean_slug($menu_value[2]);
+                  $hide_for_roles_for_top = isset($this->aof_options['custom_admin_menu']['top_level_menu'][$top_level_menu_slug]['hide_for']) ?
+                          $this->aof_options['custom_admin_menu']['top_level_menu'][$top_level_menu_slug]['hide_for'] : "";
+                  $menu_icon_class = (isset($alter_toplv_menu_data[$top_level_menu_slug]['menu_icon']) && !empty($alter_toplv_menu_data[$top_level_menu_slug]['menu_icon'])) ? parent::alter_get_icon_class($alter_toplv_menu_data[$top_level_menu_slug]['menu_icon']) : "";
 
-                      if(!empty($menu_icon_class)) {
-                          $iconType = explode(" ", $menu_icon_class);
-                          if($iconType[1] != "dashicons-blank") {
-                              if($iconType[0] == "dashicons") {
-                                  $menu_value[6] = trim($iconType[1]);
+                  //customize top level menu
+                  if($menu_value[4] != 'wp-menu-separator' && !preg_match("/separator/i",$menu_value[4])) {
+                    if(isset($menu_value[5]) && $menu_value[5] != "toplevel_page_jetpack") { //if list ID removed, jetpack v4.3.2 or higher could not load its settings using list ID
+                      $menu_value[5] = ""; //removing list ID in order to override icons set by other plugins
+                    }
+
+                    if(is_super_admin($current_user_id)) {
+                        if(!empty($alter_menu_access) && $alter_menu_access == 2 && !empty($alter_privilege_users) && !in_array($current_user_id, $alter_privilege_users)
+                        && !empty($hide_for_roles_for_top) && is_array($hide_for_roles_for_top) && array_key_exists($current_user_role, $hide_for_roles_for_top))
+                            unset($menu[$menu_key]);
+                    }
+                    // elseif(is_multisite() && !is_super_admin()) {
+                    //     if(!empty($hide_for_roles_for_top) && is_array($hide_for_roles_for_top) && array_key_exists($current_user_role, $hide_for_roles_for_top)) {
+                    //         unset($menu[$menu_key]);
+                    //     }
+                    // }
+                    else {
+                        if(!empty($hide_for_roles_for_top) && is_array($hide_for_roles_for_top) && array_key_exists($current_user_role, $hide_for_roles_for_top)) {
+                            unset($menu[$menu_key]);
+                        }
+                    }
+
+                    //temporory fix for remove vc menu
+                    if($top_level_menu_slug == "vcwelcome") { //if top menu slug is vcwelcome, definitely it's not an admin user
+                      $if_vc_general_hidden = isset($this->aof_options['custom_admin_menu']['top_level_menu']['vcgeneral']['hide_for']) ?
+                              $this->aof_options['custom_admin_menu']['top_level_menu']['vcgeneral']['hide_for'] : "";
+                              if(!empty($if_vc_general_hidden) && is_array($if_vc_general_hidden) && array_key_exists($current_user_role, $if_vc_general_hidden)) {
+                                unset($menu[$menu_key]);
                               }
-                              else {
-                                  $menu_value[6] = "dashicons-" . $iconType[1];
-                              }
-                          }
-                      }
 
-                      //customize sub level menu
-                      if(isset($submenu[$menu_value[2]]) && !empty($alter_sublv_menu_data)){
-                              foreach ($submenu[$menu_value[2]] as $submenu_key => &$submenu_val){ //echo '<pre>'; print_r($submenu_val); echo '</pre>';
-                                  $sub_level_menu_slug = parent::alter_clean_slug($submenu_val[2]);
-                                  $hide_for_roles_for_sub = isset($alter_sublv_menu_data[$sub_level_menu_slug]['hide_for']) ? $alter_sublv_menu_data[$sub_level_menu_slug]['hide_for'] : "";
+                    }
 
-                                      if(is_multisite() && !is_super_admin()) {
-                                          if(!empty($hide_for_roles_for_sub) && is_array($hide_for_roles_for_sub) && array_key_exists($current_user_role, $hide_for_roles_for_sub)) {
-                                              unset($submenu[$menu_value[2]][$submenu_key]);
-                                          }
-                                      }
-                                      else {
-                                          if(!empty($hide_for_roles_for_sub) && is_array($hide_for_roles_for_sub) && array_key_exists($current_user_role, $hide_for_roles_for_sub)) {
-                                              unset($submenu[$menu_value[2]][$submenu_key]);
-                                          }
-                                      }
+                    if(isset($alter_toplv_menu_data[$top_level_menu_slug]['menu_title']) && !empty($alter_toplv_menu_data[$top_level_menu_slug]['menu_title'])) {
+                        $menu_value[0] = trim($alter_toplv_menu_data[$top_level_menu_slug]['menu_title']);
+                    }
 
-                                      if(isset($alter_sublv_menu_data[$sub_level_menu_slug]['menu_title']) && !empty($alter_sublv_menu_data[$sub_level_menu_slug]['menu_title'])) {
-                                          $submenu_val[0] = trim($alter_sublv_menu_data[$sub_level_menu_slug]['menu_title']);
-                                      }
+                    if(!empty($menu_icon_class)) {
+                        $iconType = explode(" ", $menu_icon_class);
+                        if($iconType[1] != "dashicons-blank") {
+                            if($iconType[0] == "dashicons") {
+                                $menu_value[6] = trim($iconType[1]);
+                            }
+                            else {
+                                $menu_value[6] = "dashicons-" . $iconType[1];
+                            }
+                        }
+                    }
 
-                              }
-                      }
+                    //customize sub level menu
+                    if(isset($submenu[$menu_value[2]]) && !empty($alter_sublv_menu_data)){
+                            foreach ($submenu[$menu_value[2]] as $submenu_key => &$submenu_val){ //echo '<pre>'; print_r($submenu_val); echo '</pre>';
+                                $sub_level_menu_slug = parent::alter_clean_slug($submenu_val[2]);
+                                $hide_for_roles_for_sub = isset($alter_sublv_menu_data[$sub_level_menu_slug]['hide_for']) ? $alter_sublv_menu_data[$sub_level_menu_slug]['hide_for'] : "";
 
-                    } //end if
+                                    if(is_multisite() && !is_super_admin()) {
+                                        if(!empty($hide_for_roles_for_sub) && is_array($hide_for_roles_for_sub) && array_key_exists($current_user_role, $hide_for_roles_for_sub)) {
+                                            unset($submenu[$menu_value[2]][$submenu_key]);
+                                        }
+                                    }
+                                    else {
+                                        if(!empty($hide_for_roles_for_sub) && is_array($hide_for_roles_for_sub) && array_key_exists($current_user_role, $hide_for_roles_for_sub)) {
+                                            unset($submenu[$menu_value[2]][$submenu_key]);
+                                        }
+                                    }
+
+                                    if(isset($alter_sublv_menu_data[$sub_level_menu_slug]['menu_title']) && !empty($alter_sublv_menu_data[$sub_level_menu_slug]['menu_title'])) {
+                                        $submenu_val[0] = trim($alter_sublv_menu_data[$sub_level_menu_slug]['menu_title']);
+                                    }
+
+                            }
+                    }
+
+                  } //end if
                 }
             }
 

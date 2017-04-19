@@ -44,16 +44,11 @@ function get_aof_options() {
     $adminbar_items = (is_serialized(get_site_option(ALTER_ADMINBAR_LISTS_SLUG))) ? unserialize(get_site_option(ALTER_ADMINBAR_LISTS_SLUG)) : get_site_option(ALTER_ADMINBAR_LISTS_SLUG);
   }
 
-  //get all admin users
-   //enabling this makes bbpress menu items disappear
-  $user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
-  if(isset($user_query) && !empty($user_query)) {
-      if ( ! empty( $user_query->results ) ) {
-          foreach ( $user_query->results as $user_detail ) {
-              $admin_users[$user_detail->ID] = $user_detail->display_name;
-          }
-      }
-  }
+  /*
+  @since 2.0
+  //get all admin users method rewritten
+  */
+  $admin_users_array = (is_serialized(get_option(ALTER_ADMIN_USERS_SLUG))) ? unserialize(get_option(ALTER_ADMIN_USERS_SLUG)) : get_option(ALTER_ADMIN_USERS_SLUG);
 
   $blog_email = get_option('admin_email');
   $blog_from_name = get_option('blogname');
@@ -163,6 +158,7 @@ function get_aof_options() {
           '1' => __( 'Wordpress Help tab.', 'alter' ),
           '2' => __( 'Screen Options.', 'alter' ),
           '3' => __( 'Wordpress update notifications.', 'alter' ),
+          '4' => __( 'Plugin update notifications from plugins page.', 'alter' ),
       ),
       );
 
@@ -204,6 +200,14 @@ function get_aof_options() {
       );
 
   $panel_fields[] = array(
+      'name' => __( 'Disable Menu customization', 'alter' ),
+      'id' => 'disable_menu_customize',
+      'type' => 'checkbox',
+      'desc' => __( 'Select to disable Alter menu customization feature.', 'alter' ),
+      'default' => false,
+      );
+
+  $panel_fields[] = array(
           'name' => __( 'Menu display', 'alter' ),
           'id' => 'show_all_menu_to_admin',
           'type' => 'radio',
@@ -213,13 +217,15 @@ function get_aof_options() {
       ),
       );
 
-  $panel_fields[] = array(
-      'name' => __( 'Select Privilege users', 'alter' ),
-      'id' => 'privilege_users',
-      'type' => 'multicheck',
-      'desc' => __( 'Select admin users who can have access to all menu items.', 'alter' ),
-      'options' => $admin_users,
-      );
+  if(isset($admin_users_array)) {
+    $panel_fields[] = array(
+        'name' => __( 'Select Privilege users', 'alter' ),
+        'id' => 'privilege_users',
+        'type' => 'multicheck',
+        'desc' => __( 'Select admin users who can have access to all menu items.', 'alter' ),
+        'options' => $admin_users_array,
+        );
+  }
 
   $panel_fields[] = array(
       'name' => __( 'Custom CSS', 'alter' ),
@@ -268,12 +274,20 @@ function get_aof_options() {
       );
 
   $panel_fields[] = array(
-      'name' => __( 'Background Repeat', 'alter' ),
-      'id' => 'login_bg_img_repeat',
+      'name' => __( 'Disable background image', 'alter' ),
+      'id' => 'disable_login_bg_img',
       'type' => 'checkbox',
-      'desc' => __( 'Check to repeat', 'alter' ),
-      'default' => true,
+      'desc' => __( 'Check to disable', 'alter' ),
+      'default' => false,
       );
+
+  // $panel_fields[] = array(
+  //     'name' => __( 'Background Repeat', 'alter' ),
+  //     'id' => 'login_bg_img_repeat',
+  //     'type' => 'checkbox',
+  //     'desc' => __( 'Check to repeat', 'alter' ),
+  //     'default' => true,
+  //     );
 
   $panel_fields[] = array(
       'name' => __( 'Scale background image', 'alter' ),
@@ -283,22 +297,22 @@ function get_aof_options() {
       'default' => true,
       );
 
-  $panel_fields[] = array(
-      'name' => __( 'Login Form Top margin in %', 'alter' ),
-      'id' => 'login_form_margintop',
-      'type' => 'number',
-      'default' => '7',
-      'min' => '0',
-      'max' => '100',
-      );
+  // $panel_fields[] = array(
+  //     'name' => __( 'Login Form Top margin in %', 'alter' ),
+  //     'id' => 'login_form_margintop',
+  //     'type' => 'number',
+  //     'default' => '7',
+  //     'min' => '0',
+  //     'max' => '100',
+  //     );
 
   $panel_fields[] = array(
-      'name' => __( 'Login Form Width in %', 'alter' ),
-      'id' => 'login_form_width',
+      'name' => __( 'Login Form Width in px', 'alter' ),
+      'id' => 'login_form_width_in_px',
       'type' => 'number',
-      'default' => '25',
-      'min' => '20',
-      'max' => '100',
+      'default' => '760',
+      'min' => '550',
+      'max' => '900',
       );
 
   $panel_fields[] = array(
@@ -340,20 +354,71 @@ function get_aof_options() {
       );
 
   $panel_fields[] = array(
-      'name' => __( 'Transparent Form', 'alter' ),
-      'id' => 'login_divbg_transparent',
-      'type' => 'checkbox',
-      'default' => true,
-      'desc' => __( 'Select to show transparent form background.', 'alter' ),
+      'name' => __( 'Logo background color', 'alter' ),
+      'id' => 'login_logo_bg_color',
+      'type' => 'wpcolor',
+      'default' => '#bf903f',
       );
 
-    $panel_fields[] = array(
-        'name' => __( 'Transparent Form inputs', 'alter' ),
-        'id' => 'login_inputs_transparent',
-        'type' => 'checkbox',
-        'default' => true,
-        'desc' => __( 'Select to show transparent form inputs.', 'alter' ),
-        );
+  $panel_fields[] = array(
+      'name' => __( 'Top margin for Logo', 'alter' ),
+      'id' => 'login_logo_top_margin',
+      'type' => 'number',
+      'default' => '80',
+      'min' => '10',
+      'max' => '300',
+      );
+
+  // $panel_fields[] = array(
+  //     'name' => __( 'Short Description', 'alter' ),
+  //     'id' => 'login_logo_desc',
+  //     'type' => 'wpeditor',
+  //     'desc' => __( 'Short description under logo.', 'alter' ),
+  //     );
+
+  $panel_fields[] = array(
+      'name' => __( 'Login form background color', 'alter' ),
+      'id' => 'login_formbg_color',
+      'type' => 'wpcolor',
+      'default' => '#423143',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Login button color', 'alter' ),
+      'id' => 'login_button_color',
+      'type' => 'wpcolor',
+      'default' => '#122133',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Login button hover color', 'alter' ),
+      'id' => 'login_button_hover_color',
+      'type' => 'wpcolor',
+      'default' => '#101e2f',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Login button text color', 'alter' ),
+      'id' => 'login_button_text_color',
+      'type' => 'wpcolor',
+      'default' => '#ffffff',
+      );
+
+  // $panel_fields[] = array(
+  //     'name' => __( 'Transparent Form', 'alter' ),
+  //     'id' => 'login_divbg_transparent',
+  //     'type' => 'checkbox',
+  //     'default' => true,
+  //     'desc' => __( 'Select to show transparent form background.', 'alter' ),
+  //     );
+  //
+  //   $panel_fields[] = array(
+  //       'name' => __( 'Transparent Form inputs', 'alter' ),
+  //       'id' => 'login_inputs_transparent',
+  //       'type' => 'checkbox',
+  //       'default' => true,
+  //       'desc' => __( 'Select to show transparent form inputs.', 'alter' ),
+  //       );
 
   // $panel_fields[] = array(
   //     'name' => __( 'Form inputs background color', 'alter' ),
@@ -366,22 +431,29 @@ function get_aof_options() {
       'name' => __( 'Form inputs text color', 'alter' ),
       'id' => 'login_inputs_text_color',
       'type' => 'wpcolor',
-      'default' => '#5b5b5b',
+      'default' => '#d5d5d5',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Form inputs placeholder text color', 'alter' ),
+      'id' => 'login_inputs_plholder_color',
+      'type' => 'wpcolor',
+      'default' => '#5f6f82',
       );
 
   $panel_fields[] = array(
       'name' => __( 'Form inputs border color', 'alter' ),
       'id' => 'login_inputs_border_color',
       'type' => 'wpcolor',
-      'default' => '#e2e2e2',
+      'default' => '#d5d5d5',
       );
 
-  $panel_fields[] = array(
-      'name' => __( 'Form inputs border hover color', 'alter' ),
-      'id' => 'login_inputs_border_hover_color',
-      'type' => 'wpcolor',
-      'default' => '#756c6c',
-      );
+  // $panel_fields[] = array(
+  //     'name' => __( 'Form inputs border hover color', 'alter' ),
+  //     'id' => 'login_inputs_border_hover_color',
+  //     'type' => 'wpcolor',
+  //     'default' => '#756c6c',
+  //     );
 
   // $panel_fields[] = array(
   //     'name' => __( 'Login div background color', 'alter' ),
@@ -390,19 +462,13 @@ function get_aof_options() {
   //     'default' => '#f5f5f5',
   //     );
 
-  $panel_fields[] = array(
-      'name' => __( 'Login form background color', 'alter' ),
-      'id' => 'login_formbg_color',
-      'type' => 'wpcolor',
-      'default' => '#423143',
-      );
 
-  $panel_fields[] = array(
-      'name' => __( 'Form border color', 'alter' ),
-      'id' => 'form_border_color',
-      'type' => 'wpcolor',
-      'default' => '#e5e5e5',
-      );
+  // $panel_fields[] = array(
+  //     'name' => __( 'Form border color', 'alter' ),
+  //     'id' => 'form_border_color',
+  //     'type' => 'wpcolor',
+  //     'default' => '#e5e5e5',
+  //     );
 
   $panel_fields[] = array(
       'name' => __( 'Form text color', 'alter' ),
@@ -415,14 +481,14 @@ function get_aof_options() {
       'name' => __( 'Form link color', 'alter' ),
       'id' => 'form_link_color',
       'type' => 'wpcolor',
-      'default' => '#777777',
+      'default' => '#b7b7b7',
       );
 
   $panel_fields[] = array(
       'name' => __( 'Form link hover color', 'alter' ),
       'id' => 'form_link_hover_color',
       'type' => 'wpcolor',
-      'default' => '#555555',
+      'default' => '#ffffff',
       );
 
   $panel_fields[] = array(
@@ -571,7 +637,7 @@ function get_aof_options() {
       'type' => 'openTab'
   );
 
-  if($alter_get_options['disable_admin_pages_styles'] == 1) {
+  if(isset($alter_get_options['disable_admin_pages_styles']) && $alter_get_options['disable_admin_pages_styles'] == 1) {
     $panel_fields[] = array(
         'desc' => __( 'Admin styles are disabled. Your customization would not work. Please enable it to display Alter custom styles.', 'alter' ),
         'type' => 'note'
@@ -794,7 +860,7 @@ function get_aof_options() {
       'type' => 'openTab'
       );
 
-      if($alter_get_options['disable_admin_pages_styles'] == 1) {
+      if(isset($alter_get_options['disable_admin_pages_styles']) && $alter_get_options['disable_admin_pages_styles'] == 1) {
         $panel_fields[] = array(
             'desc' => __( 'Admin styles are disabled. Your customization would not work. Please enable it to display Alter custom styles.', 'alter' ),
             'type' => 'note'
