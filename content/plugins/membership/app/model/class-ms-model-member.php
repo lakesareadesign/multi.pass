@@ -1164,6 +1164,13 @@ class MS_Model_Member extends MS_Model {
 					)
 				);
 			}
+                        else
+                        {
+                            if( isset( $_POST['display_name'] ) && $_POST['display_name'] != '' )
+                            {
+                                wp_update_user( array( 'ID' => $user_id, 'display_name' => $_POST['display_name'] ) );
+                            }
+                        }
 
 			$this->id = $user_id;
 		}
@@ -1832,9 +1839,17 @@ class MS_Model_Member extends MS_Model {
 			);
 		}
 
+		$validation_errors = apply_filters(
+			'ms_model_member_validate_member_info_errors_obj',
+			$validation_errors,
+			$this
+		);
+
 		$errors = apply_filters(
 			'ms_model_member_validate_member_info_errors',
-			$validation_errors->get_error_messages()
+			$validation_errors->get_error_messages(),
+			$validation_errors,
+			$this
 		);
 
 		if ( ! empty( $errors ) ) {
@@ -1970,5 +1985,18 @@ class MS_Model_Member extends MS_Model {
                     }
 
                 }
+	}
+
+	/**
+	 * Check if property isset.
+	 *
+	 * @since  1.0.0
+	 * @internal
+	 *
+	 * @param string $property The name of a property.
+	 * @return mixed Returns true/false.
+	 */
+	public function __isset( $property ) {
+		return isset($this->$property);
 	}
 }

@@ -104,7 +104,7 @@ class AgmUserMaps {
 			return $body;
 		}
 
-		if ( $options['autoshow_map'] ) {
+		if ( isset($options['autoshow_map']) && $options['autoshow_map'] ) {
 			$shortcode_attributes = apply_filters(
 				'agm_google_maps-autogen_map-shortcode_attributes',
 				array(

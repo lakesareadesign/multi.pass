@@ -1,13 +1,13 @@
 === WordPress Calls to Action ===
 
-Contributors: Hudson Atwell, David Wells, Giulio Dapreala, ahmedkaludi
+Contributors: Hudson Atwell, David Wells, Giulio Dapreala, ahmedkaludi, Matt Bisset
 Donate link: mailto:hudson@inboundnow.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads, slide in call outs, fly ins, like to download, social media share buttons
 Requires at least: 3.8
 Tested up to: 4.7.3
-Stable Tag: 3.0.5
+Stable Tag: 3.0.9
 
 Create Calls to Action for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own CTA templates and more.
 
@@ -69,7 +69,16 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 
 == Changelog ==
 
-= 3.0.5 =
+= 3.0.9 =
+* Removing modernizer js assets from call to action templates
+* Restoring Popup capabilities with Yoast SEO
+
+= 3.0.8 =
+* Adding lead sources to Leads API
+* Moved field mapping select input to a more visable location.
+* Improved New Lead Notification email report
+
+= 3.0.6 =
 * FireFox support for datetime picker.
 * Moved field mapping select input to a more visable location.
 * Improved New Lead Notification email report

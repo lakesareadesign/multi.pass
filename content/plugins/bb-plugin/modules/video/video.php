@@ -143,9 +143,11 @@ FLBuilder::register_module('FLVideoModule', array(
 						)
 					),
 					'embed_code'     => array(
-						'type'          => 'textarea',
-						'label'         => __( 'Video Embed Code', 'fl-builder' ),
-						'rows'          => '6'
+						'type'          => 'code',
+						'wrap'          => true,
+						'editor'        => 'html',
+						'label'         => '',
+						'rows'          => '9'
 					)
 				)
 			)

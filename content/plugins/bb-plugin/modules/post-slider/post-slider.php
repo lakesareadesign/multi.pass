@@ -408,7 +408,7 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						'default'       => 'horizontal',
 						'options'       => array(
 							'fade'              => __('Fade', 'fl-builder'),
-							'horizontal'   		=> __('Slide', 'fl-builder'),
+							'horizontal'   		=> _x( 'Slide', 'Transition type.', 'fl-builder' ),
 						)
 					),
 					'transitionDuration' => array(

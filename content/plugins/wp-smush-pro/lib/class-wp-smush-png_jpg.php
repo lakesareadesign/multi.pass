@@ -299,7 +299,7 @@ if ( ! class_exists( 'WpSmushPngtoJpg' ) ) {
 
 			//Update In Post Content
 			global $wpdb;
-			$query = $wpdb->prepare( "UPDATE $wpdb->posts SET post_content = REPLACE(post_content, '%s', '%s');", $o_url, $n_url );
+			$query = $wpdb->prepare( "UPDATE $wpdb->posts SET post_content = REPLACE(post_content, '%s', '%s');", $o_url, $n_url );								 	 	   		   
 			$wpdb->query( $query );
 
 			//Delete the Original files if backup not enabled

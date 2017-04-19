@@ -329,6 +329,7 @@ class MS_Model_Invoice extends MS_Model_CustomPostType {
 			'publicly_queryable' => true,
 			'supports' => false,
 			'hierarchical' => false,
+                        'exclude_from_search' => true
 		);
 
 		return apply_filters(
@@ -855,6 +856,11 @@ class MS_Model_Invoice extends MS_Model_CustomPostType {
 
 		$invoice->save();
 
+		//If gateway is admin then set the invoice as paid.
+		if ( 'admin' == $invoice->gateway_id) {
+			$invoice->pay_it( $invoice->gateway_id );
+		}
+
 		return apply_filters(
 			'ms_model_relationship_create_invoice',
 			$invoice,
@@ -1109,8 +1115,8 @@ class MS_Model_Invoice extends MS_Model_CustomPostType {
 			$this->save();
 
 			$subscription->set_gateway( $this->gateway_id );
+			$subscription->save();
 		}
-
 		return apply_filters(
 			'ms_model_invoice_changed',
 			$this,
@@ -1607,4 +1613,16 @@ class MS_Model_Invoice extends MS_Model_CustomPostType {
 		);
 	}
 
+	/**
+	 * Check if property isset.
+	 *
+	 * @since  1.0.0
+	 * @internal
+	 *
+	 * @param string $property The name of a property.
+	 * @return mixed Returns true/false.
+	 */
+	public function __isset( $property ) {
+		return isset($this->$property);
+	}
 }

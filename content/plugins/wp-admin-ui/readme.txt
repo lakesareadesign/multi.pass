@@ -3,8 +3,8 @@ Contributors: rainbowgeek
 Donate link: https://wpadminui.net/
 Tags: admin, ui, custom admin, admin menu, admin bar, metaboxes, widget, columns, profil, color schemes, dashboard, third party plugin
 Requires at least: 4.0+
-Tested up to: 4.6
-Stable tag: 1.8.1
+Tested up to: 4.8
+Stable tag: 1.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,7 +42,8 @@ Need more features? Try WP Admin UI Pro right now!
 	<li><strong>Columns:</strong> remove unwanted columns in view posts, pages and custom post types list...</li>
 	<li><strong>Third plugins:</strong> remove WP SEO ads, WPML ads, Gravity Forms, Akismet, WooThemes...</li>
 	<li><strong>Themes:</strong> build your own custom admin theme without code</li>
-	<li><strong>Mails:</strong> manage WP Mails, use SMTP, change From and Name, add CC, BCC, return path...
+	<li><strong>Mails:</strong> manage WP Mails, use SMTP, change From and Name, add CC, BCC, return path...</li>
+	<li><strong>WooCommerce:</strong> customize WooCommerce backend, remove product data like type, tabs...</li>
 	<li>and new pro features soon...</li>
 </ul>
 
@@ -84,6 +85,24 @@ Check our FAQ on <a href="http://www.wpadminui.net/support/faq/" target="_blank"
 11. WP Admin UI Import / Export 
 
 == Changelog ==
+= 1.9.1 =
+* FIX Remove print_r in backend
+= 1.9 =
+* NEW Remove All In One SEO Pro notices
+* NEW Remove Downloadable Product checkboxe in product backend page
+* NEW Remove Virtual Product checkboxe in product backend page
+* NEW Remove Simple Product in product backend page
+* NEW Remove Grouped Product in product backend page
+* NEW Remove External Product in product backend page
+* NEW Remove Variable Product in product backend page
+* NEW Remove General Tab in product backend page
+* NEW Remove Inventory Tab in product backend page
+* NEW Remove Shipping Tab in product backend page
+* NEW Remove Linked Product Tab in product backend page
+* NEW Remove Attribute Tab in product backend page
+* NEW Remove Variations Tab in product backend page
+* NEW Remove Advanced Tab in product backend page
+* FIX Admin Ajax blocked by option
 = 1.8.1 =
 * FIX Admin menu regression
 = 1.8 =

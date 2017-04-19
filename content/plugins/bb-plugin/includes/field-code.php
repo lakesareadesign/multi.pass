@@ -21,6 +21,10 @@
 		editor.getSession().setValue(textarea.val());
 		editor.getSession().setMode('ace/mode/' + mode);
 		
+		<?php if ( isset( $field['wrap'] ) && $field['wrap'] === true ) : ?>
+			editor.getSession().setUseWrapMode(true);
+		<?php endif; ?>
+		
 		editor.setOptions({
 	        enableBasicAutocompletion: true,
 	        enableLiveAutocompletion: true,

@@ -116,7 +116,8 @@ class MS_Controller_Frontend extends MS_Controller {
 
 			if ( self::$handle_registration ) {
 				// Set the registration URL to the 'Register' Membership Page.
-				$this->add_filter( 'wp_signup_location', 'signup_location', 999 );
+				if ( !is_multisite() && !is_admin())
+					$this->add_filter( 'wp_signup_location', 'signup_location', 999 );
 				$this->add_filter( 'register_url', 'signup_location', 999 );
 			}
 
@@ -593,7 +594,7 @@ class MS_Controller_Frontend extends MS_Controller {
 
 			if ( MS_Model_Event::save_event( MS_Model_Event::TYPE_MS_REGISTERED, $user ) ) {
                             if( ! defined( 'MS_DISABLE_WP_NEW_USER_NOTIFICATION' ) ){
-				wp_new_user_notification( $user->id, $user->password );
+				wp_new_user_notification( $user->id );
                             }
 			}
 

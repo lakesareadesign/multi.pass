@@ -85,13 +85,13 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 			/**
 			 * Process forms
 			 */
-			if ( ! empty( $primary_gateway ) &&
+			if ( ! empty( $primary_gateway ) && isset( $gateways[ $primary_gateway ] ) &&
 			     method_exists( $gateways[ $primary_gateway ]['class'], 'process_on_render' ) && call_user_func( $gateways[ $primary_gateway ]['class'] . '::process_on_render' ) &&
 			     method_exists( $gateways[ $primary_gateway ]['class'], 'process_checkout_form' )
 			) {
 				$primary_args = call_user_func( $gateways[ $primary_gateway ]['class'] . '::process_checkout_form', $render_data, $blog_id, $domain );
 			}
-			if ( ! empty( $secondary_gateway ) &&
+			if ( ! empty( $secondary_gateway ) && isset( $gateways[ $secondary_gateway ] ) &&
 			     method_exists( $gateways[ $secondary_gateway ]['class'], 'process_on_render' ) && call_user_func( $gateways[ $secondary_gateway ]['class'] . '::process_on_render' ) &&
 			     method_exists( $gateways[ $secondary_gateway ]['class'], 'process_checkout_form' )
 			) {
@@ -119,6 +119,7 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 			$hidden_class = ( isset( $render_data['new_blog_details'] ) && isset( $render_data['new_blog_details']['blogname'] ) ) || isset( $render_data['upgraded_blog_details'] ) ? '' : $hidden_class;
 			$hidden_class = isset( $render_data['new_blog_details']['site_activated'] ) && $render_data['new_blog_details']['site_activated'] ? 'hidden' : $hidden_class;
 
+
 			$content .= '<div' . ( $tabbed ? ' id="gateways"' : '' ) . ' class="gateways checkout-gateways ' . $hidden_class . '">';
 
 			// How many gateways can we use at checkout?
@@ -130,13 +131,22 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 			if ( $tabbed && $available_gateways > 1 ) {
 				$content .= '<ul>';
 				if ( ! empty( $primary_gateway ) ) {
-					$content .= '<li><a href="#gateways-1">' . esc_html( $psts->get_setting( 'checkout_gateway_primary_label', __( 'Payment', 'psts' ) ) ) . '</a></li>';
+					//If there are errors associated with the gateway, Mark the gateway tab as active
+					$error = $psts->errors->get_error_message( $primary_gateway );
+					$class = !empty( $error ) ? 'ui-tabs-active ui-state-active' : '';
+					$content .= '<li class="' . $class . '"><a href="#gateways-1">' . esc_html( $psts->get_setting( 'checkout_gateway_primary_label', __( 'Payment', 'psts' ) ) ) . '</a></li>';
 				}
 				if ( ! empty( $secondary_gateway ) ) {
-					$content .= '<li><a href="#gateways-2">' . esc_html( $psts->get_setting( 'checkout_gateway_secondary_label', __( 'Alternate Payment', 'psts' ) ) ) . '</a></li>';
+					//If there are errors associated with the gateway, Mark the gateway tab as active
+					$error = $psts->errors->get_error_message( $secondary_gateway );
+					$class = !empty( $error ) ? 'ui-tabs-active ui-state-active' : '';
+					$content .= '<li class="' . $class . '"><a href="#gateways-2">' . esc_html( $psts->get_setting( 'checkout_gateway_secondary_label', __( 'Alternate Payment', 'psts' ) ) ) . '</a></li>';
 				}
 				if ( ! empty( $manual_gateway ) ) {
-					$content .= '<li><a href="#gateways-3">' . esc_html( $psts->get_setting( 'checkout_gateway_manual_label', __( 'Offline Payment', 'psts' ) ) ) . '</a></li>';
+					//If there are errors associated with the gateway, Mark the gateway tab as active
+					$error = $psts->errors->get_error_message( $manual_gateway );
+					$class = !empty( $error ) ? 'ui-tabs-active ui-state-active' : '';
+					$content .= '<li class="' . $class . '"><a href="#gateways-3">' . esc_html( $psts->get_setting( 'checkout_gateway_manual_label', __( 'Offline Payment', 'psts' ) ) ) . '</a></li>';
 				}
 				$content .= '</ul>';
 			}
@@ -147,7 +157,7 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 			$allow_cancel_gateway = ! defined( 'PSTS_CANCEL_ON_GATEWAY_CHANGE' ) || ( defined( 'PSTS_CANCEL_ON_GATEWAY_CHANGE' ) && PSTS_CANCEL_ON_GATEWAY_CHANGE != false );
 
 			// Primary
-			if ( ! empty( $primary_gateway ) && method_exists( $gateways[ $primary_gateway ]['class'], 'render_gateway' ) ) {
+			if ( ! empty( $primary_gateway ) && isset ( $gateways[ $primary_gateway ] ) && method_exists( $gateways[ $primary_gateway ]['class'], 'render_gateway' ) ) {
 
 				$content .= '<div id="gateways-1" class="gateway gateway-primary">';
 				$content .= call_user_func( $gateways[ $primary_gateway ]['class'] . '::render_gateway', $render_data, $primary_args, $blog_id, $domain );
@@ -155,7 +165,7 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 				if ( $allow_cancel_gateway && ! empty ( $last_gateway ) && $last_gateway !== $primary_gateway && strtolower( $last_gateway ) !== 'trial' ) {
 
 					$name = "";
-					if ( method_exists( $gateways[ $site_details['last_payment_gateway'] ]['class'], 'get_name' ) ) {
+					if ( isset( $gateways[ $site_details['last_payment_gateway'] ] ) && isset( $gateways[ $site_details['last_payment_gateway'] ]['class'] ) && method_exists( $gateways[ $site_details['last_payment_gateway'] ]['class'], 'get_name' ) ) {
 						$name = call_user_func( $gateways[ $site_details['last_payment_gateway'] ]['class'] . '::get_name' );
 						$name = $name[ $site_details['last_payment_gateway'] ];
 					}
@@ -173,7 +183,7 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 			}
 
 			// Secondary
-			if ( ! empty( $secondary_gateway ) && method_exists( $gateways[ $primary_gateway ]['class'], 'render_gateway' ) ) {
+			if ( ! empty( $secondary_gateway ) && isset( $gateways[ $secondary_gateway ] ) && method_exists( $gateways[ $secondary_gateway ]['class'], 'render_gateway' ) ) {
 
 				$content .= '<div id="gateways-2" class="gateway gateway-secondary">';
 				$content .= call_user_func( $gateways[ $secondary_gateway ]['class'] . '::render_gateway', $render_data, $secondary_args, $blog_id, $domain, false );
@@ -236,8 +246,6 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 			$result = $wpdb->get_row( $sql );
 
 			if ( ! empty( $result ) ) {
-
-
 				if ( 'Trial' == $result->gateway ) {
 					$info_retrieved = ProSites_Gateway_Trial::get_existing_user_information( $blog_id, $domain );
 				} else {
@@ -468,7 +476,7 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 				$pre_content .= self::render_payment_submitted();
 			}
 
-			// PayPal Fix
+			// PayPal Fix, As the user is redirected to Paypal and then sent back over to the site
 			if ( isset( $_GET['token'] ) && isset( $_GET['PayerID'] ) && isset( $_GET['action'] ) && $_GET['action'] == 'complete' ) {
 				return self::render_payment_submitted('', '', $blog_id );
 			}
@@ -481,7 +489,6 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 			if ( ! empty( $pre_content ) ) {
 				return $pre_content;
 			}
-			//}
 
 			//For gateways after redirection, upon page refresh
 			$page_reload = ! empty( $_GET['action'] ) && $_GET['action'] == 'complete' && isset( $_GET['token'] );
@@ -676,6 +683,28 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 			$blog_admin_url = empty( $blog_admin_url ) ? admin_url() :  $blog_admin_url;
 
 			$content .= '<h2>' . esc_html__( 'Finalizing your site...', 'psts' ) . '</h2>';
+
+			$last_gateway     = ProSites_Helper_ProSite::last_gateway( $blog_id );
+
+			//Fix for Paypal
+			if ( empty( $last_gateway ) && isset( $_GET['token'] ) && isset( $_GET['PayerID'] ) && isset( $_GET['action'] ) && $_GET['action'] == 'complete' ) {
+				$last_gateway = 'paypal';
+			}
+
+			$ty_message = '';
+			if ( ! empty( $last_gateway ) ) {
+				if ( 'stripe' == $last_gateway ) {
+					$key = 'stripe_thankyou';
+				} elseif ( 'paypal' == $last_gateway ) {
+					$key = 'pypl_thankyou';
+				}
+				$ty_message = ! empty( $key ) ? $psts->get_setting( $key ) : '';
+			}
+
+			//If we have a thank you message to display
+			if ( ! empty( $ty_message ) ) {
+				$content .= '<p>' . $ty_message . '</p>';
+			}
 
 			if ( ! $show_trial ) {
 				$content .= '<p>' . esc_html__( 'Your payment is being processed and you should soon receive an email with your site details.', 'psts' ) . '</p>';

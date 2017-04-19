@@ -1,8 +1,9 @@
-/*! CoursePress - v2.0.5
+/*! CoursePress - v2.0.7
  * https://premium.wpmudev.org/project/coursepress-pro/
  * Copyright (c) 2017; * Licensed GPLv2+ */
 /*global tinyMCEPreInit*/
 /*global _coursepress*/
+
 
 var CoursePress = CoursePress || {};
 
@@ -57,7 +58,6 @@ var CoursePress = CoursePress || {};
 			var height = $( editor ).attr( 'data-height' ) ? $( editor ).attr( 'data-height' ) : 400;
 
 			CoursePress.editor.create( editor, id, name, content, false, height );
-	
 		} );
 
 
@@ -921,6 +921,22 @@ var CoursePress = CoursePress || {};
 		CoursePress.Helpers.Module.form.bind_textboxes();
 	};	
 
+    /**
+     * Delete page/section.
+     */
+	CoursePress.Helpers.Module.delete_page = function( e, unit_id, page ) {
+        console.log( unit_id, page );
+		var nonce = $( '#unit-builder' ).attr( 'data-nonce' );
+		CoursePress.UnitBuilder.module_collection.url = _coursepress._ajax_url + '?action=unit_builder&task=modules_update_delete_section&course_id=' + _coursepress.course_id + '&unit_id=' + CoursePress.UnitBuilder.activeUnitID + '&page=' + CoursePress.UnitBuilder.activePage + '&wp_nonce=' + nonce + '&page='+page;
+		Backbone.sync( 'update', CoursePress.UnitBuilder.module_collection, {
+			success: function( response ) {
+				$( '#unit-builder' ).attr( 'data-nonce', response[ 'nonce' ] );
+			},
+			'error': function() {
+			}
+		} );
+    }
+
 	CoursePress.Helpers.Module.save_unit = function( e, custom_event ) {
 		$( '.unit-buttons .unit-save-button' ).prepend( '<i class="fa fa-spinner fa-spin save-progress"></i> ' );
 
@@ -1091,6 +1107,8 @@ var CoursePress = CoursePress || {};
 		data['instructor_assessable'] = module.fix_boolean( module.get_meta( 'instructor_assessable' ) );
 		var post_content = module.get( 'post_excerpt' );
 		post_content = post_content && post_content.length > 0 ? post_content : module.get( 'post_content' );
+		post_content = _.escape(post_content);
+
 		data[ 'content' ] = post_content.trim();
 		data[ 'order' ] = module.get_meta( 'order', 0 );
 		data[ 'page' ] = module.get_meta( 'page', 1 );
@@ -1544,60 +1562,16 @@ var CoursePress = CoursePress || {};
 		},
 		deletePage: function( e ) {
 			var self = this;
-			if ( window.confirm( _coursepress.unit_builder_delete_page_confirm ) ) {
-				var page = parseInt( this.activePage );
-
-				var meta = self.unit_collection._byId[ self.activeUnitRef ].get( 'meta' );
-				var page_title = meta[ 'page_title' ];
-				var page_description = meta[ 'page_description' ];
-				var show_page_title = meta[ 'show_page_title' ];
-				/**
-				 * Add information about deleted page
-				 */
-				meta[ "deleted_page"] = page;
-				// Update indexes
-				var new_array = [];
-				var new_object = {};
-				var new_object_page_description = {};
-				var offset = 0;
-				$.each( show_page_title, function( index, value ) {
-					if ( index === ( page - 1) ) {
-						offset = -1;
-					}
-					if ( index !== ( page - 1 ) ) {
-						new_array.push( value );
-						var page_index = index + 1 + offset;
-						new_object[ 'page_' + page_index ] = page_title[ 'page_' + ( index + 1 ) ];
-						new_object_page_description[ 'page_' + page_index ] = page_description[ 'page_' + ( index + 1 ) ];
-					}
-				} );
-				meta[ 'page_title' ] = new_object;
-				meta[ 'show_page_title' ] = new_array;
-				meta[ 'page_description' ] = new_object_page_description;
-				self.unit_collection._byId[ self.activeUnitRef ].set( 'meta', meta );
-				self.unit_collection._byId[ self.activeUnitRef ].trigger( 'change', self.unit_collection._byId[ self.activeUnitRef ] );
-
-				// Update page count
-				self.totalPages = meta[ 'show_page_title' ].length;
-
-				// All modules of this page will now be moved to the first page
-				self.module_collection.each( function( module ) {
-
-					var mod_meta = module.get( 'meta' );
-					mod_meta[ 'module_page' ] = 1;
-					mod_meta[ 'module_order' ] += 999;
-					module.set( 'meta', mod_meta );
-					module.trigger( 'change', module );
-
-				} );
-
-				// Trigger save
-				CoursePress.Helpers.Module.save_unit( e );
-				/**
-				 * trigger click on first section
-				 */
-				$('.unit-builder-pager ul li:first').trigger( 'click' );
+			if ( ! window.confirm( _coursepress.unit_builder_delete_page_confirm ) ) {
+				return;
 			}
+			var page = parseInt( this.activePage );
+			// Trigger save
+			CoursePress.Helpers.Module.delete_page( e, self.activeUnitID, page );
+			/**
+			 * reload window
+			 */
+			location.reload();
 		},
 		deleteUnit: function( e ) {
 
@@ -1714,6 +1688,7 @@ var CoursePress = CoursePress || {};
 		set_page_description: function( index, description ) {
 			var meta = this.get( 'meta' ) || {};
 
+			description = _.escape(description);
 			meta[ 'page_description' ] = meta[ 'page_description' ] || {};
 			meta[ 'page_description' ][ 'page_' + index ] = description;
 			this.set( 'meta', meta );
@@ -1798,7 +1773,7 @@ var CoursePress = CoursePress || {};
 				value = this.fix_boolean( value );
 			}
 
-			if ( value.length === 0 || value === false || value === 0 ) {
+			if ( ! meta.legacy_updated && ( value.length === 0 || value === false || value === 0 ) ) {
 				value = this.get_legacy_meta( key, default_value );
 			}
 
@@ -1967,8 +1942,9 @@ var CoursePress = CoursePress || {};
 			}
 			if ( 'input-form' === data[ 'type' ] ) {
 				this.set_meta( 'use_timer', data[ 'use_timer' ] );
-			}						
-			this.set( 'post_content', data[ 'content' ] || '' );
+			}
+
+			this.set( 'post_content', data['content'] || '' );
 			this.set_meta( 'order', data[ 'order' ] );
 
 			var self = this;
@@ -2227,6 +2203,7 @@ var CoursePress = CoursePress || {};
 
 				var parent = $( el ).parents( '.unit-detail' )[ 0 ];
 				var unit = this.parentView.unit_collection._byId[ $( parent ).attr( 'data-cid' ) ];
+				el_val = _.escape(el_val);
 				unit.set( 'post_content', el_val );
 			}
 		},

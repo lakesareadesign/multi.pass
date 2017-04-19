@@ -33,6 +33,11 @@
 
 /* Submenus */
 
+.fl-menu .fl-has-submenu:focus,
+.fl-menu .fl-has-submenu .sub-menu:focus,
+.fl-menu .fl-has-submenu-container:focus {
+	outline: 0;
+}
 .fl-menu .fl-has-submenu-container{ position: relative; }
 .fl-menu .fl-has-submenu-container a{ padding-right: 38px; }
 

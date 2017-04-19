@@ -1,5 +1,6 @@
 .fl-form-field input,
-.fl-form-field input[type=text] {
+.fl-form-field input[type=text],
+.fl-form-field input[type=email] {
 	height: auto;
 	width: 100%;
 }

@@ -645,9 +645,8 @@ class AgmMapModel {
 
 		$id = absint( $data['id'] );
 		$table = $this->get_table_name();
-		$sql = "DELETE FROM {$table} WHERE id={$id}";
 
-		$result = $wpdb->query( $sql );
+		$result = $wpdb->query( $wpdb->prepare( "DELETE FROM $table WHERE id = %d", $id ) );
 		return $result ? $id : false;
 	}
 

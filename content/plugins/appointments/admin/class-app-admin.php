@@ -20,11 +20,15 @@ class Appointments_Admin {
 		add_action( 'admin_menu', array( $this, 'admin_init' ) ); 						// Creates admin settings window
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) ); 				// Warns admin
 		add_action( 'admin_print_scripts', array( $this, 'admin_scripts') );			// Load scripts
+		add_action( 'admin_enqueue_scripts', array( $this, 'edit_posts_scripts' ) );
 		add_action( 'admin_print_styles', array( $this, 'admin_css') );
 
 		add_action( 'admin_notices', array( $this, 'admin_notices_new' ) );
 
 		add_action( 'wp_ajax_appointments_dismiss_notice', array( $this, 'dismiss_notice' ) );
+
+		// Add quick link to plugin settings from plugins list page.
+		add_filter( 'plugin_action_links_' . plugin_basename( APP_PLUGIN_FILE ), array( $this, 'add_settings_link' ) );
 
 		new Appointments_Admin_Dashboard_Widget();
 		$this->user_profile = new Appointments_Admin_User_Profile();
@@ -158,6 +162,13 @@ class Appointments_Admin {
 		do_action('app-admin-admin_styles');
 	}
 
+	function edit_posts_scripts() {
+		$screen = get_current_screen();
+		if ( $screen->base === 'post' || $screen->base === 'edit' ) {
+			_appointments_enqueue_jquery_ui_datepicker();
+		}
+	}
+
 	// Enqeue js on admin pages
 	function admin_scripts() {
 		global $appointments;
@@ -178,18 +189,17 @@ class Appointments_Admin {
 			return false;
 		}
 
+		_appointments_enqueue_jquery_ui_datepicker();
 		wp_enqueue_script( 'jquery-colorpicker', $appointments->plugin_url . '/js/colorpicker.js', array('jquery'), $appointments->version);
-		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'app-multi-datepicker', appointments_plugin_url() . 'admin/js/admin-multidatepicker.js', array( 'jquery-ui-datepicker' ), appointments_get_db_version(), true );
-		wp_enqueue_style( 'app-jquery-ui', appointments_plugin_url() . 'admin/css/jquery-ui/jquery-ui.min.css', array(), appointments_get_db_version() );
-		wp_add_inline_style( 'app-jquery-ui', '.ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {background:#333;color:#FFF}');
-		wp_enqueue_script( 'jquery-multiselect', $appointments->plugin_url . '/js/jquery.multiselect.min.js', array('jquery-ui-core','jquery-ui-widget', 'jquery-ui-position'), $appointments->version);
+		wp_enqueue_script( 'jquery-multiselect', $appointments->plugin_url . '/bower_components/jquery-ui-multiselect-widget/src/jquery.multiselect.min.js', array('jquery-ui-core','jquery-ui-widget', 'jquery-ui-position'), $appointments->version);
 		// Make a locale check to update locale_error flag
 
-		if ( empty($appointments->options["disable_js_check_admin"]) )
-			wp_enqueue_script( 'app-js-check', $appointments->plugin_url . '/js/js-check.js', array('jquery'), $appointments->version);
+		if ( empty( $appointments->options["disable_js_check_admin"] ) ) {
+			wp_enqueue_script( 'app-js-check', $appointments->plugin_url . '/js/js-check.js', array( 'jquery' ), $appointments->version );
+		}
 
-		wp_enqueue_script("appointments-admin", $appointments->plugin_url . "/js/admin.js", array('jquery'), $appointments->version);
+		wp_enqueue_script("appointments-admin", $appointments->plugin_url . "/admin/js/admin.js", array('jquery'), $appointments->version);
 		wp_localize_script("appointments-admin", "_app_admin_data", array(
 			'ajax_url' => admin_url('admin-ajax.php'),
 			'strings' => array(
@@ -376,6 +386,22 @@ class Appointments_Admin {
 				return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Add quick link to plugin settings page.
+	 *
+	 * @param $links Links array.
+	 *
+	 * @return array
+	 */
+	public function add_settings_link( $links ) {
+
+		$plugin_links = array(
+			'<a href="' . admin_url( 'admin.php?page=app_settings' ) . '">' . __( "Settings", "appointments" ) . '</a>',
+		);
+
+		return array_merge( $plugin_links, $links );
 	}
 
 }

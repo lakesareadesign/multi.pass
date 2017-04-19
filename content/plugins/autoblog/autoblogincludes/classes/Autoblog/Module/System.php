@@ -258,7 +258,7 @@ class Autoblog_Module_System extends Autoblog_Module {
 		// remove deprecated logs
 		$this->_wpdb->query( "DELETE FROM {$this->_wpdb->options} WHERE option_name LIKE 'autoblog_log_%'" );
 		if ( is_multisite() ) {
-			$this->_wpdb->query( "DELETE FROM {$this->_wpdb->sitemeta} WHERE site_id = {$this->_wpdb->siteid} AND meta_key LIKE 'autoblog_log_%'" );	     	 	  	 	 	 	
+			$this->_wpdb->query( "DELETE FROM {$this->_wpdb->sitemeta} WHERE site_id = {$this->_wpdb->siteid} AND meta_key LIKE 'autoblog_log_%'" );
 		}
 
 		// update feeds table

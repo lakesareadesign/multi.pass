@@ -50,7 +50,7 @@
 @-webkit-keyframes cubemove {
   25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
   50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
-  75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }
+  75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }	     	 	  	 	 	 	
   100% { -webkit-transform: rotate(-360deg) }
 }
 
@@ -420,4 +420,4 @@
 }
 
 
-/* 133620-1428332826-ai */
+/* 133620-1492560683-au */

@@ -421,6 +421,24 @@ class MS_Model_Settings extends MS_Model_Option {
 	}
 
 	/**
+	* Checks whether a membership has enabled a "*TYPE* protection message"
+	*
+	* @Since 1.0.3.5
+	*
+	* @param string $type The type of protection message.
+	* @param MS_Model_Membership $membership
+	*
+	* @return bool
+	*/
+	public function membership_has_protection_type( $type, $membership ){
+
+		if( ! $type || ! $membership ) return false;
+
+		return isset( $this->protection_messages[ $type . '_' . $membership->id ] );
+
+	}
+
+	/**
 	 * Set specific property.
 	 *
 	 * @since  1.0.0
@@ -507,5 +525,18 @@ class MS_Model_Settings extends MS_Model_Option {
 		}
 
 		return apply_filters( 'ms_model_settings__get', $value, $property, $this );
+	}
+
+	/**
+	 * Check if property isset.
+	 *
+	 * @since  1.0.0
+	 * @internal
+	 *
+	 * @param string $property The name of a property.
+	 * @return mixed Returns true/false.
+	 */
+	public function __isset( $property ) {
+		return isset($this->$property);
 	}
 }

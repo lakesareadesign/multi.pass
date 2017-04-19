@@ -379,16 +379,16 @@ if (!function_exists('inbound_forms_cpt')) {
     function inbound_forms_cpt() {
         //echo $slug;exit;
         $labels = array(
-            'name' => _x('Inbound Forms', 'post type general name'),
-            'singular_name' => _x('Form', 'post type singular name'),
+            'name' => _x('Inbound Forms' , 'inbound-pro'),
+            'singular_name' => _x('Form' , 'inbound-pro'),
             'add_new' => _x('Add New', 'Form'),
-            'add_new_item' => __('Create New Form'),
-            'edit_item' => __('Edit Form'),
-            'new_item' => __('New Form'),
-            'view_item' => __('View Lists'),
-            'search_items' => __('Search Lists'),
-            'not_found' =>  __('Nothing found'),
-            'not_found_in_trash' => __('Nothing found in Trash'),
+            'add_new_item' => __('Create New Form' , 'inbound-pro'),
+            'edit_item' => __('Edit Form' , 'inbound-pro'),
+            'new_item' => __('New Form' , 'inbound-pro'),
+            'view_item' => __('View Form' , 'inbound-pro'),
+            'search_items' => __('Search Forms' , 'inbound-pro'),
+            'not_found' =>  __('Nothing found' , 'inbound-pro'),
+            'not_found_in_trash' => __('Nothing found in Trash' , 'inbound-pro'),
             'parent_item_colon' => ''
         );
 
@@ -399,7 +399,7 @@ if (!function_exists('inbound_forms_cpt')) {
             'show_ui' => true,
             'query_var' => true,
             'show_in_menu'  => true,
-            'capability_type' => 'post',
+            'capability_type' => array('inbound-form','inbound-forms'),
             'hierarchical' => false,
             'menu_position' => 34,
             'supports' => array('title','custom-fields', 'editor')
@@ -415,6 +415,36 @@ if (!function_exists('inbound_forms_cpt')) {
             unset($submenu['edit.php?post_type=wp-lead'][15]);
             //print_r($submenu); exit;
         }*/
+    }
+
+    /**
+     * Register Role Capabilities
+     */
+    add_action( 'admin_init' , 'inbound_register_form_role_capabilities' ,999);
+    function inbound_register_form_role_capabilities() {
+        // Add the roles you'd like to administer the custom post types
+        $roles = array('inbound_marketer','administrator');
+
+        // Loop through each role and assign capabilities
+        foreach($roles as $the_role) {
+
+            $role = get_role($the_role);
+            if (!$role) {
+                continue;
+            }
+
+            $role->add_cap( 'read' );
+            $role->add_cap( 'read_inbound-form');
+            $role->add_cap( 'read_private_inbound-forms' );
+            $role->add_cap( 'edit_inbound-form' );
+            $role->add_cap( 'edit_inbound-forms' );
+            $role->add_cap( 'edit_others_inbound-form' );
+            $role->add_cap( 'edit_published_inbound-forms' );
+            $role->add_cap( 'publish_inbound-form' );
+            $role->add_cap( 'delete_others_inbound-forms' );
+            $role->add_cap( 'delete_private_inbound-forms' );
+            $role->add_cap( 'delete_published_inbound-forms' );
+        }
     }
 }
 

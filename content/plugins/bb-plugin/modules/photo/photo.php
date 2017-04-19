@@ -192,19 +192,21 @@ class FLPhotoModule extends FLBuilderModule {
 	public function get_classes()
 	{
 		$classes = array( 'fl-photo-img' );
-		
+
 		if ( $this->settings->photo_source == 'library' && ! empty( $this->settings->photo ) ) {
-			
+
 			$data = self::get_data();
-			
+
 			if ( is_object( $data ) ) {
-				
-				$classes[] = 'wp-image-' . $data->id;
+
+				if( isset( $data->id ) ) {
+					$classes[] = 'wp-image-' . $data->id;
+				}
 
 				if ( isset( $data->sizes ) ) {
 
 					foreach ( $data->sizes as $key => $size ) {
-						
+
 						if ( $size->url == $this->settings->photo_src ) {
 							$classes[] = 'size-' . $key;
 							break;

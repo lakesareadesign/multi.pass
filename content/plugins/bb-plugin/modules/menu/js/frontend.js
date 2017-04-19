@@ -126,9 +126,11 @@
 		_menuOnClick: function(){
 			$( this.wrapperClass ).off().on( 'click', '.fl-has-submenu-container', $.proxy( function( e ){
 
-				var $link 	 = $( e.target ).parents( '.fl-has-submenu' ).first(),
-					$subMenu = $link.children( '.sub-menu' ).first(),
-					$href	 = $link.children('.fl-has-submenu-container').first().find('> a').attr('href');
+				var $link			= $( e.target ).parents( '.fl-has-submenu' ).first(),
+					$subMenu 		= $link.children( '.sub-menu' ).first(),
+					$href	 		= $link.children('.fl-has-submenu-container').first().find('> a').attr('href'),
+					$subMenuParents = $( e.target ).parents( '.sub-menu' ),
+					$activeParent 	= $( e.target ).closest( '.fl-has-submenu.fl-active' );
 
 				if( !$subMenu.is(':visible') || $(e.target).hasClass('fl-menu-toggle') 
 					|| ($subMenu.is(':visible') && (typeof $href === 'undefined' || $href == '#')) ){
@@ -140,17 +142,15 @@
 				}
 
 				if ($(this.wrapperClass).hasClass('fl-menu-accordion-collapse')) {
-					if ( !$link.parents('.menu-item').hasClass('fl-active') ) {
+					
+					if ( !$link.parents('.menu-item').hasClass('fl-active') ) {						
 						$('.fl-active', this.wrapperClass).not($link).removeClass('fl-active');
-						$('.sub-menu', this.wrapperClass).not($subMenu).slideUp('normal');
 					}
 					else if ($link.parents('.menu-item').hasClass('fl-active') && $link.parent('.sub-menu').length) {
-						var $mainMenuParent = $( e.target ).parents( '.fl-has-submenu.fl-active' ).last(),
-							$activeSubMenu  = $mainMenuParent.children( '.sub-menu' ).last();
-						
-						$('.fl-active', this.wrapperClass).not($link).not($mainMenuParent).removeClass('fl-active');
-						$('.sub-menu', this.wrapperClass).not($subMenu).not($activeSubMenu).slideUp('normal');
+						$('.fl-active', this.wrapperClass).not($link).not($activeParent).removeClass('fl-active');						
 					}
+
+					$('.sub-menu', this.wrapperClass).not($subMenu).not($subMenuParents).slideUp('normal');
 				}
 				
 				$subMenu.slideToggle();

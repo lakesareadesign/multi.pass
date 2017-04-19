@@ -140,8 +140,8 @@ var content_types = {
             $('.ct-date-type-options').show();
         } else if ($('.ct-custom-fields select option:selected').val() === 'upload') {
             $('.ct-field-type-options').hide();
-            $('.ct-date-type-options').hide();
             $('.ct-text-type-options').hide();
+            $('.ct-date-type-options').hide();
         }
     }
 
@@ -269,8 +269,5 @@ var content_types = {
         role_checkboxes();
 
     });  //document.ready
-    
-    $(document).ready(function () {
-        
-    })
+
 })(jQuery);

@@ -20,6 +20,10 @@ class App_MP_Bridge {
 
 		add_action( 'mp_order_order_paid', array( $this, 'mp_product_order_paid' ) );
 		add_filter( 'mp_cart/column_html', array( $this, 'filter_cart_column' ), 10, 4 );
+
+		add_filter( 'mp_buy_button_tag', array( $this, 'display_buy_now_button' ), 10, 5 );
+		add_filter( 'mp_product/display_price', array( $this, 'display_price' ), 10, 3 );
+		add_filter( 'mp_cart/is_product_downloadable', array( $this, 'hide_checkout_shipping' ), 10, 2 );
 	}
 
 	public function filter_product ($html, $product_id) {
@@ -133,6 +137,53 @@ class App_MP_Bridge {
 		}
 	}
 
+	public function display_buy_now_button( $button, $product_id, $context, $selected_atts, $no_single ){
+
+		if( ! $this->_is_app_mp_page( $product_id ) ){
+			return $button;
+		}
+
+		if( ! $no_single ){
+			return;
+		}
+
+		$button = '<a class="mp_button mp_button-buynow" href="' . get_permalink( $product_id ) . '">' . __( 'Details', 'appointments' ) . '</a>';
+
+		$display_buy_now_button = apply_filters( 'app_product/display_buy_now_button', true, $button, $product_id, $no_single );
+
+		if( $display_buy_now_button ){
+			return $button;
+		}
+
+		return '';
+
+	}
+
+	public function display_price( $snippet, $price, $product_id ){
+
+		if( ! $this->_is_app_mp_page( $product_id ) ){
+			return $snippet;
+		}
+
+		$display_price = ( isset( $price['lowest'] ) && $price['lowest'] > 0 ) ? true : false;
+
+		$display_price = apply_filters( 'app_product/dipsplay_price', $display_price, $product_id, $price );
+
+		if( $display_price ){
+			return $snippet;
+		}
+
+		return '';
+
+	}
+
+	public function hide_checkout_shipping( $is_downloadable, $product ){
+		if( $this->_is_app_mp_page( $product->ID ) ){
+			return true;
+		}
+		return $is_downloadable;
+	}
+
 	private function _add_variation ($app_id, $post_id, $service, $worker, $start, $end) {
 		// Yeah, let's just go off with creating the variations
 		$variation_id = wp_insert_post(array(
@@ -188,11 +239,12 @@ EO_MP_JS;
 	}
 
 	/**
-	 * Determine if a page is A+ Product page from the shortcodes used
+	 * Determine if a page is A+ Product page from the product meta
 	 * @param mixed $product Custom post object or ID
 	 * @return bool
 	 */
-	private function _is_app_mp_page ($product) {
+	private function _is_app_mp_page ( $product ) {
+
 		$product = get_post($product);
 		$result = is_object( $product ) && strpos( $product->post_content, '[app_' ) !== false
 			? true
@@ -200,5 +252,6 @@ EO_MP_JS;
 		;
 		// Maybe required for templates
 		return apply_filters( 'app_is_mp_page', $result, $product );
+
 	}
 }

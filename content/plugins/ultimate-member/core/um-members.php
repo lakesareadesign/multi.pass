@@ -14,6 +14,8 @@ class UM_Members {
 			'display_name',
 			'user_email',
 		);
+		
+		add_filter( 'um_search_select_fields', array(&$this, 'um_search_select_fields'), 10, 1 );
 
 	}
 
@@ -136,6 +138,41 @@ class UM_Members {
 		}
 
 	}
+	
+	/**
+	 * Display assigned roles in search filter 'role' field
+	 * @param  	array $attrs 
+	 * @return 	array
+	 * @uses  	add_filter 'um_search_select_fields'
+	 * @since 	1.3.83
+	 */
+	function um_search_select_fields( $attrs ) {
+		global $ultimatemember;
+
+		if( strstr( $attrs['metakey'], 'role_' ) ){
+
+			$shortcode_roles = get_post_meta( $ultimatemember->shortcodes->form_id, '_um_roles', true );
+			$um_roles = $ultimatemember->query->get_roles( false );
+			
+			if( ! empty( $shortcode_roles ) && is_array( $shortcode_roles ) ){ 
+
+				$attrs['options'] = array();
+
+				foreach ( $um_roles as $key => $value ) {
+				    if ( in_array( $key, $shortcode_roles ) ) {
+						$attrs['options'][ $key ] = $value;
+				    }
+				}
+
+			}
+			
+		}
+
+		return $attrs;
+ 	}
+
+
+	
 
 	/***
 	***	@Generate a loop of results
@@ -175,7 +212,12 @@ class UM_Members {
 			unset( $query_args );
 		}
 		
+		do_action('um_user_before_query', $query_args );
+		
 		$users = new WP_User_Query( $query_args );
+
+		do_action('um_user_after_query', $query_args, $users );
+		
 		
 		$array['users'] = isset( $users->results ) && ! empty( $users->results ) ? array_unique( $users->results ) : array();
 

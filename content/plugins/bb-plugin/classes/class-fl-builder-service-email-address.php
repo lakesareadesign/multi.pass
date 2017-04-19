@@ -12,9 +12,9 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 	 *
 	 * @since 1.6.0
 	 * @var string $id
-	 */  
+	 */
 	public $id = 'email-address';
-	
+
 	/**
 	 * Test the API connection.
 	 *
@@ -26,14 +26,14 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type array $data An array of data used to make the connection.
 	 * }
-	 */  
-	public function connect( $fields = array() ) 
+	 */
+	public function connect( $fields = array() )
 	{
-		$response = array( 
+		$response = array(
 			'error'  => false,
 			'data'   => array()
 		);
-		
+
 		// Make sure we have an email address.
 		if ( ! isset( $fields['email'] ) || empty( $fields['email'] ) ) {
 			$response['error'] = __( 'Error: You must provide an email address.', 'fl-builder' );
@@ -42,7 +42,7 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 		else {
 			$response['data'] = array( 'email' => $fields['email'] );
 		}
-		
+
 		return $response;
 	}
 
@@ -51,11 +51,11 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 	 *
 	 * @since 1.6.0
 	 * @return string The connection settings markup.
-	 */  
-	public function render_connect_settings() 
+	 */
+	public function render_connect_settings()
 	{
 		ob_start();
-		
+
 		FLBuilder::render_settings_field( 'email', array(
 			'row_class'     => 'fl-builder-service-connect-row',
 			'class'         => 'fl-builder-service-connect-input',
@@ -64,13 +64,13 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 			'preview'       => array(
 				'type'          => 'none'
 			)
-		)); 
-		
+		));
+
 		return ob_get_clean();
 	}
 
 	/**
-	 * Render the markup for service specific fields. 
+	 * Render the markup for service specific fields.
 	 *
 	 * @since 1.6.0
 	 * @param string $account The name of the saved account.
@@ -79,18 +79,18 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type string $html The field markup.
 	 * }
-	 */  
-	public function render_fields( $account, $settings ) 
+	 */
+	public function render_fields( $account, $settings )
 	{
-		$response = array( 
-			'error'  => false, 
-			'html'   => '' 
+		$response = array(
+			'error'  => false,
+			'html'   => ''
 		);
-		
+
 		return $response;
 	}
 
-	/** 
+	/**
 	 * Send the subscription info to the saved email address.
 	 *
 	 * @since 1.6.0
@@ -100,31 +100,36 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 	 * @return array {
 	 *      @type bool|string $error The error message or false if no error.
 	 * }
-	 */  
+	 */
 	public function subscribe( $settings, $email, $name = false )
 	{
 		$account_data = $this->get_account_data( $settings->service_account );
 		$response     = array( 'error' => false );
-		
+
 		if ( ! $account_data ) {
 			$response['error'] = __( 'There was an error subscribing. The account is no longer connected.', 'fl-builder' );
 		}
 		else {
-			
+
 			$subject = __( 'Subscribe Form Signup', 'fl-builder' );
+
+			if( $settings->custom_subject ) {
+				$subject = $settings->custom_subject;
+			}
+
 			$message = __( 'Email', 'fl-builder' ) . ': ' . $email;
-			
+
 			if ( $name ) {
 				$message .= "\n" . __( 'Name', 'fl-builder' ) . ': ' . $name;
 			}
-			
+
 			$result = wp_mail( $account_data['email'], $subject, $message );
-			
+
 			if ( ! $result ) {
 				$response['error'] = __( 'There was an error subscribing. Please try again.', 'fl-builder' );
 			}
 		}
-		
+
 		return $response;
 	}
 }

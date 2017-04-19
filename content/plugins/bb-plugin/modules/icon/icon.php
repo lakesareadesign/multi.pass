@@ -61,7 +61,7 @@ FLBuilder::register_module('FLIconModule', array(
 				)
 			),
 			'text'          => array(
-				'title'         => 'Text',
+				'title'         => __('Text', 'fl-builder'),
 				'fields'        => array(
 					'text'          => array(
 						'type'          => 'editor',

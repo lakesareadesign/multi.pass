@@ -123,7 +123,7 @@ class App_Shortcode_WeeklySchedule extends App_Shortcode {
 		$args = wp_parse_args( $args, $this->_defaults_to_args() );
 
 		$service_id = isset( $_REQUEST["app_service_id"] ) ? absint( $_REQUEST["app_service_id"] ) : 0;
-		if ( appointments_get_services_min_id() ) {
+		if ( appointments_get_services_min_id() && ! $service_id ) {
 			$service_id = appointments_get_services_min_id();
 		}
 
@@ -145,6 +145,7 @@ class App_Shortcode_WeeklySchedule extends App_Shortcode {
 
 
 		$workers_by_service = appointments_get_workers_by_service( $service_id );
+		$workers_ids = wp_list_pluck( $workers_by_service, 'ID' );
 		$single_worker = false;
 		if ( 1 === count( $workers_by_service ) ) {
 			$single_worker = $workers_by_service[0]->ID;
@@ -157,11 +158,29 @@ class App_Shortcode_WeeklySchedule extends App_Shortcode {
 			}
 			$worker_id = absint( $args['worker'] );
 			$_REQUEST["app_provider_id"] = $args['worker'];
-		} else if ( $single_worker ) {
+		}
+		elseif ( $single_worker ) {
 			// Select the only provider if that is the case
 			$_REQUEST["app_provider_id"] = $single_worker;
 			$args['worker']              = $single_worker;
 			$worker_id = absint( $args['worker'] );
+		}
+		elseif( isset( $args['require_provider'] ) &&
+			$args['require_provider'] == 1 &&
+			( ( ! isset( $_REQUEST["app_provider_id"] ) || ! in_array( $_REQUEST["app_provider_id"], $workers_ids ) ) || ! isset( $args['worker'] ) ) ){
+			$worker_id = 0;
+		}
+		elseif( isset( $_REQUEST["app_provider_id"] ) && in_array( $_REQUEST["app_provider_id"], $workers_ids ) ){
+			$worker_id = (int)$_REQUEST["app_provider_id"];
+			$args['worker'] = $worker_id;
+		}
+		else{
+			if( is_array( $workers_by_service ) && ! empty( $workers_by_service ) ){
+				$worker_id = $workers_by_service[0]->ID;
+				if( isset( $_REQUEST["app_provider_id"] ) ){
+					$_REQUEST["app_provider_id"] = $_GET["app_provider_id"] = $worker_id;
+				}
+			}
 		}
 
 		// Force a date
@@ -176,7 +195,7 @@ class App_Shortcode_WeeklySchedule extends App_Shortcode {
 			}
 		}
 
-		$slots = appointments_get_weekly_schedule_slots( $time );
+		$slots = appointments_get_weekly_schedule_slots( $time, $service_id, $worker_id, $location_id );
 
 		if ( '' != $args['title'] ) {
 			$start_day = current( $slots['the_week'] );
@@ -202,12 +221,12 @@ class App_Shortcode_WeeklySchedule extends App_Shortcode {
 		$c = '';
 		$c .= '<div class="appointments-wrapper">';
 
-		if ( ! $has_worker && ! empty( $require_provider ) ) {
+		if ( ! $has_worker && ! empty( $args['require_provider'] ) ) {
 			$c .= ! empty( $required_message )
 				? $required_message
 				: __( 'Please, select a service provider.', 'appointments' );
-		} elseif ( ! $has_service && ! empty( $require_service ) ) {
-			$c .= ! empty( $required_service_message )
+		} elseif ( ! $has_service && ! empty( $args['require_service'] ) ) {
+			$c .= ! empty( $args['required_service_message'] )
 				? $required_service_message
 				: __( 'Please, select a service.', 'appointments' );
 		} else {

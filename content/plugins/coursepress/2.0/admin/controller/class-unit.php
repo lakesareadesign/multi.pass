@@ -82,7 +82,7 @@ class CoursePress_Admin_Controller_Unit {
 					<input id="unit_name" class="wide" type="text" value="<%= unit_title %>" name="post_title" spellcheck="true">
 					<div class="unit-additional-info">
 					<label class="unit-description">' . __( 'Unit Description', 'cp' ) . '</label>
-					<textarea name="unit_description" class="widefat" id="unit_description_1_1"><%= unit_content %></textarea>
+					<textarea name="unit_description" class="widefat" id="unit_description_1_1"><%- unit_content %></textarea>
 					' . CoursePress_Helper_UI::browse_media_field(
 				'unit_feature_image',
 				'unit_feature_image',
@@ -167,7 +167,7 @@ class CoursePress_Admin_Controller_Unit {
 					<p class="description">' . esc_html__( 'The label will be displayed on the Course Overview and Unit page', 'cp' ) . '</p>
 					<input type="text" value="<%= page_label_text %>" name="page_title" class="wide" />
 					<label class="page-description">' . esc_html__( 'Section Description', 'cp' ) . '</label>
-					<textarea name="page_description" id="page_description_1_1"><%= page_description %></textarea>
+					<textarea name="page_description" id="page_description_1_1"><%- page_description %></textarea>
 					' . CoursePress_Helper_UI::browse_media_field(
 				'page_feature_image',
 				'page_feature_image',
@@ -248,10 +248,10 @@ class CoursePress_Admin_Controller_Unit {
 					// Temp for reordering
 					$unit->unit_order = isset( $meta['unit_order'] ) ? $meta['unit_order'] : 0;
 					$unit->meta = $meta;
-					$unit->post_content = format_for_editor( $unit->post_content );
+				//	$unit->post_content = format_for_editor( $unit->post_content );
 
 					if ( ! empty( $unit->meta['page_description'] ) ) {
-						$unit->meta['page_description'] = array_map( 'format_for_editor', $unit->meta['page_description'] );
+					//	$unit->meta['page_description'] = array_map( 'format_for_editor', $unit->meta['page_description'] );
 					}
 
 					// Let's add unit capabilities
@@ -333,7 +333,6 @@ class CoursePress_Admin_Controller_Unit {
 					$attributes = CoursePress_Data_Module::attributes( $module_id );
 					$module_type = $attributes['module_type'];
 					$meta = get_post_meta( $module->ID );
-
 					foreach ( $meta as $key => $value ) {
 						// Escape questions and answers before rendering
 						if ( 'questions' === $key ) {
@@ -347,7 +346,16 @@ class CoursePress_Admin_Controller_Unit {
 								}
 							}
 						}
-
+						/**
+						 * Escape questions and answers before rendering
+						 */
+						if ( 'answers' === $key ) {
+							$v = maybe_unserialize( $value[0] );
+							$value[0] = array();
+							foreach ( $v as $i => $q ) {
+								$value[0][ $i ] = esc_html( $q );
+							}
+						}
 						$meta[ $key ] = is_array( $value )  ? maybe_unserialize( $value[0] ) : $value;
 					}
 					// Temp for reordering
@@ -500,6 +508,8 @@ class CoursePress_Admin_Controller_Unit {
 
 						if ( $update ) {
 							$meta = ! empty( $module['meta'] ) ? $module['meta'] : array();
+							$meta['legacy_updated'] = true;
+
 							unset( $module['meta'] );
 
 							$id = wp_insert_post( $module );
@@ -562,7 +572,7 @@ class CoursePress_Admin_Controller_Unit {
 					$data = json_decode( file_get_contents( 'php://input' ) );
 					$data = CoursePress_Helper_Utility::object_to_array( $data );
 					$new_module = false;
-					$meta = array();
+					$meta = array( 'legacy_updated' => true );
 
 					if ( ! empty( $data['meta'] ) ) {
 						$meta = $data['meta'];
@@ -592,6 +602,13 @@ class CoursePress_Admin_Controller_Unit {
 					$json_data['nonce'] = wp_create_nonce( 'unit_builder' );
 
 					do_action( 'coursepress_module_added', $id, $data['post_parent'], $meta );
+				}
+				break;
+			case 'modules_update_delete_section':
+				if ( $is_valid ) {
+					$unit_id = $_REQUEST['unit_id'];
+					$page = $_REQUEST['page'];
+					CoursePress_Data_Unit::delete_section( $unit_id, $page );
 				}
 				break;
 		}

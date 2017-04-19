@@ -37,6 +37,8 @@ function appointments_get_db_version() {
 }
 
 function appointments_delete_timetables_cache() {
+	$appointments = appointments();
+	$appointments->timetables = array();
 	delete_transient( 'app_timetables' );
 }
 
@@ -261,15 +263,27 @@ function appointments_get_working_hours_range( $worker = false, $location = fals
 
 
 function appointments_use_legacy_duration_calculus() {
-	return defined( 'APP_USE_LEGACY_DURATION_CALCULUS' ) && APP_USE_LEGACY_DURATION_CALCULUS;
+	if ( defined( 'APP_USE_LEGACY_DURATION_CALCULUS' ) && APP_USE_LEGACY_DURATION_CALCULUS ) {
+		// Defined by user, use this value
+		return ( APP_USE_LEGACY_DURATION_CALCULUS === 'legacy' );
+	}
+	return apply_filters( 'appointments_use_legacy_duration_calculus', false );
 }
 
-function appointments_use_break_times_padding_calculus() {
-    return defined( 'APP_BREAK_TIMES_PADDING_CALCULUS' ) && APP_BREAK_TIMES_PADDING_CALCULUS;
+function appointments_use_legacy_break_times_padding_calculus() {
+	if ( defined( 'APP_BREAK_TIMES_PADDING_CALCULUS' ) && APP_BREAK_TIMES_PADDING_CALCULUS ) {
+		// Defined by user, use this value
+		return ( APP_BREAK_TIMES_PADDING_CALCULUS != 'legacy' );
+	}
+	return apply_filters( 'appointments_use_legacy_break_times_padding_calculus', false );
 }
 
 function appointments_use_legacy_boundaries_calculus() {
-    return defined('APP_USE_LEGACY_BOUNDARIES_CALCULUS') && APP_USE_LEGACY_BOUNDARIES_CALCULUS;
+	if ( defined( 'APP_USE_LEGACY_BOUNDARIES_CALCULUS' ) && APP_USE_LEGACY_BOUNDARIES_CALCULUS ) {
+		// Defined by user, use this value
+		return ( APP_USE_LEGACY_BOUNDARIES_CALCULUS === 'legacy' );
+	}
+	return apply_filters( 'appointments_use_legacy_boundaries_padding_calculus', false );
 }
 
 /**
@@ -307,6 +321,8 @@ function apppointments_is_range_busy( $start, $end, $args = array() ) {
 			}
 		}
 	}
+
+
 
 	// If we're here, no worker is set or (s)he's not busy by default. Let's go for quick filter trip.
 	$is_busy = apply_filters( 'app-is_busy', false, $period );
@@ -661,7 +677,7 @@ function appointments_weekly_calendar( $date = false, $args = array() ) {
 
 							$class_name = apply_filters( 'app_class_name', $class_name, $datetime_start, $datetime_end );
 						?>
-						<td class="<?php echo esc_attr( $class_name ); ?>" title="<?php echo esc_attr( $title ); ?>">
+						<td class="app_week_timetable_cell <?php echo esc_attr( $class_name ); ?>" title="<?php echo esc_attr( $title ); ?>">
 							<input type="hidden" class="appointments_take_appointment" value="<?php echo $appointments->pack( $datetime_start, $datetime_end ); ?>" />
 						</td>
 					<?php endforeach; ?>
@@ -756,4 +772,15 @@ function appointments_get_price( $service_id, $worker_id ) {
 
 	$worker_price = ( $worker && $worker->price ) ? $worker->price : 0;
 	return $service->price + $worker_price;
+}
+
+
+/**
+ * Enqueue SweetAlert styles/scripts
+ *
+ * @internal
+ */
+function _appointments_enqueue_sweetalert() {
+	wp_enqueue_style( 'app-sweetalert', appointments_plugin_url() . 'bower_components/sweetalert/dist/sweetalert.css' );
+	wp_enqueue_script( 'app-sweetalert', appointments_plugin_url() . 'bower_components/sweetalert/dist/sweetalert.min.js' );
 }

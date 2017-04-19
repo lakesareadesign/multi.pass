@@ -7,5 +7,8 @@ var FLBuilderLayoutConfig = {
 	paths : {
 		pluginUrl : '<?php echo FL_BUILDER_URL; ?>',
 		wpAjaxUrl : '<?php echo admin_url( 'admin-ajax.php' ); ?>'
+	},
+	waypoint: {
+		offset: 80
 	}
 };

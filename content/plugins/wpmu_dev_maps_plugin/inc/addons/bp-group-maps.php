@@ -443,7 +443,7 @@ if ( defined( 'BP_PLUGIN_DIR' ) ) :
 					case 'both':
 					case 'all':
 					case 'full':
-						$map['markers'][0]['body'] = $group->description . '<div class="agm-address">' . $address . '</div>';	     	 	 		  		  
+						$map['markers'][0]['body'] = $group->description . '<div class="agm-address">' . $address . '</div>';
 						break;
 
 					case 'desc':

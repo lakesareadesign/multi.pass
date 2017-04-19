@@ -55,6 +55,14 @@ class MS_Gateway_Stripeplan extends MS_Gateway {
 	protected $publishable_key = false;
 
 	/**
+	 * Stripe Vendor Logo.
+	 *
+	 * @since  1.0.3.4
+	 * @var string $vendor_logo
+	 */
+	protected $vendor_logo = '';
+
+	/**
 	 * Instance of the shared stripe API integration
 	 *
 	 * @since  1.0.0
@@ -300,7 +308,7 @@ class MS_Gateway_Stripeplan extends MS_Gateway {
 		$this->_api->set_gateway( $this );
 
 		$settings = MS_Plugin::instance()->settings;
-		$duration = 'once';
+		$duration = 'forever';
 		$percent_off = null;
 		$amount_off = null;
 
@@ -651,6 +659,26 @@ class MS_Gateway_Stripeplan extends MS_Gateway {
 		return apply_filters(
 			'ms_gateway_stripeplan_get_secret_key',
 			$secret_key
+		);
+	}
+
+	/**
+	 * Get Stripe Vendor Logo.
+	 *
+	 * @since  1.0.3.4
+	 * @api
+	 *
+	 * @return string The Stripe Vendor Logo.
+	 */
+
+	public function get_vendor_logo() {
+		$vendor_logo = null;
+
+		$vendor_logo = $this->vendor_logo;
+
+		return apply_filters(
+			'ms_gateway_stripe_get_vendor_logo',
+			$vendor_logo
 		);
 	}
 

@@ -12,6 +12,9 @@
 	position: relative;
 	z-index: 1;
 }
+.fl-tabs-label.fl-tab-active:focus {
+	outline: 0;
+}
 
 /*  Panel Labels
 ------------------------------------ */

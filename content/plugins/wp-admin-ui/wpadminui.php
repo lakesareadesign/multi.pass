@@ -4,7 +4,7 @@
 Plugin Name: WP Admin UI
 Plugin URI: http://wpadminui.net/
 Description: The best plugin to customize WordPress administration in seconds.
-Version: 1.8.1
+Version: 1.9.1
 Author: Benjamin DENIS
 Author URI: http://wpadminui.net/
 License: GPLv2
@@ -12,7 +12,7 @@ Text Domain: wpui
 Domain Path: /languages
 */
 
-/*  Copyright 2015 - 2016 - Benjamin DENIS  (email : contact@wpadminui.net)
+/*  Copyright 2015 - 2017 - Benjamin DENIS  (email : contact@wpadminui.net)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -50,7 +50,7 @@ register_deactivation_hook(__FILE__, 'wpui_deactivation');
 //Define
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-define( 'WPUI_VERSION', '1.8.1' ); 
+define( 'WPUI_VERSION', '1.9.1' ); 
 define( 'WPUI_AUTHOR', 'Benjamin Denis' ); 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,13 +84,10 @@ add_action('plugins_loaded', 'wpui_init', 999);
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //Loads the JS/CSS in admin
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
 //WPUI Options page
 function wpui_add_admin_options_scripts() {
     wp_register_style( 'wpui-admin', plugins_url('assets/css/wpadminui.css', __FILE__));
     wp_enqueue_style( 'wpui-admin' );
-    //wp_register_style( 'wpui-bs-dashboard-dark', plugins_url('assets/css/themes/bs-dashboard-dark/bs-dashboard-dark.css', __FILE__));
-    //wp_enqueue_style( 'wpui-bs-dashboard-dark' );
 
     // Pointers
     wp_enqueue_style( 'wp-pointer' );

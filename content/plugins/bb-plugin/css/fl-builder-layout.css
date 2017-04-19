@@ -111,6 +111,7 @@
 	pointer-events: none;
 	width: 100vw;
   	height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
+  	max-width: none;
   	min-height: 100vh;
   	min-width: 177.77vh; /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
   	position: absolute;
@@ -191,13 +192,29 @@
 
 /* Stupid IE Full Height Row Fixes */
 .fl-builder-ie-11 .fl-row-full-height .fl-row-content-wrap {
-	height: 1px;
+	height: auto;
 }
 
 .fl-builder-ie-11 .fl-row-full-height .fl-row-content {
 	flex: 0 0 auto;
 	flex-basis: 100%;
-	margin: 0 auto;
+	margin: 0;
+}
+
+.fl-builder-ie-11 .fl-row-full-height.fl-row-align-top .fl-row-content {
+    margin: 0 auto;
+}
+
+.fl-builder-ie-11 .fl-row-full-height.fl-row-align-center .fl-col-group:not(.fl-col-group-equal-height) {	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-align: center;
+	-ms-flex-pack: center;
 }
 
 /* Full height align center */

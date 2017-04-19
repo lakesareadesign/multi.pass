@@ -460,7 +460,14 @@ final class FLBuilderAJAXLayout {
 			}
 			
 			$assets['js'] .= 'FLBuilder._renderLayoutComplete();';
-			$assets['js'] = FLJSMin::minify( $assets['js'] );
+
+			try {
+			    $min = FLJSMin::minify( $assets['js'] );
+			} catch (Exception $e) {}
+
+			if ( $min ) {
+			    $assets['js'] = $min;
+			}
 		}
 		else {
 			$assets['js'] = $asset_info['js_url'] . '?ver=' . $asset_ver;

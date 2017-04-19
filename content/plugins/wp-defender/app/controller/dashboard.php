@@ -1,0 +1,327 @@
+<?php
+/**
+ * Author: Hoang Ngo
+ */
+
+namespace WP_Defender\Controller;
+
+use Hammer\Helper\HTTP_Helper;
+use Hammer\Helper\WP_Helper;
+use WP_Defender\Behavior\Utils;
+use WP_Defender\Controller;
+use WP_Defender\Module\Audit\Component\Audit_API;
+use WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api;
+use WP_Defender\Module\Scan\Component\Scan_Api;
+use WP_Defender\Module\Scan\Model\Result_Item;
+use WP_Defender\Module\Scan\Model\Settings;
+
+class Dashboard extends Controller {
+	protected $slug = 'wp-defender';
+
+	public function __construct() {
+		if ( $this->is_network_activate( wp_defender()->plugin_slug ) ) {
+			$this->add_action( 'network_admin_menu', 'admin_menu' );
+		} else {
+			$this->add_action( 'admin_menu', 'admin_menu' );
+		}
+
+		if ( $this->isInPage() ) {
+			$this->add_action( 'defender_enqueue_assets', 'scripts', 11 );
+		}
+
+		$this->add_ajax_action( 'blacklistWidgetStatus', 'blacklistWidgetStatus' );
+		$this->add_ajax_action( 'toggleBlacklistWidget', 'toggleBlacklistWidget' );
+		$this->add_ajax_action( 'activateModule', 'activateModule' );
+		$this->add_ajax_action( 'skipActivator', 'skipActivator' );
+		$this->add_filter( 'wdp_register_hub_action', 'addMyEndpoint' );
+		add_filter( 'custom_menu_order', '__return_true' );
+		$this->add_filter( 'menu_order', 'menuOrder' );
+	}
+
+	public function skipActivator() {
+		if ( ! $this->checkPermission() ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( HTTP_Helper::retrieve_post( '_wpnonce' ), 'skipActivator' ) ) {
+			return;
+		}
+		$cache = WP_Helper::getCache();
+		$cache->set( 'isActivated', 1, 0 );
+		wp_send_json_success();
+	}
+
+	public function activateModule() {
+		if ( ! $this->checkPermission() ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( HTTP_Helper::retrieve_post( '_wpnonce' ), 'activateModule' ) ) {
+			return;
+		}
+
+		$activator = HTTP_Helper::retrieve_post( 'activator' );
+		$activated = array();
+		if ( count( $activator ) ) {
+			foreach ( $activator as $item ) {
+				switch ( $item ) {
+					case 'activate_scan':
+						$settings               = Settings::instance();
+						$settings->notification = 1;
+						$settings->time         = '4:0';
+						$settings->day          = 'monday';
+						$settings->frequency    = 7;
+						$nextScanTime           = Scan_Api::getScheduledScanTime();
+						wp_schedule_single_event( $nextScanTime, 'processScanCron' );
+						$settings->save();
+						//start a new scan
+						Scan_Api::createScan();
+						$activated[] = $item;
+						break;
+					case 'activate_audit':
+						$settings               = \WP_Defender\Module\Audit\Model\Settings::instance();
+						$settings->enabled      = 1;
+						$settings->notification = 1;
+						$settings->time         = '4:0';
+						$settings->day          = 'monday';
+						$settings->frequency    = 7;
+						$reportTime             = Audit_API::getReportTime();
+						wp_schedule_single_event( $reportTime, 'auditReportCron' );
+						$activated[] = $item;
+						$settings->save();
+						break;
+					case 'activate_blacklist':
+						$this->toggleStatus( - 1, false );
+						$activated[] = $item;
+						break;
+					case 'activate_lockout':
+						$settings                   = \WP_Defender\Module\IP_Lockout\Model\Settings::instance();
+						$settings->detect_404       = 1;
+						$settings->login_protection = 1;
+						$settings->report           = 1;
+						$settings->report_frequency = 7;
+						$settings->report_day       = 'monday';
+						$settings->report_time      = '4:0';
+						$reportTime                 = Login_Protection_Api::getReportTime( true );
+						wp_schedule_single_event( $reportTime, 'lockoutReportCron' );
+						$activated[] = $item;
+						$settings->save();
+						break;
+				}
+			}
+		}
+
+		$cache = WP_Helper::getCache();
+		$cache->set( 'isActivated', 1, 0 );
+
+		wp_send_json_success( array(
+			'activated' => $activated
+		) );
+	}
+
+	/**
+	 * Check if we should show activator screen
+	 * @return bool
+	 */
+	public function isShowActivator() {
+		$cache = WP_Helper::getCache();
+		if ( $cache->get( 'isActivated', false ) == 1 ) {
+			return false;
+		}
+		//alread has data, just return
+		if ( get_site_option( 'wp_defender' ) != false
+		     || get_site_option( 'wd_scan_settings' ) != false
+		     || get_site_option( 'wd_audit_settings' ) != false
+		     || get_site_option( 'wd_lockdown_settings' ) != false
+		) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function menuOrder( $menu_order ) {
+		global $submenu;
+		if ( isset( $submenu['wp-defender'] ) ) {
+			$defender_menu = $submenu['wp-defender'];
+			//$defender_menu[6][4] = 'wd-menu-hide';
+			$defender_menu[0][0]    = esc_html__( "Dashboard", wp_defender()->domain );
+			$defender_menu          = array_values( $defender_menu );
+			$submenu['wp-defender'] = $defender_menu;
+		}
+
+		global $menu;
+		$count     = $this->countTotalIssues();
+		$indicator = $count > 0 ? ' <span class="update-plugins wd-issue-indicator-sidebar"><span class="plugin-count">' . $count . '</span></span>' : null;
+		foreach ( $menu as $k => $item ) {
+			if ( $item[2] == 'wp-defender' ) {
+				$menu[ $k ][0] .= $indicator;
+			}
+		}
+
+		return $menu_order;
+	}
+
+	public function addMyEndpoint( $actions ) {
+		$actions['defender_new_scan']      = 'new_scan';
+		$actions['defender_schedule_scan'] = 'schedule_scan';
+	}
+
+	/**
+	 * @param $params
+	 * @param $action
+	 */
+	public function new_scan( $params, $action ) {
+		$ret = Scan_Api::createScan();
+		if ( is_wp_error( $ret ) ) {
+			wp_send_json_error( array(
+				'message' => $ret->get_error_message()
+			) );
+		}
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * @param $params
+	 * @param $action
+	 */
+	public function schedule_scan( $params, $action ) {
+		$frequency   = $params['frequency'];
+		$day         = $params['day'];
+		$time        = $params['time'];
+		$allowedFreq = array( 1, 7, 30 );
+		if ( ! in_array( $frequency, $allowedFreq ) || ! in_array( $day, Utils::instance()->getDaysOfWeek() ) || ! in_array( $time, Utils::instance()->getTimes() ) ) {
+			wp_send_json_error();
+		}
+		$settings            = Settings::instance();
+		$settings->frequency = $frequency;
+		$settings->day       = $day;
+		$settings->time      = $time;
+
+		wp_send_json_success();
+	}
+
+	public function actionIndex() {
+		$this->render( 'dashboard' );
+	}
+
+	public function blacklistWidgetStatus() {
+		if ( ! $this->checkPermission() ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( HTTP_Helper::retrieve_post( '_wpnonce' ), 'blacklistWidgetStatus' ) ) {
+			return;
+		}
+
+		if ( $this->hasMethod( 'pullBlacklistStatus' ) ) {
+			$this->pullBlacklistStatus();
+		}
+
+		exit;
+	}
+
+	public function toggleBlacklistWidget() {
+		if ( ! $this->checkPermission() ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( HTTP_Helper::retrieve_post( '_wpnonce' ), 'toggleBlacklistWidget' ) ) {
+			return;
+		}
+
+		if ( $this->hasMethod( 'toggleStatus' ) ) {
+			$this->toggleStatus();
+		}
+
+		exit;
+	}
+
+	/**
+	 * @param bool $detail
+	 *
+	 * @return array|int|null|string
+	 */
+	public function countTotalIssues( $detail = false ) {
+		$hardenerCount = count( \WP_Defender\Module\Hardener\Model\Settings::instance()->issues );
+		$scan          = Scan_Api::getLastScan();
+		$total         = $hardenerCount;
+		$scanCount     = 0;
+		if ( is_object( $scan ) ) {
+			$scanCount = $scan->countAll( Result_Item::STATUS_ISSUE );
+
+			$total += $scanCount;
+		}
+		if ( $detail == false ) {
+			return $total;
+		}
+
+		return array( $hardenerCount, $scanCount );
+	}
+
+	/**
+	 *
+	 */
+	public function admin_menu() {
+		$cap        = is_multisite() ? 'manage_network_options' : 'manage_options';
+		$menu_title = esc_html__( "Defender", wp_defender()->domain );
+		//$menu_title = sprintf( $menu_title, $indicator );
+		add_menu_page( esc_html__( "Defender", wp_defender()->domain ), $menu_title, $cap, 'wp-defender', array(
+			&$this,
+			'actionIndex'
+		), $this->get_menu_icon() );
+	}
+
+	/**
+	 * Return svg image
+	 * @return string
+	 */
+	private function get_menu_icon() {
+		ob_start();
+		?>
+        <svg width="17px" height="18px" viewBox="10 397 17 18" version="1.1" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink">
+            <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+            <desc>Created with Sketch.</desc>
+            <defs></defs>
+            <path
+                    d="M24.8009393,403.7962 L23.7971393,410.1724 C23.7395393,410.5372 23.5313393,410.8528 23.2229393,411.0532 L18.4001393,413.6428 L13.5767393,411.0532 C13.2683393,410.8528 13.0601393,410.5372 13.0019393,410.1724 L11.9993393,403.7962 L11.6153393,401.3566 C12.5321393,402.9514 14.4893393,405.5518 18.4001393,408.082 C22.3115393,405.5518 24.2675393,402.9514 25.1855393,401.3566 L24.8009393,403.7962 Z M26.5985393,398.0644 C25.7435393,397.87 22.6919393,397.2106 19.9571393,397 L19.9571393,403.4374 L18.4037393,404.5558 L16.8431393,403.4374 L16.8431393,397 C14.1077393,397.2106 11.0561393,397.87 10.2011393,398.0644 C10.0685393,398.0938 9.98213933,398.221 10.0031393,398.3536 L10.8875393,403.969 L11.8913393,410.3446 C12.0071393,411.0796 12.4559393,411.7192 13.1105393,412.0798 L16.8431393,414.1402 L18.4001393,415 L19.9571393,414.1402 L23.6891393,412.0798 C24.3431393,411.7192 24.7925393,411.0796 24.9083393,410.3446 L25.9121393,403.969 L26.7965393,398.3536 C26.8175393,398.221 26.7311393,398.0938 26.5985393,398.0644 L26.5985393,398.0644 Z"
+                    id="Defender-Icon" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+        </svg>
+		<?php
+		$svg = ob_get_clean();
+
+		return 'data:image/svg+xml;base64,' . base64_encode( $svg );
+	}
+
+	public function scripts() {
+		\WDEV_Plugin_Ui::load( wp_defender()->getPluginUrl() . 'shared-ui/' );
+		wp_enqueue_script( 'defender' );
+		$data = array(
+			'activator_title'    => __( "QUICK SETUP", wp_defender()->domain ) . '<form method="post" class="skip-activator float-r"><input type="hidden" name="action" value="skipActivator"/>' . wp_nonce_field( 'skipActivator', '_wpnonce', true, false ) . '<button type="submit" class="button button-small button-secondary">' . __( "Skip", wp_defender()->domain ) . '</button></form>',
+			'activate_scan'      => __( "Activating File Scanning...", wp_defender()->domain ),
+			'activate_audit'     => __( "Activating Audit Module...", wp_defender()->domain ),
+			'activate_lockout'   => __( "Activating IP Lockouts Module...", wp_defender()->domain ),
+			'activate_blacklist' => __( "Activating Blacklist Monitoring...", wp_defender()->domain )
+		);
+		wp_enqueue_style( 'defender' );
+		wp_localize_script( 'defender', 'dashboard', $data );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function behaviors() {
+		return array(
+			'utils'     => '\WP_Defender\Behavior\Utils',
+			'hardener'  => '\WP_Defender\Module\Hardener\Behavior\Widget',
+			'scan'      => '\WP_Defender\Module\Scan\Behavior\Scan',
+			//'lockout'   => wp_defender()->isFree ? '\WP_Defender\Module\IP_Lockout\Behavior\IP_Lockout_Free' : '\WP_Defender\Module\IP_Lockout\Behavior\IP_Lockout',
+			'lockout'   => '\WP_Defender\Module\IP_Lockout\Behavior\Widget',
+			'audit'     => wp_defender()->isFree ? '\WP_Defender\Module\Audit\Behavior\Audit_Free' : '\WP_Defender\Module\Audit\Behavior\Audit',
+			'blacklist' => '\WP_Defender\Behavior\Blacklist',
+			'report'    => wp_defender()->isFree ? '\WP_Defender\Behavior\Report_Free' : '\WP_Defender\Behavior\Report',
+		);
+	}
+}

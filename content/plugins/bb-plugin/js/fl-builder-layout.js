@@ -838,9 +838,9 @@
 								if ( responsiveLabel.is( ':visible' ) ) {
 									responsiveLabel.trigger( 'click' );	
 								}
-								else {
-									FLBuilderLayout._scrollToElement( label );
-									label.trigger( 'click' );
+								else {									
+									label[0].click();
+									FLBuilderLayout._scrollToElement( element );
 								}
 								
 							}, 100 );
@@ -877,16 +877,21 @@
 				loc     = window.location,
 				id      = null,
 				element = null;
-			
+
 			if ( 'undefined' != typeof href && href.indexOf( '#' ) > -1 ) {
-				
+
 				if ( loc.pathname.replace( /^\//, '' ) == this.pathname.replace( /^\//, '' ) && loc.hostname == this.hostname ) {
-				
+
 					try {
-						
+
 						id      = href.split( '#' ).pop();
+						// If there is no ID then we have nowhere to look
+						// Fixes a quirk in jQuery and FireFox
+						if( ! id ) {
+							return;
+						}
 						element = $( '#' + id );
-						
+
 						if ( element.length > 0 ) {
 							if ( link.hasClass( 'fl-scroll-link' ) || element.hasClass( 'fl-row' ) || element.hasClass( 'fl-col' ) || element.hasClass( 'fl-module' ) ) {
 								$( link ).on( 'click', FLBuilderLayout._scrollToElementOnLinkClick );
@@ -1025,8 +1030,8 @@
 					FLBuilderLayout._scrollToElementOnLinkClick.call( this, e, callback );
 				}
 				else {
-					FLBuilderLayout._scrollToElement( label );
-					label.trigger( 'click' );
+					label[0].click();
+					FLBuilderLayout._scrollToElement( element );
 				}
 				
 				e.preventDefault();

@@ -19,7 +19,7 @@
 
 			<div class="fl-post-carousel-text">
 
-				<?php if( $settings->post_has_icon && $post_icon_position == 'above' ) : ?>
+				<?php if( isset( $settings->post_has_icon ) && $settings->post_has_icon == 'yes' && $post_icon_position == 'above' ) : ?>
 					<span class="fl-carousel-icon">
 						<i class="<?php echo $settings->post_icon; ?>"></i> 
 					</span>
@@ -52,7 +52,7 @@
 				</div>
 				<?php endif; ?>
 
-				<?php if( $settings->post_has_icon && $post_icon_position == 'below' ) : ?>
+				<?php if( isset( $settings->post_has_icon ) && $settings->post_has_icon == 'yes' && $post_icon_position == 'below' ) : ?>
 					<span class="fl-carousel-icon">
 						<i class="<?php echo $settings->post_icon; ?>"></i> 
 					</span>

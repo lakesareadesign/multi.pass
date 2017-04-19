@@ -144,7 +144,7 @@ class ProSites_Gateway_PayPalExpressPro {
 
 	public static function get_name() {
 		return array(
-			'paypal' => __( 'PayPal Express/Pro', 'psts' ),
+			'paypal' => __( 'PayPal Express', 'psts' ),
 		);
 	}
 
@@ -218,7 +218,13 @@ class ProSites_Gateway_PayPalExpressPro {
 
 		$content .= '<div id="psts-paypal-checkout">
 			<h2>' . __( 'Checkout With PayPal', 'psts' ) . '</h2>';
-		$errmsg = ! empty( $psts->errors ) ? $psts->errors->get_error_message( 'general' ) : false;
+
+		$g_errmsg = ! empty( $psts->errors ) ? $psts->errors->get_error_message( 'general' ) : false;
+		if ( $g_errmsg ) {
+			$content .= '<div id="psts-processcard-error" class="psts-error">' . $g_errmsg . '</div>';
+		}
+
+		$errmsg = ! empty( $psts->errors ) ? $psts->errors->get_error_message( 'paypal' ) : false;
 		if ( $errmsg ) {
 			$content .= '<div id="psts-processcard-error" class="psts-error">' . $errmsg . '</div>';
 		}
@@ -436,9 +442,9 @@ class ProSites_Gateway_PayPalExpressPro {
 		$tax_amt_payment = $tax_amt_init = 0;
 
 		//Blog id, Level Period
-		$blog_id = ! empty( $_REQUEST['bid'] ) ? $_REQUEST['bid'] : 0;
-		$level   = ! empty( $_POST['level'] ) ? $_POST['level'] : '';
-		$period  = ! empty( $_POST['period'] ) ? $_POST['period'] : '';
+		$blog_id = ! empty( $_REQUEST['bid'] ) ? (int) $_REQUEST['bid'] : 0;
+		$level   = ! empty( $_POST['level'] ) ? (int) $_POST['level'] : '';
+		$period  = ! empty( $_POST['period'] ) ? (int) $_POST['period'] : '';
 
 		// TAX Object
 		$tax_object = ProSites_Helper_Session::session( 'tax_object' );
@@ -519,13 +525,13 @@ class ProSites_Gateway_PayPalExpressPro {
 			}
 
 			//prepare vars
-			$currency    = self::currency();
+			$currency = self::currency();
 
-			$is_trial    = $psts->is_trial_allowed( $blog_id, $_POST['level'] );
+			$is_trial = $psts->is_trial_allowed( $blog_id );
 
-			$setup_fee   = (float) $psts->get_setting( 'setup_fee', 0 );
+			$setup_fee = (float) $psts->get_setting( 'setup_fee', 0 );
 
-			$recurring   = $psts->get_setting( 'recurring_subscriptions', true );
+			$recurring = $psts->get_setting( 'recurring_subscriptions', true );
 
 			//If free level is selected, activate a trial
 			if ( ! empty ( $domain ) && ! $psts->prevent_dismiss() && '0' === $_POST['level'] && '0' === $_POST['period'] ) {
@@ -558,15 +564,18 @@ class ProSites_Gateway_PayPalExpressPro {
 					//apply coupon
 					$adjusted_values = ProSites_Helper_Coupons::get_adjusted_level_amounts( $process_data['COUPON_CODE'] );
 					$coupon_obj      = ProSites_Helper_Coupons::get_coupon( $process_data['COUPON_CODE'] );
+
 					$lifetime        = isset( $coupon_obj['lifetime'] ) && 'indefinite' == $coupon_obj['lifetime'] ? 'forever' : 'once';
 
 					//Coupon valus is the price after discount itself, for some reason, it was being done reverse @todo: Make it simple
 					$coupon_value = $adjusted_values[ $_POST['level'] ][ 'price_' . $_POST['period'] ];
+
 					$amount_off   = $paymentAmount - $coupon_value;
 
 					//Round the value to two digits
 					$amount_off = number_format( $amount_off, 2, '.', '' );
 				}
+
 				if ( ! $recurring && ! empty( $blog_id ) ) {
 					//Calculate Upgrade or downgrade cost, use original cost to calculate the Upgrade cost
 					$paymentAmount = $psts->calc_upgrade_cost( $blog_id, $_POST['level'], $_POST['period'], $paymentAmount );
@@ -577,38 +586,35 @@ class ProSites_Gateway_PayPalExpressPro {
 
 				//Apply Discount
 				if ( ! empty( $amount_off ) ) {
+					//Give the discount on payment amount, $paymentAmountInitial contains the payment amount for first term
+					$paymentAmountInitial = $paymentAmount - $amount_off;
+
+					//if discount value is greater than payment amount, subtract from init amount too (paymentamount would be negative in that case );
+					$initAmount = $paymentAmountInitial < 0 ? $initAmount + $paymentAmountInitial : $initAmount;
+
+					//This situation shouldn't arise, but let's be safe
+					$initAmount = $initAmount < 0 ? 0 : $initAmount;
+
+					//If negative, set to 0
+					$paymentAmountInitial = $paymentAmountInitial < 0 ? 0 : $paymentAmountInitial;
+
 					if ( $lifetime == 'once' ) {
-						//Give the discount on payment amount, $paymentAmountInitial contains the payment amount for first term
-						$paymentAmountInitial = $paymentAmount - $amount_off;
-
-						//if discount value is greater than payment amount, subtract from init amount too (paymentamount would be negative in that case );
-						$initAmount = $paymentAmountInitial < 0 ? $initAmount + $paymentAmountInitial : $initAmount;
-
-						//If negative, set to 0
-						$paymentAmountInitial = $paymentAmountInitial < 0 ? 0 : $paymentAmountInitial;
-
 						if ( ! $recurring ) {
 							//If Not recurring, and coupon is on time
 							$paymentAmount = $paymentAmountInitial;
 						}
 					} else {
-						//Give the discount on payment amount, $paymentAmountInitial contains the payment amount for first term
-						$paymentAmountInitial = $paymentAmount - $amount_off;
-
-						//if discount value is greater than payment amount, subtract from init amount too (paymentamount would be negative in that case );
-						$initAmount = $paymentAmountInitial < 0 ? $initAmount + $paymentAmountInitial : $initAmount;
-
-						//If negative, set to 0
-						$paymentAmountInitial = $paymentAmountInitial < 0 ? 0 : $paymentAmountInitial;
-
 						//For Lifetime coupon, cost for each term is going to be same
 						$paymentAmount = $paymentAmountInitial;
 					}
 				}
+
 				//Calculate Tax
+				//Initial Tax Amount ( Setup Fee and all ), And the amount to be shown in description
 				$tax_amt_init   = self::calculate_tax( $tax_object, $initAmount, true );
 				$initAmountDesc = $initAmount + $tax_amt_init;
 
+				//Tax on rest of the Payment and amount to be shown in description
 				$tax_amt_payment   = self::calculate_tax( $tax_object, $paymentAmount, true );
 				$paymentAmountDesc = $paymentAmount + $tax_amt_payment;
 
@@ -691,14 +697,14 @@ class ProSites_Gateway_PayPalExpressPro {
 				$resArray = PaypalApiHelper::SetExpressCheckout( $initAmount + $paymentAmount, $desc, $blog_id, $domain, $force_recurring );
 			} else {
 				//We specify only the subscription charges, in set express checkout, rest of the amount is set as initamount in doexpresscheckout or createrecurringprofile operation
-				$resArray = PaypalApiHelper::SetExpressCheckout( $paymentAmount, $desc, $blog_id, $domain, $force_recurring );
+				$resArray = PaypalApiHelper::SetExpressCheckout( $paymentAmountInitial, $desc, $blog_id, $domain, $force_recurring );
 			}
 
 			if ( isset( $resArray['ACK'] ) && ( $resArray['ACK'] == 'Success' || $resArray['ACK'] == 'SuccessWithWarning' ) ) {
 				$token = $resArray["TOKEN"];
 				PaypalApiHelper::RedirectToPayPal( $token );
 			} else {
-				$psts->errors->add( 'general', sprintf( __( 'There was a problem setting up the paypal payment:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArray ) ) );
+				$psts->errors->add( 'paypal', sprintf( __( 'There was a problem setting up the paypal payment:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArray ) ) );
 			}
 		}
 
@@ -832,7 +838,7 @@ class ProSites_Gateway_PayPalExpressPro {
 				//Upgrade
 				if ( $modify ) {
 
-					$is_trial    = $psts->is_trial_allowed( $blog_id, $_POST['level'] );
+					$is_trial = $psts->is_trial_allowed( $blog_id );
 					//! create the recurring profile
 					$resArray = PaypalApiHelper::CreateRecurringPaymentsProfileExpress( $_GET['token'], $paymentAmount, $_POST['period'], $desc, $blog_id, $_POST['level'], $modify, $activation_key, '', $tax_amt_payment, $is_trial );
 					if ( $resArray['ACK'] == 'Success' || $resArray['ACK'] == 'SuccessWithWarning' ) {
@@ -904,7 +910,7 @@ class ProSites_Gateway_PayPalExpressPro {
 							self::update_evidence( $blog_id, $txn_id, $evidence_string );
 						}
 					} else {
-						$psts->errors->add( 'general', sprintf( __( 'There was a problem setting up the Paypal payment:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArray ) ) );
+						$psts->errors->add( 'paypal', sprintf( __( 'There was a problem setting up the Paypal payment:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArray ) ) );
 						$psts->log_action( $blog_id, sprintf( __( 'User modifying subscription via PayPal Express: PayPal returned an error: %s', 'psts' ), self::parse_error_string( $resArray ) ) );
 					}
 				} else {
@@ -924,7 +930,7 @@ class ProSites_Gateway_PayPalExpressPro {
 					$initAmount = $is_trial ? $initAmount : $initAmount + $paymentAmountInitial;
 
 					//If not trial, or if there is a setup fee
-					if ( ! $is_trial || $initAmount != 0 ) {
+					if ( ! $is_trial || $initAmount > 0 ) {
 						//Do Express checkout for initial Payment and handle rest with subscription
 						$resArrayDirect = PaypalApiHelper::DoExpressCheckoutPayment( $_GET['token'], $_GET['PayerID'], $initAmount, $_POST['period'], $desc, $blog_id, $_POST['level'], $activation_key, $tax_amt_init );
 					} else {
@@ -943,8 +949,8 @@ class ProSites_Gateway_PayPalExpressPro {
 						//Activate the blog for trial
 						$site_details = ProSites_Helper_Registration::activate_blog( $activation_key, $is_trial, $_POST['period'], $_POST['level'] );
 					} else {
-						$psts->errors->add( 'general', sprintf( __( 'There was a problem setting up the Paypal payment:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArray ) ) );
-						$psts->log_action( $blog_id, sprintf( __( 'User creating new subscription via PayPal Express: PayPal returned an error: %s', 'psts' ), self::parse_error_string( $resArray ) ) );
+						$psts->errors->add( 'paypal', sprintf( __( 'There was a problem setting up the Paypal payment:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArrayDirect ) ) );
+						$psts->log_action( $blog_id, sprintf( __( 'User creating new subscription via PayPal Express: PayPal returned an error: %s', 'psts' ), self::parse_error_string( $resArrayDirect ) ) );
 
 						return;
 					}
@@ -983,7 +989,7 @@ class ProSites_Gateway_PayPalExpressPro {
 							$psts->log_action( $blog_id, sprintf( __( 'User creating new subscription via PayPal Express: Problem creating the subscription after successful initial payment. User may need to renew when the first period is up: %s', 'psts' ), self::parse_error_string( $resArray ) ), $domain );
 						} else {
 							//If payment was declined, or user returned
-							$psts->errors->add( 'general', sprintf( __( 'There was a problem processing the Paypal payment:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArray ) ) );
+							$psts->errors->add( 'paypal', sprintf( __( 'There was a problem processing the Paypal payment:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArray ) ) );
 							$psts->log_action( $blog_id, sprintf( __( 'User creating subscription via PayPal Express: PayPal returned an error: %s', 'psts' ), self::parse_error_string( $resArray ) ), $domain );
 						}
 
@@ -1026,7 +1032,7 @@ class ProSites_Gateway_PayPalExpressPro {
 			if ( isset( $_POST['cc_form'] ) ) {
 
 				$error_message = array(
-					'general'    => __( 'Whoops, looks like you may have tried to submit    your payment twice so we prevented it. Check your subscription info below to see if it was created. If not, please try again.', 'psts' ),
+					'general'    => __( 'Whoops, looks like you may have tried to submit your payment twice so we prevented it. Check your subscription info below to see if it was created. If not, please try again.', 'psts' ),
 					'card-type'  => __( 'Please choose a Card Type.', 'psts' ),
 					'number'     => __( 'Please enter a valid Credit Card Number.', 'psts' ),
 					'expiration' => __( 'Please choose an expiration date.', 'psts' ),
@@ -1038,7 +1044,6 @@ class ProSites_Gateway_PayPalExpressPro {
 					'state'      => __( 'Please enter your billing State/Province.', 'psts' ),
 					'zip'        => __( 'Please enter your billing Zip/Postal Code.', 'psts' ),
 					'country'    => __( 'Please enter your billing Country.', 'psts' )
-
 				);
 
 				//clean up $_POST
@@ -1182,7 +1187,7 @@ class ProSites_Gateway_PayPalExpressPro {
 								self::update_evidence( $blog_id, $init_transaction, $evidence_string );
 							}
 						} elseif ( $resArray['ACK'] == 'Failure' && ! empty( $resArray['L_SHORTMESSAGE0'] ) ) {
-							$psts->errors->add( 'general', $resArray['L_SHORTMESSAGE0'] );
+							$psts->errors->add( 'paypal', $resArray['L_SHORTMESSAGE0'] );
 						} else {
 							update_blog_option( $blog_id, 'psts_waiting_step', 1 );
 						}
@@ -1267,7 +1272,7 @@ class ProSites_Gateway_PayPalExpressPro {
 							}
 
 						} else {
-							$psts->errors->add( 'general', sprintf( __( 'There was a problem with your Credit Card information:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArray ) ) );
+							$psts->errors->add( 'paypal', sprintf( __( 'There was a problem with your Credit Card information:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArray ) ) );
 							$psts->log_action( $blog_id, sprintf( __( 'User modifying subscription via CC: PayPal returned a problem with Credit Card info: %s', 'psts' ), self::parse_error_string( $resArray ) ) );
 						}
 
@@ -1301,7 +1306,7 @@ class ProSites_Gateway_PayPalExpressPro {
 							//Activate the blog for trial
 							$site_details = ProSites_Helper_Registration::activate_blog( $activation_key, $is_trial, $_POST['period'], $_POST['level'] );
 						} else {
-							$psts->errors->add( 'general', sprintf( __( 'There was a problem setting up the Paypal payment:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArrayDirect ) ) );
+							$psts->errors->add( 'paypal', sprintf( __( 'There was a problem setting up the Paypal payment:<br />"<strong>%s</strong>"<br />Please try again.', 'psts' ), self::parse_error_string( $resArrayDirect ) ) );
 							$psts->log_action( $blog_id, sprintf( __( 'User creating new subscription via CC: PayPal returned an error: %s', 'psts' ), self::parse_error_string( $resArrayDirect ) ) );
 
 							return;
@@ -1311,6 +1316,8 @@ class ProSites_Gateway_PayPalExpressPro {
 						$blog_id = ! empty( $site_details ) ? $site_details['blog_id'] : $blog_id;
 
 						if ( ! empty( $blog_id ) ) {
+
+							update_blog_option( $blog_id, 'psts_waiting_step', 1 );
 
 							//Store activation key in Pro Sites table
 							self::set_blog_identifier( $activation_key, $blog_id );
@@ -1344,6 +1351,7 @@ class ProSites_Gateway_PayPalExpressPro {
 							} else {
 								self::$complete_message = __( 'Your initial payment was successful, but there was a problem creating the subscription with your credit card so you may need to renew when the first period is up. Your site should be upgraded shortly.', 'psts' ) . '<br />"<strong>' . self::parse_error_string( $resArray ) . '</strong>"';
 								$psts->log_action( $blog_id, sprintf( __( 'User creating new subscription via CC: Problem creating the subscription after successful initial payment. User may need to renew when the first period is up: %s', 'psts' ), self::parse_error_string( $resArray ) ), $domain );
+								error_log( "Exception in " . __FILE__ . " at line " . __LINE__ . self::parse_error_string( $resArray ) );
 							}
 							$psts->record_stat( $blog_id, 'signup' );
 
@@ -1363,7 +1371,7 @@ class ProSites_Gateway_PayPalExpressPro {
 					}
 
 				} else {
-					$psts->errors->add( 'general', __( 'There was a problem with your credit card information. Please check all fields and try again.', 'psts' ) );
+					$psts->errors->add( 'paypal', __( 'There was a problem with your credit card information. Please check all fields and try again.', 'psts' ) );
 				}
 			}
 		};
@@ -1380,23 +1388,15 @@ class ProSites_Gateway_PayPalExpressPro {
 	 */
 	public static function currency() {
 		global $psts;
-		//Get the general currency set in Pro Sites
-		$paypal_currency = $psts->get_setting( 'pypl_currency', 'USD' );
-		$currency        = $psts->get_setting( 'currency', $paypal_currency );
 
-		//Check if PayPal supports the selected currency
-		$supported = ProSites_Helper_Gateway::supports_currency( $currency, 'paypal' );
-
-		//Choose the selected currency
-		$sel_currency = $supported ? $currency : $psts->get_setting( 'pypl_currency' );
-
-		return $sel_currency;
+		// Get the general currency set in Pro Sites.
+		return $psts->get_setting( 'currency', 'USD' );
 	}
 
 	public static function get_free_trial_desc() {
 		global $psts;
 
-		$trial_days  = $psts->get_setting( 'trial_days', 0 );
+		$trial_days = $psts->get_setting( 'trial_days', 0 );
 
 		return ' (billed after ' . $trial_days . ' day free trial)';
 	}
@@ -1930,7 +1930,7 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 		$line_obj->custom_id   = $line_obj->id = $data['PAYERID'];
 		$line_obj->amount      = $data['AMT'];
 		$line_obj->quantity    = ! empty( $data['L_QTY0'] ) ? $data['L_QTY0'] : 1;
-		$line_obj->description = $data['SUBJECT'];
+		$line_obj->description = ! empty( $data['SUBJECT'] ) ? $data['SUBJECT'] : '';
 		$lines[]               = $line_obj;
 
 		//Check if trial is allowed
@@ -2008,6 +2008,7 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 
 	function settings() {
 		global $psts;
+		$display_paypal_pro_option = $psts->get_setting('display_paypal_pro_option', false);
 		?>
 		<div class="inside">
 			<p><?php _e( 'Unlike PayPal Pro, there are no additional fees to use Express Checkout, though you may need to do a free upgrade to a business account. <a target="_blank" href="https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_ECGettingStarted">More Info &raquo;</a>', 'psts' ); ?></p>
@@ -2031,18 +2032,12 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 				</tr>
 				<tr valign="top">
 					<th scope="row"><?php _e( 'Paypal Currency', 'psts' ) ?></th>
-					<?php
-					$sel_currency = self::currency();
-
-					//List of currencies
-					$supported_currencies = self::get_supported_currencies(); ?>
-					<td><select name="psts[pypl_currency]" class="chosen">
-							<?php
-							foreach ( $supported_currencies as $k => $v ) {
-								echo '<option value="' . $k . '"' . selected( $k, $sel_currency, false ) . '>' . esc_attr( $v[0] ) . '</option>' . "\n";
-							}
-							?>
-						</select></td>
+					<td>
+						<p>
+							<strong><?php echo self::currency(); ?></strong> &ndash;
+                            <span class="description"><?php printf( __( '<a href="%s">Change Currency</a>', 'psts' ), network_admin_url( 'admin.php?page=psts-settings&tab=payment' ) ); ?></span>
+						</p>
+					</td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><?php _e( 'PayPal Mode', 'psts' ) ?></th>
@@ -2076,26 +2071,29 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 							</label></p>
 					</td>
 				</tr>
-				<th scope="row"><?php _e( 'Enable PayPal Pro', 'psts' ) ?></th>
-				<td>
-					<span
-						class="description"><?php _e( 'PayPal Website Payments Pro 3.0 allows you to seemlessly accept credit cards on your site, and gives you the most professional look with a widely accepted payment method. There are a few requirements you must meet to use PayPal Website Payments Pro:', 'psts' ) ?></span>
-					<ul style="list-style:disc outside none;margin-left:25px;">
-						<li><?php _e( 'You must signup (and pay the monthly fees) for <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_wp-pro-overview-outside" target="_blank">PayPal Website Payments Pro</a>. Note this uses the older Website Payments Pro 3.0 API, you will have to contact PayPal and have them manually setup or create a new account that supports Website Payments Pro 3.0', 'psts' ) ?></li>
-						<li><?php _e( 'You must signup (and pay the monthly fees) for the <a href="https://www.paypal.com/cgi-bin/webscr?cmd=xpt/Marketing/general/ProRecurringPayments-outside" target="_blank">PayPal Website Payments Pro Recurring Payments addon</a>.', 'psts' ) ?></li>
-						<li><?php _e( 'You must have an SSL certificate setup for your main blog/site where the checkout form will be displayed.', 'psts' ) ?></li>
-						<li><?php _e( 'You additionaly must be <a href="https://www.paypal.com/pcicompliance" target="_blank">PCI compliant</a>, which means your server must meet security requirements for collecting and transmitting payment data.', 'psts' ) ?></li>
-						<li><?php _e( 'The checkout form will be added to a page on your main site. You may need to adjust your theme stylesheet for it to look nice with your theme.', 'psts' ) ?></li>
-						<li><?php _e( 'Due to PayPal policies, PayPal Express will always be offered in addition to credit card payments.', 'psts' ) ?></li>
-						<li><?php _e( 'Be aware that PayPal Website Payments Pro only supports PayPal accounts in select countries.', 'psts' ) ?></li>
-						<li><?php _e( 'Tip: When testing you will need to setup a preconfigured Website Payments Pro seller account in your sandbox.', 'psts' ) ?></li>
-					</ul>
-					<label><input type="checkbox" name="psts[pypl_enable_pro]"
-					              value="1"<?php echo checked( $psts->get_setting( "pypl_enable_pro" ), 1 ); ?> /> <?php _e( 'Enable PayPal Pro', 'psts' ) ?>
-						<br/>
-					</label>
-				</td>
-				</tr>
+				<?php if($display_paypal_pro_option): ?>
+					<tr>
+						<th scope="row"><?php _e( 'Enable PayPal Pro', 'psts' ) ?></th>
+						<td>
+							<span
+								class="description"><?php _e( 'PayPal Website Payments Pro 3.0 allows you to seemlessly accept credit cards on your site, and gives you the most professional look with a widely accepted payment method. There are a few requirements you must meet to use PayPal Website Payments Pro:', 'psts' ) ?></span>
+							<ul style="list-style:disc outside none;margin-left:25px;">
+								<li><?php _e( 'You must signup (and pay the monthly fees) for <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_wp-pro-overview-outside" target="_blank">PayPal Website Payments Pro</a>. Note this uses the older Website Payments Pro 3.0 API, you will have to contact PayPal and have them manually setup or create a new account that supports Website Payments Pro 3.0', 'psts' ) ?></li>
+								<li><?php _e( 'You must signup (and pay the monthly fees) for the <a href="https://www.paypal.com/cgi-bin/webscr?cmd=xpt/Marketing/general/ProRecurringPayments-outside" target="_blank">PayPal Website Payments Pro Recurring Payments addon</a>.', 'psts' ) ?></li>
+								<li><?php _e( 'You must have an SSL certificate setup for your main blog/site where the checkout form will be displayed.', 'psts' ) ?></li>
+								<li><?php _e( 'You additionaly must be <a href="https://www.paypal.com/pcicompliance" target="_blank">PCI compliant</a>, which means your server must meet security requirements for collecting and transmitting payment data.', 'psts' ) ?></li>
+								<li><?php _e( 'The checkout form will be added to a page on your main site. You may need to adjust your theme stylesheet for it to look nice with your theme.', 'psts' ) ?></li>
+								<li><?php _e( 'Due to PayPal policies, PayPal Express will always be offered in addition to credit card payments.', 'psts' ) ?></li>
+								<li><?php _e( 'Be aware that PayPal Website Payments Pro only supports PayPal accounts in select countries.', 'psts' ) ?></li>
+								<li><?php _e( 'Tip: When testing you will need to setup a preconfigured Website Payments Pro seller account in your sandbox.', 'psts' ) ?></li>
+							</ul>
+							<label><input type="checkbox" name="psts[pypl_enable_pro]"
+										  value="1"<?php echo checked( $psts->get_setting( "pypl_enable_pro" ), 1 ); ?> /> <?php _e( 'Enable PayPal Pro', 'psts' ) ?>
+								<br/>
+							</label>
+						</td>
+					</tr>
+				<?php endif; ?>
 				<tr>
 					<th scope="row"
 					    class="psts-help-div psts-paypal-header"><?php echo __( 'PayPal Header Image (optional)', 'psts' ) . $psts->help_text( __( 'https url of an 750 x 90 image displayed at the top left of the payment page. If a image is not specified, the business name is displayed.', 'psts' ) ); ?></th>
@@ -2214,7 +2212,6 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 			'SEK' => array( 'Swedish Krona', '6b, 72' ),
 			'SGD' => array( 'Singapore Dollar', '24' ),
 			'THB' => array( 'Thai Baht', 'e3f' ),
-			'TRY' => array( 'Turkish Lira', '20ba' ),
 			'TWD' => array( 'New Taiwan Dollar', '4e, 54, 24' ),
 			'USD' => array( 'United States Dollar', '24' ),
 			'RUB' => array( 'Russian Ruble', '20', 'bd' )
@@ -2291,6 +2288,7 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 
 	/**
 	 * Fetch the Subscription details for the given blog id
+	 *
 	 * @param $blog_id
 	 *
 	 * @return bool
@@ -2438,7 +2436,7 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 
 		} else if ( ProSites_Helper_Gateway::is_only_active( self::get_slug() ) ) {
 			echo '<p>' . __( "This site is using an older gateway so their information is not accessible until the next payment comes through.", 'psts' ) . '</p>';
-		}else{
+		} else {
 			$data = $this->get_transaction_details( $blog_id );
 
 			if ( ! empty( $data['L_NAME0'] ) ) {
@@ -2801,7 +2799,7 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 					$('#paypal_processing').show();
 				});
 				$("a#pypl_cancel").click(function (e) {
-					if (!confirm("<?php echo __('Please note that if you cancel your subscription you will not be immune to future price increases. The price of un-canceled subscriptions will never go up!\n\nAre you sure you really want to cancel your subscription?\nThis action cannot be undone!', 'psts'); ?>"))
+					if (!confirm("<?php echo __( 'Please note that if you cancel your subscription you will not be immune to future price increases. The price of un-canceled subscriptions will never go up!\n\nAre you sure you really want to cancel your subscription?\nThis action cannot be undone!', 'psts' ); ?>"))
 						e.preventDefault();
 				});
 			});
@@ -2839,7 +2837,7 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 					$req .= '&' . $k . '=' . urlencode( stripslashes( $v ) );
 				}
 
-				$args['user-agent']  = "Pro Sites: http://premium.wpmudev.org/project/pro-sites | PayPal Express/Pro Gateway";
+				$args['user-agent']  = "Pro Sites: http://premium.wpmudev.org/project/pro-sites | PayPal Express Gateway";
 				$args['body']        = $req;
 				$args['sslverify']   = false;
 				$args['timeout']     = 60;
@@ -2969,8 +2967,9 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 								$psts->extend( $blog_id, $period, self::get_slug(), $level, $_POST['mc_gross'] );
 							}
 
+							$GLOBALS['wp_object_cache']->delete( 'psts_waiting_step', 'options' );
 							//in case of new member send notification
-							if ( get_blog_option( $blog_id, 'psts_waiting_step' ) && ( $_POST['txn_type'] == 'express_checkout' ) ) {
+							if ( get_blog_option( $blog_id, 'psts_waiting_step' ) && ( $_POST['txn_type'] == 'express_checkout' || $_POST['txn_type'] == 'web_accept' ) ) {
 
 								$psts->extend( $blog_id, $period, self::get_slug(), $level, $payment );
 
@@ -3108,6 +3107,7 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 		ProSites_Helper_Transaction::record( $object );
 
 	}
+
 	/**
 	 * Get the last payment details for the given blog id
 	 *
@@ -3137,25 +3137,26 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 	 *
 	 * @return string
 	 */
-	function get_blog_subscription_expiry( $blog_id ) {
+	static function get_blog_subscription_expiry( $blog_id ) {
 		//Return If we don't have any blog id
 		if ( empty( $blog_id ) ) {
 			return '';
 		}
-		$expiry = '';
-		$profile_id = $this->get_profile_id( $blog_id );
+		$expiry     = '';
+		$profile_id = self::get_profile_id( $blog_id );
 		if ( $profile_id ) {
 			$resArray = PaypalApiHelper::GetRecurringPaymentsProfileDetails( $profile_id );
 
-			if( empty( $resArray ) ) {
+			if ( empty( $resArray ) ) {
 				return $expiry;
 			}
 
 			//If the Profile is active
 			if ( ( $resArray['ACK'] == 'Success' || $resArray['ACK'] == 'SuccessWithWarning' ) && $resArray['STATUS'] == 'Active' ) {
-				$expiry = !empty( $resArray['NEXTBILLINGDATE'] ) ? $resArray['NEXTBILLINGDATE'] : '';
+				$expiry = ! empty( $resArray['NEXTBILLINGDATE'] ) ? $resArray['NEXTBILLINGDATE'] : '';
 			}
 		}
+
 		return $expiry;
 	}
 }

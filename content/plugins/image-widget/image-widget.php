@@ -2,10 +2,10 @@
 /*
 Plugin Name: Image Widget
 Plugin URI: http://wordpress.org/plugins/image-widget/
-Description: A simple image widget that uses the native WordPress media manager to add image widgets to your site.
+Description: A simple image widget that uses the native WordPress media manager to add image widgets to your site. <strong>COMING SOON: <a href="http://m.tri.be/19m-">Image Widget Plus</a> - Multiple images, slider and more.</strong>
 Author: Modern Tribe, Inc.
-Version: 4.3
-Author URI: http://m.tri.be/26
+Version: 4.4.1
+Author URI: http://m.tri.be/iwpdoc
 Text Domain: image-widget
 Domain Path: /lang
 */
@@ -26,9 +26,11 @@ add_action( 'widgets_init', 'tribe_load_image_widget' );
  **/
 class Tribe_Image_Widget extends WP_Widget {
 
-	const VERSION = '4.3';
+	const VERSION = '4.4.1';
 
 	const CUSTOM_IMAGE_SIZE_SLUG = 'tribe_image_widget_custom';
+
+	const VERSION_KEY = '_image_widget_version';
 
 	/**
 	 * Tribe Image Widget constructor
@@ -55,6 +57,7 @@ class Tribe_Image_Widget extends WP_Widget {
 			add_action( 'admin_notices', array( $this, 'post_upgrade_nag' ) );
 
 		add_action( 'network_admin_notices', array( $this, 'post_upgrade_nag' ) );
+		add_action( 'wp_ajax_dismissed_image_widget_notice_handler', array( $this, 'ajax_notice_handler' ) );
 	}
 
 	/**
@@ -185,28 +188,28 @@ class Tribe_Image_Widget extends WP_Widget {
 	 */
 	public function admin_head() {
 		?>
-	<style type="text/css">
-		.uploader input.button {
-			width: 100%;
-			height: 34px;
-			line-height: 33px;
-			margin-top: 15px;
-		}
-		.tribe_preview .aligncenter {
-			display: block;
-			margin-left: auto !important;
-			margin-right: auto !important;
-		}
-		.tribe_preview {
-			overflow: hidden;
-			max-height: 300px;
-		}
-		.tribe_preview img {
-			margin: 10px 0;
-			height: auto;
-		}
-	</style>
-	<?php
+		<style type="text/css">
+			.uploader input.button {
+				width: 100%;
+				height: 34px;
+				line-height: 33px;
+				margin-top: 15px;
+			}
+			.tribe_preview .aligncenter {
+				display: block;
+				margin-left: auto !important;
+				margin-right: auto !important;
+			}
+			.tribe_preview {
+				overflow: hidden;
+				max-height: 300px;
+			}
+			.tribe_preview img {
+				margin: 10px 0;
+				height: auto;
+			}
+		</style>
+		<?php
 	}
 
 	/**
@@ -287,6 +290,16 @@ class Tribe_Image_Widget extends WP_Widget {
 				$instance['width'] = $image_details[1];
 				$instance['height'] = $image_details[2];
 			}
+
+			$image_srcset = wp_get_attachment_image_srcset( $instance['attachment_id'], $size );
+			if ( $image_srcset ) {
+				$instance['srcset'] = $image_srcset;
+			}
+
+ 			$image_sizes = wp_get_attachment_image_sizes( $instance['attachment_id'], $size );
+ 			if ( $image_sizes ) {
+				$instance['sizes'] = $image_sizes;
+			}
 		}
 		$instance['width'] = abs( $instance['width'] );
 		$instance['height'] = abs( $instance['height'] );
@@ -307,6 +320,12 @@ class Tribe_Image_Widget extends WP_Widget {
 		}
 		if ( ! empty( $instance['align'] ) && $instance['align'] != 'none' ) {
 			$attr['class'] .= " align{$instance['align']}";
+		}
+		if ( ! empty( $instance['srcset'] ) ) {
+			$attr['srcset'] = $instance['srcset'];
+		}
+		if ( ! empty( $instance['sizes'] ) ) {
+			$attr['sizes'] = $instance['sizes'];
 		}
 		$attr = apply_filters( 'image_widget_image_attributes', $attr, $instance );
 
@@ -420,13 +439,92 @@ class Tribe_Image_Widget extends WP_Widget {
 	public function post_upgrade_nag() {
 		if ( ! current_user_can( 'install_plugins' ) ) return;
 
-		$version_key = '_image_widget_version';
-		if ( get_site_option( $version_key ) == self::VERSION ) return;
+		global $pagenow;
+		$msg = false;
+		switch ( $pagenow ) {
+			case 'plugins.php' :
+				$msg = $this->upgrade_nag_plugins_admin_msg();
+				break;
+			case 'widgets.php' :
+				$msg = $this->upgrade_nag_widget_admin_msg();
+				break;
+		}
 
-		$msg = sprintf( __( 'Thanks for using the Image Widget! If you like this plugin, please consider <a href="%s" target="_blank">rating it</a> and maybe even check out our premium plugins including our <a href="%s" target="_blank">Events Calendar Pro</a>!', 'image-widget' ), 'http://wordpress.org/plugins/image-widget/?source=image-widget&pos=nag', 'https://theeventscalendar.com/product/wordpress-events-calendar-pro/?source=image-widget&pos=nag' );
-		echo "<div class='update-nag'>$msg</div>";
+		if ( ! $msg ) return;
 
-		update_site_option( $version_key, self::VERSION );
+		echo $msg;
+		?><script>
+			jQuery(document).ready(function($){
+				// Dismiss our admin notice
+				$( document ).on( 'click', '.image-widget-notice .notice-dismiss', function () {
+					var key = $( this ).closest( '.image-widget-notice' ).data( 'key' );
+					$.ajax( ajaxurl,
+						{
+							type: 'POST',
+							data: {
+								action: 'dismissed_image_widget_notice_handler',
+								key: key
+							}
+						} );
+				} );
+			} );
+		</script><?php
+	}
+
+	/**
+	 * AJAX handler to store the state of dismissible notices.
+	 */
+	public function ajax_notice_handler() {
+		if ( empty( $_POST['key'] ) ) return;
+		$key = $this->generate_key( sanitize_text_field( $_POST['key'] ) );
+		update_site_option( $key, self::VERSION );
+	}
+
+	/**
+	 * Generate version key for admin notice options
+	 *
+	 * @param string $key
+	 * @return string option key
+	 */
+	private function generate_key( $key ) {
+		$option_key = join( '_', array(
+			self::VERSION_KEY,
+			$key,
+		) );
+		return $option_key;
+	}
+
+	/**
+	 * Upgrade nag: Plugins Admin
+	 *
+	 * @return string alert message.
+	 */
+	private function upgrade_nag_plugins_admin_msg() {
+		$key = 'plugin';
+		$option_key = $this->generate_key( $key );
+		if ( get_site_option( $option_key ) == self::VERSION ) return;
+		$msg = sprintf(
+			__( '<p class="dashicons-before dashicons-format-gallery"><strong><a href="%s" target="_blank">Image Widget Plus</a></strong> is coming soon! Add random images, lightbox, and slider - <strong><a href="%s">Sign up now for early access.</a></strong></p>', 'image-widget' ),
+			'http://m.tri.be/19my',
+			'http://m.tri.be/19my'
+		);
+		return "<div class='notice notice-info is-dismissible image-widget-notice' data-key='$key'>$msg</div>";
+	}
+
+	/**
+	 * Upgrade nag: Widget Admin
+	 *
+	 * @return string alert message.
+	 */
+	private function upgrade_nag_widget_admin_msg() {
+		$key = 'widget';
+		$option_key = $this->generate_key( $key );
+		if ( get_site_option( $option_key ) == self::VERSION ) return;
+		$msg = sprintf(
+			__( '<p class="dashicons-before dashicons-star-filled"><strong>Image Widget Plus</strong> - Add lightbox, slideshow, and random image widgets. <strong><a href="%s" target="_blank">Find out how!</a></strong></p>', 'image-widget' ),
+			'http://m.tri.be/19mx'
+		);
+		return "<div class='notice notice-info is-dismissible image-widget-notice' data-key='$key'>$msg</div>";
 	}
 
 	/**
@@ -438,7 +536,7 @@ class Tribe_Image_Widget extends WP_Widget {
 	 */
 	public function plugin_row_meta( $meta, $file ) {
 		if ( $file == plugin_basename( dirname( __FILE__ ) . '/image-widget.php' ) ) {
-			$meta[] = '<span class="tribe-test">' . sprintf( __( 'Check out our other <a href="%s" target="_blank">plugins</a> including our <a href="%s" target="_blank">Events Calendar Pro</a>!', 'image-widget' ), 'https://theeventscalendar.com/products/?source=image-widget&pos=pluginlist', 'https://theeventscalendar.com/product/wordpress-events-calendar-pro/?source=image-widget&pos=pluginlist' ) . '</span>';
+			$meta[] = '<strong>' . esc_html__( 'Coming Soon:', 'image-widget' ) . '</strong> <a href="http://m.tri.be/19ma" target="_blank">' . esc_html__( 'Image Widget Plus', 'image-widget' ) . '</a>';
 		}
 		return $meta;
 	}

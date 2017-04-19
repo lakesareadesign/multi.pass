@@ -193,7 +193,7 @@
 				</section>
 				<section class="dev-box">
 					<div class="box-title">
-						<h3><?php esc_html_e( "Email recipients", wp_defender()->domain ) ?></h3>
+						<h3><?php esc_html_e( "Email Recipients", wp_defender()->domain ) ?></h3>
 					</div>
 					<div class="box-content">
 						<form id="email-recipients-frm">

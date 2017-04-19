@@ -2,6 +2,9 @@
 	cursor: pointer;
 	display: table;
 }
+.fl-accordion-button:focus {
+	outline: 0
+}
 .fl-accordion-button-label {
 	display: table-cell;
 	width: 100%;

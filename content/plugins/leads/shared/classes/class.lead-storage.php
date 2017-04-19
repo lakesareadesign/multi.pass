@@ -250,17 +250,26 @@ if (!class_exists('LeadStorage')) {
 				/* Store IP addresss & Store GEO Data */
 				if ($lead['ip_address']) {
 					update_post_meta( $lead['id'], 'wpleads_ip_address', $lead['ip_address'] );
-					/*self::store_geolocation_data($lead); */
 				}
 
 				/* store raw form data */
 				self::store_raw_form_data($lead);
 
+
 				/* look for form_id and set it into main array */
+				if (isset($args['form_id'])) {
+					$lead['form_id'] = $args['form_id'];
+				}
+				if (isset($args['form_name'])) {
+					$lead['form_name'] = $args['form_name'];
+				}
+
+				/* look for an inbound_form_id and set it into main array */
 				if (isset($raw_params['inbound_form_id'])) {
 					$lead['form_id'] = $raw_params['inbound_form_id'];
 					$lead['form_name'] = $raw_params['inbound_form_n'];
 				}
+
 
 				/* update lead id cookie */
 				setcookie('wp_lead_id', $lead['id'] , time() + (20 * 365 * 24 * 60 * 60), '/');
@@ -535,36 +544,6 @@ if (!class_exists('LeadStorage')) {
 			);
 		}
 
-		/**
-		 *	Connects to geoplugin.net and gets data on IP address and sets it into historical log
-		 *	@param ARRAY $lead_data
-		 */
-		static function store_geolocation_data( $lead ) {
-
-			$ip_addresses = get_post_meta( $lead['id'], 'wpleads_ip_address', true );
-			$ip_addresses = json_decode( stripslashes($ip_addresses), true);
-
-			if (!$ip_addresses) {
-				$ip_addresses = array();
-			}
-
-			$new_record[ $lead['ip_address'] ]['ip_address'] = $lead['ip_address'];
-
-			/* ignore for local environments */
-			if ($lead['ip_address']!= "127.0.0.1"){ /* exclude localhost */
-				$response = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead['ip_address']);
-				if ( !is_wp_error($response) &&  isset($response['body'])  ) {
-					$geo_array = @unserialize($response['body']);
-					$new_record[ $lead['ip_address'] ]['geodata'] = $geo_array;
-				}
-
-			}
-
-			$ip_addresses = array_merge( $new_record, $ip_addresses );
-			$ip_addresses = json_encode( $ip_addresses );
-
-			update_post_meta( $lead['id'], 'wpleads_ip_address', $ip_addresses );
-		}
 
 		/**
 		 *	Updates raw form data object

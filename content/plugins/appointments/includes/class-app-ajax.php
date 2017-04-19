@@ -74,15 +74,12 @@ class Appointments_AJAX {
 			wp_send_json_error( esc_js(__('There is an issue with this appointment. Please refresh the page and try again. If problem persists, please contact website admin.','appointments') ) );
 		}
 
-		$appointments = appointments();
-		if ( appointments_update_appointment_status( $app_id, 'removed' ) ) {
-			$appointments->log( sprintf( __('Client %s cancelled appointment with ID: %s','appointments'), $appointments->get_client_name( $app_id ), $app_id ) );
-			appointments_send_cancel_notification( $app_id );
-			do_action('app-appointments-appointment_cancelled', $app_id);
-			wp_send_json_success();
-		}
 
-		wp_send_json_error( esc_js(__('Appointment could not be cancelled. Please refresh the page and try again.','appointments') ) );
+		$result = appointments_cancel_appointment( $app_id );
+		if ( is_wp_error( $result ) ) {
+			wp_send_json_error( esc_js(__('Appointment could not be cancelled. Please refresh the page and try again.','appointments') ) );
+		}
+		wp_send_json_success();
 	}
 
 	/**
@@ -107,24 +104,27 @@ class Appointments_AJAX {
 	function inline_edit_save() {
 		global $appointments, $wpdb, $current_user;
 
+		check_ajax_referer( 'app-edit-appointment', 'nonce' );
+
 		$app_id = absint( $_POST["app_id"] );
 		$app = appointments_get_appointment( $app_id );
+		$app_orig_status = $app->status;
 		$data = array();
 
-		$data['user'] = $_POST['user'];
+		$data['user'] = absint( $_POST['user'] );
 		$data['email'] = !empty($_POST['email']) && is_email($_POST['email']) ? $_POST['email'] : '';
-		$data['name'] = $_POST['name'];
-		$data['phone'] = $_POST['phone'];
-		$data['address'] = $_POST['address'];
-		$data['city'] = $_POST['city'];
-		$data['service'] = $_POST['service'];
-		$data['worker'] = $_POST['worker'];
+		$data['name'] = sanitize_text_field( $_POST['name'] );
+		$data['phone'] = sanitize_text_field( $_POST['phone'] );
+		$data['address'] = sanitize_text_field( $_POST['address'] );
+		$data['city'] = sanitize_text_field( $_POST['city'] );
+		$data['service'] = absint( $_POST['service'] );
+		$data['worker'] = absint( $_POST['worker'] );
 		$data['price'] = $_POST['price'];
 		$data['note'] = $_POST['note'];
 		$data['status'] = $_POST['status'];
 		$data['date'] = $_POST['date'];
 		$data['time'] = $_POST['time'];
-		$resend = $_POST["resend"];
+		$resend = (bool)$_POST["resend"];
 
 		$data = apply_filters('app-appointment-inline_edit-save_data', $data);
 
@@ -179,8 +179,8 @@ class Appointments_AJAX {
 
 		if ( $update_result ) {
 			// Log change of status
-			if ( $data['status'] != $app->status ) {
-				$appointments->log( sprintf( __('Status changed from %s to %s by %s for appointment ID:%d','appointments'), $app->status, $data["status"], $current_user->user_login, $app->ID ) );
+			if ( $data['status'] != $app_orig_status ) {
+				$appointments->log( sprintf( __('Status changed from %s to %s by %s for appointment ID:%d','appointments'), $app_orig_status, $data["status"], $current_user->user_login, $app->ID ) );
 			}
 			$result = array(
 				'app_id' => $app->ID,
@@ -209,6 +209,8 @@ class Appointments_AJAX {
 	// Edit or create appointments
 	function inline_edit() {
 		$appointments = appointments();
+
+		check_ajax_referer( 'app-add-new', 'nonce' );
 
 		$app_id = absint( $_POST["app_id"] );
 		$app = false;
@@ -288,7 +290,8 @@ class Appointments_AJAX {
 	 */
 	function post_confirmation() {
 		global $appointments;
-		if (!$appointments->check_spam()) {
+		$check_spam = $appointments->check_spam();
+		if (! $check_spam) {
 			die(json_encode(array(
 				"error" => apply_filters(
 					'app_spam_message',
@@ -529,7 +532,7 @@ class Appointments_AJAX {
 		}
 
 		// A new appointment is accepted, so clear cache
-		$appointments->flush_cache();
+		appointments_clear_cache();
 
 		$apps = Appointments_Sessions::get_current_visitor_appointments();
 		$apps[] = $insert_id;
@@ -885,7 +888,8 @@ class Appointments_AJAX {
 			: App_Template::get_currency_symbol('USD')
 		;
 
-		if ($appointments->is_busy($start,  $end, $appointments->get_capacity())) {
+		$is_busy = $appointments->is_busy($start,  $end, $appointments->get_capacity());
+		if ( $is_busy ) {
 			die(json_encode(array(
 				"error" => apply_filters(
 					'app_booked_message',

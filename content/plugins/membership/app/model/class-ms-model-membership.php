@@ -446,6 +446,7 @@ class MS_Model_Membership extends MS_Model_CustomPostType {
 			'publicly_queryable' => false,
 			'supports' => false,
 			'hierarchical' => false,
+                        'exclude_from_search' => true
 		);
 
 		return apply_filters(
@@ -2437,6 +2438,19 @@ class MS_Model_Membership extends MS_Model_CustomPostType {
 	}
 
 	/**
+	 * Check protection for front-end.
+	 *
+	 * Return if content is restricted for this membership.
+	 *
+	 * @since  1.0.0
+	 * @internal
+	 */
+	public function has_access_to_content( $id ) {
+		$rules = $this->get_rules_hierarchy();
+		return $rules['content']->get_rule_value($id);
+	}
+
+	/**
 	 * Set initial protection for admin side.
 	 *
 	 * Hide restricted content for this membership.
@@ -2758,5 +2772,18 @@ class MS_Model_Membership extends MS_Model_CustomPostType {
 			$value,
 			$this
 		);
+	}
+
+	/**
+	 * Check if property isset.
+	 *
+	 * @since  1.0.0
+	 * @internal
+	 *
+	 * @param string $property The name of a property.
+	 * @return mixed Returns true/false.
+	 */
+	public function __isset( $property ) {
+		return isset($this->$property);
 	}
 }

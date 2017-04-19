@@ -143,18 +143,25 @@ class FLBuilderModule {
 	 * 
 	 * @since 1.0
 	 */
-	public function __construct($params)
+	public function __construct( $params )
 	{
 		$class_info             = new ReflectionClass($this);
 		$class_path             = $class_info->getFileName();
 		$dir_path               = dirname($class_path);
-		$this->name             = $params['name'];
-		$this->description      = $params['description'];
-		$this->category         = $params['category'];
 		$this->slug             = basename($class_path, '.php');
 		$this->enabled          = isset($params['enabled']) ? $params['enabled'] : true;
 		$this->editor_export    = isset($params['editor_export']) ? $params['editor_export'] : true;
 		$this->partial_refresh  = isset($params['partial_refresh']) ? $params['partial_refresh'] : false;
+		
+		$details = apply_filters( 'fl_builder_module_details', array(
+			'name'        => $params['name'],
+			'description' => $params['description'],
+			'category'    => $params['category']
+		), $this->slug );
+		
+		$this->name             = $details['name'];
+		$this->description      = $details['description'];
+		$this->category         = $details['category'];
 		
 		// We need to normalize the paths here since path comparisons 
 		// break on Windows because they use backslashes.

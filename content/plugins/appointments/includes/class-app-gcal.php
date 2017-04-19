@@ -25,6 +25,9 @@ class Appointments_Google_Calendar {
 	public $worker_id = false;
 
 	public function __construct() {
+		if ( ! apply_filters( 'appointments_load_gcal', true ) ) {
+			return;
+		}
 		$appointments = appointments();
 
 		// Try to start a session. If cannot, log it.
@@ -125,7 +128,8 @@ class Appointments_Google_Calendar {
 	public function setup_cron() {
 		add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
 
-		if ( 'sync' === $this->get_api_mode() ) {
+		$sync_modes = array( 'sync', 'gcal2app' );
+		if ( in_array( $this->get_api_mode(), $sync_modes ) ) {
 			$scheduled = wp_next_scheduled( 'appointments_gcal_sync' );
 			if ( ! $scheduled ) {
 				wp_schedule_event( current_time( 'timestamp' ) + 600, 'app-gcal', 'appointments_gcal_sync' );
@@ -244,7 +248,8 @@ class Appointments_Google_Calendar {
 		}
 
 		$api_mode = $this->get_api_mode();
-		if ( 'sync' != $api_mode || ! $this->is_connected() || ! $this->api_manager->get_calendar() ) {
+		$sync_modes = array( 'sync', 'gcal2app' );
+		if ( ! in_array( $api_mode, $sync_modes ) || ! $this->is_connected() || ! $this->api_manager->get_calendar() ) {
 			if ( $doing_ajax ) {
 				wp_send_json_error();
 			}
@@ -946,7 +951,7 @@ class Appointments_Google_Calendar {
 			return false;
 		}
 
-		if( $app_id ){
+		if( $app_id && $this->workers_allowed() ){
 			$app = appointments_get_appointment( $app_id );
 			$this->api_manager->switch_to_worker( $app->worker );
 		}
@@ -959,6 +964,8 @@ class Appointments_Google_Calendar {
 			appointments_update_appointment( $app->ID, array( 'gcal_ID' => '' ) );
 			$this->add_appointments_hooks();
 		}
+
+		$this->restore_to_default();
 
 		return true;
 
@@ -1067,6 +1074,7 @@ class Appointments_Google_Calendar {
 			'singleEvents' => apply_filters( 'app_gcal_single_events', true ),
 			'maxResults'   => apply_filters( 'app_gcal_max_results', APP_GCAL_MAX_RESULTS_LIMIT ),
 			'orderBy'      => apply_filters( 'app_gcal_orderby', 'startTime' ),
+			'timeZone' => 'GMT'
 		);
 
 		$events = $this->api_manager->get_events_list( $args );

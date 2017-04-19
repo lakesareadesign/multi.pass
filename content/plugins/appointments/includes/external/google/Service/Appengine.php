@@ -514,7 +514,7 @@ class Google_Service_Appengine_AppsServicesVersions_Resource extends Google_Serv
    */
   public function delete($appsId, $servicesId, $versionsId, $optParams = array())
   {
-    $params = array('appsId' => $appsId, 'servicesId' => $servicesId, 'versionsId' => $versionsId);		   		 	  		  	 	 	
+    $params = array('appsId' => $appsId, 'servicesId' => $servicesId, 'versionsId' => $versionsId);
     $params = array_merge($params, $optParams);
     return $this->call('delete', array($params), "Google_Service_Appengine_Operation");
   }

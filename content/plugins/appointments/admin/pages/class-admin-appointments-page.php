@@ -51,7 +51,7 @@ class Appointments_Admin_Appointments_Page {
 				do_action( 'app_bulk_status_change',  $_REQUEST["app"] );
 
 				$appointments->log( sprintf( __('Status of Appointment(s) with id(s):%s changed to %s by user:%s', 'appointments' ),  implode( ', ', $_REQUEST["app"] ), $new_status, $userdata->user_login ) );
-				$appointments->flush_cache();
+				appointments_clear_cache();
 			}
 		}
 
@@ -111,6 +111,7 @@ class Appointments_Admin_Appointments_Page {
 	public function admin_scripts() {
 		$appointments = appointments();
 		$appointments->admin->admin_scripts();
+		_appointments_enqueue_jquery_ui_datepicker();
 		wp_enqueue_script( 'appointments-admin-appointments', appointments_plugin_url() . 'admin/js/admin-appointments-list.js', array( 'jquery' ), true );
 
 		$date_format = $appointments->safe_date_format();

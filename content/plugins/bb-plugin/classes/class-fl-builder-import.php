@@ -43,7 +43,7 @@ final class FLBuilderImport {
 
 		$GLOBALS['wp_import'] = new FLBuilderImporter();
 		
-		register_importer( 'wordpress', 'WordPress', __('Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a WordPress export file.', 'wordpress-importer'), array( $GLOBALS['wp_import'], 'dispatch' ) );
+		register_importer( 'wordpress', 'WordPress', __('Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a WordPress export file.', 'fl-builder'), array( $GLOBALS['wp_import'], 'dispatch' ) );
 	}
 }
 

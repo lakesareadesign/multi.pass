@@ -1,8 +1,8 @@
 <form class="fl-builder-settings fl-template-selector">
 	<div class="fl-lightbox-header">
-		
+
 		<h1><?php _e('Layout Templates', 'fl-builder'); ?></h1>
-		
+
 		<?php if ( count( $filter_data ) > 1 ) : ?>
 		<div class="fl-template-category-filter fl-builder-settings-fields">
 			<select class="fl-template-category-select" name="fl-template-category-select">
@@ -12,21 +12,21 @@
 			</select>
 		</div>
 		<?php endif; ?>
-		
+
 	</div>
 	<div class="fl-builder-settings-fields fl-nanoscroller">
 		<div class="fl-nanoscroller-content">
-			
+
 			<?php if ( true === FL_BUILDER_LITE ) : ?>
 				<?php if ( FLBuilderModel::has_templates() ) : ?>
 				<div class="fl-builder-settings-message fl-builder-templates-cta">
-					<p>Save and reuse your layouts or kick-start your creativity with even more professionally designed templates.</p>
-					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'templates-cta' ) ); ?>" target="_blank">Learn More <i class="fa fa-external-link-square"></i></a>
+					<p><?php _e( 'Save and reuse your layouts or kick-start your creativity with even more professionally designed templates.', 'fl-builder' ); ?></p>
+					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'templates-cta' ) ); ?>" target="_blank"><?php _e( 'Learn More', 'fl-builder' ); ?> <i class="fa fa-external-link-square"></i></a>
 				</div>
 				<?php else : ?>
 				<div class="fl-builder-settings-message fl-builder-templates-cta">
-					<p>Save and reuse your layouts or kick-start your creativity with dozens of professionally designed templates.</p>
-					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'templates-cta' ) ); ?>" target="_blank">Learn More <i class="fa fa-external-link-square"></i></a>
+					<p><?php _e( 'Save and reuse your layouts or kick-start your creativity with dozens of professionally designed templates.', 'fl-builder' ); ?></p>
+					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_store_url( '', array( 'utm_medium' => 'bb-lite', 'utm_source' => 'builder-ui', 'utm_campaign' => 'templates-cta' ) ); ?>" target="_blank"><?php _e( 'Learn More', 'fl-builder' ); ?> <i class="fa fa-external-link-square"></i></a>
 				</div>
 				<img class="fl-builder-templates-cta-img" src="<?php echo FL_BUILDER_URL; ?>img/templates-preview.jpg" />
 				<?php endif; ?>

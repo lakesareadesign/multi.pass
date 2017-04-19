@@ -10,9 +10,9 @@ Author URI: http://premium.wpmudev.org
 class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 
 	const SOURCE_THE_FIRST_IMAGE = 'ASC';
-	const SOURCE_THE_LAST_IMAGE  = 'DESC';
+	const SOURCE_THE_LAST_IMAGE = 'DESC';
 	const SOURCE_MEDIA_THUMBNAIL = 'MEDIA';
-	const SOURCE_ENCLOSURE       = 'ENCLOSURE';
+	const SOURCE_ENCLOSURE = 'ENCLOSURE';
 
 	/**
 	 * Constructor.
@@ -25,6 +25,7 @@ class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 		parent::__construct();
 
 		$this->_add_action( 'autoblog_post_post_insert', 'check_post_for_images', 10, 3 );
+		$this->_add_action( 'autoblog_post_post_update', 'check_post_for_images', 10, 3 );
 		$this->_add_action( 'autoblog_feed_edit_form_end', 'render_image_options', 10, 2 );
 	}
 
@@ -98,9 +99,9 @@ class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 	 *
 	 * @access private
 	 *
-	 * @param SimplePie_Item $item    The instance of SimplePie_Item class.
-	 * @param int            $post_id The post ID to attach featured image to.
-	 * @param array          $details The actual feed settings.
+	 * @param SimplePie_Item $item The instance of SimplePie_Item class.
+	 * @param int $post_id The post ID to attach featured image to.
+	 * @param array $details The actual feed settings.
 	 */
 	private function _check_post_for_media_thumbnail_images( SimplePie_Item $item, $post_id, $details ) {
 		$set     = false;
@@ -109,6 +110,20 @@ class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 			$thumbnail_id = $this->_download_image( $resutls[0]['attribs']['']['url'], $post_id );
 			if ( $thumbnail_id ) {
 				$set = set_post_thumbnail( $post_id, $thumbnail_id );
+			}
+		}
+
+		if ( ! $set ) {
+			//the thumbnail can be in a media group, so we will parse again
+			$resutls = $item->get_item_tags( SIMPLEPIE_NAMESPACE_MEDIARSS, 'group' );
+			if ( isset( $resutls[0]['child'][ SIMPLEPIE_NAMESPACE_MEDIARSS ]['thumbnail'][0]['attribs'] ) ) {
+				$thumb = $resutls[0]['child'][ SIMPLEPIE_NAMESPACE_MEDIARSS ]['thumbnail'][0]['attribs'];
+				$thumb = array_shift( $thumb );
+				if ( is_array( $thumb ) && isset( $thumb['url'] ) ) {
+					$thumbnail_id = $this->_download_image( $thumb['url'], $post_id );
+					$set          = set_post_thumbnail( $post_id, $thumbnail_id );
+
+				}
 			}
 		}
 
@@ -124,9 +139,9 @@ class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 	 *
 	 * @access private
 	 *
-	 * @param SimplePie_Item $item    The instance of SimplePie_Item class.
-	 * @param int            $post_id The post ID to attach featured image to.
-	 * @param array          $details The actual feed settings.
+	 * @param SimplePie_Item $item The instance of SimplePie_Item class.
+	 * @param int $post_id The post ID to attach featured image to.
+	 * @param array $details The actual feed settings.
 	 */
 	private function _check_post_for_enclosure_images( SimplePie_Item $item, $post_id, $details ) {
 		$set = false;
@@ -134,6 +149,7 @@ class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 		$enclosure = $item->get_enclosure();
 		if ( is_a( $enclosure, 'SimplePie_Enclosure' ) ) {
 			$link      = $enclosure->get_link();
+			var_dump($enclosure->embed());
 			$file_type = wp_check_filetype( $link );
 			$mime_type = $file_type['type'];
 			$type      = current( explode( '/', $mime_type, 2 ) );
@@ -143,6 +159,10 @@ class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 					$set = set_post_thumbnail( $post_id, $thumbnail_id );
 				}
 			}
+		}
+
+		if ( ! $set ) {
+
 		}
 
 		if ( ! $set ) {
@@ -157,17 +177,17 @@ class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 	 *
 	 * @access private
 	 *
-	 * @param string         $method  The method of finding.
-	 * @param SimplePie_Item $item    The instance of SimplePie_Item class.
-	 * @param int            $post_id The post ID to attach featured image to.
-	 * @param array          $details The actual feed settings.
+	 * @param string $method The method of finding.
+	 * @param SimplePie_Item $item The instance of SimplePie_Item class.
+	 * @param int $post_id The post ID to attach featured image to.
+	 * @param array $details The actual feed settings.
 	 */
 	private function _check_post_for_content_images( $method, SimplePie_Item $item, $post_id, $details ) {
 		$images = $this->_get_remote_images_from_post_content( html_entity_decode( $item->get_content(), ENT_QUOTES, 'UTF-8' ) );
 		if ( ! empty( $images ) ) {
 			foreach ( $images as $key => $value ) {
 				if ( $this->validate_images( $value ) == false ) {
-					unset( $images[$key] );
+					unset( $images[ $key ] );
 				}
 			}
 		}
@@ -178,7 +198,7 @@ class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 			if ( ! empty( $images ) ) {
 				foreach ( $images as $key => $value ) {
 					if ( $this->validate_images( $value ) == false ) {
-						unset( $images[$key] );
+						unset( $images[ $key ] );
 					}
 				}
 			}
@@ -240,12 +260,12 @@ class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 	 *
 	 * @access public
 	 *
-	 * @param int            $post_id The post ID to attach featured image to.
-	 * @param array          $details The actual feed settings.
-	 * @param SimplePie_Item $item    The instance of SimplePie_Item class.
+	 * @param int $post_id The post ID to attach featured image to.
+	 * @param array $details The actual feed settings.
+	 * @param SimplePie_Item $item The instance of SimplePie_Item class.
 	 */
 	public function check_post_for_images( $post_id, $details, SimplePie_Item $item ) {
-		$method = trim( isset( $details['featuredimage'] ) ? $details['featuredimage'] : AUTOBLOG_IMAGE_CHECK_ORDER );
+		$method = trim( isset( $details['featuredimage'] ) ? $details['featuredimage'] : '' );
 		if ( empty( $method ) ) {
 			return;
 		}
@@ -266,7 +286,7 @@ class A_FeatureImageCacheAddon extends Autoblog_Addon_Image {
 	 *
 	 * @access private
 	 *
-	 * @param int   $post_id The post id.
+	 * @param int $post_id The post id.
 	 * @param array $details The feed details.
 	 */
 	private function _set_default_image( $post_id, $details ) {

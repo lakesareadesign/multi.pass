@@ -192,8 +192,13 @@ final class FLBuilderServiceConvertKit extends FLBuilderService {
 		else {
 			
 			$api = $this->get_api( $account_data['api_key'] );
+			$data = array('email' => $email);
 
-			$result = $api->form_subscribe( $settings->list_id, array('email' => $email, 'fname' => $name) );
+			if ( !empty( $name ) ) {
+				$data['fname'] = $name;
+			}
+
+			$result = $api->form_subscribe( $settings->list_id, $data );
 			if ($result->status != "created") {
 				$response['error'] = __( 'There was an error subscribing to ConvertKit.', 'fl-builder' );				
 			}

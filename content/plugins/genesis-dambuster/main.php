@@ -3,13 +3,13 @@
  * Plugin Name: Genesis Dambuster
  * Plugin URI: http://www.genesisdambuster.com/
  * Description: A Genesis only WordPress plugin that makes it easy to set up your pages for edge to edge content. Ideal for full width Beaver Builder templates. 
- * Version: 1.5.5
+ * Version: 1.6
  * Author: Russell Jamieson
  * Author URI: http://www.diywebmastery.com/about/
  * License: GPLv3
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */ 
-define('GENESIS_DAMBUSTER_VERSION','1.5.5');
+define('GENESIS_DAMBUSTER_VERSION','1.6');
 define('GENESIS_DAMBUSTER_FRIENDLY_NAME', 'Genesis Dambuster');
 define('GENESIS_DAMBUSTER_PLUGIN_NAME', plugin_basename(dirname(__FILE__))) ;
 define('GENESIS_DAMBUSTER_PLUGIN_PATH', GENESIS_DAMBUSTER_PLUGIN_NAME.'/main.php');

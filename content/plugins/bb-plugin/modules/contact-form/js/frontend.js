@@ -1,5 +1,29 @@
 (function($) {
 
+	window.onLoadFLReCaptcha = function() {
+		var reCaptchaFields = $( '.fl-grecaptcha' ),
+			widgetID;
+
+		if ( reCaptchaFields.length > 0 ) {
+			reCaptchaFields.each(function(){
+				var attrWidget = $(this).attr('data-widgetid');
+
+				// Avoid re-rendering as it's throwing API error
+				if ( (typeof attrWidget !== typeof undefined && attrWidget !== false) ) {
+					return;
+				}
+				else {
+					widgetID = grecaptcha.render( $(this).attr('id'), { 
+						sitekey : $(this).data('sitekey'),
+						theme	: 'light'
+					});
+					
+					$(this).attr('data-widgetid', widgetID);					
+				}							
+			});
+		}
+	};
+
 	FLBuilderContactForm = function( settings )
 	{
 		this.settings	= settings;
@@ -26,7 +50,7 @@
 				phone			= $(this.nodeClass + ' .fl-phone input'),
 				subject	  		= $(this.nodeClass + ' .fl-subject input'),
 				message	  		= $(this.nodeClass + ' .fl-message textarea'),
-				reCaptchaField	= $(this.nodeClass + ' .g-recaptcha'),
+				reCaptchaField  = $('#'+ this.settings.id + '-fl-grecaptcha'),
 				ajaxData 		= null,
 				ajaxurl	  		= FLBuilderLayoutConfig.paths.wpAjaxUrl,
 				email_regex 	= /\S+@\S+\.\S+/,
@@ -97,7 +121,7 @@
 			}
 
 			// validate if reCAPTCHA is enabled and checked
-			if ( reCaptchaField.length && typeof grecaptcha !== 'undefined' && grecaptcha.getResponse() == '' ) {
+			if ( reCaptchaField.length && typeof grecaptcha !== 'undefined' && grecaptcha.getResponse( reCaptchaField.data('widgetid') ) == '' ) {
 				isValid = false;
 				reCaptchaField.parent().addClass('fl-error');
 			}
@@ -128,7 +152,7 @@
 				}
 
 				if ( typeof grecaptcha !== 'undefined' ) {
-					ajaxData.recaptcha_response	= grecaptcha.getResponse();
+					ajaxData.recaptcha_response	= grecaptcha.getResponse( reCaptchaField.data('widgetid') );
 				}
 				
 				// post the form data

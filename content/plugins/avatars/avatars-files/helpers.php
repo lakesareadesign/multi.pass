@@ -6,7 +6,7 @@
 if( !function_exists( 'get_avatar' ) ):
 	function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false, $args = array() ) {
 		global $ms_avatar;
-		return $ms_avatar->get_avatar( $id_or_email, $size, $default, $alt, $args );	     	  								 
+		return $ms_avatar->get_avatar( $id_or_email, $size, $default, $alt, $args );
 	}
 endif;
 

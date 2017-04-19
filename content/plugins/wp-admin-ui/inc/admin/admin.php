@@ -543,6 +543,29 @@ class wpui_options
                                         </span>
                                     </td>
                                 <?php } ?>
+                                <?php if ( is_plugin_active( 'wp-admin-ui-pro/wpadminui-pro.php' ) ) { ?>
+                                    <td>
+                                        <div class="img-tool">
+                                            <span class="dashicons dashicons-cart"></span>                                  
+                                        </div>
+                                        <span class="inner">
+                                            <h4><?php _e('WooCommerce','wpui'); ?></h4>
+                                            <p><?php _e('Customize WooCommerce','wpui'); ?></p>
+                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-woocommerce' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        </span>
+                                    </td>
+                                <?php } else { ?>
+                                    <td>
+                                        <div class="img-tool">
+                                            <span class="dashicons dashicons-cart"></span>                                   
+                                        </div>
+                                        <span class="inner">
+                                            <h4><?php _e('WooCommerce','wpui'); ?></h4>
+                                            <p><?php _e('Customize WooCommerce','wpui'); ?></p>
+                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wpui'); ?></a>
+                                        </span>
+                                    </td>
+                                <?php } ?>
                                 <td>
                                     <div class="img-tool">
                                         <span class="dashicons dashicons-groups"></span>                                    
@@ -4315,12 +4338,18 @@ class wpui_options
                     'remove_wpseo_admin_bar' => __('Remove WP SEO in admin bar','wpui'),
                     'move_wp_seo_cols' => __('Move WP SEO Metabox to low position','wpui'),
                     'remove_wp_seo_notices' => __('Remove WP SEO admin notices','wpui'),
+                    'remove_aio_seo_notices' => __('Remove All In One SEO admin notices','wpui'),
                     'remove_wpml_ad' => __('Remove WPML advert in publish metabox','wpui'),
                     'remove_wpml_admin_bar' => __('Remove WPML in admin bar','wpui'),
                     'remove_wpml_dashboard' => __('Remove WPML in dashboard widget','wpui'),
                     'remove_woothemes_installer' => __('Remove Install the WooThemes Updater plugin','wpui'),
                     'field_visibility_gravity_forms' => __('Enable field label visibility in Gravity Forms','wpui'),
                     'jetpack_just_in_time' => __('Disable Just in Time messages from Jetpack','wpui'),
+                    ),
+                'WooCommerce (PRO Only)' => array(
+                    'remove_woo_downloadable_product' => __('Remove downloadable / virtual product checkboxe','wpui'),
+                    'remove_woo_product_data' => __('Remove product data type in select (simple product, grouped product...)','wpui'),
+                    'remove_woo_product_data_tabs' => __('Remove product data tabs (general, inventory, shipping...)','wpui'),
                     ),
                 'Themes (PRO Only)' => array(
                     'wpui-custom-themes' => __('Enable custom admin Themes','wpui'),

@@ -205,7 +205,7 @@ if ( ! function_exists( 'ms_registration_form_error' ) ) {
 
 if ( ! function_exists( 'is_ms_registration_form_login_link_exists' ) ) {
 	function is_ms_registration_form_login_link_exists() {
-		return isset( MS_Helper_Template::$ms_registration_form['login_link_exists'] );
+		return lib3()->is_true( MS_Helper_Template::$ms_registration_form['login_link_exists'] );
 	}
 }
 
@@ -428,6 +428,12 @@ if ( ! function_exists( 'ms_is_user_logged_in' ) ) {
 if ( ! function_exists( 'get_ms_ac_title' ) ) {
 	function get_ms_ac_title() {
 		return MS_Helper_Template::$ms_account['membership_title'];
+	}
+}
+
+if ( ! function_exists( 'ms_show_users_membership' ) ) {
+	function ms_show_users_membership() {
+		return lib3()->is_true( MS_Helper_Template::$ms_account['show_membership'] );
 	}
 }
 

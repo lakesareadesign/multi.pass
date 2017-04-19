@@ -1,17 +1,17 @@
 <div class="wrap fl-builder-template-data-exporter">
-	<h1>Template Data Exporter</h1>
-	<p>This tool exports a special data file that can be used by developers to include templates within their themes and plugins.</p>
-	<p>If you need to export templates for import into another site, please use the exporter at <a href="<?php echo admin_url( '/export.php' ); ?>">Tools > Export</a>.</p>
+	<h1><?php _e( 'Template Data Exporter', 'fl-builder' ); ?></h1>
+	<p><?php _e( 'This tool exports a special data file that can be used by developers to include templates within their themes and plugins.', 'fl-builder' ); ?></p>
+	<p><?php printf( __('If you need to export templates for import into another site, please use the exporter at <a href="%s">Tools > Export</a>.', 'fl-builder'), admin_url( '/export.php' ) ); ?></p>
 	<form method="POST">
 		
 		<div class="fl-builder-template-data-section fl-builder-template-data-layouts">
 			
-			<h2>Layouts</h2>
+			<h2><?php _e( 'Layouts', 'fl-builder' ); ?></h2>
 			
 			<?php if ( 0 === count( $layouts ) ) : ?>
-			<p>No Layouts Found</p>
+			<p><?php _e( 'No Layouts Found', 'fl-builder' ); ?></p>
 			<?php else : ?>
-			<p><label><input type="checkbox" name="fl-builder-template-data-exporter-all" value="1" /> Select All</label></p>
+			<p><label><input type="checkbox" name="fl-builder-template-data-exporter-all" value="1" /><?php _e( 'Select All', 'fl-builder' ); ?></label></p>
 			<?php endif; ?>
 			
 			<?php foreach ( $layouts as $layout ) : ?>
@@ -22,12 +22,12 @@
 		
 		<div class="fl-builder-template-data-section fl-builder-template-data-rows">
 			
-			<h2>Rows</h2>
+			<h2><?php _e( 'Rows', 'fl-builder' ); ?></h2>
 			
 			<?php if ( 0 === count( $rows ) ) : ?>
-			<p>No Rows Found</p>
+			<p><?php _e( 'No Rows Found', 'fl-builder' ); ?></p>
 			<?php else : ?>
-			<p><label><input type="checkbox" name="fl-builder-template-data-exporter-all" value="1" /> Select All</label></p>
+			<p><label><input type="checkbox" name="fl-builder-template-data-exporter-all" value="1" /><?php _e( 'Select All', 'fl-builder' ); ?></label></p>
 			<?php endif; ?>
 			
 			<?php foreach ( $rows as $row ) : ?>
@@ -38,12 +38,12 @@
 		
 		<div class="fl-builder-template-data-section fl-builder-template-data-modules">
 			
-			<h2>Modules</h2>
+			<h2><?php _e( 'Modules', 'fl-builder' ); ?></h2>
 			
 			<?php if ( 0 === count( $modules ) ) : ?>
-			<p>No Modules Found</p>
+			<p><?php _e( 'No Modules Found', 'fl-builder' ); ?></p>
 			<?php else : ?>
-			<p><label><input type="checkbox" name="fl-builder-template-data-exporter-all" value="1" /> Select All</label></p>
+			<p><label><input type="checkbox" name="fl-builder-template-data-exporter-all" value="1" /><?php _e( 'Select All', 'fl-builder' ); ?></label></p>
 			<?php endif; ?>
 			
 			<?php foreach ( $modules as $module ) : ?>
@@ -53,7 +53,7 @@
 		</div>
 
 		<p class="submit">
-			<input type="submit" name="update" class="button-primary" value="Export Template Data" />
+			<input type="submit" name="update" class="button-primary" value="<?php _e( 'Export Template Data', 'fl-builder' ); ?>" />
 			<?php wp_nonce_field( 'fl-builder-template-data-exporter', 'fl-builder-template-data-exporter-nonce' ); ?>
 		</p>
 	</form>

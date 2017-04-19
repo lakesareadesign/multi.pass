@@ -1,6 +1,13 @@
 Change Log: Autoblog Plugin
+
+== 4.1.1 ==
+Fix youtube add-on
+Fix: "Open Links in Popup" add-on - cache now refreshes content when imported pages/posts are modified manually
+Fix: Added more years in the feed processing date range
+
 == 4.1 ==
 Fix Import Images add-on fail for relative urls
+
 == 4.0.9.9 ==
 Fix disable sanitization add-on
 Update Author & Link of all addon
@@ -105,4 +112,4 @@ Update Author & Link of all addon
 * Removed debug images add-on
 
 
-133620-1428332826-ai
+133620-1492560683-au

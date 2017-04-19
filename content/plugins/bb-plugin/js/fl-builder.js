@@ -1932,8 +1932,26 @@
 					action: 'apply_user_template',
 					template_id: id,
 					append: append
-				}, FLBuilder._updateLayout);
+				}, FLBuilder._updateTemplateLayout);
 			}
+		},
+
+		/**
+		 * Callback method when applying user template to the current layout
+		 
+		 * @since 1.9.5
+		 * @access private
+		 * @method _updateTemplateLayout
+		 * @param  {string} response The JSON with the new layout settings
+		 */
+		_updateTemplateLayout:  function(response)
+		{
+			var data = JSON.parse(response);
+			if( data !== null ) {
+				$( '#fl-builder-layout-css' ).html( data.layout_css );
+			}
+						
+			FLBuilder._updateLayout();
 		},
 		
 		/* User Template Settings
@@ -3788,7 +3806,7 @@
 				}
 				
 				// Find the new group position.
-				position = newParent.find( '.fl-module, .fl-col-group, .fl-col-sortable-proxy-item' ).index( ui.item );
+				position = newParent.find( '> .fl-module, .fl-col-group, .fl-col-sortable-proxy-item' ).index( ui.item );
 				
 				// Add the new group.
 				FLBuilder._addColGroup( newParent.closest( '.fl-col' ).attr('data-node'), colId, position );
@@ -6018,7 +6036,7 @@
 					$(prefix + inputArray[i] + suffix)[func]();
 					
 					// Resize code editor fields.
-					$( prefix + inputArray[i] ).parent().find( '.fl-field[data-type="code"]' ).each( function() {
+					$( prefix + inputArray[i] + suffix ).parent().find( '.fl-field[data-type="code"]' ).each( function() {
 						$( this ).data( 'editor' ).resize();
 					} );
 				}

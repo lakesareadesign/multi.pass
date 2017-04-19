@@ -202,7 +202,9 @@ final class FLBuilderAJAX {
 		}
 
 		// Tell WordPress this is an AJAX request.
-		define( 'DOING_AJAX', true );
+		if ( ! defined( 'DOING_AJAX' ) ) {
+			define( 'DOING_AJAX', true );
+		}
 		
 		// Allow developers to hook before the action runs.
 		do_action( 'fl_ajax_before_' . $action['action'], $keys_args );

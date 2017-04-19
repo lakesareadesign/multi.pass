@@ -377,7 +377,7 @@ class MS_Helper_ListTable {
 		$this->list_head();
 
 		if ( ! $this->has_items() && ! $this->is_search() && ! $this->is_view() ) {
-			return '';
+			//return '';
 		}
 
 		$views = $this->get_views();
@@ -1120,7 +1120,12 @@ class MS_Helper_ListTable {
 			}
 
 			if ( isset( $sortable[$column_key] ) ) {
-				list( $orderby, $desc_first ) = $sortable[$column_key];
+				if( is_array($sortable[$column_key] ) ){
+					list( $orderby, $desc_first ) = $sortable[$column_key];
+				} else {
+					$orderby = $sortable[$column_key];
+				}
+
 
 				if ( $current_orderby == $orderby ) {
 					$order = 'asc' == $current_order ? 'desc' : 'asc';

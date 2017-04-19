@@ -1,4 +1,4 @@
-<div class="fl-post-gallery-post" itemscope="itemscope" itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+<div <?php post_class('fl-post-gallery-post'); ?> itemscope="itemscope" itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
 
 	<?php FLPostGridModule::schema_meta(); ?>
 
@@ -25,7 +25,7 @@
 		<div class="fl-post-gallery-text-wrap">
 			<div class="fl-post-gallery-text">
 
-				<?php if( $settings->has_icon && $settings->icon_position == 'above' ) : ?>
+				<?php if( $settings->has_icon == 'yes' && $settings->icon_position == 'above' ) : ?>
 					<span class="fl-gallery-icon">
 						<i class="<?php echo $settings->icon; ?>"></i> 
 					</span>
@@ -39,7 +39,7 @@
 				</span>
 				<?php endif; ?>
 
-				<?php if( $settings->has_icon && $settings->icon_position == 'below' ) : ?>
+				<?php if( $settings->has_icon == 'yes' && $settings->icon_position == 'below' ) : ?>
 					<span class="fl-gallery-icon">
 						<i class="<?php echo $settings->icon; ?>"></i> 
 					</span>

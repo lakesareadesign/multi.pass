@@ -376,8 +376,10 @@ if (array_key_exists( 'block_admin', wpui_get_roles_cap($wpui_user_role))) {
 
 	if (wpui_global_block_admin() =='1') {
         function wpui_block_wp_admin(){
-            wp_redirect( get_bloginfo('url') );
-            exit;
+        	if ( !defined( 'DOING_AJAX' )) {
+	            wp_redirect( get_bloginfo('url') );
+	            exit;
+        	}
         }
         add_action('admin_init', 'wpui_block_wp_admin', 1);
 	}

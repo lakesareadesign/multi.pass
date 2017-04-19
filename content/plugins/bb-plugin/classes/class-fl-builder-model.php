@@ -544,6 +544,9 @@ final class FLBuilderModel {
 			// Lock the post.
 			require_once ABSPATH . 'wp-admin/includes/post.php';
 			wp_set_post_lock( $post->ID );
+			
+			// Allow devs to hook into when editing is enabled.
+			do_action( 'fl_builder_editing_enabled' );
 		}
 	}
 
@@ -4116,10 +4119,14 @@ final class FLBuilderModel {
 				// Update the layout data and settings.
 				self::update_layout_data($data);
 				self::update_layout_settings( $settings );
-			}
 
-			// Delete old asset cache.
-			self::delete_asset_cache();
+				// Delete old asset cache.
+				self::delete_asset_cache();
+
+				return array(
+					'layout_css' => $settings->css
+				);
+			}
 		}
 	}
 
@@ -4531,6 +4538,12 @@ final class FLBuilderModel {
 	 */
 	static public function set_node_template_default_type( $post_id, $post, $update )
 	{
+		global $pagenow;
+
+		if ( 'admin.php' == $pagenow && isset( $_GET['import'] ) ) {
+			return;
+		}
+		
 		$post_data = self::get_post_data();
 		
 		if ( $update || 'fl-builder-template' != $post->post_type ) {

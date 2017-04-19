@@ -40,12 +40,10 @@
 
 	<?php 
 	if ($settings->recaptcha_toggle == 'show' && (isset($settings->recaptcha_site_key) && !empty($settings->recaptcha_site_key)) ) : 
-		$site_lang = substr( get_locale(), 0, 2 );
 	?>
 	<div class="fl-input-group fl-recaptcha">
 		<span class="fl-contact-error"><?php _e('Please check the captcha to verify you are not a robot.', 'fl-builder');?></span>
-		<div class="g-recaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"></div>
-        <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $site_lang; ?>"></script>
+		<div id="<?php echo $id; ?>-fl-grecaptcha" class="fl-grecaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"></div>
    	</div>
     <?php endif; ?>
   

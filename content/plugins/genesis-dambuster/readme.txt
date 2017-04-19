@@ -3,8 +3,8 @@ Contributors: powerblogservice
 Donate link: http://www.diywebmastery.com/donate/
 Tags: genesis plugin, full width templates, beaver builder
 Requires at least: 3.5
-Tested up to: 4.6.1
-Stable tag: 1.5.5
+Tested up to: 4.7.3
+Stable tag: 1.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -49,6 +49,7 @@ The full width setting allows you to have edge-to-edge backgrounds so you can ma
 
 == Changelog ==
 
+* 1.6 - Updated for Metro Pro 2.2.1
 * 1.5.5 - Fixes to Divine and Pretty Chic when using the theme header
 * 1.5.4 - Improvements to handling of Altitude Pro, Agency Pro and Interior Pro
 * 1.5.3 - Reinstate removal of bottom margin - required for Aspire Pro
@@ -61,7 +62,7 @@ The full width setting allows you to have edge-to-edge backgrounds so you can ma
 
 == Upgrade Notice ==
 
-= 1.5.5 - Optional - Fixes to Divine and Pretty Chic when using the theme header
+= 1.6 - Optional - Updated for Metro Pro 2.2.1
 
 == How to Use The Plugin ==
 

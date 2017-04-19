@@ -1,4 +1,4 @@
-<div class="fl-post-grid-post" itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+<div <?php post_class('fl-post-grid-post'); ?> itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
 	
 	<?php FLPostGridModule::schema_meta(); ?>
 

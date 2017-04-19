@@ -12,13 +12,10 @@
 		<div class="fl-form-error-message"><?php _e( 'Please enter a valid email address.', 'fl-builder' ); ?></div>
 	</div>
 	
-	<?php if ( 'stacked' == $settings->layout && 'show' == $settings->show_recaptcha && (isset($settings->recaptcha_site_key) && !empty($settings->recaptcha_site_key)) ) : 
-		$site_lang = substr( get_locale(), 0, 2 );
-	?>
+	<?php if ( 'stacked' == $settings->layout && 'show' == $settings->show_recaptcha && (isset($settings->recaptcha_site_key) && !empty($settings->recaptcha_site_key)) ) : ?>
 	<div class="fl-form-field fl-form-recaptcha">
 		<div class="fl-form-error-message"><?php _e( 'Please check the captcha to verify you are not a robot.', 'fl-builder' ); ?></div>
-		<div class="g-recaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"></div>
-        <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $site_lang; ?>"></script>
+		<div id="<?php echo $id; ?>-fl-grecaptcha" class="fl-grecaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"></div>		
    	</div>
 	<?php endif; ?>
 
@@ -49,14 +46,11 @@
 	?>
 	</div>
 	
-	<?php if ( 'inline' == $settings->layout && 'show' == $settings->show_recaptcha && (isset($settings->recaptcha_site_key) && !empty($settings->recaptcha_site_key)) ) : 
-		$site_lang = substr( get_locale(), 0, 2 );
-	?>
+	<?php if ( 'inline' == $settings->layout && 'show' == $settings->show_recaptcha && (isset($settings->recaptcha_site_key) && !empty($settings->recaptcha_site_key)) ) : ?>
 	<div class="fl-form-field fl-form-recaptcha">
 		<div class="fl-form-error-message"><?php _e( 'Please check the captcha to verify you are not a robot.', 'fl-builder' ); ?></div>
-		<div class="g-recaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"></div>
-        <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $site_lang; ?>"></script>
-   	</div>
+		<div id="<?php echo $id; ?>-fl-grecaptcha" class="fl-grecaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"></div>
+	</div>
 	<?php endif; ?>
 	
 	<div class="fl-form-error-message"><?php _e( 'Something went wrong. Please check your entries and try again.', 'fl-builder' ); ?></div>

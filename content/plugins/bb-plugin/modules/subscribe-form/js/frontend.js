@@ -1,5 +1,29 @@
 ( function( $ ) {
 
+	window.onLoadFLReCaptcha = function() {
+		var reCaptchaFields = $( '.fl-grecaptcha' ),
+			widgetID;
+
+		if ( reCaptchaFields.length > 0 ) {
+			reCaptchaFields.each(function(){
+				var attrWidget = $(this).attr('data-widgetid');
+
+				// Avoid re-rendering as it's throwing API error
+				if ( (typeof attrWidget !== typeof undefined && attrWidget !== false) ) {
+					return;
+				}
+				else {
+					widgetID = grecaptcha.render( $(this).attr('id'), { 
+						sitekey : $(this).data('sitekey'),
+						theme	: 'light'
+					});
+					
+					$(this).attr('data-widgetid', widgetID);					
+				}							
+			});
+		}
+	};
+
 	FLBuilderSubscribeForm = function( settings )
 	{
 		this.settings	= settings;
@@ -31,7 +55,7 @@
 				waitText    	= this.button.closest( '.fl-form-button' ).data( 'wait-text' ),
 				name        	= this.form.find( 'input[name=fl-subscribe-form-name]' ),
 				email       	= this.form.find( 'input[name=fl-subscribe-form-email]' ),
-				recaptcha 		= this.form.find( '.g-recaptcha' ),
+				recaptcha 		= this.form.find( '.fl-grecaptcha' ),
 				re          	= /\S+@\S+\.\S+/,
 				valid       	= true,
 				ajaxData 		= null;
@@ -51,17 +75,14 @@
 				email.siblings( '.fl-form-error-message' ).show();
 				valid = false;
 			}
-			if ( recaptcha.length > 0 && typeof grecaptcha !== 'undefined' ) {
-				if ( grecaptcha.getResponse() == '' ) {
-					recaptcha.addClass( 'fl-form-error' );
-					recaptcha.siblings( '.fl-form-error-message' ).show();
-					valid = false;
-				}
-				else {
-					recaptcha.removeClass( 'fl-form-error' );
-					recaptcha.siblings( '.fl-form-error-message' ).hide();
-				}
-				
+			if ( recaptcha.length > 0 && typeof grecaptcha !== 'undefined' && '' == grecaptcha.getResponse( recaptcha.data('widgetid') ) ) {
+				recaptcha.addClass( 'fl-form-error' );
+				recaptcha.siblings( '.fl-form-error-message' ).show();
+				valid = false;
+			}
+			else {
+				recaptcha.removeClass( 'fl-form-error' );
+				recaptcha.siblings( '.fl-form-error-message' ).hide();
 			}
 			
 			if ( valid ) {
@@ -82,7 +103,7 @@
 				};
 
 				if ( typeof grecaptcha !== 'undefined' ) {
-					ajaxData.recaptcha = grecaptcha.getResponse();
+					ajaxData.recaptcha = grecaptcha.getResponse( recaptcha.data('widgetid') );
 				}
 
 				$.post( FLBuilderLayoutConfig.paths.wpAjaxUrl, ajaxData, $.proxy( this._submitFormComplete, this ) );

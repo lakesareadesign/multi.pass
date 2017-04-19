@@ -340,14 +340,14 @@
 						}  
 					break;
 					case 'greater than':
-						if ( $field <= $val ){
+						if ( $field > $val ){
 							$state = 1;
 						}else{
 							$state = 0;
 						} 
 					break; 
 					case 'less than': 
-						if ( $field >= $val ){
+						if ( $field < $val ){
 							$state = 1;
 						}else{
 							$state = 0;
@@ -1383,28 +1383,32 @@
 		$ext = '.' . pathinfo($image, PATHINFO_EXTENSION);
 
 		$cache_time = apply_filters('um_filter_avatar_cache_time', current_time( 'timestamp' ), um_user('ID') );
+		
+		if( ! empty( $cache_time ) ){
+				$cache_time = "?{$cache_time}";
+		}
 
-		if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/profile_photo-' . $attrs. $ext ) ) {
-
-			$uri = um_user_uploads_uri() . 'profile_photo-'.$attrs.$ext.'?' . $cache_time;
+		if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . "/profile_photo-{$attrs}{$ext}" ) ) {
+			
+			$uri = um_user_uploads_uri() . "profile_photo-{$attrs}{$ext}{$cache_time}";
 
 		} else {
 
 			$sizes = um_get_option('photo_thumb_sizes');
 			if ( is_array( $sizes ) ) $find = um_closest_num( $sizes, $attrs );
 
-			if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/profile_photo-' . $find.$ext ) ) {
+			if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . "/profile_photo-{$find}{$ext}" ) ) {
 
-				$uri = um_user_uploads_uri() . 'profile_photo-'.$find.$ext.'?' . $cache_time;
+				$uri = um_user_uploads_uri() . "profile_photo-{$find}{$ext}{$cache_time}";
 
-			} else if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . '/profile_photo'.$ext ) ) {
+			} else if ( file_exists( $ultimatemember->files->upload_basedir . um_user('ID') . "/profile_photo{$ext}" ) ) {
 
-				$uri = um_user_uploads_uri() . 'profile_photo'.$ext.'?' . $cache_time;
+				$uri = um_user_uploads_uri() . "profile_photo{$ext}{$cache_time}";
 
 			}
 
 			if ( $attrs == 'original' ) {
-				$uri = um_user_uploads_uri() . 'profile_photo'.$ext.'?' . $cache_time;
+				$uri = um_user_uploads_uri() . "profile_photo{$ext}{$cache_time}";
 			}
 
 		}
@@ -1451,8 +1455,8 @@
 	function um_user( $data, $attrs = null ) {
 
 		global $ultimatemember;
-
-		switch($data){
+       
+       switch($data){
 
 			default:
 
@@ -1469,6 +1473,18 @@
 					return $value;
 				}
 
+				return $value;
+				break;
+
+			case 'user_email':
+
+				$user_email_in_meta = get_user_meta( um_user('ID'), 'user_email', true );
+				if( $user_email_in_meta ){
+					delete_user_meta( um_user('ID'), 'user_email' );
+				}
+
+				$value = um_profile( $data );
+				
 				return $value;
 				break;
 

@@ -45,7 +45,7 @@ var FLBuilderNumber;
 
 			if( typeof jQuery.fn.waypoint !== 'undefined' ) {
 				$( this.wrapperClass ).waypoint({
-					offset: '80%',
+					offset: FLBuilderLayoutConfig.waypoint.offset + '%',
 					triggerOnce: true,
 					handler: function( direction ){
 						self._initCount();

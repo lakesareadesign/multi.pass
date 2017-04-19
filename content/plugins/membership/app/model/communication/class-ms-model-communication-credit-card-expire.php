@@ -27,7 +27,7 @@ class MS_Model_Communication_Credit_Card_Expire extends MS_Model_Communication {
 	 */
 	public function set_period_name( $field ) {
 		$field['title'] = __( 'Notify Period', 'membership2' );
-		$field['desc'] = __( 'We want to notify the user some days in advance, so there is time to react.<br>Enter here, how many days in advance this message should be sent.', 'membership2' );	   	 	 		 	  					  
+		$field['desc'] = __( 'We want to notify the user some days in advance, so there is time to react.<br>Enter here, how many days in advance this message should be sent.', 'membership2' );
 
 		return $field;
 	}

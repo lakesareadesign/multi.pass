@@ -162,7 +162,7 @@ function _show_replaceable( $sidebar, $prefix, $cat_name, $class = '' ) {
 					 * ========== ARCHIVE -- Category ========== *
 					 */
 					foreach ( $sidebars as $sb_id => $details ) {
-						$cat_name = __( 'Category Archives', 'custom-sidebars' );							 			 	 	 		  
+						$cat_name = __( 'Category Archives', 'custom-sidebars' );
 						_show_replaceable( $details, 'arc-cat', $cat_name );
 					}
 					?>

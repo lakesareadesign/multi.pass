@@ -1,4 +1,15 @@
-<div class="fl-post-feed-post<?php if($settings->image_position == 'beside') echo ' fl-post-feed-image-beside'; if(has_post_thumbnail() && $settings->show_image) echo ' fl-post-feed-has-image'; ?>" itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+<?php
+// Setup post classes
+$classes = array('fl-post-feed-post');
+
+if($settings->image_position == 'beside') {
+	$classes[] = 'fl-post-feed-image-beside';
+} 
+if(has_post_thumbnail() && $settings->show_image) {
+	$classes[] = 'fl-post-feed-has-image';
+}
+?>
+<div <?php post_class($classes); ?> itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
 
 	<?php FLPostGridModule::schema_meta(); ?>
 	

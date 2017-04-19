@@ -65,7 +65,7 @@ $this->render_admin('update-message');
 		foreach ( $post_types as $source => $pt ):
 		$flag = ($source == 'net') && ! is_network_admin();
 		foreach ( $pt as $name => $post_type ):
-		$class = ( $i % 2) ? 'ct-edit-row alternate' : 'ct-edit-row'; $i++;	     	 	 	  	 			
+		$class = ( $i % 2) ? 'ct-edit-row alternate' : 'ct-edit-row'; $i++;
 		?>
 		<tr class="<?php echo $class; ?>">
 			<td style="min-width:8em;">

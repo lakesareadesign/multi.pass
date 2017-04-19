@@ -24,6 +24,43 @@ class FLSubscribeFormModule extends FLBuilderModule {
 		
 		add_action( 'wp_ajax_fl_builder_subscribe_form_submit', array( $this, 'submit' ) );
 		add_action( 'wp_ajax_nopriv_fl_builder_subscribe_form_submit', array( $this, 'submit' ) );
+		add_filter( 'script_loader_tag', array( $this, 'add_async_attribute' ), 10, 2 );
+	}
+
+	/**
+	 * @method enqueue_scripts
+	 */
+	public function enqueue_scripts()
+	{
+		$settings = $this->settings;
+		if ( isset($settings->show_recaptcha) && $settings->show_recaptcha == 'show' 
+			&& isset($settings->recaptcha_site_key) && !empty($settings->recaptcha_site_key)
+			){
+
+			$site_lang = substr( get_locale(), 0, 2 );
+			$post_id    = FLBuilderModel::get_post_id();
+			
+			$this->add_js(
+				'g-recaptcha', 
+				'https://www.google.com/recaptcha/api.js?onload=onLoadFLReCaptcha&render=explicit&hl='.$site_lang, 
+				array('fl-builder-layout-'. $post_id), 
+				'2.0', 
+				true
+			);
+		}
+	}
+
+	/**
+	 * @method  add_async_attribute for the enqueued `g-recaptcha` script
+	 * @param string $tag    Script tag
+	 * @param string $handle Registered script handle
+	 */
+	public function add_async_attribute($tag, $handle) {
+		if ( ('g-recaptcha' !== $handle) || ('g-recaptcha' === $handle && strpos($tag, 'g-recaptcha-api') !== false ) ) {
+	        return $tag;
+		}
+
+	    return str_replace( ' src', ' id="g-recaptcha-api" async="async" defer="defer" src', $tag );
 	}
 
 	/** 
@@ -149,6 +186,11 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 			'success'       => array(
 				'title'         => __( 'Success', 'fl-builder' ),
 				'fields'        => array(
+					'custom_subject' => array(
+						'type'        => 'text',
+						'label'       => __( 'Notification Subject', 'fl-builder' ),
+						'placeholder' => __( 'Subscribe Form Signup', 'fl-builder' ),
+					),
 					'success_action' => array(
 						'type'          => 'select',
 						'label'         => __( 'Success Action', 'fl-builder' ),

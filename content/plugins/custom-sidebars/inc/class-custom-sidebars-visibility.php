@@ -47,8 +47,13 @@ class CustomSidebarsVisibility extends CustomSidebars {
 				10, 3
 			);
 
-			lib3()->ui->add( CSB_JS_URL . 'cs-visibility.min.js', 'widgets.php' );
-			lib3()->ui->add( CSB_CSS_URL . 'cs-visibility.css', 'widgets.php' );
+			$url = 'widgets.php';
+			if ( isset( $_SERVER['SCRIPT_NAME'] ) ) {
+				$url = explode( '/', $_SERVER['SCRIPT_NAME'] );
+				$url = array_pop( $url );
+			}
+			lib3()->ui->add( CSB_JS_URL . 'cs-visibility.min.js', $url );
+			lib3()->ui->add( CSB_CSS_URL . 'cs-visibility.css', $url );
 
 			// Custom Sidebars Ajax request.
 			add_action(
@@ -396,7 +401,7 @@ class CustomSidebarsVisibility extends CustomSidebars {
 				$lbl_single = sprintf( __( 'Only these %s:', 'custom-sidebars' ), $type_item->labels->name );
 				$is_selected = in_array( $type_item->name, $cond['posttypes'] );
 				$ajax_url = admin_url( 'admin-ajax.php?action=cs-ajax&do=visibility&posttype=' . $type_item->name );
-				$sel = array();
+				$posts = array();
 
 				if ( ! empty( $cond[ $row_id ] ) ) {
 					$posts = get_posts(
@@ -408,11 +413,8 @@ class CustomSidebarsVisibility extends CustomSidebars {
 							'include' => implode( ',', $cond[ $row_id ] ),
 						)
 					);
-
-					foreach ( $posts as $post ) {
-						$sel[] = $post->ID . '::' . str_replace( '::', ':', $post->post_title );
-					}
 				}
+
 				?>
 				<div class="csb-detail-row csb-<?php echo esc_attr( $row_id ); ?>"
 					<?php if ( ! $is_selected ) : ?>style="display:none"<?php endif; ?>>
@@ -429,10 +431,13 @@ class CustomSidebarsVisibility extends CustomSidebars {
 					</label>
 					<div class="detail" <?php if ( empty( $cond[ $row_id ] ) ) : ?>style="display:none"<?php endif; ?>>
 
-						<input type="hidden"
-							name="<?php echo esc_attr( $block_name ); ?>[<?php echo esc_attr( $row_id ); ?>]"
-							value="<?php echo esc_attr( implode( ',', $sel ) ); ?>"
-							data-select-ajax="<?php echo esc_url( $ajax_url ); ?>" />
+						<select name="<?php echo esc_attr( $block_name ); ?>[<?php echo esc_attr( $row_id ); ?>][]" data-select-ajax="<?php echo esc_url( $ajax_url ); ?>" multiple="multiple">
+							<?php if ( ! empty( $posts ) ) : ?>
+								<?php foreach ( $posts as $post ) : ?>
+							<option value="<?php echo $post->ID; ?>" selected="selected"><?php echo $post->post_title; ?></option>
+								<?php endforeach; ?>
+							<?php endif; ?>
+						</select>
 					</div>
 				</div>
 			<?php endforeach; ?>
@@ -441,7 +446,6 @@ class CustomSidebarsVisibility extends CustomSidebars {
 		<?php /* SPECIFIC TAXONOMY */ ?>
 		<?php
 		foreach ( $tax_list as $tax_item ) {
-
 			$row_id = 'tax-' . $tax_item->name;
 			$ajax_url = admin_url( 'admin-ajax.php?action=cs-ajax&do=visibility&tag=' . $tax_item->name );
 			$sel = array();
@@ -469,20 +473,26 @@ class CustomSidebarsVisibility extends CustomSidebars {
 			<?php echo esc_html( $tax_item->labels->name ); ?>
 			</label>
 		<i class="dashicons dashicons-trash clear-filter show-on-hover action"></i>
-        <select
+		<select
 			id="<?php echo esc_attr( $widget->id ); ?>-<?php echo esc_attr( $row_id ); ?>"
 			name="<?php echo esc_attr( $block_name ); ?>[<?php echo esc_attr( $row_id ); ?>][]"
-            multiple="multiple"
-        >
-	<?php
-	$terms = get_terms( $tax_item->name );
-	foreach ( $terms as $item ) {
+			multiple="multiple"
+		>
+<?php
+			$args = array(
+				'hide_empty' => false,
+			);
+			$terms = get_terms( $tax_item->name, $args );
+			foreach ( $terms as $item ) {
+				$is_selected = in_array( $item->term_id, $sel );
+				printf(
+					'<option %s value="%s">%s</option>',
+					selected( $is_selected ),
+					esc_attr( $item->term_id ),
+					esc_html( $item->name )
+				);
+			}
 ?>
-					<?php $is_selected = in_array( $item->term_id, $sel ); ?>
-					<option <?php selected( $is_selected ); ?> value="<?php echo esc_attr( $item->term_id ); ?>">
-						<?php echo esc_html( $item->name ); ?>
-					</option>
-				<?php } ?>
 		</select>
 	</div>
 			<?php
@@ -1012,11 +1022,11 @@ class CustomSidebarsVisibility extends CustomSidebars {
 		);
 
 		foreach ( $posts as $post ) {
-			$key = $post->ID;
-			$name = $post->post_title;
+			$id = $post->ID;
+			$text = $post->post_title;
 			$data[] = array(
-				'key' => $key,
-				'val' => esc_html( $name ),
+				'id' => $post->ID,
+				'text' => esc_html( $text ),
 			);
 		}
 

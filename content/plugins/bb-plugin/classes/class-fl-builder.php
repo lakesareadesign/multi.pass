@@ -82,8 +82,13 @@ final class FLBuilder {
 	 */
 	static public function load_plugin_textdomain()
 	{
-		//Traditional WordPress plugin locale filter
-		$locale = apply_filters( 'plugin_locale', get_locale(), 'fl-builder' );
+		// Traditional WordPress plugin locale filter
+		// Uses get_user_locale() which was added in 4.7 so we need to check its available.
+		if( function_exists( 'get_user_locale' ) ) {
+			$locale = apply_filters( 'plugin_locale', get_user_locale(), 'fl-builder' );
+		} else {
+			$locale = apply_filters( 'plugin_locale', get_locale(), 'fl-builder' );
+		}
 
 		//Setup paths to current locale file
 		$mofile_global = trailingslashit( WP_LANG_DIR ) . 'plugins/bb-plugin/' . $locale . '.mo';
@@ -629,7 +634,9 @@ final class FLBuilder {
 	 */
 	static public function body_class($classes)
 	{
-		if(FLBuilderModel::is_builder_enabled() && !is_archive()) {
+		$do_render = apply_filters( 'fl_builder_do_render_content', true, FLBuilderModel::get_post_id() );
+		
+		if($do_render && FLBuilderModel::is_builder_enabled() && !is_archive()) {
 			$classes[] = 'fl-builder';
 		}
 		if(FLBuilderModel::is_builder_active() && !FLBuilderModel::current_user_has_editing_capability()) {
@@ -965,10 +972,11 @@ final class FLBuilder {
 		$post_id        = FLBuilderModel::get_post_id();
 		$enabled        = FLBuilderModel::is_builder_enabled();
 		$rendering      = $post_id === self::$post_rendering;
+		$do_render      = apply_filters( 'fl_builder_do_render_content', true, $post_id );
 		$in_loop        = in_the_loop();
 		$is_global      = in_array( $post_id, FLBuilderModel::get_global_posts() );
 
-		if( $enabled && ! $rendering && ( $in_loop || $is_global ) ) {
+		if( $enabled && ! $rendering && $do_render && ( $in_loop || $is_global ) ) {
 			
 			// Set the post rendering ID.
 			self::$post_rendering = $post_id;
@@ -1137,18 +1145,45 @@ final class FLBuilder {
 
 				foreach($cols as $col) {
 
-					$modules = FLBuilderModel::get_modules($col);
+					$col_children = FLBuilderModel::get_nodes( null, $col );
 
-					foreach($modules as $module) {
+					foreach ( $col_children as $col_child ) {
 
-						if($module->editor_export) {
+						if ( 'module' == $col_child->type ) {
+								
+							$module = FLBuilderModel::get_module( $col_child );
+							
+							if ( $module && $module->editor_export ) {
 
-							// Don't crop photos to ensure media library photos are rendered.
-							if($module->settings->type == 'photo') {
-								$module->settings->crop = false;
+								// Don't crop photos to ensure media library photos are rendered.
+								if($module->settings->type == 'photo') {
+									$module->settings->crop = false;
+								}
+
+								FLBuilder::render_module_html($module->settings->type, $module->settings, $module);
 							}
+						}
+						else if ( 'column-group' == $col_child->type ) {
+							
+							$group_cols = FLBuilderModel::get_nodes( 'column', $col_child );
+							
+							foreach ( $group_cols as $group_col ) {
+			
+								$modules = FLBuilderModel::get_modules( $group_col );
+								
+								foreach ( $modules as $module ) {
+									
+									if($module->editor_export) {
 
-							FLBuilder::render_module_html($module->settings->type, $module->settings, $module);
+										// Don't crop photos to ensure media library photos are rendered.
+										if($module->settings->type == 'photo') {
+											$module->settings->crop = false;
+										}
+
+										FLBuilder::render_module_html($module->settings->type, $module->settings, $module);
+									}						
+								}
+							}
 						}
 					}
 				}
@@ -1793,7 +1828,7 @@ final class FLBuilder {
 		$rendered_settings = self::render_settings(array(
 			'class' 	=> 'fl-builder-module-settings fl-builder-'. $type .'-settings',
 			'attrs' 	=> 'data-node="'. $node_id .'" data-parent="'. $parent_id .'" data-type="'. $type .'"',
-			'title' 	=> sprintf( '%s ' . __( 'Settings', 'fl-builder' ), $module->name ),
+			'title' 	=> sprintf( __( '%s Settings', 'fl-builder' ), $module->name ),
 			'tabs'  	=> apply_filters( 'fl_builder_render_module_settings', $module->form, $module ),
 			'resizable' => true
 		), $settings);
@@ -2504,7 +2539,13 @@ final class FLBuilder {
 			$js = apply_filters( 'fl_builder_render_js', $js, $nodes, $global_settings );
 			
 			if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
-				$js = FLJSMin::minify( $js );
+				try {
+				    $min = FLJSMin::minify( $js );
+				} catch (Exception $e) {}
+
+				if ( $min ) {
+				    $js = $min;
+				}
 			}
 			
 			file_put_contents( $path, $js );

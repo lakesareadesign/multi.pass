@@ -183,19 +183,19 @@ class UM_Fields {
 		global $ultimatemember;
 		$fields = $ultimatemember->query->get_attr( 'custom_fields', $form_id );
 		$field_scope = $ultimatemember->builtin->saved_fields;
-
-		if ( !isset( $fields[$global_id] ) ) {
+		
+		if ( !isset( $fields[ $global_id ] ) ) {
 
 			$count = 1;
-			if ( isset( $fields ) && !empty( $fields) ) $count = count($fields)+1;
+			if ( isset( $fields ) && !empty( $fields ) ) $count = count( $fields ) + 1;
 
-			$fields[$global_id] = $field_scope[$global_id];
-			$fields[$global_id]['position'] = $count;
+			$fields[ $global_id ] = $field_scope[ $global_id ];
+			$fields[ $global_id ]['position'] = $count;
 
 			// set position
 			if ( $position ) {
 				foreach( $position as $key => $val ) {
-					$fields[$global_id][$key] = $val;
+					$fields[ $global_id ][ $key ] = $val;
 				}
 			}
 
@@ -216,19 +216,19 @@ class UM_Fields {
 
 		$fields = $ultimatemember->query->get_attr( 'custom_fields', $form_id );
 		$field_scope = $ultimatemember->builtin->predefined_fields;
-
-		if ( !isset( $fields[$global_id] ) ) {
+		
+		if ( !isset( $fields[ $global_id ] ) ) {
 
 			$count = 1;
-			if ( isset( $fields ) && !empty( $fields) ) $count = count($fields)+1;
+			if ( isset( $fields ) && !empty( $fields) ) $count = count( $fields ) + 1;
 
-			$fields[$global_id] = $field_scope[$global_id];
-			$fields[$global_id]['position'] = $count;
+			$fields[ $global_id ] = $field_scope[ $global_id ];
+			$fields[ $global_id ]['position'] = $count;
 
 			// set position
 			if ( $position ) {
 				foreach( $position as $key => $val ) {
-					$fields[$global_id][$key] = $val;
+					$fields[ $global_id ][ $key ] = $val;
 				}
 			}
 
@@ -1111,7 +1111,7 @@ class UM_Fields {
 		if ( ( $visibility == 'view' && $this->set_mode == 'register' ) || 
 			( isset( $data['editable'] ) && $data['editable'] == 0 && $this->set_mode == 'profile' ) ){
 				
-				if( ! current_user_can('manage_options') ){
+				if( ! um_user_can('can_edit_everyone') ){
 					$disabled = ' disabled="disabled" ';
 				}
 
@@ -2101,6 +2101,12 @@ class UM_Fields {
 								$class = "um-icon-android-radio-button-off";
 							}
 
+							if( isset( $data['editable'] ) &&  $data['editable'] == 0 ){
+								$col_class .= " um-field-radio-state-disabled";
+							}
+
+
+				
 							$output .= '<label class="um-field-radio '.$active.' um-field-half '.$col_class.'">';
 
 							$option_value = apply_filters('um_field_non_utf8_value',$option_value );
@@ -2177,6 +2183,10 @@ class UM_Fields {
 							} else {
 								$active = '';
 								$class = "um-icon-android-checkbox-outline-blank";
+							}
+
+							if( isset( $data['editable'] ) &&  $data['editable'] == 0 ){
+								$col_class .= " um-field-radio-state-disabled";
 							}
 
 							$output .= '<label class="um-field-checkbox '.$active.' um-field-half '.$col_class.'">';

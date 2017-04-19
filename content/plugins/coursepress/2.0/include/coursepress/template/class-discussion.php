@@ -166,7 +166,7 @@ class CoursePress_Template_Discussion {
 		// Return max num pages to it's original
 		$wp_query->max_num_pages = $old_max_num_pages;
 
-		return sprintf( '<div class="discussion-page-nav" data-id="%s" data-type="%s">%s</div>', $post_id, $post_type, $navs );
+		return sprintf( '<div class="discussion-page-nav" data-id="%s" data-type="%s">%s</div>', $post_id, $post_type, $navs );									   	 	   		
 	}
 
 	public static function comment_reply_link( $link, $args, $comment, $post ) {

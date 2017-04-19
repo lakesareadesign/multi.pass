@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/avatars
 Description: Allows users to upload 'user avatars' and 'blog avatars' which then can appear in comments and blog / user listings around the site
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
-Version: 4.1.6
+Version: 4.1.7
 Network: true
 Text Domain: avatars
 WDP ID: 10
@@ -193,7 +193,7 @@ class Avatars {
 
 				// temporarily stores existing filesystem object
 				if( isset( $wp_filesystem ) )
-					$orig_filesystem = clone( $wp_filesystem );
+					$orig_filesystem = clone $wp_filesystem;
 
 				$wp_filesystem = new WP_Filesystem_Direct( false );
 
@@ -210,7 +210,7 @@ class Avatars {
 						if( $wp_filesystem->delete( WP_CONTENT_DIR . '/avatars', true ) ) // attempt delete of old folder
 							$message = sprintf( __( 'The Avatars plugin now store files in %s. Your old folder has been moved.', 'avatars' ), $this->avatars_dir );
 						else
-							$message = sprintf( __( 'The Avatars plugin now store files in %s. Your old folder has been copied. Please verify that everything is working fine and delete the old folder manually.', 'avatars' ), $this->avatars_dir );
+							$message = sprintf( __( 'The Avatars plugin now store files in %s. Your old folder has been copied. Please verify that everything is working fine and delete the old folder manually.', 'avatars' ), $this->avatars_dir );	     	  								 
 
 					} else { // unsuccessful copy, warns user
 
@@ -229,7 +229,7 @@ class Avatars {
 
 				// restore original filesystem object
 				if( isset( $orig_filesystem ) )
-					$wp_filesystem = clone( $orig_filesystem );
+					$wp_filesystem = clone $orig_filesystem;
 
 				echo "<div class='error'><p>$message</p></div>";
 			}
@@ -489,7 +489,7 @@ class Avatars {
 	function to_profile( $profileuser ) {
 		global $submenu_file;
 	?>
-		<h3><?php _e('Avatar Settings', 'avatar');?></h3>
+		<h3><?php _e('Avatar Settings', 'avatars');?></h3>
 		<table class="form-table">
 			<tbody>
 				<tr>

@@ -7,47 +7,32 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 }
 
-//require needed files
 $path = dirname( __FILE__ );
 include_once $path . DIRECTORY_SEPARATOR . 'wp-defender.php';
-WD_Scan_Module::get_instance();
-WD_Hardener_Module::get_instance();
 
-WD_Scan_Api::clear_cache();
-//cache cleared, now we have to remove htaccess
-$hardeners = WD_Hardener_Module::find_controller( 'hardener' );
-$hardeners->load_modules();
-$rules = $hardeners->get_loaded_modules();
+$tweakFixed = \WP_Defender\Module\Hardener\Model\Settings::instance()->getFixed();
 
-foreach ( $rules as $rule ) {
-	if ( $rule->id == 'protect_core_dir' ) {
-		$rule->revert( null, true );
-	}
-
-	//remove htaccess content from wp-content and wp-includes
-	if ( $rule->id == 'protect_upload_dir' ) {
-		$rule->revert();
-		$uploads_dir = wp_upload_dir();
-		$paths       = array(
-			ABSPATH . WPINC . '/.htaccess',
-			WP_CONTENT_DIR . '/.htaccess',
-			$uploads_dir['basedir'] . '/.htaccess'
-		);
-
-		foreach ( $paths as $path ) {
-			if ( file_exists( $path ) ) {
-				$content = file_get_contents( $path );
-				$content = trim( $content );
-				if ( strlen( $content ) == 0 ) {
-					unlink( $path );
-				}
-			}
-		}
-	}
-}
-$options_name = 'wp_defender';
-if ( function_exists( 'delete_site_option' ) ) {
-	delete_site_option( $options_name );
+foreach ( $tweakFixed as $rule ) {
+	$rule->getService()->revert();
 }
 
-delete_option( 'wd_lockdown_settings' );
+$scan = \WP_Defender\Module\Scan\Model\Scan::findAll();
+foreach ( $scan as $model ) {
+	$model->delete();
+}
+
+\WP_Defender\Module\Scan\Component\Scan_Api::flushCache();
+
+$cache = \Hammer\Helper\WP_Helper::getCache();
+$cache->delete( 'isActivated' );
+$cache->delete( 'wdfchecksum' );
+$cache->delete( 'cleanchecksum' );
+
+\WP_Defender\Module\Scan\Model\Settings::instance()->delete();
+\WP_Defender\Module\Audit\Model\Settings::instance()->delete();
+\WP_Defender\Module\Hardener\Model\Settings::instance()->delete();
+\WP_Defender\Module\IP_Lockout\Model\Settings::instance()->delete();
+
+//clear old stuff
+delete_site_option( 'wp_defender' );
+delete_option( 'wp_defender' );

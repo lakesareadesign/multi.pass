@@ -166,10 +166,20 @@ class MS_Controller_Plugin extends MS_Controller {
 		$this->add_action( 'wp_loaded', 'wp_loaded' );
 
 		// Setup plugin admin UI.
-		$this->add_action( 'admin_menu', 'add_menu_pages' );
-		if ( MS_Plugin::is_network_wide() ) {
-			$this->add_action( 'network_admin_menu', 'add_menu_pages' );
-		}
+		if( ! is_multisite() )
+                {
+                    $this->add_action( 'admin_menu', 'add_menu_pages' );
+                }
+                else
+                {
+                    if ( MS_Plugin::is_network_wide() ) {
+                        $this->add_action( 'network_admin_menu', 'add_menu_pages' );
+                    }
+                    else
+                    {
+                        $this->add_action( 'admin_menu', 'add_menu_pages' );
+                    }
+                }
 
 		// Select the right page to display.
 		$this->add_action( 'admin_init', 'route_submenu_request' );
@@ -700,6 +710,23 @@ class MS_Controller_Plugin extends MS_Controller {
 	}
 
 	/**
+	 * Checks if the current user is on any Membership2 admin page.
+	 *
+	 * @since  1.0.0
+	 * @return bool
+	 */
+	public static function is_admin_page( ) {
+		$curpage = false;
+		if ( isset( $_REQUEST['page'] ) ) {
+			$curpage = sanitize_html_class( $_REQUEST['page'] );
+		}
+
+		$slug = self::$base_slug;
+
+		return (strpos($curpage, $slug) !== false);
+	}
+
+	/**
 	 * Get admin url.
 	 *
 	 * @since  1.0.0
@@ -936,11 +963,14 @@ class MS_Controller_Plugin extends MS_Controller {
 			$plugin_url . 'app/assets/js/jquery.m2.plugins.js',
 			array( 'jquery' ), $version
 		);
-		wp_register_script(
-			'jquery-validate',
-			$plugin_url . 'app/assets/js/jquery.m2.validate.js',
-			array( 'jquery' ), $version
-		);
+
+		if( self::is_admin_page( ) ){
+			wp_register_script(
+				'jquery-validate',
+				$plugin_url . 'app/assets/js/jquery.m2.validate.js',
+				array( 'jquery' ), $version
+			);
+		}
 	}
 
 	/**

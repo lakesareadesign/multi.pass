@@ -1,6 +1,6 @@
-/*! Google Maps - v2.9.2
+/*! Google Maps - v2.9.3
  * http://premium.wpmudev.org/project/wordpress-google-maps-plugin
- * Copyright (c) 2016; * Licensed GPLv2+ */
+ * Copyright (c) 2017; * Licensed GPLv2+ */
 /*! Google Maps - v2.9.07
  * http://premium.wpmudev.org/project/wordpress-google-maps-plugin
  * Copyright (c) 2015; * Licensed GPLv2+ */

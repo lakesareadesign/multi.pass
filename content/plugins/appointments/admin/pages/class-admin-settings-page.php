@@ -80,7 +80,6 @@ class Appointments_Admin_Settings_Page {
 			$content .= implode( ' | ', $links );
 			$content .= '</ul>';
 
-			wp_enqueue_script( 'app-settings-sections', appointments_plugin_url() . 'admin/js/admin-settings-sections.js', array( 'jquery' ), appointments_get_db_version(), true );
 			wp_enqueue_script( 'app-settings', appointments_plugin_url() . 'admin/js/admin-settings.js', array( 'jquery' ), appointments_get_db_version(), true );
 
 			$appointments = appointments();
@@ -317,7 +316,11 @@ class Appointments_Admin_Settings_Page {
 		$options["allow_worker_confirm"]		= $_POST["allow_worker_confirm"];
 		$options["allow_overwork"]			= $_POST["allow_overwork"];
 		$options["allow_overwork_break"]		= $_POST["allow_overwork_break"];
-		$options["dummy_assigned_to"]			= !$appointments->is_dummy( @$_POST["dummy_assigned_to"] ) ? @$_POST["dummy_assigned_to"] : 0;
+
+		$assigned_to = isset( $_POST["dummy_assigned_to"] ) ? $_POST["dummy_assigned_to"] : 0;
+		$worker = appointments_get_worker( $assigned_to );
+		$is_dummy = is_a( 'Appointments_Worker', $worker ) && $worker->is_dummy();
+		$options["dummy_assigned_to"]			= ! $is_dummy ? $assigned_to : 0;
 
 		$options["login_required"]			= $_POST["login_required"];
 		$options["accept_api_logins"]			= isset( $_POST["accept_api_logins"] );
