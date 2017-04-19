@@ -22,7 +22,7 @@ $services_header = upfront_create_region(
   'background_position_y' => '50',
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-page-services/services.jpg',
-  'background_image_ratio' => 0.34999999999999997779553950749686919152736663818359375,
+  'background_image_ratio' => 0.34999999999999998,
   'breakpoint' =>
   (array)(array(
      'tablet' =>
@@ -130,6 +130,13 @@ $services_header->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -249,6 +256,11 @@ $services = upfront_create_region(
     0 => '',
   ),
   'version' => '1.0.0',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -333,6 +345,13 @@ $services->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -346,7 +365,7 @@ $services->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
@@ -355,6 +374,10 @@ $services->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -375,6 +398,10 @@ $services->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -503,6 +530,7 @@ $services_business_cards->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -516,9 +544,10 @@ $services_business_cards->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453879185295-1396',
     'padding_slider' => '15',
@@ -544,6 +573,10 @@ $services_business_cards->add_element("Uimage", array (
       (array)(array(
          'row' => 31,
       )),
+    )),
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
     )),
   ),
   'row' => 6,
@@ -764,6 +797,13 @@ $services_business_cards->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1012,6 +1052,13 @@ $customs_books->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1131,6 +1178,7 @@ $customs_books->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1144,9 +1192,10 @@ $customs_books->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1414678713515-1847',
@@ -1177,6 +1226,10 @@ $customs_books->add_element("Uimage", array (
     'top_padding_use' => 'yes',
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1309,6 +1362,7 @@ $student_binding->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1322,9 +1376,10 @@ $student_binding->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1414679846547-1484',
@@ -1355,6 +1410,10 @@ $student_binding->add_element("Uimage", array (
     'top_padding_use' => 'yes',
     'right_padding_use' => 'yes',
     'left_padding_use' => 'yes',
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1576,6 +1635,13 @@ $student_binding->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1856,6 +1922,13 @@ $region_1->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1973,6 +2046,7 @@ $region_1->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1986,9 +2060,10 @@ $region_1->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1414679941473-1234',
@@ -2019,6 +2094,10 @@ $region_1->add_element("Uimage", array (
     'top_padding_use' => 'yes',
     'right_padding_use' => 'yes',
     'left_padding_use' => 'yes',
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,

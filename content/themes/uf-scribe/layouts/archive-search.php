@@ -31,6 +31,15 @@ $search_header = upfront_create_region(
   )),
   'nav_region' => '',
   'version' => '1.0.0',
+  'sub_regions' =>
+  array (
+    0 => '',
+  ),
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => false,
 )
 			);
 
@@ -106,6 +115,13 @@ $search_header->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -128,6 +144,10 @@ $search_header->add_element("PlainTxt", array (
       'clear' => true,
       'edited' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -146,6 +166,10 @@ $search_header->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -242,6 +266,7 @@ $search_header->add_element("Uwidget", array (
     'view_class' => 'UwidgetView',
     'class' => 'c24 upfront-widget',
     'has_settings' => 1,
+    'preset' => 'default',
     'widget' => 'search-2',
     'usingNewAppearance' => true,
     'element_id' => 'uwidget-object-1419826329275-1077',
@@ -274,7 +299,13 @@ $search_header->add_element("Uwidget", array (
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
-    'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -298,6 +329,10 @@ $search_header->add_element("Uwidget", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -316,6 +351,10 @@ $search_header->add_element("Uwidget", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -404,6 +443,7 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '70',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -471,6 +511,9 @@ $content->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'large',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'title',
@@ -507,6 +550,7 @@ $content->add_element("Posts", array (
     'content_length' => '18',
     'resize_featured' => '1',
     'gravatar_size' => 200,
+    'preset' => 'search-posts',
     'post-part-date_posted' => '<div class="uposts-part date_posted"><span class="date">{{date_1}} {{date_2}} {{date_3}}</span></div>',
     'post-part-author' => '<div class="uposts-part author">
 	By <a href="{{url}}">{{name}}</a></div>',
@@ -546,12 +590,11 @@ $content->add_element("Posts", array (
     'top_padding_num' => 55,
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
-    'use_padding' => '',
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
-    'preset' => 'search-posts',
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -584,7 +627,7 @@ $content->add_element("Posts", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
@@ -593,6 +636,10 @@ $content->add_element("Posts", array (
       'col' => 7,
       'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -613,6 +660,10 @@ $content->add_element("Posts", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

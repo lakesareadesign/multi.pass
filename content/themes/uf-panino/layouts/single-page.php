@@ -49,6 +49,12 @@ $page_header = upfront_create_region(
   'background_default' => 'image',
   'background_image' => '{{upfront:style_url}}/images/single-page/slider-img-1.jpg',
   'background_image_ratio' => 0.5500000000000000444089209850062616169452667236328125,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -100,6 +106,13 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -119,6 +132,8 @@ $main->add_element("Uspacer", array (
     'has_settings' => 0,
     'id_slug' => 'uspacer',
     'element_id' => 'spacer-object-1458561073754-1782',
+    'current_preset' => 'default',
+    'preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -173,7 +188,7 @@ $main->add_element("PostData", array (
     </div>
 </div>',
     'post-part-title' => '<div class="upostdata-part title">
-	<h1>{{title}}</h1>
+	<h2>{{title}}</h2>
 </div>',
     'post-part-content' => '<div class="upostdata-part content">
 	{{content}}
@@ -208,7 +223,8 @@ $main->add_element("PostData", array (
 #page .default.upost-data-object-post_data .date .date_part_2 {
     font-size: 22px;
 }
-#page .default.upost-data-object-post_data .title h1 {
+#page .default.upost-data-object-post_data .title h1,
+#page .default.upost-data-object-post_data .title h2 {
     margin: 0;
     padding: 0;
     -ms-word-wrap: break-word;
@@ -443,6 +459,10 @@ $main->add_element("PostData", array (
       (array)(array(
          'preset' => 'title-and-content',
       )),
+       'tablet' =>
+      (array)(array(
+         'preset' => 'mobile',
+      )),
     )),
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
@@ -451,6 +471,19 @@ $main->add_element("PostData", array (
     'calculated_left_indent' => 0,
     'calculated_right_indent' => 0,
     'current_preset' => 'title-and-content',
+    'static-title-use-typography' => 'yes',
+    'breakpoint' =>
+    (array)(array(
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+       'current_property' => 'lock_padding',
+       'mobile' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -534,6 +567,8 @@ $main->add_element("PostData", array (
       'right_padding_num' => '15',
       'bottom_padding_num' => '15',
       'lock_padding' => '',
+      'current_preset' => 'default',
+      'preset' => 'default',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -542,6 +577,8 @@ $main->add_element("PostData", array (
           'left' => 0,
           'col' => 12,
           'order' => 0,
+          'use_padding' => 'yes',
+          'hide' => 0,
         ),
         'mobile' =>
         array (
@@ -549,10 +586,12 @@ $main->add_element("PostData", array (
           'left' => 0,
           'col' => 7,
           'order' => 0,
+          'use_padding' => 'yes',
+          'hide' => 0,
         ),
         'current_property' =>
         array (
-          0 => 'col',
+          0 => 'lock_padding',
         ),
       ),
     ),
@@ -587,7 +626,9 @@ $main->add_element("PostData", array (
       'left_padding_num' => '15',
       'right_padding_num' => '15',
       'bottom_padding_num' => '15',
-      'lock_padding' => 0,
+      'lock_padding' => '',
+      'current_preset' => 'default',
+      'preset' => 'default',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -596,6 +637,8 @@ $main->add_element("PostData", array (
           'left' => 0,
           'col' => 12,
           'order' => 0,
+          'use_padding' => 'yes',
+          'hide' => 0,
         ),
         'mobile' =>
         array (
@@ -603,10 +646,12 @@ $main->add_element("PostData", array (
           'left' => 0,
           'col' => 7,
           'order' => 0,
+          'use_padding' => 'yes',
+          'hide' => 0,
         ),
         'current_property' =>
         array (
-          0 => 'col',
+          0 => 'use_padding',
         ),
       ),
     ),
@@ -629,6 +674,8 @@ $main->add_element("Uspacer", array (
     'has_settings' => 0,
     'id_slug' => 'uspacer',
     'element_id' => 'spacer-object-1458561077511-1384',
+    'current_preset' => 'default',
+    'preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,

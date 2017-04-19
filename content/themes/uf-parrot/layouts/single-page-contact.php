@@ -67,6 +67,13 @@ $contact_header_area = upfront_create_region(
   'bottom_bg_padding_num' => 0,
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => false,
 )
 			);
 
@@ -144,7 +151,7 @@ $contact_header_area->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 5,
+      'order' => 3,
       'col' => 1,
     ),
     'current_property' =>
@@ -195,6 +202,7 @@ $contact_header_area->add_element("Button", array (
        'type' => 'entry',
        'url' => '{{upfront:home_url}}/download/',
        'target' => '_self',
+       'display_url' => '{{upfront:home_url}}/download/',
     )),
     'currentpreset' => false,
     'row' => 12,
@@ -252,19 +260,19 @@ $contact_header_area->add_element("Button", array (
     array (
       'edited' => true,
       'col' => 4,
-      'order' => 7,
+      'order' => 4,
       'clear' => false,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 5,
+      'order' => 4,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -382,7 +390,7 @@ $contact_header_area->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 7,
+      'order' => 5,
       'col' => 4,
     ),
     'mobile' =>
@@ -449,45 +457,6 @@ $contact_header_area->add_element("Uspacer", array (
 ));
 
 $contact_header_area->add_element("Uspacer", array (
-  'columns' => '5',
-  'margin_left' => '0',
-  'margin_right' => '0',
-  'margin_top' => '0',
-  'margin_bottom' => '0',
-  'class' => 'module-1450121589-41289 upfront-module-spacer',
-  'id' => 'module-1450121589-41289',
-  'options' =>
-  array (
-    'type' => 'UspacerModel',
-    'view_class' => 'UspacerView',
-    'class' => 'c24',
-    'has_settings' => 0,
-    'id_slug' => 'uspacer',
-    'usingNewAppearance' => true,
-    'element_id' => 'spacer-object-1450121589-33413',
-    'preset' => 'default',
-  ),
-  'row' => 6,
-  'sticky' => false,
-  'default_hide' => 1,
-  'hide' => 0,
-  'toggle_hide' => 0,
-  'wrapper_id' => 'wrapper-1450121589-79613',
-  'new_line' => true,
-  'wrapper_breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'col' => 5,
-    ),
-    'mobile' =>
-    array (
-      'col' => 5,
-    ),
-  ),
-));
-
-$contact_header_area->add_element("Uspacer", array (
   'columns' => '4',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -517,13 +486,17 @@ $contact_header_area->add_element("Uspacer", array (
     'tablet' =>
     array (
       'clear' => true,
-      'order' => 4,
+      'order' => 3,
       'edited' => true,
       'col' => 4,
     ),
     'mobile' =>
     array (
       'col' => 4,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -544,25 +517,23 @@ $contact_header_area->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1450121589-2334 upfront-module-spacer',
-  'id' => 'module-1450121589-2334',
+  'class' => 'module-1487645071995-1072 upfront-module-spacer',
+  'id' => 'module-1487645071995-1072',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'class' => 'c24',
+    'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
-    'usingNewAppearance' => true,
-    'element_id' => 'spacer-object-1450121589-83203',
-    'preset' => 'default',
+    'element_id' => 'spacer-object-1487645071994-1910',
   ),
   'row' => 6,
   'sticky' => false,
   'default_hide' => 1,
-  'hide' => 1,
+  'hide' => 0,
   'toggle_hide' => 0,
-  'wrapper_id' => 'wrapper-1450121589-40866',
+  'wrapper_id' => 'wrapper-1487645071994-1473',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -572,206 +543,126 @@ $contact_header_area->add_element("Uspacer", array (
     ),
     'mobile' =>
     array (
-      'clear' => false,
-      'order' => 2,
-      'edited' => true,
       'col' => 1,
-    ),
-  ),
-  'breakpoint' =>
-  array (
-    'mobile' =>
-    array (
-      'hide' => 0,
-      'left' => 0,
-      'col' => 1,
-      'edited' => true,
     ),
   ),
 ));
 
-$contact_header_area->add_element("Uimage", array (
-  'columns' => '4',
+$contact_header_area->add_element("PlainTxt", array (
+  'columns' => '12',
   'margin_left' => '0',
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1444704199046-1015',
-  'id' => 'module-1444704199046-1015',
+  'class' => 'module-1487644046327-1876',
+  'id' => 'module-1487644046327-1876',
   'options' =>
   array (
-    'src' => '{{upfront:style_url}}/images/single-page-contact/parrot-logo-text-136x45-5940.png',
-    'srcFull' => '{{upfront:style_url}}/images/single-page-contact/parrot-logo-text.png',
-    'srcOriginal' => '{{upfront:style_url}}/images/single-page-contact/parrot-logo-text.png',
-    'image_title' => '',
-    'alternative_text' => '',
-    'include_image_caption' => false,
-    'image_caption' => 'My awesome image caption',
-    'caption_position' => false,
-    'caption_alignment' => false,
-    'caption_trigger' => 'always_show',
-    'image_status' => 'ok',
-    'size' =>
-    (array)(array(
-       'width' => 136,
-       'height' => 45,
-    )),
-    'fullSize' =>
-    (array)(array(
-       'width' => 136,
-       'height' => 45,
-    )),
-    'position' =>
-    (array)(array(
-       'top' => 0,
-       'left' => -12,
-    )),
-    'marginTop' => 0,
-    'element_size' =>
-    (array)(array(
-       'width' => 160,
-       'height' => 45,
-    )),
-    'rotation' => 0,
-    'color' => '#ffffff',
-    'background' => '#000000',
-    'captionBackground' => '0',
-    'image_id' => '27',
-    'align' => 'center',
-    'stretch' => false,
-    'vstretch' => false,
-    'quick_swap' => false,
-    'gifImage' => 0,
-    'placeholder_class' => '',
-    'preset' => 'default',
-    'display_caption' => 'showCaption',
-    'type' => 'UimageModel',
-    'view_class' => 'UimageView',
+    'view_class' => 'PlainTxtView',
+    'id_slug' => 'plain_text',
+    'content' => '<p style="text-align: center;">PARROT</p>',
+    'type' => 'PlainTxtModel',
+    'element_id' => 'text-object-1487644046326-1971',
+    'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'class' => 'c24 upfront-image',
-    'id_slug' => 'image',
-    'when_clicked' => false,
-    'image_link' => '',
-    'link' =>
+    'preset' => 'brand-1',
+    'breakpoint_presets' =>
     (array)(array(
-       'type' => false,
-       'url' => '',
-       'target' => false,
+       'desktop' =>
+      (array)(array(
+         'preset' => 'brand-1',
+      )),
     )),
-    'usingNewAppearance' => true,
-    'element_id' => 'image-1444704199044-1816',
-    'row' => 13,
-    'top_padding_use' => true,
-    'top_padding_num' => 40,
-    'bottom_padding_num' => '10',
-    'theme_style' => '',
-    'use_padding' => 'yes',
-    'lock_padding' => 0,
     'padding_slider' => '10',
-    'padding_number' => '10',
+    'top_padding_num' => '45',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'bottom_padding_num' => '10',
+    'lock_padding' => '',
+    'use_padding' => 'yes',
+    'usingNewAppearance' => true,
+    'is_edited' => true,
     'anchor' => '',
-    'breakpoint' =>
-    (array)(array(
-       'tablet' =>
-      (array)(array(
-         'row' => 13,
-      )),
-       'mobile' =>
-      (array)(array(
-         'row' => 14,
-      )),
-    )),
+    'current_preset' => 'brand-1',
+    'theme_style' => '',
+    'top_padding_use' => 'yes',
+    'top_padding_slider' => '45',
+    'row' => 19,
   ),
   'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
   'toggle_hide' => 1,
-  'wrapper_id' => 'wrapper-1444704685172-1498',
+  'wrapper_id' => 'wrapper-1487644074440-1368',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
-      'edited' => true,
+      'clear' => true,
       'col' => 12,
       'order' => 1,
-      'clear' => false,
     ),
     'mobile' =>
     array (
-      'edited' => true,
-      'col' => 5,
+      'clear' => true,
+      'col' => 7,
       'order' => 1,
-      'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
   array (
     'tablet' =>
     array (
-      'edited' => true,
-      'left' => 0,
       'col' => 12,
-      'order' => 0,
-      'top' => 0,
-      'row' => 13,
-    ),
-    'mobile' =>
-    array (
-      'edited' => true,
-      'left' => 0,
-      'col' => 5,
-      'order' => 0,
-      'top' => 0,
-      'row' => 14,
     ),
     'current_property' =>
     array (
       0 => 'col',
     ),
+    'mobile' =>
+    array (
+      'col' => 7,
+    ),
   ),
 ));
 
 $contact_header_area->add_element("Uspacer", array (
-  'columns' => '10',
+  'columns' => '6',
   'margin_left' => '0',
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1450121589-22542 upfront-module-spacer',
-  'id' => 'module-1450121589-22542',
+  'class' => 'module-1487645074695-1130 upfront-module-spacer',
+  'id' => 'module-1487645074695-1130',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'class' => 'c24',
+    'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
-    'usingNewAppearance' => true,
-    'element_id' => 'spacer-object-1450121589-27318',
-    'preset' => 'default',
+    'element_id' => 'spacer-object-1487645074695-1478',
   ),
   'row' => 6,
   'sticky' => false,
   'default_hide' => 1,
   'hide' => 0,
   'toggle_hide' => 0,
-  'wrapper_id' => 'wrapper-1450121589-96177',
+  'wrapper_id' => 'wrapper-1487645074695-1387',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
-      'col' => 10,
+      'col' => 6,
     ),
     'mobile' =>
     array (
-      'col' => 7,
+      'col' => 6,
     ),
   ),
 ));
@@ -811,57 +702,6 @@ $contact_header_area->add_element("Uspacer", array (
     'mobile' =>
     array (
       'col' => 1,
-    ),
-  ),
-));
-
-$contact_header_area->add_element("Uspacer", array (
-  'columns' => '1',
-  'margin_left' => '0',
-  'margin_right' => '0',
-  'margin_top' => '0',
-  'margin_bottom' => '0',
-  'class' => 'module-1450121589-87736 upfront-module-spacer',
-  'id' => 'module-1450121589-87736',
-  'options' =>
-  array (
-    'type' => 'UspacerModel',
-    'view_class' => 'UspacerView',
-    'class' => 'c24',
-    'has_settings' => 0,
-    'id_slug' => 'uspacer',
-    'usingNewAppearance' => true,
-    'element_id' => 'spacer-object-1450121589-72264',
-    'preset' => 'default',
-  ),
-  'row' => 6,
-  'sticky' => false,
-  'default_hide' => 1,
-  'hide' => 1,
-  'toggle_hide' => 0,
-  'wrapper_id' => 'wrapper-1450121589-57399',
-  'wrapper_breakpoint' =>
-  array (
-    'tablet' =>
-    array (
-      'col' => 1,
-    ),
-    'mobile' =>
-    array (
-      'clear' => true,
-      'order' => 0,
-      'edited' => true,
-      'col' => 1,
-    ),
-  ),
-  'breakpoint' =>
-  array (
-    'mobile' =>
-    array (
-      'hide' => 0,
-      'left' => 0,
-      'col' => 1,
-      'edited' => true,
     ),
   ),
 ));
@@ -914,6 +754,9 @@ $contact_header_area->add_element("PlainTxt", array (
       )),
        'current_property' => 'use_padding',
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -927,15 +770,19 @@ $contact_header_area->add_element("PlainTxt", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 3,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 4,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1027,6 +874,15 @@ $header_bottom = upfront_create_region(
   'use_padding' => 0,
   'background_color' => 'rgba(255,255,255,0.35)',
   'version' => '1.0.0',
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => false,
 )
 			);
 
@@ -1058,6 +914,17 @@ $product_support = upfront_create_region(
     )),
   )),
   'version' => '1.0.0',
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'background_type' => 'color',
+  'background_color' => '#ffffff',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -1664,6 +1531,9 @@ $product_support->add_element("Code", array (
       )),
     )),
     'use_padding' => 'yes',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -2389,6 +2259,9 @@ $business_inquiries->add_element("Code", array (
       )),
     )),
     'use_padding' => 'yes',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,

@@ -47,6 +47,7 @@ $footer = upfront_create_region(
   'background_image_ratio' => 1,
   'version' => '1.0.0',
   'expand_lock' => false,
+  'region_role' => 'contentinfo',
 )
 			);
 
@@ -157,6 +158,7 @@ $footer->add_element("Uimage", array (
        'type' => 'homepage',
        'url' => '{{upfront:home_url}}',
        'target' => false,
+       'display_url' => '{{upfront:home_url}}',
     )),
     'element_id' => 'image-1454380197629-1692',
     'padding_slider' => '10',
@@ -183,6 +185,9 @@ $footer->add_element("Uimage", array (
     )),
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -330,56 +335,62 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 285,
+         'menu-item-db-id' => 289,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '285',
+         'menu-item-object-id' => '289',
          'menu-item-target' => '',
          'menu-item-position' => 1,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/about/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/about/',
         )),
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 286,
+         'menu-item-db-id' => 290,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'News',
          'menu-item-url' => '{{upfront:home_url}}/news/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '286',
+         'menu-item-object-id' => '290',
          'menu-item-target' => '',
          'menu-item-position' => 2,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/news/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/news/',
         )),
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 287,
+         'menu-item-db-id' => 291,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '287',
+         'menu-item-object-id' => '291',
          'menu-item-target' => '',
          'menu-item-position' => 3,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/contact/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/contact/',
         )),
       )),
     ),
@@ -651,6 +662,8 @@ $footer->add_group(array (
   'left_padding_num' => '10',
   'right_padding_num' => '10',
   'edited' => true,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -786,6 +799,7 @@ $footer->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://twitter.com',
        'target' => '_blank',
+       'display_url' => 'http://twitter.com',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
@@ -958,6 +972,7 @@ $footer->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://facebook.com',
        'target' => '_blank',
+       'display_url' => 'http://facebook.com',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
@@ -1179,6 +1194,7 @@ $footer->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://pinterest.com',
        'target' => '_blank',
+       'display_url' => 'http://pinterest.com',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
@@ -1346,6 +1362,7 @@ $footer->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://instagram.com',
        'target' => '_blank',
+       'display_url' => 'http://instagram.com',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
@@ -1791,6 +1808,9 @@ $footer->add_element("PlainTxt", array (
     'right_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

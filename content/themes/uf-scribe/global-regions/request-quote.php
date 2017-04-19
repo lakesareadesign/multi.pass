@@ -106,6 +106,8 @@ $request_quote->add_group(array (
   'bottom_padding_slider' => '30',
   'left_padding_num' => '15',
   'right_padding_num' => '15',
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -190,6 +192,9 @@ $request_quote->add_element("PlainTxt", array (
     'right_padding_num' => '15',
     'lock_padding' => 0,
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -211,8 +216,12 @@ $request_quote->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -232,6 +241,10 @@ $request_quote->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 6,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1454562927345-1778',
@@ -292,6 +305,9 @@ $request_quote->add_element("PlainTxt", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -313,12 +329,12 @@ $request_quote->add_element("PlainTxt", array (
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -481,7 +497,7 @@ $request_quote->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 2,
+      'order' => 3,
       'col' => 1,
     ),
     'current_property' =>
@@ -534,6 +550,7 @@ $request_quote->add_element("Button", array (
        'target' => '',
        'object' => 'page',
        'object_id' => 1708,
+       'display_url' => '{{upfront:home_url}}/contact/',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -551,6 +568,9 @@ $request_quote->add_element("Button", array (
     'right_padding_num' => '15',
     'lock_padding' => 0,
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -571,12 +591,12 @@ $request_quote->add_element("Button", array (
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 2,
+      'order' => 4,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -638,7 +658,7 @@ $request_quote->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 2,
+      'order' => 5,
       'col' => 1,
     ),
     'current_property' =>

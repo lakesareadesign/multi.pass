@@ -57,6 +57,14 @@ $s_training = upfront_create_region(
   'background_repeat' => 'no-repeat',
   'version' => '1.0.0',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 

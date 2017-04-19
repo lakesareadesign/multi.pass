@@ -39,6 +39,7 @@ $main = upfront_create_region(
   'top_bg_padding_num' => '100',
   'bottom_bg_padding_num' => '100',
   'bg_padding_num' => '100',
+  'region_role' => 'main',
 )
 			);
 

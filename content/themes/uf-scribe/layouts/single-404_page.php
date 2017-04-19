@@ -22,7 +22,7 @@ $page_404 = upfront_create_region(
   'background_position_y' => '50',
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-404_page/_MG_8032 (5).jpg',
-  'background_image_ratio' => 0.67000000000000003996802888650563545525074005126953125,
+  'background_image_ratio' => 0.67000000000000004,
   'breakpoint' =>
   (array)(array(
      'tablet' =>
@@ -52,6 +52,17 @@ $page_404 = upfront_create_region(
     0 => '',
   ),
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -137,6 +148,13 @@ $page_404->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -354,6 +372,13 @@ $page_404->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -658,6 +683,7 @@ $page_404->add_element("Button", array (
        'type' => 'homepage',
        'url' => '{{upfront:home_url}}',
        'target' => '',
+       'display_url' => '{{upfront:home_url}}',
     )),
     'row' => 15,
     'anchor' => '',
@@ -673,6 +699,13 @@ $page_404->add_element("Button", array (
     'top_padding_num' => '15',
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,

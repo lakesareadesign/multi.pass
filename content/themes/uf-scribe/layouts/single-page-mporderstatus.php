@@ -39,28 +39,45 @@ $main = upfront_create_region(
   'top_bg_padding_num' => 0,
   'bottom_bg_padding_num' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
 $main->add_element("Uspacer", array (
   'columns' => '1',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1479874185145-1160 upfront-module-spacer',
   'id' => 'module-1479874185145-1160',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1479874185145-1521',
     'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1479874185145-1521',
   ),
-  'wrapper_id' => 'wrapper-1479874185143-1565',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
-  'edited' => true,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1479874185143-1565',
   'new_line' => true,
+  'wrapper_breakpoint' =>
+  array (
+    'tablet' =>
+    array (
+      'col' => 1,
+    ),
+    'mobile' =>
+    array (
+      'col' => 1,
+    ),
+  ),
 ));
 
 $main->add_element("PostData", array (
@@ -348,6 +365,8 @@ $main->add_element("PostData", array (
     'theme_preset' => 'true',
     'calculated_left_indent' => 0,
     'calculated_right_indent' => 0,
+    'anchor' => '',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -355,7 +374,6 @@ $main->add_element("PostData", array (
   'hide' => 0,
   'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1467787553104-1347',
-  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -423,7 +441,7 @@ $main->add_element("PostData", array (
       'left_padding_num' => 15,
       'right_padding_num' => 15,
       'bottom_padding_num' => 15,
-      'lock_padding' => 0,
+      'lock_padding' => '',
     ),
     1 =>
     array (
@@ -496,22 +514,38 @@ $main->add_element("PostData", array (
 
 $main->add_element("Uspacer", array (
   'columns' => '1',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1479874188565-1410 upfront-module-spacer',
   'id' => 'module-1479874188565-1410',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1479874188565-1267',
     'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1479874188565-1267',
   ),
-  'wrapper_id' => 'wrapper-1479874188564-1601',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
-  'edited' => true,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1479874188564-1601',
+  'wrapper_breakpoint' =>
+  array (
+    'tablet' =>
+    array (
+      'col' => 1,
+    ),
+    'mobile' =>
+    array (
+      'col' => 1,
+    ),
+  ),
 ));
 
 $regions->add($main);

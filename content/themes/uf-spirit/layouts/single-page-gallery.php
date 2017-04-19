@@ -65,6 +65,13 @@ $gallery_title = upfront_create_region(
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -164,6 +171,11 @@ $gallery_title->add_element("PlainTxt", array (
          'top_padding_num' => '15',
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -177,15 +189,19 @@ $gallery_title->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -205,6 +221,10 @@ $gallery_title->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 7,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -297,6 +317,7 @@ $gallery_content = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -390,7 +411,7 @@ $gallery_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
@@ -399,6 +420,10 @@ $gallery_content->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -416,6 +441,10 @@ $gallery_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -563,7 +592,7 @@ $gallery_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 3,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
@@ -572,6 +601,10 @@ $gallery_content->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -589,6 +622,10 @@ $gallery_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -689,7 +726,8 @@ $gallery_content->add_element("Ugallery", array (
     array (
       0 =>
       (array)(array(
-         'id' => '1721',
+         'id' => 77,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-one-220x220-4377.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-one.jpg',
          'sizes' =>
         (array)(array(
@@ -779,14 +817,9 @@ $gallery_content->add_element("Ugallery", array (
            'left' => 35,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-one-220x220-4377.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1453430326931-1944',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-one.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-one.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -805,6 +838,10 @@ $gallery_content->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1453430326931-1944',
+         'urlType' => 'image',
          'cropPosition' =>
         (array)(array(
            'top' => 0,
@@ -816,7 +853,8 @@ $gallery_content->add_element("Ugallery", array (
       )),
       1 =>
       (array)(array(
-         'id' => '1722',
+         'id' => 78,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-two-220x220-9023.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-two.jpg',
          'sizes' =>
         (array)(array(
@@ -906,14 +944,9 @@ $gallery_content->add_element("Ugallery", array (
            'left' => 80,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-two-220x220-9023.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1453430326931-1944',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-two.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-two.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -932,6 +965,10 @@ $gallery_content->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1453430326931-1944',
+         'urlType' => 'image',
          'cropPosition' =>
         (array)(array(
            'top' => 0,
@@ -943,7 +980,8 @@ $gallery_content->add_element("Ugallery", array (
       )),
       2 =>
       (array)(array(
-         'id' => '1723',
+         'id' => 79,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-three-220x220-6523.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-three.jpg',
          'sizes' =>
         (array)(array(
@@ -1033,14 +1071,9 @@ $gallery_content->add_element("Ugallery", array (
            'left' => 35,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-three-220x220-6523.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1453430326931-1944',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-three.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-three.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1059,6 +1092,10 @@ $gallery_content->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1453430326931-1944',
+         'urlType' => 'image',
          'cropPosition' =>
         (array)(array(
            'top' => 0,
@@ -1070,7 +1107,8 @@ $gallery_content->add_element("Ugallery", array (
       )),
       3 =>
       (array)(array(
-         'id' => '1724',
+         'id' => 80,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-four-220x220-6844.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-four.jpg',
          'sizes' =>
         (array)(array(
@@ -1160,14 +1198,9 @@ $gallery_content->add_element("Ugallery", array (
            'left' => 91,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-four-220x220-6844.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1453430326931-1944',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-four.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-four.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1186,6 +1219,10 @@ $gallery_content->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1453430326931-1944',
+         'urlType' => 'image',
          'cropPosition' =>
         (array)(array(
            'top' => 0,
@@ -1197,7 +1234,8 @@ $gallery_content->add_element("Ugallery", array (
       )),
       4 =>
       (array)(array(
-         'id' => '1725',
+         'id' => 81,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-five-220x220-2785.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-five.jpg',
          'sizes' =>
         (array)(array(
@@ -1287,14 +1325,9 @@ $gallery_content->add_element("Ugallery", array (
            'left' => 35,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-five-220x220-2785.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1453430326931-1944',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-five.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-five.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1313,6 +1346,10 @@ $gallery_content->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1453430326931-1944',
+         'urlType' => 'image',
          'cropPosition' =>
         (array)(array(
            'top' => 0,
@@ -1324,7 +1361,8 @@ $gallery_content->add_element("Ugallery", array (
       )),
       5 =>
       (array)(array(
-         'id' => '1726',
+         'id' => 82,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-six-220x220-1804.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-six.jpg',
          'sizes' =>
         (array)(array(
@@ -1414,14 +1452,9 @@ $gallery_content->add_element("Ugallery", array (
            'left' => 35,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-six-220x220-1804.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1453430326931-1944',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-six.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-six.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1440,6 +1473,10 @@ $gallery_content->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1453430326931-1944',
+         'urlType' => 'image',
          'cropPosition' =>
         (array)(array(
            'top' => 0,
@@ -1451,7 +1488,8 @@ $gallery_content->add_element("Ugallery", array (
       )),
       6 =>
       (array)(array(
-         'id' => '1727',
+         'id' => 83,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-seven-220x220-3824.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-seven.jpg',
          'sizes' =>
         (array)(array(
@@ -1541,14 +1579,9 @@ $gallery_content->add_element("Ugallery", array (
            'left' => 0,
            'top' => 30,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-seven-220x220-3824.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1453430326931-1944',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-seven.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-seven.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1567,6 +1600,10 @@ $gallery_content->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1453430326931-1944',
+         'urlType' => 'image',
          'cropPosition' =>
         (array)(array(
            'top' => 28,
@@ -1578,7 +1615,8 @@ $gallery_content->add_element("Ugallery", array (
       )),
       7 =>
       (array)(array(
-         'id' => '1728',
+         'id' => 84,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-eight-220x220-3853.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-eight.jpg',
          'sizes' =>
         (array)(array(
@@ -1668,14 +1706,9 @@ $gallery_content->add_element("Ugallery", array (
            'left' => 35,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-eight-220x220-3853.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1453430326931-1944',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-eight.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-eight.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1694,6 +1727,10 @@ $gallery_content->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1453430326931-1944',
+         'urlType' => 'image',
          'cropPosition' =>
         (array)(array(
            'top' => 0,
@@ -1705,7 +1742,8 @@ $gallery_content->add_element("Ugallery", array (
       )),
       8 =>
       (array)(array(
-         'id' => '1729',
+         'id' => 85,
+         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-nine-220x220-5229.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-nine.jpg',
          'sizes' =>
         (array)(array(
@@ -1795,14 +1833,9 @@ $gallery_content->add_element("Ugallery", array (
            'left' => 0,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-nine-220x220-5229.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1453430326931-1944',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-nine.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-gallery/img-gallery-nine.jpg',
          'title' => '<p>Image caption</p>',
          'caption' => 'Image description',
          'alt' => '',
@@ -1821,6 +1854,10 @@ $gallery_content->add_element("Ugallery", array (
            'target' => '',
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1453430326931-1944',
+         'urlType' => 'image',
          'cropPosition' =>
         (array)(array(
            'top' => 0,
@@ -1898,6 +1935,10 @@ $gallery_content->add_element("Ugallery", array (
          'row' => 73,
       )),
     )),
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1911,7 +1952,7 @@ $gallery_content->add_element("Ugallery", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
@@ -1920,6 +1961,10 @@ $gallery_content->add_element("Ugallery", array (
       'col' => 7,
       'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1938,6 +1983,10 @@ $gallery_content->add_element("Ugallery", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

@@ -65,6 +65,13 @@ $region_2 = upfront_create_region(
   'version' => '1.0.0',
   'background_repeat' => 'repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -187,8 +194,12 @@ $region_2->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -209,6 +220,10 @@ $region_2->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -317,6 +332,11 @@ $region_2->add_element("PlainTxt", array (
          'row' => 10,
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -338,12 +358,12 @@ $region_2->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -476,6 +496,11 @@ $region_2->add_element("PlainTxt", array (
     'bottom_padding_slider' => '30',
     'top_padding_use' => 'yes',
     'top_padding_slider' => '0',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -497,8 +522,12 @@ $region_2->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -611,6 +640,7 @@ $region_2->add_element("Ucontact", array (
     'form_button_text' => 'Send',
     'form_validate_when' => 'submit',
     'form_label_position' => 'over',
+    'preset' => 'default',
     'type' => 'UcontactModel',
     'view_class' => 'UcontactView',
     'class' => 'c24 upfront-contact-form',
@@ -627,10 +657,12 @@ $region_2->add_element("Ucontact", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
-    'preset' => 'default',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
     'row' => 65,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -651,8 +683,12 @@ $region_2->add_element("Ucontact", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -672,6 +708,10 @@ $region_2->add_element("Ucontact", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

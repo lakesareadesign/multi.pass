@@ -21,7 +21,7 @@ $contact = upfront_create_region(
   'background_position_y' => '100',
   'background_position_x' => '100',
   'background_image' => '{{upfront:style_url}}/images/single-page-contact/contact-bg.png',
-  'background_image_ratio' => 1.6999999999999999555910790149937383830547332763671875,
+  'background_image_ratio' => 1.7,
   'row' => 128,
   'breakpoint' =>
   (array)(array(
@@ -66,6 +66,14 @@ $contact = upfront_create_region(
   'bottom_bg_padding_num' => '105',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'main',
 )
 			);
 
@@ -166,6 +174,13 @@ $contact->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -315,6 +330,10 @@ $contact->add_group(array (
   'bottom_padding_num' => '15',
   'lock_padding' => '',
   'top_padding_slider' => '50',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -430,6 +449,13 @@ $contact->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -451,8 +477,12 @@ $contact->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -474,6 +504,10 @@ $contact->add_element("PlainTxt", array (
       'order' => 0,
       'row' => 17,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1445818887383-1375',
@@ -581,6 +615,11 @@ $contact->add_element("PlainTxt", array (
     'lock_padding' => '',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -601,8 +640,12 @@ $contact->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -624,6 +667,10 @@ $contact->add_element("PlainTxt", array (
       'order' => 0,
       'top' => 0,
       'row' => 28,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1445818887383-1375',
@@ -660,6 +707,7 @@ $contact->add_element("Ucontact", array (
     'form_button_text' => 'SEND',
     'form_validate_when' => 'submit',
     'form_label_position' => 'over',
+    'preset' => 'default',
     'type' => 'UcontactModel',
     'view_class' => 'UcontactView',
     'class' => 'c24 upfront-contact-form',
@@ -695,7 +743,6 @@ $contact->add_element("Ucontact", array (
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
-    'preset' => 'default',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
     'breakpoint_presets' =>

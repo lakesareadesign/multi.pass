@@ -53,6 +53,13 @@ $cover_testimonials = upfront_create_region(
   'background_image_ratio' => 0.36999999999999999555910790149937383830547332763671875,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -68,12 +75,12 @@ $cover_testimonials->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h1><span class="upfront_theme_color_3">What People<br>​Are Saying​</span></h1>',
+    'content' => '<h2>What People<br>​Are Saying​</h2>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1459864358878-1017',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'preset' => 'default',
+    'preset' => 'cover-message',
     'padding_slider' => '10',
     'top_padding_num' => '325',
     'bottom_padding_num' => '0',
@@ -92,7 +99,7 @@ $cover_testimonials->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'default',
+         'preset' => 'cover-message',
       )),
     )),
     'top_padding_use' => 'yes',
@@ -118,7 +125,7 @@ $cover_testimonials->add_element("PlainTxt", array (
          'row' => 38,
       )),
     )),
-    'current_preset' => 'default',
+    'current_preset' => 'cover-message',
     'theme_style' => '',
   ),
   'row' => 6,
@@ -344,6 +351,7 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '100',
   'bg_padding_slider' => '100',
   'bg_padding_num' => '100',
+  'region_role' => 'main',
 )
 			);
 
@@ -451,9 +459,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1459853351706-1990',
     'padding_slider' => '10',
@@ -498,6 +507,9 @@ $main->add_element("Uimage", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -643,6 +655,9 @@ $main->add_element("PlainTxt", array (
     'left_padding_num' => 10,
     'right_padding_num' => 10,
     'anchor' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -922,6 +937,9 @@ $main->add_element("PlainTxt", array (
     'left_padding_num' => 10,
     'right_padding_num' => 10,
     'anchor' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1169,9 +1187,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'object-1459862868840-1223',
     'padding_slider' => '10',
@@ -1222,6 +1241,9 @@ $main->add_element("Uimage", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

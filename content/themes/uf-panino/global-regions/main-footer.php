@@ -33,6 +33,11 @@ $main_footer = upfront_create_region(
   ),
   'background_color' => '#ufc1',
   'version' => '1.0.0',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'contentinfo',
 )
 			);
 
@@ -130,6 +135,9 @@ $main_footer->add_element("PlainTxt", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'current_preset' => 'u-copyright-m',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -339,20 +347,22 @@ $main_footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 199,
+         'menu-item-db-id' => 203,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Terms &amp; Privacy',
          'menu-item-url' => '{{upfront:home_url}}/terms/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '199',
+         'menu-item-object-id' => '203',
          'menu-item-target' => '',
          'menu-item-position' => 1,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/terms/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/terms/',
         )),
       )),
     ),
@@ -448,6 +458,14 @@ $main_footer->add_element("Unewnavigation", array (
       )),
     )),
     'current_preset' => 'u-menu-footer-m',
+    'breakpoint_menu_id' =>
+    (array)(array(
+       'desktop' =>
+      (array)(array(
+         'menu_id' => 8,
+         'menu_slug' => 'footer-menu',
+      )),
+    )),
   ),
   'row' => 6,
   'sticky' => false,

@@ -53,6 +53,13 @@ $cover_about = upfront_create_region(
   'background_image_ratio' => 0.36999999999999999555910790149937383830547332763671875,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -128,7 +135,7 @@ $cover_about->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h1><span class="upfront_theme_color_3">Gillie<br>Brown</span></h1>',
+    'content' => '<h2>Gillie<br>Brown</h2>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1459864358878-1017',
     'class' => 'c24 upfront-plain_txt',
@@ -166,11 +173,10 @@ $cover_about->add_element("PlainTxt", array (
          'top_padding_slider' => '140',
          'top_padding_num' => '140',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '160',
          'top_padding_num' => '160',
@@ -346,6 +352,7 @@ $main = upfront_create_region(
   'bg_padding_slider' => '100',
   'bg_padding_num' => '100',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -400,12 +407,12 @@ $main->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h2 class="" style="text-align: center;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</h2>',
+    'content' => '<h3 class="" style="text-align: center;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</h3>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1459932174969-1534',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'preset' => 'block-heading',
+    'preset' => 'block-subheading',
     'padding_slider' => '10',
     'top_padding_num' => '0',
     'bottom_padding_num' => '40',
@@ -421,7 +428,11 @@ $main->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'block-heading',
+         'preset' => 'block-subheading',
+      )),
+       'mobile' =>
+      (array)(array(
+         'preset' => 'block-subheading-mobile',
       )),
     )),
     'is_edited' => true,
@@ -444,7 +455,7 @@ $main->add_element("PlainTxt", array (
          'use_padding' => 'yes',
       )),
     )),
-    'current_preset' => 'block-heading',
+    'current_preset' => 'block-subheading',
     'top_padding_use' => 'yes',
     'top_padding_slider' => '0',
     'bottom_padding_use' => 'yes',
@@ -617,7 +628,7 @@ $main->add_element("PlainTxt", array (
          'top_padding_slider' => '0',
          'top_padding_num' => '0',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -626,6 +637,19 @@ $main->add_element("PlainTxt", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
+    'breakpoint_presets' =>
+    (array)(array(
+       'desktop' =>
+      (array)(array(
+         'preset' => 'default',
+      )),
+       'mobile' =>
+      (array)(array(
+         'preset' => 'center',
+      )),
+    )),
+    'anchor' => '',
+    'theme_style' => '',
   ),
   'row' => 6,
   'sticky' => false,
@@ -788,6 +812,8 @@ $main->add_group(array (
   'left_padding_num' => 10,
   'right_padding_num' => 10,
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1096,7 +1122,6 @@ $main->add_element("PlainTxt", array (
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '200',
          'top_padding_num' => '200',
@@ -1961,11 +1986,10 @@ $main->add_element("PlainTxt", array (
          'top_padding_num' => '20',
          'row' => 40,
       )),
-       'current_property' => 'top_padding_num',
+       'current_property' => 'use_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '20',
          'top_padding_num' => '20',
@@ -1974,6 +1998,9 @@ $main->add_element("PlainTxt", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

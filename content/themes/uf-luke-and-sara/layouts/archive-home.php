@@ -63,6 +63,9 @@ $video = upfront_create_region(
   'background_video_height' => 540,
   'expand_lock' => false,
   'version' => '1.0.0',
+  'background_style' => 'service',
+  'background_video_loop' => 1,
+  'region_role' => 'complementary',
 )
 			);
 
@@ -241,6 +244,7 @@ $video->add_element("Button", array (
        'target' => '',
        'object' => 'page',
        'object_id' => 5,
+       'display_url' => '{{upfront:home_url}}/portfoli...',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
@@ -274,6 +278,9 @@ $video->add_element("Button", array (
     )),
     'bottom_padding_use' => 'yes',
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -534,6 +541,13 @@ $welcome = upfront_create_region(
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -589,6 +603,9 @@ $welcome->add_element("PlainTxt", array (
     'current_preset' => 'default',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -762,6 +779,9 @@ $welcome->add_element("PlainTxt", array (
        'current_property' => 'use_padding',
     )),
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -992,9 +1012,10 @@ $home_intro->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1450894570610-1961',
@@ -1146,9 +1167,10 @@ $home_intro->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1450894764225-1930',
@@ -1264,6 +1286,8 @@ $home_intro->add_group(array (
   'use_padding' => 'yes',
   'left_padding_num' => '10',
   'right_padding_num' => '10',
+  'href' => '',
+  'linkTarget' => false,
   'breakpoint' =>
   array (
     'tablet' =>
@@ -1508,6 +1532,9 @@ $home_intro->add_element("PlainTxt", array (
     'current_preset' => 'default',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1821,6 +1848,9 @@ $home_intro->add_element("PlainTxt", array (
     'right_padding_num' => '10',
     'anchor' => '',
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -2349,6 +2379,7 @@ $home_intro->add_element("Button", array (
        'target' => '',
        'object' => 'page',
        'object_id' => 5,
+       'display_url' => '{{upfront:home_url}}/portfoli...',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
@@ -2367,6 +2398,9 @@ $home_intro->add_element("Button", array (
     'left_padding_num' => '10',
     'right_padding_num' => '10',
     'lock_padding' => 0,
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -2646,9 +2680,10 @@ $home_intro->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1450895216495-1055',

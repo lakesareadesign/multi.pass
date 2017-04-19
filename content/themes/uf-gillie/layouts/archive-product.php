@@ -53,6 +53,13 @@ $cover_archive = upfront_create_region(
   'background_image_ratio' => 0.36999999999999999555910790149937383830547332763671875,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -289,6 +296,7 @@ $widgets = upfront_create_region(
   'bg_padding_slider' => '10',
   'bg_padding_num' => '10',
   'background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -352,9 +360,9 @@ $widgets->add_element("Uwidget", array (
     'current_widget' => 'woocommerce_product_search-1',
     'current_widget_specific_settings' =>
     (array)(array(
-       'widget-search-__i__-title' =>
+       'widget-woocommerce_product_search-__i__-title' =>
       (array)(array(
-         'label' => 'Title: ',
+         'label' => 'Title',
          'name' => 'title',
          'type' => 'text',
          'value' => '',
@@ -569,6 +577,7 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '100',
   'bg_padding_slider' => '100',
   'bg_padding_num' => '100',
+  'region_role' => 'main',
 )
 			);
 

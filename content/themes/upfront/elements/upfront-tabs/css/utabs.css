@@ -10,6 +10,10 @@
 	font-weight: bold;
 }
 
+.tabs-tab:focus {
+	outline: #2ea3f2 auto 5px;
+}
+
 .tabs-tab-active p {
 	font-weight: inherit;
 }
@@ -67,4 +71,4 @@
 }
 
 
-/* 133620-1484344539-au */
+/* 133620-1492562833-au */

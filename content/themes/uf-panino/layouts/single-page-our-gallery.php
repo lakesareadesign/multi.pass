@@ -55,6 +55,13 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -110,7 +117,7 @@ $main->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<h1 style="text-align: center;" class="">Gallery</h1>',
+    'content' => '<h2 style="text-align: center;" class="">Gallery</h2>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1429597710225-1840',
     'class' => 'c24 upfront-plain_txt',
@@ -150,6 +157,10 @@ $main->add_element("PlainTxt", array (
     'preset' => 'u-section-title-m',
     'breakpoint_presets' =>
     (array)(array(
+       'tablet' =>
+      (array)(array(
+         'preset' => 'center',
+      )),
        'desktop' =>
       (array)(array(
          'preset' => 'u-section-title-m',
@@ -1524,7 +1535,7 @@ $main->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<h2 class=""><span>Our coffees come with a smile.</span><span></span></h2><p class="">Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica quam.</p>',
+    'content' => '<h3 class="">Our coffees come with a smile.<span data-redactor-tag="span"></span></h3><p class="">Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica quam.</p>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1429597719473-1541',
     'class' => 'c24 upfront-plain_txt',

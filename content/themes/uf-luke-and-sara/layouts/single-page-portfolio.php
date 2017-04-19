@@ -60,6 +60,8 @@ $slider = upfront_create_region(
     1 => 'images/bg-wedding.jpg',
   ),
   'version' => '1.0.0',
+  'background_slider_control_style' => 'both',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -118,6 +120,13 @@ $platinum = upfront_create_region(
   'bottom_bg_padding_num' => '10',
   'bg_padding_slider' => '10',
   'bg_padding_num' => '10',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -216,6 +225,11 @@ $platinum->add_element("PlainTxt", array (
     'use_padding' => 'yes',
     'lock_padding' => '',
     'top_padding_slider' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -394,6 +408,11 @@ $platinum->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -500,7 +519,8 @@ $platinum->add_element("Ugallery", array (
     array (
       0 =>
       (array)(array(
-         'id' => 190,
+         'id' => 151,
+         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-1-360x545-4517.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-1.jpg',
          'sizes' =>
         (array)(array(
@@ -591,14 +611,9 @@ $platinum->add_element("Ugallery", array (
            'left' => 38,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-1-360x545-4517.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1428725161910-1512',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-1.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-1.jpg',
          'title' => '<p class="nosortable" style="text-align: center;">SALLY</p>',
          'caption' => '<p class="nosortable" style="text-align: center;">SALLY</p>',
          'alt' => '',
@@ -619,13 +634,18 @@ $platinum->add_element("Ugallery", array (
            'object_id' => 1776,
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1428725161910-1512',
+         'urlType' => 'image',
          'imageLinkType' => 'entry',
          'imageLinkUrl' => '{{upfront:home_url}}/sally/',
          'imageLinkTarget' => '',
       )),
       1 =>
       (array)(array(
-         'id' => 191,
+         'id' => 152,
+         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-2-360x545-8155.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-2.jpg',
          'sizes' =>
         (array)(array(
@@ -715,14 +735,9 @@ $platinum->add_element("Ugallery", array (
            'left' => 38,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-2-360x545-8155.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1428725161910-1512',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-2.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-2.jpg',
          'title' => '<p class="nosortable">HAPPILY EVER AFTER</p>',
          'caption' => '<p class="nosortable">HAPPILY EVER AFTER</p>',
          'alt' => '',
@@ -743,13 +758,18 @@ $platinum->add_element("Ugallery", array (
            'object_id' => 1784,
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1428725161910-1512',
+         'urlType' => 'image',
          'imageLinkType' => 'entry',
          'imageLinkUrl' => '{{upfront:home_url}}/happily-ever-after/',
          'imageLinkTarget' => '',
       )),
       2 =>
       (array)(array(
-         'id' => 192,
+         'id' => 153,
+         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-3-360x545-5166.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-3.jpg',
          'sizes' =>
         (array)(array(
@@ -839,14 +859,9 @@ $platinum->add_element("Ugallery", array (
            'left' => 40,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-3-360x545-5166.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1428725161910-1512',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-3.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-3.jpg',
          'title' => '<p class="nosortable">HARRY + SALLY</p>',
          'caption' => '<p class="nosortable">HARRY + SALLY</p>',
          'alt' => '',
@@ -867,13 +882,18 @@ $platinum->add_element("Ugallery", array (
            'object_id' => 1789,
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1428725161910-1512',
+         'urlType' => 'image',
          'imageLinkType' => 'entry',
          'imageLinkUrl' => '{{upfront:home_url}}/harry-and-sally/',
          'imageLinkTarget' => '',
       )),
       3 =>
       (array)(array(
-         'id' => 193,
+         'id' => 154,
+         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-4-360x545-7358.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-4.jpg',
          'sizes' =>
         (array)(array(
@@ -963,14 +983,9 @@ $platinum->add_element("Ugallery", array (
            'left' => 38,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-4-360x545-7358.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1428725161910-1512',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-4.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-4.jpg',
          'title' => '<p>WEDDING DRESS</p>',
          'caption' => '<p>WEDDING DRESS</p>',
          'alt' => '',
@@ -991,13 +1006,18 @@ $platinum->add_element("Ugallery", array (
            'object_id' => 1792,
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1428725161910-1512',
+         'urlType' => 'image',
          'imageLinkType' => 'entry',
          'imageLinkUrl' => '{{upfront:home_url}}/wedding-dress/',
          'imageLinkTarget' => '',
       )),
       4 =>
       (array)(array(
-         'id' => 194,
+         'id' => 155,
+         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-5-360x545-5948.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-5.jpg',
          'sizes' =>
         (array)(array(
@@ -1087,14 +1107,9 @@ $platinum->add_element("Ugallery", array (
            'left' => 38,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-5-360x545-5948.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1428725161910-1512',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-5.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-5.jpg',
          'title' => '<p class="nosortable">BEAUTIFUL BRIDE</p>',
          'caption' => '<p class="nosortable">BEAUTIFUL BRIDE</p>',
          'alt' => '',
@@ -1115,13 +1130,18 @@ $platinum->add_element("Ugallery", array (
            'object_id' => 1795,
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1428725161910-1512',
+         'urlType' => 'image',
          'imageLinkType' => 'entry',
          'imageLinkUrl' => '{{upfront:home_url}}/beautiful-bride/',
          'imageLinkTarget' => '',
       )),
       5 =>
       (array)(array(
-         'id' => 195,
+         'id' => 156,
+         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-6-360x545-5154.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-portfolio/Image-6.jpg',
          'sizes' =>
         (array)(array(
@@ -1211,14 +1231,9 @@ $platinum->add_element("Ugallery", array (
            'left' => 38,
            'top' => 0,
         )),
-         'src' => '{{upfront:style_url}}/images/single-page-portfolio/Image-6-360x545-5154.jpg',
-         'loading' => false,
-         'status' => 'ok',
-         'element_id' => 'ugallery-object-1428725161910-1512',
-         'urlType' => 'image',
-         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-6.jpg',
          'rotation' => 0,
          'link' => 'original',
+         'url' => '{{upfront:style_url}}/images/single-page-portfolio/Image-6.jpg',
          'title' => '<p class="nosortable">GROOM\'S JACKET</p>',
          'caption' => '<p class="nosortable">GROOM\'S JACKET</p>',
          'alt' => '',
@@ -1239,6 +1254,10 @@ $platinum->add_element("Ugallery", array (
            'object_id' => 1812,
         )),
          'linkTarget' => '',
+         'loading' => false,
+         'status' => 'ok',
+         'element_id' => 'ugallery-object-1428725161910-1512',
+         'urlType' => 'image',
          'imageLinkType' => 'entry',
          'imageLinkUrl' => '{{upfront:home_url}}/jacket/',
          'imageLinkTarget' => '',
@@ -1447,6 +1466,7 @@ $premium = upfront_create_region(
   'bottom_bg_padding_num' => '80',
   'bg_padding_slider' => '80',
   'bg_padding_num' => '80',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -1548,6 +1568,11 @@ $premium->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1689,7 +1714,7 @@ $premium->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => 'yes',
@@ -1698,6 +1723,11 @@ $premium->add_group(array (
   'bottom_padding_slider' => '10',
   'row' => 76,
   'background_default' => 'hide',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1814,9 +1844,10 @@ $premium->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1431561673581-1733',
@@ -1857,6 +1888,9 @@ $premium->add_element("Uimage", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1969,6 +2003,9 @@ $premium->add_element("PlainTxt", array (
     'bottom_padding_slider' => '10',
     'top_padding_use' => 'yes',
     'top_padding_slider' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -2280,6 +2317,7 @@ $premium->add_element("Button", array (
        'type' => 'entry',
        'url' => '{{upfront:home_url}}/pricing/',
        'target' => '_self',
+       'display_url' => 'http://lukesara.upfront.d...',
     )),
     'currentpreset' => false,
     'row' => 10,
@@ -2315,6 +2353,9 @@ $premium->add_element("Button", array (
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -2379,7 +2420,7 @@ $premium->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'theme_style' => '_default',
@@ -2393,6 +2434,10 @@ $premium->add_group(array (
   'bottom_padding_slider' => '0',
   'lock_padding' => '',
   'background_default' => 'hide',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2546,9 +2591,10 @@ $premium->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1431565374894-1462',
@@ -2590,6 +2636,9 @@ $premium->add_element("Uimage", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -2777,6 +2826,9 @@ $premium->add_element("PlainTxt", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -3198,6 +3250,7 @@ $premium->add_element("Button", array (
        'type' => 'entry',
        'url' => '{{upfront:home_url}}/pricing/',
        'target' => '_self',
+       'display_url' => 'http://lukesara.upfront.d...',
     )),
     'currentpreset' => false,
     'row' => 10,
@@ -3227,6 +3280,9 @@ $premium->add_element("Button", array (
     'right_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
     'left_padding_use' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -3291,7 +3347,7 @@ $premium->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => 'yes',
@@ -3303,6 +3359,10 @@ $premium->add_group(array (
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '10',
   'background_default' => 'hide',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -3420,9 +3480,10 @@ $premium->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1445984201620-1070',
@@ -3456,6 +3517,9 @@ $premium->add_element("Uimage", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -3565,6 +3629,9 @@ $premium->add_element("PlainTxt", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -3867,6 +3934,7 @@ $premium->add_element("Button", array (
        'type' => 'entry',
        'url' => '{{upfront:home_url}}/pricing/',
        'target' => '_self',
+       'display_url' => 'http://lukesara.upfront.d...',
     )),
     'currentpreset' => false,
     'row' => 10,
@@ -3902,6 +3970,9 @@ $premium->add_element("Button", array (
     'bottom_padding_slider' => '0',
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

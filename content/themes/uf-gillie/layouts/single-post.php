@@ -58,6 +58,11 @@ $cover_left = upfront_create_region(
   'bg_padding_slider' => '215',
   'bg_padding_num' => '215',
   'background_color' => 'rgba(0,0,0,0)',
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'region_role' => false,
 )
 			);
 
@@ -90,6 +95,13 @@ $cover_left->add_group(array (
   'anchor' => '',
   'left_padding_num' => 10,
   'right_padding_num' => 10,
+  'href' => '',
+  'linkTarget' => false,
+  'origin_position_y' => 50,
+  'origin_position_x' => 50,
+  'use_background_size_percent' => '',
+  'background_size_percent' => 100,
+  'featured_fallback_background_color' => '#ffffff',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -524,8 +536,13 @@ $cover_left->add_element("PostData", array (
           'col' => 5,
         ),
       ),
-      'preset' => 'default',
-      'current_preset' => 'default',
+      'preset' => 'cover-author-name',
+      'current_preset' => 'cover-author-name',
+      'top_padding_num' => 10,
+      'left_padding_num' => 10,
+      'right_padding_num' => 10,
+      'bottom_padding_num' => 10,
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -954,7 +971,7 @@ $cover_left->add_element("PostData", array (
     'post-part-date_posted' => '<div class="upostdata-part date_posted">
 	Posted on <span class="date">{{date}}</span></div>',
     'post-part-title' => '<div class="upostdata-part title">
-	<h1>{{title}}</h1>
+	<h2>{{title}}</h2>
 </div>
 ',
     'post-part-content' => '<div class="upostdata-part content">
@@ -1099,6 +1116,11 @@ $cover_left->add_element("PostData", array (
       'row' => 10,
       'preset' => 'default',
       'current_preset' => 'default',
+      'top_padding_num' => 10,
+      'left_padding_num' => 10,
+      'right_padding_num' => 10,
+      'bottom_padding_num' => 10,
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -1371,13 +1393,19 @@ $cover_post = upfront_create_region(
   'bg_padding_num' => '0',
   'background_color' => '#ufc2',
   'background_style' => 'full',
-  'background_default' => '',
+  'background_default' => 'color',
   'background_position_y' => '50',
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-post/testimonials.jpg',
   'background_image_ratio' => 0.36999999999999999555910790149937383830547332763671875,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ufc2',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -1438,6 +1466,7 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '100',
   'bg_padding_slider' => '100',
   'bg_padding_num' => '100',
+  'region_role' => 'main',
 )
 			);
 
@@ -1659,6 +1688,11 @@ $main->add_element("PostData", array (
       ),
       'preset' => 'default',
       'current_preset' => 'default',
+      'top_padding_num' => 10,
+      'left_padding_num' => 10,
+      'right_padding_num' => 10,
+      'bottom_padding_num' => 10,
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -1951,166 +1985,166 @@ $main->add_element("PostData", array (
   array (
     0 =>
     array (
-      'columns' => '18',
-      'margin_left' => '0',
-      'margin_right' => '0',
-      'margin_top' => '0',
-      'margin_bottom' => '0',
-      'class' => 'upfront-post-data-part part-comment_form',
+      'columns' => '24',
+      'class' => 'upfront-post-data-part',
       'view_class' => 'PostDataPartView',
-      'part_type' => 'comment_form',
-      'wrapper_id' => 'wrapper-1460368652245-1823',
+      'part_type' => 'comments',
+      'wrapper_id' => 'wrapper-1487758194674-1954',
       'type' => 'PostDataPartModel',
       'id_slug' => 'post-data-part',
-      'element_id' => 'post-data-part-object-1460367788893-1260',
-      'padding_slider' => '10',
+      'element_id' => 'post-data-part-object-1487758194675-1029',
+      'padding_slider' => 10,
+      'top_padding_num' => 10,
+      'left_padding_num' => 10,
+      'right_padding_num' => 10,
+      'bottom_padding_num' => 10,
+      'lock_padding' => 0,
       'use_padding' => 'yes',
+      'new_line' => true,
       'wrapper_breakpoint' =>
       array (
         'tablet' =>
         array (
+          'clear' => true,
           'col' => 12,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
         'mobile' =>
         array (
+          'clear' => true,
           'col' => 7,
+          'order' => 1,
         ),
       ),
-      'preset' => 'default',
-      'current_preset' => 'default',
-      'new_line' => true,
       'breakpoint' =>
       array (
         'tablet' =>
         array (
-          'edited' => false,
-          'left' => 0,
           'col' => 12,
-          'order' => 0,
-          'use_padding' => 'yes',
-        ),
-        'mobile' =>
-        array (
-          'edited' => false,
-          'left' => 0,
-          'col' => 7,
-          'order' => 0,
-          'use_padding' => 'yes',
           'hide' => 0,
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'hide',
+        ),
+        'mobile' =>
+        array (
+          'col' => 7,
+          'hide' => 0,
         ),
       ),
     ),
     1 =>
     array (
       'columns' => '24',
-      'margin_left' => '0',
-      'margin_right' => '0',
-      'margin_top' => '0',
-      'margin_bottom' => '0',
       'class' => 'upfront-post-data-part',
       'view_class' => 'PostDataPartView',
-      'part_type' => 'comments',
-      'wrapper_id' => 'wrapper-1461061447737-1685',
+      'part_type' => 'comments_pagination',
+      'wrapper_id' => 'wrapper-1487758194811-1907',
       'type' => 'PostDataPartModel',
       'id_slug' => 'post-data-part',
-      'element_id' => 'post-data-part-object-1461061447739-1969',
-      'padding_slider' => '10',
+      'element_id' => 'post-data-part-object-1487758194812-1151',
+      'padding_slider' => 10,
+      'top_padding_num' => 10,
+      'left_padding_num' => 10,
+      'right_padding_num' => 10,
+      'bottom_padding_num' => 10,
+      'lock_padding' => 0,
       'use_padding' => 'yes',
+      'new_line' => true,
       'wrapper_breakpoint' =>
       array (
         'tablet' =>
         array (
+          'clear' => true,
           'col' => 12,
+          'order' => 2,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
         'mobile' =>
         array (
+          'clear' => true,
           'col' => 7,
+          'order' => 2,
         ),
       ),
-      'current_preset' => 'default',
-      'preset' => 'default',
-      'new_line' => true,
       'breakpoint' =>
       array (
         'tablet' =>
         array (
-          'edited' => false,
-          'left' => 0,
           'col' => 12,
-          'order' => 0,
-          'use_padding' => 'yes',
-        ),
-        'mobile' =>
-        array (
-          'edited' => false,
-          'left' => 0,
-          'col' => 7,
-          'order' => 0,
-          'hide' => 0,
-          'use_padding' => 'yes',
+          'hide' => 1,
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'hide',
+        ),
+        'mobile' =>
+        array (
+          'col' => 7,
+          'hide' => 1,
         ),
       ),
     ),
     2 =>
     array (
       'columns' => '24',
-      'margin_left' => '0',
-      'margin_right' => '0',
-      'margin_top' => '0',
-      'margin_bottom' => '0',
       'class' => 'upfront-post-data-part',
       'view_class' => 'PostDataPartView',
-      'part_type' => 'comments_pagination',
-      'wrapper_id' => 'wrapper-1461077645245-1292',
+      'part_type' => 'comment_form',
+      'wrapper_id' => 'wrapper-1487758213368-1675',
       'type' => 'PostDataPartModel',
       'id_slug' => 'post-data-part',
-      'element_id' => 'post-data-part-object-1461077645246-1118',
-      'padding_slider' => '10',
+      'element_id' => 'post-data-part-object-1487758213369-1281',
+      'padding_slider' => 10,
+      'top_padding_num' => 10,
+      'left_padding_num' => 10,
+      'right_padding_num' => 10,
+      'bottom_padding_num' => 10,
+      'lock_padding' => 0,
       'use_padding' => 'yes',
+      'new_line' => true,
       'wrapper_breakpoint' =>
       array (
         'tablet' =>
         array (
+          'clear' => true,
           'col' => 12,
+          'order' => 3,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
         'mobile' =>
         array (
+          'clear' => true,
           'col' => 7,
+          'order' => 3,
         ),
       ),
-      'current_preset' => 'default',
-      'preset' => 'default',
-      'new_line' => true,
       'breakpoint' =>
       array (
         'tablet' =>
         array (
-          'edited' => false,
-          'left' => 0,
           'col' => 12,
-          'order' => 0,
-          'use_padding' => 'yes',
-        ),
-        'mobile' =>
-        array (
-          'edited' => false,
-          'left' => 0,
-          'col' => 7,
-          'order' => 0,
-          'hide' => 1,
-          'use_padding' => 'yes',
+          'hide' => 0,
         ),
         'current_property' =>
         array (
-          0 => 'use_padding',
+          0 => 'hide',
+        ),
+        'mobile' =>
+        array (
+          'col' => 7,
+          'hide' => 0,
         ),
       ),
     ),

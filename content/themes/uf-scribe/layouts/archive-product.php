@@ -53,28 +53,45 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '70',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
 $content->add_element("Uspacer", array (
   'columns' => '2',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1477278935146-1269 upfront-module-spacer',
   'id' => 'module-1477278935146-1269',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1477278935146-1381',
     'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1477278935146-1381',
   ),
-  'wrapper_id' => 'wrapper-1477278935146-1672',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
-  'edited' => true,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1477278935146-1672',
   'new_line' => true,
+  'wrapper_breakpoint' =>
+  array (
+    'tablet' =>
+    array (
+      'col' => 2,
+    ),
+    'mobile' =>
+    array (
+      'col' => 2,
+    ),
+  ),
 ));
 
 $content->add_element("Posts", array (
@@ -211,7 +228,6 @@ $content->add_element("Posts", array (
   'hide' => 0,
   'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1477269913105-1675',
-  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -258,22 +274,38 @@ $content->add_element("Posts", array (
 
 $content->add_element("Uspacer", array (
   'columns' => '2',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1477278937373-1199 upfront-module-spacer',
   'id' => 'module-1477278937373-1199',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1477278937372-1131',
     'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1477278937372-1131',
   ),
-  'wrapper_id' => 'wrapper-1477278937372-1946',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
-  'edited' => true,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1477278937372-1946',
+  'wrapper_breakpoint' =>
+  array (
+    'tablet' =>
+    array (
+      'col' => 2,
+    ),
+    'mobile' =>
+    array (
+      'col' => 2,
+    ),
+  ),
 ));
 
 $regions->add($content);

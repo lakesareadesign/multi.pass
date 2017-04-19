@@ -47,7 +47,7 @@ $home_hero = upfront_create_region(
   'background_position_y' => '50',
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/archive-home/_MG_8032 (5).jpg',
-  'background_image_ratio' => 0.67000000000000004,
+  'background_image_ratio' => 0.67000000000000003996802888650563545525074005126953125,
   'background_repeat' => 'repeat',
   'background_position' => '50% 50%',
   'version' => '1.0.0',
@@ -164,6 +164,9 @@ $home_hero->add_element("PlainTxt", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => 0,
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -510,6 +513,7 @@ $home_hero->add_element("Button", array (
        'target' => '',
        'object' => 'page',
        'object_id' => 5,
+       'display_url' => '{{upfront:home_url}}/about/',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -532,6 +536,12 @@ $home_hero->add_element("Button", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => 0,
+    'breakpoint_presets' =>
+    array (
+    ),
+    'anchor' => '',
+    'current_preset' => 'default',
+    'theme_style' => '',
   ),
   'row' => 6,
   'sticky' => false,
@@ -690,6 +700,8 @@ $region_1->add_group(array (
   'left_padding_num' => '15',
   'right_padding_num' => '15',
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -805,9 +817,10 @@ $region_1->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1444838864627-1250',
@@ -832,6 +845,10 @@ $region_1->add_element("Uimage", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => 0,
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1019,6 +1036,8 @@ $region_1->add_group(array (
   'left_padding_num' => '15',
   'right_padding_num' => '15',
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1138,9 +1157,10 @@ $region_1->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'object-1444840067757-1692',
@@ -1165,6 +1185,10 @@ $region_1->add_element("Uimage", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => 0,
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1352,6 +1376,8 @@ $region_1->add_group(array (
   'left_padding_num' => '15',
   'right_padding_num' => '15',
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1471,9 +1497,10 @@ $region_1->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'object-1444840072743-1836',
@@ -1498,6 +1525,10 @@ $region_1->add_element("Uimage", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => 0,
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1731,6 +1762,7 @@ $region_1->add_element("Button", array (
        'target' => '',
        'object' => 'page',
        'object_id' => 1705,
+       'display_url' => '{{upfront:home_url}}/services...',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -1755,6 +1787,9 @@ $region_1->add_element("Button", array (
          'use_padding' => 'yes',
       )),
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

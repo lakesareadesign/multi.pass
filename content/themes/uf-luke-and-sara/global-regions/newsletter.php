@@ -62,6 +62,13 @@ $newsletter = upfront_create_region(
   'background_repeat' => 'repeat',
   'version' => '1.0.0',
   'expand_lock' => false,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -207,7 +214,7 @@ $newsletter->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => 0,
@@ -222,6 +229,10 @@ $newsletter->add_group(array (
   'origin_position_y' => 50,
   'origin_position_x' => 50,
   'background_size_percent' => 100,
+  'href' => '',
+  'linkTarget' => false,
+  'use_background_size_percent' => '',
+  'featured_fallback_background_color' => '#ffffff',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -338,9 +349,10 @@ $newsletter->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1451184993073-1294',

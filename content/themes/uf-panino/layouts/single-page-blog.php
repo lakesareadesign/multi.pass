@@ -50,6 +50,13 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -105,7 +112,7 @@ $main->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<h1 class="" style="text-align: center;">Blog</h1>',
+    'content' => '<h2 class="" style="text-align: center;">Blog</h2>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1427786246386-1822',
     'class' => 'c24 upfront-plain_txt',
@@ -130,6 +137,10 @@ $main->add_element("PlainTxt", array (
     'right_padding_num' => '15',
     'breakpoint_presets' =>
     (array)(array(
+       'tablet' =>
+      (array)(array(
+         'preset' => 'center',
+      )),
        'desktop' =>
       (array)(array(
          'preset' => 'u-section-title-m',
@@ -319,6 +330,9 @@ $main->add_element("Uwidget", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

@@ -175,7 +175,7 @@ class Upfront_Posts_PostsData {
 			'post_parts_sorter' => __('Drag to re-order Post Parts', 'upfront'),
 			'select_custom_post' => __('Select custom post', 'upfront'),
 			'add_custom_post' => __('Add a custom post', 'upfront'),
-            'resize_featured' => __('Re-size featured image to fit container', 'upfront'),
+			'resize_featured' => __('Re-size featured image to fit container', 'upfront'),
 			'general_settings' => __('General Settings', 'upfront'),
 			'post_part_settings' => __('Post Parts Settings', 'upfront'),
 

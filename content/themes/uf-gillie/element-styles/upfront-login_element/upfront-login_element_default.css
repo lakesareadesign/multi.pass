@@ -45,7 +45,7 @@ div.upfront-login_element-object .upfront_login-form form#loginform label {
 .upfront-login_element-object .upfront_login.upfront_login-hover .upfront_login-form, .upfront-login_element-object .upfront_login.upfront_login-click .upfront_login-form {
     border: 2px solid #ufc7;
 }
-.upfront-login_element-object .upfront_login.upfront_login-hover:hover .upfront_login-form:before, .upfront-login_element-object .upfront_login.upfront_login-click.active .upfront_login-form:before {
+.upfront-login_element-object .upfront_login.upfront_login-hover:hover .upfront_login-form:before, .upfront-login_element-object .upfront_login.upfront_login-click.active .upfront_login-form:before {	  	 				  	 	  		 	 
     border-top: 2px solid #ufc7;
     border-left: 2px solid #ufc7;
 }
@@ -55,4 +55,4 @@ div.upfront-login_element-object .upfront_login-form form#loginform label {
 }
 
 
-/* 133620-1481397500-au */
+/* 133620-1492562771-au */

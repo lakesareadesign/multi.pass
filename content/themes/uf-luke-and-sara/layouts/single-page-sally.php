@@ -53,6 +53,8 @@ $sally_slider = upfront_create_region(
     1 => 'images/slider-sally-woods.jpg',
   ),
   'version' => '1.0.0',
+  'background_slider_control_style' => 'both',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -105,6 +107,13 @@ $sally_content = upfront_create_region(
   'bottom_bg_padding_num' => '10',
   'bg_padding_slider' => '10',
   'bg_padding_num' => '10',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -176,6 +185,11 @@ $sally_content->add_element("PlainTxt", array (
     'padding_slider' => '10',
     'preset' => 'default',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -199,6 +213,10 @@ $sally_content->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -215,6 +233,10 @@ $sally_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -325,6 +347,11 @@ $sally_content->add_element("PlainTxt", array (
     'padding_slider' => '10',
     'preset' => 'default',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -348,6 +375,10 @@ $sally_content->add_element("PlainTxt", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -364,6 +395,10 @@ $sally_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -520,6 +555,10 @@ $sally_content->add_element("PlainTxt", array (
       'order' => 3,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -536,6 +575,10 @@ $sally_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -697,9 +740,10 @@ $sally_images->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452144297001-1553',
@@ -729,6 +773,9 @@ $sally_images->add_element("Uimage", array (
          'row' => 36,
       )),
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -750,8 +797,12 @@ $sally_images->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -771,6 +822,10 @@ $sally_images->add_element("Uimage", array (
       'col' => 7,
       'order' => 0,
       'row' => 36,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -840,9 +895,10 @@ $sally_images->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452144526265-1851',
@@ -868,6 +924,9 @@ $sally_images->add_element("Uimage", array (
          'row' => 63,
       )),
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -889,12 +948,12 @@ $sally_images->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -988,9 +1047,10 @@ $sally_images->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452144531870-1915',
@@ -1016,6 +1076,9 @@ $sally_images->add_element("Uimage", array (
          'row' => 63,
       )),
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1036,12 +1099,12 @@ $sally_images->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>

@@ -53,6 +53,7 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '70',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -85,11 +86,11 @@ $content->add_element("Uspacer", array (
   array (
     'tablet' =>
     array (
-      'col' => 1,
+      'col' => 2,
     ),
     'mobile' =>
     array (
-      'col' => 1,
+      'col' => 2,
     ),
   ),
 ));
@@ -299,11 +300,11 @@ $content->add_element("Uspacer", array (
   array (
     'tablet' =>
     array (
-      'col' => 1,
+      'col' => 2,
     ),
     'mobile' =>
     array (
-      'col' => 1,
+      'col' => 2,
     ),
   ),
 ));

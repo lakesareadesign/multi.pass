@@ -53,6 +53,13 @@ $cover_gallery = upfront_create_region(
   'background_image_ratio' => 0.36999999999999999555910790149937383830547332763671875,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -128,7 +135,7 @@ $cover_gallery->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h1><span class="upfront_theme_color_3" data-verified="redactor" data-redactor-tag="span" data-redactor-class="upfront_theme_color_3">Our<br>​Gallery​</span></h1>',
+    'content' => '<h2>Our<br>​Gallery​</h2>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1459864358878-1017',
     'class' => 'c24 upfront-plain_txt',
@@ -344,6 +351,7 @@ $main = upfront_create_region(
   'bg_padding_slider' => '100',
   'bg_padding_num' => '100',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -1327,6 +1335,9 @@ $main->add_element("Ugallery", array (
       )),
     )),
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

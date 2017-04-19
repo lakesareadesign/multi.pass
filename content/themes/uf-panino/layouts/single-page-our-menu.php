@@ -47,6 +47,17 @@ $main = upfront_create_region(
   'background_image_ratio' => 0.810000000000000053290705182007513940334320068359375,
   'background_repeat' => 'repeat',
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -147,6 +158,9 @@ $main->add_element("Utabs", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'current_preset' => 'special-menu-tabs',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -347,9 +361,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1444624280214-1592',
@@ -364,6 +379,9 @@ $main->add_element("Uimage", array (
     'lock_padding' => 0,
     'anchor' => '',
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -439,6 +457,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://www.facebook.com',
        'target' => '_blank',
+       'display_url' => 'http://www.facebook.com',
     )),
     'currentpreset' => false,
     'row' => 13,
@@ -474,6 +493,9 @@ $main->add_element("Button", array (
     'padding_number' => '15',
     'anchor' => '',
     'current_preset' => 'button-social-facebook',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -607,6 +629,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://www.twitter.com',
        'target' => '_blank',
+       'display_url' => 'http://www.twitter.com',
     )),
     'currentpreset' => false,
     'row' => 8,
@@ -642,6 +665,9 @@ $main->add_element("Button", array (
     'padding_number' => '15',
     'anchor' => '',
     'current_preset' => 'button-social-twitter',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,

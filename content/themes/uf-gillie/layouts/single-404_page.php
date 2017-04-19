@@ -53,6 +53,13 @@ $cover_404 = upfront_create_region(
   'background_image_ratio' => 0.36999999999999999555910790149937383830547332763671875,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -145,6 +152,8 @@ $cover_404->add_group(array (
   'left_padding_num' => 10,
   'right_padding_num' => 10,
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -333,6 +342,7 @@ $cover_404->add_element("Button", array (
        'type' => 'homepage',
        'url' => '{{upfront:home_url}}',
        'target' => '',
+       'display_url' => '{{upfront:home_url}}',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '20',
@@ -722,6 +732,7 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '50',
   'bg_padding_slider' => '50',
   'bg_padding_num' => '50',
+  'region_role' => 'main',
 )
 			);
 

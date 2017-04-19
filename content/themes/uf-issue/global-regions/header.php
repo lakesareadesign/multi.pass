@@ -1,6 +1,6 @@
 <?php
 /* START_REGION_OUTPUT */
-$region_95972e = upfront_create_region(
+$region_f660c9 = upfront_create_region(
 			array (
   'name' => 'header',
   'title' => 'Header',
@@ -40,10 +40,11 @@ $region_95972e = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc0',
+  'region_role' => 'banner',
 )
 			);
 
-$region_95972e->add_element("PlainTxt", array (
+$region_f660c9->add_element("PlainTxt", array (
   'columns' => '2',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -151,7 +152,7 @@ $region_95972e->add_element("PlainTxt", array (
   ),
 ));
 
-$region_95972e->add_element("Unewnavigation", array (
+$region_f660c9->add_element("Unewnavigation", array (
   'columns' => '22',
   'margin_left' => '0',
   'margin_right' => '0',
@@ -170,105 +171,116 @@ $region_95972e->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 1039,
+         'menu-item-db-id' => 204,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
-         'menu-item-title' => 'Issues',
-         'menu-item-url' => '{{upfront:home_url}}/blog/',
+         'menu-item-title' => 'Our Story',
+         'menu-item-url' => '#',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1039',
+         'menu-item-object-id' => '204',
          'menu-item-target' => '',
          'menu-item-position' => 1,
+         'menu-item-classes' => '',
+         'link' =>
+        (array)(array(
+           'type' => 'unlink',
+           'url' => '#',
+           'target' => '',
+           'display_url' => '#',
+        )),
+      )),
+      1 =>
+      (array)(array(
+         'menu-item-db-id' => 205,
+         'menu-item-parent-id' => '0',
+         'menu-item-type' => 'custom',
+         'menu-item-title' => 'Menu',
+         'menu-item-url' => '#',
+         'menu-item-object' => 'custom',
+         'menu-item-object-id' => '205',
+         'menu-item-target' => '',
+         'menu-item-position' => 2,
+         'menu-item-classes' => '',
+         'link' =>
+        (array)(array(
+           'type' => 'unlink',
+           'url' => '#',
+           'target' => '',
+           'display_url' => '#',
+        )),
+      )),
+      2 =>
+      (array)(array(
+         'menu-item-db-id' => 206,
+         'menu-item-parent-id' => '0',
+         'menu-item-type' => 'custom',
+         'menu-item-title' => 'Gallery',
+         'menu-item-url' => '#',
+         'menu-item-object' => 'custom',
+         'menu-item-object-id' => '206',
+         'menu-item-target' => '',
+         'menu-item-position' => 3,
+         'menu-item-classes' => '',
+         'link' =>
+        (array)(array(
+           'type' => 'unlink',
+           'url' => '#',
+           'target' => '',
+           'display_url' => '#',
+        )),
+      )),
+      3 =>
+      (array)(array(
+         'menu-item-db-id' => 207,
+         'menu-item-parent-id' => '0',
+         'menu-item-type' => 'custom',
+         'menu-item-title' => 'Blog',
+         'menu-item-url' => '{{upfront:home_url}}/blog/',
+         'menu-item-object' => 'custom',
+         'menu-item-object-id' => '207',
+         'menu-item-target' => '',
+         'menu-item-position' => 4,
+         'menu-item-classes' => '',
          'sub' =>
         array (
           0 =>
           (array)(array(
-             'menu-item-db-id' => 1040,
-             'menu-item-parent-id' => '1039',
+             'menu-item-db-id' => 208,
+             'menu-item-parent-id' => '207',
              'menu-item-type' => 'custom',
-             'menu-item-title' => 'TV',
-             'menu-item-url' => '{{upfront:home_url}}/tv/',
+             'menu-item-title' => 'Blog',
+             'menu-item-url' => '{{upfront:home_url}}/blog/',
              'menu-item-object' => 'custom',
-             'menu-item-object-id' => '1040',
+             'menu-item-object-id' => '208',
              'menu-item-target' => '',
-             'menu-item-position' => 2,
+             'menu-item-position' => 5,
+             'menu-item-classes' => '',
              'link' =>
             (array)(array(
                'type' => 'entry',
-               'url' => '{{upfront:home_url}}/tv/',
+               'url' => '{{upfront:home_url}}/blog/',
                'target' => '',
+               'display_url' => '{{upfront:home_url}}/blog/',
             )),
           )),
           1 =>
           (array)(array(
-             'menu-item-db-id' => 1041,
-             'menu-item-parent-id' => '1039',
+             'menu-item-db-id' => 209,
+             'menu-item-parent-id' => '207',
              'menu-item-type' => 'custom',
-             'menu-item-title' => 'Photography',
-             'menu-item-url' => '{{upfront:home_url}}/photography/',
+             'menu-item-title' => 'Blog',
+             'menu-item-url' => '{{upfront:home_url}}/blog-2/',
              'menu-item-object' => 'custom',
-             'menu-item-object-id' => '1041',
-             'menu-item-target' => '',
-             'menu-item-position' => 3,
-             'link' =>
-            (array)(array(
-               'type' => 'entry',
-               'url' => '{{upfront:home_url}}/photography/',
-               'target' => '',
-            )),
-          )),
-          2 =>
-          (array)(array(
-             'menu-item-db-id' => 1042,
-             'menu-item-parent-id' => '1039',
-             'menu-item-type' => 'custom',
-             'menu-item-title' => 'Tech News',
-             'menu-item-url' => '{{upfront:home_url}}/tech-news/',
-             'menu-item-object' => 'custom',
-             'menu-item-object-id' => '1042',
-             'menu-item-target' => '',
-             'menu-item-position' => 4,
-             'link' =>
-            (array)(array(
-               'type' => 'entry',
-               'url' => '{{upfront:home_url}}/tech-news/',
-               'target' => '',
-            )),
-          )),
-          3 =>
-          (array)(array(
-             'menu-item-db-id' => 1043,
-             'menu-item-parent-id' => '1039',
-             'menu-item-type' => 'custom',
-             'menu-item-title' => 'Music',
-             'menu-item-url' => '{{upfront:home_url}}/music/',
-             'menu-item-object' => 'custom',
-             'menu-item-object-id' => '1043',
-             'menu-item-target' => '',
-             'menu-item-position' => 5,
-             'link' =>
-            (array)(array(
-               'type' => 'entry',
-               'url' => '{{upfront:home_url}}/music/',
-               'target' => '',
-            )),
-          )),
-          4 =>
-          (array)(array(
-             'menu-item-db-id' => 1044,
-             'menu-item-parent-id' => '1039',
-             'menu-item-type' => 'custom',
-             'menu-item-title' => 'Gallery',
-             'menu-item-url' => '{{upfront:home_url}}/gallery/',
-             'menu-item-object' => 'custom',
-             'menu-item-object-id' => '1044',
+             'menu-item-object-id' => '209',
              'menu-item-target' => '',
              'menu-item-position' => 6,
+             'menu-item-classes' => '',
              'link' =>
             (array)(array(
                'type' => 'entry',
-               'url' => '{{upfront:home_url}}/gallery/',
+               'url' => '{{upfront:home_url}}/blog-2/',
                'target' => '',
+               'display_url' => '{{upfront:home_url}}/blog-2/',
             )),
           )),
         ),
@@ -277,60 +289,27 @@ $region_95972e->add_element("Unewnavigation", array (
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/blog/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/blog/',
         )),
       )),
-      1 =>
+      4 =>
       (array)(array(
-         'menu-item-db-id' => 1045,
+         'menu-item-db-id' => 210,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
-         'menu-item-title' => 'About',
-         'menu-item-url' => '{{upfront:home_url}}/about/',
+         'menu-item-title' => 'Find Us',
+         'menu-item-url' => '#',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1045',
+         'menu-item-object-id' => '210',
          'menu-item-target' => '',
          'menu-item-position' => 7,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
-           'type' => 'entry',
-           'url' => '{{upfront:home_url}}/about/',
+           'type' => 'unlink',
+           'url' => '#',
            'target' => '',
-        )),
-      )),
-      2 =>
-      (array)(array(
-         'menu-item-db-id' => 1046,
-         'menu-item-parent-id' => '0',
-         'menu-item-type' => 'custom',
-         'menu-item-title' => 'FAQ',
-         'menu-item-url' => '{{upfront:home_url}}/faq/',
-         'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1046',
-         'menu-item-target' => '',
-         'menu-item-position' => 8,
-         'link' =>
-        (array)(array(
-           'type' => 'entry',
-           'url' => '{{upfront:home_url}}/faq/',
-           'target' => '',
-        )),
-      )),
-      3 =>
-      (array)(array(
-         'menu-item-db-id' => 1047,
-         'menu-item-parent-id' => '0',
-         'menu-item-type' => 'custom',
-         'menu-item-title' => 'Contact',
-         'menu-item-url' => '{{upfront:home_url}}/contact/',
-         'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1047',
-         'menu-item-target' => '',
-         'menu-item-position' => 9,
-         'link' =>
-        (array)(array(
-           'type' => 'entry',
-           'url' => '{{upfront:home_url}}/contact/',
-           'target' => '',
+           'display_url' => '#',
         )),
       )),
     ),
@@ -407,7 +386,7 @@ $region_95972e->add_element("Unewnavigation", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'menu_id' => 67,
+         'menu_id' => 9,
          'menu_slug' => 'main-menu',
       )),
     )),
@@ -463,6 +442,6 @@ $region_95972e->add_element("Unewnavigation", array (
   ),
 ));
 
-$regions->add($region_95972e);
+$regions->add($region_f660c9);
 
 /* END_REGION_OUTPUT */

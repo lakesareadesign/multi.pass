@@ -58,6 +58,8 @@ $pe_slider = upfront_create_region(
     1 => 'images/bg-wedding.jpg',
   ),
   'version' => '1.0.0',
+  'background_slider_control_style' => 'both',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -110,6 +112,13 @@ $pe_content = upfront_create_region(
   'bottom_bg_padding_num' => '10',
   'bg_padding_slider' => '10',
   'bg_padding_num' => '10',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -206,6 +215,12 @@ $pe_content->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -219,15 +234,19 @@ $pe_content->add_element("PlainTxt", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -356,6 +375,11 @@ $pe_content->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -379,6 +403,10 @@ $pe_content->add_element("PlainTxt", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -395,6 +423,10 @@ $pe_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -503,6 +535,12 @@ $pe_content->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -526,6 +564,10 @@ $pe_content->add_element("PlainTxt", array (
       'order' => 3,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -542,6 +584,10 @@ $pe_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -703,9 +749,10 @@ $pe_images->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452144297001-1553',
@@ -763,8 +810,12 @@ $pe_images->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -784,6 +835,10 @@ $pe_images->add_element("Uimage", array (
       'col' => 7,
       'order' => 0,
       'row' => 37,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -853,9 +908,10 @@ $pe_images->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452144526265-1851',
@@ -913,8 +969,12 @@ $pe_images->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -935,6 +995,10 @@ $pe_images->add_element("Uimage", array (
       'col' => 7,
       'order' => 0,
       'row' => 89,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1004,9 +1068,10 @@ $pe_images->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452144531870-1915',
@@ -1063,8 +1128,12 @@ $pe_images->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1085,6 +1154,10 @@ $pe_images->add_element("Uimage", array (
       'col' => 7,
       'order' => 0,
       'row' => 63,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1154,9 +1227,10 @@ $pe_images->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452144584330-1115',
@@ -1214,8 +1288,12 @@ $pe_images->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1235,6 +1313,10 @@ $pe_images->add_element("Uimage", array (
       'col' => 7,
       'order' => 0,
       'row' => 37,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1304,9 +1386,10 @@ $pe_images->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452144722097-1334',
@@ -1364,8 +1447,12 @@ $pe_images->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 4,
+      'order' => 5,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1386,6 +1473,10 @@ $pe_images->add_element("Uimage", array (
       'col' => 7,
       'order' => 0,
       'row' => 63,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1455,9 +1546,10 @@ $pe_images->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452144836999-1936',
@@ -1514,8 +1606,12 @@ $pe_images->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 5,
+      'order' => 6,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1536,6 +1632,10 @@ $pe_images->add_element("Uimage", array (
       'col' => 7,
       'order' => 0,
       'row' => 89,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

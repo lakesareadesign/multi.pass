@@ -40,6 +40,7 @@ $download_wrap = upfront_create_region(
   'bottom_bg_padding_num' => 0,
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => false,
 )
 			);
 
@@ -229,6 +230,7 @@ $download_wrap->add_element("Button", array (
        'type' => 'entry',
        'url' => '{{upfront:home_url}}/download/',
        'target' => '_self',
+       'display_url' => '{{upfront:home_url}}/download...',
     )),
     'currentpreset' => false,
     'row' => 12,
@@ -238,6 +240,7 @@ $download_wrap->add_element("Button", array (
        'tablet' =>
       (array)(array(
          'row' => 10,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
@@ -257,6 +260,9 @@ $download_wrap->add_element("Button", array (
     'left_padding_num' => '10',
     'right_padding_num' => '10',
     'current_preset' => 'parrot-btn-3',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

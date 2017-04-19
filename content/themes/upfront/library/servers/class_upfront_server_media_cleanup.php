@@ -93,7 +93,7 @@ class Upfront_Server_MediaCleanup implements IUpfront_Server {
 		// Cleanup if duplicates crept in somehow
 		$used = array_unique($used);
 
-		$glob_expression = preg_replace('/(' . preg_quote(pathinfo($path, PATHINFO_FILENAME), '/') . ')\.(jpg|jpeg|gif|png)$/i', '$1*.$2', $path);
+		$glob_expression = preg_replace('/(' . preg_quote(pathinfo($path, PATHINFO_FILENAME), '/') . ')\.(jpg|jpeg|gif|png)$/i', '$1*.$2', $path);	     	 		 		  	 		 	
 		$all_files = glob($glob_expression);
 
 		foreach ($all_files as $file) {

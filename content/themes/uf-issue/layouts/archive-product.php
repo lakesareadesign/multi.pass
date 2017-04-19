@@ -129,6 +129,9 @@ $breadcrumbs->add_element("PlainTxt", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => '',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -358,7 +361,7 @@ $block_content->add_element("PlainTxt", array (
          'bottom_padding_slider' => '25',
          'bottom_padding_num' => '25',
       )),
-       'current_property' => 'lock_padding',
+       'current_property' => 'use_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -593,7 +596,7 @@ $block_content->add_element("Posts", array (
     'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '15',
-    'left_padding_num' => '5',
+    'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
     'top_padding_slider' => '0',
@@ -624,6 +627,9 @@ $block_content->add_element("Posts", array (
          'top_padding_slider' => '0',
          'top_padding_num' => '0',
          'row' => 168,
+         'left_padding_use' => 'yes',
+         'left_padding_slider' => '0',
+         'left_padding_num' => '0',
       )),
        'current_property' => 'lock_padding',
        'mobile' =>
@@ -633,10 +639,14 @@ $block_content->add_element("Posts", array (
          'top_padding_use' => 'yes',
          'top_padding_slider' => '0',
          'top_padding_num' => '0',
+         'left_padding_use' => 'yes',
+         'left_padding_slider' => '0',
+         'left_padding_num' => '0',
       )),
     )),
     'current_preset' => 'default',
     'left_padding_use' => 'yes',
+    'left_padding_slider' => '15',
   ),
   'row' => 6,
   'sticky' => false,

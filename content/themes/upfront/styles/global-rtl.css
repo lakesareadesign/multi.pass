@@ -46,7 +46,7 @@ div.preset-manager-panel div.preset_specific div.border_radius3{
     left: 0;
     right: auto;
 }
-div.preset-manager-panel .typography_settings_item .element-toggled.selectElement, div.preset-manager-panel .typography_settings_item .element-toggled.typeFace, div.preset-manager-panel .typography_settings_item .element-toggled.weightStyle, div.preset-manager-panel .typography_settings_item .element-toggled.fontSize, div.preset-manager-panel .hov_animation_settings_item .element-toggled.duration, div.preset-manager-panel .colors_settings_item .element-toggled.single, div.preset-manager-panel .colors_settings_item .element-toggled.two:nth-child(even){	     	 		 		  	 		 	
+div.preset-manager-panel .typography_settings_item .element-toggled.selectElement, div.preset-manager-panel .typography_settings_item .element-toggled.typeFace, div.preset-manager-panel .typography_settings_item .element-toggled.weightStyle, div.preset-manager-panel .typography_settings_item .element-toggled.fontSize, div.preset-manager-panel .hov_animation_settings_item .element-toggled.duration, div.preset-manager-panel .colors_settings_item .element-toggled.single, div.preset-manager-panel .colors_settings_item .element-toggled.two:nth-child(even){
     padding: 5px 10px 5px 0;
     border-left: none;
     border-right: 2px solid #dae6f2;
@@ -814,4 +814,4 @@ div#page.upfront-layout-view .upfront-editable_entity.upfront-module .upfront-ac
 }
 
 
-/* 133620-1484344539-au */
+/* 133620-1492562833-au */

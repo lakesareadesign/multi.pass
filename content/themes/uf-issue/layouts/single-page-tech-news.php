@@ -43,6 +43,7 @@ $breadcrumbs = upfront_create_region(
   'bottom_bg_padding_num' => '15',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'complementary',
 )
 			);
 
@@ -123,6 +124,12 @@ $breadcrumbs->add_element("PlainTxt", array (
          'use_padding' => 'yes',
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -247,6 +254,7 @@ $block_title = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
+  'region_role' => 'main',
 )
 			);
 
@@ -607,9 +615,10 @@ $block_title->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1467496060022-1206',
     'padding_slider' => '15',
@@ -645,6 +654,12 @@ $block_title->add_element("Uimage", array (
         )),
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -940,6 +955,7 @@ $main_area = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
+  'region_role' => false,
 )
 			);
 

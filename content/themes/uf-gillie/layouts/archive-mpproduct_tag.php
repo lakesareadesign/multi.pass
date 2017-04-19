@@ -53,6 +53,13 @@ $cover_archive = upfront_create_region(
   'background_image_ratio' => 0.36999999999999999555910790149937383830547332763671875,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -287,6 +294,7 @@ $widgets = upfront_create_region(
   'bg_padding_slider' => '10',
   'bg_padding_num' => '10',
   'background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -567,6 +575,7 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '100',
   'bg_padding_slider' => '100',
   'bg_padding_num' => '100',
+  'region_role' => 'main',
 )
 			);
 
@@ -612,18 +621,20 @@ $content->add_element("Uspacer", array (
 $content->add_element("PlainTxt", array (
   'columns' => '16',
   'margin_left' => '0',
+  'margin_right' => '0',
   'margin_top' => '0',
-  'class' => '',
+  'margin_bottom' => '0',
+  'class' => 'module-1479744239955-1837',
   'id' => 'module-1479744239955-1837',
   'options' =>
   array (
+    'view_class' => 'PlainTxtView',
+    'id_slug' => 'plain_text',
     'content' => '<h1>Gillie Shop</h1>',
     'type' => 'PlainTxtModel',
-    'view_class' => 'PlainTxtView',
     'element_id' => 'text-object-1479744239955-1809',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'id_slug' => 'plain_text',
     'preset' => 'mp-page-title',
     'padding_slider' => 10,
     'top_padding_num' => '0',
@@ -651,6 +662,10 @@ $content->add_element("PlainTxt", array (
     'row' => 6,
   ),
   'row' => 6,
+  'sticky' => false,
+  'default_hide' => 0,
+  'hide' => 0,
+  'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1460023546625-1653',
   'wrapper_breakpoint' =>
   array (

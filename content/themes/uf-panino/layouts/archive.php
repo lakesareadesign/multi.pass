@@ -45,6 +45,17 @@ $page_header = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/archive/blog-template-banner.jpg',
   'background_image_ratio' => 0.11000000000000000055511151231257827021181583404541015625,
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'complementary',
 )
 			);
 
@@ -97,6 +108,13 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -153,7 +171,7 @@ $content->add_element("PlainTxt", array (
     'id_slug' => 'plaintxt',
     'usingNewAppearance' => true,
     'has_settings' => 1,
-    'content' => '<h1 class="" style="text-align: center;">Archive</h1>',
+    'content' => '<h2 class="" style="text-align: center;">Archive</h2>',
     'element_id' => 'default-content-text-object',
     'class' => 'c24',
     'type' => 'PlainTxtModel',
@@ -177,6 +195,10 @@ $content->add_element("PlainTxt", array (
     'preset' => 'u-section-title-m',
     'breakpoint_presets' =>
     (array)(array(
+       'tablet' =>
+      (array)(array(
+         'preset' => 'center',
+      )),
        'desktop' =>
       (array)(array(
          'preset' => 'u-section-title-m',

@@ -46,7 +46,7 @@ $archive_header->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1449776145-67402',
+  'class' => 'module-1449776145-67402 upfront-module-spacer',
   'id' => 'module-1449776145-67402',
   'options' =>
   array (
@@ -105,7 +105,7 @@ $archive_header->add_element("PlainTxt", array (
     'padding_slider' => '15',
     'preset' => 'default',
     'use_padding' => 'yes',
-    'lock_padding' => 0,
+    'lock_padding' => '',
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
@@ -161,6 +161,10 @@ $archive_header->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -181,6 +185,10 @@ $archive_header->add_element("PlainTxt", array (
       'top' => 0,
       'row' => 23,
     ),
+    'current_property' =>
+    array (
+      0 => 'col',
+    ),
   ),
 ));
 
@@ -190,7 +198,7 @@ $archive_header->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1449776145-77349',
+  'class' => 'module-1449776145-77349 upfront-module-spacer',
   'id' => 'module-1449776145-77349',
   'options' =>
   array (
@@ -274,6 +282,7 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '70',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => false,
 )
 			);
 
@@ -283,7 +292,7 @@ $content->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1453872698266-1344',
+  'class' => 'module-1453872698266-1344 upfront-module-spacer',
   'id' => 'module-1453872698266-1344',
   'options' =>
   array (
@@ -464,6 +473,10 @@ $content->add_element("Posts", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -481,6 +494,10 @@ $content->add_element("Posts", array (
       'col' => 7,
       'order' => 0,
     ),
+    'current_property' =>
+    array (
+      0 => 'col',
+    ),
   ),
 ));
 
@@ -490,7 +507,7 @@ $content->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1453872702505-1080',
+  'class' => 'module-1453872702505-1080 upfront-module-spacer',
   'id' => 'module-1453872702505-1080',
   'options' =>
   array (
@@ -567,6 +584,11 @@ $content_right = upfront_create_region(
   'bottom_bg_padding_num' => '70',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'region_role' => 'complementary',
 )
 			);
 
@@ -620,6 +642,12 @@ $content_right->add_element("Uwidget", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -644,6 +672,10 @@ $content_right->add_element("Uwidget", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -663,6 +695,10 @@ $content_right->add_element("Uwidget", array (
       'order' => 0,
       'top' => 0,
     ),
+    'current_property' =>
+    array (
+      0 => 'col',
+    ),
   ),
 ));
 
@@ -672,7 +708,7 @@ $content_right->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1449776145-56836',
+  'class' => 'module-1449776145-56836 upfront-module-spacer',
   'id' => 'module-1449776145-56836',
   'options' =>
   array (
@@ -786,6 +822,12 @@ $content_right->add_element("Uwidget", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -810,6 +852,10 @@ $content_right->add_element("Uwidget", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -829,6 +875,10 @@ $content_right->add_element("Uwidget", array (
       'order' => 0,
       'top' => 0,
     ),
+    'current_property' =>
+    array (
+      0 => 'col',
+    ),
   ),
 ));
 
@@ -838,7 +888,7 @@ $content_right->add_element("Uspacer", array (
   'margin_right' => '0',
   'margin_top' => '0',
   'margin_bottom' => '0',
-  'class' => 'module-1449776145-68254',
+  'class' => 'module-1449776145-68254 upfront-module-spacer',
   'id' => 'module-1449776145-68254',
   'options' =>
   array (
@@ -874,4 +924,4 @@ $regions->add($content_right);
 
 if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'get-quote.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'get-quote.php');
 
-if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer-search.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer-search.php');	     	 			  	 	 	 	 
+if (file_exists(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer-search.php')) include(get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'global-regions' . DIRECTORY_SEPARATOR . 'footer-search.php');

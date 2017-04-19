@@ -64,6 +64,14 @@ $s_consultations = upfront_create_region(
   'expand_lock' => false,
   'version' => '1.0.0',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -375,6 +383,9 @@ $s_consultations->add_element("PlainTxt", array (
     'row' => 10,
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

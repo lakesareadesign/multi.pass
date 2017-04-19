@@ -49,6 +49,13 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -104,7 +111,7 @@ $main->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<h1 class="" style="text-align: center;">Find Us</h1>',
+    'content' => '<h2 class="" style="text-align: center;">Find Us</h2>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1445483928724-1996',
     'class' => 'c24 upfront-plain_txt',
@@ -140,6 +147,10 @@ $main->add_element("PlainTxt", array (
     'preset' => 'u-section-title-m',
     'breakpoint_presets' =>
     (array)(array(
+       'tablet' =>
+      (array)(array(
+         'preset' => 'center',
+      )),
        'desktop' =>
       (array)(array(
          'preset' => 'u-section-title-m',
@@ -440,9 +451,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1429598218237-1901',
@@ -467,6 +479,9 @@ $main->add_element("Uimage", array (
     'right_padding_num' => '15',
     'anchor' => '',
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -725,6 +740,8 @@ $main->add_group(array (
   'left_padding_num' => '15',
   'right_padding_num' => '15',
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -929,6 +946,9 @@ $main->add_element("PlainTxt", array (
     'right_padding_num' => '15',
     'preset' => 'default',
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1235,6 +1255,9 @@ $main->add_element("PlainTxt", array (
     'right_padding_num' => '15',
     'lock_padding' => 0,
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

@@ -36,6 +36,11 @@ $content = upfront_create_region(
     0 => '',
   ),
   'version' => '1.0.0',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -107,12 +112,15 @@ $content->add_element("PlainTxt", array (
     'top_padding_num' => 115,
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
-    'use_padding' => true,
+    'use_padding' => 'yes',
     'lock_padding' => '',
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -135,6 +143,10 @@ $content->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -153,6 +165,10 @@ $content->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -274,7 +290,7 @@ $content->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -313,6 +329,10 @@ $content->add_element("PlainTxt", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -332,6 +352,10 @@ $content->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -378,7 +402,7 @@ $content->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -417,6 +441,10 @@ $content->add_element("PlainTxt", array (
       'order' => 3,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -435,6 +463,10 @@ $content->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -570,6 +602,7 @@ $gallery->add_element("Ugallery", array (
     'has_settings' => 1,
     'class' => 'c24 upfront-gallery',
     'id_slug' => 'ugallery',
+    'preset' => 'default',
     'status' => 'ok',
     'images' =>
     array (
@@ -2370,7 +2403,13 @@ $gallery->add_element("Ugallery", array (
     'bottom_padding_num' => '15',
     'thumbSidePadding' => 1,
     'padding_slider' => '15',
-    'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2394,6 +2433,10 @@ $gallery->add_element("Ugallery", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -2412,6 +2455,10 @@ $gallery->add_element("Ugallery", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

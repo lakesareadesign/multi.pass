@@ -69,6 +69,14 @@ $region_5 = upfront_create_region(
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 0%',
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -118,6 +126,9 @@ $region_5->add_element("PlainTxt", array (
       (array)(array(
          'use_padding' => 'yes',
       )),
+    )),
+    'breakpoint_presets' =>
+    (array)(array(
     )),
   ),
   'row' => 6,
@@ -213,6 +224,7 @@ $region_3 = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
   'version' => '1.0.0',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -438,6 +450,7 @@ $archive_content = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 

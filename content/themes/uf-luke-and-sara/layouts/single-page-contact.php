@@ -64,6 +64,13 @@ $contact_title = upfront_create_region(
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -141,7 +148,7 @@ $contact_title->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 0,
+      'order' => 1,
       'col' => 1,
     ),
     'current_property' =>
@@ -245,19 +252,19 @@ $contact_title->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 0,
+      'order' => 2,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -318,7 +325,7 @@ $contact_title->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 0,
+      'order' => 3,
       'col' => 1,
     ),
     'current_property' =>
@@ -501,6 +508,10 @@ $contact_title->add_element("PlainTxt", array (
       'order' => 4,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -517,6 +528,10 @@ $contact_title->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -681,6 +696,10 @@ $contact_title->add_element("PlainTxt", array (
       'order' => 5,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -697,6 +716,10 @@ $contact_title->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -786,6 +809,13 @@ $new_york = upfront_create_region(
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -816,6 +846,15 @@ $new_york->add_group(array (
   'lock_padding' => '',
   'row' => 74,
   'background_default' => 'color',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
+  'origin_position_y' => 50,
+  'origin_position_x' => 50,
+  'use_background_size_percent' => '',
+  'background_size_percent' => 100,
+  'featured_fallback_background_color' => '#ffffff',
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -823,15 +862,19 @@ $new_york->add_group(array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -868,7 +911,7 @@ $new_york->add_group(array (
     ),
     'current_property' =>
     array (
-      0 => 'use_padding',
+      0 => 'col',
     ),
   ),
 ));
@@ -1739,12 +1782,19 @@ $new_york->add_element("Button", array (
        'type' => 'lightbox',
        'url' => '#ltb-ny-map11',
        'target' => '_self',
+       'display_url' => '#ltb-ny-map11',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'row' => 12,
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -1964,9 +2014,10 @@ $new_york->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1451925369487-1278',
@@ -2019,8 +2070,12 @@ $new_york->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2039,6 +2094,10 @@ $new_york->add_element("Uimage", array (
       'col' => 7,
       'order' => 0,
       'row' => 43,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -2107,6 +2166,13 @@ $san_francisco = upfront_create_region(
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -2175,9 +2241,10 @@ $san_francisco->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1451927462841-1468',
@@ -2287,6 +2354,15 @@ $san_francisco->add_group(array (
   'background_type' => 'color',
   'anchor' => '',
   'background_default' => 'color',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
+  'origin_position_y' => 50,
+  'origin_position_x' => 50,
+  'use_background_size_percent' => '',
+  'background_size_percent' => 100,
+  'featured_fallback_background_color' => '#ffffff',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -3223,12 +3299,19 @@ $san_francisco->add_element("Button", array (
        'type' => 'lightbox',
        'url' => '#ltb-sf-map12',
        'target' => '_self',
+       'display_url' => '#ltb-sf-map12',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'row' => 12,
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -3438,6 +3521,7 @@ $contact_form = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => 'rgba(205,204,202,1)',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -3489,6 +3573,11 @@ $contact_form->add_element("PlainTxt", array (
     )),
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3503,15 +3592,19 @@ $contact_form->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3530,6 +3623,10 @@ $contact_form->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 7,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -3646,6 +3743,9 @@ $contact_form->add_element("Ucontact", array (
       )),
        'current_property' => 'use_padding',
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -3659,15 +3759,19 @@ $contact_form->add_element("Ucontact", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3687,6 +3791,10 @@ $contact_form->add_element("Ucontact", array (
       'col' => 7,
       'order' => 0,
       'row' => 73,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -3776,6 +3884,13 @@ $contact_testimonials = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/single-page-contact/bg-polaroid.jpg',
   'background_image_ratio' => 0.299999999999999988897769753748434595763683319091796875,
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -4061,6 +4176,8 @@ $contact_testimonials->add_element("Code", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -4084,6 +4201,10 @@ $contact_testimonials->add_element("Code", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -4100,6 +4221,10 @@ $contact_testimonials->add_element("Code", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

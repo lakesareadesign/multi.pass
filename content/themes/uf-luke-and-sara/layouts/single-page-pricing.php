@@ -63,6 +63,13 @@ $luke_and_sara = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/single-page-pricing/bg-pricing.jpg',
   'background_image_ratio' => 0.38000000000000000444089209850062616169452667236328125,
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -101,7 +108,7 @@ $luke_and_sara->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 0,
+      'order' => 1,
       'col' => 1,
     ),
     'current_property' =>
@@ -179,6 +186,11 @@ $luke_and_sara->add_element("PlainTxt", array (
       )),
     )),
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -193,19 +205,19 @@ $luke_and_sara->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 0,
+      'order' => 2,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -267,7 +279,7 @@ $luke_and_sara->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 0,
+      'order' => 3,
       'col' => 1,
     ),
     'current_property' =>
@@ -318,6 +330,7 @@ $luke_and_sara->add_element("Button", array (
        'type' => 'anchor',
        'url' => '{{upfront:home_url}}/pricing/#next',
        'target' => '_self',
+       'display_url' => 'http://lukesara.upfront.d...',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
@@ -356,6 +369,9 @@ $luke_and_sara->add_element("Button", array (
     )),
     'top_padding_use' => 'yes',
     'top_padding_slider' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -370,15 +386,19 @@ $luke_and_sara->add_element("Button", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -398,6 +418,10 @@ $luke_and_sara->add_element("Button", array (
       'col' => 7,
       'order' => 0,
       'row' => 4,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -444,6 +468,7 @@ $pro = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => 'rgba(227,233,233,1)',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -468,7 +493,7 @@ $pro->add_element("PlainTxt", array (
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'is_edited' => true,
-    'preset' => 'title-pricing',
+    'preset' => 'default',
     'theme_style' => '',
     'use_padding' => 'yes',
     'lock_padding' => '',
@@ -500,6 +525,10 @@ $pro->add_element("PlainTxt", array (
       )),
        'current_property' => 'use_padding',
     )),
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -603,6 +632,10 @@ $pro->add_group(array (
   'bottom_padding_use' => 'yes',
   'bottom_padding_slider' => '0',
   'use_padding' => 'yes',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -715,6 +748,7 @@ $pro->add_element("Button", array (
        'type' => 'lightbox',
        'url' => '#ltb-enquire-contact10',
        'target' => '_self',
+       'display_url' => '#ltb-enquire-contact10',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '115',
@@ -750,6 +784,9 @@ $pro->add_element("Button", array (
          'row' => 12,
       )),
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -969,9 +1006,10 @@ $pro->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1451439487503-1508',
@@ -1357,6 +1395,7 @@ $platinum = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => '#ufc5',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -1381,7 +1420,7 @@ $platinum->add_element("PlainTxt", array (
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'is_edited' => true,
-    'preset' => 'title-pricing',
+    'preset' => 'default',
     'theme_style' => '',
     'use_padding' => 'yes',
     'lock_padding' => '',
@@ -1413,6 +1452,10 @@ $platinum->add_element("PlainTxt", array (
       )),
        'current_property' => 'use_padding',
     )),
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1427,15 +1470,19 @@ $platinum->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1455,6 +1502,10 @@ $platinum->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 13,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1573,15 +1624,19 @@ $platinum->add_element("PlainTxt", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1602,6 +1657,10 @@ $platinum->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 79,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1662,25 +1721,29 @@ $platinum->add_group(array (
   'top_padding_use' => 'yes',
   'top_padding_slider' => '20',
   'use_padding' => 'yes',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 5,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1789,6 +1852,7 @@ $platinum->add_element("Button", array (
        'type' => 'lightbox',
        'url' => '#ltb-enquire-contact10',
        'target' => '_self',
+       'display_url' => '#ltb-enquire-contact10',
     )),
     'top_padding_num' => '0',
     'bottom_padding_num' => '80',
@@ -1828,6 +1892,11 @@ $platinum->add_element("Button", array (
       )),
     )),
     'top_padding_slider' => '0',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1848,12 +1917,12 @@ $platinum->add_element("Button", array (
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1987,9 +2056,10 @@ $platinum->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1451442039085-1045',
@@ -2031,6 +2101,9 @@ $platinum->add_element("Uimage", array (
     'top_padding_slider' => '0',
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -2052,8 +2125,12 @@ $platinum->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2076,6 +2153,10 @@ $platinum->add_element("Uimage", array (
       'order' => 0,
       'row' => 37,
       'hide' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1451525765857-1492',
@@ -2163,6 +2244,7 @@ $premium = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => 'rgba(227,233,233,1)',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -2187,7 +2269,7 @@ $premium->add_element("PlainTxt", array (
     'top_padding_num' => '10',
     'bottom_padding_num' => '10',
     'is_edited' => true,
-    'preset' => 'title-pricing',
+    'preset' => 'default',
     'theme_style' => '',
     'use_padding' => 'yes',
     'lock_padding' => '',
@@ -2216,6 +2298,10 @@ $premium->add_element("PlainTxt", array (
          'row' => 10,
       )),
     )),
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -2230,15 +2316,19 @@ $premium->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2258,6 +2348,10 @@ $premium->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 13,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -2319,21 +2413,29 @@ $premium->add_group(array (
   'lock_padding' => '',
   'top_padding_use' => 'yes',
   'top_padding_slider' => '15',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2438,6 +2540,7 @@ $premium->add_element("Button", array (
        'type' => 'lightbox',
        'url' => '#ltb-enquire-contact10',
        'target' => '_self',
+       'display_url' => '#ltb-enquire-contact10',
     )),
     'top_padding_num' => '10',
     'bottom_padding_num' => '90',
@@ -2469,6 +2572,11 @@ $premium->add_element("Button", array (
          'row' => 18,
       )),
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2489,12 +2597,12 @@ $premium->add_element("Button", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2597,7 +2705,7 @@ $premium->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 1,
+      'order' => 2,
       'col' => 1,
     ),
     'current_property' =>
@@ -2687,9 +2795,10 @@ $premium->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1451518513867-1455',
@@ -2751,12 +2860,12 @@ $premium->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 1,
+      'order' => 3,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2820,7 +2929,7 @@ $premium->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 1,
+      'order' => 4,
       'col' => 1,
     ),
     'current_property' =>
@@ -2957,15 +3066,19 @@ $premium->add_element("PlainTxt", array (
     array (
       'edited' => true,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>

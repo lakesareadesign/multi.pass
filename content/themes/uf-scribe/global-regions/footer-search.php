@@ -36,6 +36,11 @@ $footer_search = upfront_create_region(
     0 => '',
   ),
   'version' => '1.0.0',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'contentinfo',
 )
 			);
 

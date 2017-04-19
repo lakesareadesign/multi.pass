@@ -50,6 +50,12 @@ $page_header = upfront_create_region(
   'background_default' => 'image',
   'background_image' => '{{upfront:style_url}}/images/single-post/slider-img-1.jpg',
   'background_image_ratio' => 0.5500000000000000444089209850062616169452667236328125,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -86,6 +92,9 @@ $page_header->add_element("PlainTxt", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => 0,
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -195,6 +204,13 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -269,7 +285,7 @@ $main->add_element("PostData", array (
     </div>
 </div>',
     'post-part-title' => '<div class="upostdata-part title">
-	<h1>{{title}}</h1>
+	<h2>{{title}}</h2>
 </div>',
     'post-part-content' => '<div class="upostdata-part content">
 	{{content}}
@@ -287,7 +303,8 @@ $main->add_element("PostData", array (
     text-align: center;
     width: 88px;
 }
-#page .default .title h1 {
+#page .default .title h1,
+#page .default .title h2 {
     margin: 0;
     padding: 0;
     text-transform: uppercase;
@@ -353,6 +370,7 @@ $main->add_element("PostData", array (
     'calculated_left_indent' => 0,
     'calculated_right_indent' => 0,
     'current_preset' => 'default',
+    'static-title-use-typography' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -433,6 +451,11 @@ $main->add_element("PostData", array (
       ),
       'preset' => 'default',
       'use_padding' => 'yes',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'new_line' => true,
       'breakpoint' =>
       array (
@@ -517,6 +540,11 @@ $main->add_element("PostData", array (
       ),
       'preset' => 'default',
       'use_padding' => 'yes',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -601,6 +629,11 @@ $main->add_element("PostData", array (
       ),
       'preset' => 'default',
       'use_padding' => 'yes',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -912,14 +945,27 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
       'use_padding' => 'yes',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => '',
       'breakpoint' =>
       array (
         'tablet' =>
@@ -964,14 +1010,27 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 2,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 2,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
       'use_padding' => 'yes',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'new_line' => true,
       'breakpoint' =>
       array (

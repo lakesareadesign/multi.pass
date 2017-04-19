@@ -53,6 +53,8 @@ $home_slider = upfront_create_region(
   'bottom_bg_padding_num' => 0,
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'background_slider_control_style' => 'both',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -74,6 +76,7 @@ $home_slider->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867715-55007',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -113,6 +116,7 @@ $home_slider->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867715-55517',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -174,6 +178,7 @@ $home_slider->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'currentpreset' => false,
     'row' => 39,
@@ -187,12 +192,12 @@ $home_slider->add_element("Button", array (
          'top_padding_use' => 'yes',
          'top_padding_num' => '95',
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_slider' => '95',
       )),
        'mobile' =>
       (array)(array(
          'row' => 63,
+         'use_padding' => 'yes',
       )),
        'current_property' => 'use_padding',
     )),
@@ -288,6 +293,7 @@ $home_slider->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867715-37461',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -326,6 +332,7 @@ $home_slider->add_element("Uspacer", array (
     'usingNewAppearance' => true,
     'element_id' => 'spacer-object-1450867715-14827',
     'preset' => 'default',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,

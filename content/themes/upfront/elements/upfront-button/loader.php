@@ -7,7 +7,7 @@
 function ubutton_init () {
 	// Include the backend support stuff
 	require_once (dirname(__FILE__) . '/lib/ubutton.php');
-  require_once (dirname(__FILE__) . '/lib/class_upfront_button_presets_server.php');
+	require_once (dirname(__FILE__) . '/lib/class_upfront_button_presets_server.php');
 
 	add_filter('upfront_l10n', array('Upfront_ButtonView', 'add_l10n_strings'));
 

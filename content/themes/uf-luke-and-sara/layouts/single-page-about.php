@@ -54,6 +54,7 @@ $luke_and_sara = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/single-page-about/noise.jpg',
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
+  'region_role' => 'main',
 )
 			);
 
@@ -84,6 +85,10 @@ $luke_and_sara->add_group(array (
   'anchor' => '',
   'top_padding_use' => false,
   'top_padding_slider' => '10',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -205,9 +210,10 @@ $luke_and_sara->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1432051781216-1188',
@@ -364,6 +370,9 @@ $luke_and_sara->add_element("PlainTxt", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -514,6 +523,11 @@ $luke_and_sara->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -747,6 +761,11 @@ $luke_and_sara->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -888,6 +907,10 @@ $luke_and_sara->add_group(array (
   'anchor' => '',
   'top_padding_use' => false,
   'top_padding_slider' => '10',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1011,9 +1034,10 @@ $luke_and_sara->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1432073503048-1713',
@@ -1171,6 +1195,11 @@ $luke_and_sara->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1374,6 +1403,11 @@ $luke_and_sara->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1675,6 +1709,11 @@ $luke_and_sara->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1893,6 +1932,13 @@ $testimonials_area = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => '0',
   'bg_padding_num' => '0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -2173,6 +2219,9 @@ $testimonials_area->add_element("Code", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -2196,6 +2245,10 @@ $testimonials_area->add_element("Code", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -2212,6 +2265,10 @@ $testimonials_area->add_element("Code", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -2302,6 +2359,13 @@ $our_studio_area = upfront_create_region(
   'bottom_bg_padding_num' => '10',
   'bg_padding_slider' => '10',
   'bg_padding_num' => '10',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -2364,6 +2428,10 @@ $our_studio_area->add_group(array (
   'bottom_padding_slider' => '90',
   'row' => 48,
   'use_padding' => 'yes',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2477,6 +2545,11 @@ $our_studio_area->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2736,9 +2809,10 @@ $our_studio_area->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1432075072575-1477',

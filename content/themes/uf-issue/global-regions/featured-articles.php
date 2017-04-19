@@ -40,6 +40,7 @@ $featured_articles = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
+  'region_role' => 'complementary',
 )
 			);
 

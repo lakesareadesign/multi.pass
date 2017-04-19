@@ -1,5 +1,5 @@
 <?php
-$sidebar_right_container = ( !empty($region_container) ? $region_container : "block-content" );
+$sidebar_right_container = ( !empty($region_container) ? $region_container : "main-area" );
 $sidebar_right_sub = ( !empty($region_sub) ? $region_sub: "right" );
 
 /* START_REGION_OUTPUT */
@@ -42,6 +42,11 @@ $sidebar_right = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'region_role' => 'main',
 )
 			);
 
@@ -62,7 +67,7 @@ $sidebar_right->add_element("PlainTxt", array (
     'element_id' => 'text-object-1467494259277-1501',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'preset' => 'textbox-alternative',
+    'preset' => 'default',
     'padding_slider' => '15',
     'top_padding_num' => '15',
     'bottom_padding_num' => '0',
@@ -80,7 +85,7 @@ $sidebar_right->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'textbox-alternative',
+         'preset' => 'default',
       )),
     )),
     'bottom_padding_use' => 'yes',
@@ -96,7 +101,7 @@ $sidebar_right->add_element("PlainTxt", array (
          'use_padding' => 'yes',
       )),
     )),
-    'current_preset' => 'textbox-alternative',
+    'current_preset' => 'default',
     'bottom_padding_slider' => '0',
   ),
   'row' => 6,
@@ -564,6 +569,9 @@ $sidebar_right->add_element("Uwidget", array (
          'use_padding' => 'yes',
       )),
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

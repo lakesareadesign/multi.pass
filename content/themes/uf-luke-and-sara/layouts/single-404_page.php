@@ -48,6 +48,13 @@ $uf_404_content = upfront_create_region(
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-404_page/404_background.jpg',
   'background_image_ratio' => 0.38000000000000000444089209850062616169452667236328125,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -121,6 +128,11 @@ $uf_404_content->add_element("PlainTxt", array (
     'preset' => 'default',
     'padding_slider' => '10',
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '10',
+    'right_padding_num' => '10',
   ),
   'row' => 6,
   'sticky' => false,
@@ -134,15 +146,19 @@ $uf_404_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 4,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 4,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -160,6 +176,10 @@ $uf_404_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -273,12 +293,16 @@ $uf_404_content->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 1,
+      'order' => 2,
       'col' => 4,
     ),
     'mobile' =>
     array (
       'col' => 4,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -329,8 +353,12 @@ $uf_404_content->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 1,
+      'order' => 2,
       'col' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -372,6 +400,7 @@ $uf_404_content->add_element("Button", array (
        'type' => 'homepage',
        'url' => '{{upfront:home_url}}',
        'target' => '',
+       'display_url' => 'http://lukesara.upfront.d...',
     )),
     'top_padding_num' => '20',
     'bottom_padding_num' => '10',
@@ -387,6 +416,9 @@ $uf_404_content->add_element("Button", array (
     'top_padding_slider' => '20',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '10',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -400,15 +432,19 @@ $uf_404_content->add_element("Button", array (
     array (
       'edited' => true,
       'col' => 4,
-      'order' => 1,
+      'order' => 3,
       'clear' => false,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 1,
+      'order' => 3,
       'clear' => false,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -465,8 +501,12 @@ $uf_404_content->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 1,
+      'order' => 4,
       'col' => 1,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -512,12 +552,16 @@ $uf_404_content->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 1,
+      'order' => 4,
       'col' => 4,
     ),
     'mobile' =>
     array (
       'col' => 4,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>

@@ -83,6 +83,9 @@ $breadcrumbs->add_element("PlainTxt", array (
          'use_padding' => 'yes',
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -161,9 +164,9 @@ $main = upfront_create_region(
   array (
     0 => false,
   ),
-  'bg_padding_type' => 'equal',
+  'bg_padding_type' => 'varied',
   'top_bg_padding_num' => 0,
-  'bottom_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => '60',
   'bg_padding_num' => 0,
 )
 			);

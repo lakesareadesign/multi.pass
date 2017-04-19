@@ -45,6 +45,17 @@ $page_header = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/archive-mpproduct_tag/blog-template-banner.jpg',
   'background_image_ratio' => 0.11000000000000000055511151231257827021181583404541015625,
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'complementary',
 )
 			);
 
@@ -97,6 +108,13 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -143,18 +161,20 @@ $content->add_element("Uspacer", array (
 $content->add_element("PlainTxt", array (
   'columns' => '18',
   'margin_left' => '0',
+  'margin_right' => '0',
   'margin_top' => '0',
-  'class' => '',
+  'margin_bottom' => '0',
+  'class' => 'module-1479741982212-1899',
   'id' => 'module-1479741982212-1899',
   'options' =>
   array (
+    'view_class' => 'PlainTxtView',
+    'id_slug' => 'plain_text',
     'content' => '<h1 class="">Panino Shop</h1>',
     'type' => 'PlainTxtModel',
-    'view_class' => 'PlainTxtView',
     'element_id' => 'text-object-1479741982211-1437',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'id_slug' => 'plain_text',
     'preset' => 'default',
     'padding_slider' => '15',
     'top_padding_num' => '90',
@@ -169,8 +189,15 @@ $content->add_element("PlainTxt", array (
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
     'is_edited' => true,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
-  'row' => 15,
+  'row' => 6,
+  'sticky' => false,
+  'default_hide' => 0,
+  'hide' => 0,
+  'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1427808682856-1535',
   'wrapper_breakpoint' =>
   array (

@@ -50,6 +50,13 @@ $main = upfront_create_region(
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-404_page/bg-page-404.jpg',
   'background_image_ratio' => 0.560000000000000053290705182007513940334320068359375,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -200,6 +207,11 @@ $main->add_element("PlainTxt", array (
          'row' => 28,
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -219,12 +231,12 @@ $main->add_element("PlainTxt", array (
     'mobile' =>
     array (
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -481,7 +493,7 @@ $main->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 1,
+      'order' => 2,
       'col' => 1,
     ),
     'current_property' =>
@@ -531,6 +543,7 @@ $main->add_element("Button", array (
        'type' => 'homepage',
        'url' => '{{upfront:home_url}}',
        'target' => '',
+       'display_url' => '{{upfront:home_url}}',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -556,6 +569,9 @@ $main->add_element("Button", array (
       )),
        'current_property' => 'use_padding',
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -576,12 +592,12 @@ $main->add_element("Button", array (
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 1,
+      'order' => 3,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -641,7 +657,7 @@ $main->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 1,
+      'order' => 4,
       'col' => 1,
     ),
     'current_property' =>

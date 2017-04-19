@@ -53,6 +53,13 @@ $cover_free_stuff = upfront_create_region(
   'background_image_ratio' => 0.36999999999999999555910790149937383830547332763671875,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -128,7 +135,7 @@ $cover_free_stuff->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h1><span class="upfront_theme_color_3">Download<br>​Lessons</span></h1>',
+    'content' => '<h2><span class="upfront_theme_color_3" data-verified="redactor" data-redactor-tag="span" data-redactor-class="upfront_theme_color_3">Download<br>​Lessons</span></h2>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1459864358878-1017',
     'class' => 'c24 upfront-plain_txt',
@@ -166,11 +173,10 @@ $cover_free_stuff->add_element("PlainTxt", array (
          'top_padding_slider' => '140',
          'top_padding_num' => '140',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '160',
          'top_padding_num' => '160',
@@ -344,6 +350,7 @@ $main = upfront_create_region(
   'bg_padding_slider' => '100',
   'bg_padding_num' => '100',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -451,9 +458,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1459865591857-1881',
     'padding_slider' => '10',
@@ -479,7 +487,10 @@ $main->add_element("Uimage", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
-    'lock_padding' => 0,
+    'lock_padding' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -700,12 +711,12 @@ $main->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h2>Understanding Guitar</h2>',
+    'content' => '<h3>Understanding Guitar</h3>',
     'type' => 'PlainTxtModel',
     'element_id' => 'object-1459865897650-1632',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'preset' => 'block-heading',
+    'preset' => 'block-subheading',
     'padding_slider' => '10',
     'top_padding_num' => '10',
     'bottom_padding_num' => '0',
@@ -726,11 +737,11 @@ $main->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'block-heading',
+         'preset' => 'block-subheading',
       )),
        'mobile' =>
       (array)(array(
-         'preset' => 'center',
+         'preset' => 'block-subheading-mobile',
       )),
     )),
     'breakpoint' =>
@@ -743,7 +754,7 @@ $main->add_element("PlainTxt", array (
          'top_padding_slider' => '0',
          'top_padding_num' => '0',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -752,7 +763,7 @@ $main->add_element("PlainTxt", array (
          'top_padding_num' => '0',
       )),
     )),
-    'current_preset' => 'block-heading',
+    'current_preset' => 'block-subheading',
     'theme_style' => '',
   ),
   'row' => 6,
@@ -815,6 +826,8 @@ $main->add_group(array (
   'bottom_padding_slider' => '10',
   'left_padding_num' => 10,
   'right_padding_num' => 10,
+  'href' => '',
+  'linkTarget' => false,
   'breakpoint' =>
   array (
     'tablet' =>
@@ -991,6 +1004,7 @@ $main->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => '',
+       'display_url' => '',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '0',
@@ -1110,6 +1124,7 @@ $main->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => '',
+       'display_url' => '',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '0',
@@ -1395,9 +1410,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'object-1459929986104-1055',
     'padding_slider' => '10',
@@ -1422,7 +1438,6 @@ $main->add_element("Uimage", array (
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '35',
          'top_padding_num' => '35',
@@ -1431,7 +1446,10 @@ $main->add_element("Uimage", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
-    'lock_padding' => 0,
+    'lock_padding' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1651,12 +1669,12 @@ $main->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h2>Understanding Music</h2>',
+    'content' => '<h3>Understanding Music</h3>',
     'type' => 'PlainTxtModel',
     'element_id' => 'object-1459930017332-1773',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'preset' => 'block-heading',
+    'preset' => 'block-subheading',
     'padding_slider' => '10',
     'top_padding_num' => '10',
     'bottom_padding_num' => '0',
@@ -1677,11 +1695,11 @@ $main->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'block-heading',
+         'preset' => 'block-subheading',
       )),
        'mobile' =>
       (array)(array(
-         'preset' => 'center',
+         'preset' => 'block-subheading-mobile',
       )),
     )),
     'breakpoint' =>
@@ -1694,7 +1712,7 @@ $main->add_element("PlainTxt", array (
          'top_padding_slider' => '0',
          'top_padding_num' => '0',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -1707,7 +1725,7 @@ $main->add_element("PlainTxt", array (
          'right_padding_num' => '',
       )),
     )),
-    'current_preset' => 'block-heading',
+    'current_preset' => 'block-subheading',
     'theme_style' => '',
   ),
   'row' => 6,
@@ -1768,6 +1786,8 @@ $main->add_group(array (
   'anchor' => '',
   'left_padding_num' => 10,
   'right_padding_num' => 10,
+  'href' => '',
+  'linkTarget' => false,
   'breakpoint' =>
   array (
     'tablet' =>
@@ -1944,6 +1964,7 @@ $main->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => '',
+       'display_url' => '',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '0',
@@ -2062,6 +2083,7 @@ $main->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => '',
+       'display_url' => '',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '0',
@@ -2309,9 +2331,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'object-1459930027291-1150',
     'padding_slider' => '10',
@@ -2336,7 +2359,6 @@ $main->add_element("Uimage", array (
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '40',
          'top_padding_num' => '40',
@@ -2345,7 +2367,10 @@ $main->add_element("Uimage", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
-    'lock_padding' => 0,
+    'lock_padding' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -2475,7 +2500,7 @@ $main->add_element("PlainTxt", array (
          'top_padding_slider' => '10',
          'top_padding_num' => '10',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -2565,12 +2590,12 @@ $main->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h2>Understanding Music</h2>',
+    'content' => '<h3>Understanding Music</h3>',
     'type' => 'PlainTxtModel',
     'element_id' => 'object-1459930044164-1428',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'preset' => 'block-heading',
+    'preset' => 'block-subheading',
     'padding_slider' => '10',
     'top_padding_num' => '10',
     'bottom_padding_num' => '0',
@@ -2591,11 +2616,11 @@ $main->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'block-heading',
+         'preset' => 'block-subheading',
       )),
        'mobile' =>
       (array)(array(
-         'preset' => 'center',
+         'preset' => 'block-subheading-mobile',
       )),
     )),
     'breakpoint' =>
@@ -2608,7 +2633,7 @@ $main->add_element("PlainTxt", array (
          'top_padding_slider' => '0',
          'top_padding_num' => '0',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -2621,7 +2646,7 @@ $main->add_element("PlainTxt", array (
          'right_padding_num' => '',
       )),
     )),
-    'current_preset' => 'block-heading',
+    'current_preset' => 'block-subheading',
     'theme_style' => '',
   ),
   'row' => 6,
@@ -2673,6 +2698,8 @@ $main->add_group(array (
   'top_padding_slider' => '20',
   'left_padding_num' => 10,
   'right_padding_num' => 10,
+  'href' => '',
+  'linkTarget' => false,
   'breakpoint' =>
   array (
     'tablet' =>
@@ -2848,6 +2875,7 @@ $main->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => '',
+       'display_url' => '',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '0',
@@ -2968,6 +2996,7 @@ $main->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => '',
+       'display_url' => '',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '0',
@@ -3217,9 +3246,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'object-1459930051410-1513',
     'padding_slider' => '10',
@@ -3244,7 +3274,6 @@ $main->add_element("Uimage", array (
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '40',
          'top_padding_num' => '40',
@@ -3253,7 +3282,10 @@ $main->add_element("Uimage", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
-    'lock_padding' => 0,
+    'lock_padding' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -3383,7 +3415,7 @@ $main->add_element("PlainTxt", array (
          'top_padding_slider' => '10',
          'top_padding_num' => '10',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -3473,12 +3505,12 @@ $main->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h2>Cord &amp; Harmony</h2>',
+    'content' => '<h3>Cord &amp; Harmony</h3>',
     'type' => 'PlainTxtModel',
     'element_id' => 'object-1459930072268-1090',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'preset' => 'block-heading',
+    'preset' => 'block-subheading',
     'padding_slider' => '10',
     'top_padding_num' => '10',
     'bottom_padding_num' => '0',
@@ -3499,11 +3531,11 @@ $main->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'block-heading',
+         'preset' => 'block-subheading',
       )),
        'mobile' =>
       (array)(array(
-         'preset' => 'center',
+         'preset' => 'block-subheading-mobile',
       )),
     )),
     'breakpoint' =>
@@ -3516,7 +3548,7 @@ $main->add_element("PlainTxt", array (
          'top_padding_slider' => '0',
          'top_padding_num' => '0',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',
@@ -3529,7 +3561,7 @@ $main->add_element("PlainTxt", array (
          'right_padding_num' => '',
       )),
     )),
-    'current_preset' => 'block-heading',
+    'current_preset' => 'block-subheading',
     'theme_style' => '',
   ),
   'row' => 6,
@@ -3581,6 +3613,8 @@ $main->add_group(array (
   'top_padding_slider' => '20',
   'left_padding_num' => 10,
   'right_padding_num' => 10,
+  'href' => '',
+  'linkTarget' => false,
   'breakpoint' =>
   array (
     'tablet' =>
@@ -3753,6 +3787,7 @@ $main->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => '',
+       'display_url' => '',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '0',
@@ -3873,6 +3908,7 @@ $main->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => '',
+       'display_url' => '',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '0',

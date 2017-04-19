@@ -39,28 +39,45 @@ $main = upfront_create_region(
   'top_bg_padding_num' => '65',
   'bottom_bg_padding_num' => '65',
   'bg_padding_num' => '65',
+  'region_role' => 'main',
 )
 			);
 
 $main->add_element("Uspacer", array (
   'columns' => '1',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1479868116872-1233 upfront-module-spacer',
   'id' => 'module-1479868116872-1233',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1479868116872-1716',
     'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1479868116872-1716',
   ),
-  'wrapper_id' => 'wrapper-1479868116871-1567',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
-  'edited' => true,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1479868116871-1567',
   'new_line' => true,
+  'wrapper_breakpoint' =>
+  array (
+    'tablet' =>
+    array (
+      'col' => 1,
+    ),
+    'mobile' =>
+    array (
+      'col' => 1,
+    ),
+  ),
 ));
 
 $main->add_element("PostData", array (
@@ -364,7 +381,6 @@ $main->add_element("PostData", array (
   'hide' => 0,
   'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1467787553104-1347',
-  'edited' => true,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -427,18 +443,10 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'clear' => true,
-          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'clear' => true,
-          'order' => 1,
-        ),
-        'current_property' =>
-        array (
-          0 => 'order',
         ),
       ),
       'new_line' => true,
@@ -479,18 +487,10 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'clear' => true,
-          'order' => 2,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'clear' => true,
-          'order' => 2,
-        ),
-        'current_property' =>
-        array (
-          0 => 'order',
         ),
       ),
       'top_padding_num' => 15,
@@ -518,6 +518,10 @@ $main->add_element("PostData", array (
     2 =>
     array (
       'columns' => '24',
+      'margin_left' => '0',
+      'margin_right' => '0',
+      'margin_top' => '0',
+      'margin_bottom' => '0',
       'class' => 'upfront-post-data-part',
       'view_class' => 'PostDataPartView',
       'part_type' => 'date_posted',
@@ -532,26 +536,18 @@ $main->add_element("PostData", array (
       'bottom_padding_num' => '15',
       'lock_padding' => 0,
       'use_padding' => 'yes',
-      'new_line' => true,
       'wrapper_breakpoint' =>
       array (
         'tablet' =>
         array (
-          'clear' => true,
           'col' => 12,
-          'order' => 3,
-        ),
-        'current_property' =>
-        array (
-          0 => 'order',
         ),
         'mobile' =>
         array (
-          'clear' => true,
           'col' => 7,
-          'order' => 3,
         ),
       ),
+      'new_line' => true,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -573,22 +569,38 @@ $main->add_element("PostData", array (
 
 $main->add_element("Uspacer", array (
   'columns' => '1',
-  'class' => 'upfront-module-spacer',
+  'margin_left' => '0',
+  'margin_right' => '0',
+  'margin_top' => '0',
+  'margin_bottom' => '0',
+  'class' => 'module-1479868113565-1016 upfront-module-spacer',
   'id' => 'module-1479868113565-1016',
   'options' =>
   array (
     'type' => 'UspacerModel',
     'view_class' => 'UspacerView',
-    'element_id' => 'spacer-object-1479868113565-1252',
     'class' => 'c24 upfront-object-spacer',
     'has_settings' => 0,
     'id_slug' => 'uspacer',
+    'element_id' => 'spacer-object-1479868113565-1252',
   ),
-  'wrapper_id' => 'wrapper-1479868113562-1120',
+  'row' => 6,
+  'sticky' => false,
   'default_hide' => 1,
-  'toggle_hide' => 0,
   'hide' => 0,
-  'edited' => true,
+  'toggle_hide' => 0,
+  'wrapper_id' => 'wrapper-1479868113562-1120',
+  'wrapper_breakpoint' =>
+  array (
+    'tablet' =>
+    array (
+      'col' => 1,
+    ),
+    'mobile' =>
+    array (
+      'col' => 1,
+    ),
+  ),
 ));
 
 $regions->add($main);

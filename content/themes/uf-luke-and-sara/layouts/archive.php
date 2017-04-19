@@ -48,6 +48,13 @@ $title_area = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/archive/bg-archive.jpg',
   'background_image_ratio' => 0.1499999999999999944488848768742172978818416595458984375,
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -83,6 +90,9 @@ $title_area->add_element("PlainTxt", array (
     'use_padding' => 'yes',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -167,6 +177,9 @@ $title_area->add_element("PlainTxt", array (
     'use_padding' => 'yes',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -275,6 +288,13 @@ $content = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/archive/noise.jpg',
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -409,6 +429,9 @@ $content->add_element("Uwidget", array (
     'top_padding_slider' => '10',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '40',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

@@ -48,6 +48,13 @@ $home_header = upfront_create_region(
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/archive-home/bg-home-banner.jpg',
   'background_image_ratio' => 0.560000000000000053290705182007513940334320068359375,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -119,6 +126,7 @@ $home_header->add_element("Uimage", array (
        'type' => 'homepage',
        'url' => '{{upfront:home_url}}',
        'target' => false,
+       'display_url' => '{{upfront:home_url}}',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452572518178-1011',
@@ -132,6 +140,9 @@ $home_header->add_element("Uimage", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -307,6 +318,7 @@ $home_header->add_element("Button", array (
        'type' => 'anchor',
        'url' => '{{upfront:home_url}}/#about',
        'target' => '_self',
+       'display_url' => '{{upfront:home_url}}/#about',
     )),
     'top_padding_num' => '475',
     'bottom_padding_num' => '15',
@@ -441,6 +453,7 @@ $main_area = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => '',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -738,9 +751,7 @@ $main_area->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<div class="plain-text-container">
-<h3 style="text-align: center;">Learn how to bring your&nbsp;mind and body into balance, move for the pure joy of it, look good and feel connected to all that life has to offer.</h3>
-</div>',
+    'content' => '<h3 style="text-align: center;">Learn how to bring your&nbsp;mind and body into balance, move for the pure joy of it, look good and feel connected to all that life has to offer.</h3>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1452635359690-1384',
     'class' => 'c24 upfront-plain_txt',
@@ -995,6 +1006,7 @@ $main_area->add_element("PlainTxt", array (
     )),
     'right_padding_use' => 'yes',
     'left_padding_use' => 'yes',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1166,6 +1178,14 @@ $region_14 = upfront_create_region(
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'main',
 )
 			);
 
@@ -1211,6 +1231,7 @@ $region_4 = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -1323,6 +1344,9 @@ $region_4->add_element("PlainTxt", array (
     )),
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1691,6 +1715,7 @@ $region_8 = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => 'rgba(250,250,250,1)',
   'version' => '1.0.0',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -1736,6 +1761,9 @@ $region_8->add_element("PlainTxt", array (
     )),
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1842,6 +1870,7 @@ $region_11_a = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => 'rgba(250,250,250,1)',
   'version' => '1.0.0',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -2006,9 +2035,10 @@ $region_11_a->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1452648555414-1787',
@@ -2220,6 +2250,8 @@ $region_11_a->add_group(array (
   'left_padding_num' => '15',
   'right_padding_num' => '15',
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2589,6 +2621,7 @@ $region_11_b = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => 'rgba(250,250,250,1)',
   'version' => '1.0.0',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -2754,9 +2787,10 @@ $region_11_b->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1453356812319-1357',
@@ -2962,6 +2996,8 @@ $region_11_b->add_group(array (
   'version' => '1.0.0',
   'left_padding_num' => '15',
   'right_padding_num' => '15',
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -3324,6 +3360,7 @@ $region_9 = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => '#ufc4',
   'version' => '1.0.0',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -3408,7 +3445,7 @@ $region_9->add_element("Code", array (
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'current_property' =>
@@ -3526,6 +3563,9 @@ $region_9->add_element("PlainTxt", array (
     'preset' => 'default',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -3546,7 +3586,7 @@ $region_9->add_element("PlainTxt", array (
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'current_property' =>
@@ -3716,6 +3756,11 @@ $region_9->add_element("PlainTxt", array (
     'preset' => 'default',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'anchor' => '',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3736,7 +3781,7 @@ $region_9->add_element("PlainTxt", array (
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'current_property' =>
@@ -3988,7 +4033,7 @@ $region_9->add_element("Code", array (
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
     'current_property' =>

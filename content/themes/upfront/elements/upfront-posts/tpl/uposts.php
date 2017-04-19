@@ -7,12 +7,12 @@
 <?php
 	$posts_array = array();
 	while(have_posts()): the_post();
- 	global $post;//, $wp_query;
+	global $post;//, $wp_query;
 		$posts_array[$post->ID] = $post->post_type;
 	endwhile;
 	foreach($posts_array as $id => $type) {
 		$classes = 'uposts-post uposts-posts-' . $id . ' ';
- ?>
+?>
 	<li <?php apply_filters('upfront_posts_post_classes', post_class($classes), $post) ?> data-post_id="<?php echo $id ?>">
 		<?php echo Upfront_ThisPostView::get_post_markup($id, $type, $properties, $layout, true); ?>
 	</li>

@@ -49,6 +49,12 @@ $page_feat_image = upfront_create_region(
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-page/img-new-york.jpg',
   'background_image_ratio' => 0.560000000000000053290705182007513940334320068359375,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -94,6 +100,7 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '80',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 

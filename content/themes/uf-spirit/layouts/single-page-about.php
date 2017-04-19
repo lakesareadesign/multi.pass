@@ -51,6 +51,14 @@ $region_8 = upfront_create_region(
   'background_image_ratio' => 0.560000000000000053290705182007513940334320068359375,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
+  'version' => '1.0.0',
 )
 			);
 
@@ -149,6 +157,9 @@ $region_8->add_element("PlainTxt", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -162,15 +173,19 @@ $region_8->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -189,6 +204,10 @@ $region_8->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 19,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -257,6 +276,18 @@ $region_3 = upfront_create_region(
        'col' => 24,
     )),
   )),
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'background_type' => 'color',
+  'background_color' => '#ffffff',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'main',
+  'version' => '1.0.0',
 )
 			);
 
@@ -338,7 +369,7 @@ $region_3->add_element("PlainTxt", array (
     'top_padding_slider' => '15',
     'row' => 9,
   ),
-  'row' => 9,
+  'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
@@ -350,15 +381,19 @@ $region_3->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -376,6 +411,10 @@ $region_3->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -503,6 +542,11 @@ $region_3->add_element("PlainTxt", array (
          'top_padding_num' => '30',
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -516,15 +560,19 @@ $region_3->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -542,6 +590,10 @@ $region_3->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -704,15 +756,19 @@ $region_3->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -732,6 +788,10 @@ $region_3->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 39,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -823,6 +883,8 @@ $region_4 = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
+  'region_role' => 'main',
+  'version' => '1.0.0',
 )
 			);
 
@@ -934,15 +996,19 @@ $region_4->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -960,6 +1026,10 @@ $region_4->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1034,15 +1104,19 @@ $region_4->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1060,6 +1134,10 @@ $region_4->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1152,6 +1230,7 @@ $region_4->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1165,9 +1244,10 @@ $region_4->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453425360275-1491',
     'padding_slider' => '15',
@@ -1190,6 +1270,11 @@ $region_4->add_element("Uimage", array (
          'row' => 45,
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1204,15 +1289,19 @@ $region_4->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1232,6 +1321,10 @@ $region_4->add_element("Uimage", array (
       'col' => 7,
       'order' => 0,
       'row' => 45,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1281,6 +1374,11 @@ $region_4->add_element("PlainTxt", array (
        'current_property' => 'bottom_padding_num',
     )),
     'row' => 10,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1295,15 +1393,19 @@ $region_4->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1323,6 +1425,10 @@ $region_4->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 10,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1414,6 +1520,8 @@ $region_6 = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => 'rgba(250,250,250,1)',
+  'region_role' => 'complementary',
+  'version' => '1.0.0',
 )
 			);
 
@@ -1458,6 +1566,11 @@ $region_6->add_element("PlainTxt", array (
       )),
        'current_property' => 'top_padding_num',
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1472,15 +1585,19 @@ $region_6->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1498,6 +1615,10 @@ $region_6->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -1571,7 +1692,7 @@ $region_6->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 1,
+      'order' => 2,
       'col' => 1,
     ),
     'mobile' =>
@@ -1634,7 +1755,7 @@ $region_6->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 1,
+      'order' => 2,
       'col' => 1,
     ),
     'current_property' =>
@@ -1675,25 +1796,29 @@ $region_6->add_group(array (
   'lock_padding' => '',
   'top_padding_use' => 'yes',
   'top_padding_slider' => '60',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
       'edited' => true,
       'col' => 10,
-      'order' => 1,
+      'order' => 3,
       'clear' => false,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 1,
+      'order' => 3,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1770,6 +1895,7 @@ $region_6->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1783,9 +1909,10 @@ $region_6->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453426486202-1722',
     'padding_slider' => '15',
@@ -1793,6 +1920,13 @@ $region_6->add_element("Uimage", array (
     'bottom_padding_num' => '15',
     'usingNewAppearance' => true,
     'row' => 10,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1814,8 +1948,12 @@ $region_6->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1834,6 +1972,10 @@ $region_6->add_element("Uimage", array (
       'left' => 0,
       'col' => 5,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453427701734-1307',
@@ -1890,6 +2032,7 @@ $region_6->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -1903,9 +2046,10 @@ $region_6->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453427294502-1783',
     'padding_slider' => '15',
@@ -1913,6 +2057,13 @@ $region_6->add_element("Uimage", array (
     'bottom_padding_num' => '15',
     'usingNewAppearance' => true,
     'row' => 10,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1933,8 +2084,12 @@ $region_6->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1953,6 +2108,10 @@ $region_6->add_element("Uimage", array (
       'left' => 0,
       'col' => 5,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453427701734-1307',
@@ -2009,6 +2168,7 @@ $region_6->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -2022,9 +2182,10 @@ $region_6->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453427453516-1691',
     'padding_slider' => '15',
@@ -2032,6 +2193,13 @@ $region_6->add_element("Uimage", array (
     'bottom_padding_num' => '15',
     'usingNewAppearance' => true,
     'row' => 10,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2052,8 +2220,12 @@ $region_6->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2072,6 +2244,10 @@ $region_6->add_element("Uimage", array (
       'left' => 0,
       'col' => 5,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453427701734-1307',
@@ -2128,6 +2304,7 @@ $region_6->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -2141,9 +2318,10 @@ $region_6->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453427317415-1400',
     'padding_slider' => '15',
@@ -2151,6 +2329,13 @@ $region_6->add_element("Uimage", array (
     'bottom_padding_num' => '15',
     'usingNewAppearance' => true,
     'row' => 10,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2171,8 +2356,12 @@ $region_6->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2191,6 +2380,10 @@ $region_6->add_element("Uimage", array (
       'left' => 0,
       'col' => 5,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453427701734-1307',
@@ -2230,7 +2423,7 @@ $region_6->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 1,
+      'order' => 4,
       'col' => 1,
     ),
     'current_property' =>
@@ -2284,7 +2477,7 @@ $region_6->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 1,
+      'order' => 4,
       'col' => 1,
     ),
     'mobile' =>
@@ -2418,7 +2611,7 @@ $region_6->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 2,
+      'order' => 5,
       'col' => 1,
     ),
     'mobile' =>
@@ -2481,7 +2674,7 @@ $region_6->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 2,
+      'order' => 5,
       'col' => 1,
     ),
     'current_property' =>
@@ -2523,25 +2716,29 @@ $region_6->add_group(array (
   'bottom_padding_use' => 'yes',
   'bottom_padding_slider' => '0',
   'row' => 22,
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
     array (
       'edited' => true,
       'col' => 10,
-      'order' => 2,
+      'order' => 6,
       'clear' => false,
     ),
     'mobile' =>
     array (
       'edited' => true,
       'col' => 5,
-      'order' => 2,
+      'order' => 6,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2619,6 +2816,7 @@ $region_6->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -2632,9 +2830,10 @@ $region_6->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453427541584-1425',
     'padding_slider' => '15',
@@ -2642,6 +2841,13 @@ $region_6->add_element("Uimage", array (
     'bottom_padding_num' => '15',
     'usingNewAppearance' => true,
     'row' => 28,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2663,8 +2869,12 @@ $region_6->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2683,6 +2893,10 @@ $region_6->add_element("Uimage", array (
       'left' => 0,
       'col' => 5,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453427930997-1437',
@@ -2739,6 +2953,7 @@ $region_6->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -2752,9 +2967,10 @@ $region_6->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453427758155-1757',
     'padding_slider' => '15',
@@ -2762,6 +2978,13 @@ $region_6->add_element("Uimage", array (
     'bottom_padding_num' => '15',
     'usingNewAppearance' => true,
     'row' => 28,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2782,8 +3005,12 @@ $region_6->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2802,6 +3029,10 @@ $region_6->add_element("Uimage", array (
       'left' => 0,
       'col' => 5,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453427930997-1437',
@@ -2858,6 +3089,7 @@ $region_6->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -2871,9 +3103,10 @@ $region_6->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453427790847-1308',
     'padding_slider' => '15',
@@ -2881,6 +3114,13 @@ $region_6->add_element("Uimage", array (
     'bottom_padding_num' => '15',
     'usingNewAppearance' => true,
     'row' => 28,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -2901,8 +3141,12 @@ $region_6->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2921,6 +3165,10 @@ $region_6->add_element("Uimage", array (
       'left' => 0,
       'col' => 5,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453427930997-1437',
@@ -2977,6 +3225,7 @@ $region_6->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -2990,9 +3239,10 @@ $region_6->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453427840809-1104',
     'padding_slider' => '15',
@@ -3000,6 +3250,13 @@ $region_6->add_element("Uimage", array (
     'bottom_padding_num' => '15',
     'usingNewAppearance' => true,
     'row' => 28,
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3020,8 +3277,12 @@ $region_6->add_element("Uimage", array (
     array (
       'edited' => false,
       'col' => 5,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -3040,6 +3301,10 @@ $region_6->add_element("Uimage", array (
       'left' => 0,
       'col' => 5,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453427930997-1437',
@@ -3079,7 +3344,7 @@ $region_6->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 2,
+      'order' => 7,
       'col' => 1,
     ),
     'current_property' =>
@@ -3133,7 +3398,7 @@ $region_6->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 2,
+      'order' => 7,
       'col' => 1,
     ),
     'mobile' =>

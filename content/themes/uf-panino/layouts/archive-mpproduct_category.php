@@ -45,6 +45,17 @@ $page_header = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/archive-mpproduct_category/blog-template-banner.jpg',
   'background_image_ratio' => 0.11000000000000000055511151231257827021181583404541015625,
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'complementary',
 )
 			);
 
@@ -97,6 +108,13 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -171,6 +189,9 @@ $content->add_element("PlainTxt", array (
     'top_padding_slider' => '90',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,

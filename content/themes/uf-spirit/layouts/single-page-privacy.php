@@ -42,6 +42,8 @@ $privacy_breadcrumbs = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '',
+  'region_role' => 'complementary',
+  'version' => '1.0.0',
 )
 			);
 
@@ -123,7 +125,7 @@ $privacy_breadcrumbs->add_element("PlainTxt", array (
     'top_padding_slider' => '15',
     'row' => 10,
   ),
-  'row' => 10,
+  'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
@@ -135,15 +137,19 @@ $privacy_breadcrumbs->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -161,6 +167,10 @@ $privacy_breadcrumbs->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -243,6 +253,8 @@ $privacy_content = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
+  'region_role' => 'main',
+  'version' => '1.0.0',
 )
 			);
 
@@ -329,6 +341,13 @@ $privacy_content->add_element("PlainTxt", array (
       )),
        'current_property' => 'top_padding_num',
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -342,15 +361,19 @@ $privacy_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -370,6 +393,10 @@ $privacy_content->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'row' => 13,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -472,7 +499,7 @@ $privacy_content->add_element("PlainTxt", array (
     'usingNewAppearance' => true,
     'is_edited' => true,
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -513,15 +540,19 @@ $privacy_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -539,6 +570,10 @@ $privacy_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -641,7 +676,7 @@ $privacy_content->add_element("PlainTxt", array (
     'usingNewAppearance' => true,
     'is_edited' => true,
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -682,15 +717,19 @@ $privacy_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -708,6 +747,10 @@ $privacy_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -735,7 +778,7 @@ $privacy_content->add_element("PlainTxt", array (
     'usingNewAppearance' => true,
     'is_edited' => true,
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -776,15 +819,19 @@ $privacy_content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -802,6 +849,10 @@ $privacy_content->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

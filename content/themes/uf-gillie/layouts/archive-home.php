@@ -58,6 +58,11 @@ $slider_callout = upfront_create_region(
   'bg_padding_slider' => '215',
   'bg_padding_num' => '215',
   'background_color' => 'rgba(0,0,0,0)',
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'region_role' => false,
 )
 			);
 
@@ -90,6 +95,8 @@ $slider_callout->add_group(array (
   'bottom_padding_slider' => '40',
   'left_padding_num' => 10,
   'right_padding_num' => 10,
+  'href' => '',
+  'linkTarget' => false,
   'new_line' => true,
   'wrapper_breakpoint' =>
   array (
@@ -380,6 +387,9 @@ $slider_callout->add_element("PlainTxt", array (
     'left_padding_num' => 10,
     'right_padding_num' => 10,
     'anchor' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -796,12 +806,12 @@ $slider_callout->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h1><span class="upfront_theme_color_3" data-verified="redactor" data-redactor-tag="span" data-redactor-class="upfront_theme_color_3">My Chord Book<br>Advanced 2</span></h1>',
+    'content' => '<h2><span class="upfront_theme_color_3" data-verified="redactor" data-redactor-tag="span" data-redactor-class="upfront_theme_color_3">My Chord Book<br>Advanced 2</span></h2>',
     'type' => 'PlainTxtModel',
     'element_id' => 'object-1459768148015-1694',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'preset' => 'default',
+    'preset' => 'cover-message',
     'padding_slider' => '10',
     'top_padding_num' => '0',
     'bottom_padding_num' => '0',
@@ -830,7 +840,11 @@ $slider_callout->add_element("PlainTxt", array (
          'use_padding' => 'yes',
       )),
     )),
-    'current_preset' => 'default',
+    'current_preset' => 'cover-message',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'theme_style' => '',
   ),
   'row' => 6,
   'sticky' => false,
@@ -1223,6 +1237,7 @@ $slider_callout->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => '',
+       'display_url' => '',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '20',
@@ -1553,6 +1568,8 @@ $main_slider = upfront_create_region(
     1 => 'images/main_slide_2.jpg',
     2 => 'images/main_slide_3.jpg',
   ),
+  'background_slider_control_style' => 'both',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -1605,6 +1622,7 @@ $about = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -1712,9 +1730,10 @@ $about->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1459758499262-1136',
     'padding_slider' => '10',
@@ -1759,6 +1778,9 @@ $about->add_element("Uimage", array (
     'right_padding_num' => '10',
     'anchor' => '',
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1881,6 +1903,8 @@ $about->add_group(array (
   'bottom_padding_slider' => '50',
   'left_padding_num' => 10,
   'right_padding_num' => 10,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1977,7 +2001,6 @@ $about->add_element("PlainTxt", array (
        'tablet' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '0',
          'top_padding_num' => '0',
@@ -2118,7 +2141,6 @@ $about->add_element("PlainTxt", array (
        'tablet' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '0',
          'top_padding_num' => '0',
@@ -2276,6 +2298,7 @@ $about->add_element("Button", array (
        'target' => '',
        'object' => 'page',
        'object_id' => 83,
+       'display_url' => '{{upfront:home_url}}/about/',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '0',
@@ -2584,6 +2607,7 @@ $banners_top = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -2694,6 +2718,7 @@ $banners_top->add_element("Uimage", array (
        'type' => 'image',
        'url' => '{{upfront:style_url}}/images/archive-home/1394411563gallery-5.jpg',
        'target' => '_self',
+       'display_url' => '{{upfront:home_url}}/wp-conte...',
     )),
     'element_id' => 'image-1459520887169-1555',
     'padding_slider' => '10',
@@ -2722,7 +2747,6 @@ $banners_top->add_element("Uimage", array (
        'tablet' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '20',
          'top_padding_num' => '20',
@@ -2862,9 +2886,10 @@ $banners_top->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1459520826294-1710',
     'padding_slider' => '10',
@@ -2896,7 +2921,10 @@ $banners_top->add_element("Uimage", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
-    'lock_padding' => 0,
+    'lock_padding' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -3017,9 +3045,10 @@ $banners_top->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'object-1459520942606-1647',
     'padding_slider' => '10',
@@ -3182,6 +3211,7 @@ $main_callout = upfront_create_region(
   'background_image_ratio' => 0.39000000000000001332267629550187848508358001708984375,
   'background_repeat' => 'no-repeat',
   'background_position' => '-25% 50%',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -3257,6 +3287,8 @@ $main_callout->add_group(array (
   'left_padding_num' => 10,
   'right_padding_num' => 10,
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -4379,6 +4411,7 @@ $testimonials = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -4407,11 +4440,18 @@ $testimonials->add_element("USlider", array (
       0 => 'true',
     ),
     'rotateTime' => 5,
+    'keyboardControls' =>
+    array (
+      0 => 'true',
+    ),
     'transition' => 'crossfade',
     'slides' =>
     array (
       0 =>
       (array)(array(
+         'id' => 2218,
+         'src' => '{{upfront:style_url}}/images/archive-home/gillie_8-315x525-2009.jpg',
+         'srcFull' => '{{upfront:style_url}}/images/archive-home/gillie_8.jpg',
          'sizes' =>
         (array)(array(
            'thumbnail' =>
@@ -4484,10 +4524,6 @@ $testimonials->add_element("USlider", array (
             )),
           )),
         )),
-         'id' => 2218,
-         'srcFull' => '{{upfront:style_url}}/images/archive-home/gillie_8.jpg',
-         'status' => 'ok',
-         'src' => '{{upfront:style_url}}/images/archive-home/gillie_8-315x525-2009.jpg',
          'size' =>
         (array)(array(
            'width' => 340,
@@ -4507,7 +4543,7 @@ $testimonials->add_element("USlider", array (
         )),
          'rotation' => 0,
          'url' => '',
-         'urlType' => '',
+         'urlType' => 'external',
          'text' => '<p class="nosortable">Jason, aged 8</p><blockquote class="nosortable"><span id="selection-marker-1" class="redactor-selection-marker" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-selection-marker">​</span>"My son started guitar lessons with Gillie just two months ago and has already gained a huge knowledge and understanding of music and how to play guitar well."​<span id="selection-marker-2" class="redactor-selection-marker" data-verified="redactor" data-redactor-tag="span" data-redactor-class="redactor-selection-marker">​</span></blockquote><p class="nosortable"><a target="_self" data-upfront-link-type="entry" href="{{upfront:home_url}}/testimonials/">View all</a></p>',
          'margin' =>
         (array)(array(
@@ -4530,9 +4566,21 @@ $testimonials->add_element("USlider", array (
              'style' => 'below',
           )),
         )),
+         'status' => 'ok',
+         'link' =>
+        (array)(array(
+           'type' => 'external',
+           'url' => '',
+           'target' => '_self',
+           'display_url' => '',
+        )),
+         'linkTarget' => '_self',
       )),
       1 =>
       (array)(array(
+         'id' => 2219,
+         'src' => '{{upfront:style_url}}/images/archive-home/gillie_9-315x525-6736.jpg',
+         'srcFull' => '{{upfront:style_url}}/images/archive-home/gillie_9.jpg',
          'sizes' =>
         (array)(array(
            'thumbnail' =>
@@ -4604,10 +4652,6 @@ $testimonials->add_element("USlider", array (
             )),
           )),
         )),
-         'id' => 2219,
-         'srcFull' => '{{upfront:style_url}}/images/archive-home/gillie_9.jpg',
-         'status' => 'ok',
-         'src' => '{{upfront:style_url}}/images/archive-home/gillie_9-315x525-6736.jpg',
          'size' =>
         (array)(array(
            'width' => 340,
@@ -4650,6 +4694,7 @@ $testimonials->add_element("USlider", array (
              'style' => 'below',
           )),
         )),
+         'status' => 'ok',
       )),
     ),
     'captionUseBackground' => '0',
@@ -4814,6 +4859,7 @@ $banners_bottom = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -4921,9 +4967,10 @@ $banners_bottom->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1459521078535-1047',
     'padding_slider' => '10',
@@ -4939,7 +4986,6 @@ $banners_bottom->add_element("Uimage", array (
        'tablet' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'top_padding_use' => 'yes',
          'top_padding_slider' => '20',
          'top_padding_num' => '20',
@@ -4975,7 +5021,10 @@ $banners_bottom->add_element("Uimage", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
-    'lock_padding' => 0,
+    'lock_padding' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -5096,9 +5145,10 @@ $banners_bottom->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1459522758518-1022',
     'padding_slider' => '10',
@@ -5136,7 +5186,10 @@ $banners_bottom->add_element("Uimage", array (
     'current_preset' => 'default',
     'left_padding_num' => 10,
     'right_padding_num' => 10,
-    'lock_padding' => 0,
+    'lock_padding' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -5276,6 +5329,7 @@ $callouts = upfront_create_region(
   'bg_padding_slider' => '0',
   'bg_padding_num' => '0',
   'background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -5352,6 +5406,13 @@ $callouts->add_group(array (
   'left_padding_num' => 10,
   'right_padding_num' => 10,
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
+  'origin_position_y' => 50,
+  'origin_position_x' => 50,
+  'use_background_size_percent' => '',
+  'background_size_percent' => 100,
+  'featured_fallback_background_color' => '#ffffff',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -5645,6 +5706,9 @@ $callouts->add_element("PlainTxt", array (
     'left_padding_num' => 10,
     'right_padding_num' => 10,
     'anchor' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -6449,6 +6513,7 @@ $callouts->add_element("Button", array (
        'target' => '',
        'object' => 'page',
        'object_id' => 265,
+       'display_url' => '{{upfront:home_url}}/blog/',
     )),
     'padding_slider' => '10',
     'top_padding_num' => '15',
@@ -6846,7 +6911,6 @@ $callouts->add_element("Posts", array (
        'tablet' =>
       (array)(array(
          'use_padding' => 'yes',
-         'lock_padding' => '',
          'bottom_padding_use' => 'yes',
          'bottom_padding_slider' => '0',
          'bottom_padding_num' => '0',
@@ -6854,7 +6918,7 @@ $callouts->add_element("Posts", array (
          'top_padding_slider' => '10',
          'top_padding_num' => '10',
       )),
-       'current_property' => 'use_padding',
+       'current_property' => 'lock_padding',
        'mobile' =>
       (array)(array(
          'use_padding' => 'yes',

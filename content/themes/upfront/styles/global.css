@@ -96,6 +96,17 @@ del {
 	text-align: center;
 }
 
+/* ==|== accessibility focus styles ==================== */
+
+*:focus {
+	outline: 0;
+}
+
+*:active.keyboard-outline,
+*:focus.keyboard-outline {
+	outline: #2ea3f2 auto 5px;
+}
+
 /* ==|== grid requirements ==================== */
 
 #page {
@@ -733,4 +744,4 @@ body .upfront-edit_layout a {
 }
 
 
-/* 133620-1484344539-au */
+/* 133620-1492562833-au */

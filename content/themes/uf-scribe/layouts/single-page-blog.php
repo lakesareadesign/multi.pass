@@ -37,6 +37,11 @@ $content = upfront_create_region(
     0 => '',
   ),
   'version' => '1.0.0',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -103,6 +108,9 @@ $content->add_element("Posts", array (
     'pagination' => 'numeric',
     'sticky' => '',
     'posts_list' => '',
+    'thumbnail_size' => 'large',
+    'custom_thumbnail_width' => 200,
+    'custom_thumbnail_height' => 200,
     'post_parts' =>
     array (
       0 => 'featured_image',
@@ -140,6 +148,7 @@ $content->add_element("Posts", array (
     'content_length' => '25',
     'resize_featured' => '1',
     'gravatar_size' => 200,
+    'preset' => 'default',
     'post-part-date_posted' => '<div class="uposts-part date_posted"><span class="datetime">{{datetime}}</span></div>',
     'post-part-author' => '<div class="uposts-part author">
 	By <a href="{{url}}">{{name}}</a></div>',
@@ -179,7 +188,6 @@ $content->add_element("Posts", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
-    'preset' => 'default',
     'breakpoint_presets' =>
     (array)(array(
        'desktop' =>
@@ -217,7 +225,7 @@ $content->add_element("Posts", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
@@ -226,6 +234,10 @@ $content->add_element("Posts", array (
       'col' => 7,
       'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -244,6 +256,10 @@ $content->add_element("Posts", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

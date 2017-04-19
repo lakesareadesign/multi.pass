@@ -44,6 +44,7 @@ $breadcrumbs = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -98,7 +99,7 @@ $breadcrumbs->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h6 style="text-align: right;"><a href="{{upfront:home_url}}" target="_self" data-upfront-link-type="homepage">Home</a> <span class="upfront_theme_color_7">/</span> About</h6>',
+    'content' => '<h6 style="text-align: right;"><a target="_self" data-upfront-link-type="homepage" href="{{upfront:home_url}}"><span class="upfront_theme_color_1"><span class="upfront_theme_color_1">Home</span></span></a> <span class="upfront_theme_color_7" data-verified="redactor" data-redactor-tag="span" data-redactor-class="upfront_theme_color_7">/</span> About</h6>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1470547254023-1581',
     'class' => 'c24 upfront-plain_txt',
@@ -125,7 +126,7 @@ $breadcrumbs->add_element("PlainTxt", array (
          'row' => 6,
       )),
     )),
-    'lock_padding' => 0,
+    'lock_padding' => '',
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
@@ -271,6 +272,7 @@ $block_title = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
+  'region_role' => 'main',
 )
 			);
 
@@ -520,6 +522,7 @@ $block_banner = upfront_create_region(
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-page-about/img-camera.jpg',
   'background_image_ratio' => 0.2300000000000000099920072216264088638126850128173828125,
+  'region_role' => 'main',
 )
 			);
 
@@ -820,9 +823,10 @@ $block_banner->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1461788328005-1603',
     'padding_slider' => '15',
@@ -871,6 +875,9 @@ $block_banner->add_element("Uimage", array (
       )),
     )),
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -971,6 +978,7 @@ $about_subnav = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc1',
+  'region_role' => 'main',
 )
 			);
 
@@ -1149,6 +1157,9 @@ $about_subnav->add_element("PlainTxt", array (
     'top_padding_slider' => '15',
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1252,6 +1263,9 @@ $about_subnav->add_element("PlainTxt", array (
     'top_padding_slider' => '15',
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1355,6 +1369,9 @@ $about_subnav->add_element("PlainTxt", array (
     'anchor' => '',
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1457,6 +1474,9 @@ $about_subnav->add_element("PlainTxt", array (
     'top_padding_slider' => '15',
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1561,6 +1581,9 @@ $about_subnav->add_element("PlainTxt", array (
     'anchor' => '',
     'left_padding_use' => 'yes',
     'right_padding_use' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1787,6 +1810,7 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '80',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -1857,6 +1881,10 @@ $main->add_group(array (
   'bottom_padding_use' => 'yes',
   'bottom_padding_slider' => '40',
   'lock_padding' => '',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2268,6 +2296,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'https://twitter.com',
        'target' => '_blank',
+       'display_url' => 'https://twitter.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -2379,6 +2408,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://linkedin.com',
        'target' => '_blank',
+       'display_url' => 'http://linkedin.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -2713,6 +2743,11 @@ $main->add_group(array (
   'top_padding_slider' => '15',
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '15',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2912,11 +2947,11 @@ $main->add_element("PlainTxt", array (
       )),
        'tablet' =>
       (array)(array(
-         'preset' => 'textbox-alternative-for-tablet',
+         'preset' => 'default',
       )),
        'mobile' =>
       (array)(array(
-         'preset' => 'textbox-alternative-for-mobile',
+         'preset' => 'default',
       )),
     )),
     'top_padding_use' => 'yes',
@@ -3027,6 +3062,11 @@ $main->add_element("PlainTxt", array (
     'current_preset' => 'default',
     'top_padding_use' => 'yes',
     'top_padding_slider' => '0',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -3107,6 +3147,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://linkedin.com',
        'target' => '_blank',
+       'display_url' => 'http://linkedin.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -3216,6 +3257,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://twitter.com',
        'target' => '_blank',
+       'display_url' => 'http://twitter.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -3325,6 +3367,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://youtube.com',
        'target' => '_blank',
+       'display_url' => 'http://youtube.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -3698,6 +3741,10 @@ $main->add_group(array (
   'bottom_padding_use' => 'yes',
   'bottom_padding_slider' => '40',
   'lock_padding' => '',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -4011,8 +4058,13 @@ $main->add_element("PlainTxt", array (
     'current_preset' => 'default',
     'top_padding_use' => 'yes',
     'top_padding_slider' => '0',
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
-  'row' => 74,
+  'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
@@ -4091,6 +4143,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://facebook.com',
        'target' => '_blank',
+       'display_url' => 'http://facebook.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -4202,6 +4255,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://twitter.com',
        'target' => '_blank',
+       'display_url' => 'http://twitter.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -4312,6 +4366,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://pinterest.com',
        'target' => '_blank',
+       'display_url' => 'http://pinterest.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -4645,6 +4700,11 @@ $main->add_group(array (
   'top_padding_slider' => '15',
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '15',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -5051,6 +5111,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://facebook.com',
        'target' => '_blank',
+       'display_url' => 'http://facebook.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -5161,6 +5222,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://twitter.com',
        'target' => '_blank',
+       'display_url' => 'http://twitter.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -5271,6 +5333,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://youtube.com',
        'target' => '_blank',
+       'display_url' => 'http://youtube.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -5381,6 +5444,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://linkedin.com',
        'target' => '_blank',
+       'display_url' => 'http://linkedin.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -5491,6 +5555,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://pinterest.com',
        'target' => '_blank',
+       'display_url' => 'http://pinterest.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -5863,6 +5928,11 @@ $main->add_group(array (
   'top_padding_slider' => '15',
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '15',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -6180,8 +6250,13 @@ $main->add_element("PlainTxt", array (
     'top_padding_use' => 'yes',
     'top_padding_slider' => '0',
     'row' => 49,
+    'breakpoint_presets' =>
+    array (
+    ),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
-  'row' => 49,
+  'row' => 6,
   'sticky' => false,
   'default_hide' => 0,
   'hide' => 0,
@@ -6260,6 +6335,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://facebook.com',
        'target' => '_blank',
+       'display_url' => 'http://facebook.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -6370,6 +6446,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://twitter.com',
        'target' => '_blank',
+       'display_url' => 'http://twitter.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -6480,6 +6557,7 @@ $main->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://pinterest.com',
        'target' => '_blank',
+       'display_url' => 'http://pinterest.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -6801,6 +6879,11 @@ $main->add_group(array (
   'top_padding_num' => 0,
   'bottom_padding_num' => 0,
   'use_padding' => 'yes',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>

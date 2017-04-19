@@ -37,6 +37,11 @@ $newsletter = upfront_create_region(
   ),
   'background_color' => '#ffffff',
   'version' => '1.0.0',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => false,
 )
 			);
 
@@ -135,7 +140,6 @@ $newsletter->add_element("Code", array (
 .newsletter-form input[type="submit"] {
     opacity: 1;
     border-radius: 0 4px 4px 0;
-    border-color: transparent;
     display: inline-block;
     padding: 10px 34px;
     margin-bottom: 0;
@@ -156,7 +160,8 @@ $newsletter->add_element("Code", array (
     -webkit-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
 }
-.newsletter-form input[type="submit"]:hover {
+.newsletter-form input[type="submit"]:hover,
+.newsletter-form input[type="submit"]:focus {
    border-color: #ufc1;
 }',
     'script' => '/* Your code here */',
@@ -167,6 +172,7 @@ $newsletter->add_element("Code", array (
          'row' => 22,
          'top_padding_use' => true,
          'top_padding_num' => 55,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
@@ -357,6 +363,7 @@ $newsletter->add_element("PlainTxt", array (
          'top_padding_use' => true,
          'top_padding_num' => 20,
          'row' => 13,
+         'use_padding' => 'yes',
       )),
        'current_property' => 'use_padding',
     )),
@@ -377,6 +384,9 @@ $newsletter->add_element("PlainTxt", array (
     'left_padding_num' => '10',
     'right_padding_num' => '10',
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -592,6 +602,7 @@ $newsletter->add_element("Button", array (
        'target' => false,
        'object' => 'page',
        'object_id' => 4,
+       'display_url' => '{{upfront:home_url}}/download...',
     )),
     'currentpreset' => false,
     'row' => 6,
@@ -618,7 +629,14 @@ $newsletter->add_element("Button", array (
          'use_padding' => 'yes',
       )),
        'current_property' => 'use_padding',
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -696,6 +714,7 @@ $newsletter->add_element("Button", array (
        'target' => false,
        'object' => 'page',
        'object_id' => 4,
+       'display_url' => '{{upfront:home_url}}/download...',
     )),
     'currentpreset' => false,
     'row' => 6,
@@ -722,7 +741,14 @@ $newsletter->add_element("Button", array (
          'use_padding' => 'yes',
       )),
        'current_property' => 'use_padding',
+       'tablet' =>
+      (array)(array(
+         'use_padding' => 'yes',
+      )),
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -799,6 +825,7 @@ $newsletter->add_element("Button", array (
        'target' => false,
        'object' => 'page',
        'object_id' => 4,
+       'display_url' => '{{upfront:home_url}}/download...',
     )),
     'currentpreset' => false,
     'row' => 6,
@@ -809,6 +836,7 @@ $newsletter->add_element("Button", array (
        'tablet' =>
       (array)(array(
          'row' => 9,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(
@@ -830,6 +858,9 @@ $newsletter->add_element("Button", array (
     'right_padding_use' => 'yes',
     'bottom_padding_use' => 'yes',
     'current_preset' => 'parrot-android-sm',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1097,6 +1128,7 @@ $newsletter->add_element("Code", array (
       (array)(array(
          'top_padding_use' => true,
          'top_padding_num' => 25,
+         'use_padding' => 'yes',
       )),
        'mobile' =>
       (array)(array(

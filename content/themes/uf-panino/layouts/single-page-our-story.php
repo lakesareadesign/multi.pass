@@ -50,6 +50,13 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -105,7 +112,7 @@ $main->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<h1 class="" style="text-align: center;">Our Story</h1>',
+    'content' => '<h2 class="" style="text-align: center;">Our Story</h2>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1429596091276-1984',
     'class' => 'c24 upfront-plain_txt',
@@ -142,6 +149,10 @@ $main->add_element("PlainTxt", array (
     'preset' => 'u-section-title-m',
     'breakpoint_presets' =>
     (array)(array(
+       'tablet' =>
+      (array)(array(
+         'preset' => 'center',
+      )),
        'desktop' =>
       (array)(array(
          'preset' => 'u-section-title-m',
@@ -283,7 +294,7 @@ $main->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<h2 class="">We don\'t just love coffee -&nbsp;<span rel="color: rgb(90, 100, 120); font-family: \'Open Sans\', sans-serif; font-size: 13px; font-weight: normal; line-height: 22px; text-transform: none; background-color: rgb(254, 254, 254);" data-verified="redactor" data-redactor-tag="span">we live and breathe it</span>.<br></h2><p class="">Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse. Lorem ipsum dolor sit amet lorem unim ad minim veniam ledgre me lius ii legunt saepiusud exerci tation ullamcorper suscipit, lorem ipsum dolor sit amet.</p>',
+    'content' => '<h3 class="">We don\'t just love coffee -&nbsp;<span rel="color: rgb(90, 100, 120); font-family: \'Open Sans\', sans-serif; font-size: 13px; font-weight: normal; line-height: 22px; text-transform: none; background-color: rgb(254, 254, 254);" data-verified="redactor" data-redactor-tag="span">we live and breathe it</span>.<br></h3><p class="">Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse. Lorem ipsum dolor sit amet lorem unim ad minim veniam ledgre me lius ii legunt saepiusud exerci tation ullamcorper suscipit, lorem ipsum dolor sit amet.</p>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1429595730529-1269',
     'class' => 'c24 upfront-plain_txt',
@@ -683,9 +694,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1430903436347-1013',
@@ -884,9 +896,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'object-1430903482416-1633',
@@ -1115,6 +1128,7 @@ $main->add_element("Button", array (
        'type' => 'entry',
        'url' => '{{upfront:home_url}}/our-gallery/',
        'target' => '_self',
+       'display_url' => '{{upfront:home_url}}/our-...',
     )),
     'currentpreset' => false,
     'row' => 18,
@@ -1146,6 +1160,9 @@ $main->add_element("Button", array (
     'right_padding_num' => '15',
     'anchor' => '',
     'current_preset' => 'button-circle',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

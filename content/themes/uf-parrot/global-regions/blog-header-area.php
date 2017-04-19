@@ -32,6 +32,15 @@ $navigation_secondary = upfront_create_region(
   'use_padding' => 0,
   'background_color' => 'rgba(0,0,0,0)',
   'version' => '1.0.0',
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => false,
 )
 			);
 
@@ -142,6 +151,7 @@ $navigation_secondary->add_element("Uimage", array (
        'type' => 'external',
        'url' => '{{upfront:home_url}}',
        'target' => '_self',
+       'display_url' => '{{upfront:home_url}}',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1444095748480-1248',
@@ -172,6 +182,9 @@ $navigation_secondary->add_element("Uimage", array (
     'left_padding_num' => '10',
     'right_padding_num' => '10',
     'anchor' => '',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -417,110 +430,122 @@ $navigation_secondary->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 10,
+         'menu-item-db-id' => 640,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Home',
          'menu-item-url' => '{{upfront:home_url}}',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '10',
+         'menu-item-object-id' => '640',
          'menu-item-target' => '',
          'menu-item-position' => 1,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
-           'type' => 'external',
+           'type' => 'entry',
            'url' => '{{upfront:home_url}}',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}',
         )),
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 11,
+         'menu-item-db-id' => 641,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Features',
          'menu-item-url' => '{{upfront:home_url}}/features/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '11',
+         'menu-item-object-id' => '641',
          'menu-item-target' => '',
          'menu-item-position' => 2,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
-           'type' => 'external',
+           'type' => 'entry',
            'url' => '{{upfront:home_url}}/features/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/features/',
         )),
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 12,
+         'menu-item-db-id' => 642,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Download',
          'menu-item-url' => '{{upfront:home_url}}/download/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '12',
+         'menu-item-object-id' => '642',
          'menu-item-target' => '',
          'menu-item-position' => 3,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
-           'type' => 'external',
+           'type' => 'entry',
            'url' => '{{upfront:home_url}}/download/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/download/',
         )),
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 13,
+         'menu-item-db-id' => 643,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact Us',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '13',
+         'menu-item-object-id' => '643',
          'menu-item-target' => '',
          'menu-item-position' => 4,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
-           'type' => 'external',
+           'type' => 'entry',
            'url' => '{{upfront:home_url}}/contact/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/contact/',
         )),
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 14,
+         'menu-item-db-id' => 644,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '14',
+         'menu-item-object-id' => '644',
          'menu-item-target' => '',
          'menu-item-position' => 5,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
-           'type' => 'external',
+           'type' => 'entry',
            'url' => '{{upfront:home_url}}/about/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/about/',
         )),
       )),
       5 =>
       (array)(array(
-         'menu-item-db-id' => 15,
+         'menu-item-db-id' => 645,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '15',
+         'menu-item-object-id' => '645',
          'menu-item-target' => '',
          'menu-item-position' => 6,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
-           'type' => 'external',
+           'type' => 'entry',
            'url' => '{{upfront:home_url}}/blog/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/blog/',
         )),
       )),
     ),
@@ -715,6 +740,7 @@ $blog_header_area = upfront_create_region(
   'top_bg_padding_num' => 0,
   'bottom_bg_padding_num' => 0,
   'bg_padding_num' => 0,
+  'region_role' => false,
 )
 			);
 
@@ -926,9 +952,10 @@ $blog_header_area->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1444704102176-1891',
@@ -963,6 +990,9 @@ $blog_header_area->add_element("Uimage", array (
     'left_padding_num' => '10',
     'right_padding_num' => '10',
     'anchor' => '',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1407,6 +1437,15 @@ $header_bottom = upfront_create_region(
   'use_padding' => 0,
   'background_color' => 'rgba(255,255,255,0.35)',
   'version' => '1.0.0',
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => false,
 )
 			);
 

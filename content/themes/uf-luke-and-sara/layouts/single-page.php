@@ -49,6 +49,13 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -368,6 +375,8 @@ $main->add_element("PostData", array (
          'use_padding' => 'yes',
       )),
     )),
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -391,6 +400,10 @@ $main->add_element("PostData", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -407,6 +420,10 @@ $main->add_element("PostData", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'objects' =>
@@ -439,6 +456,11 @@ $main->add_element("PostData", array (
           'col' => 7,
         ),
       ),
+      'top_padding_num' => '10',
+      'left_padding_num' => '10',
+      'right_padding_num' => '10',
+      'bottom_padding_num' => '10',
+      'lock_padding' => 0,
       'new_line' => true,
       'breakpoint' =>
       array (
@@ -821,6 +843,8 @@ $main->add_element("PostData", array (
       array (
       ),
     )),
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -844,6 +868,10 @@ $main->add_element("PostData", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -860,6 +888,10 @@ $main->add_element("PostData", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'objects' =>
@@ -893,6 +925,11 @@ $main->add_element("PostData", array (
         ),
       ),
       'preset' => 'default',
+      'top_padding_num' => '10',
+      'left_padding_num' => '10',
+      'right_padding_num' => '10',
+      'bottom_padding_num' => '10',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>

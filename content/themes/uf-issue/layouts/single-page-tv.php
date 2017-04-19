@@ -43,6 +43,7 @@ $breadcrumbs = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -97,7 +98,7 @@ $breadcrumbs->add_element("PlainTxt", array (
   array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
-    'content' => '<h6 style="text-align: right;"><a href="{{upfront:home_url}}" target="_self" data-upfront-link-type="homepage">Home</a> <span class="upfront_theme_color_7">/</span> TV</h6>',
+    'content' => '<h6 style="text-align: right;"><a target="_self" data-upfront-link-type="homepage" href="{{upfront:home_url}}"><span class="upfront_theme_color_1" data-verified="redactor" data-redactor-tag="span" data-redactor-class="upfront_theme_color_1"><span class="upfront_theme_color_1" data-verified="redactor" data-redactor-tag="span" data-redactor-class="upfront_theme_color_1"><span class="upfront_theme_color_7"><span class="upfront_theme_color_7">Home</span></span></span></span></a> <span class="upfront_theme_color_7" data-verified="redactor" data-redactor-tag="span" data-redactor-class="upfront_theme_color_7">/</span> TV</h6>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1470547752360-1208',
     'class' => 'c24 upfront-plain_txt',
@@ -123,6 +124,12 @@ $breadcrumbs->add_element("PlainTxt", array (
          'use_padding' => 'yes',
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -247,6 +254,7 @@ $block_title = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
+  'region_role' => 'main',
 )
 			);
 
@@ -604,9 +612,10 @@ $block_title->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1467493986756-1378',
     'padding_slider' => '15',
@@ -642,6 +651,12 @@ $block_title->add_element("Uimage", array (
         )),
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -936,6 +951,7 @@ $main_area = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
+  'region_role' => false,
 )
 			);
 

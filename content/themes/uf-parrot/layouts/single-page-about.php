@@ -29,6 +29,17 @@ $what = upfront_create_region(
     )),
   )),
   'version' => '1.0.0',
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'background_type' => 'color',
+  'background_color' => '#ffffff',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -541,9 +552,10 @@ $what->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1430162406586-1753',
@@ -591,6 +603,9 @@ $what->add_element("Uimage", array (
     'padding_number' => '10',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -1602,9 +1617,10 @@ $who->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1430162993254-1239',
@@ -1644,6 +1660,9 @@ $who->add_element("Uimage", array (
     'right_padding_num' => '10',
     'lock_padding' => 0,
     'use_padding' => 'yes',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -2228,6 +2247,7 @@ $who->add_element("Button", array (
        'type' => 'unlink',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'currentpreset' => false,
     'row' => 9,
@@ -2269,6 +2289,9 @@ $who->add_element("Button", array (
          'bottom_padding_num' => '0',
       )),
     )),
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

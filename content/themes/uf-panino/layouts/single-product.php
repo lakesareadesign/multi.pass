@@ -52,6 +52,9 @@ $main = upfront_create_region(
   'origin_position_y' => '50',
   'origin_position_x' => '50',
   'background_size_percent' => '100',
+  'use_background_size_percent' => '',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 

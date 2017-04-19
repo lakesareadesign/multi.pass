@@ -48,6 +48,13 @@ $news_title = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/single-page-news/bg-news.jpg',
   'background_image_ratio' => 0.1499999999999999944488848768742172978818416595458984375,
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -83,6 +90,9 @@ $news_title->add_element("PlainTxt", array (
     'use_padding' => 'yes',
     'left_padding_num' => '10',
     'right_padding_num' => '10',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -183,6 +193,13 @@ $news_content = upfront_create_region(
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 

@@ -21,7 +21,7 @@ $content = upfront_create_region(
   'background_position_y' => '0',
   'background_position_x' => '100',
   'background_image' => '{{upfront:style_url}}/images/single-page-about/about-image-bg-540.jpg',
-  'background_image_ratio' => 1.1100000000000000976996261670137755572795867919921875,
+  'background_image_ratio' => 1.1100000000000001,
   'background_repeat' => 'no-repeat',
   'background_position' => '100% 0%',
   'row' => 153,
@@ -56,6 +56,11 @@ $content = upfront_create_region(
     0 => '',
   ),
   'version' => '1.0.0',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -180,9 +185,13 @@ $content->add_element("PlainTxt", array (
     'mobile' =>
     array (
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
       'edited' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -255,6 +264,9 @@ $content->add_element("PlainTxt", array (
     'preset' => 'default',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -374,6 +386,7 @@ $content->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'default',
@@ -387,9 +400,10 @@ $content->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1444888647582-1276',
@@ -416,6 +430,12 @@ $content->add_element("Uimage", array (
     'bottom_padding_slider' => '0',
     'top_padding_use' => 'yes',
     'top_padding_slider' => '0',
+    'current_preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -436,12 +456,12 @@ $content->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -593,6 +613,13 @@ $content->add_element("PlainTxt", array (
     'bottom_padding_num' => '15',
     'padding_slider' => '15',
     'preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
+    'lock_padding' => 0,
+    'use_padding' => 'yes',
   ),
   'row' => 6,
   'sticky' => false,
@@ -613,8 +640,12 @@ $content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 2,
+      'order' => 3,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -636,6 +667,10 @@ $content->add_element("PlainTxt", array (
       'order' => 3,
       'top' => 0,
       'row' => 54,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -686,6 +721,11 @@ $content->add_element("PlainTxt", array (
     'lock_padding' => '',
     'top_padding_use' => 'yes',
     'top_padding_slider' => '30',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -706,8 +746,12 @@ $content->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -729,6 +773,10 @@ $content->add_element("PlainTxt", array (
       'order' => 4,
       'top' => 0,
       'row' => 17,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));

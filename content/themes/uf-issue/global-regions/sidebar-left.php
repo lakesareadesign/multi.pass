@@ -1,5 +1,5 @@
 <?php
-$sidebar_left_container = ( !empty($region_container) ? $region_container : "block-content" );
+$sidebar_left_container = ( !empty($region_container) ? $region_container : "main-area" );
 $sidebar_left_sub = ( !empty($region_sub) ? $region_sub: "right" );
 
 /* START_REGION_OUTPUT */
@@ -46,6 +46,7 @@ $sidebar_left = upfront_create_region(
   array (
     0 => false,
   ),
+  'region_role' => 'main',
 )
 			);
 
@@ -454,9 +455,10 @@ $sidebar_left->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1466890533010-1827',
     'padding_slider' => '15',
@@ -485,6 +487,9 @@ $sidebar_left->add_element("Uimage", array (
     'top_padding_slider' => '35',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -865,9 +870,10 @@ $sidebar_left->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1466893370409-1176',
     'padding_slider' => '15',
@@ -894,6 +900,9 @@ $sidebar_left->add_element("Uimage", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => '',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

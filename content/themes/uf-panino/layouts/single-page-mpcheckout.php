@@ -49,6 +49,9 @@ $main = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/single-page-mpcheckout/orig_gray-pattern-bg.jpg',
   'background_image_ratio' => 1,
   'background_repeat' => 'repeat',
+  'use_background_size_percent' => '',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -94,18 +97,20 @@ $main->add_element("Uspacer", array (
 $main->add_element("PlainTxt", array (
   'columns' => '18',
   'margin_left' => '0',
+  'margin_right' => '0',
   'margin_top' => '0',
-  'class' => '',
+  'margin_bottom' => '0',
+  'class' => 'module-1479742287968-1675',
   'id' => 'module-1479742287968-1675',
   'options' =>
   array (
+    'view_class' => 'PlainTxtView',
+    'id_slug' => 'plain_text',
     'content' => '<h1>Checkout</h1>',
     'type' => 'PlainTxtModel',
-    'view_class' => 'PlainTxtView',
     'element_id' => 'text-object-1479742287968-1714',
     'class' => 'c24 upfront-plain_txt',
     'has_settings' => 1,
-    'id_slug' => 'plain_text',
     'preset' => 'default',
     'padding_slider' => '15',
     'top_padding_num' => '90',
@@ -120,8 +125,15 @@ $main->add_element("PlainTxt", array (
     'top_padding_slider' => '90',
     'bottom_padding_use' => 'yes',
     'bottom_padding_slider' => '0',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
-  'row' => 15,
+  'row' => 6,
+  'sticky' => false,
+  'default_hide' => 0,
+  'hide' => 0,
+  'toggle_hide' => 1,
   'wrapper_id' => 'wrapper-1467787553104-1347',
   'wrapper_breakpoint' =>
   array (
@@ -1007,18 +1019,10 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'clear' => true,
-          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'clear' => true,
-          'order' => 1,
-        ),
-        'current_property' =>
-        array (
-          0 => 'order',
         ),
       ),
       'current_preset' => 'default',
@@ -1065,18 +1069,10 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'clear' => true,
-          'order' => 2,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'clear' => true,
-          'order' => 2,
-        ),
-        'current_property' =>
-        array (
-          0 => 'order',
         ),
       ),
       'top_padding_num' => 15,

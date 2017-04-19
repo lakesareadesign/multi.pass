@@ -43,11 +43,12 @@ $footer = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc0',
+  'region_role' => 'contentinfo',
 )
 			);
 
 $footer->add_element("Uspacer", array (
-  'columns' => '2',
+  'columns' => '1',
   'margin_left' => '0',
   'margin_right' => '0',
   'margin_top' => '0',
@@ -76,11 +77,11 @@ $footer->add_element("Uspacer", array (
   array (
     'tablet' =>
     array (
-      'col' => 2,
+      'col' => 1,
     ),
     'mobile' =>
     array (
-      'col' => 2,
+      'col' => 1,
       'edited' => true,
     ),
     'current_property' =>
@@ -102,7 +103,7 @@ $footer->add_element("Uspacer", array (
 ));
 
 $footer->add_element("PlainTxt", array (
-  'columns' => '15',
+  'columns' => '16',
   'margin_left' => '0',
   'margin_right' => '0',
   'margin_top' => '0',
@@ -238,38 +239,22 @@ $footer->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 1048,
+         'menu-item-db-id' => 203,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
-         'menu-item-title' => 'ADVERTISE',
-         'menu-item-url' => '{{upfront:home_url}}/advertise/',
+         'menu-item-title' => 'Terms &amp; Privacy',
+         'menu-item-url' => '{{upfront:home_url}}/terms/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1048',
+         'menu-item-object-id' => '203',
          'menu-item-target' => '',
          'menu-item-position' => 1,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
            'type' => 'entry',
-           'url' => '{{upfront:home_url}}/advertise/',
+           'url' => '{{upfront:home_url}}/terms/',
            'target' => '',
-        )),
-      )),
-      1 =>
-      (array)(array(
-         'menu-item-db-id' => 1049,
-         'menu-item-parent-id' => '0',
-         'menu-item-type' => 'custom',
-         'menu-item-title' => 'TERMS OF USE',
-         'menu-item-url' => '{{upfront:home_url}}/terms-of-use/',
-         'menu-item-object' => 'custom',
-         'menu-item-object-id' => '1049',
-         'menu-item-target' => '',
-         'menu-item-position' => 2,
-         'link' =>
-        (array)(array(
-           'type' => 'entry',
-           'url' => '{{upfront:home_url}}/terms-of-use/',
-           'target' => '',
+           'display_url' => '{{upfront:home_url}}/terms/',
         )),
       )),
     ),
@@ -349,7 +334,7 @@ $footer->add_element("Unewnavigation", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'menu_id' => 68,
+         'menu_id' => 8,
          'menu_slug' => 'footer-menu',
       )),
     )),

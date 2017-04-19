@@ -735,6 +735,7 @@ $content->add_element("Posts", array (
       )),
     )),
     'current_preset' => 'list',
+    'theme_style' => '',
   ),
   'row' => 6,
   'sticky' => false,

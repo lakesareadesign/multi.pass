@@ -81,9 +81,9 @@
     color: #00a384;
     font-family: "Quattrocento Sans";
 }
-.uf-pagination .prev.page-numbers:before, .uf-pagination .next.page-numbers:before {
+.uf-pagination .prev.page-numbers:before, .uf-pagination .next.page-numbers:before {	  	    	    		 				 
     position: absolute;
-    background: url("http://lukeandsara.dev/wp-content/uploads/2015/05/noise.jpg") no-repeat #ffffff;
+    background: url("UPFRONT_THEME_BASE/ui/noise.jpg") no-repeat #ffffff;
 }
 .uf-pagination .prev.page-numbers:before {
     content: "<";
@@ -108,4 +108,4 @@
 }
 
 
-/* 133620-1481397509-au */
+/* 133620-1492562783-au */

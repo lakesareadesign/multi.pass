@@ -69,6 +69,14 @@ $services_title = upfront_create_region(
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 0%',
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -172,6 +180,9 @@ $services_title->add_element("PlainTxt", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -306,6 +317,7 @@ $services_content = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 

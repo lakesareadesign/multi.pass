@@ -51,6 +51,7 @@ $social_footer = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc3',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -139,6 +140,8 @@ $social_footer->add_group(array (
   'left_padding_num' => '15',
   'right_padding_num' => '15',
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -214,6 +217,7 @@ $social_footer->add_element("Button", array (
        'target' => '',
        'object' => 'page',
        'object_id' => 12,
+       'display_url' => '{{upfront:home_url}}/contact/',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '12',
@@ -498,6 +502,8 @@ $social_footer->add_group(array (
   'left_padding_num' => '15',
   'right_padding_num' => '15',
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -570,6 +576,7 @@ $social_footer->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://twitter.com',
        'target' => '_blank',
+       'display_url' => 'http://twitter.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '12',
@@ -843,6 +850,8 @@ $social_footer->add_group(array (
   'left_padding_num' => '15',
   'right_padding_num' => '15',
   'lock_padding' => 0,
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -915,6 +924,7 @@ $social_footer->add_element("Button", array (
        'type' => 'external',
        'url' => 'http://facebook.com',
        'target' => '_blank',
+       'display_url' => 'http://facebook.com',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '12',

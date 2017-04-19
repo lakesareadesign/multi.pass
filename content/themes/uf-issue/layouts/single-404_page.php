@@ -44,6 +44,7 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '60',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -169,9 +170,10 @@ $main->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1460686607267-1040',
     'padding_slider' => '15',
@@ -212,6 +214,9 @@ $main->add_element("Uimage", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -286,7 +291,7 @@ $main->add_element("PlainTxt", array (
     'has_settings' => 1,
     'top_padding_use' => 'yes',
     'top_padding_num' => '60',
-    'preset' => 'textbox-alternative',
+    'preset' => 'default',
     'padding_slider' => '15',
     'bottom_padding_num' => '15',
     'use_padding' => 'yes',
@@ -304,11 +309,11 @@ $main->add_element("PlainTxt", array (
     (array)(array(
        'desktop' =>
       (array)(array(
-         'preset' => 'textbox-alternative',
+         'preset' => 'default',
       )),
        'tablet' =>
       (array)(array(
-         'preset' => 'textbox-alternative-for-tablet',
+         'preset' => 'default',
       )),
        'mobile' =>
       (array)(array(
@@ -333,7 +338,7 @@ $main->add_element("PlainTxt", array (
          'top_padding_num' => '40',
       )),
     )),
-    'current_preset' => 'textbox-alternative',
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
@@ -444,6 +449,9 @@ $main->add_element("Uwidget", array (
       )),
     )),
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,

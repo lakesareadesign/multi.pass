@@ -63,6 +63,13 @@ $testimonials_title = upfront_create_region(
   'background_image' => '{{upfront:style_url}}/images/single-page-testimonials/bg-page-testimonials.jpg',
   'background_image_ratio' => 0.25,
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -177,6 +184,11 @@ $testimonials_title->add_element("PlainTxt", array (
          'row' => 13,
       )),
     )),
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
+    'left_padding_num' => '15',
+    'right_padding_num' => '15',
   ),
   'row' => 6,
   'sticky' => false,
@@ -190,15 +202,19 @@ $testimonials_title->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 12,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -220,6 +236,10 @@ $testimonials_title->add_element("PlainTxt", array (
       'order' => 0,
       'row' => 13,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -320,6 +340,7 @@ $testimonials_breadcrumbs = upfront_create_region(
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
   'version' => '1.0.0',
+  'region_role' => 'main',
 )
 			);
 
@@ -438,6 +459,10 @@ $testimonials_breadcrumbs->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -456,6 +481,10 @@ $testimonials_breadcrumbs->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -593,7 +622,7 @@ $testimonial_1->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 0,
+      'order' => 1,
       'col' => 2,
     ),
     'current_property' =>
@@ -713,6 +742,7 @@ $testimonial_1->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'circle-image',
@@ -726,9 +756,10 @@ $testimonial_1->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453438302374-1220',
     'padding_slider' => '15',
@@ -781,12 +812,12 @@ $testimonial_1->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 3,
-      'order' => 0,
+      'order' => 2,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -850,7 +881,7 @@ $testimonial_1->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 0,
+      'order' => 3,
       'col' => 2,
     ),
     'current_property' =>
@@ -932,6 +963,12 @@ $testimonial_1->add_group(array (
   'top_padding_num' => 0,
   'bottom_padding_num' => 0,
   'version' => '1.0.0',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
+  'lock_padding' => 0,
+  'use_padding' => 'yes',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -945,12 +982,12 @@ $testimonial_1->add_group(array (
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 3,
+      'order' => 4,
       'clear' => true,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1058,15 +1095,19 @@ $testimonial_1->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 9,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 0,
+      'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1088,6 +1129,10 @@ $testimonial_1->add_element("PlainTxt", array (
       'order' => 0,
       'row' => 67,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453438745049-1499',
@@ -1116,7 +1161,7 @@ $testimonial_1->add_element("PlainTxt", array (
     'usingNewAppearance' => true,
     'is_edited' => true,
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -1164,15 +1209,19 @@ $testimonial_1->add_element("PlainTxt", array (
     array (
       'edited' => false,
       'col' => 9,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
     ),
     'mobile' =>
     array (
       'edited' => false,
       'col' => 7,
-      'order' => 1,
+      'order' => 2,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1194,6 +1243,10 @@ $testimonial_1->add_element("PlainTxt", array (
       'order' => 0,
       'row' => 8,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453438745049-1499',
@@ -1318,7 +1371,7 @@ $testimonial_2->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 0,
+      'order' => 1,
       'col' => 2,
     ),
     'current_property' =>
@@ -1438,6 +1491,7 @@ $testimonial_2->add_element("Uimage", array (
     'stretch' => false,
     'vstretch' => false,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'circle-image',
@@ -1451,9 +1505,10 @@ $testimonial_2->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453438813601-1974',
     'padding_slider' => '15',
@@ -1502,12 +1557,12 @@ $testimonial_2->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 3,
-      'order' => 0,
+      'order' => 2,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1606,7 +1661,7 @@ $testimonial_2->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 0,
+      'order' => 3,
       'col' => 2,
     ),
     'current_property' =>
@@ -1655,7 +1710,7 @@ $testimonial_2->add_group(array (
   'background_style' => 'full',
   'background_position_y' => 50,
   'background_position_x' => 50,
-  'use_padding' => 0,
+  'use_padding' => 'yes',
   'background_type' => 'color',
   'anchor' => '',
   'top_padding_use' => false,
@@ -1663,6 +1718,11 @@ $testimonial_2->add_group(array (
   'bottom_padding_use' => false,
   'bottom_padding_slider' => '15',
   'version' => '1.0.0',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
+  'lock_padding' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -1681,7 +1741,7 @@ $testimonial_2->add_group(array (
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -1789,6 +1849,10 @@ $testimonial_2->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -1807,6 +1871,10 @@ $testimonial_2->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453439118993-1286',
@@ -1836,7 +1904,7 @@ $testimonial_2->add_element("PlainTxt", array (
     'is_edited' => true,
     'row' => 6,
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -1885,6 +1953,10 @@ $testimonial_2->add_element("PlainTxt", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -1903,6 +1975,10 @@ $testimonial_2->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453439118993-1286',
@@ -2027,7 +2103,7 @@ $testimonial_3->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => true,
-      'order' => 0,
+      'order' => 1,
       'col' => 2,
     ),
     'current_property' =>
@@ -2147,6 +2223,7 @@ $testimonial_3->add_element("Uimage", array (
     'stretch' => true,
     'vstretch' => true,
     'quick_swap' => false,
+    'is_locked' => true,
     'gifImage' => 0,
     'placeholder_class' => '',
     'preset' => 'circle-image',
@@ -2160,9 +2237,10 @@ $testimonial_3->add_element("Uimage", array (
     'image_link' => '',
     'link' =>
     (array)(array(
-       'type' => false,
+       'type' => 'external',
        'url' => '',
        'target' => false,
+       'display_url' => '',
     )),
     'element_id' => 'image-1453439017623-1427',
     'padding_slider' => '15',
@@ -2211,12 +2289,12 @@ $testimonial_3->add_element("Uimage", array (
     array (
       'edited' => true,
       'col' => 3,
-      'order' => 0,
+      'order' => 2,
       'clear' => false,
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2278,7 +2356,7 @@ $testimonial_3->add_element("Uspacer", array (
     array (
       'edited' => true,
       'clear' => false,
-      'order' => 0,
+      'order' => 3,
       'col' => 2,
     ),
     'current_property' =>
@@ -2360,6 +2438,12 @@ $testimonial_3->add_group(array (
   'top_padding_num' => 0,
   'bottom_padding_num' => 0,
   'version' => '1.0.0',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
+  'lock_padding' => 0,
+  'use_padding' => 'yes',
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -2378,7 +2462,7 @@ $testimonial_3->add_group(array (
     ),
     'current_property' =>
     array (
-      0 => 'col',
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -2486,6 +2570,10 @@ $testimonial_3->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -2504,6 +2592,10 @@ $testimonial_3->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453439311174-1387',
@@ -2533,7 +2625,7 @@ $testimonial_3->add_element("PlainTxt", array (
     'is_edited' => true,
     'row' => 4,
     'preset' => 'default',
-    'use_padding' => false,
+    'use_padding' => 'yes',
     'lock_padding' => 0,
     'padding_number' => '15',
     'left_padding_num' => '15',
@@ -2582,6 +2674,10 @@ $testimonial_3->add_element("PlainTxt", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -2600,6 +2696,10 @@ $testimonial_3->add_element("PlainTxt", array (
       'col' => 7,
       'order' => 0,
       'top' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'group' => 'module-group-1453439311174-1387',

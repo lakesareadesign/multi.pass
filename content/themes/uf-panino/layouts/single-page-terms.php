@@ -51,6 +51,13 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -106,7 +113,7 @@ $main->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<h1 class="" style="text-align: center;">Terms &amp; Privacy</h1>',
+    'content' => '<h2 class="" style="text-align: center;">Terms &amp; Privacy</h2>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1444625354934-1083',
     'class' => 'c24 upfront-plain_txt',
@@ -139,6 +146,10 @@ $main->add_element("PlainTxt", array (
     'preset' => 'u-section-title-m',
     'breakpoint_presets' =>
     (array)(array(
+       'tablet' =>
+      (array)(array(
+         'preset' => 'center',
+      )),
        'desktop' =>
       (array)(array(
          'preset' => 'u-section-title-m',
@@ -280,7 +291,7 @@ $main->add_element("PlainTxt", array (
     'view_class' => 'PlainTxtView',
     'id_slug' => 'plain_text',
     'usingNewAppearance' => true,
-    'content' => '<h2 class="" style="text-align: center;"><span>This privacy statement details Panino\'s policy regarding any personal information you might supply to us via the Panino website and how that information may be used.</span><span></span></h2>',
+    'content' => '<h3 class="" style="text-align: center;">This privacy statement details Panino\'s policy regarding any personal information you might supply to us via the Panino website and how that information may be used.<span data-redactor-tag="span" data-verified="redactor"></span></h3>',
     'type' => 'PlainTxtModel',
     'element_id' => 'text-object-1444625363574-1599',
     'class' => 'c24 upfront-plain_txt',
@@ -314,14 +325,25 @@ $main->add_element("PlainTxt", array (
     'top_padding_use' => true,
     'top_padding_num' => 75,
     'bottom_padding_num' => '15',
-    'preset' => 'default',
+    'preset' => 'u-paragraph-m',
     'use_padding' => 'yes',
-    'lock_padding' => 0,
+    'lock_padding' => '',
     'padding_slider' => '15',
     'padding_number' => '15',
     'left_padding_num' => '15',
     'right_padding_num' => '15',
-    'current_preset' => 'default',
+    'current_preset' => 'u-paragraph-m',
+    'breakpoint_presets' =>
+    (array)(array(
+       'tablet' =>
+      (array)(array(
+         'preset' => 'center',
+      )),
+       'desktop' =>
+      (array)(array(
+         'preset' => 'u-paragraph-m',
+      )),
+    )),
   ),
   'row' => 6,
   'sticky' => false,

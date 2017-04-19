@@ -53,6 +53,13 @@ $cover_page = upfront_create_region(
   'background_image_ratio' => 0.36999999999999999555910790149937383830547332763671875,
   'background_repeat' => 'no-repeat',
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'featured_fallback_background_color' => '#ufc2',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -286,6 +293,7 @@ $cover_page->add_element("PostData", array (
     'calculated_left_indent' => 0,
     'calculated_right_indent' => 0,
     'current_preset' => 'title-only',
+    'theme_style' => '',
   ),
   'row' => 6,
   'sticky' => false,
@@ -360,10 +368,18 @@ $cover_page->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
+          'clear' => true,
+          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
+          'clear' => true,
+          'order' => 1,
+        ),
+        'current_property' =>
+        array (
+          0 => 'order',
         ),
       ),
       'preset' => 'default',
@@ -395,7 +411,7 @@ $cover_page->add_element("PostData", array (
         ),
         'current_property' =>
         array (
-          0 => 'lock_padding',
+          0 => 'col',
         ),
       ),
     ),
@@ -497,6 +513,7 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '100',
   'bg_padding_slider' => '100',
   'bg_padding_num' => '100',
+  'region_role' => 'main',
 )
 			);
 
@@ -795,18 +812,10 @@ $main->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'clear' => true,
-          'order' => 1,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'clear' => true,
-          'order' => 1,
-        ),
-        'current_property' =>
-        array (
-          0 => 'order',
         ),
       ),
       'preset' => 'default',

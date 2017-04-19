@@ -43,6 +43,7 @@ $breadcrumbs = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -128,6 +129,9 @@ $breadcrumbs->add_element("PlainTxt", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'anchor' => '',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -256,6 +260,7 @@ $block_title = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ufc6',
+  'region_role' => 'main',
 )
 			);
 
@@ -505,6 +510,7 @@ $block_banner = upfront_create_region(
   'background_position_x' => '50',
   'background_image' => '{{upfront:style_url}}/images/single-page-gallery/issue-bg-about.jpg',
   'background_image_ratio' => 0.2300000000000000099920072216264088638126850128173828125,
+  'region_role' => 'main',
 )
 			);
 
@@ -839,6 +845,7 @@ $main = upfront_create_region(
   'bottom_bg_padding_num' => '80',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -978,7 +985,7 @@ $main->add_element("Ugallery", array (
     array (
       0 =>
       (array)(array(
-         'id' => 234390,
+         'id' => 121,
          'src' => '{{upfront:style_url}}/images/single-page-gallery/img-tech-190x190-3621.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-tech.jpg',
          'sizes' =>
@@ -1103,7 +1110,7 @@ $main->add_element("Ugallery", array (
       )),
       1 =>
       (array)(array(
-         'id' => 234391,
+         'id' => 122,
          'src' => '{{upfront:style_url}}/images/single-page-gallery/img-work-190x190-5476.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-work.jpg',
          'sizes' =>
@@ -1225,7 +1232,7 @@ $main->add_element("Ugallery", array (
       )),
       2 =>
       (array)(array(
-         'id' => 234392,
+         'id' => 123,
          'src' => '{{upfront:style_url}}/images/single-page-gallery/img-coffee-190x190-4764.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-coffee.jpg',
          'sizes' =>
@@ -1347,7 +1354,7 @@ $main->add_element("Ugallery", array (
       )),
       3 =>
       (array)(array(
-         'id' => 234393,
+         'id' => 124,
          'src' => '{{upfront:style_url}}/images/single-page-gallery/img-creativity-190x190-8708.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-creativity.jpg',
          'sizes' =>
@@ -1470,7 +1477,7 @@ $main->add_element("Ugallery", array (
       )),
       4 =>
       (array)(array(
-         'id' => 234394,
+         'id' => 125,
          'src' => '{{upfront:style_url}}/images/single-page-gallery/img-blur-190x190-2051.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-blur.jpg',
          'sizes' =>
@@ -1593,7 +1600,7 @@ $main->add_element("Ugallery", array (
       )),
       5 =>
       (array)(array(
-         'id' => 234395,
+         'id' => 126,
          'src' => '{{upfront:style_url}}/images/single-page-gallery/img-mobile-190x190-3923.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-mobile.jpg',
          'sizes' =>
@@ -1715,7 +1722,7 @@ $main->add_element("Ugallery", array (
       )),
       6 =>
       (array)(array(
-         'id' => 234396,
+         'id' => 127,
          'src' => '{{upfront:style_url}}/images/single-page-gallery/img-wireless-190x190-3103.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-wireless.jpg',
          'sizes' =>
@@ -1837,7 +1844,7 @@ $main->add_element("Ugallery", array (
       )),
       7 =>
       (array)(array(
-         'id' => 234397,
+         'id' => 128,
          'src' => '{{upfront:style_url}}/images/single-page-gallery/img-inspiration-190x190-1389.jpg',
          'srcFull' => '{{upfront:style_url}}/images/single-page-gallery/img-inspiration.jpg',
          'sizes' =>

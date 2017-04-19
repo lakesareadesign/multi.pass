@@ -42,9 +42,20 @@ $page_header = upfront_create_region(
   'background_style' => 'full',
   'background_position_y' => '50',
   'background_position_x' => '50',
-  'background_image' => '{{upfront:style_url}}/images/archive-product_tag/blog-template-banner.jpg',
+  'background_image' => '{{upfront:style_url}}/images/archive-product/blog-template-banner.jpg',
   'background_image_ratio' => 0.11000000000000000055511151231257827021181583404541015625,
   'version' => '1.0.0',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'complementary',
 )
 			);
 
@@ -86,7 +97,7 @@ $content = upfront_create_region(
   'background_style' => 'tile',
   'background_position_y' => '50',
   'background_position_x' => '50',
-  'background_image' => '{{upfront:style_url}}/images/archive-product_tag/orig_gray-pattern-bg.jpg',
+  'background_image' => '{{upfront:style_url}}/images/archive-product/orig_gray-pattern-bg.jpg',
   'background_image_ratio' => 2.2599999999999997868371792719699442386627197265625,
   'background_repeat' => 'repeat',
   'version' => '1.0.0',
@@ -97,6 +108,13 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 

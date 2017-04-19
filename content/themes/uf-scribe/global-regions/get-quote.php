@@ -103,6 +103,8 @@ $get_quote->add_group(array (
   'bottom_padding_slider' => '30',
   'left_padding_num' => '15',
   'right_padding_num' => '15',
+  'href' => '',
+  'linkTarget' => false,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -187,6 +189,9 @@ $get_quote->add_element("PlainTxt", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => 0,
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -280,6 +285,9 @@ $get_quote->add_element("PlainTxt", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => 0,
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,
@@ -546,6 +554,7 @@ $get_quote->add_element("Button", array (
        'target' => '',
        'object' => 'page',
        'object_id' => 1708,
+       'display_url' => '{{upfront:home_url}}/contact/',
     )),
     'padding_slider' => '15',
     'top_padding_num' => '15',
@@ -569,6 +578,9 @@ $get_quote->add_element("Button", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'lock_padding' => 0,
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

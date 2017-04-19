@@ -1,5 +1,5 @@
 <?php
-$navigation_secondary_container = ( !empty($region_container) ? $region_container : "archive-header-area" );
+$navigation_secondary_container = ( !empty($region_container) ? $region_container : "header" );
 $navigation_secondary_sub = ( !empty($region_sub) ? $region_sub: "left" );
 
 /* START_REGION_OUTPUT */
@@ -145,6 +145,7 @@ $navigation_secondary->add_element("Uimage", array (
        'type' => 'external',
        'url' => '{{upfront:home_url}}',
        'target' => '_self',
+       'display_url' => '{{upfront:home_url}}',
     )),
     'usingNewAppearance' => true,
     'element_id' => 'image-1444095748480-1248',
@@ -175,6 +176,9 @@ $navigation_secondary->add_element("Uimage", array (
     'left_padding_num' => '10',
     'right_padding_num' => '10',
     'anchor' => '',
+    'breakpoint_presets' =>
+    (array)(array(
+    )),
   ),
   'row' => 6,
   'sticky' => false,
@@ -420,110 +424,122 @@ $navigation_secondary->add_element("Unewnavigation", array (
     array (
       0 =>
       (array)(array(
-         'menu-item-db-id' => 851,
+         'menu-item-db-id' => 14,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Home',
          'menu-item-url' => '{{upfront:home_url}}',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '851',
+         'menu-item-object-id' => '14',
          'menu-item-target' => '',
          'menu-item-position' => 1,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
-           'type' => 'entry',
+           'type' => 'homepage',
            'url' => '{{upfront:home_url}}',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}',
         )),
       )),
       1 =>
       (array)(array(
-         'menu-item-db-id' => 852,
+         'menu-item-db-id' => 15,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Features',
          'menu-item-url' => '{{upfront:home_url}}/features/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '852',
+         'menu-item-object-id' => '15',
          'menu-item-target' => '',
          'menu-item-position' => 2,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/features/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/features/',
         )),
       )),
       2 =>
       (array)(array(
-         'menu-item-db-id' => 853,
+         'menu-item-db-id' => 16,
          'menu-item-parent-id' => '0',
-         'menu-item-type' => 'custom',
+         'menu-item-type' => 'post_type',
          'menu-item-title' => 'Download',
          'menu-item-url' => '{{upfront:home_url}}/download/',
-         'menu-item-object' => 'custom',
-         'menu-item-object-id' => '853',
+         'menu-item-object' => 'page',
+         'menu-item-object-id' => '3',
          'menu-item-target' => '',
          'menu-item-position' => 3,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/download/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/download/',
         )),
       )),
       3 =>
       (array)(array(
-         'menu-item-db-id' => 854,
+         'menu-item-db-id' => 17,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Contact Us',
          'menu-item-url' => '{{upfront:home_url}}/contact/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '854',
+         'menu-item-object-id' => '17',
          'menu-item-target' => '',
          'menu-item-position' => 4,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/contact/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/contact/',
         )),
       )),
       4 =>
       (array)(array(
-         'menu-item-db-id' => 855,
+         'menu-item-db-id' => 18,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'About',
          'menu-item-url' => '{{upfront:home_url}}/about/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '855',
+         'menu-item-object-id' => '18',
          'menu-item-target' => '',
          'menu-item-position' => 5,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/about/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/about/',
         )),
       )),
       5 =>
       (array)(array(
-         'menu-item-db-id' => 856,
+         'menu-item-db-id' => 19,
          'menu-item-parent-id' => '0',
          'menu-item-type' => 'custom',
          'menu-item-title' => 'Blog',
          'menu-item-url' => '{{upfront:home_url}}/blog/',
          'menu-item-object' => 'custom',
-         'menu-item-object-id' => '856',
+         'menu-item-object-id' => '19',
          'menu-item-target' => '',
          'menu-item-position' => 6,
+         'menu-item-classes' => '',
          'link' =>
         (array)(array(
            'type' => 'entry',
            'url' => '{{upfront:home_url}}/blog/',
            'target' => '',
+           'display_url' => '{{upfront:home_url}}/blog/',
         )),
       )),
     ),

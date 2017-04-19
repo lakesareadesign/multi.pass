@@ -29,6 +29,17 @@ $post_breadcrumbs = upfront_create_region(
        'col' => 24,
     )),
   )),
+  'sub_regions' =>
+  array (
+    0 => false,
+  ),
+  'background_type' => 'color',
+  'background_color' => '#ffffff',
+  'bg_padding_type' => 'equal',
+  'top_bg_padding_num' => 0,
+  'bottom_bg_padding_num' => 0,
+  'bg_padding_num' => 0,
+  'region_role' => 'complementary',
 )
 			);
 
@@ -117,6 +128,10 @@ $post_breadcrumbs->add_element("PlainTxt", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -133,6 +148,10 @@ $post_breadcrumbs->add_element("PlainTxt", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -192,6 +211,7 @@ $post_title = upfront_create_region(
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
   'background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -261,6 +281,10 @@ $post_title->add_group(array (
   'row' => 11,
   'background_default' => 'color',
   'lock_padding' => '',
+  'href' => '',
+  'linkTarget' => false,
+  'left_padding_num' => 0,
+  'right_padding_num' => 0,
   'wrapper_breakpoint' =>
   array (
     'tablet' =>
@@ -276,6 +300,10 @@ $post_title->add_group(array (
       'col' => 7,
       'order' => 1,
       'clear' => true,
+    ),
+    'current_property' =>
+    array (
+      0 => 'order',
     ),
   ),
   'breakpoint' =>
@@ -296,6 +324,10 @@ $post_title->add_group(array (
       'col' => 7,
       'order' => 0,
       'row' => 13,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
 ));
@@ -401,6 +433,8 @@ $post_title->add_element("PostData", array (
     )),
     'theme_style' => '',
     'theme_preset' => 'true',
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -479,18 +513,19 @@ $post_title->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 8,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 5,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'use_padding' => 'yes',
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -696,19 +731,20 @@ $post_title->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 8,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 5,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'use_padding' => 'yes',
       'preset' => 'default',
       'row' => 4,
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -833,6 +869,8 @@ $post_title->add_element("PostData", array (
     )),
     'theme_preset' => 'true',
     'top_padding_use' => 'yes',
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -910,19 +948,20 @@ $post_title->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 4,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 2,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'use_padding' => 'yes',
       'preset' => 'default',
       'row' => 5,
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -1052,6 +1091,8 @@ $post_title->add_element("PostData", array (
          'use_padding' => 'yes',
       )),
     )),
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -1106,19 +1147,20 @@ $post_title->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 4,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 2,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'use_padding' => 'yes',
       'preset' => 'default',
       'row' => 4,
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -1228,6 +1270,7 @@ $post_content = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'region_role' => 'main',
 )
 			);
 
@@ -1378,6 +1421,10 @@ $post_content->add_element("PostData", array (
       'order' => 1,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -1396,6 +1443,10 @@ $post_content->add_element("PostData", array (
       'col' => 7,
       'order' => 0,
       'row' => 29,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'objects' =>
@@ -1422,17 +1473,18 @@ $post_content->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -1637,6 +1689,8 @@ $post_content->add_element("PostData", array (
       )),
        'current_property' => 'use_padding',
     )),
+    'calculated_left_indent' => 0,
+    'calculated_right_indent' => 0,
   ),
   'row' => 6,
   'sticky' => false,
@@ -1660,6 +1714,10 @@ $post_content->add_element("PostData", array (
       'order' => 2,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -1678,6 +1736,10 @@ $post_content->add_element("PostData", array (
       'col' => 7,
       'order' => 0,
       'row' => 189,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'objects' =>
@@ -1705,16 +1767,17 @@ $post_content->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'new_line' => true,
       'breakpoint' =>
       array (
@@ -2198,6 +2261,10 @@ $post_content->add_element("PostData", array (
       'order' => 3,
       'clear' => true,
     ),
+    'current_property' =>
+    array (
+      0 => 'order',
+    ),
   ),
   'breakpoint' =>
   array (
@@ -2214,6 +2281,10 @@ $post_content->add_element("PostData", array (
       'left' => 0,
       'col' => 7,
       'order' => 0,
+    ),
+    'current_property' =>
+    array (
+      0 => 'col',
     ),
   ),
   'objects' =>
@@ -2239,17 +2310,18 @@ $post_content->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 1,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 1,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>
@@ -2297,17 +2369,18 @@ $post_content->add_element("PostData", array (
         'tablet' =>
         array (
           'col' => 12,
-          'order' => 2,
-          'clear' => true,
         ),
         'mobile' =>
         array (
           'col' => 7,
-          'order' => 2,
-          'clear' => true,
         ),
       ),
       'preset' => 'default',
+      'top_padding_num' => '15',
+      'left_padding_num' => '15',
+      'right_padding_num' => '15',
+      'bottom_padding_num' => '15',
+      'lock_padding' => 0,
       'breakpoint' =>
       array (
         'tablet' =>

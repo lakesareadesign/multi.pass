@@ -49,6 +49,9 @@ $main = upfront_create_region(
   'background_repeat' => 'repeat',
   'background_image' => '{{upfront:style_url}}/images/single-page-mpstore/orig_gray-pattern-bg.jpg',
   'background_image_ratio' => 1,
+  'use_background_size_percent' => '',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 

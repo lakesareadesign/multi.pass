@@ -63,7 +63,7 @@
     position: relative;
     text-indent: -9999px;
 }
-#page .u-posts-list .uf-pagination .page-numbers.prev:before, #page .u-posts-list .uf-pagination .page-numbers.next:before {
+#page .u-posts-list .uf-pagination .page-numbers.prev:before, #page .u-posts-list .uf-pagination .page-numbers.next:before {	     	 		 		  		 	 	
     height: 50px;
     left: 0;
     position: absolute;
@@ -79,4 +79,4 @@
 }
 
 
-/* 133620-1481397495-au */
+/* 133620-1492562765-au */

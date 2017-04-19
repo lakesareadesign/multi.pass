@@ -48,6 +48,13 @@ $page_header = upfront_create_region(
   'bottom_bg_padding_num' => 0,
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -108,6 +115,13 @@ $content = upfront_create_region(
   'bottom_bg_padding_num' => '90',
   'bg_padding_slider' => 0,
   'bg_padding_num' => 0,
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'region_role' => 'main',
 )
 			);
 
@@ -165,7 +179,7 @@ $content->add_element("PlainTxt", array (
     'id_slug' => 'plaintxt',
     'usingNewAppearance' => true,
     'has_settings' => 1,
-    'content' => '<h1 class="" style="text-align: center;">Archive</h1>',
+    'content' => '<h2 class="" style="text-align: center;">Archive</h2>',
     'element_id' => 'default-content-text-object',
     'class' => 'c24',
     'type' => 'PlainTxtModel',
@@ -189,6 +203,10 @@ $content->add_element("PlainTxt", array (
     'right_padding_num' => '15',
     'breakpoint_presets' =>
     (array)(array(
+       'tablet' =>
+      (array)(array(
+         'preset' => 'center',
+      )),
        'desktop' =>
       (array)(array(
          'preset' => 'u-section-title-m',
@@ -391,6 +409,9 @@ $content->add_element("Uwidget", array (
     'left_padding_num' => '15',
     'right_padding_num' => '15',
     'current_preset' => 'default',
+    'breakpoint_presets' =>
+    array (
+    ),
   ),
   'row' => 6,
   'sticky' => false,

@@ -58,6 +58,14 @@ $s_wellness = upfront_create_region(
   'version' => '1.0.0',
   'expand_lock' => false,
   'background_position' => '50% 50%',
+  'origin_position_y' => '50',
+  'origin_position_x' => '50',
+  'use_background_size_percent' => '',
+  'background_size_percent' => '100',
+  'background_default' => 'hide',
+  'featured_fallback_background_color' => '#ffffff',
+  'background_size' => 'auto',
+  'region_role' => 'complementary',
 )
 			);
 
@@ -554,6 +562,7 @@ $s_wellness->add_element("Button", array (
        'target' => '',
        'object' => 'page',
        'object_id' => 8,
+       'display_url' => '{{upfront:home_url}}/services...',
     )),
     'top_padding_num' => '30',
     'bottom_padding_num' => '0',
@@ -583,6 +592,7 @@ $s_wellness->add_element("Button", array (
          'preset' => 'default',
       )),
     )),
+    'current_preset' => 'default',
   ),
   'row' => 6,
   'sticky' => false,
