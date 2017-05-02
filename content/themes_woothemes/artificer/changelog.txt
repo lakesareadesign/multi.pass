@@ -1,5 +1,14 @@
 *** Artificer Changelog ***
 
+2017.04.21 - version 1.3.17
+* Fix - Fixes the WooCommerce 3.0.0 compatibility for the new product gallery.
+  css/woocommerce.css,
+  includes/theme-woocommerce.php
+* Fix - PHP 7 Compatibility fixes.
+  includes/theme-comments.php
+* Deprecated - Removed contact template (use Jetpack)
+  template-contact.php
+
 2016.05.05 - version 1.3.16
  * Fix - mobile fix for WC shop archives.
    style.css
