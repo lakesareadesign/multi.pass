@@ -4,7 +4,7 @@ Hustle.define("Custom_Content.Design_View", function($, doc, win){
         template: Optin.template("wpoi-custom-content-design-tpl"),
         media_frame: false,
         css_editor: false,
-        stylables: {
+        /* stylables: {
             ".wph-modal.wph-modal-container .wph-modal--content, .wph-cc-shortcode .wph-cc-shortcode--content ": "Container",
             ".wph-modal.wph-modal-container.wph-customize-css h2.wph-modal--title, .wph-cc-shortcode h2.wph-cc-shortcode--title ": "Title",
             ".wph-modal.wph-modal-container.wph-customize-css .wph-modal--content h4.wph-modal--subtitle, .wph-cc-shortcode h4.wph-cc-shortcode--subtitle ": "Subtitle",
@@ -12,6 +12,16 @@ Hustle.define("Custom_Content.Design_View", function($, doc, win){
             ".wph-modal .wph-modal--content .wph-modal--image, .wph-cc-shortcode .wph-cc-shortcode--content .wph-cc-shortcode--image ": "Image Container",
             ".wph-modal.wph-modal-container.wph-customize-css .wph-modal--content .wph-modal--image img, .wph-cc-shortcode .wph-cc-shortcode--content .wph-cc-shortcode--image img ": "Image",
             ".wph-modal .wph-modal--cta, .wph-cc-shortcode .wph-cc-shortcode--cta ": "CTA Button",
+            ".wph-modal .wph-modal-never-see-again ": "Never See Again"
+        }, */
+        stylables: {
+            ".wph-modal.wph-modal-container .wph-modal--content ": "Container",
+            ".wph-modal.wph-modal-container.wph-customize-css h2.wph-modal--title ": "Title",
+            ".wph-modal.wph-modal-container.wph-customize-css .wph-modal--content h4.wph-modal--subtitle ": "Subtitle",
+            ".wph-modal .wph-modal--content .wph-modal--message ": "Content",
+            ".wph-modal .wph-modal--content .wph-modal--image ": "Image Container",
+            ".wph-modal.wph-modal-container.wph-customize-css .wph-modal--content .wph-modal--image img ": "Image",
+            ".wph-modal .wph-modal--cta ": "CTA Button",
             ".wph-modal .wph-modal-never-see-again ": "Never See Again"
         },
         stylable_elements: _({

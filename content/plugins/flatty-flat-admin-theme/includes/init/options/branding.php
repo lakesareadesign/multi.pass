@@ -27,13 +27,23 @@ add_action( 'admin_head', 'flatty_hide_wordpress_toolbar' );
 ///////////////USE FLATTY TOPBAR
 function flatty_use_flatty_topbar(){
 
-	if (get_option('flatty_topbar_background_custom') == true) { 
-		if (get_option('flatty_topbar_background_color') !== '') { 
-			$custom_bkg_color = 'background-color:' . get_option('flatty_topbar_background_color') . ';';
+	if (get_option('flatty_use_flatty_topbar') == true) {
+		add_filter( 'admin_body_class', 'add_flatty_body_class' );
+		function add_flatty_body_class( $classex ) {
+			$classex .= ' ' . 'flatty_top_bar';
+		    return $classex; 
 		}
-		if (get_option('flatty_topbar_background_image') !== '') { 
-			$custom_bkg_image_url = get_option('flatty_topbar_background_image');
-			$custom_bkg_image = "background-image:url(' ". $custom_bkg_image_url ." '); background-size:cover; background-repeat:no-repeat; background-position:center; background-blend-mode: overlay;";
+	}
+
+	if (get_option('flatty_use_flatty_topbar') == true) {
+		if (get_option('flatty_topbar_background_custom') == true) { 
+			if (get_option('flatty_topbar_background_color') !== '') { 
+				$custom_bkg_color = 'background-color:' . get_option('flatty_topbar_background_color') . ';';
+			}
+			if (get_option('flatty_topbar_background_image') !== '') { 
+				$custom_bkg_image_url = get_option('flatty_topbar_background_image');
+				$custom_bkg_image = "background-image:url(' ". $custom_bkg_image_url ." '); background-size:cover; background-repeat:no-repeat; background-position:center; background-blend-mode: overlay;";
+			}
 		}
 	}
 

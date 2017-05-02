@@ -2,7 +2,7 @@
 
 class CP_Course_Structure extends WP_Widget {
 
-	function __construct() {
+	function CP_Course_Structure() {
 		$widget_ops = array( 'classname'   => 'cp_course_strucutre_widget',
 		                     'description' => __( 'Displays a selected course structure', 'cp' )
 		);

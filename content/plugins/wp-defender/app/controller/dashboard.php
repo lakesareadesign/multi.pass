@@ -162,9 +162,16 @@ class Dashboard extends Controller {
 		return $menu_order;
 	}
 
+	/**
+	 * @param $actions
+	 *
+	 * @return mixed
+	 */
 	public function addMyEndpoint( $actions ) {
-		$actions['defender_new_scan']      = 'new_scan';
-		$actions['defender_schedule_scan'] = 'schedule_scan';
+		$actions['defender_new_scan']      = array( &$this, 'new_scan' );
+		$actions['defender_schedule_scan'] = array( &$this, 'schedule_scan' );
+
+		return $actions;
 	}
 
 	/**

@@ -33,11 +33,10 @@ class Opt_In_Collection extends Hustle_Collection
             $limit = "";
         }
 
-
         if( is_null( $active ) )
-            $ids = self::$_db->get_col( self::$_db->prepare( "SELECT `optin_id` FROM " . $this->_get_table() . " WHERE `optin_provider`<>'custom_content' AND `blog_id`=%d ORDER BY  `optin_name` $limit", $blog_id ) );
+            $ids = self::$_db->get_col( self::$_db->prepare( "SELECT `optin_id` FROM " . $this->_get_table() . " WHERE ". $this->_exclude_modules() ." AND `blog_id`=%d ORDER BY  `optin_name` $limit", $blog_id ) );
         else
-            $ids = self::$_db->get_col( self::$_db->prepare( "SELECT `optin_id` FROM " . $this->_get_table() ." WHERE `optin_provider`<>'custom_content' AND `active`= %d AND `blog_id`=%d ORDER BY  `optin_name` $limit", (int) $active, $blog_id )  );
+            $ids = self::$_db->get_col( self::$_db->prepare( "SELECT `optin_id` FROM " . $this->_get_table() ." WHERE ". $this->_exclude_modules() ." AND `active`= %d AND `blog_id`=%d ORDER BY  `optin_name` $limit", (int) $active, $blog_id )  );
 
         return array_map( array( $this, "return_model_from_id" ), $ids );
     }
@@ -48,6 +47,14 @@ class Opt_In_Collection extends Hustle_Collection
     }
 
     public function get_all_id_names(){
-        return self::$_db->get_results( self::$_db->prepare( "SELECT `optin_id`, `optin_name` FROM " . $this->_get_table() ." WHERE `optin_provider`<>'custom_content' AND  `active`=%d AND `blog_id`=%d", 1, get_current_blog_id() ), OBJECT );
+        return self::$_db->get_results( self::$_db->prepare( "SELECT `optin_id`, `optin_name` FROM " . $this->_get_table() ." WHERE `active`=%d AND `blog_id`=%d", 1, get_current_blog_id() ), OBJECT );
+    }
+
+    private function _exclude_modules() {
+        $exclude = array(
+            '`optin_provider` <> "custom_content"',
+            '`optin_provider` <> "social_sharing"'
+        );
+        return implode(' AND ', $exclude);
     }
 }

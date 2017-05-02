@@ -35,13 +35,49 @@ class Opt_In_Meta_Design extends Hustle_Meta{
 		'on_success' => 'remain',
 		'on_success_time' => 0,
 		'on_success_unit' => 's',
+		'module_fields' => array(),
+		'cta_button' => "Sign Up",
     );
 
     function __construct( array $data, Hustle_Model $model  ){
         parent::__construct( $data, $model );
-        if( isset( $this->data['image_src'] ) )
+
+        if( isset( $this->data['image_src'] ) ) {
             $this->data['image_src'] = set_url_scheme( $this->data['image_src'], is_ssl() ? "https" : "http" );
+		}
+
+		if ( empty( $this->data['module_fields'] ) ) {
+			$this->data['module_fields'] = $this->default_fields();
+		}
+		$this->data['module_fields'] = array_filter( $this->data['module_fields'] );
     }
+
+	static function default_fields() {
+		return array(
+			array(
+				'label' => __( 'First Name', Opt_In::TEXT_DOMAIN ),
+				'name' => 'first_name',
+				'required' => false,
+				'type' => 'text',
+				'placeholder' => 'John',
+			),
+			array(
+				'label' => __( 'Last Name', Opt_In::TEXT_DOMAIN ),
+				'name' => 'last_name',
+				'required' => false,
+				'type' => 'text',
+				'placeholder' => 'Smith',
+			),
+			array(
+				'label' => __( 'Email', Opt_In::TEXT_DOMAIN ),
+				'name' => 'email',
+				'required' => true,
+				'type' => 'email',
+				'placeholder' => 'johnsmith@example.com',
+			),
+		);
+	}
+
     /**
      * @return Opt_In_Meta_Design_Colors
      */

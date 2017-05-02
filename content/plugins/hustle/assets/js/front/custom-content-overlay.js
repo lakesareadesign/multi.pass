@@ -10,30 +10,25 @@
             type: '',
             uri: encodeURI( window.location.href )
 		},
-		initialize: function() {
-			this.on( 'error', this.server_error, this );
-		},
 		parse: function( res ) {
 			if ( res.success ) {
 				console.log('Log success!');
 			} else {
 				console.log('Log failed!');
 			}
-		},
-		server_error: function() {
-			console.log('Server error during log!');
 		}
 	}),
-
-	logConversion = logView.extend({
-		url: inc_opt.ajaxurl + '?action=hustle_custom_content_converted'
-	});
+	logConversion = logView.extend({ url: inc_opt.ajaxurl + '?action=hustle_custom_content_converted' });
 
 	logView = new logView();
 	logConversion = new logConversion();
+    
+    Optin.CC_log_view = logView;
+    Optin.CC_log_conversion = logConversion;
 
 	Optin.CCPopUp = Optin.View.extend({
 		isCC: true,
+		display_id: 'cc_display',
 		showClass: 'wph-modal-show',
 		maskClass: 'wph-modal--mask',
 		cookie_key: Hustle.consts.Never_See_Aagain_Prefix,
@@ -52,10 +47,12 @@
 			this.optin_id = this.data.optin_id;
 			this.settings = opts[this.type];
 			this.triggers = this.settings.triggers;
+            this.tracking_types = opts.tracking_types;
 			this.appear_after = this.triggers.trigger + '_trigger';
 			this.cookie_key += this.type + '-' + this.optin_id;
 			this.expiration_days = this.settings.expiration_days ? parseInt( this.settings.expiration_days ) : 0;
-
+			this.settings.display = this.opt.should_display[this.type];
+            
 			if ( ! this.should_display() ) {
 				return;
 			}
@@ -70,7 +67,8 @@
 					position: this.settings.position,
 					types: {
 						popup: opts.popup,
-						slide_in: opts.slide_in
+						slide_in: opts.slide_in,
+						after_content: opts.after_content
 					}
 				}
 			);
@@ -81,21 +79,6 @@
 			}
 
 			this.render();
-		},
-
-		/**
-		 * Check if popup should display. **/
-		should_display: function() {
-			var never_see = Optin.cookie.get( this.cookie_key );
-			never_see = parseInt( never_see ) === parseInt( this.optin_id );
-
-			return this.opt.should_display[this.type] && !_.isTrue(never_see);
-		},
-
-		/**
-		 * Trigger to completely hide this. **/
-		never_see_again: function() {
-			Optin.cookie.set( this.cookie_key, this.optin_id, this.expiration_days );
 		},
 
 		render: function() {
@@ -109,14 +92,18 @@
 				template = template( this.model );
 
 			this.setElement(template);
-			this.$el.appendTo('body');
+			this.$el.appendTo(this.parent);
 			this.$el.display = $.proxy( this, 'display' );
 			this.$el.on( 'show', $.proxy( this, 'onShow' ) );
+			this.$el.on( 'show', $.proxy( Hustle.Events, 'trigger', 'cc_modal_shown', this, this.type ) );
 			this.$el.on( 'hide', $.proxy( this, 'onHide' ) );
 			this.html = this.$el.html();
 
 			// Log view
-			Hustle.Events.once( 'cc_modal_shown', this.logView, this );
+            if ( this.tracking_types != null && _.isTrue( this.tracking_types[this.type] ) ) {
+                Hustle.Events.once( 'cc_modal_shown', this.logView, this );
+            }
+			
 			// Fix content size
 			Hustle.Events.on( 'cc_modal_shown', this.fit, this );
 			Hustle.Events.on( 'hustle_resize', this.fit, this );
@@ -124,26 +111,40 @@
 			this[this.appear_after]();
 		},
 
-		onShow: function() {
-			// for adding proper classes
-			$(document).trigger("wpoi:cc_display", [this.type, this.$el, this.model]);
-			Hustle.Events.trigger("cc_modal_shown", this, this.type);
-		},
-
 		logView: function() {
 			logView.set( 'type', this.type );
 			logView.set( 'id', this.optin_id );
 			logView.save();
+			this.update_view_count_cookie();
+		},
+
+		update_view_count_cookie: function() {
+			if( !window.hasOwnProperty( "optin_vars" ) ){ // don't set cookie in admin
+				var show_count_key = Hustle.consts.Module_Show_Count + this.model.type + "-" + this.model.id,
+					current_show_count = Hustle.cookie.get( show_count_key );
+				Hustle.cookie.set( show_count_key, current_show_count + 1, 90 );
+			}
+		},
+
+		sanitize_cta_url: function( data ) {
+			if ( data.cta_url ) {
+				if (!/^(f|ht)tps?:\/\//i.test(data.cta_url)) {
+					data.cta_url = "http://" + data.cta_url;
+				}
+			}
+			return data;
 		},
 
 		fire_conversion_event: function(e) {
 			var source = $(e.currentTarget).hasClass( "wph-modal--cta" ) ? "cta" : "form";
-
-			Hustle.Events.trigger('cc_modal_converted', this, source);
-			logConversion.set( 'id', this.optin_id );
-			logConversion.set( 'type', this.type );
-			logConversion.set( 'source', source );
-			logConversion.save();
+            
+            if ( this.tracking_types != null && _.isTrue( this.tracking_types[this.type] ) ) {
+                Hustle.Events.trigger('cc_modal_converted', this, source);
+                logConversion.set( 'id', this.optin_id );
+                logConversion.set( 'type', this.type );
+                logConversion.set( 'source', source );
+                logConversion.save();
+            }
 		},
 
 		enable_fullscreen: function( data ) {
@@ -161,7 +162,7 @@
 			data.custom_size_class = '';
 
 			if ( data.customize_size && _.isTrue( data.customize_size ) ) {
-				data.customize_size_class = 'wph-modal--custom';
+				data.custom_size_class = 'wph-modal--custom';
 				data.custom_size_attr += 'data-custom_width='+ data.custom_width +' data-custom_height='+ data.custom_height +'';
 			}
 			if ( data.border && _.isTrue( data.border ) ) {
@@ -176,23 +177,30 @@
                 $form = $(e.target),
                 on_submit = this.settings.on_submit;
 
-            switch ( on_submit ){
-				default:
-				case 'refresh_or_close':
-					this.closed(e);
-					break;
-                case "close":
-				case 'close_after_form_submit':
-					this.closed(e);
+            // Delay to allow for form submission and see if server-side validation was successful or not
+			window.setTimeout( $.proxy(function(){
+                //The specific case of Contact Form 7: cancel CC close behaviour to allow the user retry submitting the form
+                if( $form.hasClass("wpcf7-form") && $form.hasClass("invalid") ) return;
+                switch ( on_submit ){
+                    default:
+                    case 'refresh_or_close':
+                        this.closed(e);
+                        break;
+                    case "close":
+                    case 'close_after_form_submit':
+                        this.closed(e);
 
-                    break;
-                case "redirect":
-				case 'redirect_to_form_target':
-                    window.location.replace( $form.attr("action") );
-                    break;
-				case 'refresh_or_nothing':
-					break;
-            }
+                        break;
+                    case "redirect":
+                    case 'redirect_to_form_target':
+                        window.location.replace( $form.attr("action") );
+                        break;
+                    case 'refresh_or_nothing':
+                        break;
+                }
+			}, this), 1500 );
+
+
 		}
 	});
 
@@ -223,6 +231,8 @@
 				Optin.cookie.set( this.key_prefix, this.optin_id, 0 );
 				Optin.cookie.set( this.hide_all_key, this.optin_id, 0 );
 			}
+            
+            this.add_mask = _.noop;
 
 			return this.opt.should_display[this.type] && !_.isTrue(opt_cookie_never_see);
 		},
@@ -235,7 +245,9 @@
 					if ( ! me.prevent_hide_after ) {
 						// if hide after is not prevented, then hide it
                         me.$el.removeClass(this.showClass);
-						me.mask.trigger('click');
+                        if ( me.mask ) {
+                            me.mask.trigger('click');
+                        }
 					}
                 }, this.delay_time );
             }
@@ -246,7 +258,7 @@
 		onHide: function() {
 			var should_remove = false;
 
-			if ( 'hide_all' === this.after_close ) {
+			if ( 'hide_all' === this.settings.after_close ) {
 				Optin.cookie.set( this.key_prefix, this.optin_id, 30 );
 				should_remove = true;
 			}
@@ -257,13 +269,34 @@
 
 			if ( should_remove ) {
 				// Remove completely
-				this.mask.remove();
+                if ( this.mask ) {
+                    this.mask.remove();
+                }
 				this.remove();
 			}
 		},
 
 		click: function() {
 			this.prevent_hide_after = true;
+		}
+	});
+
+	Optin.CCAfterContent = Optin.CCPopUp.extend({
+		should_display: function() {
+
+			// If animation is off, disable in/out animation
+			if ( _.isFalse( this.settings.animate ) ) {
+				this.settings.animation_in = this.settings.animation_out = false;
+			} else {
+				this.settings.animation_in = this.settings.animation_out = this.settings.animation;
+			}
+
+			// Disable mask
+			this.add_mask = _.noop;
+			// Set parent container
+			this.parent = '#cc-' + this.opt.uniq_id;
+
+			return true;
 		}
 	});
 

@@ -2,8 +2,8 @@
 Contributors: Michele Marri
 Tags: flatty, flat theme, google recaptcha, recaptcha, security, login security, admin theme, custom logo, admin logo, wordpress custom, custom admin theme, professional wordpress, custom login, theme, clean admin, clean, minimalistic, wordpress admin, backend, backend theme, admin theme, custom admin, custom admin theme, flat, material, flatty, whitelabeling, white label, custom logo, custom wordpress, customize, custom login css, custom css
 Requires at least: 4.0
-Tested up to: 4.7.2
-Stable tag: 1.3.4
+Tested up to: 4.7.4
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,12 @@ I would greatly appreciate it if you kindly give me some feedback on this ;)
 18. Flatty’s minimal light login theme
 
 == Changelog ==
+
+= 1.3.5 =
+* New - New style for checkbox
+* Fixed - Index on topbar
+* Fixed - Ninja Forms fix for Flatty's TopBar
+* Fixed - Login css
 
 = 1.3.4 =
 * New - Translation to Italian

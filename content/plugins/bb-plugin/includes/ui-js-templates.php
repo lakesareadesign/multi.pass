@@ -48,23 +48,25 @@
 			<div class="fl-clear"></div>
 		</div>
 		<?php if ( ! $simple_ui ) : ?>
-		<# if ( ( ! data.first && data.contentWidth > 40 ) || ( data.hasParentCol && data.first && ! data.parentFirst ) ) { #>
-		<div class="fl-block-col-resize fl-block-col-resize-w<# if ( data.hasParentCol && data.first && ! data.parentFirst ) { #> fl-block-col-resize-parent<# } #>">
-			<div class="fl-block-col-resize-handle-wrap">
-				<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-left"></div>
-				<div class="fl-block-col-resize-handle"></div>
-				<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-right"></div>
+		<# if ( ! data.groupLoading ) { #>
+			<# if ( ( ! data.first && data.contentWidth > 40 ) || ( data.hasParentCol && data.first && ! data.parentFirst ) ) { #>
+			<div class="fl-block-col-resize fl-block-col-resize-w<# if ( data.hasParentCol && data.first && ! data.parentFirst ) { #> fl-block-col-resize-parent<# } #>">
+				<div class="fl-block-col-resize-handle-wrap">
+					<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-left"></div>
+					<div class="fl-block-col-resize-handle"></div>
+					<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-right"></div>
+				</div>
 			</div>
-		</div>
-		<# } #>
-		<# if ( ( ! data.last && data.contentWidth > 40 ) || ( data.hasParentCol && data.last && ! data.parentLast ) ) { #>
-		<div class="fl-block-col-resize fl-block-col-resize-e<# if ( data.hasParentCol && data.last && ! data.parentLast ) { #> fl-block-col-resize-parent<# } #>">
-			<div class="fl-block-col-resize-handle-wrap">
-				<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-left"></div>
-				<div class="fl-block-col-resize-handle"></div>
-				<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-right"></div>
+			<# } #>
+			<# if ( ( ! data.last && data.contentWidth > 40 ) || ( data.hasParentCol && data.last && ! data.parentLast ) ) { #>
+			<div class="fl-block-col-resize fl-block-col-resize-e<# if ( data.hasParentCol && data.last && ! data.parentLast ) { #> fl-block-col-resize-parent<# } #>">
+				<div class="fl-block-col-resize-handle-wrap">
+					<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-left"></div>
+					<div class="fl-block-col-resize-handle"></div>
+					<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-right"></div>
+				</div>
 			</div>
-		</div>
+			<# } #>
 		<# } #>
 		<?php endif; ?>
 	</div>
@@ -81,7 +83,7 @@
 				<?php if ( ! FLBuilderModel::is_post_user_template( 'module' ) && ! $simple_ui ) : ?>
 				<i class="fl-block-move fa fa-arrows fl-tip" title="<?php _e('Move', 'fl-builder'); ?>"></i>
 				<?php endif; ?>
-				<i class="fl-block-settings fa fa-wrench fl-tip" title="<?php _e('Module Settings', 'fl-builder'); ?>"></i>
+				<i class="fl-block-settings fa fa-wrench fl-tip" title="<?php printf( __( '%s Settings', 'fl-builder' ), '{{data.moduleName}}' ); ?>"></i>
 				<?php if ( ! FLBuilderModel::is_post_user_template( 'module' ) && ! $simple_ui ) : ?>
 				<i class="fl-block-copy fa fa-copy fl-tip" title="<?php _e( 'Duplicate', 'fl-builder' ); ?>"></i>
 				<span class="fl-builder-has-submenu">
@@ -107,23 +109,25 @@
 			<div class="fl-clear"></div>
 		</div>
 		<?php if ( ! FLBuilderModel::is_post_user_template( 'module' ) && ! $simple_ui ) : ?>
-		<# if ( ( ! data.colFirst && data.contentWidth > 40 ) || ( data.hasParentCol && data.colFirst && ! data.parentFirst ) ) { #>
-		<div class="fl-block-col-resize fl-block-col-resize-w<# if ( data.hasParentCol && data.colFirst && ! data.parentFirst ) { #> fl-block-col-resize-parent<# } #>">
-			<div class="fl-block-col-resize-handle-wrap">
-				<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-left"></div>
-				<div class="fl-block-col-resize-handle"></div>
-				<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-right"></div>
+		<# if ( ! data.groupLoading ) { #>
+			<# if ( ( ! data.colFirst && data.contentWidth > 40 ) || ( data.hasParentCol && data.colFirst && ! data.parentFirst ) ) { #>
+			<div class="fl-block-col-resize fl-block-col-resize-w<# if ( data.hasParentCol && data.colFirst && ! data.parentFirst ) { #> fl-block-col-resize-parent<# } #>">
+				<div class="fl-block-col-resize-handle-wrap">
+					<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-left"></div>
+					<div class="fl-block-col-resize-handle"></div>
+					<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-right"></div>
+				</div>
 			</div>
-		</div>
-		<# } #>
-		<# if ( ( ! data.colLast && data.contentWidth > 40 ) || ( data.hasParentCol && data.colLast && ! data.parentLast ) ) { #>
-		<div class="fl-block-col-resize fl-block-col-resize-e<# if ( data.hasParentCol && data.colLast && ! data.parentLast ) { #> fl-block-col-resize-parent<# } #>">
-			<div class="fl-block-col-resize-handle-wrap">
-				<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-left"></div>
-				<div class="fl-block-col-resize-handle"></div>
-				<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-right"></div>
+			<# } #>
+			<# if ( ( ! data.colLast && data.contentWidth > 40 ) || ( data.hasParentCol && data.colLast && ! data.parentLast ) ) { #>
+			<div class="fl-block-col-resize fl-block-col-resize-e<# if ( data.hasParentCol && data.colLast && ! data.parentLast ) { #> fl-block-col-resize-parent<# } #>">
+				<div class="fl-block-col-resize-handle-wrap">
+					<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-left"></div>
+					<div class="fl-block-col-resize-handle"></div>
+					<div class="fl-block-col-resize-feedback fl-block-col-resize-feedback-right"></div>
+				</div>
 			</div>
-		</div>
+			<# } #>
 		<# } #>
 		<?php endif; ?>
 	</div>
@@ -160,12 +164,21 @@
 <!-- #tmpl-fl-actions-lightbox -->
 
 <script type="text/html" id="tmpl-fl-alert-lightbox">
-	<div class="fl-lightbox-message">{{data.message}}</div>
+	<div class="fl-lightbox-message">{{{data.message}}}</div>
 	<div class="fl-lightbox-footer">
 		<span class="fl-builder-alert-close fl-builder-button fl-builder-button-large fl-builder-button-primary" href="javascript:void(0);"><?php _e('OK', 'fl-builder'); ?></span>
 	</div>
 </script>
 <!-- #tmpl-fl-alert-lightbox -->
+
+<script type="text/html" id="tmpl-fl-confirm-lightbox">
+	<div class="fl-lightbox-message">{{{data.message}}}</div>
+	<div class="fl-lightbox-footer">
+		<span class="fl-builder-confirm-cancel fl-builder-alert-close fl-builder-button fl-builder-button-large" href="javascript:void(0);">{{data.strings.cancel}}</span>
+		<span class="fl-builder-confirm-ok fl-builder-alert-close fl-builder-button fl-builder-button-large fl-builder-button-primary" href="javascript:void(0);">{{data.strings.ok}}</span>
+	</div>
+</script>
+<!-- #tmpl-fl-confirm-lightbox -->
 
 <script type="text/html" id="tmpl-fl-tour-lightbox">
 	<div class="fl-builder-actions fl-builder-tour-actions">

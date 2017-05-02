@@ -179,7 +179,7 @@ class Hustle_Custom_Content_Decorator
         } */
 
         if( $this->_cc->design->customize_css )
-            $styles .= Opt_In::prepare_css( $this->_cc->design->custom_css, $prefix, false, false );
+            $styles .= Opt_In::prepare_css( $this->_cc->design->custom_css, $prefix, false, true, 'wph-modal' );
 
 		return $styles;
     }

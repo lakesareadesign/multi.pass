@@ -139,8 +139,8 @@ final class FLBuilderMultisite {
 		else {
 			$like = like_escape( esc_sql( $blog_id ) );
 		}
-		
-		return $wpdb->get_row( "SELECT blog_id FROM $wpdb->blogs WHERE blog_id = '$like'" );
+
+		return $wpdb->get_row( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE blog_id = '%s'", $like ) );
 	}
 }
 

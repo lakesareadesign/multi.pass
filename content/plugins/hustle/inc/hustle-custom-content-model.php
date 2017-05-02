@@ -33,10 +33,11 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      * @var array
      */
     protected $types = array(
+		'after_content',
         'popup',
         'slide_in',
         'shortcode',
-//        'magic_bar',
+        'widget',
     );
 
     function __get($field)
@@ -104,6 +105,10 @@ class Hustle_Custom_Content_Model extends Hustle_Model
         return new Hustle_Custom_Content_Design( $this->get_settings_meta( self::KEY_DESIGN, "{}", true ), $this );
     }
 
+	function get_after_content() {
+		return new Hustle_Custom_Content_Meta_After_Content( $this->get_settings_meta( self::KEY_AFTER_CONTENT, "{}", true ), $this );
+	}
+
     /**
      * @return Hustle_Custom_Content_Meta_Popup
      */
@@ -125,6 +130,16 @@ class Hustle_Custom_Content_Model extends Hustle_Model
         return new Hustle_Custom_Content_Meta_Magic_Bar( $this->get_settings_meta( self::KEY_MAGIC_BAR, "{}", true ), $this );
     }
 
+    /**
+     * Returns optin settings
+     *
+     * @return Opt_In_Meta_Settings
+     */
+    public function get_parent_settings(){
+        $settings_json = $this->get_meta( self::KEY_SETTINGS );
+        return new Opt_In_Meta_Settings( json_decode( $settings_json ? $settings_json : "{}", true ), $this );
+    }
+
 
     /**
      * Toggles state of optin or optin type
@@ -132,20 +147,27 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      * @param null $environment
      * @return false|int|WP_Error
      */
-    function toggle_state( $environment = null ){
+    function toggle_state( $environment = null, $settings = false ){
         if( is_null( $environment ) ) {
 			return parent::toggle_state( $environment );
 		}
 
-        if( in_array( $environment, $this->types ) ) { // we are toggling state of a specific environment
-
-            $prev_value = $this->{$environment}->to_object();
+        if ( $settings ) {
+            $obj_settings = json_decode($this->settings);
+            $prev_value = $obj_settings->$environment;
             $prev_value->enabled = !isset( $prev_value->enabled ) || "false" === $prev_value->enabled ? "true": "false";
-            return $this->update_meta( $environment,  json_encode( $prev_value ) );
-        } else{
-            return new WP_Error("Invalid_env", "Invalid environment . " . $environment);
-        }
+            $new_value = array_merge( (array) $obj_settings, array( $environment => $prev_value ));
+            return $this->update_meta( self::KEY_SETTINGS,  json_encode( $new_value ) );
 
+        } else {
+            if( in_array( $environment, $this->types ) ) { // we are toggling state of a specific environment
+                $prev_value = $this->{$environment}->to_object();
+                $prev_value->enabled = !isset( $prev_value->enabled ) || "false" === $prev_value->enabled ? "true": "false";
+                return $this->update_meta( $environment,  json_encode( $prev_value ) );
+            } else{
+                return new WP_Error("Invalid_env", "Invalid environment . " . $environment);
+            }
+        }
     }
 
     /**
@@ -187,7 +209,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 			foreach ( $callbacks as $priority => $callback ) {
 				foreach ( $callback as $filter_name => $filter_callback ) {
 					if ( ! in_array( $filter_name, $allowed_filters ) &&
-						! preg_match( '%run_shortcode|autoembed%', $filter_name ) ) {
+						preg_match( '%run_shortcode|autoembed%', $filter_name ) === false ) {
 						unset( $wp_filter['the_content']->callbacks[ $priority ][ $filter_name ] );
 					}
 
@@ -254,16 +276,15 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 		$skip_all_cpt = false;
 		if( !empty( $_conditions ) ) {
 
-			if ( is_singular() || is_front_page() ) {
-				// unset categories and tags
-				unset($_conditions->categories);
-				unset($_conditions->tags);
+			if ( is_singular() ) {
 				// unset not needed post_type
 				if ( $post->post_type == 'post' ) {
 					unset($_conditions->pages);
 					$skip_all_cpt = true;
 				} elseif ( $post->post_type == 'page' ) {
 					unset($_conditions->posts);
+					unset($_conditions->categories);
+					unset($_conditions->tags);
 					$skip_all_cpt = true;
 				} else {
 					// unset posts and pages since this is CPT
@@ -271,6 +292,12 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 					unset($_conditions->pages);
 				}
 			} else {
+
+                // do not display after_content on archive page
+                if ( $type == 'after_content' ) {
+                    return false;
+                }
+
 				// unset posts and pages
 				unset($_conditions->posts);
 				unset($_conditions->pages);
@@ -286,7 +313,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 			// $display is TRUE if all conditions were met
 			foreach ($_conditions as $condition_key => $args) {
 				// only cpt have 'post_type' and 'post_type_label' properties
-				if ( isset($args['post_type']) && isset($args['post_type_label']) ) {
+				if ( is_array($args) && isset($args['post_type']) && isset($args['post_type_label']) ) {
 					if ( $skip_all_cpt || $post->post_type != $args['post_type'] ) {
 						continue;
 					}
@@ -316,7 +343,13 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 
         $method = "get_$type";
 
-        $settings = $this->{$method}();
+        if ( $type == 'shortcode' ) {
+            $settings = $this->get_parent_settings()->get_shortcode();
+        } elseif ( $type == 'widget' ) {
+            $settings = $this->get_parent_settings()->get_widget();
+        } else {
+            $settings = $this->{$method}();
+        }
 
 		// defaults
 		$_conditions = array(
@@ -329,7 +362,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
         if( !empty( $_conditions ) ){
             foreach( $_conditions as $condition_key => $args ){
 				// only cpt have 'post_type' and 'post_type_label' properties
-				if ( isset($args['post_type']) && isset($args['post_type_label']) ) {
+				if ( is_array($args) && isset($args['post_type']) && isset($args['post_type_label']) ) {
 					$conditions[$condition_key] = Hustle_Condition_Factory::build( 'cpt', $args );
 				} else {
 					$conditions[$condition_key] = Hustle_Condition_Factory::build( $condition_key, $args );

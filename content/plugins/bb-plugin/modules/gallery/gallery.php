@@ -32,7 +32,7 @@ class FLGalleryModule extends FLBuilderModule {
 		$override_lightbox = apply_filters( 'fl_builder_override_lightbox', false );
 		if ( ! $override_lightbox ) {
 			$this->add_js('jquery-magnificpopup');
-			$this->add_css('jquery-magnificpopup');	
+			$this->add_css('jquery-magnificpopup');
 		}
 		else {
 			wp_dequeue_script('jquery-magnificpopup');
@@ -90,7 +90,7 @@ class FLGalleryModule extends FLBuilderModule {
 
 			// Use the cache if we didn't get a photo from the id.
 			if ( ! $photo ) {
-				
+
 				if ( ! isset( $this->settings->photo_data ) ) {
 					continue;
 				}
@@ -165,7 +165,7 @@ class FLGalleryModule extends FLBuilderModule {
 		$photos = array();
 
 		// Load the feed into a DOM object.
-		$feed = @simplexml_load_file($this->settings->feed_url);
+		$feed = simplexml_load_file($this->settings->feed_url, 'SimpleXMLElement', LIBXML_NOWARNING);
 
 		if($feed !== false) {
 
@@ -273,7 +273,8 @@ FLBuilder::register_module('FLGalleryModule', array(
 					),
 					'photos'        => array(
 						'type'          => 'multiple-photos',
-						'label'         => __('Photos', 'fl-builder')
+						'label'         => __('Photos', 'fl-builder'),
+						'connections'   => array( 'multiple-photos' )
 					),
 					'feed_url'   => array(
 						'type'          => 'text',

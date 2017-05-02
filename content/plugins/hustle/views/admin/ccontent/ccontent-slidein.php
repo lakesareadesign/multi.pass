@@ -24,7 +24,7 @@
 
 		<div class="switch-content">
 
-			<div  class="wph-flex--box wph-flex--border wph-ccontent--conditions">
+			<div class="wph-flex--box wph-flex--border wph-ccontent--conditions">
 
 				<h4><?php _e('{{type_name}} Display Conditions', Opt_In::TEXT_DOMAIN); ?></h4>
 
@@ -47,7 +47,7 @@
 
 			<div id="wph-ccontent--slidein_options">
 
-				<h4><?php _e('After user closes Slide In', Opt_In::TEXT_DOMAIN); ?></h4>
+				<h4><?php _e('After user closes Slide-in', Opt_In::TEXT_DOMAIN); ?></h4>
 
 				<div id="wph-ccontent--additional_settings">
 
@@ -81,7 +81,7 @@
 
 					<div class="wph-label--radio">
 
-						<label for="wpoi-slidein-hide"><?php _e("Hide all slide in messages for user", Opt_In::TEXT_DOMAIN); ?></label>
+						<label for="wpoi-slidein-hide"><?php _e("Hide all slide-in messages for user", Opt_In::TEXT_DOMAIN); ?></label>
 
 						<div class="wph-input--radio">
 
@@ -93,7 +93,7 @@
 
 					</div>
 
-				</div><!-- After user closes Slide In -->
+				</div><!-- After user closes Slide-in -->
 
 			</div>
 
@@ -133,7 +133,7 @@
 
 			<div id="wph-ccontent--slidein_position">
 
-				<h4><?php _e('Slide In Position', Opt_In::TEXT_DOMAIN); ?></h4>
+				<h4><?php _e('Slide-in Position', Opt_In::TEXT_DOMAIN); ?></h4>
 
 				<label id="wpoi-slide_in-position-label">{{position_label}}</label>
 
@@ -181,7 +181,7 @@
 
 					<div class="wph-label--block">
 
-						<label class="wph-label--alt"><?php _e('If your Pop Up contains a form, you can change the form-submit behavior here', Opt_In::TEXT_DOMAIN); ?></label>
+						<label class="wph-label--alt"><?php _e('If your Pop-up contains a form, you can change the form-submit behavior here', Opt_In::TEXT_DOMAIN); ?></label>
 
 					</div>
 

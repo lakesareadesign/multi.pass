@@ -122,8 +122,7 @@ class FLJSMin {
 							$this->output .= $this->a;
 							$this->a       = $this->get();
 						} elseif (ord($this->a) <= self::ORD_LF) {
-							throw new FLJSMinException('Unterminated regular expression '.
-									'literal.');
+							throw new FLJSMinException('Unterminated regular expression literal.');
 						}
 
 						$this->output .= $this->a;
@@ -290,4 +289,4 @@ class FLJSMin {
 
 // -- Exceptions ---------------------------------------------------------------
 class FLJSMinException extends Exception {}
-?>
+

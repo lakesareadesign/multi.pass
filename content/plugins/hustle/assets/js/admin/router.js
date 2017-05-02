@@ -85,7 +85,7 @@ var Inc_Opt_Router = Backbone.Router.extend({
 
         // If optin type set in URL, scroll to it
         type = type || "";
-        if( type != "" && jQuery('#wpoi-listing-wrap-' + type).length ) {
+        if( type !== "" && jQuery('#wpoi-listing-wrap-' + type).length ) {
 
             jQuery('#wpoi-listing-wrap-' + type ).find("i.dev-icon:not(.search-icon)").trigger("click");
 

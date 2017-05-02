@@ -2,7 +2,9 @@
 <?php
 	
 echo 'FLBuilderConfig = ' . json_encode( apply_filters('fl_builder_ui_js_config', array(
+	'adminUrl'                      => admin_url(),
 	'ajaxNonce'                     => wp_create_nonce( 'fl_ajax_update' ),
+	'builderEnabled'				=> get_post_meta( $post_id, '_fl_builder_enabled', true ) ? true : false,
 	'colorPresets'                  => FLBuilderModel::get_color_presets(),
 	'customImageSizeTitles'         => apply_filters( 'image_size_names_choose', array() ),
 	'debug'                         => ( defined( 'WP_DEBUG' ) && WP_DEBUG ),
@@ -22,7 +24,7 @@ echo 'FLBuilderConfig = ' . json_encode( apply_filters('fl_builder_ui_js_config'
 	'postType'                      => get_post_type(),
 	'simpleUi'                      => $simple_ui ? true : false,
 	'upgradeUrl'                    => FLBuilderModel::get_store_url( '', array( 'utm_medium' => ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-demo' ), 'utm_source' => 'builder-ui', 'utm_campaign' => ( true === FL_BUILDER_LITE ? 'top-panel-cta' : 'demo-cta' ) ) ),
-	'userCanEditGlobalTemplates'    => current_user_can( FLBuilderModel::get_global_templates_editing_capability() ),
+	'userCanEditGlobalTemplates'    => FLBuilderUserAccess::current_user_can( 'global_node_editing' ),
 	'userCanPublish'                => current_user_can('publish_posts'),
 	'userTemplateType'              => FLBuilderModel::get_user_template_type(),
 	'googleFontsUrl'				=> apply_filters( 'fl_builder_google_fonts_domain', '//fonts.googleapis.com/' ) . 'css?family='

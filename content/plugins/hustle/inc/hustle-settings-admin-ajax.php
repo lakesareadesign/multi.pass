@@ -129,14 +129,14 @@ class Hustle_Settings_Admin_Ajax
         $id = filter_input( INPUT_POST, 'id', FILTER_VALIDATE_INT );
         $user_type = filter_input( INPUT_POST, 'user_type', FILTER_SANITIZE_STRING );
 
-        $module = Hustle_Custom_Content_Model::instance()->get( $id );
+        $module = Opt_In_Model::instance()->get( $id );
 
         $result = $module->toggle_activity_for_user( $user_type );
 
         if( is_wp_error( $result ) )
             wp_send_json_error( $result->get_error_messages() );
 
-        wp_send_json_success( sprintf( __("Successfully toggled for uset type %s", Opt_In::TEXT_DOMAIN), $user_type ) );
+        wp_send_json_success( sprintf( __("Successfully toggled for user type %s", Opt_In::TEXT_DOMAIN), $user_type ) );
     }
 
     function get_providers_edit_modal_content(){

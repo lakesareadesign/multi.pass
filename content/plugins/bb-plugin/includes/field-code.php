@@ -1,6 +1,11 @@
 <div class="fl-code-field">
-	<?php $editor_id = 'flcode' . time() . '_' . $name; ?>
-	<textarea id="<?php echo $editor_id; ?>" name="<?php echo $name; ?>" data-editor="<?php echo $field['editor']; ?>" <?php if(isset($field['class'])) echo ' class="'. $field['class'] .'"'; if(isset($field['rows'])) echo ' rows="'. $field['rows'] .'"'; ?>><?php echo htmlspecialchars($value); ?></textarea>
+	<?php 
+		
+	$editor_id = 'flcode' . time() . '_' . $name; 
+	$value     = is_array( $value ) ? htmlspecialchars( json_encode( $value ) ) : htmlspecialchars( $value );
+	
+	?>
+	<textarea id="<?php echo $editor_id; ?>" name="<?php echo $name; ?>" data-editor="<?php echo $field['editor']; ?>" <?php if(isset($field['class'])) echo ' class="'. $field['class'] .'"'; if(isset($field['rows'])) echo ' rows="'. $field['rows'] .'"'; ?>><?php echo $value; ?></textarea>
 	<script>
 	
 	jQuery(function(){
@@ -28,9 +33,11 @@
 		editor.setOptions({
 	        enableBasicAutocompletion: true,
 	        enableLiveAutocompletion: true,
-	        enableSnippets: false
+	        enableSnippets: false,
+	        showLineNumbers: false,
+	        showFoldWidgets: false
 	    });
-		
+	    
 		editor.getSession().on('change', function(e) {
 			textarea.val(editor.getSession().getValue()).trigger('change');
 		});

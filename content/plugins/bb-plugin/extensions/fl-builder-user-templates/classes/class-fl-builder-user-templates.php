@@ -17,8 +17,8 @@ final class FLBuilderUserTemplates {
 	{
 		/* Actions */
 		add_action( 'plugins_loaded',                                  __CLASS__ . '::init_ajax' );
+		add_action( 'plugins_loaded',                                  __CLASS__ . '::register_user_access_settings' );
 		add_action( 'init',                                            __CLASS__ . '::load_settings', 1 );
-		add_action( 'init',                                            __CLASS__ . '::register_post_type' );
 		add_action( 'wp_footer',                                       __CLASS__ . '::render_ui_js_templates' );
 		add_action( 'fl_builder_ui_panel_after_modules',               __CLASS__ . '::render_ui_panel_node_templates' );
 		add_action( 'fl_builder_template_selector_content',            __CLASS__ . '::render_selector_content' );
@@ -54,6 +54,29 @@ final class FLBuilderUserTemplates {
 		FLBuilderAJAX::add_action( 'save_node_template',               'FLBuilderModel::save_node_template', array( 'node_id', 'settings' ) );
 		FLBuilderAJAX::add_action( 'delete_node_template',             'FLBuilderModel::delete_node_template', array( 'template_id' ) );
 	}
+	
+	/**
+	 * Registers the user access settings for user templates.
+	 *
+	 * @since 1.10
+	 * @return void
+	 */
+	static public function register_user_access_settings()
+	{
+		FLBuilderUserAccess::register_setting( 'builder_admin', array(
+			'default'     => false,
+			'group'       => __( 'Admin', 'fl-builder' ),
+			'label'       => __( 'Builder Admin', 'fl-builder' ),
+			'description' => __( 'The selected roles will be able to access the builder admin menu.', 'fl-builder' )
+		) );
+		
+		FLBuilderUserAccess::register_setting( 'global_node_editing', array(
+			'default'     => 'all',
+			'group'       => __( 'Frontend', 'fl-builder' ),
+			'label'       => __( 'Global Rows and Modules Editing', 'fl-builder' ),
+			'description' => __( 'The selected roles will be able to edit global rows and modules.', 'fl-builder' )
+		) );
+	}
 
 	/**
 	 * Loads files for the template settings. 
@@ -65,82 +88,6 @@ final class FLBuilderUserTemplates {
 	{
 		require_once FL_BUILDER_USER_TEMPLATES_DIR . 'includes/user-template-settings.php';
 		require_once FL_BUILDER_USER_TEMPLATES_DIR . 'includes/node-template-settings.php';
-	}
-
-	/**
-	 * Registers the custom post type for user templates.
-	 *
-	 * @since 1.1.3
-	 * @since 1.5.7 Added template category taxonomy.
-	 * @return void
-	 */
-	static public function register_post_type()
-	{
-		// Vars for checking if the templates admin should be public.
-		$admin_enabled 		= FLBuilderModel::user_templates_admin_enabled();
-		$can_edit_global 	= current_user_can( FLBuilderModel::get_global_templates_editing_capability() );
-		$can_edit 			= FLBuilderModel::current_user_has_editing_capability();
-
-		// Register the template post type.
-		register_post_type('fl-builder-template', apply_filters( 'fl_builder_register_template_post_type_args', array(
-			'public'            => $admin_enabled && $can_edit ? true : false,
-			'labels'            => array(
-				'name'               => _x( 'Templates', 'Custom post type label.', 'fl-builder' ),
-				'singular_name'      => _x( 'Template', 'Custom post type label.', 'fl-builder' ),
-				'menu_name'          => _x( 'Templates', 'Custom post type label.', 'fl-builder' ),
-				'name_admin_bar'     => _x( 'Template', 'Custom post type label.', 'fl-builder' ),
-				'add_new'            => _x( 'Add New', 'Custom post type label.', 'fl-builder' ),
-				'add_new_item'       => _x( 'Add New Template', 'Custom post type label.', 'fl-builder' ),
-				'new_item'           => _x( 'New Template', 'Custom post type label.', 'fl-builder' ),
-				'edit_item'          => _x( 'Edit Template', 'Custom post type label.', 'fl-builder' ),
-				'view_item'          => _x( 'View Template', 'Custom post type label.', 'fl-builder' ),
-				'all_items'          => _x( 'All Templates', 'Custom post type label.', 'fl-builder' ),
-				'search_items'       => _x( 'Search Templates', 'Custom post type label.', 'fl-builder' ),
-				'parent_item_colon'  => _x( 'Parent Templates:', 'Custom post type label.', 'fl-builder' ),
-				'not_found'          => _x( 'No templates found.', 'Custom post type label.', 'fl-builder' ),
-				'not_found_in_trash' => _x( 'No templates found in Trash.', 'Custom post type label.', 'fl-builder' )
-			),
-			'menu_icon'			=> 'dashicons-welcome-widgets-menus',
-			'supports'          => array(
-				'title',
-				'revisions',
-				'page-attributes',
-				'thumbnail',
-			),
-			'taxonomies'		=> array(
-				'fl-builder-template-category'
-			),
-			'publicly_queryable' 	=> $can_edit || $can_edit_global,
-			'exclude_from_search'	=> true
-		) ) );
-		
-		// Register the template category tax.
-		register_taxonomy( 'fl-builder-template-category', array( 'fl-builder-template' ), apply_filters( 'fl_builder_register_template_category_args', array(
-			'labels'            => array(
-				'name'              => _x( 'Template Categories', 'Custom taxonomy label.', 'fl-builder' ),
-				'singular_name'     => _x( 'Template Category', 'Custom taxonomy label.', 'fl-builder' ),
-				'search_items'      => _x( 'Search Template Categories', 'Custom taxonomy label.', 'fl-builder' ),
-				'all_items'         => _x( 'All Template Categories', 'Custom taxonomy label.', 'fl-builder' ),
-				'parent_item'       => _x( 'Parent Template Category', 'Custom taxonomy label.', 'fl-builder' ),
-				'parent_item_colon' => _x( 'Parent Template Category:', 'Custom taxonomy label.', 'fl-builder' ),
-				'edit_item'         => _x( 'Edit Template Category', 'Custom taxonomy label.', 'fl-builder' ),
-				'update_item'       => _x( 'Update Template Category', 'Custom taxonomy label.', 'fl-builder' ),
-				'add_new_item'      => _x( 'Add New Template Category', 'Custom taxonomy label.', 'fl-builder' ),
-				'new_item_name'     => _x( 'New Template Category Name', 'Custom taxonomy label.', 'fl-builder' ),
-				'menu_name'         => _x( 'Categories', 'Custom taxonomy label.', 'fl-builder' ),
-			),
-			'hierarchical'      => true,
-			'public'            => true,
-			'show_admin_column' => true
-		) ) );
-		
-		// Register the template type tax.
-		register_taxonomy( 'fl-builder-template-type', array( 'fl-builder-template' ), apply_filters( 'fl_builder_register_template_type_args', array(
-			'label'             => _x( 'Type', 'Custom taxonomy label.', 'fl-builder' ),
-			'hierarchical'      => false,
-			'public'            => false,
-			'show_admin_column' => true
-		) ) );
 	}
 
 	/**
@@ -284,13 +231,14 @@ final class FLBuilderUserTemplates {
 	static public function ui_bar_buttons( $buttons )
 	{
 		$is_template        = FLBuilderModel::is_post_user_template();
+		$is_row_template    = FLBuilderModel::is_post_user_template( 'row' );
 		$is_module_template = FLBuilderModel::is_post_user_template( 'module' );
 		$enabled_templates  = FLBuilderModel::get_enabled_templates();
 		
 		if ( isset( $buttons['tools'] ) && $is_module_template ) {
 			$buttons['tools']['show'] = false;
 		}
-		if ( isset( $buttons['templates'] ) && ( $is_template || 'disabled' == $enabled_templates ) ) {
+		if ( isset( $buttons['templates'] ) && ( $is_row_template || $is_module_template || 'disabled' == $enabled_templates ) ) {
 			$buttons['templates']['show'] = false;
 		}
 		if ( isset( $buttons['add-content'] ) && $is_module_template ) {
@@ -312,7 +260,7 @@ final class FLBuilderUserTemplates {
 		return array_merge( $config, array(
 			'enabledTemplates'              => FLBuilderModel::get_enabled_templates(),
 			'isUserTemplate'                => FLBuilderModel::is_post_user_template() ? true : false,
-			'userCanEditGlobalTemplates'    => current_user_can( FLBuilderModel::get_global_templates_editing_capability() ) ? true : false,
+			'userCanEditGlobalTemplates'    => FLBuilderUserAccess::current_user_can( 'global_node_editing' ) ? true : false,
 			'userTemplateType'              => FLBuilderModel::get_user_template_type()
 		) );
 	}
@@ -330,6 +278,7 @@ final class FLBuilderUserTemplates {
 			$saved_rows    = FLBuilderModel::get_node_templates( 'row' );
 			$saved_modules = FLBuilderModel::get_node_templates( 'module' );
 			$node_template = FLBuilderModel::is_post_node_template();
+			$can_edit      = FLBuilderUserAccess::current_user_can( 'global_node_editing' );
 			
 			// Don't show global rows for node templates.
 			foreach ( $saved_rows as $key => $val ) {
@@ -454,7 +403,7 @@ final class FLBuilderUserTemplates {
 		}
 		
 		// Add the global templates locked class.
-		if ( ! current_user_can( FLBuilderModel::get_global_templates_editing_capability() ) ) {
+		if ( ! FLBuilderUserAccess::current_user_can( 'global_node_editing' ) ) {
 			$classes .= ' fl-builder-global-templates-locked';
 		}
 

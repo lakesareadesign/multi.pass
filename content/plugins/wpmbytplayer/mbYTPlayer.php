@@ -4,13 +4,13 @@ Plugin Name: mb.YTPlayer for background videos
 Plugin URI: http://pupunzi.com/#mb.components/mb.YTPlayer/YTPlayer.html
 Description: Play a Youtube video as background of your page. Go to <strong>mb.ideas > mb.YTPlayer</strong> to activate the background video option for your homepage.
 Author: Pupunzi (Matteo Bicocchi)
-Version: 3.0.8
+Version: 3.0.10
 Author URI: http://pupunzi.com
 Text Domain: wpmbytplayer
 */
 
 
-define("MBYTPLAYER_VERSION", "3.0.8");
+define("MBYTPLAYER_VERSION", "3.0.10");
 
 // Set unique string for this site
 $lic_domain = $_SERVER['HTTP_HOST'];
@@ -20,6 +20,8 @@ if(!isset($lic_domain) || empty($lic_domain))
     $lic_domain = get_bloginfo('name');
 
 $this_plugin = plugin_basename(__FILE__);
+
+$ytpl_plus_link = "https://pupunzi.com/wpPlus/go-plus.php?locale=" . get_locale() . "&plugin_prefix=YTPL&plugin_version=" . MBYTPLAYER_VERSION . "&lic_domain=" . $lic_domain . "&lic_theme=" . get_template() . "&php=" . phpversion();
 
 /*
 if (version_compare(phpversion(), '5.6.0', '>')) {
@@ -40,17 +42,20 @@ function mbYTPlayer_install()
 {
 // add and update our default options upon activation
     add_option('mbYTPlayer_version', MBYTPLAYER_VERSION);
-    add_option('mbYTPlayer_Home_is_active', 'true');
+    add_option('mbYTPlayer_is_active', 'true');
 
-    add_option('mbYTPlayer_home_video_url', '');
-    add_option('mbYTPlayer_home_video_page', 'static');
+    add_option('mbYTPlayer_video_url', '');
+    add_option('mbYTPlayer_video_page', 'static');
+    add_option('mbYTPlayer_remember_last_time', false);
+
 }
 
 
 $mbYTPlayer_version = get_option('mbYTPlayer_version');
-$mbYTPlayer_Home_is_active = get_option('mbYTPlayer_Home_is_active');
-$mbYTPlayer_home_video_url = get_option('mbYTPlayer_home_video_url');
-$mbYTPlayer_home_video_page = get_option('mbYTPlayer_home_video_page');
+$mbYTPlayer_is_active = get_option('mbYTPlayer_is_active');
+$mbYTPlayer_video_url = get_option('mbYTPlayer_video_url');
+$mbYTPlayer_video_page = get_option('mbYTPlayer_video_page');
+$mbYTPlayer_remember_last_time = get_option('mbYTPlayer_remember_last_time');
 
 $mbYTPlayer_show_controls = "false";
 $mbYTPlayer_show_videourl = "false";
@@ -71,25 +76,41 @@ $mbYTPlayer_track_ga = "false";
 if ($mbYTPlayer_version != MBYTPLAYER_VERSION) {
     $mbYTPlayer_version = MBYTPLAYER_VERSION;
 }
-if (empty($mbYTPlayer_Home_is_active)) {
-    $mbYTPlayer_Home_is_active = false;
+if (empty($mbYTPlayer_is_active)) {
+    $mbYTPlayer_is_active = false;
 }
 if (empty($mbYTPlayer_show_videourl)) {
     $mbYTPlayer_show_videourl = "false";
 }
-if (empty($mbYTPlayer_home_video_page)) {
-    $mbYTPlayer_home_video_page = "static";
+if (empty($mbYTPlayer_video_page)) {
+    $mbYTPlayer_video_page = "static";
+}
+if (empty($mbYTPlayer_remember_last_time)) {
+    $mbYTPlayer_remember_last_time = false;
+}
+/**
+ * todo: rempve from next releases
+ */
+if(get_option('mbYTPlayer_Home_is_active')) {
+    $mbYTPlayer_is_active = get_option('mbYTPlayer_Home_is_active');
+    delete_option('mbYTPlayer_Home_is_active');
+
+    $mbYTPlayer_video_url = get_option('mbYTPlayer_home_video_url');
+    delete_option('mbYTPlayer_home_video_url');
+
+    $mbYTPlayer_video_page = get_option('mbYTPlayer_home_video_page');
+    delete_option('mbYTPlayer_home_video_page');
 }
 
 //action link http://www.wpmods.com/adding-plugin-action-links
 add_filter('plugin_action_links', 'mbYTPlayer_action_links', 10, 2);
 function mbYTPlayer_action_links($links, $file)
 {
-    global $this_plugin;
     // check to make sure we are on the correct plugin
-    if ($file == $this_plugin) {
+    if ($file == plugin_basename(__FILE__)) {
         // the anchor tag and href to the URL we want. For a "Settings" link, this needs to be the url of your settings page
-        $settings_link = '<a href="' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=wpmbytplayer/mbYTPlayer.php">Settings</a>';
+        $settings_link = '<a style="color: #008000" href="https://pupunzi.com/wpPlus/go-plus.php?plugin_prefix=YTPL" target="_blank">Go PLUS</a> | ';
+        $settings_link .= '<a href="' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=wpmbytplayer/mbYTPlayer.php">Settings</a>';
         // add the link to the list
         array_unshift($links, $settings_link);
     }
@@ -118,31 +139,48 @@ function mbytp_localize()
 add_action('wp_footer', 'mbYTPlayer_player_foot', 20);
 function mbYTPlayer_player_foot()
 {
-    global $mbYTPlayer_home_video_url, $mbYTPlayer_show_controls, $mbYTPlayer_ratio, $mbYTPlayer_show_videourl, $mbYTPlayer_start_at, $mbYTPlayer_stop_at, $mbYTPlayer_mute, $mbYTPlayer_loop, $mbYTPlayer_opacity, $mbYTPlayer_quality, $mbYTPlayer_add_raster, $mbYTPlayer_track_ga, $mbYTPlayer_realfullscreen, $mbYTPlayer_stop_on_blur, $mbYTPlayer_home_video_page, $mbYTPlayer_Home_is_active, $mbYTPlayer_audio_volume;
+    global $mbYTPlayer_video_url,
+           $mbYTPlayer_show_controls,
+           $mbYTPlayer_ratio,
+           $mbYTPlayer_show_videourl,
+           $mbYTPlayer_start_at,
+           $mbYTPlayer_stop_at,
+           $mbYTPlayer_mute,
+           $mbYTPlayer_loop,
+           $mbYTPlayer_opacity,
+           $mbYTPlayer_quality,
+           $mbYTPlayer_add_raster,
+           $mbYTPlayer_track_ga,
+           $mbYTPlayer_realfullscreen,
+           $mbYTPlayer_stop_on_blur,
+           $mbYTPlayer_video_page,
+           $mbYTPlayer_is_active,
+           $mbYTPlayer_audio_volume,
+           $mbYTPlayer_remember_last_time;
 
     $canShowMovie = is_front_page() && !is_home(); // A static page set as home;
-    if ($mbYTPlayer_home_video_page == "blogindex")
+    if ($mbYTPlayer_video_page == "blogindex")
         $canShowMovie = is_home(); // the blog index page;
-    else if ($mbYTPlayer_home_video_page == "both")
+    else if ($mbYTPlayer_video_page == "both")
         $canShowMovie = is_front_page() || is_home(); // A static page set as home;
-    else if ($mbYTPlayer_home_video_page == "all")
+    else if ($mbYTPlayer_video_page == "all")
         $canShowMovie = true; // on all pages;
 
-    if ($canShowMovie && $mbYTPlayer_Home_is_active) { // && !isMbMobile()
+    if ($canShowMovie && $mbYTPlayer_is_active) { // && !isMbMobile()
 
-        if (empty($mbYTPlayer_home_video_url))
+        if (empty($mbYTPlayer_video_url))
             return false;
 
         if ($mbYTPlayer_opacity > 1)
             $mbYTPlayer_opacity = $mbYTPlayer_opacity / 10;
 
-        $vids = explode(',', $mbYTPlayer_home_video_url);
+        $vids = explode(',', $mbYTPlayer_video_url);
         $n = rand(0, count($vids) - 1);
-        $mbYTPlayer_home_video_url_revised = $vids[$n];
+        $mbYTPlayer_video_url_revised = $vids[$n];
 
         $mbYTPlayer_start_at = $mbYTPlayer_start_at > 0 ? $mbYTPlayer_start_at : 1;
         $mbYTPlayer_player_homevideo =
-            '<div id=\"bgndVideo_home\" data-property=\"{ videoURL:\'' . $mbYTPlayer_home_video_url_revised . '\',opacity:' . $mbYTPlayer_opacity . ',autoPlay:true,containment:\'body\',startAt:' . $mbYTPlayer_start_at . ',stopAt:' . $mbYTPlayer_stop_at . ',mute:' . $mbYTPlayer_mute . ',vol:' . $mbYTPlayer_audio_volume . ',optimizeDisplay:true,showControls:' . $mbYTPlayer_show_controls . ',printUrl:' . $mbYTPlayer_show_videourl . ',loop:' . $mbYTPlayer_loop . ',addRaster:' . $mbYTPlayer_add_raster . ',quality:\'' . $mbYTPlayer_quality . '\',ratio:\'' . $mbYTPlayer_ratio . '\',realfullscreen:\'' . $mbYTPlayer_realfullscreen . '\',gaTrack:\'' . $mbYTPlayer_track_ga . '\',stopMovieOnBlur:\'' . $mbYTPlayer_stop_on_blur . '\'}\"></div>';
+            '<div id=\"bgndVideo_home\" data-property=\"{videoURL:\'' . $mbYTPlayer_video_url_revised . '\', mobileFallbackImage:null, opacity:' . $mbYTPlayer_opacity . ', autoPlay:true, containment:\'body\', startAt:' . $mbYTPlayer_start_at . ', stopAt:' . $mbYTPlayer_stop_at . ', mute:' . $mbYTPlayer_mute . ', vol:' . $mbYTPlayer_audio_volume . ', optimizeDisplay:true, showControls:' . $mbYTPlayer_show_controls . ', printUrl:' . $mbYTPlayer_show_videourl . ', loop:' . $mbYTPlayer_loop . ', addRaster:' . $mbYTPlayer_add_raster . ', quality:\'' . $mbYTPlayer_quality . '\', ratio:\'' . $mbYTPlayer_ratio . '\', realfullscreen:' . $mbYTPlayer_realfullscreen . ', gaTrack:' . $mbYTPlayer_track_ga . ', stopMovieOnBlur:' . $mbYTPlayer_stop_on_blur . ', remember_last_time:' . $mbYTPlayer_remember_last_time . '}\"></div>';
         echo '
 	<!-- mbYTPlayer Home -->
 	<script type="text/javascript">
@@ -176,11 +214,12 @@ add_action('admin_init', 'register_YTPlayerSettings');
 function register_YTPlayerSettings()
 {
     //register YTPlayer settings
-    register_setting('YTPlayer-activate-group', 'mbYTPlayer_Home_is_active');
+    register_setting('YTPlayer-activate-group', 'mbYTPlayer_is_active');
 
     register_setting('YTPlayer-settings-group', 'mbYTPlayer_version');
-    register_setting('YTPlayer-settings-group', 'mbYTPlayer_home_video_url');
-    register_setting('YTPlayer-settings-group', 'mbYTPlayer_home_video_page');
+    register_setting('YTPlayer-settings-group', 'mbYTPlayer_video_url');
+    register_setting('YTPlayer-settings-group', 'mbYTPlayer_video_page');
+    register_setting('YTPlayer-settings-group', 'mbYTPlayer_remember_last_time');
 }
 
 /**
@@ -214,8 +253,7 @@ function ytp_add_body_classes($classes)
 
 function mbYTPlayer_options_page()
 { // Output the options page
-    global $lic_domain;
-    $link = "https://pupunzi.com/wpPlus/go-plus.php?locale=" . get_locale() . "&plugin_prefix=YTPL&plugin_version=" . MBYTPLAYER_VERSION . "&lic_domain=" . $lic_domain . "&lic_theme=" . get_template() . "&php=" . phpversion();
+    global $ytpl_plus_link;
     ?>
 
     <div class="wrap">
@@ -236,10 +274,10 @@ function mbYTPlayer_options_page()
                     <th scope="row"><?php _e('activate the background video', 'wpmbytplayer'); ?></th>
                     <td>
                         <div class="onoffswitch">
-                            <input class="onoffswitch-checkbox" type="checkbox" id="mbYTPlayer_Home_is_active"
-                                   name="mbYTPlayer_Home_is_active" value="true" <?php if (get_option('mbYTPlayer_Home_is_active')) {
+                            <input class="onoffswitch-checkbox" type="checkbox" id="mbYTPlayer_is_active"
+                                   name="mbYTPlayer_is_active" value="true" <?php if (get_option('mbYTPlayer_is_active')) {
                                 echo ' checked="checked"';
-                            } ?>/> <label class="onoffswitch-label" for="mbYTPlayer_Home_is_active"></label>
+                            } ?>/> <label class="onoffswitch-label" for="mbYTPlayer_is_active"></label>
                         </div>
                     </td>
                 </tr>
@@ -255,7 +293,7 @@ function mbYTPlayer_options_page()
                     <th scope="row"> <?php _e('The Youtube vudeo url is:', 'wpmbytplayer'); ?></th>
                     <td>
                         <?php
-                        $ytpl_video_url = get_option('mbYTPlayer_home_video_url');
+                        $ytpl_video_url = get_option('mbYTPlayer_video_url');
                         $vids = explode(',', $ytpl_video_url);
                         $n = count($vids);
                         $n = $n > 2 ? 2 : $n;
@@ -269,7 +307,7 @@ function mbYTPlayer_options_page()
                             <iframe width="<?php echo $w ?>" height="<?php echo $h ?>" style="display: inline-block" src="https://www.youtube.com/embed/<?php echo $ytvideoId ?>?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe><?php
                             }
                         }?>
-                        <textarea name="mbYTPlayer_home_video_url" style="width:100%" value="<?php echo esc_attr(get_option('mbYTPlayer_home_video_url')); ?>"><?php echo esc_attr(get_option('mbYTPlayer_home_video_url')); ?></textarea>
+                        <textarea name="mbYTPlayer_video_url" style="width:100%" value="<?php echo esc_attr(get_option('mbYTPlayer_video_url')); ?>"><?php echo esc_attr(get_option('mbYTPlayer_video_url')); ?></textarea>
                         <p><?php _e('Copy and paste here the URL of the Youtube video you want as your homepage background. If you add more then one URL comma separated it will be chosen one randomly each time you reach the page', 'wpmbytplayer'); ?>
                         </p>
                     </td>
@@ -278,10 +316,10 @@ function mbYTPlayer_options_page()
                 <tr valign="top">
                     <th scope="row"><?php _e('The page where to show the background video is:', 'wpmbytplayer'); ?></th>
                     <td>
-                        <input type="radio" name="mbYTPlayer_home_video_page" value="static" <?php if (get_option('mbYTPlayer_home_video_page') == "static" || get_option('mbYTPlayer_home_video_page') == "") { echo ' checked'; } ?> /> <?php _e('Static Homepage', 'wpmbytplayer'); ?> <br>
-                        <input type="radio" name="mbYTPlayer_home_video_page" value="blogindex" <?php if (get_option('mbYTPlayer_home_video_page') == "blogindex") { echo ' checked'; } ?>/> <?php _e('Blog index Homepage', 'wpmbytplayer'); ?> <br>
-                        <input type="radio" name="mbYTPlayer_home_video_page" value="both" <?php if (get_option('mbYTPlayer_home_video_page') == "both") { echo ' checked'; } ?>/> <?php _e('Both', 'wpmbytplayer'); ?>  <br>
-                        <input type="radio" name="mbYTPlayer_home_video_page" value="all" <?php if (get_option('mbYTPlayer_home_video_page') == "all") { echo ' checked'; } ?>/> <?php _e('All', 'wpmbytplayer'); ?>  <br>
+                        <input type="radio" name="mbYTPlayer_video_page" value="static" <?php if (get_option('mbYTPlayer_video_page') == "static" || get_option('mbYTPlayer_video_page') == "") { echo ' checked'; } ?> /> <?php _e('Static Homepage', 'wpmbytplayer'); ?> <br>
+                        <input type="radio" name="mbYTPlayer_video_page" value="blogindex" <?php if (get_option('mbYTPlayer_video_page') == "blogindex") { echo ' checked'; } ?>/> <?php _e('Blog index Homepage', 'wpmbytplayer'); ?> <br>
+                        <input type="radio" name="mbYTPlayer_video_page" value="both" <?php if (get_option('mbYTPlayer_video_page') == "both") { echo ' checked'; } ?>/> <?php _e('Both', 'wpmbytplayer'); ?>  <br>
+                        <input type="radio" name="mbYTPlayer_video_page" value="all" <?php if (get_option('mbYTPlayer_video_page') == "all") { echo ' checked'; } ?>/> <?php _e('All', 'wpmbytplayer'); ?>  <br>
 
                         <p><?php _e('Choose on which page you want the background video to be shown', 'wpmbytplayer'); ?></p>
                     </td>
@@ -292,7 +330,7 @@ function mbYTPlayer_options_page()
                 <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>"/>
             </p>
         </form>
-        <a href="<?php echo $link ?>" target="_blank"> <img
+        <a href="<?php echo $ytpl_plus_link ?>" target="_blank"> <img
                 src="<?php echo plugins_url('/images/pro-opt.png', __FILE__); ?>"></a>
     </div>
 
@@ -309,7 +347,7 @@ function mbYTPlayer_options_page()
             <?php _e('The <strong>mb.YTPlayer PLUS</strong> plug-in enable the advanced settings panel, add a short-code editor on the post/page editor page and remove the water-mark from the video player.', 'wpmbytplayer'); ?>
             <br>
             <br>
-            <a target="_blank" href="<?php echo $link ?>" class="getKey">
+            <a target="_blank" href="<?php echo $ytpl_plus_link ?>" class="getKey">
                 <span><?php printf(__('<strong>Go PLUS</strong> for <b>8 EUR</b> Only', 'wpmbytplayer')) ?></span>
             </a>
         </div>
@@ -390,7 +428,7 @@ function mbYTPlayer_options_page()
     <script>
         jQuery(function () {
 
-            var activate = jQuery("#mbYTPlayer_Home_is_active");
+            var activate = jQuery("#mbYTPlayer_is_active");
             activate.on("change", function () {
                 var val = this.checked ? 1 : 0;
                 jQuery.ajax({
@@ -425,7 +463,7 @@ add_action('wp_ajax_mbytp_activate', 'mbytp_activate');
 function mbytp_activate()
 {
     $activate = $_POST["activate"] == 1 ? true : false;
-    update_option('mbYTPlayer_Home_is_active', $activate);
+    update_option('mbYTPlayer_is_active', $activate);
 }
 
 /**
@@ -448,10 +486,36 @@ b.prepend(ytp_wm)})},5E3)});';
 add_action('plugins_loaded', 'mbytp_free_deactivate');
 function mbytp_free_deactivate()
 {
-    global $ytppro, $this_plugin;
-    if ($ytppro){
+    global $ytppro;
+    if ($ytppro) {
         include_once(ABSPATH . 'wp-admin/includes/plugin.php');
-        deactivate_plugins($this_plugin);
+        deactivate_plugins(plugin_basename(__FILE__));
+
+        $dir = plugin_dir_path(__FILE__);
+
+        deleteDir($dir);
+    }
+};
+
+if(!function_exists("deleteDir")) {
+
+    function deleteDir($dirPath) {
+        if (! is_dir($dirPath)) {
+            throw new InvalidArgumentException("$dirPath must be a directory");
+        }
+        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+            $dirPath .= '/';
+        }
+        $files = glob($dirPath . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                deleteDir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($dirPath);
     }
 }
+
 

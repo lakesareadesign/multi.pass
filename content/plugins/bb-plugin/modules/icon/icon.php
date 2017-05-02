@@ -44,7 +44,8 @@ FLBuilder::register_module('FLIconModule', array(
 						'label'         => __('Link', 'fl-builder'),
 						'preview'       => array(
 							'type'          => 'none'
-						)
+						),
+						'connections'   => array( 'url' )
 					),
 					'link_target'   => array(
 						'type'          => 'select',
@@ -66,7 +67,8 @@ FLBuilder::register_module('FLIconModule', array(
 					'text'          => array(
 						'type'          => 'editor',
 						'label'         => '',
-						'media_buttons' => false
+						'media_buttons' => false,
+						'connections'   => array( 'string' )
 					)
 				)
 			)

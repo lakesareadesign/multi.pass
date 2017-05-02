@@ -1967,7 +1967,7 @@
         display: block;
         font-size: 13px;
         color: #888; }
-    .wp-defender .wdf-scanning table tbody tr td:nth-child(3), .wp-defender .wdf-scanning table tbody tr td.item-issue, .wp-defender .wdf-scanning table tbody tr td.col_fixed_date, .wp-defender .scan-dialog table tbody tr td:nth-child(3), .wp-defender .scan-dialog table tbody tr td.item-issue, .wp-defender .scan-dialog table tbody tr td.col_fixed_date {
+    .wp-defender .wdf-scanning table tbody tr td:nth-child(3), .wp-defender .wdf-scanning table tbody tr td.item-issue, .wp-defender .wdf-scanning table tbody tr td.col_fixed_date, .wp-defender .scan-dialog table tbody tr td:nth-child(3), .wp-defender .scan-dialog table tbody tr td.item-issue, .wp-defender .scan-dialog table tbody tr td.col_fixed_date {	  	 	   	 		 		 				
       font-size: 13px;
       vertical-align: middle; }
     .wp-defender .wdf-scanning table tbody tr td:nth-child(4), .wp-defender .wdf-scanning table tbody tr td.item-action, .wp-defender .scan-dialog table tbody tr td:nth-child(4), .wp-defender .scan-dialog table tbody tr td.item-action {
@@ -2335,4 +2335,4 @@
   margin: 0; }
 
 
-/* 133620-1492560829-au */
+/* 133620-1493689622-au */

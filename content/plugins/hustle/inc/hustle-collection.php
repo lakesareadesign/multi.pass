@@ -80,6 +80,9 @@ class Hustle_Collection
         if( $result['optin_provider'] === "custom_content" )
             return Hustle_Custom_Content_Model::instance()->get( $result['optin_id'] );
 
+        if( $result['optin_provider'] === "social_sharing" )
+            return Hustle_Social_Sharing_Model::instance()->get( $result['optin_id'] );
+
         return Opt_In_Model::instance()->get( $result['optin_id']  );
     }
 }

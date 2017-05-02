@@ -158,7 +158,7 @@ FLBuilder::register_settings_form('global', array(
 							'type'          => 'code',
 							'label'         => '',
 							'editor'        => 'css',
-							'rows'          => '19',
+							'rows'          => '18',
 							'preview'           => array(
 								'type'              => 'none'
 							)
@@ -177,7 +177,7 @@ FLBuilder::register_settings_form('global', array(
 							'type'          => 'code',
 							'label'         => '',
 							'editor'        => 'javascript',
-							'rows'          => '19',
+							'rows'          => '18',
 							'preview'           => array(
 								'type'              => 'none'
 							)

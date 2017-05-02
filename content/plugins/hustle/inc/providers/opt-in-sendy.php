@@ -77,19 +77,38 @@ class Opt_In_Sendy extends Opt_In_Provider_Abstract implements  Opt_In_Provider_
             "list" => $optin->optin_mail_list
         );
         $_data['email'] =  $data['email'];
-        unset(  $data['email'] );
 
+		$name = array();
 
-        $name = array();
-        if( isset( $data['f_name'] ) )
-            $name[] = $data['f_name'];
-
-        if( isset( $data['l_name'] ) )
-            $name[] = $data['l_name'];
+		if ( ! empty( $data['first_name'] ) ) {
+			$name['first_name'] = $data['first_name'];
+		}
+		elseif ( ! empty( $data['f_name'] ) ) {
+			$name['first_name'] = $data['f_name']; // Legacy
+		}
+		if ( ! empty( $data['last_name'] ) ) {
+			$name['last_name'] = $data['last_name'];
+		}
+		elseif ( ! empty( $data['l_name'] ) ) {
+			$name['last_name'] = $data['l_name']; // Legacy
+		}
 
         if( count( $name ) )
             $_data['name'] = implode(" ", $name);
 
+		// Add extra fields
+		$extra_fields = array_diff_key( $data, array(
+			'email' => '',
+			'first_name' => '',
+			'last_name' => '',
+			'f_name' => '',
+			'l_name' => '',
+		) );
+		$extra_fields = array_filter( $extra_fields );
+
+		if ( ! empty( $extra_fields ) ) {
+			$_data = array_merge( $_data, $extra_fields );
+		}
 
         if( $optin->provider_args && !empty( $optin->provider_args->installation_url ) )
             $url = trailingslashit( $optin->provider_args->installation_url ) . "subscribe";

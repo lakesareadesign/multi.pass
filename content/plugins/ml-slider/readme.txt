@@ -4,7 +4,7 @@ Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image sli
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CQ84KC4X8YKW8
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 3.4.1
+Stable tag: 3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,12 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Administration panel - selecting slides
 
 == Changelog ==
+
+= 3.5.1 [01/05/17] =
+
+* Fix: Pre-populate caption and alt text fields for new image slides (based on original media file data)
+* Fix: When a media file is deleted from the media library, also remove it from the slideshow
+* Fix: Update _wp_attachment_metadata when creating new image sizes
 
 = 3.5 [13/03/17] =
 

@@ -8,6 +8,10 @@ var FLBuilderLayoutConfig = {
 		pluginUrl : '<?php echo FL_BUILDER_URL; ?>',
 		wpAjaxUrl : '<?php echo admin_url( 'admin-ajax.php' ); ?>'
 	},
+	breakpoints : {
+		small  : <?php echo $global_settings->responsive_breakpoint; ?>,
+		medium : <?php echo $global_settings->medium_breakpoint; ?>
+	},
 	waypoint: {
 		offset: 80
 	}

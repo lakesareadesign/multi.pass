@@ -1,3 +1,0 @@
-<h4><?php _e( 'Global Rows and Modules Editing Capability', 'fl-builder' ); ?></h4>
-<p><?php printf( __( 'Set the <a%s>capability</a> required for users to edit global rows and modules.', 'fl-builder' ), ' href="http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table" target="_blank"' ); ?></p>
-<input type="text" name="fl-global-templates-editing-capability" value="<?php echo esc_html(FLBuilderModel::get_global_templates_editing_capability()); ?>" class="regular-text" />

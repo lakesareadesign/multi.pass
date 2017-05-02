@@ -61,8 +61,7 @@ Hustle.define("Optin.Display_Tab", function( $ ) {
                 type: "after_content"
             });
 
-            
-			
+
             this.model.set('slide_in.position_label', optin_vars.messages.positions[this.model.get('slide_in.position')], { silent:true } );
 			
             this.$el.html( this.template( $.extend( true, {}, this.model.toJSON(), {
@@ -88,13 +87,13 @@ Hustle.define("Optin.Display_Tab", function( $ ) {
 			this.after_content_conditions_view.on("change:update_view_label", this.render_condition_labels);	
             this.$("#wph-optin--after_content_conditions .wph-conditions").html( this.after_content_conditions_view.$el );
 
-            new Optin.View.Display_Triggers({
+            var optin_popup_d_triggers = new Optin.View.Display_Triggers({
                 model: this.model,
                 el: "#triggers-section-popup",
                 type: "popup"
             });
 
-            new Optin.View.Display_Triggers({
+            var optin_slidein_d_triggers = new Optin.View.Display_Triggers({
                 model: this.model,
                 el: "#triggers-section-slide_in",
                 type: "slide_in"

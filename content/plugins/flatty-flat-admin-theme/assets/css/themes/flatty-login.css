@@ -9,6 +9,7 @@ body.login {
     padding: 30px 42px;
     max-width: 355px;
     margin: 20px auto!important;
+    box-shadow: 0 80px 200px rgba(0, 0, 0, 0.6)!important;
 }
 .login * {
     margin:auto;
@@ -22,12 +23,12 @@ body.login {
     margin-bottom: 1rem;
 }
 .login label {
-    font-size: 1.8rem;
+    font-size: 130%;
     font-weight: 300;
 }
 
 .login form .input {
-    width: 300px;
+    width: 100%;
     padding: 0.3rem 1rem;
     border: none;
     box-shadow: none;

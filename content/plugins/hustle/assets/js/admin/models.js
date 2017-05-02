@@ -172,7 +172,9 @@ Optin.Models.Design_Model = Hustle.get("Models.M").extend({
 		on_success: 'remain',
 		on_success_time: 0,
 		on_success_unit: 's',
-		customize_css: false
+		customize_css: false,
+		cta_button: optin_vars.messages.model.defaults.cta_button,
+		module_fields: optin_vars.module_fields
     },
     initialize: function(data){
         _.extend( this, data );
@@ -216,7 +218,7 @@ Optin.Models.Settings_After_Content = Hustle.get("Models.M").extend({
 			var model = Hustle.get('Model');
 
             if( _.isEmpty( this.get('conditions') ) && _.isArray( this.get('conditions') )  ) {
-				this.set( 'conditions', new model );
+				this.set( 'conditions', new model() );
 			} else {
 				this.set( 'conditions', new model( this.get('conditions') ) );
 			}
@@ -274,7 +276,7 @@ Optin.Models.Settings_Popup_Model = Hustle.get("Model").extend({
 			var model = Hustle.get('Model');
 
             if( _.isEmpty( this.get('conditions') ) && _.isArray( this.get('conditions') )  ) {
-				this.set( 'conditions', new model );
+				this.set( 'conditions', new model() );
 			} else {
 				this.set( 'conditions', new model( this.get('conditions') ) );
 			}
@@ -332,7 +334,7 @@ Optin.Models.Settings_Slide_In_Model = Hustle.get("Model").extend({
 			var model = Hustle.get("Model");
 
             if( _.isEmpty( this.get('conditions') ) && _.isArray( this.get('conditions') )  ) {
-				this.set( 'conditions', new model );
+				this.set( 'conditions', new model() );
 			} else {
 				this.set( 'conditions', new model( this.get('conditions') ) );
 			}

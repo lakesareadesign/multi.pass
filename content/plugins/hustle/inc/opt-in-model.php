@@ -27,6 +27,7 @@ class Opt_In_Model extends Hustle_Model
     const E_NEWSLETTER_GROUPS       = "e_newsletter_groups";
     const SYNC_WITH_E_NEWSLETTER    = "sync_with_e_newsletter";
     const HAS_LOCAL_SYNCED_WITH_E_NEWSLETTER = "has_local_synced_with_e_newsletter";
+	const ERROR_LOG					= 'error_logs';
 
     /**
      * @var $_provider_details object
@@ -81,6 +82,7 @@ class Opt_In_Model extends Hustle_Model
             array(
                 "api_key" => $this->api_key,
                 'test_types' => $this->get_test_types(),
+                'tracking_types' => $this->get_tracking_types(),
                 "save_to_local" => $this->get_save_to_collection()
             ),
             array(
@@ -337,7 +339,7 @@ class Opt_In_Model extends Hustle_Model
         if( !empty( $_conditions ) ){
             foreach( $_conditions as $condition_key => $args ){
 				// only cpt have 'post_type' and 'post_type_label' properties
-				if ( isset($args['post_type']) && isset($args['post_type_label']) ) {
+				if ( is_array($args) && isset($args['post_type']) && isset($args['post_type_label']) ) {
 					$conditions[$condition_key] = Hustle_Condition_Factory::build( 'cpt', $args );
 				} else {
 					$conditions[$condition_key] = Hustle_Condition_Factory::build( $condition_key, $args );
@@ -395,5 +397,60 @@ class Opt_In_Model extends Hustle_Model
 		}
 
 		return $conditions;
+	}
+
+	function get_field_types() {
+		return array(
+			'text' => __( 'Text', Opt_In::TEXT_DOMAIN ),
+			'email' => __( 'Email', Opt_In::TEXT_DOMAIN ),
+			'number' => __( 'Number', Opt_In::TEXT_DOMAIN ),
+			'url' => __( 'URL', Opt_In::TEXT_DOMAIN ),
+		);
+	}
+
+	function get_custom_field( $key, $value ) {
+		$custom_fields = $this->get_design()->__get( 'module_fields' );
+
+		foreach ( $custom_fields as $field ) {
+			if ( isset( $field[ $key ] ) && $value == $field[ $key ] ) {
+				return $field;
+			}
+		}
+	}
+
+	/**
+	 * Save log to DB for every failed subscription.
+	 *
+	 * @param (array) $data			Submitted field data.
+	 **/
+	function log_error( $data ) {
+		$data = wp_parse_args( array( 'date' => date( 'Y-m-d' ) ), $data );
+		$this->add_meta( self::ERROR_LOG, json_encode( $data ) );
+	}
+
+	/**
+     * Returns total error count
+     *
+     * @return int
+     */
+    function get_total_log_errors(){
+        return (int) $this->_wpdb->get_var( $this->_wpdb->prepare( "SELECT COUNT(meta_id) FROM " . $this->get_meta_table() . " WHERE `optin_id`=%d AND `meta_key`=%s ", $this->id, self::ERROR_LOG )  );
+    }
+
+	/**
+	 * Retrieve logs
+	 **/
+	function get_error_log() {
+		return array_map( "json_decode", $this->_wpdb->get_col( $this->_wpdb->prepare( "SELECT `meta_value` FROM " . $this->get_meta_table()  . " WHERE `meta_key`=%s AND `optin_id`=%d ",
+            self::ERROR_LOG,
+            $this->id
+        )));
+	}
+
+	/**
+	 * Clear error logs.
+	 **/
+	function clear_error_log() {
+		$this->_wpdb->query( $this->_wpdb->prepare( "DELETE FROM " . $this->get_meta_table() . " WHERE `meta_key`=%s AND `optin_id`=%d", self::ERROR_LOG, $this->id ) );
 	}
 }

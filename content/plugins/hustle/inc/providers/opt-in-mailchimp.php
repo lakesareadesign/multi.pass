@@ -58,10 +58,12 @@ class Opt_In_Mailchimp extends Opt_In_Provider_Abstract implements  Opt_In_Provi
 
         if( empty( self::$api ) ){
             try {
-                self::$api = new Mailchimp( $api_key, array("debug" => true) );
+                self::$api = new Mailchimp( $api_key );
                 self::$errors = array();
             } catch (Mailchimp_Error $e) {
-                self::$errors = array("api_error" => $e) ;
+				$err = new WP_Error();
+				$err->add( 'api_error', $e );
+                self::$errors = $err;
             }
 
         }
@@ -70,26 +72,55 @@ class Opt_In_Mailchimp extends Opt_In_Provider_Abstract implements  Opt_In_Provi
     }
 
     public function subscribe( Opt_In_Model $optin, array $data ){
+		$api = self::api( $optin->api_key );
+
         $email =  $data['email'];
-        unset(  $data['email'] );
+
+		if ( $this->email_exist( $email, $optin ) ) {
+			$err = new WP_Error();
+			$err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
+			return $err;
+		}
 
         $merge_vals = array();
-        if( isset( $data['f_name'] ) )
-            $merge_vals['MERGE1'] = $data['f_name'];
 
-        if( isset( $data['l_name'] ) )
-            $merge_vals['MERGE2'] = $data['l_name'];
+		if ( isset( $data['first_name'] ) ) {
+			$merge_vals['MERGE1'] = $data['first_name'];
+		}
+		elseif ( isset( $data['f_name'] ) ) {
+			$merge_vals['MERGE1'] = $data['f_name']; // Legacy
+		}
+		if ( isset( $data['last_name'] ) ) {
+			$merge_vals['MERGE2'] = $data['last_name'];
+		}
+		elseif ( isset( $data['l_name'] ) ) {
+			$merge_vals['MERGE2'] = $data['l_name']; // Legacy
+		}
+		// Add extra fields
+		$merge_data = array_diff_key( $data, array(
+			'email' => '',
+			'first_name' => '',
+			'last_name' => '',
+			'f_name' => '',
+			'l_name' => '',
+			'mailchimp_group_id' => '',
+			'mailchimp_group_interest' => '',
+		) );
+		$merge_data = array_filter( $merge_data );
 
+		if ( ! empty( $merge_data ) ) {
+			$merge_vals = array_merge( $merge_vals, $merge_data );
+		}
 
         /**
          * Add args for interest groups
          */
-        if( !empty( $data['inc_optin_mailchimp_group_id'] ) && !empty( $data['inc_optin_mailchimp_group_interest'] ) ){
+        if( !empty( $data['mailchimp_group_id'] ) && !empty( $data['mailchimp_group_interest'] ) ){
 
             $merge_vals['groupings'] = array(
                 array(
-                    "id" => $data['inc_optin_mailchimp_group_id'],
-                    "groups" => (array) $data['inc_optin_mailchimp_group_interest']
+                    "id" => $data['mailchimp_group_id'],
+                    "groups" => (array) $data['mailchimp_group_interest']
                 )
             );
 
@@ -111,13 +142,29 @@ class Opt_In_Mailchimp extends Opt_In_Provider_Abstract implements  Opt_In_Provi
 
         }
 
-        $result = self::api( $optin->api_key )->lists->subscribe( $optin->optin_mail_list, array( "email" => $email ), $merge_vals, 'html', true, true);
+		try {
+			$result = self::api( $optin->api_key )->lists->subscribe( $optin->optin_mail_list, array( "email" => $email ), $merge_vals, 'html', true, true);
+			return $result;
+		} catch( Exception $e ) {
+			$data['error'] = $e->getMessage();
+			$optin->log_error( $data );
 
-        if( empty( self::$errors ) )
-            return $result;
-
-        return self::$errors;
+			$err = new WP_Error();
+			$err->add( 'server_failed', __( 'Something went wrong. Please try again.', Opt_In::TEXT_DOMAIN ) );
+			return $err;
+		}
     }
+
+	function email_exist( $email, Opt_In_Model $optin ) {
+		$api = self::api( $optin->api_key );
+		$member_info = $api->helper->searchMembers( $email, $optin->optin_mail_list );
+
+		if ( ! empty( $member_info ) && ! empty( $member_info['exact_matches'] ) ) {
+			return $member_info['exact_matches']['total'] > 0;
+		}
+
+		return false;
+	}
 
     function get_options( $optin_id ){
         $_lists = self::api( $this->api_key )->lists->getList();
@@ -292,7 +339,7 @@ class Opt_In_Mailchimp extends Opt_In_Provider_Abstract implements  Opt_In_Provi
      * @param $interest
      * @return mixed
      */
-    function normalize_group_interest( $interest ){
+    static function normalize_group_interest( $interest ){
         $interest["label"] = $interest['name'];
         $interest["value"] = $interest['id'];
 
@@ -456,7 +503,7 @@ class Opt_In_Mailchimp extends Opt_In_Provider_Abstract implements  Opt_In_Provi
      *
      * @since 1.0.1
      */
-    function ajax_get_group_interests(){
+    static function ajax_get_group_interests(){
         Opt_In_Utils::validate_ajax_call( 'mailchimp_groups' );
 
         $list_id = filter_input( INPUT_GET, 'optin_email_list' );
@@ -470,13 +517,53 @@ class Opt_In_Mailchimp extends Opt_In_Provider_Abstract implements  Opt_In_Provi
         $fields = $args['fields'];
         $html = "";
         foreach( $fields as $field )
-            $html .= Opt_In::render("general/option", $field , true);
+            $html .= Opt_In::static_render("general/option", $field , true);
 
         wp_send_json_success(  array(
             "html" => $html,
             "group" => $args['group']
         ) );
     }
+
+	static function add_custom_field( $field, Opt_In_Model $optin ) {
+		$list_api = self::api( $optin->api_key )->lists;
+		$tag = $field['name'] = strtoupper( $field['name'] );
+		// Check for existing custom fields
+		$res = $list_api->mergeVars( array( $optin->optin_mail_list ) );
+		$custom_fields = array();
+
+		if ( ! empty( $res ) && ! empty( $res['data'] ) ) {
+			foreach ( $res['data'] as $data ) {
+				if ( $data['id'] == $optin->optin_mail_list && ! empty( $data['merge_vars'] ) ) {
+					foreach ( $data['merge_vars'] as $vars ) {
+						$custom_fields[ $vars['tag'] ] = $vars['name'];
+					}
+				}
+			}
+		}
+
+		if ( ! isset( $custom_fields[ $tag ] ) ) {
+			// New custom field? Add!
+			$options = array(
+				'field_type' => $field['type'],
+				'req' => ! empty( $field['required'] ) ? true : false,
+				'public' => true,
+			);
+
+			try {
+				$res = $list_api->mergeVarAdd( $optin->optin_mail_list, $tag, $field['label'], $options );
+				if ( ! empty( $res ) && ! empty( $res['id'] ) ) {
+					return array( 'success' => true, 'field' => $field );
+				}
+			} catch( Exception $e ) {
+				return array( 'error' => true, 'code' => 'custom', 'message' => $e->getMessage() );
+			}
+		} else {
+			return array( 'success' => true, 'field' => $field );
+		}
+
+		return array( 'error' => true, 'code' => 'cannot_create_custom_field' );
+	}
 }
 
     Opt_In_Mailchimp::register_ajax_endpoints();

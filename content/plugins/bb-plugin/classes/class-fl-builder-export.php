@@ -57,9 +57,10 @@ final class FLBuilderExport {
 	 */  
 	static public function templates_data()
 	{
+		$type  = isset( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'fl-builder-template';
 		$data  = array();
 		$query = new WP_Query( array(
-			'post_type' 		=> 'fl-builder-template',
+			'post_type' 		=> $type,
 			'orderby' 			=> 'title',
 			'order' 			=> 'ASC',
 			'posts_per_page' 	=> '-1'
@@ -89,7 +90,7 @@ final class FLBuilderExport {
 		if ( ! current_user_can( 'export' ) ) {
 			return;
 		}
-		if ( 'fl-builder-template' != $args['content'] ) {
+		if ( ! in_array( $args['content'], array( 'fl-builder-template', 'fl-theme-layout' ) ) ) {
 			return;
 		}
 		if ( ! isset( $_REQUEST['fl-builder-template-export-select'] ) ) {

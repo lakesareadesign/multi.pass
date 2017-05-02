@@ -25,15 +25,8 @@ class FLCalloutModule extends FLBuilderModule {
 	public function update($settings)
 	{
 		// Cache the photo data.
-		if(!empty($settings->photo)) {
-
-			$data = FLBuilderPhoto::get_attachment_data($settings->photo);
-
-			if($data) {
-				$settings->photo_data = $data;
-			}
-		}
-
+		$settings->photo_data = FLBuilderPhoto::get_attachment_data($settings->photo);
+		
 		return $settings;
 	}
 
@@ -160,15 +153,18 @@ class FLCalloutModule extends FLBuilderModule {
 	public function render_image($position)
 	{
 		if($this->settings->image_type == 'photo' && $this->settings->photo_position == $position) {
-
+			
 			if(empty($this->settings->photo)) {
 				return;
 			}
 
 			$photo_data = FLBuilderPhoto::get_attachment_data($this->settings->photo);
 
-			if(!$photo_data) {
+			if(!$photo_data && isset($this->settings->photo_data)) {
 				$photo_data = $this->settings->photo_data;
+			}
+			else {
+				$photo_data = -1;
 			}
 
 			$photo_settings = array(
@@ -223,7 +219,8 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'preview'       => array(
 							'type'          => 'text',
 							'selector'      => '.fl-callout-title'
-						)
+						),
+						'connections'   => array( 'string' )
 					)
 				)
 			),
@@ -238,7 +235,8 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'preview'       => array(
 							'type'          => 'text',
 							'selector'      => '.fl-callout-text'
-						)
+						),
+						'connections'   => array( 'string' )
 					)
 				)
 			)
@@ -340,7 +338,8 @@ FLBuilder::register_module('FLCalloutModule', array(
 				'fields'        => array(
 					'photo'         => array(
 						'type'          => 'photo',
-						'label'         => __('Photo', 'fl-builder')
+						'label'         => __('Photo', 'fl-builder'),
+						'connections'   => array( 'photo' )
 					),
 					'photo_crop'    => array(
 						'type'          => 'select',
@@ -457,7 +456,8 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'help'          => __('The link applies to the entire module. If choosing a call to action type below, this link will also be used for the text or button.', 'fl-builder'),
 						'preview'       => array(
 							'type'          => 'none'
-						)
+						),
+						'connections'   => array( 'url' )
 					),
 					'link_target'   => array(
 						'type'          => 'select',
@@ -512,6 +512,7 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'type'          => 'text',
 						'label'         => __('Text', 'fl-builder'),
 						'default'		=> __('Read More', 'fl-builder'),
+						'connections'   => array( 'string' )
 					),
 					'btn_icon'      => array(
 						'type'          => 'icon',

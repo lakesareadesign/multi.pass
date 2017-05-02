@@ -4,7 +4,15 @@
 
 		<header id="header"<?php if ( ( count( $custom_contents ) === 0 ) ) : echo ' class="no-margin-btm"'; endif;?>>
 
-			<h1><?php _e('CUSTOM CONTENT', Opt_In::TEXT_DOMAIN); ?><a class="wph-button wph-button--small wph-button--gray wph-button--inline" href="<?php echo esc_url( $add_new_url ); ?>"><?php _e('New Custom Content', Opt_In::TEXT_DOMAIN); ?></a></h1>
+			<?php if ( count( $custom_contents ) === 0 ){ ?>
+
+				<h1><?php _e('Custom Content Dashboard', Opt_In::TEXT_DOMAIN); ?></h1>
+
+			<?php } else { ?>
+
+				<h1><?php _e('Custom Content Dashboard', Opt_In::TEXT_DOMAIN); ?><a class="wph-button wph-button--small wph-button--gray wph-button--inline" href="<?php echo esc_url( $add_new_url ); ?>"><?php _e('New Custom Content', Opt_In::TEXT_DOMAIN); ?></a></h1>
+
+			<?php } ?>
 
 		</header>
 
@@ -14,49 +22,10 @@
 
 				<?php if ( count( $custom_contents ) === 0 ){ ?>
 
-					<div class="row">
-
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-							<section id="wph-woop" class="box">
-
-								<div class="box-title">
-
-									<h3><?php _e('Welcome to Custom Contents', Opt_In::TEXT_DOMAIN); ?></h3>
-
-								</div>
-
-								<div class="box-content">
-
-									<div class="row">
-
-										<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-
-											<div class="wph-howdy"></div>
-
-										</div>
-
-										<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-
-											<div class="content-800">
-
-												<h2><?php _e('Woop woop, let\'s create some modules!', Opt_In::TEXT_DOMAIN); ?></h2>
-
-												<h6><?php _e('Meet Hustle\'s new custom content modules! Create slide-ins, pop-ups, and static content you display when and where you want. Get started by clicking New Custom Content above.', Opt_In::TEXT_DOMAIN); ?></h6>
-
-											</div>
-
-										</div>
-
-									</div>
-
-								</div>
-
-							</section>
-
-						</div>
-
-					</div>
+					<?php $this->render("admin/ccontent/ccontent-welcome", array(
+                        'new_url' => $add_new_url,
+                        'user_name' => $user_name
+                    )); ?>
 
 				<?php } ?>
 
@@ -87,7 +56,7 @@
 
 				<section id="wph-ccontent--migration">
 
-					<h4><?php _e('Legacy Pop Ups', Opt_In::TEXT_DOMAIN); ?></h4>
+					<h4><?php _e('Legacy Pop-ups', Opt_In::TEXT_DOMAIN); ?></h4>
 
 					<?php $this->render("admin/ccontent/ccontent-migration", array("popups" => $legacy_popups)); ?>
 

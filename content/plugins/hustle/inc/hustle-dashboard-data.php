@@ -5,6 +5,7 @@ class Hustle_Dashboard_Data
 {
     var $optins = array();
     var $custom_contents = array();
+    var $social_sharing = array();
     var $data_exists = false;
 
     var $active_modules = 0;
@@ -19,7 +20,7 @@ class Hustle_Dashboard_Data
 
     var $has_optins = false;
     var $has_custom_content = false;
-    var $has_social_sharing = true; // set to true just to avoid showing it in the dashboard as this is not a feature for 2.0
+    var $has_social_sharing = false;
     var $has_social_rewards = true; // set to true just to avoid showing it in the dashboard as this is not a feature for 2.0
 
     var $optins_conversions = array();
@@ -52,6 +53,8 @@ class Hustle_Dashboard_Data
     );
 
     var  $conversion_data;
+    var $ss_share_stats_data = array();
+    var $ss_total_share_stats = 0;
 
     function __construct()
     {
@@ -62,6 +65,7 @@ class Hustle_Dashboard_Data
     private function _prepare_data(){
         $opt_col_instance = Opt_In_Collection::instance();
         $cc_col_instance = Hustle_Custom_Content_Collection::instance();
+        $ss_col_instance = Hustle_Social_Sharing_Collection::instance();
 
         $this->optins = $opt_col_instance->get_all_optins( null, array() );
         $this->all_modules = count( $this->optins );
@@ -69,12 +73,19 @@ class Hustle_Dashboard_Data
         $this->custom_contents = $cc_col_instance->get_all( null );
         $this->all_modules += count( $this->custom_contents );
 
+        $this->social_sharing = $ss_col_instance->get_all( null );
+        if ( count($this->social_sharing) > 0 ) {
+            $this->has_social_sharing = true;
+            $this->ss_share_stats_data = $ss_col_instance->get_share_stats(0,5);
+            $this->ss_total_share_stats = $ss_col_instance->get_total_share_stats();
+        }
+
         $this->types = $types = array(
             'after_content' => __('AFTER CONTENT', Opt_In::TEXT_DOMAIN),
-            'popup' => __('POP UP', Opt_In::TEXT_DOMAIN),
-            'slide_in' => __('SLIDE IN', Opt_In::TEXT_DOMAIN),
-            'shortcode' => __("Shortcode", Opt_In::TEXT_DOMAIN),
-            'widget' => __("Widget", Opt_In::TEXT_DOMAIN)
+            'popup' => __('Pop-up', Opt_In::TEXT_DOMAIN),
+            'slide_in' => __('Slide-in', Opt_In::TEXT_DOMAIN),
+            'shortcode' => __('Shortcode', Opt_In::TEXT_DOMAIN),
+            'widget' => __('Widget', Opt_In::TEXT_DOMAIN)
         );
 
 		$active_optins = array();
@@ -84,16 +95,17 @@ class Hustle_Dashboard_Data
 		$first_month = date( 'Ymd', $first_day );
 		$last_month = date( 'Ymd', $end_day );
 		$most_conversions = array();
+        $merged_optins = array_merge( $this->optins, $this->custom_contents );
 
-        foreach ( array_merge( $this->optins, $this->custom_contents ) as $key => $optin ) {
+        foreach ( $merged_optins as $key => $optin ) {
 
             if( $optin->active ){
                 $this->active_modules++;
 				if ( $optin->get_module_type() === "custom_content" ) {
 					array_push($this->active_cc_modules, $optin);
 				} else {
-					array_push($this->active_optin_modules, $optin);
-				}
+                    array_push($this->active_optin_modules, $optin);
+                }
             } else {
 				if ( $optin->get_module_type() === "custom_content" ) {
 					array_push($this->inactive_cc_modules, $optin);
@@ -109,7 +121,13 @@ class Hustle_Dashboard_Data
             foreach ( $types as $type_key => $type ) {
                 if( !$optin->has_type( $type_key ) ) continue; // make sure this module has the type
 
-                $type_stats = $optin->get_module_type() === "custom_content" ? $optin->get_stats($type_key) : $optin->{$type_key};
+                if ( $optin->get_module_type() === 'custom_content' ) {
+                    $type_stats = $optin->get_stats($type_key);
+                } elseif( $optin->get_module_type() === 'optin' ) {
+                    $type_stats = $optin->{$type_key};
+                } else {
+                    $type_stats = $optin->get_statistics($type_key);
+                }
 
                 if ( !$this->data_exists && intval( $type_stats->views_count ) > 0 ) {
                     $this->data_exists = true;
@@ -197,7 +215,7 @@ class Hustle_Dashboard_Data
 		}
 		// Sort conversions per month
 		uasort( $this->optins_conversions, array( __CLASS__, 'uasort' ) );
-		$data = array_reverse( $this->optins_conversions );
+		$data = array_reverse( $this->optins_conversions, true );
 
 		$best_optins = array();
 		$amount = 1;

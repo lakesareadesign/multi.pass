@@ -38,7 +38,9 @@
 
 										<h2><?php _e('Ready to unlock the full magic of Hustle?', Opt_In::TEXT_DOMAIN); ?></h2>
 
-										<h6><?php printf( __( 'You\'re gettin\' busy with Hustle and you\'ve reached the limit of 1 <strong>%s</strong> module. Upgrade now to %sSuper Hustle%s to create unlimited opt-ins, pop ups and slide-ins.', Opt_In::TEXT_DOMAIN ), $page_title, '<a href="https://premium.wpmudev.org/project/hustle/" target="_blank">', '</a>' ); ?></h6>
+										<h6><?php _e('Thank you for installing Hustle! To help you get started, we\'ve put together some free guides on email marketing... Spam-free, promise!', Opt_In::TEXT_DOMAIN); ?></h6>
+
+										<p><a href="https://premium.wpmudev.org/project/hustle/" target="_blank" class="wph-button wph-button--inline wph-button--filled wph-button--blue"><?php _e('Get Free Guides', Opt_In::TEXT_DOMAIN); ?></a></p>
 
 									</div>
 

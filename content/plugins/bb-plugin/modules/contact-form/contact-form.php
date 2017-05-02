@@ -167,7 +167,8 @@ FLBuilder::register_module('FLContactFormModule', array(
 						'help'		  => __('The contact form will send to this e-mail. Defaults to the admin email.', 'fl-builder'),
 						'preview'		  => array(
 							'type'		   => 'none'
-						)
+						),
+						'connections'   => array( 'custom_field' )
 					),
 					'name_toggle'	 => array(
 						'type'		  => 'select',
@@ -245,18 +246,20 @@ FLBuilder::register_module('FLContactFormModule', array(
 						'type'		  => 'editor',
 						'label'		  => '',
 						'media_buttons' => false,
-						'rows'		  => 8,
-						'default'		  => __( 'Thanks for your message! We’ll be in touch soon.', 'fl-builder' ),
-						'preview'		  => array(
-							'type'			  => 'none'	 
-						)
+						'rows'          => 8,
+						'default'       => __( 'Thanks for your message! We’ll be in touch soon.', 'fl-builder' ),
+						'preview'       => array(
+							'type'             => 'none'  
+						),
+						'connections'   => array( 'string' )
 					),
-					'success_url'	=> array(
-						'type'		  => 'link',
-						'label'		  => __( 'Success URL', 'fl-builder' ),
-						'preview'		  => array(
-							'type'			  => 'none'	 
-						)
+					'success_url'  => array(
+						'type'          => 'link',
+						'label'         => __( 'Success URL', 'fl-builder' ),
+						'preview'       => array(
+							'type'             => 'none'  
+						),
+						'connections'   => array( 'url' )
 					)
 				)
 			)

@@ -32,11 +32,12 @@ class Opt_In_Admin{
         }
 
 		add_filter( 'w3tc_save_options', array( $this, 'filter_w3tc_save_options' ), 10, 1 );
+        add_filter('plugin_action_links', array( $this, 'add_plugin_action_links' ), 10, 5 );
 
     }
 
-	// force reject minify for hustle js and css
-	function filter_w3tc_save_options( $config ) {
+    // force reject minify for hustle js and css
+    function filter_w3tc_save_options( $config ) {
 
 		// reject js
 		$defined_rejected_js = $config['new_config']->get("minify.reject.files.js");
@@ -190,7 +191,7 @@ class Opt_In_Admin{
         $allPages->text = __("ALL PAGES", Opt_In::TEXT_DOMAIN);
         array_unshift($pages, $allPages);
 
-		/**
+        /**
          * Add all custom post types
          */
 		$post_types = array();
@@ -217,8 +218,8 @@ class Opt_In_Admin{
         $optin_vars = array(
             'messages' => array(
               'dont_navigate_away' => __("Changes are not saved, are you sure you want to navigate away?", Opt_In::TEXT_DOMAIN),
-              'undefined_name_service_provider' => __("Please define proper Opt-In name and service provider", Opt_In::TEXT_DOMAIN),
-              'undefined_name' => __("Please define proper Opt-In name", Opt_In::TEXT_DOMAIN),
+              'undefined_name_service_provider' => __("Please define proper Opt-in name and service provider", Opt_In::TEXT_DOMAIN),
+              'undefined_name' => __("Please define proper Opt-in name", Opt_In::TEXT_DOMAIN),
               'unselected_provider' => __("Please select service provider", Opt_In::TEXT_DOMAIN),
               'error' => __("Error", Opt_In::TEXT_DOMAIN),
               'ok' => __("Ok", Opt_In::TEXT_DOMAIN),
@@ -235,9 +236,11 @@ class Opt_In_Admin{
                   'bottom_right' => __("Bottom Right", Opt_In::TEXT_DOMAIN ),
                 ),
                 'settings' => array(
-                    'popup' => __("Pop Up", Opt_In::TEXT_DOMAIN ),
-                    'slide_in' => __("Slide In", Opt_In::TEXT_DOMAIN ),
+                    'popup' => __("Pop-up", Opt_In::TEXT_DOMAIN ),
+                    'slide_in' => __("Slide-in", Opt_In::TEXT_DOMAIN ),
                     'magic_bar' => __("Magic Bar", Opt_In::TEXT_DOMAIN ),
+                    'after_content' => __("After Content", Opt_In::TEXT_DOMAIN ),
+                    'floating_social' => __("Floating Social", Opt_In::TEXT_DOMAIN ),
                 ),
                 'conditions' => array(
                     'visitor_logged_in' => __("Visitor is logged in", Opt_In::TEXT_DOMAIN ),
@@ -319,7 +322,8 @@ class Opt_In_Admin{
                         "optin_name" => '',
                         "optin_title" => __("eg. Get 50% Early-bird Special", Opt_In::TEXT_DOMAIN),
                         "optin_message" => __("Please fill in the form and submit to subscribe", Opt_In::TEXT_DOMAIN),
-                        "success_message" => __("Congratulations! You have been subscribed to {name}", Opt_In::TEXT_DOMAIN)
+                        "success_message" => __("Congratulations! You have been subscribed to {name}", Opt_In::TEXT_DOMAIN),
+                        "cta_button" => __("Sign Up", Opt_In::TEXT_DOMAIN)
                     ),
                     "errors" => array(
                         'name' => __('Please fill "name" field.', Opt_In::TEXT_DOMAIN),
@@ -331,7 +335,8 @@ class Opt_In_Admin{
 				'custom_content' => array(
 					'errors' => array(
 						'cta_url' => __('Please provide a valid url (http://example.net).', Opt_In::TEXT_DOMAIN)
-					)
+					),
+					'no_name' => __( 'Please provide name.', Opt_In::TEXT_DOMAIN ),
 				),
                 "sendy" => array(
                     "enter_url" => __("Please enter installation URL", Opt_In::TEXT_DOMAIN)
@@ -352,9 +357,20 @@ class Opt_In_Admin{
                 "activecampaign" => array(
                     "enter_url" => __("Please enter your ActiveCampaign URL", Opt_In::TEXT_DOMAIN)
                 ),
-				"convertkit" => array(
+                "convertkit" => array(
                     "enter_api_secret" => __("Please enter your API Secret key from ConvertKit", Opt_In::TEXT_DOMAIN)
-                )
+                ),
+				'module_fields' => array(
+					'no_label' => __( 'Please enter field label', Opt_In::TEXT_DOMAIN ),
+					'no_name' => __( 'Please enter field name', Opt_In::TEXT_DOMAIN ),
+					'custom_field_not_exist' => __( 'Custom field doesn\'t exist! Please check your provider.', Opt_In::TEXT_DOMAIN ),
+					'cannot_create_custom_field' => __( 'Unable to create new custom field. Please check your provider.', Opt_In::TEXT_DOMAIN ),
+				),
+				'mautic' => array(
+					'enter_url' => __( 'Please enter installation URL', Opt_In::TEXT_DOMAIN ),
+					'username' => __( 'Please enter username', Opt_In::TEXT_DOMAIN ),
+					'password' => __( 'Please enter password', Opt_In::TEXT_DOMAIN ),
+				),
             ),
             'url' => get_home_url(),
             'includes_url' => includes_url(),
@@ -379,7 +395,11 @@ class Opt_In_Admin{
                 'design' => '',
                 'provider_args' => ''
             ),
-            "is_admin" => (int) is_admin()
+            "is_admin" => (int) is_admin(),
+			'module_fields' => Opt_In_Meta_Design::default_fields(),
+			'get_module_field_nonce' => wp_create_nonce( 'optin_add_module_field' ),
+			'error_log_nonce' => wp_create_nonce( 'optin_get_error_logs' ),
+			'clear_log_nonce' => wp_create_nonce( 'optin_clear_logs' ),
         );
 
         if( $this->_is_edit() ){
@@ -405,12 +425,14 @@ class Opt_In_Admin{
 
         $optin_vars = apply_filters("hustle_optin_vars", $optin_vars);
 
-
         $optin_vars['is_free'] = (int) Opt_In::is_free();
 
 		$total_optins = count(Opt_In_Collection::instance()->get_all_optins( null ));
 		$optin_vars['is_limited'] = (int) ( Opt_In_Utils::_is_free( 'opt-ins' ) && ! $this->_is_edit() && $total_optins >= 1 );
 
+		if( isset($_GET['page'] ) && 'inc_optins' == $_GET['page'] ) {
+			wp_enqueue_script( 'jquery-sortable' );
+		}
         if(isset( $_GET['page'] ) && $_GET['page'] != 'inc_optins') wp_enqueue_script( 'wp-color-picker-alpha', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/vendor/wp-color-picker-alpha.min.js', array( 'wp-color-picker' ), '1.2.2', true );
         wp_register_script( 'optin_admin_scripts', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/admin.min.js', array( 'jquery', 'backbone', 'jquery-effects-core' ), $this->_hustle->get_const_var( "VERSION" ), true );
         wp_localize_script( 'optin_admin_scripts', 'optin_vars', $optin_vars );
@@ -430,7 +452,7 @@ class Opt_In_Admin{
         return  (bool) filter_input(INPUT_GET, "optin", FILTER_VALIDATE_INT);
     }
 
-	/**
+    /**
      * Handling specific scripts for each scenario
      *
      */
@@ -449,18 +471,8 @@ class Opt_In_Admin{
 	 function register_admin_menu(){
 
 		// Optins
-		add_submenu_page( 'inc_optins', __("Opt-Ins", Opt_In::TEXT_DOMAIN) , __("Email Opt-Ins", Opt_In::TEXT_DOMAIN) , "manage_options", 'inc_optin_listing',  array( $this, "render_optins_listing" )  );
-		add_submenu_page( 'inc_optins', __("New Opt-In", Opt_In::TEXT_DOMAIN) , __("New Opt-In", Opt_In::TEXT_DOMAIN) , "manage_options", 'inc_optin',  array( $this, "render_optin_settings_page" )  );
-
-		// Social groups
-//		add_submenu_page( 'inc_optins', __("Social Groups", Opt_In::TEXT_DOMAIN) , __("Social Groups", Opt_In::TEXT_DOMAIN) , "manage_options", 'inc_hustle_social_groups',  array( $this, "render_social_groups" )  );
-//		add_submenu_page( 'inc_optins', __("New Social Group", Opt_In::TEXT_DOMAIN) , __("New Social Group", Opt_In::TEXT_DOMAIN) , "manage_options", 'inc_hustle_new_social_group',  array( $this, "render_new_social_group" )  );
-
-		// Social restrictions
-//		add_submenu_page( 'inc_optins', __("Social Restrictions", Opt_In::TEXT_DOMAIN) , __("Social Restrictions", Opt_In::TEXT_DOMAIN) , "manage_options", 'inc_hustle_social_restrictions',  array( $this, "render_social_restrictions" )  );
-//		add_submenu_page( 'inc_optins', __("New Social Restriction", Opt_In::TEXT_DOMAIN) , __("New Social Restriction", Opt_In::TEXT_DOMAIN) , "manage_options", 'inc_hustle_new_social_restriction',  array( $this, "render_new_social_restriction" )  );
-
-
+		add_submenu_page( 'inc_optins', __("Opt-ins", Opt_In::TEXT_DOMAIN) , __("Email Opt-ins", Opt_In::TEXT_DOMAIN) , "manage_options", 'inc_optin_listing',  array( $this, "render_optins_listing" )  );
+		add_submenu_page( 'inc_optins', __("New Opt-in", Opt_In::TEXT_DOMAIN) , __("New Opt-in", Opt_In::TEXT_DOMAIN) , "manage_options", 'inc_optin',  array( $this, "render_optin_settings_page" )  );
 
 	}
 
@@ -500,7 +512,8 @@ class Opt_In_Admin{
 				'countries' => $this->_hustle->get_countries(),
 				'widgets_page_url' => get_admin_url(null, "widgets.php"),
 				'selected_provider' => $provider,
-				"save_nonce" => wp_create_nonce("hustle_save_optin")
+				"save_nonce" => wp_create_nonce("hustle_save_optin"),
+				"field_types" => Opt_In_Model::instance()->get_field_types(),
 			));
 		}
     }
@@ -511,7 +524,7 @@ class Opt_In_Admin{
      * @since 2.0
      */
     function render_optins_listing(){
-
+        $current_user = wp_get_current_user();
         $new_optin = isset( $_GET['optin'] ) ? Opt_In_Model::instance()->get( intval($_GET['optin'] ) ) : null;
         $updated_optin = isset( $_GET['optin_updated'] ) ? Opt_In_Model::instance()->get( intval($_GET['optin_updated'] ) ) : null;
 
@@ -519,59 +532,15 @@ class Opt_In_Admin{
             'optins' => Opt_In_Collection::instance()->get_all_optins( null ),
             'types' => array(
                 'after_content' => __('AFTER CONTENT', Opt_In::TEXT_DOMAIN),
-                'popup' => __('POP UP', Opt_In::TEXT_DOMAIN),
-                'slide_in' => __('SLIDE IN', Opt_In::TEXT_DOMAIN),
+                'popup' => __('Pop-up', Opt_In::TEXT_DOMAIN),
+                'slide_in' => __('Slide-in', Opt_In::TEXT_DOMAIN),
                 'shortcode' => __("Shortcode", Opt_In::TEXT_DOMAIN),
                 'widget' => __("Widget", Opt_In::TEXT_DOMAIN)
             ),
             'new_optin' =>  $new_optin,
             'updated_optin' =>  $updated_optin,
-            'add_new_url' => admin_url("admin.php?page=inc_optin")
-        ));
-    }
-
-
-    /**
-     * Renders Hustle Social groups page (listing)
-     *
-     * @since 2.0
-     */
-    function render_social_groups(){
-        $this->_hustle->render("admin/social-groups", array(
-            'add_new_url' => admin_url("admin.php?page=inc_hustle_new_social_group")
-        ));
-    }
-
-    /**
-     * Renders Hustle New Social Group page (creation)
-     *
-     * @since 2.0
-     */
-    function render_new_social_group(){
-        $this->_hustle->render("admin/new-social-group", array(
-
-        ));
-    }
-
-    /**
-     * Renders Hustle Social Restrictions page (listing)
-     *
-     * @since 2.0
-     */
-    function render_social_restrictions(){
-        $this->_hustle->render("admin/social-restrictions", array(
-            'add_new_url' => admin_url("admin.php?page=inc_hustle_new_social_restriction")
-        ));
-    }
-
-    /**
-     * Renders Hustle New Social Restriction Page (creation)
-     *
-     * @since 2.0
-     */
-    function render_new_social_restriction(){
-        $this->_hustle->render("admin/new-social-restriction", array(
-
+            'add_new_url' => admin_url("admin.php?page=inc_optin"),
+            'user_name' => ucfirst($current_user->display_name)
         ));
     }
 
@@ -639,10 +608,7 @@ class Opt_In_Admin{
         'inc_optins',
         'inc_optin_listing',
         'inc_optin',
-        'inc_hustle_social_groups',
-        'inc_hustle_new_social_group',
-        'inc_hustle_social_restrictions',
-        'inc_hustle_new_social_restriction',
+        'inc_hustle_social_sharing',
         'inc_hustle_custom_content',
         'inc_hustle_new_custom_content',
         'inc_hustle_settings') ) );
@@ -742,6 +708,25 @@ class Opt_In_Admin{
 		   }
 		   $optin->update_meta( Opt_In_Model::KEY_SETTINGS,  json_encode( $settings_condition ) );
 	   }
+    }
+
+    /**
+     * Adds custom links on plugin page
+     *
+     */
+    function add_plugin_action_links( $actions, $plugin_file ) {
+        static $plugin;
+
+        if (!isset($plugin))
+            $plugin = Opt_In::$plugin_base_file;
+
+        if ($plugin == $plugin_file) {
+            $dashboard_url = 'admin.php?page=inc_optins';
+            $settings = array('settings' => '<a href="'. $dashboard_url .'">' . __('Settings', Opt_In::TEXT_DOMAIN) . '</a>');
+            $actions = array_merge($settings, $actions);
+        }
+
+		return $actions;
     }
 
 	/**

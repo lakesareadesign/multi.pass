@@ -95,6 +95,14 @@ Hustle.define( "Custom_Content.Models",  function(){
         }
     });
 
+	var AfterContent = TypeBase.extend({
+		defaults: {
+			enabled: false,
+			animate: false,
+			animation: '',
+			on_submit: ''
+		}
+	});
     var Popup = TypeBase.extend();
     var Slide_In = TypeBase.extend({
         defaults:{
@@ -121,6 +129,7 @@ Hustle.define( "Custom_Content.Models",  function(){
         Content: Content,
         Design: Design,
         TypeBase: TypeBase,
+		AfterContent: AfterContent,
         Popup: Popup,
         Slide_In: Slide_In,
         Magic_Bar: Magic_Bar

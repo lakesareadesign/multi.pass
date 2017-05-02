@@ -95,11 +95,12 @@ FLBuilder::register_module('FLNumbersModule', array(
 					    ),
 					),
 					'number' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __('Number', 'fl-builder'),
 						'size'          => '5',
 						'default'		=> '100',
-						'placeholder'	=> '100'
+						'placeholder'	=> '100',
+						'connections'   => array( 'custom_field' )
 					),
 					'max_number' => array(
 						'type'          => 'text',
@@ -122,13 +123,15 @@ FLBuilder::register_module('FLNumbersModule', array(
 						'type'          => 'text',
 						'label'         => __('Text Before Number', 'fl-builder'),
 						'size'          => '20',
-						'help'			=> __( 'Text to appear above the number. Leave it empty for none.', 'fl-builder' )
+						'help'			=> __( 'Text to appear above the number. Leave it empty for none.', 'fl-builder' ),
+						'connections'   => array( 'custom_field' )
 					),
 					'after_number_text' => array(
 						'type'          => 'text',
 						'label'         => __('Text After Number', 'fl-builder'),
 						'size'          => '20',
-						'help'			=> __( 'Text to appear after the number. Leave it empty for none.', 'fl-builder' )
+						'help'			=> __( 'Text to appear after the number. Leave it empty for none.', 'fl-builder' ),
+						'connections'   => array( 'custom_field' )
 					),
 					'number_prefix' => array(
 						'type'          => 'text',

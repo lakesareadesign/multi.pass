@@ -24,17 +24,14 @@ class FLWidgetModule extends FLBuilderModule {
      */  
     public function update( $settings )
     {
-	    global $wp_widget_factory;
-	    
 	    // Make sure we have a widget.
-	    if ( ! isset( $settings->widget ) || ! isset( $wp_widget_factory->widgets[ $settings->widget ] ) ) {
+	    if ( ! isset( $settings->widget ) || ! class_exists( $settings->widget ) ) {
 		    return $settings;
 	    }
 	    
 	    // Get the widget instance.
-	    $factory  = $wp_widget_factory->widgets[ $settings->widget ];
-	    $class    = get_class( $factory );
-	    $instance = new $class( $factory->id_base, $factory->name, $factory->widget_options );
+	    $class    = $settings->widget;
+	    $instance = new $class();
 	    
 	    // Get the widget settings.
 	    $settings_key = 'widget-' . $instance->id_base;

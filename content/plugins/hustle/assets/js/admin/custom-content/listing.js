@@ -6,6 +6,7 @@ Hustle.define("Custom_Content.Listing", function($, doc, win){
         events: {
             "click .wph-accordions header" : "toggle_accordion",
             "change .custom-content-toggle-activity": "toggle_activity",
+            "change .custom-content-toggle-tracking-activity": "toggle_tracking_activity",
             "change .custom-content-toggle-type-activity": "toggle_type_activity",
             "change .custom-content-toggle-test-activity": "toggle_test_activity",
             "click .custom-content-edit": "edit",
@@ -67,7 +68,39 @@ Hustle.define("Custom_Content.Listing", function($, doc, win){
                 error: function(){
                     $this.attr("checked", !new_state);
                 }
-            })
+            });
+        },
+        toggle_tracking_activity: function(e){
+            e.stopPropagation();
+            var $this = $(e.target),
+                id = $this.data("id"),
+                nonce = $this.data("nonce"),
+                type = $this.data("type"),
+                new_state = $this.is(":checked");
+
+            $this.attr("disabled", true);
+
+            $.ajax({
+                url: ajaxurl,
+                type: "POST",
+                data: {
+                    action: "hustle_custom_content_toggle_tracking_activity",
+                    id: id,
+                    type: type,
+                    _ajax_nonce: nonce
+                },
+                complete: function(){
+                    $this.attr("disabled", false);
+                },
+                success: function( res ){
+                    if( !res.success )
+                        $this.attr("checked", !new_state);
+                },
+                error: function(res){
+                    if( !res.success )
+                        $this.attr("checked", !new_state);
+                }
+            });
         },
         toggle_type_activity: function(e){
             e.stopPropagation();
@@ -99,7 +132,7 @@ Hustle.define("Custom_Content.Listing", function($, doc, win){
                     if( !res.success )
                         $this.attr("checked", !new_state);
                 }
-            })
+            });
         },
         toggle_test_activity: function(e){
             e.stopPropagation();
@@ -131,7 +164,7 @@ Hustle.define("Custom_Content.Listing", function($, doc, win){
                     if( !res.success )
                         $this.attr("checked", !new_state);
                 }
-            })
+            });
         },
         edit: function(e){
             e.stopPropagation();
@@ -151,7 +184,7 @@ Hustle.define("Custom_Content.Listing", function($, doc, win){
                     onSuccess: function(res){
                         if( res.success ){
                             confirmation.remove();
-                            $li.toggle("highlight")
+                            $li.toggle("highlight");
                         }
                     }
                 });

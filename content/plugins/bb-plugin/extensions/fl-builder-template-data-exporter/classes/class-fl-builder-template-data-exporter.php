@@ -15,9 +15,8 @@ final class FLBuilderTemplateDataExporter {
 	 */
 	static public function init()
 	{
-		add_action( 'plugins_loaded',                              __CLASS__ . '::init_hooks' );
-		add_action( 'fl_builder_admin_settings_templates_form',    __CLASS__ . '::render_admin_settings', 9 );
-		add_action( 'fl_builder_admin_settings_save',              __CLASS__ . '::save_admin_settings' );
+		add_action( 'plugins_loaded', __CLASS__ . '::init_hooks' );
+		add_action( 'plugins_loaded', __CLASS__ . '::register_user_access_setting', 11 );
 	}
 	
 	/** 
@@ -39,32 +38,21 @@ final class FLBuilderTemplateDataExporter {
 			add_action( 'init',                  __CLASS__ . '::export' );
 		}
 	}
-
-	/** 
-	 * Renders the admin settings.
+	
+	/**
+	 * Registers the user access setting.
 	 *
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function render_admin_settings()
+	static public function register_user_access_setting()
 	{
-		include FL_BUILDER_TEMPLATE_DATA_EXPORTER_DIR . 'includes/admin-settings-templates.php';
-	}
-
-	/** 
-	 * Saves the admin settings.
-	 *
-	 * @since 1.8
-	 * @return void
-	 */
-	static public function save_admin_settings()
-	{
-		if ( isset( $_POST['fl-templates-nonce'] ) && wp_verify_nonce( $_POST['fl-templates-nonce'], 'templates' ) ) {
-		
-			$admin_ui_enabled = isset( $_POST['fl-template-data-exporter'] ) ? 1 : 0;
-			
-			FLBuilderModel::update_admin_settings_option( '_fl_builder_template_data_exporter', $admin_ui_enabled, true );
-		}
+		FLBuilderUserAccess::register_setting( 'template_data_exporter', array(
+			'default'     => false,
+			'group'       => __( 'Admin', 'fl-builder' ),
+			'label'       => __( 'Template Data Exporter', 'fl-builder' ),
+			'description' => __( 'The selected roles will be able to access the template data exporter under Tools > Template Exporter.', 'fl-builder' )
+		) );
 	}
 
 	/** 
@@ -75,7 +63,7 @@ final class FLBuilderTemplateDataExporter {
 	 */
 	static public function is_enabled()
 	{
-		return FLBuilderModel::get_admin_settings_option( '_fl_builder_template_data_exporter', true );
+		return FLBuilderUserAccess::current_user_can( 'template_data_exporter' );
 	}
 	
 	/** 
@@ -121,6 +109,7 @@ final class FLBuilderTemplateDataExporter {
 	 */
 	static public function render() 
 	{
+		$theme   = self::get_ui_data( 'theme' );
 		$layouts = self::get_ui_data();
 		$rows    = self::get_ui_data( 'row' );
 		$modules = self::get_ui_data( 'module' );
@@ -146,20 +135,19 @@ final class FLBuilderTemplateDataExporter {
 			return;
 		}
 		
-		$templates = array(
-			'layout' => array(),
-			'row'    => array(),
-			'module' => array()
-		);
+		$templates = array();
 		
+		if ( isset( $_POST['fl-builder-export-theme'] ) && is_array( $_POST['fl-builder-export-theme'] ) ) {
+			$templates = self::get_theme_layout_export_data( $templates );
+		}
 		if ( isset( $_POST['fl-builder-export-layout'] ) && is_array( $_POST['fl-builder-export-layout'] ) ) {
-			$templates['layout'] = self::get_export_data( $_POST['fl-builder-export-layout'] );
+			$templates['layout'] = self::get_template_export_data( $_POST['fl-builder-export-layout'] );
 		}
 		if ( isset( $_POST['fl-builder-export-row'] ) && is_array( $_POST['fl-builder-export-row'] ) ) {
-			$templates['row'] = self::get_export_data( $_POST['fl-builder-export-row'] );
+			$templates['row'] = self::get_template_export_data( $_POST['fl-builder-export-row'] );
 		}
 		if ( isset( $_POST['fl-builder-export-module'] ) && is_array( $_POST['fl-builder-export-module'] ) ) {
-			$templates['module'] = self::get_export_data( $_POST['fl-builder-export-module'] );
+			$templates['module'] = self::get_template_export_data( $_POST['fl-builder-export-module'] );
 		}
 		
 		header( 'X-Robots-Tag: noindex, nofollow', true );
@@ -183,19 +171,30 @@ final class FLBuilderTemplateDataExporter {
 	{
 		$templates = array();
 		
-		foreach( get_posts( array(
-			'post_type'       => 'fl-builder-template',
-			'orderby'         => 'title',
-			'order'           => 'ASC',
-			'posts_per_page'  => '-1',
-			'tax_query'       => array(
-				array(
-					'taxonomy'  => 'fl-builder-template-type',
-					'field'     => 'slug',
-					'terms'     => $type
+		if ( 'theme' == $type ) {
+			$args = array(
+				'post_type'       => 'fl-theme-layout',
+				'orderby'         => 'title',
+				'order'           => 'ASC',
+				'posts_per_page'  => '-1'
+			);
+		} else {
+			$args = array(
+				'post_type'       => 'fl-builder-template',
+				'orderby'         => 'title',
+				'order'           => 'ASC',
+				'posts_per_page'  => '-1',
+				'tax_query'       => array(
+					array(
+						'taxonomy'  => 'fl-builder-template-type',
+						'field'     => 'slug',
+						'terms'     => $type
+					)
 				)
-			)
-		) ) as $post ) {
+			);
+		}
+		
+		foreach( get_posts( $args ) as $post ) {
 			$templates[] = array(
 				'id'   => $post->ID,
 				'name' => $post->post_title
@@ -206,41 +205,107 @@ final class FLBuilderTemplateDataExporter {
 	}
 	
 	/** 
-	 * Returns user template data for the specified posts.
+	 * Returns theme layout export data for the specified post ids.
 	 *
-	 * @since 1.8
+	 * @since 1.10
+	 * @access private
+	 * @param array $templates
+	 * @return array
+	 */
+	static private function get_theme_layout_export_data( $templates ) 
+	{
+		$posts = get_posts( array(
+			'post_type'       => 'fl-theme-layout',
+			'orderby'         => 'menu_order title',
+			'order'           => 'ASC',
+			'posts_per_page'  => '-1',
+			'post__in'        => array_map( 'sanitize_text_field', $_POST['fl-builder-export-theme'] )
+		) );
+		
+		// Get all theme layouts.
+		$data = self::get_export_data( $posts );
+		
+		// Store in the templates array by type.
+		foreach ( $data as $template ) {
+			
+			if ( ! isset( $templates[ $template->type ] ) ) {
+				$templates[ $template->type ] = array();
+			}
+			
+			$templates[ $template->type ][] = $template;
+		}
+		
+		// Reset the index for each template.
+		foreach ( $templates as $data ) {
+			foreach ( $data as $index => $template ) {
+				$template->index = $index;
+			}
+		}
+		
+		return $templates;
+	}
+	
+	/** 
+	 * Returns template export data for the specified post ids.
+	 *
+	 * @since 1.10
 	 * @access private
 	 * @param array $post_ids
 	 * @return array
 	 */
-	static private function get_export_data( $post_ids = array() ) 
+	static private function get_template_export_data( $post_ids = array() ) 
 	{
 		if ( empty( $post_ids ) ) {
+			return array();
+		}
+		
+		$posts = get_posts( array(
+			'post_type'       => 'fl-builder-template',
+			'orderby'         => 'menu_order title',
+			'order'           => 'ASC',
+			'posts_per_page'  => '-1',
+			'post__in'        => $post_ids
+		) );
+		
+		return self::get_export_data( $posts );
+	}
+	
+	/** 
+	 * Returns export data for the specified posts.
+	 *
+	 * @since 1.8
+	 * @access private
+	 * @param array $posts
+	 * @return array
+	 */
+	static private function get_export_data( $posts ) 
+	{
+		if ( empty( $posts ) ) {
 			return array();
 		}
 		
 		$templates = array();
 		$index     = 0;
 		
-		foreach( get_posts( array(
-			'post_type'       => 'fl-builder-template',
-			'orderby'         => 'menu_order title',
-			'order'           => 'ASC',
-			'posts_per_page'  => '-1',
-			'post__in'        => $post_ids
-		) ) as $post ) {
+		foreach( $posts as $post ) {
 			
 			// Build the template object.
 			$template             = new StdClass();
 			$template->name       = $post->post_title;
 			$template->slug       = $post->post_name;
 			$template->index      = $index++;
-			$template->type       = FLBuilderModel::get_user_template_type( $post->ID );
 			$template->global     = false;
 			$template->image      = '';
 			$template->categories = array();
 			$template->nodes      = FLBuilderModel::generate_new_node_ids( FLBuilderModel::get_layout_data( 'published', $post->ID ) );
 			$template->settings   = FLBuilderModel::get_layout_settings( 'published', $post->ID );
+			
+			// Get the template type.
+			if ( 'fl-theme-layout' == $post->post_type ) {
+				$template->type = get_post_meta( $post->ID, '_fl_theme_layout_type', true );
+			} else {
+				$template->type = FLBuilderModel::get_user_template_type( $post->ID );
+			}
 			
 			// Get the template categories.
 			$categories = wp_get_post_terms( $post->ID, 'fl-builder-template-category' );

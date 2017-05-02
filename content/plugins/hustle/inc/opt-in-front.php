@@ -34,9 +34,12 @@ class Opt_In_Front
 
         add_action("wp_footer", array($this, "add_layout_templates"));
 
-        add_filter("the_content", array($this, "show_after_page_post_content"), 2, 99);
+        add_filter("the_content", array($this, "show_after_page_post_content"), 20);
 
         add_shortcode(self::SHORTCODE, array( $this, "shortcode" ), 10, 2);
+
+        // NextGEN Gallery compat
+        add_filter('run_ngg_resource_manager', array($this, 'nextgen_compat'));
     }
 
     function register_widget() {
@@ -46,9 +49,11 @@ class Opt_In_Front
     function register_scripts()
     {
 
-        if( is_customize_preview() || ! $this->has_optins() ) {
+        if( is_customize_preview() || ! $this->has_optins() || isset( $_REQUEST['fl_builder'] ) ) {
 			return;
 		}
+
+        global $wp;
 
         /**
          * Register popup requirements
@@ -64,6 +69,7 @@ class Opt_In_Front
             "ajaxurl" => admin_url("admin-ajax.php", is_ssl() ? 'https' : 'http'),
             'page_id' => get_queried_object_id(),
             'page_type' => $this->_hustle->current_page_type(),
+            'current_url' => esc_url( home_url( $wp->request ) ),
             'is_upfront' => class_exists( "Upfront" ) && isset( $_GET['editmode'] ) && $_GET['editmode'] === "true",
             'adblock_detector_js' => $this->_hustle->get_static_var(  "plugin_url" ) . 'assets/js/front/ads.js',
             'l10n' => array(
@@ -95,7 +101,7 @@ class Opt_In_Front
 
     function register_styles()
     {
-		if ( ! $this->has_optins() ) {
+		if ( ! $this->has_optins() || isset( $_REQUEST['fl_builder'] ) ) {
 			return;
 		}
 
@@ -124,7 +130,10 @@ class Opt_In_Front
          * @var $optin Opt_In_Model
          */
         foreach (Opt_In_Collection::instance()->get_all_optins() as $optin) {
-            if( !$optin->display ) continue;
+            if( ! $optin->display ) {
+				continue;
+			}
+
             $handle = $this->_get_unique_id();
             $settings = $optin->get_frontend_settings($post, $categories_array, $tags_array);
 
@@ -132,7 +141,7 @@ class Opt_In_Front
 			 * Include only active opt-in to optimize performance. **/
 			$included = false;
 
-			if ( ( ! empty( $settings->after_content ) && empty( $settings->after_content ) )
+			if ( ( ! empty( $settings->after_content ) && ! empty( $settings->after_content['enabled'] ) )
 				|| ( ! empty( $settings->popup ) && ! empty( $settings->popup['enabled'] ) )
 				|| ( ! empty( $settings->slide_in ) && ( ! empty( $settings->slide_in['enabled'] ) || 'false' == $settings->slide_in['enabled'] ) )
 				|| ( ! empty( $settings->widget ) && ! empty( $settings->widget['display'] ) )
@@ -140,7 +149,7 @@ class Opt_In_Front
 				$included = true;
 			}
 
-			if ( ! $included ) {
+			if ( false === $included ) {
 				// Don't bother iterating if none are enabled.
 				continue;
 			}
@@ -149,8 +158,9 @@ class Opt_In_Front
                 $this->_args_layouts[ $handle ] = $optin->optin_provider;
 
             if( ( $settings->popup['appear_after'] === "adblock" && isset( $settings->popup["trigger_on_adblock"] ) &&  $settings->popup["trigger_on_adblock"] === "true" )
-                || (   $settings->slide_in['appear_after'] === "adblock" && isset( $settings->slide_in["trigger_on_adblock"] ) &&  $settings->slide_in["trigger_on_adblock"] === "true" ) )
+                || (   $settings->slide_in['appear_after'] === "adblock" && isset( $settings->slide_in["trigger_on_adblock"] ) &&  $settings->slide_in["trigger_on_adblock"] === "true" ) ) {
                 $enque_adblock_detector = true;
+			}
 
 			if ( empty( $settings->after_content['enabled'] ) ) {
 				unset($settings->after_content);
@@ -209,7 +219,7 @@ class Opt_In_Front
 		/**
 		 * Return the content immediately if there are no renderable opt-ins.
 		 **/
-		if ( empty( $this->_optin_handles ) ) {
+		if ( empty( $this->_optin_handles ) || isset( $_REQUEST['fl_builder'] ) ) {
 			return $content;
 		}
 
@@ -233,6 +243,15 @@ class Opt_In_Front
         remove_filter("the_content", array($this, "show_after_page_post_content"));
 
         return $content;
+    }
+
+    /**
+     * By-pass NextGEN Gallery resource manager
+     *
+     * @return false
+     */
+    function nextgen_compat() {
+        return false;
     }
 
     private function _get_unique_id()

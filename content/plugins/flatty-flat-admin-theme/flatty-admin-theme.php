@@ -4,7 +4,7 @@ Plugin Name: Flatty - UI Admin Theme
 Plugin URI: http://www.michelemarri.me
 Text Domain: flatty-flat-admin-theme
 Domain Path: /lang
-Version: 1.3.4
+Version: 1.3.5
 Description: <strong>The professional Wordpress Admin theme</strong> that we all need in 2017+.
 Author: michelemarri
 Author URI: http://www.michelemarri.me
@@ -33,7 +33,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 //DEFINE
 require_once( dirname( __FILE__ ) . '/includes/init/define.php' );
 if ( ! defined( 'FLATTY_VERSION' ) ) {
-	define( 'FLATTY_VERSION', '1.3.4' );
+	define( 'FLATTY_VERSION', '1.3.5' );
 }
 
 function flatty_load_textdomain() {

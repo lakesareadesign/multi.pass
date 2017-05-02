@@ -8,6 +8,7 @@
 	 **/
 	Optin.View = Backbone.View.extend({
 		isCC: false,
+		display_id: 'display',
 		showClass: 'wpoi-show',
 		maskShowClass: 'inc_optin_',
 		optin_id: '',
@@ -18,11 +19,16 @@
 		appear_after: 'time',
 		mask: false,
 		should_remove: false,
+		parent: 'body',
+		anim_in_time: Optin.popup_overlay_delay,
+		anim_out_time: 2000,
+		viewed: false,
 		events: {
 			'click': 'click',
 			'click .inc-opt-close-btn': 'closed',
 			'click .inc_opt_never_see_again': 'closed'
 		},
+		click: _.noop,
 
 		initialize: function( opts ) {
 			this.key = opts.key;
@@ -31,11 +37,30 @@
 			this.data = this.opt.data;
 			this.optin_id = this.data.optin_id;
 			this.maskClass = 'inc_optin_' + this.optin_id + ' ' + this.maskClass;
-
-			if ( ! this.should_display() ) return;
-
 			this.add_never_see_again = _.isTrue(  this.settings.add_never_see_this_message );
 			this.appear_after = this.settings.appear_after;
+			this.cookie_key =  ( 'popup' === this.type ? Optin.POPUP_COOKIE_PREFIX : Optin.SLIDE_IN_COOKIE_PREFIX ) + this.optin_id;
+			this.expiration_days = parseInt( this.settings.never_see_expiry, 10 );
+
+			this.triggers = {
+				on_time: this.settings.trigger_on_time,
+				on_time_delay: this.settings.appear_after_time_val,
+				on_time_unit: this.settings.appear_after_time_unit,
+				on_scroll: this.settings.appear_after_scroll,
+				on_scroll_page_percent: parseInt( this.settings.appear_after_page_portion_val ),
+				on_scroll_css_selector: this.settings.appear_after_element_val,
+				on_click_element: this.settings.trigger_on_element_click,
+				on_exit_intent: this.settings.trigger_on_exit,
+				on_exit_intent_per_session: this.settings.on_exit_trigger_once_per_session,
+				on_adblock: this.settings.trigger_on_adblock,
+				on_adblock_delayed: this.settings.trigger_on_adblock_timed,
+				on_adblock_delayed_time: this.settings.trigger_on_adblock_timed_val,
+				on_adblock_delayed_unit: this.settings.trigger_on_adblock_timed_unit
+			};
+
+			if ( ! this.should_display() ) {
+				return;
+			}
 
 			if ( _.contains( ['time', 'scrolled', 'adblock'], this.appear_after )
 				|| ( 'exit_intent' === this.appear_after && _.isTrue( this.settings.on_exit_trigger_once_per_session ) ) ) {
@@ -49,7 +74,13 @@
 		 * Check if popup should display. **/
 		should_display: function() {
 			return _.isTrue( this.settings.display )
-				&& !_.isTrue( Optin.cookie.get( Optin.POPUP_COOKIE_PREFIX + this.optin_id ) );
+				&& !_.isTrue( Optin.cookie.get( this.cookie_key ) );
+		},
+
+		/**
+		 * Trigger to completely hide this. **/
+		never_see_again: function() {
+			Optin.cookie.set( this.cookie_key, this.optin_id, this.expiration_days );
 		},
 
 		fit: function() {
@@ -86,22 +117,20 @@
 			this.$el.addClass( ' inc_optin_' + this.optin_id );
 			this.$el.html( html );
 
-			// Add provider args
-			this.$(".wpoi-provider-args").html( Optin.render_provider_args( this.opt )  );
-			this.$el.appendTo('body');
+			if ( ( provider = this.$(".wpoi-provider-args") ).length ) {
+				// Add provider args
+				provider.html( Optin.render_provider_args( this.opt )  );
+			}
+
+			this.$el.appendTo(this.parent);
 			this.$el.display = $.proxy( this, 'display' );
 			this.$el.on( 'show', $.proxy( this, 'onShow' ) );
 			this.$el.on( 'hide', $.proxy( this, 'onHide' ) );
 			this.$el.data(data);
 			this.html = this.$el.html();
 
-			/**
-			 * Triggers
-			 */
-			if( typeof Optin.Triggers[this.appear_after] === "function" )
-				Optin.Triggers[this.appear_after].call( null, this.opt, this.settings, this.$el );
-			else
-				console.log( "Hustle:[" + this.type.toUpperCase() + "] No trigger defined for ". this.appear_after );
+			// Trigger display
+			this[this.appear_after + '_trigger']();
 
 			return this;
 		},
@@ -109,35 +138,56 @@
 		display: function() {
 			var me = this;
 
+			// Marked viewed when display is triggered
+			this.viewed = true;
+
 			if( this.$el.is( '.' + this.showClass ) ) {
 				// If already shown, return
 				return;
 			}
 
-			if ( _.isTrue( this.isCC ) && _.isFalse(this.settings.allow_scroll_page) ) {
-				$('html').addClass('no-scroll');
-			}
-
 			this.$el.html( this.html );
 			this.$el.removeClass( this.settings.animation_out );
+			this.add_mask();
+			this.animation_in();
+			this.$el.trigger( 'show', this );
+		},
 
-			if ( ! this.mask ) {
-				this.mask = $( '<div class="' + this.maskClass + ' wpoi-overlay-mask wpoi-animate fadein">' +
-					'<div class="wpoi-' + this.type + '-overlay"></div></div>' );
-				this.mask.insertBefore(this.$el).addClass('wpoi-show');
+		add_mask: function() {
+			var me = this;
+            
+            _.delay( $.proxy(function() {
+                if ( _.isFalse(this.settings.allow_scroll_page) ) {
+                    $('html').addClass('no-scroll');
+                }
 
-				if ( _.isFalse( this.settings.not_close_on_background_click ) ) {
-					this.mask.on( 'click', $.proxy( this, 'closed' ) );
-				}
-			} else {
-				this.mask.addClass('wpoi-show');
-			}
+                if ( ! this.mask ) {
+                    this.mask = $( '<div class="' + this.maskClass + ' wpoi-overlay-mask wpoi-animate fadein">' +
+                        '<div class="wpoi-' + this.type + '-overlay"></div></div>' );
+                    this.mask.insertBefore(this.$el).addClass('wpoi-show');
+
+                    if ( _.isFalse( this.settings.not_close_on_background_click ) ) {
+                        this.mask.on( 'click', $.proxy( this, 'closed' ) );
+                    }
+                } else {
+                    this.mask.addClass('wpoi-show');
+                }
+            }, this), Optin.popup_overlay_delay);
+		},
+
+		animation_in: function() {
+			var me = this;
 
 			if( this.settings.animation_in ) {
 				this.$el.addClass( this.settings.animation_in );
 			}
 
 			_.delay(function(){
+
+				if ( _.isFalse( me.viewed ) ) {
+					// Prevent from running if display is abruptly closed
+					return;
+				}
 
 				me.$el.addClass( me.showClass );
 
@@ -149,7 +199,7 @@
 						_.delay(function(){
 							me.$el.removeClass( me.settings.animation_in );
 							me.$el.addClass( me.settings.animation_out );
-						}, 350);
+						}, 350 );
 
 					} else {
 						me.$el.addClass( me.settings.animation_out );
@@ -160,24 +210,8 @@
 						me.$el.removeClass( me.settings.animation_in );
 					}, 350);
 				}
-
-			}, 750);
-
-			this.$el.trigger( 'show', this );
-		},
-
-		click: function() {},
-		onShow: function() {
-			$(document).trigger("wpoi:display", [this.type, this.$el, this.opt ]);
-		},
-
-		sanitize_cta_url: function( data ) {
-			if ( data.cta_url ) {
-				if (!/^(f|ht)tps?:\/\//i.test(data.cta_url)) {
-					data.cta_url = "http://" + data.cta_url;
-				}
-			}
-			return data;
+                
+			}, Optin.popup_overlay_delay );
 		},
 
 		time_trigger: function() {
@@ -197,6 +231,8 @@
 		},
 
 		click_trigger: function() {
+            var me = this;
+            
 			if( "" !== (selector = $.trim( this.triggers.on_click_element ) )  ){
 				var $clickable = $(selector);
 
@@ -204,6 +240,16 @@
 					$(doc).on( 'click', selector, $.proxy( this, 'display' ) );
 				}
 			}
+            
+            /**
+            * Clickable button added with shortcode
+            */
+            $(doc).on("click", ".inc_opt_hustle_shortcode_trigger", function(e){
+                e.preventDefault();
+                if( $(this).data("id") == me.data.optin_id && $(this).data("type") == me.type ) {
+                    me.display();
+                }
+            });
 		},
 
 		scroll_trigger: function() {
@@ -241,6 +287,10 @@
 			 }
 		},
 
+		scrolled_trigger: function() {
+			return this.scroll_trigger();
+		},
+
 		exit_intent_trigger: function() {
 			if(_.isTrue( this.triggers.on_exit_intent  ) ){
 				if ( _.isTrue( this.triggers.on_exit_intent_per_session ) ) {
@@ -271,20 +321,12 @@
 			}
 		},
 
-		/**
-		 * Trigger to completely hide this. **/
-		never_see_again: function() {
-			var cookie_key = 'popup' === this.type ? Optin.POPUP_COOKIE_PREFIX : Optin.SLIDE_IN_COOKIE_PREFIX;
-			cookie_key += this.optin_id;
-
-			Optin.cookie.set( cookie_key,  this.optin_id, parseInt( this.settings.never_see_expiry, 10 ) );
-		},
-
 		closed: function(e) {
 			var me = this,
 				sender = $(e.currentTarget),
 				is_never_see = this.isCC ? _.isTrue( this.settings.close_btn_as_never_see ) : _.isTrue( this.settings.close_button_acts_as_never_see );
 
+			this.viewed = false;
 			this.$el.removeClass('wpoi-show');
 
 			if ( ( sender.is('.wph-modal--close .wph-icon, .inc-opt-close-' + this.type ) && is_never_see )
@@ -293,13 +335,23 @@
 			}
 
 			_.delay(function() {
+				if ( me.viewed ) {
+					// Prevent from being hiding if display is triggered again
+					return;
+				}
 				me.$el.removeClass(me.showClass);
-				me.mask.removeClass('wpoi-show');
-			}, 750 );
+                if ( typeof me.mask !== 'undefined' && me.mask ) {
+                    me.mask.removeClass('wpoi-show');
+                }
+			}, Optin.popup_overlay_delay );
 
 			if ( this.settings.animation_in ) {
 				if ( this.settings.animation_out ) {
 					_.delay(function() {
+						if ( me.viewed ) {
+							// Prevent from being hiding if display is triggered again
+							return;
+						}
 						me.$el.removeClass( me.settings.animation_out );
 						me.$el.addClass( me.settings.animation_in );
 					}, 1000 );
@@ -324,6 +376,10 @@
 			// delay only if has animations
 			if ( this.settings.animation_out ) {
 				_.delay(function() {
+					if ( me.viewed ) {
+						// Prevent from being hiding if display is triggered again
+						return;
+					}
 					me.clean();
 				}, 1100 );
 			} else {
@@ -343,8 +399,14 @@
 			this.$el.html('');
 			if ( this.should_remove ) {
 				this.$el.remove();
-				this.mask.remove();
+                if ( typeof this.mask !== 'undefined' && this.mask ) {
+                    this.mask.remove();
+                }
 			}
+		},
+
+		onShow: function() {
+			$(document).trigger( 'wpoi:' + this.display_id, [this.type, this.$el, this.opt ]);
 		},
 
 		onHide: function() {

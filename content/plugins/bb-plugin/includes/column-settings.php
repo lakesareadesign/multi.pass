@@ -148,7 +148,8 @@ FLBuilder::register_settings_form('col', array(
 							'label'         => __('Photo', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'none'
-							)
+							),
+							'connections'	=> array( 'photo' )
 						),
 						'bg_repeat'     => array(
 							'type'          => 'select',
@@ -576,7 +577,7 @@ FLBuilder::register_settings_form('col', array(
 					)
 				),
 				'css_selectors' => array(
-					'title'         => __('CSS Selectors', 'fl-builder'),
+					'title'         => __('HTML Element', 'fl-builder'),
 					'fields'        => array(
 						'id'            => array(
 							'type'          => 'text',

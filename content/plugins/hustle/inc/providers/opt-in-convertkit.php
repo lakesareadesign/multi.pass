@@ -32,11 +32,11 @@ if ( ! class_exists( 'Opt_In_ConvertKit' ) ) :
 		* @param $api_key
 		* @return Opt_In_ConvertKit_Api
 		*/
-		protected static function api( $api_key ){
+		protected static function api( $api_key, $api_secret = '' ){
 
 			if( empty( self::$api ) ){
 				try {
-					self::$api = new Opt_In_ConvertKit_Api( $api_key );
+					self::$api = new Opt_In_ConvertKit_Api( $api_key, $api_secret );
 					self::$errors = array();
 				} catch (Exception $e) {
 					self::$errors = array("api_error" => $e) ;
@@ -227,31 +227,75 @@ if ( ! class_exists( 'Opt_In_ConvertKit' ) ) :
 			$custom_fields = array(
 				'ip_address' => array(
 					'label' => 'IP Address'
-				),
-				'last_name' => array(
-					'label' => 'Last Name'
 				)
 			);
-			if ( !$this->maybe_create_custom_fields( $optin, $custom_fields ) ) return false;
+			$additional_fields = $optin->get_design()->__get( 'module_fields' );
+			$subscribe_data_fields = array();
+
+			if ( $additional_fields && is_array($additional_fields) && count($additional_fields) > 0 ) {
+				foreach( $additional_fields as $field ) {
+					// skip defaults
+					if ( $field['name'] == 'first_name' || $field['name'] == 'email' ) {
+						continue;
+					}
+					$meta_key = 'cv_field_' . $field['name'];
+					$meta_value = $optin->get_meta( $meta_key );
+					$field_name = $field['name'];
+
+					if ( ! $meta_value || $meta_value != $field['label'] ) {
+						$custom_fields[$field_name] = array(
+							'label' => $field['label']
+						);
+					}
+
+					if ( isset($data[$field_name]) ) {
+						$subscribe_data_fields[$field_name] = $data[$field_name];
+					}
+				}
+			}
+
+			$err = new WP_Error();
+
+			if ( ! $this->maybe_create_custom_fields( $optin, $custom_fields ) ) {
+				$data['error'] = __( 'Unable to add custom field.', Opt_In::TEXT_DOMAIN );
+				$optin->log_error( $data );
+				$err->add( 'server_error', __( 'Something went wrong. Please try again.', Opt_In::TEXT_DOMAIN ) );
+				return $err;
+			}
 
 			// subscription
 			$geo = new Opt_In_Geo();
 			$subscribe_data = array(
 				"api_key" => $optin->api_key,
+				"name" => ( isset($data['first_name']) ) ? $data['first_name'] : '',
 				"email" => $data['email'],
 				"fields" => array(
 					"ip_address" => $geo->get_user_ip()
 				)
 			);
+			$subscribe_data['fields'] = wp_parse_args( $subscribe_data_fields, $subscribe_data['fields'] );
 
-			if ( isset($data['f_name']) ) {
-				$subscribe_data['name'] = $data['f_name'];
-			}
-			if ( isset($data['l_name']) ) {
-				$subscribe_data['fields']['last_name'] = $data['l_name'];
+			if ( $this->email_exist( $data['email'], $optin ) ) {
+				$err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
+				return $err;
 			}
 
-			return self::api( $optin->api_key )->subscribe( $optin->optin_mail_list, $subscribe_data );
+			$res = self::api( $optin->api_key )->subscribe( $optin->optin_mail_list, $subscribe_data );
+
+			if ( is_wp_error( $res ) ) {
+				$error_code = $res->get_error_code();
+				$data['error'] = $res->get_error_message( $error_code );
+				$optin->log_error( $data );
+			}
+
+			return $res;
+		}
+
+		function email_exist( $email, Opt_In_Model $optin ) {
+			$api_secret = $optin->get_provider_args()->api_secret;
+			$api = self::api( $optin->api_key, $api_secret );
+			$subscriber = $api->is_subscriber( $email );
+			return $subscriber;
 		}
 
 		/**
@@ -261,12 +305,11 @@ if ( ! class_exists( 'Opt_In_ConvertKit' ) ) :
 		* @return array|mixed|object|WP_Error
 		*/
 		public function maybe_create_custom_fields( Opt_In_Model $optin, array $fields ) {
-
 			$provider_args = $optin->get_provider_args();
 			$api_secret = isset( $provider_args->api_secret ) ? $provider_args->api_secret : "";
-
+			return false;
 			// check if already existing
-			$custom_fields = self::api( $optin->api_key )->get_form_custom_fields();
+			$custom_fields = self::api( $optin->api_key, $api_secret )->get_form_custom_fields();
 			$proceed = true;
 			foreach( $custom_fields as $custom_field ) {
 				if ( isset( $fields[$custom_field->key] ) ) {
@@ -287,7 +330,41 @@ if ( ! class_exists( 'Opt_In_ConvertKit' ) ) :
 			}
 
 			return $proceed;
+		}
 
+		static function add_custom_field( $field, Opt_In_Model $optin ) {
+			$provider_args = $optin->get_provider_args();
+			$api_secret = isset( $provider_args->api_secret ) ? $provider_args->api_secret : "";
+			$custom_fields = self::api( $optin->api_key, $api_secret )->get_form_custom_fields();
+			$exist = false;
+
+			if ( ! empty( $custom_fields ) ) {
+				foreach ( $custom_fields as $custom_field ) {
+					if ( $field['name'] == $custom_field->key ) {
+						$exist = true;
+					}
+					// Save the key in meta
+					$optin->add_meta( 'cv_field_' . $custom_field->key, $custom_field->label );
+				}
+			}
+
+			if ( false === $exist ) {
+				$add = self::api( $optin->api_key )->create_custom_fields( array(
+					'api_secret' => $api_secret,
+					'label' => $field['label'],
+				) );
+
+				if ( ! is_wp_error( $add ) ) {
+					$exist = true;
+					$optin->add_meta( 'cv_field_' . $field['name'], $field['label'] );
+				}
+			}
+
+			if ( $exist ) {
+				return array( 'success' => true, 'field' => $field );
+			}
+
+			return array( 'error' => true, 'code' => 'cannot_create_custom_field' );
 		}
 	}
 

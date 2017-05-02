@@ -1,4 +1,4 @@
-/*! WPMU Dev code library - v3.0.2
+/*! WPMU Dev code library - v3.0.4
  * http://premium.wpmudev.org/
  * Copyright (c) 2017; * Licensed GPLv2+ */
 /*!
@@ -150,9 +150,11 @@
 			clean_ghosts( el );
 
 			// Prevent lags during page load by making this asynchronous.
-			window.setTimeout( function() {
-				el.wpmuiSelect(options);
-			}, 1);
+			if ( "function" === typeof( el.wpmuiSelect ) ) {
+				window.setTimeout( function() {
+					el.wpmuiSelect(options);
+				}, 1);
+			}
 		};
 
 		// Initialize select list with ajax source.
@@ -203,9 +205,11 @@
 			clean_ghosts( el );
 
 			// Prevent lags during page load by making this asynchronous.
-			window.setTimeout( function() {
-				el.wpmuiSelect(options);
-			}, 1);
+			if ( "function" === typeof( el.wpmuiSelect ) ) {
+				window.setTimeout( function() {
+					el.wpmuiSelect(options);
+				}, 1);
+			}
 		};
 
 		if ( 'function' === typeof jQuery.fn.each2 ) {

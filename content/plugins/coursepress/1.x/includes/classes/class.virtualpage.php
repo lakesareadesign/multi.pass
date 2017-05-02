@@ -57,7 +57,7 @@ if ( ! class_exists( 'CoursePress_Virtual_Page' ) ) {
 			                                      'post_per_page' => 1,
 			                                      'fields'        => 'ids'
 			) );
-			$old_post_slug_id = is_array( $old_post_slug_id ) && ! empty( $old_post_slug_id ) ? array_pop( $old_post_slug_id ) : false;
+			$old_post_slug_id = is_array( $old_post_slug_id ) && ! empty( $old_post_slug_id ) ? array_pop( $old_post_slug_id ) : false;									   	 	   		
 
 			// unset( $comment );
 

@@ -78,18 +78,25 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
     public function subscribe( Opt_In_Model $optin, array $data ){
 
         $email =  $data['email'];
-        unset(  $data['email'] );
 
         $geo = new Opt_In_Geo();
 
         $name = array();
-        if( isset( $data['f_name'] ) )
-            $name[] = $data['f_name'];
 
-        if( isset( $data['l_name'] ) )
-            $name[] = $data['l_name'];
+		if ( ! empty( $data['first_name'] ) ) {
+			$name['first_name'] = $data['first_name'];
+		}
+		elseif ( ! empty( $data['f_name'] ) ) {
+			$name['first_name'] = $data['f_name']; // Legacy
+		}
+		if ( ! empty( $data['last_name'] ) ) {
+			$name['last_name'] = $data['last_name'];
+		}
+		elseif ( ! empty( $data['l_name'] ) ) {
+			$name['last_name'] = $data['l_name']; // Legacy
+		}
 
-        $data = array(
+        $new_data = array(
             'email' => $email,
             "dayOfCycle" => "10",
             'campaign' => array(
@@ -99,10 +106,57 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
         );
 
         if( count( $name ) )
-            $data['name'] = implode(" ", $name);
+            $new_data['name'] = implode(" ", $name);
 
-       return self::api( $optin->api_key )->subscribe( $data );
+		// Extra fields
+		$extra_data = array_diff_key( $data, array(
+			'email' => '',
+			'first_name' => '',
+			'last_name' => '',
+			'f_name' => '',
+			'l_name' => '',
+		) );
+		$extra_data = array_filter( $extra_data );
 
+		if ( ! empty( $extra_data ) ) {
+			$new_data['customFieldValues'] = array();
+
+			foreach ( $extra_data as $key => $value ) {
+				$meta_key = 'gr_field_' . $key;
+				$custom_field_id = $optin->get_meta( $meta_key );
+				$custom_field = array(
+					'name' => $key,
+					'type' => 'text', // We only support text for now
+					'hidden' => false,
+					'values' => array(),
+				);
+
+				if ( empty( $custom_field_id ) ) {
+					$custom_field_id = self::api( $optin->api_key )->add_custom_field( $custom_field );
+
+					if ( ! empty( $custom_field_id ) ) {
+						$optin->add_meta( $meta_key, $custom_field_id );
+					}
+				}
+				$new_data['customFieldValues'][] = array( 'customFieldId' => $custom_field_id, 'value' => array( $value ) );
+			}
+		}
+
+        $res = self::api( $optin->api_key )->subscribe( $new_data );
+
+		if ( is_wp_error( $res ) ) {
+			$error_code = $res->get_error_code();
+			$error_message = $res->get_error_message( $error_code );
+
+			if ( preg_match( '%Conflict%', $error_message ) ) {
+				$res->add( $error_code, __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
+			} else {
+				$data['error'] = $error_message;
+				$optin->log_error( $data );
+			}
+		}
+
+		return $res;
     }
 
     /**
@@ -200,6 +254,44 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
         return true;
     }
 
+	static function add_custom_field( $field, Opt_In_Model $optin ) {
+		$api = self::api( $optin->api_key );
+		$type = ! in_array( $field['type'], array( 'text', 'number' ) ) ? 'text' : $field['type'];
+		$key = $field['name'];
+
+		$fields = $api->get_custom_fields();
+		$exist = false;
+
+		// Check for existing custom fields
+		if ( ! is_wp_error( $fields ) && is_array( $fields ) ) {
+			foreach ( $fields as $custom_field ) {
+				$name = $custom_field->name;
+				$custom_field_id = $custom_field->customFieldId;
+				$meta_key = "gr_field_{$name}";
+
+				// Update meta
+				$optin->add_meta( $meta_key, $custom_field_id );
+
+				if ( $name == $key ) {
+					$exist = true;
+				}
+			}
+		}
+
+		// Add custom field if it doesn't exist
+		if ( false === $exist ) {
+			$custom_field = array(
+				'name' => $key,
+				'type' => $type,
+				'hidden' => false,
+				'values' => array(),
+			);
+			$custom_field_id = $api->add_custom_field( $custom_field );
+			$optin->add_meta( "gr_field_{$key}", $custom_field_id );
+		}
+
+		return array( 'success' => true, 'field' => $field );
+	}
 }
 
 endif;

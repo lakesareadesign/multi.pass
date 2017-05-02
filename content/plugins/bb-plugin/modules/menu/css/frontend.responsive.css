@@ -1,0 +1,13 @@
+
+/* Horizontal menus */
+.fl-menu-horizontal {
+	text-align: left;
+}
+
+/* Submenus */
+.fl-module[data-node] .fl-menu .sub-menu {
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	-ms-box-shadow: none;
+	box-shadow: none;
+}

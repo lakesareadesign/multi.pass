@@ -27,9 +27,8 @@ $progress = (int) do_shortcode( '[course_progress course_id="' . $course_id . '"
 		<h1>
 			<?php echo get_the_title( $course_id ) ?>
 		</h1>
-		<?php
-		echo CoursePress_Template_Unit::unit_archive();
-		?>
+		<?php echo CoursePress_Template_Unit::unit_archive();?>
+
 	</main><!-- #main -->
 </div><!-- #primary -->
 <?php

@@ -37,10 +37,11 @@ final class FLBuilderAdminPosts {
 		
 		if ( in_array( $pagenow, array( 'post.php', 'post-new.php') ) ) {
 			
+			$render_ui  = apply_filters( 'fl_builder_render_admin_edit_ui', true );
 			$post_types = FLBuilderModel::get_post_types();
 			$screen		= get_current_screen();
 
-			if ( in_array( $screen->post_type, $post_types ) ) {
+			if ( $render_ui && in_array( $screen->post_type, $post_types ) ) {
 				add_filter( 'admin_body_class',         __CLASS__ . '::body_class', 99 );
 				add_action( 'admin_enqueue_scripts',    __CLASS__ . '::styles_scripts' );
 				add_action( 'edit_form_after_title',    __CLASS__ . '::render' );
@@ -105,7 +106,7 @@ final class FLBuilderAdminPosts {
 	{
 		global $post;
 		
-		$post_type_obj 	= get_post_type_object ( $post->post_type );
+		$post_type_obj 	= get_post_type_object( $post->post_type );
 		$post_type_name = strtolower( $post_type_obj->labels->singular_name );
 		$enabled 		= FLBuilderModel::is_builder_enabled();
 		

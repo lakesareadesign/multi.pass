@@ -2,11 +2,18 @@
 
 	FLBuilderPostGrid = function(settings)
 	{
-		this.settings       = settings;
-		this.nodeClass      = '.fl-node-' + settings.id;
-		this.wrapperClass   = this.nodeClass + ' .fl-post-' + this.settings.layout;
-		this.postClass      = this.wrapperClass + '-post';
-		this.matchHeight	= settings.matchHeight;
+		this.settings    = settings;
+		this.nodeClass   = '.fl-node-' + settings.id;
+		this.matchHeight = settings.matchHeight;
+		
+		if ( 'columns' == this.settings.layout ) {
+			this.wrapperClass = this.nodeClass + ' .fl-post-grid';
+			this.postClass    = this.nodeClass + ' .fl-post-column';
+		}
+		else {
+			this.wrapperClass = this.nodeClass + ' .fl-post-' + this.settings.layout;
+			this.postClass    = this.wrapperClass + '-post';
+		}
 		
 		if(this._hasPosts()) {
 			this._initLayout();
@@ -31,6 +38,10 @@
 		{
 			switch(this.settings.layout) {
 				
+				case 'columns':
+				this._columnsLayout();
+				break;
+				
 				case 'grid':
 				this._gridLayout();
 				break;
@@ -41,6 +52,17 @@
 			}
 			
 			$(this.postClass).css('visibility', 'visible');
+			
+			FLBuilderLayout._scrollToElement( $( this.nodeClass + ' .fl-paged-scroll-to' ) );
+		},
+		
+		_columnsLayout: function()
+		{
+			$(this.wrapperClass).imagesLoaded( $.proxy( function() {
+				this._gridLayoutMatchHeight();
+			}, this ) );
+			
+			$( window ).on( 'resize', $.proxy( this._gridLayoutMatchHeight, this ) );
 		},
 	  
 		_gridLayout: function()
@@ -69,14 +91,14 @@
 				return;
 			}
 			
-            $(this.postClass).css('height', '').each(function(){
+            $(this.nodeClass + ' .fl-post-grid-post').css('height', '').each(function(){
                 
                 if($(this).height() > highestBox) {
                 	highestBox = $(this).height();
                 }
             });
                 
-            $(this.postClass).height(highestBox);
+            $(this.nodeClass + ' .fl-post-grid-post').height(highestBox);
 		},
 		
 		_galleryLayout: function()
@@ -121,7 +143,13 @@
 			
 			elements = $(elements);
 			
-			if(this.settings.layout == 'grid') {
+			if(this.settings.layout == 'columns') {
+				wrap.imagesLoaded( $.proxy( function() {
+					this._gridLayoutMatchHeight();
+					elements.css('visibility', 'visible');
+				}, this ) );
+			}
+			else if(this.settings.layout == 'grid') {
 				wrap.imagesLoaded( $.proxy( function() {
 					this._gridLayoutMatchHeight();
 					wrap.masonry('appended', elements);

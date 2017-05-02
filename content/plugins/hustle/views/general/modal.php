@@ -2,7 +2,7 @@
 
 	<div id="wph-modal-{{type}}--{{id}}" class="wph-modal {{custom_size_class}} wph-modal-container <# if ( customize_css ) { #>wph-customize-css<# } #> wph-slide--{{position}} wph-modal--{{style}} wph-modal--{{type}} wph-modal--{{id}} {{animation_in}} {{fullscreen}}" {{custom_size_attr}}>
 
-		<# if ( style !== "cabriolet" ){ #>
+		<# if ( ( style === "simple" || style === "minimal" ) && ( type === "popup" || type === "slide_in" ) ){ #>
 
 			<div class="wph-modal--close"><a class="wph-icon i-close" href=""></a></div>
 
@@ -26,23 +26,23 @@
 
 			<# } #>
 
-				<# if( optin_title || subtitle || style === "cabriolet" ){ #>
+				<# if ( optin_title || subtitle || ( style === "cabriolet" && ( type === "popup" || type === "slide_in" ) && ( !optin_title && !subtitle ) ) || ( style === "cabriolet" && ( optin_title || subtitle ) ) ){ #>
 
 					<header<# if ( ( !cta_label || !cta_url ) && !_.isTrue( types[type].add_never_see_link ) && !optin_message && style === "simple"){ #> class="wph-modal--nocontent"<# } #><# if ( ( !optin_title && !subtitle ) && style === "cabriolet" ){ #> class="wph-modal--nocontent"<# } #>>
 
-						<# if(optin_title){ #>
+						<# if ( optin_title ){ #>
 
 							<h2 class="wph-modal--title">{{optin_title}}</h2>
 
 						<# } #>
 
-						<# if( subtitle ){ #>
+						<# if ( subtitle ){ #>
 
 							<h4 class="wph-modal--subtitle">{{subtitle}}</h4>
 
 						<# } #>
 
-						<# if ( style === "cabriolet" ){ #>
+						<# if ( style === "cabriolet" && ( type === "popup" || type === "slide_in" ) ){ #>
 
 							<div class="wph-modal--close"><a class="wph-icon i-close" href=""></a></div>
 

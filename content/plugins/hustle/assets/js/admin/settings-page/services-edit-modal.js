@@ -59,6 +59,7 @@ Hustle.define("Settings.Services_Edit_Modal", function($){
              success: function(res){
                 if( res.success ){
                     $details_placeholder.html( res.data );
+					Hustle.Events.trigger("view.rendered", self);
                 }
 
              }
@@ -69,10 +70,8 @@ Hustle.define("Settings.Services_Edit_Modal", function($){
           this.remove();
        },
        hide: function(){
-
        },
        show: function(){
-
        },
        save_settings: function(e){
            e.preventDefault();

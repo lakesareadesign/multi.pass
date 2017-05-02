@@ -49,7 +49,7 @@
 
 				<h5><?php _e('After content', Opt_In::TEXT_DOMAIN); ?></h5>
 
-				<!--<span class="tooltip-left wpoi-tooltip" tooltip="<?php _e('Will look for the_content of post/page and place the Opt-In afterwards', Opt_In::TEXT_DOMAIN) ?>"><span class="dashicons dashicons-editor-help  wpoi-icon-info" ></span></span>-->
+				<!--<span class="tooltip-left wpoi-tooltip" tooltip="<?php _e('Will look for the_content of post/page and place the Opt-in afterwards', Opt_In::TEXT_DOMAIN) ?>"><span class="dashicons dashicons-editor-help  wpoi-icon-info" ></span></span>-->
 
 			</div>
 
@@ -87,7 +87,7 @@
 
 							<h4><?php _e('After Content Display Conditions', Opt_In::TEXT_DOMAIN); ?></h4>
 
-							<p><?php _e('By default, your new PopUp will be shown on <strong>every post & page</strong>. Click ( + ) below to set-up more specific conditions.<br />You can set up rules for Categories & Tags, or be even more specific & manually choose posts & pages.', Opt_In::TEXT_DOMAIN); ?></p>
+							<p><?php _e('By default, your new Pop-up will be shown on <strong>every post & page</strong>. Click ( + ) below to set-up more specific conditions.<br />You can set up rules for Categories & Tags, or be even more specific & manually choose posts & pages.', Opt_In::TEXT_DOMAIN); ?></p>
 
 							<div class="wph-conditions"></div>
 
@@ -197,9 +197,9 @@
 
 						<div id="wph-optin--popup_conditions" class="wph-flex--box wph-flex--border">
 
-							<h4><?php _e('Opt-In Display Conditions', Opt_In::TEXT_DOMAIN); ?></h4>
+							<h4><?php _e('Opt-in Display Conditions', Opt_In::TEXT_DOMAIN); ?></h4>
 
-							<p><?php _e('By default, your new PopUp will be shown on every <strong>post & page</strong>. Click ( + ) below to set-up more specific conditions.
+							<p><?php _e('By default, your new Pop-up will be shown on every <strong>post & page</strong>. Click ( + ) below to set-up more specific conditions.
 	You can set up rules for Categories & Tags, or be even more specific & manually choose posts & pages.', Opt_In::TEXT_DOMAIN); ?></p>
 
 							<div class="wph-conditions"></div>
@@ -208,9 +208,9 @@
 
 						<div id="wph-optin--popup_triggers">
 
-							<h4><?php _e('PopUp Triggers', Opt_In::TEXT_DOMAIN); ?></h4>
+							<h4><?php _e('Pop-up Triggers', Opt_In::TEXT_DOMAIN); ?></h4>
 
-							<p><?php _e("Popup can be triggered after a certain amount of <strong>Time</strong>, when user <strong>Scrolls</strong> pass an element, on <strong>Click</strong>, if user tries to <strong>Leave</strong> or if we detect <strong>AdBlock</strong>", Opt_In::TEXT_DOMAIN); ?></p>
+							<p><?php _e("Pop-up can be triggered after a certain amount of <strong>Time</strong>, when user <strong>Scrolls</strong> pass an element, on <strong>Click</strong>, if user tries to <strong>Leave</strong> or if we detect <strong>AdBlock</strong>", Opt_In::TEXT_DOMAIN); ?></p>
 
 							<section id="triggers-section-popup"></section>
 
@@ -224,7 +224,7 @@
 
 								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
-									<label><?php _e("Show popup animation:", Opt_In::TEXT_DOMAIN); ?></label>
+									<label><?php _e("Show pop-up animation:", Opt_In::TEXT_DOMAIN); ?></label>
 
 									<select data-attribute="popup.animation_in" class="wpmuiSelect">
 
@@ -247,7 +247,7 @@
 
 								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
-									<label><?php _e("Hide popup animation:", Opt_In::TEXT_DOMAIN); ?></label>
+									<label><?php _e("Hide pop-up animation:", Opt_In::TEXT_DOMAIN); ?></label>
 
 									<select data-attribute="popup.animation_out" class="wpmuiSelect" >
 
@@ -314,6 +314,23 @@
 
 								</div>
 
+								<div class="wph-label--checkbox">
+									<label for="popup_page_scroll_on"><?php _e('Allow page to be scrolled while Pop-up is visible', Opt_In::TEXT_DOMAIN); ?></label>
+
+									<div class="wph-input--checkbox">
+										<input type="checkbox" id="popup_page_scroll_on" name="" value="1" {{_.checked(popup.allow_scroll_page, true)}} data-attribute="popup.allow_scroll_page" />
+										<label class="wph-icon i-check" for="popup_page_scroll_on"></label>
+									</div>
+								</div>
+
+								<div class="wph-label--checkbox">
+									<label for="popup_overlay_clickable"><?php _e('Clicking on the background does not close Pop-up', Opt_In::TEXT_DOMAIN); ?></label>
+
+									<div class="wph-input--checkbox">
+										<input type="checkbox" id="popup_overlay_clickable" name="" value="1" {{_.checked(popup.not_close_on_background_click, true)}} data-attribute="popup.not_close_on_background_click" />
+										<label class="wph-icon i-check" for="popup_overlay_clickable"></label>
+									</div>
+								</div>
 							</div><!-- Additional Settings -->
 
 							<div id="wph-optin--expiricy" class="wph-flex wph-flex--column">
@@ -326,7 +343,7 @@
 
 								<div class="wph-label--number">
 
-									<label><?php _e("days (upon expiry, user will see the Pop Up again)", Opt_In::TEXT_DOMAIN); ?></label>
+									<label><?php _e("days (upon expiry, user will see the Pop-up again)", Opt_In::TEXT_DOMAIN); ?></label>
 
 									<div class="wph-input--number">
 
@@ -388,9 +405,9 @@
 
 						<div id="wph-optin--slide_in_conditions" class="wph-flex--box wph-flex--border">
 
-							<h4><?php _e('Slide In Display Conditions', Opt_In::TEXT_DOMAIN); ?></h4>
+							<h4><?php _e('Slide-in Display Conditions', Opt_In::TEXT_DOMAIN); ?></h4>
 
-							<p><?php _e('By default, your new PopUp will be shown on every <strong>post & page</strong>. Click ( + ) below to set-up more specific conditions.
+							<p><?php _e('By default, your new Pop-up will be shown on every <strong>post & page</strong>. Click ( + ) below to set-up more specific conditions.
 	You can set up rules for Categories & Tags, or be even more specific & manually choose posts & pages.', Opt_In::TEXT_DOMAIN); ?></p>
 
 							<div class="wph-conditions"></div>
@@ -399,9 +416,9 @@
 
 						<div id="wph-optin--slidein_triggers">
 
-							<h4><?php _e('Slide In Triggers', Opt_In::TEXT_DOMAIN); ?></h4>
+							<h4><?php _e('Slide-in Triggers', Opt_In::TEXT_DOMAIN); ?></h4>
 
-							<p><?php _e("Slide In can be triggered after a certain amount of <strong>Time</strong>, when user <strong>Scrolls</strong> pass an element, on <strong>Click</strong>, if user tries to <strong>Leave</strong> or if we detect <strong>AdBlock</strong>", Opt_In::TEXT_DOMAIN); ?></p>
+							<p><?php _e("Slide-in can be triggered after a certain amount of <strong>Time</strong>, when user <strong>Scrolls</strong> pass an element, on <strong>Click</strong>, if user tries to <strong>Leave</strong> or if we detect <strong>AdBlock</strong>", Opt_In::TEXT_DOMAIN); ?></p>
 
 							<section class="wph-trigger" id="triggers-section-slide_in"></section>
 
@@ -409,7 +426,7 @@
 
 						<div id="wph-optin--slidein_options">
 
-							<h4><?php _e('After user closes Slide In', Opt_In::TEXT_DOMAIN); ?></h4>
+							<h4><?php _e('After user closes Slide-in', Opt_In::TEXT_DOMAIN); ?></h4>
 
 							<div id="wph-optin--additional_settings">
 
@@ -443,7 +460,7 @@
 
 								<div class="wph-label--radio">
 
-									<label for="wpoi-slidein-hide"><?php _e("Hide all slide in messages for user", Opt_In::TEXT_DOMAIN); ?></label>
+									<label for="wpoi-slidein-hide"><?php _e("Hide all slide-in messages for user", Opt_In::TEXT_DOMAIN); ?></label>
 
 									<div class="wph-input--radio">
 
@@ -457,7 +474,7 @@
 
 							</div>
 
-						</div><!-- After user closes Slide In -->
+						</div><!-- After user closes Slide-in -->
 
 						<div id="wph-optin--expiricy">
 
@@ -495,7 +512,7 @@
 
 						<div id="wph-optin--slidein_position">
 
-							<h4><?php _e('Slide In Position', Opt_In::TEXT_DOMAIN); ?></h4>
+							<h4><?php _e('Slide-in Position', Opt_In::TEXT_DOMAIN); ?></h4>
 
 							<label id="wpoi-slide_in-position-label">{{slide_in.position_label}}</label>
 
@@ -585,7 +602,7 @@
 
 					<header class="can-open display-settings-icon">
 
-						<h2 class="tl icon slidein slide_in"><?php _e('Slide In', Opt_In::TEXT_DOMAIN); ?></h2>
+						<h2 class="tl icon slidein slide_in"><?php _e('Slide-in', Opt_In::TEXT_DOMAIN); ?></h2>
 
 						<div class="wpoi-toggle-mask">
 
@@ -621,7 +638,7 @@
 
 									<header>
 
-										<h6 class="tl"><?php _e("Slide In Trigger Conditions", Opt_In::TEXT_DOMAIN); ?></h6>
+										<h6 class="tl"><?php _e("Slide-in Trigger Conditions", Opt_In::TEXT_DOMAIN); ?></h6>
 
 									</header>
 
@@ -637,7 +654,7 @@
 
 									<header>
 
-										<h6 class="tl"><?php _e("After user closes Slide In", Opt_In::TEXT_DOMAIN); ?></h6>
+										<h6 class="tl"><?php _e("After user closes Slide-in", Opt_In::TEXT_DOMAIN); ?></h6>
 
 									</header>
 
@@ -760,7 +777,7 @@
 
 										<div class="wpoi-conditions-block wpoi-conditions-met">
 
-											<label><?php _e("Show this Slide In if the following conditions are met:", Opt_In::TEXT_DOMAIN); ?></label>
+											<label><?php _e("Show this Slide-in if the following conditions are met:", Opt_In::TEXT_DOMAIN); ?></label>
 
 											<div class="wpoi-conditions-list wpoi-condition-items"></div>
 
@@ -777,7 +794,7 @@
 
 				</div>
 
-		</li><!-- End Slide In Settings -->
+		</li><!-- End Slide-in Settings -->
 
 </script>
 

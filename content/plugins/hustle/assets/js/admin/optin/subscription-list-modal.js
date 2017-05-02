@@ -6,6 +6,7 @@ Hustle.define("Optin.Subscription_List_Modal", function($){
     return  Backbone.View.extend({
         id: "wpoi-emails-list-modal",
         template: Optin.template("wpoi-emails-list-modal-tpl"),
+		list_header_template: Optin.template( 'wpoi-email-list-header-tpl' ),
         list_template: Optin.template("wpoi-emails-list-tpl"),
         show_delay: 350,
         events: {
@@ -18,7 +19,7 @@ Hustle.define("Optin.Subscription_List_Modal", function($){
         },
         render: function(){
             var self = this,
-                html = this.template( this.model);
+                html = this.template(this.model);
 
             html = html.replace("__id", this.model.id); // add the id to the export csv link
             this.$el.html( html );
@@ -38,7 +39,20 @@ Hustle.define("Optin.Subscription_List_Modal", function($){
 
             view_email_list_cache[this.model.id].then(function(res){
                 if( res.success ){
-                    var content = self.list_template( { subscriptions: res.data.subscriptions  });
+					var module_fields = res.data.module_fields,
+						fields = [];
+
+					if ( ! self.model.module_fields.length ) {
+						self.model.module_fields = module_fields;
+						self.$('.wpoi-emails-list-header').html( self.list_header_template({ module_fields: module_fields }));
+
+						// We only need the name and label in listing template
+						_.each( module_fields, function( field ) {
+							fields.push( {name: field.name, label: field.label} );
+						});
+					}
+ 
+                    var content = self.list_template( { subscriptions: res.data.subscriptions, module_fields: fields  });
 
                     self.$("#wpoi-emails-list-content").html( content );
                     self.show();

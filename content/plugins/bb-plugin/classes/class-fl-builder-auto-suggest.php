@@ -107,55 +107,64 @@ final class FLBuilderAutoSuggest {
 	 *
 	 * @since 1.2.3
 	 * @return array
-	 */	 
+	 */
 	static public function posts()
 	{
 		global $wpdb;
-		
-		$data	= array();		
+
+		$data	= array();
 		$like	= self::get_like();
 		$type	= esc_sql($_REQUEST['fl_as_action_data']);
-		
-		$posts	= $wpdb->get_results("
-			SELECT ID, post_title FROM {$wpdb->posts} 
-			WHERE post_title LIKE '%{$like}%'
-			AND post_type = '{$type}'
+
+		$posts	= $wpdb->get_results( $wpdb->prepare( "
+			SELECT ID, post_title FROM {$wpdb->posts}
+			WHERE post_title LIKE %s
+			AND post_type = %s
 			AND post_status = 'publish'
-		");
-		
+		", '%' . $like . '%', $type ) );
+
 		foreach($posts as $post) {
 			$data[] = array('name' => $post->post_title, 'value' => $post->ID);
 		}
-		
+
 		return $data;
 	}
-	
+
 	/**
 	 * Returns data for selected posts.
 	 *
 	 * @since 1.2.3
 	 * @param string $ids The selected post ids.
 	 * @return array An array of post data.
-	 */	 
+	 */
 	static public function posts_value($ids)
 	{
 		global $wpdb;
-		
+
 		$data = array();
-		
-		if(!empty($ids)) {
-			
-			$ids = implode(",", array_filter(explode(",", $ids), 'intval'));
-			$posts = $wpdb->get_results("SELECT ID, post_title FROM {$wpdb->posts} WHERE ID IN ({$ids}) ORDER BY FIELD(ID, {$ids})");
-			
+
+		if( ! empty( $ids ) ) {
+
+			$order = implode(",", array_filter(explode(",", $ids), 'intval'));
+			$list = explode( ',', $ids );
+			$how_many = count($list);
+			$placeholders = array_fill(0, $how_many, '%d');
+			$format = implode(', ', $placeholders);
+
+			$query = "SELECT ID, post_title FROM {$wpdb->posts} WHERE ID IN ($format) ORDER BY FIELD(ID, $order)";
+
+			// @codingStandardsIgnoreStart
+			$posts = $wpdb->get_results( $wpdb->prepare( $query, $list ) );
+			// @codingStandardsIgnoreEnd
+
 			foreach($posts as $post) {
 				$data[] = array('name' => $post->post_title, 'value' => $post->ID);
 			}
 		}
-		
+
 		return $data;
 	}
-	
+
 	/**
 	 * Returns data for term auto suggest queries.
 	 *
@@ -210,47 +219,55 @@ final class FLBuilderAutoSuggest {
 	 *
 	 * @since 1.2.3
 	 * @return array
-	 */	 
+	 */
 	static public function users()
 	{
 		global $wpdb;
-		
+
 		$data  = array();
 		$like  = self::get_like();
-		$users = $wpdb->get_results("SELECT * FROM {$wpdb->users} WHERE user_login LIKE '%{$like}%'");
-		
+		$users = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE user_login LIKE %s", '%' . $like . '%' ) );
+
 		foreach($users as $user) {
 			$data[] = array('name' => $user->user_login, 'value' => $user->ID);
 		}
-		
+
 		return $data;
 	}
-	
+
 	/**
 	 * Returns data for selected users.
 	 *
 	 * @since 1.2.3
 	 * @param string $ids The selected user ids.
 	 * @return array An array of user data.
-	 */	 
+	 */
 	static public function users_value($ids)
 	{
 		global $wpdb;
-		
+
 		$data = array();
-		
+
 		if(!empty($ids)) {
-		
-			$users = $wpdb->get_results("SELECT * FROM {$wpdb->users} WHERE ID IN ({$ids})");
-			
+
+			$list = explode( ',', $ids );
+			$how_many = count($list);
+			$placeholders = array_fill(0, $how_many, '%d');
+			$format = implode(', ', $placeholders);
+
+			$query = "SELECT * FROM {$wpdb->users} WHERE ID IN ($format)";
+
+			// @codingStandardsIgnoreStart
+			$users = $wpdb->get_results( $wpdb->prepare( $query, $list ) );
+			// @codingStandardsIgnoreEnd
+
 			foreach($users as $user) {
 				$data[] = array('name' => $user->user_login, 'value' => $user->ID);
 			}
 		}
-		
 		return $data;
 	}
-	
+
 	/**
 	 * Returns data for link auto suggest queries.
 	 *
@@ -269,18 +286,23 @@ final class FLBuilderAutoSuggest {
 		foreach($types as $slug => $type) {
 			$slugs[] = esc_sql($slug);
 		}
-		
-		$posts	= $wpdb->get_results("
-			SELECT ID, post_title FROM {$wpdb->posts} 
-			WHERE post_title LIKE '%{$like}%'
-			AND post_type IN ('" . implode("','", $slugs) . "')
-			AND post_status = 'publish'
-		");
-		
+
+		// we cant use an array of arrays for prepare() so use sprintf 1st.
+		$query = sprintf( "SELECT ID, post_title FROM {$wpdb->posts}
+			WHERE post_title LIKE %%s
+			AND post_type IN ('%s')
+			AND post_status = 'publish'",
+			implode("', '", $slugs)
+		);
+
+		// @codingStandardsIgnoreStart
+		$posts = $wpdb->get_results( $wpdb->prepare( $query, '%' . esc_sql( $like ) . '%' ) );
+		// @codingStandardsIgnoreEnd
+
 		foreach($posts as $post) {
 			$data[] = array('name' => $post->post_title, 'value' => get_permalink($post->ID));
 		}
-		
+
 		return $data;
 	}
 }

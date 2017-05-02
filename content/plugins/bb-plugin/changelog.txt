@@ -1,3 +1,71 @@
+<h4>1.10.1 - 4/25/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed issue with super admins on multisite that aren't admins of a site not being able to use the full builder.</li>
+</ul>
+
+<h4>1.10 - 04/24/2017</h4>
+<p><strong>General Enhancements</strong></p>
+<ul>
+	<li>Added User Access settings to the Page Builder admin settings for choosing which user roles can access certain features.</li>
+	<li>Saved rows and modules can now be created via the Builder admin menu (formerly Templates admin menu).</li>
+	<li>Templates, saved rows and saved modules now have their on individual pages in the admin.</li>
+	<li>Added caching for registering templates to prevent issues with servers that have low memory.</li>
+	<li>Changed priority of UI script loading to try and prevent issues with themes that load scripts that should be loaded from WordPress core.</li>
+	<li>Added field connections to video module embed field.</li>
+	<li>Added the ability to order posts in the post modules by meta value.</li>
+	<li>Paged post modules are now scrolled to when clicking a link to the next page.</li>
+	<li>Added Enormail integration to the Subscribe Form module.</li>
+	<li>Multiple calls to Google Fonts from the theme and plugin are now combined into one request.</li>
+	<li>Added connections to Number Counter module fields.</li>
+	<li>Added fl_builder_loop_query filter.</li>
+	<li>Removed the loading graphic when saving settings. Elements are now slightly faded until they are updated.</li>
+	<li>Module and row duplicating is now instantaneous instead of having to wait with a loading graphic.</li>
+	<li>All drag and drop operations now load inline instead of taking over the page with a loader.</li>
+	<li>Added module name to the module settings overlay tooltip.</li>
+	<li>Added custom field connections to Contact Form module email field.</li>
+	<li>Added support for exporting a single theme layout or a group of theme layouts.</li>
+	<li>Added support for theme layouts to the template data exporter.</li>
+</ul>
+<p><strong>Post Module Enhancements</strong></p>
+<ul>
+	<li>Added “columns” layout to the layout setting.</li>
+	<li>Added more layout and styling settings.</li>
+	<li>The “no results” message is now shown when no posts are found.</li>
+	<li>Added a setting to show a search form if no posts are found.</li>
+	<li>Added the ability to exclude posts in the content filter for the query.</li>
+</ul>
+<p><strong>Menu Module Enhancements</strong></p>
+<ul>
+	<li>Added “below row" option for mobile menu position.</li>
+	<li>Added font family setting.</li>
+	<li>Misc CSS improvements.</li>
+</ul>
+<p><strong>Changes</strong></p>
+<ul>
+	<li>Changed Templates to Builder in the admin menu.</li>
+	<li>Merged Uninstall and Cache into Tools in the Page Builder admin settings.</li>
+	<li>Removed Editing section in the Page Builder admin settings in favor of the new User Access settings.</li>
+	<li>Removed Templates Admin setting in the Page Builder admin settings in favor of the new User Access settings.</li>
+	<li>Removed Template Data Exporter setting in the Page Builder admin settings in favor of the new User Access settings.</li>
+	<li>Changed edit button text on the admin edit screen for templates to say Launch Page Builder.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed the builder layout shortcode not working with Beaver Themer.</li>
+	<li>Fixed some photos not going full-width on mobile.</li>
+	<li>Fixed pre-instantiated widgets not working.</li>
+	<li>Fixed anchor links in the theme header causing the builder done actions to show.</li>
+	<li>Fixed multisite issues with render query.</li>
+	<li>Fixed post list spacing not working when using a custom post layout.</li>
+	<li>Fixed layout JS breaking when you save a JS array in the code field.</li>
+	<li>Fixed color picker alpha slider.</li>
+	<li>Fixed parallax background position being applied to child rows inserted using a shortcode.</li>
+	<li>Fixed unescaped attributes in the heading module causing HTML errors.</li>
+	<li>Fixed fatal error when inserting layouts via shortcode in certain cases.</li>
+	<li>Fixed PHP warning when first dropping a post module on the page.</li>
+</ul>
+
 <h4>1.9.5.3 - 4/4/2017</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>

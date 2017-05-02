@@ -15,6 +15,8 @@
 			cookie_key += this.optin_id;
 
 			var opt_cookie_never_see = Optin.cookie.get( cookie_key );
+            
+            this.add_mask = _.noop;
 
 			if ( ! opt_cookie_never_see ) {
 				// Check cookie prefix
@@ -47,7 +49,9 @@
 		},
 
 		onShow: function() {
-			this.mask.removeClass('wpoi-show');
+            if ( this.mask ) {
+                this.mask.removeClass('wpoi-show');
+            }
 
 			if( _.isTrue( this.settings.hide_after ) ) {
                 var me = this;
@@ -66,7 +70,7 @@
 		onHide: function() {
 			var should_remove = false;
 
-			if ( 'hide_all' === this.after_close ) {
+			if ( 'hide_all' === this.settings.after_close ) {
 				Optin.cookie.set( Optin.SLIDE_IN_COOKIE_HIDE_ALL, this.optin_id, 30 );
 				should_remove = true;
 			}
@@ -77,7 +81,9 @@
 
 			if ( should_remove ) {
 				// Remove completely
-				this.mask.remove();
+                if ( this.mask ) {
+                    this.mask.remove();
+                }
 				this.remove();
 			}
 		},

@@ -21,7 +21,7 @@
 
 					$new_welcome_notice_dismissed = (bool) get_option( "hustle_new_welcome_notice_dismissed", false );
 
-					if ( !( (bool) $data->active_modules ) && !$new_welcome_notice_dismissed ) : ?>
+					if ( !( (bool) $data->all_modules ) && !$new_welcome_notice_dismissed ) : ?>
 
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -31,7 +31,7 @@
 
 				<?php endif; ?>
 
-				<?php if ( $data->active_modules ) : ?>
+				<?php if ( $data->all_modules ) : ?>
 
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -55,11 +55,11 @@
 
 			<div class="row">
 
-				<?php if ( !$data->active_modules ) : ?>
+				<?php if ( (!$data->all_modules) ) : ?>
 
 					<section class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
-						<?php if ( ( count($data->optins) > 0 ) && ( count($data->custom_contents) > 0 ) ) { ?>
+						<?php if ( $data->all_modules ) { ?>
 
 							<?php
 							$this->render( "admin/dashboard/widget-module-edit", array(
@@ -71,19 +71,22 @@
 								"inactive_cc" => $data->inactive_cc_modules,
 							) ); ?>
 
-						<?php } else { ?>
+						<?php } ?>
 
-							<?php $this->render("admin/dashboard/widget-module-setup", array( 'has_optins' => $has_optins, 'has_custom_content' => $has_custom_content, 'has_social_sharing' => $has_social_sharing, 'has_social_rewards' => $has_social_rewards ) ); ?>
-
-						<?php }?>
+						<?php $this->render("admin/dashboard/widget-module-setup", array( 'has_optins' => $has_optins, 'has_custom_content' => $has_custom_content, 'has_social_sharing' => $has_social_sharing, 'has_social_rewards' => $has_social_rewards ) ); ?>
 
 					</section>
 
-					<section class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+					<?php if ( count($data->social_sharing) > 0 ) : ?>
 
-						<?php $this->render("admin/dashboard/widget-conversion-tracking"); ?>
+                        <section class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <?php $this->render("admin/dashboard/widget-sshare-stats", array(
+                                "ss_share_stats" => $data->ss_share_stats_data
+                            )); ?>
 
-					</section>
+                        </section>
+
+                    <?php endif; ?>
 
 				<?php else : ?>
 
@@ -99,15 +102,21 @@
 							"inactive_cc" => $data->inactive_cc_modules,
 						) ); ?>
 
+						<?php $this->render("admin/dashboard/widget-module-setup", array( 'has_optins' => $has_optins, 'has_custom_content' => $has_custom_content, 'has_social_sharing' => $has_social_sharing, 'has_social_rewards' => $has_social_rewards ) ); ?>
+
 					</section>
 
-					<!--<section class="col-xs-12 col-sm-12 col-md-6 col-lg-6">-->
+					<?php if ( count($data->social_sharing) > 0 ) : ?>
 
-						<?php //$this->render("admin/dashboard/widget-conversion-report"); ?>
+                        <section class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
-						<?php //$this->render("admin/dashboard/widget-conversion-tracking"); ?>
+                            <?php $this->render("admin/dashboard/widget-sshare-stats", array(
+                                "ss_share_stats" => $data->ss_share_stats_data
+                            )); ?>
 
-					<!--</section>-->
+                        </section>
+
+                    <?php endif; ?>
 
 				<?php endif; ?>
 
@@ -118,3 +127,8 @@
 	</div>
 
 </div>
+
+<?php $this->render("admin/dashboard/widget-sshare-stats-modal", array(
+    "ss_share_stats" => $data->ss_share_stats_data,
+    "total_stats" => $data->ss_total_share_stats
+)); ?>

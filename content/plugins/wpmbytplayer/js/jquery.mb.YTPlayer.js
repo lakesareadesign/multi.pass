@@ -26,6 +26,8 @@ function onYouTubeIframeAPIReady() {
 	jQuery( document ).trigger( "YTAPIReady" );
 }
 
+//window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+
 var getYTPVideoID = function( url ) {
 	var videoID, playlistID;
 	if( url.indexOf( "youtu.be" ) > 0 ) {
@@ -50,13 +52,13 @@ var getYTPVideoID = function( url ) {
 
 	jQuery.mbYTPlayer = {
 		name: "jquery.mb.YTPlayer",
-		version: "3.0.11",
-		build: "6092",
+		version: "3.0.16",
+		build: "6209",
 		author: "Matteo Bicocchi (pupunzi)",
 		apiKey: "",
 		defaults: {
 			containment: "body",
-			ratio: "auto", // "auto", "16/9", "4/3"
+			ratio: "auto", // "auto", "16/9", "4/3" or number: 4/3, 16/9
 			videoURL: null,
 			playlistURL: null,
 			startAt: 0,
@@ -69,6 +71,7 @@ var getYTPVideoID = function( url ) {
 			quality: "default", //or “small”, “medium”, “large”, “hd720”, “hd1080”, “highres”
 			mute: false,
 			loop: true,
+			fadeOnStartTime: 500, //fade in timing at video start
 			showControls: true,
 			showAnnotations: false,
 			showYTLogo: true,
@@ -77,7 +80,8 @@ var getYTPVideoID = function( url ) {
 			mobileFallbackImage: null,
 			gaTrack: true,
 			optimizeDisplay: true,
-			anchor: "center,center", // top,bottom,left,right
+			remember_last_time: false,
+			anchor: "center,center", // top,bottom,left,right combined in pair
 			onReady: function( player ) {},
 			onError: function( player, err ) {}
 		},
@@ -96,6 +100,7 @@ var getYTPVideoID = function( url ) {
 		controlBar: null,
 		loading: null,
 		locationProtocol: "https:",
+
 		filters: {
 			grayscale: {
 				value: 0,
@@ -173,19 +178,24 @@ var getYTPVideoID = function( url ) {
 					}
 					return isIfr;
 				};
+
 				YTPlayer.canGoFullScreen = !( jQuery.browser.msie || jQuery.browser.opera || isIframe() );
 				if( !YTPlayer.canGoFullScreen ) YTPlayer.opt.realfullscreen = false;
 				if( !$YTPlayer.attr( "id" ) ) $YTPlayer.attr( "id", "ytp_" + new Date().getTime() );
-				var playerID = "mbYTP_" + YTPlayer.id;
+				var playerID = "iframe_" + YTPlayer.id;
 				YTPlayer.isAlone = false;
 				YTPlayer.hasFocus = true;
 				YTPlayer.videoID = this.opt.videoURL ? getYTPVideoID( this.opt.videoURL ).videoID : $YTPlayer.attr( "href" ) ? getYTPVideoID( $YTPlayer.attr( "href" ) ).videoID : false;
 				YTPlayer.playlistID = this.opt.videoURL ? getYTPVideoID( this.opt.videoURL ).playlistID : $YTPlayer.attr( "href" ) ? getYTPVideoID( $YTPlayer.attr( "href" ) ).playlistID : false;
-				/*
-				 YTPlayer.videoID = videoID;
-				 YTPlayer.playlistID = playlistID;
-				 */
-				YTPlayer.opt.showAnnotations = YTPlayer.opt.showAnnotations ? '0' : '3';
+
+				YTPlayer.opt.showAnnotations = YTPlayer.opt.showAnnotations ? '1' : '3';
+
+				var start_from_last = parseFloat( jQuery.mbCookie.get( "YTPlayer_" + YTPlayer.videoID ) );
+
+				if( YTPlayer.opt.remember_last_time && start_from_last ) {
+					YTPlayer.start_from_last = start_from_last;
+					jQuery.mbCookie.remove( "YTPlayer_" + YTPlayer.videoID );
+				}
 
 				var playerVars = {
 					'modestbranding': 1,
@@ -219,6 +229,9 @@ var getYTPVideoID = function( url ) {
 				YTPlayer.canPlayOnMobile = isPlayer && jQuery( this ).children().length === 0;
 				YTPlayer.isPlayer = false;
 
+				/**
+				 * Hide the placeholder if it's not the target of the player
+				 */
 				if( !isPlayer ) {
 					$YTPlayer.hide();
 				} else {
@@ -239,7 +252,7 @@ var getYTPVideoID = function( url ) {
 					} )
 				}
 
-				var wrapper = jQuery( "<div/>" ).addClass( "mbYTP_wrapper" ).attr( "id", "wrapper_" + playerID );
+				var wrapper = jQuery( "<div/>" ).addClass( "mbYTP_wrapper" ).attr( "id", "wrapper_" + YTPlayer.id );
 				wrapper.css( {
 					position: "absolute",
 					zIndex: 0,
@@ -404,6 +417,22 @@ var getYTPVideoID = function( url ) {
 										$YTPlayer.optimizeDisplay();
 									} );
 
+									if( YTPlayer.opt.remember_last_time ) {
+
+										jQuery( window ).on( "unload.YTP_" + YTPlayer.id, function() {
+											var current_time = YTPlayer.player.getCurrentTime();
+
+											/*
+											 console.debug( "UNLOAD" );
+											 console.debug( "YTPlayer.videoID:: ", YTPlayer.videoID );
+											 console.debug( "YTPlayer_" + YTPlayer.videoID + ":: ", current_time );
+											 */
+
+											jQuery.mbCookie.set( "YTPlayer_" + YTPlayer.videoID, current_time, 1 );
+										} );
+
+									}
+
 									jQuery.mbYTPlayer.checkForState( YTPlayer );
 								},
 								/**
@@ -523,6 +552,7 @@ var getYTPVideoID = function( url ) {
 
 					if( YTPlayer.isPlayer && !YTPlayer.opt.autoPlay ) {
 						var bgndURL = YTPlayer.videoData.thumb_max || YTPlayer.videoData.thumb_high || YTPlayer.videoData.thumb_medium;
+
 						YTPlayer.opt.containment.css( {
 							background: "rgba(0,0,0,0.5) url(" + bgndURL + ") center center",
 							backgroundSize: "cover"
@@ -542,7 +572,7 @@ var getYTPVideoID = function( url ) {
 					YTPData.prop = {};
 					for( var x in YTPlayer.videoData ) YTPData.prop[ x ] = YTPlayer.videoData[ x ];
 					jQuery( YTPlayer ).trigger( YTPData );
-				}, 500 );
+				}, YTPlayer.opt.fadeOnStartTime );
 
 				YTPlayer.hasData = true;
 			} else if( jQuery.mbYTPlayer.apiKey ) {
@@ -579,11 +609,14 @@ var getYTPVideoID = function( url ) {
 				}, 50 );
 				if( YTPlayer.isPlayer && !YTPlayer.opt.autoPlay ) {
 					var bgndURL = jQuery.mbYTPlayer.locationProtocol + "//i.ytimg.com/vi/" + YTPlayer.videoID + "/hqdefault.jpg";
-					YTPlayer.opt.containment.css( {
-						background: "rgba(0,0,0,0.5) url(" + bgndURL + ") center center",
-						backgroundSize: "cover"
-					} );
+
+					if( bgndURL )
+						YTPlayer.opt.containment.css( {
+							background: "rgba(0,0,0,0.5) url(" + bgndURL + ") center center",
+							backgroundSize: "cover"
+						} );
 					YTPlayer.opt.backgroundUrl = bgndURL;
+
 				}
 				YTPlayer.videoData = null;
 				YTPlayer.opt.ratio = YTPlayer.opt.ratio == "auto" ? "16/9" : YTPlayer.opt.ratio;
@@ -739,7 +772,7 @@ var getYTPVideoID = function( url ) {
 
 			jQuery( YTPlayer.playerEl ).CSSAnimate( {
 				opacity: 0
-			}, 200, function() {
+			}, YTPlayer.opt.fadeOnStartTime, function() {
 
 				var YTPChangeMovie = jQuery.Event( "YTPChangeMovie" );
 				YTPChangeMovie.time = YTPlayer.currentTime;
@@ -803,7 +836,7 @@ var getYTPVideoID = function( url ) {
 						videoWrapper.removeClass( "YTPFullscreen" );
 						videoWrapper.CSSAnimate( {
 							opacity: YTPlayer.opt.opacity
-						}, 500 );
+						}, YTPlayer.opt.fadeOnStartTime );
 						videoWrapper.css( {
 							zIndex: 0
 						} );
@@ -844,16 +877,16 @@ var getYTPVideoID = function( url ) {
 					setTimeout( function() {
 						videoWrapper.CSSAnimate( {
 							opacity: 1
-						}, 1000 );
+						}, YTPlayer.opt.fadeOnStartTime * 2 );
 						YTPlayer.wrapper.append( controls );
 						jQuery( YTPlayer ).optimizeDisplay();
 						YTPlayer.player.seekTo( YTPlayer.player.getCurrentTime() + .1, true );
-					}, 500 )
+					}, YTPlayer.opt.fadeOnStartTime )
 				} else videoWrapper.css( {
 					zIndex: 10000
 				} ).CSSAnimate( {
 					opacity: 1
-				}, 1000 );
+				}, YTPlayer.opt.fadeOnStartTime * 2 );
 				fullScreenBtn.html( jQuery.mbYTPlayer.controls.showSite );
 				YTPlayer.isAlone = true;
 			} else {
@@ -867,7 +900,7 @@ var getYTPVideoID = function( url ) {
 				} else {
 					videoWrapper.CSSAnimate( {
 						opacity: YTPlayer.opt.opacity
-					}, 500 );
+					}, YTPlayer.opt.fadeOnStartTime );
 					videoWrapper.css( {
 						zIndex: 0
 					} );
@@ -938,18 +971,18 @@ var getYTPVideoID = function( url ) {
 			YTPlayer.player.playVideo();
 			YTPlayer.wrapper.CSSAnimate( {
 				opacity: YTPlayer.isAlone ? 1 : YTPlayer.opt.opacity
-			}, 2000 );
+			}, YTPlayer.opt.fadeOnStartTime * 4 );
 
 			jQuery( YTPlayer.playerEl ).CSSAnimate( {
 				opacity: 1
-			}, 1000 );
+			}, YTPlayer.opt.fadeOnStartTime * 2 );
 
 			var controls = jQuery( "#controlBar_" + YTPlayer.id );
 			var playBtn = controls.find( ".mb_YTPPlaypause" );
 			playBtn.html( jQuery.mbYTPlayer.controls.pause );
 			YTPlayer.state = 1;
+			YTPlayer.orig_background = jQuery( YTPlayer ).css( "background-image" );
 
-			jQuery( YTPlayer ).css( "background-image", "none" );
 			return this;
 		},
 		/**
@@ -1230,7 +1263,7 @@ var getYTPVideoID = function( url ) {
 
 				overlay.CSSAnimate( {
 					opacity: 0
-				}, 500, function() {
+				}, YTPlayer.opt.fadeOnStartTime, function() {
 
 					YTPlayer.hasMask = true;
 
@@ -1245,7 +1278,7 @@ var getYTPVideoID = function( url ) {
 
 					overlay.CSSAnimate( {
 						opacity: 1
-					}, 500 );
+					}, YTPlayer.opt.fadeOnStartTime );
 
 				} );
 
@@ -1263,7 +1296,7 @@ var getYTPVideoID = function( url ) {
 			var overlay = YTPlayer.overlay;
 			overlay.CSSAnimate( {
 				opacity: 0
-			}, 500, function() {
+			}, YTPlayer.opt.fadeOnStartTime, function() {
 
 				YTPlayer.hasMask = false;
 
@@ -1275,7 +1308,7 @@ var getYTPVideoID = function( url ) {
 				} );
 				overlay.CSSAnimate( {
 					opacity: 1
-				}, 500 );
+				}, YTPlayer.opt.fadeOnStartTime );
 
 			} );
 
@@ -1479,7 +1512,9 @@ var getYTPVideoID = function( url ) {
 				var prog = jQuery( YTPlayer ).YTPManageProgress();
 				var $YTPlayer = jQuery( YTPlayer );
 				var data = YTPlayer.opt;
-				var startAt = YTPlayer.opt.startAt ? YTPlayer.opt.startAt : 1;
+				var startAt = YTPlayer.opt.startAt ? YTPlayer.start_from_last ? YTPlayer.start_from_last : YTPlayer.opt.startAt : 1;
+				YTPlayer.start_from_last = null;
+
 				var stopAt = YTPlayer.opt.stopAt > YTPlayer.opt.startAt ? YTPlayer.opt.stopAt : 0;
 				stopAt = stopAt < YTPlayer.player.getDuration() ? stopAt : 0;
 				if( YTPlayer.currentTime != prog.currentTime ) {
@@ -1522,7 +1557,7 @@ var getYTPVideoID = function( url ) {
 					YTPlayer.isCompact = false;
 					if( !YTPlayer.isMute && YTPlayer.volumeBar ) YTPlayer.volumeBar.updateSliderVal( YTPlayer.opt.vol );
 				}
-				if( YTPlayer.player.getPlayerState() == 1 && ( parseFloat( YTPlayer.player.getDuration() - 1.5 ) < YTPlayer.player.getCurrentTime() || ( stopAt > 0 && parseFloat( YTPlayer.player.getCurrentTime() ) > stopAt ) ) ) {
+				if( YTPlayer.player.getPlayerState() == 1 && ( parseFloat( YTPlayer.player.getDuration() - .5 ) < YTPlayer.player.getCurrentTime() || ( stopAt > 0 && parseFloat( YTPlayer.player.getCurrentTime() ) > stopAt ) ) ) {
 					if( YTPlayer.isEnded ) return;
 					YTPlayer.isEnded = true;
 					setTimeout( function() {
@@ -1539,7 +1574,6 @@ var getYTPVideoID = function( url ) {
 							YTPEnd.time = YTPlayer.currentTime;
 							jQuery( YTPlayer ).trigger( YTPEnd );
 							//YTPlayer.state = 0;
-
 							return;
 						}
 
@@ -1552,7 +1586,7 @@ var getYTPVideoID = function( url ) {
 
 						YTPlayer.wrapper.CSSAnimate( {
 							opacity: 0
-						}, 500, function() {
+						}, YTPlayer.opt.fadeOnStartTime, function() {
 
 							if( YTPlayer.controlBar.length )
 								YTPlayer.controlBar.find( ".mb_YTPPlaypause" ).html( jQuery.mbYTPlayer.controls.play );
@@ -1563,10 +1597,16 @@ var getYTPVideoID = function( url ) {
 
 							YTPlayer.player.seekTo( startAt, true );
 							if( !YTPlayer.isBackground ) {
-								YTPlayer.opt.containment.css( {
-									background: "rgba(0,0,0,0.5) url(" + YTPlayer.opt.backgroundUrl + ") center center",
-									backgroundSize: "cover"
-								} );
+								if( YTPlayer.opt.backgroundUrl && YTPlayer.isPlayer ) {
+									YTPlayer.opt.backgroundUrl = YTPlayer.opt.backgroundUrl || YTPlayer.orig_background;
+									YTPlayer.opt.containment.css( {
+										background: "url(" + YTPlayer.opt.backgroundUrl + ") center center",
+										backgroundSize: "cover"
+									} );
+								}
+							} else {
+								if( YTPlayer.orig_background )
+									jQuery( YTPlayer ).css( "background-image", YTPlayer.orig_background );
 							}
 						} );
 
@@ -1616,11 +1656,6 @@ var getYTPVideoID = function( url ) {
 				return
 			}
 
-			/*
-			 if( jQuery.browser.chrome )
-			 YTPlayer.opt.quality = "default";
-			 */
-
 			YTPlayer.preventTrigger = true;
 			YTPlayer.state = 2;
 			jQuery( YTPlayer ).YTPPause();
@@ -1658,7 +1693,9 @@ var getYTPVideoID = function( url ) {
 
 			}
 
-			var startAt = YTPlayer.opt.startAt ? YTPlayer.opt.startAt : 1;
+			var startAt = YTPlayer.opt.startAt ? YTPlayer.start_from_last ? YTPlayer.start_from_last : YTPlayer.opt.startAt : 1;
+			YTPlayer.start_from_last = null;
+
 			YTPlayer.player.playVideo();
 			YTPlayer.player.seekTo( startAt, true );
 
@@ -1698,7 +1735,6 @@ var getYTPVideoID = function( url ) {
 						YTPStart.time = YTPlayer.currentTime;
 						jQuery( YTPlayer ).trigger( YTPStart );
 
-						$YTPlayer.css( "background-image", "none" );
 						jQuery( YTPlayer.playerEl ).CSSAnimate( {
 							opacity: 1
 						}, 1000 );
@@ -1707,13 +1743,13 @@ var getYTPVideoID = function( url ) {
 
 						YTPlayer.wrapper.CSSAnimate( {
 							opacity: YTPlayer.isAlone ? 1 : YTPlayer.opt.opacity
-						}, 1000 );
+						}, YTPlayer.opt.fadeOnStartTime * 2 );
 
 						/* Fix for Safari freeze */
-						if( jQuery.browser.safari ) {
+
+						if( jQuery.browser.safari && jQuery.browser.versionCompare( jQuery.browser.fullVersion, "10.1" ) < 0 ) { //jQuery.browser.os.minor_version < 11
 
 							YTPlayer.safariPlay = setInterval( function() {
-
 								if( YTPlayer.state != 1 )
 									$YTPlayer.YTPPlay();
 								else
@@ -1731,11 +1767,11 @@ var getYTPVideoID = function( url ) {
 						if( !YTPlayer.isPlayer ) {
 							jQuery( YTPlayer.playerEl ).CSSAnimate( {
 								opacity: 1
-							}, 500 );
+							}, YTPlayer.opt.fadeOnStartTime );
 
 							YTPlayer.wrapper.CSSAnimate( {
 								opacity: YTPlayer.isAlone ? 1 : YTPlayer.opt.opacity
-							}, 500 );
+							}, YTPlayer.opt.fadeOnStartTime );
 						}
 
 						if( YTPlayer.controlBar.length )
@@ -1753,12 +1789,13 @@ var getYTPVideoID = function( url ) {
 					if( YTPlayer.controlBar && YTPlayer.controlBar.length )
 						YTPlayer.controlBar.slideDown( 1000 );
 
-				} else if( jQuery.browser.safari ) {
+				} else if( jQuery.browser.safari && jQuery.browser.versionCompare( jQuery.browser.fullVersion, "10.1" ) < 0 ) { //jQuery.browser.os.minor_version < 11
 					YTPlayer.player.playVideo();
-					if( startAt >= 0 ) YTPlayer.player.seekTo( startAt, true );
+					if( startAt >= 0 )
+						YTPlayer.player.seekTo( startAt, true );
 				}
 
-			}, 1 );
+			}, 10 );
 
 		},
 		/**
@@ -1767,7 +1804,6 @@ var getYTPVideoID = function( url ) {
 		 */
 		setAnchor: function( anchor ) {
 			var $YTplayer = this;
-
 			$YTplayer.optimizeDisplay( anchor );
 		},
 		/**
@@ -1815,10 +1851,13 @@ var getYTPVideoID = function( url ) {
 			win.width = el.outerWidth();
 			win.height = el.outerHeight() + abundance;
 
-			vid.width = win.width;
-			vid.height = YTPlayer.opt.ratio == "16/9" ? Math.ceil( vid.width * ( 9 / 16 ) ) : Math.ceil( vid.width * ( 3 / 4 ) );
+			YTPlayer.opt.ratio = eval( YTPlayer.opt.ratio );
 
-			vid.marginTop = -( ( vid.height - win.height ) / 2 );
+			vid.width = win.width;
+			//			vid.height = YTPlayer.opt.ratio == "16/9" ? Math.ceil( vid.width * ( 9 / 16 ) ) : Math.ceil( vid.width * ( 3 / 4 ) );
+			vid.height = Math.ceil( vid.width / YTPlayer.opt.ratio );
+
+			vid.marginTop = Math.ceil( -( ( vid.height - win.height ) / 2 ) );
 			vid.marginLeft = 0;
 
 			var lowest = vid.height < win.height;
@@ -1826,10 +1865,11 @@ var getYTPVideoID = function( url ) {
 			if( lowest ) {
 
 				vid.height = win.height;
-				vid.width = YTPlayer.opt.ratio == "16/9" ? Math.floor( vid.height * ( 16 / 9 ) ) : Math.floor( vid.height * ( 4 / 3 ) );
+				//				vid.width = YTPlayer.opt.ratio == "16/9" ? Math.floor( vid.height * ( 16 / 9 ) ) : Math.floor( vid.height * ( 4 / 3 ) );
+				vid.width = Math.ceil( vid.height * YTPlayer.opt.ratio );
 
 				vid.marginTop = 0;
-				vid.marginLeft = -( ( vid.width - win.width ) / 2 );
+				vid.marginLeft = Math.ceil( -( ( vid.width - win.width ) / 2 ) );
 
 			}
 
@@ -1911,7 +1951,6 @@ var getYTPVideoID = function( url ) {
 			} ).attr( "unselectable", "on" );
 		} );
 	};
-
 
 	/* Exposed public method */
 	jQuery.fn.YTPlayer = jQuery.mbYTPlayer.buildPlayer;
@@ -2033,7 +2072,18 @@ function uncamel(e){return e.replace(/([A-Z])/g,function(e){return"-"+e.toLowerC
  _ Copyright (c) 2001-2016. Matteo Bicocchi (Pupunzi);                                                                                              _
  ___________________________________________________________________________________________________________________________________________________*/
 
-var nAgt=navigator.userAgent;if(!jQuery.browser){jQuery.browser={},jQuery.browser.mozilla=!1,jQuery.browser.webkit=!1,jQuery.browser.opera=!1,jQuery.browser.safari=!1,jQuery.browser.chrome=!1,jQuery.browser.androidStock=!1,jQuery.browser.msie=!1,jQuery.browser.ua=nAgt,jQuery.browser.name=navigator.appName,jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion),jQuery.browser.majorVersion=parseInt(navigator.appVersion,10);var nameOffset,verOffset,ix;if(-1!=(verOffset=nAgt.indexOf("Opera")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+6),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8));else if(-1!=(verOffset=nAgt.indexOf("OPR")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+4);else if(-1!=(verOffset=nAgt.indexOf("MSIE")))jQuery.browser.msie=!0,jQuery.browser.name="Microsoft Internet Explorer",jQuery.browser.fullVersion=nAgt.substring(verOffset+5);else if(-1!=nAgt.indexOf("Trident")||-1!=nAgt.indexOf("Edge")){jQuery.browser.msie=!0,jQuery.browser.name="Microsoft Internet Explorer";var start=nAgt.indexOf("rv:")+3,end=start+4;jQuery.browser.fullVersion=nAgt.substring(start,end)}else-1!=(verOffset=nAgt.indexOf("Chrome"))?(jQuery.browser.webkit=!0,jQuery.browser.chrome=!0,jQuery.browser.name="Chrome",jQuery.browser.fullVersion=nAgt.substring(verOffset+7)):nAgt.indexOf("mozilla/5.0")>-1&&nAgt.indexOf("android ")>-1&&nAgt.indexOf("applewebkit")>-1&&!(nAgt.indexOf("chrome")>-1)?(verOffset=nAgt.indexOf("Chrome"),jQuery.browser.webkit=!0,jQuery.browser.androidStock=!0,jQuery.browser.name="androidStock",jQuery.browser.fullVersion=nAgt.substring(verOffset+7)):-1!=(verOffset=nAgt.indexOf("Safari"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("AppleWebkit"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("Firefox"))?(jQuery.browser.mozilla=!0,jQuery.browser.name="Firefox",jQuery.browser.fullVersion=nAgt.substring(verOffset+8)):(nameOffset=nAgt.lastIndexOf(" ")+1)<(verOffset=nAgt.lastIndexOf("/"))&&(jQuery.browser.name=nAgt.substring(nameOffset,verOffset),jQuery.browser.fullVersion=nAgt.substring(verOffset+1),jQuery.browser.name.toLowerCase()==jQuery.browser.name.toUpperCase()&&(jQuery.browser.name=navigator.appName));-1!=(ix=jQuery.browser.fullVersion.indexOf(";"))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix)),-1!=(ix=jQuery.browser.fullVersion.indexOf(" "))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix)),jQuery.browser.majorVersion=parseInt(""+jQuery.browser.fullVersion,10),isNaN(jQuery.browser.majorVersion)&&(jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion),jQuery.browser.majorVersion=parseInt(navigator.appVersion,10)),jQuery.browser.version=jQuery.browser.majorVersion}jQuery.browser.android=/Android/i.test(nAgt),jQuery.browser.blackberry=/BlackBerry|BB|PlayBook/i.test(nAgt),jQuery.browser.ios=/iPhone|iPad|iPod|webOS/i.test(nAgt),jQuery.browser.operaMobile=/Opera Mini/i.test(nAgt),jQuery.browser.windowsMobile=/IEMobile|Windows Phone/i.test(nAgt),jQuery.browser.kindle=/Kindle|Silk/i.test(nAgt),jQuery.browser.mobile=jQuery.browser.android||jQuery.browser.blackberry||jQuery.browser.ios||jQuery.browser.windowsMobile||jQuery.browser.operaMobile||jQuery.browser.kindle,jQuery.isMobile=jQuery.browser.mobile,jQuery.isTablet=jQuery.browser.mobile&&jQuery(window).width()>765,jQuery.isAndroidDefault=jQuery.browser.android&&!/chrome/i.test(nAgt);
+var nAgt=navigator.userAgent;
+if(!jQuery.browser){var isTouchSupported=function(){var a=nAgt.msMaxTouchPoints,e="ontouchstart"in document.createElement("div");return a||e?!0:!1};jQuery.browser={};jQuery.browser.mozilla=!1;jQuery.browser.webkit=!1;jQuery.browser.opera=!1;jQuery.browser.safari=!1;jQuery.browser.chrome=!1;jQuery.browser.androidStock=!1;jQuery.browser.msie=!1;jQuery.browser.edge=!1;var getOS=function(){var a={name:"Unknown OS"};-1!=navigator.appVersion.indexOf("Win")&&(a.name="Windows");-1!=navigator.appVersion.indexOf("Mac")&&
+(a.name="Mac");-1!=navigator.appVersion.indexOf("Linux")&&(a.name="Linux");a.version="Unknown version";/Mac OS X/.test(nAgt)&&(a.version=/Mac OS X (10[\.\_\d]+)/.exec(nAgt)[1],a.version=a.version.replace(/_/g,".").substring(0,5));/Windows NT 5.1/.test(nAgt)&&(a.version="5.1");/Windows NT 6.0/.test(nAgt)&&(a.version="6.0");/Windows NT 6.1/.test(nAgt)&&(a.version="6.1");/Windows NT 6.2/.test(nAgt)&&(a.version="6.2");/Windows NT 10.0/.test(nAgt)&&(a.version="10.0");/Linux/.test(nAgt)&&/Linux/.test(nAgt)&&
+(a.version=/Android ([\.\_\d]+)/.exec(nAgt)[1]);a.name=a.name.toLowerCase();a.major_version=parseFloat(a.version.split(".")[0]);a.minor_version=parseFloat(a.version.split(".")[1]);return a};jQuery.browser.os=getOS();jQuery.browser.hasTouch=isTouchSupported();jQuery.browser.ua=nAgt;jQuery.browser.name=navigator.appName;jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion);jQuery.browser.majorVersion=parseInt(navigator.appVersion,10);var nameOffset,verOffset,ix;if(-1!=(verOffset=nAgt.indexOf("Opera")))jQuery.browser.opera=
+		!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+6),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8));else if(-1!=(verOffset=nAgt.indexOf("OPR")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+4);else if(-1!=(verOffset=nAgt.indexOf("MSIE")))jQuery.browser.msie=!0,jQuery.browser.name="Microsoft Internet Explorer",jQuery.browser.fullVersion=nAgt.substring(verOffset+
+		5);else if(-1!=nAgt.indexOf("Trident")){jQuery.browser.msie=!0;jQuery.browser.name="Microsoft Internet Explorer";var start=nAgt.indexOf("rv:")+3,end=start+4;jQuery.browser.fullVersion=nAgt.substring(start,end)}else-1!=(verOffset=nAgt.indexOf("Edge"))?(jQuery.browser.edge=!0,jQuery.browser.name="Microsoft Edge",jQuery.browser.fullVersion=nAgt.substring(verOffset+5)):-1!=(verOffset=nAgt.indexOf("Chrome"))?(jQuery.browser.webkit=!0,jQuery.browser.chrome=!0,jQuery.browser.name="Chrome",jQuery.browser.fullVersion=
+		nAgt.substring(verOffset+7)):-1<nAgt.indexOf("mozilla/5.0")&&-1<nAgt.indexOf("android ")&&-1<nAgt.indexOf("applewebkit")&&!(-1<nAgt.indexOf("chrome"))?(verOffset=nAgt.indexOf("Chrome"),jQuery.browser.webkit=!0,jQuery.browser.androidStock=!0,jQuery.browser.name="androidStock",jQuery.browser.fullVersion=nAgt.substring(verOffset+7)):-1!=(verOffset=nAgt.indexOf("Safari"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+
+		7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("AppleWebkit"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("Firefox"))?(jQuery.browser.mozilla=!0,jQuery.browser.name="Firefox",jQuery.browser.fullVersion=
+		nAgt.substring(verOffset+8)):(nameOffset=nAgt.lastIndexOf(" ")+1)<(verOffset=nAgt.lastIndexOf("/"))&&(jQuery.browser.name=nAgt.substring(nameOffset,verOffset),jQuery.browser.fullVersion=nAgt.substring(verOffset+1),jQuery.browser.name.toLowerCase()==jQuery.browser.name.toUpperCase()&&(jQuery.browser.name=navigator.appName));-1!=(ix=jQuery.browser.fullVersion.indexOf(";"))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix));-1!=(ix=jQuery.browser.fullVersion.indexOf(" "))&&(jQuery.browser.fullVersion=
+		jQuery.browser.fullVersion.substring(0,ix));jQuery.browser.majorVersion=parseInt(""+jQuery.browser.fullVersion,10);isNaN(jQuery.browser.majorVersion)&&(jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion),jQuery.browser.majorVersion=parseInt(navigator.appVersion,10));jQuery.browser.version=jQuery.browser.majorVersion;jQuery.browser.android=/Android/i.test(nAgt);jQuery.browser.blackberry=/BlackBerry|BB|PlayBook/i.test(nAgt);jQuery.browser.ios=/iPhone|iPad|iPod|webOS/i.test(nAgt);jQuery.browser.operaMobile=
+		/Opera Mini/i.test(nAgt);jQuery.browser.windowsMobile=/IEMobile|Windows Phone/i.test(nAgt);jQuery.browser.kindle=/Kindle|Silk/i.test(nAgt);jQuery.browser.mobile=jQuery.browser.android||jQuery.browser.blackberry||jQuery.browser.ios||jQuery.browser.windowsMobile||jQuery.browser.operaMobile||jQuery.browser.kindle;jQuery.isMobile=jQuery.browser.mobile;jQuery.isTablet=jQuery.browser.mobile&&765<jQuery(window).width();jQuery.isAndroidDefault=jQuery.browser.android&&!/chrome/i.test(nAgt)}
+jQuery.browser.versionCompare=function(a,e){if("stringstring"!=typeof a+typeof e)return!1;for(var c=a.split("."),d=e.split("."),b=0,f=Math.max(c.length,d.length);b<f;b++){if(c[b]&&!d[b]&&0<parseInt(c[b])||parseInt(c[b])>parseInt(d[b]))return 1;if(d[b]&&!c[b]&&0<parseInt(d[b])||parseInt(c[b])<parseInt(d[b]))return-1}return 0};
 ;/*___________________________________________________________________________________________________________________________________________________
  _ jquery.mb.components                                                                                                                             _
  _                                                                                                                                                  _
@@ -2083,4 +2133,5 @@ var nAgt=navigator.userAgent;if(!jQuery.browser){jQuery.browser={},jQuery.browse
  _ Copyright (c) 2001-2015. Matteo Bicocchi (Pupunzi);                                                                                              _
  ___________________________________________________________________________________________________________________________________________________*/
 
-!function(a){a.mbCookie={set:function(a,b,c,d){b=JSON.stringify(b),c||(c=7),d=d?"; domain="+d:"";var f,e=new Date;e.setTime(e.getTime()+1e3*60*60*24*c),f="; expires="+e.toGMTString(),document.cookie=a+"="+b+f+"; path=/"+d},get:function(a){for(var b=a+"=",c=document.cookie.split(";"),d=0;d<c.length;d++){for(var e=c[d];" "==e.charAt(0);)e=e.substring(1,e.length);if(0==e.indexOf(b))return JSON.parse(e.substring(b.length,e.length))}return null},remove:function(b){a.mbCookie.set(b,"",-1)}},a.mbStorage={set:function(a,b){b=JSON.stringify(b),localStorage.setItem(a,b)},get:function(a){return localStorage[a]?JSON.parse(localStorage[a]):null},remove:function(a){a?localStorage.removeItem(a):localStorage.clear()}}}(jQuery);
+(function(f){f.mbCookie={set:function(a,c,d,b){"object"==typeof c&&(c=JSON.stringify(c));d||(d=7);b=b?"; domain="+b:"";var e=new Date;e.setTime(e.getTime()+864E5*d);d="; expires="+e.toGMTString();document.cookie=a+"="+c+d+"; path=/"+b},get:function(a){a+="=";for(var c=document.cookie.split(";"),d=0;d<c.length;d++){for(var b=c[d];" "==b.charAt(0);)b=b.substring(1,b.length);if(0==b.indexOf(a))try{return JSON.parse(b.substring(a.length,b.length))}catch(e){return b.substring(a.length,b.length)}}return null},
+	remove:function(a){f.mbCookie.set(a,"",-1)}};f.mbStorage={set:function(a,c){"object"==typeof c&&(c=JSON.stringify(c));localStorage.setItem(a,c)},get:function(a){if(localStorage[a])try{return JSON.parse(localStorage[a])}catch(c){return localStorage[a]}else return null},remove:function(a){a?localStorage.removeItem(a):localStorage.clear()}}})(jQuery);

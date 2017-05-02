@@ -11,11 +11,13 @@ final class FLBuilderExtensions {
 	 * Initalizes any extensions found in the extensions directory.
 	 *
 	 * @since 1.8
+	 * @param string $path Path to extensions to initalize.
 	 * @return void
 	 */
-	static public function init()
+	static public function init( $path = null )
 	{
-		$extensions = glob( FL_BUILDER_DIR . 'extensions/*' );
+		$path       = $path ? trailingslashit( $path ) : FL_BUILDER_DIR . 'extensions/';
+		$extensions = glob( $path . '*' );
 		
 		if ( ! is_array( $extensions ) ) {
 			return;

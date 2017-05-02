@@ -90,7 +90,7 @@
 ------------------------------------------------------ */
 
 .fl-builder-loading {
-	background: rgba(240,240,240,0.8) url(../img/ajax-loader.gif) center center no-repeat;
+	background: rgba(240,240,240,0.8) url(../img/ajax-loader.svg) center center no-repeat;
 	bottom: 0;
 	display: none;
 	left: 0;

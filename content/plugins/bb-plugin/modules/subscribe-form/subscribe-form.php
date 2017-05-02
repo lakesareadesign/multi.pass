@@ -218,14 +218,16 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'default'       => __( 'Thanks for subscribing! Please check your email for further instructions.', 'fl-builder' ),
 						'preview'       => array(
 							'type'             => 'none'  
-						)
+						),
+						'connections'   => array( 'string' )
 					),
 					'success_url'  => array(
 						'type'          => 'link',
 						'label'         => __( 'Success URL', 'fl-builder' ),
 						'preview'       => array(
 							'type'             => 'none'  
-						)
+						),
+						'connections'   => array( 'url' )
 					)
 				)
 			)

@@ -73,8 +73,8 @@ Hustle.define("Media_Holder", function(){
 		close_media_options: function(e){
 			var $target = jQuery(e.target),
 				$media = $target.closest('.wph-media--list');
-			;
-			if ( $media.length == 0 && !$target.hasClass("wph-button wph-button--dots") ) {
+			
+			if ( $media.length === 0 && !$target.hasClass("wph-button wph-button--dots") ) {
 				var $list = jQuery('.wph-media--list'),
 					$items = $list.find(".wph-media--items"),
 					$svg = $list.find(".svg-triangle")

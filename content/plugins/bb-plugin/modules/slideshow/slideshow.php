@@ -287,7 +287,8 @@ FLBuilder::register_module('FLSlideshowModule', array(
 					),
 					'photos'        => array(
 						'type'          => 'multiple-photos',
-						'label'         => __('Photos', 'fl-builder')
+						'label'         => __('Photos', 'fl-builder'),
+						'connections'   => array( 'multiple-photos' )
 					),
 					'feed_url'      => array(
 						'type'          => 'text',

@@ -237,9 +237,10 @@ class Scan_Api extends Component {
 					return false;
 				} else {
 					//each request onlly allow 10s, or when reached to 64MB ram
-					$est     = microtime( true ) - $start;
-					$currMem = ( memory_get_peak_usage( true ) / 1024 / 1024 );
-					if ( $est >= 15 || $currMem >= 64 || $queue->isEnd() || $queue->key() == 1 ) {
+					$est      = microtime( true ) - $start;
+					$currMem  = ( memory_get_peak_usage( true ) / 1024 / 1024 );
+					$memLimit = apply_filters( 'defender_scan_memory_alloc', 128 );
+					if ( $est >= 15 || $currMem >= $memLimit || $queue->isEnd() || $queue->key() == 1 ) {
 						//save current process and pause
 						$queue->saveProcess();
 
@@ -411,6 +412,7 @@ class Scan_Api extends Component {
 		$cache->delete( self::CACHE_CORE );
 		$cache->delete( self::CACHE_CONTENT );
 		$cache->delete( self::SCAN_PATTERN );
+		delete_site_option( self::SCAN_PATTERN );
 		$cache->delete( 'filestried' );
 	}
 
@@ -517,5 +519,33 @@ class Scan_Api extends Component {
 		$lockPath = WP_Helper::getUploadDir() . '/wp-defender/';
 		$lockFile = $lockPath . 'scan-lock';
 		@unlink( $lockFile );
+	}
+
+	/**
+	 * @return array|mixed|object|\WP_Error
+	 */
+	public static function getPatterns() {
+		$activeScan = self::getActiveScan();
+		if ( ! is_object( $activeScan ) ) {
+			return array();
+		}
+
+		$patterns = get_site_option( Scan_Api::SCAN_PATTERN, null );
+		if ( is_array( $patterns ) ) {
+			//return pattern if that exists, no matter the content
+			return $patterns;
+		}
+
+		$api_endpoint = "https://premium.wpmudev.org/api/defender/v1/signatures";
+		$patterns     = Utils::instance()->devCall( $api_endpoint, array(), array(
+			'method' => 'GET'
+		) );
+		if ( is_wp_error( $patterns ) ) {
+			$patterns = array();
+		}
+
+		update_site_option( Scan_Api::SCAN_PATTERN, $patterns );
+
+		return $patterns;
 	}
 }

@@ -4,6 +4,10 @@ Author:      Philipp Stracker, Marcin Pietrzak
 Change Log:
 ----------------------------------------------------------------------
 
+3.0.4
+JS
+- Added check is function "el.wpmuiSelect" to avoid JavaScript errors.
+
 3.0.3
 ----------------------------------------------------------------------
 JS
@@ -184,4 +188,4 @@ Migration notes
 - First version.
 
 
-133620-1492560719-au
+133620-1493689572-au

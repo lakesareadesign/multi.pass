@@ -10,7 +10,7 @@
 
 		<div class="wph-img--soon"></div>
 
-		<h6><?php _e('Track performance of your modules, get scheduled conversion reports delivered to your e-mail & heaps more.', Opt_In::TEXT_DOMAIN); ?></h6>
+		<h6><?php _e('Track performance of your modules, get scheduled conversion reports delivered to your email & heaps more.', Opt_In::TEXT_DOMAIN); ?></h6>
 
 	</div>
 

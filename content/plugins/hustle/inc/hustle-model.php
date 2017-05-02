@@ -37,6 +37,7 @@ abstract class Hustle_Model extends Hustle_Data
      * @var array
      */
     protected $_test_types = array();
+    protected $_track_types = array();
 
     protected $_stats = array();
 
@@ -91,6 +92,7 @@ abstract class Hustle_Model extends Hustle_Data
         }
 
         $this->get_test_types();
+        $this->get_tracking_types();
     }
     /**
      * Returns optin based on shortcode id
@@ -262,11 +264,8 @@ abstract class Hustle_Model extends Hustle_Data
             $optin_settings->{$environment}["display"] = true;
 
             $is_disabled = isset( $optin_settings->{$environment}["enabled"] ) && ! filter_var( $optin_settings->{$environment}["enabled"], FILTER_VALIDATE_BOOLEAN );
-            /**
-             * Set is_test to true if the whole optin is in test mode ( doesn't have api added ) or the type is it test mode
-             */
-            $optin_settings->{$environment}["is_test"] =  $this->test_mode || $this->is_test_type_active( $environment );
-            if( !$is_disabled && !$this->test_mode ) // if it's enabled it can't be in test mode
+            $optin_settings->{$environment}["is_test"] =  $this->is_test_type_active( $environment );
+            if( !$is_disabled ) // if it's enabled it can't be in test mode
                 $optin_settings->{$environment}["is_test"] = false;
 
             /**
@@ -309,44 +308,61 @@ abstract class Hustle_Model extends Hustle_Data
      * @return bool
      */
     private function _meets_conditions( $post, $optin_type ){
-		$display = true;
-		$skip_all_cpt = false;
 		$_conditions = $this->settings->{$optin_type}->conditions;
-        if( !count( $_conditions ) || !isset($post) ) return true;
+        return $this->is_allowed_to_display($_conditions, $optin_type);
+    }
 
-		if ( is_singular() || is_front_page() ) {
-			// unset categories and tags
-			unset($_conditions->categories);
-			unset($_conditions->tags);
+    /**
+     * Generic checking for all modules
+     * and checks if meets the display conditions
+     * @param $conditions
+     * @param $type
+     * @return bool
+     */
+    public function is_allowed_to_display( $conditions, $type ) {
+        global $post;
+        $display = true;
+		$skip_all_cpt = false;
+        if( !count( $conditions ) || !isset($post) ) return true;
+
+		if ( is_singular() ) {
 			// unset not needed post_type
 			if ( $post->post_type == 'post' ) {
-				unset($_conditions->pages);
+				unset($conditions->pages);
 				$skip_all_cpt = true;
 			} elseif ( $post->post_type == 'page' ) {
-				unset($_conditions->posts);
+				unset($conditions->posts);
+				unset($conditions->categories);
+				unset($conditions->tags);
 				$skip_all_cpt = true;
 			} else {
 				// unset posts and pages since this is CPT
-				unset($_conditions->posts);
-				unset($_conditions->pages);
+				unset($conditions->posts);
+				unset($conditions->pages);
 			}
 		} else {
+
+            // do not display after_content on archive page
+            if ( $type == 'after_content' ) {
+                return false;
+            }
+
 			// unset posts and pages
-			unset($_conditions->posts);
-			unset($_conditions->pages);
+			unset($conditions->posts);
+			unset($conditions->pages);
 			$skip_all_cpt = true;
 			// unset not needed taxonomy
 			if ( is_category() ) {
-				unset($_conditions->tags);
+				unset($conditions->tags);
 			}
 			if ( is_tag() ) {
-				unset($_conditions->categories);
+				unset($conditions->categories);
 			}
 		}
 		// $display is TRUE if all conditions were met
-		foreach ($_conditions as $condition_key => $args) {
+		foreach ($conditions as $condition_key => $args) {
 			// only cpt have 'post_type' and 'post_type_label' properties
-			if ( isset($args['post_type']) && isset($args['post_type_label']) ) {
+			if ( is_array($args) && isset($args['post_type']) && isset($args['post_type_label']) ) {
 				if ( $skip_all_cpt || $post->post_type != $args['post_type'] ) {
 					continue;
 				}
@@ -355,7 +371,7 @@ abstract class Hustle_Model extends Hustle_Data
 				$condition_class = Hustle_Condition_Factory::build($condition_key, $args);
 			}
 			if ( $condition_class ) {
-				$condition_class->set_type($optin_type);
+				$condition_class->set_type($type);
 				$display = ( $display && $condition_class->is_allowed($this) );
 			}
 		}
@@ -389,6 +405,35 @@ abstract class Hustle_Model extends Hustle_Data
             ) );
         }
     }
+
+    /**
+     * Toggles state of display type (popup, slide-in, floating_social etc) for each module
+     *
+     * @param null $environment
+     * @return false|int|WP_Error
+     */
+    function toggle_display_type_state( $environment = null, $settings = false ){
+        if( is_null( $environment ) ) {
+			return $this->toggle_state( $environment );
+		}
+
+        if ( $settings ) {
+            $obj_settings = json_decode($this->settings);
+            $prev_value = $obj_settings->$environment;
+            $prev_value->enabled = !isset( $prev_value->enabled ) || "false" === $prev_value->enabled ? "true": "false";
+            $new_value = array_merge( (array) $obj_settings, array( $environment => $prev_value ));
+            return $this->update_meta( self::KEY_SETTINGS,  json_encode( $new_value ) );
+        } else {
+            if( in_array( $environment, $this->types ) ) { // we are toggling state of a specific environment
+                $prev_value = $this->{$environment}->to_object();
+                $prev_value->enabled = !isset( $prev_value->enabled ) || "false" === $prev_value->enabled ? "true": "false";
+                return $this->update_meta( $environment,  json_encode( $prev_value ) );
+            } else{
+                return new WP_Error("Invalid_env", "Invalid environment . " . $environment);
+            }
+        }
+    }
+
     /**
      * Logs interactions done on the optin
      *
@@ -494,6 +539,16 @@ abstract class Hustle_Model extends Hustle_Data
     }
 
     /**
+     * Retrieves active tracking types from db
+     *
+     * @return null|array
+     */
+    function get_tracking_types(){
+        $this->_track_types = json_decode( $this->get_meta( self::TRACK_TYPES ), true );
+        return $this->_track_types;
+    }
+
+    /**
      * Checks if $type is active
      *
      * @param $type
@@ -501,6 +556,16 @@ abstract class Hustle_Model extends Hustle_Data
      */
     function is_test_type_active( $type ){
         return isset( $this->_test_types[ $type ] );
+    }
+
+    /**
+     * Checks if $type is allowed to track views and conversions
+     *
+     * @param $type
+     * @return bool
+     */
+    function is_track_type_active( $type ){
+        return isset( $this->_track_types[ $type ] );
     }
 
     /**
@@ -517,6 +582,22 @@ abstract class Hustle_Model extends Hustle_Data
             $this->_test_types[ $type ] = true;
 
         return $this->update_meta( self::TEST_TYPES, $this->_test_types );
+    }
+
+    /**
+     * Toggles $type's tracking mode
+     *
+     * @param $type
+     * @return bool
+     */
+    function toggle_type_track_mode( $type ){
+
+        if( $this->is_track_type_active( $type ) )
+            unset( $this->_track_types[ $type ] );
+        else
+            $this->_track_types[ $type ] = true;
+
+        return $this->update_meta( self::TRACK_TYPES, $this->_track_types );
     }
 
     /**
@@ -597,6 +678,22 @@ abstract class Hustle_Model extends Hustle_Data
 
 
         return true;
+    }
+
+    /**
+     * @param $type
+     * @return null|Hustle_Model_Stats
+     */
+    function get_statistics( $type ){
+
+        if( in_array( $type, $this->types ) ){
+            if( !isset( $this->_stats[ $type ] ) )
+                $this->_stats[ $type ] = new Hustle_Model_Stats($this, $type);
+
+            return $this->_stats[ $type ];
+        }
+
+        return false;
     }
 
 }

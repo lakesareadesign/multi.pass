@@ -1,4 +1,4 @@
-/*!  - v2.0.6.2
+/*!  - v2.0.7
  * https://premium.wpmudev.org/project/coursepress-pro/
  * Copyright (c) 2017; * Licensed GPLv2+ */
 _.extend( _coursepress_upgrade, {

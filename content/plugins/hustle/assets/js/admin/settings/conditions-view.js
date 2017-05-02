@@ -171,8 +171,8 @@ Hustle.define("Settings.Conditions_View", function( $ ) {
             var labels = _.pluck( this.active_conditions, "label" ),
                 tpl = Hustle.create_template("<span>{{label}}</span>");
             return labels.length
-                ? labels.map( function(label) { return tpl( {label: label} ) } ).join( ", " ):
-                optin_vars.messages.condition_labels.everywhere;
+                ? labels.map( function(label) { return tpl( {label: label} ); } ).join( ", " )
+                : optin_vars.messages.condition_labels.everywhere;
         },
 		/**
          * Returns labels of aggregate conditions and default conditions
@@ -195,7 +195,7 @@ Hustle.define("Settings.Conditions_View", function( $ ) {
 					'label' : optin_vars.messages.condition_labels.all_tags
 				}
 			};
-			var default_labels = new Array();
+			var default_labels = [];
 			
 			// append defaults
 			for ( var key in default_conditions ) {
@@ -208,8 +208,8 @@ Hustle.define("Settings.Conditions_View", function( $ ) {
 			labels = labels.concat(default_labels);
 			
             return labels.length
-                ? labels.map( function(label) { return tpl( {label: label} ) } ).join( ", " ):
-                optin_vars.messages.condition_labels.everywhere;
+                ? labels.map( function(label) { return tpl( {label: label} ); } ).join( ", " )
+                : optin_vars.messages.condition_labels.everywhere;
         }
     });
 });

@@ -80,7 +80,8 @@ FLBuilder::register_module('FLCtaModule', array(
 						'preview'       => array(
 							'type'          => 'text',
 							'selector'      => '.fl-cta-title'
-						)
+						),
+						'connections'   => array( 'string' )
 					)
 				)
 			),
@@ -96,7 +97,8 @@ FLBuilder::register_module('FLCtaModule', array(
 						'preview'       => array(
 							'type'          => 'text',
 							'selector'      => '.fl-cta-text-content'
-						)
+						),
+						'connections'   => array( 'string' )
 					)
 				)
 			)
@@ -228,7 +230,8 @@ FLBuilder::register_module('FLCtaModule', array(
 						'preview'         => array(
 							'type'            => 'text',
 							'selector'        => '.fl-button-text'
-						)
+						),
+						'connections'   => array( 'string' )
 					),
 					'btn_icon'      => array(
 						'type'          => 'icon',
@@ -263,7 +266,8 @@ FLBuilder::register_module('FLCtaModule', array(
 						'label'         => __('Link', 'fl-builder'),
 						'preview'       => array(
 							'type'          => 'none'
-						)
+						),
+						'connections'   => array( 'url' )
 					),
 					'btn_link_target' => array(
 						'type'          => 'select',

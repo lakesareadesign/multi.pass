@@ -8,4 +8,5 @@
 	?>
 	<option value="<?php echo $size; ?>" <?php selected($value, $size); ?>><?php echo $label; ?></option>
 	<?php endforeach; ?>
+	<option value="full" <?php selected( $value, 'full' ); ?>><?php _e( 'Full Size', 'fl-builder' ); ?></option>
 </select>

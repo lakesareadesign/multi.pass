@@ -354,7 +354,7 @@
 		{
 			var win     = $(window),
 				row     = $(this),
-				content = row.find('.fl-row-content-wrap'),
+				content = row.find('> .fl-row-content-wrap'),
 				speed   = row.data('parallax-speed'),
 				offset  = content.offset(),
 				yPos    = -((win.scrollTop() - offset.top) / speed);

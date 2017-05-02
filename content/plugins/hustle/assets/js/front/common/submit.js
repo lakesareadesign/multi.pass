@@ -113,6 +113,7 @@
 
                 }else{
 					var message = res.data ? res.data.pop() : inc_opt.l10n.submit_failure;
+
 					$failure.html( message ? message : inc_opt.l10n.submit_failure );
 
                     $form.after( $failure );

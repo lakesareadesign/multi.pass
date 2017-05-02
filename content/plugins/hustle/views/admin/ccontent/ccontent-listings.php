@@ -60,6 +60,8 @@
 
 							<th class="wph-module--rates"><?php _e('Conversions rate', Opt_In::TEXT_DOMAIN); ?></th>
 
+                            <th class="wph-module--tracking"><?php _e('Tracking', Opt_In::TEXT_DOMAIN); ?></th>
+
 							<th class="wph-module--admin"><?php _e('Admin Test', Opt_In::TEXT_DOMAIN); ?></th>
 
 							<th class="wph-module--active"><?php _e('Active', Opt_In::TEXT_DOMAIN); ?></th>
@@ -90,6 +92,18 @@
 
 								<td class="wph-module--rates" data-title="<?php _e('Conversions Rate', Opt_In::TEXT_DOMAIN); ?>"><?php echo $custom_content->get_stats($type_key)->conversion_rate; ?>%</td>
 
+                                <td class="wph-module--tracking" data-title="<?php _e('Tracking', Opt_In::TEXT_DOMAIN); ?>">
+
+									<div class="toggle">
+
+										<input  id="custom-content-toggle-tracking-<?php echo $type_key . '-' . esc_attr( $custom_content->id ); ?>" class="toggle-checkbox custom-content-toggle-tracking-activity" type="checkbox" data-id="<?php echo esc_attr( $custom_content->id ) ?>" data-type="<?php echo esc_attr( $type_key ); ?>" <?php checked( $custom_content->is_track_type_active( $type_key ), true); ?> data-nonce="<?php echo wp_create_nonce('custom-content-toggle-tracking-activity') ?>" >
+
+										<label class="toggle-label" for="custom-content-toggle-tracking-<?php echo $type_key . '-' . esc_attr( $custom_content->id ); ?>"></label>
+
+									</div>
+
+								</td>
+
 								<td class="wph-module--admin" data-title="<?php _e('Admin Test', Opt_In::TEXT_DOMAIN); ?>">
 
 									<div class="toggle">
@@ -105,8 +119,12 @@
 								<td class="wph-module--active" data-title="<?php _e('Active', Opt_In::TEXT_DOMAIN); ?>">
 
 									<div class="toggle">
-
-										<input  id="custom-content-toggle-<?php echo $type_key . '-' . esc_attr( $custom_content->id ); ?>" class="toggle-checkbox custom-content-toggle-type-activity" type="checkbox" data-id="<?php echo esc_attr( $custom_content->id ) ?>" data-type="<?php echo esc_attr( $type_key ); ?>" <?php checked( $custom_content->{$type_key}->enabled, true); ?> data-nonce="<?php echo wp_create_nonce('custom-content-toggle-type-activity') ?>"  >
+                                    <?php
+                                        $enabled_check = ( $type_key == 'shortcode' || $type_key == 'widget' )
+                                            ? $custom_content->get_parent_settings()->{$type_key}->enabled
+                                            : $custom_content->{$type_key}->enabled;
+                                    ?>
+										<input  id="custom-content-toggle-<?php echo $type_key . '-' . esc_attr( $custom_content->id ); ?>" class="toggle-checkbox custom-content-toggle-type-activity" type="checkbox" data-id="<?php echo esc_attr( $custom_content->id ) ?>" data-type="<?php echo esc_attr( $type_key ); ?>" <?php checked( $enabled_check, true); ?> data-nonce="<?php echo wp_create_nonce('custom-content-toggle-type-activity') ?>"  >
 
 										<label class="toggle-label" for="custom-content-toggle-<?php echo $type_key . '-' . esc_attr( $custom_content->id ); ?>"></label>
 

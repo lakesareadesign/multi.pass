@@ -27,16 +27,16 @@
 			<?php _e('Override network settings?', 'fl-builder'); ?>
 		</label>
 		<?php endif; ?>
-		
+
 		<div class="fl-settings-form-content">
 
-			<p><?php printf( __( 'Enable or disable icon sets using the options below or upload a custom icon set from either <a%s>Icomoon</a> or <a%s>Fontello</a>.', 'fl-builder' ), ' href="https://icomoon.io/" target="_blank"', ' href="http://fontello.com/" target="_blank"' ); ?></p>
-			
-			<?php 
-			
+			<p><?php printf( __( 'Enable or disable icon sets using the options below or upload a custom icon set from either <a%1$s>Icomoon</a> or <a%2$s>Fontello</a>.', 'fl-builder' ), ' href="https://icomoon.io/" target="_blank"', ' href="http://fontello.com/" target="_blank"' ); ?></p>
+
+			<?php
+
 			$enabled_icons  = FLBuilderModel::get_enabled_icons();
-			$icon_sets      = FLBuilderIcons::get_sets_for_current_site();  
-			
+			$icon_sets      = FLBuilderIcons::get_sets_for_current_site();
+
 			foreach ( $icon_sets as $key => $set ) {
 				$checked = in_array( $key, $enabled_icons ) ? ' checked' : '';
 				?>

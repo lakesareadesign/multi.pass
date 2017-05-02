@@ -4,6 +4,11 @@ Tested up to: 4.6.1
 
 Change Log:
 
+1.4.1 - 2017-21-04
+----------------------------------------------------------------------
+Fix: Compatibility issue with Getting Started Wizard
+Fix: Scanning was sometimes slow or getting stuck
+
 1.4 - 2017-18-04
 ----------------------------------------------------------------------
 - New: Meet the brand new Defender! This release focuses on making security for WordPress a better place. We’ve given the UI a refresh and updated the UX, so configuring your security settings is a walk in the park.
@@ -123,4 +128,4 @@ Change Log:
 - First release
 
 
-133620-1492560829-au
+133620-1493689622-au

@@ -98,17 +98,17 @@ final class FLBuilderServiceConstantContact extends FLBuilderService {
 			'type'          => 'text',
 			'label'         => __( 'Access Token', 'fl-builder' ),
 			'help'          => __( 'Your Constant Contact access token.', 'fl-builder' ),
-			'description'   => sprintf( __( 'You must register a <a%s>Developer Account</a> with Constant Contact to obtain an API key and access token. Please see <a%s>Getting an API key</a> for complete instructions.', 'fl-builder' ), ' href="https://constantcontact.mashery.com/member/register" target="_blank"', ' href="https://developer.constantcontact.com/home/api-keys.html" target="_blank"' ),
+			'description'   => sprintf( __( 'You must register a <a%1$s>Developer Account</a> with Constant Contact to obtain an API key and access token. Please see <a%2$s>Getting an API key</a> for complete instructions.', 'fl-builder' ), ' href="https://constantcontact.mashery.com/member/register" target="_blank"', ' href="https://developer.constantcontact.com/home/api-keys.html" target="_blank"' ),
 			'preview'       => array(
 				'type'          => 'none'
 			)
-		)); 
-		
+		));
+
 		return ob_get_clean();
 	}
 
 	/**
-	 * Render the markup for service specific fields. 
+	 * Render the markup for service specific fields.
 	 *
 	 * @since 1.5.4
 	 * @param string $account The name of the saved account.

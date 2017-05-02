@@ -26,14 +26,13 @@ final class FLBuilderAJAXLayout {
 	 */
 	static public function render( $node_id = null, $old_node_id = null )
 	{
+		do_action( 'fl_builder_before_render_ajax_layout' );
+		
 		// Update the node ID in the post data?
 		if ( $node_id ) {
 			FLBuilderModel::update_post_data( 'node_id', $node_id );
 		}
 		
-		// Render the draft layout CSS that will be passed back.
-		FLBuilder::render_assets();
-
 		// Register scripts needed for shortcodes and widgets.
 		self::register_scripts();
 		
@@ -51,6 +50,8 @@ final class FLBuilderAJAXLayout {
 		
 		// Render the assets.
 		$assets = self::render_assets();
+		
+		do_action( 'fl_builder_after_render_ajax_layout' );
 
 		// Return the response.
 		return array(
@@ -97,10 +98,14 @@ final class FLBuilderAJAXLayout {
 			// Add the row.
 			$row = FLBuilderModel::add_row( $cols, $position );
 			
+			do_action( 'fl_builder_before_render_ajax_layout_html' );
+			
 			// Render the row.
 			ob_start();
 			FLBuilder::render_row( $row );
 			$html = ob_get_clean();
+			
+			do_action( 'fl_builder_after_render_ajax_layout_html' );
 			
 			// Return the response.	
 			return array(
@@ -140,10 +145,14 @@ final class FLBuilderAJAXLayout {
 		// Add the group.
 		$group = FLBuilderModel::add_col_group( $node_id, $cols, $position );
 		
+		do_action( 'fl_builder_before_render_ajax_layout_html' );
+		
 		// Render the group.
 		ob_start();
 		FLBuilder::render_column_group( $group );
 		$html = ob_get_clean();
+		
+		do_action( 'fl_builder_after_render_ajax_layout_html' );
 
 		// Return the response.	
 		return array(
@@ -180,11 +189,12 @@ final class FLBuilderAJAXLayout {
 	 * @param string $parent_id A column node ID.
 	 * @param int $position The new module position.
 	 * @param string $type The type of module.
+	 * @param string $alias Module alias slug if this module is an alias.
 	 * @param string $template_id The ID of a module template to render.
 	 * @param string $template_type The type of template. Either "user" or "core".
 	 * @return array
 	 */
-	static public function render_new_module( $parent_id, $position = false, $type = null, $template_id = null, $template_type = 'user' )
+	static public function render_new_module( $parent_id, $position = false, $type = null, $alias = null, $template_id = null, $template_type = 'user' )
 	{
 		// Add a module template?
 		if ( null !== $template_id ) {
@@ -199,7 +209,8 @@ final class FLBuilderAJAXLayout {
 		}
 		// Add a standard module.
 		else {
-			$module = FLBuilderModel::add_default_module( $parent_id, $type, $position );
+			$defaults = FLBuilderModel::get_module_alias_settings( $alias );
+			$module   = FLBuilderModel::add_default_module( $parent_id, $type, $position, $defaults );
 		}
 		
 		// Render the new module's settings.
@@ -374,6 +385,8 @@ final class FLBuilderAJAXLayout {
 	 */
 	static private function render_html()
 	{
+		do_action( 'fl_builder_before_render_ajax_layout_html' );
+		
 		// Get the partial refresh data.
 		$partial_refresh_data = self::get_partial_refresh_data();
 
@@ -417,6 +430,8 @@ final class FLBuilderAJAXLayout {
 			echo do_shortcode( $html );
 			$html = ob_get_clean();
 		}
+		
+		do_action( 'fl_builder_after_render_ajax_layout_html' );
 		
 		// Return the rendered HTML.
 		return $html;
@@ -470,10 +485,12 @@ final class FLBuilderAJAXLayout {
 			}
 		}
 		else {
+			FLBuilder::render_js();
 			$assets['js'] = $asset_info['js_url'] . '?ver=' . $asset_ver;
 		}
 		
 		// Render the CSS.
+		FLBuilder::render_css();
 		$assets['css'] = $asset_info['css_url'] . '?ver=' . $asset_ver;
 		
 		// Return the assets.
@@ -535,8 +552,7 @@ final class FLBuilderAJAXLayout {
 		global $wp_scripts;
 		global $wp_styles;
 		
-		$partial_refresh_data 	= self::get_partial_refresh_data();
-		$scripts_styles			= '';
+		$scripts_styles	= '';
 		
 		// Start the output buffer.
 		ob_start();

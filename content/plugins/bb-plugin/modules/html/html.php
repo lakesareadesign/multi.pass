@@ -33,11 +33,12 @@ FLBuilder::register_module('FLHtmlModule', array(
 						'type'          => 'code',
 						'editor'        => 'html',
 						'label'         => '',
-						'rows'          => '19',
+						'rows'          => '18',
 						'preview'           => array(
 							'type'              => 'text',
 							'selector'          => '.fl-html'
-						)
+						),
+						'connections'         => array( 'html', 'string' )
 					)
 				)
 			)

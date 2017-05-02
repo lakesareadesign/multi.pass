@@ -14,7 +14,7 @@
                                 </h5>
                                 <span class="">
 									<?php
-									$icon = $controller->getCount( 'issues' ) == 0 ? ' <i class="def-icon icon-tick icon-active"></i>' : ' <i class="def-icon icon-warning"></i>';	  	 	   	 		 		 				
+									$icon = $controller->getCount( 'issues' ) == 0 ? ' <i class="def-icon icon-tick icon-active"></i>' : ' <i class="def-icon icon-warning"></i>';
 									echo $icon;
 									?>
                                 </span>

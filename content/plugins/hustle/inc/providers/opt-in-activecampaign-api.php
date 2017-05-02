@@ -114,17 +114,47 @@ class Opt_In_Activecampaign_Api
      * @param $data
      * @return array|mixed|object|WP_Error
      */
-    public function subscribe( $list, array $data ){
+    public function subscribe( $list, array $data, Opt_In_Model $optin, $origData ){
+		if ( false === $this->email_exist( $data['email'] ) ) {
+			if ( (int) $list > 0 ) {
+				$data['p'] = array( $list => $list );
+				$data['status'] = array( $list => 1 );
+				$res = $this->_post( 'contact_sync', $data );
+			} else {
+				$res = $this->_post( 'contact_add', $data );
+			}
 
-        if ( (int) $list > 0 ) {
-            $data['p'] = array( $list => $list );
-            $data['status'] = array( $list => 1 );
-            $res = $this->_post( 'contact_sync', $data );
-        } else {
-            $res = $this->_post( 'contact_add', $data );
-        }
+			if ( empty( $res ) ) {
+				return __( 'Successful subscription', Opt_In::TEXT_DOMAIN );
+			}
 
-        return empty( $res ) ? __("Successful subscription", Opt_In::TEXT_DOMAIN) : $res;
+			$origData['error'] = ! empty( $res['result_message'] ) ? $res['result_message'] : __( 'Unexpected error occurred.', Opt_In::TEXT_DOMAIN );
+			$optin->log_error( $origData );
+			return $res;
+		} else {
+			$err = new WP_Error();
+			$err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
+			return $err;
+		}
     }
 
+	function email_exist( $email ) {
+		$res = $this->_post( 'contact_view_email', array( 'email' => $email ) );
+
+		return ! empty( $res ) && ! empty( $res['id'] ) ? true : false;
+	}
+
+	function add_custom_fields( $custom_fields, $list, Opt_In_Model $optin ) {
+		if ( ! empty( $custom_fields ) ) {
+			foreach ( $custom_fields as $key => $label ) {
+				$field_data = array(
+					'title' => $label,
+					'type' => 1, // We only support text type for now,
+					'perstag' => $key,
+					'p[' . (int) $list . ']' => (int) $list,
+				);
+				$res = $this->_post( 'list_field_add', $field_data );
+			}
+		}
+	}
 }

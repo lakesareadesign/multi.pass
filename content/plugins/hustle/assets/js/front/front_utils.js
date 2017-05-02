@@ -8,6 +8,8 @@ var Optin = Optin || {};
             return el.apply(this, arguments);
         };
     });
+    
+    Optin.popup_overlay_delay = 750;
 
 
     /**
@@ -18,8 +20,6 @@ var Optin = Optin || {};
         var templates = ["optin-layout-one", "optin-layout-two", "optin-layout-three", "optin-layout-four"];
         return Optin.template( templates[ layout_id ] );
     };
-
-
 
     Optin.popup = {
         shown:[],
@@ -100,6 +100,20 @@ var Optin = Optin || {};
                     $this.find(".wpoi-optin").removeClass("wpoi-medium");
                 }
             });
+            
+            // for CC widget & shortcode
+            $(".wph-modal").each(function(){
+                var $parent = $(this).parent(),
+                    $this = $(this);
+                
+                if ( $parent.data('type') === 'widget' || $parent.data('type') === 'shortcode' ) {
+                    if ( $parent.width() <= 405){
+                        $this.addClass("wph-modal--small");
+                    } else {
+                        $this.removeClass("wph-modal--small");
+                    }
+                }
+            });
         }
 
         $(".wpoi-mcg-select").each(function(){
@@ -149,6 +163,32 @@ var Optin = Optin || {};
 		        $sidebar.addClass("wpoi-align");
 		        $form.addClass("wpoi-align-element");
 	        }
+        });
+        
+        // Layout #3
+        // Group module fields
+        $(".wpoi-layout-three .wpoi-optin:not(.wpoi-small)").each(function(){
+	        var $this = $(this),
+	        	$elements = $this.find('form > .wpoi-element:not(.wpoi-provider-args,.wpoi-grouped-element)');
+            $elements.addClass("wpoi-grouped-element");
+            
+            //The elements will be grouped a single time, it doesn't matter how many times this function is called
+	        for (var i = 0; i < $elements.length; i+=2) {
+		        $elements.slice(i, i+2).wrapAll('<div class="wpoi-element wpoi-grouped-element" style="background-color: transparent;"><div class="wpoi-container"></div></div>');
+		    }
+        });
+        
+        // Layout #4
+        // Group module fields
+        $(".wpoi-layout-four .wpoi-optin:not(.wpoi-small)").each(function(){
+	        var $this = $(this),
+	        	$elements = $this.find('form > .wpoi-element:not(.wpoi-provider-args,.wpoi-grouped-element)');
+	        $elements.addClass("wpoi-grouped-element");
+
+            //The elements will be grouped a single time, it doesn't matter how many times this function is called
+	        for (var i = 0; i < $elements.length; i+=2) {
+		        $elements.slice(i, i+2).wrapAll('<div class="wpoi-element wpoi-grouped-element" style="background-color: transparent;"><div class="wpoi-container"></div></div>');
+		    }
         });
         
         // Layout #4
@@ -334,6 +374,7 @@ var Optin = Optin || {};
         if( _.isEmpty( optin_data.provider_args ) || _.isEmpty( optin_data.data.optin_provider ) ) return "";
 
         var provider_args_tpl = Optin.template( "optin-" + optin_data.data.optin_provider + "-args"  );
+        optin_data.provider_args.cta_button = optin_data.design.cta_button;
         return provider_args_tpl( optin_data.provider_args )
     };
 
@@ -343,7 +384,7 @@ var Optin = Optin || {};
      * @param optin_data
      */
     Optin.render_optin = function( optin_data ){
-        var layout = optin_data.design.form_location.toInt(),
+        var layout = parseInt(optin_data.design.form_location),
             tpl = Optin.get_tpl( layout ),
             _show_args = function(){
                 if( "mailchimp" === optin_data.data.optin_provider
@@ -371,13 +412,47 @@ var Optin = Optin || {};
      * @param optin_data
      */
     Optin.render_cc_shortcode = function( optin_data ){
-        var tpl = Optin.template( 'hustle-cc-shortcode-tpl' ),
-			html = tpl( _.extend({}, optin_data.content, optin_data.design ) )
-		;
+        // var tpl = Optin.template( 'hustle-cc-shortcode-tpl' ),
+                
+        var types = [];
+        types[optin_data.type] = {
+            add_never_see_link: ''
+        };
+        
+        var tpl = Optin.template( 'hustle-modal-tpl' ),
+			html = tpl( _.extend({
+                type: optin_data.type,
+                id: optin_data.content.optin_id,
+                position: '',
+                animation_in: '',
+                fullscreen: '',
+                types: types
+            }, 
+            optin_data.content, 
+            optin_data.design,
+            cc_handle_custom_size(optin_data.design)
+            ) );
 
         $(doc).trigger("wpoi:layout:rendered");
+        $(doc).trigger("wpoi:cc_display", optin_data.type);
         return html;
     };
+    
+    function cc_handle_custom_size( data ) {
+        var new_data = {};
+        new_data.custom_size_attr = '';
+        new_data.custom_size_class = '';
+
+        if ( data.customize_size && _.isTrue( data.customize_size ) ) {
+            new_data.custom_size_class = 'wph-modal--custom';
+            new_data.custom_size_attr += 'data-custom_width='+ data.custom_width +' data-custom_height='+ data.custom_height +'';
+        }
+        if ( data.border && _.isTrue( data.border ) ) {
+            new_data.custom_size_attr += ' data-border='+ data.border_weight;
+        }
+
+        return new_data;
+    }
 
     var listening_to_exit_intent = false;
     Optin.listen_to_exit_intend = function(){

@@ -1,8 +1,17 @@
 Plugin Name: WPMU Dev code library
-Author:      Philipp Stracker
+Author:      Philipp Stracker, Marcin Pietrzak
 
 Change Log:
 ----------------------------------------------------------------------
+
+3.0.4
+JS
+- Added check is function "el.wpmuiSelect" to avoid JavaScript errors.
+
+3.0.3
+----------------------------------------------------------------------
+JS
+- Improved scripts to be compatible wit select2 v4.
 
 3.0.0
 ----------------------------------------------------------------------
@@ -179,4 +188,4 @@ Migration notes
 - First version.
 
 
-133620-1489858554-au
+133620-1493689576-au

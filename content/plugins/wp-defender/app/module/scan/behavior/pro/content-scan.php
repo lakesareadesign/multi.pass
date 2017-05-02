@@ -22,10 +22,13 @@ class Content_Scan extends Behavior {
 	protected $oldChecksum = null;
 	protected $tries = null;
 	protected $tokens = array();
+	protected $patterns = array();
 
 	public function processItemInternal( $args, $current ) {
-		$start       = microtime( true );
-		$this->model = $args['model'];
+		$start          = microtime( true );
+		$this->model    = $args['model'];
+		$this->patterns = $args['patterns'];
+
 		$this->populateChecksums();
 		$this->populateTries();
 		if ( ( $oid = Scan_Api::isIgnored( $current ) ) !== false ) {
@@ -105,13 +108,18 @@ class Content_Scan extends Behavior {
 		$ignoreTo          = false;
 		$badFuncPattern    = $this->getFunctionScanPattern();
 		$base64textPattern = $this->getBase64ScanPattern();
+		//fallback
+		$error1    = array();
+		$ignoreTo1 = false;
 		//Log_Helper::logger( var_export( $tokens, true ) );
 		for ( $i = 0; $i < count( $tokens ) - 1; $i ++ ) {
 			if ( $ignoreTo !== false && $i <= $ignoreTo ) {
 				continue;
 			}
 			//do stuff here
-			list( $error1, $ignoreTo1 ) = $this->detectBadFunc( $i, $tokens[ $i ], $badFuncPattern, $base64textPattern );
+			if ( ! empty( $badFuncPattern ) && ! empty( $base64textPattern ) ) {
+				list( $error1, $ignoreTo1 ) = $this->detectBadFunc( $i, $tokens[ $i ], $badFuncPattern, $base64textPattern );
+			}
 			list( $error2, $ignoreTo2 ) = $this->detectComplexConcat( $i, $tokens[ $i ] );
 
 			$scanError = array_merge( $scanError, $error1 );
@@ -262,7 +270,6 @@ class Content_Scan extends Behavior {
 						'lineTo'     => $this->tokens[ $closer ]['line'],
 						'columnFrom' => $this->tokens[ $index ]['column'],
 						'columnTo'   => $this->tokens[ $closer ]['column'],
-						'code'       => $this->getTokensAsString( $pos, $closer - $pos )
 					);
 				}
 				$ignoreTo = $closer;
@@ -274,52 +281,6 @@ class Content_Scan extends Behavior {
 		}
 
 		return array( $errorFound, $ignoreTo );
-	}
-
-	private function scanComplexConcat( $token, $index ) {
-		$ignoreTo = false;
-		$error    = array();
-		if ( in_array( $token['code'], array(
-			T_VARIABLE,
-		) ) ) {
-			$pos = $this->findNext( T_OPEN_SQUARE_BRACKET, $index + 1, $index + 5 );
-			if ( $pos === false || ! isset( $this->tokens[ $pos ]['bracket_closer'] ) ) {
-				$ignoreTo = $index + 5;
-
-				return array( $error, $ignoreTo );
-			}
-
-			$hasConcat = 0;
-			$found     = 0;
-			$closer    = $this->tokens[ $pos ]['bracket_closer'];
-
-			for ( $line = $pos + 1; $line < $closer; $line ++ ) {
-				if ( in_array( $this->tokens[ $line ]['code'], array(
-					T_STRING_CONCAT,
-					T_VARIABLE,
-					T_OPEN_SQUARE_BRACKET,
-				) ) ) {
-					if ( $this->tokens[ $line ]['code'] == T_STRING_CONCAT ) {
-						$hasConcat ++;
-					} else {
-						$found ++;
-					}
-				}
-			}
-			if ( $found > 5 && $hasConcat > 5 ) {
-				$error[] = array(
-					'lineFrom'   => $this->tokens[ $index ]['line'],
-					'lineTo'     => $this->tokens[ $closer ]['line'],
-					'columnFrom' => $this->tokens[ $index ]['column'],
-					'columnTo'   => $this->tokens[ $closer ]['column'],
-					'code'       => $this->getTokensAsString( $pos, $closer - $pos )
-				);
-
-			}
-			$ignoreTo = $closer;
-		}
-
-		return array( $error, $ignoreTo );
 	}
 
 	/**
@@ -370,41 +331,9 @@ class Content_Scan extends Behavior {
 	 * @return mixed
 	 */
 	private function getPatterns( $key ) {
-		//internal cache first
-		$altCache = WP_Helper::getArrayCache();
-		$pattern  = $altCache->get( Scan_Api::SCAN_PATTERN, null );
+		$pattern = $this->patterns;
 
-		if ( is_array( $pattern ) && isset( $pattern[ $key ] ) ) {
-			return $pattern[ $key ];
-		}
-
-		$cache   = WP_Helper::getCache();
-		$pattern = $cache->get( Scan_Api::SCAN_PATTERN, null );
-		if ( is_array( $pattern ) && isset( $pattern[ $key ] ) ) {
-			$altCache->set( Scan_Api::SCAN_PATTERN, $pattern );
-
-			return $pattern[ $key ];
-		}
-
-		$api_endpoint = "https://premium.wpmudev.org/api/defender/v1/signatures";
-		$pattern      = Utils::instance()->devCall( $api_endpoint, array(), array(
-			'method' => 'GET'
-		) );
-
-		if ( ! is_wp_error( $pattern ) && is_array( $pattern ) ) {
-			$cache->set( Scan_Api::SCAN_PATTERN, $pattern, 3600 );
-
-			return $pattern[ $key ];
-		} else {
-			$model = Scan_Api::getActiveScan();
-			if ( is_object( $model ) ) {
-				$model->status     = Scan\Model\Scan::STATUS_ERROR;
-				$model->statusText = is_wp_error( $pattern ) ? $pattern->get_error_message() : __( "", wp_defender()->domain );
-				$model->save();
-			}
-
-			return false;
-		}
+		return isset( $pattern[ $key ] ) ? $pattern[ $key ] : false;
 	}
 
 	private function getFunctionScanPattern() {

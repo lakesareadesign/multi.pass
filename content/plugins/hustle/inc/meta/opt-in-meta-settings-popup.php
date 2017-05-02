@@ -32,6 +32,8 @@ class Opt_In_Meta_Settings_Popup extends Hustle_Meta
         "appear_after_element_val" => "",
         "add_never_see_this_message" => false,
         "close_button_acts_as_never_see_again" => false,
+		"allow_scroll_page" => true,
+		"not_close_on_background_click" => true,
         "never_see_expiry" => 2,
 
         "show_on_all_posts" => true,

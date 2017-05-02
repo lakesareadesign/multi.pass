@@ -58,9 +58,14 @@ final class FLBuilderAdminSettings {
 	{
 		// Styles
 		wp_enqueue_style( 'fl-builder-admin-settings', FL_BUILDER_URL . 'css/fl-builder-admin-settings.css', array(), FL_BUILDER_VERSION );
+		wp_enqueue_style( 'jquery-multiselect', FL_BUILDER_URL . 'css/jquery.multiselect.css', array(), FL_BUILDER_VERSION );
+		wp_enqueue_style( 'jquery-tiptip', FL_BUILDER_URL . 'css/jquery.tiptip.css', array(), FL_BUILDER_VERSION );
 
 		// Scripts
 		wp_enqueue_script( 'fl-builder-admin-settings', FL_BUILDER_URL . 'js/fl-builder-admin-settings.js', array(), FL_BUILDER_VERSION );
+		wp_enqueue_script( 'jquery-actual', FL_BUILDER_URL . 'js/jquery.actual.min.js', array( 'jquery' ), FL_BUILDER_VERSION );
+		wp_enqueue_script( 'jquery-multiselect', FL_BUILDER_URL . 'js/jquery.multiselect.js', array( 'jquery' ), FL_BUILDER_VERSION );
+		wp_enqueue_script( 'jquery-tiptip', FL_BUILDER_URL . 'js/jquery.tiptip.min.js', array( 'jquery' ), FL_BUILDER_VERSION, true );
 		
 		// Media Uploader
 		wp_enqueue_media();
@@ -183,25 +188,20 @@ final class FLBuilderAdminSettings {
 				'show'		=> true,
 				'priority'	=> 400
 			),
+			'user-access' => array(
+				'title' 	=> __( 'User Access', 'fl-builder' ),
+				'show'		=> true,
+				'priority'	=> 500
+			),
 			'icons' => array(
 				'title' 	=> __( 'Icons', 'fl-builder' ),
 				'show'		=> FL_BUILDER_LITE !== true,
-				'priority'	=> 500
-			),
-			'editing' => array(
-				'title' 	=> __( 'Editing', 'fl-builder' ),
-				'show'		=> true,
 				'priority'	=> 600
 			),
-			'cache' => array(
-				'title' 	=> __( 'Cache', 'fl-builder' ),
+			'tools' => array(
+				'title' 	=> __( 'Tools', 'fl-builder' ),
 				'show'		=> true,
 				'priority'	=> 700
-			),
-			'uninstall' => array(
-				'title' 	=> __( 'Uninstall', 'fl-builder' ),
-				'show'		=> is_network_admin() || ! self::multisite_support(),
-				'priority'	=> 800
 			),
 		) );
 		
@@ -253,14 +253,11 @@ final class FLBuilderAdminSettings {
 		// Icons
 		self::render_form( 'icons' );
 		
-		// Editing
-		self::render_form( 'editing' );
+		// User Access
+		self::render_form( 'user-access' );
 		
-		// Cache
-		self::render_form( 'cache' );
-		
-		// Uninstall
-		self::render_form( 'uninstall' );
+		// Tools
+		self::render_form( 'tools' );
 		
 		// Let extensions hook into form rendering.
 		do_action( 'fl_builder_admin_settings_render_forms' );
@@ -365,7 +362,7 @@ final class FLBuilderAdminSettings {
 		self::save_enabled_modules();
 		self::save_enabled_post_types();
 		self::save_enabled_icons();
-		self::save_editing_capability();
+		self::save_user_access();
 		self::clear_cache();
 		self::uninstall();
 		
@@ -541,19 +538,16 @@ final class FLBuilderAdminSettings {
 	}
 	
 	/** 
-	 * Saves the editing capability.
+	 * Saves the user access settings
 	 *
-	 * @since 1.0
+	 * @since 1.10
 	 * @access private
 	 * @return void
 	 */ 
-	static private function save_editing_capability()
+	static private function save_user_access()
 	{
-		if ( isset( $_POST['fl-editing-nonce'] ) && wp_verify_nonce( $_POST['fl-editing-nonce'], 'editing' ) ) {
-			
-			$capability = sanitize_text_field( $_POST['fl-editing-capability'] );
-			
-			FLBuilderModel::update_admin_settings_option( '_fl_builder_editing_capability', $capability, true );
+		if ( isset( $_POST['fl-user-access-nonce'] ) && wp_verify_nonce( $_POST['fl-user-access-nonce'], 'user-access' ) ) {
+			FLBuilderUserAccess::save_settings( isset( $_POST['fl_user_access'] ) ? $_POST['fl_user_access'] : array() );
 		}
 	}
 	

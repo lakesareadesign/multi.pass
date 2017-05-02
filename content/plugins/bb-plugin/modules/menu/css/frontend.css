@@ -4,7 +4,6 @@
 	margin: 0;
 	padding: 0;
 }
-
 .fl-menu .menu:before,
 .fl-menu .menu:after{
 	content: '';
@@ -13,7 +12,6 @@
 }
 
 /* Horizontal menus */
-
 .fl-menu .menu{
 	position: relative;
 }	
@@ -26,13 +24,22 @@
 	line-height: 1;
 	text-decoration: none;
 }
+.fl-menu a:hover{
+	text-decoration: none;	
+}
 .fl-menu .sub-menu{ 
-	text-align: left;
 	min-width: 220px;
 }
 
-/* Submenus */
+/* Expanded menus */
+.fl-module[data-node] .fl-menu .fl-menu-expanded .sub-menu {
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	-ms-box-shadow: none;
+	box-shadow: none;
+}
 
+/* Submenus */
 .fl-menu .fl-has-submenu:focus,
 .fl-menu .fl-has-submenu .sub-menu:focus,
 .fl-menu .fl-has-submenu-container:focus {
@@ -47,7 +54,6 @@
 }
 
 /* Toggle - General */
-
 .fl-menu .fl-menu-toggle{
 	position: absolute;
 	top: 50%;
@@ -62,22 +68,19 @@
 	display: none;
 }
 
-/*mobile menu - hamburger icon*/
-
+/* Mobile menu - hamburger icon */
 .fl-menu .fl-menu-mobile-toggle {
 	position: relative;
-	padding: 6px 8px;
+	padding: 8px;
 	background-color: transparent;
 	border: none;
 	color: #333;
 	border-radius: 0;
 }
-
 .fl-menu .fl-menu-mobile-toggle.text{
 	width: 100%;
 	text-align: center;
 }
-
 .fl-menu .fl-menu-mobile-toggle.hamburger .fl-menu-mobile-toggle-label,
 .fl-menu .fl-menu-mobile-toggle.hamburger-label .fl-menu-mobile-toggle-label{
 	display: inline-block;

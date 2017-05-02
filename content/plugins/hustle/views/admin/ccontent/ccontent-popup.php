@@ -153,7 +153,7 @@
 
 					<div class="wph-label--checkbox">
 
-						<label class="wph-label--alt" for="{{type}}-page_scroll_on"><?php _e('Allow page to be scrolled while Pop Up is visible', Opt_In::TEXT_DOMAIN); ?></label>
+						<label class="wph-label--alt" for="{{type}}-page_scroll_on"><?php _e('Allow page to be scrolled while Pop-up is visible', Opt_In::TEXT_DOMAIN); ?></label>
 
 						<div class="wph-input--checkbox">
 
@@ -209,7 +209,7 @@
 
 					<div class="wph-label--block">
 
-						<label class="wph-label--alt"><?php _e('If your Pop Up contains a form, you can change the form-submit behavior here', Opt_In::TEXT_DOMAIN); ?></label>
+						<label class="wph-label--alt"><?php _e('If your Pop-up contains a form, you can change the form-submit behavior here', Opt_In::TEXT_DOMAIN); ?></label>
 
 					</div>
 

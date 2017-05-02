@@ -12,7 +12,7 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 	 *
 	 * @since 1.5.4
 	 * @var string $id
-	 */  
+	 */
 	public $id = 'mailrelay';
 
 	/**
@@ -21,7 +21,7 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 	 * @since 1.5.8
 	 * @access private
 	 * @var string $api_url
-	 */  
+	 */
 	private $api_url = '/ccm/admin/api/version/2/&type=json';
 
 	/**
@@ -32,27 +32,27 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 	 * @param string $method Method to request available from this service.
 	 * @param array $params Data to be passed to API
 	 * @return array|object The API response.
-	 */  
-	private function get_api_response( $base_url, $params ) 
+	 */
+	private function get_api_response( $base_url, $params )
 	{
-		// Exclude http:// for the specific service	
+		// Exclude http:// for the specific service
 		$base_url = preg_replace('#^https?://#', '', $base_url);
-		$response = wp_remote_post( 'https://'. $base_url . $this->api_url, array( 'timeout' => 60, 'body' => $params ) ); 
-		
+		$response = wp_remote_post( 'https://'. $base_url . $this->api_url, array( 'timeout' => 60, 'body' => $params ) );
+
 		if (is_wp_error($response) || (isset($response->status) && $response->status == 0)) {
 			if (isset($response->status)) {
-				$data = json_decode($response, true);	
+				$data = json_decode($response, true);
 			}
 			else {
-				$data['error'] = $response->get_error_message();	
+				$data['error'] = $response->get_error_message();
 			}
-			
-		} else { 
-			$data = json_decode(wp_remote_retrieve_body( $response ), true); 
+
+		} else {
+			$data = json_decode(wp_remote_retrieve_body( $response ), true);
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * Test the API connection.
 	 *
@@ -65,14 +65,14 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type array $data An array of data used to make the connection.
 	 * }
-	 */  
-	public function connect( $fields = array() ) 
+	 */
+	public function connect( $fields = array() )
 	{
-		$response = array( 
+		$response = array(
 			'error'  => false,
 			'data'   => array()
 		);
-		
+
 		// Make sure we have the Host.
 		if ( ! isset( $fields['api_host'] ) || empty( $fields['api_host'] ) ) {
 			$response['error'] = __( 'Error: You must provide a Host.', 'fl-builder' );
@@ -87,18 +87,18 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 			$result = $this->get_api_response( $fields['api_host'], array(
 				'function'  => 'getGroups',
 				'apiKey'	=> $fields['api_key'],
-				'offset' 	=> 0, 
+				'offset' 	=> 0,
 				'count' => 1
 			) );
-			
+
 			if (!isset($result['error'])) {
 				$response['data'] = array( 'api_host' => $fields['api_host'], 'api_key' => $fields['api_key'] );
-			} 
+			}
 			else {
 				$response['error'] = sprintf(__( 'Error: Could not connect to Mailrelay. %s', 'fl-builder' ), $result['error']);
-			}			
+			}
 		}
-		
+
 		return $response;
 	}
 
@@ -107,11 +107,11 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 	 *
 	 * @since 1.5.4
 	 * @return string The connection settings markup.
-	 */  
-	public function render_connect_settings() 
+	 */
+	public function render_connect_settings()
 	{
 		ob_start();
-		
+
 		FLBuilder::render_settings_field( 'api_host', array(
 			'row_class'     => 'fl-builder-service-connect-row',
 			'class'         => 'fl-builder-service-connect-input',
@@ -132,13 +132,13 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 			'preview'       => array(
 				'type'          => 'none'
 			)
-		)); 
-		
+		));
+
 		return ob_get_clean();
 	}
 
 	/**
-	 * Render the markup for service specific fields. 
+	 * Render the markup for service specific fields.
 	 *
 	 * @since 1.5.4
 	 * @param string $account The name of the saved account.
@@ -147,18 +147,18 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type string $html The field markup.
 	 * }
-	 */  
-	public function render_fields( $account, $settings ) 
+	 */
+	public function render_fields( $account, $settings )
 	{
 		$account_data   = $this->get_account_data( $account );
-		$result 		= $this->get_api_response( $account_data['api_host'], array( 
-							'function'  => 'getGroups', 
-							'apiKey'	=> $account_data['api_key'] 
-						) );
+		$result = $this->get_api_response( $account_data['api_host'], array(
+							'function'  => 'getGroups',
+							'apiKey'	=> $account_data['api_key']
+		) );
 
-		$response       = array( 
-			'error'         => false, 
-			'html'          => '' 
+		$response       = array(
+			'error'         => false,
+			'html'          => ''
 		);
 
 		if ( isset($result['error']) ) {
@@ -167,29 +167,29 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 		else {
 			$response['html'] = $this->render_list_field( $result['data'], $settings );
 		}
-		
+
 		return $response;
 	}
 
 	/**
-	 * Render markup for the list field. 
+	 * Render markup for the list field.
 	 *
 	 * @since 1.5.4
 	 * @param array $lists List data from the API.
 	 * @param object $settings Saved module settings.
 	 * @return string The markup for the list field.
 	 * @access private
-	 */  
-	private function render_list_field( $groups, $settings ) 
+	 */
+	private function render_list_field( $groups, $settings )
 	{
 		ob_start();
-		
+
 		$options = array( '' => __( 'Choose...', 'fl-builder' ) );
-		
+
 		foreach ( $groups as $group ) {
 			$options[ $group['id'] ] = $group['name'];
 		}
-				
+
 		FLBuilder::render_settings_field( 'list_id', array(
 			'row_class'     => 'fl-builder-service-field-row',
 			'class'         => 'fl-builder-service-list-select',
@@ -200,12 +200,12 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 			'preview'       => array(
 				'type'          => 'none'
 			)
-		), $settings); 
-		
+		), $settings);
+
 		return ob_get_clean();
 	}
 
-	/** 
+	/**
 	 * Subscribe an email address to Mailrelay.
 	 *
 	 * @since 1.5.4
@@ -215,30 +215,30 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 	 * @return array {
 	 *      @type bool|string $error The error message or false if no error.
 	 * }
-	 */  
+	 */
 	public function subscribe( $settings, $email, $name = '' )
 	{
 		$account_data = $this->get_account_data( $settings->service_account );
 		$response     = array( 'error' => false );
-		
+
 		if ( ! $account_data ) {
 			$response['error'] = __( 'There was an error subscribing to Mailrelay. The account is no longer connected.', 'fl-builder' );
 		}
 		else {
-			
-			$result = $this->get_api_response( $account_data['api_host'], array( 
-						'function'  => 'addSubscriber', 
+
+			$result = $this->get_api_response( $account_data['api_host'], array(
+						'function'  => 'addSubscriber',
 						'apiKey'	=> $account_data['api_key'],
 						'email'     => $email,
 						'name'		=> $name,
 						'groups'	=> $settings->list_id,
-					) );
-			
+			) );
+
 			if (isset($result['error'])) {
-				$response['error'] = sprintf(__( 'There was an error subscribing to Mailrelay. %s', 'fl-builder' ), $result['error']);				
+				$response['error'] = sprintf(__( 'There was an error subscribing to Mailrelay. %s', 'fl-builder' ), $result['error']);
 			}
 		}
-		
+
 		return $response;
 	}
 }

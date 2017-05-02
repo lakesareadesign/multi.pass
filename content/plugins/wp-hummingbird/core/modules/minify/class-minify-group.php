@@ -127,7 +127,7 @@ class WP_Hummingbird_Module_Minify_Group {
 		$_vars = get_class_vars( 'WP_Hummingbird_Module_Minify_Group' );
 		$vars = array();
 		foreach ( $_vars as $_var_name => $_var_default ) {
-			$value = get_post_meta( $post_id, $_var_name, true );
+			$value = get_post_meta( $post_id, '_' . $_var_name, true );
 			if ( false !== $value ) {
 				$vars[ $_var_name ] = $value;
 			}
@@ -164,7 +164,7 @@ class WP_Hummingbird_Module_Minify_Group {
 			$_vars = get_class_vars( 'WP_Hummingbird_Module_Minify_Group' );
 			$vars = array();
 			foreach ( $_vars as $_var_name => $_var_default ) {
-				$value = get_post_meta( $found->ID, $_var_name, true );
+				$value = get_post_meta( $found->ID, '_' . $_var_name, true );
 				if ( false !== $value ) {
 					$vars[ $_var_name ] = $value;
 				}
@@ -705,7 +705,7 @@ class WP_Hummingbird_Module_Minify_Group {
 		$hash .= implode( '-', $handles_versions );
 		$this->hash = self::hash( $hash );
 		if ( $this->file_id ) {
-			update_post_meta( $this->file_id, 'hash', $this->hash );
+			update_post_meta( $this->file_id, '_hash', $this->hash );
 		}
 	}
 
@@ -944,7 +944,7 @@ class WP_Hummingbird_Module_Minify_Group {
 				if ( in_array( $var, $exclude_vars ) ) {
 					continue;
 				}
-				update_post_meta( $group->file_id, $var, $value );
+				update_post_meta( $group->file_id, '_' . $var, $value );
 			}
 
 			if ( 'content' === $file['type'] ) {
@@ -952,7 +952,9 @@ class WP_Hummingbird_Module_Minify_Group {
 				// Any user can upload this as is made during front request
 				add_filter( 'upload_mimes', array( 'WP_Hummingbird_Module_Minify_Group', '_upload_mimes' ) , 999 );
 				$filename = $group->hash . '.' . ( 'scripts' === $group->type ? 'js' : 'css' );
+				do_action( 'wp_hummingbird_before_upload_minify_group', $filename, $file['response'] );
 				$upload = wp_upload_bits( $filename, null, $file['response'] );
+				do_action( 'wp_hummingbird_after_upload_minify_group', $filename, $file['response'], $upload );
 				remove_filter( 'upload_mimes', array( 'WP_Hummingbird_Module_Minify_Group', '_upload_mimes' ) , 999 );
 
 				if ( is_wp_error( $upload ) ) {
@@ -962,15 +964,15 @@ class WP_Hummingbird_Module_Minify_Group {
 					return false;
 				}
 
-				update_post_meta( $group->file_id, 'url', $upload['url'] );
-				update_post_meta( $group->file_id, 'path', $upload['file'] );
+				update_post_meta( $group->file_id, '_url', $upload['url'] );
+				update_post_meta( $group->file_id, '_path', $upload['file'] );
 			}
 			else {
 				// Just save URL
-				update_post_meta( $group->file_id, 'url', $file['response'] );
+				update_post_meta( $group->file_id, '_url', $file['response'] );
 			}
 
-			update_post_meta( $group->file_id, 'expires', $expire_on );
+			update_post_meta( $group->file_id, '_expires', $expire_on );
 
 			return true;
 		}
@@ -1077,28 +1079,28 @@ class WP_Hummingbird_Module_Minify_Group {
 			$handles = $this->get_handles();
 			return $this->get_handle_url( $handles[0] );
 		}
-		return get_post_meta( $this->file_id, 'url', true );
+		return get_post_meta( $this->file_id, '_url', true );
 	}
 
 	public function get_file_path() {
 		if ( ! $this->should_generate_file() ) {
 			return false;
 		}
-		return get_post_meta( $this->file_id, 'path', true );
+		return get_post_meta( $this->file_id, '_path', true );
 	}
 
 	public function expires_on() {
 		if ( ! $this->should_generate_file() ) {
 			return false;
 		}
-		return get_post_meta( $this->file_id, 'expires', true );
+		return get_post_meta( $this->file_id, '_expires', true );
 	}
 
 	public function get_file_version_hash() {
 		if ( ! $this->should_generate_file() ) {
 			return '';
 		}
-		$versions = get_post_meta( $this->file_id, 'handle_versions', true );
+		$versions = get_post_meta( $this->file_id, '_handle_versions', true );
 		if ( false === $versions ) {
 			return '';
 		}

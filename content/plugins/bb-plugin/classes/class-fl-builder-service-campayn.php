@@ -260,8 +260,8 @@ final class FLBuilderServiceCampayn extends FLBuilderService {
 
 			// Check if email already exists
 			$result = $this->get_api_response( $account_data['api_host'], $account_data['api_key'], 
-							"/lists/{$settings->list_id}/contacts.json?filter[contact]=". $email
-						);
+                "/lists/{$settings->list_id}/contacts.json?filter[contact]=". $email
+            );
 
 			// Already exists
 			if ( ! isset($result['error']) && (is_array($result) && isset($result[0]['id'])) ) {
@@ -282,7 +282,7 @@ final class FLBuilderServiceCampayn extends FLBuilderService {
 			$result = $this->get_api_response( $account_data['api_host'], $account_data['api_key'], $endpoint, array( 
 						'data' => $data,
 						'method' => $method
-					) );
+            ) );
 
 			if ( isset($result['error']) ) {
 				$response['error'] = sprintf(__( 'There was an error subscribing to Campayn. %s', 'fl-builder' ), $result['error']);				

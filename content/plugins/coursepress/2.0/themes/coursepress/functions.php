@@ -172,36 +172,21 @@ add_action( 'wp_enqueue_scripts', 'coursepress_scripts' );
 if ( ! function_exists( 'coursepress_scripts' ) ) :
 
 	function coursepress_scripts() {
-		/**
-		 * setup version
-		 */
-		$version = '';
-		if ( class_exists( 'CoursePress' ) ) {
-			$version = CoursePress::$version;
-		} else {
-			$theme = wp_get_theme();
-			$version = $theme->get( 'Version' );
-		}
-
 		wp_enqueue_style(
 			'coursepress-style',
-			get_stylesheet_uri(),
-			array(),
-			$version
+			get_stylesheet_uri()
 		);
 
 		wp_enqueue_style(
 			'coursepress-responsive-navigation',
-			get_template_directory_uri() . '/css/responsive-nav.css',
-			array(),
-			$version
+			get_template_directory_uri() . '/css/responsive-nav.css'
 		);
 
 		wp_enqueue_script(
 			'coursepress-navigation',
 			get_template_directory_uri() . '/js/navigation.js',
 			array(),
-			$version,
+			CoursePress::$version,
 			true
 		);
 
@@ -209,7 +194,7 @@ if ( ! function_exists( 'coursepress_scripts' ) ) :
 			'coursepress-responsive-navigation',
 			get_template_directory_uri() . '/js/responsive-nav.min.js',
 			array(),
-			$version,
+			CoursePress::$version,
 			true
 		);
 
@@ -217,7 +202,7 @@ if ( ! function_exists( 'coursepress_scripts' ) ) :
 			'coursepress-general',
 			get_template_directory_uri() . '/js/script.js',
 			array(),
-			$version,
+			CoursePress::$version,
 			true
 		);
 
@@ -225,7 +210,7 @@ if ( ! function_exists( 'coursepress_scripts' ) ) :
 			'coursepress-skip-link-focus-fix',
 			get_template_directory_uri() . '/js/skip-link-focus-fix.js',
 			array(),
-			$version,
+			CoursePress::$version,
 			true
 		);
 
@@ -323,13 +308,13 @@ class Walker_Nav_Menu_Dropdown extends Walker_Nav_Menu {
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $current_object_id = 0 ) {
 		// Here is where we create each option.
 		$item_output = '';
-		$item->title = str_repeat( '&#160;', $depth * 4 ) . $item->title;
+		$item->title = str_repeat( "&#160;", $depth * 4 ) . $item->title;
 
 		// Get the attributes.. Though we likely don't need them for this...
-		$attributes = ! empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) . '"' : '';
-		$attributes .= ! empty( $item->target ) ? ' target="' . esc_attr( $item->target ) . '"' : '';
-		$attributes .= ! empty( $item->xfn ) ? ' rel="' . esc_attr( $item->xfn ) . '"' : '';
-		$attributes .= ! empty( $item->url ) ? ' href="' . esc_attr( $item->url ) . '"' : '';
+		$attributes = !empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) . '"' : '';
+		$attributes .=!empty( $item->target ) ? ' target="' . esc_attr( $item->target ) . '"' : '';
+		$attributes .=!empty( $item->xfn ) ? ' rel="' . esc_attr( $item->xfn ) . '"' : '';
+		$attributes .=!empty( $item->url ) ? ' href="' . esc_attr( $item->url ) . '"' : '';
 
 		// Add the html
 		$item_output .= '<li>';

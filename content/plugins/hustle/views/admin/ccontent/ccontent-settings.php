@@ -1,6 +1,6 @@
 <script id="wpoi-custom-content-message-box-tp" type="text/template">
 
-	<label><?php _e('You can configure <strong>After Content</strong>, <strong>Pop-Up</strong> and <strong>Slide-in</strong> opt-ins in the section that follows. Widget with your Custom Content can be set-up in <strong>Appearance</strong> » <strong><a href="">Widgets</a></strong>.', Opt_In::TEXT_DOMAIN); ?></label>
+	<label><?php _e('You can configure <strong>After Content</strong>, <strong>Pop-up</strong> and <strong>Slide-in</strong> opt-ins in the section that follows. Widget with your Custom Content can be set-up in <strong>Appearance</strong> » <strong><a href="">Widgets</a></strong>.', Opt_In::TEXT_DOMAIN); ?></label>
 
 	<label><?php _e('Use the following shortcode to embed your Custom Content module anywhere:', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -32,15 +32,24 @@
 
 		</div><!-- #wph-ccontent--information -->
 
+		<?php $this->render("admin/ccontent/ccontent-after-content"); ?>
+
 		<?php $this->render("admin/ccontent/ccontent-popup"); ?>
 
 		<?php $this->render("admin/ccontent/ccontent-slidein"); ?>
+
+		<div id="wph-ccontent--after-content" class="row">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<h5><?php _e('After Content', Opt_In::TEXT_DOMAIN); ?></h5>
+			</div>
+			<div id="wph-ccontent-after-content-container" class="col-xs-12 col-sm-9 col-md-9 col-lg-9"></div>
+		</div><!-- #wph-ccontent--after-content -->
 
 		<div id="wph-ccontent--popup" class="row">
 
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-				<h5><?php _e('Pop Up', Opt_In::TEXT_DOMAIN); ?></h5>
+				<h5><?php _e('Pop-up', Opt_In::TEXT_DOMAIN); ?></h5>
 
 			</div>
 
@@ -52,7 +61,7 @@
 
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-				<h5><?php _e('Slide In', Opt_In::TEXT_DOMAIN); ?></h5>
+				<h5><?php _e('Slide-in', Opt_In::TEXT_DOMAIN); ?></h5>
 
 			</div>
 

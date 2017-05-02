@@ -317,7 +317,7 @@
 					}
 
 					if(codeField.length > 0) {
-						codeField.css('height', (boxFieldHeight - 30) + 'px');
+						codeField.css('height', (boxFieldHeight - 60) + 'px');
 					}
 					
 				}
@@ -334,7 +334,7 @@
 					}
 
 					if(codeField.length > 0) {
-						codeField.css('height', '380px');
+						codeField.css('height', '360px');
 					}
 
 					lightbox.draggable('enable');

@@ -84,6 +84,7 @@
             this.data[ attribute ] = val;
 			this.model.set(this.condition_id , this.data );
             this.model.trigger("change", val);
+            
         },
         get_attribute: function(attribute){
             var data = this.model.get( this.condition_id );
@@ -103,6 +104,14 @@
 				
 			// skip for input search
 			if ( $el.is(".select2-search__field") ) return false;
+            
+            // clean leaking old search results
+            _.delay(function(){
+                var search_results = $('.select2-results').parents('.select2-container');
+                if ( search_results.length ) {
+                    search_results.remove();
+                }
+            }, 500);
 			
             return this.update_attribute( attribute, val );
         },
@@ -203,6 +212,7 @@
             .on('select2:selecting', either_all_or_others )
             .on('select2:selecting', reanable_scroll )
             .on('select2:unselect', reanable_scroll);
+            
         }
     }) );
 

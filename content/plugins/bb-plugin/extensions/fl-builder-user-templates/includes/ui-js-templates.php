@@ -6,6 +6,7 @@
 			<?php _ex( 'Global', 'Indicator for global node templates.', 'fl-builder' ); ?>
 		</div>
 		<# } #>
+		<# if ( data.global && FLBuilderConfig.userCanEditGlobalTemplates ) { #>
 		<span class="fl-builder-node-template-actions">
 			<a class="fl-builder-node-template-edit" href="{{data.link}}" target="_blank">
 				<i class="fa fa-wrench"></i>
@@ -14,6 +15,7 @@
 				<i class="fa fa-times"></i>
 			</a>
 		</span>
+		<# } #>
 	</span>
 </script>
 <!-- #tmpl-fl-node-template-block -->

@@ -41,41 +41,115 @@ class Opt_In_ConstantContact extends Opt_In_Provider_Abstract  implements  Opt_I
      * @param $default
      * @return mixed
      */
-    function get_option($option_key, $default)
+    function get_option($option_key, $default = '' )
     {
         return get_site_option(self::ID . "_" . $option_key, $default);
     }
 
 
-    function subscribe(Opt_In_Model $optin, array $data)
-    {
+	function subscribe(Opt_In_Model $optin, array $data)
+	{
 
-        $accessToken = $this->get_option(self::ACCESS_TOKEN, false);
+		if ( $this->email_exist( $data['email'], $optin ) ) {
+			$err = new WP_Error();
+			$err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
+			return $err;
+		}
 
-        if (!$accessToken)
-            return false;
+		$accessToken = $this->get_option(self::ACCESS_TOKEN, false);
+		$err = new WP_Error();
 
+		if (!$accessToken) {
+			$err->add( 'config_error', __( 'Something went wrong. Please try again.', Opt_In::TEXT_DOMAIN ) );
+			return $err;
+		}
 
+		try {
+			$cc_api = new Ctct\ConstantContact(self::APIKEY);
+			$contact = new Ctct\Components\Contacts\Contact();
+			$contact->addEmail($data['email']);
+			$contact->addList($optin->optin_mail_list);
 
-        try {
-            $cc_api = new Ctct\ConstantContact(self::APIKEY);
-            $contact = new Ctct\Components\Contacts\Contact();
-            $contact->addEmail($data['email']);
-            $contact->addList($optin->optin_mail_list);
-            $contact->first_name = $data['f_name'];
-            $contact->last_name = $data['l_name'];
-            $returnContact = $cc_api->contactService->addContact($accessToken, $contact);
+			if ( isset( $data['first_name'] ) ) {
+				$contact->first_name = $data['first_name'];
+			}
+			elseif ( isset( $data['f_name'] ) ) {
+				$contact->first_name = $data['f_name']; // Legacy call
+			}
+			if ( isset( $data['last_name'] ) ) {
+				$contact->last_name = $data['last_name'];
+			}
+			elseif ( isset( $data['l_name'] ) ) {
+				$contact->last_name = $data['l_name']; // Legacy call
+			}
+			$old_data = $data;
+			$data = array_diff_key( $data, array(
+				'email' => '',
+				'first_name' => '',
+				'last_name' => '',
+				'f_name' => '',
+				'l_name' => '',
+			) );
+			$data = array_filter( $data );
 
-            self::$errors['success'] = 'success';
+			if ( ! empty( $data ) ) {
+				$allowed = array(
+					'prefix_name',
+					'job_title',
+					'company_name',
+					'home_phone',
+					'work_phone',
+					'cell_phone',
+					'fax',
+				);
+
+				// Add extra fields
+				$x = 1;
+				foreach ( $data as $key => $value ) {
+					if ( in_array( $key, $allowed ) ) {
+						$contact->$key = $value;
+					} else {
+						if ( ! empty( $value ) ) {
+							$custom_field = array(
+								'name' => 'CustomField' . $x,
+								'value' => $value,
+							);
+							$contact->custom_fields[] = $custom_field;
+							$x++;
+						}
+					}
+				}
+			}
+
+			$returnContact = $cc_api->contactService->addContact($accessToken, $contact);
+
+			self::$errors['success'] = 'success';
+			return true;
 
         } catch (Ctct\Exceptions\CtctException $e) {
-            self::$errors['error'] = $e;
-            return false;
+            $err->add( 'subscribe_error', __( 'Something went wrong. Please try again.', Opt_In::TEXT_DOMAIN ) );
+			$error_message = json_decode( $e->getMessage() );
+
+			if ( is_array( $error_message ) ) {
+				$error_message = array_pop( $error_message );
+				$error_message = $error_message->error_message;
+			}
+
+			$old_data['error'] = $error_message;
+
+			$optin->log_error( $old_data );
         }
 
-        return self::$errors;
-
+        return $err;
     }
+
+	function email_exist( $email, Opt_In_Model $optin ) {
+		$cc_api = new Ctct\ConstantContact(self::APIKEY);
+		$accessToken = $this->get_option(self::ACCESS_TOKEN, false);
+		$res = $cc_api->getContacts( $accessToken, array( 'email' => $email ) );
+
+		return is_object( $res ) && ! empty( $res->results ) ? true : false;
+	}
 
     function get_options( $optin_id )
     {
@@ -127,7 +201,6 @@ class Opt_In_ConstantContact extends Opt_In_Provider_Abstract  implements  Opt_I
                 'selected' => $first,
             )
         );
-
     }
 
 

@@ -4,13 +4,16 @@ Hustle.define("Optin.Listing", function($){
 
     return Backbone.View.extend({
         el: "#hustle-optin-listing",
+		logShown: false,
         events: {
 	        "click .wph-accordions header" : "toggle_optin_accordion",
             "click .hustle-delete-optin": "delete_optin",
             "click .optin-active-state": "toggle_optin_activity",
             "click .button-view-email-list": "view_email_list",
             "change  .optin-type-active-state": "toggle_type_activity",
-            "change  .wpoi-testmode-active-state": "toggle_type_mode_activity"
+            "change  .wpoi-testmode-active-state": "toggle_type_mode_activity",
+            "change .optin-toggle-tracking-activity": "toggle_tracking_activity",
+			"click .button-view-log-list": "view_error_log_list"
         },
         initialize: function(){
             var self = this;
@@ -92,13 +95,14 @@ Hustle.define("Optin.Listing", function($){
                 name = $this.data("name"),
                 total = $this.data("total"),
                 Subscription_List_Modal = Hustle.get("Optin.Subscription_List_Modal");
-                ;
+                
 
-            new Subscription_List_Modal({
+            var subscription_list = new Subscription_List_Modal({
                 model: {
                     id: id,
                     total: total,
-                    name: name
+                    name: name,
+					module_fields: []
                 }
             });
 
@@ -115,6 +119,38 @@ Hustle.define("Optin.Listing", function($){
                 $test_mode_toggle.fadeIn( speed );
             }
 
+        },
+        toggle_tracking_activity: function(e){
+            e.stopPropagation();
+            var $this = $(e.target),
+                id = $this.data("id"),
+                nonce = $this.data("nonce"),
+                type = $this.data("type"),
+                new_state = $this.is(":checked");
+
+            $this.attr("disabled", true);
+
+            $.ajax({
+                url: ajaxurl,
+                type: "POST",
+                data: {
+                    action: "inc_optin_toggle_tracking_activity",
+                    id: id,
+                    type: type,
+                    _ajax_nonce: nonce
+                },
+                complete: function(){
+                    $this.attr("disabled", false);
+                },
+                success: function( res ){
+                    if( !res.success )
+                        $this.attr("checked", !new_state);
+                },
+                error: function(res){
+                    if( !res.success )
+                        $this.attr("checked", !new_state);
+                }
+            });
         },
         toggle_type_activity: function(e){
             var $this = $(e.target),
@@ -146,6 +182,35 @@ Hustle.define("Optin.Listing", function($){
             $.post(ajaxurl, data,function(response){
                 $this.prop("disabled", false);
             });
-        }
+        },
+		view_error_log_list: function(e){
+			var target = $(e.currentTarget),
+				data = target.data(),
+				optin_id = data.id,
+				name = data.name,
+				ErrorList = Hustle.get( 'Optin.Error_List_Modal' );
+
+			if ( ! this.logShown ) {
+				this.logShown = new ErrorList({
+					button: target,
+					model: {
+						name: name,
+						optin_id: optin_id,
+						total: data.total
+					}
+				});
+			} else {
+				this.logShown.show();
+			}
+
+/*
+			$.getJSON( window.ajax, {
+				_wpnonce: optin_vars.error_log_nonce,
+				optin_id: optin_id
+			}, function( res ) {
+				alert(res);
+			});
+*/
+		}
     });
 });

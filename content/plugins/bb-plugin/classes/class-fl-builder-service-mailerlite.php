@@ -205,7 +205,6 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 		else {
 			
 			$api = $this->get_api( $account_data['api_key'] );
-			
 
 			$data['email'] = $email;
 

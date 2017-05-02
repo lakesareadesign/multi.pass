@@ -1,11 +1,99 @@
 
 Hustle.define("Optin.Design_Tab", function( $ ) {
     "use strict";
+
+	var ModuleField = Hustle.View.extend({
+		template: Hustle.template( 'wpoi-module-field' ),
+		tagName: 'tr',
+		options: {},
+		controller: false,
+		events: {
+			'change [name]': 'updateOptions',
+			'click .wph-column-icon': 'removeModule'
+		},
+		initialize: function( data ) {
+			this.options = data.options;
+			this.controller = data.controller;
+			this.field_container = this.controller.$('tbody');
+
+			this.render();
+		},
+		render: function() {
+			this.$el.html( this.template( this.options ) ).attr('data-index', this.options.index);
+			this.$el.appendTo( '#wpoi-module-fields' );
+
+			var me = this,
+				oldList = [],
+				sortArgs = {
+				items: 'tr',
+				containment: this.controller.$('.wph-table--module_fields table'),
+				stop: function(e, ui) {
+					me.reOrderFields();
+				}
+			};
+
+			this.field_container.sortable(sortArgs).disableSelection();
+		},
+		reOrderFields: function() {
+			var me = this, newSet = [];
+
+			this.field_container.find('tr')
+			.each(function(i){
+				var tr = $(this),
+					_index = tr.data('index'),
+					module_field = me.controller.module_fields[_index];
+				module_field.index = i;
+				newSet[i] = module_field;
+				tr.data('index', i);
+			});
+
+			this.controller.module_fields = newSet;
+			this.controller.model.set('module_fields', newSet);
+		},
+		updateOptions: function( e ) {
+			var input = $(e.currentTarget),
+				input_name = input.attr( 'name' ),
+				input_val = input.val(),
+				provider = Optin.step.services.model.get('optin_provider');
+
+			if ( 'required' === input_name ) {
+				input_val = input.is(':checked');
+			}
+			this.options[ input_name ] = input_val;
+
+			if ( provider && optin_vars.providers[ provider ] &&
+                _.contains( ['name', 'label'], input_name ) ) {
+				Optin.Events.trigger( 'optin:update_module_field_' + provider, this.options, this, this.controller.optin.toJSON().optin_id );
+				return;
+			}
+			this._updateOptions();
+		},
+		_updateOptions: function() {
+			this.controller.module_fields[ this.options.index ] = this.options;
+			this.controller.model.set( 'module_fields', this.controller.module_fields );
+		},
+		removeModule: function() {
+			var me = this,
+				field_key = 0
+			;
+			this.controller.module_fields = _.filter(this.controller.module_fields, function(field){
+				if ( field.name != me.options.name ) {
+					field.index = field_key;
+					field_key++;
+					return field;
+				}
+			});
+			this.controller.model.set( 'module_fields', this.controller.module_fields );
+			this.remove();
+		}
+	});
+
     return Hustle.View.extend( _.extend({}, Hustle.get("Mixins.Model_Updater"), {
         template: Hustle.template("wpoi-wizard-design_template"),
 		message_editor: false,
 		success_editor: false,
         structure_tpl: Hustle.template("wpoi-wizard-design_structure_template"),
+		module_fields_tpl: Hustle.template("wpoi-wizard-design_module_fields_template"),
         shapes_tpl: Hustle.template("wpoi-wizard-design_shapes_template"),
         after_submit_tpl: Hustle.template("wpoi-wizard-design_after_submit_template"),
         color_pickers_tpl: Hustle.template("optin-color-pickers"),
@@ -15,6 +103,7 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
         defaults: {
             optin_input_icons: ""
         },
+		module_index: 0,
         stylable_elements:{
             main_background: '.wpoi-hustle .wpoi-optin',
             title_color: '.wpoi-hustle h2.wpoi-title',
@@ -69,7 +158,12 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
 			'change [name="on_success"]': 'updateMeta',
 			'change [name="on_success_time"]': 'updateMeta',
 			'change [name="on_success_unit"]': 'updateMeta',
-			'change .wysiwyg-tab': 'toggleSuccessMessageFields'
+			'change .wysiwyg-tab': 'toggleSuccessMessageFields',
+			'click .add-new-module-field': 'newModuleField',
+			'click .wph-cancel-add-field': 'cancelAddField',
+			'click .wph-add-new-field': 'addNewField',
+			'keyup [data-name="label"]': 'removeWarningIcons',
+			'keyup [data-name="name"]': 'removeWarningIcons'
         },
         stylables: {
             ".wpoi-hustle .wpoi-optin ": "Opt-in Container",
@@ -88,9 +182,12 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
             this.listenTo(this.model, "change:colors.customize",  this.render_color_pickers);
             this.listenTo(this.model, "change:borders.fields_style", this.render_shapes );
             this.listenTo( this.model, "change:on_submit", this.render_on_submit );
+            this.listenTo( this.model, "change:image_style", this.update_image_style );
+            this.listenTo( this.model, "change:image_src", this.update_image_style );
 
             this.listenTo( this.model, "change:form_location", this.set_proper_image_location );
 			this.listenTo( Hustle.Events, "Optin.save", this.sync_model_data );
+			this.listenTo( Hustle.Events, "Optin.preview.changed.type", this.preview_type_changed );
 
             return this.render();
         },
@@ -98,6 +195,7 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
             this.$el.html( this.template(  _.extend({}, { palettes: Palettes.toJSON() }, { stylables: this.stylables }, this.optin.toJSON(), this.model.toJSON()  ) ) );
 
             this.render_structure();
+			this.render_module_fields();
             this.render_shapes();
             this.render_on_submit();
 
@@ -106,12 +204,32 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
             this.update_borders_style();
             this.render_color_pickers();
             this.render_image_holder();
+            this.update_image_style();
             this.apply_custom_css();
 
         },
         render_structure: function(){
             this.$("#wph-optin--structure").html( this.structure_tpl( this.model.toJSON() ) );
         },
+		render_module_fields: function() {
+			this.$('#wph-optin--module-fields').html( this.module_fields_tpl( this.model.toJSON() ) );
+
+			// Iterate module fields
+			this.module_fields = this.model.get( 'module_fields' );
+
+			if ( ! this.module_fields ) {
+				this.module_fields = optin_vars.module_fields;
+			}
+
+			_.each( this.module_fields, function( field ) {
+				field.index = this.module_index;
+				var m_field = new ModuleField({
+					options: field,
+					controller: this
+				});
+				this.module_index += 1;
+			}, this );
+		},
 		handle_triggers: function(e){
 			var $this = $(e.target),
 				$selected_li = $this.closest('li'),
@@ -138,6 +256,15 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
               this.$("label[for='wpoi-sm']").hide();
               this.$("label[for='wpoi-om']").click();
           }
+        },
+        update_image_style: function() {
+            var img_src = this.model.get('image_src'),
+                img_style = this.model.get('image_style'),
+                $img = this.$(".wph-media--holder .wph-media--preview");
+                
+            if ( img_src.trim() && $img.length ) {
+                $img.css( 'background-size', img_style );
+            }
         },
         create_color_pickers: function(){
             this.$(".optin_color_picker").not(".wp-color-picker").wpColorPicker({
@@ -330,6 +457,29 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
                     $form.addClass("wpoi-align-element");
                 }
             });
+            
+            // Layout #3
+            // Group module fields
+            $(".wpoi-layout-three .wpoi-optin:not(.wpoi-small)").each(function(){
+	            var $this = $(this),
+	            	$elements = $this.find('form > .wpoi-element:not(.wpoi-provider-args)');
+	            
+	            for (var i = 0; i < $elements.length; i+=2) {
+		            $elements.slice(i, i+2).wrapAll('<div class="wpoi-element" style="background-color: transparent;"><div class="wpoi-container"></div></div>');
+		        }
+            });
+            
+            // Layout #4
+            // Group module fields
+            $(".wpoi-layout-four .wpoi-optin:not(.wpoi-small)").each(function(){
+	            var $this = $(this),
+	            	$elements = $this.find('form > .wpoi-element:not(.wpoi-provider-args)');
+	            
+	            for (var i = 0; i < $elements.length; i+=2) {
+		            $elements.slice(i, i+2).wrapAll('<div class="wpoi-element" style="background-color: transparent;"><div class="wpoi-container"></div></div>');
+		        }
+            });
+            
             // Layout #4
             // Vertical align content
             $(".wpoi-layout-four .wpoi-optin:not(.wpoi-small) > .wpoi-container.noimage:not(.nocontent)").each(function(){
@@ -572,7 +722,7 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
          * @param model
          */
         set_proper_image_location: function(model){
-            if( model.get("form_location") != 0 ){
+            if( model.get("form_location") !== 0 ){
                 model.set("image_location", "left");
             }
         },
@@ -589,7 +739,7 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
 					return false;
 				},
                 display = Optin.step.display.model.toJSON();
-				
+			
             if( this.preview_model ){
                 this.preview_model.set( _.extend(
                     {
@@ -653,6 +803,13 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
             this.apply_proper_preview_classes();
             this.apply_custom_css();
         },
+        preview_type_changed: function() {
+            this._fix_layout_3_sizes();
+            this.update_styles();
+            this.update_borders_style();
+            this.apply_proper_preview_classes();
+            this.apply_custom_css();
+        },
 		sync_model_data: function() {
 			var optin_title = this.model.get( 'optin_title' );
 			if ( ! optin_title ) {
@@ -679,6 +836,79 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
 				container = $( '#wpoi-success-message-fields');
 
 			container[ is_visible ? 'removeClass' : 'addClass']('hidden');
+		},
+		newModuleField: function(e) {
+			var addbutton = $(e.currentTarget);
+			var module_maker_container = this.$( '#wpoi-module-field-maker' ).removeClass( 'hidden' );
+			addbutton.attr( 'disabled', 'disabled' );
+		},
+		cancelAddField: function() {
+			var makerContainer = this.$( '#wpoi-module-field-maker' ).addClass( 'hidden' );
+
+			// Remove warning icons
+			$('.dashicons-warning', makerContainer).remove();
+
+			$( '[type="text"]', makerContainer).val('');
+			this.$( '.add-new-module-field' ).attr( 'disabled', false );
+		},
+		addNewField: function () {
+			var datas = this.$( '[data-name]', '#wpoi-module-field-maker' ).not(':disabled'),
+				field = {},
+				errors = 0;
+
+			_.each( datas, function( input ) {
+				input = $(input);
+				var input_name = input.data( 'name' ),
+					input_val = input.val();
+
+				if ( _.contains( ['label', 'name'], input_name ) && '' === input_val.trim() ) {
+					errors++;
+
+					var $icon = $('<span class="dashicons dashicons-warning"></span>');
+					input.after( $icon );
+
+					if ( 'label' === input_name ) {
+						$icon.attr( 'title', optin_vars.messages.module_fields.no_label );
+					}
+					if ( 'name' === input_name ) {
+						$icon.attr( 'title', optin_vars.messages.module_fields.no_name );
+					}
+				}
+
+				if ( 'checkbox' === input.attr( 'type' ) ) {
+					field[ input_name ] = input.is(':checked');
+				} else {
+					field[ input_name ] = input.val();
+				}
+			}, this );
+
+			if ( errors > 0 ) {
+				// Don't add if there are errors
+				return;
+			}
+			// Remove any existing warning icons
+			this.removeWarningIcons();
+
+			var provider = Optin.step.services.model.get("optin_provider");
+
+			if ( provider && optin_vars.providers[ provider ] ) {
+				Optin.Events.trigger( 'optin:add_module_field_' + provider, field, this, this.optin.toJSON().optin_id );
+
+				return false;
+			}
+
+			// If no provider, add module field
+			this._add_module_field( field );
+		},
+		_add_module_field: function( field ) {
+			field.index = this.module_index++;
+			var m_field = new ModuleField({ options: field, controller: this });
+			this.module_fields.push( field );
+			this.model.set( 'module_fields', this.module_fields );
+			this.$( '.wph-cancel-add-field' ).trigger( 'click' );
+		},
+		removeWarningIcons: function() {
+			this.$( '.dashicons-warning', '#wpoi-module-field-maker' ).remove();
 		}
     }));
 

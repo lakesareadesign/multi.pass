@@ -40,6 +40,7 @@
 	});
 
 	// CUSTOM CONTENT
+    // console.log(Hustle_Custom_Contents);
 	$.each(Hustle_Custom_Contents, function(uniq_id, cc) {
 		cc.id = uniq_id;
 
@@ -55,6 +56,21 @@
 				cc.type = 'slide_in';
 				new Optin.CCSlideIn(cc);
 			}
+
+			if ( cc.after_content && _.isTrue(cc.should_display.after_content) && _.isTrue(cc.after_content.enabled) ){
+				cc.type = 'after_content';
+				cc.uniq_id = uniq_id;
+				new Optin.CCAfterContent(cc);
+			}
 		}
 	});
+    
+    
+    // SOCIAL SHARING
+    _.each(Hustle_SS_Modules, function(ss, key) {
+        if ( _.isTrue(ss.floating_social.enabled) && _.isTrue(ss.is_floating_social_allowed) ) {
+            new Optin.SS_floating(ss);
+        }
+    });
+    
 }(jQuery, document, window));

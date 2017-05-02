@@ -77,30 +77,85 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
     }
 
 
-    function subscribe(Opt_In_Model $optin, array $data)
+    function subscribe(Opt_In_Model $optin, array $contact)
     {
 
-        $contact = array();
+		$api = self::api( $optin->api_key, $optin->provider_args->account_name );
 
-        $contact['Email'] = $data['email'];
+		if ( isset( $contact['email'] ) ) {
+			$contact['Email'] = $contact['email'];
+		}
+		if ( isset( $contact['first_name'] ) ) {
+			$contact['FirstName'] = $contact['first_name'];
+		}
+		elseif ( isset( $contact['f_name'] ) ) {
+			$contact['FirstName'] = $contact['f_name']; // Legacy
+		}
+		if ( isset( $contact['last_name'] ) ) {
+			$contact['LastName'] = $contact['last_name'];
+		}
+		elseif ( isset( $contact['l_name'] ) ) {
+			$contact['LastName'] = $contact['l_name'];
+		}
+		$contact = array_diff_key( $contact, array(
+			'email' => '',
+			'first_name' => '',
+			'last_name' => '',
+			'f_name' => '',
+			'l_name' => '',
+		) );
 
-        if( isset( $data['f_name'] ) )
-            $contact['FirstName'] = $data['f_name'];
+		$custom_fields = $optin->get_meta( 'is_custom_fields' );
 
-        if( isset( $data['l_name'] ) )
-            $contact['LastName'] = $data['l_name'];
+		if ( empty( $custom_fields ) ) {
+			$custom_fields = $api->get_custom_fields();
+		} else {
+			$custom_fields = json_decode( $custom_fields );
+		}
 
+		$extra_custom_fields = array_diff_key( $contact, array_fill_keys( $custom_fields, 1 ) );
+		$found_extra = array();
 
-        $contact_id = self::api( $optin->api_key, $optin->provider_args->account_name )->add_contact( $contact );
+		if ( ! empty( $extra_custom_fields ) ) {
+
+			foreach ( $extra_custom_fields as $key => $value ) {
+				$field = $optin->get_custom_field( 'name', $key );
+				$label = str_replace( ' ', '', ucwords( $field['label'] ) );
+
+				// Attempt to check the label
+				if ( in_array( $label, $custom_fields ) ) {
+					$contact[ $label ] = $value;
+				} else {
+					$found_extra[ $key ] = $value;
+				}
+				unset( $contact[ $key ] );
+			}
+		}
+
+		if ( ! empty( $found_extra ) ) {
+			$data = $contact;
+			$data['error'] = __( 'Some fields are not successfully added.', Opt_In::TEXT_DOMAIN );
+			$optin->log_error( $data );
+		}
+
+        $contact_id = $api->add_contact( $contact );
+
         if( !is_wp_error( $contact_id ) ){
-            $contact_id = self::api( $optin->api_key, $optin->provider_args->account_name )->add_tag_to_contact( $contact_id, $optin->optin_mail_list );
+            $contact_id = $api->add_tag_to_contact( $contact_id, $optin->optin_mail_list );
         }
 
-        if( !is_wp_error( $contact_id ) )
+        if( !is_wp_error( $contact_id ) ) {
             return __("Contact successfully added", Opt_In::TEXT_DOMAIN) ;
-        else
-            $contact_id;
+		} else {
+			$error_code = $contact_id->get_error_code();
 
+			if ( 'email_exist' != $error_code ) {
+				$contact['error'] = $contact_id->get_error_message( $error_code );
+				$optin->log_error( $contact );
+			}
+
+            return $contact_id;
+		}
     }
 
     function get_options( $optin_id )
@@ -136,7 +191,6 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 
     function get_account_options( $optin_id )
     {
-
         $account_name = "";
         if( !empty( $optin_id ) ){
             $provider_args = Opt_In_Model::instance()->get( $optin_id )->get_provider_args();
@@ -227,6 +281,30 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
         if( $optin->optin_provider !== Opt_In_Infusion_Soft::ID || !$optin->optin_mail_list ) return;
         printf( __("Selected tag: %s (Press the GET TAGS button to update value) ", Opt_In::TEXT_DOMAIN), $optin->optin_mail_list );
     }
+
+	static function add_custom_field( $field, $optin ) {
+		$api = self::api( $optin->api_key, $optin->provider_args->account_name );
+		$custom_fields = $api->get_custom_fields();
+
+		// Update custom fields meta
+		$optin->add_meta( 'is_custom_fields', $custom_fields );
+
+		// Check if custom field name exist on existing custom fields
+		if ( in_array( $field['name'], $custom_fields ) ) {
+			return array( 'success' => true, 'field' => $field );
+		}
+
+		// Check if label can be use as name
+		$label = str_replace( ' ', '', ucwords( $field['label'] ) );
+		if ( in_array( $label, $custom_fields ) ) {
+			// Replace the field name
+			$field['name'] = $label;
+
+			return array( 'success' => true, 'field' => $field );
+		}
+
+		return array( 'error' => true, 'code' => 'custom_field_not_exist' );
+	}
 }
 
     add_filter("wpoi_optin_infusionsoft_show_selected_list", array("Opt_In_Infusion_Soft", "show_selected_list"), 10, 2);

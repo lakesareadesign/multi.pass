@@ -54,7 +54,7 @@
                             module = modules[_module_name];
 
                             if (arr.length)
-                                recursive(arr.join("."), modules[_module_name])
+                                recursive(arr.join("."), modules[_module_name]);
                         };
 
                     recursive(module_name, _modules);
@@ -161,14 +161,15 @@
                 return {
                     set: set,
                     get: get
-                }
+                };
             }()),
             consts = (function(){
                 return {
                     Never_See_Aagain_Prefix: "hustle_never_see_again-",
                     Module_Show_Count: "hustle_module_show_count-",
 					Slide_Cookie_Prefix: 'hustle_slide_in_prefix-',
-					Slide_Cookie_Hide_All: 'hustle_slide_in_hide_all-'
+					Slide_Cookie_Hide_All: 'hustle_slide_in_hide_all-',
+					SS_Module_Show_Count: 'hustle_ss_module_show_count-'
                 };
             }());
 

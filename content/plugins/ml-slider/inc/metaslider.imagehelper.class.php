@@ -347,9 +347,21 @@ class MetaSliderImageHelper {
         $backup_sizes["resized-{$dest_size['width']}x{$dest_size['height']}"] = $saved;
         update_post_meta( $this->id, '_wp_attachment_backup_sizes', $backup_sizes );
 
-        do_action( "metaslider_after_resize_image", $this->id, $dest_size['width'], $dest_size['height'], $saved );
+        // Update recorded image sizes in the metadata
+        $meta_sizes = get_post_meta( $this->id, '_wp_attachment_metadata', true );
+
+        if ( ! is_array( $meta_sizes ) ) {
+            $meta_sizes = array();
+        }
+
+        $temp_saved = $saved;  // working copy of $saved
+        unset( $temp_saved['path'] ); // path does not belong in the meta data
+        $meta_sizes['sizes']["meta-slider-resized-{$dest_size['width']}x{$dest_size['height']}"] = $temp_saved;
+        update_post_meta( $this->id, '_wp_attachment_metadata', $meta_sizes );
 
         $url = str_replace( basename( $this->url ), basename( $saved['path'] ), $this->url );
+
+        do_action( "metaslider_after_resize_image", $this->id, $dest_size['width'], $dest_size['height'], $url );
 
         return $url;
     }

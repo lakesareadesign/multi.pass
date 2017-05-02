@@ -17,7 +17,7 @@ class Opt_In_Mad_Mimi_Api
         $this->_user_name = $username;
         $this->_api_key = $api_key;
 
-        if( $args['endpoint'] )
+        if( isset( $args['endpoint'] ) )
             $this->_endpoint = $args['endpoint'];
     }
 
@@ -120,4 +120,10 @@ class Opt_In_Mad_Mimi_Api
         return empty( $res ) ? __("Successful subscription", Opt_In::TEXT_DOMAIN) : $res;
     }
 
+	function search_by_email( $email ) {
+		$action = '/audience_members/search.xml?query=' . $email;
+		$res = $this->_get( $action );
+
+		return $res;
+	}
 }

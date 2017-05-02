@@ -723,7 +723,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 		$groups = WP_Hummingbird_Module_Minify_Group::get_minify_groups();
 
 		foreach ( $groups as $group ) {
-			$path = get_post_meta( $group->ID, 'path', true );
+			$path = get_post_meta( $group->ID, '_path', true );
 			if ( $path ) {
 				wp_delete_file( $path );
 			}

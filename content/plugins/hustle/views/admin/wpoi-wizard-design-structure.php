@@ -143,41 +143,6 @@
             </div>
 
         </div><!-- Optin Image Location -->
-
-        <label class="wph-label--border"><?php _e('Additional information fields', Opt_In::TEXT_DOMAIN); ?></label>
-
-        <div id="optin_optional_elements">
-
-            <div id="wph-optin--fname">
-
-                <div class="wph-input--checkbox">
-
-                    <input type="checkbox" id="optin_fname" name="first_name" value="first_name" {{ _.checked( _.contains(elements, 'first_name'), true )  }}>
-
-                    <label for="optin_fname" class="wph-icon i-check"></label>
-
-                </div>
-
-                <label for="optin_fname"><?php _e( "First Name Field", Opt_In::TEXT_DOMAIN ); ?></label>
-
-            </div>
-
-            <div id="wph-optin--lname">
-
-                <div class="wph-input--checkbox">
-
-                    <input type="checkbox" id="optin_lname" name="last_name" value="last_name" {{ _.checked( _.contains(elements, 'last_name'), true )  }} >
-
-                    <label for="optin_lname" class="wph-icon i-check"></label>
-
-                </div>
-
-                <label for="optin_lname"><?php _e( "Last Name Field", Opt_In::TEXT_DOMAIN ); ?></label>
-
-            </div>
-
-        </div><!-- Optin Extra Fields -->
-
     </div>
 
 </script>

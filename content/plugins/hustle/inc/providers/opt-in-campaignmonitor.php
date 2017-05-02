@@ -11,6 +11,9 @@ if( !class_exists( "CS_REST_Subscribers" ) )
 if( !class_exists( "CS_REST_Clients" ) )
     require_once Opt_In::$vendor_path . 'campaignmonitor/createsend-php/csrest_clients.php';
 
+if( !class_exists( "CS_REST_Lists" ) )
+    require_once Opt_CS_REST_ListsIn::$vendor_path . 'campaignmonitor/createsend-php/csrest_lists.php';
+
 class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In_Provider_Interface
 {
 
@@ -74,25 +77,86 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
 
     public function subscribe( Opt_In_Model $optin, array $data ){
         $email = $data['email'];
-        $name = isset( $data['f_name'] ) ? $data['f_name'] : "";
-        $name .= ( isset( $data['l_name'] ) ? $data['l_name'] : "" );
+		$name = array();
 
-        unset( $data['email'] );
-        unset( $data['last_name'] );
+		if ( isset( $data['first_name'] ) ) {
+			$name['first_name'] = $data['first_name'];
+		}
+		elseif ( isset( $data['f_name'] ) ) {
+			$name['first_name'] = $data['f_name'];
+		}
+		if ( isset( $data['last_name'] ) ) {
+			$name['last_name'] = $data['last_name'];
+		}
+		elseif ( isset( $data['l_name'] ) ) {
+			$name['last_name'] = $data['l_name'];
+		}
+		$name = implode( ' ', $name );
+
+		// Remove unwanted fields
+		$old_data = $data;
+		$data = array_diff_key( $data, array(
+			'first_name' => '',
+			'last_name' => '',
+			'f_name' => '',
+			'l_name' => '',
+			'email' => '',
+		) );
 
         $custom_fields = array();
-        if( !empty( $data ) ){
+        if( ! empty( $data ) ){
             foreach( $data as $key => $d ){
-                $custom_fields[]['Key'] = $key;
-                $custom_fields[]['Value'] = $d;
+				$custom_fields[] = array(
+					'Key' => $key,
+					'Value' => $d,
+				);
             }
         }
 
+		$failed_custom_fields = 0;
+
+		if ( ! empty( $custom_fields ) ) {
+			$api_cf = new CS_REST_Lists( $optin->optin_mail_list, array('api_key' => $optin->api_key) );
+
+			foreach ( $custom_fields as $custom_field ) {
+				$key = $custom_field['Key'];
+				$field = $optin->get_custom_field( 'name', $key );
+				$meta_key = 'cm_field_' . $key;
+				$label = $field['label'];
+				$cm_field_meta = $optin->get_meta( $meta_key );
+
+				if ( $cm_field_meta || $label == $cm_field_meta ) {
+					// No need to add, already added
+					continue;
+				}
+
+				$cm_field = array(
+					'FieldName' => $label,
+					'Key' => $key,
+					'DataType' => CS_REST_CUSTOM_FIELD_TYPE_TEXT, // We only support text for now,
+					'Options' => '',
+					'VisibleInPreferenceCenter' => true,
+				);
+
+				if ( $api_cf->create_custom_field($cm_field) ) {
+					$optin->add_meta( $meta_key, $field['label'] );
+				} else {
+					$failed_custom_fields++;
+				}
+			}
+		}
+
         $api = new CS_REST_Subscribers( $optin->optin_mail_list, array('api_key' => $optin->api_key));
         $is_subscribed = $api->get( $email );
+		$err = new WP_Error();
+
+		if ( $failed_custom_fields > 0 ) {
+			$old_data['error'] = __( 'Some custom fields are not added', Opt_In::TEXT_DOMAIN );
+			$optin->log_error( $old_data );
+		}
 
         if ( $is_subscribed->was_successful() ) {
-            self::$errors["already_subscribed"] =  __( 'Already subscribed', Opt_In::TEXT_DOMAIN );
+            $err->add("already_subscribed", __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
         } else {
             $res = $api->add( array(
                 'EmailAddress' => $email,
@@ -102,13 +166,15 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
             ) );
 
             if( $res->was_successful() ) {
-                self::$errors["success"] = 'success';
+                return array( 'success' => 'success' );
             } else {
-                self::$errors["error"] = $res->response->message;
+				$err->add( 'request_error', __( 'Unexpeced error occurred. Please try again.', Opt_In::TEXT_DOMAIN ) );
+				$data['error'] = __( 'Unable to add to subscriber list.', Opt_In::TEXT_DOMAIN );
+				$optin->log_error( $data );
             }
         }
 
-        return self::$errors;
+        return $err;
     }
 
     function get_options( $optin_id ){
@@ -201,5 +267,40 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
         return true;
     }
 
+	static function add_custom_field( $field, Opt_In_Model $optin ) {
+		$api_cf = new CS_REST_Lists( $optin->optin_mail_list, array('api_key' => $optin->api_key) );
+		$custom_fields = $api_cf->get_custom_fields();
+		$exist = false;
+		$key = $field['name'];
+		$meta_key = "cm_field_{$key}";
+
+		if ( ! empty( $custom_fields ) && ! empty( $custom_fields->response ) ) {
+			foreach ( $custom_fields->response as $custom_field ) {
+				if ( $custom_field->FieldName == $field['label'] ) {
+					$exist = true;
+				}
+				$optin->add_meta( "cm_field_". $custom_field->Key, $custom_field->FieldName );
+			}
+		}
+
+		if ( false === $exist ) {
+			$cm_field = array(
+				'FieldName' => $field['label'],
+				'Key' => $key,
+				'DataType' => CS_REST_CUSTOM_FIELD_TYPE_TEXT, // We only support text for now,
+				'Options' => '',
+				'VisibleInPreferenceCenter' => true,
+			);
+			$api_cf->create_custom_field($cm_field);
+			$optin->add_meta( $meta_key, $field['label'] );
+			$exist = true;
+		}
+
+		if ( $exist ) {
+			return array( 'success' => true, 'field' => $field );
+		} else {
+			return array( 'error' => true, 'code' => 'cannot_create_custom_field' );
+		}
+	}
 }
 endif;

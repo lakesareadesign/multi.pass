@@ -76,7 +76,7 @@
 
 				<div class="wpoi-button wpoi-button-big">
 
-					<button type="submit" class="wpoi-subscribe-send"><?php _e("Sign Up", Opt_In::TEXT_DOMAIN) ?></button>
+					<button type="submit" class="wpoi-subscribe-send">{{cta_button}}</button>
 
 				</div>
 

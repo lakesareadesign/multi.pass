@@ -1,12 +1,37 @@
+/* Generic Styles */
+.fl-module-post-grid .fl-sep {
+	display: inline-block;
+	margin: 0 2px;
+}
+
+/* Post Columns */
+.fl-post-column {
+	float: left;
+}
+.fl-post-column .fl-post-grid-post {
+	visibility: visible;
+}
+
 /* Post Grid */
 .fl-post-grid {
 	margin: 0 auto;
 	position: relative;
 }
+.fl-post-grid:before,
+.fl-post-grid:after {
+	display: table;
+	content: " ";
+}
+.fl-post-grid:after {
+	clear: both;
+}
 .fl-post-grid-post {
 	background: #fff;
 	border: 1px solid #e6e6e6;
 	visibility: hidden;
+}
+.fl-post-grid-image {
+	position: relative;
 }
 .fl-post-grid-image img {
 	height: auto !important;
@@ -22,6 +47,10 @@ body .fl-post-grid-text,
 body .fl-post-grid-content p {
 	font-size: 14px;
 	line-height: 22px;
+}
+body .fl-post-grid-text > *:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
 }
 body .fl-post-grid-content p:last-of-type {
 	margin-bottom: 0;
@@ -39,6 +68,9 @@ body h2.fl-post-grid-title {
 body .fl-post-grid-meta {
 	font-size: 14px;
 	padding-bottom: 10px;
+}
+.fl-post-feed-comments .fa {
+	vertical-align: text-top;
 }
 .fl-post-grid-more {
 	margin-top: 10px;
@@ -160,7 +192,7 @@ body .fl-post-grid-meta {
 	padding-bottom: 0;
 }
 .fl-post-feed-header {
-	margin-bottom: 25px;
+	margin-bottom: 20px;
 }
 .fl-post-feed-header a {
 	text-decoration: none;
@@ -171,12 +203,14 @@ body h2.fl-post-feed-title {
 }
 body .fl-post-feed-meta {
 	font-size: 14px;
+	margin-bottom: 5px;
 }
 .fl-post-feed-meta .fl-sep {
 	margin: 0 3px;
 }
 .fl-post-feed-image {
 	margin-bottom: 25px;
+	position: relative;
 }
 .fl-post-feed-image img {
 	height: auto !important;
@@ -184,10 +218,19 @@ body .fl-post-feed-meta {
 }
 .fl-post-feed-image-beside .fl-post-feed-image {
 	float: left;
+	margin-bottom: 0;
 	width: 33%;
 }
-.fl-post-feed-image-beside.fl-post-feed-has-image .fl-post-feed-content {
+.fl-post-feed-image-beside .fl-post-feed-text {
 	margin-left: 37%;
+}
+.fl-post-feed-image-beside-right .fl-post-feed-image {
+	float: right;
+	margin-bottom: 0;
+	width: 33%;
+}
+.fl-post-feed-image-beside-right .fl-post-feed-text {
+	margin-right: 37%;
 }
 .fl-post-feed-content a {
 	text-decoration: none;
@@ -208,8 +251,4 @@ body .fl-post-feed-meta {
 
 /* No posts message */
 .fl-post-grid-empty {
-	border: 1px dashed #ccc;
-	font-size: 16px;
-	padding: 20px;
-	text-align: center;
 }

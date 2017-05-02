@@ -26,7 +26,7 @@
 
 				<div class="wph-sticky--anchor"></div>
 
-				<button class="wph-preview--eye wph-button"><i class="wph-icon i-eye"></i></button>
+				<button class="wph-preview--eye wph-button" title="<?php _e('Preview', Opt_In::TEXT_DOMAIN); ?>"><i class="wph-icon i-eye"></i></button>
 
 			</div>
 
@@ -91,7 +91,7 @@
 
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-						<label class="wph-label--alt"><?php _e('Opt-In Image:', Opt_In::TEXT_DOMAIN); ?></label>
+						<label class="wph-label--alt"><?php _e('Opt-in Image:', Opt_In::TEXT_DOMAIN); ?></label>
 
 						<div class="wpoi-select-media wph-media--holder"></div>
 
@@ -134,6 +134,18 @@
 					</div>
 
 				</div>
+
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+
+                        <label class="wph-label--alt"><?php _e('Submit button text', Opt_In::TEXT_DOMAIN); ?></label>
+
+                        <input type="text" placeholder="<?php esc_attr_e('Sign Up', Opt_In::TEXT_DOMAIN); ?>" value="{{cta_button}}" data-attribute="cta_button">
+
+                    </div>
+
+                </div>
 
 			</div>
 
@@ -202,6 +214,7 @@
 		<# } #>
 
 		<div id="wph-optin--structure" class="row"></div>
+		<div id="wph-optin--module-fields" class="row"></div>
 
 		<div id="wph-optin--colors" class="row">
 
@@ -340,9 +353,9 @@
 		</div>
 
 	</footer><!-- .wph-toggletabs--footer -->
-
 </script>
 
-<?php $this->render("admin/wpoi-wizard-design-structure"); ?>
+<?php $this->render("admin/wpoi-wizard-design-structure" ); ?>
+<?php $this->render("admin/wpoi-wizard-design-module-fields" ); ?>
 <?php $this->render("admin/wpoi-wizard-design-shapes"); ?>
 <?php $this->render("admin/wpoi-wizard-design-after-submit"); ?>

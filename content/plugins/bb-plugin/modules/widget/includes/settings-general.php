@@ -1,28 +1,24 @@
 <?php
 
-global $wp_widget_factory;
-
 // Get builder post data.
 $post_data = FLBuilderModel::get_post_data();
 
 // Widget slug
 if(isset($settings->widget)) {
-	$widget_slug = $settings->widget;
+	$widget_class = $settings->widget;
 }
 else if(isset($post_data['widget'])) {
-	$widget_slug = $post_data['widget'];
+	$widget_class = $post_data['widget'];
 }
 
-if(isset($widget_slug) && isset($wp_widget_factory->widgets[$widget_slug])) {
+if(isset($widget_class) && class_exists($widget_class)) {
 
 	// Widget instance
-	$factory_instance   = $wp_widget_factory->widgets[$widget_slug];
-	$widget_class       = get_class($factory_instance);
-	$widget_instance    = new $widget_class($factory_instance->id_base, $factory_instance->name, $factory_instance->widget_options);
+	$widget_instance    = new $widget_class();
 
 	// Widget settings
-	$settings_key = 'widget-' . $widget_instance->id_base;
-	$widget_settings = array();
+	$settings_key       = 'widget-' . $widget_instance->id_base;
+	$widget_settings    = array();
 
 	if(isset($settings->$settings_key)) {
 		$widget_settings = (array)$settings->$settings_key;
@@ -36,13 +32,13 @@ if(isset($widget_slug) && isset($wp_widget_factory->widgets[$widget_slug])) {
 	$widget_instance->form($widget_settings);
 	// Uncommenting this will display custom fields from plugins like ACF, but we don't have a way to save them, yet..
 	//do_action_ref_array( 'in_widget_form', array( &$widget_instance, true, $widget_settings ) );
-	echo '<input type="hidden" name="widget" value="' . $widget_slug . '" />';
+	echo '<input type="hidden" name="widget" value="' . $widget_class . '" />';
 	echo '</div>';
 }
-else if(isset($widget_slug)) {
+else if(isset($widget_class)) {
 
 	// Widget doesn't exist!
 	echo '<div class="fl-builder-widget-missing">';
-	printf( _x( '%s no longer exists.', '%s stands for widget slug.', 'fl-builder' ), $widget_slug );
+	printf( _x( '%s no longer exists.', '%s stands for widget slug.', 'fl-builder' ), $widget_class );
 	echo '</div>';
 }

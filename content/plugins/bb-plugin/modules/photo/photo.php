@@ -60,11 +60,7 @@ class FLPhotoModule extends FLBuilderModule {
 		}
 
 		// Cache the attachment data.
-		$data = FLBuilderPhoto::get_attachment_data($settings->photo);
-
-		if($data) {
-			$settings->data = $data;
-		}
+		$settings->data = FLBuilderPhoto::get_attachment_data($settings->photo);
 
 		// Save a crop if necessary.
 		$this->crop();
@@ -137,7 +133,11 @@ class FLPhotoModule extends FLBuilderModule {
 			}
 
 			// Make sure we have enough memory to crop.
-			@ini_set('memory_limit', '300M');
+			try{
+				ini_set('memory_limit', '300M');
+			} catch( Exception $e ) {
+				//
+			}
 
 			// Crop the photo.
 			$editor->resize($new_width, $new_height, true);
@@ -309,11 +309,20 @@ class FLPhotoModule extends FLBuilderModule {
 	 */
 	public function get_attributes()
 	{
+		$photo = $this->get_data();
 		$attrs = '';
 		
 		if ( isset( $this->settings->attributes ) ) {
 			foreach ( $this->settings->attributes as $key => $val ) {
 				$attrs .= $key . '="' . $val . '" ';
+			}
+		}
+		
+		if ( is_object( $photo ) && isset( $photo->sizes ) ) {
+			foreach ( $photo->sizes as $size ) {
+				if ( $size->url == $this->settings->photo_src ) {
+					$attrs .= 'height="' . $size->height . '" width="' . $size->width . '" ';
+				}
 			}
 		}
 		
@@ -378,14 +387,20 @@ class FLPhotoModule extends FLBuilderModule {
 				$url   = $parts[0];
 			}
 			
-			$pathinfo    = pathinfo($url);
-			$dir         = $pathinfo['dirname'];
-			$ext         = $pathinfo['extension'];
-			$name        = wp_basename($url, ".$ext");
-			$new_ext     = strtolower($ext);
-			$filename    = "{$name}-{$crop}.{$new_ext}";
+			$pathinfo = pathinfo($url);
+			
+			if ( isset( $pathinfo['extension'] ) ) {
+				$dir      = $pathinfo['dirname'];
+				$ext      = $pathinfo['extension'];
+				$name     = wp_basename($url, ".$ext");
+				$new_ext  = strtolower($ext);
+				$filename = "{$name}-{$crop}.{$new_ext}";
+			}
+			else {
+				$filename = $pathinfo['filename'] . "-{$crop}.png";
+			}
 		}
-
+		
 		return array(
 			'filename' => $filename,
 			'path'     => $cache_dir['path'] . $filename,
@@ -453,7 +468,8 @@ FLBuilder::register_module('FLPhotoModule', array(
 					),
 					'photo'         => array(
 						'type'          => 'photo',
-						'label'         => __('Photo', 'fl-builder')
+						'label'         => __('Photo', 'fl-builder'),
+						'connections'   => array( 'photo' )
 					),
 					'photo_url'     => array(
 						'type'          => 'text',
@@ -535,7 +551,8 @@ FLBuilder::register_module('FLPhotoModule', array(
 						'label'         => __('Link URL', 'fl-builder'),
 						'preview'         => array(
 							'type'            => 'none'
-						)
+						),
+						'connections'   => array( 'url' )
 					),
 					'link_target'   => array(
 						'type'          => 'select',

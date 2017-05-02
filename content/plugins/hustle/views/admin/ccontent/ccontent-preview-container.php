@@ -20,9 +20,9 @@
 
 				<select id="wph-preview-type-selector" class="wpmuiSelect">
 
-					<option value="popup">Pop Up</option>
-					<option value="slide_in">Slide In</option>
-					<!--<option value="magic_bar">Magic Bar</option>-->
+                    <option value="popup"><?php _e('Pop-up', Opt_In::TEXT_DOMAIN); ?></option>
+					<option value="slide_in"><?php _e('Slide-in', Opt_In::TEXT_DOMAIN); ?></option>
+					<option value="after_content"><?php _e('After Content', Opt_In::TEXT_DOMAIN); ?></option>
 
 				</select>
 

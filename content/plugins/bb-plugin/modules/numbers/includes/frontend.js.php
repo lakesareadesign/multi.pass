@@ -13,14 +13,14 @@
 
 	// Checking for i18n number format
 	if ( $wp_locale ) {
-		$i18n_decimal = str_replace(array(' ','&nbsp;'), '', $wp_locale->number_format['decimal_point']);
-		$i18n_thousand = str_replace(array(' ','&nbsp;'), '', $wp_locale->number_format['thousands_sep']);
-		if ( !empty( $i18n_decimal ) ) {
-			$format_decimal = $i18n_decimal;
+	$i18n_decimal = str_replace(array(' ', '&nbsp;'), '', $wp_locale->number_format['decimal_point']);
+	$i18n_thousand = str_replace(array(' ', '&nbsp;'), '', $wp_locale->number_format['thousands_sep']);
+	if ( !empty( $i18n_decimal ) ) {
+		$format_decimal = $i18n_decimal;
 		}
 
-		if ( !empty( $i18n_thousand ) ) {
-			$format_thousands = $i18n_thousand;
+	if ( !empty( $i18n_thousand ) ) {
+		$format_thousands = $i18n_thousand;
 		}
 	}
 

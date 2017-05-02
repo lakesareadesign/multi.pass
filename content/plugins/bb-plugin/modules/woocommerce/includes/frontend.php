@@ -85,4 +85,4 @@ else if($settings->layout == 'products') {
 // Closing Wrapper
 echo '</div>';
 
-?>
+

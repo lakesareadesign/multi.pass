@@ -6,6 +6,28 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitda98371940d11703c56dee923bbb392f
 {
+    public static $prefixLengthsPsr4 = array (
+        'P' =>
+        array (
+            'Psr\\Log\\' => 8,
+        ),
+        'M' =>
+        array (
+            'Mautic\\' => 7,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Psr\\Log\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Mautic\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/mautic/api-library/lib',
+        ),
+    );
+
     public static $fallbackDirsPsr4 = array (
         0 => __DIR__ . '/..' . '/aweber/aweber/aweber_api',
     );
@@ -38,6 +60,8 @@ class ComposerStaticInitda98371940d11703c56dee923bbb392f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$prefixDirsPsr4;
             $loader->fallbackDirsPsr4 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$fallbackDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitda98371940d11703c56dee923bbb392f::$classMap;

@@ -164,7 +164,8 @@ FLBuilder::register_settings_form('row', array(
 							'label'         => __('Photo', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'none'
-							)
+							),
+							'connections'	=> array( 'photo' )
 						),
 						'bg_repeat'     => array(
 							'type'          => 'select',
@@ -348,7 +349,8 @@ FLBuilder::register_settings_form('row', array(
 							'label'         => __('Photos', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'none'
-							)
+							),
+							'connections'	=> array( 'multiple-photos' )
 						),
 						'ss_feed_url'   => array(
 							'type'          => 'text',
@@ -420,7 +422,8 @@ FLBuilder::register_settings_form('row', array(
 							'label'         => __('Photo', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'none'
-							)
+							),
+							'connections'	=> array( 'photo' )
 						),
 						'bg_parallax_speed' => array(
 							'type'          => 'select',
@@ -794,22 +797,22 @@ FLBuilder::register_settings_form('row', array(
 					)
 				),
 				'css_selectors' => array(
-					'title'         => __('CSS Selectors', 'fl-builder'),
+					'title'         => __('HTML Element', 'fl-builder'),
 					'fields'        => array(
 						'id'            => array(
 							'type'          => 'text',
 							'label'         => __('ID', 'fl-builder'),
 							'help'          => __( "A unique ID that will be applied to this row's HTML. Must start with a letter and only contain dashes, underscores, letters or numbers. No spaces.", 'fl-builder' ),
-							'preview'         => array(
-								'type'            => 'none'
+							'preview'       => array(
+								'type'          => 'none'
 							)
 						),
 						'class'         => array(
 							'type'          => 'text',
 							'label'         => __('Class', 'fl-builder'),
 							'help'          => __( "A class that will be applied to this row's HTML. Must start with a letter and only contain dashes, underscores, letters or numbers. Separate multiple classes with spaces.", 'fl-builder' ),
-							'preview'         => array(
-								'type'            => 'none'
+							'preview'       => array(
+								'type'          => 'none'
 							)
 						)
 					)

@@ -1,7 +1,7 @@
 <?php if(empty($field['label'])) : ?>
-<td colspan="2">
+<td class="fl-field-control" colspan="2">
 <?php else : ?>
-<th>
+<th class="fl-field-label">
 	<label for="<?php echo $name; ?>">
 	<?php 
 	
@@ -26,8 +26,9 @@
 	<?php endif; ?>
 	</label>
 </th>
-<td>
+<td class="fl-field-control">
 <?php endif; ?>
+<div class="fl-field-control-wrapper">
 	<?php if ( $responsive ) : ?>
 	<i class="fl-field-responsive-toggle dashicons dashicons-desktop" data-mode="default"></i>
 	<?php endif; ?>
@@ -55,19 +56,21 @@
 			}
 		}
 		
+		do_action('fl_builder_before_control', $name, $value, $field, $settings);
+		do_action('fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings);
+		
 		$field_file = FL_BUILDER_DIR . 'includes/field-' . $field['type'] . '.php';
 		
 		if(file_exists($field_file)) {
-		    do_action('fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings);
 		    include $field_file;
-		    do_action('fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings);
 		}
 		else {
-		    do_action('fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings);
 		    do_action('fl_builder_control_' . $field['type'], $name, $value, $field, $settings);
-		    do_action('fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings);
 		}
 		
+		do_action('fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings);
+		do_action('fl_builder_after_control', $name, $value, $field, $settings);
+
 		if ( $responsive ) {
 			echo '</div>';
 		}
@@ -77,4 +80,5 @@
 	<?php if(isset($field['description'])) : ?>
 	<span class="fl-field-description"><?php echo $field['description']; ?></span>
 	<?php endif; ?>
+</div>
 </td>

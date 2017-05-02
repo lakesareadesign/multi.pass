@@ -44,20 +44,13 @@ Hustle.define("Optin.Email_Services_Tab", function( $ ) {
         render: function(){
 
             this.$el.html( this.template( this.model.toJSON() ) );
-
-            //$("#wpoi-test-mode-setup").trigger("change");
+            this.toggle_optin_provider_settings();
             return this;
         },
         toggle_optin_provider_settings: function(){
-            var self = this;
-            _.defer( function(){
-                self.$("#hustle_service_details_form input, #hustle_service_details_form select, #hustle_service_details_form input").each(function(){
-                    $(this).attr("disabled", _.isTrue( self.model.get("test_mode") ) );
-                });
-            });
-
             this.$(".wph-label--notice").toggleClass( "hidden",  _.isFalse( this.model.get("test_mode") ) );
-
+            this.$(".wph-label--notice").siblings().toggleClass( "hidden",  _.isTrue( this.model.get("test_mode") ) );
+            this.$("#optin_new_provider_name").prop("disabled", _.isTrue( this.model.get("test_mode") ) );
         },
         update_model: function(e){
             if( e )
@@ -78,18 +71,8 @@ Hustle.define("Optin.Email_Services_Tab", function( $ ) {
             Optin.step.model.set("test_mode", this.$( this.fields.test_mode ).is(":checked") ? 1 : 0 ) ;
 
             Optin.step.model.set("save_to_local", this.$( this.fields.save_to_local ).is(":checked") ? 1 : 0 ) ;
-
-            // disable the "service details" card when test mode is on
-            this.$("#wpoi-service-details").toggleClass("disabled", this.$( this.fields.test_mode ).is(":checked") );
-            this.$("#wpoi-service-details-disabled-notice").toggleClass("disabled", !this.$( this.fields.test_mode ).is(":checked") );
-
-            this.$("#optin_new_provider_name").prop("disabled", this.$( this.fields.test_mode ).is(":checked") );
-            this.$(".optin_refresh_provider_details").prop("disabled", this.$( this.fields.test_mode ).is(":checked") );
-
-            /**
-             * Disable all inputs, buttons and textarea on service details if in test mode
-             */
-            this.$("#wpoi-service-details input, #wpoi-service-details button, #wpoi-service-details textarea").prop("disabled", this.$( this.fields.test_mode ).is(":checked") );
+            
+            this.toggle_optin_provider_settings();
 
         },
         set_shortcode_id: function(){
@@ -102,6 +85,7 @@ Hustle.define("Optin.Email_Services_Tab", function( $ ) {
             Optin.Events.trigger("services:validate:before");
 
             this.update_model();
+			Optin.step.services.errors = 0;
 
             var validation = Optin.step.model.validate_first_step();
 
@@ -126,6 +110,12 @@ Hustle.define("Optin.Email_Services_Tab", function( $ ) {
                 validation.each(function(error, index){
                     var $icon = $('<span class="dashicons dashicons-warning"></span>'),
                         $field = _this.$( _this.fields[error.name] );
+ 
+					if ( ! $field.length ) {
+						// If field element is not found, return
+						return;
+					}
+
                     $icon.attr("title", error.message);
 
                     if( $field.hasClass('wdev-styled') )
@@ -189,6 +179,7 @@ Hustle.define("Optin.Email_Services_Tab", function( $ ) {
                             $('.optin_refresh_provider_details').trigger('click');
                         }
                         self.delegateEvents();
+						Hustle.Events.trigger("view.rendered", self);
 
                     }else{
                         var html = "";

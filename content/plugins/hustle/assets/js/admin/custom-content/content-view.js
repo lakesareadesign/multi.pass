@@ -3,6 +3,7 @@ Hustle.define("Custom_Content.Content_View", function($, doc, win){
     return Hustle.View.extend(_.extend({}, Hustle.get("Mixins.Model_Updater"), {
         template: Optin.template("wpoi-custom-content-content-tpl"),
         message_editor: false,
+        skip_tinyMCE_sync: false,
         init: function( opts ){
             this.design_model = opts.design_model;
             this.sync_message();
@@ -42,10 +43,12 @@ Hustle.define("Custom_Content.Content_View", function($, doc, win){
             });
         },
         sync_model_message: function(){
+            if ( this.skip_tinyMCE_sync ) return;
+			
             if (typeof tinyMCE !== "object") return;
 			
             if( !this.message_editor ) this.message_editor = tinyMCE.get("optin_message");
-				
+			
 			this.model.set("optin_message", this.message_editor.getContent());
         },
         /**

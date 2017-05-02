@@ -94,8 +94,6 @@ class WD_Main_Activator {
 				$setting->notification = 0;
 			}
 			$setting->save();
-			//start a new scan
-			\WP_Defender\Module\Scan\Component\Scan_Api::createScan();
 			wp_schedule_single_event( strtotime( '+1 minute' ), 'processScanCron' );
 		}
 

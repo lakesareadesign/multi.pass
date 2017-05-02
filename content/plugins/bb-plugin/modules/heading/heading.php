@@ -36,7 +36,8 @@ FLBuilder::register_module('FLHeadingModule', array(
 						'preview'         => array(
 							'type'            => 'text',
 							'selector'        => '.fl-heading-text'
-						)
+						),
+						'connections'     => array( 'string' )
 					)
 				)
 			),
@@ -48,7 +49,8 @@ FLBuilder::register_module('FLHeadingModule', array(
 						'label'         => __('Link', 'fl-builder'),
 						'preview'         => array(
 							'type'            => 'none'
-						)
+						),
+						'connections'     => array( 'url' )
 					),
 					'link_target'   => array(
 						'type'          => 'select',

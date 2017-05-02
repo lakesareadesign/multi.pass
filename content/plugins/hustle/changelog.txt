@@ -4,6 +4,38 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 Change Log:
 ----------------------------------------------------------------------
 
+2.1 - 2017-04-27
+----------------------------------------------------------------------
+- New social sharing module.
+- New mautic integration.
+- New module dashboard for empty modules.
+- New settings dashboard for empty modules.
+- New toggle option for tracking views and conversion for each module.
+- New error log list for opt-in module.
+- New option to add new fields for opt-in module.
+- New validation for opt-in submission.
+- New option to edit opt-in submit button.
+- New "after_content" preview type for custom content module.
+- New settings link in plugin list.
+
+- Fixed "Hide all slide in messages for user" option is not working.
+- Fixed custom content widget/shortcode layout doesn't have styles.
+- Fixed clicking on any field in slide-in opt-in closes it, can't enter information.
+- Fixed using form submit setting "Refresh or Close" causes custom content slide-in to refresh endlessly.
+- Fixed custom content module "custom css" not rendering on preview.
+- Fixed popup show less than (display condition) not working.
+- Fixed "NextGen Gallery" compatibility.
+- Fixed "Beaver Builder" conflict.
+- Fixed email service fields are not enabled/disabled correctly on opt-in module.
+- Fixed IE issues.
+- Fixed custom css issue with @media.
+- Fixed custom content module not appearing on appearance/widget.
+- Fixed "Embed Any Document" compatibility.
+- Fixed "Contact Form 7" compatibility.
+- Fixed html content is getting stripped on custom content module.
+- Fixed Hustle not filtering by tag.
+- Fixed custom content module "custom css" doesn't recognize html tags.
+
 2.0.3.1 - 2017-03-16
 ----------------------------------------------------------------------
 - Fix: Custom content slide-in not showing on frontend.
@@ -148,4 +180,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1489858554-au
+133620-1493689576-au

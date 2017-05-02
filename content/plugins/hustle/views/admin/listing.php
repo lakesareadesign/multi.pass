@@ -5,13 +5,22 @@
  * @var $new_optin Opt_In_Model
  */
 ?>
+
 <div id="hustle-optin-listing" class="hustle-two">
 
 	<div id="container" class="<?php if ( count( $optins ) !== 0 ){ echo 'container-980 '; } ?>wpoi-listing-page">
 
 		<header id="header">
 
-			<h1><?php _e("Opt-ins", Opt_In::TEXT_DOMAIN); ?><a class="wph-button wph-button--small wph-button--gray wph-button--inline" href="<?php echo esc_url( $add_new_url ); ?>"><?php _e('New Opt-In', Opt_In::TEXT_DOMAIN); ?></a></h1>
+			<?php if ( count( $optins ) === 0 ) { ?>
+
+				<h1><?php _e("Email Opt-ins Dashboard", Opt_In::TEXT_DOMAIN); ?></h1>
+
+			<?php } else { ?>
+
+				<h1><?php _e("Email Opt-ins Dashboard", Opt_In::TEXT_DOMAIN); ?><a class="wph-button wph-button--small wph-button--gray wph-button--inline" href="<?php echo esc_url( $add_new_url ); ?>"><?php _e('New Opt-in', Opt_In::TEXT_DOMAIN); ?></a></h1>
+
+			<?php } ?>
 
 		</header>
 
@@ -19,49 +28,10 @@
 
 			<?php if ( count( $optins ) === 0 ){ ?>
 
-				<div class="row">
-
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-						<section id="wph-woop" class="box">
-
-							<div class="box-title">
-
-								<h3><?php _e('Welcome to Opt-ins', Opt_In::TEXT_DOMAIN); ?></h3>
-
-							</div>
-
-							<div class="box-content">
-
-								<div class="row">
-
-									<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-
-										<div class="wph-howdy"></div>
-
-									</div>
-
-									<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-
-										<div class="content-800">
-
-											<h2><?php _e('Woop woop, let\'s create some opt-ins!', Opt_In::TEXT_DOMAIN); ?></h2>
-
-											<h6><?php _e('Conversions are waiting! Build your first Opt-in and turn your visitors into fans. Click New Opt-in above to get started.', Opt_In::TEXT_DOMAIN); ?></h6>
-
-										</div>
-
-									</div>
-
-								</div>
-
-							</div>
-
-						</section>
-
-					</div>
-
-				</div>
+				<?php $this->render("admin/optins/optins-welcome", array(
+                    'new_url' => $add_new_url,
+                    'user_name' => $user_name
+                )); ?>
 
 			<?php } else { ?>
 
@@ -113,6 +83,10 @@
 
 										<?php endif; ?>
 
+										<?php if ( ( $log_count = $optin->get_total_log_errors() ) ) : ?>
+											<button class="wph-button wph-button--small wph-button--red button-view-log-list" href="#" data-total="<?php echo esc_attr( $log_count ); ?>" data-id="<?php echo esc_attr( $optin->id ); ?>" data-name="<?php echo esc_attr( $optin->optin_name ); ?>" ><?php _e("View Error Log", Opt_In::TEXT_DOMAIN); ?></button>
+										<?php endif; ?>
+
 										<span class="accordion-state"><i class="wph-icon i-arrow"></i></span>
 
 									</header>
@@ -141,11 +115,13 @@
 
 													<th class="wph-module--rates"><?php _e('Conversion rate', Opt_In::TEXT_DOMAIN); ?></th>
 
+                                                    <th class="wph-module--tracking"><?php _e('Tracking', Opt_In::TEXT_DOMAIN); ?></th>
+
 													<th class="wph-module--admin">
 
 														<?php _e('Admin test', Opt_In::TEXT_DOMAIN); ?>
 
-														<!--<span class="wpoi-tooltip tooltip-right" tooltip="<?php esc_attr_e('Allows logged-in Admins to test the appearance & functionality of the Opt-In before Activating it.', Opt_In::TEXT_DOMAIN) ?>">
+														<!--<span class="wpoi-tooltip tooltip-right" tooltip="<?php esc_attr_e('Allows logged-in Admins to test the appearance & functionality of the Opt-in before Activating it.', Opt_In::TEXT_DOMAIN) ?>">
 
 															<span class="dashicons dashicons-editor-help wpoi-icon-info"></span>
 
@@ -182,6 +158,18 @@
 													<td class="wph-module--conversions" data-title="<?php _e('Conversions', Opt_In::TEXT_DOMAIN); ?>"><?php echo $optin->{$type_key}->conversions_count; ?></td>
 
 													<td class="wph-module--rates" data-title="<?php _e('Conversions rate', Opt_In::TEXT_DOMAIN); ?>"><?php echo $optin->{$type_key}->conversion_rate; ?>%</td>
+
+                                                    <td class="wph-module--tracking" data-title="<?php _e('Tracking', Opt_In::TEXT_DOMAIN); ?>">
+
+                                                        <div class="toggle">
+
+                                                            <input  id="optin-toggle-tracking-<?php echo $type_key . '-' . esc_attr( $optin->id ); ?>" class="toggle-checkbox optin-toggle-tracking-activity" type="checkbox" data-id="<?php echo esc_attr( $optin->id ) ?>" data-type="<?php echo esc_attr( $type_key ); ?>" <?php checked( $optin->is_track_type_active( $type_key ), true); ?> data-nonce="<?php echo wp_create_nonce('optin-toggle-tracking-activity') ?>" >
+
+                                                            <label class="toggle-label" for="optin-toggle-tracking-<?php echo $type_key . '-' . esc_attr( $optin->id ); ?>"></label>
+
+                                                        </div>
+
+                                                    </td>
 
 													<td class="wph-module--admin" data-title="<?php _e('Admin Test', Opt_In::TEXT_DOMAIN); ?>">
 
@@ -234,8 +222,8 @@
 	</div>
 
 	<?php if( ! is_null( $new_optin ) && count( $optins ) === 1 ) $this->render("admin/new-optin_success", array( 'new_optin' => $new_optin, 'types' => $types )); ?>
-
 </div>
 
 <?php require_once("emails_list.php"); ?>
 <?php $this->render("admin/common/delete-confirmation"); ?>
+<?php $this->render('admin/error_list' ); ?>

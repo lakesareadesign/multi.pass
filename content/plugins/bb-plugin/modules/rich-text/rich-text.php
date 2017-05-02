@@ -37,7 +37,8 @@ FLBuilder::register_module('FLRichTextModule', array(
 						'preview'         => array(
 							'type'             => 'text',
 							'selector'         => '.fl-rich-text'  
-						)
+						),
+						'connections'   => array( 'string' )
 					)
 				)
 			)

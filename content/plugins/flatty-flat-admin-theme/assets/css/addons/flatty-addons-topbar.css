@@ -14,7 +14,7 @@ FLATTY TOP BAR
     height: 70px;
     font-size:120%;
     color:#fff;
-    z-index: 9;
+    z-index: 9999;
 }
 
 /*--------------------------------------

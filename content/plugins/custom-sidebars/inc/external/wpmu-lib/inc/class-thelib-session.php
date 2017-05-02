@@ -17,7 +17,7 @@ class TheLib_Session extends TheLib {
 	 * @param  mixed $value Value to store.
 	 */
 	public function add( $key, $value ) {
-		self::_sess_add( 'store:' . $key, $value );							 			 	 	 		  
+		self::_sess_add( 'store:' . $key, $value );
 	}
 
 	/**

@@ -58,13 +58,14 @@ class Hustle_Custom_Content_Admin extends Opt_In
      * @since 2.0
      */
     function render_custom_content(){
+        $current_user = wp_get_current_user();
         if( isset( $_GET['id'] ) && ( "-1" === $_GET['id'] || 0 !== intval( $_GET['id'] ) ) ){
 			$all_cc = Hustle_Custom_Content_Collection::instance()->get_all( null );
 			$total_cc = count($all_cc);
 			foreach($all_cc as $existing_cc) {
 				if ( $existing_cc->legacy ) $total_cc--;
 			}
-			if ( Opt_In_Utils::is_hustle_free( 'cc' ) && '-1' === $_GET['id'] && $total_cc >= 1 ) {
+			if ( Opt_In_Utils::_is_free() && '-1' === $_GET['id'] && $total_cc >= 1 ) {
 				$this->render( 'admin/new-free-info', array(
 					'page_title' => __( 'Custom Content', Opt_In::TEXT_DOMAIN ),
 				));
@@ -76,11 +77,14 @@ class Hustle_Custom_Content_Admin extends Opt_In
             $this->render("admin/custom-content", array(
                 'add_new_url' => admin_url("admin.php?page=inc_hustle_custom_content&id=-1"),
                 "custom_contents" => Hustle_Custom_Content_Collection::instance()->get_all( null ),
-              //  "legacy_popups" => self::$legacy_popups->get_all(),
                 "types" => array(
-                    'popup' => __('POP UP', Opt_In::TEXT_DOMAIN),
-                    'slide_in' => __('SLIDE IN', Opt_In::TEXT_DOMAIN)
-                )
+					'after_content' => __( 'After Content', Opt_In::TEXT_DOMAIN ),
+                    'popup' => __('Pop-up', Opt_In::TEXT_DOMAIN),
+                    'slide_in' => __('Slide-in', Opt_In::TEXT_DOMAIN),
+                    'shortcode' => __('Shortcode', Opt_In::TEXT_DOMAIN),
+                    'widget' => __('Widget', Opt_In::TEXT_DOMAIN)
+                ),
+                'user_name' => ucfirst($current_user->display_name)
             ));
         }
     }
@@ -110,6 +114,14 @@ class Hustle_Custom_Content_Admin extends Opt_In
         $cc->add_meta( "magic_bar", $magic_bar );
         $cc->add_meta( "subtitle", $content['subtitle'] );
         $cc->add_meta( "shortcode_id", $shortcode_id );
+        $cc->add_meta( "settings", array(
+            "shortcode" => array(
+                "enabled" => "true"
+            ),
+            "widget" => array(
+                "enabled" => "true"
+            )
+        ) );
 
         return $id;
     }
@@ -122,6 +134,7 @@ class Hustle_Custom_Content_Admin extends Opt_In
 
         $content = $data['content'];
         $design = $data['design'];
+		$after_content = $data['after_content'];
         $popup = $data['popup'];
         $slide_in = $data['slide_in'];
         $magic_bar = $data['magic_bar'];
@@ -137,6 +150,7 @@ class Hustle_Custom_Content_Admin extends Opt_In
         $cc->save();
 
         $cc->update_meta( "design", $design );
+		$cc->update_meta( "after_content", $after_content );
         $cc->update_meta( "popup", $popup );
         $cc->update_meta( "slide_in", $slide_in );
         $cc->update_meta( "magic_bar", $magic_bar );
@@ -171,10 +185,11 @@ class Hustle_Custom_Content_Admin extends Opt_In
             $current_array['current'] = array(
                 "content" => $cc->get_data(),
                 "design" => $cc->get_design()->to_array(),
+				"after_content" => $cc->get_after_content()->to_array(),
                 "popup" => $cc->get_popup()->to_array(),
                 "slide_in" => $cc->get_slide_in()->to_array(),
                 "magic_bar" => $cc->get_magic_bar()->to_array(),
-                "is_cc_limited" => (int) ( Opt_In_Utils::is_hustle_free( 'cc' ) && '-1' === $_GET['id'] && $total_cc >= 1 )
+                "is_cc_limited" => (int) ( Opt_In_Utils::_is_free() && '-1' === $_GET['id'] && $total_cc >= 1 )
             );
         }
 

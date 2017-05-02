@@ -37,7 +37,7 @@ Hustle.define("Legacy_Popups.Listing", function( $ ){
                    $this.prop("checked", !target_state);
                }
 
-           })
+           });
        },
        toggle_quick_edit: function(e){
            var $this = this.$(e.target),
@@ -110,7 +110,7 @@ Hustle.define("Legacy_Popups.Listing", function( $ ){
                        $li.remove();
                    });
                }
-           })
+           });
        }
    });
 

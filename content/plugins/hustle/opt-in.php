@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Hustle
+Plugin Name: Hustle Pro
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 2.0.3.1
+Version: 2.1
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020
@@ -26,6 +26,45 @@ WDP ID: 1107020
 // | Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               |
 // | MA 02110-1301 USA                                                    |
 // +----------------------------------------------------------------------+
+
+
+// Deactivate the .org version, if pro version is active
+add_action( 'admin_init', 'deactivate_hustle_org' );
+if ( ! function_exists( 'deactivate_hustle_org' ) ) {
+    function deactivate_hustle_org() {
+        if ( is_plugin_active( 'hustle/opt-in.php' ) && is_plugin_active( 'wordpress-popup/popover.php' ) ) {
+            deactivate_plugins( 'wordpress-popup/popover.php' );
+            //Store in database, in order to show a notice on page load
+            update_site_option( 'hustle_free_deactivated', 1 );
+        }
+    }
+}
+
+// Display admin notice about plugin deactivation
+add_action( 'network_admin_notices', 'hustle_deactivated' );
+add_action( 'admin_notices', 'hustle_deactivated' );
+if ( ! function_exists( 'hustle_deactivated' ) ) {
+    function hustle_deactivated() {
+        if ( get_site_option( 'hustle_free_deactivated' ) && is_super_admin() ) { ?>
+            <div class="notice notice-success is-dismissible">
+                <p><?php esc_html_e( 'Hustle was deactivated. You have Hustle Pro active!', 'hustle' ); ?></p>
+            </div> <?php
+            delete_site_option( 'hustle_free_deactivated' );
+        }
+    }
+}
+
+// Redirect to dashboard once activated
+add_action( 'activated_plugin', 'hustle_activated', 10, 2 );
+if ( ! function_exists( 'hustle_activated' ) ) {
+    function hustle_activated( $plugin, $network_activation ) {
+        if ( !$network_activation ) {
+            $dashboard_url = 'admin.php?page=inc_optins';
+            wp_safe_redirect( $dashboard_url );
+            exit;
+        }
+    }
+}
 
 if( version_compare(PHP_VERSION, '5.3.2', ">=") )
     require 'vendor/autoload.php';
@@ -110,11 +149,17 @@ class Opt_In extends Opt_In_Static{
             "file_name" => "opt-in-mad-mimi.php",
             "class_name" => "Opt_In_Mad_Mimi"
         ),
+		array(
+			'id' => 'mautic',
+			'name' => 'Mautic',
+			'file_name' => 'opt-in-mautic.php',
+			'class_name' => 'Opt_In_Mautic',
+		),
         array(
             "id" => "infusionsoft",
             "name" => "Infusionsoft",
             "file_name" => "opt-in-infusion-soft.php",
-            "class_name" => "Opt_In_Infusion_Soft"
+            "class_name" => "Opt_In_Infusion_Soft",
         ),
     );
 
@@ -250,7 +295,7 @@ class Opt_In extends Opt_In_Static{
      */
     function autoload( $class ) {
 
-        $dirs = array("inc", "inc/meta", "inc/providers", "inc/display-conditions", "inc/custom-content");
+        $dirs = array("inc", "inc/meta", "inc/providers", "inc/display-conditions", "inc/custom-content", "inc/social-sharing");
 
         foreach( $dirs as $dir ){
             $filename = self::$plugin_path  . $dir . DIRECTORY_SEPARATOR . str_replace( "_", "-", strtolower( $class ) ) . ".php";
@@ -307,11 +352,14 @@ class Opt_In extends Opt_In_Static{
      */
     public function render( $file, $params = array(), $return = false )
     {
-        $params = array_merge( array('self' => $this), $params );
+//        $params = array_merge( array('self' => $this), $params );
         /**
          * assign $file to a variable which is unlikely to be used by users of the method
          */
         $Opt_In_To_Be_File_Name = $file;
+        if ( array_key_exists( 'this', $params  ) ) {
+            unset( $params['this'] );
+        }
         extract( $params, EXTR_OVERWRITE );
 
         if($return){
@@ -442,22 +490,60 @@ class Opt_In extends Opt_In_Static{
      * @param bool|true $separate_prefix
      * @return array|string
      */
-    public static function prepare_css( $cssString, $prefix, $as_array = false, $separate_prefix = true ) {
+    public static function prepare_css( $cssString, $prefix, $as_array = false, $separate_prefix = true, $wildcard = '' ) {
         $css_array = array(); // master array to hold all values
         $elements = explode('}', $cssString);
         $prepared = "";
+        $have_media = false;
+        $media_names = array();
+        $media_names_key = 0;
         foreach ($elements as $element) {
+
+            $check_element = trim($element);
+            if ( empty($check_element) ) continue;
 
             // get the name of the CSS element
             $a_name = explode('{', $element);
             $name = $a_name[0];
+
+            // check if @media is  present
+            $media_name = '';
+            if ( strpos($name, '@media') !== false && isset($a_name[1]) ) {
+                $have_media = true;
+                $media_name = $name;
+                $media_names[$media_names_key] = array(
+                    'name' => $media_name
+                );
+                $name = $a_name[1];
+                $media_names_key++;
+            }
+
+            if ( $have_media ) {
+                $prepared = "";
+                $prefix = "";
+            }
+
             // get all the key:value pair styles
             $a_styles = explode(';', $element);
             // remove element name from first property element
-            $a_styles[0] = str_replace($name . '{', '', $a_styles[0]);
+            $remove_element_name = ( !empty($media_name) ) ? $media_name . '{' . $name : $name;
+            $a_styles[0] = str_replace($remove_element_name . '{', '', $a_styles[0]);
             $names = explode(',', $name);
-            foreach ($names as $name){
-                $prepared .= ( $prefix . ( $separate_prefix ? " " : "" ) . trim($name).',' );
+            foreach ($names as $name) {
+				if ( $separate_prefix && empty($wildcard) ) {
+					$space_needed = true;
+				} elseif ( $separate_prefix && !empty($wildcard) ) {
+					// wildcard is the sibling class of target selector e.g. "wph-modal"
+					if ( strpos( $name, $wildcard ) ) {
+						$space_needed = false;
+					} else {
+						$space_needed = true;
+					}
+				} else {
+					$space_needed = false;
+				}
+				$maybe_put_space = ( $space_needed ) ? " " : "";
+                $prepared .= ( $prefix . $maybe_put_space . trim($name).',' );
             }
             $prepared = trim($prepared, ",");
             $prepared .= "{";
@@ -474,6 +560,25 @@ class Opt_In extends Opt_In_Static{
                 }
             }
             $prepared .= "}";
+
+            // if have @media earlier, append these styles
+            $prev_media_names_key = $media_names_key - 1;
+            if ( isset($media_names[$prev_media_names_key]) ) {
+                if ( isset($media_names[$prev_media_names_key]['styles']) ) {
+                    $media_names[$prev_media_names_key]['styles'] .= $prepared;
+                } else {
+                    $media_names[$prev_media_names_key]['styles'] = $prepared;
+                }
+            }
+        }
+
+        // if have @media, populate styles using $media_names
+        if ( $have_media ) {
+            // reset first $prepared styles
+            $prepared = "";
+            foreach ( $media_names as $media ) {
+                $prepared .= $media['name'] . '{ ' . $media['styles'] . ' }';
+            }
         }
 
         return $as_array ? $css_array : $prepared;
@@ -600,9 +705,9 @@ $hustle->set_email_services( $email_services );
 $optin_front = new Opt_In_Front( $hustle );
 
 // Legacy Popups
-$legacy_popups = new Hustle_Legacy_Popups();
+$legacy_popups = new Hustle_Legacy_Popups( $hustle );
 
-if( is_admin() ){
+if( is_admin() ) {
     $optin_admin = new Opt_In_Admin( $hustle, $email_services  );
     new Opt_In_Admin_Ajax( $hustle, $optin_admin );
 
@@ -615,11 +720,18 @@ if( is_admin() ){
 
     $cc_admin = new Hustle_Custom_Content_Admin( $legacy_popups );
     new Hustle_Custom_Content_Admin_Ajax( $hustle, $cc_admin );
-}else{
+
+	$social_sharing_admin = new Hustle_Social_Sharing_Admin();
+    new Hustle_Social_Sharing_Admin_Ajax( $hustle, $social_sharing_admin );
+
+
+} else {
     $cc_front = new Hustle_Custom_Content_Front( $hustle );
+    $ss_front = new Hustle_Social_Sharing_Front( $hustle );
 }
 new Opt_In_Front_Ajax( $hustle );
 $cc_front_ajax = new Hustle_Custom_Content_Front_Ajax();
+$ss_front_ajax = new Hustle_Social_Sharing_Front_Ajax();
 
 //Load dashboard notice
 if ( file_exists( Opt_In::$plugin_path . 'lib/wpmudev-dashboard/wpmudev-dash-notification.php' ) ) {

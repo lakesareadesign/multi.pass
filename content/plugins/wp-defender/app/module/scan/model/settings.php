@@ -196,9 +196,11 @@ Official WPMU DEV Superhero', wp_defender()->domain );
 					return null;
 				}
 				//dont use composer autoload preventing bloating
-				$queue                = new Queue( Scan_Api::getContentFiles(), 'content', true );
-				$queue->args          = $args;
-				$queue->args['owner'] = $queue;
+				$queue                   = new Queue( Scan_Api::getContentFiles(), 'content', true );
+				$queue->args             = $args;
+				$queue->args['owner']    = $queue;
+				$patterns                = Scan_Api::getPatterns();
+				$queue->args['patterns'] = $patterns;
 				$queue->attachBehavior( 'content', new Content_Scan() );
 
 				return $queue;

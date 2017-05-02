@@ -275,7 +275,7 @@ final class FLBuilderServiceActiveCampaign extends FLBuilderService {
 	 * @return string The markup for the tags field.
 	 * @access private
 	 */
-	private function render_tags_field ( $settings )
+	private function render_tags_field( $settings )
 	{
 		ob_start();
 

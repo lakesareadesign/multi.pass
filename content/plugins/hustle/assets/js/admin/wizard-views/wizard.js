@@ -37,24 +37,17 @@ Hustle.define("Optin.Wizard", function($){
             e.preventDefault();
 			Hustle.Events.trigger("Optin.save");
  
-            var errors = [],
+            var errors = Optin.step.services.errors,
 				me = this,
                 $this = this.$(e.target).closest("button"),
                 nonce = $this.data("nonce"),
                 id = Optin.step.services.model.get("optin_id") || -1,
                 is_new = id == -1 ? true: false;
-                // $spinner = $("<span class='spinner-container'><span class='button-spinner'></span></span>"),
-                // button_width = ( $this.next().hasClass('wph-button-finish') ) ? $this.outerWidth() + 1 : $this.outerWidth();
 
-			if ( this.validate() > 0 ) {
+			if ( this.validate() > 0 || errors > 0 ) {
 				return;
 			}
 
-            // $this.attr( "disabled", false )
-                // .append( $spinner )
-                // .animate( { width: button_width + ( button_width * 0.15 ) })
-                // .attr("disabled", true);
-			
 			$this.attr("disabled", true);
 			if ( $this.hasClass("wph-button-next") || $this.hasClass("wph-button-finish") ) {
 				$this.addClass("wph-button-next--loading");
@@ -91,10 +84,14 @@ Hustle.define("Optin.Wizard", function($){
 
                     Optin.step.services.model.set("optin_id", res.data );
 					Optin.hasChanges = false;
+                    
+                    var currUrl = window.location.pathname + window.location.search;
+                    if ( is_new && currUrl.indexOf('&optin=') === -1 ) {
+                        currUrl += '&optin=' + res.data;
+                        window.history.replaceState( {} , '', currUrl );
+                    }
                 }
             });
-
-
         },
 		next: function(e){
 			var $this = this.$(e.target),

@@ -56,55 +56,23 @@
 
 										<div class="wpoi-container">
 
-											<# if(elements.indexOf("first_name") !== -1){ #>
+											<# _.each(module_fields, function(field, key){ #>
 
 												<div class="wpoi-element">
 
-													<input type="text"  name="inc_optin_first_name" data-error="<?php esc_attr_e('Please, provide First Name', Opt_In::TEXT_DOMAIN); ?>" class="wpoi-subscribe-fname required">
+													<input type="{{field.type}}"  name="inc_optin_{{field.name}}" data-error="<?php esc_attr_e('Please, provide {{field.label}}', Opt_In::TEXT_DOMAIN); ?>" class="wpoi-subscribe-{{field.name}} {{_.class(_.isTrue(field.required), 'required' )}}">
 
 													<label>
 
-														<i class="wphi-font wphi-user"></i>
+														<i class="wphi-font <# if ( field.type == 'email' ) { #>wphi-email<# } else if ( field.type == 'text' ) { if ( field.name == 'fname' || field.name == 'lname' || field.name == 'first_name' || field.name == 'last_name' || field.name == 'FNAME' || field.name == 'LNAME' ) { #>wphi-user<# } else if ( field.name == 'address' || field.name == 'ADDRESS' ) { #>wphi-address<# } else { #>wphi-typo<# } } else if ( field.type == 'number' ) { #>wphi-number<# } else if ( field.type == 'url' ) { #>wphi-url<# } #>"></i>
 
-														<span><?php esc_attr_e('First Name', Opt_In::TEXT_DOMAIN) ?></span>
+														<span>{{field.placeholder}}</span>
 
 													</label>
 
 												</div>
 
-											<# } #>
-
-											<# if(elements.indexOf("last_name") !== -1){ #>
-
-												<div class="wpoi-element">
-
-													<input type="text" name="inc_optin_last_name" data-error="<?php esc_attr_e('Please provide Last Name', Opt_In::TEXT_DOMAIN); ?>" class="wpoi-subscribe-lname required">
-
-													<label>
-
-														<i class="wphi-font wphi-user"></i>
-
-														<span><?php esc_attr_e('Last Name', Opt_In::TEXT_DOMAIN) ?></span>
-
-													</label>
-
-												</div>
-
-											<# } #>
-
-											<div class="wpoi-element">
-
-												<input type="email" name="inc_optin_email" data-error="<?php esc_attr_e('Please, provide valid Email address', Opt_In::TEXT_DOMAIN); ?>" class="wpoi-subscribe-email required">
-
-												<label>
-
-													<i class="wphi-font wphi-email"></i>
-
-													<span><?php esc_attr_e('E-mail', Opt_In::TEXT_DOMAIN) ?></span>
-
-												</label>
-
-											</div>
+											<# }); #>
 
 										</div>
 
@@ -114,59 +82,27 @@
 
 								<# } else { #>
 
-									<# if(elements.indexOf("first_name") !== -1){ #>
+									<# _.each(module_fields, function(field, key){ #>
 
 										<div class="wpoi-element">
 
-											<input type="text"  name="inc_optin_first_name" data-error="<?php esc_attr_e('Please, provide First Name', Opt_In::TEXT_DOMAIN); ?>" class="wpoi-subscribe-fname required">
+											<input type="{{field.type}}"  name="inc_optin_{{field.name}}" data-error="<?php esc_attr_e('Please, provide {{field.label}}', Opt_In::TEXT_DOMAIN); ?>" class="wpoi-subscribe-{{field.name}} {{_.class(_.isTrue(field.required), 'required' )}}">
 
 											<label>
 
-												<i class="wphi-font wphi-user"></i>
+												<i class="wphi-font <# if ( field.type == 'email' ) { #>wphi-email<# } else if ( field.type == 'text' ) { if ( field.name == 'fname' || field.name == 'lname' || field.name == 'first_name' || field.name == 'last_name' || field.name == 'FNAME' || field.name == 'LNAME' ) { #>wphi-user<# } else if ( field.name == 'address' || field.name == 'ADDRESS' ) { #>wphi-address<# } else { #>wphi-typo<# } } else if ( field.type == 'number' ) { #>wphi-number<# } else if ( field.type == 'url' ) { #>wphi-url<# } #>"></i>
 
-												<span><?php esc_attr_e('First Name', Opt_In::TEXT_DOMAIN) ?></span>
+												<span>{{field.placeholder}}</span>
 
 											</label>
 
 										</div>
 
-									<# } #>
-
-									<# if(elements.indexOf("last_name") !== -1){ #>
-
-										<div class="wpoi-element">
-
-											<input type="text" name="inc_optin_last_name" data-error="<?php esc_attr_e('Please provide Last Name', Opt_In::TEXT_DOMAIN); ?>" class="wpoi-subscribe-lname required">
-
-											<label>
-
-												<i class="wphi-font wphi-user"></i>
-
-												<span><?php esc_attr_e('Last Name', Opt_In::TEXT_DOMAIN) ?></span>
-
-											</label>
-
-										</div>
-
-									<# } #>
-
-									<div class="wpoi-element">
-
-										<input type="email" name="inc_optin_email" data-error="<?php esc_attr_e('Please, provide valid Email address', Opt_In::TEXT_DOMAIN); ?>" class="wpoi-subscribe-email required">
-
-										<label>
-
-											<i class="wphi-font wphi-email"></i>
-
-											<span><?php esc_attr_e('E-mail', Opt_In::TEXT_DOMAIN) ?></span>
-
-										</label>
-
-									</div>
+									<# }); #>
 
 									<div class="wpoi-button">
 
-										<button type="submit" class="wpoi-subscribe-send"><?php _e("Sign Up", Opt_In::TEXT_DOMAIN) ?></button>
+										<button type="submit" class="wpoi-subscribe-send">{{cta_button}}</button>
 
 									</div>
 

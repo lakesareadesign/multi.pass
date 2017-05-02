@@ -12,7 +12,7 @@
 
 					<div class="box-title">
 
-						<h3><?php _e( 'Popup Update Info', Opt_In::TEXT_DOMAIN ); ?></h3>
+						<h3><?php _e( 'Pop-up Update Info', Opt_In::TEXT_DOMAIN ); ?></h3>
 
 					</div>
 

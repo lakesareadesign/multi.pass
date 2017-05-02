@@ -1,4 +1,3 @@
-"use strict";
 var  Optin = Optin || {};
 
 Optin.View = {};
@@ -8,7 +7,7 @@ Optin.Events = {};
 if( typeof Backbone !== "undefined")
     _.extend(Optin.Events, Backbone.Events);
 (function( $ ) {
-
+    "use strict";
     Optin.COOKIE_PREFIX = "inc_optin_long_hidden-";
     Optin.POPUP_COOKIE_PREFIX = "inc_optin_popup_long_hidden-";
     Optin.SLIDE_IN_COOKIE_PREFIX = "inc_optin_slide_in_long_hidden-";

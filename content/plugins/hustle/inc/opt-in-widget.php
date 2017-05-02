@@ -18,7 +18,7 @@ class Opt_In_Widget extends WP_Widget {
         parent::__construct(
             self::Widget_Id,
             __( 'Hustle', Opt_In::TEXT_DOMAIN ),
-            array( 'description' => __( 'A widget to add Opt-Ins', Opt_In::TEXT_DOMAIN ), )
+            array( 'description' => __( 'A widget to add Opt-ins', Opt_In::TEXT_DOMAIN ), )
         );
     }
 
@@ -41,7 +41,7 @@ class Opt_In_Widget extends WP_Widget {
             if ( ! empty( $instance['title'] ) ) {
                 echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
             }
-            _e("Select Opt-In", Opt_In::TEXT_DOMAIN);
+            _e("Select Opt-in", Opt_In::TEXT_DOMAIN);
 
             echo $args['after_widget'];
 
@@ -63,8 +63,17 @@ class Opt_In_Widget extends WP_Widget {
         if ( ! empty( $instance['title'] ) ) {
             echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
         }
+
+        $widget_css_class = Opt_In_Front::Widget_CSS_CLass;
+        if ( $optin->optin_provider == 'social_sharing' ) {
+            $widget_css_class = Hustle_Social_Sharing_Front::Widget_CSS_CLass;
+        } elseif ( $optin->optin_provider == 'custom_content' ) {
+            $widget_css_class = Hustle_Custom_Content_Front::Widget_CSS_CLass;
+        }
+
         ?>
-        <div class="<?php echo Opt_In_Front::Widget_CSS_CLass ?> inc_optin_<?php echo esc_attr( $instance['optin_id'] ); ?>" data-id="<?php echo esc_attr( $instance['optin_id'] ); ?>"></div>
+
+        <div class="<?php echo $widget_css_class; ?> inc_optin_<?php echo esc_attr( $instance['optin_id'] ); ?>" data-id="<?php echo esc_attr( $instance['optin_id'] ); ?>"></div>
         <?php
 
         echo $args['after_widget'];
@@ -89,9 +98,9 @@ class Opt_In_Widget extends WP_Widget {
             <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id( 'optin_id' ); ?>"><?php _e( 'Select Opt-In:', Opt_In::TEXT_DOMAIN ); ?></label>
+            <label for="<?php echo $this->get_field_id( 'optin_id' ); ?>"><?php _e( 'Select Opt-in:', Opt_In::TEXT_DOMAIN ); ?></label>
             <select name="<?php echo $this->get_field_name( 'optin_id' ); ?>" id="inc_opt_optin_id">
-                <option value=""><?php _e("Select Opt-In", Opt_In::TEXT_DOMAIN); ?></option>
+                <option value=""><?php _e("Select Opt-in", Opt_In::TEXT_DOMAIN); ?></option>
                 <?php foreach( Opt_In_Collection::instance()->get_all_id_names() as $opt ) :
                     $optin = Opt_In_Model::instance()->get( $opt->optin_id );
                         if( $optin->settings->widget->show_in_front() ):

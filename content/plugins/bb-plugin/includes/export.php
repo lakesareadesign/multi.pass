@@ -183,7 +183,9 @@ function fl_export_wp( $post_ids = array() ) {
 		}
 
 		$authors = array();
+		// @codingStandardsIgnoreStart
 		$results = $wpdb->get_results( "SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_status != 'auto-draft' $and" );
+		// @codingStandardsIgnoreEnd
 		foreach ( (array) $results as $result )
 			$authors[] = get_userdata( $result->post_author );
 
@@ -310,7 +312,9 @@ function fl_export_wp( $post_ids = array() ) {
 	// Fetch 20 posts at a time rather than loading the entire table into memory.
 	while ( $next_posts = array_splice( $post_ids, 0, 20 ) ) {
 	$where = 'WHERE ID IN (' . join( ',', $next_posts ) . ')';
+	// @codingStandardsIgnoreStart
 	$posts = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} $where" );
+	// @codingStandardsIgnoreEnd
 
 	// Begin Loop.
 	foreach ( $posts as $post ) {

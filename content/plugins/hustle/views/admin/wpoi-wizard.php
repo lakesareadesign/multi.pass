@@ -482,7 +482,7 @@
 
 		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-			<label class="wph-label--alt"><?php _e( "Pop up overlay", Opt_In::TEXT_DOMAIN ); ?></label>
+			<label class="wph-label--alt"><?php _e( "Pop-up overlay", Opt_In::TEXT_DOMAIN ); ?></label>
 
 			<div class="wph-pickers wph-pickers--single">
 

@@ -485,9 +485,8 @@
 }
 .fl-photo-content img {
 	display: inline;
-	height: auto !important;
+	height: auto;
 	max-width: 100%;
-	width: auto !important;
 }
 .fl-photo-crop-circle img {
 	-webkit-border-radius: 100%;
@@ -785,4 +784,11 @@ img.mfp-img {
 .fl-button.fl-button-icon-animation:hover i.fl-button-icon-before {
 	margin-right: 20px !important;
     margin-left: -10px;
+}
+
+/* Templates
+------------------------------------------------------ */
+
+.single:not(.woocommerce).single-fl-builder-template .fl-content {
+	width: 100%;
 }

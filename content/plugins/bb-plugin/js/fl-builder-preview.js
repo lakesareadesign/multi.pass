@@ -135,6 +135,16 @@
 		_timeout            : null,
 		
 		/**
+		 * A timeout object for delaying when we show the loading 
+		 * graphic for refresh previews.
+		 *
+		 * @since 1.10
+		 * @access private
+		 * @property {Object} _loaderTimeout
+		 */  
+		_loaderTimeout       : null,
+		
+		/**
 		 * Stores the last classname for a classname preview.
 		 *
 		 * @since 1.3.3
@@ -455,7 +465,7 @@
 		 */
 		_saveState: function() 
 		{
-			var post    = $('#fl-post-id').val(),
+			var post    = FLBuilderConfig.postId,
 				css     = $('link[href*="/cache/' + post + '"]').attr('href'),
 				js      = $('script[src*="/cache/' + post + '"]').attr('src'),
 				html    = $(FLBuilder._contentClass).html();
@@ -501,22 +511,26 @@
 			var heading         = typeof e == 'undefined' ? [] : $(e.target).closest('tr').find('th'),
 				widgetHeading   = $('.fl-builder-widget-settings .fl-builder-settings-title'),
 				lightboxHeading = $('.fl-builder-settings .fl-lightbox-header'),
-				loaderSrc       = FLBuilderLayoutConfig.paths.pluginUrl + 'img/ajax-loader-small.gif',
+				loaderSrc       = FLBuilderLayoutConfig.paths.pluginUrl + 'img/ajax-loader-small.svg',
 				loader          = $('<img class="fl-builder-preview-loader" src="' + loaderSrc + '" />');
+				
+			this.delay(1000, $.proxy(this.preview, this));
 			
-			$('.fl-builder-preview-loader').remove();
+			this._loaderTimeout = setTimeout( function() {
+				
+				$('.fl-builder-preview-loader').remove();
 			
-			if(heading.length > 0) {
-				heading.append(loader);
-			}
-			else if(widgetHeading.length > 0) {
-				widgetHeading.append(loader);
-			}
-			else if(lightboxHeading.length > 0) {
-				lightboxHeading.append(loader);
-			}
-			
-			this.delay(1000, $.proxy(this.preview, this));  
+				if(heading.length > 0) {
+					heading.append(loader);
+				}
+				else if(widgetHeading.length > 0) {
+					widgetHeading.append(loader);
+				}
+				else if(lightboxHeading.length > 0) {
+					lightboxHeading.append(loader);
+				}
+				
+			}, 1500 );
 		},
 	
 		/**
@@ -558,8 +572,17 @@
 		 */
 		_renderPreviewComplete: function() 
 		{
+			// Refresh the preview styles.
+			this._destroySheets();
+			this._createSheets();
+			
 			// Refresh the elements.
 			this._initElementsAndClasses();
+			
+			// Clear the loader timeout.
+			if(this._loaderTimeout !== null) {
+				clearTimeout(this._loaderTimeout);
+			}
 			
 			// Remove the loading graphic.
 			$('.fl-builder-preview-loader').remove();
@@ -581,9 +604,7 @@
 			this.clear();
 			
 			// Render the layout.
-			if ( this._settingsHaveChanged() ) {
-				FLBuilder._renderLayout(this.state);
-			}
+			FLBuilder._renderLayout( this.state );
 		},
 	
 		/**
@@ -1738,10 +1759,15 @@
 				
 				case 'suggest':
 					field.find('.as-values').on('change', callback);
+					field.find('select').on('change', callback);
 				break;
 						
 				case 'unit':
 					field.find('input[type=number]').on('keyup', callback);
+				break;
+						
+				case 'ordering':
+					field.find('input[type=hidden]').on('change', callback);
 				break;
 
 			}
@@ -2078,7 +2104,7 @@
 			if(unit == '%') {
 				value = parseInt(value)/100;
 			}
-			else {
+			else if ( '' !== value ) {
 				value += unit;
 			}
 			
@@ -2105,7 +2131,11 @@
 				input    = $(e.target),
 				val      = input.val(),
 				color    = val === '' ? 'inherit' : '#' + val;
-				
+			
+			if ( /^rgb/.test( val.replace(/\s+/g, '') ) ) {
+				color = val;
+			}
+
 			if ( input.closest( '.fl-field-responsive-setting' ).length ) {
 				this.updateResponsiveCSSRule( selector, preview.property, color );
 			}

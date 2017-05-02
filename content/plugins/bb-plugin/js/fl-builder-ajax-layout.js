@@ -10,7 +10,7 @@
 	{
 		this._data 					= $.extend( {}, this._defaults, typeof data == 'string' ? JSON.parse( data ) : data );
 		this._callback				= callback;
-		this._post    				= $('#fl-post-id').val();
+		this._post    				= FLBuilderConfig.postId;
 		this._head    				= $('head').eq(0);
 		this._body    				= $('body').eq(0);
 		
@@ -388,12 +388,20 @@
 						siblings = this._data.nodeParent.find( ' > .fl-col-group, > .fl-module' );
 					}
 					
+					// Filter out any clones created by duplicating.
+					siblings = siblings.filter( ':not(.fl-builder-node-clone)' );
+					
 					// Add the new node.
 					if ( 0 === siblings.length || siblings.length == this._data.nodePosition ) {
 						this._data.nodeParent.append( this._data.html );
 					}
 					else {
 						siblings.eq( this._data.nodePosition ).before( this._data.html );
+					}
+					
+					// Remove node loading placeholder in case we have one.
+					if ( this._data.nodeId ) {
+						FLBuilder._removeNodeLoadingPlaceholder( $( '.fl-node-' + this._data.nodeId ) );
 					}
 				}
 				// We must be refreshing an existing node.

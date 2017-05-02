@@ -243,6 +243,20 @@ class MetaSlide {
             set_post_thumbnail( $id, $attachment_id );
         }
 
+        if ( $type === 'image' ) {
+            // copy across alt text
+            $alt = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+            add_post_meta( $id, '_wp_attachment_image_alt', $alt );
+
+            // copy across caption
+            $caption = get_the_excerpt( $attachment_id );
+
+            wp_update_post( array(
+                'ID' => $id,
+                'post_excerpt' => $caption
+            ) );
+        }
+
         $this->add_or_update_or_delete_meta( $id, 'type', $type );
 
         return $id;

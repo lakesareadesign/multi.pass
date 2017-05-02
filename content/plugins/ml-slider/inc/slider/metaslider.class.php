@@ -171,6 +171,11 @@ class MetaSlider {
             $type = get_post_meta( $query->post->ID, 'ml-slider_type', true );
             $type = $type ? $type : 'image'; // backwards compatibility, fall back to 'image'
 
+            // skip over deleted media files
+            if ( $type == 'image' && get_post_type( $query->post->ID ) == 'ml-slide' && ! get_post_thumbnail_id( $query->post->ID ) ) {
+                continue;
+            }
+
             if ( has_filter( "metaslider_get_{$type}_slide" ) ) {
                 $return = apply_filters( "metaslider_get_{$type}_slide", $query->post->ID, $this->id );
 

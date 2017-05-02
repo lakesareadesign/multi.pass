@@ -9,6 +9,8 @@ class Hustle_Custom_Content_Front
 
     private $_styles;
 
+	private $after_content = array();
+
 	const Widget_CSS_CLass = "inc_cc_widget_wrap inc_cc";
     const Shortcode_CSS_CLass = "inc_cc_shortcode_wrap inc_cc";
 
@@ -30,6 +32,8 @@ class Hustle_Custom_Content_Front
         add_action("wp_footer", array($this, "add_shortcode_template"));
 
         add_filter("hustle_register_scripts", array( $this, "register_modules" ));
+
+		add_filter( "the_content", array( $this, "add_after_content_template" ), 20);
 
 		add_shortcode(self::SHORTCODE, array( $this, "shortcode" ), 10, 2);
 
@@ -76,7 +80,8 @@ class Hustle_Custom_Content_Front
         /**
          * @var $module Hustle_Custom_Content_Model
          */
-        foreach (Hustle_Custom_Content_Collection::instance()->get_all( true ) as $module) {
+
+        foreach ( Hustle_Custom_Content_Collection::instance()->get_all( true ) as $module) {
 
             if( !$module->display ) continue;
 
@@ -84,11 +89,19 @@ class Hustle_Custom_Content_Front
 
             $this->_module_handles[$handle]["design"] = $module->get_design()->to_array();
             $this->_module_handles[$handle]["content"] = $module->get_data();
+            $this->_module_handles[$handle]["tracking_types"] = $module->get_tracking_types();
+            $this->_module_handles[$handle]["settings"] = $module->settings;
+			$after_content = $this->_module_handles[$handle]["after_content"] = $module->get_after_content()->to_array();
             $popup = $this->_module_handles[$handle]["popup"] = $module->get_popup()->to_array();
             $slide_in = $this->_module_handles[$handle]["slide_in"] = $module->get_slide_in()->to_array();
             $magic_bar = $this->_module_handles[$handle]["magic_bar"] = $module->get_magic_bar()->to_array();
-            $this->_module_handles[$handle]["should_display"] = $module->get_types_display_conditions();
+            $should_display = $this->_module_handles[$handle]["should_display"] = $module->get_types_display_conditions();
             $this->_styles .= $module->get_decorated()->get_styles();
+
+			// only the enabled and allowed After Content module should be added
+			if ( ! empty( $after_content ) && isset( $after_content['enabled'] ) && ( $after_content['enabled'] == 'true' || (int) $after_content['enabled'] > 0 ) && $should_display['after_content'] ) {
+				$this->after_content[ $handle ] = $after_content;
+			}
 
             if(
                 ( isset( $popup['triggers'], $popup['triggers']['trigger'] ) && $popup['triggers']['trigger'] === "adblock" && in_array( $popup['triggers']['on_adblock'], array(1, "1", "true", true, "on") ) ) ||
@@ -170,4 +183,24 @@ class Hustle_Custom_Content_Front
 		return sprintf("<div class='%s' data-id='%s'></div>", self::Shortcode_CSS_CLass . " inc_cc_" . $cc->id, $cc->id);
 	}
 
+	/**
+     * After Content Module for Custom Content
+     * - conditions already handled on create_modules function
+     * @since 2.1
+     */
+	function add_after_content_template( $content ) {
+
+		if ( isset( $_REQUEST['fl_builder'] ) ) {
+			return $content;
+		}
+
+		foreach ( $this->after_content as $uniq_id => $after_content ) {
+			$content .= sprintf( '<div id="cc-%s" data-id="%s" class="cc-after-content"></div>', $uniq_id, $uniq_id );
+
+		}
+
+		remove_filter("the_content", array($this, "add_after_content_template"));
+
+		return $content;
+	}
 }

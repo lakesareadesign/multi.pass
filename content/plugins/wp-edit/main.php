@@ -3,7 +3,7 @@
  * Plugin Name: WP Edit
  * Plugin URI: https://wpeditpro.com
  * Description: Ultimate WordPress Content Editing.
- * Version: 4.0
+ * Version: 4.0.1
  * Author: Josh Lobe
  * Author URI: https://wpeditpro.com
  * License: GPL2
@@ -386,7 +386,7 @@ class wp_edit_class {
 			// Make filtered button comparison; alert users if counts do not match
 			/******************************************************************************/
 			// First; get all buttons saved in database
-			$plugin_buttons = get_option('wp_edit_buttons');
+			$plugin_buttons = get_option( 'wp_edit_buttons', $this->global_options_buttons );
 			$plugin_buttons_string = '';
 			
 			foreach( $plugin_buttons as $key => $button_string ) {
@@ -475,7 +475,7 @@ class wp_edit_class {
 			*/
             if($active_tab == 'buttons'){
 				
-				$options_buttons = get_option('wp_edit_buttons');
+				$options_buttons = get_option( 'wp_edit_buttons', $this->global_options_buttons );
 	
 				echo '<div class="main_container">';
 				
@@ -2837,7 +2837,7 @@ class wp_edit_class {
 	public function wp_edit_init_tinymce() {
 		
 		
-		$options_buttons = get_option('wp_edit_buttons');
+		$options_buttons = get_option( 'wp_edit_buttons', $this->global_options_buttons );
 		$default_opts = $this->global_options_buttons;
 
 

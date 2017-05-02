@@ -17,7 +17,7 @@
 
 		<div class="col-xs-12">
 
-			<h6 class="alt"><?php _e('Set up e-mail list syncing with E-Newsletter plugin.', Opt_In::TEXT_DOMAIN); ?></h6>
+			<h6 class="alt"><?php _e('Set up email list syncing with E-Newsletter plugin.', Opt_In::TEXT_DOMAIN); ?></h6>
 
 			<table class="wph-table">
 

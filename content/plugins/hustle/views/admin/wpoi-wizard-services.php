@@ -71,7 +71,7 @@
 
 							<span><?php _e('Save Emails to local list', Opt_In::TEXT_DOMAIN); ?></span>
 
-							<small><?php _e('Will save submitted e-mail addresses to an exportable CSV list', Opt_In::TEXT_DOMAIN); ?></small>
+							<small><?php _e('Will save submitted email addresses to an exportable CSV list', Opt_In::TEXT_DOMAIN); ?></small>
 
 						</label>
 

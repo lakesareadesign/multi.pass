@@ -20,12 +20,18 @@ class Opt_In_Admin_Ajax {
         add_action("wp_ajax_inc_opt_save_new", array( $this, "save_optin" ));
         add_action("wp_ajax_inc_opt_prepare_custom_css", array( $this, "prepare_custom_css" ));
         add_action("wp_ajax_inc_opt_toggle_state", array( $this, "toggle_optin_state" ));
+        add_action("wp_ajax_inc_optin_toggle_tracking_activity", array( $this, "toggle_tracking_activity" ));
         add_action("wp_ajax_inc_opt_toggle_optin_type_state", array( $this, "toggle_optin_type_state" ));
         add_action("wp_ajax_inc_opt_toggle_type_test_mode", array( $this, "toggle_type_test_mode" ));
         add_action("wp_ajax_inc_opt_delete_optin", array( $this, "delete_optin" ));
         add_action("wp_ajax_inc_optin_get_email_lists", array( $this, "get_subscriptions_list" ));
         add_action("wp_ajax_inc_optin_export_subscriptions", array( $this, "export_subscriptions" ));
         add_action("wp_ajax_persist_new_welcome_close", array( $this, "persist_new_welcome_close" ));
+		add_action("wp_ajax_add_module_field", array( $this, "add_module_field" ) );
+		add_action( "wp_ajax_get_error_list", array( $this, "get_error_list" ) );
+		add_action( "wp_ajax_clear_logs", array( $this, "clear_logs" ) );
+		add_action( "wp_ajax_export_error_logs", array( $this, "export_error_logs" ) );
+		add_action( "wp_ajax_sshare_show_page_content", array( $this, "sshare_show_page_content" ) );
     }
 
     /**
@@ -96,6 +102,8 @@ class Opt_In_Admin_Ajax {
             $provider->set_arg( "secret", filter_input( INPUT_POST, "optin_secret_key" ) );
         if( filter_input( INPUT_POST, "optin_username" ) )
             $provider->set_arg( "username", filter_input( INPUT_POST, "optin_username" ) );
+		if ( filter_input( INPUT_POST, "optin_password" ) )
+			$provider->set_arg( "password", filter_input( INPUT_POST, "optin_password" ) );
 
         if( filter_input( INPUT_POST, "optin_account_name" ) )
             $provider->set_arg( "account_name", filter_input( INPUT_POST, "optin_account_name" ) );
@@ -198,6 +206,28 @@ class Opt_In_Admin_Ajax {
             wp_send_json_success( __("Successful") );
         else
             wp_send_json_error( __("Failed") );
+    }
+
+    function toggle_tracking_activity(){
+
+        Opt_In_Utils::validate_ajax_call( "optin-toggle-tracking-activity" );
+
+        $id = filter_input( INPUT_POST, 'id', FILTER_VALIDATE_INT );
+        $type = trim( filter_input( INPUT_POST, 'type', FILTER_SANITIZE_STRING ) );
+
+        if( !$id || !$type )
+            wp_send_json_error(__("Invalid Request", Opt_In::TEXT_DOMAIN));
+
+
+        if( !is_object( Opt_In_Model::instance()->get($id)->settings->{$type} ) )
+            wp_send_json_error(__("Invalid environment: " . $type, Opt_In::TEXT_DOMAIN));
+
+        $result = Opt_In_Model::instance()->get($id)->toggle_type_track_mode( $type );
+
+        if( $result && !is_wp_error( $result ) )
+            wp_send_json_success( __("Successful") );
+        else
+            wp_send_json_error( $result->get_error_message() );
     }
 
     /**
@@ -309,9 +339,10 @@ class Opt_In_Admin_Ajax {
 
         if( $subscriptions )
             wp_send_json_success( array(
-                "subscriptions" => $subscriptions
+                "subscriptions" => $subscriptions,
+				'module_fields'=> Opt_In_Model::instance()->get($id)->get_design()->__get( 'module_fields' ),
             ) );
-        else
+		else
             wp_send_json_error( __("Failed to fetch subscriptions", Opt_In::TEXT_DOMAIN) );
     }
 
@@ -336,17 +367,27 @@ class Opt_In_Admin_Ajax {
             die(__("Invalid Request", Opt_In::TEXT_DOMAIN));
 
         $optin = Opt_In_Model::instance()->get($id);
+		$module_fields = Opt_In_Model::instance()->get($id)->get_design()->__get( 'module_fields' );
         $subscriptions = $optin->get_local_subscriptions();
-        $csv = sprintf("%s, %s, %s, %s",
-                __("First Name", Opt_In::TEXT_DOMAIN),
-                __("Last Name", Opt_In::TEXT_DOMAIN),
-                __("Email", Opt_In::TEXT_DOMAIN),
-                __("Type", Opt_In::TEXT_DOMAIN)
-            ) . "\n";
 
+		$fields = array();
+
+		foreach ( $module_fields as $field ) {
+			$fields[ $field['name'] ] = $field['label'];
+		}
+		$csv = implode( ', ', $fields ) . "\n";
 
         foreach( $subscriptions as $row ){
-            $csv .= sprintf("%s, %s, %s, %s", $row->f_name, $row->l_name, $row->email, $row->optin_type) . "\n";
+			$subscriber_data = array();
+
+			foreach ( $fields as $key => $label ) {
+				// Check for legacy
+				if ( isset( $row->f_name ) && 'first_name' == $key ) $key = 'f_name';
+				if ( isset( $row->l_name ) && 'last_name' == $key ) $key = 'l_name';
+
+				$subscriber_data[ $key ] = isset( $row->$key ) ? $row->$key : '';
+			}
+			$csv .= implode( ', ', $subscriber_data ) . "\n";
         }
 
         $file_name = strtolower( sanitize_file_name( $optin->optin_name ) ) . ".csv";
@@ -360,5 +401,119 @@ class Opt_In_Admin_Ajax {
 
     }
 
+	/**
+	 * Validate new/updated custom module field.
+	 **/
+	function add_module_field() {
+		Opt_In_Utils::validate_ajax_call( 'optin_add_module_field' );
+		$input = stripslashes_deep( $_REQUEST );
+
+		if ( ! empty( $input ) ) {
+			$provider = $input['provider'];
+			$registered_providers = $this->_hustle->get_providers();
+			$can_add = array( 'success' => true, 'field' => $input['field'] );
+
+			if ( isset( $registered_providers[ $provider ] ) ) {
+				$provider_class = $registered_providers[ $provider ]['class'];
+
+				if ( class_exists( $provider_class )
+					&& method_exists( $provider_class, 'add_custom_field' ) ) {
+					$optin = Opt_In_Model::instance()->get( $input['optin_id'] );
+					$can_add = call_user_func( array( $provider_class, 'add_custom_field' ), $input['field'], $optin );
+				}
+			}
+
+			if ( isset( $can_add['success'] ) ) {
+				wp_send_json_success( $can_add );
+			} else {
+				wp_send_json_error( $can_add );
+			}
+		}
+	}
+
+	function get_error_list() {
+		Opt_In_Utils::validate_ajax_call( 'optin_get_error_logs' );
+		$id = filter_input( INPUT_GET, 'optin_id', FILTER_VALIDATE_INT );
+
+		if ( (int) $id > 0 ) {
+			$optin = Opt_In_Model::instance()->get( $id );
+			$error_log = $optin->get_error_log();
+			$module_fields = $optin->get_design()->__get( 'module_fields' );
+			wp_send_json_success( array( 'logs' => $error_log, 'module_fields' => $module_fields ) );
+		}
+		wp_send_json_error(true);
+	}
+
+	function clear_logs() {
+		Opt_In_Utils::validate_ajax_call( 'optin_clear_logs' );
+		$id = filter_input( INPUT_GET, 'optin_id', FILTER_VALIDATE_INT );
+
+		if ( (int) $id > 0 ) {
+			Opt_In_Model::instance()->get( $id )->clear_error_log();
+		}
+		wp_send_json_success(true);
+	}
+
+	function export_error_logs() {
+		Opt_In_Utils::validate_ajax_call( 'optin_export_error_logs' );
+		$id = filter_input( INPUT_GET, 'optin_id', FILTER_VALIDATE_INT );
+
+		if ( (int) $id > 0 ) {
+			$optin = Opt_In_Model::instance()->get( $id );
+			$error_log = $optin->get_error_log();
+			$module_fields = $optin->get_design()->__get( 'module_fields' );
+			$csv = array(array());
+			$keys = array();
+
+			foreach ( $module_fields as $field ) {
+				$csv[0][] = $field['label'];
+				$keys[] = $field['name'];
+			}
+			$csv[0][] = __( 'Error', Opt_In::TEXT_DOMAIN );
+			$csv[0][] = __( 'Date', Opt_In::TEXT_DOMAIN );
+			array_push( $keys, 'error', 'date' );
+
+			if ( ! empty( $error_log ) ) {
+				foreach ( $error_log as $log ) {
+					$logs = array();
+
+					foreach ( $keys as $key ) {
+						$logs[ $key ] = sanitize_text_field( $log->$key );
+					}
+					$csv[] = $logs;
+				}
+			}
+
+			foreach ( $csv as $index => $_csv ) {
+				$csv[ $index ] = implode( ',', $_csv );
+			}
+
+			$file_name = strtolower( sanitize_file_name( $optin->optin_name ) ) . "-errors.csv";
+			header("Content-type: application/x-msdownload",true,200);
+			header("Content-Disposition: attachment; filename=$file_name");
+			header("Pragma: no-cache");
+			header("Expires: 0");
+			echo implode( "\n", $csv );
+			die();
+		}
+		wp_send_json_error(true);
+	}
+
+    function sshare_show_page_content() {
+		Opt_In_Utils::validate_ajax_call( "hustle_ss_stats_paged_data" );
+
+        $page_id = filter_input( INPUT_POST, 'page_id', FILTER_VALIDATE_INT );
+        $offset = ($page_id - 1) * 5;
+        $ss_share_stats = Hustle_Social_Sharing_Collection::instance()->get_share_stats( $offset, 5 );
+
+        foreach($ss_share_stats as $key => $ss_stats) {
+            $ss_share_stats[$key]->page_url = ( $ss_stats->ID != 0 ) ? esc_url(get_permalink($ss_stats->ID)) : esc_url(get_home_url());
+            $ss_share_stats[$key]->page_title = ( $ss_stats->ID != 0 ) ? $ss_stats->post_title : get_bloginfo();
+        }
+
+		wp_send_json_success( array(
+            'ss_share_stats' => $ss_share_stats
+        ) );
+	}
 }
 endif;

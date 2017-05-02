@@ -12,7 +12,7 @@
 
 			<div class="col-xs-12">
 
-				<h6><?php _e('Add <strong>{{optin_name}}</strong> e-mails to these E-Newsletter groups:', Opt_In::TEXT_DOMAIN); ?></h6>
+				<h6><?php _e('Add <strong>{{optin_name}}</strong> emails to these E-Newsletter groups:', Opt_In::TEXT_DOMAIN); ?></h6>
 
 				<table class="wph-table wph-table--alt"><!-- wph-settings--enewsletter wph-enews--setup -->
 

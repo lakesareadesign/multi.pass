@@ -147,7 +147,8 @@ FLBuilder::register_module('FLVideoModule', array(
 						'wrap'          => true,
 						'editor'        => 'html',
 						'label'         => '',
-						'rows'          => '9'
+						'rows'          => '9',
+						'connections'   => array( 'custom_field' )
 					)
 				)
 			)

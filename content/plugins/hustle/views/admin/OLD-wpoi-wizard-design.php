@@ -27,7 +27,7 @@
 
 						<div class="wpoi-box-content-block">
 
-							<label><?php _e('Opt-In Title:', Opt_In::TEXT_DOMAIN); ?></label>
+							<label><?php _e('Opt-in Title:', Opt_In::TEXT_DOMAIN); ?></label>
 
 							<input  id="optin_title" value="{{optin_title}}" type="text" placeholder="<?php esc_attr_e("eg. Receive Newsletter", Opt_In::TEXT_DOMAIN); ?>">
 
@@ -38,7 +38,7 @@
 							<div class="wpoi-wysiwyg-wrap">
 
 								<input type="radio" id="wpoi-om" class="wysiwyg-tab" name="wysiwyg_editor" checked>
-								<label for="wpoi-om"><?php _e('Opt-In Message', Opt_In::TEXT_DOMAIN); ?></label>
+								<label for="wpoi-om"><?php _e('Opt-in Message', Opt_In::TEXT_DOMAIN); ?></label>
 
 								<input type="radio" id="wpoi-sm" class="wysiwyg-tab" name="wysiwyg_editor">
 								<label for="wpoi-sm"><?php _e('Success Message', Opt_In::TEXT_DOMAIN); ?></label>
@@ -77,7 +77,7 @@
 
 						<div class="wpoi-box-content-block">
 
-							<label><?php _e('Opt-In Image:', Opt_In::TEXT_DOMAIN); ?></label>
+							<label><?php _e('Opt-in Image:', Opt_In::TEXT_DOMAIN); ?></label>
 
 							<div class="wpoi-select-media">
 
@@ -412,7 +412,7 @@
 
 							<div class="wpoi-css-selectors wpoi-wrap cf">
 
-								<label class="wpoi-label-bold"><?php _e("Add Custom CSS to this Opt-In", Opt_In::TEXT_DOMAIN); ?></label>
+								<label class="wpoi-label-bold"><?php _e("Add Custom CSS to this Opt-in", Opt_In::TEXT_DOMAIN); ?></label>
 
 								<label><?php _e( "Available CSS Selectors (click to add):", Opt_In::TEXT_DOMAIN ); ?></label>
 
@@ -528,7 +528,7 @@
 
 							<div class="wpoi-form-elements">
 
-								<label for="optin_rounded_corners"><?php _e( "Opt-In Box:", Opt_In::TEXT_DOMAIN ); ?></label>
+								<label for="optin_rounded_corners"><?php _e( "Opt-in Box:", Opt_In::TEXT_DOMAIN ); ?></label>
 
 								<input min="0" type="number" name="optin_rounded_corners_radious" value="{{borders.corners_radius}}"  id="optin_rounded_corners_radious"/>
 

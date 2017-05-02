@@ -31,7 +31,7 @@ class Mailchimp_Vip {
      */
     public function activity() {
         $_params = array();
-        return $this->master->call('vip/activity', $_params);
+        return $this->master->call('vip/activity', $_params);	  	 			 			  	      
     }
 
     /**

@@ -10,37 +10,19 @@
             $doc = $(document);
 		
 		$($doc).on("click", "a.wph-cc-shortcode--cta", function(e){
-			var cc_data = {
-				"id": cc_id,
-				"type": type,
-				"source": "cta"
-			};
-			Optin.save_cc_shortcode_conversion(cc_data);
+            if ( typeof Optin.CC_log_conversion != 'undefined' ) {
+                Optin.CC_log_conversion.set( 'id', cc_id );
+                Optin.CC_log_conversion.set( 'type', type );
+                Optin.CC_log_conversion.set( 'source', 'cta' );
+                Optin.CC_log_conversion.save();
+            }
 		});
     }
-	Optin.save_cc_shortcode_conversion = function(cc_data){
-		$.ajax({
-			type: "POST",
-			url: inc_opt.ajaxurl,
-			data: {
-				action: "hustle_custom_content_converted",
-				data: {
-					id: cc_data.id,
-					page_type: inc_opt.page_type,
-					page_id: inc_opt.page_id,
-					type: cc_data.type,
-					uri: encodeURI( window.location.href ),
-					source: cc_data.source
-				}
-			},
-			success: function (res) {}
-		});
-	}
 	
     /**
      * Render inline optins ( widget )
      */
-    var inc_opt_render_widgets = _.debounce( function(){
+    Optin.inc_opt_render_widgets = _.debounce( function(){
 		// rendering widgets, shortcodes for Custom Content
 		$(".inc_cc_widget_wrap, .inc_cc_shortcode_wrap").each(function () {
             var $this = $(this),
@@ -52,8 +34,12 @@
             var cc = _.find(Hustle_Custom_Contents, function (opt) {
                 return id == opt.content.optin_id;
             });
-			
+            
             if (!cc) return;
+            
+            var settings = $.parseJSON(cc.settings);
+            if ( settings == null ) return;
+            if ( _.isFalse( settings[type].enabled ) ) return;
 			
 			$this.data("handle", _.findKey(Hustle_Custom_Contents, cc));
             $this.data("type", type);
@@ -64,17 +50,18 @@
 					cc.design.cta_url = "http://" + cc.design.cta_url;
 				}
 			}
-			
-			var html = Optin.render_cc_shortcode( cc );
-			Optin.handle_cc_scroll( $this, type, id );
+			cc.type = type;
+			var html = Optin.render_cc_shortcode( cc, type );
+			// Optin.handle_cc_scroll( $this, type, id );
 			$this.html(html);
-			
-			_.delay(function(){
-                $(document).trigger("wpoi:cc_shortcode_or_widget_viewed", [type, id]);
-            }, _.random(0, 300));
-			
-			Optin.handle_cc_shortcode_conversion(id, type);
-
+            
+            if ( cc.tracking_types != null && _.isTrue( cc.tracking_types[type] ) ) {
+                _.delay(function(){
+                    $(document).trigger("wpoi:cc_shortcode_or_widget_viewed", [type, id]);
+                }, _.random(0, 300));
+                
+                Optin.handle_cc_shortcode_conversion(id, type);
+            }
         });
 		
 		// rendering widgets, shortcodes for Opt-in
@@ -82,7 +69,7 @@
             var $this = $(this),
                 id = $this.data("id"),
                 type = $this.is(".inc_opt_widget_wrap") ? "widget" : "shortcode";
-
+            
             if( !id ) return;
 			
             var optin = _.find(Optins, function (opt) {
@@ -96,7 +83,7 @@
 
             var html = Optin.render_optin( optin );
 
-            Optin.handle_scroll( $this, type, optin );
+            // Optin.handle_scroll( $this, type, optin );
 
 
             $this.html(html);
@@ -109,15 +96,42 @@
             }, _.random(0, 300));
 
         });
+        
+        // rendering social sharing modules widget and shortcode
+        $(".inc_social_sharing_widget_wrap, .inc_social_sharing_shortcode_wrap").each( function() {
+            var $this = $(this),
+                id = $this.data("id"),
+                type = $this.is(".inc_social_sharing_widget_wrap") ? "widget" : "shortcode";
+                
+                if( !id ) return;
+			
+                var ss = _.find(Hustle_SS_Modules, function (opt) {
+                    return id == opt.optin_id;
+                });
+               
+                if (!ss) return;
+                
+                var settings = $.parseJSON(ss.settings);
+                if ( settings == null ) return;
+                if ( _.isFalse( settings[type].enabled ) ) return;
+                
+                ss.parent = $this;
+                
+                if ( type == 'widget' ) {
+                    new Optin.SS_widget(ss);
+                } else {
+                    new Optin.SS_shortcode(ss);
+                }
+        });
 		
     }, 50, true);
 
-    inc_opt_render_widgets();
+    _.delay(Optin.inc_opt_render_widgets, Optin.popup_overlay_delay);
 
     $(document).on('upfront-load', function(){
-        inc_opt_render_widgets();
+        Optin.inc_opt_render_widgets();
 
-        Upfront.Events.on("entity:object:refresh:start entity:object:refresh preview:build:start upfront:preview:build:stop", inc_opt_render_widgets);
+        Upfront.Events.on("entity:object:refresh:start entity:object:refresh preview:build:start upfront:preview:build:stop", Optin.inc_opt_render_widgets);
     });
 
 }(jQuery));

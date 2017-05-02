@@ -13,8 +13,15 @@ class Hustle_Legacy_Popups
     private $_query;
 	private static $popup_found = 0;
 
-    public function __construct()
+	/**
+	 * @var (object) Opt_In class instance
+	 **/
+	private $_hustle;
+
+    public function __construct( Opt_In $hustle )
     {
+		$this->_hustle = $hustle;
+
 		add_action( 'init', array( $this, 'do_migration' ) );
     }
 
@@ -30,6 +37,24 @@ class Hustle_Legacy_Popups
 				update_option( 'hustle_legacy_notice_dismissed', true );
 			}
 		}
+
+		/**
+		 * Temp hide until approval
+		$base_plugin = basename( $this->_hustle->get_static_var( 'plugin_path' ) );
+
+		if ( 'popover' == $base_plugin ) {
+			$pro_done = get_option( 'hustle_popover_pro_migrated', false );
+
+			if ( false === $pro_done || empty( $pro_done ) ) {
+				$popups = $this->get_all();
+				array_map( array( __CLASS__, 'migrate' ), $popups );
+
+				if ( empty( self::$popup_found ) ) {
+					update_option( 'hustle_popover_pro_migrated', true );
+				}
+			}
+		}
+		**/
 	}
 
 	public static function migrate( $popup ) {
@@ -53,7 +78,7 @@ class Hustle_Legacy_Popups
         $design = wp_parse_args( self::get_design_data( $popup ) , $cc->get_design()->to_array() );
         $cc->add_meta( "design",  $design);
 
-        $popup_settings = wp_parse_args( self::get_settings_data( $popup ) , $cc->get_popup()->to_array() );
+        $popup_settings = wp_parse_args( self::get_settings_data( $popup ), $cc->get_popup()->to_array() );
 
         $cc->add_meta( "popup", $popup_settings );
         $cc->add_meta( "slide_in", $cc->get_slide_in()->to_json() );
@@ -91,6 +116,7 @@ class Hustle_Legacy_Popups
 		if ( empty( self::$popup_found ) ) {
 			update_option( 'hustle_popup_migrated', true );
 			update_option( 'hustle_legacy_notice_dismissed', false );
+			update_option( 'hustle_popover_pro_migrated', true );
 		}
 
         return $this->_query;

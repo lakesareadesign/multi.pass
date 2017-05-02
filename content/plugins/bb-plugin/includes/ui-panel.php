@@ -47,7 +47,7 @@
 					<?php else : ?>
 					<div class="fl-builder-blocks-section-content fl-builder-modules">
 						<?php foreach($modules as $module) : ?>
-						<span class="fl-builder-block fl-builder-block-module" data-type="<?php echo $module->slug; ?>"><span class="fl-builder-block-title" title="<?php echo esc_attr( $module->name ); ?>"><?php echo $module->name; ?></span></span>
+						<span class="fl-builder-block fl-builder-block-module" data-type="<?php echo $module->slug; ?>"<?php if ( isset( $module->alias ) ) echo ' data-alias="' . $module->alias . '"';  ?>><span class="fl-builder-block-title" title="<?php echo esc_attr( $module->name ); ?>"><?php echo $module->name; ?></span></span>
 						<?php endforeach; ?>
 					</div>
 					<?php endif; ?>

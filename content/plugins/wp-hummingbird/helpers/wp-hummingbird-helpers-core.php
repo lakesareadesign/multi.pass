@@ -130,7 +130,7 @@ function wphb_is_htaccess_writable() {
 	}
 
 	$home_path = get_home_path();
-	$writable = ( ! file_exists( $home_path . '.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path . '.htaccess' );
+	$writable = ( ! file_exists( $home_path . '.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path . '.htaccess' );	  	 	   	 		 		 		 	
 	return $writable;
 }
 

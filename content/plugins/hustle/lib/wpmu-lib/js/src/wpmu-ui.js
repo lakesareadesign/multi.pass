@@ -111,8 +111,8 @@
 		_init();
 		base = jQuery( base || _body );
 
-		var items = base.find( 'select[multiple]' ),
-			ajax_items = base.find( 'input[data-select-ajax]' );
+		var items = base.find( 'select[multiple]' ).not( 'select[data-select-ajax]' ),
+		ajax_items = base.find( 'select[data-select-ajax]' );
 
 		// When an DOM container is *cloned* it may contain markup for a select2
 		// listbox that is not attached to any event handler. Clean this up.
@@ -147,34 +147,17 @@
 			clean_ghosts( el );
 
 			// Prevent lags during page load by making this asynchronous.
-			window.setTimeout( function() {
-				el.wpmuiSelect(options);
-			}, 1);
+			if ( "function" === typeof( el.wpmuiSelect ) ) {
+				window.setTimeout( function() {
+					el.wpmuiSelect(options);
+				}, 1);
+			}
 		};
 
 		// Initialize select list with ajax source.
 		var upgrade_ajax = function upgrade_ajax() {
 			var format_item = function format_item( item ) {
-				return item.val;
-			};
-
-			var get_id = function get_id( item ) {
-				return item.key;
-			};
-
-			var init_selection = function init_selection( me, callback ) {
-				var vals = me.val(),
-					data = [],
-					plain = [];
-
-				jQuery( vals.split(',') ).each(function () {
-					var item = this.split('::');
-					plain.push( item[0] );
-					data.push( { key: item[0], val: item[1] } );
-				});
-
-				me.val( plain.join(',') );
-				callback( data );
+				return item.text;
 			};
 
 			var el = jQuery( this ),
@@ -188,21 +171,20 @@
 						dataType: 'json',
 						quietMillis: 100,
 						cache: true,
-						data: function(term, page) {
+						data: function(params) {
 							return {
-								q: term,
+								q: params.term,
+								page: params.page,
 							};
 						},
-						results: function(data, page) {
+						processResults: function(data, params) {
 							return {
 								results: data.items
 							};
 						}
 					},
-					'id': get_id,
-					'formatResult': format_item,
-					'formatSelection': format_item,
-					'initSelection': init_selection
+					'templateResult': format_item,
+					'templateSelection': format_item
 				};
 
 			// Prevent double initialization (i.e. conflict with other plugins)
@@ -220,9 +202,11 @@
 			clean_ghosts( el );
 
 			// Prevent lags during page load by making this asynchronous.
-			window.setTimeout( function() {
-				el.wpmuiSelect(options);
-			}, 1);
+			if ( "function" === typeof( el.wpmuiSelect ) ) {
+				window.setTimeout( function() {
+					el.wpmuiSelect(options);
+				}, 1);
+			}
 		};
 
 		if ( 'function' === typeof jQuery.fn.each2 ) {

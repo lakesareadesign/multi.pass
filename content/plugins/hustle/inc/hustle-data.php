@@ -12,10 +12,16 @@ abstract class Hustle_Data
     const KEY_SETTINGS              = "settings";
     const KEY_VIEW                  = "view";
     const KEY_CONVERSION            = "conversion";
+    const KEY_PAGE_SHARES           = "page_shares";
     const TEST_TYPES                = "test_types";
+    const TRACK_TYPES               = "track_types";
+	const KEY_AFTER_CONTENT = "after_content";
     const KEY_POPUP  = "popup";
     const KEY_SLIDE_IN  = "slide_in";
     const KEY_MAGIC_BAR  = "magic_bar";
+    const KEY_SERVICES = "services";
+    const KEY_APPEARANCE = "appearance";
+    const KEY_FLOATING_SOCIAL = "floating_social";
 
     const ACTIVE_FOR_ADMIN = "active_for_admin";
     const ACTIVE_FOR_LOGGED_IN = "active_for_logged_in_user";

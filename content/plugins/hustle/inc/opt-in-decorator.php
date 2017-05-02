@@ -77,7 +77,7 @@ class Opt_In_Decorator extends Opt_In
 
     private function _get_layout_colors()
     {
-        if ( !$this->_optin->design->colors->customize )
+        if ( !$this->_optin->design->colors->customize && $this->_optin->design->colors->palette )
             return $this->get_palette( $this->_optin->design->colors->palette );
         else
             return $this->_optin->design->colors->to_array();

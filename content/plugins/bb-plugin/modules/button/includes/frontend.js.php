@@ -28,4 +28,3 @@
 	});
 })(jQuery);
 <?php endif; ?>
-	

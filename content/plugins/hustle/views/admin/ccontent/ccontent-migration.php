@@ -39,11 +39,11 @@
 
 					<label class="wph-label--alt"><?php _e('Heading (Optional):', Opt_In::TEXT_DOMAIN); ?></label>
 
-					<input type="text" class="hustle-custom-content-legacy-popup-heading" placeholder="<?php _e('Popup heading', Opt_In::TEXT_DOMAIN); ?>" value="<?php echo Hustle_Legacy_Popups::get_heading( $popup ); ?>" >
+					<input type="text" class="hustle-custom-content-legacy-popup-heading" placeholder="<?php _e('Pop-up heading', Opt_In::TEXT_DOMAIN); ?>" value="<?php echo Hustle_Legacy_Popups::get_heading( $popup ); ?>" >
 
 					<label class="wph-label--alt"><?php _e('Subheading (Optional):', Opt_In::TEXT_DOMAIN); ?></label>
 
-					<input type="text" class="hustle-custom-content-legacy-popup-subheading" placeholder="<?php _e('Option popup  subheading', Opt_In::TEXT_DOMAIN); ?>"  value="<?php echo Hustle_Legacy_Popups::get_subheading( $popup ); ?>">
+					<input type="text" class="hustle-custom-content-legacy-popup-subheading" placeholder="<?php _e('Option pop-up  subheading', Opt_In::TEXT_DOMAIN); ?>"  value="<?php echo Hustle_Legacy_Popups::get_subheading( $popup ); ?>">
 
 				</div>
 

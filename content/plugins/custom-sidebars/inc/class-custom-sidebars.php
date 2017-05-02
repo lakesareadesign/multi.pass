@@ -70,9 +70,20 @@ class CustomSidebars {
 	 * We directly initialize sidebar options when class is created.
 	 */
 	private function __construct() {
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		// Extensions use this hook to initialize themselfs.
+		do_action( 'cs_init' );
+	}
+
+	/**
+	 * Admin init
+	 *
+	 * @since 3.0.5
+	 */
+	public function admin_init() {
+
 
 		$plugin_title = 'Custom Sidebars Pro';
-
 		/**
 		 * ID of the WP-Pointer used to introduce the plugin upon activation
 		 *
@@ -83,19 +94,28 @@ class CustomSidebars {
 		 *  Description:  Create and edit custom sidebars in your widget screen!
 		 * -------------------------------------------------------------------------
 		 */
-		lib3()->ui->add( 'core' );
-		lib3()->html->pointer(
-			'wpmudcs1',                               // Internal Pointer-ID
-			'#menu-appearance',                       // Point at
-			$plugin_title,
-			sprintf(
-				__(
-					'Now you can create and edit custom sidebars in your ' .
-					'<a href="%1$s">Widgets screen</a>!', 'custom-sidebars'
-				),
-				admin_url( 'widgets.php' )
-			)                                         // Body
-		);
+
+		$user_id = get_current_user_id();
+		$dismissed_wp_pointers = get_user_meta( $user_id, 'dismissed_wp_pointers', true );
+		$dismissed_wp_pointers = explode( ',', $dismissed_wp_pointers );
+
+		if ( in_array( 'wpmudcs1', $dismissed_wp_pointers ) || wp_is_mobile() ) {
+			lib3()->ui->add( 'core', 'widgets.php' );
+		} else {
+			lib3()->ui->add( 'core' );
+			lib3()->html->pointer(
+				'wpmudcs1',							   // Internal Pointer-ID
+				'#menu-appearance',					   // Point at
+				$plugin_title,
+				sprintf(
+					__(
+						'Now you can create and edit custom sidebars in your ' .
+						'<a href="%1$s">Widgets screen</a>!', 'custom-sidebars'
+					),
+					admin_url( 'widgets.php' )
+				)										 // Body
+			);
+		}
 
 		// Find out if the page is loaded in accessibility mode.
 		$flag = isset( $_GET['widgets-access'] ) ? $_GET['widgets-access'] : get_user_setting( 'widgets_access' );
@@ -127,9 +147,6 @@ class CustomSidebars {
 
 			// AJAX actions
 			add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
-
-			// Extensions use this hook to initialize themselfs.
-			do_action( 'cs_init' );
 
 			// Display a message after import.
 			if ( ! empty( $_GET['cs-msg'] ) ) {
@@ -917,7 +934,7 @@ class CustomSidebars {
 	 *
 	 * @since 3.0.1
 	 */
-    public function print_templates() {
+	public function print_templates() {
 		wp_enqueue_script( 'wp-util' );
 ?>
 	<script type="text/html" id="tmpl-custom-sidebars-new">
@@ -930,5 +947,5 @@ class CustomSidebars {
 
 	</script>
 <?php
-    }
+	}
 };

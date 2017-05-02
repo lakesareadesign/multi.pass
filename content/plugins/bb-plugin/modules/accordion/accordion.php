@@ -125,7 +125,8 @@ FLBuilder::register_settings_form('accordion_items_form', array(
 					'fields'        => array(
 						'label'         => array(
 							'type'          => 'text',
-							'label'         => __('Label', 'fl-builder')
+							'label'         => __('Label', 'fl-builder'),
+							'connections'   => array( 'string' )
 						)
 					)
 				),
@@ -135,7 +136,8 @@ FLBuilder::register_settings_form('accordion_items_form', array(
 						'content'       => array(
 							'type'          => 'editor',
 							'label'         => '',
-							'wpautop'		=> false
+							'wpautop'		=> false,
+							'connections'   => array( 'string' )
 						)
 					)
 				)

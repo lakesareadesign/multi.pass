@@ -21,7 +21,7 @@ class Opt_In_Get_Response_Api
     function __construct( $api_key, $args = array() ){
         $this->_api_key = $api_key;
 
-        if( $args['endpoint'] )
+        if( isset( $args['endpoint'] ) )
             $this->_endpoint = $args['endpoint'];
     }
 
@@ -51,8 +51,13 @@ class Opt_In_Get_Response_Api
         }
 
         $res = wp_remote_request( $url, $_args );
-        if( $res['response']['code'] <= 204 )
+        if( ! is_wp_error( $res ) && is_array( $res ) && $res['response']['code'] <= 204 ) {
             return json_decode(  wp_remote_retrieve_body( $res ) );
+		}
+
+		if ( is_wp_error( $res ) ) {
+			return $res;
+		}
 
         $err = new WP_Error();
         $err->add($res['response']['code'], $res['response']['message'] );
@@ -107,4 +112,29 @@ class Opt_In_Get_Response_Api
         return empty( $res ) ? __("Successful subscription", Opt_In::TEXT_DOMAIN) : $res;
     }
 
+	function get_custom_fields() {
+		$args = array( 'fields' => array( 'name' ) );
+		$res = $this->_get( 'custom-fields', array(
+			'body' => $args,
+		) );
+
+		return $res;
+	}
+
+	/**
+	 * Add custom field
+	 *
+	 * @param (array) $custom_field
+	 **/
+	function add_custom_field( $custom_field ) {
+		$res = $this->_post( 'custom-fields', array(
+			'body' => $custom_field,
+		));
+
+		if ( ! empty( $res ) && ! empty( $res->customFieldId ) ) {
+			return $res->customFieldId;
+		}
+
+		return false;
+	}
 }

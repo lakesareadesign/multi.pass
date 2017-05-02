@@ -60,7 +60,7 @@ class CoursePress_Admin_Courses {
 
 	public static function hidden_columns( $columns ) {
 
-		array_push( $columns, 'taxonomy-course_category', 'date_start', 'date_end', 'date_enrollment_start', 'date_enrollment_end' );
+		array_push( $columns, 'taxonomy-course_category', 'date_start', 'date_end', 'date_enrollment_start', 'date_enrollment_end', 'paid' );
 
 		return $columns;
 	}
@@ -90,6 +90,7 @@ class CoursePress_Admin_Courses {
 			'date_enrollment_start' => __( 'Enrollment Start', 'cp' ),
 			'date_enrollment_end' => __( 'Enrollment End', 'cp' ),
 			'units' => __( 'Units', 'cp' ),
+			'paid' => __( 'Paid', 'cp' ),
 			'students' => __( 'Students', 'cp' ),
 			'certificates' => __( 'Certified', 'cp' ),
 			'status' => __( 'Status', 'cp' ),
@@ -104,6 +105,13 @@ class CoursePress_Admin_Courses {
 
 		if ( ! CoursePress_Data_Capabilities::can_delete_course( 0 ) ) {
 			unset( $columns['actions'] );
+		}
+
+		/**
+		 * Paid column is needed?
+		 */
+		if ( ! CoursePress_Helper_Integration_MarketPress::$is_active && ! CoursePress_Helper_Integration_WooCommerce::$is_active ) {
+			unset( $columns['paid'] );
 		}
 
 		return $columns;
@@ -188,6 +196,20 @@ class CoursePress_Admin_Courses {
 		$count = CoursePress_Data_Course::count_students( $item->ID );
 
 		return $count;
+	}
+
+	/**
+	 * Column paid
+	 *
+	 * @since 2.0.7
+	 *
+	 * @param object $item WP_Post object.
+	 */
+	public static function column_paid( $item ) {
+		if ( CoursePress_Data_Course::is_paid_course( $item->ID ) ) {
+			return sprintf( '<span class="paid">%s</span>', __( 'paid', 'cp' ) );
+		}
+		return sprintf( '<span class="free">%s</span>', __( 'free', 'cp' ) );
 	}
 
 	/**

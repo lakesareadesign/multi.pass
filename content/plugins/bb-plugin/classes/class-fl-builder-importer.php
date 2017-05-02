@@ -137,12 +137,20 @@ final class FLBuilderImporterDataFix {
 	 * @since 1.8
 	 * @return string
 	 */
-	static public function run( $data ) 
+	static public function run( $data )
 	{
-		if ( empty( $data ) || @unserialize( $data ) !== false ) {
+		// return if empty
+		if( empty( $data ) ) {
 			return $data;
 		}
-		
+
+		$data = maybe_unserialize( $data );
+
+		// return if maybe_unserialize() returns an object or array, this is good.
+		if( is_object( $data ) || is_array( $data ) ) {
+			return $data;
+		}
+
 		return preg_replace_callback( '!s:(\d+):([\\\\]?"[\\\\]?"|[\\\\]?"((.*?)[^\\\\])[\\\\]?");!', 'FLBuilderImporterDataFix::regex_callback', $data );
 	}
 
@@ -168,9 +176,9 @@ final class FLBuilderImporterDataFix {
 	 */
 	static private function unescape_mysql( $value ) 
 	{
-		return str_replace( array( "\\\\", "\\0", "\\n", "\\r", "\Z",  "\'", '\"' ),
-						   array( "\\",   "\0",  "\n",  "\r",  "\x1a", "'", '"' ), 
-						   $value );
+		return str_replace( array( "\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"' ),
+            array( "\\",   "\0",  "\n",  "\r",  "\x1a", "'", '"' ), 
+        $value );
 	}
 	
 	/**

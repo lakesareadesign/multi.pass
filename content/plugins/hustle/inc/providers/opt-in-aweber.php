@@ -47,9 +47,16 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
      * @param $default
      * @return mixed
      */
-    function get_option($option_key, $default){
+    function get_option($option_key, $default = '' ){
         return get_site_option( self::ID . "_" . $option_key, $default );
     }
+
+	/**
+	 * Helper function get an option in static mode.
+	 **/
+	static function static_get_option( $option_key, $default = '' ) {
+		return get_site_option( self::ID . "_" . $option_key, $default );
+	}
 
     /**
      * @param $api_key
@@ -92,16 +99,79 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
         try {
             $URL = "/accounts/{$account_id}/lists/{$optin->optin_mail_list}";
             $list = $account->loadFromUrl($URL);
-             $subscriber = $list->subscribers->create(array(
-                'email' => $data['email'],
-                'name' => $data['f_name'] . " " . $data['l_name']
-            ));
+			$subscribe_data = $data;
+			$name = array();
+
+			if ( ! empty( $data['first_name'] ) ) {// Check first_name field first
+				$name['first_name'] = $data['first_name'];
+				unset( $subscribe_data['first_name'] );
+			}
+			elseif ( ! empty( $data['f_name'] ) ) {// Legacy field name
+				$name['first_name'] = $data['f_name'];
+				unset( $subscribe_data['f_name'] );
+			}
+			if ( ! empty( $data['last_name'] ) ) { // Add last_name
+				$name['last_name'] = $data['last_name'];
+				unset( $subscribe_data['last_name'] );
+			}
+			elseif ( ! empty( $data['l_name'] ) ) {// Check legacy f_name
+				$name['last_name'] = $data['l_name'];
+				unset( $subscribe_data['l_name'] );
+			}
+			$subscribe_data['name'] = implode( ' ', $name );
+			$custom_fields = array_diff_key( $data, array(
+				'first_name' => '',
+				'last_name' => '',
+				'l_name' => '',
+				'f_name' => '',
+				'email' => '',
+			) );
+
+			if ( ! empty( $custom_fields ) ) {
+				$subscribe_data['custom_fields'] = array();
+
+				foreach ( $custom_fields as $key => $value ) {
+					$field = $optin->get_custom_field( 'name', $key );
+					$label = $field['label'];
+					$subscribe_data['custom_fields'][ $label ] = $value;
+					unset( $subscribe_data[ $key ] );
+				}
+			}
+
+			$err = new WP_Error();
+			$findByEmail = $list->subscribers->find( array( 'email' => $subscribe_data['email'] ) );
+
+			if ( ! empty( $findByEmail ) && ! empty( $findByEmail->data ) && ! empty( $findByEmail->data['entries'] ) ) {
+				$err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
+				return $err;
+			}
+
+            $subscriber = $list->subscribers->create($subscribe_data);
+
+			if ( empty( $subscriber ) ) {
+				$data['error'] = __( 'Something went wrong. Unable to add subscriber', Opt_In::TEXT_DOMAIN );
+				$optin->log_error( $data );
+			} else if( ! empty( $subscriber->data ) && ! empty( $subscribe_data['custom_fields'] ) ) {
+				// Let's double check if all custom fields are successfully added
+				$found_missing_field = 0;
+
+				foreach ( array_filter( $subscribe_data['custom_fields'] ) as $label => $field ) {
+					if ( ! isset( $subscriber->data['custom_fields'][ $label ] ) || empty( $subscriber->data['custom_fields'][ $label ] ) ) {
+						$found_missing_field++;
+					}
+				}
+
+				if ( $found_missing_field > 0 ) {
+					$data['error'] = __( 'Some fields are not successfully added.', Opt_In::TEXT_DOMAIN );
+					$optin->log_error( $data );
+				}
+			}
+
             return $subscriber;
 
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             return self::$errors['subcription'] =  $e;
         }
-
     }
 
     function get_options( $optin_id ){
@@ -205,5 +275,47 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
         return true;
     }
 
+	static function add_custom_field( $field, Opt_In_Model $optin ) {
+		$consumerKey = self::static_get_option( self::CONSUMER_KEY, false );
+        $consumerSecret = self::static_get_option( self::CONSUMER_SECRET, false );
+        $accessToken = self::static_get_option( self::ACCESS_TOKEN, false );
+        $accessSecret = self::static_get_option( self::ACCESS_SECRET, false );
+		$label = $field['label'];
+		$exist = false;
+
+		if( $consumerKey && $consumerSecret && $accessToken && $accessSecret) {
+			$api = self::api( $consumerKey, $consumerSecret );
+			$account =  $api->getAccount($accessToken, $accessSecret);
+			$account_id =  isset( $account->data, $account->data['id'] ) ? $account->data['id'] : false;
+
+			if( $account_id ) {
+				$URL = "/accounts/{$account_id}/lists/{$optin->optin_mail_list}";
+				$list = $account->loadFromUrl($URL);
+				$custom_fields = $list->custom_fields;
+
+				if ( $custom_fields && ! empty( $custom_fields->data ) && ! empty( $custom_fields->data['entries'] ) ) {
+
+					foreach ( $custom_fields->data['entries'] as $custom_field ) {
+						if ( $custom_field['name'] == $label ) {
+							$exist = true;
+						}
+					}
+				}
+
+				if ( false === $exist ) {
+					// Create custom field
+					$custom_field = array( 'name' => $label );
+					$add = $list->custom_fields->create( $custom_field );
+					$exist = true;
+				}
+			}
+		}
+
+		if ( $exist ) {
+			return array( 'success' => true, 'field' => $field );
+		}
+
+		return array( 'error' => true, 'code' => 'cannot_create_custom_field' );
+	}
 }
 endif;

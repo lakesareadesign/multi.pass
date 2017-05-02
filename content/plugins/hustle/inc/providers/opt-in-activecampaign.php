@@ -72,20 +72,27 @@ if( !class_exists("Opt_In_Activecampaign") ):
          * @return array|mixed|object|WP_Error
          */
         public function subscribe( Opt_In_Model $optin, array $data ){
+			$api = self::api( $optin->provider_args->url, $optin->api_key );
 
-            $d = array();
-            $d['email'] =  $data['email'];
+			if ( isset( $data['f_name'] ) ) {
+				$data['first_name'] = $data['f_name']; // Legacy
+				unset( $data['f_name'] );
+			}
+			if( isset( $data['l_name'] ) ) {
+				$data['last_name'] = $data['l_name']; // Legacy
+				unset( $data['l_name'] );
+			}
+			$custom_fields = array_diff_key( $data, array( 'first_name' => '', 'last_name' => '', 'email' => '' ) );
+			$origData = $data;
 
-            if( isset( $data['f_name'] ) ){
-                $d['first_name'] = $data['f_name'];
-            }
+			if ( ! empty( $custom_fields ) ) {
+				foreach ( $custom_fields as $key => $value ) {
+					$key = 'field[%' . $key . '%,0]';
+					$data[ $key ] = $value;
+				}
+			}
 
-            if( isset( $data['l_name'] ) ){
-                $d['last_name'] = $data['l_name'];
-            }
-
-            return self::api( $optin->provider_args->url, $optin->api_key )->subscribe( $optin->optin_mail_list, $d );
-
+            return self::api( $optin->provider_args->url, $optin->api_key )->subscribe( $optin->optin_mail_list, $data, $optin, $origData );
         }
 
         /**
@@ -253,6 +260,18 @@ if( !class_exists("Opt_In_Activecampaign") ):
             if( $optin->optin_provider !== Opt_In_Activecampaign::ID || !$optin->optin_mail_list ) return;
             printf( __("Selected audience list: %s (Press the GET LISTS button to update value)", Opt_In::TEXT_DOMAIN), $optin->optin_mail_list );
         }
+
+		static function add_custom_field( $field, $optin ) {
+			$api = self::api( $optin->provider_args->url, $optin->api_key );
+			$available_fields = array( 'first_name', 'last_name', 'email' );
+
+			if ( ! in_array( $field['name'], $available_fields ) ) {
+				$custom_field = array( $field['name'] => $field['label'] );
+				$api->add_custom_fields( $custom_field, $optin->optin_mail_list, $optin );
+			}
+
+			return array( 'success' => true, 'field' => $field );
+		}
     }
 
     add_filter("wpoi_optin_filter_optin_options",  array( "Opt_In_Activecampaign", "add_values_to_previous_optins" ), 10, 2 );

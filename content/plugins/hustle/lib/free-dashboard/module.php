@@ -519,7 +519,7 @@ do_action(
 	/* 3 https://wordpress.org */
 	'/plugins/wordpress-popup/',
 	/* 4      Email Button CTA */
-	__( 'Get Fast', 'hustle' ),
+	__( 'Sign Me Up', 'hustle' ),
 	/* 5  getdrip Plugin param */
 	'Hustle'
 );

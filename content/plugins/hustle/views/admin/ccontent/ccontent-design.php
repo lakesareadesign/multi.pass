@@ -26,7 +26,7 @@
 
 			<div class="wph-sticky--anchor"></div>
 
-			<button class="wph-preview--eye wph-button"><i class="wph-icon i-eye"></i></button>
+			<button class="wph-preview--eye wph-button" title="<?php _e('Preview', Opt_In::TEXT_DOMAIN); ?>"><i class="wph-icon i-eye"></i></button>
 
 		</div>
 
@@ -553,7 +553,7 @@
 
 				<div class="wph-label--checkbox">
 
-					<label class="wph-label--alt" for="customize_size"><?php _e('Use custom size (if selected, Pop Up won\'t be responsive)', Opt_In::TEXT_DOMAIN); ?></label>
+					<label class="wph-label--alt" for="customize_size"><?php _e('Use custom size (if selected, Pop-up won\'t be responsive)', Opt_In::TEXT_DOMAIN); ?></label>
 
 					<div class="wph-input--checkbox">
 
@@ -623,7 +623,7 @@
 
 				</span>
 
-				<?php _e('Use custom CSS for this opt-in', Opt_In::TEXT_DOMAIN); ?>
+				<?php _e('Use custom CSS for this Custom Content Module', Opt_In::TEXT_DOMAIN); ?>
 
 			</label>
 
@@ -643,7 +643,7 @@
 
 				</div>
 
-				<div id="hustle_custom_css">{{custom_css}}</div>
+				<div id="hustle_custom_css" data-nonce="<?php echo wp_create_nonce('hustle_custom_content_prepare_custom_css'); ?>">{{custom_css}}</div>
 
 			</div>
 

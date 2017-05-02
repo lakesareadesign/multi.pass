@@ -15,13 +15,8 @@
 		 */
 		_init: function()
 		{
-			var templateRadio = $( '#export-filters input[value=fl-builder-template]' );
-			
-			// Add the template filters after the template radio.
-			templateRadio.closest( 'p' ).after( $( '#fl-builder-template-filters' ) );
-			
-			// Events
-			templateRadio.on( 'change', FLBuilderExport._showTemplateFilters );
+			$( '#export-filters input[value=fl-builder-template]' ).on( 'change', FLBuilderExport._showTemplateFilters );
+			$( '#export-filters input[value=fl-theme-layout]' ).on( 'change', FLBuilderExport._showTemplateFilters );
 			$( '#fl-builder-template-export-select' ).on( 'change', FLBuilderExport._templateSelectChange );
 		},
 		
@@ -35,7 +30,12 @@
 		 */
 		_showTemplateFilters: function()
 		{
-			$( '#fl-builder-template-filters' ).slideDown();
+			var filters = $( '#fl-builder-template-filters' );
+			
+			filters.find( 'select' ).val( 'all' );
+			$( this ).closest( 'p' ).after( filters );
+			$( '#fl-builder-template-export-posts' ).hide();
+			filters.slideDown();
 		},
 		
 		/**
@@ -59,16 +59,14 @@
 			}
 			else {
 				
+				posts.empty();
 				posts.show();
-				
-				if ( 0 === posts.find( 'input' ).length ) {	
-					
-					spinner.addClass( 'is-active' );
-								
-					$.post( ajaxurl, {
-						action: 'fl_builder_export_templates_data'
-					}, FLBuilderExport._templateDataLoaded );
-				}
+				spinner.addClass( 'is-active' );
+							
+				$.post( ajaxurl, {
+					action: 'fl_builder_export_templates_data',
+					type: $( 'input[name=content]:checked' ).val()
+				}, FLBuilderExport._templateDataLoaded );
 			}
 		},
 		

@@ -1467,6 +1467,7 @@ var FLBuilderColorPicker;
 						$(self._alphaHtml).insertAfter( self._iris );	
 					}
 
+					self.picker.addClass('fl-color-alpha-enabled');
 					self._pickerAlphaControls();
 				}
 				else {

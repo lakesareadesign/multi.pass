@@ -36,8 +36,11 @@ final class FLBuilderColor {
 	static public function adjust_brightness($hex, $steps, $type)
 	{
 		// Get rgb vars.
-		extract(self::hex_to_rgb($hex));
-		
+		$rgb = self::hex_to_rgb($hex);
+		$r = $rgb['r'];
+		$g = $rgb['g'];
+		$b = $rgb['b'];
+
 		// Should we darken the color?
 		if($type == 'reverse' && $r + $g + $b > 382){
 			$steps = -$steps;

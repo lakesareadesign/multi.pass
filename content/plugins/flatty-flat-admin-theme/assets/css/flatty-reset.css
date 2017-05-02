@@ -56,7 +56,7 @@ dl {
 }
 
 #wpfooter {
-  padding: 10px 40px 10px 20px;
+  padding: 10px 60px 10px 20px;
 }
 #wpbody {
     display: block;
@@ -78,11 +78,11 @@ dl {
 #wp-content-editor-tools {
     background-color: transparent;
 }
-body.ninja-forms-app #nf-builder {
+body.flatty_top_bar.ninja-forms-app #nf-builder {
   top:70px!important;
 }
 
-body.ninja-forms-app .flatty-custom-footer {
+body.flatty_top_bar.ninja-forms-app .flatty-custom-footer {
   display: none!important;
 }
 /*--------------------------------------

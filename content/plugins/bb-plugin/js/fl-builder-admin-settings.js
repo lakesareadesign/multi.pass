@@ -29,8 +29,11 @@
 			this._bind();
 			this._maybeShowWelcome();
 			this._initNav();
-			this._initOverrides();
+			this._initNetworkOverrides();
 			this._initLicenseSettings();
+			this._initMultiSelects();
+			this._initUserAccessSelects();
+			this._initUserAccessNetworkOverrides();
 			this._templatesOverrideChange();
 		},
 		
@@ -45,12 +48,14 @@
 		{
 			$('.fl-settings-nav a').on('click', FLBuilderAdminSettings._navClicked);
 			$('.fl-override-ms-cb').on('click', FLBuilderAdminSettings._overrideCheckboxClicked);
+			$('.fl-ua-override-ms-cb').on('click', FLBuilderAdminSettings._overrideUserAccessCheckboxClicked);
 			$('.fl-module-all-cb').on('click', FLBuilderAdminSettings._moduleAllCheckboxClicked);
 			$('.fl-module-cb').on('click', FLBuilderAdminSettings._moduleCheckboxClicked);
 			$('input[name=fl-templates-override]').on('keyup click', FLBuilderAdminSettings._templatesOverrideChange);
 			$('input[name=fl-upload-icon]').on('click', FLBuilderAdminSettings._showIconUploader);
 			$('.fl-delete-icon-set').on('click', FLBuilderAdminSettings._deleteCustomIconSet);
 			$('#uninstall-form').on('submit', FLBuilderAdminSettings._uninstallFormSubmit);
+			$( '.fl-settings-form .dashicons-editor-help' ).tipTip();
 		},
 		
 		/**
@@ -117,11 +122,11 @@
 		 *
 		 * @since 1.0
 		 * @access private
-		 * @method _initOverrides
+		 * @method _initNetworkOverrides
 		 */
-		_initOverrides: function()
+		_initNetworkOverrides: function()
 		{
-			$('.fl-override-ms-cb').each(FLBuilderAdminSettings._initOverride);
+			$('.fl-override-ms-cb').each(FLBuilderAdminSettings._initNetworkOverride);
 		},
 		
 		/**
@@ -129,9 +134,9 @@
 		 *
 		 * @since 1.0
 		 * @access private
-		 * @method _initOverride
+		 * @method _initNetworkOverride
 		 */
-		_initOverride: function()
+		_initNetworkOverride: function()
 		{
 			var cb      = $(this),
 				content = cb.closest('.fl-settings-form').find('.fl-settings-form-content');
@@ -161,6 +166,115 @@
 			}
 			else {
 				content.hide();
+			}
+		},
+		
+		/**
+		 * Initializes custom multi-selects.
+		 *
+		 * @since 1.10
+		 * @access private
+		 * @method _initMultiSelects
+		 */
+		_initMultiSelects: function()
+		{
+			$( 'select[multiple]' ).multiselect( {
+				selectAll: true,
+				texts: {
+					deselectAll     : FLBuilderAdminSettingsStrings.deselectAll,
+					noneSelected    : FLBuilderAdminSettingsStrings.noneSelected,
+					placeholder     : FLBuilderAdminSettingsStrings.select,
+					selectAll       : FLBuilderAdminSettingsStrings.selectAll,
+					selectedOptions : FLBuilderAdminSettingsStrings.selected
+				}
+			} );
+		},
+		
+		/**
+		 * Initializes user access select options.
+		 *
+		 * @since 1.10
+		 * @access private
+		 * @method _initUserAccessSelects
+		 */
+		_initUserAccessSelects: function()
+		{
+			var config  = FLBuilderAdminSettingsConfig,
+				options = null,
+				role    = null,
+				select  = null,
+				key     = null,
+				hidden  = null;
+			
+			$( '.fl-user-access-select' ).each( function() {
+				
+				options = [];
+				select  = $( this );
+				key     = select.attr( 'name' ).replace( 'fl_user_access[', '' ).replace( '][]', '' );
+				
+				for( role in config.roles ) {
+					options.push( {
+						name    : config.roles[ role ],
+						value   : role,
+						checked : 'undefined' == typeof config.userAccess[ key ] ? false : config.userAccess[ key ][ role ]
+					} );
+				}
+				
+				select.multiselect( 'loadOptions', options );
+			} );
+		},
+		
+		/**
+		 * Initializes the checkboxes for overriding user access 
+		 * network settings.
+		 *
+		 * @since 1.0
+		 * @access private
+		 * @method _initUserAccessNetworkOverrides
+		 */
+		_initUserAccessNetworkOverrides: function()
+		{
+			$('.fl-ua-override-ms-cb').each(FLBuilderAdminSettings._initUserAccessNetworkOverride);
+		},
+		
+		/**
+		 * Initializes a checkbox for overriding user access
+		 * network settings.
+		 *
+		 * @since 1.0
+		 * @access private
+		 * @method _initUserAccessNetworkOverride
+		 */
+		_initUserAccessNetworkOverride: function()
+		{
+			var cb     = $(this),
+				select = cb.closest('.fl-user-access-setting').find('.ms-options-wrap');
+				
+			if(this.checked) {
+				select.show();
+			}
+			else {
+				select.hide();
+			}
+		},
+		
+		/**
+		 * Fired when a network override checkbox is clicked.
+		 *
+		 * @since 1.0
+		 * @access private
+		 * @method _overrideCheckboxClicked
+		 */
+		_overrideUserAccessCheckboxClicked: function()
+		{
+			var cb     = $(this),
+				select = cb.closest('.fl-user-access-setting').find('.ms-options-wrap');
+				
+			if(this.checked) {
+				select.show();
+			}
+			else {
+				select.hide();
 			}
 		},
 		

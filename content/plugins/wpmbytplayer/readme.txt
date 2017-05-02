@@ -3,8 +3,8 @@
 Contributors: pupunzi
 Tags: video player, youtube, full background, video, HTML5, flash, mov, jquery, pupunzi, mb.components, cover video, embed, embed videos, embed youtube, embedding, plugin, shortcode, video cover, video HTML5, youtube, youtube embed, youtube player, youtube videos
 Requires at least: 3.0
-Tested up to: 4.6
-Stable tag:  3.0.8
+Tested up to: 4.7
+Stable tag:  3.0.10
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DSHAHSJJCQ53Y
 License: GPLv2 or later
 
@@ -108,8 +108,15 @@ Adding a background image to the body as mobile devices fallback is a good pract
 
 == Changelog ==
 
+= 3.0.10 =
+Update: Updated to the last javascript version (3.0.16).
+Update: Updated the upgrade to Plus procedure to remove the free plug-in once installed the Plus.
+
+= 3.0.9 =
+Bug fix: There was an hack for Safari freeze that is not needed anymore with the latest safari release (it was breaking the plugin on Safari).
+
 = 3.0.8 =
-Updated to the latest jquet.mb.YTPlayer.js version.
+Updated to the latest jquery.mb.YTPlayer.js version.
 
 = 3.0.7 =
 New feature: Added the videos thumbnails in the plug-in options page.

@@ -74,7 +74,7 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Shows the Pop Up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Shows the Pop-up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></label>
 
 	</div>
 
@@ -92,7 +92,7 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Hides the Pop Up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></label>
+		<label><?php _e("Hides the Pop-up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></label>
 
 	</div>
 

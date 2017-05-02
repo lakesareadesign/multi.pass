@@ -61,7 +61,10 @@ final class FLBuilderAdmin {
 	
 			// Trigger the activation notice.
 			self::trigger_activate_notice();
-			
+
+			// Allow add-ons to hook into activation.
+			do_action( 'fl_builder_activated' );
+
 			// Flush the rewrite rules.
 			flush_rewrite_rules();
 		}

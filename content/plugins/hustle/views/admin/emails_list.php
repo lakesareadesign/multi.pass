@@ -19,18 +19,9 @@
 					</div>
 
 					<div class="box-content">
-
 						<div class="wpoi-emails-list">
 
-							<div class="wpoi-emails-list-header">
-
-								<div class="wpoi-list-fname"><?php _e('First name', Opt_In::TEXT_DOMAIN); ?></div>
-
-								<div class="wpoi-list-lname"><?php _e('Last name', Opt_In::TEXT_DOMAIN); ?></div>
-
-								<div class="wpoi-list-email"><?php _e('Email', Opt_In::TEXT_DOMAIN); ?></div>
-
-							</div>
+							<table class="wph-table wph-table--fixed wpoi-emails-list-header" cellpadding="0" cellspacing="0"></table>
 
 							<div id="wpoi-emails-list-content"></div>
 
@@ -54,20 +45,33 @@
 
 </script>
 
+<script id="wpoi-email-list-header-tpl" type="text/template">
+	<thead>
+		<# _.each( module_fields, function( field ) { #>
+			<th>
+				<div class="wpoi-email-list-field wpoi-list-{{field.name}}">{{field.label}}</div>
+			</th>
+		<# }) #>
+	</thead>
+</script>
+
 <script id="wpoi-emails-list-tpl" type="text/template">
+	<table class="wph-table wph-table--fixed" cellpadding="0" cellspacing="0">
+	<# if ( subscriptions.length ) {
+		_.each( subscriptions, function( sub ) { #>
+			<tr>
+				<# _.each( module_fields, function( field ) {
+							// Check for legacy name fields
+							var name_field = field.name;
 
-	<# _.each( subscriptions, function( sub, i ) { #>
-
-		<div class="wpoi-emails-list-subscriber">
-
-			<div class="wpoi-list-fname" data-title="<?php _e('First Name', Opt_In::TEXT_DOMAIN); ?>">{{sub.f_name}}</div>
-
-			<div class="wpoi-list-lname" data-title="<?php _e('Last Name', Opt_In::TEXT_DOMAIN); ?>">{{sub.l_name}}</div>
-
-			<div class="wpoi-list-email" data-title="<?php _e('Email', Opt_In::TEXT_DOMAIN); ?>">{{sub.email}}</div>
-
-		</div>
-
-	<# }); #>
-
+							if ( sub.f_name && 'first_name' === name_field ) name_field = 'f_name';
+							if ( sub.l_name && 'last_name' === name_field ) name_field = 'l_name';
+							#>
+					<td>
+						<div class="wpoi-email-list-field wpoi-list-{{name_field}}" data-title="{{field.label}}">{{sub[name_field]}}</div>
+					</td>
+				<# }) #>
+			</tr>
+	<# }) } #>
+	</table>
 </script>

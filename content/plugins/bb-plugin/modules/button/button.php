@@ -80,7 +80,8 @@ FLBuilder::register_module('FLButtonModule', array(
 						'preview'         => array(
 							'type'            => 'text',
 							'selector'        => '.fl-button-text'
-						)
+						),
+						'connections'         => array( 'string' )
 					),
 					'icon'          => array(
 						'type'          => 'icon',
@@ -133,7 +134,8 @@ FLBuilder::register_module('FLButtonModule', array(
 						'placeholder'   => __( 'http://www.example.com', 'fl-builder' ),
 						'preview'       => array(
 							'type'          => 'none'
-						)
+						),
+						'connections'         => array( 'url' )
 					),
 					'link_target'   => array(
 						'type'          => 'select',
@@ -191,7 +193,8 @@ FLBuilder::register_module('FLButtonModule', array(
 						'rows'          		=> '19',
 						'preview'       		=> array(
 							'type'          		=> 'none'
-						)
+						),
+						'connections'         => array( 'string' )
 					),
 					'lightbox_video_link' => array(
 						'type'          => 'text',

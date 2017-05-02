@@ -1,7 +1,6 @@
 <?php
 
 $enabled_templates = FLBuilderModel::get_enabled_templates();
-$template_admin_ui = FLBuilderModel::user_templates_admin_enabled() ? 1 : 0;
 
 ?>
 <div id="fl-templates-form" class="fl-settings-form">
@@ -27,15 +26,6 @@ $template_admin_ui = FLBuilderModel::user_templates_admin_enabled() ? 1 : 0;
 				<option value="user" <?php selected( $enabled_templates, 'user' ); ?>><?php _e( 'Enable User Templates Only', 'fl-builder' ); ?></option>
 				<option value="disabled" <?php selected( $enabled_templates, 'disabled' ); ?>><?php _e( 'Disable All Templates', 'fl-builder' ); ?></option>
 			</select>
-			
-			<h4><?php _e( 'Enable Templates Admin', 'fl-builder' ); ?></h4>
-			<p><?php _e( 'Use this setting to edit builder templates in the WordPress admin.', 'fl-builder' ); ?></p>
-			<p>
-				<label>
-					<input type="checkbox" name="fl-template-admin-ui" value="1" <?php checked( $template_admin_ui, 1 ); ?> />
-					<span><?php _e( 'Enable Templates Admin', 'fl-builder' ); ?></span>
-				</label>
-			</p>
 			
 			<?php do_action( 'fl_builder_admin_settings_templates_form' ); ?>
 			

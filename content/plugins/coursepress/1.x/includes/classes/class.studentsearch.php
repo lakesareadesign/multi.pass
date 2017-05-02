@@ -23,7 +23,6 @@ if ( ! class_exists( 'Student_Search' ) ) {
 		) {
 			global $wpdb;
 
-			$this->db = $wpdb;
 			$this->additional_url_args = $additional_url_args;
 
 			if ( ! empty( $search_args['users_per_page'] ) && is_numeric( $search_args['users_per_page'] ) ) {
@@ -74,7 +73,8 @@ if ( ! class_exists( 'Student_Search' ) ) {
 				'has_published_posts' => null,
 			) );
 
-			add_action( 'pre_user_query', array( &$this, 'add_first_and_last' ), 1 );
+
+			add_action( 'pre_user_query', array( &$this, 'add_first_and_last' ) );
 
 			parent::prepare_query();
 			$this->query();

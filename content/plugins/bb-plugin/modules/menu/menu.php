@@ -191,15 +191,20 @@ FLBuilder::register_module('FLMenuModule', array(
 							'type'          => 'none'
 						)
 					),
+				)
+			),
+			'mobile'       => array(
+				'title'         => __( 'Responsive', 'fl-builder' ),
+				'fields'        => array(
 					'mobile_toggle' => array(
 					    'type'          => 'select',
-					    'label'         => __( 'Mobile Style', 'fl-builder' ),
-					    'default'       => 'expanded',
+					    'label'         => __( 'Responsive Toggle', 'fl-builder' ),
+					    'default'       => 'hamburger',
 					    'options'       => array(
-					    	'expanded'			=> __( 'Expanded', 'fl-builder' ),
 					    	'hamburger'			=> __( 'Hamburger Icon', 'fl-builder' ),
 					    	'hamburger-label'	=> __( 'Hamburger Icon + Label', 'fl-builder' ),
 					    	'text'				=> __( 'Menu Button', 'fl-builder' ),
+					    	'expanded'			=> __( 'None', 'fl-builder' ),
 					    ),
 					    'toggle'		=> array(
 					    	'hamburger'	=> array(
@@ -212,15 +217,18 @@ FLBuilder::register_module('FLMenuModule', array(
 					),
 					'mobile_full_width' => array(
 					    'type'          => 'select',
-					    'label'         => __( 'Mobile Width', 'fl-builder' ),
-					    'help'			=> __( 'Choose Full Width if you want the menu to span the width of the screen on mobile devices.', 'fl-builder' ),
+					    'label'         => __( 'Responsive Style', 'fl-builder' ),
 					    'default'       => 'no',
 					    'options'       => array(
-					    	'no'			=> __( 'Default', 'fl-builder' ),
-					    	'yes'			=> __( 'Full Width', 'fl-builder' ),
+					    	'no'			=> __( 'Inline', 'fl-builder' ),
+					    	'below'			=> __( 'Below Row', 'fl-builder' ),
+					    	'yes'			=> __( 'Overlay', 'fl-builder' ),
 					    ),
 					    'toggle'		=> array(
 					    	'yes'	=> array(
+					    		'fields'		=> array( 'mobile_menu_bg' ),
+					    	),
+					    	'below'	=> array(
 					    		'fields'		=> array( 'mobile_menu_bg' ),
 					    	),
 					    )				    
@@ -288,10 +296,22 @@ FLBuilder::register_module('FLMenuModule', array(
 					        'property'     => 'color'
 					    )
 					),
+					'font'          => array(
+						'type'          => 'font',
+						'default'		=> array(
+							'family'		=> 'Default',
+							'weight'		=> 300
+						),
+						'label'         => __('Link Font', 'fl-builder'),
+						'preview'         => array(
+							'type'            => 'font',
+							'selector'        => '.menu'
+						)					
+					),
 					'text_size' => array(
 						'type'          => 'text',
 						'label'         => __('Link Size', 'fl-builder'),
-						'default'       => '13',
+						'default'       => '16',
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
@@ -318,25 +338,10 @@ FLBuilder::register_module('FLMenuModule', array(
 					        'property'     => 'text-transform',
 					    )					    
 					),
-					'font_weight' => array(
-					    'type'          => 'select',
-					    'label'         => __( 'Link Weight', 'fl-builder' ),
-					    'default'       => 'normal',
-					    'options'       => array(
-					    	'normal'		=> __( 'Normal', 'fl-builder' ),
-					    	'bold'			=> __( 'Bold', 'fl-builder' ),
-					    	'light'			=> __( 'Light', 'fl-builder' ),
-					    ),
-					    'preview'      => array(
-					        'type'         => 'css',
-					        'selector'     => '.menu',
-					        'property'     => 'font-weight',
-					    )
-					),
 					'horizontal_spacing' => array(
 						'type'          => 'text',
 						'label'         => __('Horizontal Spacing', 'fl-builder'),
-						'default'       => '10',
+						'default'       => '14',
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
@@ -359,7 +364,7 @@ FLBuilder::register_module('FLMenuModule', array(
 					'vertical_spacing' => array(
 						'type'          => 'text',
 						'label'         => __('Vertical Spacing', 'fl-builder'),
-						'default'       => '10',
+						'default'       => '14',
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',					    
@@ -412,7 +417,7 @@ FLBuilder::register_module('FLMenuModule', array(
 						'type'          => 'color',
 						'label'         => __( 'Submenu Background Color', 'fl-builder' ),
 						'show_reset'    => true,
-						'default'		=> 'e3e3e3',
+						'default'		=> 'ffffff',
 					    'preview'      => array(
 					        'type'         => 'css',
 					        'selector'     => '.fl-menu .sub-menu',
@@ -480,8 +485,9 @@ FLBuilder::register_module('FLMenuModule', array(
 class FL_Menu_Module_Walker extends Walker_Nav_Menu {
 
     function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-
+	    
         $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+        $args   = ( object )$args;
 
         $class_names = $value = '';
 

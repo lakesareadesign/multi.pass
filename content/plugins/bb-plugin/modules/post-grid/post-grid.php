@@ -24,7 +24,11 @@ class FLPostGridModule extends FLBuilderModule {
 	 */
 	public function enqueue_scripts()
 	{
+		if(FLBuilderModel::is_builder_active() || $this->settings->layout == 'columns') {
+			$this->add_js('jquery-imagesloaded');
+		}
 		if(FLBuilderModel::is_builder_active() || $this->settings->layout == 'grid') {
+			$this->add_js('jquery-imagesloaded');
 			$this->add_js('jquery-masonry');
 		}
 		if(FLBuilderModel::is_builder_active() || $this->settings->layout == 'gallery') {
@@ -33,6 +37,159 @@ class FLPostGridModule extends FLBuilderModule {
 		if(FLBuilderModel::is_builder_active() || $this->settings->pagination == 'scroll') {
 			$this->add_js('jquery-infinitescroll');
 		}
+	}
+
+	/**
+	 * Returns the slug for the posts layout.
+	 *
+	 * @since 1.10
+	 * @return string
+	 */
+	public function get_layout_slug()
+	{
+		return 'columns' == $this->settings->layout ? 'grid' : $this->settings->layout;
+	}
+
+	/**
+	 * Renders the CSS class for each post item.
+	 *
+	 * @since 1.10
+	 * @return void
+	 */
+	public function render_post_class()
+	{
+		$settings   = $this->settings;
+		$layout     = $this->get_layout_slug();
+		$show_image = has_post_thumbnail() && $settings->show_image;
+		$classes    = array( 'fl-post-' . $layout . '-post' );
+		
+		if ( $show_image ) {
+			if ( 'feed' == $layout ) { 
+				$classes[] = 'fl-post-feed-image-' . $settings->image_position;
+			}
+			if ( 'grid' == $layout ) { 
+				$classes[] = 'fl-post-grid-image-' . $settings->grid_image_position;
+			}
+			if ( 'columns' == $settings->layout ) { 
+				$classes[] = 'fl-post-columns-post';
+			}
+		}
+		
+		if ( in_array( $layout, array( 'grid', 'feed' ) ) ) {
+			$classes[] = 'fl-post-align-' . $settings->post_align;
+		}
+		
+		post_class( apply_filters( 'fl_builder_posts_module_classes', $classes, $settings ) );
+	}
+
+	/**
+	 * Renders the featured image for a post.
+	 *
+	 * @since 1.10
+	 * @param string|array $position
+	 * @return void
+	 */
+	public function render_featured_image( $position = 'above' )
+	{
+		$settings = $this->settings;
+		$render   = false;
+		$position = ! is_array( $position ) ? array( $position ) : $position;
+		$layout   = $this->get_layout_slug();
+		
+		if ( has_post_thumbnail() && $settings->show_image ) {
+		
+			if ( 'feed' == $settings->layout && in_array( $settings->image_position, $position ) ) {
+				$render = true;
+			}
+			else if ( 'columns' == $settings->layout && in_array( $settings->grid_image_position, $position ) ) {
+				$render = true;
+			}
+			else if ( 'grid' == $settings->layout && in_array( $settings->grid_image_position, $position ) ) {
+				$render = true;
+			}
+		
+			if ( $render ) {
+				include $this->dir . 'includes/featured-image.php';
+			}
+		}
+	}
+
+	/**
+	 * Checks to see if a featured image exists for a position.
+	 *
+	 * @since 1.10
+	 * @param string|array $position
+	 * @return void
+	 */
+	public function has_featured_image( $position = 'above' )
+	{
+		$settings = $this->settings;
+		$result   = false;
+		$position = ! is_array( $position ) ? array( $position ) : $position;
+		
+		if ( has_post_thumbnail() && $settings->show_image ) {
+		
+			if ( 'feed' == $settings->layout && in_array( $settings->image_position, $position ) ) {
+				$result = true;
+			}
+			else if ( 'columns' == $settings->layout && in_array( $settings->grid_image_position, $position ) ) {
+				$result = true;
+			}
+			else if ( 'grid' == $settings->layout && in_array( $settings->grid_image_position, $position ) ) {
+				$result = true;
+			}
+		}
+		
+		return $result;
+	}
+
+	/**
+	 * Renders the_content for a post.
+	 *
+	 * @since 1.10
+	 * @return void
+	 */
+	public function render_content()
+	{
+		ob_start();
+		the_content();
+		$content = ob_get_clean();
+		
+		if ( ! empty( $this->settings->content_length ) ) {
+			$content = wp_trim_words( $content, $this->settings->content_length, '...' );
+		}
+		
+		echo $content;
+	}
+
+	/**
+	 * Renders the_excerpt for a post.
+	 *
+	 * @since 1.10
+	 * @return void
+	 */
+	public function render_excerpt()
+	{
+		if ( ! empty( $this->settings->content_length ) ) {
+			add_filter( 'excerpt_length', array( $this, 'set_custom_excerpt_length' ) );	
+		}
+		
+		the_excerpt();
+		
+		if ( ! empty( $this->settings->content_length ) ) {
+			remove_filter( 'excerpt_length', array( $this, 'set_custom_excerpt_length' ) );	
+		}
+	}
+
+	/**
+	 * Renders the excerpt for a post.
+	 *
+	 * @since 1.10
+	 * @return void
+	 */
+	public function set_custom_excerpt_length( $length )
+	{
+		return $this->settings->content_length;
 	}
 
 	/**
@@ -120,27 +277,37 @@ FLBuilder::register_module('FLPostGridModule', array(
 				'fields'        => array(
 					'layout'        => array(
 						'type'          => 'select',
-						'label'         => __('Layout Style', 'fl-builder'),
+						'label'         => __('Layout', 'fl-builder'),
 						'default'       => 'grid',
 						'options'       => array(
-							'grid'          => __('Grid', 'fl-builder'),
+							'columns'       => __('Columns', 'fl-builder'),
+							'grid'          => __('Masonry', 'fl-builder'),
 							'gallery'       => __('Gallery', 'fl-builder'),
-							'feed'          => __('Feed', 'fl-builder'),
+							'feed'          => __('List', 'fl-builder'),
 						),
 						'toggle'        => array(
-							'grid'          => array(
-								'sections'      => array('grid', 'image', 'content'),
-								'fields'        => array('show_author', 'match_height')
+							'columns'       => array(
+								'sections'      => array('posts', 'image', 'content', 'post_style', 'text_style'),
+								'fields'        => array('match_height', 'post_columns', 'post_spacing', 'post_padding', 'grid_image_position', 'grid_image_spacing', 'show_author', 'show_comments', 'info_separator')
 							),
-							'feed'          => array(
-								'sections'      => array('image', 'content'),
-								'fields'        => array('image_position', 'show_author', 'show_comments', 'content_type')
+							'grid'          => array(
+								'sections'      => array('posts', 'image', 'content', 'post_style', 'text_style'),
+								'fields'        => array('match_height', 'post_width', 'post_spacing', 'post_padding', 'grid_image_position', 'grid_image_spacing', 'show_author', 'show_comments', 'info_separator')
 							),
 							'gallery'		=> array(
-								'tabs'			=> array( 'style' )
-							)
+								'sections'      => array( 'gallery_general', 'overlay_style', 'icons' )
+							),
+							'feed'          => array(
+								'sections'      => array('posts', 'image', 'content', 'post_style', 'text_style'),
+								'fields'        => array('feed_post_spacing', 'feed_post_padding', 'image_position', 'image_spacing', 'image_width', 'show_author', 'show_comments', 'info_separator', 'content_type')
+							),
 						)
-					),
+					)
+				)
+			),
+			'posts'         => array(
+				'title'         => __('Posts', 'fl-builder'),
+				'fields'        => array(
 					'match_height'  => array(
 						'type'          => 'select',
 						'label'         => __('Equal Heights', 'fl-builder'),
@@ -150,32 +317,6 @@ FLBuilder::register_module('FLPostGridModule', array(
 							'0'             => __('No', 'fl-builder')
 						)
 					),
-					'pagination'     => array(
-						'type'          => 'select',
-						'label'         => __('Pagination Style', 'fl-builder'),
-						'default'       => 'numbers',
-						'options'       => array(
-							'numbers'       => __('Numbers', 'fl-builder'),
-							'scroll'        => __('Scroll', 'fl-builder'),
-							'none'          => _x( 'None', 'Pagination style.', 'fl-builder' ),
-						)
-					),
-					'posts_per_page' => array(
-						'type'          => 'text',
-						'label'         => __('Posts Per Page', 'fl-builder'),
-						'default'       => '10',
-						'size'          => '4'
-					),
-					'no_results_message' => array(
-						'type' 				=> 'text',
-						'label'				=> __('No Results Message', 'fl-builder'),
-						'default'			=> __('No Posts Found.', 'fl-builder')
-					)
-				)
-			),
-			'grid'          => array(
-				'title'         => __('Grid', 'fl-builder'),
-				'fields'        => array(
 					'post_width'    => array(
 						'type'          => 'text',
 						'label'         => __('Post Width', 'fl-builder'),
@@ -183,8 +324,19 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px'
+					),					
+					'post_columns'  => array(
+						'type'          => 'unit',
+						'label'         => __( 'Columns', 'fl-builder' ),
+						'responsive'  => array(
+							'default' 	  => array(
+								'default'    => '3',
+								'medium'     => '2',
+								'responsive' => '1',
+							)
+						)
 					),
-					'post_spacing'  => array(
+					'post_spacing' => array(
 						'type'          => 'text',
 						'label'         => __('Post Spacing', 'fl-builder'),
 						'default'       => '60',
@@ -192,6 +344,47 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'size'          => '4',
 						'description'   => 'px'
 					),
+					'feed_post_spacing' => array(
+						'type'          => 'text',
+						'label'         => __('Post Spacing', 'fl-builder'),
+						'default'       => '40',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px'
+					),
+					'post_padding' => array(
+						'type'          => 'text',
+						'label'         => __('Post Padding', 'fl-builder'),
+						'default'       => '20',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px',
+						'preview'       => array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-post-grid-text',
+							'property'		=> 'padding',
+							'unit'			=> 'px'
+						)
+					),
+					'feed_post_padding' => array(
+						'type'          => 'text',
+						'label'         => __('Post Padding', 'fl-builder'),
+						'default'       => '0',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px'
+					),
+					'post_align'    => array(
+						'type'          => 'select',
+						'label'         => __('Post Alignment', 'fl-builder'),
+						'default'       => 'default',
+						'options'       => array(
+							'default'       => __('Default', 'fl-builder'),
+							'left'          => __('Left', 'fl-builder'),
+							'center'        => __('Center', 'fl-builder'),
+							'right'         => __('Right', 'fl-builder')
+						)
+					)
 				)
 			),
 			'image'        => array(
@@ -204,27 +397,56 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'options'       => array(
 							'1'             => __('Show', 'fl-builder'),
 							'0'             => __('Hide', 'fl-builder')
-						),
-						'toggle'        => array(
-							'1'             => array(
-								'fields'        => array('image_size')
-							)
+						)
+					),
+					'grid_image_position' => array(
+						'type'          => 'select',
+						'label'         => __('Image Position', 'fl-builder'),
+						'default'       => 'above-title',
+						'options'       => array(
+							'above-title'   => __('Above Title', 'fl-builder'),
+							'above'         => __('Above Content', 'fl-builder')
 						)
 					),
 					'image_position' => array(
 						'type'          => 'select',
-						'label'         => __('Position', 'fl-builder'),
+						'label'         => __('Image Position', 'fl-builder'),
 						'default'       => 'above',
 						'options'       => array(
 							'above-title'   => __('Above Title', 'fl-builder'),
-							'above'         => __('Above Text', 'fl-builder'),
-							'beside'        => __('Beside Text', 'fl-builder')
+							'above'         => __('Above Content', 'fl-builder'),
+							'beside'        => __('Left', 'fl-builder'),
+							'beside-right'  => __('Right', 'fl-builder')
 						)
 					),
 					'image_size'    => array(
 						'type'          => 'photo-sizes',
-						'label'         => __('Size', 'fl-builder'),
+						'label'         => __('Image Size', 'fl-builder'),
 						'default'       => 'medium'
+					),
+					'grid_image_spacing' => array(
+						'type'          => 'text',
+						'label'         => __('Image Spacing', 'fl-builder'),
+						'default'       => '0',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px'
+					),
+					'image_spacing' => array(
+						'type'          => 'text',
+						'label'         => __('Image Spacing', 'fl-builder'),
+						'default'       => '0',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px'
+					),
+					'image_width'   => array(
+						'type'          => 'text',
+						'label'         => __('Image Width', 'fl-builder'),
+						'default'       => '33',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => '%'
 					),
 				)
 			),
@@ -273,10 +495,20 @@ FLBuilder::register_module('FLPostGridModule', array(
 					'show_comments' => array(
 						'type'          => 'select',
 						'label'         => __('Comments', 'fl-builder'),
-						'default'       => '1',
+						'default'       => '0',
 						'options'       => array(
 							'1'             => __('Show', 'fl-builder'),
 							'0'             => __('Hide', 'fl-builder')
+						)
+					),
+					'info_separator' => array(
+						'type'          => 'text',
+						'label'         => __('Separator', 'fl-builder'),
+						'default'       => ' | ',
+						'size'          => '4',
+						'preview'       => array(
+							'type'			=> 'text',
+							'selector'		=> '.fl-sep'
 						)
 					),
 				)
@@ -302,6 +534,13 @@ FLBuilder::register_module('FLPostGridModule', array(
 							'full'           => __('Full Text', 'fl-builder')
 						)
 					),
+					'content_length' => array(
+						'type'          => 'text',
+						'label'         => __('Content Length', 'fl-builder'),
+						'default'       => '',
+						'size'          => '4',
+						'description'   => __( 'words', 'fl-builder' )
+					),
 					'show_more_link' => array(
 						'type'          => 'select',
 						'label'         => __('More Link', 'fl-builder'),
@@ -309,6 +548,11 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'options'       => array(
 							'1'             => __('Show', 'fl-builder'),
 							'0'             => __('Hide', 'fl-builder')
+						),
+						'toggle'        => array(
+							'1'             => array(
+								'fields'        => array('more_link_text')
+							)
 						)
 					),
 					'more_link_text' => array(
@@ -320,9 +564,121 @@ FLBuilder::register_module('FLPostGridModule', array(
 			)
 		)
 	),
-	'style'         => array( // Tab
-		'title'         => __('Style', 'fl-builder'), // Tab title
-		'sections'      => array( // Tab Sections
+	'style'         => array(
+		'title'         => __('Style', 'fl-builder'),
+		'sections'      => array(
+			'post_style'    => array(
+				'title'         => __('Posts', 'fl-builder'),
+				'fields'        => array(
+					'bg_color'      => array(
+						'type'          => 'color',
+						'label'         => __('Post Background Color', 'fl-builder'),
+						'show_reset'    => true
+					),
+					'bg_opacity'    => array(
+						'type'          => 'text',
+						'label'         => __('Post Background Opacity', 'fl-builder'),
+						'default'       => '100',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => '%'
+					),
+					'border_type'   => array(
+						'type'          => 'select',
+						'label'         => __('Post Border Type', 'fl-builder'),
+						'default'       => 'default',
+						'options'       => array(
+							'default'       => _x( 'Default', 'Border type.', 'fl-builder' ),
+							'none'          => _x( 'None', 'Border type.', 'fl-builder' ),
+							'solid'         => _x( 'Solid', 'Border type.', 'fl-builder' ),
+							'dashed'        => _x( 'Dashed', 'Border type.', 'fl-builder' ),
+							'dotted'        => _x( 'Dotted', 'Border type.', 'fl-builder' ),
+							'double'        => _x( 'Double', 'Border type.', 'fl-builder' )
+						),
+						'toggle'        => array(
+							'solid'         => array(
+								'fields'        => array('border_color', 'border_size')
+							),
+							'dashed'        => array(
+								'fields'        => array('border_color', 'border_size')
+							),
+							'dotted'        => array(
+								'fields'        => array('border_color', 'border_size')
+							),
+							'double'        => array(
+								'fields'        => array('border_color', 'border_size')
+							)
+						)
+					),
+					'border_color'  => array(
+						'type'          => 'color',
+						'label'         => __('Post Border Color', 'fl-builder'),
+						'show_reset'    => true
+					),
+					'border_size'  => array(
+						'type'          => 'text',
+						'label'         => __('Post Border Size', 'fl-builder'),
+						'default'       => '1',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px'
+					),
+				)
+			),
+			'text_style'    => array(
+				'title'         => __('Text', 'fl-builder'),
+				'fields'        => array(
+					'title_color'   => array(
+						'type'          => 'color',
+						'label'         => __('Title Color', 'fl-builder'),
+						'show_reset'    => true
+					),
+					'title_font_size' => array(
+						'type'          => 'text',
+						'label'         => __('Title Font Size', 'fl-builder'),
+						'default'       => '',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px'
+					),
+					'info_color'    => array(
+						'type'          => 'color',
+						'label'         => __('Post Info Color', 'fl-builder'),
+						'show_reset'    => true
+					),
+					'info_font_size' => array(
+						'type'          => 'text',
+						'label'         => __('Post Info Font Size', 'fl-builder'),
+						'default'       => '',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px'
+					),
+					'content_color' => array(
+						'type'          => 'color',
+						'label'         => __('Content Color', 'fl-builder'),
+						'show_reset'    => true
+					),
+					'content_font_size' => array(
+						'type'          => 'text',
+						'label'         => __('Content Font Size', 'fl-builder'),
+						'default'       => '',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px'
+					),
+					'link_color'    => array(
+						'type'          => 'color',
+						'label'         => __('Link Color', 'fl-builder'),
+						'show_reset'    => true
+					),
+					'link_hover_color' => array(
+						'type'          => 'color',
+						'label'         => __('Link Hover Color', 'fl-builder'),
+						'show_reset'    => true
+					),
+				)
+			),
 			'gallery_general'          => array(
 				'title'         => '',
 				'fields'        => array(
@@ -337,6 +693,32 @@ FLBuilder::register_module('FLPostGridModule', array(
 							'scale-up'   	=> __('Scale Up', 'fl-builder'),
 							'scale-down'   	=> __('Scale Down', 'fl-builder'),
 						)
+					),
+				)
+			),
+			'overlay_style' => array(
+				'title'         => __('Overlay Colors', 'fl-builder'),
+				'fields'        => array(
+					'text_color'    => array(
+						'type'          => 'color',
+						'label'         => __('Overlay Text Color', 'fl-builder'),
+						'default'       => 'ffffff',
+						'show_reset'    => true
+					),
+					'text_bg_color' => array(
+						'type'          => 'color',
+						'label'         => __('Overlay Background Color', 'fl-builder'),
+						'default'       => '333333',
+						'help'          => __('The color applies to the overlay behind text over the background selections.', 'fl-builder'),
+						'show_reset'    => true
+					),
+					'text_bg_opacity' => array(
+						'type'          => 'text',
+						'label'         => __('Overlay Background Opacity', 'fl-builder'),
+						'default'       => '50',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => '%'
 					),
 				)
 			),
@@ -378,36 +760,10 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'size'          => '4',
 						'description'   => 'px'
 					),
-				)
-			),
-			'text_style'    => array(
-				'title'         => __('Colors', 'fl-builder'),
-				'fields'        => array(
-					'text_color'    => array(
-						'type'          => 'color',
-						'label'         => __('Text Color', 'fl-builder'),
-						'default'       => 'ffffff',
-						'show_reset'    => true
-					),
 					'icon_color' => array(
 						'type'          => 'color',
 						'label'         => __('Post Icon Color', 'fl-builder'),
 						'show_reset'    => true
-					),
-					'text_bg_color' => array(
-						'type'          => 'color',
-						'label'         => __('Text Background Color', 'fl-builder'),
-						'default'       => '333333',
-						'help'          => __('The color applies to the overlay behind text over the background selections.', 'fl-builder'),
-						'show_reset'    => true
-					),
-					'text_bg_opacity' => array(
-						'type'          => 'text',
-						'label'         => __('Text Background Opacity', 'fl-builder'),
-						'default'       => '50',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => '%'
 					),
 				)
 			),
@@ -416,5 +772,46 @@ FLBuilder::register_module('FLPostGridModule', array(
 	'content'   => array(
 		'title'         => __('Content', 'fl-builder'),
 		'file'          => FL_BUILDER_DIR . 'includes/loop-settings.php',
+	),
+	'pagination' => array(
+		'title'      => __( 'Pagination', 'fl-builder' ),
+		'sections'   => array(
+			'pagination'   => array(
+				'title'         => __('Pagination', 'fl-builder'),
+				'fields'        => array(
+					'pagination'     => array(
+						'type'          => 'select',
+						'label'         => __('Pagination Style', 'fl-builder'),
+						'default'       => 'numbers',
+						'options'       => array(
+							'numbers'       => __('Numbers', 'fl-builder'),
+							'scroll'        => __('Scroll', 'fl-builder'),
+							'none'          => _x( 'None', 'Pagination style.', 'fl-builder' ),
+						)
+					),
+					'posts_per_page' => array(
+						'type'          => 'text',
+						'label'         => __('Posts Per Page', 'fl-builder'),
+						'default'       => '10',
+						'size'          => '4'
+					),
+					'no_results_message' => array(
+						'type' 				=> 'text',
+						'label'				=> __('No Results Message', 'fl-builder'),
+						'default'			=> __("Sorry, we couldn't find any posts. Please try a different search.", 'fl-builder')
+					),
+					'show_search'    => array(
+						'type'          => 'select',
+						'label'         => __('Show Search', 'fl-builder'),
+						'default'       => '1',
+						'options'       => array(
+							'1'             => __('Show', 'fl-builder'),
+							'0'             => __('Hide', 'fl-builder')
+						),
+						'help'          => __( 'Shows the search form if no posts are found.' )
+					)
+				)
+			)
+		)
 	)
 ));

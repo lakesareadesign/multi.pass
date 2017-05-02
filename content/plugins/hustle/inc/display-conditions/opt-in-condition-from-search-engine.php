@@ -75,6 +75,6 @@ class Opt_In_Condition_From_Search_Engine extends Opt_In_Condition_Abstract impl
         return $response;
     }
     function label(){
-        return __("Only from search engine", Opt_In::TEXT_DOMAIN);	  	 			 			  	      
+        return __("Only from search engine", Opt_In::TEXT_DOMAIN);
     }
 }

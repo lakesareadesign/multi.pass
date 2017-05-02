@@ -1,8 +1,14 @@
 Plugin Name: WP Hummingbird
 Author: Ignacio Cruz, Ricardo Freitas
-Tested up to: 4.6.1
+Tested up to: 4.7.3
 
 Change Log:
+
+1.4.3 - 2017-04-25
+----------------------------------------------------------------------
+- Fix: Sometimes minification stats appeared as a negative number
+- Enhance: Minification: Make all post metadata private
+- New: Added new actions to modify where HB saves the files
 
 1.4.2 - 2017-03-02
 ----------------------------------------------------------------------
@@ -154,4 +160,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1488933239-au
+133620-1493689626-au

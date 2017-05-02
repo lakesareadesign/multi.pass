@@ -15,6 +15,21 @@ class Opt_In_Infusionsoft_Api
      */
     private $_app_name;
 
+	/**
+	 * @var (object) $xml SimpleXMLElement class instance
+	 **/
+	var $xml;
+
+	/**
+	 * @var (object) $params SimpleXMLElement params node.
+	 **/
+	var $params;
+
+	/**
+	 * @var (object) $struct SimpleXMLElement struct node.
+	 **/
+	var $struct;
+
     /**
      * Opt_In_Infusionsoft_Api constructor.
      *
@@ -27,68 +42,167 @@ class Opt_In_Infusionsoft_Api
         return  $this;
     }
 
-    /**
-     * Add contact to contacts list
-     *
-     * @param $contact
-     * @return SimpleXMLElement|WP_Error
-     */
-    public function add_contact( $contact ){
+	function set_method( $method_name ) {
+		$xml = '<?xml version="1.0" encoding="UTF-8"?><methodCall></methodCall>';
+		$this->xml = new SimpleXMLElement( $xml );
+		$this->xml->addChild( 'methodName', $method_name );
+		$this->params = $this->xml->addChild( 'params' );
+		$this->set_param( $this->_api_key );
+		$this->struct = false;
+	}
 
-        $data = wp_parse_args($contact, array(
-           "Email" => "",
-           "FirstName" => "",
-           "LastName" => ""
-        ));
+	function set_param( $value, $type = 'string' ) {
+		$param = $this->params->addChild( 'param' );
+		return $param->addChild( 'value' )->addChild( $type, $value );
+	}
 
-        $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-        <methodCall>
-            <methodName>ContactService.addWithDupCheck</methodName>
-            <params>
-                <param>
-                <value>
-                    <string>{$this->_api_key}</string>
-                </value>
-                </param>
-                <param>
-                    <value>
-                        <struct>
-                            <member>
-                                <name>FirstName</name>
-                                <value>
-                                    <string>{$data['FirstName']}</string>
-                                </value>
-                            </member>
-                            <member>
-                                <name>LastName</name>
-                                <value>
-                                    <string>{$data['LastName']}</string>
-                                </value>
-                            </member>
-                            <member>
-                                <name>Email</name>
-                                <value>
-                                    <string>{$data['Email']}</string>
-                                </value>
-                            </member>
-                        </struct>
-                    </value>
-                </param>
-                <param>
-                    <value>
-                        <string>Email</string>
-                    </value>
-                </param>
-            </params>
-        </methodCall>";
+	function set_member( $name, $value = '', $type = 'string' ) {
+		if ( ! $this->struct ) {
+			$this->struct = $this->params->addChild( 'param' )->addChild( 'value' )->addChild( 'struct' );
+		}
 
-        $res = $this->_request( $xml );
+		$member = $this->struct->addChild( 'member' );
+		$member->addChild( 'name', $name );
+		if ( ! empty( $value ) ) {
+			$member->addChild( 'value' )->addChild( $type, $value );
+		}
+	}
 
-        if( is_wp_error( $res ) )
-            return res;
+	/**
+	 * Contains the list of built-in custom fields.
+	 **/
+	function builtin_custom_fields() {
+		$custom_fields = array(
+			'Anniversary',
+			'AssistantName',
+			'AssistantPhone',
+			'Birthday',
+			'City',
+			'City2',
+			'City3',
+			'Company',
+			'CompanyID',
+			'ContactNotes',
+			'ContactType',
+			'Country',
+			'Country2',
+			'Country3',
+			'Email',
+			'EmailAddress2',
+			'EmailAddress3',
+			'Fax1',
+			'Fax1Type',
+			'Fax2',
+			'Tax2Type',
+			'FirstName',
+			'JobTitle',
+			'Language',
+			'LastName',
+			'MiddleName',
+			'Nickname',
+			'Password',
+			'Phone1',
+			'Phone1Ext',
+			'Phone1Type',
+			'Phone2',
+			'Phone2Ext',
+			'Phone2Type',
+			'PostalCode',
+			'PostalCode2',
+			'ReferralCode',
+			'SpouseName',
+			'State',
+			'State2',
+			'StreetAddress1',
+			'StreetAddress2',
+			'Suffix',
+			'TimeZone',
+			'Title',
+			'Website',
+			'ZipFour1',
+			'ZipFour2',
+		);
 
-        return $res->get_value();
-    }
+		return $custom_fields;
+	}
+
+	/**
+	 * Get the custom fields at InfusionSoft account.
+	 **/
+	function get_custom_fields() {
+		$this->set_method( 'DataService.query' );
+		$this->set_param( 'DataFormField' );
+		$this->set_param( 1000, 'int' );
+		$this->set_param( 0, 'int' );
+		$this->set_member( 'FormId', '-1' );
+
+		$data = $this->params->addChild( 'param' )->addChild( 'value' )->addChild( 'array' )->addChild( 'data' );
+		$data->addChild( 'value' )->addChild( 'string', 'Name' );
+
+		$res = $this->_request( $this->xml->asXML() );
+		if ( is_wp_error( $res ) ) {
+			return $res;
+		}
+
+		$custom_fields = $this->builtin_custom_fields();
+		$extra_custom_fields = $res->get_value( 'data.value.struct.member' );
+
+		if ( ! empty( $extra_custom_fields ) ) {
+			foreach ( $extra_custom_fields as $custom_field ) {
+
+				if ( is_object( $custom_field ) && ! empty( $custom_field->name ) && 'Name' == $custom_field->name ) {
+					$name = $custom_field->value->__toString();
+					array_push( $custom_fields, $name );
+				}
+			}
+		}
+
+		return $custom_fields;
+	}
+
+	/**
+	 * Add new contact to infusionsoft and return contact ID on success or WP_Error.
+	 *
+	 * @param (array) $contact			An array of contact details.
+	 **/
+	function add_contact( $contact ) {
+		if ( false === $this->email_exist( $contact['Email'] ) ) {
+			$this->set_method( 'ContactService.add' );
+
+			foreach ( $contact as $key => $value ) {
+				$this->set_member( $key, $value );
+			}
+
+			$res = $this->_request( $this->xml->asXML() );
+
+			if ( is_wp_error( $res ) ) {
+				return $res;
+			}
+
+			return $res->get_value( 'i4' );
+		} else {
+			$err = new WP_Error();
+			$err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
+			return $err;
+		}
+	}
+
+	function email_exist( $email ) {
+		$this->set_method( 'ContactService.findByEmail' );
+		$this->set_param( $email );
+		$data = $this->params->addChild( 'param' )->addChild( 'value' )->addChild( 'array' )->addChild( 'data' );
+		$data->addChild( 'value' )->addChild( 'string', 'Id' );
+
+		$res = $this->_request( $this->xml->asXML() );
+
+		if ( ! is_wp_error( $res ) ) {
+			$subscriber_id = $res->get_value( 'array.data.value.struct.member.value.i4' );
+
+			return (int) $subscriber_id > 0;
+		}
+
+		return false;
+	}
 
     /**
      * Adds contact with $contact_id to group with $group_id
@@ -123,7 +237,7 @@ class Opt_In_Infusionsoft_Api
         $res = $this->_request( $xml );
 
         if( is_wp_error( $res ) )
-            return res;
+            return $res;
 
         return $res->get_value();
 
@@ -210,13 +324,16 @@ class Opt_In_Infusionsoft_Api
 
         if( $code < 204 ){
             $xml = simplexml_load_string( wp_remote_retrieve_body( $res ), "Opt_In_Infusionsoft_XML_Res" );
+
             if( empty( $xml ) ){
                 $err->add("Invalid_app_name", __("Invalid app name, please check app name and try again", Opt_In::TEXT_DOMAIN) );
                 return $err;
             }
 
-            if( $xml->is_faulty() )
-                return $xml->get_fault();
+            if( $xml->is_faulty() ) {
+				$err->add( "Something_went_wrong", $xml->get_fault() );
+				return $err;
+			}
 
             return $xml;
         }
@@ -240,8 +357,21 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement{
      *
      * @return mixed
      */
-    function get_value(){
-        return reset( $this->params->param->value );
+    function get_value( $xml_structure = '' ){
+        $value = reset( $this->params->param->value );
+
+		if ( ! empty( $xml_structure ) ) {
+			$xml = explode( '.', $xml_structure );
+			$xml = array_filter( $xml );
+
+			foreach ( $xml as $key ) {
+				if ( is_object( $value ) && isset( $value->$key ) ) {
+					$value = $value->$key;
+				}
+			}
+		}
+
+		return $value;
     }
 
     /**

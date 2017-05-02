@@ -155,7 +155,7 @@ FLBuilder::register_settings_form('module_advanced', array(
 			)
 		),
 		'css_selectors' => array(
-			'title'         => __('CSS Selectors', 'fl-builder'),
+			'title'         => __('HTML Element', 'fl-builder'),
 			'fields'        => array(
 				'id'            => array(
 					'type'          => 'text',

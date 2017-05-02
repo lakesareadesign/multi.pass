@@ -1002,6 +1002,10 @@ small.smush-setting-description {
     margin-top: 10px;
 }
 
+small.smush-setting-description strong {
+    color: #5f5d5d
+}
+
 /** Stats Container **/
 .wpmud .dev-box.smush-stats-wrapper {
     color: #333333;
@@ -2307,4 +2311,4 @@ div.wp-smush-info.notice {
 }
 
 
-/* 133620-1492560832-au */
+/* 133620-1493689627-au */

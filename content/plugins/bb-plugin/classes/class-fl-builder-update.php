@@ -84,6 +84,11 @@ final class FLBuilderUpdate {
 			self::v_1_6_3();
 		}
 		
+		// Update to 1.10 or greater.
+		if ( version_compare( $saved_version, '1.10', '<' ) ) {
+			self::v_1_10();
+		}
+		
 		// Clear all asset cache.
 		FLBuilderModel::delete_asset_cache_for_all_posts();
 		
@@ -102,6 +107,11 @@ final class FLBuilderUpdate {
 	{
 		global $blog_id;
 		global $wpdb;
+		
+		// Network update to 1.10 or greater.
+		if ( version_compare( $saved_version, '1.10', '<' ) ) {
+			self::v_1_10( true );
+		}
 		
 		// Save the original blog id.
 		$original_blog_id = $blog_id;
@@ -129,14 +139,14 @@ final class FLBuilderUpdate {
 	static private function pre_1_2_8_table_exists()
 	{
 		global $wpdb;
-		
+
 		$table   = $wpdb->prefix . 'fl_builder_nodes';
-		$results = $wpdb->get_results("SHOW TABLES LIKE '{$table}'");
-		
+		$results = $wpdb->get_results( $wpdb->prepare( "SHOW TABLES LIKE %s", $table ) );
+
 		return count($results) > 0;
 	}
 
-	/** 
+	/**
 	 * Check to see if the fl_builder_nodes table that existed before 1.2.8
 	 * is empty or not.
 	 *
@@ -147,19 +157,19 @@ final class FLBuilderUpdate {
 	static private function pre_1_2_8_table_is_empty()
 	{
 		global $wpdb;
-		
+
 		if(self::pre_1_2_8_table_exists()) {
-				
+
 			$table = $wpdb->prefix . 'fl_builder_nodes';
-			$nodes = $wpdb->get_results("SELECT * FROM {$table}");
-			
+			$nodes = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s", $table ) );
+
 			return count($nodes) === 0;
 		}
-		
+
 		return true;
 	}
 
-	/** 
+	/**
 	 * Saves a backup of the pre 1.2.8 database table.
 	 *
 	 * @since 1.2.8
@@ -169,16 +179,16 @@ final class FLBuilderUpdate {
 	static private function pre_1_2_8_backup()
 	{
 		global $wpdb;
-		
+
 		if(self::pre_1_2_8_table_exists()) {
-		
+
 			$cache_dir = FLBuilderModel::get_cache_dir();
 			$table     = $wpdb->prefix . 'fl_builder_nodes';
 
-			// Get the data to backup.            
-			$nodes = $wpdb->get_results("SELECT * FROM {$table}");
+			// Get the data to backup.
+			$nodes = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s", $table ) );
 			$meta  = $wpdb->get_results("SELECT * FROM {$wpdb->postmeta} WHERE meta_key = '_fl_builder_layout'");
-		
+
 			// Build the export object.
 			$data           = new StdClass();
 			$data->version  = FL_BUILDER_VERSION;
@@ -255,37 +265,37 @@ final class FLBuilderUpdate {
 	static private function v_1_2_8()
 	{
 		global $wpdb;
-		
+
 		if(self::pre_1_2_8_table_exists()) {
-		
+
 			$table     = $wpdb->prefix . 'fl_builder_nodes';
 			$metas     = $wpdb->get_results("SELECT * FROM {$wpdb->postmeta} WHERE meta_key = '_fl_builder_layout'");
 			$cache_dir = FLBuilderModel::get_cache_dir();
-			
+
 			// Loop through the layout ids for each post.
 			foreach($metas as $meta) {
-			
+
 				// Get the old layout nodes from the database.
-				$published  = $wpdb->get_results("SELECT * FROM {$table} WHERE layout = '{$meta->meta_value}' AND status = 'published'");
-				$draft      = $wpdb->get_results("SELECT * FROM {$table} WHERE layout = '{$meta->meta_value}' AND status = 'draft'");
-				
-				// Convert the old nodes to new ones. 
+				$published  = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s WHERE layout = %s AND status = 'published'", $table, $meta->meta_value ) );
+				$draft      = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s WHERE layout = %s AND status = 'draft'", $table, $meta->meta_value ) );
+
+				// Convert the old nodes to new ones.
 				$published  = self::v_1_2_8_convert_nodes($published);
 				$draft      = self::v_1_2_8_convert_nodes($draft);
-				
-				// Add the new layout post meta. 
+
+				// Add the new layout post meta.
 				update_post_meta($meta->post_id, '_fl_builder_data', $published);
 				update_post_meta($meta->post_id, '_fl_builder_draft', $draft);
 			}
-			
+
 			// Backup the old builder table.
 			self::pre_1_2_8_backup();
-			
+
 			// Drop the old builder table.
 			if(file_exists($cache_dir['path'] . 'backup.dat')) {
 				$wpdb->query("DROP TABLE {$wpdb->prefix}fl_builder_nodes");
 			}
-			
+
 			// Delete old post meta.
 			delete_post_meta_by_key('_fl_builder_layout');
 			delete_post_meta_by_key('_fl_builder_layout_export');
@@ -443,6 +453,133 @@ final class FLBuilderUpdate {
 				wp_set_post_terms( $post->ID, 'layout', 'fl-builder-template-type' );
 			}
 		}
+	}
+	
+	/** 
+	 * Update to version 1.10 or later.
+	 *
+	 * @since 1.10
+	 * @access private
+	 * @return void
+	 */
+	static private function v_1_10( $network = false )
+	{
+		if ( ! function_exists( 'get_editable_roles' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/user.php' ); 
+		}
+		
+		$roles             = get_editable_roles();
+		$user_access       = array();
+		$unrestricted      = self::v_1_10_convert_cap_to_roles( '_fl_builder_editing_capability', $roles, $network );
+		$global_templates  = self::v_1_10_convert_cap_to_roles( '_fl_builder_global_templates_editing_capability', $roles, $network );
+		$builder_admin     = self::v_1_10_convert_option_to_roles( '_fl_builder_user_templates_admin', $roles, $network );
+		$template_exporter = self::v_1_10_convert_option_to_roles( '_fl_builder_template_data_exporter', $roles, $network );
+		
+		if ( ! empty( $unrestricted ) ) {
+			$user_access[ 'unrestricted_editing' ] = $unrestricted;
+		}
+		
+		if ( ! empty( $global_templates ) ) {
+			$user_access[ 'global_node_editing' ] = $global_templates;
+		}
+		
+		if ( ! empty( $builder_admin ) ) {
+			$user_access[ 'builder_admin' ] = $builder_admin;
+		}
+		
+		if ( ! empty( $template_exporter ) ) {
+			$user_access[ 'template_data_exporter' ] = $template_exporter;
+		}
+		
+		if ( ! empty( $user_access ) ) {
+			
+			if ( $network ) {
+				update_site_option( '_fl_builder_user_access', $user_access );
+			}
+			else {
+				update_option( '_fl_builder_user_access', $user_access );
+			}
+		}
+	}
+	
+	/** 
+	 * Convert an old editing capability to a role settings.
+	 *
+	 * @since 1.10
+	 * @access private
+	 * @return array
+	 */
+	static private function v_1_10_convert_cap_to_roles( $key, $roles, $network = false )
+	{
+		$option = $network ? get_site_option( $key ) : get_option( $key );
+		$data   = array();
+		
+		if ( ! empty( $option ) ) {
+			
+			if ( $network ) {
+				delete_site_option( $key );
+			}
+			else {
+				delete_option( $key );
+			}
+			
+			$option = explode( ',', $option );
+			
+			foreach ( $roles as $role_key => $role_data ) {
+				
+				if ( ! isset( $role_data['capabilities']['edit_posts'] ) ) {
+					continue;
+				}
+				
+				$data[ $role_key ] = false;
+				
+				foreach ( $option as $cap ) {
+				
+					if ( isset( $role_data['capabilities'][ trim( $cap ) ] ) ) {
+						$data[ $role_key ] = true;
+						break;
+					}	
+				}
+			}
+			
+		}
+		
+		return $data;
+	}
+	
+	/** 
+	 * Convert old options to user access roles.
+	 *
+	 * @since 1.10
+	 * @access private
+	 * @return array
+	 */
+	static private function v_1_10_convert_option_to_roles( $key, $roles, $network = false  )
+	{
+		$option  = $network ? get_site_option( $key ) : get_option( $key );
+		$enabled = ! empty( $option ) && $option;
+		$data    = array();
+		
+		if ( ! empty( $option ) ) {
+			
+			if ( $network ) {
+				delete_site_option( $key );
+			}
+			else {
+				delete_option( $key );
+			}
+			
+			foreach ( $roles as $role_key => $role_data ) {
+				
+				if ( ! isset( $role_data['capabilities']['edit_posts'] ) ) {
+					continue;
+				}
+				
+				$data[ $role_key ] = $enabled;
+			}
+		}
+		
+		return $data;
 	}
 }
 

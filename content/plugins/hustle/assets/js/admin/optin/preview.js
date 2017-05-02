@@ -46,6 +46,8 @@ Hustle.define("Optin.Preview", function($){
 
            this.preview_modal.model.set("type",  type);
            this.$(".wph-preview--optin").attr("class", this.wrapper_class_tpl({type: type}));
+           Optin.Events.trigger("design:preview:render:finish", this.preview_modal);
+           Hustle.Events.trigger("Optin.preview.changed.type", this);
        }
    });
 });

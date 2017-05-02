@@ -22,9 +22,19 @@
 
 				<div class="content-800">
 
-					<h2><?php _e('Let\'s get you some subscribers.', Opt_In::TEXT_DOMAIN); ?></h2>
+					<h2><?php _e('Let\'s get you started', Opt_In::TEXT_DOMAIN); ?></h2>
 
-					<h6><?php _e('Hustle is the ultimate marketing plugin for all your needs. It allows you to create a plethora of different marketing messages to collect your visitor\'s e-mail addresses, encourage them to share your content on social media, entice them to tweet or share your content with a promise of a reward and much more.', Opt_In::TEXT_DOMAIN); ?></h6>
+					<h6><?php _e('First, choose what type of marketing material you want to set-up.', Opt_In::TEXT_DOMAIN); ?></h6>
+
+					<ul>
+
+						<li><?php _e('Email opt-ins – perfect for collecting your visitor\'s email addresses.', Opt_In::TEXT_DOMAIN); ?></li>
+
+						<li><?php _e('Custom Content – create any kind of pop-up, slide-in, widget or shortcode. e.g., an ad.', Opt_In::TEXT_DOMAIN); ?></li>
+
+                        <li><?php _e('Social Sharing – add social network shares to your website, as a floating social bar or widgets & shortcodes.', Opt_In::TEXT_DOMAIN); ?></li>
+
+					</ul>
 
 				</div>
 

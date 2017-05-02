@@ -41,7 +41,16 @@
                 rect.right <= (window.innerWidth || document.documentElement.clientWidth)
             ) {
                 $win.off(evt);
-                $doc.trigger("wpoi:cc_shortcode_or_widget_viewed", [type, id ]);
+                
+                var cc = _.find(Hustle_Custom_Contents, function (opt) {
+                    return id == opt.content.optin_id;
+                });
+                
+                if (!cc) return;
+                
+                if ( cc.tracking_types != null && _.isTrue( cc.tracking_types[type] ) ) {
+                    $doc.trigger("wpoi:cc_shortcode_or_widget_viewed", [type, id]);
+                }
             }
 
         }, 5, true) );

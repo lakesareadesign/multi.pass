@@ -18,6 +18,7 @@
 				<?php _ex( 'Global', 'Indicator for global node templates.', 'fl-builder' ); ?>
 			</div>
 			<?php endif; ?>
+			<?php if ( $can_edit ) : ?>
 			<span class="fl-builder-node-template-actions">
 				<a class="fl-builder-node-template-edit" href="<?php echo add_query_arg( 'fl_builder', '', $saved_row['link'] ); ?>" target="_blank">
 					<i class="fa fa-wrench"></i>
@@ -26,6 +27,7 @@
 					<i class="fa fa-times"></i>
 				</a>
 			</span>
+			<?php endif; ?>
 		</span>
 		<?php endforeach; ?>
 	</div>
@@ -49,6 +51,7 @@
 				<?php _ex( 'Global', 'Indicator for global node templates.', 'fl-builder' ); ?>
 			</div>
 			<?php endif; ?>
+			<?php if ( $can_edit ) : ?>
 			<span class="fl-builder-node-template-actions">
 				<a class="fl-builder-node-template-edit" href="<?php echo $saved_module['link']; ?>" target="_blank">
 					<i class="fa fa-wrench"></i>
@@ -57,6 +60,7 @@
 					<i class="fa fa-times"></i>
 				</a>
 			</span>
+			<?php endif; ?>
 		</span>
 		<?php endforeach; ?>
 	</div>

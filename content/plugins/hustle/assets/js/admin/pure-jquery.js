@@ -92,7 +92,6 @@
             $other_sections = $(".wpoi-listing-wrap section").not( $section );
 
         $other_sections.slideUp(300, function(){
-            "use strict";
             $other_sections.removeClass("open");
         });
         $others.find(".dev-icon").removeClass("dev-icon-caret_up").addClass("dev-icon-caret_down");

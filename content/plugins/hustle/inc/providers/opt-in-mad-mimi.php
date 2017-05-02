@@ -74,25 +74,73 @@ class Opt_In_Mad_Mimi extends Opt_In_Provider_Abstract implements  Opt_In_Provid
     public function subscribe( Opt_In_Model $optin, array $data ){
 
         $d = array();
-        $name = array();
         $d['email'] =  $data['email'];
 
-        if( isset( $data['f_name'] ) ){
-            $d['first_name'] = $data['f_name'];
-            $name[] = $data['f_name'];
-        }
+		if ( $this->email_exist( $d['email'], $optin ) ) {
+			$err = new WP_Error();
+			$err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
+			return $err;
+		}
 
-        if( isset( $data['l_name'] ) ){
-            $d['last_name'] = $data['l_name'];
-            $name[] = $d['last_name'];
-        }
+        $name = array();
 
-        if( $name !== array() )
+		if ( ! empty( $data['first_name'] ) ) {
+			$name['first_name'] = $data['first_name'];
+		}
+		elseif ( ! empty( $data['f_name'] ) ) {
+			$name['first_name'] = $data['f_name']; // Legacy
+		}
+		if ( ! empty( $data['last_name'] ) ) {
+			$name['last_name'] = $data['last_name'];
+		}
+		elseif ( ! empty( $data['l_name'] ) ) {
+			$name['last_name'] = $data['l_name']; // Legacy
+		}
+
+        if( count( $name ) )
             $d['name'] = implode(" ", $name);
 
-        return self::api( $optin->provider_args->username, $optin->api_key )->subscribe( $optin->optin_mail_list, $d );
+		// Add extra fields
+		$data = array_diff_key( $data, array(
+			'email' => '',
+			'first_name' => '',
+			'last_name' => '',
+			'f_name' => '',
+			'l_name' => '',
+		) );
+		$data = array_filter( $data );
 
+		if ( ! empty( $data ) ) {
+			$d = array_merge( $d, $data );
+		}
+
+        $res = self::api( $optin->provider_args->username, $optin->api_key )->subscribe( $optin->optin_mail_list, $d );
+
+		if ( is_wp_error( $res ) ) {
+			$error_code = $res->get_error_code();
+			$data['error'] = $res->get_error_message( $error_code );
+			$optin->log_error( $data );
+		}
+
+		return $res;
     }
+
+	/**
+	 * Validate if email already subscribe
+	 *
+	 * @param (string) $email			Current guest user email address.
+	 * @param (object) $optin			Opt_In_Model class instance.
+	 * @return (bool) Returns true if the specified email already subscribe otherwise false.
+	 **/
+	function email_exist( $email, Opt_In_Model $optin ) {
+		$api = self::api( $optin->provider_args->username, $optin->api_key );
+		$res = $api->search_by_email( $email );
+
+		if ( is_object( $res ) && ! empty( $res->member ) && $email == $res->member->email ) {
+			return true;
+		}
+		return false;
+	}
 
     /**
      * Retrieves initial options of the GetResponse account with the given api_key

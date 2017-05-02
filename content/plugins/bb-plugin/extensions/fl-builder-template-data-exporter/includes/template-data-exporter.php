@@ -4,6 +4,24 @@
 	<p><?php printf( __('If you need to export templates for import into another site, please use the exporter at <a href="%s">Tools > Export</a>.', 'fl-builder'), admin_url( '/export.php' ) ); ?></p>
 	<form method="POST">
 		
+		<?php if ( defined( 'FL_THEME_BUILDER_VERSION' ) ) : ?>
+		<div class="fl-builder-template-data-section fl-builder-template-data-theme">
+			
+			<h2><?php _e( 'Theme Layouts', 'fl-builder' ); ?></h2>
+			
+			<?php if ( 0 === count( $theme ) ) : ?>
+			<p><?php _e( 'No Theme Layouts Found', 'fl-builder' ); ?></p>
+			<?php else : ?>
+			<p><label><input type="checkbox" name="fl-builder-template-data-exporter-all" value="1" /><?php _e( 'Select All', 'fl-builder' ); ?></label></p>
+			<?php endif; ?>
+			
+			<?php foreach ( $theme as $layout ) : ?>
+			<p><label><input type="checkbox" class="fl-builder-template-data-checkbox" name="fl-builder-export-theme[]" value="<?php echo $layout['id'] ?>" /> <?php echo $layout['name'] ?></label></p>
+			<?php endforeach; ?>
+			
+		</div>
+		<?php endif; ?>
+		
 		<div class="fl-builder-template-data-section fl-builder-template-data-layouts">
 			
 			<h2><?php _e( 'Layouts', 'fl-builder' ); ?></h2>

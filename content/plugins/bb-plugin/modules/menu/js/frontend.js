@@ -12,6 +12,7 @@
 		this.wrapperClass        = this.nodeClass + ' .fl-menu';
 		this.type				 = settings.type;
 		this.mobileToggle		 = settings.mobile;
+		this.mobileBelowRow		 = settings.mobileBelowRow;
 		this.breakPoints         = settings.breakPoints;
 		this.currentBrowserWidth = $( window ).width();
 
@@ -26,7 +27,8 @@
 			// if screen width is resized, reload the menu
 		    if( width != this.currentBrowserWidth ){
 
-				this._resizeDebounce();
+				this._initMenu();
+ 				this._clickOrHover();
 		    	this.currentBrowserWidth = width;
 			}
 
@@ -48,25 +50,8 @@
 		 * @return bool
 		 */
 		_isMobile: function(){
-			return window.innerWidth < this.breakPoints.small ? true : false;
+			return $( window ).width() < this.breakPoints.small ? true : false;
 		},
-
-		/**
-		 * When screen is resized, reloads the menu in a determinded interval.
-		 *
-		 * @see    this._initMenu()
-		 * @see    this._clickOrHover()
-		 * @since  1.6.1
-		 * @return void
-		 */
- 		_resizeDebounce: function(){
- 			clearTimeout( this.resizeTimer );
- 			this.resizeTimer = setTimeout( $.proxy( function() {
- 				this._initMenu();
- 				this._clickOrHover();
- 			}, this ), 250 );
- 
- 		},
 
 		/**
 		 * Initialize the toggle logic for the menu.
@@ -245,11 +230,21 @@
 		 */
 		_toggleForMobile: function(){
 
-			var $wrapper = $( this.wrapperClass ),
-				$menu    = $wrapper.children( '.menu' );
+			var $wrapper = null,
+				$menu    = null;
 
 			if( this._isMobile() ){
-
+				
+				if ( this.mobileBelowRow ) {
+					this._placeMobileMenuBelowRow();
+					$wrapper = $( this.wrapperClass );
+					$menu    = $( this.nodeClass + '-clone' );
+				}
+				else {
+					$wrapper = $( this.wrapperClass );
+					$menu    = $wrapper.children( '.menu' );
+				}
+				
 				if( !$wrapper.find( '.fl-menu-mobile-toggle' ).hasClass( 'fl-active' ) ){
 					$menu.css({ display: 'none' });
 				}
@@ -281,11 +276,64 @@
 						}
 					}
 				});
-			} else {
+			} 
+			else {
+				
+				if ( this.mobileBelowRow ) {
+					this._removeMenuFromBelowRow();
+				}
+				
+				$wrapper = $( this.wrapperClass ),
+				$menu    = $wrapper.children( '.menu' );
 				$wrapper.find( '.fl-menu-mobile-toggle' ).removeClass( 'fl-active' );
 				$menu.css({ display: '' });
 			}
+		},
 
+		/**
+		 * Logic for putting the mobile menu below the menu's
+		 * column so it spans the full width of the page.
+		 *
+		 * @since  1.10
+		 * @return void
+		 */
+		_placeMobileMenuBelowRow: function(){
+			
+			if ( $( this.nodeClass + '-clone' ).length ) {
+				return;
+			}
+
+			var module = $( this.nodeClass ),
+				clone  = module.clone(),
+				col    = module.closest( '.fl-col' );
+			
+			module.find( 'ul.menu' ).remove();
+			clone.addClass( ( this.nodeClass + '-clone' ).replace( '.', '' ) );
+			clone.find( '.fl-menu-mobile-toggle' ).remove();
+			col.after( clone );
+			
+			this._menuOnClick();
+		},
+
+		/**
+		 * Logic for removing the mobile menu from below the menu's 
+		 * column and putting it back in the main wrapper.
+		 *
+		 * @since  1.10
+		 * @return void
+		 */
+		_removeMenuFromBelowRow: function(){
+			
+			if ( ! $( this.nodeClass + '-clone' ).length ) {
+				return;
+			}
+
+			var module = $( this.nodeClass ),
+				clone  = $( this.nodeClass + '-clone' ),
+				menu   = clone.find( 'ul.menu' );
+				
+			module.find( '.fl-menu-mobile-toggle' ).after( menu );
+			clone.remove();
 		}
 	
 	};

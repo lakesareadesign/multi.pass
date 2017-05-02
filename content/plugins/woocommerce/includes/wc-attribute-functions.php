@@ -111,7 +111,7 @@ function wc_attribute_taxonomy_name_by_id( $attribute_id ) {
  * @return int
  */
 function wc_attribute_taxonomy_id_by_name( $name ) {
-	$name       = str_replace( 'pa_', '', $name );
+	$name       = str_replace( 'pa_', '', sanitize_title( $name ) );
 	$taxonomies = wp_list_pluck( wc_get_attribute_taxonomies(), 'attribute_id', 'attribute_name' );
 
 	return isset( $taxonomies[ $name ] ) ? (int) $taxonomies[ $name ] : 0;
@@ -331,5 +331,6 @@ function wc_attributes_array_filter_variation( $attribute ) {
  * @return bool
  */
 function wc_is_attribute_in_product_name( $attribute, $name ) {
-	return stristr( $name, ' ' . $attribute . ',' ) || 0 === stripos( strrev( $name ), strrev( ' ' . $attribute ) );
+	$is_in_name = stristr( $name, ' ' . $attribute . ',' ) || 0 === stripos( strrev( $name ), strrev( ' ' . $attribute ) );
+	return apply_filters( 'woocommerce_is_attribute_in_product_name', $is_in_name, $attribute, $name );
 }

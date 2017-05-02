@@ -146,17 +146,17 @@ final class FLBuilderServiceIContact extends FLBuilderService {
 			'type'          => 'text',
 			'label'         => __( 'App Password', 'fl-builder' ),
 			'help'          => __( 'Your iContact app password.', 'fl-builder' ),
-			'description'   => sprintf( __( 'You must <a%s>create an app</a> in iContact to obtain an app ID and password. Please see <a%s>the iContact docs</a> for complete instructions.', 'fl-builder' ), ' href="https://app.icontact.com/icp/core/registerapp/" target="_blank"', ' href="http://www.icontact.com/developerportal/api-documentation/vocus-register-your-app/" target="_blank"' ),
+			'description'   => sprintf( __( 'You must <a%1$s>create an app</a> in iContact to obtain an app ID and password. Please see <a%2$s>the iContact docs</a> for complete instructions.', 'fl-builder' ), ' href="https://app.icontact.com/icp/core/registerapp/" target="_blank"', ' href="http://www.icontact.com/developerportal/api-documentation/vocus-register-your-app/" target="_blank"' ),
 			'preview'       => array(
 				'type'          => 'none'
 			)
 		));
-		
+
 		return ob_get_clean();
 	}
 
 	/**
-	 * Render the markup for service specific fields. 
+	 * Render the markup for service specific fields.
 	 *
 	 * @since 1.5.4
 	 * @param string $account The name of the saved account.

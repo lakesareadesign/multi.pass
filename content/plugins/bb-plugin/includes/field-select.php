@@ -77,7 +77,13 @@ if ( isset( $field['trigger'] ) ) {
 <select name="<?php echo esc_attr( $name ); ?>"<?php echo $atts; ?>>
 
 	<?php
+		
+	// Get the options from a function? 
+	if ( is_string( $field['options'] ) ) {
+		$field['options'] = call_user_func( $field['options'] );
+	}
 
+	// Loop through the options
 	foreach ( (array) $field['options'] as $option_key => $option_val ) {
 
 		// Don't display premium options if using lite plugin version
