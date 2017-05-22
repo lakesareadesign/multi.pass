@@ -9,8 +9,6 @@
  * @copyright    Copyright (c) 2015, Restored 316 LLC, Released 02/03/2016
  * @license      GPL-2.0+
  */
- 
-//* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent. 
 
 //* Divine Theme Setting Defaults
 add_filter( 'genesis_theme_settings_defaults', 'glam_theme_defaults' );
@@ -96,4 +94,14 @@ function glam_responsive_slider_defaults( $defaults ) {
 	$args = wp_parse_args( $args, $defaults );
 	
 	return $args;
+}
+
+//* Set option to show posts on front page after switching themes
+add_action( 'after_switch_theme', 'glam_theme_reading_defaults' );
+function glam_theme_reading_defaults() {
+	if ( 'posts' != get_option( 'show_on_front' ) ) {
+	
+		update_option( 'show_on_front', 'posts' );
+	
+	}
 }

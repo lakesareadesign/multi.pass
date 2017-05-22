@@ -1,5 +1,16 @@
 # Jessica Changelog
 
+## 1.3.2 - 11 Apr 2017
+* Change CSS for WooCommerce compatibility 
+* Fix WooCommerce gallery display issue    
+* Update WooCommerce template files for Woo 3.0+              
+
+### Files Modified
+* /style.css   
+* /lib/shop/woocommerce.php
+
+---
+
 ## 1.3.1 - 02 Aug 2016
 * Change CSS for Genesis E-News Widget compatibility  
 * Fix WooCommerce coupon code CSS bug in cart      

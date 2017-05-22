@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 require_once untrailingslashit( get_template_directory() ) . '/lib/init.php';
 
 define( 'CHILD_THEME_NAME', 'Cookd Pro Theme' );
-define( 'CHILD_THEME_VERSION', '1.0.2' );
+define( 'CHILD_THEME_VERSION', '1.0.3' );
 define( 'CHILD_THEME_URL', 'http://feastdesignco.com/cookd/' );
 define( 'CHILD_THEME_DEVELOPER', 'Shay Bocks' );
 

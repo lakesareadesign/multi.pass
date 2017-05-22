@@ -5,7 +5,7 @@
 	Author: Restored 316 Designs // Lauren Gaige
 	Author URI: http://www.restored316designs.com/
 	Copyright: Copyright (c) 2015, Restored 316 LLC, Released 02/03/2016
-	Version: 1.0.2
+	Version: 1.0.3
 
 	Template: genesis
 	Template Version: 2.0.1
@@ -13,8 +13,6 @@
 	License: GPL-2.0+
 	License URI: http://www.opensource.org/licenses/gpl-license.php
 */
-
-/* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent.
 
 /* Table of Contents
 
@@ -1279,7 +1277,6 @@ Site Header
 	outline: none;
 	padding: 0;
 	margin: 0 auto;
-	width: 450px;
 }
 
 .header-image .site-title::after {
@@ -2676,5 +2673,3 @@ Media Queries
     }
 
 }
-
-/* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent.

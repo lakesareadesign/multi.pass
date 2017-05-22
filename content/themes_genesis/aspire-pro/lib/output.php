@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * Adds the required CSS to the front end.
  */
 
@@ -14,9 +14,9 @@ function aspire_css() {
 
 	$handle  = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
 
-	$color = get_theme_mod( 'aspire_accent_color', aspire_customizer_get_default_accent_color() );
+	$color_accent = get_theme_mod( 'aspire_accent_color', aspire_customizer_get_default_accent_color() );
 
-	$opts = apply_filters( 'aspire_images', array( '1', '4', '5', '7', '9', '11' ) );
+	$opts = apply_filters( 'aspire_images', array( '1', '4', '5', '7', '9', '11', '12' ) );
 
 	$settings = array();
 
@@ -25,6 +25,7 @@ function aspire_css() {
 	}
 
 	$css = '';
+	$woo_css = '';
 
 	foreach ( $settings as $section => $value ) {
 
@@ -36,7 +37,7 @@ function aspire_css() {
 
 	}
 
-	$css .= ( aspire_customizer_get_default_accent_color() !== $color ) ? sprintf( '
+	$css .= ( aspire_customizer_get_default_accent_color() !== $color_accent ) ? sprintf( '
 		a,
 		.genesis-nav-menu a:focus,
 		.genesis-nav-menu a:hover,
@@ -59,7 +60,8 @@ function aspire_css() {
 		.popular,
 		.genesis-nav-menu .sub-menu a:hover,
 		.genesis-nav-menu .sub-menu li.current-menu-item > a,
-		.footer-widgets .enews-widget input[type="submit"] {
+		.footer-widgets .enews-widget input[type="submit"],
+		.content .portfolio .more-link:hover {
 			background-color: %1$s;
 		}
 
@@ -73,10 +75,60 @@ function aspire_css() {
 		.widget .button {
 			border-color: %1$s;
 		}
-		', $color ) : '';
 
-	if( $css ){
+		', $color_accent ) : '';
+
+$woo_css .= ( aspire_customizer_get_default_accent_color() !== $color_accent ) ? sprintf( '
+
+		.woocommerce div.product p.price,
+		.woocommerce div.product span.price,
+		.woocommerce div.product .woocommerce-tabs ul.tabs li a:hover,
+		.woocommerce div.product .woocommerce-tabs ul.tabs li a:focus,
+		.woocommerce ul.products li.product h3:hover,
+		/*.woocommerce ul.products li.product .price,*/
+		.woocommerce ul.products li.product .price:hover,
+		.woocommerce .woocommerce-breadcrumb a:hover,
+		.woocommerce .woocommerce-breadcrumb a:focus,
+		.woocommerce-info:before,
+		.woocommerce-message:before {
+			color: %1$s;
+		}
+
+		.woocommerce a.button:focus,
+		.woocommerce a.button:hover,
+		.woocommerce a.button.alt:focus,
+		.woocommerce a.button.alt:hover,
+		.woocommerce button.button:focus,
+		.woocommerce button.button:hover,
+		.woocommerce button.button.alt:focus,
+		.woocommerce button.button.alt:hover,
+		.woocommerce input.button:focus,
+		.woocommerce input.button:hover,
+		.woocommerce input.button.alt:focus,
+		.woocommerce input.button.alt:hover,
+		.woocommerce input[type="submit"]:focus,
+		.woocommerce input[type="submit"]:hover,
+		.woocommerce #respond input#submit:focus,
+		.woocommerce #respond input#submit:hover,
+		.woocommerce #respond input#submit.alt:focus,
+		.woocommerce #respond input#submit.alt:hover {
+			background-color: %1$s;
+		}
+
+		.woocommerce-error,
+		.woocommerce-info,
+		.woocommerce-message {
+			border-top-color: %1$s;
+		}
+
+		', $color_accent ) : '';
+
+	if ( $css ) {
 		wp_add_inline_style( $handle, $css );
+	}
+
+	if ( $woo_css ) {
+		wp_add_inline_style( 'aspire-woocommerce-styles', $woo_css );
 	}
 
 }

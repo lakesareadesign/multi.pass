@@ -3,7 +3,7 @@
 	Description: Jessica is a flexible WordPress eCommerce theme that lets you pick from three different eCommerce plugins. The theme is pre-styled for WooCommerce, iThemes Exchange, and WP e-Commerce. You pick the store plugin that's right for you! By Web Savvy Marketing on the <a href="http://web-savvy-marketing.com/go/studiopress/">Genesis framework</a>.
 	Author: Web Savvy Marketing
 	Author URI: http://www.web-savvy-marketing.com/
-	Version: 1.3.1
+	Version: 1.3.2
 	Template: genesis
 
 	Copyright 2014 - Web Savvy Marketing
@@ -1526,6 +1526,7 @@ body.woocommerce-page span.onsale {
 	text-shadow: none;
 }
 
+body.woocommerce-page ul.products li.product h2.woocommerce-loop-product__title,
 body.woocommerce-page ul.products li.product h3 {
 	font-family: 'Roboto',sans-serif;
 	font-size: 16px;
@@ -1534,6 +1535,7 @@ body.woocommerce-page ul.products li.product h3 {
 	padding-bottom: 0;
 }
 
+body.tax-product_cat.woocommerce-page ul.products li.product h2.woocommerce-loop-product__title,
 body.tax-product_cat.woocommerce-page ul.products li.product h3 {
 	padding: 25px 0 0;
 }
@@ -1557,6 +1559,10 @@ body.woocommerce-page ul.products li.product .button-details {
 	padding: 6px 10px;
 }
 
+div.woocommerce #respond input#submit.alt,
+div.woocommerce a.button.alt,
+div.woocommerce button.button.alt,
+div.woocommerce input.button.alt,
 body.woocommerce-page a.button,
 body.woocommerce-page button.button,
 body.woocommerce-page input.button,
@@ -1572,6 +1578,10 @@ body.woocommerce-page #content input.button {
 	text-shadow: none;
 }
 
+div.woocommerce #respond input#submit.alt:hover,
+div.woocommerce a.button.alt:hover,
+div.woocommerce button.button.alt:hover,
+div.woocommerce input.button.alt:hover,
 body.woocommerce-page a.button:hover,
 body.woocommerce-page button.button:hover,
 body.woocommerce-page input.button:hover,
@@ -1789,6 +1799,14 @@ body.woocommerce-page #reviews #comments ol.commentlist li img.avatar {
 body.woocommerce-page #content div.product div.thumbnails a,
 body.woocommerce-page div.product div.thumbnails a {
 	margin-bottom: 12px;
+}
+
+body.woocommerce div.product div.images .woocommerce-product-gallery__wrapper {
+	margin: 0;
+}
+
+body.woocommerce div.product div.images .flex-control-thumbs li {
+	margin: 5px 0;
 }
 
 /* woocommerce-tabs
@@ -4448,6 +4466,10 @@ li.comment {
 	color: #fff;
 }
 
+.jessica-pink div.woocommerce #respond input#submit.alt,
+.jessica-pink div.woocommerce a.button.alt,
+.jessica-pink div.woocommerce button.button.alt,
+.jessica-pink div.woocommerce input.button.alt,
 .jessica-pink button,
 .jessica-pink input[type="button"],
 .jessica-pink input[type="reset"],
@@ -4496,6 +4518,10 @@ li.comment {
 	background-color: #b34065;
 }
 
+.jessica-pink div.woocommerce #respond input#submit.alt:hover,
+.jessica-pink div.woocommerce a.button.alt:hover,
+.jessica-pink div.woocommerce button.button.alt:hover,
+.jessica-pink div.woocommerce input.button.alt:hover,
 .jessica-pink button:hover,
 .jessica-pink input[type="button"]:hover,
 .jessica-pink input[type="reset"]:hover,
@@ -4603,6 +4629,11 @@ li.comment {
 	color: #fff;
 }
 
+
+.jessica-red div.woocommerce #respond input#submit.alt,
+.jessica-red div.woocommerce a.button.alt,
+.jessica-red div.woocommerce button.button.alt,
+.jessica-red div.woocommerce input.button.alt,
 .jessica-red button,
 .jessica-red input[type="button"],
 .jessica-red input[type="reset"],
@@ -4651,6 +4682,10 @@ li.comment {
 	background-color: #C42030;
 }
 
+.jessica-red div.woocommerce #respond input#submit.alt:hover,
+.jessica-red div.woocommerce a.button.alt:hover,
+.jessica-red div.woocommerce button.button.alt:hover,
+.jessica-red div.woocommerce input.button.alt:hover,
 .jessica-red button:hover,
 .jessica-red input[type="button"]:hover,
 .jessica-red input[type="reset"]:hover,
@@ -4758,6 +4793,10 @@ li.comment {
 	color: #fff;
 }
 
+.jessica-brown div.woocommerce #respond input#submit.alt,
+.jessica-brown div.woocommerce a.button.alt,
+.jessica-brown div.woocommerce button.button.alt,
+.jessica-brown div.woocommerce input.button.alt,
 .jessica-brown button,
 .jessica-brown input[type="button"],
 .jessica-brown input[type="reset"],
@@ -4806,6 +4845,10 @@ li.comment {
 	background-color: #806641;
 }
 
+.jessica-brown div.woocommerce #respond input#submit.alt:hover,
+.jessica-brown div.woocommerce a.button.alt:hover,
+.jessica-brown div.woocommerce button.button.alt:hover,
+.jessica-brown div.woocommerce input.button.alt:hover,
 .jessica-brown button:hover,
 .jessica-brown input[type="button"]:hover,
 .jessica-brown input[type="reset"]:hover,
@@ -4913,6 +4956,10 @@ li.comment {
 	color: #fff;
 }
 
+.jessica-green div.woocommerce #respond input#submit.alt,
+.jessica-green div.woocommerce a.button.alt,
+.jessica-green div.woocommerce button.button.alt,
+.jessica-green div.woocommerce input.button.alt,
 .jessica-green button,
 .jessica-green input[type="button"],
 .jessica-green input[type="reset"],
@@ -4961,6 +5008,10 @@ li.comment {
 	background-color: #608636;
 }
 
+.jessica-green div.woocommerce #respond input#submit.alt:hover,
+.jessica-green div.woocommerce a.button.alt:hover,
+.jessica-green div.woocommerce button.button.alt:hover,
+.jessica-green div.woocommerce input.button.alt:hover,
 .jessica-green button:hover,
 .jessica-green input[type="button"]:hover,
 .jessica-green input[type="reset"]:hover,
@@ -5071,6 +5122,10 @@ li.comment {
 	color: #fff;
 }
 
+.jessica-purple div.woocommerce #respond input#submit.alt,
+.jessica-purple div.woocommerce a.button.alt,
+.jessica-purple div.woocommerce button.button.alt,
+.jessica-purple div.woocommerce input.button.alt,
 .jessica-purple button,
 .jessica-purple input[type="button"],
 .jessica-purple input[type="reset"],
@@ -5119,6 +5174,10 @@ li.comment {
 	background-color: #2D1152;
 }
 
+.jessica-purple div.woocommerce #respond input#submit.alt:hover,
+.jessica-purple div.woocommerce a.button.alt:hover,
+.jessica-purple div.woocommerce button.button.alt:hover,
+.jessica-purple div.woocommerce input.button.alt:hover,
 .jessica-purple button:hover,
 .jessica-purple input[type="button"]:hover,
 .jessica-purple input[type="reset"]:hover,
@@ -5453,13 +5512,17 @@ li.comment {
 
 	.five-sixths,
 	.four-sixths,
+	.four-fifths,
+	.one-fifth,
 	.one-fourth,
 	.one-half,
 	.one-sixth,
 	.one-third,
 	.three-fourths,
+	.three-fifths,
 	.three-sixths,
 	.two-fourths,
+	.two-fifths,
 	.two-sixths,
 	.two-thirds {
 		margin: 0;

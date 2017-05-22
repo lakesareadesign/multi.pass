@@ -1,0 +1,874 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Slush Genesis Child Theme\n"
+"POT-Creation-Date: 2017-01-23 13:24+0800\n"
+"PO-Revision-Date: 2015-10-06 16:13+0800\n"
+"Last-Translator: Joe Mar Aparecio <joe@zigzagpress.com>\n"
+"Language-Team: zigzagpress <joe@zigzagpress.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: languages\n"
+"X-Poedit-SearchPath-1: .\n"
+
+#: functions.php:203
+msgid "Portfolio Sidebar"
+msgstr ""
+
+#: functions.php:204
+msgid "This is the sidebar for the portfolio single page."
+msgstr ""
+
+#: functions.php:209
+msgid "Home Widget"
+msgstr ""
+
+#: functions.php:210
+msgid "This is the homepage widget area."
+msgstr ""
+
+#: functions.php:214
+msgid "Home Before Loop"
+msgstr ""
+
+#: functions.php:215
+msgid "This is a widget area before loop in the homepage."
+msgstr ""
+
+#: functions.php:219
+msgid "Shop Sidebar"
+msgstr ""
+
+#: functions.php:220
+msgid "This the sidebar for the shop and product pages."
+msgstr ""
+
+#: functions.php:241
+msgid "Copyright"
+msgstr ""
+
+#: functions.php:304
+msgid "MENU"
+msgstr ""
+
+#: functions.php:316
+msgid "Read More "
+msgstr ""
+
+#: functions.php:339
+msgid "Comments "
+msgstr ""
+
+#: include/admin/theme_settings.php:137
+msgid "Settings reset."
+msgstr ""
+
+#: include/admin/theme_settings.php:139
+msgid "Settings saved."
+msgstr ""
+
+#: include/admin/theme_settings.php:193
+msgid "Logo Settings"
+msgstr ""
+
+#: include/admin/theme_settings.php:194
+msgid "Blog Settings"
+msgstr ""
+
+#: include/admin/theme_settings.php:195
+msgid "Footer Settings"
+msgstr ""
+
+#: include/admin/theme_settings.php:211
+msgid "Body Font Settings. If not set, then the default will be used."
+msgstr ""
+
+#: include/admin/theme_settings.php:212
+msgid "Select body font-family:"
+msgstr ""
+
+#: include/admin/theme_settings.php:220
+msgid "Select body font-style:"
+msgstr ""
+
+#: include/admin/theme_settings.php:229
+msgid "Select body font-weight:"
+msgstr ""
+
+#: include/admin/theme_settings.php:238
+msgid "Set body font-size"
+msgstr ""
+
+#: include/admin/theme_settings.php:241
+msgid "Set body font-color"
+msgstr ""
+
+#: include/admin/theme_settings.php:246
+msgid "Set Header Font Settings. If not set, then the default will be used."
+msgstr ""
+
+#: include/admin/theme_settings.php:247
+msgid "Select header font:"
+msgstr ""
+
+#: include/admin/theme_settings.php:255
+msgid "Select header font-style:"
+msgstr ""
+
+#: include/admin/theme_settings.php:264
+msgid "Select header font-weight:"
+msgstr ""
+
+#: include/admin/theme_settings.php:273
+msgid "Set header font-color"
+msgstr ""
+
+#: include/admin/theme_settings.php:276
+msgid "Set H1 font-size"
+msgstr ""
+
+#: include/admin/theme_settings.php:279
+msgid "Set H2 font-size"
+msgstr ""
+
+#: include/admin/theme_settings.php:282
+msgid "Set H3 font-size"
+msgstr ""
+
+#: include/admin/theme_settings.php:285
+msgid "Set H4 font-size"
+msgstr ""
+
+#: include/admin/theme_settings.php:288
+msgid "Set H5 font-size"
+msgstr ""
+
+#: include/admin/theme_settings.php:291
+msgid "Set H6 font-size"
+msgstr ""
+
+#: include/admin/theme_settings.php:295
+msgid "Set Link Color Settings. If not set, then the default will be used."
+msgstr ""
+
+#: include/admin/theme_settings.php:296
+msgid "Link Color"
+msgstr ""
+
+#: include/admin/theme_settings.php:299
+msgid "Link Hover Color"
+msgstr ""
+
+#: include/admin/theme_settings.php:302
+msgid "This is the appearance settings."
+msgstr ""
+
+#: include/admin/theme_settings.php:307
+msgid "Upload Custom Logo."
+msgstr ""
+
+#: include/admin/theme_settings.php:309 include/admin/theme_settings.php:357
+msgid "Upload Logo"
+msgstr ""
+
+#: include/admin/theme_settings.php:310 include/admin/theme_settings.php:358
+msgid "Remove Logo"
+msgstr ""
+
+#: include/admin/theme_settings.php:316
+msgid "Custom Logo Width in pixel. e.g. 200"
+msgstr ""
+
+#: include/admin/theme_settings.php:320
+msgid "Custom Logo Height in pixel. e.g. 200"
+msgstr ""
+
+#: include/admin/theme_settings.php:327
+msgid "Read More Label"
+msgstr ""
+
+#: include/admin/theme_settings.php:329
+msgid "Display Blog Author?"
+msgstr ""
+
+#: include/admin/theme_settings.php:330
+msgid "Author Label"
+msgstr ""
+
+#: include/admin/theme_settings.php:332
+msgid "Display Blog Comment?"
+msgstr ""
+
+#: include/admin/theme_settings.php:333
+msgid "Comment Label"
+msgstr ""
+
+#: include/admin/theme_settings.php:335
+msgid "Display Blog Like?"
+msgstr ""
+
+#: include/admin/theme_settings.php:336
+msgid "Display Blog read?"
+msgstr ""
+
+#: include/admin/theme_settings.php:337
+msgid "Minute(s) Read Label"
+msgstr ""
+
+#: include/admin/theme_settings.php:339
+msgid "Display Blog view?"
+msgstr ""
+
+#: include/admin/theme_settings.php:340
+msgid "Post Views Label"
+msgstr ""
+
+#: include/admin/theme_settings.php:343
+msgid "Display Blog Date?"
+msgstr ""
+
+#: include/admin/theme_settings.php:344
+msgid "Date Label"
+msgstr ""
+
+#: include/admin/theme_settings.php:346
+msgid "Display Blog Tags?"
+msgstr ""
+
+#: include/admin/theme_settings.php:348
+msgid "Display Blog Categories?"
+msgstr ""
+
+#: include/admin/theme_settings.php:355
+msgid "Upload Footer Logo."
+msgstr ""
+
+#: include/admin/theme_settings.php:362
+msgid "If this is empty, the blog info will be used."
+msgstr ""
+
+#: include/admin/theme_settings.php:364
+msgid "Footer Text"
+msgstr ""
+
+#: include/admin/theme_settings.php:368
+msgid "Enter your site copyright here."
+msgstr ""
+
+#: include/admin/theme_settings.php:384
+msgid "Insert Image!"
+msgstr ""
+
+#: include/admin/theme_settings.php:440
+msgid "Slush Settings"
+msgstr ""
+
+#: include/admin/theme_settings.php:441 include/admin/theme_settings.php:451
+msgid "Save Settings"
+msgstr ""
+
+#: include/admin/theme_settings.php:442 include/admin/theme_settings.php:452
+msgid "Reset Settings"
+msgstr ""
+
+#: include/admin/theme_settings.php:442 include/admin/theme_settings.php:452
+msgid "Are you sure you want to reset?"
+msgstr ""
+
+#: include/cpt/class/class-super-custom-post-meta.php:516
+msgid "Add Image"
+msgstr ""
+
+#: include/cpt/class/class-super-custom-post-meta.php:573
+msgid "Add Images"
+msgstr ""
+
+#: include/cpt/class/class-super-custom-post-meta.php:574
+msgid "Clear Images"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:25
+msgid "Type of Portfolio link"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:25
+msgid "Select what type of link you want for this portfolio item."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:34 include/cpt/zp_cpt.php:56
+msgid "Video Link"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:34
+msgid ""
+"Add video link here. Video link format: Youtube: \"http://www.youtube.com/"
+"watch?v=7HKoqNJtMTQ\", Vimeo: \"https://vimeo.com/123123\". Leave empty if "
+"you don't want to have a video on a lightbox."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:35
+msgid ""
+"Upload/Attach images to this portfolio item. Images attached in here will be "
+"shown in lightbox to form slideshow gallery."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:35
+msgid "Leave empty if you don't want to have a galley slideshow on a lightbox."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:43
+msgid "External Link"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:43
+msgid "Add external link for this portfolio item."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:52
+msgid "Button Label"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:52
+msgid "Add button label"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:53
+msgid "Button Link"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:53
+msgid "Add button link"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:54
+msgid ""
+"Upload/Attach an image to this portfolio item. Images attached in here will "
+"be shown in lightbox and single portfolio page."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:54
+msgid ""
+"Add images to this portfolio. If this is empty, the featured image will be "
+"use."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:56
+msgid ""
+"Add video link here. Video link format: Youtube: \"http://www.youtube.com/"
+"watch?v=7HKoqNJtMTQ\", Vimeo: \"https://vimeo.com/123123\". If this is "
+"empty, the featured image will be used on lightbox."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:67 include/widgets/class-carousel-widget.php:287
+#: include/widgets/class-carousel-widget.php:324
+#: include/widgets/class-post-box-widget.php:280
+#: include/widgets/class-post-box-widget.php:328
+#: include/widgets/class-post-slider-widget.php:247
+#: include/widgets/class-post-slider-widget.php:284
+msgid "Title"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:68
+msgid "Portfolio Category(s)"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:69
+msgid "Author"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:70 include/widgets/class-carousel-widget.php:323
+#: include/widgets/class-post-box-widget.php:327
+#: include/widgets/class-post-slider-widget.php:283
+msgid "Date"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:85
+msgid "Unable to get portfolio category."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:102
+msgid "Audio .mp3 URL"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:102
+msgid "The URL to the .mp3 audio file"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:103
+msgid "Audio .ogg, .oga URL"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:103
+msgid "The URL to the .oga, .ogg audio file"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:104
+msgid "Embed Audio"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:104
+msgid "Embed audio code here."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:113
+msgid "Enter link.  E.g., http://www.yourlink.com"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:113
+msgid "Input your link. e.g., http://www.yourlink.com"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:122
+msgid "Video File (.m4v)"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:122
+msgid "The URL to the .m4v video file"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:123
+msgid "Video File (.ogv)"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:123
+msgid "The URL to the .ogv video file"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:124
+msgid "Embed Video"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:124
+msgid ""
+"If you are using something other than self hosted video such as Youtube or "
+"Vimeo, paste the embed code here. Width is best at 600px with any height. "
+"This field will override the above."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:134
+msgid "Add Gallery Images. "
+msgstr ""
+
+#: include/cpt/zp_cpt.php:134 include/cpt/zp_cpt.php:150
+msgid "Add images for gallery post format."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:150
+msgid "Display Type"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:151 include/widgets/class-carousel-widget.php:296
+#: include/widgets/class-post-box-widget.php:300
+#: include/widgets/class-post-slider-widget.php:256
+msgid "Category"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:151 include/cpt/zp_cpt.php:152
+msgid "Define category to display. Use the category slug."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:152
+msgid "Columns"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:153
+msgid "Enable filter?"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:153
+msgid "Select true to enable category filter."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:154
+msgid "Items"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:154
+msgid "Set number of items to display."
+msgstr ""
+
+#: include/cpt/zp_cpt.php:155
+msgid "Enable load more button?"
+msgstr ""
+
+#: include/cpt/zp_cpt.php:155
+msgid "Select true to enable the load more button at the bottom of the items."
+msgstr ""
+
+#: include/customizer/customizer.php:69
+msgid "Accent Colors"
+msgstr ""
+
+#: include/customizer/customizer.php:82
+msgid "Accent Default"
+msgstr ""
+
+#: include/customizer/customizer.php:92
+msgid "Header Layout"
+msgstr ""
+
+#: include/customizer/customizer.php:105
+msgid "Select Header Layout"
+msgstr ""
+
+#: include/customizer/customizer.php:121
+msgid "Body Style"
+msgstr ""
+
+#: include/customizer/customizer.php:135
+msgid "Body Font Family"
+msgstr ""
+
+#: include/customizer/customizer.php:153
+msgid "Body Font Weight"
+msgstr ""
+
+#: include/customizer/customizer.php:171
+msgid "Body Font Style"
+msgstr ""
+
+#: include/customizer/customizer.php:189
+msgid "Body Font Size"
+msgstr ""
+
+#: include/customizer/customizer.php:205
+msgid "Body Color"
+msgstr ""
+
+#: include/customizer/customizer.php:216
+msgid "Heading Style"
+msgstr ""
+
+#: include/customizer/customizer.php:230
+msgid "Headings Font Family"
+msgstr ""
+
+#: include/customizer/customizer.php:248 include/customizer/customizer.php:266
+msgid "Headings Font Weight"
+msgstr ""
+
+#: include/customizer/customizer.php:283
+msgid "Headings Color"
+msgstr ""
+
+#: include/customizer/customizer.php:299
+msgid "H1 Font Size"
+msgstr ""
+
+#: include/customizer/customizer.php:316
+msgid "H2 Font Size"
+msgstr ""
+
+#: include/customizer/customizer.php:333
+msgid "H3 Font Size"
+msgstr ""
+
+#: include/customizer/customizer.php:350
+msgid "H4 Font Size"
+msgstr ""
+
+#: include/customizer/customizer.php:367
+msgid "H5 Font Size"
+msgstr ""
+
+#: include/customizer/customizer.php:384
+msgid "H6 Font Size"
+msgstr ""
+
+#: include/theme_functions.php:423
+msgid "All"
+msgstr ""
+
+#: include/theme_functions.php:459 include/theme_functions.php:508
+#: include/theme_functions.php:760
+msgid "Load More Posts"
+msgstr ""
+
+#: include/theme_functions.php:459 include/theme_functions.php:712
+msgid "Loading..."
+msgstr ""
+
+#: include/theme_functions.php:459 include/theme_functions.php:712
+msgid "End of Posts"
+msgstr ""
+
+#: include/theme_functions.php:712
+msgid "Load More Posts\t"
+msgstr ""
+
+#: include/theme_functions.php:1079 include/theme_functions.php:1150
+msgid "Published "
+msgstr ""
+
+#: include/theme_functions.php:1079 include/theme_functions.php:1150
+msgid "by "
+msgstr ""
+
+#: include/theme_functions.php:1079 include/theme_functions.php:1150
+msgid " in "
+msgstr ""
+
+#: include/theme_functions.php:1183
+msgid " Minutes Read"
+msgstr ""
+
+#: include/theme_functions.php:1183
+msgid " Minute Read"
+msgstr ""
+
+#: include/theme_functions.php:1241
+msgid " Views"
+msgstr ""
+
+#: include/theme_functions.php:1241
+msgid " View"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:44
+#: include/widgets/class-post-box-widget.php:40
+#: include/widgets/class-post-slider-widget.php:42
+msgid "Read More..."
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:49
+msgid "Displays featured posts with carousel"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:58
+msgid "ZP - Post Carousel"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:138
+#: include/widgets/class-post-box-widget.php:135
+#: include/widgets/class-post-slider-widget.php:150
+msgid "(no title)"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:152
+#: include/widgets/class-post-box-widget.php:149
+#: include/widgets/class-post-slider-widget.php:140
+msgid "By "
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:189
+#: include/widgets/class-post-box-widget.php:186
+#: include/widgets/class-post-slider-widget.php:188
+msgid "Read More"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:304
+#: include/widgets/class-post-box-widget.php:308
+#: include/widgets/class-post-slider-widget.php:264
+msgid "All Categories"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:311
+#: include/widgets/class-post-box-widget.php:315
+#: include/widgets/class-post-slider-widget.php:271
+msgid "Number of Posts to Show"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:316
+#: include/widgets/class-post-box-widget.php:320
+#: include/widgets/class-post-slider-widget.php:276
+msgid "Number of Posts to Offset"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:321
+#: include/widgets/class-post-box-widget.php:325
+#: include/widgets/class-post-slider-widget.php:281
+msgid "Order By"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:325
+#: include/widgets/class-post-box-widget.php:329
+#: include/widgets/class-post-slider-widget.php:285
+msgid "Parent"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:326
+#: include/widgets/class-post-box-widget.php:330
+#: include/widgets/class-post-slider-widget.php:286
+msgid "ID"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:327
+#: include/widgets/class-post-box-widget.php:331
+#: include/widgets/class-post-slider-widget.php:287
+msgid "Comment Count"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:328
+#: include/widgets/class-post-box-widget.php:332
+#: include/widgets/class-post-slider-widget.php:288
+msgid "Random"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:333
+#: include/widgets/class-post-box-widget.php:337
+#: include/widgets/class-post-slider-widget.php:293
+msgid "Sort Order"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:335
+#: include/widgets/class-post-box-widget.php:339
+#: include/widgets/class-post-slider-widget.php:295
+msgid "Descending (3, 2, 1)"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:336
+#: include/widgets/class-post-box-widget.php:340
+#: include/widgets/class-post-slider-widget.php:296
+msgid "Ascending (1, 2, 3)"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:343
+msgid "Slides per view"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:347
+msgid "Width of the space between slides(px)"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:351
+#: include/widgets/class-post-slider-widget.php:314
+msgid "Duration of transition between slides (ms)"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:356
+#: include/widgets/class-post-slider-widget.php:319
+msgid "Slider navigation"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:360
+msgid "Slider pagination"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:371
+#: include/widgets/class-post-box-widget.php:352
+#: include/widgets/class-post-slider-widget.php:330
+msgid "Show Post Title"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:375
+#: include/widgets/class-post-box-widget.php:356
+#: include/widgets/class-post-slider-widget.php:334
+msgid "Show Post Date"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:380
+#: include/widgets/class-post-box-widget.php:361
+#: include/widgets/class-post-slider-widget.php:339
+msgid "Show Post Author"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:385
+#: include/widgets/class-post-box-widget.php:366
+#: include/widgets/class-post-slider-widget.php:344
+msgid "Show Post Comments"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:389
+#: include/widgets/class-post-box-widget.php:370
+#: include/widgets/class-post-slider-widget.php:348
+msgid "Content Type"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:391
+#: include/widgets/class-post-box-widget.php:372
+#: include/widgets/class-post-slider-widget.php:350
+msgid "Show Content"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:392
+#: include/widgets/class-post-box-widget.php:373
+#: include/widgets/class-post-slider-widget.php:351
+msgid "Show Excerpt"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:393
+#: include/widgets/class-post-box-widget.php:374
+#: include/widgets/class-post-slider-widget.php:352
+msgid "Show Content Limit"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:394
+#: include/widgets/class-post-box-widget.php:375
+#: include/widgets/class-post-slider-widget.php:353
+msgid "No Content"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:397
+#: include/widgets/class-post-box-widget.php:378
+#: include/widgets/class-post-slider-widget.php:356
+msgid "Limit content to"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:399
+#: include/widgets/class-post-box-widget.php:380
+#: include/widgets/class-post-slider-widget.php:358
+msgid "characters"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:405
+#: include/widgets/class-post-box-widget.php:386
+#: include/widgets/class-post-slider-widget.php:364
+msgid "Show Read More?"
+msgstr ""
+
+#: include/widgets/class-carousel-widget.php:409
+#: include/widgets/class-post-box-widget.php:390
+#: include/widgets/class-post-slider-widget.php:368
+msgid "More Text"
+msgstr ""
+
+#: include/widgets/class-post-box-widget.php:45
+msgid "Displays featured posts with thumbnails"
+msgstr ""
+
+#: include/widgets/class-post-box-widget.php:54
+msgid "ZP - Post Box"
+msgstr ""
+
+#: include/widgets/class-post-box-widget.php:288
+msgid "Layout"
+msgstr ""
+
+#: include/widgets/class-post-slider-widget.php:47
+msgid "Displays featured posts in a slider"
+msgstr ""
+
+#: include/widgets/class-post-slider-widget.php:56
+msgid "ZP - Post Slider"
+msgstr ""
+
+#: include/widgets/class-post-slider-widget.php:301
+msgid "Image Size"
+msgstr ""
+
+#: page_archive.php:16
+msgid "Pages:"
+msgstr ""
+
+#: page_archive.php:21
+msgid "Categories:"
+msgstr ""
+
+#: page_archive.php:27
+msgid "Authors:"
+msgstr ""
+
+#: page_archive.php:32
+msgid "Monthly:"
+msgstr ""
+
+#: page_archive.php:37
+msgid "Recent Posts:"
+msgstr ""

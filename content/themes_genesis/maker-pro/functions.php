@@ -18,7 +18,7 @@ include_once( get_stylesheet_directory() . '/lib/output.php' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'Maker Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/maker/' );
-define( 'CHILD_THEME_VERSION', '1.0.0' );
+define( 'CHILD_THEME_VERSION', '1.0.1' );
 
 //* Enqueue scripts and styles
 add_action( 'wp_enqueue_scripts', 'maker_scripts_styles' );

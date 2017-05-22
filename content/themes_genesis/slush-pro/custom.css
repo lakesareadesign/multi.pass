@@ -1,0 +1,24 @@
+/*
+ * Slush Pro Custom CSS
+ * 
+ * Place here your custom CSS. This will keep your custom css when there is a theme update.
+ */
+
+span.entry-author:before,
+span.entry-comments-link:before {
+	display: inline-block;
+	content: "/";
+	margin: 0 1em;
+}
+
+.entry-time:after {
+	display: none;
+}
+
+.woocommerce a.button.loading:after,
+.woocommerce button.button.loading:after,
+.woocommerce input.button.loading:after,
+.woocommerce #respond input#submit.loading:after {
+	right: 0;
+	top: 0;
+}

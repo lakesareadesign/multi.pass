@@ -9,9 +9,6 @@
  * @license      GPL-2.0+
  */
  
-//* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent.
-
-
 /* Template Name: Category Index */
 
 //* Adds a CSS class to the body element

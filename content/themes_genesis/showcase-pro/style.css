@@ -5,7 +5,7 @@
 	Author: Bloom
 	Author URI: http://www.designbybloom.co
 
-	Version: 2.0.0
+	Version: 2.0.1
 
 	Tags: one-column, two-columns, left-sidebar, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
@@ -1544,7 +1544,15 @@ select.orderby {
 	float: left;
 	height: 5rem;
 	width: 14rem;
+	background-image: url(images/Logo_Dark.png);
 }
+
+@media only screen and (min-width: 800px) {
+	body.with-page-header.header-image:not(.header-scroll) .site-title a {
+		background-image: url(images/Logo_Light.png) !important;
+	}
+}
+
 
 .header-image .title-area {
 	margin: 0;
@@ -1567,16 +1575,11 @@ select.orderby {
 		background: transparent;
 	}
 
-	.header-image .site-header {
-		background: #fff;
-	}
-
 	.admin-bar .site-header {
 		top: 32px;
 	}
 
-	.header-scroll .site-header,
-	.header-image.header-scroll .site-header {
+	.header-scroll .site-header {
 		background: #fff;
 		padding: 0;
 		box-shadow: 0 0 2rem rgba(0,0,0,0.05);
@@ -1608,8 +1611,7 @@ select.orderby {
 		color: #1a1a1a;
 	}
 
-	.header-scroll .site-header .genesis-nav-menu .menu-item.highlight a,
-	.header-image .site-header .genesis-nav-menu .menu-item.highlight a {
+	.header-scroll .site-header .genesis-nav-menu .menu-item.highlight a {
 		border: 2px solid #1a1a1a;
 		color: #1a1a1a;
 	}
@@ -1648,8 +1650,7 @@ select.orderby {
 		color: #fff;
 	}
 
-	.header-scroll .site-header .genesis-nav-menu a,
-	.header-image .site-header .genesis-nav-menu a {
+	.header-scroll .site-header .genesis-nav-menu a {
 		color: #1a1a1a;
 	}
 

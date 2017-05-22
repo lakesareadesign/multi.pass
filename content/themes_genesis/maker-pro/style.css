@@ -5,7 +5,7 @@
 	Author: JT Grauke
 	Author URI: http://www.jtgrauke.com
 
-	Version: 1.0.0
+	Version: 1.0.1
 
 	Tags: product, maker, green, black, white, one-column, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
 
@@ -144,7 +144,8 @@ li {
 h1,
 h3,
 h4,
-h5 {
+h5,
+.entry-title {
 	margin: 0 0 1.612rem;
 	line-height: 1.2;
 	font-family: "Roboto Condensed";
@@ -224,7 +225,7 @@ code,
 pre {
 	font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 	font-size: 12px;
-	color: #12302e12302e;
+	color: #12302e;
 	border: 1px solid #e1e1e8;
 	background-color: #f7f7f9
 }

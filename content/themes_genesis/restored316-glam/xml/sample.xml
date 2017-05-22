@@ -16,7 +16,7 @@
 <!-- 7. WordPress will then import each of the posts, pages, comments, categories, etc. -->
 <!--    contained in this file into your site. -->
 
-<!-- generator="WordPress/4.6.1" created="2016-11-15 14:55" -->
+<!-- generator="WordPress/4.7.3" created="2017-04-10 17:59" -->
 <rss version="2.0"
 	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -29,7 +29,7 @@
 	<title>Restored 316</title>
 	<link>http://demos.restored316designs.com</link>
 	<description>demo sites</description>
-	<pubDate>Tue, 15 Nov 2016 14:55:59 +0000</pubDate>
+	<pubDate>Mon, 10 Apr 2017 17:59:16 +0000</pubDate>
 	<language>en-US</language>
 	<wp:wxr_version>1.2</wp:wxr_version>
 	<wp:base_site_url>http://demos.restored316designs.com/</wp:base_site_url>
@@ -49,98 +49,150 @@
 		<wp:category_nicename><![CDATA[category-2]]></wp:category_nicename>
 		<wp:category_parent><![CDATA[]]></wp:category_parent>
 		<wp:cat_name><![CDATA[Category #2]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[intro_text]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[doctitle]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[keywords]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[layout]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noindex]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[nofollow]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noarchive]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
 	</wp:category>
 	<wp:category>
 		<wp:term_id>7</wp:term_id>
 		<wp:category_nicename><![CDATA[category-3]]></wp:category_nicename>
 		<wp:category_parent><![CDATA[]]></wp:category_parent>
 		<wp:cat_name><![CDATA[Category #3]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[intro_text]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[doctitle]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[keywords]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[layout]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noindex]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[nofollow]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noarchive]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
 	</wp:category>
 	<wp:category>
 		<wp:term_id>8</wp:term_id>
 		<wp:category_nicename><![CDATA[category-4]]></wp:category_nicename>
 		<wp:category_parent><![CDATA[]]></wp:category_parent>
 		<wp:cat_name><![CDATA[Category #4]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>9</wp:term_id>
-		<wp:category_nicename><![CDATA[category-5]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Category #5]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>10</wp:term_id>
-		<wp:category_nicename><![CDATA[post-formats]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Post Formats]]></wp:cat_name>
-<wp:category_description><![CDATA[A Post Format is a piece of meta information that can be used by a theme to customize its presentation of a post. The Post Formats feature provides a standardized list of formats that are available to all themes that support the feature. ]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>11</wp:term_id>
-		<wp:category_nicename><![CDATA[sub-category-11]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[category-1]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Sub Category 1.1]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>12</wp:term_id>
-		<wp:category_nicename><![CDATA[sub-category-12]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[category-1]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Sub Category 1.2]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>13</wp:term_id>
-		<wp:category_nicename><![CDATA[sub-category-13]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[category-1]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Sub Category 1.3]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>14</wp:term_id>
-		<wp:category_nicename><![CDATA[sub-category-21]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[sub-category-11]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Sub Category 2.1]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>15</wp:term_id>
-		<wp:category_nicename><![CDATA[sub-category-22]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[sub-category-11]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Sub Category 2.2]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>16</wp:term_id>
-		<wp:category_nicename><![CDATA[sub-category-23]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[sub-category-11]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Sub Category 2.3]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>17</wp:term_id>
-		<wp:category_nicename><![CDATA[sub-category-31]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[sub-category-21]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Sub Category 3.1]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>18</wp:term_id>
-		<wp:category_nicename><![CDATA[sub-category-32]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[sub-category-21]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Sub Category 3.2]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
-	</wp:category>
-	<wp:category>
-		<wp:term_id>19</wp:term_id>
-		<wp:category_nicename><![CDATA[sub-category-33]]></wp:category_nicename>
-		<wp:category_parent><![CDATA[sub-category-21]]></wp:category_parent>
-		<wp:cat_name><![CDATA[Sub Category 3.3]]></wp:cat_name>
-<wp:category_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:category_description>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[intro_text]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[doctitle]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[keywords]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[layout]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noindex]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[nofollow]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noarchive]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
 	</wp:category>
 	<wp:category>
 		<wp:term_id>1</wp:term_id>
@@ -230,7 +282,50 @@
 		<wp:term_slug><![CDATA[category-2]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Category #2]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[intro_text]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[doctitle]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[keywords]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[layout]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noindex]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[nofollow]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noarchive]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
 	</wp:term>
 	<wp:term>
 		<wp:term_id><![CDATA[7]]></wp:term_id>
@@ -238,7 +333,50 @@
 		<wp:term_slug><![CDATA[category-3]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Category #3]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[intro_text]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[doctitle]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[keywords]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[layout]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noindex]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[nofollow]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noarchive]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
 	</wp:term>
 	<wp:term>
 		<wp:term_id><![CDATA[8]]></wp:term_id>
@@ -246,15 +384,50 @@
 		<wp:term_slug><![CDATA[category-4]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Category #4]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
-	</wp:term>
-	<wp:term>
-		<wp:term_id><![CDATA[9]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[category-5]]></wp:term_slug>
-		<wp:term_parent><![CDATA[]]></wp:term_parent>
-		<wp:term_name><![CDATA[Category #5]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[intro_text]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[doctitle]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[keywords]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[layout]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noindex]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[nofollow]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noarchive]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
 	</wp:term>
 	<wp:term>
 		<wp:term_id><![CDATA[21]]></wp:term_id>
@@ -297,19 +470,55 @@
 		<wp:term_description><![CDATA[This is an sample tag description, which can be used to boost SEO rankings.  Make sure you enabled this from the Edit Post Tags screen in your dashboard.]]></wp:term_description>
 	</wp:term>
 	<wp:term>
-		<wp:term_id><![CDATA[10]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[post-formats]]></wp:term_slug>
-		<wp:term_parent><![CDATA[]]></wp:term_parent>
-		<wp:term_name><![CDATA[Post Formats]]></wp:term_name>
-		<wp:term_description><![CDATA[A Post Format is a piece of meta information that can be used by a theme to customize its presentation of a post. The Post Formats feature provides a standardized list of formats that are available to all themes that support the feature. ]]></wp:term_description>
-	</wp:term>
-	<wp:term>
 		<wp:term_id><![CDATA[29]]></wp:term_id>
 		<wp:term_taxonomy><![CDATA[nav_menu]]></wp:term_taxonomy>
 		<wp:term_slug><![CDATA[primary-navigation]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Primary Navigation]]></wp:term_name>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[intro_text]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[display_description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[doctitle]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[description]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[keywords]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[layout]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noindex]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[nofollow]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
+		<wp:termmeta>
+			<wp:meta_key><![CDATA[noarchive]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:termmeta>
 	</wp:term>
 	<wp:term>
 		<wp:term_id><![CDATA[30]]></wp:term_id>
@@ -317,78 +526,6 @@
 		<wp:term_slug><![CDATA[secondary-navigation]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Secondary Navigation]]></wp:term_name>
-	</wp:term>
-	<wp:term>
-		<wp:term_id><![CDATA[11]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[sub-category-11]]></wp:term_slug>
-		<wp:term_parent><![CDATA[category-1]]></wp:term_parent>
-		<wp:term_name><![CDATA[Sub Category 1.1]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
-	</wp:term>
-	<wp:term>
-		<wp:term_id><![CDATA[12]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[sub-category-12]]></wp:term_slug>
-		<wp:term_parent><![CDATA[category-1]]></wp:term_parent>
-		<wp:term_name><![CDATA[Sub Category 1.2]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
-	</wp:term>
-	<wp:term>
-		<wp:term_id><![CDATA[13]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[sub-category-13]]></wp:term_slug>
-		<wp:term_parent><![CDATA[category-1]]></wp:term_parent>
-		<wp:term_name><![CDATA[Sub Category 1.3]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
-	</wp:term>
-	<wp:term>
-		<wp:term_id><![CDATA[14]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[sub-category-21]]></wp:term_slug>
-		<wp:term_parent><![CDATA[sub-category-11]]></wp:term_parent>
-		<wp:term_name><![CDATA[Sub Category 2.1]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
-	</wp:term>
-	<wp:term>
-		<wp:term_id><![CDATA[15]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[sub-category-22]]></wp:term_slug>
-		<wp:term_parent><![CDATA[sub-category-11]]></wp:term_parent>
-		<wp:term_name><![CDATA[Sub Category 2.2]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
-	</wp:term>
-	<wp:term>
-		<wp:term_id><![CDATA[16]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[sub-category-23]]></wp:term_slug>
-		<wp:term_parent><![CDATA[sub-category-11]]></wp:term_parent>
-		<wp:term_name><![CDATA[Sub Category 2.3]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
-	</wp:term>
-	<wp:term>
-		<wp:term_id><![CDATA[17]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[sub-category-31]]></wp:term_slug>
-		<wp:term_parent><![CDATA[sub-category-21]]></wp:term_parent>
-		<wp:term_name><![CDATA[Sub Category 3.1]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
-	</wp:term>
-	<wp:term>
-		<wp:term_id><![CDATA[18]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[sub-category-32]]></wp:term_slug>
-		<wp:term_parent><![CDATA[sub-category-21]]></wp:term_parent>
-		<wp:term_name><![CDATA[Sub Category 3.2]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
-	</wp:term>
-	<wp:term>
-		<wp:term_id><![CDATA[19]]></wp:term_id>
-		<wp:term_taxonomy><![CDATA[category]]></wp:term_taxonomy>
-		<wp:term_slug><![CDATA[sub-category-33]]></wp:term_slug>
-		<wp:term_parent><![CDATA[sub-category-21]]></wp:term_parent>
-		<wp:term_name><![CDATA[Sub Category 3.3]]></wp:term_name>
-		<wp:term_description><![CDATA[This is a sample category description, which can be used to boost SEO rankings.  Make sure you have enabled this from the Edit Category screen in your dashboard.]]></wp:term_description>
 	</wp:term>
 	<wp:term>
 		<wp:term_id><![CDATA[26]]></wp:term_id>
@@ -425,7 +562,7 @@
 	<wp:term><wp:term_id>30</wp:term_id><wp:term_taxonomy>nav_menu</wp:term_taxonomy><wp:term_slug><![CDATA[secondary-navigation]]></wp:term_slug><wp:term_name><![CDATA[Secondary Navigation]]></wp:term_name>
 </wp:term>
 
-	<generator>https://wordpress.org/?v=4.6.1</generator>
+	<generator>https://wordpress.org/?v=4.7.3</generator>
 
 	<item>
 		<title></title>
@@ -648,782 +785,6 @@
 		</wp:postmeta>
 	</item>
 	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/72/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:25 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[This is an sample category description, which can be used to boost SEO rankings. Make sure you enabled this from the Edit Category screen in your dashboard.]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>72</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:25]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:25]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[72]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>5</wp:post_parent>
-		<wp:menu_order>3</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="secondary-navigation"><![CDATA[Secondary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[taxonomy]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[69]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[11]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[category]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/73/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:25 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[This is an sample category description, which can be used to boost SEO rankings. Make sure you enabled this from the Edit Category screen in your dashboard.]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>73</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:25]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:25]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[73]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>5</wp:post_parent>
-		<wp:menu_order>10</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="secondary-navigation"><![CDATA[Secondary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[taxonomy]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[69]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[12]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[category]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/74/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:25 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[This is an sample category description, which can be used to boost SEO rankings. Make sure you enabled this from the Edit Category screen in your dashboard.]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>74</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:25]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:25]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[74]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>5</wp:post_parent>
-		<wp:menu_order>11</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="secondary-navigation"><![CDATA[Secondary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[taxonomy]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[69]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[13]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[category]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/75/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:25 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[This is an sample category description, which can be used to boost SEO rankings. Make sure you enabled this from the Edit Category screen in your dashboard.]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>75</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:25]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:25]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[75]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>11</wp:post_parent>
-		<wp:menu_order>4</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="secondary-navigation"><![CDATA[Secondary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[taxonomy]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[72]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[14]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[category]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/76/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:25 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[This is an sample category description, which can be used to boost SEO rankings. Make sure you enabled this from the Edit Category screen in your dashboard.]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>76</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:25]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:25]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[76]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>11</wp:post_parent>
-		<wp:menu_order>8</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="secondary-navigation"><![CDATA[Secondary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[taxonomy]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[72]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[15]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[category]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/77/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:25 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[This is an sample category description, which can be used to boost SEO rankings. Make sure you enabled this from the Edit Category screen in your dashboard.]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>77</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:25]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:25]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[77]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>11</wp:post_parent>
-		<wp:menu_order>9</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="secondary-navigation"><![CDATA[Secondary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[taxonomy]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[72]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[16]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[category]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/79/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[This is an sample category description, which can be used to boost SEO rankings. Make sure you enabled this from the Edit Category screen in your dashboard.]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>79</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[79]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>14</wp:post_parent>
-		<wp:menu_order>5</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="secondary-navigation"><![CDATA[Secondary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[taxonomy]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[75]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[17]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[category]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/80/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[This is an sample category description, which can be used to boost SEO rankings. Make sure you enabled this from the Edit Category screen in your dashboard.]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>80</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[80]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>14</wp:post_parent>
-		<wp:menu_order>6</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="secondary-navigation"><![CDATA[Secondary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[taxonomy]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[75]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[18]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[category]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/81/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[This is an sample category description, which can be used to boost SEO rankings. Make sure you enabled this from the Edit Category screen in your dashboard.]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>81</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[81]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>14</wp:post_parent>
-		<wp:menu_order>7</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="secondary-navigation"><![CDATA[Secondary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[taxonomy]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[75]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[19]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[category]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title>death_to_stock_communicate_hands_3</title>
-		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_3/</link>
-		<pubDate>Tue, 15 Nov 2016 14:49:31 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_3.jpg</guid>
-		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>455</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:49:31]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:31]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[open]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[death_to_stock_communicate_hands_3]]></wp:post_name>
-		<wp:status><![CDATA[inherit]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>0</wp:menu_order>
-		<wp:post_type><![CDATA[attachment]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url><![CDATA[http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_3.jpg]]></wp:attachment_url>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
-			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_3.jpg]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:46:"2016/11/Death_to_stock_communicate_hands_3.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_3-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:3:"4.5";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1437581017";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"50";s:3:"iso";s:4:"2000";s:13:"shutter_speed";s:5:"0.004";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title>death_to_stock_communicate_hands_4</title>
-		<link>http://demos.restored316designs.com/blog/threaded-comments/death_to_stock_communicate_hands_4/</link>
-		<pubDate>Tue, 15 Nov 2016 14:49:33 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_4.jpg</guid>
-		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>456</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:49:33]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:33]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[open]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[death_to_stock_communicate_hands_4]]></wp:post_name>
-		<wp:status><![CDATA[inherit]]></wp:status>
-		<wp:post_parent>454</wp:post_parent>
-		<wp:menu_order>0</wp:menu_order>
-		<wp:post_type><![CDATA[attachment]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url><![CDATA[http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_4.jpg]]></wp:attachment_url>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
-			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_4.jpg]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:46:"2016/11/Death_to_stock_communicate_hands_4.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_4-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:3:"6.3";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1438958911";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:3:"400";s:13:"shutter_speed";s:5:"0.025";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title>death_to_stock_communicate_hands_5</title>
-		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_5/</link>
-		<pubDate>Tue, 15 Nov 2016 14:49:34 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_5.jpg</guid>
-		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>457</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:49:34]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:34]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[open]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[death_to_stock_communicate_hands_5]]></wp:post_name>
-		<wp:status><![CDATA[inherit]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>0</wp:menu_order>
-		<wp:post_type><![CDATA[attachment]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url><![CDATA[http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_5.jpg]]></wp:attachment_url>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
-			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_5.jpg]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:46:"2016/11/Death_to_stock_communicate_hands_5.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_5-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"5";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1438959149";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:3:"200";s:13:"shutter_speed";s:5:"0.025";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title>death_to_stock_communicate_hands_7</title>
-		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_7/</link>
-		<pubDate>Tue, 15 Nov 2016 14:49:35 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_7.jpg</guid>
-		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>458</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:49:35]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:35]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[open]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[death_to_stock_communicate_hands_7]]></wp:post_name>
-		<wp:status><![CDATA[inherit]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>0</wp:menu_order>
-		<wp:post_type><![CDATA[attachment]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url><![CDATA[http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_7.jpg]]></wp:attachment_url>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
-			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_7.jpg]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:46:"2016/11/Death_to_stock_communicate_hands_7.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_7-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:3:"7.1";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1440089482";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:4:"1600";s:13:"shutter_speed";s:6:"0.0125";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title>death_to_stock_communicate_hands_8</title>
-		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_8/</link>
-		<pubDate>Tue, 15 Nov 2016 14:49:36 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_8.jpg</guid>
-		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>459</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:49:36]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:36]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[open]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[death_to_stock_communicate_hands_8]]></wp:post_name>
-		<wp:status><![CDATA[inherit]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>0</wp:menu_order>
-		<wp:post_type><![CDATA[attachment]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url><![CDATA[http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_8.jpg]]></wp:attachment_url>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
-			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_8.jpg]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:46:"2016/11/Death_to_stock_communicate_hands_8.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_8-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"4";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1439225199";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:3:"100";s:13:"shutter_speed";s:15:"0.0166666666667";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title>death_to_stock_communicate_hands_10</title>
-		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_10/</link>
-		<pubDate>Tue, 15 Nov 2016 14:49:38 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_10.jpg</guid>
-		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>460</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:49:38]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:38]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[open]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[death_to_stock_communicate_hands_10]]></wp:post_name>
-		<wp:status><![CDATA[inherit]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>0</wp:menu_order>
-		<wp:post_type><![CDATA[attachment]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url><![CDATA[http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_10.jpg]]></wp:attachment_url>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
-			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_10.jpg]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:47:"2016/11/Death_to_stock_communicate_hands_10.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:48:"Death_to_stock_communicate_hands_10-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:3:"7.1";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1440089280";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:4:"1600";s:13:"shutter_speed";s:15:"0.0166666666667";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title>death_to_stock_communicate_hands_11</title>
-		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_11/</link>
-		<pubDate>Tue, 15 Nov 2016 14:49:39 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_11.jpg</guid>
-		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>461</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:49:39]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:39]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[open]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[death_to_stock_communicate_hands_11]]></wp:post_name>
-		<wp:status><![CDATA[inherit]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>0</wp:menu_order>
-		<wp:post_type><![CDATA[attachment]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url><![CDATA[http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_11.jpg]]></wp:attachment_url>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
-			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_11.jpg]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:47:"2016/11/Death_to_stock_communicate_hands_11.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:48:"Death_to_stock_communicate_hands_11-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:3:"3.5";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1439225876";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:3:"100";s:13:"shutter_speed";s:4:"0.02";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title>Sample Page</title>
-		<link>http://demos.restored316designs.com/sample-page/</link>
-		<pubDate>Wed, 13 Jun 2012 18:43:16 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/?page_id=2</guid>
-		<description></description>
-		<content:encoded><![CDATA[This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:
-
-<blockquote>Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my blog. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)</blockquote>
-
-...or something like this:
-
-<blockquote>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickies to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</blockquote>
-
-As a new WordPress user, you should go to <a href="http://demos.restored316designs.com/wp-admin/">your dashboard</a> to delete this page and create new pages for your content. Have fun!]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>2</wp:post_id>
-		<wp:post_date><![CDATA[2012-06-13 18:43:16]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2012-06-13 18:43:16]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[open]]></wp:comment_status>
-		<wp:ping_status><![CDATA[open]]></wp:ping_status>
-		<wp:post_name><![CDATA[sample-page]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>0</wp:menu_order>
-		<wp:post_type><![CDATA[page]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
-			<wp:meta_value><![CDATA[default]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title>Portfolio</title>
-		<link>http://demos.restored316designs.com/portfolio/</link>
-		<pubDate>Tue, 31 Dec 2013 02:50:20 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/?page_id=4</guid>
-		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>4</wp:post_id>
-		<wp:post_date><![CDATA[2013-12-31 02:50:20]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2013-12-31 02:50:20]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[open]]></wp:comment_status>
-		<wp:ping_status><![CDATA[open]]></wp:ping_status>
-		<wp:post_name><![CDATA[portfolio]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>0</wp:menu_order>
-		<wp:post_type><![CDATA[page]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[1]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
-			<wp:meta_value><![CDATA[default]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
 		<title>About</title>
 		<link>http://demos.restored316designs.com/about/</link>
 		<pubDate>Mon, 07 Dec 2015 17:41:24 +0000</pubDate>
@@ -1494,9 +855,9 @@ Duis iaculis sapien id dolor scelerisque interdum. Mauris interdum risus rutrum 
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
-		<content:encoded><![CDATA[[gravityform id=1 name=ContactForm title=false description=false]
+		<content:encoded><![CDATA[[ninja_form id=1]
 
-* This contact form was developed with a third party plugin called <a href="http://www.studiopress.com/go/gravity">Gravity Forms</a> and is not included in the Genesis Framework. It is for display on this demo site - though we highly recommend using it.]]></content:encoded>
+*This contact form uses the free <a href="https://ninjaforms.com/" target="_blank">Ninja Forms plugin</a> available in the WordPress repository. If you’re looking for a more robust form plugin, we highly recommend <a href="http://www.restored316designs.com/go/gravity" target="_blank">Gravity Forms.</a>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>83</wp:post_id>
 		<wp:post_date><![CDATA[2010-08-15 19:13:33]]></wp:post_date>
@@ -1520,111 +881,535 @@ Duis iaculis sapien id dolor scelerisque interdum. Mauris interdum risus rutrum 
 		</wp:postmeta>
 	</item>
 	<item>
-		<title>Columns</title>
-		<link>http://demos.restored316designs.com/columns/</link>
-		<pubDate>Thu, 03 Feb 2011 18:06:59 +0000</pubDate>
+		<title>Home</title>
+		<link>http://demos.restored316designs.com/blog/home-2/</link>
+		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?page_id=181</guid>
+		<guid isPermaLink="false">http://demos.restored316designs.com/blog/home-2/</guid>
 		<description></description>
-		<content:encoded><![CDATA[Below are examples of column classes that are available in the Genesis Framework style sheet.
-
-<h3>Two-Columns</h3>
-
-<div class="one-half first">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what exactly is on your mind.</p>
-</div>
-
-<div class="one-half">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what exactly is on your mind.</p>
-</div>
-
-<div style="border-bottom:1px solid #ddd;clear:both;margin-bottom: 26px"></div>
-
-<h3>Three-Columns</h3>
-
-<div class="one-third first">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.</p>
-</div>
-
-<div class="one-third">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.</p>
-</div>
-
-<div class="one-third">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.</p>
-</div>
-
-<div style="border-bottom:1px solid #ddd;clear:both;margin-bottom: 26px"></div>
-
-<h3>Four-Columns</h3>
-
-<div class="one-fourth first">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what exactly is on your mind.</p>
-</div>
-
-<div class="one-fourth">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what exactly is on your mind.</p>
-</div>
-
-<div class="one-fourth">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what exactly is on your mind.</p>
-</div>
-
-<div class="one-fourth">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what exactly is on your mind.</p>
-</div>
-
-<div style="border-bottom:1px solid #ddd;clear:both;margin-bottom: 26px"></div>
-
-<h3>Six-Columns</h3>
-
-<div class="one-sixth first">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.</p>
-</div>
-
-<div class="one-sixth">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.</p>
-</div>
-
-<div class="one-sixth">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.</p>
-</div>
-
-<div class="one-sixth">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.</p>
-</div>
-
-<div class="one-sixth">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.</p>
-</div>
-
-<div class="one-sixth">
-<p>This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.</p>
-</div>]]></content:encoded>
+		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>181</wp:post_id>
-		<wp:post_date><![CDATA[2011-02-03 18:06:59]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2011-02-03 18:06:59]]></wp:post_date_gmt>
+		<wp:post_id>449</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[home-2]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>1</wp:menu_order>
+		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="nav_menu" nicename="primary-navigation"><![CDATA[Primary Navigation]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
+			<wp:meta_value><![CDATA[custom]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[449]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
+			<wp:meta_value><![CDATA[custom]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
+			<wp:meta_value><![CDATA[#]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title></title>
+		<link>http://demos.restored316designs.com/blog/450/</link>
+		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
+		<description></description>
+		<content:encoded><![CDATA[ ]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>450</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[450]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>2</wp:menu_order>
+		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="nav_menu" nicename="primary-navigation"><![CDATA[Primary Navigation]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
+			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[78]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title></title>
+		<link>http://demos.restored316designs.com/blog/451/</link>
+		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
+		<description></description>
+		<content:encoded><![CDATA[ ]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>451</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[451]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>3</wp:menu_order>
+		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="nav_menu" nicename="primary-navigation"><![CDATA[Primary Navigation]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
+			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[82]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title></title>
+		<link>http://demos.restored316designs.com/blog/453/</link>
+		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
+		<description></description>
+		<content:encoded><![CDATA[ ]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>453</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[453]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>5</wp:menu_order>
+		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="nav_menu" nicename="primary-navigation"><![CDATA[Primary Navigation]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
+			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[83]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title>death_to_stock_communicate_hands_3</title>
+		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_3/</link>
+		<pubDate>Tue, 15 Nov 2016 14:49:31 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_3.jpg</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>455</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:49:31]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:31]]></wp:post_date_gmt>
 		<wp:comment_status><![CDATA[open]]></wp:comment_status>
 		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[columns]]></wp:post_name>
+		<wp:post_name><![CDATA[death_to_stock_communicate_hands_3]]></wp:post_name>
+		<wp:status><![CDATA[inherit]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[attachment]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:attachment_url><![CDATA[https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_3.jpg]]></wp:attachment_url>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_3.jpg]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:46:"2016/11/Death_to_stock_communicate_hands_3.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_3-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_3-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:3:"4.5";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1437581017";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"50";s:3:"iso";s:4:"2000";s:13:"shutter_speed";s:5:"0.004";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title>death_to_stock_communicate_hands_4</title>
+		<link>http://demos.restored316designs.com/blog/threaded-comments/death_to_stock_communicate_hands_4/</link>
+		<pubDate>Tue, 15 Nov 2016 14:49:33 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_4.jpg</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>456</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:49:33]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:33]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[open]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[death_to_stock_communicate_hands_4]]></wp:post_name>
+		<wp:status><![CDATA[inherit]]></wp:status>
+		<wp:post_parent>454</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[attachment]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:attachment_url><![CDATA[https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_4.jpg]]></wp:attachment_url>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_4.jpg]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:46:"2016/11/Death_to_stock_communicate_hands_4.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_4-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_4-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:3:"6.3";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1438958911";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:3:"400";s:13:"shutter_speed";s:5:"0.025";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title>death_to_stock_communicate_hands_5</title>
+		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_5/</link>
+		<pubDate>Tue, 15 Nov 2016 14:49:34 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_5.jpg</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>457</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:49:34]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:34]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[open]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[death_to_stock_communicate_hands_5]]></wp:post_name>
+		<wp:status><![CDATA[inherit]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[attachment]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:attachment_url><![CDATA[https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_5.jpg]]></wp:attachment_url>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_5.jpg]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:46:"2016/11/Death_to_stock_communicate_hands_5.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_5-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_5-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"5";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1438959149";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:3:"200";s:13:"shutter_speed";s:5:"0.025";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title>death_to_stock_communicate_hands_7</title>
+		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_7/</link>
+		<pubDate>Tue, 15 Nov 2016 14:49:35 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_7.jpg</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>458</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:49:35]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:35]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[open]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[death_to_stock_communicate_hands_7]]></wp:post_name>
+		<wp:status><![CDATA[inherit]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[attachment]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:attachment_url><![CDATA[https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_7.jpg]]></wp:attachment_url>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_7.jpg]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:46:"2016/11/Death_to_stock_communicate_hands_7.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_7-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_7-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:3:"7.1";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1440089482";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:4:"1600";s:13:"shutter_speed";s:6:"0.0125";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title>death_to_stock_communicate_hands_8</title>
+		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_8/</link>
+		<pubDate>Tue, 15 Nov 2016 14:49:36 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_8.jpg</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>459</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:49:36]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:36]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[open]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[death_to_stock_communicate_hands_8]]></wp:post_name>
+		<wp:status><![CDATA[inherit]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[attachment]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:attachment_url><![CDATA[https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_8.jpg]]></wp:attachment_url>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_8.jpg]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:46:"2016/11/Death_to_stock_communicate_hands_8.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_8-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:46:"Death_to_stock_communicate_hands_8-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"4";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1439225199";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:3:"100";s:13:"shutter_speed";s:15:"0.0166666666667";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title>death_to_stock_communicate_hands_10</title>
+		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_10/</link>
+		<pubDate>Tue, 15 Nov 2016 14:49:38 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_10.jpg</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>460</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:49:38]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:38]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[open]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[death_to_stock_communicate_hands_10]]></wp:post_name>
+		<wp:status><![CDATA[inherit]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[attachment]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:attachment_url><![CDATA[https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_10.jpg]]></wp:attachment_url>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_10.jpg]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:47:"2016/11/Death_to_stock_communicate_hands_10.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:48:"Death_to_stock_communicate_hands_10-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_10-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:3:"7.1";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1440089280";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:4:"1600";s:13:"shutter_speed";s:15:"0.0166666666667";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title>death_to_stock_communicate_hands_11</title>
+		<link>http://demos.restored316designs.com/death_to_stock_communicate_hands_11/</link>
+		<pubDate>Tue, 15 Nov 2016 14:49:39 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_11.jpg</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>461</wp:post_id>
+		<wp:post_date><![CDATA[2016-11-15 14:49:39]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2016-11-15 14:49:39]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[open]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[death_to_stock_communicate_hands_11]]></wp:post_name>
+		<wp:status><![CDATA[inherit]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[attachment]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:attachment_url><![CDATA[https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_11.jpg]]></wp:attachment_url>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attached_file]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2016/11/Death_to_stock_communicate_hands_11.jpg]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_attachment_metadata]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:1600;s:6:"height";i:1067;s:4:"file";s:47:"2016/11/Death_to_stock_communicate_hands_11.jpg";s:5:"sizes";a:8:{s:9:"thumbnail";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-300x200.jpg";s:5:"width";i:300;s:6:"height";i:200;s:9:"mime-type";s:10:"image/jpeg";}s:12:"medium_large";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-768x512.jpg";s:5:"width";i:768;s:6:"height";i:512;s:9:"mime-type";s:10:"image/jpeg";}s:5:"large";a:4:{s:4:"file";s:48:"Death_to_stock_communicate_hands_11-1024x683.jpg";s:5:"width";i:1024;s:6:"height";i:683;s:9:"mime-type";s:10:"image/jpeg";}s:18:"square-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-400x400.jpg";s:5:"width";i:400;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:20:"vertical-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-400x600.jpg";s:5:"width";i:400;s:6:"height";i:600;s:9:"mime-type";s:10:"image/jpeg";}s:22:"horizontal-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-600x400.jpg";s:5:"width";i:600;s:6:"height";i:400;s:9:"mime-type";s:10:"image/jpeg";}s:16:"blog-entry-image";a:4:{s:4:"file";s:47:"Death_to_stock_communicate_hands_11-820x500.jpg";s:5:"width";i:820;s:6:"height";i:500;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:3:"3.5";s:6:"credit";s:0:"";s:6:"camera";s:12:"Canon EOS 6D";s:7:"caption";s:0:"";s:17:"created_timestamp";s:10:"1439225876";s:9:"copyright";s:0:"";s:12:"focal_length";s:2:"28";s:3:"iso";s:3:"100";s:13:"shutter_speed";s:4:"0.02";s:5:"title";s:0:"";s:11:"orientation";s:1:"1";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title></title>
+		<link>http://demos.restored316designs.com/blog/nf_sub/468/</link>
+		<pubDate>Fri, 03 Mar 2017 18:11:24 +0000</pubDate>
+		<dc:creator><![CDATA[]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/blog/nf_sub/468/</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>468</wp:post_id>
+		<wp:post_date><![CDATA[2017-03-03 18:11:24]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-03-03 18:11:24]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[468]]></wp:post_name>
 		<wp:status><![CDATA[publish]]></wp:status>
 		<wp:post_parent>0</wp:post_parent>
 		<wp:menu_order>0</wp:menu_order>
-		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_type><![CDATA[nf_sub]]></wp:post_type>
 		<wp:post_password><![CDATA[]]></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
-			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
+			<wp:meta_key><![CDATA[_field_1]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Karen]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_field_2]]></wp:meta_key>
+			<wp:meta_value><![CDATA[knorlock12@gmail.com]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_field_3]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Hi - I am interested to purchase this theme: http://demos.restored316designs.com/charming-pro/
+
+But I have a couple of questions. 
+1- Can I change the header so logo is left justified and menu is right?
+2- Does this theme offer the option to put a slider where the main image is?
+3- What special features do the the other pages offer? Is this a page builder? Can I add parallax and separate sections to all pages?
+
+Thanks in advance!
+Karen]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_form_id]]></wp:meta_key>
 			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
-			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
-			<wp:meta_value><![CDATA[default]]></wp:meta_value>
+			<wp:meta_key><![CDATA[_seq_num]]></wp:meta_key>
+			<wp:meta_value><![CDATA[3]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title></title>
+		<link>http://demos.restored316designs.com/blog/nf_sub/473/</link>
+		<pubDate>Mon, 20 Mar 2017 03:26:30 +0000</pubDate>
+		<dc:creator><![CDATA[]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/blog/nf_sub/473/</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>473</wp:post_id>
+		<wp:post_date><![CDATA[2017-03-20 03:26:30]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-03-20 03:26:30]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[473]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[nf_sub]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_field_1]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Sharon Wunder]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
-			<wp:meta_key><![CDATA[_genesis_layout]]></wp:meta_key>
-			<wp:meta_value><![CDATA[full-width-content]]></wp:meta_value>
+			<wp:meta_key><![CDATA[_field_2]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Info@sharonwunder.com]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_field_3]]></wp:meta_key>
+			<wp:meta_value><![CDATA[What is the best way to migrate from the Style theme to the Tickled Pink theme and the layout shown in demo?  I used 
+"theme tester" widget and it activated the new theme.  I'm wondering if I should redo as it didn't come in exactly as tickled pink demo showed - or should it?
+Especially needing the testimonials design to fix itself and the options of buttons on top image "learn" "shop" to be available.  
+]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_form_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_seq_num]]></wp:meta_key>
+			<wp:meta_value><![CDATA[4]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -1699,17 +1484,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<category domain="category" nicename="category-2"><![CDATA[Category #2]]></category>
 		<category domain="category" nicename="category-3"><![CDATA[Category #3]]></category>
 		<category domain="category" nicename="category-4"><![CDATA[Category #4]]></category>
-		<category domain="category" nicename="category-5"><![CDATA[Category #5]]></category>
 		<category domain="post_tag" nicename="headlines"><![CDATA[Headlines]]></category>
-		<category domain="category" nicename="sub-category-11"><![CDATA[Sub Category 1.1]]></category>
-		<category domain="category" nicename="sub-category-12"><![CDATA[Sub Category 1.2]]></category>
-		<category domain="category" nicename="sub-category-13"><![CDATA[Sub Category 1.3]]></category>
-		<category domain="category" nicename="sub-category-21"><![CDATA[Sub Category 2.1]]></category>
-		<category domain="category" nicename="sub-category-22"><![CDATA[Sub Category 2.2]]></category>
-		<category domain="category" nicename="sub-category-23"><![CDATA[Sub Category 2.3]]></category>
-		<category domain="category" nicename="sub-category-31"><![CDATA[Sub Category 3.1]]></category>
-		<category domain="category" nicename="sub-category-32"><![CDATA[Sub Category 3.2]]></category>
-		<category domain="category" nicename="sub-category-33"><![CDATA[Sub Category 3.3]]></category>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
 			<wp:meta_value><![CDATA[1]]></wp:meta_value>
@@ -1826,7 +1601,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=13</guid>
 		<description></description>
-		<content:encoded><![CDATA[[caption id="" align="aligncenter" width="300" caption="Here's a sample caption with an image centered."]<img alt="Here's a sample caption with a sample image centered." src="http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_11.jpg" width="300" />[/caption]
+		<content:encoded><![CDATA[[caption id="" align="aligncenter" width="300" caption="Here's a sample caption with an image centered."]<img alt="Here's a sample caption with a sample image centered." src="https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_11.jpg" width="300" />[/caption]
 
 This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.
 
@@ -1870,7 +1645,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=16</guid>
 		<description></description>
-		<content:encoded><![CDATA[[caption id="" align="alignright" width="300" caption="Here's a sample caption with an image aligned right."]<img alt="Here's a sample caption with a sample image aligned right." src="http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_10.jpg" width="300" />[/caption]
+		<content:encoded><![CDATA[[caption id="" align="alignright" width="300" caption="Here's a sample caption with an image aligned right."]<img alt="Here's a sample caption with a sample image aligned right." src="https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_10.jpg" width="300" />[/caption]
 
 This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like.
 
@@ -1914,7 +1689,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=18</guid>
 		<description></description>
-		<content:encoded><![CDATA[[caption id="" align="alignleft" width="300"]<img src="http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_3.jpg" alt="Heres a sample caption, with a sample image aligned left." width="300" /> Here's a sample caption with an image aligned left.[/caption]
+		<content:encoded><![CDATA[[caption id="" align="alignleft" width="300"]<img src="https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_3.jpg" alt="Heres a sample caption, with a sample image aligned left." width="300" /> Here's a sample caption with an image aligned left.[/caption]
 
 This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like.
 
@@ -2025,288 +1800,13 @@ This is an example of a WordPress post, you could edit this to put information a
 		</wp:postmeta>
 	</item>
 	<item>
-		<title>Home</title>
-		<link>http://demos.restored316designs.com/blog/home-2/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/home-2/</guid>
-		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>449</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[home-2]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>1</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="primary-navigation"><![CDATA[Primary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[custom]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[0]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[449]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[custom]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[http://sample.r316clients.wpengine.com/]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/450/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[ ]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>450</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[450]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>2</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="primary-navigation"><![CDATA[Primary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[0]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[78]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[page]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/451/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[ ]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>451</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[451]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>3</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="primary-navigation"><![CDATA[Primary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[0]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[82]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[page]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/452/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[ ]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>452</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[452]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>4</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="primary-navigation"><![CDATA[Primary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[0]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[181]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[page]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
-		<title></title>
-		<link>http://demos.restored316designs.com/blog/453/</link>
-		<pubDate>Tue, 15 Nov 2016 14:43:26 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://demos.restored316designs.com/blog/</guid>
-		<description></description>
-		<content:encoded><![CDATA[ ]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>453</wp:post_id>
-		<wp:post_date><![CDATA[2016-11-15 14:43:26]]></wp:post_date>
-		<wp:post_date_gmt><![CDATA[2016-11-15 14:43:26]]></wp:post_date_gmt>
-		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
-		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
-		<wp:post_name><![CDATA[453]]></wp:post_name>
-		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>0</wp:post_parent>
-		<wp:menu_order>5</wp:menu_order>
-		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
-		<wp:post_password><![CDATA[]]></wp:post_password>
-		<wp:is_sticky>0</wp:is_sticky>
-		<category domain="nav_menu" nicename="primary-navigation"><![CDATA[Primary Navigation]]></category>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
-			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
-			<wp:meta_value><![CDATA[0]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
-			<wp:meta_value><![CDATA[83]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
-			<wp:meta_value><![CDATA[page]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta>
-			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[]]></wp:meta_value>
-		</wp:postmeta>
-	</item>
-	<item>
 		<title>Sample Post With Threaded Comments</title>
 		<link>http://demos.restored316designs.com/blog/threaded-comments/</link>
 		<pubDate>Sun, 01 Sep 2013 01:57:18 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=20</guid>
 		<description></description>
-		<content:encoded><![CDATA[<img class="aligncenter size-full wp-image-456" src="http://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_4.jpg" alt="death_to_stock_communicate_hands_4" width="1600" height="1067" />
+		<content:encoded><![CDATA[<img class="aligncenter size-full wp-image-456" src="https://demos.restored316designs.com/wp-content/uploads/2016/11/Death_to_stock_communicate_hands_4.jpg" alt="death_to_stock_communicate_hands_4" width="1600" height="1067" />
 
 This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.
 
@@ -2382,142 +1882,36 @@ This is an example of a WordPress post, you could edit this to put information a
 			<wp:meta_key><![CDATA[_thumbnail_id]]></wp:meta_key>
 			<wp:meta_value><![CDATA[456]]></wp:meta_value>
 		</wp:postmeta>
-		<wp:comment>
-			<wp:comment_id>2</wp:comment_id>
-			<wp:comment_author><![CDATA[Lauren Gaige]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[hello@restored316.com]]></wp:comment_author_email>
-			<wp:comment_author_url>http://www.restored316designs.com</wp:comment_author_url>
-			<wp:comment_author_IP><![CDATA[76.29.60.137]]></wp:comment_author_IP>
-			<wp:comment_date><![CDATA[2013-09-01 19:13:54]]></wp:comment_date>
-			<wp:comment_date_gmt><![CDATA[2013-09-01 19:13:54]]></wp:comment_date_gmt>
-			<wp:comment_content><![CDATA[This is an example of a comment made on a post. You can either edit the comment, delete the comment or reply to the comment. Use this as a place to respond to the post or to share what you are thinking.]]></wp:comment_content>
-			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
-			<wp:comment_type><![CDATA[]]></wp:comment_type>
-			<wp:comment_parent>0</wp:comment_parent>
-			<wp:comment_user_id>1</wp:comment_user_id>
-		</wp:comment>
-		<wp:comment>
-			<wp:comment_id>3</wp:comment_id>
-			<wp:comment_author><![CDATA[Lauren Gaige]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[hello@restored316.com]]></wp:comment_author_email>
-			<wp:comment_author_url>http://www.restored316designs.com</wp:comment_author_url>
-			<wp:comment_author_IP><![CDATA[76.29.60.137]]></wp:comment_author_IP>
-			<wp:comment_date><![CDATA[2013-09-01 19:14:04]]></wp:comment_date>
-			<wp:comment_date_gmt><![CDATA[2013-09-01 19:14:04]]></wp:comment_date_gmt>
-			<wp:comment_content><![CDATA[This is an example of a nested threaded comment which is new in WordPress 2.7. This is where you can reply to a comment that was previously made, and visually makes reading comments to much easier.]]></wp:comment_content>
-			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
-			<wp:comment_type><![CDATA[]]></wp:comment_type>
-			<wp:comment_parent>2</wp:comment_parent>
-			<wp:comment_user_id>1</wp:comment_user_id>
-		</wp:comment>
-		<wp:comment>
-			<wp:comment_id>4</wp:comment_id>
-			<wp:comment_author><![CDATA[Lauren Gaige]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[hello@restored316.com]]></wp:comment_author_email>
-			<wp:comment_author_url>http://www.restored316designs.com</wp:comment_author_url>
-			<wp:comment_author_IP><![CDATA[76.29.60.137]]></wp:comment_author_IP>
-			<wp:comment_date><![CDATA[2013-09-01 19:14:11]]></wp:comment_date>
-			<wp:comment_date_gmt><![CDATA[2013-09-01 19:14:11]]></wp:comment_date_gmt>
-			<wp:comment_content><![CDATA[This is an example of a comment made on a post. You can either edit the comment, delete the comment or reply to the comment. Use this as a place to respond to the post or to share what you are thinking.]]></wp:comment_content>
-			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
-			<wp:comment_type><![CDATA[]]></wp:comment_type>
-			<wp:comment_parent>0</wp:comment_parent>
-			<wp:comment_user_id>1</wp:comment_user_id>
-		</wp:comment>
-		<wp:comment>
-			<wp:comment_id>5</wp:comment_id>
-			<wp:comment_author><![CDATA[Lauren Gaige]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[hello@restored316.com]]></wp:comment_author_email>
-			<wp:comment_author_url>http://www.restored316designs.com</wp:comment_author_url>
-			<wp:comment_author_IP><![CDATA[76.29.60.137]]></wp:comment_author_IP>
-			<wp:comment_date><![CDATA[2013-09-01 19:14:19]]></wp:comment_date>
-			<wp:comment_date_gmt><![CDATA[2013-09-01 19:14:19]]></wp:comment_date_gmt>
-			<wp:comment_content><![CDATA[This is an example of a nested threaded comment which is new in WordPress 2.7. This is where you can reply to a comment that was previously made, and visually makes reading comments to much easier.]]></wp:comment_content>
-			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
-			<wp:comment_type><![CDATA[]]></wp:comment_type>
-			<wp:comment_parent>4</wp:comment_parent>
-			<wp:comment_user_id>1</wp:comment_user_id>
-		</wp:comment>
-		<wp:comment>
-			<wp:comment_id>6</wp:comment_id>
-			<wp:comment_author><![CDATA[Lauren Gaige]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[hello@restored316.com]]></wp:comment_author_email>
-			<wp:comment_author_url>http://www.restored316designs.com</wp:comment_author_url>
-			<wp:comment_author_IP><![CDATA[76.29.60.137]]></wp:comment_author_IP>
-			<wp:comment_date><![CDATA[2013-09-01 19:14:25]]></wp:comment_date>
-			<wp:comment_date_gmt><![CDATA[2013-09-01 19:14:25]]></wp:comment_date_gmt>
-			<wp:comment_content><![CDATA[This is an example of a nested threaded comment which is new in WordPress 2.7. This is where you can reply to a comment that was previously made, and visually makes reading comments to much easier.]]></wp:comment_content>
-			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
-			<wp:comment_type><![CDATA[]]></wp:comment_type>
-			<wp:comment_parent>5</wp:comment_parent>
-			<wp:comment_user_id>1</wp:comment_user_id>
-		</wp:comment>
-		<wp:comment>
-			<wp:comment_id>7</wp:comment_id>
-			<wp:comment_author><![CDATA[Lauren Gaige]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[hello@restored316.com]]></wp:comment_author_email>
-			<wp:comment_author_url>http://www.restored316designs.com</wp:comment_author_url>
-			<wp:comment_author_IP><![CDATA[76.29.60.137]]></wp:comment_author_IP>
-			<wp:comment_date><![CDATA[2013-09-01 19:14:38]]></wp:comment_date>
-			<wp:comment_date_gmt><![CDATA[2013-09-01 19:14:38]]></wp:comment_date_gmt>
-			<wp:comment_content><![CDATA[This is an example of a comment made on a post. You can either edit the comment, delete the comment or reply to the comment. Use this as a place to respond to the post or to share what you are thinking.]]></wp:comment_content>
-			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
-			<wp:comment_type><![CDATA[]]></wp:comment_type>
-			<wp:comment_parent>0</wp:comment_parent>
-			<wp:comment_user_id>1</wp:comment_user_id>
-		</wp:comment>
-		<wp:comment>
-			<wp:comment_id>8</wp:comment_id>
-			<wp:comment_author><![CDATA[This is a Sample Trackback]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[]]></wp:comment_author_email>
-			<wp:comment_author_url>http://demos.restored316designs.com/blog/sample-trackback/</wp:comment_author_url>
-			<wp:comment_author_IP><![CDATA[72.10.51.26]]></wp:comment_author_IP>
-			<wp:comment_date><![CDATA[2013-08-27 00:22:43]]></wp:comment_date>
-			<wp:comment_date_gmt><![CDATA[2013-08-27 00:22:43]]></wp:comment_date_gmt>
-			<wp:comment_content><![CDATA[[&#8230;] have you seen the sample post with threaded comments over at the Genesis Framework demo [&#8230;]]]></wp:comment_content>
-			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
-			<wp:comment_type><![CDATA[pingback]]></wp:comment_type>
-			<wp:comment_parent>0</wp:comment_parent>
-			<wp:comment_user_id>0</wp:comment_user_id>
-			<wp:commentmeta>
-				<wp:meta_key><![CDATA[akismet_result]]></wp:meta_key>
-				<wp:meta_value><![CDATA[false]]></wp:meta_value>
-			</wp:commentmeta>
-			<wp:commentmeta>
-				<wp:meta_key><![CDATA[akismet_history]]></wp:meta_key>
-				<wp:meta_value><![CDATA[a:4:{s:4:"time";d:1372292563.4895150661468505859375;s:7:"message";s:28:"Akismet cleared this comment";s:5:"event";s:9:"check-ham";s:4:"user";s:0:"";}]]></wp:meta_value>
-			</wp:commentmeta>
-			<wp:commentmeta>
-				<wp:meta_key><![CDATA[akismet_history]]></wp:meta_key>
-				<wp:meta_value><![CDATA[a:4:{s:4:"time";d:1372292592.5121190547943115234375;s:7:"message";s:47:"bgardner changed the comment status to approved";s:5:"event";s:15:"status-approved";s:4:"user";s:8:"bgardner";}]]></wp:meta_value>
-			</wp:commentmeta>
-		</wp:comment>
-		<wp:comment>
-			<wp:comment_id>9</wp:comment_id>
-			<wp:comment_author><![CDATA[Check Out This Sample Trackback]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[]]></wp:comment_author_email>
-			<wp:comment_author_url>http://demos.restored316designs.com/sample-trackback-2/</wp:comment_author_url>
-			<wp:comment_author_IP><![CDATA[72.10.51.26]]></wp:comment_author_IP>
-			<wp:comment_date><![CDATA[2013-08-27 00:27:38]]></wp:comment_date>
-			<wp:comment_date_gmt><![CDATA[2013-08-27 00:27:38]]></wp:comment_date_gmt>
-			<wp:comment_content><![CDATA[[&#8230;] another sample post with threaded comments over at the Genesis Framework demo [&#8230;]]]></wp:comment_content>
-			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
-			<wp:comment_type><![CDATA[pingback]]></wp:comment_type>
-			<wp:comment_parent>0</wp:comment_parent>
-			<wp:comment_user_id>0</wp:comment_user_id>
-			<wp:commentmeta>
-				<wp:meta_key><![CDATA[akismet_result]]></wp:meta_key>
-				<wp:meta_value><![CDATA[false]]></wp:meta_value>
-			</wp:commentmeta>
-			<wp:commentmeta>
-				<wp:meta_key><![CDATA[akismet_history]]></wp:meta_key>
-				<wp:meta_value><![CDATA[a:4:{s:4:"time";d:1372292858.5887229442596435546875;s:7:"message";s:28:"Akismet cleared this comment";s:5:"event";s:9:"check-ham";s:4:"user";s:0:"";}]]></wp:meta_value>
-			</wp:commentmeta>
-			<wp:commentmeta>
-				<wp:meta_key><![CDATA[akismet_history]]></wp:meta_key>
-				<wp:meta_value><![CDATA[a:4:{s:4:"time";d:1372292865.2219688892364501953125;s:7:"message";s:47:"bgardner changed the comment status to approved";s:5:"event";s:15:"status-approved";s:4:"user";s:8:"bgardner";}]]></wp:meta_value>
-			</wp:commentmeta>
-		</wp:comment>
+	</item>
+	<item>
+		<title>Category Index</title>
+		<link>http://demos.restored316designs.com/category-index/</link>
+		<pubDate>Mon, 10 Apr 2017 17:56:26 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://demos.restored316designs.com/?page_id=480</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>480</wp:post_id>
+		<wp:post_date><![CDATA[2017-04-10 17:56:26]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-04-10 17:56:26]]></wp:post_date_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[category-index]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page_index.php]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 </channel>
 </rss>

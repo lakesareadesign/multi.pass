@@ -6,16 +6,16 @@ jQuery(function( $ ){
 	});
 
 	// Image Section Height
-	var windowHeight = $( window ).height();
+	/*var windowHeight = $( window ).height();
 
 	$( '.fp1' ) .css({'height': windowHeight +'px'});
-		
+
 	$( window ).resize(function(){
-	
+
 		var windowHeight = $( window ).height();
-	
+
 		$( '.fp1' ) .css({'height': windowHeight +'px'});
-	
-	});
+
+	});*/
 
 });

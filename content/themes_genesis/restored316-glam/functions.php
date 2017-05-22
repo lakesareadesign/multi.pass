@@ -9,8 +9,6 @@
  * @license      GPL-2.0+
  */
 
-//* This theme contains intellectual property owned by Restored 316 LLC, including trademarks, copyrights, proprietary information, and other intellectual property. You may not modify, publish, transmit, participate in the transfer or sale of, create derivative works from, distribute, reproduce or perform, or in any way exploit in any format whatsoever any of this theme or intellectual property, in whole or in part, without our prior written consent. 
-
 //* Start the engine
 require_once( get_template_directory() . '/lib/init.php' );
 
@@ -23,7 +21,7 @@ add_theme_support( 'genesis-responsive-viewport' );
 //* Child theme (do not remove)
 define( 'CHILD_THEME_NAME', 'Glam' );
 define( 'CHILD_THEME_URL', 'http://restored316designs.com' );
-define( 'CHILD_THEME_VERSION', '1.0.0' );
+define( 'CHILD_THEME_VERSION', '1.0.3' );
 
 //* Add Color Selection to WordPress Theme Customizer
 require_once( get_stylesheet_directory() . '/lib/customize.php' );
@@ -33,6 +31,9 @@ include_once( get_stylesheet_directory() . '/lib/theme-defaults.php' );
 
 //* Add Widget Spaces
 require_once( get_stylesheet_directory() . '/lib/widgets.php' );
+
+//* Install Plugins
+require_once( get_stylesheet_directory() . '/lib/plugins/tgm-plugin-activation/register-plugins.php' );
 
 //* Enqueue Responsive Menu, Google fonts, Match Height script, and dashicons
 add_action( 'wp_enqueue_scripts', 'glam_google_fonts' );
@@ -328,3 +329,11 @@ if (!function_exists('loop_columns')) {
 
 //* Display 12 products per page
 add_filter( 'loop_shop_per_page', create_function( '$cols', 'return 12;' ), 20 );
+
+//* Add WooCommerce Gallery Options
+add_action( 'after_setup_theme', 'glam_woo_gallery' );
+function glam_woo_gallery() {
+	add_theme_support( 'wc-product-gallery-zoom' );
+	add_theme_support( 'wc-product-gallery-lightbox' );
+	add_theme_support( 'wc-product-gallery-slider' );
+}

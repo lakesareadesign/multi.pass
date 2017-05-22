@@ -136,3 +136,8 @@ function jessica_dont_update_theme( $r, $url ) {
 	$r['body']['themes'] = serialize( $themes );
 	return $r;
 }
+
+// Enabling product gallery features
+add_theme_support( 'wc-product-gallery-zoom' );
+add_theme_support( 'wc-product-gallery-lightbox' );
+add_theme_support( 'wc-product-gallery-slider' );
