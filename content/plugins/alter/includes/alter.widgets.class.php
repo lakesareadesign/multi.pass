@@ -18,7 +18,7 @@ if (!class_exists('ALTERWIDGETS')) {
         {
             $this->aof_options = parent::alter_get_option_data(ALTER_OPTIONS_SLUG);
             add_action('admin_menu', array($this, 'add_dash_widgets_menu'));
-            add_action('wp_dashboard_setup', array($this, 'initialize_dash_widgets'), 100);
+            add_action('wp_dashboard_setup', array($this, 'initialize_dash_widgets'), 999);
             add_action('wp_dashboard_setup', array($this, 'manage_dash_widgets'), 9999);
             add_action('wp_dashboard_setup', array($this, 'create_widgets_meta'), 999);
             add_action('plugins_loaded',array($this, 'save_custom_widgets'));
@@ -27,20 +27,43 @@ if (!class_exists('ALTERWIDGETS')) {
         public function initialize_dash_widgets() {
             global $wp_meta_boxes;
 
+            // $alter_widgets_list = $wp_meta_boxes['dashboard'];
+            // $alter_the_Widgets = array();
+            // if (!is_array($alter_widgets_list['normal']['core'])) {
+            //     $alter_widgets_list = array('normal'=>array('core'=>array()), 'side'=>array('core'=>array()));
+            // }
+            // foreach ($alter_widgets_list['normal']['core'] as $key=>$data) {
+            //     $key = $key . "|normal";
+            //     $widget_title = preg_replace("/Configure/", "", strip_tags($data['title']));
+            //     $alter_the_Widgets[] = array($key, $widget_title);
+            // }
+            // foreach ($alter_widgets_list['side']['core'] as $key=>$data) {
+            //     $key = $key . "|side";
+            //     $widget_title = preg_replace("/Configure/", "", strip_tags($data['title']));
+            //     $alter_the_Widgets[] = array($key, $widget_title);
+            // }
+
+            $context = array("normal","side","advanced");
+            $priority =array("high","low","default","core");
+
             $alter_widgets_list = $wp_meta_boxes['dashboard'];
             $alter_the_Widgets = array();
             if (!is_array($alter_widgets_list['normal']['core'])) {
-                $alter_widgets_list = array('normal'=>array('core'=>array()), 'side'=>array('core'=>array()));
+                $alter_widgets_list = array('normal'=>array('core'=>array()), 'side'=>array('core'=>array()),'advanced'=>array('core'=>array()));
             }
-            foreach ($alter_widgets_list['normal']['core'] as $key=>$data) {
-                $key = $key . "|normal";
-                $widget_title = preg_replace("/Configure/", "", strip_tags($data['title']));
-                $alter_the_Widgets[] = array($key, $widget_title);
-            }
-            foreach ($alter_widgets_list['side']['core'] as $key=>$data) {
-                $key = $key . "|side";
-                $widget_title = preg_replace("/Configure/", "", strip_tags($data['title']));
-                $alter_the_Widgets[] = array($key, $widget_title);
+            foreach ($context as $context_value)
+            {
+                foreach ($priority as $priority_value)
+                {
+                    if(isset($alter_widgets_list[$context_value][$priority_value]) && is_array($alter_widgets_list[$context_value][$priority_value]))
+                    {
+                        foreach ($alter_widgets_list[$context_value][$priority_value] as $key=>$data) {
+                            $key = $key . "|".$context_value;
+                            $widget_title = preg_replace("/Configure/", "", strip_tags($data['title']));
+                            $alter_the_Widgets[] = array($key, $widget_title);
+                        }
+                    }
+                }
             }
 
             parent::updateOption(ALTER_WIDGETS_LISTS_SLUG, $alter_the_Widgets);
@@ -56,6 +79,21 @@ if (!class_exists('ALTERWIDGETS')) {
             $remove_dash_widgets = (is_serialized($dash_widgets_removal_data)) ? unserialize($dash_widgets_removal_data) : $dash_widgets_removal_data;
 
             //Removing unwanted widgets
+            // if(!empty($remove_dash_widgets) && is_array($remove_dash_widgets)) {
+            //     foreach ($remove_dash_widgets as $widget_to_rm) {
+            //         if($widget_to_rm == "welcome_panel") {
+            //             remove_action('welcome_panel', 'wp_welcome_panel');
+            //         }
+            //         else {
+            //             $widget_data = explode("|", $widget_to_rm);
+            //             $widget_id = $widget_data[0];
+            //             $widget_pos = $widget_data[1];
+            //             unset($wp_meta_boxes['dashboard'][$widget_pos]['core'][$widget_id]);
+            //         }
+            //     }
+            // }
+
+            //Removing unwanted widgets
             if(!empty($remove_dash_widgets) && is_array($remove_dash_widgets)) {
                 foreach ($remove_dash_widgets as $widget_to_rm) {
                     if($widget_to_rm == "welcome_panel") {
@@ -64,11 +102,22 @@ if (!class_exists('ALTERWIDGETS')) {
                     else {
                         $widget_data = explode("|", $widget_to_rm);
                         $widget_id = $widget_data[0];
-                        $widget_pos = $widget_data[1];
-                        unset($wp_meta_boxes['dashboard'][$widget_pos]['core'][$widget_id]);
+                        $context = array("high","low","default","core");
+                        $priority = array("normal","side","advanced");
+                        foreach ($context as $context_value)
+                        {
+                            foreach ($priority as $priority_value)
+                            {
+                                if(isset($wp_meta_boxes['dashboard'][$priority_value][$context_value][$widget_id]) && is_array($wp_meta_boxes['dashboard'][$priority_value][$context_value][$widget_id]))
+                                {
+                                    unset($wp_meta_boxes['dashboard'][$priority_value][$context_value][$widget_id]);
+                                }
+                            }
+                        }
                     }
                 }
             }
+
         }
 
         function add_dash_widgets_menu() {

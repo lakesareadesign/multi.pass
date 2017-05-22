@@ -49,6 +49,20 @@ function get_aof_options() {
   //get all admin users method rewritten
   */
   $admin_users_array = (is_serialized(get_option(ALTER_ADMIN_USERS_SLUG))) ? unserialize(get_option(ALTER_ADMIN_USERS_SLUG)) : get_option(ALTER_ADMIN_USERS_SLUG);
+  if(empty($admin_users_array) || !is_array($admin_users_array)) {
+    $admin_users_array = "";
+    $admin_user_query = new WP_User_Query( array( 'meta_key' => 'wp_user_level', 'meta_value' => '10' ) );
+    $admin_users_list = $admin_user_query->get_results();
+    foreach ($admin_users_list as $admin_data) {
+      if(!empty($admin_data->data->display_name)) {
+        $user_display_name = $admin_data->data->display_name;
+      }
+      else {
+        $user_display_name = $admin_data->data->user_login;
+      }
+      $admin_users_array[$admin_data->ID] = $user_display_name;
+    }
+  }
 
   $blog_email = get_option('admin_email');
   $blog_from_name = get_option('blogname');
@@ -357,7 +371,7 @@ function get_aof_options() {
       'name' => __( 'Logo background color', 'alter' ),
       'id' => 'login_logo_bg_color',
       'type' => 'wpcolor',
-      'default' => '#bf903f',
+      'default' => '#211723',
       );
 
   $panel_fields[] = array(
@@ -438,7 +452,7 @@ function get_aof_options() {
       'name' => __( 'Form inputs placeholder text color', 'alter' ),
       'id' => 'login_inputs_plholder_color',
       'type' => 'wpcolor',
-      'default' => '#5f6f82',
+      'default' => '#5a8b93',
       );
 
   $panel_fields[] = array(

@@ -30,12 +30,12 @@ function ultra_logo($rettype = ""){
         $logo = $logo_folded = "";
 
         //echo $csstype;
-        if($csstype != "custom"){
+        /*if($csstype != "custom"){
                 global $ultra_color;
 
                 $logo = str_replace("PLUGINURL",plugins_url('/', __FILE__).'..',$ultra_color[$csstype]['logo']['url']);
                 $logo_folded = str_replace("PLUGINURL",plugins_url('/', __FILE__).'..',$ultra_color[$csstype]['logo_folded']['url']);
-        }
+        }*/
 
         if($logo == ""){if(isset($ultraadmin['logo']['url'])){ $logo = trim($ultraadmin['logo']['url']); }}
         if($logo_folded == ""){if(isset($ultraadmin['logo_folded']['url'])){ $logo_folded = trim($ultraadmin['logo_folded']['url']); }}

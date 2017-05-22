@@ -3901,6 +3901,13 @@ As suggested by "anthonyparsons" on envato
 	text-align: center;
 }
 
+/*---------- divi theme ----------*/
+.et-pb-controls a:nth-child(3), .et-pb-controls a:nth-child(1){
+	font-size: 25px !important;
+}
+
+
+
 /* -------------------------------------------
 	default theme added in core css file 
 	Generated Dynamically

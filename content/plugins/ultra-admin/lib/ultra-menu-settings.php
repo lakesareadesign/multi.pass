@@ -12,10 +12,47 @@ function ultra_menumng_settings_page(){
 
 	if(!is_array($ultramenu) || sizeof($ultramenu) == 0){
 		$ultramenu = $menu;
+
+		$renameultramenu = ultra_rename_menu();
+		$ultramenu = $renameultramenu;
+		//ultraprint("rename menu",$menu);
+		//return $menu;
+
+		$neworder = ultra_adminmenu_neworder();
+		//ultraprint("neworder",$neworder);
+
+		$ultramenu = ultra_adminmenu_newmenu($neworder,$ultramenu);
+
+
+		//$ultramenu = ultra_adminmenu_disable($ultramenu);
+
+		$GLOBALS['ultramenu'] = $ultramenu;
+
 	}
 
 	if(!is_array($ultrasubmenu) || sizeof($ultrasubmenu) == 0){
 		$ultrasubmenu = $submenu;
+		
+		$renameultrasubmenu = ultra_rename_submenu();
+		$ultrasubmenu = $renameultrasubmenu;
+		//ultraprint('submenu',$submenu);
+
+		//return $submenu;
+
+
+		$newsuborder = ultra_adminmenu_neworder();
+		//echo "<pre>"; print_r($newsuborder); echo "</pre>";
+
+		//return $submenu;
+
+		$ultrasubmeu = ultra_adminmenu_newsubmenu($newsuborder,$ultrasubmenu,$ultramenu);
+
+
+		//return $submenu;
+
+		$GLOBALS['ultrasubmenu'] = $ultrasubmenu;
+
+
 	}
 
 	//ultraprint('menu',$menu);
@@ -267,8 +304,13 @@ function ultra_adminmenu_rearrange() {
 
 	global $menu;
 	global $submenu;
+	//global $ultramenu;
+
+	//$originalmenu = $menu;
 
 if($enablemenumng){
+
+	//echo "|"; ultraprint("ultramenu",$ultramenu); echo "|";
 
 	//ultraprint("menu",$menu);
 //	echo "hihihihi";
@@ -518,14 +560,22 @@ function ultra_admin_submenu_rearrange()
 }
 
 
-
+function ultra_rename_menu_getnewID($menuarr, $field, $value)
+{
+   foreach($menuarr as $key => $product)
+   {
+      if ( $product[$field] === $value )
+         return $key;
+   }
+   return false;
+}
 
 function ultra_rename_menu(){
 	global $menu;
 
 		$menurename = ultra_get_option("ultraadmin_menurename","");
-
-	//ultraprint("menu",$menu);
+	//echo $menurename;
+//	ultraprint("menu",$menu);
 
 	if(trim($menurename) != ""){
 
@@ -550,6 +600,9 @@ function ultra_rename_menu(){
 					$id = $expid[0];
 					$sid = $expid[1];
 				}
+
+				// get new id
+				$id = ultra_rename_menu_getnewID($menu, "5", $sid);
 
 				if(isset($menu[$id][0]) && isset($menu[$id][5]) && $menu[$id][5] == $sid){
 					$original = $menu[$id][0];
@@ -576,7 +629,10 @@ function ultra_rename_menu(){
 function ultra_rename_submenu(){
 
 	global $submenu;
-		$submenurename = ultra_get_option("ultraadmin_submenurename","");
+	$submenurename = ultra_get_option("ultraadmin_submenurename","");
+	
+	//echo $submenurename;
+	//ultraprint("submenu",$submenu);
 
 	if(trim($submenurename) != ""){
 
@@ -590,7 +646,7 @@ function ultra_rename_submenu(){
 			$idexp = explode("[($&)]", $idstr);
 			if(isset($idexp[0])){ $page = $idexp[0]; }
 			if(isset($idexp[1])){ $idexp2 = explode(":",$idexp[1]); }
-			if(isset($idex2[0])){ $parentid = $idexp2[0]; }
+			if(isset($idexp2[0])){ $parentid = $idexp2[0]; }
 			if(isset($idexp2[1])){ $id = $idexp2[1]; }
 			if(isset($arr[1])){ $val = $arr[1]; }
 

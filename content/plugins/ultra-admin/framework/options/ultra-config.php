@@ -82,7 +82,7 @@
         // This is where your data is stored in the database and also becomes your global variable name.
         'display_name'         => 'Ultra Admin',
         // Name that appears at the top of your panel
-        'display_version'      => '7.1',
+        'display_version'      => '7.2',
         // Version that appears at the top of your panel
         'menu_type'            => $menu_type,
         //Specify if the admin menu should appear or not. Options: menu or submenu (Under appearance only)
@@ -1245,7 +1245,7 @@
                         'type' => 'media',
                         'url' => true,
                         'readonly' => false,
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                        //'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Logo', 'ultra_framework'),
                         'subtitle' => __('Upload your own logo of 230px (width) * 69px (height)', 'ultra_framework'),
                         'default' => array('url' => $modbaseurl."images/logo.png")
@@ -1255,7 +1255,7 @@
                         'type' => 'media',
                         'url' => true,
                         'readonly' => false,
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                        //'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Collapsed Menu Logo', 'ultra_framework'),
                         'subtitle' => __('Upload your own logo of 46px (width) * 69px (height)', 'ultra_framework'),
                         'default' => array('url' => $modbaseurl."images/logo-folded.png")

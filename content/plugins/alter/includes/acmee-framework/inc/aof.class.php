@@ -173,13 +173,14 @@ if (!class_exists('AcmeeFramework')) {
             ?>
 <div id="enter_license">
     <?php
-    if(isset($_GET['status']) && $_GET['status'] == 'license_fail') {
-                echo '<div class="notice error">';
-                echo __('Invalid Purchase code! Or the envato server may be down. ', 'alter');
-                echo __('Or your server may not support wordpress remote get method. Please open a support ticket at ', 'alter');
-                echo '<a href="http://acmeedesign.com/support">http://acmeedesign.com/support</a>';
-                echo '</div>';
-            }
+    if(function_exists('curl_init')) {
+      if(isset($_GET['status']) && $_GET['status'] == 'license_fail') {
+          echo '<div class="notice error">';
+          echo __('Invalid Purchase code! Or the envato server may be down. ', 'alter');
+          echo __('Or your server may not support wordpress remote get method. Please open a support ticket at ', 'alter');
+          echo '<a href="http://acmeedesign.com/support">http://acmeedesign.com/support</a>';
+          echo '</div>';
+      }
      ?>
         <h2><?php echo __('Enter Purchase Code', 'alter'); ?></h2>
         <form name="enter_license" method="post" action="<?php echo admin_url( 'admin.php?page=' . ALTER_MENU_SLUG ); ?>">
@@ -190,7 +191,16 @@ if (!class_exists('AcmeeFramework')) {
         <br />
         <a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-" target="_blank">How to find your purchase code?</a>
         <?php
-
+      }
+      else {
+        echo '<div class="notice error" style="padding:10px"><strong>';
+        echo __('Notice: cURL module is not installed on your server. In order to activate your license, you need to install and activate cURL module on your
+        server. For more information please visit', 'alter');
+        echo' <a href="http://php.net/manual/en/curl.requirements.php">';
+        echo __('How to Install cURL?', 'alter');
+        echo '</a>';
+        echo '</strong></div>';
+      }
         ?>
 </div>
     <?php
@@ -219,7 +229,7 @@ if (!class_exists('AcmeeFramework')) {
                     if($item_id == $this->product_code) {
                       $purchase_data = array($buyer, $item_id, $license_type, $code);
                       update_option( $this->aof_purchase_data, $purchase_data );
-                      wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&status=license_success' ) );
+                      wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_ABOUT_SLUG . '&status=license_success' ) );
                       exit();
                     }
                     else {

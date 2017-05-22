@@ -20,8 +20,8 @@ if (!class_exists('ALTERADMINMENU')) {
             add_action( 'admin_enqueue_scripts', array($this, 'load_menu_assets'), 999 );
             add_action('plugins_loaded', array($this, 'save_menu_data'));
             if(empty($this->aof_options['disable_menu_customize']) && $this->aof_options['disable_menu_customize'] != 1) {
-              add_filter('custom_menu_order', array($this, 'alter_reorder_menu'));
-              add_filter('menu_order', array($this, 'alter_reorder_menu'));
+              add_filter('custom_menu_order', array($this, 'alter_reorder_menu'), 999);
+              add_filter('menu_order', array($this, 'alter_reorder_menu'), 999);
             }
             add_action('admin_head', array($this, 'alterMenucss'), 998);
         }
@@ -317,10 +317,20 @@ if (!class_exists('ALTERADMINMENU')) {
                     //temporory fix for remove vc menu
                     if($top_level_menu_slug == "vcwelcome") { //if top menu slug is vcwelcome, definitely it's not an admin user
                       $if_vc_general_hidden = isset($this->aof_options['custom_admin_menu']['top_level_menu']['vcgeneral']['hide_for']) ?
-                              $this->aof_options['custom_admin_menu']['top_level_menu']['vcgeneral']['hide_for'] : "";
-                              if(!empty($if_vc_general_hidden) && is_array($if_vc_general_hidden) && array_key_exists($current_user_role, $if_vc_general_hidden)) {
-                                unset($menu[$menu_key]);
-                              }
+                          $this->aof_options['custom_admin_menu']['top_level_menu']['vcgeneral']['hide_for'] : "";
+                          if(!empty($if_vc_general_hidden) && is_array($if_vc_general_hidden) && array_key_exists($current_user_role, $if_vc_general_hidden)) {
+                            unset($menu[$menu_key]);
+                          }
+
+                    }
+
+                    //temporory fix for remove profile.php
+                    if($top_level_menu_slug == "profilephp") { //if top menu slug is profilephp, definitely it's not an admin user
+                      $if_profile_hidden = isset($this->aof_options['custom_admin_menu']['sub_level_menu']['profilephp']['hide_for']) ?
+                          $this->aof_options['custom_admin_menu']['sub_level_menu']['profilephp']['hide_for'] : "";
+                          if(!empty($if_profile_hidden) && is_array($if_profile_hidden) && array_key_exists($current_user_role, $if_profile_hidden)) {
+                            unset($menu[$menu_key]);
+                          }
 
                     }
 
@@ -349,6 +359,12 @@ if (!class_exists('ALTERADMINMENU')) {
                                     if(is_multisite() && !is_super_admin()) {
                                         if(!empty($hide_for_roles_for_sub) && is_array($hide_for_roles_for_sub) && array_key_exists($current_user_role, $hide_for_roles_for_sub)) {
                                             unset($submenu[$menu_value[2]][$submenu_key]);
+                                        }
+                                    }
+                                    elseif(is_super_admin($current_user_id)) {
+                                        if(!empty($alter_menu_access) && $alter_menu_access == 2 && !empty($alter_privilege_users) && !in_array($current_user_id, $alter_privilege_users)
+                                        && !empty($hide_for_roles_for_sub) && is_array($hide_for_roles_for_sub) && array_key_exists($current_user_role, $hide_for_roles_for_sub)) {
+                                          unset($submenu[$menu_value[2]][$submenu_key]);
                                         }
                                     }
                                     else {

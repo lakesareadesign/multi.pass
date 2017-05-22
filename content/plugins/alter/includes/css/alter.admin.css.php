@@ -90,8 +90,10 @@ if(!empty($admin_logo_url)){ ?>
   <?php } ?>
 #adminmenuback, #adminmenuwrap, #adminmenu { background: <?php echo $this->aof_options['nav_wrap_color']; ?>;}
 #adminmenu div.wp-menu-image:before, #adminmenu a, #adminmenu .wp-submenu a, #collapse-menu, #collapse-button div:after { color: <?php echo $this->aof_options['nav_text_color']; ?>; }
-#adminmenu li.menu-top:hover, #adminmenu li.menu-top a:hover, #adminmenu li.opensub>a.menu-top, #adminmenu li>a.menu-top:focus { background: <?php echo $this->aof_options['hover_menu_color']; ?>; color: <?php echo $this->aof_options['menu_hover_text_color']; ?>;}
-
+#adminmenu li.menu-top:hover, #adminmenu li.menu-top:focus, #adminmenu li.menu-top a:hover, #adminmenu li.menu-top a:focus,
+#adminmenu li.opensub>a.menu-top, #adminmenu li>a.menu-top:focus {
+  background: <?php echo $this->aof_options['hover_menu_color']; ?>; color: <?php echo $this->aof_options['menu_hover_text_color']; ?>;
+}
 #adminmenu li a:focus div.wp-menu-image:before, #adminmenu li.opensub div.wp-menu-image:before, #adminmenu li:hover div.wp-menu-image:before,
 #adminmenu .opensub .wp-submenu li.current a, #adminmenu .wp-submenu li.current, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a {color: <?php echo $this->aof_options['menu_hover_text_color']; ?>;}
 #adminmenu .wp-submenu li.current a {color: <?php echo $this->aof_options['submenu_active_text_color']; ?>;}

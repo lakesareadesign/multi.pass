@@ -45,15 +45,15 @@ if (!class_exists('ALTER')) {
 	    add_filter('login_headertitle', array($this, 'alter_login_title'));
 	    add_action('admin_head', array($this, 'generalFns'));
 
-	    add_action( 'admin_bar_menu', array($this, 'update_avatar_size'), 99 );
+	    add_action('admin_bar_menu', array($this, 'update_avatar_size'), 99 );
 	    add_action('plugins_loaded',array($this, 'save_change_texts'));
       add_action('alter_data_saved',array($this, 'get_admin_users'));
       add_action('aof_save_data', array($this, 'save_additional_data'));
 	    add_action('login_footer', array($this, 'login_footer_content'));
 
 	    add_action('wp_head', array($this, 'frontendActions'), 99999);
-      add_action( 'activated_plugin', array($this, 'alter_activated' ));
-      add_action( 'aof_before_heading', array($this, 'alter_welcome_msg'));
+      add_action('activated_plugin', array($this, 'alter_activated' ));
+      add_action('aof_before_heading', array($this, 'alter_welcome_msg'));
 
    }
 
@@ -68,7 +68,7 @@ if (!class_exists('ALTER')) {
 
   function alter_welcome_msg() {
      if(isset($_GET['status']) && $_GET['status'] == "alter-activated") {
-         echo '<h1 style="line-height: 1.2em;font-size: 2.8em;font-weight: 400;">' . __('Welcome to ', 'alter') . 'Alter' . ALTER_VERSION . '</h1>';
+         echo '<h1 style="line-height: 1.2em;font-size: 2.8em;font-weight: 400;">' . __('Welcome to ', 'alter') . 'Alter ' . ALTER_VERSION . '</h1>';
          echo '<div class="alter_kb_link"><a target="_blank" href="http://kb.acmeedesign.com/kbase_categories/alter-white-label-wordpress-plugin/">';
          echo __('Visit Knowledgebase', 'alter');
          echo '</a></div>';
@@ -114,21 +114,21 @@ if (!class_exists('ALTER')) {
 
 	public function initFunctionss(){
       if($this->aof_options['disable_auto_updates'] == 1)
-              add_filter( 'automatic_updater_disabled', '__return_true' );
+        add_filter( 'automatic_updater_disabled', '__return_true' );
 
       if($this->aof_options['disable_update_emails'] == 1)
-              add_filter( 'auto_core_update_send_email', '__return_false' );
+        add_filter( 'auto_core_update_send_email', '__return_false' );
 
       if($this->aof_options['email_settings'] != 3) {
-              add_filter( 'wp_mail_from', array($this, 'custom_email_addr') );
-              add_filter( 'wp_mail_from_name', array($this, 'custom_email_name') );
+        add_filter( 'wp_mail_from', array($this, 'custom_email_addr') );
+        add_filter( 'wp_mail_from_name', array($this, 'custom_email_name') );
       }
 
       if($this->aof_options['hide_profile_color_picker'] == 1) {
-              remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
+        remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
       }
       register_nav_menus(array(
-              'alter_add_adminbar_menu' => 'Adminbar Menu'
+        'alter_add_adminbar_menu' => 'Adminbar Menu'
       ));
       add_filter('gettext', array($this, 'change_admin_texts'), 99999, 3);
 	}
@@ -162,7 +162,8 @@ if (!class_exists('ALTER')) {
     wp_enqueue_script('jquery');
     wp_enqueue_script( 'jquery-ui-sortable' );
 
-    if($nowpage == 'alter_page_alter_add_dash_widgets' || $nowpage == 'alter_page_alter_change_text' || $nowpage == 'alter_page_alter_redirect_users' || $nowpage == 'alter_page_admin_menu_management') {
+    if($nowpage == 'alter_page_alter_add_dash_widgets' || $nowpage == 'alter_page_alter_change_text'
+    || $nowpage == 'alter_page_alter_redirect_users' || $nowpage == 'alter_page_admin_menu_management') {
       wp_enqueue_script( 'alter-repeater', ALTER_DIR_URI . 'assets/js/jquery.repeater.js', array( 'jquery' ), '', true );
       wp_enqueue_script( 'alter-scriptjs', ALTER_DIR_URI . 'assets/js/script.js', array( 'jquery' ), '', true );
       wp_enqueue_script( 'alter-sortjs', ALTER_DIR_URI . 'assets/js/sortjs.js', array( 'jquery' ), '', true );
@@ -243,7 +244,7 @@ if (!class_exists('ALTER')) {
 
 	function custom_email_name($name){
       if($this->aof_options['email_settings'] == 1)
-              return get_option('blogname');
+        return get_option('blogname');
       else return $this->aof_options['email_from_name'];
 	}
 
@@ -606,10 +607,13 @@ if (!class_exists('ALTER')) {
     $adminbar_nodes = array();
     foreach( $all_nodes as $node )
     {
-        if( !$node->parent || 'top-secondary' == $node->parent )
-        {
-            $adminbar_nodes[$node->id] = $node->id;
-        }
+      if(!empty($node->parent)) {
+        $node_data = $node->id . " <strong>(Parent: " . $node->parent . ")</strong>";
+      }
+      else {
+        $node_data = $node->id;
+      }
+      $adminbar_nodes[$node->id] = $node_data;
     }
     $this->updateOption(ALTER_ADMINBAR_LISTS_SLUG,$adminbar_nodes);
   }
@@ -655,15 +659,28 @@ if (!class_exists('ALTER')) {
 
   function get_admin_users() {
     if(isset($_POST) && isset($_POST['aof_options_save'])) {
-      $admin_users = "";
-      $user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
-      if(isset($user_query) && !empty($user_query)) {
-          if ( ! empty( $user_query->results ) ) {
-              foreach ( $user_query->results as $user_detail ) {
-                  $admin_users[$user_detail->ID] = $user_detail->display_name;
-              }
-          }
+      $admin_users = array();
+      $admin_user_query = new WP_User_Query( array( 'meta_key' => 'wp_user_level', 'meta_value' => '10' ) );
+      $admin_users_list = $admin_user_query->get_results();
+      foreach ($admin_users_list as $admin_data) {
+        if(!empty($admin_data->data->display_name)) {
+          $user_display_name = $admin_data->data->display_name;
+        }
+        else {
+          $user_display_name = $admin_data->data->user_login;
+        }
+        $admin_users[$admin_data->ID] = $user_display_name;
       }
+
+      // $user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
+      // if(isset($user_query) && !empty($user_query)) {
+      //     if ( ! empty( $user_query->results ) ) {
+      //         foreach ( $user_query->results as $user_detail ) {
+      //             $admin_users[$user_detail->ID] = $user_detail->display_name;
+      //         }
+      //     }
+      // }
+
       if(!empty($admin_users)) {
         update_option(ALTER_ADMIN_USERS_SLUG, $admin_users);
       }

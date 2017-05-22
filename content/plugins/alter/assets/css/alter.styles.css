@@ -42,9 +42,11 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
 #adminmenu li.wp-has-submenu.wp-not-current-submenu:hover:after {
         top: 14px;
 }
-
+#adminmenu .wp-submenu {
+  padding: 0;
+}
 #adminmenu .wp-has-current-submenu ul>li>a, .folded #adminmenu li.menu-top .wp-submenu>li>a, #adminmenu .wp-submenu a {
-        padding: 10px 20px;
+  padding: 15px 20px;
 }
 #adminmenu .wp-not-current-submenu li>a, .folded #adminmenu .wp-has-current-submenu li>a {
         padding-left: 20px;
@@ -66,12 +68,26 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
 .wp-admin embed, .wp-admin iframe, .wp-admin object, .wp-admin video {max-width: 100% !important; max-height: 100% !important; vertical-align: middle}
 .redirect_users_to div.custom_url {display: none;}
 div.updated {margin-left:0;}
+
+/* Clears shit */
+.clearfix:before,
+.clearfix:after {
+    clear: both;
+    content: " ";
+    display: table;
+}
+.left {
+  float: left;
+}
+.col-6 {
+  width: 50%;
+}
 /* jQuery Sortable */
 body.dragging, body.dragging * {
   cursor: move !important;
 }
 div.manage_admin_menu_sorter {
-    width: 600px;
+    width: 700px;
 }
 div.manage_admin_menu_sorter:after {
         content: "";
@@ -223,7 +239,8 @@ div.alter_kb_link a {
     text-decoration: none;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    border-radius: 3px
+    border-radius: 3px;
+    margin-right: 10px;
 }
 
 @media only screen and (min-width:782px) and (max-width: 960px) {
@@ -285,7 +302,7 @@ div.alter_kb_link a {
 
 .alter-wrap {
     background: #fff;
-    padding: 15px;
+    padding: 25px;
 }
 
 .alter-wrap #alt-repeater input[type="text"], .alter-wrap #alt-repeater textarea {
@@ -310,6 +327,10 @@ div.alter_kb_link a {
 
 .alter-wrap .save {
     margin-top: 20px;
+}
+
+.alter-wrap p.plugin_desc {
+  font-size: 17px;
 }
 
 .alter_themes .color_box {
