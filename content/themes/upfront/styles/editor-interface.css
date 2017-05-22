@@ -6695,6 +6695,10 @@ span.upfront-settings-item-title:after {
   right: 0;
   z-index: 10001004; }
 
+/* Resolve fixed region CSS editor z-index issues */
+.upfront-modal-bg-settings-fixed {
+  z-index: 10001000; }
+
 .upfront-inline-modal-wrap {
   margin: auto;
   width: 50%;
@@ -20077,4 +20081,4 @@ div#page .upfront-object.upfront-image .swap-image-overlay p:before,
 /*# sourceMappingURL=editor-interface.css.map */
 
 
-/* 133620-1492562834-au */
+/* 133620-1495482561-au */

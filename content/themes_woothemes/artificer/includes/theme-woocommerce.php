@@ -67,6 +67,10 @@ if (!function_exists('woocommerce_get_sidebar')) {
 	function woocommerce_get_sidebar() {
 		global $woo_options;
 
+		if ( !isset( $woo_options[ 'woo_shop_archives_fullwidth' ] ) ) {
+			$woo_options[ 'woo_shop_archives_fullwidth' ] = "false";
+		}
+
 		if (!is_woocommerce()) {
 			get_sidebar();
 		} elseif ( $woo_options[ 'woo_shop_archives_fullwidth' ] == "false" && (is_woocommerce()) || (is_product()) ) {
@@ -86,6 +90,10 @@ if ( ! function_exists( 'artificer_woocommerce_layout_body_class' ) ) {
 		global $woo_options;
 
 		$layout = '';
+
+		if ( !isset( $woo_options[ 'woo_shop_archives_fullwidth' ] ) ) {
+			$woo_options[ 'woo_shop_archives_fullwidth' ] = "false";
+		}
 
 		// Add woocommerce-fullwidth class if full width option is enabled
 		if ( $woo_options[ 'woo_shop_archives_fullwidth' ] == "true" && (is_shop() || is_product_category())) {
@@ -271,7 +279,7 @@ function superstore_related_products() {
 add_action( 'wp', 'woocommerce_prettyphoto' );
 function woocommerce_prettyphoto() {
 	global $woo_options;
-	if ( $woo_options[ 'woo_enable_lightbox' ] == "true" ) {
+	if ( isset( $woo_options[ 'woo_enable_lightbox' ] ) && $woo_options[ 'woo_enable_lightbox' ] == "true" ) {
 		update_option( 'woocommerce_enable_lightbox', false );
 	}
 }
