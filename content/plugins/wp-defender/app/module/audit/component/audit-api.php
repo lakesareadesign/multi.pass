@@ -53,7 +53,7 @@ class Audit_API extends Component {
 			return $results;
 		}
 
-		return new \WP_Error( Error_Code::API_ERROR, sprintf( esc_html__( "Whoops, Defender had trouble loading up your event log. You can try a <a href='%s'class=''>​quick refresh</a>​ of this page or check back again later.", wp_defender()->domain ),
+		return new \WP_Error( Error_Code::API_ERROR, sprintf( __( "Whoops, Defender had trouble loading up your event log. You can try a <a href='%s'class=''>​quick refresh</a>​ of this page or check back again later.", wp_defender()->domain ),
 			network_admin_url( 'admin.php?page=wdf-logging' ) ) );
 	}
 
@@ -85,7 +85,7 @@ class Audit_API extends Component {
 			return $results;
 		}
 
-		return new \WP_Error( Error_Code::API_ERROR, sprintf( esc_html__( "Whoops, Defender had trouble loading up your event log. You can try a <a href='%s'class=''>​quick refresh</a>​ of this page or check back again later.", wp_defender()->domain ),
+		return new \WP_Error( Error_Code::API_ERROR, sprintf( __( "Whoops, Defender had trouble loading up your event log. You can try a <a href='%s'class=''>​quick refresh</a>​ of this page or check back again later.", wp_defender()->domain ),
 			network_admin_url( 'admin.php?page=wdf-logging' ) ) );
 	}
 
@@ -266,8 +266,9 @@ class Audit_API extends Component {
 	 * @param bool $clearCron
 	 *
 	 * @return false|int
+	 * @deprecated
 	 */
-	public static function getReportTime( $clearCron = true, $utc = true ) {
+	public static function getReportTime( $clearCron = true ) {
 		if ( $clearCron ) {
 			wp_clear_scheduled_hook( 'auditReportCron' );
 		}
@@ -291,17 +292,10 @@ class Audit_API extends Component {
 
 		$toUTC = Utils::instance()->localToUtc( $timeString );
 		if ( $toUTC <= time() ) {
-			if ( $utc ) {
-				return Utils::instance()->localToUtc( $nextTimeString );
-			} else {
-				return strtotime( $timeString );
-			}
+			//already passed
+			return Utils::instance()->localToUtc( $nextTimeString );
 		} else {
-			if ( $utc ) {
-				return $toUTC;
-			} else {
-				return strtotime( $timeString );
-			}
+			return $toUTC;
 		}
 	}
 

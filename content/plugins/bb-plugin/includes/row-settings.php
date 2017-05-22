@@ -68,6 +68,7 @@ FLBuilder::register_settings_form('row', array(
 							'options'       	=> array(
 								'top'          		=> __( 'Top', 'fl-builder' ),
 								'center'         	=> __( 'Center', 'fl-builder' ),
+								'bottom'         	=> __( 'Bottom', 'fl-builder' ),
 							),
 							'preview'         => array(
 								'type'            => 'none'
@@ -280,7 +281,8 @@ FLBuilder::register_settings_form('row', array(
 							'help'          => __('A video in the MP4 to use as the background of this row. Most modern browsers support this format.', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'refresh'
-							)
+							),
+							'connections'   => array( 'custom_field' )
 						),
 						'bg_video_url_webm'   => array(
 							'type'          => 'text',
@@ -288,7 +290,8 @@ FLBuilder::register_settings_form('row', array(
 							'help'          => __('A video in the WebM format to use as the background of this row. This format is required to support browsers such as FireFox and Opera.', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'refresh'
-							)
+							),
+							'connections'   => array( 'custom_field' )
 						),
 						'bg_video_service_url'   => array(
 							'type'          => 'text',
@@ -296,7 +299,8 @@ FLBuilder::register_settings_form('row', array(
 							'help'          => __('A video from Youtube or Vimeo to use as the background of this row. Most modern browsers support this format.', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'refresh'
-							)
+							),
+							'connections'   => array( 'custom_field' )
 						),
 						'bg_video_audio'	=> array(
 							'type'          	=> 'select',
@@ -316,7 +320,8 @@ FLBuilder::register_settings_form('row', array(
 							'help'          => __('A photo that will be displayed if the video fails to load.', 'fl-builder'),
 							'preview'         => array(
 								'type'            => 'refresh'
-							)
+							),
+							'connections'   => array( 'custom_field' )
 						)
 					)
 				),

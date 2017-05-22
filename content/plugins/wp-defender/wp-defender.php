@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Plugin Name: WP Defender
+ * Plugin Name: Defender
  * Plugin URI: https://premium.wpmudev.org/project/wp-defender/
- * Version:     1.4.1
+ * Version:     1.5
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
@@ -51,7 +51,7 @@ class WP_Defender {
 	/**
 	 * @var string
 	 */
-	public $version = "1.2";
+	public $version = "1.5";
 
 	/**
 	 * @var string
@@ -66,7 +66,7 @@ class WP_Defender {
 	 */
 	public $plugin_slug = 'wp-defender/wp-defender.php';
 
-	public $db_version = "1.4";
+	public $db_version = "1.5";
 
 	/**
 	 * @return WP_Defender
@@ -199,38 +199,50 @@ class WP_Defender {
 			include_once $path;
 		}
 	}
-
 }
 
-/**
- * Shorthand to get the instance
- * @return WP_Defender
- */
-function wp_defender() {
-	return WP_Defender::instance();
+//if we found defender free, then deactivate it
+if ( ! function_exists( 'is_plugin_active' ) ) {
+	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 }
 
-//init
-wp_defender();
-
-function wp_defender_deactivate() {
-	//we disable any cron running
-	wp_clear_scheduled_hook( 'processScanCron' );
-	wp_clear_scheduled_hook( 'lockoutReportCron' );
-	wp_clear_scheduled_hook( 'auditReportCron' );
-	wp_clear_scheduled_hook( 'cleanUpOldLog' );
+if ( is_plugin_active( 'defender/wp-defender.php' ) ) {
+	deactivate_plugins( array( 'defender/wp-defender.php' ) );
 }
 
-function wp_defender_activate() {
-	if ( wp_defender()->isFree ) {
-		return;
+if ( ! function_exists( 'wp_defender' ) ) {
+
+	/**
+	 * Shorthand to get the instance
+	 * @return WP_Defender
+	 */
+	function wp_defender() {
+		return WP_Defender::instance();
 	}
 
-	$phpVersion = phpversion();
-	if ( version_compare( $phpVersion, '5.3', '>=' ) ) {
-		wp_defender()->global['bootstrap']->activationHook();
-	}
-}
+	//init
+	wp_defender();
 
-register_deactivation_hook( __FILE__, 'wp_defender_deactivate' );
-register_activation_hook( __FILE__, 'wp_defender_activate' );
+	function wp_defender_deactivate() {
+		//we disable any cron running
+		wp_clear_scheduled_hook( 'processScanCron' );
+		wp_clear_scheduled_hook( 'lockoutReportCron' );
+		wp_clear_scheduled_hook( 'auditReportCron' );
+		wp_clear_scheduled_hook( 'cleanUpOldLog' );
+		wp_clear_scheduled_hook('scanReportCron');
+	}
+
+	function wp_defender_activate() {
+		if ( wp_defender()->isFree ) {
+			return;
+		}
+
+		$phpVersion = phpversion();
+		if ( version_compare( $phpVersion, '5.3', '>=' ) ) {
+			wp_defender()->global['bootstrap']->activationHook();
+		}
+	}
+
+	register_deactivation_hook( __FILE__, 'wp_defender_deactivate' );
+	register_activation_hook( __FILE__, 'wp_defender_activate' );
+}

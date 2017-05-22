@@ -5,7 +5,7 @@
 
 namespace Hammer\Base;
 
-class File extends Object{
+class File extends HObject{
 	const ENGINE_SPL = 'spl', ENGINE_SCANDIR = 'scan_dir', ENGINE_OPENDIR = 'open_dir';
 	/**
 	 * Engine use to create a dir tree

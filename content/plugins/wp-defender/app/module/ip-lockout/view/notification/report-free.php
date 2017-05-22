@@ -1,6 +1,8 @@
 <div class="dev-box report-sale">
     <div class="box-title">
         <h3><?php esc_html_e( "Reporting", wp_defender()->domain ) ?></h3>
+        <a class="button button-green button-small"
+           href="#pro-feature" rel="dialog"><?php _e( "Upgrade to Pro", wp_defender()->domain ) ?></a>
     </div>
     <div class="box-content">
         <form method="post" id="settings-frm" class="ip-frm">
@@ -79,3 +81,4 @@
         </div>
     </div>
 </div>
+<?php $controller->renderPartial('pro-feature') ?>

@@ -29,6 +29,16 @@ class Content_Result extends \Hammer\Base\Behavior {
 	}
 
 	/**
+	 * Get this slug, will require for checking ignore status while scan
+	 * @return string
+	 */
+	public function getSlug() {
+		$raw = $this->getRaw();
+
+		return $raw['file'];
+	}
+
+	/**
 	 * @return string|void
 	 */
 	public function getIssueDetail() {
@@ -74,7 +84,7 @@ class Content_Result extends \Hammer\Base\Behavior {
                                 </li>
                             </ul>
                         </div>
-                        <div class="mline"><?php printf( __( " Defender found some suspicious code in your %s file. We can delete this file, but be sure to back up your website before proceeding.", wp_defender()->domain ), $this->getSubtitle() ) ?>
+                        <div class="mline"><?php printf( __( " There’s some suspicious looking code in the file %s. If you know the code is harmless you can ignore this warning. Otherwise, you can choose to delete this file. Before deleting any files from your site directory, we recommend backing up your website.", wp_defender()->domain ), $this->getSubtitle() ) ?>
                         </div>
                         <div class="mline source-code">
                             <img src="<?php echo wp_defender()->getPluginUrl() ?>assets/img/loading.gif" width="18"

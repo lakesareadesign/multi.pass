@@ -6,8 +6,11 @@
 
 namespace WP_Defender\Module\IP_Lockout\Model;
 
+use Hammer\Helper\WP_Helper;
 use Hammer\WP\Model;
 use WP_Defender\Behavior\Utils;
+use WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api;
+use WP_Defender\Module\IP_Lockout\Component\Logs_Table;
 
 class Log_Model extends Model {
 	const AUTH_FAIL = 'auth_fail', AUTH_LOCK = 'auth_lock', ERROR_404 = '404_error', LOCKOUT_404 = '404_lockout', ERROR_404_IGNORE = '404_error_ignore';
@@ -80,6 +83,9 @@ class Log_Model extends Model {
 
 	public function before_insert() {
 		$this->blog_id = get_current_blog_id();
+		//update cache total
+		$cache = WP_Helper::getCache();
+		$cache->increase( Login_Protection_Api::COUNT_TOTAL, 1 );
 	}
 
 	/**

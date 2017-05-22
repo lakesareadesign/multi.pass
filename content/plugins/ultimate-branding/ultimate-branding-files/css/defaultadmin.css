@@ -1,4 +1,18 @@
-/* @override http://dev.site/wp-content/plugins/ultimate-branding/ultimate-branding-files/css/defaultadmin.css?ver=1 */	   	 		 		 	   		
+/* @override http://dev.site/wp-content/plugins/ultimate-branding/ultimate-branding-files/css/defaultadmin.css?ver=1 */
+
+.toplevel_page_branding #poststuff form div.postbox .hndle {
+    cursor: default;
+}
+.toplevel_page_branding #poststuff form div.postbox .hndle .simple-option-reset-section {
+    float: right;
+}
+.toplevel_page_branding #poststuff form div.postbox .hndle .simple-option-reset-section a {
+    color: #888;
+    text-decoration: none;
+}
+.toplevel_page_branding #poststuff form div.postbox .hndle .simple-option-reset-section a:hover {
+    color: #0073aa;
+}
 
 #poststuff form div.postbox div.inside h3 {
     background: none;
@@ -105,4 +119,32 @@ li.link_row h4{
 }
 
 
-/* 133620-1485823039-au */
+.postbox .simple-option-media .image-reset.disabled {
+    cursor: default;
+    color: #888;
+}
+.postbox .simple-option-media .image-reset {
+    display: inline-block;
+    margin-right: 80px;
+    text-decoration: none;
+    vertical-align: bottom;
+}
+.simple-option-media .image-preview {
+    max-height: 100px;
+}
+.simple-option div.ui-slider {
+    margin: 10px 0;
+    max-width: 150px;
+}
+.simple-option-number .ui-slider span.ui-slider-handle {
+    background-color: #0073aa;
+}
+.simple-option-checkbox .switch-button-background.checked {
+    background-color: #085;
+}
+.simple-option-checkbox .switch-button-label {
+    text-transform: uppercase;
+}
+
+
+/* 133620-1495482884-au */

@@ -11,11 +11,21 @@
 									$countAll = $hCount + $sCount;
 									echo $countAll;
 									?></h5>
-                                <span class="">
-	                                <?php
-	                                if ( $countAll == 0 ): ?>
+	                            <?php if ( $countAll == 0 ): ?>
+                                        <span class="" tooltip="<?php esc_attr_e( 'You have no outstanding security issues', wp_defender()->domain ); ?>">
                                         <i class="def-icon icon-tick"></i>
 	                                <?php else: ?>
+                                        <?php
+                                        if ( $sCount > 0 && $hCount > 0 ) :
+                                        ?>
+                                            <span class="" tooltip="<?php esc_attr_e( sprintf( __('You have %d security tweak(s)  and %d suspicious file(s) needing attention', wp_defender()->domain ), $hCount, $sCount ) ); ?>">
+                                        <?php elseif ( $hCount > 0 ): ?>
+                                            <span class="" tooltip="<?php esc_attr_e( sprintf( __('You have %d security tweak(s) needing attention', wp_defender()->domain ), $hCount ) ); ?>">
+                                        <?php elseif ( $sCount > 0 ): ?>
+                                            <span class="" tooltip="<?php esc_attr_e( sprintf( __('You have %d suspicious file(s) needing attention', wp_defender()->domain ), $sCount ) ); ?>">
+                                        <?php else: ?>
+                                            <span class="" tooltip="<?php esc_attr_e( 'You have no outstanding security issues', wp_defender()->domain ); ?>">
+                                        <?php endif; ?>
                                         <i class="def-icon icon-warning icon-yellow <?php echo $sCount > 0 ? 'fill-red' : null ?>"></i>
 	                                <?php endif; ?>
                                 </span>
@@ -40,7 +50,7 @@
                                 </li>
                                 <li>
                                     <div>
-                                        <span class="list-label"><?php _e( "File scanning", wp_defender()->domain ) ?></span>
+                                        <span class="list-label"><?php _e( "File Scan Issues", wp_defender()->domain ) ?></span>
                                         <span class="list-detail">
                                        <?php echo $controller->renderScanStatusText() ?>
                                     </span>

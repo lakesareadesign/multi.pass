@@ -21,7 +21,7 @@
 			<?php else: ?>
 				<?php
 				//if WP debug == true, we will display a form to turn it off
-				if ( WP_DEBUG == true ): ?>
+				if ( WP_DEBUG == true && ( ! defined( 'WP_DEBUG_DISPLAY' ) || WP_DEBUG_DISPLAY != false ) ): ?>
                     <div class="line">
                         <p><?php _e( "We will add the necessary code to prevent these errors displaying.", wp_defender()->domain ) ?></p>
                     </div>
@@ -36,7 +36,7 @@
 					<?php
 				//php debug is turn off, however the error still dsplay, need to show user about this
 				else: ?>
-					<p class="line">
+                    <p class="line">
 						<?php _e( "We attempted to disable the WP_DEBUG setting to prevent code errors displaying but it’s being overridden by your server config. Please contact your hosting provider and ask them to set WP_DEBUG to false.", wp_defender()->domain ) ?>
                     </p>
 					<?php $controller->showIgnoreForm() ?>

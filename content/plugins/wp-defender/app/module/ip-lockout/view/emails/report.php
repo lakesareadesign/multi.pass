@@ -458,9 +458,6 @@
                                                         <p style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; margin-bottom: 0; padding: 0 0 24px; text-align: left;">
 															<?php printf( esc_html__( "It's Defender here, just letting you know there haven't been any lockouts %s and the skies are clear.", wp_defender()->domain ), $time_unit ) ?>
                                                         </p>
-                                                        <p style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; margin-bottom: 0; padding: 0 0 24px; text-align: left;">
-															<?php printf( __( "You can view the full lockout logs <a href=\"%s\">here</a>", wp_defender()->domain ), network_admin_url( "admin.php?page=wdf-ip-lockout&view=logs" ) ) ?>
-                                                        </p>
 													<?php else: ?>
                                                         <p style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; margin-bottom: 0; padding: 0 0 24px; text-align: left;">
 															<?php esc_html_e( "It's Defender here, reporting from the frontline.", wp_defender()->domain ) ?>

@@ -7,7 +7,9 @@ use Hammer\Helper\Log_Helper;
 use WP_Defender\Module\Scan;
 use WP_Defender\Module\Scan\Component\Scan_Api;
 use WP_Defender\Module\Scan\Model\Settings;
+use WP_Defender\Module\Scan\Model\Result_Item;
 use WP_Defender\Vendor\Email_Search;
+use WP_Defender\Behavior\Utils;
 
 /**
  * Author: Hoang Ngo
@@ -60,8 +62,48 @@ class Main extends \WP_Defender\Controller {
 		$this->email_search->eId      = 'scan_receipts';
 		$this->email_search->settings = Settings::instance();
 		$this->email_search->add_hooks();
-		//process scan cron
+		//process scan in background
 		$this->add_action( 'processScanCron', 'processScanCron' );
+		//scan as schedule
+		$this->add_action( 'scanReportCron', 'scanReportCron' );
+	}
+
+	/**
+	 * @return bool|void
+	 */
+	public function scanReportCron() {
+		if ( wp_defender()->isFree ) {
+			return;
+		}
+
+		$settings       = Settings::instance();
+		$lastReportSent = $settings->lastReportSent;
+		if ( $lastReportSent == null ) {
+			$model = Scan_Api::getLastScan();
+			if ( is_object( $model ) ) {
+				$lastReportSent           = $model->dateFinished;
+				$settings->lastReportSent = $lastReportSent;
+				//init
+				$settings->save();
+			} else {
+				//no sent, so just assume last 30 days, as this only for monthly
+				$lastReportSent = strtotime( '-31 days', current_time( 'timestamp' ) );
+			}
+		}
+
+		if ( ! $this->isReportTime( $settings->frequency, $settings->day, $lastReportSent ) ) {
+			return false;
+		}
+
+		//need to check if we already have a scan in progress
+		$activeScan = Scan_Api::getActiveScan();
+		if ( ! is_object( $activeScan ) ) {
+			$model       = Scan_Api::createScan();
+			$model->logs = 'report';
+			wp_clear_scheduled_hook( 'processScanCron' );
+			wp_schedule_single_event( strtotime( '+1 minutes' ), 'processScanCron' );
+		}
+
 	}
 
 	public function cancelScan() {
@@ -96,7 +138,7 @@ class Main extends \WP_Defender\Controller {
 		}
 
 		$id    = HTTP_Helper::retrieve_post( 'id' );
-		$model = Scan\Model\Result_Item::findByID( $id );
+		$model = Result_Item::findByID( $id );
 		if ( is_object( $model ) ) {
 			wp_send_json_success( array(
 				'html' => $model->getSrcCode()
@@ -117,36 +159,45 @@ class Main extends \WP_Defender\Controller {
 		}
 
 		$items = HTTP_Helper::retrieve_post( 'items' );
-		$bulk  = HTTP_Helper::retrieve_post( 'bulk' );
+		if ( ! is_array( $items ) ) {
+			$items = array();
+		}
+		$bulk = HTTP_Helper::retrieve_post( 'bulk' );
 		switch ( $bulk ) {
 			case 'ignore':
 				foreach ( $items as $id ) {
-					$item = Scan\Model\Result_Item::findByID( $id );
+					$item = Result_Item::findByID( $id );
 					if ( is_object( $item ) ) {
 						$item->ignore();
 					}
 				}
 				$this->submitStatsToDev();
 				wp_send_json_success( array(
-					'message' => __( "The suspicious files have been successfully ignored.", wp_defender()->domain )
+					'message' => _n( "The suspicious file has been successfully ignored.",
+						"The suspicious files have been successfully ignored.",
+						count( $items ),
+						wp_defender()->domain )
 				) );
 				break;
 			case 'unignore':
 				foreach ( $items as $id ) {
-					$item = Scan\Model\Result_Item::findByID( $id );
+					$item = Result_Item::findByID( $id );
 					if ( is_object( $item ) ) {
 						$item->unignore();
 					}
 				}
 				$this->submitStatsToDev();
 				wp_send_json_success( array(
-					'message' => __( "The suspicious files have been successfully restored.", wp_defender()->domain )
+					'message' => _n( "The suspicious file has been successfully restored.",
+						"The suspicious files have been successfully restored.",
+						count( $items ),
+						wp_defender()->domain )
 				) );
 				break;
 			case 'delete':
 				$ids = array();
 				foreach ( $items as $id ) {
-					$item = Scan\Model\Result_Item::findByID( $id );
+					$item = Result_Item::findByID( $id );
 					if ( is_object( $item ) ) {
 						if ( $item->hasMethod( 'purge' ) && $item->purge() === true ) {
 							$ids[] = $id;
@@ -156,7 +207,9 @@ class Main extends \WP_Defender\Controller {
 				if ( $ids ) {
 					$this->submitStatsToDev();
 					wp_send_json_success( array(
-						'message' => __( "The suspicious files have been successfully deleted.", wp_defender()->domain )
+						'message' => _n( "The suspicious files has been successfully deleted.",
+							"The suspicious files have been successfully deleted.",
+							count( $items ), wp_defender()->domain )
 					) );
 				} else {
 					wp_send_json_error( array(
@@ -167,7 +220,7 @@ class Main extends \WP_Defender\Controller {
 			case 'resolve':
 				$ids = array();
 				foreach ( $items as $id ) {
-					$item = Scan\Model\Result_Item::findByID( $id );
+					$item = Result_Item::findByID( $id );
 					if ( is_object( $item ) ) {
 						if ( $item->hasMethod( 'resolve' ) && $item->resolve() === true ) {
 							$ids[] = $id;
@@ -177,7 +230,9 @@ class Main extends \WP_Defender\Controller {
 				if ( $ids ) {
 					$this->submitStatsToDev();
 					wp_send_json_success( array(
-						'message' => __( "The suspicious files have been successfully resolved.", wp_defender()->domain )
+						'message' => _n( "The suspicious files has been successfully resolved.",
+							"The suspicious files have been successfully resolved.",
+							count( $items ), wp_defender()->domain )
 					) );
 				} else {
 					wp_send_json_error( array(
@@ -189,33 +244,30 @@ class Main extends \WP_Defender\Controller {
 	}
 
 	/**
-	 * process active scan via cron job
+	 * Process a scan via cronjob, only use to process in background, not create a new scan
 	 */
 	public function processScanCron() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX == true ) {
 			//we dont process if ajax, this only for active scan
 			return;
 		}
+		//sometime the scan get stuck, queue it first
+		wp_schedule_single_event( strtotime( '+1 minutes' ), 'processScanCron' );
 
 		$activeScan = Scan_Api::getActiveScan();
 		if ( ! is_object( $activeScan ) ) {
-			//no scan created, we create one
-			Scan_Api::createScan();
+			//no scan created, return
+			return;
 		}
 
 		$ret = Scan_Api::processActiveScan();
 
 		if ( $ret == true ) {
 			//completed
-			//requeue scan for next
-			$nextScanTime = Scan_Api::getScheduledScanTime();
-			wp_schedule_single_event( $nextScanTime, 'processScanCron' );
 			$this->sendEmailReport();
 			$this->submitStatsToDev();
-		} else {
-			//not completed
-			//queue another scan
-			wp_schedule_single_event( strtotime( '+1 minutes' ), 'processScanCron' );
+			//scan done, remove the background cron
+			wp_clear_scheduled_hook( 'processScanCron' );
 		}
 	}
 
@@ -282,10 +334,14 @@ class Main extends \WP_Defender\Controller {
 		$settings->email_all_ok    = stripslashes( $settings->email_all_ok );
 		$settings->email_has_issue = stripslashes( $settings->email_has_issue );
 		$settings->save();
-		$nextScanTime = Scan_Api::getScheduledScanTime();
-		wp_schedule_single_event( $nextScanTime, 'processScanCron' );
+		if ( $settings->notification ) {
+			$cronTime = $this->reportCronTimestamp( $settings->time, 'scanReportCron' );
+			wp_schedule_event( $cronTime, 'daily', 'scanReportCron' );
+		} else {
+			wp_clear_scheduled_hook( 'processScanCron' );
+		}
 		wp_send_json_success( array(
-			'message' => __( "Your settings has been saved.", wp_defender()->domain )
+			'message' => __( "Your settings have been updated.", wp_defender()->domain )
 		) );
 	}
 
@@ -303,7 +359,7 @@ class Main extends \WP_Defender\Controller {
 
 		$id = HTTP_Helper::retrieve_post( 'id', false );
 
-		$model = Scan\Model\Result_Item::findByID( $id );
+		$model = Result_Item::findByID( $id );
 		if ( is_object( $model ) ) {
 			$ret = $model->resolve();
 			if ( is_wp_error( $ret ) ) {
@@ -348,7 +404,7 @@ class Main extends \WP_Defender\Controller {
 		}
 
 		$id    = HTTP_Helper::retrieve_post( 'id', false );
-		$model = Scan\Model\Result_Item::findByID( $id );
+		$model = Result_Item::findByID( $id );
 		if ( is_object( $model ) ) {
 			$ret = $model->purge();
 			$this->submitStatsToDev();
@@ -360,7 +416,8 @@ class Main extends \WP_Defender\Controller {
 			} else {
 				wp_send_json_success( array(
 					'mid'     => 'mid-' . $model->id,
-					'message' => __( "This item has been permanent removed.", wp_defender()->domain )
+					'message' => __( "This item has been permanent removed.", wp_defender()->domain ),
+					'counts'  => $this->getIssuesAndIgnoredCounts( $model->parentId )
 				) );
 			}
 		} else {
@@ -383,13 +440,14 @@ class Main extends \WP_Defender\Controller {
 		}
 
 		$id    = HTTP_Helper::retrieve_post( 'id', false );
-		$model = Scan\Model\Result_Item::findByID( $id );
+		$model = Result_Item::findByID( $id );
 		if ( is_object( $model ) ) {
 			$model->unignore();
 			$this->submitStatsToDev();
 			wp_send_json_success( array(
 				'mid'     => 'mid-' . $model->id,
-				'message' => __( "The suspicious file has been successfully restored.", wp_defender()->domain )
+				'message' => __( "The suspicious file has been successfully restored.", wp_defender()->domain ),
+				'counts'  => $this->getIssuesAndIgnoredCounts( $model->parentId )
 			) );
 		} else {
 			wp_send_json_error( array(
@@ -411,13 +469,14 @@ class Main extends \WP_Defender\Controller {
 		}
 
 		$id    = HTTP_Helper::retrieve_post( 'id', false );
-		$model = Scan\Model\Result_Item::findByID( $id );
+		$model = Result_Item::findByID( $id );
 		if ( is_object( $model ) ) {
 			$model->ignore();
 			$this->submitStatsToDev();
 			wp_send_json_success( array(
 				'mid'     => 'mid-' . $model->id,
-				'message' => __( "The suspicious file has been successfully ignored.", wp_defender()->domain )
+				'message' => __( "The suspicious file has been successfully ignored.", wp_defender()->domain ),
+				'counts'  => $this->getIssuesAndIgnoredCounts( $model->parentId )
 			) );
 		} else {
 			wp_send_json_error( array(
@@ -448,11 +507,13 @@ class Main extends \WP_Defender\Controller {
 			'statusText' => is_object( $model ) ? $model->statusText : null
 		);
 		if ( $ret == true ) {
-			//completed
-			$nextScanTime = Scan_Api::getScheduledScanTime();
-			//we will need to requeue the next scan
-			wp_schedule_single_event( $nextScanTime, 'processScanCron' );
 			$data['url'] = network_admin_url( 'admin.php?page=wdf-scan' );
+			$referrer    = HTTP_Helper::retrieve_post( '_wp_http_referer' );
+			parse_str( parse_url( $referrer, PHP_URL_QUERY ), $urlComp );
+			if ( isset( $urlComp['page'] ) && $urlComp['page'] == 'wp-defender' ) {
+				//from dashboard
+				$data['url'] = network_admin_url( 'admin.php?page=wp-defender' );
+			}
 			$this->sendEmailReport();
 			$this->submitStatsToDev();
 			wp_send_json_success( $data );
@@ -505,7 +566,8 @@ class Main extends \WP_Defender\Controller {
 	 */
 	public function scripts() {
 		$data = array(
-			'scanning_title' => __( "Scan In Progress", wp_defender()->domain ) . '<form class="scan-frm float-r"><input type="hidden" name="action" value="cancelScan"/>' . wp_nonce_field( 'cancelScan', '_wpnonce', true, false ) . '<button type="submit" class="button button-small button-secondary">' . __( "Cancel", wp_defender()->domain ) . '</button></form>'
+			'scanning_title' => __( "Scan In Progress", wp_defender()->domain ) . '<form class="scan-frm float-r"><input type="hidden" name="action" value="cancelScan"/>' . wp_nonce_field( 'cancelScan', '_wpnonce', true, false ) . '<button type="submit" class="button button-small button-secondary">' . __( "Cancel", wp_defender()->domain ) . '</button></form>',
+			'no_issues'      => __( "Your code is currently clean! There were no issues found during the last scan, though you can always perform a new scan anytime.", wp_defender()->domain )
 		);
 		if ( $this->isInPage() ) {
 			\WDEV_Plugin_Ui::load( wp_defender()->getPluginUrl() . 'shared-ui/' );
@@ -586,8 +648,14 @@ class Main extends \WP_Defender\Controller {
 		}
 	}
 
+	/**
+	 * @param Scan\Model\Scan $model
+	 */
 	private function viewError( Scan\Model\Scan $model ) {
-
+		//auto restart
+		$model->status = Scan\Model\Scan::STATUS_PROCESS;
+		$model->save();
+		$this->viewScanning();
 	}
 
 	/**
@@ -692,7 +760,12 @@ class Main extends \WP_Defender\Controller {
 	public function sendEmailReport() {
 		$settings = Settings::instance();
 		$model    = Scan_Api::getLastScan();
-		$count    = $model->countAll( Scan\Model\Result_Item::STATUS_ISSUE );
+		if ( ! is_object( $model ) ) {
+			return;
+		}
+		$count = $model->countAll( Result_Item::STATUS_ISSUE );
+
+		//Check one instead of validating both conditions
 		if ( $settings->always_send == false && $count == 0 ) {
 			return;
 		}
@@ -702,7 +775,6 @@ class Main extends \WP_Defender\Controller {
 		if ( empty( $recipients ) ) {
 			return;
 		}
-
 
 		foreach ( $recipients as $user_id ) {
 			$user = get_user_by( 'id', $user_id );
@@ -813,5 +885,64 @@ class Main extends \WP_Defender\Controller {
         </table>
 		<?php
 		return ob_get_clean();
+	}
+
+	/**
+	 * Get Counts of issues and ignored items
+	 *
+	 * @param Integer $parent_id - PArent id of the model
+	 *
+	 * @return Array
+	 */
+	public function getIssuesAndIgnoredCounts( $parent_id ) {
+		$total_issues  = 0;
+		$total_ignored = 0;
+
+		$issues_wp  = $this->countStatus( $parent_id, Result_Item::STATUS_ISSUE );
+		$ignored_wp = $this->countStatus( $parent_id, Result_Item::STATUS_IGNORED );
+
+		$total_issues  = $issues_wp;
+		$total_ignored = $ignored_wp;
+
+		$premium_counts = array();
+		if ( Utils::instance()->getAPIKey() ) {
+			$issues_vuln     = $this->countStatus( $parent_id, Result_Item::STATUS_ISSUE, 'vuln' );
+			$issues_content  = $this->countStatus( $parent_id, Result_Item::STATUS_ISSUE, 'content' );
+			$ignored_vuln    = $this->countStatus( $parent_id, Result_Item::STATUS_IGNORED, 'vuln' );
+			$ignored_content = $this->countStatus( $parent_id, Result_Item::STATUS_IGNORED, 'content' );
+
+			$total_issues  += $issues_vuln;
+			$total_issues  += $issues_content;
+			$total_ignored += $ignored_vuln;
+			$total_ignored += $ignored_content;
+
+			$premium_counts = array( 'vuln_issues' => $issues_vuln, 'content_issues' => $issues_content );
+		}
+
+		$counts = array( 'issues' => $total_issues, 'issues_wp' => $issues_wp, 'ignored' => $total_ignored );
+
+		$counts = array_merge( $counts, $premium_counts );
+
+		return $counts;
+	}
+
+
+	/**
+	 * Count status based on the parent id and type
+	 *
+	 * @param Integer $parent_id - Parent id of the model
+	 * @param String $status - Status
+	 * @param String $type - Issue Type. Defaults to core
+	 *
+	 * @return Integer
+	 */
+	private function countStatus( $parent_id, $status, $type = 'core' ) {
+		$counts = Result_Item::count( array(
+			'status'   => $status,
+			'parentId' => $parent_id,
+			'type'     => $type
+		) );
+
+		return $counts;
 	}
 }

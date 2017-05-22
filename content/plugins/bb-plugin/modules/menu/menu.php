@@ -265,6 +265,68 @@ FLBuilder::register_module('FLMenuModule', array(
 					),
 				)
 			),
+			'spacing'    	=> array(
+				'title'         => __('Spacing', 'fl-builder'),
+				'fields'        => array(
+					'horizontal_spacing' => array(
+						'type'          => 'text',
+						'label'         => __('Link Horizontal Spacing', 'fl-builder'),
+						'default'       => '14',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px',
+					    'preview'      => array(
+					        'type'         => 'css',
+					        'rules'		   => array(
+					        	array(
+							        'selector'     => '.menu a',
+							        'property'     => 'padding-left',
+							        'unit'		   => 'px',
+					        	),
+					        	array(
+							        'selector'     => '.menu a',
+							        'property'     => 'padding-right',
+							        'unit'		   => 'px',
+					        	),
+					        )
+					    )
+					),
+					'vertical_spacing' => array(
+						'type'          => 'text',
+						'label'         => __('Link Vertical Spacing', 'fl-builder'),
+						'default'       => '10',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px',					    
+					    'preview'      => array(
+					        'type'         => 'css',
+					        'rules'		   => array(
+					        	array(
+							        'selector'     => '.menu a',
+							        'property'     => 'padding-top',
+							        'unit'		   => 'px',
+					        	),
+					        	array(
+							        'selector'     => '.menu a',
+							        'property'     => 'padding-bottom',
+							        'unit'		   => 'px',
+					        	),
+					        )
+					    )
+					),
+					'submenu_spacing' => array(
+						'type'          => 'text',
+						'label'         => __('Submenu Spacing', 'fl-builder'),
+						'default'       => '0',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px',					    
+					    'preview'      => array(
+					        'type'         => 'none'
+					    )
+					),
+				)
+			),
 			'text_style'    => array(
 				'title'         => __('Text', 'fl-builder'),
 				'fields'        => array(
@@ -338,54 +400,7 @@ FLBuilder::register_module('FLMenuModule', array(
 					        'property'     => 'text-transform',
 					    )					    
 					),
-					'horizontal_spacing' => array(
-						'type'          => 'text',
-						'label'         => __('Horizontal Spacing', 'fl-builder'),
-						'default'       => '14',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-					    'preview'      => array(
-					        'type'         => 'css',
-					        'rules'		   => array(
-					        	array(
-							        'selector'     => '.menu a',
-							        'property'     => 'padding-left',
-							        'unit'		   => 'px',
-					        	),
-					        	array(
-							        'selector'     => '.menu a',
-							        'property'     => 'padding-right',
-							        'unit'		   => 'px',
-					        	),
-					        )
-					    )
-					),
-					'vertical_spacing' => array(
-						'type'          => 'text',
-						'label'         => __('Vertical Spacing', 'fl-builder'),
-						'default'       => '14',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',					    
-					    'preview'      => array(
-					        'type'         => 'css',
-					        'rules'		   => array(
-					        	array(
-							        'selector'     => '.menu a',
-							        'property'     => 'padding-top',
-							        'unit'		   => 'px',
-					        	),
-					        	array(
-							        'selector'     => '.menu a',
-							        'property'     => 'padding-bottom',
-							        'unit'		   => 'px',
-					        	),
-					        )
-					    )
-
-					),
-				)
+				),
 			),
 			'menu_style'    => array(
 				'title'         => __('Backgrounds', 'fl-builder'),

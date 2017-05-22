@@ -17,7 +17,7 @@
         </h3>
         <div class="well">
 			<?php if ( $controller->check() ): ?>
-                <p class="line"><?php _e( "Your Wordpress is protected.", wp_defender()->domain ) ?></p>
+                <p class="line"><?php _e( "Your WordPress is protected.", wp_defender()->domain ) ?></p>
                 <form method="post" class="hardener-frm rule-process">
 					<?php $controller->createNonceField(); ?>
                     <input type="hidden" name="action" value="processRevert"/>

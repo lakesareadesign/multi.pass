@@ -72,6 +72,22 @@ abstract class Cache extends Component {
 
 	/**
 	 * @param $key
+	 * @param int $offset
+	 */
+	public function increase( $key, $offset = 1 ) {
+		$this->increaseValue( $key, $offset );
+	}
+
+	/**
+	 * @param $key
+	 * @param int $offset
+	 */
+	public function decrease( $key, $offset = 1 ) {
+		$this->decreaseValue( $key, $offset );
+	}
+
+	/**
+	 * @param $key
 	 * @param null $default
 	 *
 	 * @return false|mixed|null
@@ -95,7 +111,7 @@ abstract class Cache extends Component {
 	public function set( $key, $value, $duration = null ) {
 		$key      = $this->buildKey( $key );
 		$duration = $duration === null ? $this->duration : $duration;
-		$value = $this->serialize( $value );
+		$value    = $this->serialize( $value );
 		if ( ! $this->exists( $key ) ) {
 			$this->addValue( $key, $value, $duration );
 		} else {
@@ -171,5 +187,21 @@ abstract class Cache extends Component {
 	 * @return bool
 	 */
 	protected abstract function valueExist( $key );
+
+	/**
+	 * @param $key
+	 * @param $offset
+	 *
+	 * @return mixed
+	 */
+	protected abstract function increaseValue( $key, $offset );
+
+	/**
+	 * @param $key
+	 * @param $offset
+	 *
+	 * @return mixed
+	 */
+	protected abstract function decreaseValue( $key, $offset );
 
 }

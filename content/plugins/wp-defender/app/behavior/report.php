@@ -42,10 +42,8 @@ class Report extends Behavior {
 	public function getIpLockoutReport() {
 		$settings = \WP_Defender\Module\IP_Lockout\Model\Settings::instance();
 		$class    = null;
-		if ( $settings->login_protection == false && $settings->detect_404 == false ) {
-			$class = 'with-corner feature-disabled';
-		} elseif ( $settings->report == false ) {
-			$class = 'feature-disabled';
+		if ( $settings->report == false ) {
+			$class = 'feature-disabled with-corner';
 		}
 		?>
         <div <?php echo $this->getLockoutTooltips() ?>
@@ -53,12 +51,7 @@ class Report extends Behavior {
             <a href="<?php echo network_admin_url( 'admin.php?page=wdf-ip-lockout&view=reporting' ) ?>">
                 <img src="<?php echo wp_defender()->getPluginUrl() ?>assets/img/lockout-pre.svg">
                 <strong><?php _e( "IP LOCKOUTS", wp_defender()->domain ) ?></strong>
-				<?php if ( $settings->login_protection == false && $settings->detect_404 == false ): ?>
-                    <div tooltip="<?php esc_attr_e( "To activate this report you must first enable the IP Lockout module." ) ?>"
-                         class="corner">
-                        <i class="def-icon icon-warning"></i>
-                    </div>
-				<?php elseif ( \WP_Defender\Module\IP_Lockout\Model\Settings::instance()->report ): ?>
+				<?php if ( \WP_Defender\Module\IP_Lockout\Model\Settings::instance()->report ): ?>
                     <span class="def-tag tag-active">
                                <i class="def-icon icon-tick"></i>
 						<?php

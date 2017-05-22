@@ -503,7 +503,7 @@ if ( ! $favicon ) {
 	 * @return mixed
 	 */
 	function site_icon_url( $url, $size, $blog_id ) {
-		if ( $this->_override_site_icon() ) {
+		if ( ! $this->_override_site_icon() ) {
 			return $url;
 		}
 		$blog_id = empty( $blog_id ) ? get_current_blog_id() : $blog_id;

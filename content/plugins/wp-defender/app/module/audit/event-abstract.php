@@ -345,7 +345,7 @@ abstract class Event_Abstract extends \Hammer\WP\Component {
 	 */
 	private static function get_default_params() {
 		return array(
-			'wp_user'    => is_user_logged_in() ? ( get_current_user_id() ) : null,
+			'wp_user'    => is_user_logged_in() ? ( Utils::instance()->getDisplayName( get_current_user_id() ) ) : null,
 			'wp_user_id' => get_current_user_id()
 		);
 	}

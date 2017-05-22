@@ -69,6 +69,7 @@ class FLContactFormModule extends FLBuilderModule {
 		$node_id			= isset( $_POST['node_id'] ) ? sanitize_text_field( $_POST['node_id'] ) : false;
 		$template_id	 	= isset( $_POST['template_id'] ) ? sanitize_text_field( $_POST['template_id'] ) : false;
 		$template_node_id	  = isset( $_POST['template_node_id'] ) ? sanitize_text_field( $_POST['template_node_id'] ) : false;
+		$recaptcha_response	= isset( $_POST['recaptcha_response'] ) ? $_POST['recaptcha_response'] : false;
 
 		$subject 			= (isset($_POST['subject']) ? $_POST['subject'] : __('Contact Form Submission', 'fl-builder'));
 		$mailto 			= get_option('admin_email');
@@ -95,7 +96,7 @@ class FLContactFormModule extends FLBuilderModule {
 			}
 
 			// Validate reCAPTCHA if enabled
-			if ( isset($settings->recaptcha_toggle) && $settings->recaptcha_toggle == 'show' ) {
+			if ( isset($settings->recaptcha_toggle) && $settings->recaptcha_toggle == 'show' && $recaptcha_response ) {
 				if ( !empty($settings->recaptcha_secret_key) && !empty($settings->recaptcha_site_key) ) {
 					if ( version_compare( phpversion(), '5.3', '>=' ) ) {
 						include $module->dir . 'includes/validate-recaptcha.php';
@@ -483,4 +484,3 @@ FLBuilder::register_module('FLContactFormModule', array(
 		'description'	  => sprintf( __( 'Please register keys for your website at the <a%s>Google Admin Console</a>.', 'fl-builder' ), ' href="https://www.google.com/recaptcha/admin" target="_blank"' ),
 	)	
 ));
-

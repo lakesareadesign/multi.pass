@@ -57,7 +57,9 @@ class Blacklist extends Behavior {
                 <span class="span-icon icon-blacklist"></span>
                 <h3><?php _e( "BLACKLIST MONITOR", wp_defender()->domain ) ?></h3>
                 <a href="#pro-feature" rel="dialog"
-                   class="button button-small button-pre"><?php _e( "PRO FEATURE", wp_defender()->domain ) ?></a>
+                   class="button button-small button-pre"
+				   tooltip="<?php esc_attr_e( "Try Defender Pro free today", wp_defender()->domain ) ?>">
+				   <?php _e( "PRO FEATURE", wp_defender()->domain ) ?></a>
             </div>
             <div class="box-content">
                 <div class="line">

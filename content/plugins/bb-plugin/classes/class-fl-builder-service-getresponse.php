@@ -195,7 +195,27 @@ final class FLBuilderServiceGetResponse extends FLBuilderService {
 			$api = $this->get_api( $account_data['api_key'] );
 			
 			try {
-				$result = $api->addContact( $settings->list_id, $name, $email );
+
+				// Fix, name should not be empty
+				if ( ! $name ) {
+					$names = explode('@', $email);
+					$name = $names[0];
+				}
+
+				// Check if email exists
+				$get_contact = $api->getContactsByEmail( $email );
+
+				if ( $contact = (array) $get_contact ) {
+					reset($contact);
+					$contact_id = key($contact);
+
+					$result = $api->setContactName( $contact_id, $name );
+					$api->setContactCampaign( $contact_id, $settings->list_id );
+
+				// New contact	
+				} else {
+					$result = $api->addContact( $settings->list_id, $name, $email );
+				}
 			} 
 			catch ( Exception $e ) {
 				$response['error'] = sprintf(

@@ -366,3 +366,145 @@ jQuery(document).ready(function($){
 
 
 });
+
+/**
+ * universal media 
+ */
+jQuery( document ).ready( function( $ ) {
+
+    jQuery(".simple-option-media .image-reset").on("click", function( event ){
+        var container = $(this).closest(".simple-option-media");
+        $(".image-preview", container ).removeAttr( "src" );
+        $(".attachment-id", container ).removeAttr("value");
+        $(this).addClass("disabled");
+    });
+
+    jQuery('.simple-option-media .button-select-image').on('click', function( event ){
+        var file_frame;
+        var wp_media_post_id;
+        var set_to_post_id = $('.attachment-id', container ).val();
+        var container = $(this).closest('.simple-option-media');
+
+        event.preventDefault();
+        // If the media frame already exists, reopen it.
+        if ( file_frame ) {
+            // Set the post ID to what we want
+            file_frame.uploader.uploader.param( 'post_id', set_to_post_id );
+            // Open frame
+            file_frame.open();
+            return;
+        } else {
+            // Set the wp.media post id so the uploader grabs the ID we want when initialised
+            wp.media.model.settings.post.id = set_to_post_id;
+        }
+
+        // Create the media frame.
+        file_frame = wp.media.frames.file_frame = wp.media({
+            title: 'Select a image to upload',
+            button: {
+                text: 'Use this image',
+            },
+            multiple: false	// Set to true to allow multiple files to be selected
+        });
+
+        // When an image is selected, run a callback.
+        file_frame.on( 'select', function() {
+            // We set multiple to false so only get one image from the uploader
+            attachment = file_frame.state().get('selection').first().toJSON();
+
+            // Do something with attachment.id and/or attachment.url here
+            $('.image-preview', container ).attr( 'src', attachment.url ).css( 'width', 'auto' );
+            $('.attachment-id', container ).val( attachment.id );
+            $(".image-reset", container).removeClass("disabled");
+
+            // Restore the main post ID
+            wp.media.model.settings.post.id = wp_media_post_id;
+        });
+
+        // Finally, open the modal
+        file_frame.open();
+    });
+
+    // Restore the main ID when the add media button is pressed
+    jQuery( 'a.add_media' ).on( 'click', function() {
+        wp.media.model.settings.post.id = wp_media_post_id;
+    });
+});
+
+/**
+ * Simpel Options
+ */
+jQuery(document).ready(function($){
+    /**
+     * Slider widget
+     */
+    if ( $.fn.slider ) {
+        $('.simple-option div.ui-slider').each( function() {
+            var id = $(this).data('target-id');
+            if ( id ) {
+                var target = $('#'+id);
+                var value = target.val();
+                var max = $(this).data('max') || 100;
+                var min = $(this).data('min') || 0;
+                $(this).slider({
+                    value: value,
+                    min: min,
+                    max: max,
+                    slide: function( event, ui ) {
+                        target.val( ui.value );
+                    }
+                });
+            }
+        });
+    }
+    /**
+     * reset section
+     */
+    $('.toplevel_page_branding #poststuff form div.postbox .hndle .simple-option-reset-section a').on('click', function() {
+        var data = {
+            'action': 'simple_option',
+            'tab': $('#ub-tab').val(),
+            'nonce': $(this).data('nonce'),
+            'section': $(this).data('section')
+        };
+        if ( confirm( $(this).data('question') ) ) {
+            jQuery.post(ajaxurl, data, function(response) {
+                if ( response.success ) {
+                    window.location.href = response.data.redirect;
+                }
+            });
+        }
+        return false;
+    });
+});
+
+/**
+ * Switch button
+ */
+jQuery(document).ready(function(){
+    if ( jQuery.fn.switchButton ) {
+        var ultimate_branding_admin_check_slaves  = function() {
+            jQuery('.simple-option .master-field' ).each( function() {
+                var slave = jQuery(this).data('slave');
+                if ( slave ) {
+                    var slaves = jQuery( '.simple-option.'+slave );
+                    if ( jQuery( '.switch-button-background', jQuery(this).closest('td') ).hasClass( 'checked' ) ) {
+                        slaves.show();
+                    } else {
+                        slaves.hide();
+                    }
+                }
+            });
+        };
+        jQuery('.simple-option .switch-button').each(function() {
+            var options = {
+                checked: jQuery(this).checked,
+                on_label: jQuery(this).data('on') ||  switch_button.labels.label_on,
+                off_label: jQuery(this).data('off') ||  switch_button.labels.label_off,
+                on_callback: ultimate_branding_admin_check_slaves,
+                off_callback: ultimate_branding_admin_check_slaves
+            };
+            jQuery(this).switchButton(options);
+        });
+    }
+});

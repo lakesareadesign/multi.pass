@@ -16,8 +16,7 @@ class Security_Key extends Rule {
 	static $service;
 
 	function getDescription() {
-		$cache = WP_Helper::getCache();
-		$time  = $cache->get( Security_Key_Service::CACHE_KEY, false );
+		$time = Settings::instance()->getDValues( Security_Key_Service::CACHE_KEY );
 		if ( $time ) {
 			$daysAgo = ( time() - $time ) / ( 60 * 60 * 24 );
 		} else {
@@ -52,7 +51,7 @@ class Security_Key extends Rule {
 
 		$reminder = HTTP_Helper::retrieve_post( 'remind_date', null );
 		if ( $reminder ) {
-			WP_Helper::getCache()->set( 'securityReminderDate', strtotime( '+' . $reminder . ' days', current_time( 'timestamp' ) ) );
+			Settings::instance()->setDValues( 'securityReminderDate', strtotime( '+' . $reminder . ' days', current_time( 'timestamp' ) ) );
 			die;
 		}
 	}
@@ -73,8 +72,8 @@ class Security_Key extends Rule {
 		} else {
 			Settings::instance()->addToResolved( self::$slug );
 			wp_send_json_success( array(
-				'message' => sprintf( __( 'All key salts have been regenerated. You will now need to <a href="%s"><strong>re-login</strong></a>.<br/>This will auto reload after 3 seconds.', wp_defender()->domain ), network_admin_url( 'admin.php?page=wdf-hardener' ) ),
-				'reload'  => 3
+				'message' => sprintf( __( 'All key salts have been regenerated. You will now need to <a href="%s"><strong>re-login</strong></a>.<br/>This will auto reload after <span class="hardener-timer">10</span> seconds.', wp_defender()->domain ), network_admin_url( 'admin.php?page=wdf-hardener' ) ),
+				'reload'  => 10
 			) );
 		}
 	}

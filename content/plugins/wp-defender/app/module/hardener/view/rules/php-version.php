@@ -1,4 +1,4 @@
-<div class="rule closed" id="wp-version">
+<div class="rule closed" id="php_version">
     <div class="rule-title">
 		<?php if ( $controller->check() == false ): ?>
             <i class="def-icon icon-warning"></i>

@@ -546,7 +546,7 @@ class MS_Addon_Coupon_Model extends MS_Model_CustomPostType {
 	 * @param int $membership_id The membership id.
 	 */
 	public function remove_application( $user_id, $membership_id ) {
-		$key = self::get_transient_name( $user->id, $membership->id );
+		$key = self::get_transient_name( $user_id, $membership_id );
 
 		MS_Factory::delete_transient( $key );
 

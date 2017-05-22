@@ -348,7 +348,7 @@
 		}
 
 		table.related a.related-item .plugin-info {
-			vertical-align: middle !important;
+			vertical-align: middle !important;	  	 	   	 		 		 				
 		}
 
 		/* company info */

@@ -85,8 +85,11 @@ abstract class Model extends \Hammer\Base\Model {
 
 		list( $wp, $metas ) = static::prepareData( $data );
 
-		wp_insert_post( $wp );
-		$last_id = self::getWPDB()->insert_id;
+		$last_id = wp_insert_post( $wp );
+		if ( $last_id === 0 || is_wp_error( $last_id ) ) {
+			return false;
+		}
+
 		foreach ( $metas as $meta ) {
 			update_post_meta( $last_id, $meta['meta_key'], $meta['meta_value'] );
 		}
@@ -122,9 +125,23 @@ abstract class Model extends \Hammer\Base\Model {
 	 * @return static|null
 	 */
 	public static function findByID( $id ) {
-		return static::findOne( array(
-			'id' => $id
-		) );
+		list( $posts, $metas ) = self::getMaps();
+		$post = get_post( $id );
+		if ( ! is_object( $post ) ) {
+			return null;
+		}
+		$class = get_called_class();
+		$obj   = new $class;
+		foreach ( $posts as $k => $v ) {
+			$obj->$k = $post->$v;
+		}
+
+		foreach ( $metas as $k => $v ) {
+			$value   = get_post_meta( $id, $k, true );
+			$obj->$k = $value;
+		}
+
+		return $obj;
 	}
 
 	/**
@@ -147,9 +164,7 @@ abstract class Model extends \Hammer\Base\Model {
 			}
 		}
 		$sql = $sql . ' LIMIT 1';
-
 		$row = static::getWPDB()->get_row( $sql, ARRAY_A );
-
 		if ( $row === false ) {
 			echo static::getWPDB()->last_error;
 		} else if ( empty( $row ) ) {
@@ -191,6 +206,14 @@ abstract class Model extends \Hammer\Base\Model {
 		}
 
 		return $results;
+	}
+
+	private function cacheQuery() {
+
+	}
+
+	private function flushCacheQuery() {
+
 	}
 
 	/**

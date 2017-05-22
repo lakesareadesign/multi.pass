@@ -114,7 +114,7 @@ jQuery(function ($) {
             return;
         }
         var query = WDAudit.buildFilterQuery();
-        WDAudit.ajaxPull(query + '&paged=' + $(this).text(), function () {
+        WDAudit.ajaxPull(query + '&paged=' + $(this).data('paged'), function () {
 
         });
     });
@@ -275,7 +275,8 @@ WDAudit.buildFilterQuery = function (currentInput) {
     });
     return query.join('&');
 }
-
+var isFirst = true;
+var urlOrigin = location.href;
 WDAudit.ajaxPull = function (query, callback) {
     var overlay = Defender.createOverlay();
     var jq = jQuery;
@@ -305,6 +306,11 @@ WDAudit.ajaxPull = function (query, callback) {
                     }
                     count = data.data.count;
                     overlay.remove();
+                    if (isFirst == false) {
+                        window.history.pushState(null, document.title, urlOrigin + '&' + query);
+                    } else {
+                        isFirst = false;
+                    }
                 } else {
                     jq('.new-event-count').html(data.data.message).removeClass('wd-hide');
                     count = data.data.count;

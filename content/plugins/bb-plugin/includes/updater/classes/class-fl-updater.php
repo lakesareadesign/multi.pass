@@ -286,10 +286,10 @@ final class FLUpdater {
 	 */
 	static public function render_subscriptions( $subscription )
 	{
-		if ( ! $subscription->active || ! $subscription->domain->active || ! isset( $subscription->downloads ) || isset( $subscription->error ) ) {
+		if ( isset( $subscription->error ) || ! $subscription->active || ! $subscription->domain->active || ! isset( $subscription->downloads ) ) {
 			return;
 		}
-		
+
 		include FL_UPDATER_DIR . 'includes/subscriptions.php';
 	}
 

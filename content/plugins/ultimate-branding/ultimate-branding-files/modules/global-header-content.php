@@ -8,7 +8,7 @@ Version: 1.0.0
 Author URI: http://premium.wpmudev.org
 Network: true
 WDP ID:
-*/
+ */
 
 /*
 Copyright 2007-2017 Incsub (http://incsub.com)
@@ -25,7 +25,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 
 class ub_global_header_content {
@@ -70,14 +70,14 @@ class ub_global_header_content {
 			return;
 		}
 ?>
-<script type="text/javascript">
-	var node = document.createElement("div");
-	var att = document.createAttribute("id");
-	att.value = "ub_global_header_content";
-	node.setAttributeNode(att);
-	node.innerHTML = <?php echo json_encode( stripslashes( $global_header_content ) ); ?>;
-	document.getElementsByTagName("body")[0].insertBefore(node,document.getElementsByTagName("body")[0].firstChild);
-</script>
+        <script type="text/javascript">
+        var node = document.createElement("div");
+        var att = document.createAttribute("id");
+        att.value = "ub_global_header_content";
+        node.setAttributeNode(att);
+        node.innerHTML = <?php echo json_encode( stripslashes( $global_header_content ) ); ?>;
+        document.getElementsByTagName("body")[0].insertBefore(node,document.getElementsByTagName("body")[0].firstChild);
+        </script>
 <?php
 	}
 
@@ -90,26 +90,26 @@ class ub_global_header_content {
 			$global_header_content = '';
 		}
 
-		?>
+?>
             <div class="postbox">
-			<h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Global Header Content', 'ub' ) ?></span></h3>
+            <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Global Header Content', 'ub' ) ?></span></h3>
             <div class="inside">
                 <table class="form-table">
                     <tr valign="top">
-						<th scope="row"><?php _e( 'Header Content', 'ub' ) ?></th>
+                        <th scope="row"><?php _e( 'Header Content', 'ub' ) ?></th>
                         <td>
-							<?php
-							$args = array( 'textarea_name' => 'global_header_content', 'textarea_rows' => 5 );
-							wp_editor( stripslashes( $global_header_content ), 'global_header_content', $args );
-							?>
+<?php
+		$args = array( 'textarea_name' => 'global_header_content', 'textarea_rows' => 5 );
+		wp_editor( stripslashes( $global_header_content ), 'global_header_content', $args );
+?>
                             <br />
-							<?php _e( 'What is added here will be shown on every blog or site in your network. You can add tracking code, embeds, etc.', 'ub' ) ?>
+                            <?php _e( 'What is added here will be shown on every blog or site in your network. You can add tracking code, embeds, etc.', 'ub' ) ?>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
-		<?php
+<?php
 	}
 }
 

@@ -28,8 +28,7 @@ class Main extends Controller {
 	 */
 	public function behaviors() {
 		return array(
-			'utils' => '\WP_Defender\Behavior\Utils',
-			'pro'   => '\WP_Defender\Module\IP_Lockout\Behavior\IP_Lockout'
+			'utils' => '\WP_Defender\Behavior\Utils'
 		);
 	}
 
@@ -52,9 +51,30 @@ class Main extends Controller {
 		$this->add_ajax_action( 'wd_import_ips', 'importBWIPs' );
 		$this->add_ajax_action( 'lockoutLoadLogs', 'lockoutLoadLogs' );
 		$this->add_ajax_action( 'lockoutIPAction', 'lockoutIPAction' );
+		$this->add_ajax_action( 'lockoutEmptyLogs', 'lockoutEmptyLogs' );
 
 		$this->handleIp();
 		$this->handleUserSearch();
+	}
+
+	public function lockoutEmptyLogs() {
+		if ( ! $this->checkPermission() ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( HTTP_Helper::retrieve_post( 'nonce' ), 'lockoutEmptyLogs' ) ) {
+			return;
+		}
+
+		$logs = Log_Model::findAll();
+		if ( count( $logs ) ) {
+			foreach ( $logs as $log ) {
+				$log->delete();
+			}
+		}
+		wp_send_json_success( array(
+			'message' => __( "All your logs has been deleted!", wp_defender()->domain )
+		) );
 	}
 
 	/**
@@ -137,15 +157,24 @@ class Main extends Controller {
 			) );
 			die;
 		} else {
-			$model = IP_Model::findOne( array(
-				'ip' => $ip
-			) );
-
-			if ( is_object( $model ) && $model->is_locked() ) {
-				$this->renderPartial( 'locked', array(
-					'message' => $model->lockout_message
-				) );
-				die;
+			global $wpdb;
+			//use raw queries here for faster
+			if ( $this->isActivatedSingle() == false ) {
+				switch_to_blog( 1 );
+			}
+			$sql = "SELECT ID FROM " . $wpdb->posts . " as t0," . $wpdb->postmeta . " as t1 WHERE t0.ID = t1.post_id AND t1.meta_key=%s and t1.meta_value=%s and t0.post_type=%s";
+			$sql = $wpdb->prepare( $sql, "ip", $ip, "wd_ip_lockout" );
+			$ID  = $wpdb->get_var( $sql );
+			if ( $this->isActivatedSingle() == false ) {
+				restore_current_blog();
+			}
+			if ( $ID && is_object( ( $model = IP_Model::findByID( $ID ) ) ) ) {
+				if ( $model->is_locked() ) {
+					$this->renderPartial( 'locked', array(
+						'message' => $model->lockout_message
+					) );
+					die;
+				}
 			}
 		}
 	}
@@ -199,9 +228,11 @@ class Main extends Controller {
 			wp_schedule_event( time(), 'daily', 'cleanUpOldLog' );
 		}
 		$this->add_action( 'cleanUpOldLog', 'cleanUpOldLog' );
+
 		if ( $settings->isWhitelist( $ip ) ) {
 			return;
 		}
+
 		$arr = apply_filters( 'ip_lockout_default_whitelist_ip', array(
 			'192.241.148.185',
 			'104.236.132.222',
@@ -215,6 +246,10 @@ class Main extends Controller {
 		) );
 
 		if ( in_array( $ip, $arr ) ) {
+			return;
+		}
+		//now check if this from google
+		if ( Login_Protection_Api::isGoogleUA() && Login_Protection_Api::isGoogleIP( $ip ) ) {
 			return;
 		}
 
@@ -245,7 +280,7 @@ class Main extends Controller {
 		$logs = Log_Model::findAll( array(
 			'date' => array(
 				'compare' => '<=',
-				'value'   => strtotime( apply_filters( 'ip_lockout_logs_store_backward', '-30 days' ), current_time( 'timestamp' ) )
+				'value'   => strtotime( apply_filters( 'ip_lockout_logs_store_backward', '-' . Settings::instance()->storage_days . ' days' ), current_time( 'timestamp' ) )
 			),
 		) );
 
@@ -256,8 +291,24 @@ class Main extends Controller {
 		}
 	}
 
+	/**
+	 * Sending report email
+	 */
 	public function lockoutReportCron() {
-		$settings   = Settings::instance();
+		if ( wp_defender()->isFree ) {
+			return;
+		}
+		$settings       = Settings::instance();
+		$lastReportSent = $settings->lastReportSent;
+		if ( $lastReportSent == null ) {
+			//no sent, so just assume last 30 days, as this only for monthly
+			$lastReportSent = strtotime( '-31 days', current_time( 'timestamp' ) );
+		}
+
+		if ( ! $this->isReportTime( $settings->report_frequency, $settings->report_day, $lastReportSent ) ) {
+			return false;
+		}
+
 		$after_time = '';
 		$time_unit  = '';
 		switch ( $settings->report_frequency ) {
@@ -296,8 +347,8 @@ class Main extends Controller {
 				wp_mail( $user->user_email, sprintf( __( "Defender Lockouts Report for %s", wp_defender()->domain ), network_site_url() ), $content, $headers );
 			}
 		}
-		$reportTime = Login_Protection_Api::getReportTime();
-		wp_schedule_single_event( $reportTime, 'lockoutReportCron' );
+		$settings->lastReportSent = time();
+		$settings->save();
 	}
 
 	/**
@@ -325,7 +376,6 @@ class Main extends Controller {
 			}
 		}
 	}
-
 
 	/**
 	 * @param IP_Model $model
@@ -600,9 +650,9 @@ class Main extends Controller {
 					$res['message'] = $status;
 				}
 			}
-			$reportTime = Login_Protection_Api::getReportTime( true );
+			$cronTime = $this->reportCronTimestamp( $settings->report_time, 'lockoutReportCron' );
 			if ( $settings->report == true ) {
-				wp_schedule_single_event( $reportTime, 'lockoutReportCron' );
+				wp_schedule_event( $cronTime, 'daily', 'lockoutReportCron' );
 			}
 			wp_send_json_success( $res );
 		} else {
@@ -699,10 +749,19 @@ class Main extends Controller {
 			case 'notification':
 				$this->_renderNotification();
 				break;
+			case 'settings':
+				$this->_renderSettings();
+				break;
 			case 'reporting':
 				$this->_renderReport();
 				break;
 		}
+	}
+
+	private function _renderSettings() {
+		$this->render( 'settings', array(
+			'settings' => Settings::instance()
+		) );
 	}
 
 	private function _renderLoginProtection() {

@@ -3,224 +3,282 @@
 class UB_Admin_Bar_Forms {
 
 	private static $_dashicons = array(
-		'media-default',
-		'media-archive',
-		'media-audio',
-		'media-code',
-		'media-document',
-		'media-interactive',
-		'media-spreadsheet',
-		'media-text',
-		'media-video',
-		'carrot',
-		'menu',
-		'admin-site',
-		'dashboard',
-		'admin-post',
-		'admin-media',
-		'admin-links',
-		'admin-page',
-		'admin-comments',
-		'admin-appearance',
-		'admin-plugins',
-		'admin-users',
-		'admin-tools',
-		'admin-settings',
-		'admin-network',
-		'admin-home',
-		'admin-generic',
-		'admin-collapse',
-		'welcome-write-blog',
-		'welcome-add-page',
-		'welcome-view-site',
-		'welcome-widgets-menus',
-		'welcome-comments',
-		'welcome-learn-more',
-		'format-aside',
-		'format-image',
-		'format-gallery',
-		'format-video',
-		'format-status',
-		'format-quote',
-		'format-chat',
-		'format-audio',
-		'camera',
-		'images-alt',
-		'images-alt2',
-		'video-alt',
-		'video-alt2',
-		'video-alt3',
-		'playlist-audio',
-		'playlist-video',
-		'controls-play',
-		'controls-pause',
-		'controls-forward',
-		'controls-skipforward',
-		'controls-back',
-		'controls-skipback',
-		'controls-repeat',
-		'controls-volumeon',
-		'controls-volumeoff',
-		'image-crop',
-		'image-rotate-left',
-		'image-rotate-right',
-		'image-flip-vertical',
-		'image-flip-horizontal',
-		'undo',
-		'redo',
-		'editor-bold',
-		'editor-italic',
-		'editor-ul',
-		'editor-ol',
-		'editor-quote',
-		'editor-alignleft',
-		'editor-aligncenter',
-		'editor-alignright',
-		'editor-insertmore',
-		'editor-spellcheck',
-		'editor-expand',
-		'editor-contract',
-		'editor-kitchensink',
-		'editor-underline',
-		'editor-justify',
-		'editor-textcolor',
-		'editor-paste-word',
-		'editor-paste-text',
-		'editor-removeformatting',
-		'editor-video',
-		'editor-customchar',
-		'editor-outdent',
-		'editor-indent',
-		'editor-help',
-		'editor-strikethrough',
-		'editor-unlink',
-		'editor-rtl',
-		'editor-break',
-		'editor-code',
-		'editor-paragraph',
-		'align-left',
-		'align-right',
-		'align-center',
-		'align-none',
-		'lock',
-		'calendar',
-		'calendar-alt',
-		'visibility',
-		'post-status',
-		'edit',
-		'trash',
-		'external',
-		'arrow-up',
-		'arrow-down',
-		'arrow-right',
-		'arrow-left',
-		'arrow-up-alt',
-		'arrow-down-alt',
-		'arrow-right-alt',
-		'arrow-left-alt',
-		'arrow-up-alt2',
-		'arrow-down-alt2',
-		'arrow-right-alt2',
-		'arrow-left-alt2',
-		'sort',
-		'leftright',
-		'randomize',
-		'list-view',
-		'exerpt-view',
-		'grid-view',
-		'share',
-		'share-alt',
-		'share-alt2',
-		'twitter',
-		'rss',
-		'email',
-		'email-alt',
-		'facebook',
-		'facebook-alt',
-		'googleplus',
-		'networking',
-		'hammer',
-		'art',
-		'migrate',
-		'performance',
-		'universal-access',
-		'universal-access-alt',
-		'tickets',
-		'nametag',
-		'clipboard',
-		'heart',
-		'megaphone',
-		'schedule',
-		'wordpress',
-		'wordpress-alt',
-		'pressthis',
-		'update',
-		'screenoptions',
-		'info',
-		'cart',
-		'feedback',
-		'cloud',
-		'translation',
-		'tag',
-		'category',
-		'archive',
-		'tagcloud',
-		'text',
-		'yes',
-		'no',
-		'no-alt',
-		'plus',
-		'plus-alt',
-		'minus',
-		'dismiss',
-		'marker',
-		'star-filled',
-		'star-half',
-		'star-empty',
-		'flag',
-		'location',
-		'location-alt',
-		'vault',
-		'shield',
-		'shield-alt',
-		'sos',
-		'search',
-		'slides',
-		'analytics',
-		'chart-pie',
-		'chart-bar',
-		'chart-line',
-		'chart-area',
-		'groups',
-		'businessman',
-		'id',
-		'id-alt',
-		'products',
-		'awards',
-		'forms',
-		'testimonial',
-		'portfolio',
-		'book',
-		'book-alt',
-		'download',
-		'upload',
-		'backup',
-		'clock',
-		'lightbulb',
-		'microphone',
-		'desktop',
-		'tablet',
-		'smartphone',
-		'phone',
-		'index-card',
-		'building',
-		'store',
-		'album',
-		'palmtree',
-		'tickets-alt',
-		'money',
-		'smiley' );
-
+		'Admin Menu Icons' => array(
+			'menu',
+			'admin-site',
+			'dashboard',
+			'admin-media',
+			'admin-page',
+			'admin-comments',
+			'admin-appearance',
+			'admin-plugins',
+			'admin-users',
+			'admin-tools',
+			'admin-settings',
+			'admin-network',
+			'admin-generic',
+			'admin-home',
+			'admin-collapse',
+			'filter',
+			'admin-customizer',
+			'admin-multisite',
+		),
+		'Both Admin Menu and Post Formats' => array(
+			'admin-links',
+			'format-links',
+			'admin-post',
+			'format-standard',
+		),
+		'Post Format Icons' => array(
+			'format-image',
+			'format-gallery',
+			'format-audio',
+			'format-video',
+			'format-chat',
+			'format-status',
+			'format-aside',
+			'format-quote',
+		),
+		'Welcome Screen Icons' => array(
+			'welcome-write-blog',
+			'welcome-edit-page',
+			'welcome-add-page',
+			'welcome-view-site',
+			'welcome-widgets-menus',
+			'welcome-comments',
+			'welcome-learn-more',
+		),
+		'Image Editing Icons' => array(
+			'image-crop',
+			'image-rotate',
+			'image-rotate-left',
+			'image-rotate-right',
+			'image-flip-vertical',
+			'image-flip-horizontal',
+			'image-filter',
+		),
+		'Both Image Editing and TinyMCE' => array(
+			'undo',
+			'redo',
+		),
+		'TinyMCE Icons' => array(
+			'editor-bold',
+			'editor-italic',
+			'editor-ul',
+			'editor-ol',
+			'editor-quote',
+			'editor-alignleft',
+			'editor-aligncenter',
+			'editor-alignright',
+			'editor-insertmore',
+			'editor-spellcheck',
+			'editor-distractionfree',
+			'editor-expand',
+			'editor-contract',
+			'editor-kitchensink',
+			'editor-underline',
+			'editor-justify',
+			'editor-textcolor',
+			'editor-paste-word',
+			'editor-paste-text',
+			'editor-removeformatting',
+			'editor-video',
+			'editor-customchar',
+			'editor-outdent',
+			'editor-indent',
+			'editor-help',
+			'editor-strikethrough',
+			'editor-unlink',
+			'editor-rtl',
+			'editor-break',
+			'editor-code',
+			'editor-paragraph',
+			'editor-table',
+		),
+		'Post Icons' => array(
+			'align-left',
+			'align-right',
+			'align-center',
+			'align-none',
+			'lock',
+			'unlock',
+			'calendar',
+			'calendar-alt',
+			'visibility',
+			'hidden',
+			'post-status',
+			'edit',
+			'post-trash',
+			'trash',
+			'sticky',
+		),
+		'Sorting' => array(
+			'external',
+			'arrow-up',
+			'arrow-down',
+			'arrow-left',
+			'arrow-right',
+			'arrow-up-alt',
+			'arrow-down-alt',
+			'arrow-left-alt',
+			'arrow-right-alt',
+			'arrow-up-alt2',
+			'arrow-down-alt2',
+			'arrow-left-alt2',
+			'arrow-right-alt2',
+			'leftright',
+			'sort',
+			'randomize',
+			'list-view',
+			'exerpt-view',
+			'excerpt-view',
+			'grid-view',
+			'move',
+		),
+		'WPorg specific icons' => array(
+			'hammer',
+			'art',
+			'migrate',
+			'performance',
+			'universal-access',
+			'universal-access-alt',
+			'tickets',
+			'nametag',
+			'clipboard',
+			'heart',
+			'megaphone',
+			'schedule',
+		),
+		'Internal/Products' => array(
+			'wordpress',
+			'wordpress-alt',
+			'pressthis',
+			'update',
+			'screenoptions',
+			'cart',
+			'feedback',
+			'cloud',
+			'translation',
+		),
+		'Taxonomies' => array(
+			'tag',
+			'category',
+		),
+		'Widget icons' => array(
+			'archive',
+			'tagcloud',
+			'text',
+		),
+		'Media icons' => array(
+			'media-archive',
+			'media-audio',
+			'media-code',
+			'media-default',
+			'media-document',
+			'media-interactive',
+			'media-spreadsheet',
+			'media-text',
+			'media-video',
+			'playlist-audio',
+			'playlist-video',
+			'controls-play',
+			'controls-pause',
+			'controls-forward',
+			'controls-skipforward',
+			'controls-back',
+			'controls-skipback',
+			'controls-repeat',
+			'controls-volumeon',
+			'controls-volumeoff',
+		),
+		'Alerts/Notifications/Flags' => array(
+			'yes',
+			'no',
+			'no-alt',
+			'plus',
+			'plus-alt',
+			'plus-alt2',
+			'minus',
+			'dismiss',
+			'marker',
+			'star-filled',
+			'star-half',
+			'star-empty',
+			'flag',
+			'info',
+			'warning',
+		),
+		'Social Icons' => array(
+			'share',
+			'share1',
+			'share-alt',
+			'share-alt2',
+			'twitter',
+			'rss',
+			'email',
+			'email-alt',
+			'facebook',
+			'facebook-alt',
+			'networking',
+			'googleplus',
+		),
+		'Misc/CPT' => array(
+			'location',
+			'location-alt',
+			'camera',
+			'images-alt',
+			'images-alt2',
+			'video-alt',
+			'video-alt2',
+			'video-alt3',
+			'vault',
+			'shield',
+			'shield-alt',
+			'sos',
+			'search',
+			'slides',
+			'analytics',
+			'chart-pie',
+			'chart-bar',
+			'chart-line',
+			'chart-area',
+			'groups',
+			'businessman',
+			'id',
+			'id-alt',
+			'products',
+			'awards',
+			'forms',
+			'testimonial',
+			'portfolio',
+			'book',
+			'book-alt',
+			'download',
+			'upload',
+			'backup',
+			'clock',
+			'lightbulb',
+			'microphone',
+			'desktop',
+			'laptop',
+			'tablet',
+			'smartphone',
+			'phone',
+			'smiley',
+			'index-card',
+			'carrot',
+			'building',
+			'store',
+			'album',
+			'palmtree',
+			'tickets-alt',
+			'money',
+			'thumbs-up',
+			'thumbs-down',
+			'layout',
+			'paperclip',
+		),
+	);
 	/**
 	 * Retrieves options
 	 *
@@ -235,7 +293,11 @@ class UB_Admin_Bar_Forms {
 			return $opts;
 		}
 
-		return $opts[ $key ];
+		if ( isset( $opts[ $key ] ) ) {
+			return $opts[ $key ];
+		}
+
+		return null;
 	}
 
 	/**
@@ -246,24 +308,58 @@ class UB_Admin_Bar_Forms {
 	 *
 	 * @return string
 	 */
-	public static function create_checkbox( $name, $pfx = 'wdcab' ) {
-		$opt   = self::get_option( $name, $pfx );
-		$value = @$opt[ $name ];
-
-		return
-			"<input type='radio' name='{$pfx}[{$name}]' id='{$name}-yes' value='1' " . ( (int) $value ? 'checked="checked" ' : '' ) . " /> " .
-			"<label for='{$name}-yes'>" . __( 'Yes', 'ub' ) . "</label>" .
-			'&nbsp;' .
-			"<input type='radio' name='{$pfx}[{$name}]' id='{$name}-no' value='0' " . ( ! (int) $value ? 'checked="checked" ' : '' ) . " /> " .
-			"<label for='{$name}-no'>" . __( 'No', 'ub' ) . "</label>" .
-			"";
+	public static function create_checkbox( $name, $pfx = 'wdcab', $labels = array() ) {
+		$value = intval( self::get_option( $name, $pfx ) );
+		$defaults = array(
+			'yes' => __( 'Yes', 'ub' ),
+			'no' => __( 'No', 'ub' ),
+		);
+		$labels = wp_parse_args( $labels, $defaults );
+		$content = '<ul>';
+		$content .= sprintf(
+			'<li><label><input type="radio" name="%s[%s]" id="%s-%s" value="%d" %s /> %s</label></li>',
+			esc_attr( $pfx ),
+			esc_attr( $name ),
+			esc_attr( $name ),
+			esc_attr( 'yes' ),
+			1,
+			checked( 1, $value, false ),
+			$labels['yes']
+		);
+		$content .= sprintf(
+			'<li><label><input type="radio" name="%s[%s]" id="%s-%s" value="%d" %s /> %s</label></li>',
+			esc_attr( $pfx ),
+			esc_attr( $name ),
+			esc_attr( $name ),
+			esc_attr( 'no' ),
+			0,
+			checked( 0, $value, false ),
+			$labels['no']
+		);
+		$content .= '</ul>';
+		return $content;
 	}
 
 	/**
 	 * Creates enable box
 	 */
 	public static function create_enabled_box() {
-		echo self::create_checkbox( 'enabled' );
+		$labels = array(
+			'yes' => __( 'Show custom entries', 'ub' ),
+			'no' => __( 'Hide custom entries', 'ub' ),
+		);
+		echo self::create_checkbox( 'enabled', 'wdcab', $labels );
+	}
+
+	/**
+	 * Creates enable box
+	 */
+	public static function create_show_box() {
+		$labels = array(
+			'yes' => __( 'Show to logged out', 'ub' ),
+			'no' => __( 'Hide from logged out', 'ub' ),
+		);
+		echo self::create_checkbox( 'show_toolbar_for_non_logged', 'wdcab', $labels );
 	}
 
 	/**
@@ -285,10 +381,10 @@ class UB_Admin_Bar_Forms {
 		foreach ( $_menus as $id => $lbl ) {
 			$checked = in_array( $id, $disabled ) ? 'checked="checked"' : '';
 			echo '' .
-			     "<input type='checkbox' name='wdcab[disabled_menus][]' id='wdcab-disabled_menus-{$id}' value='{$id}' {$checked}>" .
-			     "&nbsp;" .
-			     "<label for='wdcab-disabled_menus-{$id}'>{$lbl}</label>" .
-			     "<br />";
+				"<input type='checkbox' name='wdcab[disabled_menus][]' id='wdcab-disabled_menus-{$id}' value='{$id}' {$checked}>" .
+				'&nbsp;' .
+				"<label for='wdcab-disabled_menus-{$id}'>{$lbl}</label>" .
+				'<br />';
 		}
 	}
 
@@ -299,33 +395,28 @@ class UB_Admin_Bar_Forms {
 	 * @param string $pfx
 	 */
 	public static function create_roles_box( $name, $pfx = 'wdcab' ) {
-		global $wp_roles;
-
-		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
-		}
-		$roles = $wp_roles->get_names();
+		$roles = self::get_roles();
 
 		$opt = self::get_option( $name, $pfx );
 
-		$opt = is_array( $opt ) ? $opt : ( $opt === "" ?  array() : array_keys($roles) ) ;
+		$opt = is_array( $opt ) ? $opt : ( $opt === '' ?  array() : array_keys( $roles ) ) ;
 		echo "<input type='hidden' name='{$pfx}[{$name}]' value='' />";
-        if(is_multisite()) {
-            $is_super_admin = current_user_can('manage_network') ? "ub_adminbar_is_current_user" : "";
-            $supericon = current_user_can('manage_network') ? sprintf("<span class='dashicons dashicons-info' title='%s'></span", __("Current user has this role", "ub") ) : "";
-            $checked = in_array( 'super', $opt ) ? 'checked="checked"' : '';
-            echo "<p><input type='checkbox' name='{$pfx}[{$name}][Super-Admin]' id='{$pfx}-{$name}-super' value='super' {$checked}>"
-                . "&nbsp;"
-                . "<label class='{$is_super_admin}' for='{$pfx}-{$name}-super'>Super-Admin&nbsp;{$supericon}</label></p>";
-        }
+		if ( is_multisite() ) {
+			$is_super_admin = current_user_can( 'manage_network' ) ? 'ub_adminbar_is_current_user' : '';
+			$supericon = current_user_can( 'manage_network' ) ? sprintf( "<span class='dashicons dashicons-info' title='%s'></span", __( 'Current user has this role', 'ub' ) ) : '';
+			$checked = in_array( 'super', $opt ) ? 'checked="checked"' : '';
+			echo "<p><input type='checkbox' name='{$pfx}[{$name}][Super-Admin]' id='{$pfx}-{$name}-super' value='super' {$checked}>"
+				. '&nbsp;'
+				. "<label class='{$is_super_admin}' for='{$pfx}-{$name}-super'>Super-Admin&nbsp;{$supericon}</label></p>";
+		}
 		foreach ( $roles as $role_value => $role_name ) {
 			$checked = in_array( $role_value, $opt ) ? 'checked="checked"' : '';
 			$current_user_has_role = self::_current_user_has_role( $role_value );
-			$is_current_user =  $current_user_has_role ? "ub_adminbar_is_current_user" : "";
-			$icon = $current_user_has_role ? sprintf("<span class='dashicons dashicons-info' title='%s'></span", __("Current user has this role", "ub") ) : "";
+			$is_current_user = $current_user_has_role ? 'ub_adminbar_is_current_user' : '';
+			$icon = $current_user_has_role ? sprintf( "<span class='dashicons dashicons-info' title='%s'></span", __( 'Current user has this role', 'ub' ) ) : '';
 			echo "<p><input type='checkbox' name='{$pfx}[{$name}][{$role_name}]' id='{$pfx}-{$name}-{$role_value}' value='{$role_value}' {$checked}>"
-			     . "&nbsp;"
-			     . "<label class='{$is_current_user}' for='{$pfx}-{$name}-{$role_value}'>{$role_name}&nbsp;{$icon}</label></p>";
+				. '&nbsp;'
+				. "<label class='{$is_current_user}' for='{$pfx}-{$name}-{$role_value}'>{$role_name}&nbsp;{$icon}</label></p>";
 		}
 	}
 
@@ -338,7 +429,7 @@ class UB_Admin_Bar_Forms {
 	 *
 	 * @return bool
 	 */
-	private static function _current_user_has_role( $role ){
+	private static function _current_user_has_role( $role ) {
 		global $current_user;
 		return in_array( $role, (array) $current_user->roles );
 	}
@@ -349,64 +440,59 @@ class UB_Admin_Bar_Forms {
 	 * @param UB_Admin_Bar_Menu $menu |null
 	 */
 	public static function create_submenu_roles( $menu = null ) {
-		global $wp_roles;
-
-		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
-		}
-		$roles = $wp_roles->get_names();
+		$roles = self::get_roles();
 
 		if ( $menu instanceof UB_Admin_Bar_Menu ) {
 			$opts = $menu->menu->menu_roles;
 			$opts = is_array( $opts ) ? $opts : $roles;
-            if(is_multisite()) {
-                $sname    = "ub_ab_prev[{$menu->id}][menu_roles][super]";
-                $sid      = "ub_ab_prev_{$menu->id}_menu_roles_super";
-                $is_super_admin = current_user_can('manage_network') ? "ub_adminbar_is_current_user" : "";
-                $supericon = current_user_can('manage_network') ? sprintf("&nbsp;<span class='dashicons dashicons-info' title='%s'></span", __("Current user has this role", "ub") ) : "";
-                $schecked = array_key_exists( 'super', $opts ) ? 'checked="checked"' : '';
-                $label_class = current_user_can('manage_network') ? "ub_adminbar_is_current_user" : "";
-                ?>
+			if ( is_multisite() ) {
+				$sname    = "ub_ab_prev[{$menu->id}][menu_roles][super]";
+				$sid      = "ub_ab_prev_{$menu->id}_menu_roles_super";
+				$is_super_admin = current_user_can( 'manage_network' ) ? 'ub_adminbar_is_current_user' : '';
+				$supericon = current_user_can( 'manage_network' ) ? sprintf( "&nbsp;<span class='dashicons dashicons-info' title='%s'></span", __( 'Current user has this role', 'ub' ) ) : '';
+				$schecked = array_key_exists( 'super', $opts ) ? 'checked="checked"' : '';
+				$label_class = current_user_can( 'manage_network' ) ? 'ub_adminbar_is_current_user' : '';
+?>
                 <p>
                     <input id="<?php echo $sid ?>" type='checkbox' name='<?php echo $sname ?>' <?php echo $schecked; ?> >
                     <label class="<?php echo $label_class; ?>" for="<?php echo $sid ?>"><?php echo 'Super-Admin' . $supericon?></label>
                 </p>
-            <?php
-            }
+<?php
+			}
 			foreach ( $roles as $role_value => $role_name ) {
 				$checked = array_key_exists( $role_value, $opts ) ? 'checked="checked"' : '';
 				$name    = "ub_ab_prev[{$menu->id}][menu_roles][{$role_value}]";
 				$id      = "ub_ab_prev_{$menu->id}_menu_roles_{$role_value}";
 				$current_user_has_role = self::_current_user_has_role( $role_value );
-				$icon = $current_user_has_role ? sprintf("&nbsp;<span class='dashicons dashicons-info' title='%s'></span", __("Current user has this role", "ub") ) : "";
-				$label_class = $current_user_has_role ? "ub_adminbar_is_current_user" : "";
-				?>
-				<p>
-					<input id="<?php echo $id ?>" type='checkbox' name='<?php echo $name ?>' <?php echo $checked; ?> >
-					<label class="<?php echo $label_class; ?>" for="<?php echo $id ?>"><?php echo $role_name . $icon?></label>
-				</p>
-			<?php
+				$icon = $current_user_has_role ? sprintf( "&nbsp;<span class='dashicons dashicons-info' title='%s'></span", __( 'Current user has this role', 'ub' ) ) : '';
+				$label_class = $current_user_has_role ? 'ub_adminbar_is_current_user' : '';
+?>
+                <p>
+                    <input id="<?php echo $id ?>" type='checkbox' name='<?php echo $name ?>' <?php echo $checked; ?> >
+                    <label class="<?php echo $label_class; ?>" for="<?php echo $id ?>"><?php echo $role_name . $icon?></label>
+                </p>
+<?php
 			}
 		} else {
-            if(is_multisite()) {
-                $sname    = "ub_ab_tmp[][menu_roles][super]";
-                $sid      = "ub_ab_tmp__menu_roles_super";
-                ?>
+			if ( is_multisite() ) {
+				$sname    = 'ub_ab_tmp[][menu_roles][super]';
+				$sid      = 'ub_ab_tmp__menu_roles_super';
+?>
                 <p>
                     <input type="checkbox" checked="checked" name="<?php echo $sname ?>" id="<?php $sid ?>"/>
                     <label for="<?php echo $sid ?>">Super-Admin</label>
                 </p>
-            <?php
-            }
+<?php
+			}
 			foreach ( $roles as $role_value => $role_name ) {
 				$name = "ub_ab_tmp[][menu_roles][{$role_value}]";
 				$id   = "ub_ab_tmp__menu_roles_{$role_value}";
-				?>
-				<p>
-					<input type="checkbox" checked="checked" name="<?php echo $name ?>" id="<?php $id ?>"/>
-					<label for="<?php echo $id ?>"><?php echo $role_name ?></label>
-				</p>
-			<?php
+?>
+                <p>
+                    <input type="checkbox" checked="checked" name="<?php echo $name ?>" id="<?php $id ?>"/>
+                    <label for="<?php echo $id ?>"><?php echo $role_name ?></label>
+                </p>
+<?php
 			}
 		}
 
@@ -418,43 +504,64 @@ class UB_Admin_Bar_Forms {
 	 * @param UB_Admin_Bar_Menu $menu|null
 	 */
 	public static function render_dashicons_radios( $menu = null ) {
-		?>
-		<ul class="ub_adminbar_dashicons">
+		foreach (  self::$_dashicons  as $index => $icons ) {
+			printf( '<h5>%s</h5>', $index );
+?>
+        <ul class="ub_adminbar_dashicons">
+<?php
+if ( $menu instanceof UB_Admin_Bar_Menu ) {
+	foreach (  $icons  as $icon_name ) {
+		$name = "ub_ab_prev[{$menu->id}][dashicons]";
+		$id   = "ub_ab_prev_{$menu->id}_dashicons_{$icon_name}";
+		$title = str_replace( '-', ' ', ucfirst( $icon_name ) );
+?>
+<li class="<?php echo isset( $menu->menu->dashicons ) && $menu->menu->dashicons === $icon_name ? 'selected' : ''; ?>" >
+<input <?php echo isset( $menu->menu->dashicons ) ?  checked( $menu->menu->dashicons, $icon_name, false ) : ''; ?> title="<?php echo $title ?>" type="radio"  value="<?php echo $icon_name ?>" name="<?php echo $name ?>" id="<?php echo $id ?>"/>
+<label title="<?php echo $title ?>" for="<?php echo $id ?>">
+<span class="dashicons dashicons-<?php echo $icon_name ?>"></span>
+</label>
+</li>
+<?php
+	}
+} else {
+	foreach ( $icons as $icon_name ) {
+		$name = 'ub_ab_tmp[][dashicons]';
+		$id   = "ub_ab_tmp_dashicons_{$icon_name}";
+		$title = str_replace( '-', ' ', ucfirst( $icon_name ) );
+?>
+<li>
+<input title="<?php echo $title ?>" type="radio"  value="<?php echo $icon_name ?>" name="<?php echo $name ?>" id="<?php echo $id ?>"/>
+<label title="<?php echo $title ?>" for="<?php echo $id ?>">
+<span class="dashicons dashicons-<?php echo $icon_name ?>"></span>
+</label>
+</li>
+<?php
+	}
+}
 
-			<?php
-		if ( $menu instanceof UB_Admin_Bar_Menu ) {
-			foreach (  self::$_dashicons  as $icon_name ):
-				$name = "ub_ab_prev[{$menu->id}][dashicons]";
-				$id   = "ub_ab_prev_{$menu->id}_dashicons_{$icon_name}";
-				$title = str_replace( "-", " ", ucfirst( $icon_name ) );
-				?>
-				<li class="<?php echo isset( $menu->menu->dashicons ) && $menu->menu->dashicons === $icon_name ? 'selected' : ''; ?>" >
-					<input <?php echo isset( $menu->menu->dashicons ) ?  checked( $menu->menu->dashicons, $icon_name, false ) : ""; ?> title="<?php echo $title ?>" type="radio"  value="<?php echo $icon_name ?>" name="<?php echo $name ?>" id="<?php echo $id ?>"/>
-					<label title="<?php echo $title ?>" for="<?php echo $id ?>">
-						<span class="dashicons dashicons-<?php echo $icon_name ?>"></span>
-					</label>
-				</li>
-			<?php endforeach;
-		}else{
-			foreach (  self::$_dashicons  as $icon_name ):
-				$name = "ub_ab_tmp[][dashicons]";
-				$id   = "ub_ab_tmp_dashicons_{$icon_name}";
-				$title = str_replace( "-", " ", ucfirst( $icon_name ) );
-				?>
-				<li>
-					<input title="<?php echo $title ?>" type="radio"  value="<?php echo $icon_name ?>" name="<?php echo $name ?>" id="<?php echo $id ?>"/>
-					<label title="<?php echo $title ?>" for="<?php echo $id ?>">
-						<span class="dashicons dashicons-<?php echo $icon_name ?>"></span>
-					</label>
-				</li>
-			<?php
-			endforeach;
+?>
+        </ul>
+<?php
 		}
-
-
-			?>
-		</ul>
-	<?php
 	}
 
+	/**
+	 * Get roles list.
+	 *
+	 * @since 1,8,4
+	 *
+	 * @return array $roles Array of user roles.
+	 */
+	private static function get_roles() {
+		global $wp_roles;
+		if ( ! isset( $wp_roles ) ) {
+			$wp_roles = new WP_Roles();
+		}
+		$roles = $wp_roles->get_names();
+		/**
+		 * add guest
+		 */
+		$roles['guest'] = __( 'Guest (non loged user)', 'ub' );
+		return $roles;
+	}
 }

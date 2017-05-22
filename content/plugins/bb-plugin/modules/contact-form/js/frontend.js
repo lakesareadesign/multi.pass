@@ -6,7 +6,8 @@
 
 		if ( reCaptchaFields.length > 0 ) {
 			reCaptchaFields.each(function(){
-				var attrWidget = $(this).attr('data-widgetid');
+				var self 		= $( this ),
+				 	attrWidget 	= self.attr('data-widgetid');
 
 				// Avoid re-rendering as it's throwing API error
 				if ( (typeof attrWidget !== typeof undefined && attrWidget !== false) ) {
@@ -14,11 +15,16 @@
 				}
 				else {
 					widgetID = grecaptcha.render( $(this).attr('id'), { 
-						sitekey : $(this).data('sitekey'),
-						theme	: 'light'
+						sitekey : self.data( 'sitekey' ),
+						theme	: 'light',
+						callback: function( response ){
+							if ( response != '' ) {
+								self.attr( 'data-fl-grecaptcha-response', response );
+							}							
+						}
 					});
 					
-					$(this).attr('data-widgetid', widgetID);					
+					self.attr( 'data-widgetid', widgetID );					
 				}							
 			});
 		}
@@ -51,6 +57,7 @@
 				subject	  		= $(this.nodeClass + ' .fl-subject input'),
 				message	  		= $(this.nodeClass + ' .fl-message textarea'),
 				reCaptchaField  = $('#'+ this.settings.id + '-fl-grecaptcha'),
+				reCaptchaValue	= reCaptchaField.data( 'fl-grecaptcha-response' ),
 				ajaxData 		= null,
 				ajaxurl	  		= FLBuilderLayoutConfig.paths.wpAjaxUrl,
 				email_regex 	= /\S+@\S+\.\S+/,
@@ -121,12 +128,13 @@
 			}
 
 			// validate if reCAPTCHA is enabled and checked
-			if ( reCaptchaField.length && typeof grecaptcha !== 'undefined' && grecaptcha.getResponse( reCaptchaField.data('widgetid') ) == '' ) {
-				isValid = false;
-				reCaptchaField.parent().addClass('fl-error');
-			}
-			else {
-				reCaptchaField.parent().removeClass('fl-error');
+			if ( reCaptchaField.length > 0 ) {
+				if ( 'undefined' === typeof reCaptchaValue || reCaptchaValue === false ) {
+					isValid = false;
+					reCaptchaField.parent().addClass( 'fl-error' );
+				} else {
+					reCaptchaField.parent().removeClass('fl-error');
+				}
 			}
 			
 			// end if we're invalid, otherwise go on..
@@ -151,8 +159,8 @@
 					node_id 			: nodeId
 				}
 
-				if ( typeof grecaptcha !== 'undefined' ) {
-					ajaxData.recaptcha_response	= grecaptcha.getResponse( reCaptchaField.data('widgetid') );
+				if ( reCaptchaValue ) {
+					ajaxData.recaptcha_response	= reCaptchaValue;
 				}
 				
 				// post the form data

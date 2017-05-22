@@ -1,6 +1,34 @@
 jQuery(function ($) {
     WDHardener.formHandler();
     WDHardener.rules();
+
+    //On key up or is a user decides to paste
+    $('textarea.hardener-php-excuted-ignore').on('keyup keypress paste',function(e){
+        var text_val = $(this).val();
+        //We cant allow index.php
+        if( text_val.includes('index.php')){
+            text_val = text_val.replace(/index.php/g,'');
+            $(this).val(text_val);
+        }
+        
+        if ($('.hardener-frm').length) {
+            //Apache
+            $('.hardener-frm [name="file_paths"]').val(text_val);
+        } else {
+            //Nginx
+            var excludedFiles = text_val.split('\n');
+            var newRule = "";
+            $.each(excludedFiles, function(index, file) {
+                newRule += "\n location ~* ^$wp_content/"+file+"$ {"+
+                           " \n  allow all;"+
+                            "\n}";
+            });
+            $('span.hardener-nginx-extra-instructions').html(newRule);
+        }
+        
+        
+    });
+
     $('div.hardener').on('form-submitted', function (e, data, form) {
         if (form.hasClass('rule-process') == false) {
             return;
@@ -10,6 +38,7 @@ jQuery(function ($) {
             $('.count-issues').text(data.data.issues);
             $('.count-ignored').text(data.data.ignore);
             $('.count-resolved').text(data.data.fixed);
+            $('.issues-actioned').text(10 - data.data.issues);
             if (data.data.issues > 0) {
                 $('.issues-count i').removeClass('def-icon icon-tick').addClass('def-icon icon-warning');
                 $('.count-issues').removeClass('wd-hide');
@@ -67,11 +96,30 @@ WDHardener.formHandler = function () {
             success: function (data) {
                 if (data.data != undefined && data.data.reload != undefined) {
                     if (data.data.message != undefined) {
-                        Defender.showNotification('success', data.data.message);
+
+                        //Modal should not close
+                        Defender.showNotification('success', data.data.message, false);
+
+                        //Count down timer
+                        if(jq('.hardener-timer').length){
+                            var duration = data.data.reload;
+                            var refreshTimer = setInterval(function () {
+                                seconds = parseInt(duration % 60, 10);
+                                seconds = seconds < 10 ? "0" + seconds : seconds;
+                                jq('.hardener-timer').html(seconds);
+
+                                if (--duration < 0) {
+                                    clearInterval(refreshTimer);
+                                    location.reload()
+                                }
+                            }, 1000);
+                        }
+
+                    } else {
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1500)
                     }
-                    setTimeout(function () {
-                        location.reload()
-                    }, 1500)
                 } else if (data.data != undefined && data.data.url != undefined) {
                     location.href = data.data.url;
                 } else {

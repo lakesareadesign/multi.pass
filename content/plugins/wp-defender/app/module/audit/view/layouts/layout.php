@@ -28,14 +28,20 @@
                                             <span class="list-label"><?php _e( "Reports", wp_defender()->domain ) ?></span>
                                             <span class="list-detail">
                                             <?php
-                                            if ( \WP_Defender\Module\Audit\Model\Settings::instance()->notification == true ) {
-	                                            echo ucfirst( \WP_Defender\Behavior\Utils::instance()->frequencyToText( \WP_Defender\Module\Audit\Model\Settings::instance()->frequency ) );
+                                            $settings = \WP_Defender\Module\Audit\Model\Settings::instance();
+                                            if ( $settings->notification == true ) {
+	                                            echo ucfirst( \WP_Defender\Behavior\Utils::instance()->frequencyToText( $settings->frequency ) );
 	                                            ?>
                                                 <p class="sub">
                                                     <?php
-                                                    printf( __( "%s at %s", wp_defender()->domain ),
-	                                                    ucfirst( \WP_Defender\Module\Audit\Model\Settings::instance()->day ),
-	                                                    strftime( '%I:%M %p', strtotime( \WP_Defender\Module\Audit\Model\Settings::instance()->time ) ) ); ?>
+                                                    if ( $settings->frequency == 1 ) {
+	                                                    printf( __( "at %s", wp_defender()->domain ),
+		                                                    strftime( '%I:%M %p', strtotime( $settings->time ) ) );
+                                                    } else {
+	                                                    printf( __( "%s at %s", wp_defender()->domain ),
+		                                                    ucfirst( $settings->day ),
+		                                                    strftime( '%I:%M %p', strtotime( $settings->time ) ) );
+                                                    } ?>
                                                 </p>
 	                                            <?php
                                             } else {

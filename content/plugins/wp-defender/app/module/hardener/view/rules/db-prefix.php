@@ -1,4 +1,4 @@
-<div class="rule closed" id="change-db-prefix">
+<div class="rule closed" id="db_prefix">
     <div class="rule-title">
 		<?php if ( $controller->check() == false ): ?>
             <i class="def-icon icon-warning"></i>

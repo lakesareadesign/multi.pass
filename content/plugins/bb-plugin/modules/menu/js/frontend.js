@@ -66,6 +66,7 @@
 		 */
 		_initMenu: function(){
 			this._menuOnFocus();
+			this._initMegaMenus();
 
 			if( this._isMobile() || this.type == 'accordion' ){
 				
@@ -160,11 +161,18 @@
 
 			if( this._isMobile() ){
 				$li.each( function( el ){
-
 					if( !$(this).hasClass('fl-active') ){
 						$(this).find( '.sub-menu' ).fadeOut();
 					}
-
+				} );
+			} else {
+				$li.each( function( el ){
+					if( !$(this).hasClass('fl-active') ){
+						$(this).find( '.sub-menu' ).css( {
+							'display' : '',
+							'opacity' : ''
+						} );
+					}
 				} );
 			}
 		},
@@ -239,6 +247,7 @@
 					this._placeMobileMenuBelowRow();
 					$wrapper = $( this.wrapperClass );
 					$menu    = $( this.nodeClass + '-clone' );
+					$menu.find( 'ul.menu' ).show();
 				}
 				else {
 					$wrapper = $( this.wrapperClass );
@@ -291,6 +300,33 @@
 		},
 
 		/**
+		 * Init any mega menus that exist.
+		 *
+		 * @since  1.10.4
+		 * @return void
+		 */
+		_initMegaMenus: function(){
+			
+			var module     = $( this.nodeClass ),
+				rowContent = module.closest( '.fl-row-content' ),
+				rowWidth   = rowContent.width(),
+				rowOffset  = rowContent.offset().left,
+				megas      = module.find( '.mega-menu' ),
+				disabled   = module.find( '.mega-menu-disabled' ),
+				mobile     = this._isMobile();
+				
+			if ( mobile ) {
+				megas.removeClass( 'mega-menu' ).addClass( 'mega-menu-disabled' );
+				module.find( 'li.mega-menu-disabled > ul.sub-menu' ).css( 'width', '' );
+				rowContent.css( 'position', '' );
+			} else {
+				disabled.removeClass( 'mega-menu-disabled' ).addClass( 'mega-menu' );
+				module.find( 'li.mega-menu > ul.sub-menu' ).css( 'width', rowWidth + 'px' );
+				rowContent.css( 'position', 'relative' );
+			}
+		},
+
+		/**
 		 * Logic for putting the mobile menu below the menu's
 		 * column so it spans the full width of the page.
 		 *
@@ -335,7 +371,6 @@
 			module.find( '.fl-menu-mobile-toggle' ).after( menu );
 			clone.remove();
 		}
-	
 	};
 		
 })(jQuery);

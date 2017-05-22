@@ -54,6 +54,10 @@ class Scan_Api extends Component {
 	 * @return null|Scan
 	 */
 	public static function getActiveScan() {
+		$cache = WP_Helper::getArrayCache();
+		if ( $cache->exists( 'activeScan' ) ) {
+			return $cache->get( 'activeScan' );
+		}
 		$model = Scan::findOne( array(
 			'status' => array(
 				Scan::STATUS_INIT,
@@ -62,6 +66,8 @@ class Scan_Api extends Component {
 			)
 		) );
 
+		$cache->set( 'activeScan', $model );
+
 		return $model;
 	}
 
@@ -69,11 +75,18 @@ class Scan_Api extends Component {
 	 * @return null|Scan
 	 */
 	public static function getLastScan() {
+		$cache = WP_Helper::getArrayCache();
+		if ( $cache->exists( 'lastScan' ) ) {
+			return $cache->get( 'lastScan' );
+		}
 		$model = Scan::findOne( array(
 			'status' => array(
 				Scan::STATUS_FINISH
 			)
 		), 'ID', 'DESC' );
+
+		$cache->set( 'lastScan', $model );
+
 
 		return $model;
 	}
@@ -278,6 +291,10 @@ class Scan_Api extends Component {
 			//mark the current as complted
 			$model->status = Scan::STATUS_FINISH;
 			$model->save();
+			if ( $model->logs == 'report' ) {
+				$settings->lastReportSent = time();
+				$settings->save();
+			}
 			self::flushCache();
 			self::releaseLock();
 
@@ -414,6 +431,7 @@ class Scan_Api extends Component {
 		$cache->delete( self::SCAN_PATTERN );
 		delete_site_option( self::SCAN_PATTERN );
 		$cache->delete( 'filestried' );
+		$cache->delete( self::CACHE_CHECKSUMS );
 	}
 
 	/**
@@ -425,19 +443,45 @@ class Scan_Api extends Component {
 	 */
 	public static function convertToUnixPath( $file ) {
 		//check if this is windows OS, if so convert the ABSPATH
-		if ( DIRECTORY_SEPARATOR == '\\' ) {
+		//Removed : Adds unecessay slashes in windows
+		/*if ( DIRECTORY_SEPARATOR == '\\' ) {
 			$abs_path = rtrim( ABSPATH, '/' );
 			$abs_path = $abs_path . '\\';
 		} else {
 			$abs_path = ABSPATH;
-		}
+		}*/
 		//now getting the relative path
-		$relative_path = str_replace( $abs_path, '', $file );
+		$relative_path = str_replace( ABSPATH, '', $file );
 		if ( DIRECTORY_SEPARATOR == '\\' ) {
-			$relative_path = str_replace( '\\', '/', $relative_path );
+			$relative_path = str_replace( '\\', '', $relative_path ); //Make sure the files do not have a /filename.etension or checksum fails
 		}
 
 		return $relative_path;
+	}
+
+
+	/**
+	 * A function for dealing with windows host, Fixes the URL path on Windows
+	 *
+	 * @param $file
+	 *
+	 * @return mixed
+	 */
+	public static function convertToWindowsAbsPath( $file ) {
+		//check if this is windows OS, if so convert the ABSPATH
+		if ( DIRECTORY_SEPARATOR == '\\' ) {
+			$abs_path = rtrim( ABSPATH, '/' );
+			$abs_path = $abs_path . '\\';
+
+			//now getting the relative path
+			$abs_path = str_replace( $abs_path, '', $file );
+			$abs_path = str_replace( '\\', '/', $abs_path );
+			$abs_path = str_replace( '//', '/', $abs_path );
+
+			return $abs_path;
+		}
+
+		return $file;
 	}
 
 	/**
@@ -446,6 +490,7 @@ class Scan_Api extends Component {
 	 * @param $clearCron bool - force to clear scanning cron
 	 *
 	 * @return false|int
+	 * @deprecated 1.4.2
 	 */
 	public static function getScheduledScanTime( $clearCron = true ) {
 		if ( $clearCron ) {
@@ -540,7 +585,7 @@ class Scan_Api extends Component {
 		$patterns     = Utils::instance()->devCall( $api_endpoint, array(), array(
 			'method' => 'GET'
 		) );
-		if ( is_wp_error( $patterns ) ) {
+		if ( is_wp_error( $patterns ) || $patterns == false ) {
 			$patterns = array();
 		}
 

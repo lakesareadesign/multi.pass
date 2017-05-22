@@ -1,4 +1,4 @@
-<div class="rule closed" id="disable-trackback">
+<div class="rule closed" id="disable_trackback">
     <div class="rule-title">
 		<?php if ( $controller->check() == false ): ?>
             <i class="def-icon icon-warning"></i>

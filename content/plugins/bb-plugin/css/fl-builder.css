@@ -479,6 +479,17 @@ span.fl-builder-block-no-node-templates:hover {
 .fl-builder-blocks-node-template .fl-builder-block {
 	position: relative;
 }
+.fl-builder-blocks-node-template .fl-builder-badge-global {
+	position: absolute;
+    right: 20px;
+    top: 13px;
+}
+.fl-builder-blocks-node-template .fl-builder-block:hover .fl-builder-badge-global {
+	display: none;
+}
+.fl-builder-blocks-node-template .fl-builder-block-global.fl-builder-block {
+	padding-right: 85px;
+}
 .fl-builder-blocks-section-content .fl-builder-node-template-actions {
 	bottom: 0;
 	cursor: default;
@@ -1315,6 +1326,14 @@ span.fl-builder-block-no-node-templates:hover {
 
 .fl-builder-user-template-settings .fl-builder-settings-fields  {
 	height: 150px;
+}
+
+
+/* User Template Editing
+------------------------------------------------------ */
+
+.single-fl-builder-template .fl-content {
+	width: 100% !important;
 }
 
 /* Node Template Settings

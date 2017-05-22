@@ -13,10 +13,10 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 	 * @access public
 	 */
 	function __construct() {
-		$this->register_js( UB_Admin_Bar::NAME, "jquery.classywiggle.min" );
-		$this->register_js( UB_Admin_Bar::NAME, "main" );
-		$this->register_css( UB_Admin_Bar::NAME, "main" );
-		add_action( 'admin_enqueue_scripts', array( $this, "register_local_scripts" ) );
+		$this->register_js( UB_Admin_Bar::NAME, 'jquery.classywiggle.min' );
+		$this->register_js( UB_Admin_Bar::NAME, 'main' );
+		$this->register_css( UB_Admin_Bar::NAME, 'main' );
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_local_scripts' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'ultimatebranding_settings_menu_adminbar', array( &$this, 'create_admin_page' ) );
 		add_action( 'ultimatebranding_admin_header_adminbar', array( &$this, 'js_print_scripts' ) );
@@ -29,10 +29,10 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 	 * @return void
 	 */
 	function register_local_scripts() {
-		wp_localize_script( $this->get_enqueue_handle( UB_Admin_Bar::NAME, "main" ), "ub_admin_bar", array(
-			"new_bar"            => __( "New Bar", "ub" ),
-			"new_bar_sub_menu"   => __( "New Bar Submenu", "ub" ),
-			"save_before_adding" => __( "Please save before you can add submenus", "ub" ),
+		wp_localize_script( $this->get_enqueue_handle( UB_Admin_Bar::NAME, 'main' ), 'ub_admin_bar', array(
+			'new_bar'            => __( 'New Bar', 'ub' ),
+			'new_bar_sub_menu'   => __( 'New Bar Submenu', 'ub' ),
+			'save_before_adding' => __( 'Please save before you can add submenus', 'ub' ),
 		) );
 	}
 
@@ -68,7 +68,7 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 		$perms = is_multisite() ? 'manage_network_options' : 'manage_options';
 		add_submenu_page( $page, __( 'Custom Admin Bar', 'ub' ), __( 'Custom Admin Bar', 'ub' ), $perms, 'wdcab', array(
 			$this,
-			'create_admin_page'
+			'create_admin_page',
 		) );
 	}
 
@@ -90,17 +90,17 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 	function create_admin_page() {
 		global $wp_version;
 		$version = preg_replace( '/-.*$/', '', $wp_version );
-		$this->render( UB_Admin_Bar::NAME, "general_settings", array(
-			'enable_hiding_default_bars' => version_compare( $version, '3.3', '>=' )
+		$this->render( UB_Admin_Bar::NAME, 'general_settings', array(
+			'enable_hiding_default_bars' => version_compare( $version, '3.3', '>=' ),
 		) );
-		?>
-		<div class="postbox-container" id="ub_admin_bar_menus">
-			<?php
-			$this->render( UB_Admin_Bar::NAME, "menus" );
-			?>
-		</div>
-		<?php
-		$this->render( UB_Admin_Bar::NAME, "add_new" );
+?>
+        <div class="postbox-container" id="ub_admin_bar_menus">
+<?php
+		$this->render( UB_Admin_Bar::NAME, 'menus' );
+?>
+        </div>
+<?php
+		$this->render( UB_Admin_Bar::NAME, 'add_new' );
 	}
 
 	/**
@@ -109,8 +109,7 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 	 */
 	function js_print_scripts() {
 		wp_enqueue_script( array(
-			"jquery-effects-shake"
+			'jquery-effects-shake'
 		) );
 	}
-
 }

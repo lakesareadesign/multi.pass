@@ -11,6 +11,7 @@
 		adaptiveHeight: true,
 		pause : <?php echo $settings->pause * 1000; ?>,
 		mode : '<?php echo $settings->transition; ?>',
+		autoDirection: '<?php echo $settings->direction; ?>',
 		speed : <?php echo $settings->speed * 1000;  ?>,
 		pager : <?php echo ($settings->layout == 'wide') ? $settings->dots : 0; ?>,
 		nextSelector : '.fl-node-<?php echo $id; ?> .fl-slider-next',

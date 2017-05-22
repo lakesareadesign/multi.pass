@@ -32,7 +32,7 @@ class Vuln_Scan extends Behavior {
 		if ( empty( $plugins ) ) {
 			//get all the plugins, even activate or not, as in network
 			foreach ( get_plugins() as $slug => $plugin ) {
-				$base_slug             = explode( DIRECTORY_SEPARATOR, $slug );
+				$base_slug             = explode( '/', $slug ); //DIRECTORY_SEPARATOR wont work on windows
 				$base_slug             = array_shift( $base_slug );
 				$plugins[ $base_slug ] = $plugin['Version'];
 			}
@@ -114,13 +114,15 @@ class Vuln_Scan extends Behavior {
 				'slug' => $slug,
 				'bugs' => array()
 			);
-			foreach ( $bugs['confirmed'] as $bug ) {
-				$model->raw['bugs'][] = array(
-					'vuln_type' => $bug['vuln_type'],
-					'title'     => $bug['title'],
-					'ref'       => $bug['references'],
-					'fixed_in'  => $bug['fixed_in'],
-				);
+			if ( is_array( $bugs['confirmed'] ) ) {
+				foreach ( $bugs['confirmed'] as $bug ) {
+					$model->raw['bugs'][] = array(
+						'vuln_type' => $bug['vuln_type'],
+						'title'     => $bug['title'],
+						'ref'       => $bug['references'],
+						'fixed_in'  => $bug['fixed_in'],
+					);
+				}
 			}
 			$model->save();
 		}
@@ -148,13 +150,15 @@ class Vuln_Scan extends Behavior {
 				'slug' => $slug,
 				'bugs' => array()
 			);
-			foreach ( $bugs['confirmed'] as $bug ) {
-				$model->raw['bugs'][] = array(
-					'vuln_type' => $bug['vuln_type'],
-					'title'     => $bug['title'],
-					'ref'       => $bug['references'],
-					'fixed_in'  => $bug['fixed_in'],
-				);
+			if ( is_array( $bugs['confirmed'] ) ) {
+				foreach ( $bugs['confirmed'] as $bug ) {
+					$model->raw['bugs'][] = array(
+						'vuln_type' => $bug['vuln_type'],
+						'title'     => $bug['title'],
+						'ref'       => $bug['references'],
+						'fixed_in'  => $bug['fixed_in'],
+					);
+				}
 			}
 			$model->save();
 		}

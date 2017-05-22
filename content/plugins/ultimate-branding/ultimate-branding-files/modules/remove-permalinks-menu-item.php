@@ -7,7 +7,7 @@ Author: Andrew Billits, Ulrich Sossou
 Version: 1.0.3
 Author URI: http://premium.wpmudev.org/
 WDP ID: 171
-*/
+ */
 
 add_action( 'admin_menu', 'ub_remove_permalinks_menu_item' );
 
@@ -16,20 +16,20 @@ function ub_remove_permalinks_menu_item() {
 	unset( $submenu['options-general.php'][40] );
 }
 
-add_action('ultimatebranding_settings_menu_permalinks','ub_rpm_manage_output');
+add_action( 'ultimatebranding_settings_menu_permalinks','ub_rpm_manage_output' );
 
 function ub_rpm_manage_output() {
 	global $wpdb, $current_site, $page;
 
-	?>
+?>
 
-	<div class="postbox">
-		<h3 class="hndle" style='cursor:auto;'><span><?php _e('Remove Permalinks Menu Item','ub'); ?></span></h3>
-		<div class="inside">
-				<p class='description'><?php _e( 'The Permalinks menu item is hidden.', 'ub' ); ?>
+    <div class="postbox">
+        <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Remove Permalinks Menu Item','ub' ); ?></span></h3>
+        <div class="inside">
+                <p class='description'><?php _e( 'The Permalinks menu item is hidden.', 'ub' ); ?>
 
-		</div>
-	</div>
+        </div>
+    </div>
 
 <?php
 }

@@ -1,7 +1,7 @@
 <dialog id="activator">
     <div class="activate-picker">
         <div class="line end">
-			<?php _e( "Welcome to Defender Pro! Let's quickly set up the most important security features for your website, then you can fine tune each setting later. Our recommendations are turned on by default.", wp_defender()->domain ) ?>
+			<?php _e( "Welcome to Defender Pro! Let's quickly set up the most important security features, then you can fine tune each setting later. Our recommendations are turned on by default.", wp_defender()->domain ) ?>
         </div>
         <form method="post">
             <input type="hidden" value="activateModule" name="action"/>
@@ -79,13 +79,13 @@
                 </div>
 			<?php endif; ?>
             <div class="columns last">
-                <div class="column is-10">
+                <div class="column is-9">
                     <p class="sub">
-						<?php _e( "Note: These services will be configured with our recommended settings. You can change these at any time.", wp_defender()->domain ) ?>
+						<?php _e( "These services will be configured with recommended settings. You can change these at any time.", wp_defender()->domain ) ?>
                     </p>
                 </div>
-                <div class="column is-2 float-r">
-                    <button type="submit" class="button"><?php _e( "Activate", wp_defender()->domain ) ?></button>
+                <div class="column is-3 tr">
+                    <button type="submit" class="button"><?php _e( "Get Started", wp_defender()->domain ) ?></button>
                 </div>
             </div>
         </form>

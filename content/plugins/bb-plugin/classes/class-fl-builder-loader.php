@@ -1,51 +1,51 @@
 <?php
 
 if ( ! class_exists( 'FLBuilderLoader' ) ) {
-	
+
 	/**
 	 * Responsible for setting up builder constants, classes and includes.
 	 *
 	 * @since 1.8
 	 */
 	final class FLBuilderLoader {
-		
+
 		/**
 		 * Load the builder if it's not already loaded, otherwise
 		 * show an admin notice.
 		 *
 		 * @since 1.8
 		 * @return void
-		 */ 
+		 */
 		static public function init()
 		{
 			if ( ! function_exists( 'is_plugin_active' ) ) {
 				include_once ABSPATH . 'wp-admin/includes/plugin.php';
 			}
-			
+
 			$lite_dirname   = 'beaver-builder-lite-version';
 			$lite_active    = is_plugin_active( $lite_dirname . '/fl-builder.php' );
 			$plugin_dirname = basename( dirname( dirname( __FILE__ ) ) );
-			
+
 			if ( class_exists( 'FLBuilder' ) || ( $plugin_dirname != $lite_dirname && $lite_active ) ) {
 				add_action('admin_notices',           __CLASS__ . '::double_install_admin_notice');
 				add_action('network_admin_notices',   __CLASS__ . '::double_install_admin_notice');
 				return;
 			}
-			
+
 			self::define_constants();
 			self::load_files();
 			self::check_permissions();
 		}
-		
+
 		/**
 		 * Define builder constants.
 		 *
 		 * @since 1.8
 		 * @return void
-		 */ 
+		 */
 		static private function define_constants()
 		{
-			define('FL_BUILDER_VERSION', '1.10.1');
+			define('FL_BUILDER_VERSION', '1.10.4');
 			define('FL_BUILDER_FILE', trailingslashit(dirname(dirname(__FILE__))) . 'fl-builder.php');
 			define('FL_BUILDER_DIR', plugin_dir_path(FL_BUILDER_FILE));
 			define('FL_BUILDER_URL', plugins_url('/', FL_BUILDER_FILE));
@@ -57,13 +57,13 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			define('FL_BUILDER_OLD_DEMO_URL', 'http://demos.fastlinemedia.com');
 			define('FL_BUILDER_DEMO_CACHE_URL', 'http://demos.wpbeaverbuilder.com/wp-content/uploads/bb-plugin/cache/');
 		}
-		
+
 		/**
 		 * Loads classes and includes.
 		 *
 		 * @since 1.8
 		 * @return void
-		 */ 
+		 */
 		static private function load_files()
 		{
 			/* Classes */
@@ -95,12 +95,12 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			if ( defined( 'WP_CLI' ) ) {
 				require __DIR__ . '/class-fl-builder-wpcli-command.php';
 			}
-			
+
 			/* Includes */
 			require_once FL_BUILDER_DIR . 'includes/compatibility.php';
 			require_once FL_BUILDER_DIR . 'includes/updater/updater.php';
 		}
-		
+
 		/**
 		 * Checks to see if we can write to files and shows
 		 * an admin notice if we can't.
@@ -108,21 +108,21 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @since 1.8.2
 		 * @access private
 		 * @return void
-		 */ 
+		 */
 		static private function check_permissions()
 		{
 			if ( isset( $_REQUEST['page'] ) && in_array( $_REQUEST['page'], array( 'fl-builder-settings', 'fl-builder-multisite-settings' ) ) ) {
-				
+
 				$wp_upload_dir = wp_upload_dir();
 				$bb_upload_dir = FLBuilderModel::get_upload_dir();
-				
+
 				if ( ! is_writable( $wp_upload_dir['basedir'] ) || ! is_writable( $bb_upload_dir['path'] ) ) {
 					add_action('admin_notices',           __CLASS__ . '::permissions_admin_notice');
 					add_action('network_admin_notices',   __CLASS__ . '::permissions_admin_notice');
 				}
 			}
 		}
-	
+
 		/**
 		 * Shows an admin notice if we can't write to files.
 		 *
@@ -132,10 +132,10 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		static public function permissions_admin_notice()
 		{
 			$message = __( 'Beaver Builder may not be functioning correctly as it does not have permission to write files to the WordPress uploads directory on your server. Please update the WordPress uploads directory permissions before continuing or contact your host for assistance.', 'fl-builder' );
-			
+
 			self::render_admin_notice( $message, 'error' );
 		}
-	
+
 		/**
 		 * Shows an admin notice if another version of the builder
 		 * has already been loaded before this one.
@@ -146,10 +146,10 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		static public function double_install_admin_notice()
 		{
 			$message = __( 'You currently have two versions of Beaver Builder active on this site. Please <a href="%s">deactivate one</a> before continuing.', 'fl-builder' );
-			
+
 			self::render_admin_notice( sprintf( $message, admin_url( 'plugins.php' ) ), 'error' );
 		}
-		
+
 		/**
 		 * Renders an admin notice.
 		 *
@@ -158,7 +158,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @param string $message
 		 * @param string $type
 		 * @return void
-		 */ 
+		 */
 		static private function render_admin_notice( $message, $type = 'update' )
 		{
 			if ( ! is_admin() ) {
@@ -167,10 +167,10 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			else if ( ! is_user_logged_in() ) {
 				return;
 			}
-			else if ( ! current_user_can( 'update_core' ) ) {
+			else if ( ! current_user_can( 'update_plugins' ) ) {
 				return;
 			}
-			
+
 			echo '<div class="' . $type . '">';
 			echo '<p>' . $message . '</p>';
 			echo '</div>';

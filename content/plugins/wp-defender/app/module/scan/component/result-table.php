@@ -197,7 +197,7 @@ class Result_Table extends \WP_List_Table {
                     <select name="bulk" class="bulk-action">
 						<?php if ( $this->type != Result_Item::STATUS_IGNORED ): ?>
                             <option value="ignore"><?php _e( "Ignore", wp_defender()->domain ) ?></option>
-                            <option value="resolve"><?php _e( "Resolve", wp_defender()->domain ) ?></option>
+<!--                            <option value="resolve">--><?php //_e( "Resolve", wp_defender()->domain ) ?><!--</option>-->
                             <!--                            <option value="delete">--><?php //_e( "Delete", wp_defender()->domain ) ?><!--</option>-->
 						<?php endif; ?>
 						<?php if ( $this->type == Result_Item::STATUS_IGNORED ): ?>
@@ -261,7 +261,7 @@ class Result_Table extends \WP_List_Table {
 		 * if larger than 7 we will get 3 previous page of current, current, and .., and, and previous, next, first, last links
 		 */
 		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );	  	 	   	 		 		 				
+		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
 
 		$radius = 3;
 		if ( $current_page > 1 && $total_pages > $radius ) {

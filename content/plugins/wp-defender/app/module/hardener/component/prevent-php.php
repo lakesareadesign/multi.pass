@@ -6,6 +6,7 @@
 namespace WP_Defender\Module\Hardener\Component;
 
 use Hammer\Helper\WP_Helper;
+use Hammer\Helper\HTTP_Helper;
 use WP_Defender\Module\Hardener\Model\Settings;
 use WP_Defender\Module\Hardener\Rule;
 
@@ -36,9 +37,14 @@ class Prevent_Php extends Rule {
 		if ( ! $this->verifyNonce() ) {
 			return;
 		}
-		$ret = $this->getService()->revert();
+		$settings 	= Settings::instance();
+		$service 	= $this->getService();
+		$service->setHtConfig( $settings->getNewHtConfig() );
+		$ret 		= $service->revert();
 		if ( ! is_wp_error( $ret ) ) {
-			Settings::instance()->addToIssues( self::$slug );
+			$settings->saveExcludedFilePaths( array() );
+			$settings->saveNewHtConfig( array() );
+			$settings->addToIssues( self::$slug );
 		} else {
 			wp_send_json_error( array(
 				'message' => $ret->get_error_message()
@@ -55,9 +61,15 @@ class Prevent_Php extends Rule {
 		if ( ! $this->verifyNonce() ) {
 			return;
 		}
-		$ret = $this->getService()->process();
+		$service 	= $this->getService();
+		$file_paths = HTTP_Helper::retrieve_post( 'file_paths' ); //File paths to ignore
+		$service->setExcludeFilePaths( $file_paths ); //Set the paths
+		$ret = $service->process();
 		if ( ! is_wp_error( $ret ) ) {
-			Settings::instance()->addToResolved( self::$slug );
+			$settings = Settings::instance();
+			$settings->saveExcludedFilePaths( $service->getExcludedFilePaths() );
+			$settings->saveNewHtConfig( $service->getNewHtConfig() );
+			$settings->addToResolved( self::$slug );
 		} else {
 			wp_send_json_error( array(
 				'message' => $ret->get_error_message()

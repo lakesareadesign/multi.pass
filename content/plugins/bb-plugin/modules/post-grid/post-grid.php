@@ -37,6 +37,12 @@ class FLPostGridModule extends FLBuilderModule {
 		if(FLBuilderModel::is_builder_active() || $this->settings->pagination == 'scroll') {
 			$this->add_js('jquery-infinitescroll');
 		}
+
+		// Jetpack sharing has settings to enable sharing on posts, post types and pages.
+		// If pages are disabled then jetpack will still show the share button in this module
+		// but will *not* enqueue its scripts and fonts.
+		// This filter forces jetpack to enqueue the sharing scripts.
+		add_filter( 'sharing_enqueue_scripts', '__return_true' );
 	}
 
 	/**
@@ -156,7 +162,7 @@ class FLPostGridModule extends FLBuilderModule {
 		$content = ob_get_clean();
 		
 		if ( ! empty( $this->settings->content_length ) ) {
-			$content = wp_trim_words( $content, $this->settings->content_length, '...' );
+			$content = wpautop( wp_trim_words( $content, $this->settings->content_length, '...' ) );
 		}
 		
 		echo $content;
@@ -288,11 +294,11 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'toggle'        => array(
 							'columns'       => array(
 								'sections'      => array('posts', 'image', 'content', 'post_style', 'text_style'),
-								'fields'        => array('match_height', 'post_columns', 'post_spacing', 'post_padding', 'grid_image_position', 'grid_image_spacing', 'show_author', 'show_comments', 'info_separator')
+								'fields'        => array('match_height', 'post_columns', 'post_spacing', 'post_padding', 'grid_image_position', 'grid_image_spacing', 'show_author', 'show_comments_grid', 'info_separator')
 							),
 							'grid'          => array(
 								'sections'      => array('posts', 'image', 'content', 'post_style', 'text_style'),
-								'fields'        => array('match_height', 'post_width', 'post_spacing', 'post_padding', 'grid_image_position', 'grid_image_spacing', 'show_author', 'show_comments', 'info_separator')
+								'fields'        => array('match_height', 'post_width', 'post_spacing', 'post_padding', 'grid_image_position', 'grid_image_spacing', 'show_author', 'show_comments_grid', 'info_separator')
 							),
 							'gallery'		=> array(
 								'sections'      => array( 'gallery_general', 'overlay_style', 'icons' )
@@ -493,6 +499,15 @@ FLBuilder::register_module('FLPostGridModule', array(
 						)
 					),
 					'show_comments' => array(
+						'type'          => 'select',
+						'label'         => __('Comments', 'fl-builder'),
+						'default'       => '1',
+						'options'       => array(
+							'1'             => __('Show', 'fl-builder'),
+							'0'             => __('Hide', 'fl-builder')
+						)
+					),
+					'show_comments_grid' => array(
 						'type'          => 'select',
 						'label'         => __('Comments', 'fl-builder'),
 						'default'       => '0',

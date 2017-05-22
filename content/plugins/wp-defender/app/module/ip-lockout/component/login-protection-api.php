@@ -13,6 +13,8 @@ use WP_Defender\Module\IP_Lockout\Model\Log_Model;
 use WP_Defender\Module\IP_Lockout\Model\Settings;
 
 class Login_Protection_Api extends Component {
+	const COUNT_TOTAL = 'wdCountTotals';
+
 	/**
 	 * @param Log_Model $log
 	 * @param bool $force
@@ -295,6 +297,7 @@ class Login_Protection_Api extends Component {
 	 * @param bool $clearCron
 	 *
 	 * @return false|int
+	 * @deprecated 1.5
 	 */
 	public static function getReportTime( $clearCron = true, $utc = true ) {
 		if ( $clearCron ) {
@@ -332,5 +335,52 @@ class Login_Protection_Api extends Component {
 				return strtotime( $timeString );
 			}
 		}
+	}
+
+	/**
+	 * Check if useragent is looks like from google
+	 *
+	 * @param string $userAgent
+	 *
+	 * @return bool
+	 */
+	public static function isGoogleUA( $userAgent = '' ) {
+		if ( empty( $userAgent ) ) {
+			$userAgent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : null;
+		}
+		if ( function_exists( 'mb_strtolower' ) ) {
+			$userAgent = mb_strtolower( $userAgent, 'UTF-8' );
+		} else {
+			$userAgent = strtolower( $userAgent );
+		}
+
+		if ( stristr( $userAgent, 'googlebot' ) !== false ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if IP is from google, base on https://support.google.com/webmasters/answer/80553?hl=en
+	 *
+	 * @param $ip
+	 *
+	 * @return bool
+	 */
+	public static function isGoogleIP( $ip ) {
+		$hostname = gethostbyaddr( $ip );
+		//check if this hostname has googlebot or google.com
+		if ( preg_match( '/\.googlebot|google\.com$/i', $hostname ) ) {
+			$hosts = gethostbynamel( $hostname );
+			//check if this match the oringal ip
+			foreach ( $hosts as $host ) {
+				if ( $ip == $host ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

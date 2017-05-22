@@ -9,7 +9,7 @@
     <div class="box-content">
         <div class="box-content">
             <div class="line">
-				<?php _e( "There are a number of basic security tweaks you can make to your website to strengthen it against harmful hackers and bots that try to break in. We recommend you action as many tweaks as possible.", wp_defender()->domain ) ?>
+				<?php _e( "There are a number of security tweaks you can make to your website to strengthen it against harmful hackers and bots that try to break in. We recommend you action as many tweaks as possible.", wp_defender()->domain ) ?>
             </div>
             <div class="rules">
 				<?php

@@ -17,6 +17,8 @@ class WD_Main_Activator {
 		$db_ver = get_site_option( 'wd_db_version' );
 		if ( wp_defender()->db_version == "1.4" && $db_ver != false && version_compare( $db_ver, wp_defender()->db_version, '<' ) == true ) {
 			$this->maybeUpgrade();
+		} elseif ( wp_defender()->db_version == "1.5" && version_compare( $db_ver, wp_defender()->db_version, '<' ) ) {
+			$this->maybeUpgrade15();
 		}
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( &$this, 'addSettingsLink' ) );
 		add_action( 'admin_enqueue_scripts', array( &$this, 'register_styles' ) );
@@ -158,21 +160,44 @@ class WD_Main_Activator {
 		update_site_option( 'wd_db_version', $this->wp_defender->db_version );
 	}
 
+	private function maybeUpgrade15() {
+		$settings = \WP_Defender\Module\Scan\Model\Settings::instance();
+		if ( $settings->notification ) {
+			$cronTime = \WP_Defender\Behavior\Utils::instance()->reportCronTimestamp( $settings->time, 'scanReportCron' );
+			wp_schedule_event( $cronTime, 'daily', 'scanReportCron' );
+		}
+
+		$auditSettings = \WP_Defender\Module\Audit\Model\Settings::instance();
+		if ( $auditSettings->notification ) {
+			wp_clear_scheduled_hook( 'auditReportCron' );
+			$cronTime = \WP_Defender\Behavior\Utils::instance()->reportCronTimestamp( $auditSettings->time, 'auditReportCron' );
+			wp_schedule_event( $cronTime, 'daily', 'auditReportCron' );
+		}
+
+		$lockoutSettings = \WP_Defender\Module\IP_Lockout\Model\Settings::instance();
+		if ( $lockoutSettings->report ) {
+			wp_clear_scheduled_hook( 'lockoutReportCron' );
+			$cronTime = \WP_Defender\Behavior\Utils::instance()->reportCronTimestamp( $lockoutSettings->report_time, 'lockoutReportCron' );
+			wp_schedule_event( $cronTime, 'daily', 'lockoutReportCron' );
+		}
+		update_site_option( 'wd_db_version', wp_defender()->db_version );
+	}
+
 	public function activationHook() {
 		$settings = \WP_Defender\Module\Scan\Model\Settings::instance();
 		if ( $settings->notification ) {
-			$nextScanTime = \WP_Defender\Module\Scan\Component\Scan_Api::getScheduledScanTime();
-			wp_schedule_single_event( $nextScanTime, 'processScanCron' );
+			$cronTime = \WP_Defender\Behavior\Utils::instance()->reportCronTimestamp( $settings->time, 'scanReportCron' );
+			wp_schedule_event( $cronTime, 'daily', 'scanReportCron' );
 		}
 		$settings = \WP_Defender\Module\Audit\Model\Settings::instance();
 		if ( $settings->notification ) {
-			$reportTime = \WP_Defender\Module\Audit\Component\Audit_API::getReportTime();
-			wp_schedule_single_event( $reportTime, 'auditReportCron' );
+			$cronTime = \WP_Defender\Behavior\Utils::instance()->reportCronTimestamp( $settings->time, 'auditReportCron' );
+			wp_schedule_event( $cronTime, 'daily', 'auditReportCron' );
 		}
 		$settings = \WP_Defender\Module\IP_Lockout\Model\Settings::instance();
 		if ( $settings->report ) {
-			$reportTime = \WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::getReportTime( true );
-			wp_schedule_single_event( $reportTime, 'lockoutReportCron' );
+			$cronTime = \WP_Defender\Behavior\Utils::instance()->reportCronTimestamp( $settings->report_time, 'lockoutReportCron' );
+			wp_schedule_event( $cronTime, 'daily', 'lockoutReportCron' );
 		}
 	}
 }

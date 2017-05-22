@@ -43,6 +43,22 @@ class Memcached_Cache extends Cache {
 
 	/**
 	 * @param $key
+	 * @param $offset
+	 */
+	protected function increaseValue( $key, $offset ) {
+		wp_cache_incr( $key, $offset );
+	}
+
+	/**
+	 * @param $key
+	 * @param $offset
+	 */
+	protected function decreaseValue( $key, $offset ) {
+		wp_cache_decr( $key, $offset );
+	}
+
+	/**
+	 * @param $key
 	 * @param $value
 	 * @param null $duration
 	 *

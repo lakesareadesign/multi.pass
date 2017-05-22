@@ -41,6 +41,10 @@ class Settings extends \Hammer\WP\Settings {
 	public $receipts = array();
 
 	public $dummy = array();
+	/**
+	 * @var
+	 */
+	public $lastReportSent;
 
 	/**
 	 * @return array

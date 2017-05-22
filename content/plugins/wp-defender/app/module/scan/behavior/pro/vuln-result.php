@@ -9,6 +9,8 @@ use WP_Defender\Module\Scan\Component\Plugin_Upgrader_Skin;
 use WP_Defender\Module\Scan\Component\Theme_Upgrader_Skin;
 
 class Vuln_Result extends \Hammer\Base\Behavior {
+	private $hasFix;
+
 	/**
 	 * @return string
 	 */
@@ -76,9 +78,13 @@ class Vuln_Result extends \Hammer\Base\Behavior {
 	 * @return string
 	 */
 	public function getIssueDetail() {
-		$raw   = $this->getRaw();
-		$texts = array();
+		$raw      = $this->getRaw();
+		$texts    = array();
+		$hasFixed = false;
 		foreach ( $raw['bugs'] as $bug ) {
+			if ( ! empty( $bug['fixed_in'] ) ) {
+				$hasFixed = true;
+			}
 			$text    = '<div class="vuln-list">';
 			$text    .= '<p>' . $bug['title'] . '</p>';
 			$text    .= '<ul>';
@@ -88,6 +94,7 @@ class Vuln_Result extends \Hammer\Base\Behavior {
 			$text    .= '</div>';
 			$texts[] = $text;
 		}
+		$this->hasFix = $hasFixed;
 
 		return implode( '', $texts );
 	}
@@ -134,30 +141,39 @@ class Vuln_Result extends \Hammer\Base\Behavior {
 							<?php _e( "Vulnerability found in this version:", wp_defender()->domain ) ?>
 							<?php echo $this->getIssueDetail() ?>
                         </div>
-                        <div class="mline">
-							<?php _e( "There’s a newer version available that fixes this issue. We recommend updating to the latest release.", wp_defender()->domain ) ?>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="well">
-							<?php if ( $raw['type'] != 'wordpress' ): ?>
-                                <form method="post" class="float-l ignore-item scan-frm">
-                                    <input type="hidden" name="action" value="ignoreItem">
-									<?php wp_nonce_field( 'ignoreItem' ) ?>
-                                    <input type="hidden" name="id" value="<?php echo $this->getOwner()->id ?>"/>
-                                    <button type="submit" class="button button-secondary button-small">
-										<?php _e( "Ignore", wp_defender()->domain ) ?></button>
-                                </form>
-                                <form method="post" class="scan-frm float-r resolve-item">
-                                    <input type="hidden" name="id" value="<?php echo $this->getOwner()->id ?>"/>
-                                    <input type="hidden" name="action" value="resolveItem"/>
-									<?php wp_nonce_field( 'resolveItem' ) ?>
-                                    <button class="button button-small"><?php _e( "Update", wp_defender()->domain ) ?></button>
-                                </form>
-							<?php else: ?>
-                                <a class="button button-small float-r" href="<?php echo network_admin_url( 'update-core.php' ) ?>"><?php _e( "Update", wp_defender()->domain ) ?></a>
-							<?php endif; ?>
+						<?php if ( $this->hasFix ): ?>
+                            <div class="mline">
+								<?php _e( "There’s a newer version available that fixes this issue. We recommend updating to the latest release.", wp_defender()->domain ) ?>
+                            </div>
                             <div class="clear"></div>
-                        </div>
+                            <div class="well">
+								<?php if ( $raw['type'] != 'wordpress' ): ?>
+                                    <form method="post" class="float-l ignore-item scan-frm">
+                                        <input type="hidden" name="action" value="ignoreItem">
+										<?php wp_nonce_field( 'ignoreItem' ) ?>
+                                        <input type="hidden" name="id" value="<?php echo $this->getOwner()->id ?>"/>
+                                        <button type="submit" class="button button-secondary button-small">
+											<?php _e( "Ignore", wp_defender()->domain ) ?></button>
+                                    </form>
+                                    <form method="post" class="scan-frm float-r resolve-item">
+                                        <input type="hidden" name="id" value="<?php echo $this->getOwner()->id ?>"/>
+                                        <input type="hidden" name="action" value="resolveItem"/>
+										<?php wp_nonce_field( 'resolveItem' ) ?>
+                                        <button class="button button-small"><?php _e( "Update", wp_defender()->domain ) ?></button>
+                                    </form>
+								<?php else: ?>
+                                    <a class="button button-small float-r"
+                                       href="<?php echo network_admin_url( 'update-core.php' ) ?>"><?php _e( "Update", wp_defender()->domain ) ?></a>
+								<?php endif; ?>
+                                <div class="clear"></div>
+                            </div>
+						<?php else: ?>
+							<?php
+							if ( $raw['type'] == 'wordpress' ) {
+								_e( "This is a known issue identified by WordPress. When a security release is available we recommend you update your WordPress core to the latest version to make sure protected from this vulnerability.", wp_defender()->domain );
+							}
+							?>
+						<?php endif; ?>
                     </div>
                 </div>
             </div>

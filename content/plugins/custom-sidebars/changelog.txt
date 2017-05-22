@@ -1,11 +1,16 @@
 Plugin Name: Custom Sidebars Pro
 Author: Javier Marquez (Incsub), Philipp Stracker (Incsub), Marcin Pietrzak (Incsub)
-Buildtime: 2017-04-25T08:26:20.215Z
+Buildtime: 2017-05-08T08:34:42.551Z
 
 Change Log:
 ----------------------------------------------------------------------
 
-3.0.5 ( 2017-0x-xx )
+3.0.6 ( 2017-05-11 )
+- Added width to "Custom Sidebars" column on entries list screen to avoid uncontrolled column width.
+- Added ability to add new sidebar using the only keyboard, after you fill name just push enter to move to the description field. Hit enter on description field to add a new sidebar.
+- Fixed "WPMUDEV Frash" module message for pro version.
+
+3.0.5 ( 2017-04-25 )
 - Improved columns display on post list screen - now "Custom Sidebars" column is hidden by default.
 - Prevent to load assets on front-end.
 - Updated "WPMU Dev code library" to version 3.0.4.
@@ -348,4 +353,4 @@ Change Log:
 - Initial release
 
 
-133620-1493689572-au
+133620-1495482835-au

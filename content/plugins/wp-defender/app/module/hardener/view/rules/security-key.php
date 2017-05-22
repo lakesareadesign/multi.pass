@@ -1,4 +1,4 @@
-<div class="rule closed" id="change_admin">
+<div class="rule closed" id="security_key">
     <div class="rule-title">
 		<?php if ( $controller->check() == false ): ?>
             <i class="def-icon icon-warning"></i>

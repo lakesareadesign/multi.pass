@@ -92,15 +92,20 @@ class Content_Scan extends Behavior {
 			$this->tries[] = $file;
 			$this->tries   = array_unique( $this->tries );
 			$altCache->set( self::FILES_TRIED, $this->tries );
+			//if the file larger than 400kb, we will save immediatly to prevent stuck
+			if ( filesize( $file ) >= apply_filters( 'wdScanPreventStuckSize', 400000 ) ) {
+				$cache = WP_Helper::getCache();
+				$cache->set( Content_Scan::FILES_TRIED, $this->tries );
+			}
 		}
 
-		if ( ! class_exists( '\PHP_CodeSniffer_Tokenizers_PHP' ) ) {
+		if ( ! class_exists( '\WP_Defender\Vendor\PHP_CodeSniffer_Tokenizers_PHP' ) ) {
 			$this->loadDependency();
 		}
 		if ( ! defined( 'PHP_CODESNIFFER_VERBOSITY' ) ) {
 			define( 'PHP_CODESNIFFER_VERBOSITY', 0 );
 		}
-		$tokenizer         = new \PHP_CodeSniffer_Tokenizers_PHP();
+		$tokenizer         = new \WP_Defender\Vendor\PHP_CodeSniffer_Tokenizers_PHP();
 		$content           = file_get_contents( $file );
 		$tokens            = \PHP_CodeSniffer_File::tokenizeString( $content, $tokenizer, PHP_EOL, 0, 'iso-8859-1' );
 		$this->tokens      = $tokens;
@@ -110,7 +115,9 @@ class Content_Scan extends Behavior {
 		$base64textPattern = $this->getBase64ScanPattern();
 		//fallback
 		$error1    = array();
+		$error2    = array();
 		$ignoreTo1 = false;
+		$ignoreTo2 = false;
 		//Log_Helper::logger( var_export( $tokens, true ) );
 		for ( $i = 0; $i < count( $tokens ) - 1; $i ++ ) {
 			if ( $ignoreTo !== false && $i <= $ignoreTo ) {

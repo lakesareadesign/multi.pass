@@ -72,6 +72,7 @@ class Scan extends Model {
 	 * @var int
 	 */
 	public $dateFinished;
+
 	/**
 	 * @return array
 	 */
@@ -133,9 +134,11 @@ class Scan extends Model {
 	 * @return null|string
 	 */
 	public function countAll( $type ) {
-		$count = Result_Item::count( array(
+		$scanTypes = Settings::instance()->getScansAvailable();
+		$count     = Result_Item::count( array(
 			'parentId' => $this->id,
-			'status'   => $type
+			'status'   => $type,
+			'type'     => $scanTypes
 		) );
 
 		return $count;
@@ -178,7 +181,7 @@ class Scan extends Model {
 		$that = $this;
 
 		return array(
-			self::EVENT_AFTER_DELETE  => array(
+			self::EVENT_AFTER_DELETE => array(
 				array(
 					//clean all items relate to this
 					function () use ( $that ) {

@@ -11,7 +11,7 @@ namespace Hammer\Base;
  *
  * @package Hammer\Base
  */
-class Component extends Object {
+class Component extends HObject {
 	/**
 	 * Contains array of behaviors
 	 * @var array

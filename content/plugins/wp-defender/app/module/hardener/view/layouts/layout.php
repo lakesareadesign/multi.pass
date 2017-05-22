@@ -8,11 +8,17 @@
                         <div class="column is-7 issues-count">
                             <div>
                                 <h5 class="">
-                                    <span class="count-issues"><?php echo( $controller->getCount( 'fixed' ) + $controller->getCount( 'ignore' ) ) ?>
-                                        /<?php echo count( \WP_Defender\Module\Hardener\Model\Settings::instance()->getDefinedRules( false ) ) ?></span>
+                                    <span class="issues-actioned"><?php echo( $controller->getCount( 'fixed' ) + $controller->getCount( 'ignore' ) ) ?></span>
+                                        /<?php echo count( \WP_Defender\Module\Hardener\Model\Settings::instance()->getDefinedRules( false ) ) ?>
 
                                 </h5>
-                                <span class="">
+                                <?php if ( $controller->getCount( 'issues' ) > 0 ) :
+                                    $hardener_issues = ( $controller->getCount( 'fixed' ) + $controller->getCount( 'ignore' ) ) . '/' . count( \WP_Defender\Module\Hardener\Model\Settings::instance()->getDefinedRules( false ) );
+                                ?>
+                                    <span class="" tooltip="<?php esc_attr_e( sprintf( __('You have actioned %s security tweaks', wp_defender()->domain ), $hardener_issues ) ); ?>">
+                                <?php else : ?>
+                                    <span class="" tooltip="<?php esc_attr_e( 'You have no outstanding security issues', wp_defender()->domain ); ?>">
+                                <?php endif; ?>
 									<?php
 									$icon = $controller->getCount( 'issues' ) == 0 ? ' <i class="def-icon icon-tick icon-active"></i>' : ' <i class="def-icon icon-warning"></i>';
 									echo $icon;
@@ -32,7 +38,7 @@
                                 </li>
                                 <li>
                                     <div>
-                                        <span class="list-label"><?php _e( "Wordpress Version", wp_defender()->domain ) ?></span>
+                                        <span class="list-label"><?php _e( "WordPress Version", wp_defender()->domain ) ?></span>
                                         <span class="list-detail">
                                                 <?php
                                                 echo \WP_Defender\Behavior\Utils::instance()->getWPVersion();
@@ -52,7 +58,13 @@
                             <a class="<?php echo \Hammer\Helper\HTTP_Helper::retrieve_get( 'view', false ) == false ? 'active' : null ?>"
                                href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener' ) ?>">
 								<?php _e( "Issues", wp_defender()->domain ) ?>
-                                <span class="def-tag count-issues tag-yellow <?php echo $controller->getCount( 'issues' ) == 0 ? 'wd-hide' : null ?>"><?php echo $controller->getCount( 'issues' ) ?></span>
+                                <?php
+                                    $tooltip = '';
+                                    if ( $controller->getCount( 'issues' ) > 0 ) :
+                                        $tooltip = 'tooltip="'.esc_attr( sprintf( __('You have %d security tweak(s) needing attention', wp_defender()->domain ), $controller->getCount( 'issues' ) ) ).'"';
+                                    endif;
+                                ?>
+                                <span class="def-tag count-issues tag-yellow <?php echo $controller->getCount( 'issues' ) == 0 ? 'wd-hide' : null ?>" <?php echo $tooltip; ?>><?php echo $controller->getCount( 'issues' ) ?></span>
                             </a>
                         </li>
                         <li>

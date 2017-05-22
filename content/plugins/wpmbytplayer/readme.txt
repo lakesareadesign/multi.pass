@@ -4,7 +4,7 @@ Contributors: pupunzi
 Tags: video player, youtube, full background, video, HTML5, flash, mov, jquery, pupunzi, mb.components, cover video, embed, embed videos, embed youtube, embedding, plugin, shortcode, video cover, video HTML5, youtube, youtube embed, youtube player, youtube videos
 Requires at least: 3.0
 Tested up to: 4.7
-Stable tag:  3.0.10
+Stable tag:  3.0.12
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DSHAHSJJCQ53Y
 License: GPLv2 or later
 
@@ -13,7 +13,7 @@ Play any Youtube video as background of your page or as custom player inside an 
 == Description ==
 
 A Chrome-less Youtube® video player that let you play any YouTube® video as background of your WordPress® page or post.
-You can activate it for your home page from the settings panel (no license needed) or on any post or page using the short code (need the Plus version) as described in the Reference section of the settings.
+You can activate it for your home page from the settings panel (no license needed) or on any post or page using the short code (need the <a href="https://pupunzi.com/wpPlus/go-plus.php?plugin_prefix=YTPL" target="_blank">Plus version</a>) as described in the Reference section of the settings.
 
 [youtube http://www.youtube.com/watch?v=lTW937ld02Y]
 
@@ -39,7 +39,7 @@ This plug in has been tested successfully on:
 * Safari 5+    on Mac OsX
 * IE7+    on Windows (via Adobe Flash player)
 
-with the Plus version you'll get:
+with the <a href="https://pupunzi.com/wpPlus/go-plus.php?plugin_prefix=YTPL" target="_blank">Plus version</a> you'll get:
 
      Remove the water-mark from the video.
      Activate all the advanced features:
@@ -68,8 +68,8 @@ Extract the zip file and upload the contents to the wp-content/plugins/ director
 == Screenshots ==
 
 1. The settings panel.
-2. You can add a video as background or targeted to a DOM element in any page or post by inserting a shortcode (Plus version) generated via the editor button.
-3. The shortcode editor (Plus version).
+2. You can add a video as background or targeted to a DOM element in any page or post by inserting a shortcode (<a href="https://pupunzi.com/wpPlus/go-plus.php?plugin_prefix=YTPL" target="_blank">Plus version</a>) generated via the editor button.
+3. The shortcode editor (<a href="https://pupunzi.com/wpPlus/go-plus.php?plugin_prefix=YTPL" target="_blank">Plus version</a>).
 
 == To set your homepage background video: ==
 
@@ -77,11 +77,11 @@ Extract the zip file and upload the contents to the wp-content/plugins/ director
 2. set the complete YT video url
 3. set all the other parameters as you need.
 
-You can also set it by placing a shortcode in the home page via the YTPlayer shortcode window (Plus version). 
+You can also set it by placing a shortcode in the home page via the YTPlayer shortcode window (<a href="https://pupunzi.com/wpPlus/go-plus.php?plugin_prefix=YTPL" target="_blank">Plus version</a>).
 You can open it by clicking on the YTPlayer button in the top toolbar of the page editor.
 
 == To set a video as background of a post or a page: ==
-Use the editor button or write the below shortcode into the content of your post or page (Plus version):
+Use the editor button or write the below shortcode into the content of your post or page (<a href="https://pupunzi.com/wpPlus/go-plus.php?plugin_prefix=YTPL" target="_blank">Plus version</a>):
 
 [mbYTPlayer url="http://www.youtube.com/watch?v=V2rifmjZuKQ" ratio="4/3" mute="false" loop="true" showcontrols="true" opacity=1]
 
@@ -107,6 +107,12 @@ The mb.YTPlayer doesn't work on any mobile devices (iOs, Android, Windows, etc.)
 Adding a background image to the body as mobile devices fallback is a good practice and it will also prevent unwanted white flickering on desktop browsers when the video is buffering.
 
 == Changelog ==
+
+= 3.0.12 =
+Bug fix: With the previous release I introduced a bug on OS detection that was generating an error on Linux OS.
+
+= 3.0.11 =
+Bug fix: There was an error on the options that prevent the player to work.
 
 = 3.0.10 =
 Update: Updated to the last javascript version (3.0.16).

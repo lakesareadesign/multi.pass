@@ -111,7 +111,16 @@ FLBuilder::register_module('FLTestimonialsModule', array(
 						'maxlength'     => '4',
 						'size'          => '5',
 						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' )
-					)
+					),
+					'direction'   => array(
+						'type'          => 'select',
+						'label'         => __('Transition Direction', 'fl-builder'),
+						'default'       => 'next',
+						'options'       => array(
+							'next'    		=> __( 'Right To Left', 'fl-builder' ),
+							'prev'          => __( 'Left To Right', 'fl-builder' )
+						)
+					),
 				)
 			),
 			'arrow_nav'       => array( // Section

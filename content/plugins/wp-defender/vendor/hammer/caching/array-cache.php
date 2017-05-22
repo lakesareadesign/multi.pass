@@ -67,4 +67,13 @@ class Array_Cache extends Cache {
 	protected function valueExist( $key ) {
 		return isset( $this->stored[ $key ] );
 	}
+
+
+	protected function increaseValue( $key, $offset ) {
+
+	}
+
+	protected function decreaseValue( $key, $offset ) {
+
+	}
 }

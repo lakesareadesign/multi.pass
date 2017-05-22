@@ -39,6 +39,15 @@ jQuery(function ($) {
                 }, 1500);
             }
         })
+        $('div.wdf-scanning').on('form-submitted-error', function (e, data, form, xhr) {
+            if (form.attr('id') != 'process-scan') {
+                return;
+            }
+            //try to reup
+            setTimeout(function () {
+                $('#process-scan').submit();
+            }, 1500);
+        })
     }
 
     //ignore form
@@ -55,6 +64,7 @@ jQuery(function ($) {
             //remove the line
             $('#' + data.data.mid).fadeOut('200', function () {
                 $('#' + data.data.mid).remove();
+                WDScan.handleFileIssues(data);
             })
         } else {
             Defender.showNotification('error', data.data.message);
@@ -71,6 +81,7 @@ jQuery(function ($) {
             Defender.showNotification('success', data.data.message);
             $('#' + data.data.mid).fadeOut('200', function () {
                 $('#' + data.data.mid).remove();
+                WDScan.handleFileIssues(data);
             })
         } else {
             Defender.showNotification('error', data.data.message);
@@ -98,6 +109,7 @@ jQuery(function ($) {
             WDP.closeOverlay();
             $('#' + data.data.mid).fadeOut('200', function () {
                 $('#' + data.data.mid).remove();
+                WDScan.handleFileIssues(data);
             })
         } else {
             Defender.showNotification('error', data.data.message);
@@ -134,6 +146,7 @@ jQuery(function ($) {
             WDP.closeOverlay();
             $('#' + data.data.mid).fadeOut('200', function () {
                 $('#' + data.data.mid).remove();
+                WDScan.handleFileIssues(data);
             })
         } else {
             Defender.showNotification('error', data.data.message);
@@ -224,8 +237,111 @@ WDScan.formHandler = function () {
                     that.find('.button').removeAttr('disabled');
                     jq('div.wdf-scanning').trigger('form-submitted', [data, that])
                 }
+            },
+            error: function (xhr) {
+                jq('div.wdf-scanning').trigger('form-submitted-error', [data, that, xhr])
             }
         })
         return false;
     })
+}
+
+//Refresh file issues counts
+WDScan.handleFileIssues = function (data) {
+    var jq = jQuery;
+    if (data.data.counts != undefined) {
+        if (data.data.counts.issues) {
+            //If the issues are more than 0, update or create elements
+            if (data.data.counts.issues > 0) {
+                if (jq('.def-issues-top-left-icon i:not(.icon-warning)')) {
+                    jq('.def-issues-top-left-icon').html('<i class="def-icon icon-warning fill-red"></i>');
+                }
+                if (!jq('.def-issues-below').length) {
+                    if (jq('li.issues-nav a').length) {
+                        jq('li.issues-nav a').append('<span class="def-tag tag-error def-issues-below">' + data.data.counts.issues + '</span>');
+                    }
+                } else {
+                    jq('.def-issues-below').html(data.data.counts.issues);
+                }
+                if (!jq('.def-issues-summary').length) {
+                    if (jq('.def-issues-title').length) {
+                        jq('.def-issues-title').append('<span class="def-tag tag-error def-issues def-issues-summary">' + data.data.counts.issues + '</span>');
+                    }
+                } else {
+                    jq('.def-issues-summary').html(data.data.counts.issues);
+                }
+                jq('.def-issues-below').show();
+                jq('.def-issues').html(data.data.counts.issues);
+                if (jq('.def-issues-top-right-wp i:not(.tag-error)') && data.data.counts.issues_wp > 0) {
+                    jq('.def-issues-top-right-wp').html('<span class="def-tag tag-error">' + data.data.counts.issues_wp + '</span>');
+                } else {
+                    if (data.data.counts.issues_wp > 0) {
+                        jq('.def-issues-top-right-wp .tag-error').html(data.data.counts.issues_wp);
+                    } else {
+                        if (jq('.def-issues-top-right-wp span:not(.icon-tick)')) {
+                            jq('.def-issues-top-right-wp').html('<i class="def-icon icon-tick"></i>');
+                        }
+                    }
+
+                }
+                if (data.data.counts.vuln_issues != undefined) {
+                    if (jq('.def-issues-top-right-pt i:not(.tag-error)') && data.data.counts.vuln_issues > 0) {
+                        jq('.def-issues-top-right-pt').html('<span class="def-tag tag-error">' + data.data.counts.vuln_issues + '</span>');
+                    } else {
+                        if (data.data.counts.vuln_issues > 0) {
+                            jq('.def-issues-top-right-pt .tag-error').html(data.data.counts.vuln_issues);
+                        } else {
+                            if (jq('.def-issues-top-right-pt span:not(.icon-tick)')) {
+                                jq('.def-issues-top-right-pt').html('<i class="def-icon icon-tick"></i>');
+                            }
+                        }
+                    }
+                }
+                if (data.data.counts.content_issues != undefined) {
+                    if (jq('.def-issues-top-right-sc i:not(.tag-error)') && data.data.counts.content_issues > 0) {
+                        jq('.def-issues-top-right-sc').html('<span class="def-tag tag-error">' + data.data.counts.content_issues + '</span>');
+                    } else {
+                        if (data.data.counts.content_issues > 0) {
+                            jq('.def-issues-top-right-sc .tag-error').html(data.data.counts.content_issues);
+                        } else {
+                            if (jq('.def-issues-top-right-sc span:not(.icon-tick)')) {
+                                jq('.def-issues-top-right-sc').html('<i class="def-icon icon-tick"></i>');
+                            }
+                        }
+                    }
+                }
+            } else {
+                //Show success messages
+                jq('.def-issues-top-left').html(0);
+                if (jq('.def-issues-top-left-icon i:not(.icon-tick)')) {
+                    jq('.def-issues-top-left-icon').html('<i class="def-icon icon-tick"></i>');
+                }
+                if (jq('.def-issues-top-right-wp span:not(.icon-tick)')) {
+                    jq('.def-issues-top-right-wp').html('<i class="def-icon icon-tick"></i>');
+                }
+                if (data.data.counts.vuln_issues != undefined) {
+                    if (jq('.def-issues-top-right-pt span:not(.icon-tick)')) {
+                        jq('.def-issues-top-right-pt').html('<i class="def-icon icon-tick"></i>');
+                    }
+                    if (jq('.def-issues-top-right-sc span:not(.icon-tick)')) {
+                        jq('.def-issues-top-right-sc').html('<i class="def-icon icon-tick"></i>');
+                    }
+                }
+                jq('.def-issues-summary').hide();
+                jq('.def-issues-below').hide();
+                if (jq('.issues-box-content').length) {
+                    jq('.issues-box-content').html('<div class="well well-green with-cap"><i class="def-icon icon-tick"></i>' + scan.no_issues + '</div>');
+                }
+            }
+
+        }
+        //Ignored counts
+        if (data.data.counts.ignored) {
+            if (data.data.counts.ignored > 0) {
+                jq('.def-ignored').html(data.data.counts.ignored);
+            } else {
+                jq('.def-ignored').html("");
+            }
+        }
+    }
 }

@@ -21,8 +21,12 @@
                         <div class="columns">
                             <div class="column is-7 issues-count">
                                 <div>
-                                    <h5><?php echo $countAll = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_ISSUE ) ?></h5>
-                                    <span class="">
+                                    <h5 class="def-issues def-issues-top-left"><?php echo $countAll = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_ISSUE ) ?></h5>
+                                    <?php if ( $countAll > 0 ) : ?>
+                                    <span class="def-issues-top-left-icon" tooltip="<?php esc_attr_e( sprintf( __('You have %d suspicious file(s) needing attention', wp_defender()->domain ), $countAll ) ); ?>">
+                                    <?php else: ?>
+                                    <span class="def-issues-top-left-icon" tooltip="<?php esc_attr_e( 'Your code is clean, the skies are clear', wp_defender()->domain ); ?>">
+                                    <?php endif; ?>
 									<?php
 									$icon = $countAll == 0 ? ' <i class="def-icon icon-tick"></i>' : ' <i class="def-icon icon-warning fill-red"></i>';
 									echo $icon;
@@ -40,20 +44,21 @@
                                     <li>
                                         <div>
                                             <span class="list-label"><?php _e( "WordPress Core", wp_defender()->domain ) ?></span>
-                                            <span class="list-detail">
-                                                <?php echo $model->getCount( 'core' ) == 0 ? ' <i class="def-icon icon-tick"></i>' : '<span class="def-tag tag-error">' . $model->getCount( 'core' ) . '</span>' ?>
+                                            <span class="list-detail def-issues-top-right-wp">
+                                                <?php echo $model->getCount( 'core' ) == 0 ? ' <i class="def-icon icon-tick"></i>' : '<span class="def-tag tag-error">' . '<span class="def-issues">' . $model->getCount( 'core' ) . '</span></span>' ?>
                                             </span>
                                         </div>
                                     </li>
                                     <li>
                                         <div>
                                             <span class="list-label"><?php _e( "Plugins & Themes", wp_defender()->domain ) ?></span>
-                                            <span class="list-detail">
+                                            <span class="list-detail def-issues-top-right-pt">
                                                 <?php if ( \WP_Defender\Behavior\Utils::instance()->getAPIKey() ): ?>
 	                                                <?php echo $model->getCount( 'vuln' ) == 0 ? ' <i class="def-icon icon-tick"></i>' : '<span class="def-tag tag-error">' . $model->getCount( 'vuln' ) . '</span>' ?>
                                                 <?php else: ?>
                                                     <a href="#pro-feature" rel="dialog"
-                                                       class="button button-pre button-small">
+                                                       class="button button-pre button-small"
+                                                       tooltip="<?php esc_attr_e( "Try Defender Pro free today", wp_defender()->domain ) ?>">
                                                         <?php _e( "Pro Feature", wp_defender()->domain ) ?>
                                                     </a>
                                                 <?php endif; ?>
@@ -63,12 +68,13 @@
                                     <li>
                                         <div>
                                             <span class="list-label"><?php _e( "Suspicious Code", wp_defender()->domain ) ?></span>
-                                            <span class="list-detail">
+                                            <span class="list-detail def-issues-top-right-sc">
                                                 <?php if ( \WP_Defender\Behavior\Utils::instance()->getAPIKey() ): ?>
 	                                                <?php echo $model->getCount( 'content' ) == 0 ? ' <i class="def-icon icon-tick"></i>' : '<span class="def-tag tag-error">' . $model->getCount( 'content' ) . '</span>' ?>
                                                 <?php else: ?>
                                                     <a href="#pro-feature" rel="dialog"
-                                                       class="button button-pre button-small">
+                                                       class="button button-pre button-small"
+                                                       tooltip="<?php esc_attr_e( "Try Defender Pro free today", wp_defender()->domain ) ?>" >
                                                         <?php _e( "Pro Feature", wp_defender()->domain ) ?>
                                                     </a>
                                                 <?php endif; ?>
@@ -83,13 +89,17 @@
                 <div class="row">
                     <div class="col-third">
                         <ul class="inner-nav is-hidden-mobile">
-                            <li>
+                            <li class="issues-nav">
                                 <a class="<?php echo \Hammer\Helper\HTTP_Helper::retrieve_get( 'view', false ) == false ? 'active' : null ?>"
                                    href="<?php echo network_admin_url( 'admin.php?page=wdf-scan' ) ?>">
 									<?php _e( "Issues", wp_defender()->domain ) ?>
 									<?php
 									$issues = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_ISSUE );
-									echo $issues > 0 ? '<span class="def-tag tag-error">' . $issues . '</span>' : '' ?>
+									$tooltip = '';
+                                    if ( $issues > 0 ) :
+                                        $tooltip = 'tooltip="' . esc_attr( sprintf( __("You have %d suspicious file(s) needing attention", wp_defender()->domain ), $countAll ) ) . '"';
+                                    endif;
+                                    echo $issues > 0 ? '<span class="def-tag tag-error def-issues-below" ' . $tooltip . '>' . $issues . '</span>' : '' ?>
                                 </a>
                             </li>
                             <!--                            <li>-->
@@ -108,7 +118,7 @@
                                 <a class="<?php echo $controller->isView( 'ignored' ) ? 'active' : null ?>"
                                    href="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=ignored' ) ?>">
 									<?php _e( "Ignored", wp_defender()->domain ) ?>
-                                    <span>
+                                    <span class="def-ignored">
                                         <?php
                                         $issues = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_IGNORED );
                                         echo $issues > 0 ? $issues : '' ?>

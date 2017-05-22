@@ -137,7 +137,9 @@ jQuery(function ($) {
     })
 })
 window.Defender = window.Defender || {};
-Defender.showNotification = function (type, message) {
+
+//Added extra parameter to allow for some actions to keep modal open
+Defender.showNotification = function (type, message, closeModal) {
     var jq = jQuery;
     if (jq('body').find('.floated-alert').size() > 0) {
         return;
@@ -148,21 +150,28 @@ Defender.showNotification = function (type, message) {
     } else {
         div.addClass('alert-ok');
     }
-    div.html(message);
+    div.html(message); //Decode the message incase it was esc_html
     div.hide();
     jq('#wp-defender').prepend(div);
+    var close_modal = (typeof closeModal === 'undefined') ? true : closeModal;
     div.fadeIn(300, function () {
-        setTimeout(function () {
+        //Check if close is enabled
+        if (close_modal) {
+            setTimeout(function () {
+                div.fadeOut(200, function () {
+                    div.remove();
+                });
+            }, 5000);
+        }
+    });
+    //An action has to be done. So we cant do this
+    if (close_modal) {
+        div.on('click', function () {
             div.fadeOut(200, function () {
                 div.remove();
             });
-        }, 5000);
-    });
-    div.on('click', function () {
-        div.fadeOut(200, function () {
-            div.remove();
         });
-    });
+    }
 
 };
 Defender.createOverlay = function () {

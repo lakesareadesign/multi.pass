@@ -1,11 +1,11 @@
 <div class="dev-box">
     <div class="box-title">
-        <h3>
+        <h3 class="def-issues-title">
 			<?php _e( "Issues", wp_defender()->domain ) ?>
 			<?php $issues = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_ISSUE );
 			if ( $issues ) {
 				?>
-                <span class="def-tag tag-error"><?php echo $issues ?></span>
+                <span class="def-tag tag-error def-issues def-issues-summary"><?php echo $issues ?></span>
 				<?php
 			}
 			?>
@@ -22,7 +22,7 @@
         <!--            </select>-->
         <!--        </div>-->
     </div>
-    <div class="box-content">
+    <div class="box-content issues-box-content">
 		<?php $table = new \WP_Defender\Module\Scan\Component\Result_Table();
 		$table->prepare_items();
 		if ( $table->get_pagination_arg( 'total_items' ) > 0 ) {

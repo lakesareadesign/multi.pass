@@ -10,7 +10,7 @@ namespace Hammer\Base;
  * Class Event
  * @package Hammer\Base
  */
-class Event extends Object {
+class Event extends HObject {
 	/**
 	 * Event name
 	 * @var string

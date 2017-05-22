@@ -14,6 +14,20 @@ use WP_Defender\Module\Hardener\Rule_Service;
 class Prevent_PHP_Service extends Rule_Service implements IRule_Service {
 
 	/**
+     * Exclude file paths
+     *
+     * @var array|bool|mixed
+     */
+    private $exclude_file_paths = array();
+
+	/**
+     * New htaccess file
+     *
+     * @var array|bool|mixed
+     */
+    private $new_htconfig = array();
+
+	/**
 	 * @return bool
 	 */
 	public function check() {
@@ -122,6 +136,25 @@ class Prevent_PHP_Service extends Rule_Service implements IRule_Service {
 			'## WP Defender - End ##' . PHP_EOL
 		);
 
+		if ( ! empty( $this->exclude_file_paths ) ) {
+
+			$custom_exclude = array();
+
+			foreach ( $this->exclude_file_paths as $file_path ) {
+				$file_path = trim( preg_replace('/\s\s+/', ' ', $file_path ) ); //remove trailing new lines
+				if ( !empty( $file_path ) ) {
+					$custom_exclude[] = '<Files ' . $file_path . '> '. PHP_EOL .
+										'Allow from all' . PHP_EOL .
+										'</Files>' . PHP_EOL;
+				}
+			}
+
+			if ( ! empty( $custom_exclude ) ) {
+				array_splice( $default, 2, 0, $custom_exclude ); //Add the excludes before the ## WP Defender - End ##
+				$this->new_htconfig = $default; //Set the new array structure for when we want to remove
+			}
+		}
+
 		/*$status = wp_remote_head( network_site_url() . 'wp-includes', array( 'user-agent' => $_SERVER['HTTP_USER_AGENT'] ) );
 		if ( 200 == wp_remote_retrieve_response_code( $status ) ) {
 			$default[] = 'Options -Indexes' . PHP_EOL;
@@ -152,6 +185,10 @@ class Prevent_PHP_Service extends Rule_Service implements IRule_Service {
 			'</Files>' . PHP_EOL,
 			'## WP Defender - End ##' . PHP_EOL
 		);
+
+		if ( ! empty( $this->new_htconfig ) ) {
+			$default = $this->new_htconfig;
+		}
 
 		$htConfig = str_replace( implode( '', $default ), '', $htConfig );
 		$htConfig = trim( $htConfig );
@@ -199,5 +236,47 @@ class Prevent_PHP_Service extends Rule_Service implements IRule_Service {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Set the exclude file paths
+	 *
+	 * @param String $paths
+	 */
+	public function setExcludeFilePaths( $paths ) {
+		if ( ! empty( $paths ) ) {
+			$this->exclude_file_paths = explode( "\n", $paths );
+		}
+	}
+
+
+	/**
+	 * Get the exclude file paths
+	 *
+	 * @return Array - $exclude_file_paths
+	 */
+	public function getExcludedFilePaths() {
+		return $this->exclude_file_paths;
+	}
+
+	/**
+	 * Set the exclude file paths
+	 *
+	 * @param String $paths
+	 */
+	public function setHtConfig( $config = array() ) {
+		if ( ! empty( $config ) ) {
+			$this->new_htconfig = $config;
+		}
+	}
+
+
+	/**
+	 * Get the new HT config
+	 *
+	 * @return Array - $new_htconfig
+	 */
+	public function getNewHtConfig() {
+		return $this->new_htconfig;
 	}
 }

@@ -190,6 +190,13 @@
 	width: 100%;
 }
 
+/* IE 11 - Row full height - vertical alignment center/bottom fix */
+.fl-builder-ie-11 .fl-row.fl-row-full-height {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
 /* Stupid IE Full Height Row Fixes */
 .fl-builder-ie-11 .fl-row-full-height .fl-row-content-wrap {
 	height: auto;
@@ -201,7 +208,8 @@
 	margin: 0;
 }
 
-.fl-builder-ie-11 .fl-row-full-height.fl-row-align-top .fl-row-content {
+.fl-builder-ie-11 .fl-row-full-height.fl-row-align-top .fl-row-content,
+.fl-builder-ie-11 .fl-row-full-height.fl-row-align-bottom .fl-row-content {
     margin: 0 auto;
 }
 
@@ -227,6 +235,24 @@
 	-webkit-justify-content: center;
 	-ms-flex-align: center;
 	-ms-flex-pack: center;
+}
+
+/* Full height align bottom */
+.fl-row-full-height.fl-row-align-bottom .fl-row-content-wrap {
+	align-items: flex-end;
+	justify-content: flex-end;
+	-webkit-align-items: flex-end;
+	-webkit-justify-content: flex-end;
+	-webkit-box-align: end;
+	-webkit-box-pack: end;
+	-ms-flex-align: end;
+	-ms-flex-pack: end;
+}
+
+/* IE 11 - height bottom > row align bottom - center fix */
+.fl-builder-ie-11 .fl-row-full-height.fl-row-align-bottom .fl-row-content-wrap {
+	justify-content: flex-start;
+	-webkit-justify-content: flex-start;
 }
 
 /* Full height iPad with portrait orientation. */

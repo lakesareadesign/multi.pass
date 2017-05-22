@@ -25,7 +25,9 @@
                     <div class="clear mline"></div>
                     <div class="feature-pre-require">
                         <div></div>
-                        <a href="#pro-feature" rel="dialog" class="button button-small button-pre"><?php _e( "Pro Feature", wp_defender()->domain ) ?></a>
+                        <a href="#pro-feature" rel="dialog" class="button button-small button-pre"
+						tooltip="<?php esc_attr_e( "Try Defender Pro free today", wp_defender()->domain ) ?>" >
+						<?php _e( "Pro Feature", wp_defender()->domain ) ?></a>
                         <span class="toggle">
                         <input type="checkbox" class="toggle-checkbox" value="1"
                                id="scan-vuln"/>
@@ -39,7 +41,9 @@
                     <div class="clear mline"></div>
                     <div class="feature-pre-require">
                         <div></div>
-                        <a href="#pro-feature" rel="dialog" class="button button-small button-pre"><?php _e( "Pro Feature", wp_defender()->domain ) ?></a>
+                        <a href="#pro-feature" rel="dialog" class="button button-small button-pre"
+						tooltip="<?php esc_attr_e( "Try Defender Pro free today", wp_defender()->domain ) ?>">
+							<?php _e( "Pro Feature", wp_defender()->domain ) ?></a>
                         <span class="toggle">
                         <input type="checkbox" class="toggle-checkbox" value="1"
                                id="scan-content"/>
@@ -75,7 +79,7 @@
                 <div class="column is-one-third">
                     <strong><?php _e( "Optional emails", wp_defender()->domain ) ?></strong>
                     <span class="sub">
-                        <?php _e( "By default, Defender will email you when he runs into trouble on your site. Enabling this option will ensure you are always kept up-to-date, even when your site is running smoothly.", wp_defender()->domain ) ?>
+                        <?php _e( "By default, you'll only get email reports when your site runs into trouble. Turn this option on to get reports even when your site is running smoothly.", wp_defender()->domain ) ?>
                     </span>
                 </div>
                 <div class="column">
@@ -127,7 +131,6 @@
             <input type="hidden" name="action" value="saveScanSettings"/>
 			<?php wp_nonce_field( 'saveScanSettings' ) ?>
             <button class="button float-r"><?php _e( "Update Settings", wp_defender()->domain ) ?></button>
-            <button type="reset" class="button button-secondary float-r"><?php _e( "Cancel", wp_defender()->domain ) ?></button>
             <div class="clear"></div>
         </form>
     </div>

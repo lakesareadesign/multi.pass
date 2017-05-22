@@ -180,6 +180,7 @@ class Utils extends Behavior {
 		if ( ! is_object( $userdata ) ) {
 			return __( "Guest", wp_defender()->domain );
 		}
+
 		$fullname = trim( $userdata->first_name . ' ' . $userdata->last_name );
 		if ( empty( $fullname ) ) {
 			$fullname = $userdata->display_name;
@@ -224,19 +225,29 @@ class Utils extends Behavior {
 	}
 
 	/**
-	 * Make filesize friendy with human, src from https://gist.github.com/liunian/9338301#gistcomment-1970661
+	 * Make filesize friendy with human, src from http://jeffreysambells.com/2012/10/25/human-readable-filesize-php
 	 *
 	 * @param $bytes
 	 *
 	 * @return string
 	 *
 	 */
-	public function makeReadable( $size ) {
-		$base      = log( $size, 1024 );
-		$precision = 2;
-		$suffixes  = array( '', 'K', 'M', 'G', 'T' );
+	public function makeReadable( $bytes ) {
+		if ( $bytes >= 1073741824 ) {
+			$bytes = number_format( $bytes / 1073741824, 2 ) . ' GB';
+		} elseif ( $bytes >= 1048576 ) {
+			$bytes = number_format( $bytes / 1048576, 2 ) . ' MB';
+		} elseif ( $bytes >= 1024 ) {
+			$bytes = number_format( $bytes / 1024, 2 ) . ' KB';
+		} elseif ( $bytes > 1 ) {
+			$bytes = $bytes . ' bytes';
+		} elseif ( $bytes == 1 ) {
+			$bytes = $bytes . ' byte';
+		} else {
+			$bytes = '0 bytes';
+		}
 
-		return round( pow( 1024, $base - floor( $base ) ), $precision ) . ' ' . $suffixes[ floor( $base ) ];
+		return $bytes;
 	}
 
 	/**
@@ -261,6 +272,53 @@ class Utils extends Behavior {
 		$time     = new \DateTime( $timestring, $timezone );
 
 		return $time->getTimestamp();
+	}
+
+	/**
+	 * @param $time string - format H:i
+	 * @param $hook string - hook
+	 *
+	 * @return false|int
+	 */
+	public function reportCronTimestamp( $time, $hook ) {
+		wp_clear_scheduled_hook( $hook );
+		$timeString = date( 'Y-m-d', current_time( 'timestamp' ) ) . ' ' . $time . ':00';
+		$timestamp  = $this->localToUtc( $timeString );
+		if ( $timestamp > time() ) {
+			return $timestamp;
+		} else {
+			//time is passed, tomorrow
+			$timeString = date( 'Y-m-d', strtotime( 'tomorrow', current_time( 'timestamp' ) ) ) . ' ' . $time . ':00';
+
+			return $this->localToUtc( $timeString );
+		}
+	}
+
+	/**
+	 * @param $interval
+	 * @param $day
+	 * @param $lastReportTime
+	 *
+	 * @return bool
+	 */
+	public function isReportTime( $interval, $day, $lastReportTime = false ) {
+		if ( $interval == 1 ) {
+			//this is daily, always send when interval come
+			return true;
+		}
+
+		if ( $interval == 7 && strftime( '%A', current_time( 'timestamp' ) == $day ) ) {
+			//check the day
+			return true;
+		} elseif ( $interval == 30
+		           && $lastReportTime
+		           && strtotime( '+30 days', $lastReportTime ) < time()
+		           && strftime( '%A', current_time( 'timestamp' ) == $day )
+		) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -310,22 +368,23 @@ class Utils extends Behavior {
 	public function getUserIp() {
 		$client      = isset( $_SERVER['HTTP_CLIENT_IP'] ) ? $_SERVER['HTTP_CLIENT_IP'] : null;
 		$forward     = isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : null;
-		$remote      = $_SERVER['REMOTE_ADDR'];
+		$remote      = @$_SERVER['REMOTE_ADDR'];
 		$client_real = isset( $_SERVER['HTTP_X_REAL_IP'] ) ? $_SERVER['HTTP_X_REAL_IP'] : null;
+		$ret         = $remote;
 		if ( filter_var( $client, FILTER_VALIDATE_IP ) ) {
-			return $client;
+			$ret = $client;
 		} elseif ( filter_var( $client_real, FILTER_VALIDATE_IP ) ) {
-			return $client_real;
+			$ret = $client_real;
 		} elseif ( ! empty( $forward ) ) {
 			$forward = explode( ',', $forward );
 			$ip      = array_shift( $forward );
 			$ip      = trim( $ip );
 			if ( filter_var( $ip, FILTER_VALIDATE_IP ) ) {
-				return $ip;
+				$ret = $ip;
 			}
 		}
 
-		return $remote;
+		return apply_filters( 'defender_user_ip', $ret );
 	}
 
 	/**

@@ -14,6 +14,15 @@ class Log_Helper {
 		if ( class_exists( '\Katzgrau\KLogger\Logger' ) ) {
 			$logger = new \Katzgrau\KLogger\Logger( $path );
 			$logger->debug( $log );
+		} else {
+			$filename = $path . '/debug.log';
+			$fd = fopen( $filename, "a" );
+			// append date/time to message
+			$str = "[" . date("Y/m/d h:i:s", mktime()) . "] " . $log;
+			// write string
+			fwrite( $fd, $str . "\n" );
+			// close file
+			fclose( $fd );
 		}
 	}
 }

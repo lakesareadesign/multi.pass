@@ -300,12 +300,18 @@ final class FLBuilderLoop {
 			else {
 				$format = '/'. $page_prefix .'/%#%';
 			}
-			
+
+			// Fix for wpml pagination
+			// @since 1.10.2
+			if( ! empty( $permalink_structure ) && isset( $_GET['lang'] ) ) {
+				$base = untrailingslashit( add_query_arg( array( 'lang' => false ), $base ) );
+			}
+
 			$pos = strrpos($base, "paged-");
 			if ( $pos ) {
-				$base = substr_replace( $base, '', $pos, strlen( $base ) );	
+				$base = substr_replace( $base, '', $pos, strlen( $base ) );
 			}
-			
+
 			echo paginate_links(array(
 				'base'	   => $base . '%_%',
 				'format'   => $format,

@@ -451,6 +451,9 @@ final class FLBuilderAJAXLayout {
 		$asset_ver  			= FLBuilderModel::get_asset_version();
 		$assets					= array( 'js' => '', 'css' => '' );
 		
+		// Ensure global assets are rendered.
+		FLBuilder::clear_enqueued_global_assets();
+		
 		// Render the JS.
 		if ( $partial_refresh_data['is_partial_refresh'] ) {
 			

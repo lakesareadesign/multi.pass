@@ -29,8 +29,6 @@
             <button type="submit" class="button button-primary float-r">
 				<?php esc_html_e( "UPDATE SETTINGS", wp_defender()->domain ) ?>
             </button>
-            <button type="reset" class="button button-secondary float-r">
-				<?php esc_html_e( "Cancel", wp_defender()->domain ) ?></button>
             <div class="clear"></div>
         </form>
     </div>

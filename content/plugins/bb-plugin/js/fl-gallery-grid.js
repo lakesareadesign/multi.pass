@@ -63,9 +63,12 @@
 		 *
 		 * @since 1.2.3
 		 * @method resize
-		 */ 
+		 */
 		resize: function()
 		{
+			if ( ! $(this.wrapSelector).length ) {
+				return;
+			}
 			var winWidth    = $(window).width(),
 				wrap        = $(this.wrapSelector),
 				wrapWidth   = wrap[0].getBoundingClientRect().width,

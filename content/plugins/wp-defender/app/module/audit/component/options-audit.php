@@ -66,7 +66,11 @@ class Options_Audit extends Event_Abstract {
 		$new               = $args[1]['value'];
 		$option_human_read = self::key_to_human_name( $option );
 
-		if ( $old == $new ) {
+		//to avoid the recursing compare if both are nested array, convert all to string
+		$check1 = is_array( $old ) ? serialize( $old ) : $old;
+		$check2 = is_array( $new ) ? serialize( $new ) : $new;
+
+		if ( $check1 == $check2 ) {
 			return false;
 		}
 		if ( $option_human_read !== false ) {

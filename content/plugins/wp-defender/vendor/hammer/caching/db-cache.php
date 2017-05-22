@@ -40,6 +40,43 @@ class DB_Cache extends Cache {
 
 	/**
 	 * @param $key
+	 * @param $value
+	 */
+	protected function updateValue( $key, $value ) {
+		if ( $this->isActivatedSingle() ) {
+			update_option( $key, $value, false );
+		} else {
+			update_site_option( $key, $value );
+		}
+
+	}
+
+	/**
+	 * @param $key
+	 * @param $offset
+	 */
+	protected function decreaseValue( $key, $offset ) {
+		$value = $this->getValue( $key );
+		if ( is_numeric( $value ) ) {
+			$value = $value - $offset;
+			$this->updateValue( $key, $value );
+		}
+	}
+
+	/**
+	 * @param $key
+	 * @param $offset
+	 */
+	protected function increaseValue( $key, $offset ) {
+		$value = $this->getValue( $key );
+		if ( is_numeric( $value ) ) {
+			$value = $value + $offset;
+			$this->updateValue( $key, $value );
+		}
+	}
+
+	/**
+	 * @param $key
 	 *
 	 * @return bool
 	 */

@@ -255,7 +255,7 @@ class Core_Result extends Behavior {
 	private function _dialogContentForAdded() {
 		?>
         <p class="line">
-			<?php _e( "Defender found this stray file in your WordPress site directory. The current version of WordPress doesn't require it and as far as we can tell it's harmless (maybe even from an older WordPress install), so you can delete it or ignore it. Before deleting any files, be sure to back up your website.", wp_defender()->domain ) ?>
+			<?php _e( "A stray file has been found in your site directory, which your version of WordPress doesn't need. As far as we can tell, the file is harmless (and maybe even from an older WordPress install) so it's safe to ignore it. If you choose to delete the file, we recommend backing up your website beforehand", wp_defender()->domain ) ?>
         </p>
 		<?php
 		$ext     = pathinfo( $this->getSubtitle(), PATHINFO_EXTENSION );

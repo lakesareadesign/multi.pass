@@ -305,6 +305,23 @@ table.domains .domainmapping-mapped{
     box-sizing: border-box;
 }
 
+.domainmapping-form select.domainmapping-select-period {
+    float: left;
+    background-color: white;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    height: 27px;
+    padding: 4px 0;
+    margin: 0;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 0;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 .domainmapping-controls-wrapper {
     border-top: 1px solid #dfdfdf;
     border-bottom: 1px solid #dfdfdf;
@@ -465,7 +482,7 @@ input.domainmapping-radio {
     background-image: -moz-linear-gradient(left, #113D83 0, #305AA3 50%, #113D83 100%);
     background-image: -webkit-linear-gradient(left, #113D83 0, #305AA3 50%, #113D83 100%);
     background-image: -ms-linear-gradient(left, #113D83 0, #305AA3 50%, #113D83 100%);
-    background-image: -webkit-gradient(linear, left bottom, right bottom, color-stop(0, #113D83), color-stop(0.5, #305AA3), color-stop(1, #113D83))
+    background-image: -webkit-gradient(linear, left bottom, right bottom, color-stop(0, #113D83), color-stop(0.5, #305AA3), color-stop(1, #113D83))	     	 	  	 	 			
 }
 
 #domainmapping-enom-logo {
@@ -744,49 +761,8 @@ input.domainmapping-radio {
 .domainmapping-btn{
     cursor: pointer;
 }
-#domainmapping-whmcs-header{
-    height: 60px;
-    background: url("../images/whmcs-bg.jpg") center repeat-x;
-}
-#domainmapping-whmcs-logo{
-    background: url("../images/whmcs-logo.jpg") no-repeat left center;
-    height: 60px;
-    margin-left: 10px;
-}
 
-#dm_whmcs_client_login th,
-#dm_whmcs_client_login td{
-    padding: 10px 0 0 0;
-}
-#dm_whmcs_client_login input[type="email"],
-#dm_whmcs_client_login input[type="password"]{
-    float: left;
-    margin-left: 10px;
-    width: 445px;
-}
-#dm_whmcs_client_login button{
-    margin-left: 590px;
-    margin-top: 20px;
-}
-.dm_whmcs_tlds{
-    width: auto;
-}
-.dm_whmcs_tlds_remove_row{
-    color: red;
-    background:none;
-    border: none;
-    cursor: pointer;
-}
-.dm_whmcs_tlds_remove_col{
-    float: right;
-    color: red;
-    background:none;
-    border: none;
-    cursor: pointer;
-}
-#whmcs-client-registration-label{
 
-}
 .domainmapping-map-toggle-scheme{
     float: left;
     text-decoration: none;
@@ -881,4 +857,4 @@ table.domains td.column-actions a{
 }
 
 
-/* 133620-1470955147-au */
+/* 133620-1495482838-au */

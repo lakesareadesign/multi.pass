@@ -144,14 +144,12 @@ class Main extends \WP_Defender\Controller {
 		$data     = array_map( 'sanitize_text_field', $_POST );
 		$settings->import( $data );
 		$settings->save();
+		$cronTime = $this->reportCronTimestamp( $settings->time, 'auditReportCron' );
 		if ( $settings->notification == true ) {
-			$reportTime = Audit_API::getReportTime();
-			wp_schedule_single_event( $reportTime, 'auditReportCron' );
-		} else {
-			wp_clear_scheduled_hook( 'auditReportCron' );
+			wp_schedule_event( $cronTime, 'daily', 'auditReportCron' );
 		}
 		$res = array(
-			'message' => __( "Your settings has been saved.", wp_defender()->domain )
+			'message' => __( "Your settings have been updated.", wp_defender()->domain )
 		);
 		if ( $settings->enabled == 0 ) {
 			$res['reload'] = 1;
@@ -199,7 +197,22 @@ class Main extends \WP_Defender\Controller {
 	 * Sending report email by cron
 	 */
 	public function auditReportCron() {
-		switch ( Settings::instance()->frequency ) {
+		if ( wp_defender()->isFree ) {
+			return;
+		}
+
+		$settings       = Settings::instance();
+		$lastReportSent = $settings->lastReportSent;
+		if ( $lastReportSent == null ) {
+			//no sent, so just assume last 30 days, as this only for monthly
+			$lastReportSent = strtotime( '-31 days', current_time( 'timestamp' ) );
+		}
+
+		if ( ! $this->isReportTime( $settings->frequency, $settings->day, $lastReportSent ) ) {
+			return false;
+		}
+
+		switch ( $settings->frequency ) {
 			case 1:
 				$date_from = strtotime( '-24 hours' );
 				$date_to   = time();
@@ -384,15 +397,15 @@ class Main extends \WP_Defender\Controller {
 				'USER_NAME' => $this->getDisplayName( $user_id ),
 				'SITE_URL'  => network_site_url(),
 			);
+			$email_content  = $template;
 			foreach ( $params as $key => $val ) {
-				$template = str_replace( '{' . $key . '}', $val, $template );
+				$email_content = str_replace( '{' . $key . '}', $val, $email_content );
 			}
-			wp_mail( $email, sprintf( esc_html__( "Here’s what’s been happening at %s", wp_defender()->domain ), network_site_url() ), $template, $headers );
+			wp_mail( $email, sprintf( esc_html__( "Here’s what’s been happening at %s", wp_defender()->domain ), network_site_url() ), $email_content, $headers );
 		}
-		//reqqueue
-		wp_clear_scheduled_hook( 'auditReportCron' );
-		$reportTime = Audit_API::getReportTime();
-		wp_schedule_single_event( $reportTime, 'auditReportCron' );
+
+		$settings->lastReportSent = time();
+		$settings->save();
 	}
 
 	/**
@@ -571,30 +584,30 @@ class Main extends \WP_Defender\Controller {
 
 		$radius = 2;
 		if ( $current_page > 1 && $total_pages > $radius ) {
-			$links['first'] = sprintf( '<a class="button button-light" href="%s">%s</a>',
-				add_query_arg( 'paged', 1, $current_url ), '&laquo;' );
-			$links['prev']  = sprintf( '<a class="button button-light" href="%s">%s</a>',
-				add_query_arg( 'paged', $current_page - 1, $current_url ), '&lsaquo;' );
+			$links['first'] = sprintf( '<a class="button button-light" data-paged="%s" href="%s">%s</a>',
+				1, add_query_arg( 'paged', 1, $current_url ), '&laquo;' );
+			$links['prev']  = sprintf( '<a class="button button-light" data-paged="%s" href="%s">%s</a>',
+				$current_page - 1, add_query_arg( 'paged', $current_page - 1, $current_url ), '&lsaquo;' );
 		}
 
 		for ( $i = 1; $i <= $total_pages; $i ++ ) {
 			if ( ( $i >= 1 && $i <= $radius ) || ( $i > $current_page - 2 && $i < $current_page + 2 ) || ( $i <= $total_pages && $i > $total_pages - $radius ) ) {
 				if ( $i == $current_page ) {
-					$links[ $i ] = sprintf( '<a href="#" class="button  button-light" disabled="">%s</a>', $i );
+					$links[ $i ] = sprintf( '<a href="#" class="button button-light" data-paged="%s" disabled="">%s</a>', $i, $i );
 				} else {
-					$links[ $i ] = sprintf( '<a class="button  button-light" href="%s">%s</a>',
-						add_query_arg( 'paged', $i, $current_url ), $i );
+					$links[ $i ] = sprintf( '<a class="button button-light" data-paged="%s" href="%s">%s</a>',
+						$i, add_query_arg( 'paged', $i, $current_url ), $i );
 				}
 			} elseif ( $i == $current_page - $radius || $i == $current_page + $radius ) {
-				$links[ $i ] = '<a href="#" class="button  button-light" disabled="">...</a>';
+				$links[ $i ] = '<a href="#" class="button button-light" disabled="">...</a>';
 			}
 		}
 
 		if ( $current_page < $total_pages && $total_pages > $radius ) {
-			$links['next'] = sprintf( '<a class="button  button-light" href="%s">%s</a>',
-				add_query_arg( 'paged', $current_page + 1, $current_url ), '&rsaquo;' );
-			$links['last'] = sprintf( '<a class="button  button-light" href="%s">%s</a>',
-				add_query_arg( 'paged', $total_pages, $current_url ), '&raquo;' );
+			$links['next'] = sprintf( '<a class="button button-light" data-paged="%s" href="%s">%s</a>',
+				$current_page + 1, add_query_arg( 'paged', $current_page + 1, $current_url ), '&rsaquo;' );
+			$links['last'] = sprintf( '<a class="button button-light" data-paged="%s" href="%s">%s</a>',
+				$total_pages, add_query_arg( 'paged', $total_pages, $current_url ), '&raquo;' );
 		}
 		$output = join( "\n", $links );
 

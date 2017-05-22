@@ -134,10 +134,11 @@
     .wpmud .dev-box .box-title h3 {
       color: #333;
       display: inline-block;
-      font-size: 15px; }
+      font-size: 15px;
+      overflow: visible; }
     .wpmud .dev-box .box-title .span-icon {
-      height: 60px;
-      margin-right: 10px; }
+      margin-right: 10px;
+      vertical-align: middle; }
     .wpmud .dev-box .box-title .def-tag {
       margin-left: 16px;
       position: relative;
@@ -174,7 +175,9 @@
   .wpmud .toggle .toggle-label:after {
     width: 16px;
     height: 16px;
-    top: -3px; }
+    position: absolute;
+    top: 50%;
+    margin-top: -8px; }
   .wpmud .toggle .toggle-checkbox:checked + .toggle-label:after {
     margin-left: 23px; }
   .wpmud .toggle .toggle-checkbox:checked + .toggle-label:before {
@@ -307,14 +310,14 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 999;
   opacity: 0.5;
   background: #f2f2f2; }
 .wpmud .dev-team:not(.dev-overlay) {
   background-image: url("../img/dev-team.svg");
   background-repeat: no-repeat;
   background-position: 0 100%;
-  padding-bottom: 200px;
+  padding-bottom: 35%;
   background-size: contain; }
 .wpmud .dev-team.dev-overlay .box {
   padding-bottom: 270px;
@@ -351,7 +354,8 @@
     bottom: 15px;
     right: 0; }
 .wpmud .presale-text {
-  overflow: hidden; }
+  overflow: hidden;
+  padding-top: 5%; }
   .wpmud .presale-text div {
     position: relative;
     width: 70%;
@@ -393,7 +397,6 @@
   font-weight: 400;
   line-height: 30px;
   margin: 30px 10px 0 8px;
-  max-width: 980px;
   -webkit-font-smoothing: antialiased !important;
   /*
 
@@ -406,6 +409,8 @@
     padding-bottom: 30px; }
   .wp-defender .mline {
     margin-bottom: 30px; }
+  .wp-defender .marginless {
+    margin: 0 !important; }
   .wp-defender .end {
     border-bottom: 1px solid #E6E6E6; }
   .wp-defender p.sub {
@@ -1745,16 +1750,24 @@
       padding-bottom: 0; }
   .wp-defender .def-dashboard .hardener-widget .dev-list {
     margin: 0 0 30px; }
-    .wp-defender .def-dashboard .hardener-widget .dev-list .list-label i {
-      vertical-align: sub;
-      margin-right: 6px;
-      background-image: url("../img/wpmud-icon-warning-yellow.svg");
-      background-repeat: no-repeat;
-      width: 20px;
-      height: 20px;
-      display: inline-block; }
-    .wp-defender .def-dashboard .hardener-widget .dev-list .list-label i:before {
-      content: ''; }
+    .wp-defender .def-dashboard .hardener-widget .dev-list a {
+      color: #666;
+      cursor: pointer;
+      display: block;
+      width: 100%; }
+    .wp-defender .def-dashboard .hardener-widget .dev-list .list-label {
+      display: block;
+      cursor: pointer; }
+      .wp-defender .def-dashboard .hardener-widget .dev-list .list-label i {
+        vertical-align: sub;
+        margin-right: 6px;
+        background-image: url("../img/wpmud-icon-warning-yellow.svg");
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        display: inline-block; }
+      .wp-defender .def-dashboard .hardener-widget .dev-list .list-label i:before {
+        content: ''; }
   .wp-defender .hardener .col-third {
     width: 25%; }
   .wp-defender .hardener .col-two-third {
@@ -1967,7 +1980,7 @@
         display: block;
         font-size: 13px;
         color: #888; }
-    .wp-defender .wdf-scanning table tbody tr td:nth-child(3), .wp-defender .wdf-scanning table tbody tr td.item-issue, .wp-defender .wdf-scanning table tbody tr td.col_fixed_date, .wp-defender .scan-dialog table tbody tr td:nth-child(3), .wp-defender .scan-dialog table tbody tr td.item-issue, .wp-defender .scan-dialog table tbody tr td.col_fixed_date {	  	 	   	 		 		 				
+    .wp-defender .wdf-scanning table tbody tr td:nth-child(3), .wp-defender .wdf-scanning table tbody tr td.item-issue, .wp-defender .wdf-scanning table tbody tr td.col_fixed_date, .wp-defender .scan-dialog table tbody tr td:nth-child(3), .wp-defender .scan-dialog table tbody tr td.item-issue, .wp-defender .scan-dialog table tbody tr td.col_fixed_date {
       font-size: 13px;
       vertical-align: middle; }
     .wp-defender .wdf-scanning table tbody tr td:nth-child(4), .wp-defender .wdf-scanning table tbody tr td.item-action, .wp-defender .scan-dialog table tbody tr td:nth-child(4), .wp-defender .scan-dialog table tbody tr td.item-action {
@@ -2082,7 +2095,7 @@
           margin: 0;
           color: #333; }
       .wp-defender .auditing #audit-table > table > tbody > tr > td {
-        padding: 15px 15px;
+        padding: 15px 30px;
         font-size: 13px;
         line-height: 22px;
         vertical-align: top; }
@@ -2335,4 +2348,4 @@
   margin: 0; }
 
 
-/* 133620-1493689622-au */
+/* 133620-1495482891-au */

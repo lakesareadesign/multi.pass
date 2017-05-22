@@ -308,7 +308,7 @@ class MS_Addon_Wpml extends MS_Addon {
 
 		if ( $supported ) {
 			$label = __( 'WPML Support', 'membership2' );
-			$info = __( 'Translate by using the language switch in the toolbar.', 'membership2' );
+			$info = __( 'Translate by using the language switch in the toolbar.', 'membership2' );	   	 	 		 	  					  
 		} else {
 			$label = __( 'WPML not supported', 'membership2' );
 			$info = __( 'Required module missing', 'membership2' );

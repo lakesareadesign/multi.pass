@@ -28,14 +28,19 @@ class Scan extends Behavior {
 
 	public function renderScanWidget() {
 		$this->pullStatus();
+
 		?>
         <div class="dev-box">
             <div class="box-title">
                 <span class="span-icon icon-scan"></span>
-                <h3><?php _e( "FILE SCANNING", wp_defender()->domain ) ?></h3>
-                <a <?php echo ( is_object( $this->activeScan ) ) ? 'disabled="disabled"' : null ?>
-                        href="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=settings' ) ?>"
-                        class="button button-small button-secondary"><?php _e( "Configure", wp_defender()->domain ) ?></a>
+                <h3><?php _e( "FILE SCANNING", wp_defender()->domain ) ?>
+                <?php
+                 if($this->countAll > 0):
+                ?>
+                <span class="def-tag tag-error" tooltip="<?php printf(esc_attr__("You have %s suspicious file(s) needing attention",wp_defender()->domain),$this->countAll) ?>"><?php echo $this->countAll ?></span>
+                <?php endif; ?>
+                </h3>
+
             </div>
             <div class="box-content">
 				<?php
@@ -79,7 +84,18 @@ class Scan extends Behavior {
 		} elseif ( is_object( $activeScan ) && $activeScan->status == \WP_Defender\Module\Scan\Model\Scan::STATUS_ERROR ) {
 			echo $this->activeScan->statusText;
 		} else {
-			echo $this->countAll;
+			?>
+				<?php
+				if ( $this->countAll == 0 ): ?>
+					<span class="def-tag tag-success">
+				<?php else:
+					?>
+					<span class="def-tag tag-error">
+				<?php endif;
+				echo $this->countAll;
+				?>
+				</span>
+			<?php
 		}
 	}
 
@@ -103,7 +119,7 @@ class Scan extends Behavior {
             <ul class="dev-list bold end">
                 <li>
                     <div>
-                        <span class="list-label"><?php _e( "Wordpress Core", wp_defender()->domain ) ?></span>
+                        <span class="list-label"><?php _e( "WordPress Core", wp_defender()->domain ) ?></span>
                         <span class="list-detail">
                             <?php echo $model->getCount( 'core' ) == 0 ? ' <i class="def-icon icon-tick"></i>' : '<span class="def-tag tag-error">' . $model->getCount( 'core' ) . '</span>' ?>
                         </span>
@@ -116,7 +132,8 @@ class Scan extends Behavior {
                             <?php if ( Utils::instance()->getAPIKey() ): ?>
 	                            <?php echo $model->getCount( 'vuln' ) == 0 ? ' <i class="def-icon icon-tick"></i>' : '<span class="def-tag tag-error">' . $model->getCount( 'vuln' ) . '</span>' ?>
                             <?php else: ?>
-                                <a href="#pro-feature" rel="dialog" class="button button-pre button-small">
+                                <a href="#pro-feature" rel="dialog" class="button button-pre button-small"
+								tooltip="<?php esc_attr_e( "Try Defender Pro free today", wp_defender()->domain ) ?>">
                                     <?php _e( "Pro Feature", wp_defender()->domain ) ?>
                                 </a>
                             <?php endif; ?>
@@ -130,7 +147,8 @@ class Scan extends Behavior {
 			                <?php if ( Utils::instance()->getAPIKey() ): ?>
 				                <?php echo $model->getCount( 'content' ) == 0 ? ' <i class="def-icon icon-tick"></i>' : '<span class="def-tag tag-error">' . $model->getCount( 'content' ) . '</span>' ?>
 			                <?php else: ?>
-                                <a href="#pro-feature" rel="dialog" class="button button-pre button-small">
+                                <a href="#pro-feature" rel="dialog" class="button button-pre button-small"
+								tooltip="<?php esc_attr_e( "Try Defender Pro free today", wp_defender()->domain ) ?>">
                                     <?php _e( "Pro Feature", wp_defender()->domain ) ?>
                                 </a>
 			                <?php endif; ?>
@@ -150,16 +168,18 @@ class Scan extends Behavior {
 				<?php if ( wp_defender()->isFree == false ): ?>
                 <p class="status-text">
 					<?php
-					switch ( Settings::instance()->frequency ) {
-						case '1':
-							_e( "Automatic scans are running daily", wp_defender()->domain );
-							break;
-						case '7':
-							_e( "Automatic scans are running weekly", wp_defender()->domain );
-							break;
-						case '30':
-							_e( "Automatic scans are running monthly", wp_defender()->domain );
-							break;
+					if ( !empty( Settings::instance()->notification ) ) {
+						switch ( Settings::instance()->frequency ) {
+							case '1':
+								_e( "Automatic scans are running daily", wp_defender()->domain );
+								break;
+							case '7':
+								_e( "Automatic scans are running weekly", wp_defender()->domain );
+								break;
+							case '30':
+								_e( "Automatic scans are running monthly", wp_defender()->domain );
+								break;
+						}
 					}
 					?>
 					<?php endif; ?>

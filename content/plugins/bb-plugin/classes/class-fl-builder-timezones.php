@@ -124,7 +124,7 @@ final class FLBuilderTimezones {
 		$selected = '';
 		if ( 'UTC' === $selected_zone )
 			$selected = 'selected="selected" ';
-		$structure[] = '<option ' . $selected . 'value="' . esc_attr( 'UTC', 'fl-builder' ) . '">' . __( 'UTC', 'fl-builder' ) . '</option>';
+		$structure[] = '<option ' . $selected . 'value="' . esc_attr__( 'UTC', 'fl-builder' ) . '">' . __( 'UTC', 'fl-builder' ) . '</option>';
 		$structure[] = '</optgroup>';
 
 		return join( "\n", $structure );

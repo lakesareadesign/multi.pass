@@ -34,19 +34,21 @@ class Core_Scan extends Behavior {
 			$item->parentId = $model->id;
 			$item->type     = 'core';
 			$item->status   = $status;
+			$relPath 		= Scan_Api::convertToUnixPath( $current ); //Windows File path fix set outside to be used in both file and dir checks
+			$current_path	= Scan_Api::convertToWindowsAbsPath( $current ); //Windows needs fixing for the paths
 			if ( is_file( $current ) ) {
 				//check if this is core or not
-				$relPath = Scan_Api::convertToUnixPath( $current );
+
 				if ( isset( $checksums[ $relPath ] ) && strcmp( md5_file( $current ), $checksums[ $relPath ] ) !== 0 ) {
 					$item->raw = array(
 						'type' => 'modified',
-						'file' => $current
+						'file' => $current_path
 					);
 					$id        = $item->save();
 				} elseif ( ! isset( $checksums[ $relPath ] ) ) {
 					$item->raw = array(
 						'type' => 'unknown',
-						'file' => $current
+						'file' => $current_path
 					);
 					$id        = $item->save();
 				}
@@ -56,7 +58,7 @@ class Core_Scan extends Behavior {
 				if ( count( $files ) ) {
 					$item->raw = array(
 						'type' => 'dir',
-						'file' => $current
+						'file' => $current_path
 					);
 					$id        = $item->save();
 				}

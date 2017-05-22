@@ -93,6 +93,10 @@
                                    href="<?php echo network_admin_url( 'admin.php?page=wdf-ip-lockout&view=notification' ) ?>"><?php _e( "Notifications", wp_defender()->domain ) ?></a>
                             </li>
                             <li>
+                                <a class="<?php echo $controller->isView( 'settings' ) ? 'active' : null ?>"
+                                   href="<?php echo network_admin_url( 'admin.php?page=wdf-ip-lockout&view=settings' ) ?>"><?php _e( "Settings", wp_defender()->domain ) ?></a>
+                            </li>
+                            <li>
                                 <a class="<?php echo $controller->isView( 'reporting' ) ? 'active' : null ?>"
                                    href="<?php echo network_admin_url( 'admin.php?page=wdf-ip-lockout&view=reporting' ) ?>"><?php _e( "Reporting", wp_defender()->domain ) ?></a>
                             </li>
@@ -109,6 +113,8 @@
                                         value="<?php echo network_admin_url( 'admin.php?page=wdf-ip-lockout&view=logs' ) ?>"><?php _e( "Logs", wp_defender()->domain ) ?></option>
                                 <option <?php selected( 'notification', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view', null ) ) ?>
                                         value="<?php echo network_admin_url( 'admin.php?page=wdf-ip-lockout&view=notification' ) ?>"><?php _e( "Notifications", wp_defender()->domain ) ?></option>
+                                <option <?php selected( 'settings', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view', null ) ) ?>
+                                        value="<?php echo network_admin_url( 'admin.php?page=wdf-ip-lockout&view=settings' ) ?>"><?php _e( "Settings", wp_defender()->domain ) ?></option>
                                 <option <?php selected( 'reporting', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view', null ) ) ?>
                                         value="<?php echo network_admin_url( 'admin.php?page=wdf-ip-lockout&view=reporting' ) ?>"><?php _e( "Reporting", wp_defender()->domain ) ?></option>
                             </select>

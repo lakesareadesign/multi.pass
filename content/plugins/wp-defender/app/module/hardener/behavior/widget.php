@@ -17,10 +17,13 @@ class Widget extends Behavior {
             <div class="box-title">
                 <span class="span-icon hardener-icon"></span>
                 <h3><?php _e( "Security Tweaks", wp_defender()->domain ) ?>
-					<?php if ( count( Settings::instance()->issues ) ): ?>
-                        <span class="def-tag tag-yellow">
+					<?php
+                    $hardener_issues = count( Settings::instance()->issues );
+                    if ( $hardener_issues ): ?>
+                        <span class="def-tag tag-yellow"
+                        tooltip="<?php esc_attr_e( sprintf( __('You have %d security tweak(s) needing attention', wp_defender()->domain ), $hardener_issues ) ); ?>">
                         <?php
-                        echo count( Settings::instance()->issues ) ?>
+                        echo $hardener_issues ?>
                     </span>
 					<?php endif; ?>
                 </h3>
@@ -28,7 +31,7 @@ class Widget extends Behavior {
             <div class="box-content">
 				<?php $count = count( $issues ); ?>
                 <div class="line <?php echo $count ? 'end' : null ?>">
-					<?php _e( " Defender checks for basic security tweaks you can make to enhance your website’s
+					<?php _e( " Defender checks for security tweaks you can make to enhance your website’s
                     defense against hackers and bots.", wp_defender()->domain ) ?>
                 </div>
 				<?php if ( $count ): ?>
@@ -38,14 +41,11 @@ class Widget extends Behavior {
 							?>
                             <li>
                                 <div>
-                                <span class="list-label">
-                                    <i class="def-icon icon-h-warning"></i>
-	                                <?php echo $issue->getTitle(); ?>
-                                </span>
-                                    <span class="list-detail">
-                                    <a href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener#' . $issue::$slug ) ?>"
-                                       class="button button-secondary button-small"><?php _e( "View", wp_defender()->domain ) ?></a>
-                                </span>
+                                    <a target="_blank"
+                                       href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener#' . $issue::$slug ) ?>">
+                                        <span class="list-label"><i
+                                                    class="def-icon icon-h-warning"></i><?php echo $issue->getTitle(); ?></span>
+                                    </a>
                                 </div>
                             </li>
 						<?php endforeach;
@@ -60,7 +60,7 @@ class Widget extends Behavior {
                 <div class="row">
                     <div class="col-third tl">
                         <a href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener' ) ?>"
-                           class="button button-small button-secondary"><?php _e( "VIEW ISSUES", wp_defender()->domain ) ?></a>
+                           class="button button-small button-secondary"><?php _e( "VIEW ALL", wp_defender()->domain ) ?></a>
                     </div>
                 </div>
             </div>

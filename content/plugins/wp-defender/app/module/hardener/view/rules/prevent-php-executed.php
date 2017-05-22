@@ -53,6 +53,10 @@ location ~* ^$wp_content/.*\.php$ {
                             <p><?php esc_html_e( "For NGINX servers:", wp_defender()->domain ) ?></p>
                             <ol>
                                 <li>
+                                    <p><?php _e( "Input the file paths to ignore in the /wp-content directory (each in a new line). The file index.php is not allowed", wp_defender()->domain ) ?></p>
+                                    <textarea class="hardener-php-excuted-ignore"></textarea>
+                                </li>
+                                <li>
 									<?php esc_html_e( "Copy the generated code into your site specific .conf file usually located in a subdirectory under /etc/nginx/... or /usr/local/nginx/conf/...", wp_defender()->domain ) ?>
                                 </li>
                                 <li>
@@ -64,11 +68,14 @@ location ~* ^$wp_content/.*\.php$ {
                                 </li>
                             </ol>
                             <p><?php sprintf( __( "Still having trouble? <a target='_blank' href=\"%s\">Open a support ticket</a>.", wp_defender()->domain ), 'https://premium.wpmudev.org/forums/forum/support#question' ) ?></p>
+
                             <pre>
 ## WP Defender - Prevent PHP Execution ##
 								<?php echo esc_html( $rules ); ?>
+                                <span class="hardener-nginx-extra-instructions"></span>
                                 ## WP Defender - End ##
-			</pre>
+			                </pre>
+
                         </div>
                         <?php
 						break;
@@ -77,9 +84,14 @@ location ~* ^$wp_content/.*\.php$ {
                         <div class="line">
                             <p><?php _e( "We will place <strong>.htaccess</strong> file into the root folder to lock down the files and folders inside.", wp_defender()->domain ) ?></p>
                         </div>
+                        <div class="line">
+                            <p><?php _e( "File paths to ignore in the /wp-content directory (each in a new line). The file index.php is not allowed", wp_defender()->domain ) ?></p>
+                            <textarea class="hardener-php-excuted-ignore"></textarea>
+                        </div>
                         <form method="post" class="hardener-frm rule-process">
 							<?php $controller->createNonceField(); ?>
                             <input type="hidden" name="action" value="processHardener"/>
+                            <input type="hidden" name="file_paths" value=""/>
                             <input type="hidden" name="slug" value="<?php echo $controller::$slug ?>"/>
                             <button class="button float-r"
                                     type="submit"><?php _e( "Add .htaccess file", wp_defender()->domain ) ?></button>

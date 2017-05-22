@@ -4,7 +4,7 @@
             <h3><?php esc_html_e( "404 DETECTION", wp_defender()->domain ) ?></h3>
             <div class="side float-r">
                 <div>
-                    <span tooltip="Deactivate 404 Detection" class="toggle">
+                    <span tooltip="<?php esc_attr_e( "Deactivate 404 Detection", wp_defender()->domain ) ?>" class="toggle">
                         <input type="hidden" name="detect_404" value="0"/>
                         <input type="checkbox" checked="checked" class="toggle-checkbox"
                                id="toggle_404_detection" name="detect_404" value="1"/>
@@ -147,8 +147,6 @@
             <button type="submit" class="button button-primary float-r">
 				<?php esc_html_e( "UPDATE SETTINGS", wp_defender()->domain ) ?>
             </button>
-            <button type="reset" class="button button-secondary float-r">
-				<?php esc_html_e( "Cancel", wp_defender()->domain ) ?></button>
             <div class="clear"></div>
         </div>
     </form>

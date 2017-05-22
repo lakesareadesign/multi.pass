@@ -51,95 +51,6 @@ class Dashboard extends Controller {
 		wp_send_json_success();
 	}
 
-	public function activateModule() {
-		if ( ! $this->checkPermission() ) {
-			return;
-		}
-
-		if ( ! wp_verify_nonce( HTTP_Helper::retrieve_post( '_wpnonce' ), 'activateModule' ) ) {
-			return;
-		}
-
-		$activator = HTTP_Helper::retrieve_post( 'activator' );
-		$activated = array();
-		if ( count( $activator ) ) {
-			foreach ( $activator as $item ) {
-				switch ( $item ) {
-					case 'activate_scan':
-						$settings               = Settings::instance();
-						$settings->notification = 1;
-						$settings->time         = '4:0';
-						$settings->day          = 'monday';
-						$settings->frequency    = 7;
-						$nextScanTime           = Scan_Api::getScheduledScanTime();
-						wp_schedule_single_event( $nextScanTime, 'processScanCron' );
-						$settings->save();
-						//start a new scan
-						Scan_Api::createScan();
-						$activated[] = $item;
-						break;
-					case 'activate_audit':
-						$settings               = \WP_Defender\Module\Audit\Model\Settings::instance();
-						$settings->enabled      = 1;
-						$settings->notification = 1;
-						$settings->time         = '4:0';
-						$settings->day          = 'monday';
-						$settings->frequency    = 7;
-						$reportTime             = Audit_API::getReportTime();
-						wp_schedule_single_event( $reportTime, 'auditReportCron' );
-						$activated[] = $item;
-						$settings->save();
-						break;
-					case 'activate_blacklist':
-						$this->toggleStatus( - 1, false );
-						$activated[] = $item;
-						break;
-					case 'activate_lockout':
-						$settings                   = \WP_Defender\Module\IP_Lockout\Model\Settings::instance();
-						$settings->detect_404       = 1;
-						$settings->login_protection = 1;
-						$settings->report           = 1;
-						$settings->report_frequency = 7;
-						$settings->report_day       = 'monday';
-						$settings->report_time      = '4:0';
-						$reportTime                 = Login_Protection_Api::getReportTime( true );
-						wp_schedule_single_event( $reportTime, 'lockoutReportCron' );
-						$activated[] = $item;
-						$settings->save();
-						break;
-				}
-			}
-		}
-
-		$cache = WP_Helper::getCache();
-		$cache->set( 'isActivated', 1, 0 );
-
-		wp_send_json_success( array(
-			'activated' => $activated
-		) );
-	}
-
-	/**
-	 * Check if we should show activator screen
-	 * @return bool
-	 */
-	public function isShowActivator() {
-		$cache = WP_Helper::getCache();
-		if ( $cache->get( 'isActivated', false ) == 1 ) {
-			return false;
-		}
-		//alread has data, just return
-		if ( get_site_option( 'wp_defender' ) != false
-		     || get_site_option( 'wd_scan_settings' ) != false
-		     || get_site_option( 'wd_audit_settings' ) != false
-		     || get_site_option( 'wd_lockdown_settings' ) != false
-		) {
-			return false;
-		}
-
-		return true;
-	}
-
 	public function menuOrder( $menu_order ) {
 		global $submenu;
 		if ( isset( $submenu['wp-defender'] ) ) {
@@ -322,12 +233,12 @@ class Dashboard extends Controller {
 	public function behaviors() {
 		return array(
 			'utils'     => '\WP_Defender\Behavior\Utils',
+			'activator' => wp_defender()->isFree ? '\WP_Defender\Behavior\Activator_Free' : '\WP_Defender\Behavior\Activator',
 			'hardener'  => '\WP_Defender\Module\Hardener\Behavior\Widget',
 			'scan'      => '\WP_Defender\Module\Scan\Behavior\Scan',
-			//'lockout'   => wp_defender()->isFree ? '\WP_Defender\Module\IP_Lockout\Behavior\IP_Lockout_Free' : '\WP_Defender\Module\IP_Lockout\Behavior\IP_Lockout',
 			'lockout'   => '\WP_Defender\Module\IP_Lockout\Behavior\Widget',
 			'audit'     => wp_defender()->isFree ? '\WP_Defender\Module\Audit\Behavior\Audit_Free' : '\WP_Defender\Module\Audit\Behavior\Audit',
-			'blacklist' => '\WP_Defender\Behavior\Blacklist',
+			'blacklist' => wp_defender()->isFree ? '\WP_Defender\Behavior\Blacklist_Free' : '\WP_Defender\Behavior\Blacklist',
 			'report'    => wp_defender()->isFree ? '\WP_Defender\Behavior\Report_Free' : '\WP_Defender\Behavior\Report',
 		);
 	}

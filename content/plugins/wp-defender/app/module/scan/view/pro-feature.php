@@ -1,9 +1,9 @@
-<dialog class="no-close dev-team" id="pro-feature" title="<?php _e( "Upgrade to Pro", wp_defender()->domain ) ?> <a class='button float-r button-green button-small' href='https://premium.wpmudev.org/project/wp-defender/'><?php _e("Learn more") ?></a>">
+<dialog class="dev-team" id="pro-feature" title="<?php _e( "Defender Pro Features", wp_defender()->domain ) ?>">
     <div class="wp-defender">
-        <p class=""><?php _e( "Here’s what you’ll get by uprading to Defender Pro", wp_defender()->domain ) ?></p>
+        <p class=""><?php _e( "Here’s what you’ll get by upgrading to Defender Pro;", wp_defender()->domain ) ?></p>
         <div class="well well-blank with-cap">
             <i class="def-icon icon-tick fill-blue"></i>
-            <strong><?php _e( "Automation", wp_defender()->domain ) ?></strong>
+            <strong><?php _e( "Automatic Full File Scans & Notifications", wp_defender()->domain ) ?></strong>
             <p class="sub">
 				<?php _e( "Schedule Defender to automatically run a full file scan daily, weekly or monthly and get email reports
                 when
@@ -26,14 +26,14 @@
         </div>
         <div class="well well-blank with-cap mline">
             <i class="def-icon icon-tick fill-blue"></i>
-            <strong><?php _e( "Reporting", wp_defender()->domain ) ?></strong>
+            <strong><?php _e( "Tailored Reporting", wp_defender()->domain ) ?></strong>
             <p class="sub">
 				<?php _e( "Get tailored security reports for File Scanning, Audit Logging and IP Lockouts delivered to your inbox so you don’t have to worry about checking in.", wp_defender()->domain ) ?>
             </p>
         </div>
         <div class="tc">
-            <p class="line"><?php _e( "Get all of this, plus heaps more as a part of a WPMU DEV membership.", wp_defender()->domain ) ?></p>
-            <a class="button button-green" href="https://premium.wpmudev.org/project/wp-defender/"><?php _e( "Learn more", wp_defender()->domain ) ?></a>
+            <a class="button button-green mline" href="https://premium.wpmudev.org/project/wp-defender/"><?php _e( "Get Defender Pro for Free", wp_defender()->domain ) ?></a>
+            <p class="is-marginless"><?php _e( "As part part of a WPMU DEV free trial.", wp_defender()->domain ) ?></p>
         </div>
     </div>
 </dialog>

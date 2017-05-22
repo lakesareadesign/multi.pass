@@ -26,9 +26,21 @@
 		 */
 		refreshPreview: function()
 		{
-			if ( $( '.fl-responsive-preview' ).length ) {
-				FLBuilderSimulateMediaQuery.update();
+			var width;
+			
+			if ( ! $( '.fl-responsive-preview' ).length || 'default' == this._mode ) {
+				return;
 			}
+			else if ( 'responsive' == this._mode ) {
+				width = FLBuilderConfig.global.responsive_breakpoint >= 320 ? 320 : FLBuilderConfig.global.responsive_breakpoint;
+				FLBuilderSimulateMediaQuery.update( width );
+			}
+			else if ( 'medium' == this._mode ) {
+				width = FLBuilderConfig.global.medium_breakpoint >= 769 ? 769 : FLBuilderConfig.global.medium_breakpoint;
+				FLBuilderSimulateMediaQuery.update( width );
+			}
+			
+			FLBuilder._resizeLayout();
 		},
 		
 		/**
@@ -79,8 +91,10 @@
 			
 			// Reparse stylesheets that match these paths on each update.
 			FLBuilderSimulateMediaQuery.reparse( [
-				'-layout-draft.css?',
-				'-layout-preview.css?'
+				FLBuilderConfig.postId + '-layout-draft.css?',
+				FLBuilderConfig.postId + '-layout-draft-partial.css?',
+				FLBuilderConfig.postId + '-layout-preview.css?',
+				FLBuilderConfig.postId + '-layout-preview-partial.css?'
 			] );
 		},
 		
@@ -542,7 +556,12 @@
 			
 			form.find( '.fl-field' ).has( '.fl-field-responsive-setting' ).each( function() {
 				
-				var fields = FLBuilderResponsiveEditing._getFields( this, 'input' );
+				var fields  = FLBuilderResponsiveEditing._getFields( this, 'input' ),
+					preview = fields.responsive.closest( '.fl-field' ).data( 'preview' );
+					
+				if ( 'refresh' == preview.type ) {
+					return;
+				}
 			
 				fields[ mode ].trigger( 'keyup' );
 			} );

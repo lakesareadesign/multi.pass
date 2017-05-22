@@ -2,7 +2,7 @@
     <div class="box-title">
         <h3><?php _e( "Reporting", wp_defender()->domain ) ?></h3>
         <a class="button button-green button-small"
-           href="https://premium.wpmudev.org/project/wp-defender/"><?php _e( "Upgrade to Pro", wp_defender()->domain ) ?></a>
+           href="#pro-feature" rel="dialog"><?php _e( "Upgrade to Pro", wp_defender()->domain ) ?></a>
     </div>
     <div class="box-content">
         <form method="post" class="">

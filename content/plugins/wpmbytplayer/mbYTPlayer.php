@@ -4,13 +4,13 @@ Plugin Name: mb.YTPlayer for background videos
 Plugin URI: http://pupunzi.com/#mb.components/mb.YTPlayer/YTPlayer.html
 Description: Play a Youtube video as background of your page. Go to <strong>mb.ideas > mb.YTPlayer</strong> to activate the background video option for your homepage.
 Author: Pupunzi (Matteo Bicocchi)
-Version: 3.0.10
+Version: 3.0.12
 Author URI: http://pupunzi.com
 Text Domain: wpmbytplayer
 */
 
 
-define("MBYTPLAYER_VERSION", "3.0.10");
+define("MBYTPLAYER_VERSION", "3.0.12");
 
 // Set unique string for this site
 $lic_domain = $_SERVER['HTTP_HOST'];
@@ -23,16 +23,14 @@ $this_plugin = plugin_basename(__FILE__);
 
 $ytpl_plus_link = "https://pupunzi.com/wpPlus/go-plus.php?locale=" . get_locale() . "&plugin_prefix=YTPL&plugin_version=" . MBYTPLAYER_VERSION . "&lic_domain=" . $lic_domain . "&lic_theme=" . get_template() . "&php=" . phpversion();
 
-/*
+
 if (version_compare(phpversion(), '5.6.0', '>')) {
-  require('inc/mb_notice/notice.php');
-  //$ytp_notice->reset_notice();
-  $link = "https://pupunzi.com/wpPlus/go-plus.php?locale=" . get_locale() . "&plugin_prefix=YTPL&plugin_version=" . MBYTPLAYER_VERSION . "&lic_domain=" . $lic_domain . "&lic_theme=" . get_template();
-  $ytp_message = '<b>WP-YTPLAYER 3.0.5</b>: <br>From this release you need the <b>Plus version</b> to use the short-code generator on the post/page editor and to remove the watermark from the video. Just follow the link to get one!' . ' <a target="_blank" href="' . $link . '">' . __('Get your <b>Plus</b> now!', 'wpmbytplayer') . '</a>';
-  $ytp_notice = new mb_notice('mbYTPlayer', $this_plugin);
-  $ytp_notice->add_notice($ytp_message, 'success');
+    require('inc/mb_notice/notice.php');
+    //$ytp_notice->reset_notice();
+    $ytp_message = '<b>mb.YTPlayer</b>: <br>Go to Plus to activate all the features! ' . ' <a target="_blank" href="' . $ytpl_plus_link . '">' . __('Get your <b>Plus</b> now!', 'wpmbytplayer') . '</a>';
+    $ytp_notice = new mb_notice('mbYTPlayer', plugin_basename(__FILE__));
+    $ytp_notice->add_notice($ytp_message, 'success');
 }
-*/
 
 /**
  *
@@ -86,7 +84,7 @@ if (empty($mbYTPlayer_video_page)) {
     $mbYTPlayer_video_page = "static";
 }
 if (empty($mbYTPlayer_remember_last_time)) {
-    $mbYTPlayer_remember_last_time = false;
+    $mbYTPlayer_remember_last_time = "false";
 }
 /**
  * todo: rempve from next releases
@@ -290,7 +288,7 @@ function mbYTPlayer_options_page()
 
             <table class="form-table">
                 <tr valign="top">
-                    <th scope="row"> <?php _e('The Youtube vudeo url is:', 'wpmbytplayer'); ?></th>
+                    <th scope="row"> <?php _e('The Youtube video url is:', 'wpmbytplayer'); ?></th>
                     <td>
                         <?php
                         $ytpl_video_url = get_option('mbYTPlayer_video_url');

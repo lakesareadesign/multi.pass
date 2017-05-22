@@ -84,6 +84,8 @@ class Settings extends \Hammer\WP\Settings {
 	 */
 	public $time = '04:00';
 
+	public $lastReportSent;
+
 	/**
 	 * @return array
 	 */

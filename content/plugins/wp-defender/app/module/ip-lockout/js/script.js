@@ -92,10 +92,30 @@ jQuery(function ($) {
     $('body').on('click', '.lockout-nav', function (e) {
         e.preventDefault();
         var query = WDIP.buildFilterQuery();
-        query += '&paged=' + $(this).text();
+        query += '&paged=' + $(this).data('paged');
         WDIP.ajaxPull(query, function () {
 
         });
+    });
+    $('body').on('click', '.empty-logs', function () {
+        var that = $(this);
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                action: 'lockoutEmptyLogs',
+                nonce: that.data('nonce')
+            },
+            beforeSend: function () {
+                that.attr('disabled', 'disabled');
+            },
+            success: function (data) {
+                if (data.success) {
+                    Defender.showNotification('success', data.data.message);
+                    that.removeAttr('disabled');
+                }
+            }
+        })
     })
 
     $('input[name="login_protection"], input[name="detect_404"]').change(function () {
@@ -169,7 +189,8 @@ WDIP.listenFilter = function () {
         })
     }
 };
-
+var isFirst = true;
+var urlOrigin = location.href;
 WDIP.ajaxPull = function (query, callback) {
     var jq = jQuery;
     var overlay = Defender.createOverlay();
@@ -183,6 +204,11 @@ WDIP.ajaxPull = function (query, callback) {
         success: function (data) {
             jq('.lockout-logs-container').html(data.data.html);
             overlay.remove();
+            if (isFirst == false) {
+                window.history.pushState(null, document.title, urlOrigin + '&' + query);
+            } else {
+                isFirst = false;
+            }
             callback();
         }
     })

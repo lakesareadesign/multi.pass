@@ -1,16 +1,36 @@
 ﻿Plugin Name: Ultimate Branding
 Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve Bailovity (Incsub), Sam Najian (Incsub), Joseph Fusco (Incsub), Marcin Pietrzak (Incsub)
 
-
 Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+DATE: 17 May, 2017  - VERSION: 1.8.5
+==================================
+- Added new module "Custom Login Screen".
+- Changed module name from "Set Password on Multisite Blog Creation" to "Add password field on register form".
+- Fixed W3C validation error in "Custom Admin Bar" module.
+
+DATE: 03 May, 2017  - VERSION: 1.8.4
+==================================
+- Added ability to show "Admin Bar" for non-logged users.
+- Added new module "HTML Email Templates".
+- Added new module "Signup Password".
+- Added new option to try and inject the footer content block inside the theme footer element.
+- Allowed media queries in "Admin Bar" style field.
+- Fixed domain replace problem for "text change" module.
+- Fixed issue with the unseen footer in some themes.
+- Sorted modules by name.
+
+DATE: 06 Feb, 2017  - VERSION: 1.8.3.2
+==================================
+- Allow favicon to override site icon defined in Appearance > Customization.
+
 DATE: 22 Jan, 2017  - VERSION: 1.8.3.1
 ==================================
-- Added: Parse shortcodes in header & footer.
+- Added: Parse shortcodes in the footer.
 - Fixed: Issue with favicon on multisite.
-- Fixed: Issue with global header.
+- Fixed: Issue with the global header.
 
 DATE: 20 Dec, 2016  - VERSION: 1.8.3
 ==================================
@@ -300,4 +320,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-133620-1485823039-au
+133620-1495482884-au

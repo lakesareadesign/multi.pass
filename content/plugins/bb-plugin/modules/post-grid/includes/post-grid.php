@@ -15,7 +15,7 @@
 		
 		<?php do_action( 'fl_builder_post_grid_before_meta', $settings, $module ); ?>
 	
-		<?php if($settings->show_author || $settings->show_date || $settings->show_comments) : ?>
+		<?php if($settings->show_author || $settings->show_date || $settings->show_comments_grid) : ?>
 		<div class="fl-post-grid-meta">
 			<?php if($settings->show_author) : ?>
 				<span class="fl-post-grid-author">
@@ -37,7 +37,7 @@
 					<?php FLBuilderLoop::post_date($settings->date_format); ?>
 				</span>
 			<?php endif; ?>
-			<?php if($settings->show_comments) : ?>
+			<?php if($settings->show_comments_grid) : ?>
 				<?php if($settings->show_author || $settings->show_date) : ?>
 					<span class="fl-sep"><?php echo $settings->info_separator; ?></span>
 				<?php endif; ?>

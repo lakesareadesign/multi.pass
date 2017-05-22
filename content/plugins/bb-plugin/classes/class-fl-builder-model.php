@@ -147,7 +147,7 @@ final class FLBuilderModel {
 	 * @access private
 	 * @var array $template_data
 	 */
-	static private $template_data = array();
+	static private $template_data = null;
 
 	/**
 	 * An array of cached post IDs for node templates.
@@ -191,7 +191,7 @@ final class FLBuilderModel {
 		add_filter('heartbeat_received',                               __CLASS__ . '::lock_post', 10, 2);
 
 		/* Core Templates */
-		self::register_templates( FL_BUILDER_DIR . 'data/templates.dat' );
+		self::register_core_templates();
 	}
 
 	/**
@@ -451,7 +451,7 @@ final class FLBuilderModel {
 			}
 		}
 
-		return $editable;
+		return (bool) apply_filters( 'fl_builder_is_post_editable', $editable );
 	}
 
 	/**
@@ -5017,6 +5017,26 @@ final class FLBuilderModel {
 	}
 
 	/**
+	 * Registers the core templates with the builder.
+	 *
+	 * @since 1.10.3
+	 * @return void
+	 */
+	static private function register_core_templates()
+	{
+		$templates = glob( FL_BUILDER_DIR . 'data/*' );
+		
+		foreach ( $templates as $template ) {
+			
+			if ( 'templates.dat' == basename( $template ) ) {
+				continue;
+			}
+			
+			self::register_templates( $template );
+		}
+	}
+
+	/**
 	 * Applies a core template and can be overridden by extensions to
 	 * apply something else that is being shown in the selector.
 	 *
@@ -5112,8 +5132,13 @@ final class FLBuilderModel {
 	static public function get_template( $index, $type = 'layout' )
 	{
 		$templates = self::get_templates( $type );
+		$template  = isset( $templates[ $index ] ) ? $templates[ $index ] : false;
+		
+		if ( $template && isset( $template->nodes ) ) {
+			$template->nodes = maybe_unserialize( $template->nodes );
+		}
 
-		return isset( $templates[ $index ] ) ? $templates[ $index ] : false;
+		return $template;
 	}
 
 	/**
@@ -5126,35 +5151,54 @@ final class FLBuilderModel {
 	 */
 	static public function get_templates( $type = 'layout', $cached = true )
 	{
-		$templates = array();
-
-		foreach ( self::$templates as $path ) {
-
-			if ( file_exists( $path ) ) {
-
-				if ( $cached && isset( self::$template_data[ $path ] ) ) {
-					$unserialized = self::$template_data[ $path ];
+		// Pull from dat files if cached is false or we don't have saved data.
+		if ( ! $cached || ! self::$template_data ) {
+			
+			self::$template_data = array();
+				
+			foreach ( self::$templates as $path ) {
+				
+				// Make sure the template file exists.
+				if ( ! file_exists( $path ) ) {
+					continue;
+				}
+	
+				// Get the unserialized template data.
+				if ( stristr( $path, '.php' ) ) {
+					ob_start();
+					include $path;
+					$unserialized = unserialize( ob_get_clean() );
 				}
 				else {
-
-					if ( stristr( $path, '.php' ) ) {
-						ob_start();
-						include $path;
-						$unserialized = unserialize( ob_get_clean() );
-					}
-					else {
-						$unserialized = unserialize( file_get_contents( $path ) );
-					}
-
-					self::$template_data[ $path ] = $unserialized;
+					$unserialized = unserialize( file_get_contents( $path ) );
 				}
-
-				if ( is_array( $unserialized ) && isset( $unserialized[ $type ] ) ) {
-					$templates = array_merge( $templates, $unserialized[ $type ] );
+				
+				// Make sure we have an unserialized array.
+				if ( ! is_array( $unserialized ) ) {
+					continue;
+				}
+				
+				// Group and cache the template data.
+				foreach ( $unserialized as $template_type => $template_data ) {
+					
+					if ( ! isset( self::$template_data[ $template_type ] ) ) {
+						self::$template_data[ $template_type ] = array();
+					}
+					
+					// Reserialize the node data as it's expensive to store in memory.
+					foreach ( $template_data as $key => $template ) {
+						if ( isset( $template->nodes ) ) {
+							$template_data[ $key ]->nodes = serialize( $template_data[ $key ]->nodes );
+						}
+					}
+					
+					self::$template_data[ $template_type ] = array_merge( self::$template_data[ $template_type ], $template_data );
 				}
 			}
 		}
-
+		
+		$templates = isset( self::$template_data[ $type ] ) ? self::$template_data[ $type ] : array();
+		
 		return apply_filters( 'fl_builder_get_templates', $templates, $type );
 	}
 
@@ -5194,7 +5238,8 @@ final class FLBuilderModel {
 
 			if ( 'module' == $type ) {
 
-				$node = array_shift( $template->nodes );
+				$nodes = maybe_unserialize( $template->nodes );
+				$node  = array_shift( $nodes );
 
 				if ( ! isset( self::$modules[ $node->settings->type ] ) ) {
 					continue;

@@ -8,6 +8,7 @@ namespace WP_Defender\Module\Hardener\Component;
 use Hammer\Helper\WP_Helper;
 use WP_Defender\Component\Error_Code;
 use WP_Defender\Module\Hardener\IRule_Service;
+use WP_Defender\Module\Hardener\Model\Settings;
 use WP_Defender\Module\Hardener\Rule_Service;
 
 class Security_Key_Service extends Rule_Service implements IRule_Service {
@@ -17,11 +18,10 @@ class Security_Key_Service extends Rule_Service implements IRule_Service {
 	 * @return bool
 	 */
 	public function check() {
-		$cache = WP_Helper::getCache();
-		$last  = $cache->get( self::CACHE_KEY, false );
+		$last = Settings::instance()->getDValues( self::CACHE_KEY );
 		if ( $last ) {
-			$reminder = $cache->get( 'securityReminderDate', false );
-			if ( $reminder == false ) {
+			$reminder = Settings::instance()->getDValues( 'securityReminderDate' );
+			if ( $reminder == null ) {
 				$reminder = strtotime( '+30 days', $last );
 			}
 			if ( $reminder < time() ) {
@@ -50,9 +50,8 @@ class Security_Key_Service extends Rule_Service implements IRule_Service {
 	}
 
 	public function revert() {
-		$cache = WP_Helper::getCache();
-		$cache->delete( self::CACHE_KEY );
-		$cache->delete( 'securityReminderDate' );
+		Settings::instance()->setDValues( self::CACHE_KEY, null );
+		Settings::instance()->setDValues( 'securityReminderDate', null );
 	}
 
 	/**
@@ -118,7 +117,7 @@ class Security_Key_Service extends Rule_Service implements IRule_Service {
 		//we already check for perm above, no need to check again
 		//lock the file
 		file_put_contents( $path, implode( '', $config ), LOCK_EX );
-		WP_Helper::getCache()->set( self::CACHE_KEY, time() );
+		Settings::instance()->setDValues( self::CACHE_KEY, time() );
 
 		return true;
 	}

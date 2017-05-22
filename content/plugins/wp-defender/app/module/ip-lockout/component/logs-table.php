@@ -6,6 +6,7 @@
 namespace WP_Defender\Module\IP_Lockout\Component;
 
 use Hammer\Helper\HTTP_Helper;
+use Hammer\Helper\WP_Helper;
 use WP_Defender\Module\IP_Lockout\Model\Log_Model;
 
 class Logs_Table extends \WP_List_Table {
@@ -45,9 +46,9 @@ class Logs_Table extends \WP_List_Table {
 
 	protected function get_sortable_columns() {
 		return array(
-			'reason' => array( 'log', true ),
-			'date'   => array( 'date', true ),
-			'ip'     => array( 'ip', true ),
+			//'reason' => array( 'log', true ),
+			'date' => array( 'date', true ),
+			'ip'   => array( 'ip', true ),
 		);
 	}
 
@@ -68,9 +69,15 @@ class Logs_Table extends \WP_List_Table {
 		}
 		$logs       = Log_Model::findAll( $params,
 			HTTP_Helper::retrieve_get( 'orderby', 'id' ),
-			HTTP_Helper::retrieve_get( 'order', 'DESC' ), $offset . ',' . $per_page
+			HTTP_Helper::retrieve_get( 'order', 'desc' ),
+			$offset . ',' . $per_page
 		);
-		$totalItems = Log_Model::count( $params );
+		$cache      = WP_Helper::getArrayCache();
+		$totalItems = $cache->get( Login_Protection_Api::COUNT_TOTAL, false );
+		if ( $totalItems == false ) {
+			$totalItems = Log_Model::count( $params );
+			$cache->set( Login_Protection_Api::COUNT_TOTAL, $totalItems, 3600 );
+		}
 
 		$this->set_pagination_args( array(
 			'total_items' => $totalItems,
@@ -282,19 +289,19 @@ class Logs_Table extends \WP_List_Table {
 
 		$radius = 3;
 		if ( $current_page > 1 && $total_pages > $radius ) {
-			$links['first'] = sprintf( '<a class="button button-light" href="%s">%s</a>',
-				add_query_arg( 'paged', 1, $current_url ), '&laquo;' );
-			$links['prev']  = sprintf( '<a class="button button-light" href="%s">%s</a>',
-				add_query_arg( 'paged', $current_page - 1, $current_url ), '&lsaquo;' );
+			$links['first'] = sprintf( '<a class="button lockout-nav button-light" data-paged="%s" href="%s">%s</a>',
+				1, add_query_arg( 'paged', 1, $current_url ), '&laquo;' );
+			$links['prev']  = sprintf( '<a class="button lockout-nav button-light" data-paged="%s" href="%s">%s</a>',
+				$current_page - 1, add_query_arg( 'paged', $current_page - 1, $current_url ), '&lsaquo;' );
 		}
 
 		for ( $i = 1; $i <= $total_pages; $i ++ ) {
 			if ( ( $i >= 1 && $i <= $radius ) || ( $i > $current_page - 2 && $i < $current_page + 2 ) || ( $i <= $total_pages && $i > $total_pages - $radius ) ) {
 				if ( $i == $current_page ) {
-					$links[ $i ] = sprintf( '<a href="#" class="button lockout-nav button-light" disabled="">%s</a>', $i );
+					$links[ $i ] = sprintf( '<a href="#" class="button lockout-nav button-light" data-paged="%s" disabled="">%s</a>', $i, $i );
 				} else {
-					$links[ $i ] = sprintf( '<a class="button lockout-nav button-light" href="%s">%s</a>',
-						add_query_arg( 'paged', $i, $current_url ), $i );
+					$links[ $i ] = sprintf( '<a class="button lockout-nav button-light" data-paged="%s" href="%s">%s</a>',
+						$i, add_query_arg( 'paged', $i, $current_url ), $i );
 				}
 			} elseif ( $i == $current_page - $radius || $i == $current_page + $radius ) {
 				$links[ $i ] = '<a href="#" class="button lockout-nav button-light" disabled="">...</a>';
@@ -302,10 +309,10 @@ class Logs_Table extends \WP_List_Table {
 		}
 
 		if ( $current_page < $total_pages && $total_pages > $radius ) {
-			$links['next'] = sprintf( '<a class="button lockout-nav button-light" href="%s">%s</a>',
-				add_query_arg( 'paged', $current_page + 1, $current_url ), '&rsaquo;' );
-			$links['last'] = sprintf( '<a class="button lockout-nav button-light" href="%s">%s</a>',
-				add_query_arg( 'paged', $total_pages, $current_url ), '&raquo;' );
+			$links['next'] = sprintf( '<a class="button lockout-nav button-light" data-paged="%s" href="%s">%s</a>',
+				$current_page + 1, add_query_arg( 'paged', $current_page + 1, $current_url ), '&rsaquo;' );
+			$links['last'] = sprintf( '<a class="button lockout-nav button-light" data-paged="%s" href="%s">%s</a>',
+				$total_pages, add_query_arg( 'paged', $total_pages, $current_url ), '&raquo;' );
 		}
 		$output            = join( "\n", $links );
 		$this->_pagination = $output;

@@ -1,3 +1,62 @@
+<h4>1.10.4 - 5/18/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed the builder admin menu not showing up for some people with Beaver Themer installed.</li>
+</ul>
+
+<h4>1.10.3 - 5/17/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added 'bottom' as an alignment option for row contents.</li>
+	<li>Testimonials Module, new setting added to control slider direction.</li>
+	<li>Subscribe module MailPoet 3 beta support added.</li>
+	<li>Updated pt_PT translation.</li>
+	<li>Added the same <a href="http://kb.wpbeaverbuilder.com/article/139-set-up-a-mega-menu" target="_blank">mega menu logic as the theme</a> to the Menu module.</li>
+	<li>Added a submenu spacing setting to the Menu module.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed the column width for reversed stacking order on mobile.</li>
+	<li>Fixed a translation error in wp-admin. 'This is a global %s' was not being parsed.</li>
+	<li>Fixed RTL issue with testimonials module.</li>
+	<li>Fixed a js error if breakpoint was left blank in global settings. Now a required numeric field.</li>
+	<li>Fixed an issue where it was possible to have two versions of the plugin active on GoDaddy.</li>
+	<li>Fixed an issue with mobile menu flashing unstyled content on initial load.</li>
+	<li>Fixed reCaptcha errors in Subscribe & Contact Form Modules.</li>
+	<li>Fixed vertical alignment center on full height rows in IE11.</li>
+	<li>Fixed an issue with BuddyPress. Builder activate link removed from BuddyPress generated pages.</li>
+	<li>Fixed a padding issue on reverse stacked video module.</li>
+	<li>Fixed Subscribe Module, GetRespone API would throw an error and not subscribe if name field is hidden.</li>
+	<li>Fixed a translation compatibility issue with Beaver Themer plugin.</li>
+	<li>Fixed read more link in the Posts module not going below the content and causing line-height issues in the list layout.</li>
+	<li>Fixed color picker closing when the mouse goes outside of the picker during drag.</li>
+	<li>Fixed hidden global row and module labels when they have long titles.</li>
+</ul>
+
+<h4>1.10.2 - 5/2/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added dot indicating whether the builder is enabled or not on builder launch links.</li>
+	<li>Added field connections for row background videos.</li>
+	<li>Added tinyPNG compatibility for images stored in the builder's cache folder.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed memory exhausted fatal error when loading templates on servers without enough memory.</li>
+	<li>Fixed comments showing in the Posts module when they should not.</li>
+	<li>Fixed Posts module pagination when WPML's URL variable is set to lang= rather than directories.</li>
+	<li>Fixed JS error in the Posts module when switching from the gallery layout.</li>
+	<li>Fixed JetPack sharing icons not showing in the Posts module.</li>
+	<li>Fixed line height issue with the Map module.</li>
+	<li>Fixed editing templates in the Beaver Builder theme not going full width.</li>
+	<li>Fixed some module assets not being re-rendered when working in the builder.</li>
+	<li>Fixed issues with preview refresh and responsive editing.</li>
+	<li>Fixed subscription check if the site has no internet access and cannot check the subscription state.</li>
+	<li>Fixed PHP warning when rendering CSS/JS assets.</li>
+	<li>Fixed misc translation issues.</li>
+	<li>Fixed image uploads if FORCE_SSL_ADMIN is true and site is non-ssl.</li>
+</ul>
+
 <h4>1.10.1 - 4/25/2017</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>
@@ -1819,3 +1878,4 @@
 
 <h4>0.8.1</h4>
 <p>Initial beta release.</p>
+

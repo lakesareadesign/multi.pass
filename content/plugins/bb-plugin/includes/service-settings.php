@@ -13,7 +13,10 @@
 		$services = FLBuilderServices::get_services_data( $service_type );
 		
 		// Remove services that don't meet the requirements.
-		if ( isset( $services['mailpoet'] ) && ! class_exists( 'WYSIJA' ) ) {
+		if ( isset( $services['mailpoet'] ) 
+			&& ! class_exists( 'WYSIJA' ) 
+			&& ( ! defined( 'MAILPOET_INITIALIZED' ) || ( defined( 'MAILPOET_INITIALIZED' ) && false === MAILPOET_INITIALIZED ) )
+			) {
 			unset( $services['mailpoet'] );
 		}
 		

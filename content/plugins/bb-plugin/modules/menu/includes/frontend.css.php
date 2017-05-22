@@ -158,9 +158,9 @@ if( $global_settings->responsive_enabled ) : ?>
 		border-top: none;
 	}
 
-	<?php if( (isset( $settings->mobile_full_width ) && in_array( $settings->mobile_full_width, array( 'yes', 'below' ) ) ) && (isset( $settings->mobile_toggle ) && in_array($settings->mobile_toggle, array('hamburger', 'hamburger-label')) ) ) : ?>
-		@media ( max-width: <?php echo ( $global_settings->responsive_breakpoint - 1 ) ?>px ) {
-
+	@media ( max-width: <?php echo ( $global_settings->responsive_breakpoint - 1 ) ?>px ) {
+		<?php if( (isset( $settings->mobile_full_width ) && in_array( $settings->mobile_full_width, array( 'yes', 'below' ) ) ) && (isset( $settings->mobile_toggle ) && in_array($settings->mobile_toggle, array('hamburger', 'hamburger-label')) ) ) : ?>
+		
 			.fl-node-<?php echo $id; ?> .fl-menu .menu{
 				
 				<?php if ( 'yes' == $settings->mobile_full_width ) : ?>
@@ -180,9 +180,16 @@ if( $global_settings->responsive_enabled ) : ?>
 					echo 'background-color: '. $menu_color .';';
 			
 				} ?>
+				
 			}
-		}
-	<?php endif; ?>
+		<?php endif; ?>
+
+		<?php if ( $settings->mobile_toggle != 'expanded' ) : ?>
+			.fl-node-<?php echo $id; ?> .fl-menu .menu {
+				display: none;
+			}
+		<?php endif; ?>
+	}
 	
 	@media ( min-width: <?php echo $global_settings->responsive_breakpoint ?>px ) {
 		
@@ -293,6 +300,10 @@ if( $global_settings->responsive_enabled ) : ?>
 					display: none;
 				}
 			<?php endif; ?>
+			
+			.fl-node-<?php echo $id; ?> ul.sub-menu {
+				padding: <?php echo ! empty( $settings->submenu_spacing ) ? $settings->submenu_spacing . 'px' : '0' ?>;
+			}
 
 		<?php endif; ?>
 
@@ -301,7 +312,6 @@ if( $global_settings->responsive_enabled ) : ?>
 				display: none;
 			}
 		<?php endif; ?>
-
 	}
 
 <?php 
@@ -604,10 +614,18 @@ if( isset( $settings->mobile_toggle ) && $settings->mobile_toggle != 'expanded' 
 			}
 		?>
 	}
-<?php endif; ?>
-
-<?php if( isset( $settings->mobile_button_label ) && $settings->mobile_button_label == 'no' ) : ?>
+<?php endif; 
+	
+if( isset( $settings->mobile_button_label ) && $settings->mobile_button_label == 'no' ) : ?>
 	.fl-node-<?php echo $id; ?> .fl-menu .fl-menu-mobile-toggle.hamburger .fl-menu-mobile-toggle-label{
 		display: none;
 	}
-<?php endif; ?>
+<?php endif; 
+	
+/**
+ * Mega menus
+ */		
+?>
+.fl-node-<?php echo $id; ?> ul.fl-menu-horizontal li.mega-menu > ul.sub-menu > li > .fl-has-submenu-container a:hover {
+	color: #<?php echo $settings->link_color ?>;
+}

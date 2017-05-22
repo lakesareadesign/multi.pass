@@ -1465,6 +1465,7 @@
 			
 			row.removeClass('fl-row-align-top');
 			row.removeClass('fl-row-align-center');
+			row.removeClass('fl-row-align-bottom');
 			
 			if(this.elements.height.val() == 'full') {
 				row.addClass('fl-row-full-height');

@@ -1,4 +1,4 @@
-<div class="rule closed" id="disable-file-editor">
+<div class="rule closed" id="disable_file_editor">
     <div class="rule-title">
 		<?php if ( $controller->check() == false ): ?>
             <i class="def-icon icon-warning"></i>

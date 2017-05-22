@@ -42,9 +42,12 @@ class Settings extends \Hammer\WP\Settings {
 	public $report_day = 'sunday';
 	public $report_time = '0:00';
 
+	public $storage_days = 30;
+
 
 	public $receipts = array();
 	public $report_receipts = array();
+	public $lastReportSent;
 
 	public function __construct( $id, $isMulti ) {
 		if ( is_admin() || is_network_admin() && current_user_can( 'manage_options' ) ) {
@@ -290,13 +293,13 @@ class Settings extends \Hammer\WP\Settings {
 	 * @return bool
 	 */
 	public function validateIp( $ip ) {
-		if ( ( ! stristr( $ip, '-' ) || ! stristr( $ip, '/' ) ) && filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+		if ( ( ! stristr( $ip, '-' ) || ! stristr( $ip, '/' ) ) && ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) || filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) ) {
 
 			return true;
 		} elseif ( stristr( $ip, '-' ) ) {
 			$ips = explode( '-', $ip );
 			foreach ( $ips as $ip ) {
-				if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+				if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) || ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
 					return false;
 				}
 			}
@@ -338,6 +341,7 @@ class Settings extends \Hammer\WP\Settings {
 		$usernames = explode( PHP_EOL, $usernames );
 		$usernames = array_map( 'trim', $usernames );
 		$usernames = array_map( 'strtolower', $usernames );
+		$usernames = array_filter( $usernames );
 
 		return $usernames;
 	}

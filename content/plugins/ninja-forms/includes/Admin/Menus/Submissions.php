@@ -97,9 +97,9 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
             if ( $field->get_setting( 'admin_label' ) ) {
                 $cols[ 'field_' . $field->get_id() ] = $field->get_setting( 'admin_label' );
             } else {
-                $cols[ 'field_' . $field->get_id() ] = $field->get_setting( 'label' );  
+                $cols[ 'field_' . $field->get_id() ] = $field->get_setting( 'label' );
             }
-            
+
         }
 
         $cols[ 'sub_date' ] = __( 'Date', 'ninja-forms' );
@@ -162,6 +162,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
             $form_options[ $form->get_id() ] = $form->get_setting( 'title' );
         }
         $form_options = apply_filters( 'ninja_forms_submission_filter_form_options', $form_options );
+        asort($form_options);
 
         if( isset( $_GET[ 'form_id' ] ) ) {
             $form_selected = $_GET[ 'form_id' ];
@@ -298,7 +299,10 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
 
         if ((isset ($_REQUEST['action']) && $_REQUEST['action'] == 'export') || (isset ($_REQUEST['action2']) && $_REQUEST['action2'] == 'export')) {
 
-            $sub_ids = WPN_Helper::esc_html($_REQUEST['post']);
+            $sub_ids = array();
+            if (isset($_REQUEST['post'])) {
+              $sub_ids = WPN_Helper::esc_html($_REQUEST['post']);
+            }
 
             Ninja_Forms()->form( $_REQUEST['form_id'] )->export_subs( $sub_ids );
         }
