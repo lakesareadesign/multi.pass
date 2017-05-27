@@ -1,5 +1,14 @@
 *** Wootique Changelog ***
 
+2017.05.23 - version 1.6.15
+ * Fix - Fixes the WooCommerce 3.0.0 compatibility for the new product gallery.
+   style.css,
+   includes/theme-woocommerce.php
+ * Fix - Fixes homepage featured products query
+   index.php
+ * Fix - Fixes overlapping of review responses.
+   style.css
+
 2016.02.15 - version 1.6.14
  * Fix - Add support for WooCommerce Quantity Increment plugin in Grouped Products
 

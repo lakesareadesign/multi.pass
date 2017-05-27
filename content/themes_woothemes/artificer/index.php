@@ -59,11 +59,15 @@
 					</a>
 
 			</li><?php endwhile; ?><!-- the large 1 --><?php
-		$args = array( 'post_type' => 'product', 'posts_per_page' => 1, 'offset' => 3, 'meta_query' => array( array('key' => '_visibility','value' => array('catalog', 'visible'),'compare' => 'IN'),array('key' => '_featured','value' => 'yes')) );
-		$loop = new WP_Query( $args );
+		$args = array( 	'post_type' 		=> 'product',
+						'posts_per_page' 	=> 1,
+						'offset'			=> 3,
+						'post__in'			=> $wc_featured_product_ids
+						);
+    	$loop = new WP_Query( $args );
 		while ( $loop->have_posts() ) : $loop->the_post();
-		if ( function_exists( 'get_product' ) ) {
-			$_product = get_product( $loop->post->ID );
+		if ( function_exists( 'wc_get_product' ) ) {
+			$_product = wc_get_product( $loop->post->ID );
 		} else {
 			$_product = new WC_Product( $loop->post->ID );
 		}

@@ -36,16 +36,23 @@
 		<h2><?php _e( 'Featured Products', 'woothemes' ); ?></h2>
 
 		<ul class="featured-products">
-<?php
-$args = array( 'post_type' => 'product', 'posts_per_page' => get_option( 'woo_featured_product_limit' ), 'meta_key' => '_featured', 'meta_value' => 'yes' );
-$loop = new WP_Query( $args );
-while ( $loop->have_posts() ) : $loop->the_post(); $_product;
-if ( function_exists( 'get_product' ) ) {
-	$_product = get_product( $loop->post->ID );
-} else {
-	$_product = new WC_Product( $loop->post->ID );
-}
-?>
+			<?php
+				$featured_products_per_page = get_option( 'woo_featured_product_limit' );
+				$wc_featured_product_ids = wc_get_featured_product_ids();
+				$args = array(
+					'post_type'      => 'product',
+					'posts_per_page' => intval( $featured_products_per_page ),
+					'post__in'       => $wc_featured_product_ids
+				);
+
+				$loop = new WP_Query( $args );
+				while ( $loop->have_posts() ) : $loop->the_post(); $_product;
+				if ( function_exists( 'wc_get_product' ) ) {
+					$_product = wc_get_product( $loop->post->ID );
+				} else {
+					$_product = new WC_Product( $loop->post->ID );
+				}
+			?>
 			<li class="flipper">
 
 
@@ -53,9 +60,9 @@ if ( function_exists( 'get_product' ) ) {
 
 						<?php woocommerce_show_product_sale_flash( $post, $_product ); ?>
 
-							<a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
-							<?php if ( has_post_thumbnail( $loop->post->ID ) ) echo get_the_post_thumbnail( $loop->post->ID, 'shop_thumbnail' ); else echo '<img src="' . $woocommerce->plugin_url() . '/assets/images/placeholder.png" alt="Placeholder" width="' . wc_get_image_size( 'shop_thumbnail_image_width' ) . 'px" height="' . wc_get_image_size( 'shop_thumbnail_image_height' ) . 'px" />'; ?>
-							</a>
+						<a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
+						<?php if ( has_post_thumbnail( $loop->post->ID ) ) echo get_the_post_thumbnail( $loop->post->ID, 'shop_thumbnail' ); else echo '<img src="' . $woocommerce->plugin_url() . '/assets/images/placeholder.png" alt="Placeholder" width="' . wc_get_image_size( 'shop_thumbnail_image_width' ) . 'px" height="' . wc_get_image_size( 'shop_thumbnail_image_height' ) . 'px" />'; ?>
+						</a>
 
 					</div><!--/.front-->
 

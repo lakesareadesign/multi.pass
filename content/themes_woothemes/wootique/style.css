@@ -1,7 +1,7 @@
 /*
 Theme Name: Wootique
 Theme URI: http://www.woothemes.com/
-Version: 1.6.14
+Version: 1.6.15
 Description: A free <a href="http://woothemes.com">Woo Theme</a> designed for use with WooCommerce.
 Author: WooThemes
 Author URI: http://www.woothemes.com
@@ -80,6 +80,7 @@ INDEX:
 -7.2 Star Ratings
 -7.3 Single Product Page
   - 7.3.1 Reviews
+  - 7.3.2 Product Gallery
 -7.4 Quantity Incrementer
 -7.5 User Account Section
   - 7.5.1 Order Tracking
@@ -313,8 +314,8 @@ ul.products li.product.first { clear: left; }
 ul.products li.product.last { margin-right:0; }
 ul.products a img { width:100%; height: auto; padding:0; border:0; background: #fff; border-radius:3px; -webkit-box-shadow:0 0 3px rgba(0,0,0,0.25); -moz-box-shadow:0 0 3px rgba(0,0,0,0.25); box-shadow:0 0 3px rgba(0,0,0,0.25); -webkit-transition: all ease-in-out .2s; }
 ul.products a:hover img {opacity:0.8; }
-ul.products li a h3 { font-size:1em; display: block; padding-top:0; }
-ul.products li a:hover h3 { color:#111; }
+ul.products li a h3, ul.products li a h2 { font-size:1em; display: block; padding-top:0; }
+ul.products li a:hover h3, ul.products li a:hover h2 { color:#111; }
 ul.products li a:hover { text-decoration: none !important; }
 ul.products li .price {
 	position: absolute;
@@ -980,7 +981,7 @@ top:-24px; left:6px; }
 #comments .reply { padding-top:10px; }
 #comments .reply a:hover { }
 
-#comments ul.children{margin:10px 10px 0 60px;padding:0; }
+#comments ul.children{margin:10px 10px 0 60px;padding:0;clear:both;}
 #comments .cancel-comment-reply{margin:10px 0;}
 
 #comments .navigation { }
@@ -1328,20 +1329,6 @@ ul.products .star-rating {
 	padding-top: 12px;
 }
 
-/*#sidebar p.stars span a:hover, #sidebar p.stars span a:focus {
-	background: url(images/star-small.png) repeat-x left -12px;
-}
-
-#sidebar p.stars a.active {
-	background: url(images/star-small.png) repeat-x left -24px;
-}
-
-#sidebar p.stars span a.star-1 { width: 12px; z-index: 10; }
-#sidebar p.stars span a.star-2 { width: 24px; z-index: 9; }
-#sidebar p.stars span a.star-3 { width: 36px; z-index: 8; }
-#sidebar p.stars span a.star-4 { width: 48px; z-index: 7; }
-#sidebar p.stars span a.star-5 { width: 60px; z-index: 6; }*/
-
 /* 7.3 Single Product Page */
 .single-product .type-product { clear: left; position: relative; }
 .single-product ul.products .type-product { clear:none; }
@@ -1350,7 +1337,7 @@ ul.products .star-rating {
 .single-product .product ins { text-decoration: none; }
 .single-product .product .images, .single-product .product .summary { margin-bottom:20px; }
 .single-product .product .images { width:180px; float: left; }
-.single-product .product .images img { width:160px; height: auto; padding: 9px; border:1px solid #e6e6e6; margin-bottom:12px; }
+.single-product .product .images img { width:100%; height: auto; padding: 3px; border:1px solid #e6e6e6; margin-bottom:12px; }
 .single-product .product .images .thumbnails { overflow: hidden; zoom:1; }
 .single-product .product .images .thumbnails img { padding:0; border:0; width:30.75%; float: left; margin-right:3.8%; margin-bottom:8px; }
 .single-product .product .images .thumbnails .first { clear: left; }
@@ -1390,7 +1377,6 @@ ul.products .star-rating {
 .single-product.layout-full .related, .single-product.layout-full .upsells { width:48%; }
 .single-product.layout-full .related { float: left; }
 .single-product.layout-full .upsells { float: right; }
-/*.single-product.layout-full #comments .commentlist li.comment .comment-text { width:822px; }*/
 
 /* 7.3.1 Reviews */
 .single-product #comments { margin-top:0; padding:0; border-top:0; }
@@ -1405,6 +1391,122 @@ ul.products .star-rating {
 #fancybox-content #respond { margin-top:0; }
 #fancybox-content #respond label { display: block; font-weight: bold; }
 #fancybox-wrap table { background: none; }
+
+/* 7.3.2 Product Gallery */
+.woocommerce-product-gallery {
+	position: relative;
+}
+.woocommerce-product-gallery .woocommerce-product-gallery__wrapper {
+	margin: 0;
+}
+.woocommerce-product-gallery .woocommerce-product-gallery__trigger {
+	position: absolute;
+	top: .5em;
+	right: .8em;
+	font-size: 2em;
+	z-index: 9;
+	width: 36px;
+	height: 36px;
+	background: #fff;
+	text-indent: -9999px;
+	border-radius: 100%;
+	box-sizing: content-box;
+}
+.woocommerce-product-gallery .woocommerce-product-gallery__trigger:before {
+	content: "";
+	display: block;
+	width: 10px;
+	height: 10px;
+	border: 2px solid #000;
+	border-radius: 100%;
+	position: absolute;
+	top: 9px;
+	left: 9px;
+	box-sizing: content-box;
+}
+.woocommerce-product-gallery .woocommerce-product-gallery__trigger:after {
+	content: "";
+	display: block;
+	width: 2px;
+	height: 8px;
+	background: #000;
+	border-radius: 6px;
+	position: absolute;
+	top: 19px;
+	left: 22px;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	box-sizing: content-box;
+}
+.woocommerce-product-gallery .woocommerce-product-gallery__trigger img {
+	display: none !important;
+}
+.woocommerce-product-gallery img {
+	margin: 0;
+}
+.woocommerce-product-gallery .flex-viewport {
+	margin-bottom: 2%;
+	margin-right: 2%;
+}
+.woocommerce-product-gallery .flex-control-thumbs {
+	@include clearfix;
+	margin: 0;
+	padding: 0;
+}
+.woocommerce-product-gallery .flex-control-thumbs li {
+	list-style: none;
+	margin-bottom: 2%;
+	cursor: pointer;
+}
+.woocommerce-product-gallery .flex-control-thumbs li img {
+	opacity: .5;
+	-webkit-transition: all,ease,.2s;
+	-moz-transition: all,ease,.2s;
+	transition: all,ease,.2s;
+	box-sizing: border-box;
+}
+.woocommerce-product-gallery .flex-control-thumbs li img.flex-active {
+	opacity: 1;
+}
+.woocommerce-product-gallery .flex-control-thumbs li:hover img {
+	opacity: 1;
+}
+.woocommerce-product-gallery.woocommerce-product-gallery--columns-2 .flex-control-thumbs li {
+	width: 49%;
+	float: left;
+	margin-right: 2%;
+}
+.woocommerce-product-gallery.woocommerce-product-gallery--columns-2 .flex-control-thumbs li:nth-child(2n+1) {
+	clear: both;
+}
+.woocommerce-product-gallery.woocommerce-product-gallery--columns-2 .flex-control-thumbs li:nth-child(2n) {
+	margin-right: 0;
+}
+.woocommerce-product-gallery.woocommerce-product-gallery--columns-3 .flex-control-thumbs li {
+	width: 32%;
+	float: left;
+	margin-right: 2%;
+}
+.woocommerce-product-gallery.woocommerce-product-gallery--columns-3 .flex-control-thumbs li:nth-child(3n+1) {
+	clear: both;
+}
+.woocommerce-product-gallery.woocommerce-product-gallery--columns-3 .flex-control-thumbs li:nth-child(3n) {
+	margin-right: 0;
+}
+.woocommerce-product-gallery.woocommerce-product-gallery--columns-4 .flex-control-thumbs li {
+	width: 23%;
+	float: left;
+	margin-right: 2%;
+}
+.woocommerce-product-gallery.woocommerce-product-gallery--columns-4 .flex-control-thumbs li:nth-child(4n+1) {
+	clear: both;
+}
+.woocommerce-product-gallery.woocommerce-product-gallery--columns-4 .flex-control-thumbs li:nth-child(4n) {
+ 	margin-right: 0;
+}
 
 /* 7.4 Quantity Incrementer */
 .quantity .plus, .quantity .minus, .quantity input { margin:0; border:0; padding:3px 6px; }
