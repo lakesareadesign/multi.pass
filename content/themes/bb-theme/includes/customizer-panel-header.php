@@ -140,7 +140,7 @@ FLCustomizer::add_panel('fl-header', array(
 						    'step' => 1
 						),
 					)
-				),	
+				),
 
 				/* Top Bar Background Gradient */
 				'fl-topbar-bg-gradient' => array(
@@ -469,7 +469,7 @@ FLCustomizer::add_panel('fl-header', array(
 						'label'     => __('Background Color', 'fl-automator')
 					)
 				),
-				
+
 				/* Header Background Opacity */
 				'fl-header-bg-opacity' => array(
 					'setting'   => array(
@@ -618,7 +618,7 @@ FLCustomizer::add_panel('fl-header', array(
 							'cover'     => __('Fill', 'fl-automator')
 						)
 					)
-				),							
+				),
 
 				/* Header Text Color */
 				'fl-header-text-color' => array(
@@ -695,6 +695,18 @@ FLCustomizer::add_panel('fl-header', array(
 					'control'   => array(
 						'class'         => 'WP_Customize_Image_Control',
 						'label'         => __('Logo Image (Retina)', 'fl-automator')
+					)
+				),
+
+				/* Sticky Header Logo */
+				'fl-sticky-header-logo' => array(
+					'setting'   => array(
+						'default' => ''
+					),
+					'control'   => array(
+						'class'     => 'WP_Customize_Image_Control',
+						'label'     => __('Fade In Header Logo', 'fl-automator'),
+						'description' => __( 'Use a different logo when you have a Fade In header', 'fl-automator' )
 					)
 				),
 
@@ -833,7 +845,7 @@ FLCustomizer::add_panel('fl-header', array(
 						)
 					)
 				),
-				
+
 				/* Nav Search */
 				'fl-header-nav-search' => array(
 					'setting'   => array(
@@ -849,7 +861,7 @@ FLCustomizer::add_panel('fl-header', array(
 						)
 					)
 				),
-				
+
 				/* Mobile Nav Toggle */
 				'fl-mobile-nav-toggle' => array(
 					'setting'   => array(
@@ -857,11 +869,27 @@ FLCustomizer::add_panel('fl-header', array(
 					),
 					'control'   => array(
 						'class'     => 'WP_Customize_Control',
-						'label'     => __('Mobile Nav Toggle', 'fl-automator'),
+						'label'     => __('Responsive Nav Toggle', 'fl-automator'),
 						'type'      => 'select',
 						'choices'   => array(
 							'button'   	=> __( 'Menu Button', 'fl-automator' ),
 							'icon'    	=> __( 'Hamburger Icon', 'fl-automator' )
+						)
+					)
+				),
+				/* Responsive Nav Breakpoint */
+				'fl-nav-breakpoint' => array(
+					'setting'   => array(
+						'default'   => 'mobile'
+					),
+					'control'   => array(
+						'class'     => 'WP_Customize_Control',
+						'label'     => __('Responsive Nav Breakpoint', 'fl-automator'),
+						'type'      => 'select',
+						'choices'   => array(
+							'always'            => __('Always', 'fl-automator'),
+							'medium-mobile'     => __('Medium &amp; Small Devices Only', 'fl-automator'),
+							'mobile'            => __('Small Devices Only', 'fl-automator')
 						)
 					)
 				)
@@ -872,6 +900,22 @@ FLCustomizer::add_panel('fl-header', array(
 		'fl-nav-style' => array(
 			'title'   => _x( 'Nav Style', 'Customizer section title.', 'fl-automator' ),
 			'options' => array(
+
+				/* Submenu Indicator */
+				'fl-nav-submenu-indicator' => array(
+					'setting'   => array(
+						'default'   => 'disable'
+					),
+					'control'   => array(
+						'class'         => 'WP_Customize_Control',
+						'label'         => __('Submenu Indicator', 'fl-automator'),
+						'type'          => 'select',
+						'choices'       => array(
+							'disable'      => __( 'Disabled', 'fl-automator' ),
+							'enable'       => __( 'Enabled', 'fl-automator' )
+						)
+					)
+				),
 
 				/* Nav Background Color */
 				'fl-nav-bg-color' => array(
@@ -899,7 +943,7 @@ FLCustomizer::add_panel('fl-header', array(
 						    'step' => 1
 						),
 					)
-				),	
+				),
 
 				/* Nav Background Gradient */
 				'fl-nav-bg-gradient' => array(
@@ -916,7 +960,7 @@ FLCustomizer::add_panel('fl-header', array(
 						)
 					)
 				),
-				
+
 				/* Nav Background Image */
 				'fl-nav-bg-image' => array(
 					'setting'   => array(
@@ -1005,7 +1049,7 @@ FLCustomizer::add_panel('fl-header', array(
 						)
 					)
 				),
-				
+
 				/* Nav Link Color */
 				'fl-nav-link-color' => array(
 					'setting'   => array(
@@ -1016,7 +1060,7 @@ FLCustomizer::add_panel('fl-header', array(
 						'label'     => __('Link Color', 'fl-automator')
 					)
 				),
-				
+
 				/* Nav Hover Color */
 				'fl-nav-hover-color' => array(
 					'setting'   => array(

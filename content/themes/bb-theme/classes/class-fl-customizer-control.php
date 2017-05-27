@@ -66,6 +66,10 @@ final class FLCustomizerControl extends WP_Customize_Control {
 			case 'slider':
 			$this->render_slider();
 			break;
+
+			case 'checkbox-multiple':
+			$this->render_checkbox_multiple();
+			break;
 		}
 	}
 
@@ -230,5 +234,43 @@ final class FLCustomizerControl extends WP_Customize_Control {
 		echo '</div>';
 		echo '</div>';
 		echo '</label>';
+	}
+
+	/**
+	 * Renders multiple checkbox markup
+	 *
+	 * @since 1.5.3
+	 * @access protected
+	 * @return void
+	 */
+	protected function render_checkbox_multiple()
+	{
+		if ( empty( $this->choices ) )
+            return;
+        
+    	$this->render_content_title();
+
+    	$multi_values = !is_array( $this->value() ) ? explode( ',', $this->value() ) : $this->value(); 
+
+    	if ( count($this->choices) > 0 ) {
+    		echo '<ul>';
+
+    		foreach ( $this->choices as $value => $label ) {
+    			echo '<li>';
+                    echo '<label>';
+                        echo '<input type="checkbox" value="'. esc_attr( $value ) .'" ';
+                        		checked( in_array( $value, $multi_values ) );
+                        echo ' />';
+                        echo esc_html( $label );
+                    echo '</label>';
+                echo '</li>';
+    		}
+
+    		echo '</ul>';
+    	}
+
+    	if ( is_array($multi_values) ) {
+        	echo '<input type="hidden" '. $this->get_link() .' value="'. esc_attr( implode( ',', $multi_values ) ) .'" />';
+        }
 	}
 }

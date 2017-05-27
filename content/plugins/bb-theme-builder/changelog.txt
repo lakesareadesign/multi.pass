@@ -1,0 +1,134 @@
+<h4>1.0 - 05/08/2017</h4>
+<p>Beaver Themer 1.0 is here at last! Please <a href="https://www.wpbeaverbuilder.com/beaver-themer/">visit our website</a> for more information on Beaver Themer.</p>
+
+<h4>1.0-beta.2 - 05/02/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Removed "hello and world" text that was showing for theme layouts on the admin edit screen.</li>
+	<li>Fixed preview selector posts not showing if the selected post no longer exists.</li>
+</ul>
+
+<h4>1.0-beta.1 - 05/01/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated translations.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed ACF date field returning the wrong format.</li>
+	<li>Fixed PHP warning when a preview post no longer exists.</li>
+	<li>Fixed translation issues.</li>
+</ul>
+
+<h4>1.0-alpha.10 - 04/26/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed fatal error caused by parsing field connections in nested settings.</li>
+</ul>
+
+<h4>1.0-alpha.9 - 04/21/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed incorrect header position when images load after the header JS has run.</li>
+</ul>
+
+<h4>1.0-alpha.8 - 04/20/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed ACF bug breaking most fields.</li>
+</ul>
+
+<h4>1.0-alpha.7 - 04/19/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added new overlay setting for header layouts that allows you to create transparent headers.</li>
+	<li>Added body classes for when theme layouts are present on the page.</li>
+	<li>Added the ability to hide the exclusion rules after opening them.</li>
+	<li>Added thumbnails for the built-in templates.</li>
+	<li>Added featured image and category support for theme layouts.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed issues with WooCommerce 3.0.</li>
+	<li>Fixed ACF Google Maps field.</li>
+	<li>Fixed double slash in the path to jQuery throttle.</li>
+	<li>Fixed PHP warnings caused by layout preview queries.</li>
+	<li>Fixed parts showing on all post categories when only set to one.</li>
+</ul>
+
+<h4>1.0-alpha.6 - 04/11/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>We now show a warning confirmation dialog when overriding a theme layout with a standard builder layout.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed "Comments will not display for this Post" message showing below Disqus comments.</li>
+	<li>Fixed theme layouts overriding custom page templates.</li>
+	<li>Fixed header/footer layouts rendering on the no header/footer template.</li>
+	<li>Fixed aspect ratio for logos in shrinking headers.</li>
+</ul>
+
+<h4>1.0-alpha.5 - 03/28/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added support for archive term meta.</li>
+	<li>Added support for ACF option fields.</li>
+	<li>Added translations.</li>
+	<li>Added FLThemeBuilder::has_layout method for checking if the current page has a layout.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed layouts breaking when Yoast SEO is active.</li>
+	<li>Fixed 404 layouts not working.</li>
+	<li>Fixed parallax backgrounds jumping in shrinking headers.</li>
+	<li>Fixed ACF date/time fields not rendering the display format.</li>
+	<li>Fixed parts not rendering when using a custom footer.</li>
+	<li>Fixed parts that are set to show before the header showing after it when the header is sticky.</li>
+</ul>
+
+<h4>1.0-alpha.4 - 03/09/2017</h4>
+<p><strong>PLEASE NOTE:</strong> The updater for Beaver Themer was broken in the last alpha. You will need to manually update to this version.</p>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added rules for excluding layouts from showing up at specific locations.</li>
+	<li>Headers, footers and parts can now be applied to posts based on a taxonomy.</li>
+	<li>Parent posts can now be selected as a location for hierarchical post types.</li>
+	<li>Added white labeling support.</li>
+	<li>Shortcodes are now parsed in HTML attributes.</li>
+</ul>
+<p><strong>Changes</strong></p>
+<ul>
+	<li>Location rules are now sorted by type after saving.</li>
+	<li>Taxonomies in the location select are now prefixed with the post type.</li>
+</ul>
+
+<h4>1.0-alpha.3 - 02/27/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added the ability to set singular layouts for posts that have a specific taxonomy term.</li>
+	<li>The custom field connection now shows for all connection types.</li>
+	<li>Added archive/taxonomy field support for Advanced Custom Fields.</li>
+	<li>Added user/author field support for Advanced Custom Fields.</li>
+</ul>
+<p><strong>Changes</strong></p>
+<ul>
+	<li>Breaking changes to the ACF integration. In order to support archive and user fields, we had to rework the ACF integration. Existing ACF connections will need to be reconnected.</li>
+	<li>Renamed the Custom Field connection to Post Custom Field and moved it to the General category.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed theme layout parts not showing when they should.</li>
+	<li>Fixed WooCommerce modules showing when WooCommerce isn't active.</li>
+	<li>Fixed fatal error when WooCommerce modules are used and the WooCommerce is deactivated.</li>
+	<li>Fixed 404 error when trying to view published theme layouts.</li>
+	<li>Fixed theme support not working if the theme's folder name is changed.</li>
+</ul>
+
+<h4>1.0-alpha.2 - 02/20/2017</h4>
+<p>Initial public alpha release.</p>
+
+<h4>1.0-alpha.1 - 02/06/2017</h4>
+<p>Initial pre-alpha release.</p>
+
+

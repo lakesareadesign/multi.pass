@@ -25,6 +25,7 @@
 			FLCustomizer._initPresets();
 			FLCustomizer._initCodeEditors();
 			FLCustomizer._initSliderControl();
+			FLCustomizer._initCheckboxMultiple();
 		},
 
 		/**
@@ -194,7 +195,9 @@
 		 */
 		_initPresets: function()
 		{
-			api.control( 'fl-preset' ).container.find( 'select' ).on( 'change', FLCustomizer._presetChange );
+			if ( typeof api.control( 'fl-preset' ) !== 'undefined' ) {
+				api.control( 'fl-preset' ).container.find( 'select' ).on( 'change', FLCustomizer._presetChange );
+			}
 		},
 	
 		/**
@@ -298,6 +301,30 @@
 				});
 				
 			});
+		},
+
+		/**
+		 * Initializes the multiple checkbox
+		 *
+		 * @since 1.5.3
+		 * @method _initCheckboxMultiple
+		 */
+		_initCheckboxMultiple: function()
+		{
+			$( '.customize-control-checkbox-multiple input[type="checkbox"]' ).each(function(){
+				var $checkbox = $(this);
+
+				$checkbox.on('change', function() {
+
+		            checkbox_values = $checkbox.parents( '.customize-control' ).find( 'input[type="checkbox"]:checked' ).map(
+		                function() {
+		                    return this.value;
+		                }
+		            ).get().join( ',' );
+
+		            $checkbox.parents( '.customize-control' ).find( 'input[type="hidden"]' ).val( checkbox_values ).trigger( 'change' );
+			    });
+			});			
 		}
 	};
 	

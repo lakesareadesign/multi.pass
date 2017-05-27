@@ -63,7 +63,7 @@ final class FLTheme {
 		else if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' == $_SERVER['HTTP_X_FORWARDED_PROTO'] ) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -80,16 +80,16 @@ final class FLTheme {
 
 		//wp-content/languages/theme-name/it_IT.mo
 		load_theme_textdomain( 'fl-automator', trailingslashit( WP_LANG_DIR ) . 'themes/' . get_template() );
-		
+
 		//wp-content/themes/child-theme-name/languages/it_IT.mo
 		load_theme_textdomain( 'fl-automator', get_stylesheet_directory() . '/languages' );
-		
+
 		//wp-content/themes/theme-name/languages/it_IT.mo
 		load_theme_textdomain( 'fl-automator', get_template_directory() . '/languages' );
 
 		// RSS feed links support
 		add_theme_support('automatic-feed-links');
-		
+
 		// Title tag support
 		add_theme_support('title-tag');
 
@@ -115,6 +115,15 @@ final class FLTheme {
 		require_once FL_THEME_DIR . '/includes/customizer-panel-code.php';
 		require_once FL_THEME_DIR . '/includes/customizer-panel-settings.php';
 		require_once FL_THEME_DIR . '/includes/customizer-presets.php';
+
+		// Since WooCommerce 3.0 we have to declare gallery support
+		$type = self::get_setting( 'fl-woo-gallery' );
+
+		if( 'none' !== $type ) {
+			add_theme_support( 'wc-product-gallery-zoom' );
+			add_theme_support( 'wc-product-gallery-lightbox' );
+			add_theme_support( 'wc-product-gallery-slider' );
+		}
 	}
 
 	/**
@@ -125,6 +134,8 @@ final class FLTheme {
 	 */
 	static public function enqueue_scripts()
 	{
+		$min     = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
+
 		// Fonts
 		wp_enqueue_style('font-awesome', FL_THEME_URL . '/css/font-awesome.min.css', array(), FL_THEME_VERSION);
 		wp_enqueue_style('mono-social-icons', FL_THEME_URL . '/css/mono-social-icons.css', array(), FL_THEME_VERSION);
@@ -132,6 +143,9 @@ final class FLTheme {
 		// jQuery
 		wp_enqueue_script('jquery');
 		wp_enqueue_script('jquery-throttle', FL_THEME_URL . '/js/jquery.throttle.min.js', array(), FL_THEME_VERSION, true);
+		if( 'fixed' === self::get_setting( 'fl-fixed-header' ) || 'shrink' === self::get_setting( 'fl-fixed-header' ) ) {
+			wp_enqueue_script('jquery-imagesloaded');
+		}
 
 		// Lightbox
 		if(self::get_setting('fl-lightbox') == 'enabled') {
@@ -161,8 +175,8 @@ final class FLTheme {
 		wp_enqueue_script('bootstrap', FL_THEME_URL . '/js/bootstrap.min.js', array(), FL_THEME_VERSION, true);
 
 		// Core theme JS
-		wp_enqueue_script('fl-automator', FL_THEME_URL . '/js/theme.js', array(), FL_THEME_VERSION, true);
-		
+		wp_enqueue_script('fl-automator', FL_THEME_URL . '/js/theme' . $min . '.js', array(), FL_THEME_VERSION, true);
+
 		// Skin
 		wp_enqueue_style('fl-automator-skin', FLCustomizer::css_url(), array(), FL_THEME_VERSION);
 
@@ -216,6 +230,17 @@ final class FLTheme {
 				'after_title'   => '</h4>'
 			) );
 		}
+
+		// After Post Widget
+		register_sidebar( array(
+			'name'          => __('After Post Widget', 'fl-automator'),
+			'id'            => 'after-post-widget',
+			'before_widget' => '<aside id="%1$s" class="fl-widget %2$s">',
+			'after_widget'  => '</aside>',
+			'before_title'  => '<h4 class="fl-widget-title">',
+			'after_title'   => '</h4>'
+		) );
+
 	}
 
 	/**
@@ -228,12 +253,12 @@ final class FLTheme {
 	static public function title()
 	{
 		if ( ! function_exists( '_wp_render_title_tag' ) ) {
-		
+
 			$sep            = apply_filters('fl_title_separator', ' | ');
 			$title          = wp_title($sep, false, 'right');
 			$name           = get_bloginfo('name');
 			$description    = get_bloginfo('description');
-	
+
 			if(empty($title) && empty($description)) {
 				$title = $name;
 			}
@@ -243,7 +268,7 @@ final class FLTheme {
 			else if(!empty($name) && !stristr($title, $name)) {
 				$title = !stristr($title, $sep) ? $title . $sep . $name : $title . $name;
 			}
-			
+
 			echo '<title>' . apply_filters('fl_title', $title) . '</title>';
 		}
 	}
@@ -258,10 +283,10 @@ final class FLTheme {
 	static public function favicon()
 	{
 		if ( false === get_option( 'site_icon', false ) ) {
-			
+
 			$favicon    = self::get_setting('fl-favicon');
 			$apple      = self::get_setting('fl-apple-touch-icon');
-	
+
 			if ( ! empty( $favicon ) ) {
 				echo '<link rel="shortcut icon" href="'. $favicon .'" />' . "\n";
 			}
@@ -284,7 +309,7 @@ final class FLTheme {
 		self::add_font( $settings['fl-body-font-family'], array( 300, 400, 700 ) );
 		self::add_font( $settings['fl-heading-font-family'], $settings['fl-heading-font-weight'] );
 		self::add_font( $settings['fl-nav-font-family'], $settings['fl-nav-font-weight'] );
-		
+
 		if ( $settings['fl-logo-type'] == 'text' ) {
 			self::add_font( $settings['fl-logo-font-family'], $settings['fl-logo-font-weight'] );
 		}
@@ -332,7 +357,7 @@ final class FLTheme {
 		foreach(self::$fonts as $name => $font) {
 			if(!empty($font['url'])) {
 				$subset = apply_filters( 'fl_font_subset', '', $name );
-				
+
 				$google_font_url = $font['url'] . ':'. implode(',', $font['variants']) . $subset;
 
 				wp_enqueue_style( 'fl-builder-google-fonts-' . md5( $google_font_url ), $google_font_url, array() );
@@ -351,7 +376,7 @@ final class FLTheme {
 		$settings  = self::get_settings();
 
 		// CSS
-		if(!empty($settings['fl-css-code']) || FLCustomizer::is_customizer_preview()) {
+		if( isset($settings['fl-css-code']) && (!empty($settings['fl-css-code']) || FLCustomizer::is_customizer_preview()) ) {
 			echo '<style id="fl-theme-custom-css">' . $settings['fl-css-code'] . '</style>' . "\n";
 		}
 
@@ -369,7 +394,7 @@ final class FLTheme {
 	}
 
 	/**
-	 * Adds custom CSS classes to the <body> tag. 
+	 * Adds custom CSS classes to the <body> tag.
 	 * Called by the body_class filter.
 	 *
 	 * @since 1.0
@@ -380,7 +405,7 @@ final class FLTheme {
 	{
 		$preset         = self::get_setting('fl-preset');
 		$header_enabled = apply_filters( 'fl_header_enabled', true );
-		
+
 		// Preset
 		if ( empty( $preset ) ) {
 			$classes[] = 'fl-preset-default';
@@ -388,7 +413,7 @@ final class FLTheme {
 		else {
 			$classes[] = 'fl-preset-' . $preset;
 		}
-		
+
 		// Width
 		if(self::get_setting('fl-layout-width') == 'full-width') {
 			$classes[] = 'fl-full-width';
@@ -396,35 +421,35 @@ final class FLTheme {
 		else {
 			$classes[] = 'fl-fixed-width';
 		}
-		
+
 		// Header classes
 		if ( $header_enabled ) {
-			
+
 			// Nav Vertical Left
 			if(self::get_setting('fl-header-layout') == 'vertical-left') {
 				$classes[] = 'fl-nav-vertical fl-nav-vertical-left';
 			}
-	
+
 			// Nav Vertical Right
 			if(self::get_setting('fl-header-layout') == 'vertical-right') {
 				$classes[] = 'fl-nav-vertical fl-nav-vertical-right';
 			}
-	
+
 			// Nav Left
 			if(self::get_setting('fl-header-layout') == 'left') {
 				$classes[] = 'fl-nav-left';
 			}
-	
+
 			// Shrink Fixed Header
 			if( (self::get_setting('fl-fixed-header') == 'shrink') && (self::get_setting('fl-header-layout') != 'vertical-left') && (self::get_setting('fl-header-layout') != 'vertical-right') ) {
 				$classes[] = 'fl-shrink';
 			}
-			
+
 			// Fixed Header
 			if( (self::get_setting('fl-fixed-header') == 'fixed') && (self::get_setting('fl-header-layout') != 'vertical-left') && (self::get_setting('fl-header-layout') != 'vertical-right') ) {
 				$classes[] = 'fl-fixed-header';
 			}
-	
+
 			// Hide Header Until Scroll
 			if( (self::get_setting('fl-hide-until-scroll-header') == 'enable') && (self::get_setting('fl-fixed-header') == 'hidden') && (self::get_setting('fl-header-layout') != 'vertical-left') && (self::get_setting('fl-header-layout') != 'vertical-right') ) {
 				$classes[] = 'fl-fixed-header';
@@ -440,6 +465,22 @@ final class FLTheme {
 		// Scroll To Top Button
 		if(self::get_setting('fl-scroll-to-top') == 'enable') {
 			$classes[] = 'fl-scroll-to-top';
+		}
+
+		// Search Active
+		if(self::get_setting('fl-header-nav-search') == 'visible') {
+			$classes[] = 'fl-search-active';
+		}
+
+		// WooCommerce Columns
+		if ( class_exists( 'woocommerce' ) && is_woocommerce() ) {
+			$fl_woo_columns = self::get_setting('fl-woo-columns');
+			$classes[] = 'woo-'.$fl_woo_columns;
+		}
+
+		// Submenu Indicator
+		if(self::get_setting('fl-nav-submenu-indicator') == 'enable') {
+			$classes[] = 'fl-submenu-indicator';
 		}
 
 		return $classes;
@@ -478,7 +519,7 @@ final class FLTheme {
 		$layout     = $settings['fl-topbar-layout'];
 		$col_layout = $settings['fl-topbar-col1-layout'];
 		$col_text   = $settings['fl-topbar-col1-text'];
-		
+
 		include locate_template( 'includes/top-bar-col1.php' );
 	}
 
@@ -559,7 +600,7 @@ final class FLTheme {
 
 	/**
 	 * Renders additional classes for the main header based on the
-	 * selected header layout and mobile nav toggle. 
+	 * selected header layout and mobile nav toggle.
 	 *
 	 * @since 1.3.1
 	 * @return void
@@ -568,9 +609,11 @@ final class FLTheme {
 	{
 		$header_layout   = self::get_setting( 'fl-header-layout' );
 		$nav_toggle_type = self::get_setting( 'fl-mobile-nav-toggle' );
-		
+		$nav_breakpoint	 = self::get_setting( 'fl-nav-breakpoint' );
+
 		echo ' fl-page-nav-' . $header_layout;
 		echo ' fl-page-nav-toggle-' . $nav_toggle_type;
+		echo ' fl-page-nav-toggle-visible-' . $nav_breakpoint;
 	}
 
 	/**
@@ -601,7 +644,7 @@ final class FLTheme {
 		$settings = self::get_settings();
 		$layout   = $settings['fl-header-content-layout'];
 		$text     = $settings['fl-header-content-text'];
-		
+
 		do_action( 'fl_header_content_open' );
 
 		if($layout == 'text' || $layout == 'social-text') {
@@ -610,7 +653,7 @@ final class FLTheme {
 		if($layout == 'social' || $layout == 'social-text') {
 			self::social_icons();
 		}
-		
+
 		do_action( 'fl_header_content_close' );
 	}
 
@@ -625,17 +668,27 @@ final class FLTheme {
 		$logo_type      = self::get_setting( 'fl-logo-type' );
 		$logo_image     = self::get_setting( 'fl-logo-image' );
 		$logo_retina    = self::get_setting( 'fl-logo-image-retina' );
-		$logo_text      = self::get_setting( 'fl-logo-text' );
-		
+		$logo_text      = apply_filters( 'fl-logo-text', self::get_setting( 'fl-logo-text' ) );
+		$sticky_logo    = self::get_setting( 'fl-sticky-header-logo' );
+		$header_fixed   = self::get_setting( 'fl-fixed-header' );
+
+		if( ! $sticky_logo ) {
+			$sticky_logo = $logo_image;
+		}
+
 		if ( $logo_type == 'image' ) {
 			$logo_text = get_bloginfo( 'name' );
 			echo '<img class="fl-logo-img" itemscope itemtype="http://schema.org/ImageObject" src="'. $logo_image .'"';
 			echo ' data-retina="' . $logo_retina . '"';
 			echo ' alt="' . esc_attr( $logo_text ) . '" />';
+			if( $header_fixed == 'fadein' ) {
+				echo '<img class="sticky-logo fl-logo-img" itemscope itemtype="http://schema.org/ImageObject" src="'. $sticky_logo .'"';
+				echo ' alt="' . esc_attr( $logo_text ) . '" />';
+			}
 			echo '<meta itemprop="name" content="' . esc_attr( $logo_text ) . '" />';
 		}
 		else {
-			echo '<span class="fl-logo-text" itemprop="name">'. do_shortcode( $logo_text ) .'</span>';
+			echo '<div class="fl-logo-text" itemprop="name">'. do_shortcode( $logo_text ) .'</div>';
 		}
 	}
 
@@ -670,7 +723,7 @@ final class FLTheme {
 		else {
 			$text = _x( 'Menu', 'Mobile navigation toggle button text.', 'fl-automator' );
 		}
-		
+
 		echo apply_filters( 'fl_nav_toggle_text', $text );
 	}
 
@@ -859,7 +912,7 @@ final class FLTheme {
 	 *
 	 * @since 1.0
 	 * @param string $position The sidebar position, either left or right.
-	 * @param string $section The section this sidebar belongs to. 
+	 * @param string $section The section this sidebar belongs to.
 	 * @return void
 	 */
 	static public function sidebar($position, $section = 'blog')
@@ -868,16 +921,64 @@ final class FLTheme {
 		$display    = self::get_setting('fl-' . $section . '-sidebar-display');
 		$layout     = self::get_setting('fl-' . $section . '-layout');
 
-		if(strstr($layout, $position)) {
+		if(strstr($layout, $position) && self::is_sidebar_enabled($section)) {
 			include locate_template('sidebar.php');
 		}
+	}
+
+	/**
+	 * Check to see if the sidebar is enabled for blog, single post, shop & single product.
+	 *
+	 * @since 1.5.3
+	 * @param string $section The section this sidebar belongs to.
+	 * @return boolean
+	 */
+	static public function is_sidebar_enabled($section = 'blog')
+	{
+		$locations    = FLCustomizer::sanitize_checkbox_multiple(self::get_setting('fl-'. $section .'-sidebar-location'));
+		$is_woo       = ('woo' == $section && class_exists( 'WooCommerce')) ? true : false;
+		$show_sidebar = false;
+
+		if( in_array( 'single', $locations ) && is_single() ) {
+			$show_sidebar = true;
+		}
+
+		if( in_array( 'blog', $locations ) && is_home() ) {
+			$show_sidebar = true;
+		}
+
+		if( in_array( 'search', $locations ) && is_search() ) {
+			$show_sidebar = true;
+		}
+
+		if( in_array( 'archive', $locations ) && is_archive() ) {
+			$show_sidebar = true;
+		}
+
+		if( is_page() && 'tpl-sidebar.php' === basename( get_page_template() ) ) {
+			$show_sidebar = true;
+		}
+
+		if( $is_woo && is_shop() && in_array( 'shop', $locations ) ) {
+			$show_sidebar = true;
+		}
+
+		if( $is_woo && is_product() && in_array( 'single', $locations ) ) {
+			$show_sidebar = true;
+		}
+
+		if( $is_woo && is_product_category() && in_array( 'archive', $locations ) ) {
+			$show_sidebar = true;
+		}
+
+		return $show_sidebar;
 	}
 
 	/**
 	 * Renders the class for the main content wrapper.
 	 *
 	 * @since 1.0
-	 * @param string $section The section this content belongs to. 
+	 * @param string $section The section this content belongs to.
 	 * @return void
 	 */
 	static public function content_class($section = 'blog')
@@ -893,7 +994,10 @@ final class FLTheme {
 			$content_size = '9';
 		}
 
-		if(strstr($layout, 'left')) {
+		if(!self::is_sidebar_enabled($section)) {
+			echo 'col-md-12';
+		}
+		elseif(strstr($layout, 'left')) {
 			echo 'fl-content-right col-md-' . $content_size;
 		}
 		else if(strstr($layout, 'right')) {
@@ -1004,7 +1108,7 @@ final class FLTheme {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -1056,30 +1160,30 @@ final class FLTheme {
 		echo '<meta itemscope itemprop="mainEntityOfPage" itemid="' . get_permalink() . '" />';
 		echo '<meta itemprop="datePublished" content="' . get_the_time('Y-m-d') . '" />';
 		echo '<meta itemprop="dateModified" content="' . get_the_modified_date('Y-m-d') . '" />';
-		
+
 		// Publisher Schema Meta
 		echo '<div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">';
 		echo '<meta itemprop="name" content="' . get_bloginfo( 'name' ) . '">';
-		
+
 		if ( 'image' == self::get_setting( 'fl-logo-type' ) ) {
 			echo '<div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">';
 			echo '<meta itemprop="url" content="' . self::get_setting( 'fl-logo-image' ) . '">';
 			echo '</div>';
 		}
-		
+
 		echo '</div>';
-		
+
 		// Author Schema Meta
 		echo '<div itemscope itemprop="author" itemtype="http://schema.org/Person">';
 		echo '<meta itemprop="url" content="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '" />';
 		echo '<meta itemprop="name" content="' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '" />';
 		echo '</div>';
-		
+
 		// Image Schema Meta
 		if(has_post_thumbnail()) {
-			
+
 			$image = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
-			
+
 			if ( is_array( $image ) ) {
 				echo '<div itemscope itemprop="image" itemtype="http://schema.org/ImageObject">';
 				echo '<meta itemprop="url" content="' . $image[0] . '" />';
@@ -1088,7 +1192,7 @@ final class FLTheme {
 				echo '</div>';
 			}
 		}
-		
+
 		// Comment Schema Meta
 		echo '<div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">';
 		echo '<meta itemprop="interactionType" content="http://schema.org/CommentAction" />';
@@ -1177,20 +1281,20 @@ final class FLTheme {
 		echo '</div>';
 		echo '</div>';
 	}
-	
+
 	/**
 	 * Checks to see if a plugin is currently active.
 	 *
 	 * @since 1.0
 	 * @param string $slug The slug of the plugin to check.
 	 * @return bool
-	 */ 
+	 */
 	static public function is_plugin_active( $slug )
 	{
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
-		
+
 		return is_plugin_active( $slug . '/' . $slug . '.php' );
 	}
 
@@ -1205,5 +1309,47 @@ final class FLTheme {
 		if(self::get_setting('fl-scroll-to-top') == 'enable') {
 			echo '<a href="#" id="fl-to-top"><i class="fa fa-chevron-up"></i></a>';
 		}
+	}
+
+	/**
+	 * Add custom widget after post content on single post.
+	 *
+	 * @since 1.6
+	 * @return void
+	 */
+	static public function after_post_widget()
+	{
+		if( is_active_sidebar('after-post-widget') && is_single() ) {
+			echo '<div class="fl-after-post-widget">';
+			dynamic_sidebar('after-post-widget');
+			echo '</div>';
+		}
+	}
+
+	/**
+	 * Add author box after post content on single post.
+	 *
+	 * @since 1.6
+	 * @return void
+	 */
+	static public function post_author_box()
+	{
+		$allowable_types = apply_filters( 'post_author_box_types', array( 'post' ) );
+
+		if( self::get_setting('fl-post-author-box') == 'visible' && is_single() && in_array( get_post_type(), $allowable_types ) ) {
+			get_template_part('content', 'author');
+		}
+	}
+
+	/**
+	 * Renders number of columns for WooCommerce.
+	 *
+	 * @since 1.5.4
+	 * @return void
+	 */
+	static public function woocommerce_columns()
+	{
+		$columns = self::get_setting('fl-woo-columns');
+		return $columns; // Products per row
 	}
 }

@@ -1,8 +1,9 @@
 <?php
 
 $show_thumbs = FLTheme::get_setting('fl-posts-show-thumbs');
-
+$thumb_size   = FLTheme::get_setting('fl-posts-thumb-size');
 ?>
+<?php do_action('fl_before_post'); ?>
 <article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope itemtype="http://schema.org/BlogPosting">
 
 	<?php if(has_post_thumbnail() && !empty($show_thumbs)) : ?>
@@ -29,15 +30,19 @@ $show_thumbs = FLTheme::get_setting('fl-posts-show-thumbs');
 		<?php endif; ?>
 
 		<?php if($show_thumbs == 'beside') : ?>
-		<div class="row">
-			<div class="col-md-3 col-sm-3">
-				<div class="fl-post-thumb">
-					<?php the_post_thumbnail('thumbnail'); ?>
+			<div class="row">
+				<div class="fl-post-image-<?php echo $show_thumbs; ?>">
+					<div class="fl-post-thumb">
+						<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
+							<?php the_post_thumbnail($thumb_size); ?>
+						</a>
+					</div>
 				</div>
-			</div>
-			<div class="col-md-9 col-sm-9">
+				<div class="fl-post-content-<?php echo $show_thumbs; ?>">
 		<?php endif; ?>
 	<?php endif; ?>
+
+	<?php do_action('fl_before_post_content'); ?>
 
 	<div class="fl-post-content clearfix" itemprop="text">
 		<?php
@@ -60,7 +65,11 @@ $show_thumbs = FLTheme::get_setting('fl-posts-show-thumbs');
 
 	<?php FLTheme::post_bottom_meta(); ?>
 	<?php FLTheme::post_navigation(); ?>
-	<?php comments_template(); ?>
+	<?php do_action('fl_after_post_content'); ?>
 
 </article>
+<?php comments_template(); ?>
+
+<?php do_action('fl_after_post'); ?>
+
 <!-- .fl-post -->

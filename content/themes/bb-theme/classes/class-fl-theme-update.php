@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Handles version specific update logic. 
- * 
+ * Handles version specific update logic.
+ *
  * @since 1.3.1
  */
 final class FLThemeUpdate {
-	
+
 	/**
 	 * Checks to see if update logic needs to run.
 	 *
@@ -15,33 +15,41 @@ final class FLThemeUpdate {
 	 */
 	static public function init()
 	{
+		// Export CSS Code if user is using WP > 4.7 and custom css exists.
+		self::wp_4_7_export_css();
+
 		// Get the saved version number.
 		$saved_version = get_option( '_fl_automator_version', '0' );
-		
+
 		// Don't update for dev versions.
 		if ( '{FL_THEME_VERSION}' == FL_THEME_VERSION ) {
 			return;
 		}
-		
+
 		// Don't update if the saved version matches the current version.
 		if ( version_compare( $saved_version, FL_THEME_VERSION, '=' ) ) {
 			return;
 		}
-		
+
 		// Update to 1.2.0 or greater.
 		if ( version_compare( $saved_version, '1.2.0', '<' ) ) {
 			self::v_1_2_0();
 		}
-		
+
 		// Update to 1.3.1 or greater.
 		if ( version_compare( $saved_version, '1.3.1', '<' ) ) {
 			self::v_1_3_1();
 		}
-		
+
+		// Update to 1.6 or greater.
+		if ( version_compare( $saved_version, '1.6', '<' ) ) {
+			self::v_1_6();
+		}
+
 		// Update the saved version number.
 		update_option( '_fl_automator_version', FL_THEME_VERSION );
 	}
-	
+
 	/**
 	 * Updates to version 1.2.0 when settings were moved from
 	 * a custom options page to the Customizer.
@@ -139,7 +147,7 @@ final class FLThemeUpdate {
 			'favicon'                   => 'fl-favicon',
 			'lightbox'                  => 'fl-lightbox',
 		);
-		
+
 		$color_keys = array(
 			'accent_color',
 			'heading_color',
@@ -152,48 +160,48 @@ final class FLThemeUpdate {
 			'footer_widgets_bg_color',
 			'footer_bg_color',
 		);
-		
+
 		// Get the options to migrate.
 		$settings = get_option( 'fl_theme_settings' );
 		$skin_id  = get_option( 'fl_theme_skin_id' );
-		
+
 		// Return if we don't have any options to migrate.
 		if ( ! $settings ) {
 			return;
 		}
-		
+
 		// Save a backup of the old settings.
 		$cache_dir = FLCustomizer::get_cache_dir();
 		file_put_contents( $cache_dir['path'] . 'backup.dat', $settings );
-		
-		// Decode the theme settings. 
+
+		// Decode the theme settings.
 		$settings = json_decode( $settings );
-		
+
 		// Loop through the theme settings and migrate each to the customizer.
 		foreach ( $settings as $key => $val ) {
-			
+
 			if ( isset( $key_map[ $key ] ) ) {
-				
+
 				if ( in_array( $key, $color_keys ) && ! strstr( $val, '#' ) ) {
 					$val = '#' . $val;
 				}
 				else {
 					$val = htmlspecialchars_decode( $val );
 				}
-				
+
 				set_theme_mod( $key_map[ $key ], $val );
 			}
 		}
-		
-		// Update the css key options. 
+
+		// Update the css key options.
 		update_option( 'fl_theme_css_key-skin', $skin_id );
 		update_option( 'fl_theme_css_key-customizer', $skin_id );
-		
+
 		// Delete the old options.
 		delete_option( 'fl_theme_settings' );
 		delete_option( 'fl_theme_skin_id' );
 	}
-	
+
 	/**
 	 * Updates to version 1.3.1 when more color settings were
 	 * added to the Customizer.
@@ -205,13 +213,13 @@ final class FLThemeUpdate {
 	static private function v_1_3_1()
 	{
 		$mods = FLCustomizer::get_mods();
-		
+
 		self::v_1_3_1_update_colors( 'topbar', $mods );
 		self::v_1_3_1_update_colors( 'header', $mods );
 		self::v_1_3_1_update_colors( 'nav', $mods );
 		self::v_1_3_1_update_colors( 'footer-widgets', $mods );
 		self::v_1_3_1_update_colors( 'footer', $mods );
-		
+
 		if ( ! isset( $mods['fl-nav-text-type'] ) || ( isset( $mods['fl-nav-text-type'] ) && 'default' == $mods['fl-nav-text-type'] ) ) {
 			set_theme_mod( 'fl-nav-font-family', $mods['fl-body-font-family'] );
 			set_theme_mod( 'fl-nav-font-weight', '400' );
@@ -219,7 +227,7 @@ final class FLThemeUpdate {
 			set_theme_mod( 'fl-nav-font-size', $mods['fl-body-font-size'] );
 		}
 	}
-	
+
 	/**
 	 * Updates color mods for a specific section in 1.3.1.
 	 *
@@ -237,7 +245,7 @@ final class FLThemeUpdate {
 		else {
 			$bg_type = $mods['fl-' . $slug . '-bg-type'];
 		}
-		
+
 		if ( 'none' == $bg_type ) {
 			$bg   = '';
 			$text = FLColor::foreground( $mods['fl-body-bg-color'] );
@@ -253,10 +261,57 @@ final class FLThemeUpdate {
 			$text = FLColor::foreground( $mods['fl-' . $slug . '-bg-color'] );
 			$link = $text;
 		}
-		
+
 		set_theme_mod( 'fl-' . $slug . '-bg-color', $bg );
 		set_theme_mod( 'fl-' . $slug . '-text-color', $text );
 		set_theme_mod( 'fl-' . $slug . '-link-color', $link );
 		set_theme_mod( 'fl-' . $slug . '-hover-color', $link );
+	}
+
+	/**
+	 * Flushes compiled css on update to 1.6.
+	 *
+	 * @since 1.6
+	 * @access private
+	 * @return void
+	 */
+	static private function v_1_6() {
+		FLCustomizer::refresh_css();
+	}
+
+	/**
+	 *  Export CSS Code mod to the built-in WP CSS. Available since WP 4.7.0
+	 *
+	 * @since 1.6
+	 * @access private
+	 * @return void
+	 */
+	static private function wp_4_7_export_css() {
+
+		// Export BB CSS code to WP core 'Additional CSS', it's only available since WP 4.7.0
+		if ( function_exists( 'wp_get_custom_css_post' ) && false !== get_theme_mod( 'fl-css-code' ) ) {
+
+			$mods = FLCustomizer::get_mods();
+
+			// Export BB CSS code if exists
+			if ( isset( $mods[ 'fl-css-code' ] ) && ! empty( $mods[ 'fl-css-code' ] ) ) {
+
+				$fl_css = $mods[ 'fl-css-code' ];
+				$wp_css = wp_get_custom_css_post();
+
+				$css_code = "\r\n\r\n/*\r\n" . esc_js( __( 'CSS Migrated from BB theme:', 'fl-automator' ) ) . "\r\n*/\r\n\r\n";
+				$css_code .= $fl_css;
+
+				// Append BB CSS code if WP CSS is not empty.
+				if ( $wp_css ) {
+					$css_code = $wp_css->post_content . $css_code ;
+				}
+
+				wp_update_custom_css_post( $css_code );
+
+				// Remove mod so it would only export once.
+				remove_theme_mod('fl-css-code');
+			}
+		}
 	}
 }

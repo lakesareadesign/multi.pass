@@ -1,3 +1,53 @@
+<h4>1.6 - 05/23/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated translation files, added Mexican and Colombian translation sets.</li>
+	<li>Add filter <code>fl-logo-text</code> to change logo image alt text.</li>
+	<li>WP 4.7 introduced custom CSS for themes. Migrate custom CSS to use WP Core feature.</li>
+	<li>New option for mobile navigation breakpoints including the option to have mobile menu always.</li>
+	<li>Add support for new WooCommerce 3 product gallerys. Option added in customizer to switch gallery type.</li>
+	<li>Sidebars are now an option on woocommerce category archives.</li>
+	<li>Submenu indicator added to top bar nav.</li>
+	<li>Added a customizer option to enable/disable sidebar on WooCommerce shop & single product page.</li>
+	<li>Updated Google Fonts.</li>
+	<li>Move Social settings to General tab in customizer.</li>
+	<li>Added image size option for archive and single post image.</li>
+	<li>FLCustomizer::remove_preset() can now accept an array of presets.</li>
+	<li>Added optional Author box to post pages.</li>
+	<li>New hooks added: <code>fl_before_post</code>, <code>fl_after_post</code>, <code>fl_before_post_content</code> and <code>fl_after_post_content</code></li>
+	<li>Sticky navigation can now use a different logo to the main navigation.</li>
+	<li>Updated translation files. A POT file is now included for new translators.</li>
+	<li>Bundled Font Awesome updated.</li>
+	<li>Logo text element changed from span to div to fix markup vaidation when HTML is added.</li>
+	<li>Added submenu indicators to main navigation.</li>
+	<li>Use minified version of theme.js unless WP_DEBUG is enabled.</li>
+	<li>Convert social icons to Font Awesome where used by the theme.</li>
+	<li>WooCommerce product archive columns are now configurable in the customizer.</li>
+	<li>Added WPCLI support <code>wp beaver theme clearcache</code> will clear theme css cache.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed an issue with media library not being closable when selecting photos.</li>
+	<li>Fixed a spacing issue in right aligned nav and the search icon.</li>
+	<li>Fixed an issue with center nav inline logo not being vertically aligned.</li>
+	<li>Fixed WooCommerce related products position when tabs do not exist.</li>
+	<li>Fixed WooCommerce checkbox alignment on checkout forms.</li>
+	<li>Fixed nav items position rendering on RTL sites.</li>
+	<li>Fixed W3C validation. Removed role navigation attribute.</li>
+	<li>Fixed a bug in customizer code editor.</li>
+	<li>Fixed a javascript error if there are no presets registered.</li>
+	<li>Fixed default backgrounds being blank in presets.</li>
+	<li>Fixed JS error when clicking on menu item link that contains hash string.</li>
+	<li>Fixed a navigation overflow issue.</li>
+	<li>Fixed styling in navigation when ancestor or submenu is active page.</li>
+	<li>Fixed RTL issues with vertical nav.</li>
+	<li>Fixed small styling issue with mobile megamenus.</li>
+	<li>Fixed form preview conflict with Toolset CRED.</li>
+	<li>Fixed an issue where extra padding was being added when fixed nav was enabled on full-width layouts.</li>
+	<li>Fixed full-width posts template which was wrongly adding space for a non existant sidebar.</li>
+	<li>Fixed a spacing issue on Safari when fixed header is enabled with a logo.</li>
+</ul>
+
 <h4>1.5.4 - 12/06/2016</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

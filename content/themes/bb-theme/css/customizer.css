@@ -11,6 +11,9 @@
 .ace_editor.ace_autocomplete {
 	z-index: 100000000 !important;
 }
+.ace_editor {
+ 	position: relative !important ;
+}
 
 /* slider control */
 .customize-control-slider input[type=range] {

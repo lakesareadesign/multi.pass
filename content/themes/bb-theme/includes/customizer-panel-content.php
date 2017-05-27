@@ -36,8 +36,8 @@ FLCustomizer::add_panel('fl-content', array(
 						    'step' => 1
 						),
 					)
-				),	
-				
+				),
+
 				/* Content Background Image */
 				'fl-content-bg-image' => array(
 					'setting'   => array(
@@ -203,6 +203,25 @@ FLCustomizer::add_panel('fl-content', array(
 					)
 				),
 
+				/* Blog Sidebar Location */
+				'fl-blog-sidebar-location' => array(
+					'setting'   => array(
+						'default'   => 'single,blog,search,archive',
+						'sanitize_callback' => 'FLCustomizer::sanitize_checkbox_multiple'
+					),
+					'control'   => array(
+						'class'         => 'FLCustomizerControl',
+						'label'         => __('Sidebar Location', 'fl-automator'),
+						'type'          => 'checkbox-multiple',
+						'choices'       => array(
+							'blog'      	=> __('Blog', 'fl-automator'),
+							'single'        => __('Single Post', 'fl-automator'),
+							'search'        => __('Search page', 'fl-automator'),
+							'archive'       => __('Archives', 'fl-automator')
+						)
+					)
+				),
+
 				/* Line */
 				'fl-blog-line1' => array(
 					'control'   => array(
@@ -311,7 +330,21 @@ FLCustomizer::add_panel('fl-content', array(
 							'beside'            => __('Beside Posts', 'fl-automator')
 						)
 					)
+				),
+
+				/* Featured Image Size */
+				'fl-archive-thumb-size' => array(
+					'setting'   => array(
+						'default'   => 'beside'
+					),
+					'control'   => array(
+						'class'         => 'WP_Customize_Control',
+						'label'         => __('Image Size', 'fl-automator'),
+						'type'          => 'select',
+						'choices'       => archive_post_image_sizes()
+					)
 				)
+
 			)
 		),
 
@@ -335,6 +368,19 @@ FLCustomizer::add_panel('fl-content', array(
 							'above'             => __('Above Post', 'fl-automator'),
 							'beside'            => __('Beside Post', 'fl-automator')
 						)
+					)
+				),
+
+				/* Featured Image Size */
+				'fl-posts-thumb-size' => array(
+					'setting'   => array(
+						'default'   => 'thumbnail'
+					),
+					'control'   => array(
+						'class'         => 'WP_Customize_Control',
+						'label'         => __('Image Size', 'fl-automator'),
+						'type'          => 'select',
+						'choices'       => single_post_image_sizes()
 					)
 				),
 
@@ -385,6 +431,23 @@ FLCustomizer::add_panel('fl-content', array(
 						)
 					)
 				),
+
+				/* Author Box */
+				'fl-post-author-box' => array(
+					'setting'   => array(
+						'default'   => 'hidden'
+					),
+					'control'   => array(
+						'class'         => 'WP_Customize_Control',
+						'label'         => __('Author Box', 'fl-automator'),
+						'type'          => 'select',
+						'choices'       => array(
+							'visible'           => __('Visible', 'fl-automator'),
+							'hidden'            => __('Hidden', 'fl-automator')
+						)
+					)
+				),
+
 			)
 		),
 
@@ -463,8 +526,82 @@ FLCustomizer::add_panel('fl-content', array(
 					)
 				),
 
+				/* WooCommerce Sidebar Location */
+				'fl-woo-sidebar-location' => array(
+					'setting'   => array(
+						'default'   => 'single,shop',
+						'sanitize_callback' => 'FLCustomizer::sanitize_checkbox_multiple'
+					),
+					'control'   => array(
+						'class'         => 'FLCustomizerControl',
+						'label'         => __('Sidebar Location', 'fl-automator'),
+						'description'   => __('WooCommerce pages that you want sidebar to appear.', 'fl-automator'),
+						'type'          => 'checkbox-multiple',
+						'choices'       => array(
+							'single'       => __( 'Single Product', 'fl-automator' ),
+							'shop'         => __( 'Shop Page', 'fl-automator' ),
+							'archive'      => __( 'Categories', 'fl-automator' )
+						)
+					)
+				),
+
 				/* Line */
 				'fl-woo-line1' => array(
+					'control'   => array(
+						'class'     => 'FLCustomizerControl',
+						'type'      => 'line'
+					)
+				),
+
+				/* Number of Columns */
+				'fl-woo-columns' => array(
+					'setting'  => array(
+						'default'   => '4'
+					),
+					'control'   => array(
+						'class'         => 'WP_Customize_Control',
+						'label'         => __( 'Number of Columns', 'fl-automator' ),
+						'description'   => __( 'Select how many columns on product category pages?', 'fl-automator' ),
+						'type'          => 'select',
+						'choices'       => array(
+							'1'           => __('1 Column', 'fl-automator'),
+							'2'           => __('2 Columns', 'fl-automator'),
+							'3'           => __('3 Columns', 'fl-automator'),
+							'4'           => __('4 Columns', 'fl-automator'),
+							'5'           => __('5 Columns', 'fl-automator'),
+							'6'           => __('6 Columns', 'fl-automator'),
+						)
+					)
+				),
+
+				/* Line */
+				'fl-woo-line2' => array(
+					'control'   => array(
+						'class'     => 'FLCustomizerControl',
+						'type'      => 'line'
+					)
+				),
+
+				/* Number of Columns */
+				'fl-woo-gallery' => array(
+					'setting'  => array(
+						'default'   => 'enabled',
+						'transport' => 'postMessage'
+					),
+					'control'   => array(
+						'class'         => 'WP_Customize_Control',
+						'label'         => __( 'Product Gallery', 'fl-automator' ),
+						'description'   => __( 'Select how product galleries are handled.', 'fl-automator' ),
+						'type'          => 'select',
+						'choices'       => array(
+							'enabled'      => __( 'Use WooCommerce 3.x Gallery (default)', 'fl-automator'),
+							'none'         => __( 'Disabled', 'fl-automator'),
+						)
+					)
+				),
+
+				/* Line */
+				'fl-woo-line3' => array(
 					'control'   => array(
 						'class'     => 'FLCustomizerControl',
 						'type'      => 'line'
@@ -489,7 +626,7 @@ FLCustomizer::add_panel('fl-content', array(
 				),
 
 				/* Line */
-				'fl-woo-line2' => array(
+				'fl-woo-line4' => array(
 					'control'   => array(
 						'class'     => 'FLCustomizerControl',
 						'type'      => 'line'

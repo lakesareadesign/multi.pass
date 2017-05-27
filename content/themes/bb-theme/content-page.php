@@ -1,3 +1,4 @@
+<?php do_action('fl_before_post'); ?>
 <article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope="itemscope" itemtype="http://schema.org/CreativeWork">
 
 	<?php if ( FLTheme::show_post_header() ) : ?>
@@ -6,7 +7,7 @@
 		<?php edit_post_link( _x( 'Edit', 'Edit page link text.', 'fl-automator' ) ); ?>
 	</header><!-- .fl-post-header -->
 	<?php endif; ?>
-
+	<?php do_action('fl_before_post_content'); ?>
 	<div class="fl-post-content clearfix" itemprop="text">
 		<?php
 			the_content();
@@ -18,8 +19,10 @@
 			) );
 		?>
 	</div><!-- .fl-post-content -->
-
-	<?php comments_template(); ?>
+	<?php do_action('fl_after_post_content'); ?>
 
 </article>
+
+<?php comments_template(); ?>
+<?php do_action('fl_after_post'); ?>
 <!-- .fl-post -->

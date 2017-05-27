@@ -1,0 +1,7 @@
+.fl-theme-builder-woo-notices {
+	margin: 0 auto;
+	padding: 40px;
+}
+.fl-theme-builder-woo-notices .woocommerce-message {
+	margin: 0 !important;
+}

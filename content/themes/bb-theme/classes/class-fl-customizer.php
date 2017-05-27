@@ -89,7 +89,21 @@ final class FLCustomizer {
 	 */
 	static public function remove_preset( $key )
 	{
-		unset( self::$_presets[ $key ] );
+		if ( empty($key) )
+		return;
+
+		if ( is_array( $key ) ) {
+			$keys = $key;
+		}
+		else if ( is_string( $key ) ) {
+			$keys = array_map( 'trim', explode(',', $key) );
+		}
+
+		foreach ( (array) $keys as $k ) {
+			if ( isset( self::$_presets[ $k ] ) ) {
+				unset( self::$_presets[ $k ] );
+			}
+		}
 	}
 
 	/**
@@ -165,6 +179,7 @@ final class FLCustomizer {
 		self::_register_panels( $customizer );
 		self::_register_export_import_section( $customizer );
 		self::_move_builtin_sections( $customizer );
+		self::_remove_sections( $customizer );
 	}
 
 	/**
@@ -311,6 +326,19 @@ final class FLCustomizer {
 	static public function sanitize_number( $val )
 	{
 		return is_numeric( $val ) ? $val : 0;
+	}
+
+	/**
+	 * Sanitize callback for Customizer multiple checkbox settings.
+	 *
+	 * @since 1.5.3
+	 * @return array
+	 */
+	static public function sanitize_checkbox_multiple( $val )
+	{
+		$multi_values = !is_array( $val ) ? explode( ',', $val ) : $val;
+
+    	return !empty( $multi_values ) ? array_map( 'sanitize_text_field', $multi_values ) : array();
 	}
 
 	/**
@@ -563,6 +591,22 @@ final class FLCustomizer {
 	}
 
 	/**
+	 * Remove customizer sections based on version dependencies
+	 *
+	 * @since 1.6
+	 * @access private
+	 * @param object $customizer An instance of WP_Customize_Manager.
+	 * @return boolean
+	 */
+	static private function _remove_sections( $customizer )
+	{
+		// Remove CSS Code if WP core 'Additional CSS' is available since 4.7.0
+		if ( function_exists( 'wp_get_custom_css_post' ) ) {
+			$customizer->remove_section( 'fl-css-code-section' );
+		}
+	}
+
+	/**
 	 * Get an array of defaults for all Customizer settings.
 	 *
 	 * @since 1.2.0
@@ -773,7 +817,6 @@ final class FLCustomizer {
 		if ( 'disabled' != $mods['fl-woo-css'] ) {
 			$css .= file_get_contents( FL_THEME_DIR . '/less/woocommerce.less' );
 		}
-		
 
 		// Skin
 		if ( isset( self::$_presets[ $preset ]['skin'] ) ) {
@@ -804,9 +847,11 @@ final class FLCustomizer {
 
 		// Save the new css.
 		file_put_contents( $filename, $css );
-		
-		// Make sure we can read the new file. 
+
+		// Make sure we can read the new file.
+		// @codingStandardsIgnoreStart
 		@chmod( $filename, 0644 );
+		// @codingStandardsIgnoreEnd
 
 		// Save the new css key.
 		update_option( self::$_css_key . '-' . $css_slug, $new_css_key );
@@ -980,7 +1025,6 @@ final class FLCustomizer {
 		$vars['nav-item-spacing']               = $mods['fl-nav-item-spacing'] . 'px';
 		$vars['nav-menu-top-spacing']           = $mods['fl-nav-menu-top-spacing'] . 'px';
 		$vars['header-logo-top-spacing']        = $mods['fl-header-logo-top-spacing'] . 'px';
-
 
 		// Right Nav, Left Nav, Vertical Nav, Centered Inline Logo Nav Colors
 		if ( 'right'                == $mods['fl-header-layout'] ||

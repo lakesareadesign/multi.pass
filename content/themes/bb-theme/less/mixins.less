@@ -10,7 +10,6 @@ Appearance > Theme Settings > Code or create a child theme.
 
 /* General
 ----------------------------------------------------------- */
-
 .fl-box-shadow(@value) {
 	-moz-box-shadow: @value;
 	-webkit-box-shadow: @value;
@@ -39,6 +38,247 @@ Appearance > Theme Settings > Code or create a child theme.
 	&:-ms-input-placeholder { /* Internet Explorer 10+ */
 		color: @value;
 	}
+}
+
+/* 
+Nav Toggle - Hamburger Icon
+It's being used in the theme.less for media queries when enabled in the customizer.
+------------------------------------------------------------------------------------ */
+
+.fl-nav-icon-toggled {
+
+	/* Page Nav Toggle Common mixin
+	----------------------------------------------------------- */
+	.fl-page-nav-toggled-common;
+
+	/* Hamburger icon specific styles
+	----------------------------------------------------------- */
+	.fl-page-nav-wrap {
+		border: 0 none;
+		margin: 0;
+		padding-bottom: 0;
+	}
+	position: relative;
+	.fl-page-header-logo {
+		text-align: left;
+		margin-right: 55px;
+	}
+	.fl-page-nav-col,
+	.navbar {
+		position: static;
+	}
+	.fl-page-nav-container {
+		position: unset;
+	}
+	.fl-page-nav .navbar-toggle {
+		background: transparent;
+		display: block;
+		font-size: 22px;
+		line-height: 19px;
+		padding: 6px 8px;
+		position: absolute;
+		right: 20px;
+		top: @header-padding;
+		width: auto;
+		&:hover,
+		&:focus {
+			background: transparent;
+		}
+	}
+}
+
+/* 
+Nav Toggle - Menu Button
+It's being used in the theme.less for media queries when enabled in the customizer.
+---------------------------------------------------------------------------------- */
+
+.fl-nav-button-toggled {
+
+	/* Page Nav Toggle Common mixin
+	----------------------------------------------------------- */
+	.fl-page-nav-toggled-common;
+
+	/* Menu button specific styles
+	----------------------------------------------------------- */
+	.fl-page-nav-wrap {
+		border: 0 none;
+		margin: 0;
+		padding-bottom: 20px;
+	}
+	.fl-page-nav .navbar-toggle {
+		display: block;
+		background: @mobile-nav-btn-color;
+		color: @mobile-nav-fg-link-color;
+		* {
+			color: @mobile-nav-fg-link-color;
+		}
+		&:hover,
+		&:focus {
+			background: @mobile-nav-btn-color;
+		}
+	}
+}
+
+/* Nav Toggle Common - This applies to both Hamburger and Button.
+---------------------------------------------------------------- */
+
+.fl-page-nav-toggled-common {
+
+	/* Header Layouts mixin
+	----------------------------------------------------------- */
+	.fl-page-header-layouts-toggled;
+
+	/* Nav Collapse
+	----------------------------------------------------------- */
+	.fl-page-nav-collapse {
+		border-top: 1px solid @mobile-nav-btn-color;
+		padding-bottom: 10px;
+
+		&.collapse {
+			display: none!important;
+			visibility: hidden!important;
+			&.in {
+				display: block!important;
+				visibility: visible!important;
+			}		
+		}
+
+		/* Nav Colors
+		----------------------------------------------------------- */		
+		ul.navbar-nav {
+			display: block;
+			float: none;
+			> li {		
+				border-color: @mobile-nav-btn-color;
+				border-bottom-style: solid;
+				border-bottom-width: 1px;
+				display: block;
+				float: none;
+				position: relative;
+				> a {
+					color: @mobile-nav-fg-link-color;
+					&:hover,
+					&:focus {
+						color: @mobile-nav-fg-hover-color;
+					}
+					text-align: left;
+				}
+				&.current-menu-item > a {
+					color: @mobile-nav-fg-hover-color;
+				}
+			}
+		}
+		ul.sub-menu li {
+			border-color: @mobile-nav-btn-color;
+			a {
+				color: @mobile-nav-fg-link-color;
+				&:hover {
+					color: @mobile-nav-fg-hover-color;
+				}
+			}
+		}
+
+		/* Nav Search
+		----------------------------------------------------------- */
+		.fl-page-nav-search {
+			display: none;
+		}
+	}
+
+	/* Nav Dropdown Menus
+	----------------------------------------------------------- */
+	.fl-page-nav ul {
+		&.sub-menu {			
+			background-color: transparent;
+			border: none;
+			float: none;
+			height: 100%;			
+			list-style: none;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			top: 0;
+			width: auto;
+			.fl-box-shadow(none);
+			ul.sub-menu {
+				padding-bottom: 0;
+			}
+			li {
+				border-top: 1px solid @border-color;
+				a {
+					clear: both;
+					color: @nav-fg-link-color;
+					display: block;
+					font-weight: @nav-font-weight;
+					line-height: 20px;
+					margin: 0;
+					padding: 15px 20px;
+					&:hover,
+					&:focus {
+						color: @nav-fg-hover-color;
+						text-decoration: none;
+					}
+					&:before {
+						content: '\f105';
+						font-family: FontAwesome;
+						margin-right: 10px;
+					}
+				}
+			}
+		}
+		li {
+			&.fl-mobile-sub-menu-open {
+				ul.sub-menu {
+					position: static;
+				}
+			}
+		}
+	}
+}
+
+/* Header Layouts Toggle - Used in the .fl-page-nav-toggled-common mixin.
+------------------------------------------------------------------------- */
+
+.fl-page-header-layouts-toggled {
+
+	/* Nav Right Layout
+	----------------------------------------------------------- */
+	&.fl-page-nav-right {
+		.fl-page-nav-collapse {
+			ul.navbar-nav {
+				float: none!important;
+			}
+		}
+		.fl-page-header-row .fl-page-header-logo {
+			padding-bottom: 30px;
+		}
+	}
+
+	/* Nav Left Layout
+	----------------------------------------------------------- */
+	&.fl-page-nav-left {
+		.fl-page-header-row .fl-page-header-logo {
+			padding-bottom: 30px;
+		}
+		.fl-page-nav ul.navbar-nav > li:first-child a {
+			padding-left: 17px;
+		}
+	}
+
+	/* Nav Centered Inline Logo
+	----------------------------------------------------------- */
+	&.fl-page-nav-centered-inline-logo {
+		text-align: left;
+		.fl-page-header-logo {
+			display: block;
+		}
+	}
+
+	/* Nav Vertical
+	----------------------------------------------------------- */
+	&.fl-page-header-vertical {
+		top: 0;
+	}	
 }
 
 /* Nav Separators

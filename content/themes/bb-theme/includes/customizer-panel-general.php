@@ -231,7 +231,7 @@ FLCustomizer::add_panel('fl-general', array(
 						'description'   => __('The accent color will be used to color elements such as links and buttons as well as various elements in your theme.', 'fl-automator')
 					)
 				),
-				
+
 				/* Accent Hover Color */
 				'fl-accent-hover' => array(
 					'setting'   => array(
@@ -710,7 +710,7 @@ FLCustomizer::add_panel('fl-general', array(
 						'connect'   => 'fl-body-font-weight'
 					)
 				),
-				
+
 				/* Body Font Weight */
 				'fl-body-font-weight' => array(
 					'setting'   => array(
@@ -722,7 +722,7 @@ FLCustomizer::add_panel('fl-general', array(
 						'type'      => 'font-weight',
 						'connect'   => 'fl-body-font-family'
 					)
-				),				
+				),
 
 				/* Body Font Size */
 				'fl-body-font-size' => array(
@@ -758,7 +758,145 @@ FLCustomizer::add_panel('fl-general', array(
 						    'step' => 0.05
 						),
 					)
-				)				
+				)
+			)
+		),
+		/* Social Links Section */
+		'fl-social-links' => array(
+			'title'   => _x( 'Social Links', 'Customizer section title.', 'fl-automator' ),
+			'options' => array(
+
+				/* Social Icons Color */
+				'fl-social-icons-color' => array(
+					'setting'   => array(
+						'default'   => 'mono'
+					),
+					'control'   => array(
+						'class'     => 'WP_Customize_Control',
+						'label'     => __('Social Icons Color', 'fl-automator'),
+						'type'      => 'select',
+						'choices'   => array(
+							'branded'   => __('Branded', 'fl-automator'),
+							'mono'      => __('Monochrome', 'fl-automator')
+						)
+					)
+				),
+
+				/* Social Links (no need to translate brand names) */
+				'fl-social-facebook' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Facebook',
+					)
+				),
+				'fl-social-twitter' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Twitter',
+					)
+				),
+				'fl-social-google' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Google',
+					)
+				),
+				'fl-social-linkedin' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'LinkedIn',
+					)
+				),
+				'fl-social-yelp' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Yelp',
+					)
+				),
+				'fl-social-xing' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Xing',
+					)
+				),
+				'fl-social-pinterest' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Pinterest',
+					)
+				),
+				'fl-social-tumblr' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Tumblr',
+					)
+				),
+				'fl-social-vimeo' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Vimeo',
+					)
+				),
+				'fl-social-youtube' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'YouTube',
+					)
+				),
+				'fl-social-flickr' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Flickr',
+					)
+				),
+				'fl-social-instagram' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Instagram',
+					)
+				),
+				'fl-social-skype' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Skype',
+					)
+				),
+				'fl-social-dribbble' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Dribbble',
+					)
+				),
+				'fl-social-500px' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => '500px',
+					)
+				),
+				'fl-social-blogger' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Blogger',
+					)
+				),
+				'fl-social-github' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'GitHub',
+					)
+				),
+				'fl-social-rss' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => __( 'RSS', 'fl-automator' )
+					)
+				),
+				'fl-social-email' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => __( 'Email', 'fl-automator' )
+					)
+				)
 			)
 		),
 	)

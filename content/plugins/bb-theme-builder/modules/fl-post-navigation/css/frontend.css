@@ -1,0 +1,10 @@
+.fl-module-fl-post-navigation .nav-links {
+	display: flex;
+}
+.fl-module-fl-post-navigation .nav-links .nav-previous {
+	width: 50%;
+}
+.fl-module-fl-post-navigation .nav-links .nav-next {
+	text-align: right;
+	width: 50%;
+}

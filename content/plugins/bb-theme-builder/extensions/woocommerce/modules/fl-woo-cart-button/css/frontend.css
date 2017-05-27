@@ -1,0 +1,4 @@
+.woocommerce div.product .fl-module-fl-woo-cart-button form.cart,
+.woocommerce div.product .fl-module-fl-woo-cart-button form.cart .variations {
+	margin: 0;
+}

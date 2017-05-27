@@ -112,22 +112,36 @@ ul.navbar-nav {
     .fl-page-nav-right .fl-page-nav-search {
         float: left;
     }
+		.fl-page-header-vertical {
+			text-align: right;
+		}
 }
 
 @media (min-width: 992px) {
-    
+
     /* Header Logo
     ----------------------------------------------------------- */
-    
+
     .fl-page-nav-right .fl-page-header-logo {
         text-align: right;
     }
-    
+
     /* Header Nav
     ----------------------------------------------------------- */
-    
+
     .fl-page-nav-right .fl-page-nav ul.navbar-nav {
         float: left !important;
         padding: 0 0 0 10px;
     }
+    .fl-page-nav-right .fl-page-nav ul.navbar-nav > li,
+    .fl-page-nav-left .fl-page-nav ul.navbar-nav > li {
+        display: inline-block;
+        float: none;
+    }
+    .fl-page-nav ul.sub-menu li a {
+        text-align: right;
+    }
+		.fl-page-header-vertical .item-left ul.navbar-nav > li > a {
+			float: right;
+		}
 }
