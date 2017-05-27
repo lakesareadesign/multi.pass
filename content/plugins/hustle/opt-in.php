@@ -3,7 +3,7 @@
 Plugin Name: Hustle Pro
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 2.1
+Version: 2.1.1
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020
@@ -58,10 +58,15 @@ if ( ! function_exists( 'hustle_deactivated' ) ) {
 add_action( 'activated_plugin', 'hustle_activated', 10, 2 );
 if ( ! function_exists( 'hustle_activated' ) ) {
     function hustle_activated( $plugin, $network_activation ) {
-        if ( !$network_activation ) {
-            $dashboard_url = 'admin.php?page=inc_optins';
-            wp_safe_redirect( $dashboard_url );
-            exit;
+        $flag = get_option( 'hustle_activated_flag', false );
+        delete_option( 'hustle_activated_flag' );
+        if ( !$network_activation && $flag ) {
+            $screen = get_current_screen();
+            if ( 'plugins' === $screen->id ) {
+                $dashboard_url = 'admin.php?page=inc_optins';
+                wp_safe_redirect( $dashboard_url );
+                exit;
+            }
         }
     }
 }
@@ -725,10 +730,9 @@ if( is_admin() ) {
     new Hustle_Social_Sharing_Admin_Ajax( $hustle, $social_sharing_admin );
 
 
-} else {
-    $cc_front = new Hustle_Custom_Content_Front( $hustle );
-    $ss_front = new Hustle_Social_Sharing_Front( $hustle );
 }
+$cc_front = new Hustle_Custom_Content_Front( $hustle );
+$ss_front = new Hustle_Social_Sharing_Front( $hustle );
 new Opt_In_Front_Ajax( $hustle );
 $cc_front_ajax = new Hustle_Custom_Content_Front_Ajax();
 $ss_front_ajax = new Hustle_Social_Sharing_Front_Ajax();
@@ -750,3 +754,8 @@ if ( file_exists( Opt_In::$plugin_path . 'lib/wpmudev-dashboard/wpmudev-dash-not
 if( is_admin() && Opt_In_Utils::_is_free() ) {
     require_once Opt_In::$plugin_path . 'lib/free-dashboard/module.php';
 }
+
+function hustle_activation() {
+    update_option( 'hustle_activated_flag', 1 );
+}
+register_activation_hook(__FILE__, 'hustle_activation' );

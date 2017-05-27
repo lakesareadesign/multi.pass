@@ -20,7 +20,7 @@
 
 			<p><?php _e( 'If you don\'t know where those files are, or you aren\'t able to reload Apache, you would need to <strong>consult with your hosting provider or a system administrator who has access</strong> to change the configuration of your server', 'wphb' ); ?></p>
 
-			<p><?php _e( 'Still having trouble? ', 'wphb' ); ?><a target="_blank" href="<?php echo wphb_support_link(); ?>"><?php _e( 'Open a support ticket.', 'wphb' ); ?></a></p>
+			<?php _wphb_still_having_trouble_link(); ?>
 
 			<div id="wphb-code-snippet">
 				<div id="wphb-code-snippet-apache" class="wphb-code-snippet">
@@ -54,7 +54,7 @@
 
 			<p><?php _e( 'If you don\'t know where those files are, or you aren\'t able to reload Apache, you would need to <strong>consult with your hosting provider or a system administrator who has access</strong> to change the configuration of your server', 'wphb' ); ?></p>
 
-			<p><?php _e( 'Still having trouble? ', 'wphb' ); ?><a target="_blank" href="<?php echo wphb_support_link(); ?>"><?php _e( 'Open a support ticket.', 'wphb' ); ?></a></p>
+			<?php _wphb_still_having_trouble_link(); ?>
 
 			<div id="wphb-code-snippet">
 				<div id="wphb-code-snippet-litespeed" class="wphb-code-snippet">
@@ -78,7 +78,7 @@
 		</ol>
 
 		<p><?php _e( 'If you do not have access to your NGINX config files you will need to contact your hosting provider to make these changes.', 'wphb' ); ?></p>
-		<p><?php _e( 'Still having trouble? ', 'wphb' ); ?><a target="_blank" href="<?php echo wphb_support_link(); ?>"><?php _e( 'Open a support ticket.', 'wphb' ); ?></a></p>
+		<?php _wphb_still_having_trouble_link(); ?>
 
 		<div id="wphb-code-snippet">
 			<div id="wphb-code-snippet-apache" class="wphb-code-snippet">

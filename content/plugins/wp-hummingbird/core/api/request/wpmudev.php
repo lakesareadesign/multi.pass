@@ -15,7 +15,7 @@ class WP_Hummingbird_API_Request_WPMUDEV extends WP_Hummingbird_API_Request {
 		elseif ( is_object( $wpmudev_un ) && method_exists( $wpmudev_un, 'get_apikey' ) ) {
 			$api_key = $wpmudev_un->get_apikey();
 		}
-		elseif ( is_object( WPMUDEV_Dashboard::$api ) && method_exists( WPMUDEV_Dashboard::$api, 'get_key' ) ) {
+		elseif ( class_exists( 'WPMUDEV_Dashboard' ) && is_object( WPMUDEV_Dashboard::$api ) && method_exists( WPMUDEV_Dashboard::$api, 'get_key' ) ) {
 			$api_key = WPMUDEV_Dashboard::$api->get_key();
 		}
 		else {

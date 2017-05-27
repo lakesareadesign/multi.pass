@@ -18,6 +18,7 @@ class Opt_In_Admin{
         add_action( 'admin_menu', array( $this, "register_admin_menu" ) );
         add_action( 'admin_head', array( $this, "hide_unwanted_submenus" ) );
         add_action( 'admin_init', array( $this, "init" ) );
+        add_action("current_screen", array( $this, "set_proper_current_screen" ) );
 
         if( $this->_is_optin_admin() ) {
             add_action( 'admin_enqueue_scripts', array( $this, "register_scripts" ), 99 );
@@ -363,6 +364,7 @@ class Opt_In_Admin{
 				'module_fields' => array(
 					'no_label' => __( 'Please enter field label', Opt_In::TEXT_DOMAIN ),
 					'no_name' => __( 'Please enter field name', Opt_In::TEXT_DOMAIN ),
+					'custom_field_already_exists' => __( 'Custom field "{name}" already exists.', Opt_In::TEXT_DOMAIN ),
 					'custom_field_not_exist' => __( 'Custom field doesn\'t exist! Please check your provider.', Opt_In::TEXT_DOMAIN ),
 					'cannot_create_custom_field' => __( 'Unable to create new custom field. Please check your provider.', Opt_In::TEXT_DOMAIN ),
 				),
@@ -475,6 +477,13 @@ class Opt_In_Admin{
 		add_submenu_page( 'inc_optins', __("New Opt-in", Opt_In::TEXT_DOMAIN) , __("New Opt-in", Opt_In::TEXT_DOMAIN) , "manage_options", 'inc_optin',  array( $this, "render_optin_settings_page" )  );
 
 	}
+
+    function set_proper_current_screen( $current ){
+        global $current_screen;
+        if ( !Opt_In_Utils::_is_free() ) {
+            $current_screen->id = Opt_In_Utils::clean_current_screen($current_screen->id);
+        }
+    }
 
 	/**
      * Removes the submenu entries for content creation

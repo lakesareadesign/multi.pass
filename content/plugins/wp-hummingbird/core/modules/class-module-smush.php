@@ -2,6 +2,14 @@
 
 class WP_Hummingbird_Module_Smush extends WP_Hummingbird_Module {
 
+	/**
+	 * Variable used to distinguish between versions of Smush.
+	 * Sets true if the Pro version is installed. False in all other cases.
+	 *
+	 * @var bool
+	 */
+	static public $is_smush_pro = false;
+
 	public function init() {}
 	public function run() {}
 
@@ -11,7 +19,10 @@ class WP_Hummingbird_Module_Smush extends WP_Hummingbird_Module {
 		}
 
 		$plugins = get_plugins();
-		return array_key_exists( 'wp-smush-pro/wp-smush.php', $plugins ) || array_key_exists( 'smushit/wp-smush.php', $plugins );
+		if ( array_key_exists( 'wp-smush-pro/wp-smush.php', $plugins ) ) {
+			self::$is_smush_pro = true;
+		}
+		return array_key_exists( 'wp-smush-pro/wp-smush.php', $plugins ) || array_key_exists( 'wp-smushit/wp-smush.php', $plugins );
 	}
 
 	public static function is_smush_active() {
@@ -19,7 +30,7 @@ class WP_Hummingbird_Module_Smush extends WP_Hummingbird_Module {
 			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
 
-		return is_plugin_active( 'wp-smush-pro/wp-smush.php' ) || is_plugin_active( 'smushit/wp-smush.php' );
+		return is_plugin_active( 'wp-smush-pro/wp-smush.php' ) || is_plugin_active( 'wp-smushit/wp-smush.php' );
 	}
 
 	public static function get_smush_install_url() {

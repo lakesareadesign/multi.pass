@@ -39,7 +39,7 @@ class CustomSidebarsWidgets extends CustomSidebars {
 				array( $this, 'init_admin_head' )
 			);
 		}
-		add_action( 'widgets_admin_page', array( $this, 'add_div_start' ) );							 			 	 	 		  
+		add_action( 'widgets_admin_page', array( $this, 'add_div_start' ) );
 		add_action( 'sidebar_admin_page', array( $this, 'add_div_end' ) );
 	}
 
@@ -55,7 +55,9 @@ class CustomSidebarsWidgets extends CustomSidebars {
 	 * Adds the additional HTML code to the widgets section.
 	 */
 	public function widget_sidebar_content() {
-		include CSB_VIEWS_DIR . 'widgets.php';
+		if ( false === self::$accessibility_mode ) {
+			include CSB_VIEWS_DIR . 'widgets.php';
+		}
 	}
 
 	/**

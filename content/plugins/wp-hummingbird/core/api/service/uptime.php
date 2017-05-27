@@ -27,6 +27,22 @@ class WP_Hummingbird_API_Service_Uptime extends WP_Hummingbird_API_Service {
 	}
 
 	/**
+	 * Check if Uptime is enabled remotely
+	 *
+	 * @return mixed|WP_Error
+	 */
+	public function is_enabled() {
+		$this->request->set_timeout( 30 );
+		$results = $this->request->get( 'stats/week/', array( 'domain' => $this->request->get_this_site() ) );
+
+		if ( is_wp_error( $results ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Enable Uptime remotely
 	 *
 	 * @return mixed|WP_Error

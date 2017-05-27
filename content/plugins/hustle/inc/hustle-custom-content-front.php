@@ -21,11 +21,16 @@ class Hustle_Custom_Content_Front
     {
 
         $this->_hustle = $hustle;
+        add_shortcode(self::SHORTCODE, array( $this, "shortcode" ));
+
+		add_filter( 'hustle_front_handler', array( $this, 'has_cc' ) );
+
+        if( is_admin() ) return;
 
         // Enqueue it in the footer to overrider all the css that comes with the popup
         add_action('wp_footer', array($this, "register_styles"));
 
-        add_action('template_redirect', array($this, "create_modules"));
+        add_action('template_redirect', array($this, "create_modules"), 0);
 
         add_action("wp_footer", array($this, "add_modal_template"));
 
@@ -34,11 +39,6 @@ class Hustle_Custom_Content_Front
         add_filter("hustle_register_scripts", array( $this, "register_modules" ));
 
 		add_filter( "the_content", array( $this, "add_after_content_template" ), 20);
-
-		add_shortcode(self::SHORTCODE, array( $this, "shortcode" ), 10, 2);
-
-		add_filter( 'hustle_front_handler', array( $this, 'has_cc' ) );
-
     }
 
 	/**

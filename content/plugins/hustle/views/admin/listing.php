@@ -149,7 +149,12 @@
 
 														<?php endif; ?>
 
-														<?php echo $optin->decorated->get_type_condition_labels($type_key, false); ?>
+                                                        <?php if( "shortcode" === $type_key  ) : ?>
+                                                            <?php printf( __('[%s id="'. $optin->shortcode_id .'"]', Opt_In::TEXT_DOMAIN ), Opt_In_Front::SHORTCODE );?>
+                                                        <?php elseif( "widget" !== $type_key  ) : ?>
+                                                            <?php echo $optin->decorated->get_type_condition_labels($type_key, false); ?>
+                                                        <?php endif; ?>
+
 
 													</td>
 

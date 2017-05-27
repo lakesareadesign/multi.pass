@@ -42,17 +42,25 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 
 
 			// Check if Uptime is active in the server
-			if ( WP_Hummingbird_Module_Uptime::is_remotely_enabled() ) {
-				WP_Hummingbird_Module_Uptime::enable_locally();
+			if ( wphb_is_uptime_remotely_enabled() ) {
+				wphb_uptime_enable_locally();
 			}
 			else {
-				WP_Hummingbird_Module_Uptime::disable_locally();
+				wphb_uptime_disable_locally();
 			}
 
+			// TODO: move out to the quick setup
 			if ( wphb_is_member() ) {
 				// Try to get a performance report
-				wphb_performance_init_scan();
-				wphb_performance_set_doing_report( true );
+				//wphb_performance_init_scan();
+				//wphb_performance_set_doing_report( true );
+
+				// Try to schedule next scan
+				$settings = wphb_get_settings();
+				if ( $settings['email-notifications'] ) {
+					$nextScanTime = WP_Hummingbird_Module_Performance::get_scheduled_scan_time();
+					wp_schedule_single_event( $nextScanTime, 'wphb_performance_scan' );
+				}
 			}
 
 			update_site_option( 'wphb_version', WPHB_VERSION );
@@ -84,6 +92,7 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			delete_site_option( 'wphb-last-report-score' );
 			delete_site_option( 'wphb-server-type' );
 			delete_site_transient( 'wphb-uptime-last-report' );
+			delete_site_transient( 'wphb-uptime-remotely-enabled' );
 			delete_site_option( 'wphb-is-cloudflare' );
 			wphb_cloudflare_disconnect();
 		}
@@ -159,6 +168,10 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 					self::upgrade_1_4();
 				}
 
+				if ( version_compare( $version, '1.5', '<' ) ) {
+					self::upgrade_1_5();
+				}
+
 				update_site_option( 'wphb_version', WPHB_VERSION );
 			}
 		}
@@ -176,6 +189,10 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 
 			if ( version_compare( $version, '1.4', '<' ) ) {
 				self::upgrade_1_4();
+			}
+
+			if ( version_compare( $version, '1.5', '<' ) ) {
+				self::upgrade_1_5();
 			}
 
 			update_option( 'wphb_version', WPHB_VERSION );
@@ -202,6 +219,33 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			wphb_update_settings( $options );
 
 			delete_option( 'wphb_cache_folder_error' );
+		}
+
+		private static function upgrade_1_5() {
+			// Move dont_combine list to a new combine list instead
+
+			$options = wphb_get_settings();
+			if ( ! isset( $options['dont_combine'] ) ) {
+				return;
+			}
+
+			$dont_combine = $options['dont_combine'];
+			unset( $options['dont_combine'] );
+
+			$collection = wphb_minification_get_resources_collection();
+
+			$options['combine'] = array( 'styles' => array(), 'scripts' => array() );
+			foreach ( $dont_combine as $type => $handles ) {
+				$options['combine'][ $type ] = array();
+				$type_collection = wp_list_pluck( $collection[ $type ], 'handle' );
+				foreach ( $type_collection as $type_handle ) {
+					if ( ! in_array( $type_handle, $handles ) ) {
+						$options['combine'][ $type ][] = $type_handle;
+					}
+				}
+			}
+
+			wphb_update_settings( $options );
 		}
 	}
 }

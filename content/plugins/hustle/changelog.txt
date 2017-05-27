@@ -4,6 +4,26 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 Change Log:
 ----------------------------------------------------------------------
 
+2.1.1 - 2017-05-23
+----------------------------------------------------------------------
+- Updated MailChimp integration and used their 3.0 API.
+- Updated "show less than" display condition and now works even "tracking" is off.
+- Updated listing page on each module to show shortcode on shortcode type.
+
+- Fixed activating Hustle on Multisite re-directs to an error.
+- Fixed IE styles on admin wizards.
+- Fixed IE issues on admin wizards.
+- Fixed conflict with Caldera Forms.
+- Fixed Pop-up "on click" trigger does not do preventDefault.
+- Fixed activating any plugin will redirect a Hustle user to Hustle.
+- Fixed Social Sharing wizard style issues.
+- Fixed Custom Content images not responsive.
+- Fixed Opt-in able to create duplicate additional fields.
+- Fixed IE issues when previewing Opt-in on admin.
+- Fixed Social Sharing issue: disabling "click counter" still shows counter numbers.
+- Fixed close button does not act as 'Never see this message again'.
+- Fixed Pop-up scroll issue.
+
 2.1 - 2017-04-27
 ----------------------------------------------------------------------
 - New social sharing module.
@@ -180,4 +200,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1493689576-au
+133620-1495904067-au

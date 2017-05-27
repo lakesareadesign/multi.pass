@@ -1,4 +1,5 @@
 (function($,doc,win){
+    "use strict";
 	if( inc_opt.is_upfront ) return;
 
 	/**
@@ -104,11 +105,11 @@
 
 		render: function() {
 			var html = '<a href="#" aria-label="Close" class="inc-opt-close-btn inc-opt-close-' + this.type + '">&times;</a>';
-				html += Optin.render_optin( this.opt ),
-				data = {handle: this.key, type: this.type, popup: this.opt};
+				html += Optin.render_optin( this.opt );
+            var data = {handle: this.key, type: this.type, popup: this.opt};
 
 			if ( this.add_never_see_again ) {
-				html += '<div class="wpoi-nsa"><a class="inc_opt_never_see_again">%s</a></div>'.replace("%s", inc_opt.l10n.never_see_again )
+				html += '<div class="wpoi-nsa"><a class="inc_opt_never_see_again">%s</a></div>'.replace("%s", inc_opt.l10n.never_see_again );
 			}
 
 			if( this.settings.animation_in ){
@@ -116,8 +117,10 @@
 			}
 			this.$el.addClass( ' inc_optin_' + this.optin_id );
 			this.$el.html( html );
+            
+            var provider = this.$(".wpoi-provider-args");
 
-			if ( ( provider = this.$(".wpoi-provider-args") ).length ) {
+			if ( provider.length ) {
 				// Add provider args
 				provider.html( Optin.render_provider_args( this.opt )  );
 			}
@@ -154,10 +157,12 @@
 		},
 
 		add_mask: function() {
-			var me = this;
+			var me = this,
+                no_scroll = _.isFalse(this.settings.allow_scroll_page),
+                no_bg_click = _.isFalse(this.settings.not_close_on_background_click);
             
             _.delay( $.proxy(function() {
-                if ( _.isFalse(this.settings.allow_scroll_page) ) {
+                if ( no_scroll ) {
                     $('html').addClass('no-scroll');
                 }
 
@@ -166,7 +171,7 @@
                         '<div class="wpoi-' + this.type + '-overlay"></div></div>' );
                     this.mask.insertBefore(this.$el).addClass('wpoi-show');
 
-                    if ( _.isFalse( this.settings.not_close_on_background_click ) ) {
+                    if ( no_bg_click ) {
                         this.mask.on( 'click', $.proxy( this, 'closed' ) );
                     }
                 } else {
@@ -176,7 +181,8 @@
 		},
 
 		animation_in: function() {
-			var me = this;
+			var me = this,
+                not_viewed = _.isFalse( me.viewed );
 
 			if( this.settings.animation_in ) {
 				this.$el.addClass( this.settings.animation_in );
@@ -184,7 +190,7 @@
 
 			_.delay(function(){
 
-				if ( _.isFalse( me.viewed ) ) {
+				if ( not_viewed ) {
 					// Prevent from running if display is abruptly closed
 					return;
 				}
@@ -231,13 +237,17 @@
 		},
 
 		click_trigger: function() {
-            var me = this;
+            var me = this,
+                selector = '';
             
 			if( "" !== (selector = $.trim( this.triggers.on_click_element ) )  ){
 				var $clickable = $(selector);
 
 				if( $clickable.length ) {
-					$(doc).on( 'click', selector, $.proxy( this, 'display' ) );
+					$(doc).on( 'click', selector, function(e) {
+                        e.preventDefault();
+                        me.display();
+                    } );
 				}
 			}
             
@@ -324,7 +334,7 @@
 		closed: function(e) {
 			var me = this,
 				sender = $(e.currentTarget),
-				is_never_see = this.isCC ? _.isTrue( this.settings.close_btn_as_never_see ) : _.isTrue( this.settings.close_button_acts_as_never_see );
+				is_never_see = this.isCC ? _.isTrue( this.settings.close_btn_as_never_see ) : _.isTrue( this.settings.close_button_acts_as_never_see_again );
 
 			this.viewed = false;
 			this.$el.removeClass('wpoi-show');
@@ -386,7 +396,7 @@
 				me.clean();
 			}
 
-			if ( _.isTrue( this.isCC ) && _.isFalse( this.settings.allow_scroll_page ) ) {
+			if ( _.isFalse( this.settings.allow_scroll_page ) ) {
 				$('html').removeClass('no-scroll');
 			}
 

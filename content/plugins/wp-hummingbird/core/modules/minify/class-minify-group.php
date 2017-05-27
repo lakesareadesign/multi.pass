@@ -275,7 +275,7 @@ class WP_Hummingbird_Module_Minify_Group {
 		 * @var string $source_url Source URL
 		 * @var string $type scripts|styles
 		 */
-		if ( ! apply_filters( 'wphb_combine_resource', true, $handle, $this->type, $url ) ) {
+		if ( ! apply_filters( 'wphb_combine_resource', false, $handle, $this->type, $url ) ) {
 			$this->should_do_handle( $handle, 'combine', false );
 		}
 
@@ -361,6 +361,7 @@ class WP_Hummingbird_Module_Minify_Group {
 	 *
 	 * @return float Original size in Kb
 	 */
+
 	public function get_handle_original_size( $handle ) {
 		return $this->handle_original_sizes[ $handle ];
 	}

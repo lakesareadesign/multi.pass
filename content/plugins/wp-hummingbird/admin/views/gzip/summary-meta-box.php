@@ -1,6 +1,6 @@
 <?php if ( $external_problem ): ?>
 	<div class="wphb-gzip-error wphb-notice wphb-notice-error">
-		<strong><?php _e( 'gzip is not working properly:', 'wphb' ); ?></strong>
+		<p><?php _e( 'gzip is not working properly:', 'wphb' ); ?></p>
 		<ul>
 			<li>- <?php _e( 'Your server may not have the "deflate" module enabled (mod_deflate for Apache, ngx_http_gzip_module for NGINX)', 'wphb' ); ?></li>
 			<li>- <?php _e( 'Another plugin may be interfering with the configuration', 'wphb' ); ?></li>
@@ -10,12 +10,10 @@
 <?php endif; ?>
 
 <ul class="dev-list">
-	<li class="list-header">
-		<div>
-			<span class="list-label"><?php _e( 'Compression Type', 'wphb' ); ?></span>
-			<span class="list-label tr"><?php _e( 'Status', 'wphb' ); ?></span>
-		</div>
-	</li>
+
+    <div class="content">
+        <p><?php _e( "Gzip compresses your HTML, JavaScript, and Style Sheets before sending them over to the browser. This drastically reduces transfer time since the files are much smaller.", 'wphb' ); ?></p>
+    </div>
 
 	<?php foreach ( $status as  $type => $result ): ?>
 		<?php if ( $result == 1 ) {
@@ -29,7 +27,7 @@
 			<div>
 				<span class="list-label"><?php echo $type; ?></span>
 				<span class="list-detail">
-					<span class="wphb-button-label wphb-button-label-small wphb-button-label-<?php echo $resultStatusColor; ?>" tooltip="<?php echo sprintf( __( 'Gzip compression is %s for %s', 'wphb' ), $resultStatus, $type ); ?>">
+					<span class="wphb-button-label wphb-button-label-<?php echo $resultStatusColor; ?>" tooltip="<?php echo sprintf( __( 'Gzip compression is %s for %s', 'wphb' ), $resultStatus, $type ); ?>">
 						<?php echo $resultStatus; ?>
 					</span>
 				</span>

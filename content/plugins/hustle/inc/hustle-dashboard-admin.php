@@ -16,8 +16,12 @@ class Hustle_Dashboard_Admin extends Opt_In
 
     function register_menus(){
 
+        $parent_menu_title = ( Opt_In_Utils::_is_free() )
+            ? __("Hustle", Opt_In::TEXT_DOMAIN)
+            : __("Hustle Pro", Opt_In::TEXT_DOMAIN);
+
         // Parent menu
-        add_menu_page( __("Hustle", Opt_In::TEXT_DOMAIN) , __("Hustle", Opt_In::TEXT_DOMAIN) , "manage_options", "inc_optins", array( $this, 'render_dashboard' ), self::$plugin_url . 'assets/img/icon.svg');
+        add_menu_page( $parent_menu_title , $parent_menu_title , "manage_options", "inc_optins", array( $this, 'render_dashboard' ), self::$plugin_url . 'assets/img/icon.svg');
 
         // Dashboard
         add_submenu_page( 'inc_optins', __("Dashboard", Opt_In::TEXT_DOMAIN) , __("Dashboard", Opt_In::TEXT_DOMAIN) , "manage_options", 'inc_optins',  array( $this, "render_dashboard" )  );

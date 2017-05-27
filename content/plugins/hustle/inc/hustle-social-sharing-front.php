@@ -14,19 +14,19 @@ class Hustle_Social_Sharing_Front {
     function __construct( Opt_In $hustle ) {
 
         $this->_hustle = $hustle;
+        add_shortcode( self::SHORTCODE, array($this, 'shortcode') );
 
-        add_action( 'template_redirect', array($this, 'create_ss_modules') );
+        add_filter( 'hustle_front_handler', array( $this, 'has_ss' ) );
+
+        if( is_admin() ) return;
+
+        add_action( 'template_redirect', array($this, 'create_ss_modules'), 0);
 
         add_action( 'wp_footer', array($this, 'register_styles') );
 
         add_action( 'wp_footer', array($this, 'add_social_template') );
 
         add_filter( 'hustle_register_scripts', array($this, 'register_modules') );
-
-        add_shortcode( self::SHORTCODE, array($this, 'shortcode'), 10, 2 );
-
-        add_filter( 'hustle_front_handler', array( $this, 'has_ss' ) );
-
     }
 
     /**

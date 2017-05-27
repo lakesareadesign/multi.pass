@@ -1,6 +1,6 @@
 <h3><?php echo esc_html( $title ); ?></h3>
 <?php if ( $last_report && ! is_wp_error( $last_report ) ): ?>
-	<div class="test-results wphb-performance-report-overall-score">
+	<div class="test-results wphb-performance-report-overall-score hide-on-mobile">
 		<span class="test-results-label"><?php _e( 'Overall Score', 'wphb' ); ?></span>
 		<div class="wphb-score wphb-score-have-label">
 			<div class="tooltip-box">

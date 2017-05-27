@@ -50,31 +50,30 @@ class WP_Hummingbird_Module_Uptime extends WP_Hummingbird_Module {
 		set_site_transient( 'wphb-uptime-last-report', $current_reports, 120 );
 	}
 
+	/**
+	 * Check if Uptime is remotely enabled
+	 *
+	 * @return bool
+	 */
 	public static function is_remotely_enabled() {
 		if ( ! wphb_is_member() ) {
 			return false;
 		}
 
-		$api = wphb_get_api();
-		$results = $api->uptime->check( 'week' );
-		if ( is_wp_error( $results ) ) {
+		$cached = get_site_transient( 'wphb-uptime-remotely-enabled' );
+		if ( 'yes' === $cached ) {
+			return true;
+		}
+		elseif ( 'no' === $cached ) {
 			return false;
 		}
 
-		$current_reports = get_site_transient( 'wphb-uptime-last-report' );
-		if ( ! $current_reports ) {
-			$current_reports = array();
-		}
-		$current_reports['week'] = $results;
-
-		// remotely enable, enable locally too
-		self::enable_locally();
-
-		// We actually get the results in this call so let's save them
-		set_site_transient( 'wphb-uptime-last-report', $current_reports, 10 );
-
-		return true;
+		$api = wphb_get_api();
+		$result = $api->uptime->is_enabled();
+		set_site_transient( 'wphb-uptime-remotely-enabled', $result ? 'yes' : 'no', 180 ); // save for 3 minutes
+		return $result;
 	}
+
 
 	/**
 	 * Enable Uptime local and remotely
@@ -98,11 +97,13 @@ class WP_Hummingbird_Module_Uptime extends WP_Hummingbird_Module {
 		$options = wphb_get_settings();
 		$options['uptime'] = true;
 		wphb_update_settings( $options );
+		set_site_transient( 'wphb-uptime-remotely-enabled', 'yes', 180 ); // save for 3 minutes
 	}
 
 	public static function enable_remotely() {
 		/** @var WP_Hummingbird_API $api */
 		$api = wphb_get_api();
+		delete_site_transient( 'wphb-uptime-remotely-enabled' );
 		return $api->uptime->enable();
 	}
 
@@ -110,11 +111,13 @@ class WP_Hummingbird_Module_Uptime extends WP_Hummingbird_Module {
 		$options = wphb_get_settings();
 		$options['uptime'] = false;
 		wphb_update_settings( $options );
+		set_site_transient( 'wphb-uptime-remotely-enabled', 'no', 180 ); // save for 3 minutes
 	}
 
 	public static function disable_remotely() {
 		/** @var WP_Hummingbird_API $api */
 		$api = wphb_get_api();
+		delete_site_transient( 'wphb-uptime-remotely-enabled' );
 		return $api->uptime->disable();
 	}
 

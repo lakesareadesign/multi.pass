@@ -1,7 +1,7 @@
 <?php
 /**
 Plugin Name: WP Hummingbird
-Version: 1.4.3
+Version: 1.5.0
 Plugin URI:  https://premium.wpmudev.org/project/wp-hummingbird/
 Description: Hummingbird zips through your site finding new ways to make it load faster, from file compression and minification to browser caching – because when it comes to pagespeed, every millisecond counts.
 Author: WPMU DEV
@@ -31,7 +31,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-define( 'WPHB_VERSION', '1.4.3' );
+define( 'WPHB_VERSION', '1.5' );
 /**
  * Class WP_Hummingbird
  *
@@ -88,7 +88,7 @@ class WP_Hummingbird {
 
 		add_action( 'init', array( $this, 'maybe_clear_all_cache' ) );
 
-		// This file should not exist in tyhe official release. Just for development.
+		// This file should not exist in the official release. Just for development.
 		if ( defined( 'WPHB_SAMPLE_DEV' ) && file_exists( wphb_plugin_dir() . '/sample-dev/sample-dev.php' ) ) {
 			include_once( wphb_plugin_dir() . '/sample-dev/sample-dev.php' );
 		}
@@ -102,6 +102,7 @@ class WP_Hummingbird {
 
 			if ( 'all' === $_GET['wphb-clear'] ) {
 				wphb_update_settings( wphb_get_default_settings() );
+				delete_option( 'wphb-quick-setup' );
 			}
 
 			if ( wphb_is_htaccess_written( 'gzip' ) ) {
@@ -142,6 +143,8 @@ class WP_Hummingbird {
 		include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-settings.php' );
 		/** @noinspection PhpIncludeInspection */
 		include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-modules.php' );
+		/** @noinspection PhpIncludeInspection */
+		include_once( wphb_plugin_dir() . 'helpers/wp-hummingbird-helpers-reporting.php' );
 
 
 		if ( is_admin() ) {

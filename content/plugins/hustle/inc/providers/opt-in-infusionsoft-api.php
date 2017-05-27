@@ -409,7 +409,7 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement{
         if( !$this->is_faulty() ) return false;
 
         $err = new WP_Error();
-        $err->add( (int) $this->fault->value->struct->member[0]->value, (string) $this->fault->value->struct->member[1]->value  );
+        $err->add( (int) $this->fault->value->struct->member[0]->value, (string) $this->fault->value->struct->member[1]->value  );	  	 			 			  	      
         return $err;
     }
 }

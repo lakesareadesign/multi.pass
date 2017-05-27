@@ -1,8 +1,3 @@
-<?php
-$has_count = true;
-$count_inline = true;
-?>
-
 <?php if( $admin ) : ?>
 <div class="wph-social-sharing">
 

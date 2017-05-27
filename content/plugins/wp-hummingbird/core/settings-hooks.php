@@ -26,11 +26,12 @@ function wphb_filter_resource_minify( $value, $handle, $type ) {
 add_filter( 'wphb_combine_resource', 'wphb_filter_resource_combine', 10, 3 );
 function wphb_filter_resource_combine( $value, $handle, $type ) {
 	$options = wphb_get_settings();
-	$dont_combine = $options['dont_combine'][ $type ];
-	if ( in_array( $handle, $dont_combine ) )
-		return false;
+	$combine = $options['combine'][ $type ];
+	if ( ! in_array( $handle, $combine ) ) {
+		return $value;
+	}
 
-	return $value;
+	return true;
 }
 
 add_filter( 'wphb_send_resource_to_footer', 'wphb_filter_resource_to_footer', 10, 3 );

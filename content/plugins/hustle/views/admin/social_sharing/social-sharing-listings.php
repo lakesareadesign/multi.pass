@@ -80,9 +80,17 @@
 
 								<td class="wph-module--display ">
 
-									<a class="wph-button wph-button--small wph-button--gray wph-module--edit" href="<?php echo $social_group->decorated->get_edit_url() . '&tab=display'; ?>"><?php _e('Edit', Opt_In::TEXT_DOMAIN); ?></a>
+                                    <?php if( !( "shortcode" === $type_key || "widget" === $type_key ) ) : ?>
 
-									<?php echo $social_group->decorated->get_type_condition_labels($type_key, false); ?>
+                                        <a class="wph-button wph-button--small wph-button--gray wph-module--edit" href="<?php echo $social_group->decorated->get_edit_url() . '&tab=display'; ?>"><?php _e('Edit', Opt_In::TEXT_DOMAIN); ?></a>
+
+									<?php endif; ?>
+
+                                    <?php if( "shortcode" === $type_key  ) : ?>
+                                        <?php  echo '[wd_hustle_ss id="'. $social_group->shortcode_id .'"]'; ?>
+                                    <?php elseif( "widget" !== $type_key  ) : ?>
+                                        <?php echo $social_group->decorated->get_type_condition_labels($type_key, false); ?>
+                                    <?php endif; ?>
 								</td>
 
 								<td class="wph-module--views" data-title="<?php _e('Views', Opt_In::TEXT_DOMAIN); ?>"><?php echo $social_group->get_statistics($type_key)->views_count; ?></td>

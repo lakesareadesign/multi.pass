@@ -6,9 +6,9 @@
 
 			<# if( group ){ #>
 
-				<# if(group.form_field !== "hidden"){ #>
+				<# if(group.type !== "hidden"){ #>
 
-					<label class="wpoi-mcg-list-name">{{group.name}}</label>
+					<label class="wpoi-mcg-list-name">{{group.title}}</label>
 
 				<# } #>
 
@@ -24,15 +24,15 @@
 
 				<div class="wpoi-element">
 
-					<# if( group && group.form_field !== "hidden" ){ #>
+					<# if( group && group.type !== "hidden" ){ #>
 
-						<# if(group.form_field === "dropdown"){ #>
+						<# if(group.type === "dropdown"){ #>
 							<div class="wpoi-mcg-options wpoi-mcg-select">
 
 								<select name="inc_optin_mailchimp_group_interest" class="inc_optin_mailchimp_group_interest">
 									<option value="0"><?php _e("Please select an interest", Opt_In::TEXT_DOMAIN); ?></option>
-									<# _.each(group.groups, function(interest, id){ #>
-										<option value="{{interest.label}}" {{_.selected( group.selected && group.selected.indexOf( interest.value .toString()  ) !== -1 , true )}}>{{interest.label}}</option>
+									<# _.each(group.interests, function(interest, id){ #>
+										<option value="{{interest.value}}" {{_.selected( group.selected && group.selected.indexOf( interest.value .toString()  ) !== -1 , true )}}>{{interest.label}}</option>
 									<# }); #>
 
 								</select>
@@ -40,13 +40,13 @@
 							</div>
 						<# } #>
 
-						<# if(group.form_field === "checkboxes"){ #>
+						<# if(group.type === "checkboxes"){ #>
 
 							<div class="wpoi-mcg-options">
 
-								<# _.each(group.groups, function(interest, id){ var unique = _.uniqueId(interest.value); #>
+								<# _.each(group.interests, function(interest, id){ var unique = _.uniqueId(interest.value); #>
 									<div class="wpoi-mcg-option">
-										<input name="inc_optin_mailchimp_group_interest[]" type="checkbox" id="wpoi-checkbox-id-{{unique}}" value="{{interest.label}}" {{_.checked( group.selected && group.selected.indexOf( interest.value .toString() ) !== -1 , true )}} />
+										<input name="inc_optin_mailchimp_group_interest[]" type="checkbox" id="wpoi-checkbox-id-{{unique}}" value="{{interest.value}}" {{_.checked( group.selected && group.selected.indexOf( interest.value .toString() ) !== -1 , true )}} />
 										<label for="wpoi-checkbox-id-{{unique}}">{{interest.label}}</label>
 									</div>
 								<# }); #>
@@ -55,13 +55,13 @@
 
 						<# } #>
 
-						<# if(group.form_field === "radio"){ #>
+						<# if(group.type === "radio"){ #>
 
 							<div class="wpoi-mcg-options">
 
-								<# _.each(group.groups, function(interest, id){  var unique = _.uniqueId(interest.value); #>
+								<# _.each(group.interests, function(interest, id){  var unique = _.uniqueId(interest.value); #>
 									<div class="wpoi-mcg-option">
-										<input name="inc_optin_mailchimp_group_interest" type="radio" id="wpoi-checkbox-id-{{unique}}" value="{{interest.label}}" {{_.checked( group.selected && group.selected.indexOf( interest.value .toString() ) !== -1 , true )}} />
+										<input name="inc_optin_mailchimp_group_interest" type="radio" id="wpoi-checkbox-id-{{unique}}" value="{{interest.value}}" {{_.checked( group.selected && group.selected.indexOf( interest.value .toString() ) !== -1 , true )}} />
 										<label for="wpoi-checkbox-id-{{unique}}">{{interest.label}}</label>
 									</div>
 								<# }); #>

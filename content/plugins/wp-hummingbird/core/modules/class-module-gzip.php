@@ -6,9 +6,9 @@ class WP_Hummingbird_Module_GZip extends WP_Hummingbird_Module_Server {
 
 	public function analize_data() {
 		$files = array(
-			'text/html' => add_query_arg( 'avoid-minify', 'true', get_home_url() ),
-			'text/javascript' => wphb_plugin_url() . 'core/modules/dummy/dummy-js.js',
-			'text/css' => wphb_plugin_url() . 'core/modules/dummy/dummy-style.css',
+			'HTML' => add_query_arg( 'avoid-minify', 'true', get_home_url() ),
+			'JavaScript' => wphb_plugin_url() . 'core/modules/dummy/dummy-js.js',
+			'CSS' => wphb_plugin_url() . 'core/modules/dummy/dummy-style.css',
 		);
 
 		$results = array();

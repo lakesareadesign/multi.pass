@@ -28,6 +28,7 @@ class Hustle_Settings_Admin
         $this->_hustle = $hustle;
         $this->_email_services = $email_services;
         add_action( 'admin_menu', array( $this, "register_menu" ), 99 );
+        add_action("current_screen", array( $this, "set_proper_current_screen" ) );
     }
 
     /**
@@ -59,5 +60,12 @@ class Hustle_Settings_Admin
             "email_services" => $this->_email_services,
             "providers" => $this->_hustle->get_providers()
         ));
+    }
+
+    function set_proper_current_screen( $current ){
+        global $current_screen;
+        if ( !Opt_In_Utils::_is_free() ) {
+            $current_screen->id = Opt_In_Utils::clean_current_screen($current_screen->id);
+        }
     }
 }

@@ -20,6 +20,7 @@ class WP_Hummingbird_Admin {
 
 		add_action( 'admin_footer', array( $this, 'maybe_check_files' ) );
 		add_action( 'admin_footer', array( $this, 'maybe_check_report' ) );
+		add_action( 'admin_footer', array( $this, 'maybe_show_quick_setup') );
 
 		add_filter( 'network_admin_plugin_action_links_wp-hummingbird/wp-hummingbird.php', array( $this, 'add_plugin_action_links' ) );
 		add_filter( 'plugin_action_links_wp-hummingbird/wp-hummingbird.php', array( $this, 'add_plugin_action_links' ) );
@@ -81,8 +82,7 @@ class WP_Hummingbird_Admin {
 			}
 			$this->pages['wphb-caching'] = new WP_Hummingbird_Caching_Page( 'wphb-caching', __( 'Browser Caching', 'wphb' ), __( 'Browser Caching', 'wphb' ), 'wphb' );
 			$this->pages['wphb-gzip'] = new WP_Hummingbird_GZIP_Page( 'wphb-gzip', __( 'GZIP Compression', 'wphb' ), __( 'GZIP Compression', 'wphb' ), 'wphb' );
-			$this->pages['wphb-uptime'] = new WP_Hummingbird_Uptime_Page( 'wphb-uptime', __( 'Uptime Monitoring', 'wphb' ), __( 'Uptime', 'wphb' ), 'wphb' );
-			$this->add_cloudflare_submenu();
+			$this->pages['wphb-uptime'] = new WP_Hummingbird_Uptime_Page( 'wphb-uptime', __( 'Uptime', 'wphb' ), __( 'Uptime', 'wphb' ), 'wphb' );
 		}
 		else {
 			$minify = wphb_get_setting( 'minify' );
@@ -114,17 +114,7 @@ class WP_Hummingbird_Admin {
 		$this->pages['wphb-caching'] = new WP_Hummingbird_Caching_Page( 'wphb-caching', __( 'Browser Caching', 'wphb' ), __( 'Browser Caching', 'wphb' ), 'wphb' );
 		$this->pages['wphb-gzip'] = new WP_Hummingbird_GZIP_Page( 'wphb-gzip', __( 'GZIP Compression', 'wphb' ), __( 'GZIP Compression', 'wphb' ), 'wphb' );
 		$this->pages['wphb-uptime'] = new WP_Hummingbird_Uptime_Page( 'wphb-uptime', __( 'Uptime', 'wphb' ), __( 'Uptime Monitoring', 'wphb' ), 'wphb' );
-		$this->add_cloudflare_submenu();
 	}
-
-	private function add_cloudflare_submenu() {
-		/** @var WP_Hummingbird_Module_Cloudflare $cloudflare */
-		$cloudflare = wphb_get_module( 'cloudflare' );
-		if ( $cloudflare->is_active() ) {
-			add_submenu_page( 'wphb', 'CloudFlare', 'CloudFlare', wphb_get_admin_capability(), 'admin.php?page=wphb#wphb-box-dashboard-cloudflare' );
-		}
-	}
-
 
 	/**
 	 * Return an instannce of a WP Hummingbird Admin Page
@@ -154,7 +144,7 @@ class WP_Hummingbird_Admin {
 		$enqueued = wp_script_is( 'wphb-admin', 'enqueued' );
 
 		if ( ! $enqueued )
-			wphb_enqueue_admin_scripts();
+			wphb_enqueue_admin_scripts( WPHB_VERSION );
 
 		// If we are in minification page, we should redirect when checking files is finished
 		$screen = get_current_screen();
@@ -199,9 +189,9 @@ class WP_Hummingbird_Admin {
 		$enqueued = wp_script_is( 'wphb-admin', 'enqueued' );
 
 		if ( ! $enqueued )
-			wphb_enqueue_admin_scripts();
+			wphb_enqueue_admin_scripts( WPHB_VERSION );
 
-		// If we are in minification page, we should redirect when checking files is finished
+		// If we are in performance page, we should redirect when checking files is finished
 		$screen = get_current_screen();
 		$performance_screen_id = isset( $this->pages['wphb-performance'] ) && isset( $this->pages['wphb-performance']->page_id ) ? $this->pages['wphb-performance']->page_id : false;
 		$dashboard_screen_id = isset( $this->pages['wphb'] ) && isset( $this->pages['wphb']->page_id ) ? $this->pages['wphb']->page_id : false;
@@ -225,6 +215,52 @@ class WP_Hummingbird_Admin {
 		</script>
 		<?php
 	}
+
+	/**
+	 * Show quick setup modal.
+     *
+     * @since 1.5.0
+	 */
+    public function maybe_show_quick_setup() {
+
+        // Only run on HB pages
+        $hb_pages = array(
+            'toplevel_page_wphb',
+            'hummingbird_page_wphb-performance',
+            'hummingbird_page_wphb-minification',
+            'hummingbird_page_wphb-caching',
+            'hummingbird_page_wphb-gzip',
+            'hummingbird_page_wphb-uptime',
+        );
+        if ( ! in_array( get_current_screen()->id, $hb_pages ) )
+            return;
+
+	    if ( ! is_user_logged_in() )
+		    return;
+
+	    // If setup has already ran - exit
+	    $quick_setup = get_option( 'wphb-quick-setup' );
+	    if ( true === $quick_setup['finished'] ) {
+	        return;
+        }
+
+	    $enqueued = wp_script_is( 'wphb-admin', 'enqueued' );
+
+	    if ( ! $enqueued )
+		    wphb_enqueue_admin_scripts( WPHB_VERSION );
+
+	    wphb_quick_setup_modal();
+	    wphb_check_performance_modal();
+	    ?>
+
+	    <script>
+            jQuery(document).ready( function() {
+                var module = WPHB_Admin.getModule('dashboard');
+                module.startQuickSetup();
+            });
+        </script>
+        <?php
+    }
 
 }
 

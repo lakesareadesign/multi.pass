@@ -24,19 +24,19 @@ class Opt_In_Front
         $this->_hustle = $hustle;
         add_action( 'widgets_init', array( $this, 'register_widget' ) );
 
+        add_shortcode(self::SHORTCODE, array( $this, "shortcode" ));
+
         if( is_admin() ) return;
 
         add_action('wp_enqueue_scripts', array($this, "register_scripts"));
         // Enqueue it in the footer to overrider all the css that comes with the popup
         add_action('wp_footer', array($this, "register_styles"));
 
-        add_action('template_redirect', array($this, "create_popups"));
+        add_action('template_redirect', array($this, "create_popups"), 0);
 
         add_action("wp_footer", array($this, "add_layout_templates"));
 
         add_filter("the_content", array($this, "show_after_page_post_content"), 20);
-
-        add_shortcode(self::SHORTCODE, array( $this, "shortcode" ), 10, 2);
 
         // NextGEN Gallery compat
         add_filter('run_ngg_resource_manager', array($this, 'nextgen_compat'));
@@ -48,10 +48,13 @@ class Opt_In_Front
 
     function register_scripts()
     {
+        $is_on_upfront_builder = class_exists('UpfrontThemeExporter') && function_exists('upfront_exporter_is_running') && upfront_exporter_is_running();
 
-        if( is_customize_preview() || ! $this->has_optins() || isset( $_REQUEST['fl_builder'] ) ) {
-			return;
-		}
+        if ( !$is_on_upfront_builder ) {
+            if( is_customize_preview() || ! $this->has_optins() || isset( $_REQUEST['fl_builder'] ) ) {
+                return;
+            }
+        }
 
         global $wp;
 
@@ -71,6 +74,7 @@ class Opt_In_Front
             'page_type' => $this->_hustle->current_page_type(),
             'current_url' => esc_url( home_url( $wp->request ) ),
             'is_upfront' => class_exists( "Upfront" ) && isset( $_GET['editmode'] ) && $_GET['editmode'] === "true",
+            'is_caldera_active' => class_exists( "Caldera_Forms" ),
             'adblock_detector_js' => $this->_hustle->get_static_var(  "plugin_url" ) . 'assets/js/front/ads.js',
             'l10n' => array(
                 "never_see_again" => __("Never see this message again", Opt_In::TEXT_DOMAIN),
@@ -101,9 +105,13 @@ class Opt_In_Front
 
     function register_styles()
     {
-		if ( ! $this->has_optins() || isset( $_REQUEST['fl_builder'] ) ) {
-			return;
-		}
+        $is_on_upfront_builder = class_exists('UpfrontThemeExporter') && function_exists('upfront_exporter_is_running') && upfront_exporter_is_running();
+
+        if ( !$is_on_upfront_builder ) {
+            if ( ! $this->has_optins() || isset( $_REQUEST['fl_builder'] ) ) {
+                return;
+            }
+        }
 
         wp_register_style('optin_front', $this->_hustle->get_static_var(  "plugin_url" )  . 'assets/css/front.css', array( 'dashicons' ), $this->_hustle->get_const_var(  "VERSION" ) );
 
@@ -305,7 +313,7 @@ class Opt_In_Front
         }
     }
 
-    function shortcode( $atts, $content , $a){
+    function shortcode( $atts, $content ){
         $atts = shortcode_atts( array(
             'id' => '',
             "type" => ""

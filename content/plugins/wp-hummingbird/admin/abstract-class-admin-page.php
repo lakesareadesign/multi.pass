@@ -104,15 +104,14 @@ abstract class WP_Hummingbird_Admin_Page {
 	public function on_load() {}
 
 	public function enqueue_scripts( $hook ) {
-
 		/* Enqueue Dashboard UI Shared Lib */
 		WDEV_Plugin_Ui::load( wphb_plugin_url() . 'externals/shared-ui' );
 
 		// Styles
-		wp_enqueue_style( 'wphb-admin', wphb_plugin_url() . 'admin/assets/css/admin.css' );
+		wp_enqueue_style( 'wphb-admin', wphb_plugin_url() . 'admin/assets/css/admin.css', array(), WPHB_VERSION );
 
 		// Scripts
-		wphb_enqueue_admin_scripts();
+		wphb_enqueue_admin_scripts( WPHB_VERSION );
 
 	}
 
@@ -220,7 +219,9 @@ abstract class WP_Hummingbird_Admin_Page {
 
 			$this->render_inner_content();
 		?>
-
+			<div class="footer-love">
+				<?php printf( __( 'Made with %s by WPMU DEV', 'wphb' ), '<span class="dashicons-heart dashicons"></span>' ); ?>
+			</div>
 		</div><!-- end container -->
 
 		<script>

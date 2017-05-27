@@ -50,7 +50,7 @@ function wphb_get_default_settings() {
 
 		'block' => array( 'scripts' => array(), 'styles' => array() ),
 		'dont_minify' => array( 'scripts' => array(), 'styles' => array() ),
-		'dont_combine' => array( 'scripts' => array(), 'styles' => array() ),
+		'combine' => array( 'scripts' => array(), 'styles' => array() ),
 		'position' => array( 'scripts' => array(), 'styles' => array() ),
 		'caching_expiry_css' => '8d/A691200',
 		'caching_expiry_javascript' => '8d/A691200',
@@ -66,7 +66,14 @@ function wphb_get_default_settings() {
 		'cloudflare-page-rules' => array(),
 		'cloudflare-caching-expiry' => 691200,
 
-		'use_cdn' => false
+		'use_cdn' => false,
+
+		'email-notifications' => false,
+		'email-recipients' => array( 0 => get_current_user_id() ),
+		'email-frequency' => 7,
+		'email-day' => ( '1' === get_option('start_of_week') ) ? 'Monday' : 'Sunday',
+		'email-time' => '1:00',
+
 	);
 
 	/**
@@ -78,7 +85,7 @@ function wphb_get_default_settings() {
 
 
 function wphb_get_blog_option_names() {
-	return array( 'block', 'minify-blog', 'dont_minify', 'dont_combine', 'position', 'max_files_in_group', 'last_change' );
+	return array( 'block', 'minify-blog', 'dont_minify', 'combine', 'position', 'max_files_in_group', 'last_change' );
 }
 
 
@@ -131,6 +138,7 @@ function wphb_toggle_minification( $value, $network = false ) {
 		if ( $network ) {
 			// Updating for the whole network
 			$settings['minify'] = $value;
+			$settings['use_cdn'] = $value;
 		}
 		else {
 			// Updating on subsite
@@ -145,6 +153,7 @@ function wphb_toggle_minification( $value, $network = false ) {
 	}
 	else {
 		$settings['minify'] = $value;
+		$settings['use_cdn'] = $value;
 	}
 
 	wphb_update_settings( $settings );

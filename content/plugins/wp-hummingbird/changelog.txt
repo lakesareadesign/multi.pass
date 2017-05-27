@@ -1,8 +1,24 @@
 Plugin Name: WP Hummingbird
-Author: Ignacio Cruz, Ricardo Freitas
+Author: Ignacio Cruz, Ricardo Freitas, Anton Vanyukov
 Tested up to: 4.7.3
 
 Change Log:
+
+1.5 - 2017-05-25
+----------------------------------------------------------------------
+- New: User Interface has been completely redesigned
+- New: Quick setup welcome modal
+- New: Performance Reports. This new feature allow users to schedule performance reports and get them right into their email boxes
+- New: Performance tests are now available for free users by triggering them manually
+- New: Clear Cache button
+- Enhance: Caching and Gzip are now auto checked when the plugin is activated
+- Enhance: Do not combine assets by default
+- Enhance: Uptime data is synced with WPMU DEV servers every 3 minutes
+- Enhance: Minification stats calculations improvements
+- Enhance: CloudFlare admin menu has been removed and integrated into Browser Cache screen
+- Fix: When performance test is run for the first time, previous score improvement was "Pending"
+- Fix: stylesheets with @import directives were always displayed as "Pending"
+- Fix: Various minor improvements and bug fixes
 
 1.4.3 - 2017-04-25
 ----------------------------------------------------------------------
@@ -160,4 +176,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1493689626-au
+133620-1495904077-au

@@ -874,6 +874,20 @@ Hustle.define("Optin.Design_Tab", function( $ ) {
 						$icon.attr( 'title', optin_vars.messages.module_fields.no_name );
 					}
 				}
+                
+                // check for double fields
+                if ( 'name' === input_name ) {
+                    this.$('td.wph-column-name input[name="name"]').each( function(n){
+                        if ( $(this).val() === input_val ) {
+                            errors++;
+                            var $icon = $('<span class="dashicons dashicons-warning"></span>'),
+                                error_label = optin_vars.messages.module_fields.custom_field_already_exists.replace( '{name}', input_val );
+                                
+                            input.after( $icon );
+                            $icon.attr( 'title', error_label );
+                        }
+                    } );
+                }
 
 				if ( 'checkbox' === input.attr( 'type' ) ) {
 					field[ input_name ] = input.is(':checked');

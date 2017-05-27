@@ -1,6 +1,14 @@
-<div class="row">
-	<?php $this->do_meta_boxes( 'box-uptime-disabled' ); ?>
-</div>
+<?php if ( $this->has_meta_boxes( 'box-uptime-disabled' ) ) : ?>
+    <div class="row">
+		<?php $this->do_meta_boxes( 'box-uptime-disabled' ); ?>
+    </div>
+<?php endif; ?>
+
+<?php if ( $this->has_meta_boxes( 'summary' ) ) : ?>
+    <div class="row">
+        <?php $this->do_meta_boxes( 'summary' ); ?>
+    </div>
+<?php endif; ?>
 
 <?php if ( $error ): ?>
 	<div class="row">

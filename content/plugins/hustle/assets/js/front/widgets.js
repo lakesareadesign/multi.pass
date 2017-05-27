@@ -1,6 +1,5 @@
-"use strict";
 (function( $ ) {
-	
+	"use strict";
 	/**
      * Functions for saving conversion data
      */
@@ -17,12 +16,12 @@
                 Optin.CC_log_conversion.save();
             }
 		});
-    }
+    };
 	
     /**
      * Render inline optins ( widget )
      */
-    Optin.inc_opt_render_widgets = _.debounce( function(){
+    Optin.inc_opt_render_widgets = function(use_compat){        
 		// rendering widgets, shortcodes for Custom Content
 		$(".inc_cc_widget_wrap, .inc_cc_shortcode_wrap").each(function () {
             var $this = $(this),
@@ -38,8 +37,8 @@
             if (!cc) return;
             
             var settings = $.parseJSON(cc.settings);
-            if ( settings == null ) return;
-            if ( _.isFalse( settings[type].enabled ) ) return;
+            if ( settings === null ) return;
+            if ( !_.isTrue( settings[type].enabled ) ) return;
 			
 			$this.data("handle", _.findKey(Hustle_Custom_Contents, cc));
             $this.data("type", type);
@@ -51,11 +50,11 @@
 				}
 			}
 			cc.type = type;
-			var html = Optin.render_cc_shortcode( cc, type );
+			var html = Optin.render_cc_shortcode( cc, use_compat );
 			// Optin.handle_cc_scroll( $this, type, id );
 			$this.html(html);
             
-            if ( cc.tracking_types != null && _.isTrue( cc.tracking_types[type] ) ) {
+            if ( cc.tracking_types !== null && _.isTrue( cc.tracking_types[type] ) ) {
                 _.delay(function(){
                     $(document).trigger("wpoi:cc_shortcode_or_widget_viewed", [type, id]);
                 }, _.random(0, 300));
@@ -80,8 +79,8 @@
 
             $this.data("handle", _.findKey(Optins, optin));
             $this.data("type", type);
-
-            var html = Optin.render_optin( optin );
+            
+            var html = Optin.render_optin( optin, use_compat );
 
             // Optin.handle_scroll( $this, type, optin );
 
@@ -112,11 +111,15 @@
                 if (!ss) return;
                 
                 var settings = $.parseJSON(ss.settings);
-                if ( settings == null ) return;
-                if ( _.isFalse( settings[type].enabled ) ) return;
+                if ( settings === null ) return;
+                if ( !_.isTrue( settings[type].enabled ) ) return;
                 
                 ss.parent = $this;
+                if ( typeof use_compat !== 'undefined' && use_compat ) {
+                    ss.is_compat = true;
+                }
                 
+                $this.html('');
                 if ( type == 'widget' ) {
                     new Optin.SS_widget(ss);
                 } else {
@@ -124,14 +127,15 @@
                 }
         });
 		
-    }, 50, true);
+    };
 
-    _.delay(Optin.inc_opt_render_widgets, Optin.popup_overlay_delay);
-
-    $(document).on('upfront-load', function(){
-        Optin.inc_opt_render_widgets();
-
-        Upfront.Events.on("entity:object:refresh:start entity:object:refresh preview:build:start upfront:preview:build:stop", Optin.inc_opt_render_widgets);
+    Optin.inc_opt_render_widgets(false);
+    
+    Hustle.Events.on("upfront:editor:widget:render", function(widget) {
+        Optin.inc_opt_render_widgets(true);
+    });
+    Hustle.Events.on("upfront:editor:shortcode:render", function(shortcode) {
+        Optin.inc_opt_render_widgets(true);
     });
 
 }(jQuery));

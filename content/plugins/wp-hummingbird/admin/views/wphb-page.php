@@ -7,6 +7,10 @@
 	<div class="col-half"><?php $this->do_meta_boxes( 'box-dashboard-right' ); ?></div>
 </div>
 
+<?php
+wphb_membership_modal();
+?>
+
 <script>
 	jQuery( document).ready( function () {
 		WPHB_Admin.getModule( 'dashboard' );

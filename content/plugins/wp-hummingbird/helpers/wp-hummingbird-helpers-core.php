@@ -130,7 +130,7 @@ function wphb_is_htaccess_writable() {
 	}
 
 	$home_path = get_home_path();
-	$writable = ( ! file_exists( $home_path . '.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path . '.htaccess' );	  	 	   	 		 		 		 	
+	$writable = ( ! file_exists( $home_path . '.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path . '.htaccess' );
 	return $writable;
 }
 
@@ -232,18 +232,94 @@ function wphb_uninstall() {
 	delete_site_option( 'wphb_version' );
 
 	delete_site_option( 'wphb-is-cloudflare' );
+	delete_site_option( 'wphb-quick-setup' );
 }
 
-function wphb_membership_modal( $text ) {
-	include_once( wphb_plugin_dir() . 'admin/views/membership-modal.php' );
+function wphb_membership_modal() {
+	include_once( wphb_plugin_dir() . 'admin/views/modals/membership-modal.php' );
 }
 
+/**
+ * Modal for minification check files process
+ *
+ * @since 1.5.0
+ */
+function wphb_check_files_modal() {
+	include_once( wphb_plugin_dir() . 'admin/views/modals/check-files-modal.php' );
+}
+
+/**
+ * Modal for enable cdn
+ *
+ * @since 1.5.0
+ */
+function wphb_enable_cdn_modal() {
+	include_once( wphb_plugin_dir() . 'admin/views/modals/enable-cdn-modal.php' );
+}
+
+/**
+ * Bulk update modal
+ *
+ * @since 1.5.0
+ */
+function wphb_bulk_update_modal() {
+	include_once( wphb_plugin_dir() . 'admin/views/modals/bulk-update-modal.php' );
+}
+
+/**
+ * Check performance modal
+ *
+ * @since 1.5.0
+ */
+function wphb_check_performance_modal() {
+	include_once( wphb_plugin_dir() . 'admin/views/modals/check-performance-modal.php' );
+}
+
+/**
+ * Quick setup modal (shows on first start)
+ *
+ * @since 1.5.0
+ */
+function wphb_quick_setup_modal() {
+	include_once( wphb_plugin_dir() . 'admin/views/modals/quick-setup-modal.php' );
+}
+
+/**
+ * Check if user is a paid one in WPMU DEV
+ *
+ * @return bool
+ */
 function wphb_is_member() {
 	if ( function_exists( 'is_wpmudev_member' ) ) {
 		return is_wpmudev_member();
 	}
 
 	return false;
+}
+
+/**
+ * Check if WPMU DEV Dashboard Plugin is logged in
+ *
+ * @return bool
+ */
+function wphb_is_dashboard_logged_in() {
+	if ( ! class_exists( 'WPMUDEV_Dashboard' ) ) {
+		return false;
+	}
+
+	if ( ! is_object( WPMUDEV_Dashboard::$api ) ) {
+		return false;
+	}
+
+	if ( ! method_exists( WPMUDEV_Dashboard::$api, 'has_key' ) ) {
+		return false;
+	}
+
+	return WPMUDEV_Dashboard::$api->has_key();
+}
+
+function wphb_plugin_page_link() {
+    return "https://premium.wpmudev.org/project/wp-hummingbird/";
 }
 
 function wphb_update_membership_link() {
@@ -254,12 +330,16 @@ function wphb_support_link() {
 	return "https://premium.wpmudev.org/forums/forum/support#question";
 }
 
+function wphb_cdn_link() {
+    return "https://premium.wpmudev.org/blog/should-you-use-cdn/";
+}
+
 /**
  * Enqueues admin scripts
+ *
+ * @param int $ver Current version number of scripts.
  */
-function wphb_enqueue_admin_scripts() {
-	$ver = '20160217';
-
+function wphb_enqueue_admin_scripts( $ver ) {
 	$file = wphb_plugin_url() . 'admin/assets/js/admin.min.js';
 
 	wp_enqueue_script( 'wphb-admin', $file, array( 'jquery', 'underscore' ), $ver );
@@ -286,7 +366,7 @@ function wphb_enqueue_admin_scripts() {
 		'finishedCheckURLsLink' => wphb_get_admin_menu_url( 'minification' ),
 		'toggleMinificationNonce' => wp_create_nonce( 'wphb-toggle-minification' ),
 		'discardAlert' => __( 'Are you sure? All your changes will be lost', 'wphb' ),
-		'advancedSettingsNonce' => wp_create_nonce( 'wphb-minification-advanced' )
+		'advancedSettingsNonce' => wp_create_nonce( 'wphb-minification-advanced' ),
 	);
 	wp_localize_script( 'wphb-admin', 'wphbMinificationStrings', $i10n );
 
@@ -300,7 +380,12 @@ function wphb_enqueue_admin_scripts() {
 
 	$i10n = array(
 		'performanceTestNonce' => wp_create_nonce( 'wphb-welcome-performance-test' ),
+		'performanceSaveSettingsNonce' => wp_create_nonce( 'wphb-performance-report-save-settings' ),
+		'performanceRemoveRecipientNonce' => wp_create_nonce( 'wphb-performance-report-remove-recipient' ),
+		'performanceAddRecipientNonce' => wp_create_nonce( 'wphb-performance-report-add-recipient' ),
 		'finishedTestURLsLink' => wphb_get_admin_menu_url( 'performance' ),
+        'removeButtonText' => __( 'Remove', 'wphb' ),
+        'youLabelText' => __( 'You', 'wphb' ),
 	);
 	wp_localize_script( 'wphb-admin', 'wphbPerformanceStrings', $i10n );
 
@@ -337,56 +422,6 @@ function wphb_enqueue_admin_scripts() {
 		)
 	);
 	wp_localize_script( 'wphb-admin', 'wphb', $i10n );
-}
-
-
-
-
-
-/**
- * Wrapper function for WP_Hummingbird_Module_Performance::get_last_report()
- * @return bool|mixed|void
- */
-function wphb_performance_get_last_report() {
-	return WP_Hummingbird_Module_Performance::get_last_report();
-}
-
-/**
- * Wrapper function for WP_Hummingbird_Module_Performance::refresh_report()
- */
-function wphb_performance_refresh_report() {
-	WP_Hummingbird_Module_Performance::refresh_report();
-}
-
-/**
- * Wrapper function for WP_Hummingbird_Module_Performance::is_doing_report()
- * @return bool|mixed|void
- */
-function wphb_performance_is_doing_report() {
-	return WP_Hummingbird_Module_Performance::is_doing_report();
-}
-
-/**
- * Wrapper function for WP_Hummingbird_Module_Performance::stopped_report()
- * @return mixed|void
- */
-function wphb_performance_stopped_report() {
-	return WP_Hummingbird_Module_Performance::stopped_report();
-}
-
-/**
- * Wrapper function for WP_Hummingbird_Module_Performance::set_doing_report()
- * @param bool $status
- */
-function wphb_performance_set_doing_report( $status = true ) {
-	WP_Hummingbird_Module_Performance::set_doing_report( $status );
-}
-
-/**
- * Wrapper function for WP_Hummingbird_Module_Performance::init_scan()
- */
-function wphb_performance_init_scan() {
-	WP_Hummingbird_Module_Performance::init_scan();
 }
 
 /**
@@ -648,3 +683,54 @@ function wphb_get_code_snippet( $module, $server_type = '' ) {
 	return apply_filters( 'wphb_code_snippet', $module->get_server_code_snippet( $server_type ), $server_type, $module );
 }
 
+/**
+ * Get days of week
+ *
+ * @return mixed|void
+ * @since 1.4.5
+ */
+function wphb_get_days_of_week() {
+	$timestamp = strtotime( 'next Monday' );
+	if ( 7 === get_option('start_of_week') ) {
+		$timestamp = strtotime( 'next Sunday' );
+    }
+	$days      = array();
+	for ( $i = 0; $i < 7; $i ++ ) {
+		$days[]    = strftime( '%A', $timestamp );
+		$timestamp = strtotime( '+1 day', $timestamp );
+	}
+
+	return apply_filters( 'wphb_scan_get_days_of_week', $days );
+}
+
+/**
+ * Return times frame for selectbox
+ *
+ * @since 1.4.5
+ */
+function wphb_get_times() {
+	$data = array();
+	for ( $i = 0; $i < 24; $i ++ ) {
+		foreach ( apply_filters( 'wphb_scan_get_times_interval', array( '00', '30' ) ) as $min ) {
+			$time          = $i . ':' . $min;
+			$data[ $time ] = apply_filters( 'wphb_scan_get_times_hour_min', $time );
+		}
+	}
+
+	return apply_filters( 'wphb_scan_get_times', $data );
+}
+
+
+/**
+ * Display the still having trouble link if it's a member
+ *
+ * @internal
+ */
+function _wphb_still_having_trouble_link() {
+	if ( ! wphb_is_member() ) {
+		return;
+	}
+	?>
+	<p><?php _e( 'Still having trouble? ', 'wphb' ); ?><a target="_blank" href="<?php echo wphb_support_link(); ?>"><?php _e( 'Open a support ticket.', 'wphb' ); ?></a></p>
+	<?php
+}

@@ -1,7 +1,6 @@
 <h3><?php echo esc_html( $title ); ?></h3>
 <?php if ( $last_report && ! is_wp_error( $last_report ) ): ?>
-	<div class="test-results wphb-performance-report-overall-score">
-		<span class="test-results-label"><?php _e( 'Overall Score', 'wphb' ); ?></span>
+	<div class="test-results wphb-performance-report-overall-score hide-on-mobile">
 		<div class="wphb-score wphb-score-have-label">
 			<div class="tooltip-box">
 				<div class="wphb-score-result wphb-score-result-grade-<?php echo $last_report->score_class ?>" tooltip="<?php echo $last_report->score; ?>/100">

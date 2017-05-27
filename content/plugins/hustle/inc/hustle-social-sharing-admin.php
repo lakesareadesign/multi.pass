@@ -41,6 +41,11 @@ class Hustle_Social_Sharing_Admin extends Opt_In {
 
     function set_proper_current_screen_for_new_page( $current ){
         global $current_screen;
+
+        if ( !Opt_In_Utils::_is_free() ) {
+            $current_screen->id = Opt_In_Utils::clean_current_screen($current_screen->id);
+        }
+
         if( isset( $current_screen ) && "hustle_page_inc_hustle_social_sharing" === $current_screen->id && isset( $_GET['id'] ) && "-1" === $_GET['id'] )
             $current_screen->id .= "_new";
 

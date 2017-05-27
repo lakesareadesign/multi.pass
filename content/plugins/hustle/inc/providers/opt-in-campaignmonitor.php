@@ -12,7 +12,7 @@ if( !class_exists( "CS_REST_Clients" ) )
     require_once Opt_In::$vendor_path . 'campaignmonitor/createsend-php/csrest_clients.php';
 
 if( !class_exists( "CS_REST_Lists" ) )
-    require_once Opt_CS_REST_ListsIn::$vendor_path . 'campaignmonitor/createsend-php/csrest_lists.php';
+    require_once Opt_In::$vendor_path . 'campaignmonitor/createsend-php/csrest_lists.php';
 
 class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In_Provider_Interface
 {

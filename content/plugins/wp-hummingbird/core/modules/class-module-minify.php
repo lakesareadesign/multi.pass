@@ -181,7 +181,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 	}
 
 	/**
-	 * Filter styles
+	 * Filter scripts
 	 *
 	 * @param array $handles list of scripts slugs
 	 *
@@ -720,16 +720,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 
 		WP_Hummingbird_Sources_Collector::clear_collection();
 
-		$groups = WP_Hummingbird_Module_Minify_Group::get_minify_groups();
-
-		foreach ( $groups as $group ) {
-			$path = get_post_meta( $group->ID, '_path', true );
-			if ( $path ) {
-				wp_delete_file( $path );
-			}
-			wp_delete_post( $group->ID );
-			wp_cache_delete( 'wphb_minify_groups' );
-		}
+		wphb_minification_clear_files();
 
 		if ( $reset_settings ) {
 			// Reset the minification settings
@@ -737,7 +728,7 @@ class WP_Hummingbird_Module_Minify extends WP_Hummingbird_Module {
 			$default_options = wphb_get_default_settings();
 			$options['block'] = $default_options['block'];
 			$options['dont_minify'] = $default_options['dont_minify'];
-			$options['dont_combine'] = $default_options['dont_combine'];
+			$options['combine'] = $default_options['combine'];
 			$options['position'] = $default_options['position'];
 			wphb_update_settings( $options );
 		}

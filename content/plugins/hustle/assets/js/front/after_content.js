@@ -1,4 +1,5 @@
 (function( $ ) {
+    "use strict";
 	if( inc_opt.is_upfront ) return;
 
 	Optin = window.Optin || {};

@@ -1,5 +1,5 @@
 (function($, doc, win){
-    if( inc_opt.is_upfront ) return;
+    "use strict";
     
     var Optin = window.Optin || {};
     
@@ -31,7 +31,7 @@
         'vkontakte': 'https://vk.com/share.php?url=',
     };
     
-    Optin.Social_Sharing = Optin.View.extend({
+    Optin.Social_Sharing = Backbone.View.extend({
         template: Optin.template("hustle-social-tpl"),
         events: {
             'click a.native-social-share': 'click_social_native',
@@ -43,8 +43,11 @@
             this.services = opts.services;
             this.appearance = opts.appearance;
             this.floating_social = opts.floating_social;
+            this.is_compat = ( typeof opts.is_compat !== 'undefined' ) 
+                ? true
+                : false;
             
-            if ( typeof opts.parent != 'undefined' ) {
+            if ( typeof opts.parent !== 'undefined' ) {
                 this.parent = opts.parent;
             }
             
@@ -64,7 +67,19 @@
         render: function(args){
             var parent_container = this.parent,
                 location_align_x = this.model_json.location_align_x,
-                location_align_y = this.model_json.location_align_y;
+                location_align_y = this.model_json.location_align_y,
+                current_tpl_settings = _.templateSettings;
+                
+            // if needs compatibility e.g. upfront which uses another _.templateSettings
+            if ( this.is_compat ) {
+                Optin.global_mixin();
+                // force our _.templateSettings setup
+                _.templateSettings = {
+                    evaluate:    /<#([\s\S]+?)#>/g,
+                    interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
+                    escape:      /\{\{([^\}]+?)\}\}(?!\})/g
+                };
+            }
             
             this.setElement( this.template( _.extend( {}, this.model_json ) ) );
             
@@ -73,12 +88,18 @@
                     parent_container = $('#content');
                 } else if ( this.model_json.location_type == 'selector' ) {
                     parent_container = $( this.model_json.location_target );
+                } else {
+                    parent_container = $('body');
                 }
             }
+            
             if ( parent_container.length == 0 ) return;
             this.$el.appendTo(parent_container);
             
-            var $main_container = $(parent_container).find('.wph-social-sharing-' + this.model_json.id ),
+            var $widget_ss = $('.inc_social_sharing_widget_wrap .wph-social-sharing, .inc_social_sharing_shortcode_wrap .wph-social-sharing'),
+                $main_container = ( this.module_display_type === 'floating_social' )
+                ? $(parent_container).find('.wph-social-sharing-' + this.model_json.id ).not($widget_ss)
+                : $(parent_container).find('.wph-social-sharing-' + this.model_json.id ),
                 $sshare_container = $main_container.find('.wph-sshare--container');
             
             this._handle_icons_order();
@@ -102,7 +123,9 @@
                 
                 if ( this.model_json.service_type == 'native' ) {
                     native_class = 'native-social-share';
-                    icon_html += '<div class="wph-sshare_social_counter"><span>'+ data.counter +'</span></div>'; 
+                    if ( _.isTrue( this.model_json.click_counter ) ) {
+                        icon_html += '<div class="wph-sshare_social_counter"><span>'+ data.counter +'</span></div>';
+                    }
                 }
                 
                 var social_sharing_html = '<a data-social="'+ key +'" class="'+ native_class +'" href="'+ link +'" '+ target +' >'+ icon_html +'</a>';
@@ -138,6 +161,11 @@
                         $sshare_container.addClass('wph-sshare--count_block');
                     }
                 }
+            }
+            
+            // after getting the template, revert back to previous _.templateSettings
+            if ( this.is_compat ) {
+                _.templateSettings = current_tpl_settings;
             }
             
             this.html = this.$el.html();
@@ -216,11 +244,13 @@
             }
         },
         _update_social_counter: function($a){
-            var $counter = $a.find('.wph-sshare_social_counter span');
-            if ( $counter.length ) {
-                var val = parseInt($counter.text()) + 1;
-                $counter.text(val);
-            }
+            _.delay(function(){
+                var $counter = $a.find('.wph-sshare_social_counter span');
+                if ( $counter.length ) {
+                    var val = parseInt($counter.text()) + 1;
+                    $counter.text(val);
+                }
+            }, 5000);
         },
         log_view: function( type, ss ){
             if ( ss.tracking_types != null && _.isTrue( ss.tracking_types[type] ) ) {
@@ -230,11 +260,12 @@
                     logView.set( 'id', ss.optin_id );
                     logView.save();
                 }
-                if( !window.hasOwnProperty( "optin_vars" ) ){ // don't set cookie in admin
-                    var show_count_key = Hustle.consts.SS_Module_Show_Count + type + "-" + ss.optin_id,
-                        current_show_count = Hustle.cookie.get( show_count_key );
-                    Hustle.cookie.set( show_count_key, current_show_count + 1, 90 );
-                }
+            }
+            // set cookies used for "show less than" display condition
+            if( !window.hasOwnProperty( "optin_vars" ) ){ // don't set cookie in admin
+                var show_count_key = Hustle.consts.SS_Module_Show_Count + type + "-" + ss.optin_id,
+                    current_show_count = Hustle.cookie.get( show_count_key );
+                Hustle.cookie.set( show_count_key, current_show_count + 1, 90 );
             }
         },
         log_conversion: function( type, ss, source, service_type ) {

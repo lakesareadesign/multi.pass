@@ -363,7 +363,7 @@ class WP_Hummingbird_Module_Cloudflare extends WP_Hummingbird_Module {
 		$api->cloudflare->set_auth_email( wphb_get_setting( 'cloudflare-email' ) );
 		$api->cloudflare->set_auth_key( wphb_get_setting( 'cloudflare-api-key' ) );
 		$result = $api->cloudflare->purge_cache( $zone );
-		return $result->result->value;
+		return $result->result;
 	}
 
 

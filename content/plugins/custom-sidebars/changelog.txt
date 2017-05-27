@@ -1,14 +1,27 @@
 Plugin Name: Custom Sidebars Pro
 Author: Javier Marquez (Incsub), Philipp Stracker (Incsub), Marcin Pietrzak (Incsub)
-Buildtime: 2017-05-08T08:34:42.551Z
+Buildtime: 2017-05-25T17:38:37.261Z
 
 Change Log:
 ----------------------------------------------------------------------
 
+3.0.8 ( 2017-xx-xx )
+
+3.0.7.1 ( 2017-05-25 )
+- Fixed visibility of Custom Explain - now it is visible only for administrators.
+
+3.0.7 ( 2017-05-25 )
+- Added ability to replace sidebars for category archive.
+- Added ability to replace sidebars for custom taxonomy archive.
+- Added ability to turn on Custom Sidebars Explain mode from Admin Bar.
+- Fixed a replacement problem on 404 pages.
+- Improved "Sidebar Location" popup - added a message when we do not have any replaceable sidebar.
+- Refactored "Column Sidebars" on post list screen.
+
 3.0.6 ( 2017-05-11 )
 - Added width to "Custom Sidebars" column on entries list screen to avoid uncontrolled column width.
 - Added ability to add new sidebar using the only keyboard, after you fill name just push enter to move to the description field. Hit enter on description field to add a new sidebar.
-- Fixed "WPMUDEV Frash" module message for pro version.
+- Fixed "WPMUDEV Frash" message for pro version.
 
 3.0.5 ( 2017-04-25 )
 - Improved columns display on post list screen - now "Custom Sidebars" column is hidden by default.
@@ -353,4 +366,4 @@ Change Log:
 - Initial release
 
 
-133620-1495482835-au
+133620-1495904061-au

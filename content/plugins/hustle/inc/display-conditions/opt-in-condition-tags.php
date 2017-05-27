@@ -5,11 +5,15 @@ class Opt_In_Condition_Tags extends Opt_In_Condition_Abstract implements Opt_In_
     function is_allowed(Hustle_Model $optin){
 
 		if ( !isset( $this->args->tags ) || empty( $this->args->tags ) ) {
-			if ( !isset($this->args->filter_type) || $this->args->filter_type == "except" ) {
-				return true;
-			} else {
-				return false;
-			}
+            if ( !is_singular() ) {
+                if ( !isset($this->args->filter_type) || $this->args->filter_type == "except" ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
 		} elseif ( in_array("all", $this->args->tags) ) {
 			if ( !isset($this->args->filter_type) || $this->args->filter_type == "except" ) {
 				return false;

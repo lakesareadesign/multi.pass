@@ -1,14 +1,6 @@
 <h3><?php echo esc_html( $title ); ?></h3>
-<div class="buttons buttons-large">
-	<span class="spinner left"></span>
-	<div class="toggle-group toggle-group-with-buttons">
-		<div class="tooltip-box">
-			<span class="toggle" tooltip="<?php _e( 'Disable Minification', 'wphb' ); ?>">
-				<input type="checkbox" id="wphb-disable-minification" class="toggle-checkbox" name="wphb-disable-minification" checked>
-				<label for="wphb-disable-minification" class="toggle-label"></label>
-			</span>
-		</div>
-	</div>
-	<button class="button button-grey wphb-discard" <?php disabled( true ); ?>><?php esc_attr_e( 'Discard Changes', 'wphb' ); ?></button>
-	<input type="submit" class="button button-app" name="submit" value="<?php esc_attr_e( 'Save Changes', 'wphb' ); ?>" />
+<div class="buttons buttons-group">
+    <p class="wphb-label-notice-inline hide-to-mobile"><?php _e( 'Not seeing all your files in this list?', 'wphb' ); ?></p>
+    <input type="submit" class="button button-ghost" name="clear-cache" value="<?php esc_attr_e( 'Re-Check Files', 'wphb' ); ?>"/>
+    <a href="<?php echo esc_url( add_query_arg( 'wphb-clear', 'true' ) ); ?>" class="button button-ghost"><?php _e( 'Start over', 'wphb' ); ?></a>
 </div>

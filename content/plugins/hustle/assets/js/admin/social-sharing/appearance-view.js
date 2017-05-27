@@ -51,7 +51,9 @@ Hustle.define("Social_Sharing.Appearance_View", function($, doc, win){
                 var preview_icon_html = icon_template_html,
                     native_class = ''; 
                 if ( this.service_model_json.service_type == 'native' ) {
-                    preview_icon_html += '<div class="wph-sshare_social_counter"><span>'+ data.counter +'</span></div>';
+                    if ( _.isTrue( this.service_model_json.click_counter ) ) {
+                        preview_icon_html += '<div class="wph-sshare_social_counter"><span>'+ data.counter +'</span></div>';
+                    }
                     native_class = 'native-social-share';
                 }
                 var floating_preview_icon_html = '<a data-social="'+ key +'" href="#" class="'+ native_class +'" target="_blank">'+ preview_icon_html +'</a>';

@@ -80,6 +80,13 @@ class Opt_In_Db {
      * @return array
      */
     private function _get_tables(){
+        global $wpdb;
+
+        $collate = '';
+        if ( !empty( $wpdb->collate ) ) {
+            $collate .= " COLLATE " . $wpdb->collate;
+        }
+
         return array(
                 self::TABLE_OPT_IN  => array(
                     '`optin_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT',
@@ -98,8 +105,8 @@ class Opt_In_Db {
                 self::TABLE_OPT_IN_META => array(
                     "`meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT",
                     "`optin_id` bigint(20) unsigned NOT NULL DEFAULT '0'",
-                    "`meta_key` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL",
-                    "`meta_value` longtext COLLATE utf8mb4_unicode_ci",
+                    "`meta_key` varchar(191) " . $collate . " DEFAULT NULL",
+                    "`meta_value` longtext " . $collate,
                     "PRIMARY KEY (`meta_id`)",
                     "KEY `optin_id` (`optin_id`)",
                     "KEY `meta_key` (`meta_key`(191))"

@@ -2,12 +2,20 @@
 
 	<div class="wphb-block-entry-content">
 
-		<img class="wphb-image-icon-content wphb-image-icon-content-top wphb-image-icon-content-center" src="<?php echo wphb_plugin_url() . 'admin/assets/image/icon-uptime-small.png'; ?>" alt="<?php _e('Uptime Monitoring', 'wphb'); ?>">
-
 		<div class="content">
-			<p><?php _e( 'Uptime can monitor your website and let you know when it goes down.<br> In addition, he’ll also let you know the response time of your server which directly impacts how fast visitors can access your site.<br> This service requires an active WPMU DEV Membership, get one today!', 'wphb' ); ?></p>
-			<a target="_blank" class="button button-cta-green button-content-cta" href="<?php echo wphb_update_membership_link(); ?>" id="dash-uptime-update-membership"><?php _e( 'Update Membership', 'wphb' ); ?></a>
+			<p><?php _e( 'Monitor your website and get notified if/when it’s inaccessible. We’ll also watch your server response time.', 'wphb' ); ?></p>
 		</div><!-- end content -->
+
+        <div class="content-box content-box-two-cols-image-left">
+            <div class="wphb-block-entry-content wphb-upsell-free-message">
+                <p>
+	                <?php printf(
+		                __( 'Performance improvements hardly matter if your website isn’t accessible. Monitor your uptime and downtime with WPMU DEV’s Uptime Monitoring website management tool. &mdash; <a href="%s" rel="dialog">Try Pro for FREE today!</a>', 'wphb' ),
+		                '#wphb-upgrade-membership-modal'
+	                ); ?>
+                </p>
+            </div>
+        </div>
 
 	</div><!-- end wphb-block-entry-content -->
 

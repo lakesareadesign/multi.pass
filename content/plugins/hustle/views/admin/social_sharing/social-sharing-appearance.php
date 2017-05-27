@@ -183,65 +183,161 @@
 
 				            <div class="tabs-content {{ ( customize_colors == 1 ) ? 'current' : '' }}">
 
+								<?php /* WHAT TO DISPLAY
+								CHEATSHEET FOR FLOATING SOCIAL CUSTOM COLORS
+
+								NATIVE SHARE:
+								ICON STYLE #1: Icon Color + Counter Border
+								ICON STYLE #2: Icon Color + Counter Border
+								ICON STYLE #3: Icon Color + Icon Background + Counter Border
+								ICON STYLE #4: Icon Color + Icon Background + Counter Border
+
+								LINKED ICONS:
+								ICON STYLE #1: Icon Color
+								ICON STYLE #2: Icon Color + Icon Border
+								ICON STYLE #3: Icon Color + Icon Background
+								ICON STYLE #4: Icon Color + Icon Background
+								*/ ?>
+
 					            <div id="wps-color--custom">
 
 						            <div class="row">
 
-							            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<# if ( service_type === "native" ) { #>
 
-								            <div class="wph-pickers wph-pickers--single">
+											<# if ( icon_style === "three" || icon_style === "four" ) { #>
 
-												<div class="wph-pickers--color">
+												<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
-													<input type="text" class="wph-color-picker" id="sshare_icon_bg" value="{{icon_bg_color}}" data-attribute="icon_bg_color" data-alpha="true">
+													<div class="wph-pickers wph-pickers--single">
 
-												</div>
+														<div class="wph-pickers--color">
 
-											</div>
+															<input type="text" class="wph-color-picker" id="sshare_icon_bg" value="{{icon_bg_color}}" data-attribute="icon_bg_color" data-alpha="true">
 
-											<label><?php _e('Icon BG', Opt_In::TEXT_DOMAIN); ?></label>
+														</div>
 
-							            </div>
+													</div>
 
-							            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-
-								            <div class="wph-pickers wph-pickers--single">
-
-												<div class="wph-pickers--color">
-
-													<input type="text" class="wph-color-picker" id="sshare_icon_color" value="{{icon_color}}" data-attribute="icon_color" data-alpha="true">
+													<label><?php _e('Icon BG', Opt_In::TEXT_DOMAIN); ?></label>
 
 												</div>
 
+											<# } #>
+
+											<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+												<div class="wph-pickers wph-pickers--single">
+
+													<div class="wph-pickers--color">
+
+														<input type="text" class="wph-color-picker" id="sshare_icon_color" value="{{icon_color}}" data-attribute="icon_color" data-alpha="true">
+
+													</div>
+
+												</div>
+
+												<label><?php _e('Icon Color', Opt_In::TEXT_DOMAIN); ?></label>
+
 											</div>
 
-											<label><?php _e('Icon Color', Opt_In::TEXT_DOMAIN); ?></label>
+											<# if ( icon_style === "one" || icon_style === "two" ){ #>
 
-							            </div>
+												<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+													<div class="wph-pickers wph-pickers--single">
+
+														<div class="wph-pickers--color">
+
+															<input type="text" class="wph-color-picker" id="sshare_counter_border" value="{{counter_border}}" data-attribute="counter_border" data-alpha="true">
+
+														</div>
+
+													</div>
+
+													<label><?php _e('Counter Border', Opt_In::TEXT_DOMAIN); ?></label>
+
+												</div>
+
+											<# } #>
+
+										<# } #>
+
+										<# if ( service_type === "linked" ) { #>
+
+											<# if ( icon_style !== "one" ) { #>
+
+												<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+													<div class="wph-pickers wph-pickers--single">
+
+														<div class="wph-pickers--color">
+
+															<input type="text" class="wph-color-picker" id="sshare_icon_bg" value="{{icon_bg_color}}" data-attribute="icon_bg_color" data-alpha="true">
+
+														</div>
+
+													</div>
+
+													<# if ( icon_style === "two" ) { #>
+
+														<label><?php _e('Icon Border', Opt_In::TEXT_DOMAIN); ?></label>
+
+													<# } else { #>
+
+														<label><?php _e('Icon BG', Opt_In::TEXT_DOMAIN); ?></label>
+
+													<# } #>
+
+												</div>
+
+											<# } #>
+
+											<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+												<div class="wph-pickers wph-pickers--single">
+
+													<div class="wph-pickers--color">
+
+														<input type="text" class="wph-color-picker" id="sshare_icon_color" value="{{icon_color}}" data-attribute="icon_color" data-alpha="true">
+
+													</div>
+
+												</div>
+
+												<label><?php _e('Icon Color', Opt_In::TEXT_DOMAIN); ?></label>
+
+											</div>
+
+										<# } #>
 
 						            </div>
 
-                                    <div class="row">
+									<# if ( service_type === "native" && ( icon_style === "three" || icon_style === "four" ) ) { #>
 
-							            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<div class="row">
 
-								            <div class="wph-pickers wph-pickers--single">
+											<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
-												<div class="wph-pickers--color">
+												<div class="wph-pickers wph-pickers--single">
 
-													<input type="text" class="wph-color-picker" id="sshare_counter_border" value="{{counter_border}}" data-attribute="counter_border" data-alpha="true">
+													<div class="wph-pickers--color">
+
+														<input type="text" class="wph-color-picker" id="sshare_counter_border" value="{{counter_border}}" data-attribute="counter_border" data-alpha="true">
+
+													</div>
 
 												</div>
 
+												<label><?php _e('Counter Border', Opt_In::TEXT_DOMAIN); ?></label>
+
 											</div>
 
-											<label><?php _e('Counter Border', Opt_In::TEXT_DOMAIN); ?></label>
+											<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6"></div>
 
-							            </div>
+										</div>
 
-							            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6"></div>
-
-						            </div>
+									<# } #>
 
 					            </div>
 

@@ -156,7 +156,7 @@ class ClientDash_Core_Page_Settings_Tab_Menus extends ClientDash {
 			),
 		),
 		'Links'      => array(
-			'url'        => 'link-manager.php',
+			'url'        => 'edit-tags.php?taxonomy=link_category',
 			'icon'       => 'dashicons-admin-links',
 			'capability' => 'manage_links',
 			'submenus'   => array(
@@ -195,7 +195,7 @@ class ClientDash_Core_Page_Settings_Tab_Menus extends ClientDash {
 			'capability' => 'edit_posts',
 			'submenus'   => array(
 				'All Comments' => array(
-					'url'        => 'index.php',
+					'url'        => 'edit-comments.php',
 					'capability' => 'edit_posts',
 				),
 			),
@@ -949,7 +949,7 @@ class ClientDash_Core_Page_Settings_Tab_Menus extends ClientDash {
 	 *
 	 * @return string The new Walker class.
 	 */
-	public function return_new_walker_menu( $walker, $menu ) {
+	public function return_new_walker_menu( $walker, $menu = null ) {
 
 		if ( ! $menu ) {
 			return $walker;

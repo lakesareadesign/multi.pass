@@ -2,8 +2,6 @@
 
 	<div class="wphb-block-entry-content">
 
-		<img class="wphb-image-icon-content wphb-image-icon-content-top wphb-image-icon-content-center" src="<?php echo wphb_plugin_url() . 'admin/assets/image/icon-minification-small.png'; ?>" alt="<?php _e('Minification', 'wphb'); ?>">
-
 		<div class="content">
 			<p><?php _e( 'Minification can be a bit daunting to configure for beginners, and has the potential to break the frontend of a site. You can choose here who can configure Minification options on subsites in your Multisite install.', 'wphb' ); ?></p>
 

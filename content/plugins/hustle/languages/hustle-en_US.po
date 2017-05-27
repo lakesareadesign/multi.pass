@@ -1109,7 +1109,7 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: inc/hustle-custom-content-admin-ajax.php:77, inc/hustle-custom-content-admin-ajax.php:104, inc/hustle-custom-content-admin-ajax.php:132, inc/hustle-social-sharing-admin-ajax.php:72, inc/hustle-social-sharing-admin-ajax.php:95, inc/hustle-social-sharing-admin-ajax.php:122, inc/opt-in-admin-ajax.php:223, inc/opt-in-admin-ajax.php:251, inc/opt-in-admin-ajax.php:278
+#: inc/hustle-custom-content-admin-ajax.php:77, inc/hustle-custom-content-admin-ajax.php:104, inc/hustle-custom-content-admin-ajax.php:132, inc/hustle-social-sharing-admin-ajax.php:72, inc/hustle-social-sharing-admin-ajax.php:95, inc/hustle-social-sharing-admin-ajax.php:122, inc/opt-in-admin-ajax.php:223, inc/opt-in-admin-ajax.php:251, inc/opt-in-admin-ajax.php:278, views/admin/listing.php:153
 msgstr ""
 
 #: inc/hustle-custom-content-admin-ajax.php:155, inc/hustle-social-sharing-admin-ajax.php:145
@@ -1128,27 +1128,27 @@ msgstr ""
 msgid "Hustle features all-new animations and variations! To check out what’s new, start editing your pop-ups."
 msgstr ""
 
-#: inc/hustle-custom-content-admin.php:81, inc/opt-in-admin.php:242, views/admin/ccontent/ccontent-preview-container.php:25, views/admin/ccontent/ccontent-settings.php:43, views/admin/ccontent/ccontent-welcome.php:59, views/admin/optins/optins-preview-container.php:33, views/admin/optins/optins-welcome.php:59
+#: inc/hustle-custom-content-admin.php:81, inc/opt-in-admin.php:243, views/admin/ccontent/ccontent-preview-container.php:25, views/admin/ccontent/ccontent-settings.php:43, views/admin/ccontent/ccontent-welcome.php:59, views/admin/optins/optins-preview-container.php:33, views/admin/optins/optins-welcome.php:59
 msgid "After Content"
 msgstr ""
 
-#: inc/hustle-custom-content-admin.php:82, inc/hustle-dashboard-data.php:85, inc/opt-in-admin.php:239, inc/opt-in-admin.php:535, views/admin/wpoi-wizard-settings.php:164, views/admin/ccontent/ccontent-preview-container.php:23, views/admin/ccontent/ccontent-settings.php:52, views/admin/ccontent/ccontent-welcome.php:117, views/admin/optins/optins-preview-container.php:31, views/admin/optins/optins-welcome.php:117
+#: inc/hustle-custom-content-admin.php:82, inc/hustle-dashboard-data.php:85, inc/opt-in-admin.php:240, inc/opt-in-admin.php:544, views/admin/wpoi-wizard-settings.php:164, views/admin/ccontent/ccontent-preview-container.php:23, views/admin/ccontent/ccontent-settings.php:52, views/admin/ccontent/ccontent-welcome.php:117, views/admin/optins/optins-preview-container.php:31, views/admin/optins/optins-welcome.php:117
 msgid "Pop-up"
 msgstr ""
 
-#: inc/hustle-custom-content-admin.php:83, inc/hustle-dashboard-data.php:86, inc/opt-in-admin.php:240, inc/opt-in-admin.php:536, views/admin/wpoi-wizard-settings.php:372, views/admin/wpoi-wizard-settings.php:605, views/admin/ccontent/ccontent-preview-container.php:24, views/admin/ccontent/ccontent-settings.php:64, views/admin/ccontent/ccontent-welcome.php:77, views/admin/optins/optins-preview-container.php:32, views/admin/optins/optins-welcome.php:77
+#: inc/hustle-custom-content-admin.php:83, inc/hustle-dashboard-data.php:86, inc/opt-in-admin.php:241, inc/opt-in-admin.php:545, views/admin/wpoi-wizard-settings.php:372, views/admin/wpoi-wizard-settings.php:605, views/admin/ccontent/ccontent-preview-container.php:24, views/admin/ccontent/ccontent-settings.php:64, views/admin/ccontent/ccontent-welcome.php:77, views/admin/optins/optins-preview-container.php:32, views/admin/optins/optins-welcome.php:77
 msgid "Slide-in"
 msgstr ""
 
-#: inc/hustle-custom-content-admin.php:84, inc/hustle-dashboard-data.php:87, inc/hustle-social-sharing-admin.php:34, inc/opt-in-admin.php:537, views/admin/ccontent/ccontent-welcome.php:135, views/admin/optins/optins-welcome.php:135, views/admin/social_sharing/social-sharing-welcome.php:99
+#: inc/hustle-custom-content-admin.php:84, inc/hustle-dashboard-data.php:87, inc/hustle-social-sharing-admin.php:34, inc/opt-in-admin.php:546, views/admin/ccontent/ccontent-welcome.php:135, views/admin/optins/optins-welcome.php:135, views/admin/social_sharing/social-sharing-welcome.php:99
 msgid "Shortcode"
 msgstr ""
 
-#: inc/hustle-custom-content-admin.php:85, inc/hustle-dashboard-data.php:88, inc/hustle-social-sharing-admin.php:35, inc/opt-in-admin.php:538, views/admin/ccontent/ccontent-welcome.php:95, views/admin/optins/optins-welcome.php:95, views/admin/social_sharing/social-sharing-welcome.php:77
+#: inc/hustle-custom-content-admin.php:85, inc/hustle-dashboard-data.php:88, inc/hustle-social-sharing-admin.php:35, inc/opt-in-admin.php:547, views/admin/ccontent/ccontent-welcome.php:95, views/admin/optins/optins-welcome.php:95, views/admin/social_sharing/social-sharing-welcome.php:77
 msgid "Widget"
 msgstr ""
 
-#: inc/hustle-custom-content-decorator.php:243, inc/hustle-social-sharing-decorator.php:45, inc/opt-in-admin.php:308, inc/opt-in-decorator.php:338
+#: inc/hustle-custom-content-decorator.php:243, inc/hustle-social-sharing-decorator.php:45, inc/opt-in-admin.php:309, inc/opt-in-decorator.php:338
 msgid "Show everywhere"
 msgstr ""
 
@@ -1164,15 +1164,19 @@ msgstr ""
 msgid "Stats Successfully saved"
 msgstr ""
 
-#: inc/hustle-dashboard-admin.php:20, inc/hustle-dashboard-admin.php:20, inc/opt-in-widget.php:20
+#: inc/hustle-dashboard-admin.php:20, inc/opt-in-widget.php:20
 msgid "Hustle"
 msgstr ""
 
-#: inc/hustle-dashboard-admin.php:23, inc/hustle-dashboard-admin.php:23
+#: inc/hustle-dashboard-admin.php:21
+msgid "Hustle Pro"
+msgstr ""
+
+#: inc/hustle-dashboard-admin.php:27, inc/hustle-dashboard-admin.php:27
 msgid "Dashboard"
 msgstr ""
 
-#: inc/hustle-dashboard-data.php:84, inc/opt-in-admin.php:534
+#: inc/hustle-dashboard-data.php:84, inc/opt-in-admin.php:543
 msgid "AFTER CONTENT"
 msgstr ""
 
@@ -1220,11 +1224,11 @@ msgstr ""
 msgid "Successfully toggled for user type %s"
 msgstr ""
 
-#: inc/hustle-settings-admin.php:39
+#: inc/hustle-settings-admin.php:40
 msgid "Hustle Settings"
 msgstr ""
 
-#: inc/hustle-settings-admin.php:39, inc/opt-in-admin.php:725, views/admin/settings.php:12
+#: inc/hustle-settings-admin.php:40, inc/opt-in-admin.php:734, views/admin/settings.php:12
 msgid "Settings"
 msgstr ""
 
@@ -1232,7 +1236,7 @@ msgstr ""
 msgid "Social Sharing"
 msgstr ""
 
-#: inc/hustle-social-sharing-admin.php:33, inc/opt-in-admin.php:243, views/admin/social_sharing/social-sharing-appearance.php:140, views/admin/social_sharing/social-sharing-display-settings.php:39, views/admin/social_sharing/social-sharing-welcome.php:59
+#: inc/hustle-social-sharing-admin.php:33, inc/opt-in-admin.php:244, views/admin/social_sharing/social-sharing-appearance.php:140, views/admin/social_sharing/social-sharing-display-settings.php:39, views/admin/social_sharing/social-sharing-welcome.php:59
 msgid "Floating Social"
 msgstr ""
 
@@ -1252,7 +1256,7 @@ msgstr ""
 msgid "Failed to fetch subscriptions"
 msgstr ""
 
-#: inc/opt-in-admin-ajax.php:472, inc/opt-in-admin.php:224, views/admin/error_list.php:37
+#: inc/opt-in-admin-ajax.php:472, inc/opt-in-admin.php:225, views/admin/error_list.php:37
 msgid "Error"
 msgstr ""
 
@@ -1260,427 +1264,431 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: inc/opt-in-admin.php:178
+#: inc/opt-in-admin.php:179
 msgid "ALL POSTS"
 msgstr ""
 
-#: inc/opt-in-admin.php:191
+#: inc/opt-in-admin.php:192
 msgid "ALL PAGES"
 msgstr ""
 
-#: inc/opt-in-admin.php:212
+#: inc/opt-in-admin.php:213
 msgid "ALL "
 msgstr ""
 
-#: inc/opt-in-admin.php:220
+#: inc/opt-in-admin.php:221
 msgid "Changes are not saved, are you sure you want to navigate away?"
 msgstr ""
 
-#: inc/opt-in-admin.php:221
+#: inc/opt-in-admin.php:222
 msgid "Please define proper Opt-in name and service provider"
 msgstr ""
 
-#: inc/opt-in-admin.php:222
+#: inc/opt-in-admin.php:223
 msgid "Please define proper Opt-in name"
 msgstr ""
 
-#: inc/opt-in-admin.php:223
+#: inc/opt-in-admin.php:224
 msgid "Please select service provider"
 msgstr ""
 
-#: inc/opt-in-admin.php:225
+#: inc/opt-in-admin.php:226
 msgid "Ok"
 msgstr ""
 
-#: inc/opt-in-admin.php:226
+#: inc/opt-in-admin.php:227
 msgid "Are you sure you want to delete this optin?"
 msgstr ""
 
-#: inc/opt-in-admin.php:227, inc/providers/opt-in-constantcontact.php:63, inc/providers/opt-in-convertkit.php:262
+#: inc/opt-in-admin.php:228, inc/providers/opt-in-constantcontact.php:63, inc/providers/opt-in-convertkit.php:262
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: inc/opt-in-admin.php:229
+#: inc/opt-in-admin.php:230
 msgid "Top Left"
 msgstr ""
 
-#: inc/opt-in-admin.php:230
+#: inc/opt-in-admin.php:231
 msgid "Top Center"
 msgstr ""
 
-#: inc/opt-in-admin.php:231
+#: inc/opt-in-admin.php:232
 msgid "Top Right"
 msgstr ""
 
-#: inc/opt-in-admin.php:232
+#: inc/opt-in-admin.php:233
 msgid "Center Left"
 msgstr ""
 
-#: inc/opt-in-admin.php:233
+#: inc/opt-in-admin.php:234
 msgid "Center Right"
 msgstr ""
 
-#: inc/opt-in-admin.php:234
+#: inc/opt-in-admin.php:235
 msgid "Bottom Left"
 msgstr ""
 
-#: inc/opt-in-admin.php:235
+#: inc/opt-in-admin.php:236
 msgid "Bottom Center"
 msgstr ""
 
-#: inc/opt-in-admin.php:236
+#: inc/opt-in-admin.php:237
 msgid "Bottom Right"
 msgstr ""
 
-#: inc/opt-in-admin.php:241
+#: inc/opt-in-admin.php:242
 msgid "Magic Bar"
 msgstr ""
 
-#: inc/opt-in-admin.php:246
+#: inc/opt-in-admin.php:247
 msgid "Visitor is logged in"
 msgstr ""
 
-#: inc/opt-in-admin.php:247
+#: inc/opt-in-admin.php:248
 msgid "Visitor not logged in"
 msgstr ""
 
-#: inc/opt-in-admin.php:248
+#: inc/opt-in-admin.php:249
 msgid "{type_name} shown less than"
 msgstr ""
 
-#: inc/opt-in-admin.php:249, inc/opt-in-admin.php:270
+#: inc/opt-in-admin.php:250, inc/opt-in-admin.php:271
 msgid "Only on mobile devices"
 msgstr ""
 
-#: inc/opt-in-admin.php:250, inc/opt-in-admin.php:271
+#: inc/opt-in-admin.php:251, inc/opt-in-admin.php:272
 msgid "Not on mobile devices"
 msgstr ""
 
-#: inc/opt-in-admin.php:251, inc/opt-in-admin.php:272
+#: inc/opt-in-admin.php:252, inc/opt-in-admin.php:273
 msgid "From a specific referrer"
 msgstr ""
 
-#: inc/opt-in-admin.php:252, inc/opt-in-admin.php:273
+#: inc/opt-in-admin.php:253, inc/opt-in-admin.php:274
 msgid "Not from a specific referrer"
 msgstr ""
 
-#: inc/opt-in-admin.php:253, inc/opt-in-admin.php:274
+#: inc/opt-in-admin.php:254, inc/opt-in-admin.php:275
 msgid "Not from an internal link"
 msgstr ""
 
-#: inc/opt-in-admin.php:254, inc/opt-in-admin.php:275
+#: inc/opt-in-admin.php:255, inc/opt-in-admin.php:276
 msgid "From a search engine"
 msgstr ""
 
-#: inc/opt-in-admin.php:255
+#: inc/opt-in-admin.php:256
 msgid "On specific URL"
 msgstr ""
 
-#: inc/opt-in-admin.php:256
+#: inc/opt-in-admin.php:257
 msgid "Not on specific URL"
 msgstr ""
 
-#: inc/opt-in-admin.php:257, inc/opt-in-admin.php:278
+#: inc/opt-in-admin.php:258, inc/opt-in-admin.php:279
 msgid "Visitor has commented before"
 msgstr ""
 
-#: inc/opt-in-admin.php:258, inc/opt-in-admin.php:279
+#: inc/opt-in-admin.php:259, inc/opt-in-admin.php:280
 msgid "Visitor has never commented"
 msgstr ""
 
-#: inc/opt-in-admin.php:259
+#: inc/opt-in-admin.php:260
 msgid "In a specific Country"
 msgstr ""
 
-#: inc/opt-in-admin.php:260
+#: inc/opt-in-admin.php:261
 msgid "Not in a specific Country"
 msgstr ""
 
-#: inc/opt-in-admin.php:261
+#: inc/opt-in-admin.php:262
 msgid "Posts"
 msgstr ""
 
-#: inc/opt-in-admin.php:262
+#: inc/opt-in-admin.php:263
 msgid "Pages"
 msgstr ""
 
-#: inc/opt-in-admin.php:263
+#: inc/opt-in-admin.php:264
 msgid "Categories"
 msgstr ""
 
-#: inc/opt-in-admin.php:264
+#: inc/opt-in-admin.php:265
 msgid "Tags"
 msgstr ""
 
-#: inc/opt-in-admin.php:267
+#: inc/opt-in-admin.php:268
 msgid "Only when visitor has logged in"
 msgstr ""
 
-#: inc/opt-in-admin.php:268
+#: inc/opt-in-admin.php:269
 msgid "Only when visitor has not logged in"
 msgstr ""
 
-#: inc/opt-in-admin.php:269
+#: inc/opt-in-admin.php:270
 msgid "{type_name} shown less than a certain times"
 msgstr ""
 
-#: inc/opt-in-admin.php:276
+#: inc/opt-in-admin.php:277
 msgid "On specific URLs"
 msgstr ""
 
-#: inc/opt-in-admin.php:277, inc/display-conditions/opt-in-condition-not-on-specific-url.php:11
+#: inc/opt-in-admin.php:278, inc/display-conditions/opt-in-condition-not-on-specific-url.php:11
 msgid "Not on specific URLs"
 msgstr ""
 
-#: inc/opt-in-admin.php:280
+#: inc/opt-in-admin.php:281
 msgid "In specific countries"
 msgstr ""
 
-#: inc/opt-in-admin.php:281
+#: inc/opt-in-admin.php:282
 msgid "Not in specific countries"
 msgstr ""
 
-#: inc/opt-in-admin.php:282
+#: inc/opt-in-admin.php:283
 msgid "On certain posts"
 msgstr ""
 
-#: inc/opt-in-admin.php:283, inc/display-conditions/opt-in-condition-posts.php:49, inc/display-conditions/opt-in-condition-posts.php:64
+#: inc/opt-in-admin.php:284, inc/display-conditions/opt-in-condition-posts.php:49, inc/display-conditions/opt-in-condition-posts.php:64
 msgid "All posts"
 msgstr ""
 
-#: inc/opt-in-admin.php:284
+#: inc/opt-in-admin.php:285
 msgid "All"
 msgstr ""
 
-#: inc/opt-in-admin.php:285, views/admin/error_list.php:21, views/admin/common/delete-confirmation.php:7
+#: inc/opt-in-admin.php:286, views/admin/error_list.php:21, views/admin/common/delete-confirmation.php:7
 msgid "No"
 msgstr ""
 
-#: inc/opt-in-admin.php:286, inc/display-conditions/opt-in-condition-posts.php:54, inc/display-conditions/opt-in-condition-posts.php:65
+#: inc/opt-in-admin.php:287, inc/display-conditions/opt-in-condition-posts.php:54, inc/display-conditions/opt-in-condition-posts.php:65
 msgid "No posts"
 msgstr ""
 
-#: inc/opt-in-admin.php:287
+#: inc/opt-in-admin.php:288
 msgid "Only {number} posts"
 msgstr ""
 
-#: inc/opt-in-admin.php:288
+#: inc/opt-in-admin.php:289
 msgid "{number} posts"
 msgstr ""
 
-#: inc/opt-in-admin.php:289
+#: inc/opt-in-admin.php:290
 msgid "All posts except {number}"
 msgstr ""
 
-#: inc/opt-in-admin.php:290
+#: inc/opt-in-admin.php:291
 msgid "On certain pages"
 msgstr ""
 
-#: inc/opt-in-admin.php:291, inc/display-conditions/opt-in-condition-pages.php:48, inc/display-conditions/opt-in-condition-pages.php:63
+#: inc/opt-in-admin.php:292, inc/display-conditions/opt-in-condition-pages.php:48, inc/display-conditions/opt-in-condition-pages.php:63
 msgid "All pages"
 msgstr ""
 
-#: inc/opt-in-admin.php:292, inc/display-conditions/opt-in-condition-pages.php:53, inc/display-conditions/opt-in-condition-pages.php:64
+#: inc/opt-in-admin.php:293, inc/display-conditions/opt-in-condition-pages.php:53, inc/display-conditions/opt-in-condition-pages.php:64
 msgid "No pages"
 msgstr ""
 
-#: inc/opt-in-admin.php:293
+#: inc/opt-in-admin.php:294
 msgid "Only {number} pages"
 msgstr ""
 
-#: inc/opt-in-admin.php:294
+#: inc/opt-in-admin.php:295
 msgid "{number} pages"
 msgstr ""
 
-#: inc/opt-in-admin.php:295
+#: inc/opt-in-admin.php:296
 msgid "All pages except {number}"
 msgstr ""
 
-#: inc/opt-in-admin.php:296
+#: inc/opt-in-admin.php:297
 msgid "On certain categories"
 msgstr ""
 
-#: inc/opt-in-admin.php:297, inc/display-conditions/opt-in-condition-categories.php:54, inc/display-conditions/opt-in-condition-categories.php:69
+#: inc/opt-in-admin.php:298, inc/display-conditions/opt-in-condition-categories.php:58, inc/display-conditions/opt-in-condition-categories.php:73
 msgid "All categories"
 msgstr ""
 
-#: inc/opt-in-admin.php:298, inc/display-conditions/opt-in-condition-categories.php:59, inc/display-conditions/opt-in-condition-categories.php:70
+#: inc/opt-in-admin.php:299, inc/display-conditions/opt-in-condition-categories.php:63, inc/display-conditions/opt-in-condition-categories.php:74
 msgid "No categories"
 msgstr ""
 
-#: inc/opt-in-admin.php:299
+#: inc/opt-in-admin.php:300
 msgid "Only {number} categories"
 msgstr ""
 
-#: inc/opt-in-admin.php:300
+#: inc/opt-in-admin.php:301
 msgid "{number} categories"
 msgstr ""
 
-#: inc/opt-in-admin.php:301
+#: inc/opt-in-admin.php:302
 msgid "All categories except {number}"
 msgstr ""
 
-#: inc/opt-in-admin.php:302
+#: inc/opt-in-admin.php:303
 msgid "On certain tags"
 msgstr ""
 
-#: inc/opt-in-admin.php:303, inc/display-conditions/opt-in-condition-tags.php:55, inc/display-conditions/opt-in-condition-tags.php:70
+#: inc/opt-in-admin.php:304, inc/display-conditions/opt-in-condition-tags.php:59, inc/display-conditions/opt-in-condition-tags.php:74
 msgid "All tags"
 msgstr ""
 
-#: inc/opt-in-admin.php:304, inc/display-conditions/opt-in-condition-tags.php:60, inc/display-conditions/opt-in-condition-tags.php:71
+#: inc/opt-in-admin.php:305, inc/display-conditions/opt-in-condition-tags.php:64, inc/display-conditions/opt-in-condition-tags.php:75
 msgid "No tags"
 msgstr ""
 
-#: inc/opt-in-admin.php:305
+#: inc/opt-in-admin.php:306
 msgid "Only {number} tags"
 msgstr ""
 
-#: inc/opt-in-admin.php:306
+#: inc/opt-in-admin.php:307
 msgid "{number} tags"
 msgstr ""
 
-#: inc/opt-in-admin.php:307
+#: inc/opt-in-admin.php:308
 msgid "All tags except {number}"
 msgstr ""
 
-#: inc/opt-in-admin.php:311
+#: inc/opt-in-admin.php:312
 msgid "Shows the {type_name} if the user has already left a comment. You may want to combine this condition with either \"Visitor is logged in\" or \"Visitor is not logged in\"."
 msgstr ""
 
-#: inc/opt-in-admin.php:312
+#: inc/opt-in-admin.php:313
 msgid "Shows the {type_name} if the user has never left a comment. You may want to combine this condition with either \"Visitor is logged in\" or \"Visitor is not logged in\"."
 msgstr ""
 
-#: inc/opt-in-admin.php:313
+#: inc/opt-in-admin.php:314
 msgid "Shows the {type_name} if the user arrived via a search engine."
 msgstr ""
 
-#: inc/opt-in-admin.php:314
+#: inc/opt-in-admin.php:315
 msgid "Shows the {type_name} if the user did not arrive on this page via another page on your site."
 msgstr ""
 
-#: inc/opt-in-admin.php:315
+#: inc/opt-in-admin.php:316
 msgid "Shows the {type_name} to visitors that are using a normal computer or laptop (i.e. not a Phone or Tablet)."
 msgstr ""
 
-#: inc/opt-in-admin.php:316
+#: inc/opt-in-admin.php:317
 msgid "<label class=\"wph-label--alt\">Shows the {type_name} to visitors that are using a mobile device (Phone or Tablet).</label>"
 msgstr ""
 
-#: inc/opt-in-admin.php:317
+#: inc/opt-in-admin.php:318
 msgid "<label class=\"wph-label--alt\">Shows the {type_name} if the user is not logged in to your site.</label>"
 msgstr ""
 
-#: inc/opt-in-admin.php:318
+#: inc/opt-in-admin.php:319
 msgid "<label class=\"wph-label--alt\">Shows the {type_name} if the user is logged in to your site.</label>"
 msgstr ""
 
-#: inc/opt-in-admin.php:323, views/admin/wpoi-wizard-design.php:43
+#: inc/opt-in-admin.php:324, views/admin/wpoi-wizard-design.php:43
 msgid "eg. Get 50% Early-bird Special"
 msgstr ""
 
-#: inc/opt-in-admin.php:324
+#: inc/opt-in-admin.php:325
 msgid "Please fill in the form and submit to subscribe"
 msgstr ""
 
-#: inc/opt-in-admin.php:325, inc/opt-in-front.php:77
+#: inc/opt-in-admin.php:326, inc/opt-in-front.php:81
 msgid "Congratulations! You have been subscribed to {name}"
 msgstr ""
 
-#: inc/opt-in-admin.php:326, views/admin/wpoi-wizard-design.php:144
+#: inc/opt-in-admin.php:327, views/admin/wpoi-wizard-design.php:144
 msgid "Sign Up"
 msgstr ""
 
-#: inc/opt-in-admin.php:329
+#: inc/opt-in-admin.php:330
 msgid "Please fill \"name\" field."
 msgstr ""
 
-#: inc/opt-in-admin.php:330
+#: inc/opt-in-admin.php:331
 msgid "Please choose a valid provider."
 msgstr ""
 
-#: inc/opt-in-admin.php:331
+#: inc/opt-in-admin.php:332
 msgid "Please provide api key."
 msgstr ""
 
-#: inc/opt-in-admin.php:332
+#: inc/opt-in-admin.php:333
 msgid "Please select a mail list."
 msgstr ""
 
-#: inc/opt-in-admin.php:337
+#: inc/opt-in-admin.php:338
 msgid "Please provide a valid url (http://example.net)."
 msgstr ""
 
-#: inc/opt-in-admin.php:339
+#: inc/opt-in-admin.php:340
 msgid "Please provide name."
 msgstr ""
 
-#: inc/opt-in-admin.php:342, inc/opt-in-admin.php:370
+#: inc/opt-in-admin.php:343, inc/opt-in-admin.php:372
 msgid "Please enter installation URL"
 msgstr ""
 
-#: inc/opt-in-admin.php:345
+#: inc/opt-in-admin.php:346
 msgid "Please enter username or email address"
 msgstr ""
 
-#: inc/opt-in-admin.php:348
+#: inc/opt-in-admin.php:349
 msgid "Please enter your account name"
 msgstr ""
 
-#: inc/opt-in-admin.php:351
+#: inc/opt-in-admin.php:352
 msgid "Select or Upload Image"
 msgstr ""
 
-#: inc/opt-in-admin.php:352
+#: inc/opt-in-admin.php:353
 msgid "Use this image"
 msgstr ""
 
-#: inc/opt-in-admin.php:355
+#: inc/opt-in-admin.php:356
 msgid "There is no enough data yet, please try again later."
 msgstr ""
 
-#: inc/opt-in-admin.php:358
+#: inc/opt-in-admin.php:359
 msgid "Please enter your ActiveCampaign URL"
 msgstr ""
 
-#: inc/opt-in-admin.php:361
+#: inc/opt-in-admin.php:362
 msgid "Please enter your API Secret key from ConvertKit"
 msgstr ""
 
-#: inc/opt-in-admin.php:364
+#: inc/opt-in-admin.php:365
 msgid "Please enter field label"
 msgstr ""
 
-#: inc/opt-in-admin.php:365
+#: inc/opt-in-admin.php:366
 msgid "Please enter field name"
 msgstr ""
 
-#: inc/opt-in-admin.php:366
+#: inc/opt-in-admin.php:367
+msgid "Custom field \"{name}\" already exists."
+msgstr ""
+
+#: inc/opt-in-admin.php:368
 msgid "Custom field doesn't exist! Please check your provider."
 msgstr ""
 
-#: inc/opt-in-admin.php:367
+#: inc/opt-in-admin.php:369
 msgid "Unable to create new custom field. Please check your provider."
 msgstr ""
 
-#: inc/opt-in-admin.php:371
+#: inc/opt-in-admin.php:373
 msgid "Please enter username"
 msgstr ""
 
-#: inc/opt-in-admin.php:372
+#: inc/opt-in-admin.php:374
 msgid "Please enter password"
 msgstr ""
 
-#: inc/opt-in-admin.php:474, inc/opt-in-admin.php:504, views/admin/wpoi-wizard.php:15, views/admin/wpoi-wizard.php:15, views/admin/dashboard/widget-module-edit.php:23, views/admin/dashboard/widget-module-setup.php:33
+#: inc/opt-in-admin.php:476, inc/opt-in-admin.php:513, views/admin/wpoi-wizard.php:15, views/admin/wpoi-wizard.php:15, views/admin/dashboard/widget-module-edit.php:23, views/admin/dashboard/widget-module-setup.php:33
 msgid "Opt-ins"
 msgstr ""
 
-#: inc/opt-in-admin.php:474
+#: inc/opt-in-admin.php:476
 msgid "Email Opt-ins"
 msgstr ""
 
-#: inc/opt-in-admin.php:475, inc/opt-in-admin.php:475, views/admin/listing.php:21
+#: inc/opt-in-admin.php:477, inc/opt-in-admin.php:477, views/admin/listing.php:21
 msgid "New Opt-in"
 msgstr ""
 
@@ -1760,15 +1768,15 @@ msgstr ""
 msgid "Invalid Request: Opt-in id invalid"
 msgstr ""
 
-#: inc/opt-in-front.php:76, views/general/modal.php:93, views/general/modal.php:119
+#: inc/opt-in-front.php:80, views/general/modal.php:93, views/general/modal.php:119
 msgid "Never see this message again"
 msgstr ""
 
-#: inc/opt-in-front.php:78
+#: inc/opt-in-front.php:82
 msgid "Something went wrong, please try again."
 msgstr ""
 
-#: inc/opt-in-front.php:79
+#: inc/opt-in-front.php:83
 msgid "Form can't be submitted in test mode."
 msgstr ""
 
@@ -1776,7 +1784,7 @@ msgstr ""
 msgid "Local IP Lookup Table"
 msgstr ""
 
-#: inc/opt-in-model.php:204, inc/providers/opt-in-activecampaign-api.php:136, inc/providers/opt-in-aweber.php:145, inc/providers/opt-in-campaignmonitor.php:159, inc/providers/opt-in-constantcontact.php:55, inc/providers/opt-in-convertkit.php:279, inc/providers/opt-in-get-response.php:152, inc/providers/opt-in-infusionsoft-api.php:185, inc/providers/opt-in-mad-mimi.php:81, inc/providers/opt-in-mailchimp.php:81, inc/providers/opt-in-mautic.php:71
+#: inc/opt-in-model.php:204, inc/providers/opt-in-activecampaign-api.php:136, inc/providers/opt-in-aweber.php:145, inc/providers/opt-in-campaignmonitor.php:159, inc/providers/opt-in-constantcontact.php:55, inc/providers/opt-in-convertkit.php:279, inc/providers/opt-in-get-response.php:152, inc/providers/opt-in-infusionsoft-api.php:185, inc/providers/opt-in-mad-mimi.php:81, inc/providers/opt-in-mailchimp.php:78, inc/providers/opt-in-mautic.php:71
 msgid "This email address has already subscribed."
 msgstr ""
 
@@ -1840,11 +1848,11 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-categories.php:55
+#: inc/display-conditions/opt-in-condition-categories.php:59
 msgid "%d categories"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-categories.php:60
+#: inc/display-conditions/opt-in-condition-categories.php:64
 msgid "All categories except %d"
 msgstr ""
 
@@ -1920,11 +1928,11 @@ msgstr ""
 msgid "Shown less than specific number of times"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-tags.php:56
+#: inc/display-conditions/opt-in-condition-tags.php:60
 msgid "%d tags"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-tags.php:61
+#: inc/display-conditions/opt-in-condition-tags.php:65
 msgid "All tags except %d"
 msgstr ""
 
@@ -1952,7 +1960,7 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: inc/providers/opt-in-activecampaign-api.php:128, inc/providers/opt-in-convertkit-api.php:129, inc/providers/opt-in-get-response-api.php:112, inc/providers/opt-in-mad-mimi-api.php:120
+#: inc/providers/opt-in-activecampaign-api.php:128, inc/providers/opt-in-convertkit-api.php:129, inc/providers/opt-in-get-response-api.php:112, inc/providers/opt-in-mad-mimi-api.php:120, inc/providers/opt-in-mailchimp-api.php:166
 msgid "Successful subscription"
 msgstr ""
 
@@ -1972,11 +1980,11 @@ msgstr ""
 msgid "Enter your ActiveCampaign URL:"
 msgstr ""
 
-#: inc/providers/opt-in-activecampaign.php:193, inc/providers/opt-in-get-response.php:219, inc/providers/opt-in-mad-mimi.php:233, inc/providers/opt-in-mailchimp.php:234, inc/providers/opt-in-sendy.php:152
+#: inc/providers/opt-in-activecampaign.php:193, inc/providers/opt-in-get-response.php:219, inc/providers/opt-in-mad-mimi.php:233, inc/providers/opt-in-mailchimp.php:238, inc/providers/opt-in-sendy.php:152
 msgid "Enter your API key:"
 msgstr ""
 
-#: inc/providers/opt-in-activecampaign.php:213, inc/providers/opt-in-aweber.php:265, inc/providers/opt-in-campaignmonitor.php:252, inc/providers/opt-in-constantcontact.php:251, inc/providers/opt-in-get-response.php:239, inc/providers/opt-in-mad-mimi.php:253, inc/providers/opt-in-mailchimp.php:254
+#: inc/providers/opt-in-activecampaign.php:213, inc/providers/opt-in-aweber.php:265, inc/providers/opt-in-campaignmonitor.php:252, inc/providers/opt-in-constantcontact.php:251, inc/providers/opt-in-get-response.php:239, inc/providers/opt-in-mad-mimi.php:253, inc/providers/opt-in-mailchimp.php:258
 msgid "Get Lists"
 msgstr ""
 
@@ -2144,56 +2152,64 @@ msgstr ""
 msgid "Log in to your <a href='https://madmimi.com' target='_blank'>Mad Mimi account</a> to get your API Key."
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:192
+#: inc/providers/opt-in-mailchimp-api.php:163
+msgid "Something went wrong, please compare your Opt-in fields with MailChimp fields and add any missing fields."
+msgstr ""
+
+#: inc/providers/opt-in-mailchimp.php:196
 msgid "Choose email list:"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:262
+#: inc/providers/opt-in-mailchimp.php:266
 msgid "Log in to your <a href='https://admin.mailchimp.com/account/api/' target='_blank'>MailChimp account</a> to get your API Key."
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:284
+#: inc/providers/opt-in-mailchimp.php:288
 msgid "No group"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:285
+#: inc/providers/opt-in-mailchimp.php:289
 msgid "First choose interest group"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:308
+#: inc/providers/opt-in-mailchimp.php:318
 msgid "Choose interest group:"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:326
+#: inc/providers/opt-in-mailchimp.php:336
 msgid "Leave this option blank if you would like to opt-in users without adding them to a group first"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:366
+#: inc/providers/opt-in-mailchimp.php:374
 msgid "No default choice"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:436
+#: inc/providers/opt-in-mailchimp.php:445
 msgid "Choose default interest:"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:439
+#: inc/providers/opt-in-mailchimp.php:448
 msgid "Choose default interest(s):"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:442
+#: inc/providers/opt-in-mailchimp.php:451
 msgid "Set default interest:"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:445
+#: inc/providers/opt-in-mailchimp.php:454
 msgid "clear selection"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:471
+#: inc/providers/opt-in-mailchimp.php:478
 msgid "What you select here will appear pre-selected for users. If this is a hidden group, the interest will be set but not shown to users."
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:514
+#: inc/providers/opt-in-mailchimp.php:521
 msgid "Invalid list id: "
+msgstr ""
+
+#: inc/providers/opt-in-mailchimp.php:549
+msgid "Field already exists."
 msgstr ""
 
 #: inc/providers/opt-in-mautic-api.php:105
@@ -2268,7 +2284,7 @@ msgstr ""
 msgid "Email Opt-ins Dashboard"
 msgstr ""
 
-#: views/admin/listing.php:74, views/admin/listing.php:148, views/admin/ccontent/ccontent-listings.php:35, views/admin/ccontent/ccontent-listings.php:83, views/admin/dashboard/widget-module-edit.php:77, views/admin/dashboard/widget-module-edit.php:110, views/admin/dashboard/widget-module-edit.php:148, views/admin/dashboard/widget-module-edit.php:181, views/admin/settings/e-news-sync-front.php:64, views/admin/settings/providers-edit.php:61, views/admin/social_sharing/social-sharing-listings.php:35, views/admin/social_sharing/social-sharing-listings.php:83
+#: views/admin/listing.php:74, views/admin/listing.php:148, views/admin/ccontent/ccontent-listings.php:35, views/admin/ccontent/ccontent-listings.php:85, views/admin/dashboard/widget-module-edit.php:77, views/admin/dashboard/widget-module-edit.php:110, views/admin/dashboard/widget-module-edit.php:148, views/admin/dashboard/widget-module-edit.php:181, views/admin/settings/e-news-sync-front.php:64, views/admin/settings/providers-edit.php:61, views/admin/social_sharing/social-sharing-listings.php:35, views/admin/social_sharing/social-sharing-listings.php:85
 msgid "Edit"
 msgstr ""
 
@@ -2296,11 +2312,11 @@ msgstr ""
 msgid "Display conditions"
 msgstr ""
 
-#: views/admin/listing.php:112, views/admin/listing.php:156, views/admin/ccontent/ccontent-listings.php:57, views/admin/ccontent/ccontent-listings.php:89, views/admin/social_sharing/social-sharing-listings.php:57, views/admin/social_sharing/social-sharing-listings.php:88
+#: views/admin/listing.php:112, views/admin/listing.php:161, views/admin/ccontent/ccontent-listings.php:57, views/admin/ccontent/ccontent-listings.php:97, views/admin/social_sharing/social-sharing-listings.php:57, views/admin/social_sharing/social-sharing-listings.php:96
 msgid "Views"
 msgstr ""
 
-#: views/admin/listing.php:114, views/admin/listing.php:158, views/admin/ccontent/ccontent-listings.php:59, views/admin/ccontent/ccontent-listings.php:91, views/admin/social_sharing/social-sharing-listings.php:59, views/admin/social_sharing/social-sharing-listings.php:90
+#: views/admin/listing.php:114, views/admin/listing.php:163, views/admin/ccontent/ccontent-listings.php:59, views/admin/ccontent/ccontent-listings.php:99, views/admin/social_sharing/social-sharing-listings.php:59, views/admin/social_sharing/social-sharing-listings.php:98
 msgid "Conversions"
 msgstr ""
 
@@ -2308,7 +2324,7 @@ msgstr ""
 msgid "Conversion rate"
 msgstr ""
 
-#: views/admin/listing.php:118, views/admin/listing.php:162, views/admin/ccontent/ccontent-listings.php:63, views/admin/ccontent/ccontent-listings.php:95, views/admin/social_sharing/social-sharing-listings.php:63, views/admin/social_sharing/social-sharing-listings.php:94
+#: views/admin/listing.php:118, views/admin/listing.php:167, views/admin/ccontent/ccontent-listings.php:63, views/admin/ccontent/ccontent-listings.php:103, views/admin/social_sharing/social-sharing-listings.php:63, views/admin/social_sharing/social-sharing-listings.php:102
 msgid "Tracking"
 msgstr ""
 
@@ -2320,15 +2336,15 @@ msgstr ""
 msgid "Allows logged-in Admins to test the appearance & functionality of the Opt-in before Activating it."
 msgstr ""
 
-#: views/admin/listing.php:132, views/admin/listing.php:186, views/admin/new-optin_success.php:46, views/admin/ccontent/ccontent-listings.php:67, views/admin/ccontent/ccontent-listings.php:119, views/admin/dashboard/widget-module-edit.php:63, views/admin/dashboard/widget-module-edit.php:134, views/admin/social_sharing/social-sharing-listings.php:67, views/admin/social_sharing/social-sharing-listings.php:118
+#: views/admin/listing.php:132, views/admin/listing.php:191, views/admin/new-optin_success.php:46, views/admin/ccontent/ccontent-listings.php:67, views/admin/ccontent/ccontent-listings.php:127, views/admin/dashboard/widget-module-edit.php:63, views/admin/dashboard/widget-module-edit.php:134, views/admin/social_sharing/social-sharing-listings.php:67, views/admin/social_sharing/social-sharing-listings.php:126
 msgid "Active"
 msgstr ""
 
-#: views/admin/listing.php:160, views/admin/ccontent/ccontent-listings.php:61, views/admin/social_sharing/social-sharing-listings.php:61
+#: views/admin/listing.php:165, views/admin/ccontent/ccontent-listings.php:61, views/admin/social_sharing/social-sharing-listings.php:61
 msgid "Conversions rate"
 msgstr ""
 
-#: views/admin/listing.php:174, views/admin/new-optin_success.php:40, views/admin/ccontent/ccontent-listings.php:65, views/admin/ccontent/ccontent-listings.php:107, views/admin/social_sharing/social-sharing-listings.php:65, views/admin/social_sharing/social-sharing-listings.php:106
+#: views/admin/listing.php:179, views/admin/new-optin_success.php:40, views/admin/ccontent/ccontent-listings.php:65, views/admin/ccontent/ccontent-listings.php:115, views/admin/social_sharing/social-sharing-listings.php:65, views/admin/social_sharing/social-sharing-listings.php:114
 msgid "Admin Test"
 msgstr ""
 
@@ -2568,11 +2584,11 @@ msgstr ""
 msgid "DROP SHADOW:"
 msgstr ""
 
-#: views/admin/OLD-wpoi-wizard-design.php:575, views/admin/wpoi-wizard-design-shapes.php:107, views/admin/ccontent/ccontent-design.php:466, views/admin/social_sharing/social-sharing-appearance.php:298, views/admin/social_sharing/social-sharing-appearance.php:576
+#: views/admin/OLD-wpoi-wizard-design.php:575, views/admin/wpoi-wizard-design-shapes.php:107, views/admin/ccontent/ccontent-design.php:466, views/admin/social_sharing/social-sharing-appearance.php:394, views/admin/social_sharing/social-sharing-appearance.php:672
 msgid "Drop Shadow"
 msgstr ""
 
-#: views/admin/OLD-wpoi-wizard-design.php:587, views/admin/wpoi-wizard-design-shapes.php:139, views/admin/ccontent/ccontent-design.php:534, views/admin/social_sharing/social-sharing-appearance.php:364, views/admin/social_sharing/social-sharing-appearance.php:642
+#: views/admin/OLD-wpoi-wizard-design.php:587, views/admin/wpoi-wizard-design-shapes.php:139, views/admin/ccontent/ccontent-design.php:534, views/admin/social_sharing/social-sharing-appearance.php:460, views/admin/social_sharing/social-sharing-appearance.php:738
 msgid "Color"
 msgstr ""
 
@@ -2748,7 +2764,7 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: views/admin/wpoi-wizard-design.php:29, views/admin/ccontent/ccontent-design.php:29, views/admin/social_sharing/social-sharing-appearance.php:406, views/admin/social_sharing/social-sharing-appearance.php:437
+#: views/admin/wpoi-wizard-design.php:29, views/admin/ccontent/ccontent-design.php:29, views/admin/social_sharing/social-sharing-appearance.php:502, views/admin/social_sharing/social-sharing-appearance.php:533
 msgid "Preview"
 msgstr ""
 
@@ -2820,19 +2836,19 @@ msgstr ""
 msgid "Use custom CSS for this opt-in"
 msgstr ""
 
-#: views/admin/wpoi-wizard-design.php:329, views/admin/wpoi-wizard-settings.php:571, views/admin/ccontent/ccontent-settings.php:92, views/admin/social_sharing/social-sharing-appearance.php:707, views/admin/social_sharing/social-sharing-display-settings.php:52
+#: views/admin/wpoi-wizard-design.php:329, views/admin/wpoi-wizard-settings.php:571, views/admin/ccontent/ccontent-settings.php:92, views/admin/social_sharing/social-sharing-appearance.php:803, views/admin/social_sharing/social-sharing-display-settings.php:52
 msgid "Back"
 msgstr ""
 
-#: views/admin/wpoi-wizard-design.php:337, views/admin/wpoi-wizard-services.php:325, views/admin/wpoi-wizard-settings.php:579, views/admin/ccontent/ccontent-design.php:684, views/admin/ccontent/ccontent-settings.php:100, views/admin/social_sharing/social-sharing-appearance.php:715, views/admin/social_sharing/social-sharing-display-settings.php:60, views/admin/social_sharing/social-sharing-services.php:481
+#: views/admin/wpoi-wizard-design.php:337, views/admin/wpoi-wizard-services.php:325, views/admin/wpoi-wizard-settings.php:579, views/admin/ccontent/ccontent-design.php:684, views/admin/ccontent/ccontent-settings.php:100, views/admin/social_sharing/social-sharing-appearance.php:811, views/admin/social_sharing/social-sharing-display-settings.php:60, views/admin/social_sharing/social-sharing-services.php:481
 msgid "Save Changes"
 msgstr ""
 
-#: views/admin/wpoi-wizard-design.php:339, views/admin/wpoi-wizard-design.php:347, views/admin/wpoi-wizard-services.php:327, views/admin/wpoi-wizard-services.php:335, views/admin/wpoi-wizard-settings.php:581, views/admin/wpoi-wizard-settings.php:589, views/admin/ccontent/ccontent-design.php:686, views/admin/ccontent/ccontent-design.php:694, views/admin/ccontent/ccontent-settings.php:102, views/admin/ccontent/ccontent-settings.php:110, views/admin/social_sharing/social-sharing-appearance.php:717, views/admin/social_sharing/social-sharing-appearance.php:725, views/admin/social_sharing/social-sharing-display-settings.php:62, views/admin/social_sharing/social-sharing-display-settings.php:70, views/admin/social_sharing/social-sharing-services.php:483, views/admin/social_sharing/social-sharing-services.php:491
+#: views/admin/wpoi-wizard-design.php:339, views/admin/wpoi-wizard-design.php:347, views/admin/wpoi-wizard-services.php:327, views/admin/wpoi-wizard-services.php:335, views/admin/wpoi-wizard-settings.php:581, views/admin/wpoi-wizard-settings.php:589, views/admin/ccontent/ccontent-design.php:686, views/admin/ccontent/ccontent-design.php:694, views/admin/ccontent/ccontent-settings.php:102, views/admin/ccontent/ccontent-settings.php:110, views/admin/social_sharing/social-sharing-appearance.php:813, views/admin/social_sharing/social-sharing-appearance.php:821, views/admin/social_sharing/social-sharing-display-settings.php:62, views/admin/social_sharing/social-sharing-display-settings.php:70, views/admin/social_sharing/social-sharing-services.php:483, views/admin/social_sharing/social-sharing-services.php:491
 msgid "Saving..."
 msgstr ""
 
-#: views/admin/wpoi-wizard-design.php:345, views/admin/wpoi-wizard-services.php:333, views/admin/ccontent/ccontent-design.php:692, views/admin/social_sharing/social-sharing-appearance.php:723, views/admin/social_sharing/social-sharing-services.php:489
+#: views/admin/wpoi-wizard-design.php:345, views/admin/wpoi-wizard-services.php:333, views/admin/ccontent/ccontent-design.php:692, views/admin/social_sharing/social-sharing-appearance.php:819, views/admin/social_sharing/social-sharing-services.php:489
 msgid "Next Step"
 msgstr ""
 
@@ -3436,19 +3452,19 @@ msgstr ""
 msgid "Border color"
 msgstr ""
 
-#: views/admin/ccontent/ccontent-design.php:486, views/admin/social_sharing/social-sharing-appearance.php:316, views/admin/social_sharing/social-sharing-appearance.php:594
+#: views/admin/ccontent/ccontent-design.php:486, views/admin/social_sharing/social-sharing-appearance.php:412, views/admin/social_sharing/social-sharing-appearance.php:690
 msgid "X-offset"
 msgstr ""
 
-#: views/admin/ccontent/ccontent-design.php:498, views/admin/social_sharing/social-sharing-appearance.php:328, views/admin/social_sharing/social-sharing-appearance.php:606
+#: views/admin/ccontent/ccontent-design.php:498, views/admin/social_sharing/social-sharing-appearance.php:424, views/admin/social_sharing/social-sharing-appearance.php:702
 msgid "Y-offset"
 msgstr ""
 
-#: views/admin/ccontent/ccontent-design.php:510, views/admin/social_sharing/social-sharing-appearance.php:340, views/admin/social_sharing/social-sharing-appearance.php:618
+#: views/admin/ccontent/ccontent-design.php:510, views/admin/social_sharing/social-sharing-appearance.php:436, views/admin/social_sharing/social-sharing-appearance.php:714
 msgid "Blur"
 msgstr ""
 
-#: views/admin/ccontent/ccontent-design.php:522, views/admin/social_sharing/social-sharing-appearance.php:352, views/admin/social_sharing/social-sharing-appearance.php:630
+#: views/admin/ccontent/ccontent-design.php:522, views/admin/social_sharing/social-sharing-appearance.php:448, views/admin/social_sharing/social-sharing-appearance.php:726
 msgid "Spread"
 msgstr ""
 
@@ -3476,7 +3492,7 @@ msgstr ""
 msgid "Display Conditions"
 msgstr ""
 
-#: views/admin/ccontent/ccontent-listings.php:93, views/admin/social_sharing/social-sharing-listings.php:92
+#: views/admin/ccontent/ccontent-listings.php:101, views/admin/social_sharing/social-sharing-listings.php:100
 msgid "Conversions Rate"
 msgstr ""
 
@@ -4097,51 +4113,55 @@ msgstr ""
 msgid "Click & Drag to re-order icons"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:150, views/admin/social_sharing/social-sharing-appearance.php:450
+#: views/admin/social_sharing/social-sharing-appearance.php:150, views/admin/social_sharing/social-sharing-appearance.php:546
 msgid "BG & Icon Colors"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:160, views/admin/social_sharing/social-sharing-appearance.php:460
+#: views/admin/social_sharing/social-sharing-appearance.php:160, views/admin/social_sharing/social-sharing-appearance.php:556
 msgid "Default Colors"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:172, views/admin/social_sharing/social-sharing-appearance.php:472
+#: views/admin/social_sharing/social-sharing-appearance.php:172, views/admin/social_sharing/social-sharing-appearance.php:568
 msgid "Custom Colors"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:202, views/admin/social_sharing/social-sharing-appearance.php:502
+#: views/admin/social_sharing/social-sharing-appearance.php:222, views/admin/social_sharing/social-sharing-appearance.php:288, views/admin/social_sharing/social-sharing-appearance.php:598
 msgid "Icon BG"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:218, views/admin/social_sharing/social-sharing-appearance.php:518
+#: views/admin/social_sharing/social-sharing-appearance.php:240, views/admin/social_sharing/social-sharing-appearance.php:308, views/admin/social_sharing/social-sharing-appearance.php:614
 msgid "Icon Color"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:238
+#: views/admin/social_sharing/social-sharing-appearance.php:258, views/admin/social_sharing/social-sharing-appearance.php:332
 msgid "Counter Border"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:270
+#: views/admin/social_sharing/social-sharing-appearance.php:284
+msgid "Icon Border"
+msgstr ""
+
+#: views/admin/social_sharing/social-sharing-appearance.php:366
 msgid "Floating Social BG"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:286, views/admin/social_sharing/social-sharing-appearance.php:564
+#: views/admin/social_sharing/social-sharing-appearance.php:382, views/admin/social_sharing/social-sharing-appearance.php:660
 msgid "Counter Text"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:388, views/admin/social_sharing/social-sharing-appearance.php:666
+#: views/admin/social_sharing/social-sharing-appearance.php:484, views/admin/social_sharing/social-sharing-appearance.php:762
 msgid "Show Count Inline"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:429
+#: views/admin/social_sharing/social-sharing-appearance.php:525
 msgid "Widget / Shortcode"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:548
+#: views/admin/social_sharing/social-sharing-appearance.php:644
 msgid "Widget BG"
 msgstr ""
 
-#: views/admin/social_sharing/social-sharing-appearance.php:691
+#: views/admin/social_sharing/social-sharing-appearance.php:787
 msgid "Appearance"
 msgstr ""
 

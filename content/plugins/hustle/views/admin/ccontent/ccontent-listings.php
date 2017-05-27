@@ -80,9 +80,17 @@
 
 								<td class="wph-module--display ">
 
-									<a class="wph-button wph-button--small wph-button--gray wph-module--edit" href="<?php echo $custom_content->decorated->get_edit_url() . '&tab=display'; ?>"><?php _e('Edit', Opt_In::TEXT_DOMAIN); ?></a>
+                                    <?php if( !( "shortcode" === $type_key || "widget" === $type_key ) ) : ?>
 
-									<?php echo $custom_content->decorated->get_type_condition_labels($type_key, false); ?>
+                                        <a class="wph-button wph-button--small wph-button--gray wph-module--edit" href="<?php echo $custom_content->decorated->get_edit_url() . '&tab=display'; ?>"><?php _e('Edit', Opt_In::TEXT_DOMAIN); ?></a>
+
+                                    <?php endif; ?>
+
+                                    <?php if( "shortcode" === $type_key  ) : ?>
+                                        <?php  echo '[wd_hustle_cc id="'. $custom_content->shortcode_id .'"]'; ?>
+                                    <?php elseif( "widget" !== $type_key  ) : ?>
+                                        <?php echo $custom_content->decorated->get_type_condition_labels($type_key, false); ?>
+                                    <?php endif; ?>
 
 								</td>
 

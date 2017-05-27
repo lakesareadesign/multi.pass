@@ -1,6 +1,10 @@
-<div class="wphb-notice wphb-notice-<?php echo $class; ?>">
+<div class="wphb-notice wphb-notice-<?php echo $class; ?> can-close">
+    <div class="close"></div>
 	<p><?php echo $message; ?></p>
-	<?php if ( $dismissable ): ?>
-		<a href="#" data-nonce="<?php echo esc_attr( $nonce ); ?>" data-id="<?php echo esc_attr( $id ); ?>" class="wphb-dismiss"><?php _e( 'Dismiss', 'wphb' ); ?></a>
-	<?php endif; ?>
 </div>
+
+<?php if ( $dismissable ): ?>
+    <script type="text/javascript">
+        jQuery('.wphb-notice').delay(3000).slideUp('slow');
+    </script>
+<?php endif; ?>

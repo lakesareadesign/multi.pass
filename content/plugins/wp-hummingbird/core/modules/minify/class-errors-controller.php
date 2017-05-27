@@ -170,8 +170,10 @@ class WP_Hummingbird_Minification_Errors_Controller {
 					$options['dont_minify'][ $type ][] = $handle;
 				}
 
-				if ( in_array( 'combine', $actions ) ) {
-					$options['dont_combine'][ $type ][] = $handle;
+				$key = in_array( $handle, $options['combine'][ $type ] );
+				if ( in_array( 'combine', $actions ) && false !== $key ) {
+					unset( $options['combine'][ $type ][ $key ] );
+					$options['combine'][ $type ] = array_values( $options['combine'][ $type ] );
 				}
 
 			}

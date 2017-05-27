@@ -108,6 +108,8 @@ var Inc_Opt_Router = Backbone.Router.extend({
 /**
  * Init the routing if it's optin creation page
  */
+ // have to remove "-pro" that came from the menu which causes template not to work
+adminpage = adminpage.replace('hustle-pro', 'hustle');
 if( 'hustle_page_inc_optin' == adminpage  ){
     Optin.router = new Inc_Opt_Router();
     Backbone.history.start();

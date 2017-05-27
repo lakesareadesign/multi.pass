@@ -5,11 +5,15 @@ class Opt_In_Condition_Categories extends Opt_In_Condition_Abstract implements O
     function is_allowed(Hustle_Model $optin){
 
 		if ( !isset( $this->args->categories ) || empty( $this->args->categories ) ) {
-			if ( !isset($this->args->filter_type) || $this->args->filter_type == "except" ) {
-				return true;
-			} else {
-				return false;
-			}
+            if ( !is_singular() ) {
+                if ( !isset($this->args->filter_type) || $this->args->filter_type == "except" ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
 		} elseif ( in_array("all", $this->args->categories) ) {
 			if ( !isset($this->args->filter_type) || $this->args->filter_type == "except" ) {
 				return false;

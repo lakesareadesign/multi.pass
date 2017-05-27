@@ -1,4 +1,5 @@
 (function($, doc, win){
+    "use strict";
 	if( inc_opt.is_upfront ) return;
 
 	var Optin = window.Optin || {};
@@ -103,19 +104,34 @@
             if ( this.tracking_types != null && _.isTrue( this.tracking_types[this.type] ) ) {
                 Hustle.Events.once( 'cc_modal_shown', this.logView, this );
             }
+            
+            // set cookies used for "show less than" display condition
+            Hustle.Events.once( 'cc_modal_shown', this.update_view_count_cookie, this );
 			
 			// Fix content size
 			Hustle.Events.on( 'cc_modal_shown', this.fit, this );
 			Hustle.Events.on( 'hustle_resize', this.fit, this );
 
 			this[this.appear_after]();
+            
+            // Fixed compat issue with Caldera Forms conditionals
+            this.caldera_form_compat();
+            
 		},
+        
+        caldera_form_compat: function() {
+            if( !inc_opt.is_caldera_active ) return;
+            
+            if( typeof calders_forms_init_conditions !== 'undefined' ){
+                calders_forms_init_conditions();
+                $('.caldera_forms_form').find('[data-field]').first().trigger('change');
+            };
+        },
 
 		logView: function() {
 			logView.set( 'type', this.type );
 			logView.set( 'id', this.optin_id );
 			logView.save();
-			this.update_view_count_cookie();
 		},
 
 		update_view_count_cookie: function() {
@@ -244,7 +260,7 @@
                 var delay_id = _.delay(function(){
 					if ( ! me.prevent_hide_after ) {
 						// if hide after is not prevented, then hide it
-                        me.$el.removeClass(this.showClass);
+                        me.$el.removeClass(me.showClass);
                         if ( me.mask ) {
                             me.mask.trigger('click');
                         }

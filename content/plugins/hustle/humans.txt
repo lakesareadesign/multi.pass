@@ -1,25 +1,18 @@
 /* TEAM */
     Product Manager: Robert Setiadi
-    Contact: robert [at] incsub [dot] com
-    Twitter: @robertsetiadi
     Location: Melbourne, Australia
 
 	Developer: Diobeth Ray Villasencio
-	Contact: diobeth [at] incsub [dot] com
 	Location: Cebu, Philippines
 
 	Developer: Leighton Sapir
-	Contact: leigh [at] incsub [dot] com
-	Twitter: @shiasapir
 	Location: Cuenca, Ecuador
 
     Developer: Irene Mitchell
-    Contact: irene [at] incsub [dot] com
     Location: Cagayan de Oro, Philippines
 
     Designer: Victor Ivanov
-    Contact: victor [at] incsub [dot] com
     Location: Melbourne, Australia
 
 
-133620-1493689576-au
+133620-1495904067-au

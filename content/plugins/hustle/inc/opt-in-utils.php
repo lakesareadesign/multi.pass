@@ -237,4 +237,11 @@ class Opt_In_Utils
 
 		return $is_free;
 	}
+
+    /**
+	 * Remove "-pro" that came from the menu which causes template not to work
+	 **/
+    public static function clean_current_screen( $screen ) {
+        return str_replace( 'hustle-pro', 'hustle', $screen );
+    }
 }

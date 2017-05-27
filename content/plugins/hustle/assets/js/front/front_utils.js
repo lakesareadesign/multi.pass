@@ -15,10 +15,11 @@ var Optin = Optin || {};
     /**
      * Set optin id from the html template
      */
-
-    Optin.get_tpl = function( layout_id ){
+    Optin.get_tpl = function( layout_id, is_compat ){
         var templates = ["optin-layout-one", "optin-layout-two", "optin-layout-three", "optin-layout-four"];
-        return Optin.template( templates[ layout_id ] );
+        return ( is_compat ) 
+            ? Optin.template_compat( templates[ layout_id ] )
+            : Optin.template( templates[ layout_id ] );
     };
 
     Optin.popup = {
@@ -375,7 +376,7 @@ var Optin = Optin || {};
 
         var provider_args_tpl = Optin.template( "optin-" + optin_data.data.optin_provider + "-args"  );
         optin_data.provider_args.cta_button = optin_data.design.cta_button;
-        return provider_args_tpl( optin_data.provider_args )
+        return provider_args_tpl( optin_data.provider_args );
     };
 
     /**
@@ -383,9 +384,23 @@ var Optin = Optin || {};
      *
      * @param optin_data
      */
-    Optin.render_optin = function( optin_data ){
+    Optin.render_optin = function( optin_data, use_compat ){            
+        var is_compat = ( typeof use_compat !== 'undefined' && use_compat ) ? true : false,
+            current_tpl_settings = _.templateSettings;
+        
+        // if needs compatibility e.g. upfront which uses another _.templateSettings
+        if ( is_compat ) {
+            Optin.global_mixin();
+            // force our _.templateSettings setup
+            _.templateSettings = {
+                evaluate:    /<#([\s\S]+?)#>/g,
+                interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
+                escape:      /\{\{([^\}]+?)\}\}(?!\})/g
+            };
+        }
+        
         var layout = parseInt(optin_data.design.form_location),
-            tpl = Optin.get_tpl( layout ),
+            tpl = Optin.get_tpl( layout, is_compat ),
             _show_args = function(){
                 if( "mailchimp" === optin_data.data.optin_provider
                     && optin_data.provider_args
@@ -396,11 +411,20 @@ var Optin = Optin || {};
 
                 return false;
             },
-            html = tpl(_.extend({
-                image_style: ""
-            }, optin_data.design, optin_data.design.borders, optin_data.data, {
-                has_args: _show_args()
-            }) );
+            html_data = _.extend({
+                    image_style: "",
+                    has_args: _show_args()
+                }, 
+                optin_data.design, 
+                optin_data.design.borders, 
+                optin_data.data
+            ),
+            html = tpl(html_data);
+            
+        // after getting the template, revert back to previous _.templateSettings
+        if ( is_compat ) {
+            _.templateSettings = current_tpl_settings;
+        }
 
         $(doc).trigger("wpoi:layout:rendered");
         return html;
@@ -411,15 +435,27 @@ var Optin = Optin || {};
      *
      * @param optin_data
      */
-    Optin.render_cc_shortcode = function( optin_data ){
-        // var tpl = Optin.template( 'hustle-cc-shortcode-tpl' ),
+    Optin.render_cc_shortcode = function( optin_data, use_compat ){
+        var is_compat = ( typeof use_compat !== 'undefined' && use_compat ) ? true : false,
+            types = [],
+            current_tpl_settings = _.templateSettings;
                 
-        var types = [];
         types[optin_data.type] = {
             add_never_see_link: ''
         };
         
-        var tpl = Optin.template( 'hustle-modal-tpl' ),
+        // if needs compatibility e.g. upfront which uses another _.templateSettings
+        if ( is_compat ) {
+            Optin.global_mixin();
+            // force our _.templateSettings setup
+            _.templateSettings = {
+                evaluate:    /<#([\s\S]+?)#>/g,
+                interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
+                escape:      /\{\{([^\}]+?)\}\}(?!\})/g
+            };
+        }
+        
+        var tpl = ( is_compat ) ? Optin.template_compat( 'hustle-modal-tpl' ) : Optin.template( 'hustle-modal-tpl' ),
 			html = tpl( _.extend({
                 type: optin_data.type,
                 id: optin_data.content.optin_id,
@@ -432,6 +468,11 @@ var Optin = Optin || {};
             optin_data.design,
             cc_handle_custom_size(optin_data.design)
             ) );
+        
+        // after getting the template, revert back to previous _.templateSettings
+        if ( is_compat ) {
+            _.templateSettings = current_tpl_settings;
+        }
 
         $(doc).trigger("wpoi:layout:rendered");
         $(doc).trigger("wpoi:cc_display", optin_data.type);
@@ -480,5 +521,5 @@ var Optin = Optin || {};
         }
 
         checking_adblock = true;
-    }
+    };
 }(jQuery, document));
