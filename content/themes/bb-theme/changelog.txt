@@ -1,3 +1,16 @@
+<h4>1.6.1 - 06/01/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Update translations. New translation <code>en_GB</code> added.</li>
+	<li>New filters <code>fl_theme_system_fonts</code>, <code>fl_theme_google_fonts</code> and <code>fl_body_font_family</code></li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed missing color options in Header > Nav Style.</li>
+	<li>Fixed an issue where <code>Posted In: </code> and <code>Tags: </code> were being displayed even when empty.</li>
+	<li>Fixed a js error caused by ImagesLoaded not being enqueued.</li>
+	<li>Fixed nav style colors for current ancestor/parent menu item.</li>
+</ul>
 <h4>1.6 - 05/23/2017</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

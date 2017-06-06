@@ -9,7 +9,7 @@
  * @license GPL-2.0+
  * @link    http://my.studiopress.com/themes/showcase/
  */
- 
+
 add_action( 'wp_enqueue_scripts', 'showcase_css' );
 /**
 * Checks the settings for the link color color, accent color, and header
@@ -38,7 +38,6 @@ function showcase_css() {
 		input[type="submit"],
 		.button,
 		a.button,
-		.pagination a,
 		body.woocommerce-page nav.woocommerce-pagination ul li a,
 		body.woocommerce-page nav.woocommerce-pagination ul li span,
 		body.woocommerce-page #respond input#submit,
@@ -64,7 +63,7 @@ function showcase_css() {
 		body.woocommerce-page a.button.alt:hover,
 		body.woocommerce-page input.button:hover,
 		body.woocommerce-page input.button.alt:hover,
-		#gts-testimonials .lSSlideOuter .lSPager.lSpg>li.active a, 
+		#gts-testimonials .lSSlideOuter .lSPager.lSpg>li.active a,
 		#gts-testimonials .lSSlideOuter .lSPager.lSpg>li:hover a,
 		.pagination li a:hover,
 		.pagination li.active a,

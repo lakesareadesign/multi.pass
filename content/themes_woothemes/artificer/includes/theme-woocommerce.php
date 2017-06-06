@@ -313,7 +313,7 @@ if (!function_exists('woostore_star_reviews')) {
 /*-------------------------------------------------------------------------------------------*/
 
 // Handle cart in header fragment for ajax add to cart
-add_filter('add_to_cart_fragments', 'header_add_to_cart_fragment');
+add_filter('woocommerce_add_to_cart_fragments', 'header_add_to_cart_fragment');
 function header_add_to_cart_fragment( $fragments ) {
 	global $woocommerce;
 

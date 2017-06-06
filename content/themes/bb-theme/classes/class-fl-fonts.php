@@ -12,9 +12,9 @@ final class FLFonts {
 	 */
 	static public function js()
 	{
-		$system = json_encode(FLFontFamilies::$system);
-		$google = json_encode(FLFontFamilies::$google);
-		
+		$system = json_encode( FLFontFamilies::get_system() );
+		$google = json_encode( FLFontFamilies::get_google() );
+
 		echo 'var FLFontFamilies = { system: '. $system .', google: '. $google .' };';
 	}
 
@@ -24,14 +24,14 @@ final class FLFonts {
 	static public function display_select_options($selected)
 	{
 		echo '<optgroup label="System">';
-		
-		foreach(FLFontFamilies::$system as $name => $variants) {
+
+		foreach(FLFontFamilies::get_system() as $name => $variants) {
 			echo '<option value="'. $name .'" '. selected($name, $selected) .'>'. $name .'</option>';
 		}
-		
+
 		echo '<optgroup label="Google">';
-		
-		foreach(FLFontFamilies::$google as $name => $variants) {
+
+		foreach(FLFontFamilies::get_google() as $name => $variants) {
 			echo '<option value="'. $name .'" '. selected($name, $selected) .'>'. $name .'</option>';
 		}
 	}
@@ -43,10 +43,24 @@ final class FLFonts {
  * @class FLFontFamilies
  */
 final class FLFontFamilies {
-	
+
+	/**
+	 * @method get_system
+	 */
+	static function get_system() {
+		return apply_filters( 'fl_theme_system_fonts', FLFontFamilies::$system );
+	}
+
+	/**
+	 * @method get_google
+	 */
+	static function get_google() {
+		return apply_filters( 'fl_theme_google_fonts', FLFontFamilies::$google );
+	}
+
 	/**
 	 * @property system
-	 */   
+	 */
 	static public $system = array(
 		"Helvetica" => array(
 			"fallback" => "Verdana, Arial, sans-serif",
@@ -97,10 +111,10 @@ final class FLFontFamilies {
 			)
 		),
 	);
-	
+
 	/**
 	 * @property google
-	 */   
+	 */
 	static public $google = array(
 		"ABeeZee" => array(
 		    "400",

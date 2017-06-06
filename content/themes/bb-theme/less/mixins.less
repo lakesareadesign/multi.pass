@@ -392,7 +392,7 @@ when not( @bg-image = none ) {
 	a.fa:focus {
 		color: @fg-hover-color;
 	}
-	.navbar-nav > li {
+	.navbar-nav li {
 		> a {
 			color: @fg-link-color;
 			&:hover,
@@ -400,6 +400,8 @@ when not( @bg-image = none ) {
 				color: @fg-hover-color;
 			}   
 		}
+		&.current-menu-ancestor > a,
+		&.current-menu-parent > a,
 		&.current-menu-item > a {
 			color: @fg-hover-color;
 		}

@@ -5,7 +5,7 @@
 	Author: Bloom
 	Author URI: http://www.designbybloom.co
 
-	Version: 2.0.1
+	Version: 2.0.2
 
 	Tags: one-column, two-columns, left-sidebar, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
@@ -562,6 +562,10 @@ body.woocommerce-page input.button.alt:hover {
 .button.light {
 	background: #eeeeee;
 	color: #1a1a1a;
+}
+
+.button.light:hover {
+	color: #fff;
 }
 
 .bg-primary .button.light {
@@ -1544,12 +1548,12 @@ select.orderby {
 	float: left;
 	height: 5rem;
 	width: 14rem;
-	background-image: url(images/Logo_Dark.png);
+	background-image: url(images/logo_dark.png);
 }
 
 @media only screen and (min-width: 800px) {
 	body.with-page-header.header-image:not(.header-scroll) .site-title a {
-		background-image: url(images/Logo_Light.png) !important;
+		background-image: url(images/logo_light.png) !important;
 	}
 }
 

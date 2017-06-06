@@ -120,7 +120,8 @@
 			callback: function( val ) { return 'none' != val; }
 		},{
 			controls: [ 'fl-nav-bg-color', 'fl-nav-bg-gradient', 'fl-nav-bg-image', 'fl-nav-bg-repeat', 'fl-nav-bg-position', 'fl-nav-bg-attachment', 'fl-nav-bg-size', 'fl-nav-link-color', 'fl-nav-hover-color', 'fl-nav-bg-opacity' ],
-			callback: function( val ) { return 'right' != val && 'vertical-left' != val && 'vertical-right' != val && 'centered-inline-logo' != val && 'left' != val; }
+			callback: function( val ) {
+				return 'none' != val }
 		},{
 			controls: [ 'fl-fixed-header' ],
 			callback: function( val ) { return 'vertical-left' != val && 'vertical-right' != val; }

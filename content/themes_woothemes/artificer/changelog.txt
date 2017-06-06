@@ -1,5 +1,9 @@
 *** Artificer Changelog ***
 
+2017.06.01 - version 1.3.21
+* Fix - updates add_to_cart_fragments hook to the latest woocommerce_add_to_cart_fragments
+  includes/theme-woocommerce.php
+
 2017.05.25 - version 1.3.20
 * Fix - Fix to the WooCommerce featured products large image.
   index.php

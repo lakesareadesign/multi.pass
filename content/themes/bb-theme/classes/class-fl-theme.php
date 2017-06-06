@@ -143,7 +143,7 @@ final class FLTheme {
 		// jQuery
 		wp_enqueue_script('jquery');
 		wp_enqueue_script('jquery-throttle', FL_THEME_URL . '/js/jquery.throttle.min.js', array(), FL_THEME_VERSION, true);
-		if( 'fixed' === self::get_setting( 'fl-fixed-header' ) || 'shrink' === self::get_setting( 'fl-fixed-header' ) ) {
+		if( 'fadein' != self::get_setting( 'fl-fixed-header' ) ) {
 			wp_enqueue_script('jquery-imagesloaded');
 		}
 
@@ -306,7 +306,7 @@ final class FLTheme {
 	{
 		$settings = self::get_settings();
 
-		self::add_font( $settings['fl-body-font-family'], array( 300, 400, 700 ) );
+		self::add_font( $settings['fl-body-font-family'], apply_filters( 'fl_body_font_family', array( 300, 400, 700 ) ) );
 		self::add_font( $settings['fl-heading-font-family'], $settings['fl-heading-font-weight'] );
 		self::add_font( $settings['fl-nav-font-family'], $settings['fl-nav-font-weight'] );
 

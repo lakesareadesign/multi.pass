@@ -1,0 +1,247 @@
+/* Refined Pro Front Page
+Loads on the front page */
+
+/* Front Page
+---------------------------------------------------------------------------------------------------- */
+
+.front-page .site-inner {
+	margin: 0 auto;
+	max-width: 100%;
+}
+
+.front-page .content-sidebar-wrap {
+	margin: 0px auto;
+	max-width: 1200px;
+}
+
+.front-page .blog {
+	margin-top: 30px;
+}
+
+.front-page .wrap {
+	margin: 0 auto;
+	max-width: 1200px;
+}
+
+.front-page .entry-header {
+	margin-bottom: 0;
+}
+
+.front-page p:last-child,
+.front-page .widget:last-child {
+	border: none;
+}
+
+.front-page .icon {
+    color: #ae9d78;
+    display: block;
+    font-size: 30px;
+}
+
+.front-page .widget-area h3 {
+	color: #ae9d78;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 26px;
+	font-weight: 300;
+	letter-spacing: 8px;
+	margin: 0 0 10px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.front-page .blog.widget-area h3 {
+	margin-bottom: 50px;
+}
+
+.front-page .home-slider-overlay.widget-area h3 {
+	margin-bottom: 30px;
+}
+
+.front-page .site-inner .widget-title {
+	color: #ae9d78;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-size: 22px;
+	letter-spacing: 5px;
+	margin: 0;
+}
+
+.front-page .site-inner .content-sidebar-wrap .widget-title {
+	color: #333;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-size: 22px;
+	letter-spacing: 1px;
+	margin: 0;
+}
+
+.home-slider-overlay .widget-title {
+	color: #ae9d78;
+	font-family: 'Cormorant Garamond', serif;
+	font-style: italic;
+	font-size: 22px;
+	letter-spacing: 5px;
+	margin: 0;
+}
+
+.front-page .featured-content .entry {
+	padding: 0;
+}
+
+.front-page .featured-content .entry {
+	position: relative;
+}
+
+.front-page-1 .featured-content .entry-header {
+	background: #f7f4f3;
+	border: 10px solid #fff;
+    bottom: -7%;
+    left: 0;
+    margin: 0 10%;
+    padding: 15px 20px;
+    position: absolute;
+    width: auto;
+}
+
+.front-page-1 .featured-content .entry,
+.front-page-3 .featured-content .entry {
+	background: none;
+}
+
+.front-page-1 .featured-content .entry-header .entry-title a {
+	font-family: "Cormorant Garamond",serif;
+	font-size: 20px;
+	letter-spacing: 2px;
+	line-height: 20px;
+	margin: 0;
+	overflow: visible;
+	text-align: center;
+	width: 100%;
+}
+
+.front-page-1 img.alignnone,
+.front-page-1 .alignnone {
+	margin: 0;
+}
+
+.front-page-1 .featured-content .entry-header h2 {
+	margin: 0;
+}
+
+/* Slider Overlay
+------------------------------------------------------ */
+
+.home-slider {
+	background: #fff;
+	padding: 0;
+	overflow: hidden;
+}
+
+.soliloquy-container {
+	margin: 0 auto !important;
+}
+
+.soliloquy-container .soliloquy-next,
+.soliloquy-container .soliloquy-prev {
+	background-color: transparent !important;
+}
+
+.home-slider .soliloquy-container .soliloquy-image {
+	width: 100%;
+}
+
+.home-slider-container {
+	position: relative;
+	margin: 0 auto -40px;
+}
+
+.home-slider-overlay .wrap {
+	background: rgba(255,255,255, 1);
+	left: 65%;
+	max-width: 25%;
+	padding: 30px 60px;
+	position: absolute;
+	text-align: center;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	width: auto;
+}
+
+.home-slider-overlay .wrap .widget {
+	border-bottom: 1px solid #f7f4f3;
+	border-top: 1px solid #f7f4f3;
+	padding: 30px 0;
+}
+
+.home-slider-overlay .widget-title::after {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* Front Page Areas
+--------------------------------------------- */
+
+.front-page-1,
+.front-page-2,
+.front-page-3,
+.front-page-4,
+.front-page-5 {
+	overflow: hidden;
+	padding: 50px 0;
+	text-align: center;
+}
+
+.front-page-2,
+.front-page-4 {
+	background: none;
+}
+
+.front-page-1,
+.front-page-3,
+.front-page-5 {
+	background: #fff;
+}
+
+/* Journal
+--------------------------------------------- */
+
+.journal .widget-title {
+	text-align: center;
+}
+
+
+/* Media Queries
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 1200px) {
+
+	.home-slider-overlay .wrap {
+		border: none;
+		max-width: 100%;
+		position: static;
+		-webkit-transform: none;
+		-o-transform: none;
+		transform: none;
+	}
+
+	.front-page .wrap {
+		width: 100%;
+	}
+
+	.site-inner {
+		padding: 0;
+	}
+
+}
+
+@media only screen and (max-width: 500px) {
+
+	.front-page .blog .entry {
+		float: none;
+		width: 100%;
+	}
+
+}
