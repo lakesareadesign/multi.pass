@@ -3,7 +3,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 
 	class UltimateBrandingAdmin {
 
-		var $build = 1.54;
+		var $build;
 		var $modules = array(
 			'login-image.php' => 'login-image/login-image.php',
 			'custom-admin-bar.php' => 'custom-admin-bar/custom-admin-bar.php',
@@ -28,6 +28,9 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			'signup-password.php' => '/signup-password/signup-password.php',
 			'htmlemail.php' => '/htmlemail/htmlemail.php',
 			'custom-login-screen.php' => 'custom-login-screen.php',
+			'custom-ms-register-emails.php' => 'custom-ms-register-emails.php',
+			'export-import.php' => 'export-import.php',
+			'admin-panel-tips/admin-panel-tips.php' => 'admin-panel-tip',
 		);
 		var $plugin_msg = array();
 		// Holder for the help class
@@ -44,9 +47,17 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		var $messages = array();
 
 		function __construct() {
-			add_action( 'plugins_loaded', array( &$this, 'load_modules' ) );
-			add_action( 'plugins_loaded', array( &$this, 'setup_translation' ) );
-			add_action( 'init', array( &$this, 'initialise_ub' ) );
+
+			global $ub_version;
+			$this->build = $ub_version;
+
+			if ( ! is_multisite() ) {
+				unset( $this->modules['custom-ms-register-emails.php'] );
+			}
+
+			add_action( 'plugins_loaded', array( $this, 'load_modules' ) );
+			add_action( 'plugins_loaded', array( $this, 'setup_translation' ) );
+			add_action( 'init', array( $this, 'initialise_ub' ) );
 			/**
 			 * default messages
 			 */
@@ -144,22 +155,25 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 
 			if ( ! is_multisite() ) {
 				if ( UB_HIDE_ADMIN_MENU != true ) {
-					add_action( 'admin_menu', array( &$this, 'network_admin_page' ) );
+					add_action( 'admin_menu', array( $this, 'network_admin_page' ) );
 				}
 			} else {
-
 				if ( is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
-					add_action( 'network_admin_menu', array( &$this, 'network_admin_page' ) );
+					add_action( 'network_admin_menu', array( $this, 'network_admin_page' ) );
+					$show_in_subsites = $this->check_show_in_subsites();
+					if ( $show_in_subsites ) {
+						add_action( 'admin_menu', array( $this, 'admin_page' ) );
+					}
 				} else {
 					// Added to allow single site activation across a network
 					if ( UB_HIDE_ADMIN_MENU != true && ! defined( 'UB_HIDE_ADMIN_MENU_' . $blog_id ) ) {
-						add_action( 'admin_menu', array( &$this, 'network_admin_page' ) );
+						add_action( 'admin_menu', array( $this, 'network_admin_page' ) );
 					}
 				}
 			}
 
 			// Header actions
-			add_action( 'load-toplevel_page_branding', array( &$this, 'add_admin_header_branding' ) );
+			add_action( 'load-toplevel_page_branding', array( $this, 'add_admin_header_branding' ) );
 		}
 
 		function setup_translation() {
@@ -256,6 +270,21 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		/**
 		 * Add pages
 		 */
+		function admin_page() {
+
+			// Add in our menu page
+			add_menu_page(
+				__( 'Branding', 'ub' ),
+				__( 'Branding', 'ub' ),
+				'manage_options', 'branding',
+				array( $this, 'handle_main_page_subsite' ),
+				'dashicons-art'
+			);
+		}
+
+		/**
+		 * Add pages
+		 */
 		function network_admin_page() {
 
 			if ( function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
@@ -272,6 +301,15 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 				array( $this, 'handle_main_page' ),
 				'dashicons-art'
 			);
+			if ( ! is_network_admin() ) {
+				add_submenu_page(
+					'branding',
+					__( 'Dashboard', 'ub' ),
+					__( 'Dashboard', 'ub' ),
+					$capability, 'branding',
+					array( $this, 'handle_main_page' )
+				);
+			}
 
 			// Get the activated modules
 			$modules = get_ub_activated_modules();
@@ -363,9 +401,60 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 						}
 						break;
 
+					/**
+					 * Custom MS email content
+					 *
+					 * @since 1.8.6
+					 */
+					case 'custom-ms-register-emails.php':
+						if ( ! ub_has_menu( 'branding&amp;tab=custom-ms-register-emails' ) ) {
+							add_submenu_page( 'branding', __( 'Custom MS registration', 'ub' ), __( 'Registration emails', 'ub' ), $capability, 'branding&amp;tab=custom-ms-register-emails', array(
+								$this,
+								'handle_custom_ms_register_emails_panel',
+							) );
+						}
+						break;
+
+					/**
+					 * Export - Import
+					 *
+					 * @since 1.8.6
+					 */
+					case 'export-import.php':
+						if ( ! ub_has_menu( 'branding&amp;tab=export-import' ) ) {
+							add_submenu_page( 'branding', __( 'Export & Import Ultimate Branding configuration', 'ub' ), __( 'Export/Import', 'ub' ), $capability, 'branding&amp;tab=export-import', array(
+								$this,
+								'handle_export_import_panel',
+							) );
+						}
+						break;
+
+					/**
+					 * Admin Panel Tips
+					 *
+					 * @since 1.8.6
+					 */
+					case 'admin-panel-tips/admin-panel-tips.php':
+						if ( ! ub_has_menu( 'branding&amp;tab=admin-panel-tips' ) ) {
+							if ( is_network_admin() ) {
+								add_submenu_page( 'branding', __( 'Admin Panel Tips', 'ub' ), __( 'Tips', 'ub' ), $capability, 'branding&amp;tab=admin-panel-tips', array( $this, 'handle_admin_panel_tips_panel' ) );
+							}
+						}
+						break;
+
 				}
 			}
 			do_action( 'ultimate_branding_add_menu_pages' );
+
+			/**
+			 * sort
+			 */
+			global $submenu;
+			if ( isset( $submenu['branding'] ) ) {
+				$items = $submenu['branding'];
+				usort( $items, array( $this, 'sort_admin_menu' ) );
+				$submenu['branding'] = $items;
+			}
 		}
 
 		function activate_module( $module ) {
@@ -566,11 +655,66 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 						} else {
 							wp_safe_redirect( UB_Help::add_query_arg_raw( 'msg', 2, wp_get_referer() ) );
 						}
-	break;
+						break;
+
+					/**
+					 * Custom MS registration emails
+					 *
+					 * @since 1.8.6
+					 */
+					case 'custom-ms-register-emails':
+						check_admin_referer( 'ultimatebranding_settings_custom_ms_register_emails' );
+						if ( apply_filters( 'ultimatebranding_settings_custom_ms_register_emails_process', true ) ) {
+							wp_safe_redirect( UB_Help::add_query_arg_raw( 'msg', 1, wp_get_referer() ) );
+						} else {
+							wp_safe_redirect( UB_Help::add_query_arg_raw( 'msg', 2, wp_get_referer() ) );
+						}
+						break;
+
+					/**
+					 * Export Import
+					 *
+					 * @since 1.8.6
+					 */
+					case 'export-import':
+						check_admin_referer( 'ultimatebranding_settings_export_import' );
+						if ( apply_filters( 'ultimatebranding_settings_export_import_process', true ) ) {
+							wp_safe_redirect( UB_Help::add_query_arg_raw( 'msg', 1, wp_get_referer() ) );
+						} else {
+							wp_safe_redirect( UB_Help::add_query_arg_raw( 'msg', 2, wp_get_referer() ) );
+						}
+						break;
+
+					/**
+					 * Admin Panel Tips
+					 *
+					 * @since 1.8.6
+					 */
+					case 'admin-panel-tips':
+						check_admin_referer( 'ultimatebranding_settings_admin_panel_tips' );
+						$message = apply_filters( 'ultimatebranding_settings_admin_panel_tips_process', 2 );
+						if ( is_array( $message ) ) {
+							wp_safe_redirect( UB_Help::add_query_arg_raw( $message, wp_get_referer() ) );
+						} else {
+							wp_safe_redirect( UB_Help::add_query_arg_raw( 'msg', $message, wp_get_referer() ) );
+						}
+						break;
+
 					default: do_action( 'ultimatebranding_settings_update_' . $tab );
 	break;
 				}
 			}
+		}
+
+		/**
+		 * Handle main page on subsite
+		 */
+		function handle_main_page_subsite() {
+?>
+<div class='wrap nosubsub'>
+    <h1><?php _e( 'Ultimate Branding', 'ub' ); ?></h1>
+</div>
+<?php
 		}
 
 		function handle_main_page() {
@@ -637,23 +781,48 @@ foreach ( $modules as $key => $title ) {
 		case 'custom-login-screen.php':
 			$menus['custom-login-screen'] = __( 'Custom Login', 'ub' );
 			break;
+		case 'custom-ms-register-emails.php':
+			$menus['custom-ms-register-emails'] = __( 'Custom MS registration emails', 'ub' );
+			break;
+		case 'export-import.php':
+			$menus['export-import'] = __( 'Export/Import', 'ub' );
+			break;
+		case 'admin-panel-tips/admin-panel-tips.php':
+			$menus['admin-panel-tips'] = __( 'Tips', 'ub' );
+			break;
 	}
 }
 
 			$menus = apply_filters( 'ultimatebranding_settings_menus', $menus );
-?>
-
-                <h3 class="nav-tab-wrapper">
-<?php
+echo '<h3 class="nav-tab-wrapper">';
 foreach ( $menus as $key => $menu ) {
-?>
-			<a class="nav-tab<?php if ( $tab == $key ) { echo ' nav-tab-active'; } ?>" href="admin.php?page=<?php echo $page; ?>&amp;tab=<?php echo $key; ?>"><?php echo $menu; ?></a>
-<?php
+	$url = add_query_arg(
+		array(
+			'page' => $page,
+			'tab' => $key,
+		),
+		is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' )
+	);
+	$classes = array(
+		'nav-tab',
+	);
+	if ( $tab == $key ) {
+		$classes[] = 'nav-tab-active';
+	}
+	/**
+	 * exceptions
+	 */
+	if ( 'admin-panel-tips' == $key && ! is_multisite() ) {
+		$url = add_query_arg( 'post_type', 'admin_panel_tip', admin_url( 'edit.php' ) );
+	}
+	printf(
+		'<a href="%s" class="%s">%s</a>',
+		esc_url( $url ),
+		esc_attr( implode( ' ', $classes ) ),
+		esc_html( $menu )
+	);
 }
-?>
-                </h3>
-
-<?php
+			echo '</h3>';
 switch ( $tab ) {
 
 	case 'dashboard': $this->show_dashboard_page();
@@ -715,6 +884,33 @@ switch ( $tab ) {
 	 */
 	case 'custom-login-screen':
 		$this->handle_custom_login_screen_panel();
+	break;
+
+	/**
+	 * Custom MS registration emails
+	 *
+	 * @since 1.8.6
+	 */
+	case 'custom-ms-register-emails':
+		$this->handle_custom_ms_register_emails_panel();
+	break;
+
+	/**
+	 * Export/Import
+	 *
+	 * @since 1.8.6
+	 */
+	case 'export-import':
+		$this->handle_export_import_panel();
+	break;
+
+	/**
+	 * Admin Panel Tips
+	 *
+	 * @since 1.8.6
+	 */
+	case 'admin-panel-tips':
+		$this->handle_admin_panel_tips_panel();
 	break;
 
 	default: do_action( 'ultimatebranding_settings_menu_' . $tab );
@@ -847,7 +1043,16 @@ if ( ! empty( $this->modules ) ) {
 
 	$mods = array();
 	foreach ( $this->modules as $module => $plugin ) {
-		$module_data = get_file_data( ub_files_dir( 'modules/' . $module ), $default_headers, 'plugin' );
+		/**
+		 * Check file exists
+		 *
+		 * @since 1.8.6
+		 */
+		$file = ub_files_dir( 'modules/' . $module );
+		if ( ! is_file( $file ) || ! is_readable( $file ) ) {
+			continue;
+		}
+		$module_data = get_file_data( $file, $default_headers, 'plugin' );
 		$module_data['module'] = $module;
 		$module_data['plugin'] = $plugin;
 		$mods[ $module_data['Name'] ] = $module_data;
@@ -1674,6 +1879,58 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		}
 
 		/**
+		 * Custom MS emails
+		 *
+		 * @since 1.8.6
+		 */
+		function handle_custom_ms_register_emails_panel() {
+			global $action, $page;
+			$messages = apply_filters( 'ultimatebranding_settings_custom_ms_register_emails_messages', $this->messages );
+			$this->header( __( 'Custom MS Registered emails', 'ub' ) );
+			if ( isset( $_GET['msg'] ) ) {
+				echo '<div id="message" class="updated fade"><p>' . $messages[ $_GET['msg'] ] . '</p></div>';
+				$_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg( array( 'message' ), $_SERVER['REQUEST_URI'] );
+			}
+			$this->form( 'ultimatebranding_settings_custom_ms_register_emails' );
+		}
+
+		/**
+		 * Export & Import screen
+		 *
+		 * @since 1.8.6
+		 */
+		function handle_export_import_panel() {
+			global $action, $page;
+			$messages = apply_filters( 'ultimatebranding_settings_export_import_messages', $this->messages );
+			$this->header( __( 'Export & Import Ultimate Branding configuration', 'ub' ) );
+			if ( isset( $_GET['msg'] ) ) {
+				echo '<div id="message" class="updated fade"><p>' . $messages[ $_GET['msg'] ] . '</p></div>';
+				$_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg( array( 'message' ), $_SERVER['REQUEST_URI'] );
+			}
+			$this->form( 'ultimatebranding_settings_export_import', false );
+		}
+
+		/**
+		 * Tips screen
+		 *
+		 * @since 1.8.6
+		 */
+		function handle_admin_panel_tips_panel() {
+			global $action, $page;
+			$messages = apply_filters( 'ultimatebranding_settings_admin_panel_tips_messages', $this->messages );
+			$this->header( __( 'Admin Panel Tips', 'ub' ) );
+			if ( isset( $_GET['msg'] ) ) {
+
+				$msg = $_GET['msg'];
+				$msg = isset( $messages[ $msg ] ) ? $msg:2;
+
+				echo '<div id="message" class="updated fade"><p>' . $messages[ $msg ] . '</p></div>';
+				$_SERVER['REQUEST_URI'] = UB_Help::remove_query_arg( array( 'message' ), $_SERVER['REQUEST_URI'] );
+			}
+			$this->form( 'ultimatebranding_settings_admin_panel_tips', false );
+		}
+
+		/**
 		 * Print button save.
 		 *
 		 * @since 1.8.4
@@ -1696,21 +1953,55 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 			printf( '<h1>%s</h1>', $title );
 		}
 
-		public function form( $action ) {
+		/**
+		 * Auto form wrapper
+		 *
+		 * @since 1.8.4
+		 * @since 1.8.6 Added `$show_submit_button` param.
+		 *
+		 * @param string $action Form action.
+		 * @param boolean $show_submit_button Show or not "save" button.
+		 *
+		 */
+		public function form( $action, $show_submit_button = true ) {
 			global $page;
 			$tab = isset( $_GET['tab'] )? $_GET['tab']:'';
 			echo  '<div id="poststuff" class="metabox-holder m-settings">';
-			echo  '<form action="" method="post" enctype="multipart/form-data">';
+			printf( '<form action="" method="post" enctype="multipart/form-data" class="tab-%s">', esc_attr( $tab ) );
 			printf( '<input type="hidden" name="tab" value="%s" id="ub-tab"/>', esc_attr( $tab ) );
 			printf( '<input type="hidden" name="page" value="%s" />', esc_attr( $page ) );
 			echo  '<input type="hidden" name="action" value="process" />';
 			wp_nonce_field( $action );
 			do_action( $action );
-			$filter = $action.'_process';
-			if ( has_filter( $filter ) ) {
-				$this->button_save();
+			if ( $show_submit_button ) {
+				$filter = $action.'_process';
+				if ( has_filter( $filter ) ) {
+					$this->button_save();
+				}
 			}
 			echo '</form></div>';
+		}
+
+		/**
+		 * Sort helper for menu.
+		 *
+		 * @since 1.8.6
+		 */
+		private function sort_admin_menu( $a, $b ) {
+			if ( 'branding' == $a[2] ) {
+				return -1;
+			}
+			return strcasecmp( $a[0], $b[0] );
+		}
+
+		/**
+		 * Should I show menu in admin subsites?
+		 *
+		 * @since 1.8.6
+		 */
+		private function check_show_in_subsites() {
+			return true;
+			return false;
 		}
 	}
 

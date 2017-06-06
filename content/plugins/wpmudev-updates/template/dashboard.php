@@ -64,296 +64,244 @@ foreach ( $data['projects'] as $item ) {
 	if ( $count >= 5 ) break;
 }
 
+// Find the 3 Upfront Themes, that are not installed yet.
+$themes = array();
+$theme_count = 0;
+foreach ( $data['projects'] as $item ) {
+
+	// Skip plugins.
+	if ( 'theme' != $item['type'] ) { continue; }
+
+	$theme = WPMUDEV_Dashboard::$site->get_project_infos( $item['id'] );
+
+	// Skip theme if it's already installed.
+	if ( $theme->is_installed ) { continue; }
+
+	// Skip theme that are not compatible with current site.
+	if ( ! $theme->is_compatible ) { continue; }
+
+	// Skip hidden/deprecated projects.
+	if ( $theme->is_hidden ) { continue; }
+
+	$themes[] = $item;
+	$theme_count++;
+
+	if ( $theme_count >= 3 ) break;
+}
+
 // Render the page header section.
-$page_title = sprintf( __( 'Welcome, %s', 'wpmudev' ), $profile['name'] );
-$this->render_header( $page_title );
+//$page_title = sprintf( __( 'Welcome, %s', 'wpmudev' ), $profile['name'] );
+//$this->render_header( $page_title );
+
+// New variables dashboard page
+$url_support = $urls->real_support_url;
+$url_logout = $urls->dashboard_url . '&clear_key=1';
+$hub_url = $urls->remote_site . 'hub/';
+$real_support_url = $urls->remote_site . 'support/';
+$community_url = $urls->remote_site . 'hub/community/';
+$learn_url = $urls->remote_site . 'academy/';
+$upfront_builder_info_modal = $urls->plugins_url . '#pid=1107287';
 
 ?>
-<section id="subheader" class="row">
-	<div class="col-two-third">
-		<div class="photo-wrap">
-			<figure class="photo">
-				<?php if ( ! empty( $profile['avatar'] ) ) : ?>
-				<img src="<?php echo esc_url( $profile['avatar'] ); ?>" />
-				<?php endif; ?>
-			</figure>
+<?php
+$page_title = __( 'Overview', 'wpmudev' );
+$this->render_header( $page_title );
+?>
+<div class="wpmudui-row">
+	<div class="wpmudui-col is-half-md">
+
+		<div id="wpmud-dash-tools-box" class="wpmudui-box">
+			<header class="wpmudui-box__header has-actions">
+				<h2><?php esc_html_e( 'Tools', 'wpmudev' ); ?></h2>
+				<div class="wpmudui-box__header__actions">
+					<a href="<?php echo esc_url( $hub_url ); ?>" class="wpmudui-btn is-sm is-ghost"><?php esc_html_e( 'Go to my Hub', 'wpmudev' ); ?></a>
+				</div>
+			</header>
+			<section class="wpmudui-box__main no-pad">
+				<div class="wpmudui-box-padded-content">
+					<p><?php esc_html_e( 'We don’t just build plugins &amp; themes… take advantage of our great services included with your membership.', 'wpmudev' ); ?></p>
+				</div>
+				<ul class="wpmudui-products-list is-tools">
+					<li class="wpmudui-product-list__item">
+						<div class="wpmudui-product-list__info">
+							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>/image/tools/the-hub.png');"></div>
+							<div class="wpmudui-product-list__details">
+								<h4><?php esc_html_e( 'The Hub', 'wpmudev' ); ?></h4>
+								<p><?php esc_html_e( 'Manage all your websites updates &amp; more in one place.', 'wpmudev' ); ?></p>
+							</div>
+						</div>
+						<div class="wpmudui-product-list__cta">
+							<a href="<?php echo esc_url( $hub_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'Go to The Hub', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
+						</div>
+					</li>
+					<li class="wpmudui-product-list__item">
+						<div class="wpmudui-product-list__info">
+							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>/image/tools/support.png');"></div>
+							<div class="wpmudui-product-list__details">
+								<h4><?php esc_html_e( 'Support', 'wpmudev' ); ?></h4>
+								<p><?php esc_html_e( 'Get 24/7 expert WordPress support for any issue.', 'wpmudev' ); ?></p>
+							</div>
+						</div>
+						<div class="wpmudui-product-list__cta">
+							<a href="<?php echo esc_url( $real_support_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'Get Support', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
+						</div>
+					</li>
+					<li class="wpmudui-product-list__item">
+						<div class="wpmudui-product-list__info">
+							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>/image/tools/community.png');"></div>
+							<div class="wpmudui-product-list__details">
+								<h4><?php esc_html_e( 'Community', 'wpmudev' ); ?></h4>
+								<p><?php esc_html_e( 'Discuss your favourite topics with other developers.', 'wpmudev' ); ?></p>
+							</div>
+						</div>
+						<div class="wpmudui-product-list__cta">
+							<a href="<?php echo esc_url( $community_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'View Forums', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
+						</div>
+					</li>
+					<li class="wpmudui-product-list__item">
+						<div class="wpmudui-product-list__info">
+							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>/image/tools/learn.png');"></div>
+							<div class="wpmudui-product-list__details">
+								<h4><?php esc_html_e( 'Learn', 'wpmudev' ); ?></h4>
+								<p><?php esc_html_e( 'Become and expert by taking an Academy course.', 'wpmudev' ); ?></p>
+							</div>
+						</div>
+						<div class="wpmudui-product-list__cta">
+							<a href="<?php echo esc_url( $learn_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'Go to The Academy', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
+						</div>
+					</li>
+				</ul>
+			</section>
+		</div><!-- end wpmud-dash-tools-box -->
+
+		<div id="wpmud-dash-themes-box" class="wpmudui-box">
+			<header class="wpmudui-box__header has-actions">
+				<h2><?php esc_html_e( 'Themes', 'wpmudev' ); ?></h2>
+				<div class="wpmudui-box__header__actions">
+					<a href="<?php echo esc_url( $urls->themes_url ); ?>" class="wpmudui-btn is-sm is-ghost"><?php esc_html_e( 'View '. $projects_nr['themes'] .' Themes', 'wpmudev' ); ?></a>
+				</div>
+			</header>
+			<section class="wpmudui-box__main no-pad">
+				<div class="wpmudui-box-padded-content">
+					<p><?php esc_html_e( 'Our themes are built with our drag and drop theme framework Upfront. Here’s a selection of our most popular themes!', 'wpmudev' ); ?></p>
+				</div>
+				<ul class="wpmudui-products-list is-themes">
+				<?php foreach ( $themes as $item ) : ?>
+					<li class="wpmudui-product-list__item">
+						<?php
+						$url = WPMUDEV_Dashboard::$ui->page_urls->themes_url;
+						$url .= '#pid=' . $item['id'];
+						?>
+						<div class="wpmudui-product-list__info">
+							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( $item['thumbnail'] ); ?>');"></div>
+							<div class="wpmudui-product-list__details">
+								<h4><?php esc_html_e( $item['name'] ); ?></h4>
+								<p><?php esc_html_e( $item['short_description'] ); ?></p>
+							</div>
+						</div>
+						<div class="wpmudui-product-list__cta">
+							<?php
+                            $res = WPMUDEV_Dashboard::$site->get_project_infos( $item['id'] );
+                            if ( $res->is_compatible ) { ?>
+                                <a href="<?php echo esc_url( $url ); ?>" class="wpmudui-product-list__btn" tooltip="<?php esc_html_e( 'View theme info', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-plus"></i></a>
+                            <?php } ?>
+						</div>
+					</li>
+				<?php endforeach; ?>
+				</ul>
+			</section>
+			<footer class="wpmudui-box__footer is-center">
+				<p class="wpmudui-note"><?php echo sprintf( __( 'Did you know you can build your own theme from scratch using the <a href="%s">%s</a> plugin? Just install it and away you go!', 'wpmudev' ),  esc_url( $upfront_builder_info_modal ),'Upfront Builder' ); ?></p>
+			</footer>
+		</div><!-- end wpmud-dash-themes-box -->
+
+	</div>
+
+	<div class="wpmudui-col is-half-md">
+
+	<?php if ( $my_project ) : ?>
+		<div id="wpmud-dash-purchased-box" class="wpmudui-box">
+			<header class="wpmudui-box__header has-actions">
+				<h2><?php esc_html_e( 'Purchased', 'wpmudev' ); ?></h2>
+				<div class="wpmudui-box__header__actions">
+					<a href="<?php echo esc_url( $url_upgrade ); ?>" class="wpmudui-btn is-sm is-cta" target="_blank"><?php esc_html_e( 'Upgrade membership', 'wpmudev' ); ?></a>
+				</div>
+			</header>
+			<section class="wpmudui-box__main no-pad">
+				<ul class="wpmudui-products-list is-standalone is-plugins">
+					<li class="wpmudui-product-list__item">
+						<?php
+						$url = WPMUDEV_Dashboard::$ui->page_urls->plugins_url;
+						$url .= '#pid=' . $my_project->pid;
+						?>
+						<div class="wpmudui-product-list__info">
+							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( $my_project->url->thumbnail ); ?>');">
+							</div>
+							<div class="wpmudui-product-list__details">
+								<h4><?php echo esc_html( $my_project->name ); ?></h4>
+								<p><?php echo esc_html( $my_project->info ); ?></p>
+							</div>
+						</div>
+						<div class="wpmudui-product-list__cta">
+							<a href="<?php echo esc_url( $url ); ?>" class="wpmudui-product-list__btn" tooltip="<?php esc_html_e( 'View plugin info', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-plus"></i></a>
+						</div>
+					</li>
+				</ul>
+			</section>
 		</div>
+	<?php endif; ?>
 
-		<div class="overview-score">
-			<span class="dev-level-name">
-				<i class="dev-icon dev-icon-badge"></i>
-				<?php echo esc_html( $level['name'] ); ?>
-			</span>
-			<span class="dev-level-num">
-				&bull;
-				<?php echo esc_html( $points['rep_points'] ); ?>
-			</span>
-		</div>
-		<div class="overview-edit">
-			<a href="<?php echo esc_url( $url_profile ); ?>" target="_blank">
-				<?php esc_html_e( 'Edit Profile', 'wpmudev' ); ?>
-			</a>
-		</div>
-	</div>
-	<div class="col-third tr">
-		<input
-			type="search"
-			placeholder="<?php esc_html_e( 'Search plugins', 'wpmudev' ); ?>"
-			id="project-search"
-			class="project-search"
-			data-hash="<?php echo esc_attr( wp_create_nonce( 'projectsearch' ) ); ?>"
-			data-empty-msg="<?php esc_html_e( 'We did not find a plugin/theme with this name...', 'wpmudev' ); ?>" />
-	</div>
-</section>
-
-<div class="row">
-
-<div class="col-half">
-<section class="box-activity dev-box">
-	<div class="box-title">
-		<span class="buttons">
-			<a href="<?php echo esc_url( $url_points ); ?>" target="_blank" class="button button-small">
-				<?php esc_html_e( 'Earn points', 'wpmudev' ); ?>
-			</a>
-		</span>
-		<h3><?php esc_html_e( 'Activity', 'wpmudev' ); ?></h3>
-	</div>
-	<div class="box-content">
-		<?php if ( count( $history ) ) : ?>
-		<ul class="dev-list top">
-			<li class="list-header">
-			<div>
-				<span class="list-label">
-					<?php esc_html_e( 'Action', 'wpmudev' ); ?>
-				</span>
-				<span class="list-detail">
-					<?php esc_html_e( 'Points awarded', 'wpmudev' ); ?>
-				</span>
+	<div id="wpmud-dash-plugins-box" class="wpmudui-box">
+		<header class="wpmudui-box__header">
+			<h2><?php esc_html_e( 'Plugins', 'wpmudev' ); ?></h2>
+		</header>
+		<section class="wpmudui-box__main no-pad">
+			<div class="wpmudui-box-padded-content">
+				<p><?php esc_html_e( 'Your WPMU DEV membership gives you access to 100+ premium plugins. Here’s our most popular!', 'wpmudev' ); ?></p>
 			</div>
-			</li>
-			<?php foreach ( $history as $item ) : ?>
-			<li>
-			<div>
-				<span class="list-label">
-					<?php echo wp_kses_post( $item['reason'] ); ?>
-				</span>
-				<span class="list-detail">
-					<strong><?php echo esc_html( $item['points'] ); ?></strong>
-				</span>
-			</div>
-			</li>
-			<?php endforeach; ?>
-		</ul>
-		<?php endif; ?>
-		<p class="tc">
-		<?php esc_html_e( 'Get involved in the community and earn Hero Points, which you can redeem for real stuff, like discounted memberships and t-shirts.', 'wpmudev' ); ?>
-		</p>
-	</div>
-</section>
-</div>
-
-<div class="col-half">
-<?php if ( 'full' != $type ) : ?>
-<div class="group">
-	<a href="<?php echo esc_url( $url_upgrade ); ?>" class="button button-cta block" target="_blank">
-		<?php esc_html_e( 'Upgrade membership', 'wpmudev' ); ?>
-	</a>
-</div>
-<?php if ( $my_project ) : ?>
-<section class="box-popular dev-box">
-	<div class="box-title">
-		<h3><?php esc_html_e( 'Purchased', 'wpmudev' ); ?></h3>
-	</div>
-	<div class="box-content">
-		<ul class="dev-list standalone">
-			<li>
-			<div>
-				<span class="list-label">
-					<?php
-					$base_url = WPMUDEV_Dashboard::$ui->page_urls->plugins_url;
-					$info_url = $base_url . '#pid=' . $my_project->pid;
-					$update_url = $base_url . '#update=' . $my_project->pid;
-					?>
-					<a href="<?php echo esc_url( $info_url ); ?>">
-						<?php echo esc_html( $my_project->name ); ?>
-					</a>
-				</span>
-				<span class="list-detail" data-project="<?php echo esc_attr( $my_project->pid ); ?>">
-				<?php if ( $my_project->is_installed ) : /* INSTALLED */ ?>
-					<?php if ( $my_project->has_update ) { ?>
-						<a
-							href="<?php echo esc_url( $update_url ); ?>"
-							class="button button-yellow button-small one-click" >
-							<?php esc_html_e( 'Update', 'wpmudev' ); ?>
-						</a>
-					<?php } elseif ( $my_project->is_active && $my_project->url->config ) { ?>
-						<a
-							href="<?php echo esc_url( $my_project->url->config ); ?>"
-							class="button button-light button-small one-click" >
-							<?php esc_html_e( 'Configure', 'wpmudev' ); ?>
-						</a>
-					<?php } elseif ( ! $my_project->is_active && $my_project->can_activate ) { ?>
-						<a
-							href="<?php echo esc_url( $my_project->url->activate ); ?>"
-							class="button button-small one-click"
-							data-action="project-activate"
-							data-hash="<?php echo esc_attr( wp_create_nonce( 'project-activate' ) ); ?>" >
-							<?php esc_html_e( 'Activate', 'wpmudev' ); ?>
-						</a>
-					<?php } else { ?>
-						<a
-							href="<?php echo esc_url( $my_project->url->instructions ); ?>"
-							rel="dialog"
-							class="button button-small button-secondary"
-							data-class="small no-margin"
-							data-title="<?php printf(
-								esc_html__( '%s Instructions', 'wpmudev' ), esc_attr( $my_project->name )
-							); ?>"
-							data-height="600"
-							>
-							<?php esc_html_e( 'Instructions', 'wpmudev' ); ?>
-						</a>
-					<?php } ?>
-				<?php else : /* NOT INSTALLED */ ?>
-					<?php if ( $my_project->is_compatible && $my_project->url->install ) { ?>
-					<a
-						href="<?php echo esc_url( $my_project->url->install ); ?>"
-						class="button button-green button-cta button-small one-click"
-						data-action="project-install"
-						data-hash="<?php echo esc_attr( wp_create_nonce( 'project-install' ) ); ?>" >
-						<?php esc_html_e( 'Install', 'wpmudev' ); ?>
-					</a>
-					<?php } elseif ( $my_project->is_compatible ) { ?>
-					<a
-						href="<?php echo esc_url( $my_project->url->download ); ?>"
-						class="button button-secondary button-small"
-						target="_blank" >
-						<?php esc_html_e( 'Download', 'wpmudev' ); ?>
-					</a>
-					<?php } else { ?>
-					<a
-						href="#"
-						class="button disabled button-small" >
-						<?php echo esc_html( $my_project->incompatible_reason ); ?>
-					</a>
-					<?php } ?>
-				<?php endif; ?>
-				</span>
-			</div>
-			</li>
-		</ul>
-	</div>
-</section>
-<?php endif; ?>
-<?php endif; ?>
-
-<section class="box-popular dev-box">
-	<div class="box-title">
-		<h3><?php esc_html_e( 'Popular plugins', 'wpmudev' ); ?></h3>
-	</div>
-	<div class="box-content">
-		<ul class="dev-list">
+			<ul class="wpmudui-products-list is-plugins">
 			<?php foreach ( $popular as $item ) : ?>
-			<li>
-			<div>
-				<span class="list-label">
+				<li class="wpmudui-product-list__item">
 					<?php
 					$url = WPMUDEV_Dashboard::$ui->page_urls->plugins_url;
 					$url .= '#pid=' . $item['id'];
 					?>
-					<a href="<?php echo esc_url( $url ); ?>">
-						<?php echo esc_html( $item['name'] ); ?>
-					</a>
-				</span>
-				<span class="list-detail">
-					<?php if ( 'full' == $type ) : ?>
+					<div class="wpmudui-product-list__info">
+						<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( $item['thumbnail'] ); ?>');">
+						</div>
+						<div class="wpmudui-product-list__details">
+							<h4><?php esc_html_e( $item['name'] ); ?></h4>
+							<p><?php esc_html_e( $item['short_description'] ); ?></p>
+						</div>
+					</div>
+					<div class="wpmudui-product-list__cta">
 						<?php
-						$res = WPMUDEV_Dashboard::$site->get_project_infos( $item['id'] );
-
-						if ( $res->is_compatible && $res->url->install ) { ?>
-						<a
-							href="<?php echo esc_url( $res->url->install ); ?>"
-							class="button button-green button-cta button-small one-click"
-							data-action="project-install"
-							data-hash="<?php echo esc_attr( wp_create_nonce( 'project-install' ) ); ?>" >
-							<?php esc_html_e( 'Install', 'wpmudev' ); ?>
-						</a>
-						<?php } elseif ( $res->is_compatible ) { ?>
-						<a
-							href="<?php echo esc_url( $item['url'] ); ?>"
-							class="button button-secondary button-small"
-							target="_blank" >
-							<?php esc_html_e( 'Download', 'wpmudev' ); ?>
-						</a>
-						<?php } ?>
-					<?php else : ?>
-						<a
-							href="<?php echo esc_url( $url_upgrade ); ?>"
-							class="button button-secondary button-small"
-							target="_blank">
-							<?php esc_html_e( 'Upgrade', 'wpmudev' ); ?>
-						</a>
-					<?php endif; ?>
-				</span>
-			</div>
-			</li>
+                        $res = WPMUDEV_Dashboard::$site->get_project_infos( $item['id'] );
+                        if ( $res->is_compatible ) { ?>
+                            <a href="<?php echo esc_url( $url ); ?>" class="wpmudui-product-list__btn" tooltip="<?php esc_html_e( 'View plugin info', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-plus"></i></a>
+                        <?php } ?>
+					</div>
+				</li>
 			<?php endforeach; ?>
-		</ul>
-		<a href="<?php echo esc_url( $urls->plugins_url ); ?>" class="button button-light block">
-			<?php esc_html_e( 'View all plugins', 'wpmudev' ); ?>
-		</a>
-	</div>
-</section>
+			</ul>
+		</section>
+		<footer class="wpmudui-box__footer">
+			<a href="<?php echo esc_url( $urls->plugins_url ); ?>" class="wpmudui-btn is-sm is-ghost"><?php esc_html_e( 'View '. $projects_nr['plugins'] .' Plugins', 'wpmudev' ); ?></a>
+		</footer>
+	</div><!-- end wpmud-dash-plugins-box -->
 
-<section class="box-links dev-box">
-	<div class="box-title">
-		<h3><?php esc_html_e( 'Quick links', 'wpmudev' ); ?></h3>
+
 	</div>
-	<div class="box-content">
-		<ul class="quick-links">
-			<li><div>
-				<span class="icon"><i class="dev-icon dev-icon-rocket_alt"></i></span>
-				<?php
-				printf(
-					esc_html__( '%sInstall%s new plugins & themes', 'wpmudev' ),
-					'<a href="' . esc_url( $quick_1 ) . '">',
-					'</a>'
-				);
-				?>
-			</div></li>
-			<li><div>
-				<span class="icon"><i class="dev-icon dev-icon-book"></i></span>
-				<?php
-				printf(
-					esc_html__( '%sLearn%s how to master WordPress', 'wpmudev' ),
-					'<a href="' . esc_url( $quick_2 ) . '" target="_blank">',
-					'</a>'
-				);
-				?>
-			</div></li>
-			<li><div>
-				<span class="icon"><i class="dev-icon dev-icon-support"></i></span>
-				<?php
-				printf(
-					esc_html__( '%sOpen%s a support ticket', 'wpmudev' ),
-					'<a href="' . esc_url( $quick_3 ) . '" target="_blank">',
-					'</a>'
-				);
-				?>
-			</div></li>
-			<li><div>
-				<span class="icon"><i class="dev-icon dev-icon-speach"></i></span>
-				<?php
-				printf(
-					esc_html__( '%sBrowse%s the WPMU DEV Community', 'wpmudev' ),
-					'<a href="' . esc_url( $quick_4 ) . '" target="_blank">',
-					'</a>'
-				);
-				?>
-			</div></li>
-		</ul>
-	</div>
-</section>
 </div>
 
-</div>
+<?php if ( isset( $_GET['synced'] ) ) { //auto show modal after login redirect ?>
+<dialog id="confirmation-modal" title="You’re connected!" class="no-close wpmudui wpmudui-modal has-bottom-hero auto-show">
+	<div class="wpmudui-alert is-success">
+		<p><i class="wpmudui-fi wpmudui-fi-circle-tick"></i> <?php esc_html_e( 'Great, your website is now synced to the WPMU DEV Hub!', 'wpmudev' ); ?></p>
+	</div>
+	<p><?php printf( __( 'Keep this plugin installed to access Pro-only features, 24/7 support and <a href="%s" target=_blank">use the Hub</a> to manage all your websites in one handy place.', 'wpmudev' ), $hub_url ); ?></p>
+	<p class="wpmdui-ctn-right">
+		<button class="wpmudui-btn is-brand close"><?php esc_html_e( 'Get Started', 'wpmudev' ); ?></button>
+	</p>
+</dialog><!-- end confirmation-modal-->
+<?php } //end modal ?>

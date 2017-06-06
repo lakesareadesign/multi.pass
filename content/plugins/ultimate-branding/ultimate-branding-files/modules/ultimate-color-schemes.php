@@ -3,15 +3,10 @@
   Plugin Name: Ultimate Color Schemes
   Plugin URI: http://premium.wpmudev.org/project/ultimate-color-schemes/
   Description: Customize admin color schemes.
-  Author: Incsub
   Author URI: http://premium.wpmudev.org/
   Version: 1.0.1
-  TextDomain: ub
-  Domain Path: /languages/
-  License: GNU General Public License (Version 2 - GPLv2)
-  Lead Developer: Marko Miljus
 
-  Copyright 2007-2014 Incsub (http://incsub.com)
+  Copyright 2007-2017 Incsub (http://incsub.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -46,27 +41,21 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 		}
 
 		function __construct() {
-
 			$this->name = __( 'Ultimate Color Schemes', 'ub' );
-
 			//Custom header actions
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_header_actions' ) );
-
 			add_action( 'admin_init', array( &$this, 'admin_custom_color_scheme_option' ), 0 );
-
 			// Admin interface
 			add_action( 'ultimatebranding_settings_menu_ultimate_color_schemes', array( &$this, 'manage_output' ) );
-
 			add_filter( 'ultimatebranding_settings_menu_ultimate_color_schemes_process', array( &$this, 'process' ) );
-
 			add_action( 'admin_head', array( &$this, 'wp_color_scheme_settings' ), 0 );
-
 			add_filter( 'get_user_option_admin_color', array( &$this, 'force_admin_scheme_color' ), 5, 3 );
-
 			add_action( 'user_register', array( &$this, 'set_default_admin_color' ) );
-
 			add_action( 'wpmu_new_user', array( &$this, 'set_default_admin_color' ) );
-
+			/**
+			 * export
+			 */
+			add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
 		}
 
 		function set_default_admin_color( $user_id ) {
@@ -482,8 +471,32 @@ foreach ( $color_array as $property => $value ) {
 
 <?php
 		}
-	}
 
+		/**
+		 * Export data.
+		 *
+		 * @since 1.8.6
+		 */
+		public function export( $data ) {
+			$options = array(
+				'ucs_default_color_scheme',
+				'ucs_force_color_scheme',
+				'ucs_visible_color_schemes',
+				'ucs_color_scheme_name',
+			);
+			$colors = $this->colors();
+			foreach ( $colors as $color ) {
+				$keys = array_keys( $color );
+				foreach ( $keys as $key ) {
+					$options[] = $key;
+				}
+			}
+			foreach ( $options as $key ) {
+				$data['modules'][ $key ] = ub_get_option( $key );
+			}
+			return $data;
+		}
+	}
 }
 
 $ultimate_color_schemes = new Ultimate_Color_Schemes();

@@ -45,6 +45,7 @@ class UB_Admin_Bar {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enque_general_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enque_general_scripts' ) );
 		add_action( 'init', array( $this, 'try_to_show_admin_bar' ) );
+		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
 	}
 
 	public function try_to_show_admin_bar() {
@@ -580,7 +581,7 @@ UBSTYLE;
 			global $wp_admin_bar;
 			$wproles = ub_get_option( 'wdcab' );
 
-			$hide_from_subscriber = count( $current_user->roles ) === 0 && isset( $wproles['wp_menu_roles'] ) && in_array( 'subscriber', (array) $wproles['wp_menu_roles'] );	   	 		 		 	   		
+			$hide_from_subscriber = count( $current_user->roles ) === 0 && isset( $wproles['wp_menu_roles'] ) && in_array( 'subscriber', (array) $wproles['wp_menu_roles'] );
 			if (
 				/**
 				 * not loged, remove
@@ -660,6 +661,28 @@ UBSTYLE;
             <?php echo self::styles();?>
         </style>
 <?php
+	}
+
+	/**
+	 * Export data.
+	 *
+	 * @since 1.8.6
+	 */
+	public function export( $data ) {
+		$options = array(
+			'wdcab',
+			self::STYLE,
+			self::ORDER,
+		);
+		foreach ( $options as $key ) {
+			$data['modules'][ $key ] = ub_get_option( $key );
+		}
+		$menus = ub_get_option( self::OPTION_KEY );
+		foreach ( $menus as $menu_id ) {
+			$id = self::_get_menu_composite_id( $menu_id );
+			$data['modules'][ self::OPTION_KEY ][ $menu_id ] = ub_get_option( $id );
+		}
+		return $data;
 	}
 }
 

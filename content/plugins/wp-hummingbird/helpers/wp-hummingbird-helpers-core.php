@@ -419,6 +419,9 @@ function wphb_enqueue_admin_scripts( $ver ) {
 			'nonces' => array(
 				'expiry' => wp_create_nonce( 'wphb-cloudflare-expiry' )
 			)
+		),
+		'nonces' => array(
+			'HBFetchNonce' => wp_create_nonce( 'wphb-fetch' )
 		)
 	);
 	wp_localize_script( 'wphb-admin', 'wphb', $i10n );
@@ -733,4 +736,60 @@ function _wphb_still_having_trouble_link() {
 	?>
 	<p><?php _e( 'Still having trouble? ', 'wphb' ); ?><a target="_blank" href="<?php echo wphb_support_link(); ?>"><?php _e( 'Open a support ticket.', 'wphb' ); ?></a></p>
 	<?php
+}
+
+/**
+ * Get avatar URL.
+ *
+ * @param $get_avatar string User email.
+ * @return mixed
+ * @since 1.4.5
+ */
+function wphb_get_avatar_url( $get_avatar ) {
+    preg_match( "/src='(.*?)'/i", $get_avatar, $matches );
+
+    return $matches[1];
+}
+
+/**
+ * Get display name
+ *
+ * @param $id int User ID.
+ * @return null|string
+ * @since 1.4.5
+ */
+function wphb_get_display_name( $id ) {
+    $user = get_user_by( 'id', $id );
+    if ( ! is_object( $user ) ) {
+        return null;
+    }
+    if ( ! empty( $user->user_nicename ) ) {
+        return $user->user_nicename;
+    } else {
+        return $user->user_firstname . ' ' . $user->user_lastname;
+    }
+}
+
+/**
+ * Load the premium side of the plugin if is present
+ *
+ * @return bool True if the pro folder is available
+ */
+function wphb_load_pro() {
+	if ( class_exists( 'WP_Hummingbird_Pro' ) && is_a( wp_hummingbird()->pro, 'WP_Hummingbird_Pro' ) ) {
+		// Already loaded
+		return true;
+	}
+
+	if ( defined( 'WPHB_LOAD_PRO' ) && false === WPHB_LOAD_PRO ) {
+		return false;
+	}
+
+	$pro_class = wphb_plugin_dir() . '/core/pro/class-pro.php';
+	if ( is_readable( $pro_class ) ) {
+		include_once( $pro_class );
+		return true;
+	}
+
+	return false;
 }

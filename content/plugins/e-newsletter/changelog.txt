@@ -5,6 +5,10 @@ Lead developer: Maniu
 Contributors: Cole, Andrey
 
 == Changelog ==
+= 2.7.4.1 =
+* Added ability to filter placeholders with 'email_newsletter/personalise_email_body'
+* Fixed compatibility with CoursePress
+
 = 2.7.4.0 =
 * Fixed possible JS conflicts on admin page
 * Fixed compatibility with Fusion Core
@@ -499,4 +503,4 @@ Contributors: Cole, Andrey
 * Initial Release;
 
 
-133620-1489858552-au
+133620-1496772449-au

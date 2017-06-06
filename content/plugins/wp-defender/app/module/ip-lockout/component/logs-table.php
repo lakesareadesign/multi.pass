@@ -7,6 +7,7 @@ namespace WP_Defender\Module\IP_Lockout\Component;
 
 use Hammer\Helper\HTTP_Helper;
 use Hammer\Helper\WP_Helper;
+use WP_Defender\Behavior\Utils;
 use WP_Defender\Module\IP_Lockout\Model\Log_Model;
 
 class Logs_Table extends \WP_List_Table {
@@ -127,7 +128,7 @@ class Logs_Table extends \WP_List_Table {
 	 * @return string
 	 */
 	public function column_ip( Log_Model $log ) {
-		$ip = $_SERVER['REMOTE_ADDR'];
+		$ip = Utils::instance()->getUserIp();
 		if ( $ip == $log->get_ip() ) {
 			return '<span tooltip="' . esc_attr( $ip ) . '" class="badge">' . __( "You", wp_defender()->domain ) . '</span>';
 		} else {
@@ -284,10 +285,10 @@ class Logs_Table extends \WP_List_Table {
 		 * if pages less than 7, display all
 		 * if larger than 7 we will get 3 previous page of current, current, and .., and, and previous, next, first, last links
 		 */
-		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$current_url = set_url_scheme( 'http://' . parse_url( get_site_url(), PHP_URL_HOST ) . $_SERVER['REQUEST_URI'] );
 		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
-
-		$radius = 3;
+		$current_url = esc_url( $current_url );
+		$radius      = 3;
 		if ( $current_page > 1 && $total_pages > $radius ) {
 			$links['first'] = sprintf( '<a class="button lockout-nav button-light" data-paged="%s" href="%s">%s</a>',
 				1, add_query_arg( 'paged', 1, $current_url ), '&laquo;' );

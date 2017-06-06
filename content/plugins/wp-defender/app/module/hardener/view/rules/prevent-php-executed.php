@@ -25,14 +25,81 @@
                     <button class="button button-small button-grey"
                             type="submit"><?php _e( "Revert", wp_defender()->domain ) ?></button>
                 </form>
-			<?php else: ?>
-				<?php
-				switch ( \WP_Defender\Behavior\Utils::instance()->determineServer() ):
-					case 'nginx':
-						$wp_includes = str_replace( $_SERVER['DOCUMENT_ROOT'], '', ABSPATH . WPINC );
-						$wp_content  = str_replace( $_SERVER['DOCUMENT_ROOT'], '', WP_CONTENT_DIR );
+			<?php else:
+                $servers        = \WP_Defender\Behavior\Utils::instance()->serverTypes();
+                $setting        = \WP_Defender\Module\Hardener\Model\Settings::instance();
+                if ( DIRECTORY_SEPARATOR == '\\' ) {
+                    //Windows
+                    $wp_includes    = str_replace( ABSPATH, '', WPINC );
+				    $wp_content     = str_replace( ABSPATH, '', WP_CONTENT_DIR );
+                } else {
+                    $wp_includes    = str_replace( $_SERVER['DOCUMENT_ROOT'], '', ABSPATH . WPINC );
+				    $wp_content     = str_replace( $_SERVER['DOCUMENT_ROOT'], '', WP_CONTENT_DIR );
+                }
+                global $is_nginx, $is_IIS, $is_iis7;
+                if ( $is_nginx ) {
+                    $setting->active_server = 'nginx';
+                } else if ( $is_IIS ) {
+                    $setting->active_server = 'iis';
+                } else if ( $is_iis7 ) {
+                    $setting->active_server = 'iis-7';
+                }
 
-						$rules = "# Stop php access except to needed files in wp-includes
+            ?>
+                <div class="columns">
+                    <div class="column is-one-third">
+                        <?php _e( 'Server Type:', wp_defender()->domain ); ?>
+                    </div>
+                    <div class="column is-one-third">
+                        <select class="mline hardener-server-list" name="server">
+                            <?php foreach ( $servers as $server => $server_name ): ?>
+                                <option value="<?php echo esc_attr( $server ); ?>" <?php selected( $server, $setting->active_server ); ?>><?php echo esc_html( $server_name ); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" class="hardener-wp-content-dir" value="<?php echo $wp_content; ?>" />
+                <input type="hidden" class="hardener-wp-includes-dir" value="<?php echo $wp_includes; ?>" />
+                <div class="<?php echo ( $setting->active_server != 'apache' ) ? 'wd-hide' : ''; ?> hardener-instructions hardener-instructions-apache">
+                    <div class="line">
+                        <p><?php _e( "We will place <strong>.htaccess</strong> file into the root folder to lock down the files and folders inside.", wp_defender()->domain ) ?></p>
+                    </div>
+                    <div class="line">
+                        <p><?php _e( "File paths to ignore in the /wp-content directory (each in a new line). The file index.php is not allowed", wp_defender()->domain ) ?></p>
+                        <textarea class="hardener-php-excuted-ignore"></textarea>
+                    </div>
+                    <form method="post" class="hardener-frm hardener-apache-frm rule-process">
+                        <?php $controller->createNonceField(); ?>
+                        <input type="hidden" name="action" value="processHardener"/>
+                        <input type="hidden" name="file_paths" value=""/>
+                        <input type="hidden" name="current_server" value="apache"/>
+                        <input type="hidden" name="slug" value="<?php echo $controller::$slug ?>"/>
+                        <button class="button float-r"
+                                type="submit"><?php _e( "Add .htaccess file", wp_defender()->domain ) ?></button>
+                    </form>
+                </div>
+                <div class="<?php echo ( $setting->active_server != 'litespeed' ) ? 'wd-hide' : ''; ?> hardener-instructions hardener-instructions-litespeed">
+                    <div class="line">
+                        <p><?php _e( "We will place <strong>.htaccess</strong> file into the root folder to lock down the files and folders inside.", wp_defender()->domain ) ?></p>
+                    </div>
+                    <div class="line">
+                        <p><?php _e( "File paths to ignore in the /wp-content directory (each in a new line). The file index.php is not allowed", wp_defender()->domain ) ?></p>
+                        <textarea class="hardener-php-excuted-ignore"></textarea>
+                    </div>
+                    <form method="post" class="hardener-frm hardener-litespeed-frm rule-process">
+                        <?php $controller->createNonceField(); ?>
+                        <input type="hidden" name="action" value="processHardener"/>
+                        <input type="hidden" name="file_paths" value=""/>
+                        <input type="hidden" name="current_server" value="litespeed"/>
+                        <input type="hidden" name="slug" value="<?php echo $controller::$slug ?>"/>
+                        <button class="button float-r"
+                                type="submit" ><?php _e( "Add .htaccess file", wp_defender()->domain ) ?></button>
+                    </form>
+                </div>
+                <div class="<?php echo ( $setting->active_server != 'nginx' ) ? 'wd-hide' : ''; ?> hardener-instructions hardener-instructions-nginx">
+                    <?php
+
+                        $rules = "# Stop php access except to needed files in wp-includes
 location ~* ^$wp_includes/.*(?<!(js/tinymce/wp-tinymce))\.php$ {
   internal; #internal allows ms-files.php rewrite in multisite to work
 }
@@ -48,68 +115,57 @@ location ~* ^$wp_content/.*\.php$ {
   deny all;
 }
 ";
-						?>
-                        <div class="">
-                            <p><?php esc_html_e( "For NGINX servers:", wp_defender()->domain ) ?></p>
-                            <ol>
-                                <li>
-                                    <p><?php _e( "Input the file paths to ignore in the /wp-content directory (each in a new line). The file index.php is not allowed", wp_defender()->domain ) ?></p>
-                                    <textarea class="hardener-php-excuted-ignore"></textarea>
-                                </li>
-                                <li>
-									<?php esc_html_e( "Copy the generated code into your site specific .conf file usually located in a subdirectory under /etc/nginx/... or /usr/local/nginx/conf/...", wp_defender()->domain ) ?>
-                                </li>
-                                <li>
-									<?php _e( "Add the code above inside the <strong>server</strong> section in the file, right before the php location block. Looks something like:", wp_defender()->domain ) ?>
-                                    <pre>location ~ \.php$ {</pre>
-                                </li>
-                                <li>
-									<?php esc_html_e( "Reload NGINX.", wp_defender()->domain ) ?>
-                                </li>
-                            </ol>
-                            <p><?php sprintf( __( "Still having trouble? <a target='_blank' href=\"%s\">Open a support ticket</a>.", wp_defender()->domain ), 'https://premium.wpmudev.org/forums/forum/support#question' ) ?></p>
+                    ?>
 
-                            <pre>
-## WP Defender - Prevent PHP Execution ##
-								<?php echo esc_html( $rules ); ?>
-                                <span class="hardener-nginx-extra-instructions"></span>
-                                ## WP Defender - End ##
-			                </pre>
-
-                        </div>
-                        <?php
-						break;
-					case 'apache':
-						?>
-                        <div class="line">
-                            <p><?php _e( "We will place <strong>.htaccess</strong> file into the root folder to lock down the files and folders inside.", wp_defender()->domain ) ?></p>
-                        </div>
-                        <div class="line">
-                            <p><?php _e( "File paths to ignore in the /wp-content directory (each in a new line). The file index.php is not allowed", wp_defender()->domain ) ?></p>
+                    <p><?php esc_html_e( "For NGINX servers:", wp_defender()->domain ) ?></p>
+                    <ol>
+                        <li>
+                            <p><?php _e( "Input the file paths to ignore in the /wp-content directory (each in a new line). The file index.php is not allowed", wp_defender()->domain ) ?></p>
                             <textarea class="hardener-php-excuted-ignore"></textarea>
-                        </div>
-                        <form method="post" class="hardener-frm rule-process">
-							<?php $controller->createNonceField(); ?>
-                            <input type="hidden" name="action" value="processHardener"/>
-                            <input type="hidden" name="file_paths" value=""/>
-                            <input type="hidden" name="slug" value="<?php echo $controller::$slug ?>"/>
-                            <button class="button float-r"
-                                    type="submit"><?php _e( "Add .htaccess file", wp_defender()->domain ) ?></button>
-                        </form>
-						<?php $controller->showIgnoreForm() ?>
-						<?php break; ?>
-						<?php
-					default:
-						?>
+                        </li>
+                        <li>
+                            <?php esc_html_e( "Copy the generated code into your site specific .conf file usually located in a subdirectory under /etc/nginx/... or /usr/local/nginx/conf/...", wp_defender()->domain ) ?>
+                        </li>
+                        <li>
+                            <?php _e( "Add the code above inside the <strong>server</strong> section in the file, right before the php location block. Looks something like:", wp_defender()->domain ) ?>
+                            <pre>location ~ \.php$ {</pre>
+                        </li>
+                        <li>
+                            <?php esc_html_e( "Reload NGINX.", wp_defender()->domain ) ?>
+                        </li>
+                    </ol>
+                    <p><?php echo sprintf( __( "Still having trouble? <a target='_blank' href=\"%s\">Open a support ticket</a>.", wp_defender()->domain ), 'https://premium.wpmudev.org/forums/forum/support#question' ) ?></p>
+                    <pre>
+## WP Defender - Prevent PHP Execution ##
+                        <?php echo esc_html( $rules ); ?>
+                        <span class="hardener-nginx-extra-instructions"></span>
+                        ## WP Defender - End ##
+                    </pre>
+                </div>
+                <div class="<?php echo ( $setting->active_server != 'iis' ) ? 'wd-hide' : ''; ?> hardener-instructions hardener-instructions-iis">
+                    <div class="line">
+                        <p><?php printf( __( 'For IIS servers, <a href="%s">visit Microsoft TechNet</a>', wp_defender()->domain ), 'https://technet.microsoft.com/en-us/library/cc725855(v=ws.10).aspx' ); ?></p>
+                    </div>
+                </div>
+                <div class="<?php echo ( $setting->active_server != 'iis-7' ) ? 'wd-hide' : ''; ?> hardener-instructions hardener-instructions-iis-7">
+                    <div class="line">
+                        <p><?php _e( "We will place <strong>web.config</strong> file into the uploads folder to lock down the files and folders inside.", wp_defender()->domain ) ?></p>
+                    </div>
+                    <div class="line">
+                        <p><?php printf( __( 'For more information, please <a href="%s">visit Microsoft TechNet</a>', wp_defender()->domain ), 'https://technet.microsoft.com/en-us/library/cc725855(v=ws.10).aspx' ); ?></p>
+                    </div>
+                    <form method="post" class="hardener-frm hardener-litespeed-frm rule-process">
+                        <?php $controller->createNonceField(); ?>
+                        <input type="hidden" name="action" value="processHardener"/>
+                        <input type="hidden" name="current_server" value="iis-7"/>
+                        <input type="hidden" name="slug" value="<?php echo $controller::$slug ?>"/>
+                        <button class="button float-r"
+                                type="submit" ><?php _e( "Add web.config file", wp_defender()->domain ) ?></button>
+                    </form>
 
-						<?php break; ?>
-					<?php endswitch;; ?>
+                </div>
+                <?php $controller->showIgnoreForm() ?>
 			<?php endif; ?>
         </div>
-        <div class="clear"></div>
-	    <?php if ( \WP_Defender\Behavior\Utils::instance()->determineServer() != 'apache' ): ?>
-            <div class="clear mline"></div>
-		    <?php $controller->showIgnoreForm() ?>
-	    <?php endif; ?>
     </div>
 </div>

@@ -4,7 +4,7 @@ if (!class_exists('CurlException')) {
 	{
 	    public function __construct($curlMessage, $errorCode)
 	    {
-	        parent::__construct('Error making request with curl_error: ' . $curlMessage, $errorCode);
+	        parent::__construct('Error making request with curl_error: ' . $curlMessage, $errorCode);	  	 			 			  	      
 	    }
 	}
 }

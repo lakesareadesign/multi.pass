@@ -9,8 +9,16 @@ class WP_Hummingbird_Admin {
 
 	public $pages = array();
 
+	/**
+	 * @var WP_Hummingbird_Admin_Notices
+	 */
+	public $admin_notices;
+
 	public function __construct() {
 		$this->includes();
+
+		$this->admin_notices = new WP_Hummingbird_Admin_Notices();
+		$this->admin_notices->init();
 
 		add_action( 'admin_menu', array( $this, 'add_menu_pages' ) );
 		add_action( 'network_admin_menu', array( $this, 'add_network_menu_pages' ) );
@@ -59,6 +67,7 @@ class WP_Hummingbird_Admin {
 		include_once( 'class-caching-page.php' );
 		include_once( 'class-gzip-page.php' );
 		include_once( 'class-uptime-page.php' );
+		include_once( 'class-admin-notices.php' );
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			include_once( 'class-admin-ajax.php' );
@@ -248,6 +257,14 @@ class WP_Hummingbird_Admin {
 
 	    if ( ! $enqueued )
 		    wphb_enqueue_admin_scripts( WPHB_VERSION );
+
+        // Enable automatic scans by default
+        if ( wphb_is_member() ) {
+            $settings = wphb_get_settings();
+            $settings['email-notifications'] = true;
+            // Enable automatic reports for members
+            wphb_update_settings( $settings );
+        }
 
 	    wphb_quick_setup_modal();
 	    wphb_check_performance_modal();

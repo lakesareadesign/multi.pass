@@ -60,7 +60,7 @@
 	                <?php
 	                $tooltip = __( 'Combine this file with others if possible', 'wphb' );
 	                if ( in_array( 'combine', $disable_switchers ) && ! in_array( $item['handle'], $options['block'][ $type ] ) ) {
-		                $tooltip = __( "Hummingbird can't combine this file with others", 'wphb' );	  	 	   	 		 		 		 	
+		                $tooltip = __( "Hummingbird can't combine this file with others", 'wphb' );
 		                $dont_combine = true;
 	                } ?>
                     <input type="checkbox" <?php disabled( in_array( 'combine', $disable_switchers ) || in_array( $item['handle'], $options['block'][ $type ] )  ); ?> class="toggle-checkbox toggle-combine" name="<?php echo $base_name; ?>[combine]" id="wphb-minification-combine-<?php echo strtolower( $ext ) . '-' . $item['handle']; ?>" <?php checked( in_array( $item['handle'], $options['combine'][ $type ] ) ); ?>>

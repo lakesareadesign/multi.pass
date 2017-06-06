@@ -3,9 +3,7 @@
 Plugin Name: HTML Email Templates
 Plugin URI: https://premium.wpmudev.org/project/html-email-templates/
 Description: Allows you to add HTML templates for all of the standard Wordpress emails. In Multisite templates can be set network wide or can be allowed to set site wise template, if template override for the site is enabled and template is not specified for a site, network template will be used.
-Author: WPMU DEV
 Version: 2.0.6
-Author URI: http://premium.wpmudev.org/
 Network: true
 WDP ID: 142
 */
@@ -155,6 +153,11 @@ class HTML_emailer {
 
 		add_action( 'ultimatebranding_settings_menu_htmlemail', array( $this, 'admin_options_page' ) );
 		add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
+
+		/**
+		 * export
+		 */
+		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
 	}
 
 	function localization() {
@@ -184,13 +187,7 @@ class HTML_emailer {
 	 */
 	function wp_mail( $args ) {
 		extract( $args );
-
-		if ( ! is_multisite() || is_network_admin() ) {
-			$modify_html_email = get_site_option( 'modify_html_email' );
-		} else {
-			$modify_html_email = get_option( 'modify_html_email' );
-		}
-		$modify_html_email = isset( $modify_html_email ) ? $modify_html_email : 1;
+		$modify_html_email = ub_get_option( 'modify_html_email', 1 );
 		/**
 		 * Check if the current mail is a html mail and template adding is allowed or not
 		 */
@@ -297,19 +294,9 @@ class HTML_emailer {
 		$this->save_settings();
 
 		//Fetch HTML email settings
-		if ( ! is_multisite() || is_network_admin() ) {
-
-			$htmlemail_settings = get_site_option( 'htmlemail_settings' );
-			$html_template      = get_site_option( 'html_template' );
-			$modify_html_email  = get_site_option( 'modify_html_email' );
-
-		} else {
-			$htmlemail_settings = get_option( 'htmlemail_settings' );
-			$html_template      = get_option( 'html_template' );
-			$modify_html_email  = get_option( 'modify_html_email' );
-
-		}
-		$modify_html_email = isset( $modify_html_email ) ? $modify_html_email : 1;
+		$htmlemail_settings = ub_get_option( 'htmlemail_settings' );
+		$html_template      = ub_get_option( 'html_template' );
+		$modify_html_email  = ub_get_option( 'modify_html_email', 1 );
 
 		//Whether to allow subsites to specify their own html template
 		$site_override = isset( $htmlemail_settings['site_override'] ) ? $htmlemail_settings ['site_override'] : '';
@@ -1020,6 +1007,23 @@ class HTML_emailer {
 
 			echo '<div class="updated"><p>' . esc_html__( 'Success! Your changes were sucessfully saved!', 'htmlemail' ) . '</p></div>';
 		}
+	}
+
+	/**
+	 * Export data.
+	 *
+	 * @since 1.8.6
+	 */
+	public function export( $data ) {
+		$options = array(
+			'htmlemail_settings',
+			'html_template',
+			'modify_html_email',
+		);
+		foreach ( $options as $key ) {
+			$data['modules'][ $key ] = ub_get_option( $key );
+		}
+		return $data;
 	}
 } //End Class
 

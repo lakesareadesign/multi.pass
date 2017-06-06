@@ -13,6 +13,8 @@
             if ( $last_report && ! is_wp_error( $last_report ) ) {
 	            $error_class = ( 'aplus' === $last_report->data->score_class || 'a' === $last_report->data->score_class || 'b' === $last_report->data->score_class ) ? 'tick' : 'warning';
                 echo $last_report->data->score . "<i class='hb-wpmudev-icon-{$error_class}'></i><span class='score-span'>/100</span>";
+            } elseif ( wphb_performance_is_doing_report() ) {
+                _e( 'Analyzing...', 'wphb' );
             } else {
                 echo '-';
             } ?>
@@ -23,6 +25,8 @@
             if ( $last_report && ! is_wp_error( $last_report ) ) {
                 $data_time = strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $last_report->data->time ) ) );
                 echo date_i18n( get_option( 'date_format' ), $data_time ); ?> <span class="list-detail-stats-heading-extra-info"><?php printf( _x( 'at %s', 'Time of the last performance report', 'wphb' ), date_i18n( get_option( 'time_format' ), $data_time ) );
+            } elseif ( wphb_performance_is_doing_report() ) {
+                    _e( 'Running scan...', 'wphb' );
             } else {
                 _e( 'Never', 'wphb' );
             } ?>

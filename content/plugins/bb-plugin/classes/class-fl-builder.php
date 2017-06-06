@@ -610,6 +610,9 @@ final class FLBuilder {
 			wp_enqueue_script('jquery-ui-slider');
 			wp_enqueue_script('jquery-ui-widget');
 			wp_enqueue_script('jquery-ui-position');
+
+			do_action( 'fl_before_sortable_enqueue' );
+
 			wp_enqueue_script('jquery-ui-sortable',     	$js_url . 'jquery.ui.sortable.js', array('jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), $ver);
 			wp_enqueue_script('jquery-nanoscroller',    	$js_url . 'jquery.nanoscroller.min.js', array(), $ver);
 			wp_enqueue_script('jquery-autosuggest',     	$js_url . 'jquery.autoSuggest.min.js', array(), $ver);
@@ -683,7 +686,7 @@ final class FLBuilder {
 		}
 		if(FLBuilderModel::is_builder_active()) {
 			$classes[] = 'fl-builder-edit';
-			
+
 			if(!FLBuilderUserAccess::current_user_can('unrestricted_editing')) {
 				$classes[] = 'fl-builder-simple';
 			}
@@ -1031,14 +1034,8 @@ final class FLBuilder {
 			$attr_string .= ' ' . $attr_key . '="' . $attr_value . '"';
 		}
 
-		// Remove the builder's render_content filter so it's not called again.
-		if ( has_filter( 'the_content', 'FLBuilder::render_content' ) ) {
-			remove_filter( 'the_content', 'FLBuilder::render_content' );
-			$filter_removed = true;
-		}
-		else {
-			$filter_removed = false;
-		}
+		// Prevent the builder's render_content filter from running.
+		add_filter( 'fl_builder_do_render_content', '__return_false' );
 
 		// Fire the render content start action.
 		do_action( 'fl_builder_render_content_start' );
@@ -1052,10 +1049,8 @@ final class FLBuilder {
 		do_action( 'fl_builder_after_render_content' );
 		$content = ob_get_clean();
 
-		// Reapply the builder's render_content filter.
-		if ( $filter_removed ) {
-			add_filter( 'the_content', 'FLBuilder::render_content' );
-		}
+		// Allow the builder's render_content filter to run again.
+		remove_filter( 'fl_builder_do_render_content', '__return_false' );
 
 		// Process shortcodes.
 		if ( apply_filters( 'fl_builder_render_shortcodes', true ) ) {

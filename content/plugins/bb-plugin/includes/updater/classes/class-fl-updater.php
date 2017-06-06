@@ -131,6 +131,7 @@ final class FLUpdater {
 					$transient->response[ $plugin ]->new_version 	= $response->new_version;
 					$transient->response[ $plugin ]->url 			= $response->homepage;
 					$transient->response[ $plugin ]->package 		= $response->package;
+					$transient->response[ $plugin ]->tested 		= $response->tested;
 
 					if ( empty( $response->package ) ) {
 						$transient->response[ $plugin ]->upgrade_notice = FLUpdater::get_update_error_message();
@@ -144,7 +145,8 @@ final class FLUpdater {
 					$transient->response[$this->settings['slug']] = array(
 						'new_version'   => $response->new_version,
 						'url'           => $response->homepage,
-						'package'       => $response->package
+						'package'       => $response->package,
+						'tested'        => $response->tested,
 					);
 				}
 			}
@@ -290,7 +292,12 @@ final class FLUpdater {
 			return;
 		}
 
-		include FL_UPDATER_DIR . 'includes/subscriptions.php';
+		$default  = __( 'Page Builder', 'fl-builder' );
+		$branding = FLBuilderModel::get_branding();
+
+		if ( $default == $branding ) {
+			include FL_UPDATER_DIR . 'includes/subscriptions.php';
+		}
 	}
 
 	/**

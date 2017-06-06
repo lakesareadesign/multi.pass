@@ -5,14 +5,12 @@
   Description: Allows you to change the login image
   Author: Marko Miljus (Incsub), Andrew Billits, Ulrich Sossou (Incsub)
   Version: 2.1.1
-  Author URI: http://premium.wpmudev.org/
-  Text_domain: login_image
   Network: true
   WDP ID: 169
  */
 
 /*
-  Copyright 2007-2014 Incsub (http://incsub.com)
+  Copyright 2007-2017 Incsub (http://incsub.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -65,6 +63,10 @@ class ub_Login_Image {
 		if ( ! is_multisite() ) {
 			add_filter( 'login_headerurl', array( &$this, 'home_url' ) );
 		}
+		/**
+		 * export
+		 */
+		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
 	}
 
 	/*
@@ -308,6 +310,25 @@ if ( isset( $login_image_old ) && trim( $login_image_old ) !== '' ) {
 			return trailingslashit( get_home_url() ) . ltrim( $url, '/\\' );
 		}
 		return $url;
+	}
+
+	/**
+	 * Export data.
+	 *
+	 * @since 1.8.6
+	 */
+	public function export( $data ) {
+		$options = array(
+			'ub_login_image',
+			'ub_login_image_height',
+			'ub_login_image_id',
+			'ub_login_image_size',
+			'ub_login_image_width',
+		);
+		foreach ( $options as $key ) {
+			$data['modules'][ $key ] = ub_get_option( $key );
+		}
+		return $data;
 	}
 }
 

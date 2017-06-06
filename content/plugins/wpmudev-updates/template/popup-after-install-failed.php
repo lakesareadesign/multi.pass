@@ -21,18 +21,19 @@ if ( ! $item || ! is_object( $item ) ) {
 $title = __( 'Installation failed!', 'wpmudev' );
 
 ?>
-<dialog title="<?php echo esc_html( $title ); ?>" class="small no-margin">
+<dialog title="<?php echo esc_html( $title ); ?>" class="wpmudui wpmudui-modal">
 
 <div class="wdp-error-msg">
-<?php
-printf(
-	esc_html__( 'Installation of %s failed. Most likely reason for this are wrong folder permissions of your wp-contents folder.', 'wpmudev' ),
-	'<strong>' . esc_html( $item->name ) . '</strong>'
-);
-?>
+	<p>
+		<?php
+		printf(
+			esc_html__( 'Installation of %s failed. Most likely reason for this are wrong folder permissions of your wp-contents folder.', 'wpmudev' ),
+			'<strong>' . esc_html( $item->name ) . '</strong>'
+		);
+	?></p>
 
 <p class="buttons">
-	<a href="#close" class="close button button-small"><?php esc_html_e( 'Okay', 'wpmudev' ); ?></a>
+	<a href="#close" class="close wpmudui-btn is-sm"><?php esc_html_e( 'Okay', 'wpmudev' ); ?></a>
 </p>
 </div>
 

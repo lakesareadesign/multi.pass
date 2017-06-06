@@ -3,21 +3,21 @@
 /**
  * Misc functions for compatibility with other plugins.
  */
- 
+
 /**
  * Support for tinyPNG.
  *
  * Runs cropped photos stored in cache through tinyPNG.
  */
 function fl_builder_tinypng_support( $cropped_path ) {
-	
+
 	if ( class_exists( 'Tiny_Settings' ) ) {
 		try{
 			$settings = new Tiny_Settings();
 			$settings->xmlrpc_init();
 			$compressor = $settings->get_compressor();
 			if ( $compressor ) {
-				$compressor->compress_file( $cropped_path['path'], false, false );	
+				$compressor->compress_file( $cropped_path['path'], false, false );
 			}
 		} catch( Exception $e ) {
 			//
@@ -116,7 +116,7 @@ add_action( 'plugins_loaded', 'fl_admin_ssl_upload_fix', 11 );
  * @return bool
  */
 function fl_builder_bp_pages_support( $is_editable, $post = false ){
-	
+
 	// Frontend check
 	if ( !is_admin() && class_exists( 'BuddyPress' ) && ! bp_is_blog_page() ) {
 		$is_editable = false;
@@ -124,7 +124,7 @@ function fl_builder_bp_pages_support( $is_editable, $post = false ){
 
 	// Admin rows action link check and applies to page list
 	if ( is_admin() && class_exists( 'BuddyPress' ) && $post && 'page' == $post->post_type ) {
-		
+
 		$bp = buddypress();
 		if ( $bp->pages ) {
 			foreach( $bp->pages as $page ) {
@@ -137,5 +137,42 @@ function fl_builder_bp_pages_support( $is_editable, $post = false ){
 	}
 
 	return $is_editable;
-}	
+}
 add_filter( 'fl_builder_is_post_editable', 'fl_builder_bp_pages_support', 11, 2 );
+
+/**
+ * There is an issue with Jetpack Photon and circle cropped photo module
+ * returning the wrong image sizes from the bb cache folder.
+ * This filter disables photon for circle cropped photo module images.
+ */
+function fl_photo_photon_exception( $val, $src, $tag ) {
+
+	// Make sure its a bb cached image.
+	if ( false !== strpos( $src, 'bb-plugin/cache' ) ) {
+
+		// now make sure its a circle cropped image.
+		if( false !== strpos( basename( $src ), '-circle' ) ) {
+			return apply_filters( 'fl_photo_photon_exception', true );
+		}
+
+	}
+	// return original val
+	return $val;
+}
+add_filter( 'jetpack_photon_skip_image', 'fl_photo_photon_exception', 10, 3 );
+
+/**
+ * WordPress pre 4.5 we need to make sure that ui-core|widget|mouse are loaded before sortable.
+ */
+function fl_before_sortable_enqueue_callback() {
+
+  if(version_compare( get_bloginfo( 'version' ), '4.5', '<') ) {
+    wp_deregister_script( 'jquery-ui-widget' );
+    wp_deregister_script( 'jquery-ui-mouse' );
+    wp_deregister_script( 'jquery-ui-core' );
+    wp_enqueue_script( 'jquery-ui-core', site_url(  '/wp-includes/js/jquery/ui/core.min.js' ), array('jquery'), '1.8.12' );
+    wp_enqueue_script( 'jquery-ui-widget', site_url(  '/wp-includes/js/jquery/ui/widget.min.js' ), array('jquery'), '1.8.12' );
+    wp_enqueue_script( 'jquery-ui-mouse', site_url(  '/wp-includes/js/jquery/ui/mouse.min.js' ), array('jquery'), '1.8.12' );
+  }
+}
+add_action( 'fl_before_sortable_enqueue', 'fl_before_sortable_enqueue_callback' );

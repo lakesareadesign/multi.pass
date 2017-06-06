@@ -159,7 +159,7 @@ abstract class Model extends \Hammer\Base\Model {
 		$sql    = $sql . ' ' . implode( ' ', $join ) . ' ' . implode( ' AND ', $where );
 		if ( ! empty( $orderBy ) && static::buildOrderBy( $orderBy ) != false ) {
 			$sql = $sql . ' ORDER BY ' . static::buildOrderBy( $orderBy );
-			if ( ! empty( $order ) ) {
+			if ( ! empty( $order ) && in_array( strtolower( $order ), array( 'desc', 'asc' ) ) ) {
 				$sql = $sql . ' ' . $order;
 			}
 		}
@@ -191,7 +191,7 @@ abstract class Model extends \Hammer\Base\Model {
 		$sql    = $sql . ' ' . implode( ' ', $join ) . ' ' . implode( ' AND ', $where );
 		if ( ! empty( $orderBy ) && static::buildOrderBy( $orderBy ) != false ) {
 			$sql = $sql . ' ORDER BY ' . static::buildOrderBy( $orderBy );
-			if ( ! empty( $order ) ) {
+			if ( ! empty( $order ) && in_array( strtolower( $order ), array( 'desc', 'asc' ) ) ) {
 				$sql = $sql . ' ' . $order;
 			}
 		}
@@ -361,7 +361,7 @@ abstract class Model extends \Hammer\Base\Model {
 		$fields = self::getMaps();
 		//check for meta value first
 		$i = array_search( $attribute, array_keys( $fields[1] ) );
-		if ( $i == false ) {
+		if ( $i === false ) {
 			//we need to check wp value
 			if ( isset( $fields[0][ $attribute ] ) ) {
 				return 't0.' . $fields[0][ $attribute ];

@@ -206,10 +206,11 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 			 **/
 			$allowed_filters = apply_filters( 'hustle_cc_allowed_filters', $allowed_filters );
 
+
 			foreach ( $callbacks as $priority => $callback ) {
 				foreach ( $callback as $filter_name => $filter_callback ) {
-					if ( ! in_array( $filter_name, $allowed_filters ) &&
-						preg_match( '%run_shortcode|autoembed%', $filter_name ) === false ) {
+                    $allowed_match_found = (bool) preg_match( '%run_shortcode|autoembed%', $filter_name );
+					if ( ! in_array( $filter_name, $allowed_filters ) && !$allowed_match_found ) {
 						unset( $wp_filter['the_content']->callbacks[ $priority ][ $filter_name ] );
 					}
 

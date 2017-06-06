@@ -42,6 +42,7 @@ final class FLBuilderLoop {
 	 */
 	static public function query( $settings ) 
 	{
+		$settings = apply_filters( 'fl_builder_loop_before_query_settings', $settings );
 		do_action( 'fl_builder_loop_before_query', $settings );
 		
 		if ( isset( $settings->data_source ) && 'main_query' == $settings->data_source ) {
@@ -132,6 +133,10 @@ final class FLBuilderLoop {
 		
 		// Build the author query.
 		if ( ! empty( $users ) ) {
+
+			if ( is_string( $users ) ) {
+				$users = explode( ',', $users );
+			}
 			
 			$arg = 'author__in';
 			

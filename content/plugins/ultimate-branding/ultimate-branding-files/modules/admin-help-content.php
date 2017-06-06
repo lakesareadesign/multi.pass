@@ -11,7 +11,7 @@ WDP ID: 170
  */
 
 /*
-Copyright 2007-2011 Incsub (http://incsub.com)
+Copyright 2007-2017 Incsub (http://incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -49,15 +49,17 @@ if ( ! function_exists( 'esc_textarea' ) ) {
 /**
  * Main help panel handler.
  */
-class ub_Ahc_AdminHelpContent {
+class ub_Ahc_AdminHelpContent extends ub_helper {
 
 	/**
 	 * @var WpmuDev_ContextualHelp
 	 */
 	private $_help;
 	private $_default_text = '';
+	protected $option_name = 'admin_help_content';
 
 	function __construct() {
+		parent::__construct();
 		if ( ! class_exists( 'WpmuDev_ContextualHelp' ) ) { require_once( 'admin-help-content-files/class_wd_contextual_help.php' ); }
 		$this->_help = new WpmuDev_ContextualHelp();
 
@@ -135,7 +137,7 @@ class ub_Ahc_AdminHelpContent {
 	 */
 	private function _get_options() {
 
-		$opts = ub_get_option( 'admin_help_content' );
+		$opts = ub_get_option( $this->option_name );
 		$opts = is_array( $opts ) ? $opts : array(
 			'tabs' => array(
 				array(

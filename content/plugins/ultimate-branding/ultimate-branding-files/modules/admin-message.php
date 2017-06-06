@@ -35,9 +35,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * Class UB_Admin_Message
  * Admin message sub-module
  */
-class UB_Admin_Message{
+class UB_Admin_Message extends ub_helper{
+
+	protected $option_name = 'admin_message';
 
 	public  function __construct() {
+		parent::__construct();
 		/**
 		 * Render settings panel
 		 */
@@ -68,7 +71,7 @@ class UB_Admin_Message{
 			return;
 		}
 
-		$admin_message = ub_get_option( 'admin_message' );
+		$admin_message = ub_get_option( $this->option_name );
 		if ( $admin_message == 'empty' ) {
 			$admin_message = '';
 		}

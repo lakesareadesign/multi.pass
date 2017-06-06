@@ -4,6 +4,12 @@ Tested up to: 4.7.4
 
 Change Log:
 
+1.6 -2017-05-06
+----------------------------------------------------------------------
+- Improvement: Allow users to select and apply rules to other server type in Prevent PHP Execution and Prevent Information Disclosure.
+- Fix: Sometimes HUB status doesn't sync with WordPress site.
+- Other minor enhancements/fixes
+
 1.5 - 2017-17-05
 ----------------------------------------------------------------------
 - New: You can now add exceptions for specific PHP files in the PHP Execution Security Tweak.
@@ -159,4 +165,4 @@ Fixed: Scanning was sometimes slow or getting stuck
 - First release
 
 
-133620-1495482891-au
+133620-1496772439-au

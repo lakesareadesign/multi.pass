@@ -13,7 +13,8 @@
             </div>
             <div class="rules">
 				<?php
-				$issues = \WP_Defender\Module\Hardener\Model\Settings::instance()->getIssues();
+				$setting = \WP_Defender\Module\Hardener\Model\Settings::instance();
+				$issues  = $setting->getIssues();
 				if ( count( $issues ) == 0 ) {
 					?>
                     <div class="well well-green with-cap">
@@ -22,7 +23,7 @@
                     </div>
 					<?php
 				} else {
-					foreach ( \WP_Defender\Module\Hardener\Model\Settings::instance()->getIssues() as $rule ): ?>
+					foreach ( $setting->getIssues() as $rule ): ?>
 						<?php
 						$rule->getDescription();
 						?>

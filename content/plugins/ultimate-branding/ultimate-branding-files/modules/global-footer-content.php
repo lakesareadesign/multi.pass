@@ -6,7 +6,7 @@ Description: Simply insert any code that you like into the footer of every blog
 Author: Barry (Incsub), S H Mohanjith (Incsub), Andrew Billits (Incsub)
  */
 
-class ub_global_footer_content {
+class ub_global_footer_content extends ub_helper {
 
 	var $global_footer_content_settings_page;
 	var $global_footer_content_settings_page_long;
@@ -19,6 +19,7 @@ class ub_global_footer_content {
 		add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
 
 		$this->global_footer_content = get_option( 'global_footer_content' );
+		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
 	}
 
 	public function enqueue_scripts() {
@@ -32,8 +33,9 @@ class ub_global_footer_content {
 	}
 
 	public function update_global_footer_options( $status ) {
+
 		$global_footer = $_POST['ub_global_footer'];
-		$global_footer_main = $_POST['ub_global_footer_main'];
+		$global_footer_main = isset( $_POST['ub_global_footer_main'] )? $_POST['ub_global_footer_main']:'';
 
 		if ( '' === $global_footer['content'] ) {
 			$global_footer['content'] = 'empty';
@@ -67,7 +69,7 @@ class ub_global_footer_content {
 			$status *= ub_update_option( 'global_footer_main_themefooter', $global_footer_main['themefooter'] );
 		}
 
-		return (bool) $status;
+		return true;
 	}
 
 	public function global_footer_content_output() {
@@ -246,6 +248,27 @@ wp_editor( stripslashes( $global_footer_main_content ), 'global_footer_main_cont
             </div>
         <?php endif; ?>
 <?php
+	}
+	/**
+	 * Export data.
+	 *
+	 * @since 1.8.6
+	 */
+	public function export( $data ) {
+		$options = array(
+			'global_footer_bgcolor',
+			'global_footer_content',
+			'global_footer_fixedheight',
+			'global_footer_main_bgcolor',
+			'global_footer_main_content',
+			'global_footer_main_fixedheight',
+			'global_footer_main_themefooter',
+			'global_footer_themefooter',
+		);
+		foreach ( $options as $key ) {
+			$data['modules'][ $key ] = ub_get_option( $key );
+		}
+		return $data;
 	}
 }
 

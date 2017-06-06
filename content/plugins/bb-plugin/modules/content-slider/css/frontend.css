@@ -151,6 +151,14 @@ body.rtl .fl-module-content-slider .bx-viewport {
 	pointer-events: none;
 }
 
+/* Slider controls fixes */
+.bx-wrapper .bx-controls:not(.bx-has-pager) {
+	height: 30px;
+}
+.bx-wrapper .bx-controls:not(.bx-has-pager) .bx-controls-auto {
+	bottom: 0;
+}
+
 /* IE Fixes */
 .fl-builder-ie-11 .fl-content-slider-navigation {
 	z-index: 55;

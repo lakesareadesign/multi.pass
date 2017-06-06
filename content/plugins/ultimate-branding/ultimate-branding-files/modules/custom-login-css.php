@@ -25,7 +25,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-class ub_custom_login_css {
+class ub_custom_login_css extends ub_helper {
 
 	function __construct() {
 

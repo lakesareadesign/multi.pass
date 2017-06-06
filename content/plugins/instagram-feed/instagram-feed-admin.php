@@ -1013,14 +1013,55 @@ function sb_instagram_settings_page() {
 
     <?php if( $sbi_active_tab == 'support' ) { //Start Support tab ?>
 
-        <h3><?php _e('Setting up and Customizing the plugin', 'instagram-feed'); ?></h3>
-        <p><i class="fa fa-life-ring" aria-hidden="true"></i>&nbsp; <?php _e('<a href="https://smashballoon.com/instagram-feed/free/" target="_blank">Click here for step-by-step setup directions</a>', 'instagram-feed'); ?></p>
-        <p style="max-width: 960px;">See below for a short video demonstrating how to set up, customize and use the plugin. <b>Please note</b> that the video shows the set up and use of the <b><a href="https://smashballoon.com/instagram-feed/" target="_blank">PRO version</a></b> of the plugin, but the process is the same for this free version. The only difference is some of the features available.</p>
-        <iframe class="youtube-video" src="//www.youtube.com/embed/V_fJ_vhvQXM?theme=light&amp;showinfo=0&amp;controls=2" width="960" height="540" frameborder="0" allowfullscreen="allowfullscreen" style="border: 1px solid #ddd;"></iframe>
+        <div class="sbi_support">
 
-        <br />
-        <br />
-        <p><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp; <?php _e('Still need help? <a href="http://smashballoon.com/instagram-feed/support/" target="_blank">Request support</a>. Please include your <b>System Info</b> below with all support requests.', 'instagram-feed'); ?></p>
+                <br />
+            <h3 style="padding-bottom: 10px;">Need help?</h3>
+
+            <p>
+                <span class="sbi-support-title"><i class="fa fa-life-ring" aria-hidden="true"></i>&nbsp; <a href="https://smashballoon.com/instagram-feed/free/" target="_blank"><?php _e('Setup Directions'); ?></a></span>
+                <?php _e('A step-by-step guide on how to setup and use the plugin.'); ?>
+            </p>
+
+            <p>
+                <span class="sbi-support-title"><i class="fa fa-youtube-play" aria-hidden="true"></i>&nbsp; <a href="https://www.youtube.com/embed/V_fJ_vhvQXM" target="_blank" id="sbi-play-support-video"><?php _e('Watch a Video'); ?></a></span>
+                <?php _e("Watch a short video demonstrating how to set up, customize and use the plugin.<br /><b>Please note</b> that the video shows the set up and use of the <b><a href='https://smashballoon.com/instagram-feed/' target='_blank'>PRO version</a></b> of the plugin, but the process is the same for this free version. The only difference is some of the features available."); ?>
+
+                <iframe id="sbi-support-video" src="//www.youtube.com/embed/V_fJ_vhvQXM?theme=light&amp;showinfo=0&amp;controls=2" width="960" height="540" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+            </p>
+
+            <p>
+                <span class="sbi-support-title"><i class="fa fa-question-circle" aria-hidden="true"></i>&nbsp; <a href="https://smashballoon.com/instagram-feed/support/faq/" target="_blank"><?php _e('FAQs and Docs'); ?></a></span>
+                <?php _e('View our expansive library of FAQs and documentation to help solve your problem as quickly as possible.'); ?>
+            </p>
+
+            <div class="sbi-support-faqs">
+
+                <ul>
+                    <li><b>FAQs</b></li>
+                    <li>&bull;&nbsp; <?php _e('<a href="https://smashballoon.com/instagram-feed/find-instagram-user-id/" target="_blank">How to find an Instagram User ID</a>'); ?></li>
+                    <li>&bull;&nbsp; <?php _e('<a href="https://smashballoon.com/my-instagram-access-token-keep-expiring/" target="_blank">My Access Token Keeps Expiring</a>'); ?></li>
+                    <li>&bull;&nbsp; <?php _e('<a href="https://smashballoon.com/my-photos-wont-load/" target="_blank">My Instagram Feed Won\'t Load</a>'); ?></li>
+                    <li style="margin-top: 8px; font-size: 12px;"><a href="https://smashballoon.com/instagram-feed/support/faq/" target="_blank">See All<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+                </ul>
+
+                <ul>
+                    <li><b>Documentation</b></li>
+                    <li>&bull;&nbsp; <?php _e('<a href="https://smashballoon.com/instagram-feed/free" target="_blank">Installation and Configuration</a>'); ?></li>
+                    <li>&bull;&nbsp; <?php _e('<a href="https://smashballoon.com/display-multiple-instagram-feeds/" target="_blank">Displaying multiple feeds</a>'); ?></li>
+                    <li>&bull;&nbsp; <?php _e('<a href="https://smashballoon.com/instagram-feed-faq/customization/" target="_blank">Customizing your Feed</a>'); ?></li>
+                </ul>
+            </div>
+
+            <p>
+                <span class="sbi-support-title"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp; <a href="https://smashballoon.com/instagram-feed/support/" target="_blank"><?php _e('Request Support'); ?></a></span>
+                <?php _e('Still need help? Submit a ticket and one of our support experts will get back to you as soon as possible.<br /><b>Important:</b> Please include your <b>System Info</b> below with all support requests.'); ?>
+            </p>
+        </div>
+
+
+
+        <hr />
 
         <h3><?php _e('System Info &nbsp; <i style="color: #666; font-size: 11px; font-weight: normal;">Click the text below to select all</i>', 'instagram-feed'); ?></h3>
 
@@ -1148,46 +1189,6 @@ function sbi_add_settings_link( $links, $file ) {
  
     return $links;
 }
-
-/* Display a notice that can be dismissed regarding updating the Instagram Access Token */
-add_action('admin_notices', 'sbi_new_token_notice_2016');
-function sbi_new_token_notice_2016() {
-
-    //Only show to admins
-    if( current_user_can('manage_options') ){
-
-        global $current_user;
-            $user_id = $current_user->ID;
-
-        // Use this to show notice again
-        // delete_user_meta($user_id, 'sb_instagram_ignore_notice_2016');
-
-        /* Check that the user hasn't already clicked to ignore the message */
-        if ( ! get_user_meta($user_id, 'sb_instagram_ignore_notice_2016') ) {
-
-            _e("
-            <div class='sb_instagram_notice'>
-                <p class='sb_instagram_notice_title'><i class='fa fa-exclamation-circle' aria-hidden='true'></i> <b>Important</b></p>
-                <p><b>Just installed the plugin?</b> You can ignore this notice and hide it using the 'Dismiss' button in the top right corner.</p>
-                <p><b>Just updated the plugin?</b> Due to the recent Instagram API changes, in order for the Instagram Feed plugin to continue working after <b><u>June 1st</u></b> you must obtain and save a new Access Token by using the Instagram button on the plugin's <a href='".get_admin_url()."admin.php?page=sb-instagram-feed'>Settings page</a>. This is required even if you recently already obtained a new token. Apologies for any inconvenience.</p>
-                <a class='sb_instagram_dismiss' href='" .esc_url( add_query_arg( 'sb_instagram_token_nag_ignore_2016', '0' ) ). "'><i class='fa fa-times-circle' aria-hidden='true'></i> Dismiss</a>
-            </div>
-            ");
-
-        }
-
-    }
-
-}
-add_action('admin_init', 'sb_instagram_token_nag_ignore_2016');
-function sb_instagram_token_nag_ignore_2016() {
-    global $current_user;
-        $user_id = $current_user->ID;
-        if ( isset($_GET['sb_instagram_token_nag_ignore_2016']) && '0' == $_GET['sb_instagram_token_nag_ignore_2016'] ) {
-             add_user_meta($user_id, 'sb_instagram_ignore_notice_2016', 'true', true);
-    }
-}
-
 
 
 //REVIEW REQUEST NOTICE

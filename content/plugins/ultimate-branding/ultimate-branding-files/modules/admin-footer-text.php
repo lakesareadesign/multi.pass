@@ -43,15 +43,15 @@ if ( ! function_exists( 'esc_textarea' ) ) {
 	}
 }
 
-class ub_Admin_Footer_Text {
+class ub_Admin_Footer_Text extends ub_helper {
 
 	var $admin_footer_text_default = '';
-	var $update_text_default = '';
+    var $update_text_default = '';
+    protected $option_name = 'admin_footer_text';
 
 	function __construct() {
-
+        parent::__construct();
 		add_action( 'init', array( &$this, 'initialise_plugin' ) );
-
 	}
 
 	function ub_Admin_Footer_Text() {
@@ -66,14 +66,12 @@ class ub_Admin_Footer_Text {
 		// remove all the remaining filters for the admin footer so that they don't mess the footer up
 		remove_all_filters( 'admin_footer_text' );
 		add_filter( 'admin_footer_text', array( $this, 'output' ), 1, 1 );
-
 		add_filter( 'update_footer' , array( $this, 'blank_version' ), 99 );
-
 	}
 
 
 	function update_admin_options( $status ) {
-		ub_update_option( 'admin_footer_text' , stripslashes( $_POST['admin_footer_text'] ) );
+		ub_update_option( $this->option_name , stripslashes( $_POST['admin_footer_text'] ) );
 
 		if ( $status === false ) {
 			return $status;

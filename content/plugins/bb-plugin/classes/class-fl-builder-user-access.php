@@ -34,7 +34,7 @@ final class FLBuilderUserAccess {
 	 */
 	static public function init()
 	{
-		add_action( 'after_setup_theme', array( __CLASS__, 'register_default_settings' ) );
+		add_action( 'after_setup_theme', __CLASS__ . '::register_default_settings' );
 	}
 
 	/**

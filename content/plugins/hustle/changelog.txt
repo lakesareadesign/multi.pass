@@ -4,6 +4,12 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 Change Log:
 ----------------------------------------------------------------------
 
+2.1.2 - 2017-05-31
+----------------------------------------------------------------------
+- Fixed Custom Content conflict with Page Builder by SiteOrigin.
+- Fixed MailChimp integration issues.
+- Fixed ActiveCampaign integration issues.
+
 2.1.1 - 2017-05-23
 ----------------------------------------------------------------------
 - Updated MailChimp integration and used their 3.0 API.
@@ -200,4 +206,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1495904067-au
+133620-1496772452-au

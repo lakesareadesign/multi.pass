@@ -4,8 +4,6 @@ class Wdcp_CommentsWorker {
 	var $model;
 	var $data;
 
-	function Wdcp_CommentsWorker () { $this->__construct(); }
-
 	function __construct () {
 		$this->model = new Wdcp_Model;
 		$this->data = new Wdcp_Options;
@@ -98,6 +96,7 @@ class Wdcp_CommentsWorker {
 				? $this->model->current_user_name('wordpress')
 				: apply_filters('wdcp-providers-wordpress-name', $default_name)
 			;
+			$names['wordpress'] = apply_filters( 'wdcp_wp_comment_name', $names['wordpress'] );
 		}
 		if (!in_array('twitter', $skips)) $names['twitter'] = $this->model->current_user_logged_in('twitter') ? $this->model->current_user_name('twitter') : apply_filters('wdcp-providers-twitter-name', 'Twitter');
 		if (!in_array('facebook', $skips)) $names['facebook'] = $this->model->current_user_logged_in('facebook') ? $this->model->current_user_name('facebook') : apply_filters('wdcp-providers-facebook-name', 'Facebook');
@@ -171,7 +170,12 @@ class Wdcp_CommentsWorker {
 	}
 
 	function _prepare_facebook_login () {
-		return "<img src='" . WDCP_PLUGIN_URL . "/img/fb-login.png' style='position:absolute;left:-1200000000px;display:none' />" . '<div class="comment-provider-login-button" id="login-with-facebook"><a href="#" title="' . __('Login with Facebook', 'wdcp') . '"><span>Login</span></a></div>';
+		return '' .
+		   // "<img src='" . WDCP_PLUGIN_URL . "/img/fb-login.png' style='position:absolute;left:-1200000000px;display:none' />" .
+			'<div class="comment-provider-login-button" id="login-with-facebook">' .
+				'<a href="#" title="' . __('Login with Facebook', 'wdcp') . '"><span>Login</span></a>' .
+			'</div>' .
+		'';
 	}
 
 	function _prepare_google_comments () {
@@ -188,7 +192,12 @@ class Wdcp_CommentsWorker {
 		if ($this->data->get_option('gg_client_id')) return $this->_prepare_google_plus_login();
 
 		$href = WDCP_PROTOCOL . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		return "<img src='" . WDCP_PLUGIN_URL . "/img/gg-login.png' style='position:absolute;left:-1200000000px;display:none' />" . '<div class="comment-provider-login-button" id="login-with-google"><a href="' . $href . '" title="' . __('Login with Google', 'wdcp') . '"><span>Login</span></a></div>';
+		return '' .
+			//"<img src='" . WDCP_PLUGIN_URL . "/img/gg-login.png' style='position:absolute;left:-1200000000px;display:none' />" .
+			'<div class="comment-provider-login-button" id="login-with-google">' .
+				'<a href="' . $href . '" title="' . __('Login with Google', 'wdcp') . '"><span>Login</span></a>' .
+			'</div>' .
+		'';
 	}
 
 	function _prepare_google_plus_login () {
@@ -221,7 +230,12 @@ class Wdcp_CommentsWorker {
 
 	function _prepare_twitter_login () {
 		$href = WDCP_PROTOCOL . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		return "<img src='" . WDCP_PLUGIN_URL . "/img/tw-login.png' style='position:absolute;left:-1200000000px;display:none' />" . '<div class="comment-provider-login-button" id="login-with-twitter"><a href="' . $href . '" title="' . __('Login with Twitter', 'wdcp') . '"><span>Login</span></a></div>';
+		return '' .
+			//"<img src='" . WDCP_PLUGIN_URL . "/img/tw-login.png' style='position:absolute;left:-1200000000px;display:none' />" .
+			'<div class="comment-provider-login-button" id="login-with-twitter">' .
+				'<a href="' . $href . '" title="' . __('Login with Twitter', 'wdcp') . '"><span>Login</span></a>' .
+			'</div>' .
+		'';
 	}
 
 	function _prepare_footer_dependencies () {

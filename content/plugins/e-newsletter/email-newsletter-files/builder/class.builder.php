@@ -33,30 +33,28 @@ class Email_Newsletter_Builder  {
 		}
 
 		if($this->get_customizer_theme() && $builder_id) {
-			$theme_exists = wp_get_theme($this->get_customizer_theme())->exists();
-			if(!$theme_exists) {
-				//fix customizer capabilities users without possibility to use customizer
-				if(!current_user_can( 'edit_theme_options' )) {
-					add_filter('user_has_cap', array( &$this, 'fix_capabilities'), 999, 1);
-				}
-
-				$email_newsletter->register_enewsletter_themes();
-				add_filter( 'allowed_themes', array( &$this, 'allow_enewsletter_themes'));
-
-				add_filter( 'template', array( &$this, 'inject_builder_template'), 999 );
-				add_filter( 'stylesheet', array( &$this, 'inject_builder_stylesheet' ), 999 );
-				add_filter( 'customize_loaded_components', array( &$this, 'customizer_remove_panels') );
-
-				//fix for known compatibility problems
-				global $fusion_slider;
-				if(isset($fusion_slider)) {
-					remove_action( 'plugins_loaded', array( 'FusionCore_Plugin', 'get_instance' ) ); //it might be too late
-					remove_action( 'after_setup_theme', array( 'Fusion_Core_PageBuilder', 'get_instance' ) );
-					remove_action( 'init', array( $fusion_slider, 'init' ) );
-				}
-				add_filter( 'black_studio_tinymce_enable', '__return_false' );
-				remove_action( 'init', 'wp_widgets_init', 1 );
+			//fix customizer capabilities users without possibility to use customizer
+			if(!current_user_can( 'edit_theme_options' )) {
+				add_filter('user_has_cap', array( &$this, 'fix_capabilities'), 999, 1);
 			}
+
+			$email_newsletter->register_enewsletter_themes();
+
+			add_filter( 'allowed_themes', array( &$this, 'allow_enewsletter_themes'));
+
+			add_filter( 'template', array( &$this, 'inject_builder_template'), 999 );
+			add_filter( 'stylesheet', array( &$this, 'inject_builder_stylesheet' ), 999 );
+			add_filter( 'customize_loaded_components', array( &$this, 'customizer_remove_panels') );
+
+			//fix for known compatibility problems
+			global $fusion_slider;
+			if(isset($fusion_slider)) {
+				remove_action( 'plugins_loaded', array( 'FusionCore_Plugin', 'get_instance' ) ); //it might be too late
+				remove_action( 'after_setup_theme', array( 'Fusion_Core_PageBuilder', 'get_instance' ) );
+				remove_action( 'init', array( $fusion_slider, 'init' ) );
+			}
+			add_filter( 'black_studio_tinymce_enable', '__return_false' );
+			remove_action( 'init', 'wp_widgets_init', 1 );
 		}
 
 		if(isset($_REQUEST['customize_changeset_uuid']) && isset($_REQUEST['action']) && $_REQUEST['customize_changeset_uuid'] && defined('DOING_AJAX') && $_REQUEST['action'] == 'builder_do_shortcodes') {
@@ -1185,7 +1183,14 @@ class Email_Newsletter_Builder  {
 			die();
 
 		$content = $email_newsletter->make_email_body($builder_id, 1);
-		$content = $email_newsletter->personalise_email_body($content, 0, 0, 0, 0, 0, $changes = array('user_name' => '{USER_NAME}', 'first_name' => '{FIRST_NAME}', 'to_email'=> '{TO_EMAIL}'));
+
+		$replacements = array(
+			'user_name' => '{USER_NAME}',
+			'first_name' => '{FIRST_NAME}',
+			'last_name' => '{LAST_NAME}',
+			'to_email'=> '{TO_EMAIL}'
+		);
+		$content = $email_newsletter->personalise_email_body( $content, 0, 0, 0, 0, 0, $changes = $replacements );
 
 		echo $content;
 

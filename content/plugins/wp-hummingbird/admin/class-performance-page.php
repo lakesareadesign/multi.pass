@@ -3,14 +3,6 @@
 class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 
 	/**
-	 * Number of recommended improvements.
-	 *
-	 * @since 1.4.5
-	 * @var int $recommendations Number of recommendations.
-	 */
-    public $recommendations;
-
-	/**
      * Status of error. If true, than we have some error.
      *
 	 * @var bool $has_error True if error present.
@@ -29,12 +21,18 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
     public function __construct( $slug, $page_title, $menu_title, $parent = false, $render = true ) {
 	    parent::__construct( $slug, $page_title, $menu_title, $parent, $render );
 
+	    $this->tabs = array(
+			'main' => __( 'Improvements', 'wphb' )
+		);
+
+	    // We need to actually tweak these tasks
+	    add_filter( 'wphb_admin_after_tab_' . $this->get_slug(), array( $this, 'after_tab' ) );
+
 	    //$this->recommendations = wphb_get_number_of_issues( 'performance' );
 	    //$this->get_error_status();
     }
 
 	public function render_header() {
-		$this->recommendations = wphb_get_number_of_issues( 'performance' );
 		$this->get_error_status();
 
 		$last_report = wphb_performance_get_last_report();
@@ -99,12 +97,6 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 		else {
 			$this->add_meta_box( 'performance-welcome', null , array( $this, 'performance_welcome_metabox' ), null, null, 'summary', array( 'box_class' => 'dev-box content-box content-box-two-cols-image-left' ) );
 			$this->add_meta_box( 'performance-summary', __( 'Improvements', 'wphb' ), array( $this, 'performance_summary_metabox' ), array( $this, 'performance_summary_metabox_header' ), null, 'main', array( 'box_class' => 'dev-box content-box-one-col-center', 'box_content_class' => 'box-content no-side-padding' ) );
-			if ( ! wphb_is_member() ) {
-				$this->add_meta_box( 'performance-summary', __( 'Reporting', 'wphb' ), array( $this, 'reporting_metabox' ), array( $this, 'reporting_metabox_header' ), array( $this, 'reporting_metabox_footer' ), 'reports', array( 'box_class' => 'dev-box content-box-one-col-center', 'box_content_class' => 'box-content no-padding' ) );
-            } else {
-				$this->add_meta_box( 'performance-summary', __( 'Reporting', 'wphb' ), array( $this, 'reporting_metabox' ), array( $this, 'reporting_metabox_header' ), null, 'reports', array( 'box_class' => 'dev-box content-box-one-col-center', 'box_content_class' => 'box-content no-padding' ) );
-            }
-
 		}
 
 	}
@@ -154,7 +146,7 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 			$last_score = $last_report->last_score['score'];
 		}
 
-		$this->view( 'performance/module-resume-meta-box', array( 'last_report' => $last_report, 'improvement' => $improvement, 'last_score' => $last_score, 'recommendations' => $this->recommendations ) );
+		$this->view( 'performance/module-resume-meta-box', array( 'last_report' => $last_report, 'improvement' => $improvement, 'last_score' => $last_score, 'recommendations' => wphb_get_number_of_issues( 'performance' ) ) );
     }
 
 	public function performance_summary_metabox_header() {
@@ -165,43 +157,6 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 		}
 		$this->view( 'performance/summary-meta-box-header', array( 'title' => $title, 'last_report' => $last_report ) );
 	}
-
-	/**
-	 * Reporting meta box.
-     *
-     * @since 1.4.5
-	 */
-	public function reporting_metabox() {
-	    $settings = wphb_get_settings();
-
-	    $notification = $settings['email-notifications'];
-	    $frequency = $settings['email-frequency'];
-	    $send_day = $settings['email-day'];
-	    $send_time = $settings['email-time'];
-	    $recipients = $settings['email-recipients'];
-
-		$args = compact( 'notification', 'frequency', 'send_day', 'send_time', 'recipients' );
-        $this->view( 'performance/reporting-meta-box', $args );
-    }
-
-	/**
-	 * Reporting meta box header.
-     *
-     * @since 1.5.0
-	 */
-    public function reporting_metabox_header() {
-	    $title = __( 'Reports', 'wphb' );
-	    $this->view( 'performance/reporting-meta-box-header', array( 'title' => $title ) );
-    }
-
-	/**
-	 * Reporting meta box footer.
-     *
-     * @since 1.5.0
-	 */
-    public function reporting_metabox_footer() {
-        $this->view( 'performance/reporting-meta-box-footer', array() );
-    }
 
 	/**
 	 * See if there are any errors. Set the variable to true if some errors are found.
@@ -215,5 +170,45 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 		    $this->has_error = true;
 	    }
     }
+
+
+	/**
+	 * We need to insert an extra label to the tabs sometimes
+	 */
+	public function after_tab( $tab ) {
+		if ( 'main' !== $tab ) {
+			return;
+		}
+
+		$last_test = wphb_performance_get_last_report();
+		if ( ! $last_test ) {
+			return;
+		}
+
+		$class = '';
+		if ( isset( $last_test->data ) ) {
+			switch ( $last_test->data->score_class ) {
+				case 'aplus':
+				case 'a':
+				case 'b':
+					$class = 'green';
+					break;
+				case 'c':
+				case 'd':
+					$class = 'yellow';
+					break;
+				case 'e':
+				case 'f':
+					$class = 'red';
+					break;
+			}
+		}
+		if ( ! $this->has_error ) {
+			echo ' <span class="hide-on-mobile wphb-button-label wphb-button-label-' . $class . '">' . wphb_get_number_of_issues( 'performance' ) . '</span>';
+		}
+		else {
+			echo ' <i class="hide-on-mobile hb-wpmudev-icon-warning"></i>';
+		}
+	}
 
 }

@@ -1,3 +1,5 @@
+import Fetcher from './utils/fetcher';
+
 ( function( $ ) {
     'use strict';
     WPHB_Admin.performance = {
@@ -62,52 +64,51 @@
             // Remove recipient
             $('body').on('click', '.wphb-remove-recipient', function (e) {
                 e.preventDefault();
-                $(this).closest('li').remove();
+                $(this).closest('.recipient').remove();
                 $('.scan-settings').find("input[id='scan_recipient'][value=" + $(this).attr('data-id') + "]").remove();
             });
 
             // Add recipient
             $('#add-receipt').click(function () {
-                var that = $(this);
-                $.ajax({
-                    type: 'POST',
-                    url: ajaxurl,
-                    data: {
-                        action: 'add_receipt_scan_receipts',
-                        'id': 'scan_receipts',
-                        user: $("#wphb-username-search").val()
-                    },
-                    beforeSend: function () {
-                        that.attr('disabled', 'disabled');
-                    },
-                    success: function (data) {
-                        var user_row = $('<li/>');
-                        user_row.append($('<img/>').attr({
-                            src: data.avatar,
-                            width: '30'
-                        }));
-                        user_row.append($('<span class="name"/>').html(data.name));
-                        if (data.is_current) {
-                            user_row.append($('<span/>').addClass('def-tag tag-generic').html(self.strings.youLabelText));
-                        }
-                        user_row.append($('<a/>').attr({
-                            'data-id': data.user_id,
-                            'class': 'remove float-r wphb-remove-recipient',
-                            'href': '#'
-                        }).html(self.strings.removeButtonText));
+                const email = $("#wphb-username-search").val();
+                const name = $("#wphb-first-name").val();
+                Fetcher.performance.addRecipient( email, name )
+                    .then( ( response ) => {
+                        var user_row = $('<div class="recipient"/>');
 
-                        $('.receipt ul').append(user_row);
-                        $("#wphb-username-search").trigger('results:clear');
-                        $("#wphb-username-search").val('');
+                        var img = $('<img/>').attr({
+                            'src': response.avatar,
+                            'width': '30'
+                        });
+                        var name = $('<span/>').html(response.name);
+
+                        user_row.append('<span class="name"/>');
+                        user_row.find('.name').append( img, name);
+
+
+                        user_row.append($('<span class="email"/>').html(email));
+                        user_row.append($('<a/>').attr({
+                            'data-id': response.user_id,
+                            'class': 'remove float-r wphb-remove-recipient',
+                            'href': '#',
+                            'alt': self.strings.removeButtonText
+                        }).html('<i class="dev-icon dev-icon-cross"></i>'));
 
                         $('<input>').attr({
                             type: 'hidden',
                             id: 'scan_recipient',
                             name: 'email-recipients[]',
-                            value: data.user_id
-                        }).appendTo('form.scan-settings');
-                    }
-                });
+                            value: JSON.stringify( { email: response.email, name: response.name } )
+                        }).appendTo(user_row);
+
+                        $('.receipt .recipients').append(user_row);
+                        $("#wphb-username-search").val('');
+                        $("#wphb-first-name").val('');
+                    })
+                    .catch( (error) => {
+                        console.error( error.response );
+                        alert( error.message );
+                    } );
                 return false;
             });
 
@@ -117,79 +118,18 @@
                 var form_data = $(this).serialize();
                 var that = $(this);
 
-                $.ajax({
-                    url: ajaxurl,
-                    data: {
-                        type: 'POST',
-                        action: 'wphb_ajax',
-                        data: form_data,
-                        wphb_nonce: self.strings.performanceSaveSettingsNonce,
-                        nonce_name: 'wphb-performance-report-save-settings',
-                        module: self.module,
-                        module_action: 'save_report_settings'
-                    },
-                    beforeSend: function () {
-                        that.find('.button').attr('disabled', 'disabled');
-                    },
-                    success: function (response) {
-                        if (response.data !== undefined && response.data.url !== undefined) {
-                            location.href = response.data.url;
-                        } else {
-                            that.find('.button').removeAttr('disabled');
-                            self.showUpdateMessage();
-                        }
-                    }
-                });
+                that.find('.button').attr('disabled', 'disabled');
+
+                Fetcher.performance.saveReportsSettings( form_data )
+                    .then( ( response ) => {
+                        that.find('.button').removeAttr('disabled');
+                        self.showUpdateMessage();
+                    });
                 return false;
-            });
-
-            var typingTimer;                //timer identifier
-            var doneTypingInterval = 1000;  //time in ms, 5 second for example
-            var $inputSearch = $("#wphb-username-search");
-
-            //on keyup, start the countdown
-            $inputSearch.on('keyup', function () {
-                clearTimeout(typingTimer);
-                typingTimer = setTimeout(self.doneTyping, doneTypingInterval);
-            });
-
-            //on keydown, clear the countdown
-            $inputSearch.on('keydown', function () {
-                clearTimeout(typingTimer);
             });
 
             return this;
 
-        },
-
-        //user is "finished typing," do something
-        doneTyping: function () {
-            //do something
-            var that = $("#wphb-username-search");
-            var value = that.val();
-            if (value.length > 2) {
-                $.ajax({
-                    type: 'POST',
-                    url: ajaxurl,
-                    data: {
-                        'action': 'username_search_scan_receipts',
-                        'id': 'scan_receipts',
-                        'term': value
-                    },
-                    beforeSend: function () {
-                        that.trigger('progress:start');
-                    },
-                    success: function (data) {
-                        data = $.parseJSON(data);
-                        that.trigger('progress:stop');
-                        that.trigger('results:show', [data]);
-                    }
-                });
-            }
-
-            $("#wphb-username-search").on('item:select', function () {
-                $(this).closest('.receipt').find('button').removeAttr('disabled');
-            });
         },
 
         showUpdateMessage: function () {

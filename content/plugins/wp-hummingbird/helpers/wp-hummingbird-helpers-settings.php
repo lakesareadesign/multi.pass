@@ -66,14 +66,7 @@ function wphb_get_default_settings() {
 		'cloudflare-page-rules' => array(),
 		'cloudflare-caching-expiry' => 691200,
 
-		'use_cdn' => false,
-
-		'email-notifications' => false,
-		'email-recipients' => array( 0 => get_current_user_id() ),
-		'email-frequency' => 7,
-		'email-day' => ( '1' === get_option('start_of_week') ) ? 'Monday' : 'Sunday',
-		'email-time' => '1:00',
-
+		'use_cdn' => false
 	);
 
 	/**

@@ -128,9 +128,11 @@ if( !class_exists("Opt_In_Mailchimp") ):
             try {
                 $subscribe_data = array(
                     'email_address' => $email,
-                    'status' => 'subscribed',
-                    'merge_fields' => $merge_vals
+                    'status' => 'pending' //confirmation mail
                 );
+                if ( !empty($merge_vals) ) {
+                    $subscribe_data['merge_fields'] = $merge_vals;
+                }
                 if ( !empty($interests) ) {
                     $subscribe_data['interests'] = $interests;
                 }

@@ -4,13 +4,13 @@ Plugin Name: mb.YTPlayer for background videos
 Plugin URI: http://pupunzi.com/#mb.components/mb.YTPlayer/YTPlayer.html
 Description: Play a Youtube video as background of your page. Go to <strong>mb.ideas > mb.YTPlayer</strong> to activate the background video option for your homepage.
 Author: Pupunzi (Matteo Bicocchi)
-Version: 3.0.12
+Version: 3.1.0
 Author URI: http://pupunzi.com
 Text Domain: wpmbytplayer
 */
 
 
-define("MBYTPLAYER_VERSION", "3.0.12");
+define("MBYTPLAYER_VERSION", "3.1.0");
 
 // Set unique string for this site
 $lic_domain = $_SERVER['HTTP_HOST'];
@@ -23,11 +23,48 @@ $this_plugin = plugin_basename(__FILE__);
 
 $ytpl_plus_link = "https://pupunzi.com/wpPlus/go-plus.php?locale=" . get_locale() . "&plugin_prefix=YTPL&plugin_version=" . MBYTPLAYER_VERSION . "&lic_domain=" . $lic_domain . "&lic_theme=" . get_template() . "&php=" . phpversion();
 
+function mbYTPlayer_get_price($plugin_prefix) {
+    $url = 'https://pupunzi.com/wpPlus/controller.php';
+    $data = array(
+        'CMD' => 'GET-PRICE',
+        'plugin_prefix' => $plugin_prefix,
+    );
+
+    if(function_exists("curl_version")) {
+
+        $ch = curl_init( $url );
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query($data) );
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $response = curl_exec( $ch );
+
+    } else {
+
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data),
+            ),
+        );
+        $context  = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+    }
+
+    $res_array = json_decode($response, true);
+    return $res_array;
+}
+
+$mbYTPlayer_price = mbYTPlayer_get_price("YTPL");
+
 
 if (version_compare(phpversion(), '5.6.0', '>')) {
     require('inc/mb_notice/notice.php');
     //$ytp_notice->reset_notice();
-    $ytp_message = '<b>mb.YTPlayer</b>: <br>Go to Plus to activate all the features! ' . ' <a target="_blank" href="' . $ytpl_plus_link . '">' . __('Get your <b>Plus</b> now!', 'wpmbytplayer') . '</a>';
+    $ytp_message = '<b>mb.YTPlayer</b>: <br>Go to Plus to get all the player features! ' . ' <a target="_blank" href="' . $ytpl_plus_link . '">' . __('Get your <b>Plus</b> now!', 'wpmbytplayer') . '</a>';
     $ytp_notice = new mb_notice('mbYTPlayer', plugin_basename(__FILE__));
     $ytp_notice->add_notice($ytp_message, 'success');
 }
@@ -180,27 +217,24 @@ function mbYTPlayer_player_foot()
         $mbYTPlayer_player_homevideo =
             '<div id=\"bgndVideo_home\" data-property=\"{videoURL:\'' . $mbYTPlayer_video_url_revised . '\', mobileFallbackImage:null, opacity:' . $mbYTPlayer_opacity . ', autoPlay:true, containment:\'body\', startAt:' . $mbYTPlayer_start_at . ', stopAt:' . $mbYTPlayer_stop_at . ', mute:' . $mbYTPlayer_mute . ', vol:' . $mbYTPlayer_audio_volume . ', optimizeDisplay:true, showControls:' . $mbYTPlayer_show_controls . ', printUrl:' . $mbYTPlayer_show_videourl . ', loop:' . $mbYTPlayer_loop . ', addRaster:' . $mbYTPlayer_add_raster . ', quality:\'' . $mbYTPlayer_quality . '\', ratio:\'' . $mbYTPlayer_ratio . '\', realfullscreen:' . $mbYTPlayer_realfullscreen . ', gaTrack:' . $mbYTPlayer_track_ga . ', stopMovieOnBlur:' . $mbYTPlayer_stop_on_blur . ', remember_last_time:' . $mbYTPlayer_remember_last_time . '}\"></div>';
         echo '
-	<!-- mbYTPlayer Home -->
-	<script type="text/javascript">
+	<!-- START mbYTPlayer -->
+    <script type="text/javascript">
 
-	    function onYouTubePlayerAPIReady() {
-    	if(ytp.YTAPIReady)
-		    return;
-	    ytp.YTAPIReady=true;
-	    jQuery(document).trigger("YTAPIReady");
-    }
+        function onYouTubePlayerAPIReady() {
+        if(ytp.YTAPIReady)
+          return;
+        ytp.YTAPIReady=true;
+        jQuery(document).trigger("YTAPIReady");
+      }
 
-    jQuery.mbYTPlayer.rasterImg ="' . plugins_url('/images/', __FILE__) . 'raster.png";
-	jQuery.mbYTPlayer.rasterImgRetina ="' . plugins_url('/images/', __FILE__) . 'raster@2x.png";
+    jQuery(function(){
+        var homevideo = "' . $mbYTPlayer_player_homevideo . '";
+        jQuery("body").prepend(homevideo);
+        jQuery("#bgndVideo_home").YTPlayer();
+      });
 
-	jQuery(function(){
-	    var homevideo = "' . $mbYTPlayer_player_homevideo . '";
-	    jQuery("body").prepend(homevideo);
-	    jQuery("#bgndVideo_home").YTPlayer();
-    });
-
-	</script>
-	<!-- end mbYTPlayer Home -->
+    </script>
+	<!-- END  -->
         ';
     }
 };
@@ -251,7 +285,7 @@ function ytp_add_body_classes($classes)
 
 function mbYTPlayer_options_page()
 { // Output the options page
-    global $ytpl_plus_link;
+    global $ytpl_plus_link, $mbYTPlayer_price;
     ?>
 
     <div class="wrap">
@@ -346,7 +380,7 @@ function mbYTPlayer_options_page()
             <br>
             <br>
             <a target="_blank" href="<?php echo $ytpl_plus_link ?>" class="getKey">
-                <span><?php printf(__('<strong>Go PLUS</strong> for <b>8 EUR</b> Only', 'wpmbytplayer')) ?></span>
+                <span><?php printf(__('<strong>Go PLUS</strong> for <b>%s EUR</b> Only', 'wpmbytplayer'), $mbYTPlayer_price["COM"]) ?></span>
             </a>
         </div>
 

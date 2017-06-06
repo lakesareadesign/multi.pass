@@ -5,6 +5,15 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+DATE: 31 May, 2017  - VERSION: 1.8.6
+==================================
+- Added new module "Admin Panel Tips", you can now add bunch of admin notices.
+- Added new module "Custom MS registration emails".
+- Added new module "Export/Import" with ability to export and import configuration.
+- Allowed to upload SVG and ICO file to media gallery (when "Custom Login Screen" is active).
+- Improved submenu of Branding admin menu - now it is sorted by submenu label.
+- Fixed save issue in "Global Footer Content".
+
 DATE: 17 May, 2017  - VERSION: 1.8.5
 ==================================
 - Added new module "Custom Login Screen".
@@ -320,4 +329,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-133620-1495482884-au
+133620-1496772485-au

@@ -465,6 +465,7 @@ jQuery(document).ready(function($){
             'action': 'simple_option',
             'tab': $('#ub-tab').val(),
             'nonce': $(this).data('nonce'),
+            'network': $(this).data('network'),
             'section': $(this).data('section')
         };
         if ( confirm( $(this).data('question') ) ) {
@@ -507,4 +508,20 @@ jQuery(document).ready(function(){
             jQuery(this).switchButton(options);
         });
     }
+});
+/**
+ * export
+ */
+jQuery(document).ready(function(){
+    jQuery( 'form.tab-export-import #simple_options_import_file').on( 'change', function(e) {
+        var target = jQuery( 'form.tab-export-import #simple_options_import_button');
+        if ( '' == jQuery(this).val() ) {
+            target.attr( 'disabled' );
+        } else {
+            var re = /json$/i;
+            if ( re.test(jQuery(this).val()) ) {
+                target.removeAttr( 'disabled' );
+            }
+        }
+    });
 });

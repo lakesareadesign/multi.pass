@@ -1,6 +1,19 @@
 <?php
 
 class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
+	public function __construct( $slug, $page_title, $menu_title, $parent = false, $render = true ) {
+		parent::__construct( $slug, $page_title, $menu_title, $parent, $render );
+
+		$this->tabs = array(
+			'files' => __( 'Files', 'wphb' )
+		);
+
+		if ( ! is_multisite() ) {
+			$this->tabs['settings'] = __( 'Settings', 'wphb' );
+		}
+
+		add_filter( 'wphb_admin_after_tab_' . $this->get_slug(), array( $this, 'after_tab' ) );
+	}
 
 
 	public function on_load() {
@@ -455,10 +468,11 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 			$percentage = 0;
 		}
 		else {
-			$percentage = 100 - ( ( $compressed_size * 100 ) / $original_size );
+			//$percentage = 100 - ( (int) $compressed_size * 100 ) / (int) $original_size;
+            $percentage = 100 - (int) $compressed_size * 100 / (int) $original_size;
 		}
 		$percentage = number_format_i18n( $percentage, 2 );
-		$compressed_size = number_format( $original_size - $compressed_size, 1 );
+		$compressed_size = number_format( (int) $original_size - (int) $compressed_size, 1 );
 
 		$settings = wphb_get_settings();
 		$use_cdn = $settings['use_cdn'];
@@ -467,4 +481,10 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		$args = compact( 'enqueued_files', 'compressed_size', 'percentage', 'use_cdn', 'is_member' );
 	    $this->view( 'minification/summary-meta-box', $args );
     }
+
+    public function after_tab( $tab ) {
+		if ( 'files' === $tab ) {
+			echo ' <span class="wphb-button-label wphb-button-label-light">' . wphb_minification_files_count() . '</span>';
+		}
+	}
 }

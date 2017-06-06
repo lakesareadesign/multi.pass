@@ -121,7 +121,6 @@ function update_ub_activated_modules( $data ) {
 
 function ub_load_single_module( $module ) {
 	$modules = get_ub_modules();
-
 	if ( in_array( $module, $modules ) ) {
 		include_once( ub_files_dir( 'modules/' . $module ) );
 	}
@@ -129,11 +128,16 @@ function ub_load_single_module( $module ) {
 }
 
 function get_ub_modules() {
-	if ( is_dir( ub_files_dir( 'modules' ) ) ) {
-		if ( $dh = opendir( ub_files_dir( 'modules' ) ) ) {
+	$dir = ub_files_dir( 'modules' );
+	if ( is_dir( $dir ) ) {
+		if ( $dh = opendir( $dir ) ) {
 			$mub_modules = array();
-			while ( ( $module = readdir( $dh ) ) !== false ) {				if ( substr( $module, -4 ) == '.php' ) {
-					$ub_modules[] = $module; }
+			while ( ( $module = readdir( $dh ) ) !== false ) {
+				if ( substr( $module, -4 ) == '.php' ) {
+					$ub_modules[] = $module;
+				} else if ( is_file( $dir.'/'.$module.'/'.$module.'.php' ) ) {
+					$ub_modules[] = $module.'/'.$module.'.php';
+				}
 			}
 			closedir( $dh );
 			sort( $ub_modules );
@@ -141,26 +145,22 @@ function get_ub_modules() {
 			return apply_filters( 'ultimatebranding_available_modules', $ub_modules );
 		}
 	}
-
 	return false;
-
 }
 
 function load_ub_modules() {
-
 	$modules = get_ub_activated_modules();
-
 	if ( is_dir( ub_files_dir( 'modules' ) ) ) {
 		if ( $dh = opendir( ub_files_dir( 'modules' ) ) ) {
 			$ub_modules = array();
-			while ( ( $module = readdir( $dh ) ) !== false ) {				if ( substr( $module, -4 ) == '.php' ) {
-					$ub_modules[] = $module; }
+			while ( ( $module = readdir( $dh ) ) !== false ) {
+				if ( substr( $module, -4 ) == '.php' ) {
+					$ub_modules[] = $module;
+				}
 			}
 			closedir( $dh );
 			sort( $ub_modules );
-
 			$ub_modules = apply_filters( 'ultimatebranding_available_modules', $ub_modules );
-
 			foreach ( $ub_modules as $ub_module ) {
 				if ( in_array( $ub_module, $modules ) ) {
 					include_once( ub_files_dir( 'modules/' . $ub_module ) );
@@ -168,7 +168,6 @@ function load_ub_modules() {
 			}
 		}
 	}
-
 	do_action( 'ultimatebranding_modules_loaded' );
 }
 
@@ -302,6 +301,8 @@ function ub_get_option_name_by_module( $module ) {
 	switch ( $module ) {
 		case 'custom-login-screen':
 		return 'global_login_screen';
+		case 'custom-ms-register-emails':
+		return 'global_ms_register_mails';
 	}
 	return 'unknown';
 }

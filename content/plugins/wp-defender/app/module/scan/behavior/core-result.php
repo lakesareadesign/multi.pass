@@ -310,8 +310,7 @@ class Core_Result extends Behavior {
 	private function _dialogContentForDir() {
 		?>
         <p>
-			<?php _e( "We found this folder floating around in your WordPress file list but it’s not required by your current WP
-            Version. This can be belonged to another application. If you don't recognised this, please contact our support for more information", wp_defender()->domain ) ?>
+			<?php _e( "We found this folder in your WordPress file list. Your current version of WordPress doesn’t use this folder so it might belong to another application. If you don’t recognize it, you can delete this folder (don’t forget to back up your website first!) or get in touch with the WPMU DEV support team for more information.", wp_defender()->domain ) ?>
         </p>
         <div class="mline source-code">
             <img src="<?php echo wp_defender()->getPluginUrl() ?>assets/img/loading.gif" width="18"

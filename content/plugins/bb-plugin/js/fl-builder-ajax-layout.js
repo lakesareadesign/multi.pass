@@ -34,7 +34,7 @@
 				}
 				else {
 					this._oldScriptsStyles 	= $( '.fl-builder-node-scripts-styles[data-node="' + this._data.nodeId + '"]' );
-					this._content 			= $( '.fl-node-' + this._data.nodeId );
+					this._content 			= $( '.fl-node-' + this._data.nodeId ).eq(0);
 				}
 			}
 		}

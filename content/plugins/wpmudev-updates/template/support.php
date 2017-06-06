@@ -20,7 +20,7 @@
 // Render the page header section.
 $page_title = __( 'Support', 'wpmudev' );
 $page_title .= sprintf(
-	' <a href="%s&view=system" class="button button-light title-function">%s</a>',
+	' <a href="%s&view=system" class="wpmudui-btn is-ghost">%s</a>',
 	$urls->support_url,
 	__( 'System Info', 'wpmudev' )
 );
@@ -69,7 +69,7 @@ $time_format = get_option( 'time_format' );
 		<div class="box-title">
 			<?php if ( ! empty( $open_threads ) ) : ?>
 			<span class="buttons">
-				<a href="<?php echo esc_url( $url_all_tickets ); ?>" class="button button-secondary button-small" target="_blank">
+				<a href="<?php echo esc_url( $url_all_tickets ); ?>" class="wpmudui-btn is-sm is-brand is-ghost" target="_blank">
 					<?php esc_html_e( 'View all', 'wpmudev' ); ?>
 				</a>
 			</span>
@@ -87,7 +87,7 @@ $time_format = get_option( 'time_format' );
 				<?php esc_html_e( 'When you ask a support question, it will appear here. You can also access this through your WPMU DEV Dashboard.', 'wpmudev' ); ?>
 			</p>
 			<p>
-				<a href="<?php echo esc_url( $url_open_ticket ); ?>" target="_blank" class="button">
+				<a href="<?php echo esc_url( $url_open_ticket ); ?>" target="_blank" class="wpmudui-btn is-brand">
 				<?php esc_html_e( 'Open new ticket', 'wpmudev' ); ?>
 				</a>
 			</p>
@@ -131,10 +131,10 @@ $time_format = get_option( 'time_format' );
 		<div class="box-title">
 			<span class="buttons">
 				<?php if ( $staff_login->enabled ) : ?>
-				<a href="<?php echo esc_url( $url_extend ); ?>" class="button button-secondary button-small one-click tooltip-l" tooltip="<?php esc_attr_e( 'Add another 3 days of support access', 'wpmudev' ); ?>">
+				<a href="<?php echo esc_url( $url_extend ); ?>" class="wpmudui-btn is-sm is-brand is-ghost one-click tooltip-l" tooltip="<?php esc_attr_e( 'Add another 3 days of support access', 'wpmudev' ); ?>">
 					<?php esc_html_e( 'Extend', 'wpmudev' ); ?>
 				</a>
-				<a href="<?php echo esc_url( $url_revoke ); ?>" class="button button-light button-small one-click">
+				<a href="<?php echo esc_url( $url_revoke ); ?>" class="wpmudui-btn is-sm is-ghost one-click">
 					<?php esc_html_e( 'Revoke', 'wpmudev' ); ?>
 				</a>
 				<?php endif; ?>
@@ -149,7 +149,7 @@ $time_format = get_option( 'time_format' );
 			<p>
 			<?php esc_html_e( 'Enabling support access will let our support heroes access your website admin area for 5 days to help you with an issue.', 'wpmudev' ); ?>
 			</p>
-			<a href="<?php echo esc_url( $url_grant ); ?>" class="button button-big button-grey block one-click">
+			<a href="<?php echo esc_url( $url_grant ); ?>" class="wpmudui-btn is-lg block one-click">
 				<?php esc_html_e( 'Grant Support Access', 'wpmudev' ); ?>
 			</a>
 			<?php else : ?>
@@ -169,7 +169,7 @@ $time_format = get_option( 'time_format' );
 				<?php esc_html_e( 'If you think it would help, leave our support heroes a quick message to let them know the details of your issue.', 'wpmudev' ); ?>
 				</p>
 				<textarea name="notes"><?php echo esc_textarea( $notes ); ?></textarea>
-				<button class="button button-small float-r one-click">
+				<button class="wpmudui-btn is-brand float-r one-click">
 					<?php esc_html_e( 'Save', 'wpmudev' ); ?>
 				</button>
 			</form>
@@ -212,7 +212,7 @@ $time_format = get_option( 'time_format' );
 
 
 
-<dialog id="access-info" title="<?php esc_attr_e( 'Support Access is secure', 'wpmudev' ); ?>" class="small">
+<dialog id="access-info" title="<?php esc_attr_e( 'Support Access is secure', 'wpmudev' ); ?>" class="wpmudui wpmudui-modal">
 <p>
 	<?php
 	esc_html_e( 'When you click the "Grant Access" button a random 64 character access token is generated that is only good for 96 hours (5 days) and saved in your Database. This token is sent to the WPMU DEV API over an SSL encrypted connection to prevent eavesdropping, and stored on our secure servers. This access token is in no way related to your password, and can only be used from our closed WPMU DEV API system for temporary access to this site.', 'wpmudev' );

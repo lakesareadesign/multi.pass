@@ -454,7 +454,8 @@ FLBuilder::register_settings_form('row', array(
 							'show_reset'    => true,
 							'preview'         => array(
 								'type'            => 'none'
-							)
+							),
+							'connections'	=> array( 'color' )
 						),
 						'bg_opacity'    => array(
 							'type'          => 'text',

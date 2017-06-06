@@ -138,10 +138,11 @@ function ub_remove_wp_dashboard_widgets() {
 	ub_update_option( 'ub_rwp_all_active_dashboard_widgets', $detected_widgets );
 
 	$active = ub_get_option( 'rwp_active_dashboard_widgets', array() );
-
+	$contexts = array( 'normal', 'advanced', 'side' );
 	foreach ( $active as $key => $value ) {
-		remove_meta_box( $key, 'dashboard', 'normal' );
-		remove_meta_box( $key, 'dashboard', 'side' );
+		foreach ( $contexts as $context ) {
+			remove_meta_box( $key, 'dashboard', $context );
+		}
 	}
 }
 
@@ -158,4 +159,23 @@ function ub_remove_tags( $string ) {
 	$string = trim( preg_replace( '/ {2,}/', ' ', $string ) );
 
 	return $string;
+}
+
+/**
+		 * export
+		 */
+		add_filter( 'ultimate_branding_export_data', 'ub_rwpwidgets_export' );
+	/**
+	 * Export data.
+	 *
+	 * @since 1.8.6
+	 */
+function ub_rwpwidgets_export( $data ) {
+		$options = array(
+			'rwp_active_dashboard_widgets',
+		);
+		foreach ( $options as $key ) {
+			$data['modules'][ $key ] = ub_get_option( $key );
+		}
+		return $data;
 }

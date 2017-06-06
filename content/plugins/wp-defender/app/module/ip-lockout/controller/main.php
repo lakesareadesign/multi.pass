@@ -298,7 +298,12 @@ class Main extends Controller {
 		if ( wp_defender()->isFree ) {
 			return;
 		}
-		$settings       = Settings::instance();
+		$settings = Settings::instance();
+
+		if ( $settings->report == false ) {
+			return false;
+		}
+
 		$lastReportSent = $settings->lastReportSent;
 		if ( $lastReportSent == null ) {
 			//no sent, so just assume last 30 days, as this only for monthly
@@ -341,7 +346,7 @@ class Main extends Controller {
 				), false );
 				$no_reply_email = "noreply@" . parse_url( get_site_url(), PHP_URL_HOST );
 				$headers        = array(
-					'From: WP Defender <' . $no_reply_email . '>',
+					'From: Defender <' . $no_reply_email . '>',
 					'Content-Type: text/html; charset=UTF-8'
 				);
 				wp_mail( $user->user_email, sprintf( __( "Defender Lockouts Report for %s", wp_defender()->domain ), network_site_url() ), $content, $headers );
@@ -369,7 +374,7 @@ class Main extends Controller {
 				), false );
 				$no_reply_email = "noreply@" . parse_url( get_site_url(), PHP_URL_HOST );
 				$headers        = array(
-					'From: WP Defender <' . $no_reply_email . '>',
+					'From: Defender <' . $no_reply_email . '>',
 					'Content-Type: text/html; charset=UTF-8'
 				);
 				wp_mail( $user->user_email, sprintf( __( "404 lockout alert for %s", wp_defender()->domain ), network_site_url() ), $content, $headers );
@@ -392,7 +397,7 @@ class Main extends Controller {
 				), false );
 				$no_reply_email = "noreply@" . parse_url( get_site_url(), PHP_URL_HOST );
 				$headers        = array(
-					'From: WP Defender <' . $no_reply_email . '>',
+					'From: Defender <' . $no_reply_email . '>',
 					'Content-Type: text/html; charset=UTF-8'
 				);
 				wp_mail( $user->user_email, sprintf( __( "Login lockout alert for %s", wp_defender()->domain ), network_site_url() ), $content, $headers );
@@ -440,7 +445,7 @@ class Main extends Controller {
 			$model             = new Log_Model();
 			$model->ip         = $this->getUserIp();
 			$model->user_agent = $_SERVER['HTTP_USER_AGENT'];
-			$model->log        = $_SERVER['REQUEST_URI'];
+			$model->log        = esc_url( $_SERVER['REQUEST_URI'] );
 			$model->date       = time();
 			if ( strlen( $ext ) > 0 && in_array( $ext, $settings->get404Ignorelist() ) ) {
 				$model->type = Log_Model::ERROR_404_IGNORE;

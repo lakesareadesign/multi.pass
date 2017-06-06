@@ -4,7 +4,7 @@ Plugin Name: Ultimate Branding
 Plugin URI: https://premium.wpmudev.org/project/ultimate-branding/
 Description: A complete white-label and branding solution for multisite. Login images, favicons, remove WordPress links and branding, and much more.
 Author: WPMU DEV
-Version: 1.8.5
+Version: 1.8.6
 Author URI: http://premium.wpmudev.org/
 Text_domain: ub
 WDP ID: 9135
@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 require_once( 'ultimate-branding-files/includes/config.php' );
 // Include the functions library
 require_once( 'ultimate-branding-files/includes/functions.php' );
+require_once( 'ultimate-branding-files/classes/class.ub.helper.php' );
 
 // Set up my location
 set_ub_url( __FILE__ );

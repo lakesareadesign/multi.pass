@@ -12,6 +12,9 @@ $defaults = array(
 
 $tab_defaults = isset( $tab['defaults'] ) ? $tab['defaults'] : array();
 $settings     = (object)array_merge( $defaults, $tab_defaults, (array)$settings );
+$settings 	  = apply_filters( 'fl_builder_loop_settings', $settings );  //Allow extension of default Values
+
+do_action( 'fl_builder_loop_settings_before_form', $settings ); // e.g Add custom FLBuilder::render_settings_field()
 
 ?>
 <div id="fl-builder-settings-section-source" class="fl-loop-data-source-select fl-builder-settings-section">
@@ -153,3 +156,5 @@ $settings     = (object)array_merge( $defaults, $tab_defaults, (array)$settings 
 		</table>
 	</div>
 </div>
+<?php
+do_action( 'fl_builder_loop_settings_after_form', $settings ); // e.g Add custom FLBuilder::render_settings_field()

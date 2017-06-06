@@ -8,6 +8,8 @@ abstract class WP_Hummingbird_Admin_Page {
 
 	protected $meta_boxes = array();
 
+	protected $tabs = array();
+
 	/**
 	 * In order to avoid duplicated notices,
 	 * we save notices IDs here
@@ -43,14 +45,31 @@ abstract class WP_Hummingbird_Admin_Page {
 
 		add_action( 'load-' . $this->page_id, array( $this, 'register_meta_boxes' ) );
 		add_action( 'load-' . $this->page_id, array( $this, 'on_load' ) );
+		add_action( 'load-' . $this->page_id, array( $this, 'trigger_load_action' ) );
 		add_filter( 'load-' . $this->page_id, array( $this, 'add_screen_hooks' ) );
 
 	}
 
 	/**
+	 * Return the admin menu slug
+	 *
+	 * @return string
+	 */
+	public function get_slug() {
+		return $this->slug;
+	}
+
+	/**
+	 * Trigger an action before this screen is loaded
+	 */
+	public function trigger_load_action() {
+		do_action( 'wphb_load_admin_page_' . $this->get_slug() );
+	}
+
+	/**
 	 * Load an admin view
 	 */
-	protected function view( $name, $args = array(), $echo = true ) {
+	public function view( $name, $args = array(), $echo = true ) {
 		$file = wphb_plugin_dir() . "admin/views/$name.php";
 		$content = '';
 
@@ -129,7 +148,7 @@ abstract class WP_Hummingbird_Admin_Page {
 	 * @param string $context
 	 * @param array $args
 	 */
-	protected function add_meta_box( $id, $title, $callback = '', $callback_header = '', $callback_footer = '', $context = 'main', $args = array() ) {
+	public function add_meta_box( $id, $title, $callback = '', $callback_header = '', $callback_footer = '', $context = 'main', $args = array() ) {
 		$default_args = array(
 			'box_class'			=> 'dev-box',
 			'box_header_class'	=> 'box-title',
@@ -162,7 +181,6 @@ abstract class WP_Hummingbird_Admin_Page {
 		if ( $meta_box ) {
 			$this->meta_boxes[ $this->slug ][ $context ][ $id ] = $meta_box;
 		}
-
 	}
 
 	/**
@@ -172,6 +190,8 @@ abstract class WP_Hummingbird_Admin_Page {
 	protected function do_meta_boxes( $context = 'main' ) {
 		if ( empty( $this->meta_boxes[ $this->slug ][ $context ] ) )
 			return;
+
+		do_action_ref_array( 'wphb_admin_do_meta_boxes_' . $this->slug, array( &$this ) );
 
 		foreach ( $this->meta_boxes[ $this->slug ][ $context ] as $id => $box ) {
 			$args = array( 'title' => $box['title'], 'id' => $id, 'callback' => $box['callback'], 'callback_header' => $box['callback_header'], 'callback_footer' => $box['callback_footer'], 'args' => $box['args'] );
@@ -300,6 +320,77 @@ abstract class WP_Hummingbird_Admin_Page {
 		else {
 			return menu_page_url( $this->slug, false );
 		}
+	}
 
+	/**
+	 * Get the current screen tab
+	 *
+	 * @return string
+	 */
+	public function get_current_tab() {
+		$tabs = $this->get_tabs();
+		if ( isset( $_GET['view'] ) && array_key_exists( $_GET['view'], $tabs ) ) {
+			return $_GET['view'];
+		}
+
+		if ( empty( $tabs ) ) {
+			return false;
+		}
+
+		reset( $tabs );
+		return key( $tabs );
+	}
+
+	/**
+	 * Get the list of tabs for this screen
+	 *
+	 * @return array
+	 */
+	protected function get_tabs() {
+		return apply_filters( 'wphb_admin_page_tabs_' . $this->slug, $this->tabs );
+	}
+
+	/**
+	 * Display tabs navigation
+	 */
+	public function show_tabs() {
+		$this->view( 'tabs', array( 'tabs' => $this->get_tabs() ) );
+	}
+
+	/**
+	 * Get a tab URL
+	 *
+	 * @param $tab
+	 *
+	 * @return string
+	 */
+	public function get_tab_url( $tab ) {
+		$tabs = $this->get_tabs();
+		if ( ! isset( $tabs[ $tab ] ) ) {
+			return '';
+		}
+
+		if ( is_multisite() && is_network_admin() ) {
+			return network_admin_url( 'admin.php?page=' . $this->slug . '&view=' . $tab );
+		}
+		else {
+			return admin_url( 'admin.php?page=' . $this->slug . '&view=' . $tab );
+		}
+	}
+
+	/**
+	 * Return the name of a tab
+	 *
+	 * @param $tab
+	 *
+	 * @return mixed|string
+	 */
+	public function get_tab_name( $tab ) {
+		$tabs = $this->get_tabs();
+		if ( ! isset( $tabs[ $tab ] ) ) {
+			return '';
+		}
+
+		return $tabs[ $tab ];
 	}
 }

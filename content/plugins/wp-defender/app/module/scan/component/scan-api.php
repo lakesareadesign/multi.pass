@@ -432,6 +432,8 @@ class Scan_Api extends Component {
 		delete_site_option( self::SCAN_PATTERN );
 		$cache->delete( 'filestried' );
 		$cache->delete( self::CACHE_CHECKSUMS );
+		$altCache = WP_Helper::getArrayCache();
+		$altCache->delete( 'lastScan' );
 	}
 
 	/**

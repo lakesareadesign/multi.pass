@@ -272,44 +272,6 @@ class Main extends \WP_Defender\Controller {
 	}
 
 	/**
-	 * @param $user_name
-	 */
-	public function save_receipts( $user_name ) {
-		$settings = Settings::instance();
-		$user     = get_user_by( 'login', $user_name );
-		if ( is_object( $user ) ) {
-			$settings->receipts[] = $user->ID;
-			$settings->save();
-			wp_send_json( array(
-				'status'     => 1,
-				'avatar'     => $this->getAvatarUrl( get_avatar( $user->ID, 30 ) ),
-				'name'       => $this->getDisplayName( $user->ID ),
-				'is_current' => get_current_user_id() == $user->ID,
-				'user_id'    => $user->ID
-			) );
-		} else {
-			wp_send_json( array(
-				'status' => 0
-			) );
-		}
-	}
-
-	/**
-	 * @param $user_id
-	 */
-	public function remove_receipts( $user_id ) {
-		$settings = Settings::instance();
-		$user     = get_user_by( 'id', $user_id );
-		if ( is_object( $user ) ) {
-			$index = array_search( $user_id, $settings->receipts );
-			if ( $index !== false ) {
-				unset( $settings->receipts[ $index ] );
-				$settings->save();
-			}
-		}
-	}
-
-	/**
 	 * process scan settings
 	 */
 	public function saveScanSettings() {
@@ -759,7 +721,11 @@ class Main extends \WP_Defender\Controller {
 
 	public function sendEmailReport() {
 		$settings = Settings::instance();
-		$model    = Scan_Api::getLastScan();
+		if ( $settings->notification == false ) {
+			return false;
+		}
+
+		$model = Scan_Api::getLastScan();
 		if ( ! is_object( $model ) ) {
 			return;
 		}
@@ -813,7 +779,7 @@ class Main extends \WP_Defender\Controller {
 			), false );
 			$no_reply_email = "noreply@" . parse_url( get_site_url(), PHP_URL_HOST );
 			$headers        = array(
-				'From: WP Defender <' . $no_reply_email . '>',
+				'From: Defender <' . $no_reply_email . '>',
 				'Content-Type: text/html; charset=UTF-8'
 			);
 			wp_mail( $email, $subject, $email_template, $headers );
@@ -905,7 +871,7 @@ class Main extends \WP_Defender\Controller {
 		$total_ignored = $ignored_wp;
 
 		$premium_counts = array();
-		if ( Utils::instance()->getAPIKey() ) {
+		if ( wp_defender()->isFree == false ) {
 			$issues_vuln     = $this->countStatus( $parent_id, Result_Item::STATUS_ISSUE, 'vuln' );
 			$issues_content  = $this->countStatus( $parent_id, Result_Item::STATUS_ISSUE, 'content' );
 			$ignored_vuln    = $this->countStatus( $parent_id, Result_Item::STATUS_IGNORED, 'vuln' );

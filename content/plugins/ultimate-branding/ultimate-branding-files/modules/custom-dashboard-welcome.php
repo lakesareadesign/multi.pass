@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * Main class of Custom welcome message ( formerly hide dashboard welcome )
  * Class UB_Custom_Dashboard_Welcome
  */
-class UB_Custom_Dashboard_Welcome{
+class UB_Custom_Dashboard_Welcome extends ub_helper{
 
 	/**
 	 * Custom welcome message
@@ -39,12 +39,15 @@ class UB_Custom_Dashboard_Welcome{
 	 */
 	private $_message;
 
+	protected $option_name = 'ub_custom_welcome_message';
+
 	/**
 	 * Kick start the module
 	 *
 	 * @since 1.2
 	 */
 	function __construct() {
+		parent::__construct();
 		add_filter( 'get_user_metadata', array( $this, 'ub_remove_dashboard_welcome' ) , 10, 4 );
 		add_action( 'ultimatebranding_settings_menu_widgets', array( $this, 'render_settings' ) );
 		add_filter( 'ultimatebranding_settings_menu_widgets_process', array( $this, 'process' ) );
@@ -61,7 +64,7 @@ class UB_Custom_Dashboard_Welcome{
 	 * @return mixed|void
 	 */
 	private function _get_message() {
-		return ub_get_option( 'ub_custom_welcome_message' );
+		return ub_get_option( $this->option_name );
 	}
 
 	/**
@@ -115,7 +118,7 @@ class UB_Custom_Dashboard_Welcome{
                 <?php echo wp_nonce_field( 'ub_save_custom_welcome_message', 'custom_welcome_message' ) ?>
 <?php
 		$args = array( 'textarea_name' => 'custom_admin_welcome_message', 'textarea_rows' => 9, 'teeny' => true );
-		wp_editor( stripslashes( ub_get_option( 'ub_custom_welcome_message' ) ) , 'custom_admin_welcome_content', $args );
+		wp_editor( stripslashes( ub_get_option( $this->option_name ) ) , 'custom_admin_welcome_content', $args );
 ?>
                 <p class='description'><?php _e( 'Leave empty to remove custom welcome widget', 'ub' ); ?></p>
             </div>
@@ -140,7 +143,7 @@ class UB_Custom_Dashboard_Welcome{
 	 * @since 1.2
 	 */
 	function render_custom_message() {
-		echo  nl2br( stripslashes( $this->_message ) );
+		echo wpautop( stripslashes( $this->_message ) );
 	}
 }
 

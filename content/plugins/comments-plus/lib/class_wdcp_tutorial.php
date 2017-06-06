@@ -15,7 +15,7 @@ class Wdcp_Tutorial {
 		if (!class_exists('Pointer_Tutorial')) require_once WDCP_PLUGIN_BASE_DIR . '/lib/external/pointers_tutorial.php';
 		$this->_setup_tutorial = new Pointer_Tutorial('wdcp-setup', __('Setup tutorial', 'wdcp'), false, false);
 		$this->_setup_tutorial->add_icon('');
-		$this->_settings_url = is_network_admin() ? network_admin_url('settings.php?page=wdcp') : admin_url('options-general.php?page=wdcp');
+		$this->_settings_url = is_network_admin() ? network_admin_url('settings.php?page=wdcp') : admin_url('options-general.php?page=wdcp');	     	 	 			 	 		
 	}
 
 	public static function serve () {

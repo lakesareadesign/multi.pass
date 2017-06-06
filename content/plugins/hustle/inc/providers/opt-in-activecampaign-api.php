@@ -124,12 +124,18 @@ class Opt_In_Activecampaign_Api
 				$res = $this->_post( 'contact_add', $data );
 			}
 
-			if ( empty( $res ) ) {
-				return __( 'Successful subscription', Opt_In::TEXT_DOMAIN );
-			}
+            if ( is_array( $res ) && isset( $res['result_code'] ) && $res['result_code'] == 'SUCCESS' ) {
+                return __( 'Successful subscription', Opt_In::TEXT_DOMAIN );
+            } else if ( empty( $res ) ) {
+                return __( 'Successful subscription', Opt_In::TEXT_DOMAIN );
+            }
 
-			$origData['error'] = ! empty( $res['result_message'] ) ? $res['result_message'] : __( 'Unexpected error occurred.', Opt_In::TEXT_DOMAIN );
-			$optin->log_error( $origData );
+            if ( is_array( $res ) && isset( $res['result_code'] ) ) {
+                if( $res['result_code'] == 'FAILED' ) {
+                    $origData['error'] = ! empty( $res['result_message'] ) ? $res['result_message'] : __( 'Unexpected error occurred.', Opt_In::TEXT_DOMAIN );
+                    $optin->log_error( $origData );
+                }
+            }
 			return $res;
 		} else {
 			$err = new WP_Error();

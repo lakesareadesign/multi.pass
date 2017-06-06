@@ -28,7 +28,7 @@
  */
 
 
-class ub_admin_menu {
+class ub_admin_menu extends ub_helper {
 
 	function __construct() {
 		add_action( 'ultimatebranding_settings_admin_menu', array( &$this, 'admin_menu_site_admin_options' ) );

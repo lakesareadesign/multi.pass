@@ -54,6 +54,8 @@ class Main extends \WP_Defender\Controller {
 		     || ( ( defined( 'DOING_AJAX' ) && DOING_AJAX == true )
 		          && HTTP_Helper::retrieve_post( 'id' ) == 'audit_lite' )
 		) {
+			//load the lite version of user search on main page & when using ajax, for using the
+			//ajax hooks
 			$this->email_search->lite      = true;
 			$this->email_search->eId       = 'audit_lite';
 			$this->email_search->noExclude = true;
@@ -201,7 +203,12 @@ class Main extends \WP_Defender\Controller {
 			return;
 		}
 
-		$settings       = Settings::instance();
+		$settings = Settings::instance();
+
+		if ( $settings->notification == false ) {
+			return;
+		}
+
 		$lastReportSent = $settings->lastReportSent;
 		if ( $lastReportSent == null ) {
 			//no sent, so just assume last 30 days, as this only for monthly
@@ -390,7 +397,7 @@ class Main extends \WP_Defender\Controller {
 
 			$no_reply_email = "noreply@" . parse_url( get_site_url(), PHP_URL_HOST );
 			$headers        = array(
-				'From: WP Defender <' . $no_reply_email . '>',
+				'From: Defender <' . $no_reply_email . '>',
 				'Content-Type: text/html; charset=UTF-8'
 			);
 			$params         = array(
@@ -529,8 +536,11 @@ class Main extends \WP_Defender\Controller {
 		foreach ( $attributes as $att => $value ) {
 			$params[ $att ] = HTTP_Helper::retrieve_get( $att, $value );
 			if ( $att == 'date_from' || $att == 'date_to' ) {
-				$df_object      = \DateTime::createFromFormat( $date_format, $params[ $att ] );
-				$params[ $att ] = $df_object->format( 'Y-m-d' );
+				$df_object = \DateTime::createFromFormat( $date_format, $params[ $att ] );
+				//check if the date string is right, if not, we use default
+				if ( is_object( $df_object ) ) {
+					$params[ $att ] = $df_object->format( 'Y-m-d' );
+				}
 			} elseif ( $att == 'user_id' ) {
 				$params['user_id'] = HTTP_Helper::retrieve_get( 'term' );
 			} elseif ( $att == 'date_range' && in_array( $value, array( 1, 7, 30 ) ) ) {
@@ -574,13 +584,14 @@ class Main extends \WP_Defender\Controller {
 		}
 
 		$links        = array();
-		$current_page = HTTP_Helper::retrieve_get( 'paged', 1 );
+		$current_page = absint( HTTP_Helper::retrieve_get( 'paged', 1 ) );
 		/**
 		 * if pages less than 7, display all
 		 * if larger than 7 we will get 3 previous page of current, current, and .., and, and previous, next, first, last links
 		 */
-		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$current_url = set_url_scheme( 'http://' . parse_url( get_site_url(), PHP_URL_HOST ) . $_SERVER['REQUEST_URI'] );
 		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
+		$current_url = esc_url( $current_url );
 
 		$radius = 2;
 		if ( $current_page > 1 && $total_pages > $radius ) {

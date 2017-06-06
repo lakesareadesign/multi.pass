@@ -38,7 +38,7 @@ $toggle_height 	= ceil( ( ( $toggle_padding * 2 ) + 14 ) * 0.65 );
 /**
  * Overall menu alignment
  */	
-if( !empty( $settings->menu_align ) && in_array( $settings->menu_align, array( 'left', 'center', 'right' ) ) ) : ?>
+if( $settings->menu_layout == 'horizontal' && !empty( $settings->menu_align ) && in_array( $settings->menu_align, array( 'left', 'center', 'right' ) ) ) : ?>
 .fl-node-<?php echo $id; ?> .fl-menu{
 	text-align: <?php echo $settings->menu_align ?>;
 }
@@ -158,10 +158,14 @@ if( $global_settings->responsive_enabled ) : ?>
 		border-top: none;
 	}
 
-	@media ( max-width: <?php echo ( $global_settings->responsive_breakpoint - 1 ) ?>px ) {
+	<?php if ( 'always' != $module->get_media_breakpoint() ) : ?>
+		@media ( max-width: <?php echo $module->get_media_breakpoint() ?>px ) {
+	<?php endif; ?>
+
 		<?php if( (isset( $settings->mobile_full_width ) && in_array( $settings->mobile_full_width, array( 'yes', 'below' ) ) ) && (isset( $settings->mobile_toggle ) && in_array($settings->mobile_toggle, array('hamburger', 'hamburger-label')) ) ) : ?>
 		
-			.fl-node-<?php echo $id; ?> .fl-menu .menu{
+			.fl-node-<?php echo $id; ?> .fl-menu .menu,
+			.fl-node-<?php echo $id; ?> .fl-menu .menu > li{
 				
 				<?php if ( 'yes' == $settings->mobile_full_width ) : ?>
 				position: absolute;
@@ -189,9 +193,24 @@ if( $global_settings->responsive_enabled ) : ?>
 				display: none;
 			}
 		<?php endif; ?>
-	}
+
+		.fl-menu-horizontal {
+			text-align: left;
+		}
+
+		.fl-module[data-node] .fl-menu .sub-menu {
+			background-color: transparent;
+			-webkit-box-shadow: none;
+			-ms-box-shadow: none;
+			box-shadow: none;
+		}
+
+	<?php if ( 'always' != $module->get_media_breakpoint() ) : ?>
+		} <?php // close media max-width ?>
+	<?php endif; ?>
 	
-	@media ( min-width: <?php echo $global_settings->responsive_breakpoint ?>px ) {
+	<?php if ( 'always' != $module->get_media_breakpoint() ) : ?>
+	@media ( min-width: <?php echo ( $module->get_media_breakpoint() ) + 1 ?>px ) {
 		
 		<?php // if menu is horizontal ?>
 		<?php if( $settings->menu_layout == 'horizontal' ) : ?>
@@ -313,6 +332,7 @@ if( $global_settings->responsive_enabled ) : ?>
 			}
 		<?php endif; ?>
 	}
+	<?php endif; ?>
 
 <?php 
 	
@@ -552,7 +572,7 @@ if( isset( $settings->show_separator ) && $settings->show_separator == 'yes' ) :
  * Mobile toggle button
  */			
 if( isset( $settings->mobile_toggle ) && $settings->mobile_toggle != 'expanded' ) : ?>
-	<?php if( !empty( $settings->menu_align ) && $settings->menu_align != 'default' ) : ?>
+	<?php if( $settings->menu_layout == 'horizontal' && !empty( $settings->menu_align ) && $settings->menu_align != 'default' ) : ?>
 		.fl-node-<?php echo $id; ?> .fl-menu-mobile-toggle{
 			<?php
 				if( in_array( $settings->menu_align, array( 'left', 'right' ) ) ) {

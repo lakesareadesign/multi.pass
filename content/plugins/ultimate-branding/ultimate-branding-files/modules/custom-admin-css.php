@@ -4,11 +4,11 @@ Plugin Name: Custom Admin CSS
 Plugin URI:
 Description: Add extra CSS to the admin panel
 Author: Barry (Incsub)
-Version: 1.0
+Version: 1.0.1
 Author URI:
 Network: true
 
-Copyright 2012 Incsub (email: admin@incsub.com)
+Copyright 2012-2017 Incsub (email: admin@incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,10 +25,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-class ub_custom_admin_css {
+class ub_custom_admin_css extends ub_helper {
+
+	protected $option_name = 'global_admin_css';
 
 	function __construct() {
-
+		parent::__construct();
 		add_action( 'ultimatebranding_settings_menu_css', array( &$this, 'custom_admin_css_options' ) );
 		add_filter( 'ultimatebranding_settings_menu_css_process', array( &$this, 'update_custom_admin_css' ), 10, 1 );
 
@@ -46,7 +48,7 @@ class ub_custom_admin_css {
 			$admincss = 'empty';
 		}
 
-		ub_update_option( 'global_admin_css' , $admincss );
+		ub_update_option( $this->option_name, $admincss );
 
 		if ( $status === false ) {
 			return $status;
@@ -56,7 +58,7 @@ class ub_custom_admin_css {
 	}
 
 	function custom_admin_css_output() {
-		$admincss = ub_get_option( 'global_admin_css' );
+		$admincss = ub_get_option( $this->option_name );
 		if ( $admincss == 'empty' ) {
 			$admincss = '';
 		}
@@ -72,7 +74,7 @@ class ub_custom_admin_css {
 	function custom_admin_css_options() {
 
 		global $wpdb, $wp_roles, $current_user, $global_footer_content_settings_page;
-		$admincss = ub_get_option( 'global_admin_css' );
+		$admincss = ub_get_option( $this->option_name );
 		if ( $admincss == 'empty' ) {
 			$admincss = '';
 		}

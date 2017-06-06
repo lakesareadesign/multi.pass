@@ -19,7 +19,7 @@ if ( ! $item || ! is_object( $item ) ) {
 }
 
 ?>
-<dialog title="<?php esc_html_e( 'Upfront installed!', 'wpmudev' ); ?>" class="small no-margin no-close">
+<dialog title="<?php esc_html_e( 'Upfront installed!', 'wpmudev' ); ?>" class="wpmudui wpmudui-modal no-close">
 
 <div class="wdp-success-msg">
 <p>

@@ -1,4 +1,4 @@
-<dialog id="wphb-upgrade-membership-modal" class="small <?php if ('hummingbird_page_wphb-uptime' === get_current_screen()->id ) echo 'no-close'; ?> wphb-modal" title="<?php _e( 'Upgrade Membership', 'wphb' ); ?>">
+<dialog id="wphb-upgrade-membership-modal" class="small wphb-modal" title="<?php _e( 'Upgrade Membership', 'wphb' ); ?>">
 	<div class="wphb-dialog-content dialog-upgrade">
 
         <p><?php _e( "Here's what you'll get by upgrading to Hummingbird Pro.", 'wphb' ); ?></p>

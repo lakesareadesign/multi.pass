@@ -27,7 +27,7 @@ $url_api_setting = $urls->remote_site . 'hub/account/';
 $url_settings = $urls->settings_url;
 
 // Render the page header section.
-$page_title = __( 'Manage', 'wpmudev' );
+$page_title = __( 'Settings', 'wpmudev' );
 $this->render_header( $page_title );
 
 // Adding users is only passible when the admin did not define a hardcoded
@@ -96,18 +96,13 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 				<?php echo esc_html( date_i18n( 'F d, Y', $profile['member_since'] ) ); ?>
 			</span>
 		</div>
-		<div class="buttons">
-			<a href="<?php echo esc_url( $url_membership ); ?>" target="_blank" class="button">
-				<?php _e( 'Change plan', 'wpmudev' ); ?>
-			</a>
-		</div>
 	</div>
 </section>
 
 <section class="box-apikey dev-box">
 	<div class="box-title">
 		<span class="buttons">
-			<a href="<?php echo esc_url( $url_api_setting ); ?>" class="button button-small button-grey" target="_blank">
+			<a href="<?php echo esc_url( $url_api_setting ); ?>" class="wpmudui-btn is-ghost is-sm" target="_blank">
 				<?php _e( 'Manage global API settings', 'wpmudev' ); ?>
 			</a>
 		</span>
@@ -230,7 +225,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 							data-empty-msg="<?php esc_attr_e( 'We did not find an admin user with this name...', 'wpmudev' ); ?>" />
 					</span>
 					<span class="list-detail">
-						<button id="user-add" type="submit" class="button one-click">
+						<button id="user-add" type="submit" class="wpmudui-btn is-brand one-click">
 							<?php _e( 'Add', 'wpmudev' ); ?>
 						</button>
 					</span>

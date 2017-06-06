@@ -153,12 +153,51 @@ final class FLBuilderServiceDrip extends FLBuilderService {
 	 */  
 	public function render_fields( $account, $settings ) 
 	{
+		$account_data   = $this->get_account_data( $account );
+		$api            = $this->get_api( $account_data['api_key'] );
+		$campaigns      = $api->get_campaigns( array( 
+			'account_id' => $account_data['api_account_id']
+		) );
+
 		$response       = array( 
 			'error'         => false, 
-			'html'          => $this->render_tag_field( $settings )
+			'html'          => $this->render_campaigns_field( $campaigns, $settings ) . $this->render_tag_field( $settings )
 		);
 		
 		return $response;
+	}
+
+	/**
+	 * Render markup for the campaign field. 
+	 *
+	 * @since 1.10.5
+	 * @param array $campaigns Campaigns data from the API.
+	 * @param object $settings Saved module settings.
+	 * @return string The markup for the campaign field.
+	 * @access private
+	 */  
+	private function render_campaigns_field( $campaigns, $settings ) 
+	{
+		ob_start();
+		
+		$options = array( '' => __( 'Choose...', 'fl-builder' ) );
+		
+		foreach ( $campaigns as $campaign ) {
+			$options[ $campaign['id'] ] = $campaign['name'];
+		}
+		
+		FLBuilder::render_settings_field( 'campaign_id', array(
+			'row_class'     => 'fl-builder-service-field-row',
+			'class'         => 'fl-builder-service-campaign-select',
+			'type'          => 'select',
+			'label'         => _x( 'Campaign', 'An email campaign from your GetDrip account.', 'fl-builder' ),
+			'options'       => $options,
+			'preview'       => array(
+				'type'          => 'none'
+			)
+		), $settings); 
+		
+		return ob_get_clean();
 	}
 
 	/**
@@ -248,6 +287,12 @@ final class FLBuilderServiceDrip extends FLBuilderService {
 			try {
 				
 				$result = $api->create_or_update_subscriber( $args );
+
+				if ( isset( $result['id'] ) && isset( $settings->campaign_id ) ) {
+					$args[ 'campaign_id' ] = $settings->campaign_id;
+					$args[ 'double_optin' ] = false;
+					$get_res = $api->subscribe_subscriber( $args );
+				}
 			} 
 			catch ( Exception $e ) {
 				$response['error'] = sprintf(

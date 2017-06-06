@@ -27,13 +27,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 
-	class ub_custom_login_screen {
+	class ub_custom_login_screen extends ub_helper {
 
-		private $options;
 		private $proceed_gettext = false;
 		private $patterns = array();
+		protected $option_name = 'global_login_screen';
 
 		public function __construct() {
+            parent::__construct();
 			$this->set_options();
 			add_action( 'ultimatebranding_settings_custom_login_screen', array( $this, 'admin_options_page' ) );
 			add_filter( 'ultimatebranding_settings_custom_login_screen_process', array( $this, 'update' ), 10, 1 );
@@ -73,7 +74,7 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				}
 			}
 
-			ub_update_option( 'global_login_screen' , $value );
+			ub_update_option( $this->option_name , $value );
 
 			if ( $status === false ) {
 				return $status;
@@ -84,7 +85,7 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 
 		public function output() {
 			$this->proceed_gettext = true;
-			$value = ub_get_option( 'global_login_screen' );
+			$value = ub_get_option( $this->option_name );
 			if ( $value == 'empty' ) {
 				$value = '';
 			}
@@ -327,16 +328,7 @@ body {
 			echo '</style>';
 		}
 
-		public function admin_options_page() {
-			$value = ub_get_option( 'global_login_screen' );
-			if ( $value == 'empty' ) {
-				$value = '';
-			}
-			$simple_options = new simple_options();
-			echo $simple_options->build_options( $this->options, $value );
-		}
-
-		private function set_options() {
+		protected function set_options() {
 
 			$login_header_url   = __( 'https://wordpress.org/', 'ub' );
 			$login_header_title = __( 'Powered by WordPress', 'ub' );
@@ -630,25 +622,6 @@ body {
 					),
 				),
 			);
-		}
-
-		private function get_value( $section, $name = null ) {
-			$value = ub_get_option( 'global_login_screen' );
-			if ( $value == 'empty' ) {
-				$value = '';
-			}
-			if ( empty( $value ) ) {
-				return null;
-			}
-			if ( isset( $value[ $section ] ) ) {
-				if ( empty( $name ) ) {
-					return $value[ $section ];
-				} else if ( isset( $value[ $section ][ $name ] )
-				) {
-					return $value[ $section ][ $name ];
-				}
-			}
-			return null;
 		}
 
 		public function login_headerurl( $value ) {

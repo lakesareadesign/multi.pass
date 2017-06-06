@@ -4,7 +4,7 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 
 	class UltimateBrandingPublic {
 
-		var $build = 1;
+		var $build;
 		// The modules in the public class are only those that need to be loaded on the public side of the site as well
 		var $modules = array(
 			'login-image.php' => 'login-image/login-image.php',
@@ -20,12 +20,15 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 			'custom-login-screen.php' => 'custom-login-screen.php',
 			'ultimate-color-schemes.php' => 'ultimate-color-schemes.php',
 			'signup-password.php' => '/signup-password/signup-password.php',
+			'custom-ms-register-emails.php' => 'custom-ms-register-emails.php',
 		);
 
 		var $plugin_msg = array();
 
 		function __construct() {
-			add_action( 'plugins_loaded', array( &$this, 'load_modules' ) );
+			global $ub_version;
+			$this->build = $ub_version;
+			add_action( 'plugins_loaded', array( $this, 'load_modules' ) );
 		}
 
 		function UltimateBrandingPublic() {
@@ -36,7 +39,6 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 		 * 	Check plugins those will be used if they are active or not
 		 */
 		function load_modules() {
-
 			// Load our remaining modules here
 			foreach ( $this->modules as $module => $plugin ) {
 				if ( ub_is_active_module( $module ) ) {

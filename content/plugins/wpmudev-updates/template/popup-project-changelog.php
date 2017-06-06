@@ -20,18 +20,18 @@ if ( ! $item || ! is_object( $item ) ) {
 $dlg_id = 'dlg-' . md5( time() . '-' . $pid );
 
 ?>
-<dialog title="<?php printf( esc_attr__( '%s changelog', 'wpmudev' ), esc_html( $item->name ) ); ?>" class="small no-margin">
+<dialog title="<?php printf( esc_attr__( '%s changelog', 'wpmudev' ), esc_html( $item->name ) ); ?>" class="wpmudui wpmudui-modal is-sm no-content-pad">
 <div class="wdp-changelog <?php echo esc_attr( $dlg_id ); ?>">
 
 <div class="title-action" data-project="<?php echo esc_attr( $pid ); ?>">
 	<?php if ( $item->is_licensed ) : ?>
 		<?php if ( $item->is_installed && $item->has_update ) { ?>
-		<a href="#update" class="button button-small show-project-update">
+		<a href="#update" class="wpmudui-btn is-sm is-brand show-project-update">
 			<?php esc_html_e( 'Update available', 'wpmudev' ); ?>
 		</a>
 		<?php } ?>
 	<?php else : ?>
-		<a href="#upgrade" class="button button-small" rel="dialog">
+		<a href="#upgrade" class="wpmudui-btn is-sm is-brand" rel="dialog">
 			<?php esc_html_e( 'Upgrade', 'wpmudev' ); ?>
 		</a>
 	<?php endif; ?>

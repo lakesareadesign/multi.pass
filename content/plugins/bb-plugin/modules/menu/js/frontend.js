@@ -14,6 +14,7 @@
 		this.mobileToggle		 = settings.mobile;
 		this.mobileBelowRow		 = settings.mobileBelowRow;
 		this.breakPoints         = settings.breakPoints;
+		this.mobileBreakpoint	 = settings.mobileBreakpoint; 
 		this.currentBrowserWidth = $( window ).width();
 
 		// initialize the menu
@@ -50,13 +51,42 @@
 		 * @return bool
 		 */
 		_isMobile: function(){
-			return $( window ).width() < this.breakPoints.small ? true : false;
+			return $( window ).width() <= this.breakPoints.small ? true : false;
+		},
+
+		/**
+		 * Check if the screen size fits a medium viewport.
+		 *
+		 * @since  1.10.5
+		 * @return bool
+		 */
+		_isMedium: function(){
+			return $( window ).width() <= this.breakPoints.medium ? true : false;
+		},
+
+		/**
+		 * Check if the menu should toggle for the current viewport base on the selected breakpoint
+		 *
+		 * @see 	this._isMobile()
+		 * @see 	this._isMedium()
+		 * @since  	1.10.5
+		 * @return bool
+		 */
+		_isMenuToggle: function(){
+			if ( 'always' == this.mobileBreakpoint 
+				|| ( this._isMobile() && 'mobile' == this.mobileBreakpoint ) 
+				|| ( this._isMedium() && 'medium-mobile' == this.mobileBreakpoint ) 
+				) {
+				return true;
+			}
+
+			return false;
 		},
 
 		/**
 		 * Initialize the toggle logic for the menu.
 		 *
-		 * @see    this._isMobile()
+		 * @see    this._isMenuToggle()
 		 * @see    this._menuOnCLick()
 		 * @see    this._clickOrHover()
 		 * @see    this._submenuOnRight()
@@ -66,9 +96,12 @@
 		 */
 		_initMenu: function(){
 			this._menuOnFocus();
-			this._initMegaMenus();
+			
+			if ( $( this.nodeClass ).length ) {
+				this._initMegaMenus();	
+			}
 
-			if( this._isMobile() || this.type == 'accordion' ){
+			if( this._isMenuToggle() || this.type == 'accordion' ){
 				
 				$( this.wrapperClass ).off( 'mouseenter mouseleave' );
 				this._menuOnClick();
@@ -100,6 +133,9 @@
 				
 				$menuItem.addClass('focus');
 				$parents.addClass('focus');
+
+			}, this ) ).on( 'focusout', 'a', $.proxy( function( e ){
+				$( e.target ).parentsUntil( this.wrapperClass ).removeClass( 'focus' );
 			}, this ) );
 		},
 
@@ -149,7 +185,7 @@
 		/**
 		 * Changes general styling and behavior of menus based on mobile / desktop viewport.
 		 *
-		 * @see    this._isMobile()
+		 * @see    this._isMenuToggle()
 		 * @since  1.6.1
 		 * @return void
 		 */
@@ -159,7 +195,7 @@
 				$menu      = $wrapper.find( '.menu' );
 				$li        = $wrapper.find( '.fl-has-submenu' );
 
-			if( this._isMobile() ){
+			if( this._isMenuToggle() ){
 				$li.each( function( el ){
 					if( !$(this).hasClass('fl-active') ){
 						$(this).find( '.sub-menu' ).fadeOut();
@@ -241,7 +277,7 @@
 			var $wrapper = null,
 				$menu    = null;
 
-			if( this._isMobile() ){
+			if( this._isMenuToggle() ){
 				
 				if ( this.mobileBelowRow ) {
 					this._placeMobileMenuBelowRow();
@@ -302,7 +338,8 @@
 		/**
 		 * Init any mega menus that exist.
 		 *
-		 * @since  1.10.4
+		 * @see 	this._isMenuToggle()
+		 * @since  	1.10.4
 		 * @return void
 		 */
 		_initMegaMenus: function(){
@@ -313,9 +350,9 @@
 				rowOffset  = rowContent.offset().left,
 				megas      = module.find( '.mega-menu' ),
 				disabled   = module.find( '.mega-menu-disabled' ),
-				mobile     = this._isMobile();
+				isToggle   = this._isMenuToggle();
 				
-			if ( mobile ) {
+			if ( isToggle ) {
 				megas.removeClass( 'mega-menu' ).addClass( 'mega-menu-disabled' );
 				module.find( 'li.mega-menu-disabled > ul.sub-menu' ).css( 'width', '' );
 				rowContent.css( 'position', '' );

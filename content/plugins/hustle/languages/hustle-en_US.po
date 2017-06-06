@@ -1784,7 +1784,7 @@ msgstr ""
 msgid "Local IP Lookup Table"
 msgstr ""
 
-#: inc/opt-in-model.php:204, inc/providers/opt-in-activecampaign-api.php:136, inc/providers/opt-in-aweber.php:145, inc/providers/opt-in-campaignmonitor.php:159, inc/providers/opt-in-constantcontact.php:55, inc/providers/opt-in-convertkit.php:279, inc/providers/opt-in-get-response.php:152, inc/providers/opt-in-infusionsoft-api.php:185, inc/providers/opt-in-mad-mimi.php:81, inc/providers/opt-in-mailchimp.php:78, inc/providers/opt-in-mautic.php:71
+#: inc/opt-in-model.php:204, inc/providers/opt-in-activecampaign-api.php:142, inc/providers/opt-in-aweber.php:145, inc/providers/opt-in-campaignmonitor.php:159, inc/providers/opt-in-constantcontact.php:55, inc/providers/opt-in-convertkit.php:279, inc/providers/opt-in-get-response.php:152, inc/providers/opt-in-infusionsoft-api.php:185, inc/providers/opt-in-mad-mimi.php:81, inc/providers/opt-in-mailchimp.php:78, inc/providers/opt-in-mautic.php:71
 msgid "This email address has already subscribed."
 msgstr ""
 
@@ -1960,11 +1960,11 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: inc/providers/opt-in-activecampaign-api.php:128, inc/providers/opt-in-convertkit-api.php:129, inc/providers/opt-in-get-response-api.php:112, inc/providers/opt-in-mad-mimi-api.php:120, inc/providers/opt-in-mailchimp-api.php:166
+#: inc/providers/opt-in-activecampaign-api.php:128, inc/providers/opt-in-activecampaign-api.php:130, inc/providers/opt-in-convertkit-api.php:129, inc/providers/opt-in-get-response-api.php:112, inc/providers/opt-in-mad-mimi-api.php:120, inc/providers/opt-in-mailchimp-api.php:166
 msgid "Successful subscription"
 msgstr ""
 
-#: inc/providers/opt-in-activecampaign-api.php:131
+#: inc/providers/opt-in-activecampaign-api.php:135
 msgid "Unexpected error occurred."
 msgstr ""
 
@@ -1980,11 +1980,11 @@ msgstr ""
 msgid "Enter your ActiveCampaign URL:"
 msgstr ""
 
-#: inc/providers/opt-in-activecampaign.php:193, inc/providers/opt-in-get-response.php:219, inc/providers/opt-in-mad-mimi.php:233, inc/providers/opt-in-mailchimp.php:238, inc/providers/opt-in-sendy.php:152
+#: inc/providers/opt-in-activecampaign.php:193, inc/providers/opt-in-get-response.php:219, inc/providers/opt-in-mad-mimi.php:233, inc/providers/opt-in-mailchimp.php:240, inc/providers/opt-in-sendy.php:152
 msgid "Enter your API key:"
 msgstr ""
 
-#: inc/providers/opt-in-activecampaign.php:213, inc/providers/opt-in-aweber.php:265, inc/providers/opt-in-campaignmonitor.php:252, inc/providers/opt-in-constantcontact.php:251, inc/providers/opt-in-get-response.php:239, inc/providers/opt-in-mad-mimi.php:253, inc/providers/opt-in-mailchimp.php:258
+#: inc/providers/opt-in-activecampaign.php:213, inc/providers/opt-in-aweber.php:265, inc/providers/opt-in-campaignmonitor.php:252, inc/providers/opt-in-constantcontact.php:251, inc/providers/opt-in-get-response.php:239, inc/providers/opt-in-mad-mimi.php:253, inc/providers/opt-in-mailchimp.php:260
 msgid "Get Lists"
 msgstr ""
 
@@ -2156,59 +2156,59 @@ msgstr ""
 msgid "Something went wrong, please compare your Opt-in fields with MailChimp fields and add any missing fields."
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:196
+#: inc/providers/opt-in-mailchimp.php:198
 msgid "Choose email list:"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:266
+#: inc/providers/opt-in-mailchimp.php:268
 msgid "Log in to your <a href='https://admin.mailchimp.com/account/api/' target='_blank'>MailChimp account</a> to get your API Key."
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:288
+#: inc/providers/opt-in-mailchimp.php:290
 msgid "No group"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:289
+#: inc/providers/opt-in-mailchimp.php:291
 msgid "First choose interest group"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:318
+#: inc/providers/opt-in-mailchimp.php:320
 msgid "Choose interest group:"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:336
+#: inc/providers/opt-in-mailchimp.php:338
 msgid "Leave this option blank if you would like to opt-in users without adding them to a group first"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:374
+#: inc/providers/opt-in-mailchimp.php:376
 msgid "No default choice"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:445
+#: inc/providers/opt-in-mailchimp.php:447
 msgid "Choose default interest:"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:448
+#: inc/providers/opt-in-mailchimp.php:450
 msgid "Choose default interest(s):"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:451
+#: inc/providers/opt-in-mailchimp.php:453
 msgid "Set default interest:"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:454
+#: inc/providers/opt-in-mailchimp.php:456
 msgid "clear selection"
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:478
+#: inc/providers/opt-in-mailchimp.php:480
 msgid "What you select here will appear pre-selected for users. If this is a hidden group, the interest will be set but not shown to users."
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:521
+#: inc/providers/opt-in-mailchimp.php:523
 msgid "Invalid list id: "
 msgstr ""
 
-#: inc/providers/opt-in-mailchimp.php:549
+#: inc/providers/opt-in-mailchimp.php:551
 msgid "Field already exists."
 msgstr ""
 

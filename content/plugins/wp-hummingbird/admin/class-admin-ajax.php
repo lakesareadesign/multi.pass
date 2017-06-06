@@ -27,8 +27,6 @@ class WP_Hummingbird_Admin_AJAX {
 		add_action( 'wp_ajax_cloudflare_set_expiry', array( $this, 'cloudflare_set_expiry' ) );
 		add_action( 'wp_ajax_cloudflare_purge_cache', array( $this, 'cloudflare_purge_cache' ) );
 
-		add_action( 'wp_ajax_username_search_scan_receipts', array( $this, 'ajax_search_user' ) );
-		add_action( 'wp_ajax_add_receipt_scan_receipts', array( $this, 'performance_add_recipient' ) );
 	}
 
 	/**
@@ -45,41 +43,6 @@ class WP_Hummingbird_Admin_AJAX {
 		wphb_remove_quick_setup();
 
 		wp_send_json_success( array( 'finished' => true ) );
-	}
-
-	/**
-	 * Ajax functionality for searching users.
-	 *
-	 * @since 1.4.5
-	 */
-	public function ajax_search_user() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		$settings = wphb_get_settings();
-
-		$args = array(
-			'search'         => '*' . wphb_retrieve_post( 'term' ) . '*',
-			'search_columns' => array( 'user_login' ),
-			'number'         => 10,
-			'exclude'        => $settings['email-recipients'],
-			'orderby'        => 'user_login',
-			'order'          => 'ASC'
-		);
-
-		$query   = new \WP_User_Query( $args );
-		$results = array();
-
-		foreach ( $query->get_results() as $row ) {
-			$results[] = array(
-				'id'    => $row->user_login,
-				'label' => '<span class="name title">' . esc_html( wphb_get_display_name( $row->ID ) ) . '</span> <span class="email">' . esc_html( $row->user_email ) . '</span>',
-				'thumb' => wphb_get_avatar_url( get_avatar( $row->user_email ) )
-			);
-		}
-		echo json_encode( $results );
-		exit;
 	}
 
 	public function process() {
@@ -134,93 +97,6 @@ class WP_Hummingbird_Admin_AJAX {
 
 		// Just do nothing until teh report is finished
 		wp_send_json_error();
-	}
-
-	/**
-	 * Process scan settings.
-	 *
-	 * @param $data string Serialized form data
-	 * @since 1.4.5
-	 */
-	public function performance_save_report_settings( $data ) {
-		$form = array();
-		parse_str( $data, $form );
-
-		$settings = wphb_get_settings();
-
-		$settings['email-notifications'] = (bool) $form['email-notifications'];
-		$settings['email-frequency'] = intval( $form['email-frequency'] );
-		$settings['email-day'] = sanitize_text_field( $form['email-day'] );
-		$settings['email-time'] = sanitize_text_field( $form['email-time'] );
-		$settings['email-recipients'] = array();
-		foreach ( $form['email-recipients'] as $recipient ) {
-			$settings['email-recipients'][] = sanitize_text_field( $recipient );
-		}
-
-		update_option( 'wphb_settings', $settings );
-
-		// Clean all cron
-		wp_clear_scheduled_hook( 'wphb_performance_scan' );
-		if ( true === (bool) $form['email-notifications'] ) {
-			// Reschedule
-			$nextScanTime = WP_Hummingbird_Module_Performance::get_scheduled_scan_time();
-			wp_schedule_single_event( $nextScanTime, 'wphb_performance_scan' );
-		}
-
-
-		wp_send_json_success();
-	}
-
-	/**
-	 * Remove recipient
-	 *
-	 * @param $data string User ID to remove from settings
-	 * @since 1.4.5
-	 */
-	public function performance_remove_recipient( $data ) {
-		$user_id = intval( $data );
-
-		$settings = wphb_get_settings();
-		$users = $settings['email-recipients'];
-
-		// Find the user id in the array and remove it
-		if ( ( $key = array_search( $user_id, $users ) ) !== false) {
-			unset( $users[$key] );
-		}
-		$settings['email-recipients'] = $users;
-
-		update_option( 'wphb_settings', $settings );
-
-		wp_send_json_success();
-	}
-
-	/**
-	 * Add recipient
-	 *
-	 * @since 1.4.5
-	 */
-	public function performance_add_recipient() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		//$settings = wphb_get_settings();
-
-		$user_name = wphb_retrieve_post( 'user' );
-		$user      = get_user_by( 'login', $user_name );
-
-		if ( is_object( $user ) ) {
-			//$settings['email-recipients'][] = $user->ID;
-			//update_option( 'wphb_settings', $settings );
-			wp_send_json( array(
-				'avatar'     => wphb_get_avatar_url( get_avatar( $user->ID, 30 ) ),
-				'name'       => wphb_get_display_name( $user->ID ),
-				'is_current' => get_current_user_id() == $user->ID,
-				'user_id'    => $user->ID
-			) );
-		} else {
-			wp_send_json_error();
-		}
 	}
 
 	public function uptime_toggle_uptime( $data ) {

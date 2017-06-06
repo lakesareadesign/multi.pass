@@ -5,7 +5,7 @@
 class Wdcp_PluginsHandler {
 
 	public static function init () {
-		define('WDCP_PLUGIN_PLUGINS_DIR', WDCP_PLUGIN_BASE_DIR . '/lib/plugins', true);	     	 	 			 	 		
+		define('WDCP_PLUGIN_PLUGINS_DIR', WDCP_PLUGIN_BASE_DIR . '/lib/plugins', true);
 		self::load_active_plugins();
 	}
 

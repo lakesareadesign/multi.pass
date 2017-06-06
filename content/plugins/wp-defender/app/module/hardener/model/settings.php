@@ -91,6 +91,13 @@ class Settings extends \Hammer\WP\Settings {
     public $new_htconfig = array();
 
 	/**
+	 * Current active server
+	 *
+	 * @var String
+	 */
+	public $active_server = 'apache';
+
+	/**
 	 * shorthand to add to a list
 	 *
 	 * @param $slug
@@ -326,5 +333,14 @@ class Settings extends \Hammer\WP\Settings {
 	 */
 	public function getNewHtConfig() {
 		return $this->new_htconfig;
+	}
+
+	/**
+	 * Set the active server
+	 *
+	 * @param String $server
+	 */
+	public function setActiveServer( $server ) {
+		$this->active_server = $server;
 	}
 }

@@ -21,9 +21,13 @@ jQuery(function initModules() {
 	// ------------------------------------------------------------------------
 	// MAIN DASHBOARD PAGE
 	function initDashboard() {
-		var projectSearch = jQuery('#project-search');
+		var projectSearch = jQuery('#project-search'),
+				loginForm = jQuery('#wpmudui-login-form');
 
 		projectSearch.on('search', searchProjects);
+
+		loginForm.on("click", ".one-click", disableFields);
+
 	}
 
 	// ------------------------------------------------------------------------
@@ -734,4 +738,23 @@ jQuery(function initModules() {
 		WDP.showOverlay('#reload');
 		window.location.reload();
 	}
+
+	// Make fields disabled on form submit (from shared-ui)
+	function disableFields() {
+		var form, el = jQuery(this);
+
+		window.setTimeout(function() {
+			el.prop("disabled", true).addClass("disabled").loading(true);
+
+			if (el.hasClass("wpmudui-btn")) {
+				form = el.closest("form");
+				if ( form.length ) {
+					form.find(":input").prop("disabled", true).addClass("disabled");
+					form.prop("disabled", true).addClass("disabled");
+				}
+			}
+		}, 20);
+
+	}
+
 });

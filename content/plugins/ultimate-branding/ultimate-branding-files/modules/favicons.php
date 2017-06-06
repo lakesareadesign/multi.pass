@@ -1,14 +1,10 @@
 <?php
 /*
   Plugin Name: Custom Multisite Favicons
-  Plugin URI:
   Description: Change the Favicon for the network
-  Author: Marko Miljus (Incsub), Barry (Incsub), Philip John (Incsub)
-  Version: 2.0
-  Author URI:
-  Network: true
+  Author: Marko Miljus (Incsub), Barry (Incsub), Philip John (Incsub), Marcin Pietrzak (Incsub)
 
-  Copyright 2013 Incsub
+  Copyright 2013-2017 Incsub
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -61,14 +57,18 @@ class ub_favicons {
 		}
 
 		if ( $this->_override_site_icon()  ) {
-			add_action( 'wp_before_admin_bar_render', array( $this, 'change_blavatar_icon' ) ); }
-
+			add_action( 'wp_before_admin_bar_render', array( $this, 'change_blavatar_icon' ) );
+		}
 		add_action( 'wp_ajax_ub_save_favicon', array( $this, 'ajax_ub_save_favicon' ) );
 		add_action( 'wp_ajax_ub_reset_favicon', array( $this, 'ajax_ub_reset_favicon' ) );
 
 		add_filter( 'clean_url', array( $this, 'clean_url' ), 10, 30 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_filter( 'upload_mimes', array( $this, 'upload_mimes' ) );
+		/**
+		 * export
+		 */
+		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
 	}
 
 	function enqueue_scripts() {
@@ -508,6 +508,38 @@ if ( ! $favicon ) {
 		}
 		$blog_id = empty( $blog_id ) ? get_current_blog_id() : $blog_id;
 		return self::get_favicon( $blog_id );
+	}
+
+	/**
+	 * Add ability to upload SVG and ICO files.
+	 *
+	 * @since 1.8.6
+	 */
+	public function upload_mimes( $mime_types ) {
+		$mime_types['svg'] = 'image/svg+xml';
+		$mime_types['ico'] = 'image/x-icon';
+		return $mime_types;
+	}
+
+	/**
+	 * Export data.
+	 *
+	 * @since 1.8.6
+	 */
+	public function export( $data ) {
+		$options = array(
+			'ub_favicon',
+			'ub_favicon_dir',
+			'ub_favicon_id',
+			'ub_favicon_size',
+			'ub_favicons_override_site_icon',
+			'ub_favicons_use_as_default',
+			'ub_favicon_url',
+		);
+		foreach ( $options as $key ) {
+			$data['modules'][ $key ] = ub_get_option( $key );
+		}
+		return $data;
 	}
 }
 

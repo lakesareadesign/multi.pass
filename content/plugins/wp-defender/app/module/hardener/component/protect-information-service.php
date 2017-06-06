@@ -69,28 +69,34 @@ class Protect_Information_Service extends Rule_Service implements IRule_Service 
 	 * @return bool|\WP_Error
 	 */
 	public function revert() {
-		$htPath = ABSPATH . '.htaccess';
-		if ( ! is_writeable( $htPath ) ) {
-			return new \WP_Error( Error_Code::NOT_WRITEABLE,
-				sprintf( __( "The file %s is not writeable", wp_defender()->domain ), $htPath ) );
-		}
-		$htConfig = file_get_contents( $htPath );
-		$rules    = array(
-			'## WP Defender - Prevent information disclosure ##' . PHP_EOL,
-			'<FilesMatch "\.(txt|md|exe|sh|bak|inc|pot|po|mo|log|sql)$">' . PHP_EOL .
-			'Order allow,deny' . PHP_EOL .
-			'Deny from all' . PHP_EOL .
-			'</FilesMatch>' . PHP_EOL,
-			'<Files robots.txt>' . PHP_EOL .
-			'Allow from all' . PHP_EOL .
-			'</Files>' . PHP_EOL,
-			'## WP Defender - End ##'
-		);
-		$rules    = implode( '', $rules );
-		$htConfig = str_replace( $rules, '', $htConfig );
-		$htConfig = trim( $htConfig );
-		file_put_contents( $htPath, $htConfig, LOCK_EX );
+		global $is_apache;
+		if ( $is_apache ) {
+			$htPath = ABSPATH . '.htaccess';
+			if ( ! is_writeable( $htPath ) ) {
+				return new \WP_Error( Error_Code::NOT_WRITEABLE,
+					sprintf( __( "The file %s is not writeable", wp_defender()->domain ), $htPath ) );
+			}
+			$htConfig = file_get_contents( $htPath );
+			$rules    = array(
+				'## WP Defender - Prevent information disclosure ##' . PHP_EOL,
+				'<FilesMatch "\.(txt|md|exe|sh|bak|inc|pot|po|mo|log|sql)$">' . PHP_EOL .
+				'Order allow,deny' . PHP_EOL .
+				'Deny from all' . PHP_EOL .
+				'</FilesMatch>' . PHP_EOL,
+				'<Files robots.txt>' . PHP_EOL .
+				'Allow from all' . PHP_EOL .
+				'</Files>' . PHP_EOL,
+				'## WP Defender - End ##'
+			);
+			$rules    = implode( '', $rules );
+			$htConfig = str_replace( $rules, '', $htConfig );
+			$htConfig = trim( $htConfig );
+			file_put_contents( $htPath, $htConfig, LOCK_EX );
 
-		return true;
+			return true;
+		} else {
+			//Other servers we cant revert
+			return new \WP_Error( Error_Code::INVALID, __( "Revert is not possible on your current server", wp_defender()->domain ) );
+		}
 	}
 }

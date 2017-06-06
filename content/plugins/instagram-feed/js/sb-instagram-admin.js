@@ -86,4 +86,10 @@ jQuery(document).ready(function($) {
     }
   });
 
+  //Support tab show video
+  jQuery('#sbi-play-support-video').on('click', function(e){
+      e.preventDefault();
+      jQuery('#sbi-support-video').show().attr('src', jQuery('#sbi-support-video').attr('src')+'&amp;autoplay=1' );
+  });
+
 });

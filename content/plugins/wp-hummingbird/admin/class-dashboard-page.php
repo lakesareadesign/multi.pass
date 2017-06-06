@@ -194,14 +194,6 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 			$this->add_meta_box( 'dashboard-uptime', __( 'Uptime', 'wphb' ), array( $this, 'dashboard_uptime_metabox' ), array( $this, 'dashboard_uptime_module_metabox_header' ), null, 'box-dashboard-right', null );
 		}
 
-		/* Reports */
-		if ( ! wphb_is_member() ) {
-			$this->add_meta_box( 'dashboard/reports/no-membership', __( 'Reporting', 'wphb' ), null, array( $this, 'dashboard_reports_module_metabox_header' ), null, 'box-dashboard-right', array( 'box_class' => 'dev-box content-box content-box-one-col-center' ) );
-        } else {
-		    $this->add_meta_box( 'dashboard-reports', __( 'Reports', 'wphb' ), array( $this, 'dashboard_reports_metabox' ), null, null, 'box-dashboard-left', array( 'box_class' => 'dev-box content-box content-box-one-col-center' ) );
-        }
-
-
 	}
 
 	public function dashboard_welcome_metabox() {
@@ -392,7 +384,7 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 			$percentage = 0;
 		}
 		else {
-			$percentage = 100 - ( ( $compressed_size * 100 ) / $original_size );
+			$percentage = 100 - (int) $compressed_size * 100 / (int) $original_size;
 		}
 		$percentage = number_format_i18n( $percentage, 2 );
 
@@ -464,7 +456,12 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 		$viewreport_link = wphb_get_admin_menu_url( 'performance' );
 
         $settings = wphb_get_settings();
-        $notifications = $settings['email-notifications'];
+        if ( wphb_is_member() ) {
+            $notifications = $settings['email-notifications'];
+        } else {
+            $notifications = false;
+        }
+
 
         $args = compact( 'report', 'viewreport_link', 'notifications' );
 		$this->view( 'dashboard/performance/module-meta-box', $args );
@@ -525,50 +522,5 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 		$title =  __( 'Image Optimization', 'wphb' );
 		$this->view( 'dashboard/smush/meta-box-header', array( 'title' => $title ) );
 	}
-
-	/*********************************
-	/** REPORTS                      *
-	 *********************************/
-	/**
-	 * Reports header meta box
-     *
-     * @since 1.4.5
-	 */
-	public function dashboard_reports_module_metabox_header() {
-        $title = __( 'Reports', 'wphb' );
-	    $this->view( 'dashboard/reports/meta-box-header', compact( 'title' ) );
-    }
-
-	/**
-	 * Reports meta box
-     *
-     * @since 1.4.5
-	 */
-    public function dashboard_reports_metabox() {
-	    $performance_module = wphb_get_module( 'performance' );
-	    $performance_is_active = $performance_module->is_active();
-
-	    $uptime_module = wphb_get_module( 'uptime' );
-	    $uptime_is_active = $uptime_module->is_active();
-
-	    $frequency = '';
-	    if ( $performance_is_active ) {
-		    $settings = wphb_get_settings();
-		    $frequency = $settings['email-frequency'];
-		    switch ( $frequency ) {
-                case 1:
-	                $frequency = __( 'Daily', 'wphb' );
-	                break;
-                case 7:
-	                $frequency = __( 'Weekly', 'wphb' );
-	                break;
-                case 30:
-	                $frequency = __( 'Monthly', 'wphb' );
-	                break;
-            }
-	    }
-
-	    $this->view( 'dashboard/reports/meta-box', compact( 'performance_is_active', 'uptime_is_active', 'frequency' ) );
-    }
 
 }

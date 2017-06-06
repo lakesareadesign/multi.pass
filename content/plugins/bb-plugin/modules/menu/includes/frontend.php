@@ -1,4 +1,15 @@
-<div class="fl-menu<?php if ( $settings->collapse ) echo ' fl-menu-accordion-collapse'; ?>">
+<?php
+
+$menu_classes = 'fl-menu';
+
+if ( $settings->collapse ) {
+	$menu_classes .= ' fl-menu-accordion-collapse';
+}
+if ( $settings->mobile_breakpoint && 'expanded' != $settings->mobile_toggle ) {
+	$menu_classes .= ' fl-menu-responsive-toggle-'. $settings->mobile_breakpoint;
+}
+?>
+<div class="<?php echo $menu_classes; ?>">
 	<?php $module->render_toggle_button(); ?>
 	<div class="fl-clear"></div>
 	<?php 

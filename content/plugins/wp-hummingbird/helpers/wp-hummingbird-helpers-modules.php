@@ -372,18 +372,5 @@ function wphb_performance_set_doing_report( $status = true ) {
 function wphb_performance_init_scan() {
 	// Init scan
 	WP_Hummingbird_Module_Performance::init_scan();
-
-	// Enable automatic scans
-	if ( wphb_is_member() ) {
-		$settings = wphb_get_settings();
-		$settings['email-notifications'] = true;
-		// Enable automatic reports for members
-		wphb_update_settings( $settings );
-		// Schedule first scan
-		wp_schedule_single_event( WP_Hummingbird_Module_Performance::get_scheduled_scan_time(), 'wphb_performance_scan' );
-	} else {
-		$settings = wphb_get_settings();
-		$settings['email-notifications'] = false;
-		wphb_update_settings( $settings );
-	}
+	do_action( 'wphb_init_performance_scan' );
 }

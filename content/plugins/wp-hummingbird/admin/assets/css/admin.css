@@ -607,7 +607,7 @@
 	-webkit-transition: all .3s ease;
 	text-shadow: none !important;
 }
-.wpmud .wrap-wp-hummingbird button:hover:not(:focus):not(:active):not(.wph-button):not(#collapse-button):not([tooltip]):not(.notice-dismiss),	  	 	   	 		 		 		 	
+.wpmud .wrap-wp-hummingbird button:hover:not(:focus):not(:active):not(.wph-button):not(#collapse-button):not([tooltip]):not(.notice-dismiss),
 .wpmud .wrap-wp-hummingbird .button:hover:not(:focus):not(:active):not(.wph-button):not(#collapse-button):not([tooltip]),
 .wpmud .wphb-modal .button:hover:not(:focus):not(:active):not(.wph-button):not(#collapse-button):not([tooltip]),
 .wpmud .wrap-wp-hummingbird button:active,
@@ -1137,6 +1137,9 @@ only screen and (                min-resolution: 2dppx) {
 }
 
 /* Notices */
+.wpmud .wrap-wp-hummingbird .notice {
+	margin: 15px 0 0;
+}
 .wpmud .wrap-wp-hummingbird > .wphb-notice {
 	width: 600px;
 	box-shadow: 0 5px 25px 0 rgba(0,0,0,0.15);
@@ -1167,7 +1170,7 @@ only screen and (                min-resolution: 2dppx) {
 	color: #333333;
 	font-weight: 400;
 }
-.wpmud .wphb-notice p,
+.wpmud .wphb-notice:not(.notice) p,
 .wpmud .wphb-notice span,
 .wpmud .wphb-notice ul,
 .wpmud .wphb-notice strong {
@@ -1508,6 +1511,7 @@ only screen and (                min-resolution: 2dppx) {
 	height: 70px;
 }
 /* In modal window end */
+.wpmud .wphb-modal .toggle-label-background,
 .wpmud .checkbox-group input[type="checkbox"]:checked + label {
 	box-shadow: none;
 	background-color: #EFFAFF;
@@ -2521,16 +2525,24 @@ div.wphb-block-entry {
 	max-height: 200px;
 	overflow-y: scroll;
 }
-.wpmud .wrap-wphb-performance .receipt > ul {
-	list-style-type: none;
-	margin: 5px 0 30px 0;
-	padding: 0;
+.wpmud .wrap-wphb-performance .recipient {
+	margin-bottom: 10px;
+	padding: 5px 10px;
 }
-.wpmud .wrap-wphb-performance .receipt > ul li span.name {
-	margin-right: 10px;
-	display: inline-block;
+.wpmud .wrap-wphb-performance .recipient:hover {
+	border-radius: 4px;
+	background-color: #F8F8F8;
 }
-.wpmud .wrap-wphb-performance .receipt > ul li img {
+.wpmud .wrap-wphb-performance .recipient,
+.wpmud .wrap-wphb-performance .recipient .name,
+.wpmud .wrap-wphb-performance .add-recipient {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+	align-content: center;
+}
+.wpmud .wrap-wphb-performance .recipient img {
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
 	border-radius: 50px;
@@ -2539,6 +2551,45 @@ div.wphb-block-entry {
 	margin-right: 10px;
 	display: inline-block;
 	vertical-align: middle;
+}
+.wpmud .wrap-wphb-performance .recipient .name {
+	color: #333333;
+	font-weight: 500;
+}
+.wpmud .wrap-wphb-performance .recipient a > i {
+	color: #888888;
+}
+.wpmud .wrap-wphb-performance .recipient:hover a > i {
+	color: #333333;
+}
+.wpmud .wrap-wphb-performance .add-recipient {
+	margin-top: 15px;
+}
+.wpmud .wrap-wphb-performance .add-recipient > * {
+	margin-bottom: 0;
+	border-radius: 0;
+	border: 1px solid #E6E6E6;
+	font-weight: normal;
+}
+.wpmud .wrap-wphb-performance .add-recipient .wdv-icon-plus {
+	color: #FFFFFF;
+	font-size: 20px;
+}
+.wpmud .wrap-wphb-performance .add-recipient > button {
+	background-color: #888888 !important;
+	border-radius: 0 4px 4px 0 !important;
+}
+.wpmud .wrap-wphb-performance .add-recipient > input::placeholder {
+	color: #AAAAAA;
+	font-weight: 400;
+}
+.wpmud .wrap-wphb-performance .add-recipient #wphb-first-name {
+	border-radius: 4px 0 0 4px;
+	border-right: 0;
+	background-color: #F8F8F8;
+}
+.wpmud .wrap-wphb-performance .add-recipient #wphb-username-search {
+	background-color: #F8F8F8;
 }
 .wpmud .wrap-wphb-performance .wphb-tag {
 	-webkit-border-radius: 16px;
@@ -2552,9 +2603,6 @@ div.wphb-block-entry {
 .wpmud .wrap-wphb-performance .wphb-tag.tag-generic {
 	background: #E6E6E6;
 	color: #333;
-}
-.wpmud .wrap-wphb-performance .receipt > div span {
-	display: inline-block;
 }
 
 /* ****************************************************************************
@@ -3572,4 +3620,4 @@ div.wphb-block-entry {
 }
 
 
-/* 133620-1495904077-au */
+/* 133620-1496772487-au */

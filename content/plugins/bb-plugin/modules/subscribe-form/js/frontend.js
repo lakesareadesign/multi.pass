@@ -49,6 +49,7 @@
 		_init: function()
 		{
 			this.button.on( 'click', $.proxy( this._submitForm, this ) );
+			this.form.find( 'input[type="email"]' ).on( 'keypress', $.proxy( this._onEnterKey, this) );
 		},
 		
 		_submitForm: function( e )
@@ -141,6 +142,13 @@
 			else if ( 'redirect' == data.action ) {
 				window.location.href = data.url;
 			}
+		},
+
+		_onEnterKey: function( e )
+		{
+			if (e.which == 13) {
+		    	this.button.trigger( 'click' );
+		  	}
 		}
 	}
 	

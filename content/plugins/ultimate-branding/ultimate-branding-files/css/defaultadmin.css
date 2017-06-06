@@ -145,6 +145,9 @@ li.link_row h4{
 .simple-option-checkbox .switch-button-label {
     text-transform: uppercase;
 }
+.simple-option-textarea textarea {
+    min-height: 20em;
+}
 
 
-/* 133620-1495482884-au */
+/* 133620-1496772485-au */

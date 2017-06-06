@@ -13,7 +13,7 @@
  * @property string $icon
  * @property bool $use_icon
  */
-class UB_Admin_Bar_Menu{
+class UB_Admin_Bar_Menu {
 
 	/**
 	 * @since 1.5

@@ -2,7 +2,7 @@
  _ jquery.mb.components                                                                                                                             _
  _                                                                                                                                                  _
  _ file: jquery.mb.YTPlayer.src.js                                                                                                                  _
- _ last modified: 24/10/16 22.30                                                                                                                    _
+ _ last modified: 11/05/17 19.54                                                                                                                    _
  _                                                                                                                                                  _
  _ Open Lab s.r.l., Florence - Italy                                                                                                                _
  _                                                                                                                                                  _
@@ -16,7 +16,7 @@
  _    http://www.opensource.org/licenses/mit-license.php                                                                                            _
  _    http://www.gnu.org/licenses/gpl.html                                                                                                          _
  _                                                                                                                                                  _
- _ Copyright (c) 2001-2016. Matteo Bicocchi (Pupunzi);                                                                                              _
+ _ Copyright (c) 2001-2017. Matteo Bicocchi (Pupunzi);                                                                                              _
  ___________________________________________________________________________________________________________________________________________________*/
 var ytp = ytp || {};
 
@@ -52,8 +52,8 @@ var getYTPVideoID = function( url ) {
 
 	jQuery.mbYTPlayer = {
 		name: "jquery.mb.YTPlayer",
-		version: "3.0.17",
-		build: "6213",
+		version: "3.0.20",
+		build: "6252",
 		author: "Matteo Bicocchi (pupunzi)",
 		apiKey: "",
 		defaults: {
@@ -179,7 +179,7 @@ var getYTPVideoID = function( url ) {
 					return isIfr;
 				};
 
-				YTPlayer.canGoFullScreen = !( jQuery.browser.msie || jQuery.browser.opera || isIframe() );
+				YTPlayer.canGoFullScreen = !( jQuery.mbBrowser.msie || jQuery.mbBrowser.opera || isIframe() );
 				if( !YTPlayer.canGoFullScreen ) YTPlayer.opt.realfullscreen = false;
 				if( !$YTPlayer.attr( "id" ) ) $YTPlayer.attr( "id", "ytp_" + new Date().getTime() );
 				var playerID = "iframe_" + YTPlayer.id;
@@ -190,7 +190,10 @@ var getYTPVideoID = function( url ) {
 
 				YTPlayer.opt.showAnnotations = YTPlayer.opt.showAnnotations ? '1' : '3';
 
-				var start_from_last = parseFloat( jQuery.mbCookie.get( "YTPlayer_" + YTPlayer.videoID ) );
+				var start_from_last = 0;
+
+				if( jQuery.mbCookie.get( "YTPlayer_" + YTPlayer.videoID ) )
+					start_from_last = parseFloat( jQuery.mbCookie.get( "YTPlayer_" + YTPlayer.videoID ) );
 
 				if( YTPlayer.opt.remember_last_time && start_from_last ) {
 					YTPlayer.start_from_last = start_from_last;
@@ -215,7 +218,7 @@ var getYTPVideoID = function( url ) {
 				if( document.createElement( 'video' ).canPlayType ) jQuery.extend( playerVars, {
 					'html5': 1
 				} );
-				if( jQuery.browser.msie && jQuery.browser.version < 9 ) this.opt.opacity = 1;
+				if( jQuery.mbBrowser.msie && jQuery.mbBrowser.version < 9 ) this.opt.opacity = 1;
 
 				YTPlayer.isSelf = YTPlayer.opt.containment == "self";
 				YTPlayer.defaultOpt.containment = YTPlayer.opt.containment = YTPlayer.opt.containment == "self" ? jQuery( this ) : jQuery( YTPlayer.opt.containment );
@@ -307,7 +310,7 @@ var getYTPVideoID = function( url ) {
 					opacity: 1
 				} );
 
-				if( !jQuery.browser.mobile ) {
+				if( !jQuery.mbBrowser.mobile ) {
 					playerBox.after( overlay );
 					YTPlayer.overlay = overlay;
 				}
@@ -335,7 +338,7 @@ var getYTPVideoID = function( url ) {
 					}, 100 )
 				}
 
-				if( jQuery.browser.mobile && !YTPlayer.canPlayOnMobile ) {
+				if( jQuery.mbBrowser.mobile && !YTPlayer.canPlayOnMobile ) {
 
 					if( YTPlayer.opt.mobileFallbackImage ) {
 						wrapper.css( {
@@ -369,7 +372,7 @@ var getYTPVideoID = function( url ) {
 						YTPlayer.isInit = true;
 
 						//if is mobile && isPlayer fallback to the default YT player
-						if( jQuery.browser.mobile && YTPlayer.canPlayOnMobile ) {
+						if( jQuery.mbBrowser.mobile && YTPlayer.canPlayOnMobile ) {
 							// Try to adjust the player dimention
 							if( YTPlayer.opt.containment.outerWidth() > jQuery( window ).width() ) {
 								YTPlayer.opt.containment.css( {
@@ -422,12 +425,6 @@ var getYTPVideoID = function( url ) {
 										jQuery( window ).on( "unload.YTP_" + YTPlayer.id, function() {
 											var current_time = YTPlayer.player.getCurrentTime();
 
-											/*
-											 console.debug( "UNLOAD" );
-											 console.debug( "YTPlayer.videoID:: ", YTPlayer.videoID );
-											 console.debug( "YTPlayer_" + YTPlayer.videoID + ":: ", current_time );
-											 */
-
 											jQuery.mbCookie.set( "YTPlayer_" + YTPlayer.videoID, current_time, 1 );
 										} );
 
@@ -470,7 +467,7 @@ var getYTPVideoID = function( url ) {
 											eventType = "YTPUnstarted";
 											break;
 										case 0: //------------------------------------------------ ended
-											eventType = "YTPEnd";
+											eventType = "YTPRealEnd";
 											break;
 										case 1: //------------------------------------------------ play
 											eventType = "YTPPlay";
@@ -524,8 +521,9 @@ var getYTPVideoID = function( url ) {
 											jQuery( YTPlayer ).playNext();
 									}
 
-									if( err.data == 2 && YTPlayer.isPlayList )
+									if( err.data == 2 && YTPlayer.isPlayList ) {
 										jQuery( YTPlayer ).playNext();
+									}
 
 									if( typeof YTPlayer.opt.onError == "function" )
 										YTPlayer.opt.onError( $YTPlayer, err );
@@ -621,7 +619,7 @@ var getYTPVideoID = function( url ) {
 				YTPlayer.videoData = null;
 				YTPlayer.opt.ratio = YTPlayer.opt.ratio == "auto" ? "16/9" : YTPlayer.opt.ratio;
 			}
-			if( YTPlayer.isPlayer && !YTPlayer.opt.autoPlay && !jQuery.browser.mobile ) {
+			if( YTPlayer.isPlayer && !YTPlayer.opt.autoPlay && !jQuery.mbBrowser.mobile ) {
 				YTPlayer.loading = jQuery( "<div/>" ).addClass( "loading" ).html( "Loading" ).hide();
 				jQuery( YTPlayer ).append( YTPlayer.loading );
 				YTPlayer.loading.fadeIn();
@@ -655,7 +653,6 @@ var getYTPVideoID = function( url ) {
 		 */
 		setVideoQuality: function( quality ) {
 			var YTPlayer = this.get( 0 );
-			//if( !jQuery.browser.chrome )
 			YTPlayer.player.setPlaybackQuality( quality );
 		},
 		/**
@@ -663,10 +660,9 @@ var getYTPVideoID = function( url ) {
 		 * @param videos
 		 * @param shuffle
 		 * @param callback
-		 * @param loopList
 		 * @returns {jQuery.mbYTPlayer}
 		 */
-		playlist: function( videos, shuffle, callback, loopList ) {
+		playlist: function( videos, shuffle, callback ) {
 			var $YTPlayer = this;
 			var YTPlayer = $YTPlayer.get( 0 );
 			YTPlayer.isPlayList = true;
@@ -682,8 +678,7 @@ var getYTPVideoID = function( url ) {
 				callback( YTPlayer );
 			} );
 			jQuery( YTPlayer ).on( "YTPEnd", function() {
-				loopList = typeof loopList == "undefined" ? true : loopList;
-				jQuery( YTPlayer ).playNext( loopList );
+				jQuery( YTPlayer ).playNext();
 			} );
 			return this;
 		},
@@ -691,22 +686,20 @@ var getYTPVideoID = function( url ) {
 		 *
 		 * @returns {jQuery.mbYTPlayer}
 		 */
-		playNext: function( loopList ) {
+		playNext: function() {
 			var YTPlayer = this.get( 0 );
 
 			if( YTPlayer.checkForStartAt ) {
-				clearTimeout( YTPlayer.checkForStartAt );
+				clearInterval( YTPlayer.checkForStartAt );
 				clearInterval( YTPlayer.getState );
 			}
 
 			YTPlayer.videoCounter++;
-			if( YTPlayer.videoCounter >= YTPlayer.videoLength && loopList )
+
+			if( YTPlayer.videoCounter >= YTPlayer.videoLength )
 				YTPlayer.videoCounter = 0;
 
-			if( YTPlayer.videoCounter < YTPlayer.videoLength )
-				jQuery( YTPlayer ).YTPChangeMovie( YTPlayer.videos[ YTPlayer.videoCounter ] );
-			else
-				YTPlayer.videoCounter--;
+			jQuery( YTPlayer ).YTPChangeMovie( YTPlayer.videos[ YTPlayer.videoCounter ] );
 
 			return this;
 		},
@@ -723,8 +716,12 @@ var getYTPVideoID = function( url ) {
 			}
 
 			YTPlayer.videoCounter--;
-			if( YTPlayer.videoCounter < 0 ) YTPlayer.videoCounter = YTPlayer.videoLength - 1;
+
+			if( YTPlayer.videoCounter < 0 )
+				YTPlayer.videoCounter = YTPlayer.videoLength - 1;
+
 			jQuery( YTPlayer ).YTPChangeMovie( YTPlayer.videos[ YTPlayer.videoCounter ] );
+
 			return this;
 		},
 		/**
@@ -826,7 +823,7 @@ var getYTPVideoID = function( url ) {
 			var videoWrapper = YTPlayer.isSelf ? YTPlayer.opt.containment : YTPlayer.wrapper;
 			//var videoWrapper = YTPlayer.wrapper;
 			if( real ) {
-				var fullscreenchange = jQuery.browser.mozilla ? "mozfullscreenchange" : jQuery.browser.webkit ? "webkitfullscreenchange" : "fullscreenchange";
+				var fullscreenchange = jQuery.mbBrowser.mozilla ? "mozfullscreenchange" : jQuery.mbBrowser.webkit ? "webkitfullscreenchange" : "fullscreenchange";
 				jQuery( document ).off( fullscreenchange ).on( fullscreenchange, function() {
 					var isFullScreen = RunPrefixMethod( document, "IsFullScreen" ) || RunPrefixMethod( document, "FullScreen" );
 					if( !isFullScreen ) {
@@ -1574,6 +1571,7 @@ var getYTPVideoID = function( url ) {
 							YTPEnd.time = YTPlayer.currentTime;
 							jQuery( YTPlayer ).trigger( YTPEnd );
 							//YTPlayer.state = 0;
+
 							return;
 						}
 
@@ -1699,6 +1697,7 @@ var getYTPVideoID = function( url ) {
 			YTPlayer.player.playVideo();
 			YTPlayer.player.seekTo( startAt, true );
 
+			clearInterval( YTPlayer.checkForStartAt );
 			YTPlayer.checkForStartAt = setInterval( function() {
 
 				jQuery( YTPlayer ).YTPMute();
@@ -1707,29 +1706,26 @@ var getYTPVideoID = function( url ) {
 
 				if( YTPlayer.player.getDuration() > 0 && YTPlayer.player.getCurrentTime() >= startAt && canPlayVideo ) {
 
-					//YTPlayer.player.playVideo();
-					//console.timeEnd( "checkforStart" );
-
 					clearInterval( YTPlayer.checkForStartAt );
 
 					if( typeof YTPlayer.opt.onReady == "function" )
 						YTPlayer.opt.onReady( YTPlayer );
 
 					YTPlayer.isReady = true;
+
 					var YTPready = jQuery.Event( "YTPReady" );
 					YTPready.time = YTPlayer.currentTime;
 					jQuery( YTPlayer ).trigger( YTPready );
-
 
 					YTPlayer.preventTrigger = true;
 					YTPlayer.state = 2;
 					jQuery( YTPlayer ).YTPPause();
 
-					if( !YTPlayer.opt.mute ) jQuery( YTPlayer ).YTPUnmute();
+					if( !YTPlayer.opt.mute )
+						jQuery( YTPlayer ).YTPUnmute();
 					YTPlayer.canTrigger = true;
 
 					if( YTPlayer.opt.autoPlay ) {
-
 
 						var YTPStart = jQuery.Event( "YTPStart" );
 						YTPStart.time = YTPlayer.currentTime;
@@ -1747,7 +1743,7 @@ var getYTPVideoID = function( url ) {
 
 						/* Fix for Safari freeze */
 
-						if( jQuery.browser.os.name == "mac" && jQuery.browser.safari && jQuery.browser.versionCompare( jQuery.browser.fullVersion, "10.1" ) < 0 ) { //jQuery.browser.os.minor_version < 11
+						if( jQuery.mbBrowser.os.name == "mac" && jQuery.mbBrowser.safari && jQuery.mbBrowser.versionCompare( jQuery.mbBrowser.fullVersion, "10.1" ) < 0 ) { //jQuery.mbBrowser.os.minor_version < 11
 
 							YTPlayer.safariPlay = setInterval( function() {
 								if( YTPlayer.state != 1 )
@@ -1756,7 +1752,7 @@ var getYTPVideoID = function( url ) {
 									clearInterval( YTPlayer.safariPlay )
 							}, 10 )
 						}
-						$YTPlayer.on( "YTPReady", function() {
+						$YTPlayer.one( "YTPReady", function() {
 							$YTPlayer.YTPPlay();
 						} );
 
@@ -1788,7 +1784,7 @@ var getYTPVideoID = function( url ) {
 					if( YTPlayer.controlBar && YTPlayer.controlBar.length )
 						YTPlayer.controlBar.slideDown( 1000 );
 
-				} else if( jQuery.browser.os.name == "mac" && jQuery.browser.safari && jQuery.browser.versionCompare( jQuery.browser.fullVersion, "10.1" ) < 0 ) { //jQuery.browser.os.minor_version < 11
+				} else if( jQuery.mbBrowser.os.name == "mac" && jQuery.mbBrowser.safari && jQuery.mbBrowser.fullVersion && jQuery.mbBrowser.versionCompare( jQuery.mbBrowser.fullVersion, "10.1" ) < 0 ) { //jQuery.mbBrowser.os.minor_version < 11
 					YTPlayer.player.playVideo();
 					if( startAt >= 0 )
 						YTPlayer.player.seekTo( startAt, true );
@@ -2050,23 +2046,11 @@ var getYTPVideoID = function( url ) {
  */
 
 function uncamel(e){return e.replace(/([A-Z])/g,function(e){return"-"+e.toLowerCase()})}function setUnit(e,t){return"string"!=typeof e||e.match(/^[\-0-9\.]+jQuery/)?""+e+t:e}function setFilter(e,t,r){var i=uncamel(t),n=jQuery.browser.mozilla?"":jQuery.CSS.sfx;e[n+"filter"]=e[n+"filter"]||"",r=setUnit(r>jQuery.CSS.filters[t].max?jQuery.CSS.filters[t].max:r,jQuery.CSS.filters[t].unit),e[n+"filter"]+=i+"("+r+") ",delete e[t]}jQuery.support.CSStransition=function(){var e=document.body||document.documentElement,t=e.style;return void 0!==t.transition||void 0!==t.WebkitTransition||void 0!==t.MozTransition||void 0!==t.MsTransition||void 0!==t.OTransition}(),jQuery.CSS={name:"mb.CSSAnimate",author:"Matteo Bicocchi",version:"2.0.0",transitionEnd:"transitionEnd",sfx:"",filters:{blur:{min:0,max:100,unit:"px"},brightness:{min:0,max:400,unit:"%"},contrast:{min:0,max:400,unit:"%"},grayscale:{min:0,max:100,unit:"%"},hueRotate:{min:0,max:360,unit:"deg"},invert:{min:0,max:100,unit:"%"},saturate:{min:0,max:400,unit:"%"},sepia:{min:0,max:100,unit:"%"}},normalizeCss:function(e){var t=jQuery.extend(!0,{},e);jQuery.browser.webkit||jQuery.browser.opera?jQuery.CSS.sfx="-webkit-":jQuery.browser.mozilla?jQuery.CSS.sfx="-moz-":jQuery.browser.msie&&(jQuery.CSS.sfx="-ms-");for(var r in t){"transform"===r&&(t[jQuery.CSS.sfx+"transform"]=t[r],delete t[r]),"transform-origin"===r&&(t[jQuery.CSS.sfx+"transform-origin"]=e[r],delete t[r]),"filter"!==r||jQuery.browser.mozilla||(t[jQuery.CSS.sfx+"filter"]=e[r],delete t[r]),"blur"===r&&setFilter(t,"blur",e[r]),"brightness"===r&&setFilter(t,"brightness",e[r]),"contrast"===r&&setFilter(t,"contrast",e[r]),"grayscale"===r&&setFilter(t,"grayscale",e[r]),"hueRotate"===r&&setFilter(t,"hueRotate",e[r]),"invert"===r&&setFilter(t,"invert",e[r]),"saturate"===r&&setFilter(t,"saturate",e[r]),"sepia"===r&&setFilter(t,"sepia",e[r]);var i="";"x"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" translateX("+setUnit(e[r],"px")+")",delete t[r]),"y"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" translateY("+setUnit(e[r],"px")+")",delete t[r]),"z"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" translateZ("+setUnit(e[r],"px")+")",delete t[r]),"rotate"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" rotate("+setUnit(e[r],"deg")+")",delete t[r]),"rotateX"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" rotateX("+setUnit(e[r],"deg")+")",delete t[r]),"rotateY"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" rotateY("+setUnit(e[r],"deg")+")",delete t[r]),"rotateZ"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" rotateZ("+setUnit(e[r],"deg")+")",delete t[r]),"scale"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" scale("+setUnit(e[r],"")+")",delete t[r]),"scaleX"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" scaleX("+setUnit(e[r],"")+")",delete t[r]),"scaleY"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" scaleY("+setUnit(e[r],"")+")",delete t[r]),"scaleZ"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" scaleZ("+setUnit(e[r],"")+")",delete t[r]),"skew"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" skew("+setUnit(e[r],"deg")+")",delete t[r]),"skewX"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" skewX("+setUnit(e[r],"deg")+")",delete t[r]),"skewY"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" skewY("+setUnit(e[r],"deg")+")",delete t[r]),"perspective"===r&&(i=jQuery.CSS.sfx+"transform",t[i]=t[i]||"",t[i]+=" perspective("+setUnit(e[r],"px")+")",delete t[r])}return t},getProp:function(e){var t=[];for(var r in e)t.indexOf(r)<0&&t.push(uncamel(r));return t.join(",")},animate:function(e,t,r,i,n){return this.each(function(){function s(){u.called=!0,u.CSSAIsRunning=!1,a.off(jQuery.CSS.transitionEnd+"."+u.id),clearTimeout(u.timeout),a.css(jQuery.CSS.sfx+"transition",""),"function"==typeof n&&n.apply(u),"function"==typeof u.CSSqueue&&(u.CSSqueue(),u.CSSqueue=null)}var u=this,a=jQuery(this);u.id=u.id||"CSSA_"+(new Date).getTime();var o=o||{type:"noEvent"};if(u.CSSAIsRunning&&u.eventType==o.type&&!jQuery.browser.msie&&jQuery.browser.version<=9)return void(u.CSSqueue=function(){a.CSSAnimate(e,t,r,i,n)});if(u.CSSqueue=null,u.eventType=o.type,0!==a.length&&e){if(e=jQuery.normalizeCss(e),u.CSSAIsRunning=!0,"function"==typeof t&&(n=t,t=jQuery.fx.speeds._default),"function"==typeof r&&(i=r,r=0),"string"==typeof r&&(n=r,r=0),"function"==typeof i&&(n=i,i="cubic-bezier(0.65,0.03,0.36,0.72)"),"string"==typeof t)for(var f in jQuery.fx.speeds){if(t==f){t=jQuery.fx.speeds[f];break}t=jQuery.fx.speeds._default}if(t||(t=jQuery.fx.speeds._default),"string"==typeof n&&(i=n,n=null),!jQuery.support.CSStransition){for(var c in e){if("transform"===c&&delete e[c],"filter"===c&&delete e[c],"transform-origin"===c&&delete e[c],"auto"===e[c]&&delete e[c],"x"===c){var S=e[c],l="left";e[l]=S,delete e[c]}if("y"===c){var S=e[c],l="top";e[l]=S,delete e[c]}("-ms-transform"===c||"-ms-filter"===c)&&delete e[c]}return void a.delay(r).animate(e,t,n)}var y={"default":"ease","in":"ease-in",out:"ease-out","in-out":"ease-in-out",snap:"cubic-bezier(0,1,.5,1)",easeOutCubic:"cubic-bezier(.215,.61,.355,1)",easeInOutCubic:"cubic-bezier(.645,.045,.355,1)",easeInCirc:"cubic-bezier(.6,.04,.98,.335)",easeOutCirc:"cubic-bezier(.075,.82,.165,1)",easeInOutCirc:"cubic-bezier(.785,.135,.15,.86)",easeInExpo:"cubic-bezier(.95,.05,.795,.035)",easeOutExpo:"cubic-bezier(.19,1,.22,1)",easeInOutExpo:"cubic-bezier(1,0,0,1)",easeInQuad:"cubic-bezier(.55,.085,.68,.53)",easeOutQuad:"cubic-bezier(.25,.46,.45,.94)",easeInOutQuad:"cubic-bezier(.455,.03,.515,.955)",easeInQuart:"cubic-bezier(.895,.03,.685,.22)",easeOutQuart:"cubic-bezier(.165,.84,.44,1)",easeInOutQuart:"cubic-bezier(.77,0,.175,1)",easeInQuint:"cubic-bezier(.755,.05,.855,.06)",easeOutQuint:"cubic-bezier(.23,1,.32,1)",easeInOutQuint:"cubic-bezier(.86,0,.07,1)",easeInSine:"cubic-bezier(.47,0,.745,.715)",easeOutSine:"cubic-bezier(.39,.575,.565,1)",easeInOutSine:"cubic-bezier(.445,.05,.55,.95)",easeInBack:"cubic-bezier(.6,-.28,.735,.045)",easeOutBack:"cubic-bezier(.175, .885,.32,1.275)",easeInOutBack:"cubic-bezier(.68,-.55,.265,1.55)"};y[i]&&(i=y[i]),a.off(jQuery.CSS.transitionEnd+"."+u.id);var m=jQuery.CSS.getProp(e),d={};jQuery.extend(d,e),d[jQuery.CSS.sfx+"transition-property"]=m,d[jQuery.CSS.sfx+"transition-duration"]=t+"ms",d[jQuery.CSS.sfx+"transition-delay"]=r+"ms",d[jQuery.CSS.sfx+"transition-timing-function"]=i,setTimeout(function(){a.one(jQuery.CSS.transitionEnd+"."+u.id,s),a.css(d)},1),u.timeout=setTimeout(function(){return u.called||!n?(u.called=!1,void(u.CSSAIsRunning=!1)):(a.css(jQuery.CSS.sfx+"transition",""),n.apply(u),u.CSSAIsRunning=!1,void("function"==typeof u.CSSqueue&&(u.CSSqueue(),u.CSSqueue=null)))},t+r+10)}})}},jQuery.fn.CSSAnimate=jQuery.CSS.animate,jQuery.normalizeCss=jQuery.CSS.normalizeCss,jQuery.fn.css3=function(e){return this.each(function(){var t=jQuery(this),r=jQuery.normalizeCss(e);t.css(r)})};
-;var nAgt=navigator.userAgent;
-if(!jQuery.browser){var isTouchSupported=function(){var a=nAgt.msMaxTouchPoints,e="ontouchstart"in document.createElement("div");return a||e?!0:!1};jQuery.browser={};jQuery.browser.mozilla=!1;jQuery.browser.webkit=!1;jQuery.browser.opera=!1;jQuery.browser.safari=!1;jQuery.browser.chrome=!1;jQuery.browser.androidStock=!1;jQuery.browser.msie=!1;jQuery.browser.edge=!1;var getOS=function(){var a={name:"Unknown OS"};-1!=navigator.appVersion.indexOf("Win")&&(a.name="Windows");-1!=navigator.appVersion.indexOf("Mac")&&
-(a.name="Mac");-1!=navigator.appVersion.indexOf("Linux")&&(a.name="Linux");a.version="Unknown version";/Mac OS X/.test(nAgt)&&(a.version=/Mac OS X (10[\.\_\d]+)/.exec(nAgt)[1],a.version=a.version.replace(/_/g,".").substring(0,5));/Windows NT 5.1/.test(nAgt)&&(a.version="5.1");/Windows NT 6.0/.test(nAgt)&&(a.version="6.0");/Windows NT 6.1/.test(nAgt)&&(a.version="6.1");/Windows NT 6.2/.test(nAgt)&&(a.version="6.2");/Windows NT 10.0/.test(nAgt)&&(a.version="10.0");/Linux/.test(nAgt)&&/Linux/.test(nAgt)&&
-(a.version="Unknown.Unknown");a.name=a.name.toLowerCase();a.major_version=parseFloat(a.version.split(".")[0]);a.minor_version=parseFloat(a.version.split(".")[1]);return a};jQuery.browser.os=getOS();jQuery.browser.hasTouch=isTouchSupported();jQuery.browser.ua=nAgt;jQuery.browser.name=navigator.appName;jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion);jQuery.browser.majorVersion=parseInt(navigator.appVersion,10);var nameOffset,verOffset,ix;if(-1!=(verOffset=nAgt.indexOf("Opera")))jQuery.browser.opera=
-		!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+6),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8));else if(-1!=(verOffset=nAgt.indexOf("OPR")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+4);else if(-1!=(verOffset=nAgt.indexOf("MSIE")))jQuery.browser.msie=!0,jQuery.browser.name="Microsoft Internet Explorer",jQuery.browser.fullVersion=nAgt.substring(verOffset+
-		5);else if(-1!=nAgt.indexOf("Trident")){jQuery.browser.msie=!0;jQuery.browser.name="Microsoft Internet Explorer";var start=nAgt.indexOf("rv:")+3,end=start+4;jQuery.browser.fullVersion=nAgt.substring(start,end)}else-1!=(verOffset=nAgt.indexOf("Edge"))?(jQuery.browser.edge=!0,jQuery.browser.name="Microsoft Edge",jQuery.browser.fullVersion=nAgt.substring(verOffset+5)):-1!=(verOffset=nAgt.indexOf("Chrome"))?(jQuery.browser.webkit=!0,jQuery.browser.chrome=!0,jQuery.browser.name="Chrome",jQuery.browser.fullVersion=
-		nAgt.substring(verOffset+7)):-1<nAgt.indexOf("mozilla/5.0")&&-1<nAgt.indexOf("android ")&&-1<nAgt.indexOf("applewebkit")&&!(-1<nAgt.indexOf("chrome"))?(verOffset=nAgt.indexOf("Chrome"),jQuery.browser.webkit=!0,jQuery.browser.androidStock=!0,jQuery.browser.name="androidStock",jQuery.browser.fullVersion=nAgt.substring(verOffset+7)):-1!=(verOffset=nAgt.indexOf("Safari"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+
-		7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("AppleWebkit"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("Firefox"))?(jQuery.browser.mozilla=!0,jQuery.browser.name="Firefox",jQuery.browser.fullVersion=
-		nAgt.substring(verOffset+8)):(nameOffset=nAgt.lastIndexOf(" ")+1)<(verOffset=nAgt.lastIndexOf("/"))&&(jQuery.browser.name=nAgt.substring(nameOffset,verOffset),jQuery.browser.fullVersion=nAgt.substring(verOffset+1),jQuery.browser.name.toLowerCase()==jQuery.browser.name.toUpperCase()&&(jQuery.browser.name=navigator.appName));-1!=(ix=jQuery.browser.fullVersion.indexOf(";"))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix));-1!=(ix=jQuery.browser.fullVersion.indexOf(" "))&&(jQuery.browser.fullVersion=
-		jQuery.browser.fullVersion.substring(0,ix));jQuery.browser.majorVersion=parseInt(""+jQuery.browser.fullVersion,10);isNaN(jQuery.browser.majorVersion)&&(jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion),jQuery.browser.majorVersion=parseInt(navigator.appVersion,10));jQuery.browser.version=jQuery.browser.majorVersion;jQuery.browser.android=/Android/i.test(nAgt);jQuery.browser.blackberry=/BlackBerry|BB|PlayBook/i.test(nAgt);jQuery.browser.ios=/iPhone|iPad|iPod|webOS/i.test(nAgt);jQuery.browser.operaMobile=
-		/Opera Mini/i.test(nAgt);jQuery.browser.windowsMobile=/IEMobile|Windows Phone/i.test(nAgt);jQuery.browser.kindle=/Kindle|Silk/i.test(nAgt);jQuery.browser.mobile=jQuery.browser.android||jQuery.browser.blackberry||jQuery.browser.ios||jQuery.browser.windowsMobile||jQuery.browser.operaMobile||jQuery.browser.kindle;jQuery.isMobile=jQuery.browser.mobile;jQuery.isTablet=jQuery.browser.mobile&&765<jQuery(window).width();jQuery.isAndroidDefault=jQuery.browser.android&&!/chrome/i.test(nAgt)}
-jQuery.browser.versionCompare=function(a,e){if("stringstring"!=typeof a+typeof e)return!1;for(var c=a.split("."),d=e.split("."),b=0,f=Math.max(c.length,d.length);b<f;b++){if(c[b]&&!d[b]&&0<parseInt(c[b])||parseInt(c[b])>parseInt(d[b]))return 1;if(d[b]&&!c[b]&&0<parseInt(d[b])||parseInt(c[b])<parseInt(d[b]))return-1}return 0};
 ;/*___________________________________________________________________________________________________________________________________________________
  _ jquery.mb.components                                                                                                                             _
  _                                                                                                                                                  _
- _ file: jquery.mb.simpleSlider.min.js                                                                                                              _
- _ last modified: 16/05/15 23.45                                                                                                                    _
+ _ file: jquery.mb.browser.min.js                                                                                                                   _
+ _ last modified: 24/05/17 19.56                                                                                                                    _
  _                                                                                                                                                  _
  _ Open Lab s.r.l., Florence - Italy                                                                                                                _
  _                                                                                                                                                  _
@@ -2080,10 +2064,42 @@ jQuery.browser.versionCompare=function(a,e){if("stringstring"!=typeof a+typeof e
  _    http://www.opensource.org/licenses/mit-license.php                                                                                            _
  _    http://www.gnu.org/licenses/gpl.html                                                                                                          _
  _                                                                                                                                                  _
- _ Copyright (c) 2001-2015. Matteo Bicocchi (Pupunzi);                                                                                              _
+ _ Copyright (c) 2001-2017. Matteo Bicocchi (Pupunzi);                                                                                              _
  ___________________________________________________________________________________________________________________________________________________*/
 
-var nAgt=navigator.userAgent;if(!jQuery.browser){jQuery.browser={},jQuery.browser.mozilla=!1,jQuery.browser.webkit=!1,jQuery.browser.opera=!1,jQuery.browser.safari=!1,jQuery.browser.chrome=!1,jQuery.browser.androidStock=!1,jQuery.browser.msie=!1,jQuery.browser.ua=nAgt,jQuery.browser.name=navigator.appName,jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion),jQuery.browser.majorVersion=parseInt(navigator.appVersion,10);var nameOffset,verOffset,ix;if(-1!=(verOffset=nAgt.indexOf("Opera")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+6),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8));else if(-1!=(verOffset=nAgt.indexOf("OPR")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+4);else if(-1!=(verOffset=nAgt.indexOf("MSIE")))jQuery.browser.msie=!0,jQuery.browser.name="Microsoft Internet Explorer",jQuery.browser.fullVersion=nAgt.substring(verOffset+5);else if(-1!=nAgt.indexOf("Trident")||-1!=nAgt.indexOf("Edge")){jQuery.browser.msie=!0,jQuery.browser.name="Microsoft Internet Explorer";var start=nAgt.indexOf("rv:")+3,end=start+4;jQuery.browser.fullVersion=nAgt.substring(start,end)}else-1!=(verOffset=nAgt.indexOf("Chrome"))?(jQuery.browser.webkit=!0,jQuery.browser.chrome=!0,jQuery.browser.name="Chrome",jQuery.browser.fullVersion=nAgt.substring(verOffset+7)):nAgt.indexOf("mozilla/5.0")>-1&&nAgt.indexOf("android ")>-1&&nAgt.indexOf("applewebkit")>-1&&!(nAgt.indexOf("chrome")>-1)?(verOffset=nAgt.indexOf("Chrome"),jQuery.browser.webkit=!0,jQuery.browser.androidStock=!0,jQuery.browser.name="androidStock",jQuery.browser.fullVersion=nAgt.substring(verOffset+7)):-1!=(verOffset=nAgt.indexOf("Safari"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("AppleWebkit"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("Firefox"))?(jQuery.browser.mozilla=!0,jQuery.browser.name="Firefox",jQuery.browser.fullVersion=nAgt.substring(verOffset+8)):(nameOffset=nAgt.lastIndexOf(" ")+1)<(verOffset=nAgt.lastIndexOf("/"))&&(jQuery.browser.name=nAgt.substring(nameOffset,verOffset),jQuery.browser.fullVersion=nAgt.substring(verOffset+1),jQuery.browser.name.toLowerCase()==jQuery.browser.name.toUpperCase()&&(jQuery.browser.name=navigator.appName));-1!=(ix=jQuery.browser.fullVersion.indexOf(";"))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix)),-1!=(ix=jQuery.browser.fullVersion.indexOf(" "))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix)),jQuery.browser.majorVersion=parseInt(""+jQuery.browser.fullVersion,10),isNaN(jQuery.browser.majorVersion)&&(jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion),jQuery.browser.majorVersion=parseInt(navigator.appVersion,10)),jQuery.browser.version=jQuery.browser.majorVersion}jQuery.browser.android=/Android/i.test(nAgt),jQuery.browser.blackberry=/BlackBerry|BB|PlayBook/i.test(nAgt),jQuery.browser.ios=/iPhone|iPad|iPod|webOS/i.test(nAgt),jQuery.browser.operaMobile=/Opera Mini/i.test(nAgt),jQuery.browser.windowsMobile=/IEMobile|Windows Phone/i.test(nAgt),jQuery.browser.kindle=/Kindle|Silk/i.test(nAgt),jQuery.browser.mobile=jQuery.browser.android||jQuery.browser.blackberry||jQuery.browser.ios||jQuery.browser.windowsMobile||jQuery.browser.operaMobile||jQuery.browser.kindle,jQuery.isMobile=jQuery.browser.mobile,jQuery.isTablet=jQuery.browser.mobile&&jQuery(window).width()>765,jQuery.isAndroidDefault=jQuery.browser.android&&!/chrome/i.test(nAgt);
+var nAgt=navigator.userAgent;jQuery.browser=jQuery.browser||{};jQuery.browser.mozilla=!1;jQuery.browser.webkit=!1;jQuery.browser.opera=!1;jQuery.browser.safari=!1;jQuery.browser.chrome=!1;jQuery.browser.androidStock=!1;jQuery.browser.msie=!1;jQuery.browser.edge=!1;jQuery.browser.ua=nAgt;function isTouchSupported(){var a=nAgt.msMaxTouchPoints,e="ontouchstart"in document.createElement("div");return a||e?!0:!1}
+var getOS=function(){var a={version:"Unknown version",name:"Unknown OS"};-1!=navigator.appVersion.indexOf("Win")&&(a.name="Windows");-1!=navigator.appVersion.indexOf("Mac")&&0>navigator.appVersion.indexOf("Mobile")&&(a.name="Mac");-1!=navigator.appVersion.indexOf("Linux")&&(a.name="Linux");/Mac OS X/.test(nAgt)&&!/Mobile/.test(nAgt)&&(a.version=/Mac OS X (10[\.\_\d]+)/.exec(nAgt)[1],a.version=a.version.replace(/_/g,".").substring(0,5));/Windows/.test(nAgt)&&(a.version="Unknown.Unknown");/Windows NT 5.1/.test(nAgt)&&
+(a.version="5.1");/Windows NT 6.0/.test(nAgt)&&(a.version="6.0");/Windows NT 6.1/.test(nAgt)&&(a.version="6.1");/Windows NT 6.2/.test(nAgt)&&(a.version="6.2");/Windows NT 10.0/.test(nAgt)&&(a.version="10.0");/Linux/.test(nAgt)&&/Linux/.test(nAgt)&&(a.version="Unknown.Unknown");a.name=a.name.toLowerCase();a.major_version="Unknown";a.minor_version="Unknown";"Unknown.Unknown"!=a.version&&(a.major_version=parseFloat(a.version.split(".")[0]),a.minor_version=parseFloat(a.version.split(".")[1]));return a};
+jQuery.browser.os=getOS();jQuery.browser.hasTouch=isTouchSupported();jQuery.browser.name=navigator.appName;jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion);jQuery.browser.majorVersion=parseInt(navigator.appVersion,10);var nameOffset,verOffset,ix;
+if(-1!=(verOffset=nAgt.indexOf("Opera")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+6),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8));else if(-1!=(verOffset=nAgt.indexOf("OPR")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+4);else if(-1!=(verOffset=nAgt.indexOf("MSIE")))jQuery.browser.msie=!0,jQuery.browser.name="Microsoft Internet Explorer",
+		jQuery.browser.fullVersion=nAgt.substring(verOffset+5);else if(-1!=nAgt.indexOf("Trident")){jQuery.browser.msie=!0;jQuery.browser.name="Microsoft Internet Explorer";var start=nAgt.indexOf("rv:")+3,end=start+4;jQuery.browser.fullVersion=nAgt.substring(start,end)}else-1!=(verOffset=nAgt.indexOf("Edge"))?(jQuery.browser.edge=!0,jQuery.browser.name="Microsoft Edge",jQuery.browser.fullVersion=nAgt.substring(verOffset+5)):-1!=(verOffset=nAgt.indexOf("Chrome"))?(jQuery.browser.webkit=!0,jQuery.browser.chrome=
+		!0,jQuery.browser.name="Chrome",jQuery.browser.fullVersion=nAgt.substring(verOffset+7)):-1<nAgt.indexOf("mozilla/5.0")&&-1<nAgt.indexOf("android ")&&-1<nAgt.indexOf("applewebkit")&&!(-1<nAgt.indexOf("chrome"))?(verOffset=nAgt.indexOf("Chrome"),jQuery.browser.webkit=!0,jQuery.browser.androidStock=!0,jQuery.browser.name="androidStock",jQuery.browser.fullVersion=nAgt.substring(verOffset+7)):-1!=(verOffset=nAgt.indexOf("Safari"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name=
+		"Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("AppleWebkit"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("Firefox"))?(jQuery.browser.mozilla=
+		!0,jQuery.browser.name="Firefox",jQuery.browser.fullVersion=nAgt.substring(verOffset+8)):(nameOffset=nAgt.lastIndexOf(" ")+1)<(verOffset=nAgt.lastIndexOf("/"))&&(jQuery.browser.name=nAgt.substring(nameOffset,verOffset),jQuery.browser.fullVersion=nAgt.substring(verOffset+1),jQuery.browser.name.toLowerCase()==jQuery.browser.name.toUpperCase()&&(jQuery.browser.name=navigator.appName));
+-1!=(ix=jQuery.browser.fullVersion.indexOf(";"))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix));-1!=(ix=jQuery.browser.fullVersion.indexOf(" "))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix));jQuery.browser.majorVersion=parseInt(""+jQuery.browser.fullVersion,10);isNaN(jQuery.browser.majorVersion)&&(jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion),jQuery.browser.majorVersion=parseInt(navigator.appVersion,10));
+jQuery.browser.version=jQuery.browser.majorVersion;jQuery.browser.android=/Android/i.test(nAgt);jQuery.browser.blackberry=/BlackBerry|BB|PlayBook/i.test(nAgt);jQuery.browser.ios=/iPhone|iPad|iPod|webOS/i.test(nAgt);jQuery.browser.operaMobile=/Opera Mini/i.test(nAgt);jQuery.browser.windowsMobile=/IEMobile|Windows Phone/i.test(nAgt);jQuery.browser.kindle=/Kindle|Silk/i.test(nAgt);
+jQuery.browser.mobile=jQuery.browser.android||jQuery.browser.blackberry||jQuery.browser.ios||jQuery.browser.windowsMobile||jQuery.browser.operaMobile||jQuery.browser.kindle;jQuery.isMobile=jQuery.browser.mobile;jQuery.isTablet=jQuery.browser.mobile&&765<jQuery(window).width();jQuery.isAndroidDefault=jQuery.browser.android&&!/chrome/i.test(nAgt);jQuery.mbBrowser=jQuery.browser;
+jQuery.browser.versionCompare=function(a,e){if("stringstring"!=typeof a+typeof e)return!1;for(var c=a.split("."),d=e.split("."),b=0,f=Math.max(c.length,d.length);b<f;b++){if(c[b]&&!d[b]&&0<parseInt(c[b])||parseInt(c[b])>parseInt(d[b]))return 1;if(d[b]&&!c[b]&&0<parseInt(d[b])||parseInt(c[b])<parseInt(d[b]))return-1}return 0};
+;/*___________________________________________________________________________________________________________________________________________________
+ _ jquery.mb.components                                                                                                                             _
+ _                                                                                                                                                  _
+ _ file: jquery.mb.simpleSlider.min.js                                                                                                              _
+ _ last modified: 09/05/17 19.31                                                                                                                    _
+ _                                                                                                                                                  _
+ _ Open Lab s.r.l., Florence - Italy                                                                                                                _
+ _                                                                                                                                                  _
+ _ email: matteo@open-lab.com                                                                                                                       _
+ _ site: http://pupunzi.com                                                                                                                         _
+ _       http://open-lab.com                                                                                                                        _
+ _ blog: http://pupunzi.open-lab.com                                                                                                                _
+ _ Q&A:  http://jquery.pupunzi.com                                                                                                                  _
+ _                                                                                                                                                  _
+ _ Licences: MIT, GPL                                                                                                                               _
+ _    http://www.opensource.org/licenses/mit-license.php                                                                                            _
+ _    http://www.gnu.org/licenses/gpl.html                                                                                                          _
+ _                                                                                                                                                  _
+ _ Copyright (c) 2001-2017. Matteo Bicocchi (Pupunzi);                                                                                              _
+ ___________________________________________________________________________________________________________________________________________________*/
 
 (function(b){b.simpleSlider={defaults:{initialval:0,scale:100,orientation:"h",readonly:!1,callback:!1},events:{start:b.browser.mobile?"touchstart":"mousedown",end:b.browser.mobile?"touchend":"mouseup",move:b.browser.mobile?"touchmove":"mousemove"},init:function(c){return this.each(function(){var a=this,d=b(a);d.addClass("simpleSlider");a.opt={};b.extend(a.opt,b.simpleSlider.defaults,c);b.extend(a.opt,d.data());var e="h"==a.opt.orientation?"horizontal":"vertical",e=b("<div/>").addClass("level").addClass(e);
 	d.prepend(e);a.level=e;d.css({cursor:"default"});"auto"==a.opt.scale&&(a.opt.scale=b(a).outerWidth());d.updateSliderVal();a.opt.readonly||(d.on(b.simpleSlider.events.start,function(c){b.browser.mobile&&(c=c.changedTouches[0]);a.canSlide=!0;d.updateSliderVal(c);"h"==a.opt.orientation?d.css({cursor:"col-resize"}):d.css({cursor:"row-resize"});c.preventDefault();c.stopPropagation()}),b(document).on(b.simpleSlider.events.move,function(c){b.browser.mobile&&(c=c.changedTouches[0]);a.canSlide&&(b(document).css({cursor:"default"}),

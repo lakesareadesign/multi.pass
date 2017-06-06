@@ -56,20 +56,28 @@ if ( ! class_exists( 'simple_options' ) ) {
 				/**
 				 * add reset
 				 */
-				$reset = ' <span class="simple-option-reset-section">';
-				$reset .= sprintf(
-					'<a href="#" data-nonce="%s" data-section="%s" data-question="%s">%s</a>',
-					esc_attr( wp_create_nonce( 'reset-section-'.$section_key ) ),
-					esc_attr( $section_key ),
-					esc_attr(
-						sprintf(
-							__( 'Are you sure to reset "%s" section?', 'ub' ),
-							$option['title']
-						)
-					),
-					__( 'reset section to default', 'ub' )
-				);
-				$reset .= '</span>';
+				$reset = '';
+				$show = true;
+				if ( isset( $option['hide-reset'] ) && true === $option['hide-reset'] ) {
+					$show = false;
+				}
+				if ( $show ) {
+					$reset .= ' <span class="simple-option-reset-section">';
+					$reset .= sprintf(
+						'<a href="#" data-nonce="%s" data-section="%s" data-question="%s" data-network="%d">%s</a>',
+						esc_attr( wp_create_nonce( 'reset-section-'.$section_key ) ),
+						esc_attr( $section_key ),
+						esc_attr(
+							sprintf(
+								__( 'Are you sure to reset "%s" section?', 'ub' ),
+								$option['title']
+							)
+						),
+						is_network_admin(),
+						__( 'reset section to default', 'ub' )
+					);
+					$reset .= '</span>';
+				}
 				/**
 				 * Section title
 				 */
@@ -111,11 +119,21 @@ if ( ! class_exists( 'simple_options' ) ) {
 						esc_attr( $data['type'] ),
 						isset( $data['master'] )? esc_attr( $data['master'] ):''
 					);
-					$content .= sprintf(
-						'<th scope="row"><label for="%s">%s</label></th>',
-						esc_attr( $html_id ),
-						esc_html( $data['label'] )
-					);
+					/**
+					 * TH
+					 */
+					$show = true;
+					if ( isset( $option['hide-th'] ) && true === $option['hide-th'] ) {
+						$show = false;
+					}
+					if ( $show ) {
+
+						$content .= sprintf(
+							'<th scope="row"><label for="%s">%s</label></th>',
+							esc_attr( $html_id ),
+							isset( $data['label'] )? esc_html( $data['label'] ):'&nbsp;'
+						);
+					}
 					$content .= '<td>';
 					/**
 					 * value
@@ -125,6 +143,9 @@ if ( ! class_exists( 'simple_options' ) ) {
 						$value = $input[ $section_key ][ $id ];
 					}
 					switch ( $data['type'] ) {
+						case 'description':
+							$content .= $data['value'];
+						break;
 						case 'media':
 							if ( ! isset( $this->loaded['media'] ) ) {
 								$this->loaded['media'] = true;
@@ -232,25 +253,60 @@ if ( ! class_exists( 'simple_options' ) ) {
 									isset( $data['checkbox_label'] )? $data['checkbox_label']:''
 								);
 							}
-						break;
+							break;
 
-						default:
-							$extra = array();
-							if ( 'number' == $data['type'] ) {
-								$data['classes'][] = 'small-text';
-								if ( isset( $data['min'] ) ) {
-									$extra[] = sprintf( 'min="%d"', $data['min'] );
-								}
-								if ( isset( $data['max'] ) ) {
-									$extra[] = sprintf( 'max="%d"', $data['max'] );
-								}
-							}
+						case 'textarea':
 							$content .= sprintf(
-								'<input type="%s" id="%s" name="simple_options[%s][%s]" value="%s" class="%s" id="%s" %s />',
-								esc_attr( $data['type'] ),
+								'<textarea id="%s" name="simple_options[%s][%s]" class="%s" id="%s">%s</textarea>',
 								esc_attr( $html_id ),
 								esc_attr( $section_key ),
 								esc_attr( $id ),
+								isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
+								esc_attr( $html_id ),
+								esc_attr( stripslashes( $value ) )
+							);
+							break;
+
+						default:
+							$extra = array();
+							switch ( $data['type'] ) {
+								case 'number':
+									$data['classes'][] = 'small-text';
+									if ( isset( $data['min'] ) ) {
+										$extra[] = sprintf( 'min="%d"', $data['min'] );
+									}
+									if ( isset( $data['max'] ) ) {
+										$extra[] = sprintf( 'max="%d"', $data['max'] );
+									}
+								break;
+								case 'button':
+								case 'submit':
+									$data['classes'][] = 'button';
+									if ( isset( $data['value'] ) ) {
+										$value = $data['value'];
+									}
+									if ( isset( $data['disabled'] ) && $data['disabled'] ) {
+										$extra[] = 'disabled="disabled"';
+									}
+								break;
+							}
+							/**
+							 * html5.data
+							 */
+							if ( isset( $data['data'] ) ) {
+								foreach ( $data['data'] as $data_key => $data_value ) {
+									$extra[] = sprintf( 'data-%s="%s"', esc_html( $data_key ), esc_attr( $data_value ) );
+								}
+							}
+							$field_name = sprintf( 'simple_options[%s][%s]', $section_key, $id );
+							if ( isset( $data['name'] ) ) {
+								$field_name = $data['name'];
+							}
+							$content .= sprintf(
+								'<input type="%s" id="%s" name="%s" value="%s" class="%s" id="%s" %s />',
+								esc_attr( $data['type'] ),
+								esc_attr( $html_id ),
+								esc_attr( $field_name ),
 								esc_attr( stripslashes( $value ) ),
 								isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
 								esc_attr( $html_id ),
@@ -323,7 +379,8 @@ if ( ! class_exists( 'simple_options' ) ) {
 						$value = ub_get_option( $option_name );
 						if ( isset( $value[ $_REQUEST['section'] ] ) ) {
 							unset( $value[ $_REQUEST['section'] ] );
-							ub_update_option( 'global_login_screen' , $value );
+							ub_update_option( $option_name , $value );
+							$admin = isset( $_REQUEST['network'] ) && $_REQUEST['network'] ? network_admin_url( 'admin.php' ):admin_url( 'admin.php' );
 							$data = array(
 								'redirect' => add_query_arg(
 									array(
@@ -331,7 +388,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 										'page' => 'branding',
 										'tab' => $_REQUEST['tab'],
 									),
-									admin_url( 'admin.php' )
+									$admin
 								),
 							);
 							wp_send_json_success( $data );

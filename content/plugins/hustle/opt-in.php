@@ -3,7 +3,7 @@
 Plugin Name: Hustle Pro
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 2.1.1
+Version: 2.1.2
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020

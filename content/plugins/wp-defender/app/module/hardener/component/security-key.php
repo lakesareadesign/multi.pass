@@ -23,7 +23,7 @@ class Security_Key extends Rule {
 			$daysAgo = null;
 		}
 		$this->renderPartial( 'rules/security-key', array(
-			'interval' => '60 days',
+			'interval' => Security_Key_Service::DEFAULT_DAYS,
 			'daysAgo'  => $daysAgo
 		) );
 	}
@@ -51,7 +51,9 @@ class Security_Key extends Rule {
 
 		$reminder = HTTP_Helper::retrieve_post( 'remind_date', null );
 		if ( $reminder ) {
-			Settings::instance()->setDValues( 'securityReminderDate', strtotime( '+' . $reminder . ' days', current_time( 'timestamp' ) ) );
+			$settings = Settings::instance();
+			$settings->setDValues( 'securityReminderDate', strtotime( '+' . $reminder , current_time( 'timestamp' ) ) );
+			$settings->save();
 			die;
 		}
 	}

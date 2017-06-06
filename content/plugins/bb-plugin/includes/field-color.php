@@ -4,4 +4,5 @@
 		<div class="fl-color-picker-clear"><div class="fl-color-picker-icon-remove"></div></div>
 	<?php endif; ?>
 	<input name="<?php echo $name; ?>" type="hidden" value="<?php echo $value; ?>" class="fl-color-picker-value" />
+	<div class="fl-clear"></div>
 </div>

@@ -5,13 +5,11 @@
   Description: Easily customize ALL "Site Generator" text and links. Edit under Site Admin "Options" menu.
   Author: Barry (Incsub), S H Mohanjith (Incsub), Andrew Billits (Incsub)
   Version: 1.0.2
-  Author URI: http://premium.wpmudev.org
-  WDP ID: 18
   Network: true
  */
 
 /*
-  Copyright 2007-2009 Incsub (http://incsub.com)
+  Copyright 2007-2017 Incsub (http://incsub.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -33,7 +31,6 @@ class ub_site_generator_replacement {
 	var $site_generator_replacement_settings_page_long;
 
 	function __construct() {
-
 		add_action( 'ultimatebranding_settings_menu_sitegenerator', array( &$this, 'site_generator_replacement_site_admin_options' ) );
 		add_filter( 'ultimatebranding_settings_menu_sitegenerator_process', array( &$this, 'update_site_generator_replacement_site_admin_options' ), 10, 1 );
 
@@ -44,6 +41,10 @@ class ub_site_generator_replacement {
 		add_filter( 'get_the_generator_rdf', array( &$this, 'site_generator_replacement_content' ), 99, 2 );
 		add_filter( 'get_the_generator_comment', array( &$this, 'site_generator_replacement_content' ), 99, 2 );
 		add_filter( 'get_the_generator_export', array( &$this, 'site_generator_replacement_content' ), 99, 2 );
+		/**
+		 * export
+		 */
+		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
 	}
 
 	function ub_site_generator_replacement() {
@@ -161,6 +162,22 @@ class ub_site_generator_replacement {
             </div>
         </div>
 <?php
+	}
+
+	/**
+	 * Export data.
+	 *
+	 * @since 1.8.6
+	 */
+	public function export( $data ) {
+		$options = array(
+			'site_generator_replacement',
+			'site_generator_replacement_link',
+		);
+		foreach ( $options as $key ) {
+			$data['modules'][ $key ] = ub_get_option( $key );
+		}
+		return $data;
 	}
 }
 

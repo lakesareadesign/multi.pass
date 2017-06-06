@@ -1,7 +1,7 @@
 === WordPress Page Builder - Beaver Builder ===
 Contributors: justinbusa, RobbyMcCullough, billyyoung, hinampaksh, diegoliv, webmandesign, eugenealegiojo, helgatheviking, ozancanakli, brentjettgmailcom, jproffitt71, brainstormforce, ideaboxcreations, laubsterboy, nikolayyordanov, codente, pross, pedromendonca
 Tags: page builder, beaver builder, landing page, front-end builder, drag and drop editor
-Requires at least: 3.6
+Requires at least: 4.1
 Tested up to: 4.7
 Stable tag: trunk
 License: GPL2+

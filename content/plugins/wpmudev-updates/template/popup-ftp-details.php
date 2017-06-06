@@ -24,7 +24,7 @@ $hostname = isset( $credentials['hostname'] ) ? $credentials['hostname'] : '';
 $username = isset( $credentials['username'] ) ? $credentials['username'] : '';
 ?>
 
-<dialog id="ftp-credentials" class="" title="<?php esc_html_e( 'We need your help, boss!', 'wpmudev' ); ?>">
+<dialog id="ftp-credentials" class="wpmudui wpmudui-modal" title="<?php esc_html_e( 'We need your help, boss!', 'wpmudev' ); ?>">
 <div class="dialog-ftp">
 	<p class="intro">
 		<?php _e( 'Hang on a minute... It looks like your WordPress site isn\'t configured to allow one-click installations of plugins and themes. But don\'t worry! You can still install this plugin by entering your server\'s FTP credentials here:', 'wpmudev' ); ?>
@@ -73,7 +73,7 @@ $username = isset( $credentials['username'] ) ? $credentials['username'] : '';
 		</div>
 
 		<div class="col-buttons">
-			<a href="#close" class="close button button-grey"><?php _e( 'Cancel', 'wpmudev' ); ?></a>
+			<a href="#close" class="close wpmudui-btn"><?php _e( 'Cancel', 'wpmudev' ); ?></a>
 			<button><?php _e( 'Okay, continue!', 'wpmudev' ); ?></button>
 			<br><br><small><?php _e( 'We will remember these details for 15 minutes in case you want to install or, update something else.', 'wpmudev' ); ?></small>
 		</div>

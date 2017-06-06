@@ -178,7 +178,9 @@ class WPMUDEV_Dashboard_Site {
 			add_action( "wp_ajax_nopriv_$action", array( $this, 'nopriv_process_ajax' ) );
 		}
 
-		// Check for compatibility issues and display a notificaton if needed.
+		add_action( "wp_ajax_wdpun-connect", array( $this, 'ajax_connect' ) );
+
+		// Check for compatibility issues and display a notification if needed.
 		add_action(
 			'admin_init',
 			array( $this, 'compatibility_warnings' )
@@ -943,6 +945,40 @@ class WPMUDEV_Dashboard_Site {
 	}
 
 	/**
+	 * Used by the Getting started wizard on WPMU DEV to programatically login to the dashboard
+	 *
+	 * @param $_REQUEST['apikey']
+	 */
+	public function ajax_connect() {
+
+		//check permissions
+		if ( ! current_user_can( 'manage_network_options') ) {
+			$this->send_json_error( 'No permissions' );
+		}
+
+		WPMUDEV_Dashboard::$api->set_key( trim( $_REQUEST['apikey'] ) );
+		$result = WPMUDEV_Dashboard::$api->refresh_membership_data( false, true );
+		if ( ! $result || empty( $result['membership'] ) ) {
+			// Don't logout at this point!
+			WPMUDEV_Dashboard::$api->set_key( '' );
+			if ( false === $result ) {
+				$this->send_json_error( WPMUDEV_Dashboard::$api->api_error );
+			} else {
+				$this->send_json_error( __( 'Your API Key was invalid. Please try again.', 'wpmudev' ) );
+			}
+		} else {
+			// You did it! Login was successful :)
+			// The current user is our new hero-user with Dashboard access.
+			WPMUDEV_Dashboard::$site->set_option( 'limit_to_user', get_current_user_id() );
+			WPMUDEV_Dashboard::$api->refresh_profile();
+			// User is logged in: First redirect is done.
+			WPMUDEV_Dashboard::$site->set_option( 'redirected_v4', 1 );
+
+			$this->send_json_success();
+		}
+	}
+
+	/**
 	 * Clear all output buffers and send an JSON reponse to an Ajax request.
 	 *
 	 * @since  4.0.0
@@ -1352,21 +1388,23 @@ class WPMUDEV_Dashboard_Site {
 			// E.g. it was installed and then the admin logged out from WPMU DEV
 			// Dashboard, or the API-Key was changed from the Hub, ...
 			if ( $res->is_installed ) {
-				if ( ! empty( $local['name'] ) ) { $res->name = $local['name']; }
+				if ( ! empty( $local['name'] ) ) {
+					$res->name = $local['name'];
+				}
 				if ( 'muplugin' == $local['type'] ) {
 					$res->special = $local['type'];
 				} elseif ( 'dropin' == $local['type'] ) {
 					$res->special = $local['type'];
 				}
-				$res->path = $local['path'];
-				$res->filename = $local['filename'];
-				$res->slug = $local['slug'];
+				$res->path              = $local['path'];
+				$res->filename          = $local['filename'];
+				$res->slug              = $local['slug'];
 				$res->version_installed = $local['version'];
-				$res->has_update = WPMUDEV_Dashboard::$upgrader->is_update_available( $pid );
+				$res->has_update        = WPMUDEV_Dashboard::$upgrader->is_update_available( $pid );
 
 				if ( 'plugin' == $res->type ) {
 					if ( ! function_exists( 'is_plugin_active' ) ) {
-						include_once ABSPATH . 'wp-admin/includes/plugin.php' ;
+						include_once ABSPATH . 'wp-admin/includes/plugin.php';
 					}
 
 					if ( $is_network_admin ) {
@@ -1379,7 +1417,7 @@ class WPMUDEV_Dashboard_Site {
 						$allowed_themes = get_site_option( 'allowedthemes' );
 						$res->is_active = ! empty( $allowed_themes[ $res->slug ] );
 					} else {
-						$res->is_active = ($res->slug == get_option( 'stylesheet' ) );
+						$res->is_active = ( $res->slug == get_option( 'stylesheet' ) );
 					}
 				}
 			}

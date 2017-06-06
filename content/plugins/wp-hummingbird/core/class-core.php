@@ -47,7 +47,7 @@ class WP_Hummingbird_Core {
 		$modules = apply_filters( 'wp_hummingbird_modules', array(
 			'minify' =>     __( 'Minify', 'wphb' ),
 			'minifynew' =>     __( 'Minify New', 'wphb' ),
-			'gzip' =>       'Gzip',
+			'gzip' =>       __( 'Gzip', 'wphb' ),
 			'caching' =>    __( 'Caching', 'wphb' ),
 			'performance' => __( 'Performance', 'wphb' ),
 			'uptime' => __( 'Uptime', 'wphb' ),

@@ -5,6 +5,14 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+4.3.1 - 6/1/2017 - Aaron & Ricardo
+----------------------------------------------------------------------
+- Redesign of the login process, headers, and home page UX
+- Add System Info tab to login page for debugging help
+- Allow HTML in features lists (Upfront Builder link)
+- Fix System info back button link
+- Text adjustments
+
 4.3 - 1/30/2017 - Aaron
 ----------------------------------------------------------------------
 - Full rewrite of remote API, to support Update/Install/Activate/Deactivate/Delete from hub
@@ -438,4 +446,4 @@ Added option to disable admin notices.
 Initial Release.
 
 
-133620-1485823041-au
+133620-1496772491-au

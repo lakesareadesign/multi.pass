@@ -3,29 +3,58 @@ jQuery(function ($) {
     WDHardener.rules();
 
     //On key up or is a user decides to paste
-    $('textarea.hardener-php-excuted-ignore').on('keyup keypress paste',function(e){
+    $('.hardener-instructions textarea.hardener-php-excuted-ignore').on('keyup keypress paste',function(e){
         var text_val = $(this).val();
         //We cant allow index.php
         if( text_val.includes('index.php')){
             text_val = text_val.replace(/index.php/g,'');
             $(this).val(text_val);
         }
-        
-        if ($('.hardener-frm').length) {
+
+        //no fancy scripts or html code. We also validate server side
+        if( /<[a-z][\s\S]*>/i.test(text_val)){
+            text_val = text_val.replace(/<\/?[^>]+(>|$)/g, "");
+            $(this).val(text_val);
+        }
+
+        if ($('.hardener-instructions-apache').is(':visible')) {
             //Apache
-            $('.hardener-frm [name="file_paths"]').val(text_val);
-        } else {
+            $('.hardener-apache-frm [name="file_paths"]').val(text_val);
+        } else if ($('.hardener-instructions-litespeed').is(':visible')) {
+            //Litespeed
+            $('.hardener-litespeed-frm [name="file_paths"]').val(text_val);
+        } else if ($('.hardener-instructions-nginx').is(':visible')) {
             //Nginx
             var excludedFiles = text_val.split('\n');
             var newRule = "";
+            var $wp_content = $('.hardener-wp-content-dir').val();
             $.each(excludedFiles, function(index, file) {
-                newRule += "\n location ~* ^$wp_content/"+file+"$ {"+
-                           " \n  allow all;"+
-                            "\n}";
+                if(file){
+                    newRule += "\n location ~* ^"+$wp_content+"/.*&#92;"+file+"$ {"+
+                                " \n  allow all;"+
+                                "\n}";
+                }
             });
             $('span.hardener-nginx-extra-instructions').html(newRule);
         }
-        
+    });
+
+    /**
+     * Server select
+     */
+    $(document).on('change', 'select.hardener-server-list', function(){
+        var selected = $(this).val();
+        if($(this).hasClass('information')){
+            $('.hardener-information').each(function(){
+                $(this).addClass('wd-hide');
+            });
+            $('.hardener-information-'+selected).removeClass('wd-hide');
+        }else{
+            $('.hardener-instructions').each(function(){
+                $(this).addClass('wd-hide');
+            });
+            $('.hardener-instructions-'+selected).removeClass('wd-hide');
+        }
         
     });
 

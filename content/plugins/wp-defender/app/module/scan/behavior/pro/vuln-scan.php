@@ -6,6 +6,7 @@
 namespace WP_Defender\Module\Scan\Behavior\Pro;
 
 use Hammer\Base\Behavior;
+use Hammer\Helper\Log_Helper;
 use WP_Defender\Module\Scan\Component\Scan_Api;
 use WP_Defender\Module\Scan\Model\Result_Item;
 
@@ -100,12 +101,13 @@ class Vuln_Scan extends Behavior {
 		}
 
 		foreach ( $issues as $slug => $bugs ) {
-			if ( Scan_Api::isIgnored( $slug ) ) {
+			if ( ( $id = Scan_Api::isIgnored( $slug ) ) ) {
 				$status = Result_Item::STATUS_IGNORED;
+				$model  = Result_Item::findByID( $id );
 			} else {
 				$status = Result_Item::STATUS_ISSUE;
+				$model  = new Result_Item();
 			}
-			$model           = new Result_Item();
 			$model->parentId = $this->model->id;
 			$model->type     = 'vuln';
 			$model->status   = $status;
@@ -136,12 +138,13 @@ class Vuln_Scan extends Behavior {
 			return;
 		}
 		foreach ( $issues as $slug => $bugs ) {
-			if ( Scan_Api::isIgnored( $slug ) ) {
+			if ( ( $id = Scan_Api::isIgnored( $slug ) ) ) {
 				$status = Result_Item::STATUS_IGNORED;
+				$model  = Result_Item::findByID( $id );
 			} else {
 				$status = Result_Item::STATUS_ISSUE;
+				$model  = new Result_Item();
 			}
-			$model           = new Result_Item();
 			$model->parentId = $this->model->id;
 			$model->type     = 'vuln';
 			$model->status   = $status;

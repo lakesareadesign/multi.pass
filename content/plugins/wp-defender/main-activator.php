@@ -8,6 +8,7 @@ class WD_Main_Activator {
 
 	public function __construct( WP_Defender $wp_defender ) {
 		add_action( 'init', array( &$this, 'init' ) );
+		add_action( 'wp_loaded', array( &$this, 'maybeShowUpgradedNotice' ) );
 	}
 
 	/**
@@ -36,6 +37,22 @@ class WD_Main_Activator {
 			//no need to set debug
 			new \WP_Defender\Controller\Debug();
 		}
+	}
+
+	public function maybeShowUpgradedNotice() {
+		if ( get_option( 'defenderJustUpgrade' ) == 1 ) {
+			$utils = \WP_Defender\Behavior\Utils::instance();
+			if ( $utils->checkPermission() ) {
+				add_action( 'admin_notices', array( &$this, 'showUpgradedNotification' ) );
+			}
+		}
+	}
+
+	public function showUpgradedNotification() {
+		$class   = 'notice notice-info is-dismissible';
+		$message = __( "We noticed you have both the free and pro versions of Defender installed, so we've automatically deactivated the free version for you.", wp_defender()->domain );
+		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), $message );
+		delete_option( 'defenderJustUpgrade' );
 	}
 
 	/**

@@ -387,6 +387,8 @@
 			}
 
 			FLBuilder._contentClass = '.fl-builder-content-' + FLBuilderConfig.postId;
+
+			$( FLBuilder._contentClass ).addClass( 'fl-builder-content-editing' );
 		},
 
 		/**
@@ -6155,7 +6157,7 @@
 
 				for( ; i < inputArray.length; i++) {
 
-					$(prefix + inputArray[i] + suffix)[func]();
+					$('.fl-builder-settings:visible').find(prefix + inputArray[i] + suffix)[func]();
 
 					// Resize code editor fields.
 					$( prefix + inputArray[i] + suffix ).parent().find( '.fl-field[data-type="code"]' ).each( function() {

@@ -1,3 +1,42 @@
+<h4>1.10.5.1 - 6/5/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed new loop actions introduced in 1.10.5</li>
+</ul>
+
+<h4>1.10.5 - 6/5/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added color connection for row backgrounds.</li>
+	<li>Added responsive breakpoint settings to Menu Module.</li>
+	<li>Subscribe form module - enable enter key to submit form.</li>
+	<li>Added campaign field for Drip email service on subscribe module.</li>
+	<li>Added filter <code>fl_builder_loop_before_query_settings</code>.</li>
+	<li>Added filter <code>fl_builder_loop_settings</code>.</li>
+	<li>Added action <code>fl_builder_loop_settings_before_form</code>.</li>
+	<li>Added action <code>fl_builder_loop_settings_after_form</code>.</li>
+	<li>Updated language files, new language added: <code>en_GB</code>.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed password protected posts breaking Themer layouts.</li>
+	<li>Fixed conflict with WP Courseware.</li>
+	<li>Fixed setting toggles not working in nested forms.</li>
+	<li>Fixed broken images in the Zen Life template.</li>
+	<li>Fixed hidden nodes showing when the builder is active for layouts that aren't currently being edited.</li>
+	<li>Fixed not being able to save user access settings with no role set.</li>
+	<li>Fixed subscription downloads showing up when the builder is white labeled.</li>
+	<li>Fixed issue with cropped images when Jetpacks Photon module is enabled.</li>
+	<li>Fixed posts module when multiple authors are selected.</li>
+	<li>Fixed menu module becoming unresponsive when right-clicked.</li>
+	<li>Fixed hidden content slider module controls if margin is set to 0.</li>
+	<li>Fixed JS error when menu module visibility is set to never.</li>
+	<li>Fixed WP updates reporting compatibility: Unknown when updating plugins and themes.</li>
+	<li>Fixed menu nav background color on mobile since it's overridden by the main bg color.</li>
+	<li>Fixed partial refresh issue where it's duplicating menu module when selecting Below Row layout.</li>
+	<li>Fixed JS error on older versions of WordPress.</li>
+</ul>
+
 <h4>1.10.4 - 5/18/2017</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>
@@ -1878,4 +1917,3 @@
 
 <h4>0.8.1</h4>
 <p>Initial beta release.</p>
-

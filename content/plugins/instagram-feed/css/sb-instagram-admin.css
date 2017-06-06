@@ -371,3 +371,47 @@
 .sbi_review_notice .sbi_notice_close:focus{
     color: #a34100;
 }
+
+/* Support page */
+#sbi_admin .sbi_support{
+	overflow: hidden;
+	margin-bottom: 20px;
+	width: 70%;
+}
+#sbi_admin .sbi_support p{
+	width: 100%;
+	float: left;
+	clear: both;
+	margin: 0 0 20px 0;
+}
+#sbi_admin .sbi-support-title{
+	font-weight: bold;
+	font-size: 16px;
+	display: block;
+	padding-bottom: 5px;
+}
+#sbi_admin .sbi-support-faqs{
+	float: left;
+	clear: both;
+	width: 100%;
+	padding-left: 5%;
+	margin: -10px 0 10px 0;
+}
+#sbi_admin .sbi-support-faqs ul{
+	float: left;
+	width: 250px;
+	margin-right: 0;
+}
+#sbi_admin .sbi-support-faqs ul li{
+	font-size: 13px;
+	margin-bottom: 4px;
+}
+#sbi_admin .sbi-support-faqs .fa-chevron-right{
+	font-size: 8px;
+	margin-left: 4px;
+}
+#sbi_admin #sbi-support-video{
+	margin-top: 10px;
+	border: 1px solid #ddd;
+	display: none;
+}

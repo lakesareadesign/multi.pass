@@ -124,6 +124,24 @@ class FLMenuModule extends FLBuilderModule {
 
 		return $menu_items;
 	}
+
+	public function get_media_breakpoint(){
+		$global_settings = FLBuilderModel::get_global_settings();
+		$media_width = $global_settings->responsive_breakpoint;
+		$mobile_breakpoint = $this->settings->mobile_breakpoint;
+
+		if ( isset( $mobile_breakpoint ) && 'expanded' != $this->settings->mobile_toggle ) {
+			if ( 'medium-mobile' == $mobile_breakpoint ) {
+				$media_width = $global_settings->medium_breakpoint;
+			} elseif ( 'mobile' == $this->settings->mobile_breakpoint ) {
+				$media_width = $global_settings->responsive_breakpoint;
+			} elseif ( 'always' == $this->settings->mobile_breakpoint) {
+				$media_width = 'always';
+			}
+		}
+
+		return $media_width;
+	}
 }
 
 /**
@@ -208,10 +226,13 @@ FLBuilder::register_module('FLMenuModule', array(
 					    ),
 					    'toggle'		=> array(
 					    	'hamburger'	=> array(
-					    		'fields'		=> array( 'mobile_full_width' ),
+					    		'fields'		=> array( 'mobile_full_width', 'mobile_breakpoint' ),
 					    	),
 					    	'hamburger-label'	=> array(
-					    		'fields'		=> array( 'mobile_full_width' ),
+					    		'fields'		=> array( 'mobile_full_width', 'mobile_breakpoint' ),
+					    	),
+					    	'text'	=> array(
+					    		'fields'		=> array( 'mobile_breakpoint' ),
 					    	),
 					    )				    
 					),
@@ -233,6 +254,16 @@ FLBuilder::register_module('FLMenuModule', array(
 					    	),
 					    )				    
 					),
+					'mobile_breakpoint' => array(
+						'type'          => 'select',
+					    'label'         => __( 'Responsive Breakpoint', 'fl-builder' ),
+					    'default'       => 'mobile',
+					    'options'       => array(
+					    	'always'		=> __( 'Always', 'fl-builder' ),
+					    	'medium-mobile'	=> __( 'Medium & Small Devices Only', 'fl-builder' ),
+					    	'mobile'		=> __( 'Small Devices Only', 'fl-builder' ),
+					    )
+					)
 				)
 			)
 		)
