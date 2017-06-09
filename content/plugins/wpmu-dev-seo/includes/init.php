@@ -59,6 +59,9 @@ class WDS_Init
 			require_once ( WDS_PLUGIN_DIR . 'front.php' );
 		}
 
+		// Boot up the hub controller
+		require_once (WDS_PLUGIN_DIR . 'core/class_wds_controller_hub.php');
+		WDS_Controller_Hub::serve();
 	}
 
 }

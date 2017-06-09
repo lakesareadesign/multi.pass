@@ -5,11 +5,17 @@
 	#page-header {
 		margin-bottom: 70px;
 		text-align: center;
+
+		&.has-wdpun-notice {
+			margin-bottom: 225px;
+		}
 	}
-	.dev-box {
-		.box-title {
-			.buttons-icon {
-				margin-top: 18px;
+	.wrap {
+		.dev-box {
+			.box-title {
+				.buttons-icon {
+					margin-top: 18px;
+				}
 			}
 		}
 	}

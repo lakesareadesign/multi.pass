@@ -20,9 +20,9 @@ class WDS_Front
 		if( ! empty( $wds_options['autolinks'] ) ) {
 			require_once ( WDS_PLUGIN_DIR . 'tools/autolinks.php' );
 		}
-		if( ! empty( $wds_options['sitemap'] ) ) {
+		if( WDS_Settings::get_option('sitemap') ) {
 			require_once ( WDS_PLUGIN_DIR . 'tools/sitemaps.php' );
-			require_once ( WDS_PLUGIN_DIR . 'admin/core/settings.php' );
+			require_once ( WDS_PLUGIN_DIR . 'admin/settings.php' );
 			require_once ( WDS_PLUGIN_DIR . 'admin/settings/sitemap.php' ); // This is to propagate defaults without admin visiting the dashboard.
 		}
 		if( ! empty( $wds_options['onpage'] ) ) {

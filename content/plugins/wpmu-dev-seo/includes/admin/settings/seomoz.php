@@ -15,14 +15,14 @@ class WDS_Seomoz_Settings extends WDS_Settings_Admin {
 	public function validate ($input) { return $inpt; }
 
 	public function init () {
-		require_once ( WDS_PLUGIN_DIR . 'admin/seomoz/api.php' );
+		require_once ( WDS_PLUGIN_DIR . 'tools/seomoz/api.php' );
 
 		$this->option_name     = 'wds_seomoz_options';
 		$this->name            = WDS_Settings::COMP_SEOMOZ;
 		$this->slug            = WDS_Settings::TAB_SEOMOZ;
 		$this->action_url      = admin_url( 'options.php' );
 		$this->title           = __( 'Moz', 'wds' );
-		$this->page_title      = __( 'SmartCrawl Wizard: Moz', 'wds' );
+		$this->page_title      = __( 'SmartCrawl Wizard: Moz', 'wds' );	     	 	 	  		 		
 
 		parent::init();
 	}

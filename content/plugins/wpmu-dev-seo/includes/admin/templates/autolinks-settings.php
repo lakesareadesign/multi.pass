@@ -9,8 +9,7 @@
 	$wds_options = WDS_Settings::get_options();
 	if ( ! wds_is_allowed_tab( $_view['slug'] ) ) {
 		printf( __( "Your network admin prevented access to '%s', please move onto next step.", 'wds' ), __( 'Automatic Links' , 'wds' ) );
-	} else if ( 'settings' === $_view['name'] || ( ! empty( $wds_options[ $_view['name'] ] ) ) ) {
-
+	} else if ('settings' === $_view['name'] || WDS_Settings::get_option($_view['name'])) {
 ?>
 
 	<div class="row sub-header">
@@ -83,7 +82,7 @@
 						</div>
 						<div class="group wds-group wds-group-field">
 							<div class="wds-replaceable">
-								<label for="ignorepost" class="wds-label"><?php esc_html_e( 'Excude Posts, Pages & CPTs' , 'wds' ); ?></label>
+								<label for="ignorepost" class="wds-label"><?php esc_html_e( 'Exclude Posts, Pages & CPTs' , 'wds' ); ?></label>
 								<input id='ignorepost' name='<?php echo esc_attr($_view['option_name']); ?>[ignorepost]' size='' type='text' class='wds-field' value='<?php echo esc_attr($_view['options']['ignorepost']); ?>'>
 								<span class="wds-field-legend"><?php esc_html_e( 'Paste in the IDs, slugs or titles for the post/pages you wish to exclude and separate them by commas' , 'wds' ); ?></span>
 							</div>

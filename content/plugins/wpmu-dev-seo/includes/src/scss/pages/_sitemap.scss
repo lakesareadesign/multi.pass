@@ -2,10 +2,12 @@
  * PAGE: SITEMAP
  */
 .wpmud {
-	.box-sitemaps-xml-sitemap-settings {
-		.box-content {
-			> p {
-				margin-bottom: $space--xs;
+	.wrap {
+		.box-sitemaps-xml-sitemap-settings {
+			.box-content {
+				> p {
+					margin-bottom: $space--xs;
+				}
 			}
 		}
 	}

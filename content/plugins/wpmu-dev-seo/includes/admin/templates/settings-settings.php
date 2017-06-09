@@ -28,6 +28,30 @@
 
 			<div class="col-half col-half-settings col-half-settings-left">
 
+				<section class="box-settings-general-settings dev-box">
+					<div class="box-title">
+						<h3><?php esc_html_e( 'General', 'wds' ); ?></h3>
+					</div>
+					<div class="box-content">
+						<fieldset class="wds-fieldset">
+							<div class="wds-fieldset-fields-group">
+								<p>
+									<span class="toggle"><input class="toggle-checkbox" value='1' <?php if (isset($_view['options']['general-suppress-generator'])) checked($_view['options']['general-suppress-generator'], true); ?> id='wds-general-suppress-generator' name='<?php echo esc_attr($_view['option_name']); ?>[general-suppress-generator]' type='checkbox'>
+									<label class="toggle-label" for="wds-general-suppress-generator"></label>
+									</span>
+									<label for="wds-general-suppress-generator" class="wds-label wds-label-inline wds-label-inline-right"><?php echo esc_html_e('Suppress generator meta tag', 'wds'); ?></label>
+								</p>
+								<p>
+									<span class="toggle"><input class="toggle-checkbox" value='1' <?php if (isset($_view['options']['general-suppress-redundant_canonical'])) checked($_view['options']['general-suppress-redundant_canonical'], true); ?> id='wds-general-suppress-redundant_canonical' name='<?php echo esc_attr($_view['option_name']); ?>[general-suppress-redundant_canonical]' type='checkbox'>
+									<label class="toggle-label" for="wds-general-suppress-redundant_canonical"></label>
+									</span>
+									<label for="" class="wds-label wds-label-inline wds-label-inline-right"><?php echo esc_html_e('Suppress redundant canonical link tags', 'wds'); ?></label>
+								</p>
+							</div><!-- end wds-fieldset-fields -->
+						</fieldset>
+					</div>
+				</section>
+
 				<section class="box-settings-seo-moz-settings dev-box">
 					<div class="box-title">
 						<h3><?php esc_html_e( 'SEO Moz Account', 'wds' ); ?></h3>
@@ -103,82 +127,112 @@
 
 				<section class="box-settings-show-metaboxes-users dev-box">
 					<div class="box-title">
-						<h3><?php esc_html_e( 'Show metaboxes to users', 'wds' ); ?></h3>
+						<h3><?php esc_html_e('Editor metabox settings', 'wds'); ?></h3>
 					</div>
 					<div class="box-content">
 
-						<fieldset class="wds-fieldset">
-							<legend class="wds-fieldset-legend"><?php esc_html_e( 'Show SEO metabox to role' , 'wds' ); ?></legend>
-							<div class="wds-fieldset-fields-group">
-								<div class="select-container wds-multiselect">
-									<select multiple name="<?php echo esc_attr($_view['option_name']); ?>[seo_metabox_permission_level][]">
-									<?php foreach ($seo_metabox_permission_level as $item => $label) { ?>
-										<?php
-											$selected = !empty($_view['options']['seo_metabox_permission_level']) && is_array($_view['options']['seo_metabox_permission_level'])
-												? (in_array($item, $_view['options']['seo_metabox_permission_level']) ? " selected='selected'" : '') // New
-												: ($_view['options']['seo_metabox_permission_level'] === $item ? " selected='selected'" : '') // Legacy
-											;
-										?>
-										<option
-											<?php echo $selected; ?>
-											value="<?php echo esc_attr($item); ?>"
-										>
-												<?php echo esc_html($label); ?>
-										</option>
-									<?php } ?>
-									</select>
-								</div>
-							</div><!-- end wds-fieldset-fields -->
-						</fieldset><!-- end wds-fieldset -->
+					<fieldset id="wds-editor_metabox-settings">
+						<legend><b><?php esc_html_e( 'Show metaboxes to users', 'wds' ); ?></b></legend>
 
-						<fieldset class="wds-fieldset">
-							<legend class="wds-fieldset-legend"><?php esc_html_e( 'Within SEO metabox, show 301 redirection to role' , 'wds' ); ?></legend>
-							<div class="wds-fieldset-fields-group">
-								<div class="select-container wds-multiselect">
-									<select multiple name="<?php echo esc_attr($_view['option_name']); ?>[seo_metabox_301_permission_level][]">
-									<?php foreach ($seo_metabox_301_permission_level as $item => $label) { ?>
-										<?php
-											$selected = !empty($_view['options']['seo_metabox_301_permission_level']) && is_array($_view['options']['seo_metabox_301_permission_level'])
-												? (in_array($item, $_view['options']['seo_metabox_301_permission_level']) ? " selected='selected'" : '') // New
-												: ($_view['options']['seo_metabox_301_permission_level'] === $item ? " selected='selected'" : '') // Legacy
-											;
-										?>
-										<option
-											<?php echo $selected; ?>
-											value="<?php echo esc_attr($item); ?>"
-										>
-												<?php echo esc_html($label); ?>
-										</option>
-									<?php } ?>
-									</select>
-								</div>
-							</div><!-- end wds-fieldset-fields -->
-						</fieldset><!-- end wds-fieldset -->
+							<fieldset class="wds-fieldset">
+								<legend class="wds-fieldset-legend"><?php esc_html_e( 'Show SEO metabox to role' , 'wds' ); ?></legend>
+								<div class="wds-fieldset-fields-group">
+									<div class="select-container wds-multiselect">
+										<select multiple name="<?php echo esc_attr($_view['option_name']); ?>[seo_metabox_permission_level][]">
+										<?php foreach ($seo_metabox_permission_level as $item => $label) { ?>
+											<?php
+												$selected = !empty($_view['options']['seo_metabox_permission_level']) && is_array($_view['options']['seo_metabox_permission_level'])
+													? (in_array($item, $_view['options']['seo_metabox_permission_level']) ? " selected='selected'" : '') // New
+													: ($_view['options']['seo_metabox_permission_level'] === $item ? " selected='selected'" : '') // Legacy
+												;
+											?>
+											<option
+												<?php echo $selected; ?>
+												value="<?php echo esc_attr($item); ?>"
+											>
+													<?php echo esc_html($label); ?>
+											</option>
+										<?php } ?>
+										</select>
+									</div>
+								</div><!-- end wds-fieldset-fields -->
+							</fieldset><!-- end wds-fieldset -->
 
-						<fieldset class="wds-fieldset">
-							<legend class="wds-fieldset-legend"><?php esc_html_e( 'Show Moz metabox to roles' , 'wds' ); ?></legend>
-							<div class="wds-fieldset-fields-group">
-								<div class="select-container wds-multiselect">
-									<select multiple name="<?php echo esc_attr($_view['option_name']); ?>[urlmetrics_metabox_permission_level][]">
-									<?php foreach ($urlmetrics_metabox_permission_level as $item => $label) { ?>
-										<?php
-											$selected = !empty($_view['options']['urlmetrics_metabox_permission_level']) && is_array($_view['options']['urlmetrics_metabox_permission_level'])
-												? (in_array($item, $_view['options']['urlmetrics_metabox_permission_level']) ? " selected='selected'" : '') // New
-												: ($_view['options']['urlmetrics_metabox_permission_level'] === $item ? " selected='selected'" : '') // Legacy
-											;
-										?>
-										<option
-											<?php echo $selected; ?>
-											value="<?php echo esc_attr($item); ?>"
-										>
-												<?php echo esc_html($label); ?>
-										</option>
-									<?php } ?>
-									</select>
-								</div>
-							</div><!-- end wds-fieldset-fields -->
-						</fieldset><!-- end wds-fieldset -->
+							<fieldset class="wds-fieldset">
+								<legend class="wds-fieldset-legend"><?php esc_html_e( 'Within SEO metabox, show 301 redirection to role' , 'wds' ); ?></legend>
+								<div class="wds-fieldset-fields-group">
+									<div class="select-container wds-multiselect">
+										<select multiple name="<?php echo esc_attr($_view['option_name']); ?>[seo_metabox_301_permission_level][]">
+										<?php foreach ($seo_metabox_301_permission_level as $item => $label) { ?>
+											<?php
+												$selected = !empty($_view['options']['seo_metabox_301_permission_level']) && is_array($_view['options']['seo_metabox_301_permission_level'])
+													? (in_array($item, $_view['options']['seo_metabox_301_permission_level']) ? " selected='selected'" : '') // New
+													: ($_view['options']['seo_metabox_301_permission_level'] === $item ? " selected='selected'" : '') // Legacy
+												;
+											?>
+											<option
+												<?php echo $selected; ?>
+												value="<?php echo esc_attr($item); ?>"
+											>
+													<?php echo esc_html($label); ?>
+											</option>
+										<?php } ?>
+										</select>
+									</div>
+								</div><!-- end wds-fieldset-fields -->
+							</fieldset><!-- end wds-fieldset -->
 
+							<fieldset class="wds-fieldset">
+								<legend class="wds-fieldset-legend"><?php esc_html_e( 'Show Moz metabox to roles' , 'wds' ); ?></legend>
+								<div class="wds-fieldset-fields-group">
+									<div class="select-container wds-multiselect">
+										<select multiple name="<?php echo esc_attr($_view['option_name']); ?>[urlmetrics_metabox_permission_level][]">
+										<?php foreach ($urlmetrics_metabox_permission_level as $item => $label) { ?>
+											<?php
+												$selected = !empty($_view['options']['urlmetrics_metabox_permission_level']) && is_array($_view['options']['urlmetrics_metabox_permission_level'])
+													? (in_array($item, $_view['options']['urlmetrics_metabox_permission_level']) ? " selected='selected'" : '') // New
+													: ($_view['options']['urlmetrics_metabox_permission_level'] === $item ? " selected='selected'" : '') // Legacy
+												;
+											?>
+											<option
+												<?php echo $selected; ?>
+												value="<?php echo esc_attr($item); ?>"
+											>
+													<?php echo esc_html($label); ?>
+											</option>
+										<?php } ?>
+										</select>
+									</div>
+								</div><!-- end wds-fieldset-fields -->
+							</fieldset><!-- end wds-fieldset -->
+
+							<fieldset id="wds-editor_metabox-advanced" class="wds-fieldset">
+								<legend><b><?php esc_html_e('Advanced', 'wds'); ?></b></legend>
+
+								<div class="wds-fieldset-fields-group">
+									<span class="toggle"><input
+										class="toggle-checkbox"
+										value="1"
+										<?php
+											echo !empty($_view['options']['metabox-lax_enforcement'])
+												? checked($_view['options']['metabox-lax_enforcement'], true, false)
+												: ''
+										?>
+										id="wds-editor_metabox-lax_enforcement"
+										name="<?php echo esc_attr($_view['option_name']); ?>[metabox-lax_enforcement]"
+										type="checkbox"
+									/><label class="toggle-label" for="wds-editor_metabox-lax_enforcement"></label></span>
+									<label
+										for="wds-editor_metabox-lax_enforcement"
+										class="wds-label wds-label-radio wds-label-inline wds-label-inline-right"
+									>
+										<?php esc_html_e('Do not strictly enforce meta description limit', 'wds'); ?>
+									</label>
+								</div>
+
+							</fieldset>
+
+						</fieldset>
 					</div>
 				</section><!-- end box-settings-show-metaboxes-users -->
 
@@ -190,14 +244,26 @@
 							<h3><?php esc_html_e( 'Site Owner Permissions', 'wds' ); ?></h3>
 						</div>
 						<div class="box-content">
-							<p><?php esc_html_e( 'Use this section to chose what sections of this plugin will be accessible to Site Admins on your Network.' , 'wds' ); ?></p>
+							<p><?php esc_html_e( 'Use this section to choose what sections of this plugin will be accessible to Site Admins on your Network.' , 'wds' ); ?></p>
 							<?php
 								foreach( $slugs as $item => $label ) {
 									$checked = ( ! empty( $blog_tabs[$item] ) ) ? "checked='checked' " : '';
+									$presence_slug = preg_replace('/^wds_/', '', $item);
+									$disabled = 'settings' !== $presence_slug && empty($_view['options'][$presence_slug])
+										? 'disabled="disabled"'
+										: ''
+									;
 									?>
 									<p class="group">
 										<span class="toggle">
-											<input type="checkbox" class="toggle-checkbox" value="yes" name="<?php echo esc_attr($_view['option_name']); ?>[wds_blog_tabs][<?php echo esc_attr($item); ?>]" id="wds_blog_tabs-<?php echo esc_attr($item); ?>" <?php echo $checked; ?>>
+											<input type="checkbox"
+												class="toggle-checkbox"
+												value="yes"
+												name="<?php echo esc_attr($_view['option_name']); ?>[wds_blog_tabs][<?php echo esc_attr($item); ?>]"
+												id="wds_blog_tabs-<?php echo esc_attr($item); ?>"
+												<?php echo $checked; ?>
+												<?php echo $disabled; ?>
+											/>
 											<label class="toggle-label" for="wds_blog_tabs-<?php echo esc_attr($item); ?>"></label>
 										</span>
 										<label class="wds-label wds-label-inline wds-label wds-label-inline-right" for="wds_blog_tabs-<?php echo esc_attr($item); ?>"><?php echo esc_html($label); ?></label>

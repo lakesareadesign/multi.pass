@@ -3,11 +3,20 @@
  */
 .wpmud {
 
-	// Notices
-	.notice,
-	div.error,
-	div.updated {
-		text-align: left;
+	.wrap {
+		// Notices
+		.notice,
+		div.error,
+		div.updated {
+			text-align: left;
+		}
+		// Dashboard notice
+		.wdpun-notice {
+			width: 100%;
+			.wdpun-button:not(.wdpun-button-notice-dismiss) {
+				color: #fff;
+			}
+		}
 	}
 	#wpbody-content {
 		> .error,
@@ -97,8 +106,8 @@
 		font-weight: 400;
 		line-height: 40px;
 		max-width: none;
-	    overflow: hidden;
-	    text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
 		text-transform: none;
 		white-space: nowrap;
 	}

@@ -9,7 +9,7 @@ class WDS_Seo_Service extends WDS_Service {
 	const ERR_BASE_GENERIC = 59;
 
 	public function get_known_verbs () {
-		return array('start', 'status', 'result');
+		return array('start', 'status', 'result', 'sync');
 	}
 
 	public function is_cacheable_verb ($verb) {
@@ -68,7 +68,7 @@ class WDS_Seo_Service extends WDS_Service {
 		$key = $this->get_dashboard_api_key();
 		if (empty($key)) return false;
 
-		return array(
+		$args = array(
 			'method' => 'GET',
 			'timeout' => 40,
 			'sslverify' => false,
@@ -76,6 +76,28 @@ class WDS_Seo_Service extends WDS_Service {
 				'Authorization' => "Basic {$key}",
 			),
 		);
+
+		if ('sync' === $verb) {
+			if (!class_exists('WDS_Model_Ignores')) require_once(WDS_PLUGIN_DIR . 'core/class_wds_model_ignores.php');
+			$ignores = new WDS_Model_Ignores;
+
+			$args['method'] = 'POST';
+			$args['body'] = array(
+				'ignored_issue_ids' => json_encode($ignores->get_all()),
+			);
+		}
+
+		return $args;
+	}
+
+	/**
+	 * Local ignores list sync handler
+	 *
+	 * @return bool Status
+	 */
+	public function sync_ignores () {
+		WDS_Logger::debug('Start syncing the ignore list');
+		return $this->request('sync');
 	}
 
 	/**
@@ -124,6 +146,12 @@ class WDS_Seo_Service extends WDS_Service {
 	 */
 	public function set_result ($result) {
 		$this->set_cached('result', $result);
+
+		// Also clear ignores cache, we're dealing with the new result
+		if (!class_exists('WDS_Model_Ignores')) require_once(WDS_PLUGIN_DIR . 'core/class_wds_model_ignores.php');
+		$ignores = new WDS_Model_Ignores;
+		$ignores->clear();
+
 		return !!update_option($this->get_filter('seo-service-result'), $result);
 	}
 

@@ -7,12 +7,18 @@
 		var idx = $root.attr("data-name");
 
 		var template = '<div class="og-image item">' +
-			'<img src="<%= url %>" />' +
-			'<input type="hidden" value="<%= url %>" name="<%= name %>" />' +
+			'<img src="{{= url }}" />' +
+			'<input type="hidden" value="{{= url }}" name="{{= name }}" />' +
 			'<a href="#remove" class="remove-action">&times;</a>' +
 		'</div>';
 
 		var init = function () {
+			if (!(wp || {}).media) {
+				// No media to use
+				$("td.fields.og-images").closest("tr").remove();
+				return false;
+			}
+
 			wp.media.frames.wds_ogimg = wp.media.frames.wds_ogimg || {};
 			wp.media.frames.wds_ogimg[idx] = wp.media.frames.wds_ogimg[idx] || new wp.media({
 				multiple: false,
@@ -29,7 +35,7 @@
 			wp.media.frames.wds_ogimg[idx].off('select').on('select', add_handler);
 
 			$root.find("input:text").each(function () {
-				$(this).replaceWith(_.template(template)({
+				$(this).replaceWith(Wds.tpl_compile(template)({
 					url: $(this).val(),
 					name: $root.attr("data-name") + '[]'
 				}));
@@ -58,7 +64,7 @@
 			});
 
 			if (!url) return false;
-			$root.append(_.template(template)({
+			$root.append(Wds.tpl_compile(template)({
 				url: url,
 				name: $root.attr("data-name") + '[]'
 			}));

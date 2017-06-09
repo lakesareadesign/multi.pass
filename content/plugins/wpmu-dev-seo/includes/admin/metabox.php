@@ -32,6 +32,8 @@ class WDS_Metabox {
 	}
 
 	public function js_load_scripts () {
+		$options = Wds_Settings::get_options();
+
 		wp_enqueue_script('wds_metabox_counter', WDS_PLUGIN_URL . '/js/wds-metabox-counter.js');
 		wp_localize_script('wds_metabox_counter', 'l10nWdsCounters', array(
 			"title_length" => __("{TOTAL_LEFT} characters left", 'wds'),
@@ -41,6 +43,7 @@ class WDS_Metabox {
 			'title_limit' => WDS_TITLE_LENGTH_CHAR_COUNT_LIMIT,
 			'metad_limit' => WDS_METADESC_LENGTH_CHAR_COUNT_LIMIT,
 			'main_title_warning' => !(defined('WDS_MAIN_TITLE_LENGTH_WARNING_HIDE') && WDS_MAIN_TITLE_LENGTH_WARNING_HIDE),
+			'lax_enforcement' => (isset($options['metabox-lax_enforcement']) ? !!$options['metabox-lax_enforcement'] : false),
 		));
 		wp_enqueue_script('wds_metabox_onpage', WDS_PLUGIN_URL . '/js/wds-metabox.js');
 

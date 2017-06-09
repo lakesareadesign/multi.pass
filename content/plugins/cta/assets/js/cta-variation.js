@@ -66,7 +66,7 @@ function wp_cta_add_tracking_classes(ctas) {
 	});
 }
 
-function wp_cta_load_variation( cta_id, vid, enable_split_testing ) {
+function wp_cta_load_variation( cta_id, vid ) {
 
 	/* get loaded ctas */
 	var loaded_ctas = _inbound.totalStorage('wp_cta_loaded');
@@ -76,6 +76,9 @@ function wp_cta_load_variation( cta_id, vid, enable_split_testing ) {
 
 	/* get cta impressions object */
 	var cta_impressions = _inbound.totalStorage('wp_cta_impressions');
+	if (cta_impressions === null) {
+		var cta_impressions = {};
+	}
 
 	/* if variation is pre-defined then immediately load variation*/
 	if ( typeof vid != 'undefined' && vid != null && vid != '' ) {
@@ -95,7 +98,7 @@ function wp_cta_load_variation( cta_id, vid, enable_split_testing ) {
 
 	}
 	/* if split testing is disabled then update wp_cta_loaded storage object with variation 0 */
-	else if ( parseInt(enable_split_testing) == 0 ) {
+	else if ( parseInt(cta_variation.split_testing) == 0 ) {
 
 		/* update local storage variable */
 		loaded_ctas[cta_id] = 0;
@@ -148,7 +151,7 @@ jQuery(document).ready(function($) {
 	}
 
 	if (cta_variation.cta_id > 0) {
-		wp_cta_load_variation( cta_variation.cta_id , null , cta_variation.disable_ajax );
+		wp_cta_load_variation( cta_variation.cta_id , null );
 	}
 
 	setTimeout( function() {

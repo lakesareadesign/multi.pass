@@ -18,7 +18,7 @@
 			.off('click', 'button')
 			.on('click', 'button', handle_redirect)
 		;
-		
+
 		return _stop(e);
 	};
 
@@ -51,7 +51,7 @@
 	}
 
 	var init = function () {
-		$(".wds-redirections-list")	
+		$(".wds-redirections-list")
 			.off("click", ".box-title button.wds-add_new")
 			.on("click", ".box-title button.wds-add_new", handle_redirect_open)
 

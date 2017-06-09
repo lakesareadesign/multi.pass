@@ -35,7 +35,8 @@
 				;
 				$input
 					.after(
-						_.template(box)(_.extend({}, _wds_macros))
+						Wds.tpl_compile(box)(_.extend({}, _wds_macros))
+						//_.template(box)(_.extend({}, _wds_macros))
 					)
 					.closest(".fields").addClass('has-trigger-button')
 				;

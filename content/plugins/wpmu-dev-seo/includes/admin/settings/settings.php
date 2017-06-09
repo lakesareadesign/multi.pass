@@ -32,6 +32,21 @@ class WDS_Settings_Settings extends WDS_Settings_Admin {
 			$code = (int)$input['redirections-code'];
 			if (in_array($code, array(301, 302))) $result['redirections-code'] = $code;
 		}
+		if (!empty($input['metabox-lax_enforcement']) && is_numeric($input['metabox-lax_enforcement'])) {
+			$result['metabox-lax_enforcement'] = true;
+		} else {
+			$result['metabox-lax_enforcement'] = false;
+		}
+		if (!empty($input['general-suppress-generator']) && is_numeric($input['general-suppress-generator'])) {
+			$result['general-suppress-generator'] = true;
+		} else {
+			$result['general-suppress-generator'] = false;
+		}
+		if (!empty($input['general-suppress-redundant_canonical']) && is_numeric($input['general-suppress-redundant_canonical'])) {
+			$result['general-suppress-redundant_canonical'] = true;
+		} else {
+			$result['general-suppress-redundant_canonical'] = false;
+		}
 
 		$strings = array(
 			'access-id',

@@ -3,7 +3,7 @@
 * Plugin Name: SmartCrawl
 * Plugin URI: http://premium.wpmudev.org/project/wpmu-dev-seo/
 * Description: Every SEO option that a site requires, in one easy bundle.
-* Version: 2.0
+* Version: 2.0.1
 * Network: true
 * Text Domain: wds
 * Author: WPMU DEV
@@ -30,7 +30,7 @@
 */
 
 
-define( 'WDS_VERSION', '2.0' );
+define( 'WDS_VERSION', '2.0.1' );
 
 class WDS_Loader {
 
@@ -79,6 +79,7 @@ class WDS_Loader {
 	}
 }
 
+define( 'WDS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 // Plugin Activation and Deactivation hooks
 register_activation_hook( __FILE__, array( 'WDS_Loader', 'activate' ) );

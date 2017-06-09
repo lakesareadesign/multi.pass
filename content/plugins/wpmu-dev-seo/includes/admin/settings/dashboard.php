@@ -29,10 +29,60 @@ class WDS_Settings_Dashboard extends WDS_Settings_Admin {
 		add_action('wp_ajax_wds-service-result', array($this, 'json_service_result'));
 
 		add_action('wp_ajax_wds-service-redirect', array($this, 'json_service_redirect'));
+		add_action('wp_ajax_wds-service-ignore', array($this, 'json_service_ignore'));
+		add_action('wp_ajax_wds-service-ignores-purge', array($this, 'json_service_ignores_purge'));
 
 		add_action('wp_ajax_wds-service-update_sitemap', array($this, 'json_service_update_sitemap'));
 
 		parent::init();
+	}
+
+	/**
+	 * Handles service ignores addition
+	 */
+	public function json_service_ignore () {
+		$result = array('status' => 0);
+		if (!current_user_can('manage_options')) return wp_send_json($result);
+
+		if (!class_exists('WDS_Model_Ignores')) require_once(WDS_PLUGIN_DIR . 'core/class_wds_model_ignores.php');
+		$ignores = new WDS_Model_Ignores;
+
+		$data = stripslashes_deep($_POST);
+		if (empty($data['issue_id'])) return wp_send_json($result);
+
+		$ignores->set_ignore($data['issue_id']);
+
+		// Send updated list to Hub
+		$service = WDS_Service::get(WDS_Service::SERVICE_SEO);
+		if (!$service->sync_ignores()) {
+			WDS_Logger::debug('We encountered an error syncing ignores with Hub');
+		}
+
+		$result['status'] = 1;
+		return wp_send_json($result);
+	}
+
+	/**
+	 * Handles service ignores purging
+	 */
+	public function json_service_ignores_purge () {
+		$result = array('status' => 0);
+		if (!current_user_can('manage_options')) return wp_send_json($result);
+
+		if (!class_exists('WDS_Model_Ignores')) require_once(WDS_PLUGIN_DIR . 'core/class_wds_model_ignores.php');
+		$ignores = new WDS_Model_Ignores;
+
+		if ($ignores->clear()) {
+			// Send updated list to Hub
+			$service = WDS_Service::get(WDS_Service::SERVICE_SEO);
+			if (!$service->sync_ignores()) {
+				WDS_Logger::debug('We encountered an error syncing ignores with Hub');
+			}
+
+			$result['status'] = 1;
+		}
+
+		return wp_send_json($result);
 	}
 
 	/**
@@ -75,11 +125,21 @@ class WDS_Settings_Dashboard extends WDS_Settings_Admin {
 				? $cres['issues']['messages']
 				: array()
 			;
-			$msg = sprintf(
-				__('We just updated your sitemap adding %1$d new items, for a total of %2$d. Please, re-crawl your site', 'wds'),
-				$diff,
-				$current_count
-			);
+			// Start with a generic message
+			$msg = __('Sitemap updated. Please, re-crawl your site', 'wds');
+			if ($diff > 0) {
+				sprintf(
+					__('We just updated your sitemap adding %1$d new items, for a total of %2$d. Please, re-crawl your site', 'wds'),
+					$diff,
+					$current_count
+				);
+			} else if ($diff < 0) {
+				sprintf(
+					__('No new items were added to your sitemap, but we did detect a change (for %1$d items total). Please, re-crawl your site.', 'wds'),
+					$current_count
+				);
+			}
+
 			if (!in_array($msg, $cres['issues']['messages'])) $cres['issues']['messages'][] = $msg;
 			$service->set_result($cres);
 		}
@@ -257,25 +317,16 @@ class WDS_Settings_Dashboard extends WDS_Settings_Admin {
 					;
 				} else $status = $result;
 
-				$issues = !empty($result['issues'])
-					? $result['issues']
-					: array()
-				;
-				if (isset($issues['issues']) && is_array($issues['issues'])) $issues = $issues['issues'];
-
-/*
-if (!class_exists('WDS_SeoReport')) require_once(dirname(__FILE__) . '/../core/class_wds_seo_report.php');
-$report = WDS_SeoReport::build($issues);
-ms1_die_test($report->get_issues_count('5xx'));
-*/
+				if (!class_exists('WDS_SeoReport')) require_once(WDS_PLUGIN_DIR . 'core/class_wds_seo_report.php');
+				$report = WDS_SeoReport::build($result);
 
 				$rmodel = new WDS_Model_Redirection;
 
 				// We have Dashboard ready to go, we're connected and all
 				$msg = $this->_load('dashboard-dialog-has_dashboard-service_seo', array(
 					'status' => $status,
-					'result' => $result,
-					'issues' => $issues,
+					'has_result' => !empty($result),
+					'report' => $report,
 					'redirections' => $rmodel->get_all_redirections(),
 					'errors' => $service->get_errors(),
 				));

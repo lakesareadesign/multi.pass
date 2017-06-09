@@ -4,6 +4,18 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+2.0.1 - 2017-06-07
+----------------------------------------------------------------------
+- Add: ability to ignore issues
+- Add: ability to add custom sitemap URLs
+- Add: option to skip strict description check
+- Fix: homepage keywords saving issue
+- Fix: MarketPress coupons conflict
+- Fix: various string typos
+- Fix: improve admin toolbar item and allow suppression
+- Fix: front-end templating deprecated tags conflict
+- Fix: WooCommerce shop page empty SEO details overrides
+
 2.0 - 2017-02-23
 ----------------------------------------------------------------------
 - New: whole new interface
@@ -352,4 +364,4 @@ exist yet
 - Initial Release.
 
 
-133620-1488397678-au
+133620-1497045162-au

@@ -2,7 +2,7 @@
 	<div class="box-content wds-postlist-selector">
 
 		<div class="vertical-tabs" id="content-type-excludes">
-			<%= lists %>
+			{{= lists }}
 		</div>
 
 	</div>

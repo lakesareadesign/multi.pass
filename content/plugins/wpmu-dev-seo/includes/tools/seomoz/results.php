@@ -26,7 +26,7 @@ class WDS_Seomoz_Results
 	private function init()
 	{
 
-		require_once ( WDS_PLUGIN_DIR . 'admin/seomoz/api.php' );
+		require_once ( WDS_PLUGIN_DIR . 'tools/seomoz/api.php' );
 
 		add_action( 'add_meta_boxes', array( &$this, 'add_meta_boxes' ) );
 

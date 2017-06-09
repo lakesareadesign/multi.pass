@@ -53,7 +53,7 @@ fieldset.toggleable legend:after {
 fieldset.toggleable.inactive .inside {
 	display: none;
 }
-fieldset.toggleable.inactive legend:after {	     	 	 	  		 		
+fieldset.toggleable.inactive legend:after {
 	content: " [+]";
 }
 fieldset.toggleable legend {
@@ -69,4 +69,4 @@ fieldset.toggleable legend:hover {
 }
 
 
-/* 133620-1488397678-au */
+/* 133620-1497045162-au */

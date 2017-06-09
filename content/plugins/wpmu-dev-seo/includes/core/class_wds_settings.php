@@ -29,6 +29,50 @@ abstract class WDS_Settings {
 	}
 
 	/**
+	 * Gets sitewide options
+	 *
+	 * @return array
+	 */
+	public static function get_sitewide_options () {
+		return get_site_option('wds_settings_options', array());
+	}
+
+	/**
+	 * Explicit local site option getter
+	 *
+	 * @return array
+	 */
+	public static function get_local_options () {
+		return get_option('wds_settings_options', array());
+	}
+
+	/**
+	 * Gets contextual per-blog option or sitewide fallback
+	 *
+	 * @param string $key Option name to check
+	 * @param mixed $fallback What to return on failure
+	 *
+	 * @return mixed Value or falback
+	 */
+	public static function get_option ($key, $fallback=false) {
+		$options = self::get_sitewide_options();
+		$value = isset($options[$key])
+			? $options[$key]
+			: $fallback
+		;
+
+		if (!(defined('WDS_SITEWIDE') && WDS_SITEWIDE)) {
+			$options = self::get_local_options();
+			$value = isset($options[$key])
+				? $options[$key]
+				: $value
+			;
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Returns known components, as component => title pairs
 	 *
 	 * @return array Known components

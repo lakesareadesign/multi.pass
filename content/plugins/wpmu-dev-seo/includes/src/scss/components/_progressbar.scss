@@ -7,199 +7,201 @@
 }
 
 .wpmud {
-	.wds-progress {
-		background-color: #14485F;
-		border-radius: 5px;
-		height: 70px;
-		overflow: hidden;
-		padding: 6px;
-		width: 100%;
+  .wrap {
+    .wds-progress {
+  		background-color: #14485F;
+  		border-radius: 5px;
+  		height: 70px;
+  		overflow: hidden;
+  		padding: 6px;
+  		width: 100%;
 
-		&-bar {
-			background-image: linear-gradient(135deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);
-			background-color: #FECF2F;
-			background-size: 38px 38px;
-			border-top-left-radius: 5px;
-			border-bottom-left-radius: 5px;
-			box-shadow: 0 1px 1px rgba(0,0,0,.75);
-			height: 100%;
-			min-width: 5%;
-			position: relative;
-			display: table;
+  		&-bar {
+  			background-image: linear-gradient(135deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);
+  			background-color: #FECF2F;
+  			background-size: 38px 38px;
+  			border-top-left-radius: 5px;
+  			border-bottom-left-radius: 5px;
+  			box-shadow: 0 1px 1px rgba(0,0,0,.75);
+  			height: 100%;
+  			min-width: 5%;
+  			position: relative;
+  			display: table;
 
-			&-with-percent {
-				transition: width .2s;
-				width: 0;
-			}
+  			&-with-percent {
+  				transition: width .2s;
+  				width: 0;
+  			}
 
-			&-text,
-			&-current-percent {
-				color: #14485F;
-				display: table-cell;
-				font-family: 'Roboto', Arial, sans-serif;
-				font-size: 16px;
-				line-height: $space--m;
-				font-weight: 500;
-				margin: 9px 0;
-				padding: 0 $space--xs 0 $space--xxs;
-				width: 100%;
-				word-break: break-word;
-				word-wrap: normal;
-				height: 100%;
-				vertical-align: middle;
-			}
+  			&-text,
+  			&-current-percent {
+  				color: #14485F;
+  				display: table-cell;
+  				font-family: 'Roboto', Arial, sans-serif;
+  				font-size: 16px;
+  				line-height: $space--m;
+  				font-weight: 500;
+  				margin: 9px 0;
+  				padding: 0 $space--xs 0 $space--xxs;
+  				width: 100%;
+  				word-break: break-word;
+  				word-wrap: normal;
+  				height: 100%;
+  				vertical-align: middle;
+  			}
 
-			&-text {
-				text-align: center;
-			}
+  			&-text {
+  				text-align: center;
+  			}
 
-			&-current-percent {
-				text-align: right;
-			}
+  			&-current-percent {
+  				text-align: right;
+  			}
 
-			&-animated {
-				animation: wds-animate-progress-bars 2s linear infinite;
-			}
+  			&-animated {
+  				animation: wds-animate-progress-bars 2s linear infinite;
+  			}
 
-			&[aria-valuenow='100'] {
-				border-top-right-radius: 5px;
-				border-bottom-right-radius: 5px;
-			}
-		}
-	}
-	
-	// Inside modals
-	.wds-modal-test {
-		.wds-progress {
+  			&[aria-valuenow='100'] {
+  				border-top-right-radius: 5px;
+  				border-bottom-right-radius: 5px;
+  			}
+  		}
+  	}
 
-			// Bar
-			&-bar {
-				&-container {
-					background-color: #FAFAFA;
-					border: 2px solid #F1F1F1;
-					border-radius: 3px;
-					padding: $space--m $space--m $space--xs $space--m;
-				}
-			}
+  	// Inside modals
+  	.wds-modal-test {
+  		.wds-progress {
 
-			// Curent test (text)
-			&-current-test {
-				color: #8B8B8B;
-				font-size: 11px;
-				line-height: 1.455em;
-				text-align: center;
-			}
+  			// Bar
+  			&-bar {
+  				&-container {
+  					background-color: #FAFAFA;
+  					border: 2px solid #F1F1F1;
+  					border-radius: 3px;
+  					padding: $space--m $space--m $space--xs $space--m;
+  				}
+  			}
 
-			// Info
-			&-info {
-				margin-top: $space--l;
+  			// Curent test (text)
+  			&-current-test {
+  				color: #8B8B8B;
+  				font-size: 11px;
+  				line-height: 1.455em;
+  				text-align: center;
+  			}
 
-				&-heading {
-					font-size: 20px;
-					line-height: 26px;
-					margin: 0 0 $space--m;
-					text-align: left;
-				}
+  			// Info
+  			&-info {
+  				margin-top: $space--l;
 
-				&-text {
-					color: #4A4A4A;
-					line-height: 20px;
-					margin: 0;
-				}
-			}
-		}
-	}
+  				&-heading {
+  					font-size: 20px;
+  					line-height: 26px;
+  					margin: 0 0 $space--m;
+  					text-align: left;
+  				}
 
-	// On BOX
-	.wds-block-test {
-		background-color: $color--light;
-		border-radius: 5px;
-		padding: $space;
-		width: 100%;
+  				&-text {
+  					color: #4A4A4A;
+  					line-height: 20px;
+  					margin: 0;
+  				}
+  			}
+  		}
+  	}
 
-		&-header {
-			margin-bottom: $space--xs;
-		}
+  	// On BOX
+  	.wds-block-test {
+  		background-color: $color--light;
+  		border-radius: 5px;
+  		padding: $space;
+  		width: 100%;
 
-		.wds-block-test {
-			&-title {
-				font-size: 22px;
-				font-weight: 400;
-				line-height: 1.182em;
-				margin: 0 0 10px;
-				text-transform: uppercase;
-			}
-			&-sub-title {
-				font-size: 15px;
-				font-weight: 400;
-				line-height: 1.333em;
-				margin: 0 0 20px;
-				text-transform: none;
-			}
-		}
+  		&-header {
+  			margin-bottom: $space--xs;
+  		}
 
-		// Progress state
-		.wds-progress-state {
-			margin-top: $space--m;
+  		.wds-block-test {
+  			&-title {
+  				font-size: 22px;
+  				font-weight: 400;
+  				line-height: 1.182em;
+  				margin: 0 0 10px;
+  				text-transform: uppercase;
+  			}
+  			&-sub-title {
+  				font-size: 15px;
+  				font-weight: 400;
+  				line-height: 1.333em;
+  				margin: 0 0 20px;
+  				text-transform: none;
+  			}
+  		}
 
-			&-test {
-				color: #4A4A4A;
+  		// Progress state
+  		.wds-progress-state {
+  			margin-top: $space--m;
 
-				&-heading {
-					font-size: 20px;
-					line-height: 22px;
-					margin: 0 0 15px;
-					text-align: left;
-				}
-			}
-		}
+  			&-test {
+  				color: #4A4A4A;
 
-		// Progress note
-		.wds-progress-note {
-			margin-top: $space--m;
+  				&-heading {
+  					font-size: 20px;
+  					line-height: 22px;
+  					margin: 0 0 15px;
+  					text-align: left;
+  				}
+  			}
+  		}
 
-			p {
-				color: #4A4A4A;
-				font-weight: 400;
-				margin: 0;
-			}
-		}
+  		// Progress note
+  		.wds-progress-note {
+  			margin-top: $space--m;
 
-		// Standalone
-		&-standalone {
-			background: transparent;
-			border-radius: 0;
-			max-width: 100%;
-			padding: 0;
+  			p {
+  				color: #4A4A4A;
+  				font-weight: 400;
+  				margin: 0;
+  			}
+  		}
 
-			.wds-block-test {
-				&-title {
-					max-width: 100%;
-					text-align: left;
-				}
-				&-sub-title {
-					font: 700 15px/20px $font--alt;
-					text-align: left;
-					text-transform: uppercase;
-				}
-			}
+  		// Standalone
+  		&-standalone {
+  			background: transparent;
+  			border-radius: 0;
+  			max-width: 100%;
+  			padding: 0;
 
-			// With progress component
-			.wds-progress {
-				margin: 0 auto;
+  			.wds-block-test {
+  				&-title {
+  					max-width: 100%;
+  					text-align: left;
+  				}
+  				&-sub-title {
+  					font: 700 15px/20px $font--alt;
+  					text-align: left;
+  					text-transform: uppercase;
+  				}
+  			}
 
-				&-state {
-					margin-top: $space--xs;
-					text-align: center;
+  			// With progress component
+  			.wds-progress {
+  				margin: 0 auto;
 
-					&-text {
-						color: #8B8B8B;
-						font-size: 11px;
-						line-height: 1.455em;
-					}
-				}
-			}
-		}
-	}
+  				&-state {
+  					margin-top: $space--xs;
+  					text-align: center;
+
+  					&-text {
+  						color: #8B8B8B;
+  						font-size: 11px;
+  						line-height: 1.455em;
+  					}
+  				}
+  			}
+  		}
+  	}  
+  }
 
 }

@@ -8,8 +8,6 @@
 class WDS_OnPage {
 
 	public function __construct () {
-		global $wds_options;
-
 		if (defined('SF_PREFIX') && function_exists('sf_get_option')) {
 			add_action('template_redirect', array($this, 'postpone_for_simplepress'), 1);
 			return;
@@ -18,7 +16,7 @@ class WDS_OnPage {
 	}
 
 	function _init () {
-		global $wds_options;
+		$options = WDS_Settings::get_options();
 
 		remove_action('wp_head', 'rel_canonical');
 
@@ -27,11 +25,20 @@ class WDS_OnPage {
 		// wp_title isn't enough. We'll do it anyway: suspenders and belt approach.
 		add_filter('wp_title', array($this, 'wds_title'), 10, 3);
 		// Buffer the header output and process it instead.
-		add_action('init', array($this, 'wds_start_title_buffer'));
+		//add_action('init', array($this, 'wds_start_title_buffer'));
+		add_action('template_redirect', array($this, 'wds_start_title_buffer'), 99);
 		// This should now work with BuddyPress as well.
 		add_filter('bp_page_title', array($this, 'wds_title'), 10, 3);
 
 		add_action('wp',array($this,'wds_page_redirect'), 99, 1);
+
+		if (!empty($options['general-suppress-generator'])) {
+			remove_action('wp_head', 'wp_generator');
+		}
+
+		if (!empty($options['general-suppress-redundant_canonical'])) {
+			if (!defined('WDS_SUPPRESS_REDUNDANT_CANONICAL')) define('WDS_SUPPRESS_REDUNDANT_CANONICAL', true);
+		}
 	}
 
 	/**
@@ -170,9 +177,13 @@ class WDS_OnPage {
 			$fixed_title = wds_get_value('title', $post_id);
 			if ( $fixed_title ) {
 				$title = $fixed_title;
-			} else if (!empty($post->post_type) && isset($wds_options['title-'.$post->post_type]) && !empty($wds_options['title-'.$post->post_type]) ) {
+			} /*else if (
+				!empty($post->post_type) &&
+				isset($wds_options['title-'.$post->post_type]) &&
+				!empty($wds_options['title-'.$post->post_type])
+			) {
 				$title = wds_replace_vars($wds_options['title-'.$post->post_type], (array) $post );
-			}
+			}*/
 		}
 
 		return esc_html( strip_tags( stripslashes( apply_filters('wds_title', $title) ) ) );
@@ -510,10 +521,10 @@ class WDS_OnPage {
 		} else if (function_exists('is_shop') && is_shop() && function_exists('woocommerce_get_page_id')) { // WooCommerce shop page
 			$post_id = woocommerce_get_page_id('shop');
 			$metadesc = wds_get_value('metadesc', $post_id);
-			if (empty($metadesc)) {
+			/*if (empty($metadesc)) {
 				$optvar = !empty($wds_options['metadesc-'.$post->post_type]) ? $wds_options['metadesc-'.$post->post_type] : '';
 				$metadesc = wds_replace_vars($optvar, (array) $post );
-			}
+			}*/
 		} else {
 			if ( is_home() && 'posts' == get_option('show_on_front') && isset($wds_options['metadesc-home']) ) {
 				$metadesc = wds_replace_vars($wds_options['metadesc-home'], array() );

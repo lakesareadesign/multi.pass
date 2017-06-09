@@ -317,6 +317,83 @@
 					return _handlers.stop(e);
 				},
 
+				ignore: function (e) {
+					var $a = $(e.target),
+						issue_id = $a.data('issue_id')
+					;
+					$.post(ajaxurl, {
+						action: 'wds-service-ignore',
+						issue_id: issue_id
+					}).done(function (data) {
+						var status = parseInt(
+							(data || {}).status || '0',
+							10
+						);
+						if (status > 0) {
+							$('.wds-issue-item[data-issue_id="' + issue_id + '"]')
+								.addClass('wds-ignored')
+								.find(".wds-issue-actions-options").hide().removeClass('wds-visible')
+							;
+						}
+					});
+					return _handlers.stop(e);
+				},
+
+				purge_ignores: function (e) {
+					$.post(ajaxurl, {
+						action: 'wds-service-ignores-purge'
+					}).done(function (data) {
+						var status = parseInt(
+							(data || {}).status || '0',
+							10
+						);
+						if (status > 0) {
+							window.location.reload();
+						}
+					});
+					return _handlers.stop(e);
+				},
+
+				ignore_sitemap: function (e) {
+					var $a = $(e.target),
+						$item = $a.closest('[data-issue_id]'),
+						issue_id = $item.data('issue_id')
+					;
+					$.post(ajaxurl, {
+						action: 'wds-service-ignore',
+						issue_id: issue_id
+					}).done(function (data) {
+						var status = parseInt(
+							(data || {}).status || '0',
+							10
+						);
+						if (status > 0) {
+							$item
+								.addClass('wds-ignored')
+							;
+						}
+					});
+					return _handlers.stop(e);
+				},
+
+				add_to_sitemap: function (e) {
+					var $a = $(e.target),
+						$item = $a.closest('[data-issue_id]'),
+						path = $item.data('path')
+					;
+					$.post(ajaxurl, {
+						action: 'wds-sitemap-add_extra',
+						path: path
+					}).done(function (data) {
+						var status = parseInt(
+							(data || {}).status || '0',
+							10
+						);
+						if (status > 0) return _handlers.ignore_sitemap(e);
+					});
+					return _handlers.stop(e);
+				},
+
 				fix: function (e) {
 					var $tgt = $(e.target),
 						$issues = $tgt.closest('.wds-service-issue').find('.wds-issue-items')
@@ -328,6 +405,7 @@
 							.closest(".wds-service-issue").addClass("wds-expanded")
 						;
 					} else {
+						$tgt.blur();
 						$issues
 							.removeClass("wds-expanded").hide()
 							.closest(".wds-service-issue").removeClass("wds-expanded")
@@ -355,6 +433,19 @@
 
 					.off("click", ".wds-issue-actions-options a[href='#redirect']")
 					.on("click", ".wds-issue-actions-options a[href='#redirect']", _handlers.redirect)
+
+					.off("click", ".wds-issue-actions-options a[href='#ignore']")
+					.on("click", ".wds-issue-actions-options a[href='#ignore']", _handlers.ignore)
+
+					.off("click", ".wds-crawl-result a[href='#purge-ignores']")
+					.on("click", ".wds-crawl-result a[href='#purge-ignores']", _handlers.purge_ignores)
+
+					.off("click", ".wds-sitemap-issues_list a[href='#ignore']")
+					.off("click", ".wds-sitemap-issues_list a[href='#ignore']")
+					.on("click", ".wds-sitemap-issues_list a[href='#ignore']", _handlers.ignore_sitemap)
+
+					.off("click", ".wds-sitemap-issues_list a[href='#add']")
+					.on("click", ".wds-sitemap-issues_list a[href='#add']", _handlers.add_to_sitemap)
 
 					.off("click", "button.wds-fix")
 					.on("click", "button.wds-fix", _handlers.fix)

@@ -90,8 +90,8 @@
 		Custom: function ($root) {
 
 			var _pairs = [],
-				_template = _.template(Wds.template('keywords', 'custom')),
-				_pair_template = _.template(Wds.template('keywords', 'pairs')),
+				_template = Wds.tpl_compile(Wds.template('keywords', 'custom')),
+				_pair_template = Wds.tpl_compile(Wds.template('keywords', 'pairs')),
 				_$textarea = $root.find("textarea"),
 				_$group = $root.find(".wds-replaceable")
 			;

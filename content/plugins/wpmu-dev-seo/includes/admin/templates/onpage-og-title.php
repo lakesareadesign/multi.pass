@@ -2,7 +2,7 @@
 $value = !empty($_view['options']["og-title-{$for_type}"])
 	? $_view['options']["og-title-{$for_type}"]
 	: (!empty($_view['options']["title-{$for_type}"]) ? $_view['options']["title-{$for_type}"] : '')
-;	     	 	 	  		 		
+;
 ?>
 <div class="wds-table-fields-group">
 	<div class="wds-table-fields">

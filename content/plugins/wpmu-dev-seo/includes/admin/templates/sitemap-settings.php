@@ -9,7 +9,7 @@
 	$wds_options = WDS_Settings::get_options();
 	if ( ! wds_is_allowed_tab( $_view['slug'] ) ) {
 		printf( __( "Your network admin prevented access to '%s', please move onto next step.", 'wds' ), __( 'Sitemaps' , 'wds' ) );
-	} else if ( 'settings' === $_view['name'] || ( ! empty( $wds_options[ $_view['name'] ] ) ) ) {
+	} else if ( 'settings' === $_view['name'] || WDS_Settings::get_option($_view['name']) ) {
 
 ?>
 	<div class="row sub-header">
@@ -144,6 +144,31 @@
 					</div>
 				</section><!-- end box-sitemaps-excludes-settings -->
 
+
+			<?php
+				$extras = WDS_XML_Sitemap::get_extra_urls();
+			?>
+				<?php if (!empty($extras)) { ?>
+				<section class="box-sitemaps-extras-settings dev-box">
+					<div class="box-title">
+						<h3><?php esc_html_e( 'Extra URLs', 'wds' ); ?></h3>
+					</div>
+					<div class="box-content">
+						<ul>
+						<?php foreach ($extras as $url) { ?>
+							<li data-path="<?php echo esc_attr($url); ?>">
+								<a href="<?php echo esc_url($url); ?>">
+									<?php echo esc_html($url); ?>
+								</a>
+								&nbsp;
+								<a href="#remove">&times;</a>
+							</li>
+						<?php } ?>
+						</ul>
+					</div>
+				</section>
+				<?php } ?>
+
 				<section class="box-sitemaps-options-settings dev-box">
 					<div class="box-title">
 						<h3><?php esc_html_e( 'Options', 'wds' ); ?></h3>
@@ -252,3 +277,31 @@
 ?>
 
 </div><!-- end wds-sitemap-settings -->
+
+<script>
+	;(function ($, undefined) {
+		$(function () {
+			var $extras = $(".box-sitemaps-extras-settings");
+			if (!$extras.length) return false;
+
+			$extras.on('click', 'a[href="#remove"]', function (e) {
+				if (e && e.preventDefault) e.preventDefault();
+				if (e && e.stopPropagation) e.stopPropagation();
+
+				var $target = $(this),
+					$parent = $target.closest('[data-path]'),
+					path = $parent.data('path')
+				;
+				$.post(ajaxurl, {
+					action: 'wds-sitemap-remove_extra',
+					path: path
+				}, function (data) {
+					var status = parseInt((data || {}).status || '0', 10);
+					if (status > 0) $parent.remove();
+				});
+
+				return false;
+			});
+		});
+	})(jQuery);
+</script>

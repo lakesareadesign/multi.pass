@@ -87,6 +87,12 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 			$result["og-images-{$str}"] = array_values(array_filter(array_unique($result["og-images-{$str}"])));
 		}
 
+		// Special case handling for home page keywords
+		// because the legacy one doesn't follow the naming convention
+		if (isset($input["keywords-home"])) {
+			$result["keywords-home"] = $this->_sanitize_preserve_macros($input["keywords-home"]);
+		}
+
 
 		return $result;
 	}

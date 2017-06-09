@@ -251,7 +251,7 @@ class CustomSidebarsExport extends CustomSidebars {
 							foreach ( $data['widgets'][ $sidebar ][ $id ]['settings']['csb_visibility']['conditions'] as $condition_id => $condition_value ) {
 								if ( empty( $condition_value ) ) {
 
-									unset( $data['widgets'][ $sidebar ][ $id ]['settings']['csb_visibility']['conditions'][ $condition_id ] );							 			 	 	 		  
+									unset( $data['widgets'][ $sidebar ][ $id ]['settings']['csb_visibility']['conditions'][ $condition_id ] );
 
 								}
 							}

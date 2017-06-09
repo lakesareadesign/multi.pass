@@ -22,6 +22,9 @@ class WDS_Controller_Sitemap {
 		add_action('wp_ajax_wds_update_sitemap', array($this, 'json_update_sitemap'));
 		add_action('wp_ajax_wds_update_engines', array($this, 'json_update_engines'));
 
+		add_action('wp_ajax_wds-sitemap-add_extra', array($this, 'json_add_sitemap_extra'));
+		add_action('wp_ajax_wds-sitemap-remove_extra', array($this, 'json_remove_sitemap_extra'));
+
 		global $wds_options;
 		if (isset($wds_options['sitemap-disable-automatic-regeneration']) && empty($wds_options['sitemap-disable-automatic-regeneration'])) {
 			add_action('delete_post', array($this, 'update_sitemap'));
@@ -30,6 +33,51 @@ class WDS_Controller_Sitemap {
 			add_action('delete_page', array($this, 'update_sitemap'));
 			add_action('publish_page', array($this, 'update_sitemap'));
 		}
+	}
+
+	/**
+	 * Adds extra item to sitemap processing
+	 */
+	public function json_add_sitemap_extra () {
+		$result = array('status' => 0);
+		if (!current_user_can('manage_options')) return wp_send_json($result);
+
+		$data = stripslashes_deep($_POST);
+		if (empty($data['path'])) return wp_send_json($result);
+
+		$extras = WDS_XML_Sitemap::get_extra_urls();
+		$extras[] = esc_url($data['path']);
+		WDS_XML_Sitemap::set_extra_urls($extras);
+
+		// Update sitemap
+		new WDS_XML_Sitemap;
+
+		$result['status'] = 1;
+		return wp_send_json($result);
+	}
+
+	/**
+	 * Removes extra item to sitemap processing
+	 */
+	public function json_remove_sitemap_extra () {
+		$result = array('status' => 0);
+		if (!current_user_can('manage_options')) return wp_send_json($result);
+
+		$data = stripslashes_deep($_POST);
+		if (empty($data['path'])) return wp_send_json($result);
+
+		$extras = WDS_XML_Sitemap::get_extra_urls();
+		$idx = array_search($data['path'], $extras);
+		if (false === $idx) return wp_send_json($result);
+
+		unset($extras[$idx]);
+		WDS_XML_Sitemap::set_extra_urls($extras);
+
+		// Update sitemap
+		new WDS_XML_Sitemap;
+
+		$result['status'] = 1;
+		return wp_send_json($result);
 	}
 
 	/**

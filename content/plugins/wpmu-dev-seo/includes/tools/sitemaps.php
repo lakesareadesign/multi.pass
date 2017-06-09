@@ -13,6 +13,8 @@
 
 class WDS_XML_Sitemap {
 
+	const EXTRAS_STORAGE = 'wds-sitemap-extras';
+
 	private $_data;
 	private $_db;
 
@@ -159,7 +161,7 @@ class WDS_XML_Sitemap {
 		if (is_multisite() && defined('SUBDOMAIN_INSTALL') && !SUBDOMAIN_INSTALL) {
 			$xsl_host = '../' . $xsl_host;
 		}
-		return "<?xml-stylesheet type='text/xml' href='{$xsl_host}tools/xsl/{$xsl}.xsl'?>\n";
+		return "<?xml-stylesheet type='text/xml' href='{$xsl_host}admin/templates/xsl/{$xsl}.xsl'?>\n";
 	}
 
 	private function _write_sitemap ($map) {
@@ -261,6 +263,52 @@ class WDS_XML_Sitemap {
 			$this->_load_buddypress_group_items();
 			$this->_load_buddypress_profile_items();
 		}
+
+		$this->_load_extra_items();
+	}
+
+	/**
+	 * Loads extra items
+	 *
+	 * @return bool Status
+	 */
+	private function _load_extra_items () {
+		$extras = self::get_extra_urls();
+		foreach ($extras as $url) {
+			$this->_add_item(
+				$url,
+				0.5,
+				'weekly',
+				time()
+			);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Extra URLs storage getter
+	 *
+	 * @return array Extra sitemap URLs
+	 */
+	public static function get_extra_urls () {
+		$extras = get_option(self::EXTRAS_STORAGE);
+		return empty($extras) || !is_array($extras)
+			? array()
+			: array_filter(array_unique($extras))
+		;
+	}
+
+	/**
+	 * Extra URLs storage setter
+	 *
+	 * @param array $extras New extra URLs
+	 *
+	 * @return bool
+	 */
+	public static function set_extra_urls ($extras=array()) {
+		if (!is_array($extras)) return false;
+		return update_option(self::EXTRAS_STORAGE, array_filter(array_unique($extras)));
 	}
 
 	/**

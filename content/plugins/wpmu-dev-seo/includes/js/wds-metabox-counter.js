@@ -2,7 +2,8 @@
 $(function () {
 
 var __WDS_TITLE_COUNT = l10nWdsCounters.title_limit,
-	__WDS_META_COUNT = l10nWdsCounters.metad_limit
+	__WDS_META_COUNT = l10nWdsCounters.metad_limit,
+	__LAX_ENFORCEMENT = !!l10nWdsCounters.lax_enforcement
 ;
 
 function _replace (what, current) {
@@ -38,7 +39,7 @@ function checkMetaLength () {
 	var txt = $('#wds_metadesc').val()
 		res = txt ? txt.length : false
 	;
-	if (res > __WDS_META_COUNT) {
+	if (!__LAX_ENFORCEMENT && res > __WDS_META_COUNT) {
 		$('#wds_metadesc').val( $('#wds_metadesc').val().substr(0, __WDS_META_COUNT) );
 		return false;
 	}

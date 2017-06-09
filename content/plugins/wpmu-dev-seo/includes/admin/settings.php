@@ -37,11 +37,11 @@ abstract class WDS_Settings_Admin extends WDS_Settings {
 		add_action( 'init', array( $this, 'defaults' ), 999 );
 		add_action( 'admin_body_class', array( $this, 'add_body_class' ) );
 
-		if ( is_multisite() ) {
-			add_action( 'network_admin_menu', array( $this, 'add_page' ) );
+		if (is_multisite() &&  wds_is_switch_active('WDS_SITEWIDE')) {
+			add_action('network_admin_menu', array($this, 'add_page'));
 		}
 		if (!is_multisite() || !(defined('WDS_SITEWIDE') && WDS_SITEWIDE)) {
-			add_action( 'admin_menu', array( $this, 'add_page' ) );
+			add_action('admin_menu', array($this, 'add_page'));
 		}
 
 	}

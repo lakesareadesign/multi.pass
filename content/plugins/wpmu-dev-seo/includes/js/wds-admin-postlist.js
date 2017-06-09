@@ -138,15 +138,15 @@
 				is_loaded: is_loaded
 			};
 		},
-		
+
 		Selector: function (type) {
 
 			var _post_types = Wds.get('postlist', 'post_types'),
 				_lists = {},
 				_is_open = false,
-				_selector_template = _.template(Wds.template('postlist', 'selector')),
-				_list_template = _.template(Wds.template('postlist', 'selector-list')),
-				_item_template = _.template(Wds.template('postlist', 'selector-list-item')),
+				_selector_template = Wds.tpl_compile(Wds.template('postlist', 'selector')),
+				_list_template = Wds.tpl_compile(Wds.template('postlist', 'selector-list')),
+				_item_template = Wds.tpl_compile(Wds.template('postlist', 'selector-list-item')),
 				_close_callback = _.noop,
 
 				_already_selected = [],
@@ -529,7 +529,7 @@
 
 			return this;
 		},
-		
+
 		/**
 		 * Post list rendering implementation
 		 *
@@ -540,8 +540,8 @@
 
 			var _list = new Wds.Postlist._List(type),
 				_loaded = false,
-				_list_template = _.template(Wds.template('postlist', _list.get_type())),
-				_post_item_template = _.template(Wds.template('postlist', _list.get_type() + '-item')),
+				_list_template = Wds.tpl_compile(Wds.template('postlist', _list.get_type())),
+				_post_item_template = Wds.tpl_compile(Wds.template('postlist', _list.get_type() + '-item')),
 				_$box = $root.find(":text"),
 				_selector = new Wds.Postlist.Selector('exclude')
 			;

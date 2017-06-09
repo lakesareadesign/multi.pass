@@ -25,7 +25,7 @@ if ( ! defined( 'WDS_EXPIRE_TRANSIENT_TIMEOUT' ) ) define( 'WDS_EXPIRE_TRANSIENT
 if ( ! defined( 'WDS_AUTOLINKS_DEFAULT_CHAR_LIMIT' ) ) define( 'WDS_AUTOLINKS_DEFAULT_CHAR_LIMIT', 3 );
 
 // Suppress redundant canonicals?
-if ( ! defined( 'WDS_SUPPRESS_REDUNDANT_CANONICAL' ) ) define( 'WDS_SUPPRESS_REDUNDANT_CANONICAL', false );
+//if ( ! defined( 'WDS_SUPPRESS_REDUNDANT_CANONICAL' ) ) define( 'WDS_SUPPRESS_REDUNDANT_CANONICAL', false );
 
 // Char counting defines
 if ( ! defined( 'WDS_TITLE_LENGTH_CHAR_COUNT_LIMIT' ) ) define( 'WDS_TITLE_LENGTH_CHAR_COUNT_LIMIT', 65 );
@@ -43,6 +43,5 @@ if ( ! defined( 'WDS_ENABLE_LOGGING' ) ) define( 'WDS_ENABLE_LOGGING', false );
 /**
  * Setup plugin path and url.
  */
-define( 'WDS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WDS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/' );
 define( 'WDS_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/' );

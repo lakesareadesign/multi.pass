@@ -37,9 +37,10 @@ class WDS_Admin {
 
 		add_action('admin_bar_menu', array($this, 'add_toolbar_items'), 99);
 
+		add_filter('plugin_action_links_' . WDS_PLUGIN_BASENAME, array($this, 'add_settings_link'));
 
-		require_once (WDS_PLUGIN_DIR . 'admin/core/settings.php');
-		require_once WDS_PLUGIN_DIR . 'admin/core/class_wds_service.php';
+		require_once (WDS_PLUGIN_DIR . 'admin/settings.php');
+		require_once WDS_PLUGIN_DIR . 'core/class_wds_service.php';
 
 		$wds_options = WDS_Settings::get_options();
 
@@ -49,29 +50,26 @@ class WDS_Admin {
 		}
 
 		if (!empty($wds_options['access-id']) && !empty($wds_options['secret-key'])) {
-			require_once (WDS_PLUGIN_DIR . 'admin/seomoz/api.php');
-			require_once (WDS_PLUGIN_DIR . 'admin/seomoz/results.php');
-			require_once (WDS_PLUGIN_DIR . 'admin/seomoz/dashboard-widget.php');
+			require_once (WDS_PLUGIN_DIR . 'tools/seomoz/api.php');
+			require_once (WDS_PLUGIN_DIR . 'tools/seomoz/results.php');
+			require_once (WDS_PLUGIN_DIR . 'tools/seomoz/dashboard-widget.php');
 		}
 
 		require_once (WDS_PLUGIN_DIR . 'admin/settings/dashboard.php');
 		$this->_handlers['dashboard'] = WDS_Settings_Dashboard::get_instance();
 
-		if (!empty($wds_options['onpage'])) {
+		if (WDS_Settings::get_option('onpage')) {
 			require_once (WDS_PLUGIN_DIR . 'admin/settings/onpage.php');
 			$this->_handlers['onpage'] = WDS_Onpage_Settings::get_instance();
 		}
 
-		if (!empty($wds_options['sitemap'])) {
+		if (WDS_Settings::get_option('sitemap')) {
 			require_once (WDS_PLUGIN_DIR . 'tools/sitemaps.php');
 			require_once (WDS_PLUGIN_DIR . 'admin/settings/sitemap.php');
 			$this->_handlers['sitemap'] = WDS_Sitemap_Settings::get_instance();
 		}
 
-		//require_once ( WDS_PLUGIN_DIR . 'admin/settings/seomoz.php' );
-		//$this->_handlers['seomoz'] = WDS_Seomoz_Settings::get_instance();
-
-		if (!empty($wds_options['autolinks'])) {
+		if (WDS_Settings::get_option('autolinks')) {
 			require_once (WDS_PLUGIN_DIR . 'admin/settings/autolinks.php');
 			$this->_handlers['autolinks'] = WDS_Autolinks_Settings::get_instance();
 		}
@@ -79,11 +77,11 @@ class WDS_Admin {
 		require_once (WDS_PLUGIN_DIR . 'admin/settings/settings.php');
 		$this->_handlers['settings'] = WDS_Settings_Settings::get_instance();
 
-		if (!empty($wds_options['sitemap-dashboard-widget'])) {
-			require_once (WDS_PLUGIN_DIR . 'admin/sitemaps-dashboard-widget.php');
+		if (WDS_Settings::get_option('sitemap')) {
+			require_once (WDS_PLUGIN_DIR . 'tools/sitemaps-dashboard-widget.php');
 		}
 
-		if (!empty( $wds_options['onpage'])) {
+		if (WDS_Settings::get_option('onpage')) {
 			require_once (WDS_PLUGIN_DIR . 'admin/metabox.php');
 			require_once (WDS_PLUGIN_DIR . 'admin/taxonomy.php');
 		}
@@ -94,6 +92,25 @@ class WDS_Admin {
 			require_once (WDS_PLUGIN_DIR . 'admin/settings/redirections.php');
 			$this->_handlers['redirections'] = WDS_Settings_Redirections::get_instance();
 		}
+	}
+
+	/**
+	 * Adds settings plugin action link
+	 *
+	 * @param array $links Action links list
+	 *
+	 * @return array Augmented action links
+	 */
+	public function add_settings_link ($links) {
+		if (!is_array($links)) return $links;
+
+		$links[] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url(add_query_arg('page', WDS_Settings::TAB_DASHBOARD, admin_url('admin.php'))),
+			esc_html(__('Settings', 'wds'))
+		);
+
+		return $links;
 	}
 
 	/**
@@ -187,6 +204,9 @@ class WDS_Admin {
 		if (empty($bar) || !function_exists('is_admin_bar_showing')) return false;
 		if (!is_admin_bar_showing()) return false;
 
+		if (!apply_filters('wds-admin-ui-show_bar', true)) return false;
+
+		// Do not show if sitewide and we're not super admin
 		if (defined('WDS_SITEWIDE') && WDS_SITEWIDE && !is_super_admin()) return false;
 
 		$root = array(
@@ -196,11 +216,19 @@ class WDS_Admin {
 		$bar->add_node($root);
 		foreach ($this->_handlers as $hndl => $handler) {
 			if (empty($handler) || empty($handler->slug)) continue;
+
+			if (!(defined('WDS_SITEWIDE') && WDS_SITEWIDE) && !is_super_admin()) {
+				if (!WDS_Settings_Admin::is_tab_allowed($handler->slug)) continue;
+			}
+
+			$href = (
+				defined('WDS_SITEWIDE') && WDS_SITEWIDE ? network_admin_url('admin.php') : admin_url('admin.php')
+			) . '?page=' . $handler->slug;
 			$bar->add_node(array(
 				'id' => $root['id'] . '.' . $handler->slug,
 				'parent' => $root['id'],
 				'title' => $handler->title,
-				'href' => (defined('WDS_SITEWIDE') && WDS_SITEWIDE ? network_admin_url('admin.php') : admin_url('admin.php')) . '?page=' . $handler->slug,
+				'href' => $href,
 			));
 		}
 	}
@@ -219,7 +247,7 @@ class WDS_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) return false;
 
 		echo '<div class="error"><p>' .
-			sprintf( __( 'This site discourages search engines from indexing the pages, which will affect your SEO efforts. <a href="%s">You can fix this here</a>', 'wps' ), admin_url( '/options-reading.php' ) ) .
+			sprintf( __( 'This site discourages search engines from indexing the pages, which will affect your SEO efforts. <a href="%s">You can fix this here</a>', 'wds' ), admin_url( '/options-reading.php' ) ) .
 		'</p></div>';
 
 	}

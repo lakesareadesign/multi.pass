@@ -15,9 +15,9 @@
 					URL
 				</div>
 			</header>
-		<?php foreach ($issues as $issue) { ?>
-			<?php $issue_id = md5(serialize($issue)); ?>
-			<div class="wds-issue-item">
+		<?php foreach ($issues as $issue_id) { ?>
+			<?php $issue = $report->get_issue($issue_id); ?>
+			<div class="wds-issue-item" data-issue_id="<?php echo esc_attr($issue_id); ?>" >
 
 				<!-- Occurences list modal for this URL -->
 				<dialog class="dev-overlay wds-modal wds-occurences" id="wds-issue-occurences-<?php echo esc_attr($issue_id); ?>" title="<?php echo esc_attr($issue['path']); ?>">
@@ -38,7 +38,6 @@
 							</ul>
 						</div>
 					</div>
-
 				</dialog>
 
 				<!-- Redirection modal for this URL -->
@@ -59,7 +58,6 @@
 						<?php wp_nonce_field('wds-redirect', 'wds-redirect'); ?>
 						<button type="button" class="button button-cta-alt wds-submit-redirect"><?php echo esc_html_e('Save', 'wds'); ?></button>
 					</div>
-
 				</dialog>
 
 				<!-- Occurences count part -->
@@ -85,8 +83,24 @@
 					<div class="wds-issue-actions-options">
 						<ul>
 							<li class="heading">Options <i class="wdv-icon wdv-icon-fw wdv-icon-remove"></i></li>
-							<li><a href="#list"><i class="wds-icon wds-icon-inline wds-icon-inline-left wds-icon-list"></i> List occurences</a></li>
-							<li><a href="#redirect"><i class="wds-icon wds-icon-inline wds-icon-inline-left wds-icon-redirect"></i> Re-direct</a></li>
+							<li>
+								<a href="#list">
+									<i class="wds-icon wds-icon-inline wds-icon-inline-left wds-icon-list"></i>
+										<?php esc_html_e('List occurences', 'wds'); ?>
+								</a>
+							</li>
+							<li>
+								<a href="#redirect">
+									<i class="wds-icon wds-icon-inline wds-icon-inline-left wds-icon-redirect"></i>
+									<?php esc_html_e('Re-direct', 'wds'); ?>
+								</a>
+							</li>
+							<li>
+								<a href="#ignore" data-issue_id="<?php echo esc_attr($issue_id); ?>">
+									<i class="wds-icon wds-icon-inline wds-icon-inline-left wds-icon-ignore"></i>
+									<?php esc_html_e('Ignore', 'wds'); ?>
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>

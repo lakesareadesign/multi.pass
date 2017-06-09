@@ -1,11 +1,14 @@
 Plugin Name: Custom Sidebars Pro
 Author: Javier Marquez (Incsub), Philipp Stracker (Incsub), Marcin Pietrzak (Incsub)
-Buildtime: 2017-05-25T17:38:37.261Z
+Buildtime: 2017-06-08T05:47:23.113Z
 
 Change Log:
 ----------------------------------------------------------------------
 
-3.0.8 ( 2017-xx-xx )
+3.0.8 ( 2017-06-08 )
+- Added bulk sidebars edit.
+- Fixed category archive and entry in category replaceable.
+- Visibility of "Custom Explain" link is limited only to front-end.
 
 3.0.7.1 ( 2017-05-25 )
 - Fixed visibility of Custom Explain - now it is visible only for administrators.
@@ -366,4 +369,4 @@ Change Log:
 - Initial release
 
 
-133620-1495904061-au
+133620-1497045149-au
