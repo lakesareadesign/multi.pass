@@ -467,7 +467,7 @@ add_action( 'genesis_after_post_content', 'genesis_post_meta' );
 /**
  * Echo the post meta after the post content.
  *
- * By default, only does post meta on posts.
+ * By default, does post meta on all public post types except page.
  *
  * The post info makes use of a couple of shortcodes by default, and the whole output is filtered via
  * `genesis_post_meta` before echoing.

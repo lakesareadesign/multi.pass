@@ -152,10 +152,10 @@ function genesis_constants() {
 
 	// Define Theme Info Constants.
 	define( 'PARENT_THEME_NAME', 'Genesis' );
-	define( 'PARENT_THEME_VERSION', '2.5.0' );
+	define( 'PARENT_THEME_VERSION', '2.5.2' );
 	define( 'PARENT_THEME_BRANCH', '2.5' );
-	define( 'PARENT_DB_VERSION', '2501' );
-	define( 'PARENT_THEME_RELEASE_DATE', date_i18n( 'F j, Y', '1492646400' ) );
+	define( 'PARENT_DB_VERSION', '2502' );
+	define( 'PARENT_THEME_RELEASE_DATE', date_i18n( 'F j, Y', '1496966400' ) );
 
 	// Define Parent and Child Directory Location and URL Constants.
 	define( 'PARENT_DIR', get_template_directory() );
@@ -247,89 +247,89 @@ function genesis_load_framework() {
 	$lib_dir = trailingslashit( PARENT_DIR ) . 'lib/';
 
 	// Load Framework.
-	require( $lib_dir . 'framework.php' );
+	require_once( $lib_dir . 'framework.php' );
 
 	// Load Classes.
 	$classes_dir = $lib_dir . 'classes/';
-	require( $classes_dir . 'admin.php' );
+	require_once( $classes_dir . 'admin.php' );
 	require_if_theme_supports( 'genesis-breadcrumbs', $classes_dir . 'breadcrumb.php' );
-	require( $classes_dir . 'sanitization.php' );
-	require( $classes_dir . 'class-genesis-contributor.php' );
-	require( $classes_dir . 'class-genesis-contributors.php' );
+	require_once( $classes_dir . 'sanitization.php' );
+	require_once( $classes_dir . 'class-genesis-contributor.php' );
+	require_once( $classes_dir . 'class-genesis-contributors.php' );
 
 	// Load Functions.
 	$functions_dir = $lib_dir . 'functions/';
-	require( $functions_dir . 'upgrade.php' );
-	require( $functions_dir . 'compat.php' );
-	require( $functions_dir . 'general.php' );
-	require( $functions_dir . 'options.php' );
-	require( $functions_dir . 'image.php' );
-	require( $functions_dir . 'markup.php' );
+	require_once( $functions_dir . 'upgrade.php' );
+	require_once( $functions_dir . 'compat.php' );
+	require_once( $functions_dir . 'general.php' );
+	require_once( $functions_dir . 'options.php' );
+	require_once( $functions_dir . 'image.php' );
+	require_once( $functions_dir . 'markup.php' );
 	require_if_theme_supports( 'genesis-breadcrumbs', $functions_dir . 'breadcrumb.php' );
-	require( $functions_dir . 'menu.php' );
-	require( $functions_dir . 'layout.php' );
-	require( $functions_dir . 'formatting.php' );
-	require( $functions_dir . 'seo.php' );
-	require( $functions_dir . 'widgetize.php' );
-	require( $functions_dir . 'feed.php' );
-	require( $functions_dir . 'toolbar.php' );
-	require( $functions_dir . 'head.php' );
+	require_once( $functions_dir . 'menu.php' );
+	require_once( $functions_dir . 'layout.php' );
+	require_once( $functions_dir . 'formatting.php' );
+	require_once( $functions_dir . 'seo.php' );
+	require_once( $functions_dir . 'widgetize.php' );
+	require_once( $functions_dir . 'feed.php' );
+	require_once( $functions_dir . 'toolbar.php' );
+	require_once( $functions_dir . 'head.php' );
 
 	if ( apply_filters( 'genesis_load_deprecated', true ) ) {
-		require( $functions_dir . 'deprecated.php' );
+		require_once( $functions_dir . 'deprecated.php' );
 	}
 
 	// Load Shortcodes.
 	$shortcodes_dir = $lib_dir . 'shortcodes/';
-	require( $shortcodes_dir . 'post.php' );
-	require( $shortcodes_dir . 'footer.php' );
+	require_once( $shortcodes_dir . 'post.php' );
+	require_once( $shortcodes_dir . 'footer.php' );
 
 	// Load Structure.
 	$structure_dir = $lib_dir . 'structure/';
-	require( $structure_dir . 'header.php' );
-	require( $structure_dir . 'footer.php' );
-	require( $structure_dir . 'menu.php' );
-	require( $structure_dir . 'layout.php' );
-	require( $structure_dir . 'post.php' );
-	require( $structure_dir . 'loops.php' );
-	require( $structure_dir . 'comments.php' );
-	require( $structure_dir . 'sidebar.php' );
-	require( $structure_dir . 'archive.php' );
-	require( $structure_dir . 'search.php' );
+	require_once( $structure_dir . 'header.php' );
+	require_once( $structure_dir . 'footer.php' );
+	require_once( $structure_dir . 'menu.php' );
+	require_once( $structure_dir . 'layout.php' );
+	require_once( $structure_dir . 'post.php' );
+	require_once( $structure_dir . 'loops.php' );
+	require_once( $structure_dir . 'comments.php' );
+	require_once( $structure_dir . 'sidebar.php' );
+	require_once( $structure_dir . 'archive.php' );
+	require_once( $structure_dir . 'search.php' );
 
 	// Load Admin.
 	$admin_dir = $lib_dir . 'admin/';
 	if ( is_admin() ) {
-		require( $admin_dir . 'menu.php' );
-		require( $admin_dir . 'theme-settings.php' );
-		require( $admin_dir . 'seo-settings.php' );
-		require( $admin_dir . 'cpt-archive-settings.php' );
-		require( $admin_dir . 'admin-functions.php' );
-		require( $admin_dir . 'import-export.php' );
-		require( $admin_dir . 'inpost-metaboxes.php' );
-		require( $admin_dir . 'use-child-theme.php' );
-		require( $admin_dir . 'whats-new.php' );
+		require_once( $admin_dir . 'menu.php' );
+		require_once( $admin_dir . 'theme-settings.php' );
+		require_once( $admin_dir . 'seo-settings.php' );
+		require_once( $admin_dir . 'cpt-archive-settings.php' );
+		require_once( $admin_dir . 'admin-functions.php' );
+		require_once( $admin_dir . 'import-export.php' );
+		require_once( $admin_dir . 'inpost-metaboxes.php' );
+		require_once( $admin_dir . 'use-child-theme.php' );
+		require_once( $admin_dir . 'whats-new.php' );
 	}
-	require( $admin_dir . 'customizer.php' );
-	require( $admin_dir . 'term-meta.php' );
-	require( $admin_dir . 'user-meta.php' );
+	require_once( $admin_dir . 'customizer.php' );
+	require_once( $admin_dir . 'term-meta.php' );
+	require_once( $admin_dir . 'user-meta.php' );
 
 	// Load JavaScript.
-	require( $lib_dir . '/js/load-scripts.php' );
+	require_once( $lib_dir . '/js/load-scripts.php' );
 
 	// Load CSS.
-	require( $lib_dir . '/css/load-styles.php' );
+	require_once( $lib_dir . '/css/load-styles.php' );
 
 	// Load Widgets.
 	$widgets_dir = $lib_dir . 'widgets/';
-	require( $widgets_dir . 'widgets.php' );
-	require( $widgets_dir . 'user-profile-widget.php' );
-	require( $widgets_dir . 'featured-post-widget.php' );
-	require( $widgets_dir . 'featured-page-widget.php' );
+	require_once( $widgets_dir . 'widgets.php' );
+	require_once( $widgets_dir . 'user-profile-widget.php' );
+	require_once( $widgets_dir . 'featured-post-widget.php' );
+	require_once( $widgets_dir . 'featured-page-widget.php' );
 
 	// Load CLI command.
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
-    	include GENESIS_CLASSES_DIR . '/cli.php';
+    	include PARENT_DIR . '/lib/classes/cli.php';
 	}
 
 	global $_genesis_formatting_allowedtags;

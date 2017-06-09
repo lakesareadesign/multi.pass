@@ -31,8 +31,11 @@ $layout = $layout ? $layout : '';
 					</label></p>
 
 					<?php
-					$type = 'archive-author-' . $object->ID;
-					genesis_layout_selector( array( 'name' => 'genesis-meta[layout]', 'selected' => $layout, 'type' => $type ) );
+					genesis_layout_selector( array(
+						'name'     => 'genesis-meta[layout]',
+						'selected' => $layout,
+						'type'     => array( 'archive', 'author', $object->ID )
+					) );
 					?>
 
 				</fieldset>

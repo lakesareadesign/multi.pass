@@ -31,8 +31,11 @@ $layout = $this->get_field_value( 'layout' );
 					</label>
 				</p>
 				<?php
-				$type = 'archive-' . $this->post_type->name;
-				genesis_layout_selector( array( 'name' => $this->get_field_name( 'layout' ), 'selected' => $layout, 'type' => $type ) );
+				genesis_layout_selector( array(
+					'name'     => $this->get_field_name( 'layout' ),
+					'selected' => $layout,
+					'type'     => array( 'archive', 'post-type-archive-' . $this->post_type->name ),
+				) );
 				?>
 
 			</fieldset>

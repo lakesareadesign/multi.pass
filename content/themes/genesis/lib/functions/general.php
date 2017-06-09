@@ -428,6 +428,18 @@ function genesis_sitemap( $heading = 'h2' ) {
  * @return string $heading Sitemap content.
  */
 function genesis_get_sitemap( $heading = 'h2' ) {
+	
+	/**
+	 * Filter the sitemap before the default sitemap is built.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param null $sitemap Null value. Change to something else to have that be returned.
+	 */
+	$pre = apply_filters( 'genesis_pre_get_sitemap', null );
+	if ( null !== $pre ) {
+		return $pre;
+	}
 
 	$sitemap  = sprintf( '<%2$s>%1$s</%2$s>', __( 'Pages:', 'genesis' ), $heading );
 	$sitemap .= sprintf( '<ul>%s</ul>', wp_list_pages( 'title_li=&echo=0' ) );
@@ -452,9 +464,7 @@ function genesis_get_sitemap( $heading = 'h2' ) {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string $sitemap {
-	 *     Default sitemap.
-	 * }
+	 * @param string $sitemap Default sitemap.
 	 */
 	return apply_filters( 'genesis_sitemap_output', $sitemap );
 

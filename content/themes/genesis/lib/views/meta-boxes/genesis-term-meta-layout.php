@@ -30,7 +30,11 @@
 					</label></p>
 					<?php
 					$type = 'archive-' . $object->taxonomy . '-' . $object->term_id;
-					genesis_layout_selector( array( 'name' => 'genesis-meta[layout]', 'selected' => get_term_meta( $object->term_id, 'layout', true ), 'type' => $type ) );
+					genesis_layout_selector( array(
+						'name'        => 'genesis-meta[layout]',
+						'selected'    => get_term_meta( $object->term_id, 'layout', true ),
+						'type'        => array( 'archive', $object->taxonomy, $object->term_id ),
+					) );
 					?>
 
 				</fieldset>

@@ -21,7 +21,7 @@ function genesis_meta_boxes() {
 	static $meta_boxes = null;
 
 	if ( null === $meta_boxes ) {
-		require_once( GENESIS_CLASSES_DIR . '/class-genesis-admin-meta-boxes.php' );
+		require_once( PARENT_DIR . '/lib/classes/class-genesis-admin-meta-boxes.php' );
 		$meta_boxes = new Genesis_Admin_Meta_Boxes();
 	}
 

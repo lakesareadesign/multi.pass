@@ -398,8 +398,8 @@ function genesis_grid_loop_content() {
 
 }
 
-add_action( 'genesis_after_post', 'genesis_add_id_to_global_exclude' );
-add_action( 'genesis_after_entry', 'genesis_add_id_to_global_exclude' );
+add_action( 'genesis_after_post', 'genesis_add_id_to_global_exclude', 9 );
+add_action( 'genesis_after_entry', 'genesis_add_id_to_global_exclude', 9 );
 /**
  * Modify the global $_genesis_displayed_ids each time a loop iterates.
  *

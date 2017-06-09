@@ -32,7 +32,13 @@ if ( genesis_has_multiple_layouts() ) :
 					printf( esc_html__( 'Default Layout set in %s', 'genesis' ), '<a href="' . esc_url( menu_page_url( 'genesis', 0 ) ) . '">' . esc_html__( 'Theme Settings', 'genesis' ) . '</a>' );
 					?>
 				</label></p>
-				<?php genesis_layout_selector( array( 'name' => 'genesis_layout[_genesis_layout]', 'selected' => $layout, 'type' => 'singular-post-' . get_the_ID() ) ); ?>
+				<?php
+				genesis_layout_selector( array(
+					'name'     => 'genesis_layout[_genesis_layout]',
+					'selected' => $layout,
+					'type'     => array( 'singular', get_post_type(), get_the_ID() ),
+				) );
+				?>
 
 			</fieldset>
 		</td>

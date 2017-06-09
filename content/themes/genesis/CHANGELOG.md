@@ -4,6 +4,25 @@ https://my.studiopress.com/themes/genesis/
 
 This project does not follow semantic versioning. It follows the WordPress policy where updates of _x_ and _y_ in an _x.y.z_ version number means a major release, and updates to _z_ means a patch release.
 
+## [2.5.2] - 2017-06-09
+### Fixed
+- Alternate method for preventing attribute filter on closing tags.
+
+## [2.5.1] - 2017-06-08
+### Added
+- Add logic to detect post-upgrade redirect type.
+
+### Changed
+- Updated docblock for `genesis_post_meta()`.
+
+### Fixed
+- Fix issue with script loading logic.
+- Fix issue with Layout API fallback logic.
+- Fix issue with Layout API type priority determination.
+- Fix issue with posts not being excluded in Featured Posts widget.
+- Fix issue with `entry` attribute filter being applied to closing tag.
+- Fix issue with use of `require` by switching back to `require_once`.
+
 ## [2.5.0] - 2017-04-20
 _Requires WordPress 4.7.0.__
 ### Added
@@ -912,6 +931,8 @@ _Requires WordPress 3.1.0._
 - Fix CSS conflict with admin bar.
 
 
+[2.5.2]: https://github.com/copyblogger/genesis/compare/2.5.1...2.5.2
+[2.5.1]: https://github.com/copyblogger/genesis/compare/2.5.0...2.5.1
 [2.5.0]: https://github.com/copyblogger/genesis/compare/2.4.2...2.5.0
 [2.4.2]: https://github.com/copyblogger/genesis/compare/2.4.1...2.4.2
 [2.4.1]: https://github.com/copyblogger/genesis/compare/2.4.0...2.4.1

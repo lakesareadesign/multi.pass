@@ -24,7 +24,7 @@ function genesis_scripts() {
 
 	if ( null === $_genesis_scripts ) {
 
-		require_once( GENESIS_CLASSES_DIR . '/class-genesis-script-loader.php' );
+		require_once( PARENT_DIR . '/lib/classes/class-genesis-script-loader.php' );
 		$_genesis_scripts = new Genesis_Script_Loader();
 		$_genesis_scripts->add_hooks();
 
