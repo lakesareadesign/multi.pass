@@ -92,7 +92,7 @@
 </div>
 
 <?php
-if ( has_filter( 'ultimatebranding_settings_menu_ultimate_color_schemes_process' ) ) {
+if ( has_filter( 'ultimatebranding_settings_ultimate_color_schemes_process' ) ) {
 	?>
     <p class="submit">
         <input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e( 'Save Changes', 'ub' ); ?>" />

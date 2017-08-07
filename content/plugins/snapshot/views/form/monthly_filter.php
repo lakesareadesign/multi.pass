@@ -32,6 +32,11 @@
 			<span class="label"><?php esc_html_e('Refresh List', SNAPSHOT_I18N_DOMAIN); ?></span>
 		</a>
 	</div>
+	<div class="alignright actions reset-api">
+		<a href="#reset-api" class="button">
+			<span class="label"><?php esc_html_e('Reset API', SNAPSHOT_I18N_DOMAIN); ?></span>
+		</a>
+	</div>
 <?php } ?>
 
 <script>
@@ -51,6 +56,22 @@
 			return false;
 		});
 	});
+
+	$(function () {
+		$(".backup-list .tablenav .alignright.actions.reset-api a").click(function (e) {
+			if (e && e.preventDefault) e.preventDefault();
+			if (e && e.stopPropagation) e.stopPropagation();
+
+			$.post(ajaxurl, {
+				action: 'snapshot-full_backup-reset_api'
+			}).always(function () {
+				window.location.reload();
+			});
+
+			return false;
+		});
+	});
+
 
 })(jQuery);
 </script>

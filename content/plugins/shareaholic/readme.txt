@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: share buttons, related content, cookie compliance, eu cookie law, shareaholic, shareholic, sexybookmarks, recommendations, cookie consent, email button, social sharing, social bookmarking, share image, image sharing, follow buttons, floated share buttons, floating share buttons, analytics, social media, social plugin, facebook, twitter, google plus, google bookmarks, gmail, linkedin, pinterest, reddit, tumblr, evernote, digg, delicious, stumbleupon, printfriendly, fancy, amazon, xing, vk, yahoo, mister wong, viadeo, odnoklassniki box.net, diigo, yammer, ycombinator, hotmail, instapaper, mixi, arto, whatsapp, hootsuite, inbound.org, plurk, aim, buffer, meneame, pinboard.in, stumpedia, bitly, blogger, yummly, izeby, kaboodle, weibo, instagram, tinyurl,  typepad, weheartit, flipboard, pocket, wanelo, fark, wykop, symphony, kindle, houzz, youtube, sms, onenote, google classroom, disqus, spotify, zillow, feedly, kik, line, livejournal, baidu
 Requires at least: 3.0
 Tested up to: 4.8
-Stable tag: 7.9.0.0
+Stable tag: 8.1.0
 
 World's leading all-in-one Content Amplification Platform that helps grow your site traffic, engagement, conversions & monetization for FREE.
 
@@ -14,7 +14,8 @@ Shareaholic is the world's leading **all-in-one Content Amplification Platform**
 
 = Recent Updates =
 
-* Automatic Google Analytics integration ([setup guide](http://support.shareaholic.com/hc/en-us/articles/205181045-)) for sharing analytics
+* Social Share Count Recovery ([learn more](https://support.shareaholic.com/hc/en-us/articles/115002083586-))
+* Google Analytics integration ([setup guide](http://support.shareaholic.com/hc/en-us/articles/205181045-))
 * [Promoted Content](http://support.shareaholic.com/hc/en-us/articles/202657036)
 * [Post-Share Follow Buttons](https://blog.shareaholic.com/post-share-follow-buttons/)
 * [EU / UK Cookie Compliance Banner App](https://blog.shareaholic.com/cookie-consent-banner-app/)
@@ -193,20 +194,33 @@ Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
 == Changelog ==
+= 8.1.0 =
+* New: Introducing the Tools Badge! Introducing a brand new way to launch the Shareaholic Console without ever leaving your website! Contains quick-links to your site analytics, help center, and much more to help you manage your site with greater ease. If you'd rather hide this badge or change its location, you can do so from your settings. It is 100% configurable.
+* Bugfix: Resolved the 403 Forbidden error that some admins were getting upon clicking the Dashboard link. Affected only sites on cPanel with mod_security enabled ex. HostGator
+* Enhancement: Google+ share count is now also available to sites that do not enable Server Side Share counts API
+
+= 8.0.1 =
+* Version 8 is here bringing with it a brand new revamped and streamlined UI!
+
+= 7.10.1.0 =
+* **[Social Share Count Recovery](https://blog.shareaholic.com/recover-social-share-counts-https/)** ([learn more](https://blog.shareaholic.com/recover-social-share-counts-https/)) - This setting is for anyone who has had to go through the pain and toil of migrating their domain name or changing over from HTTP to HTTPS and thereby losing all of your social share counts. Whether you are moving your site to HTTPS or migrating your domain name, don't lose your share counts. Once active, Shareaholic will begin to fetch share counts for both URL's, add them together and display the combined total. Voilà - all your hard work and social proof will again be fully accounted for.
+* Enhancement: **Share Buttons for Images** are now smarter when choosing which images to activate on. Support added for images within `<header>` tags.
+* Bugfix: Fixed edge case compatability bug with Google Analytics integration (race condition)
+* Various other performance updates and bug fixes
 
 = 7.9.0.0 =
-We've been very busy!
-- New: [Bots vs. Humans site analytics](https://support.shareaholic.com/hc/en-us/articles/115002299663)
-- New: Skype share button
-- New: Share Buttons automatically hide when a page is being printed so that it doesn't cover any of your content.
-- New: Emoji support added for Twitter templates! 😁😍😎
-- Enhancement: Added IPV6 support for Cookie Notice App for improved Geo accuracy
-- Enhancement: utf8mb4 support upgrade. This greatly expands the language usability of Shareaholic, especially in countries that use (Han character sets)https://en.wikipedia.org/wiki/Han_unification.
-- Enhancement: Added hide/show functionality to Floated Share Buttons. Your visitors can now hide the Floated Share Bar at any time, for instance, if it is covering content. They're also animated now!
-- Enhancement: Related Content App now "lazy loads". This means the app will only load if a visitor begins to scroll. This is should speed up your page loads.
-- Enhancement: Better accessibility / screen reader support
-- Enhancement: Big improvements to the Related Content recommendation engine
-- Various performance updates and bug fixes
+* We've been very busy!
+* New: [Bots vs. Humans site analytics](https://support.shareaholic.com/hc/en-us/articles/115002299663)
+* New: Skype share button
+* New: Share Buttons automatically hide when a page is being printed so that it doesn't cover any of your content.
+* New: Emoji support added for Twitter templates! 😁😍😎
+* Enhancement: Added IPV6 support for Cookie Notice App for improved Geo accuracy
+* Enhancement: utf8mb4 support upgrade. This greatly expands the language usability of Shareaholic, especially in countries that use (Han character sets)https://en.wikipedia.org/wiki/Han_unification.
+* Enhancement: Added hide/show functionality to Floated Share Buttons. Your visitors can now hide the Floated Share Bar at any time, for instance, if it is covering content. They're also animated now!
+* Enhancement: Related Content App now "lazy loads". This means the app will only load if a visitor begins to scroll. This enhancement will further speed up load times for your website.
+* Enhancement: Better accessibility / screen reader support
+* Enhancement: Big improvements to the Related Content recommendation engine
+* Various performance updates and bug fixes
 
 = 7.8.0.6 =
 * Bugfix: Fixed admin bar link
@@ -613,218 +627,15 @@ We've been very busy!
 * More robust curl function, more robust plugin
 * Show Related Posts data status
 
-= 6.1.5.1 =
-* Recommendations / Related Content are now 100% responsive (aka "mobile-ready")! This means they will now adapt to the screen size or device (iPhone, iPad, Android, tablet, laptop, etc) of your visitors automagically for the best, most seamless discovery experience.
-
-= 6.1.5.0 =
-* Fix for Cross-Site Request Forgery vulnerability. Upgrade immediately. Credits for finding and reporting the vulnerability go to Charlie Eriksen via Secunia SVCRP.
-
-= 6.1.4.1 = 
-* Shareaholic is 100% compatible with WordPress 3.6! Yay!
-
-= 6.1.4.0 = 
-* Bugfix: Related Content settings page now loads for multisite install. Updated how Shareaholic reads user permissions. Now using in-built WordPress functions.
-* Bugfix: Facebook Debugger will no longer show "Parser Mismatched Metadata" warnings
-* Updated primary plugin file to "shareaholic.php"
-* Cleaned up assets directory, as a result the plugin install file is now a lot smaller
-
-= 6.1.3.8 =
-* Bugfix: fixed "Cannot use object of type WP_Error"
-
-= 6.1.3.7 =
-* [Bugfix](http://wordpress.org/support/topic/big-issue-with-css): More robust CSS
-
-= 6.1.3.6 =
-* Show Related Posts data status
-* Updated screenshots (corrected WordPress logo)
-
-= 6.1.3.5 =
-* Much faster Related Posts processing for new users!
-
-= 6.1.3.4 =
-* Upgraded PHP short tags
-* A host of bug fixes and performance improvements
-* Deprecated Yandex
-
-= 6.1.3.1 =
-* Bug fixes & event reporting
-
-= 6.1.3.0 =
-* Fixed Bitly not picking up custom credentials
-* Fixed links to Help Center docs
-* Fixed Twitter template not getting picked up by Like Button Sets, Classic Bookmarks
-* Deprecated Squidoo, Posterous (can no longer share to these services)
-* Deprecated Awe.sm, Su.pr
-
-= 6.1.2.0 =
-* Fix for Facebook Like button error (Facebook now requires non-encoded URL's to be passed)
-
-= 6.1.1.0 =
-* JavaScript is now hosted on Amazon's CDN to make everything blazing fast!
-* Removed Strands, FAQPal, Tipd, Sphinn, Twittley (services have shut down)
-* Removed Technorati, Ning (can no longer share to these services)
-
-= 6.1.0.0 =
-* Fixed syntax error caught by latest jQuery
-* Fixed encoding errors
-* Support for Shareaholic Content Tags - shareaholic:image and shareaholic:site_name
-* Update links to new analytics
-* Admin panel code optimizations
-* Load time optimization by reducing # of Twitter API calls
-* Deprecated "comment feed" service
-
-= 6.0.0.3 =
-* Updated screenshots
-
-= 6.0.0.1 =
-* New feature: Recommendations - drive more pageviews and engagement by displaying per post Related Posts to your readers (enable via the admin panel)
-* New sharing style - Classic Bookmarks
-* Redesigned Dashboard
-* Cleaned up legacy code for greater efficiency
-
-= 5.0.0.4 =
-* MAJOR UPDATE!
-* New translations!
-  -> Belarusian (by Alexander Ovsov)
-  -> Polish (by Bartosz Chojnacki)
-  -> Catalan (by Joan Jordi Berdullas Segura)
-  -> Bulgarian (by Nikolay Nikolov)
-  -> Lithuanian (by Nata Strazda)
-* Added Google Plus as a service to SexyBookmarks
-* Added support to show Topbar across different types of pages (posts, pages, index & category)
-* Added Share Counts for LinkedIn
-* Added functionality to enable/disable SexyBookmarks independently
-* Added brand new, much improved way to share posts via email!
-* Added support to enforce publisher specified language locale
-* Social Analytics are now also viewable by contributors, authors and editors (previously limited to admins)
-* Fixed bug: Twitter counter display position in Like Button Set
-* Fixed bug: Nofollow links in "new mode"
-* New activation page
-* Numerous performance optimizations 
-* Custom Twitter template is now used universally
-* URL shortener settings now used universally
-* Cleaned up legacy code for greater efficiency
-* Added Google Analytics Social Tracking Feature
-
-= 4.0.6.8 =
-* Added support for Pinterest
-* Cleaned up directory listing
-* Performance improvements achieved by reducing the number of JavaScript calls
-* Cleaned up depreciated services: Mixx, Google Reader, Google Buzz, Netvibes
-* Minor bug fixes
-
-= 4.0.6.5 =
-* Added support for Google Analytics Social Interaction Analytics
-* Added Awe.sm URL shortener support
-* Limited showing Shareaholic updates to the plugin's admin page
-* Fixed bug: Incorrect url used by TopBar on homepage
-* Fixed bug: Twitter counter in Like button set
-* Fixed bug: SSL conflicts
-* Fixed bug: Bit.ly bug
-
-= 4.0.6.4 =
-* Fixed bug where background image would appear even if it was disabled
-
-= 4.0.6.3 =
-* Added a topbar with sharing options
-* Add Tweet button to the "like button" sharing set
-* Symbolic directory path is now supported as custom path
-* Fixed bug: related to manual mode
-* Fixed bug: related to category pages & manual mode 
-* Fixed bug: related to special characters in page title
-* Optimizations for performance
-
-= 4.0.6.2 =
-* Fixed changelog formatting
-* Enhancements for screen reader accessibility
-
-= 4.0.6.1 =
-* Fixed potential "headers already sent" error
-* Refinements to Open Graph Tags (can now disable on individual posts)
-* Provided accessibility support for SexyBookmarks style sharing icons
-* Removed Propeller from service list (depreciated service)
-
-= 4.0.5.9 =
-* Fixed css
-
-= 4.0.5.8 =
-* Fixed typo/version number
-
-= 4.0.5.7 =
-* Fixed SSL compatibility (all assets now loaded over https when a page is served over https).
-* Fixed Google +1 count issue
-* Fixed Google +1 shared link titles showing properly on Shareaholic.com User Dashboard
-* Fixed jQuery IE bug (will be much more stable in IE)
-* Custom sprite generation certified compatible with WordPress Multisite
-* Shareaholic's proprietary data attributes are now HTML5-compliant.
-* FAQ moved to https://shareaholic.com/tools/wordpress/faq
-* Usage & Installation guide moved to https://shareaholic.com/tools/wordpress/usage-installation
-* Added browser extension promo
-* Added Support for Open Graph Tags (for Facebook and Google +1 sharing) - Featured Image or First Gallery Image in post will be selected for Open Graph Tag
-* Added links to live support in admin panel
-
-= 4.0.5.6 =
-* Many cross platform compatibility enhancements
-* Fixed +1/Like not working in manual mode
-* Fixed role lookup errors affecting older versions of WordPress (ex. v2.7.1)
-* Fixed misc. path and folder permission bugs
-
-= 4.0.5.5 =
-* Updated for handling Window Server related paths
-
-= 4.0.5.4 =
-* Fix for certain settings not being saves in previous release
-
-= 4.0.5.3 =
-* Small bug fix affecting very few
-
-= 4.0.5.2 =
-* Fixes path issues with previous release (critical update if you upgraded to v4.0.5.1)
-
-= 4.0.5.1 =
-* Lots of performance upgrades
-* No longer need to re-CHMOD directories on upgrade!
-* Can now specify custom directory to store Shareaholic custom files
-
-= 4.0.4.2 =
-* Super charged options for Like/Send/+1 Button set
-* Quick bug fixes affecting some themes
-* Ability to disable SexyBookmarks from specific pages now limited to site Editors and Admins only.
-
-= 4.0.4.1 =
-* Bug fixes (highly recommended update)
-
-= 4.0.3 =
-* Quick bug fix affecting some themes
-
-= 4.0.2 =
-* Lots of performance enhancements
-* Now includes Google's +1 Button
-* Now includes Facebook's Send Button
-* Updated translations:
-  * French (by [Maitre Mo](http://maitremo.fr))
-  * Greek (by Daphne Christoforidou)
-  * Estonian (by Cristo Pajust)
-  * German (by Michael S.)
-  * Dutch (by Arend & Adriaan)
-  * Lithuanian (by Aukse)
-  * Bulgarian (by Mladen Gradev)
-  * Hungarian (by Murvai-Buzogány László)
-  * Spanish (by Diego)
-  * Portuguese - Brazil (by Oscar)
-  * Farsi - Persian (by Mohammad)
-* Fix for cases of misaligned Designer Tooltips
-* Fix for potential conflict with Featured Content Gallery plugin
-* Ability to disable SexyBookmarks from specific pages (ex. password protected pages)
-
-= 4.0.1 =
-* Facebook Like Button
-* Plugin Health Status Monitor
-* Designer Tooltips
-* Analytics: meet the people who spread your content the most
-* Faster Twitter loading
-
 == Upgrade Notice ==
+= 8.1.0 =
+New Tools Badge! Introducing a brand new way to launch the Shareaholic Console without ever leaving your website! Contains quick-links to your site analytics, help center, and much more to help you manage your site with greater ease. If you'd rather hide this badge or change its location, you can do so from your settings. It is 100% configurable.
+
+= 8.0.1 =
+Version 8 is here bringing with it a brand new revamped and streamlined UI!
+
+= 7.10.1.0 =
+New: Share Count Recovery feature! Don't lose your hard work. Recover your social proof.
 
 = 7.9.0.0 =
 This is a major update with lots of new features and enhancements that you'll love!

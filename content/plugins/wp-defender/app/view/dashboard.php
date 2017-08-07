@@ -59,9 +59,7 @@
                                 <li>
                                     <div>
                                         <span class="list-label"><?php _e( "Last Lockout" ) ?></span>
-                                        <span class="list-detail">
-                                        <?php echo $controller->getLastEventLockout() ?>
-                                    </span>
+                                        <span class="list-detail lastLockout">.</span>
                                     </div>
                                 </li>
                             </ul>

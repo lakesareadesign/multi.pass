@@ -233,7 +233,7 @@ if (array_key_exists( 'remove_insert_media_modal', wpui_get_roles_cap($wpui_user
 			 	return $wpui_admin_editor_media_insert_option['wpui_admin_editor_media_insert'];
 			 }
 		}
-	};
+	}
 }
 
 //Upload Files
@@ -247,7 +247,7 @@ if (array_key_exists( 'remove_upload_media_modal', wpui_get_roles_cap($wpui_user
 			 	return $wpui_admin_editor_media_upload_option['wpui_admin_editor_media_upload'];
 			 }
 		}
-	};
+	}
 }
 
 //Media Library
@@ -261,7 +261,7 @@ if (array_key_exists( 'remove_library_media_modal', wpui_get_roles_cap($wpui_use
 			 	return $wpui_admin_editor_media_library_option['wpui_admin_editor_media_library'];
 			 }
 		}
-	};
+	}
 }
 
 //Media Gallery
@@ -275,7 +275,7 @@ if (array_key_exists( 'remove_gallery_media_modal', wpui_get_roles_cap($wpui_use
 			 	return $wpui_admin_editor_media_gallery_option['wpui_admin_editor_media_gallery'];
 			 }
 		}
-	};
+	}
 }
 
 //Media Playlist
@@ -289,7 +289,7 @@ if (array_key_exists( 'remove_playlist_media_modal', wpui_get_roles_cap($wpui_us
 			 	return $wpui_admin_editor_media_playlist_option['wpui_admin_editor_media_playlist'];
 			 }
 		}
-	};
+	}
 }
 
 //Featured img
@@ -303,7 +303,7 @@ if (array_key_exists( 'remove_set_featured_media_modal', wpui_get_roles_cap($wpu
 			 	return $wpui_admin_editor_media_featured_img_option['wpui_admin_editor_media_featured_img'];
 			 }
 		}
-	};
+	}
 }
 
 //Insert URL
@@ -317,35 +317,36 @@ if (array_key_exists( 'remove_insert_url_media_modal', wpui_get_roles_cap($wpui_
 			 	return $wpui_admin_editor_media_insert_url_option['wpui_admin_editor_media_insert_url'];
 			 }
 		}
-	};
-
-	add_filter( 'media_view_strings', 'wpui_custom_media_uploader' );
-
-	function wpui_custom_media_uploader( $strings ) {
-		if (wpui_admin_editor_media_insert() == '1') {
-			unset( $strings['insertMediaTitle'] ); //Insert Media
-		}
-		if (wpui_admin_editor_media_upload() == '1') {
-			unset( $strings['uploadFilesTitle'] ); //Upload Files
-		}
-		if (wpui_admin_editor_media_library() == '1') {
-			unset( $strings['mediaLibraryTitle'] ); //Media Library
-		}
-		if (wpui_admin_editor_media_gallery() == '1') {
-			unset( $strings['createGalleryTitle'] ); //Create Gallery
-		}
-		if (wpui_admin_editor_media_playlist() == '1') {
-			unset( $strings['createPlaylistTitle'] ); //Create Playlist
-		}
-		if (wpui_admin_editor_media_featured_img() == '1') {
-			unset( $strings['setFeaturedImageTitle'] ); //Set Featured Image
-		}
-		if (wpui_admin_editor_media_insert_url() == '1') {
-			unset( $strings['insertFromUrlTitle'] ); //Insert from URL
-		}
-		return $strings;
 	}
 }
+
+add_filter( 'media_view_strings', 'wpui_custom_media_uploader' );
+
+function wpui_custom_media_uploader( $strings ) {
+	if (function_exists('wpui_admin_editor_media_insert') && wpui_admin_editor_media_insert() == '1') {
+		unset( $strings['insertMediaTitle'] ); //Insert Media
+	}
+	if (function_exists('wpui_admin_editor_media_upload') && wpui_admin_editor_media_upload() == '1') {
+		unset( $strings['uploadFilesTitle'] ); //Upload Files
+	}
+	if (function_exists('wpui_admin_editor_media_library') && wpui_admin_editor_media_library() == '1') {
+		unset( $strings['mediaLibraryTitle'] ); //Media Library
+	}
+	if (function_exists('wpui_admin_editor_media_gallery') && wpui_admin_editor_media_gallery() == '1') {
+		unset( $strings['createGalleryTitle'] ); //Create Gallery
+	}
+	if (function_exists('wpui_admin_editor_media_playlist') && wpui_admin_editor_media_playlist() == '1') {
+		unset( $strings['createPlaylistTitle'] ); //Create Playlist
+	}
+	if (function_exists('wpui_admin_editor_media_featured_img') && wpui_admin_editor_media_featured_img() == '1') {
+		unset( $strings['setFeaturedImageTitle'] ); //Set Featured Image
+	}
+	if (function_exists('wpui_admin_editor_media_insert_url') && wpui_admin_editor_media_insert_url() == '1') {
+		unset( $strings['insertFromUrlTitle'] ); //Insert from URL
+	}
+	return $strings;
+}
+
 
 //P Quicktags
 if (array_key_exists( 'p_quicktags', wpui_get_roles_cap($wpui_user_role))) {

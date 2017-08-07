@@ -135,7 +135,10 @@ class Scan extends Model {
 	 */
 	public function countAll( $type ) {
 		$scanTypes = Settings::instance()->getScansAvailable();
-		$count     = Result_Item::count( array(
+		if ( empty( $scanTypes ) ) {
+			$scanTypes[] = 'core';
+		}
+		$count = Result_Item::count( array(
 			'parentId' => $this->id,
 			'status'   => $type,
 			'type'     => $scanTypes

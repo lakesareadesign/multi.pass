@@ -71,7 +71,7 @@ if ( ! class_exists( 'Snapshot_View_Destination_Listing' ) ) {
 							      method="post">
 								<input type="hidden" name="snapshot-action" value="delete-bulk"/>
 								<input type="hidden" name="snapshot-destination-type"
-								       value="<?php echo $classObject->name_slug; ?>"/>
+								       value="<?php echo esc_attr( $classObject->name_slug ); ?>"/>
 								<?php wp_nonce_field( 'snapshot-delete-destination-bulk-' . $classObject->name_slug,
 									'snapshot-noonce-field-' . $classObject->name_slug ); ?>
 								<?php

@@ -29,9 +29,22 @@
                 <div class="line">
                     <p><?php _e( "We will turn off trackbacks and pingbacks in your WordPress settings area.", wp_defender()->domain ) ?></p>
                 </div>
-                <form method="post" class="hardener-frm rule-process">
+                <label>
+					<?php if ( is_multisite() ) : ?>
+						<?php _e( "Disable pingbacks on all existing posts in all sites", wp_defender()->domain ); ?>
+					<?php else: ?>
+						<?php _e( "Disable pingbacks on all existing posts", wp_defender()->domain ); ?>
+					<?php endif; ?>
+					<span class="toggle float-r">
+						<input type="checkbox" name="update_posts" value="1" class="toggle-checkbox trackback-toggle-update-posts" id="toggle_update_posts"/>
+						<label class="toggle-label" for="toggle_update_posts"></label>
+					</span>
+				</label>
+				<div class="clear mline"></div>
+                <form method="post" class="hardener-frm rule-process hardener-frm-process-trackback">
 					<?php $controller->createNonceField(); ?>
                     <input type="hidden" name="action" value="processHardener"/>
+                    <input type="hidden" name="updatePosts" value="no"/>
                     <input type="hidden" name="slug" value="<?php echo $controller::$slug ?>"/>
                     <button class="button float-r"
                             type="submit"><?php _e( "Disable Pingbacks", wp_defender()->domain ) ?></button>

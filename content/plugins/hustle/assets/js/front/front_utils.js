@@ -69,6 +69,12 @@ var Optin = Optin || {};
     }
 
     function add_proper_classes(e, type, $popup, data){
+        
+        // relocate mailchimp submit button if no groups
+        if ( data.data.optin_provider === 'mailchimp' ) {
+            relocate_mailchimp_button(data);
+        }
+        
         if( ( e.type === "wpoi:display" || e.type === "wpoi:cc_display" ) && type === "popup" ){
             (function (){
                 var $parent = type === "popup" ? $(window) : $(this),
@@ -340,6 +346,25 @@ var Optin = Optin || {};
             }
 		});
     }
+    
+    /**
+    Relocate submit button if no mailchimp groups
+    */
+    function relocate_mailchimp_button( popup_data ) {
+        if ( typeof popup_data.provider_args === 'undefined' || typeof popup_data.provider_args.group === 'undefined' ) {
+            // relocate buttons
+            $('.inc_optin_' + popup_data.data.optin_id + ' .wpoi-element .wpoi-button').each(function(){
+                var $this = $(this),
+                    $clone = $this.clone(),
+                    $args_container = $this.closest('.wpoi-element.wpoi-provider-args'),
+                    $mc_fields = $args_container.siblings('.wpoi-mcg-common-fields');
+                    
+                $mc_fields.find('.wpoi-container').append($clone);
+                $args_container.remove();
+                
+            });
+        }
+    }
 
     $(doc).on("wpoi:display", _.debounce(add_proper_classes, 100, false));
     $(doc).on("wpoi:cc_display", _.debounce(add_proper_classes, 100, false));
@@ -376,7 +401,13 @@ var Optin = Optin || {};
 
         var provider_args_tpl = Optin.template( "optin-" + optin_data.data.optin_provider + "-args"  );
         optin_data.provider_args.cta_button = optin_data.design.cta_button;
-        return provider_args_tpl( optin_data.provider_args );
+        
+        if ( $("#optin-" + optin_data.data.optin_provider + "-args" ).length ) {
+            return provider_args_tpl( optin_data.provider_args );
+        } else {
+            return '';
+        }
+        
     };
 
     /**
@@ -402,10 +433,9 @@ var Optin = Optin || {};
         var layout = parseInt(optin_data.design.form_location),
             tpl = Optin.get_tpl( layout, is_compat ),
             _show_args = function(){
+                //Mailchimp might not always have groups
                 if( "mailchimp" === optin_data.data.optin_provider
                     && optin_data.provider_args
-                    && optin_data.provider_args.group
-                    && "hidden" !== optin_data.provider_args.group.form_field
                 )
                 return true;
 

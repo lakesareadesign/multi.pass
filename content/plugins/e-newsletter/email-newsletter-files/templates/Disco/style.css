@@ -47,7 +47,7 @@ body, .body_style {
 	max-width: 100%;
 	height: auto;
 }
-.email_content, .email_content table, .contact_info, .email_content h1, .email_content h2, .email_content h3, .email_content h4, .email_content h5, .email_content h6 {
+.email_content, .email_content table, .contact_info, .email_content h1, .email_content h2, .email_content h3, .email_content h4, .email_content h5, .email_content h6 {	     	 	 		 			 	
 	color: #BODY_COLOR;
 }
 .email_content {
@@ -75,4 +75,4 @@ p {
 }
 
 
-/* 133620-1496772449-au */
+/* 133620-1502132082-au */

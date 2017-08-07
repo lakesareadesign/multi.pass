@@ -3,8 +3,9 @@
  *
  * Events are triggered throughout the visitors journey through the site. See more on [Inbound Now][in]
  *
- * @author David Wells <david@inboundnow.com>
- * @version 0.0.1
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
+ * @version 0.0.2
  *
  * [in]: http://www.inboundnow.com/
  */
@@ -505,6 +506,27 @@ var _inboundEvents = (function(_inbound) {
 
             fireEvent('form_after_submission', formData);
 
+        },
+        /**
+         *  `search_before_caching` is triggered before the search is stored in the user's browser.
+         *  If a lead ID is set, the search data will be saved to the server when the next page loads.
+         *  You can filter the data here or send it to third party services
+         *
+         * ```js
+         * // Usage:
+         *
+         * // Adding the callback
+         * function search_before_caching_function( data ) {
+         *      var data = data || {};
+         *      // filter search data
+         * };
+         *
+         *  // Hook the function up the the `search_before_caching` event
+         *  _inbound.add_action( 'search_before_caching', search_before_caching_function, 10 );
+         * ```
+         */
+        search_before_caching: function(searchData) {
+            fireEvent('search_before_caching', searchData);
         },
         /*! Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
 

@@ -1,11 +1,6 @@
 html.wp-toolbar {
         padding-top: 56px;
 }
-#wpadminbar {
-    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
-}
 #wpadminbar, #wpadminbar li#wp-admin-bar-alter_admin_title {
     height: 56px;
 }
@@ -45,8 +40,11 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
 #adminmenu .wp-submenu {
   padding: 0;
 }
-#adminmenu .wp-has-current-submenu ul>li>a, .folded #adminmenu li.menu-top .wp-submenu>li>a, #adminmenu .wp-submenu a {
+#adminmenu .wp-has-current-submenu ul>li>a {
   padding: 15px 20px;
+}
+#adminmenu .wp-submenu a, .folded #adminmenu li.menu-top .wp-submenu>li>a {
+  padding: 12px 20px;
 }
 #adminmenu .wp-not-current-submenu li>a, .folded #adminmenu .wp-has-current-submenu li>a {
         padding-left: 20px;

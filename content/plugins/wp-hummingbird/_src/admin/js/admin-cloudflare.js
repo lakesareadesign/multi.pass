@@ -1,3 +1,5 @@
+import Fetcher from './utils/fetcher';
+
 ( function( $ ) {
     WPHB_Admin.cloudflare = {
         module: 'cloudflare',
@@ -7,7 +9,7 @@
         init: function () {
             this.$spinner = $('.wphb-spinner');
             this.$cfSelector = $('#wphb-caching-cloudflare-summary-set-expiry');
-            var self = this;
+            let self = this;
             if ( wphb.cloudflare.is.connected ) {
                 this.$cfSelector.change( function() {
                     self.setExpiry.call( self, [this] );
@@ -19,14 +21,11 @@
 
         setExpiry: function( selector ) {
             this.displaySpinner();
-            var request = {
-                action: 'cloudflare_set_expiry',
-                security: wphb.cloudflare.nonces.expiry,
-                value: $(selector).val()
-            };
-            $.post( ajaxurl, request, function( response ) {
-                window.location.reload();
-            });
+            const value = $(selector).val();
+            Fetcher.cloudflare.setExpiration( value )
+                .then( () => {
+                    window.location.reload();
+                });
         },
 
         displaySpinner: function() {

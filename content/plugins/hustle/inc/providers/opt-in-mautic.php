@@ -201,6 +201,10 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 			return $options;
 		}
 
+		function exclude_args_fields() {
+			return array( 'api_key', 'username', 'url', 'password' );
+		}
+
 		static function add_custom_field( $field, Opt_In_Model $optin ) {
 			$provider_args = $optin->get_provider_args();
 			$api = self::api( $provider_args->url, $provider_args->username, $provider_args->password );

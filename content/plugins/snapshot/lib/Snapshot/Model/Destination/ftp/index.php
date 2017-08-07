@@ -88,7 +88,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 		}
 
 		function load_scripts() {
-			if ( ( ! isset( $_GET['page'] ) ) || ( sanitize_text_field( $_GET['page'] ) != "snapshots_destinations_panel" ) ) {
+			if ( ( ! isset( $_GET['page'] ) ) || ( ! in_array( sanitize_text_field( $_GET['page'] ), array( "snapshots_destinations_panel","snapshot_pro_destinations" ) ) ) ) {
 				return;
 			}
 
@@ -96,93 +96,36 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 				return;
 			}
 
-			wp_enqueue_script( 'snapshot-destination-ftp-js', plugins_url( '/js/snapshot_destination_ftp.js', __FILE__ ), array( 'jquery' ) );
-			wp_enqueue_style( 'snapshot-destination-ftp-css', plugins_url( '/css/snapshot_destination_ftp.css', __FILE__ ) );
+			if( sanitize_text_field( $_GET['page'] ) === "snapshots_destinations_panel" ){
+				wp_enqueue_script( 'snapshot-destination-ftp-js', plugins_url( '/js/snapshot_destination_ftp.js', __FILE__ ), array( 'jquery' ) );
+				wp_enqueue_style( 'snapshot-destination-ftp-css', plugins_url( '/css/snapshot_destination_ftp.css', __FILE__ ) );
+			} else {
+				wp_enqueue_script( 'new_snapshot-destination-ftp-js', plugins_url( '/js/snapshot_destination_ftp.js', __FILE__ ), array( 'jquery' ) );
+			}
+
 		}
 
 		function validate_form_data( $d_info ) {
 
 			// Will contain the filtered fields from the form (d_info).
 			$destination_info = array();
-
-			if ( isset( $this->form_errors ) ) {
-				unset( $this->form_errors );
-			}
-
 			$this->form_errors = array();
 
-			if ( isset( $d_info['type'] ) ) {
-				$destination_info['type'] = esc_attr( $d_info['type'] );
-			}
+			$text_fields = array( 'type', 'name', 'address', 'username', 'password', 'protocol', 'passive', 'directory' );
+			$number_fields = array( 'port', 'timeout' );
 
-			if ( isset( $d_info['name'] ) ) {
-				$destination_info['name'] = esc_attr( $d_info['name'] );
-			} else {
-				$this->form_errors['name'] = __( "Name is required", SNAPSHOT_I18N_DOMAIN );
-			}
+			$required_fields = array(
+				'name' => __( 'Name is required', SNAPSHOT_I18N_DOMAIN ),
+				'address' => __( "Address is required", SNAPSHOT_I18N_DOMAIN ),
+				'username' => __( "Username is required", SNAPSHOT_I18N_DOMAIN ),
+				'password' => __( "Password is required", SNAPSHOT_I18N_DOMAIN ),
+				'protocol' => __( "Connection type is required", SNAPSHOT_I18N_DOMAIN ),
+			);
 
-			if ( isset( $d_info['address'] ) ) {
-				$destination_info['address'] = esc_attr( $d_info['address'] );
-			} else {
-				$this->form_errors['address'] = __( "Address is requires", SNAPSHOT_I18N_DOMAIN );
-			}
+			$destination_info = $this->validate_text_fields( $text_fields, $d_info, $destination_info, $required_fields );
+			$destination_info = $this->validate_number_fields( $number_fields, $d_info, $destination_info, $required_fields );
 
-			if ( ( isset( $d_info['username'] ) ) && ( strlen( $d_info['username'] ) ) ) {
-				$destination_info['username'] = esc_attr( $d_info['username'] );
-			} else {
-				$this->form_errors['username'] = __( "Username is requires", SNAPSHOT_I18N_DOMAIN );
-			}
-
-			if ( ( isset( $d_info['password'] ) ) && ( strlen( $d_info['password'] ) ) ) {
-				$destination_info['password'] = esc_attr( $d_info['password'] );
-			} else {
-				$this->form_errors['password'] = __( "Password is requires", SNAPSHOT_I18N_DOMAIN );
-			}
-
-			if ( ( isset( $d_info['protocol'] ) ) && ( strlen( $d_info['protocol'] ) ) ) {
-				$destination_info['protocol'] = esc_attr( $d_info['protocol'] );
-			} else {
-				$this->form_errors['protocol'] = __( "Connection type is required", SNAPSHOT_I18N_DOMAIN );
-			}
-
-//			if ((isset($d_info['ssl'])) && (strlen($d_info['ssl']))) {
-//				$destination_info['ssl'] = esc_attr($d_info['ssl']);
-//				if (($destination_info['ssl'] != "yes") && ($destination_info['ssl'] != "no"))
-//					$destination_info['ssl'] = "no";
-//			} else {
-//				$destination_info['ssl'] = "no";
-//			}
-
-			if ( ( isset( $d_info['passive'] ) ) && ( strlen( $d_info['passive'] ) ) ) {
-				$destination_info['passive'] = esc_attr( $d_info['passive'] );
-				if ( ( $destination_info['passive'] != "yes" ) && ( $destination_info['passive'] != "no" ) ) {
-					$destination_info['passive'] = "no";
-				}
-
-			} else {
-				$destination_info['passive'] = "no";
-			}
-
-			if ( ( isset( $d_info['port'] ) ) && ( strlen( $d_info['port'] ) ) ) {
-				$destination_info['port'] = intval( $d_info['port'] );
-			}
-
-			if ( ( isset( $d_info['timeout'] ) ) && ( strlen( $d_info['timeout'] ) ) ) {
-				$destination_info['timeout'] = intval( $d_info['timeout'] );
-			}
-
-			if ( ( isset( $d_info['directory'] ) ) && ( strlen( $d_info['directory'] ) ) ) {
-				$destination_info['directory'] = esc_attr( $d_info['directory'] );
-			} else {
-				$destination_info['directory'] = "";
-			}
-
-
-			if ( count( $this->form_errors ) ) {
-				return false;
-			} else {
-				return $destination_info;
-			}
+			return $destination_info;
 		}
 
 		function display_listing_table( $destinations, $edit_url, $delete_url ) {

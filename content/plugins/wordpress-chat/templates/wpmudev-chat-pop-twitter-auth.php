@@ -75,7 +75,7 @@ if ( ( isset( $_GET['oauth_token'] ) ) && ( ! empty( $_GET['oauth_token'] ) )
 	die();
 
 } else {
-	$twitter_connection = new TwitterOAuthChat( $wpmudev_chat->get_option( 'twitter_api_key', 'global' ), $wpmudev_chat->get_option( 'twitter_api_secret', 'global' ) );
+	$twitter_connection = new TwitterOAuthChat( $wpmudev_chat->get_option( 'twitter_api_key', 'global' ), $wpmudev_chat->get_option( 'twitter_api_secret', 'global' ) );	     	 	 	  	  		
 	$query_args         = array(
 		'wpmudev-chat-action' => 'pop-twitter',
 	);

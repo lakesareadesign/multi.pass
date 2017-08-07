@@ -11,10 +11,12 @@ if (get_option('flatty_subscribe_notice') == false) {
 	add_action('admin_notices', 'signNewsletter');
 };
 */
+
 require_once( dirname( __FILE__ ) . '/options/meta.php' );
 require_once( dirname( __FILE__ ) . '/options/login.php' );
 require_once( dirname( __FILE__ ) . '/options/dashboard.php' );
-require_once( dirname( __FILE__ ) . '/options/branding.php' );
+require_once( dirname( __FILE__ ) . '/options/appearance.php' );
+require_once( dirname( __FILE__ ) . '/options/business_card.php' );
 require_once( dirname( __FILE__ ) . '/options/postspages.php' );
 
 ?>

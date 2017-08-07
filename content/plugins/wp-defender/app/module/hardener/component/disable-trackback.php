@@ -5,6 +5,7 @@
 
 namespace WP_Defender\Module\Hardener\Component;
 
+use Hammer\Helper\HTTP_Helper;
 use WP_Defender\Module\Hardener\Model\Settings;
 use WP_Defender\Module\Hardener\Rule;
 
@@ -65,6 +66,9 @@ class Disable_Trackback extends Rule {
 		if ( ! $this->verifyNonce() ) {
 			return;
 		}
+		$process_posts                      = HTTP_Helper::retrieve_post( 'updatePosts' );
+		$this->getService()->process_posts 	= $process_posts;
+
 		$ret = $this->getService()->process();
 		if ( ! is_wp_error( $ret ) ) {
 			Settings::instance()->addToResolved( self::$slug );

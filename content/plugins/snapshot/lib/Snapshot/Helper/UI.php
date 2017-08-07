@@ -169,6 +169,83 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 		}
 
 		/**
+		 * @param $all_destinations
+		 * @param string $selected_destination
+		 * @param string $destinationClasses
+		 */
+		public static function destination_select_radio_boxes( $all_destinations, $selected_destination = '', $destinationClasses = '' )  {
+			$i = 0;
+			$destinations['row1'] = array();
+			$destinations['row2'] = array();
+			foreach ( $all_destinations as $key => $item ) {
+				if(isset( $destinationClasses[$item['type']] )){
+					$item["type_name_display"] = $destinationClasses[$item['type']]->name_display;
+				} else {
+					$item["type_name_display"] = "local";
+					$item["type"] = "local";
+				}
+				$item["key"] = $key;
+				if( $i % 2 == 0){
+					$destinations['row1'][] = $item;
+				} else {
+					$destinations['row2'][] = $item;
+				}
+				$i++;
+			}
+
+			if(! isset( $selected_destination ) ){
+				$selected_destination = "local";
+			}
+			?>
+			<div class="box-gray">
+
+				<div class="radio-destination">
+
+						<?php foreach ( $destinations['row1'] as $destination ) : ?>
+
+						<div class="wps-input--item">
+
+							<div class="wps-input--radio">
+
+								<input data-destination-type="<?php echo $destination['type'] ?>" <?php echo ( $destination['key'] == $selected_destination ) ? "checked" : "" ?> type="radio" name="snapshot-destination" id="snap-<?php echo $destination['key'] ?>" value="<?php echo $destination['key'] ?>" />
+
+								<label for="snap-<?php echo $destination['key'] ?>"></label>
+
+					    </div>
+
+							<label for="snap-<?php echo $destination['key'] ?>"><span><?php echo $destination['name'] ?></span><i class="wps-typecon <?php echo $destination['type'] ?>"></i></label>
+
+					</div>
+
+					<?php endforeach; ?>
+
+						<?php foreach ( $destinations['row2'] as $destination ) : ?>
+
+						<div class="wps-input--item">
+
+							<div class="wps-input--radio">
+
+								<input data-destination-type="<?php echo $destination['type'] ?>" <?php echo ( $destination['key'] == $selected_destination ) ? "checked" : "" ?> type="radio" name="snapshot-destination" id="snap-<?php echo $destination['key'] ?>" value="<?php echo $destination['key'] ?>" />
+
+								<label for="snap-<?php echo $destination['key'] ?>"></label>
+
+						</div>
+
+							<label for="snap-<?php echo $destination['key'] ?>"><span><?php echo $destination['name'] ?></span><i class="wps-typecon <?php echo $destination['type'] ?>"></i></label>
+
+					</div>
+
+					<?php endforeach; ?>
+
+				</div>
+				<?php if( count( $all_destinations ) < 2 ) : ?>
+				<div class="wps-notice"><p><?php printf( __( "You haven't added any third party destinations yet. It's much safer to store your snapshots off-site so we recommend you add <a href='%s'>another destination</a>.", SNAPSHOT_I18N_DOMAIN ), WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations') ); ?></p></div>
+				<?php endif; ?>
+			</div>
+			<?php
+		}
+
+		/**
 		 *
 		 */
 		public static function show_panel_messages() {
@@ -180,6 +257,37 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 
 			} else if ( ! is_writable( $session_save_path ) ) {
 				WPMUDEVSnapshot::instance()->snapshot_admin_notices_proc( "error", sprintf( __( "<p>The session_save_path (%s) is not writeable. Check your PHP (php.ini) settings or contact your hosting provider.</p>", SNAPSHOT_I18N_DOMAIN ), $session_save_path ) );
+			}
+		}
+
+		public static function table_pagination($total = 1,$echo = true){
+
+			$big = 999999999; // need an unlikely integer
+			$paged = ( !isset( $_GET['paged'] ) ) ? 1 : intval( $_GET['paged'] );
+
+			$pages = paginate_links( array(
+					'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+					'format' => '?paged=%#%',
+					'current' => max( 1, $paged ),
+					'total' => $total,
+					'type'  => 'array',
+					'prev_next'   => true,
+					'prev_text'    => __(''),
+					'next_text'    => __(''),
+				)
+			);
+
+			if( is_array( $pages ) ) {
+				$pagination = '';
+				foreach ( $pages as $page ) {
+					$pagination .= "<li class='pagination-number'>$page</li>";
+				}
+
+				if ( $echo ) {
+					echo $pagination;
+				} else {
+					return $pagination;
+				}
 			}
 		}
 

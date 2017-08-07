@@ -10,13 +10,30 @@ class WP_Hummingbird_Module_Performance extends WP_Hummingbird_Module {
 	 * Initializes the Performance Scan
 	 */
 	public static function init_scan() {
-		// Start the test
+		// Clear the cache.
 		self::clear_cache();
 
-		// Start the test
+		// Start the test.
 		self::set_doing_report( true );
 		$api = wphb_get_api();
 		$api->performance->ping();
+	}
+
+	/**
+	 * Do a cron scan.
+	 *
+	 * @return array|mixed|object|WP_Error
+	 */
+	public static function cron_scan() {
+		// Start the test.
+		self::set_doing_report( true );
+		$api = wphb_get_api();
+		$report = $api->performance->check();
+		// Stop the test.
+		self::set_doing_report( false );
+
+		// Return the results.
+		return $report;
 	}
 
 	/**
@@ -31,8 +48,7 @@ class WP_Hummingbird_Module_Performance extends WP_Hummingbird_Module {
 			$last_score = get_site_option( 'wphb-last-report-score' );
 			if ( $last_score && ! is_wp_error( $report ) ) {
 				$report->data->last_score = $last_score;
-			}
-			elseif ( is_object( $report ) && ! is_wp_error( $report ) ) {
+			} elseif ( is_object( $report ) && ! is_wp_error( $report ) ) {
 				$report->data->last_score = false;
 			}
 			return $report;
@@ -61,7 +77,7 @@ class WP_Hummingbird_Module_Performance extends WP_Hummingbird_Module {
 	 * @return bool
 	 */
 	public static function stopped_report() {
-		return (bool)get_site_option( 'wphb-stop-report' );
+		return (bool) get_site_option( 'wphb-stop-report' );
 	}
 
 	/**
@@ -75,9 +91,8 @@ class WP_Hummingbird_Module_Performance extends WP_Hummingbird_Module {
 		if ( ! $status ) {
 			delete_site_option( 'wphb-doing-report' );
 			update_site_option( 'wphb-stop-report', true );
-		}
-		else {
-			// Set time when we started the report
+		} else {
+			// Set time when we started the report.
 			update_site_option( 'wphb-doing-report', current_time( 'timestamp' ) );
 			delete_site_option( 'wphb-stop-report' );
 		}
@@ -92,11 +107,13 @@ class WP_Hummingbird_Module_Performance extends WP_Hummingbird_Module {
 		$results = $api->performance->results();
 
 		if ( is_wp_error( $results ) ) {
-			// It's an error
+			// It's an error.
 			$results = new WP_Error(
 				'performance-error',
 				__( "The performance test didn't return any results. This probably means you're on a local website (which we can't scan) or something went wrong trying to access WPMU DEV. Try again and if this error continues to appear please open a ticket with our support heroes", 'wphb' ),
-				array( 'details' => $results->get_error_message() )
+				array(
+					'details' => $results->get_error_message(),
+				)
 			);
 		}
 
@@ -115,8 +132,7 @@ class WP_Hummingbird_Module_Performance extends WP_Hummingbird_Module {
 			$data_time = $last_report->data->time;
 			if ( ( $data_time + 300 ) < $current_gmt_time ) {
 				return true;
-			}
-			else {
+			} else {
 				$remaining = ceil( ( ( $data_time + 300 ) - $current_gmt_time ) / 60 );
 				return absint( $remaining );
 			}
@@ -131,8 +147,10 @@ class WP_Hummingbird_Module_Performance extends WP_Hummingbird_Module {
 	public static function clear_cache() {
 		$last_report = get_site_option( 'wphb-last-report' );
 		if ( $last_report && isset( $last_report->data->score ) ) {
-			// Save latest score
-			update_site_option( 'wphb-last-report-score', array( 'score' => $last_report->data->score ) );
+			// Save latest score.
+			update_site_option( 'wphb-last-report-score', array(
+				'score' => $last_report->data->score,
+			));
 		}
 
 		delete_site_option( 'wphb-last-report' );

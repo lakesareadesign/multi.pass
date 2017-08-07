@@ -2,20 +2,26 @@
 ///////////////////////////////SETTINGS\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 function login_init() {
 	//LOGIN
-	register_setting("flatty_login", "flatty_logo_hide");
-    
-	register_setting("flatty_login", "flatty_login_style");
-    register_setting("flatty_login", "flatty_login_custom_css");
-    register_setting("flatty_login", "flatty_login_custom_bkg");
-    
-	register_setting("flatty_login", "flatty_login_custom-link");
-	register_setting("flatty_login", "flatty_login_custom-link_title");
-	register_setting("flatty_login", "flatty_login_hide-lostpassword");
-	register_setting("flatty_login", "flatty_login_hide-backtoblog");
-	register_setting("flatty_login", "flatty_login_hide-messages");
-	register_setting("flatty_login", "flatty_login_hide-errors");
-	register_setting("flatty_login", "flatty_login_show-footer");
+	register_setting("flatty_login", "flatty_login_logo_hide");
 
+    register_setting("flatty_login", "flatty_login_logo_customlink_url");
+    register_setting("flatty_login", "flatty_login_logo_customlink_title");
+
+    register_setting("flatty_login", "flatty_login_footer_show");
+    
+    register_setting("flatty_login", "flatty_login_theme_enable");
+	register_setting("flatty_login", "flatty_login_theme");
+    register_setting("flatty_login", "flatty_login_custom_css_enable");
+    register_setting("flatty_login", "flatty_login_custom_css");
+
+    register_setting("flatty_login", "flatty_login_background_enable");
+    register_setting("flatty_login", "flatty_login_background_url");
+    
+	register_setting("flatty_login", "flatty_login_hide_messages");
+	register_setting("flatty_login", "flatty_login_hide_errors");
+    register_setting("flatty_login", "flatty_login_hide_lostpassword");
+    register_setting("flatty_login", "flatty_login_hide_backtoblog");
+	
     register_setting("flatty_login", "flatty_login_recaptcha-use");
     register_setting("flatty_login", "flatty_login_recaptcha-secret");
     register_setting("flatty_login", "flatty_login_recaptcha-site");
@@ -31,313 +37,394 @@ function options_main_login() {
 
 <form method='post' action='options.php'>
 
-	<div class="wrap flatty-form">
-		
-        <div class="page-title">
+    <div class="flatty-header">
+        <div class="flatty-flex">
             <img src="<?php echo plugins_url(FLATTY_PLUGIN_URL . 'assets/flatty-logo.png') ?>" class="flatty-logo"/>
-            <div class="header"><?php _e('Login', 'flatty-flat-admin-theme' ); ?></div>
+            <h1><?php _e('Login', 'flatty-flat-admin-theme' ); ?></h1>
         </div>
-
-        <!--LOGO-->
-		<div id="login-logo" class="postbox flatty">
-			<div class="title">
+        <div class="flatty-row" style="align-items:flex-start; justify-content: flex-end;">
+            <a class="button flatty-button preview" href="..\wp-login.php" target="_blank"><?php _e('View Login', 'flatty-flat-admin-theme' ); ?></a>
+            <div class="flatty-column">
                 <?php
-                    $customLogo = get_option('flatty_custom_logo');
+                    settings_fields('flatty_login');
+                    submit_button('', 'flatty-button update');
                 ?>
-                <?php if ($customLogo !== false && strlen($customLogo) > 0) {
-                    ?>
-                    <img
-                        id="flatty_custom_logo_img"
-                        height="50"
-                        style="
-                            display: block;
-                            position: relative;
-                            max-width: 300px;
-                            padding: 10px;
-                            margin: -40px auto 0;
-                            background-color: #ccc;
-                            border-radius: 10px;
-                            "
-                        <?= ($customLogo !== false && strlen($customLogo) > 0) ? 'src="' . $customLogo . '"' : ''  ?>
-                    />
-                    <?php
-                } else {
-                    ?>
-                        <i class="dashicons dashicons-format-image" style="background-color: #c3c94b;"></i>
-                    <?php
-                }
-                ?>
-                <span><?php _e('Logo', 'flatty-flat-admin-theme' ); ?></span>
+                <p><?php _e('*Don\'t forget to save changes', 'flatty-flat-admin-theme' ); ?></p>
             </div>
+        </div>
+    </div>
 
-            <div class="option">
-                <label for="flatty_logo_hide"><?php _e('Hide logo on login', 'flatty-flat-admin-theme' ); ?></label>
-                <input
-                    type="checkbox"
-                    name="flatty_logo_hide"
-                    id="flatty_logo_hide"
-                    value='1'
-                    <?php checked(1, get_option('flatty_logo_hide')); ?>
-                />
+    <div class="flatty-column">
+
+        <div class="flatty-container" id="appearance">
+            <div class="flatty-container-title" style="background: linear-gradient(135deg, #3F51B5 0%,#2196F3 100%);">
+                <i class="dashicons dashicons-admin-customizer" style="width:auto; height:auto; font-size:50px; margin-bottom:10px;"></i>
+                <span><?php _e('Login Appearance', 'flatty-flat-admin-theme' ); ?></span>
             </div>
-
-            <div id="login-link-url" class="option">
-                <label for="flatty_login_custom-link"><?php _e('Change logo link', 'flatty-flat-admin-theme' ); ?></label>
-                <input
-                    type="text"
-                    name="flatty_login_custom-link"
-                    id="flatty_login_custom-link"
-                    placeholder="http://www.google.com"
-                    value='<?php echo get_option('flatty_login_custom-link'); ?>'
-                />
-                <div class="flatty-description"><?php _e('The link when you click the logo on login', 'flatty-flat-admin-theme' ); ?></div>
+            <div class="flatty-container-content">
+                <!--HIDE LOGO-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_logo_hide"><?php _e('Hide logo on login', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('This will hide Wordpress or custom logo from the Login page.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="checkbox"
+                            name="flatty_login_logo_hide"
+                            id="flatty_login_logo_hide"
+                            value='1'
+                            <?php checked(1, get_option('flatty_login_logo_hide')); ?>
+                        />
+                    </div>
+                </div>
+                <!--HIDE BACK TO BLOG-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_hide_backtoblog"><?php _e('Hide "Back to blog" link', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Add a custom footer to the login page.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="checkbox"
+                            name="flatty_login_hide_backtoblog"
+                            id="flatty_login_hide_backtoblog"
+                            value='1'
+                            <?php checked(1, get_option('flatty_login_hide_backtoblog')); ?>
+                        />
+                    </div>
+                </div>
+                <!--CHANGE LOGIN URL-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_logo_customlink_url"><?php _e('Change URL of the login logo', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Change the default link.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="text"
+                            name="flatty_login_logo_customlink_url"
+                            id="flatty_login_logo_customlink_url"
+                            placeholder="http://www.google.com"
+                            value='<?php echo get_option('flatty_login_logo_customlink_url'); ?>'
+                        />
+                    </div>
+                </div>
+                <!--CHANGE LOGIN TITLE-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_logo_customlink_title"><?php _e('Change the title of the link', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Change the default link title.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="text"
+                            name="flatty_login_logo_customlink_title"
+                            id="flatty_login_logo_customlink_title"
+                            placeholder="http://www.google.com"
+                            value='<?php echo get_option('flatty_login_logo_customlink_title'); ?>'
+                        />
+                    </div>
+                </div>
+                <!--ADD A CUSTOM FOOTER-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_footer_show"><?php _e('Custom Footer', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Add a custom footer to the login page.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="text"
+                            name="flatty_login_footer_show"
+                            id="flatty_login_footer_show"
+                            placeholder="Custom footer"
+                            value='<?php echo get_option('flatty_login_footer_show'); ?>'
+                        />
+                    </div>
+                </div>
             </div>
-
-            <div id="login-link-title" class="option">
-				<label for="flatty_login_custom-link_title"><?php _e('Change logo link title attribute', 'flatty-flat-admin-theme' ); ?></label>
-				<input
-					type="text"
-					name="flatty_login_custom-link_title"
-					id="flatty_login_custom-link_title"
-					placeholder="Leave empty to remove title"
-					value='<?php echo get_option('flatty_login_custom-link_title'); ?>'
-				/>
-                <div class="flatty-description"><?php _e('The title when you hover the link', 'flatty-flat-admin-theme' ); ?></div>
-			</div>
-
         </div>
 
-        <!--BRANDING-->
-        <div id="login-style" class="postbox flatty">
-            <div class="title">
-                <i class="dashicons dashicons-admin-customizer" style="background-color: #e6bc3e;"></i>
-                <span><?php _e('Branding', 'flatty-flat-admin-theme' ); ?></span>
+        <div class="flatty-container" id="theme">
+            <div class="flatty-container-title" style="background: linear-gradient(135deg, #4CAF50 0%,#8BC34A 100%);">
+                <i class="dashicons dashicons-art" style="width:auto; height:auto; font-size:50px; margin-bottom:10px;"></i>
+                <span><?php _e('Login Theme', 'flatty-flat-admin-theme' ); ?></span>
             </div>
-
-            <div class="option">
-                <label for="flatty_login_show-footer"><?php _e('Show custom footer', 'flatty-flat-admin-theme' ); ?></label>
-                <input
-                    type="text"
-                    name="flatty_login_show-footer"
-                    id="flatty_login_show-footer"
-                    placeholder="Custom footer"
-                    value='<?php echo get_option('flatty_login_show-footer'); ?>'
-                />
-                <div class="flatty-description"><?php _e('Leave blank if not necessary', 'flatty-flat-admin-theme' ); ?></div>
-            </div>
-
-            <div class="option">
-                <label for="flatty_login_hide-backtoblog"><?php _e('Hide "back to blog" link', 'flatty-flat-admin-theme' ); ?></label>
-                <input
-                    type="checkbox"
-                    name="flatty_login_hide-backtoblog"
-                    id="flatty_login_hide-backtoblog"
-                    value='1'
-                    <?php checked(1, get_option('flatty_login_hide-backtoblog')); ?>
-                />
-            </div>
-
-            <div id="fl-login-bkg" class="option">
-                <?php
-                    $customLoginBackground = get_option('flatty_login_custom_bkg');
-                ?>
-
-                <img
-                    id="flatty_login_custom_bkg_img"
-                    width="160"
-                    height="80"
-                    style="<?= ($customLoginBackground !== false && strlen($customLoginBackground) > 0) ? 'display:block;' : 'display:none;'  ?>
-                    position: relative; max-width: 300px; padding:4px; margin:0 10px 0 0; background-color:#fff; box-shadow: 0 0 20px #dedede; border-radius:10px;"
-                    <?= ($customLoginBackground !== false && strlen($customLoginBackground) > 0) ? 'src="' . $customLoginBackground . '"' : ''  ?>
-                />
-
-                <label for="flatty_login_custom_bkg"><?php _e('Custom Background', 'flatty-flat-admin-theme' ); ?></label>
-
-                    <input
-                        type="hidden"
-                        name="flatty_login_custom_bkg"
-                        id="flatty_login_custom_bkg"
-                        placeholder="Custom Favicon url"
-                        value='<?php echo get_option('flatty_login_custom_bkg'); ?>'
-                    />
-
-                    <div id="button-remove_login_background"
-                        <?= ($customLoginBackground !== false && strlen($customLoginBackground) > 0) ? 'style="display:block;"' : 'style="display:none;"'  ?>
-                        class="button-remove"><i class="dashicons dashicons-dismiss"></i>
+            <div class="flatty-container-content">
+                <!--USE CUSTOM BACKGROUND-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_background_enable"><?php _e('Enable custom background', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Add a custom background to the page.', 'flatty-flat-admin-theme' ); ?></div>
                     </div>
-
-                    <div id="button-upload_login_background"
-                        <?= ($customLoginBackground !== false && strlen($customLoginBackground) > 0) ? 'style="display:none;"' : 'style="display:block;"'  ?>
-                        class="button button-primary"><?php _e('Upload Background', 'flatty-flat-admin-theme' ); ?>
+                    <div class="flatty-column">
+                        <input
+                            type="checkbox"
+                            name="flatty_login_background_enable"
+                            id="flatty_login_background_enable"
+                            value='1'
+                            <?php checked(1, get_option('flatty_login_background_enable')); ?>
+                        />
                     </div>
-
-                <div class="flatty-description"><?php _e('Recommended image size: 1920px X 1080px', 'flatty-flat-admin-theme' ); ?></div>
-            </div>
-
-        </div>
-
-        <!--THEME-->
-        <div id="login-theme" class="postbox flatty">
-            <div class="title">
-                <i class="dashicons dashicons-admin-appearance" style="background-color: #FF5722;"></i>
-                <span><?php _e('Theme', 'flatty-flat-admin-theme' ); ?></span>
-            </div>
-
-            <div class="option">
-                <label for="flatty_login_theme" style="width:100%; margin-bottom:10px;"><?php _e('Choose login theme', 'flatty-flat-admin-theme' ); ?></label>
-                <fieldset class="flexy-column">
-
-                    <div class="flexy-element">
-                        <?php
-                            echo '<img width="145" height="100" style="border: solid 4px #fff; border-radius: 10px; margin-right: 20px; box-shadow: 0 0 20px #dedede;" src="' . plugins_url( '../../assets/imgs/light.jpg', __FILE__ ) . '" > ';
-                        ?>
-                        <span><?php _e('Light', 'flatty-flat-admin-theme' ); ?></span>
-                        <input type="radio" name="flatty_login_style" value="light" <?php checked( 'light', get_option('flatty_login_style') ) ?> />
+                </div>
+                <!--CUSTOM BACKGROUND-->
+                <div class="flatty-option">
+                    <?php
+                        $customLoginBackground = get_option('flatty_login_background_url');
+                    ?>
+                    <div class="flatty-column">
+                        <label for="flatty_login_background_url"><?php _e('Custom background', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Recommended image size: 1920px X 1080px', 'flatty-flat-admin-theme' ); ?></div>
                     </div>
-                    <div class="flexy-element">
-                        <?php
-                            echo '<img width="145" height="100" style="border: solid 4px #fff; border-radius: 10px; margin-right: 20px; box-shadow: 0 0 20px #dedede;" src="' . plugins_url( '../../assets/imgs/dark.jpg', __FILE__ ) . '" > ';
-                        ?>
-                        <span><?php _e('Dark', 'flatty-flat-admin-theme' ); ?></span>
-                        <input type="radio" name="flatty_login_style" value="dark" <?php checked( 'dark', get_option('flatty_login_style') ) ?> />
+                    <div class="flatty-column">
+                        <!--
+                        <img
+                            id="flatty_login_background_url_img"
+                            width="160"
+                            height="80"
+                            style="<?= ($customLoginBackground !== false && strlen($customLoginBackground) > 0) ? 'display:block;' : 'display:none;'  ?>
+                            position: relative; max-width: 300px; padding:4px; margin:0 10px 0 0; background-color:#fff; box-shadow: 0 0 20px #dedede; border-radius:10px;"
+                            <?= ($customLoginBackground !== false && strlen($customLoginBackground) > 0) ? 'src="' . $customLoginBackground . '"' : ''  ?>
+                        />-->
                     </div>
-                    <div class="flexy-element">
-                        <?php
-                            echo '<img width="145" height="100" style="border: solid 4px #fff; border-radius: 10px; margin-right: 20px; box-shadow: 0 0 20px #dedede;" src="' . plugins_url( '../../assets/imgs/minimal_light.jpg', __FILE__ ) . '" > ';
-                        ?>
-                        <span><?php _e('Minimal Light', 'flatty-flat-admin-theme' ); ?></span>
-                        <input type="radio" name="flatty_login_style" value="minimal-light" <?php checked( 'minimal-light', get_option('flatty_login_style') ) ?>/>
-                    </div>
-                    <div class="flexy-element">
-                        <?php
-                            echo '<img width="145" height="100" style="border: solid 4px #fff; border-radius: 10px; margin-right: 20px; box-shadow: 0 0 20px #dedede;" src="' . plugins_url( '../../assets/imgs/minimal_dark.jpg', __FILE__ ) . '" > ';
-                        ?>
-                        <span><?php _e('Minimal Dark', 'flatty-flat-admin-theme' ); ?></span>
-                        <input type="radio" name="flatty_login_style" value="minimal-dark" <?php checked( 'minimal-dark', get_option('flatty_login_style') ) ?>/>
-                    </div>
-                    <div class="flexy-element">
-                        <div class="">
-                            <?php
-                                echo '<img width="145" height="100" style="border: solid 4px #fff; border-radius: 10px; margin-right: 20px; box-shadow: 0 0 20px #dedede;" src="' . plugins_url( '../../assets/imgs/custom.jpg', __FILE__ ) . '" > ';
-                            ?>
+                    <div class="flatty-column">
+                        <input
+                            type="hidden"
+                            name="flatty_login_background_url"
+                            id="flatty_login_background_url"
+                            value='<?php echo get_option('flatty_login_background_url'); ?>'
+                        />
+                        <div id="button_flatty_login_background_remove"
+                            <?= ($customLoginBackground !== false && strlen($customLoginBackground) > 0) ? 'style="display:block;"' : 'style="display:none;"'  ?>
+                            class="button-remove"><i class="dashicons dashicons-dismiss"></i>
                         </div>
-                        <div class="flexy-column">
-                            <div class="flexy-element" style="width:100%;">
-                                <span><?php _e('Custom CSS', 'flatty-flat-admin-theme' ); ?></span>
-                                <input type="radio" name="flatty_login_style" value="custom_css" <?php checked( 'custom_css', get_option('flatty_login_style') ) ?>/>
-                            </div>
-                            <textarea name="flatty_login_custom_css" style="width:100%;"><?php echo get_option('flatty_login_custom_css'); ?></textarea>  
+                        <div id="button_flatty_login_background_upload"
+                            <?= ($customLoginBackground !== false && strlen($customLoginBackground) > 0) ? 'style="display:none;"' : 'style="display:block;"'  ?>
+                            class="button button-primary"><?php _e('Upload Background', 'flatty-flat-admin-theme' ); ?>
                         </div>
                     </div>
-                
-                </fieldset>
+                </div>
+                <!--USE CUSTOM THEME-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_theme_enable"><?php _e('Enable custom theme', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Enable custom theme for login page.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="checkbox"
+                            name="flatty_login_theme_enable"
+                            id="flatty_login_theme_enable"
+                            value='1'
+                            <?php checked(1, get_option('flatty_login_theme_enable')); ?>
+                        />
+                    </div>
+                </div>
+                <!--CUSTOM THEME-->
+                <div class="flatty-option">
+                    <fieldset class="flatty-column">
+                        <div class="flatty-row">
+                            <label for="flatty_login_theme_light">
+                                <?php _e('Light theme', 'flatty-flat-admin-theme' ); ?></label>
+                                <div class="flatty-preview login-light"></div>
+                            </label>
+                            <input type="radio" name="flatty_login_theme" value="light" <?php checked( 'light', get_option('flatty_login_theme') ) ?> />
+                        </div>
+                        <div class="flatty-row">
+                            <label for="flatty_login_theme_minimal_light">
+                                <?php _e('Minimal Light theme', 'flatty-flat-admin-theme' ); ?></label>
+                                <div class="flatty-preview login-minimal-light"></div>
+                            </label>
+                            <input type="radio" name="flatty_login_theme" value="minimal_light" <?php checked( 'minimal_light', get_option('flatty_login_theme') ) ?> />
+                        </div>
+                        <div class="flatty-row">
+                            <label for="flatty_login_theme_dark">
+                                <?php _e('Dark theme', 'flatty-flat-admin-theme' ); ?></label>
+                                <div class="flatty-preview login-dark"></div>
+                            </label>
+                            <input type="radio" name="flatty_login_theme" value="dark" <?php checked( 'dark', get_option('flatty_login_theme') ) ?> />
+                        </div>
+                        <div class="flatty-row">
+                            <label for="flatty_login_theme_minimal_dark">
+                                <?php _e('Minimal Dark theme', 'flatty-flat-admin-theme' ); ?></label>
+                                <div class="flatty-preview login-minimal-dark"></div>
+                            </label>
+                            <input type="radio" name="flatty_login_theme" value="minimal_dark" <?php checked( 'minimal_dark', get_option('flatty_login_theme') ) ?> />
+                        </div>
+                    </fieldset> 
+                </div>
             </div>
-
         </div>
 
-        <!--SECURITY-->
-        <div id="login-security" class="postbox flatty">
-            <div class="title">
-                <i class="dashicons dashicons-lock" style="background-color: #41535e;"></i>
+        <div class="flatty-container" id="custom-css">
+            <div class="flatty-container-title" style="background: linear-gradient(135deg, #a97a36 0%,#af3c18 100%);">
+                <i class="dashicons dashicons-tagcloud" style="width:auto; height:auto; font-size:50px; margin-bottom:10px;"></i>
+                <span><?php _e('Custom CSS', 'flatty-flat-admin-theme' ); ?></span>
+            </div>
+            <div class="flatty-container-content">
+                <!--ENABLE CUSTOM CSS-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_custom_css_enable"><?php _e('Enable custom css', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Enable custom css for login page.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="checkbox"
+                            name="flatty_login_custom_css_enable"
+                            id="flatty_login_custom_css_enable"
+                            value='1'
+                            <?php checked(1, get_option('flatty_login_custom_css_enable')); ?>
+                        />
+                    </div>
+                </div>
+                <!--CUSTOM CSS-->
+                <div class="flatty-option">
+                    <div class="flatty-column" style="justify-content:flex-start;">
+                        <label for="flatty_login_custom_css"><?php _e('Custom css', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Use custom css for the login page.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column" style="flex-grow: 1; margin-left: 20px;">
+                        <textarea name="flatty_login_custom_css" style="min-height:150px;">
+                            <?php echo get_option('flatty_login_custom_css'); ?>
+                        </textarea> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flatty-container" id="security">
+            <div class="flatty-container-title" style="background: linear-gradient(135deg, #31373a 0%,#807070 100%);">
+                <i class="dashicons dashicons-lock" style="width:auto; height:auto; font-size:50px; margin-bottom:10px;"></i>
                 <span><?php _e('Security', 'flatty-flat-admin-theme' ); ?></span>
+                <div style="font-size:12px;padding:20px; margin:0;"><?php _e('Visit', 'flatty-flat-admin-theme' ); ?> <a style="color:yellow" href="https://www.google.com/recaptcha/admin" target="_blank"><?php _e('this link', 'flatty-flat-admin-theme' ); ?></a> <?php _e('and register your domain to obtain the Google Recaptcha API keys.', 'flatty-flat-admin-theme' ); ?></div>
             </div>
-
-            <div class="option">
-                <label for="flatty_login_recaptcha-use"><?php _e('Use Google Recaptcha', 'flatty-flat-admin-theme' ); ?></label>
-                <input
-                    type="checkbox"
-                    name="flatty_login_recaptcha-use"
-                    id="flatty_login_recaptcha-use"
-                    value='1'
-                    <?php checked(1, get_option('flatty_login_recaptcha-use')); ?>
-                />
-            </div>
-
-            <div id="google-recaptcha-config" style="background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%,rgba(0,0,0,.02) 50%); border-bottom: solid 1px #ECECEC;">
-
-                <div style="font-size:12px;padding:20px; margin:0;"><?php _e('Visit', 'flatty-flat-admin-theme' ); ?> <a href="https://www.google.com/recaptcha/admin" target="_blank"><?php _e('this link', 'flatty-flat-admin-theme' ); ?></a> <?php _e('and register your domain to obtain the Google Recaptcha API keys.', 'flatty-flat-admin-theme' ); ?></div>
-
-                <div class="option">
-                    <label for="flatty_login_recaptcha-site"><?php _e('Google Site Key', 'flatty-flat-admin-theme' ); ?></label>
-                    <input
-                        type="text"
-                        name="flatty_login_recaptcha-site"
-                        id="flatty_login_recaptcha-site"
-                        placeholder="Google Site Key"
-                        value='<?php echo get_option('flatty_login_recaptcha-site'); ?>'
-                    />
+            <div class="flatty-container-content">
+                <!--RECAPTCHA-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_recaptcha"><?php _e('Use Google Recaptcha', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Protect your login from Bots.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="checkbox"
+                            name="flatty_login_recaptcha-use"
+                            id="flatty_login_recaptcha-use"
+                            value='1'
+                            <?php checked(1, get_option('flatty_login_recaptcha-use')); ?>
+                        />
+                    </div>
                 </div>
-
-                <div class="option">
-                    <label for="flatty_login_recaptcha-secret"><?php _e('Google Secret Key', 'flatty-flat-admin-theme' ); ?></label>
-                    <input
-                        type="text"
-                        name="flatty_login_recaptcha-secret"
-                        id="flatty_login_recaptcha-secret"
-                        placeholder="Google Secret Key"
-                        value='<?php echo get_option('flatty_login_recaptcha-secret'); ?>'
-                    />
-                    <div class="flatty-description"><?php _e('Do not share this key to anyone.', 'flatty-flat-admin-theme' ); ?></div>
+                <!--GOOGLE SITE KEY-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_recaptcha-site"><?php _e('Google Site Key', 'flatty-flat-admin-theme' ); ?></label>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="text"
+                            name="flatty_login_recaptcha-site"
+                            id="flatty_login_recaptcha-site"
+                            placeholder="Google Site Key"
+                            value='<?php echo get_option('flatty_login_recaptcha-site'); ?>'
+                        />
+                    </div>
                 </div>
-
-                <div class="option">
-                    <label for="flatty_login_recaptcha-error"><?php _e('Use this custom error when fails', 'flatty-flat-admin-theme' ); ?></label>
-                    <input
-                        type="text"
-                        name="flatty_login_recaptcha-error"
-                        id="flatty_login_recaptcha-error"
-                        placeholder="Custom error"
-                        value='<?php echo get_option('flatty_login_recaptcha-error'); ?>'
-                    />
-                    <div class="flatty-description"> <?php _e('Shows when a user fails to check the box.', 'flatty-flat-admin-theme' ); ?></div>
+                <!--GOOGLE SECRET KEY-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_recaptcha-secret"><?php _e('Google Secret Key', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Do not share this key to anyone.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="text"
+                            name="flatty_login_recaptcha-secret"
+                            id="flatty_login_recaptcha-secret"
+                            placeholder="Google Secret Key"
+                            value='<?php echo get_option('flatty_login_recaptcha-secret'); ?>'
+                        />
+                    </div>
+                </div>
+                <!--GOOGLE ERROR-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_recaptcha-error"><?php _e('Use this custom error when fails', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"> <?php _e('Shows when a user fails to check the box.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="text"
+                            name="flatty_login_recaptcha-error"
+                            id="flatty_login_recaptcha-error"
+                            placeholder="Custom error"
+                            value='<?php echo get_option('flatty_login_recaptcha-error'); ?>'
+                        />
+                    </div>
                 </div>
             </div>
-
-            <div class="option">
-				<label for="flatty_login_hide-errors"><?php _e('Hide login errors', 'flatty-flat-admin-theme' ); ?></label>
-				<input
-					type="checkbox"
-					name="flatty_login_hide-errors"
-					id="flatty_login_hide-errors"
-					value='1'
-					<?php checked(1, get_option('flatty_login_hide-errors')); ?>
-				/>
-			</div>
-
-            <div class="option">
-                <label for="flatty_login_hide-lostpassword"><?php _e('Hide "lost password" link', 'flatty-flat-admin-theme' ); ?></label>
-                <input
-                    type="checkbox"
-                    name="flatty_login_hide-lostpassword"
-                    id="flatty_login_hide-lostpassword"
-                    value='1'
-                    <?php checked(1, get_option('flatty_login_hide-lostpassword')); ?>
-                />
-            </div>
-
-            <div class="option">
-				<label for="flatty_login_hide-messages"><?php _e('Hide every notices and messages', 'flatty-flat-admin-theme' ); ?></label>
-				<input
-					type="checkbox"
-					name="flatty_login_hide-messages"
-					id="flatty_login_hide-messages"
-					value='1'
-					<?php checked(1, get_option('flatty_login_hide-messages')); ?>
-				/>
-                <div class="flatty-description"><?php _e('Like "You are now logged out"', 'flatty-flat-admin-theme' ); ?></div>
-			</div>
-
         </div>
 
-	</div>
+    </div>
 
-	<div class="buttons-container">
-		<?php
-			settings_fields('flatty_login');
-			submit_button('', 'primary large flatty-button-update');
-		?>
-		<div class="flatty-single"><?php _e('*Don\'t forget to save changes', 'flatty-flat-admin-theme' ); ?></div>
-	</div>
+        <div class="flatty-container" id="misc">
+            <div class="flatty-container-title" style="background: linear-gradient(135deg, #607D8B 0%,#9E9E9E 100%);">
+                <i class="dashicons dashicons-admin-network" style="width:auto; height:auto; font-size:50px; margin-bottom:10px;"></i>
+                <span><?php _e('Misc', 'flatty-flat-admin-theme' ); ?></span>
+            </div>
+            <div class="flatty-container-content">
+                <!--HIDE LOGIN MESSAGES-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_hide_messages"><?php _e('Hide login messages', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Hide every kind of message on login page.', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="checkbox"
+                            name="flatty_login_hide_messages"
+                            id="flatty_login_hide_messages"
+                            value='1'
+                            <?php checked(1, get_option('flatty_login_hide_messages')); ?>
+                        />
+                    </div>
+                </div>
+                <!--HIDE LOGIN ERROR-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_hide_errors"><?php _e('Hide login errors', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Hide every message of error on the login page (like wrong password).', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="checkbox"
+                            name="flatty_login_hide_errors"
+                            id="flatty_login_hide_errors"
+                            value='1'
+                            <?php checked(1, get_option('flatty_login_hide_errors')); ?>
+                        />
+                    </div>
+                </div>
+                <!--HIDE LOGIN LOST PASSWORD-->
+                <div class="flatty-option">
+                    <div class="flatty-column">
+                        <label for="flatty_login_hide_lostpassword"><?php _e('Hide "Lost Password" link', 'flatty-flat-admin-theme' ); ?></label>
+                        <div class="flatty-description"><?php _e('Hide the lost password link (reduce spam).', 'flatty-flat-admin-theme' ); ?></div>
+                    </div>
+                    <div class="flatty-column">
+                        <input
+                            type="checkbox"
+                            name="flatty_login_hide_lostpassword"
+                            id="flatty_login_hide_lostpassword"
+                            value='1'
+                            <?php checked(1, get_option('flatty_login_hide_lostpassword')); ?>
+                        />
+                    </div>
+                </div>
+                
+            </div>
+        </div>
 
 </form>
 

@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads, slide in call outs, fly ins, like to download, social media share buttons
 Requires at least: 3.8
-Tested up to: 4.8
-Stable Tag: 3.2.2
+Tested up to: 4.8.1
+Stable Tag: 3.3.1
 
 Create Calls to Action for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own CTA templates and more.
 
@@ -43,9 +43,9 @@ You can quickly take your existing designs and implement them using our <a href=
 The plugin is also fully extendable and has a number of actions, filters, and hooks available for use. If a hook doesn't exist, simply ask and we can implement custom changes.
 
 
-[Follow Development on GitHub ](https://github.com/inboundnow/cta "Follow & Contribute to core development on GitHub")
+[Contribute to Code](https://github.com/inboundnow/inbound-pro/core/cta "Follow & Contribute to core development on GitHub")
  |
-[Follow Development on Twitter ](https://twitter.com/gitcta "See our latest development commits on Twitter")
+[Follow on Twitter ](https://twitter.com/inboundnow "Stay Notified")
 
 == Installation ==
 
@@ -68,6 +68,27 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+
+= 3.3.1 =
+* Addign methods to Inbound_Events class.
+
+= 3.2.9 =
+* Preventing lead data recovery AJAX script from firing more than once per session.
+
+= 3.2.8 =
+* Updating docblocks
+* [Restored] Impression tracking was failing in select theme environments.
+
+= 3.2.6 =
+* Updating compatibility to WordPress 4.8
+* Updating shared files
+
+= 3.2.5 =
+* Removing jQuery reference from frontend tracking JS.
+* Checks if event table already exists before trying to create it.
+* Fixing issue with double optin not allowing custom template select for Inbound Pro subscribers.
+* Fixing issue with ability to mass delete leads from lead listing page.
+* Better select2 compatibility to prevent plugin conflicts using legacy select2
 
 = 3.2.2 =
 * Debugging split testing disable feature.

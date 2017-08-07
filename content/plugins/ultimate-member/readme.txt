@@ -1,42 +1,39 @@
-﻿=== Ultimate Member ===
+=== Ultimate Member - User Profile & Membership Plugin ===
 Author URI: https://ultimatemember.com/
 Plugin URI: https://ultimatemember.com/
 Contributors: ultimatemember, champsupertramp
 Donate link: 
 Tags: community, member, membership, user-profile, user-registration
 Requires at least: 4.1
-Tested up to: 4.7.3
-
-Stable Tag: 1.3.84
-
+Tested up to: 4.8
+Stable tag: 1.3.88
 License: GNU Version 2 or Any Later Version
+License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
-The easiest way to create powerful online communities and beautiful user profiles with WordPress
+The #1 user profile & membership plugin for WordPress.
 
 == Description ==
 
-Ultimate Member is a powerful and flexible plugin that makes it a breeze for users to sign-up and become members. The plugin allows you to add beautiful user profiles to your site and is perfect for creating advanced online communities. Lightweight and highly extendible, Ultimate Member will enable you to create almost any type of site where users can join and become members with absolute ease.
+= Best User Profile & Membership Plugin for WordPress =
+
+Ultimate Member is the #1 user profile & membership plugin for WordPress. The plugin makes it a breeze for users to sign-up and become members of your website. The plugin allows you to add beautiful user profiles to your site and is perfect for creating advanced online communities and membership sites. Lightweight and highly extendible, Ultimate Member will enable you to create almost any type of site where users can join and become members with absolute ease.
 
 = Features of the plugin include: =
 
+* Front-end user profiles
 * Front-end user registration
 * Front-end user login
-* Front-end user profiles
 * Custom form fields
 * Conditional logic for form fields
 * Drag and drop form builder
 * User account page
 * Custom user roles
-* Searchable member directories
-* Custom e-mail templates
+* Member directories
+* User emails
 * Content restriction
-* Conditional menus
+* Conditional nav menus
 * Show author posts & comments on user profiles
-* Mobile adaptive & responsive
-* SEO optimized
 * Developer friendly with dozens of actions and filters
-* Multi-site compatibility
-* Mandrill compatibility
 
 Read about all of the plugin's features at [Ultimate Member](https://ultimatemember.com)
 
@@ -63,43 +60,20 @@ Ultimate Member has a range of extensions that allow you to extend the power of 
 
 = Free Extensions =
 
+* [Terms & Conditions](https://ultimatemember.com/extensions/terms-conditions/) - Add a terms and condition checkbox to your registration forms & require users to agree to your T&Cs before registering on your site.
 * [Google reCAPTCHA](https://ultimatemember.com/extensions/google-recaptcha/) - Stop bots on your registration & login forms with Google reCAPTCHA
 * [Online Users](https://ultimatemember.com/extensions/online-users/) - Display what users are online with this extension
 
-= Development =
+= Development * Translations =
 
 If you're a developer and would like to contribute to the source code of the plugin you can do so via our [GitHub Repository](https://github.com/ultimatemember/ultimatemember).
 
+Want to add a new language to Ultimate Member? Great! You can contribute via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/ultimate-member).
+
 = Documentation & Support =
 
-Got a problem or need help with Ultimate Member? Head over to our [documentation](http://docs.ultimatemember.com/) and perform a search of the knowledge base. If you can’t find a solution to your issue then you can create a [support ticket](https://ultimatemember.com/support-contact/).
+Got a problem or need help with Ultimate Member? Head over to our [documentation](http://docs.ultimatemember.com/) and perform a search of the knowledge base. If you can’t find a solution to your issue then you can create a topic on the [support forum](https://wordpress.org/support/plugin/ultimate-member).
 
-= Languages =
-
-Ultimate Member has been translated into the following languages:
-
-* English (US)
-* Spanish - Español
-* Spanish (Mexico) - Español (México)
-* French - Français
-* Italian - Italiano
-* German - Deutsch
-* Dutch - Nederlands
-* Brazilian Portuguese - Português do Brasil
-* Finnish - Suomi
-* Romanian - Română
-* Danish - Dansk
-* Swedish - Svenska
-* Polish - Polski
-* Czech
-* Greek
-* Indonesian
-* Simplified Chinese
-* Russian - Русский
-* Turkish - Türkçe
-* Farsi - فارسى
-* Hebrew
-* العربية
 
 == Installation ==
 
@@ -150,6 +124,62 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 
 == Changelog ==
 
+
+= 1.3.88: July 25, 2017 =
+
+* Enhancements:
+  - Add new filter hook `um_add_user_frontend_submitted`
+  - Add class for member tagline in directory grid `um-member-tagline-<field key>`
+  - Add recaptcha support and submit button id
+  - Update extensions page layout
+ 
+* Bugfixes:
+  - Fix Conditional Logic fields
+  - Fix required field with specific roles in privacy
+  - Remove wpautop from biography
+  - Remove notices
+
+= 1.3.87: June 24, 2017 =
+
+* Bugfixes
+  - Fix system info
+
+= 1.3.86: June 19, 2017 =
+
+* Enhancements:
+  - Update readme.txt
+  
+
+= 1.3.85: June 19, 2017 =
+
+* Enhancements:
+  * Add new filter hook to modify the profile cancel uri for redirection
+    * `um_edit_profile_cancel_uri`
+  * Add new filter hook to modify the specific field type's value
+    * `um_edit_{$type}_field_value`
+  * Add new filter hook that modies the file name
+    * `um_upload_file_name`
+  * Update en_US translation files
+
+* Bugfixes:
+  * Fix file clean up with image/file fields on profile update
+  * Fix text domain slug for wp.org translation compatibility
+  * Fix change password email notification
+  * Fix double click submission in registration forms
+  * Fix custom field role validation
+  * Fix conditional logic 'content block' field
+  * Fix conditional logic field operators and visibility
+  * Fix textarea field sanitation
+  * Fix system info false positive virus scan results
+  * Fix field validation for minimum and maximum numeric values
+  * Fix used custom fields visibility in form builders
+  * Fix cache user's profile option description
+  * Fix double click for android device
+  * Fix png image upload with transparency
+  * Fix extra slashes in form edit view when invalid input fields occur
+  * Remove notices
+  
+  
 = 1.3.84: April 18, 2017 =
 
 * Enhancements:

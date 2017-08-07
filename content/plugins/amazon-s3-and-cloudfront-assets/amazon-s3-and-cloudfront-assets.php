@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP Offload S3 - Assets Addon
-Plugin URI: http://deliciousbrains.com/wp-offload-s3/#addons
+Plugin URI: https://deliciousbrains.com/wp-offload-s3/doc/assets-addon/
 Description: WP Offload S3 addon to serve your site's JS, CSS and other assets from S3. Requires Pro Upgrade.
 Author: Delicious Brains
-Version: 1.2.4
-Author URI: http://deliciousbrains.com
+Version: 1.2.5
+Author URI: https://deliciousbrains.com
 Network: True
 
 // Copyright (c) 2015 Delicious Brains. All rights reserved.
@@ -23,7 +23,7 @@ Network: True
 
 require_once dirname( __FILE__ ) . '/version.php';
 
-$as3cfpro_plugin_version_required = '1.4';
+$as3cfpro_plugin_version_required = '1.5';
 
 require dirname( __FILE__ ) . '/classes/wp-aws-compatibility-check.php';
 global $as3cf_assets_compat_check;

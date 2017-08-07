@@ -3,8 +3,9 @@
  *
  * Runs init functions
  *
- * @author David Wells <david@inboundnow.com>
- * @version 0.0.1
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
+ * @version 0.0.2
  */
 
 

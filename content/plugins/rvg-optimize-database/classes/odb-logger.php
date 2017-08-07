@@ -1,25 +1,22 @@
 <?php
-class ODB_Logger
-{
+class ODB_Logger {
 	/********************************************************************************************
 	 *	CONSTRUCTOR
 	 ********************************************************************************************/	
-    function __construct()
-    {
+    function __construct() {
 	} // __construct()
 	
 
 	/********************************************************************************************
 	 *	WRITE RESULTS TO LOG FILE
 	 ********************************************************************************************/	
-	function write_log()
-	{	
+	function write_log() {	
 		global $odb_class;
 
-		if($odb_class->odb_rvg_options['logging_on'] == "Y")
-		{	$file = $odb_class->odb_logfile_path;
-			if(!file_exists($file))
-			{	// NEW LOG FILE
+		if($odb_class->odb_rvg_options['logging_on'] == "Y") {
+			$file = $odb_class->odb_logfile_path;
+			if(!file_exists($file)) {
+				// NEW LOG FILE
 				$html = '
 <!doctype html>
 <html>
@@ -100,16 +97,14 @@ td {
 	/********************************************************************************************
 	 *	ADD A MESSAGE TO THE DEBUG LOG FILE
 	 ********************************************************************************************/		
-	function write_debug_log($msg)
-	{
+	function write_debug_log($msg) {
 		global $odb_class;
 		
-		if (defined('WP_DEBUG') && WP_DEBUG)
-		{	// ONLY USE THIS LOG IN DEBUG MODE
+		if (defined('WP_DEBUG') && WP_DEBUG) {
+			// ONLY USE THIS LOG IN DEBUG MODE
 			$file = $odb_class->odb_logfile_debug_path;
 			$txt  = Date('Y/m/d H:i:s').' '.$msg."\n";
 			file_put_contents($file, $txt, FILE_APPEND);
 		}
 	} // write_debug_log()
-	
 } // ODB_Logger

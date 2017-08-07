@@ -1,7 +1,6 @@
 <?php
 /*
-Plugin Name: Custom Admin CSS
-Plugin URI:
+Plugin Name: Admin CSS
 Description: Add extra CSS to the admin panel
 Author: Barry (Incsub)
 Version: 1.0.1
@@ -31,8 +30,8 @@ class ub_custom_admin_css extends ub_helper {
 
 	function __construct() {
 		parent::__construct();
-		add_action( 'ultimatebranding_settings_menu_css', array( &$this, 'custom_admin_css_options' ) );
-		add_filter( 'ultimatebranding_settings_menu_css_process', array( &$this, 'update_custom_admin_css' ), 10, 1 );
+		add_action( 'ultimatebranding_settings_css', array( &$this, 'custom_admin_css_options' ) );
+		add_filter( 'ultimatebranding_settings_css_process', array( &$this, 'update_custom_admin_css' ), 10, 1 );
 
 		add_action( 'admin_head', array( &$this, 'custom_admin_css_output' ), 99 );
 	}
@@ -81,7 +80,7 @@ class ub_custom_admin_css extends ub_helper {
 
 ?>
             <div class="postbox">
-            <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Custom Admin CSS', 'ub' ) ?></span></h3>
+            <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Admin CSS', 'ub' ) ?></span></h3>
             <div class="inside">
                 <table class="form-table">
                     <tr valign="top">

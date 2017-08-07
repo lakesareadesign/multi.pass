@@ -107,7 +107,7 @@ class Downloader extends Modal_Tool {
 		$limit_sql = $offset_sql = $where_sql = '';
 
 		if ( $count ) {
-			$select_sql = 'SELECT COUNT(*)';
+			$select_sql = 'SELECT COUNT(DISTINCT pm.post_id)';
 			$action     = 'get_var';
 		} else {
 			$select_sql = "SELECT pm.`post_id` as ID, pm.`meta_value` as 'data', {$blog_id} AS 'blog_id'";
@@ -127,10 +127,11 @@ class Downloader extends Modal_Tool {
 			$action = 'get_results';
 		}
 
-		$sql = $select_sql . ' ';
-		$sql .= "FROM `{$prefix}postmeta` pm
-				WHERE pm.`meta_key` = 'amazonS3_info'";
-		$sql .= ' ' . $where_sql;
+		$sql = $select_sql . " FROM `{$prefix}postmeta` pm";
+		$sql .= " INNER JOIN `{$prefix}posts` p
+				ON pm.`post_id` = p.`ID`";
+
+		$sql .= ' ' . "WHERE pm.`meta_key` = 'amazonS3_info' $where_sql";
 		$sql .= ' ' . $offset_sql;
 		$sql .= ' ORDER BY pm.`post_id`';
 		$sql .= ' ' . $limit_sql;
@@ -195,19 +196,12 @@ class Downloader extends Modal_Tool {
 	 * Register the modal for plugin deactivation
 	 */
 	public function deactivate_plugin_assets() {
-		$version   = $this->as3cf->get_asset_version();
-		$suffix    = $this->as3cf->get_asset_suffix();
-		$file_path = $this->as3cf->get_plugin_file_path();
+		$this->as3cf->enqueue_script( 'as3cf-pro-tool-downloader-script', 'assets/js/pro/tool-downloader', array( 'as3cf-modal' ) );
 
-		$src = plugins_url( 'assets/js/pro/tool-downloader' . $suffix . '.js', $file_path );
-		wp_enqueue_script( 'as3cf-pro-tool-downloader-script', $src, array( 'as3cf-modal' ), $version, true );
-
-		$args = array(
+		wp_localize_script( 'as3cf-pro-tool-downloader-script', 'as3cfpro_downloader', array(
 			'plugin_url'  => $this->as3cf->get_plugin_page_url( array( 'tool' => $this->tool_key ) ),
 			'plugin_slug' => $this->as3cf->get_plugin_row_slug(),
-		);
-
-		wp_localize_script( 'as3cf-pro-tool-downloader-script', 'as3cfpro_downloader', $args );
+		) );
 
 		wp_enqueue_style( 'as3cf-modal' );
 	}

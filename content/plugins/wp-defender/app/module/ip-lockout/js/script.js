@@ -2,6 +2,7 @@ jQuery(function ($) {
     //bind form handler for every form inside scan section
     WDIP.formHandler();
     WDIP.listenFilter();
+    WDIP.pullSummaryData();
 
     $('div.iplockout').on('form-submitted', function (e, data, form) {
         if (form.attr('id') != 'settings-frm') {
@@ -99,24 +100,33 @@ jQuery(function ($) {
     });
     $('body').on('click', '.empty-logs', function () {
         var that = $(this);
+        cleaningLog(that);
+    });
+
+    function cleaningLog(button) {
         $.ajax({
             type: 'POST',
             url: ajaxurl,
             data: {
                 action: 'lockoutEmptyLogs',
-                nonce: that.data('nonce')
+                nonce: button.data('nonce')
             },
             beforeSend: function () {
-                that.attr('disabled', 'disabled');
+                button.attr('disabled', 'disabled');
+                button.text('Deleting logs...');
+                button.css('cursor', 'wait');
             },
             success: function (data) {
                 if (data.success) {
                     Defender.showNotification('success', data.data.message);
-                    that.removeAttr('disabled');
+                    button.removeAttr('disabled');
+                    location.reload();
+                } else {
+                    cleaningLog(button);
                 }
             }
         })
-    })
+    }
 
     $('input[name="login_protection"], input[name="detect_404"]').change(function () {
         $('#settings-frm').submit();
@@ -223,4 +233,29 @@ WDIP.buildFilterQuery = function () {
         query.push(jq(this).attr('name') + '=' + jq(this).val());
     });
     return query.join('&');
+};
+
+WDIP.pullSummaryData = function () {
+    var jq = jQuery;
+    var box = jq('#lockoutSummary');
+    if (box.size() > 0) {
+        jq.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                action: 'lockoutSummaryData',
+                nonce: jq('#summaryNonce').val()
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    jq('.lockoutToday').text(data.data.lockoutToday);
+                    jq('.lockoutThisMonth').text(data.data.lockoutThisMonth);
+                    jq('.lastLockout').text(data.data.lastLockout);
+                    jq('.loginLockoutThisWeek').text(data.data.loginLockoutThisWeek);
+                    jq('.lockout404ThisWeek').text(data.data.lockout404ThisWeek);
+                    box.find('.wd-overlay').remove();
+                }
+            }
+        })
+    }
 }

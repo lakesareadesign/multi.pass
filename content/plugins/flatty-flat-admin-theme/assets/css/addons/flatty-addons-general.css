@@ -1,50 +1,80 @@
 /*--------------------------------------
-SITE NAME
+BUSINESS WIDGET
 ---------------------------------------*/
-.flatty-site-name {
-  display: block;
-  position: relative;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 20px 40px;
-  font-size: 50px;
-  line-height: 50px;
-  font-weight: 300;
-  color: #fff;
-  text-align: center;
-  z-index: 2;
+.business_card_widget_content {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    padding: 20px 18px 20px 18px;
+    margin:-12px;
+    background-color: #00BCD4;
+    color: #fff;
+    text-align: center;
 }
-
-.flatty-site-name.small {
-  font-size:20px;
-  font-weight: 600;
-  line-height: 20px;
+.business_card_widget_content.nomargin {
+    margin: -56px -12px;
+    border-radius: 10px;
 }
-
-.admin-color-light .flatty-site-name {
-    color:#333;
-    background-color: #fff;
+.business_card_widget_content .business_card_widget_inner {
+    display: flex;
+    flex-wrap: wrap;
 }
-
+.business_card_widget_content .business_card_widget_data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    margin-left: 30px;
+}
+.business_card_widget_content .card-picture {
+    display: block;
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.39);
+}
+.business_card_widget_content .card-company {
+    display:block;
+    position:relative;
+    font-size:36px;
+    height:36px;
+    font-weight:200;
+}
+.business_card_widget_content .card-firstname {
+    display:inline-block;
+    position:relative;
+    font-size:18px;
+    font-weight:400;
+    margin:5px 0 0;
+}
+.business_card_widget_content a.card-icon {
+    width:20px;
+    height:20px;
+    font-size:20px;
+    color:inherit;
+    margin-right:10px;
+}
 /*--------------------------------------
 FLATTY CUSTOM FOOTER
 ---------------------------------------*/
 .flatty-custom-footer {
-    display:flex;
+    display: flex;
     align-items: flex-start;
     justify-content: flex-end;
-    position:absolute;
+    position: absolute;
     box-sizing: border-box;
-    padding:10px 40px;
-    bottom:0;
-    right:0;
-    width: calc(100% - 180px);
-    font-size:100%;
-    margin-left: 180px;
-    margin-right: 20px;
+    padding: 10px 0;
+    bottom: 0;
+    right: 0;
+    width: calc(100% - 200px);
+    font-size: 100%;
+    margin-left: 160px;
+    margin-right: 60px;
     z-index: 9;
 }
-
 .flatty-custom-footer-item {
     display: flex;
     position: relative;
@@ -52,11 +82,20 @@ FLATTY CUSTOM FOOTER
     color: #aaa;
     margin-left:20px;
 }
-
 .flatty-custom-footer-item i {
     margin-right:8px;
 }
-
+/*--------------------------------------
+LAPTOP
+---------------------------------------*/
+@media only screen and (max-width: 1280px) {
+  .flatty-custom-footer {
+    margin-right:20px;
+  }
+}
+/*--------------------------------------
+TABLET
+---------------------------------------*/
 @media only screen and (max-width: 960px) {
     .flatty-site-name {
         padding: 1rem;
@@ -64,37 +103,28 @@ FLATTY CUSTOM FOOTER
     }
 
 }
+/*--------------------------------------
+MOBILE
+---------------------------------------*/
 @media only screen and (max-width: 782px) {
     .flatty-top-bar-logo {
         display: none;
-        /*
-        position: relative;
-        top:0;
-        left:0;
-        margin:10px 0;
-        */
     }
-
     .flatty-top-bar-logo img {
         display: block;
         height:40px;
         margin:auto;
     }
-
     .flatty-top-bar {
         display: none;
-        /*
-        right:0;
-        text-align:center;
-        */
     }
-
     .flatty-top-bar a {
         padding: 15px 20px;
     }
-
     .flatty-site-name {
         display: none;
     }
-
+    .flatty-custom-footer {
+      display: none;
+    }
 }

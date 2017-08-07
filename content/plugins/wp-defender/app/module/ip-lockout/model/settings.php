@@ -7,6 +7,7 @@ namespace WP_Defender\Module\IP_Lockout\Model;
 
 use Hammer\Helper\HTTP_Helper;
 use Hammer\Helper\WP_Helper;
+use WP_Defender\Behavior\Utils;
 
 class Settings extends \Hammer\WP\Settings {
 	private static $_instance;
@@ -48,6 +49,8 @@ class Settings extends \Hammer\WP\Settings {
 	public $receipts = array();
 	public $report_receipts = array();
 	public $lastReportSent;
+
+	public $cache = array();
 
 	public function __construct( $id, $isMulti ) {
 		if ( is_admin() || is_network_admin() && current_user_can( 'manage_options' ) ) {

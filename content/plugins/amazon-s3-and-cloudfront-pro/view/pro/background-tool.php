@@ -11,7 +11,7 @@ $button             = isset( $button ) ? $button : '';
 ?>
 
 <div class="block-title-wrap <?php echo ! empty( $more_info ) ? 'with-description' : ''; ?>">
-	<h4><?php echo $title; ?></h4>
+	<h4 class="block-title"><?php echo $title; ?></h4>
 
 	<?php if ( ! empty ( $more_info ) ) : ?>
 		<a href="#" class="general-helper"></a>

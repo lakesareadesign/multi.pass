@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools
 Requires at least: 3.8
-Tested up to: 4.7.3
-Stable Tag: 3.1.1
+Tested up to: 4.8.1
+Stable Tag: 3.2.1
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -15,20 +15,17 @@ Track visitor activity, capture and manage incoming leads, and send collected em
 
 >WordPress Leads works as a standalone plugin or hand in hand with [WordPress Landing Pages](http://wordpress.org/plugins/landing-pages/ "Learn more about WordPress Landing Pages") & [WordPress Calls to Action](http://wordpress.org/plugins/cta/ "Learn more about Calls to Action") to create a powerful & free lead generation system for your business.
 
-Wordpress leads gives you powerful visitor tracking where Google Analytics leaves off ( aka tie website activity directly to a specific individual) It allows you to track every activity that a visitor takes on your site, before converting on a web form.
+Wordpress Leads assists with capturing and segmenting user activity into lead profiles. Leads plugin ships with it's own form collection tool but can be extended to use [Ninja Forms](https://wordpress.org/plugins/ninja-forms/), [Gravity Forms](http://www.gravityforms.com/), or [Contact Form 7](https://wordpress.org/plugins/contact-form-7/). This plugin connects directly with the [Landing Pages](http://wordpress.org/plugins/landing-pages/ ) and [Calls to Action](http://wordpress.org/plugins/cta/) plugin provided by [Inbound Now](https://www.inboundnow.com).
 
 = Gather Valuable Intelligence on your Leads: =
 
-* Learn where your leads are coming from geographically
-* What pages they viewed on your site
+* View the page view funnel leading up to a submission
 * See past comments they have made on your blog
 * Know what they have searched for on your site
 * Learn where referral traffic is coming from
-* See social media profiles and sites they own
+* See social media profiles and sites they own (Provided by [Full Contact](https://www.fullcontact.com/))
 * Gather demographic data
-* See past/current job histories
 * Learn their topical interests
-* and much more.
 
 This powerful lead data can help you sell smarter and more efficiently.
 
@@ -37,9 +34,6 @@ Wordpress Leads was originally built as an add-on for [WordPress Landing Pages](
 Manage your leads directly from the admin interface, or send the lead data into a third party CRM of your choosing.
 
 This plugin is built to be fully extendable by providing custom action and filter hooks, allowing for an almost endless number of powerful CRM application addons.
-
-[Start Collecting Advanced Lead Intelligence in WordPress ](http://www.inboundnow.com/collecting-advanced-lead-intelligence-wordpress-free/ "Start Collecting Advanced Lead Intelligence in WordPress")
-
 
 Wordpress Leads is Wordpress's first fully extendable CRM plugin.
 
@@ -65,9 +59,9 @@ This is a free plugin that was built to help people collect, store, and manage l
 
 We built Lead Management as a framework! You can use our extendable framework to bring custom solutions to your application.
 
-[Follow Development on GitHub ](https://github.com/inboundnow/leads "Follow & Contribute to core development on GitHub")
+[Contribute to Code](https://github.com/inboundnow/inbound-pro/core/leads  "Follow & Contribute to core development on GitHub")
  |
-[Follow Development on Twitter ](https://twitter.com/inboundnow "Follow us for notifications")
+[Follow on Twitter ](https://twitter.com/inboundnow "Follow us for notifications")
 
 == Installation ==
 
@@ -98,7 +92,24 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
-= 3.1.1 =
+= 3.2.1 =
+* Adding methods to Inbound_Events shared class
+
+= 3.1.8 =
+* Updating shared
+
+= 3.1.7 =
+* Updating docblocks for APIGen
+* [Restored] Impression tracking was failing in select theme environments.
+
+= 3.1.6 =
+* Updating shared files.
+* Updating WordPress compatibility note.
+
+= 3.1.3 =
+* Updating shared files.
+
+= 3.1.2 =
 * Delete automation rules on lead trash.
 * Updating shared database tables
 * Removing include and exclude 3rd party form options as we now support major 3rd party forms through extensions.

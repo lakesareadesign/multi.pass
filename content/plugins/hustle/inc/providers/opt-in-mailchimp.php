@@ -17,14 +17,15 @@ if( !class_exists("Opt_In_Mailchimp") ):
         protected  static $errors;
 
         const GROUP_TRANSIENT = "hustle-mailchimp-group-transient";
+        const LIST_PAGES = "hustle-mailchimp-list-pages";
 
         static function instance(){
             return new self;
         }
 
         public static function register_ajax_endpoints(){
-            add_action("wp_ajax_hustle_mailchimp_get_list_groups", array( __CLASS__ , "ajax_get_list_groups" ) );
-            add_action("wp_ajax_hustle_mailchimp_get_group_interests", array( __CLASS__ , "ajax_get_group_interests" ) );
+            add_action( "wp_ajax_hustle_mailchimp_get_list_groups", array( __CLASS__ , "ajax_get_list_groups" ) );
+            add_action( "wp_ajax_hustle_mailchimp_get_group_interests", array( __CLASS__ , "ajax_get_group_interests" ) );
         }
 
         /**
@@ -57,7 +58,8 @@ if( !class_exists("Opt_In_Mailchimp") ):
 
 			if( empty( self::$api ) ){
 				try {
-                    $data_center = end( explode( '-', $api_key ) );
+                    $exploded = explode( '-', $api_key );
+                    $data_center = end( $exploded );
 					self::$api = new Opt_In_Mailchimp_Api( $api_key, $data_center );
 					self::$errors = array();
 				} catch (Exception $e) {
@@ -72,13 +74,6 @@ if( !class_exists("Opt_In_Mailchimp") ):
             $api = self::api( $optin->api_key );
 
             $email =  $data['email'];
-
-            if ( $this->email_exist( $email, $optin, $data ) ) {
-                $err = new WP_Error();
-                $err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
-                return $err;
-            }
-
             $merge_vals = array();
             $interests = array();
 
@@ -136,8 +131,33 @@ if( !class_exists("Opt_In_Mailchimp") ):
                 if ( !empty($interests) ) {
                     $subscribe_data['interests'] = $interests;
                 }
-                $result = $api->subscribe( $optin->optin_mail_list, $subscribe_data );
-                return $result;
+                $existing_member = $this->get_member( $email, $optin, $data );
+                if ( $existing_member ) {
+                    $member_interests = (array) $existing_member->interests;
+					$can_subscribe = false;
+					if ( isset( $subscribe_data['interests'] ) ){
+						$local_interest_keys = array_keys( $subscribe_data['interests'] );
+						foreach( $member_interests as $member_interest => $subscribed ){
+							if( !$subscribed && in_array( $member_interest, $local_interest_keys ) ){
+								$can_subscribe = true;
+							}
+						}
+					}
+                    if ( isset( $subscribe_data['interests'] ) && $can_subscribe ) {
+                        unset( $subscribe_data['email_address'] );
+						unset( $subscribe_data['merge_fields'] );
+						unset( $subscribe_data['status'] );
+						$response = $api->update_subscription( $optin->optin_mail_list, $email, $subscribe_data );
+						return array( 'message' => $response, 'existing' => true);
+                    } else {
+                        $err = new WP_Error();
+                        $err->add( 'email_exist', __( 'This email address has already subscribed', Opt_In::TEXT_DOMAIN ) );
+                        return $err;
+                    }
+                } else {
+                    $result = $api->subscribe( $optin->optin_mail_list, $subscribe_data );
+                    return $result;
+                }
             } catch( Exception $e ) {
                 $data['error'] = $e->getMessage();
                 $optin->log_error( $data );
@@ -153,9 +173,9 @@ if( !class_exists("Opt_In_Mailchimp") ):
          * @param Opt_In_Model $optin
          * @param array $data
          *
-         * @return bool Returns true if the email address already exists otherwise false.
+         * @return Object Returns the member if the email address already exists otherwise false.
          */
-        function email_exist( $email, Opt_In_Model $optin, $data ) {
+        function get_member( $email, Opt_In_Model $optin, $data ) {
             $api = self::api( $optin->api_key );
 
             try {
@@ -164,7 +184,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
                 if ( is_wp_error($member_info) && $member_info->get_error_code() == 404 ) {
                     return false;
                 }
-                return true;
+                return $member_info;
             } catch( Exception $e ) {
                 $data['error'] = $e->getMessage();
                 $optin->log_error($data);
@@ -173,22 +193,35 @@ if( !class_exists("Opt_In_Mailchimp") ):
             }
         }
 
-        function get_options( $optin_id ){
-            $_lists = self::api( $this->api_key )->get_lists();
+        function get_options( $optin_id ) {
+
+            //Load more function
+            $load_more = filter_input( INPUT_POST, 'load_more' );
+
             $lists = array();
-            if( count($_lists) ){
-                foreach( $_lists as $list ){
-                    $list = (array) $list;
-                    $lists[ $list['id'] ]['value'] = $list['id'];
-                    $lists[ $list['id'] ]['label'] = $list['name'];
+
+            if ( $load_more ) {
+                $response = $this->lists_pagination( $this->api_key );
+                list( $lists, $total ) =  $response;
+            } else {
+                $response = self::api( $this->api_key )->get_lists();
+                $_lists   = $response->lists;
+                $total    = $response->total_items;
+                if( count( $_lists ) ) {
+                    foreach( $_lists as $list ) {
+                        $list = (array) $list;
+                        $lists[ $list['id'] ]['value'] = $list['id'];
+                        $lists[ $list['id'] ]['label'] = $list['name'];
+                    }
+                    delete_site_transient( self::LIST_PAGES );
                 }
             }
 
-            $first = count( $lists ) > 0 ? reset( $lists ) : "";
+            $total_lists = count( $lists );
+
+            $first = $total_lists > 0 ? reset( $lists ) : "";
             if( !empty( $first ) )
                 $first = $first['value'];
-
-
 
 
             $default_options =  array(
@@ -210,8 +243,23 @@ if( !class_exists("Opt_In_Mailchimp") ):
                         "data-nonce" => wp_create_nonce("mailchimp_choose_email_list"),
                         'class' => "mailchimp_optin_email_list"
                     )
+                ),
+                'loadmore' => array(
+                    "id"    => "loadmore_mailchimp_lists",
+                    "name"  => "loadmore_mailchimp_lists",
+                    "type"  => "button",
+                    "value" => __("Load More Lists", Opt_In::TEXT_DOMAIN),
+                    'class' => "wph-button--spaced wph-button wph-button--filled wph-button--gray mailchimp_optin_load_more_lists"
                 )
             );
+
+            if ( $total_lists <= 0 ) {
+                //If we have no items, no need to show the button
+                unset( $default_options['loadmore'] );
+            } else if ( $total <= $total_lists ) {
+                //If we have reached the end, remove the button
+                unset( $default_options['loadmore'] );
+            }
 
             $list_group_options = self::_get_list_group_options( $this->api_key, $first );
 
@@ -230,6 +278,56 @@ if( !class_exists("Opt_In_Mailchimp") ):
                 )
             ));
 
+        }
+
+        /**
+         * Lists pagination
+         *
+         * @return array
+         */
+        function lists_pagination( $api_key ) {
+
+            $lists      = array();
+            $list_pages = get_site_transient( self::LIST_PAGES );
+
+            $offset     = 2; //Default limit to first page
+            $total      = 0; //Default we have 0
+
+            if ( $list_pages ) {
+                $total  = isset( $list_pages['total'] ) ? $list_pages['total'] : 0;
+                $offset = isset( $list_pages['offset'] ) ? $list_pages['offset'] : 2;
+            } else {
+                $list_pages = array();
+            }
+
+            if ( $offset > 0 ) {
+                $response = self::api( $api_key )->get_lists( $offset );
+                $_lists   = $response->lists;
+                $total    = $response->total_items;
+
+                if ( count( $_lists ) ) {
+                    foreach( $_lists as $list ){
+                        $list = (array) $list;
+                        $lists[ $list['id'] ]['value'] = $list['id'];
+                        $lists[ $list['id'] ]['label'] = $list['name'];
+                    }
+                    if ( count( $_lists ) >= $total ) {
+                        $offset = 0; //We have reached the end. No more pagination
+                    } else {
+                        $offset = $offset + 1;
+                    }
+
+                    $list_pages['offset'] = $offset;
+                    $list_pages['total']  = $total;
+                    set_site_transient( self::LIST_PAGES , $list_pages );
+                } else {
+                    delete_site_transient( self::LIST_PAGES );
+                }
+            } else {
+                delete_site_transient( self::LIST_PAGES );
+            }
+
+            return array( $lists, $total );
         }
 
         function get_account_options( $optin_id ){
@@ -489,7 +587,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
          *
          * @since 1.0.1
          */
-        function ajax_get_list_groups(){
+        static function ajax_get_list_groups(){
             Opt_In_Utils::validate_ajax_call( 'mailchimp_choose_email_list' );
 
             $list_id = filter_input( INPUT_GET, 'optin_email_list' );
@@ -499,7 +597,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
             $html = "";
             if( is_array( $options ) && !is_a($options, "Mailchimp_Error")  ){
                 foreach( $options as $option )
-                    $html .= Opt_In::render("general/option", $option , true);
+                    $html .= Opt_In::static_render("general/option", $option , true);
 
                 wp_send_json_success( $html );
             }

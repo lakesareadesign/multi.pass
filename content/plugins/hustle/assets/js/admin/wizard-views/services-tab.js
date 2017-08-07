@@ -216,7 +216,7 @@ Hustle.define("Optin.Email_Services_Tab", function( $ ) {
             data += "&action=refresh_provider_account_details";
             if( typeof self.model.attributes.optin_id !== 'undefined') data += "&optin=" + self.model.attributes.optin_id;
 
-            $box.find("*").attr("disabled", true);
+            $box.find("input,select,button").attr("disabled", true);
 
             /**
              * Silently clear the args untill they are filled again
@@ -226,7 +226,7 @@ Hustle.define("Optin.Email_Services_Tab", function( $ ) {
 
             $.post(ajaxurl, data, function( response ){
 
-                $box.find("*").attr("disabled", false);
+                $box.find("input,select,button").attr("disabled", false);
 
                 if( response.success === true ){
 

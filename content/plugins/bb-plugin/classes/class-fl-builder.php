@@ -1949,6 +1949,9 @@ final class FLBuilder {
 			$assets .= '<script class="fl-builder-settings-js" src="'. $module->url .'js/settings.js"></script>';
 		}
 
+		// Allow developers to hook in from a plugin and add further assets
+		$assets = apply_filters( 'fl_builder_render_module_settings_assets', $assets, $module );
+
 		// Render the form.
 		$rendered_settings = self::render_settings(array(
 			'class' 	=> 'fl-builder-module-settings fl-builder-'. $type .'-settings',
@@ -2011,7 +2014,6 @@ final class FLBuilder {
 				'fl-node-' . $module->node
 			),
 			'data-node'   => $module->node,
-			'data-animation-delay' => $module->settings->animation_delay
 		);
 
 		// Classes
@@ -2020,6 +2022,7 @@ final class FLBuilder {
 		}
 		if ( ! empty( $module->settings->animation ) ) {
 			$attrs['class'][] = 'fl-animation fl-' . $module->settings->animation;
+			$attrs['data-animation-delay'][] = $module->settings->animation_delay;
 		}
 		if ( ! empty( $custom_class ) ) {
 			$attrs['class'][] = trim( esc_attr( $custom_class ) );

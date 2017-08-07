@@ -18,7 +18,7 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 		$this->register_css( UB_Admin_Bar::NAME, 'main' );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_local_scripts' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		add_action( 'ultimatebranding_settings_menu_adminbar', array( &$this, 'create_admin_page' ) );
+		add_action( 'ultimatebranding_settings_adminbar', array( &$this, 'create_admin_page' ) );
 		add_action( 'ultimatebranding_admin_header_adminbar', array( &$this, 'js_print_scripts' ) );
 	}
 

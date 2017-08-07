@@ -10,7 +10,7 @@
 }
 
 body.mp6 #wpadminbar li#wp-admin-bar-wpmudev-chat-container:hover span.wpmudev-chat-ab-label,
-body.mp6 #wpadminbar #wp-admin-bar-wpmudev-chat-container div.ab-sub-wrapper li#wp-admin-bar-wpmudev-chat-user-statuses div.ab-item span.wpmudev-chat-user-status-label {	     	 	 	  	  		
+body.mp6 #wpadminbar #wp-admin-bar-wpmudev-chat-container div.ab-sub-wrapper li#wp-admin-bar-wpmudev-chat-user-statuses div.ab-item span.wpmudev-chat-user-status-label {
 	color: inherit;
 }
 
@@ -32,4 +32,4 @@ body.buddypress ul#member-list div.action div.wpmudev-chat-now-button a.wpmudev-
 }
 
 
-/* 133620-1483063277-au */
+/* 133620-1502132183-au */

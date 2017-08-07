@@ -30,22 +30,24 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * Dispatch AJAX actions handling.
 	 */
 	public function run () {
-		add_action('wp_ajax_snapshot-full_backup-check_requirements', array($this, 'json_check_requirements'));
+		add_action( 'wp_ajax_snapshot-full_backup-check_requirements', array( $this, 'json_check_requirements' ) );
 
-		add_action('wp_ajax_snapshot-full_backup-download', array($this, 'json_download_backup'));
-		add_action('wp_ajax_snapshot-full_backup-delete', array($this, 'json_delete_backup'));
-		add_action('wp_ajax_snapshot-full_backup-get_log', array($this, 'json_get_log'));
+		add_action( 'wp_ajax_snapshot-full_backup-download', array( $this, 'json_download_backup' ) );
+		add_action( 'wp_ajax_snapshot-full_backup-delete', array( $this, 'json_delete_backup' ) );
+		add_action( 'wp_ajax_snapshot-full_backup-get_log', array( $this, 'json_get_log' ) );
 
-		add_action('wp_ajax_snapshot-full_backup-reload', array($this, 'json_reload_backups'));
+		add_action( 'wp_ajax_snapshot-full_backup-reload', array( $this, 'json_reload_backups' ) );
+		add_action( 'wp_ajax_snapshot-full_backup-reset_api', array( $this, 'json_reset_api' ) );
 
-		add_action('wp_ajax_snapshot-full_backup-start', array($this, 'json_start_backup'));
-		add_action('wp_ajax_snapshot-full_backup-estimate', array($this, 'json_estimate_backup'));
-		add_action('wp_ajax_snapshot-full_backup-process', array($this, 'json_process_backup'));
-		add_action('wp_ajax_snapshot-full_backup-finish', array($this, 'json_finish_backup'));
+		add_action( 'wp_ajax_snapshot-full_backup-start', array( $this, 'json_start_backup' ) );
+		add_action( 'wp_ajax_snapshot-full_backup-estimate', array( $this, 'json_estimate_backup' ) );
+		add_action( 'wp_ajax_snapshot-full_backup-process', array( $this, 'json_process_backup' ) );
+		add_action( 'wp_ajax_snapshot-full_backup-finish', array( $this, 'json_finish_backup' ) );
+		add_action( 'wp_ajax_snapshot-full_backup-abort', array( $this, 'json_finish_backup' ) );
 
-		add_action('wp_ajax_snapshot-full_backup-restore', array($this, 'json_start_restore'));
+		add_action( 'wp_ajax_snapshot-full_backup-restore', array( $this, 'json_start_restore' ) );
 
-		add_site_option(self::OPTIONS_FLAG, '');
+		add_site_option( self::OPTIONS_FLAG, '' );
 	}
 
 	/**
@@ -76,6 +78,27 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	public function json_reload_backups () {
 		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die; // Only some users can reload
 		$status = $this->_model->remote()->reset_backups_cache(true);
+
+		wp_send_json(array(
+			'status' => $status,
+		));
+	}
+
+	/**
+	 * Forces S3 API info refresh
+	 *
+	 * @since v3.0.5-BETA-6
+	 */
+	public function json_reset_api () {
+		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die; // Only some users can do this
+
+		$hub = Snapshot_Controller_Full_Hub::get();
+		$status = $hub->clear_api_cache();
+
+		$status = is_wp_error($status)
+			? $status->get_error_message()
+			: 0
+		;
 
 		wp_send_json(array(
 			'status' => $status,
@@ -286,6 +309,10 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 				'task' => 'clearing',
 				'status' => false,
 			));
+		}
+
+		if (empty($restore_path)) {
+			$restore_path = apply_filters('snapshot_home_path', get_home_path());
 		}
 
 		if (empty($restore_path) || !file_exists($restore_path)) {

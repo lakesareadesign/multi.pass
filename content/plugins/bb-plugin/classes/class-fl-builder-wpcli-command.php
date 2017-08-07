@@ -9,9 +9,12 @@ class FLbuilder_WPCLI_Command extends WP_CLI_Command {
 	 * Deletes preview, draft and live CSS/JS asset cache for all posts.
 	 *
 	 * ## OPTIONS
-	 * 
+	 *
 	 * [--network]
 	 * Clears the page builder cache for all sites on a network.
+	 *
+	 * [--all]
+	 * Clears plugin and bb-theme cache.
 	 *
 	 * ## EXAMPLES
 	 *
@@ -20,13 +23,23 @@ class FLbuilder_WPCLI_Command extends WP_CLI_Command {
 	 * 2. wp beaver clearcache --network
 	 * 		- Clears the page builder cache for all the posts on a network.
 	*/
-	public function clearcache( $args, $assoc_args )
-	{
+	public function clearcache( $args, $assoc_args ) {
 
 		$network = false;
+		$all     = false;
 
 		if ( isset( $assoc_args['network'] ) && $assoc_args['network'] == true && is_multisite() ) {
 			$network = true;
+		}
+
+		if ( isset( $assoc_args['all'] ) ) {
+
+			// make sure theme functions are loaded.
+			if ( class_exists( 'FLCustomizer' ) ) {
+				$all = true;
+			} else {
+				WP_CLI::error( __( '--all switch used but bb-theme is not active. If using multisite bb-theme must be active on the root site.', 'fl-builder' ) );
+			}
 		}
 
 		if ( class_exists( 'FLBuilderModel' ) ) {
@@ -49,19 +62,23 @@ class FLbuilder_WPCLI_Command extends WP_CLI_Command {
 					$blog_id = $blog['blog_id'];
 					switch_to_blog( $blog_id );
 					FLBuilderModel::delete_asset_cache_for_all_posts();
-					WP_CLI::success( "Cleared the page builder cache for blog " . get_option( 'home' ) );
+					WP_CLI::success( sprintf( _x( 'Cleared the page builder cache for blog %s', 'current blog name', 'fl-builder' ), get_option( 'home' ) ) );
+					if ( $all ) {
+						FLCustomizer::refresh_css();
+						WP_CLI::success( sprintf( _x( 'Rebuilt the theme cache for blog %s', 'current blog name', 'fl-builder' ), get_option( 'home' ) ) );
+					}
 					restore_current_blog();
 				}
-
 			} else {
 				FLBuilderModel::delete_asset_cache_for_all_posts();
-				WP_CLI::success( "Cleared the page builder cache" );
+				WP_CLI::success( __( 'Cleared the page builder cache', 'fl-builder' ) );
+				if ( $all ) {
+					FLCustomizer::refresh_css();
+					WP_CLI::success( __( 'Rebuilt the theme cache', 'fl-builder' ) );
+				}
 			}
-			
-		}
-
+		}// End if().
 	}
-
 }
 
 WP_CLI::add_command( 'beaver', 'FLbuilder_WPCLI_Command' );

@@ -220,6 +220,10 @@ class Opt_In_Sendy extends Opt_In_Provider_Abstract implements  Opt_In_Provider_
         );
     }
 
+    function exclude_args_fields() {
+        return array( 'api_key', 'installation_url', 'email_list' );
+    }
+
     function is_authorized(){
         return true;
     }

@@ -104,11 +104,14 @@
 		$creds['user_password'] = $user_password;
 		$creds['user_email'] = trim( $user_email );
 
+		$args = apply_filters('um_add_user_frontend_submitted', $args );
+		
 		$args['submitted'] = array_merge( $args['submitted'], $creds);
 		$args = array_merge($args, $creds);
 		
 		unset( $args['user_id'] );
 		
+
 		do_action('um_before_new_user_register', $args);
 
 		$user_id = wp_create_user( $user_login, $user_password, $user_email );
@@ -328,12 +331,12 @@
 
 			<?php if ( isset($args['secondary_btn']) && $args['secondary_btn'] != 0 ) { ?>
 
-			<div class="um-left um-half"><input type="submit" value="<?php echo __( $primary_btn_word,'ultimatemember'); ?>" class="um-button" /></div>
-			<div class="um-right um-half"><a href="<?php echo $secondary_btn_url; ?>" class="um-button um-alt"><?php echo __( $secondary_btn_word,'ultimatemember'); ?></a></div>
+			<div class="um-left um-half"><input type="submit"  value="<?php echo __( $primary_btn_word,'ultimate-member'); ?>" class="um-button" id="um-submit-btn" /></div>
+			<div class="um-right um-half"><a href="<?php echo $secondary_btn_url; ?>" class="um-button um-alt"><?php echo __( $secondary_btn_word,'ultimate-member'); ?></a></div>
 
 			<?php } else { ?>
 
-			<div class="um-center"><input type="submit" value="<?php echo __( $primary_btn_word,'ultimatemember'); ?>" class="um-button" /></div>
+			<div class="um-center"><input type="submit" value="<?php echo __( $primary_btn_word,'ultimate-member'); ?>" class="um-button" id="um-submit-btn" /></div>
 
 			<?php } ?>
 

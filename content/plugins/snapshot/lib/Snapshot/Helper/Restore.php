@@ -303,6 +303,7 @@ class Snapshot_Helper_Restore {
 		if (empty($fullpath)) return false;
 
 		$manifest = $this->get_manifest();
+		if( !$manifest ) return false;
 		$queues = $manifest->get('QUEUES');
 
 		// Boot session

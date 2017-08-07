@@ -21,14 +21,29 @@ function get_wps_options() {
     $wps_options = (is_serialized(get_site_option(WPSHAPERE_OPTIONS_SLUG))) ? unserialize(get_site_option(WPSHAPERE_OPTIONS_SLUG)) : get_site_option(WPSHAPERE_OPTIONS_SLUG);
   }
 
+  /**
+  * get adminbar items
+  * 
+  */
+  if(is_wps_single()) {
+    $adminbar_items = (is_serialized(get_option(WPS_ADMINBAR_LIST_SLUG))) ? unserialize(get_option(WPS_ADMINBAR_LIST_SLUG)) : get_option(WPS_ADMINBAR_LIST_SLUG);
+  }
+  else {
+    $adminbar_items = (is_serialized(get_site_option(WPS_ADMINBAR_LIST_SLUG))) ? unserialize(get_site_option(WPS_ADMINBAR_LIST_SLUG)) : get_site_option(WPS_ADMINBAR_LIST_SLUG);
+  }
+
   //get all admin users
-  $user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
-  if(isset($user_query) && !empty($user_query)) {
-      if ( ! empty( $user_query->results ) ) {
-          foreach ( $user_query->results as $user_detail ) {
-              $admin_users[$user_detail->ID] = $user_detail->display_name;
-          }
-      }
+  $admin_users_array = (is_serialized(get_option(WPS_ADMIN_USERS_SLUG))) ? unserialize(get_option(WPS_ADMIN_USERS_SLUG)) : get_option(WPS_ADMIN_USERS_SLUG);
+
+  if(empty($admin_users_array) && !is_array($admin_users_array)) {
+    $users_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
+    if(isset($users_query) && !empty($users_query)) {
+        if ( ! empty( $users_query->results ) ) {
+            foreach ( $users_query->results as $user_detail ) {
+                $admin_users_array[$user_detail->ID] = $user_detail->data->display_name;
+            }
+        }
+    }
   }
 
   //get dashboard widgets
@@ -43,7 +58,8 @@ function get_wps_options() {
   $wps_dash_widgets['welcome_panel'] = "Welcome Panel";
   if(!empty($dash_widgets_list)) {
       foreach( $dash_widgets_list as $dash_widget ) {
-          $wps_dash_widgets[$dash_widget[0]] = $dash_widget[1];
+          $dash_widget_name = (empty($dash_widget[1])) ? $dash_widget[0] : $dash_widget[1];
+          $wps_dash_widgets[$dash_widget[0]] = $dash_widget_name;
       }
   }
 
@@ -135,7 +151,7 @@ function get_wps_options() {
       'name' => __( 'Disable automatic updates', 'wps' ),
       'id' => 'disable_auto_updates',
       'type' => 'checkbox',
-      'desc' => __( 'Select to disable all automatic background updates.', 'wps' ),
+      'desc' => __( 'Select to disable all automatic background updates (Not recommended).', 'wps' ),
       'default' => false,
       );
 
@@ -144,6 +160,14 @@ function get_wps_options() {
       'id' => 'disable_update_emails',
       'type' => 'checkbox',
       'desc' => __( 'Select to disable emails regarding automatic updates.', 'wps' ),
+      'default' => false,
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Hide update notifications', 'wps' ),
+      'id' => 'hide_update_note_plugins',
+      'type' => 'checkbox',
+      'desc' => __( 'Select to hide update notifications on plugins page (Not recommended).', 'wps' ),
       'default' => false,
       );
 
@@ -183,7 +207,7 @@ function get_wps_options() {
       'id' => 'privilege_users',
       'type' => 'multicheck',
       'desc' => __( 'Select admin users who can have access to all menu items.', 'wps' ),
-      'options' => $admin_users,
+      'options' => $admin_users_array,
       );
 
 
@@ -402,6 +426,7 @@ function get_wps_options() {
       'options' => array(
           '1' => __( 'RSS Feed', 'wps' ),
           '2' => __( 'Text Content', 'wps' ),
+          '3' => __( 'Video Content', 'wps' ),
       ),
       'type' => 'radio',
       'default' => '1',
@@ -447,6 +472,7 @@ function get_wps_options() {
       'options' => array(
           '1' => __( 'RSS Feed', 'wps' ),
           '2' => __( 'Text Content', 'wps' ),
+          '3' => __( 'Video Content', 'wps' ),
       ),
       'type' => 'radio',
       'default' => '1',
@@ -492,6 +518,7 @@ function get_wps_options() {
       'options' => array(
           '1' => __( 'RSS Feed', 'wps' ),
           '2' => __( 'Text Content', 'wps' ),
+          '3' => __( 'Video Content', 'wps' ),
       ),
       'type' => 'radio',
       'default' => '1',
@@ -537,6 +564,7 @@ function get_wps_options() {
       'options' => array(
           '1' => __( 'RSS Feed', 'wps' ),
           '2' => __( 'Text Content', 'wps' ),
+          '3' => __( 'Video Content', 'wps' ),
       ),
       'type' => 'radio',
       'default' => '1',
@@ -586,6 +614,29 @@ function get_wps_options() {
       );
 
   $panel_fields[] = array(
+      'name' => __( 'Logo link', 'wps' ),
+      'id' => 'adminbar_logo_link',
+      'type' => 'text',
+      'desc' => __( 'If empty it will default to admin dashboard url.', 'wps' ),
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Resize Logo?', 'wps' ),
+      'id' => 'adminbar_logo_resize',
+      'type' => 'checkbox',
+      'default' => false,
+      'desc' => __( 'Select to resize logo size.', 'wps' ),
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Set Logo size in %', 'wps' ),
+      'id' => 'adminbar_logo_size_percent',
+      'type' => 'number',
+      'default' => '75',
+      'max' => '100',
+      );
+
+  $panel_fields[] = array(
       'name' => __( 'Move logo Top by', 'wps' ),
       'id' => 'logo_top_margin',
       'type' => 'number',
@@ -601,6 +652,15 @@ function get_wps_options() {
       'desc' => __( "Can be used in case of logo position haven't matched the menu position.", 'wps' ),
       'default' => '0',
       'max' => '20',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Move logo right by', 'wps' ),
+      'id' => 'logo_left_margin',
+      'type' => 'number',
+      'desc' => __( "Can be used in case of logo position haven't matched the menu position.", 'wps' ),
+      'default' => '0',
+      'max' => '150',
       );
 
   $panel_fields[] = array(
@@ -645,24 +705,15 @@ function get_wps_options() {
       'default' => '#333333',
       );
 
-  $panel_fields[] = array(
-      'name' => __( 'Remove Unwanted Menus', 'wps' ),
-      'id' => 'hide_admin_bar_menus',
-      'type' => 'multicheck',
-      'desc' => __( 'Select menu items to remove.', 'wps' ),
-      'options' => array(
-          '1' => __( 'Site Name', 'wps' ),
-          '2' => __( 'Updates', 'wps' ),
-          '3' => __( 'Comments', 'wps' ),
-          '4' => __( 'New Content', 'wps' ),
-          '5' => __( 'Edit Profile', 'wps' ),
-          '6' => __( 'My account', 'wps' ),
-          '7' => __( 'WordPress Logo', 'wps' ),
-      ),
-      'default' => array( '3', '4', '7' ),
-      );
-
-
+  if(!empty($adminbar_items)) {
+    $panel_fields[] = array(
+        'name' => __( 'Remove Unwanted Menus', 'wps' ),
+        'id' => 'hide_admin_bar_menus',
+        'type' => 'multicheck',
+        'desc' => __( 'Select menu items to remove.', 'wps' ),
+        'options' => $adminbar_items,
+        );
+  }
 
   //Admin Options
   $panel_fields[] = array(
@@ -964,24 +1015,10 @@ function get_wps_options() {
       );
 
   $panel_fields[] = array(
-      'name' => __( 'Submenu wrap color', 'wps' ),
-      'id' => 'sub_nav_wrap_color',
-      'type' => 'wpcolor',
-      'default' => '#22303a',
-      );
-
-  $panel_fields[] = array(
       'name' => __( 'Menu hover color', 'wps' ),
       'id' => 'hover_menu_color',
       'type' => 'wpcolor',
       'default' => '#3f4457',
-      );
-
-  $panel_fields[] = array(
-      'name' => __( 'Current active Menu color', 'wps' ),
-      'id' => 'active_menu_color',
-      'type' => 'wpcolor',
-      'default' => '#6da87a',
       );
 
   $panel_fields[] = array(
@@ -994,6 +1031,55 @@ function get_wps_options() {
   $panel_fields[] = array(
       'name' => __( 'Menu hover text color', 'wps' ),
       'id' => 'menu_hover_text_color',
+      'type' => 'wpcolor',
+      'default' => '#ffffff',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Current active Menu color', 'wps' ),
+      'id' => 'active_menu_color',
+      'type' => 'wpcolor',
+      'default' => '#6da87a',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Active Menu text color', 'wps' ),
+      'id' => 'menu_active_text_color',
+      'type' => 'wpcolor',
+      'default' => '#ffffff',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Submenu wrap color', 'wps' ),
+      'id' => 'sub_nav_wrap_color',
+      'type' => 'wpcolor',
+      'default' => '#22303a',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Submenu hover color', 'wps' ),
+      'id' => 'sub_nav_hover_color',
+      'type' => 'wpcolor',
+      'default' => '#22303a',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Submenu text color', 'wps' ),
+      'id' => 'sub_nav_text_color',
+      'type' => 'wpcolor',
+      'default' => '#17b7b2',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Submenu hover text color', 'wps' ),
+      'id' => 'sub_nav_hover_text_color',
+      'type' => 'wpcolor',
+      'default' => '#17b7b2',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Active submenu text color', 'wps' ),
+      'id' => 'submenu_active_text_color',
       'type' => 'wpcolor',
       'default' => '#ffffff',
       );

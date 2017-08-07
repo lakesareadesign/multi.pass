@@ -1720,10 +1720,16 @@ body.wpmud {
 	text-align: left;
 }
 .wpmudui .wpmudui-products-list .wpmudui-product-list__info {
-	flex: 1;
+	/*flex: 1;*/
+	flex: 1 0 100%;
+}
+@media (min-width: 540px) {
+	.wpmudui .wpmudui-products-list .wpmudui-product-list__info {
+		flex: 1;
+	}
 }
 .wpmudui .wpmudui-products-list .wpmudui-product-list__cta {
-	flex: 1 0 100%;
+	flex: 1 0 auto;
 	margin: 10px 0 0;
 }
 @media (min-width: 540px) {
@@ -1811,10 +1817,12 @@ body.wpmud {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
+	flex-wrap: wrap;
 }
 .wpmudui .wpmud-header.has-actions .wpmud-header__title {
 	flex: 1;
 	margin-bottom: 15px;
+	order: 1;
 }
 @media (min-width: 768px) {
 	.wpmudui .wpmud-header.has-actions {
@@ -1828,6 +1836,7 @@ body.wpmud {
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
+	order: 2;
 }
 .wpmudui .wpmud-header .wpmud-header__actions .wpmud-user {
 	align-items: center;
@@ -1839,6 +1848,18 @@ body.wpmud {
 	color: #888;
 	font: 400 13px/22px "Roboto", Arial, sans-serif;
 }
+/* fixes for very small devices */
+@media (max-width: 375px) {
+	.wpmudui .wpmud-header .wpmud-get-support {
+		flex: 1 0 100%;
+		text-align: center;
+	}
+	.wpmudui .wpmud-header .wpmud-header__actions .wpmud-user {
+		margin: 20px auto 0;
+		text-align: center;
+	}
+}
+.wpmudui .wpmud-header .wpmud-get-support
 .wpmudui .wpmud-header .wpmud-user {
 	background: #FFF;
 	border-radius: 20px;
@@ -1870,6 +1891,11 @@ body.wpmud {
 	color: #666;
 	font-weight: 500;
 	margin: 0 0 0 5px;
+}
+.wpmud .wpmudui .wpmud-header .frash-notice {
+	flex: 1 0 auto;
+	margin-top: 30px;
+	order: 3;
 }
 
 /* PAGE: LOGIN */
@@ -1906,5 +1932,59 @@ body.wpmud {
 	}
 }
 
+/* OLD UI FIXES/IMPROVEMENTS */
+/* Using non-mobile-first approach as old UI didn't use it too */
+@media (max-width: 540px) {
 
-/* 133620-1496772491-au */
+	/* global */
+	.wpmud .wpmudui .row {
+		display: block;
+	}
+	.wpmud .wpmudui .row .col-half {
+		display: block;
+		padding: 0;
+		width: 100%;
+	}
+
+	/* toggle */
+	.wpmud .wpmudui .toggle.float-r {
+		float: none;
+		margin-bottom: 10px;
+	}
+
+	/* search */
+	.wpmud .wpmudui .search-box .input-box {
+		margin-bottom: 10px;
+		max-width: 100%;
+		width: 100%;
+	}
+	.wpmud .wpmudui .input-group {
+		display: block;
+		margin-bottom: 10px;
+	}
+
+	/* projects */
+	.wpmud .row-projects .section-title {
+		margin-bottom: 30px;
+	}
+	.wpmud .row.row-projects .content {
+		margin: 0;
+	}
+	.wpmud .project-box {
+		float: none;
+		max-width: 100%;
+	}
+	.wpmud .project-box .project-inner {
+		margin: 0 auto 30px;
+	}
+
+	/* themes */
+	.wpmud.wpmud-themes .wpmudui .project-box {
+		float: none;
+		max-width: 100%;
+		width: 100%;
+	}
+}
+
+
+/* 133620-1502132195-au */

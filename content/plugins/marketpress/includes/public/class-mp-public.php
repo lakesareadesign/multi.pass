@@ -85,15 +85,15 @@ class MP_Public {
 			$classes[] = 'mp-tag';
 		}
 
-		if ( is_page( $settings['pages']['cart'] ) ) {
+		if ( isset( $settings['pages']['cart'] ) && is_page( $settings['pages']['cart'] ) ) {
 			$classes[] = 'mp-cart';
 		}
 
-		if ( is_page( $settings['pages']['checkout'] ) ) {
+		if ( isset( $settings['pages']['checkout'] ) && is_page( $settings['pages']['checkout'] ) ) {
 			$classes[] = 'mp-checkout';
 		}
 
-		if ( is_page( $settings['pages']['order_status'] ) ) {
+		if ( isset( $settings['pages']['order_status'] ) && is_page( $settings['pages']['order_status'] ) ) {
 			$classes[] = 'mp-order-status';
 		}
 
@@ -155,12 +155,11 @@ class MP_Public {
 	 */
 	function is_store_page( $page = null ) {
 		if ( is_null( $page ) ) {
-			return ( get_post_meta( get_the_ID(), '_mp_store_page', true ) !== '' || get_post_meta( get_the_ID(), '_mp_store_page', true ) != 'none' || is_singular( MP_Product::get_post_type() ) || is_tax( array(
+			return ( ( get_post_meta( get_the_ID(), '_mp_store_page', true ) !== '' && get_post_meta( get_the_ID(), '_mp_store_page', true ) != 'none' ) || is_singular( MP_Product::get_post_type() ) || is_tax( array(
 					'product_category',
 					'product_tag'
 				) ) );
 		} else {
-
 			if( get_post_type( $page ) == MP_Product::get_post_type() ){
 				return true;
 			}
@@ -524,6 +523,29 @@ class MP_Public {
 
 		$url = $product->get_meta( 'file_url' );
 
+		//Total number of files in the product.
+		//By default 1
+		$total_files = 1;
+
+		//Current file number to append to file name
+		$file_number = false;
+
+		//Check if its part of the downloads
+		$current_file = mp_get_get_value( 'numb' );
+
+		if ( $current_file && is_int( $current_file ) ) {
+			$file_number = $current_file;
+
+			if ( is_array( $url ) ){
+				$total_files = count( $url );
+
+				if ( isset( $url[$current_file -1] ) ){
+					$url = $url[$current_file -1]; //Set the URL to the index of the files
+				}
+			}
+		}
+
+
 //get download count
 		$download_count = mp_arr_get_value( $product_id, $cart->download_count );
 
@@ -532,6 +554,9 @@ class MP_Public {
 		}
 
 		$download_count = (int) $download_count;
+
+		//Amend the download count to cater for the multiple files if any
+		$download_count = $download_count * $total_files;
 
 //check for too many downloads
 		$max_downloads = mp_get_setting( 'max_downloads', 5 );
@@ -564,7 +589,15 @@ class MP_Public {
 		set_time_limit( 0 ); //try to prevent script from timing out
 //create unique filename
 		$ext      = ltrim( strrchr( basename( $url ), '.' ), '.' );
-		$filename = sanitize_file_name( strtolower( get_the_title( $product_id ) ) . '.' . $ext );
+
+		$file_name = strtolower( get_the_title( $product_id ) );
+
+		//Check if its multiple files
+		if( $file_number ){
+			$file_name = $file_name.'_'.$file_number;
+		}
+
+		$filename = sanitize_file_name( $file_name . '.' . $ext );
 
 		$dirs     = wp_upload_dir();
 		$location = str_replace( $dirs['baseurl'], $dirs['basedir'], $url );

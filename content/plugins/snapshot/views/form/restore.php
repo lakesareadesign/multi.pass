@@ -45,18 +45,6 @@
 							<header>
 								<h3><?php esc_html_e('PHP', SNAPSHOT_I18N_DOMAIN); ?></h3>
 							</header>
-							<article class="basedir">
-								<header>
-									<h3><?php esc_html_e('Open Base Dir', SNAPSHOT_I18N_DOMAIN); ?></h3>
-								</header>
-								<div class="response">
-									<p class="result"></p>
-									<p class="info">
-										<?php esc_html_e('Issues might occur when [open_basedir] is enabled.', SNAPSHOT_I18N_DOMAIN); ?>
-										<?php esc_html_e('Work with your server admin to disable this value in the php.ini file if you\'re having issues building a package.', SNAPSHOT_I18N_DOMAIN); ?>
-									</p>
-								</div>
-							</article>
 							<article class="maxtime">
 								<header>
 									<h3><?php esc_html_e('Max Execution Time', SNAPSHOT_I18N_DOMAIN); ?></h3>

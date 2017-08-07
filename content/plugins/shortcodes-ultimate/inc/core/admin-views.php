@@ -100,9 +100,8 @@ class Su_Admin_Views {
 		foreach ( $examples as $group ) {
 			$items = array();
 			if ( isset( $group['items'] ) ) foreach ( $group['items'] as $item ) {
-					$code = ( isset( $item['code'] ) ) ? $item['code'] : plugins_url( 'inc/examples/' . $item['id'] . '.example', SU_PLUGIN_FILE );
 					$id = ( isset( $item['id'] ) ) ? $item['id'] : '';
-					$items[] = '<div class="su-examples-item" data-code="' . $code . '" data-id="' . $id . '" data-mfp-src="#su-examples-window"><i class="fa fa-' . $item['icon'] . '"></i> ' . $item['name'] . '</div>';
+					$items[] = '<div class="su-examples-item" data-id="' . $id . '" data-mfp-src="#su-examples-window"><i class="fa fa-' . $item['icon'] . '"></i> ' . $item['name'] . '</div>';
 				}
 			$output[] = '<div class="su-examples-group su-clearfix"><h2 class="su-examples-group-title">' . $group['title'] . '</h2>' . implode( '', $items ) . '</div>';
 		}

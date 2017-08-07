@@ -86,7 +86,17 @@ class FLMenuModule extends FLBuilderModule {
 	public static function set_pre_get_posts_query( $query ) 
 	{
 		if ( ! is_admin() && $query->is_main_query() ) {
-	    	self::$fl_builder_page_id = $query->queried_object_id;
+
+			if ( $query->queried_object_id ) {
+
+				self::$fl_builder_page_id = $query->queried_object_id;
+
+			// Fix when menu module is rendered via hook
+			} elseif ( isset( $query->query_vars['page_id'] ) && $query->query_vars['page_id'] != 0 ) {
+
+				self::$fl_builder_page_id = $query->query_vars['page_id'];
+
+			}
 	    }
 	}
 

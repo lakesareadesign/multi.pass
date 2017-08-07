@@ -29,9 +29,12 @@ if(isset($widget_class) && class_exists($widget_class)) {
 
 	// Widget form
 	echo '<div class="fl-field" data-preview=\'{"type":"widget"}\'>';
-	$widget_instance->form($widget_settings);
+
+	FLWidgetModule::render_form( $widget_class, $widget_instance, $widget_settings );
+
 	// Uncommenting this will display custom fields from plugins like ACF, but we don't have a way to save them, yet..
 	//do_action_ref_array( 'in_widget_form', array( &$widget_instance, true, $widget_settings ) );
+
 	echo '<input type="hidden" name="widget" value="' . $widget_class . '" />';
 	echo '</div>';
 }

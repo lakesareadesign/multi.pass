@@ -172,7 +172,7 @@ class CoursePress_View_Admin_Setting_Capabilities {
 			'coursepress_create_course_cap' => __( 'Create new courses', 'cp' ),
 			'coursepress_view_others_course_cap' => __( 'View other instructors course', 'cp' ),
 			'coursepress_update_my_course_cap' => __( 'Update own courses', 'cp' ),
-			'coursepress_update_course_cap' => __( 'Update any assigned course', 'cp' ),
+			'coursepress_update_course_cap' => __( 'Update any course', 'cp' ),
 			// 'coursepress_update_all_courses_cap' => __( 'Update ANY course', 'cp' ),
 			'coursepress_delete_my_course_cap' => __( 'Delete own courses', 'cp' ),
 			'coursepress_delete_course_cap' => __( 'Delete any assigned course', 'cp' ),

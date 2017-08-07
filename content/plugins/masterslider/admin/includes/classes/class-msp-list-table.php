@@ -137,8 +137,11 @@ class MSP_List_Table extends Axiom_List_Table {
         if( current_user_can( 'delete_masterslider' ) && 'delete' === $this->current_action() ) {
 
             global $mspdb;
-			$mspdb->delete_slider($slider_id);
-			// echo "Slider id ($slider_id) Removed";
+            $mspdb->delete_slider( $slider_id );
+
+            msp_save_custom_styles();
+            // flush slider cache if slider cache is enabled
+            msp_flush_slider_cache( $slider_id );
 
         } else {
         	add_action( 'admin_notices', array( $this, 'delete_error_notice' ) );
@@ -147,9 +150,12 @@ class MSP_List_Table extends Axiom_List_Table {
         // check if a duplicate request recieved
         if( current_user_can( 'duplicate_masterslider' ) && 'duplicate' === $this->current_action() ) {
 
-        	global $mspdb;
-			$mspdb->duplicate_slider($slider_id);
-			// echo "Slider id ($slider_id) duplicated";
+            global $mspdb;
+            $mspdb->duplicate_slider( $slider_id );
+
+            msp_save_custom_styles();
+            // flush slider cache if slider cache is enabled
+            msp_flush_slider_cache( $slider_id );
 
 		} else {
 			add_action( 'admin_notices', array( $this, 'duplicate_error_notice' ) );
@@ -196,8 +202,9 @@ class MSP_List_Table extends Axiom_List_Table {
 		    	return sprintf( '<abbr title="%s">%s</abbr>', $time, $date );
 		    case 'slides_num':
 		    	global $mspdb;
-		    	return $mspdb->get_slider_field_val( $item['ID'], 'slides_num' );
-		    case 'ID':
+		    	$slides_num = (int) $mspdb->get_slider_field_val( $item['ID'], 'slides_num' );
+                return $slides_num > 1 ? $slides_num - 1 : $slides_num;
+            case 'ID':
 		    case 'title':
 		    case 'type':
 		      return $item[ $column_name ];

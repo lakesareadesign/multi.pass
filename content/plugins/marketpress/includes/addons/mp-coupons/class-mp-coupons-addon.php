@@ -87,7 +87,7 @@ class MP_Coupons_Addon {
 
 			add_filter( 'mp_product/get_price', array( &$this, 'product_price' ), 10, 2 );
 			add_filter( 'mp_cart/product_total', array( &$this, 'product_total' ), 10, 2 );
-			//add_filter( 'mp_cart/total', array( &$this, 'cart_total' ), 10, 3 );
+			add_filter( 'mp_cart/total', array( &$this, 'cart_total' ), 10, 3 );
 
 			add_filter( 'mp_cart/tax_total', array( &$this, 'tax_total' ), 10, 3 );
 
@@ -339,21 +339,30 @@ class MP_Coupons_Addon {
 	 * @return float
 	 */
 	public function cart_total( $total, $_total, $cart ) {
+
+		if( isset( $_total[ 'product_original' ] ) ){
+			$total = $_total[ 'product_original' ];
+		}
+		elseif( $cart instanceof MP_Cart ){
+			$total = $cart->product_original_total();
+		}
+
+		$coupon_discount = $this->get_total_discount_amt();
+
 		if ( abs( $this->get_total_discount_amt() ) >= $total ) {
 			$total = $total + ( - 1 * $total );
 		} else {
 			$total = $total + $this->get_total_discount_amt();
 		}
 
+		$total = ( $total + (float) $cart->tax_total() + (float) $cart->shipping_total() );
+
 		return floatval( $total );
 	}
 
-	public function tax_total( $tax_amount, $total, $obj ) {
+	public function tax_total( $tax_amount, $total, $cart ) {
 
-		$percent = $total / 100;
-		if ( $percent == 0 ) {
-			return $tax_amount;
-		}
+		$total = (int) $cart->product_original_total() + (int) $cart->shipping_total();
 
 		if ( abs( $this->get_total_discount_amt() ) >= $total ) {
 			$total_pre = $total + ( - 1 * $total );
@@ -361,17 +370,12 @@ class MP_Coupons_Addon {
 			$total_pre = $total + $this->get_total_discount_amt();
 		}
 
-		$discount_value = ( $total - $total_pre );
+		$tax_rate   = mp_tax_rate();
+		$cart_price = $total_pre * ( 1 + $tax_rate );
 
-		$init_tax_percentage = $tax_amount / $percent;
+		$tax_amount = (float) $cart_price - (float) $total_pre;
 
-		$total_pre = $total_pre * ( $init_tax_percentage / 100 );
-
-		if ( mp_get_setting( 'tax->tax_inclusive' ) ) {
-			$total_pre = $tax_amount;
-		}
-
-		return $tax_amount;
+		return number_format( $tax_amount, 2 );
 	}
 
 	/**
@@ -563,7 +567,7 @@ class MP_Coupons_Addon {
 	public function init_metaboxes() {
 		$metabox = new WPMUDEV_Metabox( array(
 			'id'        => 'mp-coupons-metabox',
-			'title'     => __( 'Coupon Settings' ),
+			'title'     => __( 'Coupon Settings', 'mp' ),
 			'post_type' => 'mp_coupon',
 			'context'   => 'normal',
 		) );
@@ -587,7 +591,7 @@ class MP_Coupons_Addon {
 			'default_value' => 'item',
 			'options'       => array(
 				'item'     => __( 'Apply to each applicable item and quantity ordered', 'mp' ),
-				//'subtotal' => __( 'Apply to each applicable item once per cart', 'mp' )
+				'subtotal' => __( 'Apply to each applicable item once per cart', 'mp' )
 			),
 		) );
 		$metabox->add_field( 'checkbox', array(
@@ -618,6 +622,41 @@ class MP_Coupons_Addon {
 				'min'    => 0,
 			),
 		) );
+
+		//Allow for the user to define the minimum number of products the cart has to have
+		$metabox->add_field( 'checkbox', array(
+			'name'  => 'product_count_limited',
+			'label' => array( 'text' => __( 'Can this coupon be limited to a number of products in the cart?', 'mp' ) ),
+		) );
+
+		$metabox->add_field( 'text', array(
+			'name'       => 'min_products',
+			'desc'       => __( 'Enter the minimum number of products in the cart that this coupon can be used.', 'mp' ),
+			'class'      => 'digits',
+			'label'      => array( 'text' => __( 'Mimimum number of products', 'mp' ) ),
+			'validation' => array(
+				'digits' => true,
+				'min'    => 0,
+			),
+			'conditional' => array(
+				'name'   => 'product_count_limited',
+				'value'  => '1',
+				'action' => 'show',
+			),
+		) );
+
+		//Option to only allow logged in users to use this
+		$metabox->add_field( 'radio_group', array(
+			'name'          => 'require_login',
+			'label'         => array( 'text' => __( 'Require Login', 'mp' ) ),
+			'desc'			=> __( 'Should this coupon only be available to logged in users?', 'mp' ),
+			'default_value' => 'no',
+			'options'       => array(
+				'no'      => __( 'No', 'mp' ),
+				'yes' 	  => __( 'Yes', 'mp' )
+			),
+		) );
+
 		$metabox->add_field( 'radio_group', array(
 			'name'          => 'applies_to',
 			'label'         => array( 'text' => __( 'Applies To', 'mp' ) ),
@@ -630,6 +669,7 @@ class MP_Coupons_Addon {
 				'user'     => __( 'User', 'mp' ),
 			),
 		) );
+
 		$metabox->add_field( 'post_select', array(
 			'name'        => 'product',
 			'validation'  => array( 'required' => true ),
@@ -643,6 +683,7 @@ class MP_Coupons_Addon {
 				'action' => 'show',
 			),
 		) );
+
 		$metabox->add_field( 'taxonomy_select', array(
 			'name'        => 'category',
 			'validation'  => array( 'required' => true ),
@@ -656,6 +697,7 @@ class MP_Coupons_Addon {
 				'action' => 'show',
 			),
 		) );
+
 		$metabox->add_field( 'user_select', array(
 			'name'        => 'user',
 			'validation'  => array( 'required' => true ),
@@ -666,17 +708,38 @@ class MP_Coupons_Addon {
 				'action' => 'show',
 			),
 		) );
+
+		//Paul Kevin
+		//Allow also category assigning to a user
+		$metabox->add_field( 'taxonomy_select', array(
+			'name'        => 'user_category',
+			'multiple'    => true,
+			'placeholder' => __( 'Select Category', 'mp' ),
+			'desc'		  => __( 'Optionally limit the user to some categories', 'mp' ),
+			'taxonomy'    => 'product_category',
+			'label'       => array( 'text' => __( 'Category', 'mp' ) ),
+			'conditional' => array(
+				'name'   	=> 'applies_to',
+				'value'  	=> 'user',
+				'action' 	=> 'show',
+				'operator' 	=> 'AND',
+			)
+		) );
+		//End Condition
+
 		$metabox->add_field( 'datepicker', array(
 			'name'          => 'start_date',
 			'validation'    => array( 'required' => true ),
 			'label'         => array( 'text' => __( 'Start Date', 'mp' ) ),
 			'default_value' => date( 'Y-m-d' ),
 		) );
+
 		$metabox->add_field( 'checkbox', array(
 			'name'    => 'has_end_date',
 			'label'   => array( 'text' => __( 'Does coupon have an end date?', 'mp' ) ),
 			'message' => __( 'Yes', 'mp' ),
 		) );
+
 		$metabox->add_field( 'datepicker', array(
 			'name'        => 'end_date',
 			'label'       => array( 'text' => __( 'End Date', 'mp' ) ),
@@ -698,7 +761,7 @@ class MP_Coupons_Addon {
 	public function init_settings_metaboxes() {
 		$metabox = new WPMUDEV_Metabox( array(
 			'id'          => 'mp-coupons-settings-metabox',
-			'title'       => __( 'Coupons Settings' ),
+			'title'       => __( 'Coupons Settings', 'mp' ),
 			'page_slugs'  => array( 'store-settings-addons' ),
 			'option_name' => 'mp_settings',
 		) );
@@ -1090,11 +1153,8 @@ class MP_Coupons_Addon {
 	 * @return float
 	 */
 	public function product_total( $total, $items ) {
-		$total = 0;
-		foreach ( $items as $item ) {
-			$price = $item->get_price();
-			$total += ( mp_arr_get_value( 'coupon', $price, mp_arr_get_value( 'lowest', $price, 0 ) ) * $item->qty );
-		}
+
+		$total = (float) mp_cart()->product_original_total() + (float) $this->get_total_discount_amt();
 
 		return (float) round( $total, 2 );
 	}
@@ -1117,6 +1177,7 @@ class MP_Coupons_Addon {
 			'discount'    => __( 'Discount', 'mp' ),
 			'used'        => __( 'Used', 'mp' ),
 			'remaining'   => __( 'Remaining Uses', 'mp' ),
+			'req_login'   => __( 'Requires Login', 'mp' ),
 			'valid_dates' => __( 'Valid Dates', 'mp' ),
 			'applies_to'  => __( 'Applies To', 'mp' ),
 		);
@@ -1144,6 +1205,12 @@ class MP_Coupons_Addon {
 			//! Remaining Uses
 			case 'remaining' :
 				$coupon->remaining_uses();
+				break;
+
+			//Check if login is required
+			case 'req_login' :
+				$require_login  = $coupon->get_meta( 'require_login' );
+				echo ucfirst( $require_login );
 				break;
 
 			//! Used

@@ -1,13 +1,13 @@
 jQuery(document).ready( function($) {
-	
+
 	jQuery("button#snapshot-destination-test-connection").click(function() {
 
-		var destination_type 		= jQuery('input#snapshot-destination-type').val();
-	
+		var destination_type = jQuery('input#snapshot-destination-type').val();
+
 		jQuery( "#snapshot-ajax-destination-test-result" ).html('');
 		jQuery( "#snapshot-ajax-destination-test-result" ).addClass('snapshot-loading');
-		jQuery( "#snapshot-ajax-destination-test-result" ).show();		
-		
+		jQuery( "#snapshot-ajax-destination-test-result" ).show();
+
 		var destination_info = new Object;
 		destination_info['name'] 		= jQuery('input#snapshot-destination-name').val();
 		if (destination_info['type'] == null)
@@ -62,9 +62,9 @@ jQuery(document).ready( function($) {
 			dataType: 'json',
 	        success: function(reply_data) {
 				jQuery( "#snapshot-ajax-destination-test-result" ).removeClass('snapshot-loading');
-		
+
 				if (reply_data['errorStatus'] != undefined) {
-			
+
 					if (reply_data['errorStatus'] == false) {
 
 						if (reply_data['responseArray']) {
@@ -72,7 +72,7 @@ jQuery(document).ready( function($) {
 							jQuery( "#snapshot-ajax-destination-test-result" ).append('<p>'+message+'</p>');
 							jQuery( "#snapshot-ajax-destination-test-result" ).show();
 						}
-				
+
 					} else {
 						if (reply_data['errorArray']) {
 							var message = reply_data['responseArray'].join('<br />');
@@ -84,7 +84,7 @@ jQuery(document).ready( function($) {
 				}
 			}
 		});
-	
+
 		return false;
 	});
 

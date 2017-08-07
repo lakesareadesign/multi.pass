@@ -1,14 +1,13 @@
 <?php
 /*
-Plugin Name: Hide Dashboard Welcome
-Plugin URI:
-Description: Hides the dashboard welcome message
+Plugin Name: Dashboard Welcome
+Description: Allow to change the dashboard welcome message
 Author: Barry (Incsub), Sam Najian (Incsub)
 Version: 1.2
 Author URI:
 Network: true
 
-Copyright 2012 Incsub (email: admin@incsub.com)
+Copyright 2012-2017 Incsub (email: admin@incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,9 +47,13 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 	 */
 	function __construct() {
 		parent::__construct();
+		$this->set_options();
 		add_filter( 'get_user_metadata', array( $this, 'ub_remove_dashboard_welcome' ) , 10, 4 );
-		add_action( 'ultimatebranding_settings_menu_widgets', array( $this, 'render_settings' ) );
-		add_filter( 'ultimatebranding_settings_menu_widgets_process', array( $this, 'process' ) );
+		/**
+		 * new standard
+		 */
+		add_action( 'ultimatebranding_settings_widgets', array( $this, 'admin_options_page' ) );
+		add_filter( 'ultimatebranding_settings_widgets_process', array( $this, 'update' ) );
 		$this->_message = $this->_get_message();
 		if ( ! empty( $this->_message ) ) {
 			add_action( 'welcome_panel', array( $this, 'render_custom_message' ) );
@@ -64,19 +67,12 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 	 * @return mixed|void
 	 */
 	private function _get_message() {
-		return ub_get_option( $this->option_name );
+		$value = $this->get_value( 'dashboard_widget', 'text' );
+		if ( empty( $value ) ) {
+			$value = ub_get_option( $this->option_name );
+		}
+		return $value;
 	}
-
-	/**
-	 * Saves message to the db
-	 *
-	 * @since 1.2
-	 * @param $data
-	 */
-	private function _save_message( $data ) {
-		ub_update_option( 'ub_custom_welcome_message', $data );
-	}
-
 
 	/**
 	 * Removes default welcome message from dashboard
@@ -104,29 +100,6 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 	}
 
 	/**
-	 * Renders settings page
-	 *
-	 * @since 1.0
-	 */
-	function render_settings() {
-?>
-        <div class="postbox">
-            <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Custom Dashboard Welcome','ub' ); ?></span></h3>
-            <div class="inside">
-                <h2><?php _e( 'Custom message: ', 'ub' ); ?></h2>
-
-                <?php echo wp_nonce_field( 'ub_save_custom_welcome_message', 'custom_welcome_message' ) ?>
-<?php
-		$args = array( 'textarea_name' => 'custom_admin_welcome_message', 'textarea_rows' => 9, 'teeny' => true );
-		wp_editor( stripslashes( ub_get_option( $this->option_name ) ) , 'custom_admin_welcome_content', $args );
-?>
-                <p class='description'><?php _e( 'Leave empty to remove custom welcome widget', 'ub' ); ?></p>
-            </div>
-        </div>
-<?php
-	}
-
-	/**
 	 * Saves settings to db
 	 *
 	 * @since 1.2
@@ -143,7 +116,47 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 	 * @since 1.2
 	 */
 	function render_custom_message() {
-		echo wpautop( stripslashes( $this->_message ) );
+		$proceed_shortcodes = $this->get_value( 'dashboard_widget', 'shortocode' );
+		$content = stripslashes( $this->_message );
+		if ( 'on' == $proceed_shortcodes ) {
+			$content = do_shortcode( $content );
+		}
+		echo wpautop( $content );
+	}
+
+
+	/**
+	 * Set options
+	 *
+	 * @since 1.8.9
+	 */
+	protected function set_options() {
+		$this->options = array(
+			'dashboard_widget' => array(
+				'title' => __( 'Dashboard Welcome' ),
+				'fields' => array(
+					'text' => array(
+						'hide-th' => true,
+						'type' => 'wp_editor',
+						'label' => __( 'Dashboard Welcome', 'ub' ),
+						'description' => __( 'Leave empty to remove custom welcome widget', 'ub' ),
+						'default' => '',
+						'value' => $this->_get_message(),
+					),
+					'shortocode' => array(
+						'type' => 'checkbox',
+						'label' => __( 'Shortcodes', 'ub' ),
+						'description' => __( 'Be careful it can break compatibility with themes with UI builders.', 'ub' ),
+						'options' => array(
+							'on' => __( 'Parse shortocodes', 'ub' ),
+							'off' => __( 'Stop parsing', 'ub' ),
+						),
+						'default' => 'off',
+						'classes' => array( 'switch-button' ),
+					),
+				),
+			),
+		);
 	}
 }
 

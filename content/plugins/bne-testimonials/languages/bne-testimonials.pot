@@ -1,11 +1,10 @@
-# Loco Gettext template
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: BNE Testimonials\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: Sat Feb 07 2015 15:08:37 GMT-0800 (PST)\n"
-"POT-Revision-Date: Fri Nov 27 2015 00:00:39 GMT-0800 (PST)\n"
+"POT-Creation-Date: 2017-06-16 19:10+0000\n"
+"POT-Revision-Date: Wed Aug 10 2016 15:42:03 GMT-0700 (PDT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,20 +23,194 @@ msgstr ""
 "esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
 "X-Generator: Loco - https://localise.biz/"
 
+#: includes/cpt-main.php:139
+msgid "Name"
+msgstr ""
+
+#: includes/cpt-main.php:140
+msgid "Message"
+msgstr ""
+
+#: includes/cpt-main.php:141
+msgid "Image"
+msgstr ""
+
+#: includes/cpt-main.php:142
+msgid "Published"
+msgstr ""
+
+#: includes/locals.php:30
+msgid "Enter the person's name here"
+msgstr ""
+
+#: includes/locals.php:31
+msgid "Set Testimonial Thumbnail"
+msgstr ""
+
+#: includes/locals.php:32
+msgid "Add an optional featured image for this testimonial."
+msgstr ""
+
+#: includes/locals.php:33
+msgid "Testimonial Details"
+msgstr ""
+
+#: includes/locals.php:36
+msgid "Tagline"
+msgstr ""
+
+#: includes/locals.php:37
+msgid ""
+"Enter a tagline or company name of this testimonial. This field is also used "
+"as the website anchor text if a url is entered below. Example: \"Owner of "
+"Cat's Town\" or \"Best Delivery Service in Town\"."
+msgstr ""
+
+#: includes/locals.php:40
+msgid "Website URL"
+msgstr ""
+
+#: includes/locals.php:41
+msgid "Enter a URL that applies to this testimonial."
+msgstr ""
+
+#: includes/shortcode-display.php:259 includes/legacy/shortcode-list.php:107
+#: includes/legacy/widget-list.php:306 includes/legacy/widget-slider.php:435
+msgid "No testimonials were found."
+msgstr ""
+
+#. Post Type
 #. Name of the plugin
+#: includes/help/help.php:26
 msgid "BNE Testimonials"
 msgstr ""
 
-#. URI of the plugin
-msgid "http://www.bnecreative.com/blog/new-testimonial-plugin-for-wordpress"
+#: includes/help/help.php:27
+msgid "Help"
+msgstr ""
+
+#: includes/help/help.php:132
+msgid "BNE Testimonials Documentation"
+msgstr ""
+
+#: includes/legacy/widget-list.php:20
+msgid "BNE Testimonial List"
+msgstr ""
+
+#: includes/legacy/widget-list.php:23
+msgid "Display your testimonials as a list."
+msgstr ""
+
+#: includes/legacy/widget-list.php:61 includes/legacy/widget-slider.php:76
+msgid "Widget Title"
+msgstr ""
+
+#: includes/legacy/widget-list.php:67
+msgid "Query Options"
+msgstr ""
+
+#: includes/legacy/widget-list.php:71 includes/legacy/widget-slider.php:86
+msgid "Number of Testimonials"
+msgstr ""
+
+#: includes/legacy/widget-list.php:73 includes/legacy/widget-slider.php:88
+msgid "A numerical value. Use \"-1\" to show all."
+msgstr ""
+
+#: includes/legacy/widget-list.php:78 includes/legacy/widget-slider.php:93
+msgid "Testimonial Order (orderby query)"
+msgstr ""
+
+#: includes/legacy/widget-list.php:90 includes/legacy/widget-slider.php:105
+msgid "Order Direction"
+msgstr ""
+
+#: includes/legacy/widget-list.php:97 includes/legacy/widget-slider.php:112
+msgid "Does not apply if the testimonial order is set to random."
+msgstr ""
+
+#: includes/legacy/widget-list.php:103 includes/legacy/widget-slider.php:117
+msgid "Select Testimonial Category"
+msgstr ""
+
+#: includes/legacy/widget-list.php:131 includes/legacy/widget-slider.php:145
+msgid "Individual Testimonial Options"
+msgstr ""
+
+#: includes/legacy/widget-list.php:135 includes/legacy/widget-slider.php:149
+msgid "Show Person's Name (Testimonial Title)"
+msgstr ""
+
+#: includes/legacy/widget-list.php:147 includes/legacy/widget-slider.php:161
+msgid "Show Featured Testimonial Image"
+msgstr ""
+
+#: includes/legacy/widget-list.php:158 includes/legacy/widget-slider.php:172
+msgid "Featured Testimonial Image Style"
+msgstr ""
+
+#: includes/legacy/widget-list.php:184 includes/legacy/widget-slider.php:266
+msgid "Optional CSS Class Name"
+msgstr ""
+
+#: includes/legacy/widget-list.php:186 includes/legacy/widget-slider.php:268
+msgid ""
+"Allows you to target this testimonial widget with a unique class for further "
+"css customizations."
+msgstr ""
+
+#: includes/legacy/widget-slider.php:22
+msgid "BNE Testimonial Slider"
+msgstr ""
+
+#: includes/legacy/widget-slider.php:25
+msgid "Display your testimonials as a slider."
+msgstr ""
+
+#: includes/legacy/widget-slider.php:187
+msgid "Slider Options"
+msgstr ""
+
+#: includes/legacy/widget-slider.php:191
+msgid "Slider Animation"
+msgstr ""
+
+#: includes/legacy/widget-slider.php:202
+msgid "Animation Speed"
+msgstr ""
+
+#: includes/legacy/widget-slider.php:204
+msgid "In Milliseconds. (1000 will equal 1 second)"
+msgstr ""
+
+#: includes/legacy/widget-slider.php:209
+msgid "Duration per Slide"
+msgstr ""
+
+#: includes/legacy/widget-slider.php:211
+msgid "In Milliseconds. (7000 will equal 7 second)"
+msgstr ""
+
+#: includes/legacy/widget-slider.php:217
+msgid "Show Nav Buttons"
+msgstr ""
+
+#: includes/legacy/widget-slider.php:228
+msgid "Show Nav Arrows"
+msgstr ""
+
+#: includes/legacy/widget-slider.php:239
+msgid "Smooth Height"
+msgstr ""
+
+#: includes/legacy/widget-slider.php:250
+msgid "Pause on Hover"
 msgstr ""
 
 #. Description of the plugin
 msgid ""
-"Adds a Custom Post Type to display Testimonials on any page, post, or "
-"sidebar. Display the testimonials as a list or slider powered by Flexslider. "
-"Shortcodes: [bne_testimonials_list] & [bne_testimonials_slider]. Includes "
-"corresponding widget options."
+"Display testimonials on any page or widget area as list or slider. Upgrade "
+"to PRO for additional layouts, themes, API, 5-star ratings and schema markup."
 msgstr ""
 
 #. Author of the plugin
@@ -45,321 +218,5 @@ msgid "Kerry Kline"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "http://www.bnecreative.com"
-msgstr ""
-
-#: ../includes/cpt.php:25 ../includes/cpt.php:37
-msgid "Testimonials"
-msgstr ""
-
-#: ../includes/cpt.php:26
-msgid "Testimonial"
-msgstr ""
-
-#: ../includes/cpt.php:27
-msgid "Add new testimonial"
-msgstr ""
-
-#: ../includes/cpt.php:28
-msgid "Add new Testimonial"
-msgstr ""
-
-#: ../includes/cpt.php:29
-msgid "Edit Testimonial"
-msgstr ""
-
-#: ../includes/cpt.php:30
-msgid "New Testimonial"
-msgstr ""
-
-#: ../includes/cpt.php:31
-msgid "All Testimonials"
-msgstr ""
-
-#: ../includes/cpt.php:32
-msgid "View Testimonial"
-msgstr ""
-
-#: ../includes/cpt.php:33
-msgid "Search Testimonials"
-msgstr ""
-
-#: ../includes/cpt.php:34
-msgid "No Testimonial found"
-msgstr ""
-
-#: ../includes/cpt.php:35
-msgid "No Testimonial found in trash"
-msgstr ""
-
-#: ../includes/cpt.php:36
-msgid "Parent Testimonial"
-msgstr ""
-
-#: ../includes/cpt.php:72
-msgid "Testimonial updated!"
-msgstr ""
-
-#: ../includes/cpt.php:73
-msgid "Testimonial published!"
-msgstr ""
-
-#: ../includes/cpt.php:74
-msgid "Testimonial draft updated!"
-msgstr ""
-
-#: ../includes/cpt.php:104
-msgid "Name"
-msgstr ""
-
-#: ../includes/cpt.php:105 ../includes/taxonomy.php:21
-msgid "Category"
-msgstr ""
-
-#: ../includes/cpt.php:106
-msgid "Message"
-msgstr ""
-
-#: ../includes/cpt.php:107
-msgid "Image"
-msgstr ""
-
-#: ../includes/cpt.php:108
-msgid "Date"
-msgstr ""
-
-#: ../includes/cpt.php:142
-msgid "Enter the person's name here"
-msgstr ""
-
-#: ../includes/cpt.php:160
-msgid "Set Testimonial Thumbnail"
-msgstr ""
-
-#: ../includes/cpt.php:174
-msgid "Add an optional featured image for this testimonial."
-msgstr ""
-
-#: ../includes/cpt.php:207
-msgid "Optional Testimonial Details"
-msgstr ""
-
-#: ../includes/cpt.php:226
-msgid "Tagline or Company Name:"
-msgstr ""
-
-#: ../includes/cpt.php:232
-msgid ""
-"Enter a tagline or Company Name of this testimonial. This field is also used "
-"as the website anchor text if a url is entered below. Example: \"Owner of "
-"Cat's Town\"."
-msgstr ""
-
-#: ../includes/cpt.php:238
-msgid "Website URL:"
-msgstr ""
-
-#: ../includes/cpt.php:244
-msgid "Enter a URL that applies to this testimonial. Ex: http://www.google.com/"
-msgstr ""
-
-#: ../includes/help.php:38
-msgid "Help"
-msgstr ""
-
-#: ../includes/help.php:74
-msgid "Testimonial Instructions"
-msgstr ""
-
-#: ../includes/help.php:329
-msgid "Check out the Pro Version!"
-msgstr ""
-
-#: ../includes/taxonomy.php:20
-msgid "Testimonial Categories"
-msgstr ""
-
-#: ../includes/taxonomy.php:22
-msgid "Search Categories"
-msgstr ""
-
-#: ../includes/taxonomy.php:23
-msgid "Popular Categories"
-msgstr ""
-
-#: ../includes/taxonomy.php:24
-msgid "All Categories"
-msgstr ""
-
-#: ../includes/taxonomy.php:25
-msgid "Parent Category"
-msgstr ""
-
-#: ../includes/taxonomy.php:26
-msgid "Parent: Category"
-msgstr ""
-
-#: ../includes/taxonomy.php:27
-msgid "Edit Category"
-msgstr ""
-
-#: ../includes/taxonomy.php:28
-msgid "View Category"
-msgstr ""
-
-#: ../includes/taxonomy.php:29
-msgid "Update Category"
-msgstr ""
-
-#: ../includes/taxonomy.php:30
-msgid "Add New Category"
-msgstr ""
-
-#: ../includes/taxonomy.php:31
-msgid "New Category Name"
-msgstr ""
-
-#: ../includes/taxonomy.php:32
-msgid "Add or remove Categories"
-msgstr ""
-
-#: ../includes/taxonomy.php:33
-msgid "Choose from the most used Categories"
-msgstr ""
-
-#: ../includes/taxonomy.php:34
-msgid "Separate Categories with commas"
-msgstr ""
-
-#: ../includes/taxonomy.php:35
-msgid "Categories"
-msgstr ""
-
-#: ../includes/widget-list.php:24
-msgid "BNE Testimonial List"
-msgstr ""
-
-#: ../includes/widget-list.php:25
-msgid "Display your testimonials as a list."
-msgstr ""
-
-#: ../includes/widget-list.php:65 ../includes/widget-slider.php:78
-msgid "Widget Title"
-msgstr ""
-
-#: ../includes/widget-list.php:71 ../includes/widget-slider.php:84
-msgid "Query Options"
-msgstr ""
-
-#: ../includes/widget-list.php:75 ../includes/widget-slider.php:88
-msgid "Number of Testimonials"
-msgstr ""
-
-#: ../includes/widget-list.php:77 ../includes/widget-slider.php:90
-msgid "A numerical value. Use \"-1\" to show all."
-msgstr ""
-
-#: ../includes/widget-list.php:82 ../includes/widget-slider.php:95
-msgid "Testimonial Order (orderby query)"
-msgstr ""
-
-#: ../includes/widget-list.php:94 ../includes/widget-slider.php:107
-msgid "Order Direction"
-msgstr ""
-
-#: ../includes/widget-list.php:101 ../includes/widget-slider.php:114
-msgid "Does not apply if the testimonial order is set to random."
-msgstr ""
-
-#: ../includes/widget-list.php:107 ../includes/widget-slider.php:119
-msgid "Select Testimonial Category"
-msgstr ""
-
-#: ../includes/widget-list.php:133 ../includes/widget-slider.php:147
-msgid "Individual Testimonial Options"
-msgstr ""
-
-#: ../includes/widget-list.php:137 ../includes/widget-slider.php:151
-msgid "Show Person's Name (Testimonial Title)"
-msgstr ""
-
-#: ../includes/widget-list.php:148 ../includes/widget-slider.php:162
-msgid "Show Featured Testimonial Image"
-msgstr ""
-
-#: ../includes/widget-list.php:159 ../includes/widget-slider.php:173
-msgid "Featured Testimonial Image Style"
-msgstr ""
-
-#: ../includes/widget-list.php:174 ../includes/widget-slider.php:264
-msgid "Advanced Options"
-msgstr ""
-
-#: ../includes/widget-list.php:177 ../includes/widget-slider.php:267
-msgid "Featured Image Lightbox"
-msgstr ""
-
-#: ../includes/widget-list.php:181 ../includes/widget-slider.php:271
-msgid ""
-"Only works if a lightbox plugin is installed or your theme provides one "
-"which uses the \"rel\" attribute on the anchor tag. For example, prettyPhoto "
-"uses rel=\"prettyPhoto\"."
-msgstr ""
-
-#: ../includes/widget-list.php:186 ../includes/widget-slider.php:276
-msgid "Optional CSS Class Name"
-msgstr ""
-
-#: ../includes/widget-list.php:188 ../includes/widget-slider.php:278
-msgid ""
-"Allows you to target this testimonial widget with a unique class for further "
-"css customizations."
-msgstr ""
-
-#: ../includes/widget-slider.php:24
-msgid "BNE Testimonial Slider"
-msgstr ""
-
-#: ../includes/widget-slider.php:25
-msgid "Display your testimonials using as a slider."
-msgstr ""
-
-#: ../includes/widget-slider.php:188
-msgid "Slider Options"
-msgstr ""
-
-#: ../includes/widget-slider.php:192
-msgid "Slider Animation"
-msgstr ""
-
-#: ../includes/widget-slider.php:203
-msgid "Animation Speed"
-msgstr ""
-
-#: ../includes/widget-slider.php:205
-msgid "In Milliseconds. (1000 will equal 1 second)"
-msgstr ""
-
-#: ../includes/widget-slider.php:210
-msgid "Duration per Slide"
-msgstr ""
-
-#: ../includes/widget-slider.php:212
-msgid "In Milliseconds. (7000 will equal 7 second)"
-msgstr ""
-
-#: ../includes/widget-slider.php:218
-msgid "Show Nav Buttons"
-msgstr ""
-
-#: ../includes/widget-slider.php:229
-msgid "Show Nav Arrows"
-msgstr ""
-
-#: ../includes/widget-slider.php:240
-msgid "Smooth Height"
-msgstr ""
-
-#: ../includes/widget-slider.php:251
-msgid "Pause on Hover"
+msgid "https://www.bnecreative.com"
 msgstr ""

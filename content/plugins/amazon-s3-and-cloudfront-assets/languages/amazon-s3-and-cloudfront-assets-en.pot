@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-s3-and-cloudfront-assets\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2017-03-14 12:13+0000\n"
+"POT-Creation-Date: 2017-07-11 14:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,61 +17,61 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: classes/amazon-s3-and-cloudfront-assets.php:135
+#: classes/amazon-s3-and-cloudfront-assets.php:127
 msgid "Error getting new key: "
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:136
-#: classes/tools/process-assets.php:118
+#: classes/amazon-s3-and-cloudfront-assets.php:128
+#: classes/tools/process-assets.php:129
 msgid "No CSS or JS is being served because \"Copy & Serve\" is off."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:160
+#: classes/amazon-s3-and-cloudfront-assets.php:151
 msgctxt "Show the Assets settings tab"
 msgid "Assets"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:805
+#: classes/amazon-s3-and-cloudfront-assets.php:796
 #, php-format
 msgid "AS3CF Assets -  S3 Upload every %d Minutes"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1473
+#: classes/amazon-s3-and-cloudfront-assets.php:1441
 #, php-format
 msgid "File does not exist - %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1485
+#: classes/amazon-s3-and-cloudfront-assets.php:1453
 #, php-format
 msgid "Error uploading %s to S3: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1519
+#: classes/amazon-s3-and-cloudfront-assets.php:1487
 #, php-format
 msgid "Error uploading body to S3: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2464
+#: classes/amazon-s3-and-cloudfront-assets.php:2434
 msgid "Gzip Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2465
+#: classes/amazon-s3-and-cloudfront-assets.php:2435
 msgid "There were errors when attempting to compress your assets."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2468
+#: classes/amazon-s3-and-cloudfront-assets.php:2438
 msgid "Minify Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2469
+#: classes/amazon-s3-and-cloudfront-assets.php:2439
 msgid "There were errors when attempting to minify your assets."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2473
+#: classes/amazon-s3-and-cloudfront-assets.php:2443
 msgid "Upload Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2474
+#: classes/amazon-s3-and-cloudfront-assets.php:2444
 msgid "There were errors when attempting to upload your assets to S3."
 msgstr ""
 
@@ -99,49 +99,49 @@ msgstr ""
 msgid "A purge and re-scan has been initiated."
 msgstr ""
 
-#: classes/tools/process-assets.php:95
+#: classes/tools/process-assets.php:97
 msgid "Assets Status"
 msgstr ""
 
-#: classes/tools/process-assets.php:104
+#: classes/tools/process-assets.php:106
 msgctxt "Scan the filesystem for files to upload to S3"
 msgid "Scan Now"
 msgstr ""
 
-#: classes/tools/process-assets.php:114
+#: classes/tools/process-assets.php:125
 #: view/process-assets.php:40
 msgid "Scanning and uploading files to S3."
 msgstr ""
 
-#: classes/tools/process-assets.php:116
+#: classes/tools/process-assets.php:127
 #: view/process-assets.php:44
 msgid "Purging files from S3."
 msgstr ""
 
-#: classes/tools/process-assets.php:139
-#: classes/tools/process-assets.php:147
+#: classes/tools/process-assets.php:152
+#: classes/tools/process-assets.php:160
 msgctxt "Why are css and js assets not serving?"
 msgid "Why?"
 msgstr ""
 
-#: classes/tools/process-assets.php:140
+#: classes/tools/process-assets.php:153
 #, php-format
 msgid ""
 "CSS and JS files have been uploaded to S3 but none of the files have been "
 "served just yet. %s"
 msgstr ""
 
-#: classes/tools/process-assets.php:143
+#: classes/tools/process-assets.php:156
 #, php-format
 msgid "%d JS and %d CSS enqueued files are currently being served. %s"
 msgstr ""
 
-#: classes/tools/process-assets.php:148
+#: classes/tools/process-assets.php:161
 #, php-format
 msgid "No CSS or JS files are being served. %s"
 msgstr ""
 
-#: classes/tools/process-assets.php:165
+#: classes/tools/process-assets.php:178
 msgid "Next scan:"
 msgstr ""
 

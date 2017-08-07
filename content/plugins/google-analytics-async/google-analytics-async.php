@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/google-analytics-for-wordpress-mu
 Description: Enables Google Analytics for your site with statistics inside WordPress admin panel. Single and multi site compatible!
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
-Version: 3.1.5.5
+Version: 3.1.5.6
 WDP ID: 51
 License: GNU General Public License (Version 2 - GPLv2)
 */

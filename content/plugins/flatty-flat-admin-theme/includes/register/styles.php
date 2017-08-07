@@ -2,6 +2,11 @@
 function flatty_styles() {
 //START
 
+	//USE GOOGLE FONT
+	if (get_option('flatty_google_font') == true) {
+		wp_enqueue_style('flatty-font', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600,700');
+	}
+
 	//RESET
 	wp_register_style('flatty-reset', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/flatty-reset.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-reset');
@@ -13,8 +18,10 @@ function flatty_styles() {
 	wp_register_style('flatty-buttons', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/layout/flatty-layout-buttons.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-buttons');
 
-	wp_register_style('flatty-contextlinks', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/layout/flatty-layout-contextlinks.css'), null, FLATTY_VERSION, 'screen');
-	wp_enqueue_style('flatty-contextlinks');
+	if (get_option('flatty_new_checkbox') == false) {
+		wp_register_style('flatty-checkbox', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/layout/flatty-layout-checkbox.css'), null, FLATTY_VERSION, 'screen');
+		wp_enqueue_style('flatty-checkbox');
+	}
 
 	wp_register_style('flatty-sidebar', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/layout/flatty-layout-sidebar.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-sidebar');
@@ -34,6 +41,7 @@ function flatty_styles() {
 
 	wp_register_style('flatty-brokenlinkchecker', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/support/flatty-support-brokenlinkchecker.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-brokenlinkchecker');
+
 
 	//ADDONS
 	wp_register_style('flatty-addons-topbar', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/addons/flatty-addons-topbar.css'), null, FLATTY_VERSION, 'screen');
@@ -55,10 +63,6 @@ function flatty_styles() {
 	wp_register_style('flatty-options', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/page/flatty-page-flatty-options.css'), null, FLATTY_VERSION, 'screen');
 	wp_enqueue_style('flatty-options');
 
-	//THEME
-	wp_register_style('flatty-default', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/themes/default.css'), null, FLATTY_VERSION, 'screen');
-	wp_enqueue_style('flatty-default');
-
 	//FIXED TOPBAR
 	if (get_option('flatty_use_flatty_topbar') == true && get_option('flatty_fixed_topbar') == true) {
 		wp_register_style('flatty-fixed-topbar', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/addons/flatty-addons-topbar-fixed.css'), null, FLATTY_VERSION, 'screen');
@@ -79,8 +83,10 @@ function flatty_styles() {
 		wp_enqueue_style('flatty-login');
 	}
 
+	//LAST
+	wp_register_style('flatty-last', plugins_url(FLATTY_PLUGIN_URL . 'assets/css/flatty-last.css'), null, FLATTY_VERSION, 'screen');
+	wp_enqueue_style('flatty-last');
 
 //END
 }
-
 ?>

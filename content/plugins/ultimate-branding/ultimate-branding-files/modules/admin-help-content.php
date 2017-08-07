@@ -66,8 +66,8 @@ class ub_Ahc_AdminHelpContent extends ub_helper {
 		$this->_default_text = __( 'You can change the content in this Help drop-down by going to Branding > Help Content.', 'ub' );
 		add_action( 'admin_init', array( &$this, 'register_settings' ) );
 
-		add_action( 'ultimatebranding_settings_menu_help', array( &$this, 'create_admin_page' ) );
-		add_filter( 'ultimatebranding_settings_menu_help_process', array( &$this, 'process_admin_page' ), 10, 1 );
+		add_action( 'ultimatebranding_settings_help', array( &$this, 'create_admin_page' ) );
+		add_filter( 'ultimatebranding_settings_help_process', array( &$this, 'process_admin_page' ), 10, 1 );
 		add_action( 'admin_init', array( $this, 'enqueue_admin_scripts' ) );
 
 		$this->_initialize_help_content();

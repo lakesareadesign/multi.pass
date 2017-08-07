@@ -1,6 +1,7 @@
 <div class="dev-box">
     <div class="box-title">
         <h3><?php _e( "EVENT LOGS", wp_defender()->domain ) ?></h3>
+        <button type="button" class="button button-secondary button-small audit-csv"><?php _e( "Export CSV", wp_defender()->domain ) ?></button>
     </div>
     <div class="box-content">
         <p class="mline"><?php _e( "Here are your latest event logs showing what’s been happening behind the scenes.", wp_defender()->domain ) ?></p>
@@ -34,7 +35,7 @@
             <div class="clear"></div>
         </div>
         <div id="audit-table-container">
-	        <?php _e( "Loading events...", wp_defender()->domain ) ?>
+			<?php _e( "Loading events...", wp_defender()->domain ) ?>
         </div>
     </div>
 </div>

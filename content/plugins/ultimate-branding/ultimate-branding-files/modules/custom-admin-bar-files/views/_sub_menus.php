@@ -13,7 +13,7 @@
         <h3 class="hndle">
             <a href="#" data-id="<?php echo $sub->id; ?>" class="wdcab_step_delete button-secondary pull-right"><?php _e( 'Delete', 'ub' ); ?></a>
             <span>
-                <span class="wdcab_step_count"><?php echo $i; ?> </span>:&nbsp;	   	 		 		 	   		
+                <span class="wdcab_step_count"><?php echo $i; ?> </span>:&nbsp;
                 <?php echo $sub->title_image;  ?>
             </span>
         </h3>

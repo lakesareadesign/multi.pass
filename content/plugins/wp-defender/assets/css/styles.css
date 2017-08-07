@@ -27,7 +27,7 @@
 .wpmud :-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: #AAAAAA; }
-.wpmud input[type="text"], .wpmud textarea, .wpmud input[type="search"] {
+.wpmud input[type="text"], .wpmud textarea, .wpmud input[type="search"], .wpmud input[type="password"] {
   background: #FAFAFA;
   border: solid 1px #DDDDDD;
   color: #333;
@@ -264,6 +264,8 @@
       font-size: 15px; }
 .wpmud .dev-overlay .box-scroll {
   padding: 30px; }
+.wpmud .dev-overlay.small .box {
+  margin: 30px auto; }
 @media screen and (min-width: 769px) and (max-width: 979px) {
   .wpmud .dev-overlay {
     width: 100%;
@@ -316,9 +318,8 @@
 .wpmud .dev-team:not(.dev-overlay) {
   background-image: url("../img/dev-team.svg");
   background-repeat: no-repeat;
-  background-position: 0 100%;
-  padding-bottom: 35%;
-  background-size: contain; }
+  background-position: 50% 100%;
+  padding-bottom: 35%; }
 .wpmud .dev-team.dev-overlay .box {
   padding-bottom: 270px;
   background-image: url("../img/dev-team-big.svg");
@@ -2262,6 +2263,30 @@
       .wp-defender .iplockout .well.schedule-box .columns .column label {
         line-height: 43px;
         padding: 0; }
+  .wp-defender .wpmudev-register div {
+    padding-left: 40%; }
+    .wp-defender .wpmudev-register div input {
+      width: 100%;
+      margin-bottom: 20px; }
+    .wp-defender .wpmudev-register div input.error {
+      border-bottom: solid 2px #FF6D6D;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      margin-bottom: 0; }
+    .wp-defender .wpmudev-register div span.validate-error {
+      color: #FF6D6D;
+      font-size: 12px;
+      line-height: 22px;
+      margin-bottom: 20px; }
+    .wp-defender .wpmudev-register div label {
+      color: #AAAAAA;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 22px;
+      padding: 0;
+      font-family: Roboto, sans-serif; }
+      .wp-defender .wpmudev-register div label span {
+        font-weight: 400; }
   .wp-defender .toggle-row {
     display: none; }
   @media screen and (min-width: 769px) and (max-width: 979px) {
@@ -2348,4 +2373,4 @@
   margin: 0; }
 
 
-/* 133620-1496772439-au */
+/* 133620-1502132187-au */

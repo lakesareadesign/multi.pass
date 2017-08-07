@@ -41,7 +41,7 @@ class Opt_In_ConstantContact extends Opt_In_Provider_Abstract  implements  Opt_I
      * @param $default
      * @return mixed
      */
-    function get_option($option_key, $default = '' )
+    function get_option($option_key, $default )
     {
         return get_site_option(self::ID . "_" . $option_key, $default);
     }

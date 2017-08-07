@@ -73,6 +73,21 @@
 		},
 
 		/**
+		 * Get a tool's status.
+		 *
+		 * @param {string} tool
+		 *
+		 * @return {object}
+		 */
+		getTool: function( tab, tool ) {
+			if ( null == this.tools[ tab ][ tool ] ) {
+				return {};
+			}
+
+			return this.tools[ tab ][ tool ];
+		},
+
+		/**
 		 * Tool is processing.
 		 *
 		 * @param {string} tool
@@ -221,7 +236,22 @@
 				$block.find( '.button' ).removeClass( 'disabled' );
 			}
 
-			$block.trigger( 'status-change', status );
+			var activeTab = $( '.nav-tab-wrapper' ).find( '.nav-tab-active' ).data( 'tab' );
+			var toolTab = $block.data( 'tab' );
+
+			if ( status.should_render ) {
+				$block.attr( 'data-render', 1 );
+			} else {
+				$block.attr( 'data-render', 0 );
+			}
+
+			if ( status.should_render && activeTab === toolTab ) {
+				$block.show();
+			} else {
+				$block.hide();
+			}
+
+			$block.trigger( 'status-change', [ status, id ] );
 		},
 
 		/**
@@ -382,6 +412,76 @@
 			}
 
 			return '';
+		},
+
+		/**
+		 * Render pie chart for blocks using simple trigonometry
+		 */
+		renderPieChart: function() {
+			var $pie = $( '.as3cf-sidebar.pro .pie-chart' );
+			var $block = $pie.closest( '.block-scope' );
+			var $title = $block.find( '.block-title' );
+			var data = $block.data( 'state' );
+			var chart;
+
+			var currentState = function( percentage ) {
+				return data.states[ percentage ] || data.states[1];
+			};
+			var updateTitle = function( percentage ) {
+				var title = data.i18n[ 'title_' + currentState( percentage ) ] || data.i18n.title_partial_complete;
+
+				$title.text( title.replace( '%s%', percentage ) );
+			};
+			var updateBtn = function( percentage ) {
+				var text = data.i18n[ 'upload_' + currentState( percentage ) ] || data.i18n.upload_partial_complete;
+
+				$block.find( '.as3cf-pro-tool.button' ).text( text );
+			};
+
+			if ( ! data ) {
+				return;
+			}
+
+			// Render the initial state of the chart
+			chart = new as3cfpro.Sidebar.PieChart( $pie );
+			chart.render( $pie.data( 'percentage' ) );
+
+			// Listen for status change events for this tool, and update accordingly
+			$( '.as3cf-sidebar.pro' ).on( 'status-change', function( event, status, tool ) {
+				if ( tool === data.slug && $pie.length ) {
+					var percentage = Math.floor( ( status.total_on_s3 / status.total_items ) * 100 );
+					// The percentage attribute is used in some css selectors so it must be synced as well.
+					$pie.attr( 'data-percentage', percentage );
+					updateTitle( percentage );
+					updateBtn( percentage );
+					chart.render( percentage );
+					$block.toggleClass( 'completed', 100 === percentage );
+				}
+			} );
+		},
+
+		/**
+		 * PieChart constructor.
+		 * @param {jQuery} $el jQuery instance
+		 * @constructor
+		 */
+		PieChart: function( $el ) {
+			this.$el = $el;
+			this.radius = 100;
+			this.value = 0;
+
+			this.render = function( percentage ) {
+				var angle = percentage * 3.6;
+				var coords = [
+					this.radius * Math.cos( Math.PI * angle / 180 ),
+					this.radius * Math.sin( Math.PI * angle / 180 )
+				];
+
+				this.$el.find( 'svg path' ).attr( 'd',
+					'M0,0 L' + this.radius + ',0 A' + this.radius + ',' + this.radius + ' 0 1,1 ' + coords[0] + ',' + coords[1] + ' Z'
+				);
+				this.value = percentage;
+			};
 		}
 	};
 
@@ -390,6 +490,7 @@
 		as3cfpro.Sidebar.setTools( as3cfSidebarTools );
 		as3cfpro.Sidebar.startPollInterval();
 		as3cfpro.Sidebar.refreshButtonStates();
+		as3cfpro.Sidebar.renderPieChart();
 
 		// Listen to start
 		$( '.as3cf-sidebar' ).on( 'click', '.background-tool .button.start', {

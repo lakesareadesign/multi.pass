@@ -264,6 +264,10 @@ class Opt_In_Mad_Mimi extends Opt_In_Provider_Abstract implements  Opt_In_Provid
         );
     }
 
+    function exclude_args_fields() {
+        return array( 'api_key', 'username' );
+    }
+
     function is_authorized(){
         return true;
     }

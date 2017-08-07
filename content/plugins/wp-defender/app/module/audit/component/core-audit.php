@@ -134,12 +134,19 @@ class Core_Audit extends Event_Abstract {
 	}
 
 	private static function upgrade_core() {
-		global $wp_version;
+		$update_core = get_site_transient( 'update_core' );
+		if ( is_object( $update_core ) ) {
+			$updates = $update_core->updates;
+			$updates = array_shift( $updates );
+			if ( is_object( $updates ) && property_exists( $updates, 'version' ) ) {
+				return array(
+					sprintf( esc_html__( "%s updated WordPress to %s", wp_defender()->domain ), Utils::instance()->getDisplayName( get_current_user_id() ), $updates->version ),
+					self::CONTEXT_CORE
+				);
+			}
+		}
 
-		return array(
-			sprintf( esc_html__( "%s updated WordPress to %s", wp_defender()->domain ), Utils::instance()->getDisplayName( get_current_user_id() ), $wp_version ),
-			self::CONTEXT_CORE
-		);
+		return false;
 	}
 
 	private static function bulk_upgrade( $upgrader, $options ) {

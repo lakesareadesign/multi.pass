@@ -1,37 +1,43 @@
 <?php
 
+/**
+ * Class WP_Hummingbird_Performance_Report_Page
+ */
 class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 
 	/**
-     * Status of error. If true, than we have some error.
-     *
+	 * Status of error. If true, than we have some error.
+	 *
 	 * @var bool $has_error True if error present.
 	 */
-    public $has_error;
+	public $has_error;
 
 	/**
 	 * WP_Hummingbird_Performance_Report_Page constructor.
 	 *
-	 * @param $slug
-	 * @param $page_title
-	 * @param $menu_title
-	 * @param bool $parent
-	 * @param bool $render
+	 * @param string $slug        The slug name to refer to this menu by (should be unique for this menu).
+	 * @param string $page_title  The text to be displayed in the title tags of the page when the menu is selected.
+	 * @param string $menu_title  The text to be used for the menu.
+	 * @param bool   $parent      Parent or child.
+	 * @param bool   $render      Use a callback function.
 	 */
-    public function __construct( $slug, $page_title, $menu_title, $parent = false, $render = true ) {
-	    parent::__construct( $slug, $page_title, $menu_title, $parent, $render );
+	public function __construct( $slug, $page_title, $menu_title, $parent = false, $render = true ) {
+		parent::__construct( $slug, $page_title, $menu_title, $parent, $render );
 
-	    $this->tabs = array(
-			'main' => __( 'Improvements', 'wphb' )
+		$this->tabs = array(
+			'main' => __( 'Improvements', 'wphb' ),
 		);
 
-	    // We need to actually tweak these tasks
-	    add_filter( 'wphb_admin_after_tab_' . $this->get_slug(), array( $this, 'after_tab' ) );
+		// We need to actually tweak these tasks.
+		add_filter( 'wphb_admin_after_tab_' . $this->get_slug(), array( $this, 'after_tab' ) );
 
-	    //$this->recommendations = wphb_get_number_of_issues( 'performance' );
-	    //$this->get_error_status();
-    }
+		//$this->recommendations = wphb_get_number_of_issues( 'performance' );
+		//$this->get_error_status();
+	}
 
+	/**
+	 * Render header.
+	 */
 	public function render_header() {
 		$this->get_error_status();
 
@@ -40,16 +46,16 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 		$run_url = wp_nonce_url( $run_url, 'wphb-run-performance-test' );
 		$next_test_on = WP_Hummingbird_Module_Performance::can_run_test();
 		?>
-        <div class="wphb-notice wphb-notice-success hidden" id="wphb-notice-performance-report-settings-updated">
-            <p><?php _e( 'Settings updated', 'wphb' ); ?></p>
-        </div>
+		<div class="wphb-notice wphb-notice-success hidden" id="wphb-notice-performance-report-settings-updated">
+			<p><?php _e( 'Settings updated', 'wphb' ); ?></p>
+		</div>
 		<section id="header">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 			<div class="actions label-and-button">
-				<?php if ( $last_report && ! is_wp_error( $last_report ) ): ?>
+				<?php if ( $last_report && ! is_wp_error( $last_report ) ) : ?>
 					<?php
-						$data_time = strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $last_report->data->time ) ) );
-						$disabled = true !== $next_test_on;
+					$data_time = strtotime( get_date_from_gmt( date( 'Y-m-d H:i:s', $last_report->data->time ) ) );
+					$disabled = true !== $next_test_on;
 					?>
 					<p class="actions-label">
 						<?php printf( __('Your last performance test was on <strong>%s</strong> at <strong>%s</strong>', 'wphb' ), date_i18n( get_option( 'date_format' ), $data_time ), date_i18n( get_option( 'time_format' ), $data_time ) ); ?>
@@ -76,11 +82,7 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 				return;
 
 			// Start the test
-			wphb_performance_clear_cache();
 			wphb_performance_init_scan();
-
-			// This will trigger the popup
-			wphb_performance_set_doing_report( true );
 
 			wp_redirect( remove_query_arg( array( 'run', '_wpnonce' ) ) );
 			exit;
@@ -147,7 +149,7 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 		}
 
 		$this->view( 'performance/module-resume-meta-box', array( 'last_report' => $last_report, 'improvement' => $improvement, 'last_score' => $last_score, 'recommendations' => wphb_get_number_of_issues( 'performance' ) ) );
-    }
+	}
 
 	public function performance_summary_metabox_header() {
 		$title =  __( 'Improvements', 'wphb' );
@@ -160,20 +162,21 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 
 	/**
 	 * See if there are any errors. Set the variable to true if some errors are found.
-     *
-     * @since 1.4.5
+	 *
+	 * @since 1.4.5
 	 */
-    private function get_error_status() {
-	    $this->has_error = false;
-	    $last_test = wphb_performance_get_last_report();
-	    if ( is_wp_error( $last_test ) ) {
-		    $this->has_error = true;
-	    }
-    }
-
+	private function get_error_status() {
+		$this->has_error = false;
+		$last_test = wphb_performance_get_last_report();
+		if ( is_wp_error( $last_test ) ) {
+			$this->has_error = true;
+		}
+	}
 
 	/**
 	 * We need to insert an extra label to the tabs sometimes
+	 *
+	 * @param string $tab Current tab.
 	 */
 	public function after_tab( $tab ) {
 		if ( 'main' !== $tab ) {
@@ -205,8 +208,7 @@ class WP_Hummingbird_Performance_Report_Page extends WP_Hummingbird_Admin_Page {
 		}
 		if ( ! $this->has_error ) {
 			echo ' <span class="hide-on-mobile wphb-button-label wphb-button-label-' . $class . '">' . wphb_get_number_of_issues( 'performance' ) . '</span>';
-		}
-		else {
+		} else {
 			echo ' <i class="hide-on-mobile hb-wpmudev-icon-warning"></i>';
 		}
 	}

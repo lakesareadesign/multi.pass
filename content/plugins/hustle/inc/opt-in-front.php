@@ -180,14 +180,31 @@ class Opt_In_Front
 				unset( $settings->slide_in );
 			}
 
+            $provider = Opt_In::get_provider_by_id( $optin->optin_provider );
+            $provider = Opt_In::provider_instance( $provider );
+            $p_args = $optin->provider_args;
+            $provider_args = $p_args;
+            $optin_data = $optin->get_data();
+			if( isset( $optin_data['api_key'] ) ){
+				unset( $optin_data['api_key'] );
+			}
+            $hide_args = ( method_exists( $provider, 'exclude_args_fields' ) )
+                ? $provider->exclude_args_fields()
+                : array();
+
+            if( !empty( $hide_args ) ) {
+                foreach ( $hide_args as $field ) {
+                    unset( $provider_args->$field );
+                }
+            }
+
             $this->_optin_handles[$handle]["settings"] = $settings;
             $this->_optin_handles[$handle]["design"] = $optin->get_design()->to_object();
-            $this->_optin_handles[$handle]["data"] = $optin->get_data();
+            $this->_optin_handles[$handle]["data"] = $optin_data;
             $this->_optin_handles[$handle]["shortcode"] = $optin->settings->shortcode->to_array();
             $this->_optin_handles[$handle]["widget"] = $optin->settings->widget->to_array();
-            $this->_optin_handles[$handle]["provider_args"] = $optin->provider_args;
+            $this->_optin_handles[$handle]["provider_args"] = $provider_args;
             $this->_styles .= $optin->decorated->get_optin_styles();
-
             $this->_optin_layouts[ $handle ] = $this->_optin_handles[$handle]["design"]->form_location;
 
         }

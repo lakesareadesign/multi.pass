@@ -23,7 +23,7 @@ $cloudflare_js_settings = array(
 	'zone' => wphb_get_setting( 'cloudflare-zone' ),
 	'zoneName' => wphb_get_setting( 'cloudflare-zone-name' ),
 	'plan' => $cf_module->get_plan(),
-	'zones' => $zones
+	'zones' => $zones,
 );
 
 $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
@@ -89,18 +89,21 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 <script type="text/template" id="cloudflare-step-final">
 	<div class="cloudflare-step">
 		<div class="wphb-notice wphb-notice-blue">
-			<p><?php _e( 'CloudFlare is active on this domain. The settings you choose here will also update CloudFlare settings.', 'wphb' ); ?></p>
+			<p><?php esc_html_e( 'CloudFlare is active on this domain. The settings you choose here will also update CloudFlare settings.', 'wphb' ); ?></p>
 		</div>
 		<p class="cloudflare-data">
-            <?php if ( ! empty( wphb_get_setting( 'cloudflare-zone-name' ) ) ) : ?>
-			    <span><strong><?php _ex( 'Zone', 'CloudFlare Zone', 'wphb' ); ?>:</strong> {{ data.zoneName }}</span>
-            <?php endif; ?>
-            <?php if ( ! empty ( $cf_module->get_plan() ) ) : ?>
-			    <span><strong><?php _ex( 'Plan', 'CloudFlare Plan', 'wphb' ); ?>:</strong> {{ data.plan }}</span>
-            <?php endif; ?>
+			<?php
+			$zone_name = wphb_get_setting( 'cloudflare-zone-name' );
+			if ( ! empty( $zone_name ) ) : ?>
+				<span><strong><?php _ex( 'Zone', 'CloudFlare Zone', 'wphb' ); ?>:</strong> {{ data.zoneName }}</span>
+			<?php endif;
+			$plan = $cf_module->get_plan();
+			if ( ! empty( $plan ) ) : ?>
+				<span><strong><?php _ex( 'Plan', 'CloudFlare Plan', 'wphb' ); ?>:</strong> {{ data.plan }}</span>
+			<?php endif; ?>
 		</p>
 		<hr>
-		<p class="cloudflare-clear-cache-text"><?php _e( 'Made changes to your website? Use Purge Cache button to clear CloudFlare\'s cache', 'wphb' ); ?></p class="cloudflare-clear-cache-text">
+		<p class="cloudflare-clear-cache-text"><?php esc_html_e( 'Made changes to your website? Use Purge Cache button to clear CloudFlare\'s cache', 'wphb' ); ?></p class="cloudflare-clear-cache-text">
 		<p class="cloudflare-clear-cache">
 			<input type="submit" class="button button-ghost" value="<?php esc_attr_e( 'Purge Cache', 'wphb' ); ?>">
 			<span class="spinner cloudflare-spinner"></span>
@@ -112,7 +115,7 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 
 <script>
 	jQuery(document).ready( function( $ ) {
-		WPHB_Admin.DashboardCloudFlare.init( <?php echo $cloudflare_js_settings; ?> );
+		window.WPHB_Admin.DashboardCloudFlare.init( <?php echo $cloudflare_js_settings; ?> );
 	});
 </script>
 

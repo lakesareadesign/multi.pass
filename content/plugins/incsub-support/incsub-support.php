@@ -6,7 +6,7 @@ Description: Set up an awesome support ticket system on any WordPress site, comp
 Author: WPMU DEV
 WDP ID: 36
 Network: true
-Version: 2.1.9.3
+Version: 2.1.9.4
 License: GPLv2
 Author URI: http://premium.wpmudev.org
 Text Domain: incsub-support
@@ -14,10 +14,10 @@ Text Domain: incsub-support
 
 /*
 Copyright 2007-2015 Incsub (http://incsub.com)
-Author – Ignacio Cruz (igmoweb)
+Author � Ignacio Cruz (igmoweb)
 
 This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 – GPLv2) as published by
+it under the terms of the GNU General Public License (Version 2 � GPLv2) as published by
 the Free Software Foundation.
 
 This program is distributed in the hope that it will be useful,
@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 Foundation 5 License: See license-foundation.txt
 */
 
-define( 'INCSUB_SUPPORT_PLUGIN_VERSION', '2.1.9.3' );
+define( 'INCSUB_SUPPORT_PLUGIN_VERSION', '2.1.9.4' );
 
 if ( ! defined( 'INCSUB_SUPPORT_LANG_DOMAIN' ) )
 	define('INCSUB_SUPPORT_LANG_DOMAIN', 'incsub-support');
@@ -427,7 +427,7 @@ if ( ! class_exists( 'MU_Support_System') ) {
 
 			}
 
-			return $super_admins;
+			return apply_filters( 'incsub_support_get_super_admins', $super_admins );
 		}
 
 		public static function get_main_admin_email() {

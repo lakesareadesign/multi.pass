@@ -1,3 +1,5 @@
+import Fetcher from './utils/fetcher';
+
 ( function( $ ) {
     WPHB_Admin.DashboardCloudFlare = {
         init: function( settings ) {
@@ -6,13 +8,13 @@
             this.email = settings.email;
             this.apiKey = settings.apiKey;
             this.$stepsContainer = $('#cloudflare-steps');
-            this.$infoBox = $('#cloudflare-info');
+            this.$infoBox = $( '#cloudflare-info' );
             this.$spinner = $( '.cloudflare-spinner' );
-            this.$deactivateButton = $('#wphb-box-dashboard-cloudflare .box-title .buttons');
+            this.$deactivateButton = $('.cloudflare-deactivate.button');
 
             this.renderStep( this.currentStep );
 
-            $('body').on( 'click', '.cloudflare-clear-cache .button', function(e ) {
+            $('body').on( 'click', '.cloudflare-clear-cache.button', function(e ) {
                 e.preventDefault();
                 this.purgeCache.apply( $(e.target), [this] );
             }.bind(this));
@@ -20,32 +22,30 @@
         },
 
         purgeCache: function( self ) {
-            var data = {
-                action: 'cloudflare_purge_cache'
-            };
+            // Show spinner
+			const $button = this;
+			$button.attr( 'disabled', true );
+			self.showSpinner();
 
-            var $button = this;
-            $button.attr( 'disabled', true );
-            self.showSpinner();
-            $.post( ajaxurl, data )
-                .success( function() {
-                    var $notice = $('#wphb-notice-cloudflare-purge-cache');
-                    window.scrollTo(0, 0);
-                    $notice.slideDown();
-                    setTimeout(function() {
-                        $notice.slideUp();
-                    }, 5e3);
-                })
-                .always( function() {
-                    $button.removeAttr( 'disabled' );
-                    self.hideSpinner();
+            Fetcher.cloudflare.purgeCache()
+                .then( () => {
+                    // Show notice
+					const $notice = $('#wphb-notice-cloudflare-purge-cache');
+					window.scrollTo(0, 0);
+					$notice.slideDown();
+					setTimeout(function() {
+						$notice.slideUp();
+					}, 5e3);
+                    // Remove spinner
+					$button.removeAttr( 'disabled' );
+					self.hideSpinner();
                 });
         },
 
         renderStep: function( step ) {
-            var template = WPHB_Admin.DashboardCloudFlare.template( '#cloudflare-step-' + step );
-            var content = template( this.data );
-            var self = this;
+            const template = WPHB_Admin.DashboardCloudFlare.template( '#cloudflare-step-' + step );
+            const content = template( this.data );
+            const self = this;
 
             if ( content ) {
                 this.currentStep = step;
@@ -66,7 +66,7 @@
         },
 
         bindEvents: function() {
-            var $howToInstructions = $('#cloudflare-how-to');
+            const $howToInstructions = $('#cloudflare-how-to');
 
             $howToInstructions.hide();
 
@@ -76,18 +76,14 @@
             });
 
             this.$stepsContainer.find( 'select' ).each( function() {
-                WDP.wpmuSelect( this );
+				window.WDP.wpmuSelect( this );
             });
 
             if ( 'final' === this.currentStep ) {
                 this.$deactivateButton.removeClass( 'hidden' );
-            }
-            else {
+            } else {
                 this.$deactivateButton.addClass( 'hidden' );
             }
-
-
-
         },
 
         emptyInfoBox: function() {
@@ -98,7 +94,7 @@
         showInfoBox: function( message ) {
             this.$infoBox.addClass( 'wphb-notice' );
             this.$infoBox.addClass( 'wphb-notice-error' );
-            this.$infoBox.html( message );
+            this.$infoBox.html( message + '' );
         },
 
         showSpinner: function() {
@@ -110,46 +106,32 @@
         },
 
         submitStep: function( $form ) {
-            var data = {
-                action: 'cloudflare_connect',
-                step: this.currentStep,
-                formData: $form.serialize(),
-                cfData: this.data
-            };
+			const self = this;
 
-            $form.find( 'input[type=submit]' ).attr( 'disabled', 'true' );
+			$form.find( 'input[type=submit]' ).attr( 'disabled', 'true' );
+			this.emptyInfoBox();
+			this.showSpinner();
 
+			Fetcher.cloudflare.connect( this.currentStep, $form.serialize(), this.data )
+                .then( ( response ) => {
+					self.data = response.newData;
+					self.renderStep( response.nextStep );
 
-            this.emptyInfoBox();
-            this.showSpinner();
-
-            var self = this;
-
-            $.post( ajaxurl, data, function(response) {
-                if ( response.success ) {
-                    self.data = response.data.newData;
-                    self.renderStep( response.data.nextStep );
-                }
-                else {
-                    self.showInfoBox( response.data.error );
-                }
-                if ( response.data.nextStep === 'final' ) {
-                    window.location.href = response.data.redirect;
-                    return;
-                }
-            })
-                .error( function( jqXHR, textStatus, errorThrown ) {
-                    self.showInfoBox( textStatus + ':' + errorThrown );
+					if ( response.nextStep === 'final' ) {
+						window.location.href = response.redirect;
+					}
                 })
-                .always( function() {
-                    $form.find( 'input[type=submit]' ).removeAttr( 'disabled' );
-                    self.hideSpinner();
-                });
+				.catch( ( error ) => {
+					self.showInfoBox( error );
+				});
+
+			$form.find( 'input[type=submit]' ).removeAttr( 'disabled' );
+			self.hideSpinner();
         }
     };
 
     WPHB_Admin.DashboardCloudFlare.template = _.memoize(function ( id ) {
-        var compiled,
+        let compiled,
             options = {
                 evaluate:    /<#([\s\S]+?)#>/g,
                 interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,

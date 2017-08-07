@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name: Custom Multisite Favicons
+  Plugin Name: Multisite Favicons
   Description: Change the Favicon for the network
   Author: Marko Miljus (Incsub), Barry (Incsub), Philip John (Incsub), Marcin Pietrzak (Incsub)
 
@@ -45,8 +45,8 @@ class ub_favicons {
 		self::$_default_fav = admin_url() . 'images/w-logo-blue.png';
 
 		// Admin interface
-		add_action( 'ultimatebranding_settings_menu_images', array( $this, 'manage_output' ) );
-		add_filter( 'ultimatebranding_settings_menu_images_process', array( $this, 'process' ) );
+		add_action( 'ultimatebranding_settings_images', array( $this, 'manage_output' ) );
+		add_filter( 'ultimatebranding_settings_images_process', array( $this, 'process' ) );
 
 		if ( ! $this->_supports_site_icon() ) {
 			add_action( 'admin_head', array( $this, 'admin_head' ) );
@@ -69,6 +69,12 @@ class ub_favicons {
 		 * export
 		 */
 		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
+		/**
+		 * Favicons on Sites screen.
+		 */
+		add_filter( 'wpmu_blogs_columns', array( $this, 'wpmu_blogs_columns' ) );
+		add_action( 'admin_head-sites.php', array( $this, 'wpmu_blogs_columns_css' ) );
+		add_action( 'manage_sites_custom_column', array( $this, 'manage_sites_custom_column' ), 10, 2 );
 	}
 
 	function enqueue_scripts() {
@@ -158,7 +164,6 @@ class ub_favicons {
                         <a href='<?php echo wp_nonce_url( 'admin.php?page=' . $page . '&amp;tab=images&amp;resetfavicon=yes&amp;action=process', 'ultimatebranding_settings_menu_images' ) ?>'><?php _e( 'Reset the image', 'login_image' ) ?></a>
                     </p>
 <?php
-			wp_nonce_field( 'ultimatebranding_settings_menu_images' );
 			$favicon_old = ub_get_option( 'ub_favicon_url', false );
 			$favicon_id = ub_get_option( 'ub_favicon_id', false );
 			$favicon_size = ub_get_option( 'ub_favicon_size', false );
@@ -303,11 +308,9 @@ if ( ! $favicon ) {
                 <?php _e( 'Use this as default favicon for all sub-sites', 'ub' ); ?>
             </label>
         </p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
         <h4><?php _e( 'Sub-site favicons', 'ub' ); ?></h4>
 <?php
-			$table = new UB_Blog_Favicons();
+		$table = new UB_Blog_Favicons();
 		$table->prepare_items();
 		$table->display();
 
@@ -540,6 +543,64 @@ if ( ! $favicon ) {
 			$data['modules'][ $key ] = ub_get_option( $key );
 		}
 		return $data;
+	}
+
+	/**
+	 * Icons on sites list
+	 *
+	 * @since 1.8.8
+	 */
+	public function wpmu_blogs_columns( $columns ) {
+		$new = array();
+		foreach ( $columns as $key => $value ) {
+			$new[ $key ] = $value;
+			if ( 'blogname' == $key ) {
+				$new[ __CLASS__ ] = __( 'Favicon', 'ub' );
+			}
+		}
+		return $new;
+	}
+
+	/**
+	 * Icons on sites list
+	 *
+	 * @since 1.8.8
+	 */
+	public function wpmu_blogs_columns_css() {
+		echo '<style type="text/css">';
+		echo '.column-ub_favicons { width: 10%; }';
+		echo '.column-ub_favicons img {max-width: 16px; max-height: 16px;}';
+		echo '</style>';
+		echo PHP_EOL;
+	}
+
+	/**
+	 * Icons on sites list
+	 *
+	 * @since 1.8.8
+	 */
+	public function manage_sites_custom_column( $column, $site_id ) {
+		if ( 'ub_favicons' != $column ) {
+			return;
+		}
+		$favicon = self::get_favicon( $site_id );
+		if ( empty( $favicon ) ) {
+		}
+		printf( '<img src="%s" />', esc_url( $favicon ) );
+		$url = add_query_arg(
+			array(
+				'page' => 'branding',
+				'tab' => 'images',
+			),
+			network_admin_url( 'admin.php' )
+		);
+		echo '<div class="row-actions">';
+		printf(
+			'<a href="%s">%s</a>',
+			esc_url( $url ),
+			esc_html__( 'Change', 'ub' )
+		);
+		echo '</div>';
 	}
 }
 

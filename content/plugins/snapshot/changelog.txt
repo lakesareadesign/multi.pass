@@ -5,9 +5,69 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.1.3
+----------------------------------------------------------------------
+- New: Snapshot now uses V2 of Dropbox API.
+- New: Dropbox authentication uses OAuth 2 instead of OAuth 1, fallback system has been created for old destinations.
+- Dropbox destination now requires PHP 5.5 or newer.
+- Fix: Remove open basedir from Snapshot system check.
+- Fix: Fatal error when restoring snapshot on PHP 7.0
+- Fix: Remove PHP notice when restoring a Snapshot.
+- Fix: AWS Destination not displaying AWS Secret Access Key value.
+- Fix: AWS Destination not saving/updating Storage type/File permissions and Directory values.
+
+3.1.2
+----------------------------------------------------------------------
+- New: Snapshots can once again be created from and restored to a specific subsite on WordPress multisite
+- New: The Snapshot name is now included in the generated archive filename, for easier identification
+- New: An error message is displayed when uploading a snapshot to a remote destination fails
+- New: Snapshot filenames are now displayed when viewing snapshot's information
+- New: After editing a snapshot will redirect to viewing the snapshot information, instead of viewing all snapshots
+
+- Fix: Minor UI enhancements and fixes
+- Fix: Proper JavaScript not being loaded on some pages in the Network Admin
+- Fix: Show log button not working when restoring a snapshot
+- Fix: Prevent the storage limit for Managed Backups from being set to a negative number, and allow it to be set to 0 for unlimited
+- Fix: Add link to the back button on the snapshot restore page
+- Fix: Snapshot scheduling information not always saving correctly when editing Snapshot
+
+3.1.1.1
+----------------------------------------------------------------------
+- Fix: Settings hidden on Create Snapshot page.
+
+3.1.1
+----------------------------------------------------------------------
+- New: Display a message when backup log is empty.
+- Minor UI improvements.
+- Fix: Redirection bug to Snapshot dashboard, activation pathways restored.
+- Fix: Redirections for all old snapshot URLs.
+- Fix: Prevent backup progress bar from getting more than 100% in any case.
+- Fix: PHP 7.1 errors.
+- Fix: Some typos.
+
+3.1.0
+----------------------------------------------------------------------
+Meet the brand new Snapshot Pro! We’ve given the admin interface a refresh and updated the overall user experience. Setting up and configuring your Snapshots & Backups has never been faster.
+- New: Welcome page to help configure your first backup in just a few seconds.
+- New: All-in-one dashboard.
+- New: Summary panel with last Snapshots/Backups status.
+- New: Clean Snapshots listing table with awesome filters.
+- New: Simple Snapshots creation wizard.
+- New: Awesome pre-flight requirements checker to make sure backups are going to run smoothly.
+- New: Less is better, no more confusing frequency settings, now you can choose run daily, weekly, monthly or once off.
+- New: Clean destinations listing table.
+- New: Easier managed backup activation flow.
+- New: User friendly Managed backup creation process with a brand new progress bar and log system.
+- New: A handy dashboard page for Managed Backups to manage existing backups and global backup settings.
+- New: Easy and clear one page for all plugin settings.
+- Fix: Multi-line manifest data parsing.
+- Fix: Mal-formatted JSON error handling.
+- Fix: Responsive issue with log watching link.
+- Fix: Better managed backups in restricted environments handling.
+
 3.0.4
 ----------------------------------------------------------------------
-- Fix: Ensure managed backup pings service endpoint on completion 
+- Fix: Ensure managed backup pings service endpoint on completion
 
 3.0.3
 ----------------------------------------------------------------------
@@ -374,4 +434,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-133620-1479864853-au
+133620-1502132156-au

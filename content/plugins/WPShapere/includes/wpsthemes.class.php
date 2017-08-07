@@ -26,7 +26,7 @@ class WPSTHEMES extends WPSHAPERE{
             {
                 global $aof_options;
                 $aof_options->licenseValidate();
-                    $wps_themes = $this->get_wps_themes();
+                $wps_themes = $this->get_wps_themes();
     ?>
     <div class="wrap">
             <h2><?php echo __('Import a Theme', 'wps'); ?></h2>

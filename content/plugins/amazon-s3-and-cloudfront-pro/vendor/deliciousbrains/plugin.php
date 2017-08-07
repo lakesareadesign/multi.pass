@@ -192,6 +192,6 @@ class Delicious_Brains_API_Plugin {
 			return $data['Version'];
 		}
 
-		return 0;
+		return false;
 	}
 }

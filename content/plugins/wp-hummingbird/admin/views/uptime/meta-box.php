@@ -41,7 +41,7 @@
 
 	<script>
 		jQuery(document).ready( function() {
-			WPHB_Admin.getModule( 'uptime' );
+			window.WPHB_Admin.getModule( 'uptime' );
 		});
 	</script>
 <?php endif; ?>

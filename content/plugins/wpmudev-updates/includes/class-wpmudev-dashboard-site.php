@@ -764,11 +764,8 @@ class WPMUDEV_Dashboard_Site {
 								'popup-after-install'
 							);
 						} else {
-							WPMUDEV_Dashboard::$ui->render_project(
-								$pid,
-								false,
-								'popup-after-install-failed'
-							);
+							$err = WPMUDEV_Dashboard::$upgrader->get_error();
+							$this->send_json_error( $err );
 						}
 					}
 					break;
@@ -2306,7 +2303,7 @@ class WPMUDEV_Dashboard_Site {
 	 * Sends latest data to DEV if schedule at end of page load
 	 */
 	public function shutdown_refresh() {
-		if ( self::$_refresh_shutdown_flag ) {
+		if ( self::$_refresh_shutdown_flag && ! defined( 'WPMUDEV_REMOTE_SKIP_SYNC' ) ) {
 			WPMUDEV_Dashboard::$site->refresh_local_projects( 'remote' );
 		}
 	}

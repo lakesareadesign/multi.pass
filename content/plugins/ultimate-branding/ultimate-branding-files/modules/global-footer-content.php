@@ -13,8 +13,8 @@ class ub_global_footer_content extends ub_helper {
 	var $global_footer_content;
 
 	public function __construct() {
-		add_action( 'ultimatebranding_settings_menu_footer', array( &$this, 'global_footer_content_site_admin_options' ) );
-		add_filter( 'ultimatebranding_settings_menu_footer_process', array( &$this, 'update_global_footer_options' ), 10, 1 );
+		add_action( 'ultimatebranding_settings_footer', array( &$this, 'global_footer_content_site_admin_options' ) );
+		add_filter( 'ultimatebranding_settings_footer_process', array( &$this, 'update_global_footer_options' ), 10, 1 );
 		add_action( 'wp_footer', array( &$this, 'global_footer_content_output' ), 10 );
 		add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
 
@@ -47,10 +47,17 @@ class ub_global_footer_content extends ub_helper {
 			$global_footer['themefooter'] = '';
 		}
 
+		if ( isset( $global_footer['shortcodes'] ) ) {
+			$global_footer['shortcodes'] = ( 'on' === $global_footer['shortcodes'] ) ? 'checked' : '';
+		} else {
+			$global_footer['shortcodes'] = '';
+		}
+
 		$status *= ub_update_option( 'global_footer_content' , $global_footer['content'] );
 		$status *= ub_update_option( 'global_footer_bgcolor', $global_footer['bgcolor'] );
 		$status *= ub_update_option( 'global_footer_fixedheight', $global_footer['fixedheight'] );
 		$status *= ub_update_option( 'global_footer_themefooter', $global_footer['themefooter'] );
+		$status *= ub_update_option( 'global_footer_shortcodes', $global_footer['shortcodes'] );
 
 		if ( is_multisite() ) {
 			if ( '' === $global_footer_main['content'] ) {
@@ -63,10 +70,17 @@ class ub_global_footer_content extends ub_helper {
 				$global_footer_main['themefooter'] = '';
 			}
 
+			if ( isset( $global_footer_main['shortcodes'] ) ) {
+				$global_footer_main['shortcodes'] = ( 'on' === $global_footer_main['shortcodes'] ) ? 'checked' : '';
+			} else {
+				$global_footer_main['shortcodes'] = '';
+			}
+
 			$status *= ub_update_option( 'global_footer_main_content' , $global_footer_main['content'] );
 			$status *= ub_update_option( 'global_footer_main_bgcolor', $global_footer_main['bgcolor'] );
 			$status *= ub_update_option( 'global_footer_main_fixedheight', $global_footer_main['fixedheight'] );
 			$status *= ub_update_option( 'global_footer_main_themefooter', $global_footer_main['themefooter'] );
+			$status *= ub_update_option( 'global_footer_main_shortcodes', $global_footer_main['shortcodes'] );
 		}
 
 		return true;
@@ -97,6 +111,11 @@ class ub_global_footer_content extends ub_helper {
 			$global_footer_bgcolor = ub_get_option( 'global_footer_bgcolor', '' );
 			$global_footer_height = ub_get_option( 'global_footer_fixedheight', '' );
 			$global_footer_themefooter = ub_get_option( 'global_footer_themefooter', '' );
+			$global_footer_shortcodes = ub_get_option( 'global_footer_shortcodes', '' );
+
+			if ( 'checked' == $global_footer_shortcodes ) {
+				$global_footer_content = do_shortcode( $global_footer_content );
+			}
 
 			$style = '' !== $global_footer_bgcolor ? 'background-color:' . $global_footer_bgcolor . ';' : '';
 			$style .= '' !== $global_footer_height ? 'height:' . $global_footer_height .'px;overflow:hidden;' : '';
@@ -111,7 +130,6 @@ class ub_global_footer_content extends ub_helper {
 		 * $global_footer_main_content
 		 */
 		if ( ! empty( $global_footer_main_content ) && ( is_multisite() && is_main_site() ) ) {
-
 			/**
 			 * Avoid using wp_content filter, because it breaks compatibility with themes with UI builders.
 			 */
@@ -123,6 +141,11 @@ class ub_global_footer_content extends ub_helper {
 			$global_footer_main_bgcolor = ub_get_option( 'global_footer_main_bgcolor', '' );
 			$global_footer_main_height = ub_get_option( 'global_footer_main_fixedheight', '' );
 			$global_footer_main_themefooter = ub_get_option( 'global_footer_main_themefooter', '' );
+			$global_footer_main_shortcodes = ub_get_option( 'global_footer_main_shortcodes', '' );
+
+			if ( 'checked' == $global_footer_main_shortcodes ) {
+				$global_footer_main_content = do_shortcode( $global_footer_main_content );
+			}
 
 			$style = '' !== $global_footer_main_bgcolor ? 'background-color:' . $global_footer_main_bgcolor . ';' : '';
 			$style .= '' !== $global_footer_main_height ? 'height:' . $global_footer_main_height .'px;overflow:hidden;' : '';
@@ -151,6 +174,9 @@ class ub_global_footer_content extends ub_helper {
 
 		// integrate in theme footer
 		$global_footer_themefooter = ub_get_option( 'global_footer_themefooter', '' );
+
+		// proceed shortcodes
+		$global_footer_shortcodes = ub_get_option( 'global_footer_shortcodes', '' );
 ?>
             <div class="postbox">
             <h3 class="hndle" style='cursor:auto;'><span><?php echo is_multisite() ? __( 'Global Footer Content For Subsites', 'ub' ) : __( 'Global Footer Content', 'ub' ) ?></span></h3>
@@ -186,12 +212,19 @@ class ub_global_footer_content extends ub_helper {
                     <tr valign="top">
                         <th scope="row"><?php _e( 'Integrate in theme footer', 'ub' ) ?></th>
                         <td>
-                            <input class="text-60"  name="ub_global_footer[themefooter]"  id="ub_footer_themefooter" type="checkbox" <?php echo $global_footer_themefooter; ?>/>&nbsp
+                            <input class="text-60"  name="ub_global_footer[themefooter]"  id="ub_footer_themefooter" type="checkbox" <?php echo $global_footer_themefooter; ?>/>
                             <br />
                             <?php _e( 'If selected, the plugin will try to place the footer content block inside the theme footer element.', 'ub' ) ?>
                         </td>
                     </tr>
 
+                    <tr valign="top">
+                        <th scope="row"><?php _e( 'Proceed shortcode', 'ub' ) ?></th>
+                        <td>
+                            <input class="text-60"  name="ub_global_footer[shortcodes]"  id="ub_footer_shortcodes" type="checkbox" <?php echo $global_footer_shortcodes; ?>/>
+                            <p class="description"><?php _e( 'Be careful it can break compatibility with themes with UI builders.', 'ub' ) ?></p>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -200,6 +233,7 @@ class ub_global_footer_content extends ub_helper {
 	$global_footer_main_bgcolor = ub_get_option( 'global_footer_main_bgcolor', '' );
 	$global_footer_main_fixedheight = ub_get_option( 'global_footer_main_fixedheight', '' );
 	$global_footer_main_themefooter = ub_get_option( 'global_footer_main_themefooter', '' );
+	$global_footer_main_shortcodes = ub_get_option( 'global_footer_main_shortcodes', '' );
 	if ( $global_footer_main_content == 'empty' ) {
 		$global_footer_main_content = '';
 	}
@@ -243,6 +277,13 @@ wp_editor( stripslashes( $global_footer_main_content ), 'global_footer_main_cont
                                 <?php _e( 'If selected, the plugin will try to place the footer content block inside the theme footer element.', 'ub' ) ?>
                             </td>
                         </tr>
+                        <tr valign="top">
+                            <th scope="row"><?php _e( 'Proceed shortcode', 'ub' ) ?></th>
+                            <td>
+                                <input class="text-60"  name="ub_global_footer_main[shortcodes]"  id="ub_footer_main_shortcodes" type="checkbox" <?php echo $global_footer_main_shortcodes; ?>/>
+                                <p class="description"><?php _e( 'Be careful it can break compatibility with themes with UI builders.', 'ub' ) ?></p>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -264,6 +305,8 @@ wp_editor( stripslashes( $global_footer_main_content ), 'global_footer_main_cont
 			'global_footer_main_fixedheight',
 			'global_footer_main_themefooter',
 			'global_footer_themefooter',
+			'global_footer_main_shortcodes',
+			'global_footer_shortcodes',
 		);
 		foreach ( $options as $key ) {
 			$data['modules'][ $key ] = ub_get_option( $key );

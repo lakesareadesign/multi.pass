@@ -27,9 +27,14 @@ class Main extends Controller {
 	 * @return array
 	 */
 	public function behaviors() {
-		return array(
-			'utils' => '\WP_Defender\Behavior\Utils'
+		$behaviors = array(
+			'utils' => '\WP_Defender\Behavior\Utils',
 		);
+		if ( wp_defender()->isFree == false ) {
+			$behaviors['pro'] = '\WP_Defender\Module\IP_Lockout\Behavior\Pro\Reporting';
+		}
+
+		return $behaviors;
 	}
 
 	public function __construct() {
@@ -52,29 +57,105 @@ class Main extends Controller {
 		$this->add_ajax_action( 'lockoutLoadLogs', 'lockoutLoadLogs' );
 		$this->add_ajax_action( 'lockoutIPAction', 'lockoutIPAction' );
 		$this->add_ajax_action( 'lockoutEmptyLogs', 'lockoutEmptyLogs' );
+		$this->add_ajax_action( 'lockoutSummaryData', 'lockoutSummaryData' );
 
-		$this->handleIp();
+		$this->handleIpAction();
 		$this->handleUserSearch();
+	}
+
+	public function lockoutSummaryData() {
+		if ( ! $this->checkPermission() ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( HTTP_Helper::retrieve_post( 'nonce' ), 'lockoutSummaryData' ) ) {
+			return;
+		}
+
+		$setting = Settings::instance();
+
+		$lockouts = Log_Model::findAll( array(
+			'type' => array(
+				Log_Model::LOCKOUT_404,
+				Log_Model::AUTH_LOCK
+			),
+			'date' => array(
+				'compare' => '>=',
+				'value'   => strtotime( 'first day of this month', current_time( 'timestamp' ) )
+			)
+		), 'ID', 'DESC' );
+
+		if ( count( $lockouts ) == 0 ) {
+			$data = array(
+				'lastLockout'          => __( "Never", wp_defender()->domain ),
+				'lockoutToday'         => 0,
+				'lockoutThisMonth'     => 0,
+				'loginLockoutThisWeek' => 0,
+				'lockout404ThisWeek'   => 0,
+			);
+
+			wp_send_json_success( $data );
+		}
+
+		//init params
+		$lastLockout          = '';
+		$lockoutToday         = 0;
+		$lockoutThisMonth     = count( $lockouts );
+		$loginLockoutThisWeek = 0;
+		$lockout404ThisWeek   = 0;
+		//time
+		$todayMidnight = strtotime( '-24 hours', current_time( 'timestamp' ) );
+		$firstThisWeek = strtotime( 'monday this week', current_time( 'timestamp' ) );
+		foreach ( $lockouts as $k => $log ) {
+			//the other as DESC, so first will be last lockout
+			if ( $k == 0 ) {
+				$lastLockout = $this->formatDateTime( date( 'Y-m-d H:i:s', $log->date ) );
+			}
+
+			if ( $log->date > $todayMidnight ) {
+				$lockoutToday ++;
+			}
+
+			if ( $log->type == Log_Model::AUTH_LOCK && $log->date > $firstThisWeek ) {
+				$loginLockoutThisWeek ++;
+			} elseif ( $log->type == Log_Model::LOCKOUT_404 && $log->date > $firstThisWeek ) {
+				$lockout404ThisWeek ++;
+			}
+		}
+
+		$data = array(
+			'lastLockout'          => $lastLockout,
+			'lockoutToday'         => $lockoutToday,
+			'lockoutThisMonth'     => $lockoutThisMonth,
+			'loginLockoutThisWeek' => $loginLockoutThisWeek,
+			'lockout404ThisWeek'   => $lockout404ThisWeek,
+		);
+
+		wp_send_json_success( $data );
 	}
 
 	public function lockoutEmptyLogs() {
 		if ( ! $this->checkPermission() ) {
 			return;
 		}
-
 		if ( ! wp_verify_nonce( HTTP_Helper::retrieve_post( 'nonce' ), 'lockoutEmptyLogs' ) ) {
 			return;
 		}
 
-		$logs = Log_Model::findAll();
+		$perPage = 50;
+
+		$logs = Log_Model::findAll( array(), 'ID', 'ASC', '0,' . $perPage );
 		if ( count( $logs ) ) {
 			foreach ( $logs as $log ) {
 				$log->delete();
 			}
+		} else {
+			wp_send_json_success( array(
+				'message' => __( "Your logs have been successfully deleted.", wp_defender()->domain )
+			) );
 		}
-		wp_send_json_success( array(
-			'message' => __( "All your logs has been deleted!", wp_defender()->domain )
-		) );
+
+		wp_send_json_error( array() );
 	}
 
 	/**
@@ -157,6 +238,11 @@ class Main extends Controller {
 			) );
 			die;
 		} else {
+
+			if ( is_user_logged_in() ) {
+				//if current user can logged in, and no blacklisted we don't need to check the ip
+				return;
+			}
 			global $wpdb;
 			//use raw queries here for faster
 			if ( $this->isActivatedSingle() == false ) {
@@ -215,7 +301,7 @@ class Main extends Controller {
 	/**
 	 * Handle the logic here
 	 */
-	private function handleIp() {
+	private function handleIpAction() {
 		$ip       = $this->getUserIp();
 		$settings = Settings::instance();
 		if ( $settings->report ) {
@@ -224,8 +310,10 @@ class Main extends Controller {
 		}
 
 		//cron for cleanup
-		if ( wp_next_scheduled( 'cleanUpOldLog' ) === false ) {
-			wp_schedule_event( time(), 'daily', 'cleanUpOldLog' );
+		$nextCleanup = wp_next_scheduled( 'cleanUpOldLog' );
+		if ( $nextCleanup === false || $nextCleanup > strtotime( '+90 minutes' ) ) {
+			wp_clear_scheduled_hook( 'cleanUpOldLog' );
+			wp_schedule_event( time(), 'hourly', 'cleanUpOldLog' );
 		}
 		$this->add_action( 'cleanUpOldLog', 'cleanUpOldLog' );
 
@@ -282,78 +370,13 @@ class Main extends Controller {
 				'compare' => '<=',
 				'value'   => strtotime( apply_filters( 'ip_lockout_logs_store_backward', '-' . Settings::instance()->storage_days . ' days' ), current_time( 'timestamp' ) )
 			),
-		) );
+		), null, null, 500 );
 
 		if ( count( $logs ) ) {
 			foreach ( $logs as $log ) {
 				$log->delete();
 			}
 		}
-	}
-
-	/**
-	 * Sending report email
-	 */
-	public function lockoutReportCron() {
-		if ( wp_defender()->isFree ) {
-			return;
-		}
-		$settings = Settings::instance();
-
-		if ( $settings->report == false ) {
-			return false;
-		}
-
-		$lastReportSent = $settings->lastReportSent;
-		if ( $lastReportSent == null ) {
-			//no sent, so just assume last 30 days, as this only for monthly
-			$lastReportSent = strtotime( '-31 days', current_time( 'timestamp' ) );
-		}
-
-		if ( ! $this->isReportTime( $settings->report_frequency, $settings->report_day, $lastReportSent ) ) {
-			return false;
-		}
-
-		$after_time = '';
-		$time_unit  = '';
-		switch ( $settings->report_frequency ) {
-			case '1':
-				$after_time = 'yesterday midnight';
-				$time_unit  = __( "In the past 24 hours", wp_defender()->domain );
-				break;
-			case '7':
-				$after_time = '-7 days';
-				$time_unit  = __( "In the past week", wp_defender()->domain );
-				break;
-			case '30':
-				$after_time = '-30 days';
-				$time_unit  = __( "In the month", wp_defender()->domain );
-				break;
-		}
-		$after_time = strtotime( $after_time, current_time( 'timestamp' ) );
-		$userIds    = $settings->report_receipts;
-		$userIds    = array_unique( $userIds );
-		foreach ( $userIds as $user_id ) {
-			$user = get_user_by( 'id', $user_id );
-			if ( is_object( $user ) ) {
-				$content        = $this->renderPartial( 'emails/report', array(
-					'admin'         => $user->display_name,
-					'count_total'   => Login_Protection_Api::getAllLockouts( $after_time ),
-					'last_lockout'  => Login_Protection_Api::getLastLockout(),
-					'lockout_404'   => Login_Protection_Api::get404Lockouts( $after_time ),
-					'lockout_login' => Login_Protection_Api::getLoginLockouts( $after_time ),
-					'time_unit'     => $time_unit
-				), false );
-				$no_reply_email = "noreply@" . parse_url( get_site_url(), PHP_URL_HOST );
-				$headers        = array(
-					'From: Defender <' . $no_reply_email . '>',
-					'Content-Type: text/html; charset=UTF-8'
-				);
-				wp_mail( $user->user_email, sprintf( __( "Defender Lockouts Report for %s", wp_defender()->domain ), network_site_url() ), $content, $headers );
-			}
-		}
-		$settings->lastReportSent = time();
-		$settings->save();
 	}
 
 	/**
@@ -655,9 +678,8 @@ class Main extends Controller {
 					$res['message'] = $status;
 				}
 			}
-			$cronTime = $this->reportCronTimestamp( $settings->report_time, 'lockoutReportCron' );
-			if ( $settings->report == true ) {
-				wp_schedule_event( $cronTime, 'daily', 'lockoutReportCron' );
+			if ( $this->hasMethod( 'scheduleReport' ) ) {
+				$this->scheduleReport();
 			}
 			wp_send_json_success( $res );
 		} else {

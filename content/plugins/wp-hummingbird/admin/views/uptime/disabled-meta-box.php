@@ -11,8 +11,13 @@
 
 		<div class="content">
 			<p><?php echo sprintf( __( 'We can monitor your website\'s response time and let you know when you experience downtime. It\'s included with your WPMU DEV Membership and all <br> you have to do is flick a switch. What are you waiting for, %s?', 'wphb' ), $user); ?></p>
-			<a href="<?php echo esc_url( $activate_url ); ?>" class="button button-large" id="activate-uptime"><?php _e( 'Activate Uptime Monitoring', 'wphb' ); ?></a>
 		</div><!-- end content -->
+
+		<div class="buttons">
+			<a href="<?php echo esc_url( $activate_url ); ?>" class="button button-large" id="activate-uptime">
+				<?php _e( 'Activate Uptime Monitoring', 'wphb' ); ?>
+			</a>
+		</div>
 
 	</div><!-- end wphb-block-entry-content -->
 

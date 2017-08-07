@@ -209,32 +209,6 @@
 		},
 
 		/**
-		 * Render pie chart for sidebar tool block using simple trigonometry
-		 */
-		renderPieChart: function() {
-			var percentage, path, angle, radius = 100, coords = [];
-
-			percentage = $( '.as3cf-sidebar.pro .pie-chart' ).data( 'percentage' );
-
-			if ( percentage >= 100 ) {
-				$( '.as3cf-sidebar.pro .pie-chart ~ h4' ).addClass( 'completed' );
-			}
-
-			// Return early no pie chart display
-			if ( percentage < 1 || percentage > 99 ) {
-				return;
-			}
-
-			angle = percentage * 3.6;
-			coords[0] = radius * Math.cos( Math.PI * angle / 180 );
-			coords[1] = radius * Math.sin( Math.PI * angle / 180 );
-			path = 'M0,0 L' + radius + ',0 A' + radius + ',' + radius + ' 0 1,1 ' + coords[0] + ',' + coords[1] + ' Z';
-
-			$( '.as3cf-sidebar.pro .pie-chart ~ h4' ).removeClass( 'completed' );
-			$( '.as3cf-sidebar.pro .pie-chart svg path' ).attr( 'd', path );
-		},
-
-		/**
 		 * Open the Tool modal
 		 */
 		openModal: function() {
@@ -292,6 +266,7 @@
 					var progress = {
 						bytes: 0,
 						files: 0,
+						total_done: 0,
 						total_bytes: 0,
 						total_files: 0
 					};
@@ -473,7 +448,6 @@
 
 			$( '.progress-content .progress-bar' ).width( this.progressPercent + '%' );
 
-			this.renderPieChart();
 			this.updateProgressMessage();
 		},
 
@@ -481,7 +455,7 @@
 		 * Update the text under the progress bar
 		 */
 		updateProgressMessage: function() {
-			var uploadProgress = this.getString( 'files_processed' ).replace( '%1$d', this.progressCount ).replace( '%2$d', this.numberFormat( this.progressTotalCount ) );
+			var uploadProgress = this.getString( 'files_processed' );
 			var progressMessage = this.progressPercent + '% ' + this.getString( 'complete' );
 			var bytesMessage = '';
 
@@ -489,7 +463,11 @@
 				bytesMessage = '(' + this.sizeFormat( this.progressBytes ) + ' / ' + this.sizeFormat( this.progressTotalBytes ) + ')';
 			}
 
-			$( '.upload-progress' ).html( uploadProgress );
+			$( '.upload-progress' ).html(
+				uploadProgress
+					.replace( '%1$d', this.numberFormat( this.progressCount ) )
+					.replace( '%2$d', this.numberFormat( this.progressTotalCount ) )
+			);
 
 			if ( false === this.processPaused ) {
 				$( '.progress-text' ).html( progressMessage + ' ' + bytesMessage );
@@ -567,7 +545,6 @@
 					} );
 
 					self.showSidebarBlocks();
-					self.renderPieChart();
 				}
 			} );
 		},
@@ -585,6 +562,10 @@
 
 			if ( html.length ) {
 				$sidebar.append( html );
+			}
+
+			if ( $( html ).find( '.pie-chart' ).length ) {
+				as3cfpro.Sidebar.renderPieChart();
 			}
 		},
 
@@ -713,7 +694,7 @@
 					}
 
 					self.updateNonFatalErrors( data );
-					self.updateProgress( data.files, data.total_files, data.bytes, data.total_bytes );
+					self.updateProgress( data.total_done, data.total_files, data.bytes, data.total_bytes );
 
 					self.nextStepInProcess = { fn: self.processItemRecursive, args: [ data ] };
 					self.executeNextStep();
@@ -937,8 +918,6 @@
 			} );
 			this.processCompleted = false;
 			this.progressModalActive = false;
-
-			as3cfpro.tool.renderPieChart();
 		},
 
 		/**
@@ -1082,9 +1061,6 @@
 
 		// Listen for any URLs for triggering tools
 		as3cfpro.tool.openFromURL();
-
-		// Animate sidebar progress bars
-		as3cfpro.tool.renderPieChart();
 
 		// Display Tool Modal
 		$( 'body' ).on( 'click', 'a.as3cf-pro-tool', function( e ) {

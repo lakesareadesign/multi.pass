@@ -123,11 +123,10 @@ class Sidebar_Presenter {
 	 * Load assets.
 	 */
 	public function load_assets() {
-		$version = $this->as3cf->get_asset_version();
-		$suffix  = $this->as3cf->get_asset_suffix();
-
-		$src = plugins_url( 'assets/js/pro/sidebar' . $suffix . '.js', $this->as3cf->get_plugin_file_path() );
-		wp_enqueue_script( 'as3cf-pro-sidebar', $src, array( 'jquery', 'as3cf-pro-script' ), $version, true );
+		$this->as3cf->enqueue_script( 'as3cf-pro-sidebar', 'assets/js/pro/sidebar', array(
+			'jquery',
+			'as3cf-pro-script',
+		) );
 
 		wp_localize_script( 'as3cf-pro-sidebar', 'as3cfSidebarTools', $this->get_tools_status() );
 	}

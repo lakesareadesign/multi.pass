@@ -5,25 +5,19 @@
                 <h2 class="title">
 					<?php _e( "IP LOCKOUTS", wp_defender()->domain ) ?>
                 </h2>
-                <div class="dev-box summary-box">
+                <div class="dev-box summary-box" id="lockoutSummary">
+                    <div class="wd-overlay">
+                        <i class="wdv-icon wdv-icon-fw wdv-icon-refresh spin"></i>
+                    </div>
+                    <input type="hidden" id="summaryNonce" value="<?php echo wp_create_nonce( 'lockoutSummaryData' ) ?>"/>
                     <div class="box-content">
                         <div class="columns">
                             <div class="column is-7 issues-count">
                                 <div>
-                                    <h5><?php
-										$count = $countAll = \WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::getAllLockouts( strtotime( '-24 hours', current_time( 'timestamp' ) ) );
-										echo $count;
-										?>
-                                    </h5>
-
+                                    <h5 class="lockoutToday">.</h5>
                                     <div class="clear"></div>
                                     <span class="sub"><?php _e( "Lockouts in the past 24 hours", wp_defender()->domain ) ?></span>
-                                    <h6>
-										<?php
-										$count = \WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::getAllLockouts( strtotime( 'first day of this month', current_time( 'timestamp' ) ) );
-										echo $count;
-										?>
-                                    </h6>
+                                    <h6 class="lockoutThisMonth">.</h6>
                                     <span class="sub"><?php _e( "Total lockouts this month", wp_defender()->domain ) ?></span>
                                 </div>
                             </div>
@@ -32,36 +26,19 @@
                                     <li>
                                         <div>
                                             <span class="list-label"><?php _e( "Last lockout", wp_defender()->domain ) ?></span>
-                                            <span class="list-detail"><?php
-												$last = \WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::getLastLockout();
-												if ( is_object( $last ) ) {
-													echo $controller->formatDateTime( date( 'Y-m-d H:i:s', $last->date ) );
-												} else {
-													echo __( "Never", wp_defender()->domain );
-												}
-												?></span>
+                                            <span class="list-detail lastLockout">.</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div>
                                             <span class="list-label"><?php _e( "Login lockouts this week", wp_defender()->domain ) ?></span>
-                                            <span class="list-detail">
-                                            <?php
-                                            $count = \WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::getLoginLockouts( strtotime( 'first day of this week', current_time( 'timestamp' ) ) );
-                                            echo $count;
-                                            ?>
-                                        </span>
+                                            <span class="list-detail loginLockoutThisWeek">.</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div>
                                             <span class="list-label"><?php _e( "404 lockouts this week", wp_defender()->domain ) ?></span>
-                                            <span class="list-detail">
-                                            <?php
-                                            $count = \WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::get404Lockouts( strtotime( 'first day of this week', current_time( 'timestamp' ) ) );
-                                            echo $count;
-                                            ?>
-                                        </span>
+                                            <span class="list-detail lockout404ThisWeek">.</span>
                                         </div>
                                     </li>
                                 </ul>

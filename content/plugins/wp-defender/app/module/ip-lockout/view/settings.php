@@ -33,6 +33,7 @@
                 <div class="column">
                     <button type="button" data-nonce="<?php echo esc_attr( wp_create_nonce( 'lockoutEmptyLogs' ) ) ?>"
                             class="button button-secondary empty-logs"><?php _e( "Delete Logs", wp_defender()->domain ) ?></button>
+                    <span class="delete-status"></span>
                     <span class="form-help"><?php _e( "Note: Defender will instantly remove all past event logs, you will not be able to get them back.", wp_defender()->domain ) ?></span>
                 </div>
             </div>

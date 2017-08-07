@@ -1,11 +1,23 @@
 <?php
 
+/**
+ * Class WP_Hummingbird_Minification_Page
+ */
 class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
+
+	/**
+	 * WP_Hummingbird_Minification_Page constructor.
+	 * @param $slug
+	 * @param $page_title
+	 * @param $menu_title
+	 * @param bool $parent
+	 * @param bool $render
+	 */
 	public function __construct( $slug, $page_title, $menu_title, $parent = false, $render = true ) {
 		parent::__construct( $slug, $page_title, $menu_title, $parent, $render );
 
 		$this->tabs = array(
-			'files' => __( 'Files', 'wphb' )
+			'files' => __( 'Files', 'wphb' ),
 		);
 
 		if ( ! is_multisite() ) {
@@ -15,10 +27,9 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		add_filter( 'wphb_admin_after_tab_' . $this->get_slug(), array( $this, 'after_tab' ) );
 	}
 
-
 	public function on_load() {
 
-		wphb_minification_maybe_stop_checking_files();
+		wphb_minification_maybe_stop_scanning_files();
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'wphb-enqueued-files' );
 
@@ -29,25 +40,26 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 
 			wphb_update_settings( $options );
 
-			wp_redirect( add_query_arg( 'updated', 'true' ) );
+			wp_safe_redirect( add_query_arg( 'updated', 'true' ) );
 			exit;
 		}
 
 		if ( isset( $_POST['clear-cache'] ) ) {
-			wphb_clear_minification_cache( false  );
+			wphb_clear_minification_cache( false );
 			$url = remove_query_arg( 'updated' );
-			wp_redirect( add_query_arg( 'wphb-cache-cleared', 'true', $url ) );
+			wp_safe_redirect( add_query_arg( 'wphb-cache-cleared', 'true', $url ) );
 			exit;
 		}
 
-		// If selected to enable CDN from minification scan
+		// If selected to enable CDN from minification scan.
 		if ( isset( $_POST['enable_cdn'] ) ) {
-			// Set selected value for CDN
-			$settings = wphb_get_settings();
-			$settings['use_cdn'] = wp_validate_boolean( $_POST['enable_cdn'] );
-			wphb_update_settings( $settings );
-			// Redirect back
-			wp_redirect( remove_query_arg( 'enable_cdn' ) );
+			$value = wp_validate_boolean( $_POST['enable_cdn'] );
+			wphb_toggle_cdn( $value );
+			// Redirect back.
+			wp_safe_redirect( remove_query_arg( array(
+				'enable_cdn',
+				'wphb-cache-cleared',
+			)));
 			exit;
 		}
 
@@ -56,7 +68,7 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 	private function _sanitize_type( $type, $options ) {
 		$current_options = wphb_get_settings();
 
-		// We'll save what groups have changed so we reset the cache for those groups
+		// We'll save what groups have changed so we reset the cache for those groups.
 		$changed_groups = array();
 
 		if ( ! empty( $_POST[ $type ] ) ) {
@@ -115,6 +127,28 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 				$diff = array_merge(
 					array_diff( $current_options['combine'][ $type ], $options['combine'][ $type ] ),
 					array_diff( $options['combine'][ $type ], $current_options['combine'][ $type ] )
+				);
+
+				if ( $diff ) {
+					foreach ( $diff as $diff_handle ) {
+						$_groups = WP_Hummingbird_Module_Minify_Group::get_groups_from_handle( $diff_handle, $type );
+						if ( $_groups ) {
+							$changed_groups = array_merge( $changed_groups, $_groups );
+						}
+					}
+				}
+
+				$key = array_search( $handle, $options['defer'][ $type ] );
+				if ( ! isset( $item['defer'] ) && false !== $key ) {
+					unset( $options['defer'][ $type ][ $key ] );
+				}
+				elseif ( isset( $item['defer'] ) ) {
+					$options['defer'][ $type ][] = $handle;
+				}
+				$options['defer'][ $type ] = array_unique( $options['defer'][ $type ] );
+				$diff = array_merge(
+					array_diff( $current_options['defer'][ $type ], $options['defer'][ $type ] ),
+					array_diff( $options['defer'][ $type ], $current_options['defer'][ $type ] )
 				);
 
 				if ( $diff ) {
@@ -227,7 +261,7 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
                 <div class="actions status">
                     <div class="toggle-group toggle-group-with-buttons">
                         <div class="tooltip-box">
-							<span class="toggle" tooltip="<?php _e( 'Disable Minification', 'wphb' ); ?>">
+							<span class="toggle" tooltip="<?php _e( 'Turn off Minification', 'wphb' ); ?>">
 								<input type="checkbox" id="wphb-disable-minification" class="toggle-checkbox" name="wphb-disable-minification" checked>
 								<label for="wphb-disable-minification" class="toggle-label"></label>
 							</span>
@@ -258,7 +292,7 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		$collection = wphb_minification_get_resources_collection();
 		$module = wphb_get_module( 'minify' );
 
-		if ( ( empty( $collection['styles'] ) && empty( $collection['scripts'] ) ) || wphb_minification_is_checking_files() || ! $module->is_active() ) {
+		if ( ( empty( $collection['styles'] ) && empty( $collection['scripts'] ) ) || wphb_minification_is_scanning_files() || ! $module->is_active() ) {
 			$this->add_meta_box( 'minification/enqueued-files-empty', __( 'Get Started', 'wphb' ), array( $this, 'enqueued_files_empty_metabox' ), null, null, 'box-enqueued-files-empty', array( 'box_class' => 'dev-box content-box content-box-one-col-center') );
 		}
 		else {
@@ -275,7 +309,7 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 	public function enqueued_files_empty_metabox() {
 		// Get current user name
 		$user = wphb_get_current_user_info();
-		$checking_files = wphb_minification_is_checking_files();
+		$checking_files = wphb_minification_is_scanning_files();
 		$this->view( 'minification/enqueued-files-empty-meta-box', array( 'user' => $user, 'checking_files' => $checking_files ) );
 	}
 
@@ -423,9 +457,8 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 	}
 
 	function advanced_settings_metabox() {
-		$settings = wphb_get_settings();
 		$args = array(
-			'use_cdn' => $settings['use_cdn'],
+			'use_cdn' => wphb_get_cdn_status(),
 			'disabled' => ! wphb_is_member(),
 			'super_minify' => wphb_is_member(),
 		);
@@ -458,11 +491,11 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 
         $original_size_styles = array_sum( @wp_list_pluck( $collection['styles'], 'original_size' ) );
         $original_size_scripts = array_sum( @wp_list_pluck( $collection['scripts'], 'original_size' ) );
-        $original_size = number_format_i18n( $original_size_scripts + $original_size_styles, 1 );
+        $original_size = $original_size_scripts + $original_size_styles;
 
         $compressed_size_styles = array_sum( @wp_list_pluck( $collection['styles'], 'compressed_size' ) );
         $compressed_size_scripts = array_sum( @wp_list_pluck( $collection['scripts'], 'compressed_size' ) );
-        $compressed_size = number_format_i18n( $compressed_size_scripts + $compressed_size_styles, 1 );
+        $compressed_size = $compressed_size_scripts + $compressed_size_styles;
 
 		if ( $original_size <= 0 ) {
 			$percentage = 0;
@@ -474,8 +507,7 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		$percentage = number_format_i18n( $percentage, 2 );
 		$compressed_size = number_format( (int) $original_size - (int) $compressed_size, 1 );
 
-		$settings = wphb_get_settings();
-		$use_cdn = $settings['use_cdn'];
+		$use_cdn = wphb_get_cdn_status();
 		$is_member = wphb_is_member();
 
 		$args = compact( 'enqueued_files', 'compressed_size', 'percentage', 'use_cdn', 'is_member' );

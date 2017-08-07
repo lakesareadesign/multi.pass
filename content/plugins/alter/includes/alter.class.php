@@ -661,8 +661,11 @@ if (!class_exists('ALTER')) {
     if(isset($_POST) && isset($_POST['aof_options_save'])) {
       $admin_users = array();
       $admin_user_query = new WP_User_Query( array( 'meta_key' => 'wp_user_level', 'meta_value' => '10' ) );
-      $admin_users_list = $admin_user_query->get_results();
-      foreach ($admin_users_list as $admin_data) {
+      if(empty($admin_user_query) && !is_array($admin_user_query)) {
+        $admin_user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
+      }
+
+      foreach ($admin_user_query->results as $admin_data) {
         if(!empty($admin_data->data->display_name)) {
           $user_display_name = $admin_data->data->display_name;
         }

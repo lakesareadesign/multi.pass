@@ -62,9 +62,6 @@ class GAPGoogle_Analytics_Async_Frontend_Widget extends WP_Widget {
 
     /** @see WP_Widget::form */
     function form( $instance ) {
-        global $msreader_helpers, $wmd_msreader;
-        $options = $wmd_msreader->plugin['site_options'];
-
         $title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : __( 'Most popular posts', $this->text_domain);
         $number = (isset( $instance['number'] ) && is_numeric($instance['number'])) ? esc_attr( $instance['number'] ) : 10;
 

@@ -391,10 +391,14 @@
 }
 
 
-.backup-list .tablenav .alignright.actions.refresh {
+.backup-list .tablenav .alignright.actions.refresh,
+.backup-list .tablenav .alignright.actions.reset-api
+{
 	padding-right: 0;
 }
-.backup-list .tablenav .alignright.actions.refresh a {
+.backup-list .tablenav .alignright.actions.refresh a,
+.backup-list .tablenav .alignright.actions.reset-api a
+{
 	margin-left: 5px;
 }
 
@@ -537,6 +541,11 @@
 	animation: snapshot_spinner 1s linear infinite;
 }
 
+.snapshot-full-log_settings .log-actions {
+	clear: both;
+	margin: .2em;
+}
+
 @media screen and (max-width:1330px) {
 	#snapshot-full_backups-panel .backup-list-wrapper {
 		min-height: 0;
@@ -552,4 +561,4 @@
 }
 
 
-/* 133620-1479864853-au */
+/* 133620-1502132156-au */

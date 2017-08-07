@@ -3,8 +3,9 @@
  *
  * This main the _inbound class
  *
- * @author David Wells <david@inboundnow.com>
- * @version 0.0.1
+ * @contributor David Wells <david@inboundnow.com>
+ * @contributor Hudson Atwell <hudson@inboundnow.com>
+ * @version 0.0.2
  */
 
 var inbound_data = inbound_data || {};

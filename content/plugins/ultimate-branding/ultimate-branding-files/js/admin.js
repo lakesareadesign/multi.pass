@@ -460,7 +460,7 @@ jQuery(document).ready(function($){
     /**
      * reset section
      */
-    $('.toplevel_page_branding #poststuff form div.postbox .hndle .simple-option-reset-section a').on('click', function() {
+    $('.simple-option-reset-section a').on('click', function() {
         var data = {
             'action': 'simple_option',
             'tab': $('#ub-tab').val(),
@@ -525,3 +525,22 @@ jQuery(document).ready(function(){
         }
     });
 });
+/**
+ * close block
+ */
+jQuery(document).ready(function(){
+    jQuery( 'button.handlediv.button-link, .hndle', jQuery('.simple-options' ) ).on( 'click', function(e) {
+        e.preventDefault();
+        var target = jQuery(this).parent();
+        var form = jQuery(this).closest('form');
+        target.toggleClass( 'closed' );
+        jQuery.post(ajaxurl, {
+            action: 'simple_option',
+            close: target.hasClass( 'closed' ),
+            target: target.attr('id'),
+            nonce: jQuery('[name=postboxes_nonce]', form).val(),
+            tab: jQuery('[name=tab]', form).val()
+        });
+    });
+});
+

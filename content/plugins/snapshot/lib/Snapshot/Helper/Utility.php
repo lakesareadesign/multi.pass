@@ -476,7 +476,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param $timestamp UNIX timestamp from time()
+		 * @param int $timestamp UNIX timestamp from time()
 		 * @param string $format
 		 *
 		 * @return string
@@ -484,7 +484,9 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		public static function show_date_time( $timestamp, $format = '' ) {
 
 			if ( ! $format ) {
-				$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+				$format = get_option( 'date_format' );
+				$format .= _x( ' @ ', 'date time sep', SNAPSHOT_I18N_DOMAIN );
+				$format .= get_option( 'time_format' );
 			}
 
 			$gmt_offset = get_option( 'gmt_offset' ) ? get_option( 'gmt_offset' ) : 0;
@@ -713,76 +715,50 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		 */
 		public static function add_cron_schedules( $schedules ) {
 
-			if ( ! isset( $schedules['snapshot-5minutes'] ) ) {
-				$schedules['snapshot-5minutes'] = array(
+			$snapshot_schedules = array(
+				'snapshot-5minutes' => array(
 					'interval' => 60 * 5,
 					'display'  => __( 'Every 5 Minutes', SNAPSHOT_I18N_DOMAIN ),
-				);
-			}
-
-			if ( ! isset( $schedules['snapshot-15minutes'] ) ) {
-				$schedules['snapshot-15minutes'] = array(
+				),
+				'snapshot-15minutes' => array(
 					'interval' => 60 * 15,
 					'display'  => __( 'Every 15 Minutes', SNAPSHOT_I18N_DOMAIN ),
-				);
-			}
-
-			if ( ! isset( $schedules['snapshot-30minutes'] ) ) {
-				$schedules['snapshot-30minutes'] = array(
+				),
+				'snapshot-30minutes' => array(
 					'interval' => 60 * 30,
 					'display'  => __( 'Every 30 Minutes', SNAPSHOT_I18N_DOMAIN ),
-				);
-			}
-
-			if ( ! isset( $schedules['snapshot-hourly'] ) ) {
-				$schedules['snapshot-hourly'] = array(
+				),
+				'snapshot-hourly' => array(
 					'interval' => 60 * 60,
 					'display'  => __( 'Once Hourly', SNAPSHOT_I18N_DOMAIN ),
-				);
-			}
-
-			if ( ! isset( $schedules['snapshot-daily'] ) ) {
-				$schedules['snapshot-daily'] = array(
+				),
+				'snapshot-daily' => array(
 					'interval' => 1 * 24 * 60 * 60,                //	86,400
-					'display'  => __( 'Once Daily', SNAPSHOT_I18N_DOMAIN ),
-				);
-			}
-
-			if ( ! isset( $schedules['snapshot-twicedaily'] ) ) {
-				$schedules['snapshot-twicedaily'] = array(
+					'display'  => __( 'Daily', SNAPSHOT_I18N_DOMAIN ),
+				),
+				'snapshot-twicedaily' => array(
 					'interval' => 1 * 12 * 60 * 60,                // 43,200
 					'display'  => __( 'Twice Daily', SNAPSHOT_I18N_DOMAIN ),
-				);
-			}
-
-			if ( ! isset( $schedules['snapshot-weekly'] ) ) {
-				$schedules['snapshot-weekly'] = array(
+				),
+				'snapshot-weekly' => array(
 					'interval' => 7 * 24 * 60 * 60,                // 604,800
-					'display'  => __( 'Once Weekly', SNAPSHOT_I18N_DOMAIN ),
-				);
-			}
-
-			if ( ! isset( $schedules['snapshot-twiceweekly'] ) ) {
-				$schedules['snapshot-twiceweekly'] = array(
+					'display'  => __( 'Weekly', SNAPSHOT_I18N_DOMAIN ),
+				),
+				'snapshot-twiceweekly' => array(
 					'interval' => 7 * 12 * 60 * 60,                // 302,400
 					'display'  => __( 'Twice Weekly', SNAPSHOT_I18N_DOMAIN ),
-				);
-			}
-
-			if ( ! isset( $schedules['snapshot-monthly'] ) ) {
-				$schedules['snapshot-monthly'] = array(
+				),
+				'snapshot-monthly' => array(
 					'interval' => 30 * 24 * 60 * 60,                // 2,592,000
-					'display'  => __( 'Once Monthly', SNAPSHOT_I18N_DOMAIN ),
-				);
-			}
-
-			if ( ! isset( $schedules['snapshot-twicemonthly'] ) ) {
-				$schedules['snapshot-twicemonthly'] = array(
+					'display'  => __( 'Monthly', SNAPSHOT_I18N_DOMAIN ),
+				),
+				'snapshot-twicemonthly' => array(
 					'interval' => 15 * 24 * 60 * 60,                // 1,296,000
 					'display'  => __( 'Twice Monthly', SNAPSHOT_I18N_DOMAIN ),
-				);
-			}
+				),
+			);
 
+			$schedules = array_merge( $snapshot_schedules, $schedules );
 			return $schedules;
 		}
 
@@ -1011,6 +987,31 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			foreach ( $data_items as $data_key => $data_item ) {
 				return $data_item;
 			}
+		}
+
+		/**
+		 * Utility function to access the latest backup ever.
+		 *
+		 * @since 1.0.4
+		 *
+		 * @param $data_items
+		 *
+		 * @return mixed
+		 */
+		public static function latest_backup( $items ) {
+			$last_files = array();
+
+			foreach ($items as $key => $backup) {
+				if( isset( $backup['data'] ) ){
+					$data_backup = Snapshot_Helper_Utility::latest_data_item( $backup['data'] );
+						if( isset( $data_backup["timestamp"] ) ) {
+							$last_files[$data_backup["timestamp"]] = $data_backup;
+						}
+					}
+				}
+
+			krsort( $last_files );
+			return reset( $last_files );
 		}
 
 		/**
@@ -1280,132 +1281,158 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 		/**
 		 *
-		 * @param $manifestFile
+		 * @param $manifest_file
 		 *
 		 * @return array
 		 */
-		public static function consume_archive_manifest( $manifestFile ) {
+		public static function consume_archive_manifest( $manifest_file ) {
+			$snapshot_manifest = array();
+			$manifest_array = file( $manifest_file );
 
-			$snapshot_manifest    = array();
-			$manifest_array       = file( $manifestFile );
 			$sessionRestoreFolder = trailingslashit( WPMUDEVSnapshot::instance()->get_setting( 'backupRestoreFolderFull' ) );
-			if ( $manifest_array ) {
 
-				foreach ( $manifest_array as $file_line ) {
-					list( $key, $value ) = explode( ':', $file_line, 2 );
-					$key = trim( $key );
+			/* Return an empty array if the manifest is empty */
+			if ( ! $manifest_array ) {
+				return array();
+			}
 
-					if ( $key == "TABLES" ) {
-						if ( is_serialized( $value ) ) {
-							$value = maybe_unserialize( $value );
-						} else {
-							$table_values = explode( ',', $value );
+			/* Read the manifest file into an array, joining entries that are split across multiple lines */
+			$manifest = array();
+			$last_key = '';
 
-							foreach ( $table_values as $idx => $table_name ) {
-								$table_values[ $idx ] = trim( $table_name );
-							}
+			foreach ( $manifest_array as $line ) {
+				$matches = array();
+				preg_match( '/^([\w\s-]+):(.+)$/', $line, $matches );
 
-							$value = $table_values;
+				if ( $matches ) {
+
+					/* If the line matches the expected format, extract the values and add them to the array */
+					$label = trim( $matches[1] );
+					$data = $matches[2];
+
+					$manifest[ $label ] = $data;
+					$last_key = $label;
+
+				} elseif ( $last_key ) {
+					/* Otherwise, treat this line as part of the previous one */
+					$manifest[ $last_key ] .= "\n" . $line;
+				}
+			}
+
+			/* Parse the raw manifest data into its proper form */
+			foreach ( $manifest as $key => $value ) {
+
+				if ( $key == "TABLES" ) {
+					if ( is_serialized( $value ) ) {
+						$value = maybe_unserialize( $value );
+					} else {
+						$table_values = explode( ',', $value );
+
+						foreach ( $table_values as $idx => $table_name ) {
+							$table_values[ $idx ] = trim( $table_name );
 						}
-					} else if ( ( $key == "TABLES-DATA" ) || ( $key == "ITEM" ) || ( $key == "FILES-DATA" ) || ( $key == 'WP_UPLOAD_URLS' ) ) {
-						if ( is_serialized( $value ) ) {
-							$value = maybe_unserialize( $value );
-						} else {
-							$value = trim( $value );
-						}
+
+						$value = $table_values;
+					}
+				} else if ( ( $key == "TABLES-DATA" ) || ( $key == "ITEM" ) || ( $key == "FILES-DATA" ) || ( $key == 'WP_UPLOAD_URLS' ) ) {
+					if ( is_serialized( $value ) ) {
+						$value = maybe_unserialize( $value );
 					} else {
 						$value = trim( $value );
 					}
 
-					$snapshot_manifest[ $key ] = $value;
-				}
-				//echo "snapshot_manifest<pre>"; print_r($snapshot_manifest); echo "</pre>";
-				//die();
-
-				if ( ! isset( $snapshot_manifest['SNAPSHOT_VERSION'] ) ) {
-					if ( isset( $snapshot_manifest['VERSION'] ) ) {
-						$snapshot_manifest['SNAPSHOT_VERSION'] = $snapshot_manifest['VERSION'];
-						unset( $snapshot_manifest['VERSION'] );
-					}
+				} else {
+					$value = trim( $value );
 				}
 
-				if ( ! isset( $snapshot_manifest['WP_BLOG_ID'] ) ) {
-					if ( isset( $snapshot_manifest['BLOG-ID'] ) ) {
-						$snapshot_manifest['WP_BLOG_ID'] = $snapshot_manifest['BLOG-ID'];
-						unset( $snapshot_manifest['BLOG-ID'] );
-					}
-				}
-				if ( ! isset( $snapshot_manifest['WP_DB_NAME'] ) ) {
-					if ( isset( $snapshot_manifest['DB_NAME'] ) ) {
-						$snapshot_manifest['WP_DB_NAME'] = $snapshot_manifest['DB_NAME'];
-						unset( $snapshot_manifest['DB_NAME'] );
-					}
-				}
-				if ( ! isset( $snapshot_manifest['WP_DB_BASE_PREFIX'] ) ) {
-					if ( isset( $snapshot_manifest['BASE_PREFIX'] ) ) {
-						$snapshot_manifest['WP_DB_BASE_PREFIX'] = $snapshot_manifest['BASE_PREFIX'];
-						unset( $snapshot_manifest['BASE_PREFIX'] );
-					}
-				}
-				if ( ! isset( $snapshot_manifest['WP_DB_PREFIX'] ) ) {
-					if ( isset( $snapshot_manifest['PREFIX'] ) ) {
-						$snapshot_manifest['WP_DB_PREFIX'] = $snapshot_manifest['PREFIX'];
-						unset( $snapshot_manifest['PREFIX'] );
-					}
-				}
-				if ( ! isset( $snapshot_manifest['WP_UPLOAD_PATH'] ) ) {
-					if ( isset( $snapshot_manifest['UPLOAD_PATH'] ) ) {
-						$snapshot_manifest['WP_UPLOAD_PATH'] = $snapshot_manifest['UPLOAD_PATH'];
-						unset( $snapshot_manifest['UPLOAD_PATH'] );
-					}
-				}
-				if ( ! isset( $snapshot_manifest['WP_HOME'] ) ) {
-					if ( isset( $snapshot_manifest['HOME'] ) ) {
-						$snapshot_manifest['WP_HOME'] = $snapshot_manifest['HOME'];
-						unset( $snapshot_manifest['HOME'] );
-					}
-				}
-				if ( ! isset( $snapshot_manifest['WP_SITEURL'] ) ) {
-					if ( isset( $snapshot_manifest['SITEURL'] ) ) {
-						$snapshot_manifest['WP_SITEURL'] = $snapshot_manifest['SITEURL'];
-						unset( $snapshot_manifest['SITEURL'] );
-					}
-				}
-
-				if ( ! isset( $snapshot_manifest['WP_BLOG_NAME'] ) ) {
-					$snapshot_manifest['WP_BLOG_NAME'] = '';
-				}
-
-				if ( ! isset( $snapshot_manifest['WP_BLOG_DOMAIN'] ) ) {
-					if ( isset( $snapshot_manifest['WP_SITEURL'] ) ) {
-						$snapshot_manifest['WP_BLOG_DOMAIN'] = parse_url( $snapshot_manifest['WP_SITEURL'], PHP_URL_HOST );
-					}
-				}
-
-				if ( ! isset( $snapshot_manifest['WP_BLOG_PATH'] ) ) {
-					if ( isset( $snapshot_manifest['WP_SITEURL'] ) ) {
-						$snapshot_manifest['WP_BLOG_PATH'] = parse_url( $snapshot_manifest['WP_SITEURL'], PHP_URL_PATH );
-					}
-				}
-
-
-				if ( isset( $snapshot_manifest['SNAPSHOT_VERSION'] ) ) {
-					if ( ( $snapshot_manifest['SNAPSHOT_VERSION'] == "1.0" ) && ( ! isset( $snapshot_manifest['TABLES-DATA'] ) ) ) {
-
-						$backupFile     = trailingslashit( $sessionRestoreFolder ) . 'snapshot_backups.sql';
-						$table_segments = self::get_table_segments_from_single( $backupFile );
-
-						if ( $table_segments ) {
-							$snapshot_manifest['TABLES-DATA'] = $table_segments;
-							unlink( $backupFile );
-						}
-					}
-				}
-
-				//echo "snapshot_manifest<pre>"; print_r($snapshot_manifest); echo "</pre>";
-
-				return $snapshot_manifest;
+				$snapshot_manifest[ $key ] = $value;
 			}
+			//echo "snapshot_manifest<pre>"; print_r($snapshot_manifest); echo "</pre>";
+			//die();
+
+			if ( ! isset( $snapshot_manifest['SNAPSHOT_VERSION'] ) ) {
+				if ( isset( $snapshot_manifest['VERSION'] ) ) {
+					$snapshot_manifest['SNAPSHOT_VERSION'] = $snapshot_manifest['VERSION'];
+					unset( $snapshot_manifest['VERSION'] );
+				}
+			}
+
+			if ( ! isset( $snapshot_manifest['WP_BLOG_ID'] ) ) {
+				if ( isset( $snapshot_manifest['BLOG-ID'] ) ) {
+					$snapshot_manifest['WP_BLOG_ID'] = $snapshot_manifest['BLOG-ID'];
+					unset( $snapshot_manifest['BLOG-ID'] );
+				}
+			}
+			if ( ! isset( $snapshot_manifest['WP_DB_NAME'] ) ) {
+				if ( isset( $snapshot_manifest['DB_NAME'] ) ) {
+					$snapshot_manifest['WP_DB_NAME'] = $snapshot_manifest['DB_NAME'];
+					unset( $snapshot_manifest['DB_NAME'] );
+				}
+			}
+			if ( ! isset( $snapshot_manifest['WP_DB_BASE_PREFIX'] ) ) {
+				if ( isset( $snapshot_manifest['BASE_PREFIX'] ) ) {
+					$snapshot_manifest['WP_DB_BASE_PREFIX'] = $snapshot_manifest['BASE_PREFIX'];
+					unset( $snapshot_manifest['BASE_PREFIX'] );
+				}
+			}
+			if ( ! isset( $snapshot_manifest['WP_DB_PREFIX'] ) ) {
+				if ( isset( $snapshot_manifest['PREFIX'] ) ) {
+					$snapshot_manifest['WP_DB_PREFIX'] = $snapshot_manifest['PREFIX'];
+					unset( $snapshot_manifest['PREFIX'] );
+				}
+			}
+			if ( ! isset( $snapshot_manifest['WP_UPLOAD_PATH'] ) ) {
+				if ( isset( $snapshot_manifest['UPLOAD_PATH'] ) ) {
+					$snapshot_manifest['WP_UPLOAD_PATH'] = $snapshot_manifest['UPLOAD_PATH'];
+					unset( $snapshot_manifest['UPLOAD_PATH'] );
+				}
+			}
+			if ( ! isset( $snapshot_manifest['WP_HOME'] ) ) {
+				if ( isset( $snapshot_manifest['HOME'] ) ) {
+					$snapshot_manifest['WP_HOME'] = $snapshot_manifest['HOME'];
+					unset( $snapshot_manifest['HOME'] );
+				}
+			}
+			if ( ! isset( $snapshot_manifest['WP_SITEURL'] ) ) {
+				if ( isset( $snapshot_manifest['SITEURL'] ) ) {
+					$snapshot_manifest['WP_SITEURL'] = $snapshot_manifest['SITEURL'];
+					unset( $snapshot_manifest['SITEURL'] );
+				}
+			}
+
+			if ( ! isset( $snapshot_manifest['WP_BLOG_NAME'] ) ) {
+				$snapshot_manifest['WP_BLOG_NAME'] = '';
+			}
+
+			if ( ! isset( $snapshot_manifest['WP_BLOG_DOMAIN'] ) ) {
+				if ( isset( $snapshot_manifest['WP_SITEURL'] ) ) {
+					$snapshot_manifest['WP_BLOG_DOMAIN'] = parse_url( $snapshot_manifest['WP_SITEURL'], PHP_URL_HOST );
+				}
+			}
+
+			if ( ! isset( $snapshot_manifest['WP_BLOG_PATH'] ) ) {
+				if ( isset( $snapshot_manifest['WP_SITEURL'] ) ) {
+					$snapshot_manifest['WP_BLOG_PATH'] = parse_url( $snapshot_manifest['WP_SITEURL'], PHP_URL_PATH );
+				}
+			}
+
+
+			if ( isset( $snapshot_manifest['SNAPSHOT_VERSION'] ) ) {
+				if ( ( $snapshot_manifest['SNAPSHOT_VERSION'] == "1.0" ) && ( ! isset( $snapshot_manifest['TABLES-DATA'] ) ) ) {
+
+					$backupFile     = trailingslashit( $sessionRestoreFolder ) . 'snapshot_backups.sql';
+					$table_segments = self::get_table_segments_from_single( $backupFile );
+
+					if ( $table_segments ) {
+						$snapshot_manifest['TABLES-DATA'] = $table_segments;
+						unlink( $backupFile );
+					}
+				}
+			}
+
+			//echo "snapshot_manifest<pre>"; print_r($snapshot_manifest); echo "</pre>";
+
+			return $snapshot_manifest;
 		}
 
 		/**
@@ -1764,6 +1791,10 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		public static function size_unformat( $val ) {
 			$val  = trim( $val );
 			$last = strtolower( $val[ strlen( $val ) - 1 ] );
+
+			// Explicitly typecast the value to a numeric one
+			$val = (float)$val;
+
 			switch ( $last ) {
 				// The 'G' modifier is available since PHP 5.1.0
 				case 'g':
@@ -2000,6 +2031,56 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		public static function is_pro() {
 			return true;
 		}
+
+		/**
+		 * Check system requirements
+		 *
+		 * @since 3.1
+		 *
+		 * @param $requirements
+		 *
+		 * @return Array
+		 */
+		public static function check_system_requirements($requirements = array()) {
+			$defaults = array(
+				'PhpVersion' => array(
+					'test' => version_compare(PHP_VERSION, '5.2') >= 0,
+					'value' => PHP_VERSION
+				),
+				'MaxExecTime' => array(
+					'test' => 0 === (int)ini_get('max_execution_time') || (int)ini_get('max_execution_time') >= 150,
+					'value' => (int)ini_get('max_execution_time'),
+					'warning' => true
+				),
+				'Mysqli' => array(
+					'test' => (bool)function_exists('mysqli_connect'),
+				),
+				'Zip' => array(
+					'test' => class_exists('ZipArchive')
+				)
+			);
+
+			$requirements = wp_parse_args( $requirements, $defaults );
+
+			$all_good = true;
+			$warning = false;
+			foreach ($requirements as $check) {
+				if (!empty($check['test'])) continue;
+				if (!empty($check['warning']) && ($check['warning'])){
+					$warning = true;
+					continue;
+				}
+				$all_good = false;
+				break;
+			}
+			$results = array(
+				'checks' => $requirements,
+				'warning' => $warning,
+				'all_good' => $all_good
+				);
+			return $results;
+		}
+
 
 	}
 }

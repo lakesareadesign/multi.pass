@@ -13,6 +13,20 @@
 class WPMUDEV_Dashboard_Remote {
 
 	/**
+	 * Stores request timing information for debug logging
+	 *
+	 * @var int
+	 */
+	protected $timer = 0;
+
+	/**
+	 * Stores current action being processed
+	 *
+	 * @var string
+	 */
+	protected $current_action = '';
+
+	/**
 	 * Stores registered remote access actions and their callbacks.
 	 *
 	 * @var array
@@ -26,6 +40,60 @@ class WPMUDEV_Dashboard_Remote {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'run_request' ) );
+	}
+
+	/**
+	 * Return success results for API to the hub
+	 *
+	 * @param mixed $data        Data to encode as JSON, then print and die.
+	 * @param int   $status_code The HTTP status code to output, defaults to 200.
+	 */
+	public function send_json_success( $data = null, $status_code = null ) {
+		//log it if turned on
+		if ( WPMUDEV_API_DEBUG ) {
+			$req_time = round( ( microtime( true ) - $this->timer ), 4 ) . "s";
+			$req_status = is_null( $status_code ) ? 200 : $status_code;
+			$log = '[Hub API call response] %s %s %s %s';
+			$log .= "\n   Response: (success) %s\n";
+			$msg = sprintf(
+				$log,
+				$_GET['wpmudev-hub'],
+				$this->current_action,
+				$req_status,
+				$req_time,
+				json_encode( $data, JSON_PRETTY_PRINT )
+			);
+			error_log( $msg );
+		}
+
+		wp_send_json_success( $data, $status_code );
+	}
+
+	/**
+	 * Return error results for API to the hub
+	 *
+	 * @param mixed $data        Data to encode as JSON, then print and die.
+	 * @param int   $status_code The HTTP status code to output, defaults to 200.
+	 */
+	public function send_json_error( $data = null, $status_code = null ) {
+		//log it if turned on
+		if ( WPMUDEV_API_DEBUG ) {
+			$req_time = round( ( microtime( true ) - $this->timer ), 4 ) . "s";
+			$req_status = is_null( $status_code ) ? 200 : $status_code;
+			$log = '[Hub API call response] %s %s %s %s';
+			$log .= "\n   Response: (error) %s\n";
+			$msg = sprintf(
+				$log,
+				$_GET['wpmudev-hub'],
+				$this->current_action,
+				$req_status,
+				$req_time,
+				json_encode( $data, JSON_PRETTY_PRINT )
+			);
+			error_log( $msg );
+		}
+
+		wp_send_json_error( $data, $status_code );
 	}
 
 	/**
@@ -131,8 +199,11 @@ class WPMUDEV_Dashboard_Remote {
 		}
 
 		if ( isset( $this->actions[ $body->action ] ) ) {
+			$this->current_action = $body->action;
+
 			//log it if turned on
 			if ( WPMUDEV_API_DEBUG ) {
+				$this->timer = microtime(true ); //start the timer
 				$log = '[Hub API call] %s %s';
 				$log .= "\n   Request params: %s\n";
 
@@ -145,9 +216,9 @@ class WPMUDEV_Dashboard_Remote {
 				error_log( $msg );
 			}
 
-			call_user_func( $this->actions[ $body->action ], $body->params, $body->action );
+			call_user_func( $this->actions[ $body->action ], $body->params, $body->action, $this );
 
-			wp_send_json_success(); //send success in case the callback didn't respond
+			$this->send_json_success(); //send success in case the callback didn't respond
 		}
 
 		// When the callback function did not send a response assume error.
@@ -217,7 +288,7 @@ class WPMUDEV_Dashboard_Remote {
 			}
 		}
 
-		wp_send_json_success( $actions );
+		$this->send_json_success( $actions );
 	}
 
 	/**
@@ -229,7 +300,7 @@ class WPMUDEV_Dashboard_Remote {
 	public function action_sync( $params, $action ) {
 		// Simply refresh the membership details.
 		WPMUDEV_Dashboard::$api->refresh_membership_data();
-		wp_send_json_success();
+		$this->send_json_success();
 	}
 
 	/**
@@ -239,7 +310,7 @@ class WPMUDEV_Dashboard_Remote {
 	 * @param string $action The action name that was called
 	 */
 	public function action_status( $params, $action ) {
-		wp_send_json_success( WPMUDEV_Dashboard::$api->build_api_data( false ) );
+		$this->send_json_success( WPMUDEV_Dashboard::$api->build_api_data( false ) );
 	}
 
 	/**
@@ -250,7 +321,7 @@ class WPMUDEV_Dashboard_Remote {
 	 */
 	public function action_logout( $params, $action ) {
 		WPMUDEV_Dashboard::$site->logout( false );
-		wp_send_json_success();
+		$this->send_json_success();
 	}
 
 	/**
@@ -260,7 +331,9 @@ class WPMUDEV_Dashboard_Remote {
 	 * @param object $params Parameters passed in json body
 	 * @param string $action The action name that was called
 	 */
-	public function action_activate( $params, $action ) {
+	public function action_activate( $params, $action, $object ) {
+
+		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true ); //skip sync, hub remote calls are recorded locally
 
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
@@ -329,9 +402,9 @@ class WPMUDEV_Dashboard_Remote {
 		}
 
 		if ( count( $activated ) ) {
-			wp_send_json_success( compact( 'activated', 'errors' ) );
+			$this->send_json_success( compact( 'activated', 'errors' ) );
 		} else {
-			wp_send_json_error( compact( 'activated', 'errors' ) );
+			$this->send_json_error( compact( 'activated', 'errors' ) );
 		}
 	}
 
@@ -343,6 +416,8 @@ class WPMUDEV_Dashboard_Remote {
 	 * @param string $action The action name that was called
 	 */
 	public function action_deactivate( $params, $action ) {
+
+		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true ); //skip sync, hub remote calls are recorded locally
 
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
@@ -413,9 +488,9 @@ class WPMUDEV_Dashboard_Remote {
 		}
 
 		if ( count( $deactivated ) ) {
-			wp_send_json_success( compact( 'deactivated', 'errors' ) );
+			$this->send_json_success( compact( 'deactivated', 'errors' ) );
 		} else {
-			wp_send_json_error( compact( 'deactivated', 'errors' ) );
+			$this->send_json_error( compact( 'deactivated', 'errors' ) );
 		}
 	}
 
@@ -428,12 +503,18 @@ class WPMUDEV_Dashboard_Remote {
 	 */
 	public function action_install( $params, $action ) {
 
+		$only_wpmudev = true;
 		$installed = $errors = array(); //init
 
 		//do plugins
 		if ( isset( $params->plugins ) && is_array( $params->plugins ) ) {
 			foreach ( $params->plugins as $plugin ) {
-				$pid     = is_numeric( $plugin ) ? $plugin : "plugin:{$plugin}";
+				if ( is_numeric( $plugin ) ) {
+					$pid = $plugin;
+				} else {
+					$pid = "plugin:{$plugin}";
+					$only_wpmudev = false;
+				}
 				$success = WPMUDEV_Dashboard::$upgrader->install( $pid );
 				if ( $success ) {
 					$installed[] = array( 'file' => $plugin, 'log' => WPMUDEV_Dashboard::$upgrader->get_log() );
@@ -451,7 +532,12 @@ class WPMUDEV_Dashboard_Remote {
 		//do themes
 		if ( isset( $params->themes ) && is_array( $params->themes ) ) {
 			foreach ( $params->themes as $theme ) {
-				$pid     = is_numeric( $theme ) ? $theme : "theme:{$theme}";
+				if ( is_numeric( $theme ) ) {
+					$pid = $theme;
+				} else {
+					$pid = "theme:{$theme}";
+					$only_wpmudev = false;
+				}
 				$success = WPMUDEV_Dashboard::$upgrader->install( $pid );
 				if ( $success ) {
 					$installed[] = array( 'file' => $theme, 'log' => WPMUDEV_Dashboard::$upgrader->get_log() );
@@ -466,10 +552,14 @@ class WPMUDEV_Dashboard_Remote {
 			}
 		}
 
+		if ( $only_wpmudev ) { //if there is a non-dev product we need to sync still as those can't be recorded locally
+			define( 'WPMUDEV_REMOTE_SKIP_SYNC', true ); //skip sync, hub remote calls are recorded locally
+		}
+
 		if ( count( $installed ) ) {
-			wp_send_json_success( compact( 'installed', 'errors' ) );
+			$this->send_json_success( compact( 'installed', 'errors' ) );
 		} else {
-			wp_send_json_error( compact( 'installed', 'errors' ) );
+			$this->send_json_error( compact( 'installed', 'errors' ) );
 		}
 	}
 
@@ -481,6 +571,8 @@ class WPMUDEV_Dashboard_Remote {
 	 * @param string $action The action name that was called
 	 */
 	public function action_upgrade( $params, $action ) {
+
+		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true ); //skip sync, hub remote calls are recorded locally
 
 		$upgraded = $errors = array(); //init
 
@@ -527,9 +619,9 @@ class WPMUDEV_Dashboard_Remote {
 		}
 
 		if ( count( $upgraded ) ) {
-			wp_send_json_success( compact( 'upgraded', 'errors' ) );
+			$this->send_json_success( compact( 'upgraded', 'errors' ) );
 		} else {
-			wp_send_json_error( compact( 'upgraded', 'errors' ) );
+			$this->send_json_error( compact( 'upgraded', 'errors' ) );
 		}
 	}
 
@@ -541,6 +633,8 @@ class WPMUDEV_Dashboard_Remote {
 	 * @param string $action The action name that was called
 	 */
 	public function action_delete( $params, $action ) {
+
+		define( 'WPMUDEV_REMOTE_SKIP_SYNC', true ); //skip sync, hub remote calls are recorded locally
 
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		include_once( ABSPATH . 'wp-admin/includes/theme.php' );
@@ -691,9 +785,9 @@ class WPMUDEV_Dashboard_Remote {
 		}
 
 		if ( count( $deleted ) ) {
-			wp_send_json_success( compact( 'deleted', 'errors' ) );
+			$this->send_json_success( compact( 'deleted', 'errors' ) );
 		} else {
-			wp_send_json_error( compact( 'deleted', 'errors' ) );
+			$this->send_json_error( compact( 'deleted', 'errors' ) );
 		}
 	}
 }

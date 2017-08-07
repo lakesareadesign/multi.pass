@@ -3,7 +3,7 @@
 	if(typeof FLBuilderLayout != 'undefined') {
 		return;
 	}
-	
+
 	/**
 	 * Helper class with generic logic for a builder layout.
 	 *
@@ -11,59 +11,59 @@
 	 * @since 1.0
 	 */
 	FLBuilderLayout = {
-		
+
 		/**
 		 * Initializes a builder layout.
 		 *
 		 * @since 1.0
 		 * @method init
-		 */ 
+		 */
 		init: function()
 		{
 			// Destroy existing layout events.
 			FLBuilderLayout._destroy();
-			
+
 			// Init CSS classes.
 			FLBuilderLayout._initClasses();
-			
+
 			// Init backgrounds.
 			FLBuilderLayout._initBackgrounds();
-			
-			// Only init if the builder isn't active. 
+
+			// Only init if the builder isn't active.
 			if ( 0 === $('.fl-builder-edit').length ) {
-				
+
 				// Init anchor links.
 				FLBuilderLayout._initAnchorLinks();
-				
+
 				// Init the browser hash.
 				FLBuilderLayout._initHash();
-			
+
 				// Init module animations.
 				FLBuilderLayout._initModuleAnimations();
-				
+
 				// Init forms.
 				FLBuilderLayout._initForms();
 			}
 		},
-		
+
 		/**
 		 * Public method for refreshing Wookmark or MosaicFlow galleries
 		 * within an element.
 		 *
 		 * @since 1.7.4
 		 * @method refreshGalleries
-		 */ 
+		 */
 		refreshGalleries: function( element )
 		{
 			var $element  = 'undefined' == typeof element ? $( 'body' ) : $( element ),
 				mfContent = $element.find( '.fl-mosaicflow-content' ),
 				wmContent = $element.find( '.fl-gallery' ),
 				mfObject  = null;
-			
+
 			if ( mfContent ) {
-				
+
 				mfObject = mfContent.data( 'mosaicflow' );
-				
+
 				if ( mfObject ) {
 					mfObject.columns = $( [] );
 					mfObject.columnsHeights = [];
@@ -103,15 +103,15 @@
 			var $element 	= 'undefined' == typeof element ? $( 'body' ) : $( element ),
 				bxContent	= $element.find('.bx-viewport .fl-post-carousel-wrapper'),
 				bxObject   	= null;
-				
+
 			if ( bxContent.length ) {
 				bxContent.each(function(){
 					bxObject = $(this).data( 'bxSlider');
 					if ( bxObject ) {
 						bxObject.reloadSlider();
-					}					
+					}
 				})
-				
+
 			}
 		},
 
@@ -129,7 +129,7 @@
 				mejsPlayer 	 	= null,
 				rail 			= null,
 				railWidth 		= 400;
-				
+
 			if ( audioPlayers.length && typeof mejs !== 'undefined' ) {
             	audioPlayers.each(function(){
 	            	player 		= $(this);
@@ -137,7 +137,7 @@
 	            	rail 		= player.find('.mejs-controls .mejs-time-rail');
 	            	var innerMejs = player.find('.mejs-inner'),
 	            		total 	  = player.find('.mejs-controls .mejs-time-total');
-	            	
+
 	            	if ( typeof mejsPlayer !== 'undefined' ) {
 	            		railWidth = Math.ceil(player.width() * 0.8);
 
@@ -145,7 +145,7 @@
 
 		            		rail.css('width', railWidth +'px!important');
 		            		//total.width(rail.width() - 10);
-		            		
+
 		            		mejsPlayer.options.autosizeProgress = true;
 
 		            		// webkit has trouble doing this without a delay
@@ -157,7 +157,7 @@
 			            		visibility: 'visible',
 			            		height: 'inherit'
 			            	});
-		            	} 
+		            	}
 		           	}
 	            });
 	        }
@@ -174,13 +174,27 @@
 			var $element 	 = 'undefined' == typeof element ? $( 'body' ) : $( element ),
 				contentWrap  = $element.closest('.fl-accordion-item'),
 				audioPlayers = $element.find('.wp-audio-shortcode.mejs-audio');
-			
+
 			if ( ! contentWrap.hasClass('fl-accordion-item-active') && audioPlayers.find('.mejs-inner').length ) {
 				audioPlayers.find('.mejs-inner').css({
 					visibility : 'hidden',
 					height: 0
-				});	
-			}			
+				});
+			}
+		},
+
+		/**
+		 * Public method for resizing slideshow momdule within the tab
+		 *
+		 * @since 1.10.5
+		 * @method resizeSlideshow
+		 */
+		resizeSlideshow: function(){
+			if(typeof YUI !== 'undefined') {
+				YUI().use('node-event-simulate', function(Y) {
+					Y.one(window).simulate("resize");
+				});
+			}
 		},
 
 		/**
@@ -189,15 +203,15 @@
 		 * @since 1.0
 		 * @access private
 		 * @method _destroy
-		 */ 
+		 */
 		_destroy: function()
 		{
 			var win = $(window);
-			
+
 			win.off('scroll.fl-bg-parallax');
 			win.off('resize.fl-bg-video');
 		},
-		
+
 		/**
 		 * Checks to see if the current device has touch enabled.
 		 *
@@ -205,16 +219,16 @@
 		 * @access private
 		 * @method _isTouch
 		 * @return {Boolean}
-		 */ 
+		 */
 		_isTouch: function()
 		{
 			if(('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch)) {
 				return true;
 			}
-			
+
 			return false;
 		},
-		
+
 		/**
 		 * Checks to see if the current device is mobile.
 		 *
@@ -222,45 +236,45 @@
 		 * @access private
 		 * @method _isMobile
 		 * @return {Boolean}
-		 */ 
+		 */
 		_isMobile: function()
 		{
 			return /Mobile|Android|Silk\/|Kindle|BlackBerry|Opera Mini|Opera Mobi|webOS/i.test( navigator.userAgent );
 		},
-		
+
 		/**
 		 * Initializes builder body classes.
 		 *
 		 * @since 1.0
 		 * @access private
 		 * @method _initClasses
-		 */ 
+		 */
 		_initClasses: function()
 		{
 			var body = $( 'body' ),
 				ua   = navigator.userAgent;
-			
+
 			// Add the builder body class.
 			if ( ! body.hasClass( 'archive' ) && $( '.fl-builder-content-primary' ).length > 0 ) {
 				body.addClass('fl-builder');
 			}
-			
+
 			// Add the builder touch body class.
 			if(FLBuilderLayout._isTouch()) {
 				body.addClass('fl-builder-touch');
 			}
-			
+
 			// Add the builder mobile body class.
 			if(FLBuilderLayout._isMobile()) {
 				body.addClass('fl-builder-mobile');
 			}
-			
+
 			// IE11 body class.
 			if ( ua.indexOf( 'Trident/7.0' ) > -1 && ua.indexOf( 'rv:11.0' ) > -1 ) {
 				body.addClass( 'fl-builder-ie-11' );
 			}
 		},
-		
+
 		/**
 		 * Initializes builder node backgrounds that require
 		 * additional JavaScript logic such as parallax.
@@ -268,18 +282,18 @@
 		 * @since 1.1.4
 		 * @access private
 		 * @method _initBackgrounds
-		 */ 
+		 */
 		_initBackgrounds: function()
 		{
 			var win = $(window);
-			
+
 			// Init parallax backgrounds.
 			if($('.fl-row-bg-parallax').length > 0 && !FLBuilderLayout._isMobile()) {
 				FLBuilderLayout._scrollParallaxBackgrounds();
 				FLBuilderLayout._initParallaxBackgrounds();
 				win.on('scroll.fl-bg-parallax', FLBuilderLayout._scrollParallaxBackgrounds);
 			}
-			
+
 			// Init video backgrounds.
 			if($('.fl-bg-video').length > 0) {
 				FLBuilderLayout._initBgVideos();
@@ -287,26 +301,26 @@
 				win.on('resize.fl-bg-video', FLBuilderLayout._resizeBgVideos);
 			}
 		},
-		
+
 		/**
 		 * Initializes all parallax backgrounds in a layout.
 		 *
 		 * @since 1.1.4
 		 * @access private
 		 * @method _initParallaxBackgrounds
-		 */ 
+		 */
 		_initParallaxBackgrounds: function()
 		{
 			$('.fl-row-bg-parallax').each(FLBuilderLayout._initParallaxBackground);
 		},
-		
+
 		/**
 		 * Initializes a single parallax background.
 		 *
 		 * @since 1.1.4
 		 * @access private
 		 * @method _initParallaxBackgrounds
-		 */ 
+		 */
 		_initParallaxBackground: function()
 		{
 			var row     = $(this),
@@ -314,21 +328,21 @@
 				src     = row.data('parallax-image'),
 				loaded  = row.data('parallax-loaded'),
 				img     = new Image();
-			
+
 			if(loaded) {
 				return;
 			}
 			else if(typeof src != 'undefined') {
-			 
+
 				$(img).on('load', function() {
 					content.css('background-image', 'url(' + src + ')');
 					row.data('parallax-loaded', true);
 				});
-				
+
 				img.src = src;
 			}
 		},
-		
+
 		/**
 		 * Fires when the window is scrolled to adjust
 		 * parallax backgrounds.
@@ -336,12 +350,12 @@
 		 * @since 1.1.4
 		 * @access private
 		 * @method _scrollParallaxBackgrounds
-		 */ 
+		 */
 		_scrollParallaxBackgrounds: function()
 		{
 			$('.fl-row-bg-parallax').each(FLBuilderLayout._scrollParallaxBackground);
 		},
-		
+
 		/**
 		 * Fires when the window is scrolled to adjust
 		 * a single parallax background.
@@ -349,7 +363,7 @@
 		 * @since 1.1.4
 		 * @access private
 		 * @method _scrollParallaxBackground
-		 */ 
+		 */
 		_scrollParallaxBackground: function()
 		{
 			var win     = $(window),
@@ -358,36 +372,36 @@
 				speed   = row.data('parallax-speed'),
 				offset  = content.offset(),
 				yPos    = -((win.scrollTop() - offset.top) / speed);
-				
+
 			content.css('background-position', 'center ' + yPos + 'px');
 		},
-		
+
 		/**
 		 * Initializes all video backgrounds.
 		 *
 		 * @since 1.6.3.3
 		 * @access private
 		 * @method _initBgVideos
-		 */ 
+		 */
 		_initBgVideos: function()
 		{
 			$('.fl-bg-video').each(FLBuilderLayout._initBgVideo);
 		},
-		
+
 		/**
 		 * Initializes a video background.
 		 *
 		 * @since 1.6.3.3
 		 * @access private
 		 * @method _initBgVideo
-		 */ 
+		 */
 		_initBgVideo: function()
 		{
 			var wrap 		= $( this ),
 				width  		= wrap.data( 'width' ),
 				height  	= wrap.data( 'height' ),
 				mp4  		= wrap.data( 'mp4' ),
-				youtube 	= wrap.data( 'youtube'),	
+				youtube 	= wrap.data( 'youtube'),
 				vimeo 		= wrap.data( 'vimeo'),
 				mp4Type  	= wrap.data( 'mp4-type' ),
 				webm  		= wrap.data( 'webm' ),
@@ -397,49 +411,49 @@
 				fallbackTag = '',
 				videoTag	= null,
 				mp4Tag    	= null,
-				webmTag    	= null;	
-				
+				webmTag    	= null;
+
 			// Return if the video has been loaded for this row.
 			if ( loaded ) {
 				return;
 			}
 			// Append the video tag for non-mobile.
 			else if ( ! FLBuilderLayout._isMobile() ) {
-				
+
 				videoTag  = $( '<video autoplay loop muted preload></video>' );
-				
+
 				// MP4 Source Tag
 				if ( 'undefined' != typeof mp4 ) {
-					
+
 					mp4Tag = $( '<source />' );
 					mp4Tag.attr( 'src', mp4 );
 					mp4Tag.attr( 'type', mp4Type );
-					
+
 					if ( 'undefined' == typeof webm ) {
 						mp4Tag.on( 'error', FLBuilderLayout._videoBgSourceError );
 					}
-					
+
 					videoTag.append( mp4Tag );
 				}
-				
+
 				// WebM Source Tag
 				if ( 'undefined' != typeof webm ) {
-					
+
 					webmTag = $( '<source />' );
 					webmTag.attr( 'src', webm );
 					webmTag.attr( 'type', webmType );
-					
+
 					if ( 'undefined' != typeof mp4 ) {
 						webmTag.on( 'error', FLBuilderLayout._videoBgSourceError );
 					}
-					
+
 					videoTag.append( webmTag );
 				}
-				
+
 				// Check what video player we are going to load in a row
 				if ( 'undefined' != typeof youtube ) {
-					FLBuilderLayout._initYoutubeBgVideo.apply( this );	
-				} 
+					FLBuilderLayout._initYoutubeBgVideo.apply( this );
+				}
 				else if ( 'undefined' != typeof vimeo ) {
 					FLBuilderLayout._initVimeoBgVideo.apply( this );
 				}
@@ -454,7 +468,7 @@
 				fallbackTag.css( 'background-image', 'url(' + fallback + ')' );
 				wrap.append( fallbackTag );
 			}
-			
+
 			// Mark this video as loaded.
 			wrap.data('loaded', true);
 		},
@@ -487,14 +501,14 @@
 										event.target.mute();
 									}
 									else if ("yes" === enableAudio && event.target.isMuted ) {
-										event.target.unMute();	
+										event.target.unMute();
 									}
-									
+
 									// Store an instance to a parent
 									playerWrap.data('YTPlayer', player);
 									FLBuilderLayout._resizeYoutubeBgVideo.apply(playerWrap);
 
-									event.target.playVideo();									
+									event.target.playVideo();
 								},
 								onStateChange: function( event ) {
 									if ( event.data === YT.PlayerState.ENDED ) {
@@ -562,20 +576,20 @@
 				else if ("yes" === enableAudio ) {
 					player.setVolume(1);
 				}
-				
+
 				player.play();
 			}
 		},
-		
+
 		/**
-		 * Fires when there is an error loading a video 
+		 * Fires when there is an error loading a video
 		 * background source and shows the fallback.
 		 *
 		 * @since 1.6.3.3
 		 * @access private
 		 * @method _videoBgSourceError
 		 * @param {Object} e An event object.
-		 */ 
+		 */
 		_videoBgSourceError: function( e )
 		{
 			var source 		= $( e.target ),
@@ -583,7 +597,7 @@
 				vid		    = wrap.find( 'video' ),
 				fallback  	= wrap.data( 'fallback' ),
 				fallbackTag = '';
-				
+
 			if ( '' !== fallback ) {
 				fallbackTag = $( '<div></div>' );
 				fallbackTag.addClass( 'fl-bg-video-fallback' );
@@ -592,7 +606,7 @@
 				vid.remove();
 			}
 		},
-		
+
 		/**
 		 * Fires when the window is resized to resize
 		 * all video backgrounds.
@@ -600,19 +614,19 @@
 		 * @since 1.1.4
 		 * @access private
 		 * @method _resizeBgVideos
-		 */ 
+		 */
 		_resizeBgVideos: function()
 		{
 			$('.fl-bg-video').each( function() {
-				
+
 				FLBuilderLayout._resizeBgVideo.apply( this );
-				
+
 				if ( $( this ).parent().find( 'img' ).length > 0 ) {
 					$( this ).parent().imagesLoaded( $.proxy( FLBuilderLayout._resizeBgVideo, this ) );
 				}
 			} );
 		},
-		
+
 		/**
 		 * Fires when the window is resized to resize
 		 * a single video background.
@@ -620,13 +634,13 @@
 		 * @since 1.1.4
 		 * @access private
 		 * @method _resizeBgVideo
-		 */ 
+		 */
 		_resizeBgVideo: function()
 		{
 			if ( 0 === $( this ).find( 'video' ).length && 0 === $( this ).find( 'iframe' ).length ) {
 				return;
 			}
-			
+
 			var wrap        = $(this),
 				wrapHeight  = wrap.outerHeight(),
 				wrapWidth   = wrap.outerWidth(),
@@ -638,7 +652,7 @@
 				newLeft     = 0,
 				newTop      = 0,
 				iframe 		= wrap.find('iframe');
-			
+
 			if ( vid.length ) {
 				if(vidHeight === '' || typeof vidHeight === 'undefined' || vidWidth === '' || typeof vidWidth === 'undefined') {
 					vid.css({
@@ -652,16 +666,16 @@
 
 				}
 				else {
-					
+
 					if(newHeight < wrapHeight) {
 						newHeight   = wrapHeight;
-						newWidth    = Math.round(vidWidth * wrapHeight/vidHeight);  
+						newWidth    = Math.round(vidWidth * wrapHeight/vidHeight);
 						newLeft     = -((newWidth - wrapWidth)/2);
 					}
 					else {
 						newTop      = -((newHeight - wrapHeight)/2);
 					}
-					
+
 					vid.css({
 						'left'      : newLeft + 'px',
 						'top'       : newTop + 'px',
@@ -674,13 +688,13 @@
 
 				// Resize Youtube video player within iframe tag
 				if ( typeof wrap.data('youtube') !== 'undefined' ) {
-					FLBuilderLayout._resizeYoutubeBgVideo.apply(this);	
-				}				
+					FLBuilderLayout._resizeYoutubeBgVideo.apply(this);
+				}
 			}
 		},
 
 		/**
-		 * Fires when video meta has been loaded. 
+		 * Fires when video meta has been loaded.
 		 * This will be Triggered when width/height attributes were not specified during video background resizing.
 		 *
 		 * @since 1.8.5
@@ -698,7 +712,7 @@
 
 			if(newHeight < wrapHeight) {
 				newHeight   = wrapHeight;
-				newWidth    = Math.round(vidWidth * wrapHeight/vidHeight);  
+				newWidth    = Math.round(vidWidth * wrapHeight/vidHeight);
 				newLeft     = -((newWidth - wrapWidth)/2);
 			}
 			else {
@@ -751,7 +765,7 @@
 		 * @since 1.1.9
 		 * @access private
 		 * @method _initModuleAnimations
-		 */ 
+		 */
 		_initModuleAnimations: function()
 		{
 			if(typeof jQuery.fn.waypoint !== 'undefined' && !FLBuilderLayout._isMobile()) {
@@ -761,11 +775,11 @@
 						winHeight = $( window ).height(),
 						bodyHeight = $( 'body' ).height(),
 						offset = '80%';
-						
+
 					if ( bodyHeight - nodeTop < winHeight * 0.2 ) {
 						offset = '100%';
 					}
-					
+
 					node.waypoint({
 						offset: offset,
 						handler: FLBuilderLayout._doModuleAnimation
@@ -773,19 +787,19 @@
 				} );
 			}
 		},
-		
+
 		/**
 		 * Runs a module animation.
 		 *
 		 * @since 1.1.9
 		 * @access private
 		 * @method _doModuleAnimation
-		 */ 
+		 */
 		_doModuleAnimation: function()
 		{
 			var module = 'undefined' == typeof this.element ? $(this) : $(this.element),
 				delay  = parseFloat(module.data('animation-delay'));
-			
+
 			if(!isNaN(delay) && delay > 0) {
 				setTimeout(function(){
 					module.addClass('fl-animated');
@@ -795,7 +809,7 @@
 				module.addClass('fl-animated');
 			}
 		},
-		
+
 		/**
 		 * Opens a tab or accordion item if the browser hash is set
 		 * to the ID of one on the page.
@@ -803,7 +817,7 @@
 		 * @since 1.6.0
 		 * @access private
 		 * @method _initHash
-		 */ 
+		 */
 		_initHash: function()
 		{
 			var hash 			= window.location.hash.replace( '#', '' ).split( '/' ).shift(),
@@ -812,37 +826,37 @@
 				responsiveLabel	= null,
 				tabIndex		= null,
 				label			= null;
-			
+
 			if ( '' !== hash ) {
-				
+
 				try {
-				
+
 					element = $( '#' + hash );
-						
+
 					if ( element.length > 0 ) {
-						
+
 						if ( element.hasClass( 'fl-accordion-item' ) ) {
 							setTimeout( function() {
 								element.find( '.fl-accordion-button' ).trigger( 'click' );
 							}, 100 );
 						}
 						if ( element.hasClass( 'fl-tabs-panel' ) ) {
-							
+
 							setTimeout( function() {
-								
+
 								tabs 			= element.closest( '.fl-tabs' );
 								responsiveLabel = element.find( '.fl-tabs-panel-label' );
 								tabIndex 		= responsiveLabel.data( 'index' );
 								label 			= tabs.find( '.fl-tabs-labels .fl-tabs-label[data-index=' + tabIndex + ']' );
-							
+
 								if ( responsiveLabel.is( ':visible' ) ) {
-									responsiveLabel.trigger( 'click' );	
+									responsiveLabel.trigger( 'click' );
 								}
-								else {									
+								else {
 									label[0].click();
 									FLBuilderLayout._scrollToElement( element );
 								}
-								
+
 							}, 100 );
 						}
 					}
@@ -850,26 +864,26 @@
 				catch( e ) {}
 			}
 		},
-		
+
 		/**
 		 * Initializes all anchor links on the page for smooth scrolling.
 		 *
 		 * @since 1.4.9
 		 * @access private
-		 * @method _doModuleAnimation
-		 */ 
+		 * @method _initAnchorLinks
+		 */
 		_initAnchorLinks: function()
 		{
 			$( 'a' ).each( FLBuilderLayout._initAnchorLink );
 		},
-		
+
 		/**
 		 * Initializes a single anchor link for smooth scrolling.
 		 *
 		 * @since 1.4.9
 		 * @access private
-		 * @method _doModuleAnimation
-		 */ 
+		 * @method _initAnchorLink
+		 */
 		_initAnchorLink: function()
 		{
 			var link    = $( this ),
@@ -908,7 +922,7 @@
 				}
 			}
 		},
-		
+
 		/**
 		 * Scrolls to an element when an anchor link is clicked.
 		 *
@@ -917,16 +931,16 @@
 		 * @method _scrollToElementOnLinkClick
 		 * @param {Object} e An event object.
 		 * @param {Function} callback A function to call when the scroll is complete.
-		 */ 
+		 */
 		_scrollToElementOnLinkClick: function( e, callback )
 		{
 			var element = $( '#' + $( this ).attr( 'href' ).split( '#' ).pop() );
-				
+
 			FLBuilderLayout._scrollToElement( element, callback );
-				
+
 			e.preventDefault();
 		},
-		
+
 		/**
 		 * Scrolls to an element.
 		 *
@@ -935,31 +949,31 @@
 		 * @method _scrollToElement
 		 * @param {Object} element The element to scroll to.
 		 * @param {Function} callback A function to call when the scroll is complete.
-		 */ 
+		 */
 		_scrollToElement: function( element, callback )
 		{
 			var config  = FLBuilderLayoutConfig.anchorLinkAnimations,
 				dest    = 0,
 				win     = $( window ),
 				doc     = $( document );
-				
+
 			if ( element.length > 0 ) {
-			
+
 				if ( element.offset().top > doc.height() - win.height() ) {
 					dest = doc.height() - win.height();
-				} 
+				}
 				else {
 					dest = element.offset().top - config.offset;
 				}
-	
+
 				$( 'html, body' ).animate( { scrollTop: dest }, config.duration, config.easing, function() {
-					
+
 					if ( 'undefined' != typeof callback ) {
 						callback();
 					}
-					
+
 					if ( undefined != element.attr( 'id' ) ) {
-						
+
 						if ( history.pushState ) {
 							history.pushState( null, null, '#' + element.attr( 'id' ) );
 						}
@@ -970,7 +984,7 @@
 				} );
 			}
 		},
-		
+
 		/**
 		 * Scrolls to an accordion item when a link is clicked.
 		 *
@@ -978,24 +992,24 @@
 		 * @access private
 		 * @method _scrollToAccordionOnLinkClick
 		 * @param {Object} e An event object.
-		 */ 
+		 */
 		_scrollToAccordionOnLinkClick: function( e )
 		{
 			var element = $( '#' + $( this ).attr( 'href' ).split( '#' ).pop() );
-				
+
 			if ( element.length > 0 ) {
-			
+
 				var callback = function() {
 					if ( element ) {
-						element.find( '.fl-accordion-button' ).trigger( 'click' );	
+						element.find( '.fl-accordion-button' ).trigger( 'click' );
 						element = false;
 					}
 				};
-				
+
 				FLBuilderLayout._scrollToElementOnLinkClick.call( this, e, callback );
 			}
 		},
-		
+
 		/**
 		 * Scrolls to a tab panel when a link is clicked.
 		 *
@@ -1003,57 +1017,57 @@
 		 * @access private
 		 * @method _scrollToTabOnLinkClick
 		 * @param {Object} e An event object.
-		 */ 
+		 */
 		_scrollToTabOnLinkClick: function( e )
 		{
 			var element 		= $( '#' + $( this ).attr( 'href' ).split( '#' ).pop() ),
 				tabs			= null,
 				label   		= null,
 				responsiveLabel = null;
-				
+
 			if ( element.length > 0 ) {
-				
+
 				tabs 			= element.closest( '.fl-tabs' );
 				responsiveLabel = element.find( '.fl-tabs-panel-label' );
 				tabIndex 		= responsiveLabel.data( 'index' );
 				label 			= tabs.find( '.fl-tabs-labels .fl-tabs-label[data-index=' + tabIndex + ']' );
-			
+
 				if ( responsiveLabel.is( ':visible' ) ) {
-					
+
 					var callback = function() {
 						if ( element ) {
-							responsiveLabel.trigger( 'click' );	
+							responsiveLabel.trigger( 'click' );
 							element = false;
 						}
 					};
-					
+
 					FLBuilderLayout._scrollToElementOnLinkClick.call( this, e, callback );
 				}
 				else {
 					label[0].click();
 					FLBuilderLayout._scrollToElement( element );
 				}
-				
+
 				e.preventDefault();
 			}
 		},
-		
+
 		/**
 		 * Initializes all builder forms on a page.
 		 *
 		 * @since 1.5.4
 		 * @access private
 		 * @method _initForms
-		 */ 
+		 */
 		_initForms: function()
 		{
 			if ( ! FLBuilderLayout._hasPlaceholderSupport ) {
 				$( '.fl-form-field input' ).each( FLBuilderLayout._initFormFieldPlaceholderFallback );
 			}
-			
+
 			$( '.fl-form-field input' ).on( 'focus', FLBuilderLayout._clearFormFieldError );
 		},
-		
+
 		/**
 		 * Checks to see if the current device has HTML5
 		 * placeholder support.
@@ -1062,81 +1076,81 @@
 		 * @access private
 		 * @method _hasPlaceholderSupport
 		 * @return {Boolean}
-		 */ 
+		 */
 		_hasPlaceholderSupport: function()
 		{
 			var input = document.createElement( 'input' );
-			
+
 			return 'undefined' != input.placeholder;
 		},
-		
+
 		/**
 		 * Initializes the fallback for when placeholders aren't supported.
 		 *
 		 * @since 1.5.4
 		 * @access private
 		 * @method _initFormFieldPlaceholderFallback
-		 */ 
+		 */
 		_initFormFieldPlaceholderFallback: function()
 		{
 			var field       = $( this ),
 				val         = field.val(),
 				placeholder = field.attr( 'placeholder' );
-			
+
 			if ( 'undefined' != placeholder && '' === val ) {
 				field.val( placeholder );
 				field.on( 'focus', FLBuilderLayout._hideFormFieldPlaceholderFallback );
 				field.on( 'blur', FLBuilderLayout._showFormFieldPlaceholderFallback );
 			}
 		},
-		
+
 		/**
 		 * Hides a fallback placeholder on focus.
 		 *
 		 * @since 1.5.4
 		 * @access private
 		 * @method _hideFormFieldPlaceholderFallback
-		 */ 
+		 */
 		_hideFormFieldPlaceholderFallback: function()
 		{
 			var field       = $( this ),
 				val         = field.val(),
 				placeholder = field.attr( 'placeholder' );
-			
+
 			if ( val == placeholder ) {
 				field.val( '' );
 			}
 		},
-		
+
 		/**
 		 * Shows a fallback placeholder on blur.
 		 *
 		 * @since 1.5.4
 		 * @access private
 		 * @method _showFormFieldPlaceholderFallback
-		 */ 
+		 */
 		_showFormFieldPlaceholderFallback: function()
 		{
 			var field       = $( this ),
 				val         = field.val(),
 				placeholder = field.attr( 'placeholder' );
-			
+
 			if ( '' === val ) {
 				field.val( placeholder );
 			}
 		},
-		
+
 		/**
 		 * Clears a form field error message.
 		 *
 		 * @since 1.5.4
 		 * @access private
 		 * @method _clearFormFieldError
-		 */ 
+		 */
 		_clearFormFieldError: function()
 		{
 			var field = $( this );
-			
+
 			field.removeClass( 'fl-form-error' );
 			field.siblings( '.fl-form-error-message' ).hide();
 		}

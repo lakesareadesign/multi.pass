@@ -34,5 +34,11 @@ abstract class Opt_In_Provider_Abstract{
      */
     abstract function get_option( $option_key, $default );
 
-
+    /**
+     * Args fields to be excluded on front
+     * @return array
+     */
+    function exclude_args_fields() {
+        return array( 'api_key' );
+    }
 }

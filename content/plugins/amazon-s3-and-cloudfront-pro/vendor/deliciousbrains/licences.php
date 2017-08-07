@@ -83,6 +83,7 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 					$addons[ $basename ] = array(
 						'name'             => $name,
 						'slug'             => $addon,
+						'basename'         => $basename,
 						'required_version' => $version,
 						'available'        => ( false === $available_addons || isset( $available_addons[ $addon ] ) ),
 						'installed'        => $installed,
@@ -469,7 +470,7 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 
 			$errors = sprintf( '<div class="notification-message warning-notice inline-message invalid-licence">%s</div>', $this->get_licence_status_message( $decoded_response ) );
 
-			$decoded_response['errors'] = array( $errors );
+			$decoded_response['htmlErrors'] = array( $errors );
 
 			if ( isset( $decoded_response['dbrains_api_down'] ) ) {
 				$decoded_response['errors'][] = $decoded_response['dbrains_api_down'];
@@ -516,7 +517,7 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 
 			$decoded_response['message'] = $help_message;
 		} elseif ( ! empty( $decoded_response['errors'] ) ) {
-			$decoded_response['errors'] = array( sprintf( '<div class="notification-message warning-notice inline-message invalid-licence">%s</div>', $this->get_licence_status_message() ) );
+			$decoded_response['htmlErrors'] = array( sprintf( '<div class="notification-message warning-notice inline-message invalid-licence">%s</div>', $this->get_licence_status_message() ) );
 		} elseif ( ! empty( $decoded_response['message'] ) && ! get_site_transient( $this->plugin->prefix . '_help_message' ) ) {
 			set_site_transient( $this->plugin->prefix . '_help_message', $decoded_response['message'], $this->transient_timeout );
 		}

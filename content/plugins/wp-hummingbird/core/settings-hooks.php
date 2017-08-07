@@ -34,6 +34,17 @@ function wphb_filter_resource_combine( $value, $handle, $type ) {
 	return true;
 }
 
+add_filter( 'wphb_defer_resource', 'wphb_filter_resource_defer', 10, 3 );
+function wphb_filter_resource_defer( $value, $handle, $type ) {
+	$options = wphb_get_settings();
+	$defer = $options['defer'][ $type ];
+	if ( ! in_array( $handle, $defer ) ) {
+		return $value;
+	}
+
+	return true;
+}
+
 add_filter( 'wphb_send_resource_to_footer', 'wphb_filter_resource_to_footer', 10, 3 );
 function wphb_filter_resource_to_footer( $value, $handle, $type ) {
 	$options = wphb_get_settings();
@@ -81,6 +92,15 @@ function wphb_minify_module_status( $current ) {
 	return $current;
 }
 
+add_filter( 'wp_hummingbird_is_active_module_gravatar', 'wphb_gravatar_module_status' );
+function wphb_gravatar_module_status( $current ) {
+	$options = wphb_get_settings();
+	if ( ! $options['gravatar_cache'] )
+		return false;
+
+	return $current;
+}
+
 add_filter( 'wphb_get_server_type', 'wphb_set_user_server_type' );
 function wphb_set_user_server_type( $type ) {
 	$user_type = get_user_meta( get_current_user_id(), 'wphb-server-type', true );
@@ -90,8 +110,11 @@ function wphb_set_user_server_type( $type ) {
 	return $type;
 }
 
-
-add_filter( 'wphb_use_minify_cdn', 'wphb_set_use_cdn' );
-function wphb_set_use_cdn( $use_cdn ) {
-	return wphb_get_setting( 'use_cdn' );
+// Do not minify files that already are named with .min
+add_filter( 'wphb_minify_resource', 'wphb_minify_min_files', 15, 4 );
+function wphb_minify_min_files( $minify, $handle, $type, $url ) {
+	if ( preg_match( '/\.min\.(css|js)/', basename( $url ) ) ) {
+		return false;
+	}
+	return $minify;
 }

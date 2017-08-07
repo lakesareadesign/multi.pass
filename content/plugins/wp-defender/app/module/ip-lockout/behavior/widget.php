@@ -12,7 +12,13 @@ use WP_Defender\Module\IP_Lockout\Model\Settings;
 class Widget extends Behavior {
 	public function renderLockoutWidget() {
 		?>
-        <div class="dev-box">
+        <div class="dev-box" id="lockoutSummary">
+			<?php if ( Settings::instance()->detect_404 || Settings::instance()->login_protection ): ?>
+                <div class="wd-overlay">
+                    <i class="wdv-icon wdv-icon-fw wdv-icon-refresh spin"></i>
+                </div>
+                <input type="hidden" id="summaryNonce" value="<?php echo wp_create_nonce( 'lockoutSummaryData' ) ?>"/>
+			<?php endif; ?>
             <div class="box-title">
                 <span class="span-icon icon-lockout"></span>
                 <h3><?php _e( "IP LOCKOUTS", wp_defender()->domain ) ?></h3>
@@ -37,31 +43,19 @@ class Widget extends Behavior {
                         <li>
                             <div>
                                 <span class="list-label"><?php _e( "Last lockout", wp_defender()->domain ) ?></span>
-                                <span class="list-detail"><?php
-									echo $this->getLastEventLockout();
-									?></span>
+                                <span class="list-detail lastLockout">.</span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <span class="list-label"><?php _e( "Login lockouts this week", wp_defender()->domain ) ?></span>
-                                <span class="list-detail">
-                                            <?php
-                                            $count = \WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::getLoginLockouts( strtotime( 'first day of this week', current_time( 'timestamp' ) ) );
-                                            echo $count;
-                                            ?>
-                                        </span>
+                                <span class="list-detail loginLockoutThisWeek">.</span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <span class="list-label"><?php _e( "404 lockouts this week", wp_defender()->domain ) ?></span>
-                                <span class="list-detail">
-                                            <?php
-                                            $count = \WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::get404Lockouts( strtotime( 'first day of this week', current_time( 'timestamp' ) ) );
-                                            echo $count;
-                                            ?>
-                                        </span>
+                                <span class="list-detail lockout404ThisWeek">.</span>
                             </div>
                         </li>
                     </ul>
@@ -85,14 +79,5 @@ class Widget extends Behavior {
             </div>
         </div>
 		<?php
-	}
-
-	public function getLastEventLockout() {
-		$last = \WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::getLastLockout();
-		if ( is_object( $last ) ) {
-			return Utils::instance()->formatDateTime( date( 'Y-m-d H:i:s', $last->date ) );
-		} else {
-			return __( "Never", wp_defender()->domain );
-		}
 	}
 }

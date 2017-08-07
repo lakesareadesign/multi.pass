@@ -6,13 +6,11 @@
  ************************************************************************************************/
 ?>
 <?php
-class ODB_Scheduler
-{
+class ODB_Scheduler {
 	/********************************************************************************************
 	 *	CONSTRUCTOR
 	 ********************************************************************************************/	
-    function __construct()
-    {
+    function __construct() {
 		global $odb_class;
 		
 		// ADD EXTRA CRON SCHEDULES
@@ -31,8 +29,7 @@ class ODB_Scheduler
 	 *	v4.0.3	($schedules) added as a parameter
 	 *	v4.2.0	Added monthly
 	 *******************************************************************************/
-	function odb_extra_cron_schedules($schedules)
-	{
+	function odb_extra_cron_schedules($schedules) {
 		global $odb_class;
 		
 		$schedules['weekly'] = array(
@@ -55,23 +52,20 @@ class ODB_Scheduler
 	/*******************************************************************************
 	 * 	UPDATE SCHEDULER (IF NEEDED)
 	 *******************************************************************************/
-	function odb_update_scheduler()
-	{
+	function odb_update_scheduler() {
 		global $odb_class;
 
-		if($odb_class->odb_rvg_options['schedule_type'] == '')
-		{	// SHOULDN'T BE SCHEDULED
+		if($odb_class->odb_rvg_options['schedule_type'] == '') {
+			// SHOULDN'T BE SCHEDULED
 			wp_clear_scheduled_hook('odb_scheduler');
 			$odb_class->odb_rvg_options['schedule_hour'] = '';
 			$odb_class->odb_multisite_obj->odb_ms_update_option('odb_rvg_options', $odb_class->odb_rvg_options);		
-		}
-		else
-		{	// JOB SHOULD BE SCHEDULED: SCHEDULE IT
+		} else {
+			// JOB SHOULD BE SCHEDULED: SCHEDULE IT
 			if($odb_class->odb_rvg_options['schedule_type'] != 'daily' &&
 				$odb_class->odb_rvg_options['schedule_type'] != 'weekly' &&
 				$odb_class->odb_rvg_options['schedule_type'] != 'monthly'
-				) 
-			{
+				) {
 				$odb_class->odb_rvg_options['schedule_hour'] = '';
 				$odb_class->odb_multisite_obj->odb_ms_update_option('odb_rvg_options', $odb_class->odb_rvg_options);
 			}
@@ -85,8 +79,7 @@ class ODB_Scheduler
 	/*******************************************************************************
 	 * 	SCHEDULE CHANGED ON SETTINGS PAGE: RESCHEDULE
 	 *******************************************************************************/		
-	function odb_reschedule()
-	{
+	function odb_reschedule() {
 		global $odb_class;
 		
 		wp_clear_scheduled_hook('odb_scheduler');
@@ -97,15 +90,13 @@ class ODB_Scheduler
 	/*******************************************************************************
 	 * 	CALCULATE SCHEDULE TIME
 	 *******************************************************************************/	
-	function odb_calculate_time()
-	{
+	function odb_calculate_time() {
 		global $odb_class;
 	
 		if ($odb_class->odb_rvg_options['schedule_type'] == 'daily' ||
 				$odb_class->odb_rvg_options['schedule_type'] == 'weekly' ||
 				$odb_class->odb_rvg_options['schedule_type'] == 'monthly'
-				)
-		{
+				) {
 			// 'daily' OR 'weekly'
 			$current_datetime = Date('YmdHis');
 			$current_date     = substr($current_datetime, 0, 8);

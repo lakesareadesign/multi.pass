@@ -29,12 +29,12 @@ class WP_Hummingbird_Module_Uptime extends WP_Hummingbird_Module {
 	 * Get latest report from server
 	 */
 	public static function refresh_report( $time = 'day' ) {
-		/** @var WP_Hummingbird_API $api */
+		/* @var WP_Hummingbird_API $api */
 		$api = wphb_get_api();
 		$results = $api->uptime->check( $time );
 
- 		if ( is_wp_error( $results ) && 412 === $results->get_error_code() ) {
-			// Uptime has been deactivated
+		if ( is_wp_error( $results ) && 412 === $results->get_error_code() ) {
+			// Uptime has been deactivated.
 			self::disable_locally();
 			delete_site_transient( 'wphb-uptime-last-report' );
 			return;
@@ -46,7 +46,7 @@ class WP_Hummingbird_Module_Uptime extends WP_Hummingbird_Module {
 		}
 
 		$current_reports[ $time ] = $results;
-		// Save for 2 minutes
+		// Save for 2 minutes.
 		set_site_transient( 'wphb-uptime-last-report', $current_reports, 120 );
 	}
 
@@ -63,8 +63,7 @@ class WP_Hummingbird_Module_Uptime extends WP_Hummingbird_Module {
 		$cached = get_site_transient( 'wphb-uptime-remotely-enabled' );
 		if ( 'yes' === $cached ) {
 			return true;
-		}
-		elseif ( 'no' === $cached ) {
+		} elseif ( 'no' === $cached ) {
 			return false;
 		}
 

@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the WPMU DEV Dashboard package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPMU DEV Dashboard 4.3.1-beta-3\n"
+"Project-Id-Version: WPMU DEV Dashboard 4.3.2-beta-2\n"
 "Report-Msgid-Bugs-To: https://premium.wpmudev.org/\n"
-"POT-Creation-Date: 2017-05-31 21:51:07+00:00\n"
+"POT-Creation-Date: 2017-07-20 20:25:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,22 +16,22 @@ msgstr ""
 msgid "A WPMU DEV plugin was automatically updated."
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-remote.php:576
+#: includes/class-wpmudev-dashboard-remote.php:670
 msgid "You cannot delete a plugin while it is active on the main site."
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-remote.php:589
-#: includes/class-wpmudev-dashboard-remote.php:658
+#: includes/class-wpmudev-dashboard-remote.php:683
+#: includes/class-wpmudev-dashboard-remote.php:752
 #: includes/class-wpmudev-dashboard-upgrader.php:551
 #: includes/class-wpmudev-dashboard-upgrader.php:705
 msgid "Unable to connect to the filesystem. Please confirm your credentials."
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-remote.php:618
+#: includes/class-wpmudev-dashboard-remote.php:712
 msgid "Plugin could not be deleted."
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-remote.php:683
+#: includes/class-wpmudev-dashboard-remote.php:777
 msgid "Theme could not be deleted."
 msgstr ""
 
@@ -52,36 +52,36 @@ msgstr ""
 msgid "Unexpected action, we could not handle it."
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-site.php:912
-#: includes/class-wpmudev-dashboard-site.php:937
+#: includes/class-wpmudev-dashboard-site.php:909
+#: includes/class-wpmudev-dashboard-site.php:934
 msgid "Unknown action: %s"
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-site.php:967 template/login.php:110
+#: includes/class-wpmudev-dashboard-site.php:964 template/login.php:110
 msgid "Your API Key was invalid. Please try again."
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-site.php:1483
+#: includes/class-wpmudev-dashboard-site.php:1480
 msgid "Requires Multisite"
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-site.php:1487
+#: includes/class-wpmudev-dashboard-site.php:1484
 msgid "Requires BuddyPress"
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-site.php:1491
+#: includes/class-wpmudev-dashboard-site.php:1488
 msgid "Incompatible"
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-site.php:2067
+#: includes/class-wpmudev-dashboard-site.php:2064
 msgid "<b>The Upfront parent theme is missing!</b><br>Please install it to use your Upfront child themes"
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-site.php:2094
+#: includes/class-wpmudev-dashboard-site.php:2091
 msgid "Awesome news for Upfront"
 msgstr ""
 
-#: includes/class-wpmudev-dashboard-site.php:2095
+#: includes/class-wpmudev-dashboard-site.php:2092
 msgid "We have a new version of Upfront for you! Install it right now to get all the latest improvements and features."
 msgstr ""
 
@@ -344,7 +344,7 @@ msgid "Get 24/7 expert WordPress support for any issue."
 msgstr ""
 
 #: template/dashboard.php:154
-msgid "Discuss your favourite topics with other developers."
+msgid "Discuss your favorite topics with other developers."
 msgstr ""
 
 #: template/dashboard.php:158
@@ -356,7 +356,7 @@ msgid "Learn"
 msgstr ""
 
 #: template/dashboard.php:166
-msgid "Become and expert by taking an Academy course."
+msgid "Become an expert by taking an Academy course."
 msgstr ""
 
 #: template/dashboard.php:170
@@ -654,19 +654,6 @@ msgstr ""
 msgid "Available %s Plugins"
 msgstr ""
 
-#: template/popup-after-install-failed.php:21
-msgid "Installation failed!"
-msgstr ""
-
-#: template/popup-after-install-failed.php:30
-msgid "Installation of %s failed. Most likely reason for this are wrong folder permissions of your wp-contents folder."
-msgstr ""
-
-#: template/popup-after-install-failed.php:36
-#: template/popup-after-install.php:59
-msgid "Okay"
-msgstr ""
-
 #: template/popup-after-install-upfront.php:22
 msgid "Upfront installed!"
 msgstr ""
@@ -697,6 +684,10 @@ msgstr ""
 
 #: template/popup-after-install.php:57
 msgid "Continue installing plugins"
+msgstr ""
+
+#: template/popup-after-install.php:59
+msgid "Okay"
 msgstr ""
 
 #: template/popup-after-install.php:72
@@ -1042,7 +1033,7 @@ msgid "You have no support tickets, woop!"
 msgstr ""
 
 #: template/support.php:87
-msgid "When you ask a support question, it will appear here. You can also access this through your WPMU DEV Dashboard."
+msgid "When you ask a support question, it will appear here. You can also access this in the WPMU DEV Hub."
 msgstr ""
 
 #: template/support.php:91

@@ -34,7 +34,7 @@ class Remove_Local_Files_Process extends Background_Tool_Process {
 			}
 		}
 
-		$keys = $this->get_keys( $attachments );
+		$keys = $this->get_s3_keys( $attachments );
 
 		foreach( $attachments as $attachment_id ) {
 			$this->delete_local_attachment( $attachment_id, $keys );
@@ -131,68 +131,11 @@ class Remove_Local_Files_Process extends Background_Tool_Process {
 	}
 
 	/**
-	 * Get object keys that exist on S3 for attachments.
-	 *
-	 * It's possible that attachments belong to different buckets therefore they could have
-	 * different regions, so we have to build an array of clients and commands.
-	 *
-	 * @param array $attachments
-	 *
-	 * @return array
-	 */
-	protected function get_keys( $attachments ) {
-		$regions = array();
-
-		foreach ( $attachments as $attachment_id ) {
-			$s3info = $this->as3cf->get_attachment_s3_info( $attachment_id );
-			$region = empty( $s3info['region'] ) ? 'us-east-1' : $s3info['region'];
-
-			if ( ! isset( $regions[ $region ]['s3client'] ) ) {
-				$regions[ $region ]['s3client'] = $this->as3cf->get_s3client( $region, true );
-			}
-
-			$regions[ $region ]['commands'][ $attachment_id ] = $regions[ $region ]['s3client']->getCommand( 'ListObjects', array(
-				'Bucket' => $s3info['bucket'],
-				'Prefix' => $this->get_search_prefix( $s3info ),
-			) );
-		}
-
-		return $this->get_keys_from_regions( $regions );
-	}
-
-	/**
-	 * Get search prefix.
-	 *
-	 * @param array $s3info
+	 * Get complete notice message.
 	 *
 	 * @return string
 	 */
-	protected function get_search_prefix( $s3info ) {
-		$parts = pathinfo( $s3info['key'] );
-		// Remove the suffix from edited images
-		$filename = preg_replace( '/-e[0-9]{13}/', '', $parts['filename'] );
-
-		return str_replace( $parts['basename'], $filename, $s3info['key'] );
-	}
-
-	/**
-	 * Get object keys from region results.
-	 *
-	 * @param array $regions
-	 *
-	 * @return array
-	 */
-	protected function get_keys_from_regions( $regions ) {
-		$keys = array();
-
-		foreach ( $regions as $region ) {
-			$region['s3client']->execute( $region['commands'] );
-
-			foreach ( $region['commands'] as $attachment_id => $command ) {
-				$keys[ $attachment_id ] = $command->getResult()->getPath( 'Contents/*/Key' );
-			}
-		}
-
-		return $keys;
+	protected function get_complete_message() {
+		return __( '<strong>WP Offload S3</strong> &mdash; Finished removing media files from local server.', 'amazon-s3-and-cloudfront' );
 	}
 }

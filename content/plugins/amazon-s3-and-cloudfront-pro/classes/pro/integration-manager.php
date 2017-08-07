@@ -2,17 +2,14 @@
 
 namespace DeliciousBrains\WP_Offload_S3\Pro;
 
+use DeliciousBrains\WP_Offload_S3\Pro\Integrations\Integration;
+
 class Integration_Manager {
 
 	/**
 	 * @var Integration_Manager
 	 */
 	protected static $instance;
-
-	/**
-	 * @var array
-	 */
-	private $integrations = array();
 
 	/**
 	 * Make this class a singleton.
@@ -32,15 +29,12 @@ class Integration_Manager {
 	/**
 	 * Register integration.
 	 *
-	 * @param string      $slug
 	 * @param Integration $integration
 	 */
-	public function register_integration( $slug, Integration $integration ) {
+	public function register_integration( Integration $integration ) {
 		if ( $integration->is_installed() ) {
 			$integration->init();
 		}
-
-		$this->integrations[ $slug ] = $integration;
 	}
 
 	/**

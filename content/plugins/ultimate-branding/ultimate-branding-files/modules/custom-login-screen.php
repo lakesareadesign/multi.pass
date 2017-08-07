@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Custom Login Screen
+Plugin Name: Login Screen
 Plugin URI:
 Description:
 Author: Marcin (Incsub)
-Version: 1.0
+Version: 1.0.1
 Author URI:
 Network: true
 
@@ -34,53 +34,16 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 		protected $option_name = 'global_login_screen';
 
 		public function __construct() {
-            parent::__construct();
+			parent::__construct();
 			$this->set_options();
-			add_action( 'ultimatebranding_settings_custom_login_screen', array( $this, 'admin_options_page' ) );
-			add_filter( 'ultimatebranding_settings_custom_login_screen_process', array( $this, 'update' ), 10, 1 );
+			add_action( 'ultimatebranding_settings_login_screen', array( $this, 'admin_options_page' ) );
+			add_filter( 'ultimatebranding_settings_login_screen_process', array( $this, 'update' ), 10, 1 );
 			add_action( 'login_head', array( $this, 'output' ), 99 );
 			add_filter( 'login_headerurl', array( $this, 'login_headerurl' ) );
 			add_filter( 'login_headertitle', array( $this, 'login_headertitle' ) );
 			add_filter( 'wp_login_errors', array( $this, 'wp_login_errors' ) );
 			add_filter( 'gettext', array( $this, 'gettext_login_form_labels' ), 20, 3 );
-		}
-
-		public function update( $status ) {
-			$value = $_POST['simple_options'];
-			if ( $value == '' ) {
-				$value = 'empty';
-			}
-			foreach ( $this->options as $section_key => $section_data ) {
-				if ( ! isset( $section_data['fields'] ) ) {
-					continue;
-				}
-				foreach ( $section_data['fields'] as $key => $data ) {
-					switch ( $data['type'] ) {
-						case 'media':
-							if ( isset( $value[ $section_key ][ $key ] ) ) {
-								$image = wp_get_attachment_image_src( $value[ $section_key ][ $key ], 'full' );
-								if ( false !== $image ) {
-									$value[ $section_key ][ $key.'_meta' ] = $image;
-								}
-							}
-						break;
-						case 'checkbox':
-							if ( isset( $value[ $section_key ][ $key ] ) ) {
-								$value[ $section_key ][ $key ] = 'on';
-							} else {
-								$value[ $section_key ][ $key ] = 'off';
-							}
-					}
-				}
-			}
-
-			ub_update_option( $this->option_name , $value );
-
-			if ( $status === false ) {
-				return $status;
-			} else {
-				return true;
-			}
+			add_filter( 'mime_types', array( $this, 'add_svg_to_allowed_mime_types' ) );
 		}
 
 		public function output() {
@@ -103,6 +66,18 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				 * show_logo
 				 */
 				$this->css_hide( $v, 'show_logo', '.login h1' );
+				/**
+				 * rounded_form
+				 */
+				if ( isset( $v['logo_rounded'] ) && '0' != $v['logo_rounded'] ) {
+?>
+#login h1 a {
+    -webkit-border-radius: <?php echo intval( $v['logo_rounded'] ); ?>px;
+    -moz-border-radius: <?php echo intval( $v['logo_rounded'] ); ?>px;
+    border-radius: <?php echo intval( $v['logo_rounded'] ); ?>px;
+}
+<?php
+				}
 				/**
 				 * logo
 				 */
@@ -181,7 +156,7 @@ body {
 				/**
 				 * rounded_form
 				 */
-				if ( isset( $v['rounded_form'] ) && 'rounded' == $v['rounded_form'] ) {
+				if ( isset( $v['rounded_nb'] ) && '0' != $v['rounded_nb'] ) {
 ?>
 .login form {
     -webkit-border-radius: <?php echo intval( $v['rounded_nb'] ); ?>px;
@@ -266,6 +241,50 @@ body {
 				 * show_remember_me
 				 */
 				$this->css_hide( $v, 'show_remember_me', '.login .forgetmenot' );
+				/**
+				 * form_button_border
+				 */
+				if ( isset( $v['form_button_border'] ) ) {
+?>
+.login form input[type=submit] {
+    border-width: <?php echo intval( $v['form_button_border'] ); ?>px;
+}
+<?php
+				}
+				/**
+				 * form_button_shadow
+				 */
+				if ( isset( $v['form_button_shadow'] ) && 'off' == $v['form_button_shadow'] ) {
+?>
+.login form input[type=submit] {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+<?php
+				}
+				/**
+				 * form_button_text_shadow
+				 */
+				if ( isset( $v['form_button_text_shadow'] ) && 'off' == $v['form_button_text_shadow'] ) {
+?>
+.login form input[type=submit] {
+    text-shadow: none;
+}
+<?php
+				}
+				/**
+				 * rounded_form
+				 */
+				if ( isset( $v['form_button_rounded'] ) ) {
+?>
+.login form input[type=submit] {
+    -webkit-border-radius: <?php echo intval( $v['form_button_rounded'] ); ?>px;
+    -moz-border-radius: <?php echo intval( $v['form_button_rounded'] ); ?>px;
+    border-radius: <?php echo intval( $v['form_button_rounded'] ); ?>px;
+}
+<?php
+				}
 			}
 
 			/**
@@ -292,6 +311,9 @@ body {
 				 * login_error_text_color
 				 */
 				$this->css_color( $v, 'login_error_text_color', '.login #login #login_error' );
+				$this->css_color( $v, 'login_error_link_color', '.login #login #login_error a' );
+				$this->css_color( $v, 'login_error_link_color_hover', '.login #login #login_error a:hover' );
+				$this->css_opacity( $v, 'login_error_transarency', '.login #login #login_error' );
 			}
 
 			/**
@@ -391,6 +413,16 @@ body {
 							'classes' => array( 'ui-slider' ),
 							'master' => 'logo-related',
 						),
+						'logo_rounded' => array(
+							'type' => 'number',
+							'label' => __( 'Logo radius corners', 'ub' ),
+							'description' => __( 'How much would you like to round the border?', 'ub' ),
+							'attributes' => array( 'placeholder' => '20' ),
+							'default' => 0,
+							'min' => 0,
+							'classes' => array( 'ui-slider' ),
+							'master' => 'logo-related',
+						),
 						'login_header_url' => array(
 							'type' => 'text',
 							'label' => __( 'Logo URL', 'ub' ),
@@ -428,23 +460,14 @@ body {
 					),
 				),
 				'form' => array(
-					'title' => __( 'Form corners', 'ub' ),
+					'title' => __( 'Form', 'ub' ),
 					'fields' => array(
-						'rounded_form' => array(
-							'type' => 'radio',
-							'label' => __( 'Form corners', 'ub' ),
-							'options' => array(
-								'rounded' => __( 'Show rounded corners', 'ub' ),
-								'straight' => __( 'Show straight corners', 'ub' ),
-							),
-							'default' => 'straight',
-						),
 						'rounded_nb' => array(
 							'type' => 'number',
-							'label' => __( 'Radius', 'ub' ),
+							'label' => __( 'Radius form corner', 'ub' ),
 							'description' => __( 'How much would you like to round the border?', 'ub' ),
 							'attributes' => array( 'placeholder' => '20' ),
-							'default' => '20',
+							'default' => 0,
 							'min' => 0,
 							'classes' => array( 'ui-slider' ),
 						),
@@ -453,10 +476,10 @@ body {
 							'label' => __( '"Remember Me" checkbox', 'ub' ),
 							'description' => __( 'Would you like to show the "Remember Me" checkbox?', 'ub' ),
 							'options' => array(
-								'show' => __( 'Show "Remember Me" checkbox.', 'ub' ),
-								'hide' => __( 'Hide "Remember Me" checkbox.', 'ub' ),
+								'on' => __( 'Show "Remember Me" checkbox.', 'ub' ),
+								'off' => __( 'Hide "Remember Me" checkbox.', 'ub' ),
 							),
-							'default' => 'show',
+							'default' => 'on',
 						),
 						'label_color' => array(
 							'type' => 'color',
@@ -500,6 +523,43 @@ body {
 							'type' => 'color',
 							'label' => __( 'Button Text color', 'ub' ),
 							'default' => '#ffffff',
+						),
+						'form_button_text_shadow' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Button texr shadow', 'ub' ),
+							'description' => __( 'Would you like to add button text shadow?', 'ub' ),
+							'options' => array(
+								'on' => __( 'Yes', 'ub' ),
+								'off' => __( 'No', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+						),
+						'form_button_border' => array(
+							'type' => 'number',
+							'label' => __( 'Button border width', 'ub' ),
+							'min' => 0,
+							'max' => 10,
+							'default' => 1,
+							'classes' => array( 'ui-slider' ),
+						),
+						'form_button_shadow' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Form button shadow', 'ub' ),
+							'description' => __( 'Would you like to add button shadow?', 'ub' ),
+							'options' => array(
+								'on' => __( 'Yes', 'ub' ),
+								'off' => __( 'No', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+						),
+						'form_button_rounded' => array(
+							'type' => 'number',
+							'label' => __( 'Button radius corners', 'ub' ),
+							'min' => 0,
+							'default' => 3,
+							'classes' => array( 'ui-slider' ),
 						),
 					),
 				),
@@ -556,18 +616,36 @@ body {
 						),
 						'login_error_background_color' => array(
 							'type' => 'color',
-							'label' => __( 'Error message background color.', 'ub' ),
+							'label' => __( 'Background color', 'ub' ),
 							'default' => '#ffffff',
 						),
 						'login_error_border_color' => array(
 							'type' => 'color',
-							'label' => __( 'Error message border color.', 'ub' ),
+							'label' => __( 'Border color', 'ub' ),
 							'default' => '#dc3232',
 						),
 						'login_error_text_color' => array(
 							'type' => 'color',
-							'label' => __( 'Error message text color.', 'ub' ),
+							'label' => __( 'Text color', 'ub' ),
 							'default' => '#444444',
+						),
+						'login_error_link_color' => array(
+							'type' => 'color',
+							'label' => __( 'Link color', 'ub' ),
+							'default' => '#0073aa',
+						),
+						'login_error_link_color_hover' => array(
+							'type' => 'color',
+							'label' => __( 'Hover link color', 'ub' ),
+							'default' => '#00a0d2',
+						),
+						'login_error_transarency' => array(
+							'type' => 'number',
+							'label' => __( 'Transparency', 'ub' ),
+							'min' => 0,
+							'max' => 100,
+							'default' => 100,
+							'classes' => array( 'ui-slider' ),
 						),
 					),
 				),
@@ -645,7 +723,7 @@ body {
 			if ( is_array( $value ) ) {
 				foreach ( $value as $code => $message ) {
 					if ( isset( $errors->errors[ $code ] ) ) {
-						$errors->errors[ $code ][0] = $this->replace_placeholders( $message );
+						$errors->errors[ $code ][0] = stripslashes( $this->replace_placeholders( $message, $code ) );
 					}
 				}
 			}
@@ -661,15 +739,23 @@ body {
 					}
 				}
 				if ( isset( $this->patterns[ $translated_text ] ) ) {
-					return $this->patterns[ $translated_text ];
+					return stripslashes( $this->patterns[ $translated_text ] );
 				}
 			}
 
 			return $translated_text;
 		}
 
-		private function replace_placeholders( $string ) {
-			$string = preg_replace( '/WP_LOSTPASSWORD_URL/', wp_lostpassword_url(), $string );
+		private function replace_placeholders( $string, $code = '' ) {
+			/**
+			 * Exception for user name
+			 * https://app.asana.com/0/47431170559378/47431170559399
+			 */
+			if ( 'incorrect_password' == $code ) {
+				$string = sprintf( $string, 'USERNAME' );
+			}
+			$lost_password_url = wp_lostpassword_url();
+			$string = preg_replace( '/WP_LOSTPASSWORD_URL/', $lost_password_url, $string );
 			$username = '';
 			if ( isset( $_POST['log'] ) ) {
 				$username = esc_attr( $_POST['log'] );
@@ -720,7 +806,18 @@ body {
 				}
 			}
 		}
+
+		/**
+		 * Allow to uload SVG files.
+		 *
+		 * @since 1.8.9
+		 */
+		public function add_svg_to_allowed_mime_types( $mimes ) {
+			$mimes['svg'] = 'image/svg+xml';
+			return $mimes;
+		}
 	}
 
-	new ub_custom_login_screen();
 }
+
+new ub_custom_login_screen();

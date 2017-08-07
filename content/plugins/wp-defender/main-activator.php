@@ -8,7 +8,8 @@ class WD_Main_Activator {
 
 	public function __construct( WP_Defender $wp_defender ) {
 		add_action( 'init', array( &$this, 'init' ) );
-		add_action( 'wp_loaded', array( &$this, 'maybeShowUpgradedNotice' ) );
+		add_action( 'wp_loaded', array( &$this, 'maybeShowUpgradedNotice' ), 9 );
+		add_action( 'activated_plugin', array( &$this, 'redirectToDefender' ) );
 	}
 
 	/**
@@ -39,11 +40,27 @@ class WD_Main_Activator {
 		}
 	}
 
+	/**
+	 * redirect to defender dahsboard after plugin activated
+	 */
+	public function redirectToDefender( $plugin ) {
+		if ( $plugin == wp_defender()->plugin_slug ) {
+			exit( wp_redirect( network_admin_url( 'admin.php?page=wp-defender' ) ) );
+		}
+	}
+
+	/**
+	 * show a notice for user to say they just upgrade from free
+	 */
 	public function maybeShowUpgradedNotice() {
-		if ( get_option( 'defenderJustUpgrade' ) == 1 ) {
+		if ( get_site_option( 'defenderJustUpgrade' ) == 1 ) {
 			$utils = \WP_Defender\Behavior\Utils::instance();
 			if ( $utils->checkPermission() ) {
-				add_action( 'admin_notices', array( &$this, 'showUpgradedNotification' ) );
+				if ( \WP_Defender\Behavior\Utils::instance()->isActivatedSingle() ) {
+					add_action( 'admin_notices', array( &$this, 'showUpgradedNotification' ) );
+				} else {
+					add_action( 'network_admin_notices', array( &$this, 'showUpgradedNotification' ) );
+				}
 			}
 		}
 	}
@@ -52,7 +69,7 @@ class WD_Main_Activator {
 		$class   = 'notice notice-info is-dismissible';
 		$message = __( "We noticed you have both the free and pro versions of Defender installed, so we've automatically deactivated the free version for you.", wp_defender()->domain );
 		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), $message );
-		delete_option( 'defenderJustUpgrade' );
+		delete_site_option( 'defenderJustUpgrade' );
 	}
 
 	/**

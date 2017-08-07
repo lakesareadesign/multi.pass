@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
-	class ub_admin_panel_tips {
+	class ub_admin_panel_tips extends ub_helper {
 
 		private $admin_url = '';
 		private $post_type = 'admin_panel_tip';
@@ -42,9 +42,27 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			add_action( 'personal_options_update', array( $this, 'profile_option_update' ) );
 			add_action( 'wp_ajax_ub_admin_panel_tips', array( $this, 'ajax' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( 'ultimatebranding_settings_admin_panel_tips', array( $this, 'manage_output' ) );
-			add_filter( 'ultimatebranding_settings_admin_panel_tips_process', array( $this, 'process' ) );
+			add_action( 'ultimatebranding_settings_admin_panel_tips', array( $this, 'admin_options_page' ) );
 			add_action( 'init', array( $this, 'custom_post_type' ), 0 );
+			/**
+			 * Where to display?
+			 *
+			 * @since 1.8.8
+			 */
+			add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
+		}
+
+		protected function set_options() {
+			$description = '<ul>';
+			$description .= sprintf( '<li>%s</li>', __( 'Please go to site admin and add some tips.', 'ub' ) );
+			$description .= sprintf( '<li>%s</li>', __( 'This module has no global configuration.', 'ub' ) );
+			$description .= '</ul>';
+			$this->options = array(
+				'description' => array(
+					'title' => __( 'Description', 'ub' ),
+					'description' => $description,
+				),
+			);
 		}
 
 		public function custom_post_type() {
@@ -114,7 +132,6 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 					case 'dismiss':
 						$dismissed_tips = get_user_meta( $_POST['user_id'], 'tips_dismissed', true, array() );
 						$dismissed_tips[] = $_POST['id'];
-						l( $dismissed_tips );
 						update_user_meta( $_POST['user_id'], 'tips_dismissed', $dismissed_tips );
 						wp_send_json_success();
 				}
@@ -161,12 +178,26 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			if ( 'no' == $show_tips ) {
 				return;
 			}
+
+			$current_screen = get_current_screen();
+			$meta_query = array(
+				'relation' => 'OR',
+				array(
+					'key' => $this->meta_field_name,
+					'value' => 'everywhere',
+				),
+				array(
+					'key' => $this->meta_field_name,
+					'value' => $current_screen->parent_file,
+				),
+			);
 			$args = array(
 				'orderby' => 'rand',
 				'posts_per_page' => 1,
 				'post_type' => $this->post_type,
 				'post_status' => 'publish',
 				'post__not_in' => get_user_meta( get_current_user_id(), 'tips_dismissed', true ),
+				'meta_query' => $meta_query,
 			);
 			$the_query = new WP_Query( $args );
 			if ( $the_query->have_posts() ) {
@@ -241,6 +272,12 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 				return;
 			}
 			/**
+			 * check nonce
+			 */
+			if ( ! isset( $_POST['where_to_display_nonce'] ) || ! wp_verify_nonce( $_POST['where_to_display_nonce'], '_where_to_display_nonce' ) ) {
+				return;
+			}
+			/**
 			 * get from edit form
 			 */
 			$values = array();
@@ -275,6 +312,69 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 				}
 				add_post_meta( $post_id, $this->meta_field_name, $v );
 			}
+		}
+
+		function where_to_display__get_meta( $value ) {
+			global $post;
+
+			$field = get_post_meta( $post->ID, $value, true );
+			if ( ! empty( $field ) ) {
+				return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Where to display - add_meta_box
+		 *
+		 * @since 1.8.8
+		 */
+		public function add_meta_box() {
+			add_meta_box(
+				'where_to_display',
+				__( 'Where to display?', 'ub' ),
+				array( $this, 'html' ),
+				'admin_panel_tip',
+				'side',
+				'default'
+			);
+		}
+
+		/**
+		 * Where to display - html
+		 *
+		 * @since 1.8.8
+		 */
+		public function html( $post ) {
+			global $menu;
+			wp_nonce_field( '_where_to_display_nonce', 'where_to_display_nonce' );
+			echo '<p>';
+			_e( 'Allow to choose where this tip should be shown:', 'ub' );
+			echo '</p>';
+			$current = get_post_meta( $post->ID, $this->meta_field_name );
+			$checked = in_array( 'everywhere', $current );
+			echo '<ul>';
+			printf(
+				'<li><label><input type="checkbox" name="%s[]" value="everywhere" %s/> %s</label>',
+				esc_attr( $this->meta_field_name ),
+				checked( $checked, true, false ),
+				esc_html__( 'Everywhere', 'ub' )
+			);
+			foreach ( $menu as $one ) {
+				if ( empty( $one[0] ) ) {
+					continue;
+				}
+				$checked = in_array( $one[2], $current );
+				printf(
+					'<li><label><input type="checkbox" name="%s[]" value="%s" %s/> %s</label>',
+					esc_attr( $this->meta_field_name ),
+					esc_attr( $one[2] ),
+					checked( $checked, true, false ),
+					esc_html( preg_replace( '/<.+/', '', $one[0] ) )
+				);
+			}
+			echo '</ul>';
 		}
 	}
 

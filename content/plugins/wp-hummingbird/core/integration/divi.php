@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 function wphb_et_divi_theme_active() {
 	$theme = wp_get_theme();
 	return ( 'divi' === strtolower( $theme ) || 'divi' === strtolower( $theme->get_template() ) );

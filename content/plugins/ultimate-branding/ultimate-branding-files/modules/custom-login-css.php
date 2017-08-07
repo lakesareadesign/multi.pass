@@ -1,14 +1,13 @@
 <?php
 /*
-Plugin Name: Custom Login CSS
-Plugin URI:
+Plugin Name: Login CSS
 Description: Add extra CSS to the login page
 Author: Barry (Incsub)
 Version: 1.0
 Author URI:
 Network: true
 
-Copyright 2012 Incsub (email: admin@incsub.com)
+Copyright 2012-2017 Incsub (email: admin@incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,8 +28,8 @@ class ub_custom_login_css extends ub_helper {
 
 	function __construct() {
 
-		add_action( 'ultimatebranding_settings_menu_css', array( &$this, 'custom_login_css_options' ) );
-		add_filter( 'ultimatebranding_settings_menu_css_process', array( &$this, 'update_custom_login_css' ), 10, 1 );
+		add_action( 'ultimatebranding_settings_css', array( $this, 'custom_login_css_options' ) );
+		add_filter( 'ultimatebranding_settings_css_process', array( $this, 'update_custom_login_css' ), 10, 1 );
 
 		add_action( 'login_head', array( &$this, 'custom_login_css_output' ), 99 );
 	}
@@ -78,7 +77,7 @@ class ub_custom_login_css extends ub_helper {
 
 ?>
             <div class="postbox">
-            <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Custom Login CSS', 'ub' ) ?></span></h3>
+            <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Login CSS', 'ub' ) ?></span></h3>
             <div class="inside">
                 <table class="form-table">
                     <tr valign="top">

@@ -181,6 +181,10 @@ if ( ! class_exists( 'Opt_In_ConvertKit' ) ) :
 			return true;
 		}
 
+		function exclude_args_fields() {
+            return array( 'api_key', 'api_secret' );
+        }
+
 		/**
          * Prevents default selected list from showing
          *
@@ -307,7 +311,7 @@ if ( ! class_exists( 'Opt_In_ConvertKit' ) ) :
 		public function maybe_create_custom_fields( Opt_In_Model $optin, array $fields ) {
 			$provider_args = $optin->get_provider_args();
 			$api_secret = isset( $provider_args->api_secret ) ? $provider_args->api_secret : "";
-			return false;
+
 			// check if already existing
 			$custom_fields = self::api( $optin->api_key, $api_secret )->get_form_custom_fields();
 			$proceed = true;

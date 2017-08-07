@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class WP_Hummingbird_Module_Caching
+ */
 class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 
 	protected $transient_slug = 'caching';
@@ -8,24 +11,28 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 
 		$files = array(
 			'javascript' => wphb_plugin_url() . 'core/modules/dummy/dummy-js.js',
-			'css' => wphb_plugin_url() . 'core/modules/dummy/dummy-style.css',
-			'media' => wphb_plugin_url() . 'core/modules/dummy/dummy-media.mp3',
-			'images' => wphb_plugin_url() . 'core/modules/dummy/dummy-image.png',
+			'css'        => wphb_plugin_url() . 'core/modules/dummy/dummy-style.css',
+			'media'      => wphb_plugin_url() . 'core/modules/dummy/dummy-media.mp3',
+			'images'     => wphb_plugin_url() . 'core/modules/dummy/dummy-image.png',
 		);
 
 		$results = array();
+		$try_api = false;
 		foreach ( $files as $type  => $file ) {
 
 			$cookies = array();
 			foreach ( $_COOKIE as $name => $value ) {
 				if ( strpos( $name, 'wordpress_' ) > -1 ) {
-					$cookies[] = new WP_Http_Cookie( array( 'name' => $name, 'value' => $value ) );
+					$cookies[] = new WP_Http_Cookie( array(
+						'name'  => $name,
+						'value' => $value,
+					));
 				}
 			}
 
 			$args = array(
-				'cookies' => $cookies,
-				'sslverify' => false
+				'cookies'   => $cookies,
+				'sslverify' => false,
 			);
 
 			$result = wp_remote_head( $file, $args );
@@ -43,7 +50,7 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 			$results[ $type ] = false;
 			if ( $cache_control ) {
 				if ( is_array( $cache_control ) ) {
-					// Join the cache control header into a single string
+					// Join the cache control header into a single string.
 					$cache_control = join( ' ', $cache_control );
 				}
 				if ( preg_match( '/max\-age=([0-9]*)/', $cache_control, $matches ) ) {
@@ -52,8 +59,22 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 						$results[ $type ] = $seconds;
 					}
 				}
+			} elseif ( ! $cache_control ) {
+				$try_api = true;
 			}
+		} // End foreach().
 
+		if ( $try_api ) {
+			// Get the API results.
+			$api = wphb_get_api();
+			$api_results = $api->performance->check_cache();
+			$api_results = get_object_vars( $api_results );
+
+			foreach ( $files as $type  => $file ) {
+				if ( ! isset( $api_results[ $type ]->response_error ) && absint( $api_results[ $type ] ) > 0 ) {
+					$results[ $type ] = absint( $api_results[ $type ] );
+				}
+			}
 		}
 
 		do_action( 'wphb_caching_analize_data', $results );
@@ -61,6 +82,11 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 		return $results;
 	}
 
+	/**
+	 * Apache module loader
+	 *
+	 * @return bool
+	 */
 	public static function apache_modules_loaded() {
 		$sapi_name = '';
 		$apache_modules = array();
@@ -76,6 +102,11 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 
 	}
 
+	/**
+	 * Get code for Nginx
+	 *
+	 * @return string
+	 */
 	public function get_nginx_code() {
 		$options = wphb_get_settings();
 
@@ -94,7 +125,7 @@ location ~* \.(txt|xml|js)$ {
 }
 
 location ~* \.(css)$ {
-    expires %%ASSETS%%;
+    expires %%CSS%%;
 }
 
 location ~* \.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav|mp4|m4v|ogg|webm|aac)$ {
@@ -113,8 +144,11 @@ location ~* \.(jpg|jpeg|png|gif|swf|webp)$ {
 		return $code;
 	}
 
-
-
+	/**
+	 * Get code for Apache
+	 *
+	 * @return string
+	 */
 	public function get_apache_code() {
 
 		$options = wphb_get_settings();
@@ -181,14 +215,29 @@ ExpiresDefault %%IMAGES%%
 		return $code;
 	}
 
+	/**
+	 * Get code for LightSpeed
+	 *
+	 * @return string
+	 */
 	public function get_litespeed_code() {
 		return $this->get_apache_code();
 	}
 
+	/**
+	 * Get code for IIS
+	 *
+	 * @return string
+	 */
 	public function get_iis_code() {
 		return '';
 	}
 
+	/**
+	 * Get code for IIS 7
+	 *
+	 * @return string
+	 */
 	public function get_iis_7_code() {
 		return '';
 	}

@@ -51,14 +51,17 @@
 	   
 				   $.get( ajaxurl, data)
 					   .done(function(res){
-						   if( res && res.success ){
-							   $wrapper.html( res.data );
-	   
-							   $wrapper.find("select").wpmuiSelect();
+                            if( res ){
+							   if ( res.success ) {
+									$wrapper.html( res.data );
+							   		$wrapper.find("select").wpmuiSelect();
+							   		$('.mailchimp_optin_load_more_lists').show();
+							   } else {
+								   	$('.mailchimp_optin_load_more_lists').hide();
+							   		$wrapper.empty();
+							   }
+							   
 						   }
-	   
-						   if( res && !res.success )
-							   $wrapper.empty();
 					   });
 	   
 			   };
@@ -137,11 +140,67 @@
 						selected: []
 					}) );
 				};
+                
+                /**
+				 * Load more lists
+				 * @param {*} e 
+				 */
+				var load_more_lists = function(e){
+					var $this = $(e.target),
+						$form = $this.closest("form"),
+						$box = $(".wpoi-box"),
+						data = $form.serialize(),
+						$placeholder = $("#optin_new_provider_account_options");
+
+
+					$("#wpoi-mailchimp-prev-group-args").empty();
+
+					$placeholder.html( $( "#wpoi_loading_indicator" ).html() );
+
+					data += "&action=refresh_provider_account_details&load_more=true";
+					data += "&optin=mailchimp";
+					$box.find("*").attr("disabled", true);
+
+					/**
+					 * Silently clear the args untill they are filled again
+					 */
+					Optin.step.services.provider_args.clear({silent: true});
+					Optin.step.services.model.set( "optin_mail_list", "none" );
+
+					$.post(ajaxurl, data, function( response ){
+
+						$box.find("*").attr("disabled", false);
+
+						if( response.success === true ){
+
+							if( response.data.redirect_to ){
+								window.location.href = response.data.redirect_to;
+							}else {
+								if ( ! response.data ) {
+									$placeholder.html( optin_vars.messages.something_went_wrong );
+								} else {
+									$placeholder.html( response.data );
+								}
+								$(".mailchimp_optin_email_list").wpmuiSelect();
+							}
+						}else{
+							if ( ! response.data ) {
+								$placeholder.html( optin_vars.messages.something_went_wrong );
+							} else {
+								$placeholder.html( response.data  );
+							}
+						}
+
+					}).fail(function( response ) {
+						$placeholder.html( optin_vars.messages.something_went_wrong );
+					});
+				};
 
 				$(doc).on("change", "#optin_email_list.mailchimp_optin_email_list", update_list_groups );
 				$(doc).on("change", "#mailchimp_groups", update_group_interests );
 				$(doc).on("change", "[name='mailchimp_groups_interests'], [name='mailchimp_groups_interests[]']", update_selected_group_interests );
 				$(doc).on("click", ".wpoi-leave-group-intrests-blank-radios", unselect_radio_interest);
+                $(doc).on("click", ".mailchimp_optin_load_more_lists", load_more_lists);
 				Optin.Events.on("design:preview:render:finish", $.proxy( this, 'render_in_previewr' ) );
 			}
 		});

@@ -1,11 +1,19 @@
-<div class="wphb-block-entry">
+<?php
+/**
+ * Minification disabled meta box on dashboard page.
+ *
+ * @package Hummingbird
+ *
+ * @var string $minification_url  URL to minification module.
+ */
 
-	<div class="wphb-block-entry-content">
-		<div class="content">
-			<p><?php _e( 'Compress, combine and position your assets to dramatically improve your pageload speed.', 'wphb' ); ?></p>
-			<a href="<?php echo esc_url( $minification_url ); ?>" class="button" id="minifiy-website"><?php _e( 'Activate', 'wphb' ); ?></a>
-		</div><!-- end content -->
+?>
+<div class="content">
+	<p><?php esc_html_e( 'Compress, combine and position your assets to dramatically improve your pageload speed.', 'wphb' ); ?></p>
+</div>
 
-	</div><!-- end wphb-block-entry-content -->
-
-</div><!-- end wphb-block-entry -->
+<div class="buttons">
+	<a href="<?php echo esc_url( $minification_url ); ?>" class="button" id="minifiy-website">
+		<?php esc_html_e( 'Activate', 'wphb' ); ?>
+	</a>
+</div>

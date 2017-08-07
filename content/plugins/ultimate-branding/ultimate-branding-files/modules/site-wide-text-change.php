@@ -1,13 +1,10 @@
 <?php
 /*
 Plugin Name: Network Wide Text Change
-Version: 2.0.3.1
 Plugin URI: http://premium.wpmudev.org/project/site-wide-text-change
 Description: Would you like to be able to change any wording, anywhere in the entire admin area on your whole site? Without a single hack? Well, if that's the case then this plugin is for you!
 Author: Barry (Incsub), Ulrich Sossou (incsub)
-Author URI: http://premium.wpmudev.org/
 Network: true
-WDP ID: 94
  */
 /*
 Copyright 2007-2017 Incsub (http://incsub.com)
@@ -45,7 +42,9 @@ class ub_Site_Wide_Text_Change {
 	/**
 	 * PHP 5 constructor
 	 **/
-	function __construct() {
+    function __construct() {
+        global $ub_version;
+        $this->build = $ub_version;
 		add_action('admin_init', array(&$this, 'add_admin_header_sitewide'));
 		add_filter('gettext', array($this, 'replace_text'), 10, 3);
 		add_filter('gettext_with_context', array($this, 'replace_gettext_with_context'), 10, 4);
@@ -53,12 +52,13 @@ class ub_Site_Wide_Text_Change {
 			add_action('init', array(&$this, 'start_cache'), 1);
 			add_action('admin_print_footer_scripts', array(&$this, 'end_cache'), 9999);
 		}
-		add_action('ultimatebranding_settings_menu_textchange', array(&$this, 'handle_admin_page') );
-		add_filter('ultimatebranding_settings_menu_textchange_process', array(&$this, 'update_admin_page') );
+		add_action('ultimatebranding_settings_textchange', array(&$this, 'handle_admin_page') );
+		add_filter('ultimatebranding_settings_textchange_process', array(&$this, 'update_admin_page') );
 		/**
 		 * export
 		 */
-		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
+        add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
+        add_action( 'ultimatebranding_settings_textchange_after_title', array( $this, 'add_new_button' ) );
 	}
 	/**
 	 * PHP 4 constructor
@@ -465,6 +465,18 @@ class ub_Site_Wide_Text_Change {
 			$data['modules'][ $key ] = ub_get_option( $key );
 		}
 		return $data;
-	}
+    }
+
+    /**
+     * Add new button
+	 *
+	 * @since 1.8.6
+     */
+    public function add_new_button() {
+        printf(
+            '<a class="add-new-h2" href="#addnew" id="addnewtextchange">%s</a>',
+            esc_html__( 'Add New', 'ub' )
+        );
+    }
 }
-$ub_swtc = new ub_Site_Wide_Text_Change();
+new ub_Site_Wide_Text_Change();

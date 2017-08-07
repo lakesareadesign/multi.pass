@@ -768,7 +768,7 @@ class GAPGoogle_Analytics_Async_Dashboard {
             //Load advanced statistics
             if($this->type == 'statistics_page' || $this->type == 'post' || $this->type == 'frontend_widget') {
                 if(!$this->error)
-                    $summary_data = $this->request('simple', '', '','ga:visits,ga:pageviews,ga:newVisits,ga:percentNewVisits,ga:visitBounceRate,ga:avgTimeOnSite,ga:pageviewsPerVisit,ga:percentNewVisits');
+                    $summary_data = $this->request('simple', '', '','ga:visits,ga:pageviews,ga:newVisits,ga:percentNewVisits,ga:visitBounceRate,ga:avgSessionDuration,ga:pageviewsPerVisit,ga:percentNewVisits');
                 if(!$this->error)
                     $keywords_data = $this->request('simple', 7, 'ga:keyword', 'ga:visits', '-ga:visits');
                 if(!$this->error)
@@ -835,7 +835,7 @@ class GAPGoogle_Analytics_Async_Dashboard {
                     $stats['unique_visitors'] = isset($summary_data['value']['ga:newVisits']) ? number_format($summary_data['value']['ga:newVisits']) : '-';
                     $stats['page_per_visit'] = isset($summary_data['value']['ga:pageviewsPerVisit']) ? number_format($summary_data['value']['ga:pageviewsPerVisit']) : '-';
                     $stats['bounce_rate'] = isset($summary_data['value']['ga:visitBounceRate']) ? number_format($summary_data['value']['ga:visitBounceRate']).'%' : '-';
-                    $stats['avg_visit_duration'] = isset($summary_data['value']['ga:avgTimeOnSite']) ? date("H:i:s",$summary_data['value']['ga:avgTimeOnSite']) : '-';
+                    $stats['avg_visit_duration'] = isset($summary_data['value']['ga:avgSessionDuration']) ? date("H:i:s",$summary_data['value']['ga:avgSessionDuration']) : '-';
                     $stats['new_visits'] = isset($summary_data['value']['ga:percentNewVisits']) ? number_format($summary_data['value']['ga:percentNewVisits']).'%' : '-';
 
                     foreach($keywords_data as $keyword => $stat)

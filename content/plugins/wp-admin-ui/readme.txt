@@ -3,8 +3,8 @@ Contributors: rainbowgeek
 Donate link: https://wpadminui.net/
 Tags: admin, ui, custom admin, admin menu, admin bar, metaboxes, widget, columns, profil, color schemes, dashboard, third party plugin
 Requires at least: 4.0+
-Tested up to: 4.7.4
-Stable tag: 1.9.2
+Tested up to: 4.8
+Stable tag: 1.9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,13 @@ Check our FAQ on <a href="http://www.wpadminui.net/support/faq/" target="_blank"
 11. WP Admin UI Import / Export 
 
 == Changelog ==
+= 1.9.3 =
+* NEW Add fix return path in Mails settings (PRO)
+* INFO Check WP 4.8 compatibility
+* INFO Add missing links in adminbar
+* INFO Add some notices for user
+* INFO Show translated user role name if available in Role manager
+* FIX Editor fatal error (Call to undefined function wpui_admin_editor_media_insert())
 = 1.9.2 =
 * INFO Update updater
 = 1.9.1 =

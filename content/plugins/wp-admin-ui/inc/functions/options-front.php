@@ -74,7 +74,7 @@ function wpui_global_disable_xml_rpc() {
 			return $wpui_global_disable_xml_rpc_option['wpui_global_disable_xmlrpc'];
 		}
 	}
-};
+}
 
 if (wpui_global_disable_xml_rpc() =='1') {
     function wpui_global_disable_xml_rpc_php(){

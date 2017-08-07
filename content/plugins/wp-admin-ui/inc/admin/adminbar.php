@@ -103,6 +103,18 @@ function wpui_admin_bar_links() {
 		));
 		$wp_admin_bar->add_menu( array(
 			'parent'	=> 'wpui_custom_top_level',
+			'id'		=> 'wpui_custom_sub_menu_mails',
+			'title'		=> __( 'Mails', 'wpui' ),
+			'href'		=> admin_url( 'admin.php?page=wpui-mails' ),
+		));
+		$wp_admin_bar->add_menu( array(
+			'parent'	=> 'wpui_custom_top_level',
+			'id'		=> 'wpui_custom_sub_menu_woocommerce',
+			'title'		=> __( 'WooCommerce', 'wpui' ),
+			'href'		=> admin_url( 'admin.php?page=wpui-woocommerce' ),
+		));
+		$wp_admin_bar->add_menu( array(
+			'parent'	=> 'wpui_custom_top_level',
 			'id'		=> 'wpui_custom_sub_menu_license',
 			'title'		=> __( 'License', 'wpui' ),
 			'href'		=> admin_url( 'admin.php?page=wpui-license' ),

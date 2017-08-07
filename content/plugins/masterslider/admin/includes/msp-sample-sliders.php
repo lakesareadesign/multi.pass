@@ -14,9 +14,10 @@ function msp_get_slider_starter_sections () {
             'desc'  => ''
         ),
         array(
-            'id'  => 'masterslider_pro_custom_samples1',
-            'title' => sprintf( __( 'Premium Sample Sliders %s', MSWP_TEXT_DOMAIN ), '( <a href="'. admin_url('admin.php?page=masterslider-setting') .'" target="_blank">'. __( 'Activation', MSWP_TEXT_DOMAIN ) .'</a> )' ),
-            'desc'  => ''
+            'id'      => 'masterslider_pro_custom_samples1',
+            'title'   => '',
+            'desc'    => '',
+            'content' => '<h4>'. __( 'Starter Templates (Pro version)', MSWP_TEXT_DOMAIN ) .'</h4><p>'. __( 'To kick start with Master Slider ready to use sliders.', MSWP_TEXT_DOMAIN ) .'</p><a href="'. admin_url('admin.php?page=masterslider-setting') .'" class="msp-ac-btn msp-btn-blue" target="_blank">'. __( 'Activate', MSWP_TEXT_DOMAIN ) .'</a>'
         ),
         array(
             'id' 	=> 'masterslider_dynamic_group',

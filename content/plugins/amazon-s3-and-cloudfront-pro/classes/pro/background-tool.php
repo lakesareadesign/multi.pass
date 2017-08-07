@@ -62,6 +62,7 @@ abstract class Background_Tool extends Tool {
 	 */
 	public function get_status() {
 		return array(
+			'should_render' => $this->should_render(),
 			'progress'      => $this->get_progress(),
 			'is_queued'     => $this->is_queued(),
 			'is_processing' => $this->is_processing(),
@@ -86,6 +87,18 @@ abstract class Background_Tool extends Tool {
 	 * @return string
 	 */
 	public function get_status_description() {
+		if ( $this->is_processing() && ( $this->is_cancelled() || $this->is_paused() ) ) {
+			return __( 'Completing current batch.', 'amazon-s3-and-cloudfront' );
+		}
+
+		if ( $this->is_paused() ) {
+			return __( 'Paused', 'amazon-s3-and-cloudfront' );
+		}
+
+		if ( $this->is_queued() ) {
+			return $this->get_queued_status();
+		}
+
 		return '';
 	}
 
@@ -107,6 +120,7 @@ abstract class Background_Tool extends Tool {
 	 */
 	public function add_js_nonces( $js_nonces ) {
 		$js_nonces['tools'][ $this->tool_key ] = $this->create_tool_nonces();
+		$js_nonces[ 'dismiss_errors_' . $this->tool_key ] = wp_create_nonce( 'dismiss-errors-' . $this->tool_slug );
 
 		return $js_nonces;
 	}
@@ -137,6 +151,8 @@ abstract class Background_Tool extends Tool {
 		if ( $this->is_queued() ) {
 			return;
 		}
+
+		$this->clear_errors();
 
 		$session = $this->create_session();
 
@@ -290,6 +306,13 @@ abstract class Background_Tool extends Tool {
 	 * @return string
 	 */
 	abstract public function get_button_text();
+
+	/**
+	 * Get queued status text.
+	 *
+	 * @return string
+	 */
+	abstract public function get_queued_status();
 
 	/**
 	 * Get background process class.

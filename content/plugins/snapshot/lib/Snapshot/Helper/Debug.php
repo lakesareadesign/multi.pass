@@ -148,7 +148,7 @@ class Snapshot_Helper_Debug {
 			foreach($errorReporting as $er_key => $er_set) {
 
 				if (isset($er_set['stop'])) {
-					$error_reporting_str = $error_reporting_str | $er_key;
+					$error_reporting_str = $error_reporting_str || $er_key;
 				}
 			}
 			$after_error_reporting = error_reporting($error_reporting_str);

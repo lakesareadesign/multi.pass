@@ -1,13 +1,20 @@
 ( function( $ ) {
     'use strict';
 
-    var WPHB_Admin = {
+    let WPHB_Admin = {
         modules: [],
         // Common functionality to all screens
         init: function() {
 
+			$('body').on('change', '.mobile-nav', function () {
+				let url = $(this).val();
+				if (url.length > 0) {
+					location.href = url;
+				}
+			});
+
             function updatePerformanceGraph($wrap){
-                var $item = $wrap.find('.wphb-score-result-label'),
+                let $item = $wrap.find('.wphb-score-result-label'),
                     val = parseInt($item.text(), 10) || 100,
                     $circle = $wrap.find(".wphb-score-graph-result"),
                     r, c, pct
@@ -56,7 +63,7 @@
             return {};
         },
         getModule: function( module ) {
-            if ( typeof this.modules[ module ] != 'undefined' )
+            if ( typeof this.modules[ module ] !== 'undefined' )
                 return this.modules[ module ];
             else
                 return this.initModule( module );
@@ -86,10 +93,10 @@
     WPHB_Admin.notices = {
 
         init: function() {
-            $( 'a.wphb-dismiss').click( function( e ) {
+            $( '.wphb-notice:not(.notice) a.wphb-dismiss').click( function( e ) {
                 e.preventDefault();
-                var id = $(this).data( 'id' );
-                var nonce = $(this).data( 'nonce' );
+                let id = $(this).data( 'id' );
+                let nonce = $(this).data( 'nonce' );
 
                 $(this).parent( '.error' ).hide();
             });

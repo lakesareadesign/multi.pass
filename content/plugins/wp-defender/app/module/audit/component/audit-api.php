@@ -24,11 +24,12 @@ class Audit_API extends Component {
 	 *
 	 * @return array|mixed|object|\WP_Error
 	 */
-	public static function pullLogs( $filter = array(), $order_by = 'timestamp', $order = 'desc' ) {
+	public static function pullLogs( $filter = array(), $order_by = 'timestamp', $order = 'desc', $nopaging = false ) {
 		$data             = $filter;
 		$data['site_url'] = network_site_url();
 		$data['order_by'] = $order_by;
 		$data['order']    = $order;
+		$data['nopaging'] = $nopaging;
 		$data['timezone'] = get_option( 'gmt_offset' );
 		$response         = Utils::instance()->devCall( 'http://' . self::$end_point . '/logs', $data, array(
 			'method'  => 'GET',
@@ -198,6 +199,7 @@ class Audit_API extends Component {
 		Utils::instance()->devCall( 'http://' . self::$end_point . '/logs/add_multiple', $data, array(
 			'method'  => 'POST',
 			//'sslverify' => false,
+			'timeout' => 3,
 			'headers' => array(
 				'apikey' => Utils::instance()->getAPIKey()
 			)

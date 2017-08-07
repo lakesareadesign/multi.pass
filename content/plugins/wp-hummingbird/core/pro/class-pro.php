@@ -35,7 +35,7 @@ class WP_Hummingbird_Pro {
 		global $wpmudev_notices;
 		$wpmudev_notices[] = array(
 			'id'      => 1081721,
-			'name'    => 'WP Hummingbird',
+			'name'    => 'Hummingbird',
 			'screens' => array(
 				'toplevel_page_wphb',
 				'hummingbird_page_wphb-performance',

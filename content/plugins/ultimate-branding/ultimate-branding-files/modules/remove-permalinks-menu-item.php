@@ -1,35 +1,35 @@
 <?php
 /*
 Plugin Name: Remove Permalinks Menu Item
-Plugin URI: http://premium.wpmudev.org/project/remove-permalinks-menu-item
 Description: Removes the 'permalinks' configuration options
-Author: Andrew Billits, Ulrich Sossou
-Version: 1.0.3
-Author URI: http://premium.wpmudev.org/
-WDP ID: 171
  */
-
-add_action( 'admin_menu', 'ub_remove_permalinks_menu_item' );
-
-function ub_remove_permalinks_menu_item() {
-	global $submenu;
-	unset( $submenu['options-general.php'][40] );
+if ( ! class_exists( 'ub_menu_perlmalinks' ) ) {
+	class ub_menu_perlmalinks extends ub_helper {
+		public function __construct() {
+			add_action( 'ultimatebranding_settings_permalinks', array( $this, 'admin_options_page' ) );
+			add_action( 'admin_menu', array( $this, 'remove_permalinks_menu_item' ) );
+		}
+		public function remove_permalinks_menu_item() {
+			global $submenu;
+			foreach ( $submenu['options-general.php'] as $key => $data ) {
+				if ( 'options-permalink.php' == $data[2] ) {
+					unset( $submenu['options-general.php'][ $key ] );
+					return;
+				}
+			}
+		}
+		protected function set_options() {
+			$description = '<ul>';
+			$description .= sprintf( '<li>%s</li>', __( 'The Permalinks menu item is hidden.', 'ub' ) );
+			$description .= sprintf( '<li>%s</li>', __( 'This module has no configuration.', 'ub' ) );
+			$description .= '</ul>';
+			$this->options = array(
+				'description' => array(
+					'title' => __( 'Description', 'ub' ),
+					'description' => $description,
+				),
+			);
+		}
+	}
 }
-
-add_action( 'ultimatebranding_settings_menu_permalinks','ub_rpm_manage_output' );
-
-function ub_rpm_manage_output() {
-	global $wpdb, $current_site, $page;
-
-?>
-
-    <div class="postbox">
-        <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Remove Permalinks Menu Item','ub' ); ?></span></h3>
-        <div class="inside">
-                <p class='description'><?php _e( 'The Permalinks menu item is hidden.', 'ub' ); ?>
-
-        </div>
-    </div>
-
-<?php
-}
+new ub_menu_perlmalinks();

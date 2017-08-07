@@ -233,7 +233,7 @@ class Scan_Api extends Component {
 						$model->statusText = __( "Analyzing WordPress Content...", wp_defender()->domain );
 						break;
 					case 'vuln':
-						$model->statusText = __( "Checking for any published vulnerabilities your plugins & themes...", wp_defender()->domain );
+						$model->statusText = __( "Checking for any published vulnerabilities your plugins & themes...", wp_defender()->domain );	  	 	   	 		 		 				
 						break;
 				}
 				$model->save();

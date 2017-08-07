@@ -2,13 +2,13 @@
 Contributors: Michele Marri
 Tags: flatty, flat theme, google recaptcha, recaptcha, security, login security, admin theme, custom logo, admin logo, wordpress custom, custom admin theme, professional wordpress, custom login, theme, clean admin, clean, minimalistic, wordpress admin, backend, backend theme, admin theme, custom admin, custom admin theme, flat, material, flatty, whitelabeling, white label, custom logo, custom wordpress, customize, custom login css, custom css
 Requires at least: 4.0
-Tested up to: 4.7.4
-Stable tag: 1.3.5
+Tested up to: 4.8.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Professional flat admin theme for Wordpress Admins.
-<strong>A modern taste to Wordpress.</strong> Your backend will look like 2016.
+<strong>A modern taste to Wordpress.</strong> Your backend will look like 2017+.
 
 == Description ==
 
@@ -41,6 +41,7 @@ Made with love in Italy.
 - W3 Total Cache
 - Woocommerce
 - Broken link checker
+- Yoo Theme Pro
 - Divi Theme
 - Ninja Forms
 
@@ -54,25 +55,32 @@ I would greatly appreciate it if you kindly give me some feedback on this ;)
 
 == Screenshots ==
 1. Wordpress Dashboard
-2. Flatty’s Introduction
-3. Flatty’s Login settings
-4. Flatty’s Branding settings
-5. Flatty’s Theme settings
-6. Flatty’s Dashboard settings
-7. Flatty’s Article page
-8. Flatty’s red variant
-9. Flatty’s light variant
-10. Flatty’s ocean variant
-11. Flatty’s coffee variant
-12. Flatty’s ectoplasm variant
-13. Flatty’s default variant
-14. Flatty’s grey variant
-15. Flatty’s dark login theme
-16. Flatty’s light login theme
-17. Flatty’s minimal dark login theme
-18. Flatty’s minimal light login theme
+2. Flatty’s Settings Pages
+3. Wordpress Pages
 
 == Changelog ==
+
+= 2.0.0 =
+* New - Flatty's User Interface
+* New - Flatty's admin Bar design
+* New - Flatty's tall bar option
+* New - Flatty's top bar background blending
+* New - Flatty's top bar background type
+* New - Flatty's Business card widget
+* New - Checkboxes & Radio
+* New - Remove help button
+* Improved - Now using internal Wordpress ColorPicker plugin
+* Improved - General loading performance
+* Improved - Reset css to mantain compability
+* Improved - Mobile queries
+* Improved - Ui for common components
+* Improved - Loading speed of Google Font
+* Improved - Performance of "Always folded sidebar" (no more glitches)
+* Fixed - Bug when no bkg color was specified
+* Fixed - Sidebar scrolling
+* Fixed - Compatibility with Ninja Forms
+* Fixed - Wordpress admin bar removal 
+* Fixed - Compatibilty with PressThis
 
 = 1.3.5 =
 * New - New style for checkbox

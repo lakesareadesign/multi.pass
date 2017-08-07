@@ -2,6 +2,8 @@
 
 namespace DeliciousBrains\WP_Offload_S3\Pro;
 
+use AS3CF_Utils;
+
 abstract class Modal_Tool extends Tool {
 
 	/**
@@ -13,16 +15,6 @@ abstract class Modal_Tool extends Tool {
 	 * @var string
 	 */
 	protected $lock_key;
-
-	/**
-	 * @var string
-	 */
-	protected $errors_key_prefix;
-
-	/**
-	 * @var string
-	 */
-	protected $errors_key;
 
 	/**
 	 * @var array
@@ -80,9 +72,7 @@ abstract class Modal_Tool extends Tool {
 	public function __construct( \Amazon_S3_And_CloudFront_Pro $as3cf ) {
 		parent::__construct( $as3cf );
 
-		$this->lock_key          = $this->prefix . '_' . $this->tool_key;
-		$this->errors_key_prefix = 'wpos3_tool_errors_';
-		$this->errors_key        = $this->errors_key_prefix . $this->tool_key;
+		$this->lock_key = $this->prefix . '_' . $this->tool_key;
 	}
 
 	/**
@@ -99,7 +89,6 @@ abstract class Modal_Tool extends Tool {
 		add_action( 'wp_ajax_as3cfpro_calculate_items_' . $this->tool_key, array( $this, 'ajax_calculate_items' ) );
 		add_action( 'wp_ajax_as3cfpro_process_items_' . $this->tool_key, array( $this, 'ajax_process_items' ) );
 		add_action( 'wp_ajax_as3cfpro_finish_' . $this->tool_key, array( $this, 'ajax_finish_process' ) );
-		add_action( 'wp_ajax_as3cfpro_dismiss_errors_' . $this->tool_key, array( $this, 'ajax_dismiss_errors' ) );
 
 		// Views
 		add_action( 'as3cf_post_settings_render', array( $this, 'render_modal' ) );
@@ -108,34 +97,6 @@ abstract class Modal_Tool extends Tool {
 		add_action( 'as3cfpro_load_assets', array( $this, 'load_assets' ) );
 
 		parent::init();
-	}
-
-	/**
-	 * Get error notices.
-	 *
-	 * @return bool|array
-	 */
-	public function get_error_notices() {
-		$notice = $this->as3cf->notices->find_notice_by_id( $this->errors_key );
-
-		if ( ! $notice ) {
-			return false;
-		}
-
-		$data = array();
-
-		ob_start();
-		$this->as3cf->render_view( 'notice', $notice );
-		$data['error_notice'] = ob_get_contents();
-		ob_end_clean();
-
-		$custom_notices = $this->get_custom_notices_to_update();
-
-		if ( ! empty( $custom_notices ) ) {
-			$data['custom_notices'] = $custom_notices;
-		}
-
-		return $data;
 	}
 
 	/**
@@ -426,7 +387,9 @@ abstract class Modal_Tool extends Tool {
 				foreach ( $attachments as $attachment_id => $size ) {
 
 					// Process the attachment
-					$this->handle_attachment( $attachment_id, $blog_id );
+					if ( $this->handle_attachment( $attachment_id, $blog_id ) ) {
+						$this->progress['total_done']++;
+					}
 
 					$this->progress['bytes'] += $size;
 					$this->progress['files']++;
@@ -459,7 +422,7 @@ abstract class Modal_Tool extends Tool {
 
 		// Un-hide errors notice if new errors have occurred
 		if ( count( $this->errors ) ) {
-			$this->as3cf->notices->undismiss_notice_for_all( $this->errors_key );
+			$this->undismiss_error_notice();
 		}
 
 		// Save errors
@@ -483,38 +446,6 @@ abstract class Modal_Tool extends Tool {
 		$this->unlock_processing();
 
 		$this->update_error_notice();
-	}
-
-	/**
-	 * Dismiss one or more errors.
-	 */
-	public function ajax_dismiss_errors() {
-		check_ajax_referer( 'dismiss-errors-' . $this->tool_slug, 'nonce' );
-
-		$blog_id  = filter_input( INPUT_POST, 'blog_id' );
-		$media_id = filter_input( INPUT_POST, 'media_id' );
-		$errors   = filter_input( INPUT_POST, 'errors' );
-		$saved    = $this->get_errors();
-
-		if ( empty( $saved[ $blog_id ][ $media_id ] ) ) {
-			$this->as3cf->end_ajax( array(
-				'success' => true,
-			) );
-		}
-
-		if ( $errors == 'all' ) {
-			unset( $saved[ $blog_id ][ $media_id ] );
-		} elseif ( is_array( $saved[ $blog_id ][ $media_id ] ) ) {
-			unset( $saved[ $blog_id ][ $media_id ][ $errors ] );
-		}
-
-		$updated = \AS3CF_Pro_Utils::array_prune_recursive( $saved );
-		$this->update_errors( $updated );
-		$this->update_error_notice();
-
-		$this->as3cf->end_ajax( array(
-			'success' => true,
-		) );
 	}
 
 	/**
@@ -634,7 +565,7 @@ abstract class Modal_Tool extends Tool {
 	 */
 	protected function get_attachment_file_size( $attachment_id, $file_meta = false ) {
 		$bytes = 0;
-		$paths = $this->as3cf->get_attachment_file_paths( $attachment_id, true, $file_meta );
+		$paths = AS3CF_Utils::get_attachment_file_paths( $attachment_id, true, $file_meta );
 
 		foreach ( $paths as $path ) {
 			$bytes += filesize( $path );
@@ -746,67 +677,6 @@ abstract class Modal_Tool extends Tool {
 	}
 
 	/**
-	 * Get the errors created by the tool
-	 *
-	 * @param array $default
-	 *
-	 * @return array
-	 */
-	public function get_errors( $default = array() ) {
-		return get_site_option( $this->errors_key, $default );
-	}
-
-	/**
-	 * Update the saved errors for the tool
-	 *
-	 * @param array $errors
-	 */
-	protected function update_errors( $errors ) {
-		update_site_option( $this->errors_key, $errors );
-	}
-
-	/**
-	 * Clear all errors created by the tool
-	 */
-	protected function clear_errors() {
-		delete_site_option( $this->errors_key );
-	}
-
-	/**
-	 * Tool specific message for error notice
-	 *
-	 * @return string
-	 */
-	protected abstract function get_error_notice_message();
-
-	/**
-	 * Update the error notice
-	 */
-	protected function update_error_notice() {
-		$errors = $this->get_errors();
-
-		if ( ! empty ( $errors ) ) {
-			$args = array(
-				'type'              => 'error',
-				'class'             => 'tool-error',
-				'flash'             => false,
-				'only_show_to_user' => false,
-				'only_show_on_tab'  => $this->tab,
-				'custom_id'         => $this->errors_key,
-				'user_capabilities' => array( 'as3cfpro', 'is_plugin_setup' ),
-				'show_callback'     => array( 'as3cfpro', 'render_tool_errors_callback' ),
-				'callback_args'     => array( $this->tool_key ),
-			);
-
-			$message = $this->get_error_notice_message();
-
-			$this->as3cf->notices->add_notice( $message, $args );
-		} else {
-			$this->as3cf->notices->remove_notice_by_id( $this->errors_key );
-		}
-	}
-
-	/**
 	 * Add the modal view to the settings page once
 	 */
 	public function render_modal() {
@@ -821,15 +691,8 @@ abstract class Modal_Tool extends Tool {
 	 */
 	public function load_assets() {
 		if ( ! self::$assets_loaded ) {
-			$version   = $this->as3cf->get_asset_version();
-			$suffix    = $this->as3cf->get_asset_suffix();
-			$file_path = $this->as3cf->get_plugin_file_path();
-
-			$src = plugins_url( 'assets/css/pro/tool.css', $file_path );
-			wp_enqueue_style( 'as3cf-pro-tool-styles', $src, array( 'as3cf-pro-styles' ), $version );
-
-			$src = plugins_url( 'assets/js/pro/tool' . $suffix . '.js', $file_path );
-			wp_enqueue_script( 'as3cf-pro-tool-script', $src, array( 'as3cf-pro-script' ), $version, true );
+			$this->as3cf->enqueue_style( 'as3cf-pro-tool-styles', 'assets/css/pro/tool', array( 'as3cf-pro-styles' ) );
+			$this->as3cf->enqueue_script( 'as3cf-pro-tool-script', 'assets/js/pro/tool', array( 'as3cf-pro-script' ) );
 
 			self::$assets_loaded = true;
 		}

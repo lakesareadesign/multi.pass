@@ -1,6 +1,6 @@
-<div class="box-content <?php echo ( ! wphb_is_member() ) ? 'disabled' : ''; ?>">
+<div class="box-content settings-form <?php echo ( ! wphb_is_member() ) ? 'disabled' : ''; ?>">
 	<form method="post" class="scan-frm scan-settings">
-		<div class="row">
+		<div class="row with-bottom-border">
 			<div class="col-third">
 				<strong><?php _e( "Schedule Scans", 'wphb' ) ?></strong>
 				<span class="sub">
@@ -47,7 +47,7 @@
 			</div><!-- end col-two-third -->
 		</div><!-- end row -->
 
-		<div class="row">
+		<div class="row with-bottom-border">
 			<div class="col-third">
 				<strong><?php _e( 'Email Recipients', 'wphb' ) ?></strong>
 				<span class="sub">

@@ -513,10 +513,13 @@ final class FLBuilderModel {
 		global $wp_the_query;
 		global $post;
 
+		$query_id = ( isset( $wp_the_query->post->ID ) ) ? $wp_the_query->post->ID : false;
+		$post_id  = ( isset( $post->ID ) ) ? $post->ID : false;
+
 		if ( null !== self::$active ) {
 			return self::$active;
 		}
-		else if ( ! is_admin() && is_singular() && $wp_the_query->post->ID != $post->ID ) {
+		else if ( ! is_admin() && is_singular() && $query_id != $post_id ) {
 			self::$active = false;
 		}
 		else if ( self::is_post_editable() && ! is_admin() && ! post_password_required() ) {
@@ -3097,12 +3100,23 @@ final class FLBuilderModel {
 
 		$widgets = array();
 
-		foreach($wp_widget_factory->widgets as $class => $widget) {
-			$widget->class = get_class($widget);
-			$widgets[$widget->name] = $widget;
+		// These are known widgets that won't work in the builder.
+		$exclude = array(
+			'WP_Widget_Media_Audio',
+			'WP_Widget_Media_Image',
+			'WP_Widget_Media_Video',
+			'WP_Widget_Text',
+		);
+
+		foreach ( $wp_widget_factory->widgets as $class => $widget ) {
+			if ( in_array( $class, $exclude ) ) {
+				continue;
+			}
+			$widget->class = get_class( $widget );
+			$widgets[ $widget->name ] = $widget;
 		}
 
-		ksort($widgets);
+		ksort( $widgets );
 
 		return $widgets;
 	}
@@ -4158,6 +4172,9 @@ final class FLBuilderModel {
 			unset( $categorized['uncategorized'] );
 		}
 
+		// sort the categories.
+		asort( $categorized );
+
 		return array(
 			'templates'  	=> $templates,
 			'categorized' 	=> $categorized
@@ -5030,7 +5047,8 @@ final class FLBuilderModel {
 	{
 		$templates = glob( FL_BUILDER_DIR . 'data/*' );
 
-		foreach ( $templates as $template ) {
+		// glob() will return false on error so cast as an array() just in case.
+		foreach ( (array) $templates as $template ) {
 
 			if ( 'templates.dat' == basename( $template ) ) {
 				continue;
@@ -5174,7 +5192,7 @@ final class FLBuilderModel {
 					$unserialized = unserialize( ob_get_clean() );
 				}
 				else {
-					$unserialized = unserialize( file_get_contents( $path ) );
+					$unserialized = fl_maybe_fix_unserialize( file_get_contents( $path ) );
 				}
 
 				// Make sure we have an unserialized array.

@@ -54,8 +54,8 @@ class ub_Login_Image {
 
 		// Admin interface
 
-		add_action( 'ultimatebranding_settings_menu_images', array( &$this, 'manage_output' ) );
-		add_filter( 'ultimatebranding_settings_menu_images_process', array( &$this, 'process' ) );
+		add_action( 'ultimatebranding_settings_images', array( &$this, 'manage_output' ) );
+		add_filter( 'ultimatebranding_settings_images_process', array( &$this, 'process' ) );
 
 		// Login interface
 		add_action( 'login_head', array( &$this, 'stylesheet' ), 999 );
@@ -223,18 +223,18 @@ class ub_Login_Image {
 		if ( isset( $_GET['error'] ) ) {
 			echo '<div id="message" class="error fade"><p>' . __( 'There was an error uploading the file, please try again.', 'ub' ) . '</p></div>'; } elseif ( isset( $_GET['updated'] ) ) {
 			echo '<div id="message" class="updated fade"><p>' . __( 'Changes saved.', 'ub' ) . '</p></div>'; }
+
 ?>
         <div class='wrap nosubsub'>
-            <div class="icon32" id="icon-themes"><br /></div>
             <h2><?php _e( 'Login Image', 'ub' ) ?></h2>
             <!--<form name="login_image_form" id="login_image_form" method="post">-->
+<?php ub_deprecated_module( __( 'Login Image', 'ub' ), __( 'Login Screen', 'ub' ), 'login-screen' ); ?>
             <div class="postbox">
                 <div class="inside">
                     <p class='description'><?php _e( 'This is the image that is displayed on the login page (wp-login.php) - ', 'ub' ); ?>
                         <a href='<?php echo wp_nonce_url( 'admin.php?page=' . $page . '&amp;tab=images&amp;reset=yes&amp;action=process', 'ultimatebranding_settings_menu_images' ) ?>'><?php _e( 'Reset the image', 'ub' ) ?></a>
                     </p>
 <?php
-			wp_nonce_field( 'ultimatebranding_settings_menu_images' );
 			$login_image_old = ub_get_option( 'ub_login_image_url', false );
 			$login_image_id = ub_get_option( 'ub_login_image_id', false );
 			$login_image_size = ub_get_option( 'ub_login_image_size', false );

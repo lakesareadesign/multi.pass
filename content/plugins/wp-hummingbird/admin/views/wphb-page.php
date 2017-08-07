@@ -13,6 +13,6 @@ wphb_membership_modal();
 
 <script>
 	jQuery( document).ready( function () {
-		WPHB_Admin.getModule( 'dashboard' );
+		window.WPHB_Admin.getModule( 'dashboard' );
 	});
 </script>

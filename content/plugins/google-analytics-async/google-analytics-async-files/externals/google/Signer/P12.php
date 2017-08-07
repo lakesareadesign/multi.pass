@@ -59,7 +59,7 @@ class GAPGoogle_Signer_P12 extends GAPGoogle_Signer_Abstract
       // TODO(beaton): is this part of the contract for the openssl_pkcs12_read
       // method?  What happens if there are multiple private keys?  Do we care?
       if (!array_key_exists("pkey", $certs) || !$certs["pkey"]) {
-        throw new GAPGoogle_Auth_Exception("No private key found in p12 file.");	     	 	   	  			
+        throw new GAPGoogle_Auth_Exception("No private key found in p12 file.");
       }
       $this->privateKey = openssl_pkey_get_private($certs['pkey']);
     }

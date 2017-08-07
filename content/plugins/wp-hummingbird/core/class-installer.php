@@ -76,7 +76,6 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			wphb_flush_cache( false );
 			delete_site_option( 'wphb_version' );
 			delete_option( 'wphb_cache_folder_error' );
-			delete_option( 'wphb-minification-check-files' );
 			delete_site_option( 'wphb-last-report' );
 			delete_site_option( 'wphb-last-report-score' );
 			delete_site_option( 'wphb-server-type' );
@@ -86,6 +85,10 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			wphb_cloudflare_disconnect();
 			delete_site_option( 'wphb-notice-free-deactivated-dismissed' );
 
+			if ( wp_next_scheduled( 'wphb_minify_clear_files' ) ) {
+				wp_clear_scheduled_hook( 'wphb_minify_clear_files' );
+			}
+
 			do_action( 'wphb_deactivate' );
 		}
 
@@ -94,7 +97,7 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 		 */
 		public static function maybe_upgrade() {
 			if ( defined( 'WPHB_ACTIVATING' ) ) {
-				// Avoid to execute this over an over in same thread execution
+				// Avoid to execute this over an over in same thread execution.
 				return;
 			}
 
@@ -124,7 +127,9 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 
 			if ( $version != WPHB_VERSION ) {
 
-				define( 'WPHB_UPGRADING', true );
+				if ( ! defined( 'WPHB_UPGRADING' ) ) {
+					define( 'WPHB_UPGRADING', true );
+				}
 
 				if ( version_compare( $version, '1.0-RC-7', '<' ) ) {
 					delete_site_option( 'wphb-server-type' );
@@ -168,13 +173,28 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 					self::upgrade_1_5();
 				}
 
-
 				if ( version_compare( $version, '1.5.1-beta2', '<' ) ) {
 					self::upgrade_1_5_1_beta_2();
 				}
 
+				if ( version_compare( $version, '1.5.3', '<' ) ) {
+					self::upgrade_1_5_3();
+				}
+
+				if ( version_compare( $version, '1.5.4.beta.1', '<' ) ) {
+					self::upgrade_1_5_4_beta_1();
+				}
+
+				if ( version_compare( $version, '1.5.4', '<' ) ) {
+					self::upgrade_1_5_4();
+				}
+
+				if ( version_compare( $version, '1.5.5', '<' ) ) {
+					self::upgrade_1_5_5();
+				}
+
 				update_site_option( 'wphb_version', WPHB_VERSION );
-			}
+			} // End if().
 		}
 
 		/**
@@ -184,7 +204,7 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			// 1.3.9 is the first version when blog upgrades are executed
 			$version = get_option( 'wphb_version', '1.3.9' );
 
-			if ( $version === WPHB_VERSION ) {
+			if ( WPHB_VERSION === $version ) {
 				return;
 			}
 
@@ -194,6 +214,14 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 
 			if ( version_compare( $version, '1.5', '<' ) ) {
 				self::upgrade_1_5();
+			}
+
+			if ( version_compare( $version, '1.5.4.beta.1', '<' ) ) {
+				self::upgrade_1_5_4_beta_1();
+			}
+
+			if ( version_compare( $version, '1.5.4.beta.2', '<' ) ) {
+				self::upgrade_1_5_4_beta_2();
 			}
 
 			update_option( 'wphb_version', WPHB_VERSION );
@@ -245,7 +273,6 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 					}
 				}
 			}
-
 			wphb_update_settings( $options );
 		}
 
@@ -272,6 +299,64 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			}
 
 			wphb_update_setting( 'email-recipients', $new_recipients );
+		}
+
+		/**
+		 * Upgrade to version 1.5.3.
+		 *
+		 * @since 1.5.3
+		 */
+		private static function upgrade_1_5_3() {
+			// Welcome box deprecated since 1.5.0.
+			delete_metadata( 'user', '', 'wphb-hide-welcome-box', '', true );
+		}
+
+		private static function upgrade_1_5_4_beta_1() {
+			$options = wphb_get_settings();
+
+			$scripts = array( 'jquery', 'jquery-migrate', 'jquery-core' );
+
+			foreach ( $scripts as $script ) {
+				// Remove jQuery from minification options
+				$blocked = array_search( $script, $options['block']['scripts'] );
+				if ( false !== $blocked ) {
+					unset( $options['block']['scripts'][ $blocked ] );
+					$options['block']['scripts'] = array_values( $options['block']['scripts'] );
+				}
+				$dont_minify = array_search( $script, $options['dont_minify']['scripts'] );
+				if ( false !== $dont_minify ) {
+					unset( $options['dont_minify']['scripts'][ $dont_minify ] );
+					$options['dont_minify']['scripts'] = array_values( $options['dont_minify']['scripts'] );
+				}
+				$combine = array_search( $script, $options['combine']['scripts'] );
+				if ( false !== $combine ) {
+					unset( $options['combine']['scripts'][ $combine ] );
+					$options['combine']['scripts'] = array_values( $options['combine']['scripts'] );
+				}
+
+				if ( isset( $options['position']['scripts'][ $script ] ) ) {
+					unset( $options['position']['scripts'][ $script ] );
+				}
+			}
+
+			wphb_update_settings( $options );
+		}
+
+		private static function upgrade_1_5_4() {
+			// Delete old minification options
+			delete_option( 'wphb-minification-check-files' );
+			delete_option( 'wphb-minification-check-files-progress' );
+		}
+
+		private static function upgrade_1_5_5() {
+			// Delete old minification options
+			delete_option( 'wphb-minification-check-files' );
+			delete_option( 'wphb-minification-check-files-progress' );
+		}
+
+
+		private static function upgrade_1_5_4_beta_2() {
+			wphb_clear_minification_cache( false );
 		}
 
 	}

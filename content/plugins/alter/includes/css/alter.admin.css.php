@@ -8,11 +8,22 @@ h3 { color: <?php echo $this->aof_options['h3_color']; ?>; }
 h4 { color: <?php echo $this->aof_options['h4_color']; ?>; }
 h5 { color: <?php echo $this->aof_options['h5_color']; ?>; }
 /* Admin Bar */
+<?php if(!empty($this->aof_options['admin_bar_shadow'])) { ?>
+div#wpadminbar {
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.3),0 1px 1px 0 rgba(0,0,0,.14),0px 3px 1px -1px rgba(0,0,0,.2);
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0,0,0,.3),0 1px 1px 0 rgba(0,0,0,.14),0px 3px 1px -1px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px 3px 0 rgba(0,0,0,.3),0 1px 1px 0 rgba(0,0,0,.14),0px 3px 1px -1px rgba(0,0,0,.2);
+}
+<?php } ?>
 div#wpadminbar li#wp-admin-bar-alter_admin_title {
     <?php if(isset($this->aof_options['admin_bar_logo_bg_color'])) { ?>
     background-color: <?php echo $this->aof_options['admin_bar_logo_bg_color']; ?>;
     <?php } ?>
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.3),0 1px 1px 0 rgba(0,0,0,.14),0px 3px 1px -1px rgba(0,0,0,.2);
+    <?php if(empty($this->aof_options['admin_bar_shadow']) && !empty($this->aof_options['admin_bar_logo_shadow'])) { ?>
+      box-shadow: 0 1px 3px 0 rgba(0,0,0,.3),0 1px 1px 0 rgba(0,0,0,.14),0px 3px 1px -1px rgba(0,0,0,.2);
+      -webkit-box-shadow: 0 1px 3px 0 rgba(0,0,0,.3),0 1px 1px 0 rgba(0,0,0,.14),0px 3px 1px -1px rgba(0,0,0,.2);
+      -moz-box-shadow: 0 1px 3px 0 rgba(0,0,0,.3),0 1px 1px 0 rgba(0,0,0,.14),0px 3px 1px -1px rgba(0,0,0,.2);
+    <?php } ?>
 }
 #wpadminbar, #wpadminbar .menupop .ab-sub-wrapper, .ab-sub-secondary, #wpadminbar .quicklinks .menupop ul.ab-sub-secondary, #wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu { background: <?php echo $this->aof_options['admin_bar_color']; ?>;}
 #wpadminbar a.ab-item, #wpadminbar>#wp-toolbar span.ab-label, #wpadminbar>#wp-toolbar span.noticon, #wpadminbar .ab-icon:before, #wpadminbar .ab-item:before { color: <?php echo $this->aof_options['admin_bar_menu_color']; ?> }
@@ -34,6 +45,11 @@ $admin_logo_url = (is_numeric($admin_logo)) ? $this->alter_get_image_url($admin_
 if(!empty($admin_logo_url)){ ?>
 .quicklinks li.alter_admin_title a, .quicklinks li.alter_admin_title a:hover, .quicklinks li.alter_admin_title a:focus {
     background:url(<?php echo $admin_logo_url;  ?>) left 4px no-repeat !important; text-indent:-9999px !important; width: auto;
+    <?php if(!empty($this->aof_options['logo_autofit'])){ ?>
+    background-size: contain!important;
+    <?php } else { ?>
+    background-size: auto!important;
+      <?php } ?>
 }
 <?php } ?>
 
@@ -135,7 +151,7 @@ div.updated a:hover { color: <?php echo $this->aof_options['msgbox_link_hover_co
 
 
 <?php if($this->aof_options['design_type'] == 1) { ?>
-.wp-core-ui .button-primary, #wpadminbar, .postbox,.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button, .wp-core-ui .button-secondary, .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover, #wpadminbar .menupop .ab-sub-wrapper, #wpadminbar .shortlink-input, .theme-browser .theme, .wrap .add-new-h2, .wrap .page-title-action,.wrap .add-new-h2:hover, .wrap .page-title-action:hover, .wrap .add-new-h2:active {
+.wp-core-ui .button-primary, .postbox,.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button, .wp-core-ui .button-secondary, .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover, #wpadminbar .menupop .ab-sub-wrapper, #wpadminbar .shortlink-input, .theme-browser .theme, .wrap .add-new-h2, .wrap .page-title-action,.wrap .add-new-h2:hover, .wrap .page-title-action:hover, .wrap .add-new-h2:active {
 	-webkit-box-shadow: none !important;
 	-moz-box-shadow: none !important;
 	box-shadow: none !important;

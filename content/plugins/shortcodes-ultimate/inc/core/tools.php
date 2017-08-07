@@ -672,7 +672,7 @@ class Su_Tools {
 		// Prepare empty array for slides
 		$slides = array();
 		// Loop through source types
-		foreach ( array( 'media', 'posts', 'category', 'taxonomy' ) as $type )
+		foreach ( array( 'media', 'posts', 'category', 'taxonomy' ) as $type ) {
 			if ( strpos( trim( $args['source'] ), $type . ':' ) === 0 ) {
 				$args['source'] = array(
 					'type' => $type,
@@ -680,6 +680,7 @@ class Su_Tools {
 				);
 				break;
 			}
+		}
 		// Source is not parsed correctly, return empty array
 		if ( !is_array( $args['source'] ) ) return $slides;
 		// Default posts query
@@ -696,6 +697,7 @@ class Su_Tools {
 			if ( $args['source']['val'] !== 'recent' ) {
 				$query['post__in'] = (array) explode( ',', $args['source']['val'] );
 				$query['orderby'] = 'post__in';
+				$query['post_type'] = 'any';
 			}
 		}
 		// Source: category
@@ -761,19 +763,19 @@ class Su_Tools {
 		// Check nonce
 		if ( !isset( $_REQUEST['nonce'] ) || !wp_verify_nonce( $_REQUEST['nonce'], 'su_examples_nonce' ) ) return;
 		// Check incoming data
-		if ( !isset( $_REQUEST['code'] ) || !isset( $_REQUEST['id'] ) ) return;
+		if ( !isset( $_REQUEST['id'] ) ) return;
+		// Set example ID
+		$id = sanitize_key( $_REQUEST['id'] );
 		// Check for cache
-		$output = get_transient( 'su/examples/render/' . sanitize_key( $_REQUEST['id'] ) );
+		$output = get_transient( 'su/examples/render/' . $id );
 		if ( $output && SU_ENABLE_CACHE ) echo $output;
 		// Cache not found
 		else {
 			ob_start();
 			// Prepare data
-			$code = file_get_contents( sanitize_text_field( $_REQUEST['code'] ) );
+			$code = self::get_example_code( $id );
 			// Check for code
 			if ( !$code ) die( '<p class="su-examples-error">' . __( 'Example code does not found, please check it later', 'shortcodes-ultimate' ) . '</p>' );
-			// Clean-up the code
-			$code = str_replace( array( "\t", '%su_' ), array( '  ', su_cmpt() ), $code );
 			// Split code
 			$chunks = explode( '-----', $code );
 			// Show snippets
@@ -792,10 +794,35 @@ class Su_Tools {
 			do_action( 'su/examples/preview/after' );
 			$output = ob_get_contents();
 			ob_end_clean();
-			set_transient( 'su/examples/render/' . sanitize_key( $_REQUEST['id'] ), $output );
+			set_transient( 'su/examples/render/' . $id, $output );
 			echo $output;
 		}
 		die();
+	}
+
+	public static function get_example_code( $id ) {
+
+		$examples = Su_Data::examples();
+		$code;
+
+		foreach( $examples as $group ) {
+			foreach( $group['items'] as $example ) {
+				if ( isset( $example['id'], $example['code'] ) && $example['id'] === $id ) {
+					$code = $example['code'];
+					break 2;
+				}
+			}
+		}
+
+		if ( ! file_exists( $code ) ) {
+			return false;
+		}
+
+		$code = file_get_contents( $code );
+		$code = str_replace( array( "\t", '%su_' ), array( '  ', su_cmpt() ), $code );
+
+		return $code;
+
 	}
 
 	public static function reset_examples() {

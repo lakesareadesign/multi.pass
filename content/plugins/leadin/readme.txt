@@ -1,72 +1,160 @@
-=== Contact Forms & Website Analytics by HubSpot (formerly Leadin) ===
+=== HubSpot - Free Marketing Plugin for WordPress ===
 Contributors: leadin, sredmond, HubSpotDev
 Tags:  crm, contacts, lead tracking, click tracking, visitor tracking, analytics, marketing automation, inbound marketing, subscription, marketing, lead generation, mailchimp, constant contact, newsletter, popup, popover, email list, email, contacts database, contact form, forms, form widget, popup form
 Requires at least: 3.7
-Tested up to: 4.6
-Stable tag: 6.1.2
+Tested up to: 4.8
+Stable tag: 6.1.4
 
-HubSpot Marketing Free is an easy-to-use contact form and marketing analytics plugin for your website that helps you better understand your website visitors.
+Add the free HubSpot Marketing plugin to your WordPress site! Easy to set up. The plugin has everything you need to capture, track, and convert leads.
 
 == Description ==
 
-= Get to know your website visitors =
+<a href="https://www.hubspot.com/products/marketing/free" alt="WordPress marketing automation and lead tracking plugin" target="_blank">HubSpot Marketing Free</a> is the ultimate marketing plugin for WordPress for building an email list, generating and tracking leads, and tracking user behavior on your website.
 
-<a href="https://leadin.hubspot.com" alt="WordPress marketing automation and lead tracking plugin" target="_blank">HubSpot Marketing Free</a> is an easy-to-use marketing automation and lead tracking plugin for WordPress that helps you better understand your web site visitors.
+It’s a free plugin that includes everything you need to capture, track, and convert leads – all in one tool.
 
-[youtube https://www.youtube.com/watch?v=tcMYv2r3ecg]
+This includes lead gen dashboard, lead capture tools like pop-ups and slide-ins and modal forms, a form capture tool, a contact database, and lead insights for the first 7 days of website activity after lead capture. All these features work immediately, right out of the box, with no dev help required.
 
-= Find out who's on your site and what they're doing =
-When someone visits your site, you want to know more about them. What pages they've visited, when they return, and what social networks they’re on. HubSpot gives you the details you need to make your next move.
+HubSpot Marketing Free automatically captures form submissions from your site, even if they come from a different tool. The moment a lead shares their email, you’ll know who they are, where they work, and what pages they visited – all in real time. When they view an offer or check your pricing, you’ll be ready to follow up right away.
 
-= More context for your conversations =
-HubSpot automatically finds publicly available information about each of your contacts. Details such as location, work history, and company info can give you more context when you reach out.
+With simple but powerful analytics, you’ll learn more about what’s working and what’s not, like which traffic sources or pieces of content are driving the most conversions. It's a risk-free way to find out what inbound marketing can do for you. And it’s completely free.
 
-= Convert more visitors to contacts =
-Use the optional popup form (lead flow) to prevent people from slipping through the cracks. The popup also uses the contact data to intelligently know when to appear.
+By adding this plugin to your WordPress site, you’ll also gain access to HubSpot’s free CRM and Sales tools, as well as HubSpot Academy, our free online educational resource, where you can learn how to build, manage, and run effective marketing campaigns.  All our features are 100% responsive and mobile-friendly.
 
-= Keep your contacts in sync with your email tool =
-HubSpot syncs your contacts to an email list of your choice in MailChimp, without replacing any forms.
+[youtube https://www.youtube.com/watch?v=FHRyhT-Njm4]
 
-= Find out what content and traffic sources convert the best =
-Our simple analytics show you what sources of traffic and content are driving the most contacts. No more complicated Google Analytics reports.
+Want to start collecting leads in minutes? Here’s how with the HubSpot Marketing Free plugin for WordPress:
 
-= How does it work? =
+= Forms & Pop-ups: To capture every qualified lead =
 
-1. When you activate the WordPress plugin, HubSpot Marketing Free will track each anonymous visitor to your site with a cookie.
-2. HubSpot automatically identifies and watches each existing form on your site for submissions.
-3. Once someone fills out any other form on your site, HubSpot will identify that person with their email address. and add them to your contact list.
-4. You'll also receive an email with a link to the new contact record with all of their visit history. (check the screenshots sections to see it in action)
+Add high-converting contact forms and pop-ups in minutes, not hours. No coding or dev help required. You can choose from four different type of pop-ups:
 
-= Who's using HubSpot Marketing Free? =
+- Overlay modals: Center screen pop-ups that appear on top of page content
+- Top banners: Small banners at the very top of the page
+- Slide-in boxes: Small boxes that slide in from the side/bottom of the page
 
-**<a href="http://www.extremeinbound.com/leadin-wordpress-crm-inbound-plugin/" target="_blank">Alan Perlman</a>**: *“I can use HubSpot Marketing Free to get a sense of how engaged certain contacts are, and I can learn more about their behavior on my website to better drive the conversation and understand what they’re interested in or looking for.”*
+If you’re already using forms on your site, then awesome! HubSpot Marketing Free automatically captures form submissions, even if they come from a different tool. It supports the most popular form building plugins available: Ninja Forms, Gravity Forms, Contact Form 7, and more.
 
+= Contact Insights: To see who your leads are and what they’re doing =
 
-Having trouble? Check out our <a href="https://leadin.hubspot.com/knowledge/">help documentation & support</a>
+When a lead submits a form, additional contact info from across the web is pulled in automatically, including job title and social profiles. You’ll see how they arrived and what they viewed even before they filled out your form. And when they come back, tracking picks up where it left off.
+
+Every activity is logged in a tidy timeline, so you know exactly where a lead is and what they're interested in.
+
+= Built-in Analytics: To analyze and improve your conversions =
+
+Built-in analytics make it easy to learn which pages, offers, and traffic sources are driving the most conversions. See how many times leads visit before they buy, spot trends in how visitors navigate your site, and use those insights to drive more conversions.
+
+= Start turning visitors into leads today =
+
+See how visitors interact with your site and turn more of them into paying customers. Get HubSpot Marketing Free for forms, analytics, pop-ups, and email integration for your site. It's a risk-free way to see what inbound marketing can do for you.
+
+> “HubSpot Marketing Free dramatically cuts down the time I spend on marketing. We used to spend tons of time generating very few inbound leads, but those numbers have gone through the roof with minimal effort.” – Brian Ruhlmann, Director of Sales & Marketing, AdmitHub
+
+= Full Features List =
+
+- Dashboard: A central hub for your marketing analytics. Learn which forms, pages, offers, and traffic sources are driving the most conversions.
+- Lead Flows: HubSpot’s answer to pop-up forms. Add user-friendly pop-up forms with ease. No code required.
+- Collected Forms: Already using forms? Fantastic. HubSpot's form collector automatically captures submissions, even if they come from a different tool.
+- Contacts Database: A single database for viewing and managing your interactions with contacts.
+- Kickback Emails: Follow up on form submissions with a quick email (or use your own ESP).
+- Integrations: Easily connect to MailChimp, Shopify, Magento, and more with no extra dev work required.
+
+= What do people love about the HubSpot Marketing Free plugin? =
+
+- It’s easy to configure and use, even for non-tech people.
+- It’s lightweight and integrates with HubSpot CRM and Sales, as well as third-party software like MailChimp, Shopify, Magento, and more.
+- You get lead intelligence, including a timeline of which pages a lead visitors and when, and what they end up converting on.
+- It teaches you which pages and offers convert best so you know which pages to optimize.
+- It saves you time you can use to focus on other marketing activities.
+- It’s 100% responsive and mobile-friendly.
+- We provide great support.
+
+> “HubSpot Marketing Free educates marketers beyond just the anonymous analytics they get from Google Analytics. Instead, it digs down to individual users.” – Michael Shoup, Founder / CEO, 12South Marketing
+
+== Support ==
+
+Having trouble? <a href="https://community.hubspot.com/" target="_blank">Browse our HubSpot Community page</a> for help documentation and support.
+
+Want to learn how best to use HubSpot Marketing Free? <a href="https://academy.hubspot.com/learning-track/lead-capture-follow-up-hubspot" target="_blank">Check out our self-paced course from HubSpot Academy</a>. It’ll teach you how to use HubSpot Marketing Free to capture leads off your website and then how to follow up efficiently using the HubSpot CRM.
 
 == Installation ==
+
+= Search =
+
+The easiest way to install this plugin is to use the WordPress Admin interface. Go to your admin dashboard, find the "Plugins" menu, and click on "Add New". Search for "HubSpot" and click "Install Now". Follow the WordPress instructions and you're done.
+
+= Upload =
 
 1. Upload the 'leadin' folder to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
-Having trouble? Check out our <a href="https://leadin.hubspot.com/knowledge/" target="_blank">help documentation & support</a>
+Having trouble? Check out our <a href="https://academy.hubspot.com/" target="_blank">help documentation & support</a>
 
 == Frequently Asked Questions ==
-= <a href="https://leadin.hubspot.com/knowledge/frequently-asked-questions" target="_blank">Full FAQ Here</a> =
+
+= Requirements =
+
+- Your website or blog must be using WordPress.org version 3.7 or higher on your server.  We recommend the latest version.
+- The tracking code cannot be installed on WordPress.com sites, as they do not allow you to add plugins or Javascript.
+- The wp_footer function must be included in your WordPress theme’s footer file (footer.php).
+- This function is required for our tracking code to be installed on every page of your site.
+- You must be a WordPress admin to be able to install plugins for your site. If you are not the admin, you can forward these instructions to the person who manages your WordPress install.
+
+= What does the plugin do? =
+
+This plugin installs the HubSpot Marketing Free tracking code on your WordPress site. HubSpot Marketing Free is an arsenal of tools you can use to convert visitors into leads. Get a dashboard, lead flows (i.e. pop-ups), collected forms, kickback emails, and more – 100% free.
+
+= What is HubSpot? =
+
+HubSpot is inbound marketing and sales software that helps companies attract visitors, convert leads, and close customers.
+
+HubSpot Marketing Free is a free tool that includes the basics you need to capture, track, and convert leads. These basics include a lead gen dashboard, pop-ups/slide-ins/modal forms, a form scraping tool, a contact database, and lead insights for the first 7 days of website activity after lead capture.
+
+This plugin acts as a bridge between your WordPress site and your HubSpot Marketing Free account, connecting the two together.
+
+= How do I upgrade? =
+
+HubSpot Marketing Starter is built for folks who want to remove HubSpot branding from pop-up forms, and free forms, as well as expand lead insights beyond the 7 days included in marketing free. If you've signed up for HubSpot Marketing Free and would like to upgrade to HubSpot Marketing Starter, <a href="https://knowledge.hubspot.com/articles/kcs_article/account/how-do-i-upgrade-to-marketing-starter-from-marketing-free" target="_blank">follow these instructions</a>.
+
+= Why aren’t my pop-ups (i.e. lead flows) working? =
+
+There are 3 main reasons your lead flows may not be working:
+
+1. Your tracking code is not installed properly. Please see the instructions above, or <a href="https://knowledge.hubspot.com/articles/kcs_article/lead-flows/why-arent-my-lead-flows-displaying" target="_blank">this article for troubleshooting</a>.
+2. You have previously cancelled, or pressed “x,” on your pop-up. Once you dismiss the pop-up we will not show it for 14-days.
+3. You, or your contact, already filled out the pop-up form. Once a pop-up it will not display again for the same user.
+
+= What will my visitors see if I have multiple lead flows active on a page? =
+
+If a visitor has previously dismissed a lead flow: They won't be presented with that same lead flow for 14 days. If they have previously submitted that lead flow and are viewing a page with that same lead flow on the same browser without clearing their cookies, they will not be shown the same lead flow again.
+
+If more than one lead flow is set to a single URL: The lead flow set to the most specific page URL will take priority. For example, if you have a lead flow set to load on "All Pages" and a lead flow set to load on "http://www.domain.com/home", the lead flow set to load on "http://www.domain.com/home" will display. This applies to lead flows that have the same flow triggers (On 50% page scroll, On exit intent, etc) or the same type (Pop-up box, Dropdown banner, etc).
+
+If there are two lead flows with different flow triggers set to load on the same page with the same location specificity: The lead flows won't conflict each other and will wait for their respective triggers, given that the user has not previously submitted or dismissed either lead flow. For example, if a lead flow is set to load on all pages and is triggered on 50% page scroll and another lead flow is set to load on all pages and is triggered on exit intent, the two flows will load when the user triggers each lead flow.
+
+<a href="https://knowledge.hubspot.com/articles/kcs_article/lead-flows/what-will-my-visitors-see-if-i-have-multiple-lead-flows-active-on-a-page" target="_blank">Check out this HubSpot Academy article</a> for more details.
+
+= My question is not listed. =
+
+Please <a href="https://community.hubspot.com/" target="_blank">head over to our HubSpot Community</a> for more detailed documentation and support. Thank you!
 
 == Screenshots ==
 
 1. See the visit history of each contact.
 2. Dashboard shows you where your leads are coming from.
-3. All your contacts stored safely in one place.
-4. Collect more contacts with the pop-up subscribe widget.
+3. Capture form submissions, even if they come from a different tool.
 
 == Changelog ==
 
-- Current version: 6.1.2
-- Current version release: 2016-11-22
+- Current version: 6.1.4
+- Current version release: 2017-07-25
 
-= 6.1.2 (2016.11.22)
+= 6.1.4 (2017.07.25) =
+- Updated supported version of WordPress
+- Provide more accurate readme
+
+= 6.1.3 (2016.11.22) =
 - Fix issue where accounts could not reconnect
 
 = 6.1.0 (2016.11.16) =

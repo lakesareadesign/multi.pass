@@ -43,13 +43,13 @@ class Delicious_Brains_API_Updates {
 		add_filter( 'http_response', array( $this, 'verify_download' ), 10, 3 );
 		add_filter( 'plugins_api', array( $this, 'inject_addon_install_resource' ), 10, 3 );
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_plugin_update_script' ) );
-		add_action( 'admin_head-plugins.php', array( $this, 'add_plugin_update_styles' ) );
+		add_action( 'admin_print_scripts-plugins.php', array( $this, 'enqueue_plugin_update_script' ) );
+		add_action( 'admin_print_scripts-update-core.php', array( $this, 'enqueue_plugin_update_script' ) );
 		add_action( 'current_screen', array( $this, 'check_again_clear_transients' ) );
 		add_action( 'install_plugins_pre_plugin-information', array( $this, 'plugin_update_popup' ) );
 
 		add_action( 'load-plugins.php', array( $this, 'clear_licence_transient' ) );
-		$this->add_plugin_row( $this->licences->plugin->basename );
+
 		$this->add_plugin_notice( $this->licences->plugin->basename );
 		if ( $this->licences->addons ) {
 			foreach ( $this->licences->addons as $basename => $addon ) {
@@ -57,7 +57,6 @@ class Delicious_Brains_API_Updates {
 					// Only register addons for updates that are installed and available for license
 					continue;
 				}
-				$this->add_plugin_row( $basename );
 				$this->add_plugin_notice( $basename );
 			}
 		}
@@ -96,23 +95,20 @@ class Delicious_Brains_API_Updates {
 	}
 
 	/**
-	 * Hook up a plugin for plugin row notices
-	 *
-	 * @param string $basename
-	 */
-	function add_plugin_row( $basename ) {
-		add_action( 'after_plugin_row_' . $basename, array( $this, 'plugin_row' ), 11, 3 );
-	}
-
-	/**
 	 * Adds the plugin to the array of plugins used by the update JS
 	 *
 	 * @param array $plugins
 	 *
 	 * @return array
 	 */
-	function register_plugin_for_updates( $plugins ) {
-		$plugins[ $this->licences->plugin->slug ] = $this->licences->plugin;
+	public function register_plugin_for_updates( $plugins ) {
+		$plugins[ $this->licences->plugin->slug ] = array_merge(
+			(array) $this->licences->plugin,
+			array(
+				'addons'  => $this->licences->addons,
+				'license' => $this->licences->is_licence_expired()
+			)
+		);
 
 		return $plugins;
 	}
@@ -148,11 +144,11 @@ class Delicious_Brains_API_Updates {
 			$installed_version = $this->get_installed_version( $plugin_slug );
 			$latest_version    = $this->get_latest_version( $plugin_slug, $installed_version );
 
-			if ( false === $latest_version ) {
+			if ( false === $installed_version || false === $latest_version ) {
 				continue;
 			}
 
-			if ( isset( $installed_version ) && version_compare( $installed_version, $latest_version, '<' ) ) {
+			if ( version_compare( $installed_version, $latest_version, '<' ) ) {
 				$is_beta = $this->is_beta_version( $latest_version );
 
 				$trans->response[ $plugin_basename ]              = new stdClass();
@@ -170,14 +166,8 @@ class Delicious_Brains_API_Updates {
 
 	/**
 	 * Add some custom JS into the plugin page for our updates process
-	 *
-	 * @param $hook
 	 */
-	function enqueue_plugin_update_script( $hook ) {
-		if ( 'plugins.php' != $hook ) {
-			return;
-		}
-
+	public function enqueue_plugin_update_script() {
 		$handle = 'dbrains-plugin-update-script';
 
 		// This script should only be enqueued once if the site has multiple
@@ -188,9 +178,9 @@ class Delicious_Brains_API_Updates {
 
 		$version = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : $this->licences->plugin->version;
 		$min     = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$src     = plugins_url( "assets/js/plugin-update$min.js", __FILE__ );
 
-		$src = plugins_url( "assets/js/plugin-update$min.js", __FILE__ );
-		wp_enqueue_script( $handle, $src, array( 'jquery' ), $version, true );
+		wp_enqueue_script( $handle, $src, array( 'jquery', 'underscore' ), $version, true );
 
 		wp_localize_script( $handle,
 			'dbrains',
@@ -199,32 +189,13 @@ class Delicious_Brains_API_Updates {
 					'check_licence' => wp_create_nonce( 'check-licence' ),
 				),
 				'strings' => array(
-					'check_license_again'   => __( 'Check my license again', 'amazon-s3-and-cloudfront' ),
-					'license_check_problem' => __( 'A problem occurred when trying to check the license, please try again.', 'amazon-s3-and-cloudfront' ),
+					'check_license_again'     => __( 'Check my license again', 'amazon-s3-and-cloudfront' ),
+					'license_check_problem'   => __( 'A problem occurred when trying to check the license, please try again.', 'amazon-s3-and-cloudfront' ),
+					'requires_parent_license' => __( 'Requires a valid license for %s.', 'amazon-s3-and-cloudfront' )
 				),
 				'plugins' => apply_filters( 'delicious_brains_plugins', array() ),
 			)
 		);
-	}
-
-	/**
-	 * Add some custom CSS into the plugin page for our updates process
-	 */
-	function add_plugin_update_styles() {
-		?>
-		<style type="text/css">
-		.check-licence-spinner {
-			left: 5px;
-			position: relative;
-			top: 3px;
-			width: 16px;
-			height: 16px;
-		}
-
-		.<?php echo $this->licences->plugin->prefix; ?>-original-update-row {
-			display: none;
-		}
-		</style><?php
 	}
 
 	/**
@@ -306,123 +277,6 @@ class Delicious_Brains_API_Updates {
 		}
 
 		exit;
-	}
-
-	/**
-	 * Add an extra row to the plugin screen.
-	 * Shows a message below the plugin on the plugins page when:
-	 *      1. the license hasn't been activated
-	 *        2. when there's an update available but the license is expired
-	 *
-	 * @param string $plugin_file Path to the plugin file, relative to the plugins directory.
-	 * @param array  $plugin_data An array of plugin data.
-	 * @param string $status      Status of the plugin. Defaults are 'All', 'Active',
-	 *                            'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
-	 *                            'Drop-ins', 'Search'.
-	 */
-	function plugin_row( $plugin_file, $plugin_data, $status ) {
-		$licence_response = $this->licences->is_licence_expired();
-
-		// Allow the display of the plugin row notice to be suppressed for any reason
-		$pre = apply_filters( $this->licences->plugin->prefix . '_pre_plugin_row_update_notice', false, $licence_response, $plugin_file, $plugin_data, $status );
-		if ( false !== $pre ) {
-			return;
-		}
-
-		$licence_problem = isset( $licence_response['errors'] );
-		$no_licence      = isset( $licence_response['errors']['no_licence'] );
-
-		$is_addon          = $this->is_addon( $plugin_file );
-		$plugin_slug       = dirname( $plugin_file );
-		$installed_version = $plugin_data['Version'];
-		$latest_version    = $this->get_latest_version( $plugin_slug, $installed_version );
-
-		$new_version = '';
-		if ( version_compare( $installed_version, $latest_version, '<' ) ) {
-			$message_suffix = '.';
-			if ( $licence_problem && $is_addon ) {
-				// Make it clear for addons that the update is available only
-				// when the license for the parent plugin is valid
-				$message_suffix = ' ' . sprintf( __( 'with a valid license for %s.', 'amazon-s3-and-cloudfront' ), $this->licences->plugin->name );
-			}
-
-			$new_version = sprintf( __( 'There is a new version of %s available%s', 'amazon-s3-and-cloudfront' ), $plugin_data['Name'], $message_suffix );
-			$new_version .= ' <a class="thickbox" title="' . $plugin_data['Name'] . '" href="plugin-install.php?tab=plugin-information&plugin=' . rawurlencode( $plugin_slug ) . '&TB_iframe=true&width=640&height=808">';
-			$new_version .= sprintf( __( 'View version %s details', 'amazon-s3-and-cloudfront' ), $latest_version ) . '</a>.';
-		}
-
-		if ( ! $new_version && ( ! $no_licence || $is_addon ) ) {
-			return;
-		}
-
-		if ( $no_licence && ! $is_addon ) {
-			$settings_url  = $this->licences->admin_url( $this->licences->plugin->settings_url_path ) . $this->licences->plugin->settings_url_hash;
-			$settings_link = sprintf( '<a href="%s">%s</a>', $settings_url, __( 'enter your license key', 'amazon-s3-and-cloudfront' ) );
-			$message       = sprintf( __( 'To finish activating %1$s, %2$s. If you don\'t have a license key, you may <a href="%3$s">purchase one</a>.', 'amazon-s3-and-cloudfront' ), $this->licences->plugin->name, $settings_link, $this->licences->plugin->purchase_url );
-
-			if ( $new_version ) {
-				$message = sprintf( __( 'To update, %1$s. If you don\'t have a license key, you may <a href="%2$s">purchase one</a>.', 'amazon-s3-and-cloudfront' ), $settings_link, $this->licences->plugin->purchase_url );
-			}
-		} elseif ( $licence_problem && ! $is_addon ) {
-			$message = array_shift( $licence_response['errors'] ) . ' <a href="#" class="dbrains-check-my-licence-again">' . __( 'Check my license again', 'amazon-s3-and-cloudfront' ) . '</a>';
-		} elseif ( $licence_problem && $is_addon ) {
-			$message = '';
-		} else {
-			return;
-		} ?>
-
-		<tr class="plugin-update-tr <?php echo $this->licences->plugin->prefix; ?>-custom">
-			<?php if ( version_compare( $GLOBALS['wp_version'], '4.6-alpha', '<' ) ) { ?>
-				<td colspan="3" class="plugin-update">
-					<div class="update-message">
-						<span class="<?php echo $this->licences->plugin->prefix; ?>-new-version-notice"><?php echo $new_version; ?></span>
-						<?php if ( $message ) : ?>
-							<span class="<?php echo $this->licences->plugin->prefix; ?>-licence-error-notice"><?php echo $message; ?></span>
-						<?php endif; ?>
-					</div>
-				</td>
-			<?php } else { ?>
-				<td colspan="3" class="plugin-update colspanchange">
-					<div class="update-message notice inline notice-warning notice-alt">
-						<p>
-							<span class="<?php echo $this->licences->plugin->prefix; ?>-new-version-notice"><?php echo $new_version; ?></span>
-							<?php if ( $message ) : ?>
-								<span class="<?php echo $this->licences->plugin->prefix; ?>-licence-error-notice"><?php echo $message; ?></span>
-							<?php endif; ?>
-						</p>
-					</div>
-				</td>
-			<?php } ?>
-		</tr>
-
-		<?php if ( $new_version ) {
-			$plugin_row_slug = ( $is_addon ) ? $this->licences->addons[ $plugin_file ]['slug'] : $this->licences->plugin->slug;
-			// removes the built-in plugin update message
-			?>
-			<script type="text/javascript">
-				(function( $ ) {
-						var <?php echo $this->licences->plugin->prefix; ?>_row = $( 'tr[data-slug="<?php echo $plugin_row_slug; ?>"]' ).first();
-						var update_row = <?php echo $this->licences->plugin->prefix; ?>_row.next();
-
-						// If there's a plugin update row - need to keep the original update row available so we can switch it out
-						// if the user has a successful response from the 'check my license again' link
-						if ( update_row.hasClass( 'plugin-update-tr' ) && ! update_row.hasClass( '<?php echo $this->licences->plugin->prefix; ?>-custom' ) ) {
-							var original = update_row.clone();
-							update_row.html( update_row.next().html() );
-							update_row.addClass( '<?php echo $this->licences->plugin->prefix; ?>-custom-visible' );
-							update_row.addClass( '<?php echo $plugin_row_slug; ?>' );
-							update_row.next().remove();
-							update_row.after( original );
-							original.addClass( '<?php echo $this->licences->plugin->prefix; ?>-original-update-row' );
-							original.addClass( '<?php echo $plugin_row_slug; ?>' );
-							<?php if ( $is_addon ) : ?>
-							original.addClass( 'addon' );
-							<?php endif; ?>
-						}
-					})( jQuery );
-			</script>
-			<?php
-		}
 	}
 
 	/**

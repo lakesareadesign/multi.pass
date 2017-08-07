@@ -5,6 +5,15 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+4.3.2 - 7/28/2017 - Aaron & Ricardo
+----------------------------------------------------------------------
+- Make Hub initiated actions faster/more efficient by only syncing details when necessary
+- Improve debug log detail for Hub initiated actions
+- Show detailed error messages on local install failures
+- Fix various responsive UI style issues
+- Fix broken search box on Support page
+- Various spelling and text fixes
+
 4.3.1 - 6/1/2017 - Aaron & Ricardo
 ----------------------------------------------------------------------
 - Redesign of the login process, headers, and home page UX
@@ -446,4 +455,4 @@ Added option to disable admin notices.
 Initial Release.
 
 
-133620-1496772491-au
+133620-1502132195-au

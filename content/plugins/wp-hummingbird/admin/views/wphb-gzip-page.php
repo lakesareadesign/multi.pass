@@ -9,5 +9,4 @@
 			window.WPHB_Admin.getModule( 'gzip' );
 		}
 	});
-
 </script>

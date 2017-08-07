@@ -88,6 +88,9 @@
                     if( optin.design.hasOwnProperty("on_submit") && optin.design.on_submit === "page_redirect" ){
                         window.location.replace( optin.design.page_redirect_url );
                     }else{
+                        if(optin.data.optin_provider === 'mailchimp' && typeof res.data.existing !== 'undefined' ){
+                            $formParent.find(".wpoi-success-message .wpoi-content p").html(res.data.message);
+                        }
                         $formParent.find(".wpoi-success-message").addClass("wpoi-show-message");
 
 						if ( optin.design.hasOwnProperty('on_success') && 'autoclose' === optin.design.on_success ) {
@@ -112,7 +115,12 @@
                     }
 
                 }else{
-					var message = res.data ? res.data.pop() : inc_opt.l10n.submit_failure;
+					var message = '';
+					if ( res.data ) {
+						message = $.isArray( res.data ) ? res.data.pop() : res.data;
+					} else {
+						message = inc_opt.l10n.submit_failure;
+					}
 
 					$failure.html( message ? message : inc_opt.l10n.submit_failure );
 

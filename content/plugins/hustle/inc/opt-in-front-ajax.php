@@ -82,7 +82,7 @@ class Opt_In_Front_Ajax {
             $api_result = $provider->subscribe( $optin, $subscribe_data );
         }
 
-        if( ( $api_result && !is_wp_error( $api_result ) ) || ( $local_save && !is_wp_error( $local_save ) )  ){
+        if( ( $api_result && !is_wp_error( $api_result ) ) && ( !$local_save || !is_wp_error( $local_save ) )  ){
 
             $tracking_types = $optin->get_tracking_types();
             if ( $tracking_types && ( (bool) $tracking_types[$optin_type] ) ) {

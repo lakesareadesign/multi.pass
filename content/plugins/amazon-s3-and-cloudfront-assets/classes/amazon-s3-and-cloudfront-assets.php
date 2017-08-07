@@ -118,19 +118,11 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	/**
 	 * Load the addon
 	 */
-	function load_addon() {
-		$version = $this->get_asset_version();
-		$suffix  = $this->get_asset_suffix();
+	public function load_addon() {
+		$this->enqueue_style( 'as3cf-assets-styles', 'assets/css/styles', array( 'as3cf-styles' ) );
+		$this->enqueue_script( 'as3cf-assets-script', 'assets/js/script', array( 'jquery', 'as3cf-pro-sidebar' ) );
 
-		$src = plugins_url( 'assets/css/styles.css', $this->plugin_file_path );
-		wp_enqueue_style( 'as3cf-assets-styles', $src, array( 'as3cf-styles' ), $version );
-
-		$src = plugins_url( 'assets/js/script' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-assets-script', $src, array( 'jquery', 'as3cf-pro-sidebar' ), $version, true );
-
-		wp_localize_script( 'as3cf-assets-script',
-			'as3cf_assets',
-			array(
+		wp_localize_script( 'as3cf-assets-script', 'as3cf_assets', array(
 				'strings'      => array(
 					'generate_key_error' => __( 'Error getting new key: ', 'as3cf-assets' ),
 					'copy_not_enabled'   => __( 'No CSS or JS is being served because "Copy & Serve" is off.', 'as3cf-assets' ),
@@ -143,8 +135,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 					'generate_key'  => wp_create_nonce( 'as3cf-assets-generate-key' ),
 				),
 				'redirect_url' => $this->get_plugin_page_url( array( 'as3cf-assets-manual' => '1' ) ),
-			)
-		);
+			) );
 
 		$this->handle_post_request();
 	}
@@ -1401,7 +1392,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 * @return string
 	 */
 	protected function get_url_scheme( $url ) {
-		$src_parts      = $this->parse_url( $url );
+		$src_parts      = AS3CF_Utils::parse_url( $url );
 		$https          = $this->get_setting( 'force-https' );
 		$default_scheme = is_ssl() ? 'https' : 'http';
 
@@ -1433,29 +1424,6 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		return $url;
 	}
 
-	/**
-	 * Parses a URL into its components. Compatible with PHP < 5.4.7.
-	 *
-	 * @param $url string The URL to parse.
-	 *
-	 * @return array|false The parsed components or false on error.
-	 */
-	function parse_url( $url ) {
-		$url = trim( $url );
-		if ( 0 === strpos( $url, '//' ) ) {
-			$url       = 'http:' . $url;
-			$no_scheme = true;
-		} else {
-			$no_scheme = false;
-		}
-
-		$parts = parse_url( $url );
-		if ( $no_scheme ) {
-			unset( $parts['scheme'] );
-		}
-
-		return $parts;
-	}
 
 	/**
 	 * Copy a script file to S3 and record the S3 details
@@ -1721,7 +1689,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 
 		if ( $this->get_setting( 'enable-script-object-prefix' ) ) {
 			$prefix = trim( $this->get_setting( 'object-prefix' ) );
-			$prefix = ltrim( trailingslashit( $prefix ), '/' );
+			$prefix = AS3CF_Utils::trailingslash_prefix( $prefix );
 		}
 
 		$prefix .= trailingslashit( $details['type'] );
@@ -1730,7 +1698,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		}
 
 		$version = $this->get_object_version_prefix( $details['type'], $details['object'] );
-		$prefix .= trailingslashit( $version );
+		$prefix  .= trailingslashit( $version );
 
 		return $prefix;
 	}
@@ -1839,11 +1807,13 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			return $src;
 		}
 
-		$url_parts = $this->parse_url( $src );
+		$url_parts = AS3CF_Utils::parse_url( $src );
+		$host_url  = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] );
+		$location  = AS3CF_Utils::parse_url( $host_url );
 
 		if ( isset( $url_parts['host'] ) ) {
-			$host_length      = strlen( $url_parts['host'] );
-			$http_host_domain = substr( $_SERVER['HTTP_HOST'], 0 - $host_length, $host_length );
+			$src_host_length  = strlen( $url_parts['host'] );
+			$http_host_domain = substr( $location['host'], 0 - $src_host_length, $src_host_length );
 
 			// Test for scripts served by subdomain subsites in multistie
 			// They must have the same domain as the $_SERVER['HTTP_HOST']
@@ -2513,11 +2483,12 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 * Assets more info link
 	 *
 	 * @param string $hash
+	 * @param string $utm_content
 	 *
 	 * @return string
 	 */
-	public function assets_more_info_link( $hash ) {
-		return $this->more_info_link( 'https://deliciousbrains.com/wp-offload-s3/doc/assets-addon-settings/', $hash );
+	public function assets_more_info_link( $hash, $utm_content = '' ) {
+		return $this->more_info_link( '/wp-offload-s3/doc/assets-addon-settings/', $utm_content, $hash );
 	}
 
 	/**

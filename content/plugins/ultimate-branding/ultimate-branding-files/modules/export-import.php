@@ -110,7 +110,28 @@ if ( ! class_exists( 'ub_export_import' ) ) {
 			if ( empty( $sitename ) ) {
 				$sitename = 'website';
 			}
+			/**
+			 * add debug information
+			 *
+			 * @since 1.8.7
+			 */
+			if (
+				isset( $_POST['simple_options'] )
+				&& isset( $_POST['simple_options']['export'] )
+				&& isset( $_POST['simple_options']['export']['debug'] )
+			) {
+				$data['debug'] = array(
+					'plugins' => get_plugins(),
+					'themes' => get_themes(),
+				);
+			}
+			/**
+			 * filename
+			 */
 			$wp_filename = sprintf( '%s.ultimate_branding.%s.json', $sitename, date( 'Y-m-d' ) );
+			/**
+			 * send it to browser
+			 */
 			header( 'Content-Description: File Transfer' );
 			header( 'Content-Disposition: attachment; filename=' . $wp_filename );
 			header( 'Content-Type: text/json; charset=' . get_option( 'blog_charset' ), true );
@@ -155,6 +176,11 @@ if ( ! class_exists( 'ub_export_import' ) ) {
 					'desc' => array(
 						'type' => 'description',
 						'value' => $this->greet_export(),
+					),
+					'add_debug_information' => array(
+						'type' => 'checkbox',
+						'checkbox_label' => __( 'Add debug information', 'ub' ),
+						'description' => __( 'Check this to allow export debug information about installed themes and plugins.', 'ub' ),
 					),
 					'button' => array(
 						'type' => 'submit',

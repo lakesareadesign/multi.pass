@@ -73,8 +73,7 @@ jQuery(document).ready(function($) {
 			delay = 200;
 		if ($item.hasClass('su-examples-item')) {
 			$item.on('click', function(e) {
-				var code = $(this).data('code'),
-					id = $(this).data('id');
+				var id = $(this).data('id');
 				$item.magnificPopup({
 					type: 'inline',
 					alignTop: true,
@@ -96,7 +95,6 @@ jQuery(document).ready(function($) {
 					dataType: 'html',
 					data: {
 						action: 'su_example_preview',
-						code: code,
 						id: id,
 						nonce: nonce
 					},

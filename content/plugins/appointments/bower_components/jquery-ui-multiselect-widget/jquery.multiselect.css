@@ -18,11 +18,11 @@
 .ui-multiselect-checkboxes li { clear:both; font-size:0.9em; list-style: none; padding-right:3px; }
 .ui-multiselect-checkboxes .ui-multiselect-optgroup { padding: 3px; }
 .ui-multiselect-columns { display: inline-block; vertical-align: top; }
-.ui-multiselect-checkboxes .ui-multiselect-optgroup a { border-bottom:1px solid; cursor: pointer; display:block; font-weight:bold; margin:1px 0; padding:3px; text-align:center; text-decoration:none; }		   		 	  		  	 	 	
+.ui-multiselect-checkboxes .ui-multiselect-optgroup a { border-bottom:1px solid; cursor: pointer; display:block; font-weight:bold; margin:1px 0; padding:3px; text-align:center; text-decoration:none; }
 
 @media print{
     .ui-multiselect-menu {display: none;}
 }
 
 
-/* 133620-1492560674-au */
+/* 133620-1502132035-au */

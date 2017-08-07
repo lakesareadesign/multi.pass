@@ -3,9 +3,6 @@
 	// Local reference to the WordPress media namespace.
 	var media = wp.media;
 
-	// Store ids of attachments selected for bulk grid actions
-	var selection_ids = [];
-
 	/**
 	 * A button for S3 actions
 	 *
@@ -52,11 +49,11 @@
 			}
 
 			var askConfirm = false;
-
 			var that = this;
-			var ids = [];
+			var models = [];
+
 			selection.each( function( model ) {
-				ids.push( model.id );
+				models.push( model );
 
 				if ( ! askConfirm && that.options.confirm ) {
 					if ( model.attributes[ that.options.confirm ] ) {
@@ -64,9 +61,6 @@
 					}
 				}
 			} );
-
-			// Add ids to the unique array
-			selection_ids = _.union( selection_ids, ids );
 
 			if ( this.options.confirm && askConfirm ) {
 				if ( ! confirm( as3cfpro_media.strings[ this.options.confirm ] ) ) {
@@ -79,11 +73,18 @@
 			var payload = {
 				_nonce: nonce,
 				s3_action: this.options.action,
-				ids: ids
+				ids: _.pluck( models, 'id' )
 			};
 
 			this.startS3Action();
-			this.fireS3Action( payload );
+			this.fireS3Action( payload )
+				.done( function() {
+					_.each( models, function( model ) {
+
+						// Refresh the attributes for each model from the server.
+						model.fetch();
+					} );
+				} );
 		},
 
 		startS3Action: function() {
@@ -91,8 +92,17 @@
 			$( '.media-toolbar-secondary .button' ).addClass( 'disabled' );
 		},
 
+		/**
+		 * Send the S3 action request via ajax.
+		 *
+		 * @param {object} payload
+		 *
+		 * @return {$.promise}      A jQuery promise that represents the request,
+		 *                          decorated with an abort() method.
+		 */
 		fireS3Action: function( payload ) {
-			wp.ajax.send( 'as3cfpro_process_media_action', { data: payload } ).done( _.bind( this.returnS3Action, this ) );
+			return wp.ajax.send( 'as3cfpro_process_media_action', { data: payload } )
+				.done( _.bind( this.returnS3Action, this ) );
 		},
 
 		returnS3Action: function( response ) {

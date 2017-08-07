@@ -38,11 +38,10 @@ class Remove_Local_Files extends Background_Tool {
 			return;
 		}
 
-		$version = $this->as3cf->get_asset_version();
-		$suffix  = $this->as3cf->get_asset_suffix();
-
-		$src = plugins_url( 'assets/js/pro/tools/remove-local-files' . $suffix . '.js', $this->as3cf->get_plugin_file_path() );
-		wp_enqueue_script( 'as3cf-pro-remove-local-files', $src, array( 'jquery', 'wp-util' ), $version, true );
+		$this->as3cf->enqueue_script( 'as3cf-pro-remove-local-files', 'assets/js/pro/tools/remove-local-files', array(
+			'jquery',
+			'wp-util',
+		) );
 	}
 
 	/**
@@ -149,24 +148,12 @@ class Remove_Local_Files extends Background_Tool {
 	}
 
 	/**
-	 * Get status description.
+	 * Get queued status text.
 	 *
 	 * @return string
 	 */
-	public function get_status_description() {
-		if ( $this->is_processing() && ( $this->is_cancelled() || $this->is_paused() ) ) {
-			return __( 'Completing current batch.', 'amazon-s3-and-cloudfront' );
-		}
-
-		if ( $this->is_paused() ) {
-			return __( 'Paused', 'amazon-s3-and-cloudfront' );
-		}
-
-		if ( $this->is_queued() ) {
-			return __( 'Removing Media Library files from your local server.', 'amazon-s3-and-cloudfront' );
-		}
-
-		return '';
+	public function get_queued_status() {
+		return __( 'Removing Media Library files from your local server.', 'amazon-s3-and-cloudfront' );
 	}
 
 	/**
@@ -175,6 +162,6 @@ class Remove_Local_Files extends Background_Tool {
 	 * @return Background_Tool_Process|null
 	 */
 	protected function get_background_process_class() {
-		return new Remove_Local_Files_Process( $this->as3cf );
+		return new Remove_Local_Files_Process( $this->as3cf, $this );
 	}
 }

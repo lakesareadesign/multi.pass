@@ -1,16 +1,16 @@
 <?php
 /**
  * @package Optimize Database after Deleting Revisions
- * @version 4.2.2
+ * @version 4.3
  */
 /*
 Plugin Name: Optimize Database after Deleting Revisions
-Plugin URI: http://cagewebdev.com/index.php/optimize-database-after-deleting-revisions-wordpress-plugin/
+Plugin URI: http://cagewebdev.com/optimize-database-after-deleting-revisions-wordpress-plugin/
 Description: Optimizes the Wordpress Database after Cleaning it out
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Author URI: http://cagewebdev.com
 Network: True
-Version: 4.2.2
+Version: 4.3
 */
 
 /********************************************************************************************
@@ -22,11 +22,10 @@ Version: 4.2.2
 global $odb_class;
 $odb_class = new OptimizeDatabase();
 
-class OptimizeDatabase
-{
+class OptimizeDatabase {
 	// VERSION
-	var $odb_version           = '4.2.2';
-	var $odb_release_date      = '04/06/2017';
+	var $odb_version           = '4.3';
+	var $odb_release_date      = '07/24/2017';
 
 	// PLUGIN OPTIONS
 	var $odb_rvg_options       = array();
@@ -72,8 +71,7 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	CONSTRUCTOR
 	 *******************************************************************************/
-	function __construct()
-	{
+	function __construct() {
 		// INITIALIZE PLUGIN
 		add_action('init', array(&$this, 'odb_init'));
 	} // __construct()
@@ -82,8 +80,7 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	INITIALIZE PLUGIN
 	 *******************************************************************************/	
-	function odb_init()
-	{
+	function odb_init() {
 		// LOAD CLASSES
 		$this->odb_classes();
 
@@ -124,8 +121,7 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	LOAD AND INITIALIZE CLASSES
 	 *******************************************************************************/		
-	function odb_classes()
-	{
+	function odb_classes() {
 		// LOAD CLASSES
 		include_once('classes/odb-cleaner.php');
 		include_once('classes/odb-displayer.php');
@@ -147,8 +143,7 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	INITIALIZE URLS AND DIRECTORIES
 	 *******************************************************************************/	
-	function odb_urls_dirs()
-	{
+	function odb_urls_dirs() {
 		$this->odb_plugin_url         = plugins_url( '/', __FILE__ );
 		$this->odb_plugin_path        = plugin_dir_path(__FILE__);
 		$this->odb_logfile_url        = $this->odb_plugin_url.'logs/rvg-optimize-db-log.html';
@@ -160,8 +155,7 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	LOAD OPTIONS
 	 *******************************************************************************/	
-	function odb_load_options()
-	{
+	function odb_load_options() {
 		// GET OPTIONS
 		$this->odb_rvg_options = $this->odb_multisite_obj->odb_ms_get_option('odb_rvg_options');
 		
@@ -219,40 +213,39 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	COPY AND DELETE OPTIONS FROM PREVIOUS VERSIONS (BEFORE 4.0)
 	 *******************************************************************************/
-	function odb_convert_options()
-	{
+	function odb_convert_options() {
 		global $wpdb;
 		
 		// STOP OLD SCHEDULER
 		wp_clear_scheduled_hook('rvg_optimize_database');
 		
 		$setting = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_total_savings');
-		if($setting)
-		{	$this->odb_rvg_options['total_savings'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_total_savings');
+		if($setting) {
+			$this->odb_rvg_options['total_savings'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_total_savings');
 			$this->odb_multisite_obj->odb_ms_delete_option('rvg_odb_total_savings');
 		}
 		
 		$setting = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_pingbacks');
-		if($setting)
-		{	$this->odb_rvg_options['clear_pingbacks'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_pingbacks');
+		if($setting) {
+			$this->odb_rvg_options['clear_pingbacks'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_pingbacks');
 			$this->odb_multisite_obj->odb_ms_delete_option('rvg_clear_pingbacks');
 		}
 		
 		$setting = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_spam');
-		if($setting)
-		{	$this->odb_rvg_options['clear_spam'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_spam');
+		if($setting) {
+			$this->odb_rvg_options['clear_spam'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_spam');
 			$this->odb_multisite_obj->odb_ms_delete_option('rvg_clear_spam');
 		}
 		
 		$setting = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_tags');
-		if($setting)
-		{	$this->odb_rvg_options['clear_tags'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_tags');
+		if($setting) {
+			$this->odb_rvg_options['clear_tags'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_tags');
 			$this->odb_multisite_obj->odb_ms_delete_option('rvg_clear_tags');
 		}
 		
 		$setting = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_transients');
-		if($setting)
-		{	$this->odb_rvg_options['clear_transients'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_transients');
+		if($setting) {
+			$this->odb_rvg_options['clear_transients'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_transients');
 			$this->odb_multisite_obj->odb_ms_delete_option('rvg_clear_transients');					
 		}
 
@@ -263,20 +256,20 @@ class OptimizeDatabase
 		}
 	
 		$setting = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_adminbar');
-		if($setting)
-		{	$this->odb_rvg_options['adminbar'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_adminbar');
+		if($setting) {
+			$this->odb_rvg_options['adminbar'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_adminbar');
 			$this->odb_multisite_obj->odb_ms_delete_option('rvg_odb_adminbar');	
 		}
 
 		$setting = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_adminmenu');
-		if($setting)
-		{	$this->odb_rvg_options['adminmenu'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_adminmenu');
+		if($setting) {
+			$this->odb_rvg_options['adminmenu'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_adminmenu');
 			$this->odb_multisite_obj->odb_ms_delete_option('rvg_odb_adminmenu');
 		}
 	
 		$setting = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_logging_on');
-		if($setting)
-		{	$this->odb_rvg_options['logging_on'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_logging_on');
+		if($setting) {
+			$this->odb_rvg_options['logging_on'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_odb_logging_on');
 			$this->odb_multisite_obj->odb_ms_delete_option('rvg_odb_logging_on');			
 		}
 		
@@ -296,8 +289,7 @@ class OptimizeDatabase
 		$this->odb_multisite_obj->odb_ms_delete_option('rvg_odb_schedulehour');
 
 		// COPY EXCLUDED TABLES
-		for($i=0; $i<count($this->odb_ms_prefixes); $i++)
-		{
+		for($i=0; $i<count($this->odb_ms_prefixes); $i++) {
 			$sql = "
 			  SELECT `option_name`
 				FROM ".$this->odb_ms_prefixes[$i]."options
@@ -305,13 +297,13 @@ class OptimizeDatabase
 			";
 
 			$res = $wpdb->get_results($sql, ARRAY_A);
-			for($j=0; $j<count($res); $j++)
-			{	$option_name = $res[$j]['option_name'];
+			for($j=0; $j<count($res); $j++) {
+				$option_name = $res[$j]['option_name'];
 				$option_name_new = substr($option_name, 7);
 				$this->odb_rvg_excluded_tabs[$option_name_new] = 'Y';
 				$this->odb_multisite_obj->odb_ms_delete_option($option_name);
-			}
-		}
+			} // for($j=0; $j<count($res); $j++)
+		} // for($i=0; $i<count($this->odb_ms_prefixes); $i++)
 		
 		// UPDATE EXCLUDED TABLES
 		$this->odb_multisite_obj->odb_ms_update_option('odb_rvg_excluded_tabs', $this->odb_rvg_excluded_tabs);		
@@ -321,8 +313,7 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	INITIALIZE WORDPRESS HOOKS
 	 *******************************************************************************/		
-	function odb_init_hooks()
-	{
+	function odb_init_hooks() {
 		global $blog_id;
 		
 		// ON DE-ACTIVATION
@@ -332,22 +323,20 @@ class OptimizeDatabase
 		register_uninstall_hook(__FILE__, array('OptimizeDatabase', 'odb_uninstallation_handler'));
 				
 		// ADD ENTRY TO ADMIN TOOLS MENU
-		if (is_multisite())
-		{	if ($blog_id == 1)
-			{	// v4.1: PLUGIN ONLY CAN BE USED ON THE MAIN SITE (NOT ON THE SUB SITES)
+		if (is_multisite()) {
+			if ($blog_id == 1) {
+				// v4.1: PLUGIN ONLY CAN BE USED ON THE MAIN SITE (NOT ON THE SUB SITES)
 				add_action('admin_menu', array(&$this, 'odb_admin_tools'));
 				add_action('admin_menu', array(&$this, 'odb_admin_settings'));
-			}
-		}
-		else
-		{
+			} // if ($blog_id == 1)
+		} else {
 			add_action('admin_menu', array(&$this, 'odb_admin_tools'));
 			add_action('admin_menu', array(&$this, 'odb_admin_settings'));
-		}
+		} // if (is_multisite())
 		
 		// ICON MODE: ADD ICON TO ADMIN MENU
-		if ($this->odb_rvg_options['adminmenu'] == "Y")
-		{	add_action('admin_menu', array(&$this, 'odb_admin_icon'));
+		if ($this->odb_rvg_options['adminmenu'] == "Y") {
+			add_action('admin_menu', array(&$this, 'odb_admin_icon'));
 			add_action('admin_menu', array(&$this, 'odb_register_options'));
 		}
 		
@@ -366,9 +355,9 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	ADD ENTRY TO THE ADMIN TOOLS MENU
 	 *******************************************************************************/	
-	function odb_admin_tools()
-	{	if (function_exists('add_management_page'))
-		{	add_management_page(
+	function odb_admin_tools() {
+		if (function_exists('add_management_page')) {
+			add_management_page(
 				__('Optimize Database',$this->odb_txt_domain),	// page title
 				__('Optimize Database',$this->odb_txt_domain),	// menu title
 				'manage_options',								// capability
@@ -381,8 +370,8 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	ADD ENTRY TO THE ADMIN SETTINGS MENU
 	 *******************************************************************************/	
-	function odb_admin_settings()
-	{	if (function_exists('add_options_page'))
+	function odb_admin_settings() {
+		if (function_exists('add_options_page'))
 			add_options_page(
 				__('Optimize Database', $this->odb_txt_domain),	// page title
 				__('Optimize Database', $this->odb_txt_domain),	// menu title
@@ -396,8 +385,8 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	ADD 'SETTINGS' LINK TO THE MAIN PLUGIN PAGE
 	 *******************************************************************************/
-	function odb_settings_link($links)
-	{	array_unshift($links, '<a href="options-general.php?page=odb_settings_page">'.__('Settings', $this->odb_txt_domain).'</a>');
+	function odb_settings_link($links) {
+		array_unshift($links, '<a href="options-general.php?page=odb_settings_page">'.__('Settings', $this->odb_txt_domain).'</a>');
 		return $links;
 	} // odb_settings_link()
 	
@@ -405,8 +394,8 @@ class OptimizeDatabase
 	/********************************************************************************************
 	 *	ADD THE '1 CLICK OPTIMIZE DATABASE' ITEM TO THE ADMIN BAR (IF ACTIVATED)
 	 ********************************************************************************************/
-	function odb_admin_bar()
-	{	global $wp_admin_bar;
+	function odb_admin_bar() {
+		global $wp_admin_bar;
 	
 		if (!is_super_admin() || !is_admin_bar_showing()) return;
 		
@@ -422,10 +411,8 @@ class OptimizeDatabase
 	/********************************************************************************************
 	 *	'ICON MODE': ADD A LINK TO THE ADMIN MENU
 	 ********************************************************************************************/
-	function odb_admin_icon()
-	{
-		if (function_exists('add_menu_page'))
-		{
+	function odb_admin_icon() {
+		if (function_exists('add_menu_page')) {
 			add_menu_page(
 				__('Optimize Database', $this->odb_txt_domain),			// page title
 				__('Optimize Database', $this->odb_txt_domain), 		// menu title
@@ -441,10 +428,9 @@ class OptimizeDatabase
 	/********************************************************************************************
 	 *	'ICON MODE': REGISTER OPTION PAGE BUT HIDE IT FROM THE ADMIN MENU
 	 ********************************************************************************************/
-	function odb_register_options()
-	{
-		if (function_exists('add_submenu_page'))
-		{	add_submenu_page(
+	function odb_register_options() {
+		if (function_exists('add_submenu_page')) {
+			add_submenu_page(
 				null,											// parent slug (NULL is hide from menu)
 				__('Optimize Database', $this->odb_txt_domain),	// page title
 				__('Optimize Database', $this->odb_txt_domain),	// menu title
@@ -459,8 +445,7 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	LOAD TEXT DOMAIN
 	 *******************************************************************************/
-	function odb_i18n()
-	{	
+	function odb_i18n() {	
 		load_plugin_textdomain(
 			$this->odb_txt_domain,								// domain
 			false,												// abs rel path
@@ -473,8 +458,7 @@ class OptimizeDatabase
 	 * 	ARE WE ON A, FOR THIS PLUGIN, RELEVANT PAGE?
 	 *	Since v4.0.3
 	 *******************************************************************************/	
-	function odb_is_relevant_page()
-	{
+	function odb_is_relevant_page() {
 		$this_page = '';
 		if(isset($_GET['page'])) $this_page = $_GET['page'];
 		return ($this_page == 'odb_settings_page' || $this_page == 'rvg-optimize-database');
@@ -484,8 +468,8 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	PLUGIN DE-ACTIVATION
 	 *******************************************************************************/
-	public static function odb_deactivation_handler()
-	{	// STOP SCHEDULER
+	public static function odb_deactivation_handler() {
+		// STOP SCHEDULER
 		wp_clear_scheduled_hook('odb_scheduler');
 	} // odb_deactivation_handler()
 
@@ -493,8 +477,8 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	PLUGIN UN-INSTALLATION
 	 *******************************************************************************/
-	public static function odb_uninstallation_handler()
-	{	// STOP SCHEDULER
+	public static function odb_uninstallation_handler() {
+		// STOP SCHEDULER
 		wp_clear_scheduled_hook('odb_scheduler');
 	} // odb_uninstallation_handler()
 
@@ -502,8 +486,8 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	LOAD SETTINGS (OPTIONS) PAGE
 	 *******************************************************************************/
-	function odb_settings_page()
-	{	global $wpdb, $odb_rvg_excluded_tabs, $odb_ms_prefixes;
+	function odb_settings_page() {
+		global $wpdb, $odb_rvg_excluded_tabs, $odb_ms_prefixes;
 	
 		include_once(trailingslashit(dirname(__FILE__)).'/includes/settings-page.php');
 	} // odb_settings_page()
@@ -512,8 +496,7 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	START CLEANING / OPTIMIZATION (INITIATED BY THE USER, NOT FROM WP-CRON)
 	 *******************************************************************************/
-	function odb_start_manually()
-	{	
+	function odb_start_manually() {	
 		$this->odb_start(false);
 	} // odb_start_manually()
 
@@ -521,8 +504,7 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	START CLEANING / OPTIMIZATION (FROM WP-CRON)
 	 *******************************************************************************/
-	function odb_start_scheduler()
-	{
+	function odb_start_scheduler() {
 		$this->odb_start(true);
 	} // odb_start_scheduler()
 		
@@ -530,8 +512,7 @@ class OptimizeDatabase
 	/*******************************************************************************
 	 * 	MAIN METHOD FOR CLEANING / OPTIMIZING
 	 *******************************************************************************/
-	function odb_start($scheduler)
-	{	
+	function odb_start($scheduler) {	
 		// PAGE LOAD TIMER
 		$time  = microtime();
 		$time  = explode(' ', $time);
@@ -539,10 +520,10 @@ class OptimizeDatabase
 		$this->odb_start_time = $time;
 			
 		$action = '';
-		if(isset($_REQUEST['action']))
-		{	$action = $_REQUEST['action'];
-			if($action == "delete_log")
-			{	// DELETE LOG FILE
+		if(isset($_REQUEST['action'])) {
+			$action = $_REQUEST['action'];
+			if($action == "delete_log") {
+				// DELETE LOG FILE
 				@unlink($this->odb_plugin_path.'logs/rvg-optimize-db-log.html');
 				
 				// UPDATED MESSAGE
@@ -554,8 +535,8 @@ class OptimizeDatabase
 			}
 		} // if(isset($_REQUEST['action']))
 		
-		if(!$scheduler)
-		{	// SHOW PAGE HEADER
+		if(!$scheduler) {
+			// SHOW PAGE HEADER
 			$this->odb_displayer_obj->display_header();
 			// v4.1.9: STARTING: SHOW RUNNING INDICATOR
 			echo "<script>jQuery('#odb-running').show();</script>";			
@@ -563,14 +544,13 @@ class OptimizeDatabase
 			$this->odb_displayer_obj->display_current_settings();	
 		} // if(!$scheduler)
 				
-		if ($action != 'run' && !$scheduler)
-		{	/****************************************************************************************
+		if ($action != 'run' && !$scheduler) {
+			/****************************************************************************************
 			 *	START SCREEN (SHOW SETTINGS + BUTTONS)
 			 ****************************************************************************************/
 			$this->odb_displayer_obj->display_start_buttons($action);
-		}
-		else
-		{	/****************************************************************************************
+		} else {
+			/****************************************************************************************
 			 *	RUN CLEANING AND OPTIMIZATION
 			 ****************************************************************************************/
 			$this->odb_displayer_obj->display_start_buttons($action);

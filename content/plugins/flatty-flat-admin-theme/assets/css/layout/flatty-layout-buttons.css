@@ -1,38 +1,72 @@
 /*--------------------------------------
 BUTTONS
 ---------------------------------------*/
+.wp-core-ui .button,
+.wp-core-ui .button-primary, 
+.wp-core-ui .button-secondary {
+  font-weight: 500;
+  transition: .2s;
+}
+/*--------------------------------------
+BUTTON
+---------------------------------------*/
 .wp-core-ui .button {
-  display: inline-block;
-  box-sizing: border-box;
-  position: relative;
-  padding: 2px 10px;
-  text-decoration: none;
-  border: none;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0);
-  cursor: pointer;
-  transition:transform .2s, box-shadow .2s, background .2s, background-color .2s;
+  color: #555;
+  /*
+  border-color: #ccc;
+  background: #f7f7f7;
+  */
+  box-shadow: none;
+  vertical-align: top;
 }
-
-.wp-core-ui .button-primary:focus,
-.wp-core-ui .button-primary:hover,
-.wp-core-ui .button:focus,
-.wp-core-ui .button:hover {
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+.wp-core-ui .button:nth-child(1n+2) {
+  margin-left:5px;
 }
-
-.wp-core-ui .button.button-primary.button-hero,
-.button.button-hero {
+/*--------------------------------------
+PRIMARY
+---------------------------------------*/
+.wp-core-ui .button-primary {
+  color:#fff;
+  /*
+  background:#2980b9;
+  border-color:#2980b9;
+  */
   box-shadow:none;
 }
-
-.wp-core-ui .button-group.button-large .button,
-.wp-core-ui  .button.button-large {
-  font-size: 1.4rem;
-  height:auto;
-  line-height: initial;
-  padding: 0.4rem 1.5rem;
+.wp-core-ui .button-primary.green {
+  color:#fff;
+  background:#4CAF50;
+  border-color:#4CAF50;
+  text-shadow:none;
 }
-
+/*--------------------------------------
+SECONDARY
+---------------------------------------*/
+.wp-core-ui .button-secondary {
+  color:#2980b9;
+  background:none;
+  border-color:currentColor;
+  box-shadow:none;
+}
+.wp-core-ui .button-secondary .dashicons {
+  color:inherit!important;
+  margin-right:5px;
+}
+/*--------------------------------------
+ACTIVE HOVER
+---------------------------------------*/
+.wp-core-ui .button-primary:hover,
+.wp-core-ui .button-primary:active,
+.wp-core-ui .button-secondary:hover,
+.wp-core-ui .button-secondary:active {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+.wp-core-ui .button-secondary:hover,
+.wp-core-ui .button-secondary:active {
+  color:#fff;
+  background:#2980b9;
+  border-color:#2980b9;
+}
 /*--------------------------------------
 SCREEN READER
 ---------------------------------------*/
@@ -46,16 +80,4 @@ SCREEN READER
     clip: rect(0 0 0 0);
     border: 0;
     word-wrap: normal!important;
-}
-
-/*--------------------------------------
-SHINY UPDATES COMPATIBILITY
----------------------------------------*/
-.plugin-card .install-now:before,
-.plugin-card .update-now:before {
-  position:relative;
-  top:2px;
-  margin:0 5px 0 0;
-  color: #ff3b3b!important;
-  text-shadow:none;
 }

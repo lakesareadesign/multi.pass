@@ -263,7 +263,7 @@
                 <?php
                 $initial_description = '
                 <p>'.__( 'Google Analytics is the enterprise-class web analytics solution that gives you rich insights into your website traffic and marketing effectiveness. Powerful, flexible and easy-to-use features now let you see and analyze your traffic data in an entirely new way. With Google Analytics, you\'re more prepared to write better-targeted ads, strengthen your marketing initiatives and create higher converting websites.', $this->text_domain ).'</p>
-                <p>'.__( 'To get going, just <a href="http://www.google.com/analytics/">sign up for Google Analytics</a>, set up a new account and log in with the button bellow to automatically configure basic settings. You may have to manually adjust settings if necessary.', $this->text_domain ).__( 'Please keep in mind that it can take several hours before you see any stats.', $this->text_domain ).'</p>';
+                <p>'.__( 'To get going, just <a href="http://www.google.com/analytics/">sign up for Google Analytics</a>, set up a new account and log in with the button below to automatically configure basic settings. You may have to manually adjust settings if necessary.', $this->text_domain ).__( 'Please keep in mind that it can take several hours before you see any stats.', $this->text_domain ).'</p>';
 
                 echo apply_filters('ga_initial_description',$initial_description);
                 ?>

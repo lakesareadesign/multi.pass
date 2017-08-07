@@ -580,7 +580,19 @@ class MP_Order {
 							<?php
 							$print_download_link = apply_filters( 'mp_order/print_download_link', $product->is_download() && mp_is_shop_page( 'order_status' ), $product, $product_id );
 							if ( $print_download_link ) {
-								echo '<a target="_blank" href="' . $product->download_url( get_query_var( 'mp_order_id' ), false ) . '">' . __( 'Download', 'mp' ) . '</a>';
+
+								//Handle multiple files
+								$download_url = $product->download_url( get_query_var( 'mp_order_id' ), false );
+
+								if ( is_array( $download_url ) ){
+									//If we have more than one product file, we loop and add each to a new line
+									foreach ( $download_url as $key => $value ){
+										echo '<a target="_blank" href="' . $value . '">' . sprintf( __( 'Download %1$s', 'mp' ),( $key+1 ) ) . '</a><br/>';
+									}
+
+								} else {
+									echo '<a target="_blank" href="' . $product->download_url( get_query_var( 'mp_order_id' ), false ) . '">' . __( 'Download', 'mp' ) . '</a>';
+								}
 							}
 							?>
 						</div>
@@ -700,6 +712,9 @@ class MP_Order {
 					( ( ( $country = $this->get_meta( "mp_{$type}_info->country", '' ) ) && is_array( $all_countries ) && isset( $all_countries[$country] ) ) ? $all_countries[$country] . '<br />' : '' ) .
 			        ( ( $phone = $this->get_meta( "mp_{$type}_info->phone", '' ) ) ? $phone . '<br />' : '' ) .
 			        ( ( $email = $this->get_meta( "mp_{$type}_info->email", '' ) ) ? '<a href="mailto:' . antispambot( $email ) . '">' . antispambot( $email ) . '</a><br />' : '' );
+			}
+                        if ( $this->get_meta( 'mp_' . $type . '_info->special_instructions' ) ) {
+				$html .= wordwrap( $this->get_meta( "mp_{$type}_info->special_instructions" ) ) . '<br />';
 			}
 		} else {
 			$prefix = 'mp[' . $type . '_info]';
@@ -1047,7 +1062,7 @@ class MP_Order {
 		$tracked = $this->get_meta( 'mp_ga_tracked' );
 
 		if( !$tracked ) {
-			mp_checkout()->create_ga_ecommerce(get_query_var( 'mp_order_id' ));
+			$html .= mp_checkout()->create_ga_ecommerce(get_query_var( 'mp_order_id' ));
 			add_post_meta( $this->ID, 'mp_ga_tracked', true, true );
 		}
 

@@ -6,21 +6,18 @@
  ************************************************************************************************/
 ?>
 <?php
-class ODB_Utilities
-{
+class ODB_Utilities {
 	/********************************************************************************************
 	 *	CONSTRUCTOR
 	 ********************************************************************************************/	
-    function __construct()
-    {
+    function __construct() {
 	} // __construct()
 
 
 	/********************************************************************************************
 	 *	FORMAT SIZES FROM BYTES TO KB OR MB
 	 ********************************************************************************************/
-	function odb_format_size($size, $precision=1)
-	{
+	function odb_format_size($size, $precision=1) {
 		if($size > 1024*1024) return (round($size/(1024*1024),$precision)).' MB';
 		
 		return (round($size/1024,$precision)).' KB';
@@ -30,8 +27,7 @@ class ODB_Utilities
 	/********************************************************************************************
 	 *	CALCULATE THE SIZE OF THE WORDPRESS DATABASE (IN BYTES)
 	 ********************************************************************************************/
-	function odb_get_db_size()
-	{
+	function odb_get_db_size() {
 		global $wpdb;
 	
 		$sql = sprintf("
@@ -50,8 +46,7 @@ class ODB_Utilities
 	/********************************************************************************************
 	 *	GET DATABASE TABLES
 	 ********************************************************************************************/
-	function odb_get_tables()
-	{
+	function odb_get_tables() {
 		global $wpdb;
 
 		$sql = sprintf("
@@ -63,5 +58,4 @@ class ODB_Utilities
 		// GET THE DATABASE BASE TABLES
 		return $wpdb->get_results($sql, ARRAY_N);
 	} // odb_get_tables()
-	
 } // ODB_Utilities

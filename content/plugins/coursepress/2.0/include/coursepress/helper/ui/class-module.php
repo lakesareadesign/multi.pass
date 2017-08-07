@@ -518,16 +518,75 @@ class CoursePress_Helper_UI_Module {
 							]
 						},
 						{
-							"label": "' . __( 'Related Videos', 'cp' ) . '",
-							"description": "' . __( 'Hide related videos for some video services (e.g. YouTube). Services like Vimeo sets this per video.', 'cp' ) . '",
+							"label": "' . __( 'Player Width', 'cp' ) . '",
+							"description": "' . __( 'Width of the video player.', 'cp' ) . '",
 							"class": "wide",
 							"items": [
 								{
-									"type": "checkbox",
-									"label": "' . __( 'Hide related videos', 'cp' ) . '",
-									"name": "meta_hide_related_media"
+									"type": "number-input",
+									"class": "small-text",
+									"name": "meta_video_player_width",
+									"placeholder": "e.g. 640"
 								}
 							]
+						},
+						{
+							"label": "' . __( 'Player Height', 'cp' ) . '",
+							"description": "' . __( 'Height of the video player.', 'cp' ) . '",
+							"class": "wide",
+							"items": [
+								{
+									"type": "number-input",
+									"class": "small-text",
+									"name": "meta_video_player_height",
+									"placeholder": "e.g. 360"
+								}
+							]
+						},
+						{
+							"label": "' . __( 'Autoplay', 'cp' ) . '",
+							"class": "wide",
+							"items": [
+								{
+									"label": "' . __( 'Autoplay the video on page load.', 'cp' ) . '",
+									"type": "checkbox",
+									"name": "meta_video_autoplay"
+								}
+							]
+						},
+						{
+							"label": "' . __( 'Loop Video', 'cp' ) . '",
+							"class": "wide",
+							"items": [
+								{
+									"label": "' . __( 'Restart the video when it ends', 'cp' ) . '",
+									"type": "checkbox",
+									"name": "meta_video_loop"
+								}
+							]
+						},
+						{
+							"label": "' . __( 'Hide Controls', 'cp' ) . '",
+							"class": "wide",
+							"items": [
+								{
+									"label": "' . __( 'Hide video control buttons', 'cp' ) . '",
+									"type": "checkbox",
+									"name": "meta_video_hide_controls"
+								}
+							]
+						},
+						{
+							"label": "' . __( 'Related Videos', 'cp' ) . '",
+							"description": "' . __( 'Hide related videos for some video services (e.g. YouTube). Services like Vimeo sets this per video.', 'cp' ) . '",
+							"class": "wide",
+                            "items": [
+                                {
+                                    "type": "checkbox",
+                                    "label": "' . __( 'Hide related videos', 'cp' ) . '",
+                                    "name": "meta_hide_related_media"
+                                }
+                            ]
 						}
 					]
 				}

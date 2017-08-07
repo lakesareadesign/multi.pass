@@ -1,9 +1,14 @@
+import Fetcher from './utils/fetcher';
+import { __, getLink } from './utils/helpers';
+import Row from './minification/Row';
+import RowsCollection from './minification/RowsCollection';
+import Scanner from './minification/Scanner';
+
 ( function( $ ) {
     'use strict';
 
     WPHB_Admin.minification = {
 
-        strings: null,
         $checkFilesButton: null,
         $checkFilesResultsContainer : null,
         module: 'minification',
@@ -12,16 +17,20 @@
         $spinner: null,
 
         init: function() {
-            var self = this;
+            const self = this;
 
-            if ( wphbMinificationStrings )
-                self.strings = wphbMinificationStrings;
+            // Init files scanner
+            this.scanner = new Scanner( wphb.minification.get.totalSteps, wphb.minification.get.currentScanStep );
+            this.scanner.onFinishStep = this.updateProgressBar;
+            this.scanner.onFinish = ( response ) => {
+                this.updateProgressBar( 100 );
+                if ( wphb.minification.get.showCDNModal && true === response.show_cdn && $('#enable-cdn-modal').length ) {
+                    window.WDP.showOverlay( '#enable-cdn-modal', { class: 'wphb-modal small wphb-progress-modal no-close' } );
+                } else {
+                    window.location.href = getLink( 'minification' );
+                }
+            };
 
-            // Filter action button on Minification page
-            $('#wphb-minification-filter-button').on('click', function(e) {
-                e.preventDefault();
-                $('#wphb-minification-filter').toggle('slow');
-            });
 
             // Check files button
             this.$checkFilesButton = $( '#check-files' );
@@ -31,15 +40,34 @@
             if ( this.$checkFilesButton.length ) {
                 this.$checkFilesButton.click( function( e ) {
                     e.preventDefault();
+					window.WDP.showOverlay("#check-files-modal", { class: 'wphb-modal small wphb-progress-modal no-close' } );
                     $(this).attr('disabled', true);
-                    self.checkFiles( self.strings.finishedCheckURLsLink );
+                    self.updateProgressBar( self.scanner.getProgress() );
+                    self.scanner.scan();
                 });
             }
+
+            // Cancel scan button
+            $('body').on( 'click', '#cancel-minification-check', ( e ) => {
+                e.preventDefault();
+                this.updateProgressBar( 0, true );
+                this.scanner.cancel()
+                    .then( () => {
+                        window.location.href = getLink( 'minification' );
+                    });
+
+            });
+
+            // Filter action button on Minification page
+            $('#wphb-minification-filter-button').on('click', function(e) {
+                e.preventDefault();
+                $('#wphb-minification-filter').toggle('slow');
+            });
 
             $('.wphb-discard').click( function(e) {
                 e.preventDefault();
 
-                if ( confirm( self.strings.discardAlert ) ) {
+                if ( confirm( __( 'discardAlert' ) ) ) {
                     location.reload();
                 }
                 return false;
@@ -51,17 +79,10 @@
             });
 
             $('#use_cdn').change( function() {
-                var data = {
-                    wphb_nonce: self.strings.advancedSettingsNonce,
-                    nonce_name: 'wphb-minification-advanced',
-                    module_action: 'toggle_use_cdn',
-                    data: {
-                        value: $(this).is(':checked')
-                    }
-                };
-                WPHB_Admin.utils.post( data, self.module )
-                    .always( function() {
-                        var notice = $('#wphb-notice-minification-advanced-settings-updated');
+                const cdn_value = $(this).is(':checked');
+                Fetcher.minification.toggleCDN( cdn_value )
+                    .then( () => {
+                        const notice = $('#wphb-notice-minification-advanced-settings-updated');
                         notice.slideDown();
                         setTimeout( function() {
                             notice.slideUp();
@@ -70,7 +91,7 @@
             });
 
             this.$disableMinification.change( function() {
-                var value = $(this).is(':checked');
+                const value = $(this).is(':checked');
 
                 self.$spinner.css( 'visibility', 'visible' );
 
@@ -79,37 +100,22 @@
                     self.$spinner.css( 'visibility', 'hidden' );
                 }
 
-                self.timer = setTimeout(
-                    function() {
-                        $.ajax({
-                            url: ajaxurl,
-                            method: 'POST',
-                            data: {
-                                action: 'wphb_ajax',
-                                wphb_nonce: self.strings.toggleMinificationNonce,
-                                nonce_name: 'wphb-toggle-minification',
-                                module: self.module,
-                                module_action: 'toggle_minification',
-                                data: {
-                                    value: value
-                                }
-                            }
-                        }).always( function() {
+                self.timer = setTimeout( function() {
+                    Fetcher.minification.toggleMinification( value )
+                        .then( () => {
                             location.reload();
                         });
-
-                    }, 3000
-                );
+                }, 3000 );
 
 
             });
 
             this.rowsCollection = new WPHB_Admin.minification.RowsCollection();
 
-            var rows = $('.wphb-border-row');
+            const rows = $('.wphb-border-row');
 
             rows.each( function( index, row ) {
-                var _row;
+                let _row;
                 if ( $(row).data('filter-secondary') ) {
                     _row = new WPHB_Admin.minification.Row( $(row), $(row).data('filter'), $(row).data('filter-secondary') );
                 }
@@ -130,22 +136,21 @@
             });
 
             $('.filter-toggles').change( function() {
-                var element = $(this);
-                var what = element.data('toggles');
-                var value = element.prop( 'checked' );
-                var visibleItems = self.rowsCollection.getVisibleItems();
+                const element = $(this);
+                const what = element.data('toggles');
+                const value = element.prop( 'checked' );
+                const visibleItems = self.rowsCollection.getVisibleItems();
 
-                for ( var i in visibleItems ) {
+                for ( let i in visibleItems ) {
                     visibleItems[i].change( what, value );
                 }
             });
 
             // Files selectors
-            var filesList = $('input.wphb-minification-file-selector');
-
+            const filesList = $('input.wphb-minification-file-selector');
             filesList.click( function() {
-                var $this = $( this );
-                var element = self.rowsCollection.getItemById( $this.data( 'type' ), $this.data( 'handle' ) );
+                const $this = $( this );
+                const element = self.rowsCollection.getItemById( $this.data( 'type' ), $this.data( 'handle' ) );
                 if ( ! element ) {
                     return;
                 }
@@ -158,11 +163,27 @@
                 }
             });
 
+            const selectAll = $('#minification-bulk-file');
+            selectAll.click( function() {
+                const $this = $( this );
+                let items = self.rowsCollection.getItems();
+                for ( let i in items ) {
+                    if ( items.hasOwnProperty( i ) ) {
+                        if ( $this.is( ':checked' ) ) {
+                            items[i].select();
+                        }
+                        else {
+                            items[i].unSelect();
+                        }
+                    }
+                }
+            });
+
             // Include/exclude file checkbox
-            $('.toggle-cross').on('click', function(e) {
-                var $this = $(this);
-                var checkbox = $this.find( 'input.toggle-include' );
-                var row = self.rowsCollection.getItemById( $this.data( 'type' ), $this.data( 'handle' ) );
+            $('.toggle-cross').on('click', function() {
+                const $this = $(this);
+                const checkbox = $this.find( 'input.toggle-include' );
+                const row = self.rowsCollection.getItemById( $this.data( 'type' ), $this.data( 'handle' ) );
                 // Mark the item as include or not in the rows list
                 if ( row ) {
                     row.change( 'include', ! checkbox.prop( 'checked' ) );
@@ -171,9 +192,9 @@
             });
 
             // Handle two CDN checkboxes on Minification page
-            var checkboxes = $("input[type=checkbox][name=use_cdn]");
+            const checkboxes = $("input[type=checkbox][name=use_cdn]");
             checkboxes.change( function() {
-                var checkedState = $(this).prop('checked');
+                const checkedState = $(this).prop('checked');
 
                 checkboxes.each( function() {
                     this.checked = checkedState;
@@ -181,7 +202,7 @@
             });
 
             /* Show details of minification row on mobile devices */
-            $('body').on('click', '.wphb-minification-file-details', function(e) {
+            $('body').on('click', '.wphb-minification-file-details', function() {
                 if ( window.innerWidth < 783 ) {
                     $(this).parent().find('.wphb-minification-row-details').toggle('slow');
                 }
@@ -191,7 +212,7 @@
              Catch window resize and revert styles for responsive divs
              1/4 of a second should be enough to trigger during device rotations (from portrait to landscape mode)
              */
-            var minification_resize_rows = _.debounce(function() {
+            let minification_resize_rows = _.debounce(function() {
 
                 if ( window.innerWidth >= 783 ) {
                     $('.wphb-minification-row-details').css('display', 'flex');
@@ -206,312 +227,24 @@
             return this;
         },
 
-        checkFiles: function( redirect ) {
-            var self = this;
-
-            if ( typeof redirect === 'undefined' )
-                redirect = false;
-
-            if ( ! self.minificationStarted ) {
-                // Store the progress in session storage to persist during page reloads
-                // If there is no previous value, we init one with 10%
-                if ( sessionStorage.getItem('progress') === null ) {
-                    sessionStorage.setItem('progress', 10);
-                }
-                // Update progress bar
-                $('.wphb-scan-progress .wphb-scan-progress-text span').text( sessionStorage.getItem('progress') + '%' );
-                $('.wphb-scan-progress .wphb-scan-progress-bar span').width( sessionStorage.getItem('progress') + '%' );
-
-                // Send an AJAX request that will flag the check files as started
-                $.ajax({
-                    url: ajaxurl,
-                    data: {
-                        action: 'wphb_ajax',
-                        method: 'POST',
-                        wphb_nonce: self.strings.checkFilesNonce,
-                        nonce_name: 'wphb-minification-check-files',
-                        module: self.module,
-                        module_action: 'start_check',
-                        progress: sessionStorage.getItem('progress')
-                    }
-                }).success(function(results) {
-                    // Set the number of steps to be used in percentage count. Only if not set already.
-                    if ( ( typeof results.data.steps !== 'undefined' ) && ( sessionStorage.getItem('steps') === null ) ) {
-                        sessionStorage.setItem('steps', results.data.steps);
-                    }
-
-                    self.minificationStarted = true;
-                    self.checkFiles( redirect );
-                });
+        updateProgressBar: function( progress, cancel = false ) {
+            if ( progress > 100 ) {
+                progress = 100;
             }
-            else {
-                $.ajax({
-                    url: ajaxurl,
-                    data: {
-                        action: 'wphb_ajax',
-                        method: 'POST',
-                        wphb_nonce: self.strings.checkFilesNonce,
-                        nonce_name: 'wphb-minification-check-files',
-                        module: self.module,
-                        module_action: 'check_step',
-                        progress: sessionStorage.getItem('progress'),
-                        step: Math.round( 80 / sessionStorage.getItem('steps') )
-                    }
-                }).always( function(results) {
-                    if ( typeof results.data.finished !== 'undefined' ) {
-                        // Finished
-                        if ( results.data.finished && redirect ) {
-                            // Clear session storage
-                            sessionStorage.clear();
-
-                            // Update progress bar
-                            $('.wphb-scan-progress .wphb-scan-progress-text span').text('100%');
-                            $('.wphb-scan-progress .wphb-scan-progress-bar span').width('100%');
-
-                            // Show enable cdn modal only for members
-                            if ( true === results.data.show_cnd ) {
-                                var args = {};
-                                args.class = "wphb-modal small wphb-progress-modal no-close";
-                                WDP.showOverlay("#enable-cdn-modal", args);
-                            } else {
-                                window.location.href = redirect;
-                            }
-
-                            return;
-                        }
-                        // Next step
-                        else if ( ! results.data.finished ) {
-                            // Store the progress in session storage to persist during page reloads
-                            var progress = parseInt( sessionStorage.getItem('progress') ) + Math.round( 80 / sessionStorage.getItem('steps') );
-                            sessionStorage.setItem('progress', progress)
-
-                            if ( progress >= 90 ) {
-                                $('.wphb-progress-state .wphb-progress-state-text').text('Finalizing...');
-                            }
-                            if ( progress > 100 ) {
-                                progress = 100;
-                            }
-                            // Update progress bar
-                            $('.wphb-scan-progress .wphb-scan-progress-text span').text( progress + '%' );
-                            $('.wphb-scan-progress .wphb-scan-progress-bar span').width( progress + '%' );
-
-                            // Wait 3 seconds before calling again
-                            window.setTimeout( function() {
-                                self.checkFiles( redirect );
-                            }, 3000);
-                        }
-                    }
-                    else {
-                        // Error
-                        window.location.href = redirect;
-                        return;
-                    }
-                });
+            // Update progress bar
+            $('.wphb-scan-progress .wphb-scan-progress-text span').text( progress + '%' );
+            $('.wphb-scan-progress .wphb-scan-progress-bar span').width( progress + '%' );
+            if ( progress >= 90 ) {
+                $('.wphb-progress-state .wphb-progress-state-text').text('Finalizing...');
             }
-
-
-        }
-
-    };
-
-    WPHB_Admin.minification.Row = function( _element, _filter, _filter_sec ) {
-        var $el = _element,
-            filter = _filter.toLowerCase(),
-            filterSecondary = false,
-            selected = false,
-            visible = true;
-
-        var $include = $el.find( '.toggle-include' ),
-            $combine = $el.find( '.toggle-combine' ),
-            $minify = $el.find( '.toggle-minify' );
-
-        var $posFooter = $el.find('.toggle-position-footer');
-
-        var $disableIcon = $el.find( '.toggle-cross > i' );
-
-        if ( _filter_sec ) {
-            filterSecondary = _filter_sec.toLowerCase();
-        }
-
-        return {
-            hide: function() {
-                $el.addClass( 'out-of-filter' );
-                visible = false;
-            },
-
-            show: function() {
-                $el.removeClass( 'out-of-filter' );
-                visible = true;
-            },
-
-            getElement: function() {
-                return $el;
-            },
-
-            getId: function() {
-                return $el.attr('id');
-            },
-
-            getFilter: function() {
-                return filter;
-            },
-
-            matchFilter: function( text ) {
-                if ( text === '' ) {
-                    return true;
-                }
-
-                text = text.toLowerCase();
-                return filter.search( text ) > -1;
-            },
-
-            matchSecondaryFilter: function( text ) {
-                if ( text === '' ) {
-                    return true;
-                }
-
-                if ( ! filterSecondary ) {
-                    return false;
-                }
-
-                text = text.toLowerCase();
-                return filterSecondary === text;
-            },
-
-            isVisible: function() {
-                return visible;
-            },
-
-            isSelected: function() {
-                return selected;
-            },
-
-            select: function() {
-                selected = true;
-            },
-
-            unSelect: function() {
-                selected = false;
-            },
-
-            change: function( what, value ) {
-                switch ( what ) {
-                    case 'minify': {
-                        $minify.prop( 'checked', value );
-                        break;
-                    }
-                    case 'combine': {
-                        $combine.prop( 'checked', value );
-                        break;
-                    }
-                    case 'include': {
-                        $disableIcon.removeClass();
-                        $include.prop( 'checked', value );
-                        if ( value ) {
-                            $el.removeClass('disabled');
-                            $disableIcon.addClass('dev-icon dev-icon-cross');
-                            $include.attr( 'checked', true );
-                        } else {
-                            $el.addClass('disabled');
-                            $disableIcon.addClass('wdv-icon wdv-icon-refresh');
-                            $include.removeAttr( 'checked' );
-                        }
-                        break;
-                    }
-                    case 'footer': {
-                        $posFooter.prop( 'checked', value );
-                        break;
-                    }
-                }
+            if ( cancel ) {
+                $('.wphb-progress-state .wphb-progress-state-text').text('Cancelling...');
             }
+        },
 
-        };
-    };
+    }; // End WPHB_Admin.minification
 
-    WPHB_Admin.minification.RowsCollection = function() {
-        var items = [];
-        var currentFilter = '';
-        var currentSecondaryFilter = '';
-
-        return {
-            push: function( row ) {
-                if ( typeof row === 'object' ) {
-                    items.push( row );
-                }
-            },
-
-            getItems: function() {
-                return items;
-            },
-
-            getItem: function( i ) {
-                if ( items[i] ) {
-                    return items[i];
-                }
-                return false;
-            },
-
-            /**
-             * Get a collection item by type and ID
-             * @param type
-             * @param id
-             */
-            getItemById: function( type, id ) {
-                var value = false;
-                for ( var i in items ) {
-                    if ( 'wphb-file-' + type + '-' + id === items[i].getId() ) {
-                        value = items[i];
-                        break;
-                    }
-                }
-                return value;
-            },
-
-            getVisibleItems: function() {
-                var visible = [];
-                for ( var i in items ) {
-                    if ( items[i].isVisible() ) {
-                        visible.push( items[i] );
-                    }
-                }
-                return visible;
-            },
-
-            getSelectedItems: function() {
-                var selected = [];
-
-                for ( var i in items ) {
-                    if ( items[i].isVisible() && items[i].isSelected() ) {
-                        selected.push( items[i] );
-                    }
-                }
-
-                return selected;
-            },
-
-            addFilter: function( filter, type ) {
-                if ( type === 'secondary' ) {
-                    currentSecondaryFilter = filter;
-                }
-                else {
-                    currentFilter = filter;
-                }
-            },
-
-            applyFilters: function() {
-                for ( var i in items ) {
-                    if ( items[i] ) {
-                        if ( items[i].matchFilter( currentFilter ) && items[i].matchSecondaryFilter( currentSecondaryFilter ) ) {
-                            items[i].show();
-                        }
-                        else {
-                            items[i].hide();
-                        }
-                    }
-
-                }
-            }
-        };
-    };
+    WPHB_Admin.minification.Row = Row;
+    WPHB_Admin.minification.RowsCollection = RowsCollection;
 
 }( jQuery ));

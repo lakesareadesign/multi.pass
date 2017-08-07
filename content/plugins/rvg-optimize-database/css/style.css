@@ -88,6 +88,9 @@
 	margin-bottom: 16px;
 	color: #999;
 }
+.odb-post-type-select {
+	font-size: inherit;
+}
 .odb-schedule-select {
 	font-size: inherit;
 	padding: 0px;

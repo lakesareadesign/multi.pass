@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: CoursePress Pro
- * Version:     2.0.7
+ * Version:     2.1.0.1
  * Description: CoursePress Pro turns WordPress into a powerful online learning platform. Set up online courses by creating learning units with quiz elements, video, audio etc. You can also assess student work, sell your courses and much much more.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org
@@ -49,7 +49,7 @@ class CoursePressUpgrade {
 	/** @var (boolean) Whether all courses are upgraded to the new version. **/
 	private static $coursepress_is_upgraded = false;
 
-	private static $coursepress_version;
+	public static $coursepress_version;
 
 	public static function init() {
 		self::$coursepress_is_upgraded = get_option( 'coursepress_20_upgraded', false );
@@ -69,7 +69,17 @@ class CoursePressUpgrade {
 				if ( is_readable( $upgrade_class ) ) {
 					require $upgrade_class;
 
-					CoursePress_Upgrade::init();
+					CoursePress_Upgrade_1x_Data::init();
+
+					add_action( 'plugins_loaded', array( __CLASS__, 'coursepress_theme' ) );
+					add_action( 'maybe_run_coursepress_theme_once', array( __CLASS__, 'run_coursepress_theme' ) );
+
+					// Run theme check once
+					wp_schedule_single_event( time(), 'maybe_run_coursepress_theme_once' );
+
+					if ( ! is_admin() ) {
+						self::get_coursepress( '2.0' );
+					}
 				}
 			}
 		}
@@ -77,9 +87,10 @@ class CoursePressUpgrade {
 		/**
 		 * Retrieve the current coursepress version use.
 		 **/
-		self::get_coursepress( $coursepress_version );
-
 		self::$coursepress_version = $coursepress_version;
+		if ( '2.0' == $coursepress_version ) {
+			self::get_coursepress( $coursepress_version );
+		}
 
 		/**
 		 * Set activation hook
@@ -126,7 +137,7 @@ class CoursePressUpgrade {
 		);
 		$courses = get_posts( $args );
 
-		return count( $courses ) > 0;
+		return count( $courses ) > 0 || intval(get_option('students_to_upgrade_to_2.0', 0)) > 0;
 	}
 
 	private static function get_coursepress( $version ) {
@@ -167,6 +178,44 @@ class CoursePressUpgrade {
 		$instance->plugin_url = WP_PLUGIN_URL . '/coursepress/1.x/';
 	}
 
+	public static function coursepress_theme() {
+		$current_theme = wp_get_theme();
+
+		register_theme_directory( dirname( __FILE__ ) . '/2.0/themes' );
+
+		if ( 'coursepress' == $current_theme->get_stylesheet() ) {
+			add_filter( 'stylesheet_directory_uri', array( __CLASS__, 'theme_directory' ) );
+			add_filter( 'theme_root', array( __CLASS__, 'theme_root' ) );
+			add_filter( 'template_directory_uri', array( __CLASS__, 'theme_directory_uri' ) );
+		}
+	}
+
+	static function run_coursepress_theme() {
+		$current_theme = wp_get_theme();
+
+		if ( 'coursepress' == $current_theme->get_stylesheet() ) {
+			register_theme_directory( dirname( __FILE__ ) . '/2.0/themes' );
+			wp_clean_themes_cache( true );
+			add_filter( 'stylesheet_directory_uri', array( __CLASS__, 'theme_directory' ) );
+			add_filter( 'theme_root', array( __CLASS__, 'theme_root' ) );
+			add_filter( 'template_directory_uri', array( __CLASS__, 'theme_directory_uri' ) );
+			switch_theme( $current_theme->get_stylesheet() );
+			flush_rewrite_rules();
+		}
+	}
+
+	public static function theme_directory() {
+		return plugins_url( 'coursepress/2.0/themes/coursepress' );
+	}
+
+	public static function theme_root() {
+		return __DIR__ . '/2.0/themes';
+	}
+
+	public static function theme_directory_uri() {
+		return plugins_url( 'coursepress/2.0/themes/coursepress' );
+	}
+
 	public static function maybe_switch_theme() {
 		$current_theme = wp_get_theme();
 
@@ -194,26 +243,8 @@ class CoursePressUpgrade {
 		if ( false == $is_flushed ) {
 			delete_option( 'cp1_flushed' );
 
-			/** Update 2.0 Settings **/
-			CoursePress_Upgrade::init();
-
-			/** Check users to update **/
-			$users_to_update = get_option( 'cp2_users_to_update', array() );
-
-			// @todo: Find another solution to update student progress!!!
-			if ( ! empty( $users_to_update ) ) {
-				foreach ( $users_to_update as $course_id => $users ) {
-					foreach ( $users as $user_id ) {
-						CoursePress_Data_Student::get_calculated_completion_data( $user_id, $course_id );
-					}
-					unset( $users_to_update[ $course_id ] );
-				}
-				if ( ! empty( $users_to_update ) ) {
-					update_option( 'cp2_users_to_update', $users_to_update );
-				} else {
-					delete_option( 'cp2_users_to_update' );
-				}
-			}
+			if ( class_exists( 'CoursePress_Upgrade' ) )
+				CoursePress_Upgrade::init();
 
 			//@todo: wrap this
 			flush_rewrite_rules();

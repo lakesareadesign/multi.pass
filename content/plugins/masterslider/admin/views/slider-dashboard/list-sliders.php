@@ -61,10 +61,16 @@
 
 	    	foreach ( $starter_sections as $starter_section ) {
 		    	?>
-		    	<div class="msp-dialog-inner-title ui-helper-clearfix">
-		    		<span><?php echo $starter_section['title']; ?></span>
-		    	</div>
-		    	<?php
+		    	<div class="msp-dialog-inner-title ui-helper-clearfix msp-type-<? echo esc_attr( $starter_section['id'] ); ?>">
+
+                <?php
+                if( ! empty( $starter_section['title'] ) ) {
+                    echo '<span>' . $starter_section['title'] . '</span>';
+                } elseif( ! empty( $starter_section['content'] ) ) {
+                    echo '<div>' . $starter_section['content'] . '</div>';
+                }
+
+                echo "</div>";
 
 		    	$section_id = $starter_section['id'];
 	    		$section_fields = isset( $starter_fields[ $section_id ] ) ? $starter_fields[ $starter_section['id'] ] : array();
@@ -86,7 +92,7 @@
 					        	<a href="<?php echo esc_url( $starter_data['test_drive_url'] ); ?>" target="_blank"><img src="<?php echo esc_url( MSWP_AVERTA_ADMIN_URL ); ?>/assets/images/thirdparty/test-drive.png" alt="Test Drive"><?php _e( 'Test Drive', MSWP_TEXT_DOMAIN ); ?></a>
 					        </div>
 				        <?php endif ?>
-				        <div class="msp-template-caption"><?php echo $starter_data['label']; ?><span></span></div>
+				        <div class="msp-template-caption" title="<?php echo esc_attr( $starter_data['label'] ); ?>"><?php echo $starter_data['label']; ?><span></span></div>
 			        </div>
 	    			<?php
 

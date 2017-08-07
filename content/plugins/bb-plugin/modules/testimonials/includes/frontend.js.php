@@ -26,7 +26,16 @@
 			this.working = false;
 			this.reloadSlider();
 		},
-		
+		onSlideBefore: function(ele, oldIndex, newIndex) {
+			$('.fl-node-<?php echo $id; ?> .fl-slider-next a').addClass('disabled');
+			$('.fl-node-<?php echo $id; ?> .fl-slider-prev a').addClass('disabled');			
+			$('.fl-node-<?php echo $id; ?> .bx-controls .bx-pager-link').addClass('disabled');
+		},
+		onSlideAfter: function( ele, oldIndex, newIndex ) {
+			$('.fl-node-<?php echo $id; ?> .fl-slider-next a').removeClass('disabled');
+			$('.fl-node-<?php echo $id; ?> .fl-slider-prev a').removeClass('disabled');
+			$('.fl-node-<?php echo $id; ?> .bx-controls .bx-pager-link').removeClass('disabled');
+		},
 	});
 
 })(jQuery);

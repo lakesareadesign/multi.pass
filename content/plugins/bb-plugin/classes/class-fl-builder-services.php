@@ -65,6 +65,11 @@ final class FLBuilderServices {
 			'name'              => 'GetResponse',
 			'class'             => 'FLBuilderServiceGetResponse'
 		),
+		'godaddy-email-marketing' => array(
+			'type'              => 'autoresponder',
+			'name'              => 'GoDaddy Email Marketing',
+			'class'             => 'FLBuilderServiceGoDaddyEmailMarketing'
+		),
 		'hatchbuck'         => array(
 			'type'              => 'autoresponder',
 			'name'              => 'Hatchbuck',
@@ -74,6 +79,11 @@ final class FLBuilderServices {
 			'type'              => 'autoresponder',
 			'name'              => 'iContact',
 			'class'             => 'FLBuilderServiceIContact'
+		),
+		'icontact-pro'          => array(
+			'type'              => 'autoresponder',
+			'name'              => 'iContact Pro',
+			'class'             => 'FLBuilderServiceIContactPro'
 		),
 		'infusionsoft'      => array(
 			'type'              => 'autoresponder',

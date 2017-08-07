@@ -1032,7 +1032,7 @@ class MSP_Parser {
 			$parsable_styles = $this->get_parsable_styles();
 
 			if ( empty( $parsable_styles ) )
-				return  '';
+				return  array();
 
 			$styles = array();
 
@@ -1048,7 +1048,7 @@ class MSP_Parser {
 
 
 	public function get_styles( $force_new_parse = false ) {
-		$styles_list = $this->get_styles_list();
+		$styles_list = (array) $this->get_styles_list();
 
 		// custom css code for sliders added
 		$setting     = $this->get_slider_setting();

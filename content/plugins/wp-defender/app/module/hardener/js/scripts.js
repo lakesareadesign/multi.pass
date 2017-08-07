@@ -40,6 +40,17 @@ jQuery(function ($) {
     });
 
     /**
+     * Pevent PHP update posts toggle
+     */
+    $(document).on('change', 'input.trackback-toggle-update-posts', function(){
+        if(this.checked) {
+            $('.hardener-frm-process-trackback [name="updatePosts"]').val('yes');
+        }else{
+            $('.hardener-frm-process-trackback [name="updatePosts"]').val('no');
+        }
+    });
+
+    /**
      * Server select
      */
     $(document).on('change', 'select.hardener-server-list', function(){

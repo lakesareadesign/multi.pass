@@ -8,8 +8,7 @@
                 <div class="box-content tc">
                     <img src="<?php echo wp_defender()->getPluginUrl() ?>assets/img/scan-man.svg" class="mline">
                     <div class="line max-600">
-						<?php _e( "Defender watches and protects your login area for attackers trying to randomly guess
-                        login details for your site and locks them out after a set number of failed attempts.", wp_defender()->domain ) ?>
+						<?php _e( "Scan your website for file changes, vulnerabilities and injected code and get and get notified about anything suspicious. Defender will keep an eye on your code without you having to worry.", wp_defender()->domain ) ?>
                     </div>
                     <form id="start-a-scan" method="post" class="scan-frm">
 						<?php

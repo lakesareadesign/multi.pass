@@ -56,7 +56,7 @@
                     <div class="wphb-block-entry-content wphb-upsell-free-message">
                         <p>
                             <?php printf(
-                                __( "With our pro version of Hummingbird you can super-minify your files and then host them on our blazing fast CDN. You'll get Hummingbird PRO plus 100+ WPMU DEV plugins, themes & 24/7 WP suuport. <a href='%s' rel='dialog'>Try it free for 14 days</a>!", 'wphb' ),
+                                __( "With our pro version of Hummingbird you can super-minify your files and then host them on our blazing fast CDN. You'll get Hummingbird PRO plus 100+ WPMU DEV plugins, themes & 24/7 WP support. <a href='%s' rel='dialog'>Try it free for 14 days</a>!", 'wphb' ),
                                 '#wphb-upgrade-membership-modal'
                             ); ?>
                         </p>

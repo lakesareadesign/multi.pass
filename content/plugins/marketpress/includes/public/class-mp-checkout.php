@@ -159,21 +159,25 @@ class MP_Checkout {
 		$enable_shipping_address = mp_get_post_value( 'enable_shipping_address' );
 		mp_update_session_value( 'enable_shipping_address', $enable_shipping_address );
 
-		if ( $enable_shipping_address ) {
-			$data = (array) mp_get_post_value( 'shipping', array() );
 
-			// Force state to empty if not set by user to ensure that old state value will be deleted
-			if( !isset( $data['state'] ) ) {
-				$data['state'] = '';
-			}
-
-			foreach ( $data as $key => $value ) {
-				$value = trim( $value );
-				mp_update_session_value( "mp_shipping_info->{$key}", $value );
-			}
-		} else {
+		if ( !$enable_shipping_address ) {
 			mp_update_session_value( 'mp_shipping_info', mp_get_session_value( 'mp_billing_info' ) );
 		}
+
+                //Save shipping info needs even if shipping info disabled for saving other fields (ex. 'special_instructions')
+                $data = (array) mp_get_post_value( 'shipping', array() );
+
+                if ( $data ) {
+                    // Force state to empty if not set by user to ensure that old state value will be deleted
+                    if( $enable_shipping_address && !isset( $data['state'] ) ) {
+                            $data['state'] = '';
+                    }
+
+                    foreach ( $data as $key => $value ) {
+                            $value = trim( $value );
+                            mp_update_session_value( "mp_shipping_info->{$key}", $value );
+                    }
+                }
 	}
 
 	/**
@@ -639,6 +643,15 @@ class MP_Checkout {
 	 */
 	public function ajax_update_checkout_data() {
 		$this->_update_shipping_section();
+
+                $error_messages = $this->_validate_checkout_data();
+                if ( $error_messages ) {
+                    wp_send_json_error( array(
+                            'messages' => $error_messages,
+                            'count' => count( $error_messages ),
+                    ) );
+                }
+
 		$this->_update_order_review_payment_section();
 		$this->_ajax_register_account();
 
@@ -650,6 +663,27 @@ class MP_Checkout {
 
 		wp_send_json_success( $sections );
 	}
+
+
+        /**
+         * Validate checkout data
+         *
+         * @return array Return associative array where key - name of input field, value - error message
+         */
+        private function _validate_checkout_data() {
+            $messages = array();
+
+            $what = 'shipping';
+            $zip      = mp_get_user_address_part( 'zip', $what );
+            $country  = mp_get_user_address_part( 'country', $what );
+            if ( !mp_is_valid_zip( $zip, $country ) ) {
+                $key = mp_get_session_value( 'enable_shipping_address' ) ?'shipping[zip]' : 'billing[zip]';
+                $messages[ $key ] = __( 'Invalid Zip Code', 'mp' );
+            }
+
+            return $messages;
+        }
+
 
 	/**
 	 * Display checkout form
@@ -1217,7 +1251,7 @@ class MP_Checkout {
 		if ( mp_get_setting( 'special_instructions' ) == '1' ) {
 			$html .= '<div id="mp-checkout-column-special-instructions" class="mp_checkout_column fullwidth"><div class="mp_checkout_field">
 					<label class="mp_form_label">' . __( 'Special Instructions', 'mp' ) . '</label>
-				    <textarea name="shipping[special_instructions]"></textarea>
+				    <textarea name="shipping[special_instructions]">' . mp_get_user_address_part( 'special_instructions', 'shipping' ) . '</textarea>
 				  </div><!-- end mp_checkout_field --></div><!-- end mp-checkout-column-special-instructions -->';
 		}
 
@@ -1456,7 +1490,7 @@ class MP_Checkout {
 	 * @return string
 	 */
 
-	public function create_ga_ecommerce( $order_id ) {
+	public function create_ga_ecommerce( $order_id,  $echo = false ) {
 		$order = new MP_Order( $order_id );
 		//if order not exist, just return false
 		if ( $order->exists() == false ) {
@@ -1596,9 +1630,12 @@ try{
 			$js .='ga("ecommerce:send");</script>';
 		}
 
-		//add to footer
-		if ( !empty( $js ) ) {
+		//echo or return
+		if ( $echo && isset( $js ) ) {
 			echo $js;
+		}
+		elseif ( isset( $js ) ) {
+			return $js;
 		}
 	}
 

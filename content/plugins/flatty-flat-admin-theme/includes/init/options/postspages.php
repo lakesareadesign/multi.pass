@@ -1,7 +1,14 @@
 <?php
+///////////////REMOVE HELP CONTEXT MENU
+if (get_option('flatty_remove_help_menu') == true) {
+	add_action('admin_head', 'flatty_remove_help_menu');
+	function flatty_remove_help_menu(){
+		echo '<style> #contextual-help-link-wrap {display:none;}</style>';
+	}
+}
 
+///////////////REMOVE METABOXES
 function remove_meta_boxes() {
-
 	if (get_option('flatty_wordpress_posts_remove_format') == true) {
 		remove_meta_box( 'formatdiv', 'post', 'normal' );
 	}
@@ -26,7 +33,6 @@ function remove_meta_boxes() {
 	if (get_option('flatty_wordpress_posts_remove_slug') == true) {
 		remove_meta_box( 'slugdiv', 'post', 'normal' );
 	}
-
 	if (get_option('flatty_wordpress_pages_remove_format') == true) {
 		remove_meta_box( 'formatdiv', 'page', 'normal' );
 	}
@@ -51,7 +57,6 @@ function remove_meta_boxes() {
 	if (get_option('flatty_wordpress_pages_remove_slug') == true) {
 		remove_meta_box( 'slugdiv', 'page', 'normal' );
 	}
-
 }
 
 add_action( 'admin_menu', 'remove_meta_boxes' );

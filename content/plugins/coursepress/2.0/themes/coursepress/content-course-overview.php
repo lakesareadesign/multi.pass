@@ -61,11 +61,11 @@
 	<?php $instructors = CoursePress_Data_Shortcode_Instructor::course_instructors( array( 'style' => 'block' ) ); ?>
 	<div class="entry-content <?php echo( count( $instructors ) > 0 ? 'left-content' : '' ); ?>">
 		<h1 class="h1-about-course"><?php _e( 'About the Course', 'cp' ); ?></h1>
-		<div class="content"><?php echo do_shortcode('[course_description course_id="' . get_the_ID() . '"]'); ?></div>
+		<div class="content"><?php echo do_shortcode( '[course_description course_id="' . get_the_ID() . '"]' ); ?></div>
 <?php
-		if ( CoursePress_Data_Course::get_setting( get_the_ID(), 'structure_visible', true ) ) : ?>
+if ( CoursePress_Data_Course::get_setting( get_the_ID(), 'structure_visible', true ) ) : ?>
 			<h1 class = "h1-about-course"><?php
-				_e( 'Course Structure', 'cp' );
+			_e( 'Course Structure', 'cp' );
 			?></h1>
 			<?php echo do_shortcode( '[course_structure label="" show_title="no" show_divider="yes"]' );
 		endif;
@@ -79,7 +79,7 @@
 		?>
 	</div><!-- .entry-content -->
 
-	<?php if ( !empty( $instructors ) ) : ?>
+	<?php if ( ! empty( $instructors ) ) : ?>
 		<div class="course-instructors right-content">
 			<h1 class="h1-instructors"><?php _e( 'Instructors', 'cp' ); ?></h1>
 			<?php echo $instructors; ?>
@@ -90,12 +90,32 @@
 
 	<footer class="entry-meta">
 		<?php
-		// Translators: Used between list items, there is a space after the comma.
-		$category_list = get_the_category_list( __( ', ', 'cp' ) );
+
+		$args = array(
+			'echo' => false,
+			'hierarchical' => false,
+			'style' => '',
+			'taxonomy' => 'course_category',
+		);
+		$category_list = '';
+		$categories = wp_get_post_terms( get_the_ID(), 'course_category' );
+
+		$cats = array();
+		foreach( $categories as $cat ) {
+			$cats[] = sprintf( '<a href="%s">%s</a>', get_term_link( $cat->term_id ), $cat->name );
+		}
+		$category_list = implode(', ', $cats );
 
 		// Translators: Used between list items, there is a space after the comma.
 		$tag_list = get_the_tag_list( '', __( ', ', 'cp' ) );
 
+		/**
+		 * default meta text
+		 */
+		$meta_text = __( 'Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'cp' );
+		/**
+		 * check categories and tags
+		 */
 		if ( ! coursepress_categorized_blog() ) {
 			// This blog only has 1 category so we just need to worry about tags in the meta text.
 			if ( $tag_list ) {
@@ -105,9 +125,9 @@
 			}
 		} else {
 			// But this blog has loads of categories so we should probably display them here.
-			if ( $tag_list ) {
+			if ( ! empty( $tag_list ) ) {
 				$meta_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'cp' );
-			} else {
+			} else if ( ! empty( $category_list ) ) {
 				$meta_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'cp' );
 			}
 		} // end check for categories on this blog.

@@ -143,7 +143,7 @@ jQuery(function initModules() {
 		var searchForm = jQuery("#support-search");
 		searchForm.submit(function() {
 			var query = jQuery('#support-search input[name="q"]').val();
-			window.location.href = 'https://premium.wpmudev.org/support/?search=true#stq='+query+'&stp=1';
+			window.location.href = 'https://premium.wpmudev.org/forums/search.php?q='+query+'&forum=support';
 			return false;
 		});
 		searchForm.on('click', '.search-icon', function() {

@@ -96,13 +96,13 @@
 		 */
 		_initMenu: function(){
 			this._menuOnFocus();
-			
+			this._submenuOnClick();
 			if ( $( this.nodeClass ).length ) {
-				this._initMegaMenus();	
+				this._initMegaMenus();
 			}
 
 			if( this._isMenuToggle() || this.type == 'accordion' ){
-				
+
 				$( this.wrapperClass ).off( 'mouseenter mouseleave' );
 				this._menuOnClick();
 				this._clickOrHover();
@@ -180,6 +180,20 @@
 				
 			}, this ) );
 
+		},
+
+		/**
+		 * Logic for submenu items click event
+		 *
+		 * @since  1.10.6
+		 * @return void
+		 */
+		_submenuOnClick: function(){
+			$( this.wrapperClass + ' .sub-menu' ).off().on( 'click', 'a', $.proxy( function( e ){
+				if ( $( e.target ).parent().hasClass('focus') ) {
+					$( e.target ).parentsUntil( this.wrapperClass ).removeClass('focus');
+				}
+			}, this ) );
 		},
 
 		/**

@@ -486,7 +486,7 @@ Sfb.Logs = {
 		 */
 		handle_view: function (e) {
 			var $trigger = Sfb.Logs.Viewer.get_elements(),
-				title = $trigger.attr("title") || "Snapshot Logs",
+				title = $trigger.attr("title") || Sfb.l10n('snapshot_logs'),
 				tmout = false, ttl = 0
 			;
 

@@ -86,14 +86,28 @@ class Opt_In_Mailchimp_Api {
     }
 
     /**
+     * Sends rest PUT request
+     *
+     * @param $action
+     * @param array $args
+     * @return array|mixed|object|WP_Error
+     */
+    private function _put( $action, $args = array()  ){
+        return $this->_request( "PUT", $action, $args );
+    }
+
+    /**
      * Gets all the lists
+     *
+     * @param $count - current total lists to show
      *
      * @return array|mixed|object|WP_Error
      */
-    public function get_lists() {
+    public function get_lists( $count = 0 ) {
         return $this->_get( 'lists', array(
-            'user' => $this->_user . ':' . $this->_api_key
-        ) )->lists;
+            'user' => $this->_user . ':' . $this->_api_key,
+            'count' => ( $count > 0 ) ? ( $count * 10 ) : 10
+        ) );
     }
 
     /**
@@ -166,6 +180,29 @@ class Opt_In_Mailchimp_Api {
             return __("Successful subscription", Opt_In::TEXT_DOMAIN);
         } else {
             throw new Exception($error);
+        }
+    }
+
+    /**
+     * Update subscription
+     *
+     * @param $list_id - the list id
+     * @param $email - the email
+     * @param $data - array
+     *
+     * @return array|mixed|object|WP_Error
+     */
+    public function update_subscription( $list_id, $email, $data ) {
+        $md5_email = md5( strtolower( $email ) );
+        $resp = $this->_put( 'lists/' . $list_id . '/members/' . $md5_email, array(
+            "body" =>  $data
+        ) );
+        $error = __("This email address has already subscribed", Opt_In::TEXT_DOMAIN);
+
+        if ( !is_wp_error( $res ) ) {
+            return __("You have been added to the new group", Opt_In::TEXT_DOMAIN);
+        } else {
+            throw new Exception( $error );
         }
     }
 

@@ -1,10 +1,21 @@
-#adminmenu {
+/*
+#adminmenuwrap {
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
     margin-top:0;
 }
 
+body.flatty_tall_bar #adminmenuwrap {
+	max-height: calc(100vh - 180px);
+}
+*/
 #adminmenu .wp-submenu .wp-submenu-head {
 	font-size: 20px;
     font-weight: 200;
     letter-spacing: 1px;
     background-color: #f5f5f5;
+}
+
+#adminmenu {
+	margin-top:0;
 }

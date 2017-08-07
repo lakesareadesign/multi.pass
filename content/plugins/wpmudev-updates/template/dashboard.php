@@ -151,7 +151,7 @@ $this->render_header( $page_title );
 							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>/image/tools/community.png');"></div>
 							<div class="wpmudui-product-list__details">
 								<h4><?php esc_html_e( 'Community', 'wpmudev' ); ?></h4>
-								<p><?php esc_html_e( 'Discuss your favourite topics with other developers.', 'wpmudev' ); ?></p>
+								<p><?php esc_html_e( 'Discuss your favorite topics with other developers.', 'wpmudev' ); ?></p>
 							</div>
 						</div>
 						<div class="wpmudui-product-list__cta">
@@ -163,7 +163,7 @@ $this->render_header( $page_title );
 							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>/image/tools/learn.png');"></div>
 							<div class="wpmudui-product-list__details">
 								<h4><?php esc_html_e( 'Learn', 'wpmudev' ); ?></h4>
-								<p><?php esc_html_e( 'Become and expert by taking an Academy course.', 'wpmudev' ); ?></p>
+								<p><?php esc_html_e( 'Become an expert by taking an Academy course.', 'wpmudev' ); ?></p>
 							</div>
 						</div>
 						<div class="wpmudui-product-list__cta">

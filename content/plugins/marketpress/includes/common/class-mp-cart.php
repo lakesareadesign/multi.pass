@@ -270,6 +270,9 @@ class MP_Cart {
 		$show_product_qty   = mp_get_setting( 'show_product_qty' ) == '1' ? true : false;
 		$show_product_price = mp_get_setting( 'show_product_price' ) == '1' ? true : false;
 
+                //clean special instructions field
+                mp_update_session_value( "mp_shipping_info->special_instructions", '' );
+
 		switch ( mp_get_post_value( 'cart_action' ) ) {
 			case 'add_item' :
 				$cart_updated = $this->add_item( $item_id, $qty );
@@ -546,8 +549,20 @@ class MP_Cart {
 
 				case 'title' :
 					$column_html = '<h2 class="mp_cart_item_title">' . sprintf( '<a href="%s">%s</a>', $product->url( false ), $product->title( false ) ) . '</h2>';
+
 					if ( ! $this->is_editable && $product->is_download() && mp_is_shop_page( 'order_status' ) ) {
-						$column_html .= '<a target="_blank" href="' . $product->download_url( get_query_var( 'mp_order_id' ), false ) . '">' . __( 'Download', 'mp' ) . '</a>';
+						//Handle multiple files
+						$download_url = $product->download_url( get_query_var( 'mp_order_id' ), false );
+
+						if ( is_array( $download_url ) ){
+							//If we have more than one product file, we loop and add each to a new line
+							foreach ( $download_url as $key => $value ){
+								$column_html .= '<a target="_blank" href="' . $value . '">' . sprintf( __( 'Download %1$s', 'mp' ),( $key+1 ) ) . '</a><br/>';
+							}
+
+						} else {
+							$column_html .= '<a target="_blank" href="' . $product->download_url( get_query_var( 'mp_order_id' ), false ) . '">' . __( 'Download', 'mp' ) . '</a>';
+						}
 					}
 					break;
 
@@ -694,7 +709,7 @@ class MP_Cart {
 
 			$shipping_line .= '
 				<div class="mp_cart_resume_item mp_cart_resume_item-shipping-total">
-					<span class="mp_cart_resume_item_label">' . ( ( $this->is_editable ) ? __( 'Estimated Shipping', 'mp' ) : __( 'Shipping' ) ) . '</span>
+					<span class="mp_cart_resume_item_label">' . ( ( $this->is_editable ) ? __( 'Estimated Shipping', 'mp' ) : __( 'Shipping', 'mp' ) ) . '</span>
 					<span class="mp_cart_resume_item_amount">' . $this->shipping_total( true ) . '</span>
 				</div><!-- end mp_cart_resume_item-shipping-total -->';
 		}
@@ -1492,7 +1507,7 @@ class MP_Cart {
 				}
 
 				if ( ! $product->is_download() ) {
-					$this->_is_download_only = false;
+					$this->_is_download_only = apply_filters( 'mp_cart/is_product_downloadable', false, $product );
 				}
 			}
 

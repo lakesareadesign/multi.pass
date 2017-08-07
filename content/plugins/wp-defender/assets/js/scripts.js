@@ -61,6 +61,12 @@ jQuery(function ($) {
             class: 'no-close wp-defender wd-requirement'
         });
     }
+    if ($('#wpmudev-auth-modal').size() > 0) {
+        WDP.showOverlay("#wpmudev-auth-modal", {
+            class: 'no-close wp-defender wpmudev-auth-modal',
+            title: 'Create Account <span>Already have an account? <a href="">Log in</a></span>'
+        });
+    }
 
     $('body').on('submit', '.activate-picker form', function () {
         var that = $(this);

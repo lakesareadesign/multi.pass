@@ -96,16 +96,17 @@ class WP_Hummingbird_Minification_Errors_Controller {
 	 * @return bool|array
 	 */
 	public function get_handle_error( $handle, $type ) {
-		if ( ! isset( $this->errors[ $type ][ $handle ] ) ) {
-			return false;
+		$error = false;
+		if ( isset( $this->errors[ $type ][ $handle ] ) ) {
+			$defaults = array(
+				'handle' => '',
+				'error' => '',
+				'disable' => array()
+			);
+			$error = wp_parse_args( $this->errors[ $type ][ $handle ], $defaults );
 		}
 
-		$defaults = array(
-			'handle' => '',
-			'error' => '',
-			'disable' => array()
-		);
-		return wp_parse_args( $this->errors[ $type ][ $handle ], $defaults );
+		return apply_filters( "wphb_handle_error_{$handle}_{$type}", $error, $handle, $type );;
 	}
 
 	/**

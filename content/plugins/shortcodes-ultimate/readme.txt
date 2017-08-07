@@ -4,7 +4,7 @@ License: GPL
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MMA2VA7JDXWDY
 Tags: shortcode, shortcodes, short code, video, responsive, responsive video, youtube, vimeo, audio, mp3, tab, tabs, button, buttons, jquery, box, boxes, toggle, spoiler, column, columns, services, service, pullquote, list, lists, images, image, links, fancy, fancy link, fancy links, fancy buttons, jquery tabs, accordion, slider, plugin, admin, gallery, bloginfo, list pages, sub pages, navigation, siblings pages, children pages, permalink, permalinks, feed, document, member, members, guests, membership, documents, carousel, rss, touch, icon, icons, trl, right-to-left, multilingual, lang, international
 Requires at least: 3.5
-Tested up to: 4.5
+Tested up to: 4.8
 Stable tag: trunk
 
 Supercharge your WordPress theme with mega pack of shortcodes
@@ -109,6 +109,21 @@ Upgrade normally
 
 
 == Changelog ==
+
+= 4.10.2 =
+* Improved: compatibility with PHP7 ([user] and [post] shortcodes)
+* Fixed: [slider] and [custom_gallery] markup (skipped whitespaces among link attributes)
+* Removed: user capability check in [permalink]
+
+= 4.10.1 =
+* Fixed: lightbox javascript
+
+= 4.10.0 =
+* Fixed: security vulnerability at 'Examples' admin page (insecure call of file_get_contents() at inc/core/tools.php:774)
+* Fixed: added access check to permalink shortcode. [Pull request #20](https://github.com/gndev/shortcodes-ultimate/pull/20).
+* Added: PHP7 compatibility. Checked with [php7cc](https://github.com/sstalle/php7cc) and [PHP Compatibility Checker](https://wordpress.org/plugins/php-compatibility-checker/). [Pull request #45](https://github.com/gndev/shortcodes-ultimate/pull/45).
+* Added: https support for Google Maps. [Pull request #40](https://github.com/gndev/shortcodes-ultimate/pull/40).
+* Added: https support for Youtube. [Pull request #39](https://github.com/gndev/shortcodes-ultimate/pull/39).
 
 = 4.9.9 =
 * Fixed: vote popup at plugins page

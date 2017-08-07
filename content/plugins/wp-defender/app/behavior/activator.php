@@ -86,9 +86,17 @@ class Activator extends Behavior {
 	 */
 	public function isShowActivator() {
 		$cache = WP_Helper::getCache();
+
 		if ( $cache->get( 'isActivated', false ) == 1 ) {
 			return false;
 		}
+
+
+		if ( $cache->get( 'wdf_isActivated', false ) == 1 ) {
+			//this mean user just upgraded from the free
+			return true;
+		}
+
 		//alread has data, just return
 		if ( get_site_option( 'wp_defender' ) != false
 		     || get_site_option( 'wd_scan_settings' ) != false

@@ -176,8 +176,17 @@ msp-ac-btn:active {
 	padding-top: 6px;
 }
 
-@media only screen and (max-width: 1500px) {
-	.msp-template-caption { min-height:40px; }
+.msp-templates-list,
+.msp-templates-list *{
+    box-sizing: border-box;
+}
+
+.msp-templates-list .msp-template-caption {
+    padding: 14px 7px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 @media only screen and (max-width: 1530px) {
@@ -275,8 +284,7 @@ tbody .latest-updates {
 #msp-slider-type-select .msp-template-figure[data-starter-section="main_types"].is-unavailable {
 	opacity: 0.8;
 }
-#msp-slider-type-select .msp-template-figure[data-starter-section="masterslider_pro_custom_samples1"].is-unavailable .msp-templte-selected,
-#msp-slider-type-select .msp-template-figure[data-starter-section="masterslider_pro_post_samples1"].is-unavailable .msp-templte-selected {
+#msp-slider-type-select .msp-template-figure.is-unavailable .msp-templte-selected {
     background: url(../images/thirdparty/premium.png) no-repeat;
     display: block;
     height: 57px;
@@ -292,14 +300,12 @@ tbody .latest-updates {
     float: left;
     padding: 10px 1px;
     position: absolute;
-    top: 91px;
+    top: 89px;
     -webkit-transition: all 0.6s;
             transition: all 0.6s;
     box-sizing: border-box;
-    margin-left: 1px;
 }
-#msp-slider-type-select .msp-template-figure[data-starter-section="masterslider_pro_custom_samples1"].is-unavailable:hover .msp-template-info,
-#msp-slider-type-select .msp-template-figure[data-starter-section="masterslider_pro_post_samples1"].is-unavailable:hover .msp-template-info {
+#msp-slider-type-select .msp-template-figure.is-unavailable:hover .msp-template-info {
     visibility: visible;
     opacity: 1;
 }
@@ -309,6 +315,9 @@ tbody .latest-updates {
 	display: inline-block;
     padding: 0 3%;
     font-size: 12px;
+}
+#msp-slider-type-select .msp-template-figure .msp-template-info a:hover {
+    text-decoration: underline;
 }
 #msp-slider-type-select .msp-template-figure .msp-template-info a img {
 	vertical-align: middle;
@@ -377,7 +386,7 @@ tbody .latest-updates {
 	    font-size: 11px;
 	}
 	#msp-slider-type-select .msp-template-figure .msp-template-info img {
-	    width: 14px;
+	    width: 25px;
 	}
 }
 @media only screen and (max-width: 1350px) {
@@ -606,4 +615,37 @@ tbody .latest-updates {
     border: 1px solid #ff7676;
     background-color: #ffb8bd;
     color: #333;
+}
+
+/* The pro sample sliders activation title */
+
+.msp-dialog-inner-title.msp-type-masterslider_pro_custom_samples1 > div{
+    padding: 12px 25px 10px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    background: #f1f1f1 url( ../images/misc/prebuilt-sliders-banner.png ) right center no-repeat;
+}
+
+.msp-type-masterslider_pro_custom_samples1 h4,
+.msp-type-masterslider_pro_custom_samples1 p{
+    margin-top:0;
+}
+
+.msp-type-masterslider_pro_custom_samples1 h4{
+    margin-bottom:5px;
+}
+
+.msp-type-masterslider_pro_custom_samples1 p{
+    margin-bottom:10px;
+}
+
+.msp-type-masterslider_pro_custom_samples1 a{
+    font-size: 12px;
+    padding-right: 30px;
+    padding-left: 30px;
+    font-weight: 500;
+}
+
+.msp-type-masterslider_pro_custom_samples1 a:hover{
+    border-bottom-width: 3px;
 }

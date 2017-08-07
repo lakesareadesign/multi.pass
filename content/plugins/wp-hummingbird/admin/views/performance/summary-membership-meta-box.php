@@ -16,6 +16,6 @@
 
 <script>
 	jQuery( document).ready( function() {
-		WPHB_Admin.utils.membershipModal.open();
+		window.WPHB_Admin.utils.membershipModal.open();
 	});
 </script>

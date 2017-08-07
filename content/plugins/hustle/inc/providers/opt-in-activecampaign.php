@@ -224,6 +224,10 @@ if( !class_exists("Opt_In_Activecampaign") ):
             );
         }
 
+        function exclude_args_fields() {
+            return array( 'api_key', 'url' );
+        }
+
         function is_authorized(){
             return true;
         }

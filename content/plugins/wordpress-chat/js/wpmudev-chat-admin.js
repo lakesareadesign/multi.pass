@@ -114,22 +114,22 @@
 			} 
 		});
 
-		if (jQuery('#chat_tab_pane').length) {
-			// If the URL has a hash we check of this might be a hash to one of the tabs. If so set the tab index
-			var url_hash = window.location.hash;
-			if (url_hash != '') {
-				url_hash = url_hash.replace('_panel', '_tab');
-				var target_tab_li = jQuery('#chat_tab_pane ul li'+url_hash);
-				var target_tab_idx = jQuery('#chat_tab_pane ul li').index(target_tab_li);
-			} else {
-				var target_tab_idx = jQuery.cookie('selected-tab');
-			}
-			jQuery("#chat_tab_pane").tabs({ 
-		    	activate: function (e, ui) { 
-		        	jQuery.cookie('selected-tab', ui.newTab.index(), { path: '/' }); 
-		    	}, 
-		    	active: target_tab_idx             
-			});
-		}
+        if (jQuery('#chat_tab_pane').length) {
+            // If the URL has a hash we check of this might be a hash to one of the tabs. If so set the tab index
+            var url_hash = window.location.hash;
+            if (url_hash != '') {
+                url_hash = url_hash.replace('_panel', '_tab');
+                var target_tab_li = jQuery('#chat_tab_pane ul li' + url_hash);
+                var target_tab_idx = jQuery('#chat_tab_pane ul li').index(target_tab_li);
+            } else {
+                var target_tab_idx = jQuery.cookie('selected-tab');
+            }
+            jQuery("#chat_tab_pane").tabs({
+                activate: function (e, ui) {
+                    jQuery.cookie('selected-tab', ui.newTab.index(), {path: '/'});
+                },
+                active: target_tab_idx
+            });
+        }
 	});
 })(jQuery);

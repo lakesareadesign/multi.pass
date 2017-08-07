@@ -32,6 +32,18 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 			private $_storage = array();
 			private $_acl = array();
 
+			function get_regions(){
+				return $this->_regions;
+			}
+
+			function get_storage(){
+				return $this->_storage;
+			}
+
+			function get_acl(){
+				return $this->_acl;
+			}
+
 			function on_creation() {
 				//private destination slug. Lowercase alpha (a-z) and dashes (-) only please!
 				$this->name_slug = 'aws';
@@ -45,7 +57,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 
 			function load_scripts() {
 
-				if ( ( ! isset( $_GET['page'] ) ) || ( sanitize_text_field( $_GET['page'] ) != "snapshots_destinations_panel" ) ) {
+				if ( ( ! isset( $_GET['page'] ) ) || ( ! in_array( sanitize_text_field( $_GET['page'] ), array( "snapshots_destinations_panel","snapshot_pro_destinations" ) ) ) ) {
 					return;
 				}
 
@@ -53,8 +65,13 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 					return;
 				}
 
-				wp_enqueue_script( 'snapshot-destination-aws-js', plugins_url( '/js/snapshot_destination_aws.js', __FILE__ ), array( 'jquery' ) );
-				wp_enqueue_style( 'snapshot-destination-aws-css', plugins_url( '/css/snapshot_destination_aws.css', __FILE__ ) );
+
+				if( sanitize_text_field( $_GET['page'] ) === "snapshots_destinations_panel" ){
+					wp_enqueue_script( 'snapshot-destination-aws-js', plugins_url( '/js/snapshot_destination_aws.js', __FILE__ ), array( 'jquery' ) );
+					wp_enqueue_style( 'snapshot-destination-aws-css', plugins_url( '/css/snapshot_destination_aws.css', __FILE__ ) );
+				} else {
+					wp_enqueue_script( 'snapshot-destination-aws-js', plugins_url( '/js/new_snapshot_destination_aws.js', __FILE__ ), array( 'jquery' ) );
+				}
 			}
 
 			function init() {
@@ -359,8 +376,13 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 						return true;
 
 					} else {
+						$body = $result['body'];
+						$message = $body->message;
+						if ( strpos( $message, 'AWS4-HMAC-SHA256' ) !== false ) {
+							$this->error_array['errorArray'][] = "Bucket location region is incorrect. Please select the right one.";
+						}
 						$this->error_array['errorStatus']  = true;
-						$this->error_array['errorArray'][] = "Error: Send file failed :" . $result["status"] . " :" . $result["Message"];
+						$this->error_array['errorArray'][] = 'Error: Send file failed :' . $result['status'] . ' : ' . $message;
 
 						return false;
 					}
@@ -448,107 +470,53 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 			}
 
 			function validate_form_data( $d_info ) {
-
-				//echo "d_info<pre>"; print_r($d_info); echo "</pre>";
-				//exit;
-
 				$this->init();
 
 				// Will contain the filtered fields from the form (d_info).
 				$destination_info = array();
-
-				if ( isset( $this->form_errors ) ) {
-					unset( $this->form_errors );
-				}
-
 				$this->form_errors = array();
 
-				if ( isset( $d_info['type'] ) ) {
-					$destination_info['type'] = esc_attr( $d_info['type'] );
-				}
+				$text_fields = array( 'type', 'name', 'awskey', 'secretkey', 'ssl', 'bucket', 'directory' );
 
-				if ( isset( $d_info['name'] ) ) {
-					$destination_info['name'] = esc_attr( $d_info['name'] );
-				} else {
-					$this->form_errors['name'] = __( "Name is required", SNAPSHOT_I18N_DOMAIN );
-				}
+				$required_fields = array(
+					'name' => __( 'Name is required', SNAPSHOT_I18N_DOMAIN ),
+					'awskey' => __( 'AWS Key is required', SNAPSHOT_I18N_DOMAIN ),
+					'secretkey' => __( 'AWS Secret Key is required', SNAPSHOT_I18N_DOMAIN ),
+				);
 
-				if ( isset( $d_info['awskey'] ) ) {
-					$destination_info['awskey'] = esc_attr( $d_info['awskey'] );
-				} else {
-					$this->form_errors['awskey'] = __( "AWS Key is required", SNAPSHOT_I18N_DOMAIN );
-				}
+				$destination_info = $this->validate_text_fields( $text_fields, $d_info, $destination_info, $required_fields );
 
-				if ( ( isset( $d_info['secretkey'] ) ) && ( strlen( $d_info['secretkey'] ) ) ) {
-					$destination_info['secretkey'] = esc_attr( $d_info['secretkey'] );
-				} else {
-					$this->form_errors['secretkey'] = __( "AWS Secret Key is requires", SNAPSHOT_I18N_DOMAIN );
-				}
+				$destination_info['ssl'] = ( 'yes' === $destination_info['ssl'] ) ? 'yes' : 'no';
 
-				if ( ( isset( $d_info['ssl'] ) ) && ( strlen( $d_info['ssl'] ) ) ) {
-					$destination_info['ssl'] = esc_attr( $d_info['ssl'] );
-					if ( ( $destination_info['ssl'] != "yes" ) && ( $destination_info['ssl'] != "no" ) ) {
-						$destination_info['ssl'] = "no";
-					}
-				} else {
-					$destination_info['ssl'] = "no";
-				}
-
-
-				if ( ( isset( $d_info['region'] ) ) && ( strlen( $d_info['region'] ) ) ) {
-					if ( isset( $this->_regions[ esc_attr( $d_info['region'] ) ] ) ) {
-						$destination_info['region'] = esc_attr( $d_info['region'] );
-					} else {
-						$destination_info['region'] = AmazonS3::REGION_US_E1;
-					}
-
-				} else {
+				if ( empty( $d_info['region'] ) ) {
 					$destination_info['region'] = AmazonS3::REGION_US_E1;
+				} else {
+					$region = esc_attr( $d_info['region'] );
+					$destination_info['region'] = isset( $this->_regions[ $region ] ) ? $region : AmazonS3::REGION_US_E1;
 				}
 
-				if ( ( isset( $d_info['region-other'] ) ) && ( ! empty( $d_info['region-other'] ) ) ) {
+				if ( empty( $d_info['region-other'] ) ) {
 					$destination_info['region-other'] = $d_info['region-other'];
 				}
 
-				if ( ( isset( $d_info['storage'] ) ) && ( strlen( $d_info['storage'] ) ) ) {
-					if ( isset( $this->_storage[ esc_attr( $d_info['storage'] ) ] ) ) {
-						$destination_info['storage'] = esc_attr( $d_info['storage'] );
-					} else {
-						$destination_info['storage'] = AmazonS3::STORAGE_STANDARD;
-					}
 
-				} else {
+				if ( empty( $d_info['storage'] ) ) {
 					$destination_info['storage'] = AmazonS3::STORAGE_STANDARD;
+				} else {
+					$storage = esc_attr( $d_info['storage'] );
+					$destination_info['storage'] = isset( $this->_storage[ $storage ] ) ? $storage : AmazonS3::STORAGE_STANDARD;
 				}
 
-				if ( ( isset( $d_info['acl'] ) ) && ( strlen( $d_info['acl'] ) ) ) {
-					if ( isset( $this->_acl[ esc_attr( $d_info['acl'] ) ] ) ) {
-						$destination_info['acl'] = esc_attr( $d_info['acl'] );
-					} else {
-						$destination_info['acl'] = AmazonS3::ACL_PRIVATE;
-					}
-
-				} else {
+				if ( empty( $d_info['acl'] ) ) {
 					$destination_info['acl'] = AmazonS3::ACL_PRIVATE;
+				} else {
+					$acl = esc_attr( $d_info['acl'] );
+					$destination_info['acl'] = isset( $this->_acl[ $acl ] ) ? $acl : AmazonS3::ACL_PRIVATE;
 				}
 
-				if ( ( isset( $d_info['bucket'] ) ) && ( strlen( $d_info['bucket'] ) ) ) {
-					$destination_info['bucket'] = esc_attr( $d_info['bucket'] );
-				} else {
-					$destination_info['bucket'] = "";
-				}
+				//var_dump( $destination_info ); exit;
 
-				if ( ( isset( $d_info['directory'] ) ) && ( strlen( $d_info['directory'] ) ) ) {
-					$destination_info['directory'] = esc_attr( $d_info['directory'] );
-				} else {
-					$destination_info['directory'] = "";
-				}
-
-				if ( count( $this->form_errors ) ) {
-					return false;
-				} else {
-					return $destination_info;
-				}
+				return $destination_info;
 			}
 
 			function display_listing_table( $destinations, $edit_url, $delete_url ) {
@@ -773,20 +741,11 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 										for="snapshot-destination-bucket"><?php _e( 'Bucket Name', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td>
-									<?php
-									if ( isset( $item['bucket'] ) ) {
-										?><span
-											id="snapshot-destination-bucket-display"><?php echo $item['bucket']; ?></span>
-										<input
-										type="hidden" name="snapshot-destination[bucket]"
-										id="snapshot-destination-bucket"
-										value="<?php if ( isset( $item['bucket'] ) ) {
-											echo $item['bucket'];
-										} ?>" /><?php
-									}
-									?>
 									<select name="snapshot-destination[bucket]" id="snapshot-destination-bucket-list"
 									        style="display: none">
+											<?php if ( isset( $item['bucket'] ) ) { ?>
+									        <option value="<?php echo $item['bucket']; ?>" selected="selected"><?php echo $item['bucket']; ?></option>
+											<?php }	 ?>
 									</select>
 									<button id="snapshot-destination-aws-get-bucket-list" class="button-seconary"
 									        name=""><?php

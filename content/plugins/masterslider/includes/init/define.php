@@ -5,7 +5,7 @@ if ( ! defined('ABSPATH') ) {
     die();
 }
 
-define( 'MSWP_AVERTA_VERSION'		, '3.1.1' );
+define( 'MSWP_AVERTA_VERSION'		, '3.2.0' );
 
 define( 'MSWP_SLUG'					, 'masterslider' );
 define( 'MSWP_TEXT_DOMAIN'			, 'masterslider' );
@@ -27,9 +27,6 @@ define( 'MSWP_AVERTA_PUB_URL'		, MSWP_AVERTA_URL . '/public' );
 define( 'MSWP_BLANK_IMG' 			, MSWP_AVERTA_PUB_URL . '/assets/css/blank.gif' );
 
 define( 'MSWP_AVERTA_FEED_URL'		, '' );
-
-// Backwards compatibility for PHP before version 5.3
-if ( ! defined('__DIR__') )  define( '__DIR__', dirname(__FILE__) );
 
 // To override origin uploads url while importing slider images
 // define( 'MSWP_IMPORT_FETCH_DIR'		, '' );

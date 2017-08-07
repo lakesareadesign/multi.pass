@@ -1,7 +1,7 @@
 <?php
 /*
  * WPSHAPERE
- * @author   KannanC
+ * @author   AcmeeDesign
  * @url     http://acmeedesign.com
 */
 
@@ -15,14 +15,17 @@ if (!class_exists('WPSHAPERE')) {
 	private $wp_df_submenu;
 	private $wps_options = WPSHAPERE_OPTIONS_SLUG;
 	private $wps_menuorder_options = 'wpshapere_menuorder';
+  private $wps_purchase_data = 'wps_purchase_data';
   public $aof_options;
+  private $do_not_save;
 
 	function __construct()
 	{
+      $this->do_not_save = array('title', 'openTab', 'import', 'export');
       $this->aof_options = $this->get_wps_option_data($this->wps_options);
       add_action('admin_menu', array($this, 'wps_sub_menus'));
 	    add_action('admin_init', array($this, 'initialize_defaults'), 19);
-      add_action('wp_dashboard_setup', array($this, 'initialize_dash_widgets'), 100);
+      add_action('wp_dashboard_setup', array($this, 'initialize_dash_widgets'), 999);
 	    add_action('admin_init', array($this, 'customize_admin_menu'), 29);
 
 	    add_filter('custom_menu_order', array($this, 'wpsCustommenusort'));
@@ -33,6 +36,7 @@ if (!class_exists('WPSHAPERE')) {
 
 	    add_action( 'admin_bar_menu', array($this, 'add_wpshapere_menus'), 1 );
 	    add_action( 'admin_bar_menu', array($this, 'add_wpshapere_nav_menus'), 99);
+      add_action( 'admin_bar_menu', array($this, 'wps_save_adminbar_nodes'), 999 );
 	    add_action('wp_dashboard_setup', array($this, 'widget_functions'), 9999);
       if($this->aof_options['disable_styles_login'] != 1) {
           if ( ! has_action( 'login_enqueue_scripts', array($this, 'wpshapereloginAssets') ) )
@@ -46,8 +50,9 @@ if (!class_exists('WPSHAPERE')) {
 	    add_filter('login_headertitle', array($this, 'wpshapere_login_title'));
 	    add_action('admin_head', array($this, 'generalFns'));
 
-	    add_action( 'admin_bar_menu', array($this, 'update_avatar_size'), 999 );
+	    //add_action( 'admin_bar_menu', array($this, 'update_avatar_size'), 999 );
 	    add_action('plugins_loaded',array($this, 'download_settings'));
+      add_action('admin_menu',array($this, 'get_admin_users'));
 	    add_action('login_footer', array($this, 'login_footer_content'));
 
 	    add_action('wp_head', array($this, 'frontendActions'), 99999);
@@ -151,6 +156,30 @@ if (!class_exists('WPSHAPERE')) {
 	  include_once(WPSHAPERE_PATH.'assets/css/wpshapere.css.php');
 	}
 
+  function get_admin_users() {
+    if(isset($_POST) && isset($_POST['aof_options_save'])) {
+      $admin_users = array();
+      $admin_user_query = new WP_User_Query( array( 'meta_key' => 'wp_user_level', 'meta_value' => '10' ) );
+      if(empty($admin_user_query) && !is_array($admin_user_query)) {
+        $admin_user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
+      }
+
+      foreach ($admin_user_query->results as $admin_data) {
+        if(!empty($admin_data->data->display_name)) {
+          $user_display_name = $admin_data->data->display_name;
+        }
+        else {
+          $user_display_name = $admin_data->data->user_login;
+        }
+        $admin_users[$admin_data->ID] = $user_display_name;
+      }
+
+      if(!empty($admin_users)) {
+        update_option(WPS_ADMIN_USERS_SLUG, $admin_users);
+      }
+    }
+  }
+
 	public function generalFns() {
 	    $screen = get_current_screen();
       $admin_general_options_data = ( !empty($this->aof_options['admin_generaloptions']) ) ? $this->aof_options['admin_generaloptions'] : "";
@@ -175,6 +204,8 @@ if (!class_exists('WPSHAPERE')) {
 	    add_filter( 'admin_footer_text', array($this, 'wpsbrandFooter') );
 	    //remove wp version
 	    add_filter( 'update_footer', array($this, 'wpsremoveVersion'), 99);
+      //add video responsive styles
+      add_action('admin_head', array($this, 'wps_video_frame_css'), 999);
 
 	    //prevent access to wpshapere menu for non-superadmin
 	    if( (!current_user_can('manage_network')) && defined('NETWORK_ADMIN_CONTROL') ){
@@ -427,23 +458,30 @@ echo '<div class="menu_edit_wrap"><input type="checkbox"' . $menu_hide . ' class
   function initialize_dash_widgets() {
       global $wp_meta_boxes;
 
-      $wp_widgets_list = $wp_meta_boxes['dashboard'];
-      $get_the_Widgets = array();
-      if (!is_array($wp_widgets_list['normal']['core'])) {
-        $wp_widgets_list = array('normal'=>array('core'=>array()), 'side'=>array('core'=>array()));
+      $context = array("normal","side","advanced");
+      $priority =array("high","low","default","core");
+
+      $wps_widgets_list = $wp_meta_boxes['dashboard'];
+      $wps_get_dash_Widgets = array();
+      if (!is_array($wps_widgets_list['normal']['core'])) {
+          $wps_widgets_list = array('normal'=>array('core'=>array()), 'side'=>array('core'=>array()),'advanced'=>array('core'=>array()));
       }
-      foreach ($wp_widgets_list['normal']['core'] as $key=>$data) {
-        $key = $key . "|normal";
-        $widget_title = preg_replace("/Configure/", "", strip_tags($data['title']));
-        $get_the_Widgets[] = array($key, $widget_title);
-      }
-      foreach ($wp_widgets_list['side']['core'] as $key=>$data) {
-        $key = $key . "|side";
-        $widget_title = preg_replace("/Configure/", "", strip_tags($data['title']));
-        $get_the_Widgets[] = array($key, $widget_title);
+      foreach ($context as $context_value)
+      {
+          foreach ($priority as $priority_value)
+          {
+              if(isset($wps_widgets_list[$context_value][$priority_value]) && is_array($wps_widgets_list[$context_value][$priority_value]))
+              {
+                  foreach ($wps_widgets_list[$context_value][$priority_value] as $key=>$data) {
+                      $key = $key . "|".$context_value;
+                      $widget_title = preg_replace("/Configure/", "", strip_tags($data['title']));
+                      $wps_get_dash_Widgets[] = array($key, $widget_title);
+                  }
+              }
+          }
       }
 
-      $this->updateOption('wps_widgets_list', $get_the_Widgets);
+      $this->updateOption('wps_widgets_list', $wps_get_dash_Widgets);
 
   }
 
@@ -604,7 +642,7 @@ echo '<div class="menu_edit_wrap"><input type="checkbox"' . $menu_hide . ' class
 
 	}
 
-	public function login_footer_content()
+	function login_footer_content()
 	{
     $login_footer_content = $this->aof_options['login_footer_content'];
     echo '<div class="login_footer_content">';
@@ -614,57 +652,63 @@ echo '<div class="menu_edit_wrap"><input type="checkbox"' . $menu_hide . ' class
     echo '</div>';
 	}
 
-	public function wpsbrandFooter()
+	function wpsbrandFooter()
 	{
     echo $this->aof_options['admin_footer_txt'];
 	}
 
-	public function wpsremoveVersion()
+	function wpsremoveVersion()
 	{
 		return '';
 	}
 
-	//admin bar customization
-	public function wps_remove_bar_links()
+  function wps_save_adminbar_nodes() {
+    global $wp_admin_bar;
+    if ( !is_object( $wp_admin_bar ) )
+        return;
+
+    $all_nodes = $wp_admin_bar->get_nodes();
+    $adminbar_nodes = array();
+    foreach( $all_nodes as $node )
+    {
+      if(!empty($node->parent)) {
+        $node_data = $node->id . " <strong>(Parent: " . $node->parent . ")</strong>";
+      }
+      else {
+        $node_data = $node->id;
+      }
+      $adminbar_nodes[$node->id] = $node_data;
+    }
+    $this->updateOption(WPS_ADMINBAR_LIST_SLUG, $adminbar_nodes);
+  }
+
+  /**
+  * admin bar customization
+  * @since 4.9 admin bar customization method rewritten
+  * @return null
+  */
+	function wps_remove_bar_links()
 	{
     global $wp_admin_bar;
-    $admin_bar_menu_data = $this->aof_options['hide_admin_bar_menus'] ;
-    $hide_admin_bar_menus = (is_serialized($admin_bar_menu_data)) ? unserialize($admin_bar_menu_data) : $admin_bar_menu_data;
-
-    $wp_admin_bar->remove_menu('view');
-    if(isset($hide_admin_bar_menus) && !empty($hide_admin_bar_menus)){
-      foreach ($hide_admin_bar_menus as $hide_bar_menu) {
-        if($hide_bar_menu == 1)
-                $wp_admin_bar->remove_menu('site-name');
-        elseif($hide_bar_menu == 2)
-                $wp_admin_bar->remove_menu('updates');
-        elseif($hide_bar_menu == 3)
-                $wp_admin_bar->remove_menu('comments');
-        elseif($hide_bar_menu == 4)
-                $wp_admin_bar->remove_menu('new-content');
-        elseif($hide_bar_menu == 5)
-                $wp_admin_bar->remove_menu('edit-profile');
-        elseif($hide_bar_menu == 6)
-                $wp_admin_bar->remove_menu('my-account');
-        elseif($hide_bar_menu == 7)
-                $wp_admin_bar->remove_menu('wp-logo');
-}
+    if(isset($this->aof_options['hide_admin_bar_menus']) && !empty($this->aof_options['hide_admin_bar_menus'])){
+        foreach ($this->aof_options['hide_admin_bar_menus'] as $hide_bar_menu) {
+                $wp_admin_bar->remove_menu($hide_bar_menu);
+        }
     }
 	}
 
-	public function add_wpshapere_menus($wp_admin_bar) {
-		$admin_logo = $this->aof_options['admin_logo'];
-		if(!empty($admin_logo)) {
+	function add_wpshapere_menus($wp_admin_bar) {
+    $admin_logo_url = (!empty($this->aof_options['adminbar_logo_link'])) ? $this->aof_options['adminbar_logo_link'] : admin_url();
+		if(!empty($this->aof_options['admin_logo'])) {
 			$wp_admin_bar->add_node( array(
-				'id'    => 'wpshape_site_title',
-				//'title' => $this->aof_options['admin_title'],
-				'href'  => admin_url(),
-				'meta'  => array( 'class' => 'wpshape_site_title' )
+				'id'    => 'wpshapere_site_title',
+				'href'  => $admin_logo_url,
+				'meta'  => array( 'class' => 'wpshapere_site_title' )
 			) );
 		}
 	}
 
-	public function add_wpshapere_nav_menus($wp_admin_bar)
+	function add_wpshapere_nav_menus($wp_admin_bar)
 	{
 		//add Nav items to adminbar
 		if( ( $locations = get_nav_menu_locations() ) && isset( $locations[ 'wpshapere_adminbar_menu' ] ) ) {
@@ -743,7 +787,7 @@ echo '<div class="menu_edit_wrap"><input type="checkbox"' . $menu_hide . ' class
     return $get_wps_option_data;
 	}
 
-	public function get_wps_image_url($imgid, $size='full') {
+	function get_wps_image_url($imgid, $size='full') {
     global $switched, $wpdb;
 
     if ( is_numeric( $imgid ) ) {
@@ -770,14 +814,15 @@ echo '<div class="menu_edit_wrap"><input type="checkbox"' . $menu_hide . ' class
       }
   }
 
-	public function wpshapere_login_url()
+	function wpshapere_login_url()
 	{
 		$login_logo_url = $this->aof_options['login_logo_url'];
 		if(empty($login_logo_url))
 			return site_url();
 		else return $login_logo_url;
 	}
-	public function wpshapere_login_title()
+
+	function wpshapere_login_title()
 	{
 		return get_bloginfo('name');
 	}
@@ -852,54 +897,78 @@ public function widget_functions() {
 		$wps_widget_handle['type'] = $this->aof_options[ 'wps_widget_' . $i .'_type' ];
 		$wps_widget_handle['pos'] = $this->aof_options[ 'wps_widget_' . $i .'_position' ];
 		$wps_widget_handle['title'] = $this->aof_options[ 'wps_widget_' . $i .'_title' ];
-		$wps_widget_handle['content'] = do_shortcode($this->aof_options[ 'wps_widget_' . $i .'_content']);
+
+    $wps_widget_content = wpautop($this->aof_options[ 'wps_widget_' . $i .'_content'], true);
+
+		$wps_widget_handle['content'] = do_shortcode($wps_widget_content);
 		$wps_widget_handle['rss'] = $this->aof_options[ 'wps_widget_' . $i .'_rss' ];
-		if(!empty($wps_widget_handle['title']) || !empty($wps_widget_handle['content']) || !empty($wps_widget_handle['rss']))
+		if(!empty($wps_widget_handle['title']) || !empty($wps_widget_handle['content']) || !empty($wps_widget_handle['rss'])) {
 			add_meta_box('wps_dashwidget_' . $i, $wps_widget_handle['title'], array($this, 'wps_display_widget_content'), 'dashboard', $wps_widget_handle['pos'], 'high', $wps_widget_handle);
-	}
-	}
-
-	public function wps_display_widget_content($post, $wps_widget_handle)
-	{
-		if($wps_widget_handle['args']['type'] == 1) {
-			echo '<div class="rss-widget">';
-			 wp_widget_rss_output(array(
-				  'url' => $wps_widget_handle['args']['rss'],
-				  'items' => 5,
-				  'show_summary' => 1,
-				  'show_author' => 1,
-				  'show_date' => 1
-			 ));
-			 echo "</div>";
-		}
-		else {
-			echo $wps_widget_handle['args']['content'];
-		}
-	}
-
-	public function wps_get_icons(){
-		$pattern = '/\.(fa-(?:\w+(?:-)?)+):before\s+{\s*content:\s*"(.+)";\s+}/';
-		$file_contents = wp_remote_get( WPSHAPERE_DIR_URI . 'assets/font-awesome/css/font-awesome.css' );
-
-    if(is_wp_error($file_contents))
-        return;
-    if ( 200 == wp_remote_retrieve_response_code( $file_contents ) ) {
-            $icon_contents = $file_contents['body'];
     }
-
-		$icons = array();
-		if(!empty($icon_contents)) {
-        preg_match_all($pattern, $icon_contents, $matches, PREG_SET_ORDER);
-        foreach($matches as $match){
-                $icons[$match[1]] = $match[2];
-        }
-    }
-    return $icons;
 	}
+}
+
+public function wps_display_widget_content($post, $wps_widget_handle)
+{
+	if($wps_widget_handle['args']['type'] == 1) {
+		echo '<div class="rss-widget">';
+		 wp_widget_rss_output(array(
+			  'url' => $wps_widget_handle['args']['rss'],
+			  'items' => 5,
+			  'show_summary' => 1,
+			  'show_author' => 1,
+			  'show_date' => 1
+		 ));
+		 echo "</div>";
+	}
+	else {
+		echo $wps_widget_handle['args']['content'];
+	}
+}
+
+function wps_video_frame_css()
+{
+  for($i = 1; $i <= 4; $i++) {
+    if(isset($this->aof_options['wps_widget_' . $i . '_type']) && $this->aof_options['wps_widget_' . $i . '_type'] == 3) {
+      echo '<style>#wps_dashwidget_' . $i . ' .inside{position:relative;padding-bottom:56.25%;padding-top:25px;height:0;margin-top:0}#wps_dashwidget_' . $i . ' .inside object,#wps_dashwidget_' . $i . ' .inside embed,#wps_dashwidget_' . $i . ' .inside iframe{position: absolute;top:0;left:0;width:100%;height:100%;}</style>';
+    }
+  }
+}
+
+public function wps_get_icons(){
+  //new method with fa icons php array written instead of using wp_remote_get method
+	$pattern = '/\.(fa-(?:\w+(?:-)?)+):before\s+{\s*content:\s*"(.+)";\s+}/';
+	$file_contents = wp_remote_get( WPSHAPERE_DIR_URI . 'assets/font-awesome/css/font-awesome.css' );
+
+  if(is_wp_error($file_contents))
+      return;
+  if ( 200 == wp_remote_retrieve_response_code( $file_contents ) ) {
+          $icon_contents = $file_contents['body'];
+  }
+
+	$icons = array();
+	if(!empty($icon_contents)) {
+      preg_match_all($pattern, $icon_contents, $matches, PREG_SET_ORDER);
+      foreach($matches as $match){
+              $icons[$match[1]] = $match[2];
+      }
+  }
+  return $icons;
+}
+
+  function wps_get_icon_class($iconData) {
+      if(!empty($iconData)) {
+          $icon_class = explode('|', $iconData);
+          if(isset($icon_class[0]) && isset($icon_class[1])) {
+              return $icon_class[0] . ' ' . $icon_class[1];
+          }
+      }
+  }
 
 	public function wpsiconStyles(){
 		$wps_sorteddmenu = $this->get_wps_option_data('wpshapere_menuorder');
-		$get_icons = $this->wps_get_icons();
+    $faicons = new WPSFAICONS();
+    $faicons_data = $faicons->wps_fa_icons();
 		if(!empty($wps_sorteddmenu)){
 		foreach($wps_sorteddmenu as $menu_data_key => $menu_data_val){
 			$sel_icon = (isset($menu_data_val[2])) ? $menu_data_val[2] : "";
@@ -907,7 +976,7 @@ public function widget_functions() {
 			if( strpos($menu_data_key, '_sbchild') === false && $icon_data[0] == 'fa') {
 				if(isset($icon_data[1]) && !empty($icon_data[1])){
 				echo '#adminmenu li.wps_icon_' . $menu_data_key . ' a.wps_icon_' . $menu_data_key . ' div.wp-menu-image:before {';
-				echo 'font-family: "FontAwesome" !important; content: "' . $get_icons[$icon_data[1]] . '" !important';
+				echo 'font-family: "FontAwesome" !important; content: "' . $faicons_data[$icon_data[1]] . '" !important';
 				echo '} ';
 				}
 			}
@@ -930,8 +999,8 @@ public function widget_functions() {
 #wpadminbar a.ab-item, #wpadminbar>#wp-toolbar span.ab-label, #wpadminbar>#wp-toolbar span.noticon { color: <?php echo $this->aof_options['admin_bar_menu_color']; ?> }
 #wpadminbar .ab-top-menu>li>.ab-item:focus, #wpadminbar.nojq .quicklinks .ab-top-menu>li>.ab-item:focus, #wpadminbar .ab-top-menu>li:hover>.ab-item, #wpadminbar .ab-top-menu>li.hover>.ab-item, #wpadminbar .quicklinks .menupop ul li a:focus, #wpadminbar .quicklinks .menupop ul li a:focus strong, #wpadminbar .quicklinks .menupop ul li a:hover, #wpadminbar-nojs .ab-top-menu>li.menupop:hover>.ab-item, #wpadminbar .ab-top-menu>li.menupop.hover>.ab-item, #wpadminbar .quicklinks .menupop ul li a:hover strong, #wpadminbar .quicklinks .menupop.hover ul li a:focus, #wpadminbar .quicklinks .menupop.hover ul li a:hover, #wpadminbar li .ab-item:focus:before, #wpadminbar li a:focus .ab-icon:before, #wpadminbar li.hover .ab-icon:before, #wpadminbar li.hover .ab-item:before, #wpadminbar li:hover #adminbarsearch:before, #wpadminbar li:hover .ab-icon:before, #wpadminbar li:hover .ab-item:before, #wpadminbar.nojs .quicklinks .menupop:hover ul li a:focus, #wpadminbar.nojs .quicklinks .menupop:hover ul li a:hover, #wpadminbar li:hover .ab-item:after, #wpadminbar>#wp-toolbar a:focus span.ab-label, #wpadminbar>#wp-toolbar li.hover span.ab-label, #wpadminbar>#wp-toolbar li:hover span.ab-label { color: <?php echo $this->aof_options['admin_bar_menu_hover_color']; ?> }
 
-.quicklinks li.wpshape_site_title { width: 200px !important; }
-.quicklinks li.wpshape_site_title a{ outline:none; border:none;
+.quicklinks li.wpshapere_site_title { width: 200px !important; }
+.quicklinks li.wpshapere_site_title a{ outline:none; border:none;
 <?php
 
   $admin_logo_url = (is_numeric($this->aof_options['admin_logo'])) ? $this->get_wps_image_url($this->aof_options['admin_logo']) : $this->aof_options['admin_logo'];
@@ -953,13 +1022,7 @@ background-image:url(<?php echo $admin_logo_url;  ?>) !important; background-rep
           echo '<style>.update-nag, .updated, .notice { display: none; }</style>';
   }
 
-	public static function deleteOptions()
-	{
-		//delete_option( $this->wps_options );
-		//delete_option( $this->wps_menuorder_options );
-	}
-
-        }
+  }
 
 }
 

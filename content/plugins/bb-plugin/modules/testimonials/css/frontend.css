@@ -78,3 +78,10 @@ body.rtl .fl-testimonials-wrap .fl-testimonial {
 .fl-testimonials-wrap.compact .fl-slider-prev {
 	right: 18px !important;
 }
+
+/* Navigation Fixes */
+.fl-testimonials-wrap .fl-slider-next a.disabled,
+.fl-testimonials-wrap .fl-slider-prev a.disabled,
+.fl-testimonials-wrap .bx-controls a.disabled {
+	pointer-events: none;
+}

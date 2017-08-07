@@ -2,7 +2,7 @@
 
 	<div id="wphb-server-instructions-apache" class="wphb-server-instructions hidden" data-server="apache">
 		<?php if ( $htaccess_writable && ! $gzip_already_active ): ?>
-			<p><?php _e( 'WP Hummingbird will try to write into your <strong>.htaccess</strong> file for you', 'wphb' ); ?></p>
+			<p><?php _e( 'Hummingbird will try to write into your <strong>.htaccess</strong> file for you', 'wphb' ); ?></p>
 			<p><a href="#" id="toggle-apache-instructions"><?php esc_html_e( 'Want to do it manually?', 'wphb' ); ?></a></p>
 		<?php endif; ?>
 
@@ -36,7 +36,7 @@
 
 	<div id="wphb-server-instructions-litespeed" class="wphb-server-instructions hidden" data-server="LiteSpeed">
 		<?php if ( $htaccess_writable && ! $gzip_already_active ): ?>
-			<p><?php _e( 'WP Hummingbird will try to write into your <strong>.htaccess</strong> file for you', 'wphb' ); ?></p>
+			<p><?php _e( 'Hummingbird will try to write into your <strong>.htaccess</strong> file for you', 'wphb' ); ?></p>
 			<p><a href="#" id="toggle-litespeed-instructions"><?php esc_html_e( 'Want to do it manually?', 'wphb' ); ?></a></p>
 		<?php endif; ?>
 

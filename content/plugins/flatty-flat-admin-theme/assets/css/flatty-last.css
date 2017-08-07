@@ -1,0 +1,12 @@
+body.press-this .flatty-top-bar {
+    display:none;
+}
+body.press-this.flatty_tall_bar {
+    padding-top:0!important;
+}
+body.press-this:after {
+    display:none!important;
+}
+body.press-this .flatty-custom-footer {
+    display:none!important;
+}

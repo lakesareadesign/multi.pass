@@ -188,8 +188,6 @@ if ( ! class_exists( 'UB_Blog_Favicons' ) ) :
 	 * @param string $which
 	 */
 		protected function display_tablenav( $which ) {
-			if ( 'top' == $which ) {
-				wp_nonce_field( 'ultimatebranding_settings_menu_images' ); }
 		?>
             <div class="tablenav <?php echo esc_attr( $which ); ?>">
 

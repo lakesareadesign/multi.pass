@@ -1,37 +1,49 @@
 <?php
 
+/**
+ * Class WP_Hummingbird_Module_GZip
+ */
 class WP_Hummingbird_Module_GZip extends WP_Hummingbird_Module_Server {
 
 	protected $transient_slug = 'gzip';
 
 	public function analize_data() {
 		$files = array(
-			'HTML' => add_query_arg( 'avoid-minify', 'true', get_home_url() ),
+			'HTML'       => add_query_arg( 'avoid-minify', 'true', get_home_url() ),
 			'JavaScript' => wphb_plugin_url() . 'core/modules/dummy/dummy-js.js',
-			'CSS' => wphb_plugin_url() . 'core/modules/dummy/dummy-style.css',
+			'CSS'        => wphb_plugin_url() . 'core/modules/dummy/dummy-style.css',
 		);
 
 		$results = array();
+		$try_api = false;
 		foreach ( $files as $type  => $file ) {
-
-			// We don't use wp_remote, getting the content-encoding is not working
-			if ( ! class_exists('SimplePie') )
+			// We don't use wp_remote, getting the content-encoding is not working.
+			if ( ! class_exists( 'SimplePie' ) ) {
 				require_once( ABSPATH . WPINC . '/class-simplepie.php' );
+			}
 
 			$result = new SimplePie_File( $file, 10, 5, null, $_SERVER['HTTP_USER_AGENT'] );
 
 			$headers = $result->headers;
-			if ( empty( $headers ) ) {
-				$results[ $type ] = false;
-			}
-			elseif ( isset( $headers['content-encoding'] ) && $headers['content-encoding'] == 'gzip' ) {
+			$results[ $type ] = false;
+			if ( ! empty( $headers ) && isset( $headers['content-encoding'] ) && 'gzip' === $headers['content-encoding'] ) {
 				$results[ $type ] = true;
+			} else {
+				$try_api = true;
 			}
-			else {
-				$results[ $type ] = false;
+		}
+
+		if ( $try_api ) {
+			// Get the API results.
+			$api = wphb_get_api();
+			$api_results = $api->performance->check_gzip();
+			$api_results = get_object_vars( $api_results );
+			foreach ( $files as $type  => $file ) {
+				$index = strtolower( $type );
+				if ( ! isset( $api_results[ $index ]->response_error ) && true === $api_results[ $index ] ) {
+					$results[ $type ] = true;
+				}
 			}
-
-
 		}
 
 		return $results;

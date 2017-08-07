@@ -33,25 +33,27 @@
 				</span>
 			</li>
 
-			<?php if ( wphb_is_member() ): ?>
-				<li>
-					<span class="list-label"><?php _e( 'WPMU DEV CDN', 'wphb' ); ?></span>
-					<span class="list-detail">
-                   <div class="toggle-actions">
-                        <span class="toggle tooltip-right" tooltip="<?php _e( 'Enable WPMU DEV CDN', 'wphb' ); ?>">
-                            <input type="checkbox" class="toggle-checkbox" name="use_cdn" id="use_cdn" <?php checked( $use_cdn ); ?> <?php disabled( ! $is_member ); ?>>
-                            <label for="use_cdn" class="toggle-label"></label>
-                        </span>
-                    </div><!-- end toggle-actions -->
-                </span>
-				</li>
-			<?php else: ?>
-				<li>
-					<span class="list-label"><?php _e( 'WPMU DEV CDN', 'wphb' ); ?></span>
-					<span class="list-detail">
-						<div><a class="button button-content-cta button-ghost" href="#wphb-upgrade-membership-modal" id="dash-uptime-update-membership" rel="dialog"><?php _e( 'Pro Feature', 'wphb' ); ?></a></div>
+			<?php if ( ! is_multisite() ): ?>
+				<?php if ( wphb_is_member() ): ?>
+					<li>
+						<span class="list-label"><?php _e( 'WPMU DEV CDN', 'wphb' ); ?></span>
+						<span class="list-detail">
+					   <div class="toggle-actions">
+							<span class="toggle tooltip-right" tooltip="<?php _e( 'Enable WPMU DEV CDN', 'wphb' ); ?>">
+								<input type="checkbox" class="toggle-checkbox" name="use_cdn" id="use_cdn" <?php checked( $use_cdn ); ?> <?php disabled( ! $is_member ); ?>>
+								<label for="use_cdn" class="toggle-label"></label>
+							</span>
+						</div><!-- end toggle-actions -->
 					</span>
-				</li>
+					</li>
+				<?php else: ?>
+					<li>
+						<span class="list-label"><?php _e( 'Host your files on WPMU DEV’s blazing fast CDN', 'wphb' ); ?></span>
+						<span class="list-detail">
+							<div><a class="button button-content-cta button-ghost" href="#wphb-upgrade-membership-modal" id="dash-uptime-update-membership" rel="dialog"><?php _e( 'Pro Feature', 'wphb' ); ?></a></div>
+						</span>
+					</li>
+				<?php endif; ?>
 			<?php endif; ?>
 		</ul>
 	</div>

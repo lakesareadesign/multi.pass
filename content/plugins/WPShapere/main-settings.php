@@ -12,6 +12,16 @@ defined('ABSPATH') || die;
 */
 define( 'WPSHAPERE_MENU_SLUG' , 'wpshapere-options' );
 
+/*
+*   WPSHAPERE users list slug Constant
+*/
+define( 'WPS_ADMIN_USERS_SLUG' , 'wps_admin_users' );
+
+/*
+*   WPSHAPERE admin bar items list Constant
+*/
+define( 'WPS_ADMINBAR_LIST_SLUG' , 'wps_adminbar_list' );
+
 //AOF Framework Implementation
 require_once( WPSHAPERE_PATH . 'includes/acmee-framework/acmee-framework.php' );
 
@@ -46,8 +56,10 @@ function generateFields() {
   $aof_options->generateFields($config);
 }
 
-add_action('plugins_loaded', 'SaveSettings');
+add_action('admin_menu', 'SaveSettings');
 function SaveSettings() {
   global $aof_options;
-  $aof_options->SaveSettings($_POST);
+  if($_POST) {
+    $aof_options->SaveSettings($_POST);
+  }
 }

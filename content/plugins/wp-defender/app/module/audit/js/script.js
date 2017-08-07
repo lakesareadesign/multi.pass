@@ -171,6 +171,27 @@ jQuery(function ($) {
             });
         }
     }
+    ;
+
+    $('body').on('click', '.audit-csv', function () {
+        var query = WDAudit.buildFilterQuery();
+        query = query + '&action=exportAsCvs';
+        location.href = ajaxurl + '?' + query;
+        // var that = $(this);
+        // $.ajax({
+        //     type: 'POST',
+        //     url: ajaxurl,
+        //     data: query,
+        //     beforeSend: function () {
+        //         that.attr('disabled', 'disabled');
+        //     },
+        //     success: function (data) {
+        //         if (data.success == 1) {
+        //             that.removeAttr('disabled');
+        //         }
+        //     }
+        // })
+    })
 });
 var count;
 

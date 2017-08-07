@@ -33,7 +33,7 @@ class UB_Admin_Bar {
 	 *
 	 */
 	function __construct() {
-		add_filter( 'ultimatebranding_settings_menu_adminbar_process', array( $this, 'update_data' ), 10, 1 );
+		add_filter( 'ultimatebranding_settings_adminbar_process', array( $this, 'update_data' ), 10, 1 );
 		add_action( 'admin_bar_menu', array( $this, 'reorder_menus' ), 99999 );
 		add_action( 'admin_bar_menu', array( $this, 'add_custom_menus' ), 1 );
 		add_action( 'admin_bar_menu', array( $this, 'remove_menus_from_admin_bar' ), 999 );
@@ -64,7 +64,7 @@ class UB_Admin_Bar {
 	 * @since 1.5
 	 * @access public
 	 *
-	 * @hook ultimatebranding_settings_menu_adminbar_process
+	 * @hook ultimatebranding_settings_adminbar_process
 	 *
 	 * @param bool $status
 	 * @return bool true on successful update, false on update failure
@@ -121,7 +121,6 @@ class UB_Admin_Bar {
 	}
 
 	private static function _get_menu_composite_id( $id ) {
-
 		return self::MENU_OPTION_KEY . $id;
 	}
 	/**
@@ -270,21 +269,24 @@ class UB_Admin_Bar {
 	 *
 	 * @return array UB_Admin_Bar_Menu|bool false
 	 */
-	public static  function menus() {
-		global $wpdb;
-		$ids = maybe_unserialize( ub_get_option( self::OPTION_KEY ) );
-		$menus = array();
-		if ( $ids ) {
-			foreach ( $ids as $id ) {
-				$composite_id = self::_get_menu_composite_id( $id );
-				if ( $m = ub_get_option( $composite_id )  ) {
-					$menus[]  = new UB_Admin_Bar_Menu( $id , maybe_unserialize( $m ) );
-				}
-			}
-		}
-
-		return $menus;
-	}
+    public static  function menus() {
+        global $wpdb;
+        $ids = maybe_unserialize( ub_get_option( self::OPTION_KEY ) );
+        $menus = array();
+        if ( $ids ) {
+            foreach ( $ids as $id => $data ) {
+                if ( ! is_array( $data ) ) {
+                    $id = $data;
+                }
+                $composite_id = self::_get_menu_composite_id( $id );
+                if ( $m = ub_get_option( $composite_id )  ) {
+                    $m = maybe_unserialize( $m );
+                    $menus[]  = new UB_Admin_Bar_Menu( $id , $m );
+                }
+            }
+        }
+        return $menus;
+    }
 
 	/**
 	 * Returns menus style

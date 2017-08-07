@@ -11,16 +11,17 @@ if (!class_exists("mb_notice")) {
     class mb_notice
     {
 
-        function __construct($name_space, $plugin_file)
+        public function __construct($name_space, $plugin_file, $version = 0)
         {
             $this->name_space = $name_space;
             $this->notices = array();
             $this->plugin_file = $plugin_file;
             $this->id = 0;
+            $this->version = $version;
 
             add_action('admin_enqueue_scripts', function () {
-              global $name_space;
-              self::load_mb_admin_script($name_space);
+                global $name_space;
+                self::load_mb_admin_script($name_space);
             });
 
             add_action('wp_ajax_mb_ignore_notice', array('mb_notice', 'ignore_notice'));
@@ -43,7 +44,7 @@ if (!class_exists("mb_notice")) {
 
         public function add_notice($mbtg_message, $class)
         {
-            array_push($this->notices, array("id" => $this->name_space . $this->id, "message" => $mbtg_message, "class" => $class));
+            array_push($this->notices, array("id" => $this->name_space . $this->id . "_" . $this->version, "message" => $mbtg_message, "class" => $class));
             $this->id++;
         }
 
@@ -61,7 +62,7 @@ if (!class_exists("mb_notice")) {
             }
         }
 
-        public static function ignore_notice()
+        public function ignore_notice()
         {
             $name_space = $_POST["name_space"];
             $notice_id = $_POST["notice_id"];
@@ -84,7 +85,7 @@ if (!class_exists("mb_notice")) {
             update_option($this->name_space . '_notice_dismiss', '[]');
         }
 
-        public static function load_mb_admin_script($name_space)
+        public function load_mb_admin_script($name_space)
         {
             wp_register_script('mb_notice', plugins_url('mb.notice.js', __FILE__), array('jquery'), "1.0", true, 1000);
             $data = array(

@@ -721,7 +721,7 @@ class CustomSidebarsReplacer extends CustomSidebars {
 
 		// Translate the name and description.
 		$sidebar['name'] = icl_t( $context, $sidebar['id'] . '-name', $sidebar['name'] );
-		$sidebar['description'] = icl_t( $context, $sidebar['id'] . '-description', $sidebar['description'] );							 			 	 	 		  
+		$sidebar['description'] = icl_t( $context, $sidebar['id'] . '-description', $sidebar['description'] );
 
 		$wp_registered_sidebars[ $sidebar['id'] ] = $sidebar;
 	}

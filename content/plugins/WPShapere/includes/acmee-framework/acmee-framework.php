@@ -3,15 +3,15 @@
 Plugin Name: Acmee Options Framework
 Plugin URI: http://acmeedesign.com
 Description: Options framework for Wordpress themes and plugins.
-version: 1.0
-Author: KannanC
+version: 1.2
+Author: AcmeeDesign Softwares and Solutions
 Author URI: http://acmeedesign.com
  */
 
 /*
 * AOF Constants
 */
-define( 'AOF_VERSION' , '1.1' );    
+define( 'AOF_VERSION' , '1.2' );
 define( 'AOF_PATH' , dirname(__FILE__) . "/");
 define( 'AOF_DIR_URI' , plugin_dir_url(__FILE__) );
 

@@ -1,3 +1,66 @@
+<h4>1.10.6.5 8/03/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>Fixed Text Editor Module z-index issue introduced in WordPress 4.8.1</li>
+</ul>
+
+<h4>1.10.6.4 7/28/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>Fixed PHP error produced by canonical redirection if the post_type is changed to an array by a plugin.</li>
+</ul>
+<h4>1.10.6.3 7/05/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>Fixed google fonts script logic introduced in 1.10</li>
+</ul>
+
+<h4>1.10.6.2 6/21/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>Fixed a minor bug with adding new rows, sometimes they would appear below the content</li>
+</ul>
+
+<h4>1.10.6.1 6/21/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>Fix broken markup caused by changes to posts module list mode introduced in 1.10.6</li>
+</ul>
+
+<h4>1.10.6 6/19/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+    <li>Subscribe Form module: New service for iContact Pro.</li>
+    <li>Subscribe Form module: Added support for Godaddy Email Marketing.</li>
+    <li>Saved rows in Builder UI now sorted alphabetically.</li>
+    <li>Enhanced WP-CLI support. See <a href="http://kb.wpbeaverbuilder.com/article/504-wp-cli">documentation</a>.</li>
+    <li>New action <code>fl_builder_subscribe_form_submission_complete</code> added to Subscribe Form module.</li>
+    <li>New filter <code>fl_builder_render_module_settings_assets</code> added to settings form assets.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+    <li>Removed the new core media widgets from the builder since they don’t work in the builder and we have modules that do the same thing.</li>
+    <li>Fixed the core text widget form in the builder so the legacy form loads since the new form in 4.8 doesn’t. The text widget is also removed from the module list in favor of the Text Editor and HTML modules. Sites previously using the text widget will still render and they can still be edited, they just won’t be able to add new text widgets.</li>
+    <li>Fixed Slideshow module not showing in the Tabs module.</li>
+    <li>Fixed JS error in Row > Background > Slideshow  on touch-enabled devices.</li>
+    <li>Increased the video ratio to 16:9 to fix the top/bottom black border on responsive layout.</li>
+    <li>Changed span to div element for the Accordion label to avoid possible W3C validation error.</li>
+    <li>Disabled click event while transitioning on Posts Carousel and Posts Slider.</li>
+    <li>Fixed a row duplication issue if the row contains a layout shortcode.</li>
+    <li>Fixed Posts module infinite scroll if Posts Slider module is on same page.</li>
+    <li>Added sans-serif as Google Fonts fallback.</li>
+    <li>Throw an error if wrong type of Icomoon icons are uploaded.</li>
+    <li>Fixed PHP notice on 404 pages if layout shortcode is used via a hook.</li>
+    <li>Reduced encoding issues when copying template.dat files between Windows and UNIX servers.</li>
+    <li>Disabled click event on Testimonial module's navigation dots and arrows while transitioning to avoid skipping slide item.</li>
+    <li>Pagination issue with Posts module if page URL has a query parameter.</li>
+    <li>Fixed menu current item class not working on front page when menu is rendered via a hook.</li>
+    <li>Fixed menu overlay layout issue on responsive style.</li>
+    <li>Make sure submenu closes on pages with scroll-to link.</li>
+    <li>Featured image should now be displayed below title and beside text for both left and right position Posts module list.</li>
+    <li>Fixed pagination on single custom post types with Posts module caused by canonical redirection.</li>
+</ul>
+
 <h4>1.10.5.1 - 6/5/2017</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>

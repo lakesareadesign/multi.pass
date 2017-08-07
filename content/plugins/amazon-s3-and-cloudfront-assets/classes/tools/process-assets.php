@@ -2,6 +2,7 @@
 
 namespace DeliciousBrains\WP_Offload_S3_Assets\Tools;
 
+use AS3CF_Utils;
 use DeliciousBrains\WP_Offload_S3\Pro\Background_Processes\Background_Tool_Process;
 use DeliciousBrains\WP_Offload_S3\Pro\Background_Tool;
 
@@ -77,6 +78,7 @@ class Process_Assets extends Background_Tool {
 	 */
 	public function get_status() {
 		return array(
+			'should_render' => $this->should_render(),
 			'progress'      => $this->get_progress(),
 			'is_queued'     => $this->is_queued(),
 			'description'   => $this->get_status_description(),
@@ -102,6 +104,15 @@ class Process_Assets extends Background_Tool {
 	 */
 	public function get_button_text() {
 		return esc_html_x( 'Scan Now', 'Scan the filesystem for files to upload to S3', 'as3cf-assets' );
+	}
+
+	/**
+	 * Get queued status text.
+	 *
+	 * @return string
+	 */
+	public function get_queued_status() {
+		return '';
 	}
 
 	/**
@@ -131,20 +142,22 @@ class Process_Assets extends Background_Tool {
 	private function scripts_served_message() {
 		$css_count = $this->as3cf->count_scripts_being_served( 'css' );
 		$js_count  = $this->as3cf->count_scripts_being_served( 'js' );
-		$link      = 'https://deliciousbrains.com/wp-offload-s3/doc/assets-addon/';
+		$url       = $this->as3cf->dbrains_url( '/wp-offload-s3/doc/assets-addon/', array(
+			'utm_campaign' => 'addons+install',
+		), 'serving-urls' );
 
 		if ( $this->as3cf->count_files() ) {
 			// Files have been uploaded, but may or may be served
 			if ( 0 === ( $css_count + $js_count ) ) {
-				$more_info_link = $this->as3cf->dbrains_link( $link, _x( 'Why?', 'Why are css and js assets not serving?', 'as3cf-assets' ), 'serving-urls', true );
+				$more_info_link = AS3CF_Utils::dbrains_link( $url, _x( 'Why?', 'Why are css and js assets not serving?', 'as3cf-assets' ) );
 				$message        = sprintf( __( 'CSS and JS files have been uploaded to S3 but none of the files have been served just yet. %s', 'as3cf-assets' ), $more_info_link );
 			} else {
-				$more_info_link = $this->as3cf->more_info_link( $link, 'serving-urls' );
+				$more_info_link = $this->as3cf->more_info_link( $url, 'serving-urls' );
 				$message        = sprintf( __( '%d JS and %d CSS enqueued files are currently being served. %s', 'as3cf-assets' ), $js_count, $css_count, $more_info_link );
 			}
 		} else {
 			// No files have been uploaded or are being served
-			$more_info_link = $this->as3cf->dbrains_link( $link, _x( 'Why?', 'Why are css and js assets not serving?', 'as3cf-assets' ), 'serving-urls', true );
+			$more_info_link = AS3CF_Utils::dbrains_link( $url, _x( 'Why?', 'Why are css and js assets not serving?', 'as3cf-assets' ) );
 			$message        = sprintf( __( 'No CSS or JS files are being served. %s', 'as3cf-assets' ), $more_info_link );
 		}
 

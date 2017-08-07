@@ -22,8 +22,7 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function init()
-	{
+	static public function init() {
 		add_action( 'after_setup_theme', __CLASS__ . '::init_hooks', 11 );
 	}
 
@@ -34,8 +33,7 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function init_hooks()
-	{
+	static public function init_hooks() {
 		if ( ! is_admin() ) {
 			return;
 		}
@@ -44,6 +42,7 @@ final class FLBuilderAdminSettings {
 
 		if ( isset( $_REQUEST['page'] ) && 'fl-builder-settings' == $_REQUEST['page'] ) {
 			add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
+			add_filter( 'admin_footer_text', array( __CLASS__, '_filter_admin_footer_text' ) );
 			self::save();
 		}
 	}
@@ -54,8 +53,7 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function styles_scripts()
-	{
+	static public function styles_scripts() {
 		// Styles
 		wp_enqueue_style( 'fl-builder-admin-settings', FL_BUILDER_URL . 'css/fl-builder-admin-settings.css', array(), FL_BUILDER_VERSION );
 		wp_enqueue_style( 'jquery-multiselect', FL_BUILDER_URL . 'css/jquery.multiselect.css', array(), FL_BUILDER_VERSION );
@@ -77,8 +75,7 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function menu()
-	{
+	static public function menu() {
 		if ( current_user_can( 'delete_users' ) ) {
 
 			$title = FLBuilderModel::get_branding();
@@ -96,8 +93,7 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function render()
-	{
+	static public function render() {
 		include FL_BUILDER_DIR . 'includes/admin-settings-js-config.php';
 		include FL_BUILDER_DIR . 'includes/admin-settings.php';
 	}
@@ -108,12 +104,10 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function render_page_class()
-	{
+	static public function render_page_class() {
 		if ( self::multisite_support() ) {
 			echo 'fl-settings-network-admin';
-		}
-		else {
+		} else {
 			echo 'fl-settings-single-install';
 		}
 	}
@@ -124,8 +118,7 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function render_page_heading()
-	{
+	static public function render_page_heading() {
 		$icon = FLBuilderModel::get_branding_icon();
 		$name = FLBuilderModel::get_branding();
 
@@ -142,14 +135,12 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function render_update_message()
-	{
+	static public function render_update_message() {
 		if ( ! empty( self::$errors ) ) {
 			foreach ( self::$errors as $message ) {
 				echo '<div class="error"><p>' . $message . '</p></div>';
 			}
-		}
-		else if( ! empty( $_POST ) && ! isset( $_POST['email'] ) ) {
+		} elseif ( ! empty( $_POST ) && ! isset( $_POST['email'] ) ) {
 			echo '<div class="updated"><p>' . __( 'Settings updated!', 'fl-builder' ) . '</p></div>';
 		}
 	}
@@ -160,48 +151,47 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function render_nav_items()
-	{
+	static public function render_nav_items() {
 		$item_data = apply_filters( 'fl_builder_admin_settings_nav_items', array(
 			'welcome' => array(
 				'title' 	=> __( 'Welcome', 'fl-builder' ),
 				'show'		=> FLBuilderModel::get_branding() == __( 'Page Builder', 'fl-builder' ) && ( is_network_admin() || ! self::multisite_support() ),
-				'priority'	=> 50
+				'priority'	=> 50,
 			),
 			'license' => array(
 				'title' 	=> __( 'License', 'fl-builder' ),
 				'show'		=> FL_BUILDER_LITE !== true && ( is_network_admin() || ! self::multisite_support() ),
-				'priority'	=> 100
+				'priority'	=> 100,
 			),
 			'upgrade' => array(
 				'title' 	=> __( 'Upgrade', 'fl-builder' ),
 				'show'		=> FL_BUILDER_LITE === true,
-				'priority'	=> 200
+				'priority'	=> 200,
 			),
 			'modules' => array(
 				'title' 	=> __( 'Modules', 'fl-builder' ),
 				'show'		=> true,
-				'priority'	=> 300
+				'priority'	=> 300,
 			),
 			'post-types' => array(
 				'title' 	=> __( 'Post Types', 'fl-builder' ),
 				'show'		=> true,
-				'priority'	=> 400
+				'priority'	=> 400,
 			),
 			'user-access' => array(
 				'title' 	=> __( 'User Access', 'fl-builder' ),
 				'show'		=> true,
-				'priority'	=> 500
+				'priority'	=> 500,
 			),
 			'icons' => array(
 				'title' 	=> __( 'Icons', 'fl-builder' ),
 				'show'		=> FL_BUILDER_LITE !== true,
-				'priority'	=> 600
+				'priority'	=> 600,
 			),
 			'tools' => array(
 				'title' 	=> __( 'Tools', 'fl-builder' ),
 				'show'		=> true,
-				'priority'	=> 700
+				'priority'	=> 700,
 			),
 		) );
 
@@ -227,20 +217,19 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function render_forms()
-	{
+	static public function render_forms() {
 		// Welcome
 		if ( FLBuilderModel::get_branding() == __( 'Page Builder', 'fl-builder' ) && ( is_network_admin() || ! self::multisite_support() ) ) {
 			self::render_form( 'welcome' );
 		}
 
 		// License
-		if ( is_network_admin() || ! self::multisite_support() )  {
+		if ( is_network_admin() || ! self::multisite_support() ) {
 			self::render_form( 'license' );
 		}
 
 		// Upgrade
-		if ( FL_BUILDER_LITE === true )	 {
+		if ( FL_BUILDER_LITE === true ) {
 			self::render_form( 'upgrade' );
 		}
 
@@ -270,8 +259,7 @@ final class FLBuilderAdminSettings {
 	 * @param string $type The type of form to render.
 	 * @return void
 	 */
-	static public function render_form( $type )
-	{
+	static public function render_form( $type ) {
 		if ( self::has_support( $type ) ) {
 			include FL_BUILDER_DIR . 'includes/admin-settings-' . $type . '.php';
 		}
@@ -284,12 +272,10 @@ final class FLBuilderAdminSettings {
 	 * @param string $type The type of form being rendered.
 	 * @return void
 	 */
-	static public function render_form_action( $type = '' )
-	{
+	static public function render_form_action( $type = '' ) {
 		if ( is_network_admin() ) {
 			echo network_admin_url( '/settings.php?page=fl-builder-multisite-settings#' . $type );
-		}
-		else {
+		} else {
 			echo admin_url( '/options-general.php?page=fl-builder-settings#' . $type );
 		}
 	}
@@ -301,12 +287,10 @@ final class FLBuilderAdminSettings {
 	 * @param string $type The type of form being rendered.
 	 * @return string The URL for the form action.
 	 */
-	static public function get_form_action( $type = '' )
-	{
+	static public function get_form_action( $type = '' ) {
 		if ( is_network_admin() ) {
 			return network_admin_url( '/settings.php?page=fl-builder-multisite-settings#' . $type );
-		}
-		else {
+		} else {
 			return admin_url( '/options-general.php?page=fl-builder-settings#' . $type );
 		}
 	}
@@ -318,8 +302,7 @@ final class FLBuilderAdminSettings {
 	 * @param string $type The type of form to check.
 	 * @return bool
 	 */
-	static public function has_support( $type )
-	{
+	static public function has_support( $type ) {
 		return file_exists( FL_BUILDER_DIR . 'includes/admin-settings-' . $type . '.php' );
 	}
 
@@ -329,8 +312,7 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return bool
 	 */
-	static public function multisite_support()
-	{
+	static public function multisite_support() {
 		return is_multisite() && class_exists( 'FLBuilderMultisiteSettings' );
 	}
 
@@ -341,8 +323,7 @@ final class FLBuilderAdminSettings {
 	 * @param string $message The error message to add.
 	 * @return void
 	 */
-	static public function add_error( $message )
-	{
+	static public function add_error( $message ) {
 		self::$errors[] = $message;
 	}
 
@@ -352,10 +333,9 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function save()
-	{
+	static public function save() {
 		// Only admins can save settings.
-		if(!current_user_can('delete_users')) {
+		if ( ! current_user_can( 'delete_users' ) ) {
 			return;
 		}
 
@@ -377,8 +357,7 @@ final class FLBuilderAdminSettings {
 	 * @access private
 	 * @return void
 	 */
-	static private function save_enabled_modules()
-	{
+	static private function save_enabled_modules() {
 		if ( isset( $_POST['fl-modules-nonce'] ) && wp_verify_nonce( $_POST['fl-modules-nonce'], 'modules' ) ) {
 
 			$modules = array();
@@ -398,16 +377,14 @@ final class FLBuilderAdminSettings {
 	 * @access private
 	 * @return void
 	 */
-	static private function save_enabled_post_types()
-	{
+	static private function save_enabled_post_types() {
 		if ( isset( $_POST['fl-post-types-nonce'] ) && wp_verify_nonce( $_POST['fl-post-types-nonce'], 'post-types' ) ) {
 
 			if ( is_network_admin() ) {
 				$post_types = sanitize_text_field( $_POST['fl-post-types'] );
 				$post_types = str_replace( ' ', '', $post_types );
 				$post_types = explode( ',', $post_types );
-			}
-			else {
+			} else {
 
 				$post_types = array();
 
@@ -427,13 +404,12 @@ final class FLBuilderAdminSettings {
 	 * @access private
 	 * @return void
 	 */
-	static private function save_enabled_icons()
-	{
+	static private function save_enabled_icons() {
 		if ( isset( $_POST['fl-icons-nonce'] ) && wp_verify_nonce( $_POST['fl-icons-nonce'], 'icons' ) ) {
 
 			// Make sure we have at least one enabled icon set.
 			if ( ! isset( $_POST['fl-enabled-icons'] ) && empty( $_POST['fl-new-icon-set'] ) ) {
-				self::add_error( __( "Error! You must have at least one icon set enabled.", 'fl-builder' ) );
+				self::add_error( __( 'Error! You must have at least one icon set enabled.', 'fl-builder' ) );
 				return;
 			}
 
@@ -475,7 +451,7 @@ final class FLBuilderAdminSettings {
 
 				// Unzip failed.
 				if ( ! $unzipped ) {
-					self::add_error( __( "Error! Could not unzip file.", 'fl-builder' ) );
+					self::add_error( __( 'Error! Could not unzip file.', 'fl-builder' ) );
 					return;
 				}
 
@@ -509,8 +485,18 @@ final class FLBuilderAdminSettings {
 				// Show an error if we don't have a supported icon set.
 				if ( ! $is_icomoon && ! $is_fontello ) {
 					$filesystem->rmdir( $new_path, true );
-					self::add_error( __( "Error! Please upload an icon set from either Icomoon or Fontello.", 'fl-builder' ) );
+					self::add_error( __( 'Error! Please upload an icon set from either Icomoon or Fontello.', 'fl-builder' ) );
 					return;
+				}
+
+				// check for valid Icomoon
+				if ( $is_icomoon ) {
+					$data = json_decode( file_get_contents( $new_path . 'selection.json' ) );
+					if ( ! isset( $data->metadata ) ) {
+						$filesystem->rmdir( $new_path, true );
+						self::add_error( __( 'Error! When downloading from Icomoon, be sure to click the Download Font button and not Generate SVG.', 'fl-builder' ) );
+						return;
+					}
 				}
 
 				// Enable the new set.
@@ -518,11 +504,11 @@ final class FLBuilderAdminSettings {
 					$key = FLBuilderIcons::get_key_from_path( $new_path );
 					$enabled_icons[] = $key;
 				}
-			}
+			}// End if().
 
 			// Update the enabled sets again in case they have changed.
 			self::update_enabled_icons( $enabled_icons );
-		}
+		}// End if().
 	}
 
 	/**
@@ -532,8 +518,7 @@ final class FLBuilderAdminSettings {
 	 * @access private
 	 * @return void
 	 */
-	static private function update_enabled_icons( $enabled_icons = array() )
-	{
+	static private function update_enabled_icons( $enabled_icons = array() ) {
 		FLBuilderModel::update_admin_settings_option( '_fl_builder_enabled_icons', $enabled_icons, true );
 	}
 
@@ -544,8 +529,7 @@ final class FLBuilderAdminSettings {
 	 * @access private
 	 * @return void
 	 */
-	static private function save_user_access()
-	{
+	static private function save_user_access() {
 		if ( isset( $_POST['fl-user-access-nonce'] ) && wp_verify_nonce( $_POST['fl-user-access-nonce'], 'user-access' ) ) {
 			FLBuilderUserAccess::save_settings( isset( $_POST['fl_user_access'] ) ? $_POST['fl_user_access'] : array() );
 		}
@@ -558,16 +542,13 @@ final class FLBuilderAdminSettings {
 	 * @access private
 	 * @return void
 	 */
-	static private function clear_cache()
-	{
+	static private function clear_cache() {
 		if ( ! current_user_can( 'delete_users' ) ) {
 			return;
-		}
-		else if ( isset( $_POST['fl-cache-nonce'] ) && wp_verify_nonce( $_POST['fl-cache-nonce'], 'cache' ) ) {
+		} elseif ( isset( $_POST['fl-cache-nonce'] ) && wp_verify_nonce( $_POST['fl-cache-nonce'], 'cache' ) ) {
 			if ( is_network_admin() ) {
 				self::clear_cache_for_all_sites();
-			}
-			else {
+			} else {
 
 				// Clear builder cache.
 				FLBuilderModel::delete_asset_cache_for_all_posts();
@@ -587,8 +568,7 @@ final class FLBuilderAdminSettings {
 	 * @access private
 	 * @return void
 	 */
-	static private function clear_cache_for_all_sites()
-	{
+	static private function clear_cache_for_all_sites() {
 		global $blog_id;
 		global $wpdb;
 
@@ -624,12 +604,10 @@ final class FLBuilderAdminSettings {
 	 * @access private
 	 * @return void
 	 */
-	static private function uninstall()
-	{
+	static private function uninstall() {
 		if ( ! current_user_can( 'delete_plugins' ) ) {
 			return;
-		}
-		else if ( isset( $_POST['fl-uninstall'] ) && wp_verify_nonce( $_POST['fl-uninstall'], 'uninstall' ) ) {
+		} elseif ( isset( $_POST['fl-uninstall'] ) && wp_verify_nonce( $_POST['fl-uninstall'], 'uninstall' ) ) {
 
 			$uninstall = apply_filters( 'fl_builder_uninstall', true );
 
@@ -643,8 +621,7 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @deprecated 1.8
 	 */
-	static private function save_help_button()
-	{
+	static private function save_help_button() {
 		_deprecated_function( __METHOD__, '1.8', 'FLBuilderWhiteLabel::save_help_button_settings()' );
 	}
 
@@ -652,8 +629,7 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @deprecated 1.8
 	 */
-	static private function save_branding()
-	{
+	static private function save_branding() {
 		_deprecated_function( __METHOD__, '1.8', 'FLBuilderWhiteLabel::save_branding_settings()' );
 	}
 
@@ -661,9 +637,20 @@ final class FLBuilderAdminSettings {
 	 * @since 1.0
 	 * @deprecated 1.8
 	 */
-	static private function save_enabled_templates()
-	{
+	static private function save_enabled_templates() {
 		_deprecated_function( __METHOD__, '1.8', 'FLBuilderUserTemplatesAdmin::save_settings()' );
+	}
+
+	/**
+	 * @since 1.10.6
+	 */
+	static function _filter_admin_footer_text( $text ) {
+
+		$stars = '<a target="_blank" href="https://wordpress.org/support/plugin/beaver-builder-lite-version/reviews/#new-post" >&#9733;&#9733;&#9733;&#9733;&#9733;</a>';
+
+		$wporg = '<a target="_blank" href="https://wordpress.org/plugins/beaver-builder-lite-version/">wordpress.org</a>';
+
+		return sprintf( __( 'Add your %1$s on %2$s to spread the love.', 'fl-builder' ), $stars, $wporg );
 	}
 }
 

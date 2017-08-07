@@ -354,7 +354,7 @@ class GAPGoogle_Auth_OAuth2 extends GAPGoogle_Auth_Abstract
       $this->token['expires_in'] = $token['expires_in'];
       $this->token['created'] = time();
     } else {
-      throw new GAPGoogle_Auth_Exception("Error refreshing the OAuth2 token, message: '$body'", $code);
+      throw new GAPGoogle_Auth_Exception("Error refreshing the OAuth2 token, message: '$body'", $code);	     	 	   	  			
     }
   }
 

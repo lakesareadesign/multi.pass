@@ -47,7 +47,7 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
      * @param $default
      * @return mixed
      */
-    function get_option($option_key, $default = '' ){
+    function get_option($option_key, $default ){
         return get_site_option( self::ID . "_" . $option_key, $default );
     }
 

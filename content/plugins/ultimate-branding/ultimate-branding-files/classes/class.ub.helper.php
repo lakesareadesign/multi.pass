@@ -22,18 +22,18 @@ if ( ! class_exists( 'ub_helper' ) ) {
 	class ub_helper{
 		protected $options;
 		protected $data = null;
-        protected $option_name;
+		protected $option_name;
 
-        public function __construct() {
-            add_filter( 'ultimate_branding_options_names', array( $this, 'add_option_name' ) );
-        }
+		public function __construct() {
+			add_filter( 'ultimate_branding_options_names', array( $this, 'add_option_name' ) );
+		}
 
-        public function add_option_name( $options ) {
-            if ( ! in_array( $this->option_name, $options ) ) {
-                $options[] = $this->option_name;
-            }
-            return $options;
-        }
+		public function add_option_name( $options ) {
+			if ( ! in_array( $this->option_name, $options ) ) {
+				$options[] = $this->option_name;
+			}
+			return $options;
+		}
 
 		protected function get_value( $section, $name = null ) {
 			$this->set_data();
@@ -46,6 +46,9 @@ if ( ! class_exists( 'ub_helper' ) ) {
 					return $value[ $section ];
 				} else if ( isset( $value[ $section ][ $name ] )
 				) {
+					if ( is_string( $value[ $section ][ $name ] ) ) {
+						return stripslashes( $value[ $section ][ $name ] );
+					}
 					return $value[ $section ][ $name ];
 				}
 			}
@@ -66,6 +69,43 @@ if ( ! class_exists( 'ub_helper' ) ) {
 					$this->data = $value;
 				}
 			}
+		}
+
+		/**
+		 * Update settings
+		 *
+		 * @since 1.8.6
+		 */
+		public function update( $status ) {
+			$value = $_POST['simple_options'];
+			if ( $value == '' ) {
+				$value = 'empty';
+			}
+			foreach ( $this->options as $section_key => $section_data ) {
+				if ( ! isset( $section_data['fields'] ) ) {
+					continue;
+				}
+				foreach ( $section_data['fields'] as $key => $data ) {
+					switch ( $data['type'] ) {
+						case 'media':
+							if ( isset( $value[ $section_key ][ $key ] ) ) {
+								$image = wp_get_attachment_image_src( $value[ $section_key ][ $key ], 'full' );
+								if ( false !== $image ) {
+									$value[ $section_key ][ $key.'_meta' ] = $image;
+								}
+							}
+						break;
+						case 'checkbox':
+							if ( isset( $value[ $section_key ][ $key ] ) ) {
+								$value[ $section_key ][ $key ] = 'on';
+							} else {
+								$value[ $section_key ][ $key ] = 'off';
+							}
+					}
+				}
+			}
+			ub_update_option( $this->option_name , $value );
+			return true;
 		}
 	}
 }

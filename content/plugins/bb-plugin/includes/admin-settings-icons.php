@@ -1,13 +1,13 @@
 <div id="fl-icons-form" class="fl-settings-form">
 
-	<h3 class="fl-settings-form-header"><?php _e('Icon Settings', 'fl-builder'); ?></h3>
+	<h3 class="fl-settings-form-header"><?php _e( 'Icon Settings', 'fl-builder' ); ?></h3>
 	
-	<?php 
-	  
+	<?php
+
 	if ( FLBuilderAdminSettings::multisite_support() && ! is_network_admin() ) {
-		
+
 		global $blog_id;
-		
+
 		if ( BLOG_ID_CURRENT_SITE == $blog_id ) {
 			?>
 			<p><?php _e( 'Icons for the main site must be managed in the network admin.', 'fl-builder' ); ?></p>
@@ -16,21 +16,21 @@
 			return;
 		}
 	}
-		
+
 	?>
 
 	<form id="icons-form" action="<?php FLBuilderAdminSettings::render_form_action( 'icons' ); ?>" method="post">
 		
 		<?php if ( FLBuilderAdminSettings::multisite_support() && ! is_network_admin() ) : ?>
 		<label>
-			<input class="fl-override-ms-cb" type="checkbox" name="fl-override-ms" value="1" <?php if(get_option('_fl_builder_enabled_icons')) echo 'checked="checked"'; ?> />
-			<?php _e('Override network settings?', 'fl-builder'); ?>
+			<input class="fl-override-ms-cb" type="checkbox" name="fl-override-ms" value="1" <?php if ( get_option( '_fl_builder_enabled_icons' ) ) { echo 'checked="checked"';} ?> />
+			<?php _e( 'Override network settings?', 'fl-builder' ); ?>
 		</label>
 		<?php endif; ?>
 
 		<div class="fl-settings-form-content">
 
-			<p><?php printf( __( 'Enable or disable icon sets using the options below or upload a custom icon set from either <a%1$s>Icomoon</a> or <a%2$s>Fontello</a>.', 'fl-builder' ), ' href="https://icomoon.io/" target="_blank"', ' href="http://fontello.com/" target="_blank"' ); ?></p>
+			<p><?php _e( 'Enable or disable icon sets using the options below or upload a custom icon set. Instructions on how to generate your own custom icon sets can be read <a href="http://kb.wpbeaverbuilder.com/article/110-enable-disable-or-import-new-icon-sets" target="_blank">here</a>.', 'fl-builder' ); ?></p>
 
 			<?php
 
@@ -51,7 +51,7 @@
 				</p>
 				<?php
 			}
-				
+
 			?>
 
 		</div>
@@ -60,7 +60,7 @@
 			<input type="submit" name="fl-save-icons" class="button-primary" value="<?php esc_attr_e( 'Save Icon Settings', 'fl-builder' ); ?>" />
 			<input type="hidden" name="fl-new-icon-set" value="" />
 			<input type="hidden" name="fl-delete-icon-set" value="" />
-			<?php wp_nonce_field('icons', 'fl-icons-nonce'); ?>
+			<?php wp_nonce_field( 'icons', 'fl-icons-nonce' ); ?>
 		</p>
 	</form>
 </div>

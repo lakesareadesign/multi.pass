@@ -84,7 +84,7 @@ $time_format = get_option( 'time_format' );
 				<?php esc_html_e( 'You have no support tickets, woop!', 'wpmudev' ); ?>
 			</h4>
 			<p class="space-b">
-				<?php esc_html_e( 'When you ask a support question, it will appear here. You can also access this through your WPMU DEV Dashboard.', 'wpmudev' ); ?>
+				<?php esc_html_e( 'When you ask a support question, it will appear here. You can also access this in the WPMU DEV Hub.', 'wpmudev' ); ?>
 			</p>
 			<p>
 				<a href="<?php echo esc_url( $url_open_ticket ); ?>" target="_blank" class="wpmudui-btn is-brand">

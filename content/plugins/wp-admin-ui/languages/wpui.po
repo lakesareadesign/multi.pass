@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Admin UI\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-cloudy\n"
-"POT-Creation-Date: 2017-04-30 14:21+0200\n"
-"PO-Revision-Date: 2017-04-30 14:21+0200\n"
+"POT-Creation-Date: 2017-06-25 21:04+0200\n"
+"PO-Revision-Date: 2017-06-25 21:04+0200\n"
 "Last-Translator: \n"
 "Language-Team: Benjamin DENIS <contact@wpadminui.net>\n"
 "Language: en\n"
@@ -256,7 +256,7 @@ msgstr ""
 msgid "Create your own admin theme, or choose a preset one."
 msgstr ""
 
-#: inc/admin/admin.php:529 inc/admin/admin.php:540
+#: inc/admin/admin.php:529 inc/admin/admin.php:540 inc/admin/adminbar.php:107
 msgid "Mails"
 msgstr ""
 
@@ -264,7 +264,7 @@ msgstr ""
 msgid "Optimize WP Mails"
 msgstr ""
 
-#: inc/admin/admin.php:552 inc/admin/admin.php:563
+#: inc/admin/admin.php:552 inc/admin/admin.php:563 inc/admin/adminbar.php:113
 msgid "WooCommerce"
 msgstr ""
 
@@ -1362,7 +1362,7 @@ msgstr ""
 msgid "Enable custom admin Themes"
 msgstr ""
 
-#: inc/admin/admin.php:4387
+#: inc/admin/admin.php:4385
 msgid "Toggle All"
 msgstr ""
 
@@ -1370,7 +1370,7 @@ msgstr ""
 msgid "Import / Export"
 msgstr ""
 
-#: inc/admin/adminbar.php:107
+#: inc/admin/adminbar.php:119
 msgid "License"
 msgstr ""
 

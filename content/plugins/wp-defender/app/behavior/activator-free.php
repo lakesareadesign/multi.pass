@@ -43,7 +43,7 @@ class Activator_Free extends Behavior{
 		}
 
 		$cache = WP_Helper::getCache();
-		$cache->set( 'isActivated', 1, 0 );
+		$cache->set( 'wdf_isActivated', 1, 0 );
 
 		wp_send_json_success( array(
 			'activated' => $activated
@@ -56,7 +56,7 @@ class Activator_Free extends Behavior{
 	 */
 	public function isShowActivator() {
 		$cache = WP_Helper::getCache();
-		if ( $cache->get( 'isActivated', false ) == 1 ) {
+		if ( $cache->get( 'wdf_isActivated', false ) == 1 ) {
 			return false;
 		}
 		//alread has data, just return

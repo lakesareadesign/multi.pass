@@ -54,7 +54,9 @@ class AS3CF_Pro_Licences_Updates extends Delicious_Brains_API_Licences {
 		$plugin->email_address_name       = 'as3cf';
 		$plugin->notices_hook             = 'as3cf_pre_settings_render';
 		$plugin->expired_licence_is_valid = false;
-		$plugin->purchase_url             = 'https://deliciousbrains.com/wp-offload-s3/pricing/';
+		$plugin->purchase_url             = $this->as3cf->dbrains_url( '/wp-offload-s3/pricing/', array(
+			'utm_campaign' => 'WP+Offload+S3',
+		) );
 
 		parent::__construct( $plugin );
 
@@ -360,8 +362,12 @@ class AS3CF_Pro_Licences_Updates extends Delicious_Brains_API_Licences {
 			return;
 		}
 
-		$features_url   = 'https://deliciousbrains.com/wp-offload-s3/doc/non-essential-features/';
-		$free_limit_url = 'https://deliciousbrains.com/wp-offload-s3/pricing/#free-up-limit';
+		$features_url   = $this->as3cf->dbrains_url( '/wp-offload-s3/doc/non-essential-features/', array(
+			'utm_campaign' => 'error+messages',
+		) );
+		$free_limit_url = $this->as3cf->dbrains_url( '/wp-offload-s3/pricing/', array(
+			'utm_campaign' => 'error+messages',
+		), 'free-up-limit' );
 
 		$extra = sprintf( __( 'All essential features will continue to work, but a few <a href="%s">non-essential features</a> will be disabled', 'amazon-s3-and-cloudfront' ), $features_url, strtolower( $title ) );
 
@@ -504,6 +510,8 @@ class AS3CF_Pro_Licences_Updates extends Delicious_Brains_API_Licences {
 		ob_end_clean();
 
 		if ( $licence_error ) {
+			$license                       = $this->is_licence_expired();
+			$decoded_response['errors']    = $license['errors'];
 			$decoded_response['pro_error'] = $licence_error;
 		}
 
@@ -522,7 +530,10 @@ class AS3CF_Pro_Licences_Updates extends Delicious_Brains_API_Licences {
 		if ( isset( $errors['subscription_expired'] ) ) {
 			$check_licence_again_url = $this->admin_url( $this->plugin->settings_url_path . '&nonce=' . wp_create_nonce( $this->plugin->prefix . '-check-licence' ) . '&' . $this->plugin->prefix . '-check-licence=1' . $this->plugin->settings_url_hash );
 
-			$message = sprintf( __( '<strong>Your License Has Expired</strong> &mdash; Please visit <a href="%s" target="_blank">My Account</a> to renew your license and continue receiving access to email support.' ), 'https://deliciousbrains.com/my-account/' ) . ' ';
+			$url     = $this->as3cf->dbrains_url( '/my-account/', array(
+				'utm_campaign' => 'error+messages',
+			) );
+			$message = sprintf( __( '<strong>Your License Has Expired</strong> &mdash; Please visit <a href="%s" target="_blank">My Account</a> to renew your license and continue receiving access to email support.' ), $url ) . ' ';
 			$message .= sprintf( '<a href="%s">%s</a>', $check_licence_again_url, __( 'Check again' ) );
 		}
 

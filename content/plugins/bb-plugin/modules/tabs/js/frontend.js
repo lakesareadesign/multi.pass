@@ -66,6 +66,9 @@
 
 			// WP audio shortcode support
 			FLBuilderLayout.resizeAudio( wrap.find('.fl-tabs-panel-content[data-index="' + index + '"]') );
+
+			// Slideshow module support.
+			FLBuilderLayout.resizeSlideshow();
 		},
 
 		_responsiveLabelClick: function(e)

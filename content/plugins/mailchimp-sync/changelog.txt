@@ -1,11 +1,15 @@
 Plugin Name: MailChimp Sync
 Author: WPMU DEV
 Requires at least: 3.5
-Tested up to: 4.7
+Tested up to: 4.8
 
 Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+
+1.9.4 - 2017-07-11
+----------------------------------------------------------------------
+- Fix: Fatal error when using widget/shortcode
 
 1.9.3 - 2017-01-13
 ----------------------------------------------------------------------
@@ -187,4 +191,4 @@ http://premium.wpmudev.org/forums/topic/mailchimp-integration#post-249269
 - Initial Release.
 
 
-133620-1484344667-au
+133620-1502132119-au

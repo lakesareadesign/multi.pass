@@ -59,12 +59,6 @@ table.snapshot-item-archives-table th.column-cb { width: 2%;}
 	text-align: center;
 }
 
-#icon-snapshot.icon32 {
-	background: url(../images/icon/greyscale-36.png) center center no-repeat;
-	height: 36px;
-	width: 36px;
-}
-
 #snapshot-progress-bar-container {
 	width: 60%;
 	padding-top: 10px;
@@ -250,4 +244,4 @@ tr.snapshot-log-item {
 }
 
 
-/* 133620-1479864853-au */
+/* 133620-1502132156-au */

@@ -33,7 +33,8 @@ require_once __DIR__ . '/vendor/autoload.php';
  * @return \Hammer\Caching\DB_Cache|\Hammer\Caching\Memcached_Cache
  */
 function initCacheEngine() {
-	if ( wp_using_ext_object_cache() && ! defined( 'W3TC' ) ) {
+	if ( function_exists( 'wp_using_ext_object_cache' )
+	     && wp_using_ext_object_cache() && ! defined( 'W3TC' ) ) {
 		return new \Hammer\Caching\Memcached_Cache();
 	} else {
 		return new \Hammer\Caching\DB_Cache();

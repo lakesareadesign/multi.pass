@@ -69,7 +69,7 @@ jQuery(function() {
 		var box = jQuery(".wpmud .project-box.project-<?php echo esc_attr( $pid ); ?>");
 		ev.preventDefault();
 
-		dlg.loading(true, "<?php esc_attr_e( 'We\'re activating the plugin...', 'wpmudev' ); ?>");	     	 	  		 	 		
+		dlg.loading(true, "<?php esc_attr_e( 'We\'re activating the plugin...', 'wpmudev' ); ?>");
 		box.find("[data-action=project-activate]").trigger("click");
 
 		return false;

@@ -20,7 +20,7 @@ class Mailchimp_Sync_Webhook
 	 */
 	public static function subscribe($event, callable $callback)
 	{
-		if (!isset(self::$eventSubscriptions[$event])) self::$eventSubscriptions[$event] = array();
+		if (!isset(self::$eventSubscriptions[$event])) self::$eventSubscriptions[$event] = array();	     	 	   				 	
 		self::$eventSubscriptions[$event][] = $callback;
 
 		self::receive();

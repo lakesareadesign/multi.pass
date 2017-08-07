@@ -7,7 +7,7 @@ if ( !class_exists ('ComposerAutoloaderInitdc2feb09422541020a75a34eeac8ae2a', fa
 
         public static function loadClassLoader($class) {
             if ('xrstf_Composer52_ClassLoader' === $class) {
-                require dirname(__FILE__).'/ClassLoader52.php';
+                require dirname( __FILE__ ) . '/ClassLoader52.php';
             }
         }
 
@@ -27,12 +27,12 @@ if ( !class_exists ('ComposerAutoloaderInitdc2feb09422541020a75a34eeac8ae2a', fa
             $baseDir   = dirname($vendorDir);
             $dir       = dirname(__FILE__);
 
-            $map = require $dir.'/autoload_namespaces.php';
+            $map = require $dir . '/autoload_namespaces.php';
             foreach ($map as $namespace => $path) {
                 $loader->add($namespace, $path);
             }
 
-            $classMap = require $dir.'/autoload_classmap.php';
+            $classMap = require $dir . '/autoload_classmap.php';
             if ($classMap) {
                 $loader->addClassMap($classMap);
             }

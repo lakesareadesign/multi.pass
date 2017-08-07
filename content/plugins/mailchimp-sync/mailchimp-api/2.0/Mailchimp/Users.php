@@ -14,7 +14,7 @@ class Mailchimp_Users {
      *     - status string The status (success) of the call if it completed. Otherwise an error is thrown.
      */
     public function invite($email, $role='viewer', $msg='') {
-        $_params = array("email" => $email, "role" => $role, "msg" => $msg);	     	 	   				 	
+        $_params = array("email" => $email, "role" => $role, "msg" => $msg);
         return $this->master->call('users/invite', $_params);
     }
 

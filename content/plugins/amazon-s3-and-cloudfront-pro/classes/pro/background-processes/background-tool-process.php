@@ -3,8 +3,16 @@
 namespace DeliciousBrains\WP_Offload_S3\Pro\Background_Processes;
 
 use AS3CF_Background_Process;
+use AS3CF_Error;
+use AS3CF_Utils;
+use DeliciousBrains\WP_Offload_S3\Pro\Tool;
 
 abstract class Background_Tool_Process extends AS3CF_Background_Process {
+
+	/**
+	 * @var Tool
+	 */
+	protected $tool;
 
 	/**
 	 * Default batch limit.
@@ -19,6 +27,23 @@ abstract class Background_Tool_Process extends AS3CF_Background_Process {
 	 * @var int
 	 */
 	protected $chunk = 10;
+
+	/**
+	 * @var array
+	 */
+	protected $errors = array();
+
+	/**
+	 * Initiate new background tool process.
+	 *
+	 * @param object $as3cf Instance of calling class
+	 * @param Tool   $tool
+	 */
+	public function __construct( $as3cf, $tool ) {
+		parent::__construct( $as3cf );
+
+		$this->tool = $tool;
+	}
 
 	/**
 	 * Task
@@ -90,10 +115,12 @@ abstract class Background_Tool_Process extends AS3CF_Background_Process {
 	 * @return array
 	 */
 	protected function process_blogs( $item ) {
+		$this->errors = $this->tool->get_errors();
+
 		foreach ( $item['blogs'] as $blog_id => $blog ) {
 			if ( $this->time_exceeded() || $this->memory_exceeded() ) {
 				// Batch limits reached
-				return $item;
+				break;
 			}
 
 			if ( $blog['processed'] ) {
@@ -108,6 +135,12 @@ abstract class Background_Tool_Process extends AS3CF_Background_Process {
 			$item        = $this->process_blog_attachments( $item, $blog_id, $attachments );
 
 			$this->as3cf->restore_current_blog();
+		}
+
+		if ( count( $this->errors ) ) {
+			$this->tool->update_errors( $this->errors );
+			$this->tool->update_error_notice( $this->errors );
+			$this->tool->undismiss_error_notice();
 		}
 
 		return $item;
@@ -200,10 +233,131 @@ abstract class Background_Tool_Process extends AS3CF_Background_Process {
 	}
 
 	/**
+	 * Get object keys that exist on S3 for attachments.
+	 *
+	 * It's possible that attachments belong to different buckets therefore they could have
+	 * different regions, so we have to build an array of clients and commands.
+	 *
+	 * @param array $attachments
+	 *
+	 * @return array
+	 */
+	protected function get_s3_keys( $attachments ) {
+		$regions = array();
+
+		foreach ( $attachments as $attachment_id ) {
+			$s3info = $this->as3cf->get_attachment_s3_info( $attachment_id );
+			$region = empty( $s3info['region'] ) ? 'us-east-1' : $s3info['region'];
+
+			if ( ! isset( $regions[ $region ]['s3client'] ) ) {
+				$regions[ $region ]['s3client'] = $this->as3cf->get_s3client( $region, true );
+			}
+
+			$regions[ $region ]['commands'][ $attachment_id ] = $regions[ $region ]['s3client']->getCommand( 'ListObjects', array(
+				'Bucket' => $s3info['bucket'],
+				'Prefix' => AS3CF_Utils::strip_image_edit_suffix_and_extension( $s3info['key'] ),
+			) );
+		}
+
+		return $this->get_keys_from_regions( $regions );
+	}
+
+	/**
+	 * Get object keys from region results.
+	 *
+	 * @param array $regions
+	 *
+	 * @return array
+	 */
+	protected function get_keys_from_regions( $regions ) {
+		$keys = array();
+
+		foreach ( $regions as $region ) {
+			$region['s3client']->execute( $region['commands'] );
+
+			foreach ( $region['commands'] as $attachment_id => $command ) {
+				$found_keys = $command->getResult()->getPath( 'Contents/*/Key' );
+
+				if ( ! empty( $found_keys ) ) {
+					$keys[ $attachment_id ] = $this->validate_attachment_keys( $attachment_id, $found_keys );
+				}
+			}
+		}
+
+		return $keys;
+	}
+
+	/**
+	 * Ensure returned keys are for correct attachment.
+	 *
+	 * @param array $keys
+	 *
+	 * @return array
+	 */
+	protected function validate_attachment_keys( $attachment_id, $keys ) {
+		$paths     = AS3CF_Utils::get_attachment_file_paths( $attachment_id, false );
+		$filenames = array_map( 'wp_basename', $paths );
+
+		foreach ( $keys as $key => $value ) {
+			$filename = wp_basename( $value );
+
+			if ( ! in_array( $filename, $filenames ) ) {
+				unset( $keys[ $key ] );
+			}
+		}
+
+		return $keys;
+	}
+
+	/**
+	 * Record new error.
+	 *
+	 * @param int    $blog_id
+	 * @param int    $attachment_id
+	 * @param string $message
+	 */
+	protected function record_error( $blog_id, $attachment_id, $message ) {
+		$this->errors[ $blog_id ][ $attachment_id ][] = $message;
+
+		AS3CF_Error::log( $message );
+	}
+
+	/**
+	 * Complete
+	 *
+	 * Override if applicable, but ensure that the below actions are
+	 * performed, or, call parent::complete().
+	 */
+	protected function complete() {
+		parent::complete();
+
+		$notice_id = $this->tool->get_tool_key() . '_completed';
+
+		$this->as3cf->notices->undismiss_notice_for_all( $notice_id );
+
+		$message = $this->get_complete_message();
+		$args    = array(
+			'custom_id'         => $notice_id,
+			'type'              => 'updated',
+			'flash'             => false,
+			'only_show_to_user' => false,
+		);
+
+		$this->as3cf->notices->add_notice( $message, $args );
+	}
+
+	/**
 	 * Process attachments chunk.
 	 *
 	 * @param array $attachments
 	 * @param int   $blog_id
 	 */
 	abstract protected function process_attachments_chunk( $attachments, $blog_id );
+
+	/**
+	 * Get complete notice message.
+	 *
+	 * @return string
+	 */
+	abstract protected function get_complete_message();
 }

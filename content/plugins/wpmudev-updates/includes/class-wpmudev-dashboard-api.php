@@ -226,7 +226,7 @@ class WPMUDEV_Dashboard_Api {
 			array(
 				'timeout'    => 15,
 				'sslverify'  => WPMUDEV_API_SSLVERIFY,
-				'user-agent' => 'UN Client/' . WPMUDEV_Dashboard::$version,
+				'user-agent' => 'WPMUDEV Dashboard Client/' . WPMUDEV_Dashboard::$version . " (+" . network_site_url() . ")",
 			)
 		);
 
@@ -330,7 +330,12 @@ class WPMUDEV_Dashboard_Api {
 			if ( ! is_array( $data ) ) {
 				$data = array();
 			}
-			$data['api_key'] = $this->get_key();
+
+			$key_data = array();
+			$key_data['api_key'] = $this->get_key();
+
+			//make sure api key is first
+			$data = array_merge( $key_data, $data );
 		}
 
 		$response = $this->call( $remote_path, $data, $method, $options );
@@ -939,16 +944,16 @@ class WPMUDEV_Dashboard_Api {
 		$call_version = WPMUDEV_Dashboard::$version;
 
 		$data = array(
+			'call_version' => $call_version,
+			'domain'       => network_site_url(),
 			'blog_count'   => $blog_count,
 			'wp_version'   => $wp_ver,
 			'projects'     => $projects,
-			'domain'       => network_site_url(),
 			'admin_url'    => network_admin_url(),
 			'home_url'     => network_home_url(),
 			'repo_updates' => $repo_updates,
 			'packages'     => $packages,
 			'auth_cookies' => $auth_cookies,
-			'call_version' => $call_version,
 		);
 
 		if ( $encoded ) {

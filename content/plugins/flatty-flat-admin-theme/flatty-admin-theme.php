@@ -4,7 +4,7 @@ Plugin Name: Flatty - UI Admin Theme
 Plugin URI: http://www.michelemarri.me
 Text Domain: flatty-flat-admin-theme
 Domain Path: /lang
-Version: 1.3.5
+Version: 2.0.0
 Description: <strong>The professional Wordpress Admin theme</strong> that we all need in 2017+.
 Author: michelemarri
 Author URI: http://www.michelemarri.me
@@ -13,8 +13,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 /**
- * Flatty - UI Admin Theme
- * Copyright (C) 2016, Michele Marri
+ * Flatty
+ * Copyright (C) 2017, Michele Marri
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 //DEFINE
 require_once( dirname( __FILE__ ) . '/includes/init/define.php' );
 if ( ! defined( 'FLATTY_VERSION' ) ) {
-	define( 'FLATTY_VERSION', '1.3.5' );
+	define( 'FLATTY_VERSION', '2.0.0' );
 }
 
 function flatty_load_textdomain() {
@@ -54,6 +54,13 @@ add_action('login_enqueue_scripts', 'flatty_styles');
 add_action('admin_enqueue_scripts', 'flatty_scripts');
 add_action('login_enqueue_scripts', 'flatty_scripts');
 
+// COLOR PICKER
+add_action( 'admin_enqueue_scripts', 'wp_enqueue_color_picker' );
+function wp_enqueue_color_picker( $hook_suffix ) {
+    wp_enqueue_style( 'wp-color-picker' );
+    wp_enqueue_script( 'wp-color-picker');
+}
+
 // INIT
 require_once( dirname( __FILE__ ) . '/includes/init/options_loader.php' );
 require_once( dirname( __FILE__ ) . '/includes/init/media_loader.php' );
@@ -63,13 +70,15 @@ require_once( dirname( __FILE__ ) . '/includes/init/action_links.php' );
 require_once( dirname( __FILE__ ) . '/includes/menu/menu-main.php' );
 require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-login.php' );
 require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-dashboard.php' );
-require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-branding.php' );
+require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-appearance.php' );
+require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-business_card.php' );
 require_once( dirname( __FILE__ ) . '/includes/menu/menu-sub-postspages.php' );
 
 // LOAD FLATTY OPTIONS PAGE
 require_once( dirname( __FILE__ ) . '/includes/pages/introduction.php' );
 require_once( dirname( __FILE__ ) . '/includes/pages/main_login.php' );
 require_once( dirname( __FILE__ ) . '/includes/pages/main_dashboard.php' );
-require_once( dirname( __FILE__ ) . '/includes/pages/main_branding.php' );
+require_once( dirname( __FILE__ ) . '/includes/pages/main_appearance.php' );
+require_once( dirname( __FILE__ ) . '/includes/pages/main_business_card.php' );
 require_once( dirname( __FILE__ ) . '/includes/pages/main_postspages.php' );
 ?>

@@ -1,15 +1,19 @@
 <?php
 function introduction() {
 	?>
-	<div class="wrap flatty-form">
 
-		<div class="page-title">
-            <img src="<?php echo plugins_url(FLATTY_PLUGIN_URL . 'assets/flatty-logo.png') ?>" class="flatty-logo"/>
-            <div class="header">Introduction</div>
-        </div>
+	<div class="flatty-header">
+		<div class="flatty-flex">
+	        <img src="<?php echo plugins_url(FLATTY_PLUGIN_URL . 'assets/flatty-logo.png') ?>" class="flatty-logo"/>
+	        <h1><?php _e('Introduction', 'flatty-flat-admin-theme' ); ?></h1>
+	    </div>
+    </div>
+
+
+	<div class="flatty-column">
 
 		<div class="introduction">
-			<h1>Welcome to Flatty Admin Theme</h1>
+			<h1>Welcome to Flatty</h1>
 
 			<p style="font-size:1.4rem; font-style:italic;">
 				This plugin is all about helping developers and agencies to give clients a more professional product to work on.
@@ -46,6 +50,21 @@ function introduction() {
 				Michele
 			</p>
 
+			<div style="margin-top:60px;">
+				<p style="font-size:2rem; font-weight:600; color:#4CAF50; margin-bottom:0;">
+					Please
+				</p>
+				<p style="font-size:1.1rem; margin-top:0;">
+					answer to my super simple feedback pool.
+					<br>
+					It's just a 1 minute fill.
+				</p>
+				<a class="button-primary green" href="https://michelemarri.typeform.com/to/dVMrZt">
+					Super simple feedback pool
+				</a>
+			</div>
+
+			<div style="margin-top:60px;">
 			<!-- Begin MailChimp Signup Form -->
 				<link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
 				<style type="text/css">
@@ -66,7 +85,7 @@ function introduction() {
 				</form>
 				</div>
 			<!--End mc_embed_signup-->
-
+			</div>
 		</div>
 
 

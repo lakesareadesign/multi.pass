@@ -23,9 +23,12 @@ class Main extends \WP_Defender\Controller {
 	 * @return array
 	 */
 	public function behaviors() {
-		return array(
-			'utils' => '\WP_Defender\Behavior\Utils'
-		);
+		$behaviors = array( 'utils' => '\WP_Defender\Behavior\Utils' );
+		if ( wp_defender()->isFree == false ) {
+			$behaviors['pro'] = '\WP_Defender\Module\Scan\Behavior\Pro\Reporting';
+		}
+
+		return $behaviors;
 	}
 
 	/**
@@ -296,11 +299,8 @@ class Main extends \WP_Defender\Controller {
 		$settings->email_all_ok    = stripslashes( $settings->email_all_ok );
 		$settings->email_has_issue = stripslashes( $settings->email_has_issue );
 		$settings->save();
-		if ( $settings->notification ) {
-			$cronTime = $this->reportCronTimestamp( $settings->time, 'scanReportCron' );
-			wp_schedule_event( $cronTime, 'daily', 'scanReportCron' );
-		} else {
-			wp_clear_scheduled_hook( 'processScanCron' );
+		if ( $this->hasMethod( 'scheduleReportTime' ) ) {
+			$this->scheduleReportTime( $settings );
 		}
 		wp_send_json_success( array(
 			'message' => __( "Your settings have been updated.", wp_defender()->domain )

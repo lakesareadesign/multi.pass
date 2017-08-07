@@ -828,7 +828,9 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 									<optgroup label="<?php _e( "Scheduled Options", SNAPSHOT_I18N_DOMAIN ); ?>">
 										<?php
 										$scheds = (array) wp_get_schedules();
+										$managed = Snapshot_Controller_Full_Cron::get()->get_interval_ids();
 										foreach ( $scheds as $sched_key => $sched_item ) {
+											if (in_array($sched_key, $managed)) continue; // Don't show managed intervals
 											if ( substr( $sched_key, 0, strlen( 'snapshot-' ) ) == "snapshot-" ) {
 												?>
 												<option value="<?php echo $sched_key; ?>" <?php
@@ -1104,7 +1106,7 @@ if ( ! class_exists( "Snapshot_View_Metabox_Admin" ) ) {
 						<tr class="form-field snapshot-store-local">
 							<th scope="row">
 								<label
-									for="snapshot-destination-local"><?php _e( 'Keep local archives?', SNAPSHOT_I18N_DOMAIN ); ?></label>
+									for="snapshot-store-local"><?php _e( 'Keep local archives?', SNAPSHOT_I18N_DOMAIN ); ?></label>
 							</th>
 							<td>
 								<select name="snapshot-store-local" id="snapshot-store-local">

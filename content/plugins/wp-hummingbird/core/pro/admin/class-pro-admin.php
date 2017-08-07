@@ -51,9 +51,7 @@ class WP_Hummingbird_Pro_Admin {
 	 */
 	public function register_dashboard_do_meta_boxes( $dashboard_page ) {
 		/* Reports */
-		if ( ! wphb_is_member() ) {
-			$dashboard_page->add_meta_box( 'dashboard/reports/no-membership', __( 'Reporting', 'wphb' ), null, array( $this, 'dashboard_reports_module_metabox_header' ), null, 'box-dashboard-right', array( 'box_class' => 'dev-box content-box content-box-one-col-center' ) );
-		} else {
+		if ( wphb_is_member() ) {
 			$dashboard_page->add_meta_box( 'dashboard-reports', __( 'Reports', 'wphb' ), array( $this, 'dashboard_reports_metabox' ), null, null, 'box-dashboard-left', array( 'box_class' => 'dev-box content-box content-box-one-col-center' ) );
 		}
 	}
@@ -87,7 +85,9 @@ class WP_Hummingbird_Pro_Admin {
 	 */
 	public function reporting_metabox_header() {
 		$title = __( 'Reports', 'wphb' );
-		$this->pro_view( 'performance/reporting-meta-box-header', array( 'title' => $title ) );
+		$this->pro_view( 'performance/reporting-meta-box-header', array(
+			'title' => $title,
+		));
 	}
 
 	/**
@@ -102,16 +102,6 @@ class WP_Hummingbird_Pro_Admin {
 	/*********************************
 	/** DASHBOARD                    *
 	 *********************************/
-	/**
-	 * Reports header meta box
-	 *
-	 * @since 1.4.5
-	 */
-	public function dashboard_reports_module_metabox_header() {
-		$title = __( 'Reports', 'wphb' );
-		$this->pro_view( 'dashboard/reports/meta-box-header', compact( 'title' ) );
-	}
-
 	/**
 	 * Reports meta box
 	 *

@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: HTML Email Templates
+Plugin Name: Email Template
 Plugin URI: https://premium.wpmudev.org/project/html-email-templates/
 Description: Allows you to add HTML templates for all of the standard Wordpress emails. In Multisite templates can be set network wide or can be allowed to set site wise template, if template override for the site is enabled and template is not specified for a site, network template will be used.
 Version: 2.0.6
@@ -9,7 +9,7 @@ WDP ID: 142
 */
 
 /*
-Copyright 2010-2015 Incsub
+Copyright 2010-2017 Incsub
 Author - Aaron Edwards
 Contributors - Barry Getty, Umesh Kumar
 
@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 Portions of this code are from or inspired by Mohammad Jangda's "HTML Emails" plugin: http://wordpress.org/extend/plugins/html-emails/
 */
 
-class HTML_emailer {
+class ub_html_emailer {
 	//This is where the class variables go, don't forget to use @var to tell what they're for
 	/**
 	 * @var string The options string name for this plugin
@@ -38,10 +38,6 @@ class HTML_emailer {
 	var $optionsName = 'html_email_options';
 
 	/**
-	 * @var string $textdomain Domain used for localization
-	 */
-	var $textdomain = 'htmlemail';
-
 	/**
 	 * @var string $pluginurl The path to this plugin
 	 */
@@ -124,9 +120,6 @@ class HTML_emailer {
 		//Assets Directory
 		$this->assets_path = $this->plugin_url . 'htmlemail-files/assets/';
 
-		//localize
-		add_action( 'plugins_loaded', array( &$this, 'localization' ) );
-
 		//Actions
 		add_action( 'phpmailer_init', array( &$this, 'convert_plain_text' ) );
 
@@ -151,23 +144,14 @@ class HTML_emailer {
 		add_filter( 'wp_mail_content_type', array( $this, 'set_content_type' ), 11 );
 		add_filter( 'woocommerce_email_headers', array( $this, 'set_woocommerce_content_type' ) );
 
-		add_action( 'ultimatebranding_settings_menu_htmlemail', array( $this, 'admin_options_page' ) );
+		add_action( 'ultimatebranding_settings_htmlemail', array( $this, 'admin_options_page' ) );
+		add_action( 'ultimatebranding_settings_htmlemail_process', array( $this, 'save_settings' ) );
 		add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
 
 		/**
 		 * export
 		 */
 		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
-	}
-
-	function localization() {
-		// Load up the localization file if we're using WordPress in a different language
-		// Place it in this plugin's "languages" folder and name it "html_email-[value in wp-config].mo"
-		if ( $this->location == 'plugins' ) {
-			load_plugin_textdomain( 'htmlemail', false, $this->plugin_dir . 'languages/' );
-		} else if ( $this->location == 'mu-plugins' ) {
-			load_muplugin_textdomain( 'htmlemail', $this->plugin_dir . 'languages/' );
-		}
 	}
 
 	/**
@@ -290,9 +274,6 @@ class HTML_emailer {
 	function admin_options_page() {
 		global $current_user;
 
-		//Process $_POST
-		$this->save_settings();
-
 		//Fetch HTML email settings
 		$htmlemail_settings = ub_get_option( 'htmlemail_settings' );
 		$html_template      = ub_get_option( 'html_template' );
@@ -302,8 +283,6 @@ class HTML_emailer {
 		$site_override = isset( $htmlemail_settings['site_override'] ) ? $htmlemail_settings ['site_override'] : '';
 		?>
         <div class="postbox">
-            <form method="post">
-				<?php wp_nonce_field( 'html_email-update-options' ); ?>
 				<h3 class="hndle"><?php esc_html_e( 'HTML Email Template', 'htmlemail' ); ?></h3>
                 <div class="inside">
 				<p class="description"><?php _e( 'This plugin will wrap every WordPress email sent within an HTML template.', 'htmlemail' ); ?></p>
@@ -395,7 +374,6 @@ class HTML_emailer {
 					</label><?php
 				}
 				?>
-            </form>
         </div>
 		<?php
 	}
@@ -982,10 +960,10 @@ class HTML_emailer {
 	/**
 	 * Save settings for Network or Subsite
 	 */
-	function save_settings() {
+	public function save_settings() {
 		//Save template content and other settings
-		if ( isset( $_POST['save_html_email_options'] ) ) {
-			if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'html_email-update-options' ) ) {
+		if ( isset( $_POST['save_html_email_options'] ) || isset( $_POST['Submit'] ) ) {
+			if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'ultimatebranding_settings_htmlemail' ) ) {
 				die( __( 'Whoops! There was a problem with the data you posted. Please go back and try again.', 'htmlemail' ) );
 			}
 
@@ -1028,4 +1006,4 @@ class HTML_emailer {
 } //End Class
 
 //instantiate the class
-$html_email_var = new HTML_emailer();
+$html_email_var = new ub_html_emailer();

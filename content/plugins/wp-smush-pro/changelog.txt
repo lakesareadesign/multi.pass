@@ -5,6 +5,37 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 2.7.4.1 =
+
+* Fixed:
+    * `get_current_screen()` method causing error on some sites
+
+= 2.7.4 =
+
+    * Update: Minor UI changes
+    * Fixed: Images not being resized when image is uploaded via Mobile App
+    * Fixed: Notices and Warnings
+    * Fixed: S3 offload Integration - Original Image not being deleted in some cases
+
+= 2.7.3.1 =
+
+    * Fixed: Pro user unable to login to WPMU DEV Dashboard plugin when Smush is active, Error: "Your key is invalid."
+    * Updated: S3 Integration, return URL for any error, 'as3cf_get_attached_file'
+
+= 2.7.3 =
+
+    * Fixed:
+        * Manual Smush not working
+        * Bulk Smush not working for specific sites
+
+= 2.7.2 =
+
+    * Updated:
+        * Use JS for stats calculation while using Bulk Smush, to reduce the Ajax time
+    * Fixed:
+        * Some Images would keep appearing in the re-smush list, if "Resize original images" is enabled
+        * Enable buttons in settings redirects to network smush settings page in a subsite if networkwide settings are enabled
+
 = 2.7.1 =
 
     * Fixed: Progress bar not being updated
@@ -324,4 +355,4 @@ Change Log:
 - First release
 
 
-133620-1495482894-au
+133620-1502132200-au

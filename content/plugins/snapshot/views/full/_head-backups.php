@@ -47,6 +47,17 @@ $secret_key = $model->get_config('secret-key', '');
 		<?php
 	}
 
+
+	if (!$model->has_dashboard_key()) {
+		// So apparently, we don't have a dash key available.
+		// We do, however, have the dashboard available, so let's show an error.
+		?>
+			<div class="notice notice-error">
+				<p><?php esc_html_e('Please log into your WPMU DEV Dashboard before continuing.', SNAPSHOT_I18N_DOMAIN); ?></p>
+			</div>
+		<?php
+	}
+
 	// Local backups warning
 	if (count($model->local()->get_backups())) {
 		?>
@@ -58,6 +69,26 @@ $secret_key = $model->get_config('secret-key', '');
 					<?php esc_html_e('Show me', SNAPSHOT_I18N_DOMAIN); ?>
 				</button>
 			</p>
+		</div>
+		<?php
+	}
+
+	// Out of space error
+	if (Snapshot_Model_Full_Remote_Storage::get()->is_out_of_space()) {
+		?>
+		<div class="notice notice-error">
+			<h3>
+				<?php esc_html_e('You ran out of space for your backups.', SNAPSHOT_I18N_DOMAIN); ?>
+			</h3>
+			<?php if (Snapshot_Model_Full_Remote_Storage::get()->has_previous_backups()) { ?>
+				<p>
+					<?php esc_html_e('Please, clear up some of your older backups.', SNAPSHOT_I18N_DOMAIN); ?>
+				</p>
+			<?php } else { ?>
+				<p>
+					<?php esc_html_e('Please, check your membership plan.', SNAPSHOT_I18N_DOMAIN); ?>
+				</p>
+			<?php } ?>
 		</div>
 		<?php
 	}

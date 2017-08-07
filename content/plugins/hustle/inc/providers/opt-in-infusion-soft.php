@@ -260,6 +260,10 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
         );
     }
 
+    function exclude_args_fields() {
+        return array( 'api_key', 'account_name' );
+    }
+
 
     function is_authorized()
     {

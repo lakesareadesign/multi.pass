@@ -5,11 +5,48 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+DATE: 17 Jul, 2017  - VERSION: 1.8.9
+==================================
+- Added ability to parse shortcodes in custom footer & header.
+- Added error message link color on "Login Screen" module.
+- Added few options to "Login Screen" module: button shadow, button text shadow, button radius, links color on an error message, login error transparency and box folding.
+- Added foldable groups on "Login Screen" module.
+- Added radius for the logo on "Login Screen" module.
+- Fixed a problem with "Remember Me" on module "Login Screen".
+- Fixed missing %s replacement for the error message on "Login Screen" module.
+- Moved information abut inactive modules to the bottom.
+- Removed extra switch for form radius on "Login Screen" module.
+- Rename module "Custom Admin Bar" to "Admin Bar".
+- Rename module "Custom Dashboard Welcome" to "Dashboard Welcome".
+- Rename module "Custom E-mail From Headers" to "E-mail From".
+- Rename module "Custom Login Screen" to "Login Screen".
+- Rename module "Custom MS Register Mails" to "MultiSite Registration emails".
+- Rename module "Custom Multisite Favicons" to "Multisite Favicons".
+- Rename module "HTML Email Templates" to "Email Template".
+- Rename module "Ultimate Color Schemes" to "Color Schemes".
+- Updated list of variables in "HTML Email Templates" module.
+
+DATE: 29 Jun, 2017  - VERSION: 1.8.8
+==================================
+- Added ability to show tips on selected admin pages (module "Admin Panel Tips").
+- Added automagically switch from "HTML Email Template" plugin to Ultimate Branding module.
+- Added favicons on sites list screen.
+- Refactored module "Remove WordPress Dashboard Widgets".
+
+DATE: 14 Jun, 2017  - VERSION: 1.8.7
+==================================
+- Added an ability to add debug information to configuration export file.
+- Added new module "Comments Control", you can create the white and black list of IP for the whole network. (Only multisite).
+- Added new module "Dashboard Feeds" with an ability to add dashboard widgets with feed.
+- Added new module "Enables the Link Manager" to show "Links" menu.
+- Fixed a problem with "Branding" menu on subsites admin panel.
+- Fixed a problem with "WP_LOSTPASSWORD_URL" replacement.
+
 DATE: 31 May, 2017  - VERSION: 1.8.6
 ==================================
-- Added new module "Admin Panel Tips", you can now add bunch of admin notices.
+- Added new module "Admin Panel Tips", you can now add a bunch of admin notices.
 - Added new module "Custom MS registration emails".
-- Added new module "Export/Import" with ability to export and import configuration.
+- Added new module "Export/Import" with an ability to export and import configuration.
 - Allowed to upload SVG and ICO file to media gallery (when "Custom Login Screen" is active).
 - Improved submenu of Branding admin menu - now it is sorted by submenu label.
 - Fixed save issue in "Global Footer Content".
@@ -329,4 +366,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-133620-1496772485-au
+133620-1502132170-au

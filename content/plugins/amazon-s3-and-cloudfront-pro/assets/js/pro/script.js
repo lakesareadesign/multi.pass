@@ -127,20 +127,20 @@
 				nonce: as3cfpro.nonces.check_licence
 			},
 			error: function( jqXHR, textStatus, errorThrown ) {
+
+				// Ignore incomplete requests, likely due to navigating away from the page
+				if ( jqXHR.readyState < 4 ) {
+					return;
+				}
+
 				alert( as3cfpro.strings.license_check_problem );
 				$( '.support-content' ).removeClass( 'checking-licence' );
 			},
 			success: function( data ) {
 				if ( 'undefined' !== typeof data.dbrains_api_down ) {
 					$( '.support-content' ).empty().html( data.dbrains_api_down + data.message );
-				} else if ( 'undefined' !== typeof data.errors ) {
-					var msg = '';
-
-					for ( var key in data.errors ) {
-						msg += data.errors[ key ];
-					}
-
-					$( '.support-content' ).empty().html( msg );
+				} else if ( 'object' === typeof data.htmlErrors && data.htmlErrors.length ) {
+					$( '.support-content' ).empty().html( data.htmlErrors.join( '' ) );
 				} else {
 					$( '.support-content' ).empty().html( data.message );
 				}
@@ -187,9 +187,7 @@
 		tab = ( '' === tab ) ? as3cf.tabs.defaultTab : tab;
 
 		$( '.as3cf-sidebar.pro .block' ).not( '.' + tab ).hide();
-		$( '.as3cf-sidebar.pro .block.' + tab ).show();
-
-		as3cfpro.tool.renderPieChart();
+		$( '.as3cf-sidebar.pro .block.' + tab + '[data-render="1"]' ).show();
 	}
 
 	/**
@@ -239,7 +237,6 @@
 			$( '.support-content' ).empty().html( '<p>' + as3cfpro.strings.fetching_license + '</p>' );
 			// Trigger the refresh of the pro tools
 			renderSidebarTools();
-			as3cfpro.tool.renderPieChart();
 			checkLicence( licenceKey );
 		}
 
@@ -287,13 +284,8 @@
 					$( '.button.register-licence' ).attr( 'disabled', false );
 					$( '.register-licence-ajax-spinner' ).remove();
 
-					if ( 'undefined' !== typeof data.errors ) {
-						var msg = '';
-						for ( var key in data.errors ) {
-							msg += data.errors[ key ];
-						}
-
-						$( '.licence-status' ).html( msg );
+					if ( 'object' === typeof data.htmlErrors && data.htmlErrors.length ) {
+						$( '.licence-status' ).html( data.htmlErrors.join( '' ) );
 
 						if ( 'undefined' !== typeof data.masked_licence ) {
 							enableProLicence( data, licenceKey );

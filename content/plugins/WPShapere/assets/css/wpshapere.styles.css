@@ -40,14 +40,15 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
 #adminmenu li.wp-has-submenu.wp-not-current-submenu:hover:after {
         top: 14px;
 }
-
+#adminmenu .wp-submenu {
+  padding: 0;
+}
 #adminmenu .wp-has-current-submenu ul>li>a, .folded #adminmenu li.menu-top .wp-submenu>li>a, #adminmenu .wp-submenu a {
-        padding: 10px 20px;
+  padding: 15px 20px;
 }
 #adminmenu .wp-not-current-submenu li>a, .folded #adminmenu .wp-has-current-submenu li>a {
         padding-left: 20px;
 }
-.plugin-update-tr { display:none}
 #wpbody-content .wrap { margin-top: 20px}
 #wp-auth-check-wrap #wp-auth-check {
         width: 450px;
@@ -77,6 +78,24 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
 .wp-menu-image.svg {
   background: none !important;
 }
+
+/*
+hack for making videos responsive for dashboard widgets
+*/
+/*.postbox-container .inside{
+position: relative;
+padding-bottom: 56.25%;
+padding-top: 30px; height: 0; overflow: hidden;
+}
+.postbox-container .inside object,
+.postbox-container .inside embed,
+.postbox-container .inside iframe {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+}*/
 
 /* jQuery Sortable */
 .titan-framework-panel-wrap h2 span {

@@ -74,7 +74,7 @@ class WP_Hummingbird_Module_Minify_Groups_List {
 	 * @return bool
 	 */
 	public function add_group( $group ) {
-		if ( ! is_a( $group, 'WP_Hummingbird_Module_Minify_Group' ) ) {
+		if ( ! ( $group instanceof WP_Hummingbird_Module_Minify_Group ) ) {
 			return false;
 		}
 
@@ -249,19 +249,19 @@ class WP_Hummingbird_Module_Minify_Groups_List {
 	 *
 	 */
 	public function preprocess_groups() {
-		$self = $this;
-		array_map( function( $group ) use ( &$self ) {
+
+		foreach ( $this->get_groups() as $group ) {
 			/** @var WP_Hummingbird_Module_Minify_Group $group */
 			$group->maybe_load_file();
 			$group_src = $group->get_group_src();
 
 			if ( $group->should_process_group() && $group->file_id && $group_src && ! $group->is_expired() ) {
 				// The group has its file and is not expired
-				$self->set_group_status( $group->hash, 'ready' );
+				$this->set_group_status( $group->hash, 'ready' );
 			}
 			elseif ( ( $group->should_process_group() && ( empty( $group_src ) ) || $group->is_expired() ) ) {
 				// The group must be processed but it has no file yet
-				$self->set_group_status( $group->hash, 'process' );
+				$this->set_group_status( $group->hash, 'process' );
 
 				// Delete file in case there's one (but is expired)
 				$group->delete_file();
@@ -269,9 +269,9 @@ class WP_Hummingbird_Module_Minify_Groups_List {
 			else {
 				// The group won't be processed
 				// Use the original handles and their URLs instead
-				$self->set_group_status( $group->hash, 'only-handles' );
+				$this->set_group_status( $group->hash, 'only-handles' );
 			}
-		}, $this->get_groups() );
+		}
 
 		$this->parse_groups_dependencies();
 	}

@@ -87,12 +87,6 @@ select:focus {
     box-shadow: none;
 }
 
-.search-box input[name="s"],
-.tablenav .search-plugins input[name="s"],
-.tagsdiv .newtag {
-    height: 28px;
-}
-
 .wrap .add-new-h2 {
     background: #ff6669;
     color: white;

@@ -20,16 +20,36 @@ h5 { color: <?php echo $this->aof_options['h5_color']; ?>; }
 #wpadminbar .ab-submenu .ab-item, #wpadminbar .quicklinks .menupop ul.ab-submenu li a, #wpadminbar .quicklinks .menupop ul.ab-submenu li a.ab-item { color: <?php echo $this->aof_options['admin_bar_sbmenu_link_color']; ?>;}
 #wpadminbar .ab-submenu .ab-item:hover, #wpadminbar .quicklinks .menupop ul.ab-submenu li a:hover, #wpadminbar .quicklinks .menupop ul.ab-submenu li a.ab-item:hover { color: <?php echo $this->aof_options['admin_bar_sbmenu_link_hover_color']; ?>;}
 
-.quicklinks li.wpshape_site_title { <?php if($this->aof_options['logo_top_margin'] != 0) echo 'margin-top:-' . $this->aof_options['logo_top_margin'] . 'px !important;'; if($this->aof_options['logo_bottom_margin'] != 0) echo 'margin-top:' . $this->aof_options['logo_bottom_margin'] . 'px !important;'; ?>}
-.quicklinks li.wpshape_site_title a{ margin-left:20px !important; outline:none; border:none; }
+.quicklinks li.wpshapere_site_title {<?php if($this->aof_options['logo_top_margin'] != 0) echo 'margin-top:-' . $this->aof_options['logo_top_margin'] . 'px !important;'; if($this->aof_options['logo_bottom_margin'] != 0) echo 'margin-top:' . $this->aof_options['logo_bottom_margin'] . 'px !important;'; ?>}
+.quicklinks li.wpshapere_site_title a{outline:none; border:none;}
 <?php
 $admin_logo = $this->aof_options['admin_logo'];
 $admin_logo_url = (is_numeric($admin_logo)) ? $this->get_wps_image_url($admin_logo) : $admin_logo;
-if(!empty($admin_logo_url)){ ?>
-.quicklinks li.wpshape_site_title a, .quicklinks li.wpshape_site_title a:hover, .quicklinks li.wpshape_site_title a:focus {
-    background:url(<?php echo $admin_logo_url;  ?>) left 4px no-repeat !important; text-indent:-9999px !important; width: auto;
+
+$logo_v_margins = '4px';
+if(isset($this->aof_options['logo_bottom_margin']) && $this->aof_options['logo_bottom_margin'] != 0) {
+  $logo_v_margins = $this->aof_options['logo_bottom_margin'] . 'px';
 }
-<?php } ?>
+elseif(isset($this->aof_options['logo_top_margin']) && $this->aof_options['logo_top_margin'] != 0) {
+  $logo_v_margins = '-' . $this->aof_options['logo_top_margin'] . 'px';
+}
+
+$logo_l_margins = 'left';
+if(isset($this->aof_options['logo_left_margin']) && $this->aof_options['logo_left_margin'] != 0) {
+  $logo_l_margins = $this->aof_options['logo_left_margin'] . 'px';
+}
+
+?>
+.quicklinks li.wpshapere_site_title a, .quicklinks li.wpshapere_site_title a:hover, .quicklinks li.wpshapere_site_title a:focus {
+  <?php
+  if(!empty($admin_logo_url)){
+    echo 'background:url(' . $admin_logo_url . ') ' . $logo_l_margins . ' ' . $logo_v_margins . ' no-repeat !important; text-indent:-9999px !important; width: auto;';
+  }
+  if($this->aof_options['adminbar_logo_resize'] == 1 && $this->aof_options['adminbar_logo_size_percent'] > 1) {
+    echo "background-size:" . $this->aof_options['adminbar_logo_size_percent']. "%!important;";
+  }
+  ?>
+}
 
 /* Buttons */
 .wp-core-ui .button,.wp-core-ui .button-secondary{color:<?php echo $this->aof_options['sec_button_text_color']; ?>;background:<?php echo $this->aof_options['sec_button_color']; ?>;}
@@ -64,7 +84,7 @@ if(!empty($admin_logo_url)){ ?>
         #adminmenu .wp-submenu {
             <?php if(is_rtl()) echo 'right: ' . $admin_menu_width . 'px'; else echo 'left: ' . $admin_menu_width . 'px'; ?>;
         }
-        .quicklinks li.wpshape_site_title {
+        .quicklinks li.wpshapere_site_title {
             width: <?php echo $admin_menu_width . 'px'; ?> !important;
         }
   <?php  } else { ?>
@@ -75,26 +95,59 @@ if(!empty($admin_logo_url)){ ?>
         <?php if(is_rtl()) echo 'margin-right: '; else echo 'margin-left: '; ?>250px;
         }
         #adminmenu .wp-submenu { <?php if(is_rtl()) echo 'right: 230px'; else echo 'left:230px'; ?>; }
-        .quicklinks li.wpshape_site_title {
+        .quicklinks li.wpshapere_site_title {
             width: 230px !important;
         }
   <?php } ?>
+
 #adminmenuback, #adminmenuwrap, #adminmenu { background: <?php echo $this->aof_options['nav_wrap_color']; ?>;}
-#adminmenu div.wp-menu-image:before, #adminmenu a, #adminmenu .wp-submenu a, #collapse-menu, #collapse-button div:after, #wpadminbar #wp-admin-bar-user-info .display-name, #wpadminbar>#wp-toolbar>#wp-admin-bar-root-default li:hover span.ab-label { color: <?php echo $this->aof_options['nav_text_color']; ?>; }
-#adminmenu li a:focus div.wp-menu-image:before, #adminmenu li.opensub div.wp-menu-image:before, #adminmenu li:hover div.wp-menu-image:before,
-#adminmenu .current div.wp-menu-image:before, #adminmenu .wp-has-current-submenu div.wp-menu-image:before, #adminmenu a.current:hover div.wp-menu-image:before, #adminmenu a.wp-has-current-submenu:hover div.wp-menu-image:before, #adminmenu li.wp-has-current-submenu a:focus div.wp-menu-image:before,
-#adminmenu li.wp-has-current-submenu.opensub div.wp-menu-image:before, #adminmenu li.wp-has-current-submenu:hover div.wp-menu-image:before { color: <?php echo $this->aof_options['menu_hover_text_color']; ?> !important; }
-#adminmenu li.menu-top:hover, #adminmenu li.menu-top a:hover, #adminmenu li.opensub>a.menu-top, #adminmenu li>a.menu-top:focus { background: <?php echo $this->aof_options['hover_menu_color']; ?>; color: <?php echo $this->aof_options['menu_hover_text_color']; ?>; }
+#adminmenu div.wp-menu-image:before, #adminmenu a, #collapse-menu, #collapse-button div:after,
+#wpadminbar #wp-admin-bar-user-info .display-name, #wpadminbar>#wp-toolbar>#wp-admin-bar-root-default li:hover span.ab-label
+{ color: <?php echo $this->aof_options['nav_text_color']; ?>; }
+#adminmenu li a:focus div.wp-menu-image:before, #adminmenu li.opensub div.wp-menu-image:before,
+#adminmenu li:hover div.wp-menu-image:before, #adminmenu .opensub .wp-submenu li.current a,
+#adminmenu .wp-submenu li.current, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a {
+  color: <?php echo $this->aof_options['menu_hover_text_color']; ?>;
+}
+#adminmenu li.menu-top:hover, #adminmenu li.menu-top a:hover, #adminmenu li.opensub>a.menu-top, #adminmenu li>a.menu-top:focus
+{ background: <?php echo $this->aof_options['hover_menu_color']; ?>; color: <?php echo $this->aof_options['menu_hover_text_color']; ?>; }
+
+/* Sub menu */
+#adminmenu .wp-submenu a, #adminmenu li.menu-top .wp-submenu a {
+  color: <?php echo $this->aof_options['sub_nav_text_color']; ?>;
+}
+
+#adminmenu .wp-submenu a:focus, #adminmenu .wp-submenu a:hover,
+#adminmenu li.menu-top .wp-submenu a:hover {
+  background: <?php echo $this->aof_options['sub_nav_hover_color']; ?>; color: <?php echo $this->aof_options['sub_nav_hover_text_color']; ?>;
+}
 
 #adminmenu .wp-submenu-head, #adminmenu a.menu-top { <?php if(is_rtl()) echo 'padding: 5px 10px 5px 0'; else echo'padding: 5px 0 5px 10px'; ?> }
 .folded #wpcontent, .folded #wpfooter {<?php if(is_rtl()) echo 'margin-right: '; else echo 'margin-left: '; ?>78px; }
 .folded #adminmenu .opensub .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu.sub-open, .folded #adminmenu .wp-has-current-submenu a.menu-top:focus+.wp-submenu, .folded #adminmenu .wp-has-current-submenu.opensub .wp-submenu, .folded #adminmenu .wp-submenu.sub-open, .folded #adminmenu a.menu-top:focus+.wp-submenu, .no-js.folded #adminmenu .wp-has-submenu:hover .wp-submenu { <?php if(is_rtl()) echo 'right: 58px'; else echo 'left: 58px'; ?>; }
 
-#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu, #adminmenu li.current a.menu-top, .folded #adminmenu li.wp-has-current-submenu, .folded #adminmenu li.current.menu-top, #adminmenu .wp-menu-arrow, #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head, #adminmenu .wp-menu-arrow div { background: <?php echo $this->aof_options['active_menu_color']; ?>; }
+#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu, #adminmenu li.current a.menu-top,
+.folded #adminmenu li.wp-has-current-submenu, .folded #adminmenu li.current.menu-top, #adminmenu .wp-menu-arrow,
+#adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head, #adminmenu .wp-menu-arrow div {
+  background: <?php echo $this->aof_options['active_menu_color']; ?>;
+}
+#adminmenu li.wp-has-current-submenu > a.menu-top, #adminmenu li.wp-has-current-submenu div.wp-menu-image:before,
+#adminmenu li.wp-has-current-submenu:hover > a.menu-top, #adminmenu .current div.wp-menu-image:before, #adminmenu .wp-has-current-submenu div.wp-menu-image:before,
+#adminmenu a.current:hover div.wp-menu-image:before, #adminmenu a.wp-has-current-submenu:hover div.wp-menu-image:before,
+#adminmenu li.wp-has-current-submenu a:focus div.wp-menu-image:before, #adminmenu li.wp-has-current-submenu.opensub div.wp-menu-image:before,
+#adminmenu li.wp-has-current-submenu:hover div.wp-menu-image:before {
+  color: <?php echo $this->aof_options['menu_active_text_color']; ?>;
+}
 
-#adminmenu .wp-submenu li.current a:focus, #adminmenu .wp-submenu li.current a:hover, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a { color: <?php echo $this->aof_options['menu_hover_text_color']; ?>; }
+#adminmenu .wp-has-current-submenu .wp-submenu, .no-js li.wp-has-current-submenu:hover .wp-submenu,
+#adminmenu a.wp-has-current-submenu:focus+.wp-submenu, #adminmenu .wp-has-current-submenu .wp-submenu.sub-open,
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu, #adminmenu .wp-not-current-submenu .wp-submenu,
+.folded #adminmenu .wp-has-current-submenu .wp-submenu{ background: <?php echo $this->aof_options['sub_nav_wrap_color']; ?>; }
 
-#adminmenu .wp-has-current-submenu .wp-submenu, .no-js li.wp-has-current-submenu:hover .wp-submenu, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu, #adminmenu .wp-has-current-submenu .wp-submenu.sub-open, #adminmenu .wp-has-current-submenu.opensub .wp-submenu, #adminmenu .wp-not-current-submenu .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu{ background: <?php echo $this->aof_options['sub_nav_wrap_color']; ?>; }
+#adminmenu .wp-submenu li.current a:focus, #adminmenu li.menu-top .wp-submenu li.current a:hover,
+#adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a, #adminmenu .opensub .wp-submenu li.current a, #adminmenu .wp-submenu li.current,
+#adminmenu li.menu-top .wp-submenu li.current a, #adminmenu li.menu-top .wp-submenu li.current a:focus, #adminmenu li.menu-top .wp-submenu li.current a:hover,
+#adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a { color: <?php echo $this->aof_options['submenu_active_text_color']; ?>; }
 
 #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after { <?php if(is_rtl()) echo 'border-left-color: '; else echo 'border-right-color: '; echo $this->aof_options['sub_nav_wrap_color']; ?> }
 #adminmenu .awaiting-mod, #adminmenu .update-plugins, #sidemenu li a span.update-plugins, #adminmenu li a.wp-has-current-submenu .update-plugins { background-color: <?php echo $this->aof_options['menu_updates_count_bg']; ?>; color: <?php echo $this->aof_options['menu_updates_count_text']; ?>; }
@@ -119,6 +172,9 @@ div.updated #bulk-titles div a:before, .notice-dismiss:before, .tagchecklist spa
 div.updated a, #update-nag a, .update-nag a { color: <?php echo $this->aof_options['msgbox_link_color']; ?>; }
 div.updated a:hover, #update-nag a:hover, .update-nag a:hover { color: <?php echo $this->aof_options['msgbox_link_hover_color']; ?>; }
 
+<?php if($this->aof_options['hide_update_note_plugins'] == 1) { ?>
+.plugin-update-tr { display:none}
+<?php } ?>
 
 /* Option conditional logics */
 tr.wpshapere_email_from_addr, tr.wpshapere_email_from_name {

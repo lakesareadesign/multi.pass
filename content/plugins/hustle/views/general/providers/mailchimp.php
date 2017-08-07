@@ -4,7 +4,7 @@
 
 		<div class="wpoi-element" style="margin-bottom: 0; margin-right: 0;">
 
-			<# if( group ){ #>
+			<# if( typeof group !== "undefined" ){ #>
 
 				<# if(group.type !== "hidden"){ #>
 
@@ -24,7 +24,7 @@
 
 				<div class="wpoi-element">
 
-					<# if( group && group.type !== "hidden" ){ #>
+					<# if( typeof group !== "undefined" && group.type !== "hidden" ){ #>
 
 						<# if(group.type === "dropdown"){ #>
 							<div class="wpoi-mcg-options wpoi-mcg-select">
@@ -74,7 +74,7 @@
 
 				</div>
 
-				<div class="wpoi-button wpoi-button-big">
+				<div class="wpoi-button wpoi-button-big {{ ( typeof group === 'undefined' ) ? 'wpoi-button-relocate' : '' }}">
 
 					<button type="submit" class="wpoi-subscribe-send">{{cta_button}}</button>
 

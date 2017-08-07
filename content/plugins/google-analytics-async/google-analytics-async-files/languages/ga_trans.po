@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Google Analytics v1.1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-14 09:42+0100\n"
+"POT-Creation-Date: 2017-07-06 08:56+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Andrey Shipilov\n"
 "Language-Team: \n"
@@ -333,17 +333,17 @@ msgid "Most popular posts (beta)"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/class-widget-ga-most-popular-content.php:68
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/class-widget-ga-most-popular-content.php:65
 msgid "Most popular posts"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/class-widget-ga-most-popular-content.php:74
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/class-widget-ga-most-popular-content.php:71
 msgid "Title"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/class-widget-ga-most-popular-content.php:78
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/class-widget-ga-most-popular-content.php:75
 msgid "Maximum number of posts to show:"
 msgstr ""
 
@@ -472,6 +472,7 @@ msgstr ""
 
 #: C:\Programs
 #: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/page-settings.php:16
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/page-settings.php:266
 msgid ""
 "To get going, just <a href=\"http://www.google.com/analytics/\">sign up for "
 "Google Analytics</a>, set up a new account and log in with the button below "
@@ -855,15 +856,6 @@ msgstr ""
 #: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/page-settings.php:254
 #: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/page-settings.php:438
 msgid "Save Changes"
-msgstr ""
-
-#: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\google-analytics-async/google-analytics-async-files/page-settings.php:266
-msgid ""
-"To get going, just <a href=\"http://www.google.com/analytics/\">sign up for "
-"Google Analytics</a>, set up a new account and log in with the button bellow "
-"to automatically configure basic settings. You may have to manually adjust "
-"settings if necessary."
 msgstr ""
 
 #: C:\Programs

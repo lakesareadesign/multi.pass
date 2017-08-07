@@ -47,7 +47,7 @@ class Dashboard extends Controller {
 			return;
 		}
 		$cache = WP_Helper::getCache();
-		$cache->set( 'isActivated', 1, 0 );
+		$cache->set( wp_defender()->isFree ? 'wdf_isActivated' : 'isActivated', 1, 0 );
 		wp_send_json_success();
 	}
 

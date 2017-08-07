@@ -788,11 +788,14 @@ Y.namespace('FL').SlideshowFrame = Y.Base.create('fl-slideshow-frame', Y.Widget,
 	_gesturesEndComplete: function()
 	{
 		var root	= this.get('root'),
-			index	= this._nextImage._imageInfo.index;
-        
-        this._swapImageRefs();
-		this._imageInfo = root.albumInfo.images[index];
-		root.loadImage(index);
+			index	= 0;
+
+        if(this._nextImage._imageInfo){
+        	index = this._nextImage._imageInfo.index;
+        	this._swapImageRefs();
+			this._imageInfo = root.albumInfo.images[index];
+			root.loadImage(index);
+        }        
 	},
 	
 	/**

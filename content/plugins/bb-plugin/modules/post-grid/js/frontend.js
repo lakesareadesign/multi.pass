@@ -118,6 +118,9 @@
 		
 		_infiniteScroll: function(settings)
 		{
+			var path 	= $(this.nodeClass + ' .fl-builder-pagination a.next').attr('href'),
+				lastSeg = path.substr(-1);
+
 			$(this.wrapperClass).infinitescroll({
 				navSelector     : this.nodeClass + ' .fl-builder-pagination',
 				nextSelector    : this.nodeClass + ' .fl-builder-pagination a.next',
@@ -129,9 +132,22 @@
 					finishedMsg     : '',
 					img             : FLBuilderLayoutConfig.paths.pluginUrl + 'img/ajax-loader-grey.gif',
 					speed           : 1
-				}
+				},
+				path 			: function( currPage ){
+
+					// Define path since Infinitescroll incremented our custom pagination '/paged-2/2/' to '/paged-3/2/'.
+					if (path.match(/([^\/]*)\/*$/)[1]) {
+  						path = path.replace(/([^\/]*)\/*$/, currPage) + lastSeg;
+
+  						if ( '/' == lastSeg && path.substr(-1) != '/' ) {
+  							path = path + '/';
+  						}
+  					}
+
+					return path;				
+				}				
 			}, $.proxy(this._infiniteScrollComplete, this));
-			
+
 			setTimeout(function(){
 				$(window).trigger('resize');
 			}, 100);

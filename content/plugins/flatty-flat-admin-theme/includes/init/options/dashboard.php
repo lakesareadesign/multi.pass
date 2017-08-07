@@ -1,5 +1,6 @@
 <?php
 ///////////////HIDE DASHBOARD WIDGETS
+add_action('wp_dashboard_setup', 'flatty_hide_dashboard_widgets' );
 function flatty_hide_dashboard_widgets(){
 	global $wp_meta_boxes;
 
@@ -31,5 +32,3 @@ function flatty_hide_dashboard_widgets(){
 		unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now']); //Right Now
 	};
 }
-add_action( 'wp_dashboard_setup', 'flatty_hide_dashboard_widgets' );
-?>

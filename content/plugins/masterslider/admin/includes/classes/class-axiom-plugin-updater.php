@@ -251,46 +251,6 @@ if( ! class_exists('Axiom_Plugin_Updater') ) {
             $the_download_url = $this->get_download_url( $username, $purchase_code, $token );
 
             return $the_download_url;
-
-            // if( is_wp_error( $the_download_url ) )
-            //     return $the_download_url;
-
-            // $download_file =  download_url( $the_download_url );
-
-            // if( is_wp_error( $download_file ) ) {
-            //     return $download_file;
-            // }
-
-            // $upgrade_folder   = $wp_filesystem->wp_content_dir() . "upgrade_dir/{$this->slug}";
-            // $installable_file = trailingslashit( $upgrade_folder ) . $this->installable_plugin_zip_file;
-
-
-            // if ( $wp_filesystem->is_dir( $upgrade_folder ) ) {
-            //     if ( ! $wp_filesystem->delete( $upgrade_folder ) ){
-            //         return new WP_Error( 'delete_failed_update_plugin', __( 'Could not clean installation directory.' ) . ' ['. $upgrade_folder .']', $upgrade_folder );
-            //     }
-            // }
-
-            // if ( ! $wp_filesystem->mkdir( $upgrade_folder, FS_CHMOD_DIR ) ){
-            //     return new WP_Error( 'mkdir_failed_update_plugin', __( 'Could not create directory.' ) . ' ['. $upgrade_folder .']', $upgrade_folder );
-            // }
-
-            // if ( ! $wp_filesystem->copy( $download_file, $installable_file, true, FS_CHMOD_FILE) ) {
-            //     // If copy failed, chmod file to 0644 and try again.
-            //     $wp_filesystem->chmod( $installable_file, FS_CHMOD_FILE );
-            //     if ( ! $wp_filesystem->copy( $download_file, $installable_file, true, FS_CHMOD_FILE) ){
-            //         return new WP_Error( 'copy_failed_copy_file', __( 'Could not copy installable file.' ), $installable_file );
-            //     }
-            // }
-
-            // // remove temp file
-            // unlink( $download_file );
-
-            // if( is_file( $installable_file ) ) {
-            //     return $installable_file;
-            // }
-
-            // return new WP_Error( 'no_credentials', __( 'Error on installing archive file ..' ) );
         }
 
 

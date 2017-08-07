@@ -3,7 +3,7 @@
 Plugin Name: Appointments+
 Description: Lets you accept appointments from front end and manage or create them from admin side
 Plugin URI: http://premium.wpmudev.org/project/appointments-plus/
-Version: 2.1.0
+Version: 2.2.0
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
 Textdomain: appointments
@@ -32,7 +32,7 @@ if ( !class_exists( 'Appointments' ) ) {
 
 class Appointments {
 
-	public $version = "2.1";
+	public $version = "2.2.0";
 	public $db_version;
 
 	public $timetables = array();
@@ -75,7 +75,7 @@ class Appointments {
 		include_once( 'includes/class-app-sessions.php' );
 
 		// Load premium features
-		if ( is_readable( appointments_plugin_dir() . 'includes/pro/class-app-pro.php' ) ) {
+		if ( _appointments_is_pro() ) {
 			include_once( appointments_plugin_dir() . 'includes/pro/class-app-pro.php' );
 			$this->pro = new Appointments_Pro();
 		}
@@ -2441,7 +2441,7 @@ if (is_admin()) {
 	App_AdminHelp::serve();
 
 	// Setup dashboard notices
-	if (file_exists(APP_PLUGIN_DIR . '/includes/external/wpmudev-dash/wpmudev-dash-notification.php')) {
+	if (file_exists(APP_PLUGIN_DIR . '/includes/external/wpmudev-dash/wpmudev-dash-notification.php') && _appointments_is_pro() ) {
 		global $wpmudev_notices;
 		if (!is_array($wpmudev_notices)) $wpmudev_notices = array();
 		$wpmudev_notices[] = array(

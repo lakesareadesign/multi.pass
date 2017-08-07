@@ -1,74 +1,41 @@
+import Fetcher from './utils/fetcher';
+
 ( function( $ ) {
     WPHB_Admin.dashboard = {
         module: 'dashboard',
 
         init: function() {
-            var self = this;
+            const self = this;
 
-            if ( wphbDashboardStrings ) {
-                self.strings = wphbDashboardStrings;
-            }
-
-            $( '.box-dashboard-welcome .close').click( function() {
-                $.ajax({
-                    url: ajaxurl,
-                    method: 'POST',
-                    data: {
-                        action: 'wphb_ajax',
-                        wphb_nonce: self.strings.removeWelcomeBoxNonce,
-                        nonce_name: 'wphb-remove-welcome-box',
-                        module: self.module,
-                        module_action: 'remove_welcome_box'
-                    }
-                });
-            });
+			if (wphbDashboardStrings)
+				this.strings = wphbDashboardStrings;
 
             $('#wphb-activate-minification').change( function() {
-                var value = $(this).val();
-                $.ajax({
-                        url: ajaxurl,
-                        method: 'POST',
-                        data: {
-                            action: 'wphb_ajax',
-                            wphb_nonce: self.strings.activateMinificationNonce,
-                            nonce_name: 'wphb-activate-minification',
-                            module: self.module,
-                            module_action: 'activate_network_minification',
-                            data: {
-                                value: value
-                            }
+                const value = $(this).val();
+                Fetcher.dashboard.toggleMinification( value )
+                    .then( () => {
+                        // If disabled, uncheck CDN checkbox and disable it.
+                        const CDNcheckbox = $('input[name="use_cdn"]');
+                        if ( 'false' === value ) {
+                            CDNcheckbox.prop( 'checked', false );
+                            CDNcheckbox.prop( 'disabled', true );
+                        } else {
+                            CDNcheckbox.prop( 'disabled', false );
                         }
-                    })
-                    .done( function() {
-                        var notice = $('#wphb-notice-minification-settings-updated');
-                        notice.slideDown();
-                        setTimeout( function() {
-                            notice.slideUp();
-                        }, 5000 );
+                        self.showNotice();
                     });
             });
 
             $('#use_cdn').change( function() {
-                var data = {
-                    wphb_nonce: self.strings.advancedSettingsNonce,
-                    nonce_name: 'wphb-minification-advanced',
-                    module_action: 'toggle_use_cdn',
-                    data: {
-                        value: $(this).is(':checked')
-                    }
-                };
-                WPHB_Admin.utils.post( data, self.module )
-                    .always( function() {
-                        var notice = $('#wphb-notice-minification-settings-updated');
-                        notice.slideDown();
-                        setTimeout( function() {
-                            notice.slideUp();
-                        }, 5000 );
-                    }); 
+                const value = $(this).is(':checked');
+                Fetcher.minification.toggleCDN( value )
+                    .then( () => {
+                        self.showNotice();
+                    });
             });
 
-            $('.wphb-performance-report-item').click( function( e ) {
-                var url = $(this).data( 'performance-url' );
+            $('.wphb-performance-report-item').click( function() {
+                const url = $(this).data( 'performance-url' );
                 if ( url ) {
                     location.href = url;
                 }
@@ -76,12 +43,45 @@
             return this;
         },
 
-        startQuickSetup: function () {
+        /**
+         * Notice on settings update.
+         */
+        showNotice: function () {
+            const notice = $('#wphb-notice-minification-settings-updated');
+            notice.slideDown();
+            setTimeout( function() {
+                notice.slideUp();
+            }, 5000 );
+        },
+
+		/**
+         * Run quick setup.
+		 */
+		startQuickSetup: function () {
             // Show quick setup modal
-            var args = {};
-            args.class = "wphb-modal small wphb-quick-setup-modal no-close";
-            // Show quick setup modal
-            WDP.showOverlay("#wphb-quick-setup-modal", args);
+			window.WDP.showOverlay( '#wphb-quick-setup-modal', { class: 'wphb-modal small wphb-quick-setup-modal no-close' } );
+        },
+
+		/**
+         * Skip quick setup.
+		 */
+		skipSetup: function () {
+            Fetcher.dashboard.skipSetup()
+                .then( () => {
+                    window.location.reload(true);
+                });
+        },
+
+		/**
+         * Run performance test after quick setup.
+		 */
+		runPerformanceTest: function() {
+			// Show quick setup modal
+			window.WDP.showOverlay("#run-performance-test-modal", { class: 'wphb-modal small wphb-progress-modal no-close' } );
+
+			// Run performance test
+			const module = WPHB_Admin.getModule('performance');
+			module.performanceTest( this.strings.finishedTestURLsLink );
         }
     };
 }( jQuery ));

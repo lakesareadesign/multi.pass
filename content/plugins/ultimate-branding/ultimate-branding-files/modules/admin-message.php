@@ -75,6 +75,7 @@ class UB_Admin_Message extends ub_helper{
 		if ( $admin_message == 'empty' ) {
 			$admin_message = '';
 		}
+		ub_deprecated_module( __( 'Admin Message', 'ub' ), __( 'Admin Panel Tips', 'ub' ), 'admin-panel-tips' );
 ?>
         <table class="form-table">
             <tr valign="top">

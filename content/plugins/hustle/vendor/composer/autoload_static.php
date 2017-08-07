@@ -32,16 +32,6 @@ class ComposerStaticInitda98371940d11703c56dee923bbb392f
         0 => __DIR__ . '/..' . '/aweber/aweber/aweber_api',
     );
 
-    public static $prefixesPsr0 = array (
-        'M' =>
-        array (
-            'Mailchimp' =>
-            array (
-                0 => __DIR__ . '/..' . '/mailchimp/mailchimp/src',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'CS_REST_Administrators' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_administrators.php',
         'CS_REST_Campaigns' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_campaigns.php',
@@ -63,7 +53,6 @@ class ComposerStaticInitda98371940d11703c56dee923bbb392f
             $loader->prefixLengthsPsr4 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$prefixDirsPsr4;
             $loader->fallbackDirsPsr4 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitda98371940d11703c56dee923bbb392f::$classMap;
 
         }, null, ClassLoader::class);

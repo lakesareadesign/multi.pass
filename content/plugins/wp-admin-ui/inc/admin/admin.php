@@ -4359,9 +4359,7 @@ class wpui_options
             global $wp_roles;
      
             $wpui_roles = $wp_roles->get_names();
-            // if (($key = array_search('Administrator', $wpui_roles)) !== false) {
-            //     unset($wpui_roles[$key]);
-            // }
+            
             echo '<table class="wpui-table" border="0" cellspacing="0" cellpadding="0">';
             
             foreach ($wpui_all_settings as $wpui_all_settings_key => $wpui_all_settings_value) {
@@ -4383,7 +4381,7 @@ class wpui_options
                         }
                         </script>
                     ';
-                    echo '<td><label for="wpui_roles_list_role_'.$wpui_role_key.'">'.$wpui_role_value.'</label><br/>
+                    echo '<td><label for="wpui_roles_list_role_'.$wpui_role_key.'">'.translate_user_role($wpui_role_value).'<br> <small>('.$wpui_role_value.')</small></label><br/>
                     <input type="checkbox" name="wpui_roles_list_role_'.$wpui_role_key.'" onClick="toggle_'.$wpui_role_key.'(this)" /><span class="screen-reader-text">'. __('Toggle All','wpui').'</span></td>';
                 }
                 echo '</tr>';

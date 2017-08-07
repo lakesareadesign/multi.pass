@@ -3,7 +3,7 @@
 Class Name: Simple Options
 Class URI: http://iworks.pl/
 Description: Simple option class to manage options.
-Version: 1.0.0
+Version: 1.0.1
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GPLv2 or later
@@ -24,6 +24,17 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+
+== CHANGELOG ==
+
+= 1.0.1 =
+
+- Added description for section without fields.
+
+= 1.0.0 =
+
+- Init version.
+
  */
 
 if ( ! defined( 'WPINC' ) ) {
@@ -41,9 +52,28 @@ if ( ! class_exists( 'simple_options' ) ) {
 		}
 
 		public function build_options( $options, $input = array() ) {
-			$content = '';
+			if ( empty( $options ) ) {
+				return;
+			}
+			global $page;
+			$user_id = get_current_user_id();
+			$boxes = get_user_meta( $user_id, 'closedpostboxes_ultimate_branding', true );
+			$tab = isset( $_REQUEST['tab'] )? $_REQUEST['tab']:'dashboard';
+			if ( isset( $boxes[ $tab ] ) ) {
+				$boxes = $boxes[ $tab ];
+			} else {
+				$boxes = array();
+			}
+
+			$content = '<div class="meta-box-sortables simple-options">';
 			foreach ( $options as $section_key => $option ) {
 				if ( ! isset( $option['fields'] ) ) {
+					if ( isset( $option['description'] ) ) {
+						$content .= sprintf( '<div class="postbox" id="%s">', esc_attr( $section_key ) );
+						$content .= sprintf( '<h3 class="hndle">%s</h3>', $option['title'] );
+						$content .= sprintf( '<div class="inside description">%s</div>', $option['description'] );
+						$content .= '</div>';
+					}
 					continue;
 				}
 				if ( ! is_array( $option['fields'] ) ) {
@@ -52,40 +82,30 @@ if ( ! class_exists( 'simple_options' ) ) {
 				if ( empty( $option['fields'] ) ) {
 					continue;
 				}
-				$content .= sprintf( '<div class="postbox" id="%s">', esc_attr( $section_key ) );
+				$content .= sprintf(
+					'<div class="postbox %s" id="%s">',
+					isset( $boxes[ $section_key ] )? esc_attr( $boxes[ $section_key ] ):'',
+					esc_attr( $section_key )
+				);
 				/**
-				 * add reset
+				 * fold
 				 */
-				$reset = '';
-				$show = true;
-				if ( isset( $option['hide-reset'] ) && true === $option['hide-reset'] ) {
-					$show = false;
-				}
-				if ( $show ) {
-					$reset .= ' <span class="simple-option-reset-section">';
-					$reset .= sprintf(
-						'<a href="#" data-nonce="%s" data-section="%s" data-question="%s" data-network="%d">%s</a>',
-						esc_attr( wp_create_nonce( 'reset-section-'.$section_key ) ),
-						esc_attr( $section_key ),
-						esc_attr(
-							sprintf(
-								__( 'Are you sure to reset "%s" section?', 'ub' ),
-								$option['title']
-							)
-						),
-						is_network_admin(),
-						__( 'reset section to default', 'ub' )
-					);
-					$reset .= '</span>';
-				}
+				$content .= '<button type="button" class="handlediv button-link" aria-expanded="true">';
+				$content .= '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s' ), $option['title'] ) . '</span>';
+				$content .= '<span class="toggle-indicator" aria-hidden="true"></span>';
+				$content .= '</button>';
 				/**
 				 * Section title
 				 */
-				$content .= sprintf( ' <h3 class="hndle">%s%s</h3>', $option['title'], $reset );
+				$content .= sprintf( ' <h2 class="hndle">%s</h2>', $option['title'] );
 				if ( isset( $option['description'] ) && ! empty( $option['description'] ) ) {
 					$content .= sprintf( '<p class="description">%s</p>', $option['description'] );
 				}
-				$content .= '<div class="inside"><table class="form-table"><tbody>';
+				$content .= '<div class="inside">';
+				/**
+				 * table
+				 */
+				$content .= '<table class="form-table"><tbody>';
 				foreach ( $option['fields'] as $id => $data ) {
 					/**
 					 * field ID
@@ -126,26 +146,42 @@ if ( ! class_exists( 'simple_options' ) ) {
 					if ( isset( $option['hide-th'] ) && true === $option['hide-th'] ) {
 						$show = false;
 					}
+					if ( isset( $data['hide-th'] ) && true === $data['hide-th'] ) {
+						$show = false;
+					}
 					if ( $show ) {
-
 						$content .= sprintf(
 							'<th scope="row"><label for="%s">%s</label></th>',
 							esc_attr( $html_id ),
 							isset( $data['label'] )? esc_html( $data['label'] ):'&nbsp;'
 						);
 					}
-					$content .= '<td>';
+					if ( isset( $data['hide-th'] ) && true === $data['hide-th'] ) {
+						$content .= '<td colspan="2">';
+					} else {
+						$content .= '<td>';
+					}
 					/**
 					 * value
 					 */
-					$value = isset( $data['default'] )? $data['default']:'';
-					if ( isset( $input[ $section_key ] ) && isset( $input[ $section_key ][ $id ] ) ) {
-						$value = $input[ $section_key ][ $id ];
+					$value = '';
+					if ( isset( $data['value'] ) ) {
+						$value = $data['value'];
+					} else {
+						$value = isset( $data['default'] )? $data['default']:'';
+						if ( isset( $input[ $section_key ] ) && isset( $input[ $section_key ][ $id ] ) ) {
+							$value = $input[ $section_key ][ $id ];
+						}
 					}
+					/**
+					 * produce
+					 */
 					switch ( $data['type'] ) {
+
 						case 'description':
 							$content .= $data['value'];
 						break;
+
 						case 'media':
 							if ( ! isset( $this->loaded['media'] ) ) {
 								$this->loaded['media'] = true;
@@ -174,6 +210,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 								esc_attr( $value )
 							);
 						break;
+
 						case 'color':
 							$content .= sprintf(
 								'<input type="text" name="simple_options[%s][%s]" value="%s" class="ub_color_picker %s" id="%s" />',
@@ -184,6 +221,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 								esc_attr( $html_id )
 							);
 						break;
+
 						case 'radio':
 							$content .= '<ul>';
 							foreach ( $data['options'] as $radio_value => $radio_label ) {
@@ -198,7 +236,8 @@ if ( ! class_exists( 'simple_options' ) ) {
 								);
 							}
 							$content .= '</ul>';
-							break;
+						break;
+
 						case 'checkbox':
 							$slave = '';
 							if ( isset( $data['slave-class'] ) ) {
@@ -215,10 +254,10 @@ if ( ! class_exists( 'simple_options' ) ) {
 									wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_files_url( 'js/vendor/jquery.switch_button.js' ), array( 'jquery' ), '1.12.1' );
 									wp_enqueue_style( 'custom-ligin-screen-jquery-switch-button', ub_files_url( 'css/vendor/jquery.switch_button.css' ), array(), '1.12.1' );
 									$i18n = array(
-										'labels' => array(
-											'label_on' => __( 'on', 'ub' ),
-											'label_off' => __( 'off', 'ub' ),
-										),
+									'labels' => array(
+										'label_on' => __( 'on', 'ub' ),
+										'label_off' => __( 'off', 'ub' ),
+									),
 									);
 									wp_localize_script( 'custom-ligin-screen-jquery-switch-button', 'switch_button', $i18n );
 								}
@@ -240,7 +279,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 								);
 							} else {
 								$content .= sprintf(
-									'<label><input type="%s" id="%s" name="simple_options[%s][%s]" value="1" class="%s" id="%s" %s %s /> %s</label>',
+									'<label><input type="%s" id="%s" name="simple_options[%s][%s]" value="1" class="%s" id="%s" %s %s %s /> %s</label>',
 									esc_attr( $data['type'] ),
 									esc_attr( $html_id ),
 									esc_attr( $section_key ),
@@ -250,10 +289,10 @@ if ( ! class_exists( 'simple_options' ) ) {
 									esc_attr( $html_id ),
 									checked( 1, $value, false ),
 									$slave,
-									isset( $data['checkbox_label'] )? $data['checkbox_label']:''
+									esc_html( isset( $data['checkbox_label'] )? $data['checkbox_label']:'' )
 								);
 							}
-							break;
+						break;
 
 						case 'textarea':
 							$content .= sprintf(
@@ -265,7 +304,17 @@ if ( ! class_exists( 'simple_options' ) ) {
 								esc_attr( $html_id ),
 								esc_attr( stripslashes( $value ) )
 							);
-							break;
+						break;
+
+						case 'wp_editor':
+							$field_name = sprintf( 'simple_options[%s][%s]', $section_key, $id );
+							$wp_editor_id = sprintf( 'simple_options_%s_%s', $section_key, $id );
+							$args = array( 'textarea_name' => $field_name, 'textarea_rows' => 9, 'teeny' => true );
+							ob_start();
+							wp_editor( stripslashes( $value ), $wp_editor_id, $args );
+							$content .= ob_get_contents();
+							ob_end_clean();
+						break;
 
 						default:
 							$extra = array();
@@ -357,9 +406,37 @@ if ( ! class_exists( 'simple_options' ) ) {
 					$content .= '</td>';
 					$content .= '</tr>';
 				}
-				$content .= '</tbody></table></div>';
+				$content .= '</tbody>';
+				/**
+				 * add reset
+				 */
+				$show = true;
+				if ( isset( $option['hide-reset'] ) && true === $option['hide-reset'] ) {
+					$show = false;
+				}
+				if ( $show ) {
+					$content .= '<tfoot><tr><td colspan="2">';
+					$content .= '<span class="simple-option-reset-section">';
+					$content .= sprintf(
+						'<a href="#" data-nonce="%s" data-section="%s" data-question="%s" data-network="%d">%s</a>',
+						esc_attr( wp_create_nonce( 'reset-section-'.$section_key ) ),
+						esc_attr( $section_key ),
+						esc_attr(
+							sprintf(
+								__( 'Are you sure to reset "%s" section?', 'ub' ),
+								$option['title']
+							)
+						),
+						is_network_admin(),
+						__( 'reset section to default', 'ub' )
+					);
+					$content .= '</span>';
+					$content .= '</td></tr></tfoot>';
+				}
+				$content .= '</table></div>';
 				$content .= '</div>';
 			}
+			$content .= '</div>';
 			return $content;
 		}
 
@@ -369,9 +446,31 @@ if ( ! class_exists( 'simple_options' ) ) {
 		 * @since 1.8.5
 		 */
 		public function ajax() {
-			$response = array(
-				'success' => false,
-			);
+			/**
+			 * handle closed tabs
+			 */
+			if ( isset( $_REQUEST['close'] ) && isset( $_REQUEST['tab'] ) && isset( $_REQUEST['nonce'] ) ) {
+				if ( wp_verify_nonce( $_REQUEST['nonce'], 'boxes' ) ) {
+					if ( isset( $_REQUEST['target'] ) ) {
+						$user = wp_get_current_user();
+						if ( empty( $user ) ) {
+							wp_send_json_error();
+						}
+						$boxes = get_user_meta( $user->ID, 'closedpostboxes_ultimate_branding', true );
+						if ( ! is_array( $boxes ) ) {
+							$boxes = array();
+						}
+						if ( ! isset( $boxes[ $_REQUEST['tab'] ] ) ) {
+							$boxes[ $_REQUEST['tab'] ] = array();
+						}
+						$boxes[ $_REQUEST['tab'] ][ $_REQUEST['target'] ] = 'true' == $_REQUEST['close']? 'closed':'open';
+						update_user_meta( $user->ID, 'closedpostboxes_ultimate_branding', $boxes );
+					}
+				}
+			}
+			/**
+			 * handle section reset
+			 */
 			if ( isset( $_REQUEST['section'] ) && isset( $_REQUEST['tab'] ) && isset( $_REQUEST['nonce'] ) ) {
 				if ( wp_verify_nonce( $_REQUEST['nonce'], 'reset-section-'.$_REQUEST['section'] ) ) {
 					$option_name = ub_get_option_name_by_module( $_REQUEST['tab'] );

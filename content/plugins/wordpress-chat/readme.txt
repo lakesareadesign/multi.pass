@@ -18,6 +18,12 @@ Add a chat to your blog and allow your readers to chat with you.
 
 == ChangeLog ==
 
+= 2.2.1 =
+
+*Fixed:
+    * Compatibility with WordPress 4.8, TinyMCE button not working
+    * Typo in settings page
+
 = 2.2 =
 
 *Fixed:
@@ -471,4 +477,4 @@ Add a chat to your blog and allow your readers to chat with you.
 * Initial release
 
 
-133620-1483063277-au
+133620-1502132183-au

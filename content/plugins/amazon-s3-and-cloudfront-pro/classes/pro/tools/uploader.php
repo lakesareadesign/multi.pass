@@ -97,7 +97,7 @@ class Uploader extends Modal_Tool {
 			            ON p.`ID` = pm2.`post_id`
 			            AND pm2.`meta_key` = '_wp_attachment_metadata'";
 			if ( ! is_null( $offset ) ) {
-				$offset = absint( $offset );
+				$offset     = absint( $offset );
 				$offset_sql .= "AND p.`ID` < {$offset}";
 			}
 			if ( ! is_null( $limit ) ) {
@@ -187,54 +187,62 @@ class Uploader extends Modal_Tool {
 			return false;
 		}
 
-		$to_upload_stats = $this->get_attachments_to_process_stats();
+		$stats = $this->get_attachments_to_process_stats();
 
 		// Don't show upload banner if media library empty
-		if ( 0 === $to_upload_stats['total_attachments'] ) {
+		if ( 0 === $stats['total_attachments'] ) {
 			return false;
 		}
 
-		$uploaded_percentage = ( $to_upload_stats['total_attachments'] - $to_upload_stats['total_to_process'] ) / $to_upload_stats['total_attachments'];
-		$human_percentage    = round( $uploaded_percentage * 100 );
+		$uploaded_percentage = (float) ( $stats['total_attachments'] - $stats['total_to_process'] ) / $stats['total_attachments'];
+		$human_percentage    = (int) floor( $uploaded_percentage * 100 );
 
 		// Percentage of library needs uploading
-		if ( 0 === (int) $human_percentage ) {
+		if ( 0 === $human_percentage && $uploaded_percentage > 0 ) {
 			$human_percentage = 1;
 		}
 
-		// Ensure small amounts to upload don't show as 100%
-		if ( 100 === (int) $human_percentage && $to_upload_stats['total_to_process'] > 0 ) {
-			$human_percentage = 99;
-		}
+		$states = array(
+			0   => 'initial',
+			1   => 'partial_complete',
+			100 => 'complete',
+		);
 
-		$message            = sprintf( __( "%s%% of your Media Library has been uploaded to S3", 'amazon-s3-and-cloudfront' ), $human_percentage );
-		$show_upload        = true;
-		$upload_button_text = __( 'Upload Remaining Now', 'amazon-s3-and-cloudfront' );
+		$i18n = array(
+			'title_initial'           => __( 'Your Media Library needs to be uploaded to S3', 'amazon-s3-and-cloudfront' ),
+			'title_partial_complete'  => __( "%s%% of your Media Library has been uploaded to S3", 'amazon-s3-and-cloudfront' ),
+			'title_complete'          => __( '100% of your Media Library has been uploaded to S3, congratulations!', 'amazon-s3-and-cloudfront' ),
+			'upload_initial'          => __( 'Upload Now', 'amazon-s3-and-cloudfront' ),
+			'upload_partial_complete' => __( 'Upload Remaining Now', 'amazon-s3-and-cloudfront' ),
+		);
 
-		// Entire media library uploaded
-		if ( 1 === $uploaded_percentage ) {
-			$message     = __( '100% of your Media Library has been uploaded to S3, congratulations!', 'amazon-s3-and-cloudfront' );
-			$show_upload = false;
+		switch ( $human_percentage ) {
+			case 0 : // Entire library needs uploading
+				$title              = $i18n['title_initial'];
+				$upload_button_text = $i18n['upload_initial'];
+				break;
 
-			// Remove previous errors
-			$errors = $this->get_errors();
-			if ( ! empty( $errors ) ) {
+			case 100 : // Entire media library uploaded
+				$title              = $i18n['title_complete'];
+				$upload_button_text = $i18n['upload_partial_complete'];
+
+				// Remove previous errors
 				$this->clear_errors();
 				$this->as3cf->notices->remove_notice_by_id( $this->errors_key );
-			}
-		}
+				break;
 
-		// Entire library needs uploading
-		if ( 0 === $uploaded_percentage ) {
-			$message            = __( 'Your Media Library needs to be uploaded to S3', 'amazon-s3-and-cloudfront' );
-			$upload_button_text = __( 'Upload Now', 'amazon-s3-and-cloudfront' );
+			default: // Media library upload partially complete
+				$title              = sprintf( $i18n['title_partial_complete'], $human_percentage );
+				$upload_button_text = $i18n['upload_partial_complete'];
 		}
 
 		$args = array(
-			'title'            => $message,
-			'show_button'      => $show_upload,
+			'title'            => $title,
 			'progress_percent' => $human_percentage,
 			'button_title'     => $upload_button_text,
+			'pie_chart'        => 1,
+			'i18n'             => $i18n,
+			'states'           => $states,
 		);
 
 		return $args;
@@ -292,12 +300,13 @@ class Uploader extends Modal_Tool {
 		// Build error message
 		if ( is_wp_error( $s3object ) ) {
 			$this->progress['error_count']++;
-			
-			if ( $this->progress['error_count'] <= 100 ) {
-				$error_msg      = sprintf( __( 'Error uploading to S3 - %s' ), $s3object->get_error_message() );
-				$this->errors[] = $error_msg;
 
-				$this->process_errors[ $blog_id ][ $attachment_id ][] = $error_msg;
+			if ( $this->progress['error_count'] <= 100 ) {
+				foreach ( $s3object->get_error_messages() as $error_message ) {
+					$error_msg      = sprintf( __( 'Error uploading to S3 - %s', 'amazon-s3-and-cloudfront' ), $error_message );
+					$this->errors[] = $error_msg;
+					$this->process_errors[ $blog_id ][ $attachment_id ][] = $error_msg;
+				}
 			}
 
 			return false;
@@ -350,5 +359,19 @@ class Uploader extends Modal_Tool {
 		$message = __( 'Previous attempts at uploading your media library have resulted in errors.', 'amazon-s3-and-cloudfront' );
 
 		return sprintf( '<strong>%s</strong> &mdash; %s', $title, $message );
+	}
+
+	/**
+	 * Get status.
+	 *
+	 * @return array
+	 */
+	public function get_status() {
+		$stats = $this->get_attachments_to_process_stats();
+
+		return array_merge( parent::get_status(), array(
+			'total_on_s3' => (int) $this->as3cf->get_media_library_s3_total( true ),
+			'total_items' => (int) $stats['total_attachments'],
+		) );
 	}
 }

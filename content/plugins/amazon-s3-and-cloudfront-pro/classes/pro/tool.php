@@ -2,6 +2,8 @@
 
 namespace DeliciousBrains\WP_Offload_S3\Pro;
 
+use AS3CF_Pro_Utils;
+
 abstract class Tool {
 
 	/**
@@ -45,13 +47,25 @@ abstract class Tool {
 	protected $tool_slug;
 
 	/**
+	 * @var string
+	 */
+	protected $errors_key_prefix;
+
+	/**
+	 * @var string
+	 */
+	protected $errors_key;
+
+	/**
 	 * AS3CF_Tool constructor.
 	 *
 	 * @param \Amazon_S3_And_CloudFront_Pro $as3cf
 	 */
 	public function __construct( $as3cf ) {
-		$this->as3cf     = $as3cf;
-		$this->tool_slug = str_replace( array( ' ', '_' ), '-', $this->tool_key );
+		$this->as3cf             = $as3cf;
+		$this->tool_slug         = str_replace( array( ' ', '_' ), '-', $this->tool_key );
+		$this->errors_key_prefix = 'wpos3_tool_errors_';
+		$this->errors_key        = $this->errors_key_prefix . $this->tool_key;
 	}
 
 	/**
@@ -60,6 +74,9 @@ abstract class Tool {
 	public function init() {
 		// Load sidebar block
 		add_action( 'as3cfpro_sidebar', array( $this, 'render_sidebar_block' ), $this->priority );
+
+		// Ajax notices
+		add_action( 'wp_ajax_as3cfpro_dismiss_errors_' . $this->tool_key, array( $this, 'ajax_dismiss_errors' ) );
 	}
 
 	/**
@@ -97,10 +114,6 @@ abstract class Tool {
 	 * Render sidebar block.
 	 */
 	public function render_sidebar_block() {
-		if ( ! $this->should_render() ) {
-			return;
-		}
-
 		$args = $this->get_sidebar_block_args();
 
 		if ( false !== $args ) {
@@ -109,6 +122,7 @@ abstract class Tool {
 			$args['priority'] = $this->priority;
 			$args['slug']     = $this->tool_slug;
 			$args['type']     = $this->type;
+			$args['render']   = $this->should_render();
 
 			$this->as3cf->render_view( 'pre-sidebar-block', $args );
 			$this->as3cf->render_view( $this->view, $args );
@@ -164,8 +178,143 @@ abstract class Tool {
 	 */
 	public function get_status() {
 		return array(
+			'should_render' => $this->should_render(),
 			'is_processing' => $this->is_processing(),
 		);
+	}
+
+	/**
+	 * Get the errors created by the tool
+	 *
+	 * @param array $default
+	 *
+	 * @return array
+	 */
+	public function get_errors( $default = array() ) {
+		return get_site_option( $this->errors_key, $default );
+	}
+
+	/**
+	 * Update the saved errors for the tool
+	 *
+	 * @param array $errors
+	 */
+	public function update_errors( $errors ) {
+		update_site_option( $this->errors_key, $errors );
+	}
+
+	/**
+	 * Clear all errors created by the tool
+	 */
+	protected function clear_errors() {
+		delete_site_option( $this->errors_key );
+	}
+
+	/**
+	 * Update the error notice
+	 *
+	 * @param array $errors
+	 */
+	public function update_error_notice( $errors = array() ) {
+		if ( empty( $errors ) ) {
+			$errors = $this->get_errors();
+		}
+
+		if ( ! empty ( $errors ) ) {
+			$args = array(
+				'type'              => 'error',
+				'class'             => 'tool-error',
+				'flash'             => false,
+				'only_show_to_user' => false,
+				'only_show_on_tab'  => $this->tab,
+				'custom_id'         => $this->errors_key,
+				'user_capabilities' => array( 'as3cfpro', 'is_plugin_setup' ),
+				'show_callback'     => array( 'as3cfpro', 'render_tool_errors_callback' ),
+				'callback_args'     => array( $this->tool_key ),
+			);
+
+			$message = $this->get_error_notice_message();
+
+			$this->as3cf->notices->add_notice( $message, $args );
+		} else {
+			$this->as3cf->notices->remove_notice_by_id( $this->errors_key );
+		}
+	}
+
+	/**
+	 * Undismiss error notice for all users.
+	 */
+	public function undismiss_error_notice() {
+		$this->as3cf->notices->undismiss_notice_for_all( $this->errors_key );
+	}
+
+	/**
+	 * Dismiss one or more errors.
+	 */
+	public function ajax_dismiss_errors() {
+		check_ajax_referer( 'dismiss-errors-' . $this->tool_slug, 'nonce' );
+
+		$blog_id  = filter_input( INPUT_POST, 'blog_id' );
+		$media_id = filter_input( INPUT_POST, 'media_id' );
+		$errors   = filter_input( INPUT_POST, 'errors' );
+		$saved    = $this->get_errors();
+
+		if ( empty( $saved[ $blog_id ][ $media_id ] ) ) {
+			$this->as3cf->end_ajax( array(
+				'success' => true,
+			) );
+		}
+
+		if ( $errors == 'all' ) {
+			unset( $saved[ $blog_id ][ $media_id ] );
+		} elseif ( is_array( $saved[ $blog_id ][ $media_id ] ) ) {
+			unset( $saved[ $blog_id ][ $media_id ][ $errors ] );
+		}
+
+		$updated = AS3CF_Pro_Utils::array_prune_recursive( $saved );
+		$this->update_errors( $updated );
+		$this->update_error_notice();
+
+		$this->as3cf->end_ajax( array(
+			'success' => true,
+		) );
+	}
+
+	/**
+	 * Get error notices.
+	 *
+	 * @return bool|array
+	 */
+	public function get_error_notices() {
+		$notice = $this->as3cf->notices->find_notice_by_id( $this->errors_key );
+
+		if ( ! $notice ) {
+			return false;
+		}
+
+		$data = array();
+
+		ob_start();
+		$this->as3cf->render_view( 'notice', $notice );
+		$data['error_notice'] = ob_get_contents();
+		ob_end_clean();
+
+		$custom_notices = $this->get_custom_notices_to_update();
+
+		if ( ! empty( $custom_notices ) ) {
+			$data['custom_notices'] = $custom_notices;
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Tool specific message for error notice.
+	 *
+	 * @return string
+	 */
+	protected function get_error_notice_message() {
+		return '';
 	}
 
 }

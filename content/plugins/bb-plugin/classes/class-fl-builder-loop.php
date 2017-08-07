@@ -24,36 +24,36 @@ final class FLBuilderLoop {
 	static public function init()
 	{
 		// Actions
-		add_action( 'fl_builder_before_control_suggest', __CLASS__ . '::render_match_select', 10, 4 );	
+		add_action( 'fl_builder_before_control_suggest', __CLASS__ . '::render_match_select', 10, 4 );
 		add_action( 'init', 							 __CLASS__ . '::init_rewrite_rules' );
-		
+
 		// Filters
 		add_filter( 'found_posts',                       __CLASS__ . '::found_posts', 1, 2 );
 		add_filter( 'redirect_canonical', 				 __CLASS__ . '::override_canonical', 1, 2 );
 	}
 
 	/**
-	 * Returns either a clone of the main query or a new instance of 
-	 * WP_Query based on the provided module settings. 
+	 * Returns either a clone of the main query or a new instance of
+	 * WP_Query based on the provided module settings.
 	 *
 	 * @since 1.2.3
 	 * @param object $settings Module settings to use for the query.
 	 * @return object A WP_Query instance.
 	 */
-	static public function query( $settings ) 
+	static public function query( $settings )
 	{
 		$settings = apply_filters( 'fl_builder_loop_before_query_settings', $settings );
 		do_action( 'fl_builder_loop_before_query', $settings );
-		
+
 		if ( isset( $settings->data_source ) && 'main_query' == $settings->data_source ) {
 			$query = self::main_query();
 		}
 		else {
 			$query = self::custom_query( $settings );
 		}
-		
+
 		do_action( 'fl_builder_loop_after_query', $settings );
-		
+
 		return apply_filters( 'fl_builder_loop_query', $query, $settings );
 	}
 
@@ -63,33 +63,33 @@ final class FLBuilderLoop {
 	 * @since 1.10
 	 * @return object A WP_Query instance.
 	 */
-	static public function main_query() 
+	static public function main_query()
 	{
 		global $wp_query;
-		
+
 		$query = clone $wp_query;
 		$query->rewind_posts();
 		$query->reset_postdata();
-		
+
 		return $query;
 	}
 
 	/**
-	 * Returns a new instance of WP_Query based on 
-	 * the provided module settings. 
+	 * Returns a new instance of WP_Query based on
+	 * the provided module settings.
 	 *
 	 * @since 1.10
 	 * @param object $settings Module settings to use for the query.
 	 * @return object A WP_Query instance.
 	 */
-	static public function custom_query($settings) 
+	static public function custom_query($settings)
 	{
 		$posts_per_page	 = empty($settings->posts_per_page) ? 10 : $settings->posts_per_page;
 		$post_type		 = empty($settings->post_type) ? 'post' : $settings->post_type;
 		$order_by		 = empty($settings->order_by) ? 'date' : $settings->order_by;
 		$order			 = empty($settings->order) ? 'DESC' : $settings->order;
 		$users			 = empty($settings->users) ? '' : $settings->users;
-		$fields			 = empty($settings->fields) ? '' : $settings->fields;		
+		$fields			 = empty($settings->fields) ? '' : $settings->fields;
 
 		// Count how many times this method has been called
 		self::$loop_counter++;
@@ -103,14 +103,14 @@ final class FLBuilderLoop {
 			$offset = $settings->offset;
 		}
 
-		// Get the paged offset. 
+		// Get the paged offset.
 		if ( $paged < 2 ) {
 			$paged_offset = $offset;
 		}
 		else {
 			$paged_offset = $offset + ( ( $paged - 1 ) * $posts_per_page );
 		}
-		
+
 		// Build the query args.
 		$args = apply_filters( 'fl_builder_loop_query_args', array(
 			'paged'					=> $paged,
@@ -125,44 +125,44 @@ final class FLBuilderLoop {
 			'fl_builder_loop'		=> true,
 			'fields'				=> $fields
 		) );
-		
+
 		// Order by meta value arg.
 		if ( strstr( $order_by, 'meta_value' ) ) {
 			$args['meta_key'] = $settings->order_by_meta_key;
 		}
-		
+
 		// Build the author query.
 		if ( ! empty( $users ) ) {
 
 			if ( is_string( $users ) ) {
 				$users = explode( ',', $users );
 			}
-			
+
 			$arg = 'author__in';
-			
+
 			// Set to NOT IN if matching is present and set to 0.
 			if(isset($settings->users_matching) && !$settings->users_matching) {
-				$arg = 'author__not_in';	
+				$arg = 'author__not_in';
 			}
-			
+
 			$args[ $arg ] = $users;
 		}
-		
+
 		// Build the taxonomy query.
 		$taxonomies = self::taxonomies($post_type);
-		
+
 		foreach($taxonomies as $tax_slug => $tax) {
-			
+
 			$tax_value = '';
 			$operator  = 'IN';
-			
+
 			// Set to NOT IN if matching is present and set to 0.
 			if(isset($settings->{'tax_' . $post_type . '_' . $tax_slug . '_matching'})) {
 				if (!$settings->{'tax_' . $post_type . '_' . $tax_slug . '_matching'}) {
-					$operator = 'NOT IN';	
+					$operator = 'NOT IN';
 				}
 			}
-		
+
 			// New settings slug.
 			if(isset($settings->{'tax_' . $post_type . '_' . $tax_slug})) {
 				$tax_value = $settings->{'tax_' . $post_type . '_' . $tax_slug};
@@ -171,9 +171,9 @@ final class FLBuilderLoop {
 			else if(isset($settings->{'tax_' . $tax_slug})) {
 				$tax_value = $settings->{'tax_' . $tax_slug};
 			}
-				
+
 			if(!empty($tax_value)) {
-			 
+
 				$args['tax_query'][] = array(
 					'taxonomy'	=> $tax_slug,
 					'field'		=> 'id',
@@ -182,29 +182,29 @@ final class FLBuilderLoop {
 				);
 			}
 		}
-		
+
 		// Post in/not in query.
 		if(isset($settings->{'posts_' . $post_type})) {
-		
+
 			$ids = $settings->{'posts_' . $post_type};
 			$arg = 'post__in';
-			
+
 			// Set to NOT IN if matching is present and set to 0.
 			if(isset($settings->{'posts_' . $post_type . '_matching'})) {
 				if (!$settings->{'posts_' . $post_type . '_matching'}) {
-					$arg = 'post__not_in';	
+					$arg = 'post__not_in';
 				}
 			}
-			
+
 			// Add the args if we have IDs.
 			if(!empty($ids)) {
-				$args[ $arg ] = explode(',', $settings->{'posts_' . $post_type});  
+				$args[ $arg ] = explode(',', $settings->{'posts_' . $post_type});
 			}
 		}
-		
+
 		// Build the query.
 		$query = new WP_Query($args);
-		
+
 		// Return the query.
 		return $query;
 	}
@@ -217,17 +217,17 @@ final class FLBuilderLoop {
 	 * @param int $found_posts The number of found posts.
 	 * @param object $query An instance of WP_Query.
 	 * @return int
-	 */ 
-	static public function found_posts( $found_posts, $query ) 
+	 */
+	static public function found_posts( $found_posts, $query )
 	{
 		if ( isset( $query->query ) && isset( $query->query['fl_builder_loop'] ) ) {
 			return $found_posts - $query->query['fl_original_offset'];
 		}
-		
+
 		return $found_posts;
 	}
 
-		
+
 	/**
 	 * Add rewrite rules for custom pagination that allows post modules
 	 * on the same page to be paged independently.
@@ -242,13 +242,16 @@ final class FLBuilderLoop {
 			add_rewrite_rule( 'paged-'. $x .'/?([0-9]{1,})/?$', 'index.php?&flpaged'. $x .'=$matches[1]', 'top');
 			add_rewrite_rule( '(.?.+?)/paged-'. $x .'/?([0-9]{1,})/?$', 'index.php?pagename=$matches[1]&flpaged'. $x .'=$matches[2]', 'top');
 			add_rewrite_rule( '([^/]+)/paged-'. $x .'/?([0-9]{1,})/?$', 'index.php?name=$matches[1]&flpaged'. $x .'=$matches[2]', 'top');
+			add_rewrite_rule( '(.?.+?)/([^/]+)/paged-'. $x .'/?([0-9]{1,})/?$', 'index.php?post_type=$matches[1]&name=$matches[2]&flpaged'. $x .'=$matches[3]', 'top');
 			add_rewrite_tag( "%flpaged{$x}%", '([^&]+)');
 		}
 	}
 
 	/**
 	 * Disable canonical redirection on the frontpage when query var 'flpaged' is found.
-	 * 
+	 *
+	 * Disable canonical on supported CPT single.
+	 *
 	 * @param  string $redirect_url  The redirect URL.
 	 * @param  string $requested_url The requested URL.
 	 * @since  1.9.5
@@ -264,6 +267,19 @@ final class FLBuilderLoop {
 					break;
 				}
 			}
+
+			$supported_post_types = self::post_types();
+
+			// Disable canonical on CPT single
+			if ( isset( $wp_the_query->query_vars['post_type'] )
+                 && ! is_array( $wp_the_query->query_vars['post_type'] )
+	             && isset( $supported_post_types[ $wp_the_query->query_vars['post_type'] ] )
+	             && true === $wp_the_query->is_singular
+	             && - 1 == $wp_the_query->current_post
+	             && true === $wp_the_query->is_paged
+	        ) {
+	        	$redirect_url = false;
+	        }
 		}
 
     	return $redirect_url;
@@ -275,8 +291,8 @@ final class FLBuilderLoop {
 	 * @since 1.2.3
 	 * @param object $query An instance of WP_Query.
 	 * @return void
-	 */ 
-	static public function pagination($query) 
+	 */
+	static public function pagination($query)
 	{
 		$total_pages = $query->max_num_pages;
 		$permalink_structure = get_option('permalink_structure');
@@ -284,8 +300,8 @@ final class FLBuilderLoop {
 		$base = get_pagenum_link();
 
 		if($total_pages > 1) {
-		
-			if(!$current_page = $paged) { 
+
+			if(!$current_page = $paged) {
 				$current_page = 1;
 			}
 
@@ -295,7 +311,7 @@ final class FLBuilderLoop {
 			else {
 				$page_prefix = empty($permalink_structure) ? 'paged' : 'page';
 			}
-			
+
 			if(empty($permalink_structure) || is_search()) {
 				$format = '&'. $page_prefix .'=%#%';
 			}
@@ -317,6 +333,11 @@ final class FLBuilderLoop {
 				$base = substr_replace( $base, '', $pos, strlen( $base ) );
 			}
 
+            // Remove query string from base URL since paginate_links() adds it automatically.
+            if ( ! empty( $permalink_structure ) && count( $_GET ) > 0 ) {
+                $base = untrailingslashit( strtok( $base, '?' ) );
+            }
+
 			echo paginate_links(array(
 				'base'	   => $base . '%_%',
 				'format'   => $format,
@@ -336,10 +357,10 @@ final class FLBuilderLoop {
 	static public function get_paged()
 	{
 		global $wp_the_query, $paged;
-		
+
 		// Check first for custom pagination from post module
 		$flpaged = $wp_the_query->get( 'flpaged'. self::$loop_counter );
-		
+
 		if ( is_numeric( $flpaged ) ) {
 			return $flpaged;
 		}
@@ -350,18 +371,18 @@ final class FLBuilderLoop {
 
 		// Check the 'page' query var.
 		$page_qv = $wp_the_query->get( 'page' );
-		
+
 		if ( is_numeric( $page_qv ) ) {
 			return $page_qv;
 		}
-			
+
 		// Check the 'paged' query var.
 		$paged_qv = $wp_the_query->get( 'paged' );
-		
+
 		if ( is_numeric( $paged_qv ) ) {
 			return $paged_qv;
 		}
-		
+
 		// Check the $paged global?
 		if ( is_numeric( $paged ) ) {
 			return $paged;
@@ -376,42 +397,42 @@ final class FLBuilderLoop {
 	 *
 	 * @since 1.2.3
 	 * @return array
-	 */  
-	static public function post_types() 
+	 */
+	static public function post_types()
 	{
 		$post_types = get_post_types(array(
 			'public'	=> true,
 			'show_ui'	=> true
 		), 'objects');
-		
+
 		unset($post_types['attachment']);
 		unset($post_types['fl-builder-template']);
 		unset($post_types['fl-theme-layout']);
-		
+
 		return $post_types;
 	}
-	
+
 	/**
 	 * Get an array of supported taxonomy data for a post type.
 	 *
 	 * @since 1.2.3
 	 * @param string $post_type The post type to get taxonomies for.
 	 * @return array
-	 */   
-	static public function taxonomies($post_type) 
+	 */
+	static public function taxonomies($post_type)
 	{
 		$taxonomies = get_object_taxonomies($post_type, 'objects');
 		$data		= array();
-		
+
 		foreach($taxonomies as $tax_slug => $tax) {
-		
+
 			if(!$tax->public || !$tax->show_ui) {
 				continue;
 			}
-			
+
 			$data[$tax_slug] = $tax;
 		}
-		
+
 		return apply_filters( 'fl_builder_loop_taxonomies', $data, $taxonomies, $post_type );
 	}
 
@@ -427,12 +448,12 @@ final class FLBuilderLoop {
 		if ( 'default' == $format ) {
 			$format = get_option( 'date_format' );
 		}
-		
+
 		the_time( $format );
 	}
 
 	/**
-	 * Renders the select for matching or not matching filters in 
+	 * Renders the select for matching or not matching filters in
 	 * a module's loop builder settings.
 	 *
 	 * @since 1.10
@@ -447,11 +468,11 @@ final class FLBuilderLoop {
 		if ( ! isset( $field['matching'] ) || ! $field['matching'] ) {
 			return;
 		}
-		
+
 		if ( ! isset( $settings->{ $name . '_matching' } ) ) {
 			$settings->{ $name . '_matching' } = '1';
 		}
-		
+
 		include FL_BUILDER_DIR . 'includes/loop-settings-matching.php';
 	}
 }

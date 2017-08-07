@@ -31,8 +31,8 @@ class ub_global_header_content extends ub_helper {
 
 	function __construct() {
 		parent::__construct();
-		add_action( 'ultimatebranding_settings_menu_header', array( $this, 'global_header_content_site_admin_options' ) );
-		add_filter( 'ultimatebranding_settings_menu_header_process', array( $this, 'update_global_header_options' ), 10, 1 );
+		add_action( 'ultimatebranding_settings_header', array( $this, 'global_header_content_site_admin_options' ) );
+		add_filter( 'ultimatebranding_settings_header_process', array( $this, 'update_global_header_options' ), 10, 1 );
 		add_action( 'wp_footer', array( $this, 'global_header_content_output' ) );
 	}
 
@@ -70,7 +70,7 @@ class ub_global_header_content extends ub_helper {
         var att = document.createAttribute("id");
         att.value = "ub_global_header_content";
         node.setAttributeNode(att);
-        node.innerHTML = <?php echo json_encode( stripslashes( $global_header_content ) ); ?>;
+        node.innerHTML = <?php echo json_encode( stripslashes( do_shortcode( $global_header_content ) ) ); ?>;
         document.getElementsByTagName("body")[0].insertBefore(node,document.getElementsByTagName("body")[0].firstChild);
         </script>
 <?php

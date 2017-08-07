@@ -483,14 +483,12 @@ if ( ! class_exists( 'Snapshot_View_Settings' ) ) {
 						</div>
 					</div>
 					<?php
-					//echo "_POST<pre>"; print_r($_POST); echo "</pre>";
-					//echo "_GET<pre>"; print_r($_GET); echo "</pre>";
 
-					if ( ( isset( $_REQUEST['snapshot-action'] ) ) && ( esc_attr( $_REQUEST['snapshot-action'] ) == "archives-import" ) ) {
+					if ( isset( $_REQUEST['snapshot-action'] ) && 'archives-import' === esc_attr( $_REQUEST['snapshot-action'] ) ) {
 						if ( wp_verify_nonce( $_POST['snapshot-noonce-field'], 'snapshot-import' ) ) {
 
-							if ( ( isset( $_POST['snapshot-import-archive-remote-url'] ) ) && ( ! empty( $_POST['snapshot-import-archive-remote-url'] ) ) ) {
-								//echo "remote url[". $_POST['snapshot-import-archive-remote-url'] ."]<br />";
+							if ( ! empty( $_POST['snapshot-import-archive-remote-url'] ) ) {
+
 								if ( substr( $_POST['snapshot-import-archive-remote-url'], 0, 4 ) == 'http' ) {
 
 									if ( function_exists( 'curl_version' ) ) {
@@ -608,23 +606,24 @@ if ( ! class_exists( 'Snapshot_View_Settings' ) ) {
 							} else {
 
 								$dir = trailingslashit( WPMUDEVSnapshot::instance()->get_setting( 'backupBaseFolderFull' ) );
-								echo "<p>" . __( 'Importing archives from', SNAPSHOT_I18N_DOMAIN ) . ": " . $dir . "</p>";
+								printf( '<p>%s: %s</p>', __( 'Importing archives from', SNAPSHOT_I18N_DOMAIN ), $dir );
 
 								if ( $dh = opendir( $dir ) ) {
 									$restoreFolder = trailingslashit( WPMUDEVSnapshot::instance()->get_setting( 'backupRestoreFolderFull' ) ) . "_imports";
 
-									echo "<ol>";
-									while ( ( $file = readdir( $dh ) ) !== false ) {
+									echo '<ol>';
+									while ( false !== ( $file = readdir( $dh ) ) ) {
 
-										if ( ( $file == '.' ) || ( $file == '..' ) || ( $file == 'index.php' ) || ( $file[0] == '.' ) ) {
+										if ( $file == '.' || $file == '..' || $file == 'index.php' || $file[0] == '.' ) {
 											continue;
 										}
 
-										if ( pathinfo( $file, PATHINFO_EXTENSION ) != "zip" ) {
+										if ( 'zip' !== pathinfo( $file, PATHINFO_EXTENSION ) ) {
 											continue;
 										}
 
 										$restoreFile = $dir . $file;
+
 										if ( is_dir( $restoreFile ) ) {
 											continue;
 										}
@@ -632,23 +631,29 @@ if ( ! class_exists( 'Snapshot_View_Settings' ) ) {
 										// Check if the archive is full backup - we don't import those
 										if (Snapshot_Helper_Backup::is_full_backup($file)) continue;
 
-										echo "<li><strong>" . __( 'Processing archive', SNAPSHOT_I18N_DOMAIN ) . ": ", basename( $restoreFile ) . "</strong> (" .
-										                                                                               Snapshot_Helper_Utility::size_format( filesize( $restoreFile ) ) . ")<ul><li>";
+										printf( '<li><strong>%s: %s</strong> (%s)<ul><li>',
+											__( 'Processing archive', SNAPSHOT_I18N_DOMAIN ),
+											basename( $restoreFile ),
+											Snapshot_Helper_Utility::size_format( filesize( $restoreFile ) )
+										);
+
 										flush();
 										$error_status = Snapshot_Helper_Utility::archives_import_proc( $restoreFile, $restoreFolder );
-										//echo "error_status<pre>"; print_r($error_status); echo "</pre>";
-										if ( ( isset( $error_status['errorStatus'] ) ) && ( $error_status['errorStatus'] === true ) ) {
-											if ( ( isset( $error_status['errorText'] ) ) && ( strlen( $error_status['errorText'] ) ) ) {
-												echo '<span class="snapshot-error">Error: ' . $error_status['errorText'] . '</span></br />';
-											}
-										} else if ( ( isset( $error_status['errorStatus'] ) ) && ( $error_status['errorStatus'] === false ) ) {
-											if ( ( isset( $error_status['responseText'] ) ) && ( strlen( $error_status['responseText'] ) ) ) {
-												echo '<span class="snapshot-success">Success: ' . $error_status['responseText'] . '</span></br />';
-											} else {
 
+										if ( isset( $error_status['errorStatus'] ) ) {
+
+											if ( $error_status['errorStatus'] ) {
+												if ( ! empty( $error_status['errorText'] ) ) {
+													echo '<span class="snapshot-error">', sprintf( __( 'Error: %s', SNAPSHOT_I18N_DOMAIN ), $error_status['errorText'] ), '</span></br />';
+												}
+											} else {
+												if ( ! empty( $error_status['responseText'] ) ) {
+													echo '<span class="snapshot-success">', sprintf( __( 'Success: %s', SNAPSHOT_I18N_DOMAIN ), $error_status['errorText'] ), '</span></br />';
+												}
 											}
 										}
-										echo "</li></ul></li>";
+
+										echo '</li></ul></li>';
 									}
 									echo "</ol>";
 
@@ -657,16 +662,12 @@ if ( ! class_exists( 'Snapshot_View_Settings' ) ) {
 								}
 							}
 						}
-						echo "<p>" . __( 'Snapshot import complete', SNAPSHOT_I18N_DOMAIN ) . "</p>";
+						echo "<p>" . __( 'No errors were encountered during the import process.', SNAPSHOT_I18N_DOMAIN ) . "</p>";
 					}
 					?>
 				</div>
 			</div>
 		<?php
 		}
-
-
 	}
-
-
 }

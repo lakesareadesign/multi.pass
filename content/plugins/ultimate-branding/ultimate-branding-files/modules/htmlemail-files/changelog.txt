@@ -1,4 +1,4 @@
-Plugin Name: HTML Email Templates
+Plugin Name: Email Template
 Author: Aaron Edwards (incsub)
 http://premium.wpmudev.org/project/html-email-templates/
 
@@ -54,4 +54,4 @@ Change Log:
 - Initial release
 
 
-133620-1496772485-au
+133620-1502132170-au

@@ -69,6 +69,9 @@ class MP_Products_Screen {
 		add_action( 'delete_post', array( $this, 'delete_variations' ), 10 );
 // Product screen scripts
 		add_action( 'in_admin_footer', array( &$this, 'toggle_product_attributes_js' ) );
+// Add category filter
+		add_action( 'restrict_manage_posts', array( $this, 'filter_by_category' ) );
+		add_filter( 'parse_query', array( $this, 'parse_category_filter_query' ) );
 // Product attributes save/get value
 		$mp_product_atts = MP_Product_Attributes::get_instance();
 		$atts            = $mp_product_atts->get();
@@ -81,6 +84,50 @@ class MP_Products_Screen {
 
 		add_filter( 'enter_title_here', array( &$this, 'custom_placeholder_title' ), 10, 2 );
 		add_action( 'admin_menu', array( &$this, 'remove_metaboxes' ) );
+	}
+
+	/**
+	 * Add a filter by category column on the product page
+	 *
+	 * @since   3.2.3
+	 */
+	public function filter_by_category() {
+		global $typenow, $wp_query;
+
+		if ( 'product' === $typenow ) {
+			$dropdown_options = array(
+				'show_option_all' => get_taxonomy( 'product_category' )->labels->all_items,
+				'taxonomy'        => 'product_category',
+				'hide_empty'      => 0,
+				'hierarchical'    => 1,
+				'show_count'      => 0,
+				'orderby'         => 'name',
+				'selected'        => isset( $wp_query->query['cat'] ) ? $wp_query->query['cat'] : '',
+			);
+			wp_dropdown_categories( $dropdown_options );
+		}
+	}
+
+	/**
+	 * Filter products by the selected category
+	 *
+	 * @since   3.2.3
+	 * @param   object $query Query object.
+	 */
+	public function parse_category_filter_query( $query ){
+		global $pagenow;
+		$qv = &$query->query_vars;
+
+		if ( ( 'edit.php' === $pagenow ) && ( 'product' === $qv['post_type'] ) && ( ! empty( $qv['cat'] ) ) ) {
+			$qv['tax_query'] = array(
+				array(
+					'taxonomy' => 'product_category',
+					'field' => 'term_id',
+					'terms' => $qv['cat'],
+				),
+			);
+			unset( $qv['cat'] );
+		}
 	}
 
 	/**
@@ -255,6 +302,7 @@ class MP_Products_Screen {
 		}
 
 		$price      = mp_get_post_value( 'product_price', '' );
+		$action     = mp_get_post_value( 'action', '' );
 		$sale_price = mp_get_post_value( 'product_sale_price', '' );
 
 		$price = filter_var( $price, FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND );
@@ -268,7 +316,9 @@ class MP_Products_Screen {
 		if( ! empty( $sale_price_array ) && $sale_price_array > 0 && ! empty( $has_sale ) ) {
 			update_post_meta( $post_id, 'sort_price', $sale_price_array );
 		} else {
-			update_post_meta( $post_id, 'sort_price', $regular_price );
+            $sort_price = ( 'inline-save' === $action ) ? $price : $regular_price;
+            if ( ! empty( $sort_price ) )
+			    update_post_meta( $post_id, 'sort_price', $sort_price );
 		}
 
 		update_post_meta( $post_id, 'featured', empty( $featured ) ? 0 : 1 );
@@ -1136,7 +1186,7 @@ class MP_Products_Screen {
 		}
 
 		if ( ! current_user_can( 'edit_products' ) )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			wp_die( __( 'Cheatin&#8217; uh?', 'mp' ) );
 
 
 		$variation_names     = mp_get_post_value( 'product_attributes_categories', array() );
@@ -1286,7 +1336,6 @@ class MP_Products_Screen {
 	}
 
 	public function save_product_variations_parent_data( $value, $post_id, $field ) {
-
 	}
 
 	/**
@@ -1468,7 +1517,7 @@ WHERE $delete_where"
 
 		$metabox = new WPMUDEV_Metabox( apply_filters( 'mp_metabox_array_mp-product-price-inventory-variants-metabox', array(
 			'id'        => 'mp-product-price-inventory-variants-metabox',
-			'title'     => $has_variations ? __( 'Product Variations' ) : sprintf( __( '%1$sPrice, Inventory & Variants%2$s %3$sSet price, manage inventory and create Product Variants (if appropriate for your product).%2$s', 'mp' ), '<span class="mp_meta_section_title">', '</span>', '<span class="mp_meta_bellow_desc">' ),
+			'title'     => $has_variations ? __( 'Product Variations', 'mp' ) : sprintf( __( '%1$sPrice, Inventory & Variants%2$s %3$sSet price, manage inventory and create Product Variants (if appropriate for your product).%2$s', 'mp' ), '<span class="mp_meta_section_title">', '</span>', '<span class="mp_meta_bellow_desc">' ),
 			'post_type' => MP_Product::get_post_type(),
 			'context'   => 'normal',
 		) ) );
@@ -1781,25 +1830,29 @@ WHERE $delete_where"
 			), $has_variations ) );
 		}
 
-		$metabox->add_field( 'file', apply_filters( 'mp_add_field_array_file_url', array(
-			'name'         => 'file_url',
-			'label'        => array( 'text' => __( 'File URL', 'mp' ) ),
-			//'placeholder'	 => __( 'Choose a file', 'mp' ),
-			'button_label' => 'Select a file',
-			'conditional'  => array(
-				'action'   => 'show',
-				'operator' => 'AND',
-				array(
-					'name'  => 'product_type',
-					'value' => 'digital',
+		//Modified: Added filter to allow for changing of the file type to multiple
+		//This is set when the multiple file type Addon is enabled
+		$metabox->add_field( apply_filters( 'mp_product_file_url_type','file' ),
+			apply_filters( 'mp_add_field_array_file_url', array(
+				'name'         	=> 'file_url',
+				'label'        	=> array( 'text' => __( 'File URL', 'mp' ) ),
+				//'placeholder'	 => __( 'Choose a file', 'mp' ),
+				'button_label' 	=> 'Select a file',
+				'conditional'  	=> array(
+					'action'   	=> 'show',
+					'operator' 	=> 'AND',
+					array(
+						'name'  => 'product_type',
+						'value' => 'digital',
+					),
+					array(
+						'name'  => 'has_variation',
+						'value' => 'no',
+					),
 				),
-				array(
-					'name'  => 'has_variation',
-					'value' => 'no',
-				),
-			),
-			'class'        => 'mp-product-field-50 mp-blank-bg'
-		) ) );
+				'class'        	=> 'mp-product-field-50 mp-blank-bg'
+			))
+		);
 
 		$metabox->add_field( 'text', apply_filters( 'mp_add_field_array_external_url', array(
 			'name'         => 'external_url',

@@ -32,7 +32,7 @@ if (!class_exists('ALTERHELP')) {
               <a target="_blank" href="http://kb.acmeedesign.com/kbase_categories/alter-white-label-wordpress-plugin/">
                 <?php echo __('Visit Knowledgebase', 'alter'); ?>
               </a>
-              <a href="<?php echo admin_url( 'admin.php?page=' . ALTER_OPTIONS_SLUG ); ?>">
+              <a href="<?php echo admin_url( 'admin.php?page=alter-options' ); ?>">
                 <?php echo 'Alter ' . __('Settings', 'alter'); ?>
               </a>
             </div>

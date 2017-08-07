@@ -10,18 +10,21 @@ import Fetcher from './utils/fetcher';
 
         init: function () {
 
-            var self = this;
+            let self = this;
+            let body = $('body');
 
             if (wphbPerformanceStrings)
                 this.strings = wphbPerformanceStrings;
 
             this.$runTestButton = $('#run-performance-test');
 
-            $(".performance-report-table").off('click', 'button');
-            $('.performance-report-table').on('click', '.wphb-performance-report-item-cta .additional-content-opener' && 'tr.wphb-performance-report-item', function (e) {
+            let performanceReportTable = $(".performance-report-table");
+
+            performanceReportTable.off('click', 'button');
+            performanceReportTable.on('click', '.wphb-performance-report-item-cta .additional-content-opener' && 'tr.wphb-performance-report-item', function (e) {
                 e.preventDefault();
 
-                var getParentPerformanceItem = $(this).closest(".wphb-performance-report-item"),
+                let getParentPerformanceItem = $(this).closest(".wphb-performance-report-item"),
                     getNextAdditionalContentRow = getParentPerformanceItem.nextUntil(".wphb-performance-report-item");
 
                 getNextAdditionalContentRow.toggleClass("wphb-performance-report-item-additional-content-opened");
@@ -37,15 +40,16 @@ import Fetcher from './utils/fetcher';
             if (this.$runTestButton.length) {
                 this.$runTestButton.click(function (e) {
                     e.preventDefault();
+					window.WDP.showOverlay("#run-performance-test-modal", { class: 'wphb-modal small wphb-progress-modal no-close' } );
                     $(this).attr('disabled', true);
                     self.performanceTest(self.strings.finishedTestURLsLink);
                 });
             }
 
             // If a hash is present in URL, let's open the rule extra content
-            var hash = window.location.hash;
+            const hash = window.location.hash;
             if (hash) {
-                var row = $(hash);
+                const row = $(hash);
                 if (row.length) {
                     row.find('.trigger-additional-content').trigger('click');
                 }
@@ -62,7 +66,7 @@ import Fetcher from './utils/fetcher';
             }).change();
 
             // Remove recipient
-            $('body').on('click', '.wphb-remove-recipient', function (e) {
+            body.on('click', '.wphb-remove-recipient', function (e) {
                 e.preventDefault();
                 $(this).closest('.recipient').remove();
                 $('.scan-settings').find("input[id='scan_recipient'][value=" + $(this).attr('data-id') + "]").remove();
@@ -74,13 +78,13 @@ import Fetcher from './utils/fetcher';
                 const name = $("#wphb-first-name").val();
                 Fetcher.performance.addRecipient( email, name )
                     .then( ( response ) => {
-                        var user_row = $('<div class="recipient"/>');
+                        const user_row = $('<div class="recipient"/>');
 
-                        var img = $('<img/>').attr({
+                        const img = $('<img/>').attr({
                             'src': response.avatar,
                             'width': '30'
                         });
-                        var name = $('<span/>').html(response.name);
+                        const name = $('<span/>').html(response.name);
 
                         user_row.append('<span class="name"/>');
                         user_row.find('.name').append( img, name);
@@ -105,23 +109,22 @@ import Fetcher from './utils/fetcher';
                         $("#wphb-username-search").val('');
                         $("#wphb-first-name").val('');
                     })
-                    .catch( (error) => {
-                        console.error( error.response );
+                    .catch( ( error ) => {
                         alert( error.message );
                     } );
                 return false;
             });
 
             // Save report settings
-            $('body').on('submit', '.scan-frm', function (e) {
+            body.on('submit', '.scan-frm', function (e) {
                 e.preventDefault();
-                var form_data = $(this).serialize();
-                var that = $(this);
+                const form_data = $(this).serialize();
+                let that = $(this);
 
                 that.find('.button').attr('disabled', 'disabled');
 
                 Fetcher.performance.saveReportsSettings( form_data )
-                    .then( ( response ) => {
+                    .then( () => {
                         that.find('.button').removeAttr('disabled');
                         self.showUpdateMessage();
                     });
@@ -133,7 +136,7 @@ import Fetcher from './utils/fetcher';
         },
 
         showUpdateMessage: function () {
-            var notice = $('#wphb-notice-performance-report-settings-updated');
+            const notice = $('#wphb-notice-performance-report-settings-updated');
             window.scrollTo(0,0);
             notice.slideDown();
             setTimeout( function() {
@@ -141,47 +144,37 @@ import Fetcher from './utils/fetcher';
             }, 5000 );
         },
 
-        performanceTest: function (redirect) {
-            var self = this;
+		performanceTest: function ( redirect ) {
+			const self = this;
 
-            if (typeof redirect === 'undefined')
+            if ( typeof redirect === 'undefined' )
                 redirect = false;
 
             // Update progress bar
-            if ( self.progress < 90 ) {
-                self.progress += 35;
-            }
-            if ( self.progress > 100 ) {
-                self.progress = 90;
-            }
-            $('.wphb-scan-progress .wphb-scan-progress-text span').text(self.progress+'%');
-            $('.wphb-scan-progress .wphb-scan-progress-bar span').attr('style', 'width:'+self.progress+'%');
+            self.updateProgressBar();
 
-            $.ajax({
-                url: ajaxurl,
-                data: {
-                    action: 'wphb_ajax',
-                    method: 'POST',
-                    wphb_nonce: self.strings.performanceTestNonce,
-                    nonce_name: 'wphb-welcome-performance-test',
-                    module: self.module,
-                    module_action: 'performance_test'
-                }
-            }).success(function (response) {
-                var finished = response.success;
-                if (!finished) {
-                    // Try again 5 seconds later
-                    window.setTimeout(function () {
-                        self.performanceTest(redirect);
-                    }, 5000);
-                }
-                else {
-                    if (redirect)
+            Fetcher.performance.runTest()
+                .then( ( response ) => {
+					if ( ! response.finished ) {
+						// Try again 5 seconds later
+						window.setTimeout(function () {
+							self.performanceTest( redirect );
+						}, 5000);
+					} else if ( redirect ) {
                         window.location = redirect;
-                }
+					}
+                });
+        },
 
-            });
-
+        updateProgressBar: function() {
+			if ( this.progress < 90 ) {
+				this.progress += 35;
+			}
+			if ( this.progress > 100 ) {
+				this.progress = 90;
+			}
+			$('.wphb-scan-progress .wphb-scan-progress-text span').text( this.progress + '%' );
+			$('.wphb-scan-progress .wphb-scan-progress-bar span').attr( 'style', 'width:' + this.progress + '%' );
         }
     };
 }( jQuery ));

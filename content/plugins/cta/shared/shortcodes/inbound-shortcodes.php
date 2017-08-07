@@ -22,9 +22,12 @@ if (!defined('INBOUND_FORMS_ADMIN')) {
 
 
 
-/*	InboundNow Shortcodes Class
- *	--------------------------------------------------------- */
-if (!class_exists('Inbound_Shortcodes')) {
+/**
+ * Class Inbound_Shortcodes adds beneficial shortcode features to the plugin experience.
+ * @package     Shared
+ * @subpackage  Shortcodes
+ *
+ */
 
 class Inbound_Shortcodes {
 	static $add_script;
@@ -38,11 +41,21 @@ class Inbound_Shortcodes {
 		add_action('init', array( __CLASS__, 'shortcodes_include' ));
 
 		add_action( 'wp_enqueue_scripts',	array(__CLASS__, 'frontend_loads')); // load styles
-		add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
-		add_shortcode('inbound_list', array(__CLASS__, 'inbound_shortcode_list'));
-		add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
-		add_shortcode('inbound_button', array(__CLASS__, 'inbound_shortcode_button'));
-		add_shortcode('social_share',	array(__CLASS__, 'inbound_shortcode_social_links'));
+        if (!shortcode_exists('list')) {
+		    add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
+        }
+        if (!shortcode_exists('inbound_list')) {
+    		add_shortcode('inbound_list', array(__CLASS__, 'inbound_shortcode_list'));
+        }
+        if (!shortcode_exists('button')) {
+		    add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
+        }
+        if (!shortcode_exists('inbound_button')) {
+    		add_shortcode('inbound_button', array(__CLASS__, 'inbound_shortcode_button'));
+        }
+        if (!shortcode_exists('social_share')) {
+    		add_shortcode('social_share',	array(__CLASS__, 'inbound_shortcode_social_links'));
+        }
 		//add_action('admin_notices', array(__CLASS__, 'inbound_shortcode_prompt'));
 		//add_action('admin_init', array(__CLASS__, 'inbound_shortcode_prompt_ignore'));
 		//add_action( 'wp_ajax_inbound_shortcode_prompt_ajax',	array(__CLASS__, 'inbound_shortcode_prompt_ajax'));
@@ -71,14 +84,17 @@ class Inbound_Shortcodes {
 				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ), '1', true);
 				$form_id = (isset($_GET['post']) && is_int( $_GET['post'] )) ? $_GET['post'] : '';
 				wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
-				if ( !wp_script_is( 'select2', 'registered' ) ) {
+				//if ( !wp_script_is( 'select2', 'registered' ) ) {
+					wp_deregister_script('select2');
 					wp_dequeue_script('selectjs');
 					wp_dequeue_script('select2');
 					wp_dequeue_script('jquery-select2');
-					wp_enqueue_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.full.min.js', array( 'jquery' ) , false , false );
+					wp_register_script('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.full.min.js', array( 'jquery' ) , false , false );
+					wp_enqueue_script('select2' );
+					wp_dequeue_style('select2');
 					wp_enqueue_style('select2', INBOUNDNOW_SHARED_URLPATH . 'assets/includes/Select2/select2.min.css' , array() , false , false);
 
-				}
+				//}
 			}
 
 			// Forms CPT only
@@ -144,7 +160,7 @@ class Inbound_Shortcodes {
 
 
 		$style = 'default'; // default setting
-		$class = "inbound-button wpl-track-me-link";
+		$class = "inbound-button inbound-track-link";
 
 		if (preg_match("/#/", $color)){
 			$color = (isset($color)) ? "background-color: $color;" : '';
@@ -720,7 +736,7 @@ class Inbound_Shortcodes {
 
 
 }
-}
+
 /*	Initialize InboundNow Shortcodes
  *	--------------------------------------------------------- */
 Inbound_Shortcodes::init();

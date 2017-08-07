@@ -16,7 +16,7 @@ $prefix                 = $this->get_plugin_prefix_slug();
 
 			<table class="form-table">
 				<?php
-				$doc_link = $this->more_info_link( 'https://deliciousbrains.com/wp-offload-s3/doc/font-cors/' );
+				$doc_link = $this->more_info_link( '/wp-offload-s3/doc/font-cors/' );
 
 				$after_bucket_content = '<p class="web-font-notice">' . __( 'Having issues with web fonts not loading?', 'as3cf-assets' ) . ' ' . $doc_link . '</p>';
 				$this->render_view( 'bucket-setting',
@@ -43,7 +43,7 @@ $prefix                 = $this->get_plugin_prefix_slug();
 
 						<p class="enable-addon-desc">
 							<?php _e( 'Copy assets to S3 and rewrite URLs for enqueued CSS & JS scripts.', 'as3cf-assets' ); ?>
-							<?php echo $this->assets_more_info_link( 'copy-and-serve' ); ?>
+							<?php echo $this->assets_more_info_link( 'copy-and-serve', 'assets+copy+and+serve' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -51,17 +51,17 @@ $prefix                 = $this->get_plugin_prefix_slug();
 					<td colspan="2"><h3><?php _e( 'Scanning', 'as3cf-assets' ); ?></h3></td>
 				</tr>
 				<?php $args = $this->get_setting_args( 'enable-cron' ); ?>
-				<tr>
+				<tr class="<?php echo $args['tr_class']; ?>">
 					<td>
 						<?php $this->render_view( 'checkbox', $args ); ?>
 					</td>
-					<td class="<?php echo $args['tr_class']; ?>">
+					<td>
 						<?php echo $args['setting_msg']; ?>
 						<h4><?php _e( 'Automatic Scanning', 'as3cf-assets' ) ?></h4>
 
 						<p class="object-prefix-desc">
 							<?php printf( __( 'Files will be scanned every %d minutes, new and changed files will be uploaded to S3 and missing files will be removed.', 'as3cf-assets' ), $this->scanning_cron_interval_in_minutes ); ?>
-							<?php echo $this->assets_more_info_link( 'automatic-scanning' ); ?>
+							<?php echo $this->assets_more_info_link( 'automatic-scanning', 'assets+automatic+scanning' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -73,9 +73,9 @@ $prefix                 = $this->get_plugin_prefix_slug();
 						<h4><?php _e( 'File Extensions', 'as3cf-assets' ) ?></h4>
 						<p>
 							<?php _e( 'Comma separated list of file extensions to scan for and upload to S3.', 'as3cf-assets' ); ?>
-							<?php echo $this->assets_more_info_link( 'file-extensions' ); ?>
+							<?php echo $this->assets_more_info_link( 'file-extensions', 'assets+file+extensions' ); ?>
 						</p>
-						<p class="as3cf-setting">
+						<p class="as3cf-setting <?php echo $prefix; ?>-file-extensions">
 							<input type="text" class="file-extensions" name="file-extensions" value="<?php echo esc_attr( $this->get_setting( 'file-extensions' ) ); ?>" <?php echo $args['disabled_attr']; ?>/>
 						</p>
 					</td>
@@ -98,7 +98,7 @@ $prefix                 = $this->get_plugin_prefix_slug();
 
 						<p class="object-prefix-desc">
 							<?php _e( "Useful if you're using a bucket for other things.", 'as3cf-assets' ); ?>
-							<?php echo $this->assets_more_info_link( 'path' ); ?>
+							<?php echo $this->assets_more_info_link( 'path', 'assets+path' ); ?>
 						</p>
 						<?php $args = $this->get_setting_args( 'object-prefix' ); ?>
 						<p class="as3cf-setting <?php echo $prefix; ?>-enable-script-object-prefix <?php echo ( $this->get_setting( 'enable-script-object-prefix' ) ) ? '' : 'hide'; // xss ok ?>">
@@ -117,7 +117,7 @@ $prefix                 = $this->get_plugin_prefix_slug();
 
 						<p class="force-https-desc">
 							<?php _e( "By default we use HTTPS when the request is HTTPS and regular HTTP when the request is HTTP, but you may want to force the use of HTTPS always, regardless of the request.", 'as3cf-assets' ); ?>
-							<?php echo $this->assets_more_info_link( 'force-https' ); ?>
+							<?php echo $this->assets_more_info_link( 'force-https', 'assets+force+https' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -139,7 +139,7 @@ $prefix                 = $this->get_plugin_prefix_slug();
 
 						<p class="enable-minify-desc">
 							<?php _e( 'Reduce CSS and JS file size by removing unnecessary data.', 'as3cf-assets' ); ?>
-							<?php echo $this->assets_more_info_link( 'minify' ); ?>
+							<?php echo $this->assets_more_info_link( 'minify', 'assets+minify' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -158,7 +158,7 @@ $prefix                 = $this->get_plugin_prefix_slug();
 
 						<p class="enable-minify-exclude-desc">
 							<?php _e( 'List of files to be excluded from minify. One per line.', 'as3cf-assets' ); ?>
-							<?php echo $this->assets_more_info_link( 'minify-excludes' ); ?>
+							<?php echo $this->assets_more_info_link( 'minify-excludes', 'assets+exclude+files+from+minify' ); ?>
 						</p>
 						<?php
 						$args                    = $this->get_setting_args( 'minify-excludes' );
@@ -179,11 +179,11 @@ $prefix                 = $this->get_plugin_prefix_slug();
 
 						<p class="enable-gzip-desc">
 							<?php _e( 'Compress assets to reduce overall file size.', 'as3cf-assets' ); ?>
-							<?php echo $this->assets_more_info_link( 'gzip' ); ?>
+							<?php echo $this->assets_more_info_link( 'gzip', 'assets+gzip' ); ?>
 						</p>
 						<?php
 						$cdn_msg = __( '<strong>Warning</strong> &mdash; If you are using a CDN which supports automatic compression, you should turn off this option. Enabling compression within your CDN will reduce server load.', 'as3cf-assets' );
-						$cdn_msg .= ' ' . $this->more_info_link( 'https://deliciousbrains.com/wp-offload-s3/doc/assets-enable-gzip-compression-in-cloudfront-and-maxcdn/' );
+						$cdn_msg .= ' ' . $this->more_info_link( '/wp-offload-s3/doc/assets-enable-gzip-compression-in-cloudfront-and-maxcdn/' );
 
 						$cdn_gzip_args = array(
 							'message' => $cdn_msg,
@@ -210,7 +210,7 @@ $prefix                 = $this->get_plugin_prefix_slug();
 						$key = esc_html( $this->get_setting( 'custom-endpoint-key' ) ); ?>
 						<p>
 							<?php _e( 'Initiate a scan using a URL.', 'as3cf-assets' ); ?>
-							<?php echo $this->assets_more_info_link( 'webhook' ); ?>
+							<?php echo $this->assets_more_info_link( 'webhook', 'assets+webhook' ); ?>
 						</p>
 
 						<div class="as3cf-setting <?php echo $prefix; ?>-enable-custom-endpoint <?php echo ( $this->get_setting( 'enable-custom-endpoint' ) ) ? '' : 'hide'; // xss ok ?>">

@@ -156,6 +156,7 @@ class Login_Protection_Api extends Component {
 	/**
 	 * @param null $time - unix timestamp
 	 *
+	 * @deprecated
 	 * @return int
 	 */
 	public static function get404Lockouts( $time = null ) {
@@ -172,7 +173,7 @@ class Login_Protection_Api extends Component {
 
 	/**
 	 * @param null $time - unix timestamp
-	 *
+	 * @deprecated
 	 * @return int
 	 */
 	public static function getLoginLockouts( $time = null ) {
@@ -189,7 +190,7 @@ class Login_Protection_Api extends Component {
 
 	/**
 	 * @param null $time - unix timestamp
-	 *
+	 * @deprecated
 	 * @return int
 	 */
 	public static function getAllLockouts( $time = null ) {
@@ -209,6 +210,7 @@ class Login_Protection_Api extends Component {
 
 	/**
 	 * @return Log_Model
+	 * @deprecated
 	 */
 	public static function getLastLockout() {
 		$log = Log_Model::findAll( array(

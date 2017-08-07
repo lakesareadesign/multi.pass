@@ -31,8 +31,8 @@ class ub_site_generator_replacement {
 	var $site_generator_replacement_settings_page_long;
 
 	function __construct() {
-		add_action( 'ultimatebranding_settings_menu_sitegenerator', array( &$this, 'site_generator_replacement_site_admin_options' ) );
-		add_filter( 'ultimatebranding_settings_menu_sitegenerator_process', array( &$this, 'update_site_generator_replacement_site_admin_options' ), 10, 1 );
+		add_action( 'ultimatebranding_settings_sitegenerator', array( &$this, 'site_generator_replacement_site_admin_options' ) );
+		add_filter( 'ultimatebranding_settings_sitegenerator_process', array( &$this, 'update_site_generator_replacement_site_admin_options' ), 10, 1 );
 
 		add_filter( 'get_the_generator_html', array( &$this, 'site_generator_replacement_content' ), 99, 2 );
 		add_filter( 'get_the_generator_xhtml', array( &$this, 'site_generator_replacement_content' ), 99, 2 );

@@ -4,13 +4,13 @@ Plugin Name: mb.YTPlayer for background videos
 Plugin URI: http://pupunzi.com/#mb.components/mb.YTPlayer/YTPlayer.html
 Description: Play a Youtube video as background of your page. Go to <strong>mb.ideas > mb.YTPlayer</strong> to activate the background video option for your homepage.
 Author: Pupunzi (Matteo Bicocchi)
-Version: 3.1.0
+Version: 3.1.4
 Author URI: http://pupunzi.com
 Text Domain: wpmbytplayer
 */
 
 
-define("MBYTPLAYER_VERSION", "3.1.0");
+define("MBYTPLAYER_VERSION", "3.1.4");
 
 // Set unique string for this site
 $lic_domain = $_SERVER['HTTP_HOST'];
@@ -58,20 +58,14 @@ function mbYTPlayer_get_price($plugin_prefix) {
     return $res_array;
 }
 
-$mbYTPlayer_price = mbYTPlayer_get_price("YTPL");
-
-
 if (version_compare(phpversion(), '5.6.0', '>')) {
     require('inc/mb_notice/notice.php');
     //$ytp_notice->reset_notice();
     $ytp_message = '<b>mb.YTPlayer</b>: <br>Go to Plus to get all the player features! ' . ' <a target="_blank" href="' . $ytpl_plus_link . '">' . __('Get your <b>Plus</b> now!', 'wpmbytplayer') . '</a>';
-    $ytp_notice = new mb_notice('mbYTPlayer', plugin_basename(__FILE__));
+    $ytp_notice = new mb_notice('mbYTPlayer', plugin_basename(__FILE__), MBYTPLAYER_VERSION);
     $ytp_notice->add_notice($ytp_message, 'success');
 }
 
-/**
- *
- */
 register_activation_hook(__FILE__, 'mbYTPlayer_install');
 function mbYTPlayer_install()
 {
@@ -82,9 +76,7 @@ function mbYTPlayer_install()
     add_option('mbYTPlayer_video_url', '');
     add_option('mbYTPlayer_video_page', 'static');
     add_option('mbYTPlayer_remember_last_time', false);
-
 }
-
 
 $mbYTPlayer_version = get_option('mbYTPlayer_version');
 $mbYTPlayer_is_active = get_option('mbYTPlayer_is_active');
@@ -107,10 +99,17 @@ $mbYTPlayer_realfullscreen = "false";
 $mbYTPlayer_stop_on_blur = "true";
 $mbYTPlayer_track_ga = "false";
 
-//set up defaults if these fields are empty
-if ($mbYTPlayer_version != MBYTPLAYER_VERSION) {
-    $mbYTPlayer_version = MBYTPLAYER_VERSION;
+if($mbYTPlayer_version !=  MBYTPLAYER_VERSION) {
+    update_option('mbYTPlayer_price', mbYTPlayer_get_price("YTPL"));
+    update_option('mbYTPlayer_version', MBYTPLAYER_VERSION);
 }
+$mbYTPlayer_price = get_option('mbYTPlayer_price');
+
+if (empty($mbYTPlayer_price)) {
+    update_option('mbYTPlayer_price', mbYTPlayer_get_price("YTPL"));
+    $mbYTPlayer_price = get_option('mbYTPlayer_price');
+}
+
 if (empty($mbYTPlayer_is_active)) {
     $mbYTPlayer_is_active = false;
 }
@@ -123,8 +122,9 @@ if (empty($mbYTPlayer_video_page)) {
 if (empty($mbYTPlayer_remember_last_time)) {
     $mbYTPlayer_remember_last_time = "false";
 }
+
 /**
- * todo: rempve from next releases
+ * todo: remove from next releases
  */
 if(get_option('mbYTPlayer_Home_is_active')) {
     $mbYTPlayer_is_active = get_option('mbYTPlayer_Home_is_active');
@@ -356,6 +356,18 @@ function mbYTPlayer_options_page()
                         <p><?php _e('Choose on which page you want the background video to be shown', 'wpmbytplayer'); ?></p>
                     </td>
                 </tr>
+
+                <tr valign="top">
+                    <th scope="row"><?php _e('Remember last video time position:', 'wpmbytplayer'); ?></th>
+                    <td>
+                        <input type="checkbox" id="mbYTPlayer_remember_last_time" name="mbYTPlayer_remember_last_time" value="true" <?php if (get_option('mbYTPlayer_remember_last_time') == "true") {
+                            echo ' checked="checked"';
+                        } ?>/>
+                        <label for="mbYTPlayer_remember_last_time"><?php _e('Check to start the video from where you left last time', 'wpmbytplayer'); ?></label>
+                    </td>
+                </tr>
+
+
             </table>
 
             <p class="submit">

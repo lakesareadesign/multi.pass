@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/avatars
 Description: Allows users to upload 'user avatars' and 'blog avatars' which then can appear in comments and blog / user listings around the site
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
-Version: 4.1.7
+Version: 4.1.8
 Network: true
 Text Domain: avatars
 WDP ID: 10
@@ -67,7 +67,7 @@ class Avatars {
 	/**
 	 * Current version of the plugin
 	 **/
-	var $current_version = '4.1.6';
+	var $current_version = '4.1.8';
 
 	private $avatars_dir;
 	public $user_avatar_dir;
@@ -210,7 +210,7 @@ class Avatars {
 						if( $wp_filesystem->delete( WP_CONTENT_DIR . '/avatars', true ) ) // attempt delete of old folder
 							$message = sprintf( __( 'The Avatars plugin now store files in %s. Your old folder has been moved.', 'avatars' ), $this->avatars_dir );
 						else
-							$message = sprintf( __( 'The Avatars plugin now store files in %s. Your old folder has been copied. Please verify that everything is working fine and delete the old folder manually.', 'avatars' ), $this->avatars_dir );	     	  								 
+							$message = sprintf( __( 'The Avatars plugin now store files in %s. Your old folder has been copied. Please verify that everything is working fine and delete the old folder manually.', 'avatars' ), $this->avatars_dir );
 
 					} else { // unsuccessful copy, warns user
 

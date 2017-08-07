@@ -223,6 +223,7 @@ class Snapshot_View_Full_Backup {
 				'processing_percent' => __('Backing up... %d%', SNAPSHOT_I18N_DOMAIN),
 				'finishing' => __('Finishing up', SNAPSHOT_I18N_DOMAIN),
 				'estimating' => __('Estimating backup size, this might take a bit. Please, hold on', SNAPSHOT_I18N_DOMAIN),
+				'snapshot_logs' => __( 'Snapshot Logs', SNAPSHOT_I18N_DOMAIN ),
 			),
 		));
 	}

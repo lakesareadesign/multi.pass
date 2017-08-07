@@ -25,7 +25,7 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	/**
 	 * Constructor - never to the outside world
 	 */
-	protected function __construct () {
+	protected function __construct() {
 		parent::__construct();
 		$this->_view = Snapshot_View_Full_Backup::get();
 	}
@@ -35,8 +35,8 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 *
 	 * @return object Snapshot_Controller_Full_Admin instance
 	 */
-	public static function get () {
-		if (empty(self::$_instance)) {
+	public static function get() {
+		if ( empty( self::$_instance ) ) {
 			self::$_instance = new self;
 		}
 		return self::$_instance;
@@ -45,9 +45,9 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	/**
 	 * Serves the controller
 	 */
-	public function run () {
+	public function run() {
 		$this->_view->run();
-		add_action('current_screen', array($this, 'process_submissions'));
+		add_action( 'current_screen', array( $this, 'process_submissions' ) );
 	}
 
 	/**
@@ -55,11 +55,11 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 *
 	 * Removes config settings
 	 */
-	public function deactivate () {
-		$this->_model->set_config('active', false);
-		$this->_model->set_config('frequency', false);
-		$this->_model->set_config('schedule_time', false);
-		$this->_model->set_config('secret-key', false);
+	public function deactivate() {
+		$this->_model->set_config( 'active', false );
+		$this->_model->set_config( 'frequency', false );
+		$this->_model->set_config( 'schedule_time', false );
+		$this->_model->set_config( 'secret-key', false );
 
 		$this->_model->remote()->remove_token();
 	}
@@ -67,28 +67,52 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	/**
 	 * Dispatch submission processing.
 	 */
-	public function process_submissions () {
-		if ( is_multisite() ) {
-			if ( ! is_super_admin() ) {
-				return false;
-			}
-			if ( ! is_network_admin() ) {
-				return false;
-			}
+	public function process_submissions() {
+		if ( is_multisite() && ! is_super_admin() && ! is_network_admin() ) {
+			return false;
 		}
-		if (!$this->_view->is_current_admin_page()) return false;
-		if (!current_user_can($this->_view->get_page_role())) return false;
 
-		$data = new Snapshot_Model_Post;
-		if ($data->is_empty()) return false;
+		if ( ! $this->_view->is_current_admin_page() && ! ( isset( $_GET['page'] ) && in_array( sanitize_text_field( $_GET['page'] ), array( "snapshot_pro_settings", "snapshot_pro_managed_backups" ) ) ) ) {
+			return false;
+		}
 
-		if ($data->has('activate')) return $this->_activate_backups($data);
-		else if ($data->has('snapshot-settings')) return $this->_update_settings($data);
-		else if ($data->has('snapshot-schedule')) return $this->_schedule_backups($data);
-		else if ($data->has('snapshot-disable-cron')) return $this->_deactivate_backups($data);
-		else if ($data->has('snapshot-enable-cron')) return $this->_reenable_cron_backups($data);
-		else if ($data->has('download')) return $this->_download_backup($data);
-		else if ($data->has('snapshot-full_backups-list-nonce') && $data->has('delete-bulk')) return $this->_bulk_delete($data);
+		if ( ! current_user_can( $this->_view->get_page_role() ) ) {
+			return false;
+		}
+
+		if ( isset( $_GET['action'] ) && $_GET['page'] === 'snapshot_pro_managed_backups' && $_GET['action'] === 'delete' ) {
+			$_POST = $_GET;
+		}
+		$data = new Snapshot_Model_Post();
+
+		if ( $data->is_empty() ) {
+			return false;
+		}
+
+		if ( $data->has( 'activate' ) ) {
+			$this->_activate_backups( $data );
+		}
+		if ( $data->has( 'snapshot-disable-all' ) ) {
+			$this->_deactivate_all( $data );
+		}
+		if ( $data->has( 'snapshot-settings' ) ) {
+			$this->_update_settings( $data );
+		}
+		if ( $data->has( 'snapshot-schedule' ) ) {
+			$this->_schedule_backups( $data );
+		}
+		if ( $data->has( 'snapshot-disable-cron' ) ) {
+			$this->_deactivate_backups( $data );
+		}
+		if ( $data->has( 'snapshot-enable-cron' ) ) {
+			$this->_reenable_cron_backups( $data );
+		}
+		if ( $data->has( 'download' ) ) {
+			$this->_download_backup( $data );
+		}
+		if ( $data->has( 'snapshot-full_backups-list-nonce' ) && $data->has( 'delete-bulk' ) && $data->has( 'action' ) && 'delete' === $data->value( 'action' ) ) {
+			$this->_bulk_delete( $data );
+		}
 	}
 
 	/**
@@ -98,36 +122,46 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 *
 	 * @return bool False on failure
 	 */
-	private function _bulk_delete (Snapshot_Model_Post $data) {
+	private function _bulk_delete( Snapshot_Model_Post $data ) {
 		if (
-			!current_user_can($this->_view->get_page_role())
+			! current_user_can( $this->_view->get_page_role() )
 			||
-			!wp_verify_nonce($data->value('snapshot-full_backups-list-nonce'), 'snapshot-full_backups-list')
-		) return false;
-		if (!$this->_is_backup_processing_ready()) return false;
-
-		$to_remove = $data->value('delete-bulk');
-		if (empty($to_remove) || !is_array($to_remove)) return false; // Not valid data
-
-		$status = true; // Assume all is good
-		foreach ($to_remove as $timestamp) {
-			$timestamp = (int)$timestamp;
-			if (!$timestamp) continue; // Not a valid timestamp
-
-			$status = $this->_model->delete_backup($timestamp);
-			if (!$status) break;
+			! wp_verify_nonce( $data->value( 'snapshot-full_backups-list-nonce' ), 'snapshot-full_backups-list' )
+		) {
+			return false;
+		}
+		if ( ! $this->_is_backup_processing_ready() ) {
+			return false;
 		}
 
-		if (!empty($status)) {
+		$to_remove = $data->value( 'delete-bulk' );
+		if ( empty( $to_remove ) || ! is_array( $to_remove ) ) {
+			return false;
+		} // Not valid data
+
+		$status = true; // Assume all is good
+		foreach ( $to_remove as $timestamp ) {
+			$timestamp = (int) $timestamp;
+			if ( ! $timestamp ) {
+				continue;
+			} // Not a valid timestamp
+
+			$status = $this->_model->delete_backup( $timestamp );
+			if ( ! $status ) {
+				break;
+			}
+		}
+
+		if ( ! empty( $status ) ) {
 			// Update all settings, new list included
 			$this->_model->update_remote_schedule();
 		}
 
-		$url = !empty($status)
-			? remove_query_arg('error')
-			: add_query_arg('error', self::CODE_ERROR_BULK_DELETE)
-		;
-		wp_safe_redirect($url);
+		$url = WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-managed-backups' );
+		$url = ! empty( $status )
+			? remove_query_arg( 'error', $url )
+			: add_query_arg( 'error', self::CODE_ERROR_BULK_DELETE, $url );
+		wp_safe_redirect( $url );
 		die;
 	}
 
@@ -140,24 +174,25 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 *
 	 * @return bool False on failure
 	 */
-	private function _download_backup (Snapshot_Model_Post $data) {
-		if (
-			!current_user_can($this->_view->get_page_role())
-			||
-			!wp_verify_nonce($data->value('nonce'), 'snapshot-full_backups-download')
-		) return false;
+	private function _download_backup( Snapshot_Model_Post $data ) {
+		if ( ! current_user_can( $this->_view->get_page_role() ) ||
+		     ! wp_verify_nonce( $data->value( 'nonce' ), 'snapshot-full_backups-download' ) ) {
+			return false;
+		}
 
-		if (!$data->is_numeric('download')) return false;
-		$timestamp = (int)$data->value('download');
+		if ( ! $data->is_numeric( 'download' ) ) {
+			return false;
+		}
+		$timestamp = (int) $data->value( 'download' );
 
-		$file = $this->_model->local()->get_backup($timestamp);
-		if (empty($file) || !file_exists($file)) {
+		$file = $this->_model->local()->get_backup( $timestamp );
+		if ( empty( $file ) || ! file_exists( $file ) ) {
 			// Try to deal with remote file directly
-			$url = $this->_model->remote()->get_backup_link($timestamp);
-			if (!$url) {
-				wp_safe_redirect(add_query_arg('error', self::CODE_ERROR_DOWNLOAD));
+			$url = $this->_model->remote()->get_backup_link( $timestamp );
+			if ( ! $url ) {
+				wp_safe_redirect( add_query_arg( 'error', self::CODE_ERROR_DOWNLOAD ) );
 			} else {
-				wp_redirect($url);
+				wp_redirect( $url );
 			}
 			die;
 		}
@@ -165,17 +200,17 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 		// So we have a local backup file... carry on packing
 
 		ob_end_clean(); // Clean up anything up until now
-		header('Content-Description: File Transfer');
-		header('Content-Type: application/zip');
-		header('Content-Disposition: attachment; filename="' . basename($file) . '"');
-		header('Content-Length: ' . filesize($file));
-		header('Content-Transfer-Encoding: binary');
-		header('Expires: 0');
-		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		header('Pragma: public');
-		readfile($file);
+		header( 'Content-Description: File Transfer' );
+		header( 'Content-Type: application/zip' );
+		header( 'Content-Disposition: attachment; filename="' . basename( $file ) . '"' );
+		header( 'Content-Length: ' . filesize( $file ) );
+		header( 'Content-Transfer-Encoding: binary' );
+		header( 'Expires: 0' );
+		header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
+		header( 'Pragma: public' );
+		readfile( $file );
 
-		@unlink($file); // Kill the file, we don't need it anymore
+		@unlink( $file ); // Kill the file, we don't need it anymore
 		die;
 	}
 
@@ -186,30 +221,39 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 *
 	 * @return bool
 	 */
-	private function _activate_backups (Snapshot_Model_Post $data) {
+	private function _activate_backups( Snapshot_Model_Post $data ) {
 		if (
-			!current_user_can($this->_view->get_page_role())
+			! current_user_can( $this->_view->get_page_role() )
 			||
-			!$data->is_valid_action('snapshot-full_backups-activate')
-		) return false;
-
-		if ($this->_model->is_active()) {
-			if ($data->is_true('activate')) return false; // Pleonasm
-			$this->_model->set_config('active', false);
+			! $data->is_valid_action( 'snapshot-full_backups-activate' )
+		) {
+			return false;
+		}
+		if ( $this->_model->is_active() && ! ( isset( $_GET['page'] ) && in_array( sanitize_text_field( $_GET['page'] ), array( "snapshot_pro_settings", "snapshot_pro_managed_backups" ) ) ) ) {
+			if ( $data->is_true( 'activate' ) ) {
+				return false;
+			} // Pleonasm
+			$this->_model->set_config( 'active', false );
 		} else {
-			if (!$data->is_true('activate')) return false; // Pleonasm
 
-			if ($data->has('secret-key')) {
+			if ( ! $data->is_true( 'activate' ) ) {
+				return false;
+			} // Pleonasm
+			if ( $data->has( 'secret-key' ) ) {
 
-				$key = sanitize_text_field($data->value('secret-key'));
-				if (empty($key)) return false;
+				$key = sanitize_text_field( $data->value( 'secret-key' ) );
+				if ( empty( $key ) ) {
+					return false;
+				}
 
-				$old_key = $this->_model->get_config('secret-key', false);
-				$this->_model->set_config('secret-key', $key);
-				if (empty($key) || $key !== $old_key) $this->_model->remote()->remove_token();
+				$old_key = $this->_model->get_config( 'secret-key', false );
+				$this->_model->set_config( 'secret-key', $key );
+				if ( empty( $key ) || $key !== $old_key ) {
+					$this->_model->remote()->remove_token();
+				}
 
 				// Require secret key to activate the backups
-				$this->_model->set_config('active', true);
+				$this->_model->set_config( 'active', true );
 
 				// Set initial cron hooks if at all possible
 				Snapshot_Controller_Full_Cron::get()->reschedule();
@@ -235,16 +279,38 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 *
 	 * @return bool
 	 */
-	private function _deactivate_backups (Snapshot_Model_Post $data) {
-		if (
-			!current_user_can($this->_view->get_page_role())
-			||
-			!$data->is_valid_action('snapshot-full_backups-schedule')
-		) return false;
+	private function _deactivate_backups( Snapshot_Model_Post $data ) {
+		if ( ! current_user_can( $this->_view->get_page_role() ) ||
+			! $data->is_valid_action( 'snapshot-full_backups-schedule' ) ) {
+			return false;
+		}
 
-		$this->_model->set_config('frequency', false);
-		$this->_model->set_config('schedule_time', false);
-		$this->_model->set_config('disable_cron', true);
+		$this->_model->set_config( 'frequency', false );
+		$this->_model->set_config( 'schedule_time', false );
+		$this->_model->set_config( 'disable_cron', true );
+		Snapshot_Controller_Full_Cron::get()->stop();
+
+		// Let the service know
+		$this->_model->update_remote_schedule();
+
+		return false;
+	}
+
+	private function _deactivate_all( Snapshot_Model_Post $data ) {
+		if (
+			! current_user_can( $this->_view->get_page_role() )
+			||
+			! $data->is_valid_action( 'snapshot-full_backups-schedule' )
+		) {
+			return false;
+		}
+
+		$this->_model->set_config( 'secret-key', '' );
+		$this->_model->remote()->remove_token();
+
+		$this->_model->set_config( 'frequency', false );
+		$this->_model->set_config( 'schedule_time', false );
+		$this->_model->set_config( 'disable_cron', true );
 		Snapshot_Controller_Full_Cron::get()->stop();
 
 		// Let the service know
@@ -260,14 +326,13 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 *
 	 * @return bool
 	 */
-	private function _reenable_cron_backups (Snapshot_Model_Post $data) {
-		if (
-			!current_user_can($this->_view->get_page_role())
-			||
-			!$data->is_valid_action('snapshot-full_backups-schedule')
-		) return false;
+	private function _reenable_cron_backups( Snapshot_Model_Post $data ) {
+		if ( ! current_user_can( $this->_view->get_page_role() ) ||
+		     ! $data->is_valid_action( 'snapshot-full_backups-schedule' ) ) {
+			return false;
+		}
 
-		$this->_model->set_config('disable_cron', false);
+		$this->_model->set_config( 'disable_cron', false );
 
 		// Reset cron hooks
 		Snapshot_Controller_Full_Cron::get()->reschedule();
@@ -285,40 +350,40 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 *
 	 * @return bool
 	 */
-	private function _update_settings (Snapshot_Model_Post $data) {
-		if (
-			!current_user_can($this->_view->get_page_role())
-			||
-			!$data->is_valid_action('snapshot-full_backups-settings')
-		) return false;
+	private function _update_settings( Snapshot_Model_Post $data ) {
+		if ( ! current_user_can( $this->_view->get_page_role() ) ||
+		     ! $data->is_valid_action( 'snapshot-full_backups-settings' ) && ! $data->is_valid_action( 'snapshot-full_backups-schedule' ) ) {
+			return false;
+		}
 
 		// Do the secret key part first
-		if ($data->has('secret-key')) {
-			$key = sanitize_text_field($data->value('secret-key'));
-			$old_key = $this->_model->get_config('secret-key', false);
-			$this->_model->set_config('secret-key', $key);
-			if (empty($key) || $key !== $old_key) $this->_model->remote()->remove_token();
+		if ( $data->has( 'secret-key' ) ) {
+			$key = sanitize_text_field( $data->value( 'secret-key' ) );
+			$old_key = $this->_model->get_config( 'secret-key', false );
+			$this->_model->set_config( 'secret-key', $key );
+			if ( empty( $key ) || $key !== $old_key ) {
+				$this->_model->remote()->remove_token();
+			}
 
 			// Also stop cron when there's no secret key
-			if (empty($key)) {
-				$this->_model->set_config('frequency', false);
-				$this->_model->set_config('schedule_time', false);
-				$this->_model->set_config('disable_cron', true);
+			if ( empty( $key ) ) {
+				$this->_model->set_config( 'frequency', false );
+				$this->_model->set_config( 'schedule_time', false );
+				$this->_model->set_config( 'disable_cron', true );
 				Snapshot_Controller_Full_Cron::get()->stop();
 			}
 		}
 
 		// Do the limit part
-		if ($data->has('backups-limit')) {
-			$limit = (int)$data->value('backups-limit');
-			Snapshot_Model_Full_Remote_Storage::get()->set_max_backups_limit($limit);
+		if ( $data->has( 'backups-limit' ) ) {
+			Snapshot_Model_Full_Remote_Storage::get()->set_max_backups_limit( $data->value( 'backups-limit' ) );
 			// ... *then* update remote info
 			$this->_model->update_remote_schedule();
 		}
 
 		// Do the logging part
-		if ($data->has('log-enable')) {
-			Snapshot_Controller_Full_Log::get()->process_submissions($data);
+		if ( $data->has( 'log-enable' ) ) {
+			Snapshot_Controller_Full_Log::get()->process_submissions( $data );
 		}
 	}
 
@@ -329,27 +394,34 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 *
 	 * @return bool
 	 */
-	private function _schedule_backups (Snapshot_Model_Post $data) {
-		if (
-			!current_user_can($this->_view->get_page_role())
-			||
-			!$data->is_valid_action('snapshot-full_backups-schedule')
-		) return false;
+	private function _schedule_backups( Snapshot_Model_Post $data ) {
+		if ( ! current_user_can( $this->_view->get_page_role() ) ||
+			! $data->is_valid_action( 'snapshot-full_backups-schedule' ) ) {
+			return false;
+		}
 
 		// Check validity
-		if (!$data->has('frequency') || !$data->has('schedule_time')) return false;
+		if ( ! $data->has( 'frequency' ) || ! $data->has( 'schedule_time' ) ) {
+			return false;
+		}
 
-		if (!$data->is_in_range('frequency', array_keys($this->_model->get_frequencies()))) return false;
-		if (!$data->is_in_range('schedule_time', array_keys($this->_model->get_schedule_times()))) return false;
+		if ( ! $data->is_in_range( 'frequency', array_keys( $this->_model->get_frequencies() ) ) ) {
+			return false;
+		}
+		if ( ! $data->is_in_range( 'schedule_time', array_keys( $this->_model->get_schedule_times() ) ) ) {
+			return false;
+		}
 
-		$this->_model->set_config('frequency', $data->value('frequency'));
-		$this->_model->set_config('schedule_time', $data->value('schedule_time'));
+		$this->_model->set_config( 'frequency', $data->value( 'frequency' ) );
+		$this->_model->set_config( 'schedule_time', $data->value( 'schedule_time' ) );
 
-		// Reset cron hooks
-		Snapshot_Controller_Full_Cron::get()->reschedule();
+		if ( $data->has( 'backups-limit' ) ) {
+			$this->_update_settings( $data );
+		}
 
-		// ... *then* update remote info
-		$this->_model->update_remote_schedule();
+		if ( ! $data->has( 'snapshot-disable-cron' ) ) {
+			$this->_reenable_cron_backups( $data );
+		}
 
 		return true;
 	}

@@ -7,6 +7,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 
 	const OPTIONS_FLAG = 'snapshot_cron_backup_run';
 
+	const BACKUP_START_ACTION = 'start_backup';
 	const BACKUP_KICKSTART_ACTION = 'process_backup';
 	const BACKUP_FINISHING_ACTION = 'finish_backup-immediate';
 
@@ -59,6 +60,28 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 
 		if ('init' === current_filter()) $this->set_up_scheduling();
 		else add_action('init', array($this, 'set_up_scheduling'));
+	}
+
+	/**
+	 * Runs the compatibility layer, if needed
+	 *
+	 * @since v3.0.5-BETA-1
+	 * @deprecated v3.0.5-BETA-2
+	 *
+	 * @return bool Status
+	 */
+	public function run_compat () {
+		$status = false;
+
+		if (defined('WPE_APIKEY')) {
+			// Pretty ugly, so only do this if we really have to
+			//add_filter('cron_request', array($this, 'set_auth_cookies')); // We don't do this anymore
+			// We now have cron requests dispatch the actual processings,
+			// so the cron jobs themselves don't need to auth at all
+			$status = true;
+		}
+
+		return $status;
 	}
 
 	/**
@@ -156,6 +179,20 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	}
 
 	/**
+	 * Gets all known cron interval IDs
+	 *
+	 * @return array List of known IDs
+	 */
+	public function get_interval_ids () {
+		return array(
+			$this->get_filter('process_interval'),
+			$this->get_filter('daily'),
+			$this->get_filter('weekly'),
+			$this->get_filter('monthly'),
+		);
+	}
+
+	/**
 	 * Sets up backup scheduling when the model data is ready for it
 	 */
 	public function set_up_scheduling () {
@@ -190,9 +227,40 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	}
 
 	/**
-	 * Actually starts the backup process
+	 * Cron handler to issue backup starting self-ping
 	 */
 	public function start_backup () {
+		delete_site_option(self::OPTIONS_FLAG);
+		if ($this->_model->get_config('disable_cron', false)) return false;
+
+		if (!$this->_is_backup_processing_ready()) return false;
+
+		Snapshot_Helper_Log::note("Backup starting on schedule", "Cron");
+
+		// Reschedule
+		$this->_reschedule_immediate_processing();
+
+		$this->_ping_self(self::BACKUP_START_ACTION);
+	}
+
+	/**
+	 * Public API proxy for actual backup start
+	 *
+	 * Used in Hub backup start action because the self-ping
+	 * request might fail in automated execution context.
+	 *
+	 * @return void
+	 */
+	public function force_actual_start () {
+		return $this->_actually_start_backup();
+	}
+
+	/**
+	 * Self-ping handler that actually starts the backup process
+	 *
+	 * @since v3.0.5-BETA-2
+	 */
+	private function _actually_start_backup () {
 		delete_site_option(self::OPTIONS_FLAG);
 		if ($this->_model->get_config('disable_cron', false)) return false;
 
@@ -201,7 +269,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 		// Signal intent - starting action
 		Snapshot_Helper_Log::start();
 
-		Snapshot_Helper_Log::note("Backup ready to start", "Cron");
+		Snapshot_Helper_Log::note("Backup is now starting", "Cron");
 
 		$idx = $this->_get_backup_type();
 		$this->_start_backup($idx);
@@ -213,9 +281,27 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	}
 
 	/**
-	 * Process the started backup
+	 * Cron handler to issue the processing self-ping
 	 */
 	public function process_backup () {
+		if ($this->_model->get_config('disable_cron', false)) return false;
+		if (!$this->_is_backup_processing_ready()) return false;
+		if (get_site_option(Snapshot_Controller_Full_Ajax::OPTIONS_FLAG)) return false;
+
+		Snapshot_Helper_Log::info("Backup process on schedule", "Cron");
+
+		// Reschedule
+		$this->_reschedule_immediate_processing();
+
+		$this->_ping_self(self::BACKUP_KICKSTART_ACTION);
+	}
+
+	/**
+	 * Self-ping handler that actually processes the backup
+	 *
+	 * @since v3.0.5-BETA-2
+	 */
+	protected function _actually_process_backup () {
 		$this->_ignore_user_abort();
 
 		if ($this->_model->get_config('disable_cron', false)) return false;
@@ -276,21 +362,28 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	}
 
 	/**
-	 * Kickstarts the backup processing
-	 *
-	 * @uses $this->process_backup()
+	 * Cron handler to issue backup finalization self-ping
 	 */
-	public function kickstart_backup_processing () {
-		Snapshot_Helper_Log::warn("Immediate hook misfired, kickstart backup processing", "Cron");
-		$this->process_backup();
+	public function finish_backup () {
+		if ($this->_model->get_config('disable_cron', false)) return false;
+		if (!$this->_is_backup_processing_ready()) return false;
+
+		Snapshot_Helper_Log::info("Backup finish on schedule", "Cron");
+
+		// Reschedule
+		$this->_reschedule_immediate_processing();
+
+		$this->_ping_self(self::BACKUP_FINISHING_ACTION);
 	}
 
 	/**
 	 * Finish the started backup
 	 *
+	 * @since v3.0.5-BETA-2
+	 *
 	 * @return bool
 	 */
-	public function finish_backup () {
+	private function _actually_finish_backup () {
 		$this->_ignore_user_abort();
 
 		if ($this->_model->get_config('disable_cron', false)) return false;
@@ -352,6 +445,16 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	}
 
 	/**
+	 * Kickstarts the backup processing
+	 *
+	 * @uses $this->process_backup()
+	 */
+	public function kickstart_backup_processing () {
+		Snapshot_Helper_Log::warn("Immediate hook misfired, kickstart backup processing", "Cron");
+		$this->process_backup();
+	}
+
+	/**
 	 * Checks whether the cron-scheduled backup is currently running.
 	 *
 	 * @return bool
@@ -386,6 +489,21 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	}
 
 	/**
+	 * Returns a list of known self-pinging job actions
+	 *
+	 * @since v3.0.5-BETA-2
+	 *
+	 * @return array
+	 */
+	public function get_known_job_actions () {
+		return array(
+			self::BACKUP_START_ACTION,
+			self::BACKUP_KICKSTART_ACTION,
+			self::BACKUP_FINISHING_ACTION,
+		);
+	}
+
+	/**
 	 * Propagate the cron job request
 	 *
 	 * This method will re-ping the cron endpoint
@@ -397,10 +515,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	 * @return bool
 	 */
 	private function _ping_self ($job=false) {
-		$job = self::BACKUP_FINISHING_ACTION !== $job
-			? self::BACKUP_KICKSTART_ACTION
-			: self::BACKUP_FINISHING_ACTION
-		;
+		if (!in_array($job, $this->get_known_job_actions())) $job = self::BACKUP_KICKSTART_ACTION;
 
 		return $this->_send_self_request_ping($job);
 	}
@@ -415,14 +530,14 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	private function _send_self_request_ping ($job=false) {
 		if ($this->_model->get_config('disable_cron', false)) return false;
 
-		$job = empty($job) || !in_array($job, array(self::BACKUP_KICKSTART_ACTION, self::BACKUP_FINISHING_ACTION))
+		$job = empty($job) || !in_array($job, $this->get_known_job_actions())
 			? self::BACKUP_KICKSTART_ACTION
 			: $job
 		;
 
-		wp_remote_post(
-			admin_url('admin-ajax.php?action=snapshot-full_backup-respawn_cron&doing_wp_cron=1'),
-			array(
+		$params = array(
+			'url' => admin_url('admin-ajax.php?action=snapshot-full_backup-respawn_cron&doing_wp_cron=1'),
+			'args' => array(
 				'timeout'   => 0.01,
 				'blocking'  => false,
 				'sslverify' => false,
@@ -431,6 +546,13 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 				),
 			)
 		);
+
+		if (defined('WPE_APIKEY')) {
+			// Filter ourselves, manually
+			$params = $this->set_auth_cookies($params);
+		}
+
+		wp_remote_post($params['url'], $params['args']);
 
 		return true;
 	}
@@ -442,17 +564,27 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 		$this->_ignore_user_abort();
 
 		if ($this->_model->get_config('disable_cron', false)) die;
-		//if (!defined('DOING_CRON')) define('DOING_CRON', true);
 		if (!defined('DISABLE_WP_CRON')) define('DISABLE_WP_CRON', true); // No. Bad cron. Not happening.
 
 		$data = stripslashes_deep($_POST);
-		$type = !empty($data['job']) && self::BACKUP_FINISHING_ACTION === $data['job']
-			? self::BACKUP_FINISHING_ACTION
-			: self::BACKUP_KICKSTART_ACTION
+		$type = empty($data['job']) || !in_array($data['job'], $this->get_known_job_actions())
+			? self::BACKUP_KICKSTART_ACTION
+			: $data['job']
 		;
+		Snapshot_Helper_Log::info("Parsing self-ping action: [{$type}]", "Cron");
 
-		if (self::BACKUP_KICKSTART_ACTION === $type) $this->process_backup();
-		else if (self::BACKUP_FINISHING_ACTION === $type) $this->finish_backup();
+		if (self::BACKUP_START_ACTION === $type) {
+			Snapshot_Helper_Log::info("Prepare to actually start backup process", "Cron");
+			$this->_actually_start_backup();
+		} else if (self::BACKUP_KICKSTART_ACTION === $type) {
+			Snapshot_Helper_Log::info("Prepare to actually process the backup batch", "Cron");
+			$this->_actually_process_backup();
+		} else if (self::BACKUP_FINISHING_ACTION === $type) {
+			Snapshot_Helper_Log::info("Prepare to actually finish the backup", "Cron");
+			$this->_actually_finish_backup();
+		} else {
+			Snapshot_Helper_Log::warn("Unknown action has been requested: [{$data['job']}], bailing out", "Cron");
+		}
 
 		die;
 	}
@@ -699,5 +831,78 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 		if (empty($filter)) return false;
 		if (!is_string($filter)) return false;
 		return 'snapshot-controller-full-cron-' . $filter;
+	}
+
+	/**
+	 * Gets the auth cookies array
+	 *
+	 * Used to work around the WPEngine authentication issue
+	 *
+	 * @return array Auth cookies
+	 */
+	public function get_auth_cookies () {
+		if (!defined('WPE_APIKEY')) return array(); // Not WPEngine
+		if (is_user_logged_in()) return array(); // Already authenticated
+
+		$user = $user_id = false;
+		if (is_multisite()) {
+			$superadmins = get_super_admins();
+			if ($superadmins && !empty($superadmins[0])) $user = get_user_by('login', $superadmins[0]);
+		} else {
+			$admins = get_users(array(
+				'role' => 'administrator',
+				'number' => 1,
+			));
+			if ($admins && !empty($admins[0])) $user = $admins[0];
+		}
+		if (empty($user) || !is_object($user)) return array();
+		$user_id = $user->ID;
+
+		$cookies = array();
+		$secure = is_ssl();
+		$secure = apply_filters( 'secure_auth_cookie', $secure, $user_id );
+
+		if ( $secure ) {
+			$auth_cookie_name = SECURE_AUTH_COOKIE;
+			$scheme = 'secure_auth';
+		} else {
+			$auth_cookie_name = AUTH_COOKIE;
+			$scheme = 'auth';
+		}
+
+		//we expire sites from the hub after 14 days, so long enough for these cookies
+		$expiration = time() + ( DAY_IN_SECONDS * 14 );
+
+		$cookies[ $auth_cookie_name ] = wp_generate_auth_cookie( $user_id, $expiration, $scheme );
+		$cookies[ LOGGED_IN_COOKIE ]  = wp_generate_auth_cookie( $user_id, $expiration, 'logged_in' );
+		 //this is WP Engine's proprietary auth cookie
+		$cookies['wpe-auth'] = md5( 'wpe_auth_salty_dog|' . WPE_APIKEY );
+
+		return $cookies;
+	}
+
+	/**
+	 * Shims in the auth cookies
+	 *
+	 * @param $params Cron request parameters
+	 *
+	 * @return array Modified params
+	 */
+	public function set_auth_cookies ($params) {
+		if (empty($params['args'])) return $params; // Not properly formatted
+		if (!class_exists('WP_Http_Cookie')) return $params; // Can't help here
+
+		$raw = $this->get_auth_cookies();
+		if (empty($raw)) return $params;
+
+		if (empty($params['args']['cookies'])) $params['args']['cookies'] = array();
+		foreach ($raw as $key => $val) {
+			$params['args']['cookies'][] = new WP_Http_Cookie(array(
+				'name' => $key,
+				'value' => $val,
+			));
+		}
+
+		return $params;
 	}
 }

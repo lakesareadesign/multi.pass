@@ -4,9 +4,8 @@ Snapshots Plugin Destinations Dropbox
 Author: Paul Menard (Incsub)
 */
 
-if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
-     && ( stristr( WPMUDEV_SNAPSHOT_DESTINATIONS_EXCLUDE, 'SnapshotDestinationDropbox' ) === false )
-) {
+if ( ! class_exists( 'SnapshotDestinationDropbox' )
+	&& stristr( WPMUDEV_SNAPSHOT_DESTINATIONS_EXCLUDE, 'SnapshotDestinationDropbox' ) === false ) {
 
 	class SnapshotDestinationDropbox extends Snapshot_Model_Destination {
 
@@ -36,8 +35,7 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 		var $form_errors;
 
 		function load_library() {
-			require_once( dirname( __FILE__ ) . '/includes/Dropbox/autoload.php' );
-			set_include_path( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'includes/PEAR_Includes' . PATH_SEPARATOR . get_include_path() );
+			require_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
 		}
 
 		function on_creation() {
@@ -61,57 +59,24 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 				'.sass-cache',
 			);
 
-			$this->sync_excluded_file_chars = array(
-				'<',
-				'>',
-				':',
-				'/',
-				'\\',
-				'|',
-				'?',
-				'*'
-			);
+			$this->sync_excluded_file_chars = array( '<', '>', ':', '/', '\\', '|', '?', '*' );
 
 			//add_action('wp_ajax_snapshot_destination_dropbox', array(&$this, 'destination_ajax_proc' ));
 
 			// When returning from Dropbox Authorize the URL Query String contains the parameter 'oauth_token'. On this indicator
 			// we load the stored item option and grab the new access token. Then store the options and redirect the user to
 			// the Destination Dropbox form where they will finally save the destination info.
-			if ( ( isset( $_GET['page'] ) ) && ( sanitize_text_field( $_GET['page'] ) == 'snapshots_destinations_panel' ) ) {
 
-				//require_once( dirname( __FILE__ ) . '/includes/Dropbox/autoload.php' );
-				//set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . DIRECTORY_SEPARATOR . 'includes/PEAR_Includes');
-				$this->load_library();
-
-				if ( isset( $_REQUEST['oauth_token'] ) ) {
-					$d_info      = get_option( 'snapshot-dropbox-tokens' );
-					$this->oauth = new Dropbox_OAuth_PEAR( self::DROPBOX_APP_KEY, self::DROPBOX_APP_SECRET );
-					$this->oauth->setToken( $d_info['tokens']['request'] );
-					$d_info['tokens']['access'] = $this->oauth->getAccessToken();
-
-					update_option( 'snapshot-dropbox-tokens', $d_info );
-
-					$link   = remove_query_arg( 'oauth_token' );
-					$link   = remove_query_arg( 'uid', $link );
-					$action = 'snapshot-destination-dropbox-authorize';
-					$link   = add_query_arg( 'dropbox-authorize', wp_create_nonce( $action ), $link );
-
-					if ( isset( $d_info['item'] ) ) {
-						$link = add_query_arg( 'snapshot-action', 'edit', $link );
-						$link = add_query_arg( 'item', $d_info['item'], $link );
-
-					} else {
-						$link = add_query_arg( 'snapshot-action', 'add', $link );
-					}
-					$link   = add_query_arg( 'type', 'dropbox', $link );
-					$d_info = get_option( 'snapshot-dropbox-tokens' );
-
-					// Avoid XSS
-					$link = esc_url_raw( $link );
-
-					wp_redirect( $link );
-				}
+			if ( ! isset( $_GET['page'] ) || ! in_array( sanitize_text_field( $_GET['page'] ), array( 'snapshots_destinations_panel', 'snapshot_pro_destinations' ) ) ) {
+				return;
 			}
+
+			$this->load_library();
+
+			if ( ! isset( $_REQUEST['oauth_token'] ) ) {
+				return;
+			}
+
 		}
 
 		function init() {
@@ -126,17 +91,17 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 			}
 			$this->error_array = array();
 
-			$this->error_array['errorStatus']    = false;
+			$this->error_array['errorStatus'] = false;
 			$this->error_array['sendFileStatus'] = false;
-			$this->error_array['errorArray']     = array();
-			$this->error_array['responseArray']  = array();
+			$this->error_array['errorArray'] = array();
+			$this->error_array['responseArray'] = array();
 
 			set_error_handler( array( &$this, 'ErrorHandler' ) );
 		}
 
 		function validate_form_data( $d_info ) {
 
-			if ( isset( $d_info['force-authorize'] ) ) {
+			if ( isset( $d_info['force-authorize'] ) && 'on' == $d_info['force-authorize']  ) {
 				unset( $d_info['force-authorize'] );
 
 				if ( isset( $d_info['tokens']['access'] ) ) {
@@ -147,50 +112,40 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 					$d_info['item'] = sanitize_text_field( $_POST['item'] );
 				}
 
-				//require_once( dirname( __FILE__ ) . '/includes/Dropbox/autoload.php' );
-				//set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . DIRECTORY_SEPARATOR . 'includes/PEAR_Includes');
 				$this->load_library();
 
-				$this->oauth                 = new Dropbox_OAuth_PEAR( self::DROPBOX_APP_KEY, self::DROPBOX_APP_SECRET );
-				$d_info['tokens']['request'] = $this->oauth->getRequestToken();
+				$this->oauth = new Kunnu\Dropbox\DropboxApp( self::DROPBOX_APP_KEY, self::DROPBOX_APP_SECRET );
+				$this->dropbox = new Kunnu\Dropbox\Dropbox( $this->oauth );
+				$auth_helper = $this->dropbox->getAuthHelper();
 
 				update_option( 'snapshot-dropbox-tokens', $d_info );
 
-				$action          = "snapshot-destination-dropdown-authorize";
-				$link            = esc_url_raw( add_query_arg( '_wpnonce', wp_create_nonce( $action ) ) );
-				$admin_url       = admin_url();
-				$admin_url_parts = parse_url( $admin_url );
-				$admin_url       = $admin_url_parts['scheme'] . "://" . $admin_url_parts['host'];
-				$return_link     = $admin_url . $link;
-				$dropbox_url     = $this->oauth->getAuthorizeUrl( $return_link );
+				$dropbox_url = $auth_helper->getAuthUrl( );
 				wp_redirect( $dropbox_url );
-				die();
+				die;
 			}
 
 			// Will contain the filtered fields from the form (d_info).
 			$destination_info = array();
-
-			if ( isset( $this->form_errors ) ) {
-				unset( $this->form_errors );
-			}
-
 			$this->form_errors = array();
 
 			if ( isset( $d_info['type'] ) ) {
 				$destination_info['type'] = esc_attr( $d_info['type'] );
 			}
 
-			if ( isset( $d_info['name'] ) ) {
-				$destination_info['name'] = esc_attr( $d_info['name'] );
+			if ( empty( $d_info['name'] ) ) {
+				$this->form_errors['name'] = esc_html__( 'Please provide a name for the destination.', SNAPSHOT_I18N_DOMAIN );
 			} else {
-				$this->form_errors['name'] = __( "Name is required", SNAPSHOT_I18N_DOMAIN );
+				$destination_info['name'] = stripslashes( esc_attr( $d_info['name'] ) );
 			}
 
-			if ( isset( $d_info['directory'] ) ) {
-				$destination_info['directory'] = esc_attr( $d_info['directory'] );
+			if ( empty( $d_info['directory'] ) ) {
+				$this->form_errors['directory'] = __( 'Please provide a valid subdirectory to store the snapshots.', SNAPSHOT_I18N_DOMAIN );
+			} else {
+				$destination_info['directory'] = trim( stripslashes( esc_attr( $d_info['directory'] ) ) );
 				$destination_info['directory'] = str_replace( '\\', '/', stripslashes( $destination_info['directory'] ) );
-			} //else
-			//$this->form_errors['directory'] = __("Directory is required", SNAPSHOT_I18N_DOMAIN);
+				$destination_info['directory'] = trim( $destination_info['directory'], '/' );
+			}
 
 			if ( isset( $d_info['tokens']['request']['token'] ) ) {
 				$destination_info['tokens']['request']['token'] = esc_attr( $d_info['tokens']['request']['token'] );
@@ -208,308 +163,46 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 				$destination_info['tokens']['access']['token_secret'] = esc_attr( $d_info['tokens']['access']['token_secret'] );
 			}
 
+			if ( isset( $d_info['tokens']['access']['access_token'] ) ) {
+				$destination_info['tokens']['access']['access_token'] = esc_attr( $d_info['tokens']['access']['access_token'] );
+			}
+
+			if ( isset( $d_info['tokens']['access']['authorization_token'] ) ) {
+				$destination_info['tokens']['access']['authorization_token'] = esc_attr( $d_info['tokens']['access']['authorization_token'] );
+			}
+
+			if ( isset( $destination_info['tokens']['access']['authorization_token'] ) && ! empty( $destination_info['tokens']['access']['authorization_token'] ) ) {
+				$destination_classes = WPMUDEVSnapshot::instance()->get_setting( 'destinationClasses' );
+				$destination_class = $destination_classes[ $destination_info['type'] ];
+				try {
+					$oauth = new Kunnu\Dropbox\DropboxApp( $destination_class->get_app_key(), $destination_class->get_app_secret() );
+					$dropbox = new Kunnu\Dropbox\Dropbox( $oauth );
+					$oauth2_token = $dropbox->getOAuth2Client()->getAccessToken( $destination_info['tokens']['access']['authorization_token'] );
+					$destination_info['tokens']['access']['access_token'] = $oauth2_token['access_token'];
+				} catch ( Exception $e ) {
+					$message = '';
+					$error_message = $e->getMessage();
+					if ( ! empty( $error_message ) ) {
+						$message = json_decode( $eerror_message );
+						if ( $message && isset( $message->error_description ) ) {
+							$message = $message->error_description;
+						} else {
+							$message = $error_message;
+						}
+					}
+					$this->form_errors['authorization_token'] = esc_html__( 'An error occurred when attempting to connect to Dropbox: ', SNAPSHOT_I18N_DOMAIN ) . ' ' . $message;
+
+				}
+				$destination_info['tokens']['access']['authorization_token'] = '';
+				$destination_info['tokens']['access']['token'] = '';
+				$destination_info['tokens']['access']['token_secret'] = '';
+			}
+
 			if ( isset( $d_info['account_info'] ) ) {
 				$destination_info['account_info'] = $d_info['account_info'];
 			}
 
-			if ( count( $this->form_errors ) ) {
-				return false;
-			} else {
-				return $destination_info;
-			}
-		}
-
-		function display_listing_table( $destinations, $edit_url, $delete_url ) {
-
-			?>
-			<table class="widefat">
-				<thead>
-				<tr class="form-field">
-					<th class="snapshot-col-delete"><?php _e( 'Delete', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-name"><?php _e( 'Name', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-login"><?php _e( 'Login', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-authorized"><?php _e( 'Authorized', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-directory"><?php _e( 'Directory', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-used"><?php _e( 'Used', SNAPSHOT_I18N_DOMAIN ); ?></th>
-				</tr>
-				<thead>
-				<tbody>
-				<?php
-				if ( ( isset( $destinations ) ) && ( count( $destinations ) ) ) {
-
-					foreach ( $destinations as $idx => $item ) {
-						if ( ! isset( $row_class ) ) {
-							$row_class = "";
-						}
-						$row_class = ( $row_class == '' ? 'alternate' : '' );
-
-						?>
-						<tr class="<?php echo $row_class; ?><?php
-						if ( isset( $item['type'] ) ) {
-							echo ' snapshot-row-filter-type-' . $item['type'];
-						} ?>">
-							<td class="snapshot-col-delete"><input type="checkbox"
-							                                       name="delete-bulk-destination[<?php echo $idx; ?>]"
-							                                       id="delete-bulk-destination-<?php echo $idx; ?>">
-							</td>
-
-							<td class="snapshot-col-name"><a
-									href="<?php echo $edit_url; ?>item=<?php echo $idx; ?>"><?php
-									echo stripslashes( $item['name'] ) ?></a>
-
-								<div class="row-actions" style="margin:0; padding:0;">
-									<span class="edit"><a href="<?php echo $edit_url; ?>item=<?php echo $idx; ?>"><?php
-											_e( 'edit', SNAPSHOT_I18N_DOMAIN ); ?></a></span> | <span class="delete"><a
-											href="<?php
-											echo $delete_url; ?>item=<?php echo $idx; ?>&amp;snapshot-noonce-field=<?php
-											echo wp_create_nonce( 'snapshot-delete-destination' ); ?>"><?php
-											_e( 'delete', SNAPSHOT_I18N_DOMAIN ); ?></a></span>
-								</div>
-							</td>
-							<td class="snapshot-col-login"><?php
-								if ( isset( $item['account_info']['display_name'] ) ) {
-									echo $item['account_info']['display_name'];
-
-									if ( isset( $item['account_info']['email'] ) ) {
-										echo ' (' . $item['account_info']['email'] . ')';
-									}
-								} ?></td>
-							<td class="snapshot-col-authorized"><?php
-								if ( ( isset( $item['tokens']['access']['token'] ) ) && ( isset( $item['tokens']['access']['token_secret'] ) ) ) {
-									_e( 'Yes', SNAPSHOT_I18N_DOMAIN );
-								} else {
-									_e( 'Yes', SNAPSHOT_I18N_DOMAIN );
-								} ?></td>
-							<td class="snapshot-col-directory"><?php
-								if ( isset( $item['directory'] ) ) {
-									echo $item['directory'];
-								} ?></td>
-							<td class="snapshot-col-used"><?php Snapshot_Model_Destination::show_destination_item_count( $idx ); ?></td>
-						</tr>
-					<?php
-					}
-				} else {
-					?>
-					<tr class="form-field">
-					<td colspan="4"><?php
-						_e( 'No Dropbox Destinations', SNAPSHOT_I18N_DOMAIN ); ?></td></tr><?php
-				}
-				?>
-				</tbody>
-			</table>
-			<?php
-			if ( ( isset( $destinations ) ) && ( count( $destinations ) ) ) {
-				?>
-				<div class="tablenav">
-					<div class="alignleft actions">
-						<input class="button-secondary" type="submit"
-						       value="<?php _e( 'Delete Destination', SNAPSHOT_I18N_DOMAIN ); ?>"/>
-					</div>
-				</div>
-			<?php
-			}
-			?>
-		<?php
-		}
-
-		function display_details_form( $item = 0 ) {
-
-			?>
-			<p><?php _e( 'Define a Dropbox destination connection. Provide a name below. You will need to save this form then return here to Authorize the connection to Dropbox', SNAPSHOT_I18N_DOMAIN ); ?></p>
-
-			<div id="poststuff" class="metabox-holder">
-			<div style="display: none" id="snapshot-destination-test-result"></div>
-			<div class="postbox" id="snapshot-destination-item">
-
-				<h3 class="hndle">
-					<span><?php echo $this->name_display; ?> <?php _e( 'Destination', SNAPSHOT_I18N_DOMAIN ); ?></span>
-				</h3>
-
-				<div class="inside">
-
-					<input type="hidden" name="snapshot-destination[type]" id="snapshot-destination-type"
-					       value="<?php echo $this->name_slug; ?>"/>
-					<table class="form-table">
-						<?php
-						if ( ( isset( $this->form_errors ) ) && ( count( $this->form_errors ) ) ) {
-							?>
-							<tr class="form-field">
-								<th scope="row"><?php _e( "Form Errors", SNAPSHOT_I18N_DOMAIN ); ?></th>
-								<td>
-									<ul>
-										<?php
-										foreach ( $this->form_errors as $error ) {
-											?>
-											<li><?php echo $error; ?></li><?php
-										}
-										?>
-									</ul>
-								</td>
-							</tr>
-						<?php
-						}
-						?>
-						<?php
-						if ( ( isset( $_GET['dropbox-authorize'] ) )
-						     && ( wp_verify_nonce( sanitize_text_field( $_GET['dropbox-authorize'] ), 'snapshot-destination-dropbox-authorize' ) )
-						) {
-
-							$item = get_option( 'snapshot-dropbox-tokens' );
-							//echo "item<pre>"; print_r($item); echo "</pre>";
-
-							// If we make it here then the Dropbox Authorize processing has been handled or aborted. So don't keep the option stored.
-							delete_option( 'snapshot-dropbox-tokens' );
-
-						}
-
-						// Store the Token - Request as hidden fields
-						if ( isset( $item['tokens']['request']['token'] ) ) {
-							?>
-							<input type="hidden" name="snapshot-destination[tokens][request][token]"
-							       value="<?php echo $item['tokens']['request']['token']; ?>"/>
-						<?php
-						}
-						if ( isset( $item['tokens']['request']['token_secret'] ) ) {
-							?>
-							<input type="hidden" name="snapshot-destination[tokens][request][token_secret]"
-							       value="<?php echo $item['tokens']['request']['token_secret']; ?>"/>
-						<?php
-						}
-
-						// Store the Token - Access as hidden fields
-						if ( isset( $item['tokens']['access']['token'] ) ) {
-							?>
-							<input type="hidden" name="snapshot-destination[tokens][access][token]"
-							       value="<?php echo $item['tokens']['access']['token']; ?>"/>
-						<?php
-						}
-						if ( isset( $item['tokens']['access']['token_secret'] ) ) {
-							?>
-							<input type="hidden" name="snapshot-destination[tokens][access][token_secret]"
-							       value="<?php echo $item['tokens']['access']['token_secret']; ?>"/>
-						<?php
-						}
-						?>
-						<tr class="form-field">
-							<th scope="row"><label
-									for="snapshot-destination-name"><?php _e( 'Destination Name', SNAPSHOT_I18N_DOMAIN ); ?></label>
-								*
-							</th>
-							<td><input type="text" name="snapshot-destination[name]" id="snapshot-destination-name"
-							           value="<?php if ( isset( $item['name'] ) ) {
-								           echo stripslashes( $item['name'] );
-							           } ?>"/>
-							</td>
-						</tr>
-						<?php if ( isset( $item['tokens']['access']['token'] ) ) { ?>
-							<tr class="form-field">
-								<th scope="row"><label for="snapshot-destination-directory"><?php
-										_e( 'Destination Directory', SNAPSHOT_I18N_DOMAIN ); ?></label></th>
-								<td><input type="text" name="snapshot-destination[directory]"
-								           id="snapshot-destination-directory"
-								           value="<?php if ( isset( $item['directory'] ) ) {
-									           echo stripslashes( $item['directory'] );
-								           } ?>"/>
-
-									<p class="description"><?php _e( '<strong>All archive uploaded to your Dropbox account via Snapshot will be stored into /Apps/WPMU DEV Snapshot/</strong>', SNAPSHOT_I18N_DOMAIN ); ?></p>
-
-									<p class="description"><?php _e( 'The optional directory here allow you to store the uploaded files into a sub-directories. This can be multiple levels of sub-directories. The directory names can contain spaces. This is a global setting and will be used by all snapshot configurations using this destination. You can also defined a directory used by a specific snapshot. Please use / instead of \\', SNAPSHOT_I18N_DOMAIN ); ?></p>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row"><label
-										for="snapshot-destination-authorized"><?php _e( 'Authorized', SNAPSHOT_I18N_DOMAIN ); ?></label>
-								</th>
-								<td>
-									<?php _e( 'Yes', SNAPSHOT_I18N_DOMAIN ); ?><br/>
-									<input type="checkbox" name="snapshot-destination[force-authorize]"
-									       id="snapshot-destination-force-authorize"/> <label
-										for="snapshot-destination-force-authorize"><?php _e( 'Force Re-Authorize with Dropbox', SNAPSHOT_I18N_DOMAIN ); ?></label>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row"><label><?php _e( 'Account Info', SNAPSHOT_I18N_DOMAIN ); ?></label></th>
-								<td>
-									<?php
-									//require_once( dirname( __FILE__ ) . '/includes/Dropbox/autoload.php' );
-									//set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . DIRECTORY_SEPARATOR . 'includes/PEAR_Includes');
-									$this->load_library();
-
-									$this->oauth = new Dropbox_OAuth_PEAR( self::DROPBOX_APP_KEY, self::DROPBOX_APP_SECRET );
-									$this->oauth->setToken( $item['tokens']['access'] );
-									$this->dropbox = new Dropbox_API( $this->oauth, Dropbox_API::ROOT_SANDBOX );
-									//$this->dropbox = new Dropbox_API($this->oauth);
-									$account_info = $this->dropbox->getAccountInfo();
-									if ( $account_info ) {
-										//echo "account_info<pre>"; print_r($account_info); echo "</pre>";
-
-										$account_info_display = '';
-										if ( isset( $account_info['display_name'] ) ) {
-											$account_info_display .= '<li><strong>' . __( 'Name', SNAPSHOT_I18N_DOMAIN ) . '</strong>: ' .
-											                         $account_info['display_name'] . ' (' . $account_info['email'] . ')</li>';
-											?>
-											<input type="hidden" name="snapshot-destination[account_info][display_name]"
-											       value="<?php echo $account_info['display_name']; ?>"/>
-											<input type="hidden" name="snapshot-destination[account_info][email]"
-											       value="<?php echo $account_info['email']; ?>"/>
-
-
-										<?php
-										}
-
-										if ( isset( $account_info['uid'] ) ) {
-											$account_info_display .= '<li><strong>' . __( 'UID', SNAPSHOT_I18N_DOMAIN ) . '</strong>: ' .
-											                         $account_info['uid'] . '</li>';
-											?><input type="hidden" name="snapshot-destination[account_info][uid]"
-											         value="<?php echo $account_info['uid']; ?>" /><?php
-										}
-
-										if ( isset( $account_info['country'] ) ) {
-											$account_info_display .= '<li><strong>' . __( 'Country', SNAPSHOT_I18N_DOMAIN ) . '</strong>: ' .
-											                         $account_info['country'] . '</li>';
-											?><input type="hidden" name="snapshot-destination[account_info][country]"
-											         value="<?php echo $account_info['country']; ?>" /><?php
-										}
-										if ( isset( $account_info['quota_info'] ) ) {
-											$account_info_display .= '<li><strong>' . __( 'Usage', SNAPSHOT_I18N_DOMAIN ) . '</strong>: ' .
-											                         number_format( ( intval( $account_info['quota_info']['normal'] ) /
-											                                          intval( $account_info['quota_info']['quota'] ) ) * 100, 2, '.', '' ) . '&#37;</li>';
-											?>
-											<input type="hidden"
-											       name="snapshot-destination[account_info][quota_info][normal]"
-											       value="<?php echo $account_info['quota_info']['normal']; ?>"/>
-											<input type="hidden"
-											       name="snapshot-destination[account_info][quota_info][quota]"
-											       value="<?php echo $account_info['quota_info']['quota']; ?>"/>
-										<?php
-										}
-
-										if ( strlen( $account_info_display ) ) {
-											?>
-											<ul><?php echo $account_info_display; ?></ul><?php
-										}
-									}
-									?>
-								</td>
-							</tr>
-						<?php } else { ?>
-							<tr class="form-field">
-								<th scope="row"><label
-										for="snapshot-destination-authorize"><?php _e( 'Authorized', SNAPSHOT_I18N_DOMAIN ); ?></label>
-								</th>
-								<td>
-									<?php _e( 'No', SNAPSHOT_I18N_DOMAIN ); ?><br/>
-
-									<p><?php _e( 'The first step in the Dropbox setup is Authorizing Snapshot to communicate with your Dropbox account. Dropbox requires that you grant Snapshot access to your account. This is required in order for Snapshot to upload files to your Dropbox account.', SNAPSHOT_I18N_DOMAIN ); ?></p>
-									<input type="hidden" name="snapshot-destination[force-authorize]"
-									       id="snapshot-destination-force-authorize" value="on"/>
-								</td>
-							</tr>
-						<?php } ?>
-					</table>
-				</div>
-			</div>
-		<?php
+			return $destination_info;
 		}
 
 		function sendfile_to_remote( $destination_info, $filename ) {
@@ -520,24 +213,28 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 
 			$this->load_library();
 
-			$this->oauth = new Dropbox_OAuth_PEAR( self::DROPBOX_APP_KEY, self::DROPBOX_APP_SECRET );
-			//$this->oauth = new Dropbox_OAuth_WordPress(self::DROPBOX_APP_KEY, self::DROPBOX_APP_SECRET);
-			//$this->oauth = new Dropbox_OAuth_Curl(self::DROPBOX_APP_KEY, self::DROPBOX_APP_SECRET);
+			$this->oauth = new Kunnu\Dropbox\DropboxApp( $this->get_app_key(), $this->get_app_secret() );
+			$this->dropbox = new Kunnu\Dropbox\Dropbox( $this->oauth );
+			if ( empty( $this->destination_info['tokens']['access']['access_token'] ) && isset( $this->destination_info['tokens']['access']['token_secret'] ) && ! empty( $this->destination_info['tokens']['access']['token_secret'] ) ) {
+				$oauth2_token = $this->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $this->destination_info['tokens']['access']['token'],$this->destination_info['tokens']['access']['token_secret'] );
+				$oauth2_token = $oauth2_token['oauth2_token'];
+
+				$this->destination_info['tokens']['access']['access_token'] = $oauth2_token;
+			}
 			try {
-				$this->oauth->setToken( $this->destination_info['tokens']['access'] );
+				$this->dropbox->setAccessToken( $this->destination_info['tokens']['access']['access_token'] );
 				$this->error_array['errorArray'] = array();
 
 			} catch ( Exception $e ) {
-				$this->error_array['errorStatus']  = true;
+				$this->error_array['errorStatus'] = true;
 				$this->error_array['errorArray'][] = $e->getMessage();
 
 				return $this->error_array;
 			}
-			$this->dropbox = new Dropbox_API( $this->oauth, Dropbox_API::ROOT_SANDBOX );
 
 			//$this->dropbox->setLogger($this->snapshot_logger);
 			if ( ! file_exists( $filename ) ) {
-				$this->error_array['errorStatus']  = true;
+				$this->error_array['errorStatus'] = true;
 				$this->error_array['errorArray'][] = "File does not exists: " . basename( $filename );
 
 				return $this->error_array;
@@ -547,35 +244,33 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 			if ( strlen( $this->destination_info['directory'] ) ) {
 				$directory_file = trailingslashit( $this->destination_info['directory'] );
 			}
-			$this->error_array['responseArray'][] = "Sending to Dropbox Directory:" . $directory_file;
+			$this->error_array['responseArray'][] = 'Sending to Dropbox Directory: ' . $directory_file;
+			$this->snapshot_logger->log_message( 'Sending to Dropbox Directory: ' . $directory_file );
+
 			$directory_file .= basename( $filename );
+			if ( substr( $directory_file, 0, 1 ) !== '/' ) {
+				$directory_file = '/' . $directory_file;
+			}
 
 			try {
-				$result = $this->dropbox->putFile( $directory_file, $filename, array(
-					&$this,
-					'progress_of_files'
-				), $this->snapshot_logger );
-				if ( $result == true ) {
-					$this->error_array['responseArray'][] = "Send file success: " . basename( $filename );
-					$this->error_array['sendFileStatus']  = true;
+				$result = $this->dropbox->upload( $filename, $directory_file );
+				$result_name = $result->getName();
+				if ( ! empty( $result_name ) ) {
+					$this->error_array['responseArray'][] = 'Send file success: ' . basename( $filename );
+					$this->snapshot_logger->log_message( 'Send file success: ' . basename( $filename ) );
+					$this->error_array['sendFileStatus'] = true;
 
 				} else {
-					$this->error_array['errorArray'][] = $this->dropbox->last_result;
+					$this->error_array['errorArray'][] = $result->error_summary;
+					$this->snapshot_logger->log_message( 'Send file error: ' . basename( $filename ) . ' ' . $result->error_summary );
 				}
 
 				return $this->error_array;
 
-//				$fileInfo = $this->dropbox->getMetaData($directory_file);
-//				echo "fileInfo<pre>"; print_r($fileInfo); echo "</pre>";
-//
-//				$shareInfo = $this->dropbox->share($directory_file);
-//				echo "shareInfo<pre>"; print_r($shareInfo); echo "</pre>";
-
 			} catch ( Exception $e ) {
-				//echo "e<pre>"; print_r($e); echo "</pre>";
-				//echo 'Caught exception: ',  $e->getMessage(), "\n";
-				$this->error_array['errorStatus']  = true;
+				$this->error_array['errorStatus'] = true;
 				$this->error_array['errorArray'][] = $e->getMessage();
+				$this->snapshot_logger->log_message( 'Send file error: ' . basename( $filename ) . ' ' . $e->getMessage() );
 
 				return $this->error_array;
 			}
@@ -596,22 +291,26 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 
 			$this->load_class_destination( $destination_info );
 
-			//require_once( dirname( __FILE__ ) . '/includes/Dropbox/autoload.php' );
-			//set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . DIRECTORY_SEPARATOR . 'includes/PEAR_Includes');
 			$this->load_library();
 
-			$this->oauth = new Dropbox_OAuth_PEAR( self::DROPBOX_APP_KEY, self::DROPBOX_APP_SECRET );
+			$this->oauth = new Kunnu\Dropbox\DropboxApp( $this->get_app_key(), $this->get_app_secret() );
+			$this->dropbox = new Kunnu\Dropbox\Dropbox( $this->oauth );
+			if ( empty( $this->destination_info['tokens']['access']['access_token'] ) && isset( $this->destination_info['tokens']['access']['token_secret'] ) && ! empty( $this->destination_info['tokens']['access']['token_secret'] ) ) {
+				$oauth2_token = $this->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $this->destination_info['tokens']['access']['token'],$this->destination_info['tokens']['access']['token_secret'] );
+				$oauth2_token = $oauth2_token['oauth2_token'];
+
+				$this->destination_info['tokens']['access']['access_token'] = $oauth2_token;
+			}
 			try {
-				$this->oauth->setToken( $this->destination_info['tokens']['access'] );
+				$this->dropbox->setAccessToken( $this->destination_info['tokens']['access']['access_token'] );
 				$this->error_array['errorArray'] = array();
 
 			} catch ( Exception $e ) {
-				$this->error_array['errorStatus']  = true;
+				$this->error_array['errorStatus'] = true;
 				$this->error_array['errorArray'][] = $e->getMessage();
 
 				return $this->error_array;
 			}
-			$this->dropbox = new Dropbox_API( $this->oauth, Dropbox_API::ROOT_SANDBOX );
 
 			$_ABSPATH = str_replace( '\\', '/', ABSPATH );
 
@@ -621,13 +320,13 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 			}
 
 			$file_counter_total = 0;
-			$file_counter_item  = 0;
+			$file_counter_item = 0;
 			foreach ( $sync_files['included'] as $section => $section_files ) {
 				$file_counter_total += count( $section_files );
 			}
 			$this->progress_of_files( array(
 				'files_count' => $file_counter_item,
-				'files_total' => $file_counter_total
+				'files_total' => $file_counter_total,
 			) );
 
 			foreach ( $sync_files['included'] as $section => $section_files ) {
@@ -657,8 +356,8 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 					//	continue;
 					//}
 
-					$_filename       = str_replace( '\\', '/', $filename );
-					$_filename       = str_replace( $_ABSPATH, '', $filename );
+					$_filename = str_replace( '\\', '/', $filename );
+					$_filename = str_replace( $_ABSPATH, '', $filename );
 					$_directory_file = $directory_file . $_filename;
 
 					$_file = strtolower( basename( $_filename ) );
@@ -681,10 +380,14 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 						continue;
 					}
 
-					$_file_h = fopen( $filename, 'rb' );
+
+					if ( substr( $_directory_file, 0, 1 ) !== '/' ) {
+						$_directory_file = '/' . $_directory_file;
+					}
+
+
 					try {
-						$this->dropbox->putFile( $_directory_file, $_file_h );
-						fclose( $_file_h );
+						$result = $this->dropbox->upload( $filename, $_directory_file );
 
 						$this->snapshot_logger->log_message( "[" . $file_send_ratio . "] Sync file: " . $_filename . " -> " . $_directory_file . " success" );
 
@@ -730,7 +433,7 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 
 			if ( $this->error_array['errorStatus'] != true ) {
 				$this->error_array['sendFileStatus'] = true;
-				$this->error_array['syncFilesLast']  = time();
+				$this->error_array['syncFilesLast'] = time();
 				$this->error_array['syncFilesTotal'] = $file_counter_total;
 			}
 
@@ -768,6 +471,11 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 			if ( isset( $d_info['tokens']['access']['token_secret'] ) ) {
 				$this->destination_info['tokens']['access']['token_secret'] = esc_attr( $d_info['tokens']['access']['token_secret'] );
 			}
+
+			if ( isset( $d_info['tokens']['access']['access_token'] ) ) {
+				$this->destination_info['tokens']['access']['access_token'] = esc_attr( $d_info['tokens']['access']['access_token'] );
+			}
+
 		}
 
 		function ErrorHandler( $errno, $errstr, $errfile, $errline ) {
@@ -804,17 +512,24 @@ if ( ( ! class_exists( 'SnapshotDestinationDropbox' ) )
 
 			$error_string = $errType . ": errno:" . $errno . " " . $errstr . " " . $errfile . " on line " . $errline;
 
-			$this->error_array['errorStatus']  = true;
+			$this->error_array['errorStatus'] = true;
 			$this->error_array['errorArray'][] = $error_string;
 
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				echo json_encode( $error_array );
-				die();
+				echo json_encode( $this->error_array );
+				die;
 			}
+		}
+
+		public function get_app_key() {
+			return self::DROPBOX_APP_KEY;
+		}
+
+		public function get_app_secret() {
+			return self::DROPBOX_APP_SECRET;
 		}
 
 	}
 
 	do_action( 'snapshot_register_destination', 'SnapshotDestinationDropbox' );
 }
-?>

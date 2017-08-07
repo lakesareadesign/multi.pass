@@ -1,7 +1,6 @@
 <?php
 /*
-Plugin Name: Custom MS Register Mails
-Plugin URI:
+Plugin Name: MultiSite Registration emails
 Description:
 Author: Marcin (Incsub)
 Version: 1.0

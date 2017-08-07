@@ -176,3 +176,30 @@ function fl_before_sortable_enqueue_callback() {
   }
 }
 add_action( 'fl_before_sortable_enqueue', 'fl_before_sortable_enqueue_callback' );
+
+/**
+ * Try to unserialize data normally.
+ * Uses a preg_callback to fix broken data caused by serialized data that has broken offsets.
+ *
+ * @since 1.10.6
+ * @param string $data unserialized string
+ * @return array
+ */
+function fl_maybe_fix_unserialize( $data ) {
+	// @codingStandardsIgnoreStart
+	$unserialized = @unserialize( $data );
+	// @codingStandardsIgnoreEnd
+	if( ! $unserialized ) {
+		$unserialized = unserialize( preg_replace_callback( '!s:(\d+):"(.*?)";!', 'fl_maybe_fix_unserialize_callback', $data ) );
+	}
+	return $unserialized;
+}
+
+/**
+ * Callback function for fl_maybe_fix_unserialize()
+ *
+ * @since 1.10.6
+ */
+function fl_maybe_fix_unserialize_callback( $match ) {
+	return ($match[1] == strlen($match[2])) ? $match[0] : 's:' . strlen($match[2]) . ':"' . $match[2] . '";';
+}

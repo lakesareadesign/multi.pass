@@ -81,30 +81,37 @@ function wphb_get_server_type() {
  */
 function wphb_get_servers() {
 	return array(
-		'apache' => 'Apache',
-		'LiteSpeed' => 'LiteSpeed',
-		'nginx' => 'NGINX',
-		'iis' => 'IIS',
-		'iis-7' => 'IIS 7'
+		'apache'     => 'Apache',
+		'LiteSpeed'  => 'LiteSpeed',
+		'nginx'      => 'NGINX',
+		'iis'        => 'IIS',
+		'iis-7'      => 'IIS 7',
+		'cloudflare' => 'CloudFlare',
 	);
 }
 
 /**
+ * Get servers dropdown
  *
  * @param array $args
+ * @param bool  $cloudflare  Add CloudFlare to the server list.
  */
-function wphb_get_servers_dropdown( $args = array() ) {
+function wphb_get_servers_dropdown( $args = array(), $cloudflare = true ) {
 
 	$defaults = array(
-		'class' => '',
-		'id' => '',
-		'name' => 'wphb-server-type',
-		'selected' => false
+		'class'    => '',
+		'id'       => '',
+		'name'     => 'wphb-server-type',
+		'selected' => false,
 	);
 
 	$args = wp_parse_args( $args, $defaults );
 
 	$servers = wphb_get_servers();
+
+	if ( ! $cloudflare ) {
+		unset( $servers['cloudflare'] );
+	}
 
 	if ( ! $args['id'] )
 		$args['id'] = $args['name'];
@@ -164,12 +171,20 @@ function wphb_save_htaccess( $module ) {
 	return false;
 }
 
+/**
+ * Remove .htaccess rules.
+ *
+ * @param string $module  Module name.
+ *
+ * @return bool
+ */
 function wphb_unsave_htaccess( $module ) {
-	if ( ! wphb_is_htaccess_written( $module ) )
+	if ( ! wphb_is_htaccess_written( $module ) ) {
 		return false;
+	}
 
 	$home_path = get_home_path();
-	$htaccess_file = $home_path.'.htaccess';
+	$htaccess_file = $home_path . '.htaccess';
 
 	if ( wphb_is_htaccess_writable() ) {
 		return insert_with_markers( $htaccess_file, 'WP-HUMMINGBIRD-' . strtoupper( $module ), '' );
@@ -199,41 +214,6 @@ function wphb_log( $message, $module ) {
 	}
 }
 
-function wphb_uninstall() {
-	global $wpdb;
-
-	delete_option( 'wphb_styles_collection' );
-	delete_option( 'wphb_scripts_collection' );
-
-	$option_names = $wpdb->get_col(
-			$wpdb->prepare(
-					"SELECT option_name FROM $wpdb->options
-					WHERE option_name LIKE %s
-					OR option_name LIKE %s
-					OR option_name LIKE %s
-					OR option_name LIKE %s",
-					'%wphb-min-scripts%',
-					'%wphb-scripts%',
-					'%wphb-min-styles%',
-					'%wphb-styles%'
-			)
-	);
-
-	foreach ( $option_names as $name )
-		delete_option( $name );
-
-	delete_option( 'wphb_process_queue' );
-	delete_transient( 'wphb-minification-errors' );
-	delete_option( 'wphb-minify-server-errors' );
-
-	delete_option( 'wphb_settings' );
-	delete_site_option( 'wphb_settings' );
-
-	delete_site_option( 'wphb_version' );
-
-	delete_site_option( 'wphb-is-cloudflare' );
-	delete_site_option( 'wphb-quick-setup' );
-}
 
 function wphb_membership_modal() {
 	include_once( wphb_plugin_dir() . 'admin/views/modals/membership-modal.php' );
@@ -327,7 +307,11 @@ function wphb_update_membership_link() {
 }
 
 function wphb_support_link() {
-	return "https://premium.wpmudev.org/forums/forum/support#question";
+	if ( wphb_is_member() ) {
+		return 'https://premium.wpmudev.org/forums/forum/support#question';
+	} else {
+		return 'https://wordpress.org/support/plugin/hummingbird-performance';
+	}
 }
 
 function wphb_cdn_link() {
@@ -345,49 +329,39 @@ function wphb_enqueue_admin_scripts( $ver ) {
 	wp_enqueue_script( 'wphb-admin', $file, array( 'jquery', 'underscore' ), $ver );
 
 	$i10n = array(
-		'writeHtaccessNonce' => wp_create_nonce( 'wphb-write-htacces' ),
-		'setExpirationNonce' => wp_create_nonce( 'wphb-set-expiration' ),
-		'setServerNonce' => wp_create_nonce( 'wphb-set-server' ),
-		'recheckURL' => add_query_arg( 'run', 'true', wphb_get_admin_menu_url( 'caching' ) ),
-		'htaccessErrorURL' => add_query_arg( 'htaccess-error', 'true', wphb_get_admin_menu_url( 'caching' ) ),
+		'recheckURL' => add_query_arg( array(
+				'view' => 'browser',
+				'run'  => 'true',
+			), wphb_get_admin_menu_url( 'caching' ) ),
+		'htaccessErrorURL' => add_query_arg( array(
+				'view'           => 'browser',
+				'htaccess-error' => 'true',
+			), wphb_get_admin_menu_url( 'caching' ) ),
 		'cacheEnabled' => wphb_is_htaccess_written('caching')
 	);
 	wp_localize_script( 'wphb-admin', 'wphbCachingStrings', $i10n );
 
-	$i10n = array(
-		'writeHtaccessNonce' => wp_create_nonce( 'wphb-write-htacces' ),
-		'setServerNonce' => wp_create_nonce( 'wphb-set-server' ),
-	);
-	wp_localize_script( 'wphb-admin', 'wphbGZipStrings', $i10n );
+	if ( wphb_can_execute_php() ) {
+		$i10n = array(
+			'checkFilesNonce' => wp_create_nonce( 'wphb-minification-check-files' ),
+			'chartNonce' => wp_create_nonce( 'wphb-chart' ),
+			'finishedCheckURLsLink' => wphb_get_admin_menu_url( 'minification' ),
+			'discardAlert' => __( 'Are you sure? All your changes will be lost', 'wphb' ),
+		);
+		wp_localize_script( 'wphb-admin', 'wphbMinificationStrings', $i10n );
+	}
 
 	$i10n = array(
-		'checkFilesNonce' => wp_create_nonce( 'wphb-minification-check-files' ),
-		'chartNonce' => wp_create_nonce( 'wphb-chart' ),
-		'finishedCheckURLsLink' => wphb_get_admin_menu_url( 'minification' ),
-		'toggleMinificationNonce' => wp_create_nonce( 'wphb-toggle-minification' ),
-		'discardAlert' => __( 'Are you sure? All your changes will be lost', 'wphb' ),
-		'advancedSettingsNonce' => wp_create_nonce( 'wphb-minification-advanced' ),
-	);
-	wp_localize_script( 'wphb-admin', 'wphbMinificationStrings', $i10n );
-
-
-	$i10n = array(
-		'removeWelcomeBoxNonce' => wp_create_nonce( 'wphb-remove-welcome-box' ),
-		'activateMinificationNonce' => wp_create_nonce( 'wphb-activate-minification' ),
-		'advancedSettingsNonce' => wp_create_nonce( 'wphb-minification-advanced' )
-	);
-	wp_localize_script( 'wphb-admin', 'wphbDashboardStrings', $i10n );
-
-	$i10n = array(
-		'performanceTestNonce' => wp_create_nonce( 'wphb-welcome-performance-test' ),
-		'performanceSaveSettingsNonce' => wp_create_nonce( 'wphb-performance-report-save-settings' ),
-		'performanceRemoveRecipientNonce' => wp_create_nonce( 'wphb-performance-report-remove-recipient' ),
-		'performanceAddRecipientNonce' => wp_create_nonce( 'wphb-performance-report-add-recipient' ),
 		'finishedTestURLsLink' => wphb_get_admin_menu_url( 'performance' ),
         'removeButtonText' => __( 'Remove', 'wphb' ),
         'youLabelText' => __( 'You', 'wphb' ),
 	);
 	wp_localize_script( 'wphb-admin', 'wphbPerformanceStrings', $i10n );
+
+	$i10n = array(
+		'finishedTestURLsLink' => wphb_get_admin_menu_url( '' ),
+	);
+	wp_localize_script( 'wphb-admin', 'wphbDashboardStrings', $i10n );
 
 	$toggle_uptime_nonce = wp_create_nonce( 'wphb-toggle-uptime' );
 	$i10n = array(
@@ -409,6 +383,8 @@ function wphb_enqueue_admin_scripts( $ver ) {
 	);
 	wp_localize_script( 'wphb-admin', 'wphbUptimeStrings', $i10n );
 
+
+	// @TODO We are moving all strings/settings to a unique object instead of splitting it. Starting with Minification screen
 	/** @var WP_Hummingbird_Module_Cloudflare $cf */
 	$cf = wphb_get_module( 'cloudflare' );
 	$i10n = array(
@@ -416,14 +392,34 @@ function wphb_enqueue_admin_scripts( $ver ) {
 			'is' => array(
 				'connected' => $cf->is_connected() && $cf->is_zone_selected()
 			),
-			'nonces' => array(
-				'expiry' => wp_create_nonce( 'wphb-cloudflare-expiry' )
-			)
 		),
 		'nonces' => array(
 			'HBFetchNonce' => wp_create_nonce( 'wphb-fetch' )
-		)
+		),
 	);
+
+	if ( wphb_can_execute_php() ) {
+		$i10n = array_merge( $i10n, array(
+			'minification' => array(
+				'is' => array(
+					'scanning' => wphb_minification_is_scanning_files(),
+					'scanned' => wphb_minification_is_scan_finished(),
+				),
+				'get' => array(
+					'currentScanStep' => wphb_minification_get_current_scan_step(),
+					'totalSteps' => wphb_minification_get_scan_steps_number(),
+					'showCDNModal' => ! is_multisite(),
+				),
+			),
+			'strings' => array(
+				'discardAlert' => __( 'Are you sure? All your changes will be lost', 'wphb' ),
+			),
+			'links' => array(
+				'minification' => wphb_get_admin_menu_url( 'minification' ),
+			),
+		) );
+	}
+
 	wp_localize_script( 'wphb-admin', 'wphb', $i10n );
 }
 
@@ -776,7 +772,7 @@ function wphb_get_display_name( $id ) {
  * @return bool True if the pro folder is available
  */
 function wphb_load_pro() {
-	if ( class_exists( 'WP_Hummingbird_Pro' ) && is_a( wp_hummingbird()->pro, 'WP_Hummingbird_Pro' ) ) {
+	if ( class_exists( 'WP_Hummingbird_Pro' ) && ( wp_hummingbird()->pro instanceof WP_Hummingbird_Pro ) ) {
 		// Already loaded
 		return true;
 	}

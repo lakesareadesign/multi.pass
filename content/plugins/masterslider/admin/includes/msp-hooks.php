@@ -112,7 +112,7 @@ function msp_request_remote_sample_sliders( $force_to_fetch = false ) {
         $request_body['slider_type'] = 'free';
     }
 
-    $response = wp_remote_post( 'http://demo.averta.net/themes/lotus/dummy-agency/api/' ,
+    $response = wp_remote_get( 'http://api.averta.net/products/masterslider/samples/' ,
         array(
             'body'    => $request_body,
             'timeout' => 30
@@ -175,7 +175,7 @@ function msp_premium_sliders( $demos ) {
                     }
                 }
 
-            } elseif( 'post' == $demo['slidertype'] ) {
+            } else {
                 $demos['masterslider_dynamic_group'][] = $demo;
             }
         }
@@ -184,3 +184,37 @@ function msp_premium_sliders( $demos ) {
     return $demos;
 }
 add_filter( 'masterslider_starter_fields', 'msp_premium_sliders' );
+
+
+
+/**
+ * Expires/Flushes all sliders cache after publishing new post
+ *
+ * @param  int     $post_id Post ID
+ * @param  WP_Post $post    Post object.
+ * @param  bool    $update  Whether this is an existing post being updated or not.
+ */
+function msp_flush_cashe_after_publishing_new_post( $post_id, $post, $update ) {
+
+    // If the cache is disabled, skip
+    $is_cache_enabled = ( 'on' == msp_get_setting( '_enable_cache', 'msp_general_setting', 'off' ) );
+    if( ! $is_cache_enabled ){
+        return;
+    }
+
+    // If this is just a revision, skip
+    if ( wp_is_post_revision( $post_id ) ){
+        return;
+    }
+
+    $post_type = get_post_type( $post_id );
+
+    // If this isn't a know post type, skip
+    if ( ! in_array( $post_type, array( 'post', 'page', 'portfolio', 'product', 'news' ) ) ){
+        return;
+    }
+
+    // Expires all sliders cache
+    msp_flush_all_sliders_cache( array( 'post', 'wc-product' ) );
+}
+add_action( 'save_post', 'msp_flush_cashe_after_publishing_new_post', 10, 3 );

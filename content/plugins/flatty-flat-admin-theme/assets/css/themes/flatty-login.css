@@ -3,11 +3,13 @@ LOGIN
 ---------------------------------------*/
 body.login {
     min-height: 100vh;
+    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #ffffff 0%,#c1c1c1 100%);
 }
 .login form {
     box-sizing: border-box;
     padding: 30px 42px;
-    max-width: 355px;
+    max-width: 380px;
     margin: 20px auto!important;
     box-shadow: 0 80px 200px rgba(0, 0, 0, 0.6)!important;
 }
@@ -20,10 +22,10 @@ body.login {
     padding: 4% 0 0;
 }
 #login form p {
-    margin-bottom: 1rem;
+    margin-bottom: 15px;
 }
 .login label {
-    font-size: 130%;
+    font-size: 110%;
     font-weight: 300;
 }
 
@@ -40,29 +42,46 @@ body.login {
 }
 
 .login form .forgetmenot label {
-    font-size: 0.9rem;
-    line-height: initial;
-    font-weight: 500;
+    font-size:80%;
+    line-height:initial;
+    font-weight:500;
+}
+
+.login form .forgetmenot label input {
+    margin-right:10px;
 }
 
 .login #nav, .login #backtoblog {
     display: inline-block;
     position: relative;
     box-sizing: border-box;
-    padding: 0;
-    width: 49%;
-    margin: 3rem 0!important;
+    padding: 6px 15px;
+    width: calc(50% - 12px);
+    margin: 20px 5px;
     font-weight: 600;
     text-align: center;
+    border-radius: 20px;
+    border: solid 1px;
+}
+
+.login #nav a,
+.login #backtoblog a {
+    color:#444;
+}
+
+.login #backtoblog a:hover,
+.login #nav a:hover,
+.login h1 a:hover {
+    color:inherit;
 }
 
 #loginform div.g-recaptcha {
-    margin: 10px 0 20px -15px;
+    margin: 10px 0 60px;
 }
 
 .login #login_error, .login .message {
     box-sizing: border-box;
-    max-width: 355px;
+    max-width: 380px;
     margin: auto!important;
 }
 

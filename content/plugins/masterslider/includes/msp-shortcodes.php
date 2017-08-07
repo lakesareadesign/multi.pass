@@ -126,7 +126,8 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 					'layers_mode'   => 'center',// It accepts two values "center" and "full"
 					'hide_layers'   => 'false',
 
-					'instant_show_layers' => 'false',
+                    'instant_show_layers' => 'false',
+					'mobile_bg_video'     => 'false',
 
 					'speed'         => 17,
 
@@ -551,7 +552,8 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 				layout          : "<?php echo $layout; ?>",
 				wheel           : <?php msp_is_true_e($wheel); ?>,
 				autoplay        : <?php msp_is_true_e($autoplay); ?>,
-				instantStartLayers:<?php msp_is_true_e( $instant_show_layers ); ?>,
+                instantStartLayers:<?php msp_is_true_e( $instant_show_layers ); ?>,
+				mobileBGVideo:<?php msp_is_true_e( $mobile_bg_video ); ?>,
 				loop            : <?php msp_is_true_e($loop); ?>,
 				shuffle         : <?php msp_is_true_e($shuffle); ?>,
 				preload         : <?php echo $preload; ?>,

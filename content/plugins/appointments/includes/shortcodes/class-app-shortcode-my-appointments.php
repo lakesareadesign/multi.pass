@@ -117,6 +117,7 @@ class App_Shortcode_MyAppointments extends App_Shortcode {
 		}
 
 		$statuses = explode( ',', $args['status'] );
+		$statuses = array_map( 'trim', $statuses );
 
 		if ( ! is_array( $statuses ) || empty( $statuses ) ) {
 			return '';
@@ -150,7 +151,7 @@ class App_Shortcode_MyAppointments extends App_Shortcode {
 		if ( !$args['provider'] ) {
 
 			if ( $user_id ) {
-				$apps = wp_list_pluck( appointments_get_user_appointments( $user_id ), 'ID' );
+				$apps = wp_list_pluck( appointments_get_user_appointments( $user_id, $statuses ), 'ID' );
 			}
 			else {
 				$apps = Appointments_Sessions::get_current_visitor_appointments();

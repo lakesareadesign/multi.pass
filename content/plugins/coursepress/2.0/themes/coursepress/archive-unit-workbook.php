@@ -57,8 +57,16 @@ add_thickbox();
 					<div class="unit_title">
 						<h3><?php the_title(); ?>
 							<span>
-							<?php
-							echo do_shortcode( '[course_unit_progress course_id="' . $course_id . '" unit_id="' . get_the_ID() . '"]' ); ?>%
+<?php
+				$unit_id = get_the_ID();
+				$shortcode = '';
+				if ( empty( $unit_id ) ) {
+					$shortcode = sprintf( '[course_progress course_id="%d"]', $course_id );
+				} else {
+					$shortcode = sprintf( '[course_unit_progress course_id="%d" unit_id="%d"]', $course_id, $unit_id );
+				}
+				echo do_shortcode( $shortcode );
+?>%
 							<?php esc_html_e( 'completed', 'cp' ); ?>
 							</span>
 						</h3>

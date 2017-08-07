@@ -4,7 +4,7 @@
 		<div class="wphb-notice wphb-notice-error wphb-notice-box can-close">
 			<span class="close"></span>
 			<p><?php printf( __( 'It seems that we are having problems in our servers. Minification will be turned off for %d minutes', 'wphb' ), $error_time_left ); ?></p>
-			<p><?php echo $server_errors[0]->get_error_message(); ?></p></p>
+			<p><?php echo $server_errors[0]->get_error_message(); ?></p>
 		</div>
 	<?php endif; ?>
 

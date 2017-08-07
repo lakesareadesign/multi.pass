@@ -124,7 +124,7 @@ class MSP_Settings {
             $sections[] = array(
                 'id'    => 'msp_envato_license',
                 'title' => __( 'Activation', MSWP_TEXT_DOMAIN ),
-                'desc'  => __( 'By activating your license you can enable "automatic update" for Master Slider and grant access to premium sample slider. A valid license of Master Slider is required. <a href="http://avt.li/msadl" target="_blank">More about activating and deactivating license</a>.', MSWP_TEXT_DOMAIN )
+                'desc'  => __( 'By activating your license you can enable "automatic update" for Master Slider and grant access to premium sample sliders library. A valida and direct license of Master Slider is required.', MSWP_TEXT_DOMAIN ) . ' <a href="http://avt.li/msadl" target="_blank">' . __( 'More about activating and deactivating license', MSWP_TEXT_DOMAIN ) . '</a>'
             );
         }
 

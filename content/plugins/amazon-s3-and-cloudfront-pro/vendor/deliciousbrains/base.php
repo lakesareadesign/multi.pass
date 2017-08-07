@@ -70,11 +70,13 @@ class Delicious_Brains_API_Base extends Delicious_Brains_API {
 	 * @return string
 	 */
 	function get_url( $request, $args = array() ) {
-		$url             = $this->api_url;
-		$args['request'] = $request;
-		$args['product'] = $this->plugin->slug;
-		$args['version'] = $this->plugin->version;
-		$args['locale']  = urlencode( get_locale() );
+		$url                       = $this->api_url;
+		$args['request']           = $request;
+		$args['product']           = $this->plugin->slug;
+		$args['version']           = $this->plugin->version;
+		$args['locale']            = urlencode( get_locale() );
+		$args['php_version']       = urlencode( phpversion() );
+		$args['wordpress_version'] = urlencode( get_bloginfo( 'version' ) );
 
 		$args = apply_filters( $this->plugin->prefix . '_' . $request . '_request_args', $args );
 

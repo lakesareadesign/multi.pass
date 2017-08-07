@@ -46,11 +46,11 @@ if ( ! function_exists( 'esc_textarea' ) ) {
 class ub_Admin_Footer_Text extends ub_helper {
 
 	var $admin_footer_text_default = '';
-    var $update_text_default = '';
-    protected $option_name = 'admin_footer_text';
+	var $update_text_default = '';
+	protected $option_name = 'admin_footer_text';
 
 	function __construct() {
-        parent::__construct();
+		parent::__construct();
 		add_action( 'init', array( &$this, 'initialise_plugin' ) );
 	}
 
@@ -60,13 +60,14 @@ class ub_Admin_Footer_Text extends ub_helper {
 
 	function initialise_plugin() {
 
-		add_action( 'ultimatebranding_settings_menu_footer', array( $this, 'output_admin_options' ) );
-		add_filter( 'ultimatebranding_settings_menu_footer_process', array( $this, 'update_admin_options' ), 10, 1 );
+		add_action( 'ultimatebranding_settings_footer', array( $this, 'output_admin_options' ) );
+		add_filter( 'ultimatebranding_settings_footer_process', array( $this, 'update_admin_options' ), 10, 1 );
 
 		// remove all the remaining filters for the admin footer so that they don't mess the footer up
 		remove_all_filters( 'admin_footer_text' );
 		add_filter( 'admin_footer_text', array( $this, 'output' ), 1, 1 );
 		add_filter( 'update_footer' , array( $this, 'blank_version' ), 99 );
+		add_action( 'admin_print_styles', array( $this, 'admin_print_styles' ) );
 	}
 
 
@@ -89,7 +90,7 @@ class ub_Admin_Footer_Text extends ub_helper {
 		} else {
 			$footer_text = $admin_footer_text;
 		}
-		return $footer_text;
+		return do_shortcode( $footer_text );
 	}
 
 	function blank_version( $version ) {
@@ -151,6 +152,17 @@ class ub_Admin_Footer_Text extends ub_helper {
 			return true; }
 
 		return false;
+	}
+
+	/**
+	 * remove absolute for admin #footer
+	 *
+	 * @since 1.8.6
+	 */
+	public function admin_print_styles() {
+		echo '<style type="text/css">';
+		echo 'body #wpfooter{position:inherit}';
+		echo '</style>';
 	}
 }
 

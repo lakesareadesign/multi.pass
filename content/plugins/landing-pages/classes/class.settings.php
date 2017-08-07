@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class provides a data interface for retrieving and storing landing page settings into the GPL legacy setting system or the Inbound Pro settings system.
+ * @package LandingPages
+ * @subpackage DataInterfaces
+ */
+
 class Landing_Pages_Settings {
 
     /**
@@ -65,6 +71,14 @@ class Landing_Pages_Settings {
                     'type'  => 'radio',
                     'default'  => '0',
                     'options' => array('0'=>'No Keep it on','1'=>'Yes turn AB testing Off')
+                ),
+                array(
+                    'id'  => 'landing-page-enable-featured-image',
+                    'label' => __('Enable Featured Images' , 'inbound-pro') ,
+                    'description' => __("Enable this setting if you plan to include the landing-page post type in any frontend post archives that leverages the featured image system." , 'inbound-pro'),
+                    'type'  => 'radio',
+                    'default'  => '0',
+                    'options' => array('0'=>__('Off','inbound-pro'), '1'=> __('On' , 'inbound-pro') )
                 )
             )
 
@@ -115,6 +129,14 @@ class Landing_Pages_Settings {
                 'type'  => 'radio',
                 'default'  => '0',
                 'options' => array('0'=>'No Keep it on','1'=>'Yes turn AB testing Off')
+            ),
+            array(
+                'id'  => 'landing-page-enable-featured-image',
+                'label' => __('Enable Featured Images' , 'inbound-pro') ,
+                'description' => __("Enable this setting if you plan to include the landing-page post type in any frontend post archives that leverages the featured image system." , 'inbound-pro'),
+                'type'  => 'radio',
+                'default'  => '0',
+                'options' => array('0'=>__('Off','inbound-pro'), '1'=> __('On' , 'inbound-pro') )
             )
         );
 

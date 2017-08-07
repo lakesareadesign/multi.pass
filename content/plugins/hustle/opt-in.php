@@ -3,7 +3,7 @@
 Plugin Name: Hustle Pro
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 2.1.2
+Version: 2.1.3.2
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020
@@ -124,12 +124,6 @@ class Opt_In extends Opt_In_Static{
             "file_name" => "opt-in-mailchimp.php",
             "class_name" => "Opt_In_Mailchimp"
         ),
-        array(
-            "id" => "constantcontact",
-            "name" => "ConstantContact",
-            "file_name" => "opt-in-constantcontact-loader.php",
-            "class_name" => "Opt_In_ConstantContact"
-        ),
 		array(
 			'id' => 'convertkit',
 			'name' => 'ConvertKit',
@@ -166,6 +160,20 @@ class Opt_In extends Opt_In_Static{
             "file_name" => "opt-in-infusion-soft.php",
             "class_name" => "Opt_In_Infusion_Soft",
         ),
+        array(
+            "id" => "sendinblue",
+            "name" => "SendinBlue",
+            "file_name" => "opt-in-sendinblue.php",
+            "class_name" => "Opt_In_SendinBlue",
+        ),
+    );
+
+    /**
+     * @var $_skip_providers array
+     * these providers will be skipped on PHP version lower than 5.3
+     */
+    protected $_skip_providers = array(
+        'mautic'
     );
 
     /**
@@ -332,6 +340,11 @@ class Opt_In extends Opt_In_Static{
     private function _register_providers(){
 
         foreach ( $this->_providers as $provider) {
+
+            if ( ( version_compare( PHP_VERSION, '5.3', '<' ) && in_array( $provider['id'], $this->_skip_providers ) ) ) {
+                continue;
+            }
+
             $path = dirname(__FILE__) . "/inc/providers/" . $provider['file_name'];
             if ( is_file($path) && is_readable( $path ) ) {
                 require_once $path;
@@ -496,45 +509,51 @@ class Opt_In extends Opt_In_Static{
      * @return array|string
      */
     public static function prepare_css( $cssString, $prefix, $as_array = false, $separate_prefix = true, $wildcard = '' ) {
-        $css_array = array(); // master array to hold all values
-        $elements = explode('}', $cssString);
-        $prepared = "";
-        $have_media = false;
-        $media_names = array();
-        $media_names_key = 0;
-        foreach ($elements as $element) {
+		$css_array = array(); // master array to hold all values
+		$elements = explode('}', $cssString);
+		// Output is the final processed CSS string.
+		$output = "";
+		$prepared = "";
+		$have_media = false;
+		$media_names = array();
+		$media_names_key = 0;
+		$index = 0;
+		foreach ($elements as $element) {
 
-            $check_element = trim($element);
-            if ( empty($check_element) ) continue;
+			$check_element = trim($element);
+			if ( empty($check_element) ) {
+				// Still increment $index even if empty.
+				$index++;
+				continue;
+			}
 
-            // get the name of the CSS element
-            $a_name = explode('{', $element);
-            $name = $a_name[0];
+			// get the name of the CSS element
+			$a_name = explode('{', $element);
+			$name = $a_name[0];
 
-            // check if @media is  present
-            $media_name = '';
-            if ( strpos($name, '@media') !== false && isset($a_name[1]) ) {
-                $have_media = true;
-                $media_name = $name;
-                $media_names[$media_names_key] = array(
-                    'name' => $media_name
-                );
-                $name = $a_name[1];
-                $media_names_key++;
-            }
+			// check if @media is  present
+			$media_name = '';
+			if ( strpos($name, '@media') !== false && isset($a_name[1]) ) {
+				$have_media = true;
+				$media_name = $name;
+				$media_names[$media_names_key] = array(
+					'name' => $media_name
+				);
+				$name = $a_name[1];
+				$media_names_key++;
+			}
 
-            if ( $have_media ) {
-                $prepared = "";
-                $prefix = "";
-            }
+			if ( $have_media ) {
+				$prepared = "";
+			}
 
-            // get all the key:value pair styles
-            $a_styles = explode(';', $element);
-            // remove element name from first property element
-            $remove_element_name = ( !empty($media_name) ) ? $media_name . '{' . $name : $name;
-            $a_styles[0] = str_replace($remove_element_name . '{', '', $a_styles[0]);
-            $names = explode(',', $name);
-            foreach ($names as $name) {
+			// get all the key:value pair styles
+			$a_styles = explode(';', $element);
+			// remove element name from first property element
+			$remove_element_name = ( !empty($media_name) ) ? $media_name . '{' . $name : $name;
+			$a_styles[0] = str_replace($remove_element_name . '{', '', $a_styles[0]);
+			$names = explode(',', $name);
+			foreach ($names as $name) {
 				if ( $separate_prefix && empty($wildcard) ) {
 					$space_needed = true;
 				} elseif ( $separate_prefix && !empty($wildcard) ) {
@@ -548,46 +567,62 @@ class Opt_In extends Opt_In_Static{
 					$space_needed = false;
 				}
 				$maybe_put_space = ( $space_needed ) ? " " : "";
-                $prepared .= ( $prefix . $maybe_put_space . trim($name).',' );
-            }
-            $prepared = trim($prepared, ",");
-            $prepared .= "{";
-            // loop through each style and split apart the key from the value
-            $count = count($a_styles);
-            for ($a=0;$a<$count;$a++) {
-                if (trim($a_styles[$a]) != '') {
-                    $a_key_value = explode(':', $a_styles[$a]);
-                    // build the master css array
-                    $css_array[$name][$a_key_value[0]] = $a_key_value[1];
-                    $prepared .= ($a_key_value[0] . ": " . $a_key_value[1]);// . strpos($a_key_value[1], "!important") === false ? " !important;": ";";
-                    if( strpos($a_key_value[1], "!important") === false ) $prepared .= " !important";
-                    $prepared .= ";";
-                }
-            }
-            $prepared .= "}";
+				$prepared .= ( $prefix . $maybe_put_space . trim($name).',' );
+			}
+			$prepared = trim($prepared, ",");
+			$prepared .= "{";
+			// loop through each style and split apart the key from the value
+			$count = count($a_styles);
+			for ($a=0;$a<$count;$a++) {
+				if (trim($a_styles[$a]) != '') {
+					$a_key_value = explode(':', $a_styles[$a]);
+					// build the master css array
+					$css_array[$name][$a_key_value[0]] = $a_key_value[1];
+					$prepared .= ($a_key_value[0] . ": " . $a_key_value[1]);// . strpos($a_key_value[1], "!important") === false ? " !important;": ";";
+					if( strpos($a_key_value[1], "!important") === false ) $prepared .= " !important";
+					$prepared .= ";";
+				}
+			}
+			$prepared .= "}";
 
-            // if have @media earlier, append these styles
-            $prev_media_names_key = $media_names_key - 1;
-            if ( isset($media_names[$prev_media_names_key]) ) {
-                if ( isset($media_names[$prev_media_names_key]['styles']) ) {
-                    $media_names[$prev_media_names_key]['styles'] .= $prepared;
-                } else {
-                    $media_names[$prev_media_names_key]['styles'] = $prepared;
-                }
-            }
-        }
+			// if have @media earlier, append these styles
+			$prev_media_names_key = $media_names_key - 1;
+			if ( isset($media_names[$prev_media_names_key]) ) {
+				if ( isset($media_names[$prev_media_names_key]['styles']) ) {
+					// See if there were two closing '}' or just one.
+					// (each element is exploded/split on '}' symbol, so having two empty strings afterward in the elements array means two '}'s.
+					$next_element = isset($elements[$index + 2]) ? trim($elements[$index + 2]) : false;
+					// If inside @media block.
+					if (!empty($next_element)) {
+						$media_names[$prev_media_names_key]['styles'] .= $prepared;
+					} else {
+						// If outside of @media block, add to output.
+						$output .= $prepared;
+					}
+				} else {
+					$media_names[$prev_media_names_key]['styles'] = $prepared;
+				}
+			} else {
+				// If no @media, add styles to $output outside @media.
+				$output .= $prepared;
+			}
+			// Increase index.
+			$index++;
+		}
 
-        // if have @media, populate styles using $media_names
-        if ( $have_media ) {
-            // reset first $prepared styles
-            $prepared = "";
-            foreach ( $media_names as $media ) {
-                $prepared .= $media['name'] . '{ ' . $media['styles'] . ' }';
-            }
-        }
+		// if have @media, populate styles using $media_names
+		if ( $have_media ) {
+			// reset first $prepared styles
+			$prepared = "";
+			foreach ( $media_names as $media ) {
+				$prepared .= $media['name'] . '{ ' . $media['styles'] . ' }';
+			}
+			// Add @media styles to output.
+			$output .= $prepared;
+		}
 
-        return $as_array ? $css_array : $prepared;
-    }
+		return $as_array ? $css_array : $output;
+	}
 
     /**
      * Returns constant value from the provided $class_name
@@ -609,7 +644,11 @@ class Opt_In extends Opt_In_Static{
      * @return Opt_In_Provider_Abstract
      */
     public static function provider_instance( $provider_obj ){
-        return call_user_func( array( $provider_obj, "instance" ) );
+        if ( method_exists( $provider_obj, "instance" ) ) {
+            return call_user_func( array( $provider_obj, "instance" ) );
+        } else {
+            return false;
+        }
     }
 
 
@@ -711,6 +750,8 @@ $optin_front = new Opt_In_Front( $hustle );
 
 // Legacy Popups
 $legacy_popups = new Hustle_Legacy_Popups( $hustle );
+// Hubspot
+$hustle_hubpost = new Opt_In_HubSpot_Api();
 
 if( is_admin() ) {
     $optin_admin = new Opt_In_Admin( $hustle, $email_services  );

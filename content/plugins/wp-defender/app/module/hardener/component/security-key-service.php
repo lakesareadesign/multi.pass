@@ -23,24 +23,18 @@ class Security_Key_Service extends Rule_Service implements IRule_Service {
 		$reminder = Settings::instance()->getDValues( 'securityReminderDate' );
 		if ( $last ) {
 			if ( $reminder == null ) {
-				$reminder = strtotime( '+30', $last );
+				$reminder = strtotime( '+' . self::DEFAULT_DAYS, $last );
 			}
 			if ( $reminder < time() ) {
 				return false;
 			}
 
 			return true;
-		} else {
-			if ( $reminder != null ) {
-				if ( $reminder < time() ) {
-					return false;
-				} else {
-					return true;
-				}
-			} else {
-				return false;
-			}
+		} elseif ( $reminder != null && $reminder < time() ) {
+			return true;
 		}
+
+		return false;
 	}
 
 	/**

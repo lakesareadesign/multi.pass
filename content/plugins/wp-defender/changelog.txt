@@ -4,7 +4,23 @@ Tested up to: 4.7.4
 
 Change Log:
 
-1.6 -2017-05-06
+1.6.2 - 2017-05-07
+----------------------------------------------------------------------
+- New: CSV export for Audit Logging.
+- Improvement: Email reports now have unsubscribe link, and link to Reports where email reports can be turned off.
+- Fix: Typo in Audit email.
+- Other minor enhancements/fixes
+
+1.6.1 - 2017-21-06
+----------------------------------------------------------------------
+- Improvement: Improved IP Lockout performance.
+- Fix: Audit logging detects wrong WordPress version when upgrade
+- Fix: "Update old security keys" doesn't move to resolved list after processed
+- Fix: When emptying IP Lockout logs cause timeout error.
+- Fix: Typos in some places
+- Other minor enhancements/fixes
+
+1.6 - 2017-05-06
 ----------------------------------------------------------------------
 - Improvement: Allow users to select and apply rules to other server type in Prevent PHP Execution and Prevent Information Disclosure.
 - Fix: Sometimes HUB status doesn't sync with WordPress site.
@@ -165,4 +181,4 @@ Fixed: Scanning was sometimes slow or getting stuck
 - First release
 
 
-133620-1496772439-au
+133620-1502132187-au

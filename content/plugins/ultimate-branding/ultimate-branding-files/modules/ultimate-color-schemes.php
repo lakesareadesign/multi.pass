@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name: Ultimate Color Schemes
+  Plugin Name: Color Schemes
   Plugin URI: http://premium.wpmudev.org/project/ultimate-color-schemes/
   Description: Customize admin color schemes.
   Author URI: http://premium.wpmudev.org/
@@ -33,7 +33,7 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 	class Ultimate_Color_Schemes {
 
 		var $version = '1.0';
-		var $name = 'Ultimate Color Schemes';
+		var $name = 'Color Schemes';
 		var $dir_name = 'ultimate-color-schemes';
 
 		function WP_Constructor() {
@@ -41,13 +41,13 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 		}
 
 		function __construct() {
-			$this->name = __( 'Ultimate Color Schemes', 'ub' );
+			$this->name = __( 'Color Schemes', 'ub' );
 			//Custom header actions
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_header_actions' ) );
 			add_action( 'admin_init', array( &$this, 'admin_custom_color_scheme_option' ), 0 );
 			// Admin interface
-			add_action( 'ultimatebranding_settings_menu_ultimate_color_schemes', array( &$this, 'manage_output' ) );
-			add_filter( 'ultimatebranding_settings_menu_ultimate_color_schemes_process', array( &$this, 'process' ) );
+			add_action( 'ultimatebranding_settings_ultimate_color_schemes', array( &$this, 'manage_output' ) );
+			add_filter( 'ultimatebranding_settings_ultimate_color_schemes_process', array( &$this, 'process' ) );
 			add_action( 'admin_head', array( &$this, 'wp_color_scheme_settings' ), 0 );
 			add_filter( 'get_user_option_admin_color', array( &$this, 'force_admin_scheme_color' ), 5, 3 );
 			add_action( 'user_register', array( &$this, 'set_default_admin_color' ) );

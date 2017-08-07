@@ -76,15 +76,8 @@ function ub_files_dir( $extended ) {
 // modules loading code
 
 function ub_is_active_module( $module ) {
-
 	$modules = get_ub_activated_modules();
-
-	if ( in_array( $module, array_keys( $modules ) ) ) {
-		return true;
-	} else {
-		return false;
-	}
-
+	return ( in_array( $module, array_keys( $modules ) ) );
 }
 
 function ub_get_option( $option, $default = false ) {
@@ -299,11 +292,84 @@ function ub_wp_upload_dir() {
 
 function ub_get_option_name_by_module( $module ) {
 	switch ( $module ) {
-		case 'custom-login-screen':
+		case 'login-screen':
 		return 'global_login_screen';
 		case 'custom-ms-register-emails':
 		return 'global_ms_register_mails';
 	}
 	return 'unknown';
+}
+
+/**
+ * show deprecated module information
+ *
+ * @since 1.8.7
+ */
+function ub_deprecated_module( $deprecated, $substitution, $tab ) {
+	$url = is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' );	   	 		 		 	   		
+	$url = add_query_arg(
+		array(
+			'page' => 'branding',
+			'tab' => $tab,
+		),
+		$url
+	);
+	echo '<div class="ub-deprecated-module"><p>';
+	printf(
+		__( '%s module is deprecated. Please use %s module.', 'ub' ),
+		sprintf( '<b>%s</b>', esc_html( $deprecated ) ),
+		sprintf( '<b><a href="%s">%s</a></b>', esc_url( $url ), esc_html( $substitution ) )
+	);
+	echo '</p></div>';
+}
+
+/**
+ * register_activation_hook
+ *
+ * @since 1.8.8
+ */
+function ub_register_activation_hook() {
+	$version = ub_get_option( 'ub_version' );
+	$compare = version_compare( $version, '1.8.8', '<' );
+	/**
+	 * Turn off plugin "HTML Email Template" and turn on module.
+	 *
+	 * @since 1.8.8
+	 */
+	if ( 0 < $compare ) {
+		/**
+		 * Turn off "HTML Email Templates" plugin and turn on "HTML Email
+		 * Templates" module instead.
+		 */
+		$turn_on_module_htmlemail = false;
+		if ( is_network_admin() ) {
+			$plugins = get_site_option( 'active_sitewide_plugins' );
+			if ( array_key_exists( 'htmlemail/htmlemail.php', $plugins ) ) {
+				unset( $plugins['htmlemail/htmlemail.php'] );
+				update_site_option( 'active_sitewide_plugins', $plugins );
+				$turn_on_module_htmlemail = true;
+			}
+		} else {
+			$plugins = get_option( 'active_plugins' );
+			if ( in_array( 'htmlemail/htmlemail.php', $plugins ) ) {
+				$new = array();
+				foreach ( $plugins as $plugin ) {
+					if ( 'htmlemail/htmlemail.php' == $plugin ) {
+						$turn_on_module_htmlemail = true;
+						continue;
+					}
+					$new[] = $plugin;
+				}
+				update_option( 'active_plugins', $new );
+			}
+		}
+		if ( $turn_on_module_htmlemail ) {
+			$uba = new UltimateBrandingAdmin();
+			$uba->activate_module( 'htmlemail.php' );
+		}
+	}
+	$file = dirname( dirname( dirname( __FILE__ ) ) ).'/ultimate-branding.php';
+	$data = get_plugin_data( $file );
+	ub_update_option( 'ub_version', $data['Version'] );
 }
 

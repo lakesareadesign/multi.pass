@@ -1480,7 +1480,7 @@ function wpmudev_chat_form_section_polling_content( $form_section = 'global' ) {
 		<legend><?php _e( 'Chat Session Polling Content', $wpmudev_chat->translation_domain ); ?></legend>
 		<p class="info"><?php _e( 'By default the chat sessions poll a special AJAX file located in the plugin directory (wpmudev-chat-ajax.php). Sometimes due to security issues on the server this is not allowed. In those cases set the polling type to WordPress.', $wpmudev_chat->translation_domain ); ?></p>
 
-		<p class="info"><?php _e( '<strong>The WordPress AJAX will be much slower and user more server resources than using the Plugin AJAX.</strong>', $wpmudev_chat->translation_domain ); ?></p>
+		<p class="info"><?php _e( '<strong>The WordPress AJAX will be much slower and use more server resources than using the Plugin AJAX.</strong>', $wpmudev_chat->translation_domain ); ?></p>
 		<?php
 		if ($_use_plugin_ajax !== true) {
 		?>

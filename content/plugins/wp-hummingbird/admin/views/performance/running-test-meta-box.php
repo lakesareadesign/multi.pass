@@ -8,7 +8,6 @@
 		<div class="wphb-block-test wphb-block-test-standalone">
             <div class="wphb-scan-progress">
                 <div class="wphb-scan-progress-text">
-                    <img src="<?php echo wphb_plugin_url() . 'admin/assets/image/loading.gif'; ?>">
                     <span>0%</span>
                 </div><!-- end wphb-scan-progress-text -->
                 <div class="wphb-scan-progress-bar">

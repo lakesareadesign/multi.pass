@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP Offload S3
-Plugin URI:  http://deliciousbrains.com/wp-offload-s3/
+Plugin URI:  https://deliciousbrains.com/wp-offload-s3/
 Description: Speed up your WordPress site by offloading your media and assets to Amazon S3 & CloudFront.
 Author: Delicious Brains
-Version: 1.4
-Author URI: http://deliciousbrains.com/
+Version: 1.5
+Author URI: https://deliciousbrains.com/
 Network: True
 Text Domain: amazon-s3-and-cloudfront
 Domain Path: /languages/
@@ -25,7 +25,7 @@ Domain Path: /languages/
 
 require_once dirname( __FILE__ ) . '/version.php';
 
-$aws_plugin_version_required = '1.0.1';
+$aws_plugin_version_required = '1.0.3';
 
 require_once dirname( __FILE__ ) . '/classes/wp-aws-compatibility-check.php';
 require_once dirname( __FILE__ ) . '/classes/pro/as3cf-pro-installer.php';
@@ -58,17 +58,9 @@ function as3cf_pro_init( $aws ) {
 	// Lite files
 	require_once $abspath . '/include/functions.php';
 	require_once $abspath . '/classes/as3cf-error.php';
-	require_once $abspath . '/classes/as3cf-upgrade.php';
-	require_once $abspath . '/classes/as3cf-upgrade-filter-post.php';
-	require_once $abspath . '/classes/upgrades/as3cf-region-meta.php';
-	require_once $abspath . '/classes/upgrades/as3cf-file-sizes.php';
-	require_once $abspath . '/classes/upgrades/as3cf-meta-wp-error.php';
 	require_once $abspath . '/classes/as3cf-filter.php';
 	require_once $abspath . '/classes/filters/as3cf-local-to-s3.php';
 	require_once $abspath . '/classes/filters/as3cf-s3-to-local.php';
-	require_once $abspath . '/classes/upgrades/as3cf-filter-edd.php';
-	require_once $abspath . '/classes/upgrades/as3cf-filter-post-content.php';
-	require_once $abspath . '/classes/upgrades/as3cf-filter-post-excerpt.php';
 	require_once $abspath . '/classes/as3cf-notices.php';
 	require_once $abspath . '/classes/as3cf-stream-wrapper.php';
 	require_once $abspath . '/classes/as3cf-plugin-compatibility.php';

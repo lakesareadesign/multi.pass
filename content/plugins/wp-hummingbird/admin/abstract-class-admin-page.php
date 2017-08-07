@@ -18,7 +18,16 @@ abstract class WP_Hummingbird_Admin_Page {
 	 */
 	protected static $displayed_notices = array();
 
-	public function __construct( $slug, $page_title, $menu_title, $parent = false, $render = true  ) {
+	/**
+	 * WP_Hummingbird_Admin_Page constructor.
+	 *
+	 * @param string $slug        Module slug.
+	 * @param string $page_title  Page title.
+	 * @param string $menu_title  Menu title.
+	 * @param bool   $parent      Parent or not.
+	 * @param bool   $render      Render the page.
+	 */
+	public function __construct( $slug, $page_title, $menu_title, $parent = false, $render = true ) {
 		$this->slug = $slug;
 
 		if ( ! $parent ) {
@@ -30,8 +39,7 @@ abstract class WP_Hummingbird_Admin_Page {
 				$render ? array( $this, 'render' ) : null,
 				'none'
 			);
-		}
-		else {
+		} else {
 			$this->page_id = add_submenu_page(
 				$parent,
 				$page_title,
@@ -42,11 +50,12 @@ abstract class WP_Hummingbird_Admin_Page {
 			);
 		}
 
-
-		add_action( 'load-' . $this->page_id, array( $this, 'register_meta_boxes' ) );
-		add_action( 'load-' . $this->page_id, array( $this, 'on_load' ) );
-		add_action( 'load-' . $this->page_id, array( $this, 'trigger_load_action' ) );
-		add_filter( 'load-' . $this->page_id, array( $this, 'add_screen_hooks' ) );
+		if ( $render ) {
+			add_action( 'load-' . $this->page_id, array( $this, 'register_meta_boxes' ) );
+			add_action( 'load-' . $this->page_id, array( $this, 'on_load' ) );
+			add_action( 'load-' . $this->page_id, array( $this, 'trigger_load_action' ) );
+			add_filter( 'load-' . $this->page_id, array( $this, 'add_screen_hooks' ) );
+		}
 
 	}
 

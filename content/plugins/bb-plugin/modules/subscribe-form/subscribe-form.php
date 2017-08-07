@@ -8,10 +8,10 @@
  */
 class FLSubscribeFormModule extends FLBuilderModule {
 
-	/** 
+	/**
 	 * @since 1.5.2
 	 * @return void
-	 */  
+	 */
 	public function __construct()
 	{
 		parent::__construct( array(
@@ -21,7 +21,7 @@ class FLSubscribeFormModule extends FLBuilderModule {
 			'editor_export' 	=> false,
 			'partial_refresh'	=> true
 		));
-		
+
 		add_action( 'wp_ajax_fl_builder_subscribe_form_submit', array( $this, 'submit' ) );
 		add_action( 'wp_ajax_nopriv_fl_builder_subscribe_form_submit', array( $this, 'submit' ) );
 		add_filter( 'script_loader_tag', array( $this, 'add_async_attribute' ), 10, 2 );
@@ -33,18 +33,18 @@ class FLSubscribeFormModule extends FLBuilderModule {
 	public function enqueue_scripts()
 	{
 		$settings = $this->settings;
-		if ( isset($settings->show_recaptcha) && $settings->show_recaptcha == 'show' 
+		if ( isset($settings->show_recaptcha) && $settings->show_recaptcha == 'show'
 			&& isset($settings->recaptcha_site_key) && !empty($settings->recaptcha_site_key)
 			){
 
 			$site_lang = substr( get_locale(), 0, 2 );
 			$post_id    = FLBuilderModel::get_post_id();
-			
+
 			$this->add_js(
-				'g-recaptcha', 
-				'https://www.google.com/recaptcha/api.js?onload=onLoadFLReCaptcha&render=explicit&hl='.$site_lang, 
-				array('fl-builder-layout-'. $post_id), 
-				'2.0', 
+				'g-recaptcha',
+				'https://www.google.com/recaptcha/api.js?onload=onLoadFLReCaptcha&render=explicit&hl='.$site_lang,
+				array('fl-builder-layout-'. $post_id),
+				'2.0',
 				true
 			);
 		}
@@ -63,17 +63,18 @@ class FLSubscribeFormModule extends FLBuilderModule {
 	    return str_replace( ' src', ' id="g-recaptcha-api" async="async" defer="defer" src', $tag );
 	}
 
-	/** 
-	 * Called via AJAX to submit the subscribe form. 
+	/**
+	 * Called via AJAX to submit the subscribe form.
 	 *
 	 * @since 1.5.2
 	 * @return string The JSON encoded response.
-	 */  
+	 */
 	public function submit()
 	{
 		$name       		= isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : false;
 		$email      		= isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : false;
 		$recaptcha     		= isset( $_POST['recaptcha'] ) ? $_POST['recaptcha'] : false;
+		$post_id     		= isset( $_POST['post_id'] ) ? $_POST['post_id'] : false;
 		$node_id    		= isset( $_POST['node_id'] ) ? sanitize_text_field( $_POST['node_id'] ) : false;
 		$template_id    	= isset( $_POST['template_id'] ) ? sanitize_text_field( $_POST['template_id'] ) : false;
 		$template_node_id   = isset( $_POST['template_node_id'] ) ? sanitize_text_field( $_POST['template_node_id'] ) : false;
@@ -85,7 +86,7 @@ class FLSubscribeFormModule extends FLBuilderModule {
 		);
 
 		if ( $email && $node_id ) {
-		
+
 			// Get the module settings.
 			if ( $template_id ) {
 				$post_id  = FLBuilderModel::get_node_template_post_id( $template_id );
@@ -99,7 +100,7 @@ class FLSubscribeFormModule extends FLBuilderModule {
 
 			// Validate reCAPTCHA first if enabled
 			if ( $recaptcha ) {
-				
+
 				if ( !empty($settings->recaptcha_secret_key) && !empty($settings->recaptcha_site_key) ) {
 					if ( version_compare( phpversion(), '5.3', '>=' ) ) {
 						include $module->dir . 'includes/validate-recaptcha.php';
@@ -112,38 +113,41 @@ class FLSubscribeFormModule extends FLBuilderModule {
 					$result['error'] = __('Your reCAPTCHA Site or Secret Key is missing!', 'fl-builder');
 				}
 			}
-			
+
 			if ( ! $result['error'] ) {
 
 				// Subscribe.
 				$instance = FLBuilderServices::get_service_instance( $settings->service );
 				$response = $instance->subscribe( $settings, $email, $name );
-				
+
 				// Check for an error from the service.
 				if ( $response['error'] ) {
 					$result['error'] = $response['error'];
 				}
 				// Setup the success data.
 				else {
-					
+
 					$result['action'] = $settings->success_action;
-					
+
 					if ( 'message' == $settings->success_action ) {
 						$result['message']  = $settings->success_message;
 					}
 					else {
 						$result['url']  = $settings->success_url;
 					}
+
 				}
+
+				do_action( 'fl_builder_subscribe_form_submission_complete', $response, $settings, $email, $name, $template_id, $post_id );
 			}
-			
+
 		}
 		else {
 			$result['error'] = __( 'There was an error subscribing. Please try again.', 'fl-builder' );
 		}
-		
+
 		echo json_encode( $result );
-		
+
 		die();
 	}
 }
@@ -207,7 +211,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 							)
 						),
 						'preview'       => array(
-							'type'             => 'none'  
+							'type'             => 'none'
 						)
 					),
 					'success_message' => array(
@@ -217,7 +221,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'rows'          => 8,
 						'default'       => __( 'Thanks for subscribing! Please check your email for further instructions.', 'fl-builder' ),
 						'preview'       => array(
-							'type'             => 'none'  
+							'type'             => 'none'
 						),
 						'connections'   => array( 'string' )
 					),
@@ -225,7 +229,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'type'          => 'link',
 						'label'         => __( 'Success URL', 'fl-builder' ),
 						'preview'       => array(
-							'type'             => 'none'  
+							'type'             => 'none'
 						),
 						'connections'   => array( 'url' )
 					)
@@ -358,7 +362,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 							'enable'         => __('Enabled', 'fl-builder')
 						)
 					)
-				)  
+				)
 			),
 			'btn_structure' => array(
 				'title'         => __( 'Button Structure', 'fl-builder' ),
@@ -421,7 +425,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'default'       		=> '',
 						'preview'       		=> array(
 							'type'          		=> 'none'
-						)						
+						)
 					)
 				),
 			)

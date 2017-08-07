@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class WP_Hummingbird_Module_Cloudflare
+ */
 class WP_Hummingbird_Module_Cloudflare extends WP_Hummingbird_Module {
 
 	/**
@@ -40,7 +43,7 @@ class WP_Hummingbird_Module_Cloudflare extends WP_Hummingbird_Module {
 	 */
 	public static function has_cloudflare( $force = false ) {
 		if ( isset( $_GET['wphb-check-cf'] ) ) {
-			// If we're checking do not try to check again or it will return a timeout
+			// If we're checking do not try to check again or it will return a timeout.
 			return (bool) get_site_option( 'wphb-is-cloudflare' );
 		}
 		if ( $force ) {

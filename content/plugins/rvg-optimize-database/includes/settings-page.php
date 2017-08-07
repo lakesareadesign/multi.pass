@@ -9,17 +9,18 @@
 if(isset($_REQUEST['delete_log']))
 	if($_REQUEST['delete_log'] == "Y") @unlink(dirname(__FILE__).'/rvg-optimize-db-log.html');	
 
-if (isset($_POST['info_update']))
-{	// SAVE SETTINGS
+if (isset($_POST['info_update'])) {
+	// SAVE SETTINGS
 	check_admin_referer('odb_action', 'odb_nonce');	
-
-	// var_dump($_POST);
 
 	$current_datetime = Date('YmdHis');
 	$current_date     = substr($current_datetime, 0, 8);
 	$current_hour     = substr($current_datetime, 8, 2);
 
 	// var_dump($_POST);
+
+	if(isset($_POST['rvg_odb_rev_post_type'])) $this->odb_rvg_options['rev_post_type'] = sanitize_text_field($_POST['rvg_odb_rev_post_type']);
+		else $this->odb_rvg_options['rev_post_type'] = '';
 
 	if(isset($_POST['rvg_odb_delete_older'])) $this->odb_rvg_options['delete_older'] = sanitize_text_field($_POST['rvg_odb_delete_older']);
 		else $this->odb_rvg_options['delete_older'] = 'N';
@@ -53,8 +54,7 @@ if (isset($_POST['info_update']))
 	if(isset($_POST['rvg_odb_logging_on'])) $this->odb_rvg_options['logging_on'] = sanitize_text_field($_POST['rvg_odb_logging_on']);
 	else $this->odb_rvg_options['logging_on'] = 'N';
 	
-	if(isset($_POST['rvg_odb_schedule']))
-	{
+	if(isset($_POST['rvg_odb_schedule'])) {
 		$type_old = $this->odb_rvg_options['schedule_type'];
 		$hour_old = $this->odb_rvg_options['schedule_hour'];
 		
@@ -66,8 +66,8 @@ if (isset($_POST['info_update']))
 		$hour = '';
 		if(isset($_POST['rvg_odb_schedulehour'])) $hour = sanitize_text_field($_POST['rvg_odb_schedulehour']);
 
-		if($type_old != sanitize_text_field($_POST['rvg_odb_schedule']) || $hour_old != $hour)
-		{	// SCHEDULE CHANGED
+		if($type_old != sanitize_text_field($_POST['rvg_odb_schedule']) || $hour_old != $hour) {
+			// SCHEDULE CHANGED
 			$this->odb_rvg_options['schedule_type'] = sanitize_text_field($_POST['rvg_odb_schedule']);
 			$this->odb_rvg_options['schedule_hour'] = $hour;	
 			if($this->odb_rvg_options['schedule_type'] == '')
@@ -76,7 +76,7 @@ if (isset($_POST['info_update']))
 			else
 				// RE-SCHEDULE
 				$this->odb_scheduler_obj->odb_reschedule();
-		}
+		} // if($type_old != sanitize_text_field($_POST['rvg_odb_schedule']) || $hour_old != $hour)
 	} // if(isset($_POST['rvg_odb_schedule']))
 
 	if(isset($_POST['rvg_odb_adminbar'])) $this->odb_rvg_options['adminbar'] = sanitize_text_field($_POST['rvg_odb_adminbar']);
@@ -110,86 +110,84 @@ if (isset($_POST['info_update']))
 } // if (isset($_POST['info_update']))
 ?>
 <script type="text/javascript">
-function rvg_odb_delete_older_changed()
-{	if(!jQuery('input[name=rvg_odb_delete_older]:checked').val())
-	{
+function rvg_odb_delete_older_changed() {
+	if(!jQuery('input[name=rvg_odb_delete_older]:checked').val()) {
 		jQuery("#rvg_odb_older_than").prop('disabled', true);
 		jQuery("#rvg_odb_older_than").val("");
+	} else {
+		jQuery("#rvg_odb_older_than").prop('disabled', false);
 	}
-	else
-	{	jQuery("#rvg_odb_older_than").prop('disabled', false);
-	}
-}
-function rvg_odb_keep_revisions_changed()
-{	if(!jQuery('input[name=rvg_odb_keep_revisions]:checked').val())
-	{
+} // rvg_odb_delete_older_changed()
+
+function rvg_odb_keep_revisions_changed() {
+	if(!jQuery('input[name=rvg_odb_keep_revisions]:checked').val()) {
 		jQuery("#rvg_odb_number").prop('disabled', true);
 		jQuery("#rvg_odb_number").val("");
+	} else {
+		jQuery("#rvg_odb_number").prop('disabled', false);
 	}
-	else
-	{	jQuery("#rvg_odb_number").prop('disabled', false);
-	}
-}
-function schedule_changed()
-{	if(jQuery("#rvg_odb_schedule").val() == "daily" || jQuery("#rvg_odb_schedule").val() == "weekly" || jQuery("#rvg_odb_schedule").val() == "monthly")
+} // rvg_odb_keep_revisions_changed()
+
+function schedule_changed() {
+	if(jQuery("#rvg_odb_schedule").val() == "daily" || jQuery("#rvg_odb_schedule").val() == "weekly" || jQuery("#rvg_odb_schedule").val() == "monthly")
 		jQuery("#schedulehour").show();
 	else
 		jQuery("#schedulehour").hide();
-}
+} // schedule_changed()
+
 function rvg_odb_check_form()
 {
-	if(jQuery('input[name=rvg_odb_delete_older]:checked').val())
-	{	if(jQuery("#rvg_odb_older_than").val() == '')
-		{	jQuery("#rvg_odb_older_than").focus();
+	if(jQuery('input[name=rvg_odb_delete_older]:checked').val()) {
+		if(jQuery("#rvg_odb_older_than").val() == '') {
+			jQuery("#rvg_odb_older_than").focus();
 			alert('<?php _e("You have to enter: ",$this->odb_txt_domain)?> <'+'<?php _e("Delete revisions older than",$this->odb_txt_domain)?>'+'>');
 			return false;
 		}
-		if(!jQuery.isNumeric(jQuery("#rvg_odb_older_than").val()))
-		{	jQuery("#rvg_odb_older_than").focus();
+		if(!jQuery.isNumeric(jQuery("#rvg_odb_older_than").val())) {
+			jQuery("#rvg_odb_older_than").focus();
 			alert('<?php _e("<Delete revisions older than> should be a number", $this->odb_txt_domain)?>');
 			return false;
 		}	
-	}
+	} // if(jQuery('input[name=rvg_odb_delete_older]:checked').val())
 	
-	if(jQuery('input[name=rvg_odb_keep_revisions]:checked').val())
-	{	if(jQuery("#rvg_odb_number").val() == '')
-		{	jQuery("#rvg_odb_number").focus();
+	if(jQuery('input[name=rvg_odb_keep_revisions]:checked').val()) {
+		if(jQuery("#rvg_odb_number").val() == '') {
+			jQuery("#rvg_odb_number").focus();
 			alert('<?php _e("You have to enter the <Maximum number of revisions>", $this->odb_txt_domain)?>');
 			return false;
 		}
-		if(!jQuery.isNumeric(jQuery("#rvg_odb_number").val()))
-		{	jQuery("#rvg_odb_number").focus();
+		if(!jQuery.isNumeric(jQuery("#rvg_odb_number").val())) {
+			jQuery("#rvg_odb_number").focus();
 			alert('<?php _e("<Maximum number of revisions> should be a number", $this->odb_txt_domain)?>');
 			return false;
 		}		
-	}
+	} // if(jQuery('input[name=rvg_odb_keep_revisions]:checked').val())
 
 	return true;
-}
+} // function rvg_odb_check_form()
 </script>
 <?php
 // CHECKBOXES
 $c = ' checked';
 $d = ' disabled';
 
-if($this->odb_rvg_options['delete_older'] == "Y")
-{	// CHECKED
+if($this->odb_rvg_options['delete_older'] == "Y") {
+	// CHECKED
 	$cb_delete_older = $c;
 	$cb_disabled1 = '';
-}
-else
-{	// UNCHECKED
+} else {
+	// UNCHECKED
 	$cb_delete_older = '';
 	$this->odb_rvg_options['older_than'] = '';
 	$cb_disabled1 = $d;
 }
-if($this->odb_rvg_options['rvg_revisions'] == "Y")
-{	// CHECKED
+
+if($this->odb_rvg_options['rvg_revisions'] == "Y") {
+	// CHECKED
 	$cb_keep_revisions = $c;
 	$cb_disabled2 = '';
-}
-else
-{	// UNCHECED
+} else {
+	// UNCHECED
 	$cb_keep_revisions = '';
 	$this->odb_rvg_options['nr_of_revisions'] = '';
 	$cb_disabled2 = $d;
@@ -224,6 +222,24 @@ echo '
             <h2>'.__('Settings',$this->odb_txt_domain).'</h2>
           </div>
           <table border="0" cellspacing="2" cellpadding="5" class="editform" align="center">
+		    <tr>
+              <td width="50%" align="right"><span class="odb-bold">'. __('Delete revisions of',$this->odb_txt_domain).'</span></td>
+              <td width="50%" valign="top"><select name="rvg_odb_rev_post_type" id="rvg_odb_rev_post_type" class="odb-post-type-select">
+                  <option selected="selected" value="">
+                  '.__('POSTS and PAGES',$this->odb_txt_domain).'
+                  </option>
+                  <option value="post">
+                  '.__('POSTS only',$this->odb_txt_domain).'
+                  </option>
+                  <option value="page">
+                  '.__('PAGES only',$this->odb_txt_domain).'
+                  </option>				  	  
+                </select>
+                <script type="text/javascript">
+					jQuery("#rvg_odb_rev_post_type").val("'.$this->odb_rvg_options['rev_post_type'].'");
+			    </script>				
+              </td>		
+			</tr>
 			<tr>
 			  <td width="50%" align="right"><span class="odb-bold">'. __('Delete revisions older than',$this->odb_txt_domain).'</span></td>
 			  <td width="50%" valign="top"><table border="0" cellspacing="0" cellpadding="3">
@@ -335,8 +351,8 @@ echo '
 				<select name="rvg_odb_schedulehour" id="rvg_odb_schedulehour" class="odb-schedulehour-select">
 ';
 
-for($i=0; $i<=23; $i++)
-{	if($i<10) $i = '0'.$i;
+for($i=0; $i<=23; $i++) {
+	if($i < 10) $i = '0'.$i;
 ?>
                   <option value="<?php echo $i?>"><?php echo $i.':00 '.__('hrs',$this->odb_txt_domain)?></option>
 <?php	
@@ -366,6 +382,16 @@ echo '
           </table>
 		  <div align="center"><em>* '.__('change will be visible after loading the next page', $this->odb_txt_domain).'</em></div>
           <br>
+		  
+		  <div id="odb-options-buttons" align="center">
+			<p>
+			  <input class="button-primary button-large odb-bold" type="submit" name="info_update" value="'.__('Save Settings',$this->odb_txt_domain).'">
+			  &nbsp;
+			  <input class="button odb-normal" type="button" name="optimizer" value="'.__('Go To Optimizer',$this->odb_txt_domain).'" onclick="self.location=\'tools.php?page=rvg-optimize-database\'">
+			</p>
+		  </div>
+          <!-- odb-options-buttons -->		  
+          <br>
           <div align="center">
             <span class="odb-bold">
               '.__('EXCLUDE DATABASE TABLES FROM OPTIMIZATION:<br><span class="odb-underline-red">CHECKED</span> TABLES <span class="odb-underline-red">WON\'T</span> BE OPTIMIZED!</span>',$this->odb_txt_domain).'
@@ -388,8 +414,8 @@ echo '
               <div id="odb-options-tables-wrapper">
 ';
 
-for ($i=0; $i<count($this->odb_tables); $i++)
-{	$class = '';
+for ($i=0; $i<count($this->odb_tables); $i++) {
+	$class = '';
 	for($j=0; $j<count($this->odb_ms_prefixes); $j++)
 		if(substr($this->odb_tables[$i][0], 0, strlen($this->odb_ms_prefixes[$j])) == $this->odb_ms_prefixes[$j]) $class = ' odb-wp-table';
 	$cb_checked = '';

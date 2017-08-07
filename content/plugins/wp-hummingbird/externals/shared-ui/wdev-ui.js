@@ -419,7 +419,7 @@ WDP.prepareOverlay = function() {
 		WDP.overlay.box = jQuery('<div class="box"></div>');
 		WDP.overlay.box_title = jQuery('<div class="title"><h3></h3></div>');
 		WDP.overlay.box_content = jQuery('<div class="content"></div>');
-		WDP.overlay.close = jQuery('<div class="close" aria-label="Close">&times;</div>');
+		WDP.overlay.close = jQuery('<div aria-hidden="true" class="close">&times;</div><button class="wpdui-sr-only"><span class="wpdui-sr-only">Close</span></button>');
 
 		WDP.overlay.back.appendTo(WDP.overlay.wrapper);
 		WDP.overlay.scroll.appendTo(WDP.overlay.wrapper);
@@ -1112,7 +1112,7 @@ WDP.showMessage = function(action) {
 			'<span class="the-msg-icon check-animation"></span>' +
 			'<p><span class="default-text">' + WDP.lang.default_msg_ok + '</span>' +
 			'<span class="extra-text" style="display:none"></span></p>' +
-			'<span class="close" aria-label="Close">&times;</span>' +
+			'<span aria-hidden="true" class="close">&times;</span><button class="wpdui-sr-only"><span class="wpdui-sr-only">Close</span></button>' +
 			'</div>'
 		)
 
@@ -1121,7 +1121,7 @@ WDP.showMessage = function(action) {
 			'<i class="the-msg-icon wdv-icon wdv-icon-warning-sign"></i>' +
 			'<p><span class="default-text">' + WDP.lang.default_msg_err + '</span>' +
 			'<span class="extra-text" style="display:none"></span></p>' +
-			'<span class="close" aria-label="Close">&times;</span>' +
+			'<span aria-hidden="true" class="close">&times;</span><button class="wpdui-sr-only"><span class="wpdui-sr-only">Close</span></button>' +
 			'</div>'
 		);
 

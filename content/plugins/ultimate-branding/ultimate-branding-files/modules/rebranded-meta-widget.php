@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 add_action( 'widgets_init', 'ub_rmw_register' );
 
-add_action( 'ultimatebranding_settings_menu_widgets','ub_rmw_manage_output' );
+add_action( 'ultimatebranding_settings_widgets','ub_rmw_manage_output' );
 
 //------------------------------------------------------------------------//
 //---Functions------------------------------------------------------------//

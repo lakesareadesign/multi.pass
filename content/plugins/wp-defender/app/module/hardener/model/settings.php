@@ -84,11 +84,11 @@ class Settings extends \Hammer\WP\Settings {
 	public $exclude_file_paths = array();
 
 	/**
-     * Holds new htconfig structure for defender
-     *
-     * @var array
-     */
-    public $new_htconfig = array();
+	 * Holds new htconfig structure for defender
+	 *
+	 * @var array
+	 */
+	public $new_htconfig = array();
 
 	/**
 	 * Current active server
@@ -274,7 +274,7 @@ class Settings extends \Hammer\WP\Settings {
 	}
 
 	/**
-	* @param $key
+	 * @param $key
 	 *
 	 * @return mixed
 	 */

@@ -1,66 +1,80 @@
 === BNE Testimonials ===
 Author URI: http://www.bnecreative.com
 Contributors: bluenotes
-Tags: testimonials, flexslider, feedback, reviews
-Requires at least: 4.0
-Tested up to: 4.6
-Stable tag: 1.7.5
+Tags: testimonials, testimonial widget, random testimonials, flexslider, feedback, reviews
+Requires at least: 4.5
+Tested up to: 4.8
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
-Easily display testimonials on any page as a list or slider using shortcodes or provided widgets.
+Display testimonials and reviews on any page or widget area as list or slider. Upgrade to PRO for additional layouts, themes, submission form, API, ratings and schema.org markup.
 
 
 == Description ==
 
-Adds Testimonials on your website as a list or slider (flexslider). Each testimonial includes a title, featured image, tagline, website, message, and includes a custom taxonomy to separate your testimonials into different groups (categories). Supports multiple uses on any page or post.
+BNE Testimonials makes it easy to add Testimonials and Reviews to any Page using a shortcode or in a sidebar (widget area) using the provided widgets. Each testimonial includes a title, image, tagline, website URL, and message. You can also separate your testimonials into different groups (categories). BNE Testimonials will inherit the styling from your theme - just install and get to work adding your testimonials and reviews!
 
-Available Shortcodes: [bne_testimonials_list] & [bne_testimonials_slider]. Also includes widget versions of the list and slider display. View the [live demo](http://www.bnecreative.com/products/testimonials-wordpress-pro/ "BNE Testimonials PRO"). You can see how the list and slider displays will look including different image styles. Free version does not include Masonry or form submission.
-
-= Display your testimonials as a List =
-The list view allows you display your testimonials in a unified format must like an archive blog page. You can specify when elements are now shown and the style of the testimonial photo (featured image). You can also arrange your testimonials based on publish date, name, or random. Set your testimonials into categories to display multiple instances throughout your page. Use the shortcode [bne_testimonials_list]
+= Display your testimonials as a List: =
+Shortcode: [bne_testimonials layout="list"]
+Testimonials will be shown vertically as a traditional list.
 
 = Display your testimonials as a Slider =
-The slider version is built using Flexslider.js. Does everything as the list view but as a slideshow using either Fade or Slide transitions. Set your testimonials into categories to display multiple instances throughout your page.  Use the shortcode [bne_testimonials_slider]
+Shortcode: [bne_testimonials layout="slider"]
+Testimonials will be shown in a rotating slider. To remove the styling of the slider, include theme="simple" as a shortcode option.
 
-= Upgrade to the Pro Version! =
-We have a PRO version of BNE Testimonials on our [website](http://www.bnecreative.com/products/testimonials-wordpress-pro/ "BNE Testimonials PRO"). The Pro version adds a Masonry layout, front-end form to submit new testimonials with admin notifications, developer tools, priority support, page pagination for list and masonry, themes, easier styling, star ratings, schema markup and more.
 
+= Pro Features Include =
+We have a PRO version of BNE Testimonials on our [website](http://www.bnecreative.com/products/testimonials-wordpress-pro/ "BNE Testimonials PRO"). Features include:
+
+* API Access: Display testimonials on multiple WordPress websites from a single source.
+* Yelp, Google Places, and Facebook Reviews: Use their API to bring in reviews and display them on your website using any of the layouts
+* Aggregated Review Badges for Yelp, Google, Facebook, and Custom branding. Automatically calculates your rating and total testimonials published. 
+* Additional Layouts: Masonry Grid and Thumbnail Slider
+* Additional Themes: Bubble and Cards
+* Shortcode Generator
+* Custom styling
+* 5 Star Ratings
+* Truncated (shorten) text
+* Schema.org tags and meta for online search
+* Front-end submission form with email notification
+* Pagination for list and masonry layouts
+* Automatic updates to new versions
+* Numerous filters/hooks for developers
+* Priority support
+
+[View the PRO Demo](http://demo.bnecreative.com/testimonial-pro/ "BNE Testimonials PRO Demo")
+
+= Why Do I Need Testimonials on my Website? =
+Testimonials are a great way to strengthen your brand and reliability with new customers.
+
+* Testimonials help potential customers get to know that you are a trustworthy business.
+* Testimonials give you the opportunity to point out specific features or compelling reasons why a customer should buy from you.
+* Testimonials, when used effectively, are a great tool to increase conversions rates on your website!
+	
 
 
 == Installation ==
 
-1. Upload "bne-testimonials" folder to the "/wp-content/plugins/" directory
+1. Upload the "bne-testimonials" folder to the "/wp-content/plugins/" directory
 2. Activate the plugin through the "Plugins" menu in WordPress
 3. A new menu item will be added called "Testimonials."
-4. Add either "[bne_testimonials_list]" or "[bne_testimonials_slider]" to a post/page or use the available widgets in a sidebar.
+4. Add "[bne_testimonials]" to a post/page or use the available widgets in a sidebar.
 
 
 
 == Frequently Asked Questions ==
 
 
-= What options are there for the list and slider shortcodes? =
-You can view all available arguments to add to the shortcodes that changes the default behavior by viewing the help page.
-
-= I can't add a testimonial featured image! =
-99% of the time, if you do not see the featured image box or when you set an image it disappears, it's usually the result your theme only providing post-thumbnail support for a set number of post-types. Or there is another plugin conflicting and causing a JS error within the admin.
+= What options are there for the shortcodes? =
+You can view all available options to add to the shortcode that changes the default behavior by viewing the help page in the Testimonials Admin menu.
 
 = What size are the testimonial featured images? =
-By default, the crop size used is “thumbnail” which is defined on your site from Settings > Media. Usually this will be 150×150 but may be different depending on your website or theme. On the font side, the image will be reduced using CSS to 100×100 to better fit the testimonial format.
-
-= The Testimonial Image is stretched all the way across =
-If your theme or another plugin is also adding styles to flexslider, it might be overriding ours. Try adding the following to your theme’s custom css area or style.css file.
-<pre>
-.bne-testimonial-featured-image {
-	width: 100px !important;
-	height: 100px !important;
-}
-</pre>
+By default, the crop size used is “thumbnail” which is defined on your site from Settings > Media. Usually this will be 150×150 but may be different depending on your website or theme. On the font side, the image will be reduced using CSS to 100×100 to better fit the testimonial format. To use a different crop, add image_size="your_crop_size" to the shortcode.
 
 = Is there support? =
-Of course, but it is limited. We do not provide customizations or modifications beyond what the plugin currently provides. If you find any bugs or cannot get our plugin to work, please let us know so that we can look into it. Code is never perfect but it is poetry and there is always room for improvement.
+Of course, but it is limited for the free version. We do not provide customizations or modifications beyond what the plugin currently provides. If you find any bugs or cannot get our plugin to work, please let us know so that we can look into it. Code is never perfect but it is poetry and there is always room for improvement.
 
 = Can you add feature X and Y? =
 Possible, but most likely not in the free version. If you would like to see new features added, check out the [pro version](http://www.bnecreative.com/products/testimonials-wordpress-pro/ "PRO version of BNE Testimonials") first. Perhaps your wanted feature is already there.
@@ -70,11 +84,20 @@ Possible, but most likely not in the free version. If you would like to see new 
 
 1. Testimonial Post List Admin Screen
 2. Testimonial Post Edit Admin Screen
+3. Testimonial Slider Layout
+4. Testimonial List Layout
+5. Testimonial Image Styles
 
 
 
 
 == Changelog ==
+
+= 2.0 June 16, 2017 =
+* Complete re-write matching the code base and structure of the pro version.
+* Added information about new featured included in the pro version on the admin help page.
+* [bne_testimonials_list] and [bne_testimonials_slider] shortcodes are now depreciated but will still work. Use the new unified shortcode going forward, [bne_testimonials]
+
 
 = 1.7.5 September 5, 2016 =
 * Fix: Featured Thumbnail metabox description was being thrown on other post types.

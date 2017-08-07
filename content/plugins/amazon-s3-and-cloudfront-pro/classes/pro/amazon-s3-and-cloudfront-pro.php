@@ -2,11 +2,18 @@
 
 use DeliciousBrains\WP_Offload_S3\Pro\Integration_Manager;
 use DeliciousBrains\WP_Offload_S3\Pro\Integrations\Advanced_Custom_Fields;
+use DeliciousBrains\WP_Offload_S3\Pro\Integrations\Easy_Digital_Downloads;
+use DeliciousBrains\WP_Offload_S3\Pro\Integrations\Enable_Media_Replace;
+use DeliciousBrains\WP_Offload_S3\Pro\Integrations\Meta_Slider;
+use DeliciousBrains\WP_Offload_S3\Pro\Integrations\Woocommerce;
+use DeliciousBrains\WP_Offload_S3\Pro\Integrations\Wpml;
 use DeliciousBrains\WP_Offload_S3\Pro\Sidebar_Presenter;
+use DeliciousBrains\WP_Offload_S3\Pro\Tools\Copy_Buckets;
 use DeliciousBrains\WP_Offload_S3\Pro\Tools\Download_And_Remover;
 use DeliciousBrains\WP_Offload_S3\Pro\Tools\Downloader;
 use DeliciousBrains\WP_Offload_S3\Pro\Tools\Remove_Local_Files;
 use DeliciousBrains\WP_Offload_S3\Pro\Tools\Uploader;
+use DeliciousBrains\WP_Offload_S3\Pro\Upgrades\Disable_Compatibility_Plugins;
 
 class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 
@@ -85,7 +92,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		add_filter( 'as3cf_settings_page_title', array( $this, 'settings_page_title' ) );
 		add_filter( 'as3cf_settings_tabs', array( $this, 'settings_tabs' ) );
 		add_filter( 'as3cf_lost_files_notice', array( $this, 'lost_files_notice' ) );
-		add_action( 'as3cf_load_attachment_assets', array( $this, 'load_attachment_js' ), 10, 2 );
+		add_action( 'as3cf_load_attachment_assets', array( $this, 'load_attachment_js' ) );
 		add_filter( 'as3cf_media_action_strings', array( $this, 'media_action_strings' ) );
 
 		// Media row actions
@@ -112,13 +119,28 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 		$this->sidebar->register_tool( new Downloader( $this ) );
 		$this->sidebar->register_tool( new Download_And_Remover( $this ) );
 		$this->sidebar->register_tool( new Remove_Local_Files( $this ), 'background' );
+		$this->sidebar->register_tool( new Copy_Buckets( $this ), 'background' );
+
+		// Perform network upgrades
+		new Disable_Compatibility_Plugins( $this, $this->plugin_version );
 	}
 
 	/**
 	 * Enable integrations.
 	 */
-	public function enable_integrations() {
-		$this->integrations->register_integration( 'acf', new Advanced_Custom_Fields( $this ) );
+	protected function enable_integrations() {
+		$integrations = apply_filters( 'as3cf_integrations', array(
+			'acf'  => new Advanced_Custom_Fields( $this ),
+			'edd'  => new Easy_Digital_Downloads( $this ),
+			'emr'  => new Enable_Media_Replace( $this ),
+			'msl'  => new Meta_Slider( $this ),
+			'woo'  => new Woocommerce( $this ),
+			'wpml' => new Wpml( $this ),
+		) );
+
+		foreach ( $integrations as $integration ) {
+			$this->integrations->register_integration( $integration );
+		}
 	}
 
 	/**
@@ -135,23 +157,15 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	/**
 	 * Load the scripts and styles required for the plugin
 	 */
-	function load_assets() {
-		$version = $this->get_asset_version();
-		$suffix  = $this->get_asset_suffix();
+	public function load_assets() {
+		$this->enqueue_style( 'as3cf-pro-styles', 'assets/css/pro/styles', array( 'as3cf-styles' ) );
+		$this->enqueue_script( 'as3cf-pro-script', 'assets/js/pro/script', array( 'jquery', 'underscore' ) );
 
-		$src = plugins_url( 'assets/css/pro/styles.css', $this->plugin_file_path );
-		wp_enqueue_style( 'as3cf-pro-styles', $src, array( 'as3cf-styles' ), $version );
-
-		$src = plugins_url( 'assets/js/pro/script' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-pro-script', $src, array( 'jquery', 'underscore' ), $version, true );
-
-		$localized_args = array(
+		wp_localize_script( 'as3cf-pro-script', 'as3cfpro', array(
 			'settings' => apply_filters( 'as3cfpro_js_settings', array() ),
 			'strings'  => apply_filters( 'as3cfpro_js_strings', array() ),
 			'nonces'   => apply_filters( 'as3cfpro_js_nonces', array() ),
-		);
-
-		wp_localize_script( 'as3cf-pro-script', 'as3cfpro', $localized_args );
+		) );
 
 		do_action( 'as3cfpro_load_assets' );
 	}
@@ -159,22 +173,21 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	/**
 	 * Load the media Pro assets
 	 */
-	function load_media_pro_assets() {
+	public function load_media_pro_assets() {
 		if ( ! $this->verify_media_actions() ) {
 			return;
 		}
 
-		$version = $this->get_asset_version();
-		$suffix  = $this->get_asset_suffix();
+		$this->enqueue_script( 'as3cf-pro-media-script', 'assets/js/pro/media', array(
+			'jquery',
+			'media-views',
+			'media-grid',
+			'wp-util',
+		), false );
 
-		$src = plugins_url( 'assets/js/pro/media' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-pro-media-script', $src, array( 'jquery', 'media-views', 'media-grid', 'wp-util' ), $version );
-
-		wp_localize_script( 'as3cf-pro-media-script',
-			'as3cfpro_media',
-			array(
-				'strings' => $this->get_media_action_strings(),
-				'nonces' => array(
+		wp_localize_script( 'as3cf-pro-media-script', 'as3cfpro_media', array(
+				'strings'  => $this->get_media_action_strings(),
+				'nonces'   => array(
 					'copy_media'                => wp_create_nonce( 'copy-media' ),
 					'remove_media'              => wp_create_nonce( 'remove-media' ),
 					'download_media'            => wp_create_nonce( 'download-media' ),
@@ -182,41 +195,36 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 					'update_acl'                => wp_create_nonce( 'update-acl' ),
 				),
 				'settings' => array(
-					'default_acl'         => self::DEFAULT_ACL,
-					'private_acl'         => self::PRIVATE_ACL,
-				)
-			)
-		);
+					'default_acl' => self::DEFAULT_ACL,
+					'private_acl' => self::PRIVATE_ACL,
+				),
+			) );
 	}
 
 	/**
 	 * Load the attachment JS only when editing an attachment.
-	 *
-	 * @param string $version
-	 * @param string $suffix
 	 */
-	public function load_attachment_js( $version, $suffix ) {
-		$src = plugins_url( 'assets/js/pro/attachment' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'as3cf-pro-attachment-script', $src, array( 'jquery', 'wp-util' ), $version );
+	public function load_attachment_js() {
+		$this->enqueue_script( 'as3cf-pro-attachment-script', 'assets/js/pro/attachment', array(
+			'jquery',
+			'wp-util',
+		), false );
 
-		wp_localize_script( 'as3cf-pro-attachment-script',
-			'as3cfpro_media',
-			array(
-				'strings' => array(
-					'local_warning'      => $this->get_media_action_strings( 'local_warning' ),
-					'updating_acl'       => $this->get_media_action_strings( 'updating_acl' ),
-					'change_acl_error'   => $this->get_media_action_strings( 'change_acl_error' ),
+		wp_localize_script( 'as3cf-pro-attachment-script', 'as3cfpro_media', array(
+				'strings'  => array(
+					'local_warning'    => $this->get_media_action_strings( 'local_warning' ),
+					'updating_acl'     => $this->get_media_action_strings( 'updating_acl' ),
+					'change_acl_error' => $this->get_media_action_strings( 'change_acl_error' ),
 				),
-				'nonces' => array(
+				'nonces'   => array(
 					'update_acl' => wp_create_nonce( 'update-acl' ),
 				),
 				'settings' => array(
 					'post_id'     => get_the_ID(),
 					'default_acl' => self::DEFAULT_ACL,
 					'private_acl' => self::PRIVATE_ACL,
-				)
-			)
-		);
+				),
+			) );
 	}
 
 	/**
@@ -449,7 +457,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 			'acl'         => $acl,
 			'acl_display' => $this->get_acl_display_name( $acl ),
 			'title'       => $title,
-			'url'         => $this->get_attachment_url( $id ),
+			'url'         => wp_get_attachment_url( $id ),
 		);
 
 		if ( is_wp_error( $update ) ) {
@@ -1024,7 +1032,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 
 		$s3client   = $this->get_s3client( $region, $force_new_s3_client );
 		$prefix     = trailingslashit( dirname( $s3object['key'] ) );
-		$file_paths = $this->get_attachment_file_paths( $post_id, false );
+		$file_paths = AS3CF_Utils::get_attachment_file_paths( $post_id, false );
 		$downloads  = array();
 
 		foreach ( $file_paths as $file_path ) {
@@ -1188,7 +1196,7 @@ class Amazon_S3_And_CloudFront_Pro extends Amazon_S3_And_CloudFront {
 	 *
 	 * @return bool
 	 */
-	function is_pro_plugin_setup() {
+	public function is_pro_plugin_setup() {
 		if ( isset( $this->licence ) ) {
 			if ( ! $this->licence->is_valid_licence() ) {
 				// Empty, invalid or expired license

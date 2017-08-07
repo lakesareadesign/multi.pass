@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: HubSpot Marketing Free (formerly Leadin)
+Plugin Name: HubSpot - Free Marketing Plugin for WordPress
 Plugin URI: http://www.hubspot.com/products/marketing/free
-Description: HubSpot Marketing Free is an easy-to-use lead tracking plugin for WordPress that helps you better understand your web site visitors.
-Version: 6.1.2
+Description: HubSpot Marketing Free is the ultimate marketing plugin for WordPress for building an email list, generating and tracking leads, and tracking user behavior on your website.
+Version: 6.1.4
 Author: HubSpot
 Author URI: http://www.hubspot.com
 License: GPL2
@@ -29,7 +29,7 @@ if (!defined('LEADIN_DB_VERSION'))
     define('LEADIN_DB_VERSION', '2.2.5');
 
 if (!defined('LEADIN_PLUGIN_VERSION'))
-    define('LEADIN_PLUGIN_VERSION', '6.1.2');
+    define('LEADIN_PLUGIN_VERSION', '6.1.4');
 
 if (!defined('LEADIN_SOURCE'))
     define('LEADIN_SOURCE', 'leadin.com');

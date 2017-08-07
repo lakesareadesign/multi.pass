@@ -8,6 +8,7 @@ namespace WP_Defender\Module\Audit\Controller;
 use Hammer\Helper\HTTP_Helper;
 use Hammer\Helper\Log_Helper;
 use Hammer\Helper\WP_Helper;
+use WP_Defender\Module\Audit\Behavior\Audit;
 use WP_Defender\Module\Audit\Component\Audit_API;
 use WP_Defender\Module\Audit\Component\Audit_Table;
 use WP_Defender\Module\Audit\Model\Settings;
@@ -43,6 +44,7 @@ class Main extends \WP_Defender\Controller {
 		$this->add_ajax_action( 'saveAuditSettings', 'saveAuditSettings' );
 		$this->add_ajax_action( 'auditOnCloud', 'auditOnCloud', true, true );
 		$this->add_ajax_action( 'dashboardSummary', 'dashboardSummary' );
+		$this->add_ajax_action( 'exportAsCvs', 'exportAsCvs' );
 
 		if ( Settings::instance()->enabled == 1 ) {
 			$this->add_action( 'wp_loaded', 'setupEvents', 1 );
@@ -68,6 +70,46 @@ class Main extends \WP_Defender\Controller {
 		$this->add_action( 'auditReportCron', 'auditReportCron' );
 	}
 
+	public function exportAsCvs() {
+		if ( ! $this->checkPermission() ) {
+			return;
+		}
+
+		$params  = $this->prepareAuditParams();
+		$data    = Audit_API::pullLogs( $params, 'timestamp', 'desc', true );
+		$logs    = $data['data'];
+		$fp      = fopen( 'php://memory', 'w' );
+		$headers = array(
+			__( "Summary", wp_defender()->domain ),
+			__( "Date / Time", wp_defender()->domain ),
+			__( "Context", wp_defender()->domain ),
+			__( "Type", wp_defender()->domain ),
+			__( "IP address", wp_defender()->domain ),
+			__( "User", wp_defender()->domain )
+		);
+		fputcsv( $fp, $headers );
+		foreach ( $logs as $fields ) {
+			$vars = array(
+				$fields['msg'],
+				is_array( $fields['timestamp'] )
+					? $this->formatDateTime( date( 'Y-m-d H:i:s', $fields['timestamp'][0] ) )
+					: $this->formatDateTime( date( 'Y-m-d H:i:s', $fields['timestamp'] ) ),
+				ucwords( Audit_API::get_action_text( $fields['context'] ) ),
+				ucwords( Audit_API::get_action_text( $fields['action_type'] ) ),
+				$fields['ip'],
+				$this->getDisplayName( $fields['user_id'] )
+			);
+			fputcsv( $fp, $vars );
+		}
+		$filename = 'wdf-audit-logs-export-' . date( 'ymdHis' ) . '.csv';
+		fseek( $fp, 0 );
+		header( 'Content-Type: text/csv' );
+		header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
+		// make php send the generated csv lines to the browser
+		fpassthru( $fp );
+		exit();
+	}
+
 	public function dashboardSummary() {
 		if ( ! $this->checkPermission() ) {
 			return;
@@ -83,7 +125,7 @@ class Main extends \WP_Defender\Controller {
 				'date_to'   => date( 'Y-m-d' ) . ' 23:59:59'
 			) );
 			wp_send_json_success( array(
-				'eventWeek' => $weekCount['total_items']
+				'eventWeek' => is_wp_error( $weekCount ) ? '-' : $weekCount['total_items']
 			) );
 		}
 
@@ -345,7 +387,7 @@ class Main extends \WP_Defender\Controller {
                                     <p style="Margin: 0; Margin-bottom: 0; color: #555555; font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 26px; margin: 0; margin-bottom: 0; padding: 0 0 24px; text-align: left;">
                                         <a class="plugin-brand"
                                            href="<?php echo network_admin_url( 'admin.php?page=wdf-logging&date_from=' . date( 'm/d/Y', strtotime( $date_from ) ) . '&date_to=' . date( 'm/d/Y', strtotime( $date_to ) ) ) ?>"
-                                           style="Margin: 0; color: #ff5c28; display: inline-block; font: inherit; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;"><?php _e( "You can fiew the full audit report for your site here.", wp_defender()->domain ) ?>
+                                           style="Margin: 0; color: #ff5c28; display: inline-block; font: inherit; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;"><?php _e( "You can view the full audit report for your site here.", wp_defender()->domain ) ?>
                                             <img
                                                     class="icon-arrow-right"
                                                     src="<?php echo wp_defender()->getPluginUrl() ?>assets/email-images/icon-arrow-right-defender.png"
@@ -570,7 +612,7 @@ class Main extends \WP_Defender\Controller {
 	public function _renderTable( $data ) {
 		return $this->renderPartial( 'table', array(
 			'data'       => $data,
-			'pagination' => $this->pagination( $data['total_items'], $data['total_pages'] )
+			'pagination' => is_wp_error( $data ) ? '' : $this->pagination( $data['total_items'], $data['total_pages'] )
 		), false );
 	}
 

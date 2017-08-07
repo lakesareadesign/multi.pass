@@ -10,17 +10,25 @@
  */
 add_filter( 'wphb_minification_display_enqueued_file', 'wphb_minification_hooks_hide_jquery_switchers', 10, 3 );
 function wphb_minification_hooks_hide_jquery_switchers( $display, $handle, $type ) {
-
 	if ( 'toplevel_page_wphb' === get_current_screen()->id ) {
-		if ( ( 'scripts' === $type && 'jquery' === $handle['handle'] ) || ( ! isset( $handle['original_size'] ) ) ) {
+		if ( ( 'scripts' === $type && in_array( $handle['handle'], array( 'jquery', 'jquery-core', 'jquery-migrate' ) ) ) || ( ! isset( $handle['original_size'] ) ) ) {
 			return false;
 		}
 	} else {
-		if ( 'scripts' === $type && 'jquery' === $handle['handle'] ) {
+		if ( 'scripts' === $type && in_array( $handle['handle'], array( 'jquery', 'jquery-core', 'jquery-migrate' ) ) ) {
 			return false;
 		}
 	}
 
 
 	return $display;
+}
+
+add_filter( 'wphb_combine_resource', 'wphb_minification_combine_jquery', 150, 3 );
+add_filter( 'wphb_minify_resource', 'wphb_minification_combine_jquery', 150, 3 );
+function wphb_minification_combine_jquery( $combine, $handle, $type ) {
+	if ( ( 'scripts' === $type && in_array( $handle, array( 'jquery', 'jquery-core', 'jquery-migrate' ) ) ) ) {
+		return false;
+	}
+	return $combine;
 }

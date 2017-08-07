@@ -26,12 +26,13 @@ class WP_Hummingbird_API_Request_WPMUDEV extends WP_Hummingbird_API_Request {
 	}
 
 	public function get_api_url( $path = '' ) {
+		/** @var WP_Hummingbird_API_Service_Performance|WP_Hummingbird_API_Service_Uptime $service */
 		if ( defined( 'WPHB_TEST_API_URL' ) && WPHB_TEST_API_URL ) {
-			$url = WPHB_TEST_API_URL;
-		} else {
-			/** @var WP_Hummingbird_API_Service_Performance|WP_Hummingbird_API_Service_Uptime $service */
 			$service = $this->get_service();
-			$url = 'https://premium.wpmudev.org/api/' . $this->get_service()->get_name() . '/' . $service->get_version() . '/';
+			$url = WPHB_TEST_API_URL . $service->get_name() . '/' . $service->get_version() . '/';
+		} else {
+			$service = $this->get_service();
+			$url = 'https://premium.wpmudev.org/api/' . $service->get_name() . '/' . $service->get_version() . '/';
 		}
 
 		$url = trailingslashit( $url . $path );
@@ -42,20 +43,30 @@ class WP_Hummingbird_API_Request_WPMUDEV extends WP_Hummingbird_API_Request {
 	/**
 	 * Get the current Site URL
 	 *
+	 * The network_site_url() of the WP installation. (Or network_home_url if not passing an API key).
+	 *
 	 * @return string
 	 */
 	public function get_this_site() {
 		if ( defined( 'WPHB_API_DOMAIN' ) ) {
 			$domain = WPHB_API_DOMAIN;
 		} else {
-			$domain = network_site_url();
+			$key = $this->get_api_key();
+			if ( ! empty( $key ) ) {
+				$domain = network_site_url();
+			} else {
+				$domain = network_home_url();
+			}
 		}
 
 		return $domain;
 	}
 
 	protected function sign_request() {
-		$this->add_header_argument( 'Authorization', 'Basic ' . $this->get_api_key() );
+		$key = $this->get_api_key();
+		if ( ! empty( $key ) ) {
+			$this->add_header_argument( 'Authorization', 'Basic ' . $this->get_api_key() );
+		}
 	}
 
 

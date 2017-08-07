@@ -32,6 +32,7 @@ class Opt_In_Admin_Ajax {
 		add_action( "wp_ajax_clear_logs", array( $this, "clear_logs" ) );
 		add_action( "wp_ajax_export_error_logs", array( $this, "export_error_logs" ) );
 		add_action( "wp_ajax_sshare_show_page_content", array( $this, "sshare_show_page_content" ) );
+		add_action( "wp_ajax_update_hubspot_referrer", array( $this, "update_hubspot_referrer" ) );
     }
 
     /**
@@ -514,6 +515,17 @@ class Opt_In_Admin_Ajax {
 		wp_send_json_success( array(
             'ss_share_stats' => $ss_share_stats
         ) );
+	}
+
+	function update_hubspot_referrer() {
+		Opt_In_Utils::validate_ajax_call( "hustle_hubspot_referrer" );
+
+		$optin_id = filter_input( INPUT_GET, 'optin_id', FILTER_VALIDATE_INT );
+
+		if ( class_exists( 'Opt_In_HubSpot_Api') ) {
+			$hubspot = new Opt_In_HubSpot_Api();
+			$hubspot->get_authorization_uri( $optin_id );
+		}
 	}
 }
 endif;

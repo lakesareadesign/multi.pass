@@ -46,6 +46,11 @@ body.rtl .fl-module-post-slider .bx-viewport {
 }
 .fl-post-slider-navigation path{ fill: #fff; }
 
+.fl-post-slider-navigation a.disabled,
+.bx-controls a.disabled {
+	pointer-events: none;
+}
+
 /*Module styles =======================================*/
 
 /* Background Photo */

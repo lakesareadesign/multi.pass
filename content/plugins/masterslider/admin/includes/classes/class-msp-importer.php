@@ -234,7 +234,7 @@ class MSP_Importer {
                                 )
                             );
 
-                            $request = wp_remote_post( 'http://demo.averta.net/themes/lotus/dummy-agency/api/', $args );
+                            $request = wp_remote_get( 'http://api.averta.net/products/masterslider/samples/', $args );
 
                             if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) !== 200 ) {
                                 _e( 'Cannot fetch slider data ..', MSWP_TEXT_DOMAIN );

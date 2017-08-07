@@ -47,6 +47,11 @@ body.rtl .fl-module-post-carousel .bx-viewport {
 }
 .fl-post-carousel-navigation path{ fill: #fff; }
 
+.fl-post-carousel-navigation a.disabled,
+.bx-controls a.disabled {
+	pointer-events: none;
+}
+
 /*Module styles =======================================*/
 
 /* Post Carousel */

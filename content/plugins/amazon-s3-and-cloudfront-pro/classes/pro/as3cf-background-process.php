@@ -483,6 +483,8 @@ abstract class AS3CF_Background_Process extends AS3CF_Async_Request {
 	 * performed, or, call parent::complete().
 	 */
 	protected function complete() {
+		delete_site_option( $this->get_status_key() );
+
 		$this->clear_cron_healthcheck();
 	}
 

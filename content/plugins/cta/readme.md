@@ -46,29 +46,3 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 ## Frequently Asked Questions ##
 *Can I create my own call to action designs?,
 *Yes! You can learn how to <a href="http://plugins.inboundnow.com/docs/dev/creating-templates/">create your own call to action template here</a>.
-
-## Screenshots ##
-
-### 1. Convert more web traffic with calls to action to drive the visitor into a landing page or capture their email address right in the call to action ###
-![Convert more web traffic with calls to action to drive the visitor into a landing page or capture their email address right in the call to action](screenshot-1.jpg)
-
-### 2. Create Popup Calls to action and capture more emails ###
-![Create Popup Calls to action and capture more emails](screenshot-2.jpg)
-
-### 3. Easy to use templates ###
-![Easy to use templates](screenshot-3.jpg)
-
-### 4. Visual fronted editing to see live changes on the fly ###
-![Visual fronted editing to see live changes on the fly](screenshot-4.jpg)
-
-### 5. Choose from a ton of pre-made templates, use your existing design, or design your own call to action template. The system is a framework that allows for as many templates as you want. ###
-![Choose from a ton of pre-made templates, use your existing design, or design your own call to action template. The system is a framework that allows for as many templates as you want.](screenshot-5.jpg)
-
-### 6. Track conversion rates and continuously improve your marketing ###
-![Track conversion rates and continuously improve your marketing](screenshot-6.jpg)
-
-### 7. Easy placement within pages/posts/custom post types ###
-![Easy placement within pages/posts/custom post types](screenshot-7.jpg)
-
-### 8. Global placements via your sites sidebar ###
-![Global placements via your sites sidebar](screenshot-8.jpg)

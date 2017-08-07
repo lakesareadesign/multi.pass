@@ -222,7 +222,11 @@ abstract class Model extends \Hammer\Base\Model {
 	 * @return null|string
 	 */
 	public static function count( $attributes = array() ) {
-		$join  = static::buildJoins();
+		if ( ! empty( $attributes ) ) {
+			$join = static::buildJoins();
+		} else {
+			$join = array();
+		}
 		$where = static::buildWhere( $attributes );
 		$sql   = "SELECT count(ID) FROM " . self::getWPDB()->posts . ' AS t0 ' . implode( ' ', $join ) . ' ' . implode( ' AND ', $where );
 
@@ -294,7 +298,7 @@ abstract class Model extends \Hammer\Base\Model {
 		$joins = array();
 		$i     = 1;
 		foreach ( $_metas as $k => $field ) {
-			$joins[] = static::getWPDB()->prepare( 'INNER JOIN ' . static::getWPDB()->postmeta . ' as t' . $i . ' ON t' . $i . '.post_id=ID AND t' . $i . '.meta_key=%s', $field );
+			$joins[] = static::getWPDB()->prepare( 'LEFT JOIN ' . static::getWPDB()->postmeta . ' as t' . $i . ' ON t' . $i . '.post_id=ID AND t' . $i . '.meta_key=%s', $field );
 			$i ++;
 		}
 

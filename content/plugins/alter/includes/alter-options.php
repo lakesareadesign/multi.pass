@@ -44,25 +44,22 @@ function get_aof_options() {
     $adminbar_items = (is_serialized(get_site_option(ALTER_ADMINBAR_LISTS_SLUG))) ? unserialize(get_site_option(ALTER_ADMINBAR_LISTS_SLUG)) : get_site_option(ALTER_ADMINBAR_LISTS_SLUG);
   }
 
-  /*
-  @since 2.0
-  //get all admin users method rewritten
+  /**
+  * @since 2.0
+  * get all admin users method rewritten
   */
-  $admin_users_array = (is_serialized(get_option(ALTER_ADMIN_USERS_SLUG))) ? unserialize(get_option(ALTER_ADMIN_USERS_SLUG)) : get_option(ALTER_ADMIN_USERS_SLUG);
-  if(empty($admin_users_array) || !is_array($admin_users_array)) {
-    $admin_users_array = "";
-    $admin_user_query = new WP_User_Query( array( 'meta_key' => 'wp_user_level', 'meta_value' => '10' ) );
-    $admin_users_list = $admin_user_query->get_results();
-    foreach ($admin_users_list as $admin_data) {
-      if(!empty($admin_data->data->display_name)) {
-        $user_display_name = $admin_data->data->display_name;
-      }
-      else {
-        $user_display_name = $admin_data->data->user_login;
-      }
-      $admin_users_array[$admin_data->ID] = $user_display_name;
-    }
-  }
+ $admin_users_array = (is_serialized(get_option(ALTER_ADMIN_USERS_SLUG))) ? unserialize(get_option(ALTER_ADMIN_USERS_SLUG)) : get_option(ALTER_ADMIN_USERS_SLUG);
+
+ if(empty($admin_users_array) && !is_array($admin_users_array)) {
+   $users_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
+   if(isset($users_query) && !empty($users_query)) {
+       if ( ! empty( $users_query->results ) ) {
+           foreach ( $users_query->results as $user_detail ) {
+               $admin_users_array[$user_detail->ID] = $user_detail->data->display_name;
+           }
+       }
+   }
+ }
 
   $blog_email = get_option('admin_email');
   $blog_from_name = get_option('blogname');
@@ -570,6 +567,14 @@ function get_aof_options() {
       );
 
   $panel_fields[] = array(
+      'name' => __( 'Autofit logo', 'alter' ),
+      'id' => 'logo_autofit',
+      'type' => 'checkbox',
+      'default' => false,
+      'desc' => __( 'Select to autofit logo in to admin bar.', 'alter' ),
+      );
+
+  $panel_fields[] = array(
       'name' => __( 'Move logo Top by', 'alter' ),
       'id' => 'logo_top_margin',
       'type' => 'number',
@@ -634,6 +639,22 @@ function get_aof_options() {
       'id' => 'admin_bar_sbmenu_link_hover_color',
       'type' => 'wpcolor',
       'default' => '#eaeaea',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Enable Admin bar shadow', 'alter' ),
+      'id' => 'admin_bar_shadow',
+      'type' => 'checkbox',
+      'default' => true,
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Enable Admin bar Logo shadow', 'alter' ),
+      'id' => 'admin_bar_logo_shadow',
+      'type' => 'checkbox',
+      'default' => true,
+      'desc'  => __('Using this option you can enable shadow only for Logo by disabling Admin bar shadow.
+      Logo shadow cannot be removed if Admin bar shadow option is enabled.', 'alter' ),
       );
 
   $panel_fields[] = array(

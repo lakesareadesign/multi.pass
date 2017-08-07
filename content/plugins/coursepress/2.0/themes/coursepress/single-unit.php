@@ -31,6 +31,12 @@ get_header();
 						echo do_shortcode( '[course_title course_id="' . $course_id . '"]' );
 						?>
 					</h3>
+					<?php
+					$is_focus = CoursePress_Data_Course::get_setting( $course_id, 'course_view', 'normal' );
+					if ( 'focus' == $is_focus ) :
+						echo do_shortcode( '[course_unit_archive_submenu course_id="' . $course_id . '"]' );
+					endif;
+					?>
 				</header><!-- .entry-header -->
 				<div class="instructors-content"></div>
 

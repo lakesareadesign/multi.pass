@@ -21,18 +21,21 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return string Model type tag
 	 */
-	public function get_model_type () { return 'remote'; }
+	public function get_model_type() { return 'remote'; }
 
-	private function __construct () {}
-	private function __clone () {}
+	private function __construct() { }
+
+	private function __clone() { }
 
 	/**
 	 * Gets the singleton instance
 	 *
 	 * @return Snapshot_Model_Full_Remote_Storage
 	 */
-	public static function get () {
-		if (empty(self::$_instance)) self::$_instance = new self;
+	public static function get() {
+		if ( empty( self::$_instance ) ) {
+			self::$_instance = new self;
+		}
 		return self::$_instance;
 	}
 
@@ -41,7 +44,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return int
 	 */
-	public function get_max_backups_default () {
+	public function get_max_backups_default() {
 		return 3;
 	}
 
@@ -50,9 +53,9 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return int
 	 */
-	public function get_max_backups_limit () {
+	public function get_max_backups_limit() {
 		$default = $this->get_max_backups_default();
-		return (int)$this->get_config('full_backups_limit', $default);
+		return (int) $this->get_config( 'full_backups_limit', $default );
 	}
 
 	/**
@@ -62,9 +65,8 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return int
 	 */
-	public function set_max_backups_limit ($limit) {
-		$limit = (int)$limit;
-		return $this->set_config('full_backups_limit', $limit);
+	public function set_max_backups_limit( $limit ) {
+		return $this->set_config( 'full_backups_limit', max( 0, intval( $limit ) ) );
 	}
 
 	/**
@@ -74,15 +76,19 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return bool
 	 */
-	public function has_enough_space_for ($path) {
-		if (empty($path) || !file_exists($path)) return false;
+	public function has_enough_space_for( $path ) {
+		if ( empty( $path ) || ! file_exists( $path ) ) {
+			return false;
+		}
 
 		$free = $this->get_free_remote_space();
-		if (false === $free) return false; // There has been an error - default to safe response
+		if ( false === $free ) {
+			return false;
+		} // There has been an error - default to safe response
 
-		$filesize = filesize($path);
+		$filesize = filesize( $path );
 
-		return $filesize < (float)$free;
+		return $filesize < (float) $free;
 	}
 
 	/**
@@ -90,32 +96,55 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return mixed Integer number of bytes on success, or (bool)false on failure
 	 */
-	public function get_used_remote_space () {
-		if (!Snapshot_Model_Full_Remote_Api::get()->connect()) return false;
-
-		// Save a server round-trip, if we can
-		$size = Snapshot_Model_Full_Remote_Api::get()->get_api_meta('current_bytes');
-		if (false !== $size && is_numeric($size)) return (float)$size;
-
-		// We can't? Very well then!
-		$response = Snapshot_Model_Full_Remote_Api::get()->get_dev_api_response('backups-size');
-		if (is_wp_error($response)) return false;
-		if (200 !== (int)wp_remote_retrieve_response_code($response)) return false;
-
-		$body = wp_remote_retrieve_body($response);
-		if (!empty($body)) {
-			$body = json_decode($body, true);
-			if (isset($body['current_bytes']) && is_numeric($body['current_bytes'])) $body = (int)$body['current_bytes'];
+	public function get_used_remote_space() {
+		if ( ! Snapshot_Model_Full_Remote_Api::get()->connect() ) {
+			return false;
 		}
-		$result = is_numeric($body)
-			? (float)$body
-			: false
-		;
+
+		$size = $this->_get_used_remote_space();
 
 		return apply_filters(
-			$this->get_filter('api-space-used'),
-			$result
+			$this->get_filter( 'api-space-used' ),
+			$size
 		);
+	}
+
+	/**
+	 * Used remote space request helper
+	 *
+	 * Circumvents filters and caches, and goes for the API
+	 * response directly.
+	 *
+	 * @return float|bool Used remote space, or false on failure
+	 */
+	private function _get_used_remote_space() {
+		$api = Snapshot_Model_Full_Remote_Api::get();
+		$api->connect(); // Make sure caches are populated, if here
+
+		// Negative default, so we have proper type coercion
+		// and spare extra request on no remote space taken
+		$used = (float) $api->get_api_meta( 'current_bytes', - 1 );
+		if ( $used < 0 ) {
+			$response = $api->get_dev_api_response( 'backups-size' );
+			if ( is_wp_error( $response ) ) {
+				return false;
+			}
+			if ( 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+				return false;
+			}
+
+			$body = wp_remote_retrieve_body( $response );
+			if ( ! empty( $body ) ) {
+				$body = json_decode( $body, true );
+				if ( isset( $body['current_bytes'] ) && is_numeric( $body['current_bytes'] ) ) {
+					$body = (int) $body['current_bytes'];
+				}
+			}
+			$used = is_numeric( $body )
+				? (float) $body
+				: false;
+		}
+		return $used;
 	}
 
 	/**
@@ -123,18 +152,54 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return int Number of total allocated bytes
 	 */
-	public function get_total_remote_space () {
+	public function get_total_remote_space() {
 		$hardcoded = 10 * 1024 * 1024 * 1024;
 
-		$total = (float)Snapshot_Model_Full_Remote_Api::get()->get_api_meta('user_limit', $hardcoded);
-		if (empty($total) || !is_numeric($total)) {
+		$total = $this->_get_total_remote_space();
+		if ( empty( $total ) || ! is_numeric( $total ) ) {
 			$total = $hardcoded;
 		}
 
-		return (float)apply_filters(
-			$this->get_filter('api-space-total'),
+		return (float) apply_filters(
+			$this->get_filter( 'api-space-total' ),
 			$total
 		);
+	}
+
+	/**
+	 * Total remote space request helper
+	 *
+	 * Circumvents filters and caches, and goes for the API
+	 * response directly.
+	 *
+	 * @return float|bool Total remote space, or false on failure
+	 */
+	private function _get_total_remote_space() {
+		$api = Snapshot_Model_Full_Remote_Api::get();
+		$api->connect(); // Make sure caches are populated, if here
+
+		$total = (float) $api->get_api_meta( 'user_limit', false );
+		if ( empty( $total ) ) {
+			$response = $api->get_dev_api_response( 'backups-size' );
+			if ( is_wp_error( $response ) ) {
+				return false;
+			}
+			if ( 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+				return false;
+			}
+
+			$body = wp_remote_retrieve_body( $response );
+			if ( ! empty( $body ) ) {
+				$body = json_decode( $body, true );
+				if ( isset( $body['user_limit'] ) && is_numeric( $body['user_limit'] ) ) {
+					$body = (int) $body['user_limit'];
+				}
+			}
+			$total = is_numeric( $body )
+				? (float) $body
+				: false;
+		}
+		return $total;
 	}
 
 	/**
@@ -142,31 +207,63 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return mixed (int)Number of total bytes left free, or (bool)false on failure
 	 */
-	public function get_free_remote_space () {
+	public function get_free_remote_space() {
 		$total = $this->get_total_remote_space();
 		$free = false;
 
-		if (false === $total || !is_numeric($total)) {
+		if ( false === $total || ! is_numeric( $total ) ) {
 			return apply_filters(
-				$this->get_filter('api-space-free'),
+				$this->get_filter( 'api-space-free' ),
 				$free
 			);
 		}
 
 		$used = $this->get_used_remote_space();
-		if (false === $used || !is_numeric($used)) {
+		if ( false === $used || ! is_numeric( $used ) ) {
 			return apply_filters(
-				$this->get_filter('api-space-free'),
+				$this->get_filter( 'api-space-free' ),
 				$free
 			);
 		}
 
-		$free = (float)$total - (float)$used;
+		$free = (float) $total - (float) $used;
 
 		return apply_filters(
-			$this->get_filter('api-space-free'),
+			$this->get_filter( 'api-space-free' ),
 			$free
 		);
+	}
+
+	/**
+	 * Check if the user ran out of space
+	 *
+	 * Compares the *total* and *used* remote space from the
+	 * API response, and deduces whether the user's quota has
+	 * been exceeded or not.
+	 *
+	 * @return bool
+	 */
+	public function is_out_of_space() {
+		$total = (float) $this->_get_total_remote_space();
+		$used = (float) $this->_get_used_remote_space();
+
+		if ( empty( $total ) ) {
+			$this->_set_error( __( "We encountered an issue communicating with the API", SNAPSHOT_I18N_DOMAIN ) );
+			return false;
+		}
+
+		return (bool) ( ( $total - $used ) < 0 );
+	}
+
+	/**
+	 * Checks existing remote backups presence
+	 *
+	 * Just quickly checks the used space state
+	 *
+	 * @return bool
+	 */
+	public function has_previous_backups() {
+		return (float) $this->_get_used_remote_space() > 0;
 	}
 
 
@@ -177,44 +274,44 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return array List of files to remove from remote storage
 	 */
-	public function get_backup_rotation_list ($path) {
+	public function get_backup_rotation_list( $path ) {
 		$raw_list = $this->get_remote_list();
 
 		$to_remove = array();
 
-		$count = count($raw_list);
+		$count = count( $raw_list );
 		$max_limit = $this->get_max_backups_limit();
-/*
-		$total_space = $this->get_total_remote_space();
-		$free_space = $this->get_free_remote_space();
-		$current_size = apply_filters(
-			$this->get_filter('current-backup-filesize'),
-			filesize($path),
-			$path
-		);
-*/
+
 		// No other remote backups - all good
-		if (!$count) return $to_remove;
-
-		// We're under limit, nothing to clean up
-		if ($max_limit > $count) return $to_remove;
-
-		// Keep dropping oldest ones until we're good to go
-		$oldest = $this->_get_oldest_filename($raw_list, false);
-		if (!empty($oldest)) {
-			$to_remove[] = $oldest;
-			if ($max_limit > $count - count($to_remove)) return $to_remove;
+		if ( ! $count ) {
+			return $to_remove;
 		}
 
-		for ($i=0; $i<50; $i++) {
-			$oldest = $this->_get_newer_filename($raw_list, $oldest);
-			if (empty($oldest)) {
-				Snapshot_Helper_Log::info("No more oldest files, breaking", "Remote");
+		// We're under limit, nothing to clean up
+		if ( $max_limit > $count ) {
+			return $to_remove;
+		}
+
+		// Keep dropping oldest ones until we're good to go
+		$oldest = $this->_get_oldest_filename( $raw_list, false );
+		if ( ! empty( $oldest ) ) {
+			$to_remove[] = $oldest;
+			if ( $max_limit > $count - count( $to_remove ) ) {
+				return $to_remove;
+			}
+		}
+
+		for ( $i = 0; $i < 50; $i ++ ) {
+			$oldest = $this->_get_newer_filename( $raw_list, $oldest );
+			if ( empty( $oldest ) ) {
+				Snapshot_Helper_Log::info( "No more oldest files, breaking", "Remote" );
 				break; // No more oldest files
 			}
 
 			$to_remove[] = $oldest;
-			if ($max_limit > $count - count($to_remove)) break; // We're good to go
+			if ( $max_limit > $count - count( $to_remove ) ) {
+				break;
+			} // We're good to go
 		}
 
 		return $to_remove;
@@ -229,32 +326,36 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return bool
 	 */
-	public function rotate_backups ($path) {
-		Snapshot_Helper_Log::info("Enter backup rotation", "Remote");
+	public function rotate_backups( $path ) {
+		Snapshot_Helper_Log::info( "Enter backup rotation", "Remote" );
 
-		$error = __('Error rotating backups', SNAPSHOT_I18N_DOMAIN);
-		$to_remove = $this->get_backup_rotation_list($path);
+		$error = __( 'Error rotating backups', SNAPSHOT_I18N_DOMAIN );
+		$to_remove = $this->get_backup_rotation_list( $path );
 
-		if (empty($to_remove)) return !$this->has_errors(); // Nothing to drop, we're all good
+		if ( empty( $to_remove ) ) {
+			return ! $this->has_errors();
+		} // Nothing to drop, we're all good
 
-		Snapshot_Helper_Log::info(sprintf("Clean up remote storage, removing %d files", count($to_remove)), "Remote");
+		Snapshot_Helper_Log::info( sprintf( "Clean up remote storage, removing %d files", count( $to_remove ) ), "Remote" );
 
 		// Actually remove backups that are to be rotated
 		$status = true;
-		foreach ($to_remove as $filename) {
-			if (empty($filename)) continue;
-			Snapshot_Helper_Log::info("Cleaning up remote file: {$filename}", "Remote");
-			$status = $this->delete_remote_file($filename);
-			if (!$status) {
-				$this->_set_error($error);
-				Snapshot_Helper_Log::warn("Error cleaning up remote file: {$filename}", "Remote");
+		foreach ( $to_remove as $filename ) {
+			if ( empty( $filename ) ) {
+				continue;
+			}
+			Snapshot_Helper_Log::info( "Cleaning up remote file: {$filename}", "Remote" );
+			$status = $this->delete_remote_file( $filename );
+			if ( ! $status ) {
+				$this->_set_error( $error );
+				Snapshot_Helper_Log::warn( "Error cleaning up remote file: {$filename}", "Remote" );
 				break;
 			}
 		}
 
-		if ($status) {
+		if ( $status ) {
 			// Purge caches, since they're no longer accurate
-			Snapshot_Model_Transient::delete($this->get_filter("backups"));
+			Snapshot_Model_Transient::delete( $this->get_filter( "backups" ) );
 		}
 
 		return $status;
@@ -265,20 +366,26 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return mixed Remote storage handling object, or (bool)false on failure
 	 */
-	public function get_remote_storage_handler () {
-		if (!class_exists('AmazonS3')) return false;
-		if (!Snapshot_Model_Full_Remote_Api::get()->connect()) return false;
+	public function get_remote_storage_handler() {
+		if ( ! class_exists( 'AmazonS3' ) ) {
+			return false;
+		}
+		if ( ! Snapshot_Model_Full_Remote_Api::get()->connect() ) {
+			return false;
+		}
 
 		static $s3_handler;
-		if (empty($s3_handler)) {
+		if ( empty( $s3_handler ) ) {
 			$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
-			if (empty($nfo)) return false; // Error getting the API info, bail out
-			$s3_handler = new AmazonS3(array(
+			if ( empty( $nfo ) ) {
+				return false;
+			} // Error getting the API info, bail out
+			$s3_handler = new AmazonS3( array(
 				'key' => $nfo['AccessKeyId'],
 				'secret' => $nfo['SecretAccessKey'],
 				'token' => $nfo['SessionToken'],
-				'certificate_authority' => trailingslashit(ABSPATH . WPINC) . 'certificates/ca-bundle.crt',
-			));
+				'certificate_authority' => trailingslashit( ABSPATH . WPINC ) . 'certificates/ca-bundle.crt',
+			) );
 		}
 		return $s3_handler;
 	}
@@ -294,33 +401,35 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return array A list of parts to deal with
 	 */
-	public function get_upload_parts ($path) {
-		$key = md5($path);
-		$parts = get_site_option($key, array());
-		if (!Snapshot_Model_Full_Remote_Api::get()->connect()) return false;
+	public function get_upload_parts( $path ) {
+		$key = md5( $path );
+		$parts = get_site_option( $key, array() );
+		if ( ! Snapshot_Model_Full_Remote_Api::get()->connect() ) {
+			return false;
+		}
 		$s3 = $this->get_remote_storage_handler();
 
 		$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 
-		if (!empty($nfo) && empty($parts)) {
+		if ( ! empty( $nfo ) && empty( $parts ) ) {
 // http://docs.aws.amazon.com/AWSSDKforPHP/latest/#m=AmazonS3/get_multipart_counts
-			$parts = $s3->get_multipart_counts(filesize($path), 50*1024*1024);
+			$parts = $s3->get_multipart_counts( filesize( $path ), 50 * 1024 * 1024 );
 // http://docs.aws.amazon.com/AWSSDKforPHP/latest/#m=AmazonS3/initiate_multipart_upload
 			$upload = $s3->initiate_multipart_upload(
 				$nfo['Bucket'],
-				trailingslashit($nfo['Prefix']) . basename($path),
+				trailingslashit( $nfo['Prefix'] ) . basename( $path ),
 				array(
 					'acl' => 'private',
 					'encryption' => 'AES256',
 				)
 			);
-			$upload_id = (string)$upload->body->UploadId;
-			foreach ($parts as $idx => $part) {
+			$upload_id = (string) $upload->body->UploadId;
+			foreach ( $parts as $idx => $part ) {
 				$part['done'] = false;
 				$part['upload_id'] = $upload_id;
-				$parts[$idx] = $part;
+				$parts[ $idx ] = $part;
 			}
-			add_site_option($key, $parts);
+			add_site_option( $key, $parts );
 		}
 
 		return $parts;
@@ -337,40 +446,46 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return bool
 	 */
-	public function finalize_upload ($upload_id, $path) {
-		if (empty($upload_id) || empty($path)) return false;
-		if (!Snapshot_Model_Full_Remote_Api::get()->connect()) return false;
+	public function finalize_upload( $upload_id, $path ) {
+		if ( empty( $upload_id ) || empty( $path ) ) {
+			return false;
+		}
+		if ( ! Snapshot_Model_Full_Remote_Api::get()->connect() ) {
+			return false;
+		}
 
-		$key = md5($path);
+		$key = md5( $path );
 
 		$s3 = $this->get_remote_storage_handler();
 		$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
-		if (empty($nfo)) return false;
+		if ( empty( $nfo ) ) {
+			return false;
+		}
 
 // http://docs.aws.amazon.com/AWSSDKforPHP/latest/index.html#m=AmazonS3/list_parts
 		$parts = $s3->list_parts(
 			$nfo['Bucket'],
-			trailingslashit($nfo['Prefix']) . basename($path),
+			trailingslashit( $nfo['Prefix'] ) . basename( $path ),
 			$upload_id
 		);
 // http://docs.aws.amazon.com/AWSSDKforPHP/latest/#m=AmazonS3/complete_multipart_upload
 		$complete = $s3->complete_multipart_upload(
 			$nfo['Bucket'],
-			trailingslashit($nfo['Prefix']) . basename($path),
+			trailingslashit( $nfo['Prefix'] ) . basename( $path ),
 			$upload_id,
 			$parts
 		);
 
-		if ($complete->isOk()) {
-			delete_site_option($key); // Clean up the temp storage
+		if ( $complete->isOk() ) {
+			delete_site_option( $key ); // Clean up the temp storage
 
 			// Drop the local file!
-			@unlink($path);
+			@unlink( $path );
 
 			// Delete cache
-			Snapshot_Model_Transient::delete($this->get_filter("backups"));
+			Snapshot_Model_Transient::delete( $this->get_filter( "backups" ) );
 
-			Snapshot_Helper_Log::info("File successfully uploaded", "Remote");
+			Snapshot_Helper_Log::info( "File successfully uploaded", "Remote" );
 			return true;
 		}
 
@@ -386,117 +501,145 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return bool
 	 */
-	public function send_backup_file ($path) {
-		if (!file_exists($path)) return false;
-		if (!Snapshot_Model_Full_Remote_Api::get()->connect()) return false;
+	public function send_backup_file( $path ) {
+		if ( ! file_exists( $path ) ) {
+			return false;
+		}
+		if ( ! Snapshot_Model_Full_Remote_Api::get()->connect() ) {
+			return false;
+		}
 
-		if (!$this->has_enough_space_for($path)) {
-			Snapshot_Helper_Log::info("Not enough space for upload, cleaning up", "Remote");
+		if ( ! $this->has_enough_space_for( $path ) ) {
+			Snapshot_Helper_Log::info( "Not enough space for upload, attempting cleanup", "Remote" );
+
+			// First up, are we out of space?
+			if ( $this->is_out_of_space() ) {
+				Snapshot_Helper_Log::warn( "Out of remote space, currently used storage over quota. Aborting upload", "Remote" );
+
+				// Also clean up API info cache and force re-sync
+				Snapshot_Model_Full_Remote_Api::get()->clean_up_api();
+				Snapshot_Model_Full_Remote_Api::get()->connect();
+
+				return true; // Error condition, stop right here
+			}
+
 			// Quick sanity check - will we have enough room after rotation?
-			$filesize = filesize($path);
-			$total = (float)$this->get_total_remote_space(); // Cast to int, as it can return false
+			$filesize = filesize( $path );
+			$total = (float) $this->get_total_remote_space(); // Cast to int, as it can return false
 
-			if ($filesize > $total) {
-				$this->_set_error(__('Backup too large for storage quota.', SNAPSHOT_I18N_DOMAIN));
-				Snapshot_Helper_Log::warn("Backup too large for storage quota", "Remote");
+			if ( $filesize > $total ) {
+				$this->_set_error( __( 'Backup too large for storage quota.', SNAPSHOT_I18N_DOMAIN ) );
+				Snapshot_Helper_Log::warn( "Backup too large for storage quota", "Remote" );
 				return false; // We don't have enough room to store this anyway
 			}
 
-			$status = $this->rotate_backups($path);
+			$status = $this->rotate_backups( $path );
 			return $status
 				? false // Not done in this pass
 				: true // We had an error, clean up and rely on error set in removal
-			;
+				;
 		}
 
-		$parts = $this->get_upload_parts($path);
-		$key = md5($path);
+		$parts = $this->get_upload_parts( $path );
+		$key = md5( $path );
 		$upload_id = false;
 
-		$part_keys = array_keys($parts);
-		$last_key = end($part_keys);
+		$part_keys = array_keys( $parts );
+		$last_key = end( $part_keys );
 
 		// Determine if we're continuing this upload,
 		// or sending the fresh one
 		$is_continued_upload = false;
-		if (!(defined('SNAPSHOT_FORCE_CONTINUATION_PURGE') && SNAPSHOT_FORCE_CONTINUATION_PURGE)) {
-			foreach ($parts as $part) {
-				if (empty($part['done'])) continue;
+		if ( ! ( defined( 'SNAPSHOT_FORCE_CONTINUATION_PURGE' ) && SNAPSHOT_FORCE_CONTINUATION_PURGE ) ) {
+			foreach ( $parts as $part ) {
+				if ( empty( $part['done'] ) ) {
+					continue;
+				}
 				$is_continued_upload = true;
 				break;
 			}
 		}
 
-		if (!$is_continued_upload) {
+		if ( ! $is_continued_upload ) {
 			// Fresh one. Check backups rotation first.
 			// We *do* seem to have enough space, *but* do we also have 3+ backups?
 			// If we do, we need to clean them up
-			Snapshot_Helper_Log::info('Checking space/backups kept requirements', 'Remote');
+			Snapshot_Helper_Log::info( 'Checking space/backups kept requirements', 'Remote' );
 
 			// We work with cache, because it's quicker
-			$backups = Snapshot_Model_Transient::get_any($this->get_filter("backups"), false);
-			if (false === $backups) {
+			$backups = Snapshot_Model_Transient::get_any( $this->get_filter( "backups" ), false );
+			if ( false === $backups ) {
 				// So apparently cache has been purged recently, let's rebuild
-				Snapshot_Helper_Log::info('No cached backups to count and rotate, requesting fresh list', 'Remote');
+				Snapshot_Helper_Log::info( 'No cached backups to count and rotate, requesting fresh list', 'Remote' );
 				$this->refresh_backups_list();
-				$backups = Snapshot_Model_Transient::get_any($this->get_filter("backups"), false);
+				$backups = Snapshot_Model_Transient::get_any( $this->get_filter( "backups" ), false );
 			}
-			if (!empty($backups) && is_array($backups) && count($backups) >= $this->get_max_backups_limit()) {
-				Snapshot_Helper_Log::info("More than upper limit backups (" .
-					count($backups) . '/' . $this->get_max_backups_limit() .
-				"), removing some", "Remote");
-				$status = $this->rotate_backups($path);
+			if ( ! empty( $backups ) && is_array( $backups ) && count( $backups ) >= $this->get_max_backups_limit() ) {
+				Snapshot_Helper_Log::info( "More than upper limit backups (" .
+				                           count( $backups ) . '/' . $this->get_max_backups_limit() .
+				                           "), removing some", "Remote" );
+				$status = $this->rotate_backups( $path );
 				return $status
 					? false // Not done in this pass
 					: true // We had an error, clean up and rely on error set in removal
-				;
+					;
 			} else {
-				if (empty($backups) && is_array($backups)) Snapshot_Helper_Log::info('Apparently no remote backups, no need to rotate', 'Remote');
-				else if (empty($backups) && !is_array($backups)) Snapshot_Helper_Log::info('Skip rotate, cache needs update', 'Remote');
-				else if (!empty($backups)) Snapshot_Helper_Log::info(sprintf('Skip rotate, backups count in check: %d', count($backups)), 'Remote');
+				if ( empty( $backups ) && is_array( $backups ) ) {
+					Snapshot_Helper_Log::info( 'Apparently no remote backups, no need to rotate', 'Remote' );
+				} else if ( empty( $backups ) && ! is_array( $backups ) ) {
+					Snapshot_Helper_Log::info( 'Skip rotate, cache needs update', 'Remote' );
+				} else if ( ! empty( $backups ) ) {
+					Snapshot_Helper_Log::info( sprintf( 'Skip rotate, backups count in check: %d', count( $backups ) ), 'Remote' );
+				}
 			}
-		} else Snapshot_Helper_Log::info('A continued upload, we will not be re-rotating', 'Remote');
+		} else {
+			Snapshot_Helper_Log::info( 'A continued upload, we will not be re-rotating', 'Remote' );
+		}
 
 		$s3 = $this->get_remote_storage_handler();
 		$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 		$is_done = true;
 
-		Snapshot_Helper_Log::info("Ready to send file", "Remote");
+		Snapshot_Helper_Log::info( "Ready to send file", "Remote" );
 
-		foreach ($parts as $idx => $part) {
+		foreach ( $parts as $idx => $part ) {
 			$upload_id = $part['upload_id'];
-			if (!empty($part['done'])) continue;
+			if ( ! empty( $part['done'] ) ) {
+				continue;
+			}
 			// We have a part to upload
 			$is_done = false;
 			try {
 // http://docs.aws.amazon.com/AWSSDKforPHP/latest/#m=AmazonS3/upload_part
-				$response = $s3->upload_part($nfo['Bucket'], trailingslashit($nfo['Prefix']) . basename($path), $upload_id, array(
+				$response = $s3->upload_part( $nfo['Bucket'], trailingslashit( $nfo['Prefix'] ) . basename( $path ), $upload_id, array(
 					'expect' => '100-continue',
 					'fileUpload' => $path,
-					'partNumber' => $idx+1,
+					'partNumber' => $idx + 1,
 					'seekTo' => $part['seekTo'],
-					'length' => $part['length']
-				));
+					'length' => $part['length'],
+				) );
 				$part['done'] = $response->isOk();
-				$parts[$idx] = $part;
-				update_site_option($key, $parts);
+				$parts[ $idx ] = $part;
+				update_site_option( $key, $parts );
 
-				if ($idx === $last_key) $is_done = true; // If this is the last one, let's process right away
+				if ( $idx === $last_key ) {
+					$is_done = true;
+				} // If this is the last one, let's process right away
 
 				break;
-			} catch (Exception $e) {
+			} catch ( Exception $e ) {
 				Snapshot_Model_Full_Remote_Api::get()->clean_up_api();
-				Snapshot_Helper_Log::warn("Error uploading the file, part [{$idx}]", "Remote");
+				Snapshot_Helper_Log::warn( "Error uploading the file, part [{$idx}]", "Remote" );
 				break;
 			}
 		}
 
-		if ($is_done) {
-			if (!empty($upload_id)) {
-				return $this->finalize_upload($upload_id, $path);
+		if ( $is_done ) {
+			if ( ! empty( $upload_id ) ) {
+				return $this->finalize_upload( $upload_id, $path );
 			} else {
-				$this->_set_error(__('Unable to finalize the upload.', SNAPSHOT_I18N_DOMAIN));
-				Snapshot_Helper_Log::warn("Unable to finalize the upload", "Remote");
+				$this->_set_error( __( 'Unable to finalize the upload.', SNAPSHOT_I18N_DOMAIN ) );
+				Snapshot_Helper_Log::warn( "Unable to finalize the upload", "Remote" );
 				return false;
 			}
 		}
@@ -511,43 +654,49 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return string Local path
 	 */
-	public function fetch_backup_file ($backup) {
-		if (empty($backup)) return false;
+	public function fetch_backup_file( $backup ) {
+		if ( empty( $backup ) ) {
+			return false;
+		}
 
 
 		$destination = false;
 		$lock = new Snapshot_Helper_Locker(
-			WPMUDEVSnapshot::instance()->get_setting('backupLockFolderFull'),
-			Snapshot_Helper_String::conceal($backup)
+			WPMUDEVSnapshot::instance()->get_setting( 'backupLockFolderFull' ),
+			Snapshot_Helper_String::conceal( $backup )
 		);
-		$local_path = trailingslashit(wp_normalize_path(WPMUDEVSnapshot::instance()->get_setting('backupRestoreFolderFull')));
+		$local_path = trailingslashit( wp_normalize_path( WPMUDEVSnapshot::instance()->get_setting( 'backupRestoreFolderFull' ) ) );
 
-		if ($lock->is_locked()) {
-			if (Snapshot_Model_Full_Remote_Api::get()->connect()) {
-				Snapshot_Helper_Log::info("Starting remote backup file download", 'Remote');
+		if ( $lock->is_locked() ) {
+			if ( Snapshot_Model_Full_Remote_Api::get()->connect() ) {
+				Snapshot_Helper_Log::info( "Starting remote backup file download", 'Remote' );
 
-				$destination = $local_path . basename($backup);
+				$destination = $local_path . basename( $backup );
 				$s3 = $this->get_remote_storage_handler();
 				$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 
 // http://docs.aws.amazon.com/AWSSDKforPHP/latest/#m=AmazonS3/get_object
 				$resp = $s3->get_object(
 					$nfo['Bucket'],
-					trailingslashit($nfo['Prefix']) . $backup,
+					trailingslashit( $nfo['Prefix'] ) . $backup,
 					array(
-						'fileDownload' => $destination
+						'fileDownload' => $destination,
 					)
 				);
-				if (!$resp->isOk()) {
-					$this->_set_error(__('Error fetching file', SNAPSHOT_I18N_DOMAIN));
-					Snapshot_Helper_Log::warn("Error fetching file", "Remote");
+				if ( ! $resp->isOk() ) {
+					$this->_set_error( __( 'Error fetching file', SNAPSHOT_I18N_DOMAIN ) );
+					Snapshot_Helper_Log::warn( "Error fetching file", "Remote" );
 					return false; // Error fetching the file
-				} else Snapshot_Helper_Log::info("Remote backup file successfully downloaded", 'Remote');
+				} else {
+					Snapshot_Helper_Log::info( "Remote backup file successfully downloaded", 'Remote' );
+				}
 			}
 
 			$lock->unlock();
-			unset($lock); // Clear lock
-		} else Snapshot_Helper_Log::warn("Unable to obtain lock on downloaded remote backup", 'Remote');
+			unset( $lock ); // Clear lock
+		} else {
+			Snapshot_Helper_Log::warn( "Unable to obtain lock on downloaded remote backup", 'Remote' );
+		}
 
 		return $destination;
 	}
@@ -559,18 +708,20 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return string Remote storage link or (bool)false on failure
 	 */
-	public function get_backup_link ($backup) {
-		if (empty($backup)) return false;
+	public function get_backup_link( $backup ) {
+		if ( empty( $backup ) ) {
+			return false;
+		}
 
 		$destination = false;
-		if (Snapshot_Model_Full_Remote_Api::get()->connect()) {
+		if ( Snapshot_Model_Full_Remote_Api::get()->connect() ) {
 			$s3 = $this->get_remote_storage_handler();
 			$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 
 //http://docs.aws.amazon.com/AWSSDKforPHP/latest/#m=AmazonS3/get_object_url
 			$resp = $s3->get_object_url(
 				$nfo['Bucket'],
-				trailingslashit($nfo['Prefix']) . $backup,
+				trailingslashit( $nfo['Prefix'] ) . $backup,
 				'+1 hours',
 				array(
 					'https' => true,
@@ -589,25 +740,27 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return bool
 	 */
-	public function delete_remote_file ($remote_file) {
+	public function delete_remote_file( $remote_file ) {
 		$status = false;
-		$remote_file = basename($remote_file);
+		$remote_file = basename( $remote_file );
 
-		if (empty($remote_file)) return $status;
+		if ( empty( $remote_file ) ) {
+			return $status;
+		}
 
-		if (Snapshot_Model_Full_Remote_Api::get()->connect()) {
+		if ( Snapshot_Model_Full_Remote_Api::get()->connect() ) {
 			$s3 = $this->get_remote_storage_handler();
 			$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 
 			$resp = $s3->delete_object(
 				$nfo['Bucket'],
-				trailingslashit($nfo['Prefix']) . $remote_file
+				trailingslashit( $nfo['Prefix'] ) . $remote_file
 			);
 
 			$status = $resp->isOk();
-			if (empty($status)) {
-				$this->_set_error(sprintf(__('Error deleting file: %s', SNAPSHOT_I18N_DOMAIN), $remote_file));
-				Snapshot_Helper_Log::warn("Error deleting remote file: [{$remote_file}]", "Remote");
+			if ( empty( $status ) ) {
+				$this->_set_error( sprintf( __( 'Error deleting file: %s', SNAPSHOT_I18N_DOMAIN ), $remote_file ) );
+				Snapshot_Helper_Log::warn( "Error deleting remote file: [{$remote_file}]", "Remote" );
 			}
 		}
 
@@ -621,56 +774,62 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return array
 	 */
-	public function get_remote_list () {
+	public function get_remote_list() {
 		$raw = array();
-		$error = Snapshot_View_Full_Backup::get_message('backup_list_fetch_error');
+		$error = Snapshot_View_Full_Backup::get_message( 'backup_list_fetch_error' );
 
 		$s3 = $this->get_remote_storage_handler();
 		$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 
-		if ($s3) {
+		if ( $s3 ) {
 			try {
-	// http://docs.aws.amazon.com/AWSSDKforPHP/latest/index.html#m=AmazonS3/list_objects
+				// http://docs.aws.amazon.com/AWSSDKforPHP/latest/index.html#m=AmazonS3/list_objects
 				$resp = $s3->list_objects(
 					$nfo['Bucket'],
 					array(
-						'prefix' => $nfo['Prefix']
+						'prefix' => $nfo['Prefix'],
 					)
 				);
-				if ($resp->isOk()) {
+				if ( $resp->isOk() ) {
 					// Process the response and get the raw objects info
-					foreach ($resp->body->Contents as $item) {
-						$key = (string)$item->Key;
-						if (empty($key)) continue;
+					foreach ( $resp->body->Contents as $item ) {
+						$key = (string) $item->Key;
+						if ( empty( $key ) ) {
+							continue;
+						}
 						$raw[] = array(
-							'name' => basename($key),
-							'size' => (int)$item->Size,
+							'name' => basename( $key ),
+							'size' => (int) $item->Size,
 						);
 					}
 				} else {
-					$this->_set_error($error);
-					Snapshot_Helper_Log::warn("Remote list fetching error", "Remote");
+					$this->_set_error( $error );
+					Snapshot_Helper_Log::warn( "Remote list fetching error", "Remote" );
 				}
-			} catch (Exception $e) {
+			} catch ( Exception $e ) {
 				Snapshot_Model_Full_Remote_Api::get()->clean_up_api();
-				$this->_set_error($error);
-				Snapshot_Helper_Log::warn("Remote list fetching error, storage exception", "Remote");
+				$this->_set_error( $error );
+				Snapshot_Helper_Log::warn( "Remote list fetching error, storage exception", "Remote" );
 			}
 		}
 
 		// Okay, so even if we errored out, proceed to filter whatever we have left
 		$raw = apply_filters(
-			$this->get_filter("backups-get"),
+			$this->get_filter( "backups-get" ),
 			$raw
 		);
 
 		// Okay, so suppose all we get is a list of file names. Let's parse them into something reasonable
 		$backups = array();
-		foreach ($raw as $file_info) {
-			if (empty($file_info['name']) || empty($file_info['size'])) continue;
-			$time = $this->_get_file_timestamp_from_name($file_info['name']);
+		foreach ( $raw as $file_info ) {
+			if ( empty( $file_info['name'] ) || empty( $file_info['size'] ) ) {
+				continue;
+			}
+			$time = $this->_get_file_timestamp_from_name( $file_info['name'] );
 
-			if (empty($time)) continue;
+			if ( empty( $time ) ) {
+				continue;
+			}
 			$backups[] = array(
 				'name' => $file_info['name'],
 				'size' => $file_info['size'],
@@ -687,21 +846,21 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return bool
 	 */
-	public function refresh_backups_list () {
+	public function refresh_backups_list() {
 		$backups = array();
 
 		// Connect to API and get the list
-		if (Snapshot_Model_Full_Remote_Api::get()->connect()) {
+		if ( Snapshot_Model_Full_Remote_Api::get()->connect() ) {
 			$backups = $this->get_remote_list();
 		}
 
 		$backups = apply_filters(
-			$this->get_filter("backups-refresh"),
+			$this->get_filter( "backups-refresh" ),
 			$backups // API-obtained backup list
 		);
 
 		return Snapshot_Model_Transient::set(
-			$this->get_filter("backups"),
+			$this->get_filter( "backups" ),
 			$backups,
 			$this->get_cache_expiration()
 		);
@@ -714,9 +873,9 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return int Number of seconds to keep cache around
 	 */
-	public function get_cache_expiration () {
+	public function get_cache_expiration() {
 		return apply_filters(
-			$this->get_filter('cache_expiration'),
+			$this->get_filter( 'cache_expiration' ),
 			self::CACHE_EXPIRATION
 		);
 	}

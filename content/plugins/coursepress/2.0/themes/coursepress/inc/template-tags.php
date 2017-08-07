@@ -341,12 +341,12 @@ if ( ! function_exists( 'coursepress_categorized_blog' ) ) :
 	 */
 	function coursepress_categorized_blog() {
 		$all_the_cool_cats = get_categories(
-			array( 'hide_empty' => 1 )
+			array( 'hide_empty' => 1, 'taxonomy' => 'course_category' )
 		);
 
 		$all_the_cool_cats = count( $all_the_cool_cats );
 
-		if ( '1' != $all_the_cool_cats ) {
+		if ( $all_the_cool_cats > 0 ) {
 			// This blog has more than 1 category so coursepress_categorized_blog should return true.
 			return true;
 		}

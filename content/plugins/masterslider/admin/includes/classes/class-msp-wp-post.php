@@ -196,8 +196,8 @@ class MSP_WP_Post {
 		$tax_term_archive = array();
 
 		foreach ( $taxs_term_ids as $tax_id ) {
-			$the_tax_term_obj = $this->get_taxonomy_by_id( $tax_id );
-			$tax_term_archive[ $the_tax_term_obj->taxonomy ][] = $the_tax_term_obj->term_id;
+			if( $the_tax_term_obj = $this->get_taxonomy_by_id( $tax_id ) )
+    			$tax_term_archive[ $the_tax_term_obj->taxonomy ][] = $the_tax_term_obj->term_id;
 		}
 
 		// generate tax_query

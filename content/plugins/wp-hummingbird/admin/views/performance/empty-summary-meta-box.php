@@ -8,8 +8,11 @@
 			     alt="<?php esc_attr_e( "Let's see what we can improve!", 'wphb' ); ?>">
 
 			<p><?php _e( 'For us to know what to improve we need to test your website. All testing is done in the background via our <br> secure servers. Once complete, we\'ll give you a list of things to improve, and how to do it.', 'wphb' ); ?></p>
-			<a href="#run-performance-test-modal" class="button button-large" id="run-performance-test" rel="dialog"><?php _e( 'Test my website', 'wphb' ); ?></a>
-
+			<div class="buttons">
+				<a href="#run-performance-test-modal" class="button button-large" id="run-performance-test">
+					<?php esc_html_e( 'Test my website', 'wphb' ); ?>
+				</a>
+			</div>
 		</div><!-- end content -->
 
 	</div><!-- end wphb-block-entry-content -->
@@ -18,10 +21,10 @@
 
 <?php wphb_check_performance_modal(); ?>
 
-<?php if ( $doing_report ): // Show the progress bar if we are still checking files ?>
+<?php if ( $doing_report ) : // Show the progress bar if we are still checking files. ?>
 	<script>
-		jQuery( document).ready( function() {
-			var module = WPHB_Admin.getModule( 'performance' );
+		jQuery(document).ready( function() {
+			window.WPHB_Admin.getModule( 'performance' );
 			jQuery('#run-performance-test').trigger('click');
 		});
 	</script>
