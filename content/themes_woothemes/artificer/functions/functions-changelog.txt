@@ -1,5 +1,18 @@
 *** WooThemes Framework Changelog ***
 
+2017.06.14 - version 6.2.9
+ * Fix - Add https as default protocol for the Facebook like button
+   admin-shortcodes.php
+ * Fix - Switched Pinterest, StumbleUpon, LinkedIn and Twitter to https.
+   admin-shortcodes.php
+ * Fix - Remove hardcoded video dimensions.
+   admin-functions.php
+ * Deprecated - Deprecated TweetMeme and Digg shortcodes.
+   admin-shortcodes.php,
+   deprecated.php,
+   js/shortcode-generator/editor_plugin.js,
+   js/shortcode-generator/editor_plugin_39.js
+
 2016.08.17 - version 6.2.8
  * Fix - Fix for certain hosting providers compatibility. Archive pagination caused 502 errors.
    admin-functions.php

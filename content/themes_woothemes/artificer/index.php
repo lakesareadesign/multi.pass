@@ -83,7 +83,12 @@
 					</a>
 
 				</li><?php endwhile; ?><!-- the last 3 --><?php
-		$args = array( 'post_type' => 'product', 'posts_per_page' => 3, 'offset' => 4, 'meta_query' => array( array('key' => '_visibility','value' => array('catalog', 'visible'),'compare' => 'IN'),array('key' => '_featured','value' => 'yes')) );
+		$wc_featured_product_ids = wc_get_featured_product_ids();
+    	$args = array( 	'post_type' 		=> 'product',
+						'posts_per_page' 	=> 3,
+						'offset' => 4,
+						'post__in'			=> $wc_featured_product_ids
+						);
 		$loop = new WP_Query( $args );
 		while ( $loop->have_posts() ) : $loop->the_post(); $_product;
 		if ( function_exists( 'get_product' ) ) {

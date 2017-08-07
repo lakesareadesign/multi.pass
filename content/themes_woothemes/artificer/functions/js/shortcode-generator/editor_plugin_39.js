@@ -71,8 +71,6 @@
                 	{text: 'Social Profile Icon', onclick: function() { editor.execCommand( 'woo_open_dialog', false, 'social_icon', { title: 'Social Profile Icon' } ); } },
                 	{text: 'Twitter', onclick: function() { editor.execCommand( 'woo_open_dialog', false, 'twitter', { title: 'Twitter' } ); } },
                 	{text: 'Twitter Follow Button', onclick: function() { editor.execCommand( 'woo_open_dialog', false, 'twitter_follow', { title: 'Twitter Follow Button' } ); } },
-                	{text: 'Tweetmeme', onclick: function() { editor.execCommand( 'woo_open_dialog', false, 'tweetmeme', { title: 'Tweetmeme' } ); } },
-                	{text: 'Digg', onclick: function() { editor.execCommand( 'woo_open_dialog', false, 'digg', { title: 'Digg' } ); } },
                 	{text: 'Like on Facebook', onclick: function() { editor.execCommand( 'woo_open_dialog', false, 'fblike', { title: 'Like on Facebook' } ); } },
                 	{text: 'Share on Facebook', onclick: function() { editor.execCommand( 'woo_open_dialog', false, 'fbshare', { title: 'Share on Facebook' } ); } },
                 	{text: 'Share on LinkedIn', onclick: function() { editor.execCommand( 'woo_open_dialog', false, 'linkedin_share', { title: 'Share on LinkedIn' } ); } },

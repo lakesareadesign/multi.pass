@@ -1,7 +1,14 @@
 *** Artificer Changelog ***
 
+2017.06.23 - version 1.3.22
+* Fix - Fix homepage featured products query.
+  index.php 
+* Fix - Remove scribble image.
+  style.css,
+  styles/*.css
+
 2017.06.01 - version 1.3.21
-* Fix - updates add_to_cart_fragments hook to the latest woocommerce_add_to_cart_fragments
+* Fix - updates add_to_cart_fragments hook to the latest woocommerce_add_to_cart_fragments.
   includes/theme-woocommerce.php
 
 2017.05.25 - version 1.3.20

@@ -24,7 +24,7 @@ class Upfront_Button_Presets_Server extends Upfront_Presets_Server {
 	public static function serve () {
 		self::$instance = new self;
 		self::$instance->_add_hooks();
-		add_filter( 'get_element_preset_styles', array(self::$instance, 'get_preset_styles_filter')) ;
+		add_filter( 'get_element_preset_styles', array(self::$instance, 'get_preset_styles_filter')) ;	     	 		 		  	 		 	
 	}
 
 	public static function get_instance() {
@@ -45,7 +45,7 @@ class Upfront_Button_Presets_Server extends Upfront_Presets_Server {
 	}
 
 	public function get_presets() {
-		$presets = json_decode(get_option($this->db_key, '[]'), true);
+		$presets = json_decode(Upfront_Cache_Utils::get_option($this->db_key, '[]'), true);
 
 		$presets = apply_filters(
 			'upfront_get_' . $this->elementName . '_presets',

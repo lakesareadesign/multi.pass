@@ -396,47 +396,12 @@ function _dep_woo_shortcode_related_posts( $atts ) { trigger_error( sprintf( __(
 /*-----------------------------------------------------------------------------------*/
 /* 5. Tweetmeme button - tweetmeme
 /*-----------------------------------------------------------------------------------*/
+
 /*
 
-Source: http://help.tweetmeme.com/2009/04/06/tweetmeme-button/
-
-Optional arguments:
- - link: specify URL directly
- - style: compact
- - source: username
- - float: none, left, right (default: left)
+Moved to deprecated.php
 
 */
-function woo_shortcode_tweetmeme($atts, $content = null) {
-   	extract(shortcode_atts(array(	'link' => '',
-   									'style' => '',
-   									'source' => '',
-   									'float' => 'left'), $atts));
-	$output = '';
-
-	if ( $link == '' ) {
-		global $post;
-		$link = get_permalink( $post->ID );
-	}
-
-	if ( $link )
-		$output .= "tweetmeme_url = '" . esc_url( $link ) . "';";
-
-	if ( $style )
-		$output .= "tweetmeme_style = 'compact';";
-
-	if ( $source )
-		$output .= "tweetmeme_source = '" . esc_attr( $source ) . "';";
-
-	if ( $link OR $style )
-		$output = '<script type="text/javascript">' . $output . '</script>';
-
-	$output .= '<div class="woo-tweetmeme '. esc_attr( $float ) .'"><script type="text/javascript" src="' . esc_url( 'http://tweetmeme.com/i/scripts/button.js' ) . '"></script></div>';
-	return $output;
-
-} // End woo_shortcode_tweetmeme()
-
-add_shortcode( 'tweetmeme', 'woo_shortcode_tweetmeme' );
 
 /*-----------------------------------------------------------------------------------*/
 /* 6. Twitter button - twitter
@@ -500,7 +465,7 @@ function woo_shortcode_twitter($atts, $content = null) {
 		$output .= ' data-url="' . get_permalink( $post->ID ) . '"';
 	}
 
-	$output = '<div class="woo-sc-twitter ' . esc_attr( $float ) . '"><a href="' . esc_url( 'http://twitter.com/share' ) . '" class="twitter-share-button"'. $output .'>' . __( 'Tweet', 'woothemes' ) . '</a><script type="text/javascript" src="' . esc_url ( 'http://platform.twitter.com/widgets.js' ) . '"></script></div>';
+	$output = '<div class="woo-sc-twitter ' . esc_attr( $float ) . '"><a href="' . esc_url( 'http://twitter.com/share' ) . '" class="twitter-share-button"'. $output .'>' . __( 'Tweet', 'woothemes' ) . '</a><script type="text/javascript" src="' . esc_url ( 'https://platform.twitter.com/widgets.js' ) . '"></script></div>';
 	return $output;
 
 } // End woo_shortcode_twitter()
@@ -510,63 +475,12 @@ add_shortcode( 'twitter', 'woo_shortcode_twitter' );
 /*-----------------------------------------------------------------------------------*/
 /* 7. Digg Button - digg
 /*-----------------------------------------------------------------------------------*/
+
 /*
 
-Source: http://about.digg.com/button
+Moved to deprecated.php
 
-Optional arguments:
- - link: specify URL directly
- - title: specify a title (must add link also)
- - style: medium, large, compact, icon (default: medium)
- - float: none, left, right (default: left)
 */
-function woo_shortcode_digg($atts, $content = null) {
-   	extract(shortcode_atts(array(	'link' => '',
-   									'title' => '',
-   									'style' => 'medium',
-   									'float' => 'left' ), $atts));
-	$output = "
-	<script type=\"text/javascript\">
-	(function() {
-	var s = document.createElement( 'SCRIPT'), s1 = document.getElementsByTagName( 'SCRIPT')[0];
-	s.type = 'text/javascript';
-	s.async = true;
-	s.src = 'http://widgets.digg.com/buttons.js';
-	s1.parentNode.insertBefore(s, s1);
-	})();
-	</script>
-	";
-
-	// Add custom URL
-	if ( $link ) {
-		// Add custom title
-		if ( $title )
-			$title = '&amp;title=' . $title;
-
-		$link = ' href="' . esc_url( 'http://digg.com/submit?url='. $link . $title ) . '"';
-	}
-
-	if ( $link == '' ) {
-		global $post;
-		$link = get_permalink( $post->ID );
-	}
-
-	if ( $style == "large" )
-		$style = "Large";
-	elseif ( $style == "compact" )
-		$style = "Compact";
-	elseif ( $style == "icon" )
-		$style = "Icon";
-	else
-		$style = "Medium";
-
-	$output .= '<div class="woo-digg ' . esc_attr( $float ) . '"><a class="DiggThisButton Digg' . esc_attr( $style ) . '"' . esc_url( $link ) . '></a></div>';
-	return $output;
-
-} // End woo_shortcode_digg()
-
-add_shortcode( 'digg', 'woo_shortcode_digg' );
-
 
 /*-----------------------------------------------------------------------------------*/
 /* 8. Facebook Like Button - fblike
@@ -638,7 +552,7 @@ function woo_shortcode_fblike($atts, $content = null) {
 		break;
 	}
 
-	$src_url = 'http://www.facebook.com/plugins/like.php?href=' . esc_url( $url ) . '&amp;layout=' . urlencode( $style ) . '&amp;show_faces=' . urlencode( $showfaces ) . '&amp;width=' . urlencode( $width ) . '&amp;action=' . urlencode( $verb ) . '&amp;colorscheme=' . urlencode( $colorscheme ) . '&amp;font=' . urlencode( $font ) . '&locale=' . urlencode( $locale ) . '';
+	$src_url = 'https://www.facebook.com/plugins/like.php?href=' . esc_url( $url ) . '&amp;layout=' . urlencode( $style ) . '&amp;show_faces=' . urlencode( $showfaces ) . '&amp;width=' . urlencode( $width ) . '&amp;action=' . urlencode( $verb ) . '&amp;colorscheme=' . urlencode( $colorscheme ) . '&amp;font=' . urlencode( $font ) . '&locale=' . urlencode( $locale ) . '';
 	$output = '
 <div class="woo-fblike ' . esc_attr( $float ) . '">
 <iframe src="' . esc_url( $src_url ) . '" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:' . esc_attr( $widthpx ) . '; height:' . esc_attr( $height ) . 'px;"></iframe>
@@ -2027,7 +1941,7 @@ add_shortcode( 'linkedin_share', 'woo_shortcode_linkedin_share' );
 /*-----------------------------------------------------------------------------------*/
 
 function woo_shortcode_linkedin_js () {
-	echo '<script src="http://platform.linkedin.com/in.js" type="text/javascript"></script>' . "\n";
+	echo '<script src="https://platform.linkedin.com/in.js" type="text/javascript"></script>' . "\n";
 } // End woo_shortcode_linkedin_js()
 
 /*-----------------------------------------------------------------------------------*/
@@ -2276,7 +2190,7 @@ function woo_shortcode_stumbleupon ( $atts, $content = null ) {
 		$url_call = '&r=' . esc_url( get_permalink( $post ) );
 	}
 
-	$output = apply_filters( 'woo_shortcode_stumbleupon', '<div class="shortcode-stumbleupon' . esc_attr( $allowed_floats[$float] ) . '"><script src="' . esc_url( 'http://www.stumbleupon.com/hostedbadge.php?s=' . $allowed_designs[$design] . $url_call ) . '"></script></div><!--/.shortcode-stumbleupon-->' . "\n", $atts );
+	$output = apply_filters( 'woo_shortcode_stumbleupon', '<div class="shortcode-stumbleupon' . esc_attr( $allowed_floats[$float] ) . '"><script src="' . esc_url( 'https://www.stumbleupon.com/hostedbadge.php?s=' . $allowed_designs[$design] . $url_call ) . '"></script></div><!--/.shortcode-stumbleupon-->' . "\n", $atts );
 
 	return $output . "\n";
 } // End woo_shortcode_stumbleupon()
@@ -2353,7 +2267,7 @@ add_shortcode( 'pinterest', 'woo_shortcode_pinterest' );
 /*-----------------------------------------------------------------------------------*/
 
 function woo_shortcode_pinterest_javascript () {
-	echo '<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>' . "\n";
+	echo '<script type="text/javascript" src="https://assets.pinterest.com/js/pinit.js"></script>' . "\n";
 } // End woo_shortcode_pinterest_javascript()
 
 /*-----------------------------------------------------------------------------------*/

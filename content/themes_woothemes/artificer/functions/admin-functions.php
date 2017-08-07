@@ -663,6 +663,7 @@ Parameters:
         $height = Set height manually without using $type
 		$class = Custom class to apply to wrapping div
 		$id = ID from post to pull custom field from
+		$preserve_dimensions = Force original dimensions
 */
 
 if ( ! function_exists( 'woo_embed' ) ) {
@@ -737,30 +738,38 @@ if ( $custom_field ) :
     }
 
     // Custom height check (last minute).
-    if ( 0 >= intval( $width ) ) $width = intval( ( get_post_meta( $id, 'width', true ) ) );
-    if ( 0 >= intval( $height ) ) $height = intval( get_post_meta( $id, 'height', true ) );
+    if ( 0 >= intval( $width ) ) { 
+    	$width = intval( ( get_post_meta( $id, 'width', true ) ) );
+    }
 
-    $atts = array( 'width' => $width, 'height' => $height );
-    $styles = array();
+    if ( 0 >= intval( $height ) ) {
+    	$height = intval( get_post_meta( $id, 'height', true ) );
+    }
+
+	$atts = array( 'width' => $width, 'height' => $height );
+	$styles = array();
 	$styles_string = '';
 
 	if ( 0 < count( $atts ) ) {
 		foreach ( $atts as $k => $v ) {
-			$atts[$k] = $k . '="' . esc_attr( $v ) . '"';
+			$atts[ $k ] = $k . '="' . esc_attr( $v ) . '"';
 			$styles_string .= $k . ':' . intval( $v ) . 'px;';
 		}
+
+		// Makes sure that no dimensions are hardcoded. Allows FitVids to resize.
+		if ( false === $preserve_dimensions ) {
+			$styles_string = '';
+		}	
 	}
 
-	if ( '' != $styles_string ) {
+	if ( '' !== $styles_string ) {
 		$styles_string = ' style="' . $styles_string . '"';
 	}
 
 	$custom_field = stripslashes( $custom_field );
-	if ( true != $preserve_dimensions ) {
-		$custom_field = preg_replace( '/width="([0-9]*)"/' , $atts['width'], $custom_field );
-		$custom_field = preg_replace( '/height="([0-9]*)"/' , $atts['height'], $custom_field );
-		$custom_field = str_replace( ' src="', $styles_string . ' src="', $custom_field );
-	}
+	$custom_field = preg_replace( '/width="([0-9]*)"/' , $atts['width'], $custom_field );
+	$custom_field = preg_replace( '/height="([0-9]*)"/' , $atts['height'], $custom_field );
+	$custom_field = str_replace( ' src="', $styles_string . ' src="', $custom_field );
 
 	// Suckerfish menu hack
 	$custom_field = str_replace( '<embed ', '<param name="wmode" value="transparent"></param><embed wmode="transparent" ', $custom_field );

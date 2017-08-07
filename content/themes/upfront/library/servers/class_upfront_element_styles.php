@@ -317,10 +317,7 @@ class Upfront_ElementStyles extends Upfront_Server {
 	 */
 	private function _get_enqueueing_url ($type, $key) {
 		$url = false;
-		$endpoint = self::TYPE_SCRIPT === $type
-			? 'scripts'
-			: 'styles'
-		;
+		$endpoint = self::get_endpoint_by_type($type);
 		if (Upfront_Behavior::debug()->is_active(Upfront_Debug::DEPENDENCIES)) {
 			$url = admin_url("admin-ajax.php?action=upfront-element-{$endpoint}&key={$key}");
 		} else {
@@ -330,7 +327,15 @@ class Upfront_ElementStyles extends Upfront_Server {
 				$key
 			)));
 		}
-		return $url;
+
+		return apply_filters('upfront-dependencies-enqueueing_url', $url, $type, $key);
+	}
+
+	public static function get_endpoint_by_type ($type) {
+		return self::TYPE_SCRIPT === $type
+			? 'scripts'
+			: 'styles'
+		;
 	}
 
 }

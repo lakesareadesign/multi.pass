@@ -1588,4 +1588,24 @@ function _iscurlinstalled() {
     }
 }
 
+/*-----------------------------------------------------------------------------------*/
+/* Tweetmeme button - tweetmeme
+/*-----------------------------------------------------------------------------------*/
+
+function woo_shortcode_tweetmeme( $atts, $content = null ) {
+    return '';
+} // End woo_shortcode_tweetmeme()
+
+add_shortcode( 'tweetmeme', 'woo_shortcode_tweetmeme' );
+
+/*-----------------------------------------------------------------------------------*/
+/* Digg Button - digg
+/*-----------------------------------------------------------------------------------*/
+
+function woo_shortcode_digg( $atts, $content = null ) {
+    return '';
+} // End woo_shortcode_digg()
+
+add_shortcode( 'digg', 'woo_shortcode_digg' );
+
 ?>

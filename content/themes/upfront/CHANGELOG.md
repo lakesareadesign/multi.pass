@@ -1,6 +1,51 @@
 Change Log
 ============
 
+1.9.1.1 - 2017-07-26
+-------------------------------------------------------------------------------
+- Fix: Setting element padding to 0px in editor defaults to 15px in live
+
+
+1.9.1 - 2017-07-25
+-------------------------------------------------------------------------------
+- Add: Increase upper limit for gallery thumbnail size
+- Fix: Button font color gets reset on opening color picker
+- Fix: YouTube video continues to play when Lightbox is closed
+- Fix: Posts presets are not loading on frontend
+- Fix: Position of Type element dropdown is not correct in Responsive mode sidebar
+- Fix: In Media Info panel Search button is not clickable
+- Fix: Labels and fields are not properly aligned in Global Background Settings
+- Fix: OK button not properly positioned in Region Background Settings
+- Fix: Map controls field is missing options
+- Fix: Slider controls always visible with show on hover selected
+- Fix: Captcha control is not properly aligned in Contact Element Settings
+- Fix: "Cats/Tags" tab is not styled properly in Post Settings
+- Fix: Resizing image loses text from slide in Slider Element
+- Fix: Slides Order thumbnails are not showing in Slider Element Settings
+- Fix: PHP notice gets logged when Post is deleted
+- Fix: Editor does not load when 3rd party script uses asynchronous module definition
+
+1.9 - 2017-07-12
+-------------------------------------------------------------------------------
+- Add: New design for sidebar, element & region settings.
+- Add: New design for Posts / Pages / Comments.
+- Add: Different popup for Builder & Editor.
+- Add: Performance - reduce the number of requests fired by editor (JS/PHP)
+- Add: Better compatibility with Hustle.
+- Add: Better compatibility with Hummingbird.
+- Performance Improvement: Implement more extensive use of object caching.
+- Performance Improvement: Clear markup bloat to speed up visitors’ performance using freeze mode.
+- Performance Improvement: Implement element html caching for loading on boot.
+- Performance Improvement: Implement element html caching for switching layouts in editor.
+- Performance Improvement: Prevent nav element from making multiple requests on any change and on layout load.
+
+- Fix: Posts element multiple Term fields.
+- Fix: Posts element per category not working.
+- Fix: Lightboxes broken on small resolution.
+- Fix: Floating regions cannot be deleted.
+- Fix: Builder does not save changes.
+- Fix: Redactor bold & italic update only part of selection.
+- Fix: Posts element single posts display multiple posts.
 
 1.8.1 - 2017-05-11
 -------------------------------------------------------------------------------

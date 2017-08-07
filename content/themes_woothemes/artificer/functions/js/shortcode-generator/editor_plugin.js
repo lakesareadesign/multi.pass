@@ -112,8 +112,6 @@
 											c.addSeparator();
 											a.addWithDialog(c,"Twitter","twitter" );
 											a.addWithDialog(c,"Twitter Follow Button","twitter_follow" );
-											a.addWithDialog(c,"Tweetmeme","tweetmeme" );
-											a.addWithDialog(c,"Digg","digg" );
 											a.addWithDialog(c,"Like on Facebook","fblike" );
 											a.addWithDialog(c,"Share on Facebook","fbshare" );
 											a.addWithDialog(c,"Share on LinkedIn","linkedin_share" );
