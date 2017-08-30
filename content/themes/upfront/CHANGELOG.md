@@ -1,6 +1,48 @@
 Change Log
 ============
 
+1.9.3 - 2017-08-23
+-------------------------------------------------------------------------------
+- Add: Load video only when user clicks on play in YouTube Element
+- Add: Properly show post content when there is "more" tag in content
+- Fix: Broken archive URL does not resolve to 404 properly
+- Fix: Import images dialog shows when Editor is started
+- Fix: Tabs Element text now saves correctly
+- Fix: Setting YouTube Element display style to list triggers JavaScript error
+- Fix: Code Element does not look the same in Editor and in front-end
+- Fix: Category and Archives widget options are now working properly
+- Fix: Gallery Element resize and Editor quit causes PHP notices to show
+- Fix: Menu Element post type dropdown hidden behind other elements
+- Fix: Contact Element "Name" label is not editable
+- Fix: YouTube Element setting auto play breaks OK button
+
+1.9.2 - 2017-08-16
+-------------------------------------------------------------------------------
+- Fix: YouTube Element adds video on add video control outside click
+- Fix: Accordion Element border options
+- Fix: Post Part Settings - parts are missing
+- Fix: Gallery Element images can get accidentally swapped when editing caption
+- Fix: Posts Element author part cuts off text
+- Fix: Manage Fonts button is not always active
+- Fix: Selecting calendar in Widget Element causes error
+- Fix: Menu Element added to post does not show on front end
+- Fix: Contact Form does not send emails properly in some cases
+- Fix: Map Element map breaks out of element borders
+- Fix: Checkbox is missing in "This is Editor Interface..." dialog
+- Fix: Page Settings radio buttons are cut off
+- Fix: Button Element Settings round corners locked icon is not aligned
+- Fix: Page Settings buttons are misaligned
+- Fix: Contact Form Element is not displaying sender email
+- Fix: Contact Form Element form validation options are not aligned
+- Fix: Media Gallery filter options overlap
+- Fix: Slider Element show controls options are not aligned
+- Fix: Post Settings radio buttons are not aligned
+- Fix: Accordion Element background color not applied properly
+- Fix: Contact Form Element disabling SMTP does not hide related settings
+- Fix: Contact Form Element subject and captcha are not showing until settings are closed
+- Fix: Tab and Accordion Element do not apply preset until they are activated
+- Fix: Menu Element breaks out of narrow regions
+
 1.9.1.1 - 2017-07-26
 -------------------------------------------------------------------------------
 - Fix: Setting element padding to 0px in editor defaults to 15px in live

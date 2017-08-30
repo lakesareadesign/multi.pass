@@ -65,11 +65,13 @@ var UyoutubeView = Upfront.Views.ObjectView.extend({
 
 		var multiple_videos = this.model.get_property_value_by_name('multiple_videos');
 		var video_id = multiple_videos.length > 0 ? multiple_videos[0]['id'] : '';
-		var loop = this.model.get_property_value_by_name('loop').length > 0 ? true : false;
-		var autoplay = this.model.get_property_value_by_name('autoplay').length > 0 ? true : false;
+		var loop = (this.model.get_property_value_by_name('loop') && this.model.get_property_value_by_name('loop').length > 0) ? true : false;
+		var autoplay = (this.model.get_property_value_by_name('autoplay') && this.model.get_property_value_by_name('autoplay').length > 0) ? true : false;
 		// Enable or Disable Looping/Autoplay.
 		props.loop_string = loop ? '&loop=1&playlist=' + video_id : '';
-		props.autoplay_string = autoplay ? '&autoplay=1' : '';
+		// Autoplay should never happen in editor! This is called only in editor
+		// props.autoplay_string = autoplay ? '&autoplay=1' : '';
+		props.autoplay_string = '';
 
 		rendered = this.youtubeTpl(props);
 
@@ -125,7 +127,7 @@ var UyoutubeView = Upfront.Views.ObjectView.extend({
 
 		//Call resize function to match player width with object width
 		me.onResizeStop();
-		
+
 		// wait for the video to be added before showing the settings
 		this.listenTo(Upfront.Events, "upfront:youtube:added:done", function(){
 			me.on_settings_click();
@@ -378,7 +380,9 @@ var BehaviorPanel = RootSettingsPanel.extend({
 					className: 'upfront-small-button',
 					label: l10n.add_video,
 					compact: true,
-					on_click: function(){
+					on_click: function(event) {
+						if (false === $(event.target).is('input')) return;
+
 						me.cloneMultipleVideo();
 					}
 				})
@@ -529,7 +533,7 @@ var YoutubeSettings = ElementSettings.extend({
 
 	initialize: function (options) {
 		this.constructor.__super__.initialize.call(this, options);
-		
+
 		this.listenTo(Upfront.Events, "upfront:youtube:added", this.multipleVideos);
 	},
 
@@ -537,65 +541,70 @@ var YoutubeSettings = ElementSettings.extend({
 		'single': 'upfront_youtube_single'
 	},
 
+	video_data: [],
+
 	multipleVideos: function(event) {
 		var me = this;
-		var multiple_videos_array = [];
-		var videoCounter = 0;
 		var videoFields = this.$el.find('[name^="multiple_source_"]');
 
-		//Get all videos urls
-		videoFields.each(function( index, element ) {
-			var videoUrl = $(element).val();
-			var elementId = index + 1;
-			//Get video settings
-			var videoId;
-			var videoMatch;
-			if(videoUrl) {
-				if (videoUrl.match(/youtu\.be/)) {
-					videoMatch = videoUrl.match(/^(https?:\/\/)?youtu.be\/([0-9a-zA-Z\-_]{11})/);
-					if(videoMatch !== null && videoMatch.length > 0) {
-						videoId = videoMatch[2];
-					} else {
-						Upfront.Views.Editor.notify(l10n.validMessage, 'error');
-					}
-				} else {
-					videoMatch = videoUrl.match(/^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=([0-9a-zA-Z\-_]{11}).*/);
-					if(videoMatch !== null && videoMatch.length > 0) {
-						videoId = videoMatch[3];
-					} else {
-						Upfront.Views.Editor.notify(l10n.validMessage, 'error');
-					}
-				}
-				var data = {'video_id': videoUrl};
+		var changed_index = false;
+		var changed_url = '';
 
-				Upfront.Util.post({"action": me.actions.single, "data": data})
-					.success(function (response) {
-						multiple_videos_array.push({
-							order: elementId,
-							title: response.data.video.title,
-							id: videoId,
-							video_url: videoUrl,
-							thumbnail: response.data.video.thumbnail_url
-						});
-						videoCounter++;
-					})
-					.error(function () {
-						Upfront.Util.log("error single video");
-					})
-					.done(function () {
-						if(videoCounter == videoFields.length) {
-							multiple_videos_array.sort(function(a,b) { return a.order - b.order; });
-							me.for_view.model.set_property('multiple_videos', multiple_videos_array, false);
-							Upfront.Events.trigger("upfront:youtube:added:done");
-						}
-					})
-					;
+		// Find the one that changed
+		var found = false;
+		videoFields.each(function( index, element ) {
+			if (found) return;
+			var videoUrl = $(element).val();
+
+			// Check if this field is changed
+			if (me.video_data[index] && me.video_data[index].video_url === videoUrl) {
+				return;
 			}
-			else {
-				videoCounter++;
-			}
+			changed_index = index;
+			changed_url = videoUrl;
+			found = true;
 		});
+
+		// Get video settings
+		var videoId;
+		var videoMatch;
+		if(!changed_url) return;
+
+		if (changed_url.match(/youtu\.be/)) {
+			videoMatch = changed_url.match(/^(https?:\/\/)?youtu.be\/([0-9a-zA-Z\-_]{11})/);
+			if(videoMatch !== null && videoMatch.length > 0) {
+				videoId = videoMatch[2];
+			} else {
+				Upfront.Views.Editor.notify(l10n.validMessage, 'error');
+			}
+		} else {
+			videoMatch = changed_url.match(/^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=([0-9a-zA-Z\-_]{11}).*/);
+			if(videoMatch !== null && videoMatch.length > 0) {
+				videoId = videoMatch[3];
+			} else {
+				Upfront.Views.Editor.notify(l10n.validMessage, 'error');
+			}
+		}
+		var data = {'video_id': changed_url};
+
+		Upfront.Util.post({"action": me.actions.single, "data": data})
+			.success(function (response) {
+				me.video_data[changed_index] = {
+					order: changed_index + 1,
+					title: response.data.video.title,
+					id: videoId,
+					video_url: changed_url,
+					thumbnail: response.data.video.thumbnail_url
+				};
+				me.for_view.model.set_property('multiple_videos', me.video_data);
+				me.for_view.model.get('properties').trigger('change');
+				Upfront.Events.trigger("upfront:youtube:added:done");
+			})
+			.error(function () {
+				Upfront.Util.log("error single video");
+			});
 	},
+
 	title: l10n.element_settings,
 	get_title: function () {
 		return l10n.element_settings;

@@ -39,36 +39,35 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @access protected
 	 * @return void
 	 */
-	protected function render_content()
-	{
-		switch($this->type) {
+	protected function render_content() {
+		switch ( $this->type ) {
 
 			case 'font':
-			$this->render_font();
+				$this->render_font();
 			break;
 
 			case 'font-weight':
-			$this->render_font_weight();
+				$this->render_font_weight();
 			break;
 
 			case 'code':
-			$this->render_code();
+				$this->render_code();
 			break;
 
 			case 'line':
-			$this->render_line();
+				$this->render_line();
 			break;
 
 			case 'export-import':
-			$this->render_export_import();
+				$this->render_export_import();
 			break;
 
 			case 'slider':
-			$this->render_slider();
+				$this->render_slider();
 			break;
 
 			case 'checkbox-multiple':
-			$this->render_checkbox_multiple();
+				$this->render_checkbox_multiple();
 			break;
 		}
 	}
@@ -80,12 +79,11 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @access protected
 	 * @return void
 	 */
-	protected function render_content_title()
-	{
-		if(!empty($this->label)) {
-			echo '<span class="customize-control-title">' . esc_html($this->label) . '</span>';
+	protected function render_content_title() {
+		if ( ! empty( $this->label ) ) {
+			echo '<span class="customize-control-title">' . esc_html( $this->label ) . '</span>';
 		}
-		if(!empty($this->description)) {
+		if ( ! empty( $this->description ) ) {
 			echo '<span class="description customize-control-description">' . $this->description . '</span>';
 		}
 	}
@@ -97,10 +95,9 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @access protected
 	 * @return void
 	 */
-	protected function render_connect_attribute()
-	{
+	protected function render_connect_attribute() {
 		if ( $this->connect ) {
-			echo ' data-connected-control="'. $this->connect .'"';
+			echo ' data-connected-control="' . $this->connect . '"';
 		}
 	}
 
@@ -111,8 +108,7 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @access protected
 	 * @return void
 	 */
-	protected function render_font()
-	{
+	protected function render_font() {
 		echo '<label>';
 		$this->render_content_title();
 		echo '<select ';
@@ -121,14 +117,14 @@ final class FLCustomizerControl extends WP_Customize_Control {
 		echo '>';
 		echo '<optgroup label="System">';
 
-		foreach(FLFontFamilies::$system as $name => $variants) {
-			echo '<option value="'. $name .'" '. selected($name, $this->value(), false) .'>'. $name .'</option>';
+		foreach ( FLFontFamilies::get_system() as $name => $variants ) {
+			echo '<option value="' . $name . '" ' . selected( $name, $this->value(), false ) . '>' . $name . '</option>';
 		}
 
 		echo '<optgroup label="Google">';
 
-		foreach(FLFontFamilies::$google as $name => $variants) {
-			echo '<option value="'. $name .'" '. selected($name, $this->value(), false) .'>'. $name .'</option>';
+		foreach ( FLFontFamilies::get_google() as $name => $variants ) {
+			echo '<option value="' . $name . '" ' . selected( $name, $this->value(), false ) . '>' . $name . '</option>';
 		}
 
 		echo '</select>';
@@ -142,15 +138,14 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @access protected
 	 * @return void
 	 */
-	protected function render_font_weight()
-	{
+	protected function render_font_weight() {
 		echo '<label>';
 		$this->render_content_title();
 		echo '<select ';
 		$this->link();
 		$this->render_connect_attribute();
-		echo '>';		
-		echo '<option value="'. $this->value() .'" selected="selected">'. $this->value() .'</option>';
+		echo '>';
+		echo '<option value="' . $this->value() . '" selected="selected">' . $this->value() . '</option>';
 		echo '</select>';
 		echo '</label>';
 	}
@@ -162,14 +157,13 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @access protected
 	 * @return void
 	 */
-	protected function render_code()
-	{
+	protected function render_code() {
 		$this->render_content_title();
-		
+
 		if ( $this->preview_button ) {
 			echo '<input type="button" name="fl-preview-button" class="button fl-preview-button" value="Preview" />';
 		}
-		
+
 		echo '<label>';
 		echo '<textarea rows="15" style="width:100%" ';
 		$this->link();
@@ -185,8 +179,7 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @access protected
 	 * @return void
 	 */
-	protected function render_line()
-	{
+	protected function render_line() {
 		echo '<hr />';
 	}
 
@@ -197,8 +190,7 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @access protected
 	 * @return void
 	 */
-	protected function render_export_import()
-	{
+	protected function render_export_import() {
 		$plugin = 'customizer-export-import';
 		$nonce  = wp_create_nonce( 'install-plugin_' . $plugin );
 		$url    = admin_url( 'update.php?action=install-plugin&plugin=' . $plugin . '&_wpnonce=' . $nonce );
@@ -214,8 +206,7 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @access protected
 	 * @return void
 	 */
-	protected function render_slider()
-	{	
+	protected function render_slider() {
 		$this->choices['min']   = ( isset( $this->choices['min'] ) )   ? $this->choices['min']   : '0';
 		$this->choices['max']   = ( isset( $this->choices['max'] ) )   ? $this->choices['max']   : '100';
 		$this->choices['step']  = ( isset( $this->choices['step'] ) )  ? $this->choices['step']  : '1';
@@ -243,34 +234,74 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @access protected
 	 * @return void
 	 */
-	protected function render_checkbox_multiple()
-	{
-		if ( empty( $this->choices ) )
-            return;
-        
-    	$this->render_content_title();
+	protected function render_checkbox_multiple() {
+		if ( empty( $this->choices ) ) {
+			return;
+		}
 
-    	$multi_values = !is_array( $this->value() ) ? explode( ',', $this->value() ) : $this->value(); 
+		$this->render_content_title();
 
-    	if ( count($this->choices) > 0 ) {
-    		echo '<ul>';
+		$multi_values = ! is_array( $this->value() ) ? explode( ',', $this->value() ) : $this->value();
 
-    		foreach ( $this->choices as $value => $label ) {
-    			echo '<li>';
-                    echo '<label>';
-                        echo '<input type="checkbox" value="'. esc_attr( $value ) .'" ';
-                        		checked( in_array( $value, $multi_values ) );
-                        echo ' />';
-                        echo esc_html( $label );
-                    echo '</label>';
-                echo '</li>';
-    		}
+		if ( isset( $this->choices['custom'] ) && 'post_types' == $this->choices['custom'] ) {
+			$choices = $this->get_checkbox_choices_post_types();
 
-    		echo '</ul>';
-    	}
+			// Set all post types as default.
+			if ( 'all' == $this->value() ) {
+				$multi_values = array_keys( $choices );
+			}
+		} else {
+			$choices = $this->choices;
+		}
 
-    	if ( is_array($multi_values) ) {
-        	echo '<input type="hidden" '. $this->get_link() .' value="'. esc_attr( implode( ',', $multi_values ) ) .'" />';
-        }
+		if ( count( $choices ) > 0 ) {
+			echo '<ul>';
+
+			foreach ( $choices as $value => $label ) {
+				echo '<li>';
+					echo '<label>';
+						echo '<input type="checkbox" value="' . esc_attr( $value ) . '" ';
+								checked( in_array( $value, $multi_values ) );
+						echo ' />';
+						echo esc_html( $label );
+					echo '</label>';
+				echo '</li>';
+			}
+
+			echo '</ul>';
+		}
+
+		if ( is_array( $multi_values ) ) {
+			echo '<input type="hidden" ' . $this->get_link() . ' value="' . esc_attr( implode( ',', $multi_values ) ) . '" />';
+		}
+	}
+
+	/**
+	 * Get post types for multiple checkbox choices
+	 *
+	 * @since 1.6.2
+	 * @access protected
+	 * @return array
+	 */
+	protected function get_checkbox_choices_post_types() {
+		$ptypes = array();
+		$post_types = get_post_types(array(
+			'public'	=> true,
+		), 'objects');
+
+		if ( $post_types ) {
+			foreach ( $post_types as $key => $post_type ) {
+				$ptypes[ $post_type->name ] = $post_type->label;
+			}
+
+			// Remove post_type `product` for woocommerce since we have separate sidebar control for WooCommerce
+			unset( $ptypes['product'] );
+			// Remove post type `page` since sidebar is set per page where default has no sidebar.
+			unset( $ptypes['page'] );
+			// Remove BB plugin templates
+			unset( $ptypes['fl-builder-template'] );
+		}
+
+		return $ptypes;
 	}
 }

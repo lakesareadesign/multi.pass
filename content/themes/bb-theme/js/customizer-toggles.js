@@ -232,7 +232,7 @@
 		}],
 
 		'fl-blog-layout': [{
-			controls: [ 'fl-blog-sidebar-size', 'fl-blog-sidebar-display', 'fl-blog-custom-sidebar-size', 'fl-blog-sidebar-location' ],
+			controls: [ 'fl-blog-sidebar-size', 'fl-blog-sidebar-display', 'fl-blog-custom-sidebar-size', 'fl-blog-sidebar-location', 'fl-blog-sidebar-location-post-types' ],
 			callback: function( val ) { return 'no-sidebar' != val; }
 		}],
 

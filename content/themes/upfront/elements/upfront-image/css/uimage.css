@@ -664,6 +664,10 @@ a.image-edit-button.deactivated:hover {
 	cursor: pointer;
 }
 
+.upfront-ui.uimage-control-panel .ugallery-magnific-add label {
+	cursor: default;
+}
+
 .uimage-control-panel-light:before {
 	content: ' ';
 	position: absolute;
@@ -1364,4 +1368,4 @@ div#page .upfront-object.upfront-image .swap-image-overlay p:before {
 }
 
 
-/* 133620-1502131451-au */
+/* 133620-1504102812-au */

@@ -1,3 +1,19 @@
+<h4>1.6.2 - 08/17/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>You can now toggle sidebars for all custom post types.</li>
+	<li>New filters <code>fl_theme_viewport</code> and <code>fl_theme_xua_compatible</code> added.</li>
+	<li>Updated language files.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed padding issue on nav last menu item.</li>
+	<li>Fixed HTML5 markup in searchform.php.</li>
+	<li>Mobile Nav uses Header settings instead of Nav, as per the docs.</li>
+	<li>Fixed IOS issue with back button and sub menus staying on the page.</li>
+	<li>Fixed Font filters added in 1.6.1</li>
+</ul>
+
 <h4>1.6.1 - 06/01/2017</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

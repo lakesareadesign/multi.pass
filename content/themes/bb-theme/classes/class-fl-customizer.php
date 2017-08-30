@@ -1167,9 +1167,9 @@ final class FLCustomizer {
 	static private function _get_font_family_string( $font )
 	{
 		$string = '';
-
-		if ( isset( FLFontFamilies::$system[ $font ] ) ) {
-			$string = $font . ', ' . FLFontFamilies::$system[ $font ]['fallback'];
+		$system = FLFontFamilies::get_system();
+		if ( isset( $system[ $font ] ) ) {
+			$string = $font . ', ' . $system[ $font ]['fallback'];
 		}
 		else {
 			$string = '"' . $font . '", sans-serif';

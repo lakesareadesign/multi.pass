@@ -115,7 +115,7 @@ class Upfront_ButtonView extends Upfront_Object {
 	public static  function add_styles_scripts() {
 		upfront_add_element_style('ubutton', array('css/upfront-button.css', dirname(__FILE__)));
 		if (Upfront_Permissions::current(Upfront_Permissions::BOOT)) {
-			upfront_add_element_style('ubutton_editor', array('css/upfront-button-editor.css', dirname(__FILE__)));
+			upfront_add_element_style('ubutton_editor', array('css/upfront-button-editor.css', dirname(__FILE__)));	     	 		 		  	 		 	
 		}
 
 	}
